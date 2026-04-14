@@ -15,13 +15,15 @@ from dataclasses import dataclass, replace
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-import librosa
-import numpy as np
+from core.lazy_imports import LazyModule
 
 from core import audio_intelligence as ai
 from core import model_parser as xmp
 from tools import utilities as xfb
 from xlights import xsq_writer as base
+
+librosa = LazyModule("librosa")
+np = LazyModule("numpy")
 
 
 @dataclass

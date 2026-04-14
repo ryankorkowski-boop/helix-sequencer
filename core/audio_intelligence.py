@@ -11,19 +11,19 @@ from pathlib import Path
 from typing import Callable
 import xml.etree.ElementTree as ET
 
-import librosa
-import numpy as np
+from core.lazy_imports import LazyModule, optional_import
 from core import model_parser as xmp
 
-try:
-    import requests  # type: ignore
-except Exception:
-    requests = None
+librosa = LazyModule("librosa")
+np = LazyModule("numpy")
 
-try:
-    import soundfile as sf  # type: ignore
-except Exception:
-    sf = None
+
+def _requests_module():
+    return optional_import("requests")
+
+
+def _soundfile_module():
+    return optional_import("soundfile")
 
 
 @dataclass
@@ -107,6 +107,7 @@ def _ensure_ffmpeg_environment() -> Path | None:
 
 def _write_audio(path: Path, y: np.ndarray, sr: int) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    sf = _soundfile_module()
     if sf is None:
         raise RuntimeError("soundfile is required for stem export but is not installed.")
     sf.write(str(path), np.asarray(y, dtype=np.float32), sr, subtype="PCM_16")
@@ -255,6 +256,7 @@ def _find_value(data: object, keys: tuple[str, ...]) -> str | None:
 
 
 def _http_json(method: str, url: str, **kwargs) -> dict | None:
+    requests = _requests_module()
     if requests is None:
         return None
     resp = requests.request(method, url, timeout=90, **kwargs)
@@ -276,6 +278,7 @@ def _try_moises_stem_separation(
     Best-effort Moises API integration using requests.
     The API surface can vary by account tier/version, so this tries common endpoint patterns.
     """
+    requests = _requests_module()
     if requests is None:
         _log(log_fn, "Moises: requests is not installed, cannot call API.")
         return None
@@ -521,6 +524,7 @@ def _try_moises_lyrics(
     api_key: str,
     log_fn: Callable[[str], None] | None = None,
 ) -> list[LyricEvent]:
+    requests = _requests_module()
     if requests is None or not api_key.strip():
         return []
     base_url = os.environ.get("MOISES_API_BASE", "https://developer-api.moises.ai/api").rstrip("/")

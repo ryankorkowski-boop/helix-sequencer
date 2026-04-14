@@ -3,8 +3,13 @@ from __future__ import annotations
 import argparse
 from typing import Iterable
 
-from core import effect_engine
 from core import engine_profiles
+
+
+def _effect_engine():
+    from core import effect_engine
+
+    return effect_engine
 
 
 def available_profiles() -> list[engine_profiles.EngineProfile]:
@@ -17,7 +22,7 @@ def available_versions() -> list[str]:
 
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     profile = engine_profiles.resolve_profile(profile_id)
-    effect_engine.main_for(profile.version, engine_args)
+    _effect_engine().main_for(profile.version, engine_args)
 
 
 def run_version(version: str, engine_args: list[str] | None = None) -> None:

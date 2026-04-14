@@ -10,6 +10,8 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from core.lazy_imports import LazyModule
+
 
 ROOT = Path(__file__).resolve().parent.parent
 PREVIEW_DEPS = ROOT / ".previewdeps"
@@ -17,10 +19,13 @@ DEFAULT_LAYOUT = "xlights_rgbeffects.xbkp" if (ROOT / "xlights_rgbeffects.xbkp")
 if PREVIEW_DEPS.exists():
     sys.path.insert(0, str(PREVIEW_DEPS))
 
-import imageio.v2 as imageio
-import imageio_ffmpeg
-import numpy as np
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+imageio = LazyModule("imageio.v2")
+imageio_ffmpeg = LazyModule("imageio_ffmpeg")
+np = LazyModule("numpy")
+Image = LazyModule("PIL.Image")
+ImageDraw = LazyModule("PIL.ImageDraw")
+ImageFilter = LazyModule("PIL.ImageFilter")
+ImageFont = LazyModule("PIL.ImageFont")
 
 
 def safe_label(text: str, limit: int = 72) -> str:

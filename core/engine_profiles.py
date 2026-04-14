@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from core import effect_engine
-
 
 @dataclass(frozen=True)
 class EngineProfile:
@@ -15,19 +13,21 @@ class EngineProfile:
 
 
 ACTIVE_PROFILE_ID = "master"
+ACTIVE_STYLE_VERSION = "v27.3"
+ACTIVE_STYLE_TITLE = "Helix Prime"
 
 _ACTIVE_PROFILE = EngineProfile(
     profile_id=ACTIVE_PROFILE_ID,
-    version=effect_engine.ACTIVE_STYLE_VERSION,
+    version=ACTIVE_STYLE_VERSION,
     title="Master Sequencer",
-    description="Stable active sequencing profile backed by the current Helix Prime tuning.",
+    description=f"Stable active sequencing profile backed by the current {ACTIVE_STYLE_TITLE} tuning.",
 )
 
 _PROFILE_ALIASES = {
     "default": ACTIVE_PROFILE_ID,
     "stable": ACTIVE_PROFILE_ID,
     "latest": ACTIVE_PROFILE_ID,
-    effect_engine.ACTIVE_STYLE_VERSION.lower(): ACTIVE_PROFILE_ID,
+    ACTIVE_STYLE_VERSION.lower(): ACTIVE_PROFILE_ID,
 }
 
 
@@ -40,6 +40,8 @@ def active_profile() -> EngineProfile:
 
 
 def resolve_profile(profile_id: str | None) -> EngineProfile:
+    from core import effect_engine
+
     if profile_id is None:
         return _ACTIVE_PROFILE
 

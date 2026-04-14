@@ -21,16 +21,18 @@ from dataclasses import dataclass, field
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-import numpy as np
-import librosa
-try:
-    import aubio  # type: ignore
-except Exception:
-    aubio = None
+from core.lazy_imports import LazyModule, optional_import
 
 from xlights import layout_sync as _layout_sync
 from xlights import timing_tracks as _timing_tracks
 from xlights import xml_io as _xml_io
+
+np = LazyModule("numpy")
+librosa = LazyModule("librosa")
+
+
+def _aubio_module():
+    return optional_import("aubio")
 
 # =============================================================================
 #                               v1 CONTROLS
@@ -732,7 +734,7 @@ def analyze(audio_path: Path) -> Audio:
     _, beat_frames = librosa.beat.beat_track(onset_envelope=onset_env, sr=sr, hop_length=hop, units="frames")
     beat_times = librosa.frames_to_time(beat_frames, sr=sr, hop_length=hop)
     beat_ms = [ms(t) for t in beat_times.tolist()]
-    if aubio is not None:
+    if _aubio_module() is not None:
         try:
             beat_ms_aubio = _aubio_beats(y, sr, hop)
             if len(beat_ms_aubio) >= 4:
@@ -779,6 +781,7 @@ def analyze(audio_path: Path) -> Audio:
 
 
 def _aubio_beats(y: np.ndarray, sr: int, hop: int) -> list[int]:
+    aubio = _aubio_module()
     if aubio is None:
         return []
     hop_size = int(hop)
