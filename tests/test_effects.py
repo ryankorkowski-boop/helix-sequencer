@@ -14,8 +14,8 @@ class EffectEngineTests(unittest.TestCase):
         self.assertEqual(effect_engine.effect_family("Bars"), "vu")
 
     def test_variant_output_name_uses_version_suffix(self) -> None:
-        output = effect_engine.variant_output_name(Path("demo.wav"), Path("outputs"), "v27.3")
-        self.assertEqual(output.name, "demo,v27.3.xsq")
+        output = effect_engine.variant_output_name(Path("demo.wav"), Path("outputs"), effect_engine.ACTIVE_STYLE_VERSION)
+        self.assertEqual(output.name, f"demo,{effect_engine.ACTIVE_STYLE_VERSION}.xsq")
 
     def test_xsq_writer_timing_facade_round_trips_marks(self) -> None:
         root = ET.Element("Sequence")

@@ -25,26 +25,27 @@ AGENTS.md
 
 ## Running The Builder
 
-List available effect-engine versions:
+List active sequencing profiles:
 
 ```powershell
-python main.py --list-versions
+python main.py --list-profiles
 ```
 
-Run a specific version and pass through engine arguments:
+Run the active master profile and pass through engine arguments:
 
 ```powershell
-python main.py --version-id v27.3 -- --template template.xsq --audio 13.wav --no-prompt
+python main.py --profile master -- --template template.xsq --audio 13.wav --no-prompt
 ```
 
-Run several versions with the same engine arguments:
+Legacy version IDs still work as explicit compatibility fallbacks:
 
 ```powershell
-python main.py --version-id v24.3 --version-id v27.3 -- --template template.xsq --audio 13.wav --no-prompt
+python main.py --profile v27.3 -- --template template.xsq --audio 13.wav --no-prompt
 ```
 
 ## Notes
 
+- The active maintained entrypoint is the `master` profile, currently backed by the stable `v27.3` tuning inside `core/effect_engine.py`.
 - Legacy wrappers and experimental scripts were moved instead of deleted.
 - The current restructure is intentionally conservative: proven engine code was promoted into the new folders with minimal behavioral changes.
 - AI bridges are placeholders by design. Rule-based sequencing remains the default path.

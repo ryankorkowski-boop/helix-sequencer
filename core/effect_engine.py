@@ -2071,6 +2071,11 @@ VARIANTS: dict[str, VariantStyle] = {
     ),
 }
 
+# Legacy-tuned style variants are preserved for compatibility, but the actively
+# maintained sequencing profile is the current stable tuning below.
+ACTIVE_STYLE_VERSION = "v27.3"
+ACTIVE_STYLE = VARIANTS[ACTIVE_STYLE_VERSION]
+
 GENERATE_SHOWCASE = False
 
 WATERMARK_POLICY_VERSION = "dream-sequence-weaver-signature-v1"
@@ -11197,3 +11202,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
             log(f"FAILED: {audio.name}: {repr(exc)}")
 
     log("\nDone.")
+
+
+def main(argv: list[str] | None = None) -> None:
+    main_for(ACTIVE_STYLE_VERSION, argv)

@@ -12,6 +12,7 @@ datas = [
     (str(root / "app_icon.ico"), "."),
     (str(root / "c82.ico"), "."),
     (str(root / "c82.png"), "."),
+    (str(root / "xlights" / "effect_catalog.json"), "xlights"),
 ]
 for mascot_name in ("helixmascot.jpg", "helixmascot.jpeg", "helixmascot.png"):
     mascot_path = root / mascot_name
@@ -21,10 +22,16 @@ for mascot_name in ("helixmascot.jpg", "helixmascot.jpeg", "helixmascot.png"):
 datas += collect_data_files("imageio_ffmpeg")
 
 hiddenimports = [
-    "v1",
-    "variant_engine",
-    "audio_intelligence",
-    "xlights_feature_bridge",
+    "core.audio_intelligence",
+    "core.effect_engine",
+    "core.engine_profiles",
+    "core.model_parser",
+    "core.sequence_builder",
+    "tools.utilities",
+    "xlights.layout_sync",
+    "xlights.timing_tracks",
+    "xlights.xml_io",
+    "xlights.xsq_writer",
     "imageio_ffmpeg",
     "requests",
     "librosa",
@@ -32,7 +39,7 @@ hiddenimports = [
 ]
 
 a = Analysis(
-    ["sequencer_launcher.py"],
+    ["main.py"],
     pathex=[str(root)],
     binaries=[],
     datas=datas,
@@ -59,7 +66,8 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=False,
+    # The active maintained entrypoint is currently CLI-based.
+    console=True,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
