@@ -1,0 +1,92 @@
+XLIGHTS SEQUENCER QUICK START
+
+1. Put these files in one working folder:
+   - the sequencer scripts such as v1.py, v2.1.py, v2.2.py, v2.3.py, v3.1.py, v3.2.py, and v3.3.py
+   - your xLights template sequence, usually named template.xsq
+   - your xLights layout export named xlights_rgbeffects.xml or the richer backup/export xlights_rgbeffects.xbkp
+   - the audio file you want to sequence, such as 13.wav
+
+2. Make sure Python 3.12 is installed on Windows.
+   - In this workspace the launcher file python312.cmd points at the installed Python.
+   - If you move the project to a new computer, update that launcher or install Python and use the full python path.
+
+3. Export or copy the correct xLights layout.
+   - The sequencer reads model names and group names from xlights_rgbeffects.xml.
+   - If you have xlights_rgbeffects.xbkp, use that for previews because it carries richer xLights preview geometry.
+   - Keep your group names clean and consistent.
+   - Sequential groups like gt1-gt4, line1-line9, mt1-mt8, stars, snowflakes, arches, and canes help the scripts infer motion and piano-style note mapping.
+
+4. Prepare the template sequence in xLights.
+   - Start with a sequence that already points at the right audio length and basic timing setup.
+   - Save it as template.xsq in the same folder as the scripts.
+   - The scripts will copy that template and write new effects into a fresh output sequence.
+
+5. Put the song audio in the same folder.
+   - WAV is the safest choice.
+   - Use one file per sequencing pass unless you are intentionally batch-processing.
+
+6. Run the baseline sequencer first.
+   - Command: python312.cmd v1.py --no-prompt --single --template template.xsq --audio 13.wav
+   - This creates the first fully working sequence version and matching report JSON.
+
+7. Use the desktop launcher when you want the easiest workflow.
+   - Double-click launch_sequencer_app.cmd
+   - Or run: python312.cmd sequencer_launcher.py
+   - The launcher lets you choose the song, template, layout, versions to run, and whether preview MP4 files should be rendered automatically.
+   - You can optionally point Style XSQ Folder at finished local sequences you created yourself or have permission to analyze.
+   - You can also check Learn From My XSQs so the app gradually builds local guidance from your own finished output workspace over time.
+   - Style XSQ Folder is for local guidance only. It does not browse the internet or pull in finished sequences automatically.
+   - The Profile panel now includes live sliders and a synchronized knob board for density, speed, randomness, bass bias, melody density, and darkness.
+   - Pick a feel preset, then fine-tune with sliders or knobs before you run.
+   - You can multi-select rows in Results, click "Load Compare From Selection", and view up to 3 side-by-side MP4 thumbnails with placement summaries.
+   - Use "Promote Selected To Finalists" to copy XSQ, MP4, and report files into the finalists folder for easy shortlisting.
+
+8. Run the experimental families when you want alternate creative approaches.
+   - v2.1.py, v2.2.py, and v2.3.py focus on different effect placement and timing-track strategies.
+   - v3.1.py, v3.2.py, and v3.3.py focus more on musical immersion, song-part feeling, and dramatic moments.
+
+9. Check the output folders after each run.
+   - v2 outputs go into the v2 folder.
+   - v3 outputs go into the v3 folder.
+   - Each sequence also has a report JSON showing how many effects were placed.
+
+10. Generate preview videos without opening xLights.
+   - Command: python312.cmd preview_renderer.py
+   - This reads xlights_rgbeffects.xml or xlights_rgbeffects.xbkp plus the generated XSQ files and creates MP4 previews beside each sequence.
+   - If you want a specific sequence only, run: python312.cmd preview_renderer.py v2\\13,v2.1.xsq
+
+11. Open the MP4 previews and compare results.
+    - Each video shows a rendered house-map preview, timing overlays, and progress.
+    - Use the videos to quickly compare piano mapping, sweeps, drops, and overall energy before loading the sequence into xLights.
+
+12. Open the best XSQ inside xLights for final review.
+    - Check color balance, model targeting, timing, and any spots where your real layout needs manual artistic cleanup.
+    - If needed, tweak the script version or settings and rerun.
+
+13. When moving to a new customer layout, repeat this checklist:
+    - copy in the new xlights_rgbeffects.xml
+    - if available, also copy in xlights_rgbeffects.xbkp for better preview rendering
+    - make sure the template.xsq matches that layout
+    - drop in the new song audio
+    - run the desired sequencer versions
+    - render the preview MP4 files
+    - open the best result in xLights for final polish
+
+TROUBLESHOOTING
+
+- If a script says it cannot find a template, make sure template.xsq is in the same folder.
+- If the layout targeting looks wrong, inspect group names in xlights_rgbeffects.xml or xlights_rgbeffects.xbkp.
+- If previews do not render, make sure the .previewdeps folder exists or rerun the dependency install for pillow, imageio, and imageio-ffmpeg.
+- If Python is missing on another machine, install Python 3.12 and verify the launcher path before running the sequencer.
+
+RECOMMENDED CUSTOMER WORKFLOW
+
+- Start with v1 for a dependable base pass.
+- Use the launcher for one-click runs and preview generation.
+- If you use Style XSQ Folder, include only sequences you created or have explicit permission to analyze.
+- If you enable Learn From My XSQs, keep your output workspace reasonably clean so the local history reflects the kind of sequencing you actually want repeated.
+- Use the compare panel to evaluate up to three versions side by side.
+- Run all v2 versions and compare which one sells the motion best.
+- Run all v3 versions and compare which one feels most musical.
+- Use the MP4 previews to shortlist favorites fast.
+- Bring only the finalists into xLights for detailed manual finishing.

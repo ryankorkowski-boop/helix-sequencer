@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+build/
+dist/
+*.exe
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.m4a
+*.xbkp
+414_inventory.txt
