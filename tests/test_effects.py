@@ -17,6 +17,11 @@ class EffectEngineTests(unittest.TestCase):
         output = effect_engine.variant_output_name(Path("demo.wav"), Path("outputs"), effect_engine.ACTIVE_STYLE_VERSION)
         self.assertEqual(output.name, f"demo,{effect_engine.ACTIVE_STYLE_VERSION}.xsq")
 
+    def test_active_style_proxy_matches_lazy_variant_catalog(self) -> None:
+        active_variant = effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION]
+        self.assertEqual(effect_engine.ACTIVE_STYLE.version, active_variant.version)
+        self.assertEqual(effect_engine.ACTIVE_STYLE.title, active_variant.title)
+
     def test_xsq_writer_timing_facade_round_trips_marks(self) -> None:
         root = ET.Element("Sequence")
         xsq_writer.write_timing_track(root, "AUTO Test", [("Intro", 0, 100), ("Verse", 250, 500)], active=False)
