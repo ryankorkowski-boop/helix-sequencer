@@ -5764,6 +5764,11 @@ def place_piano_lights(
     style: VariantStyle,
     note_events: list[NoteEvent],
     pools: list[SequentialPool],
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
     ramp_ok: bool,
     ramp_tpl: base.EffectTemplate,
     add_model,
@@ -5782,34 +5787,120 @@ def place_piano_lights(
     for event_idx, event in enumerate(note_events):
         if in_blackout(event.start_ms):
             continue
-        pool = seq_pools[seq_idx % len(seq_pools)]
+        cue = piano_lights_cue_for_event(
+            event,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+        )
+        pool = choose_piano_lights_pool(seq_pools, cue, seq_idx)
         seq_idx += 1
         sorted_notes = sorted(event.notes, key=lambda pair: pair[0], reverse=True)
         if not sorted_notes:
             continue
         max_notes = max(1, min(len(sorted_notes), int(round(max(2.0, style.polyphony * 1.2)))))
+        if cue in {"kick", "snare", "hat"}:
+            max_notes = min(max_notes, 2 if cue != "kick" else 3)
+        elif cue in {"vocal", "build"}:
+            max_notes = min(len(sorted_notes), max(max_notes, min(len(sorted_notes), style.polyphony + 1)))
         sorted_notes = sorted_notes[:max_notes]
         held_until = event.start_ms
+        duration_scale = piano_lights_duration_scale(cue)
+        stem_key = stem_for_cue(cue)
         for step, (midi, strength) in enumerate(sorted_notes):
             lane_idx = midi_to_lane_index(midi, len(pool.models))
             model = pool.models[lane_idx]
             st = event.start_ms + (step * 10)
-            dur = max(60, int(base.scaled_dur(140 + int(110 * strength))))
+            dur = max(55, int(base.scaled_dur((140 + int(110 * strength)) * duration_scale)))
             if event.part in {"CHORUS", "PRECHORUS"}:
                 dur = int(dur * 1.15)
             en = min(event.end_ms + 160, st + dur)
-            use_ramp = ramp_ok and (event.part in {"PRECHORUS", "BRIDGE"} or step > 0)
+            eff_name = reactive_effect_for_category(pool.category, cue, event.part, event_idx + step)
+            use_ramp = ramp_ok and eff_name == "On" and (event.part in {"PRECHORUS", "BRIDGE"} or step > 0)
             add_model(
                 model,
                 st,
                 en,
                 f"piano_lights_{pool.category}",
-                eff="Ramp" if use_ramp else "On",
+                eff="Ramp" if use_ramp else eff_name,
                 tpl=ramp_tpl if use_ramp else None,
-                stem="other",
+                stem=stem_key,
             )
             held_until = max(held_until, en)
-        keyboard_track.append((f"{pool.category}:{note_label(event.notes)}", event.start_ms, held_until))
+        keyboard_track.append((f"{pool.category}:{cue}:{note_label(event.notes)}", event.start_ms, held_until))
+
+
+def has_nearby_mark(target_ms: int, marks: list[int], window_ms: int) -> bool:
+    if not marks:
+        return False
+    idx = bisect_left(marks, target_ms)
+    for probe in (idx - 1, idx):
+        if 0 <= probe < len(marks) and abs(marks[probe] - target_ms) <= window_ms:
+            return True
+    return False
+
+
+def piano_lights_cue_for_event(
+    event: NoteEvent,
+    *,
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
+) -> str:
+    target_ms = int(event.start_ms)
+    dense_chord = len(event.notes) >= 3
+    if has_nearby_mark(target_ms, vocal_peaks, 85):
+        return "vocal"
+    if has_nearby_mark(target_ms, snares, 55):
+        return "snare"
+    if has_nearby_mark(target_ms, kicks, 45):
+        return "kick"
+    if has_nearby_mark(target_ms, bass_peaks, 70):
+        return "bass"
+    if len(event.notes) <= 2 and has_nearby_mark(target_ms, hats, 35):
+        return "hat"
+    if event.part in {"PRECHORUS", "CHORUS", "BRIDGE"} and dense_chord:
+        return "build"
+    return "phrase"
+
+
+def choose_piano_lights_pool(pools: list[SequentialPool], cue: str, rotation_idx: int) -> SequentialPool:
+    preferences = {
+        "vocal": ("matrix", "sphere", "line", "arch", "mega"),
+        "build": ("mega", "arch", "line", "matrix", "sphere"),
+        "bass": ("arch", "line", "mega", "canes_combo", "gt"),
+        "kick": ("spinner", "arch", "line", "gt", "canes_combo"),
+        "snare": ("spinner", "gt", "mega", "line", "arch"),
+        "hat": ("spinner", "line", "arch", "gt"),
+    }.get(cue, ("arch", "line", "mega", "matrix", "gt", "spinner", "sphere", "canes_combo"))
+    preferred = [pool for category in preferences for pool in pools if pool.category == category]
+    choices = preferred or pools
+    return choices[rotation_idx % len(choices)]
+
+
+def piano_lights_duration_scale(cue: str) -> float:
+    return {
+        "vocal": 1.24,
+        "build": 1.30,
+        "bass": 1.16,
+        "kick": 0.88,
+        "snare": 0.82,
+        "hat": 0.72,
+    }.get(cue, 1.0)
+
+
+def stem_for_cue(cue: str) -> str:
+    if cue == "vocal":
+        return "vocals"
+    if cue == "bass":
+        return "bass"
+    if cue in {"kick", "snare", "hat"}:
+        return "drums"
+    return "other"
 
 
 def note_label(notes: list[tuple[int, float]]) -> str:
@@ -8314,6 +8405,11 @@ def run_variant(
             style=style,
             note_events=note_events,
             pools=pools,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
             ramp_ok=ramp_ok,
             ramp_tpl=xsq.ramp_tpl,
             add_model=add_model,

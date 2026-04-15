@@ -22,6 +22,33 @@ class EffectEngineTests(unittest.TestCase):
         self.assertEqual(effect_engine.ACTIVE_STYLE.version, active_variant.version)
         self.assertEqual(effect_engine.ACTIVE_STYLE.title, active_variant.title)
 
+    def test_piano_lights_prefers_vocal_cues_over_percussion(self) -> None:
+        event = effect_engine.NoteEvent(
+            start_ms=1000,
+            end_ms=1180,
+            notes=[(72, 0.9), (76, 0.7), (79, 0.6)],
+            part="CHORUS",
+            section="chorus",
+        )
+        cue = effect_engine.piano_lights_cue_for_event(
+            event,
+            kicks=[995],
+            snares=[1005],
+            hats=[1010],
+            bass_peaks=[990],
+            vocal_peaks=[1020],
+        )
+        self.assertEqual(cue, "vocal")
+
+    def test_piano_lights_pool_choice_follows_cue_preferences(self) -> None:
+        pools = [
+            effect_engine.SequentialPool("arch", "arch", ["a1", "a2", "a3", "a4", "a5", "a6"]),
+            effect_engine.SequentialPool("matrix", "matrix", ["m1", "m2", "m3", "m4", "m5", "m6"]),
+            effect_engine.SequentialPool("spinner", "spinner", ["s1", "s2", "s3", "s4", "s5", "s6"]),
+        ]
+        self.assertEqual(effect_engine.choose_piano_lights_pool(pools, "vocal", 0).category, "matrix")
+        self.assertEqual(effect_engine.choose_piano_lights_pool(pools, "kick", 0).category, "spinner")
+
     def test_xsq_writer_timing_facade_round_trips_marks(self) -> None:
         root = ET.Element("Sequence")
         xsq_writer.write_timing_track(root, "AUTO Test", [("Intro", 0, 100), ("Verse", 250, 500)], active=False)
