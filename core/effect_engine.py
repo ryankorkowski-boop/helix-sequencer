@@ -10,18 +10,21 @@ import random
 import re
 import shutil
 from bisect import bisect_left
+from collections.abc import Iterator, Mapping
 from collections import Counter
 from dataclasses import dataclass, replace
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-import librosa
-import numpy as np
+from core.lazy_imports import LazyModule
 
 from core import audio_intelligence as ai
 from core import model_parser as xmp
 from tools import utilities as xfb
 from xlights import xsq_writer as base
+
+librosa = LazyModule("librosa")
+np = LazyModule("numpy")
 
 
 @dataclass
@@ -143,1933 +146,46 @@ class WorkspaceHistoryProfile:
     palette_pool: list[str]
 
 
-VARIANTS: dict[str, VariantStyle] = {
-    "v2.1": VariantStyle(
-        version="v2.1",
-        family="v2",
-        title="Grid Piano",
-        timing_mode="note",
-        pool_mode="rotating",
-        placement_mode="classic",
-        keyboard_overlay=False,
-        polyphony=3,
-        density_scale=1.00,
-        speed_scale=1.02,
-        randomness_scale=0.90,
-        bass_scale=1.02,
-        melody_scale=1.18,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=False,
-        sweep_categories=("stars", "snowflakes", "line", "mega", "arch", "canes_combo"),
-        primary_categories=("canes_combo", "north_canes", "south_canes", "gt", "line", "arch"),
-        chorus_categories=("gt", "line", "mega", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "canes_combo", "arch"),
-        drop_blackout_ms=(140, 260),
-        sweep_hit_ms=120,
-    ),
-    "v2.2": VariantStyle(
-        version="v2.2",
-        family="v2",
-        title="Phrase Bounce",
-        timing_mode="beat",
-        pool_mode="sectional",
-        placement_mode="classic",
-        keyboard_overlay=False,
-        polyphony=2,
-        density_scale=0.95,
-        speed_scale=1.05,
-        randomness_scale=1.05,
-        bass_scale=1.10,
-        melody_scale=0.92,
-        darkness_scale=1.00,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("gt", "line", "stars", "snowflakes", "arch", "canes_combo"),
-        primary_categories=("gt", "line", "canes_combo", "north_canes", "south_canes", "arch"),
-        chorus_categories=("gt", "line", "mega", "arch", "canes_combo"),
-        build_categories=("snowflakes", "stars", "arch", "canes_combo"),
-        drop_blackout_ms=(180, 300),
-        sweep_hit_ms=140,
-    ),
-    "v2.3": VariantStyle(
-        version="v2.3",
-        family="v2",
-        title="Random Keys",
-        timing_mode="mixed",
-        pool_mode="random",
-        placement_mode="classic",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=1.08,
-        speed_scale=1.04,
-        randomness_scale=1.20,
-        bass_scale=1.05,
-        melody_scale=1.08,
-        darkness_scale=1.02,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("stars", "snowflakes", "mega", "line", "arch", "canes_combo"),
-        primary_categories=("canes_combo", "north_canes", "south_canes", "stars", "snowflakes", "gt", "line", "arch"),
-        chorus_categories=("gt", "mega", "line", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "line", "arch", "canes_combo"),
-        drop_blackout_ms=(190, 320),
-        sweep_hit_ms=130,
-    ),
-    "v3.1": VariantStyle(
-        version="v3.1",
-        family="v3",
-        title="Cinematic Parts",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="classic",
-        keyboard_overlay=False,
-        polyphony=3,
-        density_scale=1.05,
-        speed_scale=1.06,
-        randomness_scale=0.96,
-        bass_scale=1.20,
-        melody_scale=1.00,
-        darkness_scale=1.10,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("stars", "snowflakes", "line", "mega", "gt", "arch", "canes_combo"),
-        primary_categories=("canes_combo", "north_canes", "south_canes", "line", "gt", "arch"),
-        chorus_categories=("gt", "mega", "line", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "line", "arch", "canes_combo"),
-        drop_blackout_ms=(220, 360),
-        sweep_hit_ms=150,
-    ),
-    "v3.2": VariantStyle(
-        version="v3.2",
-        family="v3",
-        title="Hook Immersion",
-        timing_mode="hook",
-        pool_mode="rotating",
-        placement_mode="classic",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=1.02,
-        speed_scale=1.08,
-        randomness_scale=0.88,
-        bass_scale=1.12,
-        melody_scale=1.20,
-        darkness_scale=1.04,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "mega", "stars", "gt", "arch", "canes_combo"),
-        primary_categories=("canes_combo", "north_canes", "south_canes", "line", "stars", "arch"),
-        chorus_categories=("gt", "mega", "line", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "canes_combo", "arch"),
-        drop_blackout_ms=(210, 340),
-        sweep_hit_ms=135,
-    ),
-    "v3.3": VariantStyle(
-        version="v3.3",
-        family="v3",
-        title="Storyteller",
-        timing_mode="parts",
-        pool_mode="call_response",
-        placement_mode="classic",
-        keyboard_overlay=False,
-        polyphony=3,
-        density_scale=1.10,
-        speed_scale=1.10,
-        randomness_scale=1.15,
-        bass_scale=1.25,
-        melody_scale=1.08,
-        darkness_scale=1.18,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("stars", "snowflakes", "gt", "line", "mega", "arch", "canes_combo"),
-        primary_categories=("canes_combo", "north_canes", "south_canes", "stars", "gt", "line", "arch"),
-        chorus_categories=("gt", "mega", "line", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "canes_combo", "arch"),
-        drop_blackout_ms=(240, 400),
-        sweep_hit_ms=155,
-    ),
-    "v4.1": VariantStyle(
-        version="v4.1",
-        family="v4",
-        title="Zone Riff",
-        timing_mode="note",
-        pool_mode="rotating",
-        placement_mode="zone_riff",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.06,
-        speed_scale=1.12,
-        randomness_scale=0.95,
-        bass_scale=1.16,
-        melody_scale=1.12,
-        darkness_scale=1.02,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("arch", "canes_combo", "gt", "line", "snowflakes", "stars", "mega"),
-        primary_categories=("canes_combo", "arch", "line", "gt", "snowflakes", "stars", "mega", "talking_heads"),
-        chorus_categories=("gt", "mega", "canes_combo", "arch", "line", "talking_heads"),
-        build_categories=("arch", "canes_combo", "snowflakes", "stars", "line"),
-        drop_blackout_ms=(170, 280),
-        sweep_hit_ms=145,
-    ),
-    "v4.2": VariantStyle(
-        version="v4.2",
-        family="v4",
-        title="Percussion Relay",
-        timing_mode="mixed",
-        pool_mode="call_response",
-        placement_mode="percussion_relay",
-        keyboard_overlay=True,
-        polyphony=2,
-        density_scale=1.00,
-        speed_scale=1.20,
-        randomness_scale=1.08,
-        bass_scale=1.25,
-        melody_scale=0.92,
-        darkness_scale=1.08,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "arch", "line", "gt", "snowflakes", "stars", "mega"),
-        primary_categories=("canes_combo", "gt", "arch", "line", "snowflakes", "stars", "mega", "talking_heads"),
-        chorus_categories=("gt", "canes_combo", "mega", "arch", "line", "talking_heads"),
-        build_categories=("arch", "line", "snowflakes", "stars", "canes_combo"),
-        drop_blackout_ms=(120, 210),
-        sweep_hit_ms=115,
-    ),
-    "v4.3": VariantStyle(
-        version="v4.3",
-        family="v4",
-        title="Scene Morph",
-        timing_mode="parts",
-        pool_mode="sectional",
-        placement_mode="scene_morph",
-        keyboard_overlay=True,
-        polyphony=3,
-        density_scale=0.96,
-        speed_scale=0.95,
-        randomness_scale=1.20,
-        bass_scale=1.18,
-        melody_scale=1.22,
-        darkness_scale=1.18,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("stars", "snowflakes", "arch", "line", "gt", "mega", "canes_combo", "talking_heads"),
-        primary_categories=("line", "arch", "snowflakes", "stars", "talking_heads", "canes_combo"),
-        chorus_categories=("gt", "mega", "canes_combo", "arch", "line", "talking_heads"),
-        build_categories=("arch", "line", "snowflakes", "stars", "canes_combo"),
-        drop_blackout_ms=(240, 390),
-        sweep_hit_ms=160,
-    ),
-    "v5.1": VariantStyle(
-        version="v5.1",
-        family="v5",
-        title="Director AI",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="director_ai",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.08,
-        speed_scale=1.10,
-        randomness_scale=1.26,
-        bass_scale=1.24,
-        melody_scale=1.20,
-        darkness_scale=1.08,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "canes_combo", "gt", "mega", "stars", "snowflakes", "talking_heads"),
-        primary_categories=("line", "arch", "canes_combo", "stars", "snowflakes", "talking_heads"),
-        chorus_categories=("gt", "mega", "canes_combo", "line", "arch", "talking_heads"),
-        build_categories=("arch", "line", "canes_combo", "stars", "snowflakes"),
-        drop_blackout_ms=(200, 330),
-        sweep_hit_ms=145,
-    ),
-    "v6.1": VariantStyle(
-        version="v6.1",
-        family="v6",
-        title="Constellation Story",
-        timing_mode="parts",
-        pool_mode="sectional",
-        placement_mode="constellation_story",
-        keyboard_overlay=True,
-        polyphony=3,
-        density_scale=0.92,
-        speed_scale=0.96,
-        randomness_scale=1.18,
-        bass_scale=1.04,
-        melody_scale=1.16,
-        darkness_scale=1.22,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("stars", "snowflakes", "talking_heads", "line", "arch", "gt", "mega"),
-        primary_categories=("stars", "snowflakes", "line", "arch", "talking_heads"),
-        chorus_categories=("line", "arch", "gt", "mega", "talking_heads"),
-        build_categories=("stars", "snowflakes", "arch", "line"),
-        drop_blackout_ms=(220, 380),
-        sweep_hit_ms=165,
-    ),
-    "v6.2": VariantStyle(
-        version="v6.2",
-        family="v6",
-        title="Pinball Relay",
-        timing_mode="mixed",
-        pool_mode="call_response",
-        placement_mode="pinball_relay",
-        keyboard_overlay=False,
-        polyphony=2,
-        density_scale=1.10,
-        speed_scale=1.24,
-        randomness_scale=1.06,
-        bass_scale=1.22,
-        melody_scale=0.90,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "arch", "line", "gt", "mega", "stars", "snowflakes"),
-        primary_categories=("canes_combo", "arch", "line", "gt", "mega"),
-        chorus_categories=("gt", "mega", "canes_combo", "arch", "line"),
-        build_categories=("arch", "line", "canes_combo", "stars"),
-        drop_blackout_ms=(140, 240),
-        sweep_hit_ms=110,
-    ),
-    "v6.3": VariantStyle(
-        version="v6.3",
-        family="v6",
-        title="Vocal Spotlight",
-        timing_mode="hook",
-        pool_mode="rotating",
-        placement_mode="vocal_spotlight",
-        keyboard_overlay=True,
-        polyphony=3,
-        density_scale=0.88,
-        speed_scale=0.98,
-        randomness_scale=0.92,
-        bass_scale=1.06,
-        melody_scale=1.24,
-        darkness_scale=1.18,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("talking_heads", "stars", "snowflakes", "line", "arch", "gt", "mega"),
-        primary_categories=("talking_heads", "stars", "snowflakes", "line", "arch"),
-        chorus_categories=("talking_heads", "line", "arch", "gt", "mega"),
-        build_categories=("stars", "snowflakes", "arch", "line", "talking_heads"),
-        drop_blackout_ms=(210, 340),
-        sweep_hit_ms=150,
-    ),
-    "v7.1": VariantStyle(
-        version="v7.1",
-        family="v7",
-        title="Mirror Duel",
-        timing_mode="note",
-        pool_mode="call_response",
-        placement_mode="mirror_duel",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.02,
-        speed_scale=1.12,
-        randomness_scale=1.10,
-        bass_scale=1.14,
-        melody_scale=1.10,
-        darkness_scale=1.04,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("north_canes", "south_canes", "arch", "line", "gt", "mega"),
-        primary_categories=("north_canes", "south_canes", "arch", "line", "talking_heads"),
-        chorus_categories=("gt", "mega", "line", "arch", "canes_combo"),
-        build_categories=("north_canes", "south_canes", "arch", "line"),
-        drop_blackout_ms=(170, 300),
-        sweep_hit_ms=135,
-    ),
-    "v7.2": VariantStyle(
-        version="v7.2",
-        family="v7",
-        title="Orbital Sweep",
-        timing_mode="beat",
-        pool_mode="sectional",
-        placement_mode="orbital_sweep",
-        keyboard_overlay=False,
-        polyphony=2,
-        density_scale=1.00,
-        speed_scale=1.18,
-        randomness_scale=1.04,
-        bass_scale=1.18,
-        melody_scale=0.96,
-        darkness_scale=1.00,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "arch", "line", "gt", "mega", "stars", "snowflakes"),
-        primary_categories=("canes_combo", "arch", "line", "gt"),
-        chorus_categories=("gt", "mega", "line", "arch", "stars", "snowflakes"),
-        build_categories=("arch", "line", "stars", "snowflakes"),
-        drop_blackout_ms=(150, 280),
-        sweep_hit_ms=125,
-    ),
-    "v7.3": VariantStyle(
-        version="v7.3",
-        family="v7",
-        title="Pulse Matrix",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="pulse_matrix",
-        keyboard_overlay=True,
-        polyphony=3,
-        density_scale=1.18,
-        speed_scale=1.06,
-        randomness_scale=0.84,
-        bass_scale=1.28,
-        melody_scale=0.94,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "mega", "gt", "canes_combo", "arch", "stars"),
-        primary_categories=("line", "mega", "gt", "canes_combo", "arch"),
-        chorus_categories=("gt", "mega", "line", "canes_combo", "arch"),
-        build_categories=("line", "arch", "stars", "canes_combo"),
-        drop_blackout_ms=(120, 230),
-        sweep_hit_ms=105,
-    ),
-    "v9.1": VariantStyle(
-        version="v9.1",
-        family="v9",
-        title="Dream Architect",
-        timing_mode="beat",
-        pool_mode="sectional",
-        placement_mode="orbital_sweep",
-        keyboard_overlay=False,
-        polyphony=3,
-        density_scale=1.04,
-        speed_scale=1.12,
-        randomness_scale=0.92,
-        bass_scale=1.16,
-        melody_scale=1.02,
-        darkness_scale=1.02,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "gt", "stars"),
-        primary_categories=("mega", "line", "arch", "canes_combo"),
-        chorus_categories=("mega", "line", "gt", "arch", "canes_combo"),
-        build_categories=("arch", "line", "stars", "canes_combo"),
-        drop_blackout_ms=(150, 260),
-        sweep_hit_ms=130,
-    ),
-    "v9.2": VariantStyle(
-        version="v9.2",
-        family="v9",
-        title="AC Pulse Grid",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="pulse_matrix",
-        keyboard_overlay=False,
-        polyphony=2,
-        density_scale=1.00,
-        speed_scale=1.06,
-        randomness_scale=0.76,
-        bass_scale=1.20,
-        melody_scale=0.92,
-        darkness_scale=1.00,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "canes_combo", "arch", "gt", "stars", "snowflakes"),
-        primary_categories=("line", "canes_combo", "arch", "gt"),
-        chorus_categories=("line", "gt", "canes_combo", "arch"),
-        build_categories=("arch", "line", "stars"),
-        drop_blackout_ms=(130, 220),
-        sweep_hit_ms=110,
-    ),
-    "v9.3": VariantStyle(
-        version="v9.3",
-        family="v9",
-        title="Cane Dialogue",
-        timing_mode="hook",
-        pool_mode="call_response",
-        placement_mode="mirror_duel",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.08,
-        speed_scale=1.04,
-        randomness_scale=1.04,
-        bass_scale=1.06,
-        melody_scale=1.14,
-        darkness_scale=0.98,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("north_canes", "south_canes", "canes_combo", "arch", "line", "talking_heads"),
-        primary_categories=("north_canes", "south_canes", "canes_combo", "talking_heads", "arch"),
-        chorus_categories=("canes_combo", "arch", "line", "gt"),
-        build_categories=("north_canes", "south_canes", "arch"),
-        drop_blackout_ms=(140, 250),
-        sweep_hit_ms=120,
-    ),
-    "v10.1": VariantStyle(
-        version="v10.1",
-        family="v10",
-        title="Matrix Narrative",
-        timing_mode="parts",
-        pool_mode="sectional",
-        placement_mode="scene_morph",
-        keyboard_overlay=True,
-        polyphony=3,
-        density_scale=1.10,
-        speed_scale=1.02,
-        randomness_scale=1.08,
-        bass_scale=1.04,
-        melody_scale=1.16,
-        darkness_scale=1.04,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "mega", "gt", "arch", "canes_combo", "stars", "snowflakes"),
-        primary_categories=("line", "mega", "gt", "arch", "canes_combo"),
-        chorus_categories=("line", "mega", "gt", "arch"),
-        build_categories=("stars", "snowflakes", "arch", "line"),
-        drop_blackout_ms=(170, 310),
-        sweep_hit_ms=140,
-    ),
-    "v10.2": VariantStyle(
-        version="v10.2",
-        family="v10",
-        title="Kinetic Relay",
-        timing_mode="beat",
-        pool_mode="rotating",
-        placement_mode="percussion_relay",
-        keyboard_overlay=False,
-        polyphony=2,
-        density_scale=1.16,
-        speed_scale=1.14,
-        randomness_scale=0.86,
-        bass_scale=1.24,
-        melody_scale=0.90,
-        darkness_scale=1.00,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "gt", "canes_combo", "arch", "mega", "stars"),
-        primary_categories=("line", "gt", "canes_combo", "arch"),
-        chorus_categories=("line", "gt", "mega", "arch", "canes_combo"),
-        build_categories=("arch", "line", "stars"),
-        drop_blackout_ms=(130, 250),
-        sweep_hit_ms=125,
-    ),
-    "v10.3": VariantStyle(
-        version="v10.3",
-        family="v10",
-        title="Choir Focus",
-        timing_mode="note",
-        pool_mode="sectional",
-        placement_mode="vocal_spotlight",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.02,
-        speed_scale=1.00,
-        randomness_scale=0.96,
-        bass_scale=1.00,
-        melody_scale=1.24,
-        darkness_scale=0.94,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("talking_heads", "north_canes", "south_canes", "arch", "line", "stars"),
-        primary_categories=("talking_heads", "north_canes", "south_canes", "arch", "line"),
-        chorus_categories=("talking_heads", "line", "arch", "canes_combo", "gt"),
-        build_categories=("talking_heads", "stars", "arch"),
-        drop_blackout_ms=(150, 260),
-        sweep_hit_ms=115,
-    ),
-    "v11.1": VariantStyle(
-        version="v11.1",
-        family="v11",
-        title="Spatial Conductor",
-        timing_mode="parts",
-        pool_mode="sectional",
-        placement_mode="director_ai",
-        keyboard_overlay=True,
-        polyphony=3,
-        density_scale=1.08,
-        speed_scale=1.05,
-        randomness_scale=0.90,
-        bass_scale=1.12,
-        melody_scale=1.08,
-        darkness_scale=1.06,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "mega", "gt", "arch", "canes_combo", "stars", "snowflakes"),
-        primary_categories=("line", "mega", "gt", "arch", "canes_combo", "talking_heads"),
-        chorus_categories=("line", "mega", "gt", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "arch", "line"),
-        drop_blackout_ms=(180, 320),
-        sweep_hit_ms=145,
-    ),
-    "v11.2": VariantStyle(
-        version="v11.2",
-        family="v11",
-        title="Orbital Anthem",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="constellation_story",
-        keyboard_overlay=False,
-        polyphony=3,
-        density_scale=1.00,
-        speed_scale=1.10,
-        randomness_scale=1.02,
-        bass_scale=1.20,
-        melody_scale=1.00,
-        darkness_scale=1.02,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "stars", "snowflakes", "canes_combo"),
-        primary_categories=("mega", "line", "arch", "canes_combo"),
-        chorus_categories=("mega", "line", "gt", "arch", "stars"),
-        build_categories=("stars", "snowflakes", "arch"),
-        drop_blackout_ms=(170, 300),
-        sweep_hit_ms=135,
-    ),
-    "v11.3": VariantStyle(
-        version="v11.3",
-        family="v11",
-        title="Universal Showcase",
-        timing_mode="note",
-        pool_mode="rotating",
-        placement_mode="zone_riff",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.14,
-        speed_scale=1.08,
-        randomness_scale=0.94,
-        bass_scale=1.18,
-        melody_scale=1.06,
-        darkness_scale=0.98,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("line", "mega", "gt", "canes_combo", "arch", "stars", "snowflakes", "talking_heads"),
-        primary_categories=("line", "mega", "gt", "canes_combo", "arch", "talking_heads"),
-        chorus_categories=("line", "mega", "gt", "arch", "canes_combo", "stars"),
-        build_categories=("arch", "stars", "snowflakes", "canes_combo"),
-        drop_blackout_ms=(140, 250),
-        sweep_hit_ms=118,
-    ),
-    "v12.1": VariantStyle(
-        version="v12.1",
-        family="v12",
-        title="Build Pulse",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="scene_morph",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=1.16,
-        speed_scale=1.06,
-        randomness_scale=0.92,
-        bass_scale=1.22,
-        melody_scale=1.04,
-        darkness_scale=0.90,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("line", "mega", "canes_combo", "arch", "gt", "stars", "snowflakes"),
-        primary_categories=("line", "canes_combo", "mega", "arch", "gt"),
-        chorus_categories=("line", "mega", "canes_combo", "arch", "gt", "stars"),
-        build_categories=("arch", "line", "canes_combo", "stars", "snowflakes"),
-        drop_blackout_ms=(210, 360),
-        sweep_hit_ms=124,
-    ),
-    "v12.2": VariantStyle(
-        version="v12.2",
-        family="v12",
-        title="Drop Sculpt",
-        timing_mode="note",
-        pool_mode="rotating",
-        placement_mode="pulse_matrix",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.20,
-        speed_scale=1.10,
-        randomness_scale=0.96,
-        bass_scale=1.30,
-        melody_scale=0.96,
-        darkness_scale=0.92,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "gt", "canes_combo", "arch", "stars"),
-        primary_categories=("mega", "line", "canes_combo", "gt", "arch"),
-        chorus_categories=("mega", "line", "gt", "canes_combo", "arch", "stars"),
-        build_categories=("arch", "line", "canes_combo", "snowflakes", "stars"),
-        drop_blackout_ms=(180, 330),
-        sweep_hit_ms=116,
-    ),
-    "v12.3": VariantStyle(
-        version="v12.3",
-        family="v12",
-        title="Sequential Drift",
-        timing_mode="mixed",
-        pool_mode="call_response",
-        placement_mode="percussion_relay",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=1.10,
-        speed_scale=1.12,
-        randomness_scale=1.00,
-        bass_scale=1.16,
-        melody_scale=1.06,
-        darkness_scale=0.96,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "line", "arch", "gt", "mega", "stars", "snowflakes"),
-        primary_categories=("canes_combo", "line", "arch", "gt", "mega"),
-        chorus_categories=("line", "mega", "canes_combo", "arch", "gt", "stars"),
-        build_categories=("arch", "line", "canes_combo", "snowflakes"),
-        drop_blackout_ms=(170, 310),
-        sweep_hit_ms=120,
-    ),
-    "v13.1": VariantStyle(
-        version="v13.1",
-        family="v13",
-        title="Spatial Story",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="director_ai",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=1.08,
-        speed_scale=1.06,
-        randomness_scale=1.06,
-        bass_scale=1.12,
-        melody_scale=1.12,
-        darkness_scale=0.94,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("arch", "line", "mega", "canes_combo", "gt", "stars", "snowflakes", "talking_heads"),
-        primary_categories=("arch", "line", "mega", "canes_combo", "gt", "talking_heads"),
-        chorus_categories=("line", "mega", "arch", "canes_combo", "gt", "stars", "talking_heads"),
-        build_categories=("arch", "line", "snowflakes", "stars", "talking_heads"),
-        drop_blackout_ms=(190, 320),
-        sweep_hit_ms=128,
-    ),
-    "v13.2": VariantStyle(
-        version="v13.2",
-        family="v13",
-        title="Bassline Flow",
-        timing_mode="note",
-        pool_mode="rotating",
-        placement_mode="zone_riff",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.18,
-        speed_scale=1.08,
-        randomness_scale=0.90,
-        bass_scale=1.34,
-        melody_scale=0.98,
-        darkness_scale=0.98,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "gt", "canes_combo", "arch", "stars", "snowflakes"),
-        primary_categories=("mega", "canes_combo", "line", "gt", "arch"),
-        chorus_categories=("mega", "line", "gt", "canes_combo", "arch", "stars"),
-        build_categories=("arch", "line", "canes_combo", "snowflakes"),
-        drop_blackout_ms=(160, 280),
-        sweep_hit_ms=114,
-    ),
-    "v13.3": VariantStyle(
-        version="v13.3",
-        family="v13",
-        title="Luma Finale",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="constellation_story",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=1.14,
-        speed_scale=1.04,
-        randomness_scale=1.10,
-        bass_scale=1.20,
-        melody_scale=1.14,
-        darkness_scale=0.90,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("stars", "snowflakes", "line", "mega", "arch", "canes_combo", "talking_heads"),
-        primary_categories=("stars", "snowflakes", "line", "arch", "canes_combo", "talking_heads"),
-        chorus_categories=("line", "mega", "stars", "snowflakes", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "arch", "line", "talking_heads"),
-        drop_blackout_ms=(200, 340),
-        sweep_hit_ms=126,
-    ),
-    "v14.1": VariantStyle(
-        version="v14.1",
-        family="v14",
-        title="Phrase Architect",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="phrase_architect",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.86,
-        speed_scale=0.98,
-        randomness_scale=0.18,
-        bass_scale=1.14,
-        melody_scale=1.08,
-        darkness_scale=1.02,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "mega", "gt", "canes_combo", "matrix", "spinner"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "spinner", "canes_combo"),
-        drop_blackout_ms=(220, 340),
-        sweep_hit_ms=116,
-    ),
-    "v14.2": VariantStyle(
-        version="v14.2",
-        family="v14",
-        title="Stem Command",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="stem_storyboard",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.90,
-        speed_scale=1.02,
-        randomness_scale=0.20,
-        bass_scale=1.22,
-        melody_scale=1.02,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "spinner"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "gt", "arch"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(210, 330),
-        sweep_hit_ms=120,
-    ),
-    "v14.3": VariantStyle(
-        version="v14.3",
-        family="v14",
-        title="Contour Waves",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="wave_burst_director",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.92,
-        speed_scale=1.04,
-        randomness_scale=0.16,
-        bass_scale=1.12,
-        melody_scale=1.20,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("arch", "line", "gt", "mega", "canes_combo", "matrix"),
-        primary_categories=("arch", "line", "gt", "canes_combo", "matrix"),
-        chorus_categories=("arch", "line", "mega", "gt", "canes_combo", "matrix"),
-        build_categories=("arch", "line", "mega", "matrix", "spinner"),
-        drop_blackout_ms=(210, 320),
-        sweep_hit_ms=108,
-    ),
-    "v15.1": VariantStyle(
-        version="v15.1",
-        family="v15",
-        title="Cinematic Arc",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="phrase_architect",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=1.00,
-        speed_scale=1.02,
-        randomness_scale=0.22,
-        bass_scale=1.18,
-        melody_scale=1.14,
-        darkness_scale=0.96,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "mega", "gt", "canes_combo", "matrix", "spinner"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "spinner", "canes_combo", "mega"),
-        drop_blackout_ms=(230, 350),
-        sweep_hit_ms=116,
-    ),
-    "v15.2": VariantStyle(
-        version="v15.2",
-        family="v15",
-        title="Orchestra Drive",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="stem_storyboard",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=1.04,
-        speed_scale=1.04,
-        randomness_scale=0.20,
-        bass_scale=1.24,
-        melody_scale=1.10,
-        darkness_scale=0.96,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "spinner", "gt"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "gt", "arch", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(220, 340),
-        sweep_hit_ms=120,
-    ),
-    "v15.3": VariantStyle(
-        version="v15.3",
-        family="v15",
-        title="PrimeTime Finale",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="primetime_director",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=1.08,
-        speed_scale=1.06,
-        randomness_scale=0.18,
-        bass_scale=1.24,
-        melody_scale=1.16,
-        darkness_scale=0.94,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "canes_combo", "spinner", "gt"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "stars"),
-        drop_blackout_ms=(230, 360),
-        sweep_hit_ms=124,
-    ),
-    "v16.1": VariantStyle(
-        version="v16.1",
-        family="v16",
-        title="Show Arc",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_arc",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.84,
-        speed_scale=0.98,
-        randomness_scale=0.14,
-        bass_scale=1.16,
-        melody_scale=1.08,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "mega", "gt", "canes_combo", "matrix"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(210, 330),
-        sweep_hit_ms=112,
-    ),
-    "v16.2": VariantStyle(
-        version="v16.2",
-        family="v16",
-        title="Stagecraft Stems",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.90,
-        speed_scale=1.02,
-        randomness_scale=0.16,
-        bass_scale=1.24,
-        melody_scale=1.06,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "spinner", "gt"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "gt", "arch", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(210, 330),
-        sweep_hit_ms=118,
-    ),
-    "v16.3": VariantStyle(
-        version="v16.3",
-        family="v16",
-        title="Choreo Waves",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_motion",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.92,
-        speed_scale=1.06,
-        randomness_scale=0.12,
-        bass_scale=1.10,
-        melody_scale=1.24,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("arch", "line", "gt", "mega", "canes_combo", "matrix"),
-        primary_categories=("arch", "line", "gt", "canes_combo", "matrix"),
-        chorus_categories=("arch", "line", "mega", "gt", "canes_combo", "matrix"),
-        build_categories=("arch", "line", "mega", "matrix", "spinner"),
-        drop_blackout_ms=(205, 320),
-        sweep_hit_ms=104,
-    ),
-    "v17.1": VariantStyle(
-        version="v17.1",
-        family="v17",
-        title="Signature Show",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.98,
-        speed_scale=1.02,
-        randomness_scale=0.18,
-        bass_scale=1.20,
-        melody_scale=1.14,
-        darkness_scale=0.94,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "canes_combo", "spinner", "gt"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "stars"),
-        drop_blackout_ms=(220, 345),
-        sweep_hit_ms=118,
-    ),
-    "v17.2": VariantStyle(
-        version="v17.2",
-        family="v17",
-        title="Choir Cinema",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.94,
-        speed_scale=1.00,
-        randomness_scale=0.16,
-        bass_scale=1.12,
-        melody_scale=1.20,
-        darkness_scale=0.92,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("matrix", "line", "arch", "mega", "canes_combo", "spinner"),
-        primary_categories=("talking_heads", "matrix", "line", "arch", "stars"),
-        chorus_categories=("matrix", "mega", "spinner", "line", "arch", "gt"),
-        build_categories=("line", "arch", "matrix", "stars", "snowflakes"),
-        drop_blackout_ms=(220, 340),
-        sweep_hit_ms=112,
-    ),
-    "v17.3": VariantStyle(
-        version="v17.3",
-        family="v17",
-        title="Showstopper Cut",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=1.04,
-        speed_scale=1.06,
-        randomness_scale=0.18,
-        bass_scale=1.24,
-        melody_scale=1.18,
-        darkness_scale=0.92,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "canes_combo", "spinner", "gt"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "stars"),
-        drop_blackout_ms=(230, 360),
-        sweep_hit_ms=122,
-    ),
-    "v18.1": VariantStyle(
-        version="v18.1",
-        family="v18",
-        title="Mapped Extreme",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="xtreme_essentials",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.86,
-        speed_scale=1.00,
-        randomness_scale=0.12,
-        bass_scale=1.18,
-        melody_scale=1.08,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "flood", "gt"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "flood"),
-        chorus_categories=("mega", "matrix", "line", "arch", "gt", "canes_combo", "flood"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "flood"),
-        drop_blackout_ms=(210, 330),
-        sweep_hit_ms=112,
-    ),
-    "v18.2": VariantStyle(
-        version="v18.2",
-        family="v18",
-        title="Submodel Surge",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="xtreme_submodel",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.92,
-        speed_scale=1.04,
-        randomness_scale=0.14,
-        bass_scale=1.22,
-        melody_scale=1.16,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "flood", "gt"),
-        primary_categories=("matrix", "line", "arch", "canes_combo", "flood", "talking_heads"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "gt", "arch", "canes_combo", "flood"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "flood"),
-        drop_blackout_ms=(215, 335),
-        sweep_hit_ms=118,
-    ),
-    "v18.3": VariantStyle(
-        version="v18.3",
-        family="v18",
-        title="Extreme Showcase",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="xtreme_showcase",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=1.00,
-        speed_scale=1.04,
-        randomness_scale=0.16,
-        bass_scale=1.24,
-        melody_scale=1.18,
-        darkness_scale=0.92,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "canes_combo", "spinner", "gt", "flood"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "flood"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo", "flood"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "stars", "flood"),
-        drop_blackout_ms=(225, 350),
-        sweep_hit_ms=120,
-    ),
-    "v19.1": VariantStyle(
-        version="v19.1",
-        family="v19",
-        title="Piano Spine",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_arc",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.84,
-        speed_scale=0.98,
-        randomness_scale=0.06,
-        bass_scale=1.16,
-        melody_scale=1.18,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "arch", "line", "gt", "mega", "matrix"),
-        primary_categories=("canes_combo", "line", "arch", "gt", "mega"),
-        chorus_categories=("canes_combo", "mega", "line", "arch", "gt", "matrix"),
-        build_categories=("canes_combo", "arch", "line", "mega", "spinner"),
-        drop_blackout_ms=(210, 330),
-        sweep_hit_ms=110,
-    ),
-    "v19.2": VariantStyle(
-        version="v19.2",
-        family="v19",
-        title="Keyed Stems",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.90,
-        speed_scale=1.00,
-        randomness_scale=0.06,
-        bass_scale=1.20,
-        melody_scale=1.16,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "line", "arch", "mega", "gt", "matrix", "spinner"),
-        primary_categories=("canes_combo", "line", "arch", "matrix", "gt"),
-        chorus_categories=("canes_combo", "mega", "line", "arch", "gt", "matrix"),
-        build_categories=("canes_combo", "arch", "line", "mega", "spinner"),
-        drop_blackout_ms=(214, 334),
-        sweep_hit_ms=114,
-    ),
-    "v19.3": VariantStyle(
-        version="v19.3",
-        family="v19",
-        title="Grand Keys",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.96,
-        speed_scale=1.02,
-        randomness_scale=0.08,
-        bass_scale=1.22,
-        melody_scale=1.20,
-        darkness_scale=0.94,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "mega", "line", "arch", "gt", "matrix", "spinner"),
-        primary_categories=("canes_combo", "line", "arch", "matrix", "gt"),
-        chorus_categories=("canes_combo", "mega", "matrix", "line", "arch", "gt"),
-        build_categories=("canes_combo", "arch", "line", "mega", "spinner", "stars"),
-        drop_blackout_ms=(220, 340),
-        sweep_hit_ms=118,
-    ),
-    "v20.1": VariantStyle(
-        version="v20.1",
-        family="v20",
-        title="Studio Recall",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_arc",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.88,
-        speed_scale=0.98,
-        randomness_scale=0.08,
-        bass_scale=1.18,
-        melody_scale=1.10,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "mega", "gt", "canes_combo", "matrix"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(212, 332),
-        sweep_hit_ms=114,
-    ),
-    "v20.2": VariantStyle(
-        version="v20.2",
-        family="v20",
-        title="Stem Recall",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.94,
-        speed_scale=1.01,
-        randomness_scale=0.08,
-        bass_scale=1.22,
-        melody_scale=1.08,
-        darkness_scale=0.95,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "spinner", "gt"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "gt", "arch", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(214, 336),
-        sweep_hit_ms=119,
-    ),
-    "v20.3": VariantStyle(
-        version="v20.3",
-        family="v20",
-        title="Signature Recall",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.99,
-        speed_scale=1.03,
-        randomness_scale=0.10,
-        bass_scale=1.24,
-        melody_scale=1.14,
-        darkness_scale=0.93,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "canes_combo", "spinner", "gt"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "stars"),
-        drop_blackout_ms=(222, 346),
-        sweep_hit_ms=120,
-    ),
-    "v21.1": VariantStyle(
-        version="v21.1",
-        family="v21",
-        title="Scene Logic",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="phrase_architect",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.92,
-        speed_scale=0.99,
-        randomness_scale=0.10,
-        bass_scale=1.18,
-        melody_scale=1.14,
-        darkness_scale=0.96,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "mega", "gt", "canes_combo", "matrix", "spinner"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "spinner", "canes_combo", "mega"),
-        drop_blackout_ms=(224, 344),
-        sweep_hit_ms=118,
-    ),
-    "v21.2": VariantStyle(
-        version="v21.2",
-        family="v21",
-        title="Lane Logic",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="stem_storyboard",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.98,
-        speed_scale=1.02,
-        randomness_scale=0.10,
-        bass_scale=1.22,
-        melody_scale=1.12,
-        darkness_scale=0.95,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "spinner", "gt"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "gt", "arch", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(222, 342),
-        sweep_hit_ms=121,
-    ),
-    "v21.3": VariantStyle(
-        version="v21.3",
-        family="v21",
-        title="Finale Logic",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="primetime_director",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=1.04,
-        speed_scale=1.05,
-        randomness_scale=0.10,
-        bass_scale=1.24,
-        melody_scale=1.18,
-        darkness_scale=0.93,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "canes_combo", "spinner", "gt"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "stars"),
-        drop_blackout_ms=(232, 362),
-        sweep_hit_ms=125,
-    ),
-    "v21.4": VariantStyle(
-        version="v21.4",
-        family="v21",
-        title="Model Atlas",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_arc",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.96,
-        speed_scale=1.00,
-        randomness_scale=0.08,
-        bass_scale=1.18,
-        melody_scale=1.16,
-        darkness_scale=0.95,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "matrix", "spinner", "sphere", "canes_combo", "mega", "flood"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo", "flood"),
-        build_categories=("arch", "line", "matrix", "spinner", "sphere", "canes_combo"),
-        drop_blackout_ms=(224, 348),
-        sweep_hit_ms=122,
-    ),
-    "v21.5": VariantStyle(
-        version="v21.5",
-        family="v21",
-        title="Submodel Studio",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=6,
-        density_scale=0.93,
-        speed_scale=1.02,
-        randomness_scale=0.07,
-        bass_scale=1.20,
-        melody_scale=1.18,
-        darkness_scale=0.94,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("matrix", "line", "arch", "spinner", "canes_combo", "mega", "sphere", "stars"),
-        primary_categories=("talking_heads", "matrix", "line", "arch", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo", "flood"),
-        build_categories=("matrix", "arch", "line", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(226, 352),
-        sweep_hit_ms=124,
-    ),
-    "v21.6": VariantStyle(
-        version="v21.6",
-        family="v21",
-        title="Pixel Auteur",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=1.01,
-        speed_scale=1.04,
-        randomness_scale=0.07,
-        bass_scale=1.24,
-        melody_scale=1.20,
-        darkness_scale=0.93,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo", "flood"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo", "flood"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(236, 366),
-        sweep_hit_ms=128,
-    ),
-    "v22.1": VariantStyle(
-        version="v22.1",
-        family="v22",
-        title="Premium Storyboard",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_arc",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=0.90,
-        speed_scale=0.98,
-        randomness_scale=0.05,
-        bass_scale=1.16,
-        melody_scale=1.06,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "matrix", "spinner", "sphere", "canes_combo", "mega"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "spinner", "sphere", "canes_combo"),
-        drop_blackout_ms=(214, 336),
-        sweep_hit_ms=118,
-    ),
-    "v22.2": VariantStyle(
-        version="v22.2",
-        family="v22",
-        title="Submodel Maestro",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.88,
-        speed_scale=0.99,
-        randomness_scale=0.05,
-        bass_scale=1.16,
-        melody_scale=1.05,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("matrix", "line", "arch", "spinner", "canes_combo", "mega", "sphere", "stars"),
-        primary_categories=("talking_heads", "matrix", "line", "arch", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("matrix", "arch", "line", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(218, 340),
-        sweep_hit_ms=120,
-    ),
-    "v22.3": VariantStyle(
-        version="v22.3",
-        family="v22",
-        title="Pixel Prestige",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.94,
-        speed_scale=1.01,
-        randomness_scale=0.05,
-        bass_scale=1.20,
-        melody_scale=1.10,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(224, 350),
-        sweep_hit_ms=122,
-    ),
-    "v23.1": VariantStyle(
-        version="v23.1",
-        family="v23",
-        title="Scenic Director",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_arc",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.84,
-        speed_scale=0.98,
-        randomness_scale=0.04,
-        bass_scale=1.16,
-        melody_scale=1.04,
-        darkness_scale=1.00,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("arch", "line", "matrix", "mega", "spinner", "sphere"),
-        primary_categories=("matrix", "arch", "line", "talking_heads", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "arch", "line", "gt"),
-        build_categories=("arch", "line", "matrix", "sphere", "stars"),
-        drop_blackout_ms=(210, 332),
-        sweep_hit_ms=116,
-    ),
-    "v23.2": VariantStyle(
-        version="v23.2",
-        family="v23",
-        title="Detail Director",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.82,
-        speed_scale=0.99,
-        randomness_scale=0.03,
-        bass_scale=1.15,
-        melody_scale=1.04,
-        darkness_scale=1.00,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("matrix", "line", "arch", "spinner", "canes_combo", "mega", "sphere", "stars"),
-        primary_categories=("talking_heads", "matrix", "line", "arch", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "arch", "line", "gt", "sphere"),
-        build_categories=("matrix", "arch", "line", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(214, 336),
-        sweep_hit_ms=118,
-    ),
-    "v23.3": VariantStyle(
-        version="v23.3",
-        family="v23",
-        title="Headliner Pixel",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=0.88,
-        speed_scale=1.00,
-        randomness_scale=0.04,
-        bass_scale=1.18,
-        melody_scale=1.08,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(220, 344),
-        sweep_hit_ms=120,
-    ),
-    "v23.4": VariantStyle(
-        version="v23.4",
-        family="v23",
-        title="Noir Stemcraft",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.78,
-        speed_scale=0.97,
-        randomness_scale=0.02,
-        bass_scale=1.18,
-        melody_scale=1.06,
-        darkness_scale=1.12,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "arch", "line", "sphere", "gt"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(272, 448),
-        sweep_hit_ms=116,
-    ),
-    "v23.5": VariantStyle(
-        version="v23.5",
-        family="v23",
-        title="Suspense Signature",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.82,
-        speed_scale=1.00,
-        randomness_scale=0.025,
-        bass_scale=1.20,
-        melody_scale=1.10,
-        darkness_scale=1.10,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(286, 470),
-        sweep_hit_ms=114,
-    ),
-    "v23.6": VariantStyle(
-        version="v23.6",
-        family="v23",
-        title="Apex Stem Noir",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.76,
-        speed_scale=1.00,
-        randomness_scale=0.02,
-        bass_scale=1.22,
-        melody_scale=1.06,
-        darkness_scale=1.14,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "arch", "line", "sphere", "gt"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(312, 508),
-        sweep_hit_ms=114,
-    ),
-    "v24.1": VariantStyle(
-        version="v24.1",
-        family="v24",
-        title="Role Architect",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="hierarchy_roles",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.90,
-        speed_scale=1.01,
-        randomness_scale=0.03,
-        bass_scale=1.20,
-        melody_scale=1.10,
-        darkness_scale=1.05,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "arch", "line", "gt", "sphere"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(248, 410),
-        sweep_hit_ms=114,
-    ),
-    "v24.2": VariantStyle(
-        version="v24.2",
-        family="v24",
-        title="Context Choreo",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="hierarchy_roles",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.92,
-        speed_scale=1.03,
-        randomness_scale=0.04,
-        bass_scale=1.22,
-        melody_scale=1.11,
-        darkness_scale=1.08,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(264, 438),
-        sweep_hit_ms=112,
-    ),
-    "v24.3": VariantStyle(
-        version="v24.3",
-        family="v24",
-        title="Apex Storyboard",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="hierarchy_roles",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.94,
-        speed_scale=1.05,
-        randomness_scale=0.05,
-        bass_scale=1.24,
-        melody_scale=1.13,
-        darkness_scale=1.10,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(284, 468),
-        sweep_hit_ms=110,
-    ),
-    "v25.1": VariantStyle(
-        version="v25.1",
-        family="v25",
-        title="Raw Auto",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.98,
-        speed_scale=1.05,
-        randomness_scale=0.03,
-        bass_scale=1.22,
-        melody_scale=1.10,
-        darkness_scale=1.08,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(260, 440),
-        sweep_hit_ms=108,
-    ),
-    "v25.2": VariantStyle(
-        version="v25.2",
-        family="v25",
-        title="Pro Vendor",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.92,
-        speed_scale=1.03,
-        randomness_scale=0.02,
-        bass_scale=1.26,
-        melody_scale=1.14,
-        darkness_scale=1.12,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(300, 500),
-        sweep_hit_ms=104,
-    ),
-    "v26.1": VariantStyle(
-        version="v26.1",
-        family="v26",
-        title="Raw Auto",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.98,
-        speed_scale=1.04,
-        randomness_scale=0.02,
-        bass_scale=1.24,
-        melody_scale=1.12,
-        darkness_scale=1.10,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(260, 440),
-        sweep_hit_ms=106,
-    ),
-    "v26.2": VariantStyle(
-        version="v26.2",
-        family="v26",
-        title="Pro Vendor",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.90,
-        speed_scale=1.02,
-        randomness_scale=0.02,
-        bass_scale=1.28,
-        melody_scale=1.16,
-        darkness_scale=1.14,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(320, 520),
-        sweep_hit_ms=102,
-    ),
-    "v27.1": VariantStyle(
-        version="v27.1",
-        family="v27",
-        title="Raw Auto",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.98,
-        speed_scale=1.04,
-        randomness_scale=0.02,
-        bass_scale=1.26,
-        melody_scale=1.14,
-        darkness_scale=1.12,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(260, 440),
-        sweep_hit_ms=104,
-    ),
-    "v27.2": VariantStyle(
-        version="v27.2",
-        family="v27",
-        title="Helix Final",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="piano_lights",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=0.92,
-        speed_scale=1.03,
-        randomness_scale=0.02,
-        bass_scale=1.30,
-        melody_scale=1.18,
-        darkness_scale=1.16,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(340, 540),
-        sweep_hit_ms=100,
-    ),
-    "v27.3": VariantStyle(
-        version="v27.3",
-        family="v27",
-        title="Helix Prime",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="piano_lights",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=0.95,
-        speed_scale=1.03,
-        randomness_scale=0.02,
-        bass_scale=1.28,
-        melody_scale=1.16,
-        darkness_scale=1.14,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(320, 520),
-        sweep_hit_ms=102,
-    ),
-}
+class LazyVariantCatalog(Mapping[str, VariantStyle]):
+    def __init__(self) -> None:
+        self._catalog: dict[str, VariantStyle] | None = None
+
+    def _ensure_loaded(self) -> dict[str, VariantStyle]:
+        if self._catalog is None:
+            from core import engine_style_catalog
+
+            self._catalog = engine_style_catalog.build_variants(VariantStyle)
+        return self._catalog
+
+    def __getitem__(self, key: str) -> VariantStyle:
+        return self._ensure_loaded()[key]
+
+    def __iter__(self) -> Iterator[str]:
+        return iter(self._ensure_loaded())
+
+    def __len__(self) -> int:
+        return len(self._ensure_loaded())
+
+    def __contains__(self, key: object) -> bool:
+        return key in self._ensure_loaded()
+
+
+VARIANTS = LazyVariantCatalog()
+
+# Legacy-tuned style variants are preserved for compatibility, but the actively
+# maintained engine defaults to the current stable style profile.
+ACTIVE_STYLE_VERSION = "v27.3"
+
+
+class _ActiveStyleProxy:
+    def __getattr__(self, name: str) -> object:
+        return getattr(VARIANTS[ACTIVE_STYLE_VERSION], name)
+
+    def __repr__(self) -> str:
+        return repr(VARIANTS[ACTIVE_STYLE_VERSION])
+
+
+ACTIVE_STYLE = _ActiveStyleProxy()
 
 GENERATE_SHOWCASE = False
 
@@ -6167,61 +4283,174 @@ def place_showcase_signature(
         impact_pool = select_preferred_pool(pools, ("matrix", "spinner", "mega", "gt", "line"), pool_state, f"showcase_signature_impact_{part_idx}")
         sweep_pool = select_preferred_pool(pools, ("mega", "line", "arch", "gt", "canes_combo"), pool_state, f"showcase_signature_sweep_{part_idx}", require_multiple=True)
         vocal_pool = select_preferred_pool(pools, ("talking_heads", "matrix", "line", "arch"), pool_state, f"showcase_signature_vocal_{part_idx}")
+        signature_pools = [impact_pool, sweep_pool, vocal_pool]
         local_bass = [mark for mark in bass_peaks if part.start_ms <= mark < part.end_ms]
         local_vocals = [mark for mark in vocal_peaks if part.start_ms <= mark < part.end_ms]
         local_events = [event for event in note_events if part.start_ms <= event.start_ms < part.end_ms]
-        local_beats = [mark for mark in beat_ms if part.start_ms <= mark < part.end_ms]
+        local_kicks = [mark for mark in kicks if part.start_ms <= mark < part.end_ms]
+        local_snares = [mark for mark in snares if part.start_ms <= mark < part.end_ms]
+        local_hats = [mark for mark in hats if part.start_ms <= mark < part.end_ms]
         local_bars = [mark for mark in bar_ms if part.start_ms <= mark < part.end_ms] or [part.start_ms]
 
         if impact_pool is not None and impact_pool.models:
             for bass_idx, t_ms in enumerate(local_bass[::2]):
                 if in_blackout(t_ms):
                     continue
-                target = impact_pool.models[bass_idx % len(impact_pool.models)]
-                add_model(
-                    target,
+                impact_cue = cue_for_timestamp(
                     t_ms,
-                    t_ms + max(85, base.scaled_dur(140)),
-                    "showcase_signature_impact",
-                    eff=reactive_effect_for_category(impact_pool.category, "bass", part.label, bass_idx),
-                    stem="bass",
+                    default="bass",
+                    kicks=local_kicks,
+                    snares=local_snares,
+                    hats=local_hats,
+                    bass_peaks=local_bass,
+                    vocal_peaks=local_vocals,
                 )
+                active_impact_pool = choose_cue_preferred_pool(signature_pools, impact_cue, bass_idx, context="signature") or impact_pool
+                desired = cue_target_count(
+                    1,
+                    impact_cue,
+                    placement_mode="showcase_signature",
+                    part_label=part.label,
+                    maximum=min(2, len(active_impact_pool.models)),
+                )
+                impact_targets = ordered_unique(
+                    [active_impact_pool.models[(bass_idx + offset) % len(active_impact_pool.models)] for offset in range(desired)]
+                )
+                impact_dur = cue_scaled_duration(
+                    max(85, base.scaled_dur(140)),
+                    impact_cue,
+                    placement_mode="showcase_signature",
+                    part_label=part.label,
+                    minimum_ms=85,
+                )
+                impact_eff = reactive_effect_for_category(active_impact_pool.category, impact_cue, part.label, bass_idx)
+                for step, target in enumerate(impact_targets):
+                    start_ms = t_ms + step * 14
+                    end_ms = start_ms + max(70, impact_dur - step * 10)
+                    add_model(
+                        target,
+                        start_ms,
+                        end_ms,
+                        "showcase_signature_impact",
+                        eff=impact_eff,
+                        stem="bass",
+                    )
 
         if vocal_pool is not None and vocal_pool.models:
             for vocal_idx, t_ms in enumerate(local_vocals[::2]):
                 if in_blackout(t_ms):
                     continue
-                target = vocal_pool.models[vocal_idx % len(vocal_pool.models)]
-                eff_name = reactive_effect_for_category(vocal_pool.category, "vocal", part.label, vocal_idx)
-                add_model(target, t_ms, t_ms + max(90, base.scaled_dur(150)), "showcase_signature_vocal", eff=eff_name, stem="vocals")
+                vocal_cue = cue_for_timestamp(
+                    t_ms,
+                    default="vocal",
+                    kicks=local_kicks,
+                    snares=local_snares,
+                    hats=local_hats,
+                    bass_peaks=local_bass,
+                    vocal_peaks=local_vocals,
+                )
+                active_vocal_pool = choose_cue_preferred_pool(signature_pools, vocal_cue, vocal_idx, context="signature") or vocal_pool
+                desired = cue_target_count(
+                    1,
+                    vocal_cue,
+                    placement_mode="showcase_signature",
+                    part_label=part.label,
+                    maximum=min(2, len(active_vocal_pool.models)),
+                )
+                vocal_targets = ordered_unique(
+                    [active_vocal_pool.models[(vocal_idx + offset) % len(active_vocal_pool.models)] for offset in range(desired)]
+                )
+                eff_name = reactive_effect_for_category(active_vocal_pool.category, vocal_cue, part.label, vocal_idx)
+                vocal_dur = cue_scaled_duration(
+                    max(90, base.scaled_dur(150)),
+                    vocal_cue,
+                    placement_mode="showcase_signature",
+                    part_label=part.label,
+                    minimum_ms=90,
+                )
+                for step, target in enumerate(vocal_targets):
+                    start_ms = t_ms + step * 16
+                    end_ms = start_ms + max(80, vocal_dur - step * 12)
+                    add_model(target, start_ms, end_ms, "showcase_signature_vocal", eff=eff_name, stem="vocals")
 
         if sweep_pool is not None and len(sweep_pool.models) >= 2:
             for bar_idx, bar_start in enumerate(local_bars[::2]):
                 if in_blackout(bar_start):
                     continue
-                sweep_end = min(part.end_ms, bar_start + max(190, base.scaled_dur(260)))
+                sweep_cue = cue_for_timestamp(
+                    bar_start,
+                    default="build" if part.label in {"PRECHORUS", "CHORUS", "BRIDGE"} else "phrase",
+                    kicks=local_kicks,
+                    snares=local_snares,
+                    hats=local_hats,
+                    bass_peaks=local_bass,
+                    vocal_peaks=local_vocals,
+                )
+                active_sweep_pool = choose_cue_preferred_pool(signature_pools, sweep_cue, bar_idx, context="signature", require_multiple=True) or sweep_pool
+                sweep_pool_for_run, span_factor, hit_factor = showcase_signature_sweep_plan(
+                    active_sweep_pool,
+                    sweep_cue,
+                    part.label,
+                )
+                if sweep_pool_for_run is None or len(sweep_pool_for_run.models) < 2:
+                    continue
+                sweep_span = cue_scaled_duration(
+                    max(190, base.scaled_dur(260)),
+                    sweep_cue,
+                    placement_mode="showcase_signature",
+                    part_label=part.label,
+                    minimum_ms=190,
+                )
+                sweep_end = min(part.end_ms, bar_start + max(170, int(round(sweep_span * span_factor))))
+                sweep_eff = reactive_effect_for_category(sweep_pool_for_run.category, sweep_cue, part.label, bar_idx)
                 add_sweep(
-                    lambda nm, a, b, label: add_model(nm, a, b, label, eff="Wave", stem="other"),
-                    sweep_pool,
+                    lambda nm, a, b, label: add_model(nm, a, b, label, eff=sweep_eff, stem="other"),
+                    sweep_pool_for_run,
                     bar_start,
                     sweep_end,
                     "showcase_signature_sweep",
-                    max(82, style.sweep_hit_ms - 6),
+                    max(
+                        68,
+                        int(
+                            round(
+                                cue_scaled_duration(
+                                    max(82, style.sweep_hit_ms - 6),
+                                    sweep_cue,
+                                    placement_mode="showcase_signature",
+                                    part_label=part.label,
+                                    minimum_ms=82,
+                                )
+                                * hit_factor
+                            )
+                        ),
+                    ),
                     reverse=((bar_idx + part_idx) % 2 == 1),
                 )
-                sweep_track.append((f"signature:{sweep_pool.name}", bar_start, sweep_end))
+                sweep_track.append((f"signature:{sweep_cue}:{sweep_pool_for_run.name}", bar_start, sweep_end))
 
         note_stride = 6 if part.label == "PRECHORUS" else 4 if part.label == "BRIDGE" else 3
         for event_idx, event in enumerate(local_events):
             if in_blackout(event.start_ms) or (event_idx % note_stride) != 0:
                 continue
-            contour_pool = sweep_pool or impact_pool or vocal_pool
+            event_cue = reactive_cue_for_event(
+                event,
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+                default="build" if part.label in {"PRECHORUS", "CHORUS", "BRIDGE"} else "phrase",
+            )
+            contour_pool = choose_cue_preferred_pool(signature_pools, event_cue, event_idx, context="signature", require_multiple=False)
+            if contour_pool is None:
+                contour_pool = sweep_pool or impact_pool or vocal_pool
             if contour_pool is None:
                 continue
             targets = map_notes_to_models(contour_pool, event, pool_state, style, rng)
-            limited = targets[: min(3, len(targets))]
-            _placed, phrase_end = place_note_phrase(add_model, contour_pool, event, limited, style, rng, ramp_ok, ramp_tpl)
-            piano_track.append((f"{contour_pool.name}:signature", event.start_ms, phrase_end))
+            limited = targets[: cue_target_count(min(3, len(targets)), event_cue, placement_mode="showcase_signature", part_label=part.label, maximum=len(targets))]
+            phrase_add = lambda nm, a, b, label, **kwargs: add_model(nm, a, b, label, stem=stem_for_cue(event_cue), **kwargs)
+            _placed, phrase_end = place_note_phrase(phrase_add, contour_pool, event, limited, style, rng, ramp_ok, ramp_tpl)
+            piano_track.append((f"{contour_pool.name}:signature:{event_cue}", event.start_ms, phrase_end))
 
 
 def place_pixel_reactive_score(
@@ -6307,33 +4536,91 @@ def place_pixel_reactive_score(
             return base_reverse if (step_index % 2) == 0 else not base_reverse
 
         if mood_changed and (line_pool is not None or arch_pool is not None):
-            transition_pool = arch_pool or line_pool
+            transition_cue = cue_for_timestamp(
+                part.start_ms,
+                default="build" if part.label in dramatic_parts else "phrase",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            transition_pool = choose_cue_preferred_pool(
+                [arch_pool, line_pool, cane_pool, spinner_pool],
+                transition_cue,
+                part_idx,
+                context="pixel",
+                require_multiple=True,
+            ) or arch_pool or line_pool
             if transition_pool is not None and transition_pool.models and not in_blackout(part.start_ms):
+                transition_count = cue_target_count(
+                    2 if len(transition_pool.models) >= 2 else 1,
+                    transition_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    maximum=min(3, len(transition_pool.models)),
+                )
                 transition_targets = rotate_targets(
                     transition_pool,
                     f"pixel_transition_cursor_{part_idx}",
-                    2 if len(transition_pool.models) >= 2 else 1,
+                    transition_count,
                     reverse=base_reverse,
+                )
+                transition_dur = cue_scaled_duration(
+                    max(120, base.scaled_dur(210)),
+                    transition_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    minimum_ms=120,
                 )
                 for step, target in enumerate(transition_targets):
                     st = part.start_ms + step * 18
-                    en = min(part.end_ms, st + max(120, base.scaled_dur(210)))
-                    add_model(target, st, en, "pixel_part_transition", eff="Wave", stem="other")
-                    cue(f"{transition_pool.category}:Wave", st, en)
+                    en = min(part.end_ms, st + max(95, transition_dur - step * 12))
+                    eff_name = reactive_effect_for_category(transition_pool.category, transition_cue, part.label, step)
+                    add_model(target, st, en, "pixel_part_transition", eff=eff_name, stem="other")
+                    cue(f"{transition_pool.category}:{eff_name}", st, en)
 
         if part.label == "CHORUS" and not in_blackout(part.start_ms):
-            drop_pool = spinner_pool or matrix_pool or tree_pool or accent_pool
+            drop_cue = cue_for_timestamp(
+                part.start_ms,
+                default="bass",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            drop_pool = choose_cue_preferred_pool(
+                [spinner_pool, matrix_pool, tree_pool, accent_pool],
+                drop_cue,
+                part_idx,
+                context="pixel",
+            ) or spinner_pool or matrix_pool or tree_pool or accent_pool
             if drop_pool is not None and drop_pool.models:
+                drop_count = cue_target_count(
+                    1 if drop_pool.category in {"matrix", "spinner"} else 2,
+                    drop_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    maximum=min(3, len(drop_pool.models)),
+                )
                 drop_targets = rotate_targets(
                     drop_pool,
                     f"pixel_drop_cursor_{part_idx}",
-                    1 if drop_pool.category in {"matrix", "spinner"} else 2,
+                    drop_count,
                     reverse=base_reverse,
                 )
-                drop_eff = "Strobe" if drop_pool.category in {"spinner", "stars", "snowflakes", "flood"} else reactive_effect_for_category(drop_pool.category, "bass", part.label, part_idx)
+                drop_eff = "Strobe" if drop_pool.category in {"spinner", "stars", "snowflakes", "flood"} else reactive_effect_for_category(drop_pool.category, drop_cue, part.label, part_idx)
+                drop_dur = cue_scaled_duration(
+                    max(95, base.scaled_dur(165)),
+                    drop_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    minimum_ms=95,
+                )
                 for step, target in enumerate(drop_targets):
                     st = part.start_ms + 12 + (step * 14)
-                    en = min(part.end_ms, st + max(95, base.scaled_dur(165)))
+                    en = min(part.end_ms, st + max(85, drop_dur - step * 10))
                     add_model(target, st, en, "pixel_drop_impact", eff=drop_eff, stem="bass")
                     cue(f"{drop_pool.category}:{drop_eff}", st, en)
 
@@ -6342,32 +4629,107 @@ def place_pixel_reactive_score(
             if in_blackout(bar_start):
                 continue
             scene_end = min(part.end_ms, bar_start + max(220, base.scaled_dur(320 if part.label in dramatic_parts else 260)))
-            if matrix_pool is not None and matrix_pool.models:
-                target = rotate_targets(matrix_pool, f"pixel_scene_matrix_cursor_{part_idx}", 1, reverse=reverse_for(scene_idx))
-                if target:
-                    eff_name = reactive_effect_for_category(matrix_pool.category, "phrase", part.label, scene_idx)
-                    add_model(target[0], bar_start, scene_end, "pixel_scene_matrix", eff=eff_name, stem="other")
-                    cue(f"matrix:{eff_name}", bar_start, scene_end)
-            if sphere_pool is not None and sphere_pool.models and part.label in {"INTRO", "BRIDGE", "CHORUS"}:
+            scene_cue = cue_for_timestamp(
+                bar_start,
+                default="build" if part.label in dramatic_parts else "phrase",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            active_scene_pool = choose_cue_preferred_pool(
+                [matrix_pool, sphere_pool, tree_pool, arch_pool],
+                scene_cue,
+                scene_idx,
+                context="pixel",
+            )
+            scene_span = cue_scaled_duration(
+                max(220, base.scaled_dur(320 if part.label in dramatic_parts else 260)),
+                scene_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=220,
+            )
+            scene_end = min(part.end_ms, bar_start + scene_span)
+            if active_scene_pool is not None and active_scene_pool.models:
+                scene_count = cue_target_count(
+                    1,
+                    scene_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    maximum=min(2, len(active_scene_pool.models)),
+                )
+                targets = rotate_targets(active_scene_pool, f"pixel_scene_cursor_{part_idx}", scene_count, reverse=reverse_for(scene_idx))
+                if targets:
+                    eff_name = reactive_effect_for_category(active_scene_pool.category, scene_cue, part.label, scene_idx)
+                    for step, target in enumerate(targets):
+                        start_ms = bar_start + step * 20
+                        end_ms = min(part.end_ms, start_ms + max(140, scene_span - step * 18))
+                        add_model(target, start_ms, end_ms, "pixel_scene_matrix", eff=eff_name, stem="other")
+                        cue(f"{active_scene_pool.category}:{eff_name}", start_ms, end_ms)
+            if sphere_pool is not None and sphere_pool.models and part.label in {"INTRO", "BRIDGE", "CHORUS"} and scene_cue in {"vocal", "build", "phrase"}:
                 sphere_start = bar_start + 22
-                sphere_end = min(part.end_ms, sphere_start + max(180, base.scaled_dur(260)))
-                target = rotate_targets(sphere_pool, f"pixel_scene_sphere_cursor_{part_idx}", 1, reverse=reverse_for(scene_idx + 1))
-                if target:
-                    eff_name = reactive_effect_for_category(sphere_pool.category, "phrase", part.label, scene_idx)
-                    add_model(target[0], sphere_start, sphere_end, "pixel_scene_sphere", eff=eff_name, stem="other")
-                    cue(f"sphere:{eff_name}", sphere_start, sphere_end)
+                sphere_span = cue_scaled_duration(
+                    max(180, base.scaled_dur(260)),
+                    scene_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    minimum_ms=180,
+                )
+                sphere_targets = rotate_targets(
+                    sphere_pool,
+                    f"pixel_scene_sphere_cursor_{part_idx}",
+                    cue_target_count(1, scene_cue, placement_mode="pixel_reactive", part_label=part.label, maximum=min(2, len(sphere_pool.models))),
+                    reverse=reverse_for(scene_idx + 1),
+                )
+                if sphere_targets:
+                    eff_name = reactive_effect_for_category(sphere_pool.category, scene_cue, part.label, scene_idx)
+                    for step, target in enumerate(sphere_targets):
+                        start_ms = sphere_start + step * 18
+                        end_ms = min(part.end_ms, start_ms + max(130, sphere_span - step * 14))
+                        add_model(target, start_ms, end_ms, "pixel_scene_sphere", eff=eff_name, stem="other")
+                        cue(f"sphere:{eff_name}", start_ms, end_ms)
 
         for build_idx, t_ms in enumerate(local_builds):
             if in_blackout(t_ms):
                 continue
-            build_pool = tree_pool or spinner_pool or matrix_pool or sphere_pool
-            targets = rotate_targets(build_pool, f"pixel_build_cursor_{part_idx}", 1 if part.label == "PRECHORUS" else 2, reverse=reverse_for(build_idx))
+            build_cue = cue_for_timestamp(
+                t_ms,
+                default="build",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            build_pool = choose_cue_preferred_pool(
+                [tree_pool, spinner_pool, matrix_pool, sphere_pool, line_pool],
+                build_cue,
+                build_idx,
+                context="pixel",
+            ) or tree_pool or spinner_pool or matrix_pool or sphere_pool
+            desired = cue_target_count(
+                1 if part.label == "PRECHORUS" else 2,
+                build_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                maximum=(len(build_pool.models) if build_pool is not None else 1),
+            )
+            targets = rotate_targets(build_pool, f"pixel_build_cursor_{part_idx}", desired, reverse=reverse_for(build_idx))
             if not targets or build_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(build_pool.category, "build", part.label, build_idx)
+            eff_name = reactive_effect_for_category(build_pool.category, build_cue, part.label, build_idx)
+            build_dur = cue_scaled_duration(
+                max(170, base.scaled_dur(260)),
+                build_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=170,
+            )
             for step, target in enumerate(targets):
                 start_ms = t_ms + step * 18
-                end_ms = min(part.end_ms, start_ms + max(170, base.scaled_dur(260) - step * 12))
+                end_ms = min(part.end_ms, start_ms + max(145, build_dur - step * 12))
                 add_model(target, start_ms, end_ms, "pixel_build", eff=eff_name, stem="bass")
                 cue(f"{build_pool.category}:{eff_name}", start_ms, end_ms)
 
@@ -6375,14 +4737,42 @@ def place_pixel_reactive_score(
         for bass_idx, t_ms in enumerate(local_bass):
             if in_blackout(t_ms) or (bass_idx % bass_stride) != 0:
                 continue
-            bass_pool = tree_pool or matrix_pool or line_pool or arch_pool
-            targets = rotate_targets(bass_pool, f"pixel_bass_cursor_{part_idx}", 1 if part.label == "VERSE" else 2, reverse=reverse_for(bass_idx))
+            bass_cue = cue_for_timestamp(
+                t_ms,
+                default="bass",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            bass_pool = choose_cue_preferred_pool(
+                [tree_pool, matrix_pool, line_pool, arch_pool, cane_pool],
+                bass_cue,
+                bass_idx,
+                context="pixel",
+            ) or tree_pool or matrix_pool or line_pool or arch_pool
+            desired = cue_target_count(
+                1 if part.label == "VERSE" else 2,
+                bass_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                maximum=(len(bass_pool.models) if bass_pool is not None else 1),
+            )
+            targets = rotate_targets(bass_pool, f"pixel_bass_cursor_{part_idx}", desired, reverse=reverse_for(bass_idx))
             if not targets or bass_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(bass_pool.category, "bass", part.label, bass_idx)
+            eff_name = reactive_effect_for_category(bass_pool.category, bass_cue, part.label, bass_idx)
+            bass_dur = cue_scaled_duration(
+                max(90, base.scaled_dur(160)),
+                bass_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=90,
+            )
             for step, target in enumerate(targets):
                 start_ms = t_ms + step * 16
-                end_ms = min(part.end_ms, start_ms + max(90, base.scaled_dur(160) - step * 10))
+                end_ms = min(part.end_ms, start_ms + max(78, bass_dur - step * 10))
                 add_model(target, start_ms, end_ms, "pixel_bass", eff=eff_name, stem="bass")
                 cue(f"{bass_pool.category}:{eff_name}", start_ms, end_ms)
 
@@ -6390,15 +4780,43 @@ def place_pixel_reactive_score(
         for kick_idx, t_ms in enumerate(local_kicks):
             if in_blackout(t_ms) or (kick_idx % kick_stride) != 0:
                 continue
-            motion_pool = arch_pool or line_pool or cane_pool or spinner_pool
-            desired = 1 if part.label == "VERSE" else 2 if motion_pool is not None and motion_pool.category in {"arch", "line", "canes_combo", "north_canes", "south_canes"} else 1
+            kick_cue = cue_for_timestamp(
+                t_ms,
+                default="kick",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            motion_pool = choose_cue_preferred_pool(
+                [arch_pool, line_pool, cane_pool, spinner_pool, matrix_pool],
+                kick_cue,
+                kick_idx,
+                context="pixel",
+                require_multiple=(part.label != "VERSE"),
+            ) or arch_pool or line_pool or cane_pool or spinner_pool
+            desired = cue_target_count(
+                1 if part.label == "VERSE" else 2 if motion_pool is not None and motion_pool.category in {"arch", "line", "canes_combo", "north_canes", "south_canes"} else 1,
+                kick_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                maximum=(len(motion_pool.models) if motion_pool is not None else 1),
+            )
             targets = rotate_targets(motion_pool, f"pixel_kick_cursor_{part_idx}", desired, reverse=reverse_for(kick_idx))
             if not targets or motion_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(motion_pool.category, "kick", part.label, kick_idx)
+            eff_name = reactive_effect_for_category(motion_pool.category, kick_cue, part.label, kick_idx)
+            kick_dur = cue_scaled_duration(
+                max(65, base.scaled_dur(110)),
+                kick_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=65,
+            )
             for step, target in enumerate(targets):
                 start_ms = t_ms + step * 12
-                end_ms = min(part.end_ms, start_ms + max(65, base.scaled_dur(110) - step * 8))
+                end_ms = min(part.end_ms, start_ms + max(58, kick_dur - step * 8))
                 add_model(target, start_ms, end_ms, "pixel_kick", eff=eff_name, stem="drums")
                 cue(f"{motion_pool.category}:{eff_name}", start_ms, end_ms)
 
@@ -6406,43 +4824,124 @@ def place_pixel_reactive_score(
         for snare_idx, t_ms in enumerate(local_snares):
             if in_blackout(t_ms) or (snare_idx % snare_stride) != 0:
                 continue
-            accent_source = spinner_pool or sphere_pool or accent_pool
-            targets = rotate_targets(accent_source, f"pixel_snare_cursor_{part_idx}", 1, reverse=reverse_for(snare_idx))
+            snare_cue = cue_for_timestamp(
+                t_ms,
+                default="snare",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            accent_source = choose_cue_preferred_pool(
+                [spinner_pool, sphere_pool, accent_pool, matrix_pool],
+                snare_cue,
+                snare_idx,
+                context="pixel",
+            ) or spinner_pool or sphere_pool or accent_pool
+            targets = rotate_targets(
+                accent_source,
+                f"pixel_snare_cursor_{part_idx}",
+                cue_target_count(1, snare_cue, placement_mode="pixel_reactive", part_label=part.label, maximum=(len(accent_source.models) if accent_source is not None else 1)),
+                reverse=reverse_for(snare_idx),
+            )
             if not targets or accent_source is None:
                 continue
-            eff_name = reactive_effect_for_category(accent_source.category, "snare", part.label, snare_idx)
-            start_ms = t_ms
-            end_ms = min(part.end_ms, start_ms + max(60, base.scaled_dur(92)))
-            add_model(targets[0], start_ms, end_ms, "pixel_snare", eff=eff_name, stem="vocals")
-            cue(f"{accent_source.category}:{eff_name}", start_ms, end_ms)
+            eff_name = reactive_effect_for_category(accent_source.category, snare_cue, part.label, snare_idx)
+            snare_dur = cue_scaled_duration(
+                max(60, base.scaled_dur(92)),
+                snare_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=60,
+            )
+            for step, target in enumerate(targets):
+                start_ms = t_ms + step * 10
+                end_ms = min(part.end_ms, start_ms + max(54, snare_dur - step * 8))
+                add_model(target, start_ms, end_ms, "pixel_snare", eff=eff_name, stem="vocals")
+                cue(f"{accent_source.category}:{eff_name}", start_ms, end_ms)
 
         hat_stride = 8 if part.label in {"INTRO", "OUTRO"} else 6 if part.label == "VERSE" else 4
         for hat_idx, t_ms in enumerate(local_hats):
             if in_blackout(t_ms) or (hat_idx % hat_stride) != 0:
                 continue
-            hat_pool = spinner_pool or accent_pool or line_pool
-            targets = rotate_targets(hat_pool, f"pixel_hat_cursor_{part_idx}", 1, reverse=reverse_for(hat_idx + part_idx))
+            hat_cue = cue_for_timestamp(
+                t_ms,
+                default="hat",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            hat_pool = choose_cue_preferred_pool(
+                [spinner_pool, accent_pool, line_pool, arch_pool],
+                hat_cue,
+                hat_idx,
+                context="pixel",
+            ) or spinner_pool or accent_pool or line_pool
+            targets = rotate_targets(
+                hat_pool,
+                f"pixel_hat_cursor_{part_idx}",
+                cue_target_count(1, hat_cue, placement_mode="pixel_reactive", part_label=part.label, maximum=(len(hat_pool.models) if hat_pool is not None else 1)),
+                reverse=reverse_for(hat_idx + part_idx),
+            )
             if not targets or hat_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(hat_pool.category, "hat", part.label, hat_idx)
-            start_ms = t_ms
-            end_ms = min(part.end_ms, start_ms + max(50, base.scaled_dur(76)))
-            add_model(targets[0], start_ms, end_ms, "pixel_hat", eff=eff_name, stem="vocals")
-            cue(f"{hat_pool.category}:{eff_name}", start_ms, end_ms)
+            eff_name = reactive_effect_for_category(hat_pool.category, hat_cue, part.label, hat_idx)
+            hat_dur = cue_scaled_duration(
+                max(50, base.scaled_dur(76)),
+                hat_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=50,
+            )
+            for step, target in enumerate(targets):
+                start_ms = t_ms + step * 8
+                end_ms = min(part.end_ms, start_ms + max(44, hat_dur - step * 6))
+                add_model(target, start_ms, end_ms, "pixel_hat", eff=eff_name, stem="vocals")
+                cue(f"{hat_pool.category}:{eff_name}", start_ms, end_ms)
 
         vocal_stride = 3 if part.label == "VERSE" else 2 if part.label in {"PRECHORUS", "BRIDGE"} else 1
         for vocal_idx, t_ms in enumerate(local_vocals):
             if in_blackout(t_ms) or (vocal_idx % vocal_stride) != 0:
                 continue
-            vocal_pool = matrix_pool or sphere_pool or line_pool or arch_pool
-            desired = 1 if part.label == "VERSE" else 2 if vocal_pool is not None and vocal_pool.category == "matrix" else 1
+            vocal_cue = cue_for_timestamp(
+                t_ms,
+                default="vocal",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            vocal_pool = choose_cue_preferred_pool(
+                [matrix_pool, sphere_pool, line_pool, arch_pool, tree_pool],
+                vocal_cue,
+                vocal_idx,
+                context="pixel",
+            ) or matrix_pool or sphere_pool or line_pool or arch_pool
+            desired = cue_target_count(
+                1 if part.label == "VERSE" else 2 if vocal_pool is not None and vocal_pool.category == "matrix" else 1,
+                vocal_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                maximum=(len(vocal_pool.models) if vocal_pool is not None else 1),
+            )
             targets = rotate_targets(vocal_pool, f"pixel_vocal_cursor_{part_idx}", desired, reverse=reverse_for(vocal_idx + part_idx))
             if not targets or vocal_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(vocal_pool.category, "vocal", part.label, vocal_idx)
+            eff_name = reactive_effect_for_category(vocal_pool.category, vocal_cue, part.label, vocal_idx)
+            vocal_dur = cue_scaled_duration(
+                max(95, base.scaled_dur(165)),
+                vocal_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=95,
+            )
             for step, target in enumerate(targets):
                 start_ms = t_ms + step * 18
-                end_ms = min(part.end_ms, start_ms + max(95, base.scaled_dur(165) - step * 12))
+                end_ms = min(part.end_ms, start_ms + max(80, vocal_dur - step * 12))
                 add_model(target, start_ms, end_ms, "pixel_vocal", eff=eff_name, stem="vocals")
                 cue(f"{vocal_pool.category}:{eff_name}", start_ms, end_ms)
 
@@ -6450,25 +4949,65 @@ def place_pixel_reactive_score(
         for event_idx, event in enumerate(local_events):
             if in_blackout(event.start_ms) or (event_idx % note_stride) != 0:
                 continue
-            melody_pool = arch_pool or line_pool or matrix_pool or tree_pool
+            note_cue = reactive_cue_for_event(
+                event,
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+                default="build" if part.label in dramatic_parts else "phrase",
+            )
+            melody_pool = choose_pixel_phrase_pool(
+                cue=note_cue,
+                part_label=part.label,
+                rotation_idx=event_idx,
+                arch_pool=arch_pool,
+                line_pool=line_pool,
+                cane_pool=cane_pool,
+                matrix_pool=matrix_pool,
+                tree_pool=tree_pool,
+                sphere_pool=sphere_pool,
+                spinner_pool=spinner_pool,
+            ) or arch_pool or line_pool or matrix_pool or tree_pool
             if melody_pool is None or not melody_pool.models:
                 continue
-            eff_name = reactive_effect_for_category(melody_pool.category, "phrase", part.label, event_idx)
+            eff_name = reactive_effect_for_category(melody_pool.category, note_cue, part.label, event_idx)
             if melody_pool.category in {"arch", "line", "canes_combo", "north_canes", "south_canes"} and len(melody_pool.models) >= 2:
-                targets = rotate_targets(melody_pool, f"pixel_phrase_cursor_{part_idx}", 2 if part.label in dramatic_parts else 1, reverse=reverse_for(event_idx + part_idx))
+                targets = rotate_targets(
+                    melody_pool,
+                    f"pixel_phrase_cursor_{part_idx}",
+                    cue_target_count(
+                        2 if part.label in dramatic_parts else 1,
+                        note_cue,
+                        placement_mode="pixel_reactive",
+                        part_label=part.label,
+                        minimum=2 if pixel_phrase_prefers_motion(part.label, note_cue) else 1,
+                        maximum=len(melody_pool.models),
+                    ),
+                    reverse=reverse_for(event_idx + part_idx),
+                )
+                phrase_dur = cue_scaled_duration(
+                    max(110, base.scaled_dur(180)),
+                    note_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    minimum_ms=110,
+                )
                 for step, target in enumerate(targets):
                     start_ms = event.start_ms + step * 20
-                    end_ms = min(part.end_ms, start_ms + max(110, base.scaled_dur(180) - step * 10))
+                    end_ms = min(part.end_ms, start_ms + max(96, phrase_dur - step * 10))
                     add_model(target, start_ms, end_ms, "pixel_phrase_motion", eff=eff_name, stem="other")
                     cue(f"{melody_pool.category}:{eff_name}", start_ms, end_ms)
             else:
                 mapped = map_notes_to_models(melody_pool, event, pool_state, style, rng)
-                limited = mapped[: (1 if part.label == "VERSE" else 2)]
+                limited = mapped[: cue_target_count(1 if part.label == "VERSE" else 2, note_cue, placement_mode="pixel_reactive", part_label=part.label, maximum=len(mapped))]
                 if not limited:
                     limited = rotate_targets(melody_pool, f"pixel_phrase_fallback_{part_idx}", 1, reverse=reverse_for(event_idx + part_idx))
                 for step, target in enumerate(limited):
                     start_ms = event.start_ms + step * 18
-                    end_ms = min(part.end_ms, max(start_ms + 90, min(event.end_ms + 180, start_ms + base.scaled_dur(220))))
+                    phrase_base = max(start_ms + 90, min(event.end_ms + 180, start_ms + base.scaled_dur(220)))
+                    end_ms = min(part.end_ms, start_ms + cue_scaled_duration(phrase_base - start_ms, note_cue, placement_mode="pixel_reactive", part_label=part.label, minimum_ms=90))
                     add_model(target, start_ms, end_ms, "pixel_phrase_focus", eff=eff_name, stem="other")
                     cue(f"{melody_pool.category}:{eff_name}", start_ms, end_ms)
 
@@ -7397,6 +5936,39 @@ def midi_to_lane_index(midi: int, lane_count: int) -> int:
     return int(round(frac * (lane_count - 1)))
 
 
+def choose_player_piano_pool(pools: list[SequentialPool]) -> SequentialPool | None:
+    eligible = [
+        pool
+        for pool in pools
+        if len(pool.models) >= 6
+        and pool.category in {"notes", "line", "mega", "gt", "arch", "canes_combo", "north_canes", "south_canes"}
+    ]
+    if not eligible:
+        return None
+    preferred_names = (
+        "notes_1_16",
+        "notes_17_32",
+        "line_tree_rgb",
+        "mega_tree_rgb",
+        "garage_tree_rgb",
+        "north_canes",
+        "south_canes",
+        "canes_combo",
+        "mega_white",
+        "line_white",
+    )
+    for name in preferred_names:
+        for pool in eligible:
+            if pool.name == name:
+                return pool
+    category_order = ("notes", "line", "mega", "gt", "arch", "canes_combo", "north_canes", "south_canes")
+    for category in category_order:
+        for pool in eligible:
+            if pool.category == category:
+                return pool
+    return eligible[0]
+
+
 def route_note_choice(route: KeyboardRoute, event: NoteEvent) -> tuple[int, float] | None:
     if not event.notes:
         return None
@@ -7555,6 +6127,100 @@ def place_spatial_keyboard_routes(
     return placed
 
 
+def place_player_piano_sequence(
+    *,
+    style: VariantStyle,
+    note_events: list[NoteEvent],
+    pools: list[SequentialPool],
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
+    keyboard_mix: float,
+    ramp_ok: bool,
+    ramp_tpl: base.EffectTemplate,
+    add_model,
+    in_blackout,
+    keyboard_track: list[tuple[str, int, int]],
+) -> int:
+    pool = choose_player_piano_pool(pools)
+    if pool is None or not note_events:
+        return 0
+    mix = base.clamp(keyboard_mix, 0.0, 2.0)
+    if mix <= 0.05:
+        return 0
+
+    placed = 0
+    for event_idx, event in enumerate(note_events):
+        if in_blackout(event.start_ms) or not event.notes:
+            continue
+        if mix <= 0.45 and (event_idx % 2) == 1:
+            continue
+        if mix <= 0.85 and (event_idx % 3) == 2:
+            continue
+
+        cue = reactive_cue_for_event(
+            event,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            default="phrase",
+        )
+        sorted_notes = sorted(event.notes, key=lambda pair: pair[0])
+        max_notes = max(1, min(len(sorted_notes), int(round(max(1.0, style.polyphony * max(0.50, mix))))))
+        max_notes = cue_target_count(
+            max_notes,
+            cue,
+            placement_mode="player_piano",
+            part_label=event.part,
+            maximum=len(sorted_notes),
+        )
+        if cue in {"kick", "snare", "hat"}:
+            max_notes = min(max_notes, 2 if cue != "kick" else 3)
+        sorted_notes = sorted_notes[:max_notes]
+
+        held_until = event.start_ms
+        used_indices: set[int] = set()
+        stem_key = stem_for_cue(cue)
+        for step, (midi, strength) in enumerate(sorted_notes):
+            lane_idx = midi_to_lane_index(midi, len(pool.models))
+            if lane_idx in used_indices:
+                continue
+            used_indices.add(lane_idx)
+
+            model = pool.models[lane_idx]
+            st = event.start_ms + (step * 10)
+            dur = cue_scaled_duration(
+                max(60, int(base.scaled_dur(130 + int(100 * strength)))),
+                cue,
+                placement_mode="player_piano",
+                part_label=event.part,
+                minimum_ms=60,
+            )
+            if pool.category == "notes":
+                dur = max(55, int(round(dur * 0.92)))
+            en = min(event.end_ms + 140, st + dur)
+            use_ramp = ramp_ok and cue in {"build", "vocal"} and pool.category in {"line", "mega", "gt", "arch"}
+            add_model(
+                model,
+                st,
+                en,
+                f"player_piano_{pool.category}",
+                eff="Ramp" if use_ramp else "On",
+                tpl=ramp_tpl if use_ramp else None,
+                stem=stem_key,
+            )
+            held_until = max(held_until, en)
+            placed += 1
+
+        if held_until > event.start_ms:
+            keyboard_track.append((f"player_piano:{pool.name}:{cue}:{note_label(event.notes)}", event.start_ms, held_until))
+    return placed
+
+
 def place_polyphonic_keyboard(
     style: VariantStyle,
     note_events: list[NoteEvent],
@@ -7648,6 +6314,11 @@ def place_piano_lights(
     style: VariantStyle,
     note_events: list[NoteEvent],
     pools: list[SequentialPool],
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
     ramp_ok: bool,
     ramp_tpl: base.EffectTemplate,
     add_model,
@@ -7666,34 +6337,444 @@ def place_piano_lights(
     for event_idx, event in enumerate(note_events):
         if in_blackout(event.start_ms):
             continue
-        pool = seq_pools[seq_idx % len(seq_pools)]
+        cue = piano_lights_cue_for_event(
+            event,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+        )
+        pool = choose_piano_lights_pool(seq_pools, cue, seq_idx)
         seq_idx += 1
         sorted_notes = sorted(event.notes, key=lambda pair: pair[0], reverse=True)
         if not sorted_notes:
             continue
         max_notes = max(1, min(len(sorted_notes), int(round(max(2.0, style.polyphony * 1.2)))))
+        if cue in {"kick", "snare", "hat"}:
+            max_notes = min(max_notes, 2 if cue != "kick" else 3)
+        elif cue in {"vocal", "build"}:
+            max_notes = min(len(sorted_notes), max(max_notes, min(len(sorted_notes), style.polyphony + 1)))
+        max_notes = cue_target_count(
+            max_notes,
+            cue,
+            placement_mode="piano_lights",
+            part_label=event.part,
+            maximum=len(sorted_notes),
+        )
         sorted_notes = sorted_notes[:max_notes]
         held_until = event.start_ms
+        stem_key = stem_for_cue(cue)
         for step, (midi, strength) in enumerate(sorted_notes):
             lane_idx = midi_to_lane_index(midi, len(pool.models))
             model = pool.models[lane_idx]
             st = event.start_ms + (step * 10)
-            dur = max(60, int(base.scaled_dur(140 + int(110 * strength))))
+            dur = cue_scaled_duration(
+                max(55, int(base.scaled_dur(140 + int(110 * strength)))),
+                cue,
+                placement_mode="piano_lights",
+                part_label=event.part,
+                minimum_ms=55,
+            )
             if event.part in {"CHORUS", "PRECHORUS"}:
                 dur = int(dur * 1.15)
             en = min(event.end_ms + 160, st + dur)
-            use_ramp = ramp_ok and (event.part in {"PRECHORUS", "BRIDGE"} or step > 0)
+            eff_name = reactive_effect_for_category(pool.category, cue, event.part, event_idx + step)
+            use_ramp = ramp_ok and eff_name == "On" and (event.part in {"PRECHORUS", "BRIDGE"} or step > 0)
             add_model(
                 model,
                 st,
                 en,
                 f"piano_lights_{pool.category}",
-                eff="Ramp" if use_ramp else "On",
+                eff="Ramp" if use_ramp else eff_name,
                 tpl=ramp_tpl if use_ramp else None,
-                stem="other",
+                stem=stem_key,
             )
             held_until = max(held_until, en)
-        keyboard_track.append((f"{pool.category}:{note_label(event.notes)}", event.start_ms, held_until))
+        keyboard_track.append((f"{pool.category}:{cue}:{note_label(event.notes)}", event.start_ms, held_until))
+
+
+def has_nearby_mark(target_ms: int, marks: list[int], window_ms: int) -> bool:
+    if not marks:
+        return False
+    idx = bisect_left(marks, target_ms)
+    for probe in (idx - 1, idx):
+        if 0 <= probe < len(marks) and abs(marks[probe] - target_ms) <= window_ms:
+            return True
+    return False
+
+
+def cue_for_timestamp(
+    target_ms: int,
+    *,
+    default: str,
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
+    dense: bool = False,
+    dramatic: bool = False,
+) -> str:
+    if has_nearby_mark(target_ms, vocal_peaks, 85):
+        return "vocal"
+    if has_nearby_mark(target_ms, snares, 55):
+        return "snare"
+    if has_nearby_mark(target_ms, kicks, 45):
+        return "kick"
+    if has_nearby_mark(target_ms, bass_peaks, 70):
+        return "bass"
+    if not dense and has_nearby_mark(target_ms, hats, 35):
+        return "hat"
+    if default == "build" or (dramatic and dense):
+        return "build"
+    return default
+
+
+def reactive_cue_for_event(
+    event: NoteEvent,
+    *,
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
+    default: str = "phrase",
+) -> str:
+    return cue_for_timestamp(
+        int(event.start_ms),
+        default=default,
+        kicks=kicks,
+        snares=snares,
+        hats=hats,
+        bass_peaks=bass_peaks,
+        vocal_peaks=vocal_peaks,
+        dense=(len(event.notes) >= 3),
+        dramatic=(event.part in {"PRECHORUS", "CHORUS", "BRIDGE"}),
+    )
+
+
+def piano_lights_cue_for_event(
+    event: NoteEvent,
+    *,
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
+) -> str:
+    return reactive_cue_for_event(
+        event,
+        kicks=kicks,
+        snares=snares,
+        hats=hats,
+        bass_peaks=bass_peaks,
+        vocal_peaks=vocal_peaks,
+        default="phrase",
+    )
+
+
+def cue_pool_preferences(cue: str, *, context: str = "default") -> tuple[str, ...]:
+    tables = {
+        "default": {
+            "vocal": ("matrix", "sphere", "line", "arch", "mega"),
+            "build": ("mega", "arch", "line", "matrix", "sphere"),
+            "bass": ("arch", "line", "mega", "canes_combo", "gt"),
+            "kick": ("spinner", "arch", "line", "gt", "canes_combo"),
+            "snare": ("spinner", "gt", "mega", "line", "arch"),
+            "hat": ("spinner", "line", "arch", "gt"),
+            "phrase": ("arch", "line", "mega", "matrix", "gt", "spinner", "sphere", "canes_combo"),
+        },
+        "signature": {
+            "vocal": ("talking_heads", "matrix", "line", "arch", "sphere"),
+            "build": ("mega", "line", "arch", "gt", "canes_combo", "matrix"),
+            "bass": ("matrix", "mega", "gt", "line", "arch", "canes_combo"),
+            "kick": ("spinner", "gt", "mega", "line", "arch"),
+            "snare": ("spinner", "talking_heads", "sphere", "matrix", "mega"),
+            "hat": ("spinner", "line", "arch", "stars", "snowflakes"),
+            "phrase": ("mega", "line", "arch", "matrix", "gt", "canes_combo", "talking_heads"),
+        },
+        "pixel": {
+            "vocal": ("matrix", "sphere", "line", "arch", "talking_heads"),
+            "build": ("mega", "spinner", "matrix", "sphere", "line"),
+            "bass": ("mega", "arch", "line", "matrix", "canes_combo", "gt"),
+            "kick": ("spinner", "arch", "line", "canes_combo", "gt"),
+            "snare": ("spinner", "sphere", "stars", "snowflakes", "matrix"),
+            "hat": ("spinner", "stars", "snowflakes", "line", "arch"),
+            "phrase": ("arch", "line", "matrix", "mega", "sphere", "gt", "spinner"),
+        },
+    }
+    active = tables.get(context, tables["default"])
+    return active.get(cue, active["phrase"])
+
+
+def choose_cue_preferred_pool(
+    candidates: list[SequentialPool | None],
+    cue: str,
+    rotation_idx: int,
+    *,
+    context: str = "default",
+    require_multiple: bool = False,
+) -> SequentialPool | None:
+    available = available_candidate_pools(candidates, require_multiple=require_multiple)
+    if not available:
+        return None
+    preferred: list[SequentialPool] = []
+    for category in cue_pool_preferences(cue, context=context):
+        for pool in available:
+            if pool.category == category and all(existing.name != pool.name for existing in preferred):
+                preferred.append(pool)
+    choices = preferred or available
+    return choices[rotation_idx % len(choices)]
+
+
+def choose_piano_lights_pool(pools: list[SequentialPool], cue: str, rotation_idx: int) -> SequentialPool:
+    return choose_cue_preferred_pool(pools, cue, rotation_idx, context="default") or pools[rotation_idx % len(pools)]
+
+
+def cue_duration_scale(cue: str, *, placement_mode: str, part_label: str) -> float:
+    tables = {
+        "piano_lights": {
+            "phrase": 1.00,
+            "vocal": 1.24,
+            "build": 1.30,
+            "bass": 1.16,
+            "kick": 0.88,
+            "snare": 0.82,
+            "hat": 0.72,
+        },
+        "player_piano": {
+            "phrase": 1.00,
+            "vocal": 1.14,
+            "build": 1.20,
+            "bass": 1.06,
+            "kick": 0.92,
+            "snare": 0.88,
+            "hat": 0.78,
+        },
+        "showcase_signature": {
+            "phrase": 1.02,
+            "vocal": 1.16,
+            "build": 1.24,
+            "bass": 1.14,
+            "kick": 0.94,
+            "snare": 0.88,
+            "hat": 0.80,
+        },
+        "pixel_reactive": {
+            "phrase": 1.00,
+            "vocal": 1.12,
+            "build": 1.26,
+            "bass": 1.18,
+            "kick": 0.98,
+            "snare": 0.92,
+            "hat": 0.84,
+        },
+    }
+    table = tables.get(placement_mode, tables["piano_lights"])
+    scale = table.get(cue, table["phrase"])
+    label = (part_label or "").upper()
+    if label in {"PRECHORUS", "CHORUS", "BRIDGE"} and cue in {"phrase", "vocal", "build", "bass"}:
+        scale += 0.08 if placement_mode != "pixel_reactive" else 0.12
+    elif label in {"INTRO", "OUTRO"} and cue in {"kick", "snare", "hat"}:
+        scale -= 0.05
+    return base.clamp(scale, 0.65, 1.50)
+
+
+def cue_intensity_scale(cue: str, *, placement_mode: str, part_label: str) -> float:
+    tables = {
+        "piano_lights": {
+            "phrase": 1.00,
+            "vocal": 1.20,
+            "build": 1.32,
+            "bass": 1.10,
+            "kick": 0.92,
+            "snare": 0.82,
+            "hat": 0.72,
+        },
+        "player_piano": {
+            "phrase": 1.00,
+            "vocal": 1.12,
+            "build": 1.18,
+            "bass": 1.04,
+            "kick": 0.94,
+            "snare": 0.88,
+            "hat": 0.76,
+        },
+        "showcase_signature": {
+            "phrase": 1.00,
+            "vocal": 1.14,
+            "build": 1.24,
+            "bass": 1.18,
+            "kick": 1.02,
+            "snare": 0.88,
+            "hat": 0.78,
+        },
+        "pixel_reactive": {
+            "phrase": 1.00,
+            "vocal": 1.16,
+            "build": 1.30,
+            "bass": 1.22,
+            "kick": 1.08,
+            "snare": 0.92,
+            "hat": 0.80,
+        },
+    }
+    table = tables.get(placement_mode, tables["piano_lights"])
+    scale = table.get(cue, table["phrase"])
+    label = (part_label or "").upper()
+    if label in {"PRECHORUS", "CHORUS", "BRIDGE"} and cue in {"phrase", "vocal", "build", "bass", "kick"}:
+        scale += 0.08
+    elif label in {"INTRO", "OUTRO"} and cue in {"kick", "snare", "hat"}:
+        scale -= 0.06
+    return base.clamp(scale, 0.65, 1.55)
+
+
+def cue_target_count(
+    base_count: int,
+    cue: str,
+    *,
+    placement_mode: str,
+    part_label: str,
+    minimum: int = 1,
+    maximum: int | None = None,
+) -> int:
+    safe_base = max(minimum, int(base_count))
+    scale = cue_intensity_scale(cue, placement_mode=placement_mode, part_label=part_label)
+    raw = safe_base * scale
+    scaled = math.ceil(raw - 1e-9) if scale >= 1.0 else math.floor(raw + 1e-9)
+    if maximum is not None:
+        scaled = min(maximum, scaled)
+    return max(minimum, scaled)
+
+
+def cue_scaled_duration(
+    base_duration_ms: int,
+    cue: str,
+    *,
+    placement_mode: str,
+    part_label: str,
+    minimum_ms: int,
+) -> int:
+    scale = cue_duration_scale(cue, placement_mode=placement_mode, part_label=part_label)
+    return max(minimum_ms, int(round(base_duration_ms * scale)))
+
+
+def available_candidate_pools(
+    candidates: list[SequentialPool | None],
+    *,
+    require_multiple: bool = False,
+) -> list[SequentialPool]:
+    available: list[SequentialPool] = []
+    for pool in candidates:
+        if pool is None or not pool.models:
+            continue
+        if require_multiple and len(pool.models) < 2:
+            continue
+        if any(existing.name == pool.name for existing in available):
+            continue
+        available.append(pool)
+    return available
+
+
+def choose_pool_by_category_order(
+    candidates: list[SequentialPool | None],
+    categories: tuple[str, ...],
+    rotation_idx: int,
+    *,
+    require_multiple: bool = False,
+) -> SequentialPool | None:
+    available = available_candidate_pools(candidates, require_multiple=require_multiple)
+    if not available:
+        return None
+    preferred: list[SequentialPool] = []
+    for category in categories:
+        for pool in available:
+            if pool.category == category and all(existing.name != pool.name for existing in preferred):
+                preferred.append(pool)
+    choices = preferred or available
+    return choices[rotation_idx % len(choices)]
+
+
+def showcase_signature_sweep_plan(
+    pool: SequentialPool | None,
+    cue: str,
+    part_label: str,
+) -> tuple[SequentialPool | None, float, float]:
+    if pool is None or not pool.models:
+        return None, 1.0, 1.0
+    cue_key = (cue or "").strip().lower()
+    if cue_key in {"build", "phrase"}:
+        desired = 2
+        span_scale = 0.72 if cue_key == "build" else 0.78
+        hit_scale = 0.68 if cue_key == "build" else 0.74
+    elif cue_key == "vocal":
+        desired = 3
+        span_scale = 0.88
+        hit_scale = 0.84
+    elif cue_key == "bass":
+        desired = 3
+        span_scale = 0.92
+        hit_scale = 0.88
+    else:
+        desired = 3
+        span_scale = 0.86
+        hit_scale = 0.80
+    if (part_label or "").upper() == "CHORUS" and cue_key in {"vocal", "bass"}:
+        desired += 1
+    desired = min(max(2, desired), min(len(pool.models), 4))
+    return (
+        SequentialPool(pool.name, pool.category, representative_models(pool, desired)),
+        span_scale,
+        hit_scale,
+    )
+
+
+def pixel_phrase_prefers_motion(part_label: str, cue: str) -> bool:
+    return (part_label or "").upper() in {"PRECHORUS", "CHORUS"} and (cue or "").strip().lower() in {"phrase", "build", "vocal"}
+
+
+def choose_pixel_phrase_pool(
+    *,
+    cue: str,
+    part_label: str,
+    rotation_idx: int,
+    arch_pool: SequentialPool | None,
+    line_pool: SequentialPool | None,
+    cane_pool: SequentialPool | None,
+    matrix_pool: SequentialPool | None,
+    tree_pool: SequentialPool | None,
+    sphere_pool: SequentialPool | None,
+    spinner_pool: SequentialPool | None,
+) -> SequentialPool | None:
+    if pixel_phrase_prefers_motion(part_label, cue):
+        preferred = choose_pool_by_category_order(
+            [arch_pool, line_pool, cane_pool, matrix_pool, tree_pool, sphere_pool, spinner_pool],
+            ("arch", "line", "canes_combo", "matrix", "mega", "sphere", "spinner"),
+            rotation_idx,
+        )
+        if preferred is not None:
+            return preferred
+    return choose_cue_preferred_pool(
+        [arch_pool, line_pool, cane_pool, matrix_pool, tree_pool, sphere_pool, spinner_pool],
+        cue,
+        rotation_idx,
+        context="pixel",
+    )
+
+
+def piano_lights_duration_scale(cue: str, part_label: str) -> float:
+    return cue_duration_scale(cue, placement_mode="piano_lights", part_label=part_label)
+
+
+def stem_for_cue(cue: str) -> str:
+    if cue == "vocal":
+        return "vocals"
+    if cue == "bass":
+        return "bass"
+    if cue in {"kick", "snare", "hat"}:
+        return "drums"
+    return "other"
 
 
 def note_label(notes: list[tuple[int, float]]) -> str:
@@ -10198,6 +9279,11 @@ def run_variant(
             style=style,
             note_events=note_events,
             pools=pools,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
             ramp_ok=ramp_ok,
             ramp_tpl=xsq.ramp_tpl,
             add_model=add_model,
@@ -10378,6 +9464,31 @@ def run_variant(
     elif style.family == "v23":
         cap = 0.24 if style.placement_mode == "showcase_stems" else 0.34 if style.placement_mode == "showcase_arc" else 0.38
         spatial_keyboard_mix = min(spatial_keyboard_mix, cap)
+
+    if style.keyboard_overlay:
+        player_piano_mix = base.clamp((0.54 if focused_mode else max(0.40, keyboard_mix * 0.72)) * other_priority_gain, 0.0, 2.0)
+        if style.family == "v22":
+            player_piano_mix = min(player_piano_mix, 0.34)
+        elif style.family == "v23":
+            player_piano_mix = min(player_piano_mix, 0.24)
+        player_piano_placed = place_player_piano_sequence(
+            style=keyboard_style,
+            note_events=keyboard_note_events,
+            pools=pools,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            keyboard_mix=player_piano_mix,
+            ramp_ok=ramp_ok,
+            ramp_tpl=xsq.ramp_tpl,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            keyboard_track=keyboard_track,
+        )
+        if player_piano_placed:
+            log(f"Player piano sequence placed: {player_piano_placed} effects on {choose_player_piano_pool(pools).name}")
 
     spatial_keyboard_placed = place_spatial_keyboard_routes(
         style=keyboard_style,
@@ -11197,3 +10308,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
             log(f"FAILED: {audio.name}: {repr(exc)}")
 
     log("\nDone.")
+
+
+def main(argv: list[str] | None = None) -> None:
+    main_for(ACTIVE_STYLE_VERSION, argv)

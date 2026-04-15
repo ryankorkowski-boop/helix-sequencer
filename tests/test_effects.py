@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+from dataclasses import replace
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -14,8 +15,170 @@ class EffectEngineTests(unittest.TestCase):
         self.assertEqual(effect_engine.effect_family("Bars"), "vu")
 
     def test_variant_output_name_uses_version_suffix(self) -> None:
-        output = effect_engine.variant_output_name(Path("demo.wav"), Path("outputs"), "v27.3")
-        self.assertEqual(output.name, "demo,v27.3.xsq")
+        output = effect_engine.variant_output_name(Path("demo.wav"), Path("outputs"), effect_engine.ACTIVE_STYLE_VERSION)
+        self.assertEqual(output.name, f"demo,{effect_engine.ACTIVE_STYLE_VERSION}.xsq")
+
+    def test_active_style_proxy_matches_lazy_variant_catalog(self) -> None:
+        active_variant = effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION]
+        self.assertEqual(effect_engine.ACTIVE_STYLE.version, active_variant.version)
+        self.assertEqual(effect_engine.ACTIVE_STYLE.title, active_variant.title)
+
+    def test_piano_lights_prefers_vocal_cues_over_percussion(self) -> None:
+        event = effect_engine.NoteEvent(
+            start_ms=1000,
+            end_ms=1180,
+            notes=[(72, 0.9), (76, 0.7), (79, 0.6)],
+            part="CHORUS",
+            section="chorus",
+        )
+        cue = effect_engine.piano_lights_cue_for_event(
+            event,
+            kicks=[995],
+            snares=[1005],
+            hats=[1010],
+            bass_peaks=[990],
+            vocal_peaks=[1020],
+        )
+        self.assertEqual(cue, "vocal")
+
+    def test_piano_lights_pool_choice_follows_cue_preferences(self) -> None:
+        pools = [
+            effect_engine.SequentialPool("arch", "arch", ["a1", "a2", "a3", "a4", "a5", "a6"]),
+            effect_engine.SequentialPool("matrix", "matrix", ["m1", "m2", "m3", "m4", "m5", "m6"]),
+            effect_engine.SequentialPool("spinner", "spinner", ["s1", "s2", "s3", "s4", "s5", "s6"]),
+        ]
+        self.assertEqual(effect_engine.choose_piano_lights_pool(pools, "vocal", 0).category, "matrix")
+        self.assertEqual(effect_engine.choose_piano_lights_pool(pools, "kick", 0).category, "spinner")
+
+    def test_choose_cue_preferred_pool_uses_signature_context(self) -> None:
+        candidates = [
+            effect_engine.SequentialPool("impact", "mega", ["g1", "g2", "g3"]),
+            effect_engine.SequentialPool("lead", "talking_heads", ["h1", "h2", "h3"]),
+            effect_engine.SequentialPool("motion", "line", ["l1", "l2", "l3"]),
+        ]
+        selected = effect_engine.choose_cue_preferred_pool(candidates, "vocal", 0, context="signature")
+        self.assertIsNotNone(selected)
+        self.assertEqual(selected.category, "talking_heads")
+
+    def test_reactive_cue_for_event_promotes_dramatic_dense_events_to_build(self) -> None:
+        event = effect_engine.NoteEvent(
+            start_ms=2500,
+            end_ms=2700,
+            notes=[(60, 0.8), (64, 0.7), (67, 0.6)],
+            part="PRECHORUS",
+            section="prechorus",
+        )
+        cue = effect_engine.reactive_cue_for_event(
+            event,
+            kicks=[],
+            snares=[],
+            hats=[],
+            bass_peaks=[],
+            vocal_peaks=[],
+            default="phrase",
+        )
+        self.assertEqual(cue, "build")
+
+    def test_cue_duration_scale_varies_by_mode_and_cue(self) -> None:
+        build_scale = effect_engine.cue_duration_scale("build", placement_mode="pixel_reactive", part_label="CHORUS")
+        hat_scale = effect_engine.cue_duration_scale("hat", placement_mode="pixel_reactive", part_label="CHORUS")
+        self.assertGreater(build_scale, hat_scale)
+
+    def test_cue_target_count_boosts_dramatic_builds(self) -> None:
+        boosted = effect_engine.cue_target_count(
+            1,
+            "build",
+            placement_mode="showcase_signature",
+            part_label="CHORUS",
+            maximum=3,
+        )
+        restrained = effect_engine.cue_target_count(
+            2,
+            "hat",
+            placement_mode="pixel_reactive",
+            part_label="VERSE",
+            maximum=3,
+        )
+        self.assertGreaterEqual(boosted, 2)
+        self.assertLessEqual(restrained, 2)
+
+    def test_choose_player_piano_pool_prefers_notes_group(self) -> None:
+        pools = [
+            effect_engine.SequentialPool("mega_tree_rgb", "mega", ["m1", "m2", "m3", "m4", "m5", "m6"]),
+            effect_engine.SequentialPool("notes_1_16", "notes", ["n1", "n2", "n3", "n4", "n5", "n6"]),
+        ]
+        selected = effect_engine.choose_player_piano_pool(pools)
+        self.assertIsNotNone(selected)
+        self.assertEqual(selected.name, "notes_1_16")
+
+    def test_place_player_piano_sequence_maps_notes_to_sequential_pool(self) -> None:
+        style = replace(effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION], polyphony=2)
+        pools = [
+            effect_engine.SequentialPool("notes_1_16", "notes", [f"n{i}" for i in range(1, 9)]),
+            effect_engine.SequentialPool("mega_tree_rgb", "mega", [f"m{i}" for i in range(1, 9)]),
+        ]
+        event = effect_engine.NoteEvent(
+            start_ms=1000,
+            end_ms=1180,
+            notes=[(48, 0.8), (72, 0.7)],
+            part="CHORUS",
+            section="chorus",
+        )
+        placements: list[tuple[str, int, int, str, str | None, str]] = []
+        keyboard_track: list[tuple[str, int, int]] = []
+
+        def add_model(
+            model: str,
+            start_ms: int,
+            end_ms: int,
+            label: str,
+            eff: str = "On",
+            tpl=None,
+            cd_key=None,
+            cd_ms: int = 0,
+            stem: str = "other",
+        ) -> None:
+            placements.append((model, start_ms, end_ms, label, eff, stem))
+
+        placed = effect_engine.place_player_piano_sequence(
+            style=style,
+            note_events=[event],
+            pools=pools,
+            kicks=[],
+            snares=[],
+            hats=[],
+            bass_peaks=[],
+            vocal_peaks=[],
+            keyboard_mix=1.0,
+            ramp_ok=False,
+            ramp_tpl=xsq_writer.EffectTemplate(settings="", palette=""),
+            add_model=add_model,
+            in_blackout=lambda _t: False,
+            keyboard_track=keyboard_track,
+        )
+
+        self.assertEqual(placed, 2)
+        self.assertEqual([entry[0] for entry in placements], ["n2", "n5"])
+        self.assertTrue(all(entry[3] == "player_piano_notes" for entry in placements))
+        self.assertEqual(keyboard_track[0][0], "player_piano:notes_1_16:phrase:C3+C5")
+
+    def test_showcase_signature_sweep_plan_reduces_build_sweeps(self) -> None:
+        pool = effect_engine.SequentialPool("sig", "mega", ["m1", "m2", "m3", "m4", "m5"])
+        tuned_pool, span_scale, hit_scale = effect_engine.showcase_signature_sweep_plan(pool, "build", "CHORUS")
+        self.assertIsNotNone(tuned_pool)
+        self.assertEqual(len(tuned_pool.models), 2)
+        self.assertLess(span_scale, 1.0)
+        self.assertLess(hit_scale, 1.0)
+
+    def test_pixel_phrase_prefers_motion_for_chorus_phrase(self) -> None:
+        self.assertTrue(effect_engine.pixel_phrase_prefers_motion("CHORUS", "phrase"))
+        self.assertFalse(effect_engine.pixel_phrase_prefers_motion("VERSE", "phrase"))
+        self.assertFalse(effect_engine.pixel_phrase_prefers_motion("CHORUS", "hat"))
+
+    def test_cue_duration_scale_supports_player_piano_mode(self) -> None:
+        build_scale = effect_engine.cue_duration_scale("build", placement_mode="player_piano", part_label="CHORUS")
+        hat_scale = effect_engine.cue_duration_scale("hat", placement_mode="player_piano", part_label="CHORUS")
+        self.assertGreater(build_scale, hat_scale)
 
     def test_xsq_writer_timing_facade_round_trips_marks(self) -> None:
         root = ET.Element("Sequence")

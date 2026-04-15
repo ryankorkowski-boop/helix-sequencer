@@ -3,33 +3,48 @@ from __future__ import annotations
 import argparse
 from typing import Iterable
 
-from core import effect_engine
+from core import engine_profiles
+
+
+def _effect_engine():
+    from core import effect_engine
+
+    return effect_engine
+
+
+def available_profiles() -> list[engine_profiles.EngineProfile]:
+    return engine_profiles.available_profiles()
 
 
 def available_versions() -> list[str]:
-    return sorted(effect_engine.VARIANTS.keys())
+    return [profile.version for profile in available_profiles()]
+
+
+def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
+    profile = engine_profiles.resolve_profile(profile_id)
+    _effect_engine().main_for(profile.version, engine_args)
 
 
 def run_version(version: str, engine_args: list[str] | None = None) -> None:
-    if version not in effect_engine.VARIANTS:
-        raise KeyError(f"Unknown version: {version}")
-    effect_engine.main_for(version, engine_args)
+    run_profile(version, engine_args)
 
 
-def build_sequence_set(versions: Iterable[str], engine_args: list[str] | None = None) -> None:
-    for version in versions:
-        run_version(version, engine_args)
+def build_sequence_set(profiles: Iterable[str | None], engine_args: list[str] | None = None) -> None:
+    for profile_id in profiles:
+        run_profile(profile_id, engine_args)
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Modular entrypoint for the xLights sequencing pipeline.")
-    parser.add_argument("--list-versions", action="store_true", help="List available engine versions and exit.")
+    parser.add_argument("--list-profiles", action="store_true", help="List active sequencing profiles and exit.")
+    parser.add_argument("--list-versions", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument(
-        "--version-id",
+        "--profile",
         action="append",
-        dest="versions",
-        help="One or more effect engine versions to run. Repeat the flag to run several versions.",
+        dest="profiles",
+        help="Sequencing profile to run. Defaults to the active master profile.",
     )
+    parser.add_argument("--version-id", action="append", dest="profiles", help=argparse.SUPPRESS)
     parser.add_argument(
         "engine_args",
         nargs=argparse.REMAINDER,
@@ -42,17 +57,16 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
-    if args.list_versions:
-        for version in available_versions():
-            style = effect_engine.VARIANTS[version]
-            print(f"{version}: {style.title} [{style.family}]")
+    if args.list_profiles or args.list_versions:
+        for profile in available_profiles():
+            print(f"{profile.profile_id}: {profile.title} [{profile.version}]")
         return 0
 
-    versions = args.versions or ["v27.3"]
+    profiles = args.profiles or [engine_profiles.ACTIVE_PROFILE_ID]
     engine_args = list(args.engine_args)
     if engine_args[:1] == ["--"]:
         engine_args = engine_args[1:]
-    build_sequence_set(versions, engine_args)
+    build_sequence_set(profiles, engine_args)
     return 0
 
 
