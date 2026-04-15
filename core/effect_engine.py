@@ -5508,6 +5508,7 @@ def spatial_ordered_models(
     models: list[str],
     coords: dict[str, tuple[float, float]] | None,
     rng: random.Random,
+    path_style: str = "left_to_right",
 ) -> list[str]:
     dedup = unique_models([model for model in models if model])
     if not dedup:
@@ -5517,7 +5518,7 @@ def spatial_ordered_models(
     usable = [model for model in dedup if model in coords]
     if len(usable) < 2:
         return dedup
-    ordered = ai.ordered_spatial_path(usable, coords, "left_to_right", rng)
+    ordered = ai.ordered_spatial_path(usable, coords, path_style, rng)
     seen = {model.lower() for model in ordered}
     ordered.extend(model for model in dedup if model.lower() not in seen)
     return ordered
@@ -5561,6 +5562,9 @@ def build_spatial_keyboard_routes(
     pools: list[SequentialPool],
     coords: dict[str, tuple[float, float]] | None,
     rng: random.Random,
+    *,
+    route_style: str = "left_to_right",
+    awareness: float = 0.0,
 ) -> list[KeyboardRoute]:
     routes: list[KeyboardRoute] = []
 
@@ -5574,18 +5578,20 @@ def build_spatial_keyboard_routes(
         clusters: list[list[str]] | None = None,
         spatial: bool = True,
     ) -> None:
-        ordered = spatial_ordered_models(models, coords, rng) if spatial else unique_models(models)
+        ordered = spatial_ordered_models(models, coords, rng, path_style=route_style) if spatial else unique_models(models)
         if len(ordered) < minimum:
             return
         usable_clusters = clusters
         if usable_clusters is None:
             usable_clusters = [[model] for model in ordered]
+        tuned_normal = scaled_spatial_route_stride(stride_normal, awareness=awareness, dramatic=False) if spatial else max(1, stride_normal)
+        tuned_dramatic = scaled_spatial_route_stride(stride_dramatic, awareness=awareness, dramatic=True) if spatial else max(1, stride_dramatic)
         routes.append(
             KeyboardRoute(
                 name=name,
                 models=ordered,
-                stride_normal=max(1, stride_normal),
-                stride_dramatic=max(1, stride_dramatic),
+                stride_normal=tuned_normal,
+                stride_dramatic=tuned_dramatic,
                 clusters=usable_clusters,
             )
         )
@@ -7804,6 +7810,25 @@ def normalize_chase_style(raw: str) -> str:
     return "none"
 
 
+def spatial_route_order_style(chase_style: str, awareness: float) -> str:
+    aware = base.clamp(float(awareness), 0.0, 1.0)
+    if aware < 0.20:
+        return "left_to_right"
+    normalized = normalize_chase_style(chase_style)
+    if normalized in {"left_to_right", "top_to_bottom", "radial_out", "group_to_group"}:
+        return normalized
+    return "left_to_right"
+
+
+def scaled_spatial_route_stride(base_stride: int, *, awareness: float, dramatic: bool) -> int:
+    stride = max(1, int(base_stride))
+    aware = base.clamp(float(awareness), 0.0, 1.0)
+    if aware <= 0.01:
+        return stride
+    reduction = 0.45 if dramatic else 0.35
+    return max(1, int(round(stride * (1.0 - (aware * reduction)))))
+
+
 def apply_spatial_chase(
     *,
     style: VariantStyle,
@@ -8804,7 +8829,19 @@ def run_variant(
         coords = parsed_layout.coordinate_map(names)
     elif tuning.layout_file and tuning.layout_file.exists():
         coords = ai.parse_layout_coordinates(tuning.layout_file, names)
-    keyboard_routes = adapt_keyboard_routes_for_style(style, build_spatial_keyboard_routes(layout, pools, coords, rng))
+    spatial_awareness = base.clamp(float(tuning.spatial_awareness), 0.0, 1.0)
+    route_order_style = spatial_route_order_style(tuning.chase_style, spatial_awareness)
+    keyboard_routes = adapt_keyboard_routes_for_style(
+        style,
+        build_spatial_keyboard_routes(
+            layout,
+            pools,
+            coords,
+            rng,
+            route_style=route_order_style,
+            awareness=spatial_awareness,
+        ),
+    )
     keyboard_lane = build_keyboard_lane_with_routes(pools, override=lane_override, preferred_routes=keyboard_routes)
     arch_keyboard_lane = next((pool.models for pool in pools if pool.category == "arch" and pool.models), [])
     cane_focus = base.clamp(float(tuning.cane_focus), 0.50, 2.50)
@@ -9454,6 +9491,8 @@ def run_variant(
             )
 
     spatial_keyboard_mix = base.clamp((0.82 if focused_mode else max(0.62, keyboard_mix)) * other_priority_gain, 0.0, 2.0)
+    if spatial_awareness > 0.01:
+        spatial_keyboard_mix = base.clamp(spatial_keyboard_mix * (1.0 + (spatial_awareness * 0.22)), 0.0, 2.0)
     if style.family == "v19":
         spatial_keyboard_mix = max(spatial_keyboard_mix, 1.18)
     elif style.family == "v20":

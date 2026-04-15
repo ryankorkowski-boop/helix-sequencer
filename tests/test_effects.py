@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import random
 import unittest
 from dataclasses import replace
 from pathlib import Path
@@ -179,6 +180,25 @@ class EffectEngineTests(unittest.TestCase):
         build_scale = effect_engine.cue_duration_scale("build", placement_mode="player_piano", part_label="CHORUS")
         hat_scale = effect_engine.cue_duration_scale("hat", placement_mode="player_piano", part_label="CHORUS")
         self.assertGreater(build_scale, hat_scale)
+
+    def test_spatial_route_order_style_prefers_directional_styles_only_when_awareness_is_high(self) -> None:
+        self.assertEqual(effect_engine.spatial_route_order_style("top_to_bottom", 0.75), "top_to_bottom")
+        self.assertEqual(effect_engine.spatial_route_order_style("wave", 0.75), "left_to_right")
+        self.assertEqual(effect_engine.spatial_route_order_style("top_to_bottom", 0.10), "left_to_right")
+
+    def test_scaled_spatial_route_stride_reduces_stride_with_awareness(self) -> None:
+        self.assertEqual(effect_engine.scaled_spatial_route_stride(4, awareness=0.0, dramatic=False), 4)
+        self.assertLess(effect_engine.scaled_spatial_route_stride(4, awareness=1.0, dramatic=False), 4)
+        self.assertLessEqual(
+            effect_engine.scaled_spatial_route_stride(4, awareness=1.0, dramatic=True),
+            effect_engine.scaled_spatial_route_stride(4, awareness=1.0, dramatic=False),
+        )
+
+    def test_spatial_ordered_models_respects_path_style(self) -> None:
+        models = ["m1", "m2", "m3"]
+        coords = {"m1": (2.0, 9.0), "m2": (1.0, 1.0), "m3": (3.0, 4.0)}
+        ordered = effect_engine.spatial_ordered_models(models, coords, random.Random(0), path_style="top_to_bottom")
+        self.assertEqual(ordered, ["m2", "m3", "m1"])
 
     def test_xsq_writer_timing_facade_round_trips_marks(self) -> None:
         root = ET.Element("Sequence")
