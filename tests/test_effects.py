@@ -78,6 +78,29 @@ class EffectEngineTests(unittest.TestCase):
         )
         self.assertEqual(cue, "build")
 
+    def test_cue_duration_scale_varies_by_mode_and_cue(self) -> None:
+        build_scale = effect_engine.cue_duration_scale("build", placement_mode="pixel_reactive", part_label="CHORUS")
+        hat_scale = effect_engine.cue_duration_scale("hat", placement_mode="pixel_reactive", part_label="CHORUS")
+        self.assertGreater(build_scale, hat_scale)
+
+    def test_cue_target_count_boosts_dramatic_builds(self) -> None:
+        boosted = effect_engine.cue_target_count(
+            1,
+            "build",
+            placement_mode="showcase_signature",
+            part_label="CHORUS",
+            maximum=3,
+        )
+        restrained = effect_engine.cue_target_count(
+            2,
+            "hat",
+            placement_mode="pixel_reactive",
+            part_label="VERSE",
+            maximum=3,
+        )
+        self.assertGreaterEqual(boosted, 2)
+        self.assertLessEqual(restrained, 2)
+
     def test_xsq_writer_timing_facade_round_trips_marks(self) -> None:
         root = ET.Element("Sequence")
         xsq_writer.write_timing_track(root, "AUTO Test", [("Intro", 0, 100), ("Verse", 250, 500)], active=False)
