@@ -4387,6 +4387,13 @@ def place_showcase_signature(
                     vocal_peaks=local_vocals,
                 )
                 active_sweep_pool = choose_cue_preferred_pool(signature_pools, sweep_cue, bar_idx, context="signature", require_multiple=True) or sweep_pool
+                sweep_pool_for_run, span_factor, hit_factor = showcase_signature_sweep_plan(
+                    active_sweep_pool,
+                    sweep_cue,
+                    part.label,
+                )
+                if sweep_pool_for_run is None or len(sweep_pool_for_run.models) < 2:
+                    continue
                 sweep_span = cue_scaled_duration(
                     max(190, base.scaled_dur(260)),
                     sweep_cue,
@@ -4394,24 +4401,32 @@ def place_showcase_signature(
                     part_label=part.label,
                     minimum_ms=190,
                 )
-                sweep_end = min(part.end_ms, bar_start + sweep_span)
-                sweep_eff = reactive_effect_for_category(active_sweep_pool.category, sweep_cue, part.label, bar_idx)
+                sweep_end = min(part.end_ms, bar_start + max(170, int(round(sweep_span * span_factor))))
+                sweep_eff = reactive_effect_for_category(sweep_pool_for_run.category, sweep_cue, part.label, bar_idx)
                 add_sweep(
                     lambda nm, a, b, label: add_model(nm, a, b, label, eff=sweep_eff, stem="other"),
-                    active_sweep_pool,
+                    sweep_pool_for_run,
                     bar_start,
                     sweep_end,
                     "showcase_signature_sweep",
-                    cue_scaled_duration(
-                        max(82, style.sweep_hit_ms - 6),
-                        sweep_cue,
-                        placement_mode="showcase_signature",
-                        part_label=part.label,
-                        minimum_ms=82,
+                    max(
+                        68,
+                        int(
+                            round(
+                                cue_scaled_duration(
+                                    max(82, style.sweep_hit_ms - 6),
+                                    sweep_cue,
+                                    placement_mode="showcase_signature",
+                                    part_label=part.label,
+                                    minimum_ms=82,
+                                )
+                                * hit_factor
+                            )
+                        ),
                     ),
                     reverse=((bar_idx + part_idx) % 2 == 1),
                 )
-                sweep_track.append((f"signature:{sweep_cue}:{active_sweep_pool.name}", bar_start, sweep_end))
+                sweep_track.append((f"signature:{sweep_cue}:{sweep_pool_for_run.name}", bar_start, sweep_end))
 
         note_stride = 6 if part.label == "PRECHORUS" else 4 if part.label == "BRIDGE" else 3
         for event_idx, event in enumerate(local_events):
@@ -4943,11 +4958,17 @@ def place_pixel_reactive_score(
                 vocal_peaks=local_vocals,
                 default="build" if part.label in dramatic_parts else "phrase",
             )
-            melody_pool = choose_cue_preferred_pool(
-                [arch_pool, line_pool, matrix_pool, tree_pool, sphere_pool, spinner_pool],
-                note_cue,
-                event_idx,
-                context="pixel",
+            melody_pool = choose_pixel_phrase_pool(
+                cue=note_cue,
+                part_label=part.label,
+                rotation_idx=event_idx,
+                arch_pool=arch_pool,
+                line_pool=line_pool,
+                cane_pool=cane_pool,
+                matrix_pool=matrix_pool,
+                tree_pool=tree_pool,
+                sphere_pool=sphere_pool,
+                spinner_pool=spinner_pool,
             ) or arch_pool or line_pool or matrix_pool or tree_pool
             if melody_pool is None or not melody_pool.models:
                 continue
@@ -4961,6 +4982,7 @@ def place_pixel_reactive_score(
                         note_cue,
                         placement_mode="pixel_reactive",
                         part_label=part.label,
+                        minimum=2 if pixel_phrase_prefers_motion(part.label, note_cue) else 1,
                         maximum=len(melody_pool.models),
                     ),
                     reverse=reverse_for(event_idx + part_idx),
@@ -6367,15 +6389,7 @@ def choose_cue_preferred_pool(
     context: str = "default",
     require_multiple: bool = False,
 ) -> SequentialPool | None:
-    available: list[SequentialPool] = []
-    for pool in candidates:
-        if pool is None or not pool.models:
-            continue
-        if require_multiple and len(pool.models) < 2:
-            continue
-        if any(existing.name == pool.name for existing in available):
-            continue
-        available.append(pool)
+    available = available_candidate_pools(candidates, require_multiple=require_multiple)
     if not available:
         return None
     preferred: list[SequentialPool] = []
@@ -6499,6 +6513,109 @@ def cue_scaled_duration(
 ) -> int:
     scale = cue_duration_scale(cue, placement_mode=placement_mode, part_label=part_label)
     return max(minimum_ms, int(round(base_duration_ms * scale)))
+
+
+def available_candidate_pools(
+    candidates: list[SequentialPool | None],
+    *,
+    require_multiple: bool = False,
+) -> list[SequentialPool]:
+    available: list[SequentialPool] = []
+    for pool in candidates:
+        if pool is None or not pool.models:
+            continue
+        if require_multiple and len(pool.models) < 2:
+            continue
+        if any(existing.name == pool.name for existing in available):
+            continue
+        available.append(pool)
+    return available
+
+
+def choose_pool_by_category_order(
+    candidates: list[SequentialPool | None],
+    categories: tuple[str, ...],
+    rotation_idx: int,
+    *,
+    require_multiple: bool = False,
+) -> SequentialPool | None:
+    available = available_candidate_pools(candidates, require_multiple=require_multiple)
+    if not available:
+        return None
+    preferred: list[SequentialPool] = []
+    for category in categories:
+        for pool in available:
+            if pool.category == category and all(existing.name != pool.name for existing in preferred):
+                preferred.append(pool)
+    choices = preferred or available
+    return choices[rotation_idx % len(choices)]
+
+
+def showcase_signature_sweep_plan(
+    pool: SequentialPool | None,
+    cue: str,
+    part_label: str,
+) -> tuple[SequentialPool | None, float, float]:
+    if pool is None or not pool.models:
+        return None, 1.0, 1.0
+    cue_key = (cue or "").strip().lower()
+    if cue_key in {"build", "phrase"}:
+        desired = 2
+        span_scale = 0.72 if cue_key == "build" else 0.78
+        hit_scale = 0.68 if cue_key == "build" else 0.74
+    elif cue_key == "vocal":
+        desired = 3
+        span_scale = 0.88
+        hit_scale = 0.84
+    elif cue_key == "bass":
+        desired = 3
+        span_scale = 0.92
+        hit_scale = 0.88
+    else:
+        desired = 3
+        span_scale = 0.86
+        hit_scale = 0.80
+    if (part_label or "").upper() == "CHORUS" and cue_key in {"vocal", "bass"}:
+        desired += 1
+    desired = min(max(2, desired), min(len(pool.models), 4))
+    return (
+        SequentialPool(pool.name, pool.category, representative_models(pool, desired)),
+        span_scale,
+        hit_scale,
+    )
+
+
+def pixel_phrase_prefers_motion(part_label: str, cue: str) -> bool:
+    return (part_label or "").upper() in {"PRECHORUS", "CHORUS"} and (cue or "").strip().lower() in {"phrase", "build", "vocal"}
+
+
+def choose_pixel_phrase_pool(
+    *,
+    cue: str,
+    part_label: str,
+    rotation_idx: int,
+    arch_pool: SequentialPool | None,
+    line_pool: SequentialPool | None,
+    cane_pool: SequentialPool | None,
+    matrix_pool: SequentialPool | None,
+    tree_pool: SequentialPool | None,
+    sphere_pool: SequentialPool | None,
+    spinner_pool: SequentialPool | None,
+) -> SequentialPool | None:
+    if pixel_phrase_prefers_motion(part_label, cue):
+        preferred = choose_pool_by_category_order(
+            [arch_pool, line_pool, cane_pool, matrix_pool, tree_pool, sphere_pool, spinner_pool],
+            ("arch", "line", "canes_combo", "matrix", "mega", "sphere", "spinner"),
+            rotation_idx,
+        )
+        if preferred is not None:
+            return preferred
+    return choose_cue_preferred_pool(
+        [arch_pool, line_pool, cane_pool, matrix_pool, tree_pool, sphere_pool, spinner_pool],
+        cue,
+        rotation_idx,
+        context="pixel",
+    )
 
 
 def piano_lights_duration_scale(cue: str, part_label: str) -> float:

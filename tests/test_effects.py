@@ -101,6 +101,19 @@ class EffectEngineTests(unittest.TestCase):
         self.assertGreaterEqual(boosted, 2)
         self.assertLessEqual(restrained, 2)
 
+    def test_showcase_signature_sweep_plan_reduces_build_sweeps(self) -> None:
+        pool = effect_engine.SequentialPool("sig", "mega", ["m1", "m2", "m3", "m4", "m5"])
+        tuned_pool, span_scale, hit_scale = effect_engine.showcase_signature_sweep_plan(pool, "build", "CHORUS")
+        self.assertIsNotNone(tuned_pool)
+        self.assertEqual(len(tuned_pool.models), 2)
+        self.assertLess(span_scale, 1.0)
+        self.assertLess(hit_scale, 1.0)
+
+    def test_pixel_phrase_prefers_motion_for_chorus_phrase(self) -> None:
+        self.assertTrue(effect_engine.pixel_phrase_prefers_motion("CHORUS", "phrase"))
+        self.assertFalse(effect_engine.pixel_phrase_prefers_motion("VERSE", "phrase"))
+        self.assertFalse(effect_engine.pixel_phrase_prefers_motion("CHORUS", "hat"))
+
     def test_xsq_writer_timing_facade_round_trips_marks(self) -> None:
         root = ET.Element("Sequence")
         xsq_writer.write_timing_track(root, "AUTO Test", [("Intro", 0, 100), ("Verse", 250, 500)], active=False)
