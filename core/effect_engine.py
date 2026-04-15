@@ -5936,6 +5936,39 @@ def midi_to_lane_index(midi: int, lane_count: int) -> int:
     return int(round(frac * (lane_count - 1)))
 
 
+def choose_player_piano_pool(pools: list[SequentialPool]) -> SequentialPool | None:
+    eligible = [
+        pool
+        for pool in pools
+        if len(pool.models) >= 6
+        and pool.category in {"notes", "line", "mega", "gt", "arch", "canes_combo", "north_canes", "south_canes"}
+    ]
+    if not eligible:
+        return None
+    preferred_names = (
+        "notes_1_16",
+        "notes_17_32",
+        "line_tree_rgb",
+        "mega_tree_rgb",
+        "garage_tree_rgb",
+        "north_canes",
+        "south_canes",
+        "canes_combo",
+        "mega_white",
+        "line_white",
+    )
+    for name in preferred_names:
+        for pool in eligible:
+            if pool.name == name:
+                return pool
+    category_order = ("notes", "line", "mega", "gt", "arch", "canes_combo", "north_canes", "south_canes")
+    for category in category_order:
+        for pool in eligible:
+            if pool.category == category:
+                return pool
+    return eligible[0]
+
+
 def route_note_choice(route: KeyboardRoute, event: NoteEvent) -> tuple[int, float] | None:
     if not event.notes:
         return None
@@ -6091,6 +6124,100 @@ def place_spatial_keyboard_routes(
                     held_until = max(held_until, support_end)
 
             keyboard_track.append((f"{route.name}:{'+'.join(note_labels)}", event.start_ms, held_until))
+    return placed
+
+
+def place_player_piano_sequence(
+    *,
+    style: VariantStyle,
+    note_events: list[NoteEvent],
+    pools: list[SequentialPool],
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
+    keyboard_mix: float,
+    ramp_ok: bool,
+    ramp_tpl: base.EffectTemplate,
+    add_model,
+    in_blackout,
+    keyboard_track: list[tuple[str, int, int]],
+) -> int:
+    pool = choose_player_piano_pool(pools)
+    if pool is None or not note_events:
+        return 0
+    mix = base.clamp(keyboard_mix, 0.0, 2.0)
+    if mix <= 0.05:
+        return 0
+
+    placed = 0
+    for event_idx, event in enumerate(note_events):
+        if in_blackout(event.start_ms) or not event.notes:
+            continue
+        if mix <= 0.45 and (event_idx % 2) == 1:
+            continue
+        if mix <= 0.85 and (event_idx % 3) == 2:
+            continue
+
+        cue = reactive_cue_for_event(
+            event,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            default="phrase",
+        )
+        sorted_notes = sorted(event.notes, key=lambda pair: pair[0])
+        max_notes = max(1, min(len(sorted_notes), int(round(max(1.0, style.polyphony * max(0.50, mix))))))
+        max_notes = cue_target_count(
+            max_notes,
+            cue,
+            placement_mode="player_piano",
+            part_label=event.part,
+            maximum=len(sorted_notes),
+        )
+        if cue in {"kick", "snare", "hat"}:
+            max_notes = min(max_notes, 2 if cue != "kick" else 3)
+        sorted_notes = sorted_notes[:max_notes]
+
+        held_until = event.start_ms
+        used_indices: set[int] = set()
+        stem_key = stem_for_cue(cue)
+        for step, (midi, strength) in enumerate(sorted_notes):
+            lane_idx = midi_to_lane_index(midi, len(pool.models))
+            if lane_idx in used_indices:
+                continue
+            used_indices.add(lane_idx)
+
+            model = pool.models[lane_idx]
+            st = event.start_ms + (step * 10)
+            dur = cue_scaled_duration(
+                max(60, int(base.scaled_dur(130 + int(100 * strength)))),
+                cue,
+                placement_mode="player_piano",
+                part_label=event.part,
+                minimum_ms=60,
+            )
+            if pool.category == "notes":
+                dur = max(55, int(round(dur * 0.92)))
+            en = min(event.end_ms + 140, st + dur)
+            use_ramp = ramp_ok and cue in {"build", "vocal"} and pool.category in {"line", "mega", "gt", "arch"}
+            add_model(
+                model,
+                st,
+                en,
+                f"player_piano_{pool.category}",
+                eff="Ramp" if use_ramp else "On",
+                tpl=ramp_tpl if use_ramp else None,
+                stem=stem_key,
+            )
+            held_until = max(held_until, en)
+            placed += 1
+
+        if held_until > event.start_ms:
+            keyboard_track.append((f"player_piano:{pool.name}:{cue}:{note_label(event.notes)}", event.start_ms, held_until))
     return placed
 
 
@@ -6416,6 +6543,15 @@ def cue_duration_scale(cue: str, *, placement_mode: str, part_label: str) -> flo
             "snare": 0.82,
             "hat": 0.72,
         },
+        "player_piano": {
+            "phrase": 1.00,
+            "vocal": 1.14,
+            "build": 1.20,
+            "bass": 1.06,
+            "kick": 0.92,
+            "snare": 0.88,
+            "hat": 0.78,
+        },
         "showcase_signature": {
             "phrase": 1.02,
             "vocal": 1.16,
@@ -6455,6 +6591,15 @@ def cue_intensity_scale(cue: str, *, placement_mode: str, part_label: str) -> fl
             "kick": 0.92,
             "snare": 0.82,
             "hat": 0.72,
+        },
+        "player_piano": {
+            "phrase": 1.00,
+            "vocal": 1.12,
+            "build": 1.18,
+            "bass": 1.04,
+            "kick": 0.94,
+            "snare": 0.88,
+            "hat": 0.76,
         },
         "showcase_signature": {
             "phrase": 1.00,
@@ -9319,6 +9464,31 @@ def run_variant(
     elif style.family == "v23":
         cap = 0.24 if style.placement_mode == "showcase_stems" else 0.34 if style.placement_mode == "showcase_arc" else 0.38
         spatial_keyboard_mix = min(spatial_keyboard_mix, cap)
+
+    if style.keyboard_overlay:
+        player_piano_mix = base.clamp((0.54 if focused_mode else max(0.40, keyboard_mix * 0.72)) * other_priority_gain, 0.0, 2.0)
+        if style.family == "v22":
+            player_piano_mix = min(player_piano_mix, 0.34)
+        elif style.family == "v23":
+            player_piano_mix = min(player_piano_mix, 0.24)
+        player_piano_placed = place_player_piano_sequence(
+            style=keyboard_style,
+            note_events=keyboard_note_events,
+            pools=pools,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            keyboard_mix=player_piano_mix,
+            ramp_ok=ramp_ok,
+            ramp_tpl=xsq.ramp_tpl,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            keyboard_track=keyboard_track,
+        )
+        if player_piano_placed:
+            log(f"Player piano sequence placed: {player_piano_placed} effects on {choose_player_piano_pool(pools).name}")
 
     spatial_keyboard_placed = place_spatial_keyboard_routes(
         style=keyboard_style,
