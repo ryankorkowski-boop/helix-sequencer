@@ -4283,23 +4283,36 @@ def place_showcase_signature(
         impact_pool = select_preferred_pool(pools, ("matrix", "spinner", "mega", "gt", "line"), pool_state, f"showcase_signature_impact_{part_idx}")
         sweep_pool = select_preferred_pool(pools, ("mega", "line", "arch", "gt", "canes_combo"), pool_state, f"showcase_signature_sweep_{part_idx}", require_multiple=True)
         vocal_pool = select_preferred_pool(pools, ("talking_heads", "matrix", "line", "arch"), pool_state, f"showcase_signature_vocal_{part_idx}")
+        signature_pools = [impact_pool, sweep_pool, vocal_pool]
         local_bass = [mark for mark in bass_peaks if part.start_ms <= mark < part.end_ms]
         local_vocals = [mark for mark in vocal_peaks if part.start_ms <= mark < part.end_ms]
         local_events = [event for event in note_events if part.start_ms <= event.start_ms < part.end_ms]
-        local_beats = [mark for mark in beat_ms if part.start_ms <= mark < part.end_ms]
+        local_kicks = [mark for mark in kicks if part.start_ms <= mark < part.end_ms]
+        local_snares = [mark for mark in snares if part.start_ms <= mark < part.end_ms]
+        local_hats = [mark for mark in hats if part.start_ms <= mark < part.end_ms]
         local_bars = [mark for mark in bar_ms if part.start_ms <= mark < part.end_ms] or [part.start_ms]
 
         if impact_pool is not None and impact_pool.models:
             for bass_idx, t_ms in enumerate(local_bass[::2]):
                 if in_blackout(t_ms):
                     continue
-                target = impact_pool.models[bass_idx % len(impact_pool.models)]
+                impact_cue = cue_for_timestamp(
+                    t_ms,
+                    default="bass",
+                    kicks=local_kicks,
+                    snares=local_snares,
+                    hats=local_hats,
+                    bass_peaks=local_bass,
+                    vocal_peaks=local_vocals,
+                )
+                active_impact_pool = choose_cue_preferred_pool(signature_pools, impact_cue, bass_idx, context="signature") or impact_pool
+                target = active_impact_pool.models[bass_idx % len(active_impact_pool.models)]
                 add_model(
                     target,
                     t_ms,
                     t_ms + max(85, base.scaled_dur(140)),
                     "showcase_signature_impact",
-                    eff=reactive_effect_for_category(impact_pool.category, "bass", part.label, bass_idx),
+                    eff=reactive_effect_for_category(active_impact_pool.category, impact_cue, part.label, bass_idx),
                     stem="bass",
                 )
 
@@ -4307,37 +4320,70 @@ def place_showcase_signature(
             for vocal_idx, t_ms in enumerate(local_vocals[::2]):
                 if in_blackout(t_ms):
                     continue
-                target = vocal_pool.models[vocal_idx % len(vocal_pool.models)]
-                eff_name = reactive_effect_for_category(vocal_pool.category, "vocal", part.label, vocal_idx)
+                vocal_cue = cue_for_timestamp(
+                    t_ms,
+                    default="vocal",
+                    kicks=local_kicks,
+                    snares=local_snares,
+                    hats=local_hats,
+                    bass_peaks=local_bass,
+                    vocal_peaks=local_vocals,
+                )
+                active_vocal_pool = choose_cue_preferred_pool(signature_pools, vocal_cue, vocal_idx, context="signature") or vocal_pool
+                target = active_vocal_pool.models[vocal_idx % len(active_vocal_pool.models)]
+                eff_name = reactive_effect_for_category(active_vocal_pool.category, vocal_cue, part.label, vocal_idx)
                 add_model(target, t_ms, t_ms + max(90, base.scaled_dur(150)), "showcase_signature_vocal", eff=eff_name, stem="vocals")
 
         if sweep_pool is not None and len(sweep_pool.models) >= 2:
             for bar_idx, bar_start in enumerate(local_bars[::2]):
                 if in_blackout(bar_start):
                     continue
+                sweep_cue = cue_for_timestamp(
+                    bar_start,
+                    default="build" if part.label in {"PRECHORUS", "CHORUS", "BRIDGE"} else "phrase",
+                    kicks=local_kicks,
+                    snares=local_snares,
+                    hats=local_hats,
+                    bass_peaks=local_bass,
+                    vocal_peaks=local_vocals,
+                )
+                active_sweep_pool = choose_cue_preferred_pool(signature_pools, sweep_cue, bar_idx, context="signature", require_multiple=True) or sweep_pool
                 sweep_end = min(part.end_ms, bar_start + max(190, base.scaled_dur(260)))
+                sweep_eff = reactive_effect_for_category(active_sweep_pool.category, sweep_cue, part.label, bar_idx)
                 add_sweep(
-                    lambda nm, a, b, label: add_model(nm, a, b, label, eff="Wave", stem="other"),
-                    sweep_pool,
+                    lambda nm, a, b, label: add_model(nm, a, b, label, eff=sweep_eff, stem="other"),
+                    active_sweep_pool,
                     bar_start,
                     sweep_end,
                     "showcase_signature_sweep",
                     max(82, style.sweep_hit_ms - 6),
                     reverse=((bar_idx + part_idx) % 2 == 1),
                 )
-                sweep_track.append((f"signature:{sweep_pool.name}", bar_start, sweep_end))
+                sweep_track.append((f"signature:{sweep_cue}:{active_sweep_pool.name}", bar_start, sweep_end))
 
         note_stride = 6 if part.label == "PRECHORUS" else 4 if part.label == "BRIDGE" else 3
         for event_idx, event in enumerate(local_events):
             if in_blackout(event.start_ms) or (event_idx % note_stride) != 0:
                 continue
-            contour_pool = sweep_pool or impact_pool or vocal_pool
+            event_cue = reactive_cue_for_event(
+                event,
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+                default="build" if part.label in {"PRECHORUS", "CHORUS", "BRIDGE"} else "phrase",
+            )
+            contour_pool = choose_cue_preferred_pool(signature_pools, event_cue, event_idx, context="signature", require_multiple=False)
+            if contour_pool is None:
+                contour_pool = sweep_pool or impact_pool or vocal_pool
             if contour_pool is None:
                 continue
             targets = map_notes_to_models(contour_pool, event, pool_state, style, rng)
             limited = targets[: min(3, len(targets))]
-            _placed, phrase_end = place_note_phrase(add_model, contour_pool, event, limited, style, rng, ramp_ok, ramp_tpl)
-            piano_track.append((f"{contour_pool.name}:signature", event.start_ms, phrase_end))
+            phrase_add = lambda nm, a, b, label, **kwargs: add_model(nm, a, b, label, stem=stem_for_cue(event_cue), **kwargs)
+            _placed, phrase_end = place_note_phrase(phrase_add, contour_pool, event, limited, style, rng, ramp_ok, ramp_tpl)
+            piano_track.append((f"{contour_pool.name}:signature:{event_cue}", event.start_ms, phrase_end))
 
 
 def place_pixel_reactive_score(
@@ -4423,7 +4469,22 @@ def place_pixel_reactive_score(
             return base_reverse if (step_index % 2) == 0 else not base_reverse
 
         if mood_changed and (line_pool is not None or arch_pool is not None):
-            transition_pool = arch_pool or line_pool
+            transition_cue = cue_for_timestamp(
+                part.start_ms,
+                default="build" if part.label in dramatic_parts else "phrase",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            transition_pool = choose_cue_preferred_pool(
+                [arch_pool, line_pool, cane_pool, spinner_pool],
+                transition_cue,
+                part_idx,
+                context="pixel",
+                require_multiple=True,
+            ) or arch_pool or line_pool
             if transition_pool is not None and transition_pool.models and not in_blackout(part.start_ms):
                 transition_targets = rotate_targets(
                     transition_pool,
@@ -4434,11 +4495,26 @@ def place_pixel_reactive_score(
                 for step, target in enumerate(transition_targets):
                     st = part.start_ms + step * 18
                     en = min(part.end_ms, st + max(120, base.scaled_dur(210)))
-                    add_model(target, st, en, "pixel_part_transition", eff="Wave", stem="other")
-                    cue(f"{transition_pool.category}:Wave", st, en)
+                    eff_name = reactive_effect_for_category(transition_pool.category, transition_cue, part.label, step)
+                    add_model(target, st, en, "pixel_part_transition", eff=eff_name, stem="other")
+                    cue(f"{transition_pool.category}:{eff_name}", st, en)
 
         if part.label == "CHORUS" and not in_blackout(part.start_ms):
-            drop_pool = spinner_pool or matrix_pool or tree_pool or accent_pool
+            drop_cue = cue_for_timestamp(
+                part.start_ms,
+                default="bass",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            drop_pool = choose_cue_preferred_pool(
+                [spinner_pool, matrix_pool, tree_pool, accent_pool],
+                drop_cue,
+                part_idx,
+                context="pixel",
+            ) or spinner_pool or matrix_pool or tree_pool or accent_pool
             if drop_pool is not None and drop_pool.models:
                 drop_targets = rotate_targets(
                     drop_pool,
@@ -4446,7 +4522,7 @@ def place_pixel_reactive_score(
                     1 if drop_pool.category in {"matrix", "spinner"} else 2,
                     reverse=base_reverse,
                 )
-                drop_eff = "Strobe" if drop_pool.category in {"spinner", "stars", "snowflakes", "flood"} else reactive_effect_for_category(drop_pool.category, "bass", part.label, part_idx)
+                drop_eff = "Strobe" if drop_pool.category in {"spinner", "stars", "snowflakes", "flood"} else reactive_effect_for_category(drop_pool.category, drop_cue, part.label, part_idx)
                 for step, target in enumerate(drop_targets):
                     st = part.start_ms + 12 + (step * 14)
                     en = min(part.end_ms, st + max(95, base.scaled_dur(165)))
@@ -4458,29 +4534,58 @@ def place_pixel_reactive_score(
             if in_blackout(bar_start):
                 continue
             scene_end = min(part.end_ms, bar_start + max(220, base.scaled_dur(320 if part.label in dramatic_parts else 260)))
-            if matrix_pool is not None and matrix_pool.models:
-                target = rotate_targets(matrix_pool, f"pixel_scene_matrix_cursor_{part_idx}", 1, reverse=reverse_for(scene_idx))
+            scene_cue = cue_for_timestamp(
+                bar_start,
+                default="build" if part.label in dramatic_parts else "phrase",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            active_scene_pool = choose_cue_preferred_pool(
+                [matrix_pool, sphere_pool, tree_pool, arch_pool],
+                scene_cue,
+                scene_idx,
+                context="pixel",
+            )
+            if active_scene_pool is not None and active_scene_pool.models:
+                target = rotate_targets(active_scene_pool, f"pixel_scene_cursor_{part_idx}", 1, reverse=reverse_for(scene_idx))
                 if target:
-                    eff_name = reactive_effect_for_category(matrix_pool.category, "phrase", part.label, scene_idx)
+                    eff_name = reactive_effect_for_category(active_scene_pool.category, scene_cue, part.label, scene_idx)
                     add_model(target[0], bar_start, scene_end, "pixel_scene_matrix", eff=eff_name, stem="other")
-                    cue(f"matrix:{eff_name}", bar_start, scene_end)
-            if sphere_pool is not None and sphere_pool.models and part.label in {"INTRO", "BRIDGE", "CHORUS"}:
+                    cue(f"{active_scene_pool.category}:{eff_name}", bar_start, scene_end)
+            if sphere_pool is not None and sphere_pool.models and part.label in {"INTRO", "BRIDGE", "CHORUS"} and scene_cue in {"vocal", "build", "phrase"}:
                 sphere_start = bar_start + 22
                 sphere_end = min(part.end_ms, sphere_start + max(180, base.scaled_dur(260)))
                 target = rotate_targets(sphere_pool, f"pixel_scene_sphere_cursor_{part_idx}", 1, reverse=reverse_for(scene_idx + 1))
                 if target:
-                    eff_name = reactive_effect_for_category(sphere_pool.category, "phrase", part.label, scene_idx)
+                    eff_name = reactive_effect_for_category(sphere_pool.category, scene_cue, part.label, scene_idx)
                     add_model(target[0], sphere_start, sphere_end, "pixel_scene_sphere", eff=eff_name, stem="other")
                     cue(f"sphere:{eff_name}", sphere_start, sphere_end)
 
         for build_idx, t_ms in enumerate(local_builds):
             if in_blackout(t_ms):
                 continue
-            build_pool = tree_pool or spinner_pool or matrix_pool or sphere_pool
+            build_cue = cue_for_timestamp(
+                t_ms,
+                default="build",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            build_pool = choose_cue_preferred_pool(
+                [tree_pool, spinner_pool, matrix_pool, sphere_pool, line_pool],
+                build_cue,
+                build_idx,
+                context="pixel",
+            ) or tree_pool or spinner_pool or matrix_pool or sphere_pool
             targets = rotate_targets(build_pool, f"pixel_build_cursor_{part_idx}", 1 if part.label == "PRECHORUS" else 2, reverse=reverse_for(build_idx))
             if not targets or build_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(build_pool.category, "build", part.label, build_idx)
+            eff_name = reactive_effect_for_category(build_pool.category, build_cue, part.label, build_idx)
             for step, target in enumerate(targets):
                 start_ms = t_ms + step * 18
                 end_ms = min(part.end_ms, start_ms + max(170, base.scaled_dur(260) - step * 12))
@@ -4491,11 +4596,25 @@ def place_pixel_reactive_score(
         for bass_idx, t_ms in enumerate(local_bass):
             if in_blackout(t_ms) or (bass_idx % bass_stride) != 0:
                 continue
-            bass_pool = tree_pool or matrix_pool or line_pool or arch_pool
+            bass_cue = cue_for_timestamp(
+                t_ms,
+                default="bass",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            bass_pool = choose_cue_preferred_pool(
+                [tree_pool, matrix_pool, line_pool, arch_pool, cane_pool],
+                bass_cue,
+                bass_idx,
+                context="pixel",
+            ) or tree_pool or matrix_pool or line_pool or arch_pool
             targets = rotate_targets(bass_pool, f"pixel_bass_cursor_{part_idx}", 1 if part.label == "VERSE" else 2, reverse=reverse_for(bass_idx))
             if not targets or bass_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(bass_pool.category, "bass", part.label, bass_idx)
+            eff_name = reactive_effect_for_category(bass_pool.category, bass_cue, part.label, bass_idx)
             for step, target in enumerate(targets):
                 start_ms = t_ms + step * 16
                 end_ms = min(part.end_ms, start_ms + max(90, base.scaled_dur(160) - step * 10))
@@ -4506,12 +4625,27 @@ def place_pixel_reactive_score(
         for kick_idx, t_ms in enumerate(local_kicks):
             if in_blackout(t_ms) or (kick_idx % kick_stride) != 0:
                 continue
-            motion_pool = arch_pool or line_pool or cane_pool or spinner_pool
+            kick_cue = cue_for_timestamp(
+                t_ms,
+                default="kick",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            motion_pool = choose_cue_preferred_pool(
+                [arch_pool, line_pool, cane_pool, spinner_pool, matrix_pool],
+                kick_cue,
+                kick_idx,
+                context="pixel",
+                require_multiple=(part.label != "VERSE"),
+            ) or arch_pool or line_pool or cane_pool or spinner_pool
             desired = 1 if part.label == "VERSE" else 2 if motion_pool is not None and motion_pool.category in {"arch", "line", "canes_combo", "north_canes", "south_canes"} else 1
             targets = rotate_targets(motion_pool, f"pixel_kick_cursor_{part_idx}", desired, reverse=reverse_for(kick_idx))
             if not targets or motion_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(motion_pool.category, "kick", part.label, kick_idx)
+            eff_name = reactive_effect_for_category(motion_pool.category, kick_cue, part.label, kick_idx)
             for step, target in enumerate(targets):
                 start_ms = t_ms + step * 12
                 end_ms = min(part.end_ms, start_ms + max(65, base.scaled_dur(110) - step * 8))
@@ -4522,11 +4656,25 @@ def place_pixel_reactive_score(
         for snare_idx, t_ms in enumerate(local_snares):
             if in_blackout(t_ms) or (snare_idx % snare_stride) != 0:
                 continue
-            accent_source = spinner_pool or sphere_pool or accent_pool
+            snare_cue = cue_for_timestamp(
+                t_ms,
+                default="snare",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            accent_source = choose_cue_preferred_pool(
+                [spinner_pool, sphere_pool, accent_pool, matrix_pool],
+                snare_cue,
+                snare_idx,
+                context="pixel",
+            ) or spinner_pool or sphere_pool or accent_pool
             targets = rotate_targets(accent_source, f"pixel_snare_cursor_{part_idx}", 1, reverse=reverse_for(snare_idx))
             if not targets or accent_source is None:
                 continue
-            eff_name = reactive_effect_for_category(accent_source.category, "snare", part.label, snare_idx)
+            eff_name = reactive_effect_for_category(accent_source.category, snare_cue, part.label, snare_idx)
             start_ms = t_ms
             end_ms = min(part.end_ms, start_ms + max(60, base.scaled_dur(92)))
             add_model(targets[0], start_ms, end_ms, "pixel_snare", eff=eff_name, stem="vocals")
@@ -4536,11 +4684,25 @@ def place_pixel_reactive_score(
         for hat_idx, t_ms in enumerate(local_hats):
             if in_blackout(t_ms) or (hat_idx % hat_stride) != 0:
                 continue
-            hat_pool = spinner_pool or accent_pool or line_pool
+            hat_cue = cue_for_timestamp(
+                t_ms,
+                default="hat",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            hat_pool = choose_cue_preferred_pool(
+                [spinner_pool, accent_pool, line_pool, arch_pool],
+                hat_cue,
+                hat_idx,
+                context="pixel",
+            ) or spinner_pool or accent_pool or line_pool
             targets = rotate_targets(hat_pool, f"pixel_hat_cursor_{part_idx}", 1, reverse=reverse_for(hat_idx + part_idx))
             if not targets or hat_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(hat_pool.category, "hat", part.label, hat_idx)
+            eff_name = reactive_effect_for_category(hat_pool.category, hat_cue, part.label, hat_idx)
             start_ms = t_ms
             end_ms = min(part.end_ms, start_ms + max(50, base.scaled_dur(76)))
             add_model(targets[0], start_ms, end_ms, "pixel_hat", eff=eff_name, stem="vocals")
@@ -4550,12 +4712,26 @@ def place_pixel_reactive_score(
         for vocal_idx, t_ms in enumerate(local_vocals):
             if in_blackout(t_ms) or (vocal_idx % vocal_stride) != 0:
                 continue
-            vocal_pool = matrix_pool or sphere_pool or line_pool or arch_pool
+            vocal_cue = cue_for_timestamp(
+                t_ms,
+                default="vocal",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            vocal_pool = choose_cue_preferred_pool(
+                [matrix_pool, sphere_pool, line_pool, arch_pool, tree_pool],
+                vocal_cue,
+                vocal_idx,
+                context="pixel",
+            ) or matrix_pool or sphere_pool or line_pool or arch_pool
             desired = 1 if part.label == "VERSE" else 2 if vocal_pool is not None and vocal_pool.category == "matrix" else 1
             targets = rotate_targets(vocal_pool, f"pixel_vocal_cursor_{part_idx}", desired, reverse=reverse_for(vocal_idx + part_idx))
             if not targets or vocal_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(vocal_pool.category, "vocal", part.label, vocal_idx)
+            eff_name = reactive_effect_for_category(vocal_pool.category, vocal_cue, part.label, vocal_idx)
             for step, target in enumerate(targets):
                 start_ms = t_ms + step * 18
                 end_ms = min(part.end_ms, start_ms + max(95, base.scaled_dur(165) - step * 12))
@@ -4566,10 +4742,24 @@ def place_pixel_reactive_score(
         for event_idx, event in enumerate(local_events):
             if in_blackout(event.start_ms) or (event_idx % note_stride) != 0:
                 continue
-            melody_pool = arch_pool or line_pool or matrix_pool or tree_pool
+            note_cue = reactive_cue_for_event(
+                event,
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+                default="build" if part.label in dramatic_parts else "phrase",
+            )
+            melody_pool = choose_cue_preferred_pool(
+                [arch_pool, line_pool, matrix_pool, tree_pool, sphere_pool, spinner_pool],
+                note_cue,
+                event_idx,
+                context="pixel",
+            ) or arch_pool or line_pool or matrix_pool or tree_pool
             if melody_pool is None or not melody_pool.models:
                 continue
-            eff_name = reactive_effect_for_category(melody_pool.category, "phrase", part.label, event_idx)
+            eff_name = reactive_effect_for_category(melody_pool.category, note_cue, part.label, event_idx)
             if melody_pool.category in {"arch", "line", "canes_combo", "north_canes", "south_canes"} and len(melody_pool.models) >= 2:
                 targets = rotate_targets(melody_pool, f"pixel_phrase_cursor_{part_idx}", 2 if part.label in dramatic_parts else 1, reverse=reverse_for(event_idx + part_idx))
                 for step, target in enumerate(targets):
@@ -5842,6 +6032,56 @@ def has_nearby_mark(target_ms: int, marks: list[int], window_ms: int) -> bool:
     return False
 
 
+def cue_for_timestamp(
+    target_ms: int,
+    *,
+    default: str,
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
+    dense: bool = False,
+    dramatic: bool = False,
+) -> str:
+    if has_nearby_mark(target_ms, vocal_peaks, 85):
+        return "vocal"
+    if has_nearby_mark(target_ms, snares, 55):
+        return "snare"
+    if has_nearby_mark(target_ms, kicks, 45):
+        return "kick"
+    if has_nearby_mark(target_ms, bass_peaks, 70):
+        return "bass"
+    if not dense and has_nearby_mark(target_ms, hats, 35):
+        return "hat"
+    if default == "build" or (dramatic and dense):
+        return "build"
+    return default
+
+
+def reactive_cue_for_event(
+    event: NoteEvent,
+    *,
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
+    default: str = "phrase",
+) -> str:
+    return cue_for_timestamp(
+        int(event.start_ms),
+        default=default,
+        kicks=kicks,
+        snares=snares,
+        hats=hats,
+        bass_peaks=bass_peaks,
+        vocal_peaks=vocal_peaks,
+        dense=(len(event.notes) >= 3),
+        dramatic=(event.part in {"PRECHORUS", "CHORUS", "BRIDGE"}),
+    )
+
+
 def piano_lights_cue_for_event(
     event: NoteEvent,
     *,
@@ -5851,35 +6091,81 @@ def piano_lights_cue_for_event(
     bass_peaks: list[int],
     vocal_peaks: list[int],
 ) -> str:
-    target_ms = int(event.start_ms)
-    dense_chord = len(event.notes) >= 3
-    if has_nearby_mark(target_ms, vocal_peaks, 85):
-        return "vocal"
-    if has_nearby_mark(target_ms, snares, 55):
-        return "snare"
-    if has_nearby_mark(target_ms, kicks, 45):
-        return "kick"
-    if has_nearby_mark(target_ms, bass_peaks, 70):
-        return "bass"
-    if len(event.notes) <= 2 and has_nearby_mark(target_ms, hats, 35):
-        return "hat"
-    if event.part in {"PRECHORUS", "CHORUS", "BRIDGE"} and dense_chord:
-        return "build"
-    return "phrase"
+    return reactive_cue_for_event(
+        event,
+        kicks=kicks,
+        snares=snares,
+        hats=hats,
+        bass_peaks=bass_peaks,
+        vocal_peaks=vocal_peaks,
+        default="phrase",
+    )
+
+
+def cue_pool_preferences(cue: str, *, context: str = "default") -> tuple[str, ...]:
+    tables = {
+        "default": {
+            "vocal": ("matrix", "sphere", "line", "arch", "mega"),
+            "build": ("mega", "arch", "line", "matrix", "sphere"),
+            "bass": ("arch", "line", "mega", "canes_combo", "gt"),
+            "kick": ("spinner", "arch", "line", "gt", "canes_combo"),
+            "snare": ("spinner", "gt", "mega", "line", "arch"),
+            "hat": ("spinner", "line", "arch", "gt"),
+            "phrase": ("arch", "line", "mega", "matrix", "gt", "spinner", "sphere", "canes_combo"),
+        },
+        "signature": {
+            "vocal": ("talking_heads", "matrix", "line", "arch", "sphere"),
+            "build": ("mega", "line", "arch", "gt", "canes_combo", "matrix"),
+            "bass": ("matrix", "mega", "gt", "line", "arch", "canes_combo"),
+            "kick": ("spinner", "gt", "mega", "line", "arch"),
+            "snare": ("spinner", "talking_heads", "sphere", "matrix", "mega"),
+            "hat": ("spinner", "line", "arch", "stars", "snowflakes"),
+            "phrase": ("mega", "line", "arch", "matrix", "gt", "canes_combo", "talking_heads"),
+        },
+        "pixel": {
+            "vocal": ("matrix", "sphere", "line", "arch", "talking_heads"),
+            "build": ("mega", "spinner", "matrix", "sphere", "line"),
+            "bass": ("mega", "arch", "line", "matrix", "canes_combo", "gt"),
+            "kick": ("spinner", "arch", "line", "canes_combo", "gt"),
+            "snare": ("spinner", "sphere", "stars", "snowflakes", "matrix"),
+            "hat": ("spinner", "stars", "snowflakes", "line", "arch"),
+            "phrase": ("arch", "line", "matrix", "mega", "sphere", "gt", "spinner"),
+        },
+    }
+    active = tables.get(context, tables["default"])
+    return active.get(cue, active["phrase"])
+
+
+def choose_cue_preferred_pool(
+    candidates: list[SequentialPool | None],
+    cue: str,
+    rotation_idx: int,
+    *,
+    context: str = "default",
+    require_multiple: bool = False,
+) -> SequentialPool | None:
+    available: list[SequentialPool] = []
+    for pool in candidates:
+        if pool is None or not pool.models:
+            continue
+        if require_multiple and len(pool.models) < 2:
+            continue
+        if any(existing.name == pool.name for existing in available):
+            continue
+        available.append(pool)
+    if not available:
+        return None
+    preferred: list[SequentialPool] = []
+    for category in cue_pool_preferences(cue, context=context):
+        for pool in available:
+            if pool.category == category and all(existing.name != pool.name for existing in preferred):
+                preferred.append(pool)
+    choices = preferred or available
+    return choices[rotation_idx % len(choices)]
 
 
 def choose_piano_lights_pool(pools: list[SequentialPool], cue: str, rotation_idx: int) -> SequentialPool:
-    preferences = {
-        "vocal": ("matrix", "sphere", "line", "arch", "mega"),
-        "build": ("mega", "arch", "line", "matrix", "sphere"),
-        "bass": ("arch", "line", "mega", "canes_combo", "gt"),
-        "kick": ("spinner", "arch", "line", "gt", "canes_combo"),
-        "snare": ("spinner", "gt", "mega", "line", "arch"),
-        "hat": ("spinner", "line", "arch", "gt"),
-    }.get(cue, ("arch", "line", "mega", "matrix", "gt", "spinner", "sphere", "canes_combo"))
-    preferred = [pool for category in preferences for pool in pools if pool.category == category]
-    choices = preferred or pools
-    return choices[rotation_idx % len(choices)]
+    return choose_cue_preferred_pool(pools, cue, rotation_idx, context="default") or pools[rotation_idx % len(pools)]
 
 
 def piano_lights_duration_scale(cue: str) -> float:

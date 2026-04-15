@@ -49,6 +49,35 @@ class EffectEngineTests(unittest.TestCase):
         self.assertEqual(effect_engine.choose_piano_lights_pool(pools, "vocal", 0).category, "matrix")
         self.assertEqual(effect_engine.choose_piano_lights_pool(pools, "kick", 0).category, "spinner")
 
+    def test_choose_cue_preferred_pool_uses_signature_context(self) -> None:
+        candidates = [
+            effect_engine.SequentialPool("impact", "mega", ["g1", "g2", "g3"]),
+            effect_engine.SequentialPool("lead", "talking_heads", ["h1", "h2", "h3"]),
+            effect_engine.SequentialPool("motion", "line", ["l1", "l2", "l3"]),
+        ]
+        selected = effect_engine.choose_cue_preferred_pool(candidates, "vocal", 0, context="signature")
+        self.assertIsNotNone(selected)
+        self.assertEqual(selected.category, "talking_heads")
+
+    def test_reactive_cue_for_event_promotes_dramatic_dense_events_to_build(self) -> None:
+        event = effect_engine.NoteEvent(
+            start_ms=2500,
+            end_ms=2700,
+            notes=[(60, 0.8), (64, 0.7), (67, 0.6)],
+            part="PRECHORUS",
+            section="prechorus",
+        )
+        cue = effect_engine.reactive_cue_for_event(
+            event,
+            kicks=[],
+            snares=[],
+            hats=[],
+            bass_peaks=[],
+            vocal_peaks=[],
+            default="phrase",
+        )
+        self.assertEqual(cue, "build")
+
     def test_xsq_writer_timing_facade_round_trips_marks(self) -> None:
         root = ET.Element("Sequence")
         xsq_writer.write_timing_track(root, "AUTO Test", [("Intro", 0, 100), ("Verse", 250, 500)], active=False)
