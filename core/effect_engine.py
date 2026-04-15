@@ -12,7 +12,7 @@ import shutil
 from bisect import bisect_left
 from collections.abc import Iterator, Mapping
 from collections import Counter
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -62,6 +62,20 @@ class MultiBandAnalysis:
     loud_marks: list[int]
     quiet_windows: list[tuple[int, int]]
     dominance_marks: dict[str, list[int]]
+    frame_times_s: np.ndarray | None = None
+    spectral_centroid01: np.ndarray | None = None
+    spectral_bandwidth01: np.ndarray | None = None
+    spectral_contrast01: np.ndarray | None = None
+    spectral_flatness01: np.ndarray | None = None
+    spectral_flux01: np.ndarray | None = None
+    mfcc_motion01: np.ndarray | None = None
+    chroma_stability01: np.ndarray | None = None
+    tonnetz_motion01: np.ndarray | None = None
+    tempo_bpm: float = 0.0
+    genre_hint: str = "unknown"
+    mood_hint: str = "neutral"
+    descriptor_summary: dict[str, float] = field(default_factory=dict)
+    section_profiles: dict[str, dict[str, float | str]] = field(default_factory=dict)
 
 
 @dataclass
@@ -1556,6 +1570,78 @@ def _quiet_windows_from_rms(
     return windows
 
 
+def _align_curve(values: np.ndarray, target_len: int) -> np.ndarray:
+    if target_len <= 0:
+        return np.asarray([], dtype=float)
+    arr = np.asarray(values, dtype=float)
+    if arr.size == 0:
+        return np.zeros(target_len, dtype=float)
+    if arr.size == target_len:
+        return arr
+    src = np.linspace(0.0, 1.0, num=arr.size, endpoint=True)
+    dst = np.linspace(0.0, 1.0, num=target_len, endpoint=True)
+    return np.interp(dst, src, arr)
+
+
+def _marks_density_per_minute(marks: list[int], duration_s: float) -> float:
+    if duration_s <= 0.0:
+        return 0.0
+    return float(len(marks)) / max(1e-6, duration_s / 60.0)
+
+
+def estimate_tempo_bpm(beat_ms: list[int]) -> float:
+    if len(beat_ms) < 2:
+        return 0.0
+    deltas = np.diff(np.asarray(beat_ms, dtype=float))
+    if deltas.size == 0:
+        return 0.0
+    median_delta = float(np.median(deltas))
+    if median_delta <= 1.0:
+        return 0.0
+    return float(base.clamp(60000.0 / median_delta, 45.0, 220.0))
+
+
+def classify_mir_genre(summary: dict[str, float], *, tempo_bpm: float, rms_mean: float) -> str:
+    bass_density = float(summary.get("bass_density", 0.0))
+    sub_density = float(summary.get("sub_bass_density", 0.0))
+    high_density = float(summary.get("high_density", 0.0))
+    flux_density = float(summary.get("flux_density", 0.0))
+    contrast_mean = float(summary.get("contrast_mean", 0.0))
+    flatness_mean = float(summary.get("flatness_mean", 0.0))
+    mfcc_motion_mean = float(summary.get("mfcc_motion_mean", 0.0))
+    chroma_stability_mean = float(summary.get("chroma_stability_mean", 0.0))
+    tonnetz_motion_mean = float(summary.get("tonnetz_motion_mean", 0.0))
+    if tempo_bpm >= 124.0 and bass_density >= 48.0 and flux_density >= 60.0:
+        return "edm"
+    if flatness_mean >= 0.50 and contrast_mean >= 0.55 and tempo_bpm >= 92.0:
+        return "rock"
+    if sub_density >= 52.0 and high_density <= 34.0 and tempo_bpm < 108.0:
+        return "hip_hop"
+    if chroma_stability_mean >= 0.62 and mfcc_motion_mean <= 0.32 and flux_density <= 38.0:
+        return "ambient"
+    if tonnetz_motion_mean <= 0.22 and tempo_bpm < 92.0 and rms_mean <= 0.38:
+        return "classical"
+    return "pop"
+
+
+def classify_mir_mood(summary: dict[str, float], *, rms_mean: float) -> str:
+    centroid_mean = float(summary.get("centroid_mean", 0.0))
+    flux_density = float(summary.get("flux_density", 0.0))
+    chroma_stability_mean = float(summary.get("chroma_stability_mean", 0.0))
+    tonnetz_motion_mean = float(summary.get("tonnetz_motion_mean", 0.0))
+    arousal = base.clamp((0.50 * rms_mean) + (0.30 * min(1.0, flux_density / 95.0)) + (0.20 * centroid_mean), 0.0, 1.0)
+    valence = base.clamp((0.55 * chroma_stability_mean) + (0.30 * (1.0 - tonnetz_motion_mean)) + (0.15 * centroid_mean), 0.0, 1.0)
+    if arousal >= 0.74 and valence >= 0.52:
+        return "uplifting"
+    if arousal >= 0.74:
+        return "intense"
+    if arousal <= 0.34 and valence <= 0.44:
+        return "brooding"
+    if arousal <= 0.34:
+        return "calm"
+    return "balanced"
+
+
 def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
     if audio.y.size == 0 or audio.sr <= 0:
         return MultiBandAnalysis([], [], [], [], [], [], [], {})
@@ -1565,13 +1651,15 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
     spectrum = np.abs(librosa.stft(audio.y, n_fft=n_fft, hop_length=hop)) ** 2
     if spectrum.size == 0:
         return MultiBandAnalysis([], [], [], [], [], [], [], {})
+    magnitude = np.sqrt(np.maximum(0.0, np.asarray(spectrum, dtype=float)))
+    frame_count = int(spectrum.shape[1])
     freqs = librosa.fft_frequencies(sr=audio.sr, n_fft=n_fft)
-    frame_times = librosa.frames_to_time(np.arange(spectrum.shape[1]), sr=audio.sr, hop_length=hop)
+    frame_times = librosa.frames_to_time(np.arange(frame_count), sr=audio.sr, hop_length=hop)
 
     def band_env(low_hz: float, high_hz: float) -> np.ndarray:
         bins = np.where((freqs >= low_hz) & (freqs < high_hz))[0]
         if len(bins) == 0:
-            return np.zeros(spectrum.shape[1], dtype=float)
+            return np.zeros(frame_count, dtype=float)
         raw = np.asarray(spectrum[bins, :].mean(axis=0), dtype=float)
         return base.norm01(raw)
 
@@ -1588,6 +1676,7 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
     diff = np.diff(np.asarray(spectrum, dtype=float), axis=1)
     flux = np.sum(np.clip(diff, 0.0, None), axis=0)
     flux = np.pad(flux, (1, 0), mode="constant")
+    flux01 = base.norm01(np.nan_to_num(np.asarray(flux, dtype=float), nan=0.0, posinf=0.0, neginf=0.0))
     flux_marks = _series_peak_marks(frame_times, flux, threshold=0.40, wait=8, gap_ms=90)
 
     rms = np.asarray(audio.rms01, dtype=float)
@@ -1617,6 +1706,63 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
             marks = [base.ms(float(frame_times[i])) for i in range(len(frame_times)) if int(dominant_idx[i]) == idx and dominant_strength[i] >= 0.28]
             dominance_marks[name] = base.compress_times_ms(marks, base.scaled_gap(180))
 
+    centroid = _align_curve(librosa.feature.spectral_centroid(S=magnitude, sr=audio.sr)[0], frame_count)
+    bandwidth = _align_curve(librosa.feature.spectral_bandwidth(S=magnitude, sr=audio.sr)[0], frame_count)
+    contrast = np.asarray(librosa.feature.spectral_contrast(S=magnitude, sr=audio.sr), dtype=float)
+    contrast_curve = _align_curve(np.asarray(contrast.mean(axis=0), dtype=float), frame_count)
+    flatness = _align_curve(librosa.feature.spectral_flatness(S=magnitude)[0], frame_count)
+
+    mfcc_motion = np.zeros(frame_count, dtype=float)
+    chroma_stability = np.zeros(frame_count, dtype=float)
+    tonnetz_motion = np.zeros(frame_count, dtype=float)
+    try:
+        mfcc = np.asarray(librosa.feature.mfcc(y=audio.y, sr=audio.sr, hop_length=hop, n_mfcc=20), dtype=float)
+        if mfcc.size:
+            mfcc_delta = np.asarray(librosa.feature.delta(mfcc), dtype=float)
+            mfcc_motion = _align_curve(np.mean(np.abs(mfcc_delta), axis=0), frame_count)
+    except Exception:
+        mfcc_motion = np.zeros(frame_count, dtype=float)
+    try:
+        chroma = np.asarray(librosa.feature.chroma_cqt(y=audio.y, sr=audio.sr, hop_length=hop), dtype=float)
+        if chroma.size:
+            denom = np.sum(chroma, axis=0) + 1e-9
+            chroma_stability = _align_curve(np.max(chroma, axis=0) / denom, frame_count)
+            tonnetz = np.asarray(librosa.feature.tonnetz(chroma=chroma, sr=audio.sr), dtype=float)
+            if tonnetz.size:
+                tonnetz_delta = np.asarray(librosa.feature.delta(tonnetz), dtype=float)
+                tonnetz_motion = _align_curve(np.mean(np.abs(tonnetz_delta), axis=0), frame_count)
+    except Exception:
+        chroma_stability = np.zeros(frame_count, dtype=float)
+        tonnetz_motion = np.zeros(frame_count, dtype=float)
+
+    centroid01 = base.norm01(np.nan_to_num(centroid, nan=0.0, posinf=0.0, neginf=0.0))
+    bandwidth01 = base.norm01(np.nan_to_num(bandwidth, nan=0.0, posinf=0.0, neginf=0.0))
+    contrast01 = base.norm01(np.nan_to_num(contrast_curve, nan=0.0, posinf=0.0, neginf=0.0))
+    flatness01 = base.norm01(np.nan_to_num(flatness, nan=0.0, posinf=0.0, neginf=0.0))
+    mfcc_motion01 = base.norm01(np.nan_to_num(mfcc_motion, nan=0.0, posinf=0.0, neginf=0.0))
+    chroma_stability01 = base.norm01(np.nan_to_num(chroma_stability, nan=0.0, posinf=0.0, neginf=0.0))
+    tonnetz_motion01 = base.norm01(np.nan_to_num(tonnetz_motion, nan=0.0, posinf=0.0, neginf=0.0))
+
+    tempo_bpm = estimate_tempo_bpm(audio.beat_ms)
+    duration_s = float(max(1e-6, audio.dur_s))
+    descriptor_summary = {
+        "centroid_mean": float(np.mean(centroid01)) if centroid01.size else 0.0,
+        "bandwidth_mean": float(np.mean(bandwidth01)) if bandwidth01.size else 0.0,
+        "contrast_mean": float(np.mean(contrast01)) if contrast01.size else 0.0,
+        "flatness_mean": float(np.mean(flatness01)) if flatness01.size else 0.0,
+        "mfcc_motion_mean": float(np.mean(mfcc_motion01)) if mfcc_motion01.size else 0.0,
+        "chroma_stability_mean": float(np.mean(chroma_stability01)) if chroma_stability01.size else 0.0,
+        "tonnetz_motion_mean": float(np.mean(tonnetz_motion01)) if tonnetz_motion01.size else 0.0,
+        "flux_density": _marks_density_per_minute(flux_marks, duration_s),
+        "sub_bass_density": _marks_density_per_minute(sub_marks, duration_s),
+        "bass_density": _marks_density_per_minute(bass_marks, duration_s),
+        "mid_density": _marks_density_per_minute(mid_marks, duration_s),
+        "high_density": _marks_density_per_minute(high_marks, duration_s),
+    }
+    rms_mean = float(np.mean(np.asarray(audio.rms01, dtype=float))) if np.asarray(audio.rms01).size else 0.0
+    genre_hint = classify_mir_genre(descriptor_summary, tempo_bpm=tempo_bpm, rms_mean=rms_mean)
+    mood_hint = classify_mir_mood(descriptor_summary, rms_mean=rms_mean)
+
     return MultiBandAnalysis(
         sub_bass_marks=sub_marks,
         bass_marks=bass_marks,
@@ -1626,9 +1772,48 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
         loud_marks=loud_marks,
         quiet_windows=quiet_windows,
         dominance_marks=dominance_marks,
+        frame_times_s=np.asarray(frame_times, dtype=float),
+        spectral_centroid01=np.asarray(centroid01, dtype=float),
+        spectral_bandwidth01=np.asarray(bandwidth01, dtype=float),
+        spectral_contrast01=np.asarray(contrast01, dtype=float),
+        spectral_flatness01=np.asarray(flatness01, dtype=float),
+        spectral_flux01=np.asarray(flux01, dtype=float),
+        mfcc_motion01=np.asarray(mfcc_motion01, dtype=float),
+        chroma_stability01=np.asarray(chroma_stability01, dtype=float),
+        tonnetz_motion01=np.asarray(tonnetz_motion01, dtype=float),
+        tempo_bpm=tempo_bpm,
+        genre_hint=genre_hint,
+        mood_hint=mood_hint,
+        descriptor_summary=descriptor_summary,
     )
 
 
+def curve_value_at_time(frame_times_s: np.ndarray | None, curve01: np.ndarray | None, t_ms: int) -> float:
+    if frame_times_s is None or curve01 is None:
+        return 0.0
+    if len(frame_times_s) == 0 or len(curve01) == 0:
+        return 0.0
+    usable = min(len(frame_times_s), len(curve01))
+    idx = int(np.searchsorted(np.asarray(frame_times_s[:usable], dtype=float), t_ms / 1000.0))
+    idx = int(base.clamp(idx, 0, usable - 1))
+    return float(np.asarray(curve01[:usable], dtype=float)[idx])
+
+
+def _curve_mean_between(frame_times_s: np.ndarray | None, curve01: np.ndarray | None, start_ms: int, end_ms: int) -> float:
+    if frame_times_s is None or curve01 is None:
+        return 0.0
+    if len(frame_times_s) == 0 or len(curve01) == 0:
+        return 0.0
+    usable = min(len(frame_times_s), len(curve01))
+    ts = np.asarray(frame_times_s[:usable], dtype=float)
+    vals = np.asarray(curve01[:usable], dtype=float)
+    st_s = max(0.0, float(start_ms) / 1000.0)
+    en_s = max(st_s + 1e-3, float(end_ms) / 1000.0)
+    mask = (ts >= st_s) & (ts < en_s)
+    if not np.any(mask):
+        idx = int(base.clamp(np.searchsorted(ts, st_s), 0, usable - 1))
+        return float(vals[idx])
+    return float(np.mean(vals[mask]))
 def hit_class_for_time(t_ms: int, *, kicks: list[int], snares: list[int], hats: list[int]) -> str:
     if has_nearby_mark(t_ms, snares, 45) and has_nearby_mark(t_ms, hats, 40):
         return "clap"
@@ -1642,7 +1827,7 @@ def hit_class_for_time(t_ms: int, *, kicks: list[int], snares: list[int], hats: 
 
 
 def rhythm_complexity_by_part(parts: list[SongPart], onset_ms: list[int], beat_ms: list[int]) -> dict[str, float]:
-    complexity: dict[str, float] = {}
+    buckets: dict[str, list[float]] = {}
     for part in parts:
         duration_ms = max(1, part.end_ms - part.start_ms)
         onset_count = sum(1 for t in onset_ms if part.start_ms <= t < part.end_ms)
@@ -1651,8 +1836,8 @@ def rhythm_complexity_by_part(parts: list[SongPart], onset_ms: list[int], beat_m
         beat_rate = (beat_count * 1000.0) / duration_ms
         sync_ratio = onset_rate / max(0.05, beat_rate)
         score = base.clamp((sync_ratio - 1.0) / 2.2, 0.0, 1.0)
-        complexity[part.label] = score
-    return complexity
+        buckets.setdefault(part.label, []).append(float(score))
+    return {label: float(np.mean(values)) for label, values in buckets.items()}
 
 
 def rms_value_at_time(audio: base.Audio, t_ms: int) -> float:
@@ -1718,6 +1903,77 @@ def dominant_band_at_time(t_ms: int, analysis: MultiBandAnalysis) -> str:
     return "mid"
 
 
+def derive_section_mir_profiles(
+    *,
+    parts: list[SongPart],
+    audio: base.Audio,
+    analysis: MultiBandAnalysis,
+    onset_ms: list[int],
+    beat_ms: list[int],
+    vocal_peaks: list[int],
+) -> dict[str, dict[str, float | str]]:
+    if not parts:
+        return {}
+    complexity = rhythm_complexity_by_part(parts, onset_ms=onset_ms, beat_ms=beat_ms)
+    grouped: dict[str, list[dict[str, float | str]]] = {}
+    for part in parts:
+        label = part.label
+        st = int(part.start_ms)
+        en = int(part.end_ms)
+        if en <= st:
+            continue
+        loudness = float(np.mean([rms_value_at_time(audio, ms) for ms in range(st, en, max(120, (en - st) // 6 or 120))]))
+        centroid = _curve_mean_between(analysis.frame_times_s, analysis.spectral_centroid01, st, en)
+        contrast = _curve_mean_between(analysis.frame_times_s, analysis.spectral_contrast01, st, en)
+        flatness = _curve_mean_between(analysis.frame_times_s, analysis.spectral_flatness01, st, en)
+        flux_motion = _curve_mean_between(analysis.frame_times_s, analysis.spectral_flux01, st, en)
+        vocal_activity = float(sum(1 for t in vocal_peaks if st <= t < en)) / max(1.0, (en - st) / 1000.0)
+        band_counts = {
+            "sub_bass": sum(1 for t in analysis.sub_bass_marks if st <= t < en),
+            "bass": sum(1 for t in analysis.bass_marks if st <= t < en),
+            "mid": sum(1 for t in analysis.mid_marks if st <= t < en),
+            "high": sum(1 for t in analysis.high_marks if st <= t < en),
+        }
+        dominant_band = max(band_counts.items(), key=lambda item: item[1])[0] if any(band_counts.values()) else "mid"
+        scene_mode = "balanced"
+        if label == "CHORUS":
+            scene_mode = "wide_bright"
+        elif label == "VERSE":
+            scene_mode = "tight_minimal"
+        elif label in {"PRECHORUS", "BRIDGE"}:
+            scene_mode = "build_tension"
+        elif label in {"INTRO", "OUTRO"}:
+            scene_mode = "ambient_minimal"
+        if loudness < 0.18:
+            scene_mode = "breakdown"
+        grouped.setdefault(label, []).append(
+            {
+                "loudness": loudness,
+                "complexity": float(complexity.get(label, 0.35)),
+                "centroid": centroid,
+                "contrast": contrast,
+                "flatness": flatness,
+                "flux_motion": flux_motion,
+                "vocal_activity": vocal_activity,
+                "dominant_band": dominant_band,
+                "scene_mode": scene_mode,
+            }
+        )
+
+    profiles: dict[str, dict[str, float | str]] = {}
+    numeric_keys = ("loudness", "complexity", "centroid", "contrast", "flatness", "flux_motion", "vocal_activity")
+    for label, items in grouped.items():
+        profile: dict[str, float | str] = {}
+        for key in numeric_keys:
+            profile[key] = float(np.mean([float(item[key]) for item in items]))
+        scene_counts = Counter(str(item["scene_mode"]) for item in items)
+        dominant_counts = Counter(str(item["dominant_band"]) for item in items)
+        profile["scene_mode"] = scene_counts.most_common(1)[0][0] if scene_counts else "balanced"
+        profile["dominant_band"] = dominant_counts.most_common(1)[0][0] if dominant_counts else "mid"
+        profiles[label] = profile
+    return profiles
+
+
 def marks_to_spans(
     marks: list[int],
     *,
@@ -1770,6 +2026,7 @@ def write_auto_timing_tracks(
     sections: list[base.Section],
     parts: list[SongPart],
     blackout_windows: list[tuple[int, int]],
+    multiband: MultiBandAnalysis | None = None,
 ) -> None:
     qm_prefix = f"AUTO QM {style.version}"
     tracks: list[tuple[str, list[tuple[str, int, int]]]] = []
@@ -1785,6 +2042,15 @@ def write_auto_timing_tracks(
     tracks.append((f"{qm_prefix} Energy Peaks", marks_to_spans(energy_peaks, prefix="Energy", pulse_ms=120, max_marks=1800)))
     tracks.append((f"{qm_prefix} Build Lifts", marks_to_spans(build_lifts, prefix="Lift", pulse_ms=105, max_marks=1800)))
     tracks.append((f"{qm_prefix} Releases", marks_to_spans(releases, prefix="Release", pulse_ms=100, max_marks=1800)))
+    if multiband is not None:
+        tracks.append((f"{qm_prefix} Sub Bass", marks_to_spans(multiband.sub_bass_marks, prefix="Sub", pulse_ms=105, max_marks=1800)))
+        tracks.append((f"{qm_prefix} Bass Band", marks_to_spans(multiband.bass_marks, prefix="Bass", pulse_ms=95, max_marks=2000)))
+        tracks.append((f"{qm_prefix} Mid Band", marks_to_spans(multiband.mid_marks, prefix="Mid", pulse_ms=85, max_marks=2200)))
+        tracks.append((f"{qm_prefix} High Band", marks_to_spans(multiband.high_marks, prefix="High", pulse_ms=70, max_marks=2400)))
+        tracks.append((f"{qm_prefix} Spectral Flux", marks_to_spans(multiband.spectral_flux_marks, prefix="Flux", pulse_ms=80, max_marks=2200)))
+        if multiband.quiet_windows:
+            quiet_spans = [(f"Quiet {idx + 1}", st, max(st + 1, en)) for idx, (st, en) in enumerate(multiband.quiet_windows[:260])]
+            tracks.append((f"{qm_prefix} Quiet Windows", quiet_spans))
     if sections:
         section_spans = [(f"{section.label} {idx + 1}", section.start_ms, max(section.start_ms + 1, section.end_ms)) for idx, section in enumerate(sections)]
         tracks.append((f"{qm_prefix} Sections", section_spans))
@@ -5779,26 +6045,39 @@ def place_multiband_reactive_overlay(
         envelope_shape: str,
         flux_busy: bool,
         vocal_active: bool,
+        genre_hint: str,
+        mood_hint: str,
+        spectral_contrast: float,
+        spectral_flatness: float,
+        mfcc_motion: float,
     ) -> list[str]:
         if band == "sub_bass":
             if hit_kind == "kick":
                 return ["Strobe", "Bars", "On"]
             if intensity_state in {"build", "peak"}:
                 return ["Bars", "Ramp", "On"]
+            if genre_hint in {"hip_hop", "edm"}:
+                return ["Bars", "On", "Ramp"]
             return ["On", "Ramp", "Bars"]
         if band == "bass":
             if hit_kind in {"kick", "clap"}:
                 return ["Bars", "On", "Ramp"]
+            if genre_hint == "ambient":
+                return ["Ramp", "On", "Wave"]
             return ["Wave", "Single Strand", "On"] if flux_busy else ["On", "Ramp", "Wave"]
         if band == "mid":
             if hit_kind in {"snare", "clap"}:
                 return ["Single Strand", "Wave", "On"]
+            if mfcc_motion >= 0.64 or spectral_contrast >= 0.62:
+                return ["Wave", "Single Strand", "On"]
             return ["Wave", "On", "Ramp"] if flux_busy else ["On", "Wave", "Ramp"]
         if vocal_active:
             return ["On", "Twinkle", "Wave"]
+        if genre_hint in {"ambient", "classical"} and mood_hint in {"calm", "brooding"}:
+            return ["On", "Wave", "Ramp"]
         if hit_kind in {"hat", "clap"}:
             return ["Twinkle", "Strobe", "On"]
-        if envelope_shape == "attack":
+        if envelope_shape == "attack" and spectral_flatness >= 0.45:
             return ["Strobe", "Twinkle", "On"]
         return ["Twinkle", "On", "Wave"]
 
@@ -5813,6 +6092,7 @@ def place_multiband_reactive_overlay(
             if in_blackout(t_ms):
                 continue
             part_label = part_for_time(parts, t_ms)
+            part_profile = analysis.section_profiles.get(part_label, {})
             complexity = complexity_by_part.get(part_label, 0.45)
             dominant = dominant_band_at_time(t_ms, analysis)
             if dominant != band_name:
@@ -5832,6 +6112,10 @@ def place_multiband_reactive_overlay(
             envelope_shape = envelope_shape_for_time(audio, t_ms)
             vocal_active = has_nearby_mark(t_ms, vocal_peaks, 95)
             flux_busy = has_nearby_mark(t_ms, analysis.spectral_flux_marks, 95)
+            spectral_contrast = curve_value_at_time(analysis.frame_times_s, analysis.spectral_contrast01, t_ms)
+            spectral_flatness = curve_value_at_time(analysis.frame_times_s, analysis.spectral_flatness01, t_ms)
+            mfcc_motion = curve_value_at_time(analysis.frame_times_s, analysis.mfcc_motion01, t_ms)
+            scene_mode = str(part_profile.get("scene_mode", "balanced"))
 
             if part_label in {"INTRO", "OUTRO"}:
                 base_targets = 1
@@ -5848,6 +6132,12 @@ def place_multiband_reactive_overlay(
             if vocal_active and band_name in {"mid", "high"}:
                 base_targets = max(1, base_targets - 1)
             if complexity >= 0.72 and band_name in {"mid", "high"}:
+                base_targets += 1
+            if scene_mode in {"tight_minimal", "ambient_minimal", "breakdown"}:
+                base_targets = max(1, base_targets - 1)
+            elif scene_mode == "wide_bright":
+                base_targets += 1
+            elif scene_mode == "build_tension" and band_name in {"sub_bass", "bass", "mid"}:
                 base_targets += 1
             target_count = max(1, min(4, base_targets))
 
@@ -5891,6 +6181,11 @@ def place_multiband_reactive_overlay(
                 envelope_shape=envelope_shape,
                 flux_busy=flux_busy,
                 vocal_active=vocal_active,
+                genre_hint=analysis.genre_hint,
+                mood_hint=analysis.mood_hint,
+                spectral_contrast=spectral_contrast,
+                spectral_flatness=spectral_flatness,
+                mfcc_motion=mfcc_motion,
             )
             stem_key = "bass" if band_name in {"sub_bass", "bass"} else "drums" if hit_kind != "none" else "other"
             span_end = t_ms
@@ -8986,6 +9281,14 @@ def run_variant(
         hats = base.compress_times_ms(stem_analysis.drum_hats_ms, base.scaled_gap(22))
     energy_peaks, build_lifts, releases = derive_dynamic_marks(audio)
     multiband = derive_multiband_analysis(audio)
+    multiband.section_profiles = derive_section_mir_profiles(
+        parts=parts,
+        audio=audio,
+        analysis=multiband,
+        onset_ms=onset_ms,
+        beat_ms=beat_ms,
+        vocal_peaks=vocal_peaks,
+    )
     log(
         "Stem analysis source="
         f"{stem_analysis.source}; bass_peaks={len(bass_peaks)}, vocal_peaks={len(vocal_peaks)}, "
@@ -8995,7 +9298,8 @@ def run_variant(
         "Multi-band marks: "
         f"sub={len(multiband.sub_bass_marks)}, bass={len(multiband.bass_marks)}, "
         f"mid={len(multiband.mid_marks)}, high={len(multiband.high_marks)}, "
-        f"flux={len(multiband.spectral_flux_marks)}, quiet_windows={len(multiband.quiet_windows)}"
+        f"flux={len(multiband.spectral_flux_marks)}, quiet_windows={len(multiband.quiet_windows)}, "
+        f"genre={multiband.genre_hint}, mood={multiband.mood_hint}"
     )
 
     def _snap_to_grid(t_ms: int, grid: list[int], max_shift: int) -> int:
@@ -10317,6 +10621,7 @@ def run_variant(
             sections=sections,
             parts=parts,
             blackout_windows=blackout_windows,
+            multiband=multiband,
         )
     if part_track:
         base.write_timing_track(xsq.root, f"AUTO Song Parts {style.version}", part_track, active=False)
@@ -10457,6 +10762,28 @@ def run_variant(
             "kicks": len(kicks),
             "snares": len(snares),
             "hats": len(hats),
+        },
+        "advanced_audio": {
+            "tempo_bpm": round(float(multiband.tempo_bpm), 2),
+            "genre_hint": multiband.genre_hint,
+            "mood_hint": multiband.mood_hint,
+            "descriptor_summary": {key: round(float(value), 4) for key, value in multiband.descriptor_summary.items()},
+            "mark_counts": {
+                "sub_bass": len(multiband.sub_bass_marks),
+                "bass": len(multiband.bass_marks),
+                "mid": len(multiband.mid_marks),
+                "high": len(multiband.high_marks),
+                "spectral_flux": len(multiband.spectral_flux_marks),
+                "loud": len(multiband.loud_marks),
+                "quiet_windows": len(multiband.quiet_windows),
+            },
+            "section_profiles": {
+                label: {
+                    key: (round(float(value), 4) if isinstance(value, (int, float)) else value)
+                    for key, value in profile.items()
+                }
+                for label, profile in multiband.section_profiles.items()
+            },
         },
         "lyrics": {
             "count": len(lyric_events),

@@ -275,6 +275,69 @@ class EffectEngineTests(unittest.TestCase):
         )
         self.assertEqual(effect_engine.dominant_band_at_time(1025, analysis), "bass")
 
+    def test_classify_mir_genre_detects_edm_signature(self) -> None:
+        genre = effect_engine.classify_mir_genre(
+            {
+                "bass_density": 66.0,
+                "sub_bass_density": 54.0,
+                "high_density": 42.0,
+                "flux_density": 72.0,
+                "contrast_mean": 0.52,
+                "flatness_mean": 0.44,
+                "mfcc_motion_mean": 0.46,
+                "chroma_stability_mean": 0.41,
+                "tonnetz_motion_mean": 0.52,
+            },
+            tempo_bpm=132.0,
+            rms_mean=0.68,
+        )
+        self.assertEqual(genre, "edm")
+
+    def test_derive_section_mir_profiles_returns_scene_modes(self) -> None:
+        times = np.asarray([0.0, 0.5, 1.0, 1.5, 2.0], dtype=float)
+        audio = xsq_writer.Audio(
+            sr=44100,
+            y=np.zeros(22050, dtype=np.float32),
+            dur_s=2.0,
+            onset_ms=[100, 260, 410, 610, 790, 1010, 1120, 1250, 1370, 1490, 1630, 1760],
+            beat_ms=[0, 500, 1000, 1500],
+            times_s=times,
+            centroid=np.zeros_like(times),
+            rms01=np.asarray([0.18, 0.22, 0.76, 0.74, 0.70], dtype=float),
+            bass01=np.zeros_like(times),
+            vocal01=np.zeros_like(times),
+            pitch_hz=np.zeros_like(times),
+        )
+        analysis = effect_engine.MultiBandAnalysis(
+            sub_bass_marks=[1050, 1200],
+            bass_marks=[1080, 1290],
+            mid_marks=[1110, 1320],
+            high_marks=[1140, 1350],
+            spectral_flux_marks=[1030, 1210, 1380],
+            loud_marks=[1100],
+            quiet_windows=[],
+            dominance_marks={"sub_bass": [], "bass": [1100], "mid": [], "high": []},
+            frame_times_s=times,
+            spectral_centroid01=np.asarray([0.2, 0.3, 0.6, 0.7, 0.8], dtype=float),
+            spectral_contrast01=np.asarray([0.2, 0.2, 0.6, 0.6, 0.7], dtype=float),
+            spectral_flatness01=np.asarray([0.1, 0.1, 0.4, 0.5, 0.5], dtype=float),
+            spectral_flux01=np.asarray([0.1, 0.2, 0.7, 0.8, 0.6], dtype=float),
+        )
+        parts = [
+            effect_engine.SongPart(label="VERSE", start_ms=0, end_ms=1000, energy=0.35),
+            effect_engine.SongPart(label="CHORUS", start_ms=1000, end_ms=2000, energy=0.86),
+        ]
+        profiles = effect_engine.derive_section_mir_profiles(
+            parts=parts,
+            audio=audio,
+            analysis=analysis,
+            onset_ms=audio.onset_ms,
+            beat_ms=audio.beat_ms,
+            vocal_peaks=[1150, 1400],
+        )
+        self.assertEqual(profiles["VERSE"]["scene_mode"], "tight_minimal")
+        self.assertEqual(profiles["CHORUS"]["scene_mode"], "wide_bright")
+
     def test_xsq_writer_timing_facade_round_trips_marks(self) -> None:
         root = ET.Element("Sequence")
         xsq_writer.write_timing_track(root, "AUTO Test", [("Intro", 0, 100), ("Verse", 250, 500)], active=False)
