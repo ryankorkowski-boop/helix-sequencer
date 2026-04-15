@@ -6,6 +6,8 @@ from dataclasses import replace
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
+import numpy as np
+
 from core import effect_engine
 from xlights import xsq_writer
 
@@ -199,6 +201,79 @@ class EffectEngineTests(unittest.TestCase):
         coords = {"m1": (2.0, 9.0), "m2": (1.0, 1.0), "m3": (3.0, 4.0)}
         ordered = effect_engine.spatial_ordered_models(models, coords, random.Random(0), path_style="top_to_bottom")
         self.assertEqual(ordered, ["m2", "m3", "m1"])
+
+    def test_hit_class_for_time_detects_clap_when_snare_and_hat_overlap(self) -> None:
+        hit = effect_engine.hit_class_for_time(1000, kicks=[1200], snares=[995], hats=[1008])
+        self.assertEqual(hit, "clap")
+
+    def test_rhythm_complexity_by_part_scores_busy_section_higher(self) -> None:
+        parts = [
+            effect_engine.SongPart(label="VERSE", start_ms=0, end_ms=1000, energy=0.4),
+            effect_engine.SongPart(label="CHORUS", start_ms=1000, end_ms=2000, energy=0.8),
+        ]
+        beat_ms = [0, 500, 1000, 1500]
+        onset_ms = [50, 1020, 1080, 1140, 1210, 1300, 1380, 1450, 1530, 1610, 1700, 1800, 1900]
+        complexity = effect_engine.rhythm_complexity_by_part(parts, onset_ms=onset_ms, beat_ms=beat_ms)
+        self.assertLess(complexity["VERSE"], complexity["CHORUS"])
+
+    def test_macro_intensity_state_handles_build_drop_and_quiet(self) -> None:
+        times = np.asarray([0.0, 0.5, 1.0, 1.5, 2.0], dtype=float)
+        audio = xsq_writer.Audio(
+            sr=44100,
+            y=np.zeros(22050, dtype=np.float32),
+            dur_s=2.0,
+            onset_ms=[],
+            beat_ms=[],
+            times_s=times,
+            centroid=np.zeros_like(times),
+            rms01=np.asarray([0.15, 0.35, 0.82, 0.38, 0.08], dtype=float),
+            bass01=np.zeros_like(times),
+            vocal01=np.zeros_like(times),
+            pitch_hz=np.zeros_like(times),
+        )
+        self.assertEqual(
+            effect_engine.macro_intensity_state(
+                1000,
+                audio=audio,
+                build_lifts=[1000],
+                releases=[1500],
+                quiet_windows=[(1800, 2100)],
+            ),
+            "build",
+        )
+        self.assertEqual(
+            effect_engine.macro_intensity_state(
+                1500,
+                audio=audio,
+                build_lifts=[],
+                releases=[1500],
+                quiet_windows=[],
+            ),
+            "drop",
+        )
+        self.assertEqual(
+            effect_engine.macro_intensity_state(
+                1900,
+                audio=audio,
+                build_lifts=[],
+                releases=[],
+                quiet_windows=[(1800, 2100)],
+            ),
+            "quiet",
+        )
+
+    def test_dominant_band_at_time_prefers_dominance_marks(self) -> None:
+        analysis = effect_engine.MultiBandAnalysis(
+            sub_bass_marks=[],
+            bass_marks=[],
+            mid_marks=[],
+            high_marks=[],
+            spectral_flux_marks=[],
+            loud_marks=[],
+            quiet_windows=[],
+            dominance_marks={"sub_bass": [], "bass": [1000], "mid": [], "high": []},
+        )
+        self.assertEqual(effect_engine.dominant_band_at_time(1025, analysis), "bass")
 
     def test_xsq_writer_timing_facade_round_trips_marks(self) -> None:
         root = ET.Element("Sequence")

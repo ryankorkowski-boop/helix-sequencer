@@ -53,6 +53,18 @@ class NoteEvent:
 
 
 @dataclass
+class MultiBandAnalysis:
+    sub_bass_marks: list[int]
+    bass_marks: list[int]
+    mid_marks: list[int]
+    high_marks: list[int]
+    spectral_flux_marks: list[int]
+    loud_marks: list[int]
+    quiet_windows: list[tuple[int, int]]
+    dominance_marks: dict[str, list[int]]
+
+
+@dataclass
 class KeyboardRoute:
     name: str
     models: list[str]
@@ -1486,6 +1498,224 @@ def derive_dynamic_marks(audio: base.Audio) -> tuple[list[int], list[int], list[
         base.scaled_gap(110),
     )
     return (energy_peaks, build_lifts, releases)
+
+
+def _series_peak_marks(
+    times_s: np.ndarray,
+    series: np.ndarray,
+    *,
+    threshold: float,
+    wait: int,
+    gap_ms: int,
+) -> list[int]:
+    if times_s.size == 0 or series.size == 0:
+        return []
+    usable = min(len(times_s), len(series))
+    if usable <= 0:
+        return []
+    ts = np.asarray(times_s[:usable], dtype=float)
+    vals = np.asarray(series[:usable], dtype=float)
+    if not np.isfinite(vals).any():
+        return []
+    norm = base.norm01(np.nan_to_num(vals, nan=0.0, posinf=0.0, neginf=0.0))
+    marks = [base.ms(t) for t in base.peak_times(ts, norm, threshold, max(1, int(wait)))]
+    return base.compress_times_ms(marks, max(10, int(gap_ms)))
+
+
+def _quiet_windows_from_rms(
+    times_s: np.ndarray,
+    rms01: np.ndarray,
+    *,
+    threshold: float,
+    min_window_ms: int,
+) -> list[tuple[int, int]]:
+    if times_s.size == 0 or rms01.size == 0:
+        return []
+    usable = min(len(times_s), len(rms01))
+    if usable <= 1:
+        return []
+    ts = np.asarray(times_s[:usable], dtype=float)
+    vals = np.asarray(rms01[:usable], dtype=float)
+    windows: list[tuple[int, int]] = []
+    start_idx: int | None = None
+    for idx, value in enumerate(vals):
+        if value <= threshold:
+            if start_idx is None:
+                start_idx = idx
+        elif start_idx is not None:
+            st = base.ms(ts[start_idx])
+            en = base.ms(ts[max(start_idx + 1, idx)])
+            if (en - st) >= min_window_ms:
+                windows.append((st, en))
+            start_idx = None
+    if start_idx is not None:
+        st = base.ms(ts[start_idx])
+        en = base.ms(ts[-1])
+        if (en - st) >= min_window_ms:
+            windows.append((st, en))
+    return windows
+
+
+def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
+    if audio.y.size == 0 or audio.sr <= 0:
+        return MultiBandAnalysis([], [], [], [], [], [], [], {})
+
+    hop = max(1, int(base.HOP_MS))
+    n_fft = 2048
+    spectrum = np.abs(librosa.stft(audio.y, n_fft=n_fft, hop_length=hop)) ** 2
+    if spectrum.size == 0:
+        return MultiBandAnalysis([], [], [], [], [], [], [], {})
+    freqs = librosa.fft_frequencies(sr=audio.sr, n_fft=n_fft)
+    frame_times = librosa.frames_to_time(np.arange(spectrum.shape[1]), sr=audio.sr, hop_length=hop)
+
+    def band_env(low_hz: float, high_hz: float) -> np.ndarray:
+        bins = np.where((freqs >= low_hz) & (freqs < high_hz))[0]
+        if len(bins) == 0:
+            return np.zeros(spectrum.shape[1], dtype=float)
+        raw = np.asarray(spectrum[bins, :].mean(axis=0), dtype=float)
+        return base.norm01(raw)
+
+    sub_env = band_env(20.0, 60.0)
+    bass_env = band_env(60.0, 150.0)
+    mid_env = band_env(150.0, 2000.0)
+    high_env = band_env(2000.0, 12000.0)
+
+    sub_marks = _series_peak_marks(frame_times, sub_env, threshold=0.46, wait=9, gap_ms=120)
+    bass_marks = _series_peak_marks(frame_times, bass_env, threshold=0.42, wait=8, gap_ms=105)
+    mid_marks = _series_peak_marks(frame_times, mid_env, threshold=0.38, wait=7, gap_ms=95)
+    high_marks = _series_peak_marks(frame_times, high_env, threshold=0.34, wait=6, gap_ms=80)
+
+    diff = np.diff(np.asarray(spectrum, dtype=float), axis=1)
+    flux = np.sum(np.clip(diff, 0.0, None), axis=0)
+    flux = np.pad(flux, (1, 0), mode="constant")
+    flux_marks = _series_peak_marks(frame_times, flux, threshold=0.40, wait=8, gap_ms=90)
+
+    rms = np.asarray(audio.rms01, dtype=float)
+    if rms.size >= 5:
+        kernel = np.asarray([1.0, 2.0, 3.0, 2.0, 1.0], dtype=float)
+        rms_smoothed = np.convolve(rms, kernel / np.sum(kernel), mode="same")
+    else:
+        rms_smoothed = rms
+    loud_marks = _series_peak_marks(audio.times_s, rms_smoothed, threshold=0.72, wait=8, gap_ms=170)
+    quiet_threshold = min(0.24, max(0.08, float(np.nanpercentile(rms if rms.size else np.asarray([0.1]), 22))))
+    quiet_windows = _quiet_windows_from_rms(audio.times_s, rms, threshold=quiet_threshold, min_window_ms=360)
+
+    stacks = np.vstack(
+        [
+            np.asarray(sub_env, dtype=float),
+            np.asarray(bass_env, dtype=float),
+            np.asarray(mid_env, dtype=float),
+            np.asarray(high_env, dtype=float),
+        ]
+    )
+    band_names = ("sub_bass", "bass", "mid", "high")
+    dominance_marks: dict[str, list[int]] = {name: [] for name in band_names}
+    if stacks.size:
+        dominant_idx = np.argmax(stacks, axis=0)
+        dominant_strength = np.max(stacks, axis=0)
+        for idx, name in enumerate(band_names):
+            marks = [base.ms(float(frame_times[i])) for i in range(len(frame_times)) if int(dominant_idx[i]) == idx and dominant_strength[i] >= 0.28]
+            dominance_marks[name] = base.compress_times_ms(marks, base.scaled_gap(180))
+
+    return MultiBandAnalysis(
+        sub_bass_marks=sub_marks,
+        bass_marks=bass_marks,
+        mid_marks=mid_marks,
+        high_marks=high_marks,
+        spectral_flux_marks=flux_marks,
+        loud_marks=loud_marks,
+        quiet_windows=quiet_windows,
+        dominance_marks=dominance_marks,
+    )
+
+
+def hit_class_for_time(t_ms: int, *, kicks: list[int], snares: list[int], hats: list[int]) -> str:
+    if has_nearby_mark(t_ms, snares, 45) and has_nearby_mark(t_ms, hats, 40):
+        return "clap"
+    if has_nearby_mark(t_ms, kicks, 45):
+        return "kick"
+    if has_nearby_mark(t_ms, snares, 55):
+        return "snare"
+    if has_nearby_mark(t_ms, hats, 35):
+        return "hat"
+    return "none"
+
+
+def rhythm_complexity_by_part(parts: list[SongPart], onset_ms: list[int], beat_ms: list[int]) -> dict[str, float]:
+    complexity: dict[str, float] = {}
+    for part in parts:
+        duration_ms = max(1, part.end_ms - part.start_ms)
+        onset_count = sum(1 for t in onset_ms if part.start_ms <= t < part.end_ms)
+        beat_count = sum(1 for t in beat_ms if part.start_ms <= t < part.end_ms)
+        onset_rate = (onset_count * 1000.0) / duration_ms
+        beat_rate = (beat_count * 1000.0) / duration_ms
+        sync_ratio = onset_rate / max(0.05, beat_rate)
+        score = base.clamp((sync_ratio - 1.0) / 2.2, 0.0, 1.0)
+        complexity[part.label] = score
+    return complexity
+
+
+def rms_value_at_time(audio: base.Audio, t_ms: int) -> float:
+    if audio.times_s.size == 0 or audio.rms01.size == 0:
+        return 0.0
+    idx = int(np.searchsorted(audio.times_s, t_ms / 1000.0))
+    idx = int(base.clamp(idx, 0, min(len(audio.times_s), len(audio.rms01)) - 1))
+    return float(audio.rms01[idx])
+
+
+def envelope_shape_for_time(audio: base.Audio, t_ms: int) -> str:
+    if audio.times_s.size == 0 or audio.rms01.size == 0:
+        return "steady"
+    idx = int(np.searchsorted(audio.times_s, t_ms / 1000.0))
+    idx = int(base.clamp(idx, 1, min(len(audio.times_s), len(audio.rms01)) - 2))
+    rms = np.asarray(audio.rms01, dtype=float)
+    slope = float((rms[idx + 1] - rms[idx - 1]) * 0.5)
+    if slope >= 0.05:
+        return "attack"
+    if slope <= -0.05:
+        return "decay"
+    if rms[idx] >= 0.62:
+        return "sustain"
+    return "steady"
+
+
+def macro_intensity_state(
+    t_ms: int,
+    *,
+    audio: base.Audio,
+    build_lifts: list[int],
+    releases: list[int],
+    quiet_windows: list[tuple[int, int]],
+) -> str:
+    for st, en in quiet_windows:
+        if st <= t_ms <= en:
+            return "quiet"
+    if has_nearby_mark(t_ms, releases, 115):
+        return "drop"
+    if has_nearby_mark(t_ms, build_lifts, 100):
+        return "build"
+    rms = rms_value_at_time(audio, t_ms)
+    if rms >= 0.74:
+        return "peak"
+    if rms <= 0.20:
+        return "quiet"
+    return "steady"
+
+
+def dominant_band_at_time(t_ms: int, analysis: MultiBandAnalysis) -> str:
+    for band_name in ("sub_bass", "bass", "mid", "high"):
+        marks = analysis.dominance_marks.get(band_name, [])
+        if has_nearby_mark(t_ms, marks, 110):
+            return band_name
+    if has_nearby_mark(t_ms, analysis.sub_bass_marks, 90):
+        return "sub_bass"
+    if has_nearby_mark(t_ms, analysis.bass_marks, 90):
+        return "bass"
+    if has_nearby_mark(t_ms, analysis.mid_marks, 90):
+        return "mid"
+    if has_nearby_mark(t_ms, analysis.high_marks, 90):
+        return "high"
+    return "mid"
 
 
 def marks_to_spans(
@@ -5482,6 +5712,226 @@ def place_intensity_waves(
             sweep_track.append((f"poly:{pool.name}", event.start_ms, span_end))
 
 
+def place_multiband_reactive_overlay(
+    *,
+    style: VariantStyle,
+    pools: list[SequentialPool],
+    parts: list[SongPart],
+    audio: base.Audio,
+    analysis: MultiBandAnalysis,
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    vocal_peaks: list[int],
+    build_lifts: list[int],
+    releases: list[int],
+    pool_state: dict[str, int],
+    rng: random.Random,
+    ramp_ok: bool,
+    ramp_tpl: base.EffectTemplate,
+    add_model,
+    in_blackout,
+    overlay_track: list[tuple[str, int, int]],
+) -> int:
+    band_pools: dict[str, list[SequentialPool]] = {
+        "sub_bass": pools_by_category(pools, ("mega", "gt", "flood", "line")),
+        "bass": pools_by_category(pools, ("arch", "line", "canes_combo", "gt")),
+        "mid": pools_by_category(pools, ("arch", "spinner", "line", "matrix")),
+        "high": pools_by_category(pools, ("stars", "snowflakes", "matrix", "line")),
+    }
+    quiet_pools = pools_by_category(pools, ("stars", "snowflakes", "arch", "line", "matrix"))
+    if not any(band_pools.values()):
+        return 0
+
+    complexity_by_part = rhythm_complexity_by_part(parts, audio.onset_ms, audio.beat_ms)
+    band_events: list[tuple[str, list[int]]] = [
+        ("sub_bass", downsample_marks(analysis.sub_bass_marks, max_marks=420)),
+        ("bass", downsample_marks(analysis.bass_marks, max_marks=520)),
+        ("mid", downsample_marks(analysis.mid_marks, max_marks=680)),
+        ("high", downsample_marks(analysis.high_marks, max_marks=760)),
+    ]
+    base_duration = {"sub_bass": 220, "bass": 180, "mid": 150, "high": 110}
+    cue_by_band = {"sub_bass": "bass", "bass": "bass", "mid": "phrase", "high": "hat"}
+
+    last_effect: dict[str, str] = {}
+    repeat_count: dict[str, int] = {}
+
+    def choose_effect(key: str, options: list[str]) -> str:
+        prev = last_effect.get(key, "")
+        repeats = repeat_count.get(key, 0)
+        choice = options[0]
+        for option in options:
+            if option != prev or repeats < 2:
+                choice = option
+                break
+        if choice == prev:
+            repeat_count[key] = repeats + 1
+        else:
+            repeat_count[key] = 1
+        last_effect[key] = choice
+        return choice
+
+    def effect_options(
+        *,
+        band: str,
+        hit_kind: str,
+        intensity_state: str,
+        envelope_shape: str,
+        flux_busy: bool,
+        vocal_active: bool,
+    ) -> list[str]:
+        if band == "sub_bass":
+            if hit_kind == "kick":
+                return ["Strobe", "Bars", "On"]
+            if intensity_state in {"build", "peak"}:
+                return ["Bars", "Ramp", "On"]
+            return ["On", "Ramp", "Bars"]
+        if band == "bass":
+            if hit_kind in {"kick", "clap"}:
+                return ["Bars", "On", "Ramp"]
+            return ["Wave", "Single Strand", "On"] if flux_busy else ["On", "Ramp", "Wave"]
+        if band == "mid":
+            if hit_kind in {"snare", "clap"}:
+                return ["Single Strand", "Wave", "On"]
+            return ["Wave", "On", "Ramp"] if flux_busy else ["On", "Wave", "Ramp"]
+        if vocal_active:
+            return ["On", "Twinkle", "Wave"]
+        if hit_kind in {"hat", "clap"}:
+            return ["Twinkle", "Strobe", "On"]
+        if envelope_shape == "attack":
+            return ["Strobe", "Twinkle", "On"]
+        return ["Twinkle", "On", "Wave"]
+
+    placed = 0
+    for band_name, marks in band_events:
+        if not marks:
+            continue
+        candidates = band_pools.get(band_name, [])
+        if not candidates:
+            continue
+        for idx, t_ms in enumerate(marks):
+            if in_blackout(t_ms):
+                continue
+            part_label = part_for_time(parts, t_ms)
+            complexity = complexity_by_part.get(part_label, 0.45)
+            dominant = dominant_band_at_time(t_ms, analysis)
+            if dominant != band_name:
+                if band_name in {"mid", "high"} and dominant in {"sub_bass", "bass"} and rng.random() > 0.35:
+                    continue
+                if band_name in {"sub_bass", "bass"} and dominant in {"mid", "high"} and rng.random() > 0.58:
+                    continue
+
+            hit_kind = hit_class_for_time(t_ms, kicks=kicks, snares=snares, hats=hats)
+            intensity_state = macro_intensity_state(
+                t_ms,
+                audio=audio,
+                build_lifts=build_lifts,
+                releases=releases,
+                quiet_windows=analysis.quiet_windows,
+            )
+            envelope_shape = envelope_shape_for_time(audio, t_ms)
+            vocal_active = has_nearby_mark(t_ms, vocal_peaks, 95)
+            flux_busy = has_nearby_mark(t_ms, analysis.spectral_flux_marks, 95)
+
+            if part_label in {"INTRO", "OUTRO"}:
+                base_targets = 1
+            elif part_label == "VERSE":
+                base_targets = 1 if band_name in {"mid", "high"} else 2
+            elif part_label == "CHORUS":
+                base_targets = 3 if band_name in {"sub_bass", "bass"} else 2
+            else:
+                base_targets = 2
+            if intensity_state in {"build", "peak"}:
+                base_targets += 1
+            if intensity_state == "drop":
+                base_targets = max(1, base_targets - 1)
+            if vocal_active and band_name in {"mid", "high"}:
+                base_targets = max(1, base_targets - 1)
+            if complexity >= 0.72 and band_name in {"mid", "high"}:
+                base_targets += 1
+            target_count = max(1, min(4, base_targets))
+
+            cue_key = cue_by_band[band_name]
+            target_count = cue_target_count(
+                target_count,
+                cue_key,
+                placement_mode="pixel_reactive",
+                part_label=part_label,
+                maximum=target_count + 1,
+            )
+            target_count = max(1, min(4, target_count))
+
+            pool = choose_cycle_pool(candidates, pool_state, f"multiband_{band_name}_{part_label.lower()}_{idx % 4}")
+            if pool is None:
+                continue
+            targets = representative_models(pool, target_count)
+            if not targets:
+                continue
+
+            dur_scale = 1.0
+            if intensity_state == "quiet":
+                dur_scale *= 0.78
+            elif intensity_state == "build":
+                dur_scale *= 1.14
+            elif intensity_state == "peak":
+                dur_scale *= 1.22
+            elif intensity_state == "drop":
+                dur_scale *= 0.72
+            if envelope_shape == "attack":
+                dur_scale *= 0.82
+            elif envelope_shape == "sustain":
+                dur_scale *= 1.12
+            elif envelope_shape == "decay":
+                dur_scale *= 0.90
+            dur = max(55, int(base.scaled_dur(base_duration[band_name] * dur_scale)))
+            options = effect_options(
+                band=band_name,
+                hit_kind=hit_kind,
+                intensity_state=intensity_state,
+                envelope_shape=envelope_shape,
+                flux_busy=flux_busy,
+                vocal_active=vocal_active,
+            )
+            stem_key = "bass" if band_name in {"sub_bass", "bass"} else "drums" if hit_kind != "none" else "other"
+            span_end = t_ms
+            for step, model_name in enumerate(targets):
+                st = t_ms + step * (14 if band_name in {"sub_bass", "bass"} else 10)
+                en = st + max(50, int(dur * (1.0 + (0.08 * min(2, step)))))
+                effect_name = choose_effect(f"{band_name}:{pool.name}", options)
+                use_ramp = ramp_ok and effect_name == "Ramp"
+                add_model(
+                    model_name,
+                    st,
+                    en,
+                    f"multiband_{band_name}",
+                    eff=effect_name,
+                    tpl=ramp_tpl if use_ramp else None,
+                    cd_key=f"mb_{band_name}_strobe" if effect_name == "Strobe" else None,
+                    cd_ms=95 if effect_name == "Strobe" else 0,
+                    stem=stem_key,
+                )
+                span_end = max(span_end, en)
+                placed += 1
+            if span_end > t_ms:
+                overlay_track.append((f"{band_name}:{pool.name}:{hit_kind or 'none'}", t_ms, span_end))
+
+    if quiet_pools and analysis.quiet_windows:
+        for idx, (start_ms, end_ms) in enumerate(analysis.quiet_windows[:36]):
+            if in_blackout((start_ms + end_ms) // 2):
+                continue
+            if (end_ms - start_ms) < 300:
+                continue
+            pool = choose_cycle_pool(quiet_pools, pool_state, "multiband_quiet_hold")
+            if pool is None or not pool.models:
+                continue
+            model_name = pool.models[idx % len(pool.models)]
+            hold_end = min(end_ms, start_ms + max(180, base.scaled_dur(320)))
+            add_model(model_name, start_ms, hold_end, "multiband_quiet_hold", eff="On", stem="other")
+            overlay_track.append((f"quiet:{pool.name}", start_ms, hold_end))
+            placed += 1
+    return placed
+
+
 def build_keyboard_lane(pools: list[SequentialPool], override: list[str] | None = None) -> list[str]:
     return build_keyboard_lane_with_routes(pools, override=override, preferred_routes=None)
 
@@ -8535,10 +8985,17 @@ def run_variant(
     if stem_analysis.drum_hats_ms:
         hats = base.compress_times_ms(stem_analysis.drum_hats_ms, base.scaled_gap(22))
     energy_peaks, build_lifts, releases = derive_dynamic_marks(audio)
+    multiband = derive_multiband_analysis(audio)
     log(
         "Stem analysis source="
         f"{stem_analysis.source}; bass_peaks={len(bass_peaks)}, vocal_peaks={len(vocal_peaks)}, "
         f"kicks={len(kicks)}, snares={len(snares)}, hats={len(hats)}"
+    )
+    log(
+        "Multi-band marks: "
+        f"sub={len(multiband.sub_bass_marks)}, bass={len(multiband.bass_marks)}, "
+        f"mid={len(multiband.mid_marks)}, high={len(multiband.high_marks)}, "
+        f"flux={len(multiband.spectral_flux_marks)}, quiet_windows={len(multiband.quiet_windows)}"
     )
 
     def _snap_to_grid(t_ms: int, grid: list[int], max_shift: int) -> int:
@@ -8818,6 +9275,7 @@ def run_variant(
     sweep_track: list[tuple[str, int, int]] = []
     lua_track: list[tuple[str, int, int]] = []
     pixel_track: list[tuple[str, int, int]] = []
+    multiband_track: list[tuple[str, int, int]] = []
     part_track: list[tuple[str, int, int]] = [(part.label, part.start_ms, part.end_ms) for part in parts]
     drop_track: list[tuple[str, int, int]] = []
     coords: dict[str, tuple[float, float]] = {}
@@ -9709,6 +10167,28 @@ def run_variant(
         )
         if pixel_attempts:
             log(f"Pixel reactive score cues scheduled: {pixel_attempts}")
+        multiband_attempts = place_multiband_reactive_overlay(
+            style=style,
+            pools=pools,
+            parts=parts,
+            audio=audio,
+            analysis=multiband,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            vocal_peaks=vocal_peaks,
+            build_lifts=build_lifts,
+            releases=releases,
+            pool_state=pool_state,
+            rng=rng,
+            ramp_ok=ramp_ok,
+            ramp_tpl=xsq.ramp_tpl,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            overlay_track=multiband_track,
+        )
+        if multiband_attempts:
+            log(f"Multi-band reactive overlays placed: {multiband_attempts}")
 
     if style.family in {"v19", "v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
         neighbor_attempts = apply_neighbor_showcase_score(
@@ -9850,6 +10330,8 @@ def run_variant(
         base.write_timing_track(xsq.root, f"AUTO Lua Macros {style.version}", lua_track, active=False)
     if pixel_track:
         base.write_timing_track(xsq.root, f"AUTO Pixel Score {style.version}", pixel_track[:2000], active=False)
+    if multiband_track:
+        base.write_timing_track(xsq.root, f"AUTO MultiBand {style.version}", multiband_track[:2400], active=False)
     if spatial_track:
         base.write_timing_track(xsq.root, f"AUTO Spatial Chase {style.version}", spatial_track, active=False)
     if lyric_track:
