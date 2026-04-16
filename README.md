@@ -49,3 +49,17 @@ python main.py --profile v27.3 -- --template template.xsq --audio 13.wav --no-pr
 - Legacy wrappers and experimental scripts were moved instead of deleted.
 - The current restructure is intentionally conservative: proven engine code was promoted into the new folders with minimal behavioral changes.
 - AI bridges are placeholders by design. Rule-based sequencing remains the default path.
+
+## Matrix Planning Output
+
+- The engine now writes matrix-first planning data into each `.report.json` under `matrix_intelligence` (shader picks, blend hints, stem-layer weights, transition plan, and optional video hybrid analysis).
+- Optional flags:
+  - `--video-file <path-to-mp4>` enables lightweight scene-cut/motion/palette analysis for report planning.
+  - `--blend-rules-file <path-to-json>` reserves user blend override wiring (safe fallback if omitted).
+  - `--no-matrix-intelligence` disables this planning layer.
+
+## Responsible Use
+
+- Helix creators are not responsible for misuse of training workflows or sequence data.
+- Do not train on licensed third-party sequences or proprietary customer show files without explicit rights.
+- Use only assets you own or are licensed to use during builds and tuning.

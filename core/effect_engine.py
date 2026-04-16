@@ -19,6 +19,7 @@ import xml.etree.ElementTree as ET
 from core.lazy_imports import LazyModule
 
 from core import audio_intelligence as ai
+from core import matrix_intelligence as mi
 from core import model_parser as xmp
 from tools import utilities as xfb
 from xlights import xsq_writer as base
@@ -157,6 +158,9 @@ class RuntimeTuning:
     workspace_history_limit: int = 24
     auto_timing_tracks: bool = True
     pixel_reactive: bool = True
+    matrix_intelligence: bool = True
+    video_file: Path | None = None
+    blend_rules_file: Path | None = None
 
 
 @dataclass
@@ -7807,6 +7811,11 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
     validation = payload.get("validation", {}) or {}
     quality = payload.get("quality", {}) or {}
     watermark = payload.get("watermark", {}) or {}
+    matrix_intel = payload.get("matrix_intelligence", {}) or {}
+    matrix_params = matrix_intel.get("matrix_params", {}) or {}
+    matrix_classification = matrix_intel.get("classification", {}) or {}
+    matrix_video = matrix_intel.get("video_data", {}) or {}
+    responsible_use = payload.get("responsible_use", {}) or {}
     lines = [
         "Dream Sequence Weaver",
         "=" * 28,
@@ -7840,6 +7849,19 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
         f"- Energy keyboard mix: {tuning.get('keyboard_mix', '')}",
         f"- Palette mode: {tuning.get('palette_mode', '')}",
         f"- Layering mode: {tuning.get('layering_mode', '')}",
+        "",
+        "Matrix Intelligence",
+        f"- Enabled: {matrix_intel.get('enabled', False)}",
+        f"- Matrix available: {matrix_intel.get('matrix_available', False)}",
+        f"- Matrix count: {matrix_intel.get('matrix_count', 0)}",
+        f"- Target matrix: {matrix_params.get('target_model', '')}",
+        f"- Matrix size: {matrix_params.get('width', '')} x {matrix_params.get('height', '')}",
+        f"- Recommended shader: {matrix_params.get('recommended_shader', '')}",
+        f"- Spectrogram mapping: {matrix_params.get('spectrogram_mapping', '')}",
+        f"- Mood description: {matrix_intel.get('mood_description', '')}",
+        f"- Classification: genre={matrix_classification.get('genre', '')}, mood={matrix_classification.get('mood', '')}, confidence={matrix_classification.get('confidence', '')}",
+        f"- Video available: {matrix_video.get('video_available', False)}",
+        f"- Video sync tip: {matrix_video.get('sync_tip', '')}",
         "",
         "Parsed Layout Summary",
         f"- Models: {parsed_layout.get('model_count', 0)}",
@@ -7888,6 +7910,12 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
             "- If a prop family feels underused, compare this notes file with the layout type summary to see whether that family actually exists in the layout.",
             "- If validation rejections are high, the engine chose safety over forcing overlaps. Consider lowering density or simplifying the layout lanes for that song.",
             "- For more aggressive looks, compare with another style type instead of only increasing randomness.",
+            "- Matrix-specific planning is written to the report JSON under matrix_intelligence.per_section for direct shader-timing tuning.",
+            "",
+            "Responsible Use",
+            f"- {responsible_use.get('notice', '')}",
+            f"- {responsible_use.get('copyright_warning', '')}",
+            f"- {responsible_use.get('build_rule', '')}",
             "",
         ]
     )
@@ -10708,6 +10736,42 @@ def run_variant(
         available_family_counts = {key: value for key, value in sorted(available_counter.items(), key=lambda item: item[0])}
         used_family_counts = {key: value for key, value in sorted(used_counter.items(), key=lambda item: item[0])}
 
+    matrix_intelligence_payload: dict[str, object]
+    if tuning.matrix_intelligence:
+        matrix_intelligence_payload = mi.build_matrix_intelligence_plan(
+            parsed_layout=parsed_layout,
+            parts=parts,
+            multiband=multiband,
+            audio=audio,
+            beat_ms=beat_ms,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            video_path=tuning.video_file,
+            blend_overrides_path=tuning.blend_rules_file,
+            log_fn=log,
+        )
+    else:
+        matrix_intelligence_payload = {
+            "enabled": False,
+            "matrix_available": False,
+            "matrix_count": 0,
+            "matrix_params": {},
+            "matrix_shader_config": {"per_section": []},
+            "frequency_layer_config": {},
+            "video_data": {
+                "video_available": False,
+                "analysis_note": "Matrix intelligence disabled by runtime tuning.",
+            },
+            "responsible_use": {
+                "notice": "Helix creators are not responsible for misuse of training workflows or sequence data.",
+                "copyright_warning": "Do not train on licensed third-party sequences without explicit rights.",
+                "build_rule": "Use only assets you own or are licensed to use.",
+            },
+        }
+
     payload = {
         "version": style.version,
         "title": style.title,
@@ -10749,6 +10813,9 @@ def run_variant(
             "workspace_history_limit": int(tuning.workspace_history_limit),
             "workspace_history_folder": str(tuning.workspace_history_folder) if tuning.workspace_history_folder else "",
             "model_override_keys": sorted((tuning.model_overrides or {}).keys()),
+            "matrix_intelligence": bool(tuning.matrix_intelligence),
+            "video_file": str(tuning.video_file) if tuning.video_file else "",
+            "blend_rules_file": str(tuning.blend_rules_file) if tuning.blend_rules_file else "",
         },
         "xlights_catalog": {
             "effect_count": int(xlights_catalog.get("effect_count", 0)) if xlights_catalog else 0,
@@ -10785,6 +10852,8 @@ def run_variant(
                 for label, profile in multiband.section_profiles.items()
             },
         },
+        "matrix_intelligence": matrix_intelligence_payload,
+        "responsible_use": matrix_intelligence_payload.get("responsible_use", {}),
         "lyrics": {
             "count": len(lyric_events),
             "synced_track_events": len(lyric_track),
@@ -10968,6 +11037,10 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--no-auto-timing-tracks", dest="auto_timing_tracks", action="store_false", help="Disable extended timing-track output")
     parser.add_argument("--pixel-reactive", dest="pixel_reactive", action="store_true", help="Enable family-aware reactive pixel choreography for compatible models")
     parser.add_argument("--no-pixel-reactive", dest="pixel_reactive", action="store_false", help="Disable the reactive pixel choreography pass")
+    parser.add_argument("--matrix-intelligence", dest="matrix_intelligence", action="store_true", help="Enable matrix-first 2D shader planning in report output")
+    parser.add_argument("--no-matrix-intelligence", dest="matrix_intelligence", action="store_false", help="Disable matrix-first planning in report output")
+    parser.add_argument("--video-file", dest="video_file", help="Optional music video file (.mp4) for hybrid audio+video analysis")
+    parser.add_argument("--blend-rules-file", dest="blend_rules_file", help="Optional JSON overrides for blend mode planning")
     parser.add_argument("--settings", default=f"{style.version}.settings.json", help="Settings JSON path")
     parser.add_argument("--output-dir", help="Optional output folder override")
     parser.add_argument("--no-prompt", action="store_true", help="Run without interactive prompts")
@@ -10980,6 +11053,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
         auto_timing_tracks=True,
         workspace_history_enabled=True,
         pixel_reactive=True,
+        matrix_intelligence=True,
     )
     return parser.parse_args(argv)
 
@@ -11061,6 +11135,14 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     workspace_history_folder = resolve_path(folder, args.workspace_history_folder) if args.workspace_history_folder else (folder / "outputs")
     if workspace_history_folder is not None and not workspace_history_folder.exists():
         workspace_history_folder = None
+    video_file = resolve_path(folder, args.video_file) if args.video_file else None
+    if video_file is not None and not video_file.exists():
+        log(f"Video file not found; matrix video analysis disabled: {video_file}")
+        video_file = None
+    blend_rules_file = resolve_path(folder, args.blend_rules_file) if args.blend_rules_file else None
+    if blend_rules_file is not None and not blend_rules_file.exists():
+        log(f"Blend rules file not found; using defaults: {blend_rules_file}")
+        blend_rules_file = None
     moises_key = (args.moises_api_key or "").strip() or os.environ.get("MOISES_API_KEY", "")
     tuning = RuntimeTuning(
         polyphony_override=int(args.polyphony) if args.polyphony is not None else None,
@@ -11096,6 +11178,9 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         workspace_history_limit=max(4, int(args.workspace_history_limit if args.workspace_history_limit is not None else 24)),
         auto_timing_tracks=bool(args.auto_timing_tracks),
         pixel_reactive=bool(args.pixel_reactive),
+        matrix_intelligence=bool(args.matrix_intelligence),
+        video_file=video_file,
+        blend_rules_file=blend_rules_file,
     )
     style = apply_runtime_style(style, tuning)
 
