@@ -20,6 +20,7 @@ from core.lazy_imports import LazyModule
 
 from core import audio_intelligence as ai
 from core import model_parser as xmp
+from core import rhythm_intelligence as ri
 from tools import utilities as xfb
 from xlights import xsq_writer as base
 
@@ -9301,6 +9302,23 @@ def run_variant(
         f"flux={len(multiband.spectral_flux_marks)}, quiet_windows={len(multiband.quiet_windows)}, "
         f"genre={multiband.genre_hint}, mood={multiband.mood_hint}"
     )
+    try:
+        rhythm_intelligence_payload = ri.build_rhythm_intelligence(
+            beat_ms=beat_ms,
+            onset_ms=onset_ms,
+            note_onset_ms=note_onset_ms,
+            parts=parts,
+            audio=audio,
+        )
+    except Exception as exc:
+        log(f"[WARN] Rhythm intelligence analysis skipped: {exc!r}")
+        rhythm_intelligence_payload = ri.default_payload()
+    log(
+        "Rhythm intelligence: "
+        f"polyrhythms={len(rhythm_intelligence_payload.get('polyrhythm_overlays', []))}, "
+        f"phrases={len(rhythm_intelligence_payload.get('phrase_boundaries', []))}, "
+        f"microtiming_samples={int(rhythm_intelligence_payload.get('microtiming', {}).get('sample_count', 0))}"
+    )
 
     def _snap_to_grid(t_ms: int, grid: list[int], max_shift: int) -> int:
         if not grid:
@@ -10785,6 +10803,7 @@ def run_variant(
                 for label, profile in multiband.section_profiles.items()
             },
         },
+        "rhythm_intelligence": rhythm_intelligence_payload,
         "lyrics": {
             "count": len(lyric_events),
             "synced_track_events": len(lyric_track),
