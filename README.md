@@ -43,6 +43,50 @@ Legacy version IDs still work as explicit compatibility fallbacks:
 python main.py --profile v27.3 -- --template template.xsq --audio 13.wav --no-prompt
 ```
 
+## Packaging
+
+Build the packaged Windows executable:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build_exe.ps1
+```
+
+Build and sign using an installed code-signing certificate (auto-detected from cert store):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build_exe.ps1 -Sign
+```
+
+Build and sign using a PFX file:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build_exe.ps1 -Sign -PfxPath "C:\path\codesign.pfx" -PfxPassword "your-password"
+```
+
+Create a customer bundle in `release/`:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build_customer_bundle.ps1
+```
+
+Run release gates (tests + build + smoke checks):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\release_audit.ps1
+```
+
+Run release gates with an end-to-end sequencing smoke test:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\release_audit.ps1 -IncludeEndToEnd
+```
+
+Run strict release gates that require a valid Authenticode signature:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\release_audit.ps1 -RequireSignature
+```
+
 ## Notes
 
 - The active maintained entrypoint is the `master` profile, currently backed by the stable `v27.3` tuning inside `core/effect_engine.py`.

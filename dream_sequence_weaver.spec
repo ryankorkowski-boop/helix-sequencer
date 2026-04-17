@@ -4,6 +4,7 @@ from PyInstaller.utils.hooks import collect_data_files
 
 block_cipher = None
 root = Path(globals().get("SPECPATH", ".")).resolve()
+version_file = root / "pyinstaller_version_info.txt"
 
 datas = [
     (str(root / "SEQUENCER_INSTRUCTIONS.txt"), "."),
@@ -47,7 +48,14 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=["torch", "torchaudio", "torchvision", "whisper"],
+    excludes=[
+        "torch",
+        "torchaudio",
+        "torchvision",
+        "whisper",
+        # Numba's TBB backend is optional; excluding it avoids unresolved tbb12.dll warnings.
+        "numba.np.ufunc.tbbpool",
+    ],
     noarchive=False,
 )
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
@@ -74,4 +82,5 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
     icon=str(root / "app_icon.ico"),
+    version=str(version_file),
 )

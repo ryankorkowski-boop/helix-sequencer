@@ -11,3 +11,6 @@ dist/
 *.m4a
 *.xbkp
 414_inventory.txt
+release/
+v[0-9]*/
+*.settings.json

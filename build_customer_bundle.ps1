@@ -1,17 +1,38 @@
 Param(
   [switch]$Clean,
-  [switch]$SkipBuild
+  [switch]$SkipBuild,
+  [switch]$Sign,
+  [string]$CertThumbprint,
+  [string]$PfxPath,
+  [string]$PfxPassword,
+  [string]$TimestampUrl = "http://timestamp.digicert.com",
+  [string]$SignToolPath,
+  [string]$SignatureDescription = "Dream Sequence Weaver xLights sequencer"
 )
 
 $ErrorActionPreference = "Stop"
 Set-Location -Path $PSScriptRoot
 
 if (-not $SkipBuild) {
+  $buildArgs = @()
   if ($Clean) {
-    & "$PSScriptRoot\build_exe.ps1" -Clean
-  } else {
-    & "$PSScriptRoot\build_exe.ps1"
+    $buildArgs += "-Clean"
   }
+  if ($Sign) { $buildArgs += "-Sign" }
+  if (-not [string]::IsNullOrWhiteSpace($CertThumbprint)) { $buildArgs += @("-CertThumbprint", $CertThumbprint) }
+  if (-not [string]::IsNullOrWhiteSpace($PfxPath)) { $buildArgs += @("-PfxPath", $PfxPath) }
+  if (-not [string]::IsNullOrWhiteSpace($PfxPassword)) { $buildArgs += @("-PfxPassword", $PfxPassword) }
+  if (-not [string]::IsNullOrWhiteSpace($TimestampUrl)) { $buildArgs += @("-TimestampUrl", $TimestampUrl) }
+  if (-not [string]::IsNullOrWhiteSpace($SignToolPath)) { $buildArgs += @("-SignToolPath", $SignToolPath) }
+  if (-not [string]::IsNullOrWhiteSpace($SignatureDescription)) { $buildArgs += @("-SignatureDescription", $SignatureDescription) }
+  & "$PSScriptRoot\build_exe.ps1" @buildArgs
+}
+elseif (
+  $Sign -or
+  (-not [string]::IsNullOrWhiteSpace($CertThumbprint)) -or
+  (-not [string]::IsNullOrWhiteSpace($PfxPath))
+) {
+  Write-Warning "Signing options were provided with -SkipBuild; they are ignored unless build_exe.ps1 runs."
 }
 
 $distExe = Join-Path $PSScriptRoot "dist\HelixSequenceWeaverBeta.exe"
@@ -58,6 +79,17 @@ Set-Content -Path $launchCmd -Value $cmdContent -Encoding ASCII
 $iconScript = Join-Path $PSScriptRoot "set_folder_icons.ps1"
 if (Test-Path $iconScript) {
   & $iconScript -TargetFolders @($bundleDir) | Out-Null
+}
+
+$bundleExe = Join-Path $bundleDir "HelixSequenceWeaverBeta.exe"
+$signature = Get-AuthenticodeSignature $bundleExe
+if ($signature.Status -ne "Valid") {
+  Write-Warning "Bundle EXE is not Authenticode signed (status: $($signature.Status))."
+}
+
+$versionInfo = (Get-Item $bundleExe).VersionInfo
+if ([string]::IsNullOrWhiteSpace($versionInfo.FileVersion) -or [string]::IsNullOrWhiteSpace($versionInfo.ProductVersion)) {
+  Write-Warning "Bundle EXE is missing version metadata fields."
 }
 
 Write-Host "Customer bundle ready:"
