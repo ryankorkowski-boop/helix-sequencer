@@ -1,0 +1,220 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="skyFest" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#08141d"/>
+      <stop offset="35%" stop-color="#16324c"/>
+      <stop offset="70%" stop-color="#5a2043"/>
+      <stop offset="100%" stop-color="#132d28"/>
+    </linearGradient>
+    <linearGradient id="auroraFestA" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#69f0d1" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#69f0d1" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#69f0d1" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="auroraFestB" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9dc6ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#9dc6ff" stop-opacity="0.48"/>
+      <stop offset="100%" stop-color="#9dc6ff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="auroraFestC" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffd184" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffd184" stop-opacity="0.36"/>
+      <stop offset="100%" stop-color="#ffd184" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="stageGlow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff0d4" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#d78e4c" stop-opacity="0.55"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#051014" flood-opacity="0.4"/>
+    </filter>
+    <pattern id="pepStripe" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+      <rect width="20" height="20" fill="#fff"/>
+      <rect width="10" height="20" fill="#d84c4c"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#skyFest)"/>
+  <path d="M0 138 Q196 84 386 134 T776 130 T1600 116" fill="none" stroke="url(#auroraFestA)" stroke-width="44"/>
+  <path d="M20 212 Q242 164 420 218 T918 228 T1600 194" fill="none" stroke="url(#auroraFestB)" stroke-width="30"/>
+  <path d="M0 274 Q260 248 514 292 T1028 286 T1600 262" fill="none" stroke="url(#auroraFestC)" stroke-width="20"/>
+
+  <circle cx="124" cy="146" r="70" fill="#fff" opacity="0.08"/>
+  <circle cx="1450" cy="124" r="96" fill="#fff" opacity="0.06"/>
+  <ellipse cx="800" cy="776" rx="670" ry="88" fill="#091119" opacity="0.55"/>
+
+  <text x="70" y="88" fill="#fff1dd" font-size="52" font-family="Georgia, serif">Festival Of Frost</text>
+  <text x="72" y="126" fill="#c7ebe8" font-size="23" font-family="'Trebuchet MS', sans-serif">All three snowman bands staged as one surreal yard concert with mirrored paths, reactive lanes, aurora ribbons, canopy stars, and motion-rich side scenery.</text>
+
+  <g filter="url(#softShadow)">
+    <rect x="62" y="714" width="470" height="138" rx="26" fill="#142530" opacity="0.85"/>
+    <text x="92" y="752" fill="#fff1dd" font-size="24" font-family="'Trebuchet MS', sans-serif">Layout Story</text>
+    <text x="92" y="782" fill="#d6ebef" font-size="18" font-family="'Trebuchet MS', sans-serif">Left stage: Snowcap Swing in warm brass.</text>
+    <text x="92" y="808" fill="#d6ebef" font-size="18" font-family="'Trebuchet MS', sans-serif">Center stage: Aurora Echo as the cinematic hero.</text>
+    <text x="92" y="834" fill="#d6ebef" font-size="18" font-family="'Trebuchet MS', sans-serif">Right stage: Candy Cabaret for joyful chaos and crowd-pleasing color.</text>
+
+    <rect x="1078" y="714" width="460" height="138" rx="26" fill="#183427" opacity="0.84"/>
+    <text x="1108" y="752" fill="#fff1dd" font-size="24" font-family="'Trebuchet MS', sans-serif">Effect Spine</text>
+    <text x="1108" y="782" fill="#e1f7ea" font-size="18" font-family="'Trebuchet MS', sans-serif">Arches and canes become pitch rivers between stages.</text>
+    <text x="1108" y="808" fill="#e1f7ea" font-size="18" font-family="'Trebuchet MS', sans-serif">Mega trees and matrices act like chorus halos and sky curtains.</text>
+    <text x="1108" y="834" fill="#e1f7ea" font-size="18" font-family="'Trebuchet MS', sans-serif">All additions live on the overlay/null side, not inside the 256 AC base.</text>
+  </g>
+
+  <g opacity="0.78">
+    <path d="M140 650 C320 590 438 596 610 650" fill="none" stroke="#6fe1ff" stroke-width="12" stroke-linecap="round"/>
+    <path d="M130 680 C315 620 442 624 620 680" fill="none" stroke="#ffe08a" stroke-width="8" stroke-linecap="round"/>
+    <path d="M980 650 C1148 594 1280 594 1460 652" fill="none" stroke="#ffb6a3" stroke-width="12" stroke-linecap="round"/>
+    <path d="M970 680 C1146 624 1284 624 1470 684" fill="none" stroke="#8ef0b9" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <g>
+    <circle cx="340" cy="620" r="52" fill="#5ad7ff" opacity="0.35"/>
+    <circle cx="1260" cy="620" r="52" fill="#ffd178" opacity="0.35"/>
+    <circle cx="800" cy="560" r="84" fill="#9be8ff" opacity="0.26"/>
+  </g>
+
+  <g transform="translate(74 244)">
+    <ellipse cx="0" cy="362" rx="170" ry="28" fill="#0d171d" opacity="0.55"/>
+    <path d="M-120 312 L118 312 L170 390 L-172 390 Z" fill="#23353d" opacity="0.92"/>
+    <path d="M-110 304 L0 258 L110 304" fill="none" stroke="url(#stageGlow)" stroke-width="8" stroke-linecap="round"/>
+    <text x="-66" y="416" fill="#fff1dd" font-size="24" font-family="Georgia, serif">Snowcap Swing</text>
+
+    <g transform="translate(-46 18)">
+      <circle cx="-26" cy="150" r="34" fill="#fbfeff"/><circle cx="-26" cy="214" r="44" fill="#fbfeff"/><ellipse cx="-26" cy="288" rx="56" ry="48" fill="#fbfeff"/>
+      <path d="M70 120 L70 322" stroke="#5a2d20" stroke-width="14" stroke-linecap="round"/>
+      <ellipse cx="74" cy="236" rx="34" ry="74" fill="#874226"/><line x1="62" y1="132" x2="62" y2="314" stroke="#87ddff" stroke-width="2"/><line x1="71" y1="132" x2="71" y2="314" stroke="#fff4b8" stroke-width="2"/><line x1="80" y1="132" x2="80" y2="314" stroke="#ff9674" stroke-width="2"/><line x1="89" y1="132" x2="89" y2="314" stroke="#d5ff92" stroke-width="2"/>
+      <path d="M-86 236 Q-122 224 -146 188" fill="none" stroke="#8a604e" stroke-width="8" stroke-linecap="round"/>
+      <path d="M8 238 Q34 210 62 170" fill="none" stroke="#8a604e" stroke-width="8" stroke-linecap="round"/>
+    </g>
+
+    <g transform="translate(76 -6)">
+      <circle cx="0" cy="146" r="36" fill="#fbfeff"/><circle cx="0" cy="214" r="46" fill="#fbfeff"/><ellipse cx="0" cy="292" rx="58" ry="50" fill="#fbfeff"/>
+      <line x1="86" y1="218" x2="86" y2="380" stroke="#e7d8bf" stroke-width="5"/>
+      <circle cx="86" cy="212" r="12" fill="#f2d29a"/>
+    </g>
+
+    <g transform="translate(178 18)">
+      <circle cx="0" cy="150" r="34" fill="#fbfeff"/><circle cx="0" cy="214" r="44" fill="#fbfeff"/><ellipse cx="0" cy="288" rx="56" ry="48" fill="#fbfeff"/>
+      <path d="M58 154 L126 206" stroke="#efcf94" stroke-width="10" stroke-linecap="round"/>
+      <path d="M68 204 Q102 182 128 208 Q102 238 64 228 Z" fill="#bb443b"/>
+      <line x1="72" y1="168" x2="122" y2="206" stroke="#fff" stroke-width="1.4"/><line x1="76" y1="174" x2="126" y2="212" stroke="#9fe5ff" stroke-width="1.4"/><line x1="80" y1="180" x2="130" y2="218" stroke="#ffe694" stroke-width="1.4"/><line x1="84" y1="186" x2="134" y2="224" stroke="#d3ff8d" stroke-width="1.4"/><line x1="88" y1="192" x2="138" y2="230" stroke="#ff9f85" stroke-width="1.4"/><line x1="92" y1="198" x2="142" y2="236" stroke="#fff" stroke-width="1.4"/>
+    </g>
+
+    <g transform="translate(256 -24)">
+      <circle cx="44" cy="138" r="32" fill="#fbfeff"/><ellipse cx="44" cy="198" rx="42" ry="46" fill="#fbfeff"/>
+      <path d="M-8 112 Q34 60 80 110" fill="none" stroke="#efc864" stroke-width="6" stroke-linecap="round"/>
+      <path d="M94 102 Q138 52 182 112" fill="none" stroke="#efc864" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="42" cy="298" r="26" fill="#8c3b24" stroke="#f0cf89" stroke-width="4"/>
+      <circle cx="42" cy="298" r="16" fill="none" stroke="#fff2d3" stroke-width="3"/>
+      <circle cx="42" cy="298" r="8" fill="none" stroke="#fff9e8" stroke-width="2"/>
+      <ellipse cx="42" cy="248" rx="34" ry="18" fill="#f7e6bf" stroke="#dfbf8c" stroke-width="4"/>
+      <ellipse cx="146" cy="236" rx="30" ry="14" fill="#d0c3b5" stroke="#f2e2c9" stroke-width="4"/>
+    </g>
+  </g>
+
+  <g transform="translate(602 214)">
+    <ellipse cx="198" cy="404" rx="250" ry="34" fill="#0d171d" opacity="0.58"/>
+    <path d="M16 336 L380 336 L438 424 L-42 424 Z" fill="#173445" opacity="0.94"/>
+    <path d="M40 322 Q198 236 356 322" fill="none" stroke="#c4f5ff" stroke-width="8" stroke-linecap="round"/>
+    <text x="116" y="452" fill="#eefcff" font-size="30" font-family="Georgia, serif">Aurora Echo Main Stage</text>
+
+    <g transform="translate(0 30)">
+      <path d="M36 206 Q102 128 194 162 T352 208" fill="none" stroke="#92dfff" stroke-width="6" opacity="0.5"/>
+      <path d="M48 190 Q114 112 198 144 T342 192" fill="none" stroke="#7ef4d8" stroke-width="6" opacity="0.5"/>
+    </g>
+
+    <g transform="translate(18 42)">
+      <circle cx="24" cy="154" r="34" fill="#fbfeff"/><circle cx="24" cy="214" r="44" fill="#fbfeff"/><ellipse cx="24" cy="288" rx="56" ry="48" fill="#fbfeff"/>
+      <path d="M112 118 L112 320" stroke="#89f5df" stroke-width="14" stroke-linecap="round"/>
+      <path d="M112 166 L150 224 L120 344 L76 296 L82 212 Z" fill="#37cdb8" stroke="#dffcff" stroke-width="3"/>
+      <line x1="100" y1="132" x2="100" y2="320" stroke="#f5ffff" stroke-width="2"/><line x1="108" y1="132" x2="108" y2="320" stroke="#9de3ff" stroke-width="2"/><line x1="116" y1="132" x2="116" y2="320" stroke="#7ef4d8" stroke-width="2"/><line x1="124" y1="132" x2="124" y2="320" stroke="#bfff98" stroke-width="2"/>
+    </g>
+
+    <g transform="translate(150 10)">
+      <circle cx="44" cy="146" r="40" fill="#fbfeff"/><circle cx="44" cy="220" r="52" fill="#fbfeff"/><ellipse cx="44" cy="300" rx="64" ry="54" fill="#fbfeff"/>
+      <path d="M12 164 Q44 216 76 164" fill="none" stroke="#52e7d8" stroke-width="12" stroke-linecap="round"/>
+      <path d="M6 140 Q44 170 82 140" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.8"/>
+      <line x1="146" y1="218" x2="146" y2="392" stroke="#d5e5eb" stroke-width="5"/>
+      <polygon points="146,200 134,222 158,222" fill="#dffcff"/>
+    </g>
+
+    <g transform="translate(280 48)">
+      <circle cx="16" cy="154" r="34" fill="#fbfeff"/><circle cx="16" cy="214" r="44" fill="#fbfeff"/><ellipse cx="16" cy="288" rx="56" ry="48" fill="#fbfeff"/>
+      <path d="M94 154 L166 204" stroke="#c5f6ff" stroke-width="10" stroke-linecap="round"/>
+      <path d="M100 206 L136 178 L174 204 L148 242 L100 232 Z" fill="#83c8ff" stroke="#e6fbff" stroke-width="3"/>
+      <line x1="104" y1="168" x2="156" y2="204" stroke="#fff" stroke-width="1.4"/><line x1="108" y1="174" x2="160" y2="210" stroke="#9de3ff" stroke-width="1.4"/><line x1="112" y1="180" x2="164" y2="216" stroke="#7cf9d0" stroke-width="1.4"/><line x1="116" y1="186" x2="168" y2="222" stroke="#fff" stroke-width="1.4"/><line x1="120" y1="192" x2="172" y2="228" stroke="#9de3ff" stroke-width="1.4"/><line x1="124" y1="198" x2="176" y2="234" stroke="#7cf9d0" stroke-width="1.4"/>
+    </g>
+
+    <g transform="translate(340 -4)">
+      <circle cx="40" cy="136" r="32" fill="#fbfeff"/><ellipse cx="40" cy="196" rx="42" ry="46" fill="#fbfeff"/>
+      <path d="M-12 110 Q34 56 86 108" fill="none" stroke="#84f3de" stroke-width="6" stroke-linecap="round"/>
+      <path d="M96 100 Q156 42 210 108" fill="none" stroke="#84c9ff" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="40" cy="244" rx="34" ry="18" fill="#caeef6" stroke="#eefcff" stroke-width="4"/>
+      <ellipse cx="140" cy="236" rx="30" ry="14" fill="#b7dff0" stroke="#e7fbff" stroke-width="4"/>
+      <circle cx="40" cy="294" r="26" fill="#378fb0" stroke="#dffcff" stroke-width="4"/>
+      <circle cx="40" cy="294" r="16" fill="none" stroke="#8ef1dc" stroke-width="3"/>
+    </g>
+  </g>
+
+  <g transform="translate(1184 244)">
+    <ellipse cx="0" cy="362" rx="170" ry="28" fill="#0d171d" opacity="0.55"/>
+    <path d="M-120 312 L118 312 L170 390 L-172 390 Z" fill="#3d1d24" opacity="0.94"/>
+    <path d="M-110 304 L0 258 L110 304" fill="none" stroke="#fff4d5" stroke-width="8" stroke-linecap="round"/>
+    <text x="-66" y="416" fill="#fff1dd" font-size="24" font-family="Georgia, serif">Candy Cabaret</text>
+
+    <g transform="translate(-48 18)">
+      <circle cx="-24" cy="150" r="34" fill="#fbfeff"/><circle cx="-24" cy="214" r="44" fill="#fbfeff"/><ellipse cx="-24" cy="288" rx="56" ry="48" fill="#fbfeff"/>
+      <path d="M70 120 L70 322" stroke="#ffe7c1" stroke-width="14" stroke-linecap="round"/>
+      <ellipse cx="74" cy="236" rx="34" ry="74" fill="url(#pepStripe)" stroke="#fff" stroke-width="3"/>
+      <line x1="62" y1="132" x2="62" y2="314" stroke="#87ddff" stroke-width="2"/><line x1="71" y1="132" x2="71" y2="314" stroke="#fff4b8" stroke-width="2"/><line x1="80" y1="132" x2="80" y2="314" stroke="#ff9674" stroke-width="2"/><line x1="89" y1="132" x2="89" y2="314" stroke="#d5ff92" stroke-width="2"/>
+    </g>
+
+    <g transform="translate(76 -6)">
+      <circle cx="0" cy="146" r="36" fill="#fbfeff"/><circle cx="0" cy="214" r="46" fill="#fbfeff"/><ellipse cx="0" cy="292" rx="58" ry="50" fill="#fbfeff"/>
+      <path d="M-34 164 Q0 210 34 164" fill="none" stroke="#dd4444" stroke-width="12" stroke-linecap="round"/>
+      <path d="M-42 138 Q0 174 42 138" fill="none" stroke="#5bc070" stroke-width="4"/>
+      <line x1="88" y1="218" x2="88" y2="384" stroke="#f0dcc4" stroke-width="5"/>
+      <circle cx="88" cy="212" r="13" fill="#fff"/>
+      <circle cx="88" cy="212" r="7" fill="#d84c4c"/>
+    </g>
+
+    <g transform="translate(184 18)">
+      <circle cx="0" cy="150" r="34" fill="#fbfeff"/><circle cx="0" cy="214" r="44" fill="#fbfeff"/><ellipse cx="0" cy="288" rx="56" ry="48" fill="#fbfeff"/>
+      <path d="M58 154 L128 206" stroke="#ffe7bf" stroke-width="10" stroke-linecap="round"/>
+      <path d="M66 202 Q100 182 128 206 Q102 240 64 228 Z" fill="url(#pepStripe)" stroke="#fff" stroke-width="3"/>
+      <line x1="72" y1="168" x2="122" y2="206" stroke="#fff" stroke-width="1.4"/><line x1="76" y1="174" x2="126" y2="212" stroke="#9fe5ff" stroke-width="1.4"/><line x1="80" y1="180" x2="130" y2="218" stroke="#ffe694" stroke-width="1.4"/><line x1="84" y1="186" x2="134" y2="224" stroke="#d3ff8d" stroke-width="1.4"/><line x1="88" y1="192" x2="138" y2="230" stroke="#ff9f85" stroke-width="1.4"/><line x1="92" y1="198" x2="142" y2="236" stroke="#fff" stroke-width="1.4"/>
+    </g>
+
+    <g transform="translate(260 -24)">
+      <circle cx="44" cy="138" r="32" fill="#fbfeff"/><ellipse cx="44" cy="198" rx="42" ry="46" fill="#fbfeff"/>
+      <path d="M-8 112 Q34 60 80 110" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <path d="M-8 98 Q34 44 80 96" fill="none" stroke="#dd4444" stroke-width="4" stroke-linecap="round"/>
+      <path d="M96 102 Q140 52 184 112" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <path d="M96 88 Q140 36 188 98" fill="none" stroke="#5bc070" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="42" cy="298" r="26" fill="url(#pepStripe)" stroke="#fff" stroke-width="4"/>
+      <circle cx="42" cy="298" r="16" fill="none" stroke="#d84c4c" stroke-width="3"/>
+      <circle cx="42" cy="298" r="8" fill="none" stroke="#5bc070" stroke-width="2"/>
+      <ellipse cx="42" cy="248" rx="34" ry="18" fill="#f7e6bf" stroke="#dfbf8c" stroke-width="4"/>
+      <ellipse cx="146" cy="236" rx="30" ry="14" fill="#f7e6bf" stroke="#dfbf8c" stroke-width="4"/>
+    </g>
+  </g>
+
+  <g opacity="0.85">
+    <path d="M460 640 Q604 584 800 604 Q994 624 1144 640" fill="none" stroke="#7de6ff" stroke-width="10" stroke-linecap="round"/>
+    <path d="M460 666 Q616 614 800 636 Q982 658 1146 668" fill="none" stroke="#fff0a0" stroke-width="7" stroke-linecap="round"/>
+    <path d="M462 692 Q620 640 800 664 Q978 688 1146 694" fill="none" stroke="#8df0b5" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(390 518)">
+    <circle cx="0" cy="0" r="18" fill="#fff"/><circle cx="90" cy="-24" r="14" fill="#9de3ff"/><circle cx="180" cy="6" r="16" fill="#fff"/><circle cx="270" cy="-26" r="14" fill="#ffe694"/><circle cx="360" cy="-2" r="18" fill="#fff"/><circle cx="450" cy="-28" r="14" fill="#9de3ff"/><circle cx="540" cy="0" r="16" fill="#fff"/>
+    <path d="M0 0 Q90 -44 180 6 T360 -2 T540 0" fill="none" stroke="#d8fbff" stroke-width="4" opacity="0.8"/>
+  </g>
+
+  <g transform="translate(246 526)">
+    <path d="M0 80 L42 -4 L84 80 Z" fill="#1d5648" stroke="#83e6c1" stroke-width="3"/>
+    <path d="M120 80 L162 -28 L204 80 Z" fill="#153f5a" stroke="#8fd6ff" stroke-width="3"/>
+    <path d="M240 80 L282 -12 L324 80 Z" fill="#5a2447" stroke="#ffbfe1" stroke-width="3"/>
+    <path d="M910 80 L952 -10 L994 80 Z" fill="#153f5a" stroke="#8fd6ff" stroke-width="3"/>
+    <path d="M1030 80 L1072 -30 L1114 80 Z" fill="#1d5648" stroke="#83e6c1" stroke-width="3"/>
+  </g>
+</svg>

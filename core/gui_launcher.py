@@ -27,6 +27,9 @@ _RESAMPLE = getattr(Image, "Resampling", Image).LANCZOS
 
 _AUDIO_EXTENSIONS = (".wav", ".mp3", ".flac", ".m4a", ".ogg")
 _FEELS = ("balanced", "aggressive", "airy", "percussive")
+_CHASE_STYLES = ("none", "left_to_right", "radial_out", "group_to_group", "random_walk", "wave")
+_LAYERING_MODES = ("replace", "overlay_blend", "smart_layer", "additive")
+_PALETTE_MODES = ("template", "christmas", "warm", "cool", "neon", "random", "workspace_match")
 
 _LOGO_CANDIDATES = ("c82.png", "app_icon.ico")
 _MASCOT_CANDIDATES = (
@@ -133,6 +136,18 @@ def _build_sequence_command(
     layout_path: str,
     output_dir: str,
     feel: str,
+    *,
+    keyboard_mix: str,
+    flash_guard: str,
+    spatial_awareness: str,
+    chase_style: str,
+    layering_mode: str,
+    palette_mode: str,
+    template_guidance: bool,
+    auto_timing_tracks: bool,
+    pixel_reactive: bool,
+    workspace_history: bool,
+    ac_lights_only: bool,
 ) -> list[str]:
     cmd = _runner_prefix()
     cmd.extend(["--profile", profile, "--"])
@@ -142,6 +157,28 @@ def _build_sequence_command(
         cmd.extend(["--layout-file", layout_path])
     if output_dir:
         cmd.extend(["--output-dir", output_dir])
+    cmd.extend(
+        [
+            "--keyboard-mix",
+            keyboard_mix,
+            "--flash-guard",
+            flash_guard,
+            "--spatial-awareness",
+            spatial_awareness,
+            "--chase-style",
+            chase_style,
+            "--layering-mode",
+            layering_mode,
+            "--palette-mode",
+            palette_mode,
+        ]
+    )
+    cmd.append("--template-guidance" if template_guidance else "--no-template-guidance")
+    cmd.append("--auto-timing-tracks" if auto_timing_tracks else "--no-auto-timing-tracks")
+    cmd.append("--pixel-reactive" if pixel_reactive else "--no-pixel-reactive")
+    cmd.append("--workspace-history" if workspace_history else "--no-workspace-history")
+    if ac_lights_only:
+        cmd.append("--ac-lights-only")
     return cmd
 
 
@@ -252,6 +289,17 @@ def run_gui() -> int:
     output_var = tk.StringVar(value=_default_output_dir(workspace))
     status_var = tk.StringVar(value="Ready. Choose files and press Run.")
     render_mp4_var = tk.BooleanVar(value=True)
+    keyboard_mix_var = tk.StringVar(value="1.0")
+    flash_guard_var = tk.StringVar(value="0.80")
+    spatial_awareness_var = tk.StringVar(value="0.0")
+    chase_style_var = tk.StringVar(value="none")
+    layering_mode_var = tk.StringVar(value="replace")
+    palette_mode_var = tk.StringVar(value="template")
+    template_guidance_var = tk.BooleanVar(value=True)
+    auto_timing_tracks_var = tk.BooleanVar(value=True)
+    pixel_reactive_var = tk.BooleanVar(value=True)
+    workspace_history_var = tk.BooleanVar(value=True)
+    ac_lights_only_var = tk.BooleanVar(value=False)
 
     logo_path = _find_asset(workspace, _LOGO_CANDIDATES)
     mascot_path = _find_asset(workspace, _MASCOT_CANDIDATES)
@@ -337,6 +385,7 @@ def run_gui() -> int:
     )
 
     controls: list[tk.Widget] = []
+    readonly_combos: list[ttk.Combobox] = []
 
     def browse_file(target: tk.StringVar, title: str, file_types: list[tuple[str, str]]) -> None:
         selected = filedialog.askopenfilename(
@@ -380,12 +429,44 @@ def run_gui() -> int:
         controls.extend([entry, button])
         return entry, button
 
+    def _make_labeled_combo(
+        parent: tk.Widget,
+        row: int,
+        column: int,
+        label: str,
+        variable: tk.StringVar,
+        values: tuple[str, ...],
+    ) -> ttk.Combobox:
+        tk.Label(parent, text=label, bg=parent.cget("bg"), fg="#20483c", font=("Segoe UI", 9, "bold")).grid(
+            row=row, column=column, sticky="w", pady=(4, 0), padx=(0 if column == 0 else 10, 0)
+        )
+        combo = ttk.Combobox(parent, textvariable=variable, values=list(values), state="readonly")
+        combo.grid(row=row + 1, column=column, sticky="ew", padx=(0 if column == 0 else 10, 0), pady=(2, 6))
+        controls.append(combo)
+        return combo
+
+    def _make_labeled_entry(
+        parent: tk.Widget,
+        row: int,
+        column: int,
+        label: str,
+        variable: tk.StringVar,
+    ) -> ttk.Entry:
+        tk.Label(parent, text=label, bg=parent.cget("bg"), fg="#20483c", font=("Segoe UI", 9, "bold")).grid(
+            row=row, column=column, sticky="w", pady=(4, 0), padx=(0 if column == 0 else 10, 0)
+        )
+        entry = ttk.Entry(parent, textvariable=variable)
+        entry.grid(row=row + 1, column=column, sticky="ew", padx=(0 if column == 0 else 10, 0), pady=(2, 6))
+        controls.append(entry)
+        return entry
+
     tk.Label(setup_panel, text="Profile", bg="#ffffff", fg="#20483c", font=("Segoe UI", 10, "bold")).grid(
         row=1, column=0, sticky="w", pady=5
     )
     profile_combo = ttk.Combobox(setup_panel, textvariable=profile_var, values=profiles, state="readonly")
     profile_combo.grid(row=1, column=1, columnspan=2, sticky="ew", pady=5, padx=(8, 0))
     controls.append(profile_combo)
+    readonly_combos.append(profile_combo)
 
     tk.Label(setup_panel, text="Feel", bg="#ffffff", fg="#20483c", font=("Segoe UI", 10, "bold")).grid(
         row=2, column=0, sticky="w", pady=5
@@ -393,6 +474,7 @@ def run_gui() -> int:
     feel_combo = ttk.Combobox(setup_panel, textvariable=feel_var, values=list(_FEELS), state="readonly")
     feel_combo.grid(row=2, column=1, columnspan=2, sticky="ew", pady=5, padx=(8, 0))
     controls.append(feel_combo)
+    readonly_combos.append(feel_combo)
 
     _make_row(
         3,
@@ -419,6 +501,114 @@ def run_gui() -> int:
         lambda: browse_directory(output_var, "Select output folder"),
     )
 
+    safety_note = tk.Label(
+        setup_panel,
+        text="Safe layout rule: use the allmodels layout so your original 256 AC channels stay untouched and new artistry lives around them on the overflow/null side.",
+        bg="#ffffff",
+        fg="#7b4e0b",
+        wraplength=610,
+        justify=tk.LEFT,
+        font=("Segoe UI", 9, "italic"),
+    )
+    safety_note.grid(row=7, column=0, columnspan=3, sticky="w", pady=(2, 8))
+
+    advanced_panel = tk.Frame(
+        setup_panel,
+        bg="#f7fbf8",
+        padx=10,
+        pady=10,
+        highlightbackground="#d3e7dc",
+        highlightthickness=1,
+    )
+    advanced_panel.grid(row=8, column=0, columnspan=3, sticky="ew", pady=(0, 8))
+    advanced_panel.grid_columnconfigure(0, weight=1)
+    advanced_panel.grid_columnconfigure(1, weight=1)
+    advanced_panel.grid_columnconfigure(2, weight=1)
+    tk.Label(
+        advanced_panel,
+        text="Advanced Choreography",
+        bg="#f7fbf8",
+        fg="#0d5f47",
+        font=("Segoe UI", 11, "bold"),
+    ).grid(row=0, column=0, columnspan=3, sticky="w", pady=(0, 6))
+
+    _make_labeled_entry(advanced_panel, 1, 0, "Keyboard Mix", keyboard_mix_var)
+    _make_labeled_entry(advanced_panel, 1, 1, "Flash Guard", flash_guard_var)
+    _make_labeled_entry(advanced_panel, 1, 2, "Spatial Awareness", spatial_awareness_var)
+    readonly_combos.append(_make_labeled_combo(advanced_panel, 3, 0, "Chase Style", chase_style_var, _CHASE_STYLES))
+    readonly_combos.append(_make_labeled_combo(advanced_panel, 3, 1, "Layering Mode", layering_mode_var, _LAYERING_MODES))
+    readonly_combos.append(_make_labeled_combo(advanced_panel, 3, 2, "Palette Mode", palette_mode_var, _PALETTE_MODES))
+
+    template_guidance_check = tk.Checkbutton(
+        advanced_panel,
+        text="Template Guidance",
+        variable=template_guidance_var,
+        onvalue=True,
+        offvalue=False,
+        bg="#f7fbf8",
+        fg="#1d4f40",
+        activebackground="#f7fbf8",
+        font=("Segoe UI", 9),
+    )
+    template_guidance_check.grid(row=5, column=0, sticky="w", pady=(4, 0))
+    controls.append(template_guidance_check)
+
+    auto_timing_check = tk.Checkbutton(
+        advanced_panel,
+        text="Auto Timing Tracks",
+        variable=auto_timing_tracks_var,
+        onvalue=True,
+        offvalue=False,
+        bg="#f7fbf8",
+        fg="#1d4f40",
+        activebackground="#f7fbf8",
+        font=("Segoe UI", 9),
+    )
+    auto_timing_check.grid(row=5, column=1, sticky="w", pady=(4, 0))
+    controls.append(auto_timing_check)
+
+    pixel_reactive_check = tk.Checkbutton(
+        advanced_panel,
+        text="Pixel Reactive",
+        variable=pixel_reactive_var,
+        onvalue=True,
+        offvalue=False,
+        bg="#f7fbf8",
+        fg="#1d4f40",
+        activebackground="#f7fbf8",
+        font=("Segoe UI", 9),
+    )
+    pixel_reactive_check.grid(row=5, column=2, sticky="w", pady=(4, 0))
+    controls.append(pixel_reactive_check)
+
+    workspace_history_check = tk.Checkbutton(
+        advanced_panel,
+        text="Workspace History",
+        variable=workspace_history_var,
+        onvalue=True,
+        offvalue=False,
+        bg="#f7fbf8",
+        fg="#1d4f40",
+        activebackground="#f7fbf8",
+        font=("Segoe UI", 9),
+    )
+    workspace_history_check.grid(row=6, column=0, sticky="w", pady=(4, 0))
+    controls.append(workspace_history_check)
+
+    ac_lights_only_check = tk.Checkbutton(
+        advanced_panel,
+        text="AC Lights Only",
+        variable=ac_lights_only_var,
+        onvalue=True,
+        offvalue=False,
+        bg="#f7fbf8",
+        fg="#1d4f40",
+        activebackground="#f7fbf8",
+        font=("Segoe UI", 9),
+    )
+    ac_lights_only_check.grid(row=6, column=1, sticky="w", pady=(4, 0))
+    controls.append(ac_lights_only_check)
+
     render_mp4_check = tk.Checkbutton(
         setup_panel,
         text="Also render MP4 preview after sequence completes",
@@ -430,7 +620,7 @@ def run_gui() -> int:
         activebackground="#ffffff",
         font=("Segoe UI", 10),
     )
-    render_mp4_check.grid(row=7, column=0, columnspan=3, sticky="w", pady=(8, 8))
+    render_mp4_check.grid(row=9, column=0, columnspan=3, sticky="w", pady=(8, 8))
     controls.append(render_mp4_check)
 
     run_button = tk.Button(
@@ -445,7 +635,7 @@ def run_gui() -> int:
         padx=14,
         pady=8,
     )
-    run_button.grid(row=8, column=0, columnspan=3, sticky="ew", pady=(4, 8))
+    run_button.grid(row=10, column=0, columnspan=3, sticky="ew", pady=(4, 8))
     controls.append(run_button)
 
     status_label = tk.Label(
@@ -457,7 +647,7 @@ def run_gui() -> int:
         justify=tk.LEFT,
         font=("Segoe UI", 10),
     )
-    status_label.grid(row=9, column=0, columnspan=3, sticky="w")
+    status_label.grid(row=11, column=0, columnspan=3, sticky="w")
 
     tk.Label(media_panel, text="Working Visual", bg="#eaf5ef", fg="#0c5f46", font=("Segoe UI", 13, "bold")).grid(
         row=0, column=0, sticky="w", pady=(0, 8)
@@ -551,8 +741,8 @@ def run_gui() -> int:
             except tk.TclError:
                 pass
         if not disabled:
-            profile_combo.configure(state="readonly")
-            feel_combo.configure(state="readonly")
+            for combo in readonly_combos:
+                combo.configure(state="readonly")
 
     def _handle_stream_line(line: str) -> None:
         nonlocal last_saved_sequence, last_created_mp4
@@ -739,6 +929,23 @@ def run_gui() -> int:
         profile = profile_var.get().strip() or "master"
         feel = feel_var.get().strip() or "balanced"
 
+        def _parse_float_field(label: str, raw: str, minimum: float, maximum: float) -> float:
+            try:
+                value = float(raw.strip())
+            except Exception:
+                raise ValueError(f"{label} must be a number.")
+            if value < minimum or value > maximum:
+                raise ValueError(f"{label} must be between {minimum:.2f} and {maximum:.2f}.")
+            return value
+
+        try:
+            keyboard_mix = _parse_float_field("Keyboard Mix", keyboard_mix_var.get(), 0.0, 2.0)
+            flash_guard = _parse_float_field("Flash Guard", flash_guard_var.get(), 0.0, 1.0)
+            spatial_awareness = _parse_float_field("Spatial Awareness", spatial_awareness_var.get(), 0.0, 1.0)
+        except ValueError as exc:
+            messagebox.showerror("Advanced settings error", str(exc))
+            return
+
         if template_path is None or not template_path.exists():
             messagebox.showerror("Missing template", "Pick a valid template .xsq file.")
             return
@@ -762,6 +969,17 @@ def run_gui() -> int:
             layout_path=str(layout_path),
             output_dir=str(output_dir),
             feel=feel,
+            keyboard_mix=f"{keyboard_mix:.2f}",
+            flash_guard=f"{flash_guard:.2f}",
+            spatial_awareness=f"{spatial_awareness:.2f}",
+            chase_style=chase_style_var.get().strip() or "none",
+            layering_mode=layering_mode_var.get().strip() or "replace",
+            palette_mode=palette_mode_var.get().strip() or "template",
+            template_guidance=bool(template_guidance_var.get()),
+            auto_timing_tracks=bool(auto_timing_tracks_var.get()),
+            pixel_reactive=bool(pixel_reactive_var.get()),
+            workspace_history=bool(workspace_history_var.get()),
+            ac_lights_only=bool(ac_lights_only_var.get()),
         )
 
         current_output_dir = output_dir
@@ -776,7 +994,9 @@ def run_gui() -> int:
         status_var.set("Running sequencer...")
         animator.start()
         add_log("Starting sequence run...")
-        if "allmodels" not in str(layout_path).lower():
+        if "allmodels" in str(layout_path).lower():
+            add_log("Using allmodels overlay layout. Original 256 AC channels stay untouched; added props should ride around them.")
+        else:
             add_log("WARNING: layout does not look like allmodels. Neighbor artistry may not trigger.")
         if not _launch_process(command, "sequencing"):
             _finish_error("Could not start sequencer process.")
