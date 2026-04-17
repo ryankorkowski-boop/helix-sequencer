@@ -17,6 +17,16 @@ Param(
 $ErrorActionPreference = "Stop"
 Set-Location -Path $PSScriptRoot
 
+if (-not $PSBoundParameters.ContainsKey("CertThumbprint")) {
+  $CertThumbprint = $null
+}
+if (-not $PSBoundParameters.ContainsKey("PfxPath")) {
+  $PfxPath = $null
+}
+if (-not $PSBoundParameters.ContainsKey("PfxPassword")) {
+  $PfxPassword = $null
+}
+
 $results = New-Object System.Collections.Generic.List[object]
 $hasFailures = $false
 
@@ -56,6 +66,27 @@ function Resolve-PythonExe {
   throw "Could not find a usable Python runtime."
 }
 
+function Find-CodeSigningCertThumbprint {
+  $stores = @("Cert:\CurrentUser\My", "Cert:\LocalMachine\My")
+  foreach ($store in $stores) {
+    if (-not (Test-Path $store)) {
+      continue
+    }
+    $cert = Get-ChildItem -Path $store -ErrorAction SilentlyContinue |
+      Where-Object {
+        $_.HasPrivateKey -and
+        $_.NotAfter -gt (Get-Date) -and
+        ($_.EnhancedKeyUsageList | Where-Object { $_.FriendlyName -eq "Code Signing" })
+      } |
+      Sort-Object NotAfter -Descending |
+      Select-Object -First 1
+    if ($cert) {
+      return $cert.Thumbprint
+    }
+  }
+  return $null
+}
+
 function Assert-LastExitCode {
   Param(
     [string]$Gate,
@@ -84,15 +115,21 @@ Assert-LastExitCode -Gate "profile-list" -OkDetails "Profile listing succeeded."
 if (-not $SkipBuild) {
   Write-Host "==> Build executable"
   try {
-    $buildArgs = @()
-    if ($Sign -or $RequireSignature) { $buildArgs += "-Sign" }
-    if (-not [string]::IsNullOrWhiteSpace($CertThumbprint)) { $buildArgs += @("-CertThumbprint", $CertThumbprint) }
-    if (-not [string]::IsNullOrWhiteSpace($PfxPath)) { $buildArgs += @("-PfxPath", $PfxPath) }
-    if (-not [string]::IsNullOrWhiteSpace($PfxPassword)) { $buildArgs += @("-PfxPassword", $PfxPassword) }
-    if (-not [string]::IsNullOrWhiteSpace($TimestampUrl)) { $buildArgs += @("-TimestampUrl", $TimestampUrl) }
-    if (-not [string]::IsNullOrWhiteSpace($SignToolPath)) { $buildArgs += @("-SignToolPath", $SignToolPath) }
-    if (-not [string]::IsNullOrWhiteSpace($SignatureDescription)) { $buildArgs += @("-SignatureDescription", $SignatureDescription) }
-    & "$PSScriptRoot\build_exe.ps1" @buildArgs
+    if (($Sign -or $RequireSignature) -and [string]::IsNullOrWhiteSpace($CertThumbprint) -and [string]::IsNullOrWhiteSpace($PfxPath)) {
+      $autoThumbprint = Find-CodeSigningCertThumbprint
+      if (-not [string]::IsNullOrWhiteSpace($autoThumbprint)) {
+        $CertThumbprint = $autoThumbprint
+      }
+    }
+    $buildSplat = @{}
+    if ($Sign -or $RequireSignature) { $buildSplat["Sign"] = $true }
+    if (-not [string]::IsNullOrWhiteSpace($CertThumbprint)) { $buildSplat["CertThumbprint"] = $CertThumbprint }
+    if (-not [string]::IsNullOrWhiteSpace($PfxPath)) { $buildSplat["PfxPath"] = $PfxPath }
+    if (-not [string]::IsNullOrWhiteSpace($PfxPassword)) { $buildSplat["PfxPassword"] = $PfxPassword }
+    if (-not [string]::IsNullOrWhiteSpace($TimestampUrl)) { $buildSplat["TimestampUrl"] = $TimestampUrl }
+    if (-not [string]::IsNullOrWhiteSpace($SignToolPath)) { $buildSplat["SignToolPath"] = $SignToolPath }
+    if (-not [string]::IsNullOrWhiteSpace($SignatureDescription)) { $buildSplat["SignatureDescription"] = $SignatureDescription }
+    & "$PSScriptRoot\build_exe.ps1" @buildSplat
     if ($RequireSignature -or $Sign) {
       Add-GateResult -Gate "build-script" -Status "PASS" -Details "build_exe.ps1 completed with signing requested."
     }

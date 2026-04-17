@@ -12,6 +12,16 @@ Param(
 $ErrorActionPreference = "Stop"
 Set-Location -Path $PSScriptRoot
 
+if (-not $PSBoundParameters.ContainsKey("CertThumbprint")) {
+  $CertThumbprint = $null
+}
+if (-not $PSBoundParameters.ContainsKey("PfxPath")) {
+  $PfxPath = $null
+}
+if (-not $PSBoundParameters.ContainsKey("PfxPassword")) {
+  $PfxPassword = $null
+}
+
 function Resolve-PythonExe {
   $candidates = @(
     (Join-Path $PSScriptRoot ".venv\Scripts\python.exe"),
@@ -99,6 +109,31 @@ function Find-CodeSigningCertThumbprint {
   return $null
 }
 
+function Resolve-CodeSigningCert {
+  param(
+    [string]$Thumbprint
+  )
+
+  if ([string]::IsNullOrWhiteSpace($Thumbprint)) {
+    return $null
+  }
+
+  $needle = $Thumbprint.Replace(" ", "").ToUpperInvariant()
+  $stores = @("Cert:\CurrentUser\My", "Cert:\LocalMachine\My")
+  foreach ($store in $stores) {
+    if (-not (Test-Path $store)) {
+      continue
+    }
+    $cert = Get-ChildItem -Path $store -ErrorAction SilentlyContinue |
+      Where-Object { $_.Thumbprint.ToUpperInvariant() -eq $needle } |
+      Select-Object -First 1
+    if ($cert) {
+      return $cert
+    }
+  }
+  return $null
+}
+
 function Invoke-CodeSigning {
   param(
     [string]$ExePath,
@@ -111,43 +146,80 @@ function Invoke-CodeSigning {
     throw "Cannot sign missing executable: $ExePath"
   }
 
-  $signtoolExe = Resolve-SignToolExe -OverridePath $SignToolPath
-  $signArgs = @(
-    "sign",
-    "/fd",
-    "SHA256",
-    "/td",
-    "SHA256",
-    "/d",
-    $SignatureDescription
-  )
-
-  if (-not [string]::IsNullOrWhiteSpace($TimestampUrl)) {
-    $signArgs += @("/tr", $TimestampUrl)
+  $signtoolExe = $null
+  try {
+    $signtoolExe = Resolve-SignToolExe -OverridePath $SignToolPath
+  }
+  catch {
+    Write-Warning "signtool.exe unavailable. Falling back to Set-AuthenticodeSignature."
   }
 
-  if (-not [string]::IsNullOrWhiteSpace($PfxFile)) {
-    if (-not (Test-Path $PfxFile)) {
-      throw "PFX file not found: $PfxFile"
+  if ($signtoolExe) {
+    $signArgs = @(
+      "sign",
+      "/fd",
+      "SHA256",
+      "/td",
+      "SHA256",
+      "/d",
+      $SignatureDescription
+    )
+
+    if (-not [string]::IsNullOrWhiteSpace($TimestampUrl)) {
+      $signArgs += @("/tr", $TimestampUrl)
     }
-    $signArgs += @("/f", (Resolve-Path $PfxFile).Path)
-    if (-not [string]::IsNullOrWhiteSpace($PfxPass)) {
-      $signArgs += @("/p", $PfxPass)
+
+    if (-not [string]::IsNullOrWhiteSpace($Thumbprint)) {
+      $signArgs += @("/sha1", $Thumbprint)
     }
-  }
-  elseif (-not [string]::IsNullOrWhiteSpace($Thumbprint)) {
-    $signArgs += @("/sha1", $Thumbprint)
+    elseif (-not [string]::IsNullOrWhiteSpace($PfxFile)) {
+      if (-not (Test-Path $PfxFile)) {
+        throw "PFX file not found: $PfxFile"
+      }
+      $signArgs += @("/f", (Resolve-Path $PfxFile).Path)
+      if (-not [string]::IsNullOrWhiteSpace($PfxPass)) {
+        $signArgs += @("/p", $PfxPass)
+      }
+    }
+    else {
+      throw "Signing requested but no certificate source was provided."
+    }
+
+    $signArgs += $ExePath
+
+    Write-Host "Signing executable with: $signtoolExe"
+    & $signtoolExe @signArgs
+    if ($LASTEXITCODE -ne 0) {
+      throw "signtool failed with exit code $LASTEXITCODE."
+    }
   }
   else {
-    throw "Signing requested but no certificate source was provided."
-  }
-
-  $signArgs += $ExePath
-
-  Write-Host "Signing executable with: $signtoolExe"
-  & $signtoolExe @signArgs
-  if ($LASTEXITCODE -ne 0) {
-    throw "signtool failed with exit code $LASTEXITCODE."
+    $cert = $null
+    if (-not [string]::IsNullOrWhiteSpace($Thumbprint)) {
+      $cert = Resolve-CodeSigningCert -Thumbprint $Thumbprint
+      if (-not $cert) {
+        throw "Could not resolve certificate thumbprint in CurrentUser/LocalMachine personal stores: $Thumbprint"
+      }
+    }
+    elseif (-not [string]::IsNullOrWhiteSpace($PfxFile)) {
+      throw "PFX signing requires signtool.exe on this machine. Install Windows SDK or use a cert installed in the cert store."
+    }
+    else {
+      throw "Signing requested but no certificate source was provided."
+    }
+    $signParams = @{
+      FilePath      = $ExePath
+      Certificate   = $cert
+      HashAlgorithm = "SHA256"
+    }
+    if (-not [string]::IsNullOrWhiteSpace($TimestampUrl)) {
+      $signParams["TimestampServer"] = $TimestampUrl
+    }
+    Write-Host "Signing executable with Set-AuthenticodeSignature (thumbprint: $($cert.Thumbprint))"
+    $setResult = Set-AuthenticodeSignature @signParams
+    if ($setResult.Status -ne "Valid") {
+      throw "Set-AuthenticodeSignature returned status '$($setResult.Status)'."
+    }
   }
 
   $signature = Get-AuthenticodeSignature $ExePath
@@ -205,7 +277,7 @@ if (-not [string]::IsNullOrWhiteSpace($CertThumbprint)) {
 }
 if (Test-Path $distExe) {
   if ($signingRequested) {
-    if ([string]::IsNullOrWhiteSpace($PfxPath) -and [string]::IsNullOrWhiteSpace($CertThumbprint)) {
+    if ([string]::IsNullOrWhiteSpace($CertThumbprint) -and ([string]::IsNullOrWhiteSpace($PfxPath) -or -not (Test-Path $PfxPath))) {
       $autoThumbprint = Find-CodeSigningCertThumbprint
       if ([string]::IsNullOrWhiteSpace($autoThumbprint)) {
         throw "Signing requested but no code-signing certificate was found in CurrentUser/LocalMachine personal stores."

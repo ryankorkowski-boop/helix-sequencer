@@ -14,18 +14,18 @@ $ErrorActionPreference = "Stop"
 Set-Location -Path $PSScriptRoot
 
 if (-not $SkipBuild) {
-  $buildArgs = @()
+  $buildSplat = @{}
   if ($Clean) {
-    $buildArgs += "-Clean"
+    $buildSplat["Clean"] = $true
   }
-  if ($Sign) { $buildArgs += "-Sign" }
-  if (-not [string]::IsNullOrWhiteSpace($CertThumbprint)) { $buildArgs += @("-CertThumbprint", $CertThumbprint) }
-  if (-not [string]::IsNullOrWhiteSpace($PfxPath)) { $buildArgs += @("-PfxPath", $PfxPath) }
-  if (-not [string]::IsNullOrWhiteSpace($PfxPassword)) { $buildArgs += @("-PfxPassword", $PfxPassword) }
-  if (-not [string]::IsNullOrWhiteSpace($TimestampUrl)) { $buildArgs += @("-TimestampUrl", $TimestampUrl) }
-  if (-not [string]::IsNullOrWhiteSpace($SignToolPath)) { $buildArgs += @("-SignToolPath", $SignToolPath) }
-  if (-not [string]::IsNullOrWhiteSpace($SignatureDescription)) { $buildArgs += @("-SignatureDescription", $SignatureDescription) }
-  & "$PSScriptRoot\build_exe.ps1" @buildArgs
+  if ($Sign) { $buildSplat["Sign"] = $true }
+  if (-not [string]::IsNullOrWhiteSpace($CertThumbprint)) { $buildSplat["CertThumbprint"] = $CertThumbprint }
+  if (-not [string]::IsNullOrWhiteSpace($PfxPath)) { $buildSplat["PfxPath"] = $PfxPath }
+  if (-not [string]::IsNullOrWhiteSpace($PfxPassword)) { $buildSplat["PfxPassword"] = $PfxPassword }
+  if (-not [string]::IsNullOrWhiteSpace($TimestampUrl)) { $buildSplat["TimestampUrl"] = $TimestampUrl }
+  if (-not [string]::IsNullOrWhiteSpace($SignToolPath)) { $buildSplat["SignToolPath"] = $SignToolPath }
+  if (-not [string]::IsNullOrWhiteSpace($SignatureDescription)) { $buildSplat["SignatureDescription"] = $SignatureDescription }
+  & "$PSScriptRoot\build_exe.ps1" @buildSplat
 }
 elseif (
   $Sign -or
