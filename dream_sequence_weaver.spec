@@ -20,14 +20,24 @@ for mascot_name in ("helixmascot.jpg", "helixmascot.jpeg", "helixmascot.png"):
     if mascot_path.exists():
         datas.append((str(mascot_path), "."))
         break
+for helix_media_name in (
+    "helix_twist.mp4",
+    "grok-video-9256730a-68a5-49ec-855c-ad156e1fa006.mp4",
+):
+    helix_media_path = root / helix_media_name
+    if helix_media_path.exists():
+        datas.append((str(helix_media_path), "."))
+        break
 datas += collect_data_files("imageio_ffmpeg")
 
 hiddenimports = [
     "core.audio_intelligence",
     "core.effect_engine",
+    "core.gui_launcher",
     "core.engine_profiles",
     "core.model_parser",
     "core.sequence_builder",
+    "tools.preview_renderer",
     "tools.utilities",
     "xlights.layout_sync",
     "xlights.timing_tracks",

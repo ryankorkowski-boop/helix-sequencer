@@ -37,6 +37,18 @@ Run the active master profile and pass through engine arguments:
 python main.py --profile master -- --template template.xsq --audio 13.wav --no-prompt
 ```
 
+Launch the simple GUI (default when no args are passed):
+
+```powershell
+python main.py
+```
+
+The launcher UI opens as **Helix Sequence Helper** and now includes:
+- live activity logs streamed directly from the sequencing engine,
+- automatic preference for `allmodels/xlights_rgbeffects.xml` when available,
+- optional one-click MP4 rendering after sequence generation,
+- helix animation playback while tasks are running (when `helix_twist.mp4` is present).
+
 Legacy version IDs still work as explicit compatibility fallbacks:
 
 ```powershell

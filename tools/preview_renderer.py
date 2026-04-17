@@ -569,7 +569,7 @@ def default_targets(root: Path) -> list[Path]:
     return targets
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Render MP4 previews from xLights XSQ files.")
     parser.add_argument("xsq", nargs="*", help="Specific XSQ files to render. Defaults to the current v1/v2/v3 outputs.")
     parser.add_argument("--layout", default=DEFAULT_LAYOUT, help="Path to xlights_rgbeffects.xml or xlights_rgbeffects.xbkp")
@@ -577,11 +577,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--fps", type=int, default=15, help="Output frame rate")
     parser.add_argument("--width", type=int, default=1280, help="Video width")
     parser.add_argument("--height", type=int, default=720, help="Video height")
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
-def main() -> int:
-    args = parse_args()
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     layout_path = (ROOT / args.layout).resolve() if not Path(args.layout).is_absolute() else Path(args.layout)
     audio_path = (ROOT / args.audio).resolve() if args.audio else None
     targets = [((ROOT / item).resolve() if not Path(item).is_absolute() else Path(item)) for item in args.xsq]

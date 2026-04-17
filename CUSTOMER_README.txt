@@ -16,12 +16,15 @@ What you need
 
 Fast workflow
 1. Open HelixSequenceWeaverBeta.exe or run Launch Dream Sequence Weaver.cmd.
-2. The current beta opens a console-based sequencer and prompts for any missing settings.
-3. Use the maintained master profile with your template XSQ, layout export, and audio file.
-4. Open generated files in xLights and fine-tune if needed.
+2. The app opens the Helix Sequence Helper GUI with setup controls and a live activity log.
+3. While sequencing is running, the log streams every step in real time and the helix animation panel is active.
+4. Optional: enable automatic MP4 render to get a preview video right after sequencing finishes.
+5. Use the maintained master profile with your template XSQ, layout export, and audio file.
+6. Open generated files in xLights and fine-tune if needed.
 
 Output location
-- Output folder is chosen by the active sequencing engine and defaults beside the working project files.
+- The GUI defaults to `outputs\` inside your current project folder.
+- You can choose any other output folder in the Output field.
 
 Support notes
 - Use only sequences and assets you own or have permission to analyze.
