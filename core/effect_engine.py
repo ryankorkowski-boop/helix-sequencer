@@ -1016,6 +1016,152 @@ def expand_pool_models_with_submodels(
     return dedupe_names(expanded)
 
 
+GROUP_SEQUENCE_MAX_MEMBERS = 24
+
+
+def infer_sequence_family_from_name(name: str) -> str:
+    norm = base.normalize_name(name)
+    if not norm:
+        return ""
+    if "notes" in norm:
+        return "notes"
+    if "north" in norm and "cane" in norm:
+        return "north_canes"
+    if any(token in norm for token in ("south cane", "notnorth cane")):
+        return "south_canes"
+    if "candy cane" in norm or re.search(r"\bcane\b", norm):
+        return "canes_combo"
+    if "snowflake" in norm:
+        return "snowflakes"
+    if "shooting star" in norm or re.search(r"\bstar\b", norm):
+        return "stars"
+    if "mega tree" in norm or "megatree" in norm:
+        return "mega"
+    if "garage tree" in norm:
+        return "gt"
+    if "arch" in norm:
+        return "arch"
+    if any(token in norm for token in ("perimeter", "blvd", "boulevard", "linden", "line tree")):
+        return "line"
+    if "matrix" in norm or "panel" in norm or "video wall" in norm:
+        return "matrix"
+    if any(token in norm for token in ("talking head", "singing face", "face panel", "lyric", "mouth")):
+        return "talking_heads"
+    if any(token in norm for token in ("spinner", "pinwheel", "spin")):
+        return "spinner"
+    if "flood" in norm or "strobe" in norm:
+        return "flood"
+    if any(token in norm for token in ("sphere", "orb", "wreath", "circle", "globe")):
+        return "sphere"
+    return ""
+
+
+def infer_group_sequence_family(
+    group_name: str,
+    parsed_layout: xmp.ParsedLayout,
+    *,
+    _seen: set[str] | None = None,
+) -> str:
+    name_hint = infer_sequence_family_from_name(group_name)
+    if name_hint:
+        return name_hint
+
+    seen = _seen or set()
+    norm_group = base.normalize_name(group_name)
+    if norm_group in seen:
+        return ""
+    seen.add(norm_group)
+
+    group = parsed_layout.groups.get(group_name)
+    if group is None:
+        return ""
+
+    counts: Counter[str] = Counter()
+    for member in group.models:
+        member_name = parsed_layout.aliases.get(base.normalize_name(member), member)
+        member_hint = infer_sequence_family_from_name(member_name)
+        if member_hint:
+            counts[member_hint] += 1
+            continue
+        model = parsed_layout.model_for(member_name)
+        if model is not None:
+            family = family_from_parsed_model(model)
+            if family:
+                counts[family] += 1
+            continue
+        if member_name in parsed_layout.groups:
+            family = infer_group_sequence_family(member_name, parsed_layout, _seen=seen)
+            if family:
+                counts[family] += 1
+
+    if not counts:
+        return ""
+    priority = {
+        "notes": 0,
+        "north_canes": 1,
+        "south_canes": 2,
+        "canes_combo": 3,
+        "arch": 4,
+        "line": 5,
+        "mega": 6,
+        "gt": 7,
+        "matrix": 8,
+        "stars": 9,
+        "snowflakes": 10,
+        "talking_heads": 11,
+        "spinner": 12,
+        "sphere": 13,
+        "flood": 14,
+    }
+    return sorted(counts.items(), key=lambda item: (-item[1], priority.get(item[0], 99), item[0]))[0][0]
+
+
+def discover_group_sequence_pools(
+    names: list[str],
+    parsed_layout: xmp.ParsedLayout | None,
+) -> list[tuple[str, str, list[str]]]:
+    if parsed_layout is None:
+        return []
+
+    def is_color_stack_group(models: list[str]) -> bool:
+        if len(models) < 2 or len(models) > 4:
+            return False
+        stripped: set[str] = set()
+        color_hits = 0
+        for model_name in models:
+            norm = base.normalize_name(model_name)
+            if re.search(r"\b(red|green|white)\b", norm):
+                color_hits += 1
+            stripped.add(" ".join(re.sub(r"\b(red|green|white)\b", " ", norm).split()))
+        return color_hits >= max(2, len(models) - 1) and len(stripped) == 1
+
+    available_lookup = {base.normalize_name(name): name for name in names}
+    discovered: list[tuple[str, str, list[str]]] = []
+    for group_name, group in parsed_layout.groups.items():
+        canonical_group = available_lookup.get(base.normalize_name(group_name), group_name)
+        if canonical_group not in names:
+            continue
+        norm_group = base.normalize_name(canonical_group)
+        if "whole house" in norm_group:
+            continue
+        ordered_members = dedupe_names(
+            [
+                available_lookup[base.normalize_name(member)]
+                for member in group.models
+                if base.normalize_name(member) in available_lookup and available_lookup[base.normalize_name(member)] != canonical_group
+            ]
+        )
+        if len(ordered_members) < 2 or len(ordered_members) > GROUP_SEQUENCE_MAX_MEMBERS:
+            continue
+        if is_color_stack_group(ordered_members):
+            continue
+        category = infer_group_sequence_family(group_name, parsed_layout)
+        if not category:
+            continue
+        discovered.append((canonical_group, category, ordered_members))
+    return discovered
+
+
 def family_from_parsed_model(model: xmp.Model) -> str:
     semantic = base.normalize_name(model.type)
     display = base.normalize_name(model.display_as)
@@ -1119,6 +1265,7 @@ def enrich_layout_with_parsed(layout: base.Layout, names: list[str], parsed_layo
 def discover_sequential_pools(names: list[str], layout: base.Layout, parsed_layout: xmp.ParsedLayout | None = None) -> list[SequentialPool]:
     pools: list[SequentialPool] = []
     pooled_by_category: dict[str, set[str]] = {}
+    pool_signatures: set[tuple[str, ...]] = set()
     names_set = set(names)
     perimeter_waypoints = (
         ("right", "linden"),
@@ -1132,7 +1279,11 @@ def discover_sequential_pools(names: list[str], layout: base.Layout, parsed_layo
         deduped = dedupe_names(models)
         if not deduped:
             return
+        signature = tuple(deduped)
+        if signature in pool_signatures:
+            return
         pools.append(SequentialPool(name=name, category=category, models=deduped))
+        pool_signatures.add(signature)
         pooled_by_category.setdefault(category, set()).update(deduped)
 
     gt_models = find_series_anywhere(names, [r"\bgt\s*(\d+)\b"]) or base.find_numbered_series(names, [r"gt\s*(\d+)"])
@@ -1294,6 +1445,8 @@ def discover_sequential_pools(names: list[str], layout: base.Layout, parsed_layo
     add_pool("canes_combo", "canes_combo", combo)
     add_pool("talking_heads", "talking_heads", discover_talking_heads(names))
     add_pool("arch_spatial", "arch", arch_models)
+    for group_name, category, members in discover_group_sequence_pools(names, parsed_layout):
+        add_pool(group_name, category, members)
 
     if parsed_layout is not None:
         nbh_by_family: dict[str, list[tuple[float, float, str]]] = {}

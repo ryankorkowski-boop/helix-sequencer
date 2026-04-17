@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Snowman Band Concepts</title>
+  <style>
+    :root {
+      --paper: #f7f1e6;
+      --ink: #1a1a1a;
+      --card: rgba(255, 252, 246, 0.9);
+      --shadow: 0 24px 48px rgba(16, 18, 26, 0.18);
+      --hero-a: #13232c;
+      --hero-b: #7d1e2b;
+      --hero-c: #2f7058;
+      --gold: #d7ab59;
+      --mint: #6ed7b7;
+      --berry: #b73b49;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.35), transparent 24%),
+        linear-gradient(160deg, #e8f3f0 0%, #f6efe4 50%, #f0e4e0 100%);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    header {
+      padding: 56px 24px 34px;
+      background:
+        linear-gradient(135deg, rgba(19, 35, 44, 0.95), rgba(125, 30, 43, 0.9) 60%, rgba(47, 112, 88, 0.88)),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06));
+      color: #fff7eb;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      letter-spacing: 0.02em;
+    }
+
+    .intro {
+      max-width: 900px;
+      margin: 0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      padding: 28px 24px 42px;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(20, 22, 25, 0.08);
+    }
+
+    .card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #111;
+    }
+
+    .body {
+      padding: 22px 24px 26px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 1.7rem;
+    }
+
+    p {
+      margin: 0 0 14px;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .pillrow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 16px;
+    }
+
+    .pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      background: rgba(20, 20, 20, 0.08);
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      line-height: 1.55;
+    }
+
+    .footer {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px 44px;
+    }
+
+    .note {
+      background: rgba(255, 252, 246, 0.92);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .note strong {
+      color: #5b1f27;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Snowman Band Concept Pack</h1>
+      <p class="intro">
+        Three distinct 8-9 foot snowman band lineups built around the same performer logic: a giant standup bass with four reactive strings,
+        a six-string guitar with quick strum motion, a lead singer with exaggerated face animation, background vocal faces on the string players,
+        and a drummer whose cymbals, kick, hi-hat, and snare can all ride stem-separated overlays.
+      </p>
+    </div>
+  </header>
+
+  <main class="grid">
+    <article class="card">
+      <img src="snowcap_swing.svg" alt="Snowcap Swing concept poster">
+      <div class="body">
+        <h2>Snowcap Swing</h2>
+        <div class="pillrow">
+          <span class="pill">Warm brass palette</span>
+          <span class="pill">Jazz club posture</span>
+          <span class="pill">Crooner lead</span>
+        </div>
+        <p>This one leans elegant and classic, like the band is playing under old marquee lights on Christmas Eve.</p>
+        <ul>
+          <li>The bassist reads best with isolated slap notes and deliberate left-hand climbs.</li>
+          <li>The guitarist feels like a hollow-body rhythm player with quick offbeat strums.</li>
+          <li>The singer has the clearest hero position if you want the face to dominate the yard.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="aurora_echo.svg" alt="Aurora Echo concept poster">
+      <div class="body">
+        <h2>Aurora Echo</h2>
+        <div class="pillrow">
+          <span class="pill">Icy aurora palette</span>
+          <span class="pill">Sharper geometry</span>
+          <span class="pill">Modern staging</span>
+        </div>
+        <p>This is the sleek one. The silhouettes are still readable from the street, but the instruments feel crystalline and contemporary.</p>
+        <ul>
+          <li>The four bass strings can glow in very clean low-to-high buckets.</li>
+          <li>The guitar reads like a rapid shimmer or tremolo layer.</li>
+          <li>The singer face can use more angular mouth and eyebrow shapes without losing the snowman charm.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="candy_cabaret.svg" alt="Candy Cabaret concept poster">
+      <div class="body">
+        <h2>Candy Cabaret</h2>
+        <div class="pillrow">
+          <span class="pill">Peppermint show colors</span>
+          <span class="pill">Playful front-yard energy</span>
+          <span class="pill">Big expressions</span>
+        </div>
+        <p>This is the crowd-pleaser. It feels extra festive, theatrical, and a little over-the-top in exactly the fun way.</p>
+        <ul>
+          <li>The striped bass and guitar can make string animation really obvious.</li>
+          <li>The singer face can go widest here without looking out of place.</li>
+          <li>The drummer can be the most animated performer, especially on crash and kick hits.</li>
+        </ul>
+      </div>
+    </article>
+  </main>
+
+  <section class="footer">
+    <div class="note">
+      <p><strong>Shared sequencing spine:</strong> the standup bass uses four ordered lanes, the guitar uses six ordered lanes, the singer owns the strongest face logic, and the guitarist and bassist only light their face layers when background vocals are present.</p>
+      <p><strong>Drummer carryover:</strong> crash arc plus sparkle decay, concentric kick pulse, hi-hat split and merge hit, snare flash disc, and six-frame arms that flail hardest on cymbal accents.</p>
+      <p><strong>Suggested next step:</strong> if one concept jumps out, use it as the hero version and borrow one or two details from the others so you end up with a "best of" band instead of feeling forced to pick only one whole style.</p>
+    </div>
+  </section>
+</body>
+</html>

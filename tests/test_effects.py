@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+import tempfile
 import unittest
 from dataclasses import replace
 from pathlib import Path
@@ -13,6 +14,46 @@ from xlights import xsq_writer
 
 
 class EffectEngineTests(unittest.TestCase):
+    def _empty_layout(self) -> xsq_writer.Layout:
+        return xsq_writer.Layout(
+            house=None,
+            garage=None,
+            all_white=None,
+            all_red=None,
+            all_green=None,
+            all_notes=None,
+            blvd=[],
+            blvd_all=None,
+            perim=[],
+            perim_all=None,
+            snowflakes=[],
+            stars=[],
+            arches={},
+            mega_group=None,
+            mega_models=[],
+            line_all=None,
+            line_models=[],
+            red_models=[],
+            green_models=[],
+            white_models=[],
+            cane_g_n=None,
+            cane_g_s=None,
+            notes_main=None,
+            notes_mirror=None,
+            north_canes=[],
+            south_canes=[],
+        )
+
+    def _write_layout(
+        self,
+        root: ET.Element,
+    ) -> Path:
+        tmpdir = tempfile.TemporaryDirectory()
+        self.addCleanup(tmpdir.cleanup)
+        layout_path = Path(tmpdir.name) / "xlights_rgbeffects.xml"
+        ET.ElementTree(root).write(layout_path, encoding="utf-8", xml_declaration=True)
+        return layout_path
+
     def test_effect_family_groups_known_effects(self) -> None:
         self.assertEqual(effect_engine.effect_family("Ramp"), "ramp")
         self.assertEqual(effect_engine.effect_family("Bars"), "vu")
@@ -164,6 +205,170 @@ class EffectEngineTests(unittest.TestCase):
         self.assertEqual([entry[0] for entry in placements], ["n2", "n5"])
         self.assertTrue(all(entry[3] == "player_piano_notes" for entry in placements))
         self.assertEqual(keyboard_track[0][0], "player_piano:notes_1_16:phrase:C3+C5")
+
+    def test_discover_sequential_pools_adds_nested_perimeter_group_lane(self) -> None:
+        root = ET.Element("xrgb")
+        models_el = ET.SubElement(root, "models")
+        groups_el = ET.SubElement(root, "modelGroups")
+
+        for idx, name in enumerate(
+            (
+                "Left Tree White",
+                "Left Blvd White",
+                "Center Blvd White",
+                "Right Blvd White",
+                "Right Linden White",
+            ),
+            start=1,
+        ):
+            ET.SubElement(
+                models_el,
+                "model",
+                {
+                    "name": name,
+                    "DisplayAs": "Single Line",
+                    "StringType": "Single Color White",
+                    "WorldPosX": str(idx * 10),
+                    "WorldPosY": "0",
+                    "WorldPosZ": "0",
+                    "X2": "0",
+                    "Y2": "10",
+                    "Z2": "0",
+                    "parm1": "1",
+                    "parm2": "1",
+                    "parm3": "1",
+                    "StartChannel": str(idx),
+                },
+            )
+
+        group_specs = {
+            "LEFT_TREE": ["Left Tree White"],
+            "BLVD_LEFT": ["Left Blvd White"],
+            "BLVD_CENTER": ["Center Blvd White"],
+            "BLVD_RIGHT": ["Right Blvd White"],
+            "RIGHT_LINDEN": ["Right Linden White"],
+            "13_PERIMETER_ALL": ["LEFT_TREE", "BLVD_LEFT", "BLVD_CENTER", "BLVD_RIGHT", "RIGHT_LINDEN"],
+        }
+        for group_name, members in group_specs.items():
+            ET.SubElement(groups_el, "modelGroup", {"name": group_name, "models": ",".join(members)})
+
+        parsed_layout = effect_engine.xmp.parse_layout(self._write_layout(root))
+        names = [
+            "Left Tree White",
+            "Left Blvd White",
+            "Center Blvd White",
+            "Right Blvd White",
+            "Right Linden White",
+            "LEFT_TREE",
+            "BLVD_LEFT",
+            "BLVD_CENTER",
+            "BLVD_RIGHT",
+            "RIGHT_LINDEN",
+            "13_PERIMETER_ALL",
+        ]
+
+        pools = effect_engine.discover_sequential_pools(names, self._empty_layout(), parsed_layout)
+        perimeter = next((pool for pool in pools if pool.name == "13_PERIMETER_ALL"), None)
+        self.assertIsNotNone(perimeter)
+        assert perimeter is not None
+        self.assertEqual(perimeter.category, "line")
+        self.assertEqual(perimeter.models, ["LEFT_TREE", "BLVD_LEFT", "BLVD_CENTER", "BLVD_RIGHT", "RIGHT_LINDEN"])
+
+    def test_discover_sequential_pools_skips_huge_catchall_groups(self) -> None:
+        root = ET.Element("xrgb")
+        models_el = ET.SubElement(root, "models")
+        groups_el = ET.SubElement(root, "modelGroups")
+
+        member_names: list[str] = []
+        for idx in range(1, 27):
+            name = f"Line Tree {idx}"
+            member_names.append(name)
+            ET.SubElement(
+                models_el,
+                "model",
+                {
+                    "name": name,
+                    "DisplayAs": "Single Line",
+                    "StringType": "Single Color White",
+                    "WorldPosX": str(idx),
+                    "WorldPosY": "0",
+                    "WorldPosZ": "0",
+                    "X2": "0",
+                    "Y2": "10",
+                    "Z2": "0",
+                    "parm1": "1",
+                    "parm2": "1",
+                    "parm3": "1",
+                    "StartChannel": str(idx),
+                },
+            )
+        ET.SubElement(groups_el, "modelGroup", {"name": "01_ALL", "models": ",".join(member_names)})
+
+        parsed_layout = effect_engine.xmp.parse_layout(self._write_layout(root))
+        names = member_names + ["01_ALL"]
+        pools = effect_engine.discover_sequential_pools(names, self._empty_layout(), parsed_layout)
+        self.assertFalse(any(pool.name == "01_ALL" for pool in pools))
+
+    def test_discover_sequential_pools_skips_three_color_stack_groups(self) -> None:
+        root = ET.Element("xrgb")
+        models_el = ET.SubElement(root, "models")
+        groups_el = ET.SubElement(root, "modelGroups")
+
+        for idx, name in enumerate(
+            ("Mega Tree Red 1", "Mega Tree Green 1", "Mega Tree White 1"),
+            start=1,
+        ):
+            ET.SubElement(
+                models_el,
+                "model",
+                {
+                    "name": name,
+                    "DisplayAs": "Single Line",
+                    "StringType": "Single Color White",
+                    "WorldPosX": str(idx),
+                    "WorldPosY": "0",
+                    "WorldPosZ": "0",
+                    "X2": "0",
+                    "Y2": "10",
+                    "Z2": "0",
+                    "parm1": "1",
+                    "parm2": "1",
+                    "parm3": "1",
+                    "StartChannel": str(idx),
+                },
+            )
+        ET.SubElement(
+            groups_el,
+            "modelGroup",
+            {"name": "mega tree 1", "models": "Mega Tree Red 1,Mega Tree Green 1,Mega Tree White 1"},
+        )
+
+        parsed_layout = effect_engine.xmp.parse_layout(self._write_layout(root))
+        names = ["Mega Tree Red 1", "Mega Tree Green 1", "Mega Tree White 1", "mega tree 1"]
+        pools = effect_engine.discover_sequential_pools(names, self._empty_layout(), parsed_layout)
+        self.assertFalse(any(pool.name == "mega tree 1" for pool in pools))
+
+    def test_map_notes_to_models_spreads_pitch_across_group_count(self) -> None:
+        style = replace(
+            effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION],
+            pool_mode="rotating",
+            call_response=False,
+            piano_echo=False,
+        )
+        pool = effect_engine.SequentialPool(
+            "13_PERIMETER_ALL",
+            "line",
+            ["LEFT_TREE", "BLVD_LEFT", "BLVD_CENTER", "BLVD_RIGHT", "RIGHT_LINDEN"],
+        )
+        event = effect_engine.NoteEvent(
+            start_ms=1000,
+            end_ms=1180,
+            notes=[(48, 0.9), (66, 0.7), (84, 0.8)],
+            part="CHORUS",
+            section="chorus",
+        )
+        mapped = effect_engine.map_notes_to_models(pool, event, {}, style, random.Random(0))
+        self.assertEqual(mapped, ["LEFT_TREE", "BLVD_CENTER", "RIGHT_LINDEN"])
 
     def test_showcase_signature_sweep_plan_reduces_build_sweeps(self) -> None:
         pool = effect_engine.SequentialPool("sig", "mega", ["m1", "m2", "m3", "m4", "m5"])

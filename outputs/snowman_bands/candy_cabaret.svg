@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2c0f12"/>
+      <stop offset="45%" stop-color="#7f1d2a"/>
+      <stop offset="100%" stop-color="#1f5a44"/>
+    </linearGradient>
+    <pattern id="caneStripe" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+      <rect width="18" height="18" fill="#ffffff"/>
+      <rect width="9" height="18" fill="#d93b3b"/>
+    </pattern>
+    <linearGradient id="mintGlow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#eafff2"/>
+      <stop offset="100%" stop-color="#7ff1b3"/>
+    </linearGradient>
+    <filter id="stageShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#120708" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="720" fill="url(#bg3)"/>
+  <rect x="0" y="0" width="1200" height="34" fill="url(#caneStripe)" opacity="0.95"/>
+  <circle cx="140" cy="128" r="72" fill="#ffffff" opacity="0.08"/>
+  <circle cx="1050" cy="94" r="92" fill="#ffffff" opacity="0.06"/>
+  <ellipse cx="600" cy="618" rx="514" ry="78" fill="#19080c" opacity="0.58"/>
+
+  <text x="72" y="84" fill="#fff3e7" font-size="46" font-family="Georgia, serif">Candy Cabaret</text>
+  <text x="72" y="120" fill="#ffe28d" font-size="20" font-family="'Trebuchet MS', sans-serif">Showiest version: candy-striped instruments, peppermint drums, big scarf motion, and playful front-of-yard energy.</text>
+
+  <g filter="url(#stageShadow)">
+    <rect x="58" y="522" width="286" height="140" rx="22" fill="#2b1217" opacity="0.84"/>
+    <text x="84" y="558" fill="#fff3e7" font-size="22" font-family="'Trebuchet MS', sans-serif">Cabaret Hooks</text>
+    <text x="84" y="586" fill="#f9e7df" font-size="17" font-family="'Trebuchet MS', sans-serif">Bass slaps can be big, funny, and obvious</text>
+    <text x="84" y="612" fill="#f9e7df" font-size="17" font-family="'Trebuchet MS', sans-serif">Guitar strums should feel snappy and bright</text>
+    <text x="84" y="638" fill="#f9e7df" font-size="17" font-family="'Trebuchet MS', sans-serif">Lead face goes biggest here without apology</text>
+
+    <rect x="864" y="522" width="284" height="140" rx="22" fill="#133328" opacity="0.84"/>
+    <text x="892" y="558" fill="#fff3e7" font-size="22" font-family="'Trebuchet MS', sans-serif">Drum Show</text>
+    <text x="892" y="586" fill="#e1f9ed" font-size="17" font-family="'Trebuchet MS', sans-serif">Crash arcs can sparkle like confetti bursts</text>
+    <text x="892" y="612" fill="#e1f9ed" font-size="17" font-family="'Trebuchet MS', sans-serif">Peppermint kick rings pulse center to edge</text>
+    <text x="892" y="638" fill="#e1f9ed" font-size="17" font-family="'Trebuchet MS', sans-serif">Arm flails should be the most animated set</text>
+  </g>
+
+  <g transform="translate(144 162)">
+    <ellipse cx="116" cy="304" rx="76" ry="68" fill="#fbfeff"/>
+    <circle cx="116" cy="208" r="58" fill="#fbfeff"/>
+    <circle cx="116" cy="122" r="46" fill="#fbfeff"/>
+    <rect x="80" y="90" width="72" height="16" fill="#451d23"/>
+    <rect x="94" y="48" width="44" height="46" rx="6" fill="#451d23"/>
+    <circle cx="102" cy="120" r="5" fill="#1f2528"/>
+    <circle cx="130" cy="120" r="5" fill="#1f2528"/>
+    <path d="M96 138 Q116 154 136 138" fill="none" stroke="#d94b4b" stroke-width="6" stroke-linecap="round"/>
+    <path d="M70 150 Q116 180 160 150" fill="none" stroke="#59c26d" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+    <path d="M56 220 Q18 238 8 270" fill="none" stroke="#8c5e4d" stroke-width="10" stroke-linecap="round"/>
+    <path d="M168 214 Q220 190 236 146" fill="none" stroke="#8c5e4d" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="236" cy="146" r="10" fill="#d3aa89"/>
+    <path d="M86 334 Q116 352 146 334" fill="none" stroke="#8c5e4d" stroke-width="12" stroke-linecap="round"/>
+    <path d="M116 366 L116 438" stroke="#8c5e4d" stroke-width="14" stroke-linecap="round"/>
+    <path d="M100 438 L86 504" stroke="#8c5e4d" stroke-width="12" stroke-linecap="round"/>
+    <path d="M132 438 L146 504" stroke="#8c5e4d" stroke-width="12" stroke-linecap="round"/>
+
+    <path d="M206 92 L206 420" stroke="#fce4bf" stroke-width="22" stroke-linecap="round"/>
+    <ellipse cx="209" cy="280" rx="58" ry="112" fill="url(#caneStripe)" stroke="#ffffff" stroke-width="4"/>
+    <ellipse cx="209" cy="232" rx="36" ry="46" fill="#9f3b31" opacity="0.9"/>
+    <ellipse cx="209" cy="334" rx="42" ry="58" fill="#2b8a57" opacity="0.88"/>
+    <circle cx="206" cy="78" r="13" fill="#ffe6c1"/>
+    <line x1="189" y1="102" x2="189" y2="404" stroke="#8de3ff" stroke-width="2"/>
+    <line x1="200" y1="102" x2="200" y2="404" stroke="#fff6bf" stroke-width="2"/>
+    <line x1="212" y1="102" x2="212" y2="404" stroke="#ff9d7d" stroke-width="2"/>
+    <line x1="224" y1="102" x2="224" y2="404" stroke="#d7ff90" stroke-width="2"/>
+    <circle cx="183" cy="226" r="10" fill="#d3aa89"/>
+    <circle cx="212" cy="166" r="10" fill="#d3aa89"/>
+    <text x="0" y="542" fill="#fff3e7" font-size="18" font-family="'Trebuchet MS', sans-serif">Standup bass: 4 reactive strings and dramatic slap motion</text>
+  </g>
+
+  <g transform="translate(468 150)">
+    <ellipse cx="128" cy="324" rx="82" ry="74" fill="#fbfeff"/>
+    <circle cx="128" cy="220" r="64" fill="#fbfeff"/>
+    <circle cx="128" cy="126" r="50" fill="#fbfeff"/>
+    <rect x="91" y="84" width="74" height="18" fill="#4a1e22"/>
+    <rect x="104" y="34" width="48" height="52" rx="6" fill="#4a1e22"/>
+    <circle cx="110" cy="120" r="6" fill="#202729"/>
+    <circle cx="146" cy="120" r="6" fill="#202729"/>
+    <path d="M88 142 Q128 188 168 142" fill="none" stroke="#d93b3b" stroke-width="11" stroke-linecap="round"/>
+    <path d="M82 164 Q128 214 174 164" fill="none" stroke="#59c26d" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+    <path d="M66 238 Q32 218 14 182" fill="none" stroke="#956857" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="14" cy="182" r="10" fill="#d3aa89"/>
+    <path d="M190 238 Q232 210 254 236" fill="none" stroke="#956857" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="254" cy="236" r="10" fill="#d3aa89"/>
+    <path d="M92 364 Q128 382 164 364" fill="none" stroke="#956857" stroke-width="12" stroke-linecap="round"/>
+    <path d="M128 396 L128 470" stroke="#956857" stroke-width="14" stroke-linecap="round"/>
+    <path d="M108 470 L92 548" stroke="#956857" stroke-width="12" stroke-linecap="round"/>
+    <path d="M148 470 L166 548" stroke="#956857" stroke-width="12" stroke-linecap="round"/>
+    <line x1="260" y1="220" x2="260" y2="540" stroke="#ecd9c2" stroke-width="5"/>
+    <circle cx="260" cy="216" r="17" fill="#ffffff"/>
+    <circle cx="260" cy="216" r="10" fill="#d93b3b"/>
+    <text x="14" y="586" fill="#fff3e7" font-size="18" font-family="'Trebuchet MS', sans-serif">Lead singer: biggest face, biggest grin, strongest mic poses</text>
+  </g>
+
+  <g transform="translate(784 170)">
+    <ellipse cx="112" cy="300" rx="74" ry="68" fill="#fbfeff"/>
+    <circle cx="112" cy="206" r="58" fill="#fbfeff"/>
+    <circle cx="112" cy="122" r="46" fill="#fbfeff"/>
+    <rect x="78" y="90" width="68" height="16" fill="#3f1b20"/>
+    <rect x="90" y="46" width="44" height="48" rx="6" fill="#3f1b20"/>
+    <circle cx="96" cy="120" r="5" fill="#202729"/>
+    <circle cx="126" cy="120" r="5" fill="#202729"/>
+    <path d="M92 138 Q112 150 132 138" fill="none" stroke="#d94b4b" stroke-width="6" stroke-linecap="round" opacity="0.65"/>
+    <path d="M58 220 Q20 228 0 256" fill="none" stroke="#8c5e4d" stroke-width="10" stroke-linecap="round"/>
+    <path d="M164 222 Q214 212 274 174" fill="none" stroke="#8c5e4d" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="274" cy="174" r="10" fill="#d3aa89"/>
+    <path d="M82 334 Q112 350 144 334" fill="none" stroke="#8c5e4d" stroke-width="12" stroke-linecap="round"/>
+    <path d="M112 366 L112 438" stroke="#8c5e4d" stroke-width="14" stroke-linecap="round"/>
+    <path d="M98 438 L84 506" stroke="#8c5e4d" stroke-width="12" stroke-linecap="round"/>
+    <path d="M126 438 L142 506" stroke="#8c5e4d" stroke-width="12" stroke-linecap="round"/>
+
+    <path d="M182 132 L270 194" stroke="#ffe8bf" stroke-width="14" stroke-linecap="round"/>
+    <path d="M188 194 Q236 168 274 194 Q246 246 188 232 Z" fill="url(#caneStripe)" stroke="#ffffff" stroke-width="4"/>
+    <circle cx="228" cy="208" r="12" fill="#59c26d" opacity="0.92"/>
+    <line x1="192" y1="146" x2="250" y2="186" stroke="#ffffff" stroke-width="1.5"/>
+    <line x1="196" y1="153" x2="254" y2="193" stroke="#8de3ff" stroke-width="1.5"/>
+    <line x1="200" y1="160" x2="258" y2="200" stroke="#ffe28d" stroke-width="1.5"/>
+    <line x1="204" y1="167" x2="262" y2="207" stroke="#ff9d7d" stroke-width="1.5"/>
+    <line x1="208" y1="174" x2="266" y2="214" stroke="#d7ff90" stroke-width="1.5"/>
+    <line x1="212" y1="181" x2="270" y2="221" stroke="#ffffff" stroke-width="1.5"/>
+    <circle cx="201" cy="160" r="10" fill="#d3aa89"/>
+    <circle cx="258" cy="208" r="10" fill="#d3aa89"/>
+    <text x="4" y="544" fill="#fff3e7" font-size="18" font-family="'Trebuchet MS', sans-serif">Guitarist: 6 strings with fast festive strum and subtle BGV face</text>
+  </g>
+
+  <g transform="translate(804 102)">
+    <circle cx="122" cy="102" r="40" fill="#fbfeff"/>
+    <circle cx="106" cy="96" r="4" fill="#202729"/>
+    <circle cx="132" cy="96" r="4" fill="#202729"/>
+    <path d="M102 114 Q122 128 142 114" fill="none" stroke="#d94b4b" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="122" cy="170" rx="54" ry="58" fill="#fbfeff"/>
+    <path d="M88 150 L44 116" stroke="#956857" stroke-width="8" stroke-linecap="round"/>
+    <path d="M156 150 L202 114" stroke="#956857" stroke-width="8" stroke-linecap="round"/>
+    <line x1="44" y1="116" x2="18" y2="82" stroke="#ffe28d" stroke-width="5" stroke-linecap="round"/>
+    <line x1="202" y1="114" x2="232" y2="74" stroke="#ffe28d" stroke-width="5" stroke-linecap="round"/>
+
+    <path d="M-2 60 Q46 8 96 60" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <path d="M-2 42 Q46 -8 98 42" fill="none" stroke="#d93b3b" stroke-width="5" stroke-linecap="round"/>
+    <path d="M152 50 Q214 -4 270 58" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <path d="M152 34 Q216 -20 274 42" fill="none" stroke="#59c26d" stroke-width="5" stroke-linecap="round"/>
+
+    <ellipse cx="122" cy="246" rx="40" ry="20" fill="#fff3e7" stroke="#e1b79d" stroke-width="4"/>
+    <line x1="162" y1="236" x2="204" y2="208" stroke="#dfd3c5" stroke-width="5"/>
+    <line x1="162" y1="253" x2="204" y2="253" stroke="#dfd3c5" stroke-width="5"/>
+    <line x1="204" y1="208" x2="204" y2="253" stroke="#dfd3c5" stroke-width="4"/>
+    <ellipse cx="246" cy="236" rx="38" ry="18" fill="#fff3e7" stroke="#dfd3c5" stroke-width="4"/>
+
+    <circle cx="120" cy="302" r="30" fill="url(#caneStripe)" stroke="#ffffff" stroke-width="5"/>
+    <circle cx="120" cy="302" r="20" fill="none" stroke="#d93b3b" stroke-width="4"/>
+    <circle cx="120" cy="302" r="10" fill="none" stroke="#59c26d" stroke-width="3"/>
+    <line x1="98" y1="346" x2="98" y2="410" stroke="#bca18f" stroke-width="5"/>
+    <line x1="142" y1="346" x2="142" y2="410" stroke="#bca18f" stroke-width="5"/>
+  </g>
+</svg>
