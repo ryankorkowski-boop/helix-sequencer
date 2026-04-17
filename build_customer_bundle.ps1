@@ -92,5 +92,76 @@ if ([string]::IsNullOrWhiteSpace($versionInfo.FileVersion) -or [string]::IsNullO
   Write-Warning "Bundle EXE is missing version metadata fields."
 }
 
+$commitRef = ""
+try {
+  $commitRef = (git -C $PSScriptRoot rev-parse --short HEAD 2>$null).Trim()
+}
+catch {
+  $commitRef = ""
+}
+
+$checksumsPath = Join-Path $bundleDir "release_checksums.txt"
+$hashLines = Get-ChildItem -Path $bundleDir -File |
+  Sort-Object Name |
+  ForEach-Object {
+    $hash = (Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+    "{0} *{1}" -f $hash, $_.Name
+  }
+$checksumsText = @(
+  "Dream Sequence Weaver release checksums"
+  "Generated (local): $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss zzz')"
+  "Bundle: $(Split-Path -Leaf $bundleDir)"
+  "Source commit: $(if ([string]::IsNullOrWhiteSpace($commitRef)) { '<unknown>' } else { $commitRef })"
+  ""
+  "Verify with PowerShell:"
+  "  Get-FileHash .\HelixSequenceWeaverBeta.exe -Algorithm SHA256"
+  ""
+  "Format: SHA256 *filename"
+  ""
+) + $hashLines
+Set-Content -Path $checksumsPath -Value $checksumsText -Encoding UTF8
+
+$releaseNotesTemplateSource = Join-Path $PSScriptRoot "RELEASE_NOTES_TEMPLATE.md"
+$releaseNotesTemplateDest = Join-Path $bundleDir "RELEASE_NOTES_TEMPLATE.md"
+$resolvedVersion = if ([string]::IsNullOrWhiteSpace($versionInfo.ProductVersion)) { "<version>" } else { $versionInfo.ProductVersion }
+$resolvedCommit = if ([string]::IsNullOrWhiteSpace($commitRef)) { "<commit-hash>" } else { $commitRef }
+if (Test-Path $releaseNotesTemplateSource) {
+  $releaseNotes = Get-Content -Path $releaseNotesTemplateSource -Raw
+  $releaseNotes = $releaseNotes.Replace("{{RELEASE_DATE}}", (Get-Date -Format "yyyy-MM-dd HH:mm:ss zzz"))
+  $releaseNotes = $releaseNotes.Replace("{{BUNDLE_NAME}}", (Split-Path -Leaf $bundleDir))
+  $releaseNotes = $releaseNotes.Replace("{{EXE_NAME}}", "HelixSequenceWeaverBeta.exe")
+  $releaseNotes = $releaseNotes.Replace("{{EXE_VERSION}}", $resolvedVersion)
+  $releaseNotes = $releaseNotes.Replace("{{SOURCE_COMMIT}}", $resolvedCommit)
+  $releaseNotes = $releaseNotes.Replace("{{CHECKSUM_FILE}}", "release_checksums.txt")
+  Set-Content -Path $releaseNotesTemplateDest -Value $releaseNotes -Encoding UTF8
+}
+else {
+  $fallbackNotes = @(
+    "# Dream Sequence Weaver Release Notes Template"
+    ""
+    "## Release Metadata"
+    "- Date: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss zzz')"
+    "- Bundle: $(Split-Path -Leaf $bundleDir)"
+    "- EXE: HelixSequenceWeaverBeta.exe"
+    "- Version: $resolvedVersion"
+    "- Source commit: $resolvedCommit"
+    ""
+    "## Highlights"
+    "- "
+    ""
+    "## Quality Checks"
+    "- [ ] release_audit.ps1 -RequireSignature"
+    "- [ ] Manual launch smoke test"
+    ""
+    "## Artifacts"
+    "- HelixSequenceWeaverBeta.exe"
+    "- release_checksums.txt"
+    ""
+    "## Notes for Users"
+    "- Verify SHA256 checksums from release_checksums.txt before launch."
+  )
+  Set-Content -Path $releaseNotesTemplateDest -Value $fallbackNotes -Encoding UTF8
+}
+
 Write-Host "Customer bundle ready:"
 Write-Host "  $bundleDir"

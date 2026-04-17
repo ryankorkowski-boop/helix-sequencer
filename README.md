@@ -69,6 +69,10 @@ Create a customer bundle in `release/`:
 powershell -ExecutionPolicy Bypass -File .\build_customer_bundle.ps1
 ```
 
+Each bundle now includes:
+- `release_checksums.txt` with SHA256 hashes for included files.
+- `RELEASE_NOTES_TEMPLATE.md` prefilled with bundle date/version/commit placeholders.
+
 Run release gates (tests + build + smoke checks):
 
 ```powershell
