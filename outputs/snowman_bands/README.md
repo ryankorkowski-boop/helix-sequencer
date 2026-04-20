@@ -1,12 +1,13 @@
 # Snowman Band Concepts
 
-Three larger-than-life 2D snowman band concepts sized for roughly 8-9 foot performer builds.
+Four larger-than-life 2D snowman band concepts sized for roughly 8-9 foot performer builds.
 
 Files in this folder:
 
 - `snowcap_swing.svg`
 - `aurora_echo.svg`
 - `candy_cabaret.svg`
+- `festival_of_frost.svg`
 - `gallery.html`
 
 ## Shared Performance Logic
@@ -105,6 +106,21 @@ Files in this folder:
   - Guitar strums feel snappy and flashy.
   - Singer face can push the biggest expression changes.
   - Drummer is the most animated of the three concepts.
+
+## Concept 4: Festival Of Frost
+
+- Visual direction: a surreal yard-concert masterplan that stages all three bands at once with aurora ribbons, mirrored walkways, canopy stars, and connective scenery.
+- Best for: full-yard showcase planning, multi-zone songs, medleys that move between looks, and proving the overlay expansion without disturbing the original AC base.
+- Footprint:
+  - Left stage: Snowcap Swing as the warm brass zone.
+  - Center stage: Aurora Echo as the cinematic hero zone.
+  - Right stage: Candy Cabaret as the playful crowd-pleaser zone.
+  - Shared connective props: arches, canes, mega trees, and matrices as pitch rivers and chorus halos.
+- Sequencing feel:
+  - Use the three band looks as separate musical chapters or chorus/verse swaps.
+  - Bridge notes can travel through arches and canes between the stages.
+  - Mega trees and matrices can behave like sky curtains above the hero band.
+  - All additions should remain on the overlay/null side instead of the original 256 AC footprint.
 
 ## Build Notes
 

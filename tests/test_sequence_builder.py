@@ -21,6 +21,16 @@ class SequenceBuilderTests(unittest.TestCase):
         profile = engine_profiles.resolve_profile("v27.3")
         self.assertEqual(profile.version, "v27.3")
 
+    def test_effect_engine_parser_exposes_one_click_flags(self) -> None:
+        args = effect_engine.parse_args(
+            effect_engine.ACTIVE_STYLE,
+            ["--variants", "4", "--auto-shortlist", "--learn-from-my-xsqs"],
+        )
+        self.assertTrue(args.polish_enabled)
+        self.assertEqual(args.variant_count, 4)
+        self.assertTrue(args.auto_shortlist)
+        self.assertTrue(args.learn_from_my_xsqs)
+
 
 if __name__ == "__main__":
     unittest.main()

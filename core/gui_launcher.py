@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import queue
 import re
 import subprocess
@@ -30,6 +31,7 @@ _FEELS = ("balanced", "aggressive", "airy", "percussive")
 _CHASE_STYLES = ("none", "left_to_right", "radial_out", "group_to_group", "random_walk", "wave")
 _LAYERING_MODES = ("replace", "overlay_blend", "smart_layer", "additive")
 _PALETTE_MODES = ("template", "christmas", "warm", "cool", "neon", "random", "workspace_match")
+_VARIANT_COUNTS = ("1", "2", "3", "4", "5")
 
 _LOGO_CANDIDATES = ("c82.png", "app_icon.ico")
 _MASCOT_CANDIDATES = (
@@ -42,6 +44,7 @@ _WORKING_VIDEO_CANDIDATES = (
     "helix_twist.mp4",
     "grok-video-9256730a-68a5-49ec-855c-ad156e1fa006.mp4",
 )
+_SNOWMAN_CONCEPT_ORDER = ("snowcap_swing", "aurora_echo", "candy_cabaret", "festival_of_frost")
 
 _SAVED_XSQ_RE = re.compile(r"Saved:\s*(.+?\.xsq)\s*(?:\||$)", re.IGNORECASE)
 _CREATED_MP4_RE = re.compile(r"Created\s+(.+?\.mp4)\s*$", re.IGNORECASE)
@@ -122,6 +125,49 @@ def _default_output_dir(workspace: Path) -> str:
     return str(workspace / "outputs")
 
 
+def _snowman_gallery_path(workspace: Path) -> Path | None:
+    candidate = workspace / "outputs" / "snowman_bands" / "gallery.html"
+    if candidate.exists():
+        return candidate
+    return None
+
+
+def _snowman_concept_paths(workspace: Path) -> list[Path]:
+    concepts_dir = workspace / "outputs" / "snowman_bands"
+    if not concepts_dir.exists():
+        return []
+    order_lookup = {stem: index for index, stem in enumerate(_SNOWMAN_CONCEPT_ORDER)}
+    return sorted(
+        (path for path in concepts_dir.glob("*.svg") if path.is_file()),
+        key=lambda path: (order_lookup.get(path.stem, len(order_lookup)), path.stem),
+    )
+
+
+def _concept_title(path: Path) -> str:
+    return path.stem.replace("_", " ").title()
+
+
+def _describe_layout_choice(raw_path: str) -> tuple[str, str]:
+    clean_path = raw_path.strip()
+    if not clean_path:
+        return "No layout selected yet. Pick the allmodels overlay to keep the base 256 AC channels untouched.", "#8f2c2c"
+
+    layout_path = Path(clean_path)
+    if not layout_path.exists():
+        return "Selected layout file is missing. Re-pick the allmodels overlay before running.", "#8f2c2c"
+
+    if "allmodels" in str(layout_path).lower():
+        return (
+            "Allmodels overlay ready. The base 256 AC channels stay intact while the snowmen and new props live on the overflow side.",
+            "#1b6f50",
+        )
+
+    return (
+        "Custom layout selected. Double-check that your added props stay off the original 256 AC channel footprint.",
+        "#946b1d",
+    )
+
+
 def _runner_prefix() -> list[str]:
     if getattr(sys, "frozen", False):
         return [sys.executable]
@@ -146,7 +192,11 @@ def _build_sequence_command(
     template_guidance: bool,
     auto_timing_tracks: bool,
     pixel_reactive: bool,
+    polish_enabled: bool,
     workspace_history: bool,
+    learn_from_my_xsqs: bool,
+    variant_count: str,
+    auto_shortlist: bool,
     ac_lights_only: bool,
 ) -> list[str]:
     cmd = _runner_prefix()
@@ -176,7 +226,13 @@ def _build_sequence_command(
     cmd.append("--template-guidance" if template_guidance else "--no-template-guidance")
     cmd.append("--auto-timing-tracks" if auto_timing_tracks else "--no-auto-timing-tracks")
     cmd.append("--pixel-reactive" if pixel_reactive else "--no-pixel-reactive")
+    cmd.append("--polish" if polish_enabled else "--no-polish")
     cmd.append("--workspace-history" if workspace_history else "--no-workspace-history")
+    cmd.extend(["--variants", variant_count])
+    if auto_shortlist:
+        cmd.append("--auto-shortlist")
+    if learn_from_my_xsqs:
+        cmd.append("--learn-from-my-xsqs")
     if ac_lights_only:
         cmd.append("--ac-lights-only")
     return cmd
@@ -232,6 +288,18 @@ def _load_working_frames(video_path: Path, max_size: tuple[int, int]) -> tuple[l
     except Exception:
         return [], delay_ms
     return frames, delay_ms
+
+
+def _open_path(target: Path) -> None:
+    if not target.exists():
+        raise FileNotFoundError(target)
+    if sys.platform.startswith("win") and hasattr(os, "startfile"):
+        os.startfile(str(target))
+        return
+    if sys.platform == "darwin":
+        subprocess.Popen(["open", str(target)])
+        return
+    subprocess.Popen(["xdg-open", str(target)])
 
 
 class _FrameAnimator:
@@ -298,12 +366,18 @@ def run_gui() -> int:
     template_guidance_var = tk.BooleanVar(value=True)
     auto_timing_tracks_var = tk.BooleanVar(value=True)
     pixel_reactive_var = tk.BooleanVar(value=True)
+    polish_enabled_var = tk.BooleanVar(value=True)
     workspace_history_var = tk.BooleanVar(value=True)
+    learn_from_my_xsqs_var = tk.BooleanVar(value=True)
+    variant_count_var = tk.StringVar(value="5")
+    auto_shortlist_var = tk.BooleanVar(value=True)
     ac_lights_only_var = tk.BooleanVar(value=False)
 
     logo_path = _find_asset(workspace, _LOGO_CANDIDATES)
     mascot_path = _find_asset(workspace, _MASCOT_CANDIDATES)
     helix_video_path = _find_asset(workspace, _WORKING_VIDEO_CANDIDATES)
+    snowman_gallery = _snowman_gallery_path(workspace)
+    snowman_concepts = _snowman_concept_paths(workspace)
 
     if logo_path:
         try:
@@ -400,6 +474,12 @@ def run_gui() -> int:
         selected = filedialog.askdirectory(title=title, initialdir=str(workspace))
         if selected:
             target.set(selected)
+
+    def open_path_or_message(target: Path, title: str) -> None:
+        try:
+            _open_path(target)
+        except Exception as exc:
+            messagebox.showerror(title, f"Could not open:\n\n{target}\n\n{exc}")
 
     def _make_row(
         row: int,
@@ -609,6 +689,100 @@ def run_gui() -> int:
     ac_lights_only_check.grid(row=6, column=1, sticky="w", pady=(4, 0))
     controls.append(ac_lights_only_check)
 
+    polish_enabled_check = tk.Checkbutton(
+        advanced_panel,
+        text="Deep Polish",
+        variable=polish_enabled_var,
+        onvalue=True,
+        offvalue=False,
+        bg="#f7fbf8",
+        fg="#1d4f40",
+        activebackground="#f7fbf8",
+        font=("Segoe UI", 9),
+    )
+    polish_enabled_check.grid(row=6, column=2, sticky="w", pady=(4, 0))
+    controls.append(polish_enabled_check)
+
+    quality_panel = tk.Frame(
+        advanced_panel,
+        bg="#edf7f1",
+        padx=10,
+        pady=8,
+        highlightbackground="#d3e7dc",
+        highlightthickness=1,
+    )
+    quality_panel.grid(row=7, column=0, columnspan=3, sticky="ew", pady=(8, 0))
+    quality_panel.grid_columnconfigure(0, weight=1)
+    quality_panel.grid_columnconfigure(1, weight=1)
+    quality_panel.grid_columnconfigure(2, weight=1)
+
+    tk.Label(
+        quality_panel,
+        text="Hero Render Stack",
+        bg="#edf7f1",
+        fg="#0d5f47",
+        font=("Segoe UI", 10, "bold"),
+    ).grid(row=0, column=0, columnspan=3, sticky="w", pady=(0, 4))
+
+    tk.Label(
+        quality_panel,
+        text="Variant Count",
+        bg="#edf7f1",
+        fg="#20483c",
+        font=("Segoe UI", 9, "bold"),
+    ).grid(row=1, column=0, sticky="w")
+    variant_count_combo = ttk.Combobox(quality_panel, textvariable=variant_count_var, values=list(_VARIANT_COUNTS), state="readonly")
+    variant_count_combo.grid(row=2, column=0, sticky="ew", padx=(0, 10), pady=(2, 4))
+    controls.append(variant_count_combo)
+    readonly_combos.append(variant_count_combo)
+
+    auto_shortlist_check = tk.Checkbutton(
+        quality_panel,
+        text="Auto Shortlist Winner",
+        variable=auto_shortlist_var,
+        onvalue=True,
+        offvalue=False,
+        bg="#edf7f1",
+        fg="#1d4f40",
+        activebackground="#edf7f1",
+        font=("Segoe UI", 9),
+    )
+    auto_shortlist_check.grid(row=2, column=1, sticky="w", pady=(2, 4))
+    controls.append(auto_shortlist_check)
+
+    learn_from_my_xsqs_check = tk.Checkbutton(
+        quality_panel,
+        text="Learn From Saved XSQs",
+        variable=learn_from_my_xsqs_var,
+        onvalue=True,
+        offvalue=False,
+        bg="#edf7f1",
+        fg="#1d4f40",
+        activebackground="#edf7f1",
+        font=("Segoe UI", 9),
+    )
+    learn_from_my_xsqs_check.grid(row=2, column=2, sticky="w", pady=(2, 4))
+    controls.append(learn_from_my_xsqs_check)
+
+    tk.Label(
+        quality_panel,
+        text="Default launcher target: deep polish, five runtime variants, and an auto-promoted winner while preserving the allmodels-safe layout path.",
+        bg="#edf7f1",
+        fg="#45695d",
+        wraplength=560,
+        justify=tk.LEFT,
+        font=("Segoe UI", 8, "italic"),
+    ).grid(row=3, column=0, columnspan=3, sticky="w", pady=(2, 0))
+
+    def sync_learning_toggle(*_args: object) -> None:
+        enabled_state = tk.NORMAL if workspace_history_var.get() else tk.DISABLED
+        learn_from_my_xsqs_check.configure(state=enabled_state)
+        if enabled_state == tk.DISABLED:
+            learn_from_my_xsqs_var.set(False)
+
+    sync_learning_toggle()
+    workspace_history_var.trace_add("write", sync_learning_toggle)
+
     render_mp4_check = tk.Checkbutton(
         setup_panel,
         text="Also render MP4 preview after sequence completes",
@@ -649,12 +823,33 @@ def run_gui() -> int:
     )
     status_label.grid(row=11, column=0, columnspan=3, sticky="w")
 
-    tk.Label(media_panel, text="Working Visual", bg="#eaf5ef", fg="#0c5f46", font=("Segoe UI", 13, "bold")).grid(
+    tk.Label(media_panel, text="Showcase", bg="#eaf5ef", fg="#0c5f46", font=("Segoe UI", 13, "bold")).grid(
+        row=0, column=0, sticky="w", pady=(0, 8)
+    )
+
+    showcase_tabs = ttk.Notebook(media_panel)
+    showcase_tabs.grid(row=1, column=0, sticky="nsew")
+
+    helix_tab = tk.Frame(showcase_tabs, bg="#eaf5ef", padx=14, pady=14)
+    helix_tab.grid_columnconfigure(0, weight=1)
+    helix_tab.grid_rowconfigure(2, weight=1)
+
+    snowman_tab = tk.Frame(showcase_tabs, bg="#f8fbfd", padx=14, pady=14)
+    snowman_tab.grid_columnconfigure(0, weight=1)
+
+    layout_tab = tk.Frame(showcase_tabs, bg="#f8fbfd", padx=14, pady=14)
+    layout_tab.grid_columnconfigure(0, weight=1)
+
+    showcase_tabs.add(helix_tab, text="Helix")
+    showcase_tabs.add(snowman_tab, text="Snowmen")
+    showcase_tabs.add(layout_tab, text="Layout")
+
+    tk.Label(helix_tab, text="Working Visual", bg="#eaf5ef", fg="#0c5f46", font=("Segoe UI", 13, "bold")).grid(
         row=0, column=0, sticky="w", pady=(0, 8)
     )
 
     mascot_photo = _load_photo(mascot_path, (380, 260)) if mascot_path else None
-    mascot_label = tk.Label(media_panel, bg="#eaf5ef")
+    mascot_label = tk.Label(helix_tab, bg="#eaf5ef")
     mascot_label.grid(row=1, column=0, sticky="n")
     if mascot_photo:
         mascot_label.configure(image=mascot_photo)
@@ -662,7 +857,7 @@ def run_gui() -> int:
     else:
         mascot_label.configure(text="Add helixmascot.jpg to show mascot art.", fg="#386b5a", font=("Segoe UI", 10))
 
-    animation_label = ttk.Label(media_panel, anchor=tk.CENTER)
+    animation_label = ttk.Label(helix_tab, anchor=tk.CENTER)
     animation_label.grid(row=2, column=0, sticky="ew", pady=(10, 0))
     animation_label.configure(text="Animation plays while work is active.")
 
@@ -677,6 +872,247 @@ def run_gui() -> int:
         animation_label.configure(text="Add helix_twist.mp4 to enable working animation.")
 
     animator = _FrameAnimator(animation_label, working_frames, working_delay)
+
+    tk.Label(
+        snowman_tab,
+        text="Snowman Band Pack",
+        bg="#f8fbfd",
+        fg="#0c5f46",
+        font=("Segoe UI", 13, "bold"),
+    ).grid(row=0, column=0, sticky="w")
+
+    snowman_intro = (
+        f"{len(snowman_concepts)} concept boards are staged and ready. Open the gallery to view the full posters, then jump back here to run the sequencer."
+        if snowman_concepts
+        else "No snowman concept posters were found in outputs/snowman_bands yet."
+    )
+    tk.Label(
+        snowman_tab,
+        text=snowman_intro,
+        bg="#f8fbfd",
+        fg="#31574c",
+        wraplength=350,
+        justify=tk.LEFT,
+        font=("Segoe UI", 10),
+    ).grid(row=1, column=0, sticky="w", pady=(6, 12))
+
+    concept_card = tk.Frame(
+        snowman_tab,
+        bg="#ffffff",
+        padx=12,
+        pady=10,
+        highlightbackground="#d6e5ee",
+        highlightthickness=1,
+    )
+    concept_card.grid(row=2, column=0, sticky="ew")
+    concept_card.grid_columnconfigure(0, weight=1)
+
+    tk.Label(
+        concept_card,
+        text="Concept lineup",
+        bg="#ffffff",
+        fg="#20483c",
+        font=("Segoe UI", 10, "bold"),
+    ).grid(row=0, column=0, sticky="w", pady=(0, 6))
+
+    if snowman_concepts:
+        for row, concept_path in enumerate(snowman_concepts, start=1):
+            tk.Label(
+                concept_card,
+                text=f"{row}. {_concept_title(concept_path)}",
+                bg="#ffffff",
+                fg="#2c4e44",
+                anchor="w",
+                justify=tk.LEFT,
+                font=("Segoe UI", 9),
+            ).grid(row=row, column=0, sticky="w", pady=2)
+    else:
+        tk.Label(
+            concept_card,
+            text="Drop SVG concept boards into outputs/snowman_bands to populate this list.",
+            bg="#ffffff",
+            fg="#7b4e0b",
+            wraplength=330,
+            justify=tk.LEFT,
+            font=("Segoe UI", 9, "italic"),
+        ).grid(row=1, column=0, sticky="w")
+
+    snowman_button_row = tk.Frame(snowman_tab, bg="#f8fbfd")
+    snowman_button_row.grid(row=3, column=0, sticky="ew", pady=(12, 0))
+    snowman_button_row.grid_columnconfigure(0, weight=1)
+    snowman_button_row.grid_columnconfigure(1, weight=1)
+
+    open_gallery_button = tk.Button(
+        snowman_button_row,
+        text="Open Gallery",
+        bg="#1f7f5f",
+        fg="#ffffff",
+        activebackground="#17694f",
+        activeforeground="#ffffff",
+        relief=tk.FLAT,
+        padx=10,
+        pady=5,
+        command=lambda: open_path_or_message(snowman_gallery, "Open gallery") if snowman_gallery else None,
+    )
+    open_gallery_button.grid(row=0, column=0, sticky="ew", padx=(0, 6))
+    if snowman_gallery is None:
+        open_gallery_button.configure(state=tk.DISABLED)
+
+    open_snowman_folder_button = tk.Button(
+        snowman_button_row,
+        text="Open Folder",
+        bg="#d9eee3",
+        fg="#1b5f4a",
+        activebackground="#cbe6d9",
+        relief=tk.FLAT,
+        padx=10,
+        pady=5,
+        command=lambda: open_path_or_message(workspace / "outputs" / "snowman_bands", "Open snowman folder"),
+    )
+    open_snowman_folder_button.grid(row=0, column=1, sticky="ew", padx=(6, 0))
+
+    if snowman_gallery is not None:
+        gallery_hint = f"Gallery file: {snowman_gallery.name}"
+    else:
+        gallery_hint = "Gallery file not found yet."
+    tk.Label(
+        snowman_tab,
+        text=gallery_hint,
+        bg="#f8fbfd",
+        fg="#4b6d62",
+        wraplength=350,
+        justify=tk.LEFT,
+        font=("Segoe UI", 9, "italic"),
+    ).grid(row=4, column=0, sticky="w", pady=(10, 0))
+
+    tk.Label(
+        layout_tab,
+        text="Overlay Layout",
+        bg="#f8fbfd",
+        fg="#0c5f46",
+        font=("Segoe UI", 13, "bold"),
+    ).grid(row=0, column=0, sticky="w")
+
+    layout_summary_var = tk.StringVar()
+    layout_path_var = tk.StringVar()
+
+    layout_summary_label = tk.Label(
+        layout_tab,
+        textvariable=layout_summary_var,
+        bg="#f8fbfd",
+        fg="#31574c",
+        wraplength=350,
+        justify=tk.LEFT,
+        font=("Segoe UI", 10),
+    )
+    layout_summary_label.grid(row=1, column=0, sticky="w", pady=(6, 12))
+
+    layout_path_card = tk.Frame(
+        layout_tab,
+        bg="#ffffff",
+        padx=12,
+        pady=10,
+        highlightbackground="#d6e5ee",
+        highlightthickness=1,
+    )
+    layout_path_card.grid(row=2, column=0, sticky="ew")
+    layout_path_card.grid_columnconfigure(0, weight=1)
+
+    tk.Label(
+        layout_path_card,
+        text="Current layout path",
+        bg="#ffffff",
+        fg="#20483c",
+        font=("Segoe UI", 10, "bold"),
+    ).grid(row=0, column=0, sticky="w", pady=(0, 6))
+
+    tk.Label(
+        layout_path_card,
+        textvariable=layout_path_var,
+        bg="#ffffff",
+        fg="#2c4e44",
+        wraplength=330,
+        justify=tk.LEFT,
+        anchor="w",
+        font=("Segoe UI", 9),
+    ).grid(row=1, column=0, sticky="w")
+
+    layout_button_row = tk.Frame(layout_tab, bg="#f8fbfd")
+    layout_button_row.grid(row=3, column=0, sticky="ew", pady=(12, 0))
+    layout_button_row.grid_columnconfigure(0, weight=1)
+    layout_button_row.grid_columnconfigure(1, weight=1)
+
+    def open_selected_layout() -> None:
+        selected = layout_var.get().strip()
+        if not selected:
+            messagebox.showinfo("Open layout", "Select a layout file first.")
+            return
+        open_path_or_message(Path(selected), "Open layout")
+
+    def open_selected_layout_folder() -> None:
+        selected = layout_var.get().strip()
+        if not selected:
+            messagebox.showinfo("Open layout folder", "Select a layout file first.")
+            return
+        open_path_or_message(Path(selected).resolve().parent, "Open layout folder")
+
+    open_layout_button = tk.Button(
+        layout_button_row,
+        text="Open Layout",
+        bg="#1f7f5f",
+        fg="#ffffff",
+        activebackground="#17694f",
+        activeforeground="#ffffff",
+        relief=tk.FLAT,
+        padx=10,
+        pady=5,
+        command=open_selected_layout,
+    )
+    open_layout_button.grid(row=0, column=0, sticky="ew", padx=(0, 6))
+
+    open_layout_folder_button = tk.Button(
+        layout_button_row,
+        text="Open Folder",
+        bg="#d9eee3",
+        fg="#1b5f4a",
+        activebackground="#cbe6d9",
+        relief=tk.FLAT,
+        padx=10,
+        pady=5,
+        command=open_selected_layout_folder,
+    )
+    open_layout_folder_button.grid(row=0, column=1, sticky="ew", padx=(6, 0))
+
+    tk.Label(
+        layout_tab,
+        text="Safe default: keep the allmodels overlay selected so the original house channels stay stable while the showcase props live around them.",
+        bg="#f8fbfd",
+        fg="#4b6d62",
+        wraplength=350,
+        justify=tk.LEFT,
+        font=("Segoe UI", 9, "italic"),
+    ).grid(row=4, column=0, sticky="w", pady=(10, 0))
+
+    def refresh_layout_panel(*_args: object) -> None:
+        summary_text, summary_color = _describe_layout_choice(layout_var.get())
+        layout_summary_var.set(summary_text)
+        layout_summary_label.configure(fg=summary_color)
+
+        raw_path = layout_var.get().strip()
+        if raw_path:
+            layout_path_var.set(raw_path)
+        else:
+            layout_path_var.set("No layout file selected.")
+
+        enabled_state = tk.NORMAL if raw_path and Path(raw_path).exists() else tk.DISABLED
+        open_layout_button.configure(state=enabled_state)
+        open_layout_folder_button.configure(state=enabled_state)
+
+    refresh_layout_panel()
+    layout_var.trace_add("write", refresh_layout_panel)
+
+    if snowman_concepts:
+        showcase_tabs.select(1)
 
     tk.Label(log_panel, text="Live Activity", bg="#ffffff", fg="#0c5f46", font=("Segoe UI", 13, "bold")).grid(
         row=0, column=0, sticky="w"
@@ -942,8 +1378,16 @@ def run_gui() -> int:
             keyboard_mix = _parse_float_field("Keyboard Mix", keyboard_mix_var.get(), 0.0, 2.0)
             flash_guard = _parse_float_field("Flash Guard", flash_guard_var.get(), 0.0, 1.0)
             spatial_awareness = _parse_float_field("Spatial Awareness", spatial_awareness_var.get(), 0.0, 1.0)
+            variant_count = int(variant_count_var.get().strip())
         except ValueError as exc:
             messagebox.showerror("Advanced settings error", str(exc))
+            return
+        except Exception:
+            messagebox.showerror("Advanced settings error", "Variant Count must be a whole number.")
+            return
+
+        if variant_count < 1 or variant_count > 5:
+            messagebox.showerror("Advanced settings error", "Variant Count must be between 1 and 5.")
             return
 
         if template_path is None or not template_path.exists():
@@ -978,7 +1422,11 @@ def run_gui() -> int:
             template_guidance=bool(template_guidance_var.get()),
             auto_timing_tracks=bool(auto_timing_tracks_var.get()),
             pixel_reactive=bool(pixel_reactive_var.get()),
+            polish_enabled=bool(polish_enabled_var.get()),
             workspace_history=bool(workspace_history_var.get()),
+            learn_from_my_xsqs=bool(learn_from_my_xsqs_var.get() and workspace_history_var.get()),
+            variant_count=str(variant_count),
+            auto_shortlist=bool(auto_shortlist_var.get()),
             ac_lights_only=bool(ac_lights_only_var.get()),
         )
 
@@ -994,6 +1442,13 @@ def run_gui() -> int:
         status_var.set("Running sequencer...")
         animator.start()
         add_log("Starting sequence run...")
+        add_log(
+            "Hero render stack: "
+            f"polish={int(bool(polish_enabled_var.get()))}, "
+            f"variants={variant_count}, "
+            f"shortlist={int(bool(auto_shortlist_var.get()))}, "
+            f"learn_xsqs={int(bool(learn_from_my_xsqs_var.get() and workspace_history_var.get()))}"
+        )
         if "allmodels" in str(layout_path).lower():
             add_log("Using allmodels overlay layout. Original 256 AC channels stay untouched; added props should ride around them.")
         else:

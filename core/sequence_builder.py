@@ -35,7 +35,15 @@ def build_sequence_set(profiles: Iterable[str | None], engine_args: list[str] | 
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Modular entrypoint for the xLights sequencing pipeline.")
+    parser = argparse.ArgumentParser(
+        description="One-click Dream Sequence Weaver entrypoint for show-ready xLights sequencing.",
+        epilog=(
+            "Examples:\n"
+            "  python main.py --profile master -- --template template.xsq --audio song.wav --no-prompt --polish --variants 3 --auto-shortlist\n"
+            "  python main.py --profile v27.3 -- --template template.xsq --audio song.wav --learn-from-my-xsqs"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     parser.add_argument("--list-profiles", action="store_true", help="List active sequencing profiles and exit.")
     parser.add_argument("--list-versions", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument(
@@ -48,7 +56,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "engine_args",
         nargs=argparse.REMAINDER,
-        help="Arguments passed directly to the selected effect engine.",
+        help="Arguments passed directly to the selected effect engine, including polish, variant, shortlist, and learning flags.",
     )
     return parser
 

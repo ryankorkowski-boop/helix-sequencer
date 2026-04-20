@@ -206,6 +206,69 @@ class EffectEngineTests(unittest.TestCase):
         self.assertTrue(all(entry[3] == "player_piano_notes" for entry in placements))
         self.assertEqual(keyboard_track[0][0], "player_piano:notes_1_16:phrase:C3+C5")
 
+    def test_place_player_piano_sequence_uses_helixualizer_support_spread_for_canes(self) -> None:
+        style = replace(effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION], polyphony=1)
+        pools = [
+            effect_engine.SequentialPool("north_canes", "north_canes", [f"c{i}" for i in range(1, 9)]),
+        ]
+        event = effect_engine.NoteEvent(
+            start_ms=1000,
+            end_ms=1180,
+            notes=[(60, 0.9)],
+            part="CHORUS",
+            section="chorus",
+        )
+        placements: list[tuple[str, int, int, str, str | None, str]] = []
+        keyboard_track: list[tuple[str, int, int]] = []
+        helix_payload = {
+            "frame_times_s": [0.0, 0.5, 1.0, 1.5],
+            "transport": {"arrival_curve": [0.1, 0.45, 0.9, 0.2]},
+            "xlights_projection": {
+                "candy_cane_bar_curve": [0.1, 0.35, 0.92, 0.15],
+                "piano_lane_groups": {
+                    "low": [0.1, 0.2, 0.7, 0.1],
+                    "mid": [0.1, 0.3, 0.8, 0.1],
+                    "high": [0.1, 0.2, 0.6, 0.1],
+                },
+            },
+        }
+
+        def add_model(
+            model: str,
+            start_ms: int,
+            end_ms: int,
+            label: str,
+            eff: str = "On",
+            tpl=None,
+            cd_key=None,
+            cd_ms: int = 0,
+            stem: str = "other",
+        ) -> None:
+            placements.append((model, start_ms, end_ms, label, eff, stem))
+
+        placed = effect_engine.place_player_piano_sequence(
+            style=style,
+            note_events=[event],
+            pools=pools,
+            kicks=[],
+            snares=[],
+            hats=[],
+            bass_peaks=[],
+            vocal_peaks=[],
+            keyboard_mix=1.0,
+            ramp_ok=False,
+            ramp_tpl=xsq_writer.EffectTemplate(settings="", palette=""),
+            add_model=add_model,
+            in_blackout=lambda _t: False,
+            keyboard_track=keyboard_track,
+            helixualizer_payload=helix_payload,
+        )
+
+        self.assertEqual(placed, 5)
+        self.assertEqual(placements[0][3], "player_piano_north_canes")
+        self.assertTrue(any(entry[3] == "player_piano_north_canes_support" for entry in placements))
+        self.assertEqual(keyboard_track[0][0], "player_piano:north_canes:phrase:C4")
+
     def test_discover_sequential_pools_adds_nested_perimeter_group_lane(self) -> None:
         root = ET.Element("xrgb")
         models_el = ET.SubElement(root, "models")

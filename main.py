@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+"""One-click entrypoint for Dream Sequence Weaver's GUI and CLI workflows."""
+
 import sys
 
 

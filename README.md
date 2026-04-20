@@ -1,111 +1,86 @@
-# xLights Auto Sequencing Core
+# Dream Sequence Weaver
 
-This workspace has been restructured around a smaller active surface:
+Dream Sequence Weaver is the active one-click xLights auto-sequencer in this workspace. The maintained `master` profile is still powered by the proven `v27.3` core inside [core/effect_engine.py](/C:/Users/User/Desktop/414/core/effect_engine.py), but the pipeline now continues past raw effect placement into audit, polish, multi-variant generation, and automatic winner selection.
 
-- `core/` contains the sequencing engine, audio analysis, model parsing, and build orchestration.
-- `xlights/` contains the legacy-derived XSQ writer helpers and the effect catalog cache.
-- `tools/` contains shared utilities and preview rendering.
-- `ai/` contains explicit opt-in bridge stubs for future model integrations.
-- `archive/legacy_versions/` preserves older wrappers, lab scripts, and legacy entrypoints.
+## What Changed
 
-## Active Structure
+- `core/effect_engine.py` remains the placement engine and base tuning source.
+- `core/audit.py` adds a super-audit pass for overlap control, intensity balance, section coverage, and musical coherence.
+- `core/polish.py` adds post-generation cleanup and enhancement for breathing fades, hook lifts, micro-timing, and color-flow transitions.
+- `tools/build_helpers/` now exposes promoted runtime helpers for neighbor flow, all-models coverage, and variant shortlisting.
+- `core/sequence_builder.py` and `main.py` still provide the modular entrypoint, but the CLI now supports `--polish`, `--variants`, `--auto-shortlist`, and `--learn-from-my-xsqs`.
 
-```text
-core/
-ai/
-xlights/
-tools/
-tests/
-archive/legacy_versions/
-main.py
-README.md
-requirements.txt
-AGENTS.md
+## One-Click Workflow
+
+1. Put `template.xsq`, your current `xlights_rgbeffects.xml` or `xlights_rgbeffects.xbkp`, and the target audio file in the workspace.
+2. Optionally place favorite high-scoring `.xsq` files in the workspace history folder so the engine can learn preferred palettes and prop behavior.
+3. Run the maintained master profile:
+
+```powershell
+python main.py --profile master -- --template template.xsq --audio song.wav --no-prompt --polish --variants 3 --auto-shortlist --learn-from-my-xsqs
 ```
 
-## Running The Builder
+4. Review the exported `.xsq`, `.report.json`, and `.sequence_notes.txt` in the output family folder.
+5. Open xLights only when you want optional artistic tweaks or a final confidence check. Manual cleanup is no longer the default workflow.
 
-List active sequencing profiles:
+## Vendor Quality Achieved
+
+The new success bar is show-ready output in the first pass for the overwhelming majority of runs. The engine now aims for:
+
+- musical storytelling with hooks, builds, drops, breathing space, and call-response,
+- lower overlap and clutter through audit-backed conflict cleanup,
+- stronger spatial flow through neighbor-aware reactions,
+- template and workspace learning from proven prior sequences,
+- stem-aware layering with local or Moises-powered source separation when stems are available,
+- multi-variant comparison with an optional auto-shortlist winner.
+
+## Command Examples
+
+List profiles:
 
 ```powershell
 python main.py --list-profiles
 ```
 
-Run the active master profile and pass through engine arguments:
+Run the strongest maintained profile:
 
 ```powershell
-python main.py --profile master -- --template template.xsq --audio 13.wav --no-prompt
+python main.py --profile master -- --template template.xsq --audio song.wav --no-prompt --polish --variants 3 --auto-shortlist
 ```
 
-Launch the simple GUI (default when no args are passed):
+Run the explicit `v27.3` compatibility profile:
+
+```powershell
+python main.py --profile v27.3 -- --template template.xsq --audio song.wav --no-prompt --polish
+```
+
+Launch the GUI:
 
 ```powershell
 python main.py
 ```
 
-The launcher UI opens as **Helix Sequence Helper** and now includes:
-- live activity logs streamed directly from the sequencing engine,
-- automatic preference for `allmodels/xlights_rgbeffects.xml` when available,
-- optional one-click MP4 rendering after sequence generation,
-- helix animation playback while tasks are running (when `helix_twist.mp4` is present).
+## Output Guarantees
 
-Legacy version IDs still work as explicit compatibility fallbacks:
+Each run now produces:
 
-```powershell
-python main.py --profile v27.3 -- --template template.xsq --audio 13.wav --no-prompt
-```
+- a sequenced `.xsq`,
+- a `.report.json` with quality, audit, coverage, neighbor-flow, and shortlist data,
+- a `.sequence_notes.txt` file describing readiness and polish actions,
+- optional alternate variants when `--variants` is greater than `1`.
 
-## Packaging
+If `--auto-shortlist` is enabled, the best-scoring variant is promoted to the canonical output automatically.
 
-Build the packaged Windows executable:
+## Immediate Verification
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\build_exe.ps1
-```
-
-Build and sign using an installed code-signing certificate (auto-detected from cert store):
+Run the test suite:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\build_exe.ps1 -Sign
+python -m unittest discover -s tests
 ```
 
-Build and sign using a PFX file:
+Run a real sequencing pass:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\build_exe.ps1 -Sign -PfxPath "C:\path\codesign.pfx" -PfxPassword "your-password"
+python main.py --profile master -- --template template.xsq --audio song.wav --no-prompt --polish --variants 3 --auto-shortlist --learn-from-my-xsqs
 ```
-
-Create a customer bundle in `release/`:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\build_customer_bundle.ps1
-```
-
-Each bundle now includes:
-- `release_checksums.txt` with SHA256 hashes for included files.
-- `RELEASE_NOTES_TEMPLATE.md` prefilled with bundle date/version/commit placeholders.
-
-Run release gates (tests + build + smoke checks):
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\release_audit.ps1
-```
-
-Run release gates with an end-to-end sequencing smoke test:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\release_audit.ps1 -IncludeEndToEnd
-```
-
-Run strict release gates that require a valid Authenticode signature:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\release_audit.ps1 -RequireSignature
-```
-
-## Notes
-
-- The active maintained entrypoint is the `master` profile, currently backed by the stable `v27.3` tuning inside `core/effect_engine.py`.
-- Legacy wrappers and experimental scripts were moved instead of deleted.
-- The current restructure is intentionally conservative: proven engine code was promoted into the new folders with minimal behavioral changes.
-- AI bridges are placeholders by design. Rule-based sequencing remains the default path.

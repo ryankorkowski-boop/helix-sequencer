@@ -5,6 +5,7 @@ import math
 from pathlib import Path
 from typing import Any, Callable
 
+from core import helixualizer as helixualizer_engine
 from core.lazy_imports import LazyModule, optional_import
 
 librosa = LazyModule("librosa")
@@ -805,6 +806,15 @@ def build_chronoflow_plan(
     frame_times_s = np.asarray(getattr(audio, "times_s", []), dtype=float).reshape(-1)
     frame_count = frame_times_s.size
     duration_ms = max(1, _safe_int(_safe_float(getattr(audio, "dur_s", 0.0), 0.0) * 1000.0, 1))
+    helixualizer_payload = helixualizer_engine.build_helixualizer_plan(
+        audio_path=audio_path,
+        audio=audio,
+        multiband=multiband,
+        note_events=note_events,
+        beat_ms=beat_ms,
+        onset_ms=onset_ms,
+        log_fn=log_fn,
+    )
     intensity_curve = _align_curve(getattr(audio, "rms01", []), frame_count)
     bass_curve = _align_curve(getattr(audio, "bass01", []), frame_count)
     vocal_curve = _align_curve(getattr(audio, "vocal01", []), frame_count)
@@ -945,6 +955,7 @@ def build_chronoflow_plan(
                 "pca_latent_embedding",
                 "lyrics_word_hits",
             ],
+            "helixualizer_inputs": list((helixualizer_payload.get("analysis_tools", {}) or {}).get("sources", []) or []),
             "engine_stack": {
                 "librosa": True,
                 "numpy": True,
@@ -1025,9 +1036,11 @@ def build_chronoflow_plan(
                 "intensity",
             ],
             "continuous_path_points": len(trajectory),
+            "xlights_projection": (helixualizer_payload.get("xlights_projection", {}) or {}),
         },
+        "helixualizer": helixualizer_payload,
         "visualizer": {
-            "title": "Chronoflow Engine",
+            "title": "Chronoflow Helixualizer",
             "camera": {
                 "mode": "forward_time_flight",
                 "current_focus": "present_centerline",
@@ -1075,7 +1088,7 @@ def write_export_html(path: Path, payload: dict[str, Any]) -> None:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chronoflow Viewer</title>
+  <title>Helixualizer Viewer</title>
   <style>
     :root {{
       color-scheme: dark;
@@ -1143,7 +1156,7 @@ def write_export_html(path: Path, payload: dict[str, Any]) -> None:
 <body>
   <canvas id="canvas"></canvas>
   <div id="hud">
-    <h1>Chronoflow</h1>
+    <h1>Helixualizer</h1>
     <p id="meta"></p>
     <p id="status"></p>
   </div>

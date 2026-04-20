@@ -21,6 +21,7 @@ from core.lazy_imports import LazyModule
 from core import audit as sequence_audit
 from core import audio_intelligence as ai
 from core import chronoflow as chronoflow_engine
+from core import helixualizer as helixualizer_engine
 from core import matrix_intelligence as matrix_planner
 from core import model_parser as xmp
 from core import polish as sequence_polish
@@ -7171,6 +7172,7 @@ def place_player_piano_sequence(
     add_model,
     in_blackout,
     keyboard_track: list[tuple[str, int, int]],
+    helixualizer_payload: dict[str, object] | None = None,
 ) -> int:
     pool = choose_player_piano_pool(pools)
     if pool is None or not note_events:
@@ -7213,6 +7215,13 @@ def place_player_piano_sequence(
         held_until = event.start_ms
         used_indices: set[int] = set()
         stem_key = stem_for_cue(cue)
+        neighbor_offsets = helixualizer_engine.suggest_player_piano_neighbors(
+            helixualizer_payload,
+            start_ms=event.start_ms,
+            end_ms=event.end_ms,
+            cue=cue,
+            mix=mix,
+        )
         for step, (midi, strength) in enumerate(sorted_notes):
             lane_idx = midi_to_lane_index(midi, len(pool.models))
             if lane_idx in used_indices:
@@ -7243,6 +7252,27 @@ def place_player_piano_sequence(
             )
             held_until = max(held_until, en)
             placed += 1
+
+            if pool.category != "notes" and neighbor_offsets:
+                support_duration = max(50, int(round(dur * (0.64 if cue in {"kick", "snare", "hat"} else 0.78))))
+                support_start = max(event.start_ms, st - 10)
+                support_end = min(event.end_ms + 150, support_start + support_duration)
+                for offset in neighbor_offsets:
+                    support_idx = lane_idx + int(offset)
+                    if not (0 <= support_idx < len(pool.models)) or support_idx in used_indices:
+                        continue
+                    used_indices.add(support_idx)
+                    add_model(
+                        pool.models[support_idx],
+                        support_start,
+                        support_end,
+                        f"player_piano_{pool.category}_support",
+                        eff="Ramp" if use_ramp else "On",
+                        tpl=ramp_tpl if use_ramp else None,
+                        stem=stem_key,
+                    )
+                    held_until = max(held_until, support_end)
+                    placed += 1
 
         if held_until > event.start_ms:
             keyboard_track.append((f"player_piano:{pool.name}:{cue}:{note_label(event.notes)}", event.start_ms, held_until))
@@ -10791,6 +10821,7 @@ def run_variant(
             add_model=add_model,
             in_blackout=in_blackout,
             keyboard_track=keyboard_track,
+            helixualizer_payload=(chronoflow_payload.get("helixualizer", {}) or {}),
         )
         if player_piano_placed:
             log(f"Player piano sequence placed: {player_piano_placed} effects on {choose_player_piano_pool(pools).name}")

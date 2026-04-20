@@ -1,0 +1,78 @@
+Dream Sequence Weaver
+============================
+
+Sequence: 13,v27.3.xsq
+Version: v27.3 - Helix Prime
+Placement mode: piano_lights
+Audio: 13.wav
+Template: template.xsq
+
+Show Summary
+- Effects placed: 16439
+- Stem source: local
+- Keyboard lanes used: 375
+- Validation rejections logged: 29900
+- Quality score: 98.2 (A+)
+- Active prop families: 9 / 9
+- Dominant placement share: 0.234
+
+Watermark
+- Signature version: dream-sequence-weaver-signature-v1
+- Signature token: 033b55159e371aa3
+- Layout manifest hash: 05cb44c49e39cb6072b581a92c0cf68b253cca5cc7d06e2b9b766d2fdcdf4a8b
+- Track marks: 24
+
+Runtime Tuning
+- Feel: balanced
+- Density: 0.9971474450447124
+- Speed: 1.564207696497429
+- Randomness: 3.5896319999999996e-15
+- Energy keyboard mix: 1.0
+- Palette mode: template
+- Layering mode: replace
+
+Parsed Layout Summary
+- Models: 384
+- Root models: 368
+- Submodels: 16
+- Groups: 69
+- Multi-node models: 358
+- RGB-capable models: 113
+- Available families: {'arch': 28, 'canes_combo': 9, 'line': 231, 'matrix': 23, 'mega': 12, 'sphere': 7, 'spinner': 15, 'stars': 40, 'talking_heads': 3}
+- Model types: {'arch': 44, 'cane': 9, 'circle': 6, 'custom': 2, 'image': 2, 'line': 223, 'matrix': 22, 'sphere': 4, 'spinner': 15, 'star': 40, 'tree': 12, 'window': 5}
+
+Quality Readout
+- Grade: A+
+- Score: 98.2
+- Density per second: 124.5
+- Coverage ratio: 0.959
+- Family diversity ratio: 1.0
+
+Top Placement Families
+- green_vu: 3840
+- spatial_keyboard_north_canes: 912
+- spatial_keyboard_south_canes: 912
+- spatial_keyboard_north_canes_support: 618
+- spatial_keyboard_south_canes_support: 618
+- showcase_phrase_pickup: 609
+- pixel_build: 555
+- polyphonic_arch_layer: 457
+- polyphonic_keyboard: 449
+- piano_lights_line: 382
+- spatial_keyboard_garage_tree_rgb: 359
+- spatial_keyboard_line_tree_rgb: 357
+
+Strengths
+- Strong scene architecture and phrase-aware placement.
+- Good prop-family coverage across the available layout.
+- Validation stayed disciplined, with low conflict fallout.
+- Detail capacity is being used, not just whole-prop blocks.
+
+Cautions
+- -
+
+Manual Review Hints
+- Check timing tracks first if you want to see where the engine found beats, notes, lyrics, builds, and drops.
+- If a prop family feels underused, compare this notes file with the layout type summary to see whether that family actually exists in the layout.
+- If validation rejections are high, the engine chose safety over forcing overlaps. Consider lowering density or simplifying the layout lanes for that song.
+- For more aggressive looks, compare with another style type instead of only increasing randomness.

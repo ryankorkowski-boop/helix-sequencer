@@ -1,81 +1,76 @@
-XLIGHTS SEQUENCER QUICK START
+XLIGHTS AUTO-SEQUENCER ONE-CLICK GUIDE
+
+Dream Sequence Weaver now targets show-ready output by default. The maintained master profile still rides on the proven v27.3 engine, but every run now continues through audit, polish, variant generation, and optional auto-shortlisting before the final file is presented to you.
+
+QUICK START
 
 1. Put these files in one working folder:
-   - the active modular sequencer files, including core/, xlights/, tools/, and main.py
-   - your xLights template sequence, usually named template.xsq
-   - your xLights layout export named xlights_rgbeffects.xml or the richer backup/export xlights_rgbeffects.xbkp
-   - the audio file you want to sequence, such as 13.wav
+   - the active project files, including `core/`, `tools/`, `xlights/`, and `main.py`
+   - your xLights template sequence, usually `template.xsq`
+   - your current xLights layout export, usually `xlights_rgbeffects.xml` or `xlights_rgbeffects.xbkp`
+   - the audio file you want sequenced, for example `13.wav`
 
-2. Make sure Python 3.12 is installed on Windows.
-   - In this workspace the launcher file python312.cmd points at the installed Python.
-   - If you move the project to a new computer, update that launcher or install Python and use the full python path.
+2. Optional but recommended:
+   - drop any favorite high-scoring `.xsq` files into the workspace history folder so `--learn-from-my-xsqs` can learn your preferred palettes, densities, and prop behaviors
+   - if you use Moises.ai, set `MOISES_API_KEY` or pass `--moises-api-key` and add `--use-moises`
 
-3. Export or copy the correct xLights layout.
-   - The sequencer reads model names and group names from xlights_rgbeffects.xml.
-   - If you have xlights_rgbeffects.xbkp, use that for previews because it carries richer xLights preview geometry.
-   - Keep your group names clean and consistent.
-   - Sequential groups like gt1-gt4, line1-line9, mt1-mt8, stars, snowflakes, arches, and canes help the scripts infer motion and piano-style note mapping.
+3. Run the maintained one-click command:
+   - `python312.cmd main.py --profile master -- --template template.xsq --audio 13.wav --no-prompt --polish --variants 3 --auto-shortlist --learn-from-my-xsqs`
 
-4. Prepare the template sequence in xLights.
-   - Start with a sequence that already points at the right audio length and basic timing setup.
-   - Save it as template.xsq in the same folder as the scripts.
-   - The scripts will copy that template and write new effects into a fresh output sequence.
+4. Wait for the pipeline to finish. The engine now performs:
+   - template and layout analysis
+   - audio and stem-aware analysis
+   - prop-aware effect placement
+   - super-audit scoring and light automatic fixes
+   - polish for hook emphasis, breathing fades, overlap cleanup, micro-timing, and color flow
+   - optional multi-variant generation
+   - optional auto-shortlisting of the best final result
 
-5. Put the song audio in the same folder.
-   - WAV is the safest choice.
-   - Use one file per sequencing pass unless you are intentionally batch-processing.
+5. Use the generated output directly:
+   - the canonical `.xsq` is intended to be ready for show use
+   - the `.report.json` explains quality, audit, shortlist, spatial flow, and coverage
+   - the `.sequence_notes.txt` explains the polish actions and readiness summary
 
-6. Run the active master sequencer first.
-   - Command: python312.cmd main.py --profile master -- --no-prompt --single --template template.xsq --audio 13.wav
-   - This uses the maintained master profile and creates a fresh XSQ plus report JSON.
+6. Open xLights only when you want optional artistic review or confidence verification.
+   - manual cleanup is no longer the default expectation
+   - in a normal successful run, you should not need a manual cleanup pass just to make the sequence usable
 
-7. Use the launcher or packaged EXE when you want the easiest workflow.
-   - Double-click launch_sequencer_app.cmd
-   - Or run: python312.cmd main.py --profile master -- --template template.xsq --audio 13.wav
-   - The current maintained entrypoint is console-based and prompts for any missing settings.
-   - Legacy launcher and multi-version scripts were archived for reference rather than deleted.
+BEST PRACTICE COMMANDS
 
-8. Use legacy version IDs only when you need compatibility checks.
-   - Example: python312.cmd main.py --profile v27.3 -- --no-prompt --single --template template.xsq --audio 13.wav
-   - The active maintained profile remains master.
+- Standard one-click render:
+  `python312.cmd main.py --profile master -- --template template.xsq --audio 13.wav --no-prompt --polish --variants 3 --auto-shortlist`
 
-9. Check the output folders after each run.
-   - The current active output goes into the active family folder selected by the maintained engine.
-   - Each sequence also has a report JSON showing how many effects were placed.
+- Learn from your own successful sequences:
+  `python312.cmd main.py --profile master -- --template template.xsq --audio 13.wav --no-prompt --polish --variants 3 --auto-shortlist --learn-from-my-xsqs`
 
-10. Generate preview videos without opening xLights.
-   - Command: python312.cmd preview_renderer.py
-   - This reads xlights_rgbeffects.xml or xlights_rgbeffects.xbkp plus the generated XSQ files and creates MP4 previews beside each sequence.
-   - If you want a specific sequence only, run: python312.cmd preview_renderer.py v2\\13,v2.1.xsq
+- Force Moises-aware stem analysis when credentials are available:
+  `python312.cmd main.py --profile master -- --template template.xsq --audio 13.wav --no-prompt --polish --variants 3 --auto-shortlist --use-moises`
 
-11. Open the MP4 previews and compare results.
-    - Each video shows a rendered house-map preview, timing overlays, and progress.
-    - Use the videos to quickly compare piano mapping, sweeps, drops, and overall energy before loading the sequence into xLights.
+- Run the explicit compatibility profile:
+  `python312.cmd main.py --profile v27.3 -- --template template.xsq --audio 13.wav --no-prompt --polish`
 
-12. Open the best XSQ inside xLights for final review.
-    - Check color balance, model targeting, timing, and any spots where your real layout needs manual artistic cleanup.
-    - If needed, tweak the script version or settings and rerun.
+WHAT SUCCESS LOOKS LIKE
 
-13. When moving to a new customer layout, repeat this checklist:
-    - copy in the new xlights_rgbeffects.xml
-    - if available, also copy in xlights_rgbeffects.xbkp for better preview rendering
-    - make sure the template.xsq matches that layout
-    - drop in the new song audio
-    - run the master profile
-    - render the preview MP4 files
-    - open the best result in xLights for final polish
+- Hooks, builds, drops, and quiet sections should feel intentional.
+- Audit score should stay high with low overlap and low clutter.
+- Neighbor props should react in a believable spatial flow.
+- Report and notes files should describe a polished, ready result rather than a cleanup task list.
+- If variants are enabled, the best output should be easy to identify or automatically promoted.
+
+OPTIONAL REVIEW PATH
+
+If you still want to inspect inside xLights:
+
+- open the final `.xsq`
+- inspect timing tracks to understand beats, stems, hooks, and section changes
+- make optional artistic adjustments only where you want a personal touch
+
+That review is now optional. It is not the core workflow.
 
 TROUBLESHOOTING
 
-- If a script says it cannot find a template, make sure template.xsq is in the same folder.
-- If the layout targeting looks wrong, inspect group names in xlights_rgbeffects.xml or xlights_rgbeffects.xbkp.
-- If previews do not render, make sure the .previewdeps folder exists or rerun the dependency install for pillow, imageio, and imageio-ffmpeg.
-- If Python is missing on another machine, install Python 3.12 and verify the launcher path before running the sequencer.
-
-RECOMMENDED CUSTOMER WORKFLOW
-
-- Start with the master profile for the dependable base pass.
-- Use the launcher script or packaged EXE for the easiest run path.
-- Use legacy profile IDs only when you intentionally want to compare against archived tuning.
-- Use the MP4 previews to shortlist favorites fast.
-- Bring only the finalists into xLights for detailed manual finishing.
+- If no template is found, place `template.xsq` in the workspace or pass `--template`.
+- If layout targeting looks wrong, refresh `xlights_rgbeffects.xml` or `xlights_rgbeffects.xbkp`.
+- If you want the engine to mimic your favorite prior work better, place those `.xsq` files in the workspace history folder and rerun with `--learn-from-my-xsqs`.
+- If Moises is unavailable, the engine falls back to local stem analysis automatically.
+- If you want the engine to compare multiple artistic directions before choosing one, keep `--variants 3 --auto-shortlist` enabled.
