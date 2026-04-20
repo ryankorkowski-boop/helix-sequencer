@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import math
+import re
 import subprocess
 import sys
 import tempfile
@@ -143,6 +144,50 @@ class SequenceData:
     duration_ms: int
     model_effects: dict[str, list[EffectRecord]]
     timing_tracks: dict[str, TimingTrack]
+
+
+PREVIEW_MODE_SOLID = 1
+PREVIEW_MODE_BARS = 2
+PREVIEW_MODE_WIPE = 3
+PREVIEW_MODE_SPIN = 4
+PREVIEW_MODE_PULSE = 5
+
+
+def preview_mode_for_effect(effect_name: str) -> int:
+    name = (effect_name or "").strip().lower()
+    if "bar" in name:
+        return PREVIEW_MODE_BARS
+    if "wipe" in name:
+        return PREVIEW_MODE_WIPE
+    if any(token in name for token in ("spiral", "spin", "rotate", "pinwheel")):
+        return PREVIEW_MODE_SPIN
+    if any(token in name for token in ("strobe", "twinkle", "shimmer", "pulse", "shock")):
+        return PREVIEW_MODE_PULSE
+    return PREVIEW_MODE_SOLID
+
+
+def palette_swatches(effect: EffectRecord, fallback: tuple[int, int, int]) -> list[tuple[int, int, int]]:
+    raw = " ".join(part for part in (effect.palette or "", effect.settings or "", effect.name or "") if part)
+    swatches: list[tuple[int, int, int]] = []
+    for match in re.findall(r"#[0-9a-fA-F]{6}", raw):
+        swatches.append(hex_to_rgb(match, fallback))
+    named_colors = (
+        ("red", (255, 70, 70)),
+        ("green", (90, 255, 140)),
+        ("white", (245, 245, 255)),
+        ("blue", (90, 165, 255)),
+        ("gold", (255, 206, 92)),
+        ("yellow", (255, 224, 92)),
+        ("purple", (195, 110, 255)),
+        ("pink", (255, 120, 210)),
+        ("cyan", (115, 245, 255)),
+        ("orange", (255, 165, 80)),
+    )
+    lowered = raw.lower()
+    for token, color in named_colors:
+        if token in lowered and color not in swatches:
+            swatches.append(color)
+    return swatches[:4] or [fallback]
 
 
 def parse_models(layout_xml: Path) -> LayoutData:
@@ -288,12 +333,15 @@ def build_leaf_intensity_matrix(
     layout: LayoutData,
     sequence: SequenceData,
     fps: int,
-) -> tuple[list[str], np.ndarray]:
+) -> tuple[list[str], np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     leaf_names = sorted(layout.leaf_models)
     leaf_index = {name: idx for idx, name in enumerate(leaf_names)}
     frame_count = max(1, int(math.ceil(sequence.duration_ms / (1000.0 / fps))))
     frame_times_ms = (np.arange(frame_count, dtype=np.float32) * (1000.0 / fps)).astype(np.float32)
     intensities = np.zeros((len(leaf_names), frame_count), dtype=np.float32)
+    colors = np.zeros((len(leaf_names), frame_count, 3), dtype=np.uint8)
+    modes = np.zeros((len(leaf_names), frame_count), dtype=np.uint8)
+    phases = np.zeros((len(leaf_names), frame_count), dtype=np.float32)
 
     for target_name, effects in sequence.model_effects.items():
         leaves = layout.resolve_leaves(target_name)
@@ -304,6 +352,7 @@ def build_leaf_intensity_matrix(
             continue
         for effect in effects:
             eff_name = effect.name.strip().lower()
+            mode = preview_mode_for_effect(effect.name)
             start_frame = max(0, int(math.floor(effect.start_ms * fps / 1000.0)))
             end_frame = min(frame_count, int(math.ceil(effect.end_ms * fps / 1000.0)))
             if end_frame <= start_frame:
@@ -312,12 +361,26 @@ def build_leaf_intensity_matrix(
                 curve = ramp_intensity(effect, frame_times_ms[start_frame:end_frame])
             else:
                 curve = np.ones((end_frame - start_frame,), dtype=np.float32)
+            span = max(1.0, float(effect.end_ms - effect.start_ms))
+            phase = np.clip((frame_times_ms[start_frame:end_frame] - effect.start_ms) / span, 0.0, 1.0).astype(np.float32)
+            swatches = palette_swatches(effect, layout.leaf_models[leaves[0]].color if leaves else (230, 235, 245))
+            base_color = swatches[0]
             for idx in indexes:
-                intensities[idx, start_frame:end_frame] = np.maximum(
-                    intensities[idx, start_frame:end_frame], curve
-                )
+                current = intensities[idx, start_frame:end_frame]
+                mask = curve >= current
+                if not np.any(mask):
+                    continue
+                current[mask] = curve[mask]
+                colors[idx, start_frame:end_frame][mask] = np.asarray(base_color, dtype=np.uint8)
+                modes[idx, start_frame:end_frame][mask] = int(mode)
+                phases[idx, start_frame:end_frame][mask] = phase[mask]
 
-    return leaf_names, intensities
+    default_colors = np.asarray([layout.leaf_models[name].color for name in leaf_names], dtype=np.uint8)
+    for idx, base_color in enumerate(default_colors):
+        inactive = np.all(colors[idx] == 0, axis=1)
+        colors[idx, inactive] = base_color
+
+    return leaf_names, intensities, colors, modes, phases
 
 
 def choose_track(sequence: SequenceData, prefix: str) -> TimingTrack | None:
@@ -393,29 +456,82 @@ class HouseRenderer:
         image.alpha_composite(ghost)
         return image
 
+    @staticmethod
+    def _segment_points(x1: float, y1: float, x2: float, y2: float, start_frac: float, end_frac: float) -> tuple[float, float, float, float]:
+        start_frac = max(0.0, min(1.0, start_frac))
+        end_frac = max(start_frac, min(1.0, end_frac))
+        sx = x1 + ((x2 - x1) * start_frac)
+        sy = y1 + ((y2 - y1) * start_frac)
+        ex = x1 + ((x2 - x1) * end_frac)
+        ey = y1 + ((y2 - y1) * end_frac)
+        return sx, sy, ex, ey
+
     def draw_model(
         self,
         draw: ImageDraw.ImageDraw,
         model_name: str,
         color: tuple[int, int, int],
+        intensity: float,
+        mode: int = PREVIEW_MODE_SOLID,
+        phase: float = 0.0,
         glow: bool = True,
         width_boost: int = 2,
     ) -> None:
         x1, y1, x2, y2, _ = self.projected_models[model_name]
+        display_as = (self.layout.leaf_models[model_name].display_as or "").lower()
         length = math.hypot(x2 - x1, y2 - y1)
         if length < 8:
             radius = 4 + width_boost
             draw.ellipse((x1 - radius, y1 - radius, x1 + radius, y1 + radius), fill=color + (255,))
             return
+        if any(token in display_as for token in ("matrix", "image", "custom")):
+            left = min(x1, x2)
+            top = min(y1, y2)
+            right = max(x1, x2)
+            bottom = max(y1, y2)
+            if mode == PREVIEW_MODE_WIPE:
+                wipe_right = left + ((right - left) * max(0.08, phase))
+                box = (left, top, wipe_right, bottom)
+            else:
+                box = (left, top, right, bottom)
+            alpha = 120 if glow else 235
+            draw.rounded_rectangle(box, radius=max(4, width_boost + 2), fill=color + (alpha,))
+            return
         width = max(2, int(round(2.2 + width_boost)))
-        if glow:
-            draw.line((x1, y1, x2, y2), fill=color + (110,), width=width + 6)
-        draw.line((x1, y1, x2, y2), fill=color + (255,), width=width)
+        segments: list[tuple[float, float, float, float]] = []
+        if mode == PREVIEW_MODE_BARS:
+            segment_len = 0.22 + (0.10 * intensity)
+            for offset in (0.0, 0.33, 0.66):
+                center = (phase + offset) % 1.0
+                segments.append(self._segment_points(x1, y1, x2, y2, max(0.0, center - (segment_len * 0.5)), min(1.0, center + (segment_len * 0.5))))
+        elif mode == PREVIEW_MODE_WIPE:
+            segments.append(self._segment_points(x1, y1, x2, y2, 0.0, max(0.07, phase)))
+        elif mode == PREVIEW_MODE_SPIN:
+            sweep = 0.18 + (0.10 * intensity)
+            lead = (math.sin(phase * math.tau) + 1.0) * 0.5
+            tail = (lead + 0.5) % 1.0
+            segments.append(self._segment_points(x1, y1, x2, y2, max(0.0, lead - sweep), min(1.0, lead + sweep)))
+            segments.append(self._segment_points(x1, y1, x2, y2, max(0.0, tail - (sweep * 0.7)), min(1.0, tail + (sweep * 0.7))))
+        elif mode == PREVIEW_MODE_PULSE:
+            segments.append(self._segment_points(x1, y1, x2, y2, 0.10, 0.90))
+            cx = x1 + ((x2 - x1) * 0.5)
+            cy = y1 + ((y2 - y1) * 0.5)
+            pulse_radius = max(4, int(round(4 + (8 * intensity) + width_boost)))
+            draw.ellipse((cx - pulse_radius, cy - pulse_radius, cx + pulse_radius, cy + pulse_radius), fill=color + ((110 if glow else 235),))
+        else:
+            segments.append((x1, y1, x2, y2))
+        for segment in segments:
+            if glow:
+                draw.line(segment, fill=color + (110,), width=width + 6)
+            draw.line(segment, fill=color + (255,), width=width)
 
     def render_frame(
         self,
         leaf_names: list[str],
         frame_values: np.ndarray,
+        frame_colors: np.ndarray,
+        frame_modes: np.ndarray,
+        frame_phases: np.ndarray,
         title: str,
         t_ms: int,
         duration_ms: int,
@@ -433,14 +549,16 @@ class HouseRenderer:
                 continue
             active_count += 1
             model_name = leaf_names[idx]
-            geom = self.layout.leaf_models[model_name]
             boost = int(round(3 * float(value)))
+            base_color = tuple(int(channel) for channel in np.asarray(frame_colors[idx], dtype=np.uint8))
             bright = tuple(
-                max(0, min(255, int(round(channel * (0.4 + 0.7 * float(value)) + 70 * float(value)))))
-                for channel in geom.color
+                max(0, min(255, int(round(channel * (0.46 + 0.86 * float(value)) + 58 * float(value)))))
+                for channel in base_color
             )
-            self.draw_model(glow_draw, model_name, bright, glow=True, width_boost=boost + 2)
-            self.draw_model(solid_draw, model_name, bright, glow=False, width_boost=boost)
+            mode = int(frame_modes[idx])
+            phase = float(frame_phases[idx])
+            self.draw_model(glow_draw, model_name, bright, float(value), mode=mode, phase=phase, glow=True, width_boost=boost + 2)
+            self.draw_model(solid_draw, model_name, bright, float(value), mode=mode, phase=phase, glow=False, width_boost=boost)
 
         glow_layer = glow_layer.filter(ImageFilter.GaussianBlur(radius=7))
         base.alpha_composite(glow_layer)
@@ -487,7 +605,7 @@ def render_sequence_to_mp4(
     height: int,
 ) -> Path:
     sequence = parse_sequence(sequence_path)
-    leaf_names, intensity = build_leaf_intensity_matrix(layout, sequence, fps)
+    leaf_names, intensity, colors, modes, phases = build_leaf_intensity_matrix(layout, sequence, fps)
     part_track = choose_track(sequence, "song parts")
     piano_track = choose_track(sequence, "piano")
     sweep_track = choose_track(sequence, "sweeps")
@@ -518,6 +636,9 @@ def render_sequence_to_mp4(
             frame = renderer.render_frame(
                 leaf_names=leaf_names,
                 frame_values=intensity[:, frame_idx],
+                frame_colors=colors[:, frame_idx],
+                frame_modes=modes[:, frame_idx],
+                frame_phases=phases[:, frame_idx],
                 title=sequence_path.name,
                 t_ms=t_ms,
                 duration_ms=sequence.duration_ms,
@@ -574,9 +695,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("xsq", nargs="*", help="Specific XSQ files to render. Defaults to the current v1/v2/v3 outputs.")
     parser.add_argument("--layout", default=DEFAULT_LAYOUT, help="Path to xlights_rgbeffects.xml or xlights_rgbeffects.xbkp")
     parser.add_argument("--audio", default="13.wav", help="Optional audio file to mux into the preview MP4")
-    parser.add_argument("--fps", type=int, default=15, help="Output frame rate")
-    parser.add_argument("--width", type=int, default=1280, help="Video width")
-    parser.add_argument("--height", type=int, default=720, help="Video height")
+    parser.add_argument("--fps", type=int, default=24, help="Output frame rate")
+    parser.add_argument("--width", type=int, default=1600, help="Video width")
+    parser.add_argument("--height", type=int, default=900, help="Video height")
     return parser.parse_args(argv)
 
 

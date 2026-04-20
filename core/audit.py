@@ -127,10 +127,11 @@ def _max_concurrency(entries: list[Any]) -> int:
     return peak
 
 
-def _section_density(entries: list[tuple[str, str, Any]], start_ms: int, end_ms: int) -> tuple[int, float]:
+def _section_density(entries: list[tuple[str, str, Any]], start_ms: int, end_ms: int) -> tuple[int, float, int]:
     duration_ms = max(1, end_ms - start_ms)
     hits = 0
     active_ms = 0
+    unique_models: set[str] = set()
     for _model_name, _layer_name, entry in entries:
         overlap = max(
             0,
@@ -140,9 +141,14 @@ def _section_density(entries: list[tuple[str, str, Any]], start_ms: int, end_ms:
             continue
         hits += 1
         active_ms += overlap
-    density = (hits * 1000.0) / float(duration_ms)
-    coverage = active_ms / float(duration_ms)
-    return hits, _clamp(max(density, coverage), 0.0, 25.0)
+        unique_models.add(_model_name)
+    if not unique_models:
+        return hits, 0.0, 0
+    hits_per_second = (hits * 1000.0) / float(duration_ms)
+    per_model_density = hits_per_second / float(max(1, len(unique_models)))
+    mean_activity = active_ms / float(max(1, duration_ms * len(unique_models)))
+    density = (per_model_density * 0.75) + (mean_activity * 0.65)
+    return hits, _clamp(density, 0.0, 4.0), len(unique_models)
 
 
 @dataclass
@@ -278,17 +284,18 @@ def run_super_audit(
     populated_sections = 0
     density_pairs: list[tuple[float, float]] = []
     section_entries = all_entries
+    active_model_total = max(1, active_models)
     for part in parts:
         start_ms = int(getattr(part, "start_ms", 0))
         end_ms = int(getattr(part, "end_ms", 0))
         label = str(getattr(part, "label", "") or "SECTION")
         energy = float(getattr(part, "energy", 0.0) or 0.0)
-        hits, density = _section_density(section_entries, start_ms, end_ms)
-        coverage_ratio = 1.0 if hits > 0 else 0.0
+        hits, density, active_in_section = _section_density(section_entries, start_ms, end_ms)
+        coverage_ratio = active_in_section / float(active_model_total)
         populated_sections += 1 if hits > 0 else 0
         target_density = 0.25 + (energy * 1.45)
         delta = abs(density - target_density)
-        score = _clamp(100.0 - (delta * 34.0), 0.0, 100.0)
+        score = _clamp(100.0 - (delta * 24.0), 0.0, 100.0)
         section_scores.append(
             AuditSectionScore(
                 label=label,

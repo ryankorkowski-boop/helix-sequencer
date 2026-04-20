@@ -13,6 +13,10 @@ def main(argv: list[str] | None = None) -> int:
         from tools import preview_renderer
 
         return preview_renderer.main(argv[1:])
+    if argv[:1] == ["--showcase-clip"]:
+        from tools import showcase_clip
+
+        return showcase_clip.main(argv[1:])
 
     if not argv:
         try:

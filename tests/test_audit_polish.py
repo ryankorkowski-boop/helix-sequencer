@@ -68,6 +68,26 @@ class AuditAndPolishTests(unittest.TestCase):
         self.assertLessEqual(base_entry.end, accent_entry.start)
         self.assertLess(result.overlap_ratio, 0.05)
 
+    def test_super_audit_normalizes_section_density_for_multi_model_sections(self) -> None:
+        timeline_a = effect_engine.EffectTimeline()
+        timeline_b = effect_engine.EffectTimeline()
+        for start_ms, end_ms in ((0, 220), (260, 520), (560, 840)):
+            layer_a, entry_a = _timeline_entry("motion", start_ms, end_ms, 2)
+            layer_b, entry_b = _timeline_entry("motion", start_ms + 40, end_ms + 40, 2)
+            timeline_a.add(layer_a, entry_a)
+            timeline_b.add(layer_b, entry_b)
+
+        result = sequence_audit.run_super_audit(
+            timelines={"Mega 1": timeline_a, "Mega 2": timeline_b},
+            parts=[effect_engine.SongPart("CHORUS", 0, 1000, 0.8)],
+            placements={"chorus_hook": 6, "drop_focus": 2},
+            min_effect_ms=50,
+            auto_fix=False,
+        )
+
+        self.assertGreater(result.section_scores[0].score, 60.0)
+        self.assertGreater(result.section_scores[0].coverage_ratio, 0.5)
+
     def test_polish_pass_adds_breathing_and_hook_enhancements(self) -> None:
         timeline = effect_engine.EffectTimeline()
         base_layer, base_entry = _timeline_entry("base", 130, 250, 1)
