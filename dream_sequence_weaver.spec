@@ -1,6 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
 from pathlib import Path
-from PyInstaller.utils.hooks import collect_data_files
+from PyInstaller.utils.hooks import collect_data_files, copy_metadata
 
 block_cipher = None
 root = Path(globals().get("SPECPATH", ".")).resolve()
@@ -29,9 +29,16 @@ for helix_media_name in (
         datas.append((str(helix_media_path), "."))
         break
 datas += collect_data_files("imageio_ffmpeg")
+datas += copy_metadata("imageio")
+datas += copy_metadata("imageio_ffmpeg")
+try:
+    datas += copy_metadata("scikit-learn")
+except Exception:
+    pass
 
 hiddenimports = [
     "core.audio_intelligence",
+    "core.chronoflow",
     "core.effect_engine",
     "core.gui_launcher",
     "core.engine_profiles",
@@ -47,6 +54,10 @@ hiddenimports = [
     "requests",
     "librosa",
     "numpy",
+    "scipy",
+    "sklearn",
+    "sklearn.decomposition",
+    "sklearn.preprocessing",
 ]
 
 a = Analysis(

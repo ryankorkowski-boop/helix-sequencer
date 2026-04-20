@@ -1,5 +1,6 @@
 numpy>=1.26
 scipy>=1.11
+scikit-learn>=1.5
 librosa>=0.10.2
 soundfile>=0.12.1
 numba>=0.59
