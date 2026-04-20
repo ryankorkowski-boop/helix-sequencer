@@ -25,6 +25,7 @@ from core import matrix_intelligence as matrix_planner
 from core import model_parser as xmp
 from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
+from core import snowman_band as snowman_band_engine
 from tools.build_helpers import (
     build_neighbor_graph,
     build_runtime_candidates,
@@ -274,6 +275,10 @@ def chronoflow_json_path(out_path: Path) -> Path:
 
 def chronoflow_view_path(out_path: Path) -> Path:
     return out_path.with_name(f"{out_path.stem}.chronoflow.html")
+
+
+def snowman_band_json_path(out_path: Path) -> Path:
+    return out_path.with_name(f"{out_path.stem}.snowman_band.json")
 
 
 def ensure_audio_sidecar(audio_path: Path, out_path: Path) -> Path:
@@ -8096,6 +8101,10 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
     chronoflow_debug = chronoflow.get("debug", {}) or {}
     chronoflow_audio = chronoflow.get("audio_intelligence", {}) or {}
     chronoflow_harmony = chronoflow_audio.get("pitch_harmony", {}) or {}
+    snowman_band = payload.get("snowman_band", {}) or {}
+    snowman_debug = snowman_band.get("debug", {}) or {}
+    snowman_face_routing = snowman_band.get("face_routing", {}) or {}
+    snowman_kit = snowman_band.get("kit", {}) or {}
     matrix_params = matrix_intel.get("matrix_params", {}) or {}
     matrix_classification = matrix_intel.get("classification", {}) or {}
     matrix_video = matrix_intel.get("video_data", {}) or {}
@@ -8160,6 +8169,13 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
         f"- Trajectory points: {chronoflow_debug.get('trajectory_count', 0)}",
         f"- Lyric hits: {chronoflow_debug.get('lyric_count', 0)}",
         f"- Harmonic key: {(chronoflow_harmony.get('key', {}) or {}).get('label', '')}",
+        "",
+        "Snowman Band",
+        f"- Export: {exports.get('snowman_band_json', '')}",
+        f"- Lead face: {snowman_face_routing.get('preferred_lead', '')}",
+        f"- Performer cue count: {snowman_debug.get('total_cue_count', 0)}",
+        f"- Lyric visemes: {snowman_debug.get('lyric_cues', 0)}",
+        f"- Drum kit: {', '.join(snowman_kit.get('components', []))}",
         "",
         "Parsed Layout Summary",
         f"- Models: {parsed_layout.get('model_count', 0)}",
@@ -9819,7 +9835,38 @@ def run_variant(
             "layout_mapping": {},
             "debug": {"event_count": 0, "trajectory_count": 0, "lyric_count": len(lyric_events)},
         }
+    try:
+        snowman_band_payload = snowman_band_engine.build_snowman_band_plan(
+            parsed_layout=parsed_layout,
+            parts=parts,
+            lyric_events=lyric_events,
+            note_events=note_events,
+            beat_ms=beat_ms,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            build_lifts=build_lifts,
+            releases=releases,
+            chronoflow_payload=chronoflow_payload,
+            multiband=multiband,
+            enable_lyrics=bool(tuning.sync_lyrics_heads),
+        )
+    except Exception as exc:
+        log(f"[WARN] Snowman band planning skipped: {exc!r}")
+        snowman_band_payload = {
+            "enabled": False,
+            "face_routing": {},
+            "performers": {},
+            "kit": {"components": []},
+            "layout_mapping": {},
+            "visualizer_overlay": {"lyrics_enabled": False, "soundtunnel_lyrics": []},
+            "cues": {},
+            "debug": {"total_cue_count": 0, "lyric_cues": 0},
+        }
     chronoflow_track = chronoflow_engine.build_timing_track(chronoflow_payload, limit=1400)
+    snowman_band_track = snowman_band_engine.build_timing_track(snowman_band_payload, limit=1800)
 
     def reject_effect(
         nm: str,
@@ -10833,9 +10880,14 @@ def run_variant(
     if tuning.sync_lyrics_heads and lyric_events:
         lyric_targets_pool = next((pool for pool in pools if pool.category == "talking_heads" and pool.models), None)
         lyric_text_pool = next((pool for pool in pools if pool.category == "matrix" and pool.models), None)
-        lyric_text_targets = lyric_text_pool.models if lyric_text_pool else []
+        snowman_face_routing = snowman_band_payload.get("face_routing", {}) or {}
+        lyric_text_targets = list(snowman_face_routing.get("lyric_surfaces", []) or [])
+        if not lyric_text_targets:
+            lyric_text_targets = lyric_text_pool.models if lyric_text_pool else []
         text_template_source = template_library.get("text")
-        lyric_targets = lyric_targets_pool.models if lyric_targets_pool else discover_talking_heads(names)
+        lyric_targets = list(snowman_face_routing.get("lead_cycle", []) or [])
+        if not lyric_targets:
+            lyric_targets = lyric_targets_pool.models if lyric_targets_pool else discover_talking_heads(names)
         if lyric_targets:
             for idx, ev in enumerate(lyric_events):
                 st = max(0, int(ev.start_ms))
@@ -11137,6 +11189,8 @@ def run_variant(
         base.write_timing_track(xsq.root, f"AUTO MultiBand {style.version}", multiband_track[:2400], active=False)
     if chronoflow_track:
         base.write_timing_track(xsq.root, f"AUTO Chronoflow {style.version}", chronoflow_track[:1400], active=False)
+    if snowman_band_track:
+        base.write_timing_track(xsq.root, f"AUTO Snowman Band {style.version}", snowman_band_track[:1800], active=False)
     if spatial_track:
         base.write_timing_track(xsq.root, f"AUTO Spatial Chase {style.version}", spatial_track, active=False)
     if lyric_track:
@@ -11222,6 +11276,7 @@ def run_variant(
             "sequence_notes": notes_path(out_path).name,
             "chronoflow_json": chronoflow_json_path(out_path).name,
             "chronoflow_view": chronoflow_view_path(out_path).name,
+            "snowman_band_json": snowman_band_json_path(out_path).name,
         },
         "profile": {
             "feel": profile.feel,
@@ -11374,6 +11429,7 @@ def run_variant(
         },
         "matrix_intelligence": matrix_intelligence_payload,
         "chronoflow": chronoflow_payload,
+        "snowman_band": snowman_band_payload,
         "responsible_use": matrix_intelligence_payload.get("responsible_use", {}),
         "polish": polish_result.as_dict(),
         "shortlist": {
@@ -11403,6 +11459,10 @@ def run_variant(
         chronoflow_engine.write_export_html(chronoflow_view_path(out_path), chronoflow_payload)
     except Exception as exc:
         log(f"[WARN] Chronoflow export skipped: {exc!r}")
+    try:
+        snowman_band_engine.write_export_json(snowman_band_json_path(out_path), snowman_band_payload)
+    except Exception as exc:
+        log(f"[WARN] Snowman band export skipped: {exc!r}")
     write_report(report_path(out_path), payload)
     write_sequence_notes(notes_path(out_path), payload)
 
@@ -11456,12 +11516,14 @@ def run_variant(
     )
     log(f"Report saved: {report_path(out_path).name}")
     log(f"Chronoflow exports: {chronoflow_json_path(out_path).name}, {chronoflow_view_path(out_path).name}")
+    log(f"Snowman band export: {snowman_band_json_path(out_path).name}")
     return {
         "output_path": str(out_path),
         "report_path": str(report_path(out_path)),
         "notes_path": str(notes_path(out_path)),
         "chronoflow_json_path": str(chronoflow_json_path(out_path)),
         "chronoflow_view_path": str(chronoflow_view_path(out_path)),
+        "snowman_band_json_path": str(snowman_band_json_path(out_path)),
         "payload": payload,
         "quality": payload.get("quality", {}),
         "audit": payload.get("audit", {}),

@@ -44,6 +44,7 @@ hiddenimports = [
     "core.engine_profiles",
     "core.model_parser",
     "core.sequence_builder",
+    "core.snowman_band",
     "tools.preview_renderer",
     "tools.utilities",
     "xlights.layout_sync",
