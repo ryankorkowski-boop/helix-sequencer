@@ -401,7 +401,13 @@ def build_dynamic_mapping(features: dict[str, Any], trajectory: list[dict[str, A
 
     candidates: dict[str, dict[str, dict[str, tuple[float, float]]]] = {
         "megatree": {
-            "spiral_rise": {"tempo": (0.45, 1.0), "pitch_motion": (0.50, 1.0), "energy": (0.45, 1.0), "contrast": (0.20, 0.95)},
+            "spiral_rise": {
+                "tempo": (0.45, 1.0),
+                "pitch_motion": (0.50, 1.0),
+                "energy": (0.45, 1.0),
+                "contrast": (0.20, 0.95),
+                "lookahead_onset": (0.30, 1.0),
+            },
             "pulse_rings": {"tempo": (0.25, 0.85), "onset": (0.45, 1.0), "energy": (0.40, 1.0), "spread": (0.10, 0.85)},
         },
         "matrix": {
@@ -425,8 +431,20 @@ def build_dynamic_mapping(features: dict[str, Any], trajectory: list[dict[str, A
             "section_sway": {"onset": (0.05, 0.65), "energy": (0.15, 0.80), "tempo": (0.20, 1.0), "spread": (0.10, 0.95)},
         },
         "camera_path": {
-            "forward_flight": {"motion": (0.25, 1.0), "energy": (0.25, 1.0), "contrast": (0.20, 1.0), "onset": (0.15, 0.95)},
-            "orbit_hold": {"motion": (0.05, 0.55), "energy": (0.10, 0.70), "spread": (0.10, 0.90), "onset": (0.05, 0.60)},
+            "forward_flight": {
+                "motion": (0.25, 1.0),
+                "energy": (0.25, 1.0),
+                "contrast": (0.20, 1.0),
+                "onset": (0.15, 0.95),
+                "lookahead_onset": (0.28, 1.0),
+            },
+            "orbit_hold": {
+                "motion": (0.05, 0.55),
+                "energy": (0.10, 0.70),
+                "spread": (0.10, 0.90),
+                "onset": (0.05, 0.60),
+                "history_energy": (0.10, 0.72),
+            },
         },
     }
 
@@ -435,6 +453,10 @@ def build_dynamic_mapping(features: dict[str, Any], trajectory: list[dict[str, A
     for idx in range(0, len(times_s), step):
         prev_idx = max(0, idx - 1)
         next_idx = min(len(times_s) - 1, idx + 1)
+        history_start = max(0, idx - 6)
+        history_end = idx + 1
+        lookahead_start = idx
+        lookahead_end = min(len(times_s), idx + 7)
         pitch_motion = abs(float(pitch[next_idx]) - float(pitch[prev_idx])) if len(pitch) else 0.0
         motion = 0.0
         if idx < len(trajectory):
@@ -454,6 +476,8 @@ def build_dynamic_mapping(features: dict[str, Any], trajectory: list[dict[str, A
             "spread": float(bandwidth[idx]) if idx < len(bandwidth) else 0.0,
             "vocal": float(_norm01(features.get("pitch_confidence", []))[idx]) if idx < len(features.get("pitch_confidence", [])) else 0.0,
             "motion": max(0.0, min(1.0, motion)),
+            "history_energy": float(np.mean(intensity[history_start:history_end])) if len(intensity) else 0.0,
+            "lookahead_onset": float(np.max(onset[lookahead_start:lookahead_end])) if len(onset) else 0.0,
         }
         choice: dict[str, Any] = {"time_ms": int(round(float(times_s[idx]) * 1000.0)), "scores": {}}
         for group, options in candidates.items():
