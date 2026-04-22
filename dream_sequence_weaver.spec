@@ -10,7 +10,6 @@ datas = [
     (str(root / "SEQUENCER_INSTRUCTIONS.txt"), "."),
     (str(root / "launch_sequencer_app.cmd"), "."),
     (str(root / "launch_sequencer_app.vbs"), "."),
-    (str(root / "app_icon.ico"), "."),
     (str(root / "c82.ico"), "."),
     (str(root / "c82.png"), "."),
     (str(root / "xlights" / "effect_catalog.json"), "xlights"),
@@ -103,6 +102,6 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=str(root / "app_icon.ico"),
+    icon=str(root / "c82.ico"),
     version=str(version_file),
 )

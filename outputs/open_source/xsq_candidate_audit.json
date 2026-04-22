@@ -1,0 +1,232 @@
+[
+  {
+    "repo": "teslamotors/light-show",
+    "html_url": "https://github.com/teslamotors/light-show",
+    "stars": 3863,
+    "updated_at": "2026-04-21T07:45:45Z",
+    "license_spdx": "",
+    "counts": {
+      "xsq": 5
+    },
+    "samples": {
+      "xsq": [
+        "examples/lightshow_example_3_The_Arrival_5_Car/Car #1/LightShow/lightshow.xsq",
+        "examples/lightshow_example_3_The_Arrival_5_Car/Car #2/LightShow/lightshow.xsq",
+        "examples/lightshow_example_3_The_Arrival_5_Car/Car #3/LightShow/lightshow.xsq",
+        "examples/lightshow_example_3_The_Arrival_5_Car/Car #4/LightShow/lightshow.xsq",
+        "examples/lightshow_example_3_The_Arrival_5_Car/Car #5/LightShow/lightshow.xsq"
+      ],
+      "xml": [],
+      "xmodel": [],
+      "lua": [],
+      "shader": []
+    }
+  },
+  {
+    "repo": "cp16net/xlights-sequences",
+    "html_url": "https://github.com/cp16net/xlights-sequences",
+    "stars": 10,
+    "updated_at": "2023-10-19T00:45:28Z",
+    "license_spdx": "apache-2.0",
+    "counts": {
+      "xml": 38,
+      "xmodel": 2
+    },
+    "samples": {
+      "xsq": [],
+      "xml": [
+        "xlights/12daysofchristmas.xml",
+        "xlights/Christmas/Carol of the Bells - Pentatonix.xml",
+        "xlights/Christmas/Do-You-Hear-What-I-Hear-Home-Free.xml",
+        "xlights/Christmas/Hallelujah - Pentatonix.xml",
+        "xlights/Christmas/Mary Did You Know - Pentatonix.xml"
+      ],
+      "xmodel": [
+        "xlights/models/ChromaStar Tree Topper.xmodel",
+        "xlights/models/Spinner.xmodel"
+      ],
+      "lua": [],
+      "shader": []
+    }
+  },
+  {
+    "repo": "baccula/TeslaLightShow-HarderBetterFasterStronger",
+    "html_url": "https://github.com/baccula/TeslaLightShow-HarderBetterFasterStronger",
+    "stars": 0,
+    "updated_at": "2021-12-29T16:41:05Z",
+    "license_spdx": "mit",
+    "counts": {
+      "xsq": 1
+    },
+    "samples": {
+      "xsq": [
+        "Harder Better Faster Stronger.xsq"
+      ],
+      "xml": [],
+      "xmodel": [],
+      "lua": [],
+      "shader": []
+    }
+  },
+  {
+    "repo": "rrevi/tesla-xlights-show",
+    "html_url": "https://github.com/rrevi/tesla-xlights-show",
+    "stars": 1,
+    "updated_at": "2025-04-24T04:22:37Z",
+    "license_spdx": "mit",
+    "counts": {
+      "xmodel": 1,
+      "xml": 3
+    },
+    "samples": {
+      "xsq": [],
+      "xml": [
+        "xlights_keybindings.xml",
+        "xlights_networks.xml",
+        "xlights_rgbeffects.xml"
+      ],
+      "xmodel": [
+        "Tesla Model S.xmodel"
+      ],
+      "lua": [],
+      "shader": []
+    }
+  },
+  {
+    "repo": "SidU/HBDTeslaLightShow",
+    "html_url": "https://github.com/SidU/HBDTeslaLightShow",
+    "stars": 3,
+    "updated_at": "2026-01-28T09:52:37Z",
+    "license_spdx": "cc0-1.0",
+    "counts": {},
+    "samples": {
+      "xsq": [],
+      "xml": [],
+      "xmodel": [],
+      "lua": [],
+      "shader": []
+    }
+  },
+  {
+    "repo": "a8/tesla_xlightshows",
+    "html_url": "https://github.com/a8/tesla_xlightshows",
+    "stars": 2,
+    "updated_at": "2021-12-27T14:53:30Z",
+    "license_spdx": "mit",
+    "counts": {
+      "xsq": 2
+    },
+    "samples": {
+      "xsq": [
+        "down/lightshow.xsq",
+        "tesladaily/lightshow.xsq"
+      ],
+      "xml": [],
+      "xmodel": [],
+      "lua": [],
+      "shader": []
+    }
+  },
+  {
+    "repo": "wjenkins4107/xLightsLua",
+    "html_url": "https://github.com/wjenkins4107/xLightsLua",
+    "stars": 1,
+    "updated_at": "2025-09-01T12:35:26Z",
+    "license_spdx": "gpl-3.0",
+    "counts": {
+      "lua": 2
+    },
+    "samples": {
+      "xsq": [],
+      "xml": [],
+      "xmodel": [],
+      "lua": [
+        "CleanupFileLocations.lua",
+        "uploadControllers.lua"
+      ],
+      "shader": []
+    }
+  },
+  {
+    "repo": "xLightsSequencer/xLights",
+    "html_url": "https://github.com/xLightsSequencer/xLights",
+    "stars": 716,
+    "updated_at": "2026-04-22T05:16:27Z",
+    "license_spdx": "gpl-3.0",
+    "counts": {
+      "xml": 17,
+      "xmodel": 4128,
+      "lua": 9
+    },
+    "samples": {
+      "xsq": [],
+      "xml": [
+        "TipOfDay/tod.xml",
+        "download/dmx_fixtures.xml",
+        "download/dmx_models.xml",
+        "download/shaders.xml",
+        "download/templates/vendor_model_example.xml"
+      ],
+      "xmodel": [
+        "download/dmx_fixtures/ADB_ALC4_Extended_21_Channels_(CT_7_Preset).xmodel",
+        "download/dmx_fixtures/ADB_ALC4_Extended_21_Channels_(CT_Linear).xmodel",
+        "download/dmx_fixtures/ADB_ALC4_Matrix_20_Channels_(CT_7_Preset).xmodel",
+        "download/dmx_fixtures/ADB_ALC4_Matrix_20_Channels_(CT_Linear).xmodel",
+        "download/dmx_fixtures/ADB_ALC4_Standard_5_Channels_(CT_7_Preset).xmodel"
+      ],
+      "lua": [
+        "resources/scripts/BatchCleanupFileLocations.lua",
+        "resources/scripts/BatchCloneEffects.lua",
+        "resources/scripts/BatchPackageSequence.lua",
+        "resources/scripts/BatchRenderExportModel.lua",
+        "resources/scripts/BatchRenderSequence.lua"
+      ],
+      "shader": []
+    }
+  },
+  {
+    "repo": "MitchellGerdisch/tesla-lightshow",
+    "html_url": "https://github.com/MitchellGerdisch/tesla-lightshow",
+    "stars": 4,
+    "updated_at": "2023-02-09T03:21:09Z",
+    "license_spdx": "",
+    "counts": {
+      "xsq": 2,
+      "xml": 46,
+      "xmodel": 1
+    },
+    "samples": {
+      "xsq": [
+        "lightshow-tamacun-beginning/Tamacun-beginning.xsq",
+        "lightshow_the-cars_lets-go/the-cars_lets-go.xsq"
+      ],
+      "xml": [
+        "tesla_xlights_show_folder_modified/Backup/2021-12-26-100025_OnStart/xlights_networks.xml",
+        "tesla_xlights_show_folder_modified/Backup/2021-12-26-100025_OnStart/xlights_rgbeffects.xml",
+        "tesla_xlights_show_folder_modified/Backup/2021-12-26-100352_OnStart/xlights_keybindings.xml",
+        "tesla_xlights_show_folder_modified/Backup/2021-12-26-100352_OnStart/xlights_networks.xml",
+        "tesla_xlights_show_folder_modified/Backup/2021-12-26-100352_OnStart/xlights_rgbeffects.xml"
+      ],
+      "xmodel": [
+        "tesla_xlights_show_folder_modified/Tesla Model S.xmodel"
+      ],
+      "lua": [],
+      "shader": []
+    }
+  },
+  {
+    "repo": "Lurkin4Life/TeslaLightShow",
+    "html_url": "https://github.com/Lurkin4Life/TeslaLightShow",
+    "stars": 2,
+    "updated_at": "2023-05-20T04:47:52Z",
+    "license_spdx": "",
+    "counts": {},
+    "samples": {
+      "xsq": [],
+      "xml": [],
+      "xmodel": [],
+      "lua": [],
+      "shader": []
+    }
+  }
+]

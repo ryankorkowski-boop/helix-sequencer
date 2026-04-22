@@ -1,0 +1,25 @@
+[
+  {
+    "repo": "HLVM04/Tesla-Beat-Saber-Light-Show-Converter",
+    "stars": 21,
+    "license_spdx": "gpl-3.0",
+    "html_url": "https://github.com/HLVM04/Tesla-Beat-Saber-Light-Show-Converter",
+    "description": "Convert Beat Saber maps to Tesla light shows!",
+    "xsq_count": 1,
+    "sample_xsq": [
+      "template.xsq"
+    ]
+  },
+  {
+    "repo": "a8/tesla_xlightshows",
+    "stars": 2,
+    "license_spdx": "mit",
+    "html_url": "https://github.com/a8/tesla_xlightshows",
+    "description": "xlights Lightshow files",
+    "xsq_count": 2,
+    "sample_xsq": [
+      "down/lightshow.xsq",
+      "tesladaily/lightshow.xsq"
+    ]
+  }
+]

@@ -1,0 +1,134 @@
+Dream Sequence Weaver
+============================
+
+Sequence: 3,v27.3.xsq
+Version: v27.3 - Helix Prime
+Placement mode: piano_lights
+Audio: 3.wav
+Template: template.xsq
+
+Show Summary
+- Effects placed: 15028
+- Stem source: local
+- Keyboard lanes used: 291
+- Validation rejections logged: 20832
+- Quality score: 96.1 (A)
+- Audit score: 84.2 (B)
+- Polish score: 0.0
+- Active prop families: 3 / 3
+- Dominant placement share: 0.249
+
+Watermark
+- Signature version: dream-sequence-weaver-signature-v1
+- Signature token: cba6ae28d75620b8
+- Layout manifest hash: e504ed1f0202b05e19e49619013c0850ce1536770385c29eb2a2a339f1017877
+- Track marks: 24
+
+Runtime Tuning
+- Feel: balanced
+- Density: 0.6284515886478322
+- Speed: 2.04093625632916
+- Randomness: 1.837891584e-30
+- Energy keyboard mix: 1.0
+- Palette mode: template
+- Layering mode: replace
+- Polish enabled: 0
+- Variant count: 1
+- Learn from XSQs: 0
+
+Matrix Intelligence
+- Enabled: 1
+- Matrix available: 0
+- Matrix count: 0
+- Target matrix: 
+- Matrix size:  x 
+- Recommended shader: 
+- Spectrogram mapping: 
+- Mood description: balanced melodic momentum
+- Classification: genre=pop, mood=balanced, confidence=0.62
+- Video available: 0
+- Video sync tip: Use video motion to boost top-layer particle bursts on the matrix.
+
+Chronoflow
+- Viewer: 3,v27.3.chronoflow.html
+- Data export: 3,v27.3.chronoflow.json
+- Event count: 1271
+- Trajectory points: 720
+- Lyric hits: 0
+- Harmonic key: F minor
+
+Snowman Band
+- Export: 3,v27.3.snowman_band.json
+- Lead face: 
+- Performer cue count: 1301
+- Lyric visemes: 0
+- Drum kit: kick, snare, hihat, cymbal
+
+Parsed Layout Summary
+- Models: 256
+- Root models: 256
+- Submodels: 0
+- Groups: 59
+- Multi-node models: 248
+- RGB-capable models: 1
+- Available families: {'arch': 9, 'line': 215, 'stars': 32}
+- Model types: {'arch': 9, 'circle': 3, 'line': 212, 'star': 32}
+
+Quality Readout
+- Grade: A
+- Score: 96.1
+- Density per second: 113.81
+- Coverage ratio: 0.984
+- Family diversity ratio: 1.0
+- Audit overlap ratio: 0.06
+- Audit clutter ratio: 0.128
+- Audit section coverage: 1.0
+
+Top Placement Families
+- green_vu: 3749
+- spatial_keyboard_north_canes: 910
+- spatial_keyboard_south_canes: 910
+- spatial_keyboard_north_canes_support: 604
+- spatial_keyboard_south_canes_support: 604
+- showcase_phrase_pickup: 561
+- polyphonic_arch_layer: 456
+- polyphonic_keyboard: 451
+- piano_lights_line: 448
+- pixel_build: 431
+- spatial_keyboard_garage_tree_rgb: 357
+- spatial_keyboard_line_tree_rgb: 356
+
+Strengths
+- Strong scene architecture and phrase-aware placement.
+- Good prop-family coverage across the available layout.
+- Validation stayed disciplined, with low conflict fallout.
+- Detail capacity is being used, not just whole-prop blocks.
+
+Cautions
+- -
+
+One-Click Readiness
+- This sequence is intended to be show-ready on first export. Open xLights only if you want optional artistic tweaks, not mandatory cleanup.
+- Timing tracks already expose beats, hooks, builds, drops, vocals, and section flow if you want to inspect the storytelling pass.
+- If audit or quality scores dip below your standard, rerun with `--variants 3 --auto-shortlist` before doing any manual edits.
+- If you have favorite past XSQs, place them in the workspace history folder and rerun with `--learn-from-my-xsqs` to adapt palettes and prop behavior.
+- Matrix-specific planning is written to the report JSON under `matrix_intelligence.matrix_shader_config` for shader-timing follow-through.
+
+Polish Pass
+- Overlap repairs: 0
+- Section rebalances: 0
+- Breathing fades: 0
+- Hook enhancements: 0
+- Retimed entries: 0
+- Palette swaps: 0
+
+
+Shortlist
+- Enabled: 0
+- Winner: 3,v27.3.xsq
+- Candidates: 1
+
+Responsible Use
+- Helix creators are not responsible for misuse of training workflows or sequence data.
+- Do not train on licensed third-party sequences or proprietary show files without explicit rights.
+- During build and tuning, use only assets you own or are licensed to use.

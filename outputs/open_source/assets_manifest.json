@@ -1,0 +1,498 @@
+{
+  "version": 1,
+  "policy": {
+    "permissive_allowlist": [
+      "apache-2.0",
+      "bsd-2-clause",
+      "bsd-3-clause",
+      "cc0-1.0",
+      "isc",
+      "mit",
+      "mpl-2.0",
+      "unlicense"
+    ],
+    "copyleft_allowlist": [
+      "agpl-3.0",
+      "gpl-2.0",
+      "gpl-3.0",
+      "lgpl-2.1",
+      "lgpl-3.0"
+    ],
+    "include_copyleft": false,
+    "max_files_per_repo": 80,
+    "repo_limit": 30,
+    "seed_repositories": [
+      "cp16net/xlights-sequences",
+      "baccula/TeslaLightShow-HarderBetterFasterStronger",
+      "rrevi/tesla-xlights-show",
+      "wjenkins4107/xLightsLua",
+      "ashima/webgl-noise",
+      "hughsk/glsl-noise",
+      "Experience-Monks/glsl-fast-gaussian-blur",
+      "patriciogonzalezvivo/glslViewer"
+    ]
+  },
+  "summary": {
+    "repo_count": 8,
+    "downloaded_file_count": 43,
+    "allowed_repo_count": 4,
+    "reference_only_repo_count": 0,
+    "blocked_repo_count": 0,
+    "error_repo_count": 4
+  },
+  "repositories": [
+    {
+      "repo": "cp16net/xlights-sequences",
+      "html_url": "https://github.com/cp16net/xlights-sequences",
+      "stars": 10,
+      "updated_at": "2023-10-19T00:45:28Z",
+      "license_spdx": "apache-2.0",
+      "status": "allowed",
+      "reason": "permissive license",
+      "files": []
+    },
+    {
+      "repo": "baccula/TeslaLightShow-HarderBetterFasterStronger",
+      "status": "error",
+      "reason": "metadata fetch failed: HTTPSConnectionPool(host='api.github.com', port=443): Max retries exceeded with url: /repos/baccula/TeslaLightShow-HarderBetterFasterStronger (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))",
+      "files": []
+    },
+    {
+      "repo": "rrevi/tesla-xlights-show",
+      "html_url": "https://github.com/rrevi/tesla-xlights-show",
+      "stars": 1,
+      "updated_at": "2025-04-24T04:22:37Z",
+      "license_spdx": "mit",
+      "status": "allowed",
+      "reason": "permissive license",
+      "files": []
+    },
+    {
+      "repo": "wjenkins4107/xLightsLua",
+      "status": "error",
+      "reason": "metadata fetch failed: HTTPSConnectionPool(host='api.github.com', port=443): Max retries exceeded with url: /repos/wjenkins4107/xLightsLua (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))",
+      "files": []
+    },
+    {
+      "repo": "ashima/webgl-noise",
+      "html_url": "https://github.com/ashima/webgl-noise",
+      "stars": 2962,
+      "updated_at": "2026-04-20T07:39:51Z",
+      "license_spdx": "mit",
+      "status": "allowed",
+      "reason": "permissive license",
+      "files": [
+        {
+          "path": "benchmark/common/commonShader.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/ashima/webgl-noise/master/benchmark/common/commonShader.frag",
+          "size": 232,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\ashima__webgl-noise\\benchmark\\common\\commonShader.frag"
+        },
+        {
+          "path": "benchmark/common/constant.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/ashima/webgl-noise/master/benchmark/common/constant.frag",
+          "size": 129,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\ashima__webgl-noise\\benchmark\\common\\constant.frag"
+        },
+        {
+          "path": "benchmark/common/noisebench.vert",
+          "category": "shaders",
+          "suffix": ".vert",
+          "download_url": "https://raw.githubusercontent.com/ashima/webgl-noise/master/benchmark/common/noisebench.vert",
+          "size": 468,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\ashima__webgl-noise\\benchmark\\common\\noisebench.vert"
+        }
+      ]
+    },
+    {
+      "repo": "hughsk/glsl-noise",
+      "status": "error",
+      "reason": "metadata fetch failed: HTTPSConnectionPool(host='api.github.com', port=443): Max retries exceeded with url: /repos/hughsk/glsl-noise (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))",
+      "files": []
+    },
+    {
+      "repo": "Experience-Monks/glsl-fast-gaussian-blur",
+      "status": "error",
+      "reason": "metadata fetch failed: HTTPSConnectionPool(host='api.github.com', port=443): Max retries exceeded with url: /repos/Experience-Monks/glsl-fast-gaussian-blur (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))",
+      "files": []
+    },
+    {
+      "repo": "patriciogonzalezvivo/glslViewer",
+      "html_url": "https://github.com/patriciogonzalezvivo/glslViewer",
+      "stars": 5237,
+      "updated_at": "2026-04-21T07:16:09Z",
+      "license_spdx": "bsd-3-clause",
+      "status": "allowed",
+      "reason": "permissive license",
+      "files": [
+        {
+          "path": "assets/desktop/glslViewer-types.xml",
+          "category": "sequences",
+          "suffix": ".xml",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/assets/desktop/glslViewer-types.xml",
+          "size": 2945,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\sequences\\patriciogonzalezvivo__glslViewer\\assets\\desktop\\glslViewer-types.xml"
+        },
+        {
+          "path": "assets/desktop/glslScreenSaver.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/assets/desktop/glslScreenSaver.frag",
+          "size": 1449,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\assets\\desktop\\glslScreenSaver.frag"
+        },
+        {
+          "path": "assets/desktop/logo.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/assets/desktop/logo.frag",
+          "size": 909,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\assets\\desktop\\logo.frag"
+        },
+        {
+          "path": "examples/io/chataigne.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/io/chataigne.frag",
+          "size": 760,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\io\\chataigne.frag"
+        },
+        {
+          "path": "examples/io/orca.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/io/orca.frag",
+          "size": 1043,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\io\\orca.frag"
+        },
+        {
+          "path": "examples/io/ossia.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/io/ossia.frag",
+          "size": 744,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\io\\ossia.frag"
+        },
+        {
+          "path": "examples/io/temp.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/io/temp.frag",
+          "size": 311,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\io\\temp.frag"
+        },
+        {
+          "path": "examples/io/timewarp.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/io/timewarp.frag",
+          "size": 1306,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\io\\timewarp.frag"
+        },
+        {
+          "path": "examples/io/touchOSC.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/io/touchOSC.frag",
+          "size": 603,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\io\\touchOSC.frag"
+        },
+        {
+          "path": "examples/test.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test.frag",
+          "size": 649,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test.frag"
+        },
+        {
+          "path": "examples/test_100.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_100.frag",
+          "size": 449,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_100.frag"
+        },
+        {
+          "path": "examples/test_110.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_110.frag",
+          "size": 449,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_110.frag"
+        },
+        {
+          "path": "examples/test_120.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_120.frag",
+          "size": 449,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_120.frag"
+        },
+        {
+          "path": "examples/test_130.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_130.frag",
+          "size": 478,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_130.frag"
+        },
+        {
+          "path": "examples/test_140.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_140.frag",
+          "size": 478,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_140.frag"
+        },
+        {
+          "path": "examples/test_150.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_150.frag",
+          "size": 478,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_150.frag"
+        },
+        {
+          "path": "examples/test_300es.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_300es.frag",
+          "size": 479,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_300es.frag"
+        },
+        {
+          "path": "examples/test_310es.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_310es.frag",
+          "size": 479,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_310es.frag"
+        },
+        {
+          "path": "examples/test_320es.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_320es.frag",
+          "size": 479,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_320es.frag"
+        },
+        {
+          "path": "examples/test_330.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_330.frag",
+          "size": 476,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_330.frag"
+        },
+        {
+          "path": "examples/test_400.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_400.frag",
+          "size": 476,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_400.frag"
+        },
+        {
+          "path": "examples/test_410.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_410.frag",
+          "size": 476,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_410.frag"
+        },
+        {
+          "path": "examples/test_420.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_420.frag",
+          "size": 476,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_420.frag"
+        },
+        {
+          "path": "examples/test_430.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_430.frag",
+          "size": 476,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_430.frag"
+        },
+        {
+          "path": "examples/test_audio.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_audio.frag",
+          "size": 719,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_audio.frag"
+        },
+        {
+          "path": "examples/test_audio_amp.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_audio_amp.frag",
+          "size": 768,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_audio_amp.frag"
+        },
+        {
+          "path": "examples/test_audio_fft.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_audio_fft.frag",
+          "size": 599,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_audio_fft.frag"
+        },
+        {
+          "path": "examples/test_audio_spectogram.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_audio_spectogram.frag",
+          "size": 766,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_audio_spectogram.frag"
+        },
+        {
+          "path": "examples/test_audio_wave.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_audio_wave.frag",
+          "size": 500,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_audio_wave.frag"
+        },
+        {
+          "path": "examples/test_background.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_background.frag",
+          "size": 1546,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_background.frag"
+        },
+        {
+          "path": "examples/test_buffers.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_buffers.frag",
+          "size": 1257,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_buffers.frag"
+        },
+        {
+          "path": "examples/test_buffers_scale.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_buffers_scale.frag",
+          "size": 554,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_buffers_scale.frag"
+        },
+        {
+          "path": "examples/test_defines.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_defines.frag",
+          "size": 813,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_defines.frag"
+        },
+        {
+          "path": "examples/test_depth.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_depth.frag",
+          "size": 648,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_depth.frag"
+        },
+        {
+          "path": "examples/test_doubleBuffer.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_doubleBuffer.frag",
+          "size": 2022,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_doubleBuffer.frag"
+        },
+        {
+          "path": "examples/test_platform.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_platform.frag",
+          "size": 452,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_platform.frag"
+        },
+        {
+          "path": "examples/test_poisson_fill.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_poisson_fill.frag",
+          "size": 688,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_poisson_fill.frag"
+        },
+        {
+          "path": "examples/test_postprocessing.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_postprocessing.frag",
+          "size": 2423,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_postprocessing.frag"
+        },
+        {
+          "path": "examples/test_sceneDepth.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_sceneDepth.frag",
+          "size": 1077,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_sceneDepth.frag"
+        },
+        {
+          "path": "examples/test_video.frag",
+          "category": "shaders",
+          "suffix": ".frag",
+          "download_url": "https://raw.githubusercontent.com/patriciogonzalezvivo/glslViewer/main/examples/test_video.frag",
+          "size": 1299,
+          "downloaded": true,
+          "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\shaders\\patriciogonzalezvivo__glslViewer\\examples\\test_video.frag"
+        }
+      ]
+    }
+  ]
+}

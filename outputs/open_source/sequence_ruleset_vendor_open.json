@@ -1,0 +1,1027 @@
+{
+  "version": 1,
+  "source_policy": {
+    "include_copyleft": false,
+    "min_stars": 1,
+    "allowed_permissive_spdx": [
+      "apache-2.0",
+      "bsd-2-clause",
+      "bsd-3-clause",
+      "cc0-1.0",
+      "isc",
+      "mit",
+      "mpl-2.0",
+      "unlicense"
+    ],
+    "allowed_copyleft_spdx": []
+  },
+  "corpus_summary": {
+    "files_considered": 47,
+    "files_parsed": 40,
+    "non_sequence_xml_ignored": 7,
+    "files_with_no_model_effects": 5,
+    "parse_error_count": 0,
+    "repos_used": [
+      "extra_sequence_root"
+    ]
+  },
+  "top_effects_global": [
+    {
+      "effect": "On",
+      "count": 27976,
+      "weight": 0.76847,
+      "duration_ms": {
+        "p25": 200,
+        "p50": 400,
+        "p75": 550,
+        "p90": 1100
+      }
+    },
+    {
+      "effect": "SingleStrand",
+      "count": 3368,
+      "weight": 0.09251,
+      "duration_ms": {
+        "p25": 450,
+        "p50": 500,
+        "p75": 550,
+        "p90": 2150
+      }
+    },
+    {
+      "effect": "Curtain",
+      "count": 1414,
+      "weight": 0.03884,
+      "duration_ms": {
+        "p25": 500,
+        "p50": 525,
+        "p75": 550,
+        "p90": 1850
+      }
+    },
+    {
+      "effect": "Spirals",
+      "count": 627,
+      "weight": 0.01722,
+      "duration_ms": {
+        "p25": 500,
+        "p50": 550,
+        "p75": 550,
+        "p90": 2150
+      }
+    },
+    {
+      "effect": "Shockwave",
+      "count": 615,
+      "weight": 0.01689,
+      "duration_ms": {
+        "p25": 200,
+        "p50": 450,
+        "p75": 1000,
+        "p90": 1025
+      }
+    },
+    {
+      "effect": "Pictures",
+      "count": 606,
+      "weight": 0.01665,
+      "duration_ms": {
+        "p25": 200,
+        "p50": 525,
+        "p75": 1050,
+        "p90": 1950
+      }
+    },
+    {
+      "effect": "Marquee",
+      "count": 432,
+      "weight": 0.01187,
+      "duration_ms": {
+        "p25": 500,
+        "p50": 550,
+        "p75": 1100,
+        "p90": 2150
+      }
+    },
+    {
+      "effect": "Bars",
+      "count": 254,
+      "weight": 0.00698,
+      "duration_ms": {
+        "p25": 550,
+        "p50": 1350,
+        "p75": 2100,
+        "p90": 3325
+      }
+    },
+    {
+      "effect": "Wave",
+      "count": 134,
+      "weight": 0.00368,
+      "duration_ms": {
+        "p25": 500,
+        "p50": 1050,
+        "p75": 3325,
+        "p90": 5000
+      }
+    },
+    {
+      "effect": "Morph",
+      "count": 120,
+      "weight": 0.0033,
+      "duration_ms": {
+        "p25": 500,
+        "p50": 1025,
+        "p75": 2075,
+        "p90": 2800
+      }
+    },
+    {
+      "effect": "Butterfly",
+      "count": 118,
+      "weight": 0.00324,
+      "duration_ms": {
+        "p25": 1150,
+        "p50": 2075,
+        "p75": 3000,
+        "p90": 4300
+      }
+    },
+    {
+      "effect": "Snowflakes",
+      "count": 82,
+      "weight": 0.00225,
+      "duration_ms": {
+        "p25": 1150,
+        "p50": 1150,
+        "p75": 1750,
+        "p90": 10500
+      }
+    },
+    {
+      "effect": "Color Wash",
+      "count": 82,
+      "weight": 0.00225,
+      "duration_ms": {
+        "p25": 400,
+        "p50": 2450,
+        "p75": 3100,
+        "p90": 6500
+      }
+    },
+    {
+      "effect": "Off",
+      "count": 66,
+      "weight": 0.00181,
+      "duration_ms": {
+        "p25": 500,
+        "p50": 550,
+        "p75": 550,
+        "p90": 800
+      }
+    },
+    {
+      "effect": "Faces",
+      "count": 61,
+      "weight": 0.00168,
+      "duration_ms": {
+        "p25": 600,
+        "p50": 2400,
+        "p75": 8250,
+        "p90": 14400
+      }
+    },
+    {
+      "effect": "Pinwheel",
+      "count": 53,
+      "weight": 0.00146,
+      "duration_ms": {
+        "p25": 2200,
+        "p50": 4000,
+        "p75": 4550,
+        "p90": 7800
+      }
+    },
+    {
+      "effect": "Circles",
+      "count": 48,
+      "weight": 0.00132,
+      "duration_ms": {
+        "p25": 1150,
+        "p50": 2500,
+        "p75": 5850,
+        "p90": 6000
+      }
+    },
+    {
+      "effect": "Fill",
+      "count": 48,
+      "weight": 0.00132,
+      "duration_ms": {
+        "p25": 1600,
+        "p50": 1600,
+        "p75": 1600,
+        "p90": 1600
+      }
+    },
+    {
+      "effect": "Plasma",
+      "count": 39,
+      "weight": 0.00107,
+      "duration_ms": {
+        "p25": 1050,
+        "p50": 1150,
+        "p75": 4700,
+        "p90": 5250
+      }
+    },
+    {
+      "effect": "Text",
+      "count": 36,
+      "weight": 0.00099,
+      "duration_ms": {
+        "p25": 1250,
+        "p50": 1525,
+        "p75": 1700,
+        "p90": 4150
+      }
+    }
+  ],
+  "family_rules": {
+    "mega_tree": {
+      "top_effects": [
+        {
+          "effect": "On",
+          "count": 12763,
+          "weight": 0.71246,
+          "duration_ms": {
+            "p25": 200,
+            "p50": 400,
+            "p75": 550,
+            "p90": 1100
+          }
+        },
+        {
+          "effect": "SingleStrand",
+          "count": 2800,
+          "weight": 0.1563,
+          "duration_ms": {
+            "p25": 450,
+            "p50": 500,
+            "p75": 550,
+            "p90": 2150
+          }
+        },
+        {
+          "effect": "Curtain",
+          "count": 801,
+          "weight": 0.04471,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 525,
+            "p75": 550,
+            "p90": 1850
+          }
+        },
+        {
+          "effect": "Pictures",
+          "count": 606,
+          "weight": 0.03383,
+          "duration_ms": {
+            "p25": 200,
+            "p50": 525,
+            "p75": 1050,
+            "p90": 1950
+          }
+        },
+        {
+          "effect": "Shockwave",
+          "count": 297,
+          "weight": 0.01658,
+          "duration_ms": {
+            "p25": 200,
+            "p50": 450,
+            "p75": 1000,
+            "p90": 1025
+          }
+        },
+        {
+          "effect": "Morph",
+          "count": 85,
+          "weight": 0.00474,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 1025,
+            "p75": 2075,
+            "p90": 2800
+          }
+        },
+        {
+          "effect": "Faces",
+          "count": 61,
+          "weight": 0.00341,
+          "duration_ms": {
+            "p25": 600,
+            "p50": 2400,
+            "p75": 8250,
+            "p90": 14400
+          }
+        },
+        {
+          "effect": "Spirals",
+          "count": 48,
+          "weight": 0.00268,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 550,
+            "p75": 550,
+            "p90": 2150
+          }
+        }
+      ],
+      "layering": {
+        "avg_layers": 1.063,
+        "max_layers": 6,
+        "multi_layer_rate": 0.02586
+      }
+    },
+    "flood": {
+      "top_effects": [
+        {
+          "effect": "On",
+          "count": 992,
+          "weight": 0.91513,
+          "duration_ms": {
+            "p25": 200,
+            "p50": 400,
+            "p75": 550,
+            "p90": 1100
+          }
+        },
+        {
+          "effect": "Bars",
+          "count": 39,
+          "weight": 0.03598,
+          "duration_ms": {
+            "p25": 550,
+            "p50": 1350,
+            "p75": 2100,
+            "p90": 3325
+          }
+        },
+        {
+          "effect": "Butterfly",
+          "count": 14,
+          "weight": 0.01292,
+          "duration_ms": {
+            "p25": 1150,
+            "p50": 2075,
+            "p75": 3000,
+            "p90": 4300
+          }
+        },
+        {
+          "effect": "Curtain",
+          "count": 12,
+          "weight": 0.01107,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 525,
+            "p75": 550,
+            "p90": 1850
+          }
+        },
+        {
+          "effect": "Plasma",
+          "count": 6,
+          "weight": 0.00554,
+          "duration_ms": {
+            "p25": 1050,
+            "p50": 1150,
+            "p75": 4700,
+            "p90": 5250
+          }
+        },
+        {
+          "effect": "Meteors",
+          "count": 5,
+          "weight": 0.00461,
+          "duration_ms": {
+            "p25": 1100,
+            "p50": 1150,
+            "p75": 4000,
+            "p90": 10200
+          }
+        },
+        {
+          "effect": "Wave",
+          "count": 4,
+          "weight": 0.00369,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 1050,
+            "p75": 3325,
+            "p90": 5000
+          }
+        },
+        {
+          "effect": "Pinwheel",
+          "count": 3,
+          "weight": 0.00277,
+          "duration_ms": {
+            "p25": 2200,
+            "p50": 4000,
+            "p75": 4550,
+            "p90": 7800
+          }
+        }
+      ],
+      "layering": {
+        "avg_layers": 1.018,
+        "max_layers": 3,
+        "multi_layer_rate": 0.01198
+      }
+    },
+    "other": {
+      "top_effects": [
+        {
+          "effect": "On",
+          "count": 9094,
+          "weight": 0.80067,
+          "duration_ms": {
+            "p25": 200,
+            "p50": 400,
+            "p75": 550,
+            "p90": 1100
+          }
+        },
+        {
+          "effect": "Curtain",
+          "count": 514,
+          "weight": 0.04525,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 525,
+            "p75": 550,
+            "p90": 1850
+          }
+        },
+        {
+          "effect": "Spirals",
+          "count": 412,
+          "weight": 0.03627,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 550,
+            "p75": 550,
+            "p90": 2150
+          }
+        },
+        {
+          "effect": "SingleStrand",
+          "count": 320,
+          "weight": 0.02817,
+          "duration_ms": {
+            "p25": 450,
+            "p50": 500,
+            "p75": 550,
+            "p90": 2150
+          }
+        },
+        {
+          "effect": "Marquee",
+          "count": 244,
+          "weight": 0.02148,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 550,
+            "p75": 1100,
+            "p90": 2150
+          }
+        },
+        {
+          "effect": "Shockwave",
+          "count": 215,
+          "weight": 0.01893,
+          "duration_ms": {
+            "p25": 200,
+            "p50": 450,
+            "p75": 1000,
+            "p90": 1025
+          }
+        },
+        {
+          "effect": "Bars",
+          "count": 148,
+          "weight": 0.01303,
+          "duration_ms": {
+            "p25": 550,
+            "p50": 1350,
+            "p75": 2100,
+            "p90": 3325
+          }
+        },
+        {
+          "effect": "Wave",
+          "count": 82,
+          "weight": 0.00722,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 1050,
+            "p75": 3325,
+            "p90": 5000
+          }
+        }
+      ],
+      "layering": {
+        "avg_layers": 1.025,
+        "max_layers": 6,
+        "multi_layer_rate": 0.01757
+      }
+    },
+    "line_outline": {
+      "top_effects": [
+        {
+          "effect": "On",
+          "count": 3166,
+          "weight": 0.82771,
+          "duration_ms": {
+            "p25": 200,
+            "p50": 400,
+            "p75": 550,
+            "p90": 1100
+          }
+        },
+        {
+          "effect": "Spirals",
+          "count": 162,
+          "weight": 0.04235,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 550,
+            "p75": 550,
+            "p90": 2150
+          }
+        },
+        {
+          "effect": "Marquee",
+          "count": 154,
+          "weight": 0.04026,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 550,
+            "p75": 1100,
+            "p90": 2150
+          }
+        },
+        {
+          "effect": "SingleStrand",
+          "count": 96,
+          "weight": 0.0251,
+          "duration_ms": {
+            "p25": 450,
+            "p50": 500,
+            "p75": 550,
+            "p90": 2150
+          }
+        },
+        {
+          "effect": "Shockwave",
+          "count": 95,
+          "weight": 0.02484,
+          "duration_ms": {
+            "p25": 200,
+            "p50": 450,
+            "p75": 1000,
+            "p90": 1025
+          }
+        },
+        {
+          "effect": "Curtain",
+          "count": 41,
+          "weight": 0.01072,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 525,
+            "p75": 550,
+            "p90": 1850
+          }
+        },
+        {
+          "effect": "Snowflakes",
+          "count": 29,
+          "weight": 0.00758,
+          "duration_ms": {
+            "p25": 1150,
+            "p50": 1150,
+            "p75": 1750,
+            "p90": 10500
+          }
+        },
+        {
+          "effect": "Fill",
+          "count": 24,
+          "weight": 0.00627,
+          "duration_ms": {
+            "p25": 1600,
+            "p50": 1600,
+            "p75": 1600,
+            "p90": 1600
+          }
+        }
+      ],
+      "layering": {
+        "avg_layers": 1.092,
+        "max_layers": 3,
+        "multi_layer_rate": 0.06338
+      }
+    },
+    "face": {
+      "top_effects": [
+        {
+          "effect": "On",
+          "count": 1485,
+          "weight": 0.99198,
+          "duration_ms": {
+            "p25": 200,
+            "p50": 400,
+            "p75": 550,
+            "p90": 1100
+          }
+        },
+        {
+          "effect": "SingleStrand",
+          "count": 12,
+          "weight": 0.00802,
+          "duration_ms": {
+            "p25": 450,
+            "p50": 500,
+            "p75": 550,
+            "p90": 2150
+          }
+        }
+      ],
+      "layering": {
+        "avg_layers": 1.0,
+        "max_layers": 1,
+        "multi_layer_rate": 0.0
+      }
+    },
+    "star_snowflake": {
+      "top_effects": [
+        {
+          "effect": "On",
+          "count": 394,
+          "weight": 0.90993,
+          "duration_ms": {
+            "p25": 200,
+            "p50": 400,
+            "p75": 550,
+            "p90": 1100
+          }
+        },
+        {
+          "effect": "Marquee",
+          "count": 27,
+          "weight": 0.06236,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 550,
+            "p75": 1100,
+            "p90": 2150
+          }
+        },
+        {
+          "effect": "Fill",
+          "count": 12,
+          "weight": 0.02771,
+          "duration_ms": {
+            "p25": 1600,
+            "p50": 1600,
+            "p75": 1600,
+            "p90": 1600
+          }
+        }
+      ],
+      "layering": {
+        "avg_layers": 1.034,
+        "max_layers": 2,
+        "multi_layer_rate": 0.03448
+      }
+    },
+    "arch": {
+      "top_effects": [
+        {
+          "effect": "SingleStrand",
+          "count": 137,
+          "weight": 0.47241,
+          "duration_ms": {
+            "p25": 450,
+            "p50": 500,
+            "p75": 550,
+            "p90": 2150
+          }
+        },
+        {
+          "effect": "On",
+          "count": 82,
+          "weight": 0.28276,
+          "duration_ms": {
+            "p25": 200,
+            "p50": 400,
+            "p75": 550,
+            "p90": 1100
+          }
+        },
+        {
+          "effect": "Curtain",
+          "count": 46,
+          "weight": 0.15862,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 525,
+            "p75": 550,
+            "p90": 1850
+          }
+        },
+        {
+          "effect": "Shockwave",
+          "count": 8,
+          "weight": 0.02759,
+          "duration_ms": {
+            "p25": 200,
+            "p50": 450,
+            "p75": 1000,
+            "p90": 1025
+          }
+        },
+        {
+          "effect": "Spirals",
+          "count": 5,
+          "weight": 0.01724,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 550,
+            "p75": 550,
+            "p90": 2150
+          }
+        },
+        {
+          "effect": "Morph",
+          "count": 5,
+          "weight": 0.01724,
+          "duration_ms": {
+            "p25": 500,
+            "p50": 1025,
+            "p75": 2075,
+            "p90": 2800
+          }
+        },
+        {
+          "effect": "Plasma",
+          "count": 2,
+          "weight": 0.0069,
+          "duration_ms": {
+            "p25": 1050,
+            "p50": 1150,
+            "p75": 4700,
+            "p90": 5250
+          }
+        },
+        {
+          "effect": "Snowflakes",
+          "count": 2,
+          "weight": 0.0069,
+          "duration_ms": {
+            "p25": 1150,
+            "p50": 1150,
+            "p75": 1750,
+            "p90": 10500
+          }
+        }
+      ],
+      "layering": {
+        "avg_layers": 1.211,
+        "max_layers": 3,
+        "multi_layer_rate": 0.15789
+      }
+    },
+    "matrix": {
+      "top_effects": [
+        {
+          "effect": "Text",
+          "count": 1,
+          "weight": 0.25,
+          "duration_ms": {
+            "p25": 1250,
+            "p50": 1525,
+            "p75": 1700,
+            "p90": 4150
+          }
+        },
+        {
+          "effect": "Pinwheel",
+          "count": 1,
+          "weight": 0.25,
+          "duration_ms": {
+            "p25": 2200,
+            "p50": 4000,
+            "p75": 4550,
+            "p90": 7800
+          }
+        },
+        {
+          "effect": "Fire",
+          "count": 1,
+          "weight": 0.25,
+          "duration_ms": {
+            "p25": 2100,
+            "p50": 2400,
+            "p75": 4000,
+            "p90": 8250
+          }
+        },
+        {
+          "effect": "Butterfly",
+          "count": 1,
+          "weight": 0.25,
+          "duration_ms": {
+            "p25": 1150,
+            "p50": 2075,
+            "p75": 3000,
+            "p90": 4300
+          }
+        }
+      ],
+      "layering": {
+        "avg_layers": 1.0,
+        "max_layers": 1,
+        "multi_layer_rate": 0.0
+      }
+    }
+  },
+  "transition_rules": [
+    {
+      "from": "On",
+      "to": "On",
+      "count": 26656,
+      "confidence": 0.97324
+    },
+    {
+      "from": "SingleStrand",
+      "to": "SingleStrand",
+      "count": 2906,
+      "confidence": 0.87901
+    },
+    {
+      "from": "Curtain",
+      "to": "Curtain",
+      "count": 1037,
+      "confidence": 0.7482
+    },
+    {
+      "from": "Pictures",
+      "to": "Pictures",
+      "count": 592,
+      "confidence": 0.98176
+    },
+    {
+      "from": "Spirals",
+      "to": "Spirals",
+      "count": 524,
+      "confidence": 0.8438
+    },
+    {
+      "from": "Marquee",
+      "to": "Marquee",
+      "count": 366,
+      "confidence": 0.85514
+    },
+    {
+      "from": "SingleStrand",
+      "to": "On",
+      "count": 352,
+      "confidence": 0.10647
+    },
+    {
+      "from": "On",
+      "to": "SingleStrand",
+      "count": 343,
+      "confidence": 0.01252
+    },
+    {
+      "from": "Shockwave",
+      "to": "Shockwave",
+      "count": 295,
+      "confidence": 0.48361
+    },
+    {
+      "from": "Curtain",
+      "to": "Shockwave",
+      "count": 230,
+      "confidence": 0.16595
+    },
+    {
+      "from": "Shockwave",
+      "to": "Curtain",
+      "count": 207,
+      "confidence": 0.33934
+    },
+    {
+      "from": "Bars",
+      "to": "Bars",
+      "count": 110,
+      "confidence": 0.44
+    },
+    {
+      "from": "Wave",
+      "to": "Wave",
+      "count": 95,
+      "confidence": 0.76
+    },
+    {
+      "from": "Morph",
+      "to": "Morph",
+      "count": 79,
+      "confidence": 0.70536
+    },
+    {
+      "from": "Shockwave",
+      "to": "On",
+      "count": 72,
+      "confidence": 0.11803
+    },
+    {
+      "from": "On",
+      "to": "Shockwave",
+      "count": 61,
+      "confidence": 0.00223
+    },
+    {
+      "from": "Color Wash",
+      "to": "Color Wash",
+      "count": 58,
+      "confidence": 0.80556
+    },
+    {
+      "from": "Off",
+      "to": "On",
+      "count": 57,
+      "confidence": 0.87692
+    },
+    {
+      "from": "Snowflakes",
+      "to": "Snowflakes",
+      "count": 57,
+      "confidence": 0.83824
+    },
+    {
+      "from": "On",
+      "to": "Curtain",
+      "count": 56,
+      "confidence": 0.00204
+    }
+  ],
+  "general_rules": [
+    "Prefer high-support effects first, then diversify with low-weight accents.",
+    "Follow common effect-pair transitions to keep phrase continuity.",
+    "Treat channel-render-only files as timing references, not prop-effect exemplars."
+  ],
+  "per_repo_top_effects": {
+    "extra_sequence_root": [
+      {
+        "effect": "On",
+        "count": 27976
+      },
+      {
+        "effect": "SingleStrand",
+        "count": 3368
+      },
+      {
+        "effect": "Curtain",
+        "count": 1414
+      },
+      {
+        "effect": "Spirals",
+        "count": 627
+      },
+      {
+        "effect": "Shockwave",
+        "count": 615
+      },
+      {
+        "effect": "Pictures",
+        "count": 606
+      },
+      {
+        "effect": "Marquee",
+        "count": 432
+      },
+      {
+        "effect": "Bars",
+        "count": 254
+      }
+    ]
+  },
+  "parse_errors": []
+}

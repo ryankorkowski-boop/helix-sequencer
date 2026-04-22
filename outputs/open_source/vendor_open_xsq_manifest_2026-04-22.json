@@ -1,0 +1,49 @@
+[
+  {
+    "repo": "baccula/TeslaLightShow-HarderBetterFasterStronger",
+    "license_spdx": "mit",
+    "status": "ok",
+    "files": [
+      {
+        "path": "Harder Better Faster Stronger.xsq",
+        "downloaded": true,
+        "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\sequences\\vendor_open_xsq\\baccula__TeslaLightShow-HarderBetterFasterStronger\\Harder Better Faster Stronger.xsq"
+      }
+    ],
+    "stars": 0,
+    "html_url": "https://github.com/baccula/TeslaLightShow-HarderBetterFasterStronger"
+  },
+  {
+    "repo": "a8/tesla_xlightshows",
+    "license_spdx": "mit",
+    "status": "ok",
+    "files": [
+      {
+        "path": "down/lightshow.xsq",
+        "downloaded": true,
+        "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\sequences\\vendor_open_xsq\\a8__tesla_xlightshows\\down\\lightshow.xsq"
+      },
+      {
+        "path": "tesladaily/lightshow.xsq",
+        "downloaded": true,
+        "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\sequences\\vendor_open_xsq\\a8__tesla_xlightshows\\tesladaily\\lightshow.xsq"
+      }
+    ],
+    "stars": 2,
+    "html_url": "https://github.com/a8/tesla_xlightshows"
+  },
+  {
+    "repo": "HLVM04/Tesla-Beat-Saber-Light-Show-Converter",
+    "license_spdx": "gpl-3.0",
+    "status": "ok",
+    "files": [
+      {
+        "path": "template.xsq",
+        "downloaded": true,
+        "output_path": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\sequences\\vendor_open_xsq\\HLVM04__Tesla-Beat-Saber-Light-Show-Converter\\template.xsq"
+      }
+    ],
+    "stars": 21,
+    "html_url": "https://github.com/HLVM04/Tesla-Beat-Saber-Light-Show-Converter"
+  }
+]

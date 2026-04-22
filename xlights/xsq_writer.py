@@ -758,7 +758,8 @@ def analyze(audio_path: Path) -> Audio:
     bass01 = norm01(bass_db)
     vocal01 = norm01(vocal_db)
 
-    use_basic_pitch = os.environ.get("HELIX_USE_BASIC_PITCH", "").strip().lower() in {"1", "true", "yes", "on"}
+    basic_pitch_setting = os.environ.get("HELIX_USE_BASIC_PITCH", "").strip().lower()
+    use_basic_pitch = basic_pitch_setting not in {"0", "false", "no", "off"}
     basic_pitch_used = False
     if USE_FAST_PITCH:
         mags = np.sqrt(S)

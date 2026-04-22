@@ -33,13 +33,7 @@ _LAYERING_MODES = ("replace", "overlay_blend", "smart_layer", "additive")
 _PALETTE_MODES = ("template", "christmas", "warm", "cool", "neon", "random", "workspace_match")
 _VARIANT_COUNTS = ("1", "2", "3", "4", "5")
 
-_LOGO_CANDIDATES = ("c82.png", "app_icon.ico")
-_MASCOT_CANDIDATES = (
-    "helixmascot.jpg",
-    "helixmascot.jpeg",
-    "helixmascot.png",
-    "c82fa187-9965-42cc-a906-b1802b2f0c97 (3).jpg",
-)
+_LOGO_CANDIDATES = ("c82.png", "c82.ico")
 _WORKING_VIDEO_CANDIDATES = (
     "helix_twist.mp4",
     "grok-video-9256730a-68a5-49ec-855c-ad156e1fa006.mp4",
@@ -158,7 +152,7 @@ def _describe_layout_choice(raw_path: str) -> tuple[str, str]:
 
     if "allmodels" in str(layout_path).lower():
         return (
-            "Allmodels overlay ready. The base 256 AC channels stay intact while the snowmen and new props live on the overflow side.",
+            "Allmodels overlay ready. Your original 256 AC channels stay intact while extended props map around them.",
             "#1b6f50",
         )
 
@@ -262,6 +256,24 @@ def _load_photo(path: Path, max_size: tuple[int, int]) -> ImageTk.PhotoImage | N
         return None
 
 
+def _theme_background_from_logo(path: Path | None, fallback: str = "#f3f7f5") -> str:
+    if path is None:
+        return fallback
+    try:
+        image = Image.open(path).convert("RGBA")
+        image.thumbnail((96, 96), _RESAMPLE)
+        pixels = list(image.getdata())
+        opaque_pixels = [(r, g, b) for (r, g, b, a) in pixels if a >= 32]
+        if not opaque_pixels:
+            return fallback
+        r = int(sum(px[0] for px in opaque_pixels) / len(opaque_pixels))
+        g = int(sum(px[1] for px in opaque_pixels) / len(opaque_pixels))
+        b = int(sum(px[2] for px in opaque_pixels) / len(opaque_pixels))
+        return f"#{r:02x}{g:02x}{b:02x}"
+    except Exception:
+        return fallback
+
+
 def _load_working_frames(video_path: Path, max_size: tuple[int, int]) -> tuple[list[ImageTk.PhotoImage], int]:
     if iio is None:
         return [], 120
@@ -342,12 +354,14 @@ def run_gui() -> int:
 
     workspace = Path.cwd()
     profiles = [profile.profile_id for profile in engine_profiles.available_profiles()] or ["master"]
+    logo_path = _find_asset(workspace, _LOGO_CANDIDATES)
+    theme_bg = _theme_background_from_logo(logo_path)
 
     root = tk.Tk()
     root.title("Helix Sequence Helper")
-    root.geometry("1240x790")
-    root.minsize(1060, 700)
-    root.configure(bg="#f3f7f5")
+    root.geometry("1260x820")
+    root.minsize(1100, 720)
+    root.configure(bg=theme_bg)
 
     profile_var = tk.StringVar(value=profiles[0])
     feel_var = tk.StringVar(value="balanced")
@@ -372,13 +386,8 @@ def run_gui() -> int:
     variant_count_var = tk.StringVar(value="5")
     auto_shortlist_var = tk.BooleanVar(value=True)
     ac_lights_only_var = tk.BooleanVar(value=False)
-    basic_pitch_var = tk.BooleanVar(value=False)
 
-    logo_path = _find_asset(workspace, _LOGO_CANDIDATES)
-    mascot_path = _find_asset(workspace, _MASCOT_CANDIDATES)
     helix_video_path = _find_asset(workspace, _WORKING_VIDEO_CANDIDATES)
-    snowman_gallery = _snowman_gallery_path(workspace)
-    snowman_concepts = _snowman_concept_paths(workspace)
 
     if logo_path:
         try:
@@ -388,37 +397,35 @@ def run_gui() -> int:
         except Exception:
             pass
 
-    shell = tk.Frame(root, bg="#f3f7f5", padx=16, pady=14)
+    shell = tk.Frame(root, bg=theme_bg, padx=16, pady=14)
     shell.pack(fill=tk.BOTH, expand=True)
     shell.grid_columnconfigure(0, weight=5)
     shell.grid_columnconfigure(1, weight=4)
     shell.grid_rowconfigure(2, weight=4)
     shell.grid_rowconfigure(1, weight=3)
 
-    header = tk.Frame(shell, bg="#f3f7f5")
+    header = tk.Frame(shell, bg=theme_bg)
     header.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(0, 10))
-    header.grid_columnconfigure(1, weight=1)
-
-    logo_photo = _load_photo(logo_path, (62, 62)) if logo_path else None
-    if logo_photo:
-        logo_label = tk.Label(header, image=logo_photo, bg="#f3f7f5")
-        logo_label.image = logo_photo
-        logo_label.grid(row=0, column=0, rowspan=2, sticky="w", padx=(0, 10))
+    header.grid_columnconfigure(0, weight=1)
+    header.grid_columnconfigure(1, weight=0)
 
     tk.Label(
         header,
         text="Helix Sequence Helper",
         font=("Segoe UI Semibold", 25, "bold"),
-        bg="#f3f7f5",
+        bg=theme_bg,
         fg="#0c5842",
-    ).grid(row=0, column=1, sticky="w")
+    ).grid(row=0, column=0, sticky="w")
     tk.Label(
         header,
         text="Sequencing, Simplified.  |  Helix and Relax.",
         font=("Segoe UI", 11, "italic"),
-        bg="#f3f7f5",
+        bg=theme_bg,
         fg="#1e6f56",
-    ).grid(row=1, column=1, sticky="w")
+    ).grid(row=1, column=0, sticky="w")
+
+    header_logo_label = tk.Label(header, bg=theme_bg)
+    header_logo_label.grid(row=0, column=1, rowspan=2, sticky="e", padx=(10, 0))
 
     setup_panel = tk.Frame(
         shell,
@@ -591,7 +598,7 @@ def run_gui() -> int:
         justify=tk.LEFT,
         font=("Segoe UI", 9, "italic"),
     )
-    safety_note.grid(row=7, column=0, columnspan=3, sticky="w", pady=(2, 8))
+    safety_note.grid(row=11, column=0, columnspan=3, sticky="w", pady=(8, 6))
 
     advanced_panel = tk.Frame(
         setup_panel,
@@ -601,7 +608,7 @@ def run_gui() -> int:
         highlightbackground="#d3e7dc",
         highlightthickness=1,
     )
-    advanced_panel.grid(row=8, column=0, columnspan=3, sticky="ew", pady=(0, 8))
+    advanced_panel.grid(row=12, column=0, columnspan=3, sticky="ew", pady=(0, 8))
     advanced_panel.grid_columnconfigure(0, weight=1)
     advanced_panel.grid_columnconfigure(1, weight=1)
     advanced_panel.grid_columnconfigure(2, weight=1)
@@ -704,20 +711,6 @@ def run_gui() -> int:
     polish_enabled_check.grid(row=6, column=2, sticky="w", pady=(4, 0))
     controls.append(polish_enabled_check)
 
-    basic_pitch_check = tk.Checkbutton(
-        advanced_panel,
-        text="Use Basic Pitch (if installed)",
-        variable=basic_pitch_var,
-        onvalue=True,
-        offvalue=False,
-        bg="#f7fbf8",
-        fg="#1d4f40",
-        activebackground="#f7fbf8",
-        font=("Segoe UI", 9),
-    )
-    basic_pitch_check.grid(row=7, column=0, sticky="w", pady=(4, 0))
-    controls.append(basic_pitch_check)
-
     quality_panel = tk.Frame(
         advanced_panel,
         bg="#edf7f1",
@@ -726,7 +719,7 @@ def run_gui() -> int:
         highlightbackground="#d3e7dc",
         highlightthickness=1,
     )
-    quality_panel.grid(row=8, column=0, columnspan=3, sticky="ew", pady=(8, 0))
+    quality_panel.grid(row=7, column=0, columnspan=3, sticky="ew", pady=(8, 0))
     quality_panel.grid_columnconfigure(0, weight=1)
     quality_panel.grid_columnconfigure(1, weight=1)
     quality_panel.grid_columnconfigure(2, weight=1)
@@ -809,7 +802,7 @@ def run_gui() -> int:
         activebackground="#ffffff",
         font=("Segoe UI", 10),
     )
-    render_mp4_check.grid(row=9, column=0, columnspan=3, sticky="w", pady=(8, 8))
+    render_mp4_check.grid(row=9, column=0, columnspan=3, sticky="w", pady=(6, 6))
     controls.append(render_mp4_check)
 
     run_button = tk.Button(
@@ -824,7 +817,7 @@ def run_gui() -> int:
         padx=14,
         pady=8,
     )
-    run_button.grid(row=10, column=0, columnspan=3, sticky="ew", pady=(4, 8))
+    run_button.grid(row=7, column=0, columnspan=3, sticky="ew", pady=(8, 6))
     controls.append(run_button)
 
     status_label = tk.Label(
@@ -836,174 +829,81 @@ def run_gui() -> int:
         justify=tk.LEFT,
         font=("Segoe UI", 10),
     )
-    status_label.grid(row=11, column=0, columnspan=3, sticky="w")
+    status_label.grid(row=8, column=0, columnspan=3, sticky="w", pady=(0, 4))
 
-    tk.Label(media_panel, text="Showcase", bg="#eaf5ef", fg="#0c5f46", font=("Segoe UI", 13, "bold")).grid(
+    tk.Label(media_panel, text="Showcase", bg=theme_bg, fg="#0c5f46", font=("Segoe UI", 13, "bold")).grid(
         row=0, column=0, sticky="w", pady=(0, 8)
     )
 
     showcase_tabs = ttk.Notebook(media_panel)
     showcase_tabs.grid(row=1, column=0, sticky="nsew")
 
-    helix_tab = tk.Frame(showcase_tabs, bg="#eaf5ef", padx=14, pady=14)
+    helix_tab = tk.Frame(showcase_tabs, bg=theme_bg, padx=14, pady=14)
     helix_tab.grid_columnconfigure(0, weight=1)
-    helix_tab.grid_rowconfigure(2, weight=1)
+    helix_tab.grid_rowconfigure(1, weight=1)
 
-    snowman_tab = tk.Frame(showcase_tabs, bg="#f8fbfd", padx=14, pady=14)
-    snowman_tab.grid_columnconfigure(0, weight=1)
-
-    layout_tab = tk.Frame(showcase_tabs, bg="#f8fbfd", padx=14, pady=14)
+    layout_tab = tk.Frame(showcase_tabs, bg=theme_bg, padx=14, pady=14)
     layout_tab.grid_columnconfigure(0, weight=1)
 
     showcase_tabs.add(helix_tab, text="Helix")
-    showcase_tabs.add(snowman_tab, text="Snowmen")
     showcase_tabs.add(layout_tab, text="Layout")
 
-    tk.Label(helix_tab, text="Working Visual", bg="#eaf5ef", fg="#0c5f46", font=("Segoe UI", 13, "bold")).grid(
+    tk.Label(helix_tab, text="Helix Activity", bg=theme_bg, fg="#0c5f46", font=("Segoe UI", 13, "bold")).grid(
         row=0, column=0, sticky="w", pady=(0, 8)
     )
 
-    mascot_photo = _load_photo(mascot_path, (380, 260)) if mascot_path else None
-    mascot_label = tk.Label(helix_tab, bg="#eaf5ef")
-    mascot_label.grid(row=1, column=0, sticky="n")
-    if mascot_photo:
-        mascot_label.configure(image=mascot_photo)
-        mascot_label.image = mascot_photo
-    else:
-        mascot_label.configure(text="Add helixmascot.jpg to show mascot art.", fg="#386b5a", font=("Segoe UI", 10))
+    animation_card = tk.Frame(
+        helix_tab,
+        bg="#ffffff",
+        padx=12,
+        pady=12,
+        highlightbackground="#d6e5ee",
+        highlightthickness=1,
+    )
+    animation_card.grid(row=1, column=0, sticky="nsew")
+    animation_card.grid_columnconfigure(0, weight=1)
 
-    animation_label = ttk.Label(helix_tab, anchor=tk.CENTER)
-    animation_label.grid(row=2, column=0, sticky="ew", pady=(10, 0))
-    animation_label.configure(text="Animation plays while work is active.")
+    animation_label = tk.Label(animation_card, bg="#ffffff")
+    animation_label.grid(row=0, column=0, sticky="n", pady=(0, 10))
+
+    helix_progress_var = tk.StringVar(value="Idle. Configure files and press Run.")
+    helix_progress_label = tk.Label(
+        animation_card,
+        textvariable=helix_progress_var,
+        bg="#ffffff",
+        fg="#245247",
+        wraplength=360,
+        justify=tk.LEFT,
+        anchor="w",
+        font=("Segoe UI", 10),
+    )
+    helix_progress_label.grid(row=1, column=0, sticky="ew")
 
     working_frames: list[ImageTk.PhotoImage] = []
     working_delay = 120
     if helix_video_path:
         working_frames, working_delay = _load_working_frames(helix_video_path, max_size=(380, 210))
     if working_frames:
+        header_logo_label.configure(image=working_frames[0], text="")
+        header_logo_label.image = working_frames[0]
         animation_label.configure(image=working_frames[0], text="")
         animation_label.image = working_frames[0]
     else:
+        header_logo_photo = _load_photo(logo_path, (72, 72)) if logo_path else None
+        if header_logo_photo:
+            header_logo_label.configure(image=header_logo_photo, text="")
+            header_logo_label.image = header_logo_photo
+        else:
+            header_logo_label.configure(text="H", fg="#0c5f46", font=("Segoe UI Semibold", 28, "bold"))
         animation_label.configure(text="Add helix_twist.mp4 to enable working animation.")
 
     animator = _FrameAnimator(animation_label, working_frames, working_delay)
-
-    tk.Label(
-        snowman_tab,
-        text="Snowman Band Pack",
-        bg="#f8fbfd",
-        fg="#0c5f46",
-        font=("Segoe UI", 13, "bold"),
-    ).grid(row=0, column=0, sticky="w")
-
-    snowman_intro = (
-        f"{len(snowman_concepts)} concept boards are staged and ready. Open the gallery to view the full posters, then jump back here to run the sequencer."
-        if snowman_concepts
-        else "No snowman concept posters were found in outputs/snowman_bands yet."
-    )
-    tk.Label(
-        snowman_tab,
-        text=snowman_intro,
-        bg="#f8fbfd",
-        fg="#31574c",
-        wraplength=350,
-        justify=tk.LEFT,
-        font=("Segoe UI", 10),
-    ).grid(row=1, column=0, sticky="w", pady=(6, 12))
-
-    concept_card = tk.Frame(
-        snowman_tab,
-        bg="#ffffff",
-        padx=12,
-        pady=10,
-        highlightbackground="#d6e5ee",
-        highlightthickness=1,
-    )
-    concept_card.grid(row=2, column=0, sticky="ew")
-    concept_card.grid_columnconfigure(0, weight=1)
-
-    tk.Label(
-        concept_card,
-        text="Concept lineup",
-        bg="#ffffff",
-        fg="#20483c",
-        font=("Segoe UI", 10, "bold"),
-    ).grid(row=0, column=0, sticky="w", pady=(0, 6))
-
-    if snowman_concepts:
-        for row, concept_path in enumerate(snowman_concepts, start=1):
-            tk.Label(
-                concept_card,
-                text=f"{row}. {_concept_title(concept_path)}",
-                bg="#ffffff",
-                fg="#2c4e44",
-                anchor="w",
-                justify=tk.LEFT,
-                font=("Segoe UI", 9),
-            ).grid(row=row, column=0, sticky="w", pady=2)
-    else:
-        tk.Label(
-            concept_card,
-            text="Drop SVG concept boards into outputs/snowman_bands to populate this list.",
-            bg="#ffffff",
-            fg="#7b4e0b",
-            wraplength=330,
-            justify=tk.LEFT,
-            font=("Segoe UI", 9, "italic"),
-        ).grid(row=1, column=0, sticky="w")
-
-    snowman_button_row = tk.Frame(snowman_tab, bg="#f8fbfd")
-    snowman_button_row.grid(row=3, column=0, sticky="ew", pady=(12, 0))
-    snowman_button_row.grid_columnconfigure(0, weight=1)
-    snowman_button_row.grid_columnconfigure(1, weight=1)
-
-    open_gallery_button = tk.Button(
-        snowman_button_row,
-        text="Open Gallery",
-        bg="#1f7f5f",
-        fg="#ffffff",
-        activebackground="#17694f",
-        activeforeground="#ffffff",
-        relief=tk.FLAT,
-        padx=10,
-        pady=5,
-        command=lambda: open_path_or_message(snowman_gallery, "Open gallery") if snowman_gallery else None,
-    )
-    open_gallery_button.grid(row=0, column=0, sticky="ew", padx=(0, 6))
-    if snowman_gallery is None:
-        open_gallery_button.configure(state=tk.DISABLED)
-
-    open_snowman_folder_button = tk.Button(
-        snowman_button_row,
-        text="Open Folder",
-        bg="#d9eee3",
-        fg="#1b5f4a",
-        activebackground="#cbe6d9",
-        relief=tk.FLAT,
-        padx=10,
-        pady=5,
-        command=lambda: open_path_or_message(workspace / "outputs" / "snowman_bands", "Open snowman folder"),
-    )
-    open_snowman_folder_button.grid(row=0, column=1, sticky="ew", padx=(6, 0))
-
-    if snowman_gallery is not None:
-        gallery_hint = f"Gallery file: {snowman_gallery.name}"
-    else:
-        gallery_hint = "Gallery file not found yet."
-    tk.Label(
-        snowman_tab,
-        text=gallery_hint,
-        bg="#f8fbfd",
-        fg="#4b6d62",
-        wraplength=350,
-        justify=tk.LEFT,
-        font=("Segoe UI", 9, "italic"),
-    ).grid(row=4, column=0, sticky="w", pady=(10, 0))
+    header_animator = _FrameAnimator(header_logo_label, working_frames, working_delay)
 
     tk.Label(
         layout_tab,
-        text="Overlay Layout",
-        bg="#f8fbfd",
+        text="Layout Tools",
+        bg=theme_bg,
         fg="#0c5f46",
         font=("Segoe UI", 13, "bold"),
     ).grid(row=0, column=0, sticky="w")
@@ -1014,7 +914,7 @@ def run_gui() -> int:
     layout_summary_label = tk.Label(
         layout_tab,
         textvariable=layout_summary_var,
-        bg="#f8fbfd",
+        bg=theme_bg,
         fg="#31574c",
         wraplength=350,
         justify=tk.LEFT,
@@ -1052,7 +952,7 @@ def run_gui() -> int:
         font=("Segoe UI", 9),
     ).grid(row=1, column=0, sticky="w")
 
-    layout_button_row = tk.Frame(layout_tab, bg="#f8fbfd")
+    layout_button_row = tk.Frame(layout_tab, bg=theme_bg)
     layout_button_row.grid(row=3, column=0, sticky="ew", pady=(12, 0))
     layout_button_row.grid_columnconfigure(0, weight=1)
     layout_button_row.grid_columnconfigure(1, weight=1)
@@ -1098,7 +998,7 @@ def run_gui() -> int:
     )
     open_layout_folder_button.grid(row=0, column=1, sticky="ew", padx=(6, 0))
 
-    layout_tools_row = tk.Frame(layout_tab, bg="#f8fbfd")
+    layout_tools_row = tk.Frame(layout_tab, bg=theme_bg)
     layout_tools_row.grid(row=4, column=0, sticky="ew", pady=(10, 0))
     layout_tools_row.grid_columnconfigure(0, weight=1)
     layout_tools_row.grid_columnconfigure(1, weight=1)
@@ -1128,7 +1028,7 @@ def run_gui() -> int:
         _disable_controls(True)
         status_label.configure(fg="#1b6f50")
         status_var.set("Syncing open-source assets...")
-        animator.start()
+        _start_working("Syncing open-source assets...")
         add_log("Starting open-source asset sync with license gating.")
         if not _launch_process(cmd, "assets_sync"):
             _finish_error("Could not start open-source asset sync.")
@@ -1162,14 +1062,14 @@ def run_gui() -> int:
         _disable_controls(True)
         status_label.configure(fg="#1b6f50")
         status_var.set("Building Helixville 3D layout...")
-        animator.start()
+        _start_working("Building Helixville 3D layout...")
         add_log("Building Helixville importable 3D layout.")
         if not _launch_process(cmd, "helixville_layout"):
             _finish_error("Could not start Helixville 3D layout build.")
 
     sync_assets_button = tk.Button(
         layout_tools_row,
-        text="Sync Open-Source Assets",
+        text="1) Download Open-Source Assets",
         bg="#1f7f5f",
         fg="#ffffff",
         activebackground="#17694f",
@@ -1184,7 +1084,7 @@ def run_gui() -> int:
 
     build_helixville_button = tk.Button(
         layout_tools_row,
-        text="Build Helixville 3D",
+        text="2) Build Helixville 3D Layout",
         bg="#d9eee3",
         fg="#1b5f4a",
         activebackground="#cbe6d9",
@@ -1198,8 +1098,8 @@ def run_gui() -> int:
 
     tk.Label(
         layout_tab,
-        text="Safe default: keep the allmodels overlay selected so the original house channels stay stable while the showcase props live around them.",
-        bg="#f8fbfd",
+        text="Use step 1 first, then step 2. Step 2 creates an importable 3D test layout and auto-selects it here when done.",
+        bg=theme_bg,
         fg="#4b6d62",
         wraplength=350,
         justify=tk.LEFT,
@@ -1223,9 +1123,6 @@ def run_gui() -> int:
 
     refresh_layout_panel()
     layout_var.trace_add("write", refresh_layout_panel)
-
-    if snowman_concepts:
-        showcase_tabs.select(1)
 
     tk.Label(log_panel, text="Live Activity", bg="#ffffff", fg="#0c5f46", font=("Segoe UI", 13, "bold")).grid(
         row=0, column=0, sticky="w"
@@ -1276,6 +1173,18 @@ def run_gui() -> int:
         log_text.insert(tk.END, line)
         log_text.see(tk.END)
         log_text.configure(state=tk.DISABLED)
+        if clean:
+            helix_progress_var.set(clean[:240])
+
+    def _start_working(message: str) -> None:
+        helix_progress_var.set(message)
+        animator.start()
+        header_animator.start()
+
+    def _stop_working(message: str) -> None:
+        animator.stop()
+        header_animator.stop()
+        helix_progress_var.set(message)
 
     def clear_log() -> None:
         log_text.configure(state=tk.NORMAL)
@@ -1407,17 +1316,18 @@ def run_gui() -> int:
         _ensure_log_polling()
         add_log("------------------------------------------------------------")
         add_log(f"{stage.upper()} command: {' '.join(cmd)}")
+        helix_progress_var.set(f"Running {stage}...")
         root.after(220, _monitor_process)
         return True
 
     def _finish_success(message: str, color: str = "#1b6f50") -> None:
-        animator.stop()
+        _stop_working(message)
         _disable_controls(False)
         status_label.configure(fg=color)
         status_var.set(message)
 
     def _finish_error(message: str) -> None:
-        animator.stop()
+        _stop_working(message)
         _disable_controls(False)
         status_label.configure(fg="#8f2c2c")
         status_var.set(message)
@@ -1453,6 +1363,7 @@ def run_gui() -> int:
             preview_cmd = _build_preview_command(sequence_path, current_layout_path, current_audio_path)
             status_label.configure(fg="#1b6f50")
             status_var.set("Sequence complete. Rendering MP4 preview...")
+            helix_progress_var.set("Sequence complete. Rendering MP4 preview...")
             add_log(f"Detected sequence output: {sequence_path}")
             if not _launch_process(preview_cmd, "preview"):
                 _finish_success("Sequence complete. MP4 render could not start.", color="#946b1d")
@@ -1567,7 +1478,7 @@ def run_gui() -> int:
         _disable_controls(True)
         status_label.configure(fg="#1b6f50")
         status_var.set("Running sequencer...")
-        animator.start()
+        _start_working("Running sequencer...")
         add_log("Starting sequence run...")
         add_log(
             "Hero render stack: "
@@ -1580,7 +1491,7 @@ def run_gui() -> int:
             add_log("Using allmodels overlay layout. Original 256 AC channels stay untouched; added props should ride around them.")
         else:
             add_log("WARNING: layout does not look like allmodels. Neighbor artistry may not trigger.")
-        env_overrides = {"HELIX_USE_BASIC_PITCH": "1" if basic_pitch_var.get() else "0"}
+        env_overrides = {"HELIX_USE_BASIC_PITCH": "1"}
         if not _launch_process(command, "sequencing", env_overrides=env_overrides):
             _finish_error("Could not start sequencer process.")
 

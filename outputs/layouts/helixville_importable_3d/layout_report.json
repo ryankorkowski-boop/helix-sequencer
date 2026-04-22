@@ -1,0 +1,12 @@
+{
+  "base_layout": "C:\\Users\\User\\Desktop\\414\\allmodels\\xlights_rgbeffects.xml",
+  "output_layout": "C:\\Users\\User\\Desktop\\414\\outputs\\layouts\\helixville_importable_3d\\xlights_rgbeffects.xml",
+  "imported_xmodel_count": 3,
+  "next_channel": 436590,
+  "depth_bucket_counts": {
+    "core_ac": 76,
+    "showcase_3d": 124,
+    "subtle_neighbors": 171
+  },
+  "xmodel_source_root": "C:\\Users\\User\\Desktop\\414\\external\\open_source_assets\\models"
+}
