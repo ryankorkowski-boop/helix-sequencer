@@ -1,0 +1,7789 @@
+{
+  "enabled": true,
+  "version": "snowman_band_v1",
+  "face_routing": {
+    "preferred_lead": "NBH_RIGHT_HELIXMASCOT_CUSTOM",
+    "lead_cycle": [
+      "NBH_RIGHT_HELIXMASCOT_CUSTOM",
+      "NBH_RIGHT_HELIXMASCOT_CUSTOM",
+      "NBH_RIGHT_SINGING_FACE_01_PANEL",
+      "NBH_RIGHT_SINGING_FACE_02_PANEL",
+      "NBH_RIGHT_SINGING_FACE_03_PANEL"
+    ],
+    "support_faces": [
+      "NBH_RIGHT_SINGING_FACE_01_PANEL",
+      "NBH_RIGHT_SINGING_FACE_02_PANEL",
+      "NBH_RIGHT_SINGING_FACE_03_PANEL"
+    ],
+    "lyric_surfaces": [
+      "Matrix",
+      "Matrix-2",
+      "Matrix-3",
+      "Matrix-4",
+      "NBH_LEFT_MATRIX_01",
+      "NBH_LEFT_MATRIX_02",
+      "NBH_LEFT_MATRIX_03",
+      "NBH_LEFT_MATRIX_04",
+      "NBH_LEFT_MATRIX_05",
+      "NBH_LEFT_MATRIX_06",
+      "NBH_LEFT_MATRIX_07",
+      "NBH_LEFT_MATRIX_08",
+      "NBH_LEFT_MATRIX_09",
+      "NBH_LEFT_MATRIX_10",
+      "NBH_RIGHT_HELIXMASCOT_CUSTOM",
+      "NBH_RIGHT_HELIXMASCOT_IMAGE",
+      "NBH_RIGHT_HH_ICON_CUSTOM",
+      "NBH_RIGHT_SINGING_FACE_01_PANEL",
+      "NBH_RIGHT_SINGING_FACE_02_PANEL",
+      "NBH_RIGHT_SINGING_FACE_03_PANEL",
+      "NBH_WORD_HELIX_E",
+      "NBH_WORD_HELIX_H",
+      "NBH_WORD_HELIX_I",
+      "NBH_WORD_HELIX_L",
+      "NBH_WORD_HELIX_X"
+    ]
+  },
+  "performers": {
+    "lead_singer": {
+      "display_name": "Helix Helper",
+      "role": "lead_singer",
+      "preferred_targets": [
+        "NBH_RIGHT_HELIXMASCOT_CUSTOM",
+        "NBH_RIGHT_SINGING_FACE_01_PANEL",
+        "NBH_RIGHT_SINGING_FACE_02_PANEL",
+        "NBH_RIGHT_SINGING_FACE_03_PANEL"
+      ],
+      "modes": {
+        "pixel": [
+          "mouth_closed",
+          "mouth_ah",
+          "mouth_ee",
+          "mouth_oh",
+          "lyric_text_hold"
+        ],
+        "ac_rgbw": [
+          "mouth_closed",
+          "mouth_open_small",
+          "mouth_open_mid",
+          "mouth_open_wide"
+        ],
+        "matrix": [
+          "viseme_closed",
+          "viseme_ah",
+          "viseme_ee",
+          "viseme_oh",
+          "lyric_word"
+        ]
+      }
+    },
+    "bassist": {
+      "display_name": "Standup Bass Snowman",
+      "role": "bassist",
+      "preferred_targets": [
+        "vertical_props",
+        "trees",
+        "columns"
+      ],
+      "modes": {
+        "pixel": [
+          "string_lane_1",
+          "string_lane_2",
+          "string_lane_3",
+          "string_lane_4",
+          "head_bob"
+        ],
+        "ac_rgbw": [
+          "string_low",
+          "string_lowmid",
+          "string_highmid",
+          "string_high",
+          "body_bob"
+        ],
+        "matrix": [
+          "bass_lane_1",
+          "bass_lane_2",
+          "bass_lane_3",
+          "bass_lane_4",
+          "fret_position"
+        ]
+      }
+    },
+    "guitarist": {
+      "display_name": "Guitar Snowman",
+      "role": "guitarist",
+      "preferred_targets": [
+        "arches",
+        "directional_props",
+        "matrices"
+      ],
+      "modes": {
+        "pixel": [
+          "strum_down",
+          "strum_up",
+          "neck_pos_1",
+          "neck_pos_2",
+          "neck_pos_3",
+          "neck_pos_4"
+        ],
+        "ac_rgbw": [
+          "strum_frame_a",
+          "strum_frame_b",
+          "neck_low",
+          "neck_mid",
+          "neck_high"
+        ],
+        "matrix": [
+          "guitar_arc",
+          "guitar_ribbon",
+          "neck_tracker"
+        ]
+      }
+    },
+    "drummer": {
+      "display_name": "Drummer Snowman",
+      "role": "drummer",
+      "preferred_targets": [
+        "percussion_props",
+        "matrices",
+        "circles"
+      ],
+      "modes": {
+        "pixel": [
+          "kick_center",
+          "kick_mid",
+          "kick_outer",
+          "snare_burst",
+          "hat_flash",
+          "cymbal_shimmer"
+        ],
+        "ac_rgbw": [
+          "kick_ring_1",
+          "kick_ring_2",
+          "kick_ring_3",
+          "snare_hit",
+          "hat_open",
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "matrix": [
+          "kick_wave",
+          "snare_contact",
+          "hat_plate",
+          "cymbal_arc"
+        ]
+      }
+    }
+  },
+  "kit": {
+    "components": [
+      "kick",
+      "snare",
+      "hihat",
+      "cymbal"
+    ],
+    "beat_anchor_count": 121,
+    "release_count": 142,
+    "build_count": 153
+  },
+  "layout_mapping": {
+    "lead_singer": {
+      "family": "talking_heads",
+      "targets": [
+        "NBH_RIGHT_HELIXMASCOT_CUSTOM",
+        "NBH_RIGHT_SINGING_FACE_01_PANEL",
+        "NBH_RIGHT_SINGING_FACE_02_PANEL",
+        "NBH_RIGHT_SINGING_FACE_03_PANEL"
+      ]
+    },
+    "bassist": {
+      "family": "vertical_props",
+      "targets": [
+        "vertical_props",
+        "trees",
+        "columns"
+      ]
+    },
+    "guitarist": {
+      "family": "arches",
+      "targets": [
+        "arches",
+        "directional_props",
+        "matrices"
+      ]
+    },
+    "drummer": {
+      "family": "percussion_props",
+      "targets": [
+        "percussion_props",
+        "matrices",
+        "circles"
+      ]
+    }
+  },
+  "visualizer_overlay": {
+    "lyrics_enabled": false,
+    "soundtunnel_lyrics": [],
+    "style": "reverse_causality_spiral_tunnel"
+  },
+  "cues": {
+    "lead_singer": [],
+    "background_vocals": [
+      {
+        "performer": "bassist",
+        "start_ms": 32341,
+        "end_ms": 32461,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 36587,
+        "end_ms": 36707,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 37973,
+        "end_ms": 38093,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 38091,
+        "end_ms": 38211,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 39605,
+        "end_ms": 39725,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 40256,
+        "end_ms": 40376,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 40501,
+        "end_ms": 40621,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 40640,
+        "end_ms": 40760,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 41088,
+        "end_ms": 41208,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 41472,
+        "end_ms": 41592,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 42539,
+        "end_ms": 42659,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 43659,
+        "end_ms": 43779,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 43787,
+        "end_ms": 43907,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 43936,
+        "end_ms": 44056,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 44096,
+        "end_ms": 44216,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 44235,
+        "end_ms": 44355,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 46475,
+        "end_ms": 46595,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 46581,
+        "end_ms": 46701,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 46869,
+        "end_ms": 46989,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 47360,
+        "end_ms": 47480,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 47563,
+        "end_ms": 47683,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 47723,
+        "end_ms": 47843,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 47893,
+        "end_ms": 48013,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 48672,
+        "end_ms": 48792,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 50784,
+        "end_ms": 50904,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 52000,
+        "end_ms": 52120,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 52235,
+        "end_ms": 52355,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 52501,
+        "end_ms": 52621,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 53056,
+        "end_ms": 53176,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 53173,
+        "end_ms": 53293,
+        "kind": "background_vocal",
+        "section": "CHORUS"
+      }
+    ],
+    "bassist": [
+      {
+        "performer": "bassist",
+        "start_ms": 10101,
+        "end_ms": 10281,
+        "kind": "bass_slap",
+        "section": "VERSE",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 27.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 10293,
+        "end_ms": 10473,
+        "kind": "bass_slap",
+        "section": "VERSE",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 10667,
+        "end_ms": 10847,
+        "kind": "bass_slap",
+        "section": "VERSE",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 10763,
+        "end_ms": 10943,
+        "kind": "bass_slap",
+        "section": "VERSE",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 14752,
+        "end_ms": 14932,
+        "kind": "bass_slap",
+        "section": "VERSE",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 32.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 15083,
+        "end_ms": 15263,
+        "kind": "bass_slap",
+        "section": "VERSE",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 20480,
+        "end_ms": 20660,
+        "kind": "bass_slap",
+        "section": "PRECHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 38.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 27317,
+        "end_ms": 27497,
+        "kind": "bass_slap",
+        "section": "PRECHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 31.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 34304,
+        "end_ms": 34484,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 2,
+        "neck_position": 1,
+        "pitch_midi": 46.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 37739,
+        "end_ms": 37919,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 37.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 38325,
+        "end_ms": 38505,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 37.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 38688,
+        "end_ms": 38868,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 30.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 39648,
+        "end_ms": 39828,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 40.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 40021,
+        "end_ms": 40201,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 40587,
+        "end_ms": 40767,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 32.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 40971,
+        "end_ms": 41151,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 39.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 41909,
+        "end_ms": 42089,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 31.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 42293,
+        "end_ms": 42473,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 42421,
+        "end_ms": 42601,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 42859,
+        "end_ms": 43039,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 43232,
+        "end_ms": 43412,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 44181,
+        "end_ms": 44361,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 44565,
+        "end_ms": 44745,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 45131,
+        "end_ms": 45311,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 31.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 45493,
+        "end_ms": 45673,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 30.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 46315,
+        "end_ms": 46495,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 46411,
+        "end_ms": 46591,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 46635,
+        "end_ms": 46815,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 46827,
+        "end_ms": 47007,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 32.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 47392,
+        "end_ms": 47572,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 31.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 47765,
+        "end_ms": 47945,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 31.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 48715,
+        "end_ms": 48895,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 37.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 49088,
+        "end_ms": 49268,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 31.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 49653,
+        "end_ms": 49833,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 50037,
+        "end_ms": 50217,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 39.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 50997,
+        "end_ms": 51177,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 51360,
+        "end_ms": 51540,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 30.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 51925,
+        "end_ms": 52105,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 30.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 52309,
+        "end_ms": 52489,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 37.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 53248,
+        "end_ms": 53428,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 28.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 53632,
+        "end_ms": 53812,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 54197,
+        "end_ms": 54377,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 54581,
+        "end_ms": 54761,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 30.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 55392,
+        "end_ms": 55572,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 55584,
+        "end_ms": 55764,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 35.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 55712,
+        "end_ms": 55892,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 30.0,
+        "head_bob": true
+      },
+      {
+        "performer": "bassist",
+        "start_ms": 55904,
+        "end_ms": 56084,
+        "kind": "bass_slap",
+        "section": "CHORUS",
+        "string_index": 1,
+        "neck_position": 1,
+        "pitch_midi": 30.0,
+        "head_bob": true
+      }
+    ],
+    "guitarist": [
+      {
+        "performer": "guitarist",
+        "start_ms": 747,
+        "end_ms": 938,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 42.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 1237,
+        "end_ms": 1428,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 64.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 1771,
+        "end_ms": 1962,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 73.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 2283,
+        "end_ms": 2474,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 67.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 2805,
+        "end_ms": 2996,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 76.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 3371,
+        "end_ms": 3562,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 71.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 3968,
+        "end_ms": 4159,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 78.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 4533,
+        "end_ms": 4724,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 40.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 5088,
+        "end_ms": 5279,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 5632,
+        "end_ms": 5823,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 98.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 6187,
+        "end_ms": 6378,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 72.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 6731,
+        "end_ms": 6922,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 84.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 7264,
+        "end_ms": 7455,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 67.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 7819,
+        "end_ms": 8010,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 8363,
+        "end_ms": 8554,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 36.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 8928,
+        "end_ms": 9119,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 91.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 9483,
+        "end_ms": 9674,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 81.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 9835,
+        "end_ms": 10015,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 89.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 9931,
+        "end_ms": 10111,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 63.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 9984,
+        "end_ms": 10164,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 2,
+        "pitch_midi": 52.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 10059,
+        "end_ms": 10250,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 40.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 10464,
+        "end_ms": 10644,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 64.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 10635,
+        "end_ms": 10826,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 64.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 10848,
+        "end_ms": 11039,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 11232,
+        "end_ms": 11423,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 66.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 11787,
+        "end_ms": 11978,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 2,
+        "pitch_midi": 55.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 12000,
+        "end_ms": 12191,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 67.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 12373,
+        "end_ms": 12564,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 12768,
+        "end_ms": 12949,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 87.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 12949,
+        "end_ms": 13140,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 71.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 13152,
+        "end_ms": 13343,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 71.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 13536,
+        "end_ms": 13727,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 13931,
+        "end_ms": 14122,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 81.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 14123,
+        "end_ms": 14314,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 81.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 14315,
+        "end_ms": 14496,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 78.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 14496,
+        "end_ms": 14676,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 76.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 14581,
+        "end_ms": 14761,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 95.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 14688,
+        "end_ms": 14879,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 46.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 15275,
+        "end_ms": 15466,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 15840,
+        "end_ms": 16031,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 2,
+        "pitch_midi": 58.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 16235,
+        "end_ms": 16416,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 84.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 16416,
+        "end_ms": 16607,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 16619,
+        "end_ms": 16810,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 17003,
+        "end_ms": 17194,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 95.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 17387,
+        "end_ms": 17567,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 78.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 17557,
+        "end_ms": 17748,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 78.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 17771,
+        "end_ms": 17962,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 78.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 17995,
+        "end_ms": 18175,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 95.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 18165,
+        "end_ms": 18356,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 2,
+        "pitch_midi": 62.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 18368,
+        "end_ms": 18548,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 1,
+        "pitch_midi": 43.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 18539,
+        "end_ms": 18730,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 2,
+        "pitch_midi": 57.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 18773,
+        "end_ms": 18953,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 2,
+        "pitch_midi": 56.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 18944,
+        "end_ms": 19135,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 67.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 19307,
+        "end_ms": 19498,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 74.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 19904,
+        "end_ms": 20095,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 74.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 20448,
+        "end_ms": 20639,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 2,
+        "pitch_midi": 54.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 21045,
+        "end_ms": 21236,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 66.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 21611,
+        "end_ms": 21802,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 64.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 22165,
+        "end_ms": 22356,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 71.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 22763,
+        "end_ms": 22954,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 2,
+        "pitch_midi": 52.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 23339,
+        "end_ms": 23530,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 81.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 23541,
+        "end_ms": 23732,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 23915,
+        "end_ms": 24106,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 24309,
+        "end_ms": 24500,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 85.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 24501,
+        "end_ms": 24692,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 76.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 24693,
+        "end_ms": 24884,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 25077,
+        "end_ms": 25268,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 76.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 25461,
+        "end_ms": 25641,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 76.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 25632,
+        "end_ms": 25823,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 76.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 25845,
+        "end_ms": 26036,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 26219,
+        "end_ms": 26410,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 2,
+        "pitch_midi": 60.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 26613,
+        "end_ms": 26793,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 76.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 26773,
+        "end_ms": 26964,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 67.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 26997,
+        "end_ms": 27188,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 2,
+        "pitch_midi": 60.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 27189,
+        "end_ms": 27380,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 67.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 27392,
+        "end_ms": 27573,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 27573,
+        "end_ms": 27764,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 67.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 27936,
+        "end_ms": 28127,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 72.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 28128,
+        "end_ms": 28319,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 2,
+        "pitch_midi": 55.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 28533,
+        "end_ms": 28724,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 29120,
+        "end_ms": 29311,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 29312,
+        "end_ms": 29503,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 85.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 29664,
+        "end_ms": 29855,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 30080,
+        "end_ms": 30261,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 71.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 30261,
+        "end_ms": 30452,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 66.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 30837,
+        "end_ms": 31028,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 71.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 31424,
+        "end_ms": 31615,
+        "kind": "strum",
+        "section": "PRECHORUS",
+        "neck_position": 3,
+        "pitch_midi": 76.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 32000,
+        "end_ms": 32191,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 3,
+        "pitch_midi": 76.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 32608,
+        "end_ms": 32799,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 100.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 33152,
+        "end_ms": 33343,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 2,
+        "pitch_midi": 51.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 33547,
+        "end_ms": 33728,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 3,
+        "pitch_midi": 71.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 33728,
+        "end_ms": 33919,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 33920,
+        "end_ms": 34111,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 81.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 34304,
+        "end_ms": 34495,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 48.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 34699,
+        "end_ms": 34879,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 34869,
+        "end_ms": 35060,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 35093,
+        "end_ms": 35284,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 35456,
+        "end_ms": 35647,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 35851,
+        "end_ms": 36042,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 3,
+        "pitch_midi": 69.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 36043,
+        "end_ms": 36234,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 36235,
+        "end_ms": 36426,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 36469,
+        "end_ms": 36649,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 93.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 36640,
+        "end_ms": 36831,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 36843,
+        "end_ms": 37023,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 37003,
+        "end_ms": 37194,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 100.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 37195,
+        "end_ms": 37386,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 37728,
+        "end_ms": 37919,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 38315,
+        "end_ms": 38506,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 38848,
+        "end_ms": 39039,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 39467,
+        "end_ms": 39658,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 99.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 40021,
+        "end_ms": 40212,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 44.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 40565,
+        "end_ms": 40756,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 3,
+        "pitch_midi": 76.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 41152,
+        "end_ms": 41343,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 81.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 41717,
+        "end_ms": 41908,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 41909,
+        "end_ms": 42100,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 44.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 42293,
+        "end_ms": 42484,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 43.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 42859,
+        "end_ms": 43050,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 49.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 43424,
+        "end_ms": 43615,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 44000,
+        "end_ms": 44181,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 44181,
+        "end_ms": 44372,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 43.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 44555,
+        "end_ms": 44746,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 48.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 44939,
+        "end_ms": 45120,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 3,
+        "pitch_midi": 76.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 45120,
+        "end_ms": 45311,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 44.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 45323,
+        "end_ms": 45504,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 45504,
+        "end_ms": 45685,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 45685,
+        "end_ms": 45876,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 81.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 46069,
+        "end_ms": 46260,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 46261,
+        "end_ms": 46452,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 46453,
+        "end_ms": 46644,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 91.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 46645,
+        "end_ms": 46827,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 46827,
+        "end_ms": 47018,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 47403,
+        "end_ms": 47594,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 47776,
+        "end_ms": 47956,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 3,
+        "pitch_midi": 71.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 47904,
+        "end_ms": 48084,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 47957,
+        "end_ms": 48148,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 48544,
+        "end_ms": 48735,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 97.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 49088,
+        "end_ms": 49279,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 47.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 49653,
+        "end_ms": 49844,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 40.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 50229,
+        "end_ms": 50420,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 83.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 50773,
+        "end_ms": 50964,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 50987,
+        "end_ms": 51178,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 51360,
+        "end_ms": 51551,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 48.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 51915,
+        "end_ms": 52106,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 48.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 52491,
+        "end_ms": 52682,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 53045,
+        "end_ms": 53236,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 53259,
+        "end_ms": 53450,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 44.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 53632,
+        "end_ms": 53823,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 44.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 54197,
+        "end_ms": 54388,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 42.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 54581,
+        "end_ms": 54763,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 39.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 54763,
+        "end_ms": 54954,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 4,
+        "pitch_midi": 79.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 55147,
+        "end_ms": 55328,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 2,
+        "pitch_midi": 56.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 55328,
+        "end_ms": 55519,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 2,
+        "pitch_midi": 57.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 55520,
+        "end_ms": 55711,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 45.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 55712,
+        "end_ms": 55903,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 2,
+        "pitch_midi": 55.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 55904,
+        "end_ms": 56095,
+        "kind": "strum",
+        "section": "CHORUS",
+        "neck_position": 1,
+        "pitch_midi": 44.0,
+        "headbang": true
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 56469,
+        "end_ms": 56660,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 74.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 57067,
+        "end_ms": 57258,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 47.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 57653,
+        "end_ms": 57844,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 66.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 58219,
+        "end_ms": 58410,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 71.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 58784,
+        "end_ms": 58975,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 88.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 59371,
+        "end_ms": 59562,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 76.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 59989,
+        "end_ms": 60180,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 2,
+        "pitch_midi": 52.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 60565,
+        "end_ms": 60756,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 2,
+        "pitch_midi": 52.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 61120,
+        "end_ms": 61311,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 48.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 61515,
+        "end_ms": 61706,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 48.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 61728,
+        "end_ms": 61919,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 2,
+        "pitch_midi": 55.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 62123,
+        "end_ms": 62303,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 48.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 62293,
+        "end_ms": 62484,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 67.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 62517,
+        "end_ms": 62708,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 48.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 62709,
+        "end_ms": 62900,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 48.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 62944,
+        "end_ms": 63135,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 49.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 63573,
+        "end_ms": 63764,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 1,
+        "pitch_midi": 48.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 64160,
+        "end_ms": 64351,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 4,
+        "pitch_midi": 89.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 64555,
+        "end_ms": 64736,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 2,
+        "pitch_midi": 56.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 64736,
+        "end_ms": 64916,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 2,
+        "pitch_midi": 57.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 64853,
+        "end_ms": 65033,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 2,
+        "pitch_midi": 57.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 65024,
+        "end_ms": 65215,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 2,
+        "pitch_midi": 58.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 65269,
+        "end_ms": 65460,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 66.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 65856,
+        "end_ms": 66047,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 74.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 66336,
+        "end_ms": 66527,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 74.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 66816,
+        "end_ms": 67007,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 74.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 67296,
+        "end_ms": 67487,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 2,
+        "pitch_midi": 53.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 67776,
+        "end_ms": 67967,
+        "kind": "strum",
+        "section": "VERSE",
+        "neck_position": 3,
+        "pitch_midi": 66.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 68267,
+        "end_ms": 68458,
+        "kind": "strum",
+        "section": "OUTRO",
+        "neck_position": 3,
+        "pitch_midi": 64.0,
+        "headbang": false
+      },
+      {
+        "performer": "guitarist",
+        "start_ms": 68789,
+        "end_ms": 68980,
+        "kind": "strum",
+        "section": "OUTRO",
+        "neck_position": 2,
+        "pitch_midi": 52.0,
+        "headbang": false
+      }
+    ],
+    "drummer": [
+      {
+        "performer": "drummer",
+        "start_ms": 736,
+        "end_ms": 856,
+        "kind": "kick",
+        "section": "VERSE",
+        "frames": [
+          "kick_center",
+          "kick_mid",
+          "kick_outer"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 8491,
+        "end_ms": 8611,
+        "kind": "kick",
+        "section": "VERSE",
+        "frames": [
+          "kick_center",
+          "kick_mid",
+          "kick_outer"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 9824,
+        "end_ms": 9944,
+        "kind": "kick",
+        "section": "VERSE",
+        "frames": [
+          "kick_center",
+          "kick_mid",
+          "kick_outer"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 9877,
+        "end_ms": 9997,
+        "kind": "kick",
+        "section": "VERSE",
+        "frames": [
+          "kick_center",
+          "kick_mid",
+          "kick_outer"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 10187,
+        "end_ms": 10307,
+        "kind": "kick",
+        "section": "VERSE",
+        "frames": [
+          "kick_center",
+          "kick_mid",
+          "kick_outer"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 10421,
+        "end_ms": 10541,
+        "kind": "kick",
+        "section": "VERSE",
+        "frames": [
+          "kick_center",
+          "kick_mid",
+          "kick_outer"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 14496,
+        "end_ms": 14616,
+        "kind": "kick",
+        "section": "VERSE",
+        "frames": [
+          "kick_center",
+          "kick_mid",
+          "kick_outer"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 1771,
+        "end_ms": 1881,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 2507,
+        "end_ms": 2617,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 2624,
+        "end_ms": 2734,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 3008,
+        "end_ms": 3118,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 4651,
+        "end_ms": 4761,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 5792,
+        "end_ms": 5902,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 6283,
+        "end_ms": 6393,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 7243,
+        "end_ms": 7353,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 7819,
+        "end_ms": 7929,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 8363,
+        "end_ms": 8473,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 9184,
+        "end_ms": 9294,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 9653,
+        "end_ms": 9763,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 9931,
+        "end_ms": 10041,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 9984,
+        "end_ms": 10094,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 10048,
+        "end_ms": 10158,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 10837,
+        "end_ms": 10947,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 14464,
+        "end_ms": 14574,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 14581,
+        "end_ms": 14691,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 14677,
+        "end_ms": 14787,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 15093,
+        "end_ms": 15203,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 15456,
+        "end_ms": 15566,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 16437,
+        "end_ms": 16547,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 18155,
+        "end_ms": 18265,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 19285,
+        "end_ms": 19395,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 19915,
+        "end_ms": 20025,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 21589,
+        "end_ms": 21699,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 23349,
+        "end_ms": 23459,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 23712,
+        "end_ms": 23822,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 23883,
+        "end_ms": 23993,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 23915,
+        "end_ms": 24025,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 24491,
+        "end_ms": 24601,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 25621,
+        "end_ms": 25731,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 25813,
+        "end_ms": 25923,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 26016,
+        "end_ms": 26126,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 26048,
+        "end_ms": 26158,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 26197,
+        "end_ms": 26307,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 26475,
+        "end_ms": 26585,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 26763,
+        "end_ms": 26873,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 27168,
+        "end_ms": 27278,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 27371,
+        "end_ms": 27481,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 27755,
+        "end_ms": 27865,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 28117,
+        "end_ms": 28227,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 28320,
+        "end_ms": 28430,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 28523,
+        "end_ms": 28633,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 29120,
+        "end_ms": 29230,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 29483,
+        "end_ms": 29593,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 30261,
+        "end_ms": 30371,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 30816,
+        "end_ms": 30926,
+        "kind": "snare",
+        "section": "PRECHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 32715,
+        "end_ms": 32825,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 32896,
+        "end_ms": 33006,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 33035,
+        "end_ms": 33145,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 33141,
+        "end_ms": 33251,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 34293,
+        "end_ms": 34403,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 35435,
+        "end_ms": 35545,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 36043,
+        "end_ms": 36153,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 36651,
+        "end_ms": 36761,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 37173,
+        "end_ms": 37283,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 37707,
+        "end_ms": 37817,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 37739,
+        "end_ms": 37849,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 38325,
+        "end_ms": 38435,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 38379,
+        "end_ms": 38489,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 38741,
+        "end_ms": 38851,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 40011,
+        "end_ms": 40121,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 40629,
+        "end_ms": 40739,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 40928,
+        "end_ms": 41038,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 41035,
+        "end_ms": 41145,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 42283,
+        "end_ms": 42393,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 42848,
+        "end_ms": 42958,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 44000,
+        "end_ms": 44110,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 44181,
+        "end_ms": 44291,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 44555,
+        "end_ms": 44665,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 44821,
+        "end_ms": 44931,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 45120,
+        "end_ms": 45230,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 45504,
+        "end_ms": 45614,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 45685,
+        "end_ms": 45795,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 46059,
+        "end_ms": 46169,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 46251,
+        "end_ms": 46361,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 46443,
+        "end_ms": 46553,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 46635,
+        "end_ms": 46745,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 47776,
+        "end_ms": 47886,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 48960,
+        "end_ms": 49070,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 49067,
+        "end_ms": 49177,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 49099,
+        "end_ms": 49209,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 49664,
+        "end_ms": 49774,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 49707,
+        "end_ms": 49817,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 49995,
+        "end_ms": 50105,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 50080,
+        "end_ms": 50190,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 50112,
+        "end_ms": 50222,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 50976,
+        "end_ms": 51086,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 51115,
+        "end_ms": 51225,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 51349,
+        "end_ms": 51459,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52309,
+        "end_ms": 52419,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52373,
+        "end_ms": 52483,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 54197,
+        "end_ms": 54307,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 54571,
+        "end_ms": 54681,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 54635,
+        "end_ms": 54745,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 55701,
+        "end_ms": 55811,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 55893,
+        "end_ms": 56003,
+        "kind": "snare",
+        "section": "CHORUS",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 56907,
+        "end_ms": 57017,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 58208,
+        "end_ms": 58318,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 58571,
+        "end_ms": 58681,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 58848,
+        "end_ms": 58958,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 59243,
+        "end_ms": 59353,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 59691,
+        "end_ms": 59801,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 59989,
+        "end_ms": 60099,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 60544,
+        "end_ms": 60654,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 61109,
+        "end_ms": 61219,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 61152,
+        "end_ms": 61262,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 61344,
+        "end_ms": 61454,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 61504,
+        "end_ms": 61614,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 61717,
+        "end_ms": 61827,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 62123,
+        "end_ms": 62233,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 62283,
+        "end_ms": 62393,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 62507,
+        "end_ms": 62617,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 62709,
+        "end_ms": 62819,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 62901,
+        "end_ms": 63011,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 62944,
+        "end_ms": 63054,
+        "kind": "snare",
+        "section": "VERSE",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 68779,
+        "end_ms": 68889,
+        "kind": "snare",
+        "section": "OUTRO",
+        "frames": [
+          "snare_burst"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 10453,
+        "end_ms": 10543,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 11221,
+        "end_ms": 11311,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 11616,
+        "end_ms": 11706,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 12000,
+        "end_ms": 12090,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 12373,
+        "end_ms": 12463,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 12757,
+        "end_ms": 12847,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 13152,
+        "end_ms": 13242,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 13525,
+        "end_ms": 13615,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 13920,
+        "end_ms": 14010,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 14293,
+        "end_ms": 14383,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 15840,
+        "end_ms": 15930,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 16224,
+        "end_ms": 16314,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 16608,
+        "end_ms": 16698,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 16992,
+        "end_ms": 17082,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 17387,
+        "end_ms": 17477,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 17771,
+        "end_ms": 17861,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 17995,
+        "end_ms": 18085,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 18347,
+        "end_ms": 18437,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 18539,
+        "end_ms": 18629,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 18571,
+        "end_ms": 18661,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 18763,
+        "end_ms": 18853,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 18933,
+        "end_ms": 19023,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 19147,
+        "end_ms": 19237,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 19701,
+        "end_ms": 19791,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 20085,
+        "end_ms": 20175,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 20437,
+        "end_ms": 20527,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 20757,
+        "end_ms": 20847,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 21035,
+        "end_ms": 21125,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 22005,
+        "end_ms": 22095,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 22389,
+        "end_ms": 22479,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 22752,
+        "end_ms": 22842,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 23147,
+        "end_ms": 23237,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 23531,
+        "end_ms": 23621,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 24299,
+        "end_ms": 24389,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 24683,
+        "end_ms": 24773,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 25056,
+        "end_ms": 25146,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 25451,
+        "end_ms": 25541,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 25845,
+        "end_ms": 25935,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 26592,
+        "end_ms": 26682,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 26976,
+        "end_ms": 27066,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 27563,
+        "end_ms": 27653,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 27925,
+        "end_ms": 28015,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 28917,
+        "end_ms": 29007,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 29301,
+        "end_ms": 29391,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 29653,
+        "end_ms": 29743,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 30069,
+        "end_ms": 30159,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 30432,
+        "end_ms": 30522,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 30624,
+        "end_ms": 30714,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 31275,
+        "end_ms": 31365,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 31435,
+        "end_ms": 31525,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 31605,
+        "end_ms": 31695,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 31989,
+        "end_ms": 32079,
+        "kind": "hihat",
+        "section": "PRECHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 32373,
+        "end_ms": 32463,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 32757,
+        "end_ms": 32847,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 33536,
+        "end_ms": 33626,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 33920,
+        "end_ms": 34010,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 34688,
+        "end_ms": 34778,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 35083,
+        "end_ms": 35173,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 35840,
+        "end_ms": 35930,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 36224,
+        "end_ms": 36314,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 36459,
+        "end_ms": 36549,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 36843,
+        "end_ms": 36933,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 36949,
+        "end_ms": 37039,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 37003,
+        "end_ms": 37093,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 37227,
+        "end_ms": 37317,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 38219,
+        "end_ms": 38309,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 38848,
+        "end_ms": 38938,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 38891,
+        "end_ms": 38981,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 39253,
+        "end_ms": 39343,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 39637,
+        "end_ms": 39727,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 40096,
+        "end_ms": 40186,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 40288,
+        "end_ms": 40378,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 40395,
+        "end_ms": 40485,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 40779,
+        "end_ms": 40869,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 41141,
+        "end_ms": 41231,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 41333,
+        "end_ms": 41423,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 41536,
+        "end_ms": 41626,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 41899,
+        "end_ms": 41989,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 42677,
+        "end_ms": 42767,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 43051,
+        "end_ms": 43141,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 43413,
+        "end_ms": 43503,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 43552,
+        "end_ms": 43642,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 43797,
+        "end_ms": 43887,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 43904,
+        "end_ms": 43994,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 44757,
+        "end_ms": 44847,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 44928,
+        "end_ms": 45018,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 45312,
+        "end_ms": 45402,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 45547,
+        "end_ms": 45637,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 45813,
+        "end_ms": 45903,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 46816,
+        "end_ms": 46906,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 47904,
+        "end_ms": 47994,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 47957,
+        "end_ms": 48047,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 48480,
+        "end_ms": 48570,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 48565,
+        "end_ms": 48655,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 48715,
+        "end_ms": 48805,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 48779,
+        "end_ms": 48869,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 48907,
+        "end_ms": 48997,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 49472,
+        "end_ms": 49562,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 49845,
+        "end_ms": 49935,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 50219,
+        "end_ms": 50309,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 50603,
+        "end_ms": 50693,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 51413,
+        "end_ms": 51503,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52117,
+        "end_ms": 52207,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52480,
+        "end_ms": 52570,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52683,
+        "end_ms": 52773,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52747,
+        "end_ms": 52837,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52864,
+        "end_ms": 52954,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 53248,
+        "end_ms": 53338,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 53621,
+        "end_ms": 53711,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 53995,
+        "end_ms": 54085,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 54379,
+        "end_ms": 54469,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 54752,
+        "end_ms": 54842,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 54997,
+        "end_ms": 55087,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 55136,
+        "end_ms": 55226,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 55317,
+        "end_ms": 55407,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 55509,
+        "end_ms": 55599,
+        "kind": "hihat",
+        "section": "CHORUS",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 56459,
+        "end_ms": 56549,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 57056,
+        "end_ms": 57146,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 58965,
+        "end_ms": 59055,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 64160,
+        "end_ms": 64250,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 64427,
+        "end_ms": 64517,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 64544,
+        "end_ms": 64634,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 64747,
+        "end_ms": 64837,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 64843,
+        "end_ms": 64933,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 65013,
+        "end_ms": 65103,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 65205,
+        "end_ms": 65295,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 65237,
+        "end_ms": 65327,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 65429,
+        "end_ms": 65519,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 65632,
+        "end_ms": 65722,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 65835,
+        "end_ms": 65925,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 67285,
+        "end_ms": 67375,
+        "kind": "hihat",
+        "section": "VERSE",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 68181,
+        "end_ms": 68271,
+        "kind": "hihat",
+        "section": "OUTRO",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 69397,
+        "end_ms": 69487,
+        "kind": "hihat",
+        "section": "OUTRO",
+        "frames": [
+          "hat_flash"
+        ]
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 6933,
+        "end_ms": 7153,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 7115,
+        "end_ms": 7335,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 9291,
+        "end_ms": 9511,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 9931,
+        "end_ms": 10151,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 10069,
+        "end_ms": 10289,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 10251,
+        "end_ms": 10471,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 10443,
+        "end_ms": 10663,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 10453,
+        "end_ms": 10673,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 10613,
+        "end_ms": 10833,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 10784,
+        "end_ms": 11004,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 10933,
+        "end_ms": 11153,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 11232,
+        "end_ms": 11452,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 11381,
+        "end_ms": 11601,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 12757,
+        "end_ms": 12977,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 14699,
+        "end_ms": 14919,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 14837,
+        "end_ms": 15057,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 14965,
+        "end_ms": 15185,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 15104,
+        "end_ms": 15324,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 15253,
+        "end_ms": 15473,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 15381,
+        "end_ms": 15601,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 15531,
+        "end_ms": 15751,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 15648,
+        "end_ms": 15868,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 15776,
+        "end_ms": 15996,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 15840,
+        "end_ms": 16060,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 15957,
+        "end_ms": 16177,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 16661,
+        "end_ms": 16881,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 17419,
+        "end_ms": 17639,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 17600,
+        "end_ms": 17820,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 17771,
+        "end_ms": 17991,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 17909,
+        "end_ms": 18129,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 18336,
+        "end_ms": 18556,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 18560,
+        "end_ms": 18780,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 18731,
+        "end_ms": 18951,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 18763,
+        "end_ms": 18983,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 20363,
+        "end_ms": 20583,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 20437,
+        "end_ms": 20657,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 20544,
+        "end_ms": 20764,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 20683,
+        "end_ms": 20903,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 20811,
+        "end_ms": 21031,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 21013,
+        "end_ms": 21233,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 21397,
+        "end_ms": 21617,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 21589,
+        "end_ms": 21809,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 21771,
+        "end_ms": 21991,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 21909,
+        "end_ms": 22129,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 22752,
+        "end_ms": 22972,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 22944,
+        "end_ms": 23164,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 23136,
+        "end_ms": 23356,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 23392,
+        "end_ms": 23612,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 24021,
+        "end_ms": 24241,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 25056,
+        "end_ms": 25276,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 25109,
+        "end_ms": 25329,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 26229,
+        "end_ms": 26449,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 26603,
+        "end_ms": 26823,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 27264,
+        "end_ms": 27484,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 27541,
+        "end_ms": 27761,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 27563,
+        "end_ms": 27783,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 28395,
+        "end_ms": 28615,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 28555,
+        "end_ms": 28775,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 29611,
+        "end_ms": 29831,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 29739,
+        "end_ms": 29959,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 30069,
+        "end_ms": 30289,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 30549,
+        "end_ms": 30769,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 31605,
+        "end_ms": 31825,
+        "kind": "cymbal",
+        "section": "PRECHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 32373,
+        "end_ms": 32593,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 32544,
+        "end_ms": 32764,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 32811,
+        "end_ms": 33031,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 33259,
+        "end_ms": 33479,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 33451,
+        "end_ms": 33671,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 33920,
+        "end_ms": 34140,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 34315,
+        "end_ms": 34535,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 36203,
+        "end_ms": 36423,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 36459,
+        "end_ms": 36679,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 36651,
+        "end_ms": 36871,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 36811,
+        "end_ms": 37031,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 37184,
+        "end_ms": 37404,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 37621,
+        "end_ms": 37841,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 37771,
+        "end_ms": 37991,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 38219,
+        "end_ms": 38439,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 38347,
+        "end_ms": 38567,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 38731,
+        "end_ms": 38951,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 39435,
+        "end_ms": 39655,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 39680,
+        "end_ms": 39900,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 39936,
+        "end_ms": 40156,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 40096,
+        "end_ms": 40316,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 40203,
+        "end_ms": 40423,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 40608,
+        "end_ms": 40828,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 40789,
+        "end_ms": 41009,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 41003,
+        "end_ms": 41223,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 41173,
+        "end_ms": 41393,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 41333,
+        "end_ms": 41553,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 41685,
+        "end_ms": 41905,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 41931,
+        "end_ms": 42151,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 42155,
+        "end_ms": 42375,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 42315,
+        "end_ms": 42535,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 42464,
+        "end_ms": 42684,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 42709,
+        "end_ms": 42929,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 42891,
+        "end_ms": 43111,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 43061,
+        "end_ms": 43281,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 43264,
+        "end_ms": 43484,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 43413,
+        "end_ms": 43633,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 43467,
+        "end_ms": 43687,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 43669,
+        "end_ms": 43889,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 43797,
+        "end_ms": 44017,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 43947,
+        "end_ms": 44167,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 44117,
+        "end_ms": 44337,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 44299,
+        "end_ms": 44519,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 44587,
+        "end_ms": 44807,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 44757,
+        "end_ms": 44977,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 44928,
+        "end_ms": 45148,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 45152,
+        "end_ms": 45372,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 45269,
+        "end_ms": 45489,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 45419,
+        "end_ms": 45639,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 45717,
+        "end_ms": 45937,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 46357,
+        "end_ms": 46577,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 46581,
+        "end_ms": 46801,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 46944,
+        "end_ms": 47164,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 47264,
+        "end_ms": 47484,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 47424,
+        "end_ms": 47644,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 47584,
+        "end_ms": 47804,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 47787,
+        "end_ms": 48007,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 47904,
+        "end_ms": 48124,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 47979,
+        "end_ms": 48199,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 48405,
+        "end_ms": 48625,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 48747,
+        "end_ms": 48967,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 48779,
+        "end_ms": 48999,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 49120,
+        "end_ms": 49340,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 49419,
+        "end_ms": 49639,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 49685,
+        "end_ms": 49905,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 50069,
+        "end_ms": 50289,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 50240,
+        "end_ms": 50460,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 50432,
+        "end_ms": 50652,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 50603,
+        "end_ms": 50823,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 50699,
+        "end_ms": 50919,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 51019,
+        "end_ms": 51239,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 51381,
+        "end_ms": 51601,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 51680,
+        "end_ms": 51900,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 51861,
+        "end_ms": 52081,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52085,
+        "end_ms": 52305,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52331,
+        "end_ms": 52551,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52512,
+        "end_ms": 52732,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52661,
+        "end_ms": 52881,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52747,
+        "end_ms": 52967,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52811,
+        "end_ms": 53031,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 52939,
+        "end_ms": 53159,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 53067,
+        "end_ms": 53287,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 53195,
+        "end_ms": 53415,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 53440,
+        "end_ms": 53660,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 53653,
+        "end_ms": 53873,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 53792,
+        "end_ms": 54012,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 53920,
+        "end_ms": 54140,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 54037,
+        "end_ms": 54257,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 54229,
+        "end_ms": 54449,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 54379,
+        "end_ms": 54599,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 54603,
+        "end_ms": 54823,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 54795,
+        "end_ms": 55015,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 54976,
+        "end_ms": 55196,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 55157,
+        "end_ms": 55377,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 55445,
+        "end_ms": 55665,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 55509,
+        "end_ms": 55729,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 55605,
+        "end_ms": 55825,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 55723,
+        "end_ms": 55943,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 55925,
+        "end_ms": 56145,
+        "kind": "cymbal",
+        "section": "CHORUS",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 56117,
+        "end_ms": 56337,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 58144,
+        "end_ms": 58364,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 58315,
+        "end_ms": 58535,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 64309,
+        "end_ms": 64529,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 64427,
+        "end_ms": 64647,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 65205,
+        "end_ms": 65425,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      },
+      {
+        "performer": "drummer",
+        "start_ms": 67285,
+        "end_ms": 67505,
+        "kind": "cymbal",
+        "section": "VERSE",
+        "frames": [
+          "cymbal_frame_1",
+          "cymbal_frame_2",
+          "cymbal_frame_3",
+          "cymbal_frame_4"
+        ],
+        "shimmer": true
+      }
+    ]
+  },
+  "debug": {
+    "tempo_bpm": 106.007,
+    "total_cue_count": 689,
+    "lyric_cues": 0,
+    "bass_cues": 47,
+    "guitar_cues": 185,
+    "drum_cues": 427,
+    "background_vocal_cues": 30,
+    "soundtunnel_lyric_hits": 0,
+    "chronoflow_event_count": 678
+  }
+}

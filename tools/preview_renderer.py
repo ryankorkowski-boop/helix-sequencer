@@ -471,7 +471,7 @@ class HouseRenderer:
         draw: ImageDraw.ImageDraw,
         model_name: str,
         color: tuple[int, int, int],
-        intensity: float,
+        intensity: float = 1.0,
         mode: int = PREVIEW_MODE_SOLID,
         phase: float = 0.0,
         glow: bool = True,
@@ -651,6 +651,10 @@ def render_sequence_to_mp4(
     if out_path.exists():
         out_path.unlink()
 
+    def _promote_silent_preview() -> None:
+        if temp_path.exists():
+            temp_path.replace(out_path)
+
     if audio_path and audio_path.exists():
         ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
         cmd = [
@@ -671,10 +675,21 @@ def render_sequence_to_mp4(
             "-shortest",
             str(out_path),
         ]
-        subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        temp_path.unlink(missing_ok=True)
+        try:
+            subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        except (OSError, subprocess.SubprocessError):
+            # Keep preview generation resilient if audio muxing fails.
+            _promote_silent_preview()
+        else:
+            if out_path.exists():
+                temp_path.unlink(missing_ok=True)
+            else:
+                _promote_silent_preview()
     else:
-        temp_path.replace(out_path)
+        _promote_silent_preview()
+
+    if not out_path.exists():
+        raise RuntimeError(f"Preview export did not produce the expected MP4: {out_path}")
 
     return out_path
 

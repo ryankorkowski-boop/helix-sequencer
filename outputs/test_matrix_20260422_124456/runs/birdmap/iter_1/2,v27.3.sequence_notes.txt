@@ -1,0 +1,138 @@
+Dream Sequence Weaver
+============================
+
+Sequence: 2,v27.3.xsq
+Version: v27.3 - Helix Prime
+Placement mode: piano_lights
+Audio: 2.wav
+Template: template.xsq
+
+Show Summary
+- Effects placed: 10969
+- Stem source: local
+- Keyboard lanes used: 403
+- Validation rejections logged: 18296
+- Quality score: 92.1 (A-)
+- Audit score: 83.7 (B)
+- Polish score: 91.3
+- Active prop families: 9 / 9
+- Dominant placement share: 0.211
+
+Watermark
+- Signature version: dream-sequence-weaver-signature-v1
+- Signature token: 252d35ddf8e570a1
+- Layout manifest hash: 05cb44c49e39cb6072b581a92c0cf68b253cca5cc7d06e2b9b766d2fdcdf4a8b
+- Track marks: 24
+
+Runtime Tuning
+- Feel: balanced
+- Density: 0.9899
+- Speed: 1.2802900000000002
+- Randomness: 0.00202
+- Energy keyboard mix: 1.209
+- Palette mode: cool
+- Layering mode: smart_layer
+- Polish enabled: 1
+- Variant count: 1
+- Learn from XSQs: 0
+
+Matrix Intelligence
+- Enabled: 1
+- Matrix available: 1
+- Matrix count: 22
+- Target matrix: Matrix-2
+- Matrix size: 32 x 64
+- Recommended shader: spectrum_bars.glsl
+- Spectrogram mapping: vertical
+- Mood description: balanced melodic momentum
+- Classification: genre=pop, mood=balanced, confidence=0.62
+- Video available: 0
+- Video sync tip: Use video motion to boost top-layer particle bursts on the matrix.
+
+Chronoflow
+- Viewer: 2,v27.3.chronoflow.html
+- Data export: 2,v27.3.chronoflow.json
+- Event count: 678
+- Trajectory points: 720
+- Lyric hits: 25
+- Harmonic key: E minor
+
+Snowman Band
+- Export: 2,v27.3.snowman_band.json
+- Lead face: NBH_RIGHT_HELIXMASCOT_CUSTOM
+- Performer cue count: 689
+- Lyric visemes: 0
+- Drum kit: kick, snare, hihat, cymbal
+
+Parsed Layout Summary
+- Models: 384
+- Root models: 368
+- Submodels: 16
+- Groups: 69
+- Multi-node models: 358
+- RGB-capable models: 113
+- Available families: {'arch': 28, 'canes_combo': 9, 'line': 231, 'matrix': 23, 'mega': 12, 'sphere': 7, 'spinner': 15, 'stars': 40, 'talking_heads': 3}
+- Model types: {'arch': 44, 'cane': 9, 'circle': 6, 'custom': 2, 'image': 2, 'line': 223, 'matrix': 22, 'sphere': 4, 'spinner': 15, 'star': 40, 'tree': 12, 'window': 5}
+
+Quality Readout
+- Grade: A-
+- Score: 92.1
+- Density per second: 151.51
+- Coverage ratio: 0.962
+- Family diversity ratio: 1.0
+- Audit overlap ratio: 0.054
+- Audit clutter ratio: 0.098
+- Audit section coverage: 1.0
+
+Top Placement Families
+- green_vu: 2310
+- spatial_keyboard_south_canes: 668
+- spatial_keyboard_north_canes: 667
+- spatial_keyboard_north_canes_support: 446
+- spatial_keyboard_south_canes_support: 446
+- showcase_scene_arrival: 406
+- showcase_phrase_pickup: 399
+- spatial_keyboard_garage_tree_rgb: 302
+- spatial_keyboard_line_tree_rgb: 301
+- spatial_keyboard_mega_tree_rgb: 300
+- pixel_build: 289
+- lua_transition: 230
+
+Strengths
+- Strong scene architecture and phrase-aware placement.
+- Good prop-family coverage across the available layout.
+- Validation stayed disciplined, with low conflict fallout.
+- Detail capacity is being used, not just whole-prop blocks.
+
+Cautions
+- Effect density is still pushing busy; consider fewer simultaneous accents.
+
+One-Click Readiness
+- This sequence is intended to be show-ready on first export. Open xLights only if you want optional artistic tweaks, not mandatory cleanup.
+- Timing tracks already expose beats, hooks, builds, drops, vocals, and section flow if you want to inspect the storytelling pass.
+- If audit or quality scores dip below your standard, rerun with `--variants 3 --auto-shortlist` before doing any manual edits.
+- If you have favorite past XSQs, place them in the workspace history folder and rerun with `--learn-from-my-xsqs` to adapt palettes and prop behavior.
+- Matrix-specific planning is written to the report JSON under `matrix_intelligence.matrix_shader_config` for shader-timing follow-through.
+
+Polish Pass
+- Overlap repairs: 384
+- Section rebalances: 0
+- Breathing fades: 40
+- Hook enhancements: 0
+- Retimed entries: 1536
+- Palette swaps: 2
+
+- Resolved 384 melody-priority overlaps.
+- Added 40 breathing fades around quiet or transition windows.
+- Micro-timed 1536 entries onto stem anchors.
+- Applied 2 color-flow transitions near section boundaries.
+
+Shortlist
+- Enabled: 0
+- Winner: 2,v27.3.xsq
+- Candidates: 1
+
+Responsible Use
+- Helix creators are not responsible for misuse of training workflows or sequence data.
+- Do not train on licensed third-party sequences or proprietary show files without explicit rights.
+- During build and tuning, use only assets you own or are licensed to use.

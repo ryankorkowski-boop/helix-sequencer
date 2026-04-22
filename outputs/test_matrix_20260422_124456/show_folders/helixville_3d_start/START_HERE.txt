@@ -1,0 +1,28 @@
+Helixville 3D Test Show Folder
+
+Use this folder as a dedicated show folder for 3D Helixville validation runs.
+Files included:
+- xlights_rgbeffects.xml (3D depth-adjusted test layout)
+- xlights_networks.xml (controller definitions)
+- xlights_keybindings.xml (copied when available)
+
+Controller summary:
+Controllers detected: 16
+- Unit 1: AC Controller (16 channels)
+- Unit 2: AC Controller (16 channels)
+- Unit 3: AC Controller (16 channels)
+- Unit 4: AC Controller (16 channels)
+- Unit 5: AC Controller (16 channels)
+- Unit 6: AC Controller (16 channels)
+- Unit 7: AC Controller (16 channels)
+- Unit 8: AC Controller (16 channels)
+- Unit 9: AC Controller (16 channels)
+- Unit 10: AC Controller (16 channels)
+- Unit 11: AC Controller (16 channels)
+- Unit 12: AC Controller (16 channels)
+- Unit 13: AC Controller (16 channels)
+- Unit 14: AC Controller (16 channels)
+- Unit 15: AC Controller (16 channels)
+- Unit 16: AC Controller (16 channels)
+
+This folder is generated for test sequencing and preview validation.
