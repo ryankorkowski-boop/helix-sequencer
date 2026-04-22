@@ -131,10 +131,14 @@ class MatrixIntelligenceTests(unittest.TestCase):
         self.assertIn("matrix_shader_config", plan)
         self.assertIn("frequency_layer_config", plan)
         self.assertIn("stem_layer_weights", plan)
+        self.assertIn("shader_layering", plan)
         self.assertIn("responsible_use", plan)
         self.assertEqual(plan["matrix_params"]["width"], 64)
         self.assertEqual(plan["matrix_params"]["height"], 32)
         self.assertFalse(plan["video_data"]["video_available"])
+        self.assertGreaterEqual(plan["shader_layering"]["overall_compatibility"], 0.0)
+        self.assertLessEqual(plan["shader_layering"]["overall_compatibility"], 1.0)
+        self.assertGreaterEqual(len(plan["shader_layering"]["section_stacks"]), 1)
 
     def test_build_matrix_plan_handles_missing_matrix_models(self) -> None:
         kwargs = self._build_common_inputs()

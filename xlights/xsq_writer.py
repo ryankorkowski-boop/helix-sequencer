@@ -16,7 +16,7 @@ RUN:
 
 from __future__ import annotations
 
-import argparse, copy, json, sys, time, shutil, re, random
+import argparse, copy, json, os, sys, time, shutil, re, random
 from dataclasses import dataclass, field
 from pathlib import Path
 import xml.etree.ElementTree as ET
@@ -33,6 +33,10 @@ librosa = LazyModule("librosa")
 
 def _aubio_module():
     return optional_import("aubio")
+
+
+def _basic_pitch_module():
+    return optional_import("basic_pitch.inference")
 
 # =============================================================================
 #                               v1 CONTROLS
@@ -754,6 +758,8 @@ def analyze(audio_path: Path) -> Audio:
     bass01 = norm01(bass_db)
     vocal01 = norm01(vocal_db)
 
+    use_basic_pitch = os.environ.get("HELIX_USE_BASIC_PITCH", "").strip().lower() in {"1", "true", "yes", "on"}
+    basic_pitch_used = False
     if USE_FAST_PITCH:
         mags = np.sqrt(S)
         pitches, pmags = librosa.piptrack(
@@ -769,6 +775,45 @@ def analyze(audio_path: Path) -> Audio:
             pitch_hz[t] = p if p > 0 else np.nan
     else:
         pitch_hz = np.full((len(times_s),), np.nan, dtype=float)
+
+    if use_basic_pitch:
+        basic_pitch = _basic_pitch_module()
+        if basic_pitch is None:
+            log("Basic Pitch requested but package is unavailable; using librosa pitch contour.")
+        else:
+            try:
+                predict = getattr(basic_pitch, "predict", None)
+                if predict is None:
+                    log("Basic Pitch requested but predict API was not found; using librosa pitch contour.")
+                else:
+                    _model_output, midi_data, _events = predict(str(audio_path))
+                    notes: list[tuple[float, float, float, float]] = []
+                    for instrument in list(getattr(midi_data, "instruments", []) or []):
+                        for note in list(getattr(instrument, "notes", []) or []):
+                            start_s = float(getattr(note, "start", 0.0) or 0.0)
+                            end_s = max(start_s + 1e-3, float(getattr(note, "end", start_s + 0.1) or (start_s + 0.1)))
+                            midi = float(getattr(note, "pitch", 0.0) or 0.0)
+                            velocity = float(getattr(note, "velocity", 80.0) or 80.0) / 127.0
+                            if midi > 0:
+                                notes.append((start_s, end_s, float(librosa.midi_to_hz(midi)), velocity))
+                    if notes:
+                        bp_hz = np.asarray(pitch_hz, dtype=float)
+                        for i, t_s in enumerate(times_s):
+                            candidates = [row for row in notes if row[0] <= float(t_s) < row[1]]
+                            if not candidates:
+                                continue
+                            candidates.sort(key=lambda row: row[3], reverse=True)
+                            bp_hz[i] = float(candidates[0][2])
+                        if np.isfinite(bp_hz).any():
+                            pitch_hz = bp_hz
+                            basic_pitch_used = True
+            except Exception as exc:
+                log(f"Basic Pitch requested but failed ({exc!r}); using librosa pitch contour.")
+
+    if basic_pitch_used:
+        log("Pitch contour backend: Spotify Basic Pitch (open-source) + librosa.")
+    elif use_basic_pitch:
+        log("Pitch contour backend: librosa fallback (Basic Pitch soft-fail).")
 
     return Audio(sr=sr, y=y, dur_s=dur,
                  onset_ms=onset_ms, beat_ms=beat_ms,

@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 import numpy as np
+from core import shader_layering
 
 
 def _clamp(value: float, lo: float, hi: float) -> float:
@@ -526,6 +527,7 @@ def build_matrix_intelligence_plan(
     section_profiles = dict(getattr(multiband, "section_profiles", {}) or {})
     section_configs: list[dict[str, Any]] = []
     transition_plan: list[dict[str, Any]] = []
+    layer_stack_samples: list[dict[str, Any]] = []
     for idx, part in enumerate(parts):
         label = _part_label(part)
         start_ms = _part_start_ms(part)
@@ -616,6 +618,30 @@ def build_matrix_intelligence_plan(
                 },
             }
         )
+        section_layers = shader_layering.recommend_layer_stack(
+            energy=loudness,
+            onset=min(1.0, section_perc_ratio),
+            spread=_safe_float(profile.get("complexity"), complexity),
+            contrast=_safe_float(profile.get("flux_motion"), 0.0),
+        )
+        layer_stack_samples.append(
+            {
+                "section": label,
+                "compatibility_score": round(float(shader_layering.compatibility_score(section_layers)), 4),
+                "layers": [
+                    {
+                        "name": layer.name,
+                        "role": layer.role,
+                        "blend_mode": layer.blend_mode,
+                        "density": round(float(layer.density), 4),
+                        "brightness": round(float(layer.brightness), 4),
+                        "motion": round(float(layer.motion), 4),
+                        "complexity": round(float(layer.complexity), 4),
+                    }
+                    for layer in section_layers
+                ],
+            }
+        )
         if idx + 1 < len(parts):
             next_label = _part_label(parts[idx + 1])
             transition_plan.append(
@@ -686,6 +712,21 @@ def build_matrix_intelligence_plan(
             "depth_mapping": "primary matrix carries transient layers; secondary matrices carry ambient layers.",
         },
         "transition_plan": transition_plan,
+        "shader_layering": {
+            "section_stacks": layer_stack_samples,
+            "overall_compatibility": round(
+                float(np.mean([float(item["compatibility_score"]) for item in layer_stack_samples]))
+                if layer_stack_samples
+                else 0.0,
+                4,
+            ),
+            "coordinate_uniform_hints": {
+                "u_focus_x": "Map to matrix center weighting for horizontal motion preference.",
+                "u_focus_y": "Map to vertical melodic lift and lyric framing.",
+                "u_slice_z": "Use as depth blend selector for 3D illusion layers.",
+                "u_path_speed": "Use to modulate transition speed and blur amount.",
+            },
+        },
         "layer_personality_profile": {
             "arousal": round(arousal, 4),
             "valence": round(valence, 4),
