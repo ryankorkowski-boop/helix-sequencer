@@ -54,6 +54,18 @@ Run the explicit `v27.3` compatibility profile:
 python main.py --profile v27.3 -- --template template.xsq --audio song.wav --no-prompt --polish
 ```
 
+Run Birdsong Engine Mode (analysis + 3D exports, no `.xsq` write):
+
+```powershell
+python main.py --birdsong-mode --birdsong-audio song.wav
+```
+
+Collect open-source XSQ/shader repo metadata with license filtering:
+
+```powershell
+python tools/open_source_intake.py --min-stars 20 --limit 30
+```
+
 Launch the GUI:
 
 ```powershell

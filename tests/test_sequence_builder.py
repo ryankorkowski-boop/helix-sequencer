@@ -31,6 +31,24 @@ class SequenceBuilderTests(unittest.TestCase):
         self.assertTrue(args.auto_shortlist)
         self.assertTrue(args.learn_from_my_xsqs)
 
+    def test_effect_engine_parser_supports_helixville_stress_toggle(self) -> None:
+        args = effect_engine.parse_args(
+            effect_engine.ACTIVE_STYLE,
+            ["--helixville-stress"],
+        )
+        self.assertTrue(args.helixville_stress)
+        disabled = effect_engine.parse_args(
+            effect_engine.ACTIVE_STYLE,
+            ["--helixville-stress", "--no-helixville-stress"],
+        )
+        self.assertFalse(disabled.helixville_stress)
+
+    def test_sequence_builder_parser_supports_birdsong_mode(self) -> None:
+        parser = sequence_builder.build_parser()
+        args = parser.parse_args(["--birdsong-mode", "--birdsong-audio", "song.wav"])
+        self.assertTrue(args.birdsong_mode)
+        self.assertEqual(args.birdsong_audio, "song.wav")
+
 
 if __name__ == "__main__":
     unittest.main()
