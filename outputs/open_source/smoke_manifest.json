@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "policy": {
+    "allowlist_spdx": [
+      "apache-2.0",
+      "bsd-2-clause",
+      "bsd-3-clause",
+      "cc0-1.0",
+      "isc",
+      "mit",
+      "mpl-2.0",
+      "unlicense"
+    ],
+    "minimum_stars": 100,
+    "download_behavior": "metadata_only_no_source_copy"
+  },
+  "summary": {
+    "total_rows": 1,
+    "legal_ok_count": 0,
+    "blocked_count": 1
+  },
+  "repositories": [
+    {
+      "full_name": "lettier/3d-game-shaders-for-beginners",
+      "html_url": "https://github.com/lettier/3d-game-shaders-for-beginners",
+      "description": "\ud83c\udfae A step-by-step guide to implementing SSAO, depth of field, lighting, normal mapping, and more for your 3D game.",
+      "stars": 19540,
+      "forks": 1466,
+      "language": "C++",
+      "topics": [
+        "3d",
+        "3d-graphics",
+        "game-development",
+        "gamedev",
+        "glsl",
+        "glsl-shader",
+        "glsl-shaders",
+        "godot",
+        "graphics",
+        "graphics-programming",
+        "hlsl",
+        "indiedev",
+        "opengl",
+        "panda3d",
+        "shader",
+        "shaders",
+        "unity",
+        "unity3d",
+        "vulkan",
+        "webgl"
+      ],
+      "license_spdx": "",
+      "updated_at": "2026-04-21T17:10:31Z",
+      "legal_ok": false,
+      "legal_reason": "missing SPDX license in API response",
+      "category": "shaders"
+    }
+  ]
+}

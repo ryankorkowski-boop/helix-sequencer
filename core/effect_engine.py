@@ -178,6 +178,7 @@ class RuntimeTuning:
     variant_count: int = 3
     auto_shortlist: bool = False
     learn_from_my_xsqs: bool = False
+    helixville_stress: bool = False
 
 
 @dataclass
@@ -11348,6 +11349,7 @@ def run_variant(
             "variant_count": int(tuning.variant_count),
             "auto_shortlist": bool(tuning.auto_shortlist),
             "learn_from_my_xsqs": bool(tuning.learn_from_my_xsqs),
+            "helixville_stress": bool(tuning.helixville_stress),
             "model_override_keys": sorted((tuning.model_overrides or {}).keys()),
         },
         "xlights_catalog": {
@@ -11522,7 +11524,7 @@ def run_variant(
         pass
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
 
-    if GENERATE_SHOWCASE:
+    if tuning.helixville_stress or GENERATE_SHOWCASE:
         showcase_path = out_path.with_name(f"{out_path.stem}.showcase.xsq")
         try:
             log("[7/8] Building final all-models/all-effects output")
@@ -11638,6 +11640,18 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--variants", type=int, dest="variant_count", default=3, help="Number of runtime variants to generate and score")
     parser.add_argument("--auto-shortlist", dest="auto_shortlist", action="store_true", help="Promote the best-scoring runtime variant to the canonical output")
     parser.add_argument("--learn-from-my-xsqs", dest="learn_from_my_xsqs", action="store_true", help="Learn palette, density, and prop behavior from prior high-scoring XSQs in the workspace history folder")
+    parser.add_argument(
+        "--helixville-stress",
+        dest="helixville_stress",
+        action="store_true",
+        help="Generate an additional all-models/all-effects showcase sequence for stress validation.",
+    )
+    parser.add_argument(
+        "--no-helixville-stress",
+        dest="helixville_stress",
+        action="store_false",
+        help="Skip the additional all-models/all-effects stress showcase output.",
+    )
     parser.add_argument("--settings", default=f"{style.version}.settings.json", help="Settings JSON path")
     parser.add_argument("--output-dir", help="Optional output folder override")
     parser.add_argument("--no-prompt", action="store_true", help="Run without interactive prompts")
@@ -11654,6 +11668,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
         polish_enabled=True,
         auto_shortlist=False,
         learn_from_my_xsqs=False,
+        helixville_stress=False,
     )
     return parser.parse_args(argv)
 
@@ -11785,6 +11800,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         variant_count=max(1, int(args.variant_count if args.variant_count is not None else 3)),
         auto_shortlist=bool(args.auto_shortlist),
         learn_from_my_xsqs=bool(args.learn_from_my_xsqs),
+        helixville_stress=bool(args.helixville_stress),
     )
     style = apply_runtime_style(style, tuning)
 
@@ -11835,6 +11851,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         f"polish={int(bool(tuning.polish_enabled))}, "
         f"variants={tuning.variant_count}, shortlist={int(bool(tuning.auto_shortlist))}, "
         f"learn_xsqs={int(bool(tuning.learn_from_my_xsqs))}, "
+        f"helixville_stress={int(bool(tuning.helixville_stress))}, "
         f"overrides={len(overrides_payload)}"
     )
     log(f"Output folder: {output_dir.name}")

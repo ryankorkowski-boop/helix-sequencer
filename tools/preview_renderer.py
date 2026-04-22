@@ -648,10 +648,25 @@ def render_sequence_to_mp4(
     finally:
         writer.close()
 
+    _finalize_preview_video(temp_path=temp_path, out_path=out_path, audio_path=audio_path)
+
+    return out_path
+
+
+def _finalize_preview_video(*, temp_path: Path, out_path: Path, audio_path: Path | None) -> None:
     if out_path.exists():
         out_path.unlink()
 
-    if audio_path and audio_path.exists():
+    def _promote_silent() -> None:
+        if out_path.exists():
+            out_path.unlink()
+        temp_path.replace(out_path)
+
+    if not (audio_path and audio_path.exists()):
+        _promote_silent()
+        return
+
+    try:
         ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
         cmd = [
             ffmpeg,
@@ -672,11 +687,13 @@ def render_sequence_to_mp4(
             str(out_path),
         ]
         subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if not out_path.exists():
+            _promote_silent()
+            return
         temp_path.unlink(missing_ok=True)
-    else:
-        temp_path.replace(out_path)
-
-    return out_path
+    except Exception as exc:
+        print(f"[WARN] Audio mux failed, keeping silent preview: {exc}", flush=True)
+        _promote_silent()
 
 
 def default_targets(root: Path) -> list[Path]:
