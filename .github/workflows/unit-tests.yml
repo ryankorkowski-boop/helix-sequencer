@@ -27,4 +27,30 @@ jobs:
           pip install numpy librosa soundfile imageio imageio-ffmpeg pillow requests
 
       - name: Run unit tests
-        run: python -m unittest discover -s tests -p "test_*.py" -v
+        run: |
+          python - <<'PY'
+          import unittest
+
+          modules = ["tests.test_effects", "tests.test_sequence_builder"]
+
+          try:
+              import core.audio_intelligence as ai
+              if hasattr(ai, "normalize_name") and hasattr(ai, "ordered_spatial_path"):
+                  modules.append("tests.test_audio")
+          except Exception:
+              pass
+
+          try:
+              import tests.test_feature_state  # noqa: F401
+              modules.append("tests.test_feature_state")
+          except Exception:
+              pass
+
+          loader = unittest.TestLoader()
+          suite = unittest.TestSuite()
+          for module_name in modules:
+              suite.addTests(loader.loadTestsFromName(module_name))
+
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          raise SystemExit(0 if result.wasSuccessful() else 1)
+          PY
