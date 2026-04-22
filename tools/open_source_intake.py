@@ -3,11 +3,15 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 import requests
+from requests.adapters import HTTPAdapter
+from requests.exceptions import RequestException
+from urllib3.util.retry import Retry
 
 GITHUB_SEARCH_URL = "https://api.github.com/search/repositories"
 
@@ -64,6 +68,23 @@ def _headers(token: str | None) -> dict[str, str]:
     return headers
 
 
+def _session() -> requests.Session:
+    session = requests.Session()
+    retry = Retry(
+        total=3,
+        connect=3,
+        read=3,
+        status=3,
+        backoff_factor=0.8,
+        status_forcelist=(429, 500, 502, 503, 504),
+        allowed_methods=frozenset({"GET"}),
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("https://", adapter)
+    session.mount("http://", adapter)
+    return session
+
+
 def _search(query: str, *, per_page: int, page: int, token: str | None) -> list[dict[str, Any]]:
     params = {
         "q": query,
@@ -72,11 +93,22 @@ def _search(query: str, *, per_page: int, page: int, token: str | None) -> list[
         "per_page": max(1, min(100, int(per_page))),
         "page": max(1, int(page)),
     }
-    response = requests.get(GITHUB_SEARCH_URL, params=params, headers=_headers(token), timeout=30)
-    response.raise_for_status()
-    payload = response.json()
-    items = payload.get("items")
-    return items if isinstance(items, list) else []
+    session = _session()
+    try:
+        for attempt in range(3):
+            try:
+                response = session.get(GITHUB_SEARCH_URL, params=params, headers=_headers(token), timeout=30)
+                response.raise_for_status()
+                payload = response.json()
+                items = payload.get("items")
+                return items if isinstance(items, list) else []
+            except RequestException:
+                if attempt >= 2:
+                    return []
+                time.sleep(1.5 * (attempt + 1))
+        return []
+    finally:
+        session.close()
 
 
 def collect_repositories(
@@ -86,6 +118,7 @@ def collect_repositories(
     min_stars: int,
     max_results: int,
     token: str | None,
+    page_cap: int,
 ) -> list[RepositoryRecord]:
     out: list[RepositoryRecord] = []
     page = 1
@@ -118,13 +151,13 @@ def collect_repositories(
             if len(out) >= max_results:
                 break
         page += 1
-        if page > 10:
+        if page > max(1, int(page_cap)):
             break
     out.sort(key=lambda row: row.stars, reverse=True)
     return out[:max_results]
 
 
-def build_manifest(*, min_stars: int, max_results_per_category: int, token: str | None) -> dict[str, Any]:
+def build_manifest(*, min_stars: int, max_results_per_category: int, token: str | None, page_cap: int) -> dict[str, Any]:
     xsq_query = 'xlights xsq extension:xsq OR "xlights sequence"'
     shader_query = 'shader glsl "audio reactive" OR "generative shader"'
     xsq = collect_repositories(
@@ -133,6 +166,7 @@ def build_manifest(*, min_stars: int, max_results_per_category: int, token: str 
         min_stars=min_stars,
         max_results=max_results_per_category,
         token=token,
+        page_cap=page_cap,
     )
     shaders = collect_repositories(
         query=shader_query,
@@ -140,6 +174,7 @@ def build_manifest(*, min_stars: int, max_results_per_category: int, token: str 
         min_stars=min_stars,
         max_results=max_results_per_category,
         token=token,
+        page_cap=page_cap,
     )
     all_rows = xsq + shaders
     return {
@@ -180,6 +215,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--min-stars", type=int, default=20, help="Minimum star count.")
     parser.add_argument("--limit", type=int, default=30, help="Max repos per category.")
+    parser.add_argument("--page-cap", type=int, default=10, help="Max paginated search pages per category.")
     parser.add_argument(
         "--output",
         default="outputs/open_source/open_source_manifest.json",
@@ -196,6 +232,7 @@ def main(argv: list[str] | None = None) -> int:
         min_stars=max(0, int(args.min_stars)),
         max_results_per_category=max(1, int(args.limit)),
         token=token,
+        page_cap=max(1, int(args.page_cap)),
     )
     out_path = Path(args.output).resolve()
     out_path.parent.mkdir(parents=True, exist_ok=True)

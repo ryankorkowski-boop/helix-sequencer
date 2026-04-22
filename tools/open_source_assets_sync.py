@@ -61,6 +61,42 @@ class RepoPolicy:
     reason: str
 
 
+def _repos_from_intake_manifest(
+    manifest_path: Path,
+    *,
+    min_stars: int,
+    categories: set[str],
+) -> list[str]:
+    if not manifest_path.exists():
+        return []
+    try:
+        payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    rows = payload.get("repositories")
+    if not isinstance(rows, list):
+        return []
+
+    out: list[str] = []
+    seen: set[str] = set()
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        full_name = str(row.get("full_name") or "").strip()
+        if not full_name or full_name in seen:
+            continue
+        if int(row.get("stars") or 0) < max(0, int(min_stars)):
+            continue
+        if not bool(row.get("legal_ok")):
+            continue
+        category = str(row.get("category") or "").strip().lower()
+        if categories and category not in categories:
+            continue
+        seen.add(full_name)
+        out.append(full_name)
+    return out
+
+
 def _headers(token: str | None) -> dict[str, str]:
     headers = {
         "Accept": "application/vnd.github+json",
@@ -169,10 +205,11 @@ def run_sync(
     max_files_per_repo: int,
     repo_limit: int,
     token: str | None,
+    repositories: list[str] | None = None,
 ) -> dict[str, Any]:
     records: list[dict[str, Any]] = []
     download_count = 0
-    seed_repos = list(SEED_REPOSITORIES)
+    seed_repos = list(repositories or SEED_REPOSITORIES)
     if repo_limit > 0:
         seed_repos = seed_repos[:repo_limit]
     for repo_name in seed_repos:
@@ -255,6 +292,22 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--manifest", default="outputs/open_source/assets_manifest.json", help="Manifest JSON path.")
     parser.add_argument("--max-files-per-repo", type=int, default=240, help="File cap per repo after filtering.")
     parser.add_argument("--repo-limit", type=int, default=0, help="Optional max number of seed repos (0 means all).")
+    parser.add_argument(
+        "--intake-manifest",
+        default="",
+        help="Optional open_source_intake manifest path for dynamic legal repo discovery.",
+    )
+    parser.add_argument(
+        "--intake-min-stars",
+        type=int,
+        default=5,
+        help="Minimum stars when importing repos from intake manifest.",
+    )
+    parser.add_argument(
+        "--intake-categories",
+        default="xsq_sequences",
+        help="Comma-separated intake categories to import (e.g. xsq_sequences,shaders).",
+    )
     parser.add_argument("--include-copyleft", action="store_true", help="Allow downloading GPL/LGPL/AGPL assets.")
     parser.add_argument("--github-token", default="", help="Optional GitHub token (or set GITHUB_TOKEN).")
     return parser.parse_args(argv)
@@ -268,12 +321,30 @@ def main(argv: list[str] | None = None) -> int:
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     output_root.mkdir(parents=True, exist_ok=True)
 
+    intake_categories = {
+        token.strip().lower()
+        for token in str(args.intake_categories or "").split(",")
+        if token.strip()
+    }
+    dynamic_repos: list[str] = []
+    if args.intake_manifest:
+        dynamic_repos = _repos_from_intake_manifest(
+            Path(str(args.intake_manifest)).resolve(),
+            min_stars=int(args.intake_min_stars),
+            categories=intake_categories,
+        )
+    repositories = list(SEED_REPOSITORIES)
+    for repo_name in dynamic_repos:
+        if repo_name not in repositories:
+            repositories.append(repo_name)
+
     manifest = run_sync(
         output_root=output_root,
         include_copyleft=bool(args.include_copyleft),
         max_files_per_repo=max(1, int(args.max_files_per_repo)),
         repo_limit=max(0, int(args.repo_limit)),
         token=token,
+        repositories=repositories,
     )
     manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
