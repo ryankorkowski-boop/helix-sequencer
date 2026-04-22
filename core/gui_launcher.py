@@ -372,6 +372,7 @@ def run_gui() -> int:
     variant_count_var = tk.StringVar(value="5")
     auto_shortlist_var = tk.BooleanVar(value=True)
     ac_lights_only_var = tk.BooleanVar(value=False)
+    basic_pitch_var = tk.BooleanVar(value=False)
 
     logo_path = _find_asset(workspace, _LOGO_CANDIDATES)
     mascot_path = _find_asset(workspace, _MASCOT_CANDIDATES)
@@ -703,6 +704,20 @@ def run_gui() -> int:
     polish_enabled_check.grid(row=6, column=2, sticky="w", pady=(4, 0))
     controls.append(polish_enabled_check)
 
+    basic_pitch_check = tk.Checkbutton(
+        advanced_panel,
+        text="Use Basic Pitch (if installed)",
+        variable=basic_pitch_var,
+        onvalue=True,
+        offvalue=False,
+        bg="#f7fbf8",
+        fg="#1d4f40",
+        activebackground="#f7fbf8",
+        font=("Segoe UI", 9),
+    )
+    basic_pitch_check.grid(row=7, column=0, sticky="w", pady=(4, 0))
+    controls.append(basic_pitch_check)
+
     quality_panel = tk.Frame(
         advanced_panel,
         bg="#edf7f1",
@@ -711,7 +726,7 @@ def run_gui() -> int:
         highlightbackground="#d3e7dc",
         highlightthickness=1,
     )
-    quality_panel.grid(row=7, column=0, columnspan=3, sticky="ew", pady=(8, 0))
+    quality_panel.grid(row=8, column=0, columnspan=3, sticky="ew", pady=(8, 0))
     quality_panel.grid_columnconfigure(0, weight=1)
     quality_panel.grid_columnconfigure(1, weight=1)
     quality_panel.grid_columnconfigure(2, weight=1)
@@ -1083,6 +1098,104 @@ def run_gui() -> int:
     )
     open_layout_folder_button.grid(row=0, column=1, sticky="ew", padx=(6, 0))
 
+    layout_tools_row = tk.Frame(layout_tab, bg="#f8fbfd")
+    layout_tools_row.grid(row=4, column=0, sticky="ew", pady=(10, 0))
+    layout_tools_row.grid_columnconfigure(0, weight=1)
+    layout_tools_row.grid_columnconfigure(1, weight=1)
+
+    generated_layout_path = workspace / "outputs" / "layouts" / "helixville_importable_3d" / "xlights_rgbeffects.xml"
+
+    def run_assets_sync() -> None:
+        if active_process is not None and active_process.poll() is None:
+            messagebox.showinfo("Task running", "Wait for the current task to finish first.")
+            return
+        script_path = workspace / "tools" / "open_source_assets_sync.py"
+        if not script_path.exists():
+            messagebox.showerror("Missing tool", f"Could not find tool:\n\n{script_path}")
+            return
+        cmd = [
+            sys.executable,
+            str(script_path),
+            "--output-root",
+            "external/open_source_assets",
+            "--manifest",
+            "outputs/open_source/assets_manifest.json",
+            "--max-files-per-repo",
+            "80",
+            "--repo-limit",
+            "8",
+        ]
+        _disable_controls(True)
+        status_label.configure(fg="#1b6f50")
+        status_var.set("Syncing open-source assets...")
+        animator.start()
+        add_log("Starting open-source asset sync with license gating.")
+        if not _launch_process(cmd, "assets_sync"):
+            _finish_error("Could not start open-source asset sync.")
+
+    def run_helixville_layout_build() -> None:
+        if active_process is not None and active_process.poll() is None:
+            messagebox.showinfo("Task running", "Wait for the current task to finish first.")
+            return
+        script_path = workspace / "tools" / "build_helixville_layout.py"
+        if not script_path.exists():
+            messagebox.showerror("Missing tool", f"Could not find tool:\n\n{script_path}")
+            return
+        base_layout = layout_var.get().strip()
+        if not base_layout:
+            base_layout = _default_layout(workspace)
+        if not base_layout or not Path(base_layout).exists():
+            messagebox.showerror("Missing layout", "Pick a valid base layout before building Helixville 3D.")
+            return
+        cmd = [
+            sys.executable,
+            str(script_path),
+            "--base-layout",
+            str(base_layout),
+            "--xmodel-root",
+            "external/open_source_assets/models",
+            "--output-layout",
+            str(generated_layout_path),
+            "--report",
+            "outputs/layouts/helixville_importable_3d/layout_report.json",
+        ]
+        _disable_controls(True)
+        status_label.configure(fg="#1b6f50")
+        status_var.set("Building Helixville 3D layout...")
+        animator.start()
+        add_log("Building Helixville importable 3D layout.")
+        if not _launch_process(cmd, "helixville_layout"):
+            _finish_error("Could not start Helixville 3D layout build.")
+
+    sync_assets_button = tk.Button(
+        layout_tools_row,
+        text="Sync Open-Source Assets",
+        bg="#1f7f5f",
+        fg="#ffffff",
+        activebackground="#17694f",
+        activeforeground="#ffffff",
+        relief=tk.FLAT,
+        padx=10,
+        pady=5,
+        command=run_assets_sync,
+    )
+    sync_assets_button.grid(row=0, column=0, sticky="ew", padx=(0, 6))
+    controls.append(sync_assets_button)
+
+    build_helixville_button = tk.Button(
+        layout_tools_row,
+        text="Build Helixville 3D",
+        bg="#d9eee3",
+        fg="#1b5f4a",
+        activebackground="#cbe6d9",
+        relief=tk.FLAT,
+        padx=10,
+        pady=5,
+        command=run_helixville_layout_build,
+    )
+    build_helixville_button.grid(row=0, column=1, sticky="ew", padx=(6, 0))
+    controls.append(build_helixville_button)
+
     tk.Label(
         layout_tab,
         text="Safe default: keep the allmodels overlay selected so the original house channels stay stable while the showcase props live around them.",
@@ -1091,7 +1204,7 @@ def run_gui() -> int:
         wraplength=350,
         justify=tk.LEFT,
         font=("Segoe UI", 9, "italic"),
-    ).grid(row=4, column=0, sticky="w", pady=(10, 0))
+    ).grid(row=5, column=0, sticky="w", pady=(10, 0))
 
     def refresh_layout_panel(*_args: object) -> None:
         summary_text, summary_color = _describe_layout_choice(layout_var.get())
@@ -1266,7 +1379,7 @@ def run_gui() -> int:
         recent = [path for path in candidates if path.stat().st_mtime >= run_started_at - 5]
         return recent[0] if recent else candidates[0]
 
-    def _launch_process(cmd: list[str], stage: str) -> bool:
+    def _launch_process(cmd: list[str], stage: str, env_overrides: dict[str, str] | None = None) -> bool:
         nonlocal active_process, active_stage
         popen_args: dict[str, object] = {
             "cwd": str(workspace),
@@ -1277,6 +1390,10 @@ def run_gui() -> int:
             "errors": "replace",
             "bufsize": 1,
         }
+        if env_overrides:
+            env = dict(os.environ)
+            env.update(env_overrides)
+            popen_args["env"] = env
         if sys.platform.startswith("win") and _CREATE_NO_WINDOW:
             popen_args["creationflags"] = _CREATE_NO_WINDOW
         try:
@@ -1347,6 +1464,16 @@ def run_gui() -> int:
                 _finish_success(f"Done. MP4 preview created: {last_created_mp4}")
             else:
                 _finish_success("Done. MP4 preview render finished.")
+            return
+        if finished_stage == "assets_sync":
+            _finish_success("Open-source asset sync complete.")
+            return
+        if finished_stage == "helixville_layout":
+            if generated_layout_path.exists():
+                layout_var.set(str(generated_layout_path))
+                _finish_success(f"Helixville 3D layout built: {generated_layout_path}")
+            else:
+                _finish_success("Helixville layout build finished, but output file was not detected.", color="#946b1d")
             return
 
         _finish_success("Sequence complete.")
@@ -1453,7 +1580,8 @@ def run_gui() -> int:
             add_log("Using allmodels overlay layout. Original 256 AC channels stay untouched; added props should ride around them.")
         else:
             add_log("WARNING: layout does not look like allmodels. Neighbor artistry may not trigger.")
-        if not _launch_process(command, "sequencing"):
+        env_overrides = {"HELIX_USE_BASIC_PITCH": "1" if basic_pitch_var.get() else "0"}
+        if not _launch_process(command, "sequencing", env_overrides=env_overrides):
             _finish_error("Could not start sequencer process.")
 
     def _on_close() -> None:
