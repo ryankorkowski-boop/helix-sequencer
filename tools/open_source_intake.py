@@ -157,19 +157,58 @@ def collect_repositories(
     return out[:max_results]
 
 
+def collect_repositories_multi_query(
+    *,
+    queries: list[str],
+    category: str,
+    min_stars: int,
+    max_results: int,
+    token: str | None,
+    page_cap: int,
+) -> list[RepositoryRecord]:
+    merged: dict[str, RepositoryRecord] = {}
+    if not queries:
+        return []
+    per_query_cap = max(20, int(max_results))
+    for query in queries:
+        rows = collect_repositories(
+            query=query,
+            category=category,
+            min_stars=min_stars,
+            max_results=per_query_cap,
+            token=token,
+            page_cap=page_cap,
+        )
+        for row in rows:
+            existing = merged.get(row.full_name)
+            if existing is None or row.stars > existing.stars:
+                merged[row.full_name] = row
+    out = sorted(merged.values(), key=lambda row: row.stars, reverse=True)
+    return out[:max_results]
+
+
 def build_manifest(*, min_stars: int, max_results_per_category: int, token: str | None, page_cap: int) -> dict[str, Any]:
-    xsq_query = 'xlights xsq extension:xsq OR "xlights sequence"'
-    shader_query = 'shader glsl "audio reactive" OR "generative shader"'
-    xsq = collect_repositories(
-        query=xsq_query,
+    xsq_queries = [
+        "xlights sequence",
+        "xlights-sequences",
+        "tesla xlights lightshow",
+        "xlights christmas sequence",
+    ]
+    shader_queries = [
+        "audio reactive shader",
+        "generative glsl shader",
+        "open source shader library",
+    ]
+    xsq = collect_repositories_multi_query(
+        queries=xsq_queries,
         category="xsq_sequences",
         min_stars=min_stars,
         max_results=max_results_per_category,
         token=token,
         page_cap=page_cap,
     )
-    shaders = collect_repositories(
-        query=shader_query,
+    shaders = collect_repositories_multi_query(
+        queries=shader_queries,
         category="shaders",
         min_stars=min_stars,
         max_results=max_results_per_category,
