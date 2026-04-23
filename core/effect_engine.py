@@ -12,14 +12,28 @@ import shutil
 from bisect import bisect_left
 from collections.abc import Iterator, Mapping
 from collections import Counter
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
 from core.lazy_imports import LazyModule
 
+from core import audit as sequence_audit
 from core import audio_intelligence as ai
+from core import chronoflow as chronoflow_engine
+from core import helixualizer as helixualizer_engine
+from core import matrix_intelligence as matrix_planner
 from core import model_parser as xmp
+from core import polish as sequence_polish
+from core import rhythm_intelligence as ri
+from core import snowman_band as snowman_band_engine
+from tools.build_helpers import (
+    build_neighbor_graph,
+    build_runtime_candidates,
+    choose_best_candidate,
+    collect_coverage_targets,
+    promote_shortlisted_candidate,
+)
 from tools import utilities as xfb
 from xlights import xsq_writer as base
 
@@ -50,6 +64,32 @@ class NoteEvent:
     notes: list[tuple[int, float]]
     part: str
     section: str
+
+
+@dataclass
+class MultiBandAnalysis:
+    sub_bass_marks: list[int]
+    bass_marks: list[int]
+    mid_marks: list[int]
+    high_marks: list[int]
+    spectral_flux_marks: list[int]
+    loud_marks: list[int]
+    quiet_windows: list[tuple[int, int]]
+    dominance_marks: dict[str, list[int]]
+    frame_times_s: np.ndarray | None = None
+    spectral_centroid01: np.ndarray | None = None
+    spectral_bandwidth01: np.ndarray | None = None
+    spectral_contrast01: np.ndarray | None = None
+    spectral_flatness01: np.ndarray | None = None
+    spectral_flux01: np.ndarray | None = None
+    mfcc_motion01: np.ndarray | None = None
+    chroma_stability01: np.ndarray | None = None
+    tonnetz_motion01: np.ndarray | None = None
+    tempo_bpm: float = 0.0
+    genre_hint: str = "unknown"
+    mood_hint: str = "neutral"
+    descriptor_summary: dict[str, float] = field(default_factory=dict)
+    section_profiles: dict[str, dict[str, float | str]] = field(default_factory=dict)
 
 
 @dataclass
@@ -131,6 +171,13 @@ class RuntimeTuning:
     workspace_history_limit: int = 24
     auto_timing_tracks: bool = True
     pixel_reactive: bool = True
+    matrix_intelligence: bool = True
+    video_file: Path | None = None
+    blend_rules_file: Path | None = None
+    polish_enabled: bool = True
+    variant_count: int = 3
+    auto_shortlist: bool = False
+    learn_from_my_xsqs: bool = False
 
 
 @dataclass
@@ -144,6 +191,11 @@ class TemplateProfile:
 class WorkspaceHistoryProfile:
     family_effects: dict[str, list[str]]
     palette_pool: list[str]
+    density_bias: float = 1.0
+    speed_bias: float = 1.0
+    darkness_bias: float = 1.0
+    source_files: list[str] = field(default_factory=list)
+    learned_from_user_xsqs: bool = False
 
 
 class LazyVariantCatalog(Mapping[str, VariantStyle]):
@@ -216,6 +268,18 @@ def report_path(out_path: Path) -> Path:
 
 def notes_path(out_path: Path) -> Path:
     return out_path.with_name(f"{out_path.stem}.sequence_notes.txt")
+
+
+def chronoflow_json_path(out_path: Path) -> Path:
+    return out_path.with_name(f"{out_path.stem}.chronoflow.json")
+
+
+def chronoflow_view_path(out_path: Path) -> Path:
+    return out_path.with_name(f"{out_path.stem}.chronoflow.html")
+
+
+def snowman_band_json_path(out_path: Path) -> Path:
+    return out_path.with_name(f"{out_path.stem}.snowman_band.json")
 
 
 def ensure_audio_sidecar(audio_path: Path, out_path: Path) -> Path:
@@ -677,9 +741,9 @@ def scan_workspace_preferences(
 ) -> WorkspaceHistoryProfile:
     if not tuning.workspace_history_enabled:
         return WorkspaceHistoryProfile(family_effects={}, palette_pool=[])
-    # Safety: only learn from this tool's own generated outputs.
-    # We require sidecar report files to avoid ingesting external/vendor XSQs.
     search_dirs: list[Path] = [output_dir]
+    if tuning.workspace_history_folder is not None:
+        search_dirs.append(tuning.workspace_history_folder)
     candidate_paths: list[Path] = []
     seen: set[str] = set()
     for directory in search_dirs:
@@ -689,10 +753,11 @@ def scan_workspace_preferences(
             low = str(path).lower()
             if "template" in path.name.lower():
                 continue
-            if ",v" not in path.name.lower():
-                continue
             report_path = path.with_suffix(".report.json")
-            if not report_path.exists():
+            user_learning = bool(tuning.learn_from_my_xsqs)
+            if not user_learning and ",v" not in path.name.lower():
+                continue
+            if not user_learning and not report_path.exists():
                 continue
             if low in seen:
                 continue
@@ -703,28 +768,72 @@ def scan_workspace_preferences(
 
     family_effect_counts: dict[str, dict[str, int]] = {}
     palette_counts: dict[str, int] = {}
+    density_biases: list[float] = []
+    speed_biases: list[float] = []
+    darkness_biases: list[float] = []
+    source_files: list[str] = []
     for path in candidate_paths:
+        report_path = path.with_suffix(".report.json")
+        report_weight = 1
+        if report_path.exists():
+            try:
+                report_payload = json.loads(report_path.read_text(encoding="utf-8"))
+            except Exception:
+                report_payload = {}
+            quality_payload = report_payload.get("quality", {}) or {}
+            profile_payload = report_payload.get("profile", {}) or {}
+            quality_score = float(quality_payload.get("score", 0.0) or 0.0)
+            if quality_score >= 90:
+                report_weight = 3
+            elif quality_score >= 82:
+                report_weight = 2
+            density_value = float(profile_payload.get("density", 1.0) or 1.0)
+            speed_value = float(profile_payload.get("speed", 1.0) or 1.0)
+            darkness_value = float(profile_payload.get("darkness", 1.0) or 1.0)
+            density_biases.extend([base.clamp(density_value, 0.70, 1.45)] * report_weight)
+            speed_biases.extend([base.clamp(speed_value, 0.70, 1.45)] * report_weight)
+            darkness_biases.extend([base.clamp(darkness_value, 0.70, 1.45)] * report_weight)
         try:
             xsq = base.load_xsq(path)
         except Exception:
             continue
+        source_files.append(path.name)
         for model_name, element in xsq.elements.items():
             family = prop_family(model_name, None) or "generic"
             family_bucket = family_effect_counts.setdefault(family, {})
             for effect in base._find_any(element, "Effect"):  # type: ignore[attr-defined]
                 effect_name = base._effect_name(effect).strip()  # type: ignore[attr-defined]
                 if effect_name:
-                    family_bucket[effect_name] = family_bucket.get(effect_name, 0) + 1
+                    family_bucket[effect_name] = family_bucket.get(effect_name, 0) + report_weight
                 palette = base._effect_palette(effect)  # type: ignore[attr-defined]
                 if palette:
-                    palette_counts[palette] = palette_counts.get(palette, 0) + 1
+                    palette_counts[palette] = palette_counts.get(palette, 0) + report_weight
 
     family_effects: dict[str, list[str]] = {}
     for family, bucket in family_effect_counts.items():
         ordered = sorted(bucket.items(), key=lambda item: (-item[1], item[0].lower()))
         family_effects[family] = [name for name, _count in ordered[:6]]
     palette_pool = [palette for palette, _count in sorted(palette_counts.items(), key=lambda item: (-item[1], item[0]))[:120]]
-    return WorkspaceHistoryProfile(family_effects=family_effects, palette_pool=palette_pool)
+    return WorkspaceHistoryProfile(
+        family_effects=family_effects,
+        palette_pool=palette_pool,
+        density_bias=(sum(density_biases) / len(density_biases) if density_biases else 1.0),
+        speed_bias=(sum(speed_biases) / len(speed_biases) if speed_biases else 1.0),
+        darkness_bias=(sum(darkness_biases) / len(darkness_biases) if darkness_biases else 1.0),
+        source_files=source_files[:24],
+        learned_from_user_xsqs=bool(tuning.learn_from_my_xsqs),
+    )
+
+
+def apply_workspace_learning(style: VariantStyle, workspace_history: WorkspaceHistoryProfile) -> VariantStyle:
+    if not workspace_history.learned_from_user_xsqs:
+        return style
+    return replace(
+        style,
+        density_scale=base.clamp(style.density_scale * workspace_history.density_bias, 0.65, 1.60),
+        speed_scale=base.clamp(style.speed_scale * workspace_history.speed_bias, 0.65, 1.60),
+        darkness_scale=base.clamp(style.darkness_scale * workspace_history.darkness_bias, 0.65, 1.55),
+    )
 
 
 def pick_palette_for_effect(
@@ -989,6 +1098,152 @@ def expand_pool_models_with_submodels(
     return dedupe_names(expanded)
 
 
+GROUP_SEQUENCE_MAX_MEMBERS = 24
+
+
+def infer_sequence_family_from_name(name: str) -> str:
+    norm = base.normalize_name(name)
+    if not norm:
+        return ""
+    if "notes" in norm:
+        return "notes"
+    if "north" in norm and "cane" in norm:
+        return "north_canes"
+    if any(token in norm for token in ("south cane", "notnorth cane")):
+        return "south_canes"
+    if "candy cane" in norm or re.search(r"\bcane\b", norm):
+        return "canes_combo"
+    if "snowflake" in norm:
+        return "snowflakes"
+    if "shooting star" in norm or re.search(r"\bstar\b", norm):
+        return "stars"
+    if "mega tree" in norm or "megatree" in norm:
+        return "mega"
+    if "garage tree" in norm:
+        return "gt"
+    if "arch" in norm:
+        return "arch"
+    if any(token in norm for token in ("perimeter", "blvd", "boulevard", "linden", "line tree")):
+        return "line"
+    if "matrix" in norm or "panel" in norm or "video wall" in norm:
+        return "matrix"
+    if any(token in norm for token in ("talking head", "singing face", "face panel", "lyric", "mouth")):
+        return "talking_heads"
+    if any(token in norm for token in ("spinner", "pinwheel", "spin")):
+        return "spinner"
+    if "flood" in norm or "strobe" in norm:
+        return "flood"
+    if any(token in norm for token in ("sphere", "orb", "wreath", "circle", "globe")):
+        return "sphere"
+    return ""
+
+
+def infer_group_sequence_family(
+    group_name: str,
+    parsed_layout: xmp.ParsedLayout,
+    *,
+    _seen: set[str] | None = None,
+) -> str:
+    name_hint = infer_sequence_family_from_name(group_name)
+    if name_hint:
+        return name_hint
+
+    seen = _seen or set()
+    norm_group = base.normalize_name(group_name)
+    if norm_group in seen:
+        return ""
+    seen.add(norm_group)
+
+    group = parsed_layout.groups.get(group_name)
+    if group is None:
+        return ""
+
+    counts: Counter[str] = Counter()
+    for member in group.models:
+        member_name = parsed_layout.aliases.get(base.normalize_name(member), member)
+        member_hint = infer_sequence_family_from_name(member_name)
+        if member_hint:
+            counts[member_hint] += 1
+            continue
+        model = parsed_layout.model_for(member_name)
+        if model is not None:
+            family = family_from_parsed_model(model)
+            if family:
+                counts[family] += 1
+            continue
+        if member_name in parsed_layout.groups:
+            family = infer_group_sequence_family(member_name, parsed_layout, _seen=seen)
+            if family:
+                counts[family] += 1
+
+    if not counts:
+        return ""
+    priority = {
+        "notes": 0,
+        "north_canes": 1,
+        "south_canes": 2,
+        "canes_combo": 3,
+        "arch": 4,
+        "line": 5,
+        "mega": 6,
+        "gt": 7,
+        "matrix": 8,
+        "stars": 9,
+        "snowflakes": 10,
+        "talking_heads": 11,
+        "spinner": 12,
+        "sphere": 13,
+        "flood": 14,
+    }
+    return sorted(counts.items(), key=lambda item: (-item[1], priority.get(item[0], 99), item[0]))[0][0]
+
+
+def discover_group_sequence_pools(
+    names: list[str],
+    parsed_layout: xmp.ParsedLayout | None,
+) -> list[tuple[str, str, list[str]]]:
+    if parsed_layout is None:
+        return []
+
+    def is_color_stack_group(models: list[str]) -> bool:
+        if len(models) < 2 or len(models) > 4:
+            return False
+        stripped: set[str] = set()
+        color_hits = 0
+        for model_name in models:
+            norm = base.normalize_name(model_name)
+            if re.search(r"\b(red|green|white)\b", norm):
+                color_hits += 1
+            stripped.add(" ".join(re.sub(r"\b(red|green|white)\b", " ", norm).split()))
+        return color_hits >= max(2, len(models) - 1) and len(stripped) == 1
+
+    available_lookup = {base.normalize_name(name): name for name in names}
+    discovered: list[tuple[str, str, list[str]]] = []
+    for group_name, group in parsed_layout.groups.items():
+        canonical_group = available_lookup.get(base.normalize_name(group_name), group_name)
+        if canonical_group not in names:
+            continue
+        norm_group = base.normalize_name(canonical_group)
+        if "whole house" in norm_group:
+            continue
+        ordered_members = dedupe_names(
+            [
+                available_lookup[base.normalize_name(member)]
+                for member in group.models
+                if base.normalize_name(member) in available_lookup and available_lookup[base.normalize_name(member)] != canonical_group
+            ]
+        )
+        if len(ordered_members) < 2 or len(ordered_members) > GROUP_SEQUENCE_MAX_MEMBERS:
+            continue
+        if is_color_stack_group(ordered_members):
+            continue
+        category = infer_group_sequence_family(group_name, parsed_layout)
+        if not category:
+            continue
+        discovered.append((canonical_group, category, ordered_members))
+    return discovered
+
+
 def family_from_parsed_model(model: xmp.Model) -> str:
     semantic = base.normalize_name(model.type)
     display = base.normalize_name(model.display_as)
@@ -1092,6 +1347,7 @@ def enrich_layout_with_parsed(layout: base.Layout, names: list[str], parsed_layo
 def discover_sequential_pools(names: list[str], layout: base.Layout, parsed_layout: xmp.ParsedLayout | None = None) -> list[SequentialPool]:
     pools: list[SequentialPool] = []
     pooled_by_category: dict[str, set[str]] = {}
+    pool_signatures: set[tuple[str, ...]] = set()
     names_set = set(names)
     perimeter_waypoints = (
         ("right", "linden"),
@@ -1105,7 +1361,11 @@ def discover_sequential_pools(names: list[str], layout: base.Layout, parsed_layo
         deduped = dedupe_names(models)
         if not deduped:
             return
+        signature = tuple(deduped)
+        if signature in pool_signatures:
+            return
         pools.append(SequentialPool(name=name, category=category, models=deduped))
+        pool_signatures.add(signature)
         pooled_by_category.setdefault(category, set()).update(deduped)
 
     gt_models = find_series_anywhere(names, [r"\bgt\s*(\d+)\b"]) or base.find_numbered_series(names, [r"gt\s*(\d+)"])
@@ -1267,6 +1527,8 @@ def discover_sequential_pools(names: list[str], layout: base.Layout, parsed_layo
     add_pool("canes_combo", "canes_combo", combo)
     add_pool("talking_heads", "talking_heads", discover_talking_heads(names))
     add_pool("arch_spatial", "arch", arch_models)
+    for group_name, category, members in discover_group_sequence_pools(names, parsed_layout):
+        add_pool(group_name, category, members)
 
     if parsed_layout is not None:
         nbh_by_family: dict[str, list[tuple[float, float, str]]] = {}
@@ -1488,6 +1750,466 @@ def derive_dynamic_marks(audio: base.Audio) -> tuple[list[int], list[int], list[
     return (energy_peaks, build_lifts, releases)
 
 
+def _series_peak_marks(
+    times_s: np.ndarray,
+    series: np.ndarray,
+    *,
+    threshold: float,
+    wait: int,
+    gap_ms: int,
+) -> list[int]:
+    if times_s.size == 0 or series.size == 0:
+        return []
+    usable = min(len(times_s), len(series))
+    if usable <= 0:
+        return []
+    ts = np.asarray(times_s[:usable], dtype=float)
+    vals = np.asarray(series[:usable], dtype=float)
+    if not np.isfinite(vals).any():
+        return []
+    norm = base.norm01(np.nan_to_num(vals, nan=0.0, posinf=0.0, neginf=0.0))
+    marks = [base.ms(t) for t in base.peak_times(ts, norm, threshold, max(1, int(wait)))]
+    return base.compress_times_ms(marks, max(10, int(gap_ms)))
+
+
+def _quiet_windows_from_rms(
+    times_s: np.ndarray,
+    rms01: np.ndarray,
+    *,
+    threshold: float,
+    min_window_ms: int,
+) -> list[tuple[int, int]]:
+    if times_s.size == 0 or rms01.size == 0:
+        return []
+    usable = min(len(times_s), len(rms01))
+    if usable <= 1:
+        return []
+    ts = np.asarray(times_s[:usable], dtype=float)
+    vals = np.asarray(rms01[:usable], dtype=float)
+    windows: list[tuple[int, int]] = []
+    start_idx: int | None = None
+    for idx, value in enumerate(vals):
+        if value <= threshold:
+            if start_idx is None:
+                start_idx = idx
+        elif start_idx is not None:
+            st = base.ms(ts[start_idx])
+            en = base.ms(ts[max(start_idx + 1, idx)])
+            if (en - st) >= min_window_ms:
+                windows.append((st, en))
+            start_idx = None
+    if start_idx is not None:
+        st = base.ms(ts[start_idx])
+        en = base.ms(ts[-1])
+        if (en - st) >= min_window_ms:
+            windows.append((st, en))
+    return windows
+
+
+def _align_curve(values: np.ndarray, target_len: int) -> np.ndarray:
+    if target_len <= 0:
+        return np.asarray([], dtype=float)
+    arr = np.asarray(values, dtype=float)
+    if arr.size == 0:
+        return np.zeros(target_len, dtype=float)
+    if arr.size == target_len:
+        return arr
+    src = np.linspace(0.0, 1.0, num=arr.size, endpoint=True)
+    dst = np.linspace(0.0, 1.0, num=target_len, endpoint=True)
+    return np.interp(dst, src, arr)
+
+
+def _marks_density_per_minute(marks: list[int], duration_s: float) -> float:
+    if duration_s <= 0.0:
+        return 0.0
+    return float(len(marks)) / max(1e-6, duration_s / 60.0)
+
+
+def estimate_tempo_bpm(beat_ms: list[int]) -> float:
+    if len(beat_ms) < 2:
+        return 0.0
+    deltas = np.diff(np.asarray(beat_ms, dtype=float))
+    if deltas.size == 0:
+        return 0.0
+    median_delta = float(np.median(deltas))
+    if median_delta <= 1.0:
+        return 0.0
+    return float(base.clamp(60000.0 / median_delta, 45.0, 220.0))
+
+
+def classify_mir_genre(summary: dict[str, float], *, tempo_bpm: float, rms_mean: float) -> str:
+    bass_density = float(summary.get("bass_density", 0.0))
+    sub_density = float(summary.get("sub_bass_density", 0.0))
+    high_density = float(summary.get("high_density", 0.0))
+    flux_density = float(summary.get("flux_density", 0.0))
+    contrast_mean = float(summary.get("contrast_mean", 0.0))
+    flatness_mean = float(summary.get("flatness_mean", 0.0))
+    mfcc_motion_mean = float(summary.get("mfcc_motion_mean", 0.0))
+    chroma_stability_mean = float(summary.get("chroma_stability_mean", 0.0))
+    tonnetz_motion_mean = float(summary.get("tonnetz_motion_mean", 0.0))
+    if tempo_bpm >= 124.0 and bass_density >= 48.0 and flux_density >= 60.0:
+        return "edm"
+    if flatness_mean >= 0.50 and contrast_mean >= 0.55 and tempo_bpm >= 92.0:
+        return "rock"
+    if sub_density >= 52.0 and high_density <= 34.0 and tempo_bpm < 108.0:
+        return "hip_hop"
+    if chroma_stability_mean >= 0.62 and mfcc_motion_mean <= 0.32 and flux_density <= 38.0:
+        return "ambient"
+    if tonnetz_motion_mean <= 0.22 and tempo_bpm < 92.0 and rms_mean <= 0.38:
+        return "classical"
+    return "pop"
+
+
+def classify_mir_mood(summary: dict[str, float], *, rms_mean: float) -> str:
+    centroid_mean = float(summary.get("centroid_mean", 0.0))
+    flux_density = float(summary.get("flux_density", 0.0))
+    chroma_stability_mean = float(summary.get("chroma_stability_mean", 0.0))
+    tonnetz_motion_mean = float(summary.get("tonnetz_motion_mean", 0.0))
+    arousal = base.clamp((0.50 * rms_mean) + (0.30 * min(1.0, flux_density / 95.0)) + (0.20 * centroid_mean), 0.0, 1.0)
+    valence = base.clamp((0.55 * chroma_stability_mean) + (0.30 * (1.0 - tonnetz_motion_mean)) + (0.15 * centroid_mean), 0.0, 1.0)
+    if arousal >= 0.74 and valence >= 0.52:
+        return "uplifting"
+    if arousal >= 0.74:
+        return "intense"
+    if arousal <= 0.34 and valence <= 0.44:
+        return "brooding"
+    if arousal <= 0.34:
+        return "calm"
+    return "balanced"
+
+
+def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
+    if audio.y.size == 0 or audio.sr <= 0:
+        return MultiBandAnalysis([], [], [], [], [], [], [], {})
+
+    hop = max(1, int(base.HOP_MS))
+    n_fft = 2048
+    spectrum = np.abs(librosa.stft(audio.y, n_fft=n_fft, hop_length=hop)) ** 2
+    if spectrum.size == 0:
+        return MultiBandAnalysis([], [], [], [], [], [], [], {})
+    magnitude = np.sqrt(np.maximum(0.0, np.asarray(spectrum, dtype=float)))
+    frame_count = int(spectrum.shape[1])
+    freqs = librosa.fft_frequencies(sr=audio.sr, n_fft=n_fft)
+    frame_times = librosa.frames_to_time(np.arange(frame_count), sr=audio.sr, hop_length=hop)
+
+    def band_env(low_hz: float, high_hz: float) -> np.ndarray:
+        bins = np.where((freqs >= low_hz) & (freqs < high_hz))[0]
+        if len(bins) == 0:
+            return np.zeros(frame_count, dtype=float)
+        raw = np.asarray(spectrum[bins, :].mean(axis=0), dtype=float)
+        return base.norm01(raw)
+
+    sub_env = band_env(20.0, 60.0)
+    bass_env = band_env(60.0, 150.0)
+    mid_env = band_env(150.0, 2000.0)
+    high_env = band_env(2000.0, 12000.0)
+
+    sub_marks = _series_peak_marks(frame_times, sub_env, threshold=0.46, wait=9, gap_ms=120)
+    bass_marks = _series_peak_marks(frame_times, bass_env, threshold=0.42, wait=8, gap_ms=105)
+    mid_marks = _series_peak_marks(frame_times, mid_env, threshold=0.38, wait=7, gap_ms=95)
+    high_marks = _series_peak_marks(frame_times, high_env, threshold=0.34, wait=6, gap_ms=80)
+
+    diff = np.diff(np.asarray(spectrum, dtype=float), axis=1)
+    flux = np.sum(np.clip(diff, 0.0, None), axis=0)
+    flux = np.pad(flux, (1, 0), mode="constant")
+    flux01 = base.norm01(np.nan_to_num(np.asarray(flux, dtype=float), nan=0.0, posinf=0.0, neginf=0.0))
+    flux_marks = _series_peak_marks(frame_times, flux, threshold=0.40, wait=8, gap_ms=90)
+
+    rms = np.asarray(audio.rms01, dtype=float)
+    if rms.size >= 5:
+        kernel = np.asarray([1.0, 2.0, 3.0, 2.0, 1.0], dtype=float)
+        rms_smoothed = np.convolve(rms, kernel / np.sum(kernel), mode="same")
+    else:
+        rms_smoothed = rms
+    loud_marks = _series_peak_marks(audio.times_s, rms_smoothed, threshold=0.72, wait=8, gap_ms=170)
+    quiet_threshold = min(0.24, max(0.08, float(np.nanpercentile(rms if rms.size else np.asarray([0.1]), 22))))
+    quiet_windows = _quiet_windows_from_rms(audio.times_s, rms, threshold=quiet_threshold, min_window_ms=360)
+
+    stacks = np.vstack(
+        [
+            np.asarray(sub_env, dtype=float),
+            np.asarray(bass_env, dtype=float),
+            np.asarray(mid_env, dtype=float),
+            np.asarray(high_env, dtype=float),
+        ]
+    )
+    band_names = ("sub_bass", "bass", "mid", "high")
+    dominance_marks: dict[str, list[int]] = {name: [] for name in band_names}
+    if stacks.size:
+        dominant_idx = np.argmax(stacks, axis=0)
+        dominant_strength = np.max(stacks, axis=0)
+        for idx, name in enumerate(band_names):
+            marks = [base.ms(float(frame_times[i])) for i in range(len(frame_times)) if int(dominant_idx[i]) == idx and dominant_strength[i] >= 0.28]
+            dominance_marks[name] = base.compress_times_ms(marks, base.scaled_gap(180))
+
+    centroid = _align_curve(librosa.feature.spectral_centroid(S=magnitude, sr=audio.sr)[0], frame_count)
+    bandwidth = _align_curve(librosa.feature.spectral_bandwidth(S=magnitude, sr=audio.sr)[0], frame_count)
+    contrast = np.asarray(librosa.feature.spectral_contrast(S=magnitude, sr=audio.sr), dtype=float)
+    contrast_curve = _align_curve(np.asarray(contrast.mean(axis=0), dtype=float), frame_count)
+    flatness = _align_curve(librosa.feature.spectral_flatness(S=magnitude)[0], frame_count)
+
+    mfcc_motion = np.zeros(frame_count, dtype=float)
+    chroma_stability = np.zeros(frame_count, dtype=float)
+    tonnetz_motion = np.zeros(frame_count, dtype=float)
+    try:
+        mfcc = np.asarray(librosa.feature.mfcc(y=audio.y, sr=audio.sr, hop_length=hop, n_mfcc=20), dtype=float)
+        if mfcc.size:
+            mfcc_delta = np.asarray(librosa.feature.delta(mfcc), dtype=float)
+            mfcc_motion = _align_curve(np.mean(np.abs(mfcc_delta), axis=0), frame_count)
+    except Exception:
+        mfcc_motion = np.zeros(frame_count, dtype=float)
+    try:
+        chroma = np.asarray(librosa.feature.chroma_cqt(y=audio.y, sr=audio.sr, hop_length=hop), dtype=float)
+        if chroma.size:
+            denom = np.sum(chroma, axis=0) + 1e-9
+            chroma_stability = _align_curve(np.max(chroma, axis=0) / denom, frame_count)
+            tonnetz = np.asarray(librosa.feature.tonnetz(chroma=chroma, sr=audio.sr), dtype=float)
+            if tonnetz.size:
+                tonnetz_delta = np.asarray(librosa.feature.delta(tonnetz), dtype=float)
+                tonnetz_motion = _align_curve(np.mean(np.abs(tonnetz_delta), axis=0), frame_count)
+    except Exception:
+        chroma_stability = np.zeros(frame_count, dtype=float)
+        tonnetz_motion = np.zeros(frame_count, dtype=float)
+
+    centroid01 = base.norm01(np.nan_to_num(centroid, nan=0.0, posinf=0.0, neginf=0.0))
+    bandwidth01 = base.norm01(np.nan_to_num(bandwidth, nan=0.0, posinf=0.0, neginf=0.0))
+    contrast01 = base.norm01(np.nan_to_num(contrast_curve, nan=0.0, posinf=0.0, neginf=0.0))
+    flatness01 = base.norm01(np.nan_to_num(flatness, nan=0.0, posinf=0.0, neginf=0.0))
+    mfcc_motion01 = base.norm01(np.nan_to_num(mfcc_motion, nan=0.0, posinf=0.0, neginf=0.0))
+    chroma_stability01 = base.norm01(np.nan_to_num(chroma_stability, nan=0.0, posinf=0.0, neginf=0.0))
+    tonnetz_motion01 = base.norm01(np.nan_to_num(tonnetz_motion, nan=0.0, posinf=0.0, neginf=0.0))
+
+    tempo_bpm = estimate_tempo_bpm(audio.beat_ms)
+    duration_s = float(max(1e-6, audio.dur_s))
+    descriptor_summary = {
+        "centroid_mean": float(np.mean(centroid01)) if centroid01.size else 0.0,
+        "bandwidth_mean": float(np.mean(bandwidth01)) if bandwidth01.size else 0.0,
+        "contrast_mean": float(np.mean(contrast01)) if contrast01.size else 0.0,
+        "flatness_mean": float(np.mean(flatness01)) if flatness01.size else 0.0,
+        "mfcc_motion_mean": float(np.mean(mfcc_motion01)) if mfcc_motion01.size else 0.0,
+        "chroma_stability_mean": float(np.mean(chroma_stability01)) if chroma_stability01.size else 0.0,
+        "tonnetz_motion_mean": float(np.mean(tonnetz_motion01)) if tonnetz_motion01.size else 0.0,
+        "flux_density": _marks_density_per_minute(flux_marks, duration_s),
+        "sub_bass_density": _marks_density_per_minute(sub_marks, duration_s),
+        "bass_density": _marks_density_per_minute(bass_marks, duration_s),
+        "mid_density": _marks_density_per_minute(mid_marks, duration_s),
+        "high_density": _marks_density_per_minute(high_marks, duration_s),
+    }
+    rms_mean = float(np.mean(np.asarray(audio.rms01, dtype=float))) if np.asarray(audio.rms01).size else 0.0
+    genre_hint = classify_mir_genre(descriptor_summary, tempo_bpm=tempo_bpm, rms_mean=rms_mean)
+    mood_hint = classify_mir_mood(descriptor_summary, rms_mean=rms_mean)
+
+    return MultiBandAnalysis(
+        sub_bass_marks=sub_marks,
+        bass_marks=bass_marks,
+        mid_marks=mid_marks,
+        high_marks=high_marks,
+        spectral_flux_marks=flux_marks,
+        loud_marks=loud_marks,
+        quiet_windows=quiet_windows,
+        dominance_marks=dominance_marks,
+        frame_times_s=np.asarray(frame_times, dtype=float),
+        spectral_centroid01=np.asarray(centroid01, dtype=float),
+        spectral_bandwidth01=np.asarray(bandwidth01, dtype=float),
+        spectral_contrast01=np.asarray(contrast01, dtype=float),
+        spectral_flatness01=np.asarray(flatness01, dtype=float),
+        spectral_flux01=np.asarray(flux01, dtype=float),
+        mfcc_motion01=np.asarray(mfcc_motion01, dtype=float),
+        chroma_stability01=np.asarray(chroma_stability01, dtype=float),
+        tonnetz_motion01=np.asarray(tonnetz_motion01, dtype=float),
+        tempo_bpm=tempo_bpm,
+        genre_hint=genre_hint,
+        mood_hint=mood_hint,
+        descriptor_summary=descriptor_summary,
+    )
+
+
+def curve_value_at_time(frame_times_s: np.ndarray | None, curve01: np.ndarray | None, t_ms: int) -> float:
+    if frame_times_s is None or curve01 is None:
+        return 0.0
+    if len(frame_times_s) == 0 or len(curve01) == 0:
+        return 0.0
+    usable = min(len(frame_times_s), len(curve01))
+    idx = int(np.searchsorted(np.asarray(frame_times_s[:usable], dtype=float), t_ms / 1000.0))
+    idx = int(base.clamp(idx, 0, usable - 1))
+    return float(np.asarray(curve01[:usable], dtype=float)[idx])
+
+
+def _curve_mean_between(frame_times_s: np.ndarray | None, curve01: np.ndarray | None, start_ms: int, end_ms: int) -> float:
+    if frame_times_s is None or curve01 is None:
+        return 0.0
+    if len(frame_times_s) == 0 or len(curve01) == 0:
+        return 0.0
+    usable = min(len(frame_times_s), len(curve01))
+    ts = np.asarray(frame_times_s[:usable], dtype=float)
+    vals = np.asarray(curve01[:usable], dtype=float)
+    st_s = max(0.0, float(start_ms) / 1000.0)
+    en_s = max(st_s + 1e-3, float(end_ms) / 1000.0)
+    mask = (ts >= st_s) & (ts < en_s)
+    if not np.any(mask):
+        idx = int(base.clamp(np.searchsorted(ts, st_s), 0, usable - 1))
+        return float(vals[idx])
+    return float(np.mean(vals[mask]))
+def hit_class_for_time(t_ms: int, *, kicks: list[int], snares: list[int], hats: list[int]) -> str:
+    if has_nearby_mark(t_ms, snares, 45) and has_nearby_mark(t_ms, hats, 40):
+        return "clap"
+    if has_nearby_mark(t_ms, kicks, 45):
+        return "kick"
+    if has_nearby_mark(t_ms, snares, 55):
+        return "snare"
+    if has_nearby_mark(t_ms, hats, 35):
+        return "hat"
+    return "none"
+
+
+def rhythm_complexity_by_part(parts: list[SongPart], onset_ms: list[int], beat_ms: list[int]) -> dict[str, float]:
+    buckets: dict[str, list[float]] = {}
+    for part in parts:
+        duration_ms = max(1, part.end_ms - part.start_ms)
+        onset_count = sum(1 for t in onset_ms if part.start_ms <= t < part.end_ms)
+        beat_count = sum(1 for t in beat_ms if part.start_ms <= t < part.end_ms)
+        onset_rate = (onset_count * 1000.0) / duration_ms
+        beat_rate = (beat_count * 1000.0) / duration_ms
+        sync_ratio = onset_rate / max(0.05, beat_rate)
+        score = base.clamp((sync_ratio - 1.0) / 2.2, 0.0, 1.0)
+        buckets.setdefault(part.label, []).append(float(score))
+    return {label: float(np.mean(values)) for label, values in buckets.items()}
+
+
+def rms_value_at_time(audio: base.Audio, t_ms: int) -> float:
+    if audio.times_s.size == 0 or audio.rms01.size == 0:
+        return 0.0
+    idx = int(np.searchsorted(audio.times_s, t_ms / 1000.0))
+    idx = int(base.clamp(idx, 0, min(len(audio.times_s), len(audio.rms01)) - 1))
+    return float(audio.rms01[idx])
+
+
+def envelope_shape_for_time(audio: base.Audio, t_ms: int) -> str:
+    if audio.times_s.size == 0 or audio.rms01.size == 0:
+        return "steady"
+    idx = int(np.searchsorted(audio.times_s, t_ms / 1000.0))
+    idx = int(base.clamp(idx, 1, min(len(audio.times_s), len(audio.rms01)) - 2))
+    rms = np.asarray(audio.rms01, dtype=float)
+    slope = float((rms[idx + 1] - rms[idx - 1]) * 0.5)
+    if slope >= 0.05:
+        return "attack"
+    if slope <= -0.05:
+        return "decay"
+    if rms[idx] >= 0.62:
+        return "sustain"
+    return "steady"
+
+
+def macro_intensity_state(
+    t_ms: int,
+    *,
+    audio: base.Audio,
+    build_lifts: list[int],
+    releases: list[int],
+    quiet_windows: list[tuple[int, int]],
+) -> str:
+    for st, en in quiet_windows:
+        if st <= t_ms <= en:
+            return "quiet"
+    if has_nearby_mark(t_ms, releases, 115):
+        return "drop"
+    if has_nearby_mark(t_ms, build_lifts, 100):
+        return "build"
+    rms = rms_value_at_time(audio, t_ms)
+    if rms >= 0.74:
+        return "peak"
+    if rms <= 0.20:
+        return "quiet"
+    return "steady"
+
+
+def dominant_band_at_time(t_ms: int, analysis: MultiBandAnalysis) -> str:
+    for band_name in ("sub_bass", "bass", "mid", "high"):
+        marks = analysis.dominance_marks.get(band_name, [])
+        if has_nearby_mark(t_ms, marks, 110):
+            return band_name
+    if has_nearby_mark(t_ms, analysis.sub_bass_marks, 90):
+        return "sub_bass"
+    if has_nearby_mark(t_ms, analysis.bass_marks, 90):
+        return "bass"
+    if has_nearby_mark(t_ms, analysis.mid_marks, 90):
+        return "mid"
+    if has_nearby_mark(t_ms, analysis.high_marks, 90):
+        return "high"
+    return "mid"
+
+
+def derive_section_mir_profiles(
+    *,
+    parts: list[SongPart],
+    audio: base.Audio,
+    analysis: MultiBandAnalysis,
+    onset_ms: list[int],
+    beat_ms: list[int],
+    vocal_peaks: list[int],
+) -> dict[str, dict[str, float | str]]:
+    if not parts:
+        return {}
+    complexity = rhythm_complexity_by_part(parts, onset_ms=onset_ms, beat_ms=beat_ms)
+    grouped: dict[str, list[dict[str, float | str]]] = {}
+    for part in parts:
+        label = part.label
+        st = int(part.start_ms)
+        en = int(part.end_ms)
+        if en <= st:
+            continue
+        loudness = float(np.mean([rms_value_at_time(audio, ms) for ms in range(st, en, max(120, (en - st) // 6 or 120))]))
+        centroid = _curve_mean_between(analysis.frame_times_s, analysis.spectral_centroid01, st, en)
+        contrast = _curve_mean_between(analysis.frame_times_s, analysis.spectral_contrast01, st, en)
+        flatness = _curve_mean_between(analysis.frame_times_s, analysis.spectral_flatness01, st, en)
+        flux_motion = _curve_mean_between(analysis.frame_times_s, analysis.spectral_flux01, st, en)
+        vocal_activity = float(sum(1 for t in vocal_peaks if st <= t < en)) / max(1.0, (en - st) / 1000.0)
+        band_counts = {
+            "sub_bass": sum(1 for t in analysis.sub_bass_marks if st <= t < en),
+            "bass": sum(1 for t in analysis.bass_marks if st <= t < en),
+            "mid": sum(1 for t in analysis.mid_marks if st <= t < en),
+            "high": sum(1 for t in analysis.high_marks if st <= t < en),
+        }
+        dominant_band = max(band_counts.items(), key=lambda item: item[1])[0] if any(band_counts.values()) else "mid"
+        scene_mode = "balanced"
+        if label == "CHORUS":
+            scene_mode = "wide_bright"
+        elif label == "VERSE":
+            scene_mode = "tight_minimal"
+        elif label in {"PRECHORUS", "BRIDGE"}:
+            scene_mode = "build_tension"
+        elif label in {"INTRO", "OUTRO"}:
+            scene_mode = "ambient_minimal"
+        if loudness < 0.18:
+            scene_mode = "breakdown"
+        grouped.setdefault(label, []).append(
+            {
+                "loudness": loudness,
+                "complexity": float(complexity.get(label, 0.35)),
+                "centroid": centroid,
+                "contrast": contrast,
+                "flatness": flatness,
+                "flux_motion": flux_motion,
+                "vocal_activity": vocal_activity,
+                "dominant_band": dominant_band,
+                "scene_mode": scene_mode,
+            }
+        )
+
+    profiles: dict[str, dict[str, float | str]] = {}
+    numeric_keys = ("loudness", "complexity", "centroid", "contrast", "flatness", "flux_motion", "vocal_activity")
+    for label, items in grouped.items():
+        profile: dict[str, float | str] = {}
+        for key in numeric_keys:
+            profile[key] = float(np.mean([float(item[key]) for item in items]))
+        scene_counts = Counter(str(item["scene_mode"]) for item in items)
+        dominant_counts = Counter(str(item["dominant_band"]) for item in items)
+        profile["scene_mode"] = scene_counts.most_common(1)[0][0] if scene_counts else "balanced"
+        profile["dominant_band"] = dominant_counts.most_common(1)[0][0] if dominant_counts else "mid"
+        profiles[label] = profile
+    return profiles
+
+
 def marks_to_spans(
     marks: list[int],
     *,
@@ -1540,6 +2262,7 @@ def write_auto_timing_tracks(
     sections: list[base.Section],
     parts: list[SongPart],
     blackout_windows: list[tuple[int, int]],
+    multiband: MultiBandAnalysis | None = None,
 ) -> None:
     qm_prefix = f"AUTO QM {style.version}"
     tracks: list[tuple[str, list[tuple[str, int, int]]]] = []
@@ -1555,6 +2278,15 @@ def write_auto_timing_tracks(
     tracks.append((f"{qm_prefix} Energy Peaks", marks_to_spans(energy_peaks, prefix="Energy", pulse_ms=120, max_marks=1800)))
     tracks.append((f"{qm_prefix} Build Lifts", marks_to_spans(build_lifts, prefix="Lift", pulse_ms=105, max_marks=1800)))
     tracks.append((f"{qm_prefix} Releases", marks_to_spans(releases, prefix="Release", pulse_ms=100, max_marks=1800)))
+    if multiband is not None:
+        tracks.append((f"{qm_prefix} Sub Bass", marks_to_spans(multiband.sub_bass_marks, prefix="Sub", pulse_ms=105, max_marks=1800)))
+        tracks.append((f"{qm_prefix} Bass Band", marks_to_spans(multiband.bass_marks, prefix="Bass", pulse_ms=95, max_marks=2000)))
+        tracks.append((f"{qm_prefix} Mid Band", marks_to_spans(multiband.mid_marks, prefix="Mid", pulse_ms=85, max_marks=2200)))
+        tracks.append((f"{qm_prefix} High Band", marks_to_spans(multiband.high_marks, prefix="High", pulse_ms=70, max_marks=2400)))
+        tracks.append((f"{qm_prefix} Spectral Flux", marks_to_spans(multiband.spectral_flux_marks, prefix="Flux", pulse_ms=80, max_marks=2200)))
+        if multiband.quiet_windows:
+            quiet_spans = [(f"Quiet {idx + 1}", st, max(st + 1, en)) for idx, (st, en) in enumerate(multiband.quiet_windows[:260])]
+            tracks.append((f"{qm_prefix} Quiet Windows", quiet_spans))
     if sections:
         section_spans = [(f"{section.label} {idx + 1}", section.start_ms, max(section.start_ms + 1, section.end_ms)) for idx, section in enumerate(sections)]
         tracks.append((f"{qm_prefix} Sections", section_spans))
@@ -4459,6 +5191,7 @@ def place_pixel_reactive_score(
     pools: list[SequentialPool],
     parts: list[SongPart],
     note_events: list[NoteEvent],
+    lyric_events: list[ai.LyricEvent],
     kicks: list[int],
     snares: list[int],
     hats: list[int],
@@ -4471,6 +5204,7 @@ def place_pixel_reactive_score(
     add_model,
     in_blackout,
     pixel_track: list[tuple[str, int, int]],
+    matrix_plan: dict[str, object] | None = None,
 ) -> int:
     if not pools:
         return 0
@@ -4503,6 +5237,46 @@ def place_pixel_reactive_score(
     def cue(label: str, start_ms: int, end_ms: int) -> None:
         if end_ms > start_ms:
             pixel_track.append((label[:48], int(start_ms), int(end_ms)))
+
+    def matrix_effect(
+        pool: SequentialPool | None,
+        cue_name: str,
+        part_label: str,
+        time_ms: int,
+        effect_index: int,
+    ) -> str:
+        category = pool.category if pool is not None else ""
+        fallback = reactive_effect_for_category(category, cue_name, part_label, effect_index)
+        if pool is None or pool.category != "matrix":
+            return fallback
+        lyric_active = False
+        if lyric_events and cue_name in {"vocal", "phrase"}:
+            def lyric_start(event: ai.LyricEvent) -> int:
+                try:
+                    return int(getattr(event, "start_ms", 0))
+                except Exception:
+                    return 0
+
+            def lyric_end(event: ai.LyricEvent) -> int:
+                start_ms = lyric_start(event)
+                try:
+                    return max(start_ms + 1, int(getattr(event, "end_ms", start_ms + 1)))
+                except Exception:
+                    return start_ms + 1
+
+            lyric_active = any(
+                max(lyric_start(event) - 120, 0) <= int(time_ms) <= (lyric_end(event) + 120)
+                for event in lyric_events
+            )
+        return matrix_planner.recommend_sequence_effect(
+            matrix_plan if isinstance(matrix_plan, dict) else None,
+            cue=cue_name,
+            part_label=part_label,
+            target_ms=time_ms,
+            index=effect_index,
+            fallback=fallback,
+            lyric_active=lyric_active,
+        )
 
     for part_idx, part in enumerate(parts):
         prev_part = parts[part_idx - 1] if part_idx > 0 else None
@@ -4576,7 +5350,7 @@ def place_pixel_reactive_score(
                 for step, target in enumerate(transition_targets):
                     st = part.start_ms + step * 18
                     en = min(part.end_ms, st + max(95, transition_dur - step * 12))
-                    eff_name = reactive_effect_for_category(transition_pool.category, transition_cue, part.label, step)
+                    eff_name = matrix_effect(transition_pool, transition_cue, part.label, st, step)
                     add_model(target, st, en, "pixel_part_transition", eff=eff_name, stem="other")
                     cue(f"{transition_pool.category}:{eff_name}", st, en)
 
@@ -4610,7 +5384,7 @@ def place_pixel_reactive_score(
                     drop_count,
                     reverse=base_reverse,
                 )
-                drop_eff = "Strobe" if drop_pool.category in {"spinner", "stars", "snowflakes", "flood"} else reactive_effect_for_category(drop_pool.category, drop_cue, part.label, part_idx)
+                drop_eff = "Strobe" if drop_pool.category in {"spinner", "stars", "snowflakes", "flood"} else matrix_effect(drop_pool, drop_cue, part.label, part.start_ms, part_idx)
                 drop_dur = cue_scaled_duration(
                     max(95, base.scaled_dur(165)),
                     drop_cue,
@@ -4662,7 +5436,7 @@ def place_pixel_reactive_score(
                 )
                 targets = rotate_targets(active_scene_pool, f"pixel_scene_cursor_{part_idx}", scene_count, reverse=reverse_for(scene_idx))
                 if targets:
-                    eff_name = reactive_effect_for_category(active_scene_pool.category, scene_cue, part.label, scene_idx)
+                    eff_name = matrix_effect(active_scene_pool, scene_cue, part.label, bar_start, scene_idx)
                     for step, target in enumerate(targets):
                         start_ms = bar_start + step * 20
                         end_ms = min(part.end_ms, start_ms + max(140, scene_span - step * 18))
@@ -4684,7 +5458,7 @@ def place_pixel_reactive_score(
                     reverse=reverse_for(scene_idx + 1),
                 )
                 if sphere_targets:
-                    eff_name = reactive_effect_for_category(sphere_pool.category, scene_cue, part.label, scene_idx)
+                    eff_name = matrix_effect(sphere_pool, scene_cue, part.label, sphere_start, scene_idx)
                     for step, target in enumerate(sphere_targets):
                         start_ms = sphere_start + step * 18
                         end_ms = min(part.end_ms, start_ms + max(130, sphere_span - step * 14))
@@ -4719,7 +5493,7 @@ def place_pixel_reactive_score(
             targets = rotate_targets(build_pool, f"pixel_build_cursor_{part_idx}", desired, reverse=reverse_for(build_idx))
             if not targets or build_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(build_pool.category, build_cue, part.label, build_idx)
+            eff_name = matrix_effect(build_pool, build_cue, part.label, t_ms, build_idx)
             build_dur = cue_scaled_duration(
                 max(170, base.scaled_dur(260)),
                 build_cue,
@@ -4762,7 +5536,7 @@ def place_pixel_reactive_score(
             targets = rotate_targets(bass_pool, f"pixel_bass_cursor_{part_idx}", desired, reverse=reverse_for(bass_idx))
             if not targets or bass_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(bass_pool.category, bass_cue, part.label, bass_idx)
+            eff_name = matrix_effect(bass_pool, bass_cue, part.label, t_ms, bass_idx)
             bass_dur = cue_scaled_duration(
                 max(90, base.scaled_dur(160)),
                 bass_cue,
@@ -4806,7 +5580,7 @@ def place_pixel_reactive_score(
             targets = rotate_targets(motion_pool, f"pixel_kick_cursor_{part_idx}", desired, reverse=reverse_for(kick_idx))
             if not targets or motion_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(motion_pool.category, kick_cue, part.label, kick_idx)
+            eff_name = matrix_effect(motion_pool, kick_cue, part.label, t_ms, kick_idx)
             kick_dur = cue_scaled_duration(
                 max(65, base.scaled_dur(110)),
                 kick_cue,
@@ -4847,7 +5621,7 @@ def place_pixel_reactive_score(
             )
             if not targets or accent_source is None:
                 continue
-            eff_name = reactive_effect_for_category(accent_source.category, snare_cue, part.label, snare_idx)
+            eff_name = matrix_effect(accent_source, snare_cue, part.label, t_ms, snare_idx)
             snare_dur = cue_scaled_duration(
                 max(60, base.scaled_dur(92)),
                 snare_cue,
@@ -4888,7 +5662,7 @@ def place_pixel_reactive_score(
             )
             if not targets or hat_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(hat_pool.category, hat_cue, part.label, hat_idx)
+            eff_name = matrix_effect(hat_pool, hat_cue, part.label, t_ms, hat_idx)
             hat_dur = cue_scaled_duration(
                 max(50, base.scaled_dur(76)),
                 hat_cue,
@@ -4931,7 +5705,7 @@ def place_pixel_reactive_score(
             targets = rotate_targets(vocal_pool, f"pixel_vocal_cursor_{part_idx}", desired, reverse=reverse_for(vocal_idx + part_idx))
             if not targets or vocal_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(vocal_pool.category, vocal_cue, part.label, vocal_idx)
+            eff_name = matrix_effect(vocal_pool, vocal_cue, part.label, t_ms, vocal_idx)
             vocal_dur = cue_scaled_duration(
                 max(95, base.scaled_dur(165)),
                 vocal_cue,
@@ -4972,7 +5746,7 @@ def place_pixel_reactive_score(
             ) or arch_pool or line_pool or matrix_pool or tree_pool
             if melody_pool is None or not melody_pool.models:
                 continue
-            eff_name = reactive_effect_for_category(melody_pool.category, note_cue, part.label, event_idx)
+            eff_name = matrix_effect(melody_pool, note_cue, part.label, event.start_ms, event_idx)
             if melody_pool.category in {"arch", "line", "canes_combo", "north_canes", "south_canes"} and len(melody_pool.models) >= 2:
                 targets = rotate_targets(
                     melody_pool,
@@ -5482,6 +6256,255 @@ def place_intensity_waves(
             sweep_track.append((f"poly:{pool.name}", event.start_ms, span_end))
 
 
+def place_multiband_reactive_overlay(
+    *,
+    style: VariantStyle,
+    pools: list[SequentialPool],
+    parts: list[SongPart],
+    audio: base.Audio,
+    analysis: MultiBandAnalysis,
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    vocal_peaks: list[int],
+    build_lifts: list[int],
+    releases: list[int],
+    pool_state: dict[str, int],
+    rng: random.Random,
+    ramp_ok: bool,
+    ramp_tpl: base.EffectTemplate,
+    add_model,
+    in_blackout,
+    overlay_track: list[tuple[str, int, int]],
+) -> int:
+    band_pools: dict[str, list[SequentialPool]] = {
+        "sub_bass": pools_by_category(pools, ("mega", "gt", "flood", "line")),
+        "bass": pools_by_category(pools, ("arch", "line", "canes_combo", "gt")),
+        "mid": pools_by_category(pools, ("arch", "spinner", "line", "matrix")),
+        "high": pools_by_category(pools, ("stars", "snowflakes", "matrix", "line")),
+    }
+    quiet_pools = pools_by_category(pools, ("stars", "snowflakes", "arch", "line", "matrix"))
+    if not any(band_pools.values()):
+        return 0
+
+    complexity_by_part = rhythm_complexity_by_part(parts, audio.onset_ms, audio.beat_ms)
+    band_events: list[tuple[str, list[int]]] = [
+        ("sub_bass", downsample_marks(analysis.sub_bass_marks, max_marks=420)),
+        ("bass", downsample_marks(analysis.bass_marks, max_marks=520)),
+        ("mid", downsample_marks(analysis.mid_marks, max_marks=680)),
+        ("high", downsample_marks(analysis.high_marks, max_marks=760)),
+    ]
+    base_duration = {"sub_bass": 220, "bass": 180, "mid": 150, "high": 110}
+    cue_by_band = {"sub_bass": "bass", "bass": "bass", "mid": "phrase", "high": "hat"}
+
+    last_effect: dict[str, str] = {}
+    repeat_count: dict[str, int] = {}
+
+    def choose_effect(key: str, options: list[str]) -> str:
+        prev = last_effect.get(key, "")
+        repeats = repeat_count.get(key, 0)
+        choice = options[0]
+        for option in options:
+            if option != prev or repeats < 2:
+                choice = option
+                break
+        if choice == prev:
+            repeat_count[key] = repeats + 1
+        else:
+            repeat_count[key] = 1
+        last_effect[key] = choice
+        return choice
+
+    def effect_options(
+        *,
+        band: str,
+        hit_kind: str,
+        intensity_state: str,
+        envelope_shape: str,
+        flux_busy: bool,
+        vocal_active: bool,
+        genre_hint: str,
+        mood_hint: str,
+        spectral_contrast: float,
+        spectral_flatness: float,
+        mfcc_motion: float,
+    ) -> list[str]:
+        if band == "sub_bass":
+            if hit_kind == "kick":
+                return ["Strobe", "Bars", "On"]
+            if intensity_state in {"build", "peak"}:
+                return ["Bars", "Ramp", "On"]
+            if genre_hint in {"hip_hop", "edm"}:
+                return ["Bars", "On", "Ramp"]
+            return ["On", "Ramp", "Bars"]
+        if band == "bass":
+            if hit_kind in {"kick", "clap"}:
+                return ["Bars", "On", "Ramp"]
+            if genre_hint == "ambient":
+                return ["Ramp", "On", "Wave"]
+            return ["Wave", "Single Strand", "On"] if flux_busy else ["On", "Ramp", "Wave"]
+        if band == "mid":
+            if hit_kind in {"snare", "clap"}:
+                return ["Single Strand", "Wave", "On"]
+            if mfcc_motion >= 0.64 or spectral_contrast >= 0.62:
+                return ["Wave", "Single Strand", "On"]
+            return ["Wave", "On", "Ramp"] if flux_busy else ["On", "Wave", "Ramp"]
+        if vocal_active:
+            return ["On", "Twinkle", "Wave"]
+        if genre_hint in {"ambient", "classical"} and mood_hint in {"calm", "brooding"}:
+            return ["On", "Wave", "Ramp"]
+        if hit_kind in {"hat", "clap"}:
+            return ["Twinkle", "Strobe", "On"]
+        if envelope_shape == "attack" and spectral_flatness >= 0.45:
+            return ["Strobe", "Twinkle", "On"]
+        return ["Twinkle", "On", "Wave"]
+
+    placed = 0
+    for band_name, marks in band_events:
+        if not marks:
+            continue
+        candidates = band_pools.get(band_name, [])
+        if not candidates:
+            continue
+        for idx, t_ms in enumerate(marks):
+            if in_blackout(t_ms):
+                continue
+            part_label = part_for_time(parts, t_ms)
+            part_profile = analysis.section_profiles.get(part_label, {})
+            complexity = complexity_by_part.get(part_label, 0.45)
+            dominant = dominant_band_at_time(t_ms, analysis)
+            if dominant != band_name:
+                if band_name in {"mid", "high"} and dominant in {"sub_bass", "bass"} and rng.random() > 0.35:
+                    continue
+                if band_name in {"sub_bass", "bass"} and dominant in {"mid", "high"} and rng.random() > 0.58:
+                    continue
+
+            hit_kind = hit_class_for_time(t_ms, kicks=kicks, snares=snares, hats=hats)
+            intensity_state = macro_intensity_state(
+                t_ms,
+                audio=audio,
+                build_lifts=build_lifts,
+                releases=releases,
+                quiet_windows=analysis.quiet_windows,
+            )
+            envelope_shape = envelope_shape_for_time(audio, t_ms)
+            vocal_active = has_nearby_mark(t_ms, vocal_peaks, 95)
+            flux_busy = has_nearby_mark(t_ms, analysis.spectral_flux_marks, 95)
+            spectral_contrast = curve_value_at_time(analysis.frame_times_s, analysis.spectral_contrast01, t_ms)
+            spectral_flatness = curve_value_at_time(analysis.frame_times_s, analysis.spectral_flatness01, t_ms)
+            mfcc_motion = curve_value_at_time(analysis.frame_times_s, analysis.mfcc_motion01, t_ms)
+            scene_mode = str(part_profile.get("scene_mode", "balanced"))
+
+            if part_label in {"INTRO", "OUTRO"}:
+                base_targets = 1
+            elif part_label == "VERSE":
+                base_targets = 1 if band_name in {"mid", "high"} else 2
+            elif part_label == "CHORUS":
+                base_targets = 3 if band_name in {"sub_bass", "bass"} else 2
+            else:
+                base_targets = 2
+            if intensity_state in {"build", "peak"}:
+                base_targets += 1
+            if intensity_state == "drop":
+                base_targets = max(1, base_targets - 1)
+            if vocal_active and band_name in {"mid", "high"}:
+                base_targets = max(1, base_targets - 1)
+            if complexity >= 0.72 and band_name in {"mid", "high"}:
+                base_targets += 1
+            if scene_mode in {"tight_minimal", "ambient_minimal", "breakdown"}:
+                base_targets = max(1, base_targets - 1)
+            elif scene_mode == "wide_bright":
+                base_targets += 1
+            elif scene_mode == "build_tension" and band_name in {"sub_bass", "bass", "mid"}:
+                base_targets += 1
+            target_count = max(1, min(4, base_targets))
+
+            cue_key = cue_by_band[band_name]
+            target_count = cue_target_count(
+                target_count,
+                cue_key,
+                placement_mode="pixel_reactive",
+                part_label=part_label,
+                maximum=target_count + 1,
+            )
+            target_count = max(1, min(4, target_count))
+
+            pool = choose_cycle_pool(candidates, pool_state, f"multiband_{band_name}_{part_label.lower()}_{idx % 4}")
+            if pool is None:
+                continue
+            targets = representative_models(pool, target_count)
+            if not targets:
+                continue
+
+            dur_scale = 1.0
+            if intensity_state == "quiet":
+                dur_scale *= 0.78
+            elif intensity_state == "build":
+                dur_scale *= 1.14
+            elif intensity_state == "peak":
+                dur_scale *= 1.22
+            elif intensity_state == "drop":
+                dur_scale *= 0.72
+            if envelope_shape == "attack":
+                dur_scale *= 0.82
+            elif envelope_shape == "sustain":
+                dur_scale *= 1.12
+            elif envelope_shape == "decay":
+                dur_scale *= 0.90
+            dur = max(55, int(base.scaled_dur(base_duration[band_name] * dur_scale)))
+            options = effect_options(
+                band=band_name,
+                hit_kind=hit_kind,
+                intensity_state=intensity_state,
+                envelope_shape=envelope_shape,
+                flux_busy=flux_busy,
+                vocal_active=vocal_active,
+                genre_hint=analysis.genre_hint,
+                mood_hint=analysis.mood_hint,
+                spectral_contrast=spectral_contrast,
+                spectral_flatness=spectral_flatness,
+                mfcc_motion=mfcc_motion,
+            )
+            stem_key = "bass" if band_name in {"sub_bass", "bass"} else "drums" if hit_kind != "none" else "other"
+            span_end = t_ms
+            for step, model_name in enumerate(targets):
+                st = t_ms + step * (14 if band_name in {"sub_bass", "bass"} else 10)
+                en = st + max(50, int(dur * (1.0 + (0.08 * min(2, step)))))
+                effect_name = choose_effect(f"{band_name}:{pool.name}", options)
+                use_ramp = ramp_ok and effect_name == "Ramp"
+                add_model(
+                    model_name,
+                    st,
+                    en,
+                    f"multiband_{band_name}",
+                    eff=effect_name,
+                    tpl=ramp_tpl if use_ramp else None,
+                    cd_key=f"mb_{band_name}_strobe" if effect_name == "Strobe" else None,
+                    cd_ms=95 if effect_name == "Strobe" else 0,
+                    stem=stem_key,
+                )
+                span_end = max(span_end, en)
+                placed += 1
+            if span_end > t_ms:
+                overlay_track.append((f"{band_name}:{pool.name}:{hit_kind or 'none'}", t_ms, span_end))
+
+    if quiet_pools and analysis.quiet_windows:
+        for idx, (start_ms, end_ms) in enumerate(analysis.quiet_windows[:36]):
+            if in_blackout((start_ms + end_ms) // 2):
+                continue
+            if (end_ms - start_ms) < 300:
+                continue
+            pool = choose_cycle_pool(quiet_pools, pool_state, "multiband_quiet_hold")
+            if pool is None or not pool.models:
+                continue
+            model_name = pool.models[idx % len(pool.models)]
+            hold_end = min(end_ms, start_ms + max(180, base.scaled_dur(320)))
+            add_model(model_name, start_ms, hold_end, "multiband_quiet_hold", eff="On", stem="other")
+            overlay_track.append((f"quiet:{pool.name}", start_ms, hold_end))
+            placed += 1
+    return placed
+
+
 def build_keyboard_lane(pools: list[SequentialPool], override: list[str] | None = None) -> list[str]:
     return build_keyboard_lane_with_routes(pools, override=override, preferred_routes=None)
 
@@ -5508,6 +6531,7 @@ def spatial_ordered_models(
     models: list[str],
     coords: dict[str, tuple[float, float]] | None,
     rng: random.Random,
+    path_style: str = "left_to_right",
 ) -> list[str]:
     dedup = unique_models([model for model in models if model])
     if not dedup:
@@ -5517,7 +6541,7 @@ def spatial_ordered_models(
     usable = [model for model in dedup if model in coords]
     if len(usable) < 2:
         return dedup
-    ordered = ai.ordered_spatial_path(usable, coords, "left_to_right", rng)
+    ordered = ai.ordered_spatial_path(usable, coords, path_style, rng)
     seen = {model.lower() for model in ordered}
     ordered.extend(model for model in dedup if model.lower() not in seen)
     return ordered
@@ -5561,6 +6585,9 @@ def build_spatial_keyboard_routes(
     pools: list[SequentialPool],
     coords: dict[str, tuple[float, float]] | None,
     rng: random.Random,
+    *,
+    route_style: str = "left_to_right",
+    awareness: float = 0.0,
 ) -> list[KeyboardRoute]:
     routes: list[KeyboardRoute] = []
 
@@ -5574,18 +6601,20 @@ def build_spatial_keyboard_routes(
         clusters: list[list[str]] | None = None,
         spatial: bool = True,
     ) -> None:
-        ordered = spatial_ordered_models(models, coords, rng) if spatial else unique_models(models)
+        ordered = spatial_ordered_models(models, coords, rng, path_style=route_style) if spatial else unique_models(models)
         if len(ordered) < minimum:
             return
         usable_clusters = clusters
         if usable_clusters is None:
             usable_clusters = [[model] for model in ordered]
+        tuned_normal = scaled_spatial_route_stride(stride_normal, awareness=awareness, dramatic=False) if spatial else max(1, stride_normal)
+        tuned_dramatic = scaled_spatial_route_stride(stride_dramatic, awareness=awareness, dramatic=True) if spatial else max(1, stride_dramatic)
         routes.append(
             KeyboardRoute(
                 name=name,
                 models=ordered,
-                stride_normal=max(1, stride_normal),
-                stride_dramatic=max(1, stride_dramatic),
+                stride_normal=tuned_normal,
+                stride_dramatic=tuned_dramatic,
                 clusters=usable_clusters,
             )
         )
@@ -6143,6 +7172,7 @@ def place_player_piano_sequence(
     add_model,
     in_blackout,
     keyboard_track: list[tuple[str, int, int]],
+    helixualizer_payload: dict[str, object] | None = None,
 ) -> int:
     pool = choose_player_piano_pool(pools)
     if pool is None or not note_events:
@@ -6185,6 +7215,13 @@ def place_player_piano_sequence(
         held_until = event.start_ms
         used_indices: set[int] = set()
         stem_key = stem_for_cue(cue)
+        neighbor_offsets = helixualizer_engine.suggest_player_piano_neighbors(
+            helixualizer_payload,
+            start_ms=event.start_ms,
+            end_ms=event.end_ms,
+            cue=cue,
+            mix=mix,
+        )
         for step, (midi, strength) in enumerate(sorted_notes):
             lane_idx = midi_to_lane_index(midi, len(pool.models))
             if lane_idx in used_indices:
@@ -6215,6 +7252,27 @@ def place_player_piano_sequence(
             )
             held_until = max(held_until, en)
             placed += 1
+
+            if pool.category != "notes" and neighbor_offsets:
+                support_duration = max(50, int(round(dur * (0.64 if cue in {"kick", "snare", "hat"} else 0.78))))
+                support_start = max(event.start_ms, st - 10)
+                support_end = min(event.end_ms + 150, support_start + support_duration)
+                for offset in neighbor_offsets:
+                    support_idx = lane_idx + int(offset)
+                    if not (0 <= support_idx < len(pool.models)) or support_idx in used_indices:
+                        continue
+                    used_indices.add(support_idx)
+                    add_model(
+                        pool.models[support_idx],
+                        support_start,
+                        support_end,
+                        f"player_piano_{pool.category}_support",
+                        eff="Ramp" if use_ramp else "On",
+                        tpl=ramp_tpl if use_ramp else None,
+                        stem=stem_key,
+                    )
+                    held_until = max(held_until, support_end)
+                    placed += 1
 
         if held_until > event.start_ms:
             keyboard_track.append((f"player_piano:{pool.name}:{cue}:{note_label(event.notes)}", event.start_ms, held_until))
@@ -6890,6 +7948,7 @@ def compute_quality_score(payload: dict) -> dict:
     validation = payload.get("validation", {}) or {}
     parsed_layout = payload.get("parsed_layout", {}) or {}
     used_targets = payload.get("used_targets", {}) or {}
+    audit_payload = ((payload.get("audit", {}) or {}).get("final", {}) or {})
     version_text = str(payload.get("version", "") or "").lower()
     version_match = re.match(r"^v(\d+)\.", version_text)
     version_family = int(version_match.group(1)) if version_match else None
@@ -6988,6 +8047,9 @@ def compute_quality_score(payload: dict) -> dict:
         + family_diversity_score * 0.06
         + dominance_score * 0.04
     )
+    audit_score = float(audit_payload.get("score", 0.0) or 0.0)
+    if audit_score > 0.0:
+        overall = (overall * 0.88) + (audit_score * 0.12)
 
     strengths: list[str] = []
     cautions: list[str] = []
@@ -7003,6 +8065,8 @@ def compute_quality_score(payload: dict) -> dict:
         strengths.append("Multiple prop families participated instead of one visual idea dominating.")
     if dominance_score >= 84:
         strengths.append("No single placement family overwhelmed the sequence.")
+    if audit_score >= 88:
+        strengths.append("Post-pass audit confirmed strong balance, coverage, and musical flow.")
     if density_score < 68:
         cautions.append("Effect density is still pushing busy; consider fewer simultaneous accents.")
     if keyboard_score < 65:
@@ -7015,6 +8079,8 @@ def compute_quality_score(payload: dict) -> dict:
         cautions.append("Too few prop families are active for the layout that is available.")
     if dominance_score < 65:
         cautions.append("One placement family is still carrying too much of the sequence.")
+    if audit_score and audit_score < 78:
+        cautions.append("Audit still sees polish headroom in overlap control or section balance.")
     if not strengths:
         strengths.append("Balanced enough to render safely and give a clear review starting point.")
     return {
@@ -7037,6 +8103,7 @@ def compute_quality_score(payload: dict) -> dict:
             "detail": round(detail_score, 1),
             "family_diversity": round(family_diversity_score, 1),
             "dominance": round(dominance_score, 1),
+            "audit": round(audit_score, 1),
         },
         "strengths": strengths[:4],
         "cautions": cautions[:4],
@@ -7045,6 +8112,13 @@ def compute_quality_score(payload: dict) -> dict:
 
 def write_report(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
+def validate_report_payload(payload: dict) -> None:
+    audit_final = ((payload.get("audit", {}) or {}).get("final", {}) or {})
+    audit_score = float(audit_final.get("score", 0.0) or 0.0)
+    if audit_score <= 0.0:
+        raise ValueError("report payload missing non-zero audit.final.score")
 
 
 def write_sequence_notes(path: Path, payload: dict) -> None:
@@ -7056,6 +8130,23 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
     validation = payload.get("validation", {}) or {}
     quality = payload.get("quality", {}) or {}
     watermark = payload.get("watermark", {}) or {}
+    audit = ((payload.get("audit", {}) or {}).get("final", {}) or {})
+    polish = payload.get("polish", {}) or {}
+    shortlist = payload.get("shortlist", {}) or {}
+    matrix_intel = payload.get("matrix_intelligence", {}) or {}
+    chronoflow = payload.get("chronoflow", {}) or {}
+    chronoflow_debug = chronoflow.get("debug", {}) or {}
+    chronoflow_audio = chronoflow.get("audio_intelligence", {}) or {}
+    chronoflow_harmony = chronoflow_audio.get("pitch_harmony", {}) or {}
+    snowman_band = payload.get("snowman_band", {}) or {}
+    snowman_debug = snowman_band.get("debug", {}) or {}
+    snowman_face_routing = snowman_band.get("face_routing", {}) or {}
+    snowman_kit = snowman_band.get("kit", {}) or {}
+    matrix_params = matrix_intel.get("matrix_params", {}) or {}
+    matrix_classification = matrix_intel.get("classification", {}) or {}
+    matrix_video = matrix_intel.get("video_data", {}) or {}
+    exports = payload.get("exports", {}) or {}
+    responsible_use = payload.get("responsible_use", {}) or {}
     lines = [
         "Dream Sequence Weaver",
         "=" * 28,
@@ -7072,6 +8163,8 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
         f"- Keyboard lanes used: {payload.get('keyboard_lane_count', 0)}",
         f"- Validation rejections logged: {validation.get('rejected_effects_count', 0)}",
         f"- Quality score: {quality.get('score', '')} ({quality.get('grade', '')})",
+        f"- Audit score: {audit.get('score', '')} ({audit.get('grade', '')})",
+        f"- Polish score: {polish.get('score', '')}",
         f"- Active prop families: {payload.get('used_targets', {}).get('family_count', 0)} / {parsed_layout.get('available_family_count', 0)}",
         f"- Dominant placement share: {quality.get('dominant_family_ratio', '')}",
         "",
@@ -7089,6 +8182,37 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
         f"- Energy keyboard mix: {tuning.get('keyboard_mix', '')}",
         f"- Palette mode: {tuning.get('palette_mode', '')}",
         f"- Layering mode: {tuning.get('layering_mode', '')}",
+        f"- Polish enabled: {int(bool(tuning.get('polish_enabled', True)))}",
+        f"- Variant count: {tuning.get('variant_count', 1)}",
+        f"- Learn from XSQs: {int(bool(tuning.get('learn_from_my_xsqs', False)))}",
+        "",
+        "Matrix Intelligence",
+        f"- Enabled: {int(bool(matrix_intel.get('enabled', tuning.get('matrix_intelligence', False))))}",
+        f"- Matrix available: {int(bool(matrix_intel.get('matrix_available', False)))}",
+        f"- Matrix count: {matrix_intel.get('matrix_count', 0)}",
+        f"- Target matrix: {matrix_params.get('target_model', '')}",
+        f"- Matrix size: {matrix_params.get('width', '')} x {matrix_params.get('height', '')}",
+        f"- Recommended shader: {matrix_params.get('recommended_shader', '')}",
+        f"- Spectrogram mapping: {matrix_params.get('spectrogram_mapping', '')}",
+        f"- Mood description: {matrix_intel.get('mood_description', '')}",
+        f"- Classification: genre={matrix_classification.get('genre', '')}, mood={matrix_classification.get('mood', '')}, confidence={matrix_classification.get('confidence', '')}",
+        f"- Video available: {int(bool(matrix_video.get('video_available', False)))}",
+        f"- Video sync tip: {matrix_video.get('sync_tip', '')}",
+        "",
+        "Chronoflow",
+        f"- Viewer: {exports.get('chronoflow_view', '')}",
+        f"- Data export: {exports.get('chronoflow_json', '')}",
+        f"- Event count: {chronoflow_debug.get('event_count', 0)}",
+        f"- Trajectory points: {chronoflow_debug.get('trajectory_count', 0)}",
+        f"- Lyric hits: {chronoflow_debug.get('lyric_count', 0)}",
+        f"- Harmonic key: {(chronoflow_harmony.get('key', {}) or {}).get('label', '')}",
+        "",
+        "Snowman Band",
+        f"- Export: {exports.get('snowman_band_json', '')}",
+        f"- Lead face: {snowman_face_routing.get('preferred_lead', '')}",
+        f"- Performer cue count: {snowman_debug.get('total_cue_count', 0)}",
+        f"- Lyric visemes: {snowman_debug.get('lyric_cues', 0)}",
+        f"- Drum kit: {', '.join(snowman_kit.get('components', []))}",
         "",
         "Parsed Layout Summary",
         f"- Models: {parsed_layout.get('model_count', 0)}",
@@ -7106,6 +8230,9 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
         f"- Density per second: {quality.get('density_per_second', '')}",
         f"- Coverage ratio: {quality.get('coverage_ratio', '')}",
         f"- Family diversity ratio: {quality.get('family_diversity_ratio', '')}",
+        f"- Audit overlap ratio: {audit.get('overlap_ratio', '')}",
+        f"- Audit clutter ratio: {audit.get('clutter_ratio', '')}",
+        f"- Audit section coverage: {audit.get('section_coverage', '')}",
         "",
         "Top Placement Families",
     ]
@@ -7132,14 +8259,51 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
     lines.extend(
         [
             "",
-            "Manual Review Hints",
-            "- Check timing tracks first if you want to see where the engine found beats, notes, lyrics, builds, and drops.",
-            "- If a prop family feels underused, compare this notes file with the layout type summary to see whether that family actually exists in the layout.",
-            "- If validation rejections are high, the engine chose safety over forcing overlaps. Consider lowering density or simplifying the layout lanes for that song.",
-            "- For more aggressive looks, compare with another style type instead of only increasing randomness.",
+            "One-Click Readiness",
+            "- This sequence is intended to be show-ready on first export. Open xLights only if you want optional artistic tweaks, not mandatory cleanup.",
+            "- Timing tracks already expose beats, hooks, builds, drops, vocals, and section flow if you want to inspect the storytelling pass.",
+            "- If audit or quality scores dip below your standard, rerun with `--variants 3 --auto-shortlist` before doing any manual edits.",
+            "- If you have favorite past XSQs, place them in the workspace history folder and rerun with `--learn-from-my-xsqs` to adapt palettes and prop behavior.",
+            "- Matrix-specific planning is written to the report JSON under `matrix_intelligence.matrix_shader_config` for shader-timing follow-through.",
             "",
         ]
     )
+    if polish:
+        lines.extend(
+            [
+                "Polish Pass",
+                f"- Overlap repairs: {polish.get('overlap_repairs', 0)}",
+                f"- Section rebalances: {polish.get('section_rebalances', 0)}",
+                f"- Breathing fades: {polish.get('breathing_fades', 0)}",
+                f"- Hook enhancements: {polish.get('hook_enhancements', 0)}",
+                f"- Retimed entries: {polish.get('retimed_entries', 0)}",
+                f"- Palette swaps: {polish.get('palette_swaps', 0)}",
+                "",
+            ]
+        )
+        for note in polish.get("notes", []) or []:
+            lines.append(f"- {note}")
+        lines.append("")
+    if shortlist:
+        lines.extend(
+            [
+                "Shortlist",
+                f"- Enabled: {int(bool(shortlist.get('enabled', False)))}",
+                f"- Winner: {shortlist.get('winner', '')}",
+                f"- Candidates: {shortlist.get('candidate_count', 0)}",
+                "",
+            ]
+        )
+    if responsible_use:
+        lines.extend(
+            [
+                "Responsible Use",
+                f"- {responsible_use.get('notice', '')}",
+                f"- {responsible_use.get('copyright_warning', '')}",
+                f"- {responsible_use.get('build_rule', '')}",
+                "",
+            ]
+        )
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
@@ -7804,6 +8968,25 @@ def normalize_chase_style(raw: str) -> str:
     return "none"
 
 
+def spatial_route_order_style(chase_style: str, awareness: float) -> str:
+    aware = base.clamp(float(awareness), 0.0, 1.0)
+    if aware < 0.20:
+        return "left_to_right"
+    normalized = normalize_chase_style(chase_style)
+    if normalized in {"left_to_right", "top_to_bottom", "radial_out", "group_to_group"}:
+        return normalized
+    return "left_to_right"
+
+
+def scaled_spatial_route_stride(base_stride: int, *, awareness: float, dramatic: bool) -> int:
+    stride = max(1, int(base_stride))
+    aware = base.clamp(float(awareness), 0.0, 1.0)
+    if aware <= 0.01:
+        return stride
+    reduction = 0.45 if dramatic else 0.35
+    return max(1, int(round(stride * (1.0 - (aware * reduction)))))
+
+
 def apply_spatial_chase(
     *,
     style: VariantStyle,
@@ -8269,7 +9452,7 @@ def run_variant(
     out_path: Path,
     profile: base.UserProfile,
     tuning: RuntimeTuning | None = None,
-) -> None:
+) -> dict[str, object]:
     tuning = tuning or RuntimeTuning()
     style = apply_runtime_style(style, tuning)
     rng = random.Random(base.SEED + base.stable_name_seed(style.version + audio_path.stem.lower()))
@@ -8383,13 +9566,22 @@ def run_variant(
         output_dir=out_path.parent,
         tuning=tuning,
     )
+    style = apply_workspace_learning(style, workspace_history)
     if not tuning.workspace_history_enabled:
         log("Workspace history: disabled.")
     elif workspace_history.family_effects or workspace_history.palette_pool:
         log(
             "Workspace history loaded: "
-            f"families={len(workspace_history.family_effects)}, palettes={len(workspace_history.palette_pool)}"
+            f"families={len(workspace_history.family_effects)}, palettes={len(workspace_history.palette_pool)}, "
+            f"files={len(workspace_history.source_files)}"
         )
+        if workspace_history.learned_from_user_xsqs:
+            log(
+                "Workspace learning bias: "
+                f"density={workspace_history.density_bias:.2f}, "
+                f"speed={workspace_history.speed_bias:.2f}, "
+                f"darkness={workspace_history.darkness_bias:.2f}"
+            )
     else:
         log("Workspace history: no prior XSQ patterns found.")
     existing_windows_by_model: dict[str, list[tuple[int, int]]] = {}
@@ -8439,6 +9631,12 @@ def run_variant(
     for pool in pools:
         for model in pool.models:
             model_category_map[model] = pool.category
+    neighbor_graph = build_neighbor_graph(parsed_layout, available_names=list(layers.keys())) if parsed_layout is not None else None
+    if neighbor_graph is not None and neighbor_graph.routes:
+        log(
+            "Spatial neighbor graph: "
+            f"routes={len(neighbor_graph.routes)}, adjacency={len(neighbor_graph.adjacency)}"
+        )
 
     log("[2/8] Analyzing audio and polyphony")
     audio = base.analyze(audio_path)
@@ -8510,10 +9708,77 @@ def run_variant(
     if stem_analysis.drum_hats_ms:
         hats = base.compress_times_ms(stem_analysis.drum_hats_ms, base.scaled_gap(22))
     energy_peaks, build_lifts, releases = derive_dynamic_marks(audio)
+    multiband = derive_multiband_analysis(audio)
+    multiband.section_profiles = derive_section_mir_profiles(
+        parts=parts,
+        audio=audio,
+        analysis=multiband,
+        onset_ms=onset_ms,
+        beat_ms=beat_ms,
+        vocal_peaks=vocal_peaks,
+    )
+    if tuning.matrix_intelligence:
+        matrix_intelligence_payload: dict[str, object] = matrix_planner.build_matrix_intelligence_plan(
+            parsed_layout=parsed_layout,
+            parts=parts,
+            multiband=multiband,
+            audio=audio,
+            beat_ms=beat_ms,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            video_path=tuning.video_file,
+            blend_overrides_path=tuning.blend_rules_file,
+            log_fn=log,
+        )
+    else:
+        matrix_intelligence_payload = {
+            "enabled": False,
+            "matrix_available": False,
+            "matrix_count": 0,
+            "matrix_params": {},
+            "matrix_shader_config": {"per_section": []},
+            "frequency_layer_config": {},
+            "video_data": {
+                "video_available": False,
+                "analysis_note": "Matrix intelligence disabled by runtime tuning.",
+            },
+            "responsible_use": {
+                "notice": "Helix creators are not responsible for misuse of training workflows or sequence data.",
+                "copyright_warning": "Do not train on licensed third-party sequences without explicit rights.",
+                "build_rule": "Use only assets you own or are licensed to use.",
+            },
+        }
     log(
         "Stem analysis source="
         f"{stem_analysis.source}; bass_peaks={len(bass_peaks)}, vocal_peaks={len(vocal_peaks)}, "
         f"kicks={len(kicks)}, snares={len(snares)}, hats={len(hats)}"
+    )
+    log(
+        "Multi-band marks: "
+        f"sub={len(multiband.sub_bass_marks)}, bass={len(multiband.bass_marks)}, "
+        f"mid={len(multiband.mid_marks)}, high={len(multiband.high_marks)}, "
+        f"flux={len(multiband.spectral_flux_marks)}, quiet_windows={len(multiband.quiet_windows)}, "
+        f"genre={multiband.genre_hint}, mood={multiband.mood_hint}"
+    )
+    try:
+        rhythm_intelligence_payload = ri.build_rhythm_intelligence(
+            beat_ms=beat_ms,
+            onset_ms=onset_ms,
+            note_onset_ms=note_onset_ms,
+            parts=parts,
+            audio=audio,
+        )
+    except Exception as exc:
+        log(f"[WARN] Rhythm intelligence analysis skipped: {exc!r}")
+        rhythm_intelligence_payload = ri.default_payload()
+    log(
+        "Rhythm intelligence: "
+        f"polyrhythms={len(rhythm_intelligence_payload.get('polyrhythm_overlays', []))}, "
+        f"phrases={len(rhythm_intelligence_payload.get('phrase_boundaries', []))}, "
+        f"microtiming_samples={int(rhythm_intelligence_payload.get('microtiming', {}).get('sample_count', 0))}"
     )
 
     def _snap_to_grid(t_ms: int, grid: list[int], max_shift: int) -> int:
@@ -8558,7 +9823,7 @@ def run_variant(
         return (beat_ms or onset_ms), (base_shift if layer_key == "accent" else base_shift + 15)
 
     lyric_events: list[ai.LyricEvent] = []
-    if tuning.sync_lyrics_heads:
+    if tuning.sync_lyrics_heads or bool(matrix_intelligence_payload.get("matrix_available", False)):
         lyric_events = ai.extract_lyrics_events(
             audio_path=audio_path,
             use_moises=bool(tuning.use_moises),
@@ -8567,7 +9832,7 @@ def run_variant(
         )
         if lyric_events:
             log(f"Lyric events detected: {len(lyric_events)}")
-        else:
+        elif tuning.sync_lyrics_heads:
             log("Lyric sync requested but no lyric events were detected.")
 
     note_events = extract_polyphonic_events(audio, harmonic, event_times_ms, sections, parts, style)
@@ -8577,6 +9842,68 @@ def run_variant(
         max(26, base.scaled_gap(24)),
     )
     keyboard_note_events = extract_polyphonic_events(audio, harmonic, keyboard_event_times, sections, parts, keyboard_style)
+    try:
+        chronoflow_payload = chronoflow_engine.build_chronoflow_plan(
+            audio_path=audio_path,
+            parsed_layout=parsed_layout,
+            audio=audio,
+            multiband=multiband,
+            parts=parts,
+            note_events=note_events,
+            lyric_events=lyric_events,
+            beat_ms=beat_ms,
+            onset_ms=onset_ms,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            build_lifts=build_lifts,
+            releases=releases,
+            log_fn=log,
+        )
+    except Exception as exc:
+        log(f"[WARN] Chronoflow analysis skipped: {exc!r}")
+        chronoflow_payload = {
+            "enabled": False,
+            "audio_intelligence": {},
+            "spatial_embedding": {"trajectory": []},
+            "visualizer": {"events": [], "lyric_hits": []},
+            "layout_mapping": {},
+            "debug": {"event_count": 0, "trajectory_count": 0, "lyric_count": len(lyric_events)},
+        }
+    try:
+        snowman_band_payload = snowman_band_engine.build_snowman_band_plan(
+            parsed_layout=parsed_layout,
+            parts=parts,
+            lyric_events=lyric_events,
+            note_events=note_events,
+            beat_ms=beat_ms,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            build_lifts=build_lifts,
+            releases=releases,
+            chronoflow_payload=chronoflow_payload,
+            multiband=multiband,
+            enable_lyrics=bool(tuning.sync_lyrics_heads),
+        )
+    except Exception as exc:
+        log(f"[WARN] Snowman band planning skipped: {exc!r}")
+        snowman_band_payload = {
+            "enabled": False,
+            "face_routing": {},
+            "performers": {},
+            "kit": {"components": []},
+            "layout_mapping": {},
+            "visualizer_overlay": {"lyrics_enabled": False, "soundtunnel_lyrics": []},
+            "cues": {},
+            "debug": {"total_cue_count": 0, "lyric_cues": 0},
+        }
+    chronoflow_track = chronoflow_engine.build_timing_track(chronoflow_payload, limit=1400)
+    snowman_band_track = snowman_band_engine.build_timing_track(snowman_band_payload, limit=1800)
 
     def reject_effect(
         nm: str,
@@ -8793,6 +10120,7 @@ def run_variant(
     sweep_track: list[tuple[str, int, int]] = []
     lua_track: list[tuple[str, int, int]] = []
     pixel_track: list[tuple[str, int, int]] = []
+    multiband_track: list[tuple[str, int, int]] = []
     part_track: list[tuple[str, int, int]] = [(part.label, part.start_ms, part.end_ms) for part in parts]
     drop_track: list[tuple[str, int, int]] = []
     coords: dict[str, tuple[float, float]] = {}
@@ -8804,7 +10132,19 @@ def run_variant(
         coords = parsed_layout.coordinate_map(names)
     elif tuning.layout_file and tuning.layout_file.exists():
         coords = ai.parse_layout_coordinates(tuning.layout_file, names)
-    keyboard_routes = adapt_keyboard_routes_for_style(style, build_spatial_keyboard_routes(layout, pools, coords, rng))
+    spatial_awareness = base.clamp(float(tuning.spatial_awareness), 0.0, 1.0)
+    route_order_style = spatial_route_order_style(tuning.chase_style, spatial_awareness)
+    keyboard_routes = adapt_keyboard_routes_for_style(
+        style,
+        build_spatial_keyboard_routes(
+            layout,
+            pools,
+            coords,
+            rng,
+            route_style=route_order_style,
+            awareness=spatial_awareness,
+        ),
+    )
     keyboard_lane = build_keyboard_lane_with_routes(pools, override=lane_override, preferred_routes=keyboard_routes)
     arch_keyboard_lane = next((pool.models for pool in pools if pool.category == "arch" and pool.models), [])
     cane_focus = base.clamp(float(tuning.cane_focus), 0.50, 2.50)
@@ -9454,6 +10794,8 @@ def run_variant(
             )
 
     spatial_keyboard_mix = base.clamp((0.82 if focused_mode else max(0.62, keyboard_mix)) * other_priority_gain, 0.0, 2.0)
+    if spatial_awareness > 0.01:
+        spatial_keyboard_mix = base.clamp(spatial_keyboard_mix * (1.0 + (spatial_awareness * 0.22)), 0.0, 2.0)
     if style.family == "v19":
         spatial_keyboard_mix = max(spatial_keyboard_mix, 1.18)
     elif style.family == "v20":
@@ -9486,6 +10828,7 @@ def run_variant(
             add_model=add_model,
             in_blackout=in_blackout,
             keyboard_track=keyboard_track,
+            helixualizer_payload=(chronoflow_payload.get("helixualizer", {}) or {}),
         )
         if player_piano_placed:
             log(f"Player piano sequence placed: {player_piano_placed} effects on {choose_player_piano_pool(pools).name}")
@@ -9575,9 +10918,14 @@ def run_variant(
     if tuning.sync_lyrics_heads and lyric_events:
         lyric_targets_pool = next((pool for pool in pools if pool.category == "talking_heads" and pool.models), None)
         lyric_text_pool = next((pool for pool in pools if pool.category == "matrix" and pool.models), None)
-        lyric_text_targets = lyric_text_pool.models if lyric_text_pool else []
+        snowman_face_routing = snowman_band_payload.get("face_routing", {}) or {}
+        lyric_text_targets = list(snowman_face_routing.get("lyric_surfaces", []) or [])
+        if not lyric_text_targets:
+            lyric_text_targets = lyric_text_pool.models if lyric_text_pool else []
         text_template_source = template_library.get("text")
-        lyric_targets = lyric_targets_pool.models if lyric_targets_pool else discover_talking_heads(names)
+        lyric_targets = list(snowman_face_routing.get("lead_cycle", []) or [])
+        if not lyric_targets:
+            lyric_targets = lyric_targets_pool.models if lyric_targets_pool else discover_talking_heads(names)
         if lyric_targets:
             for idx, ev in enumerate(lyric_events):
                 st = max(0, int(ev.start_ms))
@@ -9655,6 +11003,7 @@ def run_variant(
             pools=pools,
             parts=parts,
             note_events=note_events,
+            lyric_events=lyric_events,
             kicks=kicks,
             snares=snares,
             hats=hats,
@@ -9667,9 +11016,32 @@ def run_variant(
             add_model=add_model,
             in_blackout=in_blackout,
             pixel_track=pixel_track,
+            matrix_plan=matrix_intelligence_payload,
         )
         if pixel_attempts:
             log(f"Pixel reactive score cues scheduled: {pixel_attempts}")
+        multiband_attempts = place_multiband_reactive_overlay(
+            style=style,
+            pools=pools,
+            parts=parts,
+            audio=audio,
+            analysis=multiband,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            vocal_peaks=vocal_peaks,
+            build_lifts=build_lifts,
+            releases=releases,
+            pool_state=pool_state,
+            rng=rng,
+            ramp_ok=ramp_ok,
+            ramp_tpl=xsq.ramp_tpl,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            overlay_track=multiband_track,
+        )
+        if multiband_attempts:
+            log(f"Multi-band reactive overlays placed: {multiband_attempts}")
 
     if style.family in {"v19", "v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
         neighbor_attempts = apply_neighbor_showcase_score(
@@ -9735,26 +11107,22 @@ def run_variant(
                     stem="bass",
                 )
 
+    coverage_plan = None
     if parsed_layout is not None and style.family in {"v20", "v21", "v22", "v23"}:
-        coverage_models: list[str] = []
-        for model in parsed_layout.models.values():
-            if model.is_submodel:
-                continue
-            if model.name not in layers:
-                continue
-            if model.name in used_root_models:
-                continue
-            family_key = family_from_parsed_model(model) or model_category_map.get(model.name, "")
-            if not family_key:
-                continue
-            coverage_models.append(model.name)
-        if coverage_models:
+        coverage_plan = collect_coverage_targets(
+            parsed_layout=parsed_layout,
+            available_layer_names=list(layers.keys()),
+            used_root_models=used_root_models,
+            model_category_map=model_category_map,
+            limit=48,
+        )
+        if coverage_plan.recommended_targets:
             coverage_window_ms = max(3600, min(12000, max(4800, song_length_ms // 5)))
             coverage_start_ms = max(0, song_length_ms - coverage_window_ms)
-            slots = max(1, min(len(coverage_models), 48))
+            slots = max(1, min(len(coverage_plan.recommended_targets), 48))
             slot_step_ms = max(70, coverage_window_ms // slots)
             coverage_track: list[tuple[str, int, int]] = []
-            for idx, model_name in enumerate(coverage_models):
+            for idx, model_name in enumerate(coverage_plan.recommended_targets):
                 slot_idx = idx % slots
                 cycle_idx = idx // slots
                 start_ms = coverage_start_ms + slot_idx * slot_step_ms + cycle_idx * 16
@@ -9777,6 +11145,49 @@ def run_variant(
         if len(validation_issues) > 12:
             log(f"Validation note: +{len(validation_issues) - 12} more")
 
+    initial_audit = sequence_audit.run_super_audit(
+        timelines=timelines,
+        parts=parts,
+        placements=stats.counts,
+        min_effect_ms=max(50, int(tuning.min_effect_ms)),
+        auto_fix=True,
+    )
+    if initial_audit.fixes_applied:
+        log(f"Audit auto-fixes applied: {initial_audit.fixes_applied}")
+
+    polish_result = sequence_polish.PolishResult(score=0.0)
+    if tuning.polish_enabled:
+        polish_result = sequence_polish.apply_polish_pass(
+            timelines=timelines,
+            parts=parts,
+            quiet_windows=multiband.quiet_windows,
+            add_model=add_model,
+            min_effect_ms=max(50, int(tuning.min_effect_ms)),
+            used_root_models=used_root_models,
+            neighbor_graph=neighbor_graph,
+            template_palette_pool=template_palette_pool,
+            vocal_peaks=vocal_peaks,
+            bass_peaks=bass_peaks,
+            drum_peaks=sorted(set(kicks + snares)),
+        )
+        if polish_result.notes:
+            log(f"Polish pass complete: score={polish_result.score:.1f}")
+
+    post_validation_fixes, post_validation_issues = validate_sequence_timelines(
+        timelines,
+        min_effect_ms=max(50, int(tuning.min_effect_ms)),
+    )
+    validation_fixes += post_validation_fixes
+    validation_issues.extend(post_validation_issues)
+    final_audit = sequence_audit.run_super_audit(
+        timelines=timelines,
+        parts=parts,
+        placements=stats.counts,
+        min_effect_ms=max(50, int(tuning.min_effect_ms)),
+        auto_fix=False,
+    )
+    total = sum(len(entries) for timeline in timelines.values() for entries in timeline.layers.values())
+
     log("[5/8] Writing timing tracks and report")
     if tuning.auto_timing_tracks:
         write_auto_timing_tracks(
@@ -9798,6 +11209,7 @@ def run_variant(
             sections=sections,
             parts=parts,
             blackout_windows=blackout_windows,
+            multiband=multiband,
         )
     if part_track:
         base.write_timing_track(xsq.root, f"AUTO Song Parts {style.version}", part_track, active=False)
@@ -9811,6 +11223,12 @@ def run_variant(
         base.write_timing_track(xsq.root, f"AUTO Lua Macros {style.version}", lua_track, active=False)
     if pixel_track:
         base.write_timing_track(xsq.root, f"AUTO Pixel Score {style.version}", pixel_track[:2000], active=False)
+    if multiband_track:
+        base.write_timing_track(xsq.root, f"AUTO MultiBand {style.version}", multiband_track[:2400], active=False)
+    if chronoflow_track:
+        base.write_timing_track(xsq.root, f"AUTO Chronoflow {style.version}", chronoflow_track[:1400], active=False)
+    if snowman_band_track:
+        base.write_timing_track(xsq.root, f"AUTO Snowman Band {style.version}", snowman_band_track[:1800], active=False)
     if spatial_track:
         base.write_timing_track(xsq.root, f"AUTO Spatial Chase {style.version}", spatial_track, active=False)
     if lyric_track:
@@ -9832,6 +11250,7 @@ def run_variant(
             f"AUTO Sweeps {style.version}",
             f"AUTO Lua Macros {style.version}",
             f"AUTO Pixel Score {style.version}",
+            f"AUTO Chronoflow {style.version}",
             f"AUTO Spatial Chase {style.version}",
             f"AUTO Lyrics {style.version}",
             f"AUTO Drops {style.version}",
@@ -9890,6 +11309,13 @@ def run_variant(
         "duration_seconds": round(float(audio.dur_s), 3),
         "template": template_xsq.name,
         "output": out_path.name,
+        "exports": {
+            "report_json": report_path(out_path).name,
+            "sequence_notes": notes_path(out_path).name,
+            "chronoflow_json": chronoflow_json_path(out_path).name,
+            "chronoflow_view": chronoflow_view_path(out_path).name,
+            "snowman_band_json": snowman_band_json_path(out_path).name,
+        },
         "profile": {
             "feel": profile.feel,
             "density": profile.density,
@@ -9922,6 +11348,13 @@ def run_variant(
             "workspace_history_enabled": bool(tuning.workspace_history_enabled),
             "workspace_history_limit": int(tuning.workspace_history_limit),
             "workspace_history_folder": str(tuning.workspace_history_folder) if tuning.workspace_history_folder else "",
+            "matrix_intelligence": bool(tuning.matrix_intelligence),
+            "video_file": str(tuning.video_file) if tuning.video_file else "",
+            "blend_rules_file": str(tuning.blend_rules_file) if tuning.blend_rules_file else "",
+            "polish_enabled": bool(tuning.polish_enabled),
+            "variant_count": int(tuning.variant_count),
+            "auto_shortlist": bool(tuning.auto_shortlist),
+            "learn_from_my_xsqs": bool(tuning.learn_from_my_xsqs),
             "model_override_keys": sorted((tuning.model_overrides or {}).keys()),
         },
         "xlights_catalog": {
@@ -9937,6 +11370,29 @@ def run_variant(
             "snares": len(snares),
             "hats": len(hats),
         },
+        "advanced_audio": {
+            "tempo_bpm": round(float(multiband.tempo_bpm), 2),
+            "genre_hint": multiband.genre_hint,
+            "mood_hint": multiband.mood_hint,
+            "descriptor_summary": {key: round(float(value), 4) for key, value in multiband.descriptor_summary.items()},
+            "mark_counts": {
+                "sub_bass": len(multiband.sub_bass_marks),
+                "bass": len(multiband.bass_marks),
+                "mid": len(multiband.mid_marks),
+                "high": len(multiband.high_marks),
+                "spectral_flux": len(multiband.spectral_flux_marks),
+                "loud": len(multiband.loud_marks),
+                "quiet_windows": len(multiband.quiet_windows),
+            },
+            "section_profiles": {
+                label: {
+                    key: (round(float(value), 4) if isinstance(value, (int, float)) else value)
+                    for key, value in profile.items()
+                }
+                for label, profile in multiband.section_profiles.items()
+            },
+        },
+        "rhythm_intelligence": rhythm_intelligence_payload,
         "lyrics": {
             "count": len(lyric_events),
             "synced_track_events": len(lyric_track),
@@ -9950,6 +11406,11 @@ def run_variant(
             "families": {key: values[:6] for key, values in workspace_history.family_effects.items()},
             "palette_pool_count": len(workspace_history.palette_pool),
             "palette_pool_preview": workspace_history.palette_pool[:24],
+            "density_bias": round(float(workspace_history.density_bias), 3),
+            "speed_bias": round(float(workspace_history.speed_bias), 3),
+            "darkness_bias": round(float(workspace_history.darkness_bias), 3),
+            "source_files": workspace_history.source_files[:24],
+            "learned_from_user_xsqs": bool(workspace_history.learned_from_user_xsqs),
         },
         "parsed_layout": {
             "model_count": len(parsed_layout.models) if parsed_layout is not None else 0,
@@ -9990,6 +11451,30 @@ def run_variant(
         "keyboard_lane_count": len(keyboard_lane),
         "parts": [{"label": part.label, "start_ms": part.start_ms, "end_ms": part.end_ms} for part in parts],
         "placements": stats.counts,
+        "neighbor_flow": (
+            {
+                "route_count": len(neighbor_graph.routes),
+                "adjacency_count": len(neighbor_graph.adjacency),
+                "seed_targets": neighbor_graph.seed_targets(limit=12),
+            }
+            if neighbor_graph is not None
+            else {}
+        ),
+        "coverage_plan": (coverage_plan.as_dict() if coverage_plan is not None else {}),
+        "audit": {
+            "initial": initial_audit.as_dict(),
+            "final": final_audit.as_dict(),
+        },
+        "matrix_intelligence": matrix_intelligence_payload,
+        "chronoflow": chronoflow_payload,
+        "snowman_band": snowman_band_payload,
+        "responsible_use": matrix_intelligence_payload.get("responsible_use", {}),
+        "polish": polish_result.as_dict(),
+        "shortlist": {
+            "enabled": bool(tuning.auto_shortlist and int(tuning.variant_count) > 1),
+            "winner": out_path.name,
+            "candidate_count": int(tuning.variant_count),
+        },
         "lua_macro_events": len(lua_track),
         "effects_total": total,
         "validation": {
@@ -10007,6 +11492,16 @@ def run_variant(
         },
     }
     payload["quality"] = compute_quality_score(payload)
+    try:
+        chronoflow_engine.write_export_json(chronoflow_json_path(out_path), chronoflow_payload)
+        chronoflow_engine.write_export_html(chronoflow_view_path(out_path), chronoflow_payload)
+    except Exception as exc:
+        log(f"[WARN] Chronoflow export skipped: {exc!r}")
+    try:
+        snowman_band_engine.write_export_json(snowman_band_json_path(out_path), snowman_band_payload)
+    except Exception as exc:
+        log(f"[WARN] Snowman band export skipped: {exc!r}")
+    validate_report_payload(payload)
     write_report(report_path(out_path), payload)
     write_sequence_notes(notes_path(out_path), payload)
 
@@ -10059,10 +11554,32 @@ def run_variant(
         f"({payload['quality'].get('grade', '')})"
     )
     log(f"Report saved: {report_path(out_path).name}")
+    log(f"Chronoflow exports: {chronoflow_json_path(out_path).name}, {chronoflow_view_path(out_path).name}")
+    log(f"Snowman band export: {snowman_band_json_path(out_path).name}")
+    return {
+        "output_path": str(out_path),
+        "report_path": str(report_path(out_path)),
+        "notes_path": str(notes_path(out_path)),
+        "chronoflow_json_path": str(chronoflow_json_path(out_path)),
+        "chronoflow_view_path": str(chronoflow_view_path(out_path)),
+        "snowman_band_json_path": str(snowman_band_json_path(out_path)),
+        "payload": payload,
+        "quality": payload.get("quality", {}),
+        "audit": payload.get("audit", {}),
+        "polish": payload.get("polish", {}),
+    }
 
 
 def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=f"Dream Sequence Weaver xLights sequencer {style.version} - {style.title}")
+    parser = argparse.ArgumentParser(
+        description=f"Dream Sequence Weaver xLights sequencer {style.version} - {style.title}",
+        epilog=(
+            "One-click vendor-quality example:\n"
+            "  python main.py --profile master -- --template template.xsq --audio song.wav "
+            "--no-prompt --polish --variants 3 --auto-shortlist --learn-from-my-xsqs"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     parser.add_argument("--template", help="Path to template .xsq")
     parser.add_argument("--audio", nargs="*", help="Optional audio file(s) to process")
     parser.add_argument("--single", action="store_true", help="Process only the first audio file")
@@ -10120,6 +11637,15 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--no-auto-timing-tracks", dest="auto_timing_tracks", action="store_false", help="Disable extended timing-track output")
     parser.add_argument("--pixel-reactive", dest="pixel_reactive", action="store_true", help="Enable family-aware reactive pixel choreography for compatible models")
     parser.add_argument("--no-pixel-reactive", dest="pixel_reactive", action="store_false", help="Disable the reactive pixel choreography pass")
+    parser.add_argument("--matrix-intelligence", dest="matrix_intelligence", action="store_true", help="Enable matrix-first shader planning in report output")
+    parser.add_argument("--no-matrix-intelligence", dest="matrix_intelligence", action="store_false", help="Disable matrix-first shader planning")
+    parser.add_argument("--video-file", dest="video_file", help="Optional MP4 file for hybrid audio-plus-video matrix planning")
+    parser.add_argument("--blend-rules-file", dest="blend_rules_file", help="Optional JSON overrides for matrix blend planning")
+    parser.add_argument("--polish", dest="polish_enabled", action="store_true", help="Run the post-generation polish pass")
+    parser.add_argument("--no-polish", dest="polish_enabled", action="store_false", help="Skip the post-generation polish pass")
+    parser.add_argument("--variants", type=int, dest="variant_count", default=3, help="Number of runtime variants to generate and score")
+    parser.add_argument("--auto-shortlist", dest="auto_shortlist", action="store_true", help="Promote the best-scoring runtime variant to the canonical output")
+    parser.add_argument("--learn-from-my-xsqs", dest="learn_from_my_xsqs", action="store_true", help="Learn palette, density, and prop behavior from prior high-scoring XSQs in the workspace history folder")
     parser.add_argument("--settings", default=f"{style.version}.settings.json", help="Settings JSON path")
     parser.add_argument("--output-dir", help="Optional output folder override")
     parser.add_argument("--no-prompt", action="store_true", help="Run without interactive prompts")
@@ -10132,6 +11658,10 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
         auto_timing_tracks=True,
         workspace_history_enabled=True,
         pixel_reactive=True,
+        matrix_intelligence=True,
+        polish_enabled=True,
+        auto_shortlist=False,
+        learn_from_my_xsqs=False,
     )
     return parser.parse_args(argv)
 
@@ -10213,6 +11743,14 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     workspace_history_folder = resolve_path(folder, args.workspace_history_folder) if args.workspace_history_folder else (folder / "outputs")
     if workspace_history_folder is not None and not workspace_history_folder.exists():
         workspace_history_folder = None
+    video_file = resolve_path(folder, args.video_file) if args.video_file else None
+    if video_file is not None and not video_file.exists():
+        log(f"Video file not found; matrix video analysis disabled: {video_file}")
+        video_file = None
+    blend_rules_file = resolve_path(folder, args.blend_rules_file) if args.blend_rules_file else None
+    if blend_rules_file is not None and not blend_rules_file.exists():
+        log(f"Blend rules file not found; using default matrix blend rules: {blend_rules_file}")
+        blend_rules_file = None
     moises_key = (args.moises_api_key or "").strip() or os.environ.get("MOISES_API_KEY", "")
     tuning = RuntimeTuning(
         polyphony_override=int(args.polyphony) if args.polyphony is not None else None,
@@ -10248,6 +11786,13 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         workspace_history_limit=max(4, int(args.workspace_history_limit if args.workspace_history_limit is not None else 24)),
         auto_timing_tracks=bool(args.auto_timing_tracks),
         pixel_reactive=bool(args.pixel_reactive),
+        matrix_intelligence=bool(args.matrix_intelligence),
+        video_file=video_file,
+        blend_rules_file=blend_rules_file,
+        polish_enabled=bool(args.polish_enabled),
+        variant_count=max(1, int(args.variant_count if args.variant_count is not None else 3)),
+        auto_shortlist=bool(args.auto_shortlist),
+        learn_from_my_xsqs=bool(args.learn_from_my_xsqs),
     )
     style = apply_runtime_style(style, tuning)
 
@@ -10294,16 +11839,48 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         f"max_layers={tuning.max_layers_per_prop}, min_ms={tuning.min_effect_ms}, "
         f"lyrics_sync={int(bool(tuning.sync_lyrics_heads))}, "
         f"workspace_history={int(bool(tuning.workspace_history_folder))}:{tuning.workspace_history_limit}, "
+        f"matrix={int(bool(tuning.matrix_intelligence))}, "
+        f"polish={int(bool(tuning.polish_enabled))}, "
+        f"variants={tuning.variant_count}, shortlist={int(bool(tuning.auto_shortlist))}, "
+        f"learn_xsqs={int(bool(tuning.learn_from_my_xsqs))}, "
         f"overrides={len(overrides_payload)}"
     )
     log(f"Output folder: {output_dir.name}")
     log(f"Processing {len(audios)} audio file(s) with {style.version}...")
+    runtime_candidates = build_runtime_candidates(style, tuning, tuning.variant_count)
 
     for i, audio in enumerate(audios, 1):
         out = variant_output_name(audio, output_dir, style.version)
         log(f"\n[{i}/{len(audios)}] {audio.name} -> {out.name}")
         try:
-            run_variant(style, template, audio, out, profile, tuning=tuning)
+            candidate_results: list[dict[str, object]] = []
+            for idx, candidate in enumerate(runtime_candidates, 1):
+                candidate_out = out if idx == 1 else variant_output_name(audio, output_dir, candidate.style.version)
+                log(f"  Variant {idx}/{len(runtime_candidates)}: {candidate.label} -> {candidate_out.name}")
+                result = run_variant(
+                    candidate.style,
+                    template,
+                    audio,
+                    candidate_out,
+                    profile,
+                    tuning=replace(candidate.tuning),
+                )
+                result["label"] = candidate.label
+                result["description"] = candidate.description
+                result["style_version"] = candidate.style.version
+                candidate_results.append(result)
+            if tuning.auto_shortlist and len(candidate_results) > 1:
+                best_entry = choose_best_candidate(candidate_results)
+                if best_entry is not None:
+                    if bool(best_entry.get("quality_gate_passed", False)):
+                        promote_shortlisted_candidate(best_entry, out)
+                        log(
+                            "Auto-shortlist winner: "
+                            f"{best_entry.get('label', '')} -> {Path(str(best_entry.get('output_path', out))).name}"
+                        )
+                    else:
+                        reasons = ", ".join(str(item) for item in (best_entry.get("quality_gate_reasons") or []))
+                        log(f"Auto-shortlist skipped: no candidate passed quality gates ({reasons or 'failed_quality_gates'})")
         except Exception as exc:
             log(f"FAILED: {audio.name}: {repr(exc)}")
 
