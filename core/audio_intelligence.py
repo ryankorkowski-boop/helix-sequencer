@@ -6,6 +6,7 @@ import shutil
 import tempfile
 import time
 import subprocess
+from bisect import bisect_left
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
@@ -434,6 +435,18 @@ def build_stem_analysis(
     log_fn: Callable[[str], None] | None = None,
 ) -> StemAnalysis:
     """Build stems and per-stem timing cues used by the sequencer engine."""
+    if not audio_path.exists():
+        _log(log_fn, f"Audio analysis skipped; file does not exist: {audio_path}")
+        return StemAnalysis(
+            source="direct",
+            stems={},
+            bass_peaks_ms=[],
+            vocal_peaks_ms=[],
+            drum_kicks_ms=[],
+            drum_snares_ms=[],
+            drum_hats_ms=[],
+        )
+
     stem_dir = cache_dir / audio_path.stem
     stem_dir.mkdir(parents=True, exist_ok=True)
 
@@ -630,6 +643,29 @@ def parse_layout_coordinates(layout_path: Path, available_names: list[str]) -> d
                 out[actual] = (x, y)
 
         return out
+
+
+def nearest_mark_distance_ms(target_ms: int, marks: list[int]) -> int | None:
+    if not marks:
+        return None
+    ordered = sorted(int(mark) for mark in marks)
+    idx = bisect_left(ordered, int(target_ms))
+    candidates: list[int] = []
+    if idx < len(ordered):
+        candidates.append(abs(ordered[idx] - int(target_ms)))
+    if idx > 0:
+        candidates.append(abs(ordered[idx - 1] - int(target_ms)))
+    return min(candidates) if candidates else None
+
+
+def proximity_confidence(target_ms: int, marks: list[int], window_ms: int, floor: float = 0.0) -> float:
+    distance = nearest_mark_distance_ms(target_ms, marks)
+    if distance is None:
+        return float(np.clip(floor, 0.0, 1.0))
+    if window_ms <= 0:
+        return 1.0 if distance == 0 else float(np.clip(floor, 0.0, 1.0))
+    score = 1.0 - min(1.0, float(distance) / float(window_ms))
+    return float(np.clip(max(floor, score), 0.0, 1.0))
 
 
 def ordered_spatial_path(
