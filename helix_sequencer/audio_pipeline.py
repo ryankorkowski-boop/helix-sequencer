@@ -8,6 +8,8 @@ from madmom.features.downbeats import RNNDownBeatProcessor, DBNDownBeatTrackingP
 
 import essentia.standard as es
 
+from core.feature_state import build_feature_state_sequence, serialize_feature_state_sequence
+
 
 class AudioPipeline:
     def __init__(self, fps=40):
@@ -31,7 +33,7 @@ class AudioPipeline:
 
         return {
             "beats": beats,
-            "downbeats": downbeats
+            "downbeats": downbeats,
         }
 
     # ----------------------
@@ -44,7 +46,7 @@ class AudioPipeline:
         frame_size = 1024
         hop_size = 512
 
-        window = es.Windowing(type='hann')
+        window = es.Windowing(type="hann")
         spectrum = es.Spectrum()
 
         energy = []
@@ -60,8 +62,20 @@ class AudioPipeline:
         return {
             "energy": energy,
             "centroid": centroid,
-            "tempo": tempo
+            "tempo": tempo,
         }
+
+    # ----------------------
+    # FEATURE STATE ENGINE
+    # ----------------------
+    def build_feature_state(self, features, history_size=128, ema_alpha=0.2):
+        frames = build_feature_state_sequence(
+            features,
+            fps=float(self.fps),
+            history_size=history_size,
+            ema_alpha=ema_alpha,
+        )
+        return serialize_feature_state_sequence(frames)
 
     # ----------------------
     # TIMELINE BUILDER
@@ -74,7 +88,7 @@ class AudioPipeline:
                 "time": float(beat_time),
                 "is_downbeat": False,
                 "energy": None,
-                "brightness": None
+                "brightness": None,
             }
 
             idx = int(beat_time * self.fps)
@@ -98,10 +112,12 @@ class AudioPipeline:
     def process(self, audio_file):
         timing = self.extract_timing(audio_file)
         features = self.extract_features(audio_file)
+        feature_state = self.build_feature_state(features)
         timeline = self.build_timeline(timing, features)
 
         return {
             "timing": timing,
             "features": features,
-            "timeline": timeline
+            "feature_state": feature_state,
+            "timeline": timeline,
         }
