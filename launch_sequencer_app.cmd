@@ -26,7 +26,8 @@ if exist "%EXE%" (
   exit /b 0
 )
 
-set "SCRIPT=%~dp0main.py"
+set "SCRIPT=%~dp0gui_launcher.py"
+if not exist "%SCRIPT%" set "SCRIPT=%~dp0main.py"
 if not exist "%SCRIPT%" (
   echo Active entry script not found: %SCRIPT%
   pause
