@@ -3,6 +3,10 @@ __pycache__/
 .venv/
 build/
 dist/
+outputs/
+Backup/
+RenderCache/
+_media/
 *.exe
 *.wav
 *.mp3
@@ -11,3 +15,6 @@ dist/
 *.m4a
 *.xbkp
 414_inventory.txt
+release/
+v[0-9]*/
+*.settings.json
