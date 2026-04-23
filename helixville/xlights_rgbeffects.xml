@@ -19,7 +19,7 @@
         <alias name="oldname:merry christmas" />
       </Aliases>
     </model>
-    <model DisplayAs="Single Line" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm3="1" LayoutGroup="Default" name="merRy christmas 4" parm2="1" WorldPosX="604.6000" WorldPosY="436.8000" WorldPosZ="95.0000" X2="0.000000" Y2="7.999969" Z2="0.000000" versionNumber="7" StartChannel="164">
+    <model DisplayAs="Single Line" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm3="1" LayoutGroup="Default" name="merRy christmas 4" parm2="1" WorldPosX="604.6000" WorldPosY="436.8000" WorldPosZ="0.0000" X2="0.000000" Y2="7.999969" Z2="0.000000" versionNumber="7" StartChannel="164">
       <ControllerConnection Protocol="LOR Optimised" />
       <Aliases>
         <alias name="oldname:single line" />

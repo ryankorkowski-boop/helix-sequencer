@@ -9,11 +9,11 @@ Intent:
 - Apply deterministic Z-layering so 3D testing and camera passes are meaningful.
 
 Generated district model counts:
-- gps_house_ac: 255
+- gps_house_ac: 256
 - neighbor_left: 47
 - neighbor_right: 39
 - village_accents: 3
 - village_matrix: 4
 - village_misc: 6
 - village_motion: 2
-- village_structures: 12
+- village_structures: 11
