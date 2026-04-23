@@ -28,10 +28,16 @@ from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
 from core import snowman_band as snowman_band_engine
 from tools.build_helpers import (
+    DEFAULT_MAX_REJECTED_EFFECTS,
+    DEFAULT_MIN_AUDIT_SCORE,
+    DEFAULT_VENDOR_MAX_REJECTED_EFFECTS,
+    DEFAULT_VENDOR_MIN_AUDIT_SCORE,
+    DEFAULT_VENDOR_MIN_QUALITY_SCORE,
     build_neighbor_graph,
     build_runtime_candidates,
     choose_best_candidate,
     collect_coverage_targets,
+    evaluate_quality_gates,
     promote_shortlisted_candidate,
 )
 from tools import utilities as xfb
@@ -178,6 +184,10 @@ class RuntimeTuning:
     variant_count: int = 3
     auto_shortlist: bool = False
     learn_from_my_xsqs: bool = False
+    vendor_bar: bool = False
+    vendor_min_quality_score: float = DEFAULT_VENDOR_MIN_QUALITY_SCORE
+    vendor_min_audit_score: float = DEFAULT_VENDOR_MIN_AUDIT_SCORE
+    vendor_max_rejected_effects: int = DEFAULT_VENDOR_MAX_REJECTED_EFFECTS
 
 
 @dataclass
@@ -8121,6 +8131,33 @@ def validate_report_payload(payload: dict) -> None:
         raise ValueError("report payload missing non-zero audit.final.score")
 
 
+def compute_vendor_bar_verdict(
+    payload: dict,
+    *,
+    enabled: bool,
+    min_quality_score: float,
+    min_audit_score: float,
+    max_rejected_effects: int,
+) -> dict:
+    gate = evaluate_quality_gates(
+        payload,
+        min_quality_score=float(min_quality_score),
+        min_audit_score=float(min_audit_score),
+        max_rejected_effects=int(max_rejected_effects),
+    )
+    return {
+        "enabled": bool(enabled),
+        "min_quality_score": float(min_quality_score),
+        "min_audit_score": float(min_audit_score),
+        "max_rejected_effects": int(max_rejected_effects),
+        "passed": bool(gate["passed"]),
+        "reasons": list(gate["reasons"]),
+        "quality_score": float(gate["quality_score"]),
+        "audit_score": float(gate["audit_score"]),
+        "rejected_effects": int(gate["rejected_effects"]),
+    }
+
+
 def write_sequence_notes(path: Path, payload: dict) -> None:
     placements = payload.get("placements", {}) or {}
     top_placements = sorted(placements.items(), key=lambda item: (-int(item[1]), item[0]))[:12]
@@ -8133,6 +8170,7 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
     audit = ((payload.get("audit", {}) or {}).get("final", {}) or {})
     polish = payload.get("polish", {}) or {}
     shortlist = payload.get("shortlist", {}) or {}
+    vendor_bar = payload.get("vendor_bar", {}) or {}
     matrix_intel = payload.get("matrix_intelligence", {}) or {}
     chronoflow = payload.get("chronoflow", {}) or {}
     chronoflow_debug = chronoflow.get("debug", {}) or {}
@@ -8291,6 +8329,19 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
                 f"- Enabled: {int(bool(shortlist.get('enabled', False)))}",
                 f"- Winner: {shortlist.get('winner', '')}",
                 f"- Candidates: {shortlist.get('candidate_count', 0)}",
+                "",
+            ]
+        )
+    if vendor_bar:
+        lines.extend(
+            [
+                "Vendor Bar",
+                f"- Enabled: {int(bool(vendor_bar.get('enabled', False)))}",
+                f"- Passed: {int(bool(vendor_bar.get('passed', False)))}",
+                f"- Quality score: {vendor_bar.get('quality_score', '')} (min {vendor_bar.get('min_quality_score', '')})",
+                f"- Audit score: {vendor_bar.get('audit_score', '')} (min {vendor_bar.get('min_audit_score', '')})",
+                f"- Rejected effects: {vendor_bar.get('rejected_effects', '')} (max {vendor_bar.get('max_rejected_effects', '')})",
+                f"- Reasons: {', '.join(vendor_bar.get('reasons', []) or [])}",
                 "",
             ]
         )
@@ -11355,6 +11406,10 @@ def run_variant(
             "variant_count": int(tuning.variant_count),
             "auto_shortlist": bool(tuning.auto_shortlist),
             "learn_from_my_xsqs": bool(tuning.learn_from_my_xsqs),
+            "vendor_bar": bool(tuning.vendor_bar),
+            "vendor_min_quality_score": float(tuning.vendor_min_quality_score),
+            "vendor_min_audit_score": float(tuning.vendor_min_audit_score),
+            "vendor_max_rejected_effects": int(tuning.vendor_max_rejected_effects),
             "model_override_keys": sorted((tuning.model_overrides or {}).keys()),
         },
         "xlights_catalog": {
@@ -11492,6 +11547,17 @@ def run_variant(
         },
     }
     payload["quality"] = compute_quality_score(payload)
+    payload["vendor_bar"] = compute_vendor_bar_verdict(
+        payload,
+        enabled=bool(tuning.vendor_bar),
+        min_quality_score=float(tuning.vendor_min_quality_score),
+        min_audit_score=float(tuning.vendor_min_audit_score),
+        max_rejected_effects=int(tuning.vendor_max_rejected_effects),
+    )
+    if payload["vendor_bar"].get("enabled", False) and not payload["vendor_bar"].get("passed", False):
+        cautions = list((payload.get("quality", {}) or {}).get("cautions", []) or [])
+        cautions.append("Vendor bar thresholds were not met; rerun with stricter tuning or more variants.")
+        payload["quality"]["cautions"] = cautions[:4]
     try:
         chronoflow_engine.write_export_json(chronoflow_json_path(out_path), chronoflow_payload)
         chronoflow_engine.write_export_html(chronoflow_view_path(out_path), chronoflow_payload)
@@ -11645,6 +11711,10 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--no-polish", dest="polish_enabled", action="store_false", help="Skip the post-generation polish pass")
     parser.add_argument("--variants", type=int, dest="variant_count", default=3, help="Number of runtime variants to generate and score")
     parser.add_argument("--auto-shortlist", dest="auto_shortlist", action="store_true", help="Promote the best-scoring runtime variant to the canonical output")
+    parser.add_argument("--vendor-bar", dest="vendor_bar", action="store_true", help="Enforce paid-vendor level quality thresholds during shortlist and reporting")
+    parser.add_argument("--vendor-min-quality", type=float, dest="vendor_min_quality_score", help="Minimum quality score required for vendor-bar pass")
+    parser.add_argument("--vendor-min-audit", type=float, dest="vendor_min_audit_score", help="Minimum audit score required for vendor-bar pass")
+    parser.add_argument("--vendor-max-rejected", type=int, dest="vendor_max_rejected_effects", help="Maximum rejected effects allowed for vendor-bar pass")
     parser.add_argument("--learn-from-my-xsqs", dest="learn_from_my_xsqs", action="store_true", help="Learn palette, density, and prop behavior from prior high-scoring XSQs in the workspace history folder")
     parser.add_argument("--settings", default=f"{style.version}.settings.json", help="Settings JSON path")
     parser.add_argument("--output-dir", help="Optional output folder override")
@@ -11662,6 +11732,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
         polish_enabled=True,
         auto_shortlist=False,
         learn_from_my_xsqs=False,
+        vendor_bar=False,
     )
     return parser.parse_args(argv)
 
@@ -11793,7 +11864,20 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         variant_count=max(1, int(args.variant_count if args.variant_count is not None else 3)),
         auto_shortlist=bool(args.auto_shortlist),
         learn_from_my_xsqs=bool(args.learn_from_my_xsqs),
+        vendor_bar=bool(args.vendor_bar),
+        vendor_min_quality_score=float(args.vendor_min_quality_score if args.vendor_min_quality_score is not None else DEFAULT_VENDOR_MIN_QUALITY_SCORE),
+        vendor_min_audit_score=float(args.vendor_min_audit_score if args.vendor_min_audit_score is not None else DEFAULT_VENDOR_MIN_AUDIT_SCORE),
+        vendor_max_rejected_effects=max(
+            1,
+            int(args.vendor_max_rejected_effects if args.vendor_max_rejected_effects is not None else DEFAULT_VENDOR_MAX_REJECTED_EFFECTS),
+        ),
     )
+    if tuning.vendor_bar:
+        # Vendor-bar mode forces the higher-quality generation path.
+        tuning.auto_shortlist = True
+        tuning.polish_enabled = True
+        tuning.variant_count = max(3, int(tuning.variant_count))
+        tuning.workspace_history_enabled = True
     style = apply_runtime_style(style, tuning)
 
     template = resolve_path(folder, args.template) if args.template else base.find_template_xsq(folder)
@@ -11842,6 +11926,10 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         f"matrix={int(bool(tuning.matrix_intelligence))}, "
         f"polish={int(bool(tuning.polish_enabled))}, "
         f"variants={tuning.variant_count}, shortlist={int(bool(tuning.auto_shortlist))}, "
+        f"vendor_bar={int(bool(tuning.vendor_bar))}:"
+        f"{tuning.vendor_min_quality_score:.1f}/"
+        f"{tuning.vendor_min_audit_score:.1f}/"
+        f"{tuning.vendor_max_rejected_effects}, "
         f"learn_xsqs={int(bool(tuning.learn_from_my_xsqs))}, "
         f"overrides={len(overrides_payload)}"
     )
@@ -11870,7 +11958,24 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                 result["style_version"] = candidate.style.version
                 candidate_results.append(result)
             if tuning.auto_shortlist and len(candidate_results) > 1:
-                best_entry = choose_best_candidate(candidate_results)
+                best_entry = choose_best_candidate(
+                    candidate_results,
+                    min_audit_score=(
+                        float(tuning.vendor_min_audit_score)
+                        if tuning.vendor_bar
+                        else float(DEFAULT_MIN_AUDIT_SCORE)
+                    ),
+                    max_rejected_effects=(
+                        int(tuning.vendor_max_rejected_effects)
+                        if tuning.vendor_bar
+                        else int(DEFAULT_MAX_REJECTED_EFFECTS)
+                    ),
+                    min_quality_score=(
+                        float(tuning.vendor_min_quality_score)
+                        if tuning.vendor_bar
+                        else None
+                    ),
+                )
                 if best_entry is not None:
                     if bool(best_entry.get("quality_gate_passed", False)):
                         promote_shortlisted_candidate(best_entry, out)
