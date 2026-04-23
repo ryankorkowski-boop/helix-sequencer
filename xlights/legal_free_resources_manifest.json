@@ -1,0 +1,77 @@
+{
+  "generated_on": "2026-04-23",
+  "policy": {
+    "require_source_url": true,
+    "require_license_notes": true,
+    "allow_redistribution_default": false,
+    "allow_training_default": "metadata_only"
+  },
+  "resources": [
+    {
+      "id": "xlights_builtin_free_sequences",
+      "name": "xLights Tools -> Download Sequences/Lyrics",
+      "type": "sequence_index",
+      "source_url": "https://manual.xlights.org/xlights/chapters/chapter-five-menus/tools",
+      "access": "free",
+      "direct_download": false,
+      "license_notes": "List of free sequence links is exposed by xLights UI; rights remain with the source author.",
+      "redistribution_allowed": false,
+      "training_use": "metadata_only"
+    },
+    {
+      "id": "xlights_model_download_dialog",
+      "name": "xLights Download Model Dialog",
+      "type": "model_catalog",
+      "source_url": "https://manual.xlights.org/xlights/chapters/chapter-four-tabs/download-import-models",
+      "access": "mixed",
+      "direct_download": false,
+      "license_notes": "Catalog is vendor-provided inside xLights; each model remains subject to vendor terms.",
+      "redistribution_allowed": false,
+      "training_use": "metadata_only"
+    },
+    {
+      "id": "xlights_custom_model_exchange",
+      "name": "xLights xModel import/export workflow",
+      "type": "model_workflow",
+      "source_url": "https://manual.xlights.org/xlights/chapters/chapter-four-tabs/models/custom-model",
+      "access": "free",
+      "direct_download": false,
+      "license_notes": "xModel files can be shared; permission still depends on original creator/vendor rights.",
+      "redistribution_allowed": false,
+      "training_use": "metadata_only"
+    },
+    {
+      "id": "sequenceexchange_free_to_test",
+      "name": "SequenceExchange Free-to-Test Collection",
+      "type": "sequence_marketplace",
+      "source_url": "https://www.sequenceexchange.com/",
+      "access": "mixed",
+      "direct_download": false,
+      "license_notes": "Marketplace includes free and paid entries with limited license terms.",
+      "redistribution_allowed": false,
+      "training_use": "metadata_only"
+    },
+    {
+      "id": "models_xlights_app_free_tier",
+      "name": "xLights Model Generator Free Tier",
+      "type": "model_generator",
+      "source_url": "https://models.xlights.app/",
+      "access": "free_tier",
+      "direct_download": true,
+      "license_notes": "Free tier supports xModel export for user-created designs; platform terms apply.",
+      "redistribution_allowed": false,
+      "training_use": "own_generated_only"
+    },
+    {
+      "id": "rgb_sequences_free_samples",
+      "name": "RGB Sequences Free Samples",
+      "type": "vendor_samples",
+      "source_url": "https://rgb-sequences.com/",
+      "access": "mixed",
+      "direct_download": false,
+      "license_notes": "Site advertises a few free xLights sequences; distribution and use rights remain vendor-defined.",
+      "redistribution_allowed": false,
+      "training_use": "metadata_only"
+    }
+  ]
+}

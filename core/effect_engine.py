@@ -23,6 +23,7 @@ from core import audio_intelligence as ai
 from core import chronoflow as chronoflow_engine
 from core import helixualizer as helixualizer_engine
 from core import matrix_intelligence as matrix_planner
+from core import birdsong_engine
 from core import model_parser as xmp
 from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
@@ -188,6 +189,11 @@ class RuntimeTuning:
     vendor_min_quality_score: float = DEFAULT_VENDOR_MIN_QUALITY_SCORE
     vendor_min_audit_score: float = DEFAULT_VENDOR_MIN_AUDIT_SCORE
     vendor_max_rejected_effects: int = DEFAULT_VENDOR_MAX_REJECTED_EFFECTS
+    birdsong_enabled: bool = False
+    birdsong_auto: bool = False
+    birdsong_intensity: float = 1.0
+    birdsong_min_confidence: float = 0.45
+    birdsong_profile: str = "wild"
 
 
 @dataclass
@@ -10172,8 +10178,20 @@ def run_variant(
     lua_track: list[tuple[str, int, int]] = []
     pixel_track: list[tuple[str, int, int]] = []
     multiband_track: list[tuple[str, int, int]] = []
+    birdsong_track: list[tuple[str, int, int]] = []
     part_track: list[tuple[str, int, int]] = [(part.label, part.start_ms, part.end_ms) for part in parts]
     drop_track: list[tuple[str, int, int]] = []
+    birdsong_result = birdsong_engine.BirdsongResult(
+        enabled=False,
+        confidence=0.0,
+        profile=str(tuning.birdsong_profile or "wild"),
+        calls=0,
+        echos=0,
+        sweeps=0,
+        species_counts={},
+        timing_spans=[],
+        reason="not_run",
+    )
     coords: dict[str, tuple[float, float]] = {}
     reference_poly_xsq = resolve_reference_poly_xsq(template_xsq)
     reference_scale_midis = load_reference_scale_midis(reference_poly_xsq)
@@ -11117,6 +11135,37 @@ def run_variant(
         if neighbor_attempts:
             log(f"Neighbor showcase placements added: {neighbor_attempts}")
 
+    birdsong_result = birdsong_engine.place_birdsong_engine(
+        audio=audio,
+        note_events=note_events,
+        hats=hats,
+        vocal_peaks=vocal_peaks,
+        pools=pools,
+        add_model=add_model,
+        in_blackout=in_blackout,
+        rng=rng,
+        enabled=bool(tuning.birdsong_enabled),
+        auto_enable=bool(tuning.birdsong_auto),
+        intensity=float(tuning.birdsong_intensity),
+        min_confidence=float(tuning.birdsong_min_confidence),
+        profile=str(tuning.birdsong_profile),
+    )
+    if birdsong_result.timing_spans:
+        birdsong_track.extend(birdsong_result.timing_spans)
+    if birdsong_result.enabled:
+        log(
+            "Birdsong engine placements: "
+            f"calls={birdsong_result.calls}, echos={birdsong_result.echos}, "
+            f"sweeps={birdsong_result.sweeps}, confidence={birdsong_result.confidence:.2f}, "
+            f"profile={birdsong_result.profile}"
+        )
+    elif bool(tuning.birdsong_enabled) or bool(tuning.birdsong_auto):
+        log(
+            "Birdsong engine skipped: "
+            f"{birdsong_result.reason} (confidence={birdsong_result.confidence:.2f}, "
+            f"threshold={tuning.birdsong_min_confidence:.2f})"
+        )
+
     for part in parts:
         if part.label == "CHORUS":
             drop_track.append(("Drop", part.start_ms, min(part.start_ms + 500, part.end_ms)))
@@ -11280,6 +11329,8 @@ def run_variant(
         base.write_timing_track(xsq.root, f"AUTO Chronoflow {style.version}", chronoflow_track[:1400], active=False)
     if snowman_band_track:
         base.write_timing_track(xsq.root, f"AUTO Snowman Band {style.version}", snowman_band_track[:1800], active=False)
+    if birdsong_track:
+        base.write_timing_track(xsq.root, f"AUTO Birdsong {style.version}", birdsong_track[:2000], active=False)
     if spatial_track:
         base.write_timing_track(xsq.root, f"AUTO Spatial Chase {style.version}", spatial_track, active=False)
     if lyric_track:
@@ -11302,6 +11353,7 @@ def run_variant(
             f"AUTO Lua Macros {style.version}",
             f"AUTO Pixel Score {style.version}",
             f"AUTO Chronoflow {style.version}",
+            f"AUTO Birdsong {style.version}",
             f"AUTO Spatial Chase {style.version}",
             f"AUTO Lyrics {style.version}",
             f"AUTO Drops {style.version}",
@@ -11411,6 +11463,11 @@ def run_variant(
             "vendor_min_audit_score": float(tuning.vendor_min_audit_score),
             "vendor_max_rejected_effects": int(tuning.vendor_max_rejected_effects),
             "model_override_keys": sorted((tuning.model_overrides or {}).keys()),
+            "birdsong_enabled": bool(tuning.birdsong_enabled),
+            "birdsong_auto": bool(tuning.birdsong_auto),
+            "birdsong_intensity": float(tuning.birdsong_intensity),
+            "birdsong_min_confidence": float(tuning.birdsong_min_confidence),
+            "birdsong_profile": str(tuning.birdsong_profile),
         },
         "xlights_catalog": {
             "effect_count": int(xlights_catalog.get("effect_count", 0)) if xlights_catalog else 0,
@@ -11451,6 +11508,17 @@ def run_variant(
         "lyrics": {
             "count": len(lyric_events),
             "synced_track_events": len(lyric_track),
+        },
+        "birdsong": {
+            "enabled": bool(birdsong_result.enabled),
+            "profile": birdsong_result.profile,
+            "confidence": round(float(birdsong_result.confidence), 4),
+            "calls": int(birdsong_result.calls),
+            "echos": int(birdsong_result.echos),
+            "sweeps": int(birdsong_result.sweeps),
+            "species_counts": birdsong_result.species_counts,
+            "reason": birdsong_result.reason,
+            "timing_track_events": len(birdsong_track),
         },
         "template_profile": {
             "category_scores": template_profile.category_scores,
@@ -11716,6 +11784,13 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--vendor-min-audit", type=float, dest="vendor_min_audit_score", help="Minimum audit score required for vendor-bar pass")
     parser.add_argument("--vendor-max-rejected", type=int, dest="vendor_max_rejected_effects", help="Maximum rejected effects allowed for vendor-bar pass")
     parser.add_argument("--learn-from-my-xsqs", dest="learn_from_my_xsqs", action="store_true", help="Learn palette, density, and prop behavior from prior high-scoring XSQs in the workspace history folder")
+    parser.add_argument("--birdsong", dest="birdsong_enabled", action="store_true", help="Enable the birdsong phrase engine overlay")
+    parser.add_argument("--no-birdsong", dest="birdsong_enabled", action="store_false", help="Disable the birdsong phrase engine overlay")
+    parser.add_argument("--birdsong-auto", dest="birdsong_auto", action="store_true", help="Auto-enable birdsong when audio confidence is high")
+    parser.add_argument("--no-birdsong-auto", dest="birdsong_auto", action="store_false", help="Disable birdsong auto-detection")
+    parser.add_argument("--birdsong-intensity", type=float, dest="birdsong_intensity", help="Birdsong layer intensity (0.2-2.4)")
+    parser.add_argument("--birdsong-min-confidence", type=float, dest="birdsong_min_confidence", help="Minimum auto-detect confidence threshold (0.0-1.0)")
+    parser.add_argument("--birdsong-profile", dest="birdsong_profile", help="wild/canopy/ambient/dawn")
     parser.add_argument("--settings", default=f"{style.version}.settings.json", help="Settings JSON path")
     parser.add_argument("--output-dir", help="Optional output folder override")
     parser.add_argument("--no-prompt", action="store_true", help="Run without interactive prompts")
@@ -11733,6 +11808,8 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
         auto_shortlist=False,
         learn_from_my_xsqs=False,
         vendor_bar=False,
+        birdsong_enabled=False,
+        birdsong_auto=False,
     )
     return parser.parse_args(argv)
 
@@ -11871,6 +11948,11 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
             1,
             int(args.vendor_max_rejected_effects if args.vendor_max_rejected_effects is not None else DEFAULT_VENDOR_MAX_REJECTED_EFFECTS),
         ),
+        birdsong_enabled=bool(args.birdsong_enabled),
+        birdsong_auto=bool(args.birdsong_auto),
+        birdsong_intensity=base.clamp(float(args.birdsong_intensity if args.birdsong_intensity is not None else 1.0), 0.2, 2.4),
+        birdsong_min_confidence=base.clamp(float(args.birdsong_min_confidence if args.birdsong_min_confidence is not None else 0.45), 0.0, 1.0),
+        birdsong_profile=str((args.birdsong_profile or "wild").strip().lower() or "wild"),
     )
     if tuning.vendor_bar:
         # Vendor-bar mode forces the higher-quality generation path.
@@ -11922,6 +12004,8 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         f"ac_only={int(bool(tuning.ac_lights_only))}, "
         f"max_layers={tuning.max_layers_per_prop}, min_ms={tuning.min_effect_ms}, "
         f"lyrics_sync={int(bool(tuning.sync_lyrics_heads))}, "
+        f"birdsong={int(bool(tuning.birdsong_enabled))}/{int(bool(tuning.birdsong_auto))}/"
+        f"{tuning.birdsong_intensity:.2f}/{tuning.birdsong_min_confidence:.2f}/{tuning.birdsong_profile}, "
         f"workspace_history={int(bool(tuning.workspace_history_folder))}:{tuning.workspace_history_limit}, "
         f"matrix={int(bool(tuning.matrix_intelligence))}, "
         f"polish={int(bool(tuning.polish_enabled))}, "
