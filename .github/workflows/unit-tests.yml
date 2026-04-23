@@ -23,7 +23,7 @@ jobs:
       - name: Install test dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install numpy
+          python -m pip install numpy scipy scikit-learn librosa soundfile numba llvmlite
 
       - name: Run unit tests
         run: |
