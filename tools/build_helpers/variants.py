@@ -17,6 +17,10 @@ class RuntimeVariantCandidate:
 
 DEFAULT_MIN_AUDIT_SCORE = 80.0
 DEFAULT_MAX_REJECTED_EFFECTS = 28000
+DEFAULT_MIN_QUALITY_SCORE = 90.0
+DEFAULT_VENDOR_MIN_AUDIT_SCORE = 90.0
+DEFAULT_VENDOR_MAX_REJECTED_EFFECTS = 12000
+DEFAULT_VENDOR_MIN_QUALITY_SCORE = 96.0
 
 
 def build_runtime_candidates(base_style: Any, base_tuning: Any, count: int) -> list[RuntimeVariantCandidate]:
@@ -152,8 +156,14 @@ def evaluate_quality_gates(
     *,
     min_audit_score: float = DEFAULT_MIN_AUDIT_SCORE,
     max_rejected_effects: int = DEFAULT_MAX_REJECTED_EFFECTS,
+    min_quality_score: float | None = None,
 ) -> dict[str, Any]:
     reasons: list[str] = []
+    quality_payload = (entry.get("quality") or {}) or {}
+    quality_score = float(quality_payload.get("score", 0.0) or 0.0)
+    if min_quality_score is not None and quality_score < float(min_quality_score):
+        reasons.append(f"quality_below_threshold<{float(min_quality_score):.1f}")
+
     audit_score = _audit_score(entry)
     if audit_score <= 0.0:
         reasons.append("missing_final_audit")
@@ -168,6 +178,7 @@ def evaluate_quality_gates(
     return {
         "passed": not reasons,
         "reasons": reasons,
+        "quality_score": round(quality_score, 2),
         "audit_score": round(audit_score, 2),
         "rejected_effects": rejected_effects,
     }
@@ -212,16 +223,28 @@ def _score_entry(entry: dict[str, Any]) -> float:
     return round(shortlist_score, 2)
 
 
-def choose_best_candidate(entries: list[dict[str, Any]]) -> dict[str, Any] | None:
+def choose_best_candidate(
+    entries: list[dict[str, Any]],
+    *,
+    min_audit_score: float = DEFAULT_MIN_AUDIT_SCORE,
+    max_rejected_effects: int = DEFAULT_MAX_REJECTED_EFFECTS,
+    min_quality_score: float | None = None,
+) -> dict[str, Any] | None:
     if not entries:
         return None
     scored = []
     for entry in entries:
         copy = dict(entry)
         copy["shortlist_score"] = _score_entry(copy)
-        quality_gate = evaluate_quality_gates(copy)
+        quality_gate = evaluate_quality_gates(
+            copy,
+            min_audit_score=min_audit_score,
+            max_rejected_effects=max_rejected_effects,
+            min_quality_score=min_quality_score,
+        )
         copy["quality_gate_passed"] = bool(quality_gate["passed"])
         copy["quality_gate_reasons"] = list(quality_gate["reasons"])
+        copy["quality_gate_quality_score"] = float(quality_gate["quality_score"])
         copy["quality_gate_audit_score"] = float(quality_gate["audit_score"])
         copy["quality_gate_rejected_effects"] = int(quality_gate["rejected_effects"])
         scored.append(copy)

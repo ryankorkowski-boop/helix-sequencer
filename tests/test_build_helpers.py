@@ -8,6 +8,10 @@ from core import model_parser as xmp
 from tools.build_helpers import (
     DEFAULT_MAX_REJECTED_EFFECTS,
     DEFAULT_MIN_AUDIT_SCORE,
+    DEFAULT_MIN_QUALITY_SCORE,
+    DEFAULT_VENDOR_MAX_REJECTED_EFFECTS,
+    DEFAULT_VENDOR_MIN_AUDIT_SCORE,
+    DEFAULT_VENDOR_MIN_QUALITY_SCORE,
     build_neighbor_graph,
     build_runtime_candidates,
     choose_best_candidate,
@@ -142,10 +146,51 @@ class BuildHelperTests(unittest.TestCase):
             {
                 "audit": {"final": {"score": DEFAULT_MIN_AUDIT_SCORE + 5.0}},
                 "validation": {"rejected_effects_count": DEFAULT_MAX_REJECTED_EFFECTS + 1},
+                "quality": {"score": DEFAULT_MIN_QUALITY_SCORE + 2.0},
             }
         )
         self.assertFalse(high_rejections["passed"])
         self.assertIn("rejected_effects_above_threshold", high_rejections["reasons"][0])
+
+    def test_evaluate_quality_gates_can_enforce_quality_threshold(self) -> None:
+        verdict = evaluate_quality_gates(
+            {
+                "quality": {"score": DEFAULT_VENDOR_MIN_QUALITY_SCORE - 0.5},
+                "audit": {"final": {"score": DEFAULT_VENDOR_MIN_AUDIT_SCORE + 1.0}},
+                "validation": {"rejected_effects_count": DEFAULT_VENDOR_MAX_REJECTED_EFFECTS - 10},
+            },
+            min_quality_score=DEFAULT_VENDOR_MIN_QUALITY_SCORE,
+            min_audit_score=DEFAULT_VENDOR_MIN_AUDIT_SCORE,
+            max_rejected_effects=DEFAULT_VENDOR_MAX_REJECTED_EFFECTS,
+        )
+        self.assertFalse(verdict["passed"])
+        self.assertIn("quality_below_threshold", verdict["reasons"][0])
+
+    def test_choose_best_candidate_respects_vendor_thresholds(self) -> None:
+        best = choose_best_candidate(
+            [
+                {
+                    "label": "high_quality_but_fails_vendor",
+                    "quality": {"score": 98.0, "component_scores": {}},
+                    "audit": {"final": {"score": 86.0}},
+                    "validation": {"rejected_effects_count": 9000},
+                    "polish": {"score": 95.0},
+                },
+                {
+                    "label": "passes_vendor",
+                    "quality": {"score": 96.5, "component_scores": {}},
+                    "audit": {"final": {"score": 92.0}},
+                    "validation": {"rejected_effects_count": 7000},
+                    "polish": {"score": 93.0},
+                },
+            ],
+            min_quality_score=DEFAULT_VENDOR_MIN_QUALITY_SCORE,
+            min_audit_score=DEFAULT_VENDOR_MIN_AUDIT_SCORE,
+            max_rejected_effects=DEFAULT_VENDOR_MAX_REJECTED_EFFECTS,
+        )
+        self.assertIsNotNone(best)
+        self.assertEqual(best["label"], "passes_vendor")
+        self.assertTrue(best["quality_gate_passed"])
 
 
 if __name__ == "__main__":
