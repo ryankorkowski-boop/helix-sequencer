@@ -25,6 +25,18 @@ AGENTS.md
 
 ## Running The Builder
 
+Launch the maintained GUI control center (preferred day-to-day workflow):
+
+```powershell
+python gui_launcher.py
+```
+
+or use:
+
+```powershell
+launch_sequencer_app.cmd
+```
+
 List active sequencing profiles:
 
 ```powershell
@@ -42,6 +54,20 @@ Legacy version IDs still work as explicit compatibility fallbacks:
 ```powershell
 python main.py --profile v27.3 -- --template template.xsq --audio 13.wav --no-prompt
 ```
+
+## Helixville Layout Builder
+
+Build or refresh the dedicated Helixville 3D test show folder from your allmodels / GP baseline:
+
+```powershell
+python tools/build_helixville_layout.py
+```
+
+Output is written to `helixville/`, including:
+
+- `helixville/xlights_rgbeffects.xml`
+- `helixville/xlights_rgbeffects.xbkp` (when source backup exists)
+- `helixville/helixville_manifest.json`
 
 ## Notes
 
