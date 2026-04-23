@@ -1,15 +1,59 @@
 from __future__ import annotations
 
+import random
+import tempfile
 import unittest
 from dataclasses import replace
 from pathlib import Path
 import xml.etree.ElementTree as ET
+
+import numpy as np
 
 from core import effect_engine
 from xlights import xsq_writer
 
 
 class EffectEngineTests(unittest.TestCase):
+    def _empty_layout(self) -> xsq_writer.Layout:
+        return xsq_writer.Layout(
+            house=None,
+            garage=None,
+            all_white=None,
+            all_red=None,
+            all_green=None,
+            all_notes=None,
+            blvd=[],
+            blvd_all=None,
+            perim=[],
+            perim_all=None,
+            snowflakes=[],
+            stars=[],
+            arches={},
+            mega_group=None,
+            mega_models=[],
+            line_all=None,
+            line_models=[],
+            red_models=[],
+            green_models=[],
+            white_models=[],
+            cane_g_n=None,
+            cane_g_s=None,
+            notes_main=None,
+            notes_mirror=None,
+            north_canes=[],
+            south_canes=[],
+        )
+
+    def _write_layout(
+        self,
+        root: ET.Element,
+    ) -> Path:
+        tmpdir = tempfile.TemporaryDirectory()
+        self.addCleanup(tmpdir.cleanup)
+        layout_path = Path(tmpdir.name) / "xlights_rgbeffects.xml"
+        ET.ElementTree(root).write(layout_path, encoding="utf-8", xml_declaration=True)
+        return layout_path
+
     def test_effect_family_groups_known_effects(self) -> None:
         self.assertEqual(effect_engine.effect_family("Ramp"), "ramp")
         self.assertEqual(effect_engine.effect_family("Bars"), "vu")
@@ -162,6 +206,233 @@ class EffectEngineTests(unittest.TestCase):
         self.assertTrue(all(entry[3] == "player_piano_notes" for entry in placements))
         self.assertEqual(keyboard_track[0][0], "player_piano:notes_1_16:phrase:C3+C5")
 
+    def test_place_player_piano_sequence_uses_helixualizer_support_spread_for_canes(self) -> None:
+        style = replace(effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION], polyphony=1)
+        pools = [
+            effect_engine.SequentialPool("north_canes", "north_canes", [f"c{i}" for i in range(1, 9)]),
+        ]
+        event = effect_engine.NoteEvent(
+            start_ms=1000,
+            end_ms=1180,
+            notes=[(60, 0.9)],
+            part="CHORUS",
+            section="chorus",
+        )
+        placements: list[tuple[str, int, int, str, str | None, str]] = []
+        keyboard_track: list[tuple[str, int, int]] = []
+        helix_payload = {
+            "frame_times_s": [0.0, 0.5, 1.0, 1.5],
+            "transport": {"arrival_curve": [0.1, 0.45, 0.9, 0.2]},
+            "xlights_projection": {
+                "candy_cane_bar_curve": [0.1, 0.35, 0.92, 0.15],
+                "piano_lane_groups": {
+                    "low": [0.1, 0.2, 0.7, 0.1],
+                    "mid": [0.1, 0.3, 0.8, 0.1],
+                    "high": [0.1, 0.2, 0.6, 0.1],
+                },
+            },
+        }
+
+        def add_model(
+            model: str,
+            start_ms: int,
+            end_ms: int,
+            label: str,
+            eff: str = "On",
+            tpl=None,
+            cd_key=None,
+            cd_ms: int = 0,
+            stem: str = "other",
+        ) -> None:
+            placements.append((model, start_ms, end_ms, label, eff, stem))
+
+        placed = effect_engine.place_player_piano_sequence(
+            style=style,
+            note_events=[event],
+            pools=pools,
+            kicks=[],
+            snares=[],
+            hats=[],
+            bass_peaks=[],
+            vocal_peaks=[],
+            keyboard_mix=1.0,
+            ramp_ok=False,
+            ramp_tpl=xsq_writer.EffectTemplate(settings="", palette=""),
+            add_model=add_model,
+            in_blackout=lambda _t: False,
+            keyboard_track=keyboard_track,
+            helixualizer_payload=helix_payload,
+        )
+
+        self.assertEqual(placed, 5)
+        self.assertEqual(placements[0][3], "player_piano_north_canes")
+        self.assertTrue(any(entry[3] == "player_piano_north_canes_support" for entry in placements))
+        self.assertEqual(keyboard_track[0][0], "player_piano:north_canes:phrase:C4")
+
+    def test_discover_sequential_pools_adds_nested_perimeter_group_lane(self) -> None:
+        root = ET.Element("xrgb")
+        models_el = ET.SubElement(root, "models")
+        groups_el = ET.SubElement(root, "modelGroups")
+
+        for idx, name in enumerate(
+            (
+                "Left Tree White",
+                "Left Blvd White",
+                "Center Blvd White",
+                "Right Blvd White",
+                "Right Linden White",
+            ),
+            start=1,
+        ):
+            ET.SubElement(
+                models_el,
+                "model",
+                {
+                    "name": name,
+                    "DisplayAs": "Single Line",
+                    "StringType": "Single Color White",
+                    "WorldPosX": str(idx * 10),
+                    "WorldPosY": "0",
+                    "WorldPosZ": "0",
+                    "X2": "0",
+                    "Y2": "10",
+                    "Z2": "0",
+                    "parm1": "1",
+                    "parm2": "1",
+                    "parm3": "1",
+                    "StartChannel": str(idx),
+                },
+            )
+
+        group_specs = {
+            "LEFT_TREE": ["Left Tree White"],
+            "BLVD_LEFT": ["Left Blvd White"],
+            "BLVD_CENTER": ["Center Blvd White"],
+            "BLVD_RIGHT": ["Right Blvd White"],
+            "RIGHT_LINDEN": ["Right Linden White"],
+            "13_PERIMETER_ALL": ["LEFT_TREE", "BLVD_LEFT", "BLVD_CENTER", "BLVD_RIGHT", "RIGHT_LINDEN"],
+        }
+        for group_name, members in group_specs.items():
+            ET.SubElement(groups_el, "modelGroup", {"name": group_name, "models": ",".join(members)})
+
+        parsed_layout = effect_engine.xmp.parse_layout(self._write_layout(root))
+        names = [
+            "Left Tree White",
+            "Left Blvd White",
+            "Center Blvd White",
+            "Right Blvd White",
+            "Right Linden White",
+            "LEFT_TREE",
+            "BLVD_LEFT",
+            "BLVD_CENTER",
+            "BLVD_RIGHT",
+            "RIGHT_LINDEN",
+            "13_PERIMETER_ALL",
+        ]
+
+        pools = effect_engine.discover_sequential_pools(names, self._empty_layout(), parsed_layout)
+        perimeter = next((pool for pool in pools if pool.name == "13_PERIMETER_ALL"), None)
+        self.assertIsNotNone(perimeter)
+        assert perimeter is not None
+        self.assertEqual(perimeter.category, "line")
+        self.assertEqual(perimeter.models, ["LEFT_TREE", "BLVD_LEFT", "BLVD_CENTER", "BLVD_RIGHT", "RIGHT_LINDEN"])
+
+    def test_discover_sequential_pools_skips_huge_catchall_groups(self) -> None:
+        root = ET.Element("xrgb")
+        models_el = ET.SubElement(root, "models")
+        groups_el = ET.SubElement(root, "modelGroups")
+
+        member_names: list[str] = []
+        for idx in range(1, 27):
+            name = f"Line Tree {idx}"
+            member_names.append(name)
+            ET.SubElement(
+                models_el,
+                "model",
+                {
+                    "name": name,
+                    "DisplayAs": "Single Line",
+                    "StringType": "Single Color White",
+                    "WorldPosX": str(idx),
+                    "WorldPosY": "0",
+                    "WorldPosZ": "0",
+                    "X2": "0",
+                    "Y2": "10",
+                    "Z2": "0",
+                    "parm1": "1",
+                    "parm2": "1",
+                    "parm3": "1",
+                    "StartChannel": str(idx),
+                },
+            )
+        ET.SubElement(groups_el, "modelGroup", {"name": "01_ALL", "models": ",".join(member_names)})
+
+        parsed_layout = effect_engine.xmp.parse_layout(self._write_layout(root))
+        names = member_names + ["01_ALL"]
+        pools = effect_engine.discover_sequential_pools(names, self._empty_layout(), parsed_layout)
+        self.assertFalse(any(pool.name == "01_ALL" for pool in pools))
+
+    def test_discover_sequential_pools_skips_three_color_stack_groups(self) -> None:
+        root = ET.Element("xrgb")
+        models_el = ET.SubElement(root, "models")
+        groups_el = ET.SubElement(root, "modelGroups")
+
+        for idx, name in enumerate(
+            ("Mega Tree Red 1", "Mega Tree Green 1", "Mega Tree White 1"),
+            start=1,
+        ):
+            ET.SubElement(
+                models_el,
+                "model",
+                {
+                    "name": name,
+                    "DisplayAs": "Single Line",
+                    "StringType": "Single Color White",
+                    "WorldPosX": str(idx),
+                    "WorldPosY": "0",
+                    "WorldPosZ": "0",
+                    "X2": "0",
+                    "Y2": "10",
+                    "Z2": "0",
+                    "parm1": "1",
+                    "parm2": "1",
+                    "parm3": "1",
+                    "StartChannel": str(idx),
+                },
+            )
+        ET.SubElement(
+            groups_el,
+            "modelGroup",
+            {"name": "mega tree 1", "models": "Mega Tree Red 1,Mega Tree Green 1,Mega Tree White 1"},
+        )
+
+        parsed_layout = effect_engine.xmp.parse_layout(self._write_layout(root))
+        names = ["Mega Tree Red 1", "Mega Tree Green 1", "Mega Tree White 1", "mega tree 1"]
+        pools = effect_engine.discover_sequential_pools(names, self._empty_layout(), parsed_layout)
+        self.assertFalse(any(pool.name == "mega tree 1" for pool in pools))
+
+    def test_map_notes_to_models_spreads_pitch_across_group_count(self) -> None:
+        style = replace(
+            effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION],
+            pool_mode="rotating",
+            call_response=False,
+            piano_echo=False,
+        )
+        pool = effect_engine.SequentialPool(
+            "13_PERIMETER_ALL",
+            "line",
+            ["LEFT_TREE", "BLVD_LEFT", "BLVD_CENTER", "BLVD_RIGHT", "RIGHT_LINDEN"],
+        )
+        event = effect_engine.NoteEvent(
+            start_ms=1000,
+            end_ms=1180,
+            notes=[(48, 0.9), (66, 0.7), (84, 0.8)],
+            part="CHORUS",
+            section="chorus",
+        )
+        mapped = effect_engine.map_notes_to_models(pool, event, {}, style, random.Random(0))
+        self.assertEqual(mapped, ["LEFT_TREE", "BLVD_CENTER", "RIGHT_LINDEN"])
+
     def test_showcase_signature_sweep_plan_reduces_build_sweeps(self) -> None:
         pool = effect_engine.SequentialPool("sig", "mega", ["m1", "m2", "m3", "m4", "m5"])
         tuned_pool, span_scale, hit_scale = effect_engine.showcase_signature_sweep_plan(pool, "build", "CHORUS")
@@ -180,6 +451,161 @@ class EffectEngineTests(unittest.TestCase):
         hat_scale = effect_engine.cue_duration_scale("hat", placement_mode="player_piano", part_label="CHORUS")
         self.assertGreater(build_scale, hat_scale)
 
+    def test_spatial_route_order_style_prefers_directional_styles_only_when_awareness_is_high(self) -> None:
+        self.assertEqual(effect_engine.spatial_route_order_style("top_to_bottom", 0.75), "top_to_bottom")
+        self.assertEqual(effect_engine.spatial_route_order_style("wave", 0.75), "left_to_right")
+        self.assertEqual(effect_engine.spatial_route_order_style("top_to_bottom", 0.10), "left_to_right")
+
+    def test_scaled_spatial_route_stride_reduces_stride_with_awareness(self) -> None:
+        self.assertEqual(effect_engine.scaled_spatial_route_stride(4, awareness=0.0, dramatic=False), 4)
+        self.assertLess(effect_engine.scaled_spatial_route_stride(4, awareness=1.0, dramatic=False), 4)
+        self.assertLessEqual(
+            effect_engine.scaled_spatial_route_stride(4, awareness=1.0, dramatic=True),
+            effect_engine.scaled_spatial_route_stride(4, awareness=1.0, dramatic=False),
+        )
+
+    def test_spatial_ordered_models_respects_path_style(self) -> None:
+        models = ["m1", "m2", "m3"]
+        coords = {"m1": (2.0, 9.0), "m2": (1.0, 1.0), "m3": (3.0, 4.0)}
+        ordered = effect_engine.spatial_ordered_models(models, coords, random.Random(0), path_style="top_to_bottom")
+        self.assertEqual(ordered, ["m2", "m3", "m1"])
+
+    def test_hit_class_for_time_detects_clap_when_snare_and_hat_overlap(self) -> None:
+        hit = effect_engine.hit_class_for_time(1000, kicks=[1200], snares=[995], hats=[1008])
+        self.assertEqual(hit, "clap")
+
+    def test_rhythm_complexity_by_part_scores_busy_section_higher(self) -> None:
+        parts = [
+            effect_engine.SongPart(label="VERSE", start_ms=0, end_ms=1000, energy=0.4),
+            effect_engine.SongPart(label="CHORUS", start_ms=1000, end_ms=2000, energy=0.8),
+        ]
+        beat_ms = [0, 500, 1000, 1500]
+        onset_ms = [50, 1020, 1080, 1140, 1210, 1300, 1380, 1450, 1530, 1610, 1700, 1800, 1900]
+        complexity = effect_engine.rhythm_complexity_by_part(parts, onset_ms=onset_ms, beat_ms=beat_ms)
+        self.assertLess(complexity["VERSE"], complexity["CHORUS"])
+
+    def test_macro_intensity_state_handles_build_drop_and_quiet(self) -> None:
+        times = np.asarray([0.0, 0.5, 1.0, 1.5, 2.0], dtype=float)
+        audio = xsq_writer.Audio(
+            sr=44100,
+            y=np.zeros(22050, dtype=np.float32),
+            dur_s=2.0,
+            onset_ms=[],
+            beat_ms=[],
+            times_s=times,
+            centroid=np.zeros_like(times),
+            rms01=np.asarray([0.15, 0.35, 0.82, 0.38, 0.08], dtype=float),
+            bass01=np.zeros_like(times),
+            vocal01=np.zeros_like(times),
+            pitch_hz=np.zeros_like(times),
+        )
+        self.assertEqual(
+            effect_engine.macro_intensity_state(
+                1000,
+                audio=audio,
+                build_lifts=[1000],
+                releases=[1500],
+                quiet_windows=[(1800, 2100)],
+            ),
+            "build",
+        )
+        self.assertEqual(
+            effect_engine.macro_intensity_state(
+                1500,
+                audio=audio,
+                build_lifts=[],
+                releases=[1500],
+                quiet_windows=[],
+            ),
+            "drop",
+        )
+        self.assertEqual(
+            effect_engine.macro_intensity_state(
+                1900,
+                audio=audio,
+                build_lifts=[],
+                releases=[],
+                quiet_windows=[(1800, 2100)],
+            ),
+            "quiet",
+        )
+
+    def test_dominant_band_at_time_prefers_dominance_marks(self) -> None:
+        analysis = effect_engine.MultiBandAnalysis(
+            sub_bass_marks=[],
+            bass_marks=[],
+            mid_marks=[],
+            high_marks=[],
+            spectral_flux_marks=[],
+            loud_marks=[],
+            quiet_windows=[],
+            dominance_marks={"sub_bass": [], "bass": [1000], "mid": [], "high": []},
+        )
+        self.assertEqual(effect_engine.dominant_band_at_time(1025, analysis), "bass")
+
+    def test_classify_mir_genre_detects_edm_signature(self) -> None:
+        genre = effect_engine.classify_mir_genre(
+            {
+                "bass_density": 66.0,
+                "sub_bass_density": 54.0,
+                "high_density": 42.0,
+                "flux_density": 72.0,
+                "contrast_mean": 0.52,
+                "flatness_mean": 0.44,
+                "mfcc_motion_mean": 0.46,
+                "chroma_stability_mean": 0.41,
+                "tonnetz_motion_mean": 0.52,
+            },
+            tempo_bpm=132.0,
+            rms_mean=0.68,
+        )
+        self.assertEqual(genre, "edm")
+
+    def test_derive_section_mir_profiles_returns_scene_modes(self) -> None:
+        times = np.asarray([0.0, 0.5, 1.0, 1.5, 2.0], dtype=float)
+        audio = xsq_writer.Audio(
+            sr=44100,
+            y=np.zeros(22050, dtype=np.float32),
+            dur_s=2.0,
+            onset_ms=[100, 260, 410, 610, 790, 1010, 1120, 1250, 1370, 1490, 1630, 1760],
+            beat_ms=[0, 500, 1000, 1500],
+            times_s=times,
+            centroid=np.zeros_like(times),
+            rms01=np.asarray([0.18, 0.22, 0.76, 0.74, 0.70], dtype=float),
+            bass01=np.zeros_like(times),
+            vocal01=np.zeros_like(times),
+            pitch_hz=np.zeros_like(times),
+        )
+        analysis = effect_engine.MultiBandAnalysis(
+            sub_bass_marks=[1050, 1200],
+            bass_marks=[1080, 1290],
+            mid_marks=[1110, 1320],
+            high_marks=[1140, 1350],
+            spectral_flux_marks=[1030, 1210, 1380],
+            loud_marks=[1100],
+            quiet_windows=[],
+            dominance_marks={"sub_bass": [], "bass": [1100], "mid": [], "high": []},
+            frame_times_s=times,
+            spectral_centroid01=np.asarray([0.2, 0.3, 0.6, 0.7, 0.8], dtype=float),
+            spectral_contrast01=np.asarray([0.2, 0.2, 0.6, 0.6, 0.7], dtype=float),
+            spectral_flatness01=np.asarray([0.1, 0.1, 0.4, 0.5, 0.5], dtype=float),
+            spectral_flux01=np.asarray([0.1, 0.2, 0.7, 0.8, 0.6], dtype=float),
+        )
+        parts = [
+            effect_engine.SongPart(label="VERSE", start_ms=0, end_ms=1000, energy=0.35),
+            effect_engine.SongPart(label="CHORUS", start_ms=1000, end_ms=2000, energy=0.86),
+        ]
+        profiles = effect_engine.derive_section_mir_profiles(
+            parts=parts,
+            audio=audio,
+            analysis=analysis,
+            onset_ms=audio.onset_ms,
+            beat_ms=audio.beat_ms,
+            vocal_peaks=[1150, 1400],
+        )
+        self.assertEqual(profiles["VERSE"]["scene_mode"], "tight_minimal")
+        self.assertEqual(profiles["CHORUS"]["scene_mode"], "wide_bright")
+
     def test_xsq_writer_timing_facade_round_trips_marks(self) -> None:
         root = ET.Element("Sequence")
         xsq_writer.write_timing_track(root, "AUTO Test", [("Intro", 0, 100), ("Verse", 250, 500)], active=False)
@@ -194,6 +620,11 @@ class EffectEngineTests(unittest.TestCase):
             effect.attrib["endTime"] = str(end_ms)
             layer.append(effect)
         self.assertEqual(xsq_writer.read_timing_track_marks_ms(marks_root, "AUTO Marks"), [0, 250])
+
+    def test_validate_report_payload_requires_nonzero_final_audit(self) -> None:
+        with self.assertRaises(ValueError):
+            effect_engine.validate_report_payload({"audit": {"final": {"score": 0.0}}})
+        effect_engine.validate_report_payload({"audit": {"final": {"score": 84.5}}})
 
 
 if __name__ == "__main__":
