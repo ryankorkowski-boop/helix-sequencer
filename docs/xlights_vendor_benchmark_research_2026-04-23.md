@@ -1,4 +1,4 @@
-﻿# xLights State of the Union + Vendor Benchmark Plan (2026-04-23)
+# xLights State of the Union + Vendor Benchmark Plan (2026-04-23)
 
 ## Objective
 Produce XSQ output that rivals or exceeds paid vendor sequencing quality while staying legally compliant.
