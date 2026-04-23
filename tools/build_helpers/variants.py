@@ -15,6 +15,10 @@ class RuntimeVariantCandidate:
     tuning: Any
 
 
+DEFAULT_MIN_AUDIT_SCORE = 80.0
+DEFAULT_MAX_REJECTED_EFFECTS = 28000
+
+
 def build_runtime_candidates(base_style: Any, base_tuning: Any, count: int) -> list[RuntimeVariantCandidate]:
     requested = max(1, int(count))
     candidates: list[RuntimeVariantCandidate] = [
@@ -131,9 +135,47 @@ def _score_maximum(value: float, target: float, ceiling: float) -> float:
     return max(0.0, 100.0 - (overshoot * 100.0))
 
 
+def _audit_payload(entry: dict[str, Any]) -> dict[str, Any]:
+    payload = (entry.get("audit") or {}) or {}
+    if isinstance(payload.get("final"), dict):
+        return (payload.get("final") or {}) or {}
+    return payload
+
+
+def _audit_score(entry: dict[str, Any]) -> float:
+    payload = _audit_payload(entry)
+    return float(payload.get("score", 0.0) or 0.0)
+
+
+def evaluate_quality_gates(
+    entry: dict[str, Any],
+    *,
+    min_audit_score: float = DEFAULT_MIN_AUDIT_SCORE,
+    max_rejected_effects: int = DEFAULT_MAX_REJECTED_EFFECTS,
+) -> dict[str, Any]:
+    reasons: list[str] = []
+    audit_score = _audit_score(entry)
+    if audit_score <= 0.0:
+        reasons.append("missing_final_audit")
+    elif audit_score < float(min_audit_score):
+        reasons.append(f"audit_below_threshold<{float(min_audit_score):.1f}")
+
+    validation_payload = (entry.get("validation") or {}) or {}
+    rejected_effects = int(validation_payload.get("rejected_effects_count", 0) or 0)
+    if rejected_effects > int(max_rejected_effects):
+        reasons.append(f"rejected_effects_above_threshold>{int(max_rejected_effects)}")
+
+    return {
+        "passed": not reasons,
+        "reasons": reasons,
+        "audit_score": round(audit_score, 2),
+        "rejected_effects": rejected_effects,
+    }
+
+
 def _score_entry(entry: dict[str, Any]) -> float:
     quality_payload = (entry.get("quality") or {}) or {}
-    audit_payload = (entry.get("audit") or {}) or {}
+    audit_payload = _audit_payload(entry)
     quality = float(quality_payload.get("score", 0.0) or 0.0)
     audit = float(audit_payload.get("score", 0.0) or 0.0)
     polish = entry.get("polish") or {}
@@ -177,11 +219,17 @@ def choose_best_candidate(entries: list[dict[str, Any]]) -> dict[str, Any] | Non
     for entry in entries:
         copy = dict(entry)
         copy["shortlist_score"] = _score_entry(copy)
+        quality_gate = evaluate_quality_gates(copy)
+        copy["quality_gate_passed"] = bool(quality_gate["passed"])
+        copy["quality_gate_reasons"] = list(quality_gate["reasons"])
+        copy["quality_gate_audit_score"] = float(quality_gate["audit_score"])
+        copy["quality_gate_rejected_effects"] = int(quality_gate["rejected_effects"])
         scored.append(copy)
     scored.sort(
         key=lambda item: (
+            int(bool(item.get("quality_gate_passed", False))),
             float(item.get("shortlist_score", 0.0)),
-            float(((item.get("audit") or {}) or {}).get("score", 0.0) or 0.0),
+            _audit_score(item),
             float(((item.get("quality") or {}) or {}).get("score", 0.0) or 0.0),
         ),
         reverse=True,
@@ -190,6 +238,10 @@ def choose_best_candidate(entries: list[dict[str, Any]]) -> dict[str, Any] | Non
 
 
 def promote_shortlisted_candidate(best_entry: dict[str, Any], canonical_output: Path) -> dict[str, Any]:
+    if best_entry.get("quality_gate_passed") is False:
+        reasons = ", ".join(str(item) for item in (best_entry.get("quality_gate_reasons") or [])) or "failed_quality_gates"
+        raise ValueError(f"Refusing shortlist promotion: {reasons}")
+
     source_output = Path(best_entry["output_path"])
     source_report = Path(best_entry["report_path"])
     source_notes = Path(best_entry["notes_path"])

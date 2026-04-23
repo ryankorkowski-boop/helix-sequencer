@@ -621,6 +621,11 @@ class EffectEngineTests(unittest.TestCase):
             layer.append(effect)
         self.assertEqual(xsq_writer.read_timing_track_marks_ms(marks_root, "AUTO Marks"), [0, 250])
 
+    def test_validate_report_payload_requires_nonzero_final_audit(self) -> None:
+        with self.assertRaises(ValueError):
+            effect_engine.validate_report_payload({"audit": {"final": {"score": 0.0}}})
+        effect_engine.validate_report_payload({"audit": {"final": {"score": 84.5}}})
+
 
 if __name__ == "__main__":
     unittest.main()

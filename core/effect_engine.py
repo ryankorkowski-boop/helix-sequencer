@@ -8114,6 +8114,13 @@ def write_report(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
 
+def validate_report_payload(payload: dict) -> None:
+    audit_final = ((payload.get("audit", {}) or {}).get("final", {}) or {})
+    audit_score = float(audit_final.get("score", 0.0) or 0.0)
+    if audit_score <= 0.0:
+        raise ValueError("report payload missing non-zero audit.final.score")
+
+
 def write_sequence_notes(path: Path, payload: dict) -> None:
     placements = payload.get("placements", {}) or {}
     top_placements = sorted(placements.items(), key=lambda item: (-int(item[1]), item[0]))[:12]
@@ -11494,6 +11501,7 @@ def run_variant(
         snowman_band_engine.write_export_json(snowman_band_json_path(out_path), snowman_band_payload)
     except Exception as exc:
         log(f"[WARN] Snowman band export skipped: {exc!r}")
+    validate_report_payload(payload)
     write_report(report_path(out_path), payload)
     write_sequence_notes(notes_path(out_path), payload)
 
@@ -11864,11 +11872,15 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
             if tuning.auto_shortlist and len(candidate_results) > 1:
                 best_entry = choose_best_candidate(candidate_results)
                 if best_entry is not None:
-                    promote_shortlisted_candidate(best_entry, out)
-                    log(
-                        "Auto-shortlist winner: "
-                        f"{best_entry.get('label', '')} -> {Path(str(best_entry.get('output_path', out))).name}"
-                    )
+                    if bool(best_entry.get("quality_gate_passed", False)):
+                        promote_shortlisted_candidate(best_entry, out)
+                        log(
+                            "Auto-shortlist winner: "
+                            f"{best_entry.get('label', '')} -> {Path(str(best_entry.get('output_path', out))).name}"
+                        )
+                    else:
+                        reasons = ", ".join(str(item) for item in (best_entry.get("quality_gate_reasons") or []))
+                        log(f"Auto-shortlist skipped: no candidate passed quality gates ({reasons or 'failed_quality_gates'})")
         except Exception as exc:
             log(f"FAILED: {audio.name}: {repr(exc)}")
 

@@ -6,10 +6,13 @@ from pathlib import Path
 from core import effect_engine
 from core import model_parser as xmp
 from tools.build_helpers import (
+    DEFAULT_MAX_REJECTED_EFFECTS,
+    DEFAULT_MIN_AUDIT_SCORE,
     build_neighbor_graph,
     build_runtime_candidates,
     choose_best_candidate,
     collect_coverage_targets,
+    evaluate_quality_gates,
     expand_neighbor_targets,
 )
 
@@ -78,7 +81,11 @@ class BuildHelperTests(unittest.TestCase):
                         "score": 90.0,
                         "component_scores": {"structure": 88.0, "coverage": 84.0, "detail": 80.0, "family_diversity": 82.0, "dominance": 85.0},
                     },
-                    "audit": {"score": 88.0, "musical_coherence": 89.0, "section_coverage": 0.84, "overlap_ratio": 0.03, "clutter_ratio": 0.09},
+                    "audit": {
+                        "initial": {"score": 82.0},
+                        "final": {"score": 88.0, "musical_coherence": 89.0, "section_coverage": 0.84, "overlap_ratio": 0.03, "clutter_ratio": 0.09},
+                    },
+                    "validation": {"rejected_effects_count": 16000},
                     "polish": {"score": 90.0, "hook_enhancements": 4, "breathing_fades": 2, "palette_swaps": 3},
                 },
                 {
@@ -88,6 +95,7 @@ class BuildHelperTests(unittest.TestCase):
                         "component_scores": {"structure": 82.0, "coverage": 80.0, "detail": 74.0, "family_diversity": 78.0, "dominance": 80.0},
                     },
                     "audit": {"score": 84.0, "musical_coherence": 84.0, "section_coverage": 0.77, "overlap_ratio": 0.05, "clutter_ratio": 0.12},
+                    "validation": {"rejected_effects_count": 21000},
                     "polish": {"score": 84.0, "hook_enhancements": 1, "breathing_fades": 0, "palette_swaps": 0},
                 },
                 {
@@ -96,7 +104,11 @@ class BuildHelperTests(unittest.TestCase):
                         "score": 89.0,
                         "component_scores": {"structure": 93.0, "coverage": 90.0, "detail": 85.0, "family_diversity": 88.0, "dominance": 90.0},
                     },
-                    "audit": {"score": 91.0, "musical_coherence": 95.0, "section_coverage": 0.92, "overlap_ratio": 0.01, "clutter_ratio": 0.05},
+                    "audit": {
+                        "initial": {"score": 86.0},
+                        "final": {"score": 91.0, "musical_coherence": 95.0, "section_coverage": 0.92, "overlap_ratio": 0.01, "clutter_ratio": 0.05},
+                    },
+                    "validation": {"rejected_effects_count": 12000},
                     "polish": {"score": 92.0, "hook_enhancements": 3, "breathing_fades": 3, "palette_swaps": 4},
                 },
             ]
@@ -104,6 +116,36 @@ class BuildHelperTests(unittest.TestCase):
         self.assertIsNotNone(best)
         self.assertEqual(best["label"], "cinematic_arc")
         self.assertGreater(best["shortlist_score"], 70.0)
+        self.assertTrue(best["quality_gate_passed"])
+
+    def test_evaluate_quality_gates_reads_nested_audit_and_validation(self) -> None:
+        verdict = evaluate_quality_gates(
+            {
+                "audit": {"initial": {"score": 70.0}, "final": {"score": 92.0}},
+                "validation": {"rejected_effects_count": 15000},
+            }
+        )
+        self.assertTrue(verdict["passed"])
+        self.assertEqual(verdict["reasons"], [])
+
+    def test_evaluate_quality_gates_blocks_low_audit_or_high_rejections(self) -> None:
+        low_audit = evaluate_quality_gates(
+            {
+                "audit": {"final": {"score": DEFAULT_MIN_AUDIT_SCORE - 1.0}},
+                "validation": {"rejected_effects_count": 12000},
+            }
+        )
+        self.assertFalse(low_audit["passed"])
+        self.assertIn("audit_below_threshold", low_audit["reasons"][0])
+
+        high_rejections = evaluate_quality_gates(
+            {
+                "audit": {"final": {"score": DEFAULT_MIN_AUDIT_SCORE + 5.0}},
+                "validation": {"rejected_effects_count": DEFAULT_MAX_REJECTED_EFFECTS + 1},
+            }
+        )
+        self.assertFalse(high_rejections["passed"])
+        self.assertIn("rejected_effects_above_threshold", high_rejections["reasons"][0])
 
 
 if __name__ == "__main__":
