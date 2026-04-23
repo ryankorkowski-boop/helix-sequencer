@@ -145,6 +145,12 @@ class HelixGui(tk.Tk):
         actions.pack(fill=tk.X, **pad)
         self.run_button = ttk.Button(actions, text="Run Sequence Build", command=self._run_sequence)
         self.run_button.pack(side=tk.LEFT, padx=8, pady=6)
+        self.benchmark_button = ttk.Button(
+            actions,
+            text="Run Helixville Benchmark Pack",
+            command=lambda: self._run_sequence(benchmark_mode=True),
+        )
+        self.benchmark_button.pack(side=tk.LEFT, padx=8, pady=6)
         self.status_label = ttk.Label(actions, text="Ready")
         self.status_label.pack(side=tk.LEFT, padx=8, pady=6)
 
@@ -182,7 +188,7 @@ class HelixGui(tk.Tk):
             else:
                 self.output_var.set(str(ROOT / "outputs"))
 
-    def _build_helixville(self) -> None:
+    def _build_helixville(self, quiet: bool = False) -> bool:
         cmd = [sys.executable, str(ROOT / "tools" / "build_helixville_layout.py")]
         self._log("Building/refreshing helixville layout...")
         result = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True)
@@ -191,13 +197,37 @@ class HelixGui(tk.Tk):
         if result.returncode != 0:
             if result.stderr:
                 self._log(result.stderr.strip())
-            messagebox.showerror("Helixville Build Failed", "Could not build Helixville layout. Check log output.")
-            return
+            if not quiet:
+                messagebox.showerror("Helixville Build Failed", "Could not build Helixville layout. Check log output.")
+            return False
         self.layout_preset_var.set("helixville")
         self._apply_layout_preset()
-        messagebox.showinfo("Helixville Ready", "Helixville layout has been generated and selected.")
+        if not quiet:
+            messagebox.showinfo("Helixville Ready", "Helixville layout has been generated and selected.")
+        return True
 
-    def _run_sequence(self) -> None:
+    def _apply_helixville_benchmark_preset(self) -> None:
+        self.layout_preset_var.set("helixville")
+        self._apply_layout_preset()
+        self.output_var.set(str(ROOT / "helixville" / "benchmarks"))
+        self.vendor_bar_var.set(True)
+        self.matrix_var.set(True)
+        self.polish_var.set(True)
+        self.shortlist_var.set(True)
+        self.learn_xsq_var.set(True)
+        self.birdsong_var.set(True)
+        self.birdsong_auto_var.set(True)
+        self.birdsong_profile_var.set("canopy")
+        self.birdsong_intensity_var.set(1.35)
+        self.birdsong_min_conf_var.set(0.40)
+        self.variants_var.set(6)
+
+    def _run_sequence(self, benchmark_mode: bool = False) -> None:
+        if benchmark_mode:
+            if not self._build_helixville(quiet=True):
+                messagebox.showerror("Benchmark Setup Failed", "Could not build or refresh helixville.")
+                return
+            self._apply_helixville_benchmark_preset()
         if not self.audio_var.get().strip():
             messagebox.showwarning("Missing Audio", "Choose an audio file before running.")
             return
@@ -255,7 +285,26 @@ class HelixGui(tk.Tk):
             if self.birdsong_auto_var.get():
                 cmd.append("--birdsong-auto")
 
+        if benchmark_mode:
+            cmd.extend(
+                [
+                    "--spatial-awareness",
+                    "0.62",
+                    "--chase-style",
+                    "wave",
+                    "--palette-mode",
+                    "workspace_match",
+                    "--vendor-min-quality",
+                    "90.0",
+                    "--vendor-min-audit",
+                    "86.0",
+                    "--vendor-max-rejected",
+                    "240",
+                ]
+            )
+
         self.run_button.configure(state=tk.DISABLED)
+        self.benchmark_button.configure(state=tk.DISABLED)
         self.status_label.configure(text="Running...")
         self._log("")
         self._log("Running command:")
@@ -284,6 +333,7 @@ class HelixGui(tk.Tk):
             self._log(f"Run failed with exit code {rc}.")
             self.status_label.configure(text="Failed")
         self.run_button.configure(state=tk.NORMAL)
+        self.benchmark_button.configure(state=tk.NORMAL)
 
 
 def main() -> int:
