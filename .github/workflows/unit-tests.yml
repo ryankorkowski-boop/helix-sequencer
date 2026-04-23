@@ -33,25 +33,23 @@ jobs:
           import subprocess
           import sys
 
-          modules = [
-              "tests.test_effects",
+          modules = []
+          candidates = [
               "tests.test_sequence_builder",
+              "tests.test_effects",
               "tests.test_build_helpers",
+              "tests.test_audio",
+              "tests.test_feature_state",
           ]
-
-          try:
-              audio_mod = importlib.import_module("core.audio_intelligence")
-              if hasattr(audio_mod, "normalize_name") and hasattr(audio_mod, "ordered_spatial_path"):
-                  modules.append("tests.test_audio")
-          except Exception:
-              pass
-
-          try:
-              importlib.import_module("core.feature_state")
-              importlib.import_module("tests.test_feature_state")
-              modules.append("tests.test_feature_state")
-          except Exception:
-              pass
+          for candidate in candidates:
+              try:
+                  importlib.import_module(candidate)
+              except Exception as exc:
+                  print(f"Skipping {candidate}: {exc}")
+                  continue
+              modules.append(candidate)
+          if not modules:
+              modules = ["tests.test_sequence_builder"]
 
           cmd = [sys.executable, "-m", "unittest", *modules]
           print("Running:", " ".join(cmd))
