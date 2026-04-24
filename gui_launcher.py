@@ -116,7 +116,7 @@ class HelixGui(tk.Tk):
         ttk.Checkbutton(controls, text="Matrix Intelligence", variable=self.matrix_var).grid(row=1, column=1, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Polish", variable=self.polish_var).grid(row=1, column=2, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Auto Shortlist", variable=self.shortlist_var).grid(row=1, column=3, sticky="w", **pad)
-        ttk.Checkbutton(controls, text="Learn From My XSQs", variable=self.learn_xsq_var).grid(row=1, column=4, sticky="w", **pad)
+        ttk.Checkbutton(controls, text="Helix Learning Memory", variable=self.learn_xsq_var).grid(row=1, column=4, sticky="w", **pad)
 
         birdsong = ttk.LabelFrame(frame, text="Birdsong Engine")
         birdsong.pack(fill=tk.X, **pad)
@@ -268,7 +268,9 @@ class HelixGui(tk.Tk):
         if self.shortlist_var.get():
             cmd.append("--auto-shortlist")
         if self.learn_xsq_var.get():
-            cmd.append("--learn-from-my-xsqs")
+            cmd.append("--learning-memory")
+        else:
+            cmd.append("--no-learning-memory")
 
         if self.birdsong_var.get():
             cmd.extend(

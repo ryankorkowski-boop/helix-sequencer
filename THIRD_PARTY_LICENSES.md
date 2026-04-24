@@ -47,3 +47,7 @@ When shipping the customer bundle, include:
 - this checklist
 - your own product EULA/terms (if any)
 - attribution section in the GUI License window
+
+## Helix Learning Boundary
+
+The self-improving scoring system must only persist learning from Helix-generated outputs that include the project watermark metadata. Do not use copyrighted songs, licensed vendor sequences, third-party templates, marketplace XSQs, or other externally licensed material as training or reinforcement memory. Third-party materials may be used only according to their licenses for normal sequencing/rendering workflows, not as persistent learning sources.

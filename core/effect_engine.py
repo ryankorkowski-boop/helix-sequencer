@@ -27,6 +27,7 @@ from core import birdsong_engine
 from core import model_parser as xmp
 from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
+from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
 from tools.build_helpers import (
     DEFAULT_MAX_REJECTED_EFFECTS,
@@ -176,6 +177,8 @@ class RuntimeTuning:
     workspace_history_enabled: bool = True
     workspace_history_folder: Path | None = None
     workspace_history_limit: int = 24
+    learning_memory_enabled: bool = True
+    learning_memory_file: Path | None = None
     auto_timing_tracks: bool = True
     pixel_reactive: bool = True
     matrix_intelligence: bool = True
@@ -770,10 +773,9 @@ def scan_workspace_preferences(
             if "template" in path.name.lower():
                 continue
             report_path = path.with_suffix(".report.json")
-            user_learning = bool(tuning.learn_from_my_xsqs)
-            if not user_learning and ",v" not in path.name.lower():
+            if ",v" not in path.name.lower():
                 continue
-            if not user_learning and not report_path.exists():
+            if not report_path.exists():
                 continue
             if low in seen:
                 continue
@@ -796,6 +798,8 @@ def scan_workspace_preferences(
                 report_payload = json.loads(report_path.read_text(encoding="utf-8"))
             except Exception:
                 report_payload = {}
+            if not sequence_scoring.is_helix_generated_payload(report_payload):
+                continue
             quality_payload = report_payload.get("quality", {}) or {}
             profile_payload = report_payload.get("profile", {}) or {}
             quality_score = float(quality_payload.get("score", 0.0) or 0.0)
@@ -837,19 +841,12 @@ def scan_workspace_preferences(
         speed_bias=(sum(speed_biases) / len(speed_biases) if speed_biases else 1.0),
         darkness_bias=(sum(darkness_biases) / len(darkness_biases) if darkness_biases else 1.0),
         source_files=source_files[:24],
-        learned_from_user_xsqs=bool(tuning.learn_from_my_xsqs),
+        learned_from_user_xsqs=False,
     )
 
 
 def apply_workspace_learning(style: VariantStyle, workspace_history: WorkspaceHistoryProfile) -> VariantStyle:
-    if not workspace_history.learned_from_user_xsqs:
-        return style
-    return replace(
-        style,
-        density_scale=base.clamp(style.density_scale * workspace_history.density_bias, 0.65, 1.60),
-        speed_scale=base.clamp(style.speed_scale * workspace_history.speed_bias, 0.65, 1.60),
-        darkness_scale=base.clamp(style.darkness_scale * workspace_history.darkness_bias, 0.65, 1.55),
-    )
+    return style
 
 
 def pick_palette_for_effect(
@@ -8130,11 +8127,44 @@ def write_report(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
 
+def read_report_payload(path: Path) -> dict:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
 def validate_report_payload(payload: dict) -> None:
     audit_final = ((payload.get("audit", {}) or {}).get("final", {}) or {})
     audit_score = float(audit_final.get("score", 0.0) or 0.0)
     if audit_score <= 0.0:
         raise ValueError("report payload missing non-zero audit.final.score")
+
+
+def build_self_scoring_payload(payload: dict, weights: dict[str, float] | None = None) -> dict:
+    score = sequence_scoring.score_sequence(payload, weights)
+    audit_final = ((payload.get("audit", {}) or {}).get("final", {}) or {})
+    section_scores = [
+        {
+            "label": section.get("label", ""),
+            "start_ms": int(section.get("start_ms", 0) or 0),
+            "end_ms": int(section.get("end_ms", 0) or 0),
+            "energy": float(section.get("energy", 0.0) or 0.0),
+            "audit_score": float(section.get("score", 0.0) or 0.0),
+            "coverage_ratio": float(section.get("coverage_ratio", 0.0) or 0.0),
+            "density": float(section.get("density", 0.0) or 0.0),
+        }
+        for section in (audit_final.get("section_scores") or [])
+        if isinstance(section, dict)
+    ]
+    result = score.as_dict()
+    result["segment_scores"] = section_scores[:96]
+    result["debug"] = {
+        "metric_breakdown": result["metrics"],
+        "weights_adjustable": True,
+        "learning_source_policy": "helix_generated_sequences_only",
+    }
+    return result
 
 
 def compute_vendor_bar_verdict(
@@ -11615,6 +11645,10 @@ def run_variant(
         },
     }
     payload["quality"] = compute_quality_score(payload)
+    memory_weights: dict[str, float] | None = None
+    if tuning.learning_memory_file is not None:
+        memory_weights = sequence_scoring.load_learning_memory(tuning.learning_memory_file).get("weights", {})
+    payload["self_improving_scoring"] = build_self_scoring_payload(payload, memory_weights)
     payload["vendor_bar"] = compute_vendor_bar_verdict(
         payload,
         enabled=bool(tuning.vendor_bar),
@@ -11700,6 +11734,7 @@ def run_variant(
         "payload": payload,
         "quality": payload.get("quality", {}),
         "audit": payload.get("audit", {}),
+        "self_improving_scoring": payload.get("self_improving_scoring", {}),
         "polish": payload.get("polish", {}),
     }
 
@@ -11710,7 +11745,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
         epilog=(
             "One-click vendor-quality example:\n"
             "  python main.py --profile master -- --template template.xsq --audio song.wav "
-            "--no-prompt --polish --variants 3 --auto-shortlist --learn-from-my-xsqs"
+            "--no-prompt --polish --variants 3 --auto-shortlist"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -11767,6 +11802,9 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--workspace-history-limit", type=int, dest="workspace_history_limit", help="Max recent XSQ files to scan from workspace history")
     parser.add_argument("--workspace-history", dest="workspace_history_enabled", action="store_true", help="Enable local XSQ history scanning")
     parser.add_argument("--no-workspace-history", dest="workspace_history_enabled", action="store_false", help="Disable local XSQ history scanning")
+    parser.add_argument("--learning-memory-file", dest="learning_memory_file", help="JSON file for Helix-generated-only scoring memory")
+    parser.add_argument("--learning-memory", dest="learning_memory_enabled", action="store_true", help="Enable Helix-generated-only scoring memory")
+    parser.add_argument("--no-learning-memory", dest="learning_memory_enabled", action="store_false", help="Disable scoring memory writes")
     parser.add_argument("--auto-timing-tracks", dest="auto_timing_tracks", action="store_true", help="Write extended Queen Mary style timing tracks")
     parser.add_argument("--no-auto-timing-tracks", dest="auto_timing_tracks", action="store_false", help="Disable extended timing-track output")
     parser.add_argument("--pixel-reactive", dest="pixel_reactive", action="store_true", help="Enable family-aware reactive pixel choreography for compatible models")
@@ -11783,7 +11821,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--vendor-min-quality", type=float, dest="vendor_min_quality_score", help="Minimum quality score required for vendor-bar pass")
     parser.add_argument("--vendor-min-audit", type=float, dest="vendor_min_audit_score", help="Minimum audit score required for vendor-bar pass")
     parser.add_argument("--vendor-max-rejected", type=int, dest="vendor_max_rejected_effects", help="Maximum rejected effects allowed for vendor-bar pass")
-    parser.add_argument("--learn-from-my-xsqs", dest="learn_from_my_xsqs", action="store_true", help="Learn palette, density, and prop behavior from prior high-scoring XSQs in the workspace history folder")
+    parser.add_argument("--learn-from-my-xsqs", dest="learn_from_my_xsqs", action="store_true", help="Deprecated compatibility flag; learning is limited to Helix-generated sequences only")
     parser.add_argument("--birdsong", dest="birdsong_enabled", action="store_true", help="Enable the birdsong phrase engine overlay")
     parser.add_argument("--no-birdsong", dest="birdsong_enabled", action="store_false", help="Disable the birdsong phrase engine overlay")
     parser.add_argument("--birdsong-auto", dest="birdsong_auto", action="store_true", help="Auto-enable birdsong when audio confidence is high")
@@ -11802,6 +11840,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
         debug_validation=True,
         auto_timing_tracks=True,
         workspace_history_enabled=True,
+        learning_memory_enabled=True,
         pixel_reactive=True,
         matrix_intelligence=True,
         polish_enabled=True,
@@ -11932,13 +11971,17 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         workspace_history_enabled=bool(args.workspace_history_enabled),
         workspace_history_folder=workspace_history_folder,
         workspace_history_limit=max(4, int(args.workspace_history_limit if args.workspace_history_limit is not None else 24)),
+        learning_memory_enabled=bool(args.learning_memory_enabled),
+        learning_memory_file=(resolve_path(folder, args.learning_memory_file) if args.learning_memory_file else None),
         auto_timing_tracks=bool(args.auto_timing_tracks),
         pixel_reactive=bool(args.pixel_reactive),
         matrix_intelligence=bool(args.matrix_intelligence),
         video_file=video_file,
         blend_rules_file=blend_rules_file,
         polish_enabled=bool(args.polish_enabled),
-        variant_count=max(1, int(args.variant_count if args.variant_count is not None else 3)),
+        variant_count=sequence_scoring.plan_variations(
+            int(args.variant_count if args.variant_count is not None else 3)
+        ).capped_count,
         auto_shortlist=bool(args.auto_shortlist),
         learn_from_my_xsqs=bool(args.learn_from_my_xsqs),
         vendor_bar=bool(args.vendor_bar),
@@ -11984,6 +12027,10 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     if output_dir is None:
         output_dir = folder / style.family
     output_dir.mkdir(parents=True, exist_ok=True)
+    if tuning.learning_memory_enabled and tuning.learning_memory_file is None:
+        tuning.learning_memory_file = output_dir / "helix_learning_memory.json"
+    elif not tuning.learning_memory_enabled:
+        tuning.learning_memory_file = None
 
     log(f"Template: {template.name}")
     log(
@@ -12040,7 +12087,13 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                 result["label"] = candidate.label
                 result["description"] = candidate.description
                 result["style_version"] = candidate.style.version
+                candidate_payload = read_report_payload(Path(str(result.get("report_path", ""))))
+                result["payload"] = candidate_payload
+                result["self_improving_scoring"] = candidate_payload.get("self_improving_scoring", {})
                 candidate_results.append(result)
+            comparison_rankings = sequence_scoring.rank_sequence_payloads(candidate_results)
+            selected_label = str(candidate_results[0].get("label", "signature")) if candidate_results else ""
+            selected_report_path = Path(str(candidate_results[0].get("report_path", ""))) if candidate_results else report_path(out)
             if tuning.auto_shortlist and len(candidate_results) > 1:
                 best_entry = choose_best_candidate(
                     candidate_results,
@@ -12063,6 +12116,8 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                 if best_entry is not None:
                     if bool(best_entry.get("quality_gate_passed", False)):
                         promote_shortlisted_candidate(best_entry, out)
+                        selected_label = str(best_entry.get("label", selected_label))
+                        selected_report_path = report_path(out)
                         log(
                             "Auto-shortlist winner: "
                             f"{best_entry.get('label', '')} -> {Path(str(best_entry.get('output_path', out))).name}"
@@ -12070,6 +12125,46 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                     else:
                         reasons = ", ".join(str(item) for item in (best_entry.get("quality_gate_reasons") or []))
                         log(f"Auto-shortlist skipped: no candidate passed quality gates ({reasons or 'failed_quality_gates'})")
+            comparison_debug = {
+                "enabled": len(candidate_results) > 1,
+                "selected_label": selected_label,
+                "rankings": comparison_rankings,
+                "chosen_variation": next((item for item in comparison_rankings if item.get("label") == selected_label), {}),
+                "rejected_variations": [item for item in comparison_rankings if item.get("label") != selected_label],
+            }
+            for result in candidate_results:
+                candidate_report = Path(str(result.get("report_path", "")))
+                candidate_payload = read_report_payload(candidate_report)
+                if not candidate_payload:
+                    continue
+                candidate_payload["comparison_engine"] = comparison_debug
+                candidate_payload.setdefault("self_improving_scoring", {})
+                candidate_payload["self_improving_scoring"]["debug"] = {
+                    **((candidate_payload.get("self_improving_scoring") or {}).get("debug", {}) or {}),
+                    "chosen_vs_rejected_variations": comparison_debug,
+                }
+                write_report(candidate_report, candidate_payload)
+            if tuning.learning_memory_file is not None and selected_report_path.exists():
+                selected_payload = read_report_payload(selected_report_path)
+                if selected_payload:
+                    selected_payload["comparison_engine"] = comparison_debug
+                    selected_payload.setdefault("self_improving_scoring", {})
+                    selected_payload["self_improving_scoring"]["debug"] = {
+                        **((selected_payload.get("self_improving_scoring") or {}).get("debug", {}) or {}),
+                        "chosen_vs_rejected_variations": comparison_debug,
+                    }
+                rejected_for_memory = [
+                    item for item in comparison_rankings if item.get("label") != selected_label
+                ]
+                learning_result = sequence_scoring.record_learning_decision(
+                    memory_path=tuning.learning_memory_file,
+                    payload=selected_payload,
+                    decision=selected_label,
+                    rejected=rejected_for_memory,
+                )
+                if selected_payload:
+                    selected_payload["learning_memory"] = learning_result
+                    write_report(selected_report_path, selected_payload)
         except Exception as exc:
             log(f"FAILED: {audio.name}: {repr(exc)}")
 

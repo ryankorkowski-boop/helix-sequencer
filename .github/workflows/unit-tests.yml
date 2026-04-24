@@ -40,6 +40,7 @@ jobs:
               "tests.test_build_helpers",
               "tests.test_audio",
               "tests.test_feature_state",
+              "tests.test_self_improving_scoring",
           ]
           for candidate in candidates:
               try:

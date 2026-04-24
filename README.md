@@ -75,3 +75,7 @@ Output is written to `helixville/`, including:
 - Legacy wrappers and experimental scripts were moved instead of deleted.
 - The current restructure is intentionally conservative: proven engine code was promoted into the new folders with minimal behavioral changes.
 - AI bridges are placeholders by design. Rule-based sequencing remains the default path.
+
+## Learning Policy
+
+Helix scoring memory is limited to Helix-generated sequence reports that carry the internal Dream Sequence Weaver watermark metadata. It does not learn from copyrighted songs, licensed vendor sequences, template files, imported third-party XSQs, or arbitrary user-provided sequence folders. Audio analysis may guide a one-time render, but persistent learning stores only Helix decisions, generated-score metrics, and generated sequence context.
