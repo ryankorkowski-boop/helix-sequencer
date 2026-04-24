@@ -314,11 +314,11 @@ def place_birdsong_engine(
         )
 
     call_effect_map = {
-        "warbler": "Butterfly",
+        "warbler": "Wave",
         "nightingale": "Shimmer",
         "sparrow": "Twinkle",
-        "finch": "On",
-        "thrush": "Wave",
+        "finch": "Ramp",
+        "thrush": "On",
     }
 
     state: dict[str, int] = {}
@@ -328,7 +328,7 @@ def place_birdsong_engine(
     echos = 0
     sweeps = 0
 
-    sweep_interval = max(6, int(round(12 - (2.5 * effective_intensity))))
+    sweep_interval = max(4, int(round(10 - (2.2 * effective_intensity))))
     for index, phrase in enumerate(phrases):
         if in_blackout(phrase.start_ms):
             continue
@@ -341,9 +341,15 @@ def place_birdsong_engine(
             continue
 
         call_effect = call_effect_map.get(phrase.species, "On")
+        phrase_len = max(50, int(phrase.end_ms - phrase.start_ms))
+        call_len = max(75, int(round(phrase_len * (0.60 + (0.14 * confidence)))))
+        call_len = min(call_len, int(round(260 + (120 * effective_intensity))))
+        call_end = min(song_length_ms, phrase.start_ms + call_len)
+        if call_end <= phrase.start_ms:
+            continue
         stem_key = "vocals" if phrase.source == "vocal" else "other"
-        add_model(call_target, phrase.start_ms, phrase.end_ms, "birdsong_call", eff=call_effect, stem=stem_key)
-        spans.append((f"{phrase.species.upper()}_CALL", phrase.start_ms, phrase.end_ms))
+        add_model(call_target, phrase.start_ms, call_end, "birdsong_call", eff=call_effect, stem=stem_key)
+        spans.append((f"{phrase.species.upper()}_CALL", phrase.start_ms, call_end))
         species_counts[phrase.species] = species_counts.get(phrase.species, 0) + 1
         calls += 1
 
@@ -353,26 +359,39 @@ def place_birdsong_engine(
             echo_target = _cycle_model(echo_pool, state) if echo_pool is not None else None
             if echo_target and echo_target != call_target:
                 echo_start = min(song_length_ms, phrase.start_ms + int(round(40 + (20 * effective_intensity))))
-                echo_end = min(song_length_ms, echo_start + max(65, int(round((phrase.end_ms - phrase.start_ms) * 0.78))))
+                echo_end = min(song_length_ms, echo_start + max(55, int(round(call_len * 0.56))))
                 if echo_end > echo_start and not in_blackout(echo_start):
-                    add_model(echo_target, echo_start, echo_end, "birdsong_echo", eff="On", stem="other")
+                    echo_eff = "Ramp" if (index % 2) == 0 else "On"
+                    add_model(echo_target, echo_start, echo_end, "birdsong_echo", eff=echo_eff, stem="other")
                     spans.append((f"{phrase.species.upper()}_ECHO", echo_start, echo_end))
                     echos += 1
+
+        trill_probability = clamp((0.22 + (0.24 * effective_intensity)), 0.10, 0.75)
+        if echo_candidates and rng.random() <= trill_probability:
+            trill_pool = _pick_pool(echo_candidates, rng)
+            trill_target = _cycle_model(trill_pool, state) if trill_pool is not None else None
+            trill_start = min(song_length_ms, call_end + 16)
+            trill_end = min(song_length_ms, trill_start + max(48, int(round(64 * effective_intensity))))
+            if trill_target and trill_target != call_target and trill_end > trill_start and not in_blackout(trill_start):
+                add_model(trill_target, trill_start, trill_end, "birdsong_trill", eff="On", stem=stem_key)
+                spans.append((f"{phrase.species.upper()}_TRILL", trill_start, trill_end))
+                echos += 1
 
         if sweep_candidates and index > 0 and (index % sweep_interval) == 0:
             sweep_pool = _pick_pool(sweep_candidates, rng)
             models = list(getattr(sweep_pool, "models", []) or []) if sweep_pool is not None else []
             if models:
                 sweep_len = min(5, len(models))
-                start = max(0, phrase.start_ms - 70)
+                start = max(0, phrase.start_ms - 60)
                 step = max(24, int(round(36 / max(0.6, effective_intensity))))
                 for step_idx in range(sweep_len):
                     model = models[(state.get(str(getattr(sweep_pool, "name", "sweep")), 0) + step_idx) % len(models)]
                     seg_st = start + (step_idx * step)
-                    seg_en = min(song_length_ms, seg_st + max(75, int(round(95 * effective_intensity))))
+                    seg_en = min(song_length_ms, seg_st + max(68, int(round(90 * effective_intensity))))
                     if seg_en <= seg_st or in_blackout(seg_st):
                         continue
-                    add_model(str(model), seg_st, seg_en, "birdsong_sweep", eff="Wave", stem="other")
+                    sweep_eff = "Ramp" if (step_idx % 2) == 0 else "On"
+                    add_model(str(model), seg_st, seg_en, "birdsong_sweep", eff=sweep_eff, stem="other")
                 spans.append(("FLOCK_SWEEP", start, min(song_length_ms, start + sweep_len * step + 110)))
                 sweeps += 1
 
