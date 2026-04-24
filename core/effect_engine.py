@@ -22,6 +22,7 @@ from core import audit as sequence_audit
 from core import audio_intelligence as ai
 from core import chronoflow as chronoflow_engine
 from core import helixualizer as helixualizer_engine
+from core import hardkor_engine
 from core import matrix_intelligence as matrix_planner
 from core import birdsong_engine
 from core import model_parser as xmp
@@ -29,6 +30,9 @@ from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
+from core import band_sync as band_sync_engine
+from effects import piano_effect as piano_effect_engine
+from core import spatial_scene as spatial
 from tools.build_helpers import (
     DEFAULT_MAX_REJECTED_EFFECTS,
     DEFAULT_MIN_AUDIT_SCORE,
@@ -197,6 +201,9 @@ class RuntimeTuning:
     birdsong_intensity: float = 1.0
     birdsong_min_confidence: float = 0.45
     birdsong_profile: str = "wild"
+    hardkor_enabled: bool = False
+    hardkor_intensity: float = 1.0
+    hardkor_profile: str = "ac256"
 
 
 @dataclass
@@ -846,7 +853,12 @@ def scan_workspace_preferences(
 
 
 def apply_workspace_learning(style: VariantStyle, workspace_history: WorkspaceHistoryProfile) -> VariantStyle:
-    return style
+    return replace(
+        style,
+        density_scale=base.clamp(style.density_scale * workspace_history.density_bias, 0.65, 1.60),
+        speed_scale=base.clamp(style.speed_scale * workspace_history.speed_bias, 0.65, 1.60),
+        darkness_scale=base.clamp(style.darkness_scale * workspace_history.darkness_bias, 0.65, 1.55),
+    )
 
 
 def pick_palette_for_effect(
@@ -2655,6 +2667,28 @@ def representative_models(pool: SequentialPool | None, desired_count: int) -> li
     return [pool.models[idx] for idx in indices if 0 <= idx < len(pool.models)]
 
 
+def spatialize_pool_for_family(
+    pool: SequentialPool | None,
+    scene: spatial.SpatialScene | None,
+    family: str,
+    *,
+    reverse: bool = False,
+    path_style: str | None = None,
+) -> SequentialPool | None:
+    if pool is None or scene is None or len(pool.models) < 2:
+        return pool
+    ordered = spatial.order_names_for_family(
+        scene,
+        pool.models,
+        family,
+        path_style=path_style,
+        reverse=reverse,
+    )
+    if not ordered or ordered == pool.models:
+        return pool
+    return replace(pool, models=ordered)
+
+
 def intentional_scene_blueprint(part_label: str) -> dict[str, tuple[str, ...]]:
     label = (part_label or "VERSE").upper()
     if label in {"INTRO", "OUTRO"}:
@@ -3753,6 +3787,7 @@ def place_orbital_sweep(
     in_blackout,
     piano_track: list[tuple[str, int, int]],
     sweep_track: list[tuple[str, int, int]],
+    spatial_scene_model: spatial.SpatialScene | None = None,
 ) -> None:
     orbit_pools = [
         pool
@@ -3774,7 +3809,12 @@ def place_orbital_sweep(
             part = part_for_time(parts, st)
             if part in {"INTRO", "OUTRO"} and (i % 2 == 1):
                 continue
-            pool = orbit_pools[i % len(orbit_pools)]
+            pool = spatialize_pool_for_family(
+                orbit_pools[i % len(orbit_pools)],
+                spatial_scene_model,
+                "orbit_rotation",
+                reverse=(i % 2 == 1),
+            ) or orbit_pools[i % len(orbit_pools)]
             if len(pool.models) < 2:
                 continue
             add_sweep(
@@ -3806,7 +3846,12 @@ def place_orbital_sweep(
     for i, t_ms in enumerate(kicks):
         if in_blackout(t_ms):
             continue
-        pool = orbit_pools[i % len(orbit_pools)]
+        pool = spatialize_pool_for_family(
+            orbit_pools[i % len(orbit_pools)],
+            spatial_scene_model,
+            "orbit_rotation",
+            reverse=(i % 2 == 1),
+        ) or orbit_pools[i % len(orbit_pools)]
         count = len(pool.models)
         if count == 0:
             continue
@@ -3833,7 +3878,11 @@ def place_orbital_sweep(
     for idx, event in enumerate(note_events):
         if (idx % 4) != 0 or in_blackout(event.start_ms):
             continue
-        pool = orbit_pools[idx % len(orbit_pools)]
+        pool = spatialize_pool_for_family(
+            orbit_pools[idx % len(orbit_pools)],
+            spatial_scene_model,
+            "orbit_rotation",
+        ) or orbit_pools[idx % len(orbit_pools)]
         targets = map_notes_to_models(pool, event, pool_state, style, rng)
         _placed, phrase_end = place_note_phrase(add_model, pool, event, targets[:3], style, rng, ramp_ok, ramp_tpl)
         piano_track.append((f"{pool.name}:orbit_note", event.start_ms, phrase_end))
@@ -4397,6 +4446,7 @@ def place_wave_burst_director(
     in_blackout,
     piano_track: list[tuple[str, int, int]],
     sweep_track: list[tuple[str, int, int]],
+    spatial_scene_model: spatial.SpatialScene | None = None,
 ) -> None:
     previous_avg: float | None = None
     dramatic_parts = {"PRECHORUS", "CHORUS", "BRIDGE"}
@@ -4422,6 +4472,11 @@ def place_wave_burst_director(
         local_bars = [mark for mark in bar_ms if part.start_ms <= mark < part.end_ms] or [part.start_ms]
         local_beats = [mark for mark in beat_ms if part.start_ms <= mark < part.end_ms]
         local_events = [event for event in note_events if part.start_ms <= event.start_ms < part.end_ms]
+
+        foundation_pool = spatialize_pool_for_family(foundation_pool, spatial_scene_model, "wave_propagation")
+        beat_pool = spatialize_pool_for_family(beat_pool, spatial_scene_model, "wave_propagation")
+        contour_pool = spatialize_pool_for_family(contour_pool, spatial_scene_model, "wave_propagation")
+        accent_pool = spatialize_pool_for_family(accent_pool, spatial_scene_model, "radial_burst")
 
         foundation_targets = representative_models(
             foundation_pool,
@@ -6222,6 +6277,7 @@ def place_intensity_waves(
     add_model,
     in_blackout,
     sweep_track: list[tuple[str, int, int]],
+    spatial_scene_model: spatial.SpatialScene | None = None,
 ) -> None:
     wave_pools = [
         pool
@@ -6241,7 +6297,11 @@ def place_intensity_waves(
             continue
         if (idx % (2 if part == "CHORUS" else 3)) != 0:
             continue
-        pool = wave_pools[idx % len(wave_pools)]
+        pool = spatialize_pool_for_family(
+            wave_pools[idx % len(wave_pools)],
+            spatial_scene_model,
+            "wave_propagation",
+        ) or wave_pools[idx % len(wave_pools)]
         targets = representative_models(pool, 1 if part == "PRECHORUS" else 2)
         span_end = t_ms
         for step, model in enumerate(targets):
@@ -6257,7 +6317,11 @@ def place_intensity_waves(
             continue
         if event.part not in {"PRECHORUS", "CHORUS", "BRIDGE"}:
             continue
-        pool = wave_pools[(event_idx + len(event.notes)) % len(wave_pools)]
+        pool = spatialize_pool_for_family(
+            wave_pools[(event_idx + len(event.notes)) % len(wave_pools)],
+            spatial_scene_model,
+            "wave_propagation",
+        ) or wave_pools[(event_idx + len(event.notes)) % len(wave_pools)]
         targets = map_notes_to_models(pool, event, pool_state, style, rng)[: max(1, min(2, len(event.notes)))]
         span_end = event.start_ms
         for step, model in enumerate(targets):
@@ -6545,10 +6609,24 @@ def spatial_ordered_models(
     coords: dict[str, tuple[float, float]] | None,
     rng: random.Random,
     path_style: str = "left_to_right",
+    *,
+    scene: spatial.SpatialScene | None = None,
+    family: str = "trajectory_travel",
 ) -> list[str]:
     dedup = unique_models([model for model in models if model])
     if not dedup:
         return []
+    if scene is not None:
+        ordered = spatial.order_names_for_family(
+            scene,
+            dedup,
+            family,
+            path_style=path_style,
+        )
+        if ordered:
+            seen = {model.lower() for model in ordered}
+            ordered.extend(model for model in dedup if model.lower() not in seen)
+            return ordered
     if not coords:
         return dedup
     usable = [model for model in dedup if model in coords]
@@ -6601,6 +6679,7 @@ def build_spatial_keyboard_routes(
     *,
     route_style: str = "left_to_right",
     awareness: float = 0.0,
+    scene: spatial.SpatialScene | None = None,
 ) -> list[KeyboardRoute]:
     routes: list[KeyboardRoute] = []
 
@@ -6614,7 +6693,18 @@ def build_spatial_keyboard_routes(
         clusters: list[list[str]] | None = None,
         spatial: bool = True,
     ) -> None:
-        ordered = spatial_ordered_models(models, coords, rng, path_style=route_style) if spatial else unique_models(models)
+        ordered = (
+            spatial_ordered_models(
+                models,
+                coords,
+                rng,
+                path_style=route_style,
+                scene=scene,
+                family="trajectory_travel",
+            )
+            if spatial
+            else unique_models(models)
+        )
         if len(ordered) < minimum:
             return
         usable_clusters = clusters
@@ -9079,8 +9169,11 @@ def apply_spatial_chase(
     style: VariantStyle,
     pools: list[SequentialPool],
     parts: list[SongPart],
+    audio,
     beat_ms: list[int],
     kicks: list[int],
+    snares: list[int],
+    hats: list[int],
     add_model,
     ramp_ok: bool,
     ramp_tpl: base.EffectTemplate,
@@ -9089,6 +9182,7 @@ def apply_spatial_chase(
     names: list[str],
     rng: random.Random,
     log_fn,
+    spatial_scene_model: spatial.SpatialScene | None = None,
 ) -> tuple[list[tuple[str, int, int]], int]:
     """Spatially-aware chase generator that avoids full-yard blast behavior."""
     awareness = base.clamp(float(tuning.spatial_awareness), 0.0, 1.0)
@@ -9099,7 +9193,13 @@ def apply_spatial_chase(
         log_fn("Spatial chase skipped: layout file missing.")
         return ([], 0)
 
-    coords = ai.parse_layout_coordinates(tuning.layout_file, names)
+    scene = spatial_scene_model
+    if scene is None:
+        try:
+            scene = spatial.load_scene(tuning.layout_file)
+        except Exception:
+            scene = None
+    coords = scene.projected_coordinate_map(names) if scene is not None else ai.parse_layout_coordinates(tuning.layout_file, names)
     if len(coords) < 3:
         log_fn("Spatial chase skipped: not enough coordinate-mapped models.")
         return ([], 0)
@@ -9124,7 +9224,15 @@ def apply_spatial_chase(
     if len(dedup) < 3:
         return ([], 0)
 
-    path = ai.ordered_spatial_path(dedup, coords, chase_style, rng)
+    if scene is not None:
+        path = spatial.order_names_for_family(
+            scene,
+            dedup,
+            "trajectory_travel",
+            path_style=chase_style,
+        )
+    else:
+        path = ai.ordered_spatial_path(dedup, coords, chase_style, rng)
     if len(path) < 3:
         return ([], 0)
     log_fn(f"Spatial chase enabled: style={chase_style}, awareness={awareness:.2f}, path_models={len(path)}")
@@ -9132,6 +9240,32 @@ def apply_spatial_chase(
     anchors = base.compress_times_ms(sorted(set(kicks + beat_ms[::2])), max(130, base.scaled_gap(120)))
     if not anchors:
         return ([], 0)
+
+    def _pitch_hz_at(ms_value: int) -> float:
+        try:
+            hz = float(base.nearest(audio.times_s, audio.pitch_hz, ms_value / 1000.0))
+        except Exception:
+            return 0.0
+        if not np.isfinite(hz) or hz <= 0.0:
+            return 0.0
+        return hz
+
+    route_candidates: list[list[str]] = []
+    route_categories = ("arch", "line", "canes_combo", "gt", "mega", "matrix", "stars", "snowflakes")
+    for category in route_categories:
+        for pool in pools:
+            if pool.category != category:
+                continue
+            route = [name for name in pool.models if name in coords]
+            if len(route) < 3:
+                continue
+            if scene is not None:
+                route_path = spatial.order_names_for_family(scene, route, "wave_propagation", path_style="left_to_right")
+            else:
+                route_path = ai.ordered_spatial_path(route, coords, "left_to_right", rng)
+            if len(route_path) >= 3:
+                route_candidates.append(route_path)
+    route_cursor = 0
 
     spans: list[tuple[str, int, int]] = []
     placed = 0
@@ -9147,14 +9281,25 @@ def apply_spatial_chase(
             continue
         if part in {"INTRO", "OUTRO"} and rng.random() > 0.14:
             continue
+        hz_now = _pitch_hz_at(t_ms)
+        hz_next = _pitch_hz_at(anchors[min(len(anchors) - 1, i + 1)]) if i + 1 < len(anchors) else _pitch_hz_at(t_ms + 160)
+        pitch_delta = hz_next - hz_now if hz_now > 0.0 and hz_next > 0.0 else 0.0
+        descending = pitch_delta < -18.0
+        ascending = pitch_delta > 18.0
+        directional_path = list(path)
+        if descending:
+            directional_path.reverse()
         width = min(len(path), width_cap, base_width + (1 if part in {"PRECHORUS", "CHORUS", "BRIDGE"} else 0))
         start_idx = (i * max(1, int(1 + awareness * 3))) % len(path)
         if chase_style == "random_walk":
-            start_idx = rng.randrange(len(path))
+            if ascending or descending:
+                start_idx = 0 if ascending else max(0, len(directional_path) - width)
+            else:
+                start_idx = rng.randrange(len(path))
         chase_end = t_ms
         for step in range(width):
-            idx = (start_idx + step) % len(path)
-            model = path[idx]
+            idx = (start_idx + step) % len(directional_path)
+            model = directional_path[idx]
             st = t_ms + step * step_gap
             en = st + dur + int(step * 6 * awareness)
             add_model(
@@ -9174,7 +9319,66 @@ def apply_spatial_chase(
             )
             chase_end = max(chase_end, en)
             placed += 1
-        spans.append((f"{chase_style}:{path[start_idx]}", t_ms, chase_end))
+        spans.append((f"{chase_style}:{directional_path[start_idx]}", t_ms, chase_end))
+
+        # Controlled within-group pitch hops.
+        allow_hops = part in {"PRECHORUS", "CHORUS", "BRIDGE"} or (i % 4) == 0
+        if allow_hops and route_candidates and rng.random() <= (0.22 + awareness * 0.30):
+            route = route_candidates[route_cursor % len(route_candidates)]
+            route_cursor += 1
+            hop_route = list(reversed(route)) if descending else route
+            hop_steps = min(len(hop_route), 3 + int(round(awareness * 3.0)))
+            hop_gap = max(16, int(round(28 - awareness * 10.0)))
+            hop_dur = max(55, int(round(96 - awareness * 18.0)))
+            hop_start_idx = (i * 3) % len(hop_route)
+            hop_end = t_ms
+            for step in range(hop_steps):
+                model = hop_route[(hop_start_idx + step) % len(hop_route)]
+                st = t_ms + 20 + step * hop_gap
+                en = st + hop_dur
+                add_model(
+                    model,
+                    st,
+                    en,
+                    "spatial_pitch_hop",
+                    eff="Single Strand" if (step % 2) == 0 else "Wave",
+                    stem="drums",
+                )
+                placed += 1
+                hop_end = max(hop_end, en)
+            spans.append((f"pitch_hop:{hop_route[hop_start_idx]}", t_ms + 20, hop_end))
+
+        # Sparse rapidfire bursts around snare/hat activity.
+        near_snare = ai.nearest_mark_distance_ms(t_ms, snares)
+        near_hat = ai.nearest_mark_distance_ms(t_ms, hats)
+        rapidfire_gate = (
+            part in {"CHORUS", "BRIDGE"}
+            and (i % 9) == 0
+            and ((near_snare is not None and near_snare <= 120) or (near_hat is not None and near_hat <= 90))
+        )
+        if rapidfire_gate and route_candidates:
+            route = route_candidates[(route_cursor + i) % len(route_candidates)]
+            burst_route = list(reversed(route)) if descending else route
+            burst_start = (i * 5) % len(burst_route)
+            burst_count = min(6, len(burst_route))
+            burst_gap = 11
+            burst_dur = 55
+            burst_end = t_ms
+            for idx in range(burst_count):
+                model = burst_route[(burst_start + idx) % len(burst_route)]
+                st = t_ms + idx * burst_gap
+                en = st + burst_dur
+                add_model(
+                    model,
+                    st,
+                    en,
+                    "spatial_rapidfire",
+                    eff="Strobe" if (idx % 3) == 2 else "On",
+                    stem="drums",
+                )
+                placed += 1
+                burst_end = max(burst_end, en)
+            spans.append((f"rapidfire:{burst_route[burst_start]}", t_ms, burst_end))
     return spans, placed
 
 
@@ -9570,9 +9774,11 @@ def run_variant(
 
     names = sorted(xsq.elements.keys())
     parsed_layout: xmp.ParsedLayout | None = None
+    spatial_scene_model: spatial.SpatialScene | None = None
     if active_layout_file and active_layout_file.exists():
         try:
             parsed_layout = xmp.parse_layout(active_layout_file)
+            spatial_scene_model = spatial.build_scene(parsed_layout)
             parsed_types: dict[str, int] = {}
             for model in parsed_layout.models.values():
                 parsed_types[model.type] = parsed_types.get(model.type, 0) + 1
@@ -9583,9 +9789,17 @@ def run_variant(
                 f"models={len(parsed_layout.models)}, groups={len(parsed_layout.groups)}, "
                 f"pixel_models={pixel_models}" + (f", types={type_summary}" if type_summary else "")
             )
+            log(
+                "Spatial scene: "
+                f"capability={spatial_scene_model.capability}, "
+                f"depth_span={spatial_scene_model.capability_report.depth_span:.1f}, "
+                f"layers={spatial_scene_model.capability_report.depth_layer_count}, "
+                f"layered_ratio={spatial_scene_model.capability_report.layered_model_ratio:.2f}"
+            )
         except Exception as exc:
             log(f"Layout parser unavailable, falling back to legacy discovery: {exc}")
             parsed_layout = None
+            spatial_scene_model = None
     layout = enrich_layout_with_parsed(base.discover_layout(names), names, parsed_layout)
     pools = discover_sequential_pools(names, layout, parsed_layout)
     layout_updates, pool_updates, lane_override = apply_model_overrides(
@@ -9960,6 +10174,21 @@ def run_variant(
             "debug": {"event_count": 0, "trajectory_count": 0, "lyric_count": len(lyric_events)},
         }
     try:
+        band_sync_payload = band_sync_engine.build_band_sync_plan(
+            parts=parts,
+            beat_ms=beat_ms,
+            onset_ms=onset_ms,
+            vocal_peaks=vocal_peaks,
+            bass_peaks=bass_peaks,
+            note_events=note_events,
+            background_vocal_events=stem_analysis.background_vocal_events or [],
+            drum_event_streams=stem_analysis.drum_event_streams or {},
+            song_length_ms=song_length_ms,
+        )
+    except Exception as exc:
+        log(f"[WARN] Band synchronization skipped: {exc!r}")
+        band_sync_payload = {"schema": "helix.band_sync.v1", "timeline": [], "state_frames": [], "debug": {}}
+    try:
         snowman_band_payload = snowman_band_engine.build_snowman_band_plan(
             parsed_layout=parsed_layout,
             parts=parts,
@@ -9974,8 +10203,11 @@ def run_variant(
             build_lifts=build_lifts,
             releases=releases,
             chronoflow_payload=chronoflow_payload,
+            band_sync_payload=band_sync_payload,
             multiband=multiband,
             enable_lyrics=bool(tuning.sync_lyrics_heads),
+            background_vocal_events=stem_analysis.background_vocal_events or [],
+            drum_event_streams=stem_analysis.drum_event_streams or {},
         )
     except Exception as exc:
         log(f"[WARN] Snowman band planning skipped: {exc!r}")
@@ -9991,6 +10223,34 @@ def run_variant(
         }
     chronoflow_track = chronoflow_engine.build_timing_track(chronoflow_payload, limit=1400)
     snowman_band_track = snowman_band_engine.build_timing_track(snowman_band_payload, limit=1800)
+    try:
+        piano_effect_config = piano_effect_engine.PianoEffectConfig(
+            mode="true_piano" if style.keyboard_overlay else "bars",
+            note_range_start=21,
+            note_range_end=108,
+            color_mode="pitch_class",
+            projection_mode="literal_keyboard" if style.keyboard_overlay else "abstract_note_grid",
+        )
+        piano_effect_events = piano_effect_engine.load_note_events(
+            helix_note_events=note_events,
+            note_range_start=piano_effect_config.note_range_start,
+            note_range_end=piano_effect_config.note_range_end,
+        )
+        piano_effect_payload = piano_effect_engine.build_piano_effect_plan(
+            piano_effect_events,
+            piano_effect_config,
+            frame_times=[event.start for event in piano_effect_events[:160]],
+            target_models=list(getattr(parsed_layout, "models", {}).values())[:80] if parsed_layout is not None else [],
+        )
+    except Exception as exc:
+        log(f"[WARN] Piano effect intelligence skipped: {exc!r}")
+        piano_effect_payload = {
+            "schema": "helix.piano_effect.v1",
+            "enabled": False,
+            "note_events": [],
+            "frames": [],
+            "debug": {"event_count": 0},
+        }
 
     def reject_effect(
         nm: str,
@@ -10126,23 +10386,53 @@ def run_variant(
                 en_i = st_i + min_dur
         family_key = prop_family(nm, model_category_map.get(nm))
         parsed_model = parsed_layout.model_for(nm) if parsed_layout is not None else None
-        runtime_effect = pick_runtime_effect(
-            requested=eff,
-            layer=layer_key,
-            family=family_key,
-            parsed_model=parsed_model,
-            tuning=tuning,
-            catalog=xlights_catalog,
-            workspace_history=workspace_history,
-            fallback=eff if eff else "On",
-        )
-        fallback_tpl = xsq.ramp_tpl if runtime_effect.strip().lower() == "ramp" else xsq.on_tpl
-        template_to_use = resolve_effect_template(
-            effect_name=runtime_effect,
-            explicit_tpl=tpl,
-            template_library=template_library,
-            fallback_tpl=fallback_tpl,
-        )
+        if hardkor_mode:
+            request_key = str(eff or "On").strip().lower()
+            runtime_effect = "Ramp" if request_key == "ramp" else "On"
+            template_to_use = xsq.ramp_tpl if runtime_effect == "Ramp" else xsq.on_tpl
+        else:
+            runtime_effect = pick_runtime_effect(
+                requested=eff,
+                layer=layer_key,
+                family=family_key,
+                parsed_model=parsed_model,
+                tuning=tuning,
+                catalog=xlights_catalog,
+                workspace_history=workspace_history,
+                fallback=eff if eff else "On",
+            )
+            fallback_tpl = xsq.ramp_tpl if runtime_effect.strip().lower() == "ramp" else xsq.on_tpl
+            template_to_use = resolve_effect_template(
+                effect_name=runtime_effect,
+                explicit_tpl=tpl,
+                template_library=template_library,
+                fallback_tpl=fallback_tpl,
+            )
+            runtime_key = runtime_effect.strip().lower()
+            label_key = str(label or "").strip().lower()
+            preserve_long_on = any(
+                token in label_key
+                for token in (
+                    "drop_full",
+                    "coverage_footer",
+                    "lyric_text",
+                    "predrop",
+                    "build",
+                    "outro",
+                )
+            )
+            duration_cap_ms = 0
+            if runtime_key == "on" and not preserve_long_on:
+                if style.placement_mode in {"showcase_signature", "showcase_stems", "showcase_arc", "hierarchy_roles"}:
+                    duration_cap_ms = 240
+                elif style.placement_mode in {"xtreme_showcase", "xtreme_submodel", "primetime_director"}:
+                    duration_cap_ms = 280
+                else:
+                    duration_cap_ms = 360
+            elif runtime_key == "ramp" and style.placement_mode in {"showcase_signature", "showcase_stems", "showcase_arc", "hierarchy_roles"}:
+                duration_cap_ms = 420
+            if duration_cap_ms > 0 and (en_i - st_i) > duration_cap_ms:
+                en_i = st_i + duration_cap_ms
         palette_choice = pick_palette_for_effect(
             mode=tuning.palette_mode,
             template_palette=template_to_use.palette,
@@ -10208,6 +10498,7 @@ def run_variant(
     lua_track: list[tuple[str, int, int]] = []
     pixel_track: list[tuple[str, int, int]] = []
     multiband_track: list[tuple[str, int, int]] = []
+    hardkor_track: list[tuple[str, int, int]] = []
     birdsong_track: list[tuple[str, int, int]] = []
     part_track: list[tuple[str, int, int]] = [(part.label, part.start_ms, part.end_ms) for part in parts]
     drop_track: list[tuple[str, int, int]] = []
@@ -10222,12 +10513,21 @@ def run_variant(
         timing_spans=[],
         reason="not_run",
     )
+    hardkor_result = hardkor_engine.HardKorResult(
+        enabled=False,
+        placements=0,
+        timing_spans=[],
+        group_counts={},
+        reason="not_run",
+    )
     coords: dict[str, tuple[float, float]] = {}
     reference_poly_xsq = resolve_reference_poly_xsq(template_xsq)
     reference_scale_midis = load_reference_scale_midis(reference_poly_xsq)
     if reference_poly_xsq is not None:
         log(f"Reference poly map: {reference_poly_xsq.name}")
-    if parsed_layout is not None:
+    if spatial_scene_model is not None:
+        coords = spatial_scene_model.projected_coordinate_map(names)
+    elif parsed_layout is not None:
         coords = parsed_layout.coordinate_map(names)
     elif tuning.layout_file and tuning.layout_file.exists():
         coords = ai.parse_layout_coordinates(tuning.layout_file, names)
@@ -10242,6 +10542,7 @@ def run_variant(
             rng,
             route_style=route_order_style,
             awareness=spatial_awareness,
+            scene=spatial_scene_model,
         ),
     )
     keyboard_lane = build_keyboard_lane_with_routes(pools, override=lane_override, preferred_routes=keyboard_routes)
@@ -10258,6 +10559,7 @@ def run_variant(
     drums_priority_gain = 0.80 + (priorities["drums"] / stem_max) * 0.45
     vocals_priority_gain = 0.80 + (priorities["vocals"] / stem_max) * 0.45
     other_priority_gain = 0.80 + (priorities["other"] / stem_max) * 0.45
+    hardkor_mode = bool(tuning.hardkor_enabled)
     structured_mode = style.family in {"v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23"}
     focused_mode = style.family in {"v14", "v16", "v19", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode in {"xtreme_essentials", "xtreme_submodel"}
     premium_mode = style.family in {"v15", "v17", "v20", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode == "xtreme_showcase"
@@ -10266,7 +10568,7 @@ def run_variant(
         global_flash_prob = min(global_flash_prob, 0.16 if focused_mode else 0.24)
 
     log("[4/8] Placing effects")
-    if ramp_ok:
+    if ramp_ok and not hardkor_mode:
         for part in parts:
             if part.label in {"PRECHORUS", "BRIDGE"}:
                 add_model(
@@ -10293,7 +10595,7 @@ def run_variant(
                 )
 
     bass_focus_pools = pools_by_category(pools, ("canes_combo", "north_canes", "south_canes", "gt", "mega", "line"))
-    if premium_mode:
+    if premium_mode and not hardkor_mode:
         for i, t_ms in enumerate(bass_peaks):
             part = part_for_time(parts, t_ms)
             dur = max(90, int(base.scaled_dur(220) * bass_priority_gain))
@@ -10360,7 +10662,34 @@ def run_variant(
             add_model(model, t_ms, t_ms + duration, "gt_bounce", stem="drums")
             gt_index += 1
 
-    if style.placement_mode == "zone_riff":
+    if hardkor_mode:
+        hardkor_result = hardkor_engine.place_hardkor_sequence(
+            names=names,
+            parsed_layout=parsed_layout,
+            parts=parts,
+            beat_ms=beat_ms,
+            bar_ms=bar_ms,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            build_lifts=build_lifts,
+            releases=releases,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            ramp_ok=ramp_ok,
+            intensity=float(tuning.hardkor_intensity),
+        )
+        if hardkor_result.timing_spans:
+            hardkor_track.extend(hardkor_result.timing_spans)
+        if hardkor_result.enabled:
+            log(
+                "hardKor placements: "
+                f"{hardkor_result.placements} "
+                f"(groups={len(hardkor_result.group_counts)}, profile={tuning.hardkor_profile})"
+            )
+    elif style.placement_mode == "zone_riff":
         place_zone_riff(
             style=style,
             pools=pools,
@@ -10514,6 +10843,7 @@ def run_variant(
             in_blackout=in_blackout,
             piano_track=piano_track,
             sweep_track=sweep_track,
+            spatial_scene_model=spatial_scene_model,
         )
     elif style.placement_mode == "pulse_matrix":
         place_pulse_matrix(
@@ -10609,6 +10939,7 @@ def run_variant(
             in_blackout=in_blackout,
             piano_track=piano_track,
             sweep_track=sweep_track,
+            spatial_scene_model=spatial_scene_model,
         )
     elif style.placement_mode == "showcase_arc":
         place_showcase_arc(
@@ -10890,6 +11221,7 @@ def run_variant(
                 add_model=add_model,
                 in_blackout=in_blackout,
                 sweep_track=sweep_track,
+                spatial_scene_model=spatial_scene_model,
             )
 
     spatial_keyboard_mix = base.clamp((0.82 if focused_mode else max(0.62, keyboard_mix)) * other_priority_gain, 0.0, 2.0)
@@ -11058,14 +11390,45 @@ def run_variant(
         else:
             log("Lyric sync requested but no head/lyric props were discovered.")
 
+    snowman_sequence_face_track: list[tuple[str, int, int]] = []
+    snowman_sequence_instructions = list(
+        ((snowman_band_payload.get("xlights_translation", {}) or {}).get("sequence_effect_instructions", []) or [])
+    )
+    if snowman_sequence_instructions:
+        placed_snowman_faces = 0
+        for instruction in snowman_sequence_instructions:
+            target = str(instruction.get("target_model", "") or "")
+            if target not in layers:
+                continue
+            st = max(0, int(instruction.get("start_ms", 0) or 0))
+            en = max(st + max(1, int(tuning.min_effect_ms)), int(instruction.get("end_ms", st) or st))
+            label = str(instruction.get("label", "snowman_face_timing") or "snowman_face_timing")
+            effect_name = str(instruction.get("effect", "Faces") or "Faces")
+            before_total = total
+            add_model(target, st, en, label, eff=effect_name, stem="vocals")
+            if total > before_total:
+                placed_snowman_faces += 1
+                snowman_sequence_face_track.append(
+                    (
+                        str(instruction.get("timing_label", label) or label),
+                        st,
+                        en,
+                    )
+                )
+        if placed_snowman_faces:
+            log(f"Snowman sequence face effects placed: {placed_snowman_faces}")
+
     spatial_track: list[tuple[str, int, int]] = []
-    if not structured_mode:
+    if not hardkor_mode and not structured_mode:
         spatial_spans, spatial_count = apply_spatial_chase(
             style=style,
             pools=pools,
             parts=parts,
+            audio=audio,
             beat_ms=beat_ms,
             kicks=kicks,
+            snares=snares,
+            hats=hats,
             add_model=add_model,
             ramp_ok=ramp_ok,
             ramp_tpl=xsq.ramp_tpl,
@@ -11074,13 +11437,14 @@ def run_variant(
             names=names,
             rng=rng,
             log_fn=log,
+            spatial_scene_model=spatial_scene_model,
         )
         if spatial_spans:
             spatial_track.extend(spatial_spans)
         if spatial_count:
             log(f"Spatial chase placements added: {spatial_count}")
 
-    if premium_mode:
+    if not hardkor_mode and premium_mode:
         lua_spans, lua_count = apply_lua_style_macros(
             style=style,
             pools=pools,
@@ -11096,7 +11460,7 @@ def run_variant(
         if lua_count:
             log(f"Lua-style accent placements added: {lua_count}")
 
-    if tuning.pixel_reactive and style.family in {"v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
+    if (not hardkor_mode) and tuning.pixel_reactive and style.family in {"v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
         pixel_attempts = place_pixel_reactive_score(
             style=style,
             pools=pools,
@@ -11142,7 +11506,7 @@ def run_variant(
         if multiband_attempts:
             log(f"Multi-band reactive overlays placed: {multiband_attempts}")
 
-    if style.family in {"v19", "v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
+    if (not hardkor_mode) and style.family in {"v19", "v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
         neighbor_attempts = apply_neighbor_showcase_score(
             style=style,
             pools=pools,
@@ -11165,77 +11529,79 @@ def run_variant(
         if neighbor_attempts:
             log(f"Neighbor showcase placements added: {neighbor_attempts}")
 
-    birdsong_result = birdsong_engine.place_birdsong_engine(
-        audio=audio,
-        note_events=note_events,
-        hats=hats,
-        vocal_peaks=vocal_peaks,
-        pools=pools,
-        add_model=add_model,
-        in_blackout=in_blackout,
-        rng=rng,
-        enabled=bool(tuning.birdsong_enabled),
-        auto_enable=bool(tuning.birdsong_auto),
-        intensity=float(tuning.birdsong_intensity),
-        min_confidence=float(tuning.birdsong_min_confidence),
-        profile=str(tuning.birdsong_profile),
-    )
-    if birdsong_result.timing_spans:
-        birdsong_track.extend(birdsong_result.timing_spans)
-    if birdsong_result.enabled:
-        log(
-            "Birdsong engine placements: "
-            f"calls={birdsong_result.calls}, echos={birdsong_result.echos}, "
-            f"sweeps={birdsong_result.sweeps}, confidence={birdsong_result.confidence:.2f}, "
-            f"profile={birdsong_result.profile}"
+    if not hardkor_mode:
+        birdsong_result = birdsong_engine.place_birdsong_engine(
+            audio=audio,
+            note_events=note_events,
+            hats=hats,
+            vocal_peaks=vocal_peaks,
+            pools=pools,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            rng=rng,
+            enabled=bool(tuning.birdsong_enabled),
+            auto_enable=bool(tuning.birdsong_auto),
+            intensity=float(tuning.birdsong_intensity),
+            min_confidence=float(tuning.birdsong_min_confidence),
+            profile=str(tuning.birdsong_profile),
         )
-    elif bool(tuning.birdsong_enabled) or bool(tuning.birdsong_auto):
-        log(
-            "Birdsong engine skipped: "
-            f"{birdsong_result.reason} (confidence={birdsong_result.confidence:.2f}, "
-            f"threshold={tuning.birdsong_min_confidence:.2f})"
-        )
-
-    for part in parts:
-        if part.label == "CHORUS":
-            drop_track.append(("Drop", part.start_ms, min(part.start_ms + 500, part.end_ms)))
-            drop_pool = choose_cycle_pool(
-                pools_by_category(pools, ("canes_combo", "arch", "line", "gt", "mega")),
-                pool_state,
-                "drop_focus",
+        if birdsong_result.timing_spans:
+            birdsong_track.extend(birdsong_result.timing_spans)
+        if birdsong_result.enabled:
+            log(
+                "Birdsong engine placements: "
+                f"calls={birdsong_result.calls}, echos={birdsong_result.echos}, "
+                f"sweeps={birdsong_result.sweeps}, confidence={birdsong_result.confidence:.2f}, "
+                f"profile={birdsong_result.profile}"
             )
-            if drop_pool and len(drop_pool.models) >= 2:
-                add_sweep(
-                    lambda nm, a, b, label: add_model(nm, a, b, label, stem="drums"),
-                    drop_pool,
-                    part.start_ms,
-                    min(part.end_ms, part.start_ms + max(220, base.scaled_dur(340))),
+        elif bool(tuning.birdsong_enabled) or bool(tuning.birdsong_auto):
+            log(
+                "Birdsong engine skipped: "
+                f"{birdsong_result.reason} (confidence={birdsong_result.confidence:.2f}, "
+                f"threshold={tuning.birdsong_min_confidence:.2f})"
+            )
+
+    if not hardkor_mode:
+        for part in parts:
+            if part.label == "CHORUS":
+                drop_track.append(("Drop", part.start_ms, min(part.start_ms + 500, part.end_ms)))
+                drop_pool = choose_cycle_pool(
+                    pools_by_category(pools, ("canes_combo", "arch", "line", "gt", "mega")),
+                    pool_state,
                     "drop_focus",
-                    max(95, style.sweep_hit_ms),
-                    reverse=bool((part.start_ms // 1000) % 2),
                 )
-            elif drop_pool and drop_pool.models:
-                add_model(drop_pool.models[0], part.start_ms, min(part.end_ms, part.start_ms + 280), "drop_focus", stem="drums")
-            if rng.random() < (0.85 * max(0.35, global_flash_prob)):
-                add_model(
-                    layout.all_white,
-                    part.start_ms,
-                    min(part.end_ms, part.start_ms + 220),
-                    "drop_flash",
-                    cd_key="white",
-                    cd_ms=80,
-                    stem="drums",
-                )
-            if rng.random() < (0.95 * max(0.45, global_flash_prob)):
-                add_model(
-                    layout.all_red,
-                    part.start_ms,
-                    min(part.end_ms, part.start_ms + 240),
-                    "drop_flash",
-                    cd_key="red",
-                    cd_ms=80,
-                    stem="bass",
-                )
+                if drop_pool and len(drop_pool.models) >= 2:
+                    add_sweep(
+                        lambda nm, a, b, label: add_model(nm, a, b, label, stem="drums"),
+                        drop_pool,
+                        part.start_ms,
+                        min(part.end_ms, part.start_ms + max(220, base.scaled_dur(340))),
+                        "drop_focus",
+                        max(95, style.sweep_hit_ms),
+                        reverse=bool((part.start_ms // 1000) % 2),
+                    )
+                elif drop_pool and drop_pool.models:
+                    add_model(drop_pool.models[0], part.start_ms, min(part.end_ms, part.start_ms + 280), "drop_focus", stem="drums")
+                if rng.random() < (0.85 * max(0.35, global_flash_prob)):
+                    add_model(
+                        layout.all_white,
+                        part.start_ms,
+                        min(part.end_ms, part.start_ms + 220),
+                        "drop_flash",
+                        cd_key="white",
+                        cd_ms=80,
+                        stem="drums",
+                    )
+                if rng.random() < (0.95 * max(0.45, global_flash_prob)):
+                    add_model(
+                        layout.all_red,
+                        part.start_ms,
+                        min(part.end_ms, part.start_ms + 240),
+                        "drop_flash",
+                        cd_key="red",
+                        cd_ms=80,
+                        stem="bass",
+                    )
 
     coverage_plan = None
     if parsed_layout is not None and style.family in {"v20", "v21", "v22", "v23"}:
@@ -11355,12 +11721,16 @@ def run_variant(
         base.write_timing_track(xsq.root, f"AUTO Pixel Score {style.version}", pixel_track[:2000], active=False)
     if multiband_track:
         base.write_timing_track(xsq.root, f"AUTO MultiBand {style.version}", multiband_track[:2400], active=False)
+    if hardkor_track:
+        base.write_timing_track(xsq.root, f"AUTO hardKor {style.version}", hardkor_track[:2400], active=False)
     if chronoflow_track:
         base.write_timing_track(xsq.root, f"AUTO Chronoflow {style.version}", chronoflow_track[:1400], active=False)
-    if snowman_band_track:
-        base.write_timing_track(xsq.root, f"AUTO Snowman Band {style.version}", snowman_band_track[:1800], active=False)
-    if birdsong_track:
-        base.write_timing_track(xsq.root, f"AUTO Birdsong {style.version}", birdsong_track[:2000], active=False)
+        if snowman_band_track:
+            base.write_timing_track(xsq.root, f"AUTO Snowman Band {style.version}", snowman_band_track[:1800], active=False)
+        if snowman_sequence_face_track:
+            base.write_timing_track(xsq.root, f"AUTO Snowman Faces {style.version}", snowman_sequence_face_track[:1800], active=False)
+        if birdsong_track:
+            base.write_timing_track(xsq.root, f"AUTO Birdsong {style.version}", birdsong_track[:2000], active=False)
     if spatial_track:
         base.write_timing_track(xsq.root, f"AUTO Spatial Chase {style.version}", spatial_track, active=False)
     if lyric_track:
@@ -11382,6 +11752,7 @@ def run_variant(
             f"AUTO Sweeps {style.version}",
             f"AUTO Lua Macros {style.version}",
             f"AUTO Pixel Score {style.version}",
+            f"AUTO hardKor {style.version}",
             f"AUTO Chronoflow {style.version}",
             f"AUTO Birdsong {style.version}",
             f"AUTO Spatial Chase {style.version}",
@@ -11481,6 +11852,8 @@ def run_variant(
             "workspace_history_enabled": bool(tuning.workspace_history_enabled),
             "workspace_history_limit": int(tuning.workspace_history_limit),
             "workspace_history_folder": str(tuning.workspace_history_folder) if tuning.workspace_history_folder else "",
+            "learning_memory_enabled": bool(tuning.learning_memory_enabled),
+            "learning_memory_file": str(tuning.learning_memory_file) if tuning.learning_memory_file else "",
             "matrix_intelligence": bool(tuning.matrix_intelligence),
             "video_file": str(tuning.video_file) if tuning.video_file else "",
             "blend_rules_file": str(tuning.blend_rules_file) if tuning.blend_rules_file else "",
@@ -11498,6 +11871,9 @@ def run_variant(
             "birdsong_intensity": float(tuning.birdsong_intensity),
             "birdsong_min_confidence": float(tuning.birdsong_min_confidence),
             "birdsong_profile": str(tuning.birdsong_profile),
+            "hardkor_enabled": bool(tuning.hardkor_enabled),
+            "hardkor_intensity": float(tuning.hardkor_intensity),
+            "hardkor_profile": str(tuning.hardkor_profile),
         },
         "xlights_catalog": {
             "effect_count": int(xlights_catalog.get("effect_count", 0)) if xlights_catalog else 0,
@@ -11620,7 +11996,17 @@ def run_variant(
         },
         "matrix_intelligence": matrix_intelligence_payload,
         "chronoflow": chronoflow_payload,
+        "band_sync": band_sync_payload,
         "snowman_band": snowman_band_payload,
+        "piano_effect": piano_effect_payload,
+        "hardkor": {
+            "enabled": bool(hardkor_result.enabled),
+            "placements": int(hardkor_result.placements),
+            "group_counts": dict(hardkor_result.group_counts),
+            "timing_track_events": len(hardkor_track),
+            "reason": str(hardkor_result.reason),
+            "profile": str(tuning.hardkor_profile),
+        },
         "responsible_use": matrix_intelligence_payload.get("responsible_use", {}),
         "polish": polish_result.as_dict(),
         "shortlist": {
@@ -11829,6 +12215,10 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--birdsong-intensity", type=float, dest="birdsong_intensity", help="Birdsong layer intensity (0.2-2.4)")
     parser.add_argument("--birdsong-min-confidence", type=float, dest="birdsong_min_confidence", help="Minimum auto-detect confidence threshold (0.0-1.0)")
     parser.add_argument("--birdsong-profile", dest="birdsong_profile", help="wild/canopy/ambient/dawn")
+    parser.add_argument("--hardkor", dest="hardkor_enabled", action="store_true", help="Enable hardKor AC-first placement machine")
+    parser.add_argument("--no-hardkor", dest="hardkor_enabled", action="store_false", help="Disable hardKor AC-first placement machine")
+    parser.add_argument("--hardkor-intensity", type=float, dest="hardkor_intensity", help="hardKor placement intensity multiplier (0.25-2.5)")
+    parser.add_argument("--hardkor-profile", dest="hardkor_profile", help="hardKor profile key (default: ac256)")
     parser.add_argument("--settings", default=f"{style.version}.settings.json", help="Settings JSON path")
     parser.add_argument("--output-dir", help="Optional output folder override")
     parser.add_argument("--no-prompt", action="store_true", help="Run without interactive prompts")
@@ -11849,6 +12239,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
         vendor_bar=False,
         birdsong_enabled=False,
         birdsong_auto=False,
+        hardkor_enabled=False,
     )
     return parser.parse_args(argv)
 
@@ -11996,6 +12387,9 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         birdsong_intensity=base.clamp(float(args.birdsong_intensity if args.birdsong_intensity is not None else 1.0), 0.2, 2.4),
         birdsong_min_confidence=base.clamp(float(args.birdsong_min_confidence if args.birdsong_min_confidence is not None else 0.45), 0.0, 1.0),
         birdsong_profile=str((args.birdsong_profile or "wild").strip().lower() or "wild"),
+        hardkor_enabled=bool(args.hardkor_enabled),
+        hardkor_intensity=base.clamp(float(args.hardkor_intensity if args.hardkor_intensity is not None else 1.0), 0.25, 2.5),
+        hardkor_profile=str((args.hardkor_profile or "ac256").strip().lower() or "ac256"),
     )
     if tuning.vendor_bar:
         # Vendor-bar mode forces the higher-quality generation path.
@@ -12003,6 +12397,18 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         tuning.polish_enabled = True
         tuning.variant_count = max(3, int(tuning.variant_count))
         tuning.workspace_history_enabled = True
+    if tuning.hardkor_enabled:
+        # hardKor is AC-first by design: keep the effect family constrained and
+        # allow deeper layer stacks for deterministic multi-stem choreography.
+        tuning.ac_lights_only = True
+        tuning.base_effect = "On"
+        tuning.motion_effect = "Ramp"
+        tuning.accent_effect = "On"
+        tuning.pixel_reactive = False
+        tuning.birdsong_enabled = False
+        tuning.birdsong_auto = False
+        tuning.max_layers_per_prop = max(24, int(tuning.max_layers_per_prop))
+        tuning.min_effect_ms = max(50, int(tuning.min_effect_ms))
     style = apply_runtime_style(style, tuning)
 
     template = resolve_path(folder, args.template) if args.template else base.find_template_xsq(folder)
@@ -12053,6 +12459,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         f"lyrics_sync={int(bool(tuning.sync_lyrics_heads))}, "
         f"birdsong={int(bool(tuning.birdsong_enabled))}/{int(bool(tuning.birdsong_auto))}/"
         f"{tuning.birdsong_intensity:.2f}/{tuning.birdsong_min_confidence:.2f}/{tuning.birdsong_profile}, "
+        f"hardkor={int(bool(tuning.hardkor_enabled))}/{tuning.hardkor_intensity:.2f}/{tuning.hardkor_profile}, "
         f"workspace_history={int(bool(tuning.workspace_history_folder))}:{tuning.workspace_history_limit}, "
         f"matrix={int(bool(tuning.matrix_intelligence))}, "
         f"polish={int(bool(tuning.polish_enabled))}, "

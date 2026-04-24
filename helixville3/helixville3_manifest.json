@@ -1,0 +1,69 @@
+{
+  "layout_name": "helixville3",
+  "source_layout": "C:\\Users\\User\\Desktop\\414\\xlights_rgbeffects.xml",
+  "neighbor_layout": "C:\\Users\\User\\Desktop\\414\\allmodels\\xlights_rgbeffects.xml",
+  "output_layout": "C:\\Users\\User\\Desktop\\414\\helixville3\\xlights_rgbeffects.xml",
+  "source_backup": "C:\\Users\\User\\Desktop\\414\\helixville3\\xlights_rgbeffects.source_backup.xml",
+  "output_xbkp": "C:\\Users\\User\\Desktop\\414\\helixville3\\xlights_rgbeffects.xbkp",
+  "gp_model_count": 256,
+  "gp_explicit_placements": 145,
+  "gp_ground_aligned_count": 224,
+  "gp_aerial_aligned_count": 32,
+  "neighbor_imported_count": 105,
+  "neighbor_import_counts_by_side": {
+    "left": 57,
+    "right": 48
+  },
+  "neighbor_import_counts_by_category": {
+    "arch": 14,
+    "cane": 8,
+    "custom": 2,
+    "face": 3,
+    "image": 2,
+    "line": 10,
+    "matrix": 14,
+    "mega": 5,
+    "misc": 3,
+    "sphere": 4,
+    "spinner": 15,
+    "star": 8,
+    "tree": 7,
+    "window": 5,
+    "word": 5
+  },
+  "lyric_marquee_models": [
+    "HV3_IMPORT_Matrix",
+    "HV3_IMPORT_Matrix_2",
+    "HV3_IMPORT_Matrix_3",
+    "HV3_IMPORT_Matrix_4",
+    "NBH_LEFT_MATRIX_01",
+    "NBH_LEFT_MATRIX_02",
+    "NBH_LEFT_MATRIX_03",
+    "NBH_LEFT_MATRIX_04",
+    "NBH_LEFT_MATRIX_05",
+    "NBH_LEFT_MATRIX_06",
+    "NBH_WORD_HELIX_E",
+    "NBH_WORD_HELIX_H",
+    "NBH_WORD_HELIX_I",
+    "NBH_WORD_HELIX_L",
+    "NBH_WORD_HELIX_X",
+    "NBH_RIGHT_HELIXMASCOT_IMAGE",
+    "NBH_RIGHT_HH_ICON_IMAGE"
+  ],
+  "singing_face_models": [
+    "NBH_RIGHT_SINGING_FACE_01_PANEL",
+    "NBH_RIGHT_SINGING_FACE_02_PANEL",
+    "NBH_RIGHT_SINGING_FACE_03_PANEL"
+  ],
+  "total_model_count": 361,
+  "z_world_range": {
+    "min": 0.0,
+    "max": 200.0
+  },
+  "placement_notes": [
+    "GP legacy 256-channel house remains the baseline and is remapped onto a coherent 3D yard frame.",
+    "Ground props are aligned to ground-level (Z=0) except explicit aerial shooting stars and snowflake roof arc.",
+    "Neighbor districts import legal in-workspace allmodels/NBH assets for broad common-prop coverage.",
+    "Dedicated singing-face and lyric-marquee groups are provided for lyric sync testing."
+  ]
+}

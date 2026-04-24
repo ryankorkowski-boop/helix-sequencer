@@ -55,7 +55,7 @@ Legacy version IDs still work as explicit compatibility fallbacks:
 python main.py --profile v27.3 -- --template template.xsq --audio 13.wav --no-prompt
 ```
 
-## Helixville Layout Builder
+## Helixville Layout Builders
 
 Build or refresh the dedicated Helixville 3D test show folder from your allmodels / GP baseline:
 
@@ -68,6 +68,42 @@ Output is written to `helixville/`, including:
 - `helixville/xlights_rgbeffects.xml`
 - `helixville/xlights_rgbeffects.xbkp` (when source backup exists)
 - `helixville/helixville_manifest.json`
+
+Build the aligned legacy-256 based Helixville3 layout with lyric/singing-face groups:
+
+```powershell
+python tools/build_helixville3_layout.py
+```
+
+Output is written to `helixville3/`, including:
+
+- `helixville3/xlights_rgbeffects.xml`
+- `helixville3/helixville3_manifest.json`
+- `helixville3/HELIXVILLE3_LAYOUT_NOTES.txt`
+
+Legal source notes:
+- `docs/helixville3_legal_sources_2026-04-23.md`
+
+## hardKor AC Placement
+
+Enable the AC-first hardKor placement machine:
+
+```powershell
+python main.py --profile v27.3 -- --template template.xsq --audio 13.wav --hardkor --ac-lights-only --no-prompt
+```
+
+hardKor rules and source references:
+- `docs/hardkor_rulebook_2026-04-23.md`
+
+## AAATEST Variant Pack
+
+Generate a multi-variant comparison pack (`.xsq` + `.mp4`) using `13.wav`:
+
+```powershell
+python tools/generate_aaatest_pack.py
+```
+
+Outputs are written to `aaatest/`.
 
 ## Notes
 
