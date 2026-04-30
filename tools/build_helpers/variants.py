@@ -187,8 +187,10 @@ def evaluate_quality_gates(
 def _score_entry(entry: dict[str, Any]) -> float:
     quality_payload = (entry.get("quality") or {}) or {}
     audit_payload = _audit_payload(entry)
+    self_scoring = (entry.get("self_improving_scoring") or {}) or {}
     quality = float(quality_payload.get("score", 0.0) or 0.0)
     audit = float(audit_payload.get("score", 0.0) or 0.0)
+    self_score = float(self_scoring.get("total_score", 0.0) or 0.0) * 100.0
     polish = entry.get("polish") or {}
     polish_score = float(polish.get("score", 0.0) or 0.0)
     component_scores = (quality_payload.get("component_scores") or {}) or {}
@@ -219,7 +221,15 @@ def _score_entry(entry: dict[str, Any]) -> float:
         (100.0 - _score_maximum(overlap_ratio, target=0.03, ceiling=0.22)) * 0.05
         + (100.0 - _score_maximum(clutter_ratio, target=0.08, ceiling=0.42)) * 0.03
     )
-    shortlist_score = (quality * 0.50) + (audit * 0.22) + (polish_score * 0.10) + craft_bonus + polish_bonus - cleanup_penalty
+    shortlist_score = (
+        (quality * 0.40)
+        + (audit * 0.20)
+        + (self_score * 0.18)
+        + (polish_score * 0.08)
+        + craft_bonus
+        + polish_bonus
+        - cleanup_penalty
+    )
     return round(shortlist_score, 2)
 
 

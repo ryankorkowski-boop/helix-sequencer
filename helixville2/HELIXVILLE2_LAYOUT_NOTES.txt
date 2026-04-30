@@ -1,0 +1,18 @@
+HELIXVILLE2 3D TEST LAYOUT
+
+Source GP layout: C:\Users\User\Desktop\414\xlights_rgbeffects.xml
+Neighbor source layout: C:\Users\User\Desktop\414\allmodels\xlights_rgbeffects.xml
+Output layout: C:\Users\User\Desktop\414\helixville2\xlights_rgbeffects.xml
+
+Physical intent:
+- Preserve GP's original 256 channel map as the base model list.
+- Convert to a structured 3D yard orientation (North=left driveway side, South=right driveway side).
+- Place GP landmark zones from user sketch: Left Tree, Left/Center/Right Blvd, Right Linden, Line Trees, Mega Tree.
+- Map aerial details: 15 shooting stars and reverse-C snowflake set.
+- Import a broad common-prop neighbor pack (arches, matrices, trees, canes, stars, spinners, spheres, images/custom).
+
+Quick model-group handles:
+- HV2_GP_AERIAL
+- HV2_GP_CORE_LANDMARKS
+- HV2_NEIGHBOR_LEFT_COMMON
+- HV2_NEIGHBOR_RIGHT_COMMON

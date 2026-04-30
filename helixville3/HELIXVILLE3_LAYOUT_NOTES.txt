@@ -1,0 +1,22 @@
+HELIXVILLE3 3D TEST LAYOUT
+
+Source GP layout: C:\Users\User\Desktop\414\xlights_rgbeffects.xml
+Neighbor source layout: C:\Users\User\Desktop\414\allmodels\xlights_rgbeffects.xml
+Output layout: C:\Users\User\Desktop\414\helixville3\xlights_rgbeffects.xml
+
+Intent:
+- Base on GP legacy 256-channel layout and keep naming/channel continuity.
+- Align ground props to the ground plane for clean 3D sanity checks.
+- Import broad common props from allmodels/NBH districts (trees, arches, canes, stars, matrices, spinners, faces, custom/image).
+- Add explicit lyric routing groups for marquee text + singing faces.
+
+Quick model groups:
+- HV3_GP_AERIAL
+- HV3_NEIGHBOR_LEFT_COMMON
+- HV3_NEIGHBOR_RIGHT_COMMON
+- HV3_SINGING_FACES
+- HV3_LYRIC_MARQUEE
+- HV3_ALL_IMPORTED
+
+Sequencing hint:
+- For lyric text routing, run with --sync-lyrics-heads and target HV3_LYRIC_MARQUEE/HV3_SINGING_FACES groups.
