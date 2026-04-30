@@ -1,0 +1,27 @@
+{
+  "layout_name": "helixville2",
+  "source_layout": "C:\\Users\\User\\Desktop\\414\\xlights_rgbeffects.xml",
+  "neighbor_layout": "C:\\Users\\User\\Desktop\\414\\allmodels\\xlights_rgbeffects.xml",
+  "output_layout": "C:\\Users\\User\\Desktop\\414\\helixville2\\xlights_rgbeffects.xml",
+  "source_backup": "C:\\Users\\User\\Desktop\\414\\helixville2\\xlights_rgbeffects.source_backup.xml",
+  "output_xbkp": "C:\\Users\\User\\Desktop\\414\\helixville2\\xlights_rgbeffects.xbkp",
+  "gp_model_count": 256,
+  "neighbor_imported_count": 91,
+  "neighbor_import_counts": {
+    "right": 44,
+    "left": 47
+  },
+  "total_model_count": 347,
+  "explicit_gp_placements": 145,
+  "z_world_range": {
+    "min": 0.0,
+    "max": 200.0
+  },
+  "placement_notes": [
+    "Orientation uses left driveway edge as North and right driveway edge as South.",
+    "North/South candy canes are spaced 6ft apart in physical mapping coordinates.",
+    "15 shooting stars are mapped 20ft high from left phone-pole anchor to house peak.",
+    "sf2..sf14 map to a reverse-C second-story snowflake arc.",
+    "Neighbor districts import legal in-workspace NBH models from allmodels for prop coverage tests."
+  ]
+}
