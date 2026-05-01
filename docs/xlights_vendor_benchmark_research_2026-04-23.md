@@ -50,26 +50,17 @@ Guardrails:
 2. Treat "free to download" and "free to redistribute/train" as different permissions.
 3. Store license notes and source URL with every imported artifact.
 
-## Professional Vendor Benchmark Set (for quality bar)
+## Professional Benchmark Set (for quality bar)
 
 We curated a benchmark registry at:
 - xlights/vendor_benchmark_manifest.json
 
-Benchmark vendors/marketplaces (examples):
-1. xTreme Sequences (detail, membership model, premium sequencing claims)
-- https://xtremesequences.com/
-
-2. Vivid Sequences (lifetime updates, instrument-level sequencing claims)
-- https://vividsequences.com/
-
-3. Sequence Solutions (group/submodel-heavy methodology + explicit license constraints)
-- https://sequencesol.com/
-
-4. Magical Light Shows (professional-grade packaging and licensing guidance)
-- https://magicallightshows.com/collections/xlights-sequences
-
-5. SequenceExchange (verified creators + free-to-test + broad catalog filtering)
-- https://www.sequenceexchange.com/
+Benchmark cohorts (examples):
+1. Commercial benchmark source 1 (membership model, premium quality positioning)
+2. Commercial benchmark source 2 (instrument-level sequencing emphasis)
+3. Commercial benchmark source 3 (group/submodel-heavy methodology)
+4. Commercial benchmark source 4 (professional packaging and licensing guidance)
+5. Marketplace benchmark source 1 (creator diversity and catalog breadth)
 
 Legal benchmark policy:
 1. Use publicly available previews/metadata for style analysis by default.

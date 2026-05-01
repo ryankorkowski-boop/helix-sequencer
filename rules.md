@@ -182,7 +182,7 @@ This file is a policy-and-engineering ruleset for building high-quality xLights 
 - xLights Downloads/Releases: [xlights.org/releases](https://xlights.org/releases/)
 - xLights GitHub Wiki Home: [github.com/xLightsSequencer/xLights/wiki](https://github.com/xLightsSequencer/xLights/wiki)
 - xLights video ecosystem sample page: [videos.xlights.org/xlights-gem-fpp-basics...](https://videos.xlights.org/xlights-gem-fpp-basics_9d882cb15.html)
-- xTreme tutorial index (public catalog): [xtremesequences.com/tutorials](https://www.xtremesequences.com/tutorials)
+- Public tutorial index category: use source-agnostic notes and avoid creator-specific choreography replication.
 - Pixel Pro webinar index page: [pixelprodisplays.com/xlights-webinar-exploring-xlights-hidden-gems](https://pixelprodisplays.com/xlights-webinar-exploring-xlights-hidden-gems/)
 
 Note: This ruleset intentionally captures methods, guardrails, and workflow heuristics only. It excludes proprietary sequence choreography and paid content replication.

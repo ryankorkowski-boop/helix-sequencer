@@ -1,11 +1,11 @@
 {
   "generated_on": "2026-04-23",
-  "goal": "Benchmark professional sequencing quality and exceed it while respecting vendor licenses.",
+  "goal": "Benchmark professional sequencing quality and exceed it while respecting third-party licenses.",
   "sources": [
     {
-      "id": "xtreme_sequences",
-      "name": "xTreme Sequences",
-      "url": "https://xtremesequences.com/",
+      "id": "commercial_benchmark_source_1",
+      "name": "Commercial Benchmark Source 1",
+      "url": "https://example.com/benchmark-source-1",
       "signals": [
         "Premium/membership model",
         "Detailed timing and testimonial-backed quality claims"
@@ -14,9 +14,9 @@
       "training_mode": "preview_and_metadata"
     },
     {
-      "id": "vivid_sequences",
-      "name": "Vivid Sequences",
-      "url": "https://vividsequences.com/",
+      "id": "commercial_benchmark_source_2",
+      "name": "Commercial Benchmark Source 2",
+      "url": "https://example.com/benchmark-source-2",
       "signals": [
         "Lifetime updates",
         "Instrument-level sequencing emphasis"
@@ -25,9 +25,9 @@
       "training_mode": "preview_and_metadata"
     },
     {
-      "id": "sequence_solutions",
-      "name": "Sequence Solutions",
-      "url": "https://sequencesol.com/",
+      "id": "commercial_benchmark_source_3",
+      "name": "Commercial Benchmark Source 3",
+      "url": "https://example.com/benchmark-source-3",
       "signals": [
         "Submodel/group-heavy programming",
         "Explicit personal-use licensing language"
@@ -36,9 +36,9 @@
       "training_mode": "preview_and_metadata"
     },
     {
-      "id": "magical_light_shows",
-      "name": "Magical Light Shows",
-      "url": "https://magicallightshows.com/collections/xlights-sequences",
+      "id": "commercial_benchmark_source_4",
+      "name": "Commercial Benchmark Source 4",
+      "url": "https://example.com/benchmark-source-4",
       "signals": [
         "Professional-grade positioning",
         "Clear import and plan packaging"
@@ -47,9 +47,9 @@
       "training_mode": "preview_and_metadata"
     },
     {
-      "id": "sequenceexchange",
-      "name": "SequenceExchange Marketplace",
-      "url": "https://www.sequenceexchange.com/",
+      "id": "marketplace_benchmark_source_1",
+      "name": "Marketplace Benchmark Source 1",
+      "url": "https://example.com/marketplace-benchmark-source-1",
       "signals": [
         "Verified creators",
         "Free-to-test and rating filters",

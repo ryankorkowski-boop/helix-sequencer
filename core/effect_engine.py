@@ -5857,7 +5857,7 @@ def place_pixel_reactive_score(
     return len(pixel_track)
 
 
-def place_xtreme_essentials(
+def place_mapped_essentials(
     style: VariantStyle,
     pools: list[SequentialPool],
     layout: base.Layout,
@@ -5908,7 +5908,7 @@ def place_xtreme_essentials(
                 target,
                 part.start_ms,
                 min(part.end_ms, part.start_ms + max(150, base.scaled_dur(210))),
-                "xtreme_wholehouse",
+                "mapped_wholehouse",
                 eff="Ramp" if ramp_ok and part.label in {"PRECHORUS", "BRIDGE"} else "On",
                 tpl=ramp_tpl if ramp_ok and part.label in {"PRECHORUS", "BRIDGE"} else None,
                 stem="other",
@@ -5919,7 +5919,7 @@ def place_xtreme_essentials(
                 color_target,
                 part.start_ms,
                 min(part.end_ms, part.start_ms + max(110, base.scaled_dur(160))),
-                "xtreme_color_pickup",
+                "mapped_color_pickup",
                 stem="other",
             )
         if flood_pool is not None:
@@ -5929,10 +5929,10 @@ def place_xtreme_essentials(
                 if in_blackout(t_ms) or (idx % stride) != 0:
                     continue
                 target = flood_pool.models[idx % len(flood_pool.models)]
-                add_model(target, t_ms, t_ms + max(70, base.scaled_dur(95)), "xtreme_flood_hit", eff="Shimmer", stem="vocals")
+                add_model(target, t_ms, t_ms + max(70, base.scaled_dur(95)), "mapped_flood_hit", eff="Shimmer", stem="vocals")
 
 
-def place_xtreme_submodel(
+def place_mapped_submodel(
     style: VariantStyle,
     pools: list[SequentialPool],
     layout: base.Layout,
@@ -5986,16 +5986,16 @@ def place_xtreme_submodel(
                 if in_blackout(t_ms) or (beat_idx % stride) != 0:
                     continue
                 target = detail_targets[beat_idx % len(detail_targets)]
-                add_model(target, t_ms, t_ms + max(85, base.scaled_dur(120)), "xtreme_notes_lane", eff="Bars", stem="other")
+                add_model(target, t_ms, t_ms + max(85, base.scaled_dur(120)), "mapped_notes_lane", eff="Bars", stem="other")
         if flood_pool is not None and part.label in {"PRECHORUS", "CHORUS", "BRIDGE"}:
             for event_idx, event in enumerate(local_events[::4]):
                 if in_blackout(event.start_ms):
                     continue
                 target = flood_pool.models[event_idx % len(flood_pool.models)]
-                add_model(target, event.start_ms, min(part.end_ms, event.start_ms + max(90, base.scaled_dur(130))), "xtreme_flood_punct", eff="Strobe", stem="vocals")
+                add_model(target, event.start_ms, min(part.end_ms, event.start_ms + max(90, base.scaled_dur(130))), "mapped_flood_punct", eff="Strobe", stem="vocals")
 
 
-def place_xtreme_showcase(
+def place_mapped_showcase(
     style: VariantStyle,
     pools: list[SequentialPool],
     layout: base.Layout,
@@ -6052,14 +6052,14 @@ def place_xtreme_showcase(
                 if in_blackout(t_ms):
                     continue
                 target = group_targets[(part_idx + idx) % len(group_targets)]
-                add_model(target, t_ms, min(part.end_ms, t_ms + max(100, base.scaled_dur(150))), "xtreme_group_hit", stem="other")
+                add_model(target, t_ms, min(part.end_ms, t_ms + max(100, base.scaled_dur(150))), "mapped_group_hit", stem="other")
         if flood_pool is not None:
             for idx, t_ms in enumerate(local_snares[::2]):
                 if in_blackout(t_ms):
                     continue
                 target = flood_pool.models[idx % len(flood_pool.models)]
                 eff_name = "Strobe" if (idx % 3) == 0 else "Shimmer"
-                add_model(target, t_ms, t_ms + max(75, base.scaled_dur(95)), "xtreme_flood_blast", eff=eff_name, stem="vocals")
+                add_model(target, t_ms, t_ms + max(75, base.scaled_dur(95)), "mapped_flood_blast", eff=eff_name, stem="vocals")
 
 
 def place_hierarchy_roles(
@@ -10465,7 +10465,7 @@ def run_variant(
             if runtime_key == "on" and not preserve_long_on:
                 if style.placement_mode in {"showcase_signature", "showcase_stems", "showcase_arc", "hierarchy_roles"}:
                     duration_cap_ms = 240
-                elif style.placement_mode in {"xtreme_showcase", "xtreme_submodel", "primetime_director"}:
+                elif style.placement_mode in {"mapped_showcase", "mapped_submodel", "primetime_director"}:
                     duration_cap_ms = 280
                 else:
                     duration_cap_ms = 360
@@ -10601,8 +10601,8 @@ def run_variant(
     other_priority_gain = 0.80 + (priorities["other"] / stem_max) * 0.45
     hardkor_mode = bool(tuning.hardkor_enabled)
     structured_mode = style.family in {"v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23"}
-    focused_mode = style.family in {"v14", "v16", "v19", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode in {"xtreme_essentials", "xtreme_submodel"}
-    premium_mode = style.family in {"v15", "v17", "v20", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode == "xtreme_showcase"
+    focused_mode = style.family in {"v14", "v16", "v19", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode in {"mapped_essentials", "mapped_submodel"}
+    premium_mode = style.family in {"v15", "v17", "v20", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode == "mapped_showcase"
     if structured_mode:
         dynamic_random = min(dynamic_random, 0.12 if focused_mode else 0.18)
         global_flash_prob = min(global_flash_prob, 0.16 if focused_mode else 0.24)
@@ -11100,8 +11100,8 @@ def run_variant(
             in_blackout=in_blackout,
             keyboard_track=keyboard_track,
         )
-    elif style.placement_mode == "xtreme_essentials":
-        place_xtreme_essentials(
+    elif style.placement_mode == "mapped_essentials":
+        place_mapped_essentials(
             style=style,
             pools=pools,
             layout=layout,
@@ -11120,8 +11120,8 @@ def run_variant(
             piano_track=piano_track,
             sweep_track=sweep_track,
         )
-    elif style.placement_mode == "xtreme_submodel":
-        place_xtreme_submodel(
+    elif style.placement_mode == "mapped_submodel":
+        place_mapped_submodel(
             style=style,
             pools=pools,
             layout=layout,
@@ -11143,8 +11143,8 @@ def run_variant(
             piano_track=piano_track,
             sweep_track=sweep_track,
         )
-    elif style.placement_mode == "xtreme_showcase":
-        place_xtreme_showcase(
+    elif style.placement_mode == "mapped_showcase":
+        place_mapped_showcase(
             style=style,
             pools=pools,
             layout=layout,
