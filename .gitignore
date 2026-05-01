@@ -18,3 +18,8 @@ _media/
 release/
 v[0-9]*/
 *.settings.json
+aaatest/
+test_runs/
+tests/snapshots/
+*.log
+pycache/
