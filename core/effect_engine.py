@@ -24,6 +24,7 @@ from core import chronoflow as chronoflow_engine
 from core import helixualizer as helixualizer_engine
 from core import matrix_intelligence as matrix_planner
 from core import birdsong_engine
+from core import lyric_interpreter
 from core import model_parser as xmp
 from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
@@ -8186,6 +8187,14 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
     snowman_debug = snowman_band.get("debug", {}) or {}
     snowman_face_routing = snowman_band.get("face_routing", {}) or {}
     snowman_kit = snowman_band.get("kit", {}) or {}
+    lyrics_payload = payload.get("lyrics", {}) or {}
+    lyric_interpreter_payload = lyrics_payload.get("interpreter", {}) or {}
+    lyric_repeats = lyric_interpreter_payload.get("repeated_phrases", []) or []
+    lyric_repeat_preview = ", ".join(
+        str(item.get("phrase", "")).strip()
+        for item in lyric_repeats[:3]
+        if str(item.get("phrase", "")).strip()
+    )
     matrix_params = matrix_intel.get("matrix_params", {}) or {}
     matrix_classification = matrix_intel.get("classification", {}) or {}
     matrix_video = matrix_intel.get("video_data", {}) or {}
@@ -8257,6 +8266,10 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
         f"- Performer cue count: {snowman_debug.get('total_cue_count', 0)}",
         f"- Lyric visemes: {snowman_debug.get('lyric_cues', 0)}",
         f"- Drum kit: {', '.join(snowman_kit.get('components', []))}",
+        f"- Lyric interpreter mood: {lyric_interpreter_payload.get('overall_mood', '')}",
+        f"- Lyric trigger hits: {len(lyric_interpreter_payload.get('trigger_hits', []) or [])}",
+        f"- Lyric repeats detected: {len(lyric_repeats)}",
+        f"- Repeat preview: {lyric_repeat_preview}",
         "",
         "Parsed Layout Summary",
         f"- Models: {parsed_layout.get('model_count', 0)}",
@@ -9880,6 +9893,23 @@ def run_variant(
         return (beat_ms or onset_ms), (base_shift if layer_key == "accent" else base_shift + 15)
 
     lyric_events: list[ai.LyricEvent] = []
+    lyric_interpreter_payload: dict[str, object] = {
+        "enabled": False,
+        "overall_mood": str(getattr(multiband, "mood_hint", "neutral") or "neutral"),
+        "trigger_hits": [],
+        "trigger_counts": {},
+        "repeated_phrases": [],
+        "token_count": 0,
+        "line_count": 0,
+        "mood_signals": {
+            "positive": 0,
+            "negative": 0,
+            "high_energy": 0,
+            "calm": 0,
+            "energy_score": 0,
+            "sentiment_score": 0,
+        },
+    }
     if tuning.sync_lyrics_heads or bool(matrix_intelligence_payload.get("matrix_available", False)):
         lyric_events = ai.extract_lyrics_events(
             audio_path=audio_path,
@@ -9889,6 +9919,16 @@ def run_variant(
         )
         if lyric_events:
             log(f"Lyric events detected: {len(lyric_events)}")
+            lyric_interpreter_payload = lyric_interpreter.interpret_lyric_events(
+                lyric_events,
+                audio_mood_hint=str(getattr(multiband, "mood_hint", "neutral") or "neutral"),
+            )
+            log(
+                "Lyric interpreter: "
+                f"mood={lyric_interpreter_payload.get('overall_mood', 'neutral')}, "
+                f"triggers={len(lyric_interpreter_payload.get('trigger_hits', []) or [])}, "
+                f"repeats={len(lyric_interpreter_payload.get('repeated_phrases', []) or [])}"
+            )
         elif tuning.sync_lyrics_heads:
             log("Lyric sync requested but no lyric events were detected.")
 
@@ -11508,6 +11548,7 @@ def run_variant(
         "lyrics": {
             "count": len(lyric_events),
             "synced_track_events": len(lyric_track),
+            "interpreter": lyric_interpreter_payload,
         },
         "birdsong": {
             "enabled": bool(birdsong_result.enabled),
