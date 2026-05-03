@@ -1,0 +1,694 @@
+{
+  "layout_id": "helixia_v1",
+  "layout_name": "Helixia (Helixville4)",
+  "goal": "3D-forward layout that remains visually coherent in 2D preview",
+  "village_grid": {
+    "rows": 3,
+    "cols": 4,
+    "houses": [
+      {
+        "lot_id": "house_1_1",
+        "style_id": "classic_traditional",
+        "style_name": "Classic Traditional",
+        "grid_row": 0,
+        "grid_col": 0,
+        "world_x_ft": -165.0,
+        "world_y_ft": 96.0,
+        "world_z_ft": 0.0,
+        "cost_tier": "high",
+        "aesthetics": "warm layered nostalgia",
+        "preferences": [
+          "wreath symmetry",
+          "roofline rhythm",
+          "cane pathways"
+        ],
+        "model_types": [
+          "line",
+          "window_frame",
+          "candy_cane"
+        ],
+        "estimated_cost_usd": 5200
+      },
+      {
+        "lot_id": "house_1_2",
+        "style_id": "modern_minimalist",
+        "style_name": "Modern Minimalist",
+        "grid_row": 0,
+        "grid_col": 1,
+        "world_x_ft": -55.0,
+        "world_y_ft": 96.0,
+        "world_z_ft": 0.0,
+        "cost_tier": "medium",
+        "aesthetics": "clean linear geometry",
+        "preferences": [
+          "cold whites",
+          "edge outlines",
+          "negative space"
+        ],
+        "model_types": [
+          "line",
+          "matrix",
+          "star"
+        ],
+        "estimated_cost_usd": 2800
+      },
+      {
+        "lot_id": "house_1_3",
+        "style_id": "retro_nostalgic",
+        "style_name": "Retro & Nostalgic",
+        "grid_row": 0,
+        "grid_col": 2,
+        "world_x_ft": 55.0,
+        "world_y_ft": 96.0,
+        "world_z_ft": 0.0,
+        "cost_tier": "medium",
+        "aesthetics": "vintage bulbs and signage",
+        "preferences": [
+          "script signs",
+          "warm tone strings",
+          "animated window frames"
+        ],
+        "model_types": [
+          "line",
+          "circle",
+          "icicles"
+        ],
+        "estimated_cost_usd": 2800
+      },
+      {
+        "lot_id": "house_1_4",
+        "style_id": "whimsical_cartoon",
+        "style_name": "Whimsical Cartoon",
+        "grid_row": 0,
+        "grid_col": 3,
+        "world_x_ft": 165.0,
+        "world_y_ft": 96.0,
+        "world_z_ft": 0.0,
+        "cost_tier": "medium",
+        "aesthetics": "playful character focus",
+        "preferences": [
+          "character props",
+          "rainbow accents",
+          "bounce chases"
+        ],
+        "model_types": [
+          "line",
+          "custom",
+          "spinner"
+        ],
+        "estimated_cost_usd": 2800
+      },
+      {
+        "lot_id": "house_2_1",
+        "style_id": "winter_wonderland",
+        "style_name": "Winter Wonderland",
+        "grid_row": 1,
+        "grid_col": 0,
+        "world_x_ft": -165.0,
+        "world_y_ft": 0.0,
+        "world_z_ft": 0.0,
+        "cost_tier": "medium",
+        "aesthetics": "frosted monochrome glow",
+        "preferences": [
+          "snowflakes",
+          "cool white wash",
+          "sparkle shimmer"
+        ],
+        "model_types": [
+          "line",
+          "tree",
+          "star"
+        ],
+        "estimated_cost_usd": 2800
+      },
+      {
+        "lot_id": "house_2_2",
+        "style_id": "tune_to_music",
+        "style_name": "Tune To The Music",
+        "grid_row": 1,
+        "grid_col": 1,
+        "world_x_ft": -55.0,
+        "world_y_ft": 0.0,
+        "world_z_ft": 0.0,
+        "cost_tier": "high",
+        "aesthetics": "audio-reactive rhythmic architecture",
+        "preferences": [
+          "bar graphs",
+          "beat chases",
+          "timing overlays"
+        ],
+        "model_types": [
+          "line",
+          "window_frame",
+          "candy_cane"
+        ],
+        "estimated_cost_usd": 5200
+      },
+      {
+        "lot_id": "house_2_3",
+        "style_id": "spooky_fun",
+        "style_name": "Spooky Fun",
+        "grid_row": 1,
+        "grid_col": 2,
+        "world_x_ft": 55.0,
+        "world_y_ft": 0.0,
+        "world_z_ft": 0.0,
+        "cost_tier": "low",
+        "aesthetics": "high contrast neon mood",
+        "preferences": [
+          "purple/green palette",
+          "flicker moments",
+          "silhouette reveals"
+        ],
+        "model_types": [
+          "line",
+          "matrix",
+          "star"
+        ],
+        "estimated_cost_usd": 1200
+      },
+      {
+        "lot_id": "house_2_4",
+        "style_id": "international",
+        "style_name": "International",
+        "grid_row": 1,
+        "grid_col": 3,
+        "world_x_ft": 165.0,
+        "world_y_ft": 0.0,
+        "world_z_ft": 0.0,
+        "cost_tier": "high",
+        "aesthetics": "multi-cultural motif collage",
+        "preferences": [
+          "regional color stories",
+          "flag-inspired symmetry",
+          "global icons"
+        ],
+        "model_types": [
+          "line",
+          "circle",
+          "icicles"
+        ],
+        "estimated_cost_usd": 5200
+      },
+      {
+        "lot_id": "house_3_1",
+        "style_id": "patriotic_pride",
+        "style_name": "Patriotic Pride",
+        "grid_row": 2,
+        "grid_col": 0,
+        "world_x_ft": -165.0,
+        "world_y_ft": -96.0,
+        "world_z_ft": 0.0,
+        "cost_tier": "medium",
+        "aesthetics": "bold red white blue hero moments",
+        "preferences": [
+          "star fields",
+          "fan bursts",
+          "stripe chases"
+        ],
+        "model_types": [
+          "line",
+          "custom",
+          "spinner"
+        ],
+        "estimated_cost_usd": 2800
+      },
+      {
+        "lot_id": "house_3_2",
+        "style_id": "all_white_elegance",
+        "style_name": "All White Elegance",
+        "grid_row": 2,
+        "grid_col": 1,
+        "world_x_ft": -55.0,
+        "world_y_ft": -96.0,
+        "world_z_ft": 0.0,
+        "cost_tier": "high",
+        "aesthetics": "single-hue luxury contrast",
+        "preferences": [
+          "dimmer curves",
+          "architectural outlines",
+          "sparkle layers"
+        ],
+        "model_types": [
+          "line",
+          "tree",
+          "star"
+        ],
+        "estimated_cost_usd": 5200
+      },
+      {
+        "lot_id": "house_3_3",
+        "style_id": "fibonacci_sequence",
+        "style_name": "Fibonacci Sequence",
+        "grid_row": 2,
+        "grid_col": 2,
+        "world_x_ft": 55.0,
+        "world_y_ft": -96.0,
+        "world_z_ft": 0.0,
+        "cost_tier": "high",
+        "aesthetics": "spiral growth geometry",
+        "preferences": [
+          "golden-angle spacing",
+          "size progression",
+          "radial gradients"
+        ],
+        "model_types": [
+          "line",
+          "window_frame",
+          "candy_cane"
+        ],
+        "estimated_cost_usd": 5200
+      },
+      {
+        "lot_id": "house_3_4",
+        "style_id": "classic_traditional",
+        "style_name": "Classic Traditional",
+        "grid_row": 2,
+        "grid_col": 3,
+        "world_x_ft": 165.0,
+        "world_y_ft": -96.0,
+        "world_z_ft": 0.0,
+        "cost_tier": "high",
+        "aesthetics": "warm layered nostalgia",
+        "preferences": [
+          "wreath symmetry",
+          "roofline rhythm",
+          "cane pathways"
+        ],
+        "model_types": [
+          "line",
+          "matrix",
+          "star"
+        ],
+        "estimated_cost_usd": 5200
+      }
+    ]
+  },
+  "fibonacci_tree_lot": {
+    "description": "Spiral trees with tallest center tree and mixed mega-tree configurations",
+    "trees": [
+      {
+        "tree_id": "fib_tree_center",
+        "spiral_index": 0,
+        "world_x_ft": 0.0,
+        "world_y_ft": -290.0,
+        "height_ft": 22.0,
+        "model_type": "tree",
+        "megatree_config": "mega_360"
+      },
+      {
+        "tree_id": "fib_tree_1",
+        "spiral_index": 1,
+        "world_x_ft": -11.798,
+        "world_y_ft": -279.192,
+        "height_ft": 20.0,
+        "model_type": "tree",
+        "megatree_config": "mega_180"
+      },
+      {
+        "tree_id": "fib_tree_2",
+        "spiral_index": 2,
+        "world_x_ft": 1.978,
+        "world_y_ft": -312.541,
+        "height_ft": 19.0,
+        "model_type": "tree",
+        "megatree_config": "mega_90"
+      },
+      {
+        "tree_id": "fib_tree_3",
+        "spiral_index": 3,
+        "world_x_ft": 16.862,
+        "world_y_ft": -268.007,
+        "height_ft": 18.0,
+        "model_type": "tree",
+        "megatree_config": "mega_pixel_strip"
+      },
+      {
+        "tree_id": "fib_tree_4",
+        "spiral_index": 4,
+        "world_x_ft": -31.511,
+        "world_y_ft": -295.574,
+        "height_ft": 17.0,
+        "model_type": "tree",
+        "megatree_config": "mega_dense_matrix"
+      },
+      {
+        "tree_id": "fib_tree_5",
+        "spiral_index": 5,
+        "world_x_ft": 30.187,
+        "world_y_ft": -309.203,
+        "height_ft": 16.0,
+        "model_type": "tree",
+        "megatree_config": "mega_sparse_outline"
+      },
+      {
+        "tree_id": "fib_tree_6",
+        "spiral_index": 6,
+        "world_x_ft": -10.174,
+        "world_y_ft": -252.152,
+        "height_ft": 15.0,
+        "model_type": "tree",
+        "megatree_config": "mega_360"
+      },
+      {
+        "tree_id": "fib_tree_7",
+        "spiral_index": 7,
+        "world_x_ft": -19.511,
+        "world_y_ft": -327.567,
+        "height_ft": 14.0,
+        "model_type": "tree",
+        "megatree_config": "mega_180"
+      },
+      {
+        "tree_id": "fib_tree_8",
+        "spiral_index": 8,
+        "world_x_ft": 42.509,
+        "world_y_ft": -274.476,
+        "height_ft": 13.0,
+        "model_type": "tree",
+        "megatree_config": "mega_90"
+      },
+      {
+        "tree_id": "fib_tree_9",
+        "spiral_index": 9,
+        "world_x_ft": -44.369,
+        "world_y_ft": -271.685,
+        "height_ft": 12.0,
+        "model_type": "tree",
+        "megatree_config": "mega_pixel_strip"
+      },
+      {
+        "tree_id": "fib_tree_10",
+        "spiral_index": 10,
+        "world_x_ft": 21.445,
+        "world_y_ft": -335.827,
+        "height_ft": 11.0,
+        "model_type": "tree",
+        "megatree_config": "mega_dense_matrix"
+      },
+      {
+        "tree_id": "fib_tree_11",
+        "spiral_index": 11,
+        "world_x_ft": 15.882,
+        "world_y_ft": -239.366,
+        "height_ft": 10.0,
+        "model_type": "tree",
+        "megatree_config": "mega_sparse_outline"
+      },
+      {
+        "tree_id": "fib_tree_12",
+        "spiral_index": 12,
+        "world_x_ft": -47.955,
+        "world_y_ft": -317.791,
+        "height_ft": 9.0,
+        "model_type": "tree",
+        "megatree_config": "mega_360"
+      }
+    ],
+    "megatree_configurations": [
+      "mega_360",
+      "mega_180",
+      "mega_90",
+      "mega_pixel_strip",
+      "mega_dense_matrix",
+      "mega_sparse_outline"
+    ]
+  },
+  "special_lots": [
+    {
+      "lot_id": "ac_all_white",
+      "display_name": "All White AC Property",
+      "world_x_ft": -360.0,
+      "world_y_ft": -210.0,
+      "model_types": [
+        "line",
+        "icicles",
+        "window_frame"
+      ],
+      "ac_palette": "white_only"
+    },
+    {
+      "lot_id": "ac_rwg",
+      "display_name": "Red White Green AC Property",
+      "world_x_ft": -500.0,
+      "world_y_ft": -210.0,
+      "model_types": [
+        "line",
+        "tree",
+        "candy_cane"
+      ],
+      "ac_palette": "red_white_green"
+    },
+    {
+      "lot_id": "arches_lot",
+      "display_name": "Arches Lot",
+      "world_x_ft": -420.0,
+      "world_y_ft": -60.0,
+      "model_types": [
+        "arch",
+        "line"
+      ]
+    },
+    {
+      "lot_id": "tunnels_lot",
+      "display_name": "Tunnels Lot",
+      "world_x_ft": -300.0,
+      "world_y_ft": -60.0,
+      "model_types": [
+        "arch",
+        "matrix",
+        "line"
+      ]
+    },
+    {
+      "lot_id": "snowman_band_stage",
+      "display_name": "Snowman Band Stage",
+      "world_x_ft": 315.0,
+      "world_y_ft": -42.0,
+      "model_types": [
+        "custom",
+        "matrix",
+        "line",
+        "circle"
+      ],
+      "contains": [
+        "lead_singer",
+        "guitarist",
+        "bass_player",
+        "drummer"
+      ]
+    },
+    {
+      "lot_id": "dj_radio_booth",
+      "display_name": "DJ + Radio Booth",
+      "world_x_ft": 430.0,
+      "world_y_ft": -42.0,
+      "model_types": [
+        "custom",
+        "matrix",
+        "line"
+      ],
+      "contains": [
+        "dj_cactus",
+        "inflatable_tube_man"
+      ]
+    },
+    {
+      "lot_id": "coro_boscoyo_props",
+      "display_name": "Coro/Boscoyo-Friendly Props Lot",
+      "world_x_ft": 520.0,
+      "world_y_ft": -130.0,
+      "model_types": [
+        "custom",
+        "matrix",
+        "star",
+        "spinner"
+      ]
+    },
+    {
+      "lot_id": "radio_tower",
+      "display_name": "Radio Tower",
+      "world_x_ft": 580.0,
+      "world_y_ft": -20.0,
+      "model_types": [
+        "line",
+        "dmx",
+        "custom"
+      ]
+    },
+    {
+      "lot_id": "wreath_projection",
+      "display_name": "20ft Wreath + Projection Canvas",
+      "world_x_ft": 260.0,
+      "world_y_ft": -230.0,
+      "model_types": [
+        "circle",
+        "matrix",
+        "line"
+      ],
+      "diameter_ft": 20.0
+    },
+    {
+      "lot_id": "blow_mold_animals",
+      "display_name": "Blow Mold Animal Property",
+      "world_x_ft": -180.0,
+      "world_y_ft": -220.0,
+      "model_types": [
+        "custom",
+        "line",
+        "star"
+      ]
+    },
+    {
+      "lot_id": "experimental_3d_playground",
+      "display_name": "3D Experimental Playground",
+      "world_x_ft": 120.0,
+      "world_y_ft": -130.0,
+      "model_types": [
+        "arch",
+        "sphere",
+        "star",
+        "custom",
+        "spinner",
+        "matrix"
+      ],
+      "stacking_examples": [
+        "nested_arch_waves",
+        "sphere_star_interlocks",
+        "submodel_character_stop_motion"
+      ]
+    }
+  ],
+  "native_model_coverage": {
+    "arch": [
+      "arches_lot",
+      "tunnels_lot",
+      "experimental_3d_playground"
+    ],
+    "tree": [
+      "house_2_1",
+      "house_3_2",
+      "ac_rwg",
+      "fib_tree_center",
+      "fib_tree_1",
+      "fib_tree_2",
+      "fib_tree_3",
+      "fib_tree_4",
+      "fib_tree_5",
+      "fib_tree_6",
+      "fib_tree_7",
+      "fib_tree_8",
+      "fib_tree_9",
+      "fib_tree_10",
+      "fib_tree_11",
+      "fib_tree_12"
+    ],
+    "matrix": [
+      "house_1_2",
+      "house_2_3",
+      "house_3_4",
+      "tunnels_lot",
+      "snowman_band_stage",
+      "dj_radio_booth",
+      "coro_boscoyo_props",
+      "wreath_projection",
+      "experimental_3d_playground"
+    ],
+    "line": [
+      "house_1_1",
+      "house_1_2",
+      "house_1_3",
+      "house_1_4",
+      "house_2_1",
+      "house_2_2",
+      "house_2_3",
+      "house_2_4",
+      "house_3_1",
+      "house_3_2",
+      "house_3_3",
+      "house_3_4",
+      "ac_all_white",
+      "ac_rwg",
+      "arches_lot",
+      "tunnels_lot",
+      "snowman_band_stage",
+      "dj_radio_booth",
+      "radio_tower",
+      "wreath_projection",
+      "blow_mold_animals"
+    ],
+    "candy_cane": [
+      "house_1_1",
+      "house_2_2",
+      "house_3_3",
+      "ac_rwg"
+    ],
+    "circle": [
+      "house_1_3",
+      "house_2_4",
+      "snowman_band_stage",
+      "wreath_projection"
+    ],
+    "sphere": [
+      "experimental_3d_playground"
+    ],
+    "star": [
+      "house_1_2",
+      "house_2_1",
+      "house_2_3",
+      "house_3_2",
+      "house_3_4",
+      "coro_boscoyo_props",
+      "blow_mold_animals",
+      "experimental_3d_playground"
+    ],
+    "spinner": [
+      "house_1_4",
+      "house_3_1",
+      "coro_boscoyo_props",
+      "experimental_3d_playground"
+    ],
+    "icicles": [
+      "house_1_3",
+      "house_2_4",
+      "ac_all_white"
+    ],
+    "window_frame": [
+      "house_1_1",
+      "house_2_2",
+      "house_3_3",
+      "ac_all_white"
+    ],
+    "dmx": [
+      "radio_tower"
+    ],
+    "custom": [
+      "house_1_4",
+      "house_3_1",
+      "snowman_band_stage",
+      "dj_radio_booth",
+      "coro_boscoyo_props",
+      "radio_tower",
+      "blow_mold_animals",
+      "experimental_3d_playground"
+    ]
+  },
+  "requirements_satisfied": {
+    "all_white_ac_property": true,
+    "red_white_green_ac_property": true,
+    "all_native_model_types_invoked": true,
+    "band_stage_with_snowman_band": true,
+    "dj_booth_with_cactus_and_tube_man": true,
+    "arches_and_tunnels_lots": true,
+    "radio_tower_present": true,
+    "wreath_projection_property_present": true,
+    "blow_mold_property_present": true,
+    "experimental_3d_playground_present": true
+  },
+  "inspiration_inputs": [
+    "helixville4inspirationtemplate.png",
+    "snowman band inspiration template.jpeg",
+    "drummerinspiration.png",
+    "pianoinspiration.jpeg"
+  ]
+}
