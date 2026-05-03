@@ -14,6 +14,8 @@ from typing import Callable
 import xml.etree.ElementTree as ET
 
 from core.lazy_imports import LazyModule, optional_import
+from core import audio_trigger_routes
+from core import feature_state
 from core import band_sync
 from core import model_parser as xmp
 from core import spatial_scene
@@ -179,6 +181,9 @@ class AudioAnalysisResult:
     part_hits: list[dict[str, object]] = field(default_factory=list)
     emotion_events: list[dict[str, object]] = field(default_factory=list)
     style_features: dict[str, object] = field(default_factory=dict)
+    feature_state_frames: list[dict[str, object]] = field(default_factory=list)
+    beat_feature_timeline: list[dict[str, object]] = field(default_factory=list)
+    audio_reactive_actions: list[dict[str, object]] = field(default_factory=list)
     spatial_audio_frames: list[SpatialAudioFrame] = field(default_factory=list)
     confidence_scores: dict[str, float] = field(default_factory=dict)
     debug_summaries: dict[str, object] = field(default_factory=dict)
@@ -201,6 +206,9 @@ class AudioAnalysisResult:
             "part_hits": list(self.part_hits),
             "emotion_events": list(self.emotion_events),
             "style_features": dict(self.style_features),
+            "feature_state_frames": list(self.feature_state_frames),
+            "beat_feature_timeline": list(self.beat_feature_timeline),
+            "audio_reactive_actions": list(self.audio_reactive_actions),
             "spatial_audio_frames": [frame.to_dict() for frame in self.spatial_audio_frames],
             "confidence_scores": dict(self.confidence_scores),
             "debug_summaries": dict(self.debug_summaries),
@@ -1332,6 +1340,57 @@ def _extract_note_candidates(
     return note_events, raw_candidates
 
 
+def _build_feature_state_payload(
+    *,
+    energy: object,
+    centroid: object,
+    tempo_bpm: float,
+    sample_rate: int,
+    hop_length: int,
+) -> tuple[list[dict[str, object]], float]:
+    fps = float(sample_rate) / float(hop_length) if sample_rate > 0 and hop_length > 0 else 40.0
+    frames = feature_state.build_feature_state_sequence(
+        {
+            "energy": [float(item) for item in list(energy)],
+            "centroid": [float(item) for item in list(centroid)],
+            "tempo": float(tempo_bpm),
+        },
+        fps=fps,
+    )
+    return feature_state.serialize_feature_state_sequence(frames), fps
+
+
+def _build_beat_feature_timeline(
+    beat_events: list[TimedConfidenceEvent],
+    feature_frames: list[dict[str, object]],
+    *,
+    fps: float,
+) -> list[dict[str, object]]:
+    if fps <= 0.0 or not beat_events or not feature_frames:
+        return []
+    timeline: list[dict[str, object]] = []
+    last_index = len(feature_frames) - 1
+    for event in beat_events:
+        frame_index = max(0, min(last_index, int(round((float(event.time_ms) / 1000.0) * fps))))
+        frame = feature_frames[frame_index]
+        timeline.append(
+            {
+                "time_ms": int(event.time_ms),
+                "frame_index": int(frame.get("frame_index", frame_index) or frame_index),
+                "downbeat": bool(event.metadata.get("downbeat", False)),
+                "energy": round(float(frame.get("energy", 0.0) or 0.0), 4),
+                "energy_smooth": round(float(frame.get("energy_smooth", 0.0) or 0.0), 4),
+                "onset": round(float(frame.get("onset", 0.0) or 0.0), 4),
+                "brightness": round(float(frame.get("centroid", 0.0) or 0.0), 3),
+                "low": round(float(frame.get("low", 0.0) or 0.0), 4),
+                "mid": round(float(frame.get("mid", 0.0) or 0.0), 4),
+                "high": round(float(frame.get("high", 0.0) or 0.0), 4),
+                "beat_phase": round(float(frame.get("beat_phase", 0.0) or 0.0), 4),
+            }
+        )
+    return timeline
+
+
 def map_note_event_to_prop(
     note_event: NoteEvent,
     *,
@@ -1554,6 +1613,20 @@ def analyze_audio_file(
     perc_onset = librosa.onset.onset_strength(y=perc, sr=sr, hop_length=hop)
     harmonic_change = np.abs(np.diff(np.mean(chroma, axis=0))) if chroma.size else np.asarray([], dtype=float)
     brightness01 = centroid / max(1e-9, float(np.max(centroid) if centroid.size else 1.0))
+    feature_state_frames, feature_state_fps = _build_feature_state_payload(
+        energy=rms01,
+        centroid=centroid,
+        tempo_bpm=_scalar_float(tempo_bpm),
+        sample_rate=int(sr),
+        hop_length=hop,
+    )
+    beat_feature_timeline = _build_beat_feature_timeline(
+        beat_events,
+        feature_state_frames,
+        fps=feature_state_fps,
+    )
+    audio_reactive_actions = audio_trigger_routes.build_audio_reactive_actions(beat_feature_timeline)
+    audio_reactive_summary = audio_trigger_routes.build_audio_reactive_summary(audio_reactive_actions)
 
     stem = build_stem_analysis(audio_path, use_moises, api_key, cache_root, config=settings, log_fn=log_fn)
     lyric_timeline = (
@@ -1629,6 +1702,7 @@ def analyze_audio_file(
         "sample_rate": int(sr),
         "duration_ms": duration_ms,
         "analysis_schema": "helix.audio_analysis.v1",
+        "feature_state_fps": round(float(feature_state_fps), 6),
         "config": settings.to_dict(),
         "layout_path": str(layout_path) if layout_path else "",
     }
@@ -1693,6 +1767,9 @@ def analyze_audio_file(
         part_hits=part_hits,
         emotion_events=list(emotion_payload.get("events", []) or []),
         style_features=style_summary.to_dict(),
+        feature_state_frames=feature_state_frames,
+        beat_feature_timeline=beat_feature_timeline,
+        audio_reactive_actions=audio_reactive_actions,
         spatial_audio_frames=spatial_frames,
         confidence_scores={
             "tempo": round(_clamp01((len(beat_events) / max(1, duration_s * 1.5)) * 0.5 + (_scalar_float(tempo_bpm) > 0) * 0.3), 4),
@@ -1705,6 +1782,8 @@ def analyze_audio_file(
         debug_summaries={
             "raw_candidate_counts": {"onsets": len(onset_frames), "beats": len(beat_events), "pitch_candidates": len(raw_pitch), "notes": len(note_events)},
             "timeline_segments": [asdict(item) for item in timeline[:32]],
+            "feature_state": {"frames": len(feature_state_frames), "beat_timeline_entries": len(beat_feature_timeline)},
+            "audio_reactive": audio_reactive_summary,
             "instrument_debug": {"guitar": guitar_debug, "bass": bass_debug},
             "emotion_debug": dict(emotion_payload.get("debug", {}) or {}),
             "spatial_debug": spatial_debug,
@@ -1738,4 +1817,48 @@ def export_audio_analysis_result(result: AudioAnalysisResult, output_dir: Path) 
         writer.writerow(["time_ms", "x_feature", "y_feature", "z_feature", "color_hint", "motion_hint", "confidence"])
         for frame in result.spatial_audio_frames:
             writer.writerow([frame.time_ms, frame.x_feature, frame.y_feature, frame.z_feature, frame.color_hint, frame.motion_hint, frame.confidence])
-    return {"json": str(json_path), "timeline_csv": str(timeline_csv), "spatial_csv": str(spatial_csv)}
+    feature_state_csv = output_dir / "feature_state.csv"
+    with feature_state_csv.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(["frame_index", "time_s", "energy", "energy_smooth", "onset", "centroid", "low", "mid", "high", "beat_phase"])
+        for frame in result.feature_state_frames:
+            writer.writerow(
+                [
+                    frame.get("frame_index", 0),
+                    frame.get("time_s", 0.0),
+                    frame.get("energy", 0.0),
+                    frame.get("energy_smooth", 0.0),
+                    frame.get("onset", 0.0),
+                    frame.get("centroid", 0.0),
+                    frame.get("low", 0.0),
+                    frame.get("mid", 0.0),
+                    frame.get("high", 0.0),
+                    frame.get("beat_phase", 0.0),
+                ]
+            )
+    audio_reactive_csv = output_dir / "audio_reactive_actions.csv"
+    with audio_reactive_csv.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(["time_ms", "effect", "family", "target_hint", "motion_hint", "color_hint", "density", "priority", "route", "reason"])
+        for action in result.audio_reactive_actions:
+            writer.writerow(
+                [
+                    action.get("time_ms", 0),
+                    action.get("effect", ""),
+                    action.get("family", ""),
+                    action.get("target_hint", ""),
+                    action.get("motion_hint", ""),
+                    action.get("color_hint", ""),
+                    action.get("density", 0.0),
+                    action.get("priority", 0),
+                    action.get("route", ""),
+                    action.get("reason", ""),
+                ]
+            )
+    return {
+        "json": str(json_path),
+        "timeline_csv": str(timeline_csv),
+        "spatial_csv": str(spatial_csv),
+        "feature_state_csv": str(feature_state_csv),
+        "audio_reactive_csv": str(audio_reactive_csv),
+    }

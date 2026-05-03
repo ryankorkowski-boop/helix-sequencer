@@ -123,7 +123,16 @@ class AudioIntelligenceTests(unittest.TestCase):
         self.assertTrue(result.section_events)
         self.assertTrue(result.part_hits)
         self.assertTrue(result.spatial_audio_frames)
+        self.assertTrue(result.feature_state_frames)
+        self.assertIn("feature_state_fps", result.metadata)
+        self.assertIn("beat_feature_timeline", result.to_dict())
+        self.assertIn("audio_reactive_actions", result.to_dict())
+        self.assertIn("audio_reactive", result.debug_summaries)
         self.assertIn("pitch_candidates", result.raw_candidates)
+        with tempfile.TemporaryDirectory() as output_dir:
+            exported = audio_intelligence.export_audio_analysis_result(result, Path(output_dir))
+            self.assertTrue(Path(exported["feature_state_csv"]).exists())
+            self.assertTrue(Path(exported["audio_reactive_csv"]).exists())
 
     def test_low_threshold_candidate_retention_keeps_raw_pitch_candidates(self) -> None:
         sr = 22050
