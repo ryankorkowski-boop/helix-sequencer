@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 
 from core import model_parser as xmp
+from helix_layout.layout_health import build_layout_health_report
 from tools.build_helpers.helixia import (
     MEGATREE_CONFIGS,
     NATIVE_XLIGHTS_MODEL_TYPES,
@@ -87,7 +88,7 @@ class HelixiaLayoutTests(unittest.TestCase):
             self.assertIn("HELIXIA_HOUSES", parsed.groups)
             self.assertIn("HX_FLOOR_PIANO_BASE", parsed.models)
             self.assertIn("HX_REINDEER_DANCE_BODY", parsed.models)
-            self.assertGreaterEqual(len(parsed.submodel_names()), 24)
+            self.assertGreaterEqual(len(parsed.submodel_names()), 160)
 
     def test_helixia_xlights_xml_covers_required_model_families(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -99,6 +100,19 @@ class HelixiaLayoutTests(unittest.TestCase):
                 self.assertIn(model_type, types)
             self.assertIn("HX_FAMILY_MATRIX", parsed.groups)
             self.assertIn("HX_FAMILY_CUSTOM", parsed.groups)
+
+    def test_helixia_generated_layout_has_complex_prop_submodels(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            layout_path = Path(tmp) / "xlights_rgbeffects.xml"
+            parsed = xmp.parse_layout(layout_path)
+            health = build_layout_health_report(layout_path).to_dict()
+
+            self.assertEqual(health["no_submodels_for_complex_props"], [])
+            self.assertIn("HX_HOUSE_1_2_MATRIX/TOP", parsed.models)
+            self.assertIn("HX_HOUSE_1_4_SPINNER/ARM_01", parsed.models)
+            self.assertIn("HX_FIB_FIB_TREE_CENTER/SPIRAL", parsed.models)
+            self.assertIn("HX_SNOWMAN_BAND_STAGE_CUSTOM/HEAD", parsed.models)
 
 
 if __name__ == "__main__":

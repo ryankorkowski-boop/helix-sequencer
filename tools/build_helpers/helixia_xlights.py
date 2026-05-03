@@ -103,6 +103,20 @@ def _add_submodels(model_el: ET.Element, names: list[str]) -> None:
         ET.SubElement(model_el, "subModel", {"name": name, "line0": f"{start}-{end}"})
 
 
+def _default_submodels_for_type(model_type: str) -> list[str]:
+    if model_type == "matrix":
+        return ["TOP", "CENTER", "BOTTOM", "LEFT", "RIGHT", "BORDER"]
+    if model_type == "tree":
+        return ["TOP", "MID", "BOTTOM", "LEFT", "RIGHT", "SPIRAL"]
+    if model_type == "spinner":
+        return ["ARM_01", "ARM_02", "ARM_03", "ARM_04", "INNER", "OUTER"]
+    if model_type in {"star", "circle", "sphere"}:
+        return ["INNER", "OUTER", "TOP", "BOTTOM"]
+    if model_type == "custom":
+        return ["HEAD", "BODY", "LEFT", "RIGHT", "CENTER"]
+    return []
+
+
 def _add_model(
     models_el: ET.Element,
     *,
@@ -114,6 +128,7 @@ def _add_model(
     start_channel: int,
     submodels: list[str] | None = None,
 ) -> str:
+    submodel_names = submodels if submodels is not None else _default_submodels_for_type(model_type)
     model_el = ET.SubElement(
         models_el,
         "model",
@@ -126,8 +141,8 @@ def _add_model(
             start_channel=start_channel,
         ),
     )
-    if submodels:
-        _add_submodels(model_el, submodels)
+    if submodel_names:
+        _add_submodels(model_el, submodel_names)
     return name
 
 
