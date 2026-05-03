@@ -639,6 +639,12 @@ class EffectEngineTests(unittest.TestCase):
         self.assertLess(len(low_track), len(high_track))
         self.assertLess(low_placed, high_placed)
 
+    def test_audio_reactive_profiles_resolve_to_intensity(self) -> None:
+        self.assertEqual(effect_engine.resolve_audio_reactive_tuning(None, None), ("balanced", 1.0))
+        self.assertEqual(effect_engine.resolve_audio_reactive_tuning("showcase", None), ("showcase", 1.6))
+        self.assertEqual(effect_engine.resolve_audio_reactive_tuning("not-real", None), ("balanced", 1.0))
+        self.assertEqual(effect_engine.resolve_audio_reactive_tuning("subtle", 2.8), ("custom", 2.0))
+
     def test_classify_mir_genre_detects_edm_signature(self) -> None:
         genre = effect_engine.classify_mir_genre(
             {

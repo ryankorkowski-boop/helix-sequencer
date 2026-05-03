@@ -55,6 +55,15 @@ librosa = LazyModule("librosa")
 np = LazyModule("numpy")
 
 
+AUDIO_REACTIVE_PROFILE_INTENSITIES: dict[str, float] = {
+    "off": 0.0,
+    "subtle": 0.55,
+    "balanced": 1.0,
+    "showcase": 1.6,
+    "max": 2.0,
+}
+
+
 @dataclass
 class SequentialPool:
     name: str
@@ -187,6 +196,7 @@ class RuntimeTuning:
     learning_memory_file: Path | None = None
     auto_timing_tracks: bool = True
     pixel_reactive: bool = True
+    audio_reactive_profile: str = "balanced"
     audio_reactive_intensity: float = 1.0
     matrix_intelligence: bool = True
     video_file: Path | None = None
@@ -743,6 +753,18 @@ def normalize_palette_mode(raw: str) -> str:
     if value in {"template", "christmas", "warm", "cool", "neon", "random", "workspace_match"}:
         return value
     return "template"
+
+
+def normalize_audio_reactive_profile(raw: str | None) -> str:
+    value = (raw or "balanced").strip().lower().replace("-", "_").replace(" ", "_")
+    return value if value in AUDIO_REACTIVE_PROFILE_INTENSITIES else "balanced"
+
+
+def resolve_audio_reactive_tuning(profile_raw: str | None, intensity_raw: float | None) -> tuple[str, float]:
+    profile = normalize_audio_reactive_profile(profile_raw)
+    if intensity_raw is not None:
+        return "custom", base.clamp(float(intensity_raw), 0.0, 2.0)
+    return profile, AUDIO_REACTIVE_PROFILE_INTENSITIES[profile]
 
 
 def extract_palette_hexes(palette: str) -> list[str]:
@@ -12191,6 +12213,7 @@ def run_variant(
             "chase_style": normalize_chase_style(tuning.chase_style),
             "strict_xlights_effects": bool(tuning.strict_xlights_effects),
             "pixel_reactive": bool(tuning.pixel_reactive),
+            "audio_reactive_profile": str(tuning.audio_reactive_profile),
             "audio_reactive_intensity": round(float(tuning.audio_reactive_intensity), 3),
             "ac_lights_only": bool(tuning.ac_lights_only),
             "base_effect": str(tuning.base_effect),
@@ -12264,6 +12287,7 @@ def run_variant(
             "beat_timeline_count": len(audio_reactive_beat_timeline),
             "action_count": len(audio_reactive_actions),
             "timing_track_events": len(audio_reactive_track),
+            "profile": str(tuning.audio_reactive_profile),
             "intensity": round(float(tuning.audio_reactive_intensity), 3),
             "effect_counts": audio_reactive_summary.get("effect_counts", {}),
             "routes": audio_reactive_summary.get("routes", []),
@@ -12558,6 +12582,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--no-auto-timing-tracks", dest="auto_timing_tracks", action="store_false", help="Disable extended timing-track output")
     parser.add_argument("--pixel-reactive", dest="pixel_reactive", action="store_true", help="Enable family-aware reactive pixel choreography for compatible models")
     parser.add_argument("--no-pixel-reactive", dest="pixel_reactive", action="store_false", help="Disable the reactive pixel choreography pass")
+    parser.add_argument("--audio-reactive-profile", dest="audio_reactive_profile", help="Audio-reactive preset: off/subtle/balanced/showcase/max")
     parser.add_argument("--audio-reactive-intensity", type=float, dest="audio_reactive_intensity", help="Audio-reactive catalog cue intensity (0.0-2.0)")
     parser.add_argument("--matrix-intelligence", dest="matrix_intelligence", action="store_true", help="Enable matrix-first shader planning in report output")
     parser.add_argument("--no-matrix-intelligence", dest="matrix_intelligence", action="store_false", help="Disable matrix-first shader planning")
@@ -12698,6 +12723,10 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         log(f"Blend rules file not found; using default matrix blend rules: {blend_rules_file}")
         blend_rules_file = None
     moises_key = (args.moises_api_key or "").strip() or os.environ.get("MOISES_API_KEY", "")
+    audio_reactive_profile, audio_reactive_intensity = resolve_audio_reactive_tuning(
+        args.audio_reactive_profile,
+        args.audio_reactive_intensity,
+    )
     tuning = RuntimeTuning(
         polyphony_override=int(args.polyphony) if args.polyphony is not None else None,
         cane_focus=float(args.cane_focus if args.cane_focus is not None else 1.0),
@@ -12734,7 +12763,8 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         learning_memory_file=(resolve_path(folder, args.learning_memory_file) if args.learning_memory_file else None),
         auto_timing_tracks=bool(args.auto_timing_tracks),
         pixel_reactive=bool(args.pixel_reactive),
-        audio_reactive_intensity=base.clamp(float(args.audio_reactive_intensity if args.audio_reactive_intensity is not None else 1.0), 0.0, 2.0),
+        audio_reactive_profile=audio_reactive_profile,
+        audio_reactive_intensity=audio_reactive_intensity,
         matrix_intelligence=bool(args.matrix_intelligence),
         video_file=video_file,
         blend_rules_file=blend_rules_file,
@@ -12833,7 +12863,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         f"hardkor={int(bool(tuning.hardkor_enabled))}/{tuning.hardkor_intensity:.2f}/{tuning.hardkor_profile}, "
         f"workspace_history={int(bool(tuning.workspace_history_folder))}:{tuning.workspace_history_limit}, "
         f"matrix={int(bool(tuning.matrix_intelligence))}, "
-        f"audio_reactive={tuning.audio_reactive_intensity:.2f}, "
+        f"audio_reactive={tuning.audio_reactive_profile}/{tuning.audio_reactive_intensity:.2f}, "
         f"polish={int(bool(tuning.polish_enabled))}, "
         f"variants={tuning.variant_count}, shortlist={int(bool(tuning.auto_shortlist))}, "
         f"vendor_bar={int(bool(tuning.vendor_bar))}:"
