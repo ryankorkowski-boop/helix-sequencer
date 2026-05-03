@@ -5,9 +5,15 @@ import unittest
 
 from models.helixia_props import (
     CACTUS_TUBEMAN_MODELS,
+    FLOOR_PIANO_MODELS,
+    REINDEER_DANCE_MODELS,
     SNOWMAN_BAND_MEMBERS,
     HelixiaPropDefinition,
+    build_all_helixia_prop_structures,
+    build_all_helixia_props_export_catalog,
     build_cactus_tubeman_dj_structure,
+    build_floor_piano_structure,
+    build_reindeer_dance_structure,
     build_snowman_band_export_catalog,
     build_snowman_band_group_definitions,
     build_snowman_band_structures,
@@ -121,6 +127,62 @@ class HelixiaPropsTests(unittest.TestCase):
         self.assertEqual(group_map["HX_CACTUS_TUBEMAN_GROUP"], set(CACTUS_TUBEMAN_MODELS))
         self.assertEqual(group_map["HELIXIA_STAGE"], {"HX_CACTUS_TUBEMAN_GROUP"})
         self.assertTrue(all(model.exportable for model in prop.models))
+
+    def test_floor_piano_models_keys_submodels_and_groups(self) -> None:
+        prop = build_floor_piano_structure()
+        model_names = {model.name for model in prop.models}
+        submodel_names = {submodel.name for submodel in prop.submodels}
+        group_map = {group.name: set(group.members) for group in prop.groups}
+
+        self.assertEqual(prop.name, "HX_FLOOR_PIANO")
+        self.assertEqual(model_names, set(FLOOR_PIANO_MODELS))
+        self.assertEqual(len([name for name in submodel_names if name.startswith("HX_FLOOR_PIANO_KEY_")]), 24)
+        self.assertEqual(group_map["HX_FLOOR_PIANO"], set(FLOOR_PIANO_MODELS))
+        self.assertEqual(len(group_map["HX_FLOOR_PIANO_KEY_GROUP"]), 24)
+        self.assertEqual(group_map["HELIXIA_STAGE"], {"HX_FLOOR_PIANO"})
+        self.assertTrue(all(model.exportable for model in prop.models))
+
+    def test_reindeer_dance_models_leg_submodels_and_groups(self) -> None:
+        prop = build_reindeer_dance_structure()
+        model_names = {model.name for model in prop.models}
+        submodel_names = {submodel.name for submodel in prop.submodels}
+        group_map = {group.name: set(group.members) for group in prop.groups}
+
+        self.assertEqual(prop.name, "HX_REINDEER_DANCE")
+        self.assertEqual(model_names, set(REINDEER_DANCE_MODELS))
+        self.assertTrue(
+            {
+                "HX_REINDEER_DANCE_FRONT_LEFT_LEG",
+                "HX_REINDEER_DANCE_FRONT_RIGHT_LEG",
+                "HX_REINDEER_DANCE_REAR_LEFT_LEG",
+                "HX_REINDEER_DANCE_REAR_RIGHT_LEG",
+            }.issubset(submodel_names)
+        )
+        self.assertEqual(group_map["HX_REINDEER_DANCE"], set(REINDEER_DANCE_MODELS))
+        self.assertEqual(group_map["HELIXIA_STAGE"], {"HX_REINDEER_DANCE"})
+        self.assertTrue(all(model.exportable for model in prop.models))
+
+    def test_all_helixia_props_catalog_includes_stage_props_structure_only(self) -> None:
+        props = build_all_helixia_prop_structures()
+        catalog = build_all_helixia_props_export_catalog()
+        encoded = json.dumps(catalog, sort_keys=True)
+        decoded = json.loads(encoded)
+        prop_names = {prop["name"] for prop in decoded["props"]}
+        group_map = {group["name"]: set(group["members"]) for group in decoded["groups"]}
+
+        self.assertEqual(len(decoded["props"]), len(props))
+        self.assertTrue(set(SNOWMAN_BAND_MEMBERS).issubset(prop_names))
+        self.assertIn("HX_CACTUS_TUBEMAN_GROUP", prop_names)
+        self.assertIn("HX_FLOOR_PIANO", prop_names)
+        self.assertIn("HX_REINDEER_DANCE", prop_names)
+        self.assertIn("HX_FLOOR_PIANO", group_map["HELIXIA_STAGE"])
+        self.assertIn("HX_REINDEER_DANCE", group_map["HELIXIA_STAGE"])
+        self.assertFalse(decoded["implementation_boundary"]["layout_generation"])
+        self.assertFalse(decoded["implementation_boundary"]["layout_xml_modification"])
+        self.assertFalse(decoded["implementation_boundary"]["sequencing"])
+        self.assertFalse(decoded["implementation_boundary"]["timing"])
+        self.assertFalse(decoded["implementation_boundary"]["audio"])
+        self.assertFalse(decoded["implementation_boundary"]["animation"])
 
 
 if __name__ == "__main__":

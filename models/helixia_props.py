@@ -19,6 +19,16 @@ CACTUS_TUBEMAN_MODELS = (
     "HX_DJ_BOOTH",
 )
 
+FLOOR_PIANO_MODELS = (
+    "HX_FLOOR_PIANO_BASE",
+    "HX_FLOOR_PIANO_KEYS",
+)
+
+REINDEER_DANCE_MODELS = (
+    "HX_REINDEER_DANCE_BODY",
+    "HX_REINDEER_DANCE_LEGS",
+)
+
 
 @dataclass(frozen=True)
 class HelixiaSubmodelDefinition:
@@ -208,6 +218,121 @@ def build_cactus_tubeman_dj_structure() -> HelixiaPropDefinition:
     )
 
 
+def build_floor_piano_structure() -> HelixiaPropDefinition:
+    key_submodels = tuple(f"HX_FLOOR_PIANO_KEY_{idx:02d}" for idx in range(1, 25))
+    model_submodels = {
+        "HX_FLOOR_PIANO_BASE": (
+            "HX_FLOOR_PIANO_BASE_FRAME",
+            "HX_FLOOR_PIANO_BASE_LEFT_EDGE",
+            "HX_FLOOR_PIANO_BASE_RIGHT_EDGE",
+        ),
+        "HX_FLOOR_PIANO_KEYS": key_submodels,
+    }
+    model_categories = {
+        "HX_FLOOR_PIANO_BASE": "stage_prop",
+        "HX_FLOOR_PIANO_KEYS": "keyboard",
+    }
+    models = tuple(
+        HelixiaModelDefinition(
+            name=model_name,
+            category=model_categories[model_name],
+            submodels=model_submodels[model_name],
+        )
+        for model_name in FLOOR_PIANO_MODELS
+    )
+    submodels = tuple(
+        HelixiaSubmodelDefinition(
+            name=submodel_name,
+            parent_model=model_name,
+            category=model_categories[model_name],
+        )
+        for model_name in FLOOR_PIANO_MODELS
+        for submodel_name in model_submodels[model_name]
+    )
+    groups = (
+        HelixiaGroupDefinition(
+            name="HX_FLOOR_PIANO",
+            members=FLOOR_PIANO_MODELS,
+        ),
+        HelixiaGroupDefinition(
+            name="HX_FLOOR_PIANO_KEY_GROUP",
+            members=key_submodels,
+        ),
+        HelixiaGroupDefinition(
+            name="HELIXIA_STAGE",
+            members=("HX_FLOOR_PIANO",),
+        ),
+    )
+    return HelixiaPropDefinition(
+        name="HX_FLOOR_PIANO",
+        models=models,
+        submodels=submodels,
+        groups=groups,
+    )
+
+
+def build_reindeer_dance_structure() -> HelixiaPropDefinition:
+    model_submodels = {
+        "HX_REINDEER_DANCE_BODY": (
+            "HX_REINDEER_DANCE_HEAD",
+            "HX_REINDEER_DANCE_TORSO",
+            "HX_REINDEER_DANCE_TAIL",
+        ),
+        "HX_REINDEER_DANCE_LEGS": (
+            "HX_REINDEER_DANCE_FRONT_LEFT_LEG",
+            "HX_REINDEER_DANCE_FRONT_RIGHT_LEG",
+            "HX_REINDEER_DANCE_REAR_LEFT_LEG",
+            "HX_REINDEER_DANCE_REAR_RIGHT_LEG",
+        ),
+    }
+    model_categories = {
+        "HX_REINDEER_DANCE_BODY": "character_body",
+        "HX_REINDEER_DANCE_LEGS": "legs",
+    }
+    models = tuple(
+        HelixiaModelDefinition(
+            name=model_name,
+            category=model_categories[model_name],
+            submodels=model_submodels[model_name],
+        )
+        for model_name in REINDEER_DANCE_MODELS
+    )
+    submodels = tuple(
+        HelixiaSubmodelDefinition(
+            name=submodel_name,
+            parent_model=model_name,
+            category=model_categories[model_name],
+        )
+        for model_name in REINDEER_DANCE_MODELS
+        for submodel_name in model_submodels[model_name]
+    )
+    groups = (
+        HelixiaGroupDefinition(
+            name="HX_REINDEER_DANCE",
+            members=REINDEER_DANCE_MODELS,
+        ),
+        HelixiaGroupDefinition(
+            name="HELIXIA_STAGE",
+            members=("HX_REINDEER_DANCE",),
+        ),
+    )
+    return HelixiaPropDefinition(
+        name="HX_REINDEER_DANCE",
+        models=models,
+        submodels=submodels,
+        groups=groups,
+    )
+
+
+def build_all_helixia_prop_structures() -> tuple[HelixiaPropDefinition, ...]:
+    return (
+        *build_snowman_band_structures(),
+        build_cactus_tubeman_dj_structure(),
+        build_floor_piano_structure(),
+        build_reindeer_dance_structure(),
+    )
+
+
 def model_definition_to_dict(model: HelixiaModelDefinition) -> dict[str, object]:
     return {
         "name": model.name,
@@ -258,4 +383,34 @@ def build_snowman_band_export_catalog() -> dict[str, object]:
         },
         "props": [prop_definition_to_dict(prop) for prop in props],
         "groups": [group_definition_to_dict(group) for group in groups],
+    }
+
+
+def build_all_helixia_props_export_catalog() -> dict[str, object]:
+    props = build_all_helixia_prop_structures()
+    groups_by_name: dict[str, HelixiaGroupDefinition] = {}
+    for prop in props:
+        for group in prop.groups:
+            if group.name in groups_by_name:
+                existing = groups_by_name[group.name]
+                groups_by_name[group.name] = HelixiaGroupDefinition(
+                    name=group.name,
+                    members=tuple(dict.fromkeys((*existing.members, *group.members))),
+                )
+            else:
+                groups_by_name[group.name] = group
+    return {
+        "schema": "helixia.props.catalog.v1",
+        "catalog_id": "HELIXIA_PROPS_V1",
+        "scope": "structure_only",
+        "implementation_boundary": {
+            "layout_generation": False,
+            "layout_xml_modification": False,
+            "sequencing": False,
+            "timing": False,
+            "audio": False,
+            "animation": False,
+        },
+        "props": [prop_definition_to_dict(prop) for prop in props],
+        "groups": [group_definition_to_dict(group) for group in groups_by_name.values()],
     }
