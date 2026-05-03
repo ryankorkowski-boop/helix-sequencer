@@ -8,11 +8,17 @@ Props branch compared: `feature/helixia-props`
 
 Helixia currently exists as a planning/specification system, not as a completed xLights RGB effects layout.
 
+Progress update:
+
+- `helixville4/xlights_rgbeffects.xml` now exists as a deterministic first-pass generated layout.
+- The XML is parser-valid and includes core Helixia groups, lot groups, family groups, and structure-only prop placeholders.
+- Remaining completion work is now about model fidelity, richer submodels, XBKP/keybinding support, and preview aesthetics rather than the absence of XML.
+
 - `helixville4/helixia_manifest.json` exists.
 - `helixville4/HELIXIA_LAYOUT_NOTES.txt` exists.
-- `helixville4/xlights_rgbeffects.xml` does not exist.
+- `helixville4/xlights_rgbeffects.xml` exists.
 - `helixville4/xlights_rgbeffects.xbkp` does not exist.
-- The layout builder writes a manifest and notes only.
+- The layout builder writes manifest, notes, and first-pass XML.
 - The props system defines structure-only prop catalogs, not layout XML, animation, sequencing, or export files.
 
 This is consistent with the current guardrails in `docs/HELIXIA_CREATIVE_DIRECTION.md` and `docs/HELIXIA_PROPS_SPEC.md`, but it means Helixia is not yet a renderable xLights layout.

@@ -690,5 +690,14 @@
     "snowman band inspiration template.jpeg",
     "drummerinspiration.png",
     "pianoinspiration.jpeg"
-  ]
+  ],
+  "xlights_layout": {
+    "output_layout": "C:\\Users\\User\\Desktop\\414\\helixville4\\xlights_rgbeffects.xml",
+    "model_count": 105,
+    "group_count": 49,
+    "house_model_count": 36,
+    "special_model_count": 43,
+    "stage_model_count": 26,
+    "family_count": 13
+  }
 }

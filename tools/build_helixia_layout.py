@@ -12,7 +12,7 @@ from tools.build_helpers.helixia import build_helixia_layout  # noqa: E402
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build Helixia (Helixville4) planning manifest.")
+    parser = argparse.ArgumentParser(description="Build Helixia (Helixville4) manifest and xLights layout.")
     parser.add_argument(
         "--output-dir",
         default=str(ROOT / "helixville4"),
@@ -33,7 +33,8 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(
         f"Helixia manifest built: houses={len(payload['village_grid']['houses'])}, "
-        f"special_lots={len(payload['special_lots'])}"
+        f"special_lots={len(payload['special_lots'])}, "
+        f"models={payload['xlights_layout']['model_count']}"
     )
     return 0
 

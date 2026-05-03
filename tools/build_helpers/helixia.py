@@ -6,6 +6,8 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from tools.build_helpers.helixia_xlights import build_helixia_xlights_layout
+
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -386,10 +388,12 @@ def build_helixia_layout(
 
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+    xlights_payload = build_helixia_xlights_layout(payload, out_dir)
+    payload["xlights_layout"] = xlights_payload
     (out_dir / "helixia_manifest.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
     (out_dir / "HELIXIA_LAYOUT_NOTES.txt").write_text(
         "Helixia layout scaffold generated.\n"
-        "This file is a planning manifest for 2D/3D-coherent model placement and lot zoning.\n",
+        "Generated xlights_rgbeffects.xml contains deterministic placeholder models for Helixia v1.\n",
         encoding="utf-8",
     )
     return payload

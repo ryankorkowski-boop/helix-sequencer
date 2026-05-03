@@ -4,6 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from core import model_parser as xmp
 from tools.build_helpers.helixia import (
     MEGATREE_CONFIGS,
     NATIVE_XLIGHTS_MODEL_TYPES,
@@ -20,6 +21,8 @@ class HelixiaLayoutTests(unittest.TestCase):
             self.assertEqual(len(payload["village_grid"]["houses"]), 12)
             self.assertTrue((Path(tmp) / "helixia_manifest.json").exists())
             self.assertTrue((Path(tmp) / "HELIXIA_LAYOUT_NOTES.txt").exists())
+            self.assertTrue((Path(tmp) / "xlights_rgbeffects.xml").exists())
+            self.assertGreater(payload["xlights_layout"]["model_count"], 0)
 
     def test_required_special_lots_exist(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -72,6 +75,30 @@ class HelixiaLayoutTests(unittest.TestCase):
             self.assertTrue(all(house.get("aesthetics") for house in houses))
             self.assertTrue(all(int(house.get("estimated_cost_usd", 0)) > 0 for house in houses))
             self.assertTrue(all(len(house.get("preferences", [])) >= 2 for house in houses))
+
+    def test_build_helixia_layout_writes_parseable_xlights_xml(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            parsed = xmp.parse_layout(Path(tmp) / "xlights_rgbeffects.xml")
+
+            self.assertEqual(len(parsed.root_models()), payload["xlights_layout"]["model_count"])
+            self.assertIn("HELIXIA_ALL", parsed.groups)
+            self.assertIn("HELIXIA_STAGE", parsed.groups)
+            self.assertIn("HELIXIA_HOUSES", parsed.groups)
+            self.assertIn("HX_FLOOR_PIANO_BASE", parsed.models)
+            self.assertIn("HX_REINDEER_DANCE_BODY", parsed.models)
+            self.assertGreaterEqual(len(parsed.submodel_names()), 24)
+
+    def test_helixia_xlights_xml_covers_required_model_families(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            parsed = xmp.parse_layout(Path(tmp) / "xlights_rgbeffects.xml")
+            types = {model.type for model in parsed.models.values()}
+
+            for model_type in ("line", "matrix", "tree", "arch", "cane", "star", "spinner", "custom"):
+                self.assertIn(model_type, types)
+            self.assertIn("HX_FAMILY_MATRIX", parsed.groups)
+            self.assertIn("HX_FAMILY_CUSTOM", parsed.groups)
 
 
 if __name__ == "__main__":
