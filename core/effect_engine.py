@@ -205,6 +205,8 @@ class RuntimeTuning:
     hardkor_enabled: bool = False
     hardkor_intensity: float = 1.0
     hardkor_profile: str = "ac256"
+    power_metadata_file: Path | None = None
+    fail_on_power_risk: bool = False
 
 
 @dataclass
@@ -8236,6 +8238,8 @@ def validate_report_payload(payload: dict) -> None:
 def validate_power_report_payload(power_payload: dict) -> None:
     if not bool(power_payload.get("enabled", False)):
         return
+    if not bool(power_payload.get("enforce", True)):
+        return
     if bool(power_payload.get("safe_after_processing", False)):
         return
     unknown = list(power_payload.get("unknown_circuit_events", []) or [])
@@ -8245,6 +8249,100 @@ def validate_power_report_payload(power_payload: dict) -> None:
     if residual:
         raise ValueError("power report unsafe: residual circuit overload")
     raise ValueError("power report unsafe after processing")
+
+
+def _power_number(payload: dict, key: str, default: float) -> float:
+    try:
+        return float(payload.get(key, default))
+    except (TypeError, ValueError):
+        return float(default)
+
+
+def load_power_metadata_payload(path: Path | None) -> dict:
+    if path is None:
+        return {
+            "enabled": False,
+            "configured": False,
+            "safe_after_processing": True,
+            "max_amps_by_circuit": {},
+            "corrections_applied": [],
+            "frames_adjusted": 0,
+            "near_limit_events": [],
+            "residual_overload_events": [],
+            "unknown_circuit_events": [],
+            "reason": "not_configured",
+        }
+    source_path = Path(path)
+    payload = json.loads(source_path.read_text(encoding="utf-8"))
+    circuits_raw = list(payload.get("circuits", []) or [])
+    props_raw = list(payload.get("props", []) or [])
+    circuit_ids = {str(item.get("circuit_id", "")).strip() for item in circuits_raw if isinstance(item, dict)}
+    circuit_ids.discard("")
+    unknown_circuit_events: list[dict[str, object]] = []
+    props: list[dict[str, object]] = []
+    circuits: list[dict[str, object]] = []
+
+    for item in circuits_raw:
+        if not isinstance(item, dict):
+            continue
+        circuit_id = str(item.get("circuit_id", "")).strip()
+        if not circuit_id:
+            continue
+        circuits.append(
+            {
+                "circuit_id": circuit_id,
+                "breaker_limit_amps": _power_number(item, "breaker_limit_amps", 15.0),
+                "safe_utilization": _power_number(item, "safe_utilization", 0.8),
+                "voltage": _power_number(item, "voltage", 120.0),
+            }
+        )
+
+    for item in props_raw:
+        if not isinstance(item, dict):
+            continue
+        prop_id = str(item.get("prop_id", "")).strip()
+        circuit_id = str(item.get("circuit_id", "")).strip()
+        if not prop_id:
+            continue
+        props.append(
+            {
+                "prop_id": prop_id,
+                "pixels": int(_power_number(item, "pixels", 0.0)),
+                "voltage": _power_number(item, "voltage", 12.0),
+                "watts_per_pixel_full_white": _power_number(item, "watts_per_pixel_full_white", 0.3),
+                "circuit_id": circuit_id,
+                "priority": str(item.get("priority", "background") or "background"),
+            }
+        )
+        if circuit_id not in circuit_ids:
+            unknown_circuit_events.append(
+                {
+                    "prop_id": prop_id,
+                    "circuit_id": circuit_id,
+                    "reason": "missing_circuit_metadata",
+                }
+            )
+
+    return {
+        "enabled": True,
+        "enforce": False,
+        "configured": True,
+        "analysis_status": "metadata_only",
+        "safe_after_processing": len(unknown_circuit_events) == 0,
+        "source": str(source_path),
+        "schema": str(payload.get("schema", "helix.power.metadata.v1")),
+        "prop_count": len(props),
+        "circuit_count": len(circuits),
+        "props": props[:500],
+        "circuits": circuits[:200],
+        "max_amps_by_circuit": {},
+        "corrections_applied": [],
+        "frames_adjusted": 0,
+        "near_limit_events": [],
+        "residual_overload_events": [],
+        "unknown_circuit_events": unknown_circuit_events,
+        "reason": "frame_sampling_not_configured",
+    }
 
 
 def build_self_scoring_payload(payload: dict, weights: dict[str, float] | None = None) -> dict:
@@ -9740,6 +9838,9 @@ def build_all_models_all_effects_sequence(
         base.write_timing_track(xsq.root, f"AUTO All Effects {style.version}", effect_track[:2000], active=False)
     base.write_timing_track(xsq.root, f"AUTO All Models {style.version}", all_models_track, active=False)
 
+    power_payload = load_power_metadata_payload(tuning.power_metadata_file)
+    power_payload["enforce"] = bool(tuning.fail_on_power_risk)
+
     payload = {
         "version": style.version,
         "type": "all_models_all_effects_showcase",
@@ -9750,7 +9851,9 @@ def build_all_models_all_effects_sequence(
         "effects_count": len(effect_names),
         "effects_used": effect_names,
         "ac_lights_only": bool(tuning.ac_lights_only),
+        "power": power_payload,
     }
+    validate_power_report_payload(power_payload)
     write_report(report_path(out_path), payload)
     base.normalize_display_views(xsq.root, force=True)
     if active_layout_file and active_layout_file.exists():
@@ -12078,17 +12181,7 @@ def run_variant(
             "rejected_effects_count": len(validation_rejections),
             "rejected_effects": validation_rejections[:500],
         },
-        "power": {
-            "enabled": False,
-            "safe_after_processing": True,
-            "max_amps_by_circuit": {},
-            "corrections_applied": [],
-            "frames_adjusted": 0,
-            "near_limit_events": [],
-            "residual_overload_events": [],
-            "unknown_circuit_events": [],
-            "reason": "not_configured",
-        },
+        "power": power_payload,
         "watermark": {
             "version": WATERMARK_POLICY_VERSION,
             "signature": watermark_signature,
@@ -12218,6 +12311,8 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--keyboard-mix", type=float, dest="keyboard_mix", help="Polyphonic keyboard intensity")
     parser.add_argument("--model-overrides-file", dest="model_overrides_file", help="Optional JSON file for group/model mapping overrides")
     parser.add_argument("--layout-file", dest="layout_file", help="xLights layout XML/XBKP for spatial routing")
+    parser.add_argument("--power-metadata-file", dest="power_metadata_file", help="Optional JSON file with circuit and prop power metadata")
+    parser.add_argument("--fail-on-power-risk", dest="fail_on_power_risk", action="store_true", help="Fail report validation when enabled power metadata reports risk")
     parser.add_argument("--use-moises", action="store_true", help="Use Moises stem separation when possible")
     parser.add_argument("--moises-api-key", dest="moises_api_key", help="Moises API key")
     parser.add_argument("--sync-lyrics-heads", action="store_true", help="Sync lyric timing to head/face props")
@@ -12376,6 +12471,10 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     if layout_file is not None and not layout_file.exists():
         log(f"Layout file not found for spatial routing: {layout_file}")
         layout_file = None
+    power_metadata_file = resolve_path(folder, args.power_metadata_file) if args.power_metadata_file else None
+    if power_metadata_file is not None and not power_metadata_file.exists():
+        log(f"Power metadata file not found: {power_metadata_file}")
+        power_metadata_file = None
     xlights_repo = resolve_path(folder, args.xlights_repo) if args.xlights_repo else xfb.discover_xlights_repo(folder)
     if xlights_repo is not None and not (xlights_repo / "xLights" / "effects").exists():
         log(f"xLights repo path missing expected effects folder: {xlights_repo}")
@@ -12457,6 +12556,8 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         hardkor_enabled=bool(args.hardkor_enabled),
         hardkor_intensity=base.clamp(float(args.hardkor_intensity if args.hardkor_intensity is not None else 1.0), 0.25, 2.5),
         hardkor_profile=str((args.hardkor_profile or "ac256").strip().lower() or "ac256"),
+        power_metadata_file=power_metadata_file,
+        fail_on_power_risk=bool(args.fail_on_power_risk),
     )
     if tuning.vendor_bar:
         # Vendor-bar mode forces the higher-quality generation path.
@@ -12535,6 +12636,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         f"{tuning.vendor_min_quality_score:.1f}/"
         f"{tuning.vendor_min_audit_score:.1f}/"
         f"{tuning.vendor_max_rejected_effects}, "
+        f"power={int(bool(tuning.power_metadata_file))}/{int(bool(tuning.fail_on_power_risk))}, "
         f"learn_xsqs={int(bool(tuning.learn_from_my_xsqs))}, "
         f"overrides={len(overrides_payload)}"
     )

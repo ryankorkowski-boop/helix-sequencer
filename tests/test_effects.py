@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import random
 import tempfile
 import unittest
@@ -644,6 +645,48 @@ class EffectEngineTests(unittest.TestCase):
             {
                 "audit": {"final": {"score": 84.5}},
                 "power": {"enabled": False, "safe_after_processing": False},
+            }
+        )
+
+    def test_load_power_metadata_payload_reports_unknown_circuit(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "power.json"
+            path.write_text(
+                json.dumps(
+                    {
+                        "schema": "helix.power.metadata.v1",
+                        "circuits": [{"circuit_id": "A", "breaker_limit_amps": 15}],
+                        "props": [
+                            {
+                                "prop_id": "roof",
+                                "pixels": 100,
+                                "voltage": 12,
+                                "watts_per_pixel_full_white": 0.3,
+                                "circuit_id": "MISSING",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            payload = effect_engine.load_power_metadata_payload(path)
+
+        self.assertTrue(payload["enabled"])
+        self.assertEqual(payload["analysis_status"], "metadata_only")
+        self.assertFalse(payload["safe_after_processing"])
+        self.assertEqual(payload["unknown_circuit_events"][0]["prop_id"], "roof")
+
+    def test_validate_report_payload_allows_non_enforced_power_metadata(self) -> None:
+        effect_engine.validate_report_payload(
+            {
+                "audit": {"final": {"score": 84.5}},
+                "power": {
+                    "enabled": True,
+                    "enforce": False,
+                    "safe_after_processing": False,
+                    "unknown_circuit_events": [{"prop_id": "roof"}],
+                },
             }
         )
 

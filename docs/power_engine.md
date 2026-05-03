@@ -52,6 +52,30 @@ Build a standalone electrical-awareness module that estimates per-frame watts/am
 ## First Integration
 Sequence reports now carry a disabled-by-default `power` section. When a later pipeline step enables power analysis, `validate_report_payload()` fails the build if the power report is unsafe after processing, including residual overloads or missing circuit metadata.
 
+## Metadata File
+The sequencing CLI accepts `--power-metadata-file <path>` with JSON shaped as:
+
+```json
+{
+  "schema": "helix.power.metadata.v1",
+  "circuits": [
+    {"circuit_id": "A", "breaker_limit_amps": 15, "safe_utilization": 0.8, "voltage": 120}
+  ],
+  "props": [
+    {
+      "prop_id": "roof",
+      "pixels": 100,
+      "voltage": 12,
+      "watts_per_pixel_full_white": 0.3,
+      "circuit_id": "A",
+      "priority": "background"
+    }
+  ]
+}
+```
+
+Use `--fail-on-power-risk` to turn metadata/report risk into a build failure. The current first pass validates prop-to-circuit metadata and records `analysis_status: metadata_only`; frame-level sampling remains the next integration step.
+
 ## Risks
 1. Incomplete or missing circuit metadata can hide real risk.
 2. Correction policy can damage musical intent if applied too aggressively.
