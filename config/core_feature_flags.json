@@ -1,0 +1,6 @@
+{
+  "effect_engine": true,
+  "self_improving_scoring": true,
+  "spatial_mapping_engine": true,
+  "audio_intelligence": true
+}
