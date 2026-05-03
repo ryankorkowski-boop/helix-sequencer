@@ -8230,6 +8230,21 @@ def validate_report_payload(payload: dict) -> None:
     audit_score = float(audit_final.get("score", 0.0) or 0.0)
     if audit_score <= 0.0:
         raise ValueError("report payload missing non-zero audit.final.score")
+    validate_power_report_payload(payload.get("power", {}) or {})
+
+
+def validate_power_report_payload(power_payload: dict) -> None:
+    if not bool(power_payload.get("enabled", False)):
+        return
+    if bool(power_payload.get("safe_after_processing", False)):
+        return
+    unknown = list(power_payload.get("unknown_circuit_events", []) or [])
+    residual = list(power_payload.get("residual_overload_events", []) or [])
+    if unknown:
+        raise ValueError("power report unsafe: missing circuit metadata")
+    if residual:
+        raise ValueError("power report unsafe: residual circuit overload")
+    raise ValueError("power report unsafe after processing")
 
 
 def build_self_scoring_payload(payload: dict, weights: dict[str, float] | None = None) -> dict:
@@ -12062,6 +12077,17 @@ def run_variant(
             "issues": validation_issues[:200],
             "rejected_effects_count": len(validation_rejections),
             "rejected_effects": validation_rejections[:500],
+        },
+        "power": {
+            "enabled": False,
+            "safe_after_processing": True,
+            "max_amps_by_circuit": {},
+            "corrections_applied": [],
+            "frames_adjusted": 0,
+            "near_limit_events": [],
+            "residual_overload_events": [],
+            "unknown_circuit_events": [],
+            "reason": "not_configured",
         },
         "watermark": {
             "version": WATERMARK_POLICY_VERSION,
