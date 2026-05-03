@@ -19,6 +19,7 @@ import xml.etree.ElementTree as ET
 from core.lazy_imports import LazyModule
 
 from core import audit as sequence_audit
+from core import audio_trigger_routes
 from core import audio_intelligence as ai
 from core import chronoflow as chronoflow_engine
 from core import helixualizer as helixualizer_engine
@@ -2668,6 +2669,159 @@ def representative_models(pool: SequentialPool | None, desired_count: int) -> li
     step = (len(pool.models) - 1) / float(count - 1)
     indices = ordered_unique([int(round(step * idx)) for idx in range(count)])
     return [pool.models[idx] for idx in indices if 0 <= idx < len(pool.models)]
+
+
+def build_audio_reactive_beat_timeline(
+    *,
+    audio: base.Audio,
+    beat_ms: list[int],
+    onset_ms: list[int],
+    bar_ms: list[int],
+) -> list[dict[str, object]]:
+    if not beat_ms:
+        return []
+    centroid01 = base.norm01(np.asarray(audio.centroid, dtype=float)) if len(audio.centroid) else np.asarray([], dtype=float)
+    timeline: list[dict[str, object]] = []
+    for idx, t_ms in enumerate(beat_ms):
+        t_s = float(t_ms) / 1000.0
+        high = _safe_feature_sample(audio.times_s, centroid01, t_s)
+        nearest_onset = ai.nearest_mark_distance_ms(int(t_ms), onset_ms)
+        nearest_bar = ai.nearest_mark_distance_ms(int(t_ms), bar_ms) if bar_ms else None
+        downbeat = (nearest_bar is not None and nearest_bar <= 90) if bar_ms else (idx % 4) == 0
+        timeline.append(
+            {
+                "time_ms": int(t_ms),
+                "downbeat": bool(downbeat),
+                "energy": round(_safe_feature_sample(audio.times_s, audio.rms01, t_s), 4),
+                "energy_smooth": round(_mean_feature_sample(audio.times_s, audio.rms01, t_s, radius_s=0.18), 4),
+                "onset": 1.0 if nearest_onset is not None and nearest_onset <= 80 else 0.0,
+                "brightness": round(high, 4),
+                "low": round(_safe_feature_sample(audio.times_s, audio.bass01, t_s), 4),
+                "mid": round(_safe_feature_sample(audio.times_s, audio.vocal01, t_s), 4),
+                "high": round(high, 4),
+                "beat_phase": 0.0 if downbeat else round((idx % 4) / 4.0, 4),
+            }
+        )
+    return timeline
+
+
+def place_audio_reactive_actions(
+    *,
+    actions: list[dict[str, object]],
+    pools: list[SequentialPool],
+    pool_state: dict[str, int],
+    ramp_ok: bool,
+    ramp_tpl: base.EffectTemplate,
+    add_model,
+    in_blackout,
+    reactive_track: list[tuple[str, int, int]],
+    max_actions: int = 96,
+) -> int:
+    placed = 0
+    for idx, action in enumerate(actions[:max_actions]):
+        t_ms = _safe_int(action.get("time_ms", 0))
+        if in_blackout(t_ms):
+            continue
+        pool = select_audio_reactive_pool(pools, pool_state, action, idx)
+        if pool is None:
+            continue
+        effect_name = str(action.get("effect", "audio_reactive") or "audio_reactive")
+        duration = audio_reactive_duration_ms(effect_name, action)
+        start_ms = max(0, t_ms - (duration // 4 if effect_name in {"downbeat_flash", "drop_burst"} else 0))
+        end_ms = start_ms + duration
+        target_count = max(1, min(4, int(round(1 + (float(action.get("density", 0.4) or 0.4) * 4)))))
+        targets = representative_models(pool, target_count)
+        if not targets:
+            continue
+        runtime_effect = "Ramp" if ramp_ok and effect_name in {"mid_sweep", "energy_wave", "build_ramp"} else "On"
+        template = ramp_tpl if runtime_effect == "Ramp" else None
+        stem = "bass" if effect_name == "bass_pulse" else "drums" if effect_name in {"downbeat_flash", "drop_burst"} else "other"
+        label = f"audio_reactive_{effect_name}"
+        final_end = end_ms
+        for target_idx, model in enumerate(targets):
+            offset = target_idx * (24 if effect_name in {"mid_sweep", "energy_wave", "build_ramp"} else 12)
+            model_start = start_ms + offset
+            model_end = end_ms + offset
+            add_model(
+                model,
+                model_start,
+                model_end,
+                label,
+                eff=runtime_effect,
+                tpl=template,
+                cd_key=f"audio_reactive_{effect_name}_{model}",
+                cd_ms=max(120, duration // 2),
+                stem=stem,
+            )
+            final_end = max(final_end, model_end)
+            placed += 1
+        reactive_track.append((f"{effect_name}:{pool.name}", start_ms, final_end))
+    return placed
+
+
+def select_audio_reactive_pool(
+    pools: list[SequentialPool],
+    pool_state: dict[str, int],
+    action: dict[str, object],
+    index: int,
+) -> SequentialPool | None:
+    hint = str(action.get("target_hint", "") or "")
+    if hint == "whole_house":
+        categories = ("mega", "gt", "line", "arch", "canes_combo")
+    elif hint == "large_props":
+        categories = ("mega", "gt", "matrix", "line")
+    elif hint == "arches_lines":
+        categories = ("arch", "line")
+    elif hint == "stars_snowflakes":
+        categories = ("stars", "snowflakes")
+    elif hint == "sequential_groups":
+        categories = ("line", "arch", "canes_combo", "mega", "gt")
+    elif hint == "small_props":
+        categories = ("stars", "snowflakes", "spinner")
+    else:
+        categories = ("mega", "gt", "line", "arch", "stars", "snowflakes")
+    return select_preferred_pool(pools, categories, pool_state, f"audio_reactive_{hint}_{index}", require_multiple=False)
+
+
+def audio_reactive_duration_ms(effect_name: str, action: dict[str, object]) -> int:
+    duration_by_effect = {
+        "downbeat_flash": 110,
+        "bass_pulse": 170,
+        "mid_sweep": 300,
+        "treble_sparkle": 130,
+        "energy_wave": 380,
+        "build_ramp": 460,
+        "drop_burst": 210,
+        "quiet_shimmer": 520,
+    }
+    base_duration = duration_by_effect.get(effect_name, 180)
+    density = max(0.1, min(1.0, float(action.get("density", 0.5) or 0.5)))
+    return max(80, int(round(base_duration * (0.78 + (density * 0.44)))))
+
+
+def _safe_feature_sample(times_s: np.ndarray, values: np.ndarray, t_s: float) -> float:
+    value = base.nearest(times_s, values, t_s)
+    if not np.isfinite(value):
+        return 0.0
+    return float(base.clamp(value, 0.0, 1.0))
+
+
+def _mean_feature_sample(times_s: np.ndarray, values: np.ndarray, t_s: float, *, radius_s: float) -> float:
+    if len(times_s) == 0 or len(values) == 0:
+        return 0.0
+    times = np.asarray(times_s, dtype=float)
+    vals = np.asarray(values, dtype=float)
+    mask = (times >= (t_s - radius_s)) & (times <= (t_s + radius_s))
+    if not np.any(mask):
+        return _safe_feature_sample(times_s, values, t_s)
+    return float(base.clamp(float(np.mean(vals[mask])), 0.0, 1.0))
+
+
+def _safe_int(value: object, default: int = 0) -> int:
+    try:
+        return int(value)
+    except Exception:
+        return default
 
 
 def spatialize_pool_for_family(
@@ -10149,6 +10303,14 @@ def run_variant(
         beat_ms=beat_ms,
         vocal_peaks=vocal_peaks,
     )
+    audio_reactive_beat_timeline = build_audio_reactive_beat_timeline(
+        audio=audio,
+        beat_ms=beat_ms,
+        onset_ms=onset_ms,
+        bar_ms=bar_ms,
+    )
+    audio_reactive_actions = audio_trigger_routes.build_audio_reactive_actions(audio_reactive_beat_timeline)
+    audio_reactive_summary = audio_trigger_routes.build_audio_reactive_summary(audio_reactive_actions)
     if tuning.matrix_intelligence:
         matrix_intelligence_payload: dict[str, object] = matrix_planner.build_matrix_intelligence_plan(
             parsed_layout=parsed_layout,
@@ -10655,6 +10817,7 @@ def run_variant(
     sweep_track: list[tuple[str, int, int]] = []
     lua_track: list[tuple[str, int, int]] = []
     pixel_track: list[tuple[str, int, int]] = []
+    audio_reactive_track: list[tuple[str, int, int]] = []
     multiband_track: list[tuple[str, int, int]] = []
     hardkor_track: list[tuple[str, int, int]] = []
     birdsong_track: list[tuple[str, int, int]] = []
@@ -11663,6 +11826,18 @@ def run_variant(
         )
         if multiband_attempts:
             log(f"Multi-band reactive overlays placed: {multiband_attempts}")
+        audio_reactive_attempts = place_audio_reactive_actions(
+            actions=audio_reactive_actions,
+            pools=pools,
+            pool_state=pool_state,
+            ramp_ok=ramp_ok,
+            ramp_tpl=xsq.ramp_tpl,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            reactive_track=audio_reactive_track,
+        )
+        if audio_reactive_attempts:
+            log(f"Audio-reactive catalog placements attempted: {audio_reactive_attempts}")
 
     if (not hardkor_mode) and style.family in {"v19", "v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
         neighbor_attempts = apply_neighbor_showcase_score(
@@ -11877,6 +12052,8 @@ def run_variant(
         base.write_timing_track(xsq.root, f"AUTO Lua Macros {style.version}", lua_track, active=False)
     if pixel_track:
         base.write_timing_track(xsq.root, f"AUTO Pixel Score {style.version}", pixel_track[:2000], active=False)
+    if audio_reactive_track:
+        base.write_timing_track(xsq.root, f"AUTO Audio Reactive {style.version}", audio_reactive_track[:2000], active=False)
     if multiband_track:
         base.write_timing_track(xsq.root, f"AUTO MultiBand {style.version}", multiband_track[:2400], active=False)
     if hardkor_track:
@@ -11910,6 +12087,7 @@ def run_variant(
             f"AUTO Sweeps {style.version}",
             f"AUTO Lua Macros {style.version}",
             f"AUTO Pixel Score {style.version}",
+            f"AUTO Audio Reactive {style.version}",
             f"AUTO hardKor {style.version}",
             f"AUTO Chronoflow {style.version}",
             f"AUTO Birdsong {style.version}",
@@ -11962,6 +12140,9 @@ def run_variant(
                 used_counter[family_key] += 1
         available_family_counts = {key: value for key, value in sorted(available_counter.items(), key=lambda item: item[0])}
         used_family_counts = {key: value for key, value in sorted(used_counter.items(), key=lambda item: item[0])}
+
+    power_payload = load_power_metadata_payload(tuning.power_metadata_file)
+    power_payload["enforce"] = bool(tuning.fail_on_power_risk)
 
     payload = {
         "version": style.version,
@@ -12067,6 +12248,15 @@ def run_variant(
                 }
                 for label, profile in multiband.section_profiles.items()
             },
+        },
+        "audio_reactive": {
+            "enabled": bool((not hardkor_mode) and tuning.pixel_reactive),
+            "beat_timeline_count": len(audio_reactive_beat_timeline),
+            "action_count": len(audio_reactive_actions),
+            "timing_track_events": len(audio_reactive_track),
+            "effect_counts": audio_reactive_summary.get("effect_counts", {}),
+            "routes": audio_reactive_summary.get("routes", []),
+            "catalog": audio_reactive_summary.get("catalog", []),
         },
         "rhythm_intelligence": rhythm_intelligence_payload,
         "lyrics": {

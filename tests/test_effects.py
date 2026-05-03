@@ -544,6 +544,64 @@ class EffectEngineTests(unittest.TestCase):
         )
         self.assertEqual(effect_engine.dominant_band_at_time(1025, analysis), "bass")
 
+    def test_audio_reactive_beat_timeline_uses_audio_features(self) -> None:
+        audio = xsq_writer.Audio(
+            sr=44100,
+            y=np.zeros(44100, dtype=np.float32),
+            dur_s=2.0,
+            onset_ms=[0, 500, 1000],
+            beat_ms=[0, 500, 1000, 1500],
+            times_s=np.asarray([0.0, 0.5, 1.0, 1.5], dtype=float),
+            centroid=np.asarray([100.0, 4000.0, 6000.0, 2000.0], dtype=float),
+            rms01=np.asarray([0.1, 0.5, 0.9, 0.3], dtype=float),
+            bass01=np.asarray([0.2, 0.7, 0.8, 0.1], dtype=float),
+            vocal01=np.asarray([0.1, 0.4, 0.3, 0.2], dtype=float),
+            pitch_hz=np.zeros(4, dtype=float),
+        )
+
+        timeline = effect_engine.build_audio_reactive_beat_timeline(
+            audio=audio,
+            beat_ms=[0, 500, 1000, 1500],
+            onset_ms=[0, 500, 1000],
+            bar_ms=[0, 1000],
+        )
+
+        self.assertEqual(len(timeline), 4)
+        self.assertTrue(timeline[0]["downbeat"])
+        self.assertTrue(timeline[2]["downbeat"])
+        self.assertGreater(timeline[2]["energy_smooth"], timeline[0]["energy_smooth"])
+        self.assertGreater(timeline[1]["low"], timeline[0]["low"])
+
+    def test_place_audio_reactive_actions_maps_catalog_to_pools(self) -> None:
+        pools = [
+            effect_engine.SequentialPool("Mega", "mega", ["Mega 1", "Mega 2", "Mega 3"]),
+            effect_engine.SequentialPool("Stars", "stars", ["Star 1", "Star 2"]),
+        ]
+        placements: list[tuple[str, int, int, str, str, str]] = []
+
+        def add_model(model, start_ms, end_ms, label, eff="On", tpl=None, cd_key=None, cd_ms=0, stem="other"):
+            placements.append((model, start_ms, end_ms, label, eff, stem))
+
+        track: list[tuple[str, int, int]] = []
+        placed = effect_engine.place_audio_reactive_actions(
+            actions=[
+                {"time_ms": 1000, "effect": "bass_pulse", "target_hint": "large_props", "density": 0.5},
+                {"time_ms": 1500, "effect": "treble_sparkle", "target_hint": "stars_snowflakes", "density": 0.4},
+            ],
+            pools=pools,
+            pool_state={},
+            ramp_ok=True,
+            ramp_tpl=xsq_writer.EffectTemplate(settings="ramp", palette=None),
+            add_model=add_model,
+            in_blackout=lambda _t: False,
+            reactive_track=track,
+        )
+
+        self.assertGreaterEqual(placed, 2)
+        self.assertTrue(any(entry[3] == "audio_reactive_bass_pulse" for entry in placements))
+        self.assertTrue(any(entry[0].startswith("Star") for entry in placements))
+        self.assertEqual(len(track), 2)
+
     def test_classify_mir_genre_detects_edm_signature(self) -> None:
         genre = effect_engine.classify_mir_genre(
             {
