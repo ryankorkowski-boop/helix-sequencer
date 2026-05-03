@@ -30,6 +30,72 @@ DEFAULT_ROUTES: tuple[AudioTriggerRoute, ...] = (
 )
 
 
+PROFILE_ROUTE_TUNING: dict[str, dict[str, tuple[float, float, int]]] = {
+    "off": {
+        "downbeat_flash": (1.0, 3.0, -20),
+        "drop_burst": (1.0, 3.0, -20),
+        "bass_pulse": (1.0, 3.0, -20),
+        "build_ramp": (1.0, 3.0, -20),
+        "mid_sweep": (1.0, 3.0, -20),
+        "treble_sparkle": (1.0, 3.0, -20),
+        "energy_wave": (1.0, 3.0, -20),
+        "quiet_shimmer": (1.0, 3.0, -20),
+    },
+    "subtle": {
+        "downbeat_flash": (1.14, 1.45, -8),
+        "drop_burst": (1.22, 1.60, -10),
+        "bass_pulse": (1.18, 1.45, -8),
+        "build_ramp": (1.05, 1.20, -2),
+        "mid_sweep": (1.00, 1.10, 2),
+        "treble_sparkle": (0.88, 0.82, 8),
+        "energy_wave": (1.10, 1.35, -4),
+        "quiet_shimmer": (0.92, 0.75, 10),
+    },
+    "balanced": {},
+    "showcase": {
+        "downbeat_flash": (0.92, 0.78, 6),
+        "drop_burst": (0.84, 0.62, 14),
+        "bass_pulse": (0.82, 0.58, 10),
+        "build_ramp": (0.82, 0.60, 12),
+        "mid_sweep": (0.88, 0.70, 7),
+        "treble_sparkle": (0.82, 0.55, 8),
+        "energy_wave": (0.86, 0.66, 8),
+        "quiet_shimmer": (1.05, 1.10, -4),
+    },
+    "max": {
+        "downbeat_flash": (0.82, 0.58, 10),
+        "drop_burst": (0.72, 0.45, 18),
+        "bass_pulse": (0.72, 0.42, 14),
+        "build_ramp": (0.74, 0.45, 16),
+        "mid_sweep": (0.78, 0.55, 10),
+        "treble_sparkle": (0.72, 0.42, 12),
+        "energy_wave": (0.76, 0.50, 12),
+        "quiet_shimmer": (1.10, 1.25, -8),
+    },
+}
+
+
+def routes_for_profile(profile: str | None) -> tuple[AudioTriggerRoute, ...]:
+    key = (profile or "balanced").strip().lower().replace("-", "_").replace(" ", "_")
+    tuning = PROFILE_ROUTE_TUNING.get(key, PROFILE_ROUTE_TUNING["balanced"])
+    if not tuning:
+        return DEFAULT_ROUTES
+    routes: list[AudioTriggerRoute] = []
+    for route in DEFAULT_ROUTES:
+        threshold_scale, gap_scale, priority_delta = tuning.get(route.effect, (1.0, 1.0, 0))
+        routes.append(
+            AudioTriggerRoute(
+                route.name,
+                route.feature,
+                max(0.0, min(1.0, route.threshold * threshold_scale)),
+                route.effect,
+                max(120, int(round(route.min_gap_ms * gap_scale))),
+                route.priority + priority_delta,
+            )
+        )
+    return tuple(routes)
+
+
 def routes_as_dicts(routes: tuple[AudioTriggerRoute, ...] = DEFAULT_ROUTES) -> list[dict[str, object]]:
     return [route.to_dict() for route in routes]
 
@@ -76,11 +142,15 @@ def build_audio_reactive_actions(
     return actions
 
 
-def build_audio_reactive_summary(actions: list[dict[str, object]]) -> dict[str, object]:
+def build_audio_reactive_summary(
+    actions: list[dict[str, object]],
+    *,
+    routes: tuple[AudioTriggerRoute, ...] = DEFAULT_ROUTES,
+) -> dict[str, object]:
     return {
         "action_count": len(actions),
         "effect_counts": effect_catalog.summarize_effect_usage(actions),
-        "routes": routes_as_dicts(),
+        "routes": routes_as_dicts(routes),
         "catalog": effect_catalog.catalog_as_dicts(),
     }
 

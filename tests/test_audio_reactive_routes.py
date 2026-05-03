@@ -44,6 +44,39 @@ class AudioReactiveRouteTests(unittest.TestCase):
         self.assertEqual(summary["action_count"], len(actions))
         self.assertIn("catalog", summary)
 
+    def test_profile_routes_shape_density_and_priorities(self) -> None:
+        subtle = {route.effect: route for route in audio_trigger_routes.routes_for_profile("subtle")}
+        showcase = {route.effect: route for route in audio_trigger_routes.routes_for_profile("showcase")}
+
+        self.assertGreater(subtle["drop_burst"].threshold, showcase["drop_burst"].threshold)
+        self.assertGreater(subtle["bass_pulse"].min_gap_ms, showcase["bass_pulse"].min_gap_ms)
+        self.assertGreater(showcase["build_ramp"].priority, subtle["build_ramp"].priority)
+
+    def test_showcase_profile_builds_more_actions_than_subtle(self) -> None:
+        timeline = [
+            {
+                "time_ms": idx * 250,
+                "downbeat": idx % 8 == 0,
+                "energy_smooth": 0.45,
+                "low": 0.17,
+                "mid": 0.13,
+                "high": 0.09,
+                "onset": 0.3,
+            }
+            for idx in range(24)
+        ]
+
+        subtle = audio_trigger_routes.build_audio_reactive_actions(
+            timeline,
+            routes=audio_trigger_routes.routes_for_profile("subtle"),
+        )
+        showcase = audio_trigger_routes.build_audio_reactive_actions(
+            timeline,
+            routes=audio_trigger_routes.routes_for_profile("showcase"),
+        )
+
+        self.assertGreater(len(showcase), len(subtle))
+
 
 if __name__ == "__main__":
     unittest.main()

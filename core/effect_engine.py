@@ -10339,8 +10339,15 @@ def run_variant(
         onset_ms=onset_ms,
         bar_ms=bar_ms,
     )
-    audio_reactive_actions = audio_trigger_routes.build_audio_reactive_actions(audio_reactive_beat_timeline)
-    audio_reactive_summary = audio_trigger_routes.build_audio_reactive_summary(audio_reactive_actions)
+    audio_reactive_routes = audio_trigger_routes.routes_for_profile(tuning.audio_reactive_profile)
+    audio_reactive_actions = audio_trigger_routes.build_audio_reactive_actions(
+        audio_reactive_beat_timeline,
+        routes=audio_reactive_routes,
+    )
+    audio_reactive_summary = audio_trigger_routes.build_audio_reactive_summary(
+        audio_reactive_actions,
+        routes=audio_reactive_routes,
+    )
     if tuning.matrix_intelligence:
         matrix_intelligence_payload: dict[str, object] = matrix_planner.build_matrix_intelligence_plan(
             parsed_layout=parsed_layout,
