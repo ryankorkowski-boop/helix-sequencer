@@ -23,3 +23,7 @@ test_runs/
 tests/snapshots/
 *.log
 pycache/
+tmp/
+xScheduleData/
+xlights_keybindings.xml
+xlights_networks.xml
