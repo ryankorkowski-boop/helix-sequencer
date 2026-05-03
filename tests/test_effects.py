@@ -728,6 +728,82 @@ class EffectEngineTests(unittest.TestCase):
             effect_engine.validate_report_payload({"audit": {"final": {"score": 0.0}}})
         effect_engine.validate_report_payload({"audit": {"final": {"score": 84.5}}})
 
+    def test_quality_score_rewards_top_show_aggregate_density(self) -> None:
+        payload = {
+            "version": "v27.3",
+            "duration_seconds": 60,
+            "effects_total": 5400,
+            "placements": {
+                "showcase_scene_arrival": 300,
+                "showcase_phrase_pickup": 340,
+                "showcase_transition": 220,
+                "audio_reactive_drop_burst": 80,
+                "audio_reactive_downbeat_flash": 34,
+                "player_piano_notes": 900,
+                "polyphonic_keyboard": 850,
+                "spatial_keyboard_arch_flow": 700,
+                "treble_sparkle": 420,
+                "mid_sweep": 360,
+                "energy_wave": 320,
+                "bass_pulse": 280,
+            },
+            "validation": {"rejected_effects_count": 0, "auto_fixes": 0, "issues": []},
+            "parsed_layout": {
+                "root_model_count": 100,
+                "submodel_count": 20,
+                "available_family_count": 10,
+            },
+            "used_targets": {
+                "root_models": 84,
+                "submodels": 8,
+                "family_count": 9,
+            },
+            "audio_reactive": {
+                "action_count": 192,
+                "timing_track_events": 180,
+            },
+            "audit": {"final": {"score": 92.0}},
+        }
+
+        quality = effect_engine.compute_quality_score(payload)
+        benchmark = quality["top_show_benchmark"]
+
+        self.assertGreaterEqual(benchmark["aggregate_changes_per_second"], 35.0)
+        self.assertGreaterEqual(benchmark["component_scores"]["technical_density"], 90.0)
+        self.assertGreaterEqual(quality["component_scores"]["top_show_benchmark"], 80.0)
+
+    def test_quality_score_penalizes_unsafe_flash_like_density(self) -> None:
+        safe_payload = {
+            "version": "v27.3",
+            "duration_seconds": 60,
+            "effects_total": 4200,
+            "placements": {
+                "showcase_scene_arrival": 260,
+                "showcase_transition": 220,
+                "audio_reactive_drop_burst": 40,
+                "audio_reactive_downbeat_flash": 28,
+                "player_piano_notes": 900,
+                "polyphonic_keyboard": 760,
+                "spatial_keyboard_arch_flow": 620,
+                "treble_sparkle": 360,
+                "mid_sweep": 330,
+                "energy_wave": 300,
+            },
+            "validation": {"rejected_effects_count": 0, "auto_fixes": 0, "issues": []},
+            "parsed_layout": {"root_model_count": 100, "submodel_count": 20, "available_family_count": 10},
+            "used_targets": {"root_models": 80, "submodels": 8, "family_count": 9},
+            "audio_reactive": {"action_count": 160, "timing_track_events": 150},
+            "audit": {"final": {"score": 92.0}},
+        }
+        unsafe_payload = json.loads(json.dumps(safe_payload))
+        unsafe_payload["placements"]["strobe_flash"] = 420
+
+        safe = effect_engine.compute_quality_score(safe_payload)["top_show_benchmark"]
+        unsafe = effect_engine.compute_quality_score(unsafe_payload)["top_show_benchmark"]
+
+        self.assertGreater(safe["component_scores"]["flash_safety"], unsafe["component_scores"]["flash_safety"])
+        self.assertLess(unsafe["score"], safe["score"])
+
     def test_validate_report_payload_blocks_unsafe_power_report(self) -> None:
         payload = {
             "audit": {"final": {"score": 84.5}},

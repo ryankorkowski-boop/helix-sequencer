@@ -8203,6 +8203,103 @@ def _score_maximum(value: float, *, target: float, ceiling: float) -> float:
     return max(0.0, 100.0 * (ceiling - value) / span)
 
 
+def _placement_token_count(placements: Mapping[str, object], tokens: tuple[str, ...]) -> int:
+    total = 0
+    for label, count in placements.items():
+        lowered = str(label).lower()
+        if any(token in lowered for token in tokens):
+            total += int(count or 0)
+    return total
+
+
+def _compute_top_show_benchmark(
+    *,
+    duration_s: float,
+    effects_total: int,
+    placements: Mapping[str, object],
+    audio_reactive: Mapping[str, object],
+    density_per_second: float,
+    structure_score: float,
+    keyboard_score: float,
+    coverage_score: float,
+    family_diversity_score: float,
+    dominance_score: float,
+) -> dict[str, object]:
+    audio_events = int(audio_reactive.get("timing_track_events", 0) or 0)
+    audio_actions = int(audio_reactive.get("action_count", 0) or 0)
+    audio_sync_density = (audio_events + audio_actions) / duration_s
+
+    flash_like = _placement_token_count(
+        placements,
+        ("flash", "strobe", "burst", "impact", "drop"),
+    )
+    flash_like_per_second = flash_like / duration_s
+
+    attention_tokens = _placement_token_count(
+        placements,
+        ("vocal", "keyboard", "piano", "phrase", "scene", "transition", "call", "response"),
+    )
+    anticipation_tokens = _placement_token_count(
+        placements,
+        ("build", "ramp", "lift", "transition", "phrase_pickup"),
+    )
+    release_tokens = _placement_token_count(
+        placements,
+        ("drop", "impact", "downbeat", "accent", "arrival"),
+    )
+
+    density_score = _score_band(
+        density_per_second,
+        good_low=35.0,
+        good_high=180.0,
+        hard_low=8.0,
+        hard_high=300.0,
+    )
+    sync_score = _score_minimum(audio_sync_density, floor=0.2, target=4.0)
+    attention_score = _score_minimum(attention_tokens / max(1, effects_total), floor=0.04, target=0.32)
+    anticipation_score = _score_minimum(anticipation_tokens / max(1, effects_total), floor=0.01, target=0.12)
+    release_score = _score_minimum(release_tokens / max(1, effects_total), floor=0.01, target=0.10)
+    psychology_score = (
+        attention_score * 0.34
+        + anticipation_score * 0.24
+        + release_score * 0.24
+        + dominance_score * 0.18
+    )
+    flash_safety_score = _score_maximum(flash_like_per_second, target=2.7, ceiling=5.5)
+    clarity_score = (coverage_score * 0.36) + (family_diversity_score * 0.34) + (dominance_score * 0.30)
+    musicality_score = (structure_score * 0.42) + (keyboard_score * 0.24) + (sync_score * 0.34)
+    score = (
+        density_score * 0.22
+        + musicality_score * 0.24
+        + clarity_score * 0.18
+        + psychology_score * 0.18
+        + flash_safety_score * 0.18
+    )
+    return {
+        "score": round(score, 1),
+        "grade": letter_grade(score),
+        "aggregate_changes_per_second": round(density_per_second, 2),
+        "audio_sync_events_per_second": round(audio_sync_density, 2),
+        "flash_like_changes_per_second": round(flash_like_per_second, 2),
+        "target_changes_per_second": "35-180 aggregate effect placements/sec",
+        "flash_safety_target": "<=2.7 high-contrast flash-like placements/sec",
+        "component_scores": {
+            "technical_density": round(density_score, 1),
+            "musicality": round(musicality_score, 1),
+            "clarity": round(clarity_score, 1),
+            "psychology": round(psychology_score, 1),
+            "flash_safety": round(flash_safety_score, 1),
+        },
+        "psychology_principles": [
+            "attention steering",
+            "anticipation and release",
+            "Gestalt grouping",
+            "motion continuity",
+            "contrast adaptation",
+        ],
+    }
+
+
 def letter_grade(score: float) -> str:
     if score >= 97:
         return "A+"
@@ -8250,8 +8347,8 @@ def compute_quality_score(payload: dict) -> dict:
         density_target = 130.0
         density_ceiling = 230.0
     elif version_family is not None and version_family >= 22:
-        density_target = 118.0
-        density_ceiling = 205.0
+        density_target = 180.0
+        density_ceiling = 300.0
     density_score = _score_maximum(density_per_second, target=density_target, ceiling=density_ceiling)
 
     structure_tokens = sum(
@@ -8327,6 +8424,19 @@ def compute_quality_score(payload: dict) -> dict:
         family_diversity_ratio = 0.0
         family_diversity_score = 96.0 if version_family is not None and version_family >= 20 else 78.0
 
+    top_show_benchmark = _compute_top_show_benchmark(
+        duration_s=duration_s,
+        effects_total=effects_total,
+        placements=placements,
+        audio_reactive=payload.get("audio_reactive", {}) or {},
+        density_per_second=density_per_second,
+        structure_score=structure_score,
+        keyboard_score=keyboard_score,
+        coverage_score=coverage_score,
+        family_diversity_score=family_diversity_score,
+        dominance_score=dominance_score,
+    )
+
     overall = (
         density_score * 0.16
         + structure_score * 0.22
@@ -8337,6 +8447,8 @@ def compute_quality_score(payload: dict) -> dict:
         + family_diversity_score * 0.06
         + dominance_score * 0.04
     )
+    benchmark_score = float(top_show_benchmark.get("score", 0.0) or 0.0)
+    overall = (overall * 0.88) + (benchmark_score * 0.12)
     audit_score = float(audit_payload.get("score", 0.0) or 0.0)
     if audit_score > 0.0:
         overall = (overall * 0.88) + (audit_score * 0.12)
@@ -8357,8 +8469,17 @@ def compute_quality_score(payload: dict) -> dict:
         strengths.append("No single placement family overwhelmed the sequence.")
     if audit_score >= 88:
         strengths.append("Post-pass audit confirmed strong balance, coverage, and musical flow.")
-    if density_score < 68:
+    if benchmark_score >= 88:
+        strengths.append("Top-show benchmark sees strong aggregate density, musicality, and perceptual structure.")
+    benchmark_components = top_show_benchmark.get("component_scores", {}) or {}
+    benchmark_density_score = float(benchmark_components.get("technical_density", 0.0) or 0.0)
+    benchmark_flash_safety_score = float(benchmark_components.get("flash_safety", 0.0) or 0.0)
+    if density_score < 68 and benchmark_density_score < 75:
         cautions.append("Effect density is still pushing busy; consider fewer simultaneous accents.")
+    if benchmark_score < 75:
+        cautions.append("Top-show benchmark needs better balance between technical density, clarity, and safe flash rate.")
+    if benchmark_flash_safety_score < 70:
+        cautions.append("High-contrast flash-like events are too frequent; move density into sweeps, note lanes, and textures.")
     if keyboard_score < 65:
         cautions.append("Keyboard or polyphonic logic may be dominating the visual read.")
     if coverage_score < 60:
@@ -8393,8 +8514,10 @@ def compute_quality_score(payload: dict) -> dict:
             "detail": round(detail_score, 1),
             "family_diversity": round(family_diversity_score, 1),
             "dominance": round(dominance_score, 1),
+            "top_show_benchmark": round(benchmark_score, 1),
             "audit": round(audit_score, 1),
         },
+        "top_show_benchmark": top_show_benchmark,
         "strengths": strengths[:4],
         "cautions": cautions[:4],
     }
