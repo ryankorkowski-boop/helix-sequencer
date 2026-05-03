@@ -24,6 +24,13 @@ class PreviewRendererTests(unittest.TestCase):
         self.assertGreaterEqual(len(model.points), 3)
         self.assertNotEqual((model.x1, model.y1), (model.x2, model.y2))
 
+    def test_parse_models_includes_helixia_submodels_for_dense_previews(self) -> None:
+        layout_path = Path(__file__).resolve().parents[1] / "helixville4" / "xlights_rgbeffects.xml"
+        layout = parse_models(layout_path)
+
+        self.assertIn("HX_HOUSE_1_2_MATRIX/TOP", layout.leaf_models)
+        self.assertEqual(layout.resolve_leaves("HX_HOUSE_1_2_MATRIX/TOP"), ["HX_HOUSE_1_2_MATRIX/TOP"])
+
     def test_parse_models_projects_3d_points_into_front_view(self) -> None:
         root = ET.Element("xrgb")
         models = ET.SubElement(root, "models")

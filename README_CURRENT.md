@@ -24,6 +24,8 @@
   - `python -m core.sequence_builder --profile v27.3 -- --template template.xsq --audio LightsOutTheme.mp3 --layout-file allmodels/xlights_rgbeffects.xml --single --output-dir test_runs/manual_preview --variants 1 --no-prompt --no-save-settings --no-workspace-history --no-polish --no-auto-timing-tracks --no-matrix-intelligence`
 - Render preview MP4:
   - `python -m tools.preview_renderer test_runs/manual_preview/LightsOutTheme,v27.3.xsq --layout allmodels/xlights_rgbeffects.xml --audio LightsOutTheme.mp3 --fps 10 --width 960 --height 540`
+- Helixia smoke preview with the current Helixia layout, `LightsOutTheme.mp3`, MP4 render, quality summary, and contact sheet:
+  - `python -m tools.helixia_smoke_preview`
 
 ## Run Styler/Mixup Sweep Again
 - Sweep outputs location:

@@ -156,8 +156,7 @@ def parse_models(layout_xml: Path) -> LayoutData:
     xs: list[float] = []
     ys: list[float] = []
 
-    for name in parsed_layout.root_models():
-        parsed_model = parsed_layout.models.get(name)
+    for name, parsed_model in parsed_layout.models.items():
         node = scene.nodes.get(name)
         if parsed_model is None or node is None:
             continue
