@@ -187,6 +187,7 @@ class RuntimeTuning:
     learning_memory_file: Path | None = None
     auto_timing_tracks: bool = True
     pixel_reactive: bool = True
+    audio_reactive_intensity: float = 1.0
     matrix_intelligence: bool = True
     video_file: Path | None = None
     blend_rules_file: Path | None = None
@@ -2716,9 +2717,14 @@ def place_audio_reactive_actions(
     in_blackout,
     reactive_track: list[tuple[str, int, int]],
     max_actions: int = 96,
+    intensity: float = 1.0,
 ) -> int:
     placed = 0
-    for idx, action in enumerate(actions[:max_actions]):
+    intensity = base.clamp(float(intensity), 0.0, 2.0)
+    if intensity <= 0.0:
+        return 0
+    action_limit = max(0, int(round(float(max_actions) * intensity)))
+    for idx, action in enumerate(actions[:action_limit]):
         t_ms = _safe_int(action.get("time_ms", 0))
         if in_blackout(t_ms):
             continue
@@ -2726,10 +2732,11 @@ def place_audio_reactive_actions(
         if pool is None:
             continue
         effect_name = str(action.get("effect", "audio_reactive") or "audio_reactive")
-        duration = audio_reactive_duration_ms(effect_name, action)
+        duration = audio_reactive_duration_ms(effect_name, action, intensity=intensity)
         start_ms = max(0, t_ms - (duration // 4 if effect_name in {"downbeat_flash", "drop_burst"} else 0))
         end_ms = start_ms + duration
-        target_count = max(1, min(4, int(round(1 + (float(action.get("density", 0.4) or 0.4) * 4)))))
+        density = float(action.get("density", 0.4) or 0.4) * (0.72 + (0.42 * intensity))
+        target_count = max(1, min(5, int(round(1 + (density * 4)))))
         targets = representative_models(pool, target_count)
         if not targets:
             continue
@@ -2783,7 +2790,7 @@ def select_audio_reactive_pool(
     return select_preferred_pool(pools, categories, pool_state, f"audio_reactive_{hint}_{index}", require_multiple=False)
 
 
-def audio_reactive_duration_ms(effect_name: str, action: dict[str, object]) -> int:
+def audio_reactive_duration_ms(effect_name: str, action: dict[str, object], *, intensity: float = 1.0) -> int:
     duration_by_effect = {
         "downbeat_flash": 110,
         "bass_pulse": 170,
@@ -2796,7 +2803,8 @@ def audio_reactive_duration_ms(effect_name: str, action: dict[str, object]) -> i
     }
     base_duration = duration_by_effect.get(effect_name, 180)
     density = max(0.1, min(1.0, float(action.get("density", 0.5) or 0.5)))
-    return max(80, int(round(base_duration * (0.78 + (density * 0.44)))))
+    intensity_scale = 0.82 + (0.24 * base.clamp(float(intensity), 0.0, 2.0))
+    return max(80, int(round(base_duration * (0.78 + (density * 0.44)) * intensity_scale)))
 
 
 def _safe_feature_sample(times_s: np.ndarray, values: np.ndarray, t_s: float) -> float:
@@ -11835,6 +11843,7 @@ def run_variant(
             add_model=add_model,
             in_blackout=in_blackout,
             reactive_track=audio_reactive_track,
+            intensity=float(tuning.audio_reactive_intensity),
         )
         if audio_reactive_attempts:
             log(f"Audio-reactive catalog placements attempted: {audio_reactive_attempts}")
@@ -12182,6 +12191,7 @@ def run_variant(
             "chase_style": normalize_chase_style(tuning.chase_style),
             "strict_xlights_effects": bool(tuning.strict_xlights_effects),
             "pixel_reactive": bool(tuning.pixel_reactive),
+            "audio_reactive_intensity": round(float(tuning.audio_reactive_intensity), 3),
             "ac_lights_only": bool(tuning.ac_lights_only),
             "base_effect": str(tuning.base_effect),
             "motion_effect": str(tuning.motion_effect),
@@ -12254,6 +12264,7 @@ def run_variant(
             "beat_timeline_count": len(audio_reactive_beat_timeline),
             "action_count": len(audio_reactive_actions),
             "timing_track_events": len(audio_reactive_track),
+            "intensity": round(float(tuning.audio_reactive_intensity), 3),
             "effect_counts": audio_reactive_summary.get("effect_counts", {}),
             "routes": audio_reactive_summary.get("routes", []),
             "catalog": audio_reactive_summary.get("catalog", []),
@@ -12547,6 +12558,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--no-auto-timing-tracks", dest="auto_timing_tracks", action="store_false", help="Disable extended timing-track output")
     parser.add_argument("--pixel-reactive", dest="pixel_reactive", action="store_true", help="Enable family-aware reactive pixel choreography for compatible models")
     parser.add_argument("--no-pixel-reactive", dest="pixel_reactive", action="store_false", help="Disable the reactive pixel choreography pass")
+    parser.add_argument("--audio-reactive-intensity", type=float, dest="audio_reactive_intensity", help="Audio-reactive catalog cue intensity (0.0-2.0)")
     parser.add_argument("--matrix-intelligence", dest="matrix_intelligence", action="store_true", help="Enable matrix-first shader planning in report output")
     parser.add_argument("--no-matrix-intelligence", dest="matrix_intelligence", action="store_false", help="Disable matrix-first shader planning")
     parser.add_argument("--video-file", dest="video_file", help="Optional MP4 file for hybrid audio-plus-video matrix planning")
@@ -12722,6 +12734,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         learning_memory_file=(resolve_path(folder, args.learning_memory_file) if args.learning_memory_file else None),
         auto_timing_tracks=bool(args.auto_timing_tracks),
         pixel_reactive=bool(args.pixel_reactive),
+        audio_reactive_intensity=base.clamp(float(args.audio_reactive_intensity if args.audio_reactive_intensity is not None else 1.0), 0.0, 2.0),
         matrix_intelligence=bool(args.matrix_intelligence),
         video_file=video_file,
         blend_rules_file=blend_rules_file,
@@ -12820,6 +12833,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         f"hardkor={int(bool(tuning.hardkor_enabled))}/{tuning.hardkor_intensity:.2f}/{tuning.hardkor_profile}, "
         f"workspace_history={int(bool(tuning.workspace_history_folder))}:{tuning.workspace_history_limit}, "
         f"matrix={int(bool(tuning.matrix_intelligence))}, "
+        f"audio_reactive={tuning.audio_reactive_intensity:.2f}, "
         f"polish={int(bool(tuning.polish_enabled))}, "
         f"variants={tuning.variant_count}, shortlist={int(bool(tuning.auto_shortlist))}, "
         f"vendor_bar={int(bool(tuning.vendor_bar))}:"

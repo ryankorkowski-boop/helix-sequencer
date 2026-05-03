@@ -602,6 +602,43 @@ class EffectEngineTests(unittest.TestCase):
         self.assertTrue(any(entry[0].startswith("Star") for entry in placements))
         self.assertEqual(len(track), 2)
 
+    def test_place_audio_reactive_actions_respects_intensity(self) -> None:
+        pools = [effect_engine.SequentialPool("Mega", "mega", ["Mega 1", "Mega 2", "Mega 3", "Mega 4"])]
+        actions = [
+            {"time_ms": idx * 500, "effect": "bass_pulse", "target_hint": "large_props", "density": 0.5}
+            for idx in range(8)
+        ]
+
+        def run(intensity: float) -> tuple[int, list[tuple[str, int, int]]]:
+            track: list[tuple[str, int, int]] = []
+            placements: list[tuple[str, int, int, str]] = []
+
+            def add_model(model, start_ms, end_ms, label, **_kwargs):
+                placements.append((model, start_ms, end_ms, label))
+
+            placed = effect_engine.place_audio_reactive_actions(
+                actions=actions,
+                pools=pools,
+                pool_state={},
+                ramp_ok=False,
+                ramp_tpl=xsq_writer.EffectTemplate(settings="", palette=""),
+                add_model=add_model,
+                in_blackout=lambda _t: False,
+                reactive_track=track,
+                max_actions=4,
+                intensity=intensity,
+            )
+            return placed, track
+
+        off_placed, off_track = run(0.0)
+        low_placed, low_track = run(0.5)
+        high_placed, high_track = run(2.0)
+
+        self.assertEqual(off_placed, 0)
+        self.assertEqual(off_track, [])
+        self.assertLess(len(low_track), len(high_track))
+        self.assertLess(low_placed, high_placed)
+
     def test_classify_mir_genre_detects_edm_signature(self) -> None:
         genre = effect_engine.classify_mir_genre(
             {
