@@ -2,6 +2,15 @@
 
 This file is a policy-and-engineering ruleset for building high-quality xLights sequences without copying proprietary choreography.
 
+## Canonical Policy Stack
+
+If this file and other policy docs diverge, resolve in this order:
+
+1. `docs/legal_learning_policy.md`
+2. `docs/source_hygiene_checklist.md`
+3. `docs/helix_master_rulebook.md`
+4. `rules.md` (this file as compact quick-reference)
+
 ## 1) Legal And Ethical Boundary (Non-Negotiable)
 
 1. Use official docs, release notes, public forum guidance, and public tutorials as *process knowledge*, not as choreography templates.

@@ -1,0 +1,2 @@
+Helixia layout scaffold generated.
+This file is a planning manifest for 2D/3D-coherent model placement and lot zoning.
