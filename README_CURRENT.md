@@ -20,10 +20,10 @@
   - `python -m pytest`
 
 ## Generate Previews
-- Generate one sequence (explicit all-models layout + 2.wav):
-  - `python -m core.sequence_builder --profile v27.3 -- --template template.xsq --audio 2.wav --layout-file allmodels/xlights_rgbeffects.xml --single --output-dir test_runs/manual_preview --variants 1 --no-prompt --no-save-settings --no-workspace-history --no-polish --no-auto-timing-tracks --no-matrix-intelligence`
+- Generate one sequence (explicit all-models layout + LightsOutTheme.mp3):
+  - `python -m core.sequence_builder --profile v27.3 -- --template template.xsq --audio LightsOutTheme.mp3 --layout-file allmodels/xlights_rgbeffects.xml --single --output-dir test_runs/manual_preview --variants 1 --no-prompt --no-save-settings --no-workspace-history --no-polish --no-auto-timing-tracks --no-matrix-intelligence`
 - Render preview MP4:
-  - `python -m tools.preview_renderer test_runs/manual_preview/2,v27.3.xsq --layout allmodels/xlights_rgbeffects.xml --audio 2.wav --fps 10 --width 960 --height 540`
+  - `python -m tools.preview_renderer test_runs/manual_preview/LightsOutTheme,v27.3.xsq --layout allmodels/xlights_rgbeffects.xml --audio LightsOutTheme.mp3 --fps 10 --width 960 --height 540`
 
 ## Run Styler/Mixup Sweep Again
 - Sweep outputs location:

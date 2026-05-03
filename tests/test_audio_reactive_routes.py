@@ -77,6 +77,29 @@ class AudioReactiveRouteTests(unittest.TestCase):
 
         self.assertGreater(len(showcase), len(subtle))
 
+    def test_max_profile_rebalances_excess_flash_to_motion_and_texture(self) -> None:
+        actions = [
+            {
+                "time_ms": idx * 100,
+                "route": "drop_burst_route",
+                "effect": "drop_burst",
+                "feature_value": 0.8,
+            }
+            for idx in range(20)
+        ]
+
+        rebalanced = audio_trigger_routes.rebalance_flash_pressure(
+            actions,
+            profile="max",
+            duration_s=10.0,
+        )
+        effects = [str(action["effect"]) for action in rebalanced]
+
+        self.assertEqual(len(rebalanced), len(actions))
+        self.assertLess(effects.count("drop_burst"), len(actions))
+        self.assertTrue(any(effect in {"energy_wave", "mid_sweep", "treble_sparkle", "build_ramp"} for effect in effects))
+        self.assertTrue(any("original_effect" in action for action in rebalanced))
+
 
 if __name__ == "__main__":
     unittest.main()

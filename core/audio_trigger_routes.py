@@ -30,6 +30,10 @@ DEFAULT_ROUTES: tuple[AudioTriggerRoute, ...] = (
 )
 
 
+FLASH_LIKE_EFFECTS = {"downbeat_flash", "drop_burst"}
+SAFE_DENSITY_EFFECT_ROTATION = ("energy_wave", "mid_sweep", "treble_sparkle", "build_ramp")
+
+
 PROFILE_ROUTE_TUNING: dict[str, dict[str, tuple[float, float, int]]] = {
     "off": {
         "downbeat_flash": (1.0, 3.0, -20),
@@ -72,6 +76,15 @@ PROFILE_ROUTE_TUNING: dict[str, dict[str, tuple[float, float, int]]] = {
         "energy_wave": (0.76, 0.50, 12),
         "quiet_shimmer": (1.10, 1.25, -8),
     },
+}
+
+
+PROFILE_FLASH_ACTION_LIMITS_PER_SECOND: dict[str, float] = {
+    "off": 0.0,
+    "subtle": 0.32,
+    "balanced": 0.55,
+    "showcase": 0.68,
+    "max": 0.55,
 }
 
 
@@ -140,6 +153,54 @@ def build_audio_reactive_actions(
             if len(actions) >= max_actions:
                 return actions
     return actions
+
+
+def rebalance_flash_pressure(
+    actions: list[dict[str, object]],
+    *,
+    profile: str | None,
+    duration_s: float,
+) -> list[dict[str, object]]:
+    key = (profile or "balanced").strip().lower().replace("-", "_").replace(" ", "_")
+    limit_per_second = PROFILE_FLASH_ACTION_LIMITS_PER_SECOND.get(key, PROFILE_FLASH_ACTION_LIMITS_PER_SECOND["balanced"])
+    flash_budget = max(0, int(round(max(1.0, float(duration_s)) * limit_per_second)))
+    if flash_budget <= 0:
+        return [_to_safe_density_action(action, idx) for idx, action in enumerate(actions)]
+
+    kept_flash = 0
+    converted_index = 0
+    rebalanced: list[dict[str, object]] = []
+    for action in actions:
+        effect_name = str(action.get("effect", "") or "")
+        if effect_name not in FLASH_LIKE_EFFECTS:
+            rebalanced.append(action)
+            continue
+        if kept_flash < flash_budget:
+            kept_flash += 1
+            rebalanced.append(action)
+            continue
+        rebalanced.append(_to_safe_density_action(action, converted_index))
+        converted_index += 1
+    return rebalanced
+
+
+def _to_safe_density_action(action: dict[str, object], index: int) -> dict[str, object]:
+    replacement_name = SAFE_DENSITY_EFFECT_ROTATION[index % len(SAFE_DENSITY_EFFECT_ROTATION)]
+    replacement = effect_catalog.effect_by_name(replacement_name)
+    if replacement is None:
+        return action
+    converted = replacement.to_dict()
+    converted.update(
+        {
+            "time_ms": action.get("time_ms", 0),
+            "route": f"{action.get('route', 'audio_reactive')}_safe_density",
+            "effect": replacement.name,
+            "feature_value": action.get("feature_value", 0.0),
+            "reason": f"safe_density_rebalance:{action.get('effect', '')}",
+            "original_effect": action.get("effect", ""),
+        }
+    )
+    return converted
 
 
 def build_audio_reactive_summary(

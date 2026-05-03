@@ -35,3 +35,11 @@ The benchmark is computed inside `core.effect_engine.compute_quality_score` and 
 - `quality.component_scores.top_show_benchmark`
 
 The overall quality score blends this benchmark into the existing rubric, so Helix can strive for viral-show technical density while still respecting validation, coverage, audit, and safety constraints.
+
+## Generator Response
+
+The audio-reactive generator now responds to this benchmark:
+
+- Excess `downbeat_flash` and `drop_burst` actions are converted into safer high-density effects: `energy_wave`, `mid_sweep`, `treble_sparkle`, and `build_ramp`.
+- Flash-like cues are capped to smaller model fanout during placement.
+- Dense showpiece modes should gain most of their speed from distributed motion, note lanes, and texture changes instead of full-field blinking.

@@ -2758,7 +2758,8 @@ def place_audio_reactive_actions(
         start_ms = max(0, t_ms - (duration // 4 if effect_name in {"downbeat_flash", "drop_burst"} else 0))
         end_ms = start_ms + duration
         density = float(action.get("density", 0.4) or 0.4) * (0.72 + (0.42 * intensity))
-        target_count = max(1, min(5, int(round(1 + (density * 4)))))
+        target_cap = 2 if effect_name in {"downbeat_flash", "drop_burst"} else 5
+        target_count = max(1, min(target_cap, int(round(1 + (density * 4)))))
         targets = representative_models(pool, target_count)
         if not targets:
             continue
@@ -10466,6 +10467,11 @@ def run_variant(
     audio_reactive_actions = audio_trigger_routes.build_audio_reactive_actions(
         audio_reactive_beat_timeline,
         routes=audio_reactive_routes,
+    )
+    audio_reactive_actions = audio_trigger_routes.rebalance_flash_pressure(
+        audio_reactive_actions,
+        profile=tuning.audio_reactive_profile,
+        duration_s=float(audio.dur_s),
     )
     audio_reactive_summary = audio_trigger_routes.build_audio_reactive_summary(
         audio_reactive_actions,

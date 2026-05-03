@@ -639,6 +639,35 @@ class EffectEngineTests(unittest.TestCase):
         self.assertLess(len(low_track), len(high_track))
         self.assertLess(low_placed, high_placed)
 
+    def test_place_audio_reactive_actions_caps_flash_like_fanout(self) -> None:
+        pools = [effect_engine.SequentialPool("Mega", "mega", ["Mega 1", "Mega 2", "Mega 3", "Mega 4", "Mega 5"])]
+        placements: list[tuple[str, int, int, str]] = []
+
+        def add_model(model, start_ms, end_ms, label, **_kwargs):
+            placements.append((model, start_ms, end_ms, label))
+
+        placed = effect_engine.place_audio_reactive_actions(
+            actions=[
+                {"time_ms": 1000, "effect": "drop_burst", "target_hint": "whole_house", "density": 1.0},
+                {"time_ms": 1400, "effect": "energy_wave", "target_hint": "all_models", "density": 1.0},
+            ],
+            pools=pools,
+            pool_state={},
+            ramp_ok=True,
+            ramp_tpl=xsq_writer.EffectTemplate(settings="ramp", palette=""),
+            add_model=add_model,
+            in_blackout=lambda _t: False,
+            reactive_track=[],
+            max_actions=2,
+            intensity=2.0,
+        )
+
+        drop_count = sum(1 for _model, _start, _end, label in placements if label == "audio_reactive_drop_burst")
+        wave_count = sum(1 for _model, _start, _end, label in placements if label == "audio_reactive_energy_wave")
+        self.assertEqual(placed, len(placements))
+        self.assertLessEqual(drop_count, 2)
+        self.assertGreater(wave_count, drop_count)
+
     def test_audio_reactive_profiles_resolve_to_intensity(self) -> None:
         self.assertEqual(effect_engine.resolve_audio_reactive_tuning(None, None), ("balanced", 1.0))
         self.assertEqual(effect_engine.resolve_audio_reactive_tuning("showcase", None), ("showcase", 1.6))
