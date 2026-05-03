@@ -90,6 +90,23 @@ class PowerEngineTests(unittest.TestCase):
         self.assertIn("safe_after_processing", payload)
         self.assertIn("near_limit_events", payload)
         self.assertIn("residual_overload_events", payload)
+        self.assertIn("unknown_circuit_events", payload)
+
+    def test_missing_circuit_metadata_marks_report_unsafe(self) -> None:
+        props = [
+            PropPowerMeta("orphan_prop", 100, 12.0, 0.3, "MISSING", "background"),
+        ]
+        circuits = [
+            CircuitMeta("A", breaker_limit_amps=15.0, safe_utilization=0.8, voltage=120.0),
+        ]
+        frames = [
+            FrameInput(timestamp_ms=0, props=[FramePropState("orphan_prop", 1.0, 1.0)]),
+        ]
+        logs, report = analyze_power(frames=frames, props=props, circuits=circuits)
+        self.assertFalse(report.safe_after_processing)
+        self.assertEqual(len(report.unknown_circuit_events), 1)
+        self.assertEqual(report.unknown_circuit_events[0]["circuit_id"], "MISSING")
+        self.assertEqual(logs[0]["unknown_circuit_events"][0]["prop_id"], "orphan_prop")
 
     def test_peak_smoothing_reduces_spike_without_erasing_event(self) -> None:
         props = [

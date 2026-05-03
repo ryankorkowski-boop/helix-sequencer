@@ -59,6 +59,7 @@ class PowerEngineReport:
     safe_after_processing: bool
     near_limit_events: list[dict[str, Any]] = field(default_factory=list)
     residual_overload_events: list[dict[str, Any]] = field(default_factory=list)
+    unknown_circuit_events: list[dict[str, Any]] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -69,6 +70,7 @@ class PowerEngineReport:
             "safe_after_processing": bool(self.safe_after_processing),
             "near_limit_events": list(self.near_limit_events),
             "residual_overload_events": list(self.residual_overload_events),
+            "unknown_circuit_events": list(self.unknown_circuit_events),
         }
 
 
@@ -100,6 +102,7 @@ def _estimate_frame_from_state_map(
     amps_by_circuit: dict[str, float] = {cid: 0.0 for cid in circuits_by_id.keys()}
     overload_events: list[dict[str, Any]] = []
     intensity_by_prop: dict[str, float] = {}
+    unknown_circuit_events: list[dict[str, Any]] = []
 
     for prop_id, entry in state_map.items():
         meta = props_by_id.get(prop_id)
@@ -111,6 +114,16 @@ def _estimate_frame_from_state_map(
         watts_by_prop[prop_id] = watts
         intensity_by_prop[prop_id] = intensity
         watts_by_circuit[meta.circuit_id] = watts_by_circuit.get(meta.circuit_id, 0.0) + watts
+        if meta.circuit_id not in circuits_by_id and watts > 1e-9:
+            unknown_circuit_events.append(
+                {
+                    "timestamp_ms": int(timestamp_ms),
+                    "circuit_id": meta.circuit_id,
+                    "prop_id": prop_id,
+                    "watts": round(float(watts), 6),
+                    "reason": "missing_circuit_metadata",
+                }
+            )
 
     for circuit_id, watts in watts_by_circuit.items():
         circuit = circuits_by_id.get(circuit_id)
@@ -138,6 +151,7 @@ def _estimate_frame_from_state_map(
         "safe_amps_by_circuit": {cid: circuits_by_id[cid].safe_amps for cid in circuits_by_id.keys()},
         "overload_events": overload_events,
         "intensity_by_prop": intensity_by_prop,
+        "unknown_circuit_events": unknown_circuit_events,
     }
 
 
@@ -358,6 +372,7 @@ def analyze_power(
     overload_events: list[dict[str, Any]] = []
     residual_overload_events: list[dict[str, Any]] = []
     near_limit_events: list[dict[str, Any]] = []
+    unknown_circuit_events: list[dict[str, Any]] = []
     corrections_applied: list[dict[str, Any]] = []
     frames_adjusted = 0
     adjusted_timestamps: set[int] = set()
@@ -428,6 +443,8 @@ def analyze_power(
         )
         if row_post.get("overload_events"):
             residual_overload_events.extend(list(row_post.get("overload_events") or []))
+        if row_post.get("unknown_circuit_events"):
+            unknown_circuit_events.extend(list(row_post.get("unknown_circuit_events") or []))
         row_post["detected_overload_events"] = list(row_pre.get("overload_events") or [])
         row_post["near_limit_events"] = []
 
@@ -456,9 +473,10 @@ def analyze_power(
         overload_events=overload_events,
         corrections_applied=corrections_applied,
         frames_adjusted=frames_adjusted,
-        safe_after_processing=(len(residual_overload_events) == 0),
+        safe_after_processing=(len(residual_overload_events) == 0 and len(unknown_circuit_events) == 0),
         near_limit_events=near_limit_events,
         residual_overload_events=residual_overload_events,
+        unknown_circuit_events=unknown_circuit_events,
     )
     return frame_logs, report
 
