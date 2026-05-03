@@ -47,7 +47,10 @@ Build a standalone electrical-awareness module that estimates per-frame watts/am
 ## Next Files To Touch
 - `core/power_engine.py`
 - `tests/test_power_engine.py`
-- (later integration) `core/effect_engine.py` report payload wiring
+- `core/effect_engine.py` report payload wiring
+
+## First Integration
+Sequence reports now carry a disabled-by-default `power` section. When a later pipeline step enables power analysis, `validate_report_payload()` fails the build if the power report is unsafe after processing, including residual overloads or missing circuit metadata.
 
 ## Risks
 1. Incomplete or missing circuit metadata can hide real risk.

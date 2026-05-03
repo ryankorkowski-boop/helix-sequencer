@@ -626,6 +626,27 @@ class EffectEngineTests(unittest.TestCase):
             effect_engine.validate_report_payload({"audit": {"final": {"score": 0.0}}})
         effect_engine.validate_report_payload({"audit": {"final": {"score": 84.5}}})
 
+    def test_validate_report_payload_blocks_unsafe_power_report(self) -> None:
+        payload = {
+            "audit": {"final": {"score": 84.5}},
+            "power": {
+                "enabled": True,
+                "safe_after_processing": False,
+                "unknown_circuit_events": [{"prop_id": "orphan", "circuit_id": "MISSING"}],
+            },
+        }
+
+        with self.assertRaisesRegex(ValueError, "missing circuit metadata"):
+            effect_engine.validate_report_payload(payload)
+
+    def test_validate_report_payload_allows_disabled_power_report(self) -> None:
+        effect_engine.validate_report_payload(
+            {
+                "audit": {"final": {"score": 84.5}},
+                "power": {"enabled": False, "safe_after_processing": False},
+            }
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
