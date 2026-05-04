@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from types import SimpleNamespace
 import unittest
+import xml.etree.ElementTree as ET
 
 from core import youtube_show_scorer as scorer
 
@@ -135,6 +137,59 @@ class YoutubeShowScorerTests(unittest.TestCase):
             score = scorer.score_youtube_show(payload)["final_score"]
             self.assertGreaterEqual(score, 0.0)
             self.assertLessEqual(score, 100.0)
+
+    def test_show_direction_summary_extracts_section_focal_layers_and_palette(self) -> None:
+        palette_effect = ET.Element("Effect", palette="#ff0000,#00ff00,#ffffff")
+        timelines = {
+            "HX_MEGA_TREE": SimpleNamespace(
+                layers={
+                    "base": [
+                        SimpleNamespace(
+                            start=0,
+                            end=1000,
+                            effect_name="On",
+                            xml_effect=palette_effect,
+                        )
+                    ],
+                    "motion": [
+                        SimpleNamespace(
+                            start=200,
+                            end=900,
+                            effect_name="Wave",
+                            xml_effect=palette_effect,
+                        )
+                    ],
+                }
+            ),
+            "HX_ARCH_LEFT": SimpleNamespace(
+                layers={
+                    "accent": [
+                        SimpleNamespace(
+                            start=500,
+                            end=1000,
+                            effect_name="Chase",
+                            xml_effect=palette_effect,
+                        )
+                    ]
+                }
+            ),
+        }
+        parts = [SimpleNamespace(label="CHORUS", start_ms=0, end_ms=1000)]
+
+        summary = scorer.build_show_direction_summary(
+            timelines=timelines,
+            parts=parts,
+            quiet_windows=[(0, 120)],
+        )
+
+        section = summary["sections"][0]
+        self.assertEqual(section["focal_target"], "mega_tree")
+        self.assertIn("mega_tree", section["active_props"])
+        self.assertIn("base", section["layers"])
+        self.assertIn("#ff0000", section["colors"])
+        self.assertEqual(section["motion"], "wave_handoff")
+        self.assertTrue(section["has_rest"])
+        self.assertGreater(scorer.score_youtube_show({"youtube_show_summary": summary})["final_score"], 0.0)
 
 
 if __name__ == "__main__":

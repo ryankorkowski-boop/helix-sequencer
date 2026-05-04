@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import re
+from collections import Counter, defaultdict
 from collections.abc import Mapping
 from statistics import mean
 from typing import Any
@@ -37,6 +39,41 @@ COHERENT_MOTIONS = {
 CHAOTIC_MOTION_TOKENS = {"random", "chaos", "jitter", "noise", "scatter"}
 RAINBOW_TOKENS = {"rainbow", "multicolor", "multi", "random", "chaos"}
 
+PROP_ROLE_BY_FAMILY = {
+    "faces": "vocals",
+    "talking_heads": "vocals",
+    "matrix": "lyrics_detail",
+    "mega_tree": "hero",
+    "tree": "hero",
+    "arches": "travel",
+    "arch": "travel",
+    "rooflines": "structure",
+    "line": "structure",
+    "windows": "structure",
+    "window": "structure",
+    "mini_trees": "beat_grid",
+    "spinner": "motion",
+    "sphere": "mood",
+    "floods": "mood",
+    "snowman_band": "performer",
+    "character": "performer",
+}
+
+MOTION_BY_EFFECT_TOKEN = {
+    "spiral": "radial",
+    "sweep": "left_to_right",
+    "chase": "left_to_right",
+    "wave": "wave_handoff",
+    "bars": "bottom_up",
+    "butterfly": "center_outward",
+    "pinwheel": "radial",
+    "fan": "center_outward",
+    "marquee": "travel",
+    "morph": "travel",
+    "shockwave": "center_outward",
+    "ripple": "center_outward",
+}
+
 
 def clamp(value: float, lo: float = 0.0, hi: float = 100.0) -> float:
     return max(lo, min(hi, float(value)))
@@ -73,6 +110,162 @@ def _score_to_report_value(score: float) -> float:
     if value <= 1.0:
         return value * 100.0
     return value
+
+
+def _overlap_ms(start: int, end: int, window_start: int, window_end: int) -> int:
+    return max(0, min(int(end), int(window_end)) - max(int(start), int(window_start)))
+
+
+def _entry_palette(entry: Any) -> str:
+    xml_effect = getattr(entry, "xml_effect", None)
+    attrib = getattr(xml_effect, "attrib", {}) or {}
+    for key, value in attrib.items():
+        if "palette" in str(key).lower() and str(value).strip():
+            return str(value)
+    return ""
+
+
+def _palette_colors(raw: str) -> list[str]:
+    hexes = re.findall(r"#[0-9a-fA-F]{6}", raw or "")
+    if hexes:
+        return [item.lower() for item in hexes]
+    tokens = re.findall(r"\b(red|green|blue|white|gold|yellow|orange|purple|pink|cyan|rainbow|multicolor)\b", raw.lower())
+    return list(tokens)
+
+
+def _model_family(model_name: str) -> str:
+    name = _norm(model_name)
+    if any(token in name for token in ("face", "mouth", "singing", "talking_head")):
+        return "faces"
+    if "snowman" in name or "band" in name:
+        return "snowman_band"
+    if any(token in name for token in ("cactus", "tubeman", "dj_", "character")):
+        return "character"
+    if "matrix" in name:
+        return "matrix"
+    if "mega" in name or "tree" in name or "_gt" in name:
+        return "mega_tree"
+    if "arch" in name:
+        return "arches"
+    if "window" in name:
+        return "windows"
+    if "roof" in name or "outline" in name or "line" in name:
+        return "rooflines"
+    if "mini" in name and "tree" in name:
+        return "mini_trees"
+    if "spinner" in name or "star" in name:
+        return "spinner"
+    if "sphere" in name or "flood" in name or "wash" in name:
+        return "sphere"
+    return name.split("_", 1)[0] if name else "unknown"
+
+
+def _effect_motion(effect_name: str) -> str:
+    name = _norm(effect_name)
+    for token, motion in MOTION_BY_EFFECT_TOKEN.items():
+        if token in name:
+            return motion
+    if name == "on":
+        return ""
+    if any(token in name for token in ("shimmer", "twinkle")):
+        return "accent"
+    return ""
+
+
+def build_show_direction_summary(
+    *,
+    timelines: Mapping[str, Any],
+    parts: list[Any],
+    quiet_windows: list[tuple[int, int]] | None = None,
+) -> dict[str, Any]:
+    """
+    Summarize generated timelines for report-only YouTube-grade direction scoring.
+
+    The adapter intentionally uses duck typing so it can run after generation without
+    importing the heavy effect engine or changing placement behavior.
+    """
+    quiet = [(int(start), int(end)) for start, end in (quiet_windows or []) if int(end) > int(start)]
+    sections: list[dict[str, Any]] = []
+    all_role_map: dict[str, str] = {}
+
+    for part in parts:
+        start_ms = int(getattr(part, "start_ms", 0) or 0)
+        end_ms = int(getattr(part, "end_ms", start_ms) or start_ms)
+        if end_ms <= start_ms:
+            continue
+        duration_ms = max(1, end_ms - start_ms)
+        family_duration: Counter[str] = Counter()
+        layer_duration: Counter[str] = Counter()
+        color_counter: Counter[str] = Counter()
+        motion_counter: Counter[str] = Counter()
+        effect_count = 0
+
+        for model_name, timeline in timelines.items():
+            family = _model_family(str(model_name))
+            layers = getattr(timeline, "layers", {}) or {}
+            for layer_name, entries in layers.items():
+                for entry in entries:
+                    overlap = _overlap_ms(
+                        int(getattr(entry, "start", 0) or 0),
+                        int(getattr(entry, "end", 0) or 0),
+                        start_ms,
+                        end_ms,
+                    )
+                    if overlap <= 0:
+                        continue
+                    effect_count += 1
+                    family_duration[family] += overlap
+                    layer_duration[_norm(layer_name)] += overlap
+                    effect_name = str(getattr(entry, "effect_name", "") or "")
+                    motion = _effect_motion(effect_name)
+                    if motion:
+                        motion_counter[motion] += overlap
+                    for color in _palette_colors(_entry_palette(entry)):
+                        color_counter[color] += overlap
+
+        active_families = [family for family, _value in family_duration.most_common()]
+        focal_target = active_families[0] if active_families else ""
+        role_map = {family: PROP_ROLE_BY_FAMILY.get(family, "support") for family in active_families}
+        all_role_map.update(role_map)
+        colors = [color for color, _value in color_counter.most_common(4)]
+        if not colors and effect_count:
+            colors = ["template_palette"]
+        quiet_ms = sum(_overlap_ms(start_ms, end_ms, q_start, q_end) for q_start, q_end in quiet)
+        density = min(1.0, effect_count / max(1.0, duration_ms / 1000.0) / 95.0)
+        coverage = min(1.0, len(active_families) / 8.0)
+        brightness = min(1.0, (density * 0.55) + (coverage * 0.45))
+        has_rest = quiet_ms / duration_ms >= 0.08 or effect_count == 0
+        sections.append(
+            {
+                "label": str(getattr(part, "label", "") or ""),
+                "start_ms": start_ms,
+                "end_ms": end_ms,
+                "focal_target": focal_target,
+                "active_props": active_families[:10],
+                "layers": [layer for layer, _value in layer_duration.most_common()],
+                "colors": colors,
+                "motion": motion_counter.most_common(1)[0][0] if motion_counter else "",
+                "brightness": round(brightness, 4),
+                "density": round(density, 4),
+                "coverage": round(coverage, 4),
+                "has_rest": bool(has_rest),
+                "prop_roles": role_map,
+                "effect_count": int(effect_count),
+            }
+        )
+
+    return {
+        "schema_version": 1,
+        "source": "generated_timeline_report_adapter",
+        "sections": sections,
+        "section_count": len(sections),
+        "prop_roles": all_role_map,
+        "quiet_window_count": len(quiet),
+        "notes": [
+            "Report-only summary for generalized show-design scoring.",
+            "Does not copy or infer any external creator timing pattern.",
+        ],
+    }
 
 
 def _extract_sections(payload: Mapping[str, Any]) -> list[dict[str, Any]]:

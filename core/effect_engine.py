@@ -12184,6 +12184,11 @@ def run_variant(
         auto_fix=False,
     )
     total = sum(len(entries) for timeline in timelines.values() for entries in timeline.layers.values())
+    show_direction_summary = youtube_show_scorer.build_show_direction_summary(
+        timelines=timelines,
+        parts=parts,
+        quiet_windows=list(multiband.quiet_windows) + blackout_windows,
+    )
 
     log("[5/8] Writing timing tracks and report")
     if tuning.auto_timing_tracks:
@@ -12500,6 +12505,7 @@ def run_variant(
         "pools": [{"name": pool.name, "category": pool.category, "count": len(pool.models)} for pool in pools],
         "keyboard_lane_count": len(keyboard_lane),
         "parts": [{"label": part.label, "start_ms": part.start_ms, "end_ms": part.end_ms} for part in parts],
+        "youtube_show_summary": show_direction_summary,
         "placements": stats.counts,
         "neighbor_flow": (
             {
