@@ -117,6 +117,9 @@ def _overlap_ms(start: int, end: int, window_start: int, window_end: int) -> int
 
 
 def _entry_palette(entry: Any) -> str:
+    direct = getattr(entry, "palette", "")
+    if str(direct or "").strip():
+        return str(direct)
     xml_effect = getattr(entry, "xml_effect", None)
     attrib = getattr(xml_effect, "attrib", {}) or {}
     for key, value in attrib.items():

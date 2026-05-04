@@ -73,6 +73,39 @@ class YoutubeShowReportToolTests(unittest.TestCase):
         self.assertIn("youtube_show_grade", payload)
         self.assertGreater(payload["youtube_show_grade"]["recommendation_count"], 0)
 
+    def test_build_summary_can_derive_sections_from_xsq_for_older_report(self) -> None:
+        xsq_text = """<?xml version="1.0"?>
+<Sequence>
+  <head><sequenceDuration>2.0</sequenceDuration></head>
+  <ElementEffects>
+    <Element type="model" name="HX_MEGA_TREE">
+      <EffectLayer>
+        <Effect name="Wave" startTime="0" endTime="1000" palette="#ff0000,#00ff00" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_ARCH_LEFT">
+      <EffectLayer>
+        <Effect name="Chase" startTime="500" endTime="1500" palette="#ffffff,#ffd700" />
+      </EffectLayer>
+    </Element>
+  </ElementEffects>
+</Sequence>
+"""
+        with tempfile.TemporaryDirectory() as tmp:
+            xsq_path = Path(tmp) / "sample.xsq"
+            xsq_path.write_text(xsq_text, encoding="utf-8")
+            payload = {
+                "duration_seconds": 2,
+                "effects_total": 2,
+                "parts": [{"label": "CHORUS", "start_ms": 0, "end_ms": 2000}],
+            }
+
+            summary = youtube_show_report.build_summary(payload, xsq_path)
+
+        self.assertEqual(summary["section_count"], 1)
+        self.assertEqual(summary["section_summary_source"], "generated_timeline_report_adapter")
+        self.assertGreater(summary["youtube_show_grade"]["final_score"], 0.0)
+
 
 if __name__ == "__main__":
     unittest.main()
