@@ -686,6 +686,94 @@ def direction_problems(
     return problems[:24]
 
 
+RECOMMENDATION_BY_PROBLEM = {
+    "weak_focal_clarity": {
+        "action": "declare_primary_focus",
+        "guidance": "Pick one focal family for the phrase and demote competing props to background or accent support.",
+    },
+    "weak_phrase_structure": {
+        "action": "separate_section_identities",
+        "guidance": "Give intro, verse, chorus, bridge, and finale different visual identities instead of one continuous effect texture.",
+    },
+    "weak_darkness_usage": {
+        "action": "add_contrast_rest",
+        "guidance": "Add short rests, half-house dark moments, or a blackout before the next chorus/drop payoff.",
+    },
+    "excess_layering": {
+        "action": "cap_routine_layers",
+        "guidance": "Keep routine phrases near three layers: background, motion/rhythm, and focal/accent.",
+    },
+    "weak_prop_roles": {
+        "action": "stabilize_prop_roles",
+        "guidance": "Assign each prop family a job such as structure, travel, vocals, hero, mood, or accent.",
+    },
+    "weak_color_discipline": {
+        "action": "limit_palette",
+        "guidance": "Use two to four dominant colors for the section and reserve rainbow/multicolor for playful or finale moments.",
+    },
+    "weak_motion_coherence": {
+        "action": "choose_directional_motion",
+        "guidance": "Use a clear motion grammar such as left-to-right, center-out, bottom-up, or call-and-response.",
+    },
+    "weak_escalation": {
+        "action": "shape_payoff_arc",
+        "guidance": "Make repeated sections grow through coverage, brightness, motion width, or accent intensity, not all-on clutter.",
+    },
+    "clutter_risk": {
+        "action": "reduce_competing_activity",
+        "guidance": "Reduce simultaneous active prop families, layers, or colors until the main focal idea reads clearly.",
+    },
+    "section_missing_focal_target": {
+        "action": "set_section_focal_target",
+        "guidance": "Choose the section's main audience target before adding supporting motion or accents.",
+    },
+    "section_too_many_prop_families": {
+        "action": "reduce_section_fanout",
+        "guidance": "Hold some prop families dark or low-intensity so the section has a readable center of attention.",
+    },
+    "section_too_many_layers": {
+        "action": "merge_or_drop_layers",
+        "guidance": "Merge compatible effects or drop the weakest layer unless this is a chorus/finale payoff.",
+    },
+    "section_palette_sprawl": {
+        "action": "tighten_section_palette",
+        "guidance": "Constrain the section to a controlled palette before adding color variation.",
+    },
+    "section_chaotic_motion": {
+        "action": "replace_random_motion",
+        "guidance": "Replace random direction changes with a readable sweep, handoff, or call-and-response pattern.",
+    },
+}
+
+
+def director_recommendations(problems: list[Mapping[str, Any]]) -> list[dict[str, str]]:
+    recommendations: list[dict[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for problem in problems:
+        code = str(problem.get("code", ""))
+        mapping = RECOMMENDATION_BY_PROBLEM.get(code)
+        if mapping is None:
+            continue
+        section = str(problem.get("section", "") or "")
+        key = (code, section)
+        if key in seen:
+            continue
+        seen.add(key)
+        item = {
+            "problem_code": code,
+            "action": mapping["action"],
+            "guidance": mapping["guidance"],
+            "priority": "high" if problem.get("severity") == "error" else "normal",
+        }
+        if section:
+            item["section"] = section
+        metric = str(problem.get("metric", "") or "")
+        if metric:
+            item["metric"] = metric
+        recommendations.append(item)
+    return recommendations[:16]
+
+
 def score_youtube_show(payload: Mapping[str, Any] | None) -> dict[str, Any]:
     source: Mapping[str, Any] = payload or {}
     component_scores = {
@@ -711,6 +799,7 @@ def score_youtube_show(payload: Mapping[str, Any] | None) -> dict[str, Any]:
     ) / 0.95
     final_score = clamp(weighted - (clutter_penalty * 0.16))
     problems = direction_problems(source, component_scores, clutter_penalty)
+    recommendations = director_recommendations(problems)
     result = {
         **{key: round(value, 1) for key, value in component_scores.items()},
         "clutter_penalty": round(clutter_penalty, 1),
@@ -718,6 +807,8 @@ def score_youtube_show(payload: Mapping[str, Any] | None) -> dict[str, Any]:
         "grade": letter_grade(final_score),
         "direction_problems": problems,
         "problem_count": len(problems),
+        "director_recommendations": recommendations,
+        "recommendation_count": len(recommendations),
         "source": "generalized_show_direction_principles",
         "non_copying_policy": "general principles only; no vendor, creator, tutorial, or YouTube timing pattern copying",
     }

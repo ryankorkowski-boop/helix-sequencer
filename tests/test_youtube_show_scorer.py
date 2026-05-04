@@ -214,6 +214,10 @@ class YoutubeShowScorerTests(unittest.TestCase):
         self.assertIn("section_too_many_layers", codes)
         self.assertIn("section_palette_sprawl", codes)
         self.assertIn("section_chaotic_motion", codes)
+        actions = {item["action"] for item in grade["director_recommendations"]}
+        self.assertIn("set_section_focal_target", actions)
+        self.assertIn("merge_or_drop_layers", actions)
+        self.assertGreater(grade["recommendation_count"], 0)
 
     def test_focused_payload_has_no_section_level_direction_problems(self) -> None:
         grade = scorer.score_youtube_show(focused_payload())
@@ -224,6 +228,18 @@ class YoutubeShowScorerTests(unittest.TestCase):
         ]
 
         self.assertEqual(section_codes, [])
+
+    def test_director_recommendations_are_deduped_by_problem_and_section(self) -> None:
+        problems = [
+            {"code": "section_too_many_layers", "section": "verse", "metric": "layer_control"},
+            {"code": "section_too_many_layers", "section": "verse", "metric": "layer_control"},
+            {"code": "section_too_many_layers", "section": "chorus", "metric": "layer_control"},
+        ]
+
+        recommendations = scorer.director_recommendations(problems)
+
+        self.assertEqual(len(recommendations), 2)
+        self.assertEqual({item["section"] for item in recommendations}, {"verse", "chorus"})
 
 
 if __name__ == "__main__":
