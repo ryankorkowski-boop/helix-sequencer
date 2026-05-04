@@ -191,6 +191,40 @@ class YoutubeShowScorerTests(unittest.TestCase):
         self.assertTrue(section["has_rest"])
         self.assertGreater(scorer.score_youtube_show({"youtube_show_summary": summary})["final_score"], 0.0)
 
+    def test_direction_problems_flag_clutter_and_missing_focal_target(self) -> None:
+        payload = {
+            "sections": [
+                {
+                    "label": "verse",
+                    "active_props": ["faces", "mega_tree", "matrix", "arches", "rooflines", "windows", "floods"],
+                    "layers": ["base", "texture", "motion", "accent", "focus"],
+                    "colors": ["red", "orange", "yellow", "green", "blue", "purple", "rainbow"],
+                    "motion": "random",
+                    "brightness": 0.9,
+                    "density": 0.95,
+                }
+            ]
+        }
+
+        grade = scorer.score_youtube_show(payload)
+        codes = {problem["code"] for problem in grade["direction_problems"]}
+
+        self.assertGreater(grade["problem_count"], 0)
+        self.assertIn("section_missing_focal_target", codes)
+        self.assertIn("section_too_many_layers", codes)
+        self.assertIn("section_palette_sprawl", codes)
+        self.assertIn("section_chaotic_motion", codes)
+
+    def test_focused_payload_has_no_section_level_direction_problems(self) -> None:
+        grade = scorer.score_youtube_show(focused_payload())
+        section_codes = [
+            problem["code"]
+            for problem in grade["direction_problems"]
+            if problem["code"].startswith("section_")
+        ]
+
+        self.assertEqual(section_codes, [])
+
 
 if __name__ == "__main__":
     unittest.main()

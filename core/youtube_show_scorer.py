@@ -563,6 +563,129 @@ def clutter_penalty_score(payload: Mapping[str, Any]) -> float:
     return round(audit_penalty, 1)
 
 
+def _problem(
+    code: str,
+    message: str,
+    *,
+    severity: str = "warning",
+    section: str | None = None,
+    metric: str | None = None,
+) -> dict[str, str]:
+    item = {
+        "code": code,
+        "severity": severity,
+        "message": message,
+    }
+    if section:
+        item["section"] = section
+    if metric:
+        item["metric"] = metric
+    return item
+
+
+def direction_problems(
+    payload: Mapping[str, Any],
+    component_scores: Mapping[str, float] | None = None,
+    clutter_penalty: float | None = None,
+) -> list[dict[str, str]]:
+    components = dict(component_scores or {})
+    if not components:
+        components = {
+            "focal_clarity": focal_clarity_score(payload),
+            "phrase_structure": phrase_structure_score(payload),
+            "darkness_usage": darkness_usage_score(payload),
+            "layer_control": layer_control_score(payload),
+            "prop_role_consistency": prop_role_consistency_score(payload),
+            "color_discipline": color_discipline_score(payload),
+            "motion_coherence": motion_coherence_score(payload),
+            "escalation": escalation_score(payload),
+        }
+    clutter = clutter_penalty_score(payload) if clutter_penalty is None else float(clutter_penalty)
+    sections = _extract_sections(payload)
+    problems: list[dict[str, str]] = []
+
+    thresholds = (
+        ("focal_clarity", 72.0, "weak_focal_clarity", "Focal target is unclear or competing with too many prop groups."),
+        ("phrase_structure", 70.0, "weak_phrase_structure", "Sections do not yet read like distinct musical phrases."),
+        ("darkness_usage", 68.0, "weak_darkness_usage", "Show needs more rests, blackouts, or contrast before major payoffs."),
+        ("layer_control", 76.0, "excess_layering", "Layering is too busy for routine moments."),
+        ("prop_role_consistency", 70.0, "weak_prop_roles", "Prop families are not holding consistent visual jobs."),
+        ("color_discipline", 72.0, "weak_color_discipline", "Palette appears too broad or insufficiently controlled."),
+        ("motion_coherence", 70.0, "weak_motion_coherence", "Motion direction is unclear or too chaotic."),
+        ("escalation", 70.0, "weak_escalation", "Repeated sections are not building toward a larger chorus/finale payoff."),
+    )
+    for metric, threshold, code, message in thresholds:
+        if float(components.get(metric, 100.0)) < threshold:
+            problems.append(_problem(code, message, metric=metric))
+
+    if clutter >= 28.0:
+        problems.append(
+            _problem(
+                "clutter_risk",
+                "Too many active props, layers, or colors are competing at once.",
+                severity="error" if clutter >= 45.0 else "warning",
+                metric="clutter_penalty",
+            )
+        )
+
+    for section in sections:
+        label = str(section.get("label") or section.get("section") or "").strip()
+        props = list(dict.fromkeys(_active_props(section)))
+        layers = _layers(section)
+        colors = list(dict.fromkeys(_colors(section)))
+        motion = _norm(section.get("motion") or section.get("motion_pattern"))
+        focal = _norm(section.get("focal_target") or section.get("focus") or section.get("primary_target"))
+        if not focal and props:
+            problems.append(
+                _problem(
+                    "section_missing_focal_target",
+                    "Section has active props but no declared focal target.",
+                    section=label,
+                    metric="focal_clarity",
+                )
+            )
+        if len(props) > 6:
+            problems.append(
+                _problem(
+                    "section_too_many_prop_families",
+                    "Section activates too many prop families for clear audience focus.",
+                    section=label,
+                    metric="focal_clarity",
+                )
+            )
+        if len(layers) > 3:
+            problems.append(
+                _problem(
+                    "section_too_many_layers",
+                    "Section exceeds the preferred three-layer show direction rule.",
+                    section=label,
+                    metric="layer_control",
+                )
+            )
+        if len(colors) > 4 or any(color in RAINBOW_TOKENS for color in colors):
+            finale_ok = any(token in _norm(label) for token in ("finale", "final", "playful", "party"))
+            if not finale_ok:
+                problems.append(
+                    _problem(
+                        "section_palette_sprawl",
+                        "Section palette is too broad for disciplined phrase identity.",
+                        section=label,
+                        metric="color_discipline",
+                    )
+                )
+        if motion and any(token in motion for token in CHAOTIC_MOTION_TOKENS):
+            problems.append(
+                _problem(
+                    "section_chaotic_motion",
+                    "Section uses chaotic motion without a reportable musical reason.",
+                    section=label,
+                    metric="motion_coherence",
+                )
+            )
+
+    return problems[:24]
+
+
 def score_youtube_show(payload: Mapping[str, Any] | None) -> dict[str, Any]:
     source: Mapping[str, Any] = payload or {}
     component_scores = {
@@ -587,11 +710,14 @@ def score_youtube_show(payload: Mapping[str, Any] | None) -> dict[str, Any]:
         + component_scores["escalation"] * 0.08
     ) / 0.95
     final_score = clamp(weighted - (clutter_penalty * 0.16))
+    problems = direction_problems(source, component_scores, clutter_penalty)
     result = {
         **{key: round(value, 1) for key, value in component_scores.items()},
         "clutter_penalty": round(clutter_penalty, 1),
         "final_score": round(final_score, 1),
         "grade": letter_grade(final_score),
+        "direction_problems": problems,
+        "problem_count": len(problems),
         "source": "generalized_show_direction_principles",
         "non_copying_policy": "general principles only; no vendor, creator, tutorial, or YouTube timing pattern copying",
     }
