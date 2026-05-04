@@ -33,6 +33,7 @@ from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
 from core import band_sync as band_sync_engine
+from core import youtube_show_scorer
 from effects import piano_effect as piano_effect_engine
 from core import spatial_scene as spatial
 from tools.build_helpers import (
@@ -12552,6 +12553,7 @@ def run_variant(
         },
     }
     payload["quality"] = compute_quality_score(payload)
+    payload["youtube_show_grade"] = youtube_show_scorer.score_youtube_show(payload)
     memory_weights: dict[str, float] | None = None
     if tuning.learning_memory_file is not None:
         memory_weights = sequence_scoring.load_learning_memory(tuning.learning_memory_file).get("weights", {})
