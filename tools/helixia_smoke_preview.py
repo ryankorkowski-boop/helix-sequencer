@@ -118,7 +118,60 @@ def load_report_summary(path: Path) -> dict[str, Any]:
     }
 
 
-def write_contact_sheet(video_path: Path, out_path: Path, samples: int) -> Path | None:
+def even_sample_seconds(duration: float, samples: int) -> list[float]:
+    if duration <= 0 or samples <= 0:
+        return []
+    return [duration * (idx + 1) / (samples + 1) for idx in range(samples)]
+
+
+def peak_sample_seconds(
+    frame_scores: Any,
+    fps: int,
+    samples: int,
+    *,
+    min_gap_seconds: float = 6.0,
+) -> list[float]:
+    if samples <= 0 or fps <= 0 or len(frame_scores) == 0:
+        return []
+    ranked = sorted(
+        range(len(frame_scores)),
+        key=lambda idx: (float(frame_scores[idx]), -idx),
+        reverse=True,
+    )
+    chosen: list[int] = []
+    min_gap_frames = max(1, int(round(min_gap_seconds * fps)))
+    for frame_idx in ranked:
+        if float(frame_scores[frame_idx]) <= 0:
+            break
+        if any(abs(frame_idx - other) < min_gap_frames for other in chosen):
+            continue
+        chosen.append(frame_idx)
+        if len(chosen) >= samples:
+            break
+    return [frame_idx / float(fps) for frame_idx in sorted(chosen)]
+
+
+def busy_sample_seconds(xsq_path: Path, layout_path: Path, fps: int, samples: int) -> list[float]:
+    if samples <= 0 or not xsq_path.exists() or not layout_path.exists():
+        return []
+    from tools import preview_renderer
+
+    layout = preview_renderer.parse_models(layout_path)
+    sequence = preview_renderer.parse_sequence(xsq_path)
+    _, intensities = preview_renderer.build_leaf_intensity_matrix(layout, sequence, fps)
+    if intensities.size == 0:
+        return []
+    scores = intensities.sum(axis=0)
+    return peak_sample_seconds(scores, fps, samples)
+
+
+def write_contact_sheet(
+    video_path: Path,
+    out_path: Path,
+    samples: int,
+    *,
+    sample_seconds: list[float] | None = None,
+) -> Path | None:
     if samples <= 0 or not video_path.exists():
         return None
     try:
@@ -135,7 +188,9 @@ def write_contact_sheet(video_path: Path, out_path: Path, samples: int) -> Path 
         duration = float(meta.get("duration") or 0.0)
         if duration <= 0:
             return None
-        times = [duration * (idx + 1) / (samples + 1) for idx in range(samples)]
+        max_second = max(0.0, duration - (1.0 / fps))
+        times = sample_seconds or even_sample_seconds(duration, samples)
+        times = [max(0.0, min(max_second, seconds)) for seconds in times[:samples]]
         frames = []
         for seconds in times:
             frame = reader.get_data(max(0, int(seconds * fps)))
@@ -157,6 +212,78 @@ def write_contact_sheet(video_path: Path, out_path: Path, samples: int) -> Path 
         draw.text((x + 8, y + 184), f"{seconds:06.1f}s", fill=(235, 238, 245))
     out_path.parent.mkdir(parents=True, exist_ok=True)
     sheet.save(out_path, quality=88)
+    return out_path
+
+
+def frame_visual_metrics(frame: Any) -> dict[str, float]:
+    import numpy as np
+
+    arr = np.asarray(frame)
+    if arr.ndim != 3 or arr.shape[2] < 3:
+        return {"bright_pixel_ratio": 0.0, "spread_ratio": 0.0}
+    height, width = arr.shape[:2]
+    mask = np.ones((height, width), dtype=bool)
+    if height >= 240 and width >= 400:
+        mask[:170, : min(430, width)] = False
+        mask[:190, max(0, width - 430) :] = False
+        mask[max(0, height - 56) :, :] = False
+    rgb = arr[:, :, :3].astype("float32")
+    luma = (0.2126 * rgb[:, :, 0]) + (0.7152 * rgb[:, :, 1]) + (0.0722 * rgb[:, :, 2])
+    chroma = rgb.max(axis=2) - rgb.min(axis=2)
+    bright = (luma >= 150.0) & ((chroma >= 12.0) | (luma >= 210.0)) & mask
+    valid_pixels = max(1, int(mask.sum()))
+    bright_pixels = int(bright.sum())
+    if bright_pixels == 0:
+        return {"bright_pixel_ratio": 0.0, "spread_ratio": 0.0}
+    ys, xs = np.where(bright)
+    bbox_area = int((xs.max() - xs.min() + 1) * (ys.max() - ys.min() + 1))
+    return {
+        "bright_pixel_ratio": round(bright_pixels / valid_pixels, 5),
+        "spread_ratio": round(bbox_area / valid_pixels, 5),
+    }
+
+
+def write_visual_density_report(video_path: Path, out_path: Path, sample_seconds: list[float]) -> Path | None:
+    if not sample_seconds or not video_path.exists():
+        return None
+    try:
+        import imageio.v2 as imageio
+    except Exception as exc:  # pragma: no cover - optional preview dependency
+        print(f"Visual density skipped: missing image dependency ({exc})")
+        return None
+
+    try:
+        reader = imageio.get_reader(str(video_path), "ffmpeg")
+        meta = reader.get_meta_data()
+        fps = float(meta.get("fps") or 10.0)
+        duration = float(meta.get("duration") or 0.0)
+        max_second = max(0.0, duration - (1.0 / fps))
+        samples = []
+        for seconds in sample_seconds:
+            clamped = max(0.0, min(max_second, seconds))
+            frame = reader.get_data(max(0, int(clamped * fps)))
+            metrics = frame_visual_metrics(frame)
+            metrics["seconds"] = round(clamped, 2)
+            samples.append(metrics)
+        reader.close()
+    except Exception as exc:  # pragma: no cover - ffmpeg/runtime dependent
+        print(f"Visual density skipped: could not sample video ({exc})")
+        return None
+
+    bright_values = [sample["bright_pixel_ratio"] for sample in samples]
+    spread_values = [sample["spread_ratio"] for sample in samples]
+    payload = {
+        "video": str(video_path),
+        "sample_count": len(samples),
+        "mean_bright_pixel_ratio": round(sum(bright_values) / max(1, len(bright_values)), 5),
+        "max_bright_pixel_ratio": round(max(bright_values, default=0.0), 5),
+        "mean_spread_ratio": round(sum(spread_values) / max(1, len(spread_values)), 5),
+        "max_spread_ratio": round(max(spread_values, default=0.0), 5),
+        "target_note": "Top-show previews should distribute busy moments across visible regions, not concentrate every peak into tiny islands.",
+        "samples": samples,
+    }
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
     return out_path
 
 
@@ -185,6 +312,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--width", type=int, default=960)
     parser.add_argument("--height", type=int, default=540)
     parser.add_argument("--contact-sheet-samples", type=int, default=8)
+    parser.add_argument(
+        "--contact-sheet-mode",
+        choices=("even", "busy", "both"),
+        default="both",
+        help="Sample evenly across the video, densest effect moments, or both.",
+    )
     parser.add_argument("--skip-sequence", action="store_true")
     parser.add_argument("--skip-render", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
@@ -208,19 +341,42 @@ def main(argv: list[str] | None = None) -> int:
     if not args.skip_render:
         run_command(build_render_command(args, xsq), args.dry_run)
 
-    sheet = None
+    sheets: list[Path] = []
     if not args.dry_run:
-        sheet = write_contact_sheet(
-            mp4,
-            args.output_dir / f"{args.audio.stem},{args.profile}.contact-sheet.jpg",
-            args.contact_sheet_samples,
-        )
+        if args.contact_sheet_mode in {"even", "both"}:
+            sheet = write_contact_sheet(
+                mp4,
+                args.output_dir / f"{args.audio.stem},{args.profile}.contact-sheet.jpg",
+                args.contact_sheet_samples,
+            )
+            if sheet:
+                sheets.append(sheet)
+        busy_seconds: list[float] = []
+        if args.contact_sheet_mode in {"busy", "both"}:
+            busy_seconds = busy_sample_seconds(xsq, args.layout, args.fps, args.contact_sheet_samples)
+            sheet = write_contact_sheet(
+                mp4,
+                args.output_dir / f"{args.audio.stem},{args.profile}.busy-contact-sheet.jpg",
+                args.contact_sheet_samples,
+                sample_seconds=busy_seconds,
+            )
+            if sheet:
+                sheets.append(sheet)
+        density_report = None
+        if busy_seconds:
+            density_report = write_visual_density_report(
+                mp4,
+                args.output_dir / f"{args.audio.stem},{args.profile}.visual-density.json",
+                busy_seconds,
+            )
         summary = load_report_summary(report)
         print(json.dumps(summary, indent=2, sort_keys=True))
         print(f"Sequence: {rel(xsq)}")
         print(f"Preview: {rel(mp4)}")
-        if sheet:
+        for sheet in sheets:
             print(f"Contact sheet: {rel(sheet)}")
+        if density_report:
+            print(f"Visual density: {rel(density_report)}")
     return 0
 
 

@@ -5,6 +5,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import numpy as np
+
 from tools import helixia_smoke_preview as smoke
 
 
@@ -60,6 +62,26 @@ class HelixiaSmokePreviewTests(unittest.TestCase):
         self.assertEqual(summary["effects_total"], 123)
         self.assertEqual(summary["models_including_submodels"], 40)
         self.assertEqual(summary["validation_issues"], 1)
+
+    def test_peak_sample_seconds_picks_separated_busy_frames(self) -> None:
+        scores = [0, 10, 9, 1, 0, 8, 0, 7, 0, 6]
+
+        seconds = smoke.peak_sample_seconds(scores, fps=1, samples=3, min_gap_seconds=2.0)
+
+        self.assertEqual(seconds, [1.0, 5.0, 7.0])
+
+    def test_even_sample_seconds_spreads_across_duration(self) -> None:
+        self.assertEqual(smoke.even_sample_seconds(12.0, 3), [3.0, 6.0, 9.0])
+
+    def test_frame_visual_metrics_rewards_spread_bright_pixels(self) -> None:
+        frame = np.zeros((20, 20, 3), dtype=np.uint8)
+        frame[2:4, 2:4] = [255, 255, 255]
+        frame[15:17, 15:17] = [255, 255, 255]
+
+        metrics = smoke.frame_visual_metrics(frame)
+
+        self.assertGreater(metrics["bright_pixel_ratio"], 0.0)
+        self.assertGreater(metrics["spread_ratio"], metrics["bright_pixel_ratio"])
 
 
 if __name__ == "__main__":

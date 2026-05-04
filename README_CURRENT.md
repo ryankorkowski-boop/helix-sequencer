@@ -26,6 +26,9 @@
   - `python -m tools.preview_renderer test_runs/manual_preview/LightsOutTheme,v27.3.xsq --layout allmodels/xlights_rgbeffects.xml --audio LightsOutTheme.mp3 --fps 10 --width 960 --height 540`
 - Helixia smoke preview with the current Helixia layout, `LightsOutTheme.mp3`, MP4 render, quality summary, and contact sheet:
   - `python -m tools.helixia_smoke_preview`
+- Fast Helixia review using existing XSQ/MP4 and a busy-moment contact sheet:
+  - `python -m tools.helixia_smoke_preview --skip-sequence --skip-render --contact-sheet-mode busy`
+- The busy review also writes `*.visual-density.json` so top-show goals can track whether peak moments are visually spread across the layout.
 
 ## Run Styler/Mixup Sweep Again
 - Sweep outputs location:
