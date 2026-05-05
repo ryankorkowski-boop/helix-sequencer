@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, Mapping
 
 from helix_intent.placement_planner import PlacementCandidate, PlacementPlanReport
 from helix_intent.visual_intent import PropEffectIntent, VisualIntent
@@ -16,6 +16,7 @@ class PlacementExportReport:
     candidates: list[dict[str, Any]] = field(default_factory=list)
     prop_effect_intents: list[dict[str, Any]] = field(default_factory=list)
     planner_report: dict[str, Any] = field(default_factory=dict)
+    validation_report: dict[str, Any] = field(default_factory=dict)
     warnings: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
@@ -40,6 +41,7 @@ def _warnings_for_report(
     candidates: list[PlacementCandidate],
     placements: list[PropEffectIntent],
     planner_report: PlacementPlanReport,
+    validation_report: Mapping[str, Any] | None = None,
 ) -> list[str]:
     warnings: list[str] = []
     if not intents:
@@ -52,6 +54,8 @@ def _warnings_for_report(
         warnings.append(f"Density-capped intents: {', '.join(planner_report.capped_density_intents)}")
     if intents and not placements:
         warnings.append("Visual intents produced no prop-effect intents.")
+    if validation_report and not bool(validation_report.get("passed", True)):
+        warnings.append("Placement validation did not pass.")
     return warnings
 
 
@@ -61,20 +65,24 @@ def build_placement_export_report(
     candidates: Iterable[PlacementCandidate],
     prop_effect_intents: Iterable[PropEffectIntent],
     planner_report: PlacementPlanReport,
+    validation_report: Mapping[str, Any] | None = None,
 ) -> PlacementExportReport:
     intents = list(visual_intents)
     candidate_list = list(candidates)
     placement_list = list(prop_effect_intents)
+    validation_payload = dict(validation_report or {})
     return PlacementExportReport(
         visual_intents=[intent.to_dict() for intent in intents],
         candidates=[_candidate_to_dict(candidate) for candidate in candidate_list],
         prop_effect_intents=[placement.to_dict() for placement in placement_list],
         planner_report=planner_report.to_dict(),
+        validation_report=validation_payload,
         warnings=_warnings_for_report(
             intents=intents,
             candidates=candidate_list,
             placements=placement_list,
             planner_report=planner_report,
+            validation_report=validation_payload,
         ),
     )
 
