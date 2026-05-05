@@ -13,7 +13,7 @@ DISPLAY_BY_MODEL_TYPE: dict[str, str] = {
     "tree": "Tree 360",
     "matrix": "Matrix",
     "line": "Single Line",
-    "candy_cane": "Candy Cane",
+    "candy_cane": "CandyCane",
     "circle": "Circle",
     "sphere": "Sphere",
     "star": "Star",
