@@ -23,10 +23,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument(
         "--extra-engine-arg",
-        action="append",
+        nargs=argparse.REMAINDER,
         default=[],
         metavar="ARG",
-        help="Additional argument appended after the generated engine args. Use --extra-engine-arg=--flag for flag-style values.",
+        help="Additional arguments appended after generated engine args. Put this option last.",
     )
     return parser
 
