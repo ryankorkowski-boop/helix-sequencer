@@ -139,13 +139,37 @@ fixtures/legacy_256/converted/template.xsq
 fixtures/legacy_256/converted/xlights_rgbeffects.xml
 ```
 
-## 8. Inspect The GP LMS Locally
+## 8. Check Readiness First
+
+Run this before any real evaluation:
+
+```bash
+PYTHONPATH=. python -m tools.check_legacy_256_readiness --output test_runs/legacy_256_readiness.json
+```
+
+This reports:
+
+- `ready_for_dry_run`
+- `ready_for_real_run`
+- missing required files
+- manifest validation
+- next commands to run
+
+A dry run only needs the committed manifest to validate. A real run needs:
+
+- local audio
+- converted `template.xsq`
+- converted `xlights_rgbeffects.xml`
+
+The GP LMS is optional for generation but recommended for inspection.
+
+## 9. Inspect The GP LMS Locally
 
 ```bash
 PYTHONPATH=. python -m tools.inspect_lms local_fixtures/legacy_256/source_lms/GP_sequence.lms --output test_runs/legacy_256_lms_inspection.json
 ```
 
-## 9. Dry-Run Individual Profiles
+## 10. Dry-Run Individual Profiles
 
 ```bash
 PYTHONPATH=. python -m tools.run_legacy_256_profile legacy_256_clean --dry-run
@@ -153,7 +177,7 @@ PYTHONPATH=. python -m tools.run_legacy_256_profile legacy_256_showcase --dry-ru
 PYTHONPATH=. python -m tools.run_legacy_256_profile legacy_256_pro --dry-run
 ```
 
-## 10. Run Individual Profiles
+## 11. Run Individual Profiles
 
 ```bash
 PYTHONPATH=. python -m tools.run_legacy_256_profile legacy_256_showcase \
@@ -163,7 +187,7 @@ PYTHONPATH=. python -m tools.run_legacy_256_profile legacy_256_showcase \
   --output-dir test_runs/legacy_256_showcase
 ```
 
-## 11. Compare Reports
+## 12. Compare Reports
 
 ```bash
 PYTHONPATH=. python -m tools.compare_legacy_256_reports \
@@ -173,7 +197,7 @@ PYTHONPATH=. python -m tools.compare_legacy_256_reports \
   --output test_runs/legacy_256_comparison.json
 ```
 
-## 12. Full Evaluation Dry-Run
+## 13. Full Evaluation Dry-Run
 
 ```bash
 PYTHONPATH=. python -m tools.run_legacy_256_evaluation \
@@ -186,7 +210,7 @@ PYTHONPATH=. python -m tools.run_legacy_256_evaluation \
   --dry-run
 ```
 
-## 13. Full Evaluation Real Run
+## 14. Full Evaluation Real Run
 
 ```bash
 PYTHONPATH=. python -m tools.run_legacy_256_evaluation \
@@ -198,7 +222,7 @@ PYTHONPATH=. python -m tools.run_legacy_256_evaluation \
   --output-root test_runs/legacy_256_evaluation
 ```
 
-## 14. First Local Checkpoint
+## 15. First Local Checkpoint
 
 The first successful checkpoint is:
 
@@ -214,10 +238,26 @@ It should contain:
 - comparison winner
 - warnings/errors
 
-## 15. Next Engineering Steps
+## 16. CI/Local Smoke Tests
 
-1. Run the full evaluation dry-run locally.
-2. Fix any missing path or conversion issues.
-3. Run the real evaluation.
-4. Inspect `legacy_256_evaluation.json` and the winning `.report.json`.
-5. Calibrate the existing engine weights based on actual rejected-effect, clutter, overlap, and section-coverage numbers.
+These tests do not need the real GP LMS or audio assets:
+
+```bash
+PYTHONPATH=. python -m pytest \
+  tests/test_legacy_256_manifest.py \
+  tests/test_inspect_lms.py \
+  tests/test_legacy_256_profiles.py \
+  tests/test_compare_legacy_256_reports.py \
+  tests/test_run_legacy_256_evaluation.py \
+  tests/test_check_legacy_256_readiness.py \
+  -q
+```
+
+## 17. Next Engineering Steps
+
+1. Run the readiness checker locally.
+2. Run the full evaluation dry-run locally.
+3. Fix any missing path or conversion issues.
+4. Run the real evaluation.
+5. Inspect `legacy_256_evaluation.json` and the winning `.report.json`.
+6. Calibrate the existing engine weights based on actual rejected-effect, clutter, overlap, and section-coverage numbers.
