@@ -2,7 +2,7 @@
 
 Status: Active, source-agnostic replacement.
 
-This benchmark must not be derived from vendor sequences, YouTube shows, creator-specific choreography, paid displays, tutorial recipes, private groups, transcripts, or materials with unclear rights.
+This benchmark must be based only on original Helix metrics, internal fixtures, lawful user inputs, and explicit source-hygiene rules.
 
 ## Goal
 
@@ -21,7 +21,7 @@ Grade Helix-generated output using original, source-agnostic engineering criteri
 ## Safe Perceptual Principles
 
 - Create one clear focal family at a time, then rotate focus intentionally.
-- Use anticipation and release without copying any third-party timing pattern.
+- Use anticipation and release through original Helix planning.
 - Use proximity, symmetry, similarity, and common motion as general visual-design principles.
 - Make fast changes read as trajectories rather than random blinking.
 - Use darker windows so bright moments have contrast.
@@ -58,4 +58,4 @@ The audio-reactive generator should gain technical density from safe, original H
 - texture changes
 - family call/response
 
-Do not tune this benchmark against third-party shows, vendor sequences, creator-specific styles, paid files, tutorials, or transcripts.
+Do not tune this benchmark from external choreography, source-derived styles, restricted files, or unclear-rights media.
