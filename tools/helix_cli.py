@@ -78,11 +78,16 @@ def main(argv: list[str] | None = None) -> int:
             print(report.to_dict())
         return 0
     if args.command == "preview":
-        analysis = audio_intelligence.analyze_audio_file(Path(args.audio_file), enable_lyrics=False)
+        intents = _visual_intents_for_audio(Path(args.audio_file))
         _ = spatial_scene.load_scene(Path(args.layout_file))
-        sections = plan_song_sections(float(analysis.metadata.get("duration_ms", 0)) / 1000.0, analysis.style_features.get("tempo_class", "medium"))
-        intents = [item.to_dict() for item in generate_visual_intents([section.to_dict() for section in sections])]
-        preview_data = generate_preview_data(layout_name=Path(args.layout_file).stem, intents=intents, seconds=args.seconds)
+        parsed = xmp.parse_layout(Path(args.layout_file))
+        placement_report = build_placement_plan(visual_intents=intents, parsed_layout=parsed)
+        preview_data = generate_preview_data(
+            layout_name=Path(args.layout_file).stem,
+            intents=[item.to_dict() for item in intents],
+            seconds=args.seconds,
+            placement_plan=placement_report.to_dict(),
+        )
         print(grade_preview(preview_data))
         return 0
     parser.print_help()
