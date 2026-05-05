@@ -21,7 +21,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--variants", type=int, default=None)
     parser.add_argument("--python", default=sys.executable)
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--extra-engine-arg", action="append", default=[], help="Additional argument appended after the generated engine args")
+    parser.add_argument(
+        "--extra-engine-arg",
+        action="append",
+        default=[],
+        metavar="ARG",
+        help="Additional argument appended after the generated engine args. Use --extra-engine-arg=--flag for flag-style values.",
+    )
     return parser
 
 
