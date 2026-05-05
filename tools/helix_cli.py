@@ -10,6 +10,7 @@ from helix_intent.intent_generator import generate_visual_intents
 from helix_intent.placement_pipeline import build_and_write_placement_plan, build_placement_plan
 from helix_intent.placement_stub_renderer import render_placement_stub_xml
 from helix_intent.xlights_effect_contract import write_xlights_effect_contract
+from helix_intent.xsq_template_writer import write_xsq_from_template
 from helix_knowledge.cli import main as knowledge_cli_main
 from helix_layout.layout_health import build_layout_health_report
 from helix_music.section_planner import plan_song_sections
@@ -41,6 +42,11 @@ def build_parser() -> argparse.ArgumentParser:
     contract.add_argument("layout_file")
     contract.add_argument("output_json")
     contract.add_argument("--minimum-quality-score", type=float, default=0.6)
+    xsq = sub.add_parser("xsq-from-template")
+    xsq.add_argument("template_xsq")
+    xsq.add_argument("effect_contract_json")
+    xsq.add_argument("output_xsq")
+    xsq.add_argument("--report", help="Optional sidecar report JSON path")
     preview = sub.add_parser("preview")
     preview.add_argument("audio_file")
     preview.add_argument("layout_file")
@@ -112,6 +118,15 @@ def main(argv: list[str] | None = None) -> int:
             minimum_quality_score=float(args.minimum_quality_score),
         )
         print(contract_report.to_dict())
+        return 0
+    if args.command == "xsq-from-template":
+        report = write_xsq_from_template(
+            template_path=Path(args.template_xsq),
+            effect_contract_json=Path(args.effect_contract_json),
+            output_xsq=Path(args.output_xsq),
+            report_path=Path(args.report) if args.report else None,
+        )
+        print(report.to_dict())
         return 0
     if args.command == "preview":
         intents = _visual_intents_for_audio(Path(args.audio_file))
