@@ -3,9 +3,9 @@ from __future__ import annotations
 import unittest
 
 from tools.build_helpers.variants import (
-    DEFAULT_VENDOR_MAX_REJECTED_EFFECTS,
-    DEFAULT_VENDOR_MIN_AUDIT_SCORE,
-    DEFAULT_VENDOR_MIN_QUALITY_SCORE,
+    DEFAULT_PRO_MAX_REJECTED_EFFECTS,
+    DEFAULT_PRO_MIN_AUDIT_SCORE,
+    DEFAULT_PRO_MIN_QUALITY_SCORE,
     choose_best_candidate,
     choose_best_candidate_with_preset,
     evaluate_quality_gate_preset,
@@ -83,12 +83,12 @@ class VariantQualityGateTests(unittest.TestCase):
         self.assertIn("audit_below_threshold<80.0", result["reasons"])
         self.assertIn("rejected_effects_above_threshold>12000", result["reasons"])
 
-    def test_vendor_defaults_are_stricter_than_general_defaults(self) -> None:
+    def test_pro_defaults_are_stricter_than_general_defaults(self) -> None:
         result = evaluate_quality_gates(
             _entry(quality=95.0, audit=89.0, rejected=13000),
-            min_quality_score=DEFAULT_VENDOR_MIN_QUALITY_SCORE,
-            min_audit_score=DEFAULT_VENDOR_MIN_AUDIT_SCORE,
-            max_rejected_effects=DEFAULT_VENDOR_MAX_REJECTED_EFFECTS,
+            min_quality_score=DEFAULT_PRO_MIN_QUALITY_SCORE,
+            min_audit_score=DEFAULT_PRO_MIN_AUDIT_SCORE,
+            max_rejected_effects=DEFAULT_PRO_MAX_REJECTED_EFFECTS,
         )
 
         self.assertFalse(result["passed"])
@@ -96,15 +96,18 @@ class VariantQualityGateTests(unittest.TestCase):
         self.assertIn("audit_below_threshold<90.0", result["reasons"])
         self.assertIn("rejected_effects_above_threshold>12000", result["reasons"])
 
-    def test_showcase_preset_sits_between_general_and_vendor(self) -> None:
+    def test_showcase_preset_sits_between_general_and_pro(self) -> None:
         general = quality_gate_preset("general")
         showcase = quality_gate_preset("showcase")
-        vendor = quality_gate_preset("vendor")
+        pro = quality_gate_preset("pro")
 
         self.assertLess(general.min_quality_score, showcase.min_quality_score)
-        self.assertLess(showcase.min_quality_score, vendor.min_quality_score)
+        self.assertLess(showcase.min_quality_score, pro.min_quality_score)
         self.assertGreater(general.max_rejected_effects, showcase.max_rejected_effects)
-        self.assertGreater(showcase.max_rejected_effects, vendor.max_rejected_effects)
+        self.assertGreater(showcase.max_rejected_effects, pro.max_rejected_effects)
+
+    def test_legacy_vendor_alias_resolves_to_pro(self) -> None:
+        self.assertEqual(quality_gate_preset("vendor").name, "pro")
 
     def test_evaluate_quality_gate_preset_reports_preset_name(self) -> None:
         result = evaluate_quality_gate_preset(_entry(quality=92.0, audit=86.0, rejected=1000), "showcase")
