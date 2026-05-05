@@ -31,9 +31,8 @@ jobs:
           echo "Checking for retained source-derived guidance markers..."
           blocked_regex='training_mode|training_use|vendor benchmark|YouTube-grade|YouTube-style|creator-specific|source-specific choreography|paid sequence training|transcript dump|preview_and_metadata|own_generated_only|vendor_manifest'
 
-          # Policy and roadmap docs are allowed to mention risky source categories
-          # only as prohibitions. The legacy scorer file is allowlisted until it can
-          # be renamed without breaking imports.
+          # Policy/roadmap docs may mention risky source categories only as prohibitions.
+          # The legacy scorer file is allowlisted until it can be renamed without breaking imports.
           allowlisted_paths=(
             './docs/legal_learning_policy.md'
             './agents/legal_learning_policy.agents.md'
@@ -44,21 +43,33 @@ jobs:
             './core/youtube_show_scorer.py'
           )
 
-          grep_args=(
-            -RInE "$blocked_regex"
-            --include='*.md'
-            --include='*.py'
-            --include='*.json'
-            --exclude-dir='.git'
-            --exclude-dir='test_runs'
-            --exclude-dir='outputs'
-          )
+          is_allowlisted() {
+            local candidate="$1"
+            local allowed
+            for allowed in "${allowlisted_paths[@]}"; do
+              if [[ "$candidate" == "$allowed" ]]; then
+                return 0
+              fi
+            done
+            return 1
+          }
 
-          for path in "${allowlisted_paths[@]}"; do
-            grep_args+=(--exclude="${path#./}")
-          done
+          failed=0
+          while IFS= read -r -d '' file; do
+            if is_allowlisted "$file"; then
+              continue
+            fi
+            if grep -InE "$blocked_regex" "$file"; then
+              failed=1
+            fi
+          done < <(find . \
+            -path './.git' -prune -o \
+            -path './test_runs' -prune -o \
+            -path './outputs' -prune -o \
+            -type f \( -name '*.md' -o -name '*.py' -o -name '*.json' \) \
+            -print0)
 
-          if grep "${grep_args[@]}" .; then
+          if [[ "$failed" == "1" ]]; then
             echo "::error::Found audit-questionable source/training language outside policy/roadmap/legacy allowlist. Remove or rewrite as source-agnostic policy."
             exit 1
           fi
@@ -116,7 +127,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pytest numpy scipy scikit-learn librosa soundfile numba llvmlite
 
-      - name: Run Helix roadmap-targeted tests when present
+      - name: Run roadmap-targeted tests when present
         shell: bash
         env:
           PYTHONPATH: .
@@ -124,6 +135,7 @@ jobs:
           set -euo pipefail
           tests_to_run=()
           for test_file in \
+            tests/test_placement_planner.py \
             tests/test_helixia_layout.py \
             tests/test_professional_sequence_intelligence.py \
             tests/test_core_sandbox.py \
