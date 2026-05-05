@@ -4,8 +4,10 @@ import argparse
 from pathlib import Path
 
 from core import audio_intelligence
+from core import model_parser as xmp
 from core import spatial_scene
 from helix_intent.intent_generator import generate_visual_intents
+from helix_intent.placement_pipeline import build_and_write_placement_plan, build_placement_plan
 from helix_knowledge.cli import main as knowledge_cli_main
 from helix_layout.layout_health import build_layout_health_report
 from helix_music.section_planner import plan_song_sections
@@ -23,11 +25,24 @@ def build_parser() -> argparse.ArgumentParser:
     analyze.add_argument("audio_file")
     plan = sub.add_parser("plan-song")
     plan.add_argument("audio_file")
+    placement = sub.add_parser("placement-plan")
+    placement.add_argument("audio_file")
+    placement.add_argument("layout_file")
+    placement.add_argument("--output", help="Optional JSON output path for the placement plan")
     preview = sub.add_parser("preview")
     preview.add_argument("audio_file")
     preview.add_argument("layout_file")
     preview.add_argument("--seconds", type=int, default=30)
     return parser
+
+
+def _visual_intents_for_audio(audio_file: Path):
+    analysis = audio_intelligence.analyze_audio_file(audio_file, enable_lyrics=False)
+    sections = plan_song_sections(
+        float(analysis.metadata.get("duration_ms", 0)) / 1000.0,
+        analysis.style_features.get("tempo_class", "medium"),
+    )
+    return generate_visual_intents([section.to_dict() for section in sections])
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -47,6 +62,20 @@ def main(argv: list[str] | None = None) -> int:
         analysis = audio_intelligence.analyze_audio_file(Path(args.audio_file), enable_lyrics=False)
         sections = plan_song_sections(float(analysis.metadata.get("duration_ms", 0)) / 1000.0, analysis.style_features.get("tempo_class", "medium"))
         print([section.to_dict() for section in sections])
+        return 0
+    if args.command == "placement-plan":
+        intents = _visual_intents_for_audio(Path(args.audio_file))
+        parsed = xmp.parse_layout(Path(args.layout_file))
+        if args.output:
+            path = build_and_write_placement_plan(
+                visual_intents=intents,
+                parsed_layout=parsed,
+                output_path=Path(args.output),
+            )
+            print({"output": str(path)})
+        else:
+            report = build_placement_plan(visual_intents=intents, parsed_layout=parsed)
+            print(report.to_dict())
         return 0
     if args.command == "preview":
         analysis = audio_intelligence.analyze_audio_file(Path(args.audio_file), enable_lyrics=False)
