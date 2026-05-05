@@ -30,15 +30,34 @@ jobs:
           set -euo pipefail
           echo "Checking for retained source-derived guidance markers..."
           blocked_regex='training_mode|training_use|vendor benchmark|YouTube-grade|YouTube-style|creator-specific|source-specific choreography|paid sequence training|transcript dump|preview_and_metadata|own_generated_only|vendor_manifest'
-          if grep -RInE "$blocked_regex" \
-            --include='*.md' \
-            --include='*.py' \
-            --include='*.json' \
-            --exclude-dir='.git' \
-            --exclude-dir='test_runs' \
-            --exclude-dir='outputs' \
-            .; then
-            echo "::error::Found audit-questionable source/training language. Remove or rewrite as source-agnostic policy."
+
+          # Policy and roadmap docs are allowed to mention risky source categories
+          # only as prohibitions. Active guidance/data/code elsewhere should not.
+          allowlisted_paths=(
+            './docs/legal_learning_policy.md'
+            './agents/legal_learning_policy.agents.md'
+            './docs/HELIX_PRODUCT_VISION.md'
+            './docs/HELIX_IMPLEMENTATION_ROADMAP.md'
+            './docs/HELIXIA_LAYOUT_DIRECTION.md'
+            './agents/helix_implementation_direction.agents.md'
+          )
+
+          grep_args=(
+            -RInE "$blocked_regex"
+            --include='*.md'
+            --include='*.py'
+            --include='*.json'
+            --exclude-dir='.git'
+            --exclude-dir='test_runs'
+            --exclude-dir='outputs'
+          )
+
+          for path in "${allowlisted_paths[@]}"; do
+            grep_args+=(--exclude="${path#./}")
+          done
+
+          if grep "${grep_args[@]}" .; then
+            echo "::error::Found audit-questionable source/training language outside policy/roadmap allowlist. Remove or rewrite as source-agnostic policy."
             exit 1
           fi
           echo "Source hygiene gate passed."
