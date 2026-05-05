@@ -9,6 +9,7 @@ from helix_intent.layout_candidates import (
     merge_candidates,
 )
 from helix_intent.placement_planner import PlacementCandidate, plan_prop_effect_intents
+from helix_intent.placement_quality import score_placement_plan
 from helix_intent.placement_report import PlacementExportReport, build_placement_export_report, write_placement_export_report
 from helix_intent.placement_validator import validate_placement_plan
 from helix_intent.visual_intent import VisualIntent
@@ -45,12 +46,21 @@ def build_placement_plan(
         planner_report=planner_report,
     )
     validation = validate_placement_plan(provisional.to_dict())
+    with_validation = build_placement_export_report(
+        visual_intents=intents,
+        candidates=candidates,
+        prop_effect_intents=placements,
+        planner_report=planner_report,
+        validation_report=validation.to_dict(),
+    )
+    quality = score_placement_plan(with_validation.to_dict())
     return build_placement_export_report(
         visual_intents=intents,
         candidates=candidates,
         prop_effect_intents=placements,
         planner_report=planner_report,
         validation_report=validation.to_dict(),
+        quality_report=quality.to_dict(),
     )
 
 
