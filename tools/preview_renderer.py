@@ -10,6 +10,10 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from core.lazy_imports import LazyModule
+from core import model_parser as xmp
+from core import spatial_scene
+
 
 ROOT = Path(__file__).resolve().parent.parent
 PREVIEW_DEPS = ROOT / ".previewdeps"
@@ -17,10 +21,13 @@ DEFAULT_LAYOUT = "xlights_rgbeffects.xbkp" if (ROOT / "xlights_rgbeffects.xbkp")
 if PREVIEW_DEPS.exists():
     sys.path.insert(0, str(PREVIEW_DEPS))
 
-import imageio.v2 as imageio
-import imageio_ffmpeg
-import numpy as np
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+imageio = LazyModule("imageio.v2")
+imageio_ffmpeg = LazyModule("imageio_ffmpeg")
+np = LazyModule("numpy")
+Image = LazyModule("PIL.Image")
+ImageDraw = LazyModule("PIL.ImageDraw")
+ImageFilter = LazyModule("PIL.ImageFilter")
+ImageFont = LazyModule("PIL.ImageFont")
 
 
 def safe_label(text: str, limit: int = 72) -> str:
@@ -65,6 +72,7 @@ class ModelGeom:
     y1: float
     x2: float
     y2: float
+    points: tuple[tuple[float, float], ...]
     display_as: str
     color: tuple[int, int, int]
 
@@ -141,66 +149,60 @@ class SequenceData:
 
 
 def parse_models(layout_xml: Path) -> LayoutData:
-    tree = ET.parse(layout_xml)
-    root = tree.getroot()
+    parsed_layout = xmp.parse_layout(layout_xml)
+    scene = spatial_scene.build_scene(parsed_layout)
     leaf_models: dict[str, ModelGeom] = {}
     groups: dict[str, GroupGeom] = {}
     xs: list[float] = []
     ys: list[float] = []
 
-    model_root = root.find(".//models")
-    if model_root is not None:
-        for model in model_root.findall("model"):
-            name = (model.attrib.get("name") or "").strip()
-            if not name:
-                continue
-            x1 = float(model.attrib.get("WorldPosX", "0") or 0)
-            y1 = float(model.attrib.get("WorldPosY", "0") or 0)
-            dx = float(model.attrib.get("X2", "0") or 0)
-            dy = float(model.attrib.get("Y2", "0") or 0)
-            x2 = x1 + dx
-            y2 = y1 + dy
-            color = hex_to_rgb(model.attrib.get("CustomColor"), (230, 235, 245))
-            color = hex_to_rgb(model.attrib.get("TagColour"), color)
-            color = hex_to_rgb(model.attrib.get("StringType"), color)
-            leaf_models[name] = ModelGeom(
-                name=name,
-                x1=x1,
-                y1=y1,
-                x2=x2,
-                y2=y2,
-                display_as=(model.attrib.get("DisplayAs") or "").strip(),
-                color=color,
-            )
-            xs.extend([x1, x2])
-            ys.extend([y1, y2])
+    for name, parsed_model in parsed_layout.models.items():
+        node = scene.nodes.get(name)
+        if parsed_model is None or node is None:
+            continue
+        points = tuple(node.projected_outline_xy or (node.projected_xy,))
+        if len(points) >= 2:
+            x1, y1 = points[0]
+            x2, y2 = points[-1]
+        else:
+            x1, y1 = node.projected_xy
+            x2, y2 = node.projected_xy
+            points = ((x1, y1), (x2, y2))
+        color = hex_to_rgb(parsed_model.raw_attrs.get("CustomColor"), (230, 235, 245))
+        color = hex_to_rgb(parsed_model.raw_attrs.get("TagColour"), color)
+        color = hex_to_rgb(parsed_model.raw_attrs.get("StringType"), color)
+        leaf_models[name] = ModelGeom(
+            name=name,
+            x1=x1,
+            y1=y1,
+            x2=x2,
+            y2=y2,
+            points=points,
+            display_as=parsed_model.display_as,
+            color=color,
+        )
+        xs.extend([point[0] for point in points])
+        ys.extend([point[1] for point in points])
 
-    group_root = root.find(".//modelGroups")
-    if group_root is not None:
-        for group in group_root.findall("modelGroup"):
-            name = (group.attrib.get("name") or "").strip()
-            if not name:
-                continue
-            raw_members = group.attrib.get("models", "")
-            members = [part.strip() for part in raw_members.split(",") if part.strip()]
-            center_x = float(group.attrib.get("centrex", "0") or 0)
-            center_y = float(group.attrib.get("centrey", "0") or 0)
-            min_x = float(group.attrib.get("centreMinx", center_x) or center_x)
-            min_y = float(group.attrib.get("centreMiny", center_y) or center_y)
-            max_x = float(group.attrib.get("centreMaxx", center_x) or center_x)
-            max_y = float(group.attrib.get("centreMaxy", center_y) or center_y)
-            groups[name] = GroupGeom(
-                name=name,
-                members=members,
-                center_x=center_x,
-                center_y=center_y,
-                min_x=min_x,
-                min_y=min_y,
-                max_x=max_x,
-                max_y=max_y,
-            )
-            xs.extend([min_x, max_x, center_x])
-            ys.extend([min_y, max_y, center_y])
+    for group_name, group in parsed_layout.groups.items():
+        node = scene.group_nodes.get(group_name)
+        if node is None:
+            continue
+        min_x, min_y, max_x, max_y = node.projected_bounds_xy
+        center_x, center_y = node.projected_xy
+        members = list(scene.groups.get(group_name, ()))
+        groups[group_name] = GroupGeom(
+            name=group_name,
+            members=members,
+            center_x=center_x,
+            center_y=center_y,
+            min_x=min_x,
+            min_y=min_y,
+            max_x=max_x,
+            max_y=max_y,
+        )
+        xs.extend([min_x, max_x, center_x])
+        ys.extend([min_y, max_y, center_y])
 
     if not xs or not ys:
         raise RuntimeError(f"No geometry found in {layout_xml}")
@@ -352,9 +354,14 @@ class HouseRenderer:
         self.min_x = min_x
         self.min_y = min_y
         self.projected_models: dict[str, tuple[float, float, float, float, tuple[int, int, int]]] = {}
+        self.projected_paths: dict[str, tuple[tuple[float, float], ...]] = {}
         for name, geom in self.layout.leaf_models.items():
             x1, y1 = self.project(geom.x1, geom.y1)
             x2, y2 = self.project(geom.x2, geom.y2)
+            projected_points = tuple(self.project(px, py) for px, py in geom.points)
+            if len(projected_points) < 2:
+                projected_points = ((x1, y1), (x2, y2))
+            self.projected_paths[name] = projected_points
             self.projected_models[name] = (x1, y1, x2, y2, geom.color)
         self._base_canvas = self._build_base_canvas()
 
@@ -397,15 +404,21 @@ class HouseRenderer:
         width_boost: int = 2,
     ) -> None:
         x1, y1, x2, y2, _ = self.projected_models[model_name]
-        length = math.hypot(x2 - x1, y2 - y1)
+        path = self.projected_paths.get(model_name, ((x1, y1), (x2, y2)))
+        length = 0.0
+        for idx in range(len(path) - 1):
+            ax, ay = path[idx]
+            bx, by = path[idx + 1]
+            length += math.hypot(bx - ax, by - ay)
         if length < 8:
             radius = 4 + width_boost
-            draw.ellipse((x1 - radius, y1 - radius, x1 + radius, y1 + radius), fill=color + (255,))
+            px, py = path[0]
+            draw.ellipse((px - radius, py - radius, px + radius, py + radius), fill=color + (255,))
             return
         width = max(2, int(round(2.2 + width_boost)))
         if glow:
-            draw.line((x1, y1, x2, y2), fill=color + (110,), width=width + 6)
-        draw.line((x1, y1, x2, y2), fill=color + (255,), width=width)
+            draw.line(path, fill=color + (110,), width=width + 6)
+        draw.line(path, fill=color + (255,), width=width)
 
     def render_frame(
         self,

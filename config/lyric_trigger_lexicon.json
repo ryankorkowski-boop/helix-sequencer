@@ -1,0 +1,64 @@
+{
+  "trigger_lexicon": {
+    "impact": [
+      "bang",
+      "boom",
+      "drop",
+      "hit",
+      "crash",
+      "explode",
+      "fire"
+    ],
+    "motion_up": [
+      "up",
+      "rise",
+      "higher",
+      "fly",
+      "lift",
+      "climb",
+      "ascend"
+    ],
+    "motion_down": [
+      "down",
+      "fall",
+      "lower",
+      "sink",
+      "drop"
+    ],
+    "light_bright": [
+      "light",
+      "shine",
+      "glow",
+      "sun",
+      "gold",
+      "bright",
+      "spark"
+    ],
+    "dark_shadow": [
+      "dark",
+      "night",
+      "shadow",
+      "black",
+      "cold",
+      "moon"
+    ],
+    "energy_hype": [
+      "dance",
+      "party",
+      "jump",
+      "run",
+      "wild",
+      "loud",
+      "ignite"
+    ],
+    "calm_soft": [
+      "slow",
+      "calm",
+      "quiet",
+      "still",
+      "soft",
+      "breathe",
+      "gentle"
+    ]
+  }
+}

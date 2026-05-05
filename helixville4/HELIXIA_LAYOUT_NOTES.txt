@@ -1,0 +1,2 @@
+Helixia layout scaffold generated.
+Generated xlights_rgbeffects.xml contains deterministic placeholder models for Helixia v1.

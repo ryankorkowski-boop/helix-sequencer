@@ -1,0 +1,14 @@
+{
+  "onset_sensitivity": 0.86,
+  "beat_sensitivity": 0.78,
+  "stem_event_sensitivity": 0.72,
+  "pitch_confidence_min": 0.18,
+  "vocal_confidence_min": 0.22,
+  "background_vocal_confidence_min": 0.32,
+  "drum_hit_confidence_min": 0.18,
+  "stem_hit_confidence_min": 0.18,
+  "section_change_sensitivity": 0.68,
+  "spatial_frame_rate": 12,
+  "max_candidate_events_per_second": 18,
+  "smoothing_window_ms": 180
+}

@@ -10,18 +10,59 @@ import random
 import re
 import shutil
 from bisect import bisect_left
+from collections.abc import Iterator, Mapping
 from collections import Counter
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-import librosa
-import numpy as np
+from core.lazy_imports import LazyModule
 
+from core import audit as sequence_audit
+from core import audio_trigger_routes
 from core import audio_intelligence as ai
+from core import chronoflow as chronoflow_engine
+from core import helixualizer as helixualizer_engine
+from core import hardkor_engine
+from core import matrix_intelligence as matrix_planner
+from core import birdsong_engine
+from core import lyric_interpreter
 from core import model_parser as xmp
+from core import polish as sequence_polish
+from core import rhythm_intelligence as ri
+from core import self_improving_scoring as sequence_scoring
+from core import snowman_band as snowman_band_engine
+from core import band_sync as band_sync_engine
+from core import youtube_show_scorer
+from effects import piano_effect as piano_effect_engine
+from core import spatial_scene as spatial
+from tools.build_helpers import (
+    DEFAULT_MAX_REJECTED_EFFECTS,
+    DEFAULT_MIN_AUDIT_SCORE,
+    DEFAULT_VENDOR_MAX_REJECTED_EFFECTS,
+    DEFAULT_VENDOR_MIN_AUDIT_SCORE,
+    DEFAULT_VENDOR_MIN_QUALITY_SCORE,
+    build_neighbor_graph,
+    build_runtime_candidates,
+    choose_best_candidate,
+    collect_coverage_targets,
+    evaluate_quality_gates,
+    promote_shortlisted_candidate,
+)
 from tools import utilities as xfb
 from xlights import xsq_writer as base
+
+librosa = LazyModule("librosa")
+np = LazyModule("numpy")
+
+
+AUDIO_REACTIVE_PROFILE_INTENSITIES: dict[str, float] = {
+    "off": 0.0,
+    "subtle": 0.55,
+    "balanced": 1.0,
+    "showcase": 1.6,
+    "max": 2.0,
+}
 
 
 @dataclass
@@ -47,6 +88,32 @@ class NoteEvent:
     notes: list[tuple[int, float]]
     part: str
     section: str
+
+
+@dataclass
+class MultiBandAnalysis:
+    sub_bass_marks: list[int]
+    bass_marks: list[int]
+    mid_marks: list[int]
+    high_marks: list[int]
+    spectral_flux_marks: list[int]
+    loud_marks: list[int]
+    quiet_windows: list[tuple[int, int]]
+    dominance_marks: dict[str, list[int]]
+    frame_times_s: np.ndarray | None = None
+    spectral_centroid01: np.ndarray | None = None
+    spectral_bandwidth01: np.ndarray | None = None
+    spectral_contrast01: np.ndarray | None = None
+    spectral_flatness01: np.ndarray | None = None
+    spectral_flux01: np.ndarray | None = None
+    mfcc_motion01: np.ndarray | None = None
+    chroma_stability01: np.ndarray | None = None
+    tonnetz_motion01: np.ndarray | None = None
+    tempo_bpm: float = 0.0
+    genre_hint: str = "unknown"
+    mood_hint: str = "neutral"
+    descriptor_summary: dict[str, float] = field(default_factory=dict)
+    section_profiles: dict[str, dict[str, float | str]] = field(default_factory=dict)
 
 
 @dataclass
@@ -126,8 +193,33 @@ class RuntimeTuning:
     workspace_history_enabled: bool = True
     workspace_history_folder: Path | None = None
     workspace_history_limit: int = 24
+    learning_memory_enabled: bool = True
+    learning_memory_file: Path | None = None
     auto_timing_tracks: bool = True
     pixel_reactive: bool = True
+    audio_reactive_profile: str = "balanced"
+    audio_reactive_intensity: float = 1.0
+    matrix_intelligence: bool = True
+    video_file: Path | None = None
+    blend_rules_file: Path | None = None
+    polish_enabled: bool = True
+    variant_count: int = 3
+    auto_shortlist: bool = False
+    learn_from_my_xsqs: bool = False
+    vendor_bar: bool = False
+    vendor_min_quality_score: float = DEFAULT_VENDOR_MIN_QUALITY_SCORE
+    vendor_min_audit_score: float = DEFAULT_VENDOR_MIN_AUDIT_SCORE
+    vendor_max_rejected_effects: int = DEFAULT_VENDOR_MAX_REJECTED_EFFECTS
+    birdsong_enabled: bool = False
+    birdsong_auto: bool = False
+    birdsong_intensity: float = 1.0
+    birdsong_min_confidence: float = 0.45
+    birdsong_profile: str = "wild"
+    hardkor_enabled: bool = False
+    hardkor_intensity: float = 1.0
+    hardkor_profile: str = "ac256"
+    power_metadata_file: Path | None = None
+    fail_on_power_risk: bool = False
 
 
 @dataclass
@@ -141,1935 +233,53 @@ class TemplateProfile:
 class WorkspaceHistoryProfile:
     family_effects: dict[str, list[str]]
     palette_pool: list[str]
+    density_bias: float = 1.0
+    speed_bias: float = 1.0
+    darkness_bias: float = 1.0
+    source_files: list[str] = field(default_factory=list)
+    learned_from_user_xsqs: bool = False
 
 
-VARIANTS: dict[str, VariantStyle] = {
-    "v2.1": VariantStyle(
-        version="v2.1",
-        family="v2",
-        title="Grid Piano",
-        timing_mode="note",
-        pool_mode="rotating",
-        placement_mode="classic",
-        keyboard_overlay=False,
-        polyphony=3,
-        density_scale=1.00,
-        speed_scale=1.02,
-        randomness_scale=0.90,
-        bass_scale=1.02,
-        melody_scale=1.18,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=False,
-        sweep_categories=("stars", "snowflakes", "line", "mega", "arch", "canes_combo"),
-        primary_categories=("canes_combo", "north_canes", "south_canes", "gt", "line", "arch"),
-        chorus_categories=("gt", "line", "mega", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "canes_combo", "arch"),
-        drop_blackout_ms=(140, 260),
-        sweep_hit_ms=120,
-    ),
-    "v2.2": VariantStyle(
-        version="v2.2",
-        family="v2",
-        title="Phrase Bounce",
-        timing_mode="beat",
-        pool_mode="sectional",
-        placement_mode="classic",
-        keyboard_overlay=False,
-        polyphony=2,
-        density_scale=0.95,
-        speed_scale=1.05,
-        randomness_scale=1.05,
-        bass_scale=1.10,
-        melody_scale=0.92,
-        darkness_scale=1.00,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("gt", "line", "stars", "snowflakes", "arch", "canes_combo"),
-        primary_categories=("gt", "line", "canes_combo", "north_canes", "south_canes", "arch"),
-        chorus_categories=("gt", "line", "mega", "arch", "canes_combo"),
-        build_categories=("snowflakes", "stars", "arch", "canes_combo"),
-        drop_blackout_ms=(180, 300),
-        sweep_hit_ms=140,
-    ),
-    "v2.3": VariantStyle(
-        version="v2.3",
-        family="v2",
-        title="Random Keys",
-        timing_mode="mixed",
-        pool_mode="random",
-        placement_mode="classic",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=1.08,
-        speed_scale=1.04,
-        randomness_scale=1.20,
-        bass_scale=1.05,
-        melody_scale=1.08,
-        darkness_scale=1.02,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("stars", "snowflakes", "mega", "line", "arch", "canes_combo"),
-        primary_categories=("canes_combo", "north_canes", "south_canes", "stars", "snowflakes", "gt", "line", "arch"),
-        chorus_categories=("gt", "mega", "line", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "line", "arch", "canes_combo"),
-        drop_blackout_ms=(190, 320),
-        sweep_hit_ms=130,
-    ),
-    "v3.1": VariantStyle(
-        version="v3.1",
-        family="v3",
-        title="Cinematic Parts",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="classic",
-        keyboard_overlay=False,
-        polyphony=3,
-        density_scale=1.05,
-        speed_scale=1.06,
-        randomness_scale=0.96,
-        bass_scale=1.20,
-        melody_scale=1.00,
-        darkness_scale=1.10,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("stars", "snowflakes", "line", "mega", "gt", "arch", "canes_combo"),
-        primary_categories=("canes_combo", "north_canes", "south_canes", "line", "gt", "arch"),
-        chorus_categories=("gt", "mega", "line", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "line", "arch", "canes_combo"),
-        drop_blackout_ms=(220, 360),
-        sweep_hit_ms=150,
-    ),
-    "v3.2": VariantStyle(
-        version="v3.2",
-        family="v3",
-        title="Hook Immersion",
-        timing_mode="hook",
-        pool_mode="rotating",
-        placement_mode="classic",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=1.02,
-        speed_scale=1.08,
-        randomness_scale=0.88,
-        bass_scale=1.12,
-        melody_scale=1.20,
-        darkness_scale=1.04,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "mega", "stars", "gt", "arch", "canes_combo"),
-        primary_categories=("canes_combo", "north_canes", "south_canes", "line", "stars", "arch"),
-        chorus_categories=("gt", "mega", "line", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "canes_combo", "arch"),
-        drop_blackout_ms=(210, 340),
-        sweep_hit_ms=135,
-    ),
-    "v3.3": VariantStyle(
-        version="v3.3",
-        family="v3",
-        title="Storyteller",
-        timing_mode="parts",
-        pool_mode="call_response",
-        placement_mode="classic",
-        keyboard_overlay=False,
-        polyphony=3,
-        density_scale=1.10,
-        speed_scale=1.10,
-        randomness_scale=1.15,
-        bass_scale=1.25,
-        melody_scale=1.08,
-        darkness_scale=1.18,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("stars", "snowflakes", "gt", "line", "mega", "arch", "canes_combo"),
-        primary_categories=("canes_combo", "north_canes", "south_canes", "stars", "gt", "line", "arch"),
-        chorus_categories=("gt", "mega", "line", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "canes_combo", "arch"),
-        drop_blackout_ms=(240, 400),
-        sweep_hit_ms=155,
-    ),
-    "v4.1": VariantStyle(
-        version="v4.1",
-        family="v4",
-        title="Zone Riff",
-        timing_mode="note",
-        pool_mode="rotating",
-        placement_mode="zone_riff",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.06,
-        speed_scale=1.12,
-        randomness_scale=0.95,
-        bass_scale=1.16,
-        melody_scale=1.12,
-        darkness_scale=1.02,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("arch", "canes_combo", "gt", "line", "snowflakes", "stars", "mega"),
-        primary_categories=("canes_combo", "arch", "line", "gt", "snowflakes", "stars", "mega", "talking_heads"),
-        chorus_categories=("gt", "mega", "canes_combo", "arch", "line", "talking_heads"),
-        build_categories=("arch", "canes_combo", "snowflakes", "stars", "line"),
-        drop_blackout_ms=(170, 280),
-        sweep_hit_ms=145,
-    ),
-    "v4.2": VariantStyle(
-        version="v4.2",
-        family="v4",
-        title="Percussion Relay",
-        timing_mode="mixed",
-        pool_mode="call_response",
-        placement_mode="percussion_relay",
-        keyboard_overlay=True,
-        polyphony=2,
-        density_scale=1.00,
-        speed_scale=1.20,
-        randomness_scale=1.08,
-        bass_scale=1.25,
-        melody_scale=0.92,
-        darkness_scale=1.08,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "arch", "line", "gt", "snowflakes", "stars", "mega"),
-        primary_categories=("canes_combo", "gt", "arch", "line", "snowflakes", "stars", "mega", "talking_heads"),
-        chorus_categories=("gt", "canes_combo", "mega", "arch", "line", "talking_heads"),
-        build_categories=("arch", "line", "snowflakes", "stars", "canes_combo"),
-        drop_blackout_ms=(120, 210),
-        sweep_hit_ms=115,
-    ),
-    "v4.3": VariantStyle(
-        version="v4.3",
-        family="v4",
-        title="Scene Morph",
-        timing_mode="parts",
-        pool_mode="sectional",
-        placement_mode="scene_morph",
-        keyboard_overlay=True,
-        polyphony=3,
-        density_scale=0.96,
-        speed_scale=0.95,
-        randomness_scale=1.20,
-        bass_scale=1.18,
-        melody_scale=1.22,
-        darkness_scale=1.18,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("stars", "snowflakes", "arch", "line", "gt", "mega", "canes_combo", "talking_heads"),
-        primary_categories=("line", "arch", "snowflakes", "stars", "talking_heads", "canes_combo"),
-        chorus_categories=("gt", "mega", "canes_combo", "arch", "line", "talking_heads"),
-        build_categories=("arch", "line", "snowflakes", "stars", "canes_combo"),
-        drop_blackout_ms=(240, 390),
-        sweep_hit_ms=160,
-    ),
-    "v5.1": VariantStyle(
-        version="v5.1",
-        family="v5",
-        title="Director AI",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="director_ai",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.08,
-        speed_scale=1.10,
-        randomness_scale=1.26,
-        bass_scale=1.24,
-        melody_scale=1.20,
-        darkness_scale=1.08,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "canes_combo", "gt", "mega", "stars", "snowflakes", "talking_heads"),
-        primary_categories=("line", "arch", "canes_combo", "stars", "snowflakes", "talking_heads"),
-        chorus_categories=("gt", "mega", "canes_combo", "line", "arch", "talking_heads"),
-        build_categories=("arch", "line", "canes_combo", "stars", "snowflakes"),
-        drop_blackout_ms=(200, 330),
-        sweep_hit_ms=145,
-    ),
-    "v6.1": VariantStyle(
-        version="v6.1",
-        family="v6",
-        title="Constellation Story",
-        timing_mode="parts",
-        pool_mode="sectional",
-        placement_mode="constellation_story",
-        keyboard_overlay=True,
-        polyphony=3,
-        density_scale=0.92,
-        speed_scale=0.96,
-        randomness_scale=1.18,
-        bass_scale=1.04,
-        melody_scale=1.16,
-        darkness_scale=1.22,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("stars", "snowflakes", "talking_heads", "line", "arch", "gt", "mega"),
-        primary_categories=("stars", "snowflakes", "line", "arch", "talking_heads"),
-        chorus_categories=("line", "arch", "gt", "mega", "talking_heads"),
-        build_categories=("stars", "snowflakes", "arch", "line"),
-        drop_blackout_ms=(220, 380),
-        sweep_hit_ms=165,
-    ),
-    "v6.2": VariantStyle(
-        version="v6.2",
-        family="v6",
-        title="Pinball Relay",
-        timing_mode="mixed",
-        pool_mode="call_response",
-        placement_mode="pinball_relay",
-        keyboard_overlay=False,
-        polyphony=2,
-        density_scale=1.10,
-        speed_scale=1.24,
-        randomness_scale=1.06,
-        bass_scale=1.22,
-        melody_scale=0.90,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "arch", "line", "gt", "mega", "stars", "snowflakes"),
-        primary_categories=("canes_combo", "arch", "line", "gt", "mega"),
-        chorus_categories=("gt", "mega", "canes_combo", "arch", "line"),
-        build_categories=("arch", "line", "canes_combo", "stars"),
-        drop_blackout_ms=(140, 240),
-        sweep_hit_ms=110,
-    ),
-    "v6.3": VariantStyle(
-        version="v6.3",
-        family="v6",
-        title="Vocal Spotlight",
-        timing_mode="hook",
-        pool_mode="rotating",
-        placement_mode="vocal_spotlight",
-        keyboard_overlay=True,
-        polyphony=3,
-        density_scale=0.88,
-        speed_scale=0.98,
-        randomness_scale=0.92,
-        bass_scale=1.06,
-        melody_scale=1.24,
-        darkness_scale=1.18,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("talking_heads", "stars", "snowflakes", "line", "arch", "gt", "mega"),
-        primary_categories=("talking_heads", "stars", "snowflakes", "line", "arch"),
-        chorus_categories=("talking_heads", "line", "arch", "gt", "mega"),
-        build_categories=("stars", "snowflakes", "arch", "line", "talking_heads"),
-        drop_blackout_ms=(210, 340),
-        sweep_hit_ms=150,
-    ),
-    "v7.1": VariantStyle(
-        version="v7.1",
-        family="v7",
-        title="Mirror Duel",
-        timing_mode="note",
-        pool_mode="call_response",
-        placement_mode="mirror_duel",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.02,
-        speed_scale=1.12,
-        randomness_scale=1.10,
-        bass_scale=1.14,
-        melody_scale=1.10,
-        darkness_scale=1.04,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("north_canes", "south_canes", "arch", "line", "gt", "mega"),
-        primary_categories=("north_canes", "south_canes", "arch", "line", "talking_heads"),
-        chorus_categories=("gt", "mega", "line", "arch", "canes_combo"),
-        build_categories=("north_canes", "south_canes", "arch", "line"),
-        drop_blackout_ms=(170, 300),
-        sweep_hit_ms=135,
-    ),
-    "v7.2": VariantStyle(
-        version="v7.2",
-        family="v7",
-        title="Orbital Sweep",
-        timing_mode="beat",
-        pool_mode="sectional",
-        placement_mode="orbital_sweep",
-        keyboard_overlay=False,
-        polyphony=2,
-        density_scale=1.00,
-        speed_scale=1.18,
-        randomness_scale=1.04,
-        bass_scale=1.18,
-        melody_scale=0.96,
-        darkness_scale=1.00,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "arch", "line", "gt", "mega", "stars", "snowflakes"),
-        primary_categories=("canes_combo", "arch", "line", "gt"),
-        chorus_categories=("gt", "mega", "line", "arch", "stars", "snowflakes"),
-        build_categories=("arch", "line", "stars", "snowflakes"),
-        drop_blackout_ms=(150, 280),
-        sweep_hit_ms=125,
-    ),
-    "v7.3": VariantStyle(
-        version="v7.3",
-        family="v7",
-        title="Pulse Matrix",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="pulse_matrix",
-        keyboard_overlay=True,
-        polyphony=3,
-        density_scale=1.18,
-        speed_scale=1.06,
-        randomness_scale=0.84,
-        bass_scale=1.28,
-        melody_scale=0.94,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "mega", "gt", "canes_combo", "arch", "stars"),
-        primary_categories=("line", "mega", "gt", "canes_combo", "arch"),
-        chorus_categories=("gt", "mega", "line", "canes_combo", "arch"),
-        build_categories=("line", "arch", "stars", "canes_combo"),
-        drop_blackout_ms=(120, 230),
-        sweep_hit_ms=105,
-    ),
-    "v9.1": VariantStyle(
-        version="v9.1",
-        family="v9",
-        title="Dream Architect",
-        timing_mode="beat",
-        pool_mode="sectional",
-        placement_mode="orbital_sweep",
-        keyboard_overlay=False,
-        polyphony=3,
-        density_scale=1.04,
-        speed_scale=1.12,
-        randomness_scale=0.92,
-        bass_scale=1.16,
-        melody_scale=1.02,
-        darkness_scale=1.02,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "gt", "stars"),
-        primary_categories=("mega", "line", "arch", "canes_combo"),
-        chorus_categories=("mega", "line", "gt", "arch", "canes_combo"),
-        build_categories=("arch", "line", "stars", "canes_combo"),
-        drop_blackout_ms=(150, 260),
-        sweep_hit_ms=130,
-    ),
-    "v9.2": VariantStyle(
-        version="v9.2",
-        family="v9",
-        title="AC Pulse Grid",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="pulse_matrix",
-        keyboard_overlay=False,
-        polyphony=2,
-        density_scale=1.00,
-        speed_scale=1.06,
-        randomness_scale=0.76,
-        bass_scale=1.20,
-        melody_scale=0.92,
-        darkness_scale=1.00,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "canes_combo", "arch", "gt", "stars", "snowflakes"),
-        primary_categories=("line", "canes_combo", "arch", "gt"),
-        chorus_categories=("line", "gt", "canes_combo", "arch"),
-        build_categories=("arch", "line", "stars"),
-        drop_blackout_ms=(130, 220),
-        sweep_hit_ms=110,
-    ),
-    "v9.3": VariantStyle(
-        version="v9.3",
-        family="v9",
-        title="Cane Dialogue",
-        timing_mode="hook",
-        pool_mode="call_response",
-        placement_mode="mirror_duel",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.08,
-        speed_scale=1.04,
-        randomness_scale=1.04,
-        bass_scale=1.06,
-        melody_scale=1.14,
-        darkness_scale=0.98,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("north_canes", "south_canes", "canes_combo", "arch", "line", "talking_heads"),
-        primary_categories=("north_canes", "south_canes", "canes_combo", "talking_heads", "arch"),
-        chorus_categories=("canes_combo", "arch", "line", "gt"),
-        build_categories=("north_canes", "south_canes", "arch"),
-        drop_blackout_ms=(140, 250),
-        sweep_hit_ms=120,
-    ),
-    "v10.1": VariantStyle(
-        version="v10.1",
-        family="v10",
-        title="Matrix Narrative",
-        timing_mode="parts",
-        pool_mode="sectional",
-        placement_mode="scene_morph",
-        keyboard_overlay=True,
-        polyphony=3,
-        density_scale=1.10,
-        speed_scale=1.02,
-        randomness_scale=1.08,
-        bass_scale=1.04,
-        melody_scale=1.16,
-        darkness_scale=1.04,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "mega", "gt", "arch", "canes_combo", "stars", "snowflakes"),
-        primary_categories=("line", "mega", "gt", "arch", "canes_combo"),
-        chorus_categories=("line", "mega", "gt", "arch"),
-        build_categories=("stars", "snowflakes", "arch", "line"),
-        drop_blackout_ms=(170, 310),
-        sweep_hit_ms=140,
-    ),
-    "v10.2": VariantStyle(
-        version="v10.2",
-        family="v10",
-        title="Kinetic Relay",
-        timing_mode="beat",
-        pool_mode="rotating",
-        placement_mode="percussion_relay",
-        keyboard_overlay=False,
-        polyphony=2,
-        density_scale=1.16,
-        speed_scale=1.14,
-        randomness_scale=0.86,
-        bass_scale=1.24,
-        melody_scale=0.90,
-        darkness_scale=1.00,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "gt", "canes_combo", "arch", "mega", "stars"),
-        primary_categories=("line", "gt", "canes_combo", "arch"),
-        chorus_categories=("line", "gt", "mega", "arch", "canes_combo"),
-        build_categories=("arch", "line", "stars"),
-        drop_blackout_ms=(130, 250),
-        sweep_hit_ms=125,
-    ),
-    "v10.3": VariantStyle(
-        version="v10.3",
-        family="v10",
-        title="Choir Focus",
-        timing_mode="note",
-        pool_mode="sectional",
-        placement_mode="vocal_spotlight",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.02,
-        speed_scale=1.00,
-        randomness_scale=0.96,
-        bass_scale=1.00,
-        melody_scale=1.24,
-        darkness_scale=0.94,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("talking_heads", "north_canes", "south_canes", "arch", "line", "stars"),
-        primary_categories=("talking_heads", "north_canes", "south_canes", "arch", "line"),
-        chorus_categories=("talking_heads", "line", "arch", "canes_combo", "gt"),
-        build_categories=("talking_heads", "stars", "arch"),
-        drop_blackout_ms=(150, 260),
-        sweep_hit_ms=115,
-    ),
-    "v11.1": VariantStyle(
-        version="v11.1",
-        family="v11",
-        title="Spatial Conductor",
-        timing_mode="parts",
-        pool_mode="sectional",
-        placement_mode="director_ai",
-        keyboard_overlay=True,
-        polyphony=3,
-        density_scale=1.08,
-        speed_scale=1.05,
-        randomness_scale=0.90,
-        bass_scale=1.12,
-        melody_scale=1.08,
-        darkness_scale=1.06,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "mega", "gt", "arch", "canes_combo", "stars", "snowflakes"),
-        primary_categories=("line", "mega", "gt", "arch", "canes_combo", "talking_heads"),
-        chorus_categories=("line", "mega", "gt", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "arch", "line"),
-        drop_blackout_ms=(180, 320),
-        sweep_hit_ms=145,
-    ),
-    "v11.2": VariantStyle(
-        version="v11.2",
-        family="v11",
-        title="Orbital Anthem",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="constellation_story",
-        keyboard_overlay=False,
-        polyphony=3,
-        density_scale=1.00,
-        speed_scale=1.10,
-        randomness_scale=1.02,
-        bass_scale=1.20,
-        melody_scale=1.00,
-        darkness_scale=1.02,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "stars", "snowflakes", "canes_combo"),
-        primary_categories=("mega", "line", "arch", "canes_combo"),
-        chorus_categories=("mega", "line", "gt", "arch", "stars"),
-        build_categories=("stars", "snowflakes", "arch"),
-        drop_blackout_ms=(170, 300),
-        sweep_hit_ms=135,
-    ),
-    "v11.3": VariantStyle(
-        version="v11.3",
-        family="v11",
-        title="Universal Showcase",
-        timing_mode="note",
-        pool_mode="rotating",
-        placement_mode="zone_riff",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.14,
-        speed_scale=1.08,
-        randomness_scale=0.94,
-        bass_scale=1.18,
-        melody_scale=1.06,
-        darkness_scale=0.98,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("line", "mega", "gt", "canes_combo", "arch", "stars", "snowflakes", "talking_heads"),
-        primary_categories=("line", "mega", "gt", "canes_combo", "arch", "talking_heads"),
-        chorus_categories=("line", "mega", "gt", "arch", "canes_combo", "stars"),
-        build_categories=("arch", "stars", "snowflakes", "canes_combo"),
-        drop_blackout_ms=(140, 250),
-        sweep_hit_ms=118,
-    ),
-    "v12.1": VariantStyle(
-        version="v12.1",
-        family="v12",
-        title="Build Pulse",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="scene_morph",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=1.16,
-        speed_scale=1.06,
-        randomness_scale=0.92,
-        bass_scale=1.22,
-        melody_scale=1.04,
-        darkness_scale=0.90,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("line", "mega", "canes_combo", "arch", "gt", "stars", "snowflakes"),
-        primary_categories=("line", "canes_combo", "mega", "arch", "gt"),
-        chorus_categories=("line", "mega", "canes_combo", "arch", "gt", "stars"),
-        build_categories=("arch", "line", "canes_combo", "stars", "snowflakes"),
-        drop_blackout_ms=(210, 360),
-        sweep_hit_ms=124,
-    ),
-    "v12.2": VariantStyle(
-        version="v12.2",
-        family="v12",
-        title="Drop Sculpt",
-        timing_mode="note",
-        pool_mode="rotating",
-        placement_mode="pulse_matrix",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.20,
-        speed_scale=1.10,
-        randomness_scale=0.96,
-        bass_scale=1.30,
-        melody_scale=0.96,
-        darkness_scale=0.92,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "gt", "canes_combo", "arch", "stars"),
-        primary_categories=("mega", "line", "canes_combo", "gt", "arch"),
-        chorus_categories=("mega", "line", "gt", "canes_combo", "arch", "stars"),
-        build_categories=("arch", "line", "canes_combo", "snowflakes", "stars"),
-        drop_blackout_ms=(180, 330),
-        sweep_hit_ms=116,
-    ),
-    "v12.3": VariantStyle(
-        version="v12.3",
-        family="v12",
-        title="Sequential Drift",
-        timing_mode="mixed",
-        pool_mode="call_response",
-        placement_mode="percussion_relay",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=1.10,
-        speed_scale=1.12,
-        randomness_scale=1.00,
-        bass_scale=1.16,
-        melody_scale=1.06,
-        darkness_scale=0.96,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "line", "arch", "gt", "mega", "stars", "snowflakes"),
-        primary_categories=("canes_combo", "line", "arch", "gt", "mega"),
-        chorus_categories=("line", "mega", "canes_combo", "arch", "gt", "stars"),
-        build_categories=("arch", "line", "canes_combo", "snowflakes"),
-        drop_blackout_ms=(170, 310),
-        sweep_hit_ms=120,
-    ),
-    "v13.1": VariantStyle(
-        version="v13.1",
-        family="v13",
-        title="Spatial Story",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="director_ai",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=1.08,
-        speed_scale=1.06,
-        randomness_scale=1.06,
-        bass_scale=1.12,
-        melody_scale=1.12,
-        darkness_scale=0.94,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("arch", "line", "mega", "canes_combo", "gt", "stars", "snowflakes", "talking_heads"),
-        primary_categories=("arch", "line", "mega", "canes_combo", "gt", "talking_heads"),
-        chorus_categories=("line", "mega", "arch", "canes_combo", "gt", "stars", "talking_heads"),
-        build_categories=("arch", "line", "snowflakes", "stars", "talking_heads"),
-        drop_blackout_ms=(190, 320),
-        sweep_hit_ms=128,
-    ),
-    "v13.2": VariantStyle(
-        version="v13.2",
-        family="v13",
-        title="Bassline Flow",
-        timing_mode="note",
-        pool_mode="rotating",
-        placement_mode="zone_riff",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=1.18,
-        speed_scale=1.08,
-        randomness_scale=0.90,
-        bass_scale=1.34,
-        melody_scale=0.98,
-        darkness_scale=0.98,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "gt", "canes_combo", "arch", "stars", "snowflakes"),
-        primary_categories=("mega", "canes_combo", "line", "gt", "arch"),
-        chorus_categories=("mega", "line", "gt", "canes_combo", "arch", "stars"),
-        build_categories=("arch", "line", "canes_combo", "snowflakes"),
-        drop_blackout_ms=(160, 280),
-        sweep_hit_ms=114,
-    ),
-    "v13.3": VariantStyle(
-        version="v13.3",
-        family="v13",
-        title="Luma Finale",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="constellation_story",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=1.14,
-        speed_scale=1.04,
-        randomness_scale=1.10,
-        bass_scale=1.20,
-        melody_scale=1.14,
-        darkness_scale=0.90,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("stars", "snowflakes", "line", "mega", "arch", "canes_combo", "talking_heads"),
-        primary_categories=("stars", "snowflakes", "line", "arch", "canes_combo", "talking_heads"),
-        chorus_categories=("line", "mega", "stars", "snowflakes", "arch", "canes_combo"),
-        build_categories=("stars", "snowflakes", "arch", "line", "talking_heads"),
-        drop_blackout_ms=(200, 340),
-        sweep_hit_ms=126,
-    ),
-    "v14.1": VariantStyle(
-        version="v14.1",
-        family="v14",
-        title="Phrase Architect",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="phrase_architect",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.86,
-        speed_scale=0.98,
-        randomness_scale=0.18,
-        bass_scale=1.14,
-        melody_scale=1.08,
-        darkness_scale=1.02,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "mega", "gt", "canes_combo", "matrix", "spinner"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "spinner", "canes_combo"),
-        drop_blackout_ms=(220, 340),
-        sweep_hit_ms=116,
-    ),
-    "v14.2": VariantStyle(
-        version="v14.2",
-        family="v14",
-        title="Stem Command",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="stem_storyboard",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.90,
-        speed_scale=1.02,
-        randomness_scale=0.20,
-        bass_scale=1.22,
-        melody_scale=1.02,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "spinner"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "gt", "arch"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(210, 330),
-        sweep_hit_ms=120,
-    ),
-    "v14.3": VariantStyle(
-        version="v14.3",
-        family="v14",
-        title="Contour Waves",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="wave_burst_director",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.92,
-        speed_scale=1.04,
-        randomness_scale=0.16,
-        bass_scale=1.12,
-        melody_scale=1.20,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("arch", "line", "gt", "mega", "canes_combo", "matrix"),
-        primary_categories=("arch", "line", "gt", "canes_combo", "matrix"),
-        chorus_categories=("arch", "line", "mega", "gt", "canes_combo", "matrix"),
-        build_categories=("arch", "line", "mega", "matrix", "spinner"),
-        drop_blackout_ms=(210, 320),
-        sweep_hit_ms=108,
-    ),
-    "v15.1": VariantStyle(
-        version="v15.1",
-        family="v15",
-        title="Cinematic Arc",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="phrase_architect",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=1.00,
-        speed_scale=1.02,
-        randomness_scale=0.22,
-        bass_scale=1.18,
-        melody_scale=1.14,
-        darkness_scale=0.96,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "mega", "gt", "canes_combo", "matrix", "spinner"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "spinner", "canes_combo", "mega"),
-        drop_blackout_ms=(230, 350),
-        sweep_hit_ms=116,
-    ),
-    "v15.2": VariantStyle(
-        version="v15.2",
-        family="v15",
-        title="Orchestra Drive",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="stem_storyboard",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=1.04,
-        speed_scale=1.04,
-        randomness_scale=0.20,
-        bass_scale=1.24,
-        melody_scale=1.10,
-        darkness_scale=0.96,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "spinner", "gt"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "gt", "arch", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(220, 340),
-        sweep_hit_ms=120,
-    ),
-    "v15.3": VariantStyle(
-        version="v15.3",
-        family="v15",
-        title="PrimeTime Finale",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="primetime_director",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=1.08,
-        speed_scale=1.06,
-        randomness_scale=0.18,
-        bass_scale=1.24,
-        melody_scale=1.16,
-        darkness_scale=0.94,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "canes_combo", "spinner", "gt"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "stars"),
-        drop_blackout_ms=(230, 360),
-        sweep_hit_ms=124,
-    ),
-    "v16.1": VariantStyle(
-        version="v16.1",
-        family="v16",
-        title="Show Arc",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_arc",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.84,
-        speed_scale=0.98,
-        randomness_scale=0.14,
-        bass_scale=1.16,
-        melody_scale=1.08,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "mega", "gt", "canes_combo", "matrix"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(210, 330),
-        sweep_hit_ms=112,
-    ),
-    "v16.2": VariantStyle(
-        version="v16.2",
-        family="v16",
-        title="Stagecraft Stems",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.90,
-        speed_scale=1.02,
-        randomness_scale=0.16,
-        bass_scale=1.24,
-        melody_scale=1.06,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "spinner", "gt"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "gt", "arch", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(210, 330),
-        sweep_hit_ms=118,
-    ),
-    "v16.3": VariantStyle(
-        version="v16.3",
-        family="v16",
-        title="Choreo Waves",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_motion",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.92,
-        speed_scale=1.06,
-        randomness_scale=0.12,
-        bass_scale=1.10,
-        melody_scale=1.24,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("arch", "line", "gt", "mega", "canes_combo", "matrix"),
-        primary_categories=("arch", "line", "gt", "canes_combo", "matrix"),
-        chorus_categories=("arch", "line", "mega", "gt", "canes_combo", "matrix"),
-        build_categories=("arch", "line", "mega", "matrix", "spinner"),
-        drop_blackout_ms=(205, 320),
-        sweep_hit_ms=104,
-    ),
-    "v17.1": VariantStyle(
-        version="v17.1",
-        family="v17",
-        title="Signature Show",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.98,
-        speed_scale=1.02,
-        randomness_scale=0.18,
-        bass_scale=1.20,
-        melody_scale=1.14,
-        darkness_scale=0.94,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "canes_combo", "spinner", "gt"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "stars"),
-        drop_blackout_ms=(220, 345),
-        sweep_hit_ms=118,
-    ),
-    "v17.2": VariantStyle(
-        version="v17.2",
-        family="v17",
-        title="Choir Cinema",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.94,
-        speed_scale=1.00,
-        randomness_scale=0.16,
-        bass_scale=1.12,
-        melody_scale=1.20,
-        darkness_scale=0.92,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("matrix", "line", "arch", "mega", "canes_combo", "spinner"),
-        primary_categories=("talking_heads", "matrix", "line", "arch", "stars"),
-        chorus_categories=("matrix", "mega", "spinner", "line", "arch", "gt"),
-        build_categories=("line", "arch", "matrix", "stars", "snowflakes"),
-        drop_blackout_ms=(220, 340),
-        sweep_hit_ms=112,
-    ),
-    "v17.3": VariantStyle(
-        version="v17.3",
-        family="v17",
-        title="Showstopper Cut",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=1.04,
-        speed_scale=1.06,
-        randomness_scale=0.18,
-        bass_scale=1.24,
-        melody_scale=1.18,
-        darkness_scale=0.92,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "canes_combo", "spinner", "gt"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "stars"),
-        drop_blackout_ms=(230, 360),
-        sweep_hit_ms=122,
-    ),
-    "v18.1": VariantStyle(
-        version="v18.1",
-        family="v18",
-        title="Mapped Extreme",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="xtreme_essentials",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.86,
-        speed_scale=1.00,
-        randomness_scale=0.12,
-        bass_scale=1.18,
-        melody_scale=1.08,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "flood", "gt"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "flood"),
-        chorus_categories=("mega", "matrix", "line", "arch", "gt", "canes_combo", "flood"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "flood"),
-        drop_blackout_ms=(210, 330),
-        sweep_hit_ms=112,
-    ),
-    "v18.2": VariantStyle(
-        version="v18.2",
-        family="v18",
-        title="Submodel Surge",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="xtreme_submodel",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.92,
-        speed_scale=1.04,
-        randomness_scale=0.14,
-        bass_scale=1.22,
-        melody_scale=1.16,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "flood", "gt"),
-        primary_categories=("matrix", "line", "arch", "canes_combo", "flood", "talking_heads"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "gt", "arch", "canes_combo", "flood"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "flood"),
-        drop_blackout_ms=(215, 335),
-        sweep_hit_ms=118,
-    ),
-    "v18.3": VariantStyle(
-        version="v18.3",
-        family="v18",
-        title="Extreme Showcase",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="xtreme_showcase",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=1.00,
-        speed_scale=1.04,
-        randomness_scale=0.16,
-        bass_scale=1.24,
-        melody_scale=1.18,
-        darkness_scale=0.92,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "canes_combo", "spinner", "gt", "flood"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "flood"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo", "flood"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "stars", "flood"),
-        drop_blackout_ms=(225, 350),
-        sweep_hit_ms=120,
-    ),
-    "v19.1": VariantStyle(
-        version="v19.1",
-        family="v19",
-        title="Piano Spine",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_arc",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.84,
-        speed_scale=0.98,
-        randomness_scale=0.06,
-        bass_scale=1.16,
-        melody_scale=1.18,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "arch", "line", "gt", "mega", "matrix"),
-        primary_categories=("canes_combo", "line", "arch", "gt", "mega"),
-        chorus_categories=("canes_combo", "mega", "line", "arch", "gt", "matrix"),
-        build_categories=("canes_combo", "arch", "line", "mega", "spinner"),
-        drop_blackout_ms=(210, 330),
-        sweep_hit_ms=110,
-    ),
-    "v19.2": VariantStyle(
-        version="v19.2",
-        family="v19",
-        title="Keyed Stems",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.90,
-        speed_scale=1.00,
-        randomness_scale=0.06,
-        bass_scale=1.20,
-        melody_scale=1.16,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "line", "arch", "mega", "gt", "matrix", "spinner"),
-        primary_categories=("canes_combo", "line", "arch", "matrix", "gt"),
-        chorus_categories=("canes_combo", "mega", "line", "arch", "gt", "matrix"),
-        build_categories=("canes_combo", "arch", "line", "mega", "spinner"),
-        drop_blackout_ms=(214, 334),
-        sweep_hit_ms=114,
-    ),
-    "v19.3": VariantStyle(
-        version="v19.3",
-        family="v19",
-        title="Grand Keys",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.96,
-        speed_scale=1.02,
-        randomness_scale=0.08,
-        bass_scale=1.22,
-        melody_scale=1.20,
-        darkness_scale=0.94,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("canes_combo", "mega", "line", "arch", "gt", "matrix", "spinner"),
-        primary_categories=("canes_combo", "line", "arch", "matrix", "gt"),
-        chorus_categories=("canes_combo", "mega", "matrix", "line", "arch", "gt"),
-        build_categories=("canes_combo", "arch", "line", "mega", "spinner", "stars"),
-        drop_blackout_ms=(220, 340),
-        sweep_hit_ms=118,
-    ),
-    "v20.1": VariantStyle(
-        version="v20.1",
-        family="v20",
-        title="Studio Recall",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_arc",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.88,
-        speed_scale=0.98,
-        randomness_scale=0.08,
-        bass_scale=1.18,
-        melody_scale=1.10,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "mega", "gt", "canes_combo", "matrix"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(212, 332),
-        sweep_hit_ms=114,
-    ),
-    "v20.2": VariantStyle(
-        version="v20.2",
-        family="v20",
-        title="Stem Recall",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.94,
-        speed_scale=1.01,
-        randomness_scale=0.08,
-        bass_scale=1.22,
-        melody_scale=1.08,
-        darkness_scale=0.95,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "spinner", "gt"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "gt", "arch", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(214, 336),
-        sweep_hit_ms=119,
-    ),
-    "v20.3": VariantStyle(
-        version="v20.3",
-        family="v20",
-        title="Signature Recall",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.99,
-        speed_scale=1.03,
-        randomness_scale=0.10,
-        bass_scale=1.24,
-        melody_scale=1.14,
-        darkness_scale=0.93,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "canes_combo", "spinner", "gt"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "stars"),
-        drop_blackout_ms=(222, 346),
-        sweep_hit_ms=120,
-    ),
-    "v21.1": VariantStyle(
-        version="v21.1",
-        family="v21",
-        title="Scene Logic",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="phrase_architect",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.92,
-        speed_scale=0.99,
-        randomness_scale=0.10,
-        bass_scale=1.18,
-        melody_scale=1.14,
-        darkness_scale=0.96,
-        piano_echo=True,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "mega", "gt", "canes_combo", "matrix", "spinner"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "spinner", "canes_combo", "mega"),
-        drop_blackout_ms=(224, 344),
-        sweep_hit_ms=118,
-    ),
-    "v21.2": VariantStyle(
-        version="v21.2",
-        family="v21",
-        title="Lane Logic",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="stem_storyboard",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.98,
-        speed_scale=1.02,
-        randomness_scale=0.10,
-        bass_scale=1.22,
-        melody_scale=1.12,
-        darkness_scale=0.95,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "line", "arch", "canes_combo", "matrix", "spinner", "gt"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "gt", "arch", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner"),
-        drop_blackout_ms=(222, 342),
-        sweep_hit_ms=121,
-    ),
-    "v21.3": VariantStyle(
-        version="v21.3",
-        family="v21",
-        title="Finale Logic",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="primetime_director",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=1.04,
-        speed_scale=1.05,
-        randomness_scale=0.10,
-        bass_scale=1.24,
-        melody_scale=1.18,
-        darkness_scale=0.93,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "canes_combo", "spinner", "gt"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "stars"),
-        drop_blackout_ms=(232, 362),
-        sweep_hit_ms=125,
-    ),
-    "v21.4": VariantStyle(
-        version="v21.4",
-        family="v21",
-        title="Model Atlas",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_arc",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.96,
-        speed_scale=1.00,
-        randomness_scale=0.08,
-        bass_scale=1.18,
-        melody_scale=1.16,
-        darkness_scale=0.95,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "matrix", "spinner", "sphere", "canes_combo", "mega", "flood"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo", "flood"),
-        build_categories=("arch", "line", "matrix", "spinner", "sphere", "canes_combo"),
-        drop_blackout_ms=(224, 348),
-        sweep_hit_ms=122,
-    ),
-    "v21.5": VariantStyle(
-        version="v21.5",
-        family="v21",
-        title="Submodel Studio",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=6,
-        density_scale=0.93,
-        speed_scale=1.02,
-        randomness_scale=0.07,
-        bass_scale=1.20,
-        melody_scale=1.18,
-        darkness_scale=0.94,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("matrix", "line", "arch", "spinner", "canes_combo", "mega", "sphere", "stars"),
-        primary_categories=("talking_heads", "matrix", "line", "arch", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo", "flood"),
-        build_categories=("matrix", "arch", "line", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(226, 352),
-        sweep_hit_ms=124,
-    ),
-    "v21.6": VariantStyle(
-        version="v21.6",
-        family="v21",
-        title="Pixel Auteur",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=1.01,
-        speed_scale=1.04,
-        randomness_scale=0.07,
-        bass_scale=1.24,
-        melody_scale=1.20,
-        darkness_scale=0.93,
-        piano_echo=True,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo", "flood"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo", "flood"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(236, 366),
-        sweep_hit_ms=128,
-    ),
-    "v22.1": VariantStyle(
-        version="v22.1",
-        family="v22",
-        title="Premium Storyboard",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_arc",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=0.90,
-        speed_scale=0.98,
-        randomness_scale=0.05,
-        bass_scale=1.16,
-        melody_scale=1.06,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("line", "arch", "matrix", "spinner", "sphere", "canes_combo", "mega"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "spinner", "sphere", "canes_combo"),
-        drop_blackout_ms=(214, 336),
-        sweep_hit_ms=118,
-    ),
-    "v22.2": VariantStyle(
-        version="v22.2",
-        family="v22",
-        title="Submodel Maestro",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.88,
-        speed_scale=0.99,
-        randomness_scale=0.05,
-        bass_scale=1.16,
-        melody_scale=1.05,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("matrix", "line", "arch", "spinner", "canes_combo", "mega", "sphere", "stars"),
-        primary_categories=("talking_heads", "matrix", "line", "arch", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("matrix", "arch", "line", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(218, 340),
-        sweep_hit_ms=120,
-    ),
-    "v22.3": VariantStyle(
-        version="v22.3",
-        family="v22",
-        title="Pixel Prestige",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.94,
-        speed_scale=1.01,
-        randomness_scale=0.05,
-        bass_scale=1.20,
-        melody_scale=1.10,
-        darkness_scale=0.96,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(224, 350),
-        sweep_hit_ms=122,
-    ),
-    "v23.1": VariantStyle(
-        version="v23.1",
-        family="v23",
-        title="Scenic Director",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_arc",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.84,
-        speed_scale=0.98,
-        randomness_scale=0.04,
-        bass_scale=1.16,
-        melody_scale=1.04,
-        darkness_scale=1.00,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("arch", "line", "matrix", "mega", "spinner", "sphere"),
-        primary_categories=("matrix", "arch", "line", "talking_heads", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "arch", "line", "gt"),
-        build_categories=("arch", "line", "matrix", "sphere", "stars"),
-        drop_blackout_ms=(210, 332),
-        sweep_hit_ms=116,
-    ),
-    "v23.2": VariantStyle(
-        version="v23.2",
-        family="v23",
-        title="Detail Director",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.82,
-        speed_scale=0.99,
-        randomness_scale=0.03,
-        bass_scale=1.15,
-        melody_scale=1.04,
-        darkness_scale=1.00,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("matrix", "line", "arch", "spinner", "canes_combo", "mega", "sphere", "stars"),
-        primary_categories=("talking_heads", "matrix", "line", "arch", "canes_combo"),
-        chorus_categories=("mega", "matrix", "spinner", "arch", "line", "gt", "sphere"),
-        build_categories=("matrix", "arch", "line", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(214, 336),
-        sweep_hit_ms=118,
-    ),
-    "v23.3": VariantStyle(
-        version="v23.3",
-        family="v23",
-        title="Headliner Pixel",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=4,
-        density_scale=0.88,
-        speed_scale=1.00,
-        randomness_scale=0.04,
-        bass_scale=1.18,
-        melody_scale=1.08,
-        darkness_scale=0.98,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(220, 344),
-        sweep_hit_ms=120,
-    ),
-    "v23.4": VariantStyle(
-        version="v23.4",
-        family="v23",
-        title="Noir Stemcraft",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.78,
-        speed_scale=0.97,
-        randomness_scale=0.02,
-        bass_scale=1.18,
-        melody_scale=1.06,
-        darkness_scale=1.12,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "arch", "line", "sphere", "gt"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(272, 448),
-        sweep_hit_ms=116,
-    ),
-    "v23.5": VariantStyle(
-        version="v23.5",
-        family="v23",
-        title="Suspense Signature",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.82,
-        speed_scale=1.00,
-        randomness_scale=0.025,
-        bass_scale=1.20,
-        melody_scale=1.10,
-        darkness_scale=1.10,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(286, 470),
-        sweep_hit_ms=114,
-    ),
-    "v23.6": VariantStyle(
-        version="v23.6",
-        family="v23",
-        title="Apex Stem Noir",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=False,
-        polyphony=4,
-        density_scale=0.76,
-        speed_scale=1.00,
-        randomness_scale=0.02,
-        bass_scale=1.22,
-        melody_scale=1.06,
-        darkness_scale=1.14,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "arch", "line", "sphere", "gt"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(312, 508),
-        sweep_hit_ms=114,
-    ),
-    "v24.1": VariantStyle(
-        version="v24.1",
-        family="v24",
-        title="Role Architect",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="hierarchy_roles",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.90,
-        speed_scale=1.01,
-        randomness_scale=0.03,
-        bass_scale=1.20,
-        melody_scale=1.10,
-        darkness_scale=1.05,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "arch", "line", "gt", "sphere"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(248, 410),
-        sweep_hit_ms=114,
-    ),
-    "v24.2": VariantStyle(
-        version="v24.2",
-        family="v24",
-        title="Context Choreo",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="hierarchy_roles",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.92,
-        speed_scale=1.03,
-        randomness_scale=0.04,
-        bass_scale=1.22,
-        melody_scale=1.11,
-        darkness_scale=1.08,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("line", "arch", "matrix", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(264, 438),
-        sweep_hit_ms=112,
-    ),
-    "v24.3": VariantStyle(
-        version="v24.3",
-        family="v24",
-        title="Apex Storyboard",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="hierarchy_roles",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.94,
-        speed_scale=1.05,
-        randomness_scale=0.05,
-        bass_scale=1.24,
-        melody_scale=1.13,
-        darkness_scale=1.10,
-        piano_echo=False,
-        call_response=False,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(284, 468),
-        sweep_hit_ms=110,
-    ),
-    "v25.1": VariantStyle(
-        version="v25.1",
-        family="v25",
-        title="Raw Auto",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.98,
-        speed_scale=1.05,
-        randomness_scale=0.03,
-        bass_scale=1.22,
-        melody_scale=1.10,
-        darkness_scale=1.08,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(260, 440),
-        sweep_hit_ms=108,
-    ),
-    "v25.2": VariantStyle(
-        version="v25.2",
-        family="v25",
-        title="Pro Vendor",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.92,
-        speed_scale=1.03,
-        randomness_scale=0.02,
-        bass_scale=1.26,
-        melody_scale=1.14,
-        darkness_scale=1.12,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(300, 500),
-        sweep_hit_ms=104,
-    ),
-    "v26.1": VariantStyle(
-        version="v26.1",
-        family="v26",
-        title="Raw Auto",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_stems",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.98,
-        speed_scale=1.04,
-        randomness_scale=0.02,
-        bass_scale=1.24,
-        melody_scale=1.12,
-        darkness_scale=1.10,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(260, 440),
-        sweep_hit_ms=106,
-    ),
-    "v26.2": VariantStyle(
-        version="v26.2",
-        family="v26",
-        title="Pro Vendor",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.90,
-        speed_scale=1.02,
-        randomness_scale=0.02,
-        bass_scale=1.28,
-        melody_scale=1.16,
-        darkness_scale=1.14,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(320, 520),
-        sweep_hit_ms=102,
-    ),
-    "v27.1": VariantStyle(
-        version="v27.1",
-        family="v27",
-        title="Raw Auto",
-        timing_mode="mixed",
-        pool_mode="sectional",
-        placement_mode="showcase_signature",
-        keyboard_overlay=True,
-        polyphony=5,
-        density_scale=0.98,
-        speed_scale=1.04,
-        randomness_scale=0.02,
-        bass_scale=1.26,
-        melody_scale=1.14,
-        darkness_scale=1.12,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(260, 440),
-        sweep_hit_ms=104,
-    ),
-    "v27.2": VariantStyle(
-        version="v27.2",
-        family="v27",
-        title="Helix Final",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="piano_lights",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=0.92,
-        speed_scale=1.03,
-        randomness_scale=0.02,
-        bass_scale=1.30,
-        melody_scale=1.18,
-        darkness_scale=1.16,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(340, 540),
-        sweep_hit_ms=100,
-    ),
-    "v27.3": VariantStyle(
-        version="v27.3",
-        family="v27",
-        title="Helix Prime",
-        timing_mode="hook",
-        pool_mode="sectional",
-        placement_mode="piano_lights",
-        keyboard_overlay=True,
-        polyphony=6,
-        density_scale=0.95,
-        speed_scale=1.03,
-        randomness_scale=0.02,
-        bass_scale=1.28,
-        melody_scale=1.16,
-        darkness_scale=1.14,
-        piano_echo=False,
-        call_response=True,
-        section_emphasis=True,
-        sweep_categories=("mega", "matrix", "line", "arch", "spinner", "sphere", "canes_combo"),
-        primary_categories=("matrix", "line", "arch", "talking_heads", "canes_combo", "sphere"),
-        chorus_categories=("mega", "matrix", "spinner", "line", "arch", "gt", "sphere", "canes_combo"),
-        build_categories=("arch", "line", "matrix", "mega", "spinner", "sphere", "stars"),
-        drop_blackout_ms=(320, 520),
-        sweep_hit_ms=102,
-    ),
-}
+class LazyVariantCatalog(Mapping[str, VariantStyle]):
+    def __init__(self) -> None:
+        self._catalog: dict[str, VariantStyle] | None = None
+
+    def _ensure_loaded(self) -> dict[str, VariantStyle]:
+        if self._catalog is None:
+            from core import engine_style_catalog
+
+            self._catalog = engine_style_catalog.build_variants(VariantStyle)
+        return self._catalog
+
+    def __getitem__(self, key: str) -> VariantStyle:
+        return self._ensure_loaded()[key]
+
+    def __iter__(self) -> Iterator[str]:
+        return iter(self._ensure_loaded())
+
+    def __len__(self) -> int:
+        return len(self._ensure_loaded())
+
+    def __contains__(self, key: object) -> bool:
+        return key in self._ensure_loaded()
+
+
+VARIANTS = LazyVariantCatalog()
+
+# Legacy-tuned style variants are preserved for compatibility, but the actively
+# maintained engine defaults to the current stable style profile.
+ACTIVE_STYLE_VERSION = "v27.3"
+
+
+class _ActiveStyleProxy:
+    def __getattr__(self, name: str) -> object:
+        return getattr(VARIANTS[ACTIVE_STYLE_VERSION], name)
+
+    def __repr__(self) -> str:
+        return repr(VARIANTS[ACTIVE_STYLE_VERSION])
+
+
+ACTIVE_STYLE = _ActiveStyleProxy()
 
 GENERATE_SHOWCASE = False
 
@@ -2100,6 +310,18 @@ def report_path(out_path: Path) -> Path:
 
 def notes_path(out_path: Path) -> Path:
     return out_path.with_name(f"{out_path.stem}.sequence_notes.txt")
+
+
+def chronoflow_json_path(out_path: Path) -> Path:
+    return out_path.with_name(f"{out_path.stem}.chronoflow.json")
+
+
+def chronoflow_view_path(out_path: Path) -> Path:
+    return out_path.with_name(f"{out_path.stem}.chronoflow.html")
+
+
+def snowman_band_json_path(out_path: Path) -> Path:
+    return out_path.with_name(f"{out_path.stem}.snowman_band.json")
 
 
 def ensure_audio_sidecar(audio_path: Path, out_path: Path) -> Path:
@@ -2534,6 +756,18 @@ def normalize_palette_mode(raw: str) -> str:
     return "template"
 
 
+def normalize_audio_reactive_profile(raw: str | None) -> str:
+    value = (raw or "balanced").strip().lower().replace("-", "_").replace(" ", "_")
+    return value if value in AUDIO_REACTIVE_PROFILE_INTENSITIES else "balanced"
+
+
+def resolve_audio_reactive_tuning(profile_raw: str | None, intensity_raw: float | None) -> tuple[str, float]:
+    profile = normalize_audio_reactive_profile(profile_raw)
+    if intensity_raw is not None:
+        return "custom", base.clamp(float(intensity_raw), 0.0, 2.0)
+    return profile, AUDIO_REACTIVE_PROFILE_INTENSITIES[profile]
+
+
 def extract_palette_hexes(palette: str) -> list[str]:
     return re.findall(r"#[0-9a-fA-F]{6}", palette or "")
 
@@ -2561,9 +795,9 @@ def scan_workspace_preferences(
 ) -> WorkspaceHistoryProfile:
     if not tuning.workspace_history_enabled:
         return WorkspaceHistoryProfile(family_effects={}, palette_pool=[])
-    # Safety: only learn from this tool's own generated outputs.
-    # We require sidecar report files to avoid ingesting external/vendor XSQs.
     search_dirs: list[Path] = [output_dir]
+    if tuning.workspace_history_folder is not None:
+        search_dirs.append(tuning.workspace_history_folder)
     candidate_paths: list[Path] = []
     seen: set[str] = set()
     for directory in search_dirs:
@@ -2573,9 +807,9 @@ def scan_workspace_preferences(
             low = str(path).lower()
             if "template" in path.name.lower():
                 continue
+            report_path = path.with_suffix(".report.json")
             if ",v" not in path.name.lower():
                 continue
-            report_path = path.with_suffix(".report.json")
             if not report_path.exists():
                 continue
             if low in seen:
@@ -2587,28 +821,72 @@ def scan_workspace_preferences(
 
     family_effect_counts: dict[str, dict[str, int]] = {}
     palette_counts: dict[str, int] = {}
+    density_biases: list[float] = []
+    speed_biases: list[float] = []
+    darkness_biases: list[float] = []
+    source_files: list[str] = []
     for path in candidate_paths:
+        report_path = path.with_suffix(".report.json")
+        report_weight = 1
+        if report_path.exists():
+            try:
+                report_payload = json.loads(report_path.read_text(encoding="utf-8"))
+            except Exception:
+                report_payload = {}
+            if not sequence_scoring.is_helix_generated_payload(report_payload):
+                continue
+            quality_payload = report_payload.get("quality", {}) or {}
+            profile_payload = report_payload.get("profile", {}) or {}
+            quality_score = float(quality_payload.get("score", 0.0) or 0.0)
+            if quality_score >= 90:
+                report_weight = 3
+            elif quality_score >= 82:
+                report_weight = 2
+            density_value = float(profile_payload.get("density", 1.0) or 1.0)
+            speed_value = float(profile_payload.get("speed", 1.0) or 1.0)
+            darkness_value = float(profile_payload.get("darkness", 1.0) or 1.0)
+            density_biases.extend([base.clamp(density_value, 0.70, 1.45)] * report_weight)
+            speed_biases.extend([base.clamp(speed_value, 0.70, 1.45)] * report_weight)
+            darkness_biases.extend([base.clamp(darkness_value, 0.70, 1.45)] * report_weight)
         try:
             xsq = base.load_xsq(path)
         except Exception:
             continue
+        source_files.append(path.name)
         for model_name, element in xsq.elements.items():
             family = prop_family(model_name, None) or "generic"
             family_bucket = family_effect_counts.setdefault(family, {})
             for effect in base._find_any(element, "Effect"):  # type: ignore[attr-defined]
                 effect_name = base._effect_name(effect).strip()  # type: ignore[attr-defined]
                 if effect_name:
-                    family_bucket[effect_name] = family_bucket.get(effect_name, 0) + 1
+                    family_bucket[effect_name] = family_bucket.get(effect_name, 0) + report_weight
                 palette = base._effect_palette(effect)  # type: ignore[attr-defined]
                 if palette:
-                    palette_counts[palette] = palette_counts.get(palette, 0) + 1
+                    palette_counts[palette] = palette_counts.get(palette, 0) + report_weight
 
     family_effects: dict[str, list[str]] = {}
     for family, bucket in family_effect_counts.items():
         ordered = sorted(bucket.items(), key=lambda item: (-item[1], item[0].lower()))
         family_effects[family] = [name for name, _count in ordered[:6]]
     palette_pool = [palette for palette, _count in sorted(palette_counts.items(), key=lambda item: (-item[1], item[0]))[:120]]
-    return WorkspaceHistoryProfile(family_effects=family_effects, palette_pool=palette_pool)
+    return WorkspaceHistoryProfile(
+        family_effects=family_effects,
+        palette_pool=palette_pool,
+        density_bias=(sum(density_biases) / len(density_biases) if density_biases else 1.0),
+        speed_bias=(sum(speed_biases) / len(speed_biases) if speed_biases else 1.0),
+        darkness_bias=(sum(darkness_biases) / len(darkness_biases) if darkness_biases else 1.0),
+        source_files=source_files[:24],
+        learned_from_user_xsqs=False,
+    )
+
+
+def apply_workspace_learning(style: VariantStyle, workspace_history: WorkspaceHistoryProfile) -> VariantStyle:
+    return replace(
+        style,
+        density_scale=base.clamp(style.density_scale * workspace_history.density_bias, 0.65, 1.60),
+        speed_scale=base.clamp(style.speed_scale * workspace_history.speed_bias, 0.65, 1.60),
+        darkness_scale=base.clamp(style.darkness_scale * workspace_history.darkness_bias, 0.65, 1.55),
+    )
 
 
 def pick_palette_for_effect(
@@ -2873,6 +1151,152 @@ def expand_pool_models_with_submodels(
     return dedupe_names(expanded)
 
 
+GROUP_SEQUENCE_MAX_MEMBERS = 24
+
+
+def infer_sequence_family_from_name(name: str) -> str:
+    norm = base.normalize_name(name)
+    if not norm:
+        return ""
+    if "notes" in norm:
+        return "notes"
+    if "north" in norm and "cane" in norm:
+        return "north_canes"
+    if any(token in norm for token in ("south cane", "notnorth cane")):
+        return "south_canes"
+    if "candy cane" in norm or re.search(r"\bcane\b", norm):
+        return "canes_combo"
+    if "snowflake" in norm:
+        return "snowflakes"
+    if "shooting star" in norm or re.search(r"\bstar\b", norm):
+        return "stars"
+    if "mega tree" in norm or "megatree" in norm:
+        return "mega"
+    if "garage tree" in norm:
+        return "gt"
+    if "arch" in norm:
+        return "arch"
+    if any(token in norm for token in ("perimeter", "blvd", "boulevard", "linden", "line tree")):
+        return "line"
+    if "matrix" in norm or "panel" in norm or "video wall" in norm:
+        return "matrix"
+    if any(token in norm for token in ("talking head", "singing face", "face panel", "lyric", "mouth")):
+        return "talking_heads"
+    if any(token in norm for token in ("spinner", "pinwheel", "spin")):
+        return "spinner"
+    if "flood" in norm or "strobe" in norm:
+        return "flood"
+    if any(token in norm for token in ("sphere", "orb", "wreath", "circle", "globe")):
+        return "sphere"
+    return ""
+
+
+def infer_group_sequence_family(
+    group_name: str,
+    parsed_layout: xmp.ParsedLayout,
+    *,
+    _seen: set[str] | None = None,
+) -> str:
+    name_hint = infer_sequence_family_from_name(group_name)
+    if name_hint:
+        return name_hint
+
+    seen = _seen or set()
+    norm_group = base.normalize_name(group_name)
+    if norm_group in seen:
+        return ""
+    seen.add(norm_group)
+
+    group = parsed_layout.groups.get(group_name)
+    if group is None:
+        return ""
+
+    counts: Counter[str] = Counter()
+    for member in group.models:
+        member_name = parsed_layout.aliases.get(base.normalize_name(member), member)
+        member_hint = infer_sequence_family_from_name(member_name)
+        if member_hint:
+            counts[member_hint] += 1
+            continue
+        model = parsed_layout.model_for(member_name)
+        if model is not None:
+            family = family_from_parsed_model(model)
+            if family:
+                counts[family] += 1
+            continue
+        if member_name in parsed_layout.groups:
+            family = infer_group_sequence_family(member_name, parsed_layout, _seen=seen)
+            if family:
+                counts[family] += 1
+
+    if not counts:
+        return ""
+    priority = {
+        "notes": 0,
+        "north_canes": 1,
+        "south_canes": 2,
+        "canes_combo": 3,
+        "arch": 4,
+        "line": 5,
+        "mega": 6,
+        "gt": 7,
+        "matrix": 8,
+        "stars": 9,
+        "snowflakes": 10,
+        "talking_heads": 11,
+        "spinner": 12,
+        "sphere": 13,
+        "flood": 14,
+    }
+    return sorted(counts.items(), key=lambda item: (-item[1], priority.get(item[0], 99), item[0]))[0][0]
+
+
+def discover_group_sequence_pools(
+    names: list[str],
+    parsed_layout: xmp.ParsedLayout | None,
+) -> list[tuple[str, str, list[str]]]:
+    if parsed_layout is None:
+        return []
+
+    def is_color_stack_group(models: list[str]) -> bool:
+        if len(models) < 2 or len(models) > 4:
+            return False
+        stripped: set[str] = set()
+        color_hits = 0
+        for model_name in models:
+            norm = base.normalize_name(model_name)
+            if re.search(r"\b(red|green|white)\b", norm):
+                color_hits += 1
+            stripped.add(" ".join(re.sub(r"\b(red|green|white)\b", " ", norm).split()))
+        return color_hits >= max(2, len(models) - 1) and len(stripped) == 1
+
+    available_lookup = {base.normalize_name(name): name for name in names}
+    discovered: list[tuple[str, str, list[str]]] = []
+    for group_name, group in parsed_layout.groups.items():
+        canonical_group = available_lookup.get(base.normalize_name(group_name), group_name)
+        if canonical_group not in names:
+            continue
+        norm_group = base.normalize_name(canonical_group)
+        if "whole house" in norm_group:
+            continue
+        ordered_members = dedupe_names(
+            [
+                available_lookup[base.normalize_name(member)]
+                for member in group.models
+                if base.normalize_name(member) in available_lookup and available_lookup[base.normalize_name(member)] != canonical_group
+            ]
+        )
+        if len(ordered_members) < 2 or len(ordered_members) > GROUP_SEQUENCE_MAX_MEMBERS:
+            continue
+        if is_color_stack_group(ordered_members):
+            continue
+        category = infer_group_sequence_family(group_name, parsed_layout)
+        if not category:
+            continue
+        discovered.append((canonical_group, category, ordered_members))
+    return discovered
+
+
 def family_from_parsed_model(model: xmp.Model) -> str:
     semantic = base.normalize_name(model.type)
     display = base.normalize_name(model.display_as)
@@ -2976,6 +1400,7 @@ def enrich_layout_with_parsed(layout: base.Layout, names: list[str], parsed_layo
 def discover_sequential_pools(names: list[str], layout: base.Layout, parsed_layout: xmp.ParsedLayout | None = None) -> list[SequentialPool]:
     pools: list[SequentialPool] = []
     pooled_by_category: dict[str, set[str]] = {}
+    pool_signatures: set[tuple[str, ...]] = set()
     names_set = set(names)
     perimeter_waypoints = (
         ("right", "linden"),
@@ -2989,7 +1414,11 @@ def discover_sequential_pools(names: list[str], layout: base.Layout, parsed_layo
         deduped = dedupe_names(models)
         if not deduped:
             return
+        signature = tuple(deduped)
+        if signature in pool_signatures:
+            return
         pools.append(SequentialPool(name=name, category=category, models=deduped))
+        pool_signatures.add(signature)
         pooled_by_category.setdefault(category, set()).update(deduped)
 
     gt_models = find_series_anywhere(names, [r"\bgt\s*(\d+)\b"]) or base.find_numbered_series(names, [r"gt\s*(\d+)"])
@@ -3151,6 +1580,8 @@ def discover_sequential_pools(names: list[str], layout: base.Layout, parsed_layo
     add_pool("canes_combo", "canes_combo", combo)
     add_pool("talking_heads", "talking_heads", discover_talking_heads(names))
     add_pool("arch_spatial", "arch", arch_models)
+    for group_name, category, members in discover_group_sequence_pools(names, parsed_layout):
+        add_pool(group_name, category, members)
 
     if parsed_layout is not None:
         nbh_by_family: dict[str, list[tuple[float, float, str]]] = {}
@@ -3372,6 +1803,466 @@ def derive_dynamic_marks(audio: base.Audio) -> tuple[list[int], list[int], list[
     return (energy_peaks, build_lifts, releases)
 
 
+def _series_peak_marks(
+    times_s: np.ndarray,
+    series: np.ndarray,
+    *,
+    threshold: float,
+    wait: int,
+    gap_ms: int,
+) -> list[int]:
+    if times_s.size == 0 or series.size == 0:
+        return []
+    usable = min(len(times_s), len(series))
+    if usable <= 0:
+        return []
+    ts = np.asarray(times_s[:usable], dtype=float)
+    vals = np.asarray(series[:usable], dtype=float)
+    if not np.isfinite(vals).any():
+        return []
+    norm = base.norm01(np.nan_to_num(vals, nan=0.0, posinf=0.0, neginf=0.0))
+    marks = [base.ms(t) for t in base.peak_times(ts, norm, threshold, max(1, int(wait)))]
+    return base.compress_times_ms(marks, max(10, int(gap_ms)))
+
+
+def _quiet_windows_from_rms(
+    times_s: np.ndarray,
+    rms01: np.ndarray,
+    *,
+    threshold: float,
+    min_window_ms: int,
+) -> list[tuple[int, int]]:
+    if times_s.size == 0 or rms01.size == 0:
+        return []
+    usable = min(len(times_s), len(rms01))
+    if usable <= 1:
+        return []
+    ts = np.asarray(times_s[:usable], dtype=float)
+    vals = np.asarray(rms01[:usable], dtype=float)
+    windows: list[tuple[int, int]] = []
+    start_idx: int | None = None
+    for idx, value in enumerate(vals):
+        if value <= threshold:
+            if start_idx is None:
+                start_idx = idx
+        elif start_idx is not None:
+            st = base.ms(ts[start_idx])
+            en = base.ms(ts[max(start_idx + 1, idx)])
+            if (en - st) >= min_window_ms:
+                windows.append((st, en))
+            start_idx = None
+    if start_idx is not None:
+        st = base.ms(ts[start_idx])
+        en = base.ms(ts[-1])
+        if (en - st) >= min_window_ms:
+            windows.append((st, en))
+    return windows
+
+
+def _align_curve(values: np.ndarray, target_len: int) -> np.ndarray:
+    if target_len <= 0:
+        return np.asarray([], dtype=float)
+    arr = np.asarray(values, dtype=float)
+    if arr.size == 0:
+        return np.zeros(target_len, dtype=float)
+    if arr.size == target_len:
+        return arr
+    src = np.linspace(0.0, 1.0, num=arr.size, endpoint=True)
+    dst = np.linspace(0.0, 1.0, num=target_len, endpoint=True)
+    return np.interp(dst, src, arr)
+
+
+def _marks_density_per_minute(marks: list[int], duration_s: float) -> float:
+    if duration_s <= 0.0:
+        return 0.0
+    return float(len(marks)) / max(1e-6, duration_s / 60.0)
+
+
+def estimate_tempo_bpm(beat_ms: list[int]) -> float:
+    if len(beat_ms) < 2:
+        return 0.0
+    deltas = np.diff(np.asarray(beat_ms, dtype=float))
+    if deltas.size == 0:
+        return 0.0
+    median_delta = float(np.median(deltas))
+    if median_delta <= 1.0:
+        return 0.0
+    return float(base.clamp(60000.0 / median_delta, 45.0, 220.0))
+
+
+def classify_mir_genre(summary: dict[str, float], *, tempo_bpm: float, rms_mean: float) -> str:
+    bass_density = float(summary.get("bass_density", 0.0))
+    sub_density = float(summary.get("sub_bass_density", 0.0))
+    high_density = float(summary.get("high_density", 0.0))
+    flux_density = float(summary.get("flux_density", 0.0))
+    contrast_mean = float(summary.get("contrast_mean", 0.0))
+    flatness_mean = float(summary.get("flatness_mean", 0.0))
+    mfcc_motion_mean = float(summary.get("mfcc_motion_mean", 0.0))
+    chroma_stability_mean = float(summary.get("chroma_stability_mean", 0.0))
+    tonnetz_motion_mean = float(summary.get("tonnetz_motion_mean", 0.0))
+    if tempo_bpm >= 124.0 and bass_density >= 48.0 and flux_density >= 60.0:
+        return "edm"
+    if flatness_mean >= 0.50 and contrast_mean >= 0.55 and tempo_bpm >= 92.0:
+        return "rock"
+    if sub_density >= 52.0 and high_density <= 34.0 and tempo_bpm < 108.0:
+        return "hip_hop"
+    if chroma_stability_mean >= 0.62 and mfcc_motion_mean <= 0.32 and flux_density <= 38.0:
+        return "ambient"
+    if tonnetz_motion_mean <= 0.22 and tempo_bpm < 92.0 and rms_mean <= 0.38:
+        return "classical"
+    return "pop"
+
+
+def classify_mir_mood(summary: dict[str, float], *, rms_mean: float) -> str:
+    centroid_mean = float(summary.get("centroid_mean", 0.0))
+    flux_density = float(summary.get("flux_density", 0.0))
+    chroma_stability_mean = float(summary.get("chroma_stability_mean", 0.0))
+    tonnetz_motion_mean = float(summary.get("tonnetz_motion_mean", 0.0))
+    arousal = base.clamp((0.50 * rms_mean) + (0.30 * min(1.0, flux_density / 95.0)) + (0.20 * centroid_mean), 0.0, 1.0)
+    valence = base.clamp((0.55 * chroma_stability_mean) + (0.30 * (1.0 - tonnetz_motion_mean)) + (0.15 * centroid_mean), 0.0, 1.0)
+    if arousal >= 0.74 and valence >= 0.52:
+        return "uplifting"
+    if arousal >= 0.74:
+        return "intense"
+    if arousal <= 0.34 and valence <= 0.44:
+        return "brooding"
+    if arousal <= 0.34:
+        return "calm"
+    return "balanced"
+
+
+def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
+    if audio.y.size == 0 or audio.sr <= 0:
+        return MultiBandAnalysis([], [], [], [], [], [], [], {})
+
+    hop = max(1, int(base.HOP_MS))
+    n_fft = 2048
+    spectrum = np.abs(librosa.stft(audio.y, n_fft=n_fft, hop_length=hop)) ** 2
+    if spectrum.size == 0:
+        return MultiBandAnalysis([], [], [], [], [], [], [], {})
+    magnitude = np.sqrt(np.maximum(0.0, np.asarray(spectrum, dtype=float)))
+    frame_count = int(spectrum.shape[1])
+    freqs = librosa.fft_frequencies(sr=audio.sr, n_fft=n_fft)
+    frame_times = librosa.frames_to_time(np.arange(frame_count), sr=audio.sr, hop_length=hop)
+
+    def band_env(low_hz: float, high_hz: float) -> np.ndarray:
+        bins = np.where((freqs >= low_hz) & (freqs < high_hz))[0]
+        if len(bins) == 0:
+            return np.zeros(frame_count, dtype=float)
+        raw = np.asarray(spectrum[bins, :].mean(axis=0), dtype=float)
+        return base.norm01(raw)
+
+    sub_env = band_env(20.0, 60.0)
+    bass_env = band_env(60.0, 150.0)
+    mid_env = band_env(150.0, 2000.0)
+    high_env = band_env(2000.0, 12000.0)
+
+    sub_marks = _series_peak_marks(frame_times, sub_env, threshold=0.46, wait=9, gap_ms=120)
+    bass_marks = _series_peak_marks(frame_times, bass_env, threshold=0.42, wait=8, gap_ms=105)
+    mid_marks = _series_peak_marks(frame_times, mid_env, threshold=0.38, wait=7, gap_ms=95)
+    high_marks = _series_peak_marks(frame_times, high_env, threshold=0.34, wait=6, gap_ms=80)
+
+    diff = np.diff(np.asarray(spectrum, dtype=float), axis=1)
+    flux = np.sum(np.clip(diff, 0.0, None), axis=0)
+    flux = np.pad(flux, (1, 0), mode="constant")
+    flux01 = base.norm01(np.nan_to_num(np.asarray(flux, dtype=float), nan=0.0, posinf=0.0, neginf=0.0))
+    flux_marks = _series_peak_marks(frame_times, flux, threshold=0.40, wait=8, gap_ms=90)
+
+    rms = np.asarray(audio.rms01, dtype=float)
+    if rms.size >= 5:
+        kernel = np.asarray([1.0, 2.0, 3.0, 2.0, 1.0], dtype=float)
+        rms_smoothed = np.convolve(rms, kernel / np.sum(kernel), mode="same")
+    else:
+        rms_smoothed = rms
+    loud_marks = _series_peak_marks(audio.times_s, rms_smoothed, threshold=0.72, wait=8, gap_ms=170)
+    quiet_threshold = min(0.24, max(0.08, float(np.nanpercentile(rms if rms.size else np.asarray([0.1]), 22))))
+    quiet_windows = _quiet_windows_from_rms(audio.times_s, rms, threshold=quiet_threshold, min_window_ms=360)
+
+    stacks = np.vstack(
+        [
+            np.asarray(sub_env, dtype=float),
+            np.asarray(bass_env, dtype=float),
+            np.asarray(mid_env, dtype=float),
+            np.asarray(high_env, dtype=float),
+        ]
+    )
+    band_names = ("sub_bass", "bass", "mid", "high")
+    dominance_marks: dict[str, list[int]] = {name: [] for name in band_names}
+    if stacks.size:
+        dominant_idx = np.argmax(stacks, axis=0)
+        dominant_strength = np.max(stacks, axis=0)
+        for idx, name in enumerate(band_names):
+            marks = [base.ms(float(frame_times[i])) for i in range(len(frame_times)) if int(dominant_idx[i]) == idx and dominant_strength[i] >= 0.28]
+            dominance_marks[name] = base.compress_times_ms(marks, base.scaled_gap(180))
+
+    centroid = _align_curve(librosa.feature.spectral_centroid(S=magnitude, sr=audio.sr)[0], frame_count)
+    bandwidth = _align_curve(librosa.feature.spectral_bandwidth(S=magnitude, sr=audio.sr)[0], frame_count)
+    contrast = np.asarray(librosa.feature.spectral_contrast(S=magnitude, sr=audio.sr), dtype=float)
+    contrast_curve = _align_curve(np.asarray(contrast.mean(axis=0), dtype=float), frame_count)
+    flatness = _align_curve(librosa.feature.spectral_flatness(S=magnitude)[0], frame_count)
+
+    mfcc_motion = np.zeros(frame_count, dtype=float)
+    chroma_stability = np.zeros(frame_count, dtype=float)
+    tonnetz_motion = np.zeros(frame_count, dtype=float)
+    try:
+        mfcc = np.asarray(librosa.feature.mfcc(y=audio.y, sr=audio.sr, hop_length=hop, n_mfcc=20), dtype=float)
+        if mfcc.size:
+            mfcc_delta = np.asarray(librosa.feature.delta(mfcc), dtype=float)
+            mfcc_motion = _align_curve(np.mean(np.abs(mfcc_delta), axis=0), frame_count)
+    except Exception:
+        mfcc_motion = np.zeros(frame_count, dtype=float)
+    try:
+        chroma = np.asarray(librosa.feature.chroma_cqt(y=audio.y, sr=audio.sr, hop_length=hop), dtype=float)
+        if chroma.size:
+            denom = np.sum(chroma, axis=0) + 1e-9
+            chroma_stability = _align_curve(np.max(chroma, axis=0) / denom, frame_count)
+            tonnetz = np.asarray(librosa.feature.tonnetz(chroma=chroma, sr=audio.sr), dtype=float)
+            if tonnetz.size:
+                tonnetz_delta = np.asarray(librosa.feature.delta(tonnetz), dtype=float)
+                tonnetz_motion = _align_curve(np.mean(np.abs(tonnetz_delta), axis=0), frame_count)
+    except Exception:
+        chroma_stability = np.zeros(frame_count, dtype=float)
+        tonnetz_motion = np.zeros(frame_count, dtype=float)
+
+    centroid01 = base.norm01(np.nan_to_num(centroid, nan=0.0, posinf=0.0, neginf=0.0))
+    bandwidth01 = base.norm01(np.nan_to_num(bandwidth, nan=0.0, posinf=0.0, neginf=0.0))
+    contrast01 = base.norm01(np.nan_to_num(contrast_curve, nan=0.0, posinf=0.0, neginf=0.0))
+    flatness01 = base.norm01(np.nan_to_num(flatness, nan=0.0, posinf=0.0, neginf=0.0))
+    mfcc_motion01 = base.norm01(np.nan_to_num(mfcc_motion, nan=0.0, posinf=0.0, neginf=0.0))
+    chroma_stability01 = base.norm01(np.nan_to_num(chroma_stability, nan=0.0, posinf=0.0, neginf=0.0))
+    tonnetz_motion01 = base.norm01(np.nan_to_num(tonnetz_motion, nan=0.0, posinf=0.0, neginf=0.0))
+
+    tempo_bpm = estimate_tempo_bpm(audio.beat_ms)
+    duration_s = float(max(1e-6, audio.dur_s))
+    descriptor_summary = {
+        "centroid_mean": float(np.mean(centroid01)) if centroid01.size else 0.0,
+        "bandwidth_mean": float(np.mean(bandwidth01)) if bandwidth01.size else 0.0,
+        "contrast_mean": float(np.mean(contrast01)) if contrast01.size else 0.0,
+        "flatness_mean": float(np.mean(flatness01)) if flatness01.size else 0.0,
+        "mfcc_motion_mean": float(np.mean(mfcc_motion01)) if mfcc_motion01.size else 0.0,
+        "chroma_stability_mean": float(np.mean(chroma_stability01)) if chroma_stability01.size else 0.0,
+        "tonnetz_motion_mean": float(np.mean(tonnetz_motion01)) if tonnetz_motion01.size else 0.0,
+        "flux_density": _marks_density_per_minute(flux_marks, duration_s),
+        "sub_bass_density": _marks_density_per_minute(sub_marks, duration_s),
+        "bass_density": _marks_density_per_minute(bass_marks, duration_s),
+        "mid_density": _marks_density_per_minute(mid_marks, duration_s),
+        "high_density": _marks_density_per_minute(high_marks, duration_s),
+    }
+    rms_mean = float(np.mean(np.asarray(audio.rms01, dtype=float))) if np.asarray(audio.rms01).size else 0.0
+    genre_hint = classify_mir_genre(descriptor_summary, tempo_bpm=tempo_bpm, rms_mean=rms_mean)
+    mood_hint = classify_mir_mood(descriptor_summary, rms_mean=rms_mean)
+
+    return MultiBandAnalysis(
+        sub_bass_marks=sub_marks,
+        bass_marks=bass_marks,
+        mid_marks=mid_marks,
+        high_marks=high_marks,
+        spectral_flux_marks=flux_marks,
+        loud_marks=loud_marks,
+        quiet_windows=quiet_windows,
+        dominance_marks=dominance_marks,
+        frame_times_s=np.asarray(frame_times, dtype=float),
+        spectral_centroid01=np.asarray(centroid01, dtype=float),
+        spectral_bandwidth01=np.asarray(bandwidth01, dtype=float),
+        spectral_contrast01=np.asarray(contrast01, dtype=float),
+        spectral_flatness01=np.asarray(flatness01, dtype=float),
+        spectral_flux01=np.asarray(flux01, dtype=float),
+        mfcc_motion01=np.asarray(mfcc_motion01, dtype=float),
+        chroma_stability01=np.asarray(chroma_stability01, dtype=float),
+        tonnetz_motion01=np.asarray(tonnetz_motion01, dtype=float),
+        tempo_bpm=tempo_bpm,
+        genre_hint=genre_hint,
+        mood_hint=mood_hint,
+        descriptor_summary=descriptor_summary,
+    )
+
+
+def curve_value_at_time(frame_times_s: np.ndarray | None, curve01: np.ndarray | None, t_ms: int) -> float:
+    if frame_times_s is None or curve01 is None:
+        return 0.0
+    if len(frame_times_s) == 0 or len(curve01) == 0:
+        return 0.0
+    usable = min(len(frame_times_s), len(curve01))
+    idx = int(np.searchsorted(np.asarray(frame_times_s[:usable], dtype=float), t_ms / 1000.0))
+    idx = int(base.clamp(idx, 0, usable - 1))
+    return float(np.asarray(curve01[:usable], dtype=float)[idx])
+
+
+def _curve_mean_between(frame_times_s: np.ndarray | None, curve01: np.ndarray | None, start_ms: int, end_ms: int) -> float:
+    if frame_times_s is None or curve01 is None:
+        return 0.0
+    if len(frame_times_s) == 0 or len(curve01) == 0:
+        return 0.0
+    usable = min(len(frame_times_s), len(curve01))
+    ts = np.asarray(frame_times_s[:usable], dtype=float)
+    vals = np.asarray(curve01[:usable], dtype=float)
+    st_s = max(0.0, float(start_ms) / 1000.0)
+    en_s = max(st_s + 1e-3, float(end_ms) / 1000.0)
+    mask = (ts >= st_s) & (ts < en_s)
+    if not np.any(mask):
+        idx = int(base.clamp(np.searchsorted(ts, st_s), 0, usable - 1))
+        return float(vals[idx])
+    return float(np.mean(vals[mask]))
+def hit_class_for_time(t_ms: int, *, kicks: list[int], snares: list[int], hats: list[int]) -> str:
+    if has_nearby_mark(t_ms, snares, 45) and has_nearby_mark(t_ms, hats, 40):
+        return "clap"
+    if has_nearby_mark(t_ms, kicks, 45):
+        return "kick"
+    if has_nearby_mark(t_ms, snares, 55):
+        return "snare"
+    if has_nearby_mark(t_ms, hats, 35):
+        return "hat"
+    return "none"
+
+
+def rhythm_complexity_by_part(parts: list[SongPart], onset_ms: list[int], beat_ms: list[int]) -> dict[str, float]:
+    buckets: dict[str, list[float]] = {}
+    for part in parts:
+        duration_ms = max(1, part.end_ms - part.start_ms)
+        onset_count = sum(1 for t in onset_ms if part.start_ms <= t < part.end_ms)
+        beat_count = sum(1 for t in beat_ms if part.start_ms <= t < part.end_ms)
+        onset_rate = (onset_count * 1000.0) / duration_ms
+        beat_rate = (beat_count * 1000.0) / duration_ms
+        sync_ratio = onset_rate / max(0.05, beat_rate)
+        score = base.clamp((sync_ratio - 1.0) / 2.2, 0.0, 1.0)
+        buckets.setdefault(part.label, []).append(float(score))
+    return {label: float(np.mean(values)) for label, values in buckets.items()}
+
+
+def rms_value_at_time(audio: base.Audio, t_ms: int) -> float:
+    if audio.times_s.size == 0 or audio.rms01.size == 0:
+        return 0.0
+    idx = int(np.searchsorted(audio.times_s, t_ms / 1000.0))
+    idx = int(base.clamp(idx, 0, min(len(audio.times_s), len(audio.rms01)) - 1))
+    return float(audio.rms01[idx])
+
+
+def envelope_shape_for_time(audio: base.Audio, t_ms: int) -> str:
+    if audio.times_s.size == 0 or audio.rms01.size == 0:
+        return "steady"
+    idx = int(np.searchsorted(audio.times_s, t_ms / 1000.0))
+    idx = int(base.clamp(idx, 1, min(len(audio.times_s), len(audio.rms01)) - 2))
+    rms = np.asarray(audio.rms01, dtype=float)
+    slope = float((rms[idx + 1] - rms[idx - 1]) * 0.5)
+    if slope >= 0.05:
+        return "attack"
+    if slope <= -0.05:
+        return "decay"
+    if rms[idx] >= 0.62:
+        return "sustain"
+    return "steady"
+
+
+def macro_intensity_state(
+    t_ms: int,
+    *,
+    audio: base.Audio,
+    build_lifts: list[int],
+    releases: list[int],
+    quiet_windows: list[tuple[int, int]],
+) -> str:
+    for st, en in quiet_windows:
+        if st <= t_ms <= en:
+            return "quiet"
+    if has_nearby_mark(t_ms, releases, 115):
+        return "drop"
+    if has_nearby_mark(t_ms, build_lifts, 100):
+        return "build"
+    rms = rms_value_at_time(audio, t_ms)
+    if rms >= 0.74:
+        return "peak"
+    if rms <= 0.20:
+        return "quiet"
+    return "steady"
+
+
+def dominant_band_at_time(t_ms: int, analysis: MultiBandAnalysis) -> str:
+    for band_name in ("sub_bass", "bass", "mid", "high"):
+        marks = analysis.dominance_marks.get(band_name, [])
+        if has_nearby_mark(t_ms, marks, 110):
+            return band_name
+    if has_nearby_mark(t_ms, analysis.sub_bass_marks, 90):
+        return "sub_bass"
+    if has_nearby_mark(t_ms, analysis.bass_marks, 90):
+        return "bass"
+    if has_nearby_mark(t_ms, analysis.mid_marks, 90):
+        return "mid"
+    if has_nearby_mark(t_ms, analysis.high_marks, 90):
+        return "high"
+    return "mid"
+
+
+def derive_section_mir_profiles(
+    *,
+    parts: list[SongPart],
+    audio: base.Audio,
+    analysis: MultiBandAnalysis,
+    onset_ms: list[int],
+    beat_ms: list[int],
+    vocal_peaks: list[int],
+) -> dict[str, dict[str, float | str]]:
+    if not parts:
+        return {}
+    complexity = rhythm_complexity_by_part(parts, onset_ms=onset_ms, beat_ms=beat_ms)
+    grouped: dict[str, list[dict[str, float | str]]] = {}
+    for part in parts:
+        label = part.label
+        st = int(part.start_ms)
+        en = int(part.end_ms)
+        if en <= st:
+            continue
+        loudness = float(np.mean([rms_value_at_time(audio, ms) for ms in range(st, en, max(120, (en - st) // 6 or 120))]))
+        centroid = _curve_mean_between(analysis.frame_times_s, analysis.spectral_centroid01, st, en)
+        contrast = _curve_mean_between(analysis.frame_times_s, analysis.spectral_contrast01, st, en)
+        flatness = _curve_mean_between(analysis.frame_times_s, analysis.spectral_flatness01, st, en)
+        flux_motion = _curve_mean_between(analysis.frame_times_s, analysis.spectral_flux01, st, en)
+        vocal_activity = float(sum(1 for t in vocal_peaks if st <= t < en)) / max(1.0, (en - st) / 1000.0)
+        band_counts = {
+            "sub_bass": sum(1 for t in analysis.sub_bass_marks if st <= t < en),
+            "bass": sum(1 for t in analysis.bass_marks if st <= t < en),
+            "mid": sum(1 for t in analysis.mid_marks if st <= t < en),
+            "high": sum(1 for t in analysis.high_marks if st <= t < en),
+        }
+        dominant_band = max(band_counts.items(), key=lambda item: item[1])[0] if any(band_counts.values()) else "mid"
+        scene_mode = "balanced"
+        if label == "CHORUS":
+            scene_mode = "wide_bright"
+        elif label == "VERSE":
+            scene_mode = "tight_minimal"
+        elif label in {"PRECHORUS", "BRIDGE"}:
+            scene_mode = "build_tension"
+        elif label in {"INTRO", "OUTRO"}:
+            scene_mode = "ambient_minimal"
+        if loudness < 0.18:
+            scene_mode = "breakdown"
+        grouped.setdefault(label, []).append(
+            {
+                "loudness": loudness,
+                "complexity": float(complexity.get(label, 0.35)),
+                "centroid": centroid,
+                "contrast": contrast,
+                "flatness": flatness,
+                "flux_motion": flux_motion,
+                "vocal_activity": vocal_activity,
+                "dominant_band": dominant_band,
+                "scene_mode": scene_mode,
+            }
+        )
+
+    profiles: dict[str, dict[str, float | str]] = {}
+    numeric_keys = ("loudness", "complexity", "centroid", "contrast", "flatness", "flux_motion", "vocal_activity")
+    for label, items in grouped.items():
+        profile: dict[str, float | str] = {}
+        for key in numeric_keys:
+            profile[key] = float(np.mean([float(item[key]) for item in items]))
+        scene_counts = Counter(str(item["scene_mode"]) for item in items)
+        dominant_counts = Counter(str(item["dominant_band"]) for item in items)
+        profile["scene_mode"] = scene_counts.most_common(1)[0][0] if scene_counts else "balanced"
+        profile["dominant_band"] = dominant_counts.most_common(1)[0][0] if dominant_counts else "mid"
+        profiles[label] = profile
+    return profiles
+
+
 def marks_to_spans(
     marks: list[int],
     *,
@@ -3424,6 +2315,7 @@ def write_auto_timing_tracks(
     sections: list[base.Section],
     parts: list[SongPart],
     blackout_windows: list[tuple[int, int]],
+    multiband: MultiBandAnalysis | None = None,
 ) -> None:
     qm_prefix = f"AUTO QM {style.version}"
     tracks: list[tuple[str, list[tuple[str, int, int]]]] = []
@@ -3439,6 +2331,15 @@ def write_auto_timing_tracks(
     tracks.append((f"{qm_prefix} Energy Peaks", marks_to_spans(energy_peaks, prefix="Energy", pulse_ms=120, max_marks=1800)))
     tracks.append((f"{qm_prefix} Build Lifts", marks_to_spans(build_lifts, prefix="Lift", pulse_ms=105, max_marks=1800)))
     tracks.append((f"{qm_prefix} Releases", marks_to_spans(releases, prefix="Release", pulse_ms=100, max_marks=1800)))
+    if multiband is not None:
+        tracks.append((f"{qm_prefix} Sub Bass", marks_to_spans(multiband.sub_bass_marks, prefix="Sub", pulse_ms=105, max_marks=1800)))
+        tracks.append((f"{qm_prefix} Bass Band", marks_to_spans(multiband.bass_marks, prefix="Bass", pulse_ms=95, max_marks=2000)))
+        tracks.append((f"{qm_prefix} Mid Band", marks_to_spans(multiband.mid_marks, prefix="Mid", pulse_ms=85, max_marks=2200)))
+        tracks.append((f"{qm_prefix} High Band", marks_to_spans(multiband.high_marks, prefix="High", pulse_ms=70, max_marks=2400)))
+        tracks.append((f"{qm_prefix} Spectral Flux", marks_to_spans(multiband.spectral_flux_marks, prefix="Flux", pulse_ms=80, max_marks=2200)))
+        if multiband.quiet_windows:
+            quiet_spans = [(f"Quiet {idx + 1}", st, max(st + 1, en)) for idx, (st, en) in enumerate(multiband.quiet_windows[:260])]
+            tracks.append((f"{qm_prefix} Quiet Windows", quiet_spans))
     if sections:
         section_spans = [(f"{section.label} {idx + 1}", section.start_ms, max(section.start_ms + 1, section.end_ms)) for idx, section in enumerate(sections)]
         tracks.append((f"{qm_prefix} Sections", section_spans))
@@ -3792,6 +2693,189 @@ def representative_models(pool: SequentialPool | None, desired_count: int) -> li
     step = (len(pool.models) - 1) / float(count - 1)
     indices = ordered_unique([int(round(step * idx)) for idx in range(count)])
     return [pool.models[idx] for idx in indices if 0 <= idx < len(pool.models)]
+
+
+def build_audio_reactive_beat_timeline(
+    *,
+    audio: base.Audio,
+    beat_ms: list[int],
+    onset_ms: list[int],
+    bar_ms: list[int],
+) -> list[dict[str, object]]:
+    if not beat_ms:
+        return []
+    centroid01 = base.norm01(np.asarray(audio.centroid, dtype=float)) if len(audio.centroid) else np.asarray([], dtype=float)
+    timeline: list[dict[str, object]] = []
+    for idx, t_ms in enumerate(beat_ms):
+        t_s = float(t_ms) / 1000.0
+        high = _safe_feature_sample(audio.times_s, centroid01, t_s)
+        nearest_onset = ai.nearest_mark_distance_ms(int(t_ms), onset_ms)
+        nearest_bar = ai.nearest_mark_distance_ms(int(t_ms), bar_ms) if bar_ms else None
+        downbeat = (nearest_bar is not None and nearest_bar <= 90) if bar_ms else (idx % 4) == 0
+        timeline.append(
+            {
+                "time_ms": int(t_ms),
+                "downbeat": bool(downbeat),
+                "energy": round(_safe_feature_sample(audio.times_s, audio.rms01, t_s), 4),
+                "energy_smooth": round(_mean_feature_sample(audio.times_s, audio.rms01, t_s, radius_s=0.18), 4),
+                "onset": 1.0 if nearest_onset is not None and nearest_onset <= 80 else 0.0,
+                "brightness": round(high, 4),
+                "low": round(_safe_feature_sample(audio.times_s, audio.bass01, t_s), 4),
+                "mid": round(_safe_feature_sample(audio.times_s, audio.vocal01, t_s), 4),
+                "high": round(high, 4),
+                "beat_phase": 0.0 if downbeat else round((idx % 4) / 4.0, 4),
+            }
+        )
+    return timeline
+
+
+def place_audio_reactive_actions(
+    *,
+    actions: list[dict[str, object]],
+    pools: list[SequentialPool],
+    pool_state: dict[str, int],
+    ramp_ok: bool,
+    ramp_tpl: base.EffectTemplate,
+    add_model,
+    in_blackout,
+    reactive_track: list[tuple[str, int, int]],
+    max_actions: int = 96,
+    intensity: float = 1.0,
+) -> int:
+    placed = 0
+    intensity = base.clamp(float(intensity), 0.0, 2.0)
+    if intensity <= 0.0:
+        return 0
+    action_limit = max(0, int(round(float(max_actions) * intensity)))
+    for idx, action in enumerate(actions[:action_limit]):
+        t_ms = _safe_int(action.get("time_ms", 0))
+        if in_blackout(t_ms):
+            continue
+        pool = select_audio_reactive_pool(pools, pool_state, action, idx)
+        if pool is None:
+            continue
+        effect_name = str(action.get("effect", "audio_reactive") or "audio_reactive")
+        duration = audio_reactive_duration_ms(effect_name, action, intensity=intensity)
+        start_ms = max(0, t_ms - (duration // 4 if effect_name in {"downbeat_flash", "drop_burst"} else 0))
+        end_ms = start_ms + duration
+        density = float(action.get("density", 0.4) or 0.4) * (0.72 + (0.42 * intensity))
+        target_cap = 2 if effect_name in {"downbeat_flash", "drop_burst"} else 5
+        target_count = max(1, min(target_cap, int(round(1 + (density * 4)))))
+        targets = representative_models(pool, target_count)
+        if not targets:
+            continue
+        runtime_effect = "Ramp" if ramp_ok and effect_name in {"mid_sweep", "energy_wave", "build_ramp"} else "On"
+        template = ramp_tpl if runtime_effect == "Ramp" else None
+        stem = "bass" if effect_name == "bass_pulse" else "drums" if effect_name in {"downbeat_flash", "drop_burst"} else "other"
+        label = f"audio_reactive_{effect_name}"
+        final_end = end_ms
+        for target_idx, model in enumerate(targets):
+            offset = target_idx * (24 if effect_name in {"mid_sweep", "energy_wave", "build_ramp"} else 12)
+            model_start = start_ms + offset
+            model_end = end_ms + offset
+            add_model(
+                model,
+                model_start,
+                model_end,
+                label,
+                eff=runtime_effect,
+                tpl=template,
+                cd_key=f"audio_reactive_{effect_name}_{model}",
+                cd_ms=max(120, duration // 2),
+                stem=stem,
+            )
+            final_end = max(final_end, model_end)
+            placed += 1
+        reactive_track.append((f"{effect_name}:{pool.name}", start_ms, final_end))
+    return placed
+
+
+def select_audio_reactive_pool(
+    pools: list[SequentialPool],
+    pool_state: dict[str, int],
+    action: dict[str, object],
+    index: int,
+) -> SequentialPool | None:
+    hint = str(action.get("target_hint", "") or "")
+    if hint == "whole_house":
+        categories = ("mega", "gt", "line", "arch", "canes_combo")
+    elif hint == "large_props":
+        categories = ("mega", "gt", "matrix", "line")
+    elif hint == "arches_lines":
+        categories = ("arch", "line")
+    elif hint == "stars_snowflakes":
+        categories = ("stars", "snowflakes")
+    elif hint == "sequential_groups":
+        categories = ("line", "arch", "canes_combo", "mega", "gt")
+    elif hint == "small_props":
+        categories = ("stars", "snowflakes", "spinner")
+    else:
+        categories = ("mega", "gt", "line", "arch", "stars", "snowflakes")
+    return select_preferred_pool(pools, categories, pool_state, f"audio_reactive_{hint}_{index}", require_multiple=False)
+
+
+def audio_reactive_duration_ms(effect_name: str, action: dict[str, object], *, intensity: float = 1.0) -> int:
+    duration_by_effect = {
+        "downbeat_flash": 110,
+        "bass_pulse": 170,
+        "mid_sweep": 300,
+        "treble_sparkle": 130,
+        "energy_wave": 380,
+        "build_ramp": 460,
+        "drop_burst": 210,
+        "quiet_shimmer": 520,
+    }
+    base_duration = duration_by_effect.get(effect_name, 180)
+    density = max(0.1, min(1.0, float(action.get("density", 0.5) or 0.5)))
+    intensity_scale = 0.82 + (0.24 * base.clamp(float(intensity), 0.0, 2.0))
+    return max(80, int(round(base_duration * (0.78 + (density * 0.44)) * intensity_scale)))
+
+
+def _safe_feature_sample(times_s: np.ndarray, values: np.ndarray, t_s: float) -> float:
+    value = base.nearest(times_s, values, t_s)
+    if not np.isfinite(value):
+        return 0.0
+    return float(base.clamp(value, 0.0, 1.0))
+
+
+def _mean_feature_sample(times_s: np.ndarray, values: np.ndarray, t_s: float, *, radius_s: float) -> float:
+    if len(times_s) == 0 or len(values) == 0:
+        return 0.0
+    times = np.asarray(times_s, dtype=float)
+    vals = np.asarray(values, dtype=float)
+    mask = (times >= (t_s - radius_s)) & (times <= (t_s + radius_s))
+    if not np.any(mask):
+        return _safe_feature_sample(times_s, values, t_s)
+    return float(base.clamp(float(np.mean(vals[mask])), 0.0, 1.0))
+
+
+def _safe_int(value: object, default: int = 0) -> int:
+    try:
+        return int(value)
+    except Exception:
+        return default
+
+
+def spatialize_pool_for_family(
+    pool: SequentialPool | None,
+    scene: spatial.SpatialScene | None,
+    family: str,
+    *,
+    reverse: bool = False,
+    path_style: str | None = None,
+) -> SequentialPool | None:
+    if pool is None or scene is None or len(pool.models) < 2:
+        return pool
+    ordered = spatial.order_names_for_family(
+        scene,
+        pool.models,
+        family,
+        path_style=path_style,
+        reverse=reverse,
+    )
+    if not ordered or ordered == pool.models:
+        return pool
+    return replace(pool, models=ordered)
 
 
 def intentional_scene_blueprint(part_label: str) -> dict[str, tuple[str, ...]]:
@@ -4892,6 +3976,7 @@ def place_orbital_sweep(
     in_blackout,
     piano_track: list[tuple[str, int, int]],
     sweep_track: list[tuple[str, int, int]],
+    spatial_scene_model: spatial.SpatialScene | None = None,
 ) -> None:
     orbit_pools = [
         pool
@@ -4913,7 +3998,12 @@ def place_orbital_sweep(
             part = part_for_time(parts, st)
             if part in {"INTRO", "OUTRO"} and (i % 2 == 1):
                 continue
-            pool = orbit_pools[i % len(orbit_pools)]
+            pool = spatialize_pool_for_family(
+                orbit_pools[i % len(orbit_pools)],
+                spatial_scene_model,
+                "orbit_rotation",
+                reverse=(i % 2 == 1),
+            ) or orbit_pools[i % len(orbit_pools)]
             if len(pool.models) < 2:
                 continue
             add_sweep(
@@ -4945,7 +4035,12 @@ def place_orbital_sweep(
     for i, t_ms in enumerate(kicks):
         if in_blackout(t_ms):
             continue
-        pool = orbit_pools[i % len(orbit_pools)]
+        pool = spatialize_pool_for_family(
+            orbit_pools[i % len(orbit_pools)],
+            spatial_scene_model,
+            "orbit_rotation",
+            reverse=(i % 2 == 1),
+        ) or orbit_pools[i % len(orbit_pools)]
         count = len(pool.models)
         if count == 0:
             continue
@@ -4972,7 +4067,11 @@ def place_orbital_sweep(
     for idx, event in enumerate(note_events):
         if (idx % 4) != 0 or in_blackout(event.start_ms):
             continue
-        pool = orbit_pools[idx % len(orbit_pools)]
+        pool = spatialize_pool_for_family(
+            orbit_pools[idx % len(orbit_pools)],
+            spatial_scene_model,
+            "orbit_rotation",
+        ) or orbit_pools[idx % len(orbit_pools)]
         targets = map_notes_to_models(pool, event, pool_state, style, rng)
         _placed, phrase_end = place_note_phrase(add_model, pool, event, targets[:3], style, rng, ramp_ok, ramp_tpl)
         piano_track.append((f"{pool.name}:orbit_note", event.start_ms, phrase_end))
@@ -5536,6 +4635,7 @@ def place_wave_burst_director(
     in_blackout,
     piano_track: list[tuple[str, int, int]],
     sweep_track: list[tuple[str, int, int]],
+    spatial_scene_model: spatial.SpatialScene | None = None,
 ) -> None:
     previous_avg: float | None = None
     dramatic_parts = {"PRECHORUS", "CHORUS", "BRIDGE"}
@@ -5561,6 +4661,11 @@ def place_wave_burst_director(
         local_bars = [mark for mark in bar_ms if part.start_ms <= mark < part.end_ms] or [part.start_ms]
         local_beats = [mark for mark in beat_ms if part.start_ms <= mark < part.end_ms]
         local_events = [event for event in note_events if part.start_ms <= event.start_ms < part.end_ms]
+
+        foundation_pool = spatialize_pool_for_family(foundation_pool, spatial_scene_model, "wave_propagation")
+        beat_pool = spatialize_pool_for_family(beat_pool, spatial_scene_model, "wave_propagation")
+        contour_pool = spatialize_pool_for_family(contour_pool, spatial_scene_model, "wave_propagation")
+        accent_pool = spatialize_pool_for_family(accent_pool, spatial_scene_model, "radial_burst")
 
         foundation_targets = representative_models(
             foundation_pool,
@@ -6167,61 +5272,174 @@ def place_showcase_signature(
         impact_pool = select_preferred_pool(pools, ("matrix", "spinner", "mega", "gt", "line"), pool_state, f"showcase_signature_impact_{part_idx}")
         sweep_pool = select_preferred_pool(pools, ("mega", "line", "arch", "gt", "canes_combo"), pool_state, f"showcase_signature_sweep_{part_idx}", require_multiple=True)
         vocal_pool = select_preferred_pool(pools, ("talking_heads", "matrix", "line", "arch"), pool_state, f"showcase_signature_vocal_{part_idx}")
+        signature_pools = [impact_pool, sweep_pool, vocal_pool]
         local_bass = [mark for mark in bass_peaks if part.start_ms <= mark < part.end_ms]
         local_vocals = [mark for mark in vocal_peaks if part.start_ms <= mark < part.end_ms]
         local_events = [event for event in note_events if part.start_ms <= event.start_ms < part.end_ms]
-        local_beats = [mark for mark in beat_ms if part.start_ms <= mark < part.end_ms]
+        local_kicks = [mark for mark in kicks if part.start_ms <= mark < part.end_ms]
+        local_snares = [mark for mark in snares if part.start_ms <= mark < part.end_ms]
+        local_hats = [mark for mark in hats if part.start_ms <= mark < part.end_ms]
         local_bars = [mark for mark in bar_ms if part.start_ms <= mark < part.end_ms] or [part.start_ms]
 
         if impact_pool is not None and impact_pool.models:
             for bass_idx, t_ms in enumerate(local_bass[::2]):
                 if in_blackout(t_ms):
                     continue
-                target = impact_pool.models[bass_idx % len(impact_pool.models)]
-                add_model(
-                    target,
+                impact_cue = cue_for_timestamp(
                     t_ms,
-                    t_ms + max(85, base.scaled_dur(140)),
-                    "showcase_signature_impact",
-                    eff=reactive_effect_for_category(impact_pool.category, "bass", part.label, bass_idx),
-                    stem="bass",
+                    default="bass",
+                    kicks=local_kicks,
+                    snares=local_snares,
+                    hats=local_hats,
+                    bass_peaks=local_bass,
+                    vocal_peaks=local_vocals,
                 )
+                active_impact_pool = choose_cue_preferred_pool(signature_pools, impact_cue, bass_idx, context="signature") or impact_pool
+                desired = cue_target_count(
+                    1,
+                    impact_cue,
+                    placement_mode="showcase_signature",
+                    part_label=part.label,
+                    maximum=min(2, len(active_impact_pool.models)),
+                )
+                impact_targets = ordered_unique(
+                    [active_impact_pool.models[(bass_idx + offset) % len(active_impact_pool.models)] for offset in range(desired)]
+                )
+                impact_dur = cue_scaled_duration(
+                    max(85, base.scaled_dur(140)),
+                    impact_cue,
+                    placement_mode="showcase_signature",
+                    part_label=part.label,
+                    minimum_ms=85,
+                )
+                impact_eff = reactive_effect_for_category(active_impact_pool.category, impact_cue, part.label, bass_idx)
+                for step, target in enumerate(impact_targets):
+                    start_ms = t_ms + step * 14
+                    end_ms = start_ms + max(70, impact_dur - step * 10)
+                    add_model(
+                        target,
+                        start_ms,
+                        end_ms,
+                        "showcase_signature_impact",
+                        eff=impact_eff,
+                        stem="bass",
+                    )
 
         if vocal_pool is not None and vocal_pool.models:
             for vocal_idx, t_ms in enumerate(local_vocals[::2]):
                 if in_blackout(t_ms):
                     continue
-                target = vocal_pool.models[vocal_idx % len(vocal_pool.models)]
-                eff_name = reactive_effect_for_category(vocal_pool.category, "vocal", part.label, vocal_idx)
-                add_model(target, t_ms, t_ms + max(90, base.scaled_dur(150)), "showcase_signature_vocal", eff=eff_name, stem="vocals")
+                vocal_cue = cue_for_timestamp(
+                    t_ms,
+                    default="vocal",
+                    kicks=local_kicks,
+                    snares=local_snares,
+                    hats=local_hats,
+                    bass_peaks=local_bass,
+                    vocal_peaks=local_vocals,
+                )
+                active_vocal_pool = choose_cue_preferred_pool(signature_pools, vocal_cue, vocal_idx, context="signature") or vocal_pool
+                desired = cue_target_count(
+                    1,
+                    vocal_cue,
+                    placement_mode="showcase_signature",
+                    part_label=part.label,
+                    maximum=min(2, len(active_vocal_pool.models)),
+                )
+                vocal_targets = ordered_unique(
+                    [active_vocal_pool.models[(vocal_idx + offset) % len(active_vocal_pool.models)] for offset in range(desired)]
+                )
+                eff_name = reactive_effect_for_category(active_vocal_pool.category, vocal_cue, part.label, vocal_idx)
+                vocal_dur = cue_scaled_duration(
+                    max(90, base.scaled_dur(150)),
+                    vocal_cue,
+                    placement_mode="showcase_signature",
+                    part_label=part.label,
+                    minimum_ms=90,
+                )
+                for step, target in enumerate(vocal_targets):
+                    start_ms = t_ms + step * 16
+                    end_ms = start_ms + max(80, vocal_dur - step * 12)
+                    add_model(target, start_ms, end_ms, "showcase_signature_vocal", eff=eff_name, stem="vocals")
 
         if sweep_pool is not None and len(sweep_pool.models) >= 2:
             for bar_idx, bar_start in enumerate(local_bars[::2]):
                 if in_blackout(bar_start):
                     continue
-                sweep_end = min(part.end_ms, bar_start + max(190, base.scaled_dur(260)))
+                sweep_cue = cue_for_timestamp(
+                    bar_start,
+                    default="build" if part.label in {"PRECHORUS", "CHORUS", "BRIDGE"} else "phrase",
+                    kicks=local_kicks,
+                    snares=local_snares,
+                    hats=local_hats,
+                    bass_peaks=local_bass,
+                    vocal_peaks=local_vocals,
+                )
+                active_sweep_pool = choose_cue_preferred_pool(signature_pools, sweep_cue, bar_idx, context="signature", require_multiple=True) or sweep_pool
+                sweep_pool_for_run, span_factor, hit_factor = showcase_signature_sweep_plan(
+                    active_sweep_pool,
+                    sweep_cue,
+                    part.label,
+                )
+                if sweep_pool_for_run is None or len(sweep_pool_for_run.models) < 2:
+                    continue
+                sweep_span = cue_scaled_duration(
+                    max(190, base.scaled_dur(260)),
+                    sweep_cue,
+                    placement_mode="showcase_signature",
+                    part_label=part.label,
+                    minimum_ms=190,
+                )
+                sweep_end = min(part.end_ms, bar_start + max(170, int(round(sweep_span * span_factor))))
+                sweep_eff = reactive_effect_for_category(sweep_pool_for_run.category, sweep_cue, part.label, bar_idx)
                 add_sweep(
-                    lambda nm, a, b, label: add_model(nm, a, b, label, eff="Wave", stem="other"),
-                    sweep_pool,
+                    lambda nm, a, b, label: add_model(nm, a, b, label, eff=sweep_eff, stem="other"),
+                    sweep_pool_for_run,
                     bar_start,
                     sweep_end,
                     "showcase_signature_sweep",
-                    max(82, style.sweep_hit_ms - 6),
+                    max(
+                        68,
+                        int(
+                            round(
+                                cue_scaled_duration(
+                                    max(82, style.sweep_hit_ms - 6),
+                                    sweep_cue,
+                                    placement_mode="showcase_signature",
+                                    part_label=part.label,
+                                    minimum_ms=82,
+                                )
+                                * hit_factor
+                            )
+                        ),
+                    ),
                     reverse=((bar_idx + part_idx) % 2 == 1),
                 )
-                sweep_track.append((f"signature:{sweep_pool.name}", bar_start, sweep_end))
+                sweep_track.append((f"signature:{sweep_cue}:{sweep_pool_for_run.name}", bar_start, sweep_end))
 
         note_stride = 6 if part.label == "PRECHORUS" else 4 if part.label == "BRIDGE" else 3
         for event_idx, event in enumerate(local_events):
             if in_blackout(event.start_ms) or (event_idx % note_stride) != 0:
                 continue
-            contour_pool = sweep_pool or impact_pool or vocal_pool
+            event_cue = reactive_cue_for_event(
+                event,
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+                default="build" if part.label in {"PRECHORUS", "CHORUS", "BRIDGE"} else "phrase",
+            )
+            contour_pool = choose_cue_preferred_pool(signature_pools, event_cue, event_idx, context="signature", require_multiple=False)
+            if contour_pool is None:
+                contour_pool = sweep_pool or impact_pool or vocal_pool
             if contour_pool is None:
                 continue
             targets = map_notes_to_models(contour_pool, event, pool_state, style, rng)
-            limited = targets[: min(3, len(targets))]
-            _placed, phrase_end = place_note_phrase(add_model, contour_pool, event, limited, style, rng, ramp_ok, ramp_tpl)
-            piano_track.append((f"{contour_pool.name}:signature", event.start_ms, phrase_end))
+            limited = targets[: cue_target_count(min(3, len(targets)), event_cue, placement_mode="showcase_signature", part_label=part.label, maximum=len(targets))]
+            phrase_add = lambda nm, a, b, label, **kwargs: add_model(nm, a, b, label, stem=stem_for_cue(event_cue), **kwargs)
+            _placed, phrase_end = place_note_phrase(phrase_add, contour_pool, event, limited, style, rng, ramp_ok, ramp_tpl)
+            piano_track.append((f"{contour_pool.name}:signature:{event_cue}", event.start_ms, phrase_end))
 
 
 def place_pixel_reactive_score(
@@ -6230,6 +5448,7 @@ def place_pixel_reactive_score(
     pools: list[SequentialPool],
     parts: list[SongPart],
     note_events: list[NoteEvent],
+    lyric_events: list[ai.LyricEvent],
     kicks: list[int],
     snares: list[int],
     hats: list[int],
@@ -6242,6 +5461,7 @@ def place_pixel_reactive_score(
     add_model,
     in_blackout,
     pixel_track: list[tuple[str, int, int]],
+    matrix_plan: dict[str, object] | None = None,
 ) -> int:
     if not pools:
         return 0
@@ -6275,6 +5495,46 @@ def place_pixel_reactive_score(
         if end_ms > start_ms:
             pixel_track.append((label[:48], int(start_ms), int(end_ms)))
 
+    def matrix_effect(
+        pool: SequentialPool | None,
+        cue_name: str,
+        part_label: str,
+        time_ms: int,
+        effect_index: int,
+    ) -> str:
+        category = pool.category if pool is not None else ""
+        fallback = reactive_effect_for_category(category, cue_name, part_label, effect_index)
+        if pool is None or pool.category != "matrix":
+            return fallback
+        lyric_active = False
+        if lyric_events and cue_name in {"vocal", "phrase"}:
+            def lyric_start(event: ai.LyricEvent) -> int:
+                try:
+                    return int(getattr(event, "start_ms", 0))
+                except Exception:
+                    return 0
+
+            def lyric_end(event: ai.LyricEvent) -> int:
+                start_ms = lyric_start(event)
+                try:
+                    return max(start_ms + 1, int(getattr(event, "end_ms", start_ms + 1)))
+                except Exception:
+                    return start_ms + 1
+
+            lyric_active = any(
+                max(lyric_start(event) - 120, 0) <= int(time_ms) <= (lyric_end(event) + 120)
+                for event in lyric_events
+            )
+        return matrix_planner.recommend_sequence_effect(
+            matrix_plan if isinstance(matrix_plan, dict) else None,
+            cue=cue_name,
+            part_label=part_label,
+            target_ms=time_ms,
+            index=effect_index,
+            fallback=fallback,
+            lyric_active=lyric_active,
+        )
+
     for part_idx, part in enumerate(parts):
         prev_part = parts[part_idx - 1] if part_idx > 0 else None
         matrix_pool = select_preferred_pool(pools, ("matrix", "talking_heads"), pool_state, f"pixel_matrix_{part_idx}")
@@ -6307,33 +5567,91 @@ def place_pixel_reactive_score(
             return base_reverse if (step_index % 2) == 0 else not base_reverse
 
         if mood_changed and (line_pool is not None or arch_pool is not None):
-            transition_pool = arch_pool or line_pool
+            transition_cue = cue_for_timestamp(
+                part.start_ms,
+                default="build" if part.label in dramatic_parts else "phrase",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            transition_pool = choose_cue_preferred_pool(
+                [arch_pool, line_pool, cane_pool, spinner_pool],
+                transition_cue,
+                part_idx,
+                context="pixel",
+                require_multiple=True,
+            ) or arch_pool or line_pool
             if transition_pool is not None and transition_pool.models and not in_blackout(part.start_ms):
+                transition_count = cue_target_count(
+                    2 if len(transition_pool.models) >= 2 else 1,
+                    transition_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    maximum=min(3, len(transition_pool.models)),
+                )
                 transition_targets = rotate_targets(
                     transition_pool,
                     f"pixel_transition_cursor_{part_idx}",
-                    2 if len(transition_pool.models) >= 2 else 1,
+                    transition_count,
                     reverse=base_reverse,
+                )
+                transition_dur = cue_scaled_duration(
+                    max(120, base.scaled_dur(210)),
+                    transition_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    minimum_ms=120,
                 )
                 for step, target in enumerate(transition_targets):
                     st = part.start_ms + step * 18
-                    en = min(part.end_ms, st + max(120, base.scaled_dur(210)))
-                    add_model(target, st, en, "pixel_part_transition", eff="Wave", stem="other")
-                    cue(f"{transition_pool.category}:Wave", st, en)
+                    en = min(part.end_ms, st + max(95, transition_dur - step * 12))
+                    eff_name = matrix_effect(transition_pool, transition_cue, part.label, st, step)
+                    add_model(target, st, en, "pixel_part_transition", eff=eff_name, stem="other")
+                    cue(f"{transition_pool.category}:{eff_name}", st, en)
 
         if part.label == "CHORUS" and not in_blackout(part.start_ms):
-            drop_pool = spinner_pool or matrix_pool or tree_pool or accent_pool
+            drop_cue = cue_for_timestamp(
+                part.start_ms,
+                default="bass",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            drop_pool = choose_cue_preferred_pool(
+                [spinner_pool, matrix_pool, tree_pool, accent_pool],
+                drop_cue,
+                part_idx,
+                context="pixel",
+            ) or spinner_pool or matrix_pool or tree_pool or accent_pool
             if drop_pool is not None and drop_pool.models:
+                drop_count = cue_target_count(
+                    1 if drop_pool.category in {"matrix", "spinner"} else 2,
+                    drop_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    maximum=min(3, len(drop_pool.models)),
+                )
                 drop_targets = rotate_targets(
                     drop_pool,
                     f"pixel_drop_cursor_{part_idx}",
-                    1 if drop_pool.category in {"matrix", "spinner"} else 2,
+                    drop_count,
                     reverse=base_reverse,
                 )
-                drop_eff = "Strobe" if drop_pool.category in {"spinner", "stars", "snowflakes", "flood"} else reactive_effect_for_category(drop_pool.category, "bass", part.label, part_idx)
+                drop_eff = "Strobe" if drop_pool.category in {"spinner", "stars", "snowflakes", "flood"} else matrix_effect(drop_pool, drop_cue, part.label, part.start_ms, part_idx)
+                drop_dur = cue_scaled_duration(
+                    max(95, base.scaled_dur(165)),
+                    drop_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    minimum_ms=95,
+                )
                 for step, target in enumerate(drop_targets):
                     st = part.start_ms + 12 + (step * 14)
-                    en = min(part.end_ms, st + max(95, base.scaled_dur(165)))
+                    en = min(part.end_ms, st + max(85, drop_dur - step * 10))
                     add_model(target, st, en, "pixel_drop_impact", eff=drop_eff, stem="bass")
                     cue(f"{drop_pool.category}:{drop_eff}", st, en)
 
@@ -6342,32 +5660,107 @@ def place_pixel_reactive_score(
             if in_blackout(bar_start):
                 continue
             scene_end = min(part.end_ms, bar_start + max(220, base.scaled_dur(320 if part.label in dramatic_parts else 260)))
-            if matrix_pool is not None and matrix_pool.models:
-                target = rotate_targets(matrix_pool, f"pixel_scene_matrix_cursor_{part_idx}", 1, reverse=reverse_for(scene_idx))
-                if target:
-                    eff_name = reactive_effect_for_category(matrix_pool.category, "phrase", part.label, scene_idx)
-                    add_model(target[0], bar_start, scene_end, "pixel_scene_matrix", eff=eff_name, stem="other")
-                    cue(f"matrix:{eff_name}", bar_start, scene_end)
-            if sphere_pool is not None and sphere_pool.models and part.label in {"INTRO", "BRIDGE", "CHORUS"}:
+            scene_cue = cue_for_timestamp(
+                bar_start,
+                default="build" if part.label in dramatic_parts else "phrase",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            active_scene_pool = choose_cue_preferred_pool(
+                [matrix_pool, sphere_pool, tree_pool, arch_pool],
+                scene_cue,
+                scene_idx,
+                context="pixel",
+            )
+            scene_span = cue_scaled_duration(
+                max(220, base.scaled_dur(320 if part.label in dramatic_parts else 260)),
+                scene_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=220,
+            )
+            scene_end = min(part.end_ms, bar_start + scene_span)
+            if active_scene_pool is not None and active_scene_pool.models:
+                scene_count = cue_target_count(
+                    1,
+                    scene_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    maximum=min(2, len(active_scene_pool.models)),
+                )
+                targets = rotate_targets(active_scene_pool, f"pixel_scene_cursor_{part_idx}", scene_count, reverse=reverse_for(scene_idx))
+                if targets:
+                    eff_name = matrix_effect(active_scene_pool, scene_cue, part.label, bar_start, scene_idx)
+                    for step, target in enumerate(targets):
+                        start_ms = bar_start + step * 20
+                        end_ms = min(part.end_ms, start_ms + max(140, scene_span - step * 18))
+                        add_model(target, start_ms, end_ms, "pixel_scene_matrix", eff=eff_name, stem="other")
+                        cue(f"{active_scene_pool.category}:{eff_name}", start_ms, end_ms)
+            if sphere_pool is not None and sphere_pool.models and part.label in {"INTRO", "BRIDGE", "CHORUS"} and scene_cue in {"vocal", "build", "phrase"}:
                 sphere_start = bar_start + 22
-                sphere_end = min(part.end_ms, sphere_start + max(180, base.scaled_dur(260)))
-                target = rotate_targets(sphere_pool, f"pixel_scene_sphere_cursor_{part_idx}", 1, reverse=reverse_for(scene_idx + 1))
-                if target:
-                    eff_name = reactive_effect_for_category(sphere_pool.category, "phrase", part.label, scene_idx)
-                    add_model(target[0], sphere_start, sphere_end, "pixel_scene_sphere", eff=eff_name, stem="other")
-                    cue(f"sphere:{eff_name}", sphere_start, sphere_end)
+                sphere_span = cue_scaled_duration(
+                    max(180, base.scaled_dur(260)),
+                    scene_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    minimum_ms=180,
+                )
+                sphere_targets = rotate_targets(
+                    sphere_pool,
+                    f"pixel_scene_sphere_cursor_{part_idx}",
+                    cue_target_count(1, scene_cue, placement_mode="pixel_reactive", part_label=part.label, maximum=min(2, len(sphere_pool.models))),
+                    reverse=reverse_for(scene_idx + 1),
+                )
+                if sphere_targets:
+                    eff_name = matrix_effect(sphere_pool, scene_cue, part.label, sphere_start, scene_idx)
+                    for step, target in enumerate(sphere_targets):
+                        start_ms = sphere_start + step * 18
+                        end_ms = min(part.end_ms, start_ms + max(130, sphere_span - step * 14))
+                        add_model(target, start_ms, end_ms, "pixel_scene_sphere", eff=eff_name, stem="other")
+                        cue(f"sphere:{eff_name}", start_ms, end_ms)
 
         for build_idx, t_ms in enumerate(local_builds):
             if in_blackout(t_ms):
                 continue
-            build_pool = tree_pool or spinner_pool or matrix_pool or sphere_pool
-            targets = rotate_targets(build_pool, f"pixel_build_cursor_{part_idx}", 1 if part.label == "PRECHORUS" else 2, reverse=reverse_for(build_idx))
+            build_cue = cue_for_timestamp(
+                t_ms,
+                default="build",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            build_pool = choose_cue_preferred_pool(
+                [tree_pool, spinner_pool, matrix_pool, sphere_pool, line_pool],
+                build_cue,
+                build_idx,
+                context="pixel",
+            ) or tree_pool or spinner_pool or matrix_pool or sphere_pool
+            desired = cue_target_count(
+                1 if part.label == "PRECHORUS" else 2,
+                build_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                maximum=(len(build_pool.models) if build_pool is not None else 1),
+            )
+            targets = rotate_targets(build_pool, f"pixel_build_cursor_{part_idx}", desired, reverse=reverse_for(build_idx))
             if not targets or build_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(build_pool.category, "build", part.label, build_idx)
+            eff_name = matrix_effect(build_pool, build_cue, part.label, t_ms, build_idx)
+            build_dur = cue_scaled_duration(
+                max(170, base.scaled_dur(260)),
+                build_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=170,
+            )
             for step, target in enumerate(targets):
                 start_ms = t_ms + step * 18
-                end_ms = min(part.end_ms, start_ms + max(170, base.scaled_dur(260) - step * 12))
+                end_ms = min(part.end_ms, start_ms + max(145, build_dur - step * 12))
                 add_model(target, start_ms, end_ms, "pixel_build", eff=eff_name, stem="bass")
                 cue(f"{build_pool.category}:{eff_name}", start_ms, end_ms)
 
@@ -6375,14 +5768,42 @@ def place_pixel_reactive_score(
         for bass_idx, t_ms in enumerate(local_bass):
             if in_blackout(t_ms) or (bass_idx % bass_stride) != 0:
                 continue
-            bass_pool = tree_pool or matrix_pool or line_pool or arch_pool
-            targets = rotate_targets(bass_pool, f"pixel_bass_cursor_{part_idx}", 1 if part.label == "VERSE" else 2, reverse=reverse_for(bass_idx))
+            bass_cue = cue_for_timestamp(
+                t_ms,
+                default="bass",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            bass_pool = choose_cue_preferred_pool(
+                [tree_pool, matrix_pool, line_pool, arch_pool, cane_pool],
+                bass_cue,
+                bass_idx,
+                context="pixel",
+            ) or tree_pool or matrix_pool or line_pool or arch_pool
+            desired = cue_target_count(
+                1 if part.label == "VERSE" else 2,
+                bass_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                maximum=(len(bass_pool.models) if bass_pool is not None else 1),
+            )
+            targets = rotate_targets(bass_pool, f"pixel_bass_cursor_{part_idx}", desired, reverse=reverse_for(bass_idx))
             if not targets or bass_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(bass_pool.category, "bass", part.label, bass_idx)
+            eff_name = matrix_effect(bass_pool, bass_cue, part.label, t_ms, bass_idx)
+            bass_dur = cue_scaled_duration(
+                max(90, base.scaled_dur(160)),
+                bass_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=90,
+            )
             for step, target in enumerate(targets):
                 start_ms = t_ms + step * 16
-                end_ms = min(part.end_ms, start_ms + max(90, base.scaled_dur(160) - step * 10))
+                end_ms = min(part.end_ms, start_ms + max(78, bass_dur - step * 10))
                 add_model(target, start_ms, end_ms, "pixel_bass", eff=eff_name, stem="bass")
                 cue(f"{bass_pool.category}:{eff_name}", start_ms, end_ms)
 
@@ -6390,15 +5811,43 @@ def place_pixel_reactive_score(
         for kick_idx, t_ms in enumerate(local_kicks):
             if in_blackout(t_ms) or (kick_idx % kick_stride) != 0:
                 continue
-            motion_pool = arch_pool or line_pool or cane_pool or spinner_pool
-            desired = 1 if part.label == "VERSE" else 2 if motion_pool is not None and motion_pool.category in {"arch", "line", "canes_combo", "north_canes", "south_canes"} else 1
+            kick_cue = cue_for_timestamp(
+                t_ms,
+                default="kick",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            motion_pool = choose_cue_preferred_pool(
+                [arch_pool, line_pool, cane_pool, spinner_pool, matrix_pool],
+                kick_cue,
+                kick_idx,
+                context="pixel",
+                require_multiple=(part.label != "VERSE"),
+            ) or arch_pool or line_pool or cane_pool or spinner_pool
+            desired = cue_target_count(
+                1 if part.label == "VERSE" else 2 if motion_pool is not None and motion_pool.category in {"arch", "line", "canes_combo", "north_canes", "south_canes"} else 1,
+                kick_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                maximum=(len(motion_pool.models) if motion_pool is not None else 1),
+            )
             targets = rotate_targets(motion_pool, f"pixel_kick_cursor_{part_idx}", desired, reverse=reverse_for(kick_idx))
             if not targets or motion_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(motion_pool.category, "kick", part.label, kick_idx)
+            eff_name = matrix_effect(motion_pool, kick_cue, part.label, t_ms, kick_idx)
+            kick_dur = cue_scaled_duration(
+                max(65, base.scaled_dur(110)),
+                kick_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=65,
+            )
             for step, target in enumerate(targets):
                 start_ms = t_ms + step * 12
-                end_ms = min(part.end_ms, start_ms + max(65, base.scaled_dur(110) - step * 8))
+                end_ms = min(part.end_ms, start_ms + max(58, kick_dur - step * 8))
                 add_model(target, start_ms, end_ms, "pixel_kick", eff=eff_name, stem="drums")
                 cue(f"{motion_pool.category}:{eff_name}", start_ms, end_ms)
 
@@ -6406,43 +5855,124 @@ def place_pixel_reactive_score(
         for snare_idx, t_ms in enumerate(local_snares):
             if in_blackout(t_ms) or (snare_idx % snare_stride) != 0:
                 continue
-            accent_source = spinner_pool or sphere_pool or accent_pool
-            targets = rotate_targets(accent_source, f"pixel_snare_cursor_{part_idx}", 1, reverse=reverse_for(snare_idx))
+            snare_cue = cue_for_timestamp(
+                t_ms,
+                default="snare",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            accent_source = choose_cue_preferred_pool(
+                [spinner_pool, sphere_pool, accent_pool, matrix_pool],
+                snare_cue,
+                snare_idx,
+                context="pixel",
+            ) or spinner_pool or sphere_pool or accent_pool
+            targets = rotate_targets(
+                accent_source,
+                f"pixel_snare_cursor_{part_idx}",
+                cue_target_count(1, snare_cue, placement_mode="pixel_reactive", part_label=part.label, maximum=(len(accent_source.models) if accent_source is not None else 1)),
+                reverse=reverse_for(snare_idx),
+            )
             if not targets or accent_source is None:
                 continue
-            eff_name = reactive_effect_for_category(accent_source.category, "snare", part.label, snare_idx)
-            start_ms = t_ms
-            end_ms = min(part.end_ms, start_ms + max(60, base.scaled_dur(92)))
-            add_model(targets[0], start_ms, end_ms, "pixel_snare", eff=eff_name, stem="vocals")
-            cue(f"{accent_source.category}:{eff_name}", start_ms, end_ms)
+            eff_name = matrix_effect(accent_source, snare_cue, part.label, t_ms, snare_idx)
+            snare_dur = cue_scaled_duration(
+                max(60, base.scaled_dur(92)),
+                snare_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=60,
+            )
+            for step, target in enumerate(targets):
+                start_ms = t_ms + step * 10
+                end_ms = min(part.end_ms, start_ms + max(54, snare_dur - step * 8))
+                add_model(target, start_ms, end_ms, "pixel_snare", eff=eff_name, stem="vocals")
+                cue(f"{accent_source.category}:{eff_name}", start_ms, end_ms)
 
         hat_stride = 8 if part.label in {"INTRO", "OUTRO"} else 6 if part.label == "VERSE" else 4
         for hat_idx, t_ms in enumerate(local_hats):
             if in_blackout(t_ms) or (hat_idx % hat_stride) != 0:
                 continue
-            hat_pool = spinner_pool or accent_pool or line_pool
-            targets = rotate_targets(hat_pool, f"pixel_hat_cursor_{part_idx}", 1, reverse=reverse_for(hat_idx + part_idx))
+            hat_cue = cue_for_timestamp(
+                t_ms,
+                default="hat",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            hat_pool = choose_cue_preferred_pool(
+                [spinner_pool, accent_pool, line_pool, arch_pool],
+                hat_cue,
+                hat_idx,
+                context="pixel",
+            ) or spinner_pool or accent_pool or line_pool
+            targets = rotate_targets(
+                hat_pool,
+                f"pixel_hat_cursor_{part_idx}",
+                cue_target_count(1, hat_cue, placement_mode="pixel_reactive", part_label=part.label, maximum=(len(hat_pool.models) if hat_pool is not None else 1)),
+                reverse=reverse_for(hat_idx + part_idx),
+            )
             if not targets or hat_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(hat_pool.category, "hat", part.label, hat_idx)
-            start_ms = t_ms
-            end_ms = min(part.end_ms, start_ms + max(50, base.scaled_dur(76)))
-            add_model(targets[0], start_ms, end_ms, "pixel_hat", eff=eff_name, stem="vocals")
-            cue(f"{hat_pool.category}:{eff_name}", start_ms, end_ms)
+            eff_name = matrix_effect(hat_pool, hat_cue, part.label, t_ms, hat_idx)
+            hat_dur = cue_scaled_duration(
+                max(50, base.scaled_dur(76)),
+                hat_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=50,
+            )
+            for step, target in enumerate(targets):
+                start_ms = t_ms + step * 8
+                end_ms = min(part.end_ms, start_ms + max(44, hat_dur - step * 6))
+                add_model(target, start_ms, end_ms, "pixel_hat", eff=eff_name, stem="vocals")
+                cue(f"{hat_pool.category}:{eff_name}", start_ms, end_ms)
 
         vocal_stride = 3 if part.label == "VERSE" else 2 if part.label in {"PRECHORUS", "BRIDGE"} else 1
         for vocal_idx, t_ms in enumerate(local_vocals):
             if in_blackout(t_ms) or (vocal_idx % vocal_stride) != 0:
                 continue
-            vocal_pool = matrix_pool or sphere_pool or line_pool or arch_pool
-            desired = 1 if part.label == "VERSE" else 2 if vocal_pool is not None and vocal_pool.category == "matrix" else 1
+            vocal_cue = cue_for_timestamp(
+                t_ms,
+                default="vocal",
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+            )
+            vocal_pool = choose_cue_preferred_pool(
+                [matrix_pool, sphere_pool, line_pool, arch_pool, tree_pool],
+                vocal_cue,
+                vocal_idx,
+                context="pixel",
+            ) or matrix_pool or sphere_pool or line_pool or arch_pool
+            desired = cue_target_count(
+                1 if part.label == "VERSE" else 2 if vocal_pool is not None and vocal_pool.category == "matrix" else 1,
+                vocal_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                maximum=(len(vocal_pool.models) if vocal_pool is not None else 1),
+            )
             targets = rotate_targets(vocal_pool, f"pixel_vocal_cursor_{part_idx}", desired, reverse=reverse_for(vocal_idx + part_idx))
             if not targets or vocal_pool is None:
                 continue
-            eff_name = reactive_effect_for_category(vocal_pool.category, "vocal", part.label, vocal_idx)
+            eff_name = matrix_effect(vocal_pool, vocal_cue, part.label, t_ms, vocal_idx)
+            vocal_dur = cue_scaled_duration(
+                max(95, base.scaled_dur(165)),
+                vocal_cue,
+                placement_mode="pixel_reactive",
+                part_label=part.label,
+                minimum_ms=95,
+            )
             for step, target in enumerate(targets):
                 start_ms = t_ms + step * 18
-                end_ms = min(part.end_ms, start_ms + max(95, base.scaled_dur(165) - step * 12))
+                end_ms = min(part.end_ms, start_ms + max(80, vocal_dur - step * 12))
                 add_model(target, start_ms, end_ms, "pixel_vocal", eff=eff_name, stem="vocals")
                 cue(f"{vocal_pool.category}:{eff_name}", start_ms, end_ms)
 
@@ -6450,32 +5980,72 @@ def place_pixel_reactive_score(
         for event_idx, event in enumerate(local_events):
             if in_blackout(event.start_ms) or (event_idx % note_stride) != 0:
                 continue
-            melody_pool = arch_pool or line_pool or matrix_pool or tree_pool
+            note_cue = reactive_cue_for_event(
+                event,
+                kicks=local_kicks,
+                snares=local_snares,
+                hats=local_hats,
+                bass_peaks=local_bass,
+                vocal_peaks=local_vocals,
+                default="build" if part.label in dramatic_parts else "phrase",
+            )
+            melody_pool = choose_pixel_phrase_pool(
+                cue=note_cue,
+                part_label=part.label,
+                rotation_idx=event_idx,
+                arch_pool=arch_pool,
+                line_pool=line_pool,
+                cane_pool=cane_pool,
+                matrix_pool=matrix_pool,
+                tree_pool=tree_pool,
+                sphere_pool=sphere_pool,
+                spinner_pool=spinner_pool,
+            ) or arch_pool or line_pool or matrix_pool or tree_pool
             if melody_pool is None or not melody_pool.models:
                 continue
-            eff_name = reactive_effect_for_category(melody_pool.category, "phrase", part.label, event_idx)
+            eff_name = matrix_effect(melody_pool, note_cue, part.label, event.start_ms, event_idx)
             if melody_pool.category in {"arch", "line", "canes_combo", "north_canes", "south_canes"} and len(melody_pool.models) >= 2:
-                targets = rotate_targets(melody_pool, f"pixel_phrase_cursor_{part_idx}", 2 if part.label in dramatic_parts else 1, reverse=reverse_for(event_idx + part_idx))
+                targets = rotate_targets(
+                    melody_pool,
+                    f"pixel_phrase_cursor_{part_idx}",
+                    cue_target_count(
+                        2 if part.label in dramatic_parts else 1,
+                        note_cue,
+                        placement_mode="pixel_reactive",
+                        part_label=part.label,
+                        minimum=2 if pixel_phrase_prefers_motion(part.label, note_cue) else 1,
+                        maximum=len(melody_pool.models),
+                    ),
+                    reverse=reverse_for(event_idx + part_idx),
+                )
+                phrase_dur = cue_scaled_duration(
+                    max(110, base.scaled_dur(180)),
+                    note_cue,
+                    placement_mode="pixel_reactive",
+                    part_label=part.label,
+                    minimum_ms=110,
+                )
                 for step, target in enumerate(targets):
                     start_ms = event.start_ms + step * 20
-                    end_ms = min(part.end_ms, start_ms + max(110, base.scaled_dur(180) - step * 10))
+                    end_ms = min(part.end_ms, start_ms + max(96, phrase_dur - step * 10))
                     add_model(target, start_ms, end_ms, "pixel_phrase_motion", eff=eff_name, stem="other")
                     cue(f"{melody_pool.category}:{eff_name}", start_ms, end_ms)
             else:
                 mapped = map_notes_to_models(melody_pool, event, pool_state, style, rng)
-                limited = mapped[: (1 if part.label == "VERSE" else 2)]
+                limited = mapped[: cue_target_count(1 if part.label == "VERSE" else 2, note_cue, placement_mode="pixel_reactive", part_label=part.label, maximum=len(mapped))]
                 if not limited:
                     limited = rotate_targets(melody_pool, f"pixel_phrase_fallback_{part_idx}", 1, reverse=reverse_for(event_idx + part_idx))
                 for step, target in enumerate(limited):
                     start_ms = event.start_ms + step * 18
-                    end_ms = min(part.end_ms, max(start_ms + 90, min(event.end_ms + 180, start_ms + base.scaled_dur(220))))
+                    phrase_base = max(start_ms + 90, min(event.end_ms + 180, start_ms + base.scaled_dur(220)))
+                    end_ms = min(part.end_ms, start_ms + cue_scaled_duration(phrase_base - start_ms, note_cue, placement_mode="pixel_reactive", part_label=part.label, minimum_ms=90))
                     add_model(target, start_ms, end_ms, "pixel_phrase_focus", eff=eff_name, stem="other")
                     cue(f"{melody_pool.category}:{eff_name}", start_ms, end_ms)
 
     return len(pixel_track)
 
 
-def place_xtreme_essentials(
+def place_mapped_essentials(
     style: VariantStyle,
     pools: list[SequentialPool],
     layout: base.Layout,
@@ -6526,7 +6096,7 @@ def place_xtreme_essentials(
                 target,
                 part.start_ms,
                 min(part.end_ms, part.start_ms + max(150, base.scaled_dur(210))),
-                "xtreme_wholehouse",
+                "mapped_wholehouse",
                 eff="Ramp" if ramp_ok and part.label in {"PRECHORUS", "BRIDGE"} else "On",
                 tpl=ramp_tpl if ramp_ok and part.label in {"PRECHORUS", "BRIDGE"} else None,
                 stem="other",
@@ -6537,7 +6107,7 @@ def place_xtreme_essentials(
                 color_target,
                 part.start_ms,
                 min(part.end_ms, part.start_ms + max(110, base.scaled_dur(160))),
-                "xtreme_color_pickup",
+                "mapped_color_pickup",
                 stem="other",
             )
         if flood_pool is not None:
@@ -6547,10 +6117,10 @@ def place_xtreme_essentials(
                 if in_blackout(t_ms) or (idx % stride) != 0:
                     continue
                 target = flood_pool.models[idx % len(flood_pool.models)]
-                add_model(target, t_ms, t_ms + max(70, base.scaled_dur(95)), "xtreme_flood_hit", eff="Shimmer", stem="vocals")
+                add_model(target, t_ms, t_ms + max(70, base.scaled_dur(95)), "mapped_flood_hit", eff="Shimmer", stem="vocals")
 
 
-def place_xtreme_submodel(
+def place_mapped_submodel(
     style: VariantStyle,
     pools: list[SequentialPool],
     layout: base.Layout,
@@ -6604,16 +6174,16 @@ def place_xtreme_submodel(
                 if in_blackout(t_ms) or (beat_idx % stride) != 0:
                     continue
                 target = detail_targets[beat_idx % len(detail_targets)]
-                add_model(target, t_ms, t_ms + max(85, base.scaled_dur(120)), "xtreme_notes_lane", eff="Bars", stem="other")
+                add_model(target, t_ms, t_ms + max(85, base.scaled_dur(120)), "mapped_notes_lane", eff="Bars", stem="other")
         if flood_pool is not None and part.label in {"PRECHORUS", "CHORUS", "BRIDGE"}:
             for event_idx, event in enumerate(local_events[::4]):
                 if in_blackout(event.start_ms):
                     continue
                 target = flood_pool.models[event_idx % len(flood_pool.models)]
-                add_model(target, event.start_ms, min(part.end_ms, event.start_ms + max(90, base.scaled_dur(130))), "xtreme_flood_punct", eff="Strobe", stem="vocals")
+                add_model(target, event.start_ms, min(part.end_ms, event.start_ms + max(90, base.scaled_dur(130))), "mapped_flood_punct", eff="Strobe", stem="vocals")
 
 
-def place_xtreme_showcase(
+def place_mapped_showcase(
     style: VariantStyle,
     pools: list[SequentialPool],
     layout: base.Layout,
@@ -6670,14 +6240,14 @@ def place_xtreme_showcase(
                 if in_blackout(t_ms):
                     continue
                 target = group_targets[(part_idx + idx) % len(group_targets)]
-                add_model(target, t_ms, min(part.end_ms, t_ms + max(100, base.scaled_dur(150))), "xtreme_group_hit", stem="other")
+                add_model(target, t_ms, min(part.end_ms, t_ms + max(100, base.scaled_dur(150))), "mapped_group_hit", stem="other")
         if flood_pool is not None:
             for idx, t_ms in enumerate(local_snares[::2]):
                 if in_blackout(t_ms):
                     continue
                 target = flood_pool.models[idx % len(flood_pool.models)]
                 eff_name = "Strobe" if (idx % 3) == 0 else "Shimmer"
-                add_model(target, t_ms, t_ms + max(75, base.scaled_dur(95)), "xtreme_flood_blast", eff=eff_name, stem="vocals")
+                add_model(target, t_ms, t_ms + max(75, base.scaled_dur(95)), "mapped_flood_blast", eff=eff_name, stem="vocals")
 
 
 def place_hierarchy_roles(
@@ -6896,6 +6466,7 @@ def place_intensity_waves(
     add_model,
     in_blackout,
     sweep_track: list[tuple[str, int, int]],
+    spatial_scene_model: spatial.SpatialScene | None = None,
 ) -> None:
     wave_pools = [
         pool
@@ -6915,7 +6486,11 @@ def place_intensity_waves(
             continue
         if (idx % (2 if part == "CHORUS" else 3)) != 0:
             continue
-        pool = wave_pools[idx % len(wave_pools)]
+        pool = spatialize_pool_for_family(
+            wave_pools[idx % len(wave_pools)],
+            spatial_scene_model,
+            "wave_propagation",
+        ) or wave_pools[idx % len(wave_pools)]
         targets = representative_models(pool, 1 if part == "PRECHORUS" else 2)
         span_end = t_ms
         for step, model in enumerate(targets):
@@ -6931,7 +6506,11 @@ def place_intensity_waves(
             continue
         if event.part not in {"PRECHORUS", "CHORUS", "BRIDGE"}:
             continue
-        pool = wave_pools[(event_idx + len(event.notes)) % len(wave_pools)]
+        pool = spatialize_pool_for_family(
+            wave_pools[(event_idx + len(event.notes)) % len(wave_pools)],
+            spatial_scene_model,
+            "wave_propagation",
+        ) or wave_pools[(event_idx + len(event.notes)) % len(wave_pools)]
         targets = map_notes_to_models(pool, event, pool_state, style, rng)[: max(1, min(2, len(event.notes)))]
         span_end = event.start_ms
         for step, model in enumerate(targets):
@@ -6941,6 +6520,255 @@ def place_intensity_waves(
             span_end = max(span_end, en)
         if span_end > event.start_ms:
             sweep_track.append((f"poly:{pool.name}", event.start_ms, span_end))
+
+
+def place_multiband_reactive_overlay(
+    *,
+    style: VariantStyle,
+    pools: list[SequentialPool],
+    parts: list[SongPart],
+    audio: base.Audio,
+    analysis: MultiBandAnalysis,
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    vocal_peaks: list[int],
+    build_lifts: list[int],
+    releases: list[int],
+    pool_state: dict[str, int],
+    rng: random.Random,
+    ramp_ok: bool,
+    ramp_tpl: base.EffectTemplate,
+    add_model,
+    in_blackout,
+    overlay_track: list[tuple[str, int, int]],
+) -> int:
+    band_pools: dict[str, list[SequentialPool]] = {
+        "sub_bass": pools_by_category(pools, ("mega", "gt", "flood", "line")),
+        "bass": pools_by_category(pools, ("arch", "line", "canes_combo", "gt")),
+        "mid": pools_by_category(pools, ("arch", "spinner", "line", "matrix")),
+        "high": pools_by_category(pools, ("stars", "snowflakes", "matrix", "line")),
+    }
+    quiet_pools = pools_by_category(pools, ("stars", "snowflakes", "arch", "line", "matrix"))
+    if not any(band_pools.values()):
+        return 0
+
+    complexity_by_part = rhythm_complexity_by_part(parts, audio.onset_ms, audio.beat_ms)
+    band_events: list[tuple[str, list[int]]] = [
+        ("sub_bass", downsample_marks(analysis.sub_bass_marks, max_marks=420)),
+        ("bass", downsample_marks(analysis.bass_marks, max_marks=520)),
+        ("mid", downsample_marks(analysis.mid_marks, max_marks=680)),
+        ("high", downsample_marks(analysis.high_marks, max_marks=760)),
+    ]
+    base_duration = {"sub_bass": 220, "bass": 180, "mid": 150, "high": 110}
+    cue_by_band = {"sub_bass": "bass", "bass": "bass", "mid": "phrase", "high": "hat"}
+
+    last_effect: dict[str, str] = {}
+    repeat_count: dict[str, int] = {}
+
+    def choose_effect(key: str, options: list[str]) -> str:
+        prev = last_effect.get(key, "")
+        repeats = repeat_count.get(key, 0)
+        choice = options[0]
+        for option in options:
+            if option != prev or repeats < 2:
+                choice = option
+                break
+        if choice == prev:
+            repeat_count[key] = repeats + 1
+        else:
+            repeat_count[key] = 1
+        last_effect[key] = choice
+        return choice
+
+    def effect_options(
+        *,
+        band: str,
+        hit_kind: str,
+        intensity_state: str,
+        envelope_shape: str,
+        flux_busy: bool,
+        vocal_active: bool,
+        genre_hint: str,
+        mood_hint: str,
+        spectral_contrast: float,
+        spectral_flatness: float,
+        mfcc_motion: float,
+    ) -> list[str]:
+        if band == "sub_bass":
+            if hit_kind == "kick":
+                return ["Strobe", "Bars", "On"]
+            if intensity_state in {"build", "peak"}:
+                return ["Bars", "Ramp", "On"]
+            if genre_hint in {"hip_hop", "edm"}:
+                return ["Bars", "On", "Ramp"]
+            return ["On", "Ramp", "Bars"]
+        if band == "bass":
+            if hit_kind in {"kick", "clap"}:
+                return ["Bars", "On", "Ramp"]
+            if genre_hint == "ambient":
+                return ["Ramp", "On", "Wave"]
+            return ["Wave", "Single Strand", "On"] if flux_busy else ["On", "Ramp", "Wave"]
+        if band == "mid":
+            if hit_kind in {"snare", "clap"}:
+                return ["Single Strand", "Wave", "On"]
+            if mfcc_motion >= 0.64 or spectral_contrast >= 0.62:
+                return ["Wave", "Single Strand", "On"]
+            return ["Wave", "On", "Ramp"] if flux_busy else ["On", "Wave", "Ramp"]
+        if vocal_active:
+            return ["On", "Twinkle", "Wave"]
+        if genre_hint in {"ambient", "classical"} and mood_hint in {"calm", "brooding"}:
+            return ["On", "Wave", "Ramp"]
+        if hit_kind in {"hat", "clap"}:
+            return ["Twinkle", "Strobe", "On"]
+        if envelope_shape == "attack" and spectral_flatness >= 0.45:
+            return ["Strobe", "Twinkle", "On"]
+        return ["Twinkle", "On", "Wave"]
+
+    placed = 0
+    for band_name, marks in band_events:
+        if not marks:
+            continue
+        candidates = band_pools.get(band_name, [])
+        if not candidates:
+            continue
+        for idx, t_ms in enumerate(marks):
+            if in_blackout(t_ms):
+                continue
+            part_label = part_for_time(parts, t_ms)
+            part_profile = analysis.section_profiles.get(part_label, {})
+            complexity = complexity_by_part.get(part_label, 0.45)
+            dominant = dominant_band_at_time(t_ms, analysis)
+            if dominant != band_name:
+                if band_name in {"mid", "high"} and dominant in {"sub_bass", "bass"} and rng.random() > 0.35:
+                    continue
+                if band_name in {"sub_bass", "bass"} and dominant in {"mid", "high"} and rng.random() > 0.58:
+                    continue
+
+            hit_kind = hit_class_for_time(t_ms, kicks=kicks, snares=snares, hats=hats)
+            intensity_state = macro_intensity_state(
+                t_ms,
+                audio=audio,
+                build_lifts=build_lifts,
+                releases=releases,
+                quiet_windows=analysis.quiet_windows,
+            )
+            envelope_shape = envelope_shape_for_time(audio, t_ms)
+            vocal_active = has_nearby_mark(t_ms, vocal_peaks, 95)
+            flux_busy = has_nearby_mark(t_ms, analysis.spectral_flux_marks, 95)
+            spectral_contrast = curve_value_at_time(analysis.frame_times_s, analysis.spectral_contrast01, t_ms)
+            spectral_flatness = curve_value_at_time(analysis.frame_times_s, analysis.spectral_flatness01, t_ms)
+            mfcc_motion = curve_value_at_time(analysis.frame_times_s, analysis.mfcc_motion01, t_ms)
+            scene_mode = str(part_profile.get("scene_mode", "balanced"))
+
+            if part_label in {"INTRO", "OUTRO"}:
+                base_targets = 1
+            elif part_label == "VERSE":
+                base_targets = 1 if band_name in {"mid", "high"} else 2
+            elif part_label == "CHORUS":
+                base_targets = 3 if band_name in {"sub_bass", "bass"} else 2
+            else:
+                base_targets = 2
+            if intensity_state in {"build", "peak"}:
+                base_targets += 1
+            if intensity_state == "drop":
+                base_targets = max(1, base_targets - 1)
+            if vocal_active and band_name in {"mid", "high"}:
+                base_targets = max(1, base_targets - 1)
+            if complexity >= 0.72 and band_name in {"mid", "high"}:
+                base_targets += 1
+            if scene_mode in {"tight_minimal", "ambient_minimal", "breakdown"}:
+                base_targets = max(1, base_targets - 1)
+            elif scene_mode == "wide_bright":
+                base_targets += 1
+            elif scene_mode == "build_tension" and band_name in {"sub_bass", "bass", "mid"}:
+                base_targets += 1
+            target_count = max(1, min(4, base_targets))
+
+            cue_key = cue_by_band[band_name]
+            target_count = cue_target_count(
+                target_count,
+                cue_key,
+                placement_mode="pixel_reactive",
+                part_label=part_label,
+                maximum=target_count + 1,
+            )
+            target_count = max(1, min(4, target_count))
+
+            pool = choose_cycle_pool(candidates, pool_state, f"multiband_{band_name}_{part_label.lower()}_{idx % 4}")
+            if pool is None:
+                continue
+            targets = representative_models(pool, target_count)
+            if not targets:
+                continue
+
+            dur_scale = 1.0
+            if intensity_state == "quiet":
+                dur_scale *= 0.78
+            elif intensity_state == "build":
+                dur_scale *= 1.14
+            elif intensity_state == "peak":
+                dur_scale *= 1.22
+            elif intensity_state == "drop":
+                dur_scale *= 0.72
+            if envelope_shape == "attack":
+                dur_scale *= 0.82
+            elif envelope_shape == "sustain":
+                dur_scale *= 1.12
+            elif envelope_shape == "decay":
+                dur_scale *= 0.90
+            dur = max(55, int(base.scaled_dur(base_duration[band_name] * dur_scale)))
+            options = effect_options(
+                band=band_name,
+                hit_kind=hit_kind,
+                intensity_state=intensity_state,
+                envelope_shape=envelope_shape,
+                flux_busy=flux_busy,
+                vocal_active=vocal_active,
+                genre_hint=analysis.genre_hint,
+                mood_hint=analysis.mood_hint,
+                spectral_contrast=spectral_contrast,
+                spectral_flatness=spectral_flatness,
+                mfcc_motion=mfcc_motion,
+            )
+            stem_key = "bass" if band_name in {"sub_bass", "bass"} else "drums" if hit_kind != "none" else "other"
+            span_end = t_ms
+            for step, model_name in enumerate(targets):
+                st = t_ms + step * (14 if band_name in {"sub_bass", "bass"} else 10)
+                en = st + max(50, int(dur * (1.0 + (0.08 * min(2, step)))))
+                effect_name = choose_effect(f"{band_name}:{pool.name}", options)
+                use_ramp = ramp_ok and effect_name == "Ramp"
+                add_model(
+                    model_name,
+                    st,
+                    en,
+                    f"multiband_{band_name}",
+                    eff=effect_name,
+                    tpl=ramp_tpl if use_ramp else None,
+                    cd_key=f"mb_{band_name}_strobe" if effect_name == "Strobe" else None,
+                    cd_ms=95 if effect_name == "Strobe" else 0,
+                    stem=stem_key,
+                )
+                span_end = max(span_end, en)
+                placed += 1
+            if span_end > t_ms:
+                overlay_track.append((f"{band_name}:{pool.name}:{hit_kind or 'none'}", t_ms, span_end))
+
+    if quiet_pools and analysis.quiet_windows:
+        for idx, (start_ms, end_ms) in enumerate(analysis.quiet_windows[:36]):
+            if in_blackout((start_ms + end_ms) // 2):
+                continue
+            if (end_ms - start_ms) < 300:
+                continue
+            pool = choose_cycle_pool(quiet_pools, pool_state, "multiband_quiet_hold")
+            if pool is None or not pool.models:
+                continue
+            model_name = pool.models[idx % len(pool.models)]
+            hold_end = min(end_ms, start_ms + max(180, base.scaled_dur(320)))
+            add_model(model_name, start_ms, hold_end, "multiband_quiet_hold", eff="On", stem="other")
+            overlay_track.append((f"quiet:{pool.name}", start_ms, hold_end))
+            placed += 1
+    return placed
 
 
 def build_keyboard_lane(pools: list[SequentialPool], override: list[str] | None = None) -> list[str]:
@@ -6969,16 +6797,31 @@ def spatial_ordered_models(
     models: list[str],
     coords: dict[str, tuple[float, float]] | None,
     rng: random.Random,
+    path_style: str = "left_to_right",
+    *,
+    scene: spatial.SpatialScene | None = None,
+    family: str = "trajectory_travel",
 ) -> list[str]:
     dedup = unique_models([model for model in models if model])
     if not dedup:
         return []
+    if scene is not None:
+        ordered = spatial.order_names_for_family(
+            scene,
+            dedup,
+            family,
+            path_style=path_style,
+        )
+        if ordered:
+            seen = {model.lower() for model in ordered}
+            ordered.extend(model for model in dedup if model.lower() not in seen)
+            return ordered
     if not coords:
         return dedup
     usable = [model for model in dedup if model in coords]
     if len(usable) < 2:
         return dedup
-    ordered = ai.ordered_spatial_path(usable, coords, "left_to_right", rng)
+    ordered = ai.ordered_spatial_path(usable, coords, path_style, rng)
     seen = {model.lower() for model in ordered}
     ordered.extend(model for model in dedup if model.lower() not in seen)
     return ordered
@@ -7022,6 +6865,10 @@ def build_spatial_keyboard_routes(
     pools: list[SequentialPool],
     coords: dict[str, tuple[float, float]] | None,
     rng: random.Random,
+    *,
+    route_style: str = "left_to_right",
+    awareness: float = 0.0,
+    scene: spatial.SpatialScene | None = None,
 ) -> list[KeyboardRoute]:
     routes: list[KeyboardRoute] = []
 
@@ -7035,18 +6882,31 @@ def build_spatial_keyboard_routes(
         clusters: list[list[str]] | None = None,
         spatial: bool = True,
     ) -> None:
-        ordered = spatial_ordered_models(models, coords, rng) if spatial else unique_models(models)
+        ordered = (
+            spatial_ordered_models(
+                models,
+                coords,
+                rng,
+                path_style=route_style,
+                scene=scene,
+                family="trajectory_travel",
+            )
+            if spatial
+            else unique_models(models)
+        )
         if len(ordered) < minimum:
             return
         usable_clusters = clusters
         if usable_clusters is None:
             usable_clusters = [[model] for model in ordered]
+        tuned_normal = scaled_spatial_route_stride(stride_normal, awareness=awareness, dramatic=False) if spatial else max(1, stride_normal)
+        tuned_dramatic = scaled_spatial_route_stride(stride_dramatic, awareness=awareness, dramatic=True) if spatial else max(1, stride_dramatic)
         routes.append(
             KeyboardRoute(
                 name=name,
                 models=ordered,
-                stride_normal=max(1, stride_normal),
-                stride_dramatic=max(1, stride_dramatic),
+                stride_normal=tuned_normal,
+                stride_dramatic=tuned_dramatic,
                 clusters=usable_clusters,
             )
         )
@@ -7397,6 +7257,39 @@ def midi_to_lane_index(midi: int, lane_count: int) -> int:
     return int(round(frac * (lane_count - 1)))
 
 
+def choose_player_piano_pool(pools: list[SequentialPool]) -> SequentialPool | None:
+    eligible = [
+        pool
+        for pool in pools
+        if len(pool.models) >= 6
+        and pool.category in {"notes", "line", "mega", "gt", "arch", "canes_combo", "north_canes", "south_canes"}
+    ]
+    if not eligible:
+        return None
+    preferred_names = (
+        "notes_1_16",
+        "notes_17_32",
+        "line_tree_rgb",
+        "mega_tree_rgb",
+        "garage_tree_rgb",
+        "north_canes",
+        "south_canes",
+        "canes_combo",
+        "mega_white",
+        "line_white",
+    )
+    for name in preferred_names:
+        for pool in eligible:
+            if pool.name == name:
+                return pool
+    category_order = ("notes", "line", "mega", "gt", "arch", "canes_combo", "north_canes", "south_canes")
+    for category in category_order:
+        for pool in eligible:
+            if pool.category == category:
+                return pool
+    return eligible[0]
+
+
 def route_note_choice(route: KeyboardRoute, event: NoteEvent) -> tuple[int, float] | None:
     if not event.notes:
         return None
@@ -7555,6 +7448,129 @@ def place_spatial_keyboard_routes(
     return placed
 
 
+def place_player_piano_sequence(
+    *,
+    style: VariantStyle,
+    note_events: list[NoteEvent],
+    pools: list[SequentialPool],
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
+    keyboard_mix: float,
+    ramp_ok: bool,
+    ramp_tpl: base.EffectTemplate,
+    add_model,
+    in_blackout,
+    keyboard_track: list[tuple[str, int, int]],
+    helixualizer_payload: dict[str, object] | None = None,
+) -> int:
+    pool = choose_player_piano_pool(pools)
+    if pool is None or not note_events:
+        return 0
+    mix = base.clamp(keyboard_mix, 0.0, 2.0)
+    if mix <= 0.05:
+        return 0
+
+    placed = 0
+    for event_idx, event in enumerate(note_events):
+        if in_blackout(event.start_ms) or not event.notes:
+            continue
+        if mix <= 0.45 and (event_idx % 2) == 1:
+            continue
+        if mix <= 0.85 and (event_idx % 3) == 2:
+            continue
+
+        cue = reactive_cue_for_event(
+            event,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            default="phrase",
+        )
+        sorted_notes = sorted(event.notes, key=lambda pair: pair[0])
+        max_notes = max(1, min(len(sorted_notes), int(round(max(1.0, style.polyphony * max(0.50, mix))))))
+        max_notes = cue_target_count(
+            max_notes,
+            cue,
+            placement_mode="player_piano",
+            part_label=event.part,
+            maximum=len(sorted_notes),
+        )
+        if cue in {"kick", "snare", "hat"}:
+            max_notes = min(max_notes, 2 if cue != "kick" else 3)
+        sorted_notes = sorted_notes[:max_notes]
+
+        held_until = event.start_ms
+        used_indices: set[int] = set()
+        stem_key = stem_for_cue(cue)
+        neighbor_offsets = helixualizer_engine.suggest_player_piano_neighbors(
+            helixualizer_payload,
+            start_ms=event.start_ms,
+            end_ms=event.end_ms,
+            cue=cue,
+            mix=mix,
+        )
+        for step, (midi, strength) in enumerate(sorted_notes):
+            lane_idx = midi_to_lane_index(midi, len(pool.models))
+            if lane_idx in used_indices:
+                continue
+            used_indices.add(lane_idx)
+
+            model = pool.models[lane_idx]
+            st = event.start_ms + (step * 10)
+            dur = cue_scaled_duration(
+                max(60, int(base.scaled_dur(130 + int(100 * strength)))),
+                cue,
+                placement_mode="player_piano",
+                part_label=event.part,
+                minimum_ms=60,
+            )
+            if pool.category == "notes":
+                dur = max(55, int(round(dur * 0.92)))
+            en = min(event.end_ms + 140, st + dur)
+            use_ramp = ramp_ok and cue in {"build", "vocal"} and pool.category in {"line", "mega", "gt", "arch"}
+            add_model(
+                model,
+                st,
+                en,
+                f"player_piano_{pool.category}",
+                eff="Ramp" if use_ramp else "On",
+                tpl=ramp_tpl if use_ramp else None,
+                stem=stem_key,
+            )
+            held_until = max(held_until, en)
+            placed += 1
+
+            if pool.category != "notes" and neighbor_offsets:
+                support_duration = max(50, int(round(dur * (0.64 if cue in {"kick", "snare", "hat"} else 0.78))))
+                support_start = max(event.start_ms, st - 10)
+                support_end = min(event.end_ms + 150, support_start + support_duration)
+                for offset in neighbor_offsets:
+                    support_idx = lane_idx + int(offset)
+                    if not (0 <= support_idx < len(pool.models)) or support_idx in used_indices:
+                        continue
+                    used_indices.add(support_idx)
+                    add_model(
+                        pool.models[support_idx],
+                        support_start,
+                        support_end,
+                        f"player_piano_{pool.category}_support",
+                        eff="Ramp" if use_ramp else "On",
+                        tpl=ramp_tpl if use_ramp else None,
+                        stem=stem_key,
+                    )
+                    held_until = max(held_until, support_end)
+                    placed += 1
+
+        if held_until > event.start_ms:
+            keyboard_track.append((f"player_piano:{pool.name}:{cue}:{note_label(event.notes)}", event.start_ms, held_until))
+    return placed
+
+
 def place_polyphonic_keyboard(
     style: VariantStyle,
     note_events: list[NoteEvent],
@@ -7648,6 +7664,11 @@ def place_piano_lights(
     style: VariantStyle,
     note_events: list[NoteEvent],
     pools: list[SequentialPool],
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
     ramp_ok: bool,
     ramp_tpl: base.EffectTemplate,
     add_model,
@@ -7666,34 +7687,444 @@ def place_piano_lights(
     for event_idx, event in enumerate(note_events):
         if in_blackout(event.start_ms):
             continue
-        pool = seq_pools[seq_idx % len(seq_pools)]
+        cue = piano_lights_cue_for_event(
+            event,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+        )
+        pool = choose_piano_lights_pool(seq_pools, cue, seq_idx)
         seq_idx += 1
         sorted_notes = sorted(event.notes, key=lambda pair: pair[0], reverse=True)
         if not sorted_notes:
             continue
         max_notes = max(1, min(len(sorted_notes), int(round(max(2.0, style.polyphony * 1.2)))))
+        if cue in {"kick", "snare", "hat"}:
+            max_notes = min(max_notes, 2 if cue != "kick" else 3)
+        elif cue in {"vocal", "build"}:
+            max_notes = min(len(sorted_notes), max(max_notes, min(len(sorted_notes), style.polyphony + 1)))
+        max_notes = cue_target_count(
+            max_notes,
+            cue,
+            placement_mode="piano_lights",
+            part_label=event.part,
+            maximum=len(sorted_notes),
+        )
         sorted_notes = sorted_notes[:max_notes]
         held_until = event.start_ms
+        stem_key = stem_for_cue(cue)
         for step, (midi, strength) in enumerate(sorted_notes):
             lane_idx = midi_to_lane_index(midi, len(pool.models))
             model = pool.models[lane_idx]
             st = event.start_ms + (step * 10)
-            dur = max(60, int(base.scaled_dur(140 + int(110 * strength))))
+            dur = cue_scaled_duration(
+                max(55, int(base.scaled_dur(140 + int(110 * strength)))),
+                cue,
+                placement_mode="piano_lights",
+                part_label=event.part,
+                minimum_ms=55,
+            )
             if event.part in {"CHORUS", "PRECHORUS"}:
                 dur = int(dur * 1.15)
             en = min(event.end_ms + 160, st + dur)
-            use_ramp = ramp_ok and (event.part in {"PRECHORUS", "BRIDGE"} or step > 0)
+            eff_name = reactive_effect_for_category(pool.category, cue, event.part, event_idx + step)
+            use_ramp = ramp_ok and eff_name == "On" and (event.part in {"PRECHORUS", "BRIDGE"} or step > 0)
             add_model(
                 model,
                 st,
                 en,
                 f"piano_lights_{pool.category}",
-                eff="Ramp" if use_ramp else "On",
+                eff="Ramp" if use_ramp else eff_name,
                 tpl=ramp_tpl if use_ramp else None,
-                stem="other",
+                stem=stem_key,
             )
             held_until = max(held_until, en)
-        keyboard_track.append((f"{pool.category}:{note_label(event.notes)}", event.start_ms, held_until))
+        keyboard_track.append((f"{pool.category}:{cue}:{note_label(event.notes)}", event.start_ms, held_until))
+
+
+def has_nearby_mark(target_ms: int, marks: list[int], window_ms: int) -> bool:
+    if not marks:
+        return False
+    idx = bisect_left(marks, target_ms)
+    for probe in (idx - 1, idx):
+        if 0 <= probe < len(marks) and abs(marks[probe] - target_ms) <= window_ms:
+            return True
+    return False
+
+
+def cue_for_timestamp(
+    target_ms: int,
+    *,
+    default: str,
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
+    dense: bool = False,
+    dramatic: bool = False,
+) -> str:
+    if has_nearby_mark(target_ms, vocal_peaks, 85):
+        return "vocal"
+    if has_nearby_mark(target_ms, snares, 55):
+        return "snare"
+    if has_nearby_mark(target_ms, kicks, 45):
+        return "kick"
+    if has_nearby_mark(target_ms, bass_peaks, 70):
+        return "bass"
+    if not dense and has_nearby_mark(target_ms, hats, 35):
+        return "hat"
+    if default == "build" or (dramatic and dense):
+        return "build"
+    return default
+
+
+def reactive_cue_for_event(
+    event: NoteEvent,
+    *,
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
+    default: str = "phrase",
+) -> str:
+    return cue_for_timestamp(
+        int(event.start_ms),
+        default=default,
+        kicks=kicks,
+        snares=snares,
+        hats=hats,
+        bass_peaks=bass_peaks,
+        vocal_peaks=vocal_peaks,
+        dense=(len(event.notes) >= 3),
+        dramatic=(event.part in {"PRECHORUS", "CHORUS", "BRIDGE"}),
+    )
+
+
+def piano_lights_cue_for_event(
+    event: NoteEvent,
+    *,
+    kicks: list[int],
+    snares: list[int],
+    hats: list[int],
+    bass_peaks: list[int],
+    vocal_peaks: list[int],
+) -> str:
+    return reactive_cue_for_event(
+        event,
+        kicks=kicks,
+        snares=snares,
+        hats=hats,
+        bass_peaks=bass_peaks,
+        vocal_peaks=vocal_peaks,
+        default="phrase",
+    )
+
+
+def cue_pool_preferences(cue: str, *, context: str = "default") -> tuple[str, ...]:
+    tables = {
+        "default": {
+            "vocal": ("matrix", "sphere", "line", "arch", "mega"),
+            "build": ("mega", "arch", "line", "matrix", "sphere"),
+            "bass": ("arch", "line", "mega", "canes_combo", "gt"),
+            "kick": ("spinner", "arch", "line", "gt", "canes_combo"),
+            "snare": ("spinner", "gt", "mega", "line", "arch"),
+            "hat": ("spinner", "line", "arch", "gt"),
+            "phrase": ("arch", "line", "mega", "matrix", "gt", "spinner", "sphere", "canes_combo"),
+        },
+        "signature": {
+            "vocal": ("talking_heads", "matrix", "line", "arch", "sphere"),
+            "build": ("mega", "line", "arch", "gt", "canes_combo", "matrix"),
+            "bass": ("matrix", "mega", "gt", "line", "arch", "canes_combo"),
+            "kick": ("spinner", "gt", "mega", "line", "arch"),
+            "snare": ("spinner", "talking_heads", "sphere", "matrix", "mega"),
+            "hat": ("spinner", "line", "arch", "stars", "snowflakes"),
+            "phrase": ("mega", "line", "arch", "matrix", "gt", "canes_combo", "talking_heads"),
+        },
+        "pixel": {
+            "vocal": ("matrix", "sphere", "line", "arch", "talking_heads"),
+            "build": ("mega", "spinner", "matrix", "sphere", "line"),
+            "bass": ("mega", "arch", "line", "matrix", "canes_combo", "gt"),
+            "kick": ("spinner", "arch", "line", "canes_combo", "gt"),
+            "snare": ("spinner", "sphere", "stars", "snowflakes", "matrix"),
+            "hat": ("spinner", "stars", "snowflakes", "line", "arch"),
+            "phrase": ("arch", "line", "matrix", "mega", "sphere", "gt", "spinner"),
+        },
+    }
+    active = tables.get(context, tables["default"])
+    return active.get(cue, active["phrase"])
+
+
+def choose_cue_preferred_pool(
+    candidates: list[SequentialPool | None],
+    cue: str,
+    rotation_idx: int,
+    *,
+    context: str = "default",
+    require_multiple: bool = False,
+) -> SequentialPool | None:
+    available = available_candidate_pools(candidates, require_multiple=require_multiple)
+    if not available:
+        return None
+    preferred: list[SequentialPool] = []
+    for category in cue_pool_preferences(cue, context=context):
+        for pool in available:
+            if pool.category == category and all(existing.name != pool.name for existing in preferred):
+                preferred.append(pool)
+    choices = preferred or available
+    return choices[rotation_idx % len(choices)]
+
+
+def choose_piano_lights_pool(pools: list[SequentialPool], cue: str, rotation_idx: int) -> SequentialPool:
+    return choose_cue_preferred_pool(pools, cue, rotation_idx, context="default") or pools[rotation_idx % len(pools)]
+
+
+def cue_duration_scale(cue: str, *, placement_mode: str, part_label: str) -> float:
+    tables = {
+        "piano_lights": {
+            "phrase": 1.00,
+            "vocal": 1.24,
+            "build": 1.30,
+            "bass": 1.16,
+            "kick": 0.88,
+            "snare": 0.82,
+            "hat": 0.72,
+        },
+        "player_piano": {
+            "phrase": 1.00,
+            "vocal": 1.14,
+            "build": 1.20,
+            "bass": 1.06,
+            "kick": 0.92,
+            "snare": 0.88,
+            "hat": 0.78,
+        },
+        "showcase_signature": {
+            "phrase": 1.02,
+            "vocal": 1.16,
+            "build": 1.24,
+            "bass": 1.14,
+            "kick": 0.94,
+            "snare": 0.88,
+            "hat": 0.80,
+        },
+        "pixel_reactive": {
+            "phrase": 1.00,
+            "vocal": 1.12,
+            "build": 1.26,
+            "bass": 1.18,
+            "kick": 0.98,
+            "snare": 0.92,
+            "hat": 0.84,
+        },
+    }
+    table = tables.get(placement_mode, tables["piano_lights"])
+    scale = table.get(cue, table["phrase"])
+    label = (part_label or "").upper()
+    if label in {"PRECHORUS", "CHORUS", "BRIDGE"} and cue in {"phrase", "vocal", "build", "bass"}:
+        scale += 0.08 if placement_mode != "pixel_reactive" else 0.12
+    elif label in {"INTRO", "OUTRO"} and cue in {"kick", "snare", "hat"}:
+        scale -= 0.05
+    return base.clamp(scale, 0.65, 1.50)
+
+
+def cue_intensity_scale(cue: str, *, placement_mode: str, part_label: str) -> float:
+    tables = {
+        "piano_lights": {
+            "phrase": 1.00,
+            "vocal": 1.20,
+            "build": 1.32,
+            "bass": 1.10,
+            "kick": 0.92,
+            "snare": 0.82,
+            "hat": 0.72,
+        },
+        "player_piano": {
+            "phrase": 1.00,
+            "vocal": 1.12,
+            "build": 1.18,
+            "bass": 1.04,
+            "kick": 0.94,
+            "snare": 0.88,
+            "hat": 0.76,
+        },
+        "showcase_signature": {
+            "phrase": 1.00,
+            "vocal": 1.14,
+            "build": 1.24,
+            "bass": 1.18,
+            "kick": 1.02,
+            "snare": 0.88,
+            "hat": 0.78,
+        },
+        "pixel_reactive": {
+            "phrase": 1.00,
+            "vocal": 1.16,
+            "build": 1.30,
+            "bass": 1.22,
+            "kick": 1.08,
+            "snare": 0.92,
+            "hat": 0.80,
+        },
+    }
+    table = tables.get(placement_mode, tables["piano_lights"])
+    scale = table.get(cue, table["phrase"])
+    label = (part_label or "").upper()
+    if label in {"PRECHORUS", "CHORUS", "BRIDGE"} and cue in {"phrase", "vocal", "build", "bass", "kick"}:
+        scale += 0.08
+    elif label in {"INTRO", "OUTRO"} and cue in {"kick", "snare", "hat"}:
+        scale -= 0.06
+    return base.clamp(scale, 0.65, 1.55)
+
+
+def cue_target_count(
+    base_count: int,
+    cue: str,
+    *,
+    placement_mode: str,
+    part_label: str,
+    minimum: int = 1,
+    maximum: int | None = None,
+) -> int:
+    safe_base = max(minimum, int(base_count))
+    scale = cue_intensity_scale(cue, placement_mode=placement_mode, part_label=part_label)
+    raw = safe_base * scale
+    scaled = math.ceil(raw - 1e-9) if scale >= 1.0 else math.floor(raw + 1e-9)
+    if maximum is not None:
+        scaled = min(maximum, scaled)
+    return max(minimum, scaled)
+
+
+def cue_scaled_duration(
+    base_duration_ms: int,
+    cue: str,
+    *,
+    placement_mode: str,
+    part_label: str,
+    minimum_ms: int,
+) -> int:
+    scale = cue_duration_scale(cue, placement_mode=placement_mode, part_label=part_label)
+    return max(minimum_ms, int(round(base_duration_ms * scale)))
+
+
+def available_candidate_pools(
+    candidates: list[SequentialPool | None],
+    *,
+    require_multiple: bool = False,
+) -> list[SequentialPool]:
+    available: list[SequentialPool] = []
+    for pool in candidates:
+        if pool is None or not pool.models:
+            continue
+        if require_multiple and len(pool.models) < 2:
+            continue
+        if any(existing.name == pool.name for existing in available):
+            continue
+        available.append(pool)
+    return available
+
+
+def choose_pool_by_category_order(
+    candidates: list[SequentialPool | None],
+    categories: tuple[str, ...],
+    rotation_idx: int,
+    *,
+    require_multiple: bool = False,
+) -> SequentialPool | None:
+    available = available_candidate_pools(candidates, require_multiple=require_multiple)
+    if not available:
+        return None
+    preferred: list[SequentialPool] = []
+    for category in categories:
+        for pool in available:
+            if pool.category == category and all(existing.name != pool.name for existing in preferred):
+                preferred.append(pool)
+    choices = preferred or available
+    return choices[rotation_idx % len(choices)]
+
+
+def showcase_signature_sweep_plan(
+    pool: SequentialPool | None,
+    cue: str,
+    part_label: str,
+) -> tuple[SequentialPool | None, float, float]:
+    if pool is None or not pool.models:
+        return None, 1.0, 1.0
+    cue_key = (cue or "").strip().lower()
+    if cue_key in {"build", "phrase"}:
+        desired = 2
+        span_scale = 0.72 if cue_key == "build" else 0.78
+        hit_scale = 0.68 if cue_key == "build" else 0.74
+    elif cue_key == "vocal":
+        desired = 3
+        span_scale = 0.88
+        hit_scale = 0.84
+    elif cue_key == "bass":
+        desired = 3
+        span_scale = 0.92
+        hit_scale = 0.88
+    else:
+        desired = 3
+        span_scale = 0.86
+        hit_scale = 0.80
+    if (part_label or "").upper() == "CHORUS" and cue_key in {"vocal", "bass"}:
+        desired += 1
+    desired = min(max(2, desired), min(len(pool.models), 4))
+    return (
+        SequentialPool(pool.name, pool.category, representative_models(pool, desired)),
+        span_scale,
+        hit_scale,
+    )
+
+
+def pixel_phrase_prefers_motion(part_label: str, cue: str) -> bool:
+    return (part_label or "").upper() in {"PRECHORUS", "CHORUS"} and (cue or "").strip().lower() in {"phrase", "build", "vocal"}
+
+
+def choose_pixel_phrase_pool(
+    *,
+    cue: str,
+    part_label: str,
+    rotation_idx: int,
+    arch_pool: SequentialPool | None,
+    line_pool: SequentialPool | None,
+    cane_pool: SequentialPool | None,
+    matrix_pool: SequentialPool | None,
+    tree_pool: SequentialPool | None,
+    sphere_pool: SequentialPool | None,
+    spinner_pool: SequentialPool | None,
+) -> SequentialPool | None:
+    if pixel_phrase_prefers_motion(part_label, cue):
+        preferred = choose_pool_by_category_order(
+            [arch_pool, line_pool, cane_pool, matrix_pool, tree_pool, sphere_pool, spinner_pool],
+            ("arch", "line", "canes_combo", "matrix", "mega", "sphere", "spinner"),
+            rotation_idx,
+        )
+        if preferred is not None:
+            return preferred
+    return choose_cue_preferred_pool(
+        [arch_pool, line_pool, cane_pool, matrix_pool, tree_pool, sphere_pool, spinner_pool],
+        cue,
+        rotation_idx,
+        context="pixel",
+    )
+
+
+def piano_lights_duration_scale(cue: str, part_label: str) -> float:
+    return cue_duration_scale(cue, placement_mode="piano_lights", part_label=part_label)
+
+
+def stem_for_cue(cue: str) -> str:
+    if cue == "vocal":
+        return "vocals"
+    if cue == "bass":
+        return "bass"
+    if cue in {"kick", "snare", "hat"}:
+        return "drums"
+    return "other"
 
 
 def note_label(notes: list[tuple[int, float]]) -> str:
@@ -7774,6 +8205,103 @@ def _score_maximum(value: float, *, target: float, ceiling: float) -> float:
     return max(0.0, 100.0 * (ceiling - value) / span)
 
 
+def _placement_token_count(placements: Mapping[str, object], tokens: tuple[str, ...]) -> int:
+    total = 0
+    for label, count in placements.items():
+        lowered = str(label).lower()
+        if any(token in lowered for token in tokens):
+            total += int(count or 0)
+    return total
+
+
+def _compute_top_show_benchmark(
+    *,
+    duration_s: float,
+    effects_total: int,
+    placements: Mapping[str, object],
+    audio_reactive: Mapping[str, object],
+    density_per_second: float,
+    structure_score: float,
+    keyboard_score: float,
+    coverage_score: float,
+    family_diversity_score: float,
+    dominance_score: float,
+) -> dict[str, object]:
+    audio_events = int(audio_reactive.get("timing_track_events", 0) or 0)
+    audio_actions = int(audio_reactive.get("action_count", 0) or 0)
+    audio_sync_density = (audio_events + audio_actions) / duration_s
+
+    flash_like = _placement_token_count(
+        placements,
+        ("flash", "strobe", "burst", "impact", "drop"),
+    )
+    flash_like_per_second = flash_like / duration_s
+
+    attention_tokens = _placement_token_count(
+        placements,
+        ("vocal", "keyboard", "piano", "phrase", "scene", "transition", "call", "response"),
+    )
+    anticipation_tokens = _placement_token_count(
+        placements,
+        ("build", "ramp", "lift", "transition", "phrase_pickup"),
+    )
+    release_tokens = _placement_token_count(
+        placements,
+        ("drop", "impact", "downbeat", "accent", "arrival"),
+    )
+
+    density_score = _score_band(
+        density_per_second,
+        good_low=35.0,
+        good_high=180.0,
+        hard_low=8.0,
+        hard_high=300.0,
+    )
+    sync_score = _score_minimum(audio_sync_density, floor=0.2, target=4.0)
+    attention_score = _score_minimum(attention_tokens / max(1, effects_total), floor=0.04, target=0.32)
+    anticipation_score = _score_minimum(anticipation_tokens / max(1, effects_total), floor=0.01, target=0.12)
+    release_score = _score_minimum(release_tokens / max(1, effects_total), floor=0.01, target=0.10)
+    psychology_score = (
+        attention_score * 0.34
+        + anticipation_score * 0.24
+        + release_score * 0.24
+        + dominance_score * 0.18
+    )
+    flash_safety_score = _score_maximum(flash_like_per_second, target=2.7, ceiling=5.5)
+    clarity_score = (coverage_score * 0.36) + (family_diversity_score * 0.34) + (dominance_score * 0.30)
+    musicality_score = (structure_score * 0.42) + (keyboard_score * 0.24) + (sync_score * 0.34)
+    score = (
+        density_score * 0.22
+        + musicality_score * 0.24
+        + clarity_score * 0.18
+        + psychology_score * 0.18
+        + flash_safety_score * 0.18
+    )
+    return {
+        "score": round(score, 1),
+        "grade": letter_grade(score),
+        "aggregate_changes_per_second": round(density_per_second, 2),
+        "audio_sync_events_per_second": round(audio_sync_density, 2),
+        "flash_like_changes_per_second": round(flash_like_per_second, 2),
+        "target_changes_per_second": "35-180 aggregate effect placements/sec",
+        "flash_safety_target": "<=2.7 high-contrast flash-like placements/sec",
+        "component_scores": {
+            "technical_density": round(density_score, 1),
+            "musicality": round(musicality_score, 1),
+            "clarity": round(clarity_score, 1),
+            "psychology": round(psychology_score, 1),
+            "flash_safety": round(flash_safety_score, 1),
+        },
+        "psychology_principles": [
+            "attention steering",
+            "anticipation and release",
+            "Gestalt grouping",
+            "motion continuity",
+            "contrast adaptation",
+        ],
+    }
+
+
 def letter_grade(score: float) -> str:
     if score >= 97:
         return "A+"
@@ -7809,6 +8337,7 @@ def compute_quality_score(payload: dict) -> dict:
     validation = payload.get("validation", {}) or {}
     parsed_layout = payload.get("parsed_layout", {}) or {}
     used_targets = payload.get("used_targets", {}) or {}
+    audit_payload = ((payload.get("audit", {}) or {}).get("final", {}) or {})
     version_text = str(payload.get("version", "") or "").lower()
     version_match = re.match(r"^v(\d+)\.", version_text)
     version_family = int(version_match.group(1)) if version_match else None
@@ -7820,8 +8349,8 @@ def compute_quality_score(payload: dict) -> dict:
         density_target = 130.0
         density_ceiling = 230.0
     elif version_family is not None and version_family >= 22:
-        density_target = 118.0
-        density_ceiling = 205.0
+        density_target = 180.0
+        density_ceiling = 300.0
     density_score = _score_maximum(density_per_second, target=density_target, ceiling=density_ceiling)
 
     structure_tokens = sum(
@@ -7897,6 +8426,19 @@ def compute_quality_score(payload: dict) -> dict:
         family_diversity_ratio = 0.0
         family_diversity_score = 96.0 if version_family is not None and version_family >= 20 else 78.0
 
+    top_show_benchmark = _compute_top_show_benchmark(
+        duration_s=duration_s,
+        effects_total=effects_total,
+        placements=placements,
+        audio_reactive=payload.get("audio_reactive", {}) or {},
+        density_per_second=density_per_second,
+        structure_score=structure_score,
+        keyboard_score=keyboard_score,
+        coverage_score=coverage_score,
+        family_diversity_score=family_diversity_score,
+        dominance_score=dominance_score,
+    )
+
     overall = (
         density_score * 0.16
         + structure_score * 0.22
@@ -7907,6 +8449,11 @@ def compute_quality_score(payload: dict) -> dict:
         + family_diversity_score * 0.06
         + dominance_score * 0.04
     )
+    benchmark_score = float(top_show_benchmark.get("score", 0.0) or 0.0)
+    overall = (overall * 0.88) + (benchmark_score * 0.12)
+    audit_score = float(audit_payload.get("score", 0.0) or 0.0)
+    if audit_score > 0.0:
+        overall = (overall * 0.88) + (audit_score * 0.12)
 
     strengths: list[str] = []
     cautions: list[str] = []
@@ -7922,8 +8469,19 @@ def compute_quality_score(payload: dict) -> dict:
         strengths.append("Multiple prop families participated instead of one visual idea dominating.")
     if dominance_score >= 84:
         strengths.append("No single placement family overwhelmed the sequence.")
-    if density_score < 68:
+    if audit_score >= 88:
+        strengths.append("Post-pass audit confirmed strong balance, coverage, and musical flow.")
+    if benchmark_score >= 88:
+        strengths.append("Top-show benchmark sees strong aggregate density, musicality, and perceptual structure.")
+    benchmark_components = top_show_benchmark.get("component_scores", {}) or {}
+    benchmark_density_score = float(benchmark_components.get("technical_density", 0.0) or 0.0)
+    benchmark_flash_safety_score = float(benchmark_components.get("flash_safety", 0.0) or 0.0)
+    if density_score < 68 and benchmark_density_score < 75:
         cautions.append("Effect density is still pushing busy; consider fewer simultaneous accents.")
+    if benchmark_score < 75:
+        cautions.append("Top-show benchmark needs better balance between technical density, clarity, and safe flash rate.")
+    if benchmark_flash_safety_score < 70:
+        cautions.append("High-contrast flash-like events are too frequent; move density into sweeps, note lanes, and textures.")
     if keyboard_score < 65:
         cautions.append("Keyboard or polyphonic logic may be dominating the visual read.")
     if coverage_score < 60:
@@ -7934,6 +8492,8 @@ def compute_quality_score(payload: dict) -> dict:
         cautions.append("Too few prop families are active for the layout that is available.")
     if dominance_score < 65:
         cautions.append("One placement family is still carrying too much of the sequence.")
+    if audit_score and audit_score < 78:
+        cautions.append("Audit still sees polish headroom in overlap control or section balance.")
     if not strengths:
         strengths.append("Balanced enough to render safely and give a clear review starting point.")
     return {
@@ -7956,7 +8516,10 @@ def compute_quality_score(payload: dict) -> dict:
             "detail": round(detail_score, 1),
             "family_diversity": round(family_diversity_score, 1),
             "dominance": round(dominance_score, 1),
+            "top_show_benchmark": round(benchmark_score, 1),
+            "audit": round(audit_score, 1),
         },
+        "top_show_benchmark": top_show_benchmark,
         "strengths": strengths[:4],
         "cautions": cautions[:4],
     }
@@ -7964,6 +8527,184 @@ def compute_quality_score(payload: dict) -> dict:
 
 def write_report(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
+def read_report_payload(path: Path) -> dict:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def validate_report_payload(payload: dict) -> None:
+    audit_final = ((payload.get("audit", {}) or {}).get("final", {}) or {})
+    audit_score = float(audit_final.get("score", 0.0) or 0.0)
+    if audit_score <= 0.0:
+        raise ValueError("report payload missing non-zero audit.final.score")
+    validate_power_report_payload(payload.get("power", {}) or {})
+
+
+def validate_power_report_payload(power_payload: dict) -> None:
+    if not bool(power_payload.get("enabled", False)):
+        return
+    if not bool(power_payload.get("enforce", True)):
+        return
+    if bool(power_payload.get("safe_after_processing", False)):
+        return
+    unknown = list(power_payload.get("unknown_circuit_events", []) or [])
+    residual = list(power_payload.get("residual_overload_events", []) or [])
+    if unknown:
+        raise ValueError("power report unsafe: missing circuit metadata")
+    if residual:
+        raise ValueError("power report unsafe: residual circuit overload")
+    raise ValueError("power report unsafe after processing")
+
+
+def _power_number(payload: dict, key: str, default: float) -> float:
+    try:
+        return float(payload.get(key, default))
+    except (TypeError, ValueError):
+        return float(default)
+
+
+def load_power_metadata_payload(path: Path | None) -> dict:
+    if path is None:
+        return {
+            "enabled": False,
+            "configured": False,
+            "safe_after_processing": True,
+            "max_amps_by_circuit": {},
+            "corrections_applied": [],
+            "frames_adjusted": 0,
+            "near_limit_events": [],
+            "residual_overload_events": [],
+            "unknown_circuit_events": [],
+            "reason": "not_configured",
+        }
+    source_path = Path(path)
+    payload = json.loads(source_path.read_text(encoding="utf-8"))
+    circuits_raw = list(payload.get("circuits", []) or [])
+    props_raw = list(payload.get("props", []) or [])
+    circuit_ids = {str(item.get("circuit_id", "")).strip() for item in circuits_raw if isinstance(item, dict)}
+    circuit_ids.discard("")
+    unknown_circuit_events: list[dict[str, object]] = []
+    props: list[dict[str, object]] = []
+    circuits: list[dict[str, object]] = []
+
+    for item in circuits_raw:
+        if not isinstance(item, dict):
+            continue
+        circuit_id = str(item.get("circuit_id", "")).strip()
+        if not circuit_id:
+            continue
+        circuits.append(
+            {
+                "circuit_id": circuit_id,
+                "breaker_limit_amps": _power_number(item, "breaker_limit_amps", 15.0),
+                "safe_utilization": _power_number(item, "safe_utilization", 0.8),
+                "voltage": _power_number(item, "voltage", 120.0),
+            }
+        )
+
+    for item in props_raw:
+        if not isinstance(item, dict):
+            continue
+        prop_id = str(item.get("prop_id", "")).strip()
+        circuit_id = str(item.get("circuit_id", "")).strip()
+        if not prop_id:
+            continue
+        props.append(
+            {
+                "prop_id": prop_id,
+                "pixels": int(_power_number(item, "pixels", 0.0)),
+                "voltage": _power_number(item, "voltage", 12.0),
+                "watts_per_pixel_full_white": _power_number(item, "watts_per_pixel_full_white", 0.3),
+                "circuit_id": circuit_id,
+                "priority": str(item.get("priority", "background") or "background"),
+            }
+        )
+        if circuit_id not in circuit_ids:
+            unknown_circuit_events.append(
+                {
+                    "prop_id": prop_id,
+                    "circuit_id": circuit_id,
+                    "reason": "missing_circuit_metadata",
+                }
+            )
+
+    return {
+        "enabled": True,
+        "enforce": False,
+        "configured": True,
+        "analysis_status": "metadata_only",
+        "safe_after_processing": len(unknown_circuit_events) == 0,
+        "source": str(source_path),
+        "schema": str(payload.get("schema", "helix.power.metadata.v1")),
+        "prop_count": len(props),
+        "circuit_count": len(circuits),
+        "props": props[:500],
+        "circuits": circuits[:200],
+        "max_amps_by_circuit": {},
+        "corrections_applied": [],
+        "frames_adjusted": 0,
+        "near_limit_events": [],
+        "residual_overload_events": [],
+        "unknown_circuit_events": unknown_circuit_events,
+        "reason": "frame_sampling_not_configured",
+    }
+
+
+def build_self_scoring_payload(payload: dict, weights: dict[str, float] | None = None) -> dict:
+    score = sequence_scoring.score_sequence(payload, weights)
+    audit_final = ((payload.get("audit", {}) or {}).get("final", {}) or {})
+    section_scores = [
+        {
+            "label": section.get("label", ""),
+            "start_ms": int(section.get("start_ms", 0) or 0),
+            "end_ms": int(section.get("end_ms", 0) or 0),
+            "energy": float(section.get("energy", 0.0) or 0.0),
+            "audit_score": float(section.get("score", 0.0) or 0.0),
+            "coverage_ratio": float(section.get("coverage_ratio", 0.0) or 0.0),
+            "density": float(section.get("density", 0.0) or 0.0),
+        }
+        for section in (audit_final.get("section_scores") or [])
+        if isinstance(section, dict)
+    ]
+    result = score.as_dict()
+    result["segment_scores"] = section_scores[:96]
+    result["debug"] = {
+        "metric_breakdown": result["metrics"],
+        "weights_adjustable": True,
+        "learning_source_policy": "helix_generated_sequences_only",
+    }
+    return result
+
+
+def compute_vendor_bar_verdict(
+    payload: dict,
+    *,
+    enabled: bool,
+    min_quality_score: float,
+    min_audit_score: float,
+    max_rejected_effects: int,
+) -> dict:
+    gate = evaluate_quality_gates(
+        payload,
+        min_quality_score=float(min_quality_score),
+        min_audit_score=float(min_audit_score),
+        max_rejected_effects=int(max_rejected_effects),
+    )
+    return {
+        "enabled": bool(enabled),
+        "min_quality_score": float(min_quality_score),
+        "min_audit_score": float(min_audit_score),
+        "max_rejected_effects": int(max_rejected_effects),
+        "passed": bool(gate["passed"]),
+        "reasons": list(gate["reasons"]),
+        "quality_score": float(gate["quality_score"]),
+        "audit_score": float(gate["audit_score"]),
+        "rejected_effects": int(gate["rejected_effects"]),
+    }
 
 
 def write_sequence_notes(path: Path, payload: dict) -> None:
@@ -7975,6 +8716,32 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
     validation = payload.get("validation", {}) or {}
     quality = payload.get("quality", {}) or {}
     watermark = payload.get("watermark", {}) or {}
+    audit = ((payload.get("audit", {}) or {}).get("final", {}) or {})
+    polish = payload.get("polish", {}) or {}
+    shortlist = payload.get("shortlist", {}) or {}
+    vendor_bar = payload.get("vendor_bar", {}) or {}
+    matrix_intel = payload.get("matrix_intelligence", {}) or {}
+    chronoflow = payload.get("chronoflow", {}) or {}
+    chronoflow_debug = chronoflow.get("debug", {}) or {}
+    chronoflow_audio = chronoflow.get("audio_intelligence", {}) or {}
+    chronoflow_harmony = chronoflow_audio.get("pitch_harmony", {}) or {}
+    snowman_band = payload.get("snowman_band", {}) or {}
+    snowman_debug = snowman_band.get("debug", {}) or {}
+    snowman_face_routing = snowman_band.get("face_routing", {}) or {}
+    snowman_kit = snowman_band.get("kit", {}) or {}
+    lyrics_payload = payload.get("lyrics", {}) or {}
+    lyric_interpreter_payload = lyrics_payload.get("interpreter", {}) or {}
+    lyric_repeats = lyric_interpreter_payload.get("repeated_phrases", []) or []
+    lyric_repeat_preview = ", ".join(
+        str(item.get("phrase", "")).strip()
+        for item in lyric_repeats[:3]
+        if str(item.get("phrase", "")).strip()
+    )
+    matrix_params = matrix_intel.get("matrix_params", {}) or {}
+    matrix_classification = matrix_intel.get("classification", {}) or {}
+    matrix_video = matrix_intel.get("video_data", {}) or {}
+    exports = payload.get("exports", {}) or {}
+    responsible_use = payload.get("responsible_use", {}) or {}
     lines = [
         "Dream Sequence Weaver",
         "=" * 28,
@@ -7991,6 +8758,8 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
         f"- Keyboard lanes used: {payload.get('keyboard_lane_count', 0)}",
         f"- Validation rejections logged: {validation.get('rejected_effects_count', 0)}",
         f"- Quality score: {quality.get('score', '')} ({quality.get('grade', '')})",
+        f"- Audit score: {audit.get('score', '')} ({audit.get('grade', '')})",
+        f"- Polish score: {polish.get('score', '')}",
         f"- Active prop families: {payload.get('used_targets', {}).get('family_count', 0)} / {parsed_layout.get('available_family_count', 0)}",
         f"- Dominant placement share: {quality.get('dominant_family_ratio', '')}",
         "",
@@ -8008,6 +8777,41 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
         f"- Energy keyboard mix: {tuning.get('keyboard_mix', '')}",
         f"- Palette mode: {tuning.get('palette_mode', '')}",
         f"- Layering mode: {tuning.get('layering_mode', '')}",
+        f"- Polish enabled: {int(bool(tuning.get('polish_enabled', True)))}",
+        f"- Variant count: {tuning.get('variant_count', 1)}",
+        f"- Learn from XSQs: {int(bool(tuning.get('learn_from_my_xsqs', False)))}",
+        "",
+        "Matrix Intelligence",
+        f"- Enabled: {int(bool(matrix_intel.get('enabled', tuning.get('matrix_intelligence', False))))}",
+        f"- Matrix available: {int(bool(matrix_intel.get('matrix_available', False)))}",
+        f"- Matrix count: {matrix_intel.get('matrix_count', 0)}",
+        f"- Target matrix: {matrix_params.get('target_model', '')}",
+        f"- Matrix size: {matrix_params.get('width', '')} x {matrix_params.get('height', '')}",
+        f"- Recommended shader: {matrix_params.get('recommended_shader', '')}",
+        f"- Spectrogram mapping: {matrix_params.get('spectrogram_mapping', '')}",
+        f"- Mood description: {matrix_intel.get('mood_description', '')}",
+        f"- Classification: genre={matrix_classification.get('genre', '')}, mood={matrix_classification.get('mood', '')}, confidence={matrix_classification.get('confidence', '')}",
+        f"- Video available: {int(bool(matrix_video.get('video_available', False)))}",
+        f"- Video sync tip: {matrix_video.get('sync_tip', '')}",
+        "",
+        "Chronoflow",
+        f"- Viewer: {exports.get('chronoflow_view', '')}",
+        f"- Data export: {exports.get('chronoflow_json', '')}",
+        f"- Event count: {chronoflow_debug.get('event_count', 0)}",
+        f"- Trajectory points: {chronoflow_debug.get('trajectory_count', 0)}",
+        f"- Lyric hits: {chronoflow_debug.get('lyric_count', 0)}",
+        f"- Harmonic key: {(chronoflow_harmony.get('key', {}) or {}).get('label', '')}",
+        "",
+        "Snowman Band",
+        f"- Export: {exports.get('snowman_band_json', '')}",
+        f"- Lead face: {snowman_face_routing.get('preferred_lead', '')}",
+        f"- Performer cue count: {snowman_debug.get('total_cue_count', 0)}",
+        f"- Lyric visemes: {snowman_debug.get('lyric_cues', 0)}",
+        f"- Drum kit: {', '.join(snowman_kit.get('components', []))}",
+        f"- Lyric interpreter mood: {lyric_interpreter_payload.get('overall_mood', '')}",
+        f"- Lyric trigger hits: {len(lyric_interpreter_payload.get('trigger_hits', []) or [])}",
+        f"- Lyric repeats detected: {len(lyric_repeats)}",
+        f"- Repeat preview: {lyric_repeat_preview}",
         "",
         "Parsed Layout Summary",
         f"- Models: {parsed_layout.get('model_count', 0)}",
@@ -8025,6 +8829,9 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
         f"- Density per second: {quality.get('density_per_second', '')}",
         f"- Coverage ratio: {quality.get('coverage_ratio', '')}",
         f"- Family diversity ratio: {quality.get('family_diversity_ratio', '')}",
+        f"- Audit overlap ratio: {audit.get('overlap_ratio', '')}",
+        f"- Audit clutter ratio: {audit.get('clutter_ratio', '')}",
+        f"- Audit section coverage: {audit.get('section_coverage', '')}",
         "",
         "Top Placement Families",
     ]
@@ -8051,14 +8858,64 @@ def write_sequence_notes(path: Path, payload: dict) -> None:
     lines.extend(
         [
             "",
-            "Manual Review Hints",
-            "- Check timing tracks first if you want to see where the engine found beats, notes, lyrics, builds, and drops.",
-            "- If a prop family feels underused, compare this notes file with the layout type summary to see whether that family actually exists in the layout.",
-            "- If validation rejections are high, the engine chose safety over forcing overlaps. Consider lowering density or simplifying the layout lanes for that song.",
-            "- For more aggressive looks, compare with another style type instead of only increasing randomness.",
+            "One-Click Readiness",
+            "- This sequence is intended to be show-ready on first export. Open xLights only if you want optional artistic tweaks, not mandatory cleanup.",
+            "- Timing tracks already expose beats, hooks, builds, drops, vocals, and section flow if you want to inspect the storytelling pass.",
+            "- If audit or quality scores dip below your standard, rerun with `--variants 3 --auto-shortlist` before doing any manual edits.",
+            "- If you have favorite past XSQs, place them in the workspace history folder and rerun with `--learn-from-my-xsqs` to adapt palettes and prop behavior.",
+            "- Matrix-specific planning is written to the report JSON under `matrix_intelligence.matrix_shader_config` for shader-timing follow-through.",
             "",
         ]
     )
+    if polish:
+        lines.extend(
+            [
+                "Polish Pass",
+                f"- Overlap repairs: {polish.get('overlap_repairs', 0)}",
+                f"- Section rebalances: {polish.get('section_rebalances', 0)}",
+                f"- Breathing fades: {polish.get('breathing_fades', 0)}",
+                f"- Hook enhancements: {polish.get('hook_enhancements', 0)}",
+                f"- Retimed entries: {polish.get('retimed_entries', 0)}",
+                f"- Palette swaps: {polish.get('palette_swaps', 0)}",
+                "",
+            ]
+        )
+        for note in polish.get("notes", []) or []:
+            lines.append(f"- {note}")
+        lines.append("")
+    if shortlist:
+        lines.extend(
+            [
+                "Shortlist",
+                f"- Enabled: {int(bool(shortlist.get('enabled', False)))}",
+                f"- Winner: {shortlist.get('winner', '')}",
+                f"- Candidates: {shortlist.get('candidate_count', 0)}",
+                "",
+            ]
+        )
+    if vendor_bar:
+        lines.extend(
+            [
+                "Vendor Bar",
+                f"- Enabled: {int(bool(vendor_bar.get('enabled', False)))}",
+                f"- Passed: {int(bool(vendor_bar.get('passed', False)))}",
+                f"- Quality score: {vendor_bar.get('quality_score', '')} (min {vendor_bar.get('min_quality_score', '')})",
+                f"- Audit score: {vendor_bar.get('audit_score', '')} (min {vendor_bar.get('min_audit_score', '')})",
+                f"- Rejected effects: {vendor_bar.get('rejected_effects', '')} (max {vendor_bar.get('max_rejected_effects', '')})",
+                f"- Reasons: {', '.join(vendor_bar.get('reasons', []) or [])}",
+                "",
+            ]
+        )
+    if responsible_use:
+        lines.extend(
+            [
+                "Responsible Use",
+                f"- {responsible_use.get('notice', '')}",
+                f"- {responsible_use.get('copyright_warning', '')}",
+                f"- {responsible_use.get('build_rule', '')}",
+                "",
+            ]
+        )
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
@@ -8723,13 +9580,35 @@ def normalize_chase_style(raw: str) -> str:
     return "none"
 
 
+def spatial_route_order_style(chase_style: str, awareness: float) -> str:
+    aware = base.clamp(float(awareness), 0.0, 1.0)
+    if aware < 0.20:
+        return "left_to_right"
+    normalized = normalize_chase_style(chase_style)
+    if normalized in {"left_to_right", "top_to_bottom", "radial_out", "group_to_group"}:
+        return normalized
+    return "left_to_right"
+
+
+def scaled_spatial_route_stride(base_stride: int, *, awareness: float, dramatic: bool) -> int:
+    stride = max(1, int(base_stride))
+    aware = base.clamp(float(awareness), 0.0, 1.0)
+    if aware <= 0.01:
+        return stride
+    reduction = 0.45 if dramatic else 0.35
+    return max(1, int(round(stride * (1.0 - (aware * reduction)))))
+
+
 def apply_spatial_chase(
     *,
     style: VariantStyle,
     pools: list[SequentialPool],
     parts: list[SongPart],
+    audio,
     beat_ms: list[int],
     kicks: list[int],
+    snares: list[int],
+    hats: list[int],
     add_model,
     ramp_ok: bool,
     ramp_tpl: base.EffectTemplate,
@@ -8738,6 +9617,7 @@ def apply_spatial_chase(
     names: list[str],
     rng: random.Random,
     log_fn,
+    spatial_scene_model: spatial.SpatialScene | None = None,
 ) -> tuple[list[tuple[str, int, int]], int]:
     """Spatially-aware chase generator that avoids full-yard blast behavior."""
     awareness = base.clamp(float(tuning.spatial_awareness), 0.0, 1.0)
@@ -8748,7 +9628,13 @@ def apply_spatial_chase(
         log_fn("Spatial chase skipped: layout file missing.")
         return ([], 0)
 
-    coords = ai.parse_layout_coordinates(tuning.layout_file, names)
+    scene = spatial_scene_model
+    if scene is None:
+        try:
+            scene = spatial.load_scene(tuning.layout_file)
+        except Exception:
+            scene = None
+    coords = scene.projected_coordinate_map(names) if scene is not None else ai.parse_layout_coordinates(tuning.layout_file, names)
     if len(coords) < 3:
         log_fn("Spatial chase skipped: not enough coordinate-mapped models.")
         return ([], 0)
@@ -8773,7 +9659,15 @@ def apply_spatial_chase(
     if len(dedup) < 3:
         return ([], 0)
 
-    path = ai.ordered_spatial_path(dedup, coords, chase_style, rng)
+    if scene is not None:
+        path = spatial.order_names_for_family(
+            scene,
+            dedup,
+            "trajectory_travel",
+            path_style=chase_style,
+        )
+    else:
+        path = ai.ordered_spatial_path(dedup, coords, chase_style, rng)
     if len(path) < 3:
         return ([], 0)
     log_fn(f"Spatial chase enabled: style={chase_style}, awareness={awareness:.2f}, path_models={len(path)}")
@@ -8781,6 +9675,32 @@ def apply_spatial_chase(
     anchors = base.compress_times_ms(sorted(set(kicks + beat_ms[::2])), max(130, base.scaled_gap(120)))
     if not anchors:
         return ([], 0)
+
+    def _pitch_hz_at(ms_value: int) -> float:
+        try:
+            hz = float(base.nearest(audio.times_s, audio.pitch_hz, ms_value / 1000.0))
+        except Exception:
+            return 0.0
+        if not np.isfinite(hz) or hz <= 0.0:
+            return 0.0
+        return hz
+
+    route_candidates: list[list[str]] = []
+    route_categories = ("arch", "line", "canes_combo", "gt", "mega", "matrix", "stars", "snowflakes")
+    for category in route_categories:
+        for pool in pools:
+            if pool.category != category:
+                continue
+            route = [name for name in pool.models if name in coords]
+            if len(route) < 3:
+                continue
+            if scene is not None:
+                route_path = spatial.order_names_for_family(scene, route, "wave_propagation", path_style="left_to_right")
+            else:
+                route_path = ai.ordered_spatial_path(route, coords, "left_to_right", rng)
+            if len(route_path) >= 3:
+                route_candidates.append(route_path)
+    route_cursor = 0
 
     spans: list[tuple[str, int, int]] = []
     placed = 0
@@ -8796,14 +9716,25 @@ def apply_spatial_chase(
             continue
         if part in {"INTRO", "OUTRO"} and rng.random() > 0.14:
             continue
+        hz_now = _pitch_hz_at(t_ms)
+        hz_next = _pitch_hz_at(anchors[min(len(anchors) - 1, i + 1)]) if i + 1 < len(anchors) else _pitch_hz_at(t_ms + 160)
+        pitch_delta = hz_next - hz_now if hz_now > 0.0 and hz_next > 0.0 else 0.0
+        descending = pitch_delta < -18.0
+        ascending = pitch_delta > 18.0
+        directional_path = list(path)
+        if descending:
+            directional_path.reverse()
         width = min(len(path), width_cap, base_width + (1 if part in {"PRECHORUS", "CHORUS", "BRIDGE"} else 0))
         start_idx = (i * max(1, int(1 + awareness * 3))) % len(path)
         if chase_style == "random_walk":
-            start_idx = rng.randrange(len(path))
+            if ascending or descending:
+                start_idx = 0 if ascending else max(0, len(directional_path) - width)
+            else:
+                start_idx = rng.randrange(len(path))
         chase_end = t_ms
         for step in range(width):
-            idx = (start_idx + step) % len(path)
-            model = path[idx]
+            idx = (start_idx + step) % len(directional_path)
+            model = directional_path[idx]
             st = t_ms + step * step_gap
             en = st + dur + int(step * 6 * awareness)
             add_model(
@@ -8823,7 +9754,66 @@ def apply_spatial_chase(
             )
             chase_end = max(chase_end, en)
             placed += 1
-        spans.append((f"{chase_style}:{path[start_idx]}", t_ms, chase_end))
+        spans.append((f"{chase_style}:{directional_path[start_idx]}", t_ms, chase_end))
+
+        # Controlled within-group pitch hops.
+        allow_hops = part in {"PRECHORUS", "CHORUS", "BRIDGE"} or (i % 4) == 0
+        if allow_hops and route_candidates and rng.random() <= (0.22 + awareness * 0.30):
+            route = route_candidates[route_cursor % len(route_candidates)]
+            route_cursor += 1
+            hop_route = list(reversed(route)) if descending else route
+            hop_steps = min(len(hop_route), 3 + int(round(awareness * 3.0)))
+            hop_gap = max(16, int(round(28 - awareness * 10.0)))
+            hop_dur = max(55, int(round(96 - awareness * 18.0)))
+            hop_start_idx = (i * 3) % len(hop_route)
+            hop_end = t_ms
+            for step in range(hop_steps):
+                model = hop_route[(hop_start_idx + step) % len(hop_route)]
+                st = t_ms + 20 + step * hop_gap
+                en = st + hop_dur
+                add_model(
+                    model,
+                    st,
+                    en,
+                    "spatial_pitch_hop",
+                    eff="Single Strand" if (step % 2) == 0 else "Wave",
+                    stem="drums",
+                )
+                placed += 1
+                hop_end = max(hop_end, en)
+            spans.append((f"pitch_hop:{hop_route[hop_start_idx]}", t_ms + 20, hop_end))
+
+        # Sparse rapidfire bursts around snare/hat activity.
+        near_snare = ai.nearest_mark_distance_ms(t_ms, snares)
+        near_hat = ai.nearest_mark_distance_ms(t_ms, hats)
+        rapidfire_gate = (
+            part in {"CHORUS", "BRIDGE"}
+            and (i % 9) == 0
+            and ((near_snare is not None and near_snare <= 120) or (near_hat is not None and near_hat <= 90))
+        )
+        if rapidfire_gate and route_candidates:
+            route = route_candidates[(route_cursor + i) % len(route_candidates)]
+            burst_route = list(reversed(route)) if descending else route
+            burst_start = (i * 5) % len(burst_route)
+            burst_count = min(6, len(burst_route))
+            burst_gap = 11
+            burst_dur = 55
+            burst_end = t_ms
+            for idx in range(burst_count):
+                model = burst_route[(burst_start + idx) % len(burst_route)]
+                st = t_ms + idx * burst_gap
+                en = st + burst_dur
+                add_model(
+                    model,
+                    st,
+                    en,
+                    "spatial_rapidfire",
+                    eff="Strobe" if (idx % 3) == 2 else "On",
+                    stem="drums",
+                )
+                placed += 1
+                burst_end = max(burst_end, en)
+            spans.append((f"rapidfire:{burst_route[burst_start]}", t_ms, burst_end))
     return spans, placed
 
 
@@ -9157,6 +10147,9 @@ def build_all_models_all_effects_sequence(
         base.write_timing_track(xsq.root, f"AUTO All Effects {style.version}", effect_track[:2000], active=False)
     base.write_timing_track(xsq.root, f"AUTO All Models {style.version}", all_models_track, active=False)
 
+    power_payload = load_power_metadata_payload(tuning.power_metadata_file)
+    power_payload["enforce"] = bool(tuning.fail_on_power_risk)
+
     payload = {
         "version": style.version,
         "type": "all_models_all_effects_showcase",
@@ -9167,7 +10160,9 @@ def build_all_models_all_effects_sequence(
         "effects_count": len(effect_names),
         "effects_used": effect_names,
         "ac_lights_only": bool(tuning.ac_lights_only),
+        "power": power_payload,
     }
+    validate_power_report_payload(power_payload)
     write_report(report_path(out_path), payload)
     base.normalize_display_views(xsq.root, force=True)
     if active_layout_file and active_layout_file.exists():
@@ -9188,7 +10183,7 @@ def run_variant(
     out_path: Path,
     profile: base.UserProfile,
     tuning: RuntimeTuning | None = None,
-) -> None:
+) -> dict[str, object]:
     tuning = tuning or RuntimeTuning()
     style = apply_runtime_style(style, tuning)
     rng = random.Random(base.SEED + base.stable_name_seed(style.version + audio_path.stem.lower()))
@@ -9219,9 +10214,11 @@ def run_variant(
 
     names = sorted(xsq.elements.keys())
     parsed_layout: xmp.ParsedLayout | None = None
+    spatial_scene_model: spatial.SpatialScene | None = None
     if active_layout_file and active_layout_file.exists():
         try:
             parsed_layout = xmp.parse_layout(active_layout_file)
+            spatial_scene_model = spatial.build_scene(parsed_layout)
             parsed_types: dict[str, int] = {}
             for model in parsed_layout.models.values():
                 parsed_types[model.type] = parsed_types.get(model.type, 0) + 1
@@ -9232,9 +10229,17 @@ def run_variant(
                 f"models={len(parsed_layout.models)}, groups={len(parsed_layout.groups)}, "
                 f"pixel_models={pixel_models}" + (f", types={type_summary}" if type_summary else "")
             )
+            log(
+                "Spatial scene: "
+                f"capability={spatial_scene_model.capability}, "
+                f"depth_span={spatial_scene_model.capability_report.depth_span:.1f}, "
+                f"layers={spatial_scene_model.capability_report.depth_layer_count}, "
+                f"layered_ratio={spatial_scene_model.capability_report.layered_model_ratio:.2f}"
+            )
         except Exception as exc:
             log(f"Layout parser unavailable, falling back to legacy discovery: {exc}")
             parsed_layout = None
+            spatial_scene_model = None
     layout = enrich_layout_with_parsed(base.discover_layout(names), names, parsed_layout)
     pools = discover_sequential_pools(names, layout, parsed_layout)
     layout_updates, pool_updates, lane_override = apply_model_overrides(
@@ -9302,13 +10307,22 @@ def run_variant(
         output_dir=out_path.parent,
         tuning=tuning,
     )
+    style = apply_workspace_learning(style, workspace_history)
     if not tuning.workspace_history_enabled:
         log("Workspace history: disabled.")
     elif workspace_history.family_effects or workspace_history.palette_pool:
         log(
             "Workspace history loaded: "
-            f"families={len(workspace_history.family_effects)}, palettes={len(workspace_history.palette_pool)}"
+            f"families={len(workspace_history.family_effects)}, palettes={len(workspace_history.palette_pool)}, "
+            f"files={len(workspace_history.source_files)}"
         )
+        if workspace_history.learned_from_user_xsqs:
+            log(
+                "Workspace learning bias: "
+                f"density={workspace_history.density_bias:.2f}, "
+                f"speed={workspace_history.speed_bias:.2f}, "
+                f"darkness={workspace_history.darkness_bias:.2f}"
+            )
     else:
         log("Workspace history: no prior XSQ patterns found.")
     existing_windows_by_model: dict[str, list[tuple[int, int]]] = {}
@@ -9358,6 +10372,12 @@ def run_variant(
     for pool in pools:
         for model in pool.models:
             model_category_map[model] = pool.category
+    neighbor_graph = build_neighbor_graph(parsed_layout, available_names=list(layers.keys())) if parsed_layout is not None else None
+    if neighbor_graph is not None and neighbor_graph.routes:
+        log(
+            "Spatial neighbor graph: "
+            f"routes={len(neighbor_graph.routes)}, adjacency={len(neighbor_graph.adjacency)}"
+        )
 
     log("[2/8] Analyzing audio and polyphony")
     audio = base.analyze(audio_path)
@@ -9429,10 +10449,97 @@ def run_variant(
     if stem_analysis.drum_hats_ms:
         hats = base.compress_times_ms(stem_analysis.drum_hats_ms, base.scaled_gap(22))
     energy_peaks, build_lifts, releases = derive_dynamic_marks(audio)
+    multiband = derive_multiband_analysis(audio)
+    multiband.section_profiles = derive_section_mir_profiles(
+        parts=parts,
+        audio=audio,
+        analysis=multiband,
+        onset_ms=onset_ms,
+        beat_ms=beat_ms,
+        vocal_peaks=vocal_peaks,
+    )
+    audio_reactive_beat_timeline = build_audio_reactive_beat_timeline(
+        audio=audio,
+        beat_ms=beat_ms,
+        onset_ms=onset_ms,
+        bar_ms=bar_ms,
+    )
+    audio_reactive_routes = audio_trigger_routes.routes_for_profile(tuning.audio_reactive_profile)
+    audio_reactive_actions = audio_trigger_routes.build_audio_reactive_actions(
+        audio_reactive_beat_timeline,
+        routes=audio_reactive_routes,
+    )
+    audio_reactive_actions = audio_trigger_routes.rebalance_flash_pressure(
+        audio_reactive_actions,
+        profile=tuning.audio_reactive_profile,
+        duration_s=float(audio.dur_s),
+    )
+    audio_reactive_summary = audio_trigger_routes.build_audio_reactive_summary(
+        audio_reactive_actions,
+        routes=audio_reactive_routes,
+    )
+    if tuning.matrix_intelligence:
+        matrix_intelligence_payload: dict[str, object] = matrix_planner.build_matrix_intelligence_plan(
+            parsed_layout=parsed_layout,
+            parts=parts,
+            multiband=multiband,
+            audio=audio,
+            beat_ms=beat_ms,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            video_path=tuning.video_file,
+            blend_overrides_path=tuning.blend_rules_file,
+            log_fn=log,
+        )
+    else:
+        matrix_intelligence_payload = {
+            "enabled": False,
+            "matrix_available": False,
+            "matrix_count": 0,
+            "matrix_params": {},
+            "matrix_shader_config": {"per_section": []},
+            "frequency_layer_config": {},
+            "video_data": {
+                "video_available": False,
+                "analysis_note": "Matrix intelligence disabled by runtime tuning.",
+            },
+            "responsible_use": {
+                "notice": "Helix creators are not responsible for misuse of training workflows or sequence data.",
+                "copyright_warning": "Do not train on licensed third-party sequences without explicit rights.",
+                "build_rule": "Use only assets you own or are licensed to use.",
+            },
+        }
     log(
         "Stem analysis source="
         f"{stem_analysis.source}; bass_peaks={len(bass_peaks)}, vocal_peaks={len(vocal_peaks)}, "
         f"kicks={len(kicks)}, snares={len(snares)}, hats={len(hats)}"
+    )
+    log(
+        "Multi-band marks: "
+        f"sub={len(multiband.sub_bass_marks)}, bass={len(multiband.bass_marks)}, "
+        f"mid={len(multiband.mid_marks)}, high={len(multiband.high_marks)}, "
+        f"flux={len(multiband.spectral_flux_marks)}, quiet_windows={len(multiband.quiet_windows)}, "
+        f"genre={multiband.genre_hint}, mood={multiband.mood_hint}"
+    )
+    try:
+        rhythm_intelligence_payload = ri.build_rhythm_intelligence(
+            beat_ms=beat_ms,
+            onset_ms=onset_ms,
+            note_onset_ms=note_onset_ms,
+            parts=parts,
+            audio=audio,
+        )
+    except Exception as exc:
+        log(f"[WARN] Rhythm intelligence analysis skipped: {exc!r}")
+        rhythm_intelligence_payload = ri.default_payload()
+    log(
+        "Rhythm intelligence: "
+        f"polyrhythms={len(rhythm_intelligence_payload.get('polyrhythm_overlays', []))}, "
+        f"phrases={len(rhythm_intelligence_payload.get('phrase_boundaries', []))}, "
+        f"microtiming_samples={int(rhythm_intelligence_payload.get('microtiming', {}).get('sample_count', 0))}"
     )
 
     def _snap_to_grid(t_ms: int, grid: list[int], max_shift: int) -> int:
@@ -9477,7 +10584,24 @@ def run_variant(
         return (beat_ms or onset_ms), (base_shift if layer_key == "accent" else base_shift + 15)
 
     lyric_events: list[ai.LyricEvent] = []
-    if tuning.sync_lyrics_heads:
+    lyric_interpreter_payload: dict[str, object] = {
+        "enabled": False,
+        "overall_mood": str(getattr(multiband, "mood_hint", "neutral") or "neutral"),
+        "trigger_hits": [],
+        "trigger_counts": {},
+        "repeated_phrases": [],
+        "token_count": 0,
+        "line_count": 0,
+        "mood_signals": {
+            "positive": 0,
+            "negative": 0,
+            "high_energy": 0,
+            "calm": 0,
+            "energy_score": 0,
+            "sentiment_score": 0,
+        },
+    }
+    if tuning.sync_lyrics_heads or bool(matrix_intelligence_payload.get("matrix_available", False)):
         lyric_events = ai.extract_lyrics_events(
             audio_path=audio_path,
             use_moises=bool(tuning.use_moises),
@@ -9486,7 +10610,17 @@ def run_variant(
         )
         if lyric_events:
             log(f"Lyric events detected: {len(lyric_events)}")
-        else:
+            lyric_interpreter_payload = lyric_interpreter.interpret_lyric_events(
+                lyric_events,
+                audio_mood_hint=str(getattr(multiband, "mood_hint", "neutral") or "neutral"),
+            )
+            log(
+                "Lyric interpreter: "
+                f"mood={lyric_interpreter_payload.get('overall_mood', 'neutral')}, "
+                f"triggers={len(lyric_interpreter_payload.get('trigger_hits', []) or [])}, "
+                f"repeats={len(lyric_interpreter_payload.get('repeated_phrases', []) or [])}"
+            )
+        elif tuning.sync_lyrics_heads:
             log("Lyric sync requested but no lyric events were detected.")
 
     note_events = extract_polyphonic_events(audio, harmonic, event_times_ms, sections, parts, style)
@@ -9496,6 +10630,114 @@ def run_variant(
         max(26, base.scaled_gap(24)),
     )
     keyboard_note_events = extract_polyphonic_events(audio, harmonic, keyboard_event_times, sections, parts, keyboard_style)
+    try:
+        chronoflow_payload = chronoflow_engine.build_chronoflow_plan(
+            audio_path=audio_path,
+            parsed_layout=parsed_layout,
+            audio=audio,
+            multiband=multiband,
+            parts=parts,
+            note_events=note_events,
+            lyric_events=lyric_events,
+            beat_ms=beat_ms,
+            onset_ms=onset_ms,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            build_lifts=build_lifts,
+            releases=releases,
+            log_fn=log,
+        )
+    except Exception as exc:
+        log(f"[WARN] Chronoflow analysis skipped: {exc!r}")
+        chronoflow_payload = {
+            "enabled": False,
+            "audio_intelligence": {},
+            "spatial_embedding": {"trajectory": []},
+            "visualizer": {"events": [], "lyric_hits": []},
+            "layout_mapping": {},
+            "debug": {"event_count": 0, "trajectory_count": 0, "lyric_count": len(lyric_events)},
+        }
+    try:
+        band_sync_payload = band_sync_engine.build_band_sync_plan(
+            parts=parts,
+            beat_ms=beat_ms,
+            onset_ms=onset_ms,
+            vocal_peaks=vocal_peaks,
+            bass_peaks=bass_peaks,
+            note_events=note_events,
+            background_vocal_events=stem_analysis.background_vocal_events or [],
+            drum_event_streams=stem_analysis.drum_event_streams or {},
+            song_length_ms=song_length_ms,
+        )
+    except Exception as exc:
+        log(f"[WARN] Band synchronization skipped: {exc!r}")
+        band_sync_payload = {"schema": "helix.band_sync.v1", "timeline": [], "state_frames": [], "debug": {}}
+    try:
+        snowman_band_payload = snowman_band_engine.build_snowman_band_plan(
+            parsed_layout=parsed_layout,
+            parts=parts,
+            lyric_events=lyric_events,
+            note_events=note_events,
+            beat_ms=beat_ms,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            build_lifts=build_lifts,
+            releases=releases,
+            chronoflow_payload=chronoflow_payload,
+            band_sync_payload=band_sync_payload,
+            multiband=multiband,
+            enable_lyrics=bool(tuning.sync_lyrics_heads),
+            background_vocal_events=stem_analysis.background_vocal_events or [],
+            drum_event_streams=stem_analysis.drum_event_streams or {},
+        )
+    except Exception as exc:
+        log(f"[WARN] Snowman band planning skipped: {exc!r}")
+        snowman_band_payload = {
+            "enabled": False,
+            "face_routing": {},
+            "performers": {},
+            "kit": {"components": []},
+            "layout_mapping": {},
+            "visualizer_overlay": {"lyrics_enabled": False, "soundtunnel_lyrics": []},
+            "cues": {},
+            "debug": {"total_cue_count": 0, "lyric_cues": 0},
+        }
+    chronoflow_track = chronoflow_engine.build_timing_track(chronoflow_payload, limit=1400)
+    snowman_band_track = snowman_band_engine.build_timing_track(snowman_band_payload, limit=1800)
+    try:
+        piano_effect_config = piano_effect_engine.PianoEffectConfig(
+            mode="true_piano" if style.keyboard_overlay else "bars",
+            note_range_start=21,
+            note_range_end=108,
+            color_mode="pitch_class",
+            projection_mode="literal_keyboard" if style.keyboard_overlay else "abstract_note_grid",
+        )
+        piano_effect_events = piano_effect_engine.load_note_events(
+            helix_note_events=note_events,
+            note_range_start=piano_effect_config.note_range_start,
+            note_range_end=piano_effect_config.note_range_end,
+        )
+        piano_effect_payload = piano_effect_engine.build_piano_effect_plan(
+            piano_effect_events,
+            piano_effect_config,
+            frame_times=[event.start for event in piano_effect_events[:160]],
+            target_models=list(getattr(parsed_layout, "models", {}).values())[:80] if parsed_layout is not None else [],
+        )
+    except Exception as exc:
+        log(f"[WARN] Piano effect intelligence skipped: {exc!r}")
+        piano_effect_payload = {
+            "schema": "helix.piano_effect.v1",
+            "enabled": False,
+            "note_events": [],
+            "frames": [],
+            "debug": {"event_count": 0},
+        }
 
     def reject_effect(
         nm: str,
@@ -9631,23 +10873,53 @@ def run_variant(
                 en_i = st_i + min_dur
         family_key = prop_family(nm, model_category_map.get(nm))
         parsed_model = parsed_layout.model_for(nm) if parsed_layout is not None else None
-        runtime_effect = pick_runtime_effect(
-            requested=eff,
-            layer=layer_key,
-            family=family_key,
-            parsed_model=parsed_model,
-            tuning=tuning,
-            catalog=xlights_catalog,
-            workspace_history=workspace_history,
-            fallback=eff if eff else "On",
-        )
-        fallback_tpl = xsq.ramp_tpl if runtime_effect.strip().lower() == "ramp" else xsq.on_tpl
-        template_to_use = resolve_effect_template(
-            effect_name=runtime_effect,
-            explicit_tpl=tpl,
-            template_library=template_library,
-            fallback_tpl=fallback_tpl,
-        )
+        if hardkor_mode:
+            request_key = str(eff or "On").strip().lower()
+            runtime_effect = "Ramp" if request_key == "ramp" else "On"
+            template_to_use = xsq.ramp_tpl if runtime_effect == "Ramp" else xsq.on_tpl
+        else:
+            runtime_effect = pick_runtime_effect(
+                requested=eff,
+                layer=layer_key,
+                family=family_key,
+                parsed_model=parsed_model,
+                tuning=tuning,
+                catalog=xlights_catalog,
+                workspace_history=workspace_history,
+                fallback=eff if eff else "On",
+            )
+            fallback_tpl = xsq.ramp_tpl if runtime_effect.strip().lower() == "ramp" else xsq.on_tpl
+            template_to_use = resolve_effect_template(
+                effect_name=runtime_effect,
+                explicit_tpl=tpl,
+                template_library=template_library,
+                fallback_tpl=fallback_tpl,
+            )
+            runtime_key = runtime_effect.strip().lower()
+            label_key = str(label or "").strip().lower()
+            preserve_long_on = any(
+                token in label_key
+                for token in (
+                    "drop_full",
+                    "coverage_footer",
+                    "lyric_text",
+                    "predrop",
+                    "build",
+                    "outro",
+                )
+            )
+            duration_cap_ms = 0
+            if runtime_key == "on" and not preserve_long_on:
+                if style.placement_mode in {"showcase_signature", "showcase_stems", "showcase_arc", "hierarchy_roles"}:
+                    duration_cap_ms = 240
+                elif style.placement_mode in {"mapped_showcase", "mapped_submodel", "primetime_director"}:
+                    duration_cap_ms = 280
+                else:
+                    duration_cap_ms = 360
+            elif runtime_key == "ramp" and style.placement_mode in {"showcase_signature", "showcase_stems", "showcase_arc", "hierarchy_roles"}:
+                duration_cap_ms = 420
+            if duration_cap_ms > 0 and (en_i - st_i) > duration_cap_ms:
+                en_i = st_i + duration_cap_ms
         palette_choice = pick_palette_for_effect(
             mode=tuning.palette_mode,
             template_palette=template_to_use.palette,
@@ -9712,18 +10984,55 @@ def run_variant(
     sweep_track: list[tuple[str, int, int]] = []
     lua_track: list[tuple[str, int, int]] = []
     pixel_track: list[tuple[str, int, int]] = []
+    audio_reactive_track: list[tuple[str, int, int]] = []
+    multiband_track: list[tuple[str, int, int]] = []
+    hardkor_track: list[tuple[str, int, int]] = []
+    birdsong_track: list[tuple[str, int, int]] = []
     part_track: list[tuple[str, int, int]] = [(part.label, part.start_ms, part.end_ms) for part in parts]
     drop_track: list[tuple[str, int, int]] = []
+    birdsong_result = birdsong_engine.BirdsongResult(
+        enabled=False,
+        confidence=0.0,
+        profile=str(tuning.birdsong_profile or "wild"),
+        calls=0,
+        echos=0,
+        sweeps=0,
+        species_counts={},
+        timing_spans=[],
+        reason="not_run",
+    )
+    hardkor_result = hardkor_engine.HardKorResult(
+        enabled=False,
+        placements=0,
+        timing_spans=[],
+        group_counts={},
+        reason="not_run",
+    )
     coords: dict[str, tuple[float, float]] = {}
     reference_poly_xsq = resolve_reference_poly_xsq(template_xsq)
     reference_scale_midis = load_reference_scale_midis(reference_poly_xsq)
     if reference_poly_xsq is not None:
         log(f"Reference poly map: {reference_poly_xsq.name}")
-    if parsed_layout is not None:
+    if spatial_scene_model is not None:
+        coords = spatial_scene_model.projected_coordinate_map(names)
+    elif parsed_layout is not None:
         coords = parsed_layout.coordinate_map(names)
     elif tuning.layout_file and tuning.layout_file.exists():
         coords = ai.parse_layout_coordinates(tuning.layout_file, names)
-    keyboard_routes = adapt_keyboard_routes_for_style(style, build_spatial_keyboard_routes(layout, pools, coords, rng))
+    spatial_awareness = base.clamp(float(tuning.spatial_awareness), 0.0, 1.0)
+    route_order_style = spatial_route_order_style(tuning.chase_style, spatial_awareness)
+    keyboard_routes = adapt_keyboard_routes_for_style(
+        style,
+        build_spatial_keyboard_routes(
+            layout,
+            pools,
+            coords,
+            rng,
+            route_style=route_order_style,
+            awareness=spatial_awareness,
+            scene=spatial_scene_model,
+        ),
+    )
     keyboard_lane = build_keyboard_lane_with_routes(pools, override=lane_override, preferred_routes=keyboard_routes)
     arch_keyboard_lane = next((pool.models for pool in pools if pool.category == "arch" and pool.models), [])
     cane_focus = base.clamp(float(tuning.cane_focus), 0.50, 2.50)
@@ -9738,15 +11047,16 @@ def run_variant(
     drums_priority_gain = 0.80 + (priorities["drums"] / stem_max) * 0.45
     vocals_priority_gain = 0.80 + (priorities["vocals"] / stem_max) * 0.45
     other_priority_gain = 0.80 + (priorities["other"] / stem_max) * 0.45
+    hardkor_mode = bool(tuning.hardkor_enabled)
     structured_mode = style.family in {"v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23"}
-    focused_mode = style.family in {"v14", "v16", "v19", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode in {"xtreme_essentials", "xtreme_submodel"}
-    premium_mode = style.family in {"v15", "v17", "v20", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode == "xtreme_showcase"
+    focused_mode = style.family in {"v14", "v16", "v19", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode in {"mapped_essentials", "mapped_submodel"}
+    premium_mode = style.family in {"v15", "v17", "v20", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode == "mapped_showcase"
     if structured_mode:
         dynamic_random = min(dynamic_random, 0.12 if focused_mode else 0.18)
         global_flash_prob = min(global_flash_prob, 0.16 if focused_mode else 0.24)
 
     log("[4/8] Placing effects")
-    if ramp_ok:
+    if ramp_ok and not hardkor_mode:
         for part in parts:
             if part.label in {"PRECHORUS", "BRIDGE"}:
                 add_model(
@@ -9773,7 +11083,7 @@ def run_variant(
                 )
 
     bass_focus_pools = pools_by_category(pools, ("canes_combo", "north_canes", "south_canes", "gt", "mega", "line"))
-    if premium_mode:
+    if premium_mode and not hardkor_mode:
         for i, t_ms in enumerate(bass_peaks):
             part = part_for_time(parts, t_ms)
             dur = max(90, int(base.scaled_dur(220) * bass_priority_gain))
@@ -9840,7 +11150,34 @@ def run_variant(
             add_model(model, t_ms, t_ms + duration, "gt_bounce", stem="drums")
             gt_index += 1
 
-    if style.placement_mode == "zone_riff":
+    if hardkor_mode:
+        hardkor_result = hardkor_engine.place_hardkor_sequence(
+            names=names,
+            parsed_layout=parsed_layout,
+            parts=parts,
+            beat_ms=beat_ms,
+            bar_ms=bar_ms,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            build_lifts=build_lifts,
+            releases=releases,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            ramp_ok=ramp_ok,
+            intensity=float(tuning.hardkor_intensity),
+        )
+        if hardkor_result.timing_spans:
+            hardkor_track.extend(hardkor_result.timing_spans)
+        if hardkor_result.enabled:
+            log(
+                "hardKor placements: "
+                f"{hardkor_result.placements} "
+                f"(groups={len(hardkor_result.group_counts)}, profile={tuning.hardkor_profile})"
+            )
+    elif style.placement_mode == "zone_riff":
         place_zone_riff(
             style=style,
             pools=pools,
@@ -9994,6 +11331,7 @@ def run_variant(
             in_blackout=in_blackout,
             piano_track=piano_track,
             sweep_track=sweep_track,
+            spatial_scene_model=spatial_scene_model,
         )
     elif style.placement_mode == "pulse_matrix":
         place_pulse_matrix(
@@ -10089,6 +11427,7 @@ def run_variant(
             in_blackout=in_blackout,
             piano_track=piano_track,
             sweep_track=sweep_track,
+            spatial_scene_model=spatial_scene_model,
         )
     elif style.placement_mode == "showcase_arc":
         place_showcase_arc(
@@ -10198,14 +11537,19 @@ def run_variant(
             style=style,
             note_events=note_events,
             pools=pools,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
             ramp_ok=ramp_ok,
             ramp_tpl=xsq.ramp_tpl,
             add_model=add_model,
             in_blackout=in_blackout,
             keyboard_track=keyboard_track,
         )
-    elif style.placement_mode == "xtreme_essentials":
-        place_xtreme_essentials(
+    elif style.placement_mode == "mapped_essentials":
+        place_mapped_essentials(
             style=style,
             pools=pools,
             layout=layout,
@@ -10224,8 +11568,8 @@ def run_variant(
             piano_track=piano_track,
             sweep_track=sweep_track,
         )
-    elif style.placement_mode == "xtreme_submodel":
-        place_xtreme_submodel(
+    elif style.placement_mode == "mapped_submodel":
+        place_mapped_submodel(
             style=style,
             pools=pools,
             layout=layout,
@@ -10247,8 +11591,8 @@ def run_variant(
             piano_track=piano_track,
             sweep_track=sweep_track,
         )
-    elif style.placement_mode == "xtreme_showcase":
-        place_xtreme_showcase(
+    elif style.placement_mode == "mapped_showcase":
+        place_mapped_showcase(
             style=style,
             pools=pools,
             layout=layout,
@@ -10365,9 +11709,12 @@ def run_variant(
                 add_model=add_model,
                 in_blackout=in_blackout,
                 sweep_track=sweep_track,
+                spatial_scene_model=spatial_scene_model,
             )
 
     spatial_keyboard_mix = base.clamp((0.82 if focused_mode else max(0.62, keyboard_mix)) * other_priority_gain, 0.0, 2.0)
+    if spatial_awareness > 0.01:
+        spatial_keyboard_mix = base.clamp(spatial_keyboard_mix * (1.0 + (spatial_awareness * 0.22)), 0.0, 2.0)
     if style.family == "v19":
         spatial_keyboard_mix = max(spatial_keyboard_mix, 1.18)
     elif style.family == "v20":
@@ -10378,6 +11725,32 @@ def run_variant(
     elif style.family == "v23":
         cap = 0.24 if style.placement_mode == "showcase_stems" else 0.34 if style.placement_mode == "showcase_arc" else 0.38
         spatial_keyboard_mix = min(spatial_keyboard_mix, cap)
+
+    if style.keyboard_overlay:
+        player_piano_mix = base.clamp((0.54 if focused_mode else max(0.40, keyboard_mix * 0.72)) * other_priority_gain, 0.0, 2.0)
+        if style.family == "v22":
+            player_piano_mix = min(player_piano_mix, 0.34)
+        elif style.family == "v23":
+            player_piano_mix = min(player_piano_mix, 0.24)
+        player_piano_placed = place_player_piano_sequence(
+            style=keyboard_style,
+            note_events=keyboard_note_events,
+            pools=pools,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            bass_peaks=bass_peaks,
+            vocal_peaks=vocal_peaks,
+            keyboard_mix=player_piano_mix,
+            ramp_ok=ramp_ok,
+            ramp_tpl=xsq.ramp_tpl,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            keyboard_track=keyboard_track,
+            helixualizer_payload=(chronoflow_payload.get("helixualizer", {}) or {}),
+        )
+        if player_piano_placed:
+            log(f"Player piano sequence placed: {player_piano_placed} effects on {choose_player_piano_pool(pools).name}")
 
     spatial_keyboard_placed = place_spatial_keyboard_routes(
         style=keyboard_style,
@@ -10464,9 +11837,14 @@ def run_variant(
     if tuning.sync_lyrics_heads and lyric_events:
         lyric_targets_pool = next((pool for pool in pools if pool.category == "talking_heads" and pool.models), None)
         lyric_text_pool = next((pool for pool in pools if pool.category == "matrix" and pool.models), None)
-        lyric_text_targets = lyric_text_pool.models if lyric_text_pool else []
+        snowman_face_routing = snowman_band_payload.get("face_routing", {}) or {}
+        lyric_text_targets = list(snowman_face_routing.get("lyric_surfaces", []) or [])
+        if not lyric_text_targets:
+            lyric_text_targets = lyric_text_pool.models if lyric_text_pool else []
         text_template_source = template_library.get("text")
-        lyric_targets = lyric_targets_pool.models if lyric_targets_pool else discover_talking_heads(names)
+        lyric_targets = list(snowman_face_routing.get("lead_cycle", []) or [])
+        if not lyric_targets:
+            lyric_targets = lyric_targets_pool.models if lyric_targets_pool else discover_talking_heads(names)
         if lyric_targets:
             for idx, ev in enumerate(lyric_events):
                 st = max(0, int(ev.start_ms))
@@ -10500,14 +11878,45 @@ def run_variant(
         else:
             log("Lyric sync requested but no head/lyric props were discovered.")
 
+    snowman_sequence_face_track: list[tuple[str, int, int]] = []
+    snowman_sequence_instructions = list(
+        ((snowman_band_payload.get("xlights_translation", {}) or {}).get("sequence_effect_instructions", []) or [])
+    )
+    if snowman_sequence_instructions:
+        placed_snowman_faces = 0
+        for instruction in snowman_sequence_instructions:
+            target = str(instruction.get("target_model", "") or "")
+            if target not in layers:
+                continue
+            st = max(0, int(instruction.get("start_ms", 0) or 0))
+            en = max(st + max(1, int(tuning.min_effect_ms)), int(instruction.get("end_ms", st) or st))
+            label = str(instruction.get("label", "snowman_face_timing") or "snowman_face_timing")
+            effect_name = str(instruction.get("effect", "Faces") or "Faces")
+            before_total = total
+            add_model(target, st, en, label, eff=effect_name, stem="vocals")
+            if total > before_total:
+                placed_snowman_faces += 1
+                snowman_sequence_face_track.append(
+                    (
+                        str(instruction.get("timing_label", label) or label),
+                        st,
+                        en,
+                    )
+                )
+        if placed_snowman_faces:
+            log(f"Snowman sequence face effects placed: {placed_snowman_faces}")
+
     spatial_track: list[tuple[str, int, int]] = []
-    if not structured_mode:
+    if not hardkor_mode and not structured_mode:
         spatial_spans, spatial_count = apply_spatial_chase(
             style=style,
             pools=pools,
             parts=parts,
+            audio=audio,
             beat_ms=beat_ms,
             kicks=kicks,
+            snares=snares,
+            hats=hats,
             add_model=add_model,
             ramp_ok=ramp_ok,
             ramp_tpl=xsq.ramp_tpl,
@@ -10516,13 +11925,14 @@ def run_variant(
             names=names,
             rng=rng,
             log_fn=log,
+            spatial_scene_model=spatial_scene_model,
         )
         if spatial_spans:
             spatial_track.extend(spatial_spans)
         if spatial_count:
             log(f"Spatial chase placements added: {spatial_count}")
 
-    if premium_mode:
+    if not hardkor_mode and premium_mode:
         lua_spans, lua_count = apply_lua_style_macros(
             style=style,
             pools=pools,
@@ -10538,12 +11948,13 @@ def run_variant(
         if lua_count:
             log(f"Lua-style accent placements added: {lua_count}")
 
-    if tuning.pixel_reactive and style.family in {"v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
+    if (not hardkor_mode) and tuning.pixel_reactive and style.family in {"v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
         pixel_attempts = place_pixel_reactive_score(
             style=style,
             pools=pools,
             parts=parts,
             note_events=note_events,
+            lyric_events=lyric_events,
             kicks=kicks,
             snares=snares,
             hats=hats,
@@ -10556,11 +11967,47 @@ def run_variant(
             add_model=add_model,
             in_blackout=in_blackout,
             pixel_track=pixel_track,
+            matrix_plan=matrix_intelligence_payload,
         )
         if pixel_attempts:
             log(f"Pixel reactive score cues scheduled: {pixel_attempts}")
+        multiband_attempts = place_multiband_reactive_overlay(
+            style=style,
+            pools=pools,
+            parts=parts,
+            audio=audio,
+            analysis=multiband,
+            kicks=kicks,
+            snares=snares,
+            hats=hats,
+            vocal_peaks=vocal_peaks,
+            build_lifts=build_lifts,
+            releases=releases,
+            pool_state=pool_state,
+            rng=rng,
+            ramp_ok=ramp_ok,
+            ramp_tpl=xsq.ramp_tpl,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            overlay_track=multiband_track,
+        )
+        if multiband_attempts:
+            log(f"Multi-band reactive overlays placed: {multiband_attempts}")
+        audio_reactive_attempts = place_audio_reactive_actions(
+            actions=audio_reactive_actions,
+            pools=pools,
+            pool_state=pool_state,
+            ramp_ok=ramp_ok,
+            ramp_tpl=xsq.ramp_tpl,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            reactive_track=audio_reactive_track,
+            intensity=float(tuning.audio_reactive_intensity),
+        )
+        if audio_reactive_attempts:
+            log(f"Audio-reactive catalog placements attempted: {audio_reactive_attempts}")
 
-    if style.family in {"v19", "v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
+    if (not hardkor_mode) and style.family in {"v19", "v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
         neighbor_attempts = apply_neighbor_showcase_score(
             style=style,
             pools=pools,
@@ -10583,67 +12030,96 @@ def run_variant(
         if neighbor_attempts:
             log(f"Neighbor showcase placements added: {neighbor_attempts}")
 
-    for part in parts:
-        if part.label == "CHORUS":
-            drop_track.append(("Drop", part.start_ms, min(part.start_ms + 500, part.end_ms)))
-            drop_pool = choose_cycle_pool(
-                pools_by_category(pools, ("canes_combo", "arch", "line", "gt", "mega")),
-                pool_state,
-                "drop_focus",
+    if not hardkor_mode:
+        birdsong_result = birdsong_engine.place_birdsong_engine(
+            audio=audio,
+            note_events=note_events,
+            hats=hats,
+            vocal_peaks=vocal_peaks,
+            pools=pools,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            rng=rng,
+            enabled=bool(tuning.birdsong_enabled),
+            auto_enable=bool(tuning.birdsong_auto),
+            intensity=float(tuning.birdsong_intensity),
+            min_confidence=float(tuning.birdsong_min_confidence),
+            profile=str(tuning.birdsong_profile),
+        )
+        if birdsong_result.timing_spans:
+            birdsong_track.extend(birdsong_result.timing_spans)
+        if birdsong_result.enabled:
+            log(
+                "Birdsong engine placements: "
+                f"calls={birdsong_result.calls}, echos={birdsong_result.echos}, "
+                f"sweeps={birdsong_result.sweeps}, confidence={birdsong_result.confidence:.2f}, "
+                f"profile={birdsong_result.profile}"
             )
-            if drop_pool and len(drop_pool.models) >= 2:
-                add_sweep(
-                    lambda nm, a, b, label: add_model(nm, a, b, label, stem="drums"),
-                    drop_pool,
-                    part.start_ms,
-                    min(part.end_ms, part.start_ms + max(220, base.scaled_dur(340))),
-                    "drop_focus",
-                    max(95, style.sweep_hit_ms),
-                    reverse=bool((part.start_ms // 1000) % 2),
-                )
-            elif drop_pool and drop_pool.models:
-                add_model(drop_pool.models[0], part.start_ms, min(part.end_ms, part.start_ms + 280), "drop_focus", stem="drums")
-            if rng.random() < (0.85 * max(0.35, global_flash_prob)):
-                add_model(
-                    layout.all_white,
-                    part.start_ms,
-                    min(part.end_ms, part.start_ms + 220),
-                    "drop_flash",
-                    cd_key="white",
-                    cd_ms=80,
-                    stem="drums",
-                )
-            if rng.random() < (0.95 * max(0.45, global_flash_prob)):
-                add_model(
-                    layout.all_red,
-                    part.start_ms,
-                    min(part.end_ms, part.start_ms + 240),
-                    "drop_flash",
-                    cd_key="red",
-                    cd_ms=80,
-                    stem="bass",
-                )
+        elif bool(tuning.birdsong_enabled) or bool(tuning.birdsong_auto):
+            log(
+                "Birdsong engine skipped: "
+                f"{birdsong_result.reason} (confidence={birdsong_result.confidence:.2f}, "
+                f"threshold={tuning.birdsong_min_confidence:.2f})"
+            )
 
+    if not hardkor_mode:
+        for part in parts:
+            if part.label == "CHORUS":
+                drop_track.append(("Drop", part.start_ms, min(part.start_ms + 500, part.end_ms)))
+                drop_pool = choose_cycle_pool(
+                    pools_by_category(pools, ("canes_combo", "arch", "line", "gt", "mega")),
+                    pool_state,
+                    "drop_focus",
+                )
+                if drop_pool and len(drop_pool.models) >= 2:
+                    add_sweep(
+                        lambda nm, a, b, label: add_model(nm, a, b, label, stem="drums"),
+                        drop_pool,
+                        part.start_ms,
+                        min(part.end_ms, part.start_ms + max(220, base.scaled_dur(340))),
+                        "drop_focus",
+                        max(95, style.sweep_hit_ms),
+                        reverse=bool((part.start_ms // 1000) % 2),
+                    )
+                elif drop_pool and drop_pool.models:
+                    add_model(drop_pool.models[0], part.start_ms, min(part.end_ms, part.start_ms + 280), "drop_focus", stem="drums")
+                if rng.random() < (0.85 * max(0.35, global_flash_prob)):
+                    add_model(
+                        layout.all_white,
+                        part.start_ms,
+                        min(part.end_ms, part.start_ms + 220),
+                        "drop_flash",
+                        cd_key="white",
+                        cd_ms=80,
+                        stem="drums",
+                    )
+                if rng.random() < (0.95 * max(0.45, global_flash_prob)):
+                    add_model(
+                        layout.all_red,
+                        part.start_ms,
+                        min(part.end_ms, part.start_ms + 240),
+                        "drop_flash",
+                        cd_key="red",
+                        cd_ms=80,
+                        stem="bass",
+                    )
+
+    coverage_plan = None
     if parsed_layout is not None and style.family in {"v20", "v21", "v22", "v23"}:
-        coverage_models: list[str] = []
-        for model in parsed_layout.models.values():
-            if model.is_submodel:
-                continue
-            if model.name not in layers:
-                continue
-            if model.name in used_root_models:
-                continue
-            family_key = family_from_parsed_model(model) or model_category_map.get(model.name, "")
-            if not family_key:
-                continue
-            coverage_models.append(model.name)
-        if coverage_models:
+        coverage_plan = collect_coverage_targets(
+            parsed_layout=parsed_layout,
+            available_layer_names=list(layers.keys()),
+            used_root_models=used_root_models,
+            model_category_map=model_category_map,
+            limit=48,
+        )
+        if coverage_plan.recommended_targets:
             coverage_window_ms = max(3600, min(12000, max(4800, song_length_ms // 5)))
             coverage_start_ms = max(0, song_length_ms - coverage_window_ms)
-            slots = max(1, min(len(coverage_models), 48))
+            slots = max(1, min(len(coverage_plan.recommended_targets), 48))
             slot_step_ms = max(70, coverage_window_ms // slots)
             coverage_track: list[tuple[str, int, int]] = []
-            for idx, model_name in enumerate(coverage_models):
+            for idx, model_name in enumerate(coverage_plan.recommended_targets):
                 slot_idx = idx % slots
                 cycle_idx = idx // slots
                 start_ms = coverage_start_ms + slot_idx * slot_step_ms + cycle_idx * 16
@@ -10666,6 +12142,54 @@ def run_variant(
         if len(validation_issues) > 12:
             log(f"Validation note: +{len(validation_issues) - 12} more")
 
+    initial_audit = sequence_audit.run_super_audit(
+        timelines=timelines,
+        parts=parts,
+        placements=stats.counts,
+        min_effect_ms=max(50, int(tuning.min_effect_ms)),
+        auto_fix=True,
+    )
+    if initial_audit.fixes_applied:
+        log(f"Audit auto-fixes applied: {initial_audit.fixes_applied}")
+
+    polish_result = sequence_polish.PolishResult(score=0.0)
+    if tuning.polish_enabled:
+        polish_result = sequence_polish.apply_polish_pass(
+            timelines=timelines,
+            parts=parts,
+            quiet_windows=multiband.quiet_windows,
+            add_model=add_model,
+            min_effect_ms=max(50, int(tuning.min_effect_ms)),
+            used_root_models=used_root_models,
+            neighbor_graph=neighbor_graph,
+            template_palette_pool=template_palette_pool,
+            vocal_peaks=vocal_peaks,
+            bass_peaks=bass_peaks,
+            drum_peaks=sorted(set(kicks + snares)),
+        )
+        if polish_result.notes:
+            log(f"Polish pass complete: score={polish_result.score:.1f}")
+
+    post_validation_fixes, post_validation_issues = validate_sequence_timelines(
+        timelines,
+        min_effect_ms=max(50, int(tuning.min_effect_ms)),
+    )
+    validation_fixes += post_validation_fixes
+    validation_issues.extend(post_validation_issues)
+    final_audit = sequence_audit.run_super_audit(
+        timelines=timelines,
+        parts=parts,
+        placements=stats.counts,
+        min_effect_ms=max(50, int(tuning.min_effect_ms)),
+        auto_fix=False,
+    )
+    total = sum(len(entries) for timeline in timelines.values() for entries in timeline.layers.values())
+    show_direction_summary = youtube_show_scorer.build_show_direction_summary(
+        timelines=timelines,
+        parts=parts,
+        quiet_windows=list(multiband.quiet_windows) + blackout_windows,
+    )
+
     log("[5/8] Writing timing tracks and report")
     if tuning.auto_timing_tracks:
         write_auto_timing_tracks(
@@ -10687,6 +12211,7 @@ def run_variant(
             sections=sections,
             parts=parts,
             blackout_windows=blackout_windows,
+            multiband=multiband,
         )
     if part_track:
         base.write_timing_track(xsq.root, f"AUTO Song Parts {style.version}", part_track, active=False)
@@ -10700,6 +12225,20 @@ def run_variant(
         base.write_timing_track(xsq.root, f"AUTO Lua Macros {style.version}", lua_track, active=False)
     if pixel_track:
         base.write_timing_track(xsq.root, f"AUTO Pixel Score {style.version}", pixel_track[:2000], active=False)
+    if audio_reactive_track:
+        base.write_timing_track(xsq.root, f"AUTO Audio Reactive {style.version}", audio_reactive_track[:2000], active=False)
+    if multiband_track:
+        base.write_timing_track(xsq.root, f"AUTO MultiBand {style.version}", multiband_track[:2400], active=False)
+    if hardkor_track:
+        base.write_timing_track(xsq.root, f"AUTO hardKor {style.version}", hardkor_track[:2400], active=False)
+    if chronoflow_track:
+        base.write_timing_track(xsq.root, f"AUTO Chronoflow {style.version}", chronoflow_track[:1400], active=False)
+        if snowman_band_track:
+            base.write_timing_track(xsq.root, f"AUTO Snowman Band {style.version}", snowman_band_track[:1800], active=False)
+        if snowman_sequence_face_track:
+            base.write_timing_track(xsq.root, f"AUTO Snowman Faces {style.version}", snowman_sequence_face_track[:1800], active=False)
+        if birdsong_track:
+            base.write_timing_track(xsq.root, f"AUTO Birdsong {style.version}", birdsong_track[:2000], active=False)
     if spatial_track:
         base.write_timing_track(xsq.root, f"AUTO Spatial Chase {style.version}", spatial_track, active=False)
     if lyric_track:
@@ -10721,6 +12260,10 @@ def run_variant(
             f"AUTO Sweeps {style.version}",
             f"AUTO Lua Macros {style.version}",
             f"AUTO Pixel Score {style.version}",
+            f"AUTO Audio Reactive {style.version}",
+            f"AUTO hardKor {style.version}",
+            f"AUTO Chronoflow {style.version}",
+            f"AUTO Birdsong {style.version}",
             f"AUTO Spatial Chase {style.version}",
             f"AUTO Lyrics {style.version}",
             f"AUTO Drops {style.version}",
@@ -10771,6 +12314,9 @@ def run_variant(
         available_family_counts = {key: value for key, value in sorted(available_counter.items(), key=lambda item: item[0])}
         used_family_counts = {key: value for key, value in sorted(used_counter.items(), key=lambda item: item[0])}
 
+    power_payload = load_power_metadata_payload(tuning.power_metadata_file)
+    power_payload["enforce"] = bool(tuning.fail_on_power_risk)
+
     payload = {
         "version": style.version,
         "title": style.title,
@@ -10779,6 +12325,13 @@ def run_variant(
         "duration_seconds": round(float(audio.dur_s), 3),
         "template": template_xsq.name,
         "output": out_path.name,
+        "exports": {
+            "report_json": report_path(out_path).name,
+            "sequence_notes": notes_path(out_path).name,
+            "chronoflow_json": chronoflow_json_path(out_path).name,
+            "chronoflow_view": chronoflow_view_path(out_path).name,
+            "snowman_band_json": snowman_band_json_path(out_path).name,
+        },
         "profile": {
             "feel": profile.feel,
             "density": profile.density,
@@ -10802,6 +12355,8 @@ def run_variant(
             "chase_style": normalize_chase_style(tuning.chase_style),
             "strict_xlights_effects": bool(tuning.strict_xlights_effects),
             "pixel_reactive": bool(tuning.pixel_reactive),
+            "audio_reactive_profile": str(tuning.audio_reactive_profile),
+            "audio_reactive_intensity": round(float(tuning.audio_reactive_intensity), 3),
             "ac_lights_only": bool(tuning.ac_lights_only),
             "base_effect": str(tuning.base_effect),
             "motion_effect": str(tuning.motion_effect),
@@ -10811,7 +12366,28 @@ def run_variant(
             "workspace_history_enabled": bool(tuning.workspace_history_enabled),
             "workspace_history_limit": int(tuning.workspace_history_limit),
             "workspace_history_folder": str(tuning.workspace_history_folder) if tuning.workspace_history_folder else "",
+            "learning_memory_enabled": bool(tuning.learning_memory_enabled),
+            "learning_memory_file": str(tuning.learning_memory_file) if tuning.learning_memory_file else "",
+            "matrix_intelligence": bool(tuning.matrix_intelligence),
+            "video_file": str(tuning.video_file) if tuning.video_file else "",
+            "blend_rules_file": str(tuning.blend_rules_file) if tuning.blend_rules_file else "",
+            "polish_enabled": bool(tuning.polish_enabled),
+            "variant_count": int(tuning.variant_count),
+            "auto_shortlist": bool(tuning.auto_shortlist),
+            "learn_from_my_xsqs": bool(tuning.learn_from_my_xsqs),
+            "vendor_bar": bool(tuning.vendor_bar),
+            "vendor_min_quality_score": float(tuning.vendor_min_quality_score),
+            "vendor_min_audit_score": float(tuning.vendor_min_audit_score),
+            "vendor_max_rejected_effects": int(tuning.vendor_max_rejected_effects),
             "model_override_keys": sorted((tuning.model_overrides or {}).keys()),
+            "birdsong_enabled": bool(tuning.birdsong_enabled),
+            "birdsong_auto": bool(tuning.birdsong_auto),
+            "birdsong_intensity": float(tuning.birdsong_intensity),
+            "birdsong_min_confidence": float(tuning.birdsong_min_confidence),
+            "birdsong_profile": str(tuning.birdsong_profile),
+            "hardkor_enabled": bool(tuning.hardkor_enabled),
+            "hardkor_intensity": float(tuning.hardkor_intensity),
+            "hardkor_profile": str(tuning.hardkor_profile),
         },
         "xlights_catalog": {
             "effect_count": int(xlights_catalog.get("effect_count", 0)) if xlights_catalog else 0,
@@ -10826,9 +12402,55 @@ def run_variant(
             "snares": len(snares),
             "hats": len(hats),
         },
+        "advanced_audio": {
+            "tempo_bpm": round(float(multiband.tempo_bpm), 2),
+            "genre_hint": multiband.genre_hint,
+            "mood_hint": multiband.mood_hint,
+            "descriptor_summary": {key: round(float(value), 4) for key, value in multiband.descriptor_summary.items()},
+            "mark_counts": {
+                "sub_bass": len(multiband.sub_bass_marks),
+                "bass": len(multiband.bass_marks),
+                "mid": len(multiband.mid_marks),
+                "high": len(multiband.high_marks),
+                "spectral_flux": len(multiband.spectral_flux_marks),
+                "loud": len(multiband.loud_marks),
+                "quiet_windows": len(multiband.quiet_windows),
+            },
+            "section_profiles": {
+                label: {
+                    key: (round(float(value), 4) if isinstance(value, (int, float)) else value)
+                    for key, value in profile.items()
+                }
+                for label, profile in multiband.section_profiles.items()
+            },
+        },
+        "audio_reactive": {
+            "enabled": bool((not hardkor_mode) and tuning.pixel_reactive),
+            "beat_timeline_count": len(audio_reactive_beat_timeline),
+            "action_count": len(audio_reactive_actions),
+            "timing_track_events": len(audio_reactive_track),
+            "profile": str(tuning.audio_reactive_profile),
+            "intensity": round(float(tuning.audio_reactive_intensity), 3),
+            "effect_counts": audio_reactive_summary.get("effect_counts", {}),
+            "routes": audio_reactive_summary.get("routes", []),
+            "catalog": audio_reactive_summary.get("catalog", []),
+        },
+        "rhythm_intelligence": rhythm_intelligence_payload,
         "lyrics": {
             "count": len(lyric_events),
             "synced_track_events": len(lyric_track),
+            "interpreter": lyric_interpreter_payload,
+        },
+        "birdsong": {
+            "enabled": bool(birdsong_result.enabled),
+            "profile": birdsong_result.profile,
+            "confidence": round(float(birdsong_result.confidence), 4),
+            "calls": int(birdsong_result.calls),
+            "echos": int(birdsong_result.echos),
+            "sweeps": int(birdsong_result.sweeps),
+            "species_counts": birdsong_result.species_counts,
+            "reason": birdsong_result.reason,
+            "timing_track_events": len(birdsong_track),
         },
         "template_profile": {
             "category_scores": template_profile.category_scores,
@@ -10839,6 +12461,11 @@ def run_variant(
             "families": {key: values[:6] for key, values in workspace_history.family_effects.items()},
             "palette_pool_count": len(workspace_history.palette_pool),
             "palette_pool_preview": workspace_history.palette_pool[:24],
+            "density_bias": round(float(workspace_history.density_bias), 3),
+            "speed_bias": round(float(workspace_history.speed_bias), 3),
+            "darkness_bias": round(float(workspace_history.darkness_bias), 3),
+            "source_files": workspace_history.source_files[:24],
+            "learned_from_user_xsqs": bool(workspace_history.learned_from_user_xsqs),
         },
         "parsed_layout": {
             "model_count": len(parsed_layout.models) if parsed_layout is not None else 0,
@@ -10878,7 +12505,42 @@ def run_variant(
         "pools": [{"name": pool.name, "category": pool.category, "count": len(pool.models)} for pool in pools],
         "keyboard_lane_count": len(keyboard_lane),
         "parts": [{"label": part.label, "start_ms": part.start_ms, "end_ms": part.end_ms} for part in parts],
+        "youtube_show_summary": show_direction_summary,
         "placements": stats.counts,
+        "neighbor_flow": (
+            {
+                "route_count": len(neighbor_graph.routes),
+                "adjacency_count": len(neighbor_graph.adjacency),
+                "seed_targets": neighbor_graph.seed_targets(limit=12),
+            }
+            if neighbor_graph is not None
+            else {}
+        ),
+        "coverage_plan": (coverage_plan.as_dict() if coverage_plan is not None else {}),
+        "audit": {
+            "initial": initial_audit.as_dict(),
+            "final": final_audit.as_dict(),
+        },
+        "matrix_intelligence": matrix_intelligence_payload,
+        "chronoflow": chronoflow_payload,
+        "band_sync": band_sync_payload,
+        "snowman_band": snowman_band_payload,
+        "piano_effect": piano_effect_payload,
+        "hardkor": {
+            "enabled": bool(hardkor_result.enabled),
+            "placements": int(hardkor_result.placements),
+            "group_counts": dict(hardkor_result.group_counts),
+            "timing_track_events": len(hardkor_track),
+            "reason": str(hardkor_result.reason),
+            "profile": str(tuning.hardkor_profile),
+        },
+        "responsible_use": matrix_intelligence_payload.get("responsible_use", {}),
+        "polish": polish_result.as_dict(),
+        "shortlist": {
+            "enabled": bool(tuning.auto_shortlist and int(tuning.variant_count) > 1),
+            "winner": out_path.name,
+            "candidate_count": int(tuning.variant_count),
+        },
         "lua_macro_events": len(lua_track),
         "effects_total": total,
         "validation": {
@@ -10887,6 +12549,7 @@ def run_variant(
             "rejected_effects_count": len(validation_rejections),
             "rejected_effects": validation_rejections[:500],
         },
+        "power": power_payload,
         "watermark": {
             "version": WATERMARK_POLICY_VERSION,
             "signature": watermark_signature,
@@ -10896,6 +12559,32 @@ def run_variant(
         },
     }
     payload["quality"] = compute_quality_score(payload)
+    payload["youtube_show_grade"] = youtube_show_scorer.score_youtube_show(payload)
+    memory_weights: dict[str, float] | None = None
+    if tuning.learning_memory_file is not None:
+        memory_weights = sequence_scoring.load_learning_memory(tuning.learning_memory_file).get("weights", {})
+    payload["self_improving_scoring"] = build_self_scoring_payload(payload, memory_weights)
+    payload["vendor_bar"] = compute_vendor_bar_verdict(
+        payload,
+        enabled=bool(tuning.vendor_bar),
+        min_quality_score=float(tuning.vendor_min_quality_score),
+        min_audit_score=float(tuning.vendor_min_audit_score),
+        max_rejected_effects=int(tuning.vendor_max_rejected_effects),
+    )
+    if payload["vendor_bar"].get("enabled", False) and not payload["vendor_bar"].get("passed", False):
+        cautions = list((payload.get("quality", {}) or {}).get("cautions", []) or [])
+        cautions.append("Vendor bar thresholds were not met; rerun with stricter tuning or more variants.")
+        payload["quality"]["cautions"] = cautions[:4]
+    try:
+        chronoflow_engine.write_export_json(chronoflow_json_path(out_path), chronoflow_payload)
+        chronoflow_engine.write_export_html(chronoflow_view_path(out_path), chronoflow_payload)
+    except Exception as exc:
+        log(f"[WARN] Chronoflow export skipped: {exc!r}")
+    try:
+        snowman_band_engine.write_export_json(snowman_band_json_path(out_path), snowman_band_payload)
+    except Exception as exc:
+        log(f"[WARN] Snowman band export skipped: {exc!r}")
+    validate_report_payload(payload)
     write_report(report_path(out_path), payload)
     write_sequence_notes(notes_path(out_path), payload)
 
@@ -10948,10 +12637,33 @@ def run_variant(
         f"({payload['quality'].get('grade', '')})"
     )
     log(f"Report saved: {report_path(out_path).name}")
+    log(f"Chronoflow exports: {chronoflow_json_path(out_path).name}, {chronoflow_view_path(out_path).name}")
+    log(f"Snowman band export: {snowman_band_json_path(out_path).name}")
+    return {
+        "output_path": str(out_path),
+        "report_path": str(report_path(out_path)),
+        "notes_path": str(notes_path(out_path)),
+        "chronoflow_json_path": str(chronoflow_json_path(out_path)),
+        "chronoflow_view_path": str(chronoflow_view_path(out_path)),
+        "snowman_band_json_path": str(snowman_band_json_path(out_path)),
+        "payload": payload,
+        "quality": payload.get("quality", {}),
+        "audit": payload.get("audit", {}),
+        "self_improving_scoring": payload.get("self_improving_scoring", {}),
+        "polish": payload.get("polish", {}),
+    }
 
 
 def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=f"Dream Sequence Weaver xLights sequencer {style.version} - {style.title}")
+    parser = argparse.ArgumentParser(
+        description=f"Dream Sequence Weaver xLights sequencer {style.version} - {style.title}",
+        epilog=(
+            "One-click vendor-quality example:\n"
+            "  python main.py --profile master -- --template template.xsq --audio song.wav "
+            "--no-prompt --polish --variants 3 --auto-shortlist"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     parser.add_argument("--template", help="Path to template .xsq")
     parser.add_argument("--audio", nargs="*", help="Optional audio file(s) to process")
     parser.add_argument("--single", action="store_true", help="Process only the first audio file")
@@ -10968,6 +12680,8 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--keyboard-mix", type=float, dest="keyboard_mix", help="Polyphonic keyboard intensity")
     parser.add_argument("--model-overrides-file", dest="model_overrides_file", help="Optional JSON file for group/model mapping overrides")
     parser.add_argument("--layout-file", dest="layout_file", help="xLights layout XML/XBKP for spatial routing")
+    parser.add_argument("--power-metadata-file", dest="power_metadata_file", help="Optional JSON file with circuit and prop power metadata")
+    parser.add_argument("--fail-on-power-risk", dest="fail_on_power_risk", action="store_true", help="Fail report validation when enabled power metadata reports risk")
     parser.add_argument("--use-moises", action="store_true", help="Use Moises stem separation when possible")
     parser.add_argument("--moises-api-key", dest="moises_api_key", help="Moises API key")
     parser.add_argument("--sync-lyrics-heads", action="store_true", help="Sync lyric timing to head/face props")
@@ -11005,10 +12719,39 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--workspace-history-limit", type=int, dest="workspace_history_limit", help="Max recent XSQ files to scan from workspace history")
     parser.add_argument("--workspace-history", dest="workspace_history_enabled", action="store_true", help="Enable local XSQ history scanning")
     parser.add_argument("--no-workspace-history", dest="workspace_history_enabled", action="store_false", help="Disable local XSQ history scanning")
+    parser.add_argument("--learning-memory-file", dest="learning_memory_file", help="JSON file for Helix-generated-only scoring memory")
+    parser.add_argument("--learning-memory", dest="learning_memory_enabled", action="store_true", help="Enable Helix-generated-only scoring memory")
+    parser.add_argument("--no-learning-memory", dest="learning_memory_enabled", action="store_false", help="Disable scoring memory writes")
     parser.add_argument("--auto-timing-tracks", dest="auto_timing_tracks", action="store_true", help="Write extended Queen Mary style timing tracks")
     parser.add_argument("--no-auto-timing-tracks", dest="auto_timing_tracks", action="store_false", help="Disable extended timing-track output")
     parser.add_argument("--pixel-reactive", dest="pixel_reactive", action="store_true", help="Enable family-aware reactive pixel choreography for compatible models")
     parser.add_argument("--no-pixel-reactive", dest="pixel_reactive", action="store_false", help="Disable the reactive pixel choreography pass")
+    parser.add_argument("--audio-reactive-profile", dest="audio_reactive_profile", help="Audio-reactive preset: off/subtle/balanced/showcase/max")
+    parser.add_argument("--audio-reactive-intensity", type=float, dest="audio_reactive_intensity", help="Audio-reactive catalog cue intensity (0.0-2.0)")
+    parser.add_argument("--matrix-intelligence", dest="matrix_intelligence", action="store_true", help="Enable matrix-first shader planning in report output")
+    parser.add_argument("--no-matrix-intelligence", dest="matrix_intelligence", action="store_false", help="Disable matrix-first shader planning")
+    parser.add_argument("--video-file", dest="video_file", help="Optional MP4 file for hybrid audio-plus-video matrix planning")
+    parser.add_argument("--blend-rules-file", dest="blend_rules_file", help="Optional JSON overrides for matrix blend planning")
+    parser.add_argument("--polish", dest="polish_enabled", action="store_true", help="Run the post-generation polish pass")
+    parser.add_argument("--no-polish", dest="polish_enabled", action="store_false", help="Skip the post-generation polish pass")
+    parser.add_argument("--variants", type=int, dest="variant_count", default=3, help="Number of runtime variants to generate and score")
+    parser.add_argument("--auto-shortlist", dest="auto_shortlist", action="store_true", help="Promote the best-scoring runtime variant to the canonical output")
+    parser.add_argument("--vendor-bar", dest="vendor_bar", action="store_true", help="Enforce paid-vendor level quality thresholds during shortlist and reporting")
+    parser.add_argument("--vendor-min-quality", type=float, dest="vendor_min_quality_score", help="Minimum quality score required for vendor-bar pass")
+    parser.add_argument("--vendor-min-audit", type=float, dest="vendor_min_audit_score", help="Minimum audit score required for vendor-bar pass")
+    parser.add_argument("--vendor-max-rejected", type=int, dest="vendor_max_rejected_effects", help="Maximum rejected effects allowed for vendor-bar pass")
+    parser.add_argument("--learn-from-my-xsqs", dest="learn_from_my_xsqs", action="store_true", help="Deprecated compatibility flag; learning is limited to Helix-generated sequences only")
+    parser.add_argument("--birdsong", dest="birdsong_enabled", action="store_true", help="Enable the birdsong phrase engine overlay")
+    parser.add_argument("--no-birdsong", dest="birdsong_enabled", action="store_false", help="Disable the birdsong phrase engine overlay")
+    parser.add_argument("--birdsong-auto", dest="birdsong_auto", action="store_true", help="Auto-enable birdsong when audio confidence is high")
+    parser.add_argument("--no-birdsong-auto", dest="birdsong_auto", action="store_false", help="Disable birdsong auto-detection")
+    parser.add_argument("--birdsong-intensity", type=float, dest="birdsong_intensity", help="Birdsong layer intensity (0.2-2.4)")
+    parser.add_argument("--birdsong-min-confidence", type=float, dest="birdsong_min_confidence", help="Minimum auto-detect confidence threshold (0.0-1.0)")
+    parser.add_argument("--birdsong-profile", dest="birdsong_profile", help="wild/canopy/ambient/dawn")
+    parser.add_argument("--hardkor", dest="hardkor_enabled", action="store_true", help="Enable hardKor AC-first placement machine")
+    parser.add_argument("--no-hardkor", dest="hardkor_enabled", action="store_false", help="Disable hardKor AC-first placement machine")
+    parser.add_argument("--hardkor-intensity", type=float, dest="hardkor_intensity", help="hardKor placement intensity multiplier (0.25-2.5)")
+    parser.add_argument("--hardkor-profile", dest="hardkor_profile", help="hardKor profile key (default: ac256)")
     parser.add_argument("--settings", default=f"{style.version}.settings.json", help="Settings JSON path")
     parser.add_argument("--output-dir", help="Optional output folder override")
     parser.add_argument("--no-prompt", action="store_true", help="Run without interactive prompts")
@@ -11020,7 +12763,16 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
         debug_validation=True,
         auto_timing_tracks=True,
         workspace_history_enabled=True,
+        learning_memory_enabled=True,
         pixel_reactive=True,
+        matrix_intelligence=True,
+        polish_enabled=True,
+        auto_shortlist=False,
+        learn_from_my_xsqs=False,
+        vendor_bar=False,
+        birdsong_enabled=False,
+        birdsong_auto=False,
+        hardkor_enabled=False,
     )
     return parser.parse_args(argv)
 
@@ -11090,6 +12842,10 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     if layout_file is not None and not layout_file.exists():
         log(f"Layout file not found for spatial routing: {layout_file}")
         layout_file = None
+    power_metadata_file = resolve_path(folder, args.power_metadata_file) if args.power_metadata_file else None
+    if power_metadata_file is not None and not power_metadata_file.exists():
+        log(f"Power metadata file not found: {power_metadata_file}")
+        power_metadata_file = None
     xlights_repo = resolve_path(folder, args.xlights_repo) if args.xlights_repo else xfb.discover_xlights_repo(folder)
     if xlights_repo is not None and not (xlights_repo / "xLights" / "effects").exists():
         log(f"xLights repo path missing expected effects folder: {xlights_repo}")
@@ -11102,7 +12858,19 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     workspace_history_folder = resolve_path(folder, args.workspace_history_folder) if args.workspace_history_folder else (folder / "outputs")
     if workspace_history_folder is not None and not workspace_history_folder.exists():
         workspace_history_folder = None
+    video_file = resolve_path(folder, args.video_file) if args.video_file else None
+    if video_file is not None and not video_file.exists():
+        log(f"Video file not found; matrix video analysis disabled: {video_file}")
+        video_file = None
+    blend_rules_file = resolve_path(folder, args.blend_rules_file) if args.blend_rules_file else None
+    if blend_rules_file is not None and not blend_rules_file.exists():
+        log(f"Blend rules file not found; using default matrix blend rules: {blend_rules_file}")
+        blend_rules_file = None
     moises_key = (args.moises_api_key or "").strip() or os.environ.get("MOISES_API_KEY", "")
+    audio_reactive_profile, audio_reactive_intensity = resolve_audio_reactive_tuning(
+        args.audio_reactive_profile,
+        args.audio_reactive_intensity,
+    )
     tuning = RuntimeTuning(
         polyphony_override=int(args.polyphony) if args.polyphony is not None else None,
         cane_focus=float(args.cane_focus if args.cane_focus is not None else 1.0),
@@ -11135,9 +12903,57 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         workspace_history_enabled=bool(args.workspace_history_enabled),
         workspace_history_folder=workspace_history_folder,
         workspace_history_limit=max(4, int(args.workspace_history_limit if args.workspace_history_limit is not None else 24)),
+        learning_memory_enabled=bool(args.learning_memory_enabled),
+        learning_memory_file=(resolve_path(folder, args.learning_memory_file) if args.learning_memory_file else None),
         auto_timing_tracks=bool(args.auto_timing_tracks),
         pixel_reactive=bool(args.pixel_reactive),
+        audio_reactive_profile=audio_reactive_profile,
+        audio_reactive_intensity=audio_reactive_intensity,
+        matrix_intelligence=bool(args.matrix_intelligence),
+        video_file=video_file,
+        blend_rules_file=blend_rules_file,
+        polish_enabled=bool(args.polish_enabled),
+        variant_count=sequence_scoring.plan_variations(
+            int(args.variant_count if args.variant_count is not None else 3)
+        ).capped_count,
+        auto_shortlist=bool(args.auto_shortlist),
+        learn_from_my_xsqs=bool(args.learn_from_my_xsqs),
+        vendor_bar=bool(args.vendor_bar),
+        vendor_min_quality_score=float(args.vendor_min_quality_score if args.vendor_min_quality_score is not None else DEFAULT_VENDOR_MIN_QUALITY_SCORE),
+        vendor_min_audit_score=float(args.vendor_min_audit_score if args.vendor_min_audit_score is not None else DEFAULT_VENDOR_MIN_AUDIT_SCORE),
+        vendor_max_rejected_effects=max(
+            1,
+            int(args.vendor_max_rejected_effects if args.vendor_max_rejected_effects is not None else DEFAULT_VENDOR_MAX_REJECTED_EFFECTS),
+        ),
+        birdsong_enabled=bool(args.birdsong_enabled),
+        birdsong_auto=bool(args.birdsong_auto),
+        birdsong_intensity=base.clamp(float(args.birdsong_intensity if args.birdsong_intensity is not None else 1.0), 0.2, 2.4),
+        birdsong_min_confidence=base.clamp(float(args.birdsong_min_confidence if args.birdsong_min_confidence is not None else 0.45), 0.0, 1.0),
+        birdsong_profile=str((args.birdsong_profile or "wild").strip().lower() or "wild"),
+        hardkor_enabled=bool(args.hardkor_enabled),
+        hardkor_intensity=base.clamp(float(args.hardkor_intensity if args.hardkor_intensity is not None else 1.0), 0.25, 2.5),
+        hardkor_profile=str((args.hardkor_profile or "ac256").strip().lower() or "ac256"),
+        power_metadata_file=power_metadata_file,
+        fail_on_power_risk=bool(args.fail_on_power_risk),
     )
+    if tuning.vendor_bar:
+        # Vendor-bar mode forces the higher-quality generation path.
+        tuning.auto_shortlist = True
+        tuning.polish_enabled = True
+        tuning.variant_count = max(3, int(tuning.variant_count))
+        tuning.workspace_history_enabled = True
+    if tuning.hardkor_enabled:
+        # hardKor is AC-first by design: keep the effect family constrained and
+        # allow deeper layer stacks for deterministic multi-stem choreography.
+        tuning.ac_lights_only = True
+        tuning.base_effect = "On"
+        tuning.motion_effect = "Ramp"
+        tuning.accent_effect = "On"
+        tuning.pixel_reactive = False
+        tuning.birdsong_enabled = False
+        tuning.birdsong_auto = False
+        tuning.max_layers_per_prop = max(24, int(tuning.max_layers_per_prop))
+        tuning.min_effect_ms = max(50, int(tuning.min_effect_ms))
     style = apply_runtime_style(style, tuning)
 
     template = resolve_path(folder, args.template) if args.template else base.find_template_xsq(folder)
@@ -11162,6 +12978,10 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     if output_dir is None:
         output_dir = folder / style.family
     output_dir.mkdir(parents=True, exist_ok=True)
+    if tuning.learning_memory_enabled and tuning.learning_memory_file is None:
+        tuning.learning_memory_file = output_dir / "helix_learning_memory.json"
+    elif not tuning.learning_memory_enabled:
+        tuning.learning_memory_file = None
 
     log(f"Template: {template.name}")
     log(
@@ -11182,18 +13002,128 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         f"ac_only={int(bool(tuning.ac_lights_only))}, "
         f"max_layers={tuning.max_layers_per_prop}, min_ms={tuning.min_effect_ms}, "
         f"lyrics_sync={int(bool(tuning.sync_lyrics_heads))}, "
+        f"birdsong={int(bool(tuning.birdsong_enabled))}/{int(bool(tuning.birdsong_auto))}/"
+        f"{tuning.birdsong_intensity:.2f}/{tuning.birdsong_min_confidence:.2f}/{tuning.birdsong_profile}, "
+        f"hardkor={int(bool(tuning.hardkor_enabled))}/{tuning.hardkor_intensity:.2f}/{tuning.hardkor_profile}, "
         f"workspace_history={int(bool(tuning.workspace_history_folder))}:{tuning.workspace_history_limit}, "
+        f"matrix={int(bool(tuning.matrix_intelligence))}, "
+        f"audio_reactive={tuning.audio_reactive_profile}/{tuning.audio_reactive_intensity:.2f}, "
+        f"polish={int(bool(tuning.polish_enabled))}, "
+        f"variants={tuning.variant_count}, shortlist={int(bool(tuning.auto_shortlist))}, "
+        f"vendor_bar={int(bool(tuning.vendor_bar))}:"
+        f"{tuning.vendor_min_quality_score:.1f}/"
+        f"{tuning.vendor_min_audit_score:.1f}/"
+        f"{tuning.vendor_max_rejected_effects}, "
+        f"power={int(bool(tuning.power_metadata_file))}/{int(bool(tuning.fail_on_power_risk))}, "
+        f"learn_xsqs={int(bool(tuning.learn_from_my_xsqs))}, "
         f"overrides={len(overrides_payload)}"
     )
     log(f"Output folder: {output_dir.name}")
     log(f"Processing {len(audios)} audio file(s) with {style.version}...")
+    runtime_candidates = build_runtime_candidates(style, tuning, tuning.variant_count)
 
     for i, audio in enumerate(audios, 1):
         out = variant_output_name(audio, output_dir, style.version)
         log(f"\n[{i}/{len(audios)}] {audio.name} -> {out.name}")
         try:
-            run_variant(style, template, audio, out, profile, tuning=tuning)
+            candidate_results: list[dict[str, object]] = []
+            for idx, candidate in enumerate(runtime_candidates, 1):
+                candidate_out = out if idx == 1 else variant_output_name(audio, output_dir, candidate.style.version)
+                log(f"  Variant {idx}/{len(runtime_candidates)}: {candidate.label} -> {candidate_out.name}")
+                result = run_variant(
+                    candidate.style,
+                    template,
+                    audio,
+                    candidate_out,
+                    profile,
+                    tuning=replace(candidate.tuning),
+                )
+                result["label"] = candidate.label
+                result["description"] = candidate.description
+                result["style_version"] = candidate.style.version
+                candidate_payload = read_report_payload(Path(str(result.get("report_path", ""))))
+                result["payload"] = candidate_payload
+                result["self_improving_scoring"] = candidate_payload.get("self_improving_scoring", {})
+                candidate_results.append(result)
+            comparison_rankings = sequence_scoring.rank_sequence_payloads(candidate_results)
+            selected_label = str(candidate_results[0].get("label", "signature")) if candidate_results else ""
+            selected_report_path = Path(str(candidate_results[0].get("report_path", ""))) if candidate_results else report_path(out)
+            if tuning.auto_shortlist and len(candidate_results) > 1:
+                best_entry = choose_best_candidate(
+                    candidate_results,
+                    min_audit_score=(
+                        float(tuning.vendor_min_audit_score)
+                        if tuning.vendor_bar
+                        else float(DEFAULT_MIN_AUDIT_SCORE)
+                    ),
+                    max_rejected_effects=(
+                        int(tuning.vendor_max_rejected_effects)
+                        if tuning.vendor_bar
+                        else int(DEFAULT_MAX_REJECTED_EFFECTS)
+                    ),
+                    min_quality_score=(
+                        float(tuning.vendor_min_quality_score)
+                        if tuning.vendor_bar
+                        else None
+                    ),
+                )
+                if best_entry is not None:
+                    if bool(best_entry.get("quality_gate_passed", False)):
+                        promote_shortlisted_candidate(best_entry, out)
+                        selected_label = str(best_entry.get("label", selected_label))
+                        selected_report_path = report_path(out)
+                        log(
+                            "Auto-shortlist winner: "
+                            f"{best_entry.get('label', '')} -> {Path(str(best_entry.get('output_path', out))).name}"
+                        )
+                    else:
+                        reasons = ", ".join(str(item) for item in (best_entry.get("quality_gate_reasons") or []))
+                        log(f"Auto-shortlist skipped: no candidate passed quality gates ({reasons or 'failed_quality_gates'})")
+            comparison_debug = {
+                "enabled": len(candidate_results) > 1,
+                "selected_label": selected_label,
+                "rankings": comparison_rankings,
+                "chosen_variation": next((item for item in comparison_rankings if item.get("label") == selected_label), {}),
+                "rejected_variations": [item for item in comparison_rankings if item.get("label") != selected_label],
+            }
+            for result in candidate_results:
+                candidate_report = Path(str(result.get("report_path", "")))
+                candidate_payload = read_report_payload(candidate_report)
+                if not candidate_payload:
+                    continue
+                candidate_payload["comparison_engine"] = comparison_debug
+                candidate_payload.setdefault("self_improving_scoring", {})
+                candidate_payload["self_improving_scoring"]["debug"] = {
+                    **((candidate_payload.get("self_improving_scoring") or {}).get("debug", {}) or {}),
+                    "chosen_vs_rejected_variations": comparison_debug,
+                }
+                write_report(candidate_report, candidate_payload)
+            if tuning.learning_memory_file is not None and selected_report_path.exists():
+                selected_payload = read_report_payload(selected_report_path)
+                if selected_payload:
+                    selected_payload["comparison_engine"] = comparison_debug
+                    selected_payload.setdefault("self_improving_scoring", {})
+                    selected_payload["self_improving_scoring"]["debug"] = {
+                        **((selected_payload.get("self_improving_scoring") or {}).get("debug", {}) or {}),
+                        "chosen_vs_rejected_variations": comparison_debug,
+                    }
+                rejected_for_memory = [
+                    item for item in comparison_rankings if item.get("label") != selected_label
+                ]
+                learning_result = sequence_scoring.record_learning_decision(
+                    memory_path=tuning.learning_memory_file,
+                    payload=selected_payload,
+                    decision=selected_label,
+                    rejected=rejected_for_memory,
+                )
+                if selected_payload:
+                    selected_payload["learning_memory"] = learning_result
+                    write_report(selected_report_path, selected_payload)
         except Exception as exc:
             log(f"FAILED: {audio.name}: {repr(exc)}")
 
     log("\nDone.")
+
+
+def main(argv: list[str] | None = None) -> None:
+    main_for(ACTIVE_STYLE_VERSION, argv)

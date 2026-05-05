@@ -7,7 +7,7 @@
     <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm3="1" name="Arches-2" parm2="25" LayoutGroup="All Previews" Controller="pixel test controller" WorldPosX="30.5836" WorldPosY="-444.7744" WorldPosZ="0.0000" X2="682.414429" Y2="-14.070374" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="16398">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="50" parm3="1" name="Tree" parm1="16" Controller="pixel test controller" LayoutGroup="All Previews" DisplayAs="Tree 360" TreeSpiralRotations="6.000000" WorldPosX="-205.4993" WorldPosY="421.5382" WorldPosZ="0.0000" ScaleX="2.8440" ScaleY="2.8738" ScaleZ="2.8440" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="3198">
+    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="50" parm3="1" name="Tree" parm1="16" Controller="pixel test controller" LayoutGroup="All Previews" DisplayAs="Tree 360" TreeSpiralRotations="6.000000" WorldPosX="-1849.0872" WorldPosY="-103.0111" WorldPosZ="0.0000" ScaleX="2.8440" ScaleY="2.8738" ScaleZ="2.8440" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="3198">
       <ControllerConnection Protocol="ws2811"/>
     </model>
     <model DisplayAs="Candy Canes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" name="Candy Canes" parm1="16" parm3="50" CustomColor="#000000" StringType="RGB Nodes" parm2="50" CandyCaneHeight="1.000000" LayoutGroup="All Previews" Controller="pixel test controller" WorldPosX="718.2000" WorldPosY="65.6000" WorldPosZ="0.0000" X2="503.999939" Y2="-4.800011" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="13998">
@@ -511,13 +511,13 @@
       </Aliases>
     </model>
     <model DisplayAs="Single Line" StringType="Single Color Green" CustomColor="#00FF00" parm1="1" parm3="0" Antialias="1" parm2="25" TagColour="lime green" name="Mega Tree Green 2" LayoutGroup="All Previews" WorldPosX="-242.4116" WorldPosY="-34.4173" WorldPosZ="0.0000" X2="48.830688" Y2="-350.857422" Z2="0.000000" versionNumber="7" StartChannel="82">
-      <ControllerConnection Protocol="LOR Optimised"/>
+      <ControllerConnection/>
       <Aliases>
         <alias name="oldname:mega tree 2 green"/>
       </Aliases>
     </model>
-    <model DisplayAs="Single Line" StringType="Single Color Green" CustomColor="#00FF00" parm1="1" parm3="0" Antialias="1" parm2="25" TagColour="lime green" name="Mega Tree Green 3" LayoutGroup="All Previews" WorldPosX="-266.6884" WorldPosY="-12.3203" WorldPosZ="0.0000" X2="85.001526" Y2="-311.069489" Z2="0.000000" versionNumber="7" StartChannel="83">
-      <ControllerConnection Protocol="LOR Optimised"/>
+    <model DisplayAs="Single Line" StringType="Single Color Green" CustomColor="#00FF00" parm1="1" parm3="0" Antialias="1" parm2="25" TagColour="lime green" name="Mega Tree Green 3" LayoutGroup="All Previews" WorldPosX="-226.1064" WorldPosY="-126.1578" WorldPosZ="0.0000" X2="85.001526" Y2="-311.069489" Z2="0.000000" versionNumber="7" StartChannel="83">
+      <ControllerConnection/>
       <Aliases>
         <alias name="oldname:mega tree 3 green"/>
       </Aliases>
@@ -569,7 +569,7 @@
       <ControllerConnection Protocol="LOR Optimised"/>
     </model>
     <model DisplayAs="Single Line" StringType="Single Color Green" CustomColor="#00FF00" parm1="1" parm3="0" Antialias="1" parm2="25" TagColour="lime green" name="Mega Tree Green 8" LayoutGroup="All Previews" WorldPosX="-276.5611" WorldPosY="7.5630" WorldPosZ="0.0000" X2="-95.473785" Y2="-309.115967" Z2="0.000000" versionNumber="7" StartChannel="95">
-      <ControllerConnection Protocol="LOR Optimised"/>
+      <ControllerConnection/>
       <Aliases>
         <alias name="oldname:mega tree 8 green"/>
       </Aliases>
@@ -1140,7 +1140,7 @@
     <model DisplayAs="Star" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm2="50" StarStartLocation="Bottom Ctr-CW" LayoutGroup="Default" parm3="15" StringType="Single Color Intensity" CustomColor="#000000" name="sf1" WorldPosX="910.0200" WorldPosY="499.8587" WorldPosZ="0.0000" ScaleX="0.4299" ScaleY="0.3708" ScaleZ="0.0200" RotateX="0.00000000" RotateY="0.00000000" RotateZ="-3.00000000" versionNumber="7" StartChannel="97">
       <ControllerConnection Protocol="LOR Optimised"/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="Arches" parm1="6" parm2="30" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="227.5334" WorldPosY="110.7555" WorldPosZ="0.0000" X2="190.222198" Y2="-3.555557" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="300257">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="Arches" parm1="6" parm2="30" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="227.5334" WorldPosY="110.7555" WorldPosZ="0.0000" X2="190.222198" Y2="-3.555557" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="163986">
       <ControllerConnection/>
       <subModel name="arch_1" layout="horizontal" type="ranges" bufferstyle="Default" line0="1-30">
         <Aliases/>
@@ -1207,10 +1207,10 @@
         <ControllerConnection/>
       </subModel>
     </model>
-    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" name="Tree-2" DisplayAs="Tree 360" Controller="No Controller" parm1="16" parm2="75" parm3="1" LayoutGroup="Unassigned" WorldPosX="-468.7565" WorldPosY="197.8660" WorldPosZ="0.0000" ScaleX="2.0837" ScaleY="1.8613" ScaleZ="2.0837" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="320039">
+    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" name="Tree-2" DisplayAs="Tree 360" Controller="No Controller" parm1="16" parm2="75" parm3="1" LayoutGroup="Unassigned" WorldPosX="-468.7565" WorldPosY="197.8660" WorldPosZ="0.0000" ScaleX="2.0837" ScaleY="1.8613" ScaleZ="2.0837" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="183768">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="50" parm3="1" name="Tree-3" parm1="16" DisplayAs="Tree 360" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="-479.8871" WorldPosY="214.0395" WorldPosZ="0.0000" ScaleX="2.7813" ScaleY="2.7072" ScaleZ="2.7813" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="11598">
+    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="50" parm3="1" name="Tree-3" parm1="16" DisplayAs="Tree 360" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="-1899.6672" WorldPosY="318.9494" WorldPosZ="0.0000" ScaleX="2.7813" ScaleY="2.7072" ScaleZ="2.7813" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="11598">
       <ControllerConnection Protocol="ws2811"/>
     </model>
     <model StringType="RGB Nodes" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="50" parm3="1" name="Matrix" StartSide="T" DisplayAs="Horiz Matrix" parm1="16" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="-569.4037" WorldPosY="657.3915" WorldPosZ="0.0000" ScaleX="5.6161" ScaleY="18.7989" ScaleZ="0.0204" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="16473">
@@ -1264,7 +1264,7 @@
     <model DisplayAs="Spinner" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_SPINNER_03" parm2="10" parm3="5" Hollow="20" Arc="360" LayoutGroup="All Previews" Controller="pixel test controller" WorldPosX="2870.0000" WorldPosY="250.0000" WorldPosZ="0.0000" ScaleX="19.6000" ScaleY="12.2000" ScaleZ="0.0385" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="59835">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model DisplayAs="Spinner" StringType="RGB Nodes" StartSide="T" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_SPINNER_04" parm2="10" parm3="5" Hollow="20" Arc="360" LayoutGroup="All Previews" Controller="pixel test controller" WorldPosX="3055.0000" WorldPosY="274.0000" WorldPosZ="0.0000" ScaleX="21.4000" ScaleY="9.8000" ScaleZ="0.0385" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="59994">
+    <model DisplayAs="Spinner" StringType="RGB Nodes" StartSide="T" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_SPINNER_04" parm2="10" parm3="5" Hollow="20" Arc="360" LayoutGroup="All Previews" Controller="pixel test controller" WorldPosX="3061.2949" WorldPosY="166.9920" WorldPosZ="0.0000" ScaleX="21.4000" ScaleY="9.8000" ScaleZ="0.0385" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="59994">
       <ControllerConnection Protocol="ws2811"/>
     </model>
     <model DisplayAs="Spinner" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_SPINNER_05" parm2="10" parm3="5" Hollow="20" Arc="360" LayoutGroup="All Previews" Controller="pixel test controller" WorldPosX="3240.0000" WorldPosY="250.0000" WorldPosZ="0.0000" ScaleX="16.0000" ScaleY="11.0000" ScaleZ="0.0385" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="60153">
@@ -1276,7 +1276,7 @@
     <model DisplayAs="Spinner" StringType="RGB Nodes" StartSide="T" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_SPINNER_07" parm2="10" parm3="5" Hollow="20" Arc="360" LayoutGroup="All Previews" Controller="pixel test controller" WorldPosX="3610.0000" WorldPosY="250.0000" WorldPosZ="0.0000" ScaleX="19.6000" ScaleY="9.8000" ScaleZ="0.0385" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="60471">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model DisplayAs="Spinner" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_SPINNER_08" parm2="10" parm3="5" Hollow="20" Arc="360" LayoutGroup="All Previews" Controller="pixel test controller" WorldPosX="3795.0000" WorldPosY="274.0000" WorldPosZ="0.0000" ScaleX="21.4000" ScaleY="11.0000" ScaleZ="0.0385" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="60630">
+    <model DisplayAs="Spinner" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_SPINNER_08" parm2="10" parm3="5" Hollow="20" Arc="360" LayoutGroup="All Previews" Controller="pixel test controller" WorldPosX="3763.5266" WorldPosY="242.5271" WorldPosZ="0.0000" ScaleX="21.4000" ScaleY="11.0000" ScaleZ="0.0385" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="60630">
       <ControllerConnection Protocol="ws2811"/>
     </model>
     <model DisplayAs="Spinner" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_SPINNER_09" parm2="10" parm3="5" Hollow="20" Arc="360" LayoutGroup="All Previews" Controller="pixel test controller" WorldPosX="3980.0000" WorldPosY="250.0000" WorldPosZ="0.0000" ScaleX="16.0000" ScaleY="12.2000" ScaleZ="0.0385" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="60789">
@@ -1291,28 +1291,28 @@
     <model DisplayAs="Spinner" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_SPINNER_12" parm2="10" parm3="5" Hollow="20" Arc="360" LayoutGroup="All Previews" Controller="pixel test controller" WorldPosX="4535.0000" WorldPosY="274.0000" WorldPosZ="0.0000" ScaleX="21.4000" ScaleY="12.2000" ScaleZ="0.0385" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="61266">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" name="NBH_RIGHT_MEGA_TREE_01" DisplayAs="Tree 360" Controller="No Controller" parm1="16" parm2="65" parm3="1" LayoutGroup="Unassigned" WorldPosX="2650.0000" WorldPosY="1030.0000" WorldPosZ="0.0000" ScaleX="2.2000" ScaleY="2.0000" ScaleZ="2.0837" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="309875">
+    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" name="NBH_RIGHT_MEGA_TREE_01" DisplayAs="Tree 360" Controller="No Controller" parm1="16" parm2="65" parm3="1" LayoutGroup="Unassigned" WorldPosX="4545.3721" WorldPosY="-403.7680" WorldPosZ="0.0000" ScaleX="2.2000" ScaleY="2.0000" ScaleZ="2.0837" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="173604">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="73" parm3="1" name="NBH_RIGHT_MEGA_TREE_02" parm1="16" DisplayAs="Tree 360" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="2900.0000" WorldPosY="1085.0000" WorldPosZ="0.0000" ScaleX="2.4500" ScaleY="2.2200" ScaleZ="2.7813" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="64554">
+    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="73" parm3="1" name="NBH_RIGHT_MEGA_TREE_02" parm1="16" DisplayAs="Tree 360" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="5235.9927" WorldPosY="-320.7921" WorldPosZ="0.0000" ScaleX="2.4500" ScaleY="2.2200" ScaleZ="2.7813" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="64554">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="81" parm3="1" name="NBH_RIGHT_MEGA_TREE_03" parm1="16" Controller="pixel test controller" LayoutGroup="All Previews" DisplayAs="Tree 360" TreeSpiralRotations="6.000000" WorldPosX="3150.0000" WorldPosY="1160.0000" WorldPosZ="0.0000" ScaleX="2.7000" ScaleY="2.4400" ScaleZ="2.8440" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="68067">
+    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="81" parm3="1" name="NBH_RIGHT_MEGA_TREE_03" parm1="16" Controller="pixel test controller" LayoutGroup="All Previews" DisplayAs="Tree 360" TreeSpiralRotations="6.000000" WorldPosX="5898.6387" WorldPosY="-245.7921" WorldPosZ="0.0000" ScaleX="2.7000" ScaleY="2.4400" ScaleZ="2.8440" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="68067">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" name="NBH_RIGHT_MEGA_TREE_04" DisplayAs="Tree 360" Controller="No Controller" parm1="16" parm2="89" parm3="1" LayoutGroup="Unassigned" WorldPosX="3400.0000" WorldPosY="1225.0000" WorldPosZ="0.0000" ScaleX="2.9500" ScaleY="2.6600" ScaleZ="2.0837" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="312995">
+    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" name="NBH_RIGHT_MEGA_TREE_04" DisplayAs="Tree 360" Controller="No Controller" parm1="16" parm2="89" parm3="1" LayoutGroup="Unassigned" WorldPosX="6568.2783" WorldPosY="-82.8763" WorldPosZ="0.0000" ScaleX="2.9500" ScaleY="2.6600" ScaleZ="2.0837" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="176724">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="97" parm3="1" name="NBH_RIGHT_MEGA_TREE_05" parm1="16" DisplayAs="Tree 360" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="3650.0000" WorldPosY="1300.0000" WorldPosZ="0.0000" ScaleX="3.2000" ScaleY="2.8800" ScaleZ="2.7813" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="76245">
+    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="97" parm3="1" name="NBH_RIGHT_MEGA_TREE_05" parm1="16" DisplayAs="Tree 360" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="7174.9707" WorldPosY="138.9976" WorldPosZ="0.0000" ScaleX="3.2000" ScaleY="2.8800" ScaleZ="2.7813" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="76245">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model DisplayAs="Sphere" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_GLOBE_01" parm1="12" parm2="12" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="2840.0000" WorldPosY="1560.0000" WorldPosZ="0.0000" ScaleX="190.0000" ScaleY="95.0000" ScaleZ="251.7477" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="80910">
+    <model DisplayAs="Sphere" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_GLOBE_01" parm1="12" parm2="12" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="6295.0312" WorldPosY="1021.4627" WorldPosZ="0.0000" ScaleX="190.0000" ScaleY="95.0000" ScaleZ="251.7477" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="80910">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model DisplayAs="Sphere" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_GLOBE_02" parm1="14" parm2="14" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="3300.0000" WorldPosY="1490.0000" WorldPosZ="0.0000" ScaleX="215.0000" ScaleY="107.0000" ScaleZ="251.7477" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="81351">
+    <model DisplayAs="Sphere" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_GLOBE_02" parm1="14" parm2="14" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="6258.4570" WorldPosY="1133.3068" WorldPosZ="0.0000" ScaleX="215.0000" ScaleY="107.0000" ScaleZ="251.7477" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="81351">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model DisplayAs="Sphere" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_GLOBE_03" parm1="16" parm2="16" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="3760.0000" WorldPosY="1560.0000" WorldPosZ="0.0000" ScaleX="240.0000" ScaleY="119.0000" ScaleZ="251.7477" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="81948">
+    <model DisplayAs="Sphere" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_GLOBE_03" parm1="16" parm2="16" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="6270.8423" WorldPosY="1245.2705" WorldPosZ="0.0000" ScaleX="240.0000" ScaleY="119.0000" ScaleZ="251.7477" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="81948">
       <ControllerConnection Protocol="ws2811"/>
     </model>
     <model DisplayAs="Star" StringType="RGB Nodes" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_STAR_01" parm3="5" StarStartLocation="Bottom Ctr-CW" parm2="42" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="2715.0000" WorldPosY="1390.0000" WorldPosZ="0.0000" ScaleX="9.5000" ScaleY="9.2000" ScaleZ="0.0400" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="82725">
@@ -1324,25 +1324,25 @@
     <model DisplayAs="Star" StringType="RGB Nodes" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_STAR_03" parm3="5" StarStartLocation="Bottom Ctr-CW" parm2="54" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="3225.0000" WorldPosY="1390.0000" WorldPosZ="0.0000" ScaleX="13.1000" ScaleY="9.2000" ScaleZ="0.0400" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="83013">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model DisplayAs="Star" StringType="RGB Nodes" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_STAR_04" parm3="5" StarStartLocation="Bottom Ctr-CW" parm2="60" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="3480.0000" WorldPosY="1435.0000" WorldPosZ="0.0000" ScaleX="9.5000" ScaleY="10.8000" ScaleZ="0.0400" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="83184">
+    <model DisplayAs="Star" StringType="RGB Nodes" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_STAR_04" parm3="5" StarStartLocation="Bottom Ctr-CW" parm2="60" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="5277.4546" WorldPosY="1749.7299" WorldPosZ="0.0000" ScaleX="9.5000" ScaleY="10.8000" ScaleZ="0.0400" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="83184">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model DisplayAs="Star" StringType="RGB Nodes" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_STAR_05" parm3="5" StarStartLocation="Bottom Ctr-CW" parm2="66" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="3735.0000" WorldPosY="1390.0000" WorldPosZ="0.0000" ScaleX="11.3000" ScaleY="9.2000" ScaleZ="0.0400" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="83373">
+    <model DisplayAs="Star" StringType="RGB Nodes" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_STAR_05" parm3="5" StarStartLocation="Bottom Ctr-CW" parm2="66" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="5252.6963" WorldPosY="1662.7660" WorldPosZ="0.0000" ScaleX="11.3000" ScaleY="9.2000" ScaleZ="0.0400" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="83373">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model DisplayAs="Star" StringType="RGB Nodes" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_STAR_06" parm3="5" StarStartLocation="Bottom Ctr-CW" parm2="72" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="3990.0000" WorldPosY="1435.0000" WorldPosZ="0.0000" ScaleX="13.1000" ScaleY="10.8000" ScaleZ="0.0400" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="83580">
+    <model DisplayAs="Star" StringType="RGB Nodes" Antialias="1" PixelSize="2" Transparency="0" parm1="1" name="NBH_RIGHT_STAR_06" parm3="5" StarStartLocation="Bottom Ctr-CW" parm2="72" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="5381.8037" WorldPosY="1791.6935" WorldPosZ="0.0000" ScaleX="13.1000" ScaleY="10.8000" ScaleZ="0.0400" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="83580">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_TUNNEL_ARCH_01" parm1="4" parm2="42" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="3000.0000" WorldPosY="620.0000" WorldPosZ="0.0000" X2="220.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="317267">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_TUNNEL_ARCH_01" parm1="4" parm2="42" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="3000.0000" WorldPosY="620.0000" WorldPosZ="0.0000" X2="220.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="180996">
       <ControllerConnection/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_TUNNEL_ARCH_02" parm1="5" parm2="42" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="3260.0000" WorldPosY="644.0000" WorldPosZ="0.0000" X2="240.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="317771">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_TUNNEL_ARCH_02" parm1="5" parm2="42" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="3260.0000" WorldPosY="644.0000" WorldPosZ="0.0000" X2="240.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="181500">
       <ControllerConnection/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_TUNNEL_ARCH_03" parm1="6" parm2="42" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="3520.0000" WorldPosY="668.0000" WorldPosZ="0.0000" X2="260.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="318401">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_TUNNEL_ARCH_03" parm1="6" parm2="42" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="3520.0000" WorldPosY="668.0000" WorldPosZ="0.0000" X2="260.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="182130">
       <ControllerConnection/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_TUNNEL_ARCH_04" parm1="7" parm2="42" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="3780.0000" WorldPosY="692.0000" WorldPosZ="0.0000" X2="280.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="319157">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_TUNNEL_ARCH_04" parm1="7" parm2="42" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="3780.0000" WorldPosY="692.0000" WorldPosZ="0.0000" X2="280.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="182886">
       <ControllerConnection/>
     </model>
     <model StringType="RGB Nodes" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_RIGHT_SINGING_FACE_01_PANEL" StartSide="T" DisplayAs="Horiz Matrix" parm1="24" parm2="42" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="2550.0000" WorldPosY="885.0000" WorldPosZ="0.0000" ScaleX="4.9796" ScaleY="9.1458" ScaleZ="0.0159" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="86613">
@@ -1420,28 +1420,28 @@
     <model DisplayAs="Candy Canes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" name="NBH_LEFT_CANE_SET_08" parm1="8" parm3="50" CustomColor="#000000" StringType="RGB Nodes" parm2="42" CandyCaneHeight="1.000000" LayoutGroup="All Previews" Controller="pixel test controller" WorldPosX="-4270.0000" WorldPosY="246.0000" WorldPosZ="0.0000" X2="245.000000" Y2="-6.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="122613">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_01" parm1="5" parm2="34" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-3000.0000" WorldPosY="530.0000" WorldPosZ="0.0000" X2="190.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="300797">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_01" parm1="5" parm2="34" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-3000.0000" WorldPosY="530.0000" WorldPosZ="0.0000" X2="190.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="164526">
       <ControllerConnection/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_02" parm1="6" parm2="40" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-3215.0000" WorldPosY="570.0000" WorldPosZ="0.0000" X2="196.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="301307">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_02" parm1="6" parm2="40" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-3215.0000" WorldPosY="570.0000" WorldPosZ="0.0000" X2="196.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="165036">
       <ControllerConnection/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_03" parm1="7" parm2="46" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-3430.0000" WorldPosY="530.0000" WorldPosZ="0.0000" X2="202.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="302027">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_03" parm1="7" parm2="46" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-3430.0000" WorldPosY="530.0000" WorldPosZ="0.0000" X2="202.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="165756">
       <ControllerConnection/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_04" parm1="5" parm2="34" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-3645.0000" WorldPosY="570.0000" WorldPosZ="0.0000" X2="208.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="302993">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_04" parm1="5" parm2="34" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-3645.0000" WorldPosY="570.0000" WorldPosZ="0.0000" X2="208.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="166722">
       <ControllerConnection/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_05" parm1="6" parm2="40" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-3860.0000" WorldPosY="530.0000" WorldPosZ="0.0000" X2="214.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="303503">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_05" parm1="6" parm2="40" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-3860.0000" WorldPosY="530.0000" WorldPosZ="0.0000" X2="214.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="167232">
       <ControllerConnection/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_06" parm1="7" parm2="46" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-4075.0000" WorldPosY="570.0000" WorldPosZ="0.0000" X2="220.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="304223">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_06" parm1="7" parm2="46" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-4075.0000" WorldPosY="570.0000" WorldPosZ="0.0000" X2="220.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="167952">
       <ControllerConnection/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_07" parm1="5" parm2="34" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-4290.0000" WorldPosY="530.0000" WorldPosZ="0.0000" X2="226.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="305189">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="R" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_07" parm1="5" parm2="34" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-4290.0000" WorldPosY="530.0000" WorldPosZ="0.0000" X2="226.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="168918">
       <ControllerConnection/>
     </model>
-    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_08" parm1="6" parm2="40" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-4505.0000" WorldPosY="570.0000" WorldPosZ="0.0000" X2="232.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="305699">
+    <model DisplayAs="Arches" StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm3="1" name="NBH_LEFT_ARCH_08" parm1="6" parm2="40" LayoutGroup="All Previews" Controller="No Controller" WorldPosX="-4505.0000" WorldPosY="570.0000" WorldPosZ="0.0000" X2="232.000000" Y2="-4.000000" Z2="0.000000" RotateX="0.00000000" Height="1.000000" Angle="0" versionNumber="7" StartChannel="169428">
       <ControllerConnection/>
     </model>
     <model DisplayAs="Circle" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm3="50" InsideOut="0" LayoutGroup="Default" parm2="15" StringType="RGB Nodes" CustomColor="#FFFFFF" name="NBH_LEFT_CIRCLE_01" TagColour="white" WorldPosX="-3260.0000" WorldPosY="1245.0000" WorldPosZ="0.0000" ScaleX="2.2080" ScaleY="1.9743" ScaleZ="0.0714" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="129324">
@@ -1489,7 +1489,7 @@
     <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="56" parm3="1" name="NBH_LEFT_TREE_02" parm1="16" Controller="pixel test controller" LayoutGroup="All Previews" DisplayAs="Tree 360" TreeSpiralRotations="6.000000" WorldPosX="-3260.0000" WorldPosY="1545.0000" WorldPosZ="0.0000" ScaleX="2.4000" ScaleY="2.3200" ScaleZ="2.8440" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="135885">
       <ControllerConnection Protocol="ws2811"/>
     </model>
-    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" name="NBH_LEFT_TREE_03" DisplayAs="Tree 360" Controller="No Controller" parm1="18" parm2="64" parm3="1" LayoutGroup="Unassigned" WorldPosX="-3670.0000" WorldPosY="1480.0000" WorldPosZ="0.0000" ScaleX="2.6000" ScaleY="2.5400" ScaleZ="2.0837" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="306419">
+    <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" name="NBH_LEFT_TREE_03" DisplayAs="Tree 360" Controller="No Controller" parm1="18" parm2="64" parm3="1" LayoutGroup="Unassigned" WorldPosX="-3670.0000" WorldPosY="1480.0000" WorldPosZ="0.0000" ScaleX="2.6000" ScaleY="2.5400" ScaleZ="2.0837" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="170148">
       <ControllerConnection Protocol="ws2811"/>
     </model>
     <model StringType="RGB Nodes" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm2="72" parm3="1" name="NBH_LEFT_TREE_04" parm1="20" DisplayAs="Tree 360" Controller="pixel test controller" LayoutGroup="All Previews" WorldPosX="-4080.0000" WorldPosY="1415.0000" WorldPosZ="0.0000" ScaleX="2.8000" ScaleY="2.7600" ScaleZ="2.7813" RotateX="0.00000000" RotateY="0.00000000" RotateZ="0.00000000" versionNumber="7" StartChannel="142047">
@@ -1827,12 +1827,13 @@
     <backgroundImage value="C:\Users\User\Desktop\Untitled.jpg"/>
     <backgroundBrightness value="100"/>
     <scaleImage value="1"/>
-    <LayoutMode3D value="0"/>
     <backgroundAlpha value="36"/>
-    <previewWidth value="1366"/>
-    <previewHeight value="768"/>
     <storedLayoutGroup value="All Models"/>
     <defaultSeqView value=""/>
+    <LayoutMode3D value="1"/>
+    <Display2DCenter0 value="0"/>
+    <previewWidth value="3000"/>
+    <previewHeight value="1500"/>
   </settings>
   <colors>
     <DisabledEffect Red="200" Green="200" Blue="0"/>

@@ -1,0 +1,33 @@
+name: Unit Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest numpy scipy scikit-learn librosa soundfile numba llvmlite
+
+      - name: Run unit tests
+        env:
+          PYTHONPATH: .
+        run: |
+          python -m pytest

@@ -1,0 +1,30 @@
+{
+  "layout_name": "helixville",
+  "source_layout": "C:\\Users\\User\\Desktop\\414\\allmodels\\xlights_rgbeffects.xml",
+  "gps_layout": "C:\\Users\\User\\Desktop\\414\\xlights_rgbeffects.xml",
+  "output_layout": "C:\\Users\\User\\Desktop\\414\\helixville\\xlights_rgbeffects.xml",
+  "output_xbkp": "C:\\Users\\User\\Desktop\\414\\helixville\\xlights_rgbeffects.xbkp",
+  "model_count": 368,
+  "updated_model_count": 368,
+  "gps_anchor_model_count": 256,
+  "gps_anchors_applied": 256,
+  "district_counts": {
+    "gps_house_ac": 256,
+    "neighbor_left": 47,
+    "neighbor_right": 39,
+    "village_accents": 3,
+    "village_matrix": 4,
+    "village_misc": 6,
+    "village_motion": 2,
+    "village_structures": 11
+  },
+  "z_range": {
+    "min": -240.0,
+    "max": 240.0
+  },
+  "notes": [
+    "Helixville is seeded from GP's House + allmodels neighbors when present.",
+    "GP core AC-focused models remain on Z=0 as layout reference anchors.",
+    "Neighbor and showcase districts are depth-layered for 3D validation."
+  ]
+}
