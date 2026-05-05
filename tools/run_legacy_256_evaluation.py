@@ -117,12 +117,11 @@ def run_evaluation(args: argparse.Namespace) -> Legacy256EvaluationReport:
         lms_report = inspect_lms(args.lms)
         lms_payload = lms_report.to_dict()
         warnings.extend(str(item) for item in lms_payload.get("warnings", []) or [])
-    else:
-        steps.append(Legacy256EvaluationStep(name="inspect_lms", skipped=True, notes=["No --lms path provided."]))
 
-    for required_path, label in ((args.template, "template"), (args.audio, "audio"), (args.layout_file, "layout_file")):
-        if not args.dry_run and not Path(required_path).exists():
-            errors.append(f"Missing {label}: {required_path}")
+    if not args.dry_run and not args.skip_runs:
+        for required_path, label in ((args.template, "template"), (args.audio, "audio"), (args.layout_file, "layout_file")):
+            if not Path(required_path).exists():
+                errors.append(f"Missing {label}: {required_path}")
 
     if not errors and not args.skip_runs:
         for profile in args.profiles:
@@ -136,7 +135,7 @@ def run_evaluation(args: argparse.Namespace) -> Legacy256EvaluationReport:
                 dry_run=False,
             )
             if args.dry_run:
-                steps.append(Legacy256EvaluationStep(name=f"run_{profile}", command=command, skipped=True, notes=["dry_run"] ))
+                steps.append(Legacy256EvaluationStep(name=f"run_{profile}", command=command, skipped=True, notes=["dry_run"]))
             else:
                 completed = subprocess.run(command, check=False)
                 steps.append(Legacy256EvaluationStep(name=f"run_{profile}", command=command, returncode=int(completed.returncode)))
@@ -154,7 +153,7 @@ def run_evaluation(args: argparse.Namespace) -> Legacy256EvaluationReport:
         else:
             warnings.append("No generated report files found for comparison.")
     else:
-        steps.append(Legacy256EvaluationStep(name="compare_reports", skipped=True, notes=["dry_run"] ))
+        steps.append(Legacy256EvaluationStep(name="compare_reports", skipped=True, notes=["dry_run"]))
 
     return Legacy256EvaluationReport(
         dry_run=bool(args.dry_run),
