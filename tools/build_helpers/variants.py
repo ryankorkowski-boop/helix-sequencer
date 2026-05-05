@@ -29,9 +29,15 @@ DEFAULT_MIN_QUALITY_SCORE = 90.0
 DEFAULT_SHOWCASE_MIN_AUDIT_SCORE = 86.0
 DEFAULT_SHOWCASE_MAX_REJECTED_EFFECTS = 18000
 DEFAULT_SHOWCASE_MIN_QUALITY_SCORE = 93.0
-DEFAULT_VENDOR_MIN_AUDIT_SCORE = 90.0
-DEFAULT_VENDOR_MAX_REJECTED_EFFECTS = 12000
-DEFAULT_VENDOR_MIN_QUALITY_SCORE = 96.0
+DEFAULT_PRO_MIN_AUDIT_SCORE = 90.0
+DEFAULT_PRO_MAX_REJECTED_EFFECTS = 12000
+DEFAULT_PRO_MIN_QUALITY_SCORE = 96.0
+
+# Backward-compatible constant aliases. Existing engine flags still use the
+# historical names, but user-facing calibration language should prefer "pro".
+DEFAULT_VENDOR_MIN_AUDIT_SCORE = DEFAULT_PRO_MIN_AUDIT_SCORE
+DEFAULT_VENDOR_MAX_REJECTED_EFFECTS = DEFAULT_PRO_MAX_REJECTED_EFFECTS
+DEFAULT_VENDOR_MIN_QUALITY_SCORE = DEFAULT_PRO_MIN_QUALITY_SCORE
 
 QUALITY_GATE_PRESETS: dict[str, QualityGatePreset] = {
     "general": QualityGatePreset(
@@ -46,11 +52,18 @@ QUALITY_GATE_PRESETS: dict[str, QualityGatePreset] = {
         min_audit_score=DEFAULT_SHOWCASE_MIN_AUDIT_SCORE,
         max_rejected_effects=DEFAULT_SHOWCASE_MAX_REJECTED_EFFECTS,
     ),
+    "pro": QualityGatePreset(
+        name="pro",
+        min_quality_score=DEFAULT_PRO_MIN_QUALITY_SCORE,
+        min_audit_score=DEFAULT_PRO_MIN_AUDIT_SCORE,
+        max_rejected_effects=DEFAULT_PRO_MAX_REJECTED_EFFECTS,
+    ),
+    # Backward-compatible alias for older prompts/scripts. New docs/tests should use "pro".
     "vendor": QualityGatePreset(
-        name="vendor",
-        min_quality_score=DEFAULT_VENDOR_MIN_QUALITY_SCORE,
-        min_audit_score=DEFAULT_VENDOR_MIN_AUDIT_SCORE,
-        max_rejected_effects=DEFAULT_VENDOR_MAX_REJECTED_EFFECTS,
+        name="pro",
+        min_quality_score=DEFAULT_PRO_MIN_QUALITY_SCORE,
+        min_audit_score=DEFAULT_PRO_MIN_AUDIT_SCORE,
+        max_rejected_effects=DEFAULT_PRO_MAX_REJECTED_EFFECTS,
     ),
 }
 
