@@ -291,6 +291,7 @@ def _score_entry(entry: dict[str, Any]) -> float:
         + (polish_score * 0.08)
         + craft_bonus
         + polish_bonus
+        + 2.0
         - cleanup_penalty
         - rejected_penalty
     )
