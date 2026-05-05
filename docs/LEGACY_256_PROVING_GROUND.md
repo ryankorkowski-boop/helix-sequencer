@@ -88,15 +88,24 @@ Measure:
 - overlap/clutter
 - density restraint
 
-## 6. Profile Direction
+## 6. Implemented Profiles
 
-Create original Helix legacy profiles:
+Helix now has original Legacy 256 profile wrappers:
 
 - `legacy_256_clean`
 - `legacy_256_showcase`
 - `legacy_256_pro`
 
-These profiles should prioritize:
+They use the existing engine path and constrained defaults:
+
+- base profile `v9.2`
+- no matrix intelligence
+- no auto timing tracks
+- no workspace history
+- no save settings
+- single output mode
+
+These profiles prioritize:
 
 - on/fade/chase style effects
 - section clarity
@@ -107,33 +116,108 @@ These profiles should prioritize:
 - channel-family coverage
 - AC-safe brightness/flash behavior
 
-They should avoid:
+They avoid:
 
 - pixel-only effects
 - matrix assumptions
 - face/phoneme assumptions unless the layout has face channels
 - uncontrolled full-layout flashing
 
-## 7. First Workflow
+## 7. Local Setup
 
-1. Put the GP LMS locally under `local_fixtures/legacy_256/source_lms/`.
-2. Run LMS inspection.
-3. Import/convert the LMS into xLights if needed.
-4. Save converted working files under `fixtures/legacy_256/converted/` only if permission allows.
-5. Run Helix with the showcase preset against the 256 layout.
-6. Compare reports.
+Put local-only assets here:
 
-Example command after converted xLights files exist:
-
-```bash
-PYTHONPATH=. python -m tools.run_sequence_with_quality_preset --quality-gate-preset showcase -- --profile legacy_256_showcase -- --template fixtures/legacy_256/converted/template.xsq --audio local_fixtures/legacy_256/audio/song.mp3 --layout-file fixtures/legacy_256/converted/xlights_rgbeffects.xml --single --output-dir test_runs/legacy_256_showcase --variants 3
+```text
+local_fixtures/legacy_256/source_lms/GP_sequence.lms
+local_fixtures/legacy_256/audio/song.mp3
 ```
 
-## 8. Next Engineering Steps
+Put converted xLights working files here when available and permitted:
 
-1. Add a fixture manifest schema.
-2. Add an LMS inspection tool.
-3. Add tests using tiny synthetic LMS snippets.
-4. Add legacy 256 profile definitions.
-5. Add report comparison tooling.
-6. Run the first real baseline locally.
+```text
+fixtures/legacy_256/converted/template.xsq
+fixtures/legacy_256/converted/xlights_rgbeffects.xml
+```
+
+## 8. Inspect The GP LMS Locally
+
+```bash
+PYTHONPATH=. python -m tools.inspect_lms local_fixtures/legacy_256/source_lms/GP_sequence.lms --output test_runs/legacy_256_lms_inspection.json
+```
+
+## 9. Dry-Run Individual Profiles
+
+```bash
+PYTHONPATH=. python -m tools.run_legacy_256_profile legacy_256_clean --dry-run
+PYTHONPATH=. python -m tools.run_legacy_256_profile legacy_256_showcase --dry-run
+PYTHONPATH=. python -m tools.run_legacy_256_profile legacy_256_pro --dry-run
+```
+
+## 10. Run Individual Profiles
+
+```bash
+PYTHONPATH=. python -m tools.run_legacy_256_profile legacy_256_showcase \
+  --template fixtures/legacy_256/converted/template.xsq \
+  --audio local_fixtures/legacy_256/audio/song.mp3 \
+  --layout-file fixtures/legacy_256/converted/xlights_rgbeffects.xml \
+  --output-dir test_runs/legacy_256_showcase
+```
+
+## 11. Compare Reports
+
+```bash
+PYTHONPATH=. python -m tools.compare_legacy_256_reports \
+  test_runs/legacy_256_clean/*.report.json \
+  test_runs/legacy_256_showcase/*.report.json \
+  test_runs/legacy_256_pro/*.report.json \
+  --output test_runs/legacy_256_comparison.json
+```
+
+## 12. Full Evaluation Dry-Run
+
+```bash
+PYTHONPATH=. python -m tools.run_legacy_256_evaluation \
+  --manifest fixtures/legacy_256/layout_256_manifest.json \
+  --lms local_fixtures/legacy_256/source_lms/GP_sequence.lms \
+  --template fixtures/legacy_256/converted/template.xsq \
+  --audio local_fixtures/legacy_256/audio/song.mp3 \
+  --layout-file fixtures/legacy_256/converted/xlights_rgbeffects.xml \
+  --output-root test_runs/legacy_256_evaluation \
+  --dry-run
+```
+
+## 13. Full Evaluation Real Run
+
+```bash
+PYTHONPATH=. python -m tools.run_legacy_256_evaluation \
+  --manifest fixtures/legacy_256/layout_256_manifest.json \
+  --lms local_fixtures/legacy_256/source_lms/GP_sequence.lms \
+  --template fixtures/legacy_256/converted/template.xsq \
+  --audio local_fixtures/legacy_256/audio/song.mp3 \
+  --layout-file fixtures/legacy_256/converted/xlights_rgbeffects.xml \
+  --output-root test_runs/legacy_256_evaluation
+```
+
+## 14. First Local Checkpoint
+
+The first successful checkpoint is:
+
+```text
+test_runs/legacy_256_evaluation/legacy_256_evaluation.json
+```
+
+It should contain:
+
+- manifest validation
+- optional LMS inspection
+- clean/showcase/pro run steps
+- comparison winner
+- warnings/errors
+
+## 15. Next Engineering Steps
+
+1. Run the full evaluation dry-run locally.
+2. Fix any missing path or conversion issues.
+3. Run the real evaluation.
+4. Inspect `legacy_256_evaluation.json` and the winning `.report.json`.
+5. Calibrate the existing engine weights based on actual rejected-effect, clutter, overlap, and section-coverage numbers.
