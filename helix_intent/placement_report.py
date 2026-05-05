@@ -17,6 +17,7 @@ class PlacementExportReport:
     prop_effect_intents: list[dict[str, Any]] = field(default_factory=list)
     planner_report: dict[str, Any] = field(default_factory=dict)
     validation_report: dict[str, Any] = field(default_factory=dict)
+    quality_report: dict[str, Any] = field(default_factory=dict)
     warnings: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
@@ -42,6 +43,7 @@ def _warnings_for_report(
     placements: list[PropEffectIntent],
     planner_report: PlacementPlanReport,
     validation_report: Mapping[str, Any] | None = None,
+    quality_report: Mapping[str, Any] | None = None,
 ) -> list[str]:
     warnings: list[str] = []
     if not intents:
@@ -56,6 +58,8 @@ def _warnings_for_report(
         warnings.append("Visual intents produced no prop-effect intents.")
     if validation_report and not bool(validation_report.get("passed", True)):
         warnings.append("Placement validation did not pass.")
+    if quality_report and str(quality_report.get("grade", "")) == "blocked":
+        warnings.append("Placement quality grade is blocked.")
     return warnings
 
 
@@ -66,23 +70,27 @@ def build_placement_export_report(
     prop_effect_intents: Iterable[PropEffectIntent],
     planner_report: PlacementPlanReport,
     validation_report: Mapping[str, Any] | None = None,
+    quality_report: Mapping[str, Any] | None = None,
 ) -> PlacementExportReport:
     intents = list(visual_intents)
     candidate_list = list(candidates)
     placement_list = list(prop_effect_intents)
     validation_payload = dict(validation_report or {})
+    quality_payload = dict(quality_report or {})
     return PlacementExportReport(
         visual_intents=[intent.to_dict() for intent in intents],
         candidates=[_candidate_to_dict(candidate) for candidate in candidate_list],
         prop_effect_intents=[placement.to_dict() for placement in placement_list],
         planner_report=planner_report.to_dict(),
         validation_report=validation_payload,
+        quality_report=quality_payload,
         warnings=_warnings_for_report(
             intents=intents,
             candidates=candidate_list,
             placements=placement_list,
             planner_report=planner_report,
             validation_report=validation_payload,
+            quality_report=quality_payload,
         ),
     )
 
