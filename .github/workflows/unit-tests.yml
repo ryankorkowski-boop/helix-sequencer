@@ -1,15 +1,53 @@
-name: Unit Tests
+name: Helix CI
 
 on:
   pull_request:
   push:
     branches:
       - "**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: helix-ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test:
+  source-hygiene:
+    name: Source hygiene gate
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Block audit-questionable retained guidance
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Checking for retained source-derived guidance markers..."
+          blocked_regex='training_mode|training_use|vendor benchmark|YouTube-grade|YouTube-style|creator-specific|source-specific choreography|paid sequence training|transcript dump|preview_and_metadata|own_generated_only|vendor_manifest'
+          if grep -RInE "$blocked_regex" \
+            --include='*.md' \
+            --include='*.py' \
+            --include='*.json' \
+            --exclude-dir='.git' \
+            --exclude-dir='test_runs' \
+            --exclude-dir='outputs' \
+            .; then
+            echo "::error::Found audit-questionable source/training language. Remove or rewrite as source-agnostic policy."
+            exit 1
+          fi
+          echo "Source hygiene gate passed."
+
+  tests:
+    name: Python tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: source-hygiene
 
     steps:
       - name: Checkout
@@ -26,8 +64,59 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pytest numpy scipy scikit-learn librosa soundfile numba llvmlite
 
-      - name: Run unit tests
+      - name: Compile Python files
+        run: |
+          python -m compileall -q .
+
+      - name: Run full unit test suite
         env:
           PYTHONPATH: .
         run: |
           python -m pytest
+
+  roadmap-smoke:
+    name: Roadmap smoke gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: tests
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest numpy scipy scikit-learn librosa soundfile numba llvmlite
+
+      - name: Run Helix roadmap-targeted tests when present
+        shell: bash
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          tests_to_run=()
+          for test_file in \
+            tests/test_helixia_layout.py \
+            tests/test_professional_sequence_intelligence.py \
+            tests/test_core_sandbox.py \
+            tests/test_build_helpers.py; do
+            if [[ -f "$test_file" ]]; then
+              tests_to_run+=("$test_file")
+            fi
+          done
+
+          if (( ${#tests_to_run[@]} == 0 )); then
+            echo "No roadmap-targeted tests found yet. Full suite already ran."
+            exit 0
+          fi
+
+          printf 'Running roadmap-targeted tests:\n'
+          printf ' - %s\n' "${tests_to_run[@]}"
+          python -m pytest "${tests_to_run[@]}" -q
