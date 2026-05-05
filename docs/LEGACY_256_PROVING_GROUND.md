@@ -62,9 +62,9 @@ Allowed role, with permission:
 Not allowed by default:
 
 - copying choreography
-- extracting creator-specific style rules
+- converting source-specific habits into active rules
 - redistributing source LMS
-- training from the LMS without clear permission scope
+- using the LMS outside the documented permission scope
 
 ## 5. Calibration Goal
 
