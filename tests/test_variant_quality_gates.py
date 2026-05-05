@@ -7,7 +7,10 @@ from tools.build_helpers.variants import (
     DEFAULT_VENDOR_MIN_AUDIT_SCORE,
     DEFAULT_VENDOR_MIN_QUALITY_SCORE,
     choose_best_candidate,
+    choose_best_candidate_with_preset,
+    evaluate_quality_gate_preset,
     evaluate_quality_gates,
+    quality_gate_preset,
 )
 
 
@@ -93,6 +96,23 @@ class VariantQualityGateTests(unittest.TestCase):
         self.assertIn("audit_below_threshold<90.0", result["reasons"])
         self.assertIn("rejected_effects_above_threshold>12000", result["reasons"])
 
+    def test_showcase_preset_sits_between_general_and_vendor(self) -> None:
+        general = quality_gate_preset("general")
+        showcase = quality_gate_preset("showcase")
+        vendor = quality_gate_preset("vendor")
+
+        self.assertLess(general.min_quality_score, showcase.min_quality_score)
+        self.assertLess(showcase.min_quality_score, vendor.min_quality_score)
+        self.assertGreater(general.max_rejected_effects, showcase.max_rejected_effects)
+        self.assertGreater(showcase.max_rejected_effects, vendor.max_rejected_effects)
+
+    def test_evaluate_quality_gate_preset_reports_preset_name(self) -> None:
+        result = evaluate_quality_gate_preset(_entry(quality=92.0, audit=86.0, rejected=1000), "showcase")
+
+        self.assertEqual(result["preset"], "showcase")
+        self.assertFalse(result["passed"])
+        self.assertIn("quality_below_threshold<93.0", result["reasons"])
+
     def test_choose_best_candidate_prefers_gate_pass_over_raw_score(self) -> None:
         flashy_fail = _entry(
             quality=99.0,
@@ -152,6 +172,30 @@ class VariantQualityGateTests(unittest.TestCase):
         self.assertIsNotNone(best)
         self.assertEqual(best["label"], "musical")
         self.assertGreater(float(best["shortlist_score"]), 0.0)
+
+    def test_rejected_effect_penalty_breaks_tie_between_similar_candidates(self) -> None:
+        messy = _entry(label="messy", rejected=20000, quality=94.0, audit=88.0)
+        cleaner = _entry(label="cleaner", rejected=1000, quality=94.0, audit=88.0)
+
+        best = choose_best_candidate(
+            [messy, cleaner],
+            min_quality_score=90.0,
+            min_audit_score=80.0,
+            max_rejected_effects=28000,
+        )
+
+        self.assertIsNotNone(best)
+        self.assertEqual(best["label"], "cleaner")
+        self.assertGreater(float(best["shortlist_score"]), 0.0)
+
+    def test_choose_best_candidate_with_showcase_preset_marks_preset(self) -> None:
+        candidate = _entry(label="showcase_ready", quality=94.0, audit=88.0, rejected=1000)
+
+        best = choose_best_candidate_with_preset([candidate], "showcase")
+
+        self.assertIsNotNone(best)
+        self.assertTrue(best["quality_gate_passed"])
+        self.assertEqual(best["quality_gate_preset"], "showcase")
 
 
 if __name__ == "__main__":
