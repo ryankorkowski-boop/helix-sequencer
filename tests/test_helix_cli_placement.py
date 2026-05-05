@@ -41,6 +41,16 @@ class HelixCliPlacementTests(unittest.TestCase):
         self.assertEqual(args.layout_file, "layout.xml")
         self.assertIsNone(args.output)
 
+    def test_parser_exposes_placement_stub_render_command(self) -> None:
+        parser = helix_cli.build_parser()
+        args = parser.parse_args(["placement-stub-render", "song.wav", "layout.xml", "out", "--minimum-quality-score", "0.72"])
+
+        self.assertEqual(args.command, "placement-stub-render")
+        self.assertEqual(args.audio_file, "song.wav")
+        self.assertEqual(args.layout_file, "layout.xml")
+        self.assertEqual(args.output_dir, "out")
+        self.assertEqual(args.minimum_quality_score, 0.72)
+
     @patch("tools.helix_cli.xmp.parse_layout")
     @patch("tools.helix_cli._visual_intents_for_audio")
     def test_placement_plan_command_prints_report(self, mock_intents: Mock, mock_parse_layout: Mock) -> None:
@@ -72,6 +82,31 @@ class HelixCliPlacementTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(payload["schema"], "helix.placement_plan.v1")
         self.assertIn("output", out.getvalue())
+
+    @patch("tools.helix_cli.xmp.parse_layout")
+    @patch("tools.helix_cli._visual_intents_for_audio")
+    def test_placement_stub_render_command_writes_stub_outputs(self, mock_intents: Mock, mock_parse_layout: Mock) -> None:
+        mock_intents.return_value = [_intent()]
+        mock_parse_layout.return_value = Mock(models={"Mega Tree": Mock(type="tree", is_submodel=False)})
+
+        with tempfile.TemporaryDirectory() as tmp:
+            out = io.StringIO()
+            with redirect_stdout(out):
+                code = helix_cli.main([
+                    "placement-stub-render",
+                    "song.wav",
+                    "layout.xml",
+                    tmp,
+                    "--minimum-quality-score",
+                    "0.1",
+                ])
+            report_path = Path(tmp) / "placement_stub_report.json"
+            payload = json.loads(report_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(code, 0)
+        self.assertTrue(payload["permission"]["allowed"])
+        self.assertTrue(payload["rendered"])
+        self.assertIn("placement_stub.xml", out.getvalue())
 
 
 if __name__ == "__main__":
