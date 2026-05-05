@@ -80,6 +80,54 @@ class HelixiaLayoutTests(unittest.TestCase):
             self.assertTrue(all(int(house.get("estimated_cost_usd", 0)) > 0 for house in houses))
             self.assertTrue(all(len(house.get("preferences", [])) >= 2 for house in houses))
 
+    def test_layout_intelligence_metadata_proves_required_roles(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            intelligence = payload["layout_intelligence"]
+
+            self.assertEqual(intelligence["schema"], "helixia.layout_intelligence.v1")
+            self.assertTrue(intelligence["coverage_complete"])
+            self.assertEqual(len(intelligence["house_lots"]), 12)
+            self.assertEqual(intelligence["role_by_model_type"]["arch"], "travel")
+            self.assertEqual(intelligence["role_by_model_type"]["tree"], "hero")
+            self.assertEqual(intelligence["role_by_model_type"]["window_frame"], "structure")
+            self.assertIn("HELIXIA_STAGE", intelligence["required_groups"])
+            self.assertIn("HX_LOT_SNOWMAN_BAND_STAGE", intelligence["required_groups"])
+            self.assertIn("HX_LOT_DJ_RADIO_BOOTH", intelligence["required_groups"])
+
+    def test_layout_intelligence_metadata_proves_performer_models(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            performers = payload["layout_intelligence"]["performer_models"]
+
+            snowman_band = set(performers["snowman_band"])
+            cactus_tubeman = set(performers["cactus_tubeman"])
+
+            self.assertIn("HX_SNOWMAN_BASSIST_BODY", snowman_band)
+            self.assertIn("HX_SNOWMAN_GUITARIST_INSTRUMENT", snowman_band)
+            self.assertIn("HX_SNOWMAN_DRUMMER_INSTRUMENT", snowman_band)
+            self.assertIn("HX_SNOWMAN_SINGER_BODY", snowman_band)
+            self.assertIn("HX_SNOWMAN_SINGER_FEMALE_BODY", snowman_band)
+            self.assertIn("HX_CACTUS_BODY", cactus_tubeman)
+            self.assertIn("HX_CACTUS_FACE", cactus_tubeman)
+            self.assertIn("HX_TUBEMAN_BODY", cactus_tubeman)
+            self.assertIn("HX_TUBEMAN_ARMS", cactus_tubeman)
+            self.assertIn("HX_DJ_BOOTH", cactus_tubeman)
+
+    def test_layout_intelligence_marks_stage_ac_and_2d_readability(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            intelligence = payload["layout_intelligence"]
+            special = {lot["lot_id"]: lot for lot in intelligence["special_lots"]}
+
+            self.assertTrue(special["snowman_band_stage"]["stage_zone"])
+            self.assertTrue(special["dj_radio_booth"]["stage_zone"])
+            self.assertTrue(special["ac_all_white"]["legacy_control_zone"])
+            self.assertTrue(special["ac_rwg"]["legacy_control_zone"])
+            self.assertTrue(intelligence["two_dimensional_readability"]["houses_use_grid"])
+            self.assertTrue(intelligence["two_dimensional_readability"]["performers_use_stage_zone"])
+            self.assertTrue(intelligence["two_dimensional_readability"]["hero_trees_use_separate_lot"])
+
     def test_build_helixia_layout_writes_parseable_xlights_xml(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             payload = build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
