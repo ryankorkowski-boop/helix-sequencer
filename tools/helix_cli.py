@@ -8,6 +8,7 @@ from core import model_parser as xmp
 from core import spatial_scene
 from helix_intent.intent_generator import generate_visual_intents
 from helix_intent.placement_pipeline import build_and_write_placement_plan, build_placement_plan
+from helix_intent.placement_stub_renderer import render_placement_stub_xml
 from helix_knowledge.cli import main as knowledge_cli_main
 from helix_layout.layout_health import build_layout_health_report
 from helix_music.section_planner import plan_song_sections
@@ -29,6 +30,11 @@ def build_parser() -> argparse.ArgumentParser:
     placement.add_argument("audio_file")
     placement.add_argument("layout_file")
     placement.add_argument("--output", help="Optional JSON output path for the placement plan")
+    stub = sub.add_parser("placement-stub-render")
+    stub.add_argument("audio_file")
+    stub.add_argument("layout_file")
+    stub.add_argument("output_dir")
+    stub.add_argument("--minimum-quality-score", type=float, default=0.6)
     preview = sub.add_parser("preview")
     preview.add_argument("audio_file")
     preview.add_argument("layout_file")
@@ -43,6 +49,12 @@ def _visual_intents_for_audio(audio_file: Path):
         analysis.style_features.get("tempo_class", "medium"),
     )
     return generate_visual_intents([section.to_dict() for section in sections])
+
+
+def _placement_plan_for_inputs(audio_file: Path, layout_file: Path):
+    intents = _visual_intents_for_audio(audio_file)
+    parsed = xmp.parse_layout(layout_file)
+    return build_placement_plan(visual_intents=intents, parsed_layout=parsed)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -76,6 +88,15 @@ def main(argv: list[str] | None = None) -> int:
         else:
             report = build_placement_plan(visual_intents=intents, parsed_layout=parsed)
             print(report.to_dict())
+        return 0
+    if args.command == "placement-stub-render":
+        placement_report = _placement_plan_for_inputs(Path(args.audio_file), Path(args.layout_file))
+        render_report = render_placement_stub_xml(
+            placement_report.to_dict(),
+            Path(args.output_dir),
+            minimum_quality_score=float(args.minimum_quality_score),
+        )
+        print(render_report.to_dict())
         return 0
     if args.command == "preview":
         intents = _visual_intents_for_audio(Path(args.audio_file))
