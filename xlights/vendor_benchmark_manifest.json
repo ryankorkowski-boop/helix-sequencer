@@ -1,16 +1,16 @@
 {
   "generated_on": "2026-04-23",
   "status": "removed_from_active_guidance",
-  "reason": "Source-hygiene cleanup: commercial/vendor benchmark metadata and training-mode language should not be retained as Helix learning guidance unless explicit rights and provenance are documented.",
+  "reason": "Source-hygiene cleanup: retired external comparison metadata and unsafe analysis-mode language from active guidance.",
   "policy": {
     "do_not_reconstruct_from": [
-      "paid sequence files",
-      "vendor previews",
-      "marketplace listings",
+      "restricted sequence files",
+      "external previews",
+      "listing pages",
       "private groups",
-      "video transcripts",
-      "creator-specific observations",
-      "materials with unclear training or analysis rights"
+      "caption or transcript collections",
+      "individual-style observations",
+      "materials with unclear analysis rights"
     ],
     "allowed_replacement_sources": [
       "official xLights documentation",
