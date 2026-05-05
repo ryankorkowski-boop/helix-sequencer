@@ -13,6 +13,9 @@ from tools.build_helpers.helixia import (
 )
 
 
+ROOT = Path(__file__).resolve().parents[1]
+
+
 class HelixiaLayoutTests(unittest.TestCase):
     def test_build_helixia_layout_writes_manifest(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -113,6 +116,24 @@ class HelixiaLayoutTests(unittest.TestCase):
             self.assertIn("HX_HOUSE_1_4_SPINNER/ARM_01", parsed.models)
             self.assertIn("HX_FIB_FIB_TREE_CENTER/SPIRAL", parsed.models)
             self.assertIn("HX_SNOWMAN_BAND_STAGE_CUSTOM/HEAD", parsed.models)
+
+    def test_committed_helixia_artifacts_are_parser_valid_and_regenerate_stably(self) -> None:
+        committed_xml = ROOT / "helixville4" / "xlights_rgbeffects.xml"
+        committed_manifest = ROOT / "helixville4" / "helixia_manifest.json"
+        parsed = xmp.parse_layout(committed_xml)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            generated_xml = Path(tmp) / "xlights_rgbeffects.xml"
+            generated = xmp.parse_layout(generated_xml)
+
+            self.assertEqual(committed_xml.read_bytes(), generated_xml.read_bytes())
+            self.assertEqual(len(parsed.root_models()), 105)
+            self.assertEqual(len(parsed.groups), 49)
+            self.assertEqual(len(parsed.submodel_names()), 345)
+            self.assertEqual(len(generated.root_models()), len(parsed.root_models()))
+            self.assertEqual(payload["xlights_layout"]["model_count"], 105)
+            self.assertTrue(committed_manifest.exists())
 
 
 if __name__ == "__main__":

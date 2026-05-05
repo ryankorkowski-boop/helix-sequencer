@@ -24,35 +24,10 @@ jobs:
       - name: Install test dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install numpy scipy scikit-learn librosa soundfile numba llvmlite
+          python -m pip install pytest numpy scipy scikit-learn librosa soundfile numba llvmlite
 
       - name: Run unit tests
+        env:
+          PYTHONPATH: .
         run: |
-          python - <<'PY'
-          import importlib
-          import subprocess
-          import sys
-
-          modules = []
-          candidates = [
-              "tests.test_sequence_builder",
-              "tests.test_effects",
-              "tests.test_build_helpers",
-              "tests.test_audio",
-              "tests.test_feature_state",
-              "tests.test_self_improving_scoring",
-          ]
-          for candidate in candidates:
-              try:
-                  importlib.import_module(candidate)
-              except Exception as exc:
-                  print(f"Skipping {candidate}: {exc}")
-                  continue
-              modules.append(candidate)
-          if not modules:
-              modules = ["tests.test_sequence_builder"]
-
-          cmd = [sys.executable, "-m", "unittest", *modules]
-          print("Running:", " ".join(cmd))
-          raise SystemExit(subprocess.call(cmd))
-          PY
+          python -m pytest

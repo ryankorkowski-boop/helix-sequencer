@@ -33,7 +33,7 @@ def build_summary_from_xsq(payload: dict[str, Any], xsq_path: Path) -> dict[str,
 
     sequence = preview_renderer.parse_sequence(xsq_path)
     timelines: dict[str, Any] = {}
-    for model_name, effects in sequence.model_effects.items():
+    for model_name, effects in sorted(sequence.model_effects.items(), key=lambda item: item[0]):
         entries = [
             SimpleNamespace(
                 start=effect.start_ms,
@@ -41,7 +41,7 @@ def build_summary_from_xsq(payload: dict[str, Any], xsq_path: Path) -> dict[str,
                 effect_name=effect.name,
                 palette=effect.palette,
             )
-            for effect in effects
+            for effect in sorted(effects, key=lambda item: (item.start_ms, item.end_ms, item.name))
         ]
         if entries:
             timelines[model_name] = SimpleNamespace(layers={"motion": entries})
