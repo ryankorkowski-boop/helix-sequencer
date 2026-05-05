@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import subprocess
 import sys
-from pathlib import Path
 from typing import Sequence
 
 from tools.build_helpers.calibration import (
@@ -17,7 +16,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Run the existing Helix sequence builder with a named quality-gate preset."
     )
-    parser.add_argument("--quality-gate-preset", default="general", choices=["general", "showcase", "vendor"])
+    parser.add_argument("--quality-gate-preset", default="general", choices=["general", "showcase", "pro", "vendor"])
     parser.add_argument("--min-quality-score", type=float, default=None)
     parser.add_argument("--min-audit-score", type=float, default=None)
     parser.add_argument("--max-rejected-effects", type=int, default=None)
