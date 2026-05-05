@@ -9,6 +9,7 @@ from core import spatial_scene
 from helix_intent.intent_generator import generate_visual_intents
 from helix_intent.placement_pipeline import build_and_write_placement_plan, build_placement_plan
 from helix_intent.placement_stub_renderer import render_placement_stub_xml
+from helix_intent.xlights_effect_contract import write_xlights_effect_contract
 from helix_knowledge.cli import main as knowledge_cli_main
 from helix_layout.layout_health import build_layout_health_report
 from helix_music.section_planner import plan_song_sections
@@ -35,6 +36,11 @@ def build_parser() -> argparse.ArgumentParser:
     stub.add_argument("layout_file")
     stub.add_argument("output_dir")
     stub.add_argument("--minimum-quality-score", type=float, default=0.6)
+    contract = sub.add_parser("xlights-effect-contract")
+    contract.add_argument("audio_file")
+    contract.add_argument("layout_file")
+    contract.add_argument("output_json")
+    contract.add_argument("--minimum-quality-score", type=float, default=0.6)
     preview = sub.add_parser("preview")
     preview.add_argument("audio_file")
     preview.add_argument("layout_file")
@@ -97,6 +103,15 @@ def main(argv: list[str] | None = None) -> int:
             minimum_quality_score=float(args.minimum_quality_score),
         )
         print(render_report.to_dict())
+        return 0
+    if args.command == "xlights-effect-contract":
+        placement_report = _placement_plan_for_inputs(Path(args.audio_file), Path(args.layout_file))
+        contract_report = write_xlights_effect_contract(
+            placement_report.to_dict(),
+            Path(args.output_json),
+            minimum_quality_score=float(args.minimum_quality_score),
+        )
+        print(contract_report.to_dict())
         return 0
     if args.command == "preview":
         intents = _visual_intents_for_audio(Path(args.audio_file))
