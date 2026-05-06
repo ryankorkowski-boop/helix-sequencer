@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import tempfile
 import unittest
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from core import model_parser as xmp
@@ -103,6 +104,22 @@ class HelixiaLayoutTests(unittest.TestCase):
                 self.assertIn(model_type, types)
             self.assertIn("HX_FAMILY_MATRIX", parsed.groups)
             self.assertIn("HX_FAMILY_CUSTOM", parsed.groups)
+
+    def test_helixia_candy_cane_models_use_xlights_import_token(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            layout_path = Path(tmp) / "xlights_rgbeffects.xml"
+            root = ET.parse(layout_path).getroot()
+            candy_models = [
+                model
+                for model in root.findall(".//model")
+                if "CANDY_CANE" in str(model.attrib.get("name", ""))
+            ]
+
+            self.assertGreater(len(candy_models), 0)
+            self.assertEqual({model.attrib.get("DisplayAs") for model in candy_models}, {"CandyCane"})
+            parsed = xmp.parse_layout(layout_path)
+            self.assertTrue(all(parsed.models[model.attrib["name"]].type == "cane" for model in candy_models))
 
     def test_helixia_generated_layout_has_complex_prop_submodels(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
