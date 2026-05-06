@@ -416,6 +416,13 @@ def _build_layout_intelligence(
             "HX_SNOWMAN_SINGER_FEMALE_BODY",
             "HX_SNOWMAN_SINGER_FEMALE_INSTRUMENT",
         ],
+        "helixville4_band_spec_models": [
+            "HX_SNOWMAN_SINGER",
+            "HX_SNOWMAN_SINGER_FEMALE",
+            "HX_SNOWMAN_GUITARIST",
+            "HX_SNOWMAN_BASSIST",
+            "HX_SNOWMAN_DRUMMER",
+        ],
         "cactus_tubeman": [
             "HX_CACTUS_BODY",
             "HX_CACTUS_FACE",
@@ -466,6 +473,7 @@ def build_helixia_layout(
     *,
     village_rows: int = 3,
     village_cols: int = 4,
+    use_helixville4_band_model_specs: bool = False,
 ) -> dict[str, Any]:
     houses = _build_house_grid(rows=village_rows, cols=village_cols)
     fib_trees = _fibonacci_spiral_trees()
@@ -485,6 +493,7 @@ def build_helixia_layout(
         "layout_id": "helixia_v1",
         "layout_name": "Helixia (Helixville4)",
         "goal": "3D-forward layout that remains visually coherent in 2D preview",
+        "use_helixville4_band_model_specs": bool(use_helixville4_band_model_specs),
         "village_grid": {
             "rows": village_rows,
             "cols": village_cols,
@@ -523,9 +532,11 @@ def build_helixia_layout(
     xlights_payload = build_helixia_xlights_layout(payload, out_dir)
     payload["xlights_layout"] = xlights_payload
     (out_dir / "helixia_manifest.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    (out_dir / "HELIXIA_LAYOUT_NOTES.txt").write_text(
+    notes = (
         "Helixia layout scaffold generated.\n"
-        "Generated xlights_rgbeffects.xml contains deterministic placeholder models for Helixia v1.\n",
-        encoding="utf-8",
+        "Generated xlights_rgbeffects.xml contains deterministic placeholder models for Helixia v1.\n"
     )
+    if use_helixville4_band_model_specs:
+        notes += "Helixville4 spec-driven snowman band models are enabled.\n"
+    (out_dir / "HELIXIA_LAYOUT_NOTES.txt").write_text(notes, encoding="utf-8")
     return payload
