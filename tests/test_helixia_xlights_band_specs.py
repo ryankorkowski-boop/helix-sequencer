@@ -11,12 +11,18 @@ from tools.build_helpers.helixia import build_helixia_layout
 class HelixiaXlightsBandSpecsTests(unittest.TestCase):
     def test_opt_in_band_model_specs_generate_real_band_models_and_submodels(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            payload = build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
-            payload["use_helixville4_band_model_specs"] = True
-            from tools.build_helpers.helixia_xlights import build_helixia_xlights_layout
+            payload = build_helixia_layout(
+                Path(tmp),
+                village_rows=3,
+                village_cols=4,
+                use_helixville4_band_model_specs=True,
+            )
+            parsed = xmp.parse_layout(Path(tmp) / "xlights_rgbeffects.xml")
+            notes = (Path(tmp) / "HELIXIA_LAYOUT_NOTES.txt").read_text(encoding="utf-8")
 
-            build_helixia_xlights_layout(payload, Path(tmp) / "band_specs")
-            parsed = xmp.parse_layout(Path(tmp) / "band_specs" / "xlights_rgbeffects.xml")
+        self.assertTrue(payload["use_helixville4_band_model_specs"])
+        self.assertTrue(payload["xlights_layout"]["band_model_specs_enabled"])
+        self.assertIn("Helixville4 spec-driven snowman band models are enabled.", notes)
 
         for model in (
             "HX_SNOWMAN_SINGER",
@@ -45,6 +51,7 @@ class HelixiaXlightsBandSpecsTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             payload = build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
 
+            self.assertFalse(payload["use_helixville4_band_model_specs"])
             self.assertFalse(payload["xlights_layout"]["band_model_specs_enabled"])
             parsed = xmp.parse_layout(Path(tmp) / "xlights_rgbeffects.xml")
             self.assertIn("HX_SNOWMAN_SINGER_BODY", parsed.models)
