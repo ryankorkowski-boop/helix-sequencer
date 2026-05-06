@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from dataclasses import replace
+
 
 def build_variants(VariantStyle):
-    return {
+    variants = {
         "v2.1": VariantStyle(
             version="v2.1",
             family="v2",
@@ -1929,4 +1931,118 @@ def build_variants(VariantStyle):
             sweep_hit_ms=102,
         ),
     }
+    base = variants["v27.3"]
+    variants.update(
+        {
+            "v28.1": replace(
+                base,
+                version="v28.1",
+                family="v28",
+                title="Helix Prime Focus",
+                density_scale=0.94,
+                bass_scale=1.30,
+                melody_scale=1.18,
+                drop_blackout_ms=(300, 500),
+                sweep_hit_ms=100,
+            ),
+            "v28.2": replace(
+                base,
+                version="v28.2",
+                family="v28",
+                title="Helix Prime Motion",
+                pool_mode="rotating",
+                density_scale=0.98,
+                speed_scale=1.06,
+                darkness_scale=1.12,
+                sweep_hit_ms=96,
+            ),
+            "v28.3": replace(
+                base,
+                version="v28.3",
+                family="v28",
+                title="Helix Prime Storyboard",
+                placement_mode="hierarchy_roles",
+                density_scale=0.96,
+                melody_scale=1.20,
+                darkness_scale=1.16,
+                drop_blackout_ms=(330, 530),
+            ),
+            "v28.4": replace(
+                base,
+                version="v28.4",
+                family="v28",
+                title="Helix Prime Stemcraft",
+                placement_mode="showcase_stems",
+                keyboard_overlay=False,
+                polyphony=5,
+                density_scale=0.90,
+                bass_scale=1.32,
+                melody_scale=1.12,
+            ),
+            "v28.5": replace(
+                base,
+                version="v28.5",
+                family="v28",
+                title="Helix Prime Signature",
+                placement_mode="showcase_signature",
+                density_scale=0.92,
+                randomness_scale=0.015,
+                bass_scale=1.30,
+                darkness_scale=1.18,
+                sweep_hit_ms=98,
+            ),
+            "v28.6": replace(
+                base,
+                version="v28.6",
+                family="v28",
+                title="Helix Prime Matrix",
+                timing_mode="mixed",
+                density_scale=1.00,
+                speed_scale=1.04,
+                melody_scale=1.14,
+                primary_categories=("matrix", "mega", "line", "arch", "canes_combo", "sphere"),
+            ),
+            "v28.7": replace(
+                base,
+                version="v28.7",
+                family="v28",
+                title="Helix Prime Piano",
+                timing_mode="note",
+                pool_mode="rotating",
+                polyphony=7,
+                density_scale=0.97,
+                bass_scale=1.26,
+                melody_scale=1.22,
+                sweep_hit_ms=94,
+            ),
+            "v28.8": replace(
+                base,
+                version="v28.8",
+                family="v28",
+                title="Helix Prime Apex",
+                density_scale=1.02,
+                speed_scale=1.05,
+                bass_scale=1.34,
+                melody_scale=1.20,
+                darkness_scale=1.20,
+                drop_blackout_ms=(340, 540),
+                sweep_hit_ms=92,
+            ),
+            "v28.9": replace(
+                base,
+                version="v28.9",
+                family="v28",
+                title="Helix Prime Vendor",
+                placement_mode="piano_lights",
+                density_scale=0.88,
+                randomness_scale=0.01,
+                bass_scale=1.32,
+                melody_scale=1.18,
+                darkness_scale=1.22,
+                drop_blackout_ms=(360, 560),
+                sweep_hit_ms=90,
+            ),
+        }
+    )
+    return variants
     
