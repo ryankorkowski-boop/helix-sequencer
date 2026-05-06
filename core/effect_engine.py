@@ -64,6 +64,73 @@ AUDIO_REACTIVE_PROFILE_INTENSITIES: dict[str, float] = {
     "max": 2.0,
 }
 
+AUDIO_INTELLIGENCE_TOOLSETS: dict[str, dict[str, object]] = {
+    "modern": {},
+    "legacy_qm_timing": {
+        "pixel_reactive": False,
+        "matrix_intelligence": False,
+        "audio_reactive_profile": "off",
+        "audio_reactive_intensity": 0.0,
+        "auto_timing_tracks": True,
+    },
+    "legacy_stem_marks": {
+        "pixel_reactive": True,
+        "matrix_intelligence": False,
+        "audio_reactive_profile": "subtle",
+        "audio_reactive_intensity": 0.65,
+        "layer_priority_vocals": 5,
+        "layer_priority_drums": 4,
+        "layer_priority_bass": 4,
+    },
+    "legacy_multiband_mir": {
+        "pixel_reactive": True,
+        "matrix_intelligence": False,
+        "audio_reactive_profile": "balanced",
+        "audio_reactive_intensity": 0.85,
+    },
+    "legacy_audio_routes": {
+        "pixel_reactive": True,
+        "matrix_intelligence": False,
+        "audio_reactive_profile": "showcase",
+        "audio_reactive_intensity": 1.25,
+    },
+    "legacy_matrix_plan": {
+        "pixel_reactive": True,
+        "matrix_intelligence": True,
+        "audio_reactive_profile": "balanced",
+        "audio_reactive_intensity": 0.9,
+    },
+    "legacy_chronoflow": {
+        "pixel_reactive": True,
+        "matrix_intelligence": True,
+        "audio_reactive_profile": "balanced",
+        "audio_reactive_intensity": 0.8,
+        "spatial_awareness": 0.42,
+        "chase_style": "wave",
+    },
+    "legacy_snowman_band": {
+        "pixel_reactive": True,
+        "matrix_intelligence": True,
+        "audio_reactive_profile": "subtle",
+        "audio_reactive_intensity": 0.7,
+        "sync_lyrics_heads": True,
+    },
+    "legacy_hardkor": {
+        "hardkor_enabled": True,
+        "hardkor_intensity": 1.15,
+        "hardkor_profile": "ac256",
+    },
+    "legacy_birdsong": {
+        "pixel_reactive": True,
+        "matrix_intelligence": False,
+        "audio_reactive_profile": "subtle",
+        "audio_reactive_intensity": 0.55,
+        "birdsong_enabled": True,
+        "birdsong_auto": True,
+        "birdsong_profile": "wild",
+    },
+}
+
 
 @dataclass
 class SequentialPool:
@@ -158,6 +225,7 @@ class VariantStyle:
     build_categories: tuple[str, ...]
     drop_blackout_ms: tuple[int, int]
     sweep_hit_ms: int
+    audio_intelligence_toolset: str = "modern"
 
 
 @dataclass
@@ -199,6 +267,7 @@ class RuntimeTuning:
     pixel_reactive: bool = True
     audio_reactive_profile: str = "balanced"
     audio_reactive_intensity: float = 1.0
+    audio_intelligence_toolset: str = "modern"
     matrix_intelligence: bool = True
     video_file: Path | None = None
     blend_rules_file: Path | None = None
@@ -766,6 +835,28 @@ def resolve_audio_reactive_tuning(profile_raw: str | None, intensity_raw: float 
     if intensity_raw is not None:
         return "custom", base.clamp(float(intensity_raw), 0.0, 2.0)
     return profile, AUDIO_REACTIVE_PROFILE_INTENSITIES[profile]
+
+
+def normalize_audio_intelligence_toolset(raw: str | None) -> str:
+    key = (raw or "modern").strip().lower().replace("-", "_").replace(" ", "_")
+    if key in {"", "default", "latest", "current"}:
+        return "modern"
+    if key not in AUDIO_INTELLIGENCE_TOOLSETS:
+        valid = ", ".join(sorted(AUDIO_INTELLIGENCE_TOOLSETS))
+        raise ValueError(f"Unknown audio intelligence toolset: {raw!r}. Choose one of: {valid}")
+    return key
+
+
+def apply_audio_intelligence_toolset(tuning: RuntimeTuning) -> RuntimeTuning:
+    toolset = normalize_audio_intelligence_toolset(tuning.audio_intelligence_toolset)
+    overrides = AUDIO_INTELLIGENCE_TOOLSETS[toolset]
+    patched = replace(tuning, audio_intelligence_toolset=toolset)
+    for key, value in overrides.items():
+        if hasattr(patched, key):
+            setattr(patched, key, value)
+    patched.audio_reactive_profile = normalize_audio_reactive_profile(str(patched.audio_reactive_profile))
+    patched.audio_reactive_intensity = base.clamp(float(patched.audio_reactive_intensity), 0.0, 2.0)
+    return patched
 
 
 def extract_palette_hexes(palette: str) -> list[str]:
@@ -7003,7 +7094,7 @@ def build_spatial_keyboard_routes(
 
 
 def adapt_keyboard_routes_for_style(style: VariantStyle, routes: list[KeyboardRoute]) -> list[KeyboardRoute]:
-    if style.family not in {"v19", "v20", "v21", "v22", "v23"}:
+    if style.family not in {"v19", "v20", "v21", "v22", "v23", "v28", "v29"}:
         return routes
     adapted: list[KeyboardRoute] = []
     for route in routes:
@@ -11049,8 +11140,8 @@ def run_variant(
     other_priority_gain = 0.80 + (priorities["other"] / stem_max) * 0.45
     hardkor_mode = bool(tuning.hardkor_enabled)
     structured_mode = style.family in {"v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23"}
-    focused_mode = style.family in {"v14", "v16", "v19", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode in {"mapped_essentials", "mapped_submodel"}
-    premium_mode = style.family in {"v15", "v17", "v20", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode == "mapped_showcase"
+    focused_mode = style.family in {"v14", "v16", "v19", "v22", "v23", "v25", "v26", "v27", "v28", "v29"} or style.placement_mode in {"mapped_essentials", "mapped_submodel"}
+    premium_mode = style.family in {"v15", "v17", "v20", "v22", "v23", "v25", "v26", "v27", "v28", "v29"} or style.placement_mode == "mapped_showcase"
     if structured_mode:
         dynamic_random = min(dynamic_random, 0.12 if focused_mode else 0.18)
         global_flash_prob = min(global_flash_prob, 0.16 if focused_mode else 0.24)
@@ -11948,7 +12039,7 @@ def run_variant(
         if lua_count:
             log(f"Lua-style accent placements added: {lua_count}")
 
-    if (not hardkor_mode) and tuning.pixel_reactive and style.family in {"v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
+    if (not hardkor_mode) and tuning.pixel_reactive and style.family in {"v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27", "v28", "v29"}:
         pixel_attempts = place_pixel_reactive_score(
             style=style,
             pools=pools,
@@ -12007,7 +12098,7 @@ def run_variant(
         if audio_reactive_attempts:
             log(f"Audio-reactive catalog placements attempted: {audio_reactive_attempts}")
 
-    if (not hardkor_mode) and style.family in {"v19", "v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
+    if (not hardkor_mode) and style.family in {"v19", "v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27", "v28", "v29"}:
         neighbor_attempts = apply_neighbor_showcase_score(
             style=style,
             pools=pools,
@@ -12388,6 +12479,7 @@ def run_variant(
             "hardkor_enabled": bool(tuning.hardkor_enabled),
             "hardkor_intensity": float(tuning.hardkor_intensity),
             "hardkor_profile": str(tuning.hardkor_profile),
+            "audio_intelligence_toolset": str(tuning.audio_intelligence_toolset),
         },
         "xlights_catalog": {
             "effect_count": int(xlights_catalog.get("effect_count", 0)) if xlights_catalog else 0,
@@ -12726,6 +12818,12 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--no-auto-timing-tracks", dest="auto_timing_tracks", action="store_false", help="Disable extended timing-track output")
     parser.add_argument("--pixel-reactive", dest="pixel_reactive", action="store_true", help="Enable family-aware reactive pixel choreography for compatible models")
     parser.add_argument("--no-pixel-reactive", dest="pixel_reactive", action="store_false", help="Disable the reactive pixel choreography pass")
+    parser.add_argument(
+        "--audio-intelligence-toolset",
+        choices=sorted(AUDIO_INTELLIGENCE_TOOLSETS),
+        dest="audio_intelligence_toolset",
+        help="Audio intelligence layer/toolset preset to compare",
+    )
     parser.add_argument("--audio-reactive-profile", dest="audio_reactive_profile", help="Audio-reactive preset: off/subtle/balanced/showcase/max")
     parser.add_argument("--audio-reactive-intensity", type=float, dest="audio_reactive_intensity", help="Audio-reactive catalog cue intensity (0.0-2.0)")
     parser.add_argument("--matrix-intelligence", dest="matrix_intelligence", action="store_true", help="Enable matrix-first shader planning in report output")
@@ -12907,6 +13005,9 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         learning_memory_file=(resolve_path(folder, args.learning_memory_file) if args.learning_memory_file else None),
         auto_timing_tracks=bool(args.auto_timing_tracks),
         pixel_reactive=bool(args.pixel_reactive),
+        audio_intelligence_toolset=normalize_audio_intelligence_toolset(
+            args.audio_intelligence_toolset or style.audio_intelligence_toolset
+        ),
         audio_reactive_profile=audio_reactive_profile,
         audio_reactive_intensity=audio_reactive_intensity,
         matrix_intelligence=bool(args.matrix_intelligence),
@@ -12936,6 +13037,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         power_metadata_file=power_metadata_file,
         fail_on_power_risk=bool(args.fail_on_power_risk),
     )
+    tuning = apply_audio_intelligence_toolset(tuning)
     if tuning.vendor_bar:
         # Vendor-bar mode forces the higher-quality generation path.
         tuning.auto_shortlist = True
@@ -13007,6 +13109,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         f"hardkor={int(bool(tuning.hardkor_enabled))}/{tuning.hardkor_intensity:.2f}/{tuning.hardkor_profile}, "
         f"workspace_history={int(bool(tuning.workspace_history_folder))}:{tuning.workspace_history_limit}, "
         f"matrix={int(bool(tuning.matrix_intelligence))}, "
+        f"audio_toolset={tuning.audio_intelligence_toolset}, "
         f"audio_reactive={tuning.audio_reactive_profile}/{tuning.audio_reactive_intensity:.2f}, "
         f"polish={int(bool(tuning.polish_enabled))}, "
         f"variants={tuning.variant_count}, shortlist={int(bool(tuning.auto_shortlist))}, "
