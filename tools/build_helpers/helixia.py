@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from tools.build_helpers.helixia_xlights import build_helixia_xlights_layout
+from tools.write_helixville4_band_assets import write_band_assets
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -531,6 +532,8 @@ def build_helixia_layout(
     out_dir.mkdir(parents=True, exist_ok=True)
     xlights_payload = build_helixia_xlights_layout(payload, out_dir)
     payload["xlights_layout"] = xlights_payload
+    if use_helixville4_band_model_specs:
+        payload["band_assets"] = write_band_assets(out_dir / "band_assets")
     (out_dir / "helixia_manifest.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
     notes = (
         "Helixia layout scaffold generated.\n"
@@ -538,5 +541,6 @@ def build_helixia_layout(
     )
     if use_helixville4_band_model_specs:
         notes += "Helixville4 spec-driven snowman band models are enabled.\n"
+        notes += "Band background SVG assets were written to band_assets/.\n"
     (out_dir / "HELIXIA_LAYOUT_NOTES.txt").write_text(notes, encoding="utf-8")
     return payload
