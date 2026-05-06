@@ -110,6 +110,7 @@ def new_display_model_entry(name: str) -> ET.Element:
             "type": "model",
             "name": name,
             "visible": "1",
+            "views": timing_tracks.HIDE_TIMINGS_VIEW_NAME,
         }
     )
     return el
@@ -208,8 +209,7 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
         clone.attrib["type"] = "model"
         if "Views" in clone.attrib:
             del clone.attrib["Views"]
-        if "views" in clone.attrib:
-            clone.attrib["views"] = timing_tracks.normalize_view_name(clone.attrib.get("views"))
+        clone.attrib["views"] = _with_hidetimings_view(clone.attrib.get("views"), include=True)
         model_display_by_name.setdefault(mapped, clone)
 
     for child in list(display):
@@ -264,6 +264,16 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
     }
 
 
+def _with_hidetimings_view(value: str | None, *, include: bool) -> str:
+    normalized = timing_tracks.normalize_view_name(value)
+    view_name = timing_tracks.HIDE_TIMINGS_VIEW_NAME
+    parts = [part for part in normalized.split(",") if part]
+    filtered = [part for part in parts if part.lower() != view_name.lower()]
+    if include:
+        filtered.append(view_name)
+    return ",".join(filtered)
+
+
 def normalize_display_views(root: ET.Element, *, force: bool = True) -> int:
     legacy = _legacy()
     display = xml_io.find_root_child(root, "DisplayElements")
@@ -286,14 +296,21 @@ def normalize_display_views(root: ET.Element, *, force: bool = True) -> int:
         if element_type == "timing":
             active = (legacy._get_attr(el, ["active", "Active"]) or "").strip() == "1"
             name = (legacy._get_attr(el, ["name", "Name"]) or "").strip()
-            if active or timing_tracks.is_generated_or_placeholder_timing_track(name):
-                desired_visible = "1" if timing_tracks.timing_track_default_visible(name, active) else "0"
-                if (el.attrib.get("visible") or "") != desired_visible:
-                    el.attrib["visible"] = desired_visible
-                    updated += 1
+            timing_views = _with_hidetimings_view(legacy._get_attr(el, ["views", "Views"]), include=False)
+            if (el.attrib.get("views") or "") != timing_views:
+                el.attrib["views"] = timing_views
+                updated += 1
+            desired_visible = "1" if timing_tracks.timing_track_default_visible(name, active) else "0"
+            if (el.attrib.get("visible") or "") != desired_visible:
+                el.attrib["visible"] = desired_visible
+                updated += 1
             el.attrib.setdefault("collapsed", "0")
             el.attrib.setdefault("active", "1" if active else "0")
             continue
+        model_views = _with_hidetimings_view(legacy._get_attr(el, ["views", "Views"]), include=True)
+        if (el.attrib.get("views") or "") != model_views:
+            el.attrib["views"] = model_views
+            updated += 1
     return updated
 
 
@@ -319,7 +336,7 @@ def ensure_master_view_models(root: ET.Element) -> dict[str, int]:
         if not element_type:
             continue
         if element_type == "timing":
-            normalized_views = timing_tracks.normalize_view_name(legacy._get_attr(el, ["views", "Views"]))
+            normalized_views = _with_hidetimings_view(legacy._get_attr(el, ["views", "Views"]), include=False)
             if "Views" in el.attrib:
                 del el.attrib["Views"]
                 updated += 1
@@ -328,11 +345,10 @@ def ensure_master_view_models(root: ET.Element) -> dict[str, int]:
                 updated += 1
             active = (legacy._get_attr(el, ["active", "Active"]) or "").strip() == "1"
             name = (legacy._get_attr(el, ["name", "Name"]) or "").strip()
-            if active or timing_tracks.is_generated_or_placeholder_timing_track(name):
-                desired_visible = "1" if timing_tracks.timing_track_default_visible(name, active) else "0"
-                if (el.attrib.get("visible") or "") != desired_visible:
-                    el.attrib["visible"] = desired_visible
-                    updated += 1
+            desired_visible = "1" if timing_tracks.timing_track_default_visible(name, active) else "0"
+            if (el.attrib.get("visible") or "") != desired_visible:
+                el.attrib["visible"] = desired_visible
+                updated += 1
             el.attrib.setdefault("collapsed", "0")
             el.attrib.setdefault("visible", "1")
             continue
@@ -340,11 +356,11 @@ def ensure_master_view_models(root: ET.Element) -> dict[str, int]:
         if not name:
             continue
         display_names.add(name)
-        normalized_views = timing_tracks.normalize_view_name(legacy._get_attr(el, ["views", "Views"]))
+        normalized_views = _with_hidetimings_view(legacy._get_attr(el, ["views", "Views"]), include=True)
         if "Views" in el.attrib:
             del el.attrib["Views"]
             updated += 1
-        if "views" in el.attrib and (el.attrib.get("views") or "") != normalized_views:
+        if (el.attrib.get("views") or "") != normalized_views:
             el.attrib["views"] = normalized_views
             updated += 1
         if el.attrib.get("type") != "model":
