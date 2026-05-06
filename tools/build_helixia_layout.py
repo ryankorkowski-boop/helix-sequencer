@@ -20,6 +20,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--rows", type=int, default=3, help="Village house grid rows.")
     parser.add_argument("--cols", type=int, default=4, help="Village house grid columns.")
+    parser.add_argument(
+        "--use-helixville4-band-model-specs",
+        action="store_true",
+        help="Generate spec-driven snowman band models/submodels instead of the legacy placeholder band path.",
+    )
     return parser
 
 
@@ -30,11 +35,13 @@ def main(argv: list[str] | None = None) -> int:
         output_dir=Path(args.output_dir).resolve(),
         village_rows=max(1, int(args.rows)),
         village_cols=max(1, int(args.cols)),
+        use_helixville4_band_model_specs=bool(args.use_helixville4_band_model_specs),
     )
     print(
         f"Helixia manifest built: houses={len(payload['village_grid']['houses'])}, "
         f"special_lots={len(payload['special_lots'])}, "
-        f"models={payload['xlights_layout']['model_count']}"
+        f"models={payload['xlights_layout']['model_count']}, "
+        f"band_specs={payload['xlights_layout'].get('band_model_specs_enabled', False)}"
     )
     return 0
 
