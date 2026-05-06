@@ -10,16 +10,16 @@ import xml.etree.ElementTree as ET
 DISPLAY_BY_MODEL_TYPE = {
     "arch": "Arches",
     "tree": "Tree 360",
-    "matrix": "Matrix",
+    "matrix": "Horiz Matrix",
     "line": "Single Line",
-    "candy_cane": "Candy Cane",
+    "candy_cane": "Candy Canes",
     "circle": "Circle",
     "sphere": "Sphere",
     "star": "Star",
     "spinner": "Spinner",
     "icicles": "Icicles",
     "window_frame": "Window Frame",
-    "dmx": "DMX General",
+    "dmx": "DmxGeneral",
     "custom": "Custom",
 }
 
