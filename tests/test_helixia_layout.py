@@ -137,6 +137,29 @@ class HelixiaLayoutTests(unittest.TestCase):
             self.assertNotIn("Matrix", display_values)
             self.assertNotIn("DMX General", display_values)
 
+    def test_helixia_xlights_xml_attaches_models_to_default_preview(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            root = ET.parse(Path(tmp) / "xlights_rgbeffects.xml").getroot()
+            models = root.find("models")
+            groups = root.find("modelGroups")
+            view_objects = root.find("view_objects")
+            self.assertIsNotNone(models)
+            self.assertIsNotNone(groups)
+            self.assertIsNotNone(view_objects)
+
+            for model in list(models):
+                self.assertEqual(model.attrib.get("LayoutGroup"), "Default")
+                self.assertEqual(model.attrib.get("versionNumber"), "7")
+                self.assertEqual(model.attrib.get("Antialias"), "1")
+                self.assertIsNotNone(model.find("ControllerConnection"))
+
+            for group in list(groups):
+                self.assertEqual(group.attrib.get("LayoutGroup"), "Default")
+
+            self.assertIsNotNone(view_objects.find("view_object[@name='Gridlines']"))
+            self.assertIsNotNone(root.find("layoutGroups"))
+
     def test_helixia_generated_layout_has_complex_prop_submodels(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
