@@ -31,8 +31,6 @@ jobs:
           echo "Checking for retained source-derived guidance markers..."
           blocked_regex='training_mode|training_use|vendor benchmark|YouTube-grade|YouTube-style|creator-specific|source-specific choreography|paid sequence training|transcript dump|preview_and_metadata|own_generated_only|vendor_manifest'
 
-          # Policy/roadmap docs may mention risky source categories only as prohibitions.
-          # The legacy scorer file is allowlisted until it can be renamed without breaking imports.
           allowlisted_paths=(
             './docs/legal_learning_policy.md'
             './agents/legal_learning_policy.agents.md'
@@ -154,10 +152,10 @@ jobs:
           printf ' - %s\n' "${tests_to_run[@]}"
           python -m pytest "${tests_to_run[@]}" -q
 
-  v28-previews:
-    name: V28 legacy 256 preview MP4s
+  v28-grades:
+    name: V28 legacy 256 grade-only sequences
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     needs: source-hygiene
 
     steps:
@@ -170,12 +168,12 @@ jobs:
           python-version: "3.12"
           cache: "pip"
 
-      - name: Install lean preview dependencies
+      - name: Install grade dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg Pillow
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio-ffmpeg scikit-learn
 
-      - name: Stage CI preview fixtures
+      - name: Stage CI grade fixtures
         run: |
           set -euo pipefail
           mkdir -p fixtures/legacy_256/converted
@@ -199,24 +197,34 @@ jobs:
           PY
           ls -lh LightsOutTheme.mp3 fixtures/legacy_256/converted/template.xsq fixtures/legacy_256/converted/xlights_rgbeffects.xml
 
-      - name: Generate newest v28 preview MP4
+      - name: Generate v28 grade-only reports
         env:
           PYTHONPATH: .
         run: |
-          python tools/run_v28_legacy_256_previews.py --versions v28.9 --duration-seconds 3 --fps 3 --width 480 --height 270 --max-layers-per-prop 1
+          python tools/run_v28_legacy_256_previews.py --versions v28.7 v28.8 v28.9 --duration-seconds 3 --max-layers-per-prop 1 --skip-render
 
-      - name: Show preview outputs
+      - name: Show grade outputs
         if: always()
         run: |
           find test_runs/v28_legacy_256_previews -maxdepth 3 -type f -printf '%p %s bytes\n' | sort || true
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          summary = Path('test_runs/v28_legacy_256_previews/v28_legacy_256_preview_summary.json')
+          if summary.exists():
+              data = json.loads(summary.read_text())
+              for result in data.get('results', []):
+                  report = result.get('report', {})
+                  print(f"GRADE {result.get('version')}: score={report.get('quality_score')} grade={report.get('quality_grade')} effects={report.get('effects_total')} issues={report.get('validation_issues')} sequence_ok={result.get('sequence_ok')}")
+          PY
 
-      - name: Upload v28 preview artifacts
+      - name: Upload v28 grade artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: v28-legacy-256-preview-mp4s
+          name: v28-legacy-256-grade-reports
           path: |
-            test_runs/v28_legacy_256_previews/**/*.mp4
             test_runs/v28_legacy_256_previews/**/*.xsq
             test_runs/v28_legacy_256_previews/**/*.json
+            test_runs/v28_legacy_256_previews/**/*.txt
           if-no-files-found: warn
