@@ -21,6 +21,7 @@ from tools.build_helpers.prop_roles import summarize_roles
 from tools.build_helpers.regression_snapshots import compact_quality_snapshot
 from tools.build_helpers.restraint import score_restraint
 from tools.build_helpers.section_identity import score_section_identity
+from tools.showcase.energy_curve import score_showcase_energy
 
 
 @dataclass(frozen=True)
@@ -55,6 +56,7 @@ def build_output_quality_report(
     model_names: Iterable[str] | None = None,
     cues: Iterable[Mapping[str, object]] | None = None,
     sections: Iterable[Mapping[str, object]] | None = None,
+    showcase_sections: Iterable[Mapping[str, object]] | None = None,
     motifs: Iterable[Mapping[str, object]] | None = None,
     manual_locks: Mapping[str, object] | None = None,
     variants: Iterable[Mapping[str, object]] | None = None,
@@ -117,6 +119,12 @@ def build_output_quality_report(
             except ManualLockError as exc:
                 warnings.append(f"manual_locks skipped: {exc}")
 
+    # Legal-safe showcase metrics are opt-in via showcase_sections. They operate
+    # only on synthetic, internal, or permissioned trace summaries; they never
+    # download/store public media or creator choreography.
+    if showcase_sections is not None:
+        reports["showcase_energy"] = score_showcase_energy(showcase_sections).as_dict()
+
     if variants is not None:
         shortlist = rank_variants(variants, preset=normalized_options.quality_preset)
         reports["explainable_variants"] = shortlist.as_dict()
@@ -148,6 +156,7 @@ def _summarize_reports(reports: Mapping[str, object]) -> dict[str, object]:
         "section_identity": "score",
         "palette_discipline": "score",
         "motif_memory": "score",
+        "showcase_energy": "showcase_energy_score",
     }
     component_scores: dict[str, float] = {}
     for report_name, score_key in score_keys.items():
