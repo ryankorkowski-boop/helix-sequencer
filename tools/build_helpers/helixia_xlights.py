@@ -238,6 +238,8 @@ def build_helixia_xlights_layout(payload: dict[str, Any], output_dir: str | Path
         )
 
     for lot in payload.get("special_lots", []) or []:
+        if bool(lot.get("geometry_only", False)):
+            continue
         lot_id = str(lot.get("lot_id", "special"))
         base_x = _float(lot.get("world_x_ft"))
         base_y = _float(lot.get("world_y_ft"))
