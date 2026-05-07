@@ -157,7 +157,7 @@ jobs:
   v28-previews:
     name: V28 legacy 256 preview MP4s
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 12
     needs: source-hygiene
 
     steps:
@@ -189,9 +189,9 @@ jobs:
               ffmpeg,
               "-y",
               "-f", "lavfi",
-              "-i", "sine=frequency=440:duration=24",
+              "-i", "sine=frequency=440:duration=8",
               "-f", "lavfi",
-              "-i", "sine=frequency=660:duration=24",
+              "-i", "sine=frequency=660:duration=8",
               "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=shortest,volume=0.25",
               "-c:a", "libmp3lame",
               "LightsOutTheme.mp3",
@@ -203,7 +203,7 @@ jobs:
         env:
           PYTHONPATH: .
         run: |
-          python tools/run_v28_legacy_256_previews.py --versions v28.7 v28.8 v28.9
+          python tools/run_v28_legacy_256_previews.py --versions v28.7 v28.8 v28.9 --duration-seconds 6 --fps 5 --width 640 --height 360
 
       - name: Show preview outputs
         if: always()
