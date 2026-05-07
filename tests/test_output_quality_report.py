@@ -76,13 +76,13 @@ def test_build_output_quality_report_combines_available_reports():
     assert payload["summary"]["winner"] == "variant_01"
 
 
-def test_build_output_quality_report_includes_showcase_energy_when_traces_are_provided():
+def test_build_output_quality_report_includes_showcase_reports_when_traces_are_provided():
     report = build_output_quality_report(
         showcase_sections=[
-            {"name": "intro", "kind": "intro", "start": 0, "end": 12, "intensity": 0.2, "breadth": 0.2, "motion": 0.2, "darkness": 0.4},
-            {"name": "verse", "kind": "verse", "start": 12, "end": 40, "intensity": 0.35, "breadth": 0.35, "motion": 0.3, "darkness": 0.2},
+            {"name": "intro", "kind": "intro", "start": 0, "end": 12, "intensity": 0.2, "breadth": 0.2, "motion": 0.2, "darkness": 0.4, "hero_share": 0.25},
+            {"name": "verse", "kind": "verse", "start": 12, "end": 40, "intensity": 0.35, "breadth": 0.35, "motion": 0.3, "darkness": 0.2, "hero_share": 0.45},
             {"name": "chorus", "kind": "chorus", "start": 40, "end": 70, "intensity": 0.75, "breadth": 0.75, "motion": 0.7, "darkness": 0.0, "hero_share": 0.65},
-            {"name": "finale", "kind": "finale", "start": 70, "end": 105, "intensity": 0.95, "breadth": 0.95, "motion": 0.9, "darkness": 0.0, "hero_share": 0.8},
+            {"name": "finale", "kind": "finale", "start": 70, "end": 105, "intensity": 0.95, "breadth": 0.95, "motion": 0.9, "darkness": 0.0, "hero_share": 0.75},
         ]
     )
 
@@ -90,8 +90,11 @@ def test_build_output_quality_report_includes_showcase_energy_when_traces_are_pr
 
     assert payload["report_only"] is True
     assert "showcase_energy" in payload["reports"]
+    assert "showcase_hero_dominance" in payload["reports"]
     assert payload["reports"]["showcase_energy"]["showcase_energy_score"] > 0.6
+    assert payload["reports"]["showcase_hero_dominance"]["showcase_hero_score"] > 0.6
     assert payload["summary"]["component_scores"]["showcase_energy"] > 0.6
+    assert payload["summary"]["component_scores"]["showcase_hero_dominance"] > 0.6
 
 
 def test_build_output_quality_report_skips_missing_inputs_with_warnings():
