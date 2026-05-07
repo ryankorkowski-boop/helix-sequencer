@@ -7,8 +7,10 @@ from models.working_band_member import (
     WORKING_MEMBER_SCHEMA,
     build_reactive_bassist_member,
     build_reactive_guitarist_member,
+    build_reactive_singer_member,
     build_working_bassist,
     build_working_guitarist,
+    build_working_singer,
 )
 
 
@@ -144,6 +146,68 @@ class WorkingBandMemberTests(unittest.TestCase):
         self.assertTrue(payload["reactive_debug"]["uses_rhythm_fallback"])
         self.assertEqual(payload["reactive_debug"]["detection"]["fallback_mode"], "rhythm_energy")
         self.assertTrue(all(cue["submodel"] == "strum_zone" for cue in payload["reactive_cues"]))
+
+    def test_working_singer_has_required_geometry_and_animation(self) -> None:
+        payload = build_working_singer()
+
+        self.assertEqual(payload["schema"], WORKING_MEMBER_SCHEMA)
+        self.assertEqual(payload["role"], "singer")
+        self.assertEqual(payload["status"], "working_member_slice")
+        self.assertTrue(payload["validation"]["has_required_submodels"])
+        self.assertTrue(payload["validation"]["has_animation_frames"])
+        self.assertTrue(payload["validation"]["mouth_inside_head"])
+        self.assertEqual(payload["missing_required_submodels"], [])
+
+        node_counts = payload["submodel_node_counts"]
+        for submodel_name in payload["required_submodels"]:
+            self.assertIn(submodel_name, node_counts)
+            self.assertGreater(node_counts[submodel_name], 0)
+
+        cue_targets = {cue["submodel"] for cue in payload["default_cues"]}
+        self.assertIn("mouth_A", cue_targets)
+        self.assertIn("mouth_E", cue_targets)
+        self.assertIn("mouth_MBP", cue_targets)
+        self.assertIn("mic_head", cue_targets)
+
+    def test_working_singer_export_contract_names_face_targets(self) -> None:
+        payload = build_working_singer()
+        contract = payload["xlights_export_contract"]
+
+        self.assertEqual(contract["target_model_type"], "custom_model_with_submodels")
+        self.assertEqual(contract["node_order"], "row_major_top_left_1_based")
+        self.assertIn("mouth_A", contract["must_export_submodels"])
+        self.assertIn("mouth_MBP", contract["must_export_submodels"])
+        self.assertIn("mic_head", contract["first_sequence_smoke_test"])
+
+    def test_reactive_singer_uses_lyrics_for_phoneme_face_cues(self) -> None:
+        payload = build_reactive_singer_member(
+            lyric_events=[SimpleNamespace(start_ms=1000, end_ms=1600, text="bright moon", confidence=0.81)],
+            vocal_peaks=[1120],
+            parts=[SimpleNamespace(label="CHORUS", start_ms=0, end_ms=2200, energy=0.9)],
+        )
+
+        self.assertEqual(payload["status"], "reactive_working_member_slice")
+        self.assertTrue(payload["validation"]["has_reactive_cues"])
+        self.assertTrue(payload["validation"]["has_phoneme_cues"])
+        self.assertTrue(payload["validation"]["reactive_cues_target_existing_submodels"])
+        self.assertTrue(payload["reactive_debug"]["uses_lyrics"])
+        self.assertFalse(payload["reactive_debug"]["uses_vocal_energy_fallback"])
+
+        phoneme_cues = [cue for cue in payload["reactive_cues"] if cue["kind"] == "phoneme_face"]
+        self.assertTrue(phoneme_cues)
+        self.assertTrue(all(cue["xlights"]["effect"] == "Faces" for cue in phoneme_cues))
+        self.assertTrue(any(cue["submodel"].startswith("mouth_") for cue in phoneme_cues))
+        self.assertTrue(any(cue["submodel"] == "mic_head" for cue in payload["reactive_cues"]))
+        self.assertEqual(payload["reactive_debug"]["word_count"], 2)
+
+    def test_reactive_singer_falls_back_to_vocal_energy_when_lyrics_missing(self) -> None:
+        payload = build_reactive_singer_member(vocal_peaks=[500, 900])
+
+        self.assertTrue(payload["validation"]["has_reactive_cues"])
+        self.assertTrue(payload["validation"]["has_phoneme_cues"])
+        self.assertTrue(payload["reactive_debug"]["uses_vocal_energy_fallback"])
+        self.assertEqual(payload["reactive_debug"]["timeline"]["source"], "vocal_energy_fallback")
+        self.assertTrue(any(cue["submodel"] == "mouth_A" for cue in payload["reactive_cues"]))
 
 
 if __name__ == "__main__":
