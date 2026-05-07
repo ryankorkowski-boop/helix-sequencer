@@ -22,6 +22,7 @@ from tools.build_helpers.regression_snapshots import compact_quality_snapshot
 from tools.build_helpers.restraint import score_restraint
 from tools.build_helpers.section_identity import score_section_identity
 from tools.showcase.energy_curve import score_showcase_energy
+from tools.showcase.hero_dominance import score_hero_dominance
 
 
 @dataclass(frozen=True)
@@ -124,6 +125,7 @@ def build_output_quality_report(
     # download/store public media or creator choreography.
     if showcase_sections is not None:
         reports["showcase_energy"] = score_showcase_energy(showcase_sections).as_dict()
+        reports["showcase_hero_dominance"] = score_hero_dominance(showcase_sections).as_dict()
 
     if variants is not None:
         shortlist = rank_variants(variants, preset=normalized_options.quality_preset)
@@ -157,6 +159,7 @@ def _summarize_reports(reports: Mapping[str, object]) -> dict[str, object]:
         "palette_discipline": "score",
         "motif_memory": "score",
         "showcase_energy": "showcase_energy_score",
+        "showcase_hero_dominance": "showcase_hero_score",
     }
     component_scores: dict[str, float] = {}
     for report_name, score_key in score_keys.items():
