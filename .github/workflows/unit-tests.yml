@@ -181,7 +181,20 @@ jobs:
           cp template.xsq fixtures/legacy_256/converted/template.xsq
           cp xlights_rgbeffects.xml fixtures/legacy_256/converted/xlights_rgbeffects.xml
           python tools/generate_structured_benchmark_audio.py LightsOutTheme.wav --duration 60
-          ls -lh LightsOutTheme.wav fixtures/legacy_256/converted/template.xsq fixtures/legacy_256/converted/xlights_rgbeffects.xml
+          python - <<'PY'
+          import imageio_ffmpeg
+          import subprocess
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          subprocess.run([
+              ffmpeg,
+              "-y",
+              "-i", "LightsOutTheme.wav",
+              "-c:a", "libmp3lame",
+              "-b:a", "192k",
+              "LightsOutTheme.mp3",
+          ], check=True)
+          PY
+          ls -lh LightsOutTheme.wav LightsOutTheme.mp3 fixtures/legacy_256/converted/template.xsq fixtures/legacy_256/converted/xlights_rgbeffects.xml
 
       - name: Generate structured v28 grade-only reports
         env:
