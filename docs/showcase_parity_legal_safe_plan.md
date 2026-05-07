@@ -37,19 +37,25 @@ This plan starts with report-only metrics over safe traces:
 - user-owned or permissioned sequence traces
 - user-authored rules
 
-The first metric slice is:
+The first metric slices are:
 
 ```text
 tools/showcase/energy_curve.py
+tools/showcase/hero_dominance.py
 ```
 
-It measures:
+They measure:
 
 - `energy_curve_score`
 - `chorus_contrast_delta`
 - `drop_amplification_index`
 - `finale_escalation_index`
 - `showcase_energy_score`
+- `focal_clarity_score`
+- `hero_moment_score`
+- `support_balance_score`
+- `visual_mush_penalty`
+- `showcase_hero_score`
 
 ## Source Registry
 
@@ -106,19 +112,27 @@ Implemented:
 
 This is report-only. It does not influence generation.
 
+### Slice 4: Showcase Hero Dominance Metrics
+
+Implemented:
+
+- `tools/showcase/hero_dominance.py`
+- `tests/showcase/test_hero_dominance.py`
+
+This measures focal clarity, hero moments, support balance, and visual mush risk using only trace summaries. It is report-only and does not influence generation.
+
 ## Future Safe Slices
 
 Recommended next slices:
 
-1. `tools/showcase/hero_dominance.py`
-2. `tools/showcase/motion_continuity.py`
-3. `tools/showcase/palette_arc.py`
-4. `tools/showcase/impact_model.py`
-5. `tools/showcase/showcase_score.py`
-6. report-only integration into output quality reports
-7. explainable comparison only
-8. optional soft bias behind flags
-9. optional enforcement only after validation
+1. `tools/showcase/motion_continuity.py`
+2. `tools/showcase/palette_arc.py`
+3. `tools/showcase/impact_model.py`
+4. `tools/showcase/showcase_score.py`
+5. report-only integration into output quality reports
+6. explainable comparison only
+7. optional soft bias behind flags
+8. optional enforcement only after validation
 
 ## Acceptance Criteria
 
