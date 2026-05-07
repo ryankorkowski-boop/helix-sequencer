@@ -157,7 +157,7 @@ jobs:
   v28-previews:
     name: V28 legacy 256 preview MP4s
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     needs: source-hygiene
 
     steps:
@@ -170,10 +170,10 @@ jobs:
           python-version: "3.12"
           cache: "pip"
 
-      - name: Install preview dependencies
+      - name: Install lean preview dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt pytest
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg Pillow
 
       - name: Generate latest v28 preview MP4s
         env:
