@@ -175,6 +175,30 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg Pillow
 
+      - name: Stage CI preview fixtures
+        run: |
+          set -euo pipefail
+          mkdir -p fixtures/legacy_256/converted
+          cp template.xsq fixtures/legacy_256/converted/template.xsq
+          cp xlights_rgbeffects.xml fixtures/legacy_256/converted/xlights_rgbeffects.xml
+          python - <<'PY'
+          import imageio_ffmpeg
+          import subprocess
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          subprocess.run([
+              ffmpeg,
+              "-y",
+              "-f", "lavfi",
+              "-i", "sine=frequency=440:duration=24",
+              "-f", "lavfi",
+              "-i", "sine=frequency=660:duration=24",
+              "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=shortest,volume=0.25",
+              "-c:a", "libmp3lame",
+              "LightsOutTheme.mp3",
+          ], check=True)
+          PY
+          ls -lh LightsOutTheme.mp3 fixtures/legacy_256/converted/template.xsq fixtures/legacy_256/converted/xlights_rgbeffects.xml
+
       - name: Generate latest v28 preview MP4s
         env:
           PYTHONPATH: .
