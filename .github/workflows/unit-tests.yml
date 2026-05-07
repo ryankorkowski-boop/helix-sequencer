@@ -39,6 +39,7 @@ jobs:
             './docs/HELIXIA_LAYOUT_DIRECTION.md'
             './agents/helix_implementation_direction.agents.md'
             './core/youtube_show_scorer.py'
+            './docs/V28_A_PLUS_BENCHMARK.md'
           )
 
           is_allowlisted() {
@@ -153,9 +154,9 @@ jobs:
           python -m pytest "${tests_to_run[@]}" -q
 
   v28-grades:
-    name: V28 legacy 256 longer grade-only sequences
+    name: V28 A+ structured grade-only benchmark
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 45
     needs: source-hygiene
 
     steps:
@@ -179,33 +180,16 @@ jobs:
           mkdir -p fixtures/legacy_256/converted
           cp template.xsq fixtures/legacy_256/converted/template.xsq
           cp xlights_rgbeffects.xml fixtures/legacy_256/converted/xlights_rgbeffects.xml
-          python - <<'PY'
-          import imageio_ffmpeg
-          import subprocess
-          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
-          subprocess.run([
-              ffmpeg,
-              "-y",
-              "-f", "lavfi",
-              "-i", "sine=frequency=220:duration=20",
-              "-f", "lavfi",
-              "-i", "sine=frequency=440:duration=20",
-              "-f", "lavfi",
-              "-i", "sine=frequency=660:duration=20",
-              "-filter_complex", "[0:a][1:a][2:a]amix=inputs=3:duration=shortest,volume=0.25",
-              "-c:a", "libmp3lame",
-              "LightsOutTheme.mp3",
-          ], check=True)
-          PY
-          ls -lh LightsOutTheme.mp3 fixtures/legacy_256/converted/template.xsq fixtures/legacy_256/converted/xlights_rgbeffects.xml
+          python tools/generate_structured_benchmark_audio.py LightsOutTheme.wav --duration 60
+          ls -lh LightsOutTheme.wav fixtures/legacy_256/converted/template.xsq fixtures/legacy_256/converted/xlights_rgbeffects.xml
 
-      - name: Generate longer v28 grade-only reports
+      - name: Generate structured v28 grade-only reports
         env:
           PYTHONPATH: .
         run: |
-          python tools/run_v28_legacy_256_previews.py --versions v28.7 v28.8 v28.9 --duration-seconds 20 --max-layers-per-prop 1 --skip-render
+          python tools/run_v28_legacy_256_previews.py --versions v28.7 v28.8 v28.9 --duration-seconds 60 --max-layers-per-prop 1 --skip-render
 
-      - name: Show grade outputs
+      - name: Show grade outputs and A+ target status
         if: always()
         run: |
           find test_runs/v28_legacy_256_previews -maxdepth 3 -type f -printf '%p %s bytes\n' | sort || true
@@ -213,20 +197,35 @@ jobs:
           import json
           from pathlib import Path
           summary = Path('test_runs/v28_legacy_256_previews/v28_legacy_256_preview_summary.json')
-          if summary.exists():
-              data = json.loads(summary.read_text())
-              for result in data.get('results', []):
-                  report = result.get('report', {})
-                  print(f"GRADE {result.get('version')}: score={report.get('quality_score')} grade={report.get('quality_grade')} effects={report.get('effects_total')} issues={report.get('validation_issues')} sequence_ok={result.get('sequence_ok')}")
+          if not summary.exists():
+              raise SystemExit(0)
+          data = json.loads(summary.read_text())
+          best = None
+          for result in data.get('results', []):
+              report = result.get('report', {})
+              print(f"GRADE {result.get('version')}: score={report.get('quality_score')} grade={report.get('quality_grade')} effects={report.get('effects_total')} issues={report.get('validation_issues')} sequence_ok={result.get('sequence_ok')}")
+              if best is None or (report.get('quality_score') or 0) > (best.get('report', {}).get('quality_score') or 0):
+                  best = result
+          if best:
+              report = best.get('report', {})
+              score = float(report.get('quality_score') or 0.0)
+              issues = int(report.get('validation_issues') or 0)
+              ok = bool(best.get('sequence_ok'))
+              print(f"A_PLUS_TARGET best={best.get('version')} score={score} issues={issues} sequence_ok={ok} target_score=95.0")
+              if score >= 95.0 and issues == 0 and ok:
+                  print("A_PLUS_TARGET_STATUS passed")
+              else:
+                  print("A_PLUS_TARGET_STATUS not_yet")
           PY
 
-      - name: Upload v28 longer grade artifacts
+      - name: Upload structured A+ grade artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: v28-legacy-256-longer-grade-reports
+          name: v28-a-plus-structured-grade-reports
           path: |
             test_runs/v28_legacy_256_previews/**/*.xsq
             test_runs/v28_legacy_256_previews/**/*.json
             test_runs/v28_legacy_256_previews/**/*.txt
+            docs/V28_A_PLUS_BENCHMARK.md
           if-no-files-found: warn
