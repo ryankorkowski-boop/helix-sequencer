@@ -153,9 +153,9 @@ jobs:
           python -m pytest "${tests_to_run[@]}" -q
 
   v28-grades:
-    name: V28 legacy 256 grade-only sequences
+    name: V28 legacy 256 longer grade-only sequences
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 35
     needs: source-hygiene
 
     steps:
@@ -187,21 +187,23 @@ jobs:
               ffmpeg,
               "-y",
               "-f", "lavfi",
-              "-i", "sine=frequency=440:duration=5",
+              "-i", "sine=frequency=220:duration=20",
               "-f", "lavfi",
-              "-i", "sine=frequency=660:duration=5",
-              "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=shortest,volume=0.25",
+              "-i", "sine=frequency=440:duration=20",
+              "-f", "lavfi",
+              "-i", "sine=frequency=660:duration=20",
+              "-filter_complex", "[0:a][1:a][2:a]amix=inputs=3:duration=shortest,volume=0.25",
               "-c:a", "libmp3lame",
               "LightsOutTheme.mp3",
           ], check=True)
           PY
           ls -lh LightsOutTheme.mp3 fixtures/legacy_256/converted/template.xsq fixtures/legacy_256/converted/xlights_rgbeffects.xml
 
-      - name: Generate v28 grade-only reports
+      - name: Generate longer v28 grade-only reports
         env:
           PYTHONPATH: .
         run: |
-          python tools/run_v28_legacy_256_previews.py --versions v28.7 v28.8 v28.9 --duration-seconds 3 --max-layers-per-prop 1 --skip-render
+          python tools/run_v28_legacy_256_previews.py --versions v28.7 v28.8 v28.9 --duration-seconds 20 --max-layers-per-prop 1 --skip-render
 
       - name: Show grade outputs
         if: always()
@@ -218,11 +220,11 @@ jobs:
                   print(f"GRADE {result.get('version')}: score={report.get('quality_score')} grade={report.get('quality_grade')} effects={report.get('effects_total')} issues={report.get('validation_issues')} sequence_ok={result.get('sequence_ok')}")
           PY
 
-      - name: Upload v28 grade artifacts
+      - name: Upload v28 longer grade artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: v28-legacy-256-grade-reports
+          name: v28-legacy-256-longer-grade-reports
           path: |
             test_runs/v28_legacy_256_previews/**/*.xsq
             test_runs/v28_legacy_256_previews/**/*.json
