@@ -5,6 +5,7 @@ from typing import Any, Iterable, Mapping
 
 from animation import string_motion
 from audio import instrument_detection
+from core import vocal_timeline
 from models.snowman_geometry import build_snowman_template, validate_mouth_inside_head
 
 
@@ -99,6 +100,50 @@ GUITARIST_DEFAULT_CUES = [
 ]
 
 
+SINGER_DEFAULT_CUES = [
+    {
+        "start_ms": 0,
+        "end_ms": 120,
+        "kind": "mouth_open_A",
+        "submodel": "mouth_A",
+        "secondary_submodels": ["head", "mic_head"],
+        "intensity": 0.92,
+        "motion": "lead_vocal_open",
+        "xlights_effect_hint": "Faces effect mouth_A on phoneme timing track",
+    },
+    {
+        "start_ms": 120,
+        "end_ms": 240,
+        "kind": "mouth_E",
+        "submodel": "mouth_E",
+        "secondary_submodels": ["head", "mic_stand"],
+        "intensity": 0.82,
+        "motion": "lead_vocal_narrow",
+        "xlights_effect_hint": "Faces effect mouth_E on phoneme timing track",
+    },
+    {
+        "start_ms": 240,
+        "end_ms": 360,
+        "kind": "mouth_MBP",
+        "submodel": "mouth_MBP",
+        "secondary_submodels": ["head", "mouth_all"],
+        "intensity": 0.78,
+        "motion": "closed_lip_consonant",
+        "xlights_effect_hint": "Faces effect mouth_MBP for M/B/P consonants",
+    },
+    {
+        "start_ms": 360,
+        "end_ms": 560,
+        "kind": "mic_accent",
+        "submodel": "mic_head",
+        "secondary_submodels": ["mic_stand", "band_body_core"],
+        "intensity": 0.64,
+        "motion": "mic_hit_body_sway",
+        "xlights_effect_hint": "Accent mic_head and body core on phrase hit",
+    },
+]
+
+
 def _required_bassist_submodels() -> list[str]:
     return [
         "head",
@@ -135,6 +180,27 @@ def _required_guitarist_submodels() -> list[str]:
     ]
 
 
+def _required_singer_submodels() -> list[str]:
+    return [
+        "head",
+        "left_arm",
+        "right_arm",
+        "body_top",
+        "body_bottom",
+        "band_body_core",
+        "mic_stand",
+        "mic_head",
+        "instrument_all",
+        "mouth_A",
+        "mouth_E",
+        "mouth_I",
+        "mouth_O",
+        "mouth_U",
+        "mouth_MBP",
+        "mouth_all",
+    ]
+
+
 def _default_animation_frames(cues: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
     return [
         {
@@ -149,7 +215,7 @@ def _default_animation_frames(cues: Iterable[Mapping[str, Any]]) -> list[dict[st
     ]
 
 
-def _build_working_string_member(
+def _build_working_member(
     *,
     role: str,
     required_submodels: list[str],
@@ -192,7 +258,7 @@ def _build_working_string_member(
 
 def build_working_bassist(canvas_size: int = 64) -> dict[str, Any]:
     """Build the concrete snowman bassist performer package."""
-    return _build_working_string_member(
+    return _build_working_member(
         role="bassist",
         required_submodels=_required_bassist_submodels(),
         default_cues=BASSIST_DEFAULT_CUES,
@@ -203,11 +269,22 @@ def build_working_bassist(canvas_size: int = 64) -> dict[str, Any]:
 
 def build_working_guitarist(canvas_size: int = 64) -> dict[str, Any]:
     """Build the concrete snowman guitarist performer package."""
-    return _build_working_string_member(
+    return _build_working_member(
         role="guitarist",
         required_submodels=_required_guitarist_submodels(),
         default_cues=GUITARIST_DEFAULT_CUES,
         smoke_test="Apply the four default cues to strum_zone, fret_zone, guitar_body, and instrument_all over one 560ms guitar phrase.",
+        canvas_size=canvas_size,
+    )
+
+
+def build_working_singer(canvas_size: int = 64) -> dict[str, Any]:
+    """Build the concrete lead singer snowman performer package."""
+    return _build_working_member(
+        role="singer",
+        required_submodels=_required_singer_submodels(),
+        default_cues=SINGER_DEFAULT_CUES,
+        smoke_test="Apply phoneme cues to mouth_A/E/I/O/U/MBP and phrase accents to mic_head over one lyric phrase.",
         canvas_size=canvas_size,
     )
 
@@ -271,12 +348,7 @@ def build_reactive_guitarist_member(
     band_sync_payload: Mapping[str, Any] | None = None,
     canvas_size: int = 64,
 ) -> dict[str, Any]:
-    """Build the guitarist package with real audio/stem-timing reactive cues.
-
-    Polyphonic note clusters drive strums, pitch-set changes drive fret changes,
-    long notes drive guitar-body sustains, and onset/beat timing provides a
-    deterministic fallback when note extraction is unavailable.
-    """
+    """Build the guitarist package with real audio/stem-timing reactive cues."""
     payload = build_working_guitarist(canvas_size)
     guitar_events, detection_debug = instrument_detection.derive_guitar_events(
         list(note_events),
@@ -308,6 +380,103 @@ def build_reactive_guitarist_member(
             "validation": {
                 **dict(payload["validation"]),
                 "has_reactive_cues": bool(reactive_cues),
+                "reactive_cues_target_existing_submodels": all(
+                    str(cue.get("submodel", "")) in payload["submodel_node_counts"] for cue in reactive_cues
+                ),
+            },
+        }
+    )
+    return payload
+
+
+def _song_parts_from_raw(parts: Iterable[Any], vocal_peaks: Iterable[int]) -> list[vocal_timeline.SongPart]:
+    return vocal_timeline.build_song_parts(parts, vocal_peaks_ms=vocal_peaks)
+
+
+def build_reactive_singer_member(
+    *,
+    lyric_events: Iterable[Any] = (),
+    vocal_peaks: Iterable[int] = (),
+    parts: Iterable[Any] = (),
+    canvas_size: int = 64,
+) -> dict[str, Any]:
+    """Build the singer package with lyric/phoneme timing reactive cues.
+
+    Lyric events drive word and phoneme timing. If lyrics are unavailable,
+    vocal peaks create a low-confidence energy fallback so the singer still
+    animates instead of silently doing nothing.
+    """
+    payload = build_working_singer(canvas_size)
+    vocal_peak_list = list(vocal_peaks)
+    lyric_timeline = vocal_timeline.build_lyric_timeline(lyric_events, vocal_peaks_ms=vocal_peak_list)
+    song_parts = _song_parts_from_raw(parts, vocal_peak_list)
+    reactive_cues: list[dict[str, Any]] = []
+    for event in lyric_timeline.phoneme_events:
+        submodel = event.mouth_submodel
+        reactive_cues.append(
+            {
+                "performer": "lead_singer",
+                "role": "lead_vocal",
+                "start_ms": event.start_ms,
+                "end_ms": event.end_ms,
+                "kind": "phoneme_face",
+                "phoneme": event.phoneme,
+                "mouth_shape": event.mouth_shape,
+                "submodel": submodel,
+                "mouth_submodel": submodel,
+                "word_text": event.word_text,
+                "section": vocal_timeline.part_name_at(song_parts, event.start_time),
+                "confidence": round(event.confidence, 3),
+                "xlights": {
+                    "effect": "Faces",
+                    "face_definition": "lead_singer_full",
+                    "timing_track": "phoneme",
+                    "target_submodel": submodel,
+                },
+            }
+        )
+    for line in lyric_timeline.lines:
+        if not line.words:
+            continue
+        reactive_cues.append(
+            {
+                "performer": "lead_singer",
+                "role": "phrase_accent",
+                "start_ms": int(round(line.start_time * 1000.0)),
+                "end_ms": min(int(round(line.end_time * 1000.0)), int(round(line.start_time * 1000.0)) + 280),
+                "kind": "mic_phrase_hit",
+                "submodel": "mic_head",
+                "secondary_submodels": ["mic_stand", "band_body_core"],
+                "lyric_text": line.text,
+                "section": vocal_timeline.part_name_at(song_parts, line.start_time),
+                "confidence": round(line.confidence, 3),
+                "xlights": {"effect": "On", "timing_track": "word", "target_submodel": "mic_head"},
+            }
+        )
+    cue_targets = sorted({str(cue.get("submodel", "")) for cue in reactive_cues if cue.get("submodel")})
+    payload.update(
+        {
+            "status": "reactive_working_member_slice",
+            "reactive_cues": reactive_cues,
+            "reactive_source_events": {
+                "lyric_lines": [vocal_timeline.as_plain_dict(line) for line in lyric_timeline.lines],
+                "words": [vocal_timeline.as_plain_dict(word) for word in lyric_timeline.words],
+                "phonemes": [vocal_timeline.as_plain_dict(event) for event in lyric_timeline.phoneme_events],
+            },
+            "reactive_debug": {
+                "schema": "helix.working_singer.reactivity.v1",
+                "timeline": dict(lyric_timeline.confidence_summary),
+                "cue_count": len(reactive_cues),
+                "cue_targets": cue_targets,
+                "uses_lyrics": lyric_timeline.confidence_summary.get("source") == "lyrics",
+                "uses_vocal_energy_fallback": lyric_timeline.confidence_summary.get("source") == "vocal_energy_fallback",
+                "phoneme_count": len(lyric_timeline.phoneme_events),
+                "word_count": len(lyric_timeline.words),
+            },
+            "validation": {
+                **dict(payload["validation"]),
+                "has_reactive_cues": bool(reactive_cues),
+                "has_phoneme_cues": any(cue.get("kind") == "phoneme_face" for cue in reactive_cues),
                 "reactive_cues_target_existing_submodels": all(
                     str(cue.get("submodel", "")) in payload["submodel_node_counts"] for cue in reactive_cues
                 ),
