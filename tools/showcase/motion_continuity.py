@@ -28,6 +28,8 @@ DIRECTION_ORDER = {
 COMPATIBLE_MOTION_FAMILIES = {
     ("sweep", "chase"),
     ("chase", "sweep"),
+    ("chase", "spiral"),
+    ("spiral", "chase"),
     ("pulse", "burst"),
     ("burst", "pulse"),
     ("wash", "shimmer"),
@@ -206,9 +208,7 @@ def _score_direction_coherence(motions: list[MotionTrace], findings: list[Motion
             compatible += 1
         elif "random" in {left.direction, right.direction}:
             pass
-        elif abs(left_value - right_value) <= 2:
-            compatible += 1
-        elif left_value == -right_value:
+        elif left_value == -right_value and left_value != 0:
             abrupt_flips += 1
             findings.append(
                 MotionContinuityFinding(
@@ -219,6 +219,8 @@ def _score_direction_coherence(motions: list[MotionTrace], findings: list[Motion
                     penalty=0.08,
                 )
             )
+        elif abs(left_value - right_value) <= 2:
+            compatible += 1
 
     score = compatible / total if total else 1.0
     return round(max(0.0, score - (0.08 * abrupt_flips)), 4)
