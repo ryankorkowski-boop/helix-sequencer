@@ -42,6 +42,7 @@ The first metric slices are:
 ```text
 tools/showcase/energy_curve.py
 tools/showcase/hero_dominance.py
+tools/showcase/motion_continuity.py
 ```
 
 They measure:
@@ -56,6 +57,11 @@ They measure:
 - `support_balance_score`
 - `visual_mush_penalty`
 - `showcase_hero_score`
+- `direction_coherence_score`
+- `family_continuity_score`
+- `transition_smoothness_score`
+- `hard_cut_penalty`
+- `showcase_motion_score`
 
 ## Source Registry
 
@@ -121,18 +127,26 @@ Implemented:
 
 This measures focal clarity, hero moments, support balance, and visual mush risk using only trace summaries. It is report-only and does not influence generation.
 
+### Slice 5: Showcase Motion Continuity Metrics
+
+Implemented:
+
+- `tools/showcase/motion_continuity.py`
+- `tests/showcase/test_motion_continuity.py`
+
+This measures directional coherence, motion-family continuity, transition smoothness, and hard-cut risk using only synthetic/internal/permissioned motion traces. It is report-only and does not influence generation.
+
 ## Future Safe Slices
 
 Recommended next slices:
 
-1. `tools/showcase/motion_continuity.py`
-2. `tools/showcase/palette_arc.py`
-3. `tools/showcase/impact_model.py`
-4. `tools/showcase/showcase_score.py`
-5. report-only integration into output quality reports
-6. explainable comparison only
-7. optional soft bias behind flags
-8. optional enforcement only after validation
+1. `tools/showcase/palette_arc.py`
+2. `tools/showcase/impact_model.py`
+3. `tools/showcase/showcase_score.py`
+4. report-only integration into output quality reports
+5. explainable comparison only
+6. optional soft bias behind flags
+7. optional enforcement only after validation
 
 ## Acceptance Criteria
 
