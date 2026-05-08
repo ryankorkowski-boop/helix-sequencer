@@ -7,7 +7,6 @@ from typing import Any, Sequence
 
 from models.helixville4_band_assets import HELIXVILLE4_BAND_ASSETS, BandModelAsset
 
-
 MODEL_KIND_BY_SUBMODEL_SUFFIX: tuple[tuple[str, str], ...] = (
     ("MOUTH_PHONEME", "phoneme"),
     ("MICROPHONE", "vocal_prop"),
@@ -33,6 +32,12 @@ MODEL_KIND_BY_SUBMODEL_SUFFIX: tuple[tuple[str, str], ...] = (
     ("HAT", "body_detail"),
 )
 
+DRUMMER_EXTRA_SUBMODELS: tuple[tuple[str, str], ...] = (
+    ("HX_SNOWMAN_DRUMMER_SNARE_RIM", "HX_SNOWMAN_DRUMMER_SNARE"),
+    ("HX_SNOWMAN_DRUMMER_TOM_RIGHT", "HX_SNOWMAN_DRUMMER_TOM"),
+    ("HX_SNOWMAN_DRUMMER_CYMBALS_RIGHT", "HX_SNOWMAN_DRUMMER_CYMBALS"),
+)
+
 
 def classify_submodel(submodel: str) -> str:
     upper = submodel.upper()
@@ -54,19 +59,26 @@ def _segment_bounds(asset: BandModelAsset, submodel: str) -> dict[str, float]:
     }
 
 
+def _submodel_payload(asset: BandModelAsset, submodel: str, index: int, *, source_submodel: str | None = None) -> dict[str, Any]:
+    source = source_submodel or submodel
+    segment_names = [segment.name for segment in asset.outline_segments if segment.submodel == source]
+    return {
+        "name": submodel,
+        "kind": classify_submodel(submodel),
+        "segment_names": segment_names,
+        "bounds_px": _segment_bounds(asset, source),
+        "node_order": index,
+    }
+
+
 def build_model_spec_for_asset(asset: BandModelAsset) -> dict[str, Any]:
-    submodels: list[dict[str, Any]] = []
-    for index, submodel in enumerate(asset.submodel_order, start=1):
-        segment_names = [segment.name for segment in asset.outline_segments if segment.submodel == submodel]
-        submodels.append(
-            {
-                "name": submodel,
-                "kind": classify_submodel(submodel),
-                "segment_names": segment_names,
-                "bounds_px": _segment_bounds(asset, submodel),
-                "node_order": index,
-            }
-        )
+    submodels = [_submodel_payload(asset, submodel, index) for index, submodel in enumerate(asset.submodel_order, start=1)]
+    if asset.model_prefix == "HX_SNOWMAN_DRUMMER":
+        existing = {str(item["name"]) for item in submodels}
+        for extra_name, source_name in DRUMMER_EXTRA_SUBMODELS:
+            if extra_name not in existing:
+                submodels.append(_submodel_payload(asset, extra_name, len(submodels) + 1, source_submodel=source_name))
+                existing.add(extra_name)
     return {
         "model_name": asset.model_prefix,
         "member_id": asset.member_id,
