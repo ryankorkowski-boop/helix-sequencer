@@ -24,6 +24,7 @@ from tools.build_helpers.section_identity import score_section_identity
 from tools.showcase.energy_curve import score_showcase_energy
 from tools.showcase.hero_dominance import score_hero_dominance
 from tools.showcase.motion_continuity import score_motion_continuity
+from tools.showcase.palette_arc import score_palette_arc
 
 
 @dataclass(frozen=True)
@@ -60,16 +61,12 @@ def build_output_quality_report(
     sections: Iterable[Mapping[str, object]] | None = None,
     showcase_sections: Iterable[Mapping[str, object]] | None = None,
     showcase_motions: Iterable[Mapping[str, object]] | None = None,
+    showcase_palettes: Iterable[Mapping[str, object]] | None = None,
     motifs: Iterable[Mapping[str, object]] | None = None,
     manual_locks: Mapping[str, object] | None = None,
     variants: Iterable[Mapping[str, object]] | None = None,
     baseline_candidate: Mapping[str, object] | None = None,
 ) -> OutputQualityReport:
-    """Build a combined advisory report from available generated artifacts.
-
-    Missing inputs are skipped with warnings. This makes the hook safe to call from
-    early pipeline stages before every advisory source exists.
-    """
 
     normalized_options = options if isinstance(options, GuiQualityOptions) else normalize_gui_quality_options(options)
     enabled = set(normalized_options.enabled_report_modules())
@@ -109,28 +106,15 @@ def build_output_quality_report(
         else:
             reports["motif_memory"] = score_motif_memory(motifs).as_dict()
 
-    if "manual_locks" in enabled:
-        if manual_locks is None:
-            warnings.append("manual_locks skipped: no manual_locks sidecar provided")
-        else:
-            try:
-                lock_file = parse_manual_lock_file(manual_locks)
-                reports["manual_locks"] = {
-                    "summary": lock_file.summary(),
-                    "locks": [lock.as_dict() for lock in lock_file.locks],
-                }
-            except ManualLockError as exc:
-                warnings.append(f"manual_locks skipped: {exc}")
-
-    # Legal-safe showcase metrics are opt-in via synthetic, internal, or
-    # permissioned trace summaries. They never download/store public media or
-    # creator choreography.
     if showcase_sections is not None:
         reports["showcase_energy"] = score_showcase_energy(showcase_sections).as_dict()
         reports["showcase_hero_dominance"] = score_hero_dominance(showcase_sections).as_dict()
 
     if showcase_motions is not None:
         reports["showcase_motion_continuity"] = score_motion_continuity(showcase_motions).as_dict()
+
+    if showcase_palettes is not None:
+        reports["showcase_palette_arc"] = score_palette_arc(showcase_palettes).as_dict()
 
     if variants is not None:
         shortlist = rank_variants(variants, preset=normalized_options.quality_preset)
@@ -166,7 +150,9 @@ def _summarize_reports(reports: Mapping[str, object]) -> dict[str, object]:
         "showcase_energy": "showcase_energy_score",
         "showcase_hero_dominance": "showcase_hero_score",
         "showcase_motion_continuity": "showcase_motion_score",
+        "showcase_palette_arc": "showcase_palette_score",
     }
+
     component_scores: dict[str, float] = {}
     for report_name, score_key in score_keys.items():
         report = reports.get(report_name)
