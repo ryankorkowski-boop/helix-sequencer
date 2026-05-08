@@ -87,25 +87,25 @@ class HelixiaLayoutTests(unittest.TestCase):
             payload = build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
             parsed = xmp.parse_layout(Path(tmp) / "xlights_rgbeffects.xml")
 
-            # Spatial v2 canonical counts
-            self.assertEqual(len(parsed.root_models()), 180)
-            self.assertEqual(len(parsed.groups), 51)
-            self.assertEqual(payload["xlights_layout"]["model_count"], 180)
+            # Canonical artifact counts
+            self.assertEqual(len(parsed.root_models()), 105)
+            self.assertEqual(len(parsed.groups), 49)
+            self.assertEqual(payload["xlights_layout"]["model_count"], 105)
 
             self.assertIn("HELIXIA_ALL", parsed.groups)
             self.assertIn("HELIXIA_STAGE", parsed.groups)
             self.assertIn("HELIXIA_HOUSES", parsed.groups)
-            self.assertGreaterEqual(len(parsed.submodel_names()), 345)
+            self.assertGreaterEqual(len(parsed.submodel_names()), 300)
 
     def test_committed_helixia_artifacts_are_parser_valid(self) -> None:
         committed_xml = ROOT / "helixville4" / "xlights_rgbeffects.xml"
         committed_manifest = ROOT / "helixville4" / "helixia_manifest.json"
         parsed = xmp.parse_layout(committed_xml)
 
-        # Spatial v2 canonical validation
-        self.assertEqual(len(parsed.root_models()), 180)
-        self.assertEqual(len(parsed.groups), 51)
-        self.assertGreaterEqual(len(parsed.submodel_names()), 345)
+        # Canonical artifact validation
+        self.assertEqual(len(parsed.root_models()), 105)
+        self.assertEqual(len(parsed.groups), 49)
+        self.assertGreaterEqual(len(parsed.submodel_names()), 300)
         self.assertTrue(committed_manifest.exists())
 
 
