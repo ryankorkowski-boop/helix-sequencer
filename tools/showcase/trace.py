@@ -2,7 +2,7 @@
 
 The trace layer is deliberately source-neutral and legal-safe. It represents
 synthetic, internal, or permissioned per-section/per-beat telemetry. It does not
-store raw copyrighted media, downloaded videos, or creator-specific choreography.
+store raw copyrighted media, downloaded videos, or externally authored choreography.
 """
 
 from __future__ import annotations

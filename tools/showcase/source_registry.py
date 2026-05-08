@@ -2,7 +2,7 @@
 
 This module is intentionally small and dependency-free. It does not download,
 scrape, train, or analyze external media. It validates metadata describing whether
-a source may be used for storage, derived metrics, training, or creator-specific
+a source may be used for storage, derived metrics, training, or direct third-party
 reproduction.
 """
 
@@ -86,7 +86,7 @@ class SourceRegistryEntry:
         if self.source_type == "public_video_reference_only":
             if self.raw_asset_storage_allowed or self.training_allowed or self.creator_specific_reproduction_allowed:
                 raise SourceRegistryError(
-                    "public_video_reference_only sources may not allow raw storage, training, or creator-specific reproduction"
+                    "public_video_reference_only sources may not allow raw storage, training, or direct third-party reproduction"
                 )
         if self.raw_asset_storage_allowed and not self.storage_allowed:
             raise SourceRegistryError("raw_asset_storage_allowed requires storage_allowed")

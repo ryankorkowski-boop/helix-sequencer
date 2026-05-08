@@ -1,7 +1,7 @@
 # Legal-Safe Showcase Parity Plan
 
 Status: report-only instrumentation plan  
-Goal: improve Helix toward showcase-tier output without copying, scraping, training on, or reproducing copyrighted creator choreography
+Goal: improve Helix toward showcase-tier output without copying, scraping, training on, or reproducing copyrighted third-party choreography
 
 ## Principle
 
@@ -15,7 +15,7 @@ Helix should learn and score general sequencing grammar:
 - contrast and restraint
 - drop/finale payoff
 
-Helix should not learn or store creator-specific choreography.
+Helix should not learn or store direct third-party choreography.
 
 ## What This Plan Does Not Do
 
@@ -102,7 +102,7 @@ Not allowed to store without permission:
 - raw third-party media
 - third-party sequence files
 - frame-by-frame effect mappings
-- recognizable creator choreography
+- recognizable third-party choreography
 
 ## Showcase Metric Rollout
 

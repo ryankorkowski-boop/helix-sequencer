@@ -66,7 +66,7 @@ Allowed source type values:
 
 ## Recommended Permission Defaults
 
-| Source Type | Raw Asset Storage | Derived Metrics | Training | Creator-Specific Reproduction |
+| Source Type | Raw Asset Storage | Derived Metrics | Training | Direct Third-Party Reproduction |
 | --- | --- | --- | --- | --- |
 | `user_authored_rules` | yes | yes | no unless explicitly requested | no |
 | `user_owned_sequence` | yes | yes | only if user permits | no unless user permits |
@@ -87,7 +87,7 @@ Raw media, sequence files, vendor assets, and screenshots may only be stored if 
 
 ### Derived Metrics
 
-Derived metrics should be aggregate and non-reconstructive. They should not be sufficient to recreate a creator's sequence.
+Derived metrics should be aggregate and non-reconstructive. They should not be sufficient to recreate a third-party authored sequence.
 
 Allowed examples:
 
@@ -126,7 +126,7 @@ Use them for:
 Do not use them for:
 
 - raw dataset creation
-- creator-specific imitation
+- direct third-party imitation
 - frame-by-frame choreography storage
 
 ## Review Workflow

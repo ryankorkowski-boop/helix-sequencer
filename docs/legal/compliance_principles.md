@@ -65,7 +65,7 @@ Helix should not store:
 
 - raw copyrighted media
 - raw third-party sequence files
-- frame-by-frame creator choreography
+- frame-by-frame third-party choreography
 - effect timelines from unlicensed sources
 - vendor model packs without permission
 
@@ -113,7 +113,7 @@ A PR that introduces learning, benchmarking, or showcase-parity behavior should 
 - [ ] No copyrighted media committed
 - [ ] No downloaded YouTube assets committed
 - [ ] No proprietary/vendor sequence files committed without permission
-- [ ] No creator-specific choreography copied
+- [ ] No direct third-party choreography copied
 - [ ] Source registry entries included for new external sources
 - [ ] Tests use synthetic or user-authorized data
 - [ ] Default renderer behavior unchanged unless explicitly intended
