@@ -23,6 +23,7 @@ from tools.build_helpers.restraint import score_restraint
 from tools.build_helpers.section_identity import score_section_identity
 from tools.showcase.energy_curve import score_showcase_energy
 from tools.showcase.hero_dominance import score_hero_dominance
+from tools.showcase.impact_model import score_impact_model
 from tools.showcase.motion_continuity import score_motion_continuity
 from tools.showcase.palette_arc import score_palette_arc
 
@@ -62,6 +63,7 @@ def build_output_quality_report(
     showcase_sections: Iterable[Mapping[str, object]] | None = None,
     showcase_motions: Iterable[Mapping[str, object]] | None = None,
     showcase_palettes: Iterable[Mapping[str, object]] | None = None,
+    showcase_impacts: Iterable[Mapping[str, object]] | None = None,
     motifs: Iterable[Mapping[str, object]] | None = None,
     manual_locks: Mapping[str, object] | None = None,
     variants: Iterable[Mapping[str, object]] | None = None,
@@ -116,6 +118,9 @@ def build_output_quality_report(
     if showcase_palettes is not None:
         reports["showcase_palette_arc"] = score_palette_arc(showcase_palettes).as_dict()
 
+    if showcase_impacts is not None:
+        reports["showcase_impact_model"] = score_impact_model(showcase_impacts).as_dict()
+
     if variants is not None:
         shortlist = rank_variants(variants, preset=normalized_options.quality_preset)
         reports["explainable_variants"] = shortlist.as_dict()
@@ -151,6 +156,7 @@ def _summarize_reports(reports: Mapping[str, object]) -> dict[str, object]:
         "showcase_hero_dominance": "showcase_hero_score",
         "showcase_motion_continuity": "showcase_motion_score",
         "showcase_palette_arc": "showcase_palette_score",
+        "showcase_impact_model": "showcase_impact_score",
     }
 
     component_scores: dict[str, float] = {}
