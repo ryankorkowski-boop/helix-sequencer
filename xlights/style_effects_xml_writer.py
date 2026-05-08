@@ -3,6 +3,7 @@ from pathlib import Path
 from xml.etree.ElementTree import Element, SubElement, ElementTree
 
 
+# Local Helix XML writer used by tests and demo artifacts.
 def build_style_effects_xml(rows):
     root = Element("HelixStyleEffects")
 
