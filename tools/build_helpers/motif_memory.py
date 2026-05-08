@@ -186,10 +186,40 @@ def _score_coverage(motifs: Sequence[MotifView], findings: list[MotifFinding]) -
     for motif in motifs:
         if not motif.section_kind or motif.section_kind == "unknown":
             penalty += 0.06
+            findings.append(
+                MotifFinding(
+                    code="motif_missing_section_kind",
+                    severity="info",
+                    motif=motif.name,
+                    section=motif.section,
+                    penalty=0.06,
+                    message=f"Motif '{motif.name}' has no useful section kind.",
+                )
+            )
         if motif.family == "unknown" and not motif.effect_family:
             penalty += 0.08
+            findings.append(
+                MotifFinding(
+                    code="motif_missing_family",
+                    severity="info",
+                    motif=motif.name,
+                    section=motif.section,
+                    penalty=0.08,
+                    message=f"Motif '{motif.name}' has no effect/motif family.",
+                )
+            )
         if not motif.primary_groups:
             penalty += 0.06
+            findings.append(
+                MotifFinding(
+                    code="motif_missing_groups",
+                    severity="info",
+                    motif=motif.name,
+                    section=motif.section,
+                    penalty=0.06,
+                    message=f"Motif '{motif.name}' has no primary prop groups.",
+                )
+            )
 
     return round(max(0.0, 1.0 - min(1.0, penalty)), 4)
 
@@ -209,6 +239,14 @@ def _score_identity_reuse(motifs: Sequence[MotifView], findings: list[MotifFindi
         if len(items) > 1 and (kind in RECURRING_SECTION_KINDS or kind != "unknown")
     }
     if not recurring:
+        findings.append(
+            MotifFinding(
+                code="no_recurring_motif_sections",
+                severity="info",
+                message="No repeated section kinds with motifs were found; motif reuse cannot be strongly evaluated.",
+                penalty=0.1,
+            )
+        )
         return (0.75 if motifs else 0.0, 0)
 
     scores: list[float] = []
@@ -217,6 +255,16 @@ def _score_identity_reuse(motifs: Sequence[MotifView], findings: list[MotifFindi
         similarities = [_similarity(first, item) for item in items[1:]]
         kind_score = sum(similarities) / len(similarities) if similarities else 1.0
         scores.append(kind_score)
+        if kind_score < 0.45:
+            findings.append(
+                MotifFinding(
+                    code="weak_motif_reuse",
+                    severity="warning",
+                    section=kind,
+                    penalty=0.12,
+                    message=f"Repeated section kind '{kind}' does not reuse a recognizable visual motif.",
+                )
+            )
 
     return (round(sum(scores) / len(scores), 4), len(recurring))
 
@@ -267,6 +315,18 @@ def _score_overfragmentation(motifs: Sequence[MotifView], findings: list[MotifFi
 
     unique_keys = {motif.identity_key for motif in motifs}
     ratio = len(unique_keys) / len(motifs)
+
+    if len(motifs) >= 4 and ratio > 0.85:
+        findings.append(
+            MotifFinding(
+                code="motif_overfragmentation",
+                severity="warning",
+                penalty=0.15,
+                message=(
+                    f"{len(unique_keys)} unique motif identities across {len(motifs)} motifs may feel like unrelated effects."
+                ),
+            )
+        )
 
     return round(max(0.0, min(1.0, 1.15 - ratio)), 4)
 
