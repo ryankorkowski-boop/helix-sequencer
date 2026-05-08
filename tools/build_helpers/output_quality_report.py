@@ -26,6 +26,7 @@ from tools.showcase.hero_dominance import score_hero_dominance
 from tools.showcase.impact_model import score_impact_model
 from tools.showcase.motion_continuity import score_motion_continuity
 from tools.showcase.palette_arc import score_palette_arc
+from tools.showcase.showcase_score import score_showcase_report
 
 
 @dataclass(frozen=True)
@@ -121,6 +122,9 @@ def build_output_quality_report(
     if showcase_impacts is not None:
         reports["showcase_impact_model"] = score_impact_model(showcase_impacts).as_dict()
 
+    if any(key.startswith("showcase_") for key in reports):
+        reports["showcase_score"] = score_showcase_report(reports).as_dict()
+
     if variants is not None:
         shortlist = rank_variants(variants, preset=normalized_options.quality_preset)
         reports["explainable_variants"] = shortlist.as_dict()
@@ -157,6 +161,7 @@ def _summarize_reports(reports: Mapping[str, object]) -> dict[str, object]:
         "showcase_motion_continuity": "showcase_motion_score",
         "showcase_palette_arc": "showcase_palette_score",
         "showcase_impact_model": "showcase_impact_score",
+        "showcase_score": "score",
     }
 
     component_scores: dict[str, float] = {}
@@ -177,5 +182,7 @@ def _summarize_reports(reports: Mapping[str, object]) -> dict[str, object]:
             sum(component_scores.values()) / len(component_scores),
             4,
         )
+        if "showcase_score" in component_scores:
+            summary["showcase_score"] = component_scores["showcase_score"]
 
     return summary
