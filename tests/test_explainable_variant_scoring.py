@@ -88,3 +88,37 @@ def test_empty_rank_variants_has_no_winner():
 
     assert shortlist.winner is None
     assert shortlist.variants == ()
+
+
+def test_showcase_score_is_passed_through_but_not_used_for_ranking():
+    strong = _strong_variant("strong")
+    weak = _strong_variant("weak")
+
+    # Make weak have artificially high showcase_score but worse quality
+    strong["showcase_score"] = 0.6
+    weak["quality_score"] = 89.0
+    weak["audit_score"] = 79.0
+    weak["showcase_score"] = 0.99
+
+    shortlist = rank_variants([weak, strong], preset="showcase")
+
+    # Winner should still be strong based on explainable score logic
+    assert shortlist.winner == "strong"
+
+    strong_report = next(v for v in shortlist.variants if v.variant_id == "strong")
+    weak_report = next(v for v in shortlist.variants if v.variant_id == "weak")
+
+    # showcase_score should be visible in raw_metrics and attribute
+    assert strong_report.showcase_score == 0.6
+    assert weak_report.showcase_score == 0.99
+    assert strong_report.raw_metrics["showcase_score"] == 0.6
+    assert weak_report.raw_metrics["showcase_score"] == 0.99
+
+
+def test_missing_showcase_score_does_not_break_scoring():
+    variant = _strong_variant("no_showcase")
+
+    report = score_variant(variant, preset="showcase")
+
+    assert report.showcase_score is None
+    assert "showcase_score" not in report.raw_metrics
