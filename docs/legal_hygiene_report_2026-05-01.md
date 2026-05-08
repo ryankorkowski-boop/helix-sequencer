@@ -9,27 +9,27 @@ Branch: feature/restructure-core
 
 - path: core/effect_engine.py (active placement helpers and placement mode routing)
 - risk: resolved
-- reason: previously source-specific naming in active runtime path.
+- reason: previously source-linked naming in active runtime path.
 - action: renamed to source-agnostic `mapped_*` naming while preserving behavior.
 
 - path: core/engine_style_catalog.py (v18 style titles and placement modes)
 - risk: resolved
-- reason: previously creator/source-specific naming in user-facing style metadata.
+- reason: previously source-linked naming in user-facing style metadata.
 - action: renamed style labels and placement modes to source-agnostic equivalents.
 
 - path: rules.md (provenance section)
 - risk: resolved
-- reason: previously included creator-specific tutorial link.
+- reason: previously included an external tutorial link.
 - action: replaced with source-agnostic tutorial category guidance.
 
-- path: xlights/vendor_benchmark_manifest.json and docs/xlights_vendor_benchmark_research_2026-04-23.md
+- path: legacy benchmark manifest and removed notes file
 - risk: resolved
-- reason: previously used named commercial sources in benchmark examples.
-- action: anonymized benchmark source identifiers and references.
+- reason: previously used named commercial-source examples.
+- action: anonymized source identifiers and references.
 
 ## Removed
 
-- Source-specific active naming and links listed above.
+- Source-linked active naming and links listed above.
 
 ## Rewritten
 
@@ -38,7 +38,7 @@ Branch: feature/restructure-core
 
 ## Remaining Safe References
 
-- Policy/legal docs may still contain terms such as `vendor`, `forum`, `transcript`, or `copied` in compliance context.
+- Policy/legal docs may still contain compliance terminology in compliance context.
 - Archive files may retain historical labels; they are non-runtime and outside active generation path.
 
 ## Tests Run
@@ -48,8 +48,8 @@ Branch: feature/restructure-core
 
 ## History Cleanup Needed
 
-- no (for legal contamination)
-- reason: no high-risk copied transcript/caption/proprietary sequence content found in active tracked runtime paths.
+- no
+- reason: no high-risk copied source content found in active tracked runtime paths.
 
 ## Recommended Next Step
 

@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from tools.build_helpers.helixia_xlights import build_helixia_xlights_layout
+from tools.write_helixville4_band_assets import write_band_assets
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -115,6 +116,38 @@ MEGATREE_CONFIGS: list[str] = [
     "mega_dense_matrix",
     "mega_sparse_outline",
 ]
+
+ROLE_BY_MODEL_TYPE: dict[str, str] = {
+    "arch": "travel",
+    "tree": "hero",
+    "matrix": "detail_surface",
+    "line": "structure",
+    "candy_cane": "rhythm",
+    "circle": "accent",
+    "sphere": "mood",
+    "star": "accent",
+    "spinner": "motion",
+    "icicles": "texture",
+    "window_frame": "structure",
+    "dmx": "legacy_control",
+    "custom": "performer_or_special",
+}
+
+FAMILY_BY_MODEL_TYPE: dict[str, str] = {
+    "arch": "travel_props",
+    "tree": "trees",
+    "matrix": "matrices",
+    "line": "lines",
+    "candy_cane": "canes",
+    "circle": "circles",
+    "sphere": "spheres",
+    "star": "stars",
+    "spinner": "spinners",
+    "icicles": "icicles",
+    "window_frame": "windows",
+    "dmx": "legacy_control",
+    "custom": "custom_props",
+}
 
 
 @dataclass(frozen=True)
@@ -330,11 +363,118 @@ def _native_model_coverage(
     return coverage
 
 
+def _role_metadata_for_lot(lot_id: str, model_types: list[str]) -> dict[str, Any]:
+    roles = sorted({ROLE_BY_MODEL_TYPE.get(model_type, "support") for model_type in model_types})
+    families = sorted({FAMILY_BY_MODEL_TYPE.get(model_type, "unknown") for model_type in model_types})
+    is_stage = lot_id in {"snowman_band_stage", "dj_radio_booth"}
+    is_ac = lot_id in {"ac_all_white", "ac_rwg"}
+    return {
+        "lot_id": lot_id,
+        "model_types": list(model_types),
+        "families": families,
+        "roles": roles,
+        "stage_zone": bool(is_stage),
+        "legacy_control_zone": bool(is_ac),
+    }
+
+
+def _build_layout_intelligence(
+    houses: list[HouseLot],
+    special_lots: list[dict[str, Any]],
+    fib_trees: list[dict[str, Any]],
+    coverage: dict[str, list[str]],
+) -> dict[str, Any]:
+    house_roles = [
+        _role_metadata_for_lot(house.lot_id, house.model_types)
+        | {
+            "style_id": house.style_id,
+            "style_name": house.style_name,
+            "grid_row": house.grid_row,
+            "grid_col": house.grid_col,
+            "world_position_ft": [house.world_x_ft, house.world_y_ft, house.world_z_ft],
+        }
+        for house in houses
+    ]
+    special_roles = [
+        _role_metadata_for_lot(str(lot.get("lot_id", "")), list(lot.get("model_types", []) or []))
+        | {
+            "display_name": str(lot.get("display_name", "")),
+            "world_position_ft": [float(lot.get("world_x_ft", 0.0)), float(lot.get("world_y_ft", 0.0)), 0.0],
+            "contains": list(lot.get("contains", []) or []),
+        }
+        for lot in special_lots
+    ]
+    performer_models = {
+        "snowman_band": [
+            "HX_SNOWMAN_BASSIST_BODY",
+            "HX_SNOWMAN_BASSIST_INSTRUMENT",
+            "HX_SNOWMAN_GUITARIST_BODY",
+            "HX_SNOWMAN_GUITARIST_INSTRUMENT",
+            "HX_SNOWMAN_DRUMMER_BODY",
+            "HX_SNOWMAN_DRUMMER_INSTRUMENT",
+            "HX_SNOWMAN_SINGER_BODY",
+            "HX_SNOWMAN_SINGER_INSTRUMENT",
+            "HX_SNOWMAN_SINGER_FEMALE_BODY",
+            "HX_SNOWMAN_SINGER_FEMALE_INSTRUMENT",
+        ],
+        "helixville4_band_spec_models": [
+            "HX_SNOWMAN_SINGER",
+            "HX_SNOWMAN_SINGER_FEMALE",
+            "HX_SNOWMAN_GUITARIST",
+            "HX_SNOWMAN_BASSIST",
+            "HX_SNOWMAN_DRUMMER",
+        ],
+        "cactus_tubeman": [
+            "HX_CACTUS_BODY",
+            "HX_CACTUS_FACE",
+            "HX_TUBEMAN_BODY",
+            "HX_TUBEMAN_ARMS",
+            "HX_DJ_BOOTH",
+        ],
+        "floor_piano": ["HX_FLOOR_PIANO_BASE", "HX_FLOOR_PIANO_KEYS"],
+        "reindeer_dance": ["HX_REINDEER_DANCE_BODY", "HX_REINDEER_DANCE_LEGS"],
+    }
+    required_groups = [
+        "HELIXIA_ALL",
+        "HELIXIA_HOUSES",
+        "HELIXIA_STAGE",
+        "HELIXIA_SPECIAL_LOTS",
+        "HX_FAMILY_MATRIX",
+        "HX_FAMILY_CUSTOM",
+        "HX_FAMILY_TREE",
+        "HX_FAMILY_ARCH",
+        "HX_LOT_SNOWMAN_BAND_STAGE",
+        "HX_LOT_DJ_RADIO_BOOTH",
+    ]
+    return {
+        "schema": "helixia.layout_intelligence.v1",
+        "role_by_model_type": dict(ROLE_BY_MODEL_TYPE),
+        "family_by_model_type": dict(FAMILY_BY_MODEL_TYPE),
+        "house_lots": house_roles,
+        "special_lots": special_roles,
+        "fibonacci_tree_lot": {
+            "role": "hero_spiral",
+            "family": "trees",
+            "tree_count": len(fib_trees),
+            "center_tree": "HX_FIB_FIB_TREE_CENTER",
+        },
+        "performer_models": performer_models,
+        "required_groups": required_groups,
+        "coverage_complete": all(bool(refs) for refs in coverage.values()),
+        "two_dimensional_readability": {
+            "houses_use_grid": True,
+            "performers_use_stage_zone": True,
+            "hero_trees_use_separate_lot": True,
+        },
+    }
+
+
 def build_helixia_layout(
     output_dir: str | Path,
     *,
     village_rows: int = 3,
     village_cols: int = 4,
+    use_helixville4_band_model_specs: bool = False,
 ) -> dict[str, Any]:
     houses = _build_house_grid(rows=village_rows, cols=village_cols)
     fib_trees = _fibonacci_spiral_trees()
@@ -354,6 +494,7 @@ def build_helixia_layout(
         "layout_id": "helixia_v1",
         "layout_name": "Helixia (Helixville4)",
         "goal": "3D-forward layout that remains visually coherent in 2D preview",
+        "use_helixville4_band_model_specs": bool(use_helixville4_band_model_specs),
         "village_grid": {
             "rows": village_rows,
             "cols": village_cols,
@@ -366,6 +507,7 @@ def build_helixia_layout(
         },
         "special_lots": special_lots,
         "native_model_coverage": coverage,
+        "layout_intelligence": _build_layout_intelligence(houses, special_lots, fib_trees, coverage),
         "requirements_satisfied": {
             "all_white_ac_property": True,
             "red_white_green_ac_property": True,
@@ -390,10 +532,15 @@ def build_helixia_layout(
     out_dir.mkdir(parents=True, exist_ok=True)
     xlights_payload = build_helixia_xlights_layout(payload, out_dir)
     payload["xlights_layout"] = xlights_payload
+    if use_helixville4_band_model_specs:
+        payload["band_assets"] = write_band_assets(out_dir / "band_assets")
     (out_dir / "helixia_manifest.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    (out_dir / "HELIXIA_LAYOUT_NOTES.txt").write_text(
+    notes = (
         "Helixia layout scaffold generated.\n"
-        "Generated xlights_rgbeffects.xml contains deterministic placeholder models for Helixia v1.\n",
-        encoding="utf-8",
+        "Generated xlights_rgbeffects.xml contains deterministic placeholder models for Helixia v1.\n"
     )
+    if use_helixville4_band_model_specs:
+        notes += "Helixville4 spec-driven snowman band models are enabled.\n"
+        notes += "Band background SVG assets were written to band_assets/.\n"
+    (out_dir / "HELIXIA_LAYOUT_NOTES.txt").write_text(notes, encoding="utf-8")
     return payload

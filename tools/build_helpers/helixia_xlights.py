@@ -6,6 +6,7 @@ from typing import Any
 import xml.etree.ElementTree as ET
 
 from models.helixia_props import build_all_helixia_props_export_catalog
+from tools.build_helixville4_band_model_specs import build_helixville4_band_model_specs
 
 
 DISPLAY_BY_MODEL_TYPE: dict[str, str] = {
@@ -160,6 +161,11 @@ def _add_group(groups_el: ET.Element, name: str, members: list[str], *, x: float
     )
 
 
+def _band_spec_membership() -> dict[str, list[str]]:
+    specs = build_helixville4_band_model_specs()
+    return {str(group): list(members) for group, members in dict(specs.get("groups", {})).items()}
+
+
 def build_helixia_xlights_layout(payload: dict[str, Any], output_dir: str | Path) -> dict[str, object]:
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -175,6 +181,7 @@ def build_helixia_xlights_layout(payload: dict[str, Any], output_dir: str | Path
     family_groups: dict[str, list[str]] = defaultdict(list)
     lot_groups: dict[str, list[str]] = defaultdict(list)
     start_channel = 1
+    use_band_model_specs = bool(payload.get("use_helixville4_band_model_specs", False))
 
     def add(
         *,
@@ -231,6 +238,8 @@ def build_helixia_xlights_layout(payload: dict[str, Any], output_dir: str | Path
         )
 
     for lot in payload.get("special_lots", []) or []:
+        if bool(lot.get("geometry_only", False)):
+            continue
         lot_id = str(lot.get("lot_id", "special"))
         base_x = _float(lot.get("world_x_ft"))
         base_y = _float(lot.get("world_y_ft"))
@@ -246,11 +255,30 @@ def build_helixia_xlights_layout(payload: dict[str, Any], output_dir: str | Path
                 bucket=bucket,
             )
 
+    if use_band_model_specs:
+        specs = build_helixville4_band_model_specs()
+        spec_base_x = 250.0
+        spec_base_y = -52.0
+        for spec_idx, spec in enumerate(specs.get("models", []) or []):
+            model_name = str(spec.get("model_name", "HX_SNOWMAN_MEMBER"))
+            submodels = [str(item.get("name", "")) for item in list(spec.get("submodels", []) or []) if item.get("name")]
+            add(
+                name=model_name,
+                model_type="custom",
+                x=spec_base_x + (spec_idx * 28.0),
+                y=spec_base_y - (spec_idx * 8.0),
+                z=12.0,
+                lot_id="snowman_band_stage",
+                bucket=stage_models,
+                submodels=submodels,
+            )
     props_catalog = build_all_helixia_props_export_catalog()
     prop_x = 250.0
     prop_y = -52.0
     for prop_idx, prop in enumerate(props_catalog["props"]):
         prop_name = str(prop.get("name", "HX_PROP"))
+        if use_band_model_specs and prop_name.startswith("HX_SNOWMAN_"):
+            continue
         for model_idx, model in enumerate(prop.get("models", []) or []):
             model_name = str(model.get("name", "HX_PROP_MODEL"))
             category = str(model.get("category", "custom"))
@@ -275,6 +303,9 @@ def build_helixia_xlights_layout(payload: dict[str, Any], output_dir: str | Path
     _add_group(groups_el, "HELIXIA_HOUSES", house_models)
     _add_group(groups_el, "HELIXIA_SPECIAL_LOTS", special_models)
     _add_group(groups_el, "HELIXIA_STAGE", stage_models)
+    if use_band_model_specs:
+        for group_name, members in _band_spec_membership().items():
+            _add_group(groups_el, group_name, members)
     for lot_id, members in sorted(lot_groups.items()):
         _add_group(groups_el, f"HX_LOT_{_slug(lot_id)}", members)
     for model_type, members in sorted(family_groups.items()):
@@ -290,4 +321,5 @@ def build_helixia_xlights_layout(payload: dict[str, Any], output_dir: str | Path
         "special_model_count": len(special_models),
         "stage_model_count": len(stage_models),
         "family_count": len(family_groups),
+        "band_model_specs_enabled": use_band_model_specs,
     }

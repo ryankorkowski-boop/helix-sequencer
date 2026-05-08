@@ -75,7 +75,7 @@ def build_summary(payload: dict[str, Any], xsq_path: Path | None = None) -> dict
 def format_summary(path: Path, summary: dict[str, Any]) -> str:
     grade = summary["youtube_show_grade"]
     lines = [
-        f"YouTube show report: {path}",
+        f"Show direction report: {path}",
         f"Final score: {grade.get('final_score')} ({grade.get('grade')})",
         f"Problems: {grade.get('problem_count', 0)}",
         f"Recommendations: {grade.get('recommendation_count', 0)}",
@@ -111,7 +111,7 @@ def format_summary(path: Path, summary: dict[str, Any]) -> str:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Print Helix YouTube-grade show direction scoring for a report JSON.")
+    parser = argparse.ArgumentParser(description="Print Helix show direction scoring for a report JSON.")
     parser.add_argument("report", type=Path, help="Path to a Helix *.report.json file.")
     parser.add_argument("--xsq", type=Path, help="Optional XSQ file to derive section-aware scoring for older reports.")
     parser.add_argument("--json", action="store_true", help="Print the computed summary as JSON.")

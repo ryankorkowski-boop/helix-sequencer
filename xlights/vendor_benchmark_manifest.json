@@ -1,71 +1,25 @@
 {
   "generated_on": "2026-04-23",
-  "goal": "Benchmark professional sequencing quality and exceed it while respecting third-party licenses.",
-  "sources": [
-    {
-      "id": "commercial_benchmark_source_1",
-      "name": "Commercial Benchmark Source 1",
-      "url": "https://example.com/benchmark-source-1",
-      "signals": [
-        "Premium/membership model",
-        "Detailed timing and testimonial-backed quality claims"
-      ],
-      "license_notes": "Purchased content remains licensed; do not redistribute.",
-      "training_mode": "preview_and_metadata"
-    },
-    {
-      "id": "commercial_benchmark_source_2",
-      "name": "Commercial Benchmark Source 2",
-      "url": "https://example.com/benchmark-source-2",
-      "signals": [
-        "Lifetime updates",
-        "Instrument-level sequencing emphasis"
-      ],
-      "license_notes": "Sequence/video/music rights are separate; vendor terms apply.",
-      "training_mode": "preview_and_metadata"
-    },
-    {
-      "id": "commercial_benchmark_source_3",
-      "name": "Commercial Benchmark Source 3",
-      "url": "https://example.com/benchmark-source-3",
-      "signals": [
-        "Submodel/group-heavy programming",
-        "Explicit personal-use licensing language"
-      ],
-      "license_notes": "Personal-use restrictions are explicit on product pages.",
-      "training_mode": "preview_and_metadata"
-    },
-    {
-      "id": "commercial_benchmark_source_4",
-      "name": "Commercial Benchmark Source 4",
-      "url": "https://example.com/benchmark-source-4",
-      "signals": [
-        "Professional-grade positioning",
-        "Clear import and plan packaging"
-      ],
-      "license_notes": "Sequence data licensing can vary by residential/commercial usage.",
-      "training_mode": "preview_and_metadata"
-    },
-    {
-      "id": "marketplace_benchmark_source_1",
-      "name": "Marketplace Benchmark Source 1",
-      "url": "https://example.com/marketplace-benchmark-source-1",
-      "signals": [
-        "Verified creators",
-        "Free-to-test and rating filters",
-        "Marketplace breadth"
-      ],
-      "license_notes": "Listings indicate limited licenses and seller-defined terms.",
-      "training_mode": "preview_and_metadata"
-    }
-  ],
-  "analysis_dimensions": [
-    "phrase_to_phrase continuity",
-    "submodel utilization depth",
-    "contrast management",
-    "timing accuracy",
-    "palette control",
-    "effect diversity without noise",
-    "chorus lift versus verse restraint"
-  ]
+  "status": "removed_from_active_guidance",
+  "reason": "Source-hygiene cleanup: retired external comparison metadata and unsafe analysis-mode language from active guidance.",
+  "policy": {
+    "do_not_reconstruct_from": [
+      "restricted sequence files",
+      "external previews",
+      "listing pages",
+      "private groups",
+      "caption or transcript collections",
+      "individual-style observations",
+      "materials with unclear analysis rights"
+    ],
+    "allowed_replacement_sources": [
+      "official xLights documentation",
+      "Helix-generated experiments",
+      "user-authored notes",
+      "user-supplied files with explicit confirmation",
+      "open-license examples whose terms clearly permit the intended use"
+    ]
+  },
+  "sources": [],
+  "analysis_dimensions": []
 }

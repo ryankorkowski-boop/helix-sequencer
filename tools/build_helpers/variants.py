@@ -15,12 +15,62 @@ class RuntimeVariantCandidate:
     tuning: Any
 
 
+@dataclass(frozen=True)
+class QualityGatePreset:
+    name: str
+    min_quality_score: float
+    min_audit_score: float
+    max_rejected_effects: int
+
+
 DEFAULT_MIN_AUDIT_SCORE = 80.0
 DEFAULT_MAX_REJECTED_EFFECTS = 28000
 DEFAULT_MIN_QUALITY_SCORE = 90.0
-DEFAULT_VENDOR_MIN_AUDIT_SCORE = 90.0
-DEFAULT_VENDOR_MAX_REJECTED_EFFECTS = 12000
-DEFAULT_VENDOR_MIN_QUALITY_SCORE = 96.0
+DEFAULT_SHOWCASE_MIN_AUDIT_SCORE = 86.0
+DEFAULT_SHOWCASE_MAX_REJECTED_EFFECTS = 18000
+DEFAULT_SHOWCASE_MIN_QUALITY_SCORE = 93.0
+DEFAULT_PRO_MIN_AUDIT_SCORE = 90.0
+DEFAULT_PRO_MAX_REJECTED_EFFECTS = 12000
+DEFAULT_PRO_MIN_QUALITY_SCORE = 96.0
+
+# Backward-compatible constant aliases. Existing engine flags still use the
+# historical names, but user-facing calibration language should prefer "pro".
+DEFAULT_VENDOR_MIN_AUDIT_SCORE = DEFAULT_PRO_MIN_AUDIT_SCORE
+DEFAULT_VENDOR_MAX_REJECTED_EFFECTS = DEFAULT_PRO_MAX_REJECTED_EFFECTS
+DEFAULT_VENDOR_MIN_QUALITY_SCORE = DEFAULT_PRO_MIN_QUALITY_SCORE
+
+QUALITY_GATE_PRESETS: dict[str, QualityGatePreset] = {
+    "general": QualityGatePreset(
+        name="general",
+        min_quality_score=DEFAULT_MIN_QUALITY_SCORE,
+        min_audit_score=DEFAULT_MIN_AUDIT_SCORE,
+        max_rejected_effects=DEFAULT_MAX_REJECTED_EFFECTS,
+    ),
+    "showcase": QualityGatePreset(
+        name="showcase",
+        min_quality_score=DEFAULT_SHOWCASE_MIN_QUALITY_SCORE,
+        min_audit_score=DEFAULT_SHOWCASE_MIN_AUDIT_SCORE,
+        max_rejected_effects=DEFAULT_SHOWCASE_MAX_REJECTED_EFFECTS,
+    ),
+    "pro": QualityGatePreset(
+        name="pro",
+        min_quality_score=DEFAULT_PRO_MIN_QUALITY_SCORE,
+        min_audit_score=DEFAULT_PRO_MIN_AUDIT_SCORE,
+        max_rejected_effects=DEFAULT_PRO_MAX_REJECTED_EFFECTS,
+    ),
+    # Backward-compatible alias for older prompts/scripts. New docs/tests should use "pro".
+    "vendor": QualityGatePreset(
+        name="pro",
+        min_quality_score=DEFAULT_PRO_MIN_QUALITY_SCORE,
+        min_audit_score=DEFAULT_PRO_MIN_AUDIT_SCORE,
+        max_rejected_effects=DEFAULT_PRO_MAX_REJECTED_EFFECTS,
+    ),
+}
+
+
+def quality_gate_preset(name: str | None) -> QualityGatePreset:
+    key = (name or "general").strip().lower().replace("-", "_")
+    return QUALITY_GATE_PRESETS.get(key, QUALITY_GATE_PRESETS["general"])
 
 
 def build_runtime_candidates(base_style: Any, base_tuning: Any, count: int) -> list[RuntimeVariantCandidate]:
@@ -184,6 +234,17 @@ def evaluate_quality_gates(
     }
 
 
+def evaluate_quality_gate_preset(entry: dict[str, Any], preset_name: str | None) -> dict[str, Any]:
+    preset = quality_gate_preset(preset_name)
+    result = evaluate_quality_gates(
+        entry,
+        min_quality_score=preset.min_quality_score,
+        min_audit_score=preset.min_audit_score,
+        max_rejected_effects=preset.max_rejected_effects,
+    )
+    return result | {"preset": preset.name}
+
+
 def _score_entry(entry: dict[str, Any]) -> float:
     quality_payload = (entry.get("quality") or {}) or {}
     audit_payload = _audit_payload(entry)
@@ -203,6 +264,7 @@ def _score_entry(entry: dict[str, Any]) -> float:
     section_coverage = float(audit_payload.get("section_coverage", 0.0) or 0.0)
     overlap_ratio = float(audit_payload.get("overlap_ratio", 0.0) or 0.0)
     clutter_ratio = float(audit_payload.get("clutter_ratio", 0.0) or 0.0)
+    rejected_effects = int(((entry.get("validation") or {}) or {}).get("rejected_effects_count", 0) or 0)
     polish_bonus = (
         min(4.0, float(polish.get("hook_enhancements", 0)) * 0.4)
         + min(3.0, float(polish.get("breathing_fades", 0)) * 0.25)
@@ -221,6 +283,7 @@ def _score_entry(entry: dict[str, Any]) -> float:
         (100.0 - _score_maximum(overlap_ratio, target=0.03, ceiling=0.22)) * 0.05
         + (100.0 - _score_maximum(clutter_ratio, target=0.08, ceiling=0.42)) * 0.03
     )
+    rejected_penalty = min(10.0, max(0.0, rejected_effects - 6000) / 2400.0)
     shortlist_score = (
         (quality * 0.40)
         + (audit * 0.20)
@@ -228,7 +291,9 @@ def _score_entry(entry: dict[str, Any]) -> float:
         + (polish_score * 0.08)
         + craft_bonus
         + polish_bonus
+        + 2.0
         - cleanup_penalty
+        - rejected_penalty
     )
     return round(shortlist_score, 2)
 
@@ -268,6 +333,20 @@ def choose_best_candidate(
         reverse=True,
     )
     return scored[0]
+
+
+def choose_best_candidate_with_preset(entries: list[dict[str, Any]], preset_name: str | None) -> dict[str, Any] | None:
+    preset = quality_gate_preset(preset_name)
+    best = choose_best_candidate(
+        entries,
+        min_audit_score=preset.min_audit_score,
+        max_rejected_effects=preset.max_rejected_effects,
+        min_quality_score=preset.min_quality_score,
+    )
+    if best is not None:
+        best = dict(best)
+        best["quality_gate_preset"] = preset.name
+    return best
 
 
 def promote_shortlisted_candidate(best_entry: dict[str, Any], canonical_output: Path) -> dict[str, Any]:
