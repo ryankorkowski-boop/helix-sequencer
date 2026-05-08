@@ -24,8 +24,16 @@ HELIX_SEGMENTS = 16
 HELIX_HEIGHT = 26.0
 HELIX_RADIUS = 18.0
 
-# Backward compatibility constant expected by older tests
+# Backward compatibility constants expected by older tests
 MEGATREE_CONFIGS: list[dict[str, Any]] = []
+NATIVE_XLIGHTS_MODEL_TYPES: set[str] = {
+    "line",
+    "matrix",
+    "tree",
+    "window_frame",
+    "dmx",
+    "custom",
+}
 
 
 @dataclass(frozen=True)
