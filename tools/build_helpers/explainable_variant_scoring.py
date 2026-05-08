@@ -33,6 +33,13 @@ PRESET_THRESHOLDS: dict[str, dict[str, float]] = {
     },
 }
 
+# Phase 4: preset-based maximum bias caps
+PRESET_SHOWCASE_BIAS_CAPS: dict[str, float] = {
+    "general": 0.25,
+    "showcase": 0.40,
+    "vendor": 0.20,
+}
+
 DEFAULT_WEIGHTS: dict[str, float] = {
     "quality": 0.18,
     "audit": 0.14,
@@ -143,7 +150,24 @@ def score_variant(
     if weights:
         active_weights.update({key: float(value) for key, value in weights.items()})
 
-    showcase_bias = float(active_weights.pop("showcase_bias", 0.0) or 0.0)
+    findings: list[VariantScoreFinding] = []
+
+    requested_bias = float(active_weights.pop("showcase_bias", 0.0) or 0.0)
+    bias_cap = PRESET_SHOWCASE_BIAS_CAPS.get(preset, 0.25)
+    showcase_bias = min(max(requested_bias, 0.0), bias_cap)
+
+    if requested_bias > bias_cap:
+        findings.append(
+            VariantScoreFinding(
+                code="showcase_bias_clamped",
+                severity="info",
+                message=(
+                    f"Requested showcase_bias {requested_bias:.2f} exceeds preset cap {bias_cap:.2f}; clamped."
+                ),
+                contribution=0.0,
+            )
+        )
+
     total_weight = sum(active_weights.values()) or 1.0
 
     thresholds = _get_thresholds(preset)
@@ -179,8 +203,6 @@ def score_variant(
         base_score = (1.0 - showcase_bias) * base_score + showcase_bias * showcase_score
 
     score = round(_clamp01(base_score), 4)
-
-    findings: list[VariantScoreFinding] = []
 
     if quality_score < thresholds["min_quality_score"]:
         findings.append(
