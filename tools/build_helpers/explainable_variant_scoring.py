@@ -43,6 +43,8 @@ DEFAULT_WEIGHTS: dict[str, float] = {
     "prop_roles": 0.08,
     "manual_lock_respect": 0.07,
     "rejected_effects": 0.05,
+    # Optional Phase 3 bias (default disabled)
+    "showcase_bias": 0.0,
 }
 
 
@@ -140,6 +142,8 @@ def score_variant(
     active_weights = dict(DEFAULT_WEIGHTS)
     if weights:
         active_weights.update({key: float(value) for key, value in weights.items()})
+
+    showcase_bias = float(active_weights.pop("showcase_bias", 0.0) or 0.0)
     total_weight = sum(active_weights.values()) or 1.0
 
     thresholds = _get_thresholds(preset)
@@ -168,7 +172,13 @@ def score_variant(
         key: round(normalized.get(key, 0.0) * weight / total_weight, 6)
         for key, weight in active_weights.items()
     }
-    score = round(sum(weighted.values()), 4)
+
+    base_score = sum(weighted.values())
+
+    if showcase_bias > 0.0 and showcase_score is not None:
+        base_score = (1.0 - showcase_bias) * base_score + showcase_bias * showcase_score
+
+    score = round(_clamp01(base_score), 4)
 
     findings: list[VariantScoreFinding] = []
 
@@ -181,7 +191,7 @@ def score_variant(
                     f"Quality score {quality_score:.2f} is below {preset} threshold "
                     f"{thresholds['min_quality_score']:.2f}."
                 ),
-                contribution=weighted["quality"],
+                contribution=weighted.get("quality", 0.0),
             )
         )
 
@@ -194,7 +204,7 @@ def score_variant(
                     f"Audit score {audit_score:.2f} is below {preset} threshold "
                     f"{thresholds['min_audit_score']:.2f}."
                 ),
-                contribution=weighted["audit"],
+                contribution=weighted.get("audit", 0.0),
             )
         )
 
@@ -207,7 +217,7 @@ def score_variant(
                     f"Rejected effects {rejected_effects:.0f} exceed {preset} threshold "
                     f"{thresholds['max_rejected_effects']:.0f}."
                 ),
-                contribution=weighted["rejected_effects"],
+                contribution=weighted.get("rejected_effects", 0.0),
             )
         )
 
@@ -225,7 +235,7 @@ def score_variant(
                     code=f"weak_{key}",
                     severity="info",
                     message=f"{key.replace('_', ' ').title()} score is {normalized[key]:.2f}.",
-                    contribution=weighted[key],
+                    contribution=weighted.get(key, 0.0),
                 )
             )
 
