@@ -1,40 +1,16 @@
-"""Advisory motif-memory scoring for Helix sequence planning.
-
-This module is renderer-neutral. It does not render effects, write XSQ content,
-mutate layouts, create effects, or promote/reject variants by itself. It gives
-future reporting and shortlist logic a source-agnostic way to measure whether
-recurring musical sections reuse recognizable visual ideas with variation.
-"""
+"""Advisory motif-memory scoring for Helix sequence planning."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Iterable, Mapping, Sequence
 
-
-MOTIF_FAMILIES = {
-    "spiral",
-    "sweep",
-    "pulse",
-    "burst",
-    "shimmer",
-    "sparkle",
-    "strobe",
-    "wash",
-    "chase",
-    "vocal",
-    "percussion",
-    "call_response",
-    "finale_cascade",
-}
-
+MOTIF_FAMILIES = {"spiral", "sweep", "pulse", "burst", "shimmer", "sparkle", "strobe", "wash", "chase", "vocal", "percussion", "call_response", "finale_cascade"}
 RECURRING_SECTION_KINDS = {"chorus", "verse", "drop", "bridge", "solo", "refrain"}
 
 
 @dataclass(frozen=True)
 class MotifView:
-    """Normalized motif data used by the advisory motif-memory scorer."""
-
     name: str
     section: str = ""
     section_kind: str = "unknown"
@@ -53,8 +29,6 @@ class MotifView:
 
     @property
     def identity_key(self) -> tuple[str, str, str]:
-        """Core visual identity used for recurrence checks."""
-
         primary = self.primary_groups[0] if self.primary_groups else ""
         family = self.family if self.family != "unknown" else self.effect_family
         return (family, self.palette, primary)
@@ -62,8 +36,6 @@ class MotifView:
 
 @dataclass(frozen=True)
 class MotifFinding:
-    """One advisory motif-memory finding."""
-
     code: str
     severity: str
     message: str
@@ -72,20 +44,11 @@ class MotifFinding:
     penalty: float = 0.0
 
     def as_dict(self) -> dict[str, object]:
-        return {
-            "code": self.code,
-            "severity": self.severity,
-            "message": self.message,
-            "motif": self.motif,
-            "section": self.section,
-            "penalty": self.penalty,
-        }
+        return {"code": self.code, "severity": self.severity, "message": self.message, "motif": self.motif, "section": self.section, "penalty": self.penalty}
 
 
 @dataclass(frozen=True)
 class MotifMemoryReport:
-    """Summarized advisory score for motif recurrence and variation."""
-
     motif_count: int
     recurring_section_kind_count: int
     identity_reuse_score: float
@@ -96,16 +59,7 @@ class MotifMemoryReport:
     findings: tuple[MotifFinding, ...]
 
     def as_dict(self) -> dict[str, object]:
-        return {
-            "motif_count": self.motif_count,
-            "recurring_section_kind_count": self.recurring_section_kind_count,
-            "identity_reuse_score": self.identity_reuse_score,
-            "variation_score": self.variation_score,
-            "coverage_score": self.coverage_score,
-            "overfragmentation_score": self.overfragmentation_score,
-            "score": self.score,
-            "findings": [finding.as_dict() for finding in self.findings],
-        }
+        return {"motif_count": self.motif_count, "recurring_section_kind_count": self.recurring_section_kind_count, "identity_reuse_score": self.identity_reuse_score, "variation_score": self.variation_score, "coverage_score": self.coverage_score, "overfragmentation_score": self.overfragmentation_score, "score": self.score, "findings": [finding.as_dict() for finding in self.findings]}
 
 
 def _normalize_token(value: str) -> str:
@@ -131,38 +85,19 @@ def _normalize_family(value: str) -> str:
 
 
 def normalize_motif(raw: Mapping[str, object] | MotifView) -> MotifView:
-    """Normalize a motif-like mapping while preserving MotifView objects."""
-
     if isinstance(raw, MotifView):
         return raw
-
     intensity_range_raw = raw.get("intensity_range", (0.0, 1.0))
     if isinstance(intensity_range_raw, Sequence) and not isinstance(intensity_range_raw, str) and len(intensity_range_raw) >= 2:
         intensity_range = (float(intensity_range_raw[0]), float(intensity_range_raw[1]))
     else:
         intensity = float(raw.get("intensity", 0.5))
         intensity_range = (max(0.0, intensity - 0.1), min(1.0, intensity + 0.1))
-
     family_source = str(raw.get("family", raw.get("effect_family", "unknown")))
-
-    return MotifView(
-        name=str(raw.get("name", raw.get("motif_name", "unnamed_motif"))),
-        section=str(raw.get("section", raw.get("section_name", ""))),
-        section_kind=_normalize_token(str(raw.get("section_kind", raw.get("kind", "unknown")))),
-        family=_normalize_family(family_source),
-        palette=_normalize_token(str(raw.get("palette", ""))) if raw.get("palette") else "",
-        primary_groups=_as_string_tuple(raw.get("primary_groups", raw.get("target_groups"))),
-        effect_family=_normalize_family(str(raw.get("effect_family", family_source))),
-        intensity_range=intensity_range,
-        start=float(raw.get("start", raw.get("time", 0.0))),
-        end=float(raw.get("end", raw.get("time", 0.0))),
-        variation=str(raw.get("variation", "")),
-    )
+    return MotifView(name=str(raw.get("name", raw.get("motif_name", "unnamed_motif"))), section=str(raw.get("section", raw.get("section_name", ""))), section_kind=_normalize_token(str(raw.get("section_kind", raw.get("kind", "unknown")))), family=_normalize_family(family_source), palette=_normalize_token(str(raw.get("palette", ""))) if raw.get("palette") else "", primary_groups=_as_string_tuple(raw.get("primary_groups", raw.get("target_groups"))), effect_family=_normalize_family(str(raw.get("effect_family", family_source))), intensity_range=intensity_range, start=float(raw.get("start", raw.get("time", 0.0))), end=float(raw.get("end", raw.get("time", 0.0))), variation=str(raw.get("variation", "")))
 
 
 def normalize_motifs(raw_motifs: Iterable[Mapping[str, object] | MotifView]) -> list[MotifView]:
-    """Normalize and sort motifs by start time."""
-
     return sorted((normalize_motif(motif) for motif in raw_motifs), key=lambda motif: motif.start)
 
 
@@ -174,65 +109,23 @@ def _similarity(left: MotifView, right: MotifView) -> float:
         score += 0.25
     if left.primary_groups and right.primary_groups and set(left.primary_groups) & set(right.primary_groups):
         score += 0.25
-
-    left_mid = sum(left.intensity_range) / 2.0
-    right_mid = sum(right.intensity_range) / 2.0
-    if abs(left_mid - right_mid) <= 0.2:
+    if abs((sum(left.intensity_range) / 2.0) - (sum(right.intensity_range) / 2.0)) <= 0.2:
         score += 0.15
     return min(1.0, score)
 
 
 def _score_coverage(motifs: Sequence[MotifView], findings: list[MotifFinding]) -> float:
     if not motifs:
-        findings.append(
-            MotifFinding(
-                code="no_motifs",
-                severity="warning",
-                message="No motifs were provided, so motif memory cannot be measured.",
-                penalty=1.0,
-            )
-        )
+        findings.append(MotifFinding(code="no_motifs", severity="warning", message="No motifs were provided, so motif memory cannot be measured.", penalty=1.0))
         return 0.0
-
     penalty = 0.0
     for motif in motifs:
         if not motif.section_kind or motif.section_kind == "unknown":
             penalty += 0.06
-            findings.append(
-                MotifFinding(
-                    code="motif_missing_section_kind",
-                    severity="info",
-                    motif=motif.name,
-                    section=motif.section,
-                    penalty=0.06,
-                    message=f"Motif '{motif.name}' has no useful section kind.",
-                )
-            )
         if motif.family == "unknown" and not motif.effect_family:
             penalty += 0.08
-            findings.append(
-                MotifFinding(
-                    code="motif_missing_family",
-                    severity="info",
-                    motif=motif.name,
-                    section=motif.section,
-                    penalty=0.08,
-                    message=f"Motif '{motif.name}' has no effect/motif family.",
-                )
-            )
         if not motif.primary_groups:
             penalty += 0.06
-            findings.append(
-                MotifFinding(
-                    code="motif_missing_groups",
-                    severity="info",
-                    motif=motif.name,
-                    section=motif.section,
-                    penalty=0.06,
-                    message=f"Motif '{motif.name}' has no primary prop groups.",
-                )
-            )
-
     return round(max(0.0, 1.0 - min(1.0, penalty)), 4)
 
 
@@ -245,122 +138,58 @@ def _group_by_section_kind(motifs: Sequence[MotifView]) -> dict[str, list[MotifV
 
 def _score_identity_reuse(motifs: Sequence[MotifView], findings: list[MotifFinding]) -> tuple[float, int]:
     grouped = _group_by_section_kind(motifs)
-    recurring = {
-        kind: items
-        for kind, items in grouped.items()
-        if len(items) > 1 and (kind in RECURRING_SECTION_KINDS or kind != "unknown")
-    }
+    recurring = {kind: items for kind, items in grouped.items() if len(items) > 1 and (kind in RECURRING_SECTION_KINDS or kind != "unknown")}
     if not recurring:
-        findings.append(
-            MotifFinding(
-                code="no_recurring_motif_sections",
-                severity="info",
-                message="No repeated section kinds with motifs were found; motif reuse cannot be strongly evaluated.",
-                penalty=0.1,
-            )
-        )
+        findings.append(MotifFinding(code="no_recurring_motif_sections", severity="info", message="No repeated section kinds with motifs were found; motif reuse cannot be strongly evaluated.", penalty=0.1))
         return (0.75 if motifs else 0.0, 0)
-
-    scores: list[float] = []
-    for kind, items in recurring.items():
+    scores = []
+    for items in recurring.values():
         first = items[0]
         similarities = [_similarity(first, item) for item in items[1:]]
-        kind_score = sum(similarities) / len(similarities) if similarities else 1.0
-        scores.append(kind_score)
-        if kind_score < 0.45:
-            findings.append(
-                MotifFinding(
-                    code="weak_motif_reuse",
-                    severity="warning",
-                    section=kind,
-                    penalty=0.12,
-                    message=f"Repeated section kind '{kind}' does not reuse a recognizable visual motif.",
-                )
-            )
-
+        scores.append(sum(similarities) / len(similarities) if similarities else 1.0)
     return (round(sum(scores) / len(scores), 4), len(recurring))
 
 
+def _intensity_overlap(left: MotifView, right: MotifView) -> float:
+    lo = max(left.intensity_range[0], right.intensity_range[0])
+    hi = min(left.intensity_range[1], right.intensity_range[1])
+    span = max(left.intensity_range[1], right.intensity_range[1]) - min(left.intensity_range[0], right.intensity_range[0])
+    return 0.0 if hi <= lo or span <= 0 else (hi - lo) / span
+
+
 def _score_variation(motifs: Sequence[MotifView], findings: list[MotifFinding]) -> float:
-    grouped = _group_by_section_kind(motifs)
-    recurring = {kind: items for kind, items in grouped.items() if len(items) > 1}
+    recurring = {kind: items for kind, items in _group_by_section_kind(motifs).items() if len(items) > 1}
     if not recurring:
         return 0.75 if motifs else 0.0
-
-    scores: list[float] = []
+    scores = []
     for kind, items in recurring.items():
-        variation_count = len({item.variation for item in items if item.variation})
-        intensity_shapes = len({tuple(round(value, 2) for value in item.intensity_range) for item in items})
-        group_sets = len({item.primary_groups for item in items})
-
-        # Good motif memory is not exact copy/paste. It should keep identity but
-        # add variation through intensity, group expansion, or named variation.
-        raw_score = min(1.0, 0.35 + (0.2 * variation_count) + (0.2 * intensity_shapes) + (0.15 * group_sets))
+        pair_scores = []
+        for left, right in zip(items, items[1:]):
+            near_copy = left.family == right.family and left.palette == right.palette and set(left.primary_groups) == set(right.primary_groups) and _intensity_overlap(left, right) >= 0.8 and left.variation == right.variation
+            if near_copy:
+                pair_scores.append(0.4)
+            else:
+                pair_scores.append(min(1.0, 1.0 - (0.55 * _similarity(left, right)) + (0.2 if right.variation and right.variation != left.variation else 0.0)))
+        raw_score = sum(pair_scores) / len(pair_scores) if pair_scores else 0.75
         scores.append(raw_score)
         if raw_score < 0.55:
-            findings.append(
-                MotifFinding(
-                    code="motif_repeats_without_variation",
-                    severity="info",
-                    section=kind,
-                    penalty=0.08,
-                    message=f"Repeated section kind '{kind}' reuses motif identity with little variation.",
-                )
-            )
-
+            findings.append(MotifFinding(code="motif_repeats_without_variation", severity="info", section=kind, penalty=0.08, message=f"Repeated section kind '{kind}' reuses motif identity with little variation."))
     return round(sum(scores) / len(scores), 4)
 
 
 def _score_overfragmentation(motifs: Sequence[MotifView], findings: list[MotifFinding]) -> float:
     if not motifs:
         return 0.0
-
-    unique_keys = {motif.identity_key for motif in motifs}
-    ratio = len(unique_keys) / len(motifs)
-
-    if len(motifs) >= 4 and ratio > 0.85:
-        findings.append(
-            MotifFinding(
-                code="motif_overfragmentation",
-                severity="warning",
-                penalty=0.15,
-                message=(
-                    f"{len(unique_keys)} unique motif identities across {len(motifs)} motifs may feel like unrelated effects."
-                ),
-            )
-        )
-
-    # Lower ratio means more reuse. Too low can be repetitive, but variation_score
-    # handles copy/paste risk. Here we reward avoiding one-off fragmentation.
+    ratio = len({motif.identity_key for motif in motifs}) / len(motifs)
     return round(max(0.0, min(1.0, 1.15 - ratio)), 4)
 
 
 def score_motif_memory(raw_motifs: Iterable[Mapping[str, object] | MotifView]) -> MotifMemoryReport:
-    """Score whether planned motifs recur with recognizable identity and variation."""
-
     motifs = normalize_motifs(raw_motifs)
     findings: list[MotifFinding] = []
-
     coverage_score = _score_coverage(motifs, findings)
     identity_reuse_score, recurring_count = _score_identity_reuse(motifs, findings)
     variation_score = _score_variation(motifs, findings)
     overfragmentation_score = _score_overfragmentation(motifs, findings)
-
-    score = round(
-        (0.25 * coverage_score)
-        + (0.35 * identity_reuse_score)
-        + (0.2 * variation_score)
-        + (0.2 * overfragmentation_score),
-        4,
-    )
-
-    return MotifMemoryReport(
-        motif_count=len(motifs),
-        recurring_section_kind_count=recurring_count,
-        identity_reuse_score=identity_reuse_score,
-        variation_score=variation_score,
-        coverage_score=coverage_score,
-        overfragmentation_score=overfragmentation_score,
-        score=score,
-        findings=tuple(findings),
-    )
+    score = round((0.25 * coverage_score) + (0.35 * identity_reuse_score) + (0.2 * variation_score) + (0.2 * overfragmentation_score), 4)
+    return MotifMemoryReport(motif_count=len(motifs), recurring_section_kind_count=recurring_count, identity_reuse_score=identity_reuse_score, variation_score=variation_score, coverage_score=coverage_score, overfragmentation_score=overfragmentation_score, score=score, findings=tuple(findings))
