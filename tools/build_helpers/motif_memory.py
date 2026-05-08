@@ -33,8 +33,6 @@ RECURRING_SECTION_KINDS = {"chorus", "verse", "drop", "bridge", "solo", "refrain
 
 @dataclass(frozen=True)
 class MotifView:
-    """Normalized motif data used by the advisory motif-memory scorer."""
-
     name: str
     section: str = ""
     section_kind: str = "unknown"
@@ -53,8 +51,6 @@ class MotifView:
 
     @property
     def identity_key(self) -> tuple[str, str, str]:
-        """Core visual identity used for recurrence checks."""
-
         primary = self.primary_groups[0] if self.primary_groups else ""
         family = self.family if self.family != "unknown" else self.effect_family
         return (family, self.palette, primary)
@@ -62,8 +58,6 @@ class MotifView:
 
 @dataclass(frozen=True)
 class MotifFinding:
-    """One advisory motif-memory finding."""
-
     code: str
     severity: str
     message: str
@@ -84,8 +78,6 @@ class MotifFinding:
 
 @dataclass(frozen=True)
 class MotifMemoryReport:
-    """Summarized advisory score for motif recurrence and variation."""
-
     motif_count: int
     recurring_section_kind_count: int
     identity_reuse_score: float
@@ -131,8 +123,6 @@ def _normalize_family(value: str) -> str:
 
 
 def normalize_motif(raw: Mapping[str, object] | MotifView) -> MotifView:
-    """Normalize a motif-like mapping while preserving MotifView objects."""
-
     if isinstance(raw, MotifView):
         return raw
 
@@ -161,8 +151,6 @@ def normalize_motif(raw: Mapping[str, object] | MotifView) -> MotifView:
 
 
 def normalize_motifs(raw_motifs: Iterable[Mapping[str, object] | MotifView]) -> list[MotifView]:
-    """Normalize and sort motifs by start time."""
-
     return sorted((normalize_motif(motif) for motif in raw_motifs), key=lambda motif: motif.start)
 
 
@@ -177,7 +165,7 @@ def _similarity(left: MotifView, right: MotifView) -> float:
 
     left_mid = sum(left.intensity_range) / 2.0
     right_mid = sum(right.intensity_range) / 2.0
-    if abs(left_mid - right_mid) <= 0.2:
+    if abs(left_mid - right_mid) <= 0.15:
         score += 0.15
     return min(1.0, score)
 
@@ -289,21 +277,35 @@ def _score_variation(motifs: Sequence[MotifView], findings: list[MotifFinding]) 
 
     scores: list[float] = []
     for kind, items in recurring.items():
+        similarities = []
+        for left, right in zip(items, items[1:]):
+            similarities.append(_similarity(left, right))
+
+        mean_similarity = sum(similarities) / len(similarities) if similarities else 1.0
         variation_count = len({item.variation for item in items if item.variation})
         intensity_shapes = len({tuple(round(value, 2) for value in item.intensity_range) for item in items})
         group_sets = len({item.primary_groups for item in items})
+        explicit_variation_score = min(
+            1.0,
+            0.3 + (0.25 * variation_count) + (0.2 * intensity_shapes) + (0.15 * group_sets),
+        )
 
-        # Good motif memory is not exact copy/paste. It should keep identity but
-        # add variation through intensity, group expansion, or named variation.
-        raw_score = min(1.0, 0.35 + (0.2 * variation_count) + (0.2 * intensity_shapes) + (0.15 * group_sets))
+        if mean_similarity >= 0.85:
+            raw_score = explicit_variation_score if explicit_variation_score > 0.55 else 0.4
+        elif mean_similarity >= 0.7:
+            raw_score = max(0.5, explicit_variation_score)
+        else:
+            raw_score = explicit_variation_score
+
         scores.append(raw_score)
+
         if raw_score < 0.55:
             findings.append(
                 MotifFinding(
                     code="motif_repeats_without_variation",
                     severity="info",
                     section=kind,
-                    penalty=0.08,
+                    penalty=0.1,
                     message=f"Repeated section kind '{kind}' reuses motif identity with little variation.",
                 )
             )
@@ -330,14 +332,10 @@ def _score_overfragmentation(motifs: Sequence[MotifView], findings: list[MotifFi
             )
         )
 
-    # Lower ratio means more reuse. Too low can be repetitive, but variation_score
-    # handles copy/paste risk. Here we reward avoiding one-off fragmentation.
     return round(max(0.0, min(1.0, 1.15 - ratio)), 4)
 
 
 def score_motif_memory(raw_motifs: Iterable[Mapping[str, object] | MotifView]) -> MotifMemoryReport:
-    """Score whether planned motifs recur with recognizable identity and variation."""
-
     motifs = normalize_motifs(raw_motifs)
     findings: list[MotifFinding] = []
 

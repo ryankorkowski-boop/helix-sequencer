@@ -25,9 +25,29 @@ DIRECTION_ORDER = {
     "random": 99,
 }
 
+MUSICAL_TRANSITIONS = {
+    "accent",
+    "beat",
+    "break",
+    "chorus",
+    "crossfade",
+    "drop",
+    "finale",
+    "hit",
+    "impact",
+    "lyric_hit",
+    "morph",
+    "phrase_change",
+    "section_change",
+    "stinger",
+    "wipe",
+}
+
 COMPATIBLE_MOTION_FAMILIES = {
     ("sweep", "chase"),
     ("chase", "sweep"),
+    ("chase", "spiral"),
+    ("spiral", "chase"),
     ("pulse", "burst"),
     ("burst", "pulse"),
     ("wash", "shimmer"),
@@ -202,26 +222,40 @@ def _score_direction_coherence(motions: list[MotionTrace], findings: list[Motion
         total += 1
         left_value = DIRECTION_ORDER.get(left.direction, 99)
         right_value = DIRECTION_ORDER.get(right.direction, 99)
+        justified = _is_musically_justified_direction_change(left, right)
         if left.direction == right.direction:
             compatible += 1
         elif "random" in {left.direction, right.direction}:
             pass
+        elif left_value == -right_value and left_value != 0:
+            if justified:
+                compatible += 1
+            else:
+                abrupt_flips += 1
+                findings.append(
+                    MotionContinuityFinding(
+                        code="abrupt_direction_flip",
+                        severity="warning",
+                        motion=right.name,
+                        message=f"Motion '{right.name}' reverses direction without a musical transition cue.",
+                        penalty=0.08,
+                    )
+                )
         elif abs(left_value - right_value) <= 2:
             compatible += 1
-        elif left_value == -right_value:
-            abrupt_flips += 1
-            findings.append(
-                MotionContinuityFinding(
-                    code="abrupt_direction_flip",
-                    severity="warning",
-                    motion=right.name,
-                    message=f"Motion '{right.name}' reverses direction sharply from the previous motion.",
-                    penalty=0.08,
-                )
-            )
 
     score = compatible / total if total else 1.0
     return round(max(0.0, score - (0.08 * abrupt_flips)), 4)
+
+
+def _is_musically_justified_direction_change(left: MotionTrace, right: MotionTrace) -> bool:
+    if right.transition in MUSICAL_TRANSITIONS:
+        return True
+    if right.section_kind and right.section_kind != left.section_kind:
+        return True
+    if abs(right.intensity - left.intensity) >= 0.2 or abs(right.speed - left.speed) >= 0.2:
+        return True
+    return False
 
 
 def _score_family_continuity(motions: list[MotionTrace], findings: list[MotionContinuityFinding]) -> float:

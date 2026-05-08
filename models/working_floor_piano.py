@@ -7,6 +7,9 @@ from models.helixia_props import build_floor_piano_structure, prop_definition_to
 
 FLOOR_PIANO_SCHEMA = "helix.working_floor_piano.v1"
 FLOOR_PIANO_KEY_COUNT = 24
+FLOOR_PIANO_MIN_MIDI = 36.0
+FLOOR_PIANO_MID_MIDI = 60.0
+FLOOR_PIANO_MAX_MIDI = 84.0
 
 
 FLOOR_PIANO_DEFAULT_CUES = [
@@ -59,10 +62,23 @@ def _key_name(index: int) -> str:
 
 
 def _key_index_for_pitch(pitch_midi: float | None) -> int:
+    """Map MIDI pitches onto the 24 physical floor keys.
+
+    The floor piano is a stage prop, not a full chromatic keyboard. We pin the
+    useful musical range to stable visual anchors:
+    - MIDI 36 -> key 01
+    - MIDI 60 -> key 12
+    - MIDI 84 -> key 24
+    """
+
     if pitch_midi is None:
         return 12
-    clamped = max(36.0, min(84.0, float(pitch_midi)))
-    return max(1, min(FLOOR_PIANO_KEY_COUNT, round(((clamped - 36.0) / 48.0) * (FLOOR_PIANO_KEY_COUNT - 1)) + 1))
+    clamped = max(FLOOR_PIANO_MIN_MIDI, min(FLOOR_PIANO_MAX_MIDI, float(pitch_midi)))
+    if clamped <= FLOOR_PIANO_MID_MIDI:
+        ratio = (clamped - FLOOR_PIANO_MIN_MIDI) / (FLOOR_PIANO_MID_MIDI - FLOOR_PIANO_MIN_MIDI)
+        return max(1, min(12, round(1 + ratio * 11)))
+    ratio = (clamped - FLOOR_PIANO_MID_MIDI) / (FLOOR_PIANO_MAX_MIDI - FLOOR_PIANO_MID_MIDI)
+    return max(12, min(FLOOR_PIANO_KEY_COUNT, round(12 + ratio * 12)))
 
 
 def _event_start_ms(event: Any) -> int:
@@ -108,12 +124,6 @@ def _all_submodel_names() -> list[str]:
 
 
 def build_working_floor_piano() -> dict[str, Any]:
-    """Build the concrete floor piano prop package.
-
-    Helixia already defines the floor piano as a structure-only prop. This
-    working layer adds a stable cue contract and submodel validation so band
-    member hooks can target actual keys instead of a vague stage effect.
-    """
     prop = build_floor_piano_structure()
     available_submodels = _all_submodel_names()
     required_submodels = [
