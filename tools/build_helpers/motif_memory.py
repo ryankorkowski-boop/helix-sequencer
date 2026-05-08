@@ -282,16 +282,20 @@ def _score_variation(motifs: Sequence[MotifView], findings: list[MotifFinding]) 
             similarities.append(_similarity(left, right))
 
         mean_similarity = sum(similarities) / len(similarities) if similarities else 1.0
+        variation_count = len({item.variation for item in items if item.variation})
+        intensity_shapes = len({tuple(round(value, 2) for value in item.intensity_range) for item in items})
+        group_sets = len({item.primary_groups for item in items})
+        explicit_variation_score = min(
+            1.0,
+            0.3 + (0.25 * variation_count) + (0.2 * intensity_shapes) + (0.15 * group_sets),
+        )
 
         if mean_similarity >= 0.85:
-            raw_score = 0.4
+            raw_score = explicit_variation_score if explicit_variation_score > 0.55 else 0.4
         elif mean_similarity >= 0.7:
-            raw_score = 0.5
+            raw_score = max(0.5, explicit_variation_score)
         else:
-            variation_count = len({item.variation for item in items if item.variation})
-            intensity_shapes = len({tuple(round(value, 2) for value in item.intensity_range) for item in items})
-            group_sets = len({item.primary_groups for item in items})
-            raw_score = min(1.0, 0.3 + (0.25 * variation_count) + (0.2 * intensity_shapes) + (0.15 * group_sets))
+            raw_score = explicit_variation_score
 
         scores.append(raw_score)
 
