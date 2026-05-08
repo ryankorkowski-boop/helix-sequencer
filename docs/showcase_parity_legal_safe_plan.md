@@ -43,6 +43,8 @@ The first metric slices are:
 tools/showcase/energy_curve.py
 tools/showcase/hero_dominance.py
 tools/showcase/motion_continuity.py
+tools/showcase/palette_arc.py
+tools/showcase/impact_model.py
 ```
 
 They measure:
@@ -62,6 +64,16 @@ They measure:
 - `transition_smoothness_score`
 - `hard_cut_penalty`
 - `showcase_motion_score`
+- `warm_cool_flow_score`
+- `palette_continuity_score`
+- `contrast_rhythm_score`
+- `abrupt_palette_shift_penalty`
+- `showcase_palette_score`
+- `anticipation_score`
+- `drop_punch_score`
+- `finale_payoff_score`
+- `peak_density_score`
+- `showcase_impact_score`
 
 ## Source Registry
 
@@ -136,17 +148,33 @@ Implemented:
 
 This measures directional coherence, motion-family continuity, transition smoothness, and hard-cut risk using only synthetic/internal/permissioned motion traces. It is report-only and does not influence generation.
 
+### Slice 6: Showcase Palette Arc Metrics
+
+Implemented:
+
+- `tools/showcase/palette_arc.py`
+- `tests/showcase/test_palette_arc.py`
+
+This measures warm/cool flow, palette continuity, contrast rhythm, and abrupt palette shift risk using only synthetic/internal/permissioned palette traces. It is report-only and does not influence generation.
+
+### Slice 7: Showcase Impact Model Metrics
+
+Implemented:
+
+- `tools/showcase/impact_model.py`
+- `tests/showcase/test_impact_model.py`
+
+This measures anticipation, drop punch, finale payoff, and peak density using only synthetic/internal/permissioned impact traces. It is report-only and does not influence generation.
+
 ## Future Safe Slices
 
 Recommended next slices:
 
-1. `tools/showcase/palette_arc.py`
-2. `tools/showcase/impact_model.py`
-3. `tools/showcase/showcase_score.py`
-4. report-only integration into output quality reports
-5. explainable comparison only
-6. optional soft bias behind flags
-7. optional enforcement only after validation
+1. `tools/showcase/showcase_score.py`
+2. report-only integration into output quality reports
+3. explainable comparison only
+4. optional soft bias behind flags
+5. optional enforcement only after validation
 
 ## Acceptance Criteria
 
