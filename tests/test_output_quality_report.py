@@ -89,6 +89,15 @@ def test_build_output_quality_report_includes_showcase_reports_when_traces_are_p
             {"name": "verse_chase", "motion_family": "chase", "direction": "left_to_right", "intensity": 0.55, "speed": 0.5, "breadth": 0.65, "transition": "wipe", "start": 10.0, "end": 25.0},
             {"name": "chorus_spiral", "motion_family": "spiral", "direction": "inside_out", "intensity": 0.85, "speed": 0.75, "breadth": 0.85, "transition": "crossfade", "start": 25.0, "end": 45.0},
         ],
+        showcase_palettes=[
+            {"name": "intro", "start": 0, "end": 12, "colors": ["blue"], "palette": "cool_intro", "contrast_level": 0.3},
+            {"name": "verse", "start": 12, "end": 40, "colors": ["blue", "green"], "palette": "cool_intro", "contrast_level": 0.5},
+            {"name": "chorus", "start": 40, "end": 70, "colors": ["purple", "pink"], "palette": "warm_peak", "contrast_level": 0.9},
+        ],
+        showcase_impacts=[
+            {"name": "chorus_drop", "kind": "drop", "start": 40.0, "end": 42.0, "intensity": 0.9, "breadth": 0.85, "darkness_before": 0.75, "density_before": 0.2, "surprise": 0.55, "beat_alignment": 0.95},
+            {"name": "finale_climax", "kind": "finale", "start": 90.0, "end": 100.0, "intensity": 1.0, "breadth": 1.0, "darkness_before": 0.35, "density_before": 0.35, "surprise": 0.4, "beat_alignment": 0.95},
+        ],
     )
 
     payload = report.as_dict()
@@ -97,12 +106,18 @@ def test_build_output_quality_report_includes_showcase_reports_when_traces_are_p
     assert "showcase_energy" in payload["reports"]
     assert "showcase_hero_dominance" in payload["reports"]
     assert "showcase_motion_continuity" in payload["reports"]
+    assert "showcase_palette_arc" in payload["reports"]
+    assert "showcase_impact_model" in payload["reports"]
     assert payload["reports"]["showcase_energy"]["showcase_energy_score"] > 0.6
     assert payload["reports"]["showcase_hero_dominance"]["showcase_hero_score"] > 0.6
     assert payload["reports"]["showcase_motion_continuity"]["showcase_motion_score"] > 0.6
+    assert payload["reports"]["showcase_palette_arc"]["showcase_palette_score"] > 0.5
+    assert payload["reports"]["showcase_impact_model"]["showcase_impact_score"] > 0.6
     assert payload["summary"]["component_scores"]["showcase_energy"] > 0.6
     assert payload["summary"]["component_scores"]["showcase_hero_dominance"] > 0.6
     assert payload["summary"]["component_scores"]["showcase_motion_continuity"] > 0.6
+    assert payload["summary"]["component_scores"]["showcase_palette_arc"] > 0.5
+    assert payload["summary"]["component_scores"]["showcase_impact_model"] > 0.6
 
 
 def test_build_output_quality_report_skips_missing_inputs_with_warnings():
