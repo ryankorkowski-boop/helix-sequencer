@@ -108,16 +108,20 @@ def test_build_output_quality_report_includes_showcase_reports_when_traces_are_p
     assert "showcase_motion_continuity" in payload["reports"]
     assert "showcase_palette_arc" in payload["reports"]
     assert "showcase_impact_model" in payload["reports"]
+    assert "showcase_score" in payload["reports"]
     assert payload["reports"]["showcase_energy"]["showcase_energy_score"] > 0.6
     assert payload["reports"]["showcase_hero_dominance"]["showcase_hero_score"] > 0.6
     assert payload["reports"]["showcase_motion_continuity"]["showcase_motion_score"] > 0.6
     assert payload["reports"]["showcase_palette_arc"]["showcase_palette_score"] > 0.5
     assert payload["reports"]["showcase_impact_model"]["showcase_impact_score"] > 0.6
+    assert payload["reports"]["showcase_score"]["score"] > 0.6
     assert payload["summary"]["component_scores"]["showcase_energy"] > 0.6
     assert payload["summary"]["component_scores"]["showcase_hero_dominance"] > 0.6
     assert payload["summary"]["component_scores"]["showcase_motion_continuity"] > 0.6
     assert payload["summary"]["component_scores"]["showcase_palette_arc"] > 0.5
     assert payload["summary"]["component_scores"]["showcase_impact_model"] > 0.6
+    assert payload["summary"]["component_scores"]["showcase_score"] > 0.6
+    assert payload["summary"]["showcase_score"] > 0.6
 
 
 def test_build_output_quality_report_skips_missing_inputs_with_warnings():
