@@ -37,7 +37,7 @@ This plan starts with report-only metrics over safe traces:
 - user-owned or permissioned sequence traces
 - user-authored rules
 
-The first metric slices are:
+The showcase metric stack is:
 
 ```text
 tools/showcase/energy_curve.py
@@ -45,6 +45,7 @@ tools/showcase/hero_dominance.py
 tools/showcase/motion_continuity.py
 tools/showcase/palette_arc.py
 tools/showcase/impact_model.py
+tools/showcase/showcase_score.py
 ```
 
 They measure:
@@ -74,6 +75,7 @@ They measure:
 - `finale_payoff_score`
 - `peak_density_score`
 - `showcase_impact_score`
+- composite `showcase_score`
 
 ## Source Registry
 
@@ -166,15 +168,22 @@ Implemented:
 
 This measures anticipation, drop punch, finale payoff, and peak density using only synthetic/internal/permissioned impact traces. It is report-only and does not influence generation.
 
+### Slice 8: Composite Showcase Score
+
+Implemented:
+
+- `tools/showcase/showcase_score.py`
+- `tests/showcase/test_showcase_score.py`
+
+This combines available showcase component reports into a single explainable composite score. It is report-only and does not influence generation.
+
 ## Future Safe Slices
 
 Recommended next slices:
 
-1. `tools/showcase/showcase_score.py`
-2. report-only integration into output quality reports
-3. explainable comparison only
-4. optional soft bias behind flags
-5. optional enforcement only after validation
+1. explainable comparison only
+2. optional soft bias behind flags
+3. optional enforcement only after validation
 
 ## Acceptance Criteria
 
