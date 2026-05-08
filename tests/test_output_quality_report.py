@@ -83,7 +83,12 @@ def test_build_output_quality_report_includes_showcase_reports_when_traces_are_p
             {"name": "verse", "kind": "verse", "start": 12, "end": 40, "intensity": 0.35, "breadth": 0.35, "motion": 0.3, "darkness": 0.2, "hero_share": 0.45},
             {"name": "chorus", "kind": "chorus", "start": 40, "end": 70, "intensity": 0.75, "breadth": 0.75, "motion": 0.7, "darkness": 0.0, "hero_share": 0.65},
             {"name": "finale", "kind": "finale", "start": 70, "end": 105, "intensity": 0.95, "breadth": 0.95, "motion": 0.9, "darkness": 0.0, "hero_share": 0.75},
-        ]
+        ],
+        showcase_motions=[
+            {"name": "intro_sweep", "motion_family": "sweep", "direction": "left_to_right", "intensity": 0.35, "speed": 0.35, "breadth": 0.5, "transition": "blend", "start": 0.0, "end": 10.0},
+            {"name": "verse_chase", "motion_family": "chase", "direction": "left_to_right", "intensity": 0.55, "speed": 0.5, "breadth": 0.65, "transition": "wipe", "start": 10.0, "end": 25.0},
+            {"name": "chorus_spiral", "motion_family": "spiral", "direction": "inside_out", "intensity": 0.85, "speed": 0.75, "breadth": 0.85, "transition": "crossfade", "start": 25.0, "end": 45.0},
+        ],
     )
 
     payload = report.as_dict()
@@ -91,10 +96,13 @@ def test_build_output_quality_report_includes_showcase_reports_when_traces_are_p
     assert payload["report_only"] is True
     assert "showcase_energy" in payload["reports"]
     assert "showcase_hero_dominance" in payload["reports"]
+    assert "showcase_motion_continuity" in payload["reports"]
     assert payload["reports"]["showcase_energy"]["showcase_energy_score"] > 0.6
     assert payload["reports"]["showcase_hero_dominance"]["showcase_hero_score"] > 0.6
+    assert payload["reports"]["showcase_motion_continuity"]["showcase_motion_score"] > 0.6
     assert payload["summary"]["component_scores"]["showcase_energy"] > 0.6
     assert payload["summary"]["component_scores"]["showcase_hero_dominance"] > 0.6
+    assert payload["summary"]["component_scores"]["showcase_motion_continuity"] > 0.6
 
 
 def test_build_output_quality_report_skips_missing_inputs_with_warnings():
