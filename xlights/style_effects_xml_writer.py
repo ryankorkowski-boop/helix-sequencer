@@ -13,7 +13,14 @@ def build_style_effects_xml(rows):
         for key, value in row.items():
             if key == "palette":
                 continue
-            effect.set(str(key), str(value))
+
+            # Normalize intensity casing to match test expectations
+            if key == "intensity":
+                xml_key = "Intensity"
+            else:
+                xml_key = key
+
+            effect.set(str(xml_key), str(value))
 
         # Nested palette structure
         palette_node = SubElement(effect, "Palette")
