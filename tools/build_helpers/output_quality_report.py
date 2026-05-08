@@ -109,6 +109,18 @@ def build_output_quality_report(
         else:
             reports["motif_memory"] = score_motif_memory(motifs).as_dict()
 
+    if manual_locks is not None:
+        try:
+            lock_file = parse_manual_lock_file(manual_locks)
+            reports["manual_locks"] = {
+                "summary": lock_file.summary(),
+                "version": lock_file.version,
+                "sequence_id": lock_file.sequence_id,
+                "enabled_lock_ids": [lock.id for lock in lock_file.enabled_locks],
+            }
+        except ManualLockError as exc:
+            warnings.append(f"manual_locks skipped: {exc}")
+
     if showcase_sections is not None:
         reports["showcase_energy"] = score_showcase_energy(showcase_sections).as_dict()
         reports["showcase_hero_dominance"] = score_hero_dominance(showcase_sections).as_dict()
