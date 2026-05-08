@@ -3,7 +3,7 @@
 These metrics operate only on synthetic, internal, or permissioned impact traces.
 They measure general cinematic sequencing grammar: anticipation, drop punch,
 finale payoff, and peak density. They do not ingest copyrighted media, public
-videos, or creator-specific choreography.
+videos, or externally authored choreography.
 """
 
 from __future__ import annotations
