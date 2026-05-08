@@ -14,8 +14,8 @@ def build_style_effects_xml(rows):
             if key == "palette":
                 continue
 
-            # Normalize intensity casing to match test expectations
-            if key == "intensity":
+            # Normalize intensity casing (case-insensitive)
+            if key.lower() == "intensity":
                 xml_key = "Intensity"
             else:
                 xml_key = key
