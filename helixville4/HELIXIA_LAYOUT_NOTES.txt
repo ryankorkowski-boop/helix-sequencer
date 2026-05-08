@@ -1,0 +1,5 @@
+Helixia layout scaffold generated.
+Generated xlights_rgbeffects.xml now uses ordered 3D depth layers.
+Snowman band is front-center foreground.
+Double helix tower is center-back hero geometry.
+All generated lot footprints are ground-aligned at z=0.
