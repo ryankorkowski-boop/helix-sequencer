@@ -493,6 +493,7 @@ def render_sequence_to_mp4(
     fps: int,
     width: int,
     height: int,
+    max_seconds: float = 90.0,
 ) -> Path:
     sequence = parse_sequence(sequence_path)
     leaf_names, intensity = build_leaf_intensity_matrix(layout, sequence, fps)
@@ -505,6 +506,8 @@ def render_sequence_to_mp4(
     out_path = sequence_path.with_suffix(".mp4")
     temp_path = out_path.with_suffix(".silent.mp4")
     frame_count = intensity.shape[1]
+    if max_seconds and max_seconds > 0:
+        frame_count = min(frame_count, max(1, int(math.ceil(max_seconds * fps))))
     writer = imageio.get_writer(
         temp_path,
         fps=fps,
@@ -585,6 +588,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--fps", type=int, default=15, help="Output frame rate")
     parser.add_argument("--width", type=int, default=1280, help="Video width")
     parser.add_argument("--height", type=int, default=720, help="Video height")
+    parser.add_argument(
+        "--max-seconds",
+        type=float,
+        default=90.0,
+        help="Maximum preview duration in seconds; use 0 to render the full sequence",
+    )
     return parser.parse_args()
 
 
@@ -609,6 +618,7 @@ def main() -> int:
             fps=args.fps,
             width=args.width,
             height=args.height,
+            max_seconds=args.max_seconds,
         )
         print(f"Created {out_path}", flush=True)
     return 0

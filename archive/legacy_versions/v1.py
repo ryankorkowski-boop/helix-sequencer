@@ -16,7 +16,7 @@ RUN:
 
 from __future__ import annotations
 
-import argparse, copy, json, sys, time, shutil, re, random
+import argparse, copy, json, sys, time, shutil, re, random, os
 from dataclasses import dataclass, field
 from pathlib import Path
 import xml.etree.ElementTree as ET
@@ -138,7 +138,7 @@ MEGA_WHITE_HIT_MS = (70, 140)
 
 # --- Pitch proxy (fast) ---
 HOP_MS = 512
-USE_FAST_PITCH = True
+USE_FAST_PITCH = os.environ.get("HELIX_SKIP_LEGACY_PITCH", "").strip().lower() not in {"1", "true", "yes"}
 
 # Safety cap
 MAX_EFFECTS_TOTAL = None

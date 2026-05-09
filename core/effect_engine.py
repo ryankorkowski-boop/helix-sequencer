@@ -10601,7 +10601,7 @@ def run_variant(
             "sentiment_score": 0,
         },
     }
-    if tuning.sync_lyrics_heads or bool(matrix_intelligence_payload.get("matrix_available", False)):
+    if tuning.sync_lyrics_heads:
         lyric_events = ai.extract_lyrics_events(
             audio_path=audio_path,
             use_moises=bool(tuning.use_moises),
