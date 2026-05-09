@@ -1,0 +1,47 @@
+name: Helixville4 Full Band Smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/restructure-core
+    paths:
+      - 'tools/build_helpers/helixville4_full_band.py'
+      - 'tools/build_helixville4_full_band_layout.py'
+      - 'tools/run_helixville4_full_band_lightsouttheme_30s.py'
+      - 'tools/run_helixville4_full_band_lightsouttheme_30s_smoke.py'
+      - 'core/helixville4_band_animation_map.py'
+      - 'tests/test_helixville4_full_band_models.py'
+      - 'tests/test_helixville4_performance_regions.py'
+      - '.github/workflows/helixville4-full-band-smoke.yml'
+
+jobs:
+  full-band-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run full-band unit checks
+        run: |
+          python -m unittest \
+            tests.test_helixville4_full_band_models \
+            tests.test_helixville4_performance_regions
+      - name: Build approved full-band layout
+        run: |
+          python tools/build_helixville4_full_band_layout.py \
+            --output-dir test_runs/helixville4_full_band_ci
+      - name: Dry-run 30s LightsOutTheme smoke command
+        run: |
+          python tools/run_helixville4_full_band_lightsouttheme_30s.py \
+            --output-dir test_runs/helixville4_full_band_lightsouttheme_30s_ci \
+            --dry-run
+      - name: Upload smoke artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: helixville4-full-band-smoke
+          path: |
+            test_runs/helixville4_full_band_ci/**
+            test_runs/helixville4_full_band_lightsouttheme_30s_ci/**
+          if-no-files-found: error
