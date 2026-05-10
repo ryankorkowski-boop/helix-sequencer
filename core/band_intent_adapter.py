@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 from core.choreography_intent import IntentLayerRole, MotionVocabulary
 from core.intent_layer_expander import SequentialLayerEvent
+from models.helixville4_performer_runtime import HELIXVILLE4_PERFORMERS
 
 
 @dataclass(frozen=True)
@@ -50,12 +51,7 @@ class BandIntentAdapter:
         IntentLayerRole.ACCENT: "lead_accent",
     }
 
-    DEFAULT_PERFORMERS = (
-        "drummer",
-        "guitarist",
-        "bassist",
-        "singer",
-    )
+    DEFAULT_PERFORMERS = tuple(performer.performer_id for performer in HELIXVILLE4_PERFORMERS)
 
     def __init__(self, performers: tuple[str, ...] | None = None):
         self.performers = performers or self.DEFAULT_PERFORMERS
@@ -65,7 +61,6 @@ class BandIntentAdapter:
         event: SequentialLayerEvent,
     ) -> tuple[BandExecutionEvent, ...]:
         performer_state = self.MOTION_TO_STATE.get(event.motion, "idle_texture")
-        emphasis = self.ROLE_TO_EMPHASIS.get(event.layer_role, "ensemble_foundation")
 
         events = []
 
@@ -124,5 +119,10 @@ class BandIntentAdapter:
             if role == IntentLayerRole.ACCENT:
                 return "lead_vocal_focus"
             return "front_stage_presence"
+
+        if performer == "female_singer":
+            if role == IntentLayerRole.ACCENT:
+                return "harmony_vocal_accent"
+            return "harmony_call_response"
 
         return "ensemble_support"
