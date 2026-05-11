@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Any
 
+from models.helixville4_vocal_phonemes import build_vocal_phoneme_catalog, validate_vocal_phoneme_catalog
+
 
 @dataclass(frozen=True)
 class PerformerState:
@@ -178,6 +180,7 @@ def build_performer_runtime_catalog() -> dict[str, Any]:
         "performer_count": len(HELIXVILLE4_PERFORMERS),
         "model_names": [p.model_name for p in HELIXVILLE4_PERFORMERS],
         "groups": sorted({g for p in HELIXVILLE4_PERFORMERS for g in p.sequencing_groups}),
+        "vocal_phonemes": build_vocal_phoneme_catalog(),
         "performers": [p.to_dict() for p in HELIXVILLE4_PERFORMERS],
     }
 
@@ -196,4 +199,11 @@ def validate_performer_runtime_catalog() -> dict[str, Any]:
             missing = sorted(set(state.primary_submodels) - known)
             if missing:
                 errors.append(f"{performer.model_name}.{state.name} references missing submodels: {missing}")
-    return {"schema": "helixville4.performer_runtime_validation.v1", "valid": not errors, "error_count": len(errors), "errors": errors, "performer_count": len(HELIXVILLE4_PERFORMERS)}
+
+    phoneme_validation = validate_vocal_phoneme_catalog(
+        singer_submodels=SINGER.submodels,
+        female_singer_submodels=FEMALE_SINGER.submodels,
+    )
+    errors.extend(phoneme_validation["errors"])
+
+    return {"schema": "helixville4.performer_runtime_validation.v1", "valid": not errors, "error_count": len(errors), "errors": errors, "performer_count": len(HELIXVILLE4_PERFORMERS), "phoneme_count": phoneme_validation["phoneme_count"]}
