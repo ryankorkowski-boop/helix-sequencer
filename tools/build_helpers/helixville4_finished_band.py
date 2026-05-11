@@ -4,6 +4,8 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
 
+from tools.build_helpers.helixville4_full_band import add_full_helixville4_band_models
+
 
 @dataclass(frozen=True)
 class PixelRun:
@@ -46,7 +48,6 @@ DRUMMER_SUBMODEL_NAMES: tuple[str, ...] = (
     "HX_SNOWMAN_DRUMMER_PLATFORM",
 )
 
-# Pixel counts are intentionally high enough to render as a prop, not a stick figure.
 DRUMMER_SUBMODEL_PIXEL_COUNTS: dict[str, int] = {
     "HX_SNOWMAN_DRUMMER_HEAD": 44,
     "HX_SNOWMAN_DRUMMER_FACE": 24,
@@ -97,12 +98,6 @@ def _allocate_runs() -> list[PixelRun]:
 
 
 def _drummer_custom_model_text(width: int, height: int) -> str:
-    """Return a dense custom-model bitmap using xLights-style numeric node IDs.
-
-    The bitmap is intentionally generated from named runs, making it deterministic and
-    testable. It is not a final vendor CAD file, but it is a real high-density custom
-    prop map with distinct snowman/drum-kit regions instead of 12x12 placeholders.
-    """
     grid = [["." for _ in range(width)] for _ in range(height)]
     cursor = 1
 
@@ -145,7 +140,6 @@ def _drummer_custom_model_text(width: int, height: int) -> str:
                 grid[y][x] = str(cursor)
             cursor += 1
 
-    # The draw order follows DRUMMER_SUBMODEL_NAMES exactly.
     put_ellipse(48, 19, 11, 8, DRUMMER_SUBMODEL_PIXEL_COUNTS["HX_SNOWMAN_DRUMMER_HEAD"])
     put_ellipse(48, 20, 5, 3, DRUMMER_SUBMODEL_PIXEL_COUNTS["HX_SNOWMAN_DRUMMER_FACE"])
     put_rect_outline(40, 5, 56, 13, DRUMMER_SUBMODEL_PIXEL_COUNTS["HX_SNOWMAN_DRUMMER_HAT"])
@@ -220,47 +214,10 @@ def add_finished_snowman_drummer_model(models_el: ET.Element, *, start_channel: 
 
 
 def add_finished_helixville4_band_models(layout_path: Path) -> None:
-    tree = ET.parse(layout_path)
-    root = tree.getroot()
-    models_el = root.find("models") or ET.SubElement(root, "models")
-    groups_el = root.find("modelGroups") or ET.SubElement(root, "modelGroups")
+    """Add all approved Helixville4 snowman band models.
 
-    # Keep the existing non-drummer band placeholders as separate TODO-visible specs;
-    # replace the drummer with the finished target model so xLights no longer shows a
-    # stick-figure drummer.
-    placeholder_members = {
-        "HX_SNOWMAN_SINGER": "HX_SNOWMAN_SINGER_MOUTH_PHONEME",
-        "HX_SNOWMAN_SINGER_FEMALE": "HX_SNOWMAN_SINGER_FEMALE_CALL_RESPONSE",
-        "HX_SNOWMAN_GUITARIST": "HX_SNOWMAN_GUITARIST_STRUM_ZONE",
-        "HX_SNOWMAN_BASSIST": "HX_SNOWMAN_BASSIST_PLUCK_ZONE",
-    }
-    start = 900000
-    for idx, (model_name, submodel_name) in enumerate(placeholder_members.items()):
-        model = ET.SubElement(
-            models_el,
-            "model",
-            {
-                "name": model_name,
-                "DisplayAs": "Custom",
-                "WorldPosX": f"{250 + idx * 28:.3f}",
-                "WorldPosY": f"{-52 - idx * 8:.3f}",
-                "WorldPosZ": "12.000",
-                "StartChannel": str(start + idx * 100),
-                "StringType": "RGB Nodes",
-                "parm1": "24",
-                "parm2": "24",
-                "CustomWidth": "24",
-                "CustomHeight": "24",
-                "HelixImplementationState": "placeholder_pending_finished_exporter",
-            },
-        )
-        ET.SubElement(model, "subModel", {"name": submodel_name, "line0": "1-24"})
-
-    add_finished_snowman_drummer_model(models_el)
-
-    members = "HX_SNOWMAN_SINGER,HX_SNOWMAN_SINGER_FEMALE,HX_SNOWMAN_GUITARIST,HX_SNOWMAN_BASSIST,HX_SNOWMAN_DRUMMER"
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_BAND", "models": members})
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_VOCALS", "models": "HX_SNOWMAN_SINGER,HX_SNOWMAN_SINGER_FEMALE"})
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_INSTRUMENTS", "models": "HX_SNOWMAN_GUITARIST,HX_SNOWMAN_BASSIST,HX_SNOWMAN_DRUMMER"})
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_DRUMS", "models": "HX_SNOWMAN_DRUMMER"})
-    tree.write(layout_path, encoding="utf-8", xml_declaration=True)
+    The finished-band helper now delegates to the canonical full-band exporter so
+    there is only one approved contract for singer, female singer, guitarist,
+    bassist, and drummer geometry/submodels.
+    """
+    add_full_helixville4_band_models(layout_path)
