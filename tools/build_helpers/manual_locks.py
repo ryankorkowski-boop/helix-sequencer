@@ -256,6 +256,16 @@ def locks_touch_at_boundary(left: ManualLock, right: ManualLock) -> bool:
 
 
 def locks_overlap(left: ManualLock, right: ManualLock) -> bool:
+    left_window = _interval(left)
+    right_window = _interval(right)
+    if left_window is None or right_window is None:
+        return False
+    left_start, left_end = left_window
+    right_start, right_end = right_window
+    return left_start < right_end and right_start < left_end
+
+
+def padded_locks_overlap(left: ManualLock, right: ManualLock) -> bool:
     left_window = _interval(left, padded=True)
     right_window = _interval(right, padded=True)
     if left_window is None or right_window is None:
