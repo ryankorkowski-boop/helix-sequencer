@@ -50,6 +50,14 @@ DEMO_INTENTS = (
     ),
 )
 
+ARTIFACT_FILENAMES = {
+    "combined": "helixville4_band_demo_manifest.json",
+    "runtime_catalog": "helixville4_band_runtime_catalog.json",
+    "xlights_export": "helixville4_band_xlights_export.json",
+    "vocal_face_export": "helixville4_band_vocal_face_export.json",
+    "summary": "HELIXVILLE4_BAND_SUMMARY.txt",
+}
+
 
 def build_demo_manifest() -> dict:
     expanded = IntentLayerExpander().expand_many(DEMO_INTENTS)
@@ -70,20 +78,29 @@ def build_demo_manifest() -> dict:
     }
 
 
+def _write_json(path: Path, payload: dict) -> None:
+    path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
 def export_demo_manifest(output_dir: str | Path) -> Path:
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     payload = build_demo_manifest()
 
-    manifest_path = out_dir / "helixville4_band_demo_manifest.json"
-    manifest_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    manifest_path = out_dir / ARTIFACT_FILENAMES["combined"]
+    _write_json(manifest_path, payload)
+    _write_json(out_dir / ARTIFACT_FILENAMES["runtime_catalog"], payload["runtime_catalog"])
+    _write_json(out_dir / ARTIFACT_FILENAMES["xlights_export"], payload["xlights_export"])
+    _write_json(out_dir / ARTIFACT_FILENAMES["vocal_face_export"], payload["vocal_face_export"])
 
-    summary_path = out_dir / "HELIXVILLE4_BAND_SUMMARY.txt"
+    summary_path = out_dir / ARTIFACT_FILENAMES["summary"]
     summary_path.write_text(
         "Helixville4 deterministic performer pipeline export generated.\n"
         "Includes all five runtime performers, compiled timeline events,\n"
-        "xLights-oriented submodel effect instructions, and vocal face instructions.\n",
+        "xLights-oriented submodel effect instructions, and vocal face instructions.\n"
+        "Standalone JSON artifacts are written for runtime catalog, submodel effects,\n"
+        "and vocal face effects for downstream import/testing.\n",
         encoding="utf-8",
     )
 
