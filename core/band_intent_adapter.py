@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 from core.choreography_intent import IntentLayerRole, MotionVocabulary
 from core.intent_layer_expander import SequentialLayerEvent
+from models.helixville4_performer_runtime import HELIXVILLE4_PERFORMERS
 
 
 @dataclass(frozen=True)
@@ -39,35 +40,16 @@ class BandIntentAdapter:
         MotionVocabulary.CASCADE: "descending_wave",
         MotionVocabulary.SHIMMER: "ambient_sway",
         MotionVocabulary.TEXTURE: "idle_texture",
-        MotionVocabulary.BLACKOUT: "blackout_hold",
     }
 
-    ROLE_TO_EMPHASIS = {
-        IntentLayerRole.BASE: "ensemble_foundation",
-        IntentLayerRole.SUSTAIN: "held_pose",
-        IntentLayerRole.MOTION: "movement_focus",
-        IntentLayerRole.EVENT: "timed_hit",
-        IntentLayerRole.ACCENT: "lead_accent",
-    }
-
-    DEFAULT_PERFORMERS = (
-        "drummer",
-        "guitarist",
-        "bassist",
-        "singer",
-    )
+    DEFAULT_PERFORMERS = tuple(performer.performer_id for performer in HELIXVILLE4_PERFORMERS)
 
     def __init__(self, performers: tuple[str, ...] | None = None):
         self.performers = performers or self.DEFAULT_PERFORMERS
 
-    def adapt_event(
-        self,
-        event: SequentialLayerEvent,
-    ) -> tuple[BandExecutionEvent, ...]:
+    def adapt_event(self, event: SequentialLayerEvent) -> tuple[BandExecutionEvent, ...]:
         performer_state = self.MOTION_TO_STATE.get(event.motion, "idle_texture")
-        emphasis = self.ROLE_TO_EMPHASIS.get(event.layer_role, "ensemble_foundation")
-
-        events = []
+        events: list[BandExecutionEvent] = []
 
         for performer in self.performers:
             events.append(
@@ -82,47 +64,27 @@ class BandIntentAdapter:
                     duration=event.duration,
                     intensity=event.intensity,
                     stage_region=event.target_region,
-                    instrument_emphasis=self._instrument_emphasis(
-                        performer,
-                        event.layer_role,
-                    ),
+                    instrument_emphasis=self._instrument_emphasis(performer, event.layer_role),
                 )
             )
 
         return tuple(events)
 
-    def adapt_many(
-        self,
-        events: tuple[SequentialLayerEvent, ...],
-    ) -> tuple[BandExecutionEvent, ...]:
-        output = []
-
+    def adapt_many(self, events: tuple[SequentialLayerEvent, ...]) -> tuple[BandExecutionEvent, ...]:
+        output: list[BandExecutionEvent] = []
         for event in events:
             output.extend(self.adapt_event(event))
-
         return tuple(output)
 
-    def _instrument_emphasis(
-        self,
-        performer: str,
-        role: IntentLayerRole,
-    ) -> str:
+    def _instrument_emphasis(self, performer: str, role: IntentLayerRole) -> str:
         if performer == "drummer":
-            if role == IntentLayerRole.EVENT:
-                return "percussion_hit_focus"
-            return "rhythmic_foundation"
-
+            return "percussion_hit_focus" if role == IntentLayerRole.EVENT else "rhythmic_foundation"
         if performer == "guitarist":
-            if role == IntentLayerRole.MOTION:
-                return "riff_motion_focus"
-            return "harmonic_drive"
-
+            return "riff_motion_focus" if role == IntentLayerRole.MOTION else "harmonic_drive"
         if performer == "bassist":
             return "low_end_support"
-
         if performer == "singer":
-            if role == IntentLayerRole.ACCENT:
-                return "lead_vocal_focus"
-            return "front_stage_presence"
-
+            return "lead_vocal_focus" if role == IntentLayerRole.ACCENT else "front_stage_presence"
+        if performer == "female_singer":
+            return "harmony_vocal_accent" if role == IntentLayerRole.ACCENT else "harmony_call_response"
         return "ensemble_support"
