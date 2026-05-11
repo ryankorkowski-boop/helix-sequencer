@@ -42,6 +42,33 @@ def _state(prefix: str, name: str, desc: str, parts: tuple[str, ...], intensity:
     return PerformerState(name=name, description=desc, primary_submodels=_sm(prefix, *parts), intensity=intensity)
 
 
+DRUMMER_PARTS = (
+    "HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "PLATFORM",
+    "HAT_HOLLY", "LEFT_STICK", "RIGHT_STICK", "KICK", "KICK_RIM", "SNARE", "SNARE_RIM", "TOM_LEFT",
+    "TOM_RIGHT", "HI_HAT", "CYMBAL_LEFT", "CYMBAL_RIGHT", "STANDS",
+)
+BASSIST_PARTS = (
+    "HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "PLATFORM",
+    "HAT_HOLLY", "BASS_BODY", "BASS_NECK", "BASS_SCROLL", "STRING_E", "STRING_A", "STRING_D", "STRING_G",
+    "FINGERBOARD", "NECK_LOW", "NECK_MID", "NECK_HIGH", "PLUCK_ZONE", "BRIDGE", "BODY_RESONANCE",
+)
+GUITARIST_PARTS = (
+    "HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "PLATFORM",
+    "HAT_HOLLY", "GUITAR_BODY", "GUITAR_NECK", "GUITAR_HEAD", "STRING_LOW_E", "STRING_A", "STRING_D", "STRING_G",
+    "STRING_B", "STRING_HIGH_E", "PICK_ZONE", "PICKUPS", "BRIDGE", "FRETBOARD_LOW", "FRETBOARD_MID",
+    "FRETBOARD_HIGH", "BODY_RESONANCE",
+)
+SINGER_PARTS = (
+    "HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "PLATFORM",
+    "CARROT_NOSE", "HAT_HOLLY", "LEFT_HAND", "RIGHT_HAND_MIC", "MICROPHONE", "MIC_STAND", "MOUTH", "EYES",
+    "EYEBROWS", "VOCAL_GLOW",
+)
+FEMALE_SINGER_PARTS = (
+    "HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "PLATFORM",
+    "BOW", "EYES", "EYELASHES", "CARROT_NOSE", "MOUTH", "SCARF_TAIL_LEFT", "SCARF_TAIL_RIGHT", "LEFT_HAND",
+    "RIGHT_HAND", "MICROPHONE", "MIC_STAND", "TORSO_UPPER", "TORSO_LOWER", "VOCAL_GLOW", "STAGE_GLOW",
+)
+
 DRUMMER = PerformerRuntimeSpec(
     performer_id="drummer",
     display_name="Mad Drummer Snowman",
@@ -49,7 +76,7 @@ DRUMMER = PerformerRuntimeSpec(
     model_name="HX_SNOWMAN_DRUMMER",
     approved_state="approved_design_drummer_v1",
     visual_target="docs/HELIXVILLE4_DRUMMER_TARGET.md",
-    submodels=_sm("HX_SNOWMAN_DRUMMER", "HEAD", "FACE", "HAT", "HAT_BAND", "HAT_HOLLY", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "LEFT_STICK", "RIGHT_STICK", "KICK", "KICK_RIM", "SNARE", "SNARE_RIM", "TOM_LEFT", "TOM_RIGHT", "HI_HAT", "CYMBAL_LEFT", "CYMBAL_RIGHT", "STANDS", "PLATFORM"),
+    submodels=_sm("HX_SNOWMAN_DRUMMER", *DRUMMER_PARTS),
     states=(
         _state("HX_SNOWMAN_DRUMMER", "ready_idle", "Standing ready behind the kit.", ("TORSO", "KICK"), 0.25),
         _state("HX_SNOWMAN_DRUMMER", "kick_hit", "Kick drum impact.", ("KICK", "KICK_RIM"), 0.75),
@@ -70,13 +97,13 @@ GUITARIST = PerformerRuntimeSpec(
     model_name="HX_SNOWMAN_GUITARIST",
     approved_state="approved_design_guitarist_reactive_strings_v1",
     visual_target="docs/HELIXVILLE4_GUITARIST_REACTIVE_STRINGS.md",
-    submodels=_sm("HX_SNOWMAN_GUITARIST", "HEAD", "FACE", "HAT", "HAT_BAND", "HAT_HOLLY", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "GUITAR_BODY", "GUITAR_NECK", "GUITAR_HEAD", "GUITAR_STRINGS", "GUITAR_PICKUPS", "GUITAR_BRIDGE", "LEFT_HAND", "RIGHT_HAND", "STRUM_ZONE", "PLATFORM"),
+    submodels=_sm("HX_SNOWMAN_GUITARIST", *GUITARIST_PARTS),
     states=(
         _state("HX_SNOWMAN_GUITARIST", "ready_idle", "Standing ready with guitar.", ("GUITAR_BODY", "TORSO"), 0.25),
-        _state("HX_SNOWMAN_GUITARIST", "strum_down", "Strong down strum.", ("RIGHT_HAND", "STRUM_ZONE", "GUITAR_STRINGS"), 0.8),
-        _state("HX_SNOWMAN_GUITARIST", "chord_groove", "Grooving on chords.", ("GUITAR_STRINGS", "GUITAR_BODY"), 0.65),
-        _state("HX_SNOWMAN_GUITARIST", "neck_slide", "Slide up the neck.", ("LEFT_HAND", "GUITAR_NECK", "GUITAR_STRINGS"), 0.75),
-        _state("HX_SNOWMAN_GUITARIST", "hit_end", "Big chord hit and settle.", ("STRUM_ZONE", "GUITAR_STRINGS", "GUITAR_BODY"), 1.0),
+        _state("HX_SNOWMAN_GUITARIST", "strum_down", "Strong down strum.", ("PICK_ZONE", "STRING_LOW_E", "STRING_HIGH_E"), 0.8),
+        _state("HX_SNOWMAN_GUITARIST", "chord_groove", "Grooving on chords.", ("STRING_A", "STRING_D", "STRING_G", "GUITAR_BODY"), 0.65),
+        _state("HX_SNOWMAN_GUITARIST", "neck_slide", "Slide up the neck.", ("FRETBOARD_LOW", "FRETBOARD_MID", "FRETBOARD_HIGH", "GUITAR_NECK"), 0.75),
+        _state("HX_SNOWMAN_GUITARIST", "hit_end", "Big chord hit and settle.", ("PICK_ZONE", "GUITAR_BODY", "BODY_RESONANCE"), 1.0),
     ),
     audio_inputs=("midrange_energy", "guitar_transients", "beat", "section_intensity", "sustain"),
     sequencing_groups=("HX_SNOWMAN_BAND", "HX_SNOWMAN_INSTRUMENTS", "HX_SNOWMAN_STRINGS"),
@@ -89,13 +116,13 @@ BASSIST = PerformerRuntimeSpec(
     model_name="HX_SNOWMAN_BASSIST",
     approved_state="approved_design_bassist_reactive_strings_v1",
     visual_target="docs/HELIXVILLE4_BASSIST_REACTIVE_STRINGS.md",
-    submodels=_sm("HX_SNOWMAN_BASSIST", "HEAD", "FACE", "HAT", "HAT_BAND", "HAT_HOLLY", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "BASS_BODY", "BASS_NECK", "BASS_SCROLL", "BASS_STRINGS", "BASS_BRIDGE", "LEFT_HAND", "RIGHT_HAND", "PLUCK_ZONE", "PLATFORM"),
+    submodels=_sm("HX_SNOWMAN_BASSIST", *BASSIST_PARTS),
     states=(
         _state("HX_SNOWMAN_BASSIST", "ready_idle", "Standing ready with upright bass.", ("BASS_BODY", "TORSO"), 0.25),
-        _state("HX_SNOWMAN_BASSIST", "groove_start", "Gets into the groove.", ("BASS_BODY", "BASS_STRINGS"), 0.55),
-        _state("HX_SNOWMAN_BASSIST", "pluck_groove", "Plucks with right hand.", ("RIGHT_HAND", "PLUCK_ZONE", "BASS_STRINGS"), 0.8),
-        _state("HX_SNOWMAN_BASSIST", "neck_slide_up", "Left hand slides up neck.", ("LEFT_HAND", "BASS_NECK"), 0.65),
-        _state("HX_SNOWMAN_BASSIST", "hit_end", "Big pluck hit and settle.", ("PLUCK_ZONE", "BASS_STRINGS", "BASS_BODY"), 1.0),
+        _state("HX_SNOWMAN_BASSIST", "groove_start", "Gets into the groove.", ("BASS_BODY", "STRING_E", "STRING_A"), 0.55),
+        _state("HX_SNOWMAN_BASSIST", "pluck_groove", "Plucks with right hand.", ("PLUCK_ZONE", "STRING_E", "STRING_A", "STRING_D", "STRING_G"), 0.8),
+        _state("HX_SNOWMAN_BASSIST", "neck_slide_up", "Left hand slides up neck.", ("NECK_LOW", "NECK_MID", "NECK_HIGH", "BASS_NECK"), 0.65),
+        _state("HX_SNOWMAN_BASSIST", "hit_end", "Big pluck hit and settle.", ("PLUCK_ZONE", "BASS_BODY", "BODY_RESONANCE"), 1.0),
     ),
     audio_inputs=("bass_energy", "low_frequency_onsets", "beat", "groove_density", "section_intensity"),
     sequencing_groups=("HX_SNOWMAN_BAND", "HX_SNOWMAN_INSTRUMENTS", "HX_SNOWMAN_STRINGS"),
@@ -108,7 +135,7 @@ SINGER = PerformerRuntimeSpec(
     model_name="HX_SNOWMAN_SINGER",
     approved_state="approved_design_singer_vocal_performance_v1",
     visual_target="docs/HELIXVILLE4_SINGER_VOCAL_PERFORMANCE.md",
-    submodels=_sm("HX_SNOWMAN_SINGER", "HEAD", "FACE", "CARROT_NOSE", "HAT", "HAT_BAND", "HAT_HOLLY", "SCARF", "TORSO", "LEFT_ARM", "RIGHT_ARM", "LEFT_HAND", "RIGHT_HAND_MIC", "BUTTONS", "MICROPHONE", "MIC_STAND", "PLATFORM", "MOUTH", "EYES", "EYEBROWS", "VOCAL_GLOW"),
+    submodels=_sm("HX_SNOWMAN_SINGER", *SINGER_PARTS),
     states=(
         _state("HX_SNOWMAN_SINGER", "ready_idle", "Standing ready at the microphone.", ("TORSO", "MICROPHONE"), 0.25),
         _state("HX_SNOWMAN_SINGER", "sing_start", "Leans in and opens mouth.", ("MOUTH", "MICROPHONE", "VOCAL_GLOW"), 0.75),
@@ -127,11 +154,11 @@ FEMALE_SINGER = PerformerRuntimeSpec(
     model_name="HX_SNOWMAN_SINGER_FEMALE",
     approved_state="approved_design_female_singer_vocal_performance_v1",
     visual_target="docs/HELIXVILLE4_FEMALE_SINGER_VOCAL_PERFORMANCE.md",
-    submodels=_sm("HX_SNOWMAN_SINGER_FEMALE", "HEAD", "FACE", "EYES", "EYELASHES", "CARROT_NOSE", "MOUTH", "BOW", "SCARF", "SCARF_TAIL_LEFT", "SCARF_TAIL_RIGHT", "MIC_STAND", "MICROPHONE", "TORSO_UPPER", "TORSO_LOWER", "LEFT_ARM", "RIGHT_ARM", "LEFT_HAND", "RIGHT_HAND", "BUTTONS", "PLATFORM", "VOCAL_GLOW", "STAGE_GLOW", "CALL_RESPONSE"),
+    submodels=_sm("HX_SNOWMAN_SINGER_FEMALE", *FEMALE_SINGER_PARTS),
     states=(
-        _state("HX_SNOWMAN_SINGER_FEMALE", "ready_idle", "Standing ready at the microphone.", ("TORSO_UPPER", "MICROPHONE"), 0.25),
+        _state("HX_SNOWMAN_SINGER_FEMALE", "ready_idle", "Standing ready at the microphone.", ("TORSO", "MICROPHONE"), 0.25),
         _state("HX_SNOWMAN_SINGER_FEMALE", "sing_start", "Leans in and opens mouth.", ("MOUTH", "MICROPHONE", "VOCAL_GLOW"), 0.75),
-        _state("HX_SNOWMAN_SINGER_FEMALE", "point_out", "Points to the audience.", ("RIGHT_ARM", "RIGHT_HAND", "CALL_RESPONSE"), 0.8),
+        _state("HX_SNOWMAN_SINGER_FEMALE", "point_out", "Points to the audience.", ("RIGHT_ARM", "RIGHT_HAND", "STAGE_GLOW"), 0.8),
         _state("HX_SNOWMAN_SINGER_FEMALE", "big_vocal", "Big mouth, big moment.", ("MOUTH", "VOCAL_GLOW", "STAGE_GLOW"), 1.0),
         _state("HX_SNOWMAN_SINGER_FEMALE", "both_hands_up", "Crowd energy moment.", ("LEFT_ARM", "RIGHT_ARM", "LEFT_HAND", "RIGHT_HAND"), 0.95),
         _state("HX_SNOWMAN_SINGER_FEMALE", "hit_hold", "Sustained harmony hold.", ("MOUTH", "VOCAL_GLOW", "MICROPHONE"), 1.0),
