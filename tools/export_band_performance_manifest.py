@@ -7,6 +7,7 @@ from typing import Sequence
 
 from core.band_intent_adapter import BandIntentAdapter
 from core.band_performance_timeline import BandPerformanceTimelineCompiler
+from core.band_vocal_face_export import BandVocalFaceExportCompiler, build_demo_vocal_face_timings
 from core.band_xlights_export import BandXLightsExportCompiler
 from core.choreography_intent import (
     ChoreographyIntent,
@@ -55,6 +56,7 @@ def build_demo_manifest() -> dict:
     adapted = BandIntentAdapter().adapt_many(expanded)
     timeline = BandPerformanceTimelineCompiler().compile_many(adapted)
     export_manifest = BandXLightsExportCompiler().build_manifest(timeline)
+    vocal_face_manifest = BandVocalFaceExportCompiler().build_manifest(build_demo_vocal_face_timings())
 
     return {
         "schema": "helixville4.band_demo_manifest.v1",
@@ -64,6 +66,7 @@ def build_demo_manifest() -> dict:
         "adapted_event_count": len(adapted),
         "timeline_event_count": len(timeline),
         "xlights_export": export_manifest,
+        "vocal_face_export": vocal_face_manifest,
     }
 
 
@@ -80,7 +83,7 @@ def export_demo_manifest(output_dir: str | Path) -> Path:
     summary_path.write_text(
         "Helixville4 deterministic performer pipeline export generated.\n"
         "Includes all five runtime performers, compiled timeline events,\n"
-        "and xLights-oriented submodel effect instructions.\n",
+        "xLights-oriented submodel effect instructions, and vocal face instructions.\n",
         encoding="utf-8",
     )
 
