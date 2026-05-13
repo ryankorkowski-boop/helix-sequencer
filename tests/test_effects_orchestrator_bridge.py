@@ -35,6 +35,7 @@ def test_effects_orchestrator_runs_all_passes_and_writes_report(tmp_path: Path) 
     assert report.placement_count > 0
     assert report.effect_contract_placement_count > 0
     assert report.export_driven is True
+    assert report.xsq_written is False
     assert report.placement_plan_path is not None
     assert report.effect_contract_path is not None
     pass_names = [item["pass_name"] for item in report.passes]
@@ -63,3 +64,34 @@ def test_effects_orchestrator_runs_all_passes_and_writes_report(tmp_path: Path) 
     contract_payload = json.loads(Path(report.effect_contract_path).read_text(encoding="utf-8"))
     assert contract_payload["schema"] == "helix.xlights_effect_contract.v1"
     assert contract_payload["placement_count"] == report.effect_contract_placement_count
+
+
+def test_effects_orchestrator_writes_orchestrated_xsq_when_template_is_available(tmp_path: Path) -> None:
+    output_dir = tmp_path / "out"
+    template = tmp_path / "template.xsq"
+    template.write_text("<?xml version='1.0' encoding='UTF-8'?><xsequence><ElementEffects /></xsequence>\n", encoding="utf-8")
+    report = run_effects_orchestration(
+        [
+            "--audio",
+            "LightsOutTheme.wav",
+            "--template",
+            str(template),
+            "--output-dir",
+            str(output_dir),
+            "--duration",
+            "30",
+        ],
+        write_report=True,
+    )
+    assert report.invoked is True
+    assert report.export_driven is True
+    assert report.xsq_written is True
+    assert report.xsq_effect_count == report.effect_contract_placement_count
+    assert report.orchestrated_xsq_path is not None
+    assert report.xsq_render_report_path is not None
+    xsq_text = Path(report.orchestrated_xsq_path).read_text(encoding="utf-8")
+    assert "HelixEffectContract" in xsq_text
+    assert "EffectPlacement" in xsq_text
+    render_report = json.loads(Path(report.xsq_render_report_path).read_text(encoding="utf-8"))
+    assert render_report["wrote_sequence"] is True
+    assert render_report["effect_count"] == report.xsq_effect_count
