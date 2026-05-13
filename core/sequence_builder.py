@@ -4,6 +4,7 @@ import argparse
 from typing import Iterable
 
 from core import engine_profiles
+from core.effects_orchestrator_bridge import run_effects_orchestration
 
 
 def _effect_engine():
@@ -20,9 +21,28 @@ def available_versions() -> list[str]:
     return [profile.version for profile in available_profiles()]
 
 
+def _orchestration_enabled(engine_args: list[str] | None) -> bool:
+    args = engine_args or []
+    if "--no-effects-orchestrator" in args:
+        return False
+    return True
+
+
+def _clean_engine_args(engine_args: list[str] | None) -> list[str] | None:
+    if engine_args is None:
+        return None
+    return [arg for arg in engine_args if arg != "--no-effects-orchestrator"]
+
+
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     profile = engine_profiles.resolve_profile(profile_id)
-    _effect_engine().main_for(profile.version, engine_args)
+    if _orchestration_enabled(engine_args):
+        report = run_effects_orchestration(engine_args)
+        if report.invoked:
+            print(f"effects_orchestrator: invoked passes={len(report.passes)} report={report.report_path}")
+        else:
+            print(f"effects_orchestrator: unavailable error={report.error}")
+    _effect_engine().main_for(profile.version, _clean_engine_args(engine_args))
 
 
 def run_version(version: str, engine_args: list[str] | None = None) -> None:
@@ -48,7 +68,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "engine_args",
         nargs=argparse.REMAINDER,
-        help="Arguments passed directly to the selected effect engine.",
+        help="Arguments passed directly to the selected effect engine. Use --no-effects-orchestrator to skip the canonical effects orchestrator.",
     )
     return parser
 
