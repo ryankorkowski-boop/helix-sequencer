@@ -92,6 +92,11 @@ def test_effects_orchestrator_writes_orchestrated_xsq_when_template_is_available
     xsq_text = Path(report.orchestrated_xsq_path).read_text(encoding="utf-8")
     assert "HelixEffectContract" in xsq_text
     assert "EffectPlacement" in xsq_text
+    assert "AUTO_Helix_Orchestrated" in xsq_text
+    assert "source=\"HelixOrchestrator\"" in xsq_text
+    assert "sourceVisualIntentId" in xsq_text
     render_report = json.loads(Path(report.xsq_render_report_path).read_text(encoding="utf-8"))
     assert render_report["wrote_sequence"] is True
     assert render_report["effect_count"] == report.xsq_effect_count
+    assert render_report["native_effect_count"] == report.xsq_effect_count
+    assert render_report["contract_effect_count"] == report.xsq_effect_count
