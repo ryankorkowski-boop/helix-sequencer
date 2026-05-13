@@ -4,6 +4,19 @@ from dataclasses import asdict, dataclass
 from typing import Any
 
 
+SINGER_PREFIX = "HX_SNOWMAN_SINGER"
+FEMALE_SINGER_PREFIX = "HX_SNOWMAN_SINGER_FEMALE"
+PHONEME_NAMES: tuple[str, ...] = ("REST", "AH", "EE", "OH", "MBP", "FV", "L")
+
+
+def singer_phoneme_submodel(phoneme: str) -> str:
+    return f"{SINGER_PREFIX}_MOUTH_{phoneme}"
+
+
+def female_singer_phoneme_submodel(phoneme: str) -> str:
+    return f"{FEMALE_SINGER_PREFIX}_MOUTH_{phoneme}"
+
+
 @dataclass(frozen=True)
 class VocalPhonemeSpec:
     phoneme: str
@@ -22,50 +35,50 @@ VOCAL_PHONEMES: tuple[VocalPhonemeSpec, ...] = (
         phoneme="REST",
         mouth_shape="closed",
         description="Closed or resting mouth between syllables.",
-        singer_submodels=("HX_SNOWMAN_SINGER_MOUTH",),
-        female_singer_submodels=("HX_SNOWMAN_SINGER_FEMALE_MOUTH",),
+        singer_submodels=(singer_phoneme_submodel("REST"), SINGER_PREFIX + "_MOUTH"),
+        female_singer_submodels=(female_singer_phoneme_submodel("REST"), FEMALE_SINGER_PREFIX + "_MOUTH"),
     ),
     VocalPhonemeSpec(
         phoneme="AH",
         mouth_shape="wide_open",
         description="Open A/R-style vowel shape.",
-        singer_submodels=("HX_SNOWMAN_SINGER_MOUTH", "HX_SNOWMAN_SINGER_VOCAL_GLOW"),
-        female_singer_submodels=("HX_SNOWMAN_SINGER_FEMALE_MOUTH", "HX_SNOWMAN_SINGER_FEMALE_VOCAL_GLOW"),
+        singer_submodels=(singer_phoneme_submodel("AH"), SINGER_PREFIX + "_VOCAL_GLOW"),
+        female_singer_submodels=(female_singer_phoneme_submodel("AH"), FEMALE_SINGER_PREFIX + "_VOCAL_GLOW"),
     ),
     VocalPhonemeSpec(
         phoneme="EE",
         mouth_shape="smile_wide",
         description="E/I/Y-style bright vowel shape.",
-        singer_submodels=("HX_SNOWMAN_SINGER_MOUTH", "HX_SNOWMAN_SINGER_EYES"),
-        female_singer_submodels=("HX_SNOWMAN_SINGER_FEMALE_MOUTH", "HX_SNOWMAN_SINGER_FEMALE_EYES"),
+        singer_submodels=(singer_phoneme_submodel("EE"), SINGER_PREFIX + "_EYES"),
+        female_singer_submodels=(female_singer_phoneme_submodel("EE"), FEMALE_SINGER_PREFIX + "_EYES"),
     ),
     VocalPhonemeSpec(
         phoneme="OH",
         mouth_shape="round_open",
         description="O/U/W-style rounded vowel shape.",
-        singer_submodels=("HX_SNOWMAN_SINGER_MOUTH", "HX_SNOWMAN_SINGER_VOCAL_GLOW"),
-        female_singer_submodels=("HX_SNOWMAN_SINGER_FEMALE_MOUTH", "HX_SNOWMAN_SINGER_FEMALE_VOCAL_GLOW"),
+        singer_submodels=(singer_phoneme_submodel("OH"), SINGER_PREFIX + "_VOCAL_GLOW"),
+        female_singer_submodels=(female_singer_phoneme_submodel("OH"), FEMALE_SINGER_PREFIX + "_VOCAL_GLOW"),
     ),
     VocalPhonemeSpec(
         phoneme="MBP",
         mouth_shape="closed_pop",
         description="Closed-lip M/B/P consonant shape.",
-        singer_submodels=("HX_SNOWMAN_SINGER_MOUTH",),
-        female_singer_submodels=("HX_SNOWMAN_SINGER_FEMALE_MOUTH",),
+        singer_submodels=(singer_phoneme_submodel("MBP"), SINGER_PREFIX + "_MOUTH"),
+        female_singer_submodels=(female_singer_phoneme_submodel("MBP"), FEMALE_SINGER_PREFIX + "_MOUTH"),
     ),
     VocalPhonemeSpec(
         phoneme="FV",
         mouth_shape="teeth_lip",
         description="F/V consonant shape.",
-        singer_submodels=("HX_SNOWMAN_SINGER_MOUTH", "HX_SNOWMAN_SINGER_EYEBROWS"),
-        female_singer_submodels=("HX_SNOWMAN_SINGER_FEMALE_MOUTH", "HX_SNOWMAN_SINGER_FEMALE_EYELASHES"),
+        singer_submodels=(singer_phoneme_submodel("FV"), SINGER_PREFIX + "_EYEBROWS"),
+        female_singer_submodels=(female_singer_phoneme_submodel("FV"), FEMALE_SINGER_PREFIX + "_EYELASHES"),
     ),
     VocalPhonemeSpec(
         phoneme="L",
         mouth_shape="tongue_lift",
         description="L/tongue-lift consonant shape.",
-        singer_submodels=("HX_SNOWMAN_SINGER_MOUTH",),
-        female_singer_submodels=("HX_SNOWMAN_SINGER_FEMALE_MOUTH",),
+        singer_submodels=(singer_phoneme_submodel("L"), SINGER_PREFIX + "_MOUTH"),
+        female_singer_submodels=(female_singer_phoneme_submodel("L"), FEMALE_SINGER_PREFIX + "_MOUTH"),
     ),
 )
 
@@ -73,10 +86,20 @@ VOCAL_PHONEMES: tuple[VocalPhonemeSpec, ...] = (
 PHONEME_BY_NAME: dict[str, VocalPhonemeSpec] = {spec.phoneme: spec for spec in VOCAL_PHONEMES}
 
 
+def required_singer_phoneme_submodels() -> tuple[str, ...]:
+    return tuple(singer_phoneme_submodel(name) for name in PHONEME_NAMES)
+
+
+def required_female_singer_phoneme_submodels() -> tuple[str, ...]:
+    return tuple(female_singer_phoneme_submodel(name) for name in PHONEME_NAMES)
+
+
 def build_vocal_phoneme_catalog() -> dict[str, Any]:
     return {
-        "schema": "helixville4.vocal_phoneme_catalog.v1",
+        "schema": "helixville4.vocal_phoneme_catalog.v2",
         "phoneme_count": len(VOCAL_PHONEMES),
+        "required_singer_phoneme_submodels": list(required_singer_phoneme_submodels()),
+        "required_female_singer_phoneme_submodels": list(required_female_singer_phoneme_submodels()),
         "phonemes": [spec.to_dict() for spec in VOCAL_PHONEMES],
     }
 
@@ -85,6 +108,13 @@ def validate_vocal_phoneme_catalog(*, singer_submodels: tuple[str, ...], female_
     errors: list[str] = []
     singer_known = set(singer_submodels)
     female_known = set(female_singer_submodels)
+
+    for required in required_singer_phoneme_submodels():
+        if required not in singer_known:
+            errors.append(f"missing required singer phoneme submodel: {required}")
+    for required in required_female_singer_phoneme_submodels():
+        if required not in female_known:
+            errors.append(f"missing required female singer phoneme submodel: {required}")
 
     for spec in VOCAL_PHONEMES:
         if not spec.phoneme:
@@ -101,7 +131,7 @@ def validate_vocal_phoneme_catalog(*, singer_submodels: tuple[str, ...], female_
             errors.append(f"{spec.phoneme} references missing female singer submodels: {missing_female}")
 
     return {
-        "schema": "helixville4.vocal_phoneme_validation.v1",
+        "schema": "helixville4.vocal_phoneme_validation.v2",
         "valid": not errors,
         "error_count": len(errors),
         "errors": errors,
