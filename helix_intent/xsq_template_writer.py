@@ -14,7 +14,7 @@ AUTO_LAYER_NAME = "AUTO_Helix_Orchestrated"
 
 @dataclass(frozen=True)
 class XsqTemplateWriteReport:
-    schema: str = "helix.xsq_template_writer.v2"
+    schema: str = "helix.xsq_template_writer.v1"
     wrote_sequence: bool = False
     template_path: str = ""
     output_xsq: str = ""
