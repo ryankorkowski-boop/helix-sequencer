@@ -10,7 +10,7 @@ from core.intent_graph import IntentGraph
 from core.iterative_quality_convergence import IterativeQualityConvergence
 from core.live_audience_energy_engine import LiveAudienceEnergyEngine
 from core.sequence_memory_engine import SequenceMemoryEngine
-from core.signature_choreography_identity_engine import SignatureChoreographyIdentityEngine
+from core.show_identity_engine import ShowIdentityEngine
 from core.spatial_choreography_engine import SpatialChoreographyEngine
 from core.visual_cinematography_engine import VisualCinematographyEngine
 from core.canonical_timeline_orchestrator import CanonicalTimelineOrchestrator
@@ -39,7 +39,7 @@ class MultiPassOrchestrationDirector:
         self.storytelling = AdaptiveEmotionalStorytellingEngine()
         self.cinematography = VisualCinematographyEngine()
         self.spatial = SpatialChoreographyEngine()
-        self.signature = SignatureChoreographyIdentityEngine()
+        self.signature = ShowIdentityEngine()
         self.audience = LiveAudienceEnergyEngine()
         self.correction = ChoreographyCorrectionLoop()
         self.convergence = IterativeQualityConvergence()
