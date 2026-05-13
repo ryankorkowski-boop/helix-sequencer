@@ -21,6 +21,7 @@ from helix_intent.placement_planner import PlacementCandidate
 from helix_intent.placement_report import write_placement_export_report
 from helix_intent.visual_intent import VisualIntent
 from helix_intent.xlights_effect_contract import write_xlights_effect_contract
+from helix_intent.xsq_template_writer import write_xsq_from_template
 
 
 @dataclass(frozen=True)
@@ -34,12 +35,16 @@ class EffectsOrchestrationRunReport:
     placement_count: int
     effect_contract_placement_count: int
     export_driven: bool
+    xsq_written: bool
+    xsq_effect_count: int
     masterpiece_score: float
     masterpiece_candidate: bool
     passes: tuple[dict[str, Any], ...]
     report_path: str | None = None
     placement_plan_path: str | None = None
     effect_contract_path: str | None = None
+    orchestrated_xsq_path: str | None = None
+    xsq_render_report_path: str | None = None
     placement_source: str = "none"
     error: str | None = None
 
@@ -71,6 +76,18 @@ def effect_contract_path(engine_args: list[str] | None) -> Path:
     root = Path(_arg_value(engine_args, "--output-dir") or "outputs")
     audio_name = Path(_arg_value(engine_args, "--audio") or "helix").stem or "helix"
     return root / f"{audio_name}.orchestrated_xlights_effect_contract.json"
+
+
+def orchestrated_xsq_path(engine_args: list[str] | None) -> Path:
+    root = Path(_arg_value(engine_args, "--output-dir") or "outputs")
+    audio_name = Path(_arg_value(engine_args, "--audio") or "helix").stem or "helix"
+    return root / f"{audio_name}.orchestrated.xsq"
+
+
+def xsq_render_report_path(engine_args: list[str] | None) -> Path:
+    root = Path(_arg_value(engine_args, "--output-dir") or "outputs")
+    audio_name = Path(_arg_value(engine_args, "--audio") or "helix").stem or "helix"
+    return root / f"{audio_name}.orchestrated_xsq_render_report.json"
 
 
 def build_seed_graph(engine_args: list[str] | None = None) -> IntentGraph:
@@ -211,6 +228,39 @@ def _layout_file_from_args(engine_args: list[str] | None) -> Path | None:
     return path if path.exists() else None
 
 
+def _write_orchestrated_xsq(engine_args: list[str] | None, contract_path: Path) -> dict[str, Any]:
+    template_raw = _arg_value(engine_args, "--template")
+    if not template_raw:
+        return {
+            "xsq_written": False,
+            "xsq_effect_count": 0,
+            "orchestrated_xsq_path": None,
+            "xsq_render_report_path": None,
+        }
+    template_path = Path(template_raw)
+    if not template_path.exists():
+        return {
+            "xsq_written": False,
+            "xsq_effect_count": 0,
+            "orchestrated_xsq_path": str(orchestrated_xsq_path(engine_args)),
+            "xsq_render_report_path": str(xsq_render_report_path(engine_args)),
+        }
+    output_xsq = orchestrated_xsq_path(engine_args)
+    report_path = xsq_render_report_path(engine_args)
+    xsq_report = write_xsq_from_template(
+        template_path=template_path,
+        effect_contract_json=contract_path,
+        output_xsq=output_xsq,
+        report_path=report_path,
+    )
+    return {
+        "xsq_written": xsq_report.wrote_sequence,
+        "xsq_effect_count": xsq_report.effect_count,
+        "orchestrated_xsq_path": str(output_xsq),
+        "xsq_render_report_path": str(report_path),
+    }
+
+
 def _build_orchestrated_exports(final_graph: IntentGraph, engine_args: list[str] | None) -> dict[str, Any]:
     visual_intents = visual_intents_from_graph(final_graph)
     layout_file = _layout_file_from_args(engine_args)
@@ -239,6 +289,7 @@ def _build_orchestrated_exports(final_graph: IntentGraph, engine_args: list[str]
         contract_path,
         minimum_quality_score=0.55,
     )
+    xsq_payload = _write_orchestrated_xsq(engine_args, contract_path)
     return {
         "visual_intent_count": len(visual_intents),
         "placement_count": int(placement_report.planner_report.get("placement_count", 0) or 0),
@@ -247,6 +298,7 @@ def _build_orchestrated_exports(final_graph: IntentGraph, engine_args: list[str]
         "effect_contract_path": str(contract_path),
         "placement_source": placement_source,
         "export_driven": contract_report.placement_count > 0,
+        **xsq_payload,
     }
 
 
@@ -264,6 +316,10 @@ def run_effects_orchestration(engine_args: list[str] | None = None, *, write_rep
             "effect_contract_path": None,
             "placement_source": "not_written",
             "export_driven": False,
+            "xsq_written": False,
+            "xsq_effect_count": 0,
+            "orchestrated_xsq_path": None,
+            "xsq_render_report_path": None,
         }
         path = orchestration_report_path(engine_args)
         report = EffectsOrchestrationRunReport(
@@ -276,12 +332,16 @@ def run_effects_orchestration(engine_args: list[str] | None = None, *, write_rep
             placement_count=int(export_payload["placement_count"]),
             effect_contract_placement_count=int(export_payload["effect_contract_placement_count"]),
             export_driven=bool(export_payload["export_driven"]),
+            xsq_written=bool(export_payload["xsq_written"]),
+            xsq_effect_count=int(export_payload["xsq_effect_count"]),
             masterpiece_score=result.masterpiece_score,
             masterpiece_candidate=result.masterpiece_candidate,
             passes=passes,
             report_path=str(path),
             placement_plan_path=export_payload["placement_plan_path"],
             effect_contract_path=export_payload["effect_contract_path"],
+            orchestrated_xsq_path=export_payload["orchestrated_xsq_path"],
+            xsq_render_report_path=export_payload["xsq_render_report_path"],
             placement_source=str(export_payload["placement_source"]),
         )
         if write_report:
@@ -299,6 +359,8 @@ def run_effects_orchestration(engine_args: list[str] | None = None, *, write_rep
             placement_count=0,
             effect_contract_placement_count=0,
             export_driven=False,
+            xsq_written=False,
+            xsq_effect_count=0,
             masterpiece_score=0.0,
             masterpiece_candidate=False,
             passes=(),
