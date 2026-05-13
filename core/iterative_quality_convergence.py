@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 from core.choreography_correction_loop import (
     ChoreographyCorrectionLoop,
-    CorrectionLoopResult,
+    ChoreographyCorrectionResult,
 )
 from core.composition_governor import CompositionGovernor
 from core.intent_graph import IntentGraph
@@ -17,7 +17,7 @@ class QualityConvergenceResult:
     iterations: int
     converged: bool
     final_graph: IntentGraph
-    history: tuple[CorrectionLoopResult, ...]
+    history: tuple[ChoreographyCorrectionResult, ...]
 
     @property
     def improved(self) -> bool:
@@ -40,10 +40,10 @@ class IterativeQualityConvergence:
         self.max_iterations = max_iterations
         self.minimum_delta = minimum_delta
         self.governor = governor or CompositionGovernor()
-        self.correction_loop = correction_loop or ChoreographyCorrectionLoop(self.governor)
+        self.correction_loop = correction_loop or ChoreographyCorrectionLoop()
 
     def converge(self, graph: IntentGraph) -> QualityConvergenceResult:
-        history: list[CorrectionLoopResult] = []
+        history: list[ChoreographyCorrectionResult] = []
         current_graph = graph
         initial_report = self.governor.evaluate(graph)
         previous_score = initial_report.overall_score
