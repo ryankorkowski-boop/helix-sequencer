@@ -7,6 +7,7 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
+from models.helixville4_performer_runtime import BASSIST, DRUMMER, FEMALE_SINGER, GUITARIST, SINGER
 from tools.write_helixville4_band_assets import write_band_assets
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -57,7 +58,7 @@ FAMILY_BY_MODEL_TYPE: dict[str, str] = {
     "arch": "travel_props",
     "tree": "trees",
     "matrix": "matrices",
-    "line": "lines",
+    "line": "structure",
     "candy_cane": "canes",
     "circle": "circles",
     "sphere": "spheres",
@@ -70,11 +71,8 @@ FAMILY_BY_MODEL_TYPE: dict[str, str] = {
 }
 
 BAND_MODELS: dict[str, list[str]] = {
-    "HX_SNOWMAN_SINGER": ["HX_SNOWMAN_SINGER_MOUTH_PHONEME"],
-    "HX_SNOWMAN_SINGER_FEMALE": ["HX_SNOWMAN_SINGER_FEMALE_CALL_RESPONSE"],
-    "HX_SNOWMAN_GUITARIST": ["HX_SNOWMAN_GUITARIST_STRUM_ZONE"],
-    "HX_SNOWMAN_BASSIST": ["HX_SNOWMAN_BASSIST_PLUCK_ZONE"],
-    "HX_SNOWMAN_DRUMMER": ["HX_SNOWMAN_DRUMMER_SNARE", "HX_SNOWMAN_DRUMMER_CYMBALS"],
+    spec.model_name: list(spec.submodels)
+    for spec in (SINGER, FEMALE_SINGER, GUITARIST, BASSIST, DRUMMER)
 }
 
 
