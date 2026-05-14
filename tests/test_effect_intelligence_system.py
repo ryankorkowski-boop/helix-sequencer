@@ -199,7 +199,7 @@ class EffectIntelligenceSystemTests(unittest.TestCase):
         self.assertIn("impact", {entry.name for entry in plan.motion_grammar})
         self.assertIn("megatree", payload["depth_strategy"]["far"])
 
-    def test_signature_style_builds_key_palettes_humanization_and_show_profile(self) -> None:
+    def test_signature_style_builds_key_palettes_and_show_profile_without_phase_11_layer(self) -> None:
         scenes = [
             {"scene_id": "scene_01_intro", "section_label": "intro", "start_ms": 0, "end_ms": 1000, "energy": 0.2},
             {"scene_id": "scene_02_chorus", "section_label": "chorus", "start_ms": 1000, "end_ms": 2400, "energy": 0.86},
@@ -226,8 +226,10 @@ class EffectIntelligenceSystemTests(unittest.TestCase):
         self.assertEqual(len(plan.section_palettes), len(scenes))
         self.assertEqual(plan.section_palettes[1].treatment, "signature_bright")
         self.assertEqual(plan.section_palettes[3].treatment, "impact_flash_guarded")
-        self.assertTrue(all(-40 <= rule.timing_offset_ms <= 40 for rule in plan.humanization))
-        self.assertTrue(all(0.0 < rule.brightness_modulation < 0.1 for rule in plan.humanization))
+        self.assertEqual(len(plan.section_dynamics), len(scenes))
+        self.assertEqual(plan.section_dynamics[1].decay_curve, "fast_attack_controlled_release")
+        self.assertTrue(all(0.0 < dynamic.brightness_modulation < 0.1 for dynamic in plan.section_dynamics))
+        self.assertNotIn("humanization", payload)
         self.assertTrue(payload["consistency_rules"])
 
     def test_effect_layering_composes_overflow_and_updates_scoring_feedback(self) -> None:

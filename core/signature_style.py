@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 from dataclasses import asdict, dataclass
 from typing import Any, Mapping, Sequence
 
@@ -62,15 +61,6 @@ def _scene_id(scene: Any, index: int) -> str:
     return str(_get(scene, "scene_id", f"scene_{index + 1:02d}") or f"scene_{index + 1:02d}")
 
 
-def _start_ms(scene: Any) -> int:
-    return max(0, int(_get(scene, "start_ms", 0) or 0))
-
-
-def _end_ms(scene: Any) -> int:
-    start = _start_ms(scene)
-    return max(start + 1, int(_get(scene, "end_ms", start + 1) or (start + 1)))
-
-
 def _energy(scene: Any) -> float:
     return _clamp01(_safe_float(_get(scene, "energy", 0.5), 0.5))
 
@@ -97,11 +87,6 @@ def key_for_midi(midi_value: int | float | None) -> str:
         return "C"
     names = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
     return names[value % 12]
-
-
-def _stable_unit(seed: str) -> float:
-    digest = hashlib.sha256(seed.encode("utf-8", errors="ignore")).hexdigest()
-    return int(digest[:8], 16) / 0xFFFFFFFF
 
 
 def _shift_palette(base: Sequence[str], label: str, treatment: str) -> tuple[str, ...]:
@@ -132,12 +117,12 @@ class SectionPalette:
 
 
 @dataclass(frozen=True)
-class HumanizationRule:
+class SectionDynamics:
     scene_id: str
-    timing_offset_ms: int
+    section_label: str
     brightness_modulation: float
     decay_curve: str
-    seed: str
+    intent: str
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -163,7 +148,7 @@ class SignatureStylePlan:
     song_key: str
     key_palette: tuple[str, ...]
     section_palettes: tuple[SectionPalette, ...]
-    humanization: tuple[HumanizationRule, ...]
+    section_dynamics: tuple[SectionDynamics, ...]
     show_profile: ShowProfile
     consistency_rules: tuple[str, ...]
 
@@ -173,7 +158,7 @@ class SignatureStylePlan:
             "song_key": self.song_key,
             "key_palette": list(self.key_palette),
             "section_palettes": [palette.to_dict() for palette in self.section_palettes],
-            "humanization": [rule.to_dict() for rule in self.humanization],
+            "section_dynamics": [dynamic.to_dict() for dynamic in self.section_dynamics],
             "show_profile": self.show_profile.to_dict(),
             "consistency_rules": list(self.consistency_rules),
         }
@@ -195,27 +180,27 @@ def _section_palette(scene: Any, index: int, key_palette: Sequence[str]) -> Sect
     )
 
 
-def _humanization(scene: Any, index: int) -> HumanizationRule:
-    scene_id = _scene_id(scene, index)
-    start = _start_ms(scene)
-    end = _end_ms(scene)
+def _section_dynamics(scene: Any, index: int) -> SectionDynamics:
     label = _label(scene)
     energy = _energy(scene)
-    seed = f"{scene_id}:{start}:{end}:{label}"
-    timing = int(round((_stable_unit(seed + ':timing') - 0.5) * (18 + energy * 20)))
-    brightness = 0.018 + _stable_unit(seed + ":brightness") * (0.035 + energy * 0.035)
     if label in {"drop", "chorus"}:
         decay = "fast_attack_controlled_release"
+        intent = "payoff clarity"
     elif label in {"intro", "outro", "breakdown"}:
         decay = "soft_breathing_decay"
+        intent = "negative space"
+    elif label in {"pre-chorus", "buildup"}:
+        decay = "lifted_ease_in"
+        intent = "rising tension"
     else:
         decay = "musical_ease_in_out"
-    return HumanizationRule(
-        scene_id=scene_id,
-        timing_offset_ms=timing,
-        brightness_modulation=round(_clamp01(brightness), 4),
+        intent = "phrase support"
+    return SectionDynamics(
+        scene_id=_scene_id(scene, index),
+        section_label=label,
+        brightness_modulation=round(_clamp01(0.02 + energy * 0.055), 4),
         decay_curve=decay,
-        seed=seed,
+        intent=intent,
     )
 
 
@@ -295,7 +280,7 @@ def build_signature_style_plan(
     normalized_key = _normalize_key(song_key)
     key_palette = KEY_PALETTES.get(normalized_key, KEY_PALETTES["C"])
     section_palettes = tuple(_section_palette(scene, idx, key_palette) for idx, scene in enumerate(scenes))
-    humanization = tuple(_humanization(scene, idx) for idx, scene in enumerate(scenes))
+    section_dynamics = tuple(_section_dynamics(scene, idx) for idx, scene in enumerate(scenes))
     show_profile = _show_profile(
         scenes,
         key_palette=key_palette,
@@ -308,12 +293,12 @@ def build_signature_style_plan(
         song_key=normalized_key,
         key_palette=tuple(key_palette),
         section_palettes=section_palettes,
-        humanization=humanization,
+        section_dynamics=section_dynamics,
         show_profile=show_profile,
         consistency_rules=(
             "reuse brand_palette across all major callbacks",
             "shift section palettes by treatment instead of introducing unrelated colors",
-            "apply deterministic timing and brightness humanization below the visual mud threshold",
+            "treat brightness modulation and decay curves as deliberate musical expression controls",
             "keep complexity at or below the show profile ceiling except for scored payoff moments",
         ),
     )
