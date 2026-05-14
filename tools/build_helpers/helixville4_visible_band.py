@@ -26,7 +26,15 @@ VISIBLE_BAND_MODELS: tuple[VisibleBandModel, ...] = (
         260.0,
         -30.0,
         18.0,
-        (("HX_SNOWMAN_BASSIST_HEAD", 40), ("HX_SNOWMAN_BASSIST_TORSO", 72), ("HX_SNOWMAN_BASSIST_ARMS", 44)),
+        (
+            ("HX_SNOWMAN_BASSIST_HEAD", 40),
+            ("HX_SNOWMAN_BASSIST_FACE", 18),
+            ("HX_SNOWMAN_BASSIST_HAT", 20),
+            ("HX_SNOWMAN_BASSIST_SCARF", 20),
+            ("HX_SNOWMAN_BASSIST_TORSO", 72),
+            ("HX_SNOWMAN_BASSIST_ARMS", 44),
+            ("HX_SNOWMAN_BASSIST_BUTTONS", 9),
+        ),
         "body",
     ),
     VisibleBandModel(
@@ -37,10 +45,12 @@ VISIBLE_BAND_MODELS: tuple[VisibleBandModel, ...] = (
         -30.0,
         20.0,
         (
-            ("HX_SNOWMAN_BASSIST_BASS_BODY", 86),
-            ("HX_SNOWMAN_BASSIST_BASS_NECK", 42),
-            ("HX_SNOWMAN_BASSIST_BASS_STRINGS", 64),
-            ("HX_SNOWMAN_BASSIST_PLUCK_ZONE", 24),
+            ("HX_SNOWMAN_BASSIST_BASS_BODY", 112),
+            ("HX_SNOWMAN_BASSIST_BASS_NECK", 56),
+            ("HX_SNOWMAN_BASSIST_BASS_SCROLL", 18),
+            ("HX_SNOWMAN_BASSIST_BASS_STRINGS", 76),
+            ("HX_SNOWMAN_BASSIST_PLUCK_ZONE", 28),
+            ("HX_SNOWMAN_BASSIST_BASS_BRIDGE", 18),
         ),
         "bass",
     ),
@@ -51,7 +61,15 @@ VISIBLE_BAND_MODELS: tuple[VisibleBandModel, ...] = (
         330.0,
         -36.0,
         18.0,
-        (("HX_SNOWMAN_DRUMMER_HEAD", 40), ("HX_SNOWMAN_DRUMMER_TORSO", 72), ("HX_SNOWMAN_DRUMMER_ARMS", 54)),
+        (
+            ("HX_SNOWMAN_DRUMMER_HEAD", 40),
+            ("HX_SNOWMAN_DRUMMER_FACE", 18),
+            ("HX_SNOWMAN_DRUMMER_HAT", 20),
+            ("HX_SNOWMAN_DRUMMER_SCARF", 20),
+            ("HX_SNOWMAN_DRUMMER_TORSO", 72),
+            ("HX_SNOWMAN_DRUMMER_ARMS", 54),
+            ("HX_SNOWMAN_DRUMMER_BUTTONS", 9),
+        ),
         "body",
     ),
     VisibleBandModel(
@@ -78,7 +96,15 @@ VISIBLE_BAND_MODELS: tuple[VisibleBandModel, ...] = (
         400.0,
         -30.0,
         18.0,
-        (("HX_SNOWMAN_GUITARIST_HEAD", 40), ("HX_SNOWMAN_GUITARIST_TORSO", 72), ("HX_SNOWMAN_GUITARIST_ARMS", 44)),
+        (
+            ("HX_SNOWMAN_GUITARIST_HEAD", 40),
+            ("HX_SNOWMAN_GUITARIST_FACE", 18),
+            ("HX_SNOWMAN_GUITARIST_HAT", 20),
+            ("HX_SNOWMAN_GUITARIST_SCARF", 20),
+            ("HX_SNOWMAN_GUITARIST_TORSO", 72),
+            ("HX_SNOWMAN_GUITARIST_ARMS", 44),
+            ("HX_SNOWMAN_GUITARIST_BUTTONS", 9),
+        ),
         "body",
     ),
     VisibleBandModel(
@@ -103,7 +129,16 @@ VISIBLE_BAND_MODELS: tuple[VisibleBandModel, ...] = (
         305.0,
         18.0,
         22.0,
-        (("HX_SNOWMAN_SINGER_HEAD", 44), ("HX_SNOWMAN_SINGER_TORSO", 78), ("HX_SNOWMAN_SINGER_ARMS", 54)),
+        (
+            ("HX_SNOWMAN_SINGER_HEAD", 44),
+            ("HX_SNOWMAN_SINGER_FACE", 18),
+            ("HX_SNOWMAN_SINGER_MOUTH", 16),
+            ("HX_SNOWMAN_SINGER_HAT", 20),
+            ("HX_SNOWMAN_SINGER_SCARF", 20),
+            ("HX_SNOWMAN_SINGER_TORSO", 78),
+            ("HX_SNOWMAN_SINGER_ARMS", 54),
+            ("HX_SNOWMAN_SINGER_BUTTONS", 9),
+        ),
         "body",
     ),
     VisibleBandModel(
@@ -125,8 +160,13 @@ VISIBLE_BAND_MODELS: tuple[VisibleBandModel, ...] = (
         22.0,
         (
             ("HX_SNOWMAN_SINGER_FEMALE_HEAD", 44),
+            ("HX_SNOWMAN_SINGER_FEMALE_FACE", 18),
+            ("HX_SNOWMAN_SINGER_FEMALE_MOUTH", 16),
+            ("HX_SNOWMAN_SINGER_FEMALE_BOW", 20),
+            ("HX_SNOWMAN_SINGER_FEMALE_SCARF", 20),
             ("HX_SNOWMAN_SINGER_FEMALE_TORSO", 78),
             ("HX_SNOWMAN_SINGER_FEMALE_ARMS", 54),
+            ("HX_SNOWMAN_SINGER_FEMALE_BUTTONS", 9),
         ),
         "body",
     ),
@@ -204,6 +244,16 @@ def _body_points(name: str, width: int, height: int, submodel: str, count: int) 
     cx = width * 0.5
     if submodel.endswith("_HEAD"):
         return _ellipse_points(cx, height * 0.22, width * 0.18, height * 0.11, count)
+    if submodel.endswith("_FACE"):
+        return _ellipse_points(cx, height * 0.23, width * 0.09, height * 0.05, count)
+    if submodel.endswith("_MOUTH"):
+        return _ellipse_points(cx, height * 0.27, width * 0.07, height * 0.025, count)
+    if submodel.endswith("_HAT"):
+        return _line_points(cx - width * 0.18, height * 0.10, cx + width * 0.18, height * 0.10, count)
+    if submodel.endswith("_BOW"):
+        return _ellipse_points(cx + width * 0.15, height * 0.10, width * 0.10, height * 0.05, count)
+    if submodel.endswith("_SCARF"):
+        return _line_points(cx - width * 0.24, height * 0.36, cx + width * 0.24, height * 0.37, count)
     if submodel.endswith("_TORSO"):
         return _ellipse_points(cx, height * 0.58, width * 0.26, height * 0.24, count)
     if submodel.endswith("_ARMS"):
@@ -211,6 +261,8 @@ def _body_points(name: str, width: int, height: int, submodel: str, count: int) 
         left = _line_points(cx - width * 0.16, height * 0.42, cx - width * 0.44, height * 0.56, half)
         right = _line_points(cx + width * 0.16, height * 0.42, cx + width * 0.44, height * 0.30, count - half)
         return left + right
+    if submodel.endswith("_BUTTONS"):
+        return _line_points(cx, height * 0.45, cx, height * 0.72, count)
     return _ellipse_points(cx, height * 0.50, width * 0.18, height * 0.18, count)
 
 
@@ -240,6 +292,8 @@ def _instrument_points(role: str, width: int, height: int, submodel: str, count:
             return _ellipse_points(width * 0.45, height * 0.62, width * 0.18, height * 0.25, count)
         if "NECK" in submodel:
             return _line_points(width * 0.50, height * 0.10, width * 0.50, height * 0.58, count)
+        if "SCROLL" in submodel:
+            return _ellipse_points(width * 0.50, height * 0.09, width * 0.10, height * 0.06, count)
         if "STRINGS" in submodel:
             rows = 4
             points: list[tuple[int, int]] = []
@@ -251,6 +305,8 @@ def _instrument_points(role: str, width: int, height: int, submodel: str, count:
             return points
         if "PLUCK_ZONE" in submodel:
             return _ellipse_points(width * 0.55, height * 0.56, width * 0.09, height * 0.08, count)
+        if "BRIDGE" in submodel:
+            return _line_points(width * 0.34, height * 0.72, width * 0.62, height * 0.72, count)
     if role == "guitar":
         if "BODY" in submodel:
             return _ellipse_points(width * 0.36, height * 0.66, width * 0.20, height * 0.20, count)
@@ -300,17 +356,42 @@ def _line_ranges(model: VisibleBandModel) -> list[tuple[str, int, int]]:
     return ranges
 
 
-def upgrade_visible_band_models(layout_path: Path) -> dict[str, object]:
+def _add_visible_band_model(models_el: ET.Element, spec: VisibleBandModel) -> ET.Element:
+    return ET.SubElement(
+        models_el,
+        "model",
+        {
+            "name": spec.name,
+            "DisplayAs": "Custom",
+            "WorldPosX": f"{spec.x:.3f}",
+            "WorldPosY": f"{spec.y:.3f}",
+            "WorldPosZ": f"{spec.z:.3f}",
+            "X2": "24.000",
+            "Y2": "18.000",
+            "Z2": "0.000",
+            "StartChannel": "1",
+            "StringType": "RGB Nodes",
+        },
+    )
+
+
+def upgrade_visible_band_models(layout_path: Path, *, create_missing: bool = False) -> dict[str, object]:
     tree = ET.parse(layout_path)
     root = tree.getroot()
+    models_el = root.find("models")
+    if models_el is None:
+        models_el = ET.SubElement(root, "models")
     by_name = {model.attrib.get("name", ""): model for model in root.findall(".//model")}
     upgraded: list[str] = []
     missing: list[str] = []
     for spec in VISIBLE_BAND_MODELS:
         model = by_name.get(spec.name)
         if model is None:
-            missing.append(spec.name)
-            continue
+            if not create_missing:
+                missing.append(spec.name)
+                continue
+            model = _add_visible_band_model(models_el, spec)
+            by_name[spec.name] = model
         model.attrib.update(
             {
                 "DisplayAs": "Custom",

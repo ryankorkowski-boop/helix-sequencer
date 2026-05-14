@@ -25,6 +25,28 @@ class Helixville4FullBandLayoutTests(unittest.TestCase):
         self.assertIn("HX_SNOWMAN_DRUMMER_INSTRUMENT", payload["visible_band_upgrade"]["upgraded"])  # type: ignore[index]
         self.assertEqual(payload["visible_band_upgrade"]["missing"], [])  # type: ignore[index]
 
+    def test_source_layout_nonband_models_are_preserved(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            source = Path(tmp) / "source.xml"
+            source.write_text(
+                "<xrgb><models>"
+                "<model name='HX_NONBAND_KEEP_ME' DisplayAs='Single Line' />"
+                "<model name='HX_SNOWMAN_BASSIST_BODY' DisplayAs='Custom' CustomWidth='12' CustomHeight='12' />"
+                "</models><modelGroups /></xrgb>",
+                encoding="utf-8",
+            )
+            out_dir = Path(tmp) / "out"
+            payload = build_full_band_layout(out_dir, source_layout=source)
+            layout_path = Path(payload["approved_full_band_export"]["layout_path"])  # type: ignore[index]
+            root = ET.parse(layout_path).getroot()
+
+        self.assertIsNotNone(root.find(".//model[@name='HX_NONBAND_KEEP_ME']"))
+        bassist_body = root.find(".//model[@name='HX_SNOWMAN_BASSIST_BODY']")
+        self.assertIsNotNone(bassist_body)
+        assert bassist_body is not None
+        self.assertEqual(bassist_body.attrib.get("HelixVisibleBandUpgrade"), "split_models_v1")
+        self.assertEqual(payload["preservation_policy"], "copy_source_layout_then_patch_band_models_only")
+
 
 if __name__ == "__main__":
     unittest.main()

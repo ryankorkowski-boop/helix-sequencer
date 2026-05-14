@@ -524,6 +524,8 @@ class EffectEngineTests(unittest.TestCase):
             ("HX_SNOWMAN_DRUMMER_INSTRUMENT/HX_SNOWMAN_DRUMMER_SNARE", "On", "snowman_drummer_snare", "drums"),
             drum_targets,
         )
+        self.assertIn("#7a3f16", effect_engine.snowman_colored_template(bass_targets[0][0]).palette)
+        self.assertTrue(any("SCARF" in target for target, _stem, _palette in effect_engine.snowman_presence_targets()))
 
     def test_spatial_route_order_style_prefers_directional_styles_only_when_awareness_is_high(self) -> None:
         self.assertEqual(effect_engine.spatial_route_order_style("top_to_bottom", 0.75), "top_to_bottom")

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Sequence
@@ -23,13 +24,30 @@ def _count_band_models(layout_path: Path) -> dict[str, int]:
     }
 
 
-def build_full_band_layout(output_dir: str | Path) -> dict[str, object]:
+def _layout_model_count(layout_path: Path) -> int:
+    return len(ET.parse(layout_path).getroot().findall(".//model"))
+
+
+def build_full_band_layout(output_dir: str | Path, *, source_layout: str | Path | None = None) -> dict[str, object]:
     out_dir = Path(output_dir)
-    payload = build_helixia_layout(out_dir)
     layout_path = out_dir / "xlights_rgbeffects.xml"
+    source_layout_path = Path(source_layout).resolve() if source_layout is not None else None
+    if source_layout_path is not None:
+        if not source_layout_path.exists():
+            raise FileNotFoundError(f"Source layout not found: {source_layout_path}")
+        out_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source_layout_path, layout_path)
+        payload: dict[str, object] = {
+            "layout_id": "helixville4_preserved_source_layout",
+            "layout_source": str(source_layout_path),
+            "source_model_count": _layout_model_count(layout_path),
+            "preservation_policy": "copy_source_layout_then_patch_band_models_only",
+        }
+    else:
+        payload = build_helixia_layout(out_dir)
 
     add_full_helixville4_band_models(layout_path)
-    visible_upgrade = upgrade_visible_band_models(layout_path)
+    visible_upgrade = upgrade_visible_band_models(layout_path, create_missing=True)
     band_assets = write_band_assets(out_dir / "band_assets")
     band_counts = _count_band_models(layout_path)
 
@@ -54,11 +72,13 @@ def build_full_band_layout(output_dir: str | Path) -> dict[str, object]:
     payload["xlights_layout"] = dict(payload.get("xlights_layout", {}))
     payload["xlights_layout"]["approved_full_band_enabled"] = True
     payload["xlights_layout"]["visible_band_upgrade"] = visible_upgrade
+    payload["xlights_layout"]["model_count_after_patch"] = _layout_model_count(layout_path)
     payload["xlights_layout"].update(band_counts)
 
     (out_dir / "helixia_manifest.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
     (out_dir / "HELIXIA_LAYOUT_NOTES.txt").write_text(
-        "Helixville4 approved full snowman band layout generated.\n"
+        "Helixville4 approved full snowman band layout patched.\n"
+        "When a source layout is supplied, non-band models are preserved and only band models are replaced/upgraded.\n"
         "All five band members are exported as non-placeholder custom models with named submodels.\n"
         "Visual targets are recorded in docs/HELIXVILLE4_VISUAL_REFERENCE_MANIFEST.md.\n",
         encoding="utf-8",
@@ -69,12 +89,13 @@ def build_full_band_layout(output_dir: str | Path) -> dict[str, object]:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Build Helixville4 with the approved full snowman band wired into xLights XML.")
     parser.add_argument("--output-dir", type=Path, default=Path("test_runs/helixville4_full_band"))
+    parser.add_argument("--source-layout", type=Path, default=None, help="Existing xlights_rgbeffects.xml to copy and patch instead of rebuilding the full layout.")
     return parser
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    payload = build_full_band_layout(args.output_dir)
+    payload = build_full_band_layout(args.output_dir, source_layout=args.source_layout)
     print(json.dumps(payload.get("approved_full_band_export", {}), indent=2, sort_keys=True))
     return 0
 

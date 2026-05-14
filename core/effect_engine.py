@@ -9068,6 +9068,57 @@ def cinematic_palette_template(parameters: Mapping[str, object] | None) -> base.
     return base.EffectTemplate(settings="", palette=",".join(colors[:6]))
 
 
+SNOWMAN_BAND_PALETTES: dict[str, str] = {
+    "bassist": "#7a3f16,#ffd166,#2ec4b6",
+    "guitarist": "#ef476f,#ffd166,#4cc9f0",
+    "drummer": "#d90429,#f8f9fa,#ffb703",
+    "singer": "#06d6a0,#f8f9fa,#ffd166",
+    "harmony": "#9b5de5,#f15bb5,#f8f9fa",
+    "snow": "#f8f9fa,#8ecae6,#ffffff",
+}
+
+
+def snowman_palette_for_target(target: str, cue: Mapping[str, object] | None = None) -> str:
+    text = f"{target} {str((cue or {}).get('performer', ''))} {str((cue or {}).get('kind', ''))}".lower()
+    if "bassist" in text or "bass_" in text:
+        return SNOWMAN_BAND_PALETTES["bassist"]
+    if "guitarist" in text or "guitar_" in text:
+        return SNOWMAN_BAND_PALETTES["guitarist"]
+    if "drummer" in text or "drum" in text or "snare" in text or "cymbal" in text or "kick" in text:
+        return SNOWMAN_BAND_PALETTES["drummer"]
+    if "female" in text:
+        return SNOWMAN_BAND_PALETTES["harmony"]
+    if "singer" in text or "microphone" in text:
+        return SNOWMAN_BAND_PALETTES["singer"]
+    return SNOWMAN_BAND_PALETTES["snow"]
+
+
+def snowman_colored_template(target: str, cue: Mapping[str, object] | None = None) -> base.EffectTemplate:
+    return base.EffectTemplate(settings="", palette=snowman_palette_for_target(target, cue))
+
+
+def snowman_presence_targets() -> list[tuple[str, str, str]]:
+    return [
+        ("HX_SNOWMAN_BASSIST_BODY/HX_SNOWMAN_BASSIST_TORSO", "other", SNOWMAN_BAND_PALETTES["snow"]),
+        ("HX_SNOWMAN_BASSIST_BODY/HX_SNOWMAN_BASSIST_SCARF", "other", SNOWMAN_BAND_PALETTES["bassist"]),
+        ("HX_SNOWMAN_BASSIST_INSTRUMENT/HX_SNOWMAN_BASSIST_BASS_BODY", "bass", SNOWMAN_BAND_PALETTES["bassist"]),
+        ("HX_SNOWMAN_BASSIST_INSTRUMENT/HX_SNOWMAN_BASSIST_BASS_NECK", "bass", SNOWMAN_BAND_PALETTES["bassist"]),
+        ("HX_SNOWMAN_DRUMMER_BODY/HX_SNOWMAN_DRUMMER_TORSO", "other", SNOWMAN_BAND_PALETTES["snow"]),
+        ("HX_SNOWMAN_DRUMMER_BODY/HX_SNOWMAN_DRUMMER_SCARF", "other", SNOWMAN_BAND_PALETTES["drummer"]),
+        ("HX_SNOWMAN_DRUMMER_INSTRUMENT/HX_SNOWMAN_DRUMMER_KICK", "drums", SNOWMAN_BAND_PALETTES["drummer"]),
+        ("HX_SNOWMAN_DRUMMER_INSTRUMENT/HX_SNOWMAN_DRUMMER_CYMBALS", "drums", SNOWMAN_BAND_PALETTES["drummer"]),
+        ("HX_SNOWMAN_GUITARIST_BODY/HX_SNOWMAN_GUITARIST_TORSO", "other", SNOWMAN_BAND_PALETTES["snow"]),
+        ("HX_SNOWMAN_GUITARIST_BODY/HX_SNOWMAN_GUITARIST_SCARF", "other", SNOWMAN_BAND_PALETTES["guitarist"]),
+        ("HX_SNOWMAN_GUITARIST_INSTRUMENT/HX_SNOWMAN_GUITARIST_GUITAR_BODY", "other", SNOWMAN_BAND_PALETTES["guitarist"]),
+        ("HX_SNOWMAN_SINGER_BODY/HX_SNOWMAN_SINGER_TORSO", "vocals", SNOWMAN_BAND_PALETTES["snow"]),
+        ("HX_SNOWMAN_SINGER_BODY/HX_SNOWMAN_SINGER_SCARF", "vocals", SNOWMAN_BAND_PALETTES["singer"]),
+        ("HX_SNOWMAN_SINGER_INSTRUMENT/HX_SNOWMAN_SINGER_MICROPHONE", "vocals", SNOWMAN_BAND_PALETTES["singer"]),
+        ("HX_SNOWMAN_SINGER_FEMALE_BODY/HX_SNOWMAN_SINGER_FEMALE_TORSO", "vocals", SNOWMAN_BAND_PALETTES["snow"]),
+        ("HX_SNOWMAN_SINGER_FEMALE_BODY/HX_SNOWMAN_SINGER_FEMALE_BOW", "vocals", SNOWMAN_BAND_PALETTES["harmony"]),
+        ("HX_SNOWMAN_SINGER_FEMALE_INSTRUMENT/HX_SNOWMAN_SINGER_FEMALE_MICROPHONE", "vocals", SNOWMAN_BAND_PALETTES["harmony"]),
+    ]
+
+
 def snowman_performance_effect_targets(cue: Mapping[str, object]) -> list[tuple[str, str, str, str]]:
     performer = str(cue.get("performer", "") or "").lower()
     submodel = str(cue.get("submodel", "") or cue.get("kind", "") or "").lower()
@@ -11063,6 +11114,7 @@ def run_variant(
                     "predrop",
                     "build",
                     "outro",
+                    "snowman_presence",
                 )
             )
             duration_cap_ms = 0
@@ -12065,6 +12117,34 @@ def run_variant(
         if placed_snowman_faces:
             log(f"Snowman sequence face effects placed: {placed_snowman_faces}")
 
+    snowman_presence_track: list[tuple[str, int, int]] = []
+    presence_targets = snowman_presence_targets()
+    if presence_targets:
+        placed_presence = 0
+        for part in parts:
+            st = max(0, int(part.start_ms))
+            en = min(song_length_ms, max(st + max(1, int(tuning.min_effect_ms)), int(part.end_ms)))
+            if en <= st or in_blackout(st):
+                continue
+            for target, stem, palette in presence_targets:
+                if target not in layers:
+                    continue
+                before_total = total
+                add_model(
+                    target,
+                    st,
+                    en,
+                    "snowman_presence",
+                    eff="On",
+                    tpl=base.EffectTemplate(settings="", palette=palette),
+                    stem=stem,
+                )
+                if total > before_total:
+                    placed_presence += 1
+            snowman_presence_track.append((f"presence:{part.label}", st, en))
+        if placed_presence:
+            log(f"Snowman colored presence layers placed: {placed_presence}")
+
     snowman_performance_track: list[tuple[str, int, int]] = []
     snowman_cues = dict(snowman_band_payload.get("cues", {}) or {})
     performance_cues: list[Mapping[str, object]] = []
@@ -12081,7 +12161,7 @@ def run_variant(
             cue_placed = False
             for target, effect_name, label, stem in snowman_performance_effect_targets(cue):
                 before_total = total
-                add_model(target, st, en, label, eff=effect_name, stem=stem)
+                add_model(target, st, en, label, eff=effect_name, tpl=snowman_colored_template(target, cue), stem=stem)
                 if total > before_total:
                     cue_placed = True
             if cue_placed:
@@ -12459,6 +12539,8 @@ def run_variant(
             base.write_timing_track(xsq.root, f"AUTO Snowman Band {style.version}", snowman_band_track[:1800], active=False)
         if snowman_sequence_face_track:
             base.write_timing_track(xsq.root, f"AUTO Snowman Faces {style.version}", snowman_sequence_face_track[:1800], active=False)
+        if snowman_presence_track:
+            base.write_timing_track(xsq.root, f"AUTO Snowman Presence {style.version}", snowman_presence_track[:400], active=False)
         if snowman_performance_track:
             base.write_timing_track(xsq.root, f"AUTO Snowman Performance {style.version}", snowman_performance_track[:1800], active=False)
         if birdsong_track:

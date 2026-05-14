@@ -18,6 +18,7 @@ from tools.export_helixville4_band_xmodels import export_band_xmodels
 DEFAULT_OUTPUT_DIR = ROOT / "test_runs" / "helixville4_full_band_lightsouttheme_120s"
 DEFAULT_AUDIO = ROOT / "LightsOutTheme.mp3"
 DEFAULT_TEMPLATE = ROOT / "template.xsq"
+DEFAULT_LAYOUT_SOURCE = ROOT / "helixville4" / "xlights_rgbeffects.xml"
 TARGET_DURATION_SECONDS = 120
 
 
@@ -144,6 +145,7 @@ def run_full_band_lightsouttheme_120s(
     output_dir: Path = DEFAULT_OUTPUT_DIR,
     audio: Path = DEFAULT_AUDIO,
     template: Path = DEFAULT_TEMPLATE,
+    source_layout: Path | None = DEFAULT_LAYOUT_SOURCE,
     profile: str = "v27.3",
     variants: int = 3,
     dry_run: bool = False,
@@ -151,7 +153,7 @@ def run_full_band_lightsouttheme_120s(
     output_dir = output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    layout_payload = build_full_band_layout(output_dir)
+    layout_payload = build_full_band_layout(output_dir, source_layout=source_layout)
     layout = output_dir / "xlights_rgbeffects.xml"
     export_payload = export_band_xmodels(output_dir / "band_xmodel_exports")
     audio_120s = trim_audio_to_120s(audio.resolve(), output_dir)
@@ -176,6 +178,7 @@ def run_full_band_lightsouttheme_120s(
         "audio": str(audio_120s),
         "layout": str(layout),
         "profile": profile,
+        "source_layout": str(source_layout.resolve()) if source_layout is not None else "",
         "variant_count_requested": variants,
         "variant_sequences": _variant_sequences(output_dir, audio_120s, profile),
         "xlights_friendly_variant_sequences": friendly_sequences,
@@ -186,6 +189,7 @@ def run_full_band_lightsouttheme_120s(
         },
         "notes": [
             "The generated layout uses approved Helixville4 full snowman band custom models.",
+            "The layout is copied from the source xlights_rgbeffects.xml before band patching so non-band models are preserved.",
             "Sequence target xmodels are exported beside the run for active *_BODY and *_INSTRUMENT rows.",
             "LightsOutTheme is trimmed to a stable 120-second MP3 before sequence generation.",
         ],
@@ -200,6 +204,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--audio", type=Path, default=DEFAULT_AUDIO)
     parser.add_argument("--template", type=Path, default=DEFAULT_TEMPLATE)
+    parser.add_argument("--source-layout", type=Path, default=DEFAULT_LAYOUT_SOURCE)
     parser.add_argument("--profile", default="v27.3")
     parser.add_argument("--variants", type=int, default=3)
     parser.add_argument("--dry-run", action="store_true")
@@ -212,6 +217,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         output_dir=args.output_dir,
         audio=args.audio,
         template=args.template,
+        source_layout=args.source_layout,
         profile=args.profile,
         variants=args.variants,
         dry_run=args.dry_run,

@@ -334,6 +334,20 @@ def add_full_helixville4_band_models(layout_path: Path) -> None:
     groups_el = root.find("modelGroups")
     if groups_el is None:
         groups_el = ET.SubElement(root, "modelGroups")
+    model_names = {spec.model_name for spec in FULL_BAND_SPECS}
+    group_names = {
+        "HX_SNOWMAN_BAND",
+        "HX_SNOWMAN_VOCALS",
+        "HX_SNOWMAN_INSTRUMENTS",
+        "HX_SNOWMAN_DRUMS",
+        "HX_SNOWMAN_STRINGS",
+    }
+    for child in list(models_el):
+        if child.tag == "model" and child.attrib.get("name") in model_names:
+            models_el.remove(child)
+    for child in list(groups_el):
+        if child.tag == "modelGroup" and child.attrib.get("name") in group_names:
+            groups_el.remove(child)
     for spec in FULL_BAND_SPECS:
         add_performer_model(models_el, spec)
     members = ",".join(spec.model_name for spec in FULL_BAND_SPECS)
