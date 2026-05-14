@@ -5,7 +5,7 @@ import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from core import effect_layering_engine, signature_style, spatial_choreography, spatial_mapping_engine, spatial_scene, style_engine
+from core import cinematic_planner, effect_layering_engine, signature_style, spatial_choreography, spatial_mapping_engine, spatial_scene, style_engine
 from core.sequence_context import SequenceContext
 
 
@@ -231,6 +231,89 @@ class EffectIntelligenceSystemTests(unittest.TestCase):
         self.assertTrue(all(0.0 < dynamic.brightness_modulation < 0.1 for dynamic in plan.section_dynamics))
         self.assertNotIn("humanization", payload)
         self.assertTrue(payload["consistency_rules"])
+
+    def test_cinematic_planner_merges_scene_spatial_and_signature_metadata(self) -> None:
+        scene_plan = {
+            "scenes": [
+                {
+                    "scene_id": "scene_01_chorus",
+                    "section_label": "chorus",
+                    "start_ms": 1000,
+                    "end_ms": 2400,
+                    "energy": 0.86,
+                    "primary_focal_element": "hook_signature",
+                    "supporting_layer": "bass_and_harmony_support",
+                    "motion_layer": "cascade",
+                    "background_ambience": "restrained_wash",
+                    "palette": {"primary": "#ffd166", "secondary": "#ef476f", "accent": "#06d6a0"},
+                }
+            ],
+            "transitions": [
+                {
+                    "start_ms": 850,
+                    "end_ms": 1100,
+                    "from_scene_id": "scene_00_buildup",
+                    "to_scene_id": "scene_01_chorus",
+                    "transition_type": "swell_crossfade",
+                    "palette_shift": "aurora_to_signature",
+                    "energy_delta": 0.42,
+                }
+            ],
+        }
+        spatial_payload = {
+            "prop_families": [
+                {"name": "band", "depth_layer": "near"},
+                {"name": "roofline", "depth_layer": "far"},
+            ],
+            "dialogue_cues": [
+                {
+                    "scene_id": "scene_01_chorus",
+                    "source_family": "band",
+                    "target_family": "roofline",
+                    "motion": "bloom",
+                    "intensity": 0.84,
+                }
+            ],
+            "depth_strategy": {"intensity_scale": {"near": 0.9, "mid": 1.0, "far": 0.82}},
+        }
+        signature_payload = {
+            "section_palettes": [
+                {
+                    "scene_id": "scene_01_chorus",
+                    "colors": ["#ffd166", "#06d6a0", "#ffffff"],
+                    "treatment": "signature_bright",
+                }
+            ],
+            "humanization": [
+                {
+                    "scene_id": "scene_01_chorus",
+                    "timing_offset_ms": -9,
+                    "brightness_modulation": 0.04,
+                    "decay_curve": "fast_attack_controlled_release",
+                }
+            ],
+            "show_profile": {"complexity_ceiling": 3, "motion_intensity_bias": 0.82},
+        }
+
+        plan = cinematic_planner.build_cinematic_plan(
+            scene_plan,
+            spatial_choreography=spatial_payload,
+            signature_style=signature_payload,
+        )
+        payload = plan.to_dict()
+
+        self.assertEqual(payload["schema"], "helix.cinematic_planner.v1")
+        self.assertEqual(len(plan.cues), 3)
+        self.assertEqual(plan.cues[0].hierarchy_role, "primary")
+        self.assertEqual(plan.cues[0].prop_family, "roofline")
+        self.assertEqual(plan.cues[0].depth_layer, "far")
+        self.assertEqual(plan.cues[0].motion, "bloom")
+        self.assertEqual(plan.cues[0].palette, ("#ffd166", "#06d6a0", "#ffffff"))
+        self.assertEqual(plan.cues[0].start_ms, 991)
+        self.assertEqual(plan.cues[0].decay_curve, "fast_attack_controlled_release")
+        self.assertEqual(len(plan.transitions), 1)
+        self.assertGreater(plan.transitions[0].intensity, 0.5)
+        self.assertEqual(payload["debug_summary"]["role_counts"]["primary"], 1)
 
     def test_effect_layering_composes_overflow_and_updates_scoring_feedback(self) -> None:
         context = SequenceContext(
