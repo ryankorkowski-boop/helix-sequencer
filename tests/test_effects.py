@@ -908,6 +908,9 @@ class EffectEngineTests(unittest.TestCase):
         self.assertGreater(safe["component_scores"]["flash_safety"], unsafe["component_scores"]["flash_safety"])
         self.assertLess(unsafe["score"], safe["score"])
 
+    def test_helix_prime_uses_structured_mode_to_avoid_broad_vu_spray(self) -> None:
+        self.assertTrue(effect_engine.is_structured_style(effect_engine.VARIANTS["v27.3"]))
+
     def test_validate_report_payload_blocks_unsafe_power_report(self) -> None:
         payload = {
             "audit": {"final": {"score": 84.5}},

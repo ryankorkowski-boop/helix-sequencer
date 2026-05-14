@@ -541,6 +541,10 @@ def apply_runtime_style(style: VariantStyle, tuning: RuntimeTuning) -> VariantSt
     return out
 
 
+def is_structured_style(style: VariantStyle) -> bool:
+    return style.family in {"v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23", "v25", "v26", "v27"}
+
+
 def coerce_override_payload(raw: object) -> dict[str, str | list[str]]:
     if not isinstance(raw, dict):
         return {}
@@ -11258,7 +11262,7 @@ def run_variant(
     vocals_priority_gain = 0.80 + (priorities["vocals"] / stem_max) * 0.45
     other_priority_gain = 0.80 + (priorities["other"] / stem_max) * 0.45
     hardkor_mode = bool(tuning.hardkor_enabled)
-    structured_mode = style.family in {"v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23"}
+    structured_mode = is_structured_style(style)
     focused_mode = style.family in {"v14", "v16", "v19", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode in {"mapped_essentials", "mapped_submodel"}
     premium_mode = style.family in {"v15", "v17", "v20", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode == "mapped_showcase"
     if structured_mode:
@@ -11935,6 +11939,8 @@ def run_variant(
     elif style.family == "v23":
         cap = 0.24 if style.placement_mode == "showcase_stems" else 0.34 if style.placement_mode == "showcase_arc" else 0.38
         spatial_keyboard_mix = min(spatial_keyboard_mix, cap)
+    elif style.family in {"v25", "v26", "v27"}:
+        spatial_keyboard_mix = min(spatial_keyboard_mix, 0.52)
 
     if style.keyboard_overlay:
         player_piano_mix = base.clamp((0.54 if focused_mode else max(0.40, keyboard_mix * 0.72)) * other_priority_gain, 0.0, 2.0)
@@ -11942,6 +11948,8 @@ def run_variant(
             player_piano_mix = min(player_piano_mix, 0.34)
         elif style.family == "v23":
             player_piano_mix = min(player_piano_mix, 0.24)
+        elif style.family in {"v25", "v26", "v27"}:
+            player_piano_mix = min(player_piano_mix, 0.42)
         player_piano_placed = place_player_piano_sequence(
             style=keyboard_style,
             note_events=keyboard_note_events,
@@ -11995,7 +12003,7 @@ def run_variant(
             note_events=keyboard_note_events,
             keyboard_lane=keyboard_lane,
             arch_lane=arch_keyboard_lane,
-            keyboard_mix=base.clamp((0.26 if style.family == "v23" else 0.38 if style.family == "v22" else 0.52 if focused_mode else effective_keyboard_mix) * other_priority_gain, 0.0, 2.0),
+            keyboard_mix=base.clamp((0.26 if style.family == "v23" else 0.38 if style.family == "v22" else 0.34 if style.family in {"v25", "v26", "v27"} else 0.52 if focused_mode else effective_keyboard_mix) * other_priority_gain, 0.0, 2.0),
             ramp_ok=ramp_ok,
             ramp_tpl=xsq.ramp_tpl,
             add_model=add_model,
@@ -12484,11 +12492,17 @@ def run_variant(
         auto_fix=False,
     )
     total = sum(len(entries) for timeline in timelines.values() for entries in timeline.layers.values())
-    show_direction_summary = youtube_show_scorer.build_show_direction_summary(
-        timelines=timelines,
+    show_direction_summary = youtube_show_scorer.build_cinematic_show_direction_summary(
+        cinematic_planner=cinematic_plan_payload,
         parts=parts,
         quiet_windows=list(multiband.quiet_windows) + blackout_windows,
     )
+    if not show_direction_summary.get("sections"):
+        show_direction_summary = youtube_show_scorer.build_show_direction_summary(
+            timelines=timelines,
+            parts=parts,
+            quiet_windows=list(multiband.quiet_windows) + blackout_windows,
+        )
 
     log("[5/8] Writing timing tracks and report")
     if tuning.auto_timing_tracks:

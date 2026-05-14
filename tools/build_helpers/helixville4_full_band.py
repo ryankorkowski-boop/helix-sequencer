@@ -325,7 +325,7 @@ def add_performer_model(models_el: ET.Element, spec: PerformerSpec) -> ET.Elemen
     return model
 
 
-def add_full_helixville4_band_models(layout_path: Path) -> None:
+def add_full_helixville4_band_models(layout_path: Path, *, include_performer_models: bool = True) -> None:
     tree = ET.parse(layout_path)
     root = tree.getroot()
     models_el = root.find("models")
@@ -348,12 +348,36 @@ def add_full_helixville4_band_models(layout_path: Path) -> None:
     for child in list(groups_el):
         if child.tag == "modelGroup" and child.attrib.get("name") in group_names:
             groups_el.remove(child)
-    for spec in FULL_BAND_SPECS:
-        add_performer_model(models_el, spec)
-    members = ",".join(spec.model_name for spec in FULL_BAND_SPECS)
+    if include_performer_models:
+        for spec in FULL_BAND_SPECS:
+            add_performer_model(models_el, spec)
+        members = ",".join(spec.model_name for spec in FULL_BAND_SPECS)
+        vocals = "HX_SNOWMAN_SINGER,HX_SNOWMAN_SINGER_FEMALE"
+        instruments = "HX_SNOWMAN_GUITARIST,HX_SNOWMAN_BASSIST,HX_SNOWMAN_DRUMMER"
+        drums = "HX_SNOWMAN_DRUMMER"
+        strings = "HX_SNOWMAN_GUITARIST,HX_SNOWMAN_BASSIST"
+    else:
+        members = ",".join(
+            (
+                "HX_SNOWMAN_BASSIST_BODY",
+                "HX_SNOWMAN_BASSIST_INSTRUMENT",
+                "HX_SNOWMAN_DRUMMER_BODY",
+                "HX_SNOWMAN_DRUMMER_INSTRUMENT",
+                "HX_SNOWMAN_GUITARIST_BODY",
+                "HX_SNOWMAN_GUITARIST_INSTRUMENT",
+                "HX_SNOWMAN_SINGER_BODY",
+                "HX_SNOWMAN_SINGER_INSTRUMENT",
+                "HX_SNOWMAN_SINGER_FEMALE_BODY",
+                "HX_SNOWMAN_SINGER_FEMALE_INSTRUMENT",
+            )
+        )
+        vocals = "HX_SNOWMAN_SINGER_BODY,HX_SNOWMAN_SINGER_INSTRUMENT,HX_SNOWMAN_SINGER_FEMALE_BODY,HX_SNOWMAN_SINGER_FEMALE_INSTRUMENT"
+        instruments = "HX_SNOWMAN_GUITARIST_INSTRUMENT,HX_SNOWMAN_BASSIST_INSTRUMENT,HX_SNOWMAN_DRUMMER_INSTRUMENT"
+        drums = "HX_SNOWMAN_DRUMMER_BODY,HX_SNOWMAN_DRUMMER_INSTRUMENT"
+        strings = "HX_SNOWMAN_GUITARIST_BODY,HX_SNOWMAN_GUITARIST_INSTRUMENT,HX_SNOWMAN_BASSIST_BODY,HX_SNOWMAN_BASSIST_INSTRUMENT"
     ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_BAND", "models": members})
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_VOCALS", "models": "HX_SNOWMAN_SINGER,HX_SNOWMAN_SINGER_FEMALE"})
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_INSTRUMENTS", "models": "HX_SNOWMAN_GUITARIST,HX_SNOWMAN_BASSIST,HX_SNOWMAN_DRUMMER"})
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_DRUMS", "models": "HX_SNOWMAN_DRUMMER"})
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_STRINGS", "models": "HX_SNOWMAN_GUITARIST,HX_SNOWMAN_BASSIST"})
+    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_VOCALS", "models": vocals})
+    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_INSTRUMENTS", "models": instruments})
+    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_DRUMS", "models": drums})
+    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_STRINGS", "models": strings})
     tree.write(layout_path, encoding="utf-8", xml_declaration=True)

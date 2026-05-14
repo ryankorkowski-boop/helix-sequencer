@@ -12,6 +12,13 @@ from tools.build_helpers.helixville4_full_band import FULL_BAND_SPECS, add_full_
 from tools.build_helpers.helixville4_visible_band import upgrade_visible_band_models
 from tools.write_helixville4_band_assets import write_band_assets
 
+XLIGHTS_DISPLAY_TYPE_ALIASES = {
+    "CandyCane": "Candy Canes",
+    "Matrix": "Horiz Matrix",
+    "Icicles": "Poly Line",
+    "DMX General": "Single Line",
+}
+
 
 def _count_band_models(layout_path: Path) -> dict[str, int]:
     root = ET.parse(layout_path).getroot()
@@ -26,6 +33,22 @@ def _count_band_models(layout_path: Path) -> dict[str, int]:
 
 def _layout_model_count(layout_path: Path) -> int:
     return len(ET.parse(layout_path).getroot().findall(".//model"))
+
+
+def normalize_xlights_display_types(layout_path: Path) -> dict[str, int]:
+    tree = ET.parse(layout_path)
+    root = tree.getroot()
+    fixed: dict[str, int] = {}
+    for model in root.findall(".//model"):
+        display_as = model.attrib.get("DisplayAs")
+        replacement = XLIGHTS_DISPLAY_TYPE_ALIASES.get(display_as or "")
+        if replacement is None:
+            continue
+        model.attrib["DisplayAs"] = replacement
+        fixed[display_as or ""] = fixed.get(display_as or "", 0) + 1
+    if fixed:
+        tree.write(layout_path, encoding="utf-8", xml_declaration=True)
+    return fixed
 
 
 def build_full_band_layout(output_dir: str | Path, *, source_layout: str | Path | None = None) -> dict[str, object]:
@@ -46,7 +69,8 @@ def build_full_band_layout(output_dir: str | Path, *, source_layout: str | Path 
     else:
         payload = build_helixia_layout(out_dir)
 
-    add_full_helixville4_band_models(layout_path)
+    display_type_fixes = normalize_xlights_display_types(layout_path)
+    add_full_helixville4_band_models(layout_path, include_performer_models=False)
     visible_upgrade = upgrade_visible_band_models(layout_path, create_missing=True)
     band_assets = write_band_assets(out_dir / "band_assets")
     band_counts = _count_band_models(layout_path)
@@ -71,6 +95,7 @@ def build_full_band_layout(output_dir: str | Path, *, source_layout: str | Path 
     payload["band_assets"] = band_assets
     payload["xlights_layout"] = dict(payload.get("xlights_layout", {}))
     payload["xlights_layout"]["approved_full_band_enabled"] = True
+    payload["xlights_layout"]["display_type_fixes"] = display_type_fixes
     payload["xlights_layout"]["visible_band_upgrade"] = visible_upgrade
     payload["xlights_layout"]["model_count_after_patch"] = _layout_model_count(layout_path)
     payload["xlights_layout"].update(band_counts)
@@ -79,7 +104,7 @@ def build_full_band_layout(output_dir: str | Path, *, source_layout: str | Path 
     (out_dir / "HELIXIA_LAYOUT_NOTES.txt").write_text(
         "Helixville4 approved full snowman band layout patched.\n"
         "When a source layout is supplied, non-band models are preserved and only band models are replaced/upgraded.\n"
-        "All five band members are exported as non-placeholder custom models with named submodels.\n"
+        "The live layout uses xLights-safe split band rows; full performer xmodels are exported as separate assets.\n"
         "Visual targets are recorded in docs/HELIXVILLE4_VISUAL_REFERENCE_MANIFEST.md.\n",
         encoding="utf-8",
     )

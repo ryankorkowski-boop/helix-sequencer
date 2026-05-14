@@ -18,7 +18,7 @@ from tools.export_helixville4_band_xmodels import export_band_xmodels
 DEFAULT_OUTPUT_DIR = ROOT / "test_runs" / "helixville4_full_band_lightsouttheme_120s"
 DEFAULT_AUDIO = ROOT / "LightsOutTheme.mp3"
 DEFAULT_TEMPLATE = ROOT / "template.xsq"
-DEFAULT_LAYOUT_SOURCE = ROOT / "helixville4" / "xlights_rgbeffects.xml"
+DEFAULT_LAYOUT_SOURCE = ROOT / "xlights_rgbeffects.xml"
 TARGET_DURATION_SECONDS = 120
 
 
@@ -98,20 +98,21 @@ def build_sequence_command(
         "--no-prompt",
         "--no-save-settings",
         "--no-workspace-history",
-        "--no-polish",
         "--no-matrix-intelligence",
         "--audio-reactive-profile",
         "showcase",
+        "--flash-guard",
+        "0.95",
         "--spatial-awareness",
         "0.8",
         "--chase-style",
         "top_to_bottom",
         "--polyphony",
-        "6",
+        "4",
         "--keyboard-mix",
-        "1.0",
+        "0.58",
         "--max-layers-per-prop",
-        "3",
+        "2",
     ]
 
 

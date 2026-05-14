@@ -191,6 +191,56 @@ class YoutubeShowScorerTests(unittest.TestCase):
         self.assertTrue(section["has_rest"])
         self.assertGreater(scorer.score_youtube_show({"youtube_show_summary": summary})["final_score"], 0.0)
 
+    def test_cinematic_summary_uses_primary_support_motion_hierarchy(self) -> None:
+        planner = {
+            "cues": [
+                {
+                    "start_ms": 0,
+                    "end_ms": 1000,
+                    "hierarchy_role": "primary",
+                    "prop_family": "arches",
+                    "motion": "sweep",
+                    "palette": ["#ffffff", "#4cc9f0"],
+                    "intensity": 0.42,
+                },
+                {
+                    "start_ms": 0,
+                    "end_ms": 1000,
+                    "hierarchy_role": "support",
+                    "prop_family": "band",
+                    "motion": "support_hold",
+                    "palette": ["#ffffff", "#4cc9f0"],
+                    "intensity": 0.24,
+                },
+                {
+                    "start_ms": 1000,
+                    "end_ms": 2000,
+                    "hierarchy_role": "primary",
+                    "prop_family": "megatree",
+                    "motion": "impact",
+                    "palette": ["#ffffff", "#ffd166"],
+                    "intensity": 0.9,
+                },
+            ]
+        }
+        parts = [
+            SimpleNamespace(label="VERSE", start_ms=0, end_ms=1000),
+            SimpleNamespace(label="CHORUS", start_ms=1000, end_ms=2000),
+        ]
+
+        summary = scorer.build_cinematic_show_direction_summary(
+            cinematic_planner=planner,
+            parts=parts,
+            quiet_windows=[(0, 120)],
+        )
+
+        self.assertEqual(summary["source"], "cinematic_planner_hierarchy")
+        self.assertEqual(summary["sections"][0]["focal_target"], "arches")
+        self.assertEqual(summary["sections"][0]["active_props"], ["arches", "band"])
+        self.assertEqual(summary["sections"][0]["motion"], "sweep")
+        self.assertEqual(summary["sections"][1]["label"], "FINALE")
+        self.assertGreaterEqual(scorer.score_youtube_show({"youtube_show_summary": summary})["final_score"], 80.0)
+
     def test_direction_problems_flag_clutter_and_missing_focal_target(self) -> None:
         payload = {
             "sections": [
