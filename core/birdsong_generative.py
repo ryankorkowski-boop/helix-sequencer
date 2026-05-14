@@ -7,6 +7,10 @@ from typing import Any, Mapping, Sequence
 
 
 BIRDSONG_MOTIFS = ("wave_sweep", "spiral", "pulse_cascade", "orbit", "sparkle_field")
+SPATIAL_ROLE_ALIASES = {
+    "center_ground": "ground",
+    "high_vertical": "vertical",
+}
 
 
 def clamp(value: float, lo: float = 0.0, hi: float = 1.0) -> float:
@@ -34,6 +38,11 @@ def _band(features: Any, index: int, name: str) -> float:
     if isinstance(bands, Sequence) and not isinstance(bands, (str, bytes)) and len(bands) > index:
         return clamp(float(bands[index]))
     return clamp(float(getattr(features, name, 0.0) or 0.0))
+
+
+def _spatial_role(value: str) -> str:
+    role = str(value or "generic").strip().lower()
+    return SPATIAL_ROLE_ALIASES.get(role, role)
 
 
 @dataclass
@@ -135,9 +144,9 @@ class Motif:
 MOTIF_LIBRARY: dict[str, Motif] = {
     "wave_sweep": Motif("wave_sweep", "linear_propagation", ("Ramp", "Wave", "On"), "horizontal"),
     "spiral": Motif("spiral", "rotational_ascent", ("Spirals", "Pinwheel", "Wave"), "vertical"),
-    "pulse_cascade": Motif("pulse_cascade", "stepped_neighbor_burst", ("On", "Ramp", "Bars"), "center_ground"),
+    "pulse_cascade": Motif("pulse_cascade", "stepped_neighbor_burst", ("On", "Ramp", "Bars"), "ground"),
     "orbit": Motif("orbit", "looping_perimeter_motion", ("Pinwheel", "Single Strand", "Wave"), "perimeter"),
-    "sparkle_field": Motif("sparkle_field", "distributed_high_frequency_points", ("Twinkle", "Shimmer", "On"), "high_vertical"),
+    "sparkle_field": Motif("sparkle_field", "distributed_high_frequency_points", ("Twinkle", "Shimmer", "On"), "vertical"),
 }
 
 
@@ -220,13 +229,13 @@ class SpatialMap:
             x = -1.0 + (2.0 * index / max(1, total - 1))
             y = 0.0
             z = 0.35
-            category = "generic"
-            if any(token in lower for token in ("bass", "drum", "kick", "ground")):
-                y, z, category = -0.6, 0.05, "center_ground"
-            elif any(token in lower for token in ("star", "flake", "sparkle", "roof")):
-                y, z, category = 0.25, 0.9, "high_vertical"
-            elif any(token in lower for token in ("arch", "line", "cane", "perim")):
-                y, z, category = 0.0, 0.35, "horizontal"
+            category = "horizontal"
+            if any(token in lower for token in ("bass", "kick", "drum", "snare", "sub", "floor", "low", "ground")):
+                y, z, category = -0.6, 0.05, "ground"
+            elif any(token in lower for token in ("star", "flake", "sparkle", "snow", "roof", "top", "high")):
+                y, z, category = 0.25, 0.9, "vertical"
+            elif any(token in lower for token in ("arch", "cane", "outline", "frame", "border", "perim")):
+                y, z, category = 0.0, 0.35, "perimeter"
             models.append(SpatialModel(str(name), x, y, z, category))
         return cls(models)
 
@@ -283,19 +292,40 @@ def spawn_energy_waves(state: FeatureState, phrase: Phrase, spatial_map: Spatial
         return []
     anchor = spatial_map.feature_anchor(state)
     motif = MOTIF_LIBRARY.get(phrase.motif, MOTIF_LIBRARY["wave_sweep"])
-    if motif.spatial_bias == "high_vertical":
-        velocity = (0.35, 0.08, 0.18)
-    elif motif.spatial_bias == "center_ground":
-        velocity = (0.42, 0.03, 0.05)
-    elif motif.spatial_bias == "vertical":
+    spatial_bias = _spatial_role(motif.spatial_bias)
+    if phrase.motif == "spiral":
         velocity = (0.20, 0.05, 0.35)
-    elif motif.spatial_bias == "perimeter":
+    elif spatial_bias == "vertical":
+        velocity = (0.35, 0.08, 0.18)
+    elif spatial_bias == "ground":
+        velocity = (0.42, 0.03, 0.05)
+    elif spatial_bias == "perimeter":
         velocity = (0.48, 0.16, 0.02)
     else:
         velocity = (0.52, 0.0, 0.02)
     if phrase.direction == "down":
         velocity = (-velocity[0], velocity[1], -abs(velocity[2]))
     return [EnergyWave(position=anchor, velocity=velocity, energy=clamp(max(state.onset, state.energy_smooth)))]
+
+
+def spawn_trigger_wave(trigger_type: str, state: FeatureState, spatial_map: SpatialMap) -> EnergyWave | None:
+    trigger = str(trigger_type or "").strip().lower()
+    if trigger in {"kick", "bass"}:
+        position = (0.0, -0.65, 0.05)
+        velocity = (0.56, 0.02, 0.02)
+        energy = max(0.72, state.energy_smooth, state.onset, state.low)
+        return EnergyWave(position=position, velocity=velocity, energy=clamp(energy), decay=0.90, radius=0.26)
+    if trigger in {"snare", "clap"}:
+        position = (0.0, 0.0, 0.35)
+        velocity = (0.42, 0.00, 0.16)
+        energy = max(0.62, state.energy_smooth, state.onset, state.mid)
+        return EnergyWave(position=position, velocity=velocity, energy=clamp(energy), decay=0.91, radius=0.24)
+    if trigger in {"hat", "hihat", "hi_hat", "cymbal"}:
+        position = (0.0, 0.25, 0.95)
+        velocity = (0.30, 0.08, 0.24)
+        energy = max(0.55, state.energy_smooth, state.onset, state.high)
+        return EnergyWave(position=position, velocity=velocity, energy=clamp(energy), decay=0.88, radius=0.20)
+    return None
 
 
 @dataclass(frozen=True)
@@ -306,12 +336,12 @@ class EffectCandidate:
 
 
 DEFAULT_EFFECTS: tuple[EffectCandidate, ...] = (
-    EffectCandidate("On", 0.35, "center_ground"),
+    EffectCandidate("On", 0.35, "ground"),
     EffectCandidate("Ramp", 0.55, "horizontal"),
     EffectCandidate("Wave", 0.65, "horizontal"),
     EffectCandidate("Pinwheel", 0.72, "perimeter"),
-    EffectCandidate("Twinkle", 0.48, "high_vertical"),
-    EffectCandidate("Shimmer", 0.62, "high_vertical"),
+    EffectCandidate("Twinkle", 0.48, "vertical"),
+    EffectCandidate("Shimmer", 0.62, "vertical"),
 )
 
 
@@ -330,7 +360,9 @@ class EffectScoringEngine:
 
     def score(self, effect: EffectCandidate, model: SpatialModel, wave: EnergyWave, preferred: set[str]) -> float:
         energy_match = 1.0 - min(1.0, abs(wave.energy - effect.energy_target))
-        spatial_fit = 1.0 if effect.spatial_bias == model.category else 0.55 if effect.spatial_bias == "generic" else 0.25
+        effect_bias = _spatial_role(effect.spatial_bias)
+        model_category = _spatial_role(model.category)
+        spatial_fit = 1.0 if effect_bias == model_category else 0.55 if effect_bias == "generic" else 0.25
         novelty = 0.35 if effect.name in self._recent else 1.0
         continuity = 1.0 if effect.name in preferred else 0.55
         return (energy_match * 0.35) + (spatial_fit * 0.25) + (novelty * 0.20) + (continuity * 0.20)
@@ -352,6 +384,10 @@ class BehaviorEngine:
         self.scorer = scorer or EffectScoringEngine()
         self.waves: list[EnergyWave] = []
         self._last_time_s: float | None = None
+
+    def inject_wave(self, wave: EnergyWave | None) -> None:
+        if wave is not None:
+            self.waves.append(wave)
 
     def update(self, time_s: float, feature_state: FeatureState, phrase: Phrase) -> list[RenderEvent]:
         dt = 0.05 if self._last_time_s is None else max(0.01, min(0.25, time_s - self._last_time_s))
