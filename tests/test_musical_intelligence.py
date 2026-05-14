@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 from types import SimpleNamespace
 
-from core import contrast_engine, energy_model, motif_fingerprinting, song_structure
+from core import contrast_engine, energy_model, motif_fingerprinting, scene_engine, song_structure
 
 
 class MusicalIntelligenceTests(unittest.TestCase):
@@ -90,6 +90,39 @@ class MusicalIntelligenceTests(unittest.TestCase):
         self.assertIn("dense", densities)
         self.assertIn("bright", brightness)
         self.assertEqual(plan.to_dict()["schema"], "helix.contrast_engine.v1")
+
+    def test_scene_engine_builds_scenes_transitions_and_palette_evolution(self) -> None:
+        sections = [
+            SimpleNamespace(label="intro", start_ms=0, end_ms=1000, energy=0.2),
+            SimpleNamespace(label="buildup", start_ms=1000, end_ms=2200, energy=0.58),
+            SimpleNamespace(label="drop", start_ms=2200, end_ms=3400, energy=0.9),
+            SimpleNamespace(label="outro", start_ms=3400, end_ms=4400, energy=0.22),
+        ]
+        contrast_plan = contrast_engine.build_contrast_plan(sections)
+        motif_report = {
+            "hooks": [
+                {
+                    "fingerprint": {"key": "rise:0,4:2,2"},
+                    "occurrences": [{"start_ms": 2250, "end_ms": 2350}],
+                }
+            ]
+        }
+
+        plan = scene_engine.build_scene_plan(
+            sections,
+            contrast_plan=contrast_plan,
+            motif_report=motif_report,
+        )
+        payload = plan.to_dict()
+
+        self.assertEqual(payload["schema"], "helix.scene_engine.v1")
+        self.assertEqual(len(plan.scenes), 4)
+        self.assertEqual(len(plan.transitions), 3)
+        self.assertEqual(plan.scenes[2].scene_mode, "impact_release")
+        self.assertEqual(plan.scenes[2].primary_focal_element, "percussion_impact")
+        self.assertIn("rise:0,4:2,2", plan.scenes[2].motif_keys)
+        self.assertTrue(any(item.transition_type in {"blackout_impact", "swell_crossfade"} for item in plan.transitions))
+        self.assertEqual(len(payload["palette_evolution"]), 4)
 
 
 if __name__ == "__main__":

@@ -35,6 +35,7 @@ from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
+from core import scene_engine
 from core import song_structure
 from core import band_sync as band_sync_engine
 from core import youtube_show_scorer
@@ -10671,6 +10672,12 @@ def run_variant(
     )
     keyboard_note_events = extract_polyphonic_events(audio, harmonic, keyboard_event_times, sections, parts, keyboard_style)
     motif_report = motif_fingerprinting.build_motif_report(note_events, min_repeats=2)
+    scene_plan = scene_engine.build_scene_plan(
+        song_structure_timeline.sections,
+        energy_curve=energy_curve,
+        contrast_plan=contrast_plan,
+        motif_report=motif_report,
+    )
     try:
         chronoflow_payload = chronoflow_engine.build_chronoflow_plan(
             audio_path=audio_path,
@@ -12482,6 +12489,7 @@ def run_variant(
             "song_structure": song_structure_timeline.to_dict(),
             "motif_fingerprinting": motif_report,
             "contrast_engine": contrast_plan.to_dict(),
+            "scene_engine": scene_plan.to_dict(),
         },
         "rhythm_intelligence": rhythm_intelligence_payload,
         "lyrics": {
