@@ -5,7 +5,7 @@ import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from core import effect_layering_engine, spatial_choreography, spatial_mapping_engine, spatial_scene, style_engine
+from core import effect_layering_engine, signature_style, spatial_choreography, spatial_mapping_engine, spatial_scene, style_engine
 from core.sequence_context import SequenceContext
 
 
@@ -198,6 +198,37 @@ class EffectIntelligenceSystemTests(unittest.TestCase):
         self.assertIn("far", plan.dialogue_cues[2].depth_path)
         self.assertIn("impact", {entry.name for entry in plan.motion_grammar})
         self.assertIn("megatree", payload["depth_strategy"]["far"])
+
+    def test_signature_style_builds_key_palettes_humanization_and_show_profile(self) -> None:
+        scenes = [
+            {"scene_id": "scene_01_intro", "section_label": "intro", "start_ms": 0, "end_ms": 1000, "energy": 0.2},
+            {"scene_id": "scene_02_chorus", "section_label": "chorus", "start_ms": 1000, "end_ms": 2400, "energy": 0.86},
+            {"scene_id": "scene_03_breakdown", "section_label": "breakdown", "start_ms": 2400, "end_ms": 3400, "energy": 0.28},
+            {"scene_id": "scene_04_drop", "section_label": "drop", "start_ms": 3400, "end_ms": 4400, "energy": 0.94},
+        ]
+
+        plan = signature_style.build_signature_style_plan(
+            scenes,
+            song_key="G",
+            runtime_tuning={"max_layers_per_prop": 3, "palette_mode": "workspace_match"},
+            workspace_history={"palette_pool": ["#123456,#abcdef,#fedcba"]},
+            genre_hint="edm",
+            mood_hint="energetic",
+        )
+        payload = plan.to_dict()
+
+        self.assertEqual(payload["schema"], "helix.signature_style.v1")
+        self.assertEqual(plan.song_key, "G")
+        self.assertEqual(plan.key_palette, signature_style.KEY_PALETTES["G"])
+        self.assertEqual(plan.show_profile.brand_palette, ("#123456", "#abcdef", "#fedcba"))
+        self.assertEqual(plan.show_profile.pacing_style, "bold_payoff_cycles")
+        self.assertLessEqual(plan.show_profile.complexity_ceiling, 5)
+        self.assertEqual(len(plan.section_palettes), len(scenes))
+        self.assertEqual(plan.section_palettes[1].treatment, "signature_bright")
+        self.assertEqual(plan.section_palettes[3].treatment, "impact_flash_guarded")
+        self.assertTrue(all(-40 <= rule.timing_offset_ms <= 40 for rule in plan.humanization))
+        self.assertTrue(all(0.0 < rule.brightness_modulation < 0.1 for rule in plan.humanization))
+        self.assertTrue(payload["consistency_rules"])
 
     def test_effect_layering_composes_overflow_and_updates_scoring_feedback(self) -> None:
         context = SequenceContext(

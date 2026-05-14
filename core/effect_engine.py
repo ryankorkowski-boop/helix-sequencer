@@ -37,6 +37,7 @@ from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
 from core import scene_engine
 from core import spatial_choreography
+from core import signature_style as signature_style_engine
 from core import song_structure
 from core import band_sync as band_sync_engine
 from core import youtube_show_scorer
@@ -10679,6 +10680,17 @@ def run_variant(
         contrast_plan=contrast_plan,
         motif_report=motif_report,
     )
+    signature_style_payload = signature_style_engine.build_signature_style_plan(
+        scene_plan.scenes,
+        song_key=signature_style_engine.key_for_midi(getattr(harmonic, "base_midi", None)),
+        runtime_tuning={
+            "max_layers_per_prop": int(tuning.max_layers_per_prop),
+            "palette_mode": normalize_palette_mode(tuning.palette_mode),
+        },
+        workspace_history={"palette_pool": workspace_history.palette_pool},
+        genre_hint=str(getattr(multiband, "genre_hint", "unknown") or "unknown"),
+        mood_hint=str(getattr(multiband, "mood_hint", "neutral") or "neutral"),
+    ).to_dict()
     try:
         chronoflow_payload = chronoflow_engine.build_chronoflow_plan(
             audio_path=audio_path,
@@ -12498,6 +12510,7 @@ def run_variant(
             "scene_engine": scene_plan.to_dict(),
         },
         "spatial_choreography": spatial_choreography_payload,
+        "signature_style": signature_style_payload,
         "rhythm_intelligence": rhythm_intelligence_payload,
         "lyrics": {
             "count": len(lyric_events),
