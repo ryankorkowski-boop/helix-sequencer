@@ -6,6 +6,7 @@ import tempfile
 import unittest
 from dataclasses import replace
 from pathlib import Path
+from types import SimpleNamespace
 import xml.etree.ElementTree as ET
 
 import numpy as np
@@ -206,6 +207,50 @@ class EffectEngineTests(unittest.TestCase):
         self.assertEqual([entry[0] for entry in placements], ["n2", "n5"])
         self.assertTrue(all(entry[3] == "player_piano_notes" for entry in placements))
         self.assertEqual(keyboard_track[0][0], "player_piano:notes_1_16:phrase:C3+C5")
+
+    def test_player_piano_sequence_uses_energy_curve_for_note_density(self) -> None:
+        style = replace(effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION], polyphony=2)
+        pools = [
+            effect_engine.SequentialPool("notes_1_16", "notes", [f"n{i}" for i in range(1, 9)]),
+        ]
+        event = effect_engine.NoteEvent(
+            start_ms=1000,
+            end_ms=1180,
+            notes=[(48, 0.8), (60, 0.7), (72, 0.7)],
+            part="CHORUS",
+            section="chorus",
+        )
+
+        def run_with_energy(value: float) -> list[tuple[str, int, int, str]]:
+            placements: list[tuple[str, int, int, str]] = []
+
+            def add_model(model: str, start_ms: int, end_ms: int, label: str, **_kwargs) -> None:
+                placements.append((model, start_ms, end_ms, label))
+
+            effect_engine.place_player_piano_sequence(
+                style=style,
+                note_events=[event],
+                pools=pools,
+                kicks=[],
+                snares=[],
+                hats=[],
+                bass_peaks=[],
+                vocal_peaks=[],
+                keyboard_mix=1.0,
+                ramp_ok=False,
+                ramp_tpl=xsq_writer.EffectTemplate(settings="", palette=""),
+                add_model=add_model,
+                in_blackout=lambda _t: False,
+                keyboard_track=[],
+                energy_curve=SimpleNamespace(sample=lambda _t: value),
+            )
+            return placements
+
+        low_energy = run_with_energy(0.1)
+        high_energy = run_with_energy(0.9)
+
+        self.assertLess(len(low_energy), len(high_energy))
+        self.assertGreater(high_energy[-1][2] - high_energy[-1][1], low_energy[0][2] - low_energy[0][1])
 
     def test_place_player_piano_sequence_uses_helixualizer_support_spread_for_canes(self) -> None:
         style = replace(effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION], polyphony=1)

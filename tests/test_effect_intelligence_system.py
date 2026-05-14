@@ -178,6 +178,21 @@ class EffectIntelligenceSystemTests(unittest.TestCase):
         self.assertIn("layered_effect_count", context.scoring_feedback)
         self.assertIn("effect_layering_engine", context.debug)
 
+    def test_effect_layering_enforces_one_primary_focal_element(self) -> None:
+        candidates = [
+            {"model": "Main Matrix", "effect": "On", "start_ms": 0, "end_ms": 500, "layer": "accent", "intensity": 0.65, "source": "drums"},
+            {"model": "Main Matrix", "effect": "Shader", "start_ms": 100, "end_ms": 450, "layer": "focus", "intensity": 0.95, "source": "vocals"},
+            {"model": "Main Matrix", "effect": "Wave", "start_ms": 120, "end_ms": 520, "layer": "motion", "intensity": 0.7, "source": "motion"},
+            {"model": "Main Matrix", "effect": "Pictures", "start_ms": 0, "end_ms": 520, "layer": "base", "intensity": 0.5, "source": "ambience"},
+        ]
+
+        plan = effect_layering_engine.build_layering_plan(candidates, max_layers=4)
+        primary = [effect for effect in plan.layered_effects if effect.model == "Main Matrix" and effect.layer_role in {"focus", "accent"}]
+
+        self.assertEqual(len(primary), 1)
+        self.assertEqual(primary[0].effect, "Shader")
+        self.assertEqual(plan.debug_summary["hierarchy_promoted_count"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()

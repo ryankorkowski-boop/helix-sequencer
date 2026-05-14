@@ -21,10 +21,13 @@ from core.lazy_imports import LazyModule
 from core import audit as sequence_audit
 from core import audio_trigger_routes
 from core import audio_intelligence as ai
+from core import contrast_engine
 from core import chronoflow as chronoflow_engine
+from core import energy_model
 from core import helixualizer as helixualizer_engine
 from core import hardkor_engine
 from core import matrix_intelligence as matrix_planner
+from core import motif_fingerprinting
 from core import birdsong_engine
 from core import lyric_interpreter
 from core import model_parser as xmp
@@ -32,6 +35,7 @@ from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
+from core import song_structure
 from core import band_sync as band_sync_engine
 from core import youtube_show_scorer
 from effects import piano_effect as piano_effect_engine
@@ -1731,6 +1735,19 @@ def part_for_time(parts: list[SongPart], t_ms: int) -> str:
         if part.start_ms <= t_ms < part.end_ms:
             return part.label
     return parts[-1].label if parts else "VERSE"
+
+
+def _energy_curve_sample(curve: object | None, t_ms: int, default: float = 0.5) -> float:
+    if curve is None:
+        return default
+    try:
+        value = curve.sample(int(t_ms))  # type: ignore[attr-defined]
+    except Exception:
+        try:
+            value = curve.energy_between(int(t_ms), int(t_ms) + 1)  # type: ignore[attr-defined]
+        except Exception:
+            return default
+    return base.clamp(float(value), 0.0, 1.0)
 
 
 def choose_event_times(style: VariantStyle, beat_ms: list[int], onset_ms: list[int], note_onset_ms: list[int], bar_ms: list[int]) -> list[int]:
@@ -7465,6 +7482,7 @@ def place_player_piano_sequence(
     in_blackout,
     keyboard_track: list[tuple[str, int, int]],
     helixualizer_payload: dict[str, object] | None = None,
+    energy_curve: object | None = None,
 ) -> int:
     pool = choose_player_piano_pool(pools)
     if pool is None or not note_events:
@@ -7491,8 +7509,13 @@ def place_player_piano_sequence(
             vocal_peaks=vocal_peaks,
             default="phrase",
         )
+        event_energy = _energy_curve_sample(energy_curve, event.start_ms, default=0.5)
         sorted_notes = sorted(event.notes, key=lambda pair: pair[0])
         max_notes = max(1, min(len(sorted_notes), int(round(max(1.0, style.polyphony * max(0.50, mix))))))
+        if event_energy < 0.34:
+            max_notes = max(1, int(math.floor(max_notes * 0.70)))
+        elif event_energy >= 0.72:
+            max_notes = min(len(sorted_notes), max_notes + 1)
         max_notes = cue_target_count(
             max_notes,
             cue,
@@ -7529,6 +7552,7 @@ def place_player_piano_sequence(
                 part_label=event.part,
                 minimum_ms=60,
             )
+            dur = int(round(dur * (0.86 + (event_energy * 0.28))))
             if pool.category == "notes":
                 dur = max(55, int(round(dur * 0.92)))
             en = min(event.end_ms + 140, st + dur)
@@ -10458,6 +10482,22 @@ def run_variant(
         beat_ms=beat_ms,
         vocal_peaks=vocal_peaks,
     )
+    energy_curve = energy_model.build_energy_curve(
+        audio=audio,
+        beat_ms=beat_ms,
+        onset_ms=onset_ms,
+        multiband=multiband,
+        percussion_ms=sorted(set(kicks + snares + hats)),
+    )
+    song_structure_timeline = song_structure.detect_song_structure(
+        audio=audio,
+        beat_ms=beat_ms,
+        onset_ms=onset_ms,
+        multiband=multiband,
+        sections=sections,
+        energy_curve=energy_curve,
+    )
+    contrast_plan = contrast_engine.build_contrast_plan(song_structure_timeline.sections, energy_curve=energy_curve)
     audio_reactive_beat_timeline = build_audio_reactive_beat_timeline(
         audio=audio,
         beat_ms=beat_ms,
@@ -10630,6 +10670,7 @@ def run_variant(
         max(26, base.scaled_gap(24)),
     )
     keyboard_note_events = extract_polyphonic_events(audio, harmonic, keyboard_event_times, sections, parts, keyboard_style)
+    motif_report = motif_fingerprinting.build_motif_report(note_events, min_repeats=2)
     try:
         chronoflow_payload = chronoflow_engine.build_chronoflow_plan(
             audio_path=audio_path,
@@ -11748,6 +11789,7 @@ def run_variant(
             in_blackout=in_blackout,
             keyboard_track=keyboard_track,
             helixualizer_payload=(chronoflow_payload.get("helixualizer", {}) or {}),
+            energy_curve=energy_curve,
         )
         if player_piano_placed:
             log(f"Player piano sequence placed: {player_piano_placed} effects on {choose_player_piano_pool(pools).name}")
@@ -12434,6 +12476,12 @@ def run_variant(
             "effect_counts": audio_reactive_summary.get("effect_counts", {}),
             "routes": audio_reactive_summary.get("routes", []),
             "catalog": audio_reactive_summary.get("catalog", []),
+        },
+        "musical_intelligence": {
+            "energy_model": energy_curve.to_dict(),
+            "song_structure": song_structure_timeline.to_dict(),
+            "motif_fingerprinting": motif_report,
+            "contrast_engine": contrast_plan.to_dict(),
         },
         "rhythm_intelligence": rhythm_intelligence_payload,
         "lyrics": {
