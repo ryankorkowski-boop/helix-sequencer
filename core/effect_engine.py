@@ -2204,6 +2204,14 @@ def birdsong_v2_event_limit(*, base_mix: float, energy: float, intensity: float)
     return int(2 + dynamic_mix * 6)
 
 
+def birdsong_v2_should_enable(*, enabled: bool, auto: bool, confidence: float, min_confidence: float) -> bool:
+    if enabled:
+        return True
+    if not auto:
+        return False
+    return float(confidence) >= float(min_confidence)
+
+
 def _birdsong_v2_beat_grid(multiband: MultiBandAnalysis) -> object | None:
     try:
         tempo = float(getattr(multiband, "tempo_bpm", 0.0) or 0.0)
@@ -12307,9 +12315,11 @@ def run_variant(
                 f"{birdsong_result.reason} (confidence={birdsong_result.confidence:.2f}, "
                 f"threshold={tuning.birdsong_min_confidence:.2f})"
             )
-        birdsong_v2_enabled = bool(tuning.birdsong_enabled) or (
-            bool(tuning.birdsong_auto)
-            and float(birdsong_result.confidence) >= float(tuning.birdsong_min_confidence)
+        birdsong_v2_enabled = birdsong_v2_should_enable(
+            enabled=bool(tuning.birdsong_enabled),
+            auto=bool(tuning.birdsong_auto),
+            confidence=float(birdsong_result.confidence),
+            min_confidence=float(tuning.birdsong_min_confidence),
         )
         if birdsong_v2_enabled:
             try:

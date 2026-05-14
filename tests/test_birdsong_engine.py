@@ -107,6 +107,40 @@ class BirdsongEngineTests(unittest.TestCase):
             effect_engine.birdsong_v2_event_limit(base_mix=0.35, energy=0.1, intensity=0.5),
         )
 
+    def test_birdsong_v2_enable_guardrails_are_deterministic(self) -> None:
+        self.assertFalse(
+            effect_engine.birdsong_v2_should_enable(
+                enabled=False,
+                auto=False,
+                confidence=1.0,
+                min_confidence=0.45,
+            )
+        )
+        self.assertFalse(
+            effect_engine.birdsong_v2_should_enable(
+                enabled=False,
+                auto=True,
+                confidence=0.44,
+                min_confidence=0.45,
+            )
+        )
+        self.assertTrue(
+            effect_engine.birdsong_v2_should_enable(
+                enabled=False,
+                auto=True,
+                confidence=0.45,
+                min_confidence=0.45,
+            )
+        )
+        self.assertTrue(
+            effect_engine.birdsong_v2_should_enable(
+                enabled=True,
+                auto=False,
+                confidence=0.0,
+                min_confidence=1.0,
+            )
+        )
+
     def test_place_birdsong_v2_overlay_is_flag_gated(self) -> None:
         audio = SimpleNamespace(
             dur_s=2.0,
