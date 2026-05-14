@@ -75,7 +75,6 @@ class CinematicCue:
     motion: str
     palette: tuple[str, ...]
     intensity: float
-    timing_offset_ms: int
     brightness_modulation: float
     decay_curve: str
     source: str
@@ -166,8 +165,8 @@ def _section_palette_by_scene(signature_style: Any) -> dict[str, Any]:
     return _by_scene(_as_dict_list(signature_style, "section_palettes"))
 
 
-def _humanization_by_scene(signature_style: Any) -> dict[str, Any]:
-    return _by_scene(_as_dict_list(signature_style, "humanization"))
+def _dynamics_by_scene(signature_style: Any) -> dict[str, Any]:
+    return _by_scene(_as_dict_list(signature_style, "section_dynamics"))
 
 
 def _dialogue_by_scene(spatial_choreography: Any) -> dict[str, Any]:
@@ -188,11 +187,10 @@ def _scene_palette(scene: Any, palette_item: Any | None) -> tuple[str, ...]:
     return tuple(color for color in colors if color)
 
 
-def _cue_window(scene: Any, humanization: Any | None) -> tuple[int, int, int]:
-    offset = int(_get(humanization, "timing_offset_ms", 0) or 0) if humanization is not None else 0
-    start = max(0, _start_ms(scene) + offset)
-    end = max(start + 1, _end_ms(scene) + offset)
-    return start, end, offset
+def _cue_window(scene: Any) -> tuple[int, int]:
+    start = _start_ms(scene)
+    end = max(start + 1, _end_ms(scene))
+    return start, end
 
 
 def _role_specs(scene: Any, dialogue: Any | None) -> list[tuple[str, str, str, str]]:
@@ -212,7 +210,7 @@ def _cue_intensity(
     scene: Any,
     role: str,
     dialogue: Any | None,
-    humanization: Any | None,
+    dynamics: Any | None,
     depth_layer: str,
     depth_scales: Mapping[str, float],
     motion_bias: float,
@@ -225,7 +223,7 @@ def _cue_intensity(
         "background": 0.34,
     }.get(role, 0.6)
     dialogue_intensity = _safe_float(_get(dialogue, "intensity", energy), energy) if dialogue is not None else energy
-    brightness = _safe_float(_get(humanization, "brightness_modulation", 0.0), 0.0) if humanization is not None else 0.0
+    brightness = _safe_float(_get(dynamics, "brightness_modulation", 0.0), 0.0) if dynamics is not None else 0.0
     depth_scale = _safe_float(depth_scales.get(depth_layer, 1.0), 1.0)
     raw = (0.18 + (energy * 0.36) + (dialogue_intensity * 0.28) + (motion_bias * 0.18)) * role_factor * depth_scale
     return round(_clamp01(raw + brightness), 4)
@@ -237,17 +235,17 @@ def _build_scene_cues(
     *,
     dialogue: Any | None,
     palette_item: Any | None,
-    humanization: Any | None,
+    dynamics: Any | None,
     family_depth: Mapping[str, str],
     depth_scales: Mapping[str, float],
     complexity_ceiling: int,
     motion_bias: float,
 ) -> list[CinematicCue]:
     scene_id = _scene_id(scene, index)
-    start, end, offset = _cue_window(scene, humanization)
+    start, end = _cue_window(scene)
     palette = _scene_palette(scene, palette_item)
-    brightness = _safe_float(_get(humanization, "brightness_modulation", 0.0), 0.0) if humanization is not None else 0.0
-    decay = str(_get(humanization, "decay_curve", "musical_ease_in_out") or "musical_ease_in_out") if humanization is not None else "musical_ease_in_out"
+    brightness = _safe_float(_get(dynamics, "brightness_modulation", 0.0), 0.0) if dynamics is not None else 0.0
+    decay = str(_get(dynamics, "decay_curve", "musical_ease_in_out") or "musical_ease_in_out") if dynamics is not None else "musical_ease_in_out"
     cues: list[CinematicCue] = []
     for role, family, motion, reason in _role_specs(scene, dialogue)[:complexity_ceiling]:
         depth = family_depth.get(family, "mid" if family != "environment" else "far")
@@ -267,12 +265,11 @@ def _build_scene_cues(
                     scene=scene,
                     role=role,
                     dialogue=dialogue,
-                    humanization=humanization,
+                    dynamics=dynamics,
                     depth_layer=depth,
                     depth_scales=depth_scales,
                     motion_bias=motion_bias,
                 ),
-                timing_offset_ms=offset,
                 brightness_modulation=round(_clamp01(brightness), 4),
                 decay_curve=decay,
                 source="scene_spatial_signature_merge",
@@ -310,7 +307,7 @@ def build_cinematic_plan(
     scenes, transitions = _scene_lookup(scene_plan)
     dialogue = _dialogue_by_scene(spatial_choreography)
     palettes = _section_palette_by_scene(signature_style)
-    humanization = _humanization_by_scene(signature_style)
+    dynamics = _dynamics_by_scene(signature_style)
     family_depth = _family_depth_map(spatial_choreography)
     depth_scales = _depth_scales(spatial_choreography)
     complexity_ceiling = _complexity_ceiling(signature_style)
@@ -325,7 +322,7 @@ def build_cinematic_plan(
                 idx,
                 dialogue=dialogue.get(scene_id),
                 palette_item=palettes.get(scene_id),
-                humanization=humanization.get(scene_id),
+                dynamics=dynamics.get(scene_id),
                 family_depth=family_depth,
                 depth_scales=depth_scales,
                 complexity_ceiling=complexity_ceiling,

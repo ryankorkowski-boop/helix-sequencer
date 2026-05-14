@@ -284,12 +284,12 @@ class EffectIntelligenceSystemTests(unittest.TestCase):
                     "treatment": "signature_bright",
                 }
             ],
-            "humanization": [
+            "section_dynamics": [
                 {
                     "scene_id": "scene_01_chorus",
-                    "timing_offset_ms": -9,
                     "brightness_modulation": 0.04,
                     "decay_curve": "fast_attack_controlled_release",
+                    "intent": "payoff clarity",
                 }
             ],
             "show_profile": {"complexity_ceiling": 3, "motion_intensity_bias": 0.82},
@@ -309,7 +309,7 @@ class EffectIntelligenceSystemTests(unittest.TestCase):
         self.assertEqual(plan.cues[0].depth_layer, "far")
         self.assertEqual(plan.cues[0].motion, "bloom")
         self.assertEqual(plan.cues[0].palette, ("#ffd166", "#06d6a0", "#ffffff"))
-        self.assertEqual(plan.cues[0].start_ms, 991)
+        self.assertEqual(plan.cues[0].start_ms, 1000)
         self.assertEqual(plan.cues[0].decay_curve, "fast_attack_controlled_release")
         self.assertEqual(len(plan.transitions), 1)
         self.assertGreater(plan.transitions[0].intensity, 0.5)
