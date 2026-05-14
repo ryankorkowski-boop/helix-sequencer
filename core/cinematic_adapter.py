@@ -128,7 +128,6 @@ def _candidate_for_cue(cue: Any, model: str) -> effect_layering_engine.EffectCan
             "depth_layer": str(_get(cue, "depth_layer", "") or ""),
             "motion": str(_get(cue, "motion", "") or ""),
             "palette": palette,
-            "timing_offset_ms": int(_get(cue, "timing_offset_ms", 0) or 0),
             "brightness_modulation": round(_clamp01(_safe_float(_get(cue, "brightness_modulation", 0.0), 0.0)), 4),
             "decay_curve": str(_get(cue, "decay_curve", "") or ""),
             "reason": str(_get(cue, "reason", "") or ""),
