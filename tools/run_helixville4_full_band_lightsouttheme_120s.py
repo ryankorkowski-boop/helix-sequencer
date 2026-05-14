@@ -122,6 +122,23 @@ def _variant_sequences(output_dir: Path, audio: Path, profile: str) -> list[str]
     return [str(path) for path in generated]
 
 
+def _friendly_variant_name(audio: Path, profile: str, index: int) -> str:
+    profile_token = profile.replace(".", "_").replace("-", "_")
+    return f"{audio.stem}_{profile_token}_variant_{index}.xsq"
+
+
+def _write_friendly_sequence_copies(output_dir: Path, audio: Path, profile: str) -> list[str]:
+    primary = output_dir / f"{audio.stem},{profile}.xsq"
+    originals = [primary]
+    originals.extend(sorted(output_dir.glob(f"{audio.stem},{profile}.alt*.xsq")))
+    copied: list[str] = []
+    for index, source in enumerate([path for path in originals if path.exists()], start=1):
+        target = output_dir / _friendly_variant_name(audio, profile, index)
+        shutil.copy2(source, target)
+        copied.append(str(target))
+    return copied
+
+
 def run_full_band_lightsouttheme_120s(
     *,
     output_dir: Path = DEFAULT_OUTPUT_DIR,
@@ -147,8 +164,10 @@ def run_full_band_lightsouttheme_120s(
         variants=variants,
     )
 
+    friendly_sequences: list[str] = []
     if not dry_run:
         _run(sequence_command)
+        friendly_sequences = _write_friendly_sequence_copies(output_dir, audio_120s, profile)
 
     payload: dict[str, object] = {
         "schema": "helixville4.full_band_lightsouttheme_120s.v1",
@@ -159,6 +178,7 @@ def run_full_band_lightsouttheme_120s(
         "profile": profile,
         "variant_count_requested": variants,
         "variant_sequences": _variant_sequences(output_dir, audio_120s, profile),
+        "xlights_friendly_variant_sequences": friendly_sequences,
         "approved_full_band_export": layout_payload.get("approved_full_band_export", {}),
         "band_xmodel_export": export_payload,
         "commands": {

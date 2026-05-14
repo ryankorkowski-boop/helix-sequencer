@@ -31,17 +31,22 @@ class Helixville4VisibleBandTests(unittest.TestCase):
             payload = upgrade_visible_band_models(layout_path)
             root = ET.parse(layout_path).getroot()
             drummer = root.find(".//model[@name='HX_SNOWMAN_DRUMMER_INSTRUMENT']")
+            bass = root.find(".//model[@name='HX_SNOWMAN_BASSIST_INSTRUMENT']")
             singer = root.find(".//model[@name='HX_SNOWMAN_SINGER_BODY']")
 
         self.assertEqual(payload["missing"], [])
         self.assertEqual(len(payload["upgraded"]), len(VISIBLE_BAND_MODELS))
         self.assertIsNotNone(drummer)
+        self.assertIsNotNone(bass)
         self.assertIsNotNone(singer)
         assert drummer is not None
+        assert bass is not None
         assert singer is not None
         self.assertEqual(drummer.attrib["HelixVisibleBandUpgrade"], "split_models_v1")
         self.assertEqual(drummer.attrib["parm1"], "90")
         self.assertEqual(drummer.attrib["parm2"], "72")
+        self.assertEqual(bass.attrib["parm1"], "62")
+        self.assertEqual(bass.attrib["parm2"], "78")
         self.assertGreater(int(singer.attrib["CustomHeight"]), 80)
         self.assertIn("HX_SNOWMAN_DRUMMER_KICK", {node.attrib["name"] for node in drummer.findall("subModel")})
         self.assertNotIn("OLD_PLACEHOLDER", {node.attrib["name"] for node in singer.findall("subModel")})

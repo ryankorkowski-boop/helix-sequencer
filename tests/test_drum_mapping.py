@@ -45,6 +45,7 @@ class DrumMappingTests(unittest.TestCase):
         self.assertEqual(motions[0]["hand"], "left")
         self.assertEqual(motions[1]["hand"], "both")
         self.assertLess(motions[0]["start_ms"], motions[0]["strike_ms"])
+        self.assertNotIn("humanized_offset_ms", motions[0])
 
     def test_effect_cues_expose_spatial_and_piano_hooks(self) -> None:
         cues = build_drum_effect_cues([_event(100, "kick")])

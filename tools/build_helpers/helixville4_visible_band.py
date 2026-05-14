@@ -235,13 +235,29 @@ def _instrument_points(role: str, width: int, height: int, submodel: str, count:
             return _line_points(width * 0.36, height * 0.12, width * 0.58, height * 0.36, count // 2) + _line_points(
                 width * 0.68, height * 0.12, width * 0.48, height * 0.36, count - (count // 2)
             )
-    if role in {"bass", "guitar"}:
+    if role == "bass":
+        if "BODY" in submodel:
+            return _ellipse_points(width * 0.45, height * 0.62, width * 0.18, height * 0.25, count)
+        if "NECK" in submodel:
+            return _line_points(width * 0.50, height * 0.10, width * 0.50, height * 0.58, count)
+        if "STRINGS" in submodel:
+            rows = 4
+            points: list[tuple[int, int]] = []
+            base = count // rows
+            for row in range(rows):
+                n = base + (1 if row < count % rows else 0)
+                x = width * (0.45 + row * 0.035)
+                points.extend(_line_points(x, height * 0.14, x, height * 0.84, n))
+            return points
+        if "PLUCK_ZONE" in submodel:
+            return _ellipse_points(width * 0.55, height * 0.56, width * 0.09, height * 0.08, count)
+    if role == "guitar":
         if "BODY" in submodel:
             return _ellipse_points(width * 0.36, height * 0.66, width * 0.20, height * 0.20, count)
         if "NECK" in submodel:
             return _line_points(width * 0.50, height * 0.48, width * 0.92, height * 0.16, count)
         if "STRINGS" in submodel:
-            rows = 4 if role == "bass" else 6
+            rows = 6
             points: list[tuple[int, int]] = []
             base = count // rows
             for row in range(rows):

@@ -508,6 +508,23 @@ class EffectEngineTests(unittest.TestCase):
         self.assertEqual(template.palette, "#ffd166,#06d6a0,#ffffff")
         self.assertEqual(template.settings, "")
 
+    def test_snowman_performance_targets_bind_split_band_rows(self) -> None:
+        bass_targets = effect_engine.snowman_performance_effect_targets(
+            {"performer": "bassist", "kind": "pluck", "submodel": "pluck_zone"}
+        )
+        drum_targets = effect_engine.snowman_performance_effect_targets(
+            {"performer": "drummer", "kind": "snare", "submodel": "snare"}
+        )
+
+        self.assertIn(
+            ("HX_SNOWMAN_BASSIST_INSTRUMENT/HX_SNOWMAN_BASSIST_PLUCK_ZONE", "On", "snowman_bassist_pluck", "bass"),
+            bass_targets,
+        )
+        self.assertIn(
+            ("HX_SNOWMAN_DRUMMER_INSTRUMENT/HX_SNOWMAN_DRUMMER_SNARE", "On", "snowman_drummer_snare", "drums"),
+            drum_targets,
+        )
+
     def test_spatial_route_order_style_prefers_directional_styles_only_when_awareness_is_high(self) -> None:
         self.assertEqual(effect_engine.spatial_route_order_style("top_to_bottom", 0.75), "top_to_bottom")
         self.assertEqual(effect_engine.spatial_route_order_style("wave", 0.75), "left_to_right")

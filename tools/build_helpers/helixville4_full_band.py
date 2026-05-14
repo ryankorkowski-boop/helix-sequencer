@@ -275,11 +275,18 @@ def _custom_model(spec: PerformerSpec) -> str:
             ellipse(cx + (24 if "RIGHT" in n else -24), spec.height * (0.33 if "RIGHT" in n else 0.58), 5, 4, part.count)
         elif n == "PLATFORM":
             line(5, spec.height - 5, spec.width - 5, spec.height - 5, part.count)
+        elif "STRING" in n and spec.model_name == "HX_SNOWMAN_BASSIST":
+            string_index = sum(1 for prior in spec.parts[:index] if "STRING" in prior.name)
+            line(cx + 10 + string_index * 2, spec.height * 0.12, cx + 10 + string_index * 2, spec.height * 0.86, part.count)
         elif "STRING" in n:
             string_index = sum(1 for prior in spec.parts[:index] if "STRING" in prior.name)
             line(cx + 10 + string_index * 2, spec.height * 0.25, cx + 10 + string_index * 2, spec.height * 0.80, part.count)
-        elif any(token in n for token in ("BASS_BODY", "GUITAR_BODY", "BODY_RESONANCE", "VOCAL_GLOW", "STAGE_GLOW")):
+        elif "BASS_BODY" in n and spec.model_name == "HX_SNOWMAN_BASSIST":
+            ellipse(cx + 13, spec.height * 0.63, spec.width * 0.17, spec.height * 0.25, part.count)
+        elif any(token in n for token in ("GUITAR_BODY", "BODY_RESONANCE", "VOCAL_GLOW", "STAGE_GLOW")):
             ellipse(cx + 16, spec.height * 0.57, spec.width * 0.16, spec.height * 0.16, part.count)
+        elif "NECK" in n and spec.model_name == "HX_SNOWMAN_BASSIST":
+            line(cx + 13, spec.height * 0.10, cx + 13, spec.height * 0.58, part.count)
         elif any(token in n for token in ("NECK", "FRETBOARD", "FINGERBOARD")):
             line(cx + 18, spec.height * 0.22, cx + 4, spec.height * 0.74, part.count)
         elif any(token in n for token in ("MIC_STAND", "STANDS")):

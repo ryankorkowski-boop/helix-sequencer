@@ -48,6 +48,8 @@ class StringInstrumentRealismTests(unittest.TestCase):
         self.assertEqual(guitar_cues[0]["submodel"], "strum_zone")
         self.assertEqual(bass_cues[0]["submodel"], "pluck_zone")
         self.assertGreater(guitar_cues[0]["expression"]["brightness"], bass_cues[0]["expression"]["brightness"])
+        self.assertNotIn("humanized_offset_ms", guitar_cues[0]["motion"])
+        self.assertNotIn("humanized_offset_ms", bass_cues[0]["motion"])
 
     def test_fallback_logic_never_fails_silently(self) -> None:
         guitar_events, guitar_debug = instrument_detection.derive_guitar_events([], beat_ms=[0, 500, 1000])
