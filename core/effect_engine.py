@@ -9047,6 +9047,27 @@ def stem_to_choreo_layer(stem: str, label: str) -> str:
     return "motion"
 
 
+def cinematic_layer_role_to_stem(layer_role: str) -> str:
+    role = (layer_role or "").strip().lower()
+    if role in {"focus", "primary", "accent", "focal"}:
+        return "vocals"
+    if role in {"base", "background", "support", "texture"}:
+        return "bass"
+    if role in {"motion", "chase", "sweep"}:
+        return "drums"
+    return "other"
+
+
+def cinematic_palette_template(parameters: Mapping[str, object] | None) -> base.EffectTemplate | None:
+    if not parameters:
+        return None
+    raw = parameters.get("palette", [])
+    colors = [str(item).strip() for item in (raw if isinstance(raw, list) else []) if str(item).strip()]
+    if not colors:
+        return None
+    return base.EffectTemplate(settings="", palette=",".join(colors[:6]))
+
+
 def effect_family_key(effect_name: str) -> str:
     norm = (effect_name or "").strip().lower()
     if "spiral" in norm:
@@ -11064,6 +11085,7 @@ def run_variant(
     pixel_track: list[tuple[str, int, int]] = []
     audio_reactive_track: list[tuple[str, int, int]] = []
     multiband_track: list[tuple[str, int, int]] = []
+    cinematic_track: list[tuple[str, int, int]] = []
     hardkor_track: list[tuple[str, int, int]] = []
     birdsong_track: list[tuple[str, int, int]] = []
     part_track: list[tuple[str, int, int]] = [(part.label, part.start_ms, part.end_ms) for part in parts]
@@ -12110,6 +12132,36 @@ def run_variant(
             log(f"Neighbor showcase placements added: {neighbor_attempts}")
 
     if not hardkor_mode:
+        cinematic_effects = ((cinematic_layering_payload.get("layering_plan", {}) or {}).get("layered_effects", []) or [])
+        cinematic_placed = 0
+        for item in cinematic_effects[:260]:
+            model = str(item.get("model", "") or "")
+            if model not in layers:
+                continue
+            st = max(0, int(item.get("start_ms", 0) or 0))
+            en = max(st + max(1, int(tuning.min_effect_ms)), int(item.get("end_ms", st + 1) or (st + 1)))
+            if in_blackout(st):
+                continue
+            layer_role = str(item.get("layer_role", "motion") or "motion")
+            parameters = dict(item.get("parameters", {}) or {})
+            label = f"cinematic_{layer_role}"
+            before_total = total
+            add_model(
+                model,
+                st,
+                en,
+                label,
+                eff=str(item.get("effect", "On") or "On"),
+                tpl=cinematic_palette_template(parameters),
+                stem=cinematic_layer_role_to_stem(layer_role),
+            )
+            if total > before_total:
+                cinematic_placed += 1
+                cinematic_track.append((str(parameters.get("cue_id", label) or label), st, en))
+        if cinematic_placed:
+            log(f"Cinematic planner effects placed: {cinematic_placed}")
+
+    if not hardkor_mode:
         birdsong_result = birdsong_engine.place_birdsong_engine(
             audio=audio,
             note_events=note_events,
@@ -12308,6 +12360,8 @@ def run_variant(
         base.write_timing_track(xsq.root, f"AUTO Audio Reactive {style.version}", audio_reactive_track[:2000], active=False)
     if multiband_track:
         base.write_timing_track(xsq.root, f"AUTO MultiBand {style.version}", multiband_track[:2400], active=False)
+    if cinematic_track:
+        base.write_timing_track(xsq.root, f"AUTO Cinematic {style.version}", cinematic_track[:2000], active=False)
     if hardkor_track:
         base.write_timing_track(xsq.root, f"AUTO hardKor {style.version}", hardkor_track[:2400], active=False)
     if chronoflow_track:

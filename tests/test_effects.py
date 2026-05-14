@@ -497,6 +497,17 @@ class EffectEngineTests(unittest.TestCase):
         hat_scale = effect_engine.cue_duration_scale("hat", placement_mode="player_piano", part_label="CHORUS")
         self.assertGreater(build_scale, hat_scale)
 
+    def test_cinematic_helpers_map_roles_and_expression_palette(self) -> None:
+        self.assertEqual(effect_engine.cinematic_layer_role_to_stem("focus"), "vocals")
+        self.assertEqual(effect_engine.cinematic_layer_role_to_stem("motion"), "drums")
+        self.assertEqual(effect_engine.cinematic_layer_role_to_stem("support"), "bass")
+
+        template = effect_engine.cinematic_palette_template({"palette": ["#ffd166", "#06d6a0", "#ffffff"]})
+
+        self.assertIsNotNone(template)
+        self.assertEqual(template.palette, "#ffd166,#06d6a0,#ffffff")
+        self.assertEqual(template.settings, "")
+
     def test_spatial_route_order_style_prefers_directional_styles_only_when_awareness_is_high(self) -> None:
         self.assertEqual(effect_engine.spatial_route_order_style("top_to_bottom", 0.75), "top_to_bottom")
         self.assertEqual(effect_engine.spatial_route_order_style("wave", 0.75), "left_to_right")
