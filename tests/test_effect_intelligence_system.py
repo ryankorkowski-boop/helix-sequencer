@@ -5,7 +5,7 @@ import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from core import effect_layering_engine, spatial_mapping_engine, spatial_scene, style_engine
+from core import effect_layering_engine, spatial_choreography, spatial_mapping_engine, spatial_scene, style_engine
 from core.sequence_context import SequenceContext
 
 
@@ -154,6 +154,50 @@ class EffectIntelligenceSystemTests(unittest.TestCase):
         self.assertEqual(len(plan.effects), 2)
         self.assertTrue(plan.fallback_logs)
         self.assertTrue(all(effect.model == "Only Matrix" for effect in plan.effects))
+
+    def test_spatial_choreography_builds_cross_prop_dialogue_and_depth_strategy(self) -> None:
+        scene = spatial_scene.load_scene(
+            self._write_layout(
+                [
+                    {"name": "Singer Face", "DisplayAs": "Custom", "WorldPosX": "0", "WorldPosY": "0", "CustomWidth": "8", "CustomHeight": "8", "StringType": "RGB Nodes"},
+                    {"name": "Floor Piano Notes", "DisplayAs": "Single Line", "WorldPosX": "40", "WorldPosY": "0", "X2": "120", "Y2": "0", "StringType": "RGB Nodes"},
+                    {"name": "Front Arches", "DisplayAs": "Arches", "WorldPosX": "80", "WorldPosY": "0", "X2": "80", "Y2": "0", "StringType": "RGB Nodes"},
+                    {"name": "Mega Tree", "DisplayAs": "Tree Flat", "WorldPosX": "160", "WorldPosY": "20", "X2": "0", "Y2": "90", "StringType": "RGB Nodes"},
+                    {"name": "Roofline", "DisplayAs": "Single Line", "WorldPosX": "0", "WorldPosY": "120", "X2": "220", "Y2": "0", "StringType": "RGB Nodes"},
+                ]
+            )
+        )
+        scenes = [
+            {"scene_id": "scene_01_verse", "section_label": "verse", "start_ms": 0, "end_ms": 1000, "energy": 0.42, "palette": {"name": "lantern_mix"}},
+            {"scene_id": "scene_02_buildup", "section_label": "buildup", "start_ms": 1000, "end_ms": 2200, "energy": 0.64, "palette": {"name": "aurora_mix"}},
+            {"scene_id": "scene_03_drop", "section_label": "drop", "start_ms": 2200, "end_ms": 3200, "energy": 0.92, "palette": {"name": "golden_impact"}},
+        ]
+        band_sync_payload = {
+            "performer_focus": [
+                {"start_ms": 0, "end_ms": 1000, "primary_focus": "singer"},
+                {"start_ms": 1000, "end_ms": 2200, "primary_focus": "environment"},
+                {"start_ms": 2200, "end_ms": 3200, "primary_focus": "drummer"},
+            ]
+        }
+
+        plan = spatial_choreography.build_spatial_choreography_plan(
+            scenes,
+            layout=scene,
+            band_sync_payload=band_sync_payload,
+        )
+        payload = plan.to_dict()
+        families = {family.name: family for family in plan.prop_families}
+
+        self.assertEqual(payload["schema"], "helix.spatial_choreography.v1")
+        self.assertTrue(all(families[name].available for name in spatial_choreography.PROP_FAMILIES))
+        self.assertEqual(len(plan.dialogue_cues), 3)
+        self.assertEqual(plan.dialogue_cues[0].source_family, "band")
+        self.assertEqual(plan.dialogue_cues[1].target_family, "arches")
+        self.assertEqual(plan.dialogue_cues[2].target_family, "megatree")
+        self.assertIn("near", plan.dialogue_cues[2].depth_path)
+        self.assertIn("far", plan.dialogue_cues[2].depth_path)
+        self.assertIn("impact", {entry.name for entry in plan.motion_grammar})
+        self.assertIn("megatree", payload["depth_strategy"]["far"])
 
     def test_effect_layering_composes_overflow_and_updates_scoring_feedback(self) -> None:
         context = SequenceContext(
