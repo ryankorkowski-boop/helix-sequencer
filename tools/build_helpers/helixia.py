@@ -69,6 +69,142 @@ FAMILY_BY_MODEL_TYPE: dict[str, str] = {
     "custom": "custom_props",
 }
 
+REPORT_FILENAME = "helixia_layout_intelligence.json"
+
+MODEL_TYPE_METADATA: dict[str, dict[str, Any]] = {
+    "arch": {
+        "prop_family": "travel_props",
+        "visual_role": "travel",
+        "ac_pixel_classification": "pixel",
+        "power_notes": "Medium-density pixels; favor chases and sweeps over sustained full-white holds.",
+        "safe_max_density": 0.72,
+        "default_color_behavior": "palette chase or section handoff colors",
+    },
+    "tree": {
+        "prop_family": "trees",
+        "visual_role": "hero",
+        "ac_pixel_classification": "pixel",
+        "power_notes": "High node count; reserve sustained dense looks for chorus or finale moments.",
+        "safe_max_density": 0.68,
+        "default_color_behavior": "section palette with controlled sparkle accents",
+    },
+    "matrix": {
+        "prop_family": "matrices",
+        "visual_role": "detail_surface",
+        "ac_pixel_classification": "pixel",
+        "power_notes": "Dense surface; avoid full-frame white and keep text/icon moments readable.",
+        "safe_max_density": 0.62,
+        "default_color_behavior": "high-contrast foreground over restrained background",
+    },
+    "line": {
+        "prop_family": "roofline_or_outline",
+        "visual_role": "structure",
+        "ac_pixel_classification": "pixel",
+        "power_notes": "Use as continuity structure; full coverage is acceptable at moderate brightness.",
+        "safe_max_density": 0.78,
+        "default_color_behavior": "stable section color with occasional outline pulses",
+    },
+    "candy_cane": {
+        "prop_family": "canes",
+        "visual_role": "rhythm",
+        "ac_pixel_classification": "pixel",
+        "power_notes": "Small props; safe for beat accents when flash density stays controlled.",
+        "safe_max_density": 0.7,
+        "default_color_behavior": "alternating palette accents",
+    },
+    "circle": {
+        "prop_family": "circles",
+        "visual_role": "accent",
+        "ac_pixel_classification": "pixel",
+        "power_notes": "Accent prop; avoid constant motion competing with hero surfaces.",
+        "safe_max_density": 0.6,
+        "default_color_behavior": "supporting accent color",
+    },
+    "sphere": {
+        "prop_family": "spheres",
+        "visual_role": "mood",
+        "ac_pixel_classification": "pixel",
+        "power_notes": "Mood prop; prefer soft fills and slow spatial changes.",
+        "safe_max_density": 0.58,
+        "default_color_behavior": "soft wash or depth cue colors",
+    },
+    "star": {
+        "prop_family": "stars",
+        "visual_role": "accent",
+        "ac_pixel_classification": "pixel",
+        "power_notes": "Bright focal accent; reserve full intensity for hits and reveals.",
+        "safe_max_density": 0.55,
+        "default_color_behavior": "warm highlight or section accent",
+    },
+    "spinner": {
+        "prop_family": "spinners",
+        "visual_role": "motion",
+        "ac_pixel_classification": "pixel",
+        "power_notes": "Motion-heavy prop; keep spin rates comfortable and avoid strobe-like changes.",
+        "safe_max_density": 0.64,
+        "default_color_behavior": "rotating palette accents",
+    },
+    "icicles": {
+        "prop_family": "icicles",
+        "visual_role": "texture",
+        "ac_pixel_classification": "pixel_or_ac_safe",
+        "power_notes": "Texture prop; use shimmer sparingly and avoid rapid all-on flicker.",
+        "safe_max_density": 0.66,
+        "default_color_behavior": "cool texture or restrained sparkle",
+    },
+    "window_frame": {
+        "prop_family": "windows",
+        "visual_role": "structure",
+        "ac_pixel_classification": "pixel_or_ac_safe",
+        "power_notes": "Structural frame; useful for low-frequency pulses and section identity.",
+        "safe_max_density": 0.72,
+        "default_color_behavior": "stable frame color with gentle pulses",
+    },
+    "dmx": {
+        "prop_family": "legacy_control",
+        "visual_role": "legacy_control",
+        "ac_pixel_classification": "ac_or_dmx",
+        "power_notes": "Legacy control surface; avoid micro-flicker and rapid intensity toggles.",
+        "safe_max_density": 0.45,
+        "default_color_behavior": "slow fades or held states",
+    },
+    "custom": {
+        "prop_family": "custom_props",
+        "visual_role": "performer_or_special",
+        "ac_pixel_classification": "pixel",
+        "power_notes": "Character or specialty prop; use short readable performance moments.",
+        "safe_max_density": 0.58,
+        "default_color_behavior": "character-specific accent palette",
+    },
+}
+
+PERFORMER_METADATA: dict[str, dict[str, Any]] = {
+    "snowman_band": {
+        "performer_role": "stage_band",
+        "visual_role": "performer",
+        "prop_family": "performer",
+        "members": ["lead_singer", "female_singer", "guitarist", "bass_player", "drummer"],
+        "power_notes": "Use featured entries and rests; avoid making the whole band full-bright continuously.",
+        "safe_max_density": 0.6,
+    },
+    "cactus": {
+        "performer_role": "comic_dj_host",
+        "visual_role": "performer",
+        "prop_family": "character_performer",
+        "members": ["dj_cactus"],
+        "power_notes": "Short expressive callouts; keep face and body readable.",
+        "safe_max_density": 0.55,
+    },
+    "tubeman": {
+        "performer_role": "kinetic_hype_character",
+        "visual_role": "performer",
+        "prop_family": "character_performer",
+        "members": ["inflatable_tube_man"],
+        "power_notes": "Motion cue prop; avoid continuous max-intensity waving.",
+        "safe_max_density": 0.52,
+    },
+}
+
 BAND_MODELS: dict[str, list[str]] = {
     "HX_SNOWMAN_SINGER": ["HX_SNOWMAN_SINGER_MOUTH_PHONEME"],
     "HX_SNOWMAN_SINGER_FEMALE": ["HX_SNOWMAN_SINGER_FEMALE_CALL_RESPONSE"],
@@ -91,11 +227,13 @@ def _count_xml(layout_path: Path) -> dict[str, int]:
 
 
 def _lot_meta(lot_id: str, model_types: list[str]) -> dict[str, Any]:
+    model_metadata = {model_type: dict(MODEL_TYPE_METADATA.get(model_type, {})) for model_type in model_types}
     return {
         "lot_id": lot_id,
         "model_types": list(model_types),
         "families": sorted({FAMILY_BY_MODEL_TYPE.get(t, "unknown") for t in model_types}),
         "roles": sorted({ROLE_BY_MODEL_TYPE.get(t, "support") for t in model_types}),
+        "model_type_metadata": model_metadata,
         "stage_zone": lot_id in {"snowman_band_stage", "dj_radio_booth"},
         "legacy_control_zone": lot_id in {"ac_all_white", "ac_rwg"},
     }
@@ -108,8 +246,10 @@ def _layout_intelligence(payload: dict[str, Any]) -> dict[str, Any]:
     coverage = payload.get("native_model_coverage", {}) or {}
     return {
         "schema": "helixia.layout_intelligence.v1",
+        "report_filename": REPORT_FILENAME,
         "role_by_model_type": dict(ROLE_BY_MODEL_TYPE),
         "family_by_model_type": dict(FAMILY_BY_MODEL_TYPE),
+        "model_type_metadata": deepcopy(MODEL_TYPE_METADATA),
         "house_lots": [
             _lot_meta(str(h.get("lot_id", "")), list(h.get("model_types", []) or []))
             | {
@@ -155,6 +295,7 @@ def _layout_intelligence(payload: dict[str, Any]) -> dict[str, Any]:
             ],
             "cactus_tubeman": ["HX_CACTUS_BODY", "HX_CACTUS_FACE", "HX_TUBEMAN_BODY", "HX_TUBEMAN_ARMS", "HX_DJ_BOOTH"],
         },
+        "performer_metadata": deepcopy(PERFORMER_METADATA),
         "required_groups": [
             "HELIXIA_ALL",
             "HELIXIA_HOUSES",
@@ -186,8 +327,12 @@ def _write_notes(out_dir: Path, use_specs: bool) -> None:
 def _add_band_specs(layout_path: Path) -> None:
     tree = ET.parse(layout_path)
     root = tree.getroot()
-    models_el = root.find("models") or ET.SubElement(root, "models")
-    groups_el = root.find("modelGroups") or ET.SubElement(root, "modelGroups")
+    models_el = root.find("models")
+    if models_el is None:
+        models_el = ET.SubElement(root, "models")
+    groups_el = root.find("modelGroups")
+    if groups_el is None:
+        groups_el = ET.SubElement(root, "modelGroups")
     start = 900000
     for idx, (model_name, submodels) in enumerate(BAND_MODELS.items()):
         model = ET.SubElement(
@@ -246,4 +391,5 @@ def build_helixia_layout(
 
     _write_notes(out_dir, bool(use_helixville4_band_model_specs))
     (out_dir / "helixia_manifest.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    (out_dir / REPORT_FILENAME).write_text(json.dumps(payload["layout_intelligence"], indent=2), encoding="utf-8")
     return payload

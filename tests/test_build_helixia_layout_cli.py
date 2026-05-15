@@ -33,6 +33,7 @@ class BuildHelixiaLayoutCliTests(unittest.TestCase):
             notes = (tmp_path / "HELIXIA_LAYOUT_NOTES.txt").read_text(encoding="utf-8")
             band_assets = tmp_path / "band_assets"
             svg_files = sorted(band_assets.glob("*.svg"))
+            band_assets_manifest_exists = (band_assets / "helixville4_band_assets_manifest.json").exists()
 
         self.assertEqual(code, 0)
         self.assertIn("band_specs=True", out.getvalue())
@@ -42,7 +43,7 @@ class BuildHelixiaLayoutCliTests(unittest.TestCase):
         self.assertIn("HX_SNOWMAN_SINGER/HX_SNOWMAN_SINGER_MOUTH_PHONEME", parsed.models)
         self.assertIn("HX_SNOWMAN_BAND", parsed.groups)
         self.assertEqual(len(svg_files), 5)
-        self.assertTrue((band_assets / "helixville4_band_assets_manifest.json").exists())
+        self.assertTrue(band_assets_manifest_exists)
         self.assertTrue(any("HX_SNOWMAN_DRUMMER" in path.name for path in svg_files))
 
 

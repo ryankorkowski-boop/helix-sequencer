@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import tempfile
 import unittest
+import json
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -21,13 +22,16 @@ class HelixiaLayoutTests(unittest.TestCase):
     def test_build_helixia_layout_writes_manifest(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             payload = build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            report_path = Path(tmp) / "helixia_layout_intelligence.json"
 
             self.assertEqual(payload["layout_name"], "Helixia (Helixville4)")
             self.assertEqual(len(payload["village_grid"]["houses"]), 12)
             self.assertTrue((Path(tmp) / "helixia_manifest.json").exists())
+            self.assertTrue(report_path.exists())
             self.assertTrue((Path(tmp) / "HELIXIA_LAYOUT_NOTES.txt").exists())
             self.assertTrue((Path(tmp) / "xlights_rgbeffects.xml").exists())
             self.assertGreater(payload["xlights_layout"]["model_count"], 0)
+            self.assertEqual(json.loads(report_path.read_text(encoding="utf-8")), payload["layout_intelligence"])
 
     def test_required_special_lots_exist(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -75,13 +79,35 @@ class HelixiaLayoutTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             payload = build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
             intelligence = payload["layout_intelligence"]
+            model_metadata = intelligence["model_type_metadata"]
+            performer_metadata = intelligence["performer_metadata"]
 
             self.assertEqual(intelligence["schema"], "helixia.layout_intelligence.v1")
+            self.assertEqual(intelligence["report_filename"], "helixia_layout_intelligence.json")
             self.assertTrue(intelligence["coverage_complete"])
             self.assertEqual(len(intelligence["house_lots"]), 12)
             self.assertIn("HELIXIA_STAGE", intelligence["required_groups"])
             self.assertIn("HX_LOT_SNOWMAN_BAND_STAGE", intelligence["required_groups"])
             self.assertIn("HX_LOT_DJ_RADIO_BOOTH", intelligence["required_groups"])
+            self.assertEqual(model_metadata["line"]["visual_role"], "structure")
+            self.assertEqual(model_metadata["line"]["prop_family"], "roofline_or_outline")
+            self.assertEqual(model_metadata["matrix"]["visual_role"], "detail_surface")
+            self.assertEqual(model_metadata["tree"]["visual_role"], "hero")
+            for model_type in ("line", "matrix", "tree", "custom", "dmx"):
+                self.assertIn("ac_pixel_classification", model_metadata[model_type])
+                self.assertIn("power_notes", model_metadata[model_type])
+                self.assertIn("safe_max_density", model_metadata[model_type])
+                self.assertIn("default_color_behavior", model_metadata[model_type])
+            self.assertEqual(performer_metadata["snowman_band"]["performer_role"], "stage_band")
+            self.assertEqual(performer_metadata["cactus"]["performer_role"], "comic_dj_host")
+            self.assertEqual(performer_metadata["tubeman"]["performer_role"], "kinetic_hype_character")
+            self.assertIn("lead_singer", performer_metadata["snowman_band"]["members"])
+            self.assertIn("dj_cactus", performer_metadata["cactus"]["members"])
+            self.assertIn("inflatable_tube_man", performer_metadata["tubeman"]["members"])
+            lot_by_id = {lot["lot_id"]: lot for lot in intelligence["special_lots"]}
+            self.assertTrue(lot_by_id["ac_all_white"]["legacy_control_zone"])
+            self.assertEqual(lot_by_id["ac_all_white"]["model_type_metadata"]["line"]["visual_role"], "structure")
+            self.assertEqual(lot_by_id["dj_radio_booth"]["model_type_metadata"]["custom"]["visual_role"], "performer_or_special")
 
     def test_build_helixia_layout_writes_parseable_xlights_xml(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

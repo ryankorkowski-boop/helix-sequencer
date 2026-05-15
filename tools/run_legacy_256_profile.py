@@ -11,6 +11,10 @@ from tools.run_sequence_with_quality_preset import build_command as build_qualit
 from tools.run_sequence_with_quality_preset import build_parser as build_quality_parser
 
 
+def _command_path(value: str | Path) -> str:
+    return str(Path(value)).replace("\\", "/")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run an existing-engine Legacy 256 Helix profile.")
     parser.add_argument("profile", choices=[item["name"] for item in list_legacy_256_profiles()])
@@ -40,13 +44,13 @@ def build_legacy_256_command(args: argparse.Namespace) -> list[str]:
         profile.base_profile,
         "--",
         "--template",
-        str(Path(args.template)),
+        _command_path(args.template),
         "--audio",
-        str(Path(args.audio)),
+        _command_path(args.audio),
         "--layout-file",
-        str(Path(args.layout_file)),
+        _command_path(args.layout_file),
         "--output-dir",
-        str(Path(output_dir)),
+        _command_path(output_dir),
         "--variants",
         str(variants),
         *profile.engine_flags,

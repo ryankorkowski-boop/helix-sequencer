@@ -122,10 +122,13 @@ def _score_coverage(motifs: Sequence[MotifView], findings: list[MotifFinding]) -
     for motif in motifs:
         if not motif.section_kind or motif.section_kind == "unknown":
             penalty += 0.06
+            findings.append(MotifFinding(code="motif_missing_section_kind", severity="warning", message="Motif is missing a usable section kind.", motif=motif.name, penalty=0.06))
         if motif.family == "unknown" and not motif.effect_family:
             penalty += 0.08
+            findings.append(MotifFinding(code="motif_missing_family", severity="warning", message="Motif is missing a usable family or effect family.", motif=motif.name, penalty=0.08))
         if not motif.primary_groups:
             penalty += 0.06
+            findings.append(MotifFinding(code="motif_missing_groups", severity="warning", message="Motif is missing primary target groups.", motif=motif.name, penalty=0.06))
     return round(max(0.0, 1.0 - min(1.0, penalty)), 4)
 
 
@@ -147,7 +150,10 @@ def _score_identity_reuse(motifs: Sequence[MotifView], findings: list[MotifFindi
         first = items[0]
         similarities = [_similarity(first, item) for item in items[1:]]
         scores.append(sum(similarities) / len(similarities) if similarities else 1.0)
-    return (round(sum(scores) / len(scores), 4), len(recurring))
+    score = round(sum(scores) / len(scores), 4)
+    if score < 0.45:
+        findings.append(MotifFinding(code="weak_motif_reuse", severity="warning", message="Repeated section kinds do not reuse enough visual identity.", penalty=0.12))
+    return (score, len(recurring))
 
 
 def _intensity_overlap(left: MotifView, right: MotifView) -> float:
@@ -169,7 +175,7 @@ def _score_variation(motifs: Sequence[MotifView], findings: list[MotifFinding]) 
             if near_copy:
                 pair_scores.append(0.4)
             else:
-                pair_scores.append(min(1.0, 1.0 - (0.55 * _similarity(left, right)) + (0.2 if right.variation and right.variation != left.variation else 0.0)))
+                pair_scores.append(min(1.0, 1.0 - (0.45 * _similarity(left, right)) + (0.2 if right.variation and right.variation != left.variation else 0.0)))
         raw_score = sum(pair_scores) / len(pair_scores) if pair_scores else 0.75
         scores.append(raw_score)
         if raw_score < 0.55:
@@ -181,7 +187,10 @@ def _score_overfragmentation(motifs: Sequence[MotifView], findings: list[MotifFi
     if not motifs:
         return 0.0
     ratio = len({motif.identity_key for motif in motifs}) / len(motifs)
-    return round(max(0.0, min(1.0, 1.15 - ratio)), 4)
+    score = round(max(0.0, min(1.0, 1.15 - ratio)), 4)
+    if score < 0.5 and len(motifs) >= 4:
+        findings.append(MotifFinding(code="motif_overfragmentation", severity="warning", message="Motifs are too fragmented to establish recurring visual identity.", penalty=0.12))
+    return score
 
 
 def score_motif_memory(raw_motifs: Iterable[Mapping[str, object] | MotifView]) -> MotifMemoryReport:
