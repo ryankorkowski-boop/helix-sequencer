@@ -21,7 +21,25 @@ main.py
 README.md
 requirements.txt
 AGENTS.md
+TASKS.md
+ROADMAP_BETA_TODO.md
 ```
+
+## Beta Readiness
+
+The current beta-readiness plan is tracked in:
+
+- `ROADMAP_BETA_TODO.md` — autonomous beta-version roadmap and task order.
+- `TASKS.md` — short entrypoint for humans and coding agents.
+- `docs/SUPPORT_MATRIX.md` — supported beta platforms, inputs, and boundaries.
+- `docs/BETA_POLICY.md` — data-use, learning, and asset-safety policy.
+
+Beta expectations:
+
+- Use copies of layouts, templates, and audio inputs.
+- Treat generated output as beta-quality until manually reviewed in xLights.
+- Do not commit private tester files, songs, layouts, templates, screenshots, or generated outputs unless explicitly approved.
+- The near-term goal is a safe, inspectable beta GUI path, not perfect production-quality auto-sequencing.
 
 ## Running The Builder
 
@@ -114,4 +132,4 @@ Outputs are written to `aaatest/`.
 
 ## Learning Policy
 
-Helix scoring memory is limited to Helix-generated sequence reports that carry the internal Dream Sequence Weaver watermark metadata. It does not learn from copyrighted songs, licensed vendor sequences, template files, imported third-party XSQs, or arbitrary user-provided sequence folders. Audio analysis may guide a one-time render, but persistent learning stores only Helix decisions, generated-score metrics, and generated sequence context.
+Helix scoring memory is limited to Helix-generated sequence reports that carry the internal Dream Sequence Weaver watermark metadata. It does not learn from copyrighted songs, licensed third-party sequences, template files, imported third-party XSQs, or arbitrary user-provided sequence folders. Audio analysis may guide a one-time render, but persistent learning stores only Helix decisions, generated-score metrics, and generated sequence context.
