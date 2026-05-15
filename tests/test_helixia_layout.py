@@ -3,6 +3,7 @@ from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
 from core import model_parser as xmp
 from helix_layout.layout_health import build_layout_health_report
@@ -96,6 +97,81 @@ class HelixiaLayoutTests(unittest.TestCase):
             self.assertIn("HELIXIA_STAGE", parsed.groups)
             self.assertIn("HELIXIA_HOUSES", parsed.groups)
             self.assertGreaterEqual(len(parsed.submodel_names()), 300)
+
+    def test_helixia_xlights_xml_covers_required_model_families(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            parsed = xmp.parse_layout(Path(tmp) / "xlights_rgbeffects.xml")
+            types = {model.type for model in parsed.models.values()}
+
+            for model_type in ("line", "matrix", "tree", "arch", "cane", "star", "spinner", "custom"):
+                self.assertIn(model_type, types)
+            self.assertIn("HX_FAMILY_MATRIX", parsed.groups)
+            self.assertIn("HX_FAMILY_CUSTOM", parsed.groups)
+
+    def test_helixia_xlights_xml_uses_xlights_model_type_tokens(self) -> None:
+        valid_display_as = {
+            "Arches",
+            "Candy Canes",
+            "Circle",
+            "Custom",
+            "DmxGeneral",
+            "Horiz Matrix",
+            "Icicles",
+            "Single Line",
+            "Sphere",
+            "Spinner",
+            "Star",
+            "Tree 360",
+            "Window Frame",
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            root = ET.parse(Path(tmp) / "xlights_rgbeffects.xml").getroot()
+            models = root.find("models")
+            self.assertIsNotNone(models)
+            display_values = {model.attrib.get("DisplayAs", "") for model in list(models)}
+
+            self.assertTrue(display_values.issubset(valid_display_as))
+            self.assertNotIn("Candy Cane", display_values)
+            self.assertNotIn("Matrix", display_values)
+            self.assertNotIn("DMX General", display_values)
+
+    def test_helixia_xlights_xml_attaches_models_to_default_preview(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            root = ET.parse(Path(tmp) / "xlights_rgbeffects.xml").getroot()
+            models = root.find("models")
+            groups = root.find("modelGroups")
+            view_objects = root.find("view_objects")
+            self.assertIsNotNone(models)
+            self.assertIsNotNone(groups)
+            self.assertIsNotNone(view_objects)
+
+            for model in list(models):
+                self.assertEqual(model.attrib.get("LayoutGroup"), "Default")
+                self.assertEqual(model.attrib.get("versionNumber"), "7")
+                self.assertEqual(model.attrib.get("Antialias"), "1")
+                self.assertIsNotNone(model.find("ControllerConnection"))
+
+            for group in list(groups):
+                self.assertEqual(group.attrib.get("LayoutGroup"), "Default")
+
+            self.assertIsNotNone(view_objects.find("view_object[@name='Gridlines']"))
+            self.assertIsNotNone(root.find("layoutGroups"))
+
+    def test_helixia_generated_layout_has_complex_prop_submodels(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            build_helixia_layout(Path(tmp), village_rows=3, village_cols=4)
+            layout_path = Path(tmp) / "xlights_rgbeffects.xml"
+            parsed = xmp.parse_layout(layout_path)
+            health = build_layout_health_report(layout_path).to_dict()
+
+            self.assertEqual(health["no_submodels_for_complex_props"], [])
+            self.assertIn("HX_HOUSE_1_2_MATRIX/TOP", parsed.models)
+            self.assertIn("HX_HOUSE_1_4_SPINNER/ARM_01", parsed.models)
+            self.assertIn("HX_FIB_FIB_TREE_CENTER/SPIRAL", parsed.models)
+            self.assertIn("HX_SNOWMAN_BAND_STAGE_CUSTOM/HEAD", parsed.models)
 
     def test_committed_helixia_artifacts_are_parser_valid(self) -> None:
         committed_xml = ROOT / "helixville4" / "xlights_rgbeffects.xml"

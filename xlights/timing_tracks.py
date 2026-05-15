@@ -4,6 +4,8 @@ import xml.etree.ElementTree as ET
 
 from xlights import xml_io
 
+HIDE_TIMINGS_VIEW_NAME = "hidetimings"
+
 
 def _legacy():
     from xlights import xsq_writer as legacy
@@ -58,9 +60,7 @@ def is_generated_or_placeholder_timing_track(name: str) -> bool:
 
 
 def timing_track_default_visible(track_name: str, active: bool) -> bool:
-    if active:
-        return True
-    return not is_generated_or_placeholder_timing_track(track_name)
+    return True
 
 
 def ensure_timing_display_entry(root: ET.Element, track_name: str, active: bool = False) -> ET.Element:

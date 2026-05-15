@@ -392,6 +392,18 @@ def _local_stem_separation(audio_path: Path, out_dir: Path, log_fn: Callable[[st
     return stems
 
 
+def _cached_local_stems(audio_path: Path, out_dir: Path) -> dict[str, Path] | None:
+    stems = {
+        "vocals": out_dir / f"{audio_path.stem}.vocals.wav",
+        "drums": out_dir / f"{audio_path.stem}.drums.wav",
+        "bass": out_dir / f"{audio_path.stem}.bass.wav",
+        "other": out_dir / f"{audio_path.stem}.other.wav",
+    }
+    if all(path.exists() and path.stat().st_size > 0 for path in stems.values()):
+        return stems
+    return None
+
+
 def _try_demucs_stem_separation(
     audio_path: Path,
     out_dir: Path,
@@ -845,6 +857,11 @@ def build_stem_analysis(
         stems = _try_moises_stem_separation(audio_path, stem_dir, api_key or "", log_fn)
         if stems:
             source = "moises"
+    if not stems:
+        stems = _cached_local_stems(audio_path, stem_dir)
+        if stems:
+            _log(log_fn, "Stem split: using cached local fallback stems.")
+            source = "local_cached"
     if not stems:
         stems = _try_demucs_stem_separation(audio_path, stem_dir, log_fn)
         if stems:
