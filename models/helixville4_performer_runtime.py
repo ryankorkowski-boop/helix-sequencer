@@ -3,7 +3,11 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Any
 
-from models.helixville4_vocal_phonemes import build_vocal_phoneme_catalog, validate_vocal_phoneme_catalog
+from models.helixville4_vocal_phonemes import (
+    PHONEME_NAMES,
+    build_vocal_phoneme_catalog,
+    validate_vocal_phoneme_catalog,
+)
 
 
 @dataclass(frozen=True)
@@ -60,14 +64,15 @@ GUITARIST_PARTS = (
     "STRING_B", "STRING_HIGH_E", "PICK_ZONE", "PICKUPS", "BRIDGE", "FRETBOARD_LOW", "FRETBOARD_MID",
     "FRETBOARD_HIGH", "BODY_RESONANCE",
 )
+PHONEME_MOUTH_PARTS = tuple(f"MOUTH_{phoneme}" for phoneme in PHONEME_NAMES)
 SINGER_PARTS = (
     "HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "PLATFORM",
-    "CARROT_NOSE", "HAT_HOLLY", "LEFT_HAND", "RIGHT_HAND_MIC", "MICROPHONE", "MIC_STAND", "MOUTH", "EYES",
+    "CARROT_NOSE", "HAT_HOLLY", "LEFT_HAND", "RIGHT_HAND_MIC", "MICROPHONE", "MIC_STAND", "MOUTH", *PHONEME_MOUTH_PARTS, "EYES",
     "EYEBROWS", "VOCAL_GLOW",
 )
 FEMALE_SINGER_PARTS = (
     "HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "PLATFORM",
-    "BOW", "EYES", "EYELASHES", "CARROT_NOSE", "MOUTH", "SCARF_TAIL_LEFT", "SCARF_TAIL_RIGHT", "LEFT_HAND",
+    "BOW", "EYES", "EYELASHES", "CARROT_NOSE", "MOUTH", *PHONEME_MOUTH_PARTS, "SCARF_TAIL_LEFT", "SCARF_TAIL_RIGHT", "LEFT_HAND",
     "RIGHT_HAND", "MICROPHONE", "MIC_STAND", "TORSO_UPPER", "TORSO_LOWER", "VOCAL_GLOW", "STAGE_GLOW",
 )
 
@@ -76,7 +81,7 @@ DRUMMER = PerformerRuntimeSpec(
     display_name="Mad Drummer Snowman",
     role="drums_transient_driver",
     model_name="HX_SNOWMAN_DRUMMER",
-    approved_state="approved_design_drummer_v1",
+    approved_state="approved_design_drummer_v2_stem_ready",
     visual_target="docs/HELIXVILLE4_DRUMMER_TARGET.md",
     submodels=_sm("HX_SNOWMAN_DRUMMER", *DRUMMER_PARTS),
     states=(
@@ -97,7 +102,7 @@ GUITARIST = PerformerRuntimeSpec(
     display_name="Rock Guitar Snowman",
     role="rhythm_guitar_midrange_motion",
     model_name="HX_SNOWMAN_GUITARIST",
-    approved_state="approved_design_guitarist_reactive_strings_v1",
+    approved_state="approved_design_guitarist_reactive_strings_v2_stem_ready",
     visual_target="docs/HELIXVILLE4_GUITARIST_REACTIVE_STRINGS.md",
     submodels=_sm("HX_SNOWMAN_GUITARIST", *GUITARIST_PARTS),
     states=(
@@ -116,7 +121,7 @@ BASSIST = PerformerRuntimeSpec(
     display_name="Bass Snowman",
     role="bass_groove_low_frequency_motion",
     model_name="HX_SNOWMAN_BASSIST",
-    approved_state="approved_design_bassist_reactive_strings_v1",
+    approved_state="approved_design_bassist_reactive_strings_v2_stem_ready",
     visual_target="docs/HELIXVILLE4_BASSIST_REACTIVE_STRINGS.md",
     submodels=_sm("HX_SNOWMAN_BASSIST", *BASSIST_PARTS),
     states=(
@@ -135,17 +140,17 @@ SINGER = PerformerRuntimeSpec(
     display_name="Lead Vocal Snowman",
     role="lead_vocal_focus",
     model_name="HX_SNOWMAN_SINGER",
-    approved_state="approved_design_singer_vocal_performance_v1",
+    approved_state="approved_design_singer_vocal_performance_v2_phoneme_ready",
     visual_target="docs/HELIXVILLE4_SINGER_VOCAL_PERFORMANCE.md",
     submodels=_sm("HX_SNOWMAN_SINGER", *SINGER_PARTS),
     states=(
         _state("HX_SNOWMAN_SINGER", "ready_idle", "Standing ready at the microphone.", ("TORSO", "MICROPHONE"), 0.25),
-        _state("HX_SNOWMAN_SINGER", "sing_start", "Leans in and opens mouth.", ("MOUTH", "MICROPHONE", "VOCAL_GLOW"), 0.75),
+        _state("HX_SNOWMAN_SINGER", "sing_start", "Leans in and opens mouth.", ("MOUTH_AH", "MICROPHONE", "VOCAL_GLOW"), 0.75),
         _state("HX_SNOWMAN_SINGER", "hand_raise", "Right hand lifts up.", ("RIGHT_ARM", "RIGHT_HAND_MIC", "VOCAL_GLOW"), 0.7),
-        _state("HX_SNOWMAN_SINGER", "emote_high", "Big vocal moment.", ("MOUTH", "EYEBROWS", "VOCAL_GLOW"), 1.0),
-        _state("HX_SNOWMAN_SINGER", "hit_hold", "Sustained note hold.", ("MOUTH", "VOCAL_GLOW", "MICROPHONE"), 1.0),
+        _state("HX_SNOWMAN_SINGER", "emote_high", "Big vocal moment.", ("MOUTH_AH", "EYEBROWS", "VOCAL_GLOW"), 1.0),
+        _state("HX_SNOWMAN_SINGER", "hit_hold", "Sustained note hold.", ("MOUTH_OH", "VOCAL_GLOW", "MICROPHONE"), 1.0),
     ),
-    audio_inputs=("vocal_onset", "vocal_energy", "pitch_confidence", "lyric_phrase", "section_intensity"),
+    audio_inputs=("vocal_onset", "vocal_energy", "pitch_confidence", "lyric_phrase", "section_intensity", "phoneme"),
     sequencing_groups=("HX_SNOWMAN_BAND", "HX_SNOWMAN_VOCALS"),
 )
 
@@ -154,18 +159,18 @@ FEMALE_SINGER = PerformerRuntimeSpec(
     display_name="Harmony Vocal Snowman",
     role="harmony_vocal_call_response",
     model_name="HX_SNOWMAN_SINGER_FEMALE",
-    approved_state="approved_design_female_singer_vocal_performance_v1",
+    approved_state="approved_design_female_singer_vocal_performance_v2_phoneme_ready",
     visual_target="docs/HELIXVILLE4_FEMALE_SINGER_VOCAL_PERFORMANCE.md",
     submodels=_sm("HX_SNOWMAN_SINGER_FEMALE", *FEMALE_SINGER_PARTS),
     states=(
         _state("HX_SNOWMAN_SINGER_FEMALE", "ready_idle", "Standing ready at the microphone.", ("TORSO", "MICROPHONE"), 0.25),
-        _state("HX_SNOWMAN_SINGER_FEMALE", "sing_start", "Leans in and opens mouth.", ("MOUTH", "MICROPHONE", "VOCAL_GLOW"), 0.75),
+        _state("HX_SNOWMAN_SINGER_FEMALE", "sing_start", "Leans in and opens mouth.", ("MOUTH_AH", "MICROPHONE", "VOCAL_GLOW"), 0.75),
         _state("HX_SNOWMAN_SINGER_FEMALE", "point_out", "Points to the audience.", ("RIGHT_ARM", "RIGHT_HAND", "STAGE_GLOW"), 0.8),
-        _state("HX_SNOWMAN_SINGER_FEMALE", "big_vocal", "Big mouth, big moment.", ("MOUTH", "VOCAL_GLOW", "STAGE_GLOW"), 1.0),
+        _state("HX_SNOWMAN_SINGER_FEMALE", "big_vocal", "Big mouth, big moment.", ("MOUTH_AH", "VOCAL_GLOW", "STAGE_GLOW"), 1.0),
         _state("HX_SNOWMAN_SINGER_FEMALE", "both_hands_up", "Crowd energy moment.", ("LEFT_ARM", "RIGHT_ARM", "LEFT_HAND", "RIGHT_HAND"), 0.95),
-        _state("HX_SNOWMAN_SINGER_FEMALE", "hit_hold", "Sustained harmony hold.", ("MOUTH", "VOCAL_GLOW", "MICROPHONE"), 1.0),
+        _state("HX_SNOWMAN_SINGER_FEMALE", "hit_hold", "Sustained harmony hold.", ("MOUTH_OH", "VOCAL_GLOW", "MICROPHONE"), 1.0),
     ),
-    audio_inputs=("harmony_onset", "vocal_energy", "call_response", "lyric_phrase", "section_intensity"),
+    audio_inputs=("harmony_onset", "vocal_energy", "call_response", "lyric_phrase", "section_intensity", "phoneme"),
     sequencing_groups=("HX_SNOWMAN_BAND", "HX_SNOWMAN_VOCALS"),
 )
 
@@ -174,9 +179,9 @@ HELIXVILLE4_PERFORMERS: tuple[PerformerRuntimeSpec, ...] = (DRUMMER, GUITARIST, 
 
 def build_performer_runtime_catalog() -> dict[str, Any]:
     return {
-        "schema": "helixville4.performer_runtime_catalog.v1",
+        "schema": "helixville4.performer_runtime_catalog.v2",
         "catalog_id": "HELIXVILLE4_SNOWMAN_BAND_RUNTIME",
-        "state": "approved_finished_band_members_v1",
+        "state": "approved_finished_band_members_v2_phoneme_stem_ready",
         "performer_count": len(HELIXVILLE4_PERFORMERS),
         "model_names": [p.model_name for p in HELIXVILLE4_PERFORMERS],
         "groups": sorted({g for p in HELIXVILLE4_PERFORMERS for g in p.sequencing_groups}),
@@ -206,4 +211,4 @@ def validate_performer_runtime_catalog() -> dict[str, Any]:
     )
     errors.extend(phoneme_validation["errors"])
 
-    return {"schema": "helixville4.performer_runtime_validation.v1", "valid": not errors, "error_count": len(errors), "errors": errors, "performer_count": len(HELIXVILLE4_PERFORMERS), "phoneme_count": phoneme_validation["phoneme_count"]}
+    return {"schema": "helixville4.performer_runtime_validation.v2", "valid": not errors, "error_count": len(errors), "errors": errors, "performer_count": len(HELIXVILLE4_PERFORMERS), "phoneme_count": phoneme_validation["phoneme_count"]}

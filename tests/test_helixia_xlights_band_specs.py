@@ -5,6 +5,8 @@ import unittest
 from pathlib import Path
 
 from core import model_parser as xmp
+from core.helixville4_band_stem_map import validate_stem_map_against_submodels
+from models.helixville4_vocal_phonemes import PHONEME_NAMES
 from tools.build_helpers.helixia import build_helixia_layout
 
 
@@ -33,19 +35,46 @@ class HelixiaXlightsBandSpecsTests(unittest.TestCase):
         ):
             self.assertIn(model, parsed.models)
 
-        for submodel in (
-            "HX_SNOWMAN_SINGER/HX_SNOWMAN_SINGER_MOUTH_PHONEME",
-            "HX_SNOWMAN_SINGER_FEMALE/HX_SNOWMAN_SINGER_FEMALE_CALL_RESPONSE",
-            "HX_SNOWMAN_GUITARIST/HX_SNOWMAN_GUITARIST_STRUM_ZONE",
+        for phoneme in PHONEME_NAMES:
+            self.assertIn(f"HX_SNOWMAN_SINGER/HX_SNOWMAN_SINGER_MOUTH_{phoneme}", parsed.models)
+            self.assertIn(f"HX_SNOWMAN_SINGER_FEMALE/HX_SNOWMAN_SINGER_FEMALE_MOUTH_{phoneme}", parsed.models)
+
+        required_submodels = (
+            "HX_SNOWMAN_GUITARIST/HX_SNOWMAN_GUITARIST_PICK_ZONE",
+            "HX_SNOWMAN_GUITARIST/HX_SNOWMAN_GUITARIST_STRING_HIGH_E",
             "HX_SNOWMAN_BASSIST/HX_SNOWMAN_BASSIST_PLUCK_ZONE",
+            "HX_SNOWMAN_BASSIST/HX_SNOWMAN_BASSIST_STRING_E",
+            "HX_SNOWMAN_DRUMMER/HX_SNOWMAN_DRUMMER_KICK",
             "HX_SNOWMAN_DRUMMER/HX_SNOWMAN_DRUMMER_SNARE",
-            "HX_SNOWMAN_DRUMMER/HX_SNOWMAN_DRUMMER_CYMBALS",
-        ):
+            "HX_SNOWMAN_DRUMMER/HX_SNOWMAN_DRUMMER_HI_HAT",
+            "HX_SNOWMAN_DRUMMER/HX_SNOWMAN_DRUMMER_CYMBAL_LEFT",
+            "HX_SNOWMAN_DRUMMER/HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",
+        )
+        for submodel in required_submodels:
             self.assertIn(submodel, parsed.models)
 
         self.assertIn("HX_SNOWMAN_BAND", parsed.groups)
         self.assertIn("HX_SNOWMAN_VOCALS", parsed.groups)
         self.assertIn("HX_SNOWMAN_INSTRUMENTS", parsed.groups)
+
+    def test_opt_in_band_model_specs_are_stem_map_compatible(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            build_helixia_layout(
+                Path(tmp),
+                village_rows=3,
+                village_cols=4,
+                use_helixville4_band_model_specs=True,
+            )
+            parsed = xmp.parse_layout(Path(tmp) / "xlights_rgbeffects.xml")
+
+        model_submodels: dict[str, set[str]] = {}
+        for name in parsed.models:
+            if "/" not in name:
+                continue
+            model, submodel = name.split("/", 1)
+            model_submodels.setdefault(model, set()).add(submodel)
+        validation = validate_stem_map_against_submodels(model_submodels)
+        self.assertTrue(validation["valid"], validation["errors"])
 
     def test_default_helixia_layout_keeps_existing_placeholder_band_path(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

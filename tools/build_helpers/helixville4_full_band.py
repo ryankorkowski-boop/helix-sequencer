@@ -5,6 +5,8 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
 
+from models.helixville4_vocal_phonemes import PHONEME_NAMES
+
 
 @dataclass(frozen=True)
 class PartSpec:
@@ -41,6 +43,11 @@ BASE_SNOWMAN_PARTS: tuple[PartSpec, ...] = (
     PartSpec("PLATFORM", "line", 28),
 )
 
+PHONEME_MOUTH_PARTS: tuple[PartSpec, ...] = tuple(
+    PartSpec(f"MOUTH_{phoneme}", "ellipse", 8 if phoneme in {"REST", "MBP", "FV", "L"} else 12)
+    for phoneme in PHONEME_NAMES
+)
+
 
 def _p(prefix: str, suffix: str) -> str:
     return f"{prefix}_{suffix}"
@@ -49,7 +56,7 @@ def _p(prefix: str, suffix: str) -> str:
 FULL_BAND_SPECS: tuple[PerformerSpec, ...] = (
     PerformerSpec(
         model_name="HX_SNOWMAN_DRUMMER",
-        state="approved_design_drummer_v1",
+        state="approved_design_drummer_v2_stem_ready",
         width=96,
         height=72,
         x=345.0,
@@ -77,7 +84,7 @@ FULL_BAND_SPECS: tuple[PerformerSpec, ...] = (
     ),
     PerformerSpec(
         model_name="HX_SNOWMAN_BASSIST",
-        state="approved_design_bassist_reactive_strings_v1",
+        state="approved_design_bassist_reactive_strings_v2_stem_ready",
         width=92,
         height=86,
         x=285.0,
@@ -107,7 +114,7 @@ FULL_BAND_SPECS: tuple[PerformerSpec, ...] = (
     ),
     PerformerSpec(
         model_name="HX_SNOWMAN_GUITARIST",
-        state="approved_design_guitarist_reactive_strings_v1",
+        state="approved_design_guitarist_reactive_strings_v2_stem_ready",
         width=88,
         height=78,
         x=315.0,
@@ -139,7 +146,7 @@ FULL_BAND_SPECS: tuple[PerformerSpec, ...] = (
     ),
     PerformerSpec(
         model_name="HX_SNOWMAN_SINGER",
-        state="approved_design_singer_vocal_performance_v1",
+        state="approved_design_singer_vocal_performance_v2_phoneme_ready",
         width=76,
         height=84,
         x=315.0,
@@ -147,7 +154,7 @@ FULL_BAND_SPECS: tuple[PerformerSpec, ...] = (
         z=12.0,
         start_channel=906000,
         visual_target="docs/HELIXVILLE4_SINGER_VOCAL_PERFORMANCE.md",
-        animation_states=("ready_idle", "sing_start", "hand_raise", "point_out", "emote_high", "heart_feel", "sway_groove", "hit_hold"),
+        animation_states=("ready_idle", "sing_start", "mouth_phoneme", "hand_raise", "point_out", "emote_high", "heart_feel", "sway_groove", "hit_hold"),
         parts=(
             *BASE_SNOWMAN_PARTS,
             PartSpec("CARROT_NOSE", "ellipse", 8),
@@ -157,6 +164,7 @@ FULL_BAND_SPECS: tuple[PerformerSpec, ...] = (
             PartSpec("MICROPHONE", "ellipse", 26),
             PartSpec("MIC_STAND", "line", 28),
             PartSpec("MOUTH", "ellipse", 16),
+            *PHONEME_MOUTH_PARTS,
             PartSpec("EYES", "ellipse", 12),
             PartSpec("EYEBROWS", "line", 8),
             PartSpec("VOCAL_GLOW", "ellipse", 34),
@@ -164,7 +172,7 @@ FULL_BAND_SPECS: tuple[PerformerSpec, ...] = (
     ),
     PerformerSpec(
         model_name="HX_SNOWMAN_SINGER_FEMALE",
-        state="approved_design_female_singer_vocal_performance_v1",
+        state="approved_design_female_singer_vocal_performance_v2_phoneme_ready",
         width=78,
         height=84,
         x=350.0,
@@ -172,7 +180,7 @@ FULL_BAND_SPECS: tuple[PerformerSpec, ...] = (
         z=12.0,
         start_channel=908000,
         visual_target="docs/HELIXVILLE4_FEMALE_SINGER_VOCAL_PERFORMANCE.md",
-        animation_states=("ready_idle", "sing_start", "hand_raise", "point_out", "emote_close", "heart_feel", "sway_groove", "big_vocal", "both_hands_up", "hit_hold"),
+        animation_states=("ready_idle", "sing_start", "mouth_phoneme", "hand_raise", "point_out", "emote_close", "heart_feel", "sway_groove", "big_vocal", "both_hands_up", "hit_hold"),
         parts=(
             *BASE_SNOWMAN_PARTS,
             PartSpec("BOW", "ellipse", 24),
@@ -180,6 +188,7 @@ FULL_BAND_SPECS: tuple[PerformerSpec, ...] = (
             PartSpec("EYELASHES", "line", 8),
             PartSpec("CARROT_NOSE", "ellipse", 8),
             PartSpec("MOUTH", "ellipse", 16),
+            *PHONEME_MOUTH_PARTS,
             PartSpec("SCARF_TAIL_LEFT", "line", 10),
             PartSpec("SCARF_TAIL_RIGHT", "line", 10),
             PartSpec("LEFT_HAND", "ellipse", 12),
@@ -244,6 +253,15 @@ def _custom_model(spec: PerformerSpec) -> str:
             cursor += 1
 
     cx = spec.width * 0.48
+    mouth_shape_offsets = {
+        "MOUTH_REST": (-4, 0, 4, 2),
+        "MOUTH_AH": (0, 0, 7, 6),
+        "MOUTH_EE": (0, -1, 10, 2),
+        "MOUTH_OH": (0, 0, 5, 6),
+        "MOUTH_MBP": (0, 1, 5, 1),
+        "MOUTH_FV": (0, 1, 7, 2),
+        "MOUTH_L": (0, 2, 6, 3),
+    }
     for index, part in enumerate(spec.parts):
         n = part.name
         if n == "HEAD":
@@ -286,12 +304,32 @@ def _custom_model(spec: PerformerSpec) -> str:
             line(cx + 22, spec.height * 0.30, cx + 22, spec.height * 0.82, part.count)
         elif n == "MICROPHONE":
             ellipse(cx + 22, spec.height * 0.29, 6, 8, part.count)
+        elif n in mouth_shape_offsets:
+            dx, dy, rx, ry = mouth_shape_offsets[n]
+            ellipse(cx + dx, spec.height * 0.29 + dy, rx, ry, part.count)
         elif any(token in n for token in ("KICK", "SNARE", "TOM", "CYMBAL", "HI_HAT", "BRIDGE", "PICK", "PICKUPS", "SCROLL", "MOUTH", "EYES", "EYEBROWS", "EYELASHES", "NOSE", "HOLLY")):
             offset = (sum(ord(ch) for ch in n) % 17) - 8
             ellipse(cx + offset, spec.height * (0.50 + ((sum(ord(ch) for ch in n) % 13) / 100)), 6 + (sum(ord(ch) for ch in n) % 7), 4 + (sum(ord(ch) for ch in n) % 5), part.count)
         else:
             ellipse(cx, spec.height * 0.50, 6, 6, part.count)
     return ";".join(",".join(row) for row in grid)
+
+
+def _remove_existing_model(root: ET.Element, model_name: str) -> None:
+    models_el = root.find("models")
+    if models_el is None:
+        return
+    for existing in list(models_el.findall("model")):
+        if existing.get("name") == model_name:
+            models_el.remove(existing)
+
+
+def _upsert_group(groups_el: ET.Element, name: str, models: str) -> None:
+    for existing in groups_el.findall("modelGroup"):
+        if existing.get("name") == name:
+            existing.set("models", models)
+            return
+    ET.SubElement(groups_el, "modelGroup", {"name": name, "models": models})
 
 
 def add_performer_model(models_el: ET.Element, spec: PerformerSpec) -> ET.Element:
@@ -312,6 +350,7 @@ def add_performer_model(models_el: ET.Element, spec: PerformerSpec) -> ET.Elemen
         "HelixImplementationState": spec.state,
         "HelixAnimationStates": ",".join(spec.animation_states),
         "HelixNodeCount": str(sum(part.count for part in spec.parts)),
+        "HelixStemReady": "true",
     })
     for name, start, end in _runs(spec.parts, spec.model_name):
         ET.SubElement(model, "subModel", {"name": name, "line0": f"{start}-{end}", "HelixPixelCount": str(end - start + 1)})
@@ -324,11 +363,12 @@ def add_full_helixville4_band_models(layout_path: Path) -> None:
     models_el = root.find("models") or ET.SubElement(root, "models")
     groups_el = root.find("modelGroups") or ET.SubElement(root, "modelGroups")
     for spec in FULL_BAND_SPECS:
+        _remove_existing_model(root, spec.model_name)
         add_performer_model(models_el, spec)
     members = ",".join(spec.model_name for spec in FULL_BAND_SPECS)
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_BAND", "models": members})
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_VOCALS", "models": "HX_SNOWMAN_SINGER,HX_SNOWMAN_SINGER_FEMALE"})
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_INSTRUMENTS", "models": "HX_SNOWMAN_GUITARIST,HX_SNOWMAN_BASSIST,HX_SNOWMAN_DRUMMER"})
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_DRUMS", "models": "HX_SNOWMAN_DRUMMER"})
-    ET.SubElement(groups_el, "modelGroup", {"name": "HX_SNOWMAN_STRINGS", "models": "HX_SNOWMAN_GUITARIST,HX_SNOWMAN_BASSIST"})
+    _upsert_group(groups_el, "HX_SNOWMAN_BAND", members)
+    _upsert_group(groups_el, "HX_SNOWMAN_VOCALS", "HX_SNOWMAN_SINGER,HX_SNOWMAN_SINGER_FEMALE")
+    _upsert_group(groups_el, "HX_SNOWMAN_INSTRUMENTS", "HX_SNOWMAN_GUITARIST,HX_SNOWMAN_BASSIST,HX_SNOWMAN_DRUMMER")
+    _upsert_group(groups_el, "HX_SNOWMAN_DRUMS", "HX_SNOWMAN_DRUMMER")
+    _upsert_group(groups_el, "HX_SNOWMAN_STRINGS", "HX_SNOWMAN_GUITARIST,HX_SNOWMAN_BASSIST")
     tree.write(layout_path, encoding="utf-8", xml_declaration=True)
