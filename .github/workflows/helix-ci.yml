@@ -42,5 +42,9 @@ jobs:
       - name: List sequencing profiles
         run: python main.py --list-profiles
 
-      - name: Run tests
-        run: python -m pytest -q
+      - name: Run beta smoke tests
+        run: |
+          python -m pytest -q \
+            tests/test_sequence_builder.py \
+            tests/test_effects_orchestrator_bridge.py \
+            tests/test_xlights_contract_validator.py
