@@ -7,7 +7,7 @@ from typing import Any, Mapping
 
 
 EXPECTED_SCHEMA = "helix.xlights_effect_contract.v1"
-SUPPORTED_EFFECT_NAMES = {"Color Wash", "On", "Bars"}
+SUPPORTED_EFFECT_NAMES = {"Color Wash", "On", "Bars", "Wave", "Faces", "Twinkle"}
 
 
 @dataclass(frozen=True)
@@ -29,6 +29,16 @@ def _as_float(value: object, default: float = 0.0) -> float:
         return float(value)
     except (TypeError, ValueError):
         return default
+
+
+def _validate_palette(idx: int, value: object, warnings: list[str]) -> None:
+    if value is None:
+        return
+    if not isinstance(value, list | tuple):
+        warnings.append(f"effect_placements[{idx}] palette should be a list when present.")
+        return
+    if len(value) < 2:
+        warnings.append(f"effect_placements[{idx}] palette has fewer than two colors.")
 
 
 def validate_xlights_effect_contract(payload: Mapping[str, Any]) -> XlightsContractValidationReport:
@@ -89,6 +99,7 @@ def validate_xlights_effect_contract(payload: Mapping[str, Any]) -> XlightsContr
             errors.append(f"effect_placements[{idx}] missing source_visual_intent_id.")
         if not item.get("source_effect_family"):
             errors.append(f"effect_placements[{idx}] missing source_effect_family.")
+        _validate_palette(idx, item.get("palette"), warnings)
 
     metrics = {
         "placement_count": len(placements),
