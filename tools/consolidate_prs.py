@@ -23,6 +23,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Optional, Tuple
 from datetime import datetime
+import os
 
 
 class MergeRisk(Enum):
@@ -161,7 +162,9 @@ class PRConsolidator:
         self.merged: List[int] = []
         self.failed: List[Tuple[int, str]] = []
         self.skipped: List[int] = []
-        self.log_file = f"test_runs/pr_consolidation_{datetime.now().isoformat()}.log"
+        os.makedirs("test_runs", exist_ok=True)
+        self.log_file = f"test_runs/pr_consolidation_{datetime.now().isoformat().replace(':', '-')}.log"
+        self.log_fp = open(self.log_file, "w")
 
     def get_merge_plan(self) -> List[int]:
         """Generate merge plan based on phases and dependencies.
@@ -206,7 +209,7 @@ class PRConsolidator:
         pr = self.PR_STRATEGY[pr_num]
         for dep in pr.depends_on:
             if dep not in self.merged:
-                self.log(f"  ⚠️  Dependency #{dep} not yet merged. Skipping ##{pr_num}.")
+                self.log(f"  ⚠️  Dependency #{dep} not yet merged. Skipping #{pr_num}.")
                 return False
         return True
 
@@ -315,6 +318,8 @@ class PRConsolidator:
         timestamp = datetime.now().isoformat()
         log_msg = f"[{timestamp}] {message}"
         print(log_msg)
+        self.log_fp.write(log_msg + "\n")
+        self.log_fp.flush()
 
     def consolidate(self, specific_pr: Optional[int] = None) -> int:
         """Execute consolidation plan.
@@ -325,53 +330,56 @@ class PRConsolidator:
         Returns:
             0 if successful, 1 otherwise.
         """
-        mode = "[DRY-RUN]" if self.dry_run else "[LIVE]"
-        self.log(f"\n{'='*70}")
-        self.log(f"{mode} PR CONSOLIDATION STARTED")
-        self.log(f"{'='*70}\n")
+        try:
+            mode = "[DRY-RUN]" if self.dry_run else "[LIVE]"
+            self.log(f"\n{'='*70}")
+            self.log(f"{mode} PR CONSOLIDATION STARTED")
+            self.log(f"{'='*70}\n")
 
-        # Generate merge plan
-        if specific_pr:
-            plan = [specific_pr]
-            self.log(f"Merging specific PR: #{specific_pr}\n")
-        else:
-            plan = self.get_merge_plan()
-            self.log(f"Consolidation Plan ({len(plan)} PRs):")
+            # Generate merge plan
+            if specific_pr:
+                plan = [specific_pr]
+                self.log(f"Merging specific PR: #{specific_pr}\n")
+            else:
+                plan = self.get_merge_plan()
+                self.log(f"Consolidation Plan ({len(plan)} PRs):")
+                for pr_num in plan:
+                    pr = self.PR_STRATEGY[pr_num]
+                    status = "(DRAFT)" if pr.draft else ""
+                    self.log(f"  #{pr_num}: {pr.title} {status}")
+                self.log()
+
+            # Execute merges
             for pr_num in plan:
+                self.log(f"\n📋 Processing PR #{pr_num}...")
                 pr = self.PR_STRATEGY[pr_num]
-                status = "(DRAFT)" if pr.draft else ""
-                self.log(f"  #{pr_num}: {pr.title} {status}")
-            self.log()
+                self.log(f"   Title: {pr.title}")
+                self.log(f"   Risk: {pr.risk_level.name}")
+                self.log(f"   Notes: {pr.notes}")
 
-        # Execute merges
-        for pr_num in plan:
-            self.log(f"\n📋 Processing PR #{pr_num}...")
-            pr = self.PR_STRATEGY[pr_num]
-            self.log(f"   Title: {pr.title}")
-            self.log(f"   Risk: {pr.risk_level.name}")
-            self.log(f"   Notes: {pr.notes}")
+                self.merge_pr(pr_num)
 
-            self.merge_pr(pr_num)
+            # Print summary
+            self.log(f"\n{'='*70}")
+            self.log(f"{mode} CONSOLIDATION COMPLETE")
+            self.log(f"{'='*70}")
+            self.log(f"\n📊 Summary:")
+            self.log(f"  ✅ Merged: {len(self.merged)} PRs")
+            if self.merged:
+                self.log(f"     {', '.join(f'#{p}' for p in self.merged)}")
+            self.log(f"  ⏭️  Skipped: {len(self.skipped)} PRs")
+            if self.skipped:
+                self.log(f"     {', '.join(f'#{p}' for p in self.skipped)}")
+            self.log(f"  ❌ Failed: {len(self.failed)} PRs")
+            if self.failed:
+                for pr_num, reason in self.failed:
+                    self.log(f"     #{pr_num}: {reason}")
 
-        # Print summary
-        self.log(f"\n{'='*70}")
-        self.log(f"{mode} CONSOLIDATION COMPLETE")
-        self.log(f"{'='*70}")
-        self.log(f"\n📊 Summary:")
-        self.log(f"  ✅ Merged: {len(self.merged)} PRs")
-        if self.merged:
-            self.log(f"     {', '.join(f'#{p}' for p in self.merged)}")
-        self.log(f"  ⏭️  Skipped: {len(self.skipped)} PRs")
-        if self.skipped:
-            self.log(f"     {', '.join(f'#{p}' for p in self.skipped)}")
-        self.log(f"  ❌ Failed: {len(self.failed)} PRs")
-        if self.failed:
-            for pr_num, reason in self.failed:
-                self.log(f"     #{pr_num}: {reason}")
+            self.log(f"\n📝 Log saved to: {self.log_file}\n")
 
-        self.log(f"\n📝 Log saved to: {self.log_file}\n")
-
-        return 0 if not self.failed else 1
+            return 0 if not self.failed else 1
+        finally:
+            self.log_fp.close()
 
 
 def main():

@@ -1,1 +1,1 @@
-"""Tools package for helix-sequencer automation."""
+"""Tools package for helix-sequencer."""
