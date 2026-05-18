@@ -5,7 +5,7 @@ import shutil
 import xml.etree.ElementTree as ET
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Mapping
 
 from helix_intent.xlights_contract_validator import validate_xlights_effect_contract_file
 
@@ -32,7 +32,7 @@ class XsqTemplateWriteReport:
 
 def _placement_palette(placement: Mapping[str, Any]) -> tuple[str, str, str]:
     raw = placement.get("palette")
-    if isinstance(raw, Sequence) and not isinstance(raw, str):
+    if isinstance(raw, (list, tuple)):
         colors = [str(item).strip() for item in raw if str(item).strip()]
         if colors:
             return tuple((colors + list(DEFAULT_PALETTE))[:3])  # type: ignore[return-value]
