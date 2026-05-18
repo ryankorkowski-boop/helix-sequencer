@@ -22,6 +22,7 @@ from core import audit as sequence_audit
 from core import audio_trigger_routes
 from core import audio_intelligence as ai
 from core import contrast_engine
+from core import cinematic_planner
 from core import chronoflow as chronoflow_engine
 from core import energy_model
 from core import helixualizer as helixualizer_engine
@@ -10741,6 +10742,11 @@ def run_variant(
         layout=parsed_layout,
         band_sync_payload=band_sync_payload,
     ).to_dict()
+    cinematic_plan_payload = cinematic_planner.build_cinematic_plan(
+        scene_plan,
+        spatial_choreography=spatial_choreography_payload,
+        signature_style=signature_style_payload,
+    ).to_dict()
     try:
         snowman_band_payload = snowman_band_engine.build_snowman_band_plan(
             parsed_layout=parsed_layout,
@@ -12511,6 +12517,7 @@ def run_variant(
         },
         "spatial_choreography": spatial_choreography_payload,
         "signature_style": signature_style_payload,
+        "cinematic_planner": cinematic_plan_payload,
         "rhythm_intelligence": rhythm_intelligence_payload,
         "lyrics": {
             "count": len(lyric_events),
