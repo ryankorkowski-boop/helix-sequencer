@@ -34,7 +34,7 @@ def _as_float(value: object, default: float = 0.0) -> float:
 def _validate_palette(idx: int, value: object, warnings: list[str]) -> None:
     if value is None:
         return
-    if not isinstance(value, list | tuple):
+    if not isinstance(value, (list, tuple)):
         warnings.append(f"effect_placements[{idx}] palette should be a list when present.")
         return
     if len(value) < 2:
