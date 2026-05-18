@@ -15,6 +15,14 @@ LAYER_ROLE_PRIORITY = {
 }
 
 
+HIERARCHY_SLOT_CAPS = {
+    "background": 1,
+    "support": 1,
+    "motion": 1,
+    "primary": 1,
+}
+
+
 @dataclass(frozen=True)
 class EffectCandidate:
     model: str
@@ -88,6 +96,17 @@ class LayeringPlan:
         }
 
 
+def hierarchy_slot_for_layer(layer: str) -> str:
+    role = str(layer or "").lower()
+    if role in {"focus", "accent", "primary", "focal"}:
+        return "primary"
+    if role in {"texture", "support", "mid"}:
+        return "support"
+    if role in {"motion", "chase", "sweep"}:
+        return "motion"
+    return "background"
+
+
 def _candidate_from(value: Any) -> EffectCandidate:
     if isinstance(value, EffectCandidate):
         return value
@@ -106,6 +125,55 @@ def _candidate_from(value: Any) -> EffectCandidate:
             parameters=dict(value.get("parameters", {}) or {}),
         )
     raise TypeError(f"Unsupported effect candidate: {value!r}")
+
+
+def govern_visual_hierarchy(candidates: Iterable[EffectCandidate], context: SequenceContext | None = None) -> tuple[list[EffectCandidate], list[dict[str, Any]]]:
+    ordered = sorted(
+        list(candidates),
+        key=lambda item: (item.model.lower(), item.start_ms, -item.normalized_priority(context), -item.intensity, item.effect),
+    )
+    accepted: list[EffectCandidate] = []
+    logs: list[dict[str, Any]] = []
+    for candidate in ordered:
+        slot = hierarchy_slot_for_layer(candidate.layer)
+        overlapping = [
+            item
+            for item in accepted
+            if item.model == candidate.model
+            and item.start_ms < candidate.end_ms
+            and candidate.start_ms < item.end_ms
+            and hierarchy_slot_for_layer(item.layer) == slot
+        ]
+        cap = HIERARCHY_SLOT_CAPS.get(slot, 1)
+        if len(overlapping) < cap:
+            accepted.append(candidate)
+            continue
+        weakest = min(overlapping, key=lambda item: (item.normalized_priority(context), item.intensity, item.effect))
+        candidate_rank = (candidate.normalized_priority(context), candidate.intensity, candidate.effect)
+        weakest_rank = (weakest.normalized_priority(context), weakest.intensity, weakest.effect)
+        if candidate_rank > weakest_rank:
+            accepted[accepted.index(weakest)] = candidate
+            logs.append(
+                {
+                    "action": "hierarchy_promoted",
+                    "slot": slot,
+                    "model": candidate.model,
+                    "effect": candidate.effect,
+                    "replaced_effect": weakest.effect,
+                }
+            )
+        else:
+            logs.append(
+                {
+                    "action": "hierarchy_suppressed",
+                    "slot": slot,
+                    "model": candidate.model,
+                    "effect": candidate.effect,
+                    "reason": "slot_cap_reached",
+                }
+            )
+    accepted.sort(key=lambda item: (item.model.lower(), item.start_ms, -item.normalized_priority(context), item.effect))
+    return accepted, logs
 
 
 def _style_layer_usage(context: SequenceContext | None) -> Mapping[str, Any]:
@@ -221,9 +289,11 @@ def build_layering_plan(
         if candidate.model:
             candidates.append(candidate)
     candidates.sort(key=lambda item: (item.model.lower(), item.start_ms, -item.normalized_priority(context), item.effect))
+    original_candidate_count = len(candidates)
+    candidates, hierarchy_logs = govern_visual_hierarchy(candidates, context=context)
     layer_cap = max_layers if max_layers is not None else max_layers_for_context(context)
     layered: list[LayeredEffect] = []
-    logs: list[dict[str, Any]] = []
+    logs: list[dict[str, Any]] = list(hierarchy_logs)
 
     for candidate in candidates:
         active = [effect for effect in layered if effect.overlaps(candidate)]
@@ -282,9 +352,12 @@ def build_layering_plan(
             composited += 1
     summary = {
         "candidate_count": len(candidates),
+        "raw_candidate_count": original_candidate_count,
         "layered_count": len(layered),
         "max_layers_per_model": layer_cap,
         "composited_layer_count": composited,
+        "hierarchy_suppressed_count": sum(1 for item in hierarchy_logs if item.get("action") == "hierarchy_suppressed"),
+        "hierarchy_promoted_count": sum(1 for item in hierarchy_logs if item.get("action") == "hierarchy_promoted"),
         "layers_by_model": per_model,
     }
     plan = LayeringPlan(layered_effects=layered, layering_logs=logs, debug_summary=summary)
