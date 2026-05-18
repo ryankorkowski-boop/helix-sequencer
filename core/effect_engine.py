@@ -36,6 +36,7 @@ from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
 from core import scene_engine
+from core import spatial_choreography
 from core import song_structure
 from core import band_sync as band_sync_engine
 from core import youtube_show_scorer
@@ -10723,6 +10724,11 @@ def run_variant(
     except Exception as exc:
         log(f"[WARN] Band synchronization skipped: {exc!r}")
         band_sync_payload = {"schema": "helix.band_sync.v1", "timeline": [], "state_frames": [], "debug": {}}
+    spatial_choreography_payload = spatial_choreography.build_spatial_choreography_plan(
+        scene_plan.scenes,
+        layout=parsed_layout,
+        band_sync_payload=band_sync_payload,
+    ).to_dict()
     try:
         snowman_band_payload = snowman_band_engine.build_snowman_band_plan(
             parsed_layout=parsed_layout,
@@ -12491,6 +12497,7 @@ def run_variant(
             "contrast_engine": contrast_plan.to_dict(),
             "scene_engine": scene_plan.to_dict(),
         },
+        "spatial_choreography": spatial_choreography_payload,
         "rhythm_intelligence": rhythm_intelligence_payload,
         "lyrics": {
             "count": len(lyric_events),
