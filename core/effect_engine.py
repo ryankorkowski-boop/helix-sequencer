@@ -22,6 +22,7 @@ from core import audit as sequence_audit
 from core import audio_trigger_routes
 from core import audio_intelligence as ai
 from core import contrast_engine
+from core import cinematic_planner
 from core import chronoflow as chronoflow_engine
 from core import energy_model
 from core import helixualizer as helixualizer_engine
@@ -37,6 +38,7 @@ from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
 from core import scene_engine
 from core import spatial_choreography
+from core import signature_style as signature_style_engine
 from core import song_structure
 from core import band_sync as band_sync_engine
 from core import youtube_show_scorer
@@ -10679,6 +10681,17 @@ def run_variant(
         contrast_plan=contrast_plan,
         motif_report=motif_report,
     )
+    signature_style_payload = signature_style_engine.build_signature_style_plan(
+        scene_plan.scenes,
+        song_key=signature_style_engine.key_for_midi(getattr(harmonic, "base_midi", None)),
+        runtime_tuning={
+            "max_layers_per_prop": int(tuning.max_layers_per_prop),
+            "palette_mode": normalize_palette_mode(tuning.palette_mode),
+        },
+        workspace_history={"palette_pool": workspace_history.palette_pool},
+        genre_hint=str(getattr(multiband, "genre_hint", "unknown") or "unknown"),
+        mood_hint=str(getattr(multiband, "mood_hint", "neutral") or "neutral"),
+    ).to_dict()
     try:
         chronoflow_payload = chronoflow_engine.build_chronoflow_plan(
             audio_path=audio_path,
@@ -10728,6 +10741,11 @@ def run_variant(
         scene_plan.scenes,
         layout=parsed_layout,
         band_sync_payload=band_sync_payload,
+    ).to_dict()
+    cinematic_plan_payload = cinematic_planner.build_cinematic_plan(
+        scene_plan,
+        spatial_choreography=spatial_choreography_payload,
+        signature_style=signature_style_payload,
     ).to_dict()
     try:
         snowman_band_payload = snowman_band_engine.build_snowman_band_plan(
@@ -12498,6 +12516,8 @@ def run_variant(
             "scene_engine": scene_plan.to_dict(),
         },
         "spatial_choreography": spatial_choreography_payload,
+        "signature_style": signature_style_payload,
+        "cinematic_planner": cinematic_plan_payload,
         "rhythm_intelligence": rhythm_intelligence_payload,
         "lyrics": {
             "count": len(lyric_events),
