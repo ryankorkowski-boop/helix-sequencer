@@ -10,6 +10,7 @@ from typing import Any, Mapping
 from helix_intent.xlights_contract_validator import validate_xlights_effect_contract_file
 
 AUTO_LAYER_NAME = "AUTO_Helix_Orchestrated"
+DEFAULT_PALETTE = ("#FFFFFF", "#00FFFF", "#FF00FF")
 
 
 @dataclass(frozen=True)
@@ -29,6 +30,20 @@ class XsqTemplateWriteReport:
         return asdict(self)
 
 
+def _placement_palette(placement: Mapping[str, Any]) -> tuple[str, str, str]:
+    raw = placement.get("palette")
+    if isinstance(raw, (list, tuple)):
+        colors = [str(item).strip() for item in raw if str(item).strip()]
+        if colors:
+            return tuple((colors + list(DEFAULT_PALETTE))[:3])  # type: ignore[return-value]
+    return DEFAULT_PALETTE
+
+
+def _palette_settings(placement: Mapping[str, Any]) -> str:
+    color1, color2, color3 = _placement_palette(placement)
+    return f"C_BUTTON_Palette1={color1},C_BUTTON_Palette2={color2},C_BUTTON_Palette3={color3}"
+
+
 def _append_helix_contract_node(root: ET.Element, contract: Mapping[str, Any]) -> int:
     existing = root.find("HelixEffectContract")
     if existing is not None:
@@ -38,6 +53,7 @@ def _append_helix_contract_node(root: ET.Element, contract: Mapping[str, Any]) -
     for placement in list(contract.get("effect_placements", []) or []):
         if not isinstance(placement, Mapping):
             continue
+        color1, color2, color3 = _placement_palette(placement)
         ET.SubElement(
             node,
             "EffectPlacement",
@@ -50,6 +66,11 @@ def _append_helix_contract_node(root: ET.Element, contract: Mapping[str, Any]) -
                 "brightnessCap": str(placement.get("brightness_cap", "")),
                 "sourceVisualIntentId": str(placement.get("source_visual_intent_id", "")),
                 "sourceEffectFamily": str(placement.get("source_effect_family", "")),
+                "colorStrategy": str(placement.get("color_strategy", "")),
+                "curveStrategy": str(placement.get("curve_strategy", "")),
+                "palette1": color1,
+                "palette2": color2,
+                "palette3": color3,
             },
         )
         count += 1
@@ -93,7 +114,12 @@ def _seconds_to_ms(value: object) -> int:
 def _native_settings(placement: Mapping[str, Any]) -> str:
     brightness = placement.get("brightness_cap", 0.62)
     family = placement.get("source_effect_family", "")
-    return f"E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={brightness},HELIX_Family={family}"
+    curve = placement.get("curve_strategy", "section_envelope")
+    color_strategy = placement.get("color_strategy", "default")
+    return (
+        f"E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={brightness},"
+        f"HELIX_Family={family},HELIX_Curve={curve},HELIX_ColorStrategy={color_strategy}"
+    )
 
 
 def _append_native_effect_rows(root: ET.Element, contract: Mapping[str, Any]) -> int:
@@ -122,10 +148,12 @@ def _append_native_effect_rows(root: ET.Element, contract: Mapping[str, Any]) ->
                 "startTime": str(start_ms),
                 "endTime": str(end_ms),
                 "settings": _native_settings(placement),
-                "palette": "C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#00FFFF,C_BUTTON_Palette3=#FF00FF",
+                "palette": _palette_settings(placement),
                 "source": "HelixOrchestrator",
                 "sourceVisualIntentId": str(placement.get("source_visual_intent_id", "")),
                 "sourceEffectFamily": str(placement.get("source_effect_family", "")),
+                "sourceColorStrategy": str(placement.get("color_strategy", "default")),
+                "sourceCurveStrategy": str(placement.get("curve_strategy", "section_envelope")),
             },
         )
         count += 1

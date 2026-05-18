@@ -1,10 +1,18 @@
 from __future__ import annotations
 
 import argparse
+from pathlib import Path
 from typing import Iterable
 
 from core import engine_profiles
-from core.effects_orchestrator_bridge import run_effects_orchestration
+from core.effects_orchestrator_bridge import EffectsOrchestrationRunReport, run_effects_orchestration
+
+NO_EFFECTS_ORCHESTRATOR_FLAG = "--no-effects-orchestrator"
+NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG = "--no-orchestrator-template-promotion"
+ORCHESTRATOR_ONLY_FLAGS = {
+    NO_EFFECTS_ORCHESTRATOR_FLAG,
+    NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG,
+}
 
 
 def _effect_engine():
@@ -23,26 +31,73 @@ def available_versions() -> list[str]:
 
 def _orchestration_enabled(engine_args: list[str] | None) -> bool:
     args = engine_args or []
-    if "--no-effects-orchestrator" in args:
+    return NO_EFFECTS_ORCHESTRATOR_FLAG not in args
+
+
+def _orchestrator_template_promotion_enabled(engine_args: list[str] | None) -> bool:
+    args = engine_args or []
+    if NO_EFFECTS_ORCHESTRATOR_FLAG in args:
         return False
-    return True
+    return NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG not in args
 
 
 def _clean_engine_args(engine_args: list[str] | None) -> list[str] | None:
     if engine_args is None:
         return None
-    return [arg for arg in engine_args if arg != "--no-effects-orchestrator"]
+    return [arg for arg in engine_args if arg not in ORCHESTRATOR_ONLY_FLAGS]
+
+
+def _set_or_replace_arg(args: list[str], flag: str, value: str) -> list[str]:
+    out: list[str] = []
+    replaced = False
+    idx = 0
+    while idx < len(args):
+        item = args[idx]
+        if item == flag:
+            out.extend([flag, value])
+            replaced = True
+            idx += 2
+            continue
+        out.append(item)
+        idx += 1
+    if not replaced:
+        out.extend([flag, value])
+    return out
+
+
+def _promote_orchestrated_template(
+    engine_args: list[str] | None,
+    report: EffectsOrchestrationRunReport | None,
+) -> list[str] | None:
+    """Feed orchestrated planning back into the canonical renderer path.
+
+    The orchestrator writes an inspected `*.orchestrated.xsq` from the user-provided
+    template when possible. Passing that file as the next template means the normal
+    effect engine builds on top of the orchestrated native rows instead of leaving
+    them as a detached sidecar artifact.
+    """
+    cleaned = _clean_engine_args(engine_args)
+    if not _orchestrator_template_promotion_enabled(engine_args):
+        return cleaned
+    if report is None or not report.invoked or not report.xsq_written or not report.orchestrated_xsq_path:
+        return cleaned
+    promoted_template = str(Path(report.orchestrated_xsq_path))
+    return _set_or_replace_arg(list(cleaned or []), "--template", promoted_template)
 
 
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     profile = engine_profiles.resolve_profile(profile_id)
+    report: EffectsOrchestrationRunReport | None = None
     if _orchestration_enabled(engine_args):
         report = run_effects_orchestration(engine_args)
         if report.invoked:
             print(f"effects_orchestrator: invoked passes={len(report.passes)} report={report.report_path}")
         else:
             print(f"effects_orchestrator: unavailable error={report.error}")
-    _effect_engine().main_for(profile.version, _clean_engine_args(engine_args))
+    effective_engine_args = _promote_orchestrated_template(engine_args, report)
+    if report is not None and report.invoked and report.xsq_written and effective_engine_args != _clean_engine_args(engine_args):
+        print(f"effects_orchestrator: promoted template={report.orchestrated_xsq_path}")
+    _effect_engine().main_for(profile.version, effective_engine_args)
 
 
 def run_version(version: str, engine_args: list[str] | None = None) -> None:
@@ -68,7 +123,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "engine_args",
         nargs=argparse.REMAINDER,
-        help="Arguments passed directly to the selected effect engine. Use --no-effects-orchestrator to skip the canonical effects orchestrator.",
+        help=(
+            "Arguments passed directly to the selected effect engine. "
+            "Use --no-effects-orchestrator to skip the canonical effects orchestrator, "
+            "or --no-orchestrator-template-promotion to keep the orchestrated XSQ as a sidecar only."
+        ),
     )
     return parser
 

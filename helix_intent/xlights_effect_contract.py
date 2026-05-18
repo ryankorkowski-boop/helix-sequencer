@@ -12,6 +12,24 @@ SUPPORTED_RENDER_FAMILIES = {
     "soft_wash": "Color Wash",
     "outline_pulse": "On",
     "energy_wave": "Bars",
+    "directional_sweep": "Wave",
+    "melody_trail": "Wave",
+    "matrix_pulse": "Bars",
+    "lyric_pulse": "Faces",
+    "character_hit": "On",
+    "beat_pulse": "On",
+    "sparkle_accent": "Twinkle",
+    "support_pulse": "On",
+}
+
+PALETTE_BY_COLOR_STRATEGY = {
+    "classic_christmas": ("#ff0000", "#00ff66", "#ffffff"),
+    "electric_winter": ("#2bd9ff", "#5a6cff", "#ffffff"),
+    "cinematic_blue_gold": ("#1f5f8b", "#ffcf4a", "#fff8dc"),
+    "party_neon": ("#ff4d8d", "#00f5d4", "#7f52ff"),
+    "spatial_helix": ("#2bd9ff", "#7f52ff", "#ffffff"),
+    "warm_white_gold": ("#fff8dc", "#ffcf4a", "#ffffff"),
+    "default": ("#ffffff", "#00ffff", "#ff00ff"),
 }
 
 
@@ -25,9 +43,14 @@ class XlightsEffectPlacement:
     brightness_cap: float
     source_visual_intent_id: str
     source_effect_family: str
+    color_strategy: str = "default"
+    curve_strategy: str = "section_envelope"
+    palette: tuple[str, str, str] = PALETTE_BY_COLOR_STRATEGY["default"]
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        data = asdict(self)
+        data["palette"] = list(self.palette)
+        return data
 
 
 @dataclass(frozen=True)
@@ -59,6 +82,11 @@ def _as_float(value: object, default: float = 0.0) -> float:
         return float(value)
     except (TypeError, ValueError):
         return default
+
+
+def _palette_for_visual_intent(visual: Mapping[str, Any]) -> tuple[str, str, str]:
+    raw = str(visual.get("color_strategy", "default") or "default").lower()
+    return PALETTE_BY_COLOR_STRATEGY.get(raw, PALETTE_BY_COLOR_STRATEGY["default"])
 
 
 def build_xlights_effect_contract(
@@ -97,6 +125,9 @@ def build_xlights_effect_contract(
                 brightness_cap=round(_as_float(item.get("brightness_cap"), 0.6), 4),
                 source_visual_intent_id=intent_id,
                 source_effect_family=family,
+                color_strategy=str(visual.get("color_strategy", "default") or "default"),
+                curve_strategy=str(item.get("curve_type", visual.get("curve_strategy", "section_envelope")) or "section_envelope"),
+                palette=_palette_for_visual_intent(visual),
             )
         )
     return placements, XlightsEffectContractReport(
@@ -121,6 +152,7 @@ def write_xlights_effect_contract(
         "output_json": str(path),
         "effect_placements": [placement.to_dict() for placement in placements],
         "supported_render_families": dict(SUPPORTED_RENDER_FAMILIES),
+        "palette_by_color_strategy": {key: list(value) for key, value in PALETTE_BY_COLOR_STRATEGY.items()},
     }
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return XlightsEffectContractReport(
