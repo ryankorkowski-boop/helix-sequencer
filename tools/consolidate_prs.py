@@ -1,366 +1,419 @@
 #!/usr/bin/env python3
 """
-PR Consolidation Script for helix-sequencer
+PR Consolidation Automation Script
 
-This script safely merges open PRs in a recommended order, with validation checks.
-It's designed to work with GitHub CLI (gh) or GitHub API.
+Safely orchestrates merging of open PRs in helix-sequencer based on:
+- Risk assessment (low/medium/high)
+- Dependency chains
+- Test validation
+- Draft status
 
 Usage:
     python tools/consolidate_prs.py --dry-run
     python tools/consolidate_prs.py --execute
     python tools/consolidate_prs.py --execute --pr 66
-
-Configuration:
-    - Set GITHUB_TOKEN environment variable or configure gh CLI
-    - Review merge order in MERGE_PLAN before executing
+    python tools/consolidate_prs.py --execute --include-drafts
 """
 
+import argparse
+import json
 import subprocess
 import sys
-import json
-import argparse
-from typing import Optional, Dict, List, Tuple
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Dict, List, Optional, Tuple
 from datetime import datetime
 
 
+class MergeRisk(Enum):
+    """Risk levels for PR merges."""
+    LOW = 1
+    MEDIUM = 2
+    HIGH = 3
+
+
+class PRPhase(Enum):
+    """Merge phases for progressive consolidation."""
+    PHASE_1_IMMEDIATE = "Phase 1: Immediate (Low Risk)"
+    PHASE_2_STABILIZATION = "Phase 2: Stabilization (Medium Risk)"
+    PHASE_3_DRAFTS = "Phase 3: Draft Consolidation (High Risk)"
+
+
 @dataclass
-class MergePlan:
-    """Defines a PR merge step with validation and context."""
-    pr_number: int
+class PRInfo:
+    """PR metadata and merge strategy."""
+    number: int
     title: str
-    target_branch: str
-    merge_strategy: str  # 'squash', 'rebase', 'merge'
-    phase: int
-    risk_level: str  # 'low', 'medium', 'high'
-    reason: str
-    preconditions: List[str]  # PRs that must be merged first
-    validation_tests: Optional[List[str]] = None
+    draft: bool
+    base_branch: str
+    head_branch: str
+    risk_level: MergeRisk
+    phase: PRPhase
+    depends_on: List[int] = field(default_factory=list)
+    tests_required: List[str] = field(default_factory=list)
+    notes: str = ""
 
 
-# Define the merge plan
-MERGE_PLAN: List[MergePlan] = [
-    MergePlan(
-        pr_number=66,
-        title="[codex] Add Phase 4 signature style planner",
-        target_branch="feature/restructure-core",
-        merge_strategy="squash",
-        phase=1,
-        risk_level="low",
-        reason="All tests passing (70/70), stacked work completion",
-        preconditions=[],
-        validation_tests=[
-            "tests/test_effect_intelligence_system.py",
-            "tests/test_musical_intelligence.py",
-            "tests/test_effects.py",
-            "tests/test_sequence_builder.py",
-        ]
-    ),
-    MergePlan(
-        pr_number=59,
-        title="Add draft xLights .xmodel assets for accepted band members (v1)",
-        target_branch="feature/restructure-core",
-        merge_strategy="squash",
-        phase=1,
-        risk_level="low",
-        reason="Isolated assets with explicit draft status, tests confirm boundaries",
-        preconditions=[66],
-        validation_tests=["tests/test_draft_xmodel_assets.py"]
-    ),
-    MergePlan(
-        pr_number=26,
-        title="Stabilize Helixia spatial CI after merge",
-        target_branch="feature/restructure-core",
-        merge_strategy="rebase",
-        phase=2,
-        risk_level="medium",
-        reason="Fixes known failing tests (motion continuity, motif memory, CI repairs)",
-        preconditions=[66, 59],
-        validation_tests=[
-            "tests/showcase/test_motion_continuity.py",
-            "tests/test_motif_memory.py",
-            "tests/test_output_quality_report.py",
-            "tests/test_working_floor_piano.py",
-        ]
-    ),
-]
+class PRConsolidator:
+    """Orchestrates safe PR merging and validation."""
 
-DRAFT_PLAN: List[MergePlan] = [
-    MergePlan(
-        pr_number=27,
-        title="fix(helixia): sync local test performance fixes",
-        target_branch="feature/restructure-core",
-        merge_strategy="rebase",
-        phase=3,
-        risk_level="high",
-        reason="Draft PR with rebased local fixes—requires finalization decision",
-        preconditions=[26],
-        validation_tests=[
-            "tests/test_audio_toolsets.py",
-            "tests/test_helixville4_floor_piano.py",
-            "tests/test_helixia_smoke_preview.py",
-        ]
-    ),
-    MergePlan(
-        pr_number=22,
-        title="feat: add Legacy 256 proving ground and calibration tools",
-        target_branch="main",
-        merge_strategy="squash",
-        phase=3,
-        risk_level="high",
-        reason="Large feature targeting main, legacy-only tooling, keep local assets",
-        preconditions=[26],
-        validation_tests=[
-            "tests/test_legacy_256_manifest.py",
-            "tests/test_legacy_256_profiles.py",
-            "tests/test_variant_quality_gates.py",
-        ]
-    ),
-]
+    # Audit-defined merge strategy
+    PR_STRATEGY: Dict[int, PRInfo] = {
+        66: PRInfo(
+            number=66,
+            title="[codex] Add Phase 4 signature style planner",
+            draft=False,
+            base_branch="codex/spatial-choreography-phase3",
+            head_branch="codex/signature-style-phase4",
+            risk_level=MergeRisk.LOW,
+            phase=PRPhase.PHASE_1_IMMEDIATE,
+            depends_on=[65],
+            tests_required=[
+                "tests/test_effect_intelligence_system.py",
+                "tests/test_musical_intelligence.py",
+                "tests/test_effects.py",
+                "tests/test_sequence_builder.py",
+            ],
+            notes="Stacked on #65. All tests passing (70/70).",
+        ),
+        59: PRInfo(
+            number=59,
+            title="Add draft xLights .xmodel assets for accepted band members (v1)",
+            draft=False,
+            base_branch="feature/restructure-core",
+            head_branch="feature/draft-xmodel-assets-v1",
+            risk_level=MergeRisk.LOW,
+            phase=PRPhase.PHASE_1_IMMEDIATE,
+            depends_on=[],
+            tests_required=["tests/test_draft_xmodel_assets.py"],
+            notes="Isolated assets with explicit 'draft' status. Should merge after #66.",
+        ),
+        26: PRInfo(
+            number=26,
+            title="Stabilize Helixia spatial CI after merge",
+            draft=False,
+            base_branch="feature/restructure-core",
+            head_branch="fix/post-helixia-spatial-ci",
+            risk_level=MergeRisk.MEDIUM,
+            phase=PRPhase.PHASE_2_STABILIZATION,
+            depends_on=[],
+            tests_required=[
+                "tests/showcase/test_motion_continuity.py",
+                "tests/test_motif_memory.py",
+                "tests/test_output_quality_report.py",
+                "tests/test_working_floor_piano.py",
+            ],
+            notes="Stabilization fixes (7 commits). Merge before drafts.",
+        ),
+        27: PRInfo(
+            number=27,
+            title="fix(helixia): sync local test performance fixes",
+            draft=True,
+            base_branch="feature/restructure-core",
+            head_branch="feature/helixia-local-fixes",
+            risk_level=MergeRisk.HIGH,
+            phase=PRPhase.PHASE_3_DRAFTS,
+            depends_on=[],
+            tests_required=[
+                "tests/test_audio_toolsets.py",
+                "tests/test_helixville4_floor_piano.py",
+            ],
+            notes="Draft with rebased local fixes. Finalize decision needed.",
+        ),
+        62: PRInfo(
+            number=62,
+            title="Draft Birdsong Engine v2 generative roadmap",
+            draft=True,
+            base_branch="feature/restructure-core",
+            head_branch="feature/birdsong-engine-v2",
+            risk_level=MergeRisk.HIGH,
+            phase=PRPhase.PHASE_3_DRAFTS,
+            depends_on=[],
+            tests_required=[],
+            notes="Pure roadmap + isolated module. Safe to keep as draft long-term.",
+        ),
+        22: PRInfo(
+            number=22,
+            title="feat: add Legacy 256 proving ground and calibration tools",
+            draft=True,
+            base_branch="main",
+            head_branch="feature/restructure-core",
+            risk_level=MergeRisk.HIGH,
+            phase=PRPhase.PHASE_3_DRAFTS,
+            depends_on=[26],
+            tests_required=[
+                "tests/test_legacy_256_manifest.py",
+                "tests/test_inspect_lms.py",
+            ],
+            notes="Largest change. Wait until #26 stabilizes.",
+        ),
+    }
 
+    def __init__(self, dry_run: bool = True, include_drafts: bool = False):
+        """Initialize consolidator.
 
-class ConsolidationScript:
-    """Manages PR consolidation with validation and reporting."""
-
-    def __init__(self, dry_run: bool = True, verbose: bool = True):
+        Args:
+            dry_run: If True, simulate merges without executing.
+            include_drafts: If True, include draft PRs in merge plan.
+        """
         self.dry_run = dry_run
-        self.verbose = verbose
-        self.merged_prs: List[int] = []
-        self.failed_prs: Dict[int, str] = {}
-        self.skipped_prs: Dict[int, str] = {}
+        self.include_drafts = include_drafts
+        self.merged: List[int] = []
+        self.failed: List[Tuple[int, str]] = []
+        self.skipped: List[int] = []
+        self.log_file = f"test_runs/pr_consolidation_{datetime.now().isoformat()}.log"
 
-    def log(self, message: str, level: str = "INFO"):
-        """Log message with timestamp."""
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        prefix = f"[{timestamp}] [{level}]"
-        print(f"{prefix} {message}")
+    def get_merge_plan(self) -> List[int]:
+        """Generate merge plan based on phases and dependencies.
 
-    def run_command(self, cmd: List[str], description: str = "") -> Tuple[bool, str]:
-        """Execute shell command and return (success, output)."""
-        try:
-            if self.verbose:
-                self.log(f"Running: {' '.join(cmd)}", "DEBUG")
-            
-            result = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                timeout=60
-            )
-            
-            if result.returncode == 0:
-                return True, result.stdout.strip()
-            else:
-                return False, result.stderr.strip()
-        except subprocess.TimeoutExpired:
-            return False, f"Command timeout: {description}"
-        except Exception as e:
-            return False, f"Command error: {str(e)}"
+        Returns:
+            Ordered list of PR numbers to merge.
+        """
+        plan = []
 
-    def get_pr_status(self, pr_number: int) -> Dict:
-        """Fetch PR status from GitHub CLI."""
-        success, output = self.run_command(
-            ["gh", "pr", "view", str(pr_number), "--json", "state,isDraft,title,baseRefName"],
-            f"Fetch PR #{pr_number} status"
-        )
-        
-        if not success:
-            return {"error": output}
-        
-        try:
-            return json.loads(output)
-        except json.JSONDecodeError:
-            return {"error": f"Failed to parse PR #{pr_number} status"}
+        # Phase 1: Low risk, immediate
+        for pr_num in sorted(self.PR_STRATEGY.keys()):
+            pr = self.PR_STRATEGY[pr_num]
+            if pr.phase == PRPhase.PHASE_1_IMMEDIATE:
+                if not pr.draft or self.include_drafts:
+                    plan.append(pr_num)
 
-    def validate_pr(self, plan: MergePlan) -> Tuple[bool, str]:
-        """Validate PR is ready to merge."""
-        status = self.get_pr_status(plan.pr_number)
-        
-        if "error" in status:
-            return False, f"Could not fetch PR status: {status['error']}"
-        
-        # Check if PR is open
-        if status.get("state") != "OPEN":
-            return False, f"PR is not open: state={status.get('state')}"
-        
-        # Warn if PR is still a draft (but allow override)
-        if status.get("isDraft"):
-            self.log(f"⚠️  PR #{plan.pr_number} is still marked as draft", "WARN")
-        
-        # Check preconditions
-        for precondition_pr in plan.preconditions:
-            if precondition_pr not in self.merged_prs:
-                return False, f"Precondition not met: PR #{precondition_pr} not merged"
-        
-        return True, "Validation passed"
+        # Phase 2: Medium risk, stabilization
+        for pr_num in sorted(self.PR_STRATEGY.keys()):
+            pr = self.PR_STRATEGY[pr_num]
+            if pr.phase == PRPhase.PHASE_2_STABILIZATION:
+                if not pr.draft or self.include_drafts:
+                    plan.append(pr_num)
 
-    def run_tests(self, tests: List[str]) -> Tuple[bool, str]:
-        """Run validation tests."""
-        if not tests:
-            return True, "No tests configured"
-        
-        self.log(f"Running {len(tests)} validation tests...", "INFO")
-        
-        for test_file in tests:
-            success, output = self.run_command(
-                ["python", "-m", "pytest", test_file, "-q"],
-                f"Test: {test_file}"
-            )
-            
-            if not success:
-                return False, f"Test failed: {test_file}\n{output}"
-        
-        return True, f"All {len(tests)} tests passed"
+        # Phase 3: High risk, drafts (only if requested)
+        if self.include_drafts:
+            for pr_num in sorted(self.PR_STRATEGY.keys()):
+                pr = self.PR_STRATEGY[pr_num]
+                if pr.phase == PRPhase.PHASE_3_DRAFTS:
+                    plan.append(pr_num)
 
-    def merge_pr(self, plan: MergePlan) -> bool:
-        """Merge a single PR."""
-        self.log(f"Merging PR #{plan.pr_number}: {plan.title}", "INFO")
-        
-        # Validate
-        valid, msg = self.validate_pr(plan)
-        if not valid:
-            self.log(f"❌ Validation failed: {msg}", "ERROR")
-            self.failed_prs[plan.pr_number] = msg
-            return False
-        
-        self.log(f"✓ Validation passed", "INFO")
-        
-        # Run tests if configured
-        if plan.validation_tests:
-            success, msg = self.run_tests(plan.validation_tests)
-            if not success:
-                self.log(f"❌ Test failed: {msg}", "ERROR")
-                self.failed_prs[plan.pr_number] = msg
+        return plan
+
+    def validate_dependencies(self, pr_num: int) -> bool:
+        """Validate that PR dependencies have been merged.
+
+        Args:
+            pr_num: PR number to validate.
+
+        Returns:
+            True if all dependencies are met.
+        """
+        pr = self.PR_STRATEGY[pr_num]
+        for dep in pr.depends_on:
+            if dep not in self.merged:
+                self.log(f"  ⚠️  Dependency #{dep} not yet merged. Skipping ##{pr_num}.")
                 return False
-            self.log(f"✓ {msg}", "INFO")
-        
-        # Merge
-        if self.dry_run:
-            self.log(f"[DRY RUN] Would merge with strategy: {plan.merge_strategy}", "INFO")
-        else:
-            merge_cmd = [
-                "gh", "pr", "merge", str(plan.pr_number),
-                f"--{plan.merge_strategy}",
-                "--auto",
-            ]
-            success, output = self.run_command(merge_cmd, f"Merge PR #{plan.pr_number}")
-            
-            if not success:
-                self.log(f"❌ Merge failed: {output}", "ERROR")
-                self.failed_prs[plan.pr_number] = output
-                return False
-            
-            self.log(f"✓ Merged successfully", "INFO")
-        
-        self.merged_prs.append(plan.pr_number)
         return True
 
-    def consolidate(self, plan_list: List[MergePlan], specific_pr: Optional[int] = None) -> Dict:
-        """Execute consolidation plan."""
-        self.log(f"Starting PR consolidation ({'DRY RUN' if self.dry_run else 'LIVE'})", "INFO")
-        self.log(f"Plan: {len(plan_list)} PRs to process", "INFO")
-        
-        for plan in plan_list:
-            if specific_pr and plan.pr_number != specific_pr:
-                self.log(f"Skipping PR #{plan.pr_number} (not requested)", "INFO")
-                continue
-            
-            self.log(f"\n--- Phase {plan.phase}: PR #{plan.pr_number} (Risk: {plan.risk_level}) ---", "INFO")
-            self.merge_pr(plan)
-        
-        return self.report()
+    def run_tests(self, pr_num: int) -> bool:
+        """Run validation tests for a PR.
 
-    def report(self) -> Dict:
-        """Generate consolidation report."""
-        report = {
-            "timestamp": datetime.now().isoformat(),
-            "dry_run": self.dry_run,
-            "merged_count": len(self.merged_prs),
-            "merged_prs": self.merged_prs,
-            "failed_count": len(self.failed_prs),
-            "failed_prs": self.failed_prs,
-            "skipped_prs": self.skipped_prs,
-        }
-        
-        self.log("\n" + "=" * 60, "INFO")
-        self.log("CONSOLIDATION REPORT", "INFO")
-        self.log("=" * 60, "INFO")
-        self.log(f"✓ Merged: {report['merged_count']} PRs → {self.merged_prs}", "INFO")
-        
-        if self.failed_prs:
-            self.log(f"❌ Failed: {report['failed_count']} PRs", "ERROR")
-            for pr, reason in self.failed_prs.items():
-                self.log(f"   PR #{pr}: {reason}", "ERROR")
-        
-        if self.skipped_prs:
-            self.log(f"⊘ Skipped: {len(self.skipped_prs)} PRs", "WARN")
-        
-        self.log("=" * 60, "INFO")
-        
-        return report
+        Args:
+            pr_num: PR number to test.
+
+        Returns:
+            True if all tests pass.
+        """
+        pr = self.PR_STRATEGY[pr_num]
+        if not pr.tests_required:
+            self.log(f"  ✓ No tests required for #{pr_num}.")
+            return True
+
+        self.log(f"  🧪 Running tests for #{pr_num}...")
+        for test_path in pr.tests_required:
+            cmd = ["python", "-m", "pytest", test_path, "-q"]
+            try:
+                if self.dry_run:
+                    self.log(f"    [DRY-RUN] Would execute: {' '.join(cmd)}")
+                else:
+                    result = subprocess.run(
+                        cmd,
+                        capture_output=True,
+                        text=True,
+                        timeout=60,
+                    )
+                    if result.returncode != 0:
+                        self.log(
+                            f"    ❌ Test failed: {test_path}\n{result.stderr}"
+                        )
+                        return False
+                    self.log(f"    ✓ {test_path} passed")
+            except subprocess.TimeoutExpired:
+                self.log(f"    ❌ Test timeout: {test_path}")
+                return False
+            except Exception as e:
+                self.log(f"    ❌ Test error: {str(e)}")
+                return False
+
+        return True
+
+    def merge_pr(self, pr_num: int) -> bool:
+        """Merge a PR using GitHub API.
+
+        Args:
+            pr_num: PR number to merge.
+
+        Returns:
+            True if merge succeeded.
+        """
+        pr = self.PR_STRATEGY[pr_num]
+
+        # Validate dependencies
+        if not self.validate_dependencies(pr_num):
+            self.skipped.append(pr_num)
+            return False
+
+        # Run tests
+        if not self.run_tests(pr_num):
+            self.failed.append((pr_num, "Tests failed"))
+            return False
+
+        # Execute merge
+        try:
+            if self.dry_run:
+                self.log(f"  [DRY-RUN] Would merge PR #{pr_num} into {pr.base_branch}")
+            else:
+                cmd = [
+                    "gh",
+                    "pr",
+                    "merge",
+                    str(pr_num),
+                    "--merge",
+                    "--repo",
+                    "ryankorkowski-boop/helix-sequencer",
+                ]
+                result = subprocess.run(
+                    cmd,
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                )
+                if result.returncode != 0:
+                    self.log(f"  ❌ Merge failed for #{pr_num}: {result.stderr}")
+                    self.failed.append((pr_num, result.stderr))
+                    return False
+                self.log(f"  ✅ Merged PR #{pr_num}")
+
+            self.merged.append(pr_num)
+            return True
+        except Exception as e:
+            self.log(f"  ❌ Error merging #{pr_num}: {str(e)}")
+            self.failed.append((pr_num, str(e)))
+            return False
+
+    def log(self, message: str):
+        """Log a message to console and file.
+
+        Args:
+            message: Message to log.
+        """
+        timestamp = datetime.now().isoformat()
+        log_msg = f"[{timestamp}] {message}"
+        print(log_msg)
+
+    def consolidate(self, specific_pr: Optional[int] = None) -> int:
+        """Execute consolidation plan.
+
+        Args:
+            specific_pr: If provided, only merge this PR.
+
+        Returns:
+            0 if successful, 1 otherwise.
+        """
+        mode = "[DRY-RUN]" if self.dry_run else "[LIVE]"
+        self.log(f"\n{'='*70}")
+        self.log(f"{mode} PR CONSOLIDATION STARTED")
+        self.log(f"{'='*70}\n")
+
+        # Generate merge plan
+        if specific_pr:
+            plan = [specific_pr]
+            self.log(f"Merging specific PR: #{specific_pr}\n")
+        else:
+            plan = self.get_merge_plan()
+            self.log(f"Consolidation Plan ({len(plan)} PRs):")
+            for pr_num in plan:
+                pr = self.PR_STRATEGY[pr_num]
+                status = "(DRAFT)" if pr.draft else ""
+                self.log(f"  #{pr_num}: {pr.title} {status}")
+            self.log()
+
+        # Execute merges
+        for pr_num in plan:
+            self.log(f"\n📋 Processing PR #{pr_num}...")
+            pr = self.PR_STRATEGY[pr_num]
+            self.log(f"   Title: {pr.title}")
+            self.log(f"   Risk: {pr.risk_level.name}")
+            self.log(f"   Notes: {pr.notes}")
+
+            self.merge_pr(pr_num)
+
+        # Print summary
+        self.log(f"\n{'='*70}")
+        self.log(f"{mode} CONSOLIDATION COMPLETE")
+        self.log(f"{'='*70}")
+        self.log(f"\n📊 Summary:")
+        self.log(f"  ✅ Merged: {len(self.merged)} PRs")
+        if self.merged:
+            self.log(f"     {', '.join(f'#{p}' for p in self.merged)}")
+        self.log(f"  ⏭️  Skipped: {len(self.skipped)} PRs")
+        if self.skipped:
+            self.log(f"     {', '.join(f'#{p}' for p in self.skipped)}")
+        self.log(f"  ❌ Failed: {len(self.failed)} PRs")
+        if self.failed:
+            for pr_num, reason in self.failed:
+                self.log(f"     #{pr_num}: {reason}")
+
+        self.log(f"\n📝 Log saved to: {self.log_file}\n")
+
+        return 0 if not self.failed else 1
 
 
 def main():
+    """Main entry point."""
     parser = argparse.ArgumentParser(
-        description="Consolidate open PRs safely with validation"
+        description="Consolidate and merge helix-sequencer PRs safely."
     )
     parser.add_argument(
         "--execute",
         action="store_true",
-        help="Execute merges (default is dry-run)"
-    )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        default=True,
-        help="Perform dry-run (default)"
-    )
-    parser.add_argument(
-        "--pr",
-        type=int,
-        default=None,
-        help="Merge only a specific PR number"
-    )
-    parser.add_argument(
-        "--phase",
-        type=int,
-        choices=[1, 2, 3],
-        default=None,
-        help="Merge only a specific phase"
+        help="Execute merges (default is dry-run).",
     )
     parser.add_argument(
         "--include-drafts",
         action="store_true",
-        help="Include draft PRs in consolidation (Phase 3)"
+        help="Include draft PRs in consolidation.",
     )
     parser.add_argument(
-        "--verbose",
+        "--pr",
+        type=int,
+        help="Merge only a specific PR number.",
+    )
+    parser.add_argument(
+        "--dry-run",
         action="store_true",
-        default=True,
-        help="Verbose output (default)"
+        help="Simulate merges without executing (default).",
     )
-    
+
     args = parser.parse_args()
-    
-    # Determine plan
-    plan = list(MERGE_PLAN)
-    if args.include_drafts:
-        plan.extend(DRAFT_PLAN)
-    
-    if args.phase:
-        plan = [p for p in plan if p.phase == args.phase]
-    
-    # Create and run
-    script = ConsolidationScript(
-        dry_run=not args.execute,
-        verbose=args.verbose
+
+    # Determine dry-run mode
+    dry_run = not args.execute
+
+    # Create consolidator
+    consolidator = PRConsolidator(
+        dry_run=dry_run,
+        include_drafts=args.include_drafts,
     )
-    
-    report = script.consolidate(plan, specific_pr=args.pr)
-    
-    # Return exit code
-    sys.exit(0 if not report['failed_prs'] else 1)
+
+    # Execute consolidation
+    return consolidator.consolidate(specific_pr=args.pr)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
