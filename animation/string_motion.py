@@ -9,10 +9,6 @@ from audio.instrument_detection import InstrumentEvent
 
 @dataclass(frozen=True)
 class StringMotionConfig:
-    guitar_delay_min_ms: int = 12
-    guitar_delay_max_ms: int = 46
-    bass_delay_min_ms: int = 24
-    bass_delay_max_ms: int = 72
     seed: int = 414
 
 
@@ -95,9 +91,6 @@ def build_guitar_motion_cues(
     cues: list[dict[str, Any]] = []
     stroke_down = True
     for idx, event in enumerate(sorted(events, key=lambda item: item.start_ms)):
-        delay = rng.randint(config.guitar_delay_min_ms, config.guitar_delay_max_ms)
-        if event.event_type in {"sustained_note"}:
-            delay += 18
         softened = event.confidence < 0.42 or (idx % 13 == 7)
         intensity = event.intensity * (0.72 if softened else 1.0) * _sync_scale(band_sync_payload, "guitarist", event.start_ms)
         direction = "downstroke" if stroke_down else "upstroke"
@@ -109,7 +102,7 @@ def build_guitar_motion_cues(
             "chord_change": "fret_zone",
             "sustained_note": "guitar_body",
         }.get(event.event_type, "strum_zone")
-        start_ms = max(0, event.start_ms + delay)
+        start_ms = max(0, event.start_ms)
         duration = max(110, min(680, event.end_ms - event.start_ms))
         cues.append(
             {
@@ -125,9 +118,8 @@ def build_guitar_motion_cues(
                     "stroke": direction,
                     "amplitude": round(_clamp(0.28 + intensity * (0.45 if event.event_type == "picking" else 0.68)), 3),
                     "tightness": "tight" if duration < 210 else "expressive",
-                    "humanized_offset_ms": delay,
-                    "softened_hit": softened,
-                    "micro_idle": event.event_type in {"sustained_note", "chord_change"},
+                    "confidence_softening": softened,
+                    "sustain_hold": event.event_type in {"sustained_note", "chord_change"},
                     "vibrato": event.event_type == "sustained_note",
                 },
                 "expression": {
@@ -158,7 +150,6 @@ def build_bass_motion_cues(
     rng = random.Random(config.seed + 17)
     cues: list[dict[str, Any]] = []
     for idx, event in enumerate(sorted(events, key=lambda item: item.start_ms)):
-        delay = rng.randint(config.bass_delay_min_ms, config.bass_delay_max_ms)
         double_pluck = event.event_type == "pluck" and idx % 9 == 4 and event.confidence >= 0.55
         intensity = event.intensity * _sync_scale(band_sync_payload, "bassist", event.start_ms)
         submodel = {
@@ -166,7 +157,7 @@ def build_bass_motion_cues(
             "sustained_note": "bass_body",
             "transition": "neck_zone",
         }.get(event.event_type, "pluck_zone")
-        start_ms = max(0, event.start_ms + delay)
+        start_ms = max(0, event.start_ms)
         duration = max(170, min(880, event.end_ms - event.start_ms + (90 if double_pluck else 0)))
         cues.append(
             {
@@ -182,7 +173,6 @@ def build_bass_motion_cues(
                 "motion": {
                     "weight": "heavy",
                     "amplitude": round(_clamp(0.22 + intensity * 0.62), 3),
-                    "humanized_offset_ms": delay,
                     "body_sway": True,
                     "double_pluck": double_pluck,
                     "vibrato": event.event_type == "sustained_note",

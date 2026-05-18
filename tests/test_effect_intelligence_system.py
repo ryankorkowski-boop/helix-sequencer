@@ -5,7 +5,7 @@ import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from core import cinematic_planner, effect_layering_engine, signature_style, spatial_choreography, spatial_mapping_engine, spatial_scene, style_engine
+from core import cinematic_adapter, cinematic_planner, effect_layering_engine, signature_style, spatial_choreography, spatial_mapping_engine, spatial_scene, style_engine
 from core.sequence_context import SequenceContext
 
 
@@ -314,6 +314,81 @@ class EffectIntelligenceSystemTests(unittest.TestCase):
         self.assertEqual(len(plan.transitions), 1)
         self.assertGreater(plan.transitions[0].intensity, 0.5)
         self.assertEqual(payload["debug_summary"]["role_counts"]["primary"], 1)
+
+    def test_cinematic_adapter_translates_cues_to_layered_effect_candidates(self) -> None:
+        cinematic_payload = {
+            "cues": [
+                {
+                    "cue_id": "scene_01_primary",
+                    "scene_id": "scene_01",
+                    "start_ms": 100,
+                    "end_ms": 900,
+                    "cue_type": "chorus_primary",
+                    "hierarchy_role": "primary",
+                    "prop_family": "roofline",
+                    "depth_layer": "far",
+                    "motion": "bloom",
+                    "palette": ["#ffd166", "#06d6a0", "#ffffff"],
+                    "intensity": 0.82,
+                    "brightness_modulation": 0.04,
+                    "decay_curve": "fast_attack_controlled_release",
+                    "reason": "hook_signature",
+                },
+                {
+                    "cue_id": "scene_01_motion",
+                    "scene_id": "scene_01",
+                    "start_ms": 120,
+                    "end_ms": 880,
+                    "cue_type": "chorus_motion",
+                    "hierarchy_role": "motion",
+                    "prop_family": "roofline",
+                    "depth_layer": "far",
+                    "motion": "sweep",
+                    "palette": ["#ffd166"],
+                    "intensity": 0.62,
+                    "brightness_modulation": 0.04,
+                    "decay_curve": "fast_attack_controlled_release",
+                    "reason": "cascade",
+                },
+                {
+                    "cue_id": "scene_01_background",
+                    "scene_id": "scene_01",
+                    "start_ms": 100,
+                    "end_ms": 900,
+                    "cue_type": "chorus_background",
+                    "hierarchy_role": "background",
+                    "prop_family": "environment",
+                    "depth_layer": "far",
+                    "motion": "ambient_hold",
+                    "palette": ["#111111"],
+                    "intensity": 0.25,
+                },
+            ]
+        }
+        prop_families = [
+            {"name": "roofline", "targets": ["Roofline A", "Roofline B"], "depth_layer": "far"},
+            {"name": "band", "targets": ["Singer Face"], "depth_layer": "near"},
+        ]
+
+        bridge = cinematic_adapter.build_cinematic_layering_bridge(
+            cinematic_payload,
+            prop_families=prop_families,
+            max_layers=3,
+        )
+        payload = bridge.to_dict()
+
+        self.assertEqual(payload["schema"], "helix.cinematic_adapter.v1")
+        self.assertEqual(len(bridge.candidates), 2)
+        self.assertEqual(len(bridge.skipped_cues), 1)
+        self.assertEqual(bridge.skipped_cues[0]["reason"], "no_target_model_for_prop_family")
+        primary = [candidate for candidate in bridge.candidates if candidate.layer == "focus"][0]
+        self.assertIn(primary.model, {"Roofline A", "Roofline B"})
+        self.assertEqual(primary.effect, "On")
+        self.assertEqual(primary.priority, 5)
+        self.assertEqual(primary.parameters["palette"], ["#ffd166", "#06d6a0", "#ffffff"])
+        self.assertEqual(primary.parameters["decay_curve"], "fast_attack_controlled_release")
+        self.assertTrue(bridge.layering_plan.layered_effects)
+        self.assertLessEqual(bridge.layering_plan.debug_summary["layered_count"], 2)
 
     def test_effect_layering_composes_overflow_and_updates_scoring_feedback(self) -> None:
         context = SequenceContext(

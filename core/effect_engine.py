@@ -22,6 +22,7 @@ from core import audit as sequence_audit
 from core import audio_trigger_routes
 from core import audio_intelligence as ai
 from core import contrast_engine
+from core import cinematic_adapter
 from core import cinematic_planner
 from core import chronoflow as chronoflow_engine
 from core import energy_model
@@ -538,6 +539,10 @@ def apply_runtime_style(style: VariantStyle, tuning: RuntimeTuning) -> VariantSt
     if keyboard_mix >= 0.60 and not out.keyboard_overlay and out.family not in {"v14", "v15", "v16", "v17", "v18"}:
         out = replace(out, keyboard_overlay=True)
     return out
+
+
+def is_structured_style(style: VariantStyle) -> bool:
+    return style.family in {"v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23", "v25", "v26", "v27"}
 
 
 def coerce_override_payload(raw: object) -> dict[str, str | list[str]]:
@@ -9046,6 +9051,136 @@ def stem_to_choreo_layer(stem: str, label: str) -> str:
     return "motion"
 
 
+def cinematic_layer_role_to_stem(layer_role: str) -> str:
+    role = (layer_role or "").strip().lower()
+    if role in {"focus", "primary", "accent", "focal"}:
+        return "vocals"
+    if role in {"base", "background", "support", "texture"}:
+        return "bass"
+    if role in {"motion", "chase", "sweep"}:
+        return "drums"
+    return "other"
+
+
+def cinematic_palette_template(parameters: Mapping[str, object] | None) -> base.EffectTemplate | None:
+    if not parameters:
+        return None
+    raw = parameters.get("palette", [])
+    colors = [str(item).strip() for item in (raw if isinstance(raw, list) else []) if str(item).strip()]
+    if not colors:
+        return None
+    return base.EffectTemplate(settings="", palette=",".join(colors[:6]))
+
+
+SNOWMAN_BAND_PALETTES: dict[str, str] = {
+    "bassist": "#7a3f16,#ffd166,#2ec4b6",
+    "guitarist": "#ef476f,#ffd166,#4cc9f0",
+    "drummer": "#d90429,#f8f9fa,#ffb703",
+    "singer": "#06d6a0,#f8f9fa,#ffd166",
+    "harmony": "#9b5de5,#f15bb5,#f8f9fa",
+    "snow": "#f8f9fa,#8ecae6,#ffffff",
+}
+
+
+def snowman_palette_for_target(target: str, cue: Mapping[str, object] | None = None) -> str:
+    text = f"{target} {str((cue or {}).get('performer', ''))} {str((cue or {}).get('kind', ''))}".lower()
+    if "bassist" in text or "bass_" in text:
+        return SNOWMAN_BAND_PALETTES["bassist"]
+    if "guitarist" in text or "guitar_" in text:
+        return SNOWMAN_BAND_PALETTES["guitarist"]
+    if "drummer" in text or "drum" in text or "snare" in text or "cymbal" in text or "kick" in text:
+        return SNOWMAN_BAND_PALETTES["drummer"]
+    if "female" in text:
+        return SNOWMAN_BAND_PALETTES["harmony"]
+    if "singer" in text or "microphone" in text:
+        return SNOWMAN_BAND_PALETTES["singer"]
+    return SNOWMAN_BAND_PALETTES["snow"]
+
+
+def snowman_colored_template(target: str, cue: Mapping[str, object] | None = None) -> base.EffectTemplate:
+    return base.EffectTemplate(settings="", palette=snowman_palette_for_target(target, cue))
+
+
+def snowman_presence_targets() -> list[tuple[str, str, str]]:
+    return [
+        ("HX_SNOWMAN_BASSIST_BODY/HX_SNOWMAN_BASSIST_TORSO", "other", SNOWMAN_BAND_PALETTES["snow"]),
+        ("HX_SNOWMAN_BASSIST_BODY/HX_SNOWMAN_BASSIST_SCARF", "other", SNOWMAN_BAND_PALETTES["bassist"]),
+        ("HX_SNOWMAN_BASSIST_INSTRUMENT/HX_SNOWMAN_BASSIST_BASS_BODY", "bass", SNOWMAN_BAND_PALETTES["bassist"]),
+        ("HX_SNOWMAN_BASSIST_INSTRUMENT/HX_SNOWMAN_BASSIST_BASS_NECK", "bass", SNOWMAN_BAND_PALETTES["bassist"]),
+        ("HX_SNOWMAN_DRUMMER_BODY/HX_SNOWMAN_DRUMMER_TORSO", "other", SNOWMAN_BAND_PALETTES["snow"]),
+        ("HX_SNOWMAN_DRUMMER_BODY/HX_SNOWMAN_DRUMMER_SCARF", "other", SNOWMAN_BAND_PALETTES["drummer"]),
+        ("HX_SNOWMAN_DRUMMER_INSTRUMENT/HX_SNOWMAN_DRUMMER_KICK", "drums", SNOWMAN_BAND_PALETTES["drummer"]),
+        ("HX_SNOWMAN_DRUMMER_INSTRUMENT/HX_SNOWMAN_DRUMMER_CYMBALS", "drums", SNOWMAN_BAND_PALETTES["drummer"]),
+        ("HX_SNOWMAN_GUITARIST_BODY/HX_SNOWMAN_GUITARIST_TORSO", "other", SNOWMAN_BAND_PALETTES["snow"]),
+        ("HX_SNOWMAN_GUITARIST_BODY/HX_SNOWMAN_GUITARIST_SCARF", "other", SNOWMAN_BAND_PALETTES["guitarist"]),
+        ("HX_SNOWMAN_GUITARIST_INSTRUMENT/HX_SNOWMAN_GUITARIST_GUITAR_BODY", "other", SNOWMAN_BAND_PALETTES["guitarist"]),
+        ("HX_SNOWMAN_SINGER_BODY/HX_SNOWMAN_SINGER_TORSO", "vocals", SNOWMAN_BAND_PALETTES["snow"]),
+        ("HX_SNOWMAN_SINGER_BODY/HX_SNOWMAN_SINGER_SCARF", "vocals", SNOWMAN_BAND_PALETTES["singer"]),
+        ("HX_SNOWMAN_SINGER_INSTRUMENT/HX_SNOWMAN_SINGER_MICROPHONE", "vocals", SNOWMAN_BAND_PALETTES["singer"]),
+        ("HX_SNOWMAN_SINGER_FEMALE_BODY/HX_SNOWMAN_SINGER_FEMALE_TORSO", "vocals", SNOWMAN_BAND_PALETTES["snow"]),
+        ("HX_SNOWMAN_SINGER_FEMALE_BODY/HX_SNOWMAN_SINGER_FEMALE_BOW", "vocals", SNOWMAN_BAND_PALETTES["harmony"]),
+        ("HX_SNOWMAN_SINGER_FEMALE_INSTRUMENT/HX_SNOWMAN_SINGER_FEMALE_MICROPHONE", "vocals", SNOWMAN_BAND_PALETTES["harmony"]),
+    ]
+
+
+def snowman_performance_effect_targets(cue: Mapping[str, object]) -> list[tuple[str, str, str, str]]:
+    performer = str(cue.get("performer", "") or "").lower()
+    submodel = str(cue.get("submodel", "") or cue.get("kind", "") or "").lower()
+    kind = str(cue.get("kind", "") or submodel or "hit").lower()
+    targets: list[tuple[str, str, str, str]] = []
+
+    if performer == "bassist":
+        instrument = "HX_SNOWMAN_BASSIST_INSTRUMENT"
+        body = "HX_SNOWMAN_BASSIST_BODY"
+        submodel_map = {
+            "pluck_zone": "HX_SNOWMAN_BASSIST_PLUCK_ZONE",
+            "bass_body": "HX_SNOWMAN_BASSIST_BASS_BODY",
+            "neck_zone": "HX_SNOWMAN_BASSIST_BASS_NECK",
+            "string": "HX_SNOWMAN_BASSIST_BASS_STRINGS",
+        }
+        target_submodel = submodel_map.get(submodel, "HX_SNOWMAN_BASSIST_BASS_STRINGS")
+        targets.append((f"{instrument}/{target_submodel}", "On", f"snowman_bassist_{kind}", "bass"))
+        if kind in {"pluck", "transition"}:
+            targets.append((f"{body}/HX_SNOWMAN_BASSIST_ARMS", "On", "snowman_bassist_body_groove", "bass"))
+        return targets
+
+    if performer == "guitarist":
+        instrument = "HX_SNOWMAN_GUITARIST_INSTRUMENT"
+        body = "HX_SNOWMAN_GUITARIST_BODY"
+        submodel_map = {
+            "strum_zone": "HX_SNOWMAN_GUITARIST_STRUM_ZONE",
+            "fret_zone": "HX_SNOWMAN_GUITARIST_GUITAR_NECK",
+            "guitar_body": "HX_SNOWMAN_GUITARIST_GUITAR_BODY",
+            "string": "HX_SNOWMAN_GUITARIST_GUITAR_STRINGS",
+        }
+        target_submodel = submodel_map.get(submodel, "HX_SNOWMAN_GUITARIST_GUITAR_STRINGS")
+        targets.append((f"{instrument}/{target_submodel}", "On", f"snowman_guitarist_{kind}", "other"))
+        if kind in {"strum", "picking", "chord_change"}:
+            targets.append((f"{body}/HX_SNOWMAN_GUITARIST_ARMS", "On", "snowman_guitarist_body_groove", "other"))
+        return targets
+
+    if performer == "drummer":
+        instrument = "HX_SNOWMAN_DRUMMER_INSTRUMENT"
+        body = "HX_SNOWMAN_DRUMMER_BODY"
+        submodel_map = {
+            "kick": "HX_SNOWMAN_DRUMMER_KICK",
+            "snare": "HX_SNOWMAN_DRUMMER_SNARE",
+            "tom": "HX_SNOWMAN_DRUMMER_TOM",
+            "hihat": "HX_SNOWMAN_DRUMMER_HI_HAT",
+            "hi_hat": "HX_SNOWMAN_DRUMMER_HI_HAT",
+            "cymbal": "HX_SNOWMAN_DRUMMER_CYMBALS",
+            "cymbals": "HX_SNOWMAN_DRUMMER_CYMBALS",
+            "drum_bus": "HX_SNOWMAN_DRUMMER_STICKS",
+        }
+        target_submodel = submodel_map.get(submodel, submodel_map.get(kind, "HX_SNOWMAN_DRUMMER_STICKS"))
+        targets.append((f"{instrument}/{target_submodel}", "On", f"snowman_drummer_{kind}", "drums"))
+        if kind in {"snare", "tom", "hihat", "hi_hat", "cymbal", "cymbals"}:
+            targets.append((f"{body}/HX_SNOWMAN_DRUMMER_ARMS", "On", "snowman_drummer_arm_hit", "drums"))
+        return targets
+
+    return targets
+
+
 def effect_family_key(effect_name: str) -> str:
     norm = (effect_name or "").strip().lower()
     if "spiral" in norm:
@@ -10747,6 +10882,11 @@ def run_variant(
         spatial_choreography=spatial_choreography_payload,
         signature_style=signature_style_payload,
     ).to_dict()
+    cinematic_layering_payload = cinematic_adapter.build_cinematic_layering_bridge(
+        cinematic_plan_payload,
+        prop_families=spatial_choreography_payload.get("prop_families", []),
+        max_layers=int(tuning.max_layers_per_prop),
+    ).to_dict()
     try:
         snowman_band_payload = snowman_band_engine.build_snowman_band_plan(
             parsed_layout=parsed_layout,
@@ -10978,6 +11118,7 @@ def run_variant(
                     "predrop",
                     "build",
                     "outro",
+                    "snowman_presence",
                 )
             )
             duration_cap_ms = 0
@@ -11058,6 +11199,7 @@ def run_variant(
     pixel_track: list[tuple[str, int, int]] = []
     audio_reactive_track: list[tuple[str, int, int]] = []
     multiband_track: list[tuple[str, int, int]] = []
+    cinematic_track: list[tuple[str, int, int]] = []
     hardkor_track: list[tuple[str, int, int]] = []
     birdsong_track: list[tuple[str, int, int]] = []
     part_track: list[tuple[str, int, int]] = [(part.label, part.start_ms, part.end_ms) for part in parts]
@@ -11120,7 +11262,7 @@ def run_variant(
     vocals_priority_gain = 0.80 + (priorities["vocals"] / stem_max) * 0.45
     other_priority_gain = 0.80 + (priorities["other"] / stem_max) * 0.45
     hardkor_mode = bool(tuning.hardkor_enabled)
-    structured_mode = style.family in {"v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23"}
+    structured_mode = is_structured_style(style)
     focused_mode = style.family in {"v14", "v16", "v19", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode in {"mapped_essentials", "mapped_submodel"}
     premium_mode = style.family in {"v15", "v17", "v20", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode == "mapped_showcase"
     if structured_mode:
@@ -11797,6 +11939,8 @@ def run_variant(
     elif style.family == "v23":
         cap = 0.24 if style.placement_mode == "showcase_stems" else 0.34 if style.placement_mode == "showcase_arc" else 0.38
         spatial_keyboard_mix = min(spatial_keyboard_mix, cap)
+    elif style.family in {"v25", "v26", "v27"}:
+        spatial_keyboard_mix = min(spatial_keyboard_mix, 0.52)
 
     if style.keyboard_overlay:
         player_piano_mix = base.clamp((0.54 if focused_mode else max(0.40, keyboard_mix * 0.72)) * other_priority_gain, 0.0, 2.0)
@@ -11804,6 +11948,8 @@ def run_variant(
             player_piano_mix = min(player_piano_mix, 0.34)
         elif style.family == "v23":
             player_piano_mix = min(player_piano_mix, 0.24)
+        elif style.family in {"v25", "v26", "v27"}:
+            player_piano_mix = min(player_piano_mix, 0.42)
         player_piano_placed = place_player_piano_sequence(
             style=keyboard_style,
             note_events=keyboard_note_events,
@@ -11857,7 +12003,7 @@ def run_variant(
             note_events=keyboard_note_events,
             keyboard_lane=keyboard_lane,
             arch_lane=arch_keyboard_lane,
-            keyboard_mix=base.clamp((0.26 if style.family == "v23" else 0.38 if style.family == "v22" else 0.52 if focused_mode else effective_keyboard_mix) * other_priority_gain, 0.0, 2.0),
+            keyboard_mix=base.clamp((0.26 if style.family == "v23" else 0.38 if style.family == "v22" else 0.34 if style.family in {"v25", "v26", "v27"} else 0.52 if focused_mode else effective_keyboard_mix) * other_priority_gain, 0.0, 2.0),
             ramp_ok=ramp_ok,
             ramp_tpl=xsq.ramp_tpl,
             add_model=add_model,
@@ -11978,6 +12124,65 @@ def run_variant(
                 )
         if placed_snowman_faces:
             log(f"Snowman sequence face effects placed: {placed_snowman_faces}")
+
+    snowman_presence_track: list[tuple[str, int, int]] = []
+    presence_targets = snowman_presence_targets()
+    if presence_targets:
+        placed_presence = 0
+        for part in parts:
+            st = max(0, int(part.start_ms))
+            en = min(song_length_ms, max(st + max(1, int(tuning.min_effect_ms)), int(part.end_ms)))
+            if en <= st or in_blackout(st):
+                continue
+            for target, stem, palette in presence_targets:
+                if target not in layers:
+                    continue
+                before_total = total
+                add_model(
+                    target,
+                    st,
+                    en,
+                    "snowman_presence",
+                    eff="On",
+                    tpl=base.EffectTemplate(settings="", palette=palette),
+                    stem=stem,
+                )
+                if total > before_total:
+                    placed_presence += 1
+            snowman_presence_track.append((f"presence:{part.label}", st, en))
+        if placed_presence:
+            log(f"Snowman colored presence layers placed: {placed_presence}")
+
+    snowman_performance_track: list[tuple[str, int, int]] = []
+    snowman_cues = dict(snowman_band_payload.get("cues", {}) or {})
+    performance_cues: list[Mapping[str, object]] = []
+    performance_cues.extend(list(snowman_cues.get("bassist", []) or [])[:220])
+    performance_cues.extend(list(snowman_cues.get("guitarist", []) or [])[:520])
+    performance_cues.extend(list(snowman_cues.get("drummer", []) or [])[:760])
+    if performance_cues:
+        placed_performance_cues = 0
+        for cue in sorted(performance_cues, key=lambda item: int(item.get("start_ms", 0) or 0)):
+            st = max(0, int(cue.get("start_ms", 0) or 0))
+            en = max(st + max(1, int(tuning.min_effect_ms)), int(cue.get("end_ms", st) or st))
+            if in_blackout(st):
+                continue
+            cue_placed = False
+            for target, effect_name, label, stem in snowman_performance_effect_targets(cue):
+                before_total = total
+                add_model(target, st, en, label, eff=effect_name, tpl=snowman_colored_template(target, cue), stem=stem)
+                if total > before_total:
+                    cue_placed = True
+            if cue_placed:
+                placed_performance_cues += 1
+                snowman_performance_track.append(
+                    (
+                        f"{cue.get('performer', 'band')}:{cue.get('kind', cue.get('submodel', 'hit'))}",
+                        st,
+                        en,
+                    )
+                )
+        if placed_performance_cues:
+            log(f"Snowman instrument performance effects placed: {placed_performance_cues}")
 
     spatial_track: list[tuple[str, int, int]] = []
     if not hardkor_mode and not structured_mode:
@@ -12102,6 +12307,36 @@ def run_variant(
         )
         if neighbor_attempts:
             log(f"Neighbor showcase placements added: {neighbor_attempts}")
+
+    if not hardkor_mode:
+        cinematic_effects = ((cinematic_layering_payload.get("layering_plan", {}) or {}).get("layered_effects", []) or [])
+        cinematic_placed = 0
+        for item in cinematic_effects[:260]:
+            model = str(item.get("model", "") or "")
+            if model not in layers:
+                continue
+            st = max(0, int(item.get("start_ms", 0) or 0))
+            en = max(st + max(1, int(tuning.min_effect_ms)), int(item.get("end_ms", st + 1) or (st + 1)))
+            if in_blackout(st):
+                continue
+            layer_role = str(item.get("layer_role", "motion") or "motion")
+            parameters = dict(item.get("parameters", {}) or {})
+            label = f"cinematic_{layer_role}"
+            before_total = total
+            add_model(
+                model,
+                st,
+                en,
+                label,
+                eff=str(item.get("effect", "On") or "On"),
+                tpl=cinematic_palette_template(parameters),
+                stem=cinematic_layer_role_to_stem(layer_role),
+            )
+            if total > before_total:
+                cinematic_placed += 1
+                cinematic_track.append((str(parameters.get("cue_id", label) or label), st, en))
+        if cinematic_placed:
+            log(f"Cinematic planner effects placed: {cinematic_placed}")
 
     if not hardkor_mode:
         birdsong_result = birdsong_engine.place_birdsong_engine(
@@ -12257,11 +12492,17 @@ def run_variant(
         auto_fix=False,
     )
     total = sum(len(entries) for timeline in timelines.values() for entries in timeline.layers.values())
-    show_direction_summary = youtube_show_scorer.build_show_direction_summary(
-        timelines=timelines,
+    show_direction_summary = youtube_show_scorer.build_cinematic_show_direction_summary(
+        cinematic_planner=cinematic_plan_payload,
         parts=parts,
         quiet_windows=list(multiband.quiet_windows) + blackout_windows,
     )
+    if not show_direction_summary.get("sections"):
+        show_direction_summary = youtube_show_scorer.build_show_direction_summary(
+            timelines=timelines,
+            parts=parts,
+            quiet_windows=list(multiband.quiet_windows) + blackout_windows,
+        )
 
     log("[5/8] Writing timing tracks and report")
     if tuning.auto_timing_tracks:
@@ -12302,6 +12543,8 @@ def run_variant(
         base.write_timing_track(xsq.root, f"AUTO Audio Reactive {style.version}", audio_reactive_track[:2000], active=False)
     if multiband_track:
         base.write_timing_track(xsq.root, f"AUTO MultiBand {style.version}", multiband_track[:2400], active=False)
+    if cinematic_track:
+        base.write_timing_track(xsq.root, f"AUTO Cinematic {style.version}", cinematic_track[:2000], active=False)
     if hardkor_track:
         base.write_timing_track(xsq.root, f"AUTO hardKor {style.version}", hardkor_track[:2400], active=False)
     if chronoflow_track:
@@ -12310,6 +12553,10 @@ def run_variant(
             base.write_timing_track(xsq.root, f"AUTO Snowman Band {style.version}", snowman_band_track[:1800], active=False)
         if snowman_sequence_face_track:
             base.write_timing_track(xsq.root, f"AUTO Snowman Faces {style.version}", snowman_sequence_face_track[:1800], active=False)
+        if snowman_presence_track:
+            base.write_timing_track(xsq.root, f"AUTO Snowman Presence {style.version}", snowman_presence_track[:400], active=False)
+        if snowman_performance_track:
+            base.write_timing_track(xsq.root, f"AUTO Snowman Performance {style.version}", snowman_performance_track[:1800], active=False)
         if birdsong_track:
             base.write_timing_track(xsq.root, f"AUTO Birdsong {style.version}", birdsong_track[:2000], active=False)
     if spatial_track:
@@ -12518,6 +12765,7 @@ def run_variant(
         "spatial_choreography": spatial_choreography_payload,
         "signature_style": signature_style_payload,
         "cinematic_planner": cinematic_plan_payload,
+        "cinematic_layering": cinematic_layering_payload,
         "rhythm_intelligence": rhythm_intelligence_payload,
         "lyrics": {
             "count": len(lyric_events),

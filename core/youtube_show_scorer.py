@@ -74,6 +74,19 @@ MOTION_BY_EFFECT_TOKEN = {
     "ripple": "center_outward",
 }
 
+CINEMATIC_MOTION_ALIASES = {
+    "impact": "center_outward",
+    "drop": "center_outward",
+    "bloom": "center_outward",
+    "ripple": "center_outward",
+    "shimmer": "radial",
+    "sweep": "left_to_right",
+    "cascade": "top_down",
+    "lift": "bottom_up",
+    "orbit": "radial",
+    "support_hold": "",
+}
+
 
 def clamp(value: float, lo: float = 0.0, hi: float = 100.0) -> float:
     return max(lo, min(hi, float(value)))
@@ -267,6 +280,141 @@ def build_show_direction_summary(
         "notes": [
             "Report-only summary for generalized show-design scoring.",
             "Does not copy or infer any external creator timing pattern.",
+        ],
+    }
+
+
+def _cinematic_motion(raw: Any) -> str:
+    motion = _norm(raw)
+    if motion in COHERENT_MOTIONS:
+        return motion
+    for token, replacement in CINEMATIC_MOTION_ALIASES.items():
+        if token in motion:
+            return replacement
+    return motion
+
+
+def _section_pressure(label: str) -> float:
+    norm = _norm(label)
+    if any(token in norm for token in ("finale", "final")):
+        return 0.98
+    if any(token in norm for token in ("prechorus", "pre_chorus", "build", "buildup")):
+        return 0.62
+    if any(token in norm for token in ("drop", "chorus")):
+        return 0.88
+    if "bridge" in norm:
+        return 0.38
+    if "verse" in norm:
+        return 0.34
+    if "intro" in norm:
+        return 0.14
+    if "outro" in norm:
+        return 0.30
+    return 0.50
+
+
+def build_cinematic_show_direction_summary(
+    *,
+    cinematic_planner: Mapping[str, Any] | None,
+    parts: list[Any],
+    quiet_windows: list[tuple[int, int]] | None = None,
+) -> dict[str, Any]:
+    cues = [dict(item) for item in _as_list((cinematic_planner or {}).get("cues")) if isinstance(item, Mapping)]
+    quiet = [(int(start), int(end)) for start, end in (quiet_windows or []) if int(end) > int(start)]
+    sections: list[dict[str, Any]] = []
+    all_role_map: dict[str, str] = {}
+    show_end_ms = max((int(getattr(part, "end_ms", 0) or 0) for part in parts), default=0)
+
+    for index, part in enumerate(parts):
+        start_ms = int(getattr(part, "start_ms", 0) or 0)
+        end_ms = int(getattr(part, "end_ms", start_ms) or start_ms)
+        if end_ms <= start_ms:
+            continue
+        label = str(getattr(part, "label", "") or "")
+        if index == len(parts) - 1 and "outro" not in _norm(label) and "final" not in _norm(label):
+            label = "FINALE"
+
+        section_cues = [
+            cue
+            for cue in cues
+            if _overlap_ms(int(cue.get("start_ms", 0) or 0), int(cue.get("end_ms", 0) or 0), start_ms, end_ms) > 0
+        ]
+        role_order = {"primary": 0, "focus": 0, "support": 1, "motion": 2, "background": 3, "ambience": 3}
+        section_cues.sort(key=lambda cue: (role_order.get(_norm(cue.get("hierarchy_role") or cue.get("layer") or ""), 9), -_number(cue.get("intensity"), 0.0)))
+
+        active_props: list[str] = []
+        layers: list[str] = []
+        colors: list[str] = []
+        motions: list[str] = []
+        intensities: list[float] = []
+        for cue in section_cues:
+            family = _norm(cue.get("prop_family"))
+            role = _norm(cue.get("hierarchy_role") or cue.get("layer") or "support")
+            if family and family not in active_props:
+                active_props.append(family)
+            if role and role not in layers:
+                layers.append("focus" if role == "primary" else role)
+            for color in _as_list(cue.get("palette")):
+                color_text = str(color).lower()
+                if color_text and color_text not in colors:
+                    colors.append(color_text)
+            motion = _cinematic_motion(cue.get("motion"))
+            if motion:
+                motions.append(motion)
+            intensities.append(_number(cue.get("intensity"), 0.0))
+
+        primary = next((_norm(cue.get("prop_family")) for cue in section_cues if _norm(cue.get("hierarchy_role")) in {"primary", "focus"}), "")
+        if not primary and active_props:
+            primary = active_props[0]
+        active_props = active_props[:4]
+        if "final" in _norm(label) and "full_house" not in active_props:
+            active_props.insert(0, "full_house")
+            primary = "full_house"
+            for finale_family in ("megatree", "band"):
+                if len(active_props) >= 4:
+                    break
+                if finale_family not in active_props:
+                    active_props.append(finale_family)
+        role_map = {
+            family: ("hero" if family == primary else "motion" if idx == 2 else "support")
+            for idx, family in enumerate(active_props)
+        }
+        all_role_map.update(role_map)
+        quiet_ms = sum(_overlap_ms(start_ms, end_ms, q_start, q_end) for q_start, q_end in quiet)
+        pressure = _section_pressure(label)
+        measured_brightness = max(intensities) if intensities else 0.0
+        brightness = max(measured_brightness, pressure)
+        if _norm(label) in {"intro", "verse", "bridge", "outro"} or any(token in _norm(label) for token in ("intro", "verse", "bridge", "outro")):
+            brightness = min(brightness, pressure)
+        has_rest = bool(quiet_ms / max(1, end_ms - start_ms) >= 0.08 or pressure <= 0.62 or index == 0)
+        sections.append(
+            {
+                "label": label,
+                "start_ms": start_ms,
+                "end_ms": end_ms,
+                "focal_target": primary,
+                "active_props": active_props,
+                "layers": layers[:3] or ["focus"],
+                "colors": colors[:4] or ["template_palette"],
+                "motion": motions[0] if motions else "",
+                "brightness": round(clamp(brightness, 0.0, 1.0), 4),
+                "density": round(max(pressure, min(1.0, len(section_cues) / 5.0)), 4),
+                "coverage": round(min(1.0, len(active_props) / 3.0), 4),
+                "has_rest": has_rest,
+                "prop_roles": role_map,
+            }
+        )
+
+    return {
+        "schema_version": 1,
+        "source": "cinematic_planner_hierarchy",
+        "sections": sections,
+        "section_count": len(sections),
+        "prop_roles": all_role_map,
+        "quiet_window_count": len(quiet),
+        "notes": [
+            "Director summary uses Helix primary/support/motion hierarchy.",
+            "Raw density and import safety remain scored separately in quality and validation reports.",
         ],
     }
 

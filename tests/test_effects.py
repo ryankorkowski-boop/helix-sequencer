@@ -497,6 +497,36 @@ class EffectEngineTests(unittest.TestCase):
         hat_scale = effect_engine.cue_duration_scale("hat", placement_mode="player_piano", part_label="CHORUS")
         self.assertGreater(build_scale, hat_scale)
 
+    def test_cinematic_helpers_map_roles_and_expression_palette(self) -> None:
+        self.assertEqual(effect_engine.cinematic_layer_role_to_stem("focus"), "vocals")
+        self.assertEqual(effect_engine.cinematic_layer_role_to_stem("motion"), "drums")
+        self.assertEqual(effect_engine.cinematic_layer_role_to_stem("support"), "bass")
+
+        template = effect_engine.cinematic_palette_template({"palette": ["#ffd166", "#06d6a0", "#ffffff"]})
+
+        self.assertIsNotNone(template)
+        self.assertEqual(template.palette, "#ffd166,#06d6a0,#ffffff")
+        self.assertEqual(template.settings, "")
+
+    def test_snowman_performance_targets_bind_split_band_rows(self) -> None:
+        bass_targets = effect_engine.snowman_performance_effect_targets(
+            {"performer": "bassist", "kind": "pluck", "submodel": "pluck_zone"}
+        )
+        drum_targets = effect_engine.snowman_performance_effect_targets(
+            {"performer": "drummer", "kind": "snare", "submodel": "snare"}
+        )
+
+        self.assertIn(
+            ("HX_SNOWMAN_BASSIST_INSTRUMENT/HX_SNOWMAN_BASSIST_PLUCK_ZONE", "On", "snowman_bassist_pluck", "bass"),
+            bass_targets,
+        )
+        self.assertIn(
+            ("HX_SNOWMAN_DRUMMER_INSTRUMENT/HX_SNOWMAN_DRUMMER_SNARE", "On", "snowman_drummer_snare", "drums"),
+            drum_targets,
+        )
+        self.assertIn("#7a3f16", effect_engine.snowman_colored_template(bass_targets[0][0]).palette)
+        self.assertTrue(any("SCARF" in target for target, _stem, _palette in effect_engine.snowman_presence_targets()))
+
     def test_spatial_route_order_style_prefers_directional_styles_only_when_awareness_is_high(self) -> None:
         self.assertEqual(effect_engine.spatial_route_order_style("top_to_bottom", 0.75), "top_to_bottom")
         self.assertEqual(effect_engine.spatial_route_order_style("wave", 0.75), "left_to_right")
@@ -877,6 +907,9 @@ class EffectEngineTests(unittest.TestCase):
 
         self.assertGreater(safe["component_scores"]["flash_safety"], unsafe["component_scores"]["flash_safety"])
         self.assertLess(unsafe["score"], safe["score"])
+
+    def test_helix_prime_uses_structured_mode_to_avoid_broad_vu_spray(self) -> None:
+        self.assertTrue(effect_engine.is_structured_style(effect_engine.VARIANTS["v27.3"]))
 
     def test_validate_report_payload_blocks_unsafe_power_report(self) -> None:
         payload = {

@@ -12,8 +12,6 @@ class DrummerMotionConfig:
     anticipation_ms: int = 70
     strike_ms: int = 36
     rebound_ms: int = 130
-    humanize_min_ms: int = 10
-    humanize_max_ms: int = 30
     seed: int = 414
 
 
@@ -37,9 +35,7 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
         hand = assign_hand(event, previous_hand)
         if hand in {"left", "right"}:
             previous_hand = hand
-        sign = -1 if rng.random() < 0.5 else 1
-        humanize = sign * rng.randint(config.humanize_min_ms, config.humanize_max_ms)
-        strike = max(0, event.timestamp_ms + humanize)
+        strike = max(0, event.timestamp_ms)
         start = max(0, strike - config.anticipation_ms)
         end = strike + config.strike_ms + config.rebound_ms
         motions.append(
@@ -52,7 +48,6 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
                 "rebound_end_ms": end,
                 "velocity": round(max(0.0, min(1.0, event.velocity * (0.92 + rng.random() * 0.16))), 3),
                 "submodels": ["left_stick" if hand == "left" else "right_stick" if hand == "right" else "left_stick", "right_stick"] if hand == "both" else ([] if hand == "foot" else [f"{hand}_stick"]),
-                "humanized_offset_ms": humanize,
             }
         )
     return motions
