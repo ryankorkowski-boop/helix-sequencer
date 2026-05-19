@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import inspect
 import json
 import math
 import os
@@ -10,7 +11,7 @@ import random
 import re
 import shutil
 from bisect import bisect_left
-from collections.abc import Iterator, Mapping
+from collections.abc import Callable, Iterator, Mapping
 from collections import Counter
 from dataclasses import dataclass, field, replace
 from pathlib import Path
@@ -220,6 +221,18 @@ class RuntimeTuning:
     hardkor_profile: str = "ac256"
     power_metadata_file: Path | None = None
     fail_on_power_risk: bool = False
+
+
+@dataclass
+class BirdsongV2Result:
+    enabled: bool
+    placements: int
+    timing_spans: list[tuple[str, int, int]]
+    trigger_waves: int = 0
+    director_sections: tuple[str, ...] = ()
+    colorized_events: int = 0
+    choreographed_events: int = 0
+    reason: str = ""
 
 
 @dataclass
@@ -2113,6 +2126,241 @@ def hit_class_for_time(t_ms: int, *, kicks: list[int], snares: list[int], hats: 
     if has_nearby_mark(t_ms, hats, 35):
         return "hat"
     return "none"
+
+
+def _finite01(value: object, default: float = 0.0) -> float:
+    try:
+        result = float(value)
+    except Exception:
+        return default
+    if not math.isfinite(result):
+        return default
+    return base.clamp(result, 0.0, 1.0)
+
+
+def _audio_curve_value(audio: object, curve_name: str, t_ms: int) -> float:
+    times = getattr(audio, "times_s", [])
+    values = getattr(audio, curve_name, [])
+    try:
+        if len(times) == 0 or len(values) == 0:
+            return 0.0
+        return _finite01(base.nearest(times, values, t_ms / 1000.0))
+    except Exception:
+        return 0.0
+
+
+def _birdsong_v2_beat_phase(t_ms: int, beat_ms: list[int]) -> float:
+    if len(beat_ms) < 2:
+        return 0.0
+    idx = bisect_left(beat_ms, int(t_ms))
+    prev_ms = beat_ms[max(0, idx - 1)]
+    next_ms = beat_ms[min(len(beat_ms) - 1, max(idx, 1))]
+    if next_ms <= prev_ms:
+        return 0.0
+    return base.clamp((float(t_ms) - float(prev_ms)) / float(next_ms - prev_ms), 0.0, 1.0)
+
+
+def build_birdsong_v2_features(
+    *,
+    audio: object,
+    multiband: MultiBandAnalysis,
+    t_ms: int,
+    onset_ms: list[int],
+    beat_ms: list[int],
+) -> dict[str, object]:
+    centroid = _finite01(curve_value_at_time(multiband.frame_times_s, multiband.spectral_centroid01, t_ms))
+    flux = _finite01(curve_value_at_time(multiband.frame_times_s, multiband.spectral_flux01, t_ms))
+    energy = _audio_curve_value(audio, "rms01", t_ms)
+    low = _audio_curve_value(audio, "bass01", t_ms)
+    mid = _audio_curve_value(audio, "vocal01", t_ms)
+    high = _finite01(max(centroid, _audio_curve_value(audio, "rms01", t_ms) * centroid))
+    onset = 1.0 if has_nearby_mark(t_ms, onset_ms, 45) else flux
+    return {
+        "time_s": float(t_ms) / 1000.0,
+        "energy": energy,
+        "onset": _finite01(onset),
+        "centroid": centroid,
+        "bands": [low, mid, high],
+        "beat_phase": _birdsong_v2_beat_phase(t_ms, beat_ms),
+    }
+
+
+def birdsong_v2_dynamic_mix(*, base_mix: float, energy: float, intensity: float) -> float:
+    try:
+        intensity_value = max(0.0, float(intensity))
+    except Exception:
+        intensity_value = 1.0
+    if not math.isfinite(intensity_value):
+        intensity_value = 1.0
+    return base.clamp(
+        (_finite01(base_mix) * 0.55) + (_finite01(energy) * 0.30) + (intensity_value * 0.15),
+        0.0,
+        1.0,
+    )
+
+
+def birdsong_v2_event_limit(*, base_mix: float, energy: float, intensity: float) -> int:
+    dynamic_mix = birdsong_v2_dynamic_mix(base_mix=base_mix, energy=energy, intensity=intensity)
+    return int(2 + dynamic_mix * 6)
+
+
+def birdsong_v2_should_enable(*, enabled: bool, auto: bool, confidence: float, min_confidence: float) -> bool:
+    if enabled:
+        return True
+    if not auto:
+        return False
+    return float(confidence) >= float(min_confidence)
+
+
+def _birdsong_v2_beat_grid(multiband: MultiBandAnalysis) -> object | None:
+    try:
+        tempo = float(getattr(multiband, "tempo_bpm", 0.0) or 0.0)
+    except Exception:
+        tempo = 0.0
+    if not math.isfinite(tempo) or tempo <= 0.0:
+        return None
+    from core.beat_grid import BeatGrid
+
+    return BeatGrid(tempo)
+
+
+def _quantize_birdsong_v2_range(start_ms: int, end_ms: int, beat_grid: object | None) -> tuple[int, int]:
+    if beat_grid is None:
+        return int(start_ms), max(int(start_ms) + 1, int(end_ms))
+    try:
+        start_s = beat_grid.subdivision(float(start_ms) / 1000.0, division=4)  # type: ignore[attr-defined]
+        end_s = beat_grid.subdivision(float(end_ms) / 1000.0, division=4)  # type: ignore[attr-defined]
+        if end_s <= start_s:
+            end_s = beat_grid.next_subdivision(start_s, division=4)  # type: ignore[attr-defined]
+    except Exception:
+        return int(start_ms), max(int(start_ms) + 1, int(end_ms))
+    quantized_start = int(round(start_s * 1000.0))
+    quantized_end = int(round(end_s * 1000.0))
+    return quantized_start, max(quantized_start + 50, quantized_end)
+
+
+def _callable_supports_kwarg(fn: Callable[..., object], name: str) -> bool:
+    try:
+        signature = inspect.signature(fn)
+    except Exception:
+        return False
+    return any(
+        parameter.kind == inspect.Parameter.VAR_KEYWORD or parameter.name == name
+        for parameter in signature.parameters.values()
+    )
+
+
+def place_birdsong_v2_overlay(
+    *,
+    audio: object,
+    multiband: MultiBandAnalysis,
+    model_names: list[str],
+    event_times_ms: list[int],
+    onset_ms: list[int],
+    beat_ms: list[int],
+    hats: list[int] | None = None,
+    add_model: Callable[..., None],
+    in_blackout: Callable[[int], bool],
+    enabled: bool,
+    base_mix: float = 0.35,
+    intensity: float = 1.0,
+    max_events_per_frame: int = 8,
+    max_frames: int | None = None,
+) -> BirdsongV2Result:
+    if not enabled:
+        return BirdsongV2Result(False, 0, [], reason="disabled")
+    clean_names = [str(name) for name in model_names if str(name)]
+    if not clean_names:
+        return BirdsongV2Result(False, 0, [], reason="no_targets")
+    candidate_times = base.compress_times_ms(
+        [int(t_ms) for t_ms in event_times_ms if int(t_ms) >= 0],
+        90,
+    )
+    if not candidate_times:
+        return BirdsongV2Result(False, 0, [], reason="no_frames")
+
+    from core.birdsong_generative import BirdsongPipeline, SpatialMap, spawn_trigger_wave
+    from core.choreography import ChoreographyEngine
+    from core.color_system import ColorEngine
+    from core.show_director import ShowDirector
+
+    pipeline = BirdsongPipeline(SpatialMap.from_model_names(clean_names))
+    choreography = ChoreographyEngine(clean_names)
+    color_engine = ColorEngine()
+    add_model_accepts_color = _callable_supports_kwarg(add_model, "color")
+    duration_s = max(1.0, float(getattr(audio, "dur_s", 0.0) or 0.0))
+    director = ShowDirector(song_length_s=duration_s)
+    beat_grid = _birdsong_v2_beat_grid(multiband)
+    frame_limit = max_frames if max_frames is not None else max(16, min(800, int(duration_s * 5.0)))
+    event_cap = max(1, int(max_events_per_frame))
+    placements = 0
+    trigger_waves = 0
+    colorized_events = 0
+    choreographed_events = 0
+    director_sections: list[str] = []
+    timing_spans: list[tuple[str, int, int]] = []
+    for t_ms in candidate_times[:frame_limit]:
+        if in_blackout(t_ms):
+            continue
+        features = build_birdsong_v2_features(
+            audio=audio,
+            multiband=multiband,
+            t_ms=t_ms,
+            onset_ms=onset_ms,
+            beat_ms=beat_ms,
+        )
+        time_s = float(t_ms) / 1000.0
+        energy = float(features.get("energy", 0.0) or 0.0)
+        director_state = director.update(time_s, energy)
+        if not director_sections or director_sections[-1] != director_state.section:
+            director_sections.append(director_state.section)
+        directed_intensity = float(intensity) * (0.65 + (director_state.intensity * 0.70))
+        pipeline.feature_state.update(features, time_s)
+        phrase = pipeline.phrase_engine.update(time_s, pipeline.feature_state)
+        color_engine.update(phrase, directed_intensity)
+        event_limit = min(
+            event_cap,
+            birdsong_v2_event_limit(
+                base_mix=base_mix,
+                energy=energy,
+                intensity=directed_intensity,
+            ),
+        )
+        dynamic_mix = birdsong_v2_dynamic_mix(
+            base_mix=base_mix,
+            energy=energy,
+            intensity=directed_intensity,
+        )
+        if dynamic_mix > 0.40 and has_nearby_mark(t_ms, hats or [], 35):
+            assert pipeline.behavior_engine is not None
+            wave = spawn_trigger_wave("hat", pipeline.feature_state, pipeline.spatial_map)
+            pipeline.behavior_engine.inject_wave(wave)
+            if wave is not None:
+                trigger_waves += 1
+        assert pipeline.behavior_engine is not None
+        events = pipeline.behavior_engine.update(time_s, pipeline.feature_state, phrase)
+        for event in events[:event_limit]:
+            event = choreography.transform_event(event, phrase)
+            choreographed_events += 1
+            start_ms, end_ms = _quantize_birdsong_v2_range(event.start_ms, event.end_ms, beat_grid)
+            color = color_engine.pick_color(event.model, event.intensity)
+            if add_model_accepts_color:
+                add_model(event.model, start_ms, end_ms, "birdsong_v2", eff=event.effect, stem="other", color=color)
+                colorized_events += 1
+            else:
+                add_model(event.model, start_ms, end_ms, "birdsong_v2", eff=event.effect, stem="other")
+            placements += 1
+            timing_spans.append((f"{event.motif}:{event.effect}", start_ms, end_ms))
+    return BirdsongV2Result(
+        placements > 0,
+        placements,
+        timing_spans,
+        trigger_waves=trigger_waves,
+        director_sections=tuple(director_sections),
+        colorized_events=colorized_events,
+        choreographed_events=choreographed_events,
+        reason="ok" if placements else "no_events",
+    )
 
 
 def rhythm_complexity_by_part(parts: list[SongPart], onset_ms: list[int], beat_ms: list[int]) -> dict[str, float]:
@@ -11001,6 +11249,12 @@ def run_variant(
         timing_spans=[],
         reason="not_run",
     )
+    birdsong_v2_result = BirdsongV2Result(
+        enabled=False,
+        placements=0,
+        timing_spans=[],
+        reason="not_run",
+    )
     hardkor_result = hardkor_engine.HardKorResult(
         enabled=False,
         placements=0,
@@ -12061,6 +12315,37 @@ def run_variant(
                 f"{birdsong_result.reason} (confidence={birdsong_result.confidence:.2f}, "
                 f"threshold={tuning.birdsong_min_confidence:.2f})"
             )
+        birdsong_v2_enabled = birdsong_v2_should_enable(
+            enabled=bool(tuning.birdsong_enabled),
+            auto=bool(tuning.birdsong_auto),
+            confidence=float(birdsong_result.confidence),
+            min_confidence=float(tuning.birdsong_min_confidence),
+        )
+        if birdsong_v2_enabled:
+            try:
+                birdsong_v2_result = place_birdsong_v2_overlay(
+                    audio=audio,
+                    multiband=multiband,
+                    model_names=list(layers.keys()),
+                    event_times_ms=sorted(set(onset_ms + multiband.loud_marks + kicks + snares + hats)),
+                    onset_ms=onset_ms,
+                    beat_ms=beat_ms,
+                    hats=hats,
+                    add_model=add_model,
+                    in_blackout=in_blackout,
+                    enabled=True,
+                    base_mix=float(getattr(tuning, "birdsong_mix", 0.35)),
+                    intensity=float(tuning.birdsong_intensity),
+                    max_events_per_frame=8,
+                )
+            except Exception as exc:
+                birdsong_v2_result = BirdsongV2Result(False, 0, [], reason=f"error:{exc!r}")
+            if birdsong_v2_result.timing_spans:
+                birdsong_track.extend(birdsong_v2_result.timing_spans)
+            if birdsong_v2_result.enabled:
+                log(f"Birdsong v2 placements: events={birdsong_v2_result.placements}")
+            else:
+                log(f"Birdsong v2 skipped: {birdsong_v2_result.reason}")
 
     if not hardkor_mode:
         for part in parts:
@@ -12451,6 +12736,16 @@ def run_variant(
             "species_counts": birdsong_result.species_counts,
             "reason": birdsong_result.reason,
             "timing_track_events": len(birdsong_track),
+            "v2": {
+                "enabled": bool(birdsong_v2_result.enabled),
+                "placements": int(birdsong_v2_result.placements),
+                "trigger_waves": int(birdsong_v2_result.trigger_waves),
+                "director_sections": list(birdsong_v2_result.director_sections),
+                "colorized_events": int(birdsong_v2_result.colorized_events),
+                "choreographed_events": int(birdsong_v2_result.choreographed_events),
+                "reason": str(birdsong_v2_result.reason),
+                "timing_track_events": len(birdsong_v2_result.timing_spans),
+            },
         },
         "template_profile": {
             "category_scores": template_profile.category_scores,

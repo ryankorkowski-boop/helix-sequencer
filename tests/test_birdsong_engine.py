@@ -4,6 +4,8 @@ import random
 import unittest
 from types import SimpleNamespace
 
+import numpy as np
+
 from core import birdsong_engine
 from core import effect_engine
 
@@ -90,6 +92,278 @@ class BirdsongEngineTests(unittest.TestCase):
         self.assertAlmostEqual(args.birdsong_intensity, 1.35)
         self.assertAlmostEqual(args.birdsong_min_confidence, 0.5)
         self.assertEqual(args.birdsong_profile, "canopy")
+
+    def test_birdsong_v2_dynamic_mix_scales_density_deterministically(self) -> None:
+        low_mix = effect_engine.birdsong_v2_dynamic_mix(base_mix=0.35, energy=0.1, intensity=0.5)
+        high_mix = effect_engine.birdsong_v2_dynamic_mix(base_mix=0.35, energy=0.9, intensity=1.5)
+
+        self.assertLess(low_mix, high_mix)
+        self.assertEqual(
+            effect_engine.birdsong_v2_event_limit(base_mix=0.35, energy=0.1, intensity=0.5),
+            int(2 + low_mix * 6),
+        )
+        self.assertGreater(
+            effect_engine.birdsong_v2_event_limit(base_mix=0.35, energy=0.9, intensity=1.5),
+            effect_engine.birdsong_v2_event_limit(base_mix=0.35, energy=0.1, intensity=0.5),
+        )
+
+    def test_birdsong_v2_enable_guardrails_are_deterministic(self) -> None:
+        self.assertFalse(
+            effect_engine.birdsong_v2_should_enable(
+                enabled=False,
+                auto=False,
+                confidence=1.0,
+                min_confidence=0.45,
+            )
+        )
+        self.assertFalse(
+            effect_engine.birdsong_v2_should_enable(
+                enabled=False,
+                auto=True,
+                confidence=0.44,
+                min_confidence=0.45,
+            )
+        )
+        self.assertTrue(
+            effect_engine.birdsong_v2_should_enable(
+                enabled=False,
+                auto=True,
+                confidence=0.45,
+                min_confidence=0.45,
+            )
+        )
+        self.assertTrue(
+            effect_engine.birdsong_v2_should_enable(
+                enabled=True,
+                auto=False,
+                confidence=0.0,
+                min_confidence=1.0,
+            )
+        )
+
+    def test_place_birdsong_v2_overlay_is_flag_gated(self) -> None:
+        audio = SimpleNamespace(
+            dur_s=2.0,
+            times_s=np.asarray([0.0, 1.0, 2.0]),
+            rms01=np.asarray([0.1, 0.9, 0.2]),
+            bass01=np.asarray([0.1, 0.8, 0.1]),
+            vocal01=np.asarray([0.1, 0.4, 0.1]),
+        )
+        multiband = effect_engine.MultiBandAnalysis(
+            sub_bass_marks=[],
+            bass_marks=[],
+            mid_marks=[],
+            high_marks=[],
+            spectral_flux_marks=[],
+            loud_marks=[1000],
+            quiet_windows=[],
+            dominance_marks={},
+            frame_times_s=np.asarray([0.0, 1.0, 2.0]),
+            spectral_centroid01=np.asarray([0.1, 0.7, 0.2]),
+            spectral_flux01=np.asarray([0.1, 0.9, 0.1]),
+        )
+        placements: list[tuple[str, int, int, str, str]] = []
+
+        def add_model(model: str, st: int, en: int, label: str, eff: str = "On", **_: object) -> None:
+            placements.append((model, st, en, label, eff))
+
+        disabled = effect_engine.place_birdsong_v2_overlay(
+            audio=audio,
+            multiband=multiband,
+            model_names=["left_line", "kick_drum_ground", "roof_star"],
+            event_times_ms=[1000],
+            onset_ms=[1000],
+            beat_ms=[0, 1000, 2000],
+            add_model=add_model,
+            in_blackout=lambda _value: False,
+            enabled=False,
+        )
+        self.assertFalse(disabled.enabled)
+        self.assertEqual(disabled.reason, "disabled")
+        self.assertEqual(placements, [])
+
+    def test_place_birdsong_v2_overlay_places_deterministic_events_when_enabled(self) -> None:
+        audio = SimpleNamespace(
+            dur_s=2.0,
+            times_s=np.asarray([0.0, 1.0, 2.0]),
+            rms01=np.asarray([0.1, 0.9, 0.2]),
+            bass01=np.asarray([0.1, 0.8, 0.1]),
+            vocal01=np.asarray([0.1, 0.4, 0.1]),
+        )
+        multiband = effect_engine.MultiBandAnalysis(
+            sub_bass_marks=[],
+            bass_marks=[],
+            mid_marks=[],
+            high_marks=[],
+            spectral_flux_marks=[],
+            loud_marks=[1000],
+            quiet_windows=[],
+            dominance_marks={},
+            frame_times_s=np.asarray([0.0, 1.0, 2.0]),
+            spectral_centroid01=np.asarray([0.1, 0.7, 0.2]),
+            spectral_flux01=np.asarray([0.1, 0.9, 0.1]),
+        )
+
+        def run_once() -> list[tuple[str, int, int, str, str]]:
+            placements: list[tuple[str, int, int, str, str]] = []
+
+            def add_model(model: str, st: int, en: int, label: str, eff: str = "On", **_: object) -> None:
+                placements.append((model, st, en, label, eff))
+
+            result = effect_engine.place_birdsong_v2_overlay(
+                audio=audio,
+                multiband=multiband,
+                model_names=["left_line", "kick_drum_ground", "roof_star"],
+                event_times_ms=[1000],
+                onset_ms=[1000],
+                beat_ms=[0, 1000, 2000],
+                hats=[1000],
+                add_model=add_model,
+                in_blackout=lambda _value: False,
+                enabled=True,
+            )
+            self.assertTrue(result.enabled)
+            self.assertGreater(result.placements, 0)
+            self.assertEqual(result.trigger_waves, 1)
+            self.assertEqual(result.director_sections, ("drop",))
+            self.assertEqual(result.choreographed_events, result.placements)
+            return placements
+
+        first = run_once()
+        second = run_once()
+
+        self.assertEqual(first, second)
+        self.assertTrue(all(label == "birdsong_v2" for _, _, _, label, _ in first))
+
+    def test_place_birdsong_v2_overlay_quantizes_events_when_tempo_is_available(self) -> None:
+        audio = SimpleNamespace(
+            dur_s=2.0,
+            times_s=np.asarray([0.0, 1.12, 2.0]),
+            rms01=np.asarray([0.1, 0.9, 0.2]),
+            bass01=np.asarray([0.1, 0.8, 0.1]),
+            vocal01=np.asarray([0.1, 0.4, 0.1]),
+        )
+        multiband = effect_engine.MultiBandAnalysis(
+            sub_bass_marks=[],
+            bass_marks=[],
+            mid_marks=[],
+            high_marks=[],
+            spectral_flux_marks=[],
+            loud_marks=[1120],
+            quiet_windows=[],
+            dominance_marks={},
+            frame_times_s=np.asarray([0.0, 1.12, 2.0]),
+            spectral_centroid01=np.asarray([0.1, 0.7, 0.2]),
+            spectral_flux01=np.asarray([0.1, 0.9, 0.1]),
+            tempo_bpm=120.0,
+        )
+        placements: list[tuple[str, int, int, str, str]] = []
+
+        def add_model(model: str, st: int, en: int, label: str, eff: str = "On", **_: object) -> None:
+            placements.append((model, st, en, label, eff))
+
+        result = effect_engine.place_birdsong_v2_overlay(
+            audio=audio,
+            multiband=multiband,
+            model_names=["left_line", "kick_drum_ground", "roof_star"],
+            event_times_ms=[1120],
+            onset_ms=[1120],
+            beat_ms=[0, 500, 1000, 1500, 2000],
+            hats=[],
+            add_model=add_model,
+            in_blackout=lambda _value: False,
+            enabled=True,
+        )
+
+        self.assertTrue(result.enabled)
+        self.assertTrue(placements)
+        self.assertTrue(all(st % 125 == 0 for _, st, _, _, _ in placements))
+        self.assertTrue(all(en % 125 == 0 for _, _, en, _, _ in placements))
+
+    def test_place_birdsong_v2_overlay_passes_color_when_supported(self) -> None:
+        audio = SimpleNamespace(
+            dur_s=2.0,
+            times_s=np.asarray([0.0, 1.0, 2.0]),
+            rms01=np.asarray([0.1, 0.9, 0.2]),
+            bass01=np.asarray([0.1, 0.8, 0.1]),
+            vocal01=np.asarray([0.1, 0.4, 0.1]),
+        )
+        multiband = effect_engine.MultiBandAnalysis(
+            sub_bass_marks=[],
+            bass_marks=[],
+            mid_marks=[],
+            high_marks=[],
+            spectral_flux_marks=[],
+            loud_marks=[1000],
+            quiet_windows=[],
+            dominance_marks={},
+            frame_times_s=np.asarray([0.0, 1.0, 2.0]),
+            spectral_centroid01=np.asarray([0.1, 0.7, 0.2]),
+            spectral_flux01=np.asarray([0.1, 0.9, 0.1]),
+        )
+        placements: list[tuple[str, tuple[int, int, int] | None]] = []
+
+        def add_model(model: str, st: int, en: int, label: str, eff: str = "On", color: tuple[int, int, int] | None = None, **_: object) -> None:
+            placements.append((model, color))
+
+        result = effect_engine.place_birdsong_v2_overlay(
+            audio=audio,
+            multiband=multiband,
+            model_names=["left_line", "kick_drum_ground", "roof_star"],
+            event_times_ms=[1000],
+            onset_ms=[1000],
+            beat_ms=[0, 1000, 2000],
+            hats=[],
+            add_model=add_model,
+            in_blackout=lambda _value: False,
+            enabled=True,
+        )
+
+        self.assertEqual(result.colorized_events, result.placements)
+        self.assertTrue(all(color is not None for _, color in placements))
+
+    def test_place_birdsong_v2_overlay_does_not_require_color_support(self) -> None:
+        audio = SimpleNamespace(
+            dur_s=2.0,
+            times_s=np.asarray([0.0, 1.0, 2.0]),
+            rms01=np.asarray([0.1, 0.9, 0.2]),
+            bass01=np.asarray([0.1, 0.8, 0.1]),
+            vocal01=np.asarray([0.1, 0.4, 0.1]),
+        )
+        multiband = effect_engine.MultiBandAnalysis(
+            sub_bass_marks=[],
+            bass_marks=[],
+            mid_marks=[],
+            high_marks=[],
+            spectral_flux_marks=[],
+            loud_marks=[1000],
+            quiet_windows=[],
+            dominance_marks={},
+            frame_times_s=np.asarray([0.0, 1.0, 2.0]),
+            spectral_centroid01=np.asarray([0.1, 0.7, 0.2]),
+            spectral_flux01=np.asarray([0.1, 0.9, 0.1]),
+        )
+        placements: list[str] = []
+
+        def add_model(model: str, st: int, en: int, label: str, eff: str = "On", stem: str = "other") -> None:
+            placements.append(model)
+
+        result = effect_engine.place_birdsong_v2_overlay(
+            audio=audio,
+            multiband=multiband,
+            model_names=["left_line", "kick_drum_ground", "roof_star"],
+            event_times_ms=[1000],
+            onset_ms=[1000],
+            beat_ms=[0, 1000, 2000],
+            hats=[],
+            add_model=add_model,
+            in_blackout=lambda _value: False,
+            enabled=True,
+        )
+
+        self.assertGreater(result.placements, 0)
+        self.assertEqual(result.colorized_events, 0)
+        self.assertTrue(placements)
 
 
 if __name__ == "__main__":
