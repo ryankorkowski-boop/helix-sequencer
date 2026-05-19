@@ -3,6 +3,7 @@ name: Run available audio newest winner preview
 on:
   push:
     branches:
+      - feature/restructure-core
       - preview-mp4-quality-presets
   workflow_dispatch:
 
