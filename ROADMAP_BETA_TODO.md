@@ -36,8 +36,21 @@ A beta build is ready when all of these are true:
 - [ ] Each run writes a run manifest containing inputs, profile, engine version, timestamps, and generated files.
 - [ ] Generated XSQ/import artifacts open in xLights or fail with a documented, reproducible error.
 - [ ] A sample feedback form/checklist exists for beta testers.
-- [ ] License and data-use boundaries are documented in plain English.
+- [x] License and data-use boundaries are documented in plain English. Evidence: `docs/BETA_POLICY.md`.
 - [ ] At least one clean-room demo layout/audio/template run is included for internal smoke testing.
+
+## Current status summary
+
+Completed:
+
+- Phase 0 repository contract docs are present.
+- Phase 1 declared dev requirements, targeted beta CI, and cross-platform bootstrap/smoke scripts are present.
+
+Known gaps:
+
+- Issue #72 tracks the older broad `Helix CI` full-suite pytest failure.
+- The new `Helix Beta CI` is a targeted smoke gate, not a replacement for full-suite CI.
+- Clean-room beta demo fixtures, run manifests, no-overwrite safety, and GUI beta mode are still unfinished.
 
 ## Phase 0 — Repository contract and safety baseline
 
@@ -59,9 +72,9 @@ Include:
 
 Acceptance:
 
-- [ ] `docs/SUPPORT_MATRIX.md` exists.
-- [ ] README links to it.
-- [ ] The doc clearly says what a beta tester should and should not expect.
+- [x] `docs/SUPPORT_MATRIX.md` exists.
+- [x] README links to it.
+- [x] The doc clearly says what a beta tester should and should not expect.
 
 ### 0.2 Create beta data-use and safety policy
 
@@ -78,8 +91,8 @@ Include plain-English statements:
 
 Acceptance:
 
-- [ ] Policy exists and is linked from README and GUI beta notes.
-- [ ] Policy distinguishes input assets, generated outputs, and persistent learning memory.
+- [x] Policy exists and is linked from README and GUI beta notes.
+- [x] Policy distinguishes input assets, generated outputs, and persistent learning memory.
 
 ### 0.3 Add agent task index
 
@@ -95,9 +108,9 @@ It should say:
 
 Acceptance:
 
-- [ ] `TASKS.md` exists.
-- [ ] It points to this file.
-- [ ] It has a current "next recommended task" section.
+- [x] `TASKS.md` exists.
+- [x] It points to this file.
+- [x] It has a current "next recommended task" section.
 
 ## Phase 1 — Reproducible environment and CI
 
@@ -123,9 +136,9 @@ Then decide whether `scikit-learn` belongs in runtime or only dev/test.
 
 Acceptance:
 
-- [ ] `python -m pip install -r requirements.txt -r requirements-dev.txt` works.
-- [ ] CI uses the same files.
-- [ ] No dependency is installed in CI without being declared in a requirements file.
+- [x] `python -m pip install -r requirements.txt -r requirements-dev.txt` works through the Phase 1 beta CI dependency install.
+- [x] CI uses the same files in `.github/workflows/helix-ci.yml`.
+- [x] The targeted beta CI installs from declared requirement files only.
 
 ### 1.2 Replace/extend CI with a real beta gate
 
@@ -141,10 +154,10 @@ Required jobs:
 
 Acceptance:
 
-- [ ] CI runs on pull requests.
-- [ ] CI runs on pushes to `feature/restructure-core` and roadmap/beta branches.
-- [ ] CI uses Python versions documented in support matrix.
-- [ ] CI artifact upload captures run manifests/logs when smoke runs succeed.
+- [x] CI runs on pull requests.
+- [x] CI runs on pushes to `feature/restructure-core` and roadmap/beta branches.
+- [x] CI uses Python versions documented in support matrix.
+- [ ] CI artifact upload captures run manifests/logs when smoke runs succeed. Blocked until run manifests and clean-room smoke exist.
 
 ### 1.3 Add bootstrap scripts
 
@@ -157,8 +170,8 @@ Add simple scripts:
 
 Acceptance:
 
-- [ ] Scripts install dependencies.
-- [ ] Scripts run compile/test/list-profiles.
+- [x] Scripts install dependencies.
+- [x] Scripts run compile/test/list-profiles.
 - [ ] README beta instructions use these scripts.
 
 ## Phase 2 — GUI beta hardening
@@ -455,10 +468,10 @@ Acceptance:
 
 Start here, in this exact order:
 
-1. Add `TASKS.md` pointing to this roadmap.
-2. Add `docs/SUPPORT_MATRIX.md`.
-3. Add `docs/BETA_POLICY.md`.
-4. Add `requirements-dev.txt` and update CI to use it.
+1. ~~Add `TASKS.md` pointing to this roadmap.~~ Done.
+2. ~~Add `docs/SUPPORT_MATRIX.md`.~~ Done.
+3. ~~Add `docs/BETA_POLICY.md`.~~ Done.
+4. ~~Add `requirements-dev.txt` and update CI to use it.~~ Done for targeted beta CI; old broad CI issue tracked in #72.
 5. Add clean-room beta smoke fixture or script-generated fixture.
 6. Add run manifest support without changing sequencing output.
 7. Add GUI beta mode/dry-check behavior.
@@ -478,9 +491,9 @@ Start here, in this exact order:
 
 ## Suggested PR slicing
 
-PR 1: docs-only beta roadmap, support matrix, beta policy, tasks index.
+PR 1: docs-only beta roadmap, support matrix, beta policy, tasks index. Done.
 
-PR 2: dependency/CI normalization.
+PR 2: dependency/CI normalization. Done for targeted beta CI; broad full-suite CI triage remains issue #72.
 
 PR 3: clean-room smoke fixture and XML structural checks.
 
@@ -501,3 +514,5 @@ Update this section after each PR.
 | Date | Agent/Human | Change | Evidence |
 |---|---|---|---|
 | 2026-05-15 | ChatGPT | Created beta-version autonomous roadmap and removed vendor framing. | `ROADMAP_BETA_TODO.md` |
+| 2026-05-18 | ChatGPT | Added Phase 1 dev requirements, targeted Helix Beta CI, and Windows/Unix bootstrap and smoke scripts. | PR #71 / commit `008433d547491cf6e260652015843dd8c7360631` |
+| 2026-05-18 | ChatGPT | Recorded old broad Helix CI full-suite pytest failure as separate triage work. | Issue #72 |
