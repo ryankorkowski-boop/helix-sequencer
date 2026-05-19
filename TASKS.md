@@ -10,14 +10,31 @@ This is the short starting point for humans, Codex-style coding agents, and auto
 4. `AGENTS.md` — repo-wide agent rules.
 5. `README.md` — active entrypoints and current repo structure.
 
+## Current repo status
+
+Recently completed:
+
+- Phase 0 docs baseline exists: task index, support matrix, and beta policy.
+- Phase 1 dependency/CI/bootstrap slice exists:
+  - `requirements-dev.txt`
+  - `.github/workflows/helix-ci.yml`
+  - `scripts/bootstrap_windows.ps1`
+  - `scripts/bootstrap_unix.sh`
+  - `scripts/run_smoke.ps1`
+  - `scripts/run_smoke.sh`
+
+Known blocker:
+
+- The newer targeted `Helix Beta CI` gate is green on the Phase 1 PR, but the older broad `Helix CI` full-suite pytest job is tracked separately in issue #72 and still needs exact failure triage.
+
 ## Current next recommended task
 
-Proceed with Phase 1 from `ROADMAP_BETA_TODO.md`:
+Proceed with the next beta-readiness slice from `ROADMAP_BETA_TODO.md`:
 
-1. Add `requirements-dev.txt`.
-2. Update CI to install from declared requirements only.
-3. Add compile/test/profile-list smoke checks.
-4. Keep this as a small PR before adding GUI behavior changes.
+1. Add a clean-room beta demo fixture under `tests/fixtures/beta_demo/` using only synthetic/repo-safe assets.
+2. Add structural smoke checks proving generated XML/XSQ output is parseable, non-empty, ordered, and free of obvious invalid serialized values.
+3. Add run-manifest and no-overwrite support without changing sequencing behavior.
+4. Keep this as a small PR before adding GUI beta-mode behavior.
 
 ## Agent operating checklist
 
@@ -37,14 +54,14 @@ Before opening a PR:
 
 ## Current beta priorities
 
-1. Documentation and policy baseline.
-2. Reproducible dependency/CI setup.
-3. Clean-room smoke fixture.
-4. Run manifest and no-overwrite guarantees.
-5. GUI beta mode and dry-check behavior.
-6. Beta README, feedback form, and issue templates.
-7. Windows packaging smoke.
-8. Engine facade and typed config/result containment.
+1. Restore or triage the broad full-suite `Helix CI` failure in issue #72.
+2. Clean-room smoke fixture.
+3. Run manifest and no-overwrite guarantees.
+4. GUI beta mode and dry-check behavior.
+5. Beta README, feedback form, and issue templates.
+6. Windows packaging smoke.
+7. Engine facade and typed config/result containment.
+8. Legacy/open-PR cleanup only after the beta path is stable.
 
 ## Non-goals for near-term agents
 
@@ -53,3 +70,4 @@ Before opening a PR:
 - Do not add marketplace/model scraping.
 - Do not claim production-quality unattended show deployment.
 - Do not broaden support to every legacy profile until the beta path is stable.
+- Do not merge stale broad branches or giant draft PRs without rebasing, splitting, and revalidating first.
