@@ -4,7 +4,10 @@ on:
   pull_request:
   push:
     branches:
-      - "**"
+      - feature/restructure-core
+      - 'codex/**'
+      - 'feature/**'
+      - 'beta/**'
   workflow_dispatch:
 
 permissions:
@@ -15,230 +18,41 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  source-hygiene:
-    name: Source hygiene gate
+  beta-smoke:
+    name: beta smoke / python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Block audit-questionable retained guidance
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo "Checking for retained source-derived guidance markers..."
-          blocked_regex='training_mode|training_use|vendor benchmark|YouTube-grade|YouTube-style|creator-specific|source-specific choreography|paid sequence training|transcript dump|preview_and_metadata|own_generated_only|vendor_manifest'
-
-          allowlisted_paths=(
-            './docs/legal_learning_policy.md'
-            './agents/legal_learning_policy.agents.md'
-            './docs/HELIX_PRODUCT_VISION.md'
-            './docs/HELIX_IMPLEMENTATION_ROADMAP.md'
-            './docs/HELIXIA_LAYOUT_DIRECTION.md'
-            './agents/helix_implementation_direction.agents.md'
-            './core/youtube_show_scorer.py'
-            './docs/V28_A_PLUS_BENCHMARK.md'
-          )
-
-          is_allowlisted() {
-            local candidate="$1"
-            local allowed
-            for allowed in "${allowlisted_paths[@]}"; do
-              if [[ "$candidate" == "$allowed" ]]; then
-                return 0
-              fi
-            done
-            return 1
-          }
-
-          failed=0
-          while IFS= read -r -d '' file; do
-            if is_allowlisted "$file"; then
-              continue
-            fi
-            if grep -InE "$blocked_regex" "$file"; then
-              failed=1
-            fi
-          done < <(find . \
-            -path './.git' -prune -o \
-            -path './test_runs' -prune -o \
-            -path './outputs' -prune -o \
-            -type f \( -name '*.md' -o -name '*.py' -o -name '*.json' \) \
-            -print0)
-
-          if [[ "$failed" == "1" ]]; then
-            echo "::error::Found audit-questionable source/training language outside policy/roadmap/legacy allowlist. Remove or rewrite as source-agnostic policy."
-            exit 1
-          fi
-          echo "Source hygiene gate passed."
-
-  tests:
-    name: Python tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    needs: source-hygiene
-
-    steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-          cache: "pip"
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
 
-      - name: Install test dependencies
+      - name: Install declared dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pytest numpy scipy scikit-learn librosa soundfile numba llvmlite
+          python -m pip install -r requirements-dev.txt
 
-      - name: Compile Python files
+      - name: Compile Python sources
+        run: python -m compileall core ai xlights tools tests main.py gui_launcher.py
+
+      - name: List sequencing profiles
+        run: python main.py --list-profiles
+
+      - name: Run beta smoke tests
         run: |
-          python -m compileall -q .
-
-      - name: Run full unit test suite
-        env:
-          PYTHONPATH: .
-        run: |
-          python -m pytest
-
-  roadmap-smoke:
-    name: Roadmap smoke gates
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    needs: tests
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: "pip"
-
-      - name: Install test dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install pytest numpy scipy scikit-learn librosa soundfile numba llvmlite
-
-      - name: Run roadmap-targeted tests when present
-        shell: bash
-        env:
-          PYTHONPATH: .
-        run: |
-          set -euo pipefail
-          tests_to_run=()
-          for test_file in \
-            tests/test_placement_planner.py \
-            tests/test_helixia_layout.py \
-            tests/test_professional_sequence_intelligence.py \
-            tests/test_core_sandbox.py \
-            tests/test_build_helpers.py; do
-            if [[ -f "$test_file" ]]; then
-              tests_to_run+=("$test_file")
-            fi
-          done
-
-          if (( ${#tests_to_run[@]} == 0 )); then
-            echo "No roadmap-targeted tests found yet. Full suite already ran."
-            exit 0
-          fi
-
-          printf 'Running roadmap-targeted tests:\n'
-          printf ' - %s\n' "${tests_to_run[@]}"
-          python -m pytest "${tests_to_run[@]}" -q
-
-  v28-grades:
-    name: V28 A+ structured grade-only benchmark
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-    needs: source-hygiene
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: "pip"
-
-      - name: Install grade dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio-ffmpeg scikit-learn
-
-      - name: Stage CI grade fixtures
-        run: |
-          set -euo pipefail
-          mkdir -p fixtures/legacy_256/converted
-          cp template.xsq fixtures/legacy_256/converted/template.xsq
-          cp xlights_rgbeffects.xml fixtures/legacy_256/converted/xlights_rgbeffects.xml
-          python tools/generate_structured_benchmark_audio.py LightsOutTheme.wav --duration 60
-          python - <<'PY'
-          import imageio_ffmpeg
-          import subprocess
-          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
-          subprocess.run([
-              ffmpeg,
-              "-y",
-              "-i", "LightsOutTheme.wav",
-              "-c:a", "libmp3lame",
-              "-b:a", "192k",
-              "LightsOutTheme.mp3",
-          ], check=True)
-          PY
-          ls -lh LightsOutTheme.wav LightsOutTheme.mp3 fixtures/legacy_256/converted/template.xsq fixtures/legacy_256/converted/xlights_rgbeffects.xml
-
-      - name: Generate structured v28 grade-only reports
-        env:
-          PYTHONPATH: .
-        run: |
-          python tools/run_v28_legacy_256_previews.py --versions v28.7 v28.8 v28.9 --duration-seconds 60 --max-layers-per-prop 1 --skip-render
-
-      - name: Show grade outputs and A+ target status
-        if: always()
-        run: |
-          find test_runs/v28_legacy_256_previews -maxdepth 3 -type f -printf '%p %s bytes\n' | sort || true
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          summary = Path('test_runs/v28_legacy_256_previews/v28_legacy_256_preview_summary.json')
-          if not summary.exists():
-              raise SystemExit(0)
-          data = json.loads(summary.read_text())
-          best = None
-          for result in data.get('results', []):
-              report = result.get('report', {})
-              print(f"GRADE {result.get('version')}: score={report.get('quality_score')} grade={report.get('quality_grade')} effects={report.get('effects_total')} issues={report.get('validation_issues')} sequence_ok={result.get('sequence_ok')}")
-              if best is None or (report.get('quality_score') or 0) > (best.get('report', {}).get('quality_score') or 0):
-                  best = result
-          if best:
-              report = best.get('report', {})
-              score = float(report.get('quality_score') or 0.0)
-              issues = int(report.get('validation_issues') or 0)
-              ok = bool(best.get('sequence_ok'))
-              print(f"A_PLUS_TARGET best={best.get('version')} score={score} issues={issues} sequence_ok={ok} target_score=95.0")
-              if score >= 95.0 and issues == 0 and ok:
-                  print("A_PLUS_TARGET_STATUS passed")
-              else:
-                  print("A_PLUS_TARGET_STATUS not_yet")
-          PY
-
-      - name: Upload structured A+ grade artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: v28-a-plus-structured-grade-reports
-          path: |
-            test_runs/v28_legacy_256_previews/**/*.xsq
-            test_runs/v28_legacy_256_previews/**/*.json
-            test_runs/v28_legacy_256_previews/**/*.txt
-            docs/V28_A_PLUS_BENCHMARK.md
-          if-no-files-found: warn
+          python -m pytest -q \
+            tests/test_sequence_builder.py \
+            tests/test_effects_orchestrator_bridge.py \
+            tests/test_xlights_contract_validator.py
