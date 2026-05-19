@@ -10,14 +10,18 @@ This is the short starting point for humans, Codex-style coding agents, and auto
 4. `AGENTS.md` — repo-wide agent rules.
 5. `README.md` — active entrypoints and current repo structure.
 
+## Current status
+
+Phase 1 dependency, CI, bootstrap, and smoke-script normalization is complete enough for beta follow-up work. The required smoke path is now centralized through `scripts/ci/run_required_checks.py`, with Unix and PowerShell smoke wrappers delegating to it.
+
 ## Current next recommended task
 
-Proceed with Phase 1 from `ROADMAP_BETA_TODO.md`:
+Proceed with Phase 2/contract hardening before adding more creative sequencing behavior:
 
-1. Add `requirements-dev.txt`.
-2. Update CI to install from declared requirements only.
-3. Add compile/test/profile-list smoke checks.
-4. Keep this as a small PR before adding GUI behavior changes.
+1. Strengthen the canonical xLights output contract with focused tests.
+2. Add small golden or structural fixtures for importability invariants.
+3. Keep generated outputs out of git unless they are tiny, intentional fixtures.
+4. Then continue GUI beta hardening and run-manifest/no-overwrite behavior.
 
 ## Agent operating checklist
 
@@ -25,6 +29,7 @@ Before editing:
 
 - [ ] Work on a feature branch; do not edit `main` directly.
 - [ ] Read the roadmap phase you are implementing.
+- [ ] Run `python scripts/ci/run_required_checks.py` or the platform smoke wrapper.
 - [ ] Confirm the change is the smallest useful slice.
 - [ ] Do not commit private tester files, songs, layouts, templates, screenshots, or generated outputs.
 
@@ -37,14 +42,13 @@ Before opening a PR:
 
 ## Current beta priorities
 
-1. Documentation and policy baseline.
-2. Reproducible dependency/CI setup.
-3. Clean-room smoke fixture.
-4. Run manifest and no-overwrite guarantees.
-5. GUI beta mode and dry-check behavior.
-6. Beta README, feedback form, and issue templates.
-7. Windows packaging smoke.
-8. Engine facade and typed config/result containment.
+1. Canonical xLights contract hardening.
+2. Clean-room smoke fixture and structural importability checks.
+3. Run manifest and no-overwrite guarantees.
+4. GUI beta mode and dry-check behavior.
+5. Beta README, feedback form, and issue templates.
+6. Windows packaging smoke.
+7. Engine facade and typed config/result containment.
 
 ## Non-goals for near-term agents
 
