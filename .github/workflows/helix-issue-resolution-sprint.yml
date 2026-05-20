@@ -1,0 +1,356 @@
+name: Helix Issue Resolution Sprint
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue_query:
+        description: "GitHub issue search query to resolve. Leave blank for all open repo issues."
+        required: false
+        default: "is:issue is:open"
+      dry_run:
+        description: "Generate plans and validation reports without posting issue comments."
+        required: false
+        type: boolean
+        default: true
+      max_issues:
+        description: "Maximum number of issues to include in the sprint bundle."
+        required: false
+        default: "50"
+
+permissions:
+  contents: read
+  issues: write
+  actions: read
+
+concurrency:
+  group: helix-issue-resolution-sprint-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-sprint-bundle:
+    name: Build current issue resolution bundle
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    outputs:
+      issue_numbers_json: ${{ steps.collect.outputs.issue_numbers_json }}
+      issue_count: ${{ steps.collect.outputs.issue_count }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Collect current issues
+        id: collect
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_QUERY: ${{ inputs.issue_query }}
+          MAX_ISSUES: ${{ inputs.max_issues }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          query="repo:${GITHUB_REPOSITORY} ${ISSUE_QUERY:-is:issue is:open}"
+          limit="${MAX_ISSUES:-50}"
+          mkdir -p sprint
+
+          gh issue list \
+            --repo "$GITHUB_REPOSITORY" \
+            --search "$query" \
+            --limit "$limit" \
+            --json number,title,body,labels,url,updatedAt,createdAt \
+            > sprint/current_issues.json
+
+          issue_numbers_json=$(python - <<'PY'
+          import json
+          from pathlib import Path
+          issues = json.loads(Path('sprint/current_issues.json').read_text())
+          print(json.dumps([issue['number'] for issue in issues]))
+          PY
+          )
+          issue_count=$(python - <<'PY'
+          import json
+          from pathlib import Path
+          print(len(json.loads(Path('sprint/current_issues.json').read_text())))
+          PY
+          )
+          echo "issue_numbers_json=$issue_numbers_json" >> "$GITHUB_OUTPUT"
+          echo "issue_count=$issue_count" >> "$GITHUB_OUTPUT"
+          echo "Collected $issue_count issues."
+
+      - name: Generate grouped solve plan
+        shell: python
+        run: |
+          import json
+          import re
+          from pathlib import Path
+
+          issues = json.loads(Path('sprint/current_issues.json').read_text())
+
+          lane_rules = [
+              ('ci_failure', ['ci', 'pytest', 'test failure', 'workflow']),
+              ('vocal_timing_pipeline', ['lyric', 'phoneme', 'beat-grid', 'beat grid', 'energy intensity', 'vocal']),
+              ('xsq_deployment', ['xsq', 'xlights import', 'validation fixture', 'export command']),
+              ('band_geometry', ['geometry', 'xmodel', 'band member', 'manifest']),
+              ('quality_engine', ['birdsong', 'showcase', 'quality', 'cinematic', 'tom betgeorge', 'motif', 'energy model']),
+              ('gui_audit', ['gui', 'exe', 'dream sequence weaver']),
+              ('cleanup', ['cleanup', 'consolidate', 'archive', 'obsolete']),
+              ('manual_validation', ['manual', 'controller', 'production', 'import validated', 'render preview']),
+          ]
+
+          def lane_for(issue):
+              haystack = f"{issue.get('title','')}\n{issue.get('body','')}".lower()
+              for lane, needles in lane_rules:
+                  if any(needle in haystack for needle in needles):
+                      return lane
+              return 'unclassified'
+
+          grouped = {}
+          for issue in issues:
+              grouped.setdefault(lane_for(issue), []).append(issue)
+
+          order = [
+              'ci_failure',
+              'vocal_timing_pipeline',
+              'xsq_deployment',
+              'band_geometry',
+              'quality_engine',
+              'gui_audit',
+              'cleanup',
+              'manual_validation',
+              'unclassified',
+          ]
+
+          lines = [
+              '# Helix Issue Resolution Sprint Bundle',
+              '',
+              f'Total issues discovered: **{len(issues)}**',
+              '',
+              '## Operating rules',
+              '',
+              '- Fix prerequisite CI/test failures first; do not layer new feature work over red CI.',
+              '- Prefer smallest deterministic slices that close one acceptance-criteria cluster at a time.',
+              '- Preserve xLights/XML determinism and avoid claims of hardware validation unless evidence exists.',
+              '- Use PRs or feature branches; do not edit `main` directly.',
+              '- For duplicate or overlapping issues, close only after linking the superseding implementation issue/PR.',
+              '',
+              '## Recommended execution order',
+              '',
+          ]
+
+          for lane in order:
+              lane_issues = grouped.get(lane, [])
+              if not lane_issues:
+                  continue
+              lines.append(f'### {lane.replace("_", " ").title()}')
+              lines.append('')
+              for issue in lane_issues:
+                  title = issue.get('title', '').strip()
+                  url = issue.get('url', '')
+                  number = issue.get('number')
+                  body = issue.get('body') or ''
+                  acceptance = []
+                  capture = False
+                  for raw in body.splitlines():
+                      line = raw.strip()
+                      if re.search(r'acceptance criteria|deliverables|required triage|scope', line, re.I):
+                          capture = True
+                          continue
+                      if capture and line.startswith('##'):
+                          capture = False
+                      if capture and line.startswith('-'):
+                          acceptance.append(line)
+                      if len(acceptance) >= 5:
+                          break
+                  lines.append(f'- [ ] [#{number} — {title}]({url})')
+                  if acceptance:
+                      for item in acceptance:
+                          lines.append(f'  - {item}')
+                  else:
+                      lines.append('  - Define concrete tests or evidence before implementation.')
+              lines.append('')
+
+          duplicate_candidates = []
+          seen_titles = {}
+          for issue in issues:
+              normalized = re.sub(r'\s+', ' ', issue.get('title', '').strip().lower())
+              if normalized in seen_titles:
+                  duplicate_candidates.append((seen_titles[normalized], issue))
+              else:
+                  seen_titles[normalized] = issue
+
+          if duplicate_candidates:
+              lines.extend(['## Duplicate candidates', ''])
+              for first, second in duplicate_candidates:
+                  lines.append(f'- #{first["number"]} and #{second["number"]}: `{first["title"]}`')
+              lines.append('')
+
+          Path('sprint/issue_resolution_plan.md').write_text('\n'.join(lines) + '\n')
+          Path('sprint/grouped_issues.json').write_text(json.dumps(grouped, indent=2))
+
+      - name: Upload sprint bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-issue-resolution-sprint-bundle
+          path: sprint/
+          if-no-files-found: error
+
+      - name: Add sprint bundle summary
+        run: cat sprint/issue_resolution_plan.md >> "$GITHUB_STEP_SUMMARY"
+
+  validation-gates:
+    name: Validate current repo against issue lanes
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: build-sprint-bundle
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install test dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          if [[ -f requirements-dev.txt ]]; then
+            python -m pip install -r requirements-dev.txt
+          elif [[ -f requirements.txt ]]; then
+            python -m pip install -r requirements.txt pytest
+          else
+            python -m pip install pytest numpy scipy scikit-learn librosa soundfile numba llvmlite
+          fi
+
+      - name: Compile repo
+        run: python -m compileall -q .
+
+      - name: Run full test suite and capture failures
+        id: pytest
+        continue-on-error: true
+        env:
+          PYTHONPATH: .
+        run: |
+          mkdir -p sprint
+          python -m pytest -q | tee sprint/full_pytest.log
+
+      - name: Run issue-lane targeted tests when present
+        shell: bash
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          mkdir -p sprint
+          candidates=(
+            tests/test_lyric_phoneme_mapper.py
+            tests/test_lyric_timing_allocator.py
+            tests/test_lyric_section_scheduler.py
+            tests/test_energy_scaler.py
+            tests/test_beat_aligner.py
+            tests/test_xsq_emitter.py
+            tests/test_xsq_validation_tool.py
+            tests/test_export_demo_xsq.py
+            tests/test_band_geometry_assets.py
+            tests/test_sequence_builder.py
+            tests/test_effects_orchestrator_bridge.py
+            tests/test_xlights_contract_validator.py
+            tests/test_placement_planner.py
+            tests/test_helixia_layout.py
+            tests/test_professional_sequence_intelligence.py
+          )
+          tests_to_run=()
+          for file in "${candidates[@]}"; do
+            [[ -f "$file" ]] && tests_to_run+=("$file")
+          done
+          if (( ${#tests_to_run[@]} == 0 )); then
+            echo "No lane-specific tests exist yet." | tee sprint/lane_tests.log
+            exit 0
+          fi
+          python -m pytest -q "${tests_to_run[@]}" | tee sprint/lane_tests.log
+
+      - name: Build validation report
+        if: always()
+        shell: python
+        run: |
+          from pathlib import Path
+          full = Path('sprint/full_pytest.log').read_text(errors='replace') if Path('sprint/full_pytest.log').exists() else ''
+          lane = Path('sprint/lane_tests.log').read_text(errors='replace') if Path('sprint/lane_tests.log').exists() else ''
+          report = [
+              '# Helix Issue Resolution Validation Report',
+              '',
+              '## Full pytest status',
+              '',
+              '```text',
+              '\n'.join(full.splitlines()[-80:]) if full else 'Full pytest did not produce a log.',
+              '```',
+              '',
+              '## Issue-lane targeted tests',
+              '',
+              '```text',
+              '\n'.join(lane.splitlines()[-80:]) if lane else 'No lane test log produced.',
+              '```',
+              '',
+              '## Next action rule',
+              '',
+              '- If full pytest is red, fix the named failing tests before broad feature work.',
+              '- If lane tests are missing, add the acceptance-criteria tests for that issue before or with the fix.',
+              '- If tests pass but an issue requires xLights/manual evidence, attach evidence before closing.',
+          ]
+          Path('sprint/validation_report.md').write_text('\n'.join(report) + '\n')
+
+      - name: Upload validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-issue-resolution-validation-report
+          path: sprint/
+          if-no-files-found: warn
+
+      - name: Add validation summary
+        if: always()
+        run: cat sprint/validation_report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if full pytest failed
+        if: steps.pytest.outcome == 'failure'
+        run: |
+          echo "::error::Full pytest failed. See helix-issue-resolution-validation-report artifact."
+          exit 1
+
+  optional-issue-comments:
+    name: Optionally comment sprint links on issues
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs:
+      - build-sprint-bundle
+      - validation-gates
+    if: ${{ !inputs.dry_run }}
+
+    steps:
+      - name: Comment on included issues
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBERS_JSON: ${{ needs.build-sprint-bundle.outputs.issue_numbers_json }}
+        shell: python
+        run: |
+          import json
+          import os
+          import subprocess
+
+          numbers = json.loads(os.environ.get('ISSUE_NUMBERS_JSON', '[]'))
+          repo = os.environ['GITHUB_REPOSITORY']
+          run_url = f"{os.environ['GITHUB_SERVER_URL']}/{repo}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+          body = (
+              "Helix Issue Resolution Sprint has included this issue in the current solve bundle.\n\n"
+              f"Workflow run: {run_url}\n\n"
+              "Use the sprint bundle artifact for grouped acceptance criteria, execution order, duplicate detection, and validation results."
+          )
+          for number in numbers:
+              subprocess.run([
+                  'gh', 'issue', 'comment', str(number),
+                  '--repo', repo,
+                  '--body', body,
+              ], check=True)
