@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 from typing import Sequence
 
 from core.birdsong_behavior_planner import EffectIntent, plan_effect_intent
 from core.birdsong_feature_state import FeatureState
-from core.birdsong_intent_manifest import write_intent_manifest
+from core.birdsong_intent_manifest import build_intent_manifest, write_intent_manifest
 from core.birdsong_phrase_engine import PhraseEngine
+from core.birdsong_quality_score import score_birdsong_manifest
 
 
 def demo_feature_at(time: float, duration: float) -> dict[str, object]:
@@ -59,9 +61,18 @@ def export_birdsong_demo_manifest(output: Path, *, duration_seconds: float = 20.
     return write_intent_manifest(output, intents, title=f"BirdsongDemo{int(duration_seconds)}s")
 
 
+def export_birdsong_demo_quality_report(manifest_path: Path, report_path: Path) -> Path:
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    report = score_birdsong_manifest(manifest).as_dict()
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return report_path
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Export a deterministic 20-second Birdsong Engine demo intent manifest.")
     parser.add_argument("--output", type=Path, default=Path("test_runs/birdsong_demo/birdsong_intents.json"))
+    parser.add_argument("--quality-report", type=Path, default=Path("test_runs/birdsong_demo/birdsong_quality_report.json"))
     parser.add_argument("--duration-seconds", type=float, default=20.0)
     parser.add_argument("--step-seconds", type=float, default=1.0)
     parser.add_argument("--bpm", type=float, default=120.0)
@@ -76,7 +87,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         step_seconds=args.step_seconds,
         bpm=args.bpm,
     )
+    report = export_birdsong_demo_quality_report(output, args.quality_report)
     print(output)
+    print(report)
     return 0
 
 
