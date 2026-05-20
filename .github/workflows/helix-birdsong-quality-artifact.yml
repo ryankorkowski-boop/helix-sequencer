@@ -33,7 +33,8 @@ jobs:
           python -m pytest -q \
             tests/test_birdsong_quality_score.py \
             tests/test_birdsong_xsq_export.py \
-            tests/test_export_birdsong_demo_manifest.py
+            tests/test_export_birdsong_demo_manifest.py \
+            tests/test_render_xsq_skeleton_preview.py
 
       - name: Export Birdsong demo artifacts
         run: |
@@ -45,6 +46,14 @@ jobs:
             --step-seconds 1 \
             --bpm 120
 
+      - name: Render Birdsong XSQ MP4 preview
+        run: |
+          python tools/render_xsq_skeleton_preview.py \
+            test_runs/birdsong_demo/birdsong_demo.xsq \
+            --width 1280 \
+            --height 720 \
+            --fps 24
+
       - name: Upload Birdsong quality artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -52,4 +61,5 @@ jobs:
           path: |
             test_runs/birdsong_demo/*.json
             test_runs/birdsong_demo/*.xsq
+            test_runs/birdsong_demo/*.mp4
           if-no-files-found: error
