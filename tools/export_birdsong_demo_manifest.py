@@ -12,6 +12,7 @@ from core.birdsong_phrase_engine import PhraseEngine
 from core.birdsong_quality_score import score_birdsong_manifest
 from core.birdsong_xsq_export import write_birdsong_xsq
 from core.engine_naming import public_engine_name
+from core.helix_flow_acceptance import build_acceptance_summary
 from core.helix_flow_baseline_compare import compare_to_baseline, recommended_next_adjustment
 from core.helix_flow_iteration import build_iteration_report
 from tools.validate_xsq_structure import validate_xsq
@@ -102,6 +103,30 @@ def export_helix_flow_iteration_report(quality_report_path: Path, iteration_path
     return iteration_path
 
 
+def export_helix_flow_acceptance_summary(
+    quality_report_path: Path,
+    baseline_report_path: Path,
+    iteration_report_path: Path,
+    summary_path: Path,
+    *,
+    xsq_path: Path,
+    mp4_path: Path,
+) -> Path:
+    quality_report = json.loads(quality_report_path.read_text(encoding="utf-8"))
+    baseline_report = json.loads(baseline_report_path.read_text(encoding="utf-8"))
+    iteration_report = json.loads(iteration_report_path.read_text(encoding="utf-8"))
+    summary = build_acceptance_summary(
+        quality_report,
+        baseline_report,
+        iteration_report,
+        has_xsq=xsq_path.exists(),
+        has_mp4=mp4_path.exists(),
+    )
+    summary_path.parent.mkdir(parents=True, exist_ok=True)
+    summary_path.write_text(summary.summary_markdown, encoding="utf-8")
+    return summary_path
+
+
 def export_birdsong_demo_xsq(output: Path, *, duration_seconds: float = 20.0, step_seconds: float = 1.0, bpm: float = 120.0) -> Path:
     intents = build_birdsong_demo_intents(duration_seconds=duration_seconds, step_seconds=step_seconds, bpm=bpm)
     path = write_birdsong_xsq(output, intents, sequence_name=f"HelixFlowDemo{int(duration_seconds)}s")
@@ -115,7 +140,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--quality-report", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_quality_report.json"))
     parser.add_argument("--baseline-report", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_baseline_report.json"))
     parser.add_argument("--iteration-report", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_iteration_report.json"))
+    parser.add_argument("--acceptance-summary", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_acceptance_summary.md"))
     parser.add_argument("--xsq-output", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_demo.xsq"))
+    parser.add_argument("--mp4-output", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_demo.mp4"))
     parser.add_argument("--iteration", type=int, default=1)
     parser.add_argument("--duration-seconds", type=float, default=20.0)
     parser.add_argument("--step-seconds", type=float, default=1.0)
@@ -140,11 +167,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         step_seconds=args.step_seconds,
         bpm=args.bpm,
     )
+    summary = export_helix_flow_acceptance_summary(
+        report,
+        comparison,
+        iteration,
+        args.acceptance_summary,
+        xsq_path=xsq,
+        mp4_path=args.mp4_output,
+    )
     print(output)
     print(report)
     print(comparison)
     print(iteration)
     print(xsq)
+    print(summary)
     return 0
 
 
