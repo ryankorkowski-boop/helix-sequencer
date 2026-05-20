@@ -60,7 +60,8 @@ jobs:
           mkdir -p fixtures/legacy_256/converted
           cp template.xsq fixtures/legacy_256/converted/template.xsq
           cp xlights_rgbeffects.xml fixtures/legacy_256/converted/xlights_rgbeffects.xml
-          python tools/generate_structured_benchmark_audio.py LightsOutTheme.wav --duration "${{ inputs.duration_seconds || '20' }}"
+          duration="${{ inputs.duration_seconds || '20' }}"
+          python tools/generate_structured_benchmark_audio.py LightsOutTheme.wav --duration "$duration"
           python - <<'PY'
           import imageio_ffmpeg
           import subprocess
@@ -76,6 +77,8 @@ jobs:
           PY
 
       - name: Generate and score candidate XSQ files
+        id: variants
+        continue-on-error: true
         run: |
           set -euo pipefail
           duration="${{ inputs.duration_seconds || '20' }}"
@@ -89,7 +92,16 @@ jobs:
             --versions $variants \
             --fps 15 --width 1280 --height 720 --skip-render
 
-      - name: Pick highest-scoring valid candidate and render MP4
+      - name: Export validated demo XSQ fallback
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p test_runs/remote_review_preview/fallback
+          python tools/export_demo_xsq.py --output test_runs/remote_review_preview/fallback/helix_demo_vocal.xsq
+          python tools/validate_xsq_structure.py test_runs/remote_review_preview/fallback/helix_demo_vocal.xsq
+
+      - name: Pick highest-scoring valid candidate or fallback and render MP4
+        if: always()
         run: |
           set -euo pipefail
           python - <<'PY'
@@ -100,24 +112,34 @@ jobs:
           from pathlib import Path
 
           out = Path('test_runs/remote_review_preview')
+          out.mkdir(parents=True, exist_ok=True)
           summary_path = out / 'v28_legacy_256_preview_summary.json'
-          if not summary_path.exists():
-              raise SystemExit('Missing preview summary; candidate generation failed before scoring.')
-
-          summary = json.loads(summary_path.read_text())
           candidates = []
-          for item in summary.get('results', []):
-              report = item.get('report', {}) or {}
-              if item.get('sequence_ok'):
-                  score = float(report.get('quality_score') or 0.0)
-                  validation_issues = int(report.get('validation_issues') or 0)
-                  candidates.append((score, -validation_issues, item))
 
-          if not candidates:
-              raise SystemExit('No valid candidate sequence was generated; inspect summary artifact.')
+          if summary_path.exists():
+              summary = json.loads(summary_path.read_text())
+              for item in summary.get('results', []):
+                  report = item.get('report', {}) or {}
+                  if item.get('sequence_ok') and item.get('sequence'):
+                      score = float(report.get('quality_score') or 0.0)
+                      validation_issues = int(report.get('validation_issues') or 0)
+                      candidates.append((score, -validation_issues, item))
 
-          score, neg_issues, winner = sorted(candidates, reverse=True)[0]
-          xsq = Path(winner['sequence'])
+          if candidates:
+              score, neg_issues, winner = sorted(candidates, reverse=True)[0]
+              xsq = Path(winner['sequence'])
+              source = 'ranked_variant'
+              version = str(winner.get('version'))
+              validation_issues = -neg_issues
+          else:
+              xsq = out / 'fallback' / 'helix_demo_vocal.xsq'
+              score = 0.0
+              version = 'demo_fallback'
+              source = 'validated_demo_xsq_fallback'
+              validation_issues = 0
+              if not xsq.exists():
+                  raise SystemExit(f'Fallback XSQ missing: {xsq}')
+
           media_dir = out / '_media'
           audio_candidates = sorted(media_dir.glob('LightsOutTheme.first_*s.mp3')) + sorted(media_dir.glob('*.mp3'))
           audio = audio_candidates[0] if audio_candidates else Path('LightsOutTheme.mp3')
@@ -144,7 +166,7 @@ jobs:
                   '--height', '720',
               ]
 
-          print('Rendering winner with command:')
+          print('Rendering remote review MP4 with command:')
           print(' '.join(cmd), flush=True)
           subprocess.run(cmd, check=True)
 
@@ -152,16 +174,18 @@ jobs:
           if not rendered_mp4.exists():
               raise SystemExit(f'Render command completed but did not create {rendered_mp4}')
 
-          final_mp4 = out / f"REMOTE_REVIEW_WINNER_{winner.get('version')}_{rendered_mp4.name}"
+          final_mp4 = out / f"REMOTE_REVIEW_{version}_{rendered_mp4.name}"
           shutil.copy2(rendered_mp4, final_mp4)
 
           result = {
-              'winner_version': winner.get('version'),
+              'source': source,
+              'winner_version': version,
               'quality_score': score,
-              'validation_issues': -neg_issues,
+              'validation_issues': validation_issues,
               'winner_xsq': str(xsq),
               'winner_mp4': str(final_mp4),
               'audio': str(audio),
+              'variant_generation_outcome': '${{ steps.variants.outcome }}',
               'render_command': ' '.join(cmd),
           }
           (out / 'remote_review_winner.json').write_text(json.dumps(result, indent=2, sort_keys=True) + '\n')
@@ -177,7 +201,7 @@ jobs:
           echo 'Download the `helix-remote-review-preview-mp4` artifact from this workflow run.' >> review_summary.md
           echo '' >> review_summary.md
           if [[ -f test_runs/remote_review_preview/remote_review_winner.json ]]; then
-            echo '## Winner' >> review_summary.md
+            echo '## Winner or fallback render' >> review_summary.md
             echo '```json' >> review_summary.md
             cat test_runs/remote_review_preview/remote_review_winner.json >> review_summary.md
             echo '```' >> review_summary.md
