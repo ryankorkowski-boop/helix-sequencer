@@ -1,0 +1,74 @@
+name: Helix Flow Review Artifacts
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/restructure-core
+      - 'feature/**'
+      - 'codex/**'
+      - 'beta/**'
+
+jobs:
+  export-review-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Export Helix Flow reports and XSQ
+        run: |
+          python tools/export_birdsong_demo_manifest.py \
+            --output test_runs/helix_flow_demo/helix_flow_intents.json \
+            --quality-report test_runs/helix_flow_demo/helix_flow_quality_report.json \
+            --baseline-report test_runs/helix_flow_demo/helix_flow_baseline_report.json \
+            --iteration-report test_runs/helix_flow_demo/helix_flow_iteration_report.json \
+            --acceptance-summary test_runs/helix_flow_demo/helix_flow_acceptance_summary.md \
+            --xsq-output test_runs/helix_flow_demo/helix_flow_demo.xsq \
+            --mp4-output test_runs/helix_flow_demo/helix_flow_demo.mp4 \
+            --duration-seconds 20 \
+            --step-seconds 1 \
+            --bpm 120
+
+      - name: Render Helix Flow MP4
+        run: |
+          python tools/render_xsq_skeleton_preview.py \
+            test_runs/helix_flow_demo/helix_flow_demo.xsq \
+            --width 1280 \
+            --height 720 \
+            --fps 24
+
+      - name: Refresh acceptance summary after MP4 exists
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from tools.export_birdsong_demo_manifest import export_helix_flow_acceptance_summary
+          base = Path('test_runs/helix_flow_demo')
+          export_helix_flow_acceptance_summary(
+              base / 'helix_flow_quality_report.json',
+              base / 'helix_flow_baseline_report.json',
+              base / 'helix_flow_iteration_report.json',
+              base / 'helix_flow_acceptance_summary.md',
+              xsq_path=base / 'helix_flow_demo.xsq',
+              mp4_path=base / 'helix_flow_demo.mp4',
+          )
+          PY
+
+      - name: Upload Helix Flow review artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-flow-review-artifacts
+          path: test_runs/helix_flow_demo/*
+          if-no-files-found: error
