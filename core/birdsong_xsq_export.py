@@ -25,6 +25,17 @@ def _intent_mapping(intent: EffectIntent) -> dict[str, object]:
     }
 
 
+def _staggered_window(intent: EffectIntent, offset: int, count: int) -> tuple[float, float, float]:
+    if count <= 1:
+        return intent.start_time, intent.end_time, intent.strength
+    stagger = min(0.25, intent.duration / max(1, count * 3))
+    start = round(intent.start_time + offset * stagger, 6)
+    remaining = max(0.1, intent.end_time - start)
+    duration = round(min(intent.duration, remaining), 6)
+    strength = round(max(0.05, intent.strength * (1.0 - (offset * 0.16))), 6)
+    return start, round(start + duration, 6), strength
+
+
 def emit_birdsong_xsq_sequence(
     *,
     intents: Iterable[EffectIntent],
@@ -64,6 +75,7 @@ def emit_birdsong_xsq_sequence(
     for idx, intent in enumerate(ordered):
         target_plan = build_target_plan(_intent_mapping(intent), targets)
         target_model = target_plan.model_name
+        spread_path = target_plan.spread_path or (target_model,)
         start = f"{intent.start_time:.6f}"
         duration_text = f"{intent.duration:.6f}"
         strength = f"{intent.strength:.4f}"
@@ -79,6 +91,7 @@ def emit_birdsong_xsq_sequence(
         entry.set("direction", intent.direction)
         entry.set("score", f"{intent.score:.6f}")
         entry.set("target_model", target_model)
+        entry.set("spread_path", ",".join(spread_path))
 
         effect = SubElement(effects, "effect")
         effect.set("index", str(idx))
@@ -89,6 +102,7 @@ def emit_birdsong_xsq_sequence(
         effect.set("direction", intent.direction)
         effect.set("score", f"{intent.score:.6f}")
         effect.set("target_model", target_model)
+        effect.set("spread_path", ",".join(spread_path))
 
         timing_marker = SubElement(timing_layer, "Effect")
         timing_marker.set("name", f"{intent.motif}:{intent.effect_name}")
@@ -96,13 +110,15 @@ def emit_birdsong_xsq_sequence(
         timing_marker.set("startTime", _ms(intent.start_time))
         timing_marker.set("endTime", _ms(intent.end_time))
 
-        model_effect = SubElement(model_layers[target_model], "Effect")
-        model_effect.set("name", intent.effect_name)
-        model_effect.set("label", f"{intent.motif}:{intent.direction}")
-        model_effect.set("startTime", _ms(intent.start_time))
-        model_effect.set("endTime", _ms(intent.end_time))
-        model_effect.set("settings", f"E_VALUECURVE_Intensity=Active=TRUE,Start={int(round(intent.strength * 100))},End=0")
-        model_effect.set("palette", "C_BUTTON_Palette1=#ffffff,C_BUTTON_Palette2=#4dabff,C_CHECKBOX_Palette1=1,C_CHECKBOX_Palette2=1")
+        for offset, model in enumerate(spread_path):
+            cascade_start, cascade_end, cascade_strength = _staggered_window(intent, offset, len(spread_path))
+            model_effect = SubElement(model_layers[model], "Effect")
+            model_effect.set("name", intent.effect_name)
+            model_effect.set("label", f"{intent.motif}:{intent.direction}:path{offset + 1}")
+            model_effect.set("startTime", _ms(cascade_start))
+            model_effect.set("endTime", _ms(cascade_end))
+            model_effect.set("settings", f"E_VALUECURVE_Intensity=Active=TRUE,Start={int(round(cascade_strength * 100))},End=0")
+            model_effect.set("palette", "C_BUTTON_Palette1=#ffffff,C_BUTTON_Palette2=#4dabff,C_CHECKBOX_Palette1=1,C_CHECKBOX_Palette2=1")
 
     return XSQSequence(
         sequence_name=sequence_name,
