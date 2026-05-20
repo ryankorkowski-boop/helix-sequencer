@@ -5,8 +5,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Mapping
 
+from core.helix_flow_spatial_graph import build_spatial_graph
+
 
 HELIXVILLE3_MANIFEST = Path("helixville3/helixville3_manifest.json")
+DEFAULT_LAYOUT = Path("xlights_rgbeffects.xml")
 
 FALLBACK_TARGETS: tuple[str, ...] = (
     "NBH_RIGHT_SINGING_FACE_01_PANEL",
@@ -21,6 +24,7 @@ FALLBACK_TARGETS: tuple[str, ...] = (
 class BirdsongTargetPlan:
     model_name: str
     model_pool: tuple[str, ...]
+    ordered_path: tuple[str, ...] = ()
 
 
 def load_helixville3_target_pool(manifest_path: Path = HELIXVILLE3_MANIFEST) -> tuple[str, ...]:
@@ -39,14 +43,21 @@ def load_helixville3_target_pool(manifest_path: Path = HELIXVILLE3_MANIFEST) -> 
 def choose_target_model(intent: Mapping[str, object], model_pool: tuple[str, ...]) -> str:
     if not model_pool:
         raise ValueError("model_pool must not be empty")
-    motif = str(intent.get("motif", ""))
     direction = str(intent.get("direction", ""))
-    effect_name = str(intent.get("effect_name", ""))
     start_time = float(intent.get("start_time", 0.0) or 0.0)
-    seed = sum(ord(ch) for ch in f"{motif}:{direction}:{effect_name}") + int(round(start_time * 1000.0))
-    return model_pool[seed % len(model_pool)]
+    graph = build_spatial_graph(layout_path=DEFAULT_LAYOUT, model_names=model_pool)
+    ordered = tuple(node.name for node in graph.ordered_for_direction(direction)) or model_pool
+    index = int(round(start_time * 1000.0)) % len(ordered)
+    return ordered[index]
 
 
 def build_target_plan(intent: Mapping[str, object], model_pool: tuple[str, ...] | None = None) -> BirdsongTargetPlan:
     pool = model_pool or load_helixville3_target_pool()
-    return BirdsongTargetPlan(model_name=choose_target_model(intent, pool), model_pool=pool)
+    direction = str(intent.get("direction", ""))
+    graph = build_spatial_graph(layout_path=DEFAULT_LAYOUT, model_names=pool)
+    ordered_path = tuple(node.name for node in graph.ordered_for_direction(direction)) or pool
+    return BirdsongTargetPlan(
+        model_name=choose_target_model(intent, pool),
+        model_pool=pool,
+        ordered_path=ordered_path,
+    )
