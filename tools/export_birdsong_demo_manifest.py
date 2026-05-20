@@ -13,6 +13,7 @@ from core.birdsong_quality_score import score_birdsong_manifest
 from core.birdsong_xsq_export import write_birdsong_xsq
 from core.engine_naming import public_engine_name
 from core.helix_flow_baseline_compare import compare_to_baseline, recommended_next_adjustment
+from core.helix_flow_iteration import build_iteration_report
 from tools.validate_xsq_structure import validate_xsq
 
 
@@ -91,6 +92,16 @@ def export_helix_flow_baseline_report(quality_report_path: Path, comparison_path
     return comparison_path
 
 
+def export_helix_flow_iteration_report(quality_report_path: Path, iteration_path: Path, *, iteration: int = 1) -> Path:
+    quality_report = json.loads(quality_report_path.read_text(encoding="utf-8"))
+    payload = build_iteration_report(quality_report, iteration=iteration)
+    payload["public_engine_name"] = PUBLIC_ENGINE_NAME
+    payload["public_engine_slug"] = PUBLIC_ENGINE_SLUG
+    iteration_path.parent.mkdir(parents=True, exist_ok=True)
+    iteration_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return iteration_path
+
+
 def export_birdsong_demo_xsq(output: Path, *, duration_seconds: float = 20.0, step_seconds: float = 1.0, bpm: float = 120.0) -> Path:
     intents = build_birdsong_demo_intents(duration_seconds=duration_seconds, step_seconds=step_seconds, bpm=bpm)
     path = write_birdsong_xsq(output, intents, sequence_name=f"HelixFlowDemo{int(duration_seconds)}s")
@@ -103,7 +114,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_intents.json"))
     parser.add_argument("--quality-report", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_quality_report.json"))
     parser.add_argument("--baseline-report", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_baseline_report.json"))
+    parser.add_argument("--iteration-report", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_iteration_report.json"))
     parser.add_argument("--xsq-output", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_demo.xsq"))
+    parser.add_argument("--iteration", type=int, default=1)
     parser.add_argument("--duration-seconds", type=float, default=20.0)
     parser.add_argument("--step-seconds", type=float, default=1.0)
     parser.add_argument("--bpm", type=float, default=120.0)
@@ -120,6 +133,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     report = export_birdsong_demo_quality_report(output, args.quality_report)
     comparison = export_helix_flow_baseline_report(report, args.baseline_report)
+    iteration = export_helix_flow_iteration_report(report, args.iteration_report, iteration=args.iteration)
     xsq = export_birdsong_demo_xsq(
         args.xsq_output,
         duration_seconds=args.duration_seconds,
@@ -129,6 +143,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(output)
     print(report)
     print(comparison)
+    print(iteration)
     print(xsq)
     return 0
 
