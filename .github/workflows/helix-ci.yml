@@ -53,4 +53,5 @@ jobs:
             tests/test_vocal_pipeline_integration.py \
             tests/test_export_demo_xsq.py \
             tests/test_preview_hq.py \
-            tests/test_render_xsq_skeleton_preview.py
+            tests/test_render_xsq_skeleton_preview.py \
+            tests/test_remote_review_workflow_contract.py
