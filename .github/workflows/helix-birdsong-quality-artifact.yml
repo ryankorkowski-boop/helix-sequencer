@@ -1,0 +1,51 @@
+name: Helix Birdsong Quality Artifact
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/restructure-core
+      - 'feature/**'
+      - 'codex/**'
+      - 'beta/**'
+
+jobs:
+  export-quality-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Run Birdsong quality tests
+        run: |
+          python -m pytest -q \
+            tests/test_birdsong_quality_score.py \
+            tests/test_export_birdsong_demo_manifest.py
+
+      - name: Export Birdsong demo artifacts
+        run: |
+          python tools/export_birdsong_demo_manifest.py \
+            --output test_runs/birdsong_demo/birdsong_intents.json \
+            --quality-report test_runs/birdsong_demo/birdsong_quality_report.json \
+            --duration-seconds 20 \
+            --step-seconds 1 \
+            --bpm 120
+
+      - name: Upload Birdsong quality artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-birdsong-quality-artifacts
+          path: test_runs/birdsong_demo/*.json
+          if-no-files-found: error
