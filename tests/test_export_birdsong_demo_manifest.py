@@ -4,7 +4,11 @@ import json
 from pathlib import Path
 
 from core.birdsong_intent_manifest import SCHEMA
-from tools.export_birdsong_demo_manifest import build_birdsong_demo_intents, export_birdsong_demo_manifest
+from tools.export_birdsong_demo_manifest import (
+    build_birdsong_demo_intents,
+    export_birdsong_demo_manifest,
+    export_birdsong_demo_quality_report,
+)
 
 
 def test_build_birdsong_demo_intents_is_deterministic() -> None:
@@ -34,6 +38,26 @@ def test_export_birdsong_demo_manifest_is_deterministic(tmp_path: Path) -> None:
     second = export_birdsong_demo_manifest(tmp_path / "second.json")
 
     assert first.read_text(encoding="utf-8") == second.read_text(encoding="utf-8")
+
+
+def test_export_birdsong_demo_quality_report_writes_score_json(tmp_path: Path) -> None:
+    manifest = export_birdsong_demo_manifest(tmp_path / "birdsong_intents.json", duration_seconds=20.0)
+    report = export_birdsong_demo_quality_report(manifest, tmp_path / "birdsong_quality_report.json")
+
+    assert report.exists()
+    data = json.loads(report.read_text(encoding="utf-8"))
+
+    assert data["intent_count"] > 0
+    assert 0.0 <= data["score"] <= 1.0
+    assert set(data) == {
+        "score",
+        "musicality",
+        "spatial_coherence",
+        "layering",
+        "novelty",
+        "emotion",
+        "intent_count",
+    }
 
 
 def test_build_birdsong_demo_rejects_invalid_inputs() -> None:
