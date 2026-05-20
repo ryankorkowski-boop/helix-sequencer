@@ -9,6 +9,7 @@ from tools.export_birdsong_demo_manifest import (
     export_birdsong_demo_manifest,
     export_birdsong_demo_quality_report,
     export_birdsong_demo_xsq,
+    export_helix_flow_baseline_report,
 )
 from tools.validate_xsq_structure import validate_xsq
 
@@ -64,6 +65,22 @@ def test_export_birdsong_demo_quality_report_writes_score_json(tmp_path: Path) -
         "public_engine_name",
         "public_engine_slug",
     }
+
+
+def test_export_helix_flow_baseline_report_writes_comparison_json(tmp_path: Path) -> None:
+    manifest = export_birdsong_demo_manifest(tmp_path / "helix_flow_intents.json", duration_seconds=20.0)
+    quality = export_birdsong_demo_quality_report(manifest, tmp_path / "helix_flow_quality_report.json")
+    baseline = export_helix_flow_baseline_report(quality, tmp_path / "helix_flow_baseline_report.json")
+
+    assert baseline.exists()
+    data = json.loads(baseline.read_text(encoding="utf-8"))
+
+    assert data["public_engine_name"] == "Helix Flow Engine"
+    assert data["public_engine_slug"] == "helix_flow"
+    assert "recommended_next_adjustment" in data
+    assert "weakest_category" in data
+    assert "deltas" in data
+    assert 0.0 <= data["score"] <= 1.0
 
 
 def test_export_birdsong_demo_xsq_writes_valid_xsq(tmp_path: Path) -> None:
