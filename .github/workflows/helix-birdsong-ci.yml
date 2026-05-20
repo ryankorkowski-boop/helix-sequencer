@@ -41,11 +41,13 @@ jobs:
             core/birdsong_motion.py \
             core/birdsong_effect_scoring.py \
             core/birdsong_behavior_planner.py \
+            core/birdsong_intent_manifest.py \
             tests/test_birdsong_feature_state.py \
             tests/test_birdsong_phrase_engine.py \
             tests/test_birdsong_motion.py \
             tests/test_birdsong_effect_scoring.py \
-            tests/test_birdsong_behavior_planner.py
+            tests/test_birdsong_behavior_planner.py \
+            tests/test_birdsong_intent_manifest.py
 
       - name: Run Birdsong tests
         run: |
@@ -54,4 +56,5 @@ jobs:
             tests/test_birdsong_phrase_engine.py \
             tests/test_birdsong_motion.py \
             tests/test_birdsong_effect_scoring.py \
-            tests/test_birdsong_behavior_planner.py
+            tests/test_birdsong_behavior_planner.py \
+            tests/test_birdsong_intent_manifest.py
