@@ -11,7 +11,12 @@ from core.birdsong_intent_manifest import write_intent_manifest
 from core.birdsong_phrase_engine import PhraseEngine
 from core.birdsong_quality_score import score_birdsong_manifest
 from core.birdsong_xsq_export import write_birdsong_xsq
+from core.engine_naming import public_engine_name
 from tools.validate_xsq_structure import validate_xsq
+
+
+PUBLIC_ENGINE_NAME = public_engine_name("birdsong")
+PUBLIC_ENGINE_SLUG = "helix_flow"
 
 
 def demo_feature_at(time: float, duration: float) -> dict[str, object]:
@@ -60,12 +65,14 @@ def build_birdsong_demo_intents(*, duration_seconds: float = 20.0, step_seconds:
 
 def export_birdsong_demo_manifest(output: Path, *, duration_seconds: float = 20.0, step_seconds: float = 1.0, bpm: float = 120.0) -> Path:
     intents = build_birdsong_demo_intents(duration_seconds=duration_seconds, step_seconds=step_seconds, bpm=bpm)
-    return write_intent_manifest(output, intents, title=f"BirdsongDemo{int(duration_seconds)}s")
+    return write_intent_manifest(output, intents, title=f"HelixFlowDemo{int(duration_seconds)}s")
 
 
 def export_birdsong_demo_quality_report(manifest_path: Path, report_path: Path) -> Path:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     report = score_birdsong_manifest(manifest).as_dict()
+    report["public_engine_name"] = PUBLIC_ENGINE_NAME
+    report["public_engine_slug"] = PUBLIC_ENGINE_SLUG
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return report_path
@@ -73,16 +80,16 @@ def export_birdsong_demo_quality_report(manifest_path: Path, report_path: Path) 
 
 def export_birdsong_demo_xsq(output: Path, *, duration_seconds: float = 20.0, step_seconds: float = 1.0, bpm: float = 120.0) -> Path:
     intents = build_birdsong_demo_intents(duration_seconds=duration_seconds, step_seconds=step_seconds, bpm=bpm)
-    path = write_birdsong_xsq(output, intents, sequence_name=f"HelixBirdsongDemo{int(duration_seconds)}s")
+    path = write_birdsong_xsq(output, intents, sequence_name=f"HelixFlowDemo{int(duration_seconds)}s")
     validate_xsq(path)
     return path
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Export deterministic Birdsong Engine demo artifacts.")
-    parser.add_argument("--output", type=Path, default=Path("test_runs/birdsong_demo/birdsong_intents.json"))
-    parser.add_argument("--quality-report", type=Path, default=Path("test_runs/birdsong_demo/birdsong_quality_report.json"))
-    parser.add_argument("--xsq-output", type=Path, default=Path("test_runs/birdsong_demo/birdsong_demo.xsq"))
+    parser = argparse.ArgumentParser(description=f"Export deterministic {PUBLIC_ENGINE_NAME} demo artifacts.")
+    parser.add_argument("--output", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_intents.json"))
+    parser.add_argument("--quality-report", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_quality_report.json"))
+    parser.add_argument("--xsq-output", type=Path, default=Path("test_runs/helix_flow_demo/helix_flow_demo.xsq"))
     parser.add_argument("--duration-seconds", type=float, default=20.0)
     parser.add_argument("--step-seconds", type=float, default=1.0)
     parser.add_argument("--bpm", type=float, default=120.0)
