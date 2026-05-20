@@ -7,9 +7,11 @@ from typing import Sequence
 
 from core.birdsong_behavior_planner import EffectIntent, plan_effect_intent
 from core.birdsong_feature_state import FeatureState
-from core.birdsong_intent_manifest import build_intent_manifest, write_intent_manifest
+from core.birdsong_intent_manifest import write_intent_manifest
 from core.birdsong_phrase_engine import PhraseEngine
 from core.birdsong_quality_score import score_birdsong_manifest
+from core.birdsong_xsq_export import write_birdsong_xsq
+from tools.validate_xsq_structure import validate_xsq
 
 
 def demo_feature_at(time: float, duration: float) -> dict[str, object]:
@@ -69,10 +71,18 @@ def export_birdsong_demo_quality_report(manifest_path: Path, report_path: Path) 
     return report_path
 
 
+def export_birdsong_demo_xsq(output: Path, *, duration_seconds: float = 20.0, step_seconds: float = 1.0, bpm: float = 120.0) -> Path:
+    intents = build_birdsong_demo_intents(duration_seconds=duration_seconds, step_seconds=step_seconds, bpm=bpm)
+    path = write_birdsong_xsq(output, intents, sequence_name=f"HelixBirdsongDemo{int(duration_seconds)}s")
+    validate_xsq(path)
+    return path
+
+
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Export a deterministic 20-second Birdsong Engine demo intent manifest.")
+    parser = argparse.ArgumentParser(description="Export deterministic Birdsong Engine demo artifacts.")
     parser.add_argument("--output", type=Path, default=Path("test_runs/birdsong_demo/birdsong_intents.json"))
     parser.add_argument("--quality-report", type=Path, default=Path("test_runs/birdsong_demo/birdsong_quality_report.json"))
+    parser.add_argument("--xsq-output", type=Path, default=Path("test_runs/birdsong_demo/birdsong_demo.xsq"))
     parser.add_argument("--duration-seconds", type=float, default=20.0)
     parser.add_argument("--step-seconds", type=float, default=1.0)
     parser.add_argument("--bpm", type=float, default=120.0)
@@ -88,8 +98,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         bpm=args.bpm,
     )
     report = export_birdsong_demo_quality_report(output, args.quality_report)
+    xsq = export_birdsong_demo_xsq(
+        args.xsq_output,
+        duration_seconds=args.duration_seconds,
+        step_seconds=args.step_seconds,
+        bpm=args.bpm,
+    )
     print(output)
     print(report)
+    print(xsq)
     return 0
 
 
