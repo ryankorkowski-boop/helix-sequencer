@@ -33,6 +33,7 @@ jobs:
           python -m pytest -q \
             tests/test_birdsong_quality_score.py \
             tests/test_helix_flow_baseline_compare.py \
+            tests/test_helix_flow_iteration.py \
             tests/test_birdsong_xsq_export.py \
             tests/test_birdsong_layout_targets.py \
             tests/test_helix_flow_spatial_graph.py \
@@ -45,6 +46,7 @@ jobs:
             --output test_runs/helix_flow_demo/helix_flow_intents.json \
             --quality-report test_runs/helix_flow_demo/helix_flow_quality_report.json \
             --baseline-report test_runs/helix_flow_demo/helix_flow_baseline_report.json \
+            --iteration-report test_runs/helix_flow_demo/helix_flow_iteration_report.json \
             --xsq-output test_runs/helix_flow_demo/helix_flow_demo.xsq \
             --duration-seconds 20 \
             --step-seconds 1 \
