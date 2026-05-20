@@ -34,6 +34,7 @@ jobs:
             tests/test_birdsong_quality_score.py \
             tests/test_helix_flow_baseline_compare.py \
             tests/test_helix_flow_iteration.py \
+            tests/test_helix_flow_acceptance.py \
             tests/test_birdsong_xsq_export.py \
             tests/test_birdsong_layout_targets.py \
             tests/test_helix_flow_spatial_graph.py \
@@ -47,7 +48,9 @@ jobs:
             --quality-report test_runs/helix_flow_demo/helix_flow_quality_report.json \
             --baseline-report test_runs/helix_flow_demo/helix_flow_baseline_report.json \
             --iteration-report test_runs/helix_flow_demo/helix_flow_iteration_report.json \
+            --acceptance-summary test_runs/helix_flow_demo/helix_flow_acceptance_summary.md \
             --xsq-output test_runs/helix_flow_demo/helix_flow_demo.xsq \
+            --mp4-output test_runs/helix_flow_demo/helix_flow_demo.mp4 \
             --duration-seconds 20 \
             --step-seconds 1 \
             --bpm 120
@@ -60,6 +63,23 @@ jobs:
             --height 720 \
             --fps 24
 
+      - name: Regenerate Helix Flow acceptance summary after MP4 render
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from tools.export_birdsong_demo_manifest import export_helix_flow_acceptance_summary
+
+          base = Path('test_runs/helix_flow_demo')
+          export_helix_flow_acceptance_summary(
+              base / 'helix_flow_quality_report.json',
+              base / 'helix_flow_baseline_report.json',
+              base / 'helix_flow_iteration_report.json',
+              base / 'helix_flow_acceptance_summary.md',
+              xsq_path=base / 'helix_flow_demo.xsq',
+              mp4_path=base / 'helix_flow_demo.mp4',
+          )
+          PY
+
       - name: Upload Helix Flow quality artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -68,4 +88,5 @@ jobs:
             test_runs/helix_flow_demo/*.json
             test_runs/helix_flow_demo/*.xsq
             test_runs/helix_flow_demo/*.mp4
+            test_runs/helix_flow_demo/*.md
           if-no-files-found: error
