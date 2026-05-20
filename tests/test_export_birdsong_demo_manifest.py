@@ -8,7 +8,9 @@ from tools.export_birdsong_demo_manifest import (
     build_birdsong_demo_intents,
     export_birdsong_demo_manifest,
     export_birdsong_demo_quality_report,
+    export_birdsong_demo_xsq,
 )
+from tools.validate_xsq_structure import validate_xsq
 
 
 def test_build_birdsong_demo_intents_is_deterministic() -> None:
@@ -58,6 +60,17 @@ def test_export_birdsong_demo_quality_report_writes_score_json(tmp_path: Path) -
         "emotion",
         "intent_count",
     }
+
+
+def test_export_birdsong_demo_xsq_writes_valid_xsq(tmp_path: Path) -> None:
+    xsq = export_birdsong_demo_xsq(tmp_path / "birdsong_demo.xsq", duration_seconds=20.0)
+
+    assert xsq.exists()
+    validate_xsq(xsq)
+    xml = xsq.read_text(encoding="utf-8")
+    assert "ElementEffects" in xml
+    assert "BirdsongIntentTrack" in xml
+    assert "HelixBirdsongDemo20s" in xml
 
 
 def test_build_birdsong_demo_rejects_invalid_inputs() -> None:
