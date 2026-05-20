@@ -47,4 +47,9 @@ jobs:
           python -m pytest -q \
             tests/test_sequence_builder.py \
             tests/test_effects_orchestrator_bridge.py \
-            tests/test_xlights_contract_validator.py
+            tests/test_xlights_contract_validator.py \
+            tests/test_explainable_variant_scoring.py \
+            tests/test_beat_aligner.py \
+            tests/test_vocal_pipeline_integration.py \
+            tests/test_export_demo_xsq.py \
+            tests/test_preview_hq.py
