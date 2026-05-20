@@ -1,0 +1,201 @@
+name: Helix Remote Review Preview MP4
+
+on:
+  push:
+    branches:
+      - feature/restructure-core
+      - 'codex/**'
+      - 'feature/**'
+      - 'beta/**'
+  workflow_dispatch:
+    inputs:
+      duration_seconds:
+        description: "Preview duration in seconds"
+        required: false
+        default: "20"
+      variants:
+        description: "Space-separated variants to score before rendering winner"
+        required: false
+        default: "v28.7 v28.8 v28.9"
+      quality_preset:
+        description: "preview_hq quality preset when available"
+        required: false
+        default: "xlights"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: .
+
+jobs:
+  render-winner-preview:
+    name: Render downloadable winner MP4
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install preview dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest
+
+      - name: Compile preview stack
+        run: |
+          python -m compileall -q core ai xlights tools tests main.py gui_launcher.py
+
+      - name: Stage deterministic audio and layout
+        run: |
+          set -euo pipefail
+          mkdir -p fixtures/legacy_256/converted
+          cp template.xsq fixtures/legacy_256/converted/template.xsq
+          cp xlights_rgbeffects.xml fixtures/legacy_256/converted/xlights_rgbeffects.xml
+          python tools/generate_structured_benchmark_audio.py LightsOutTheme.wav --duration "${{ inputs.duration_seconds || '20' }}"
+          python - <<'PY'
+          import imageio_ffmpeg
+          import subprocess
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          subprocess.run([
+              ffmpeg,
+              '-y',
+              '-i', 'LightsOutTheme.wav',
+              '-c:a', 'libmp3lame',
+              '-b:a', '192k',
+              'LightsOutTheme.mp3',
+          ], check=True)
+          PY
+
+      - name: Generate and score candidate XSQ files
+        run: |
+          set -euo pipefail
+          duration="${{ inputs.duration_seconds || '20' }}"
+          variants="${{ inputs.variants || 'v28.7 v28.8 v28.9' }}"
+          python tools/run_v28_legacy_256_previews.py \
+            --audio LightsOutTheme.mp3 \
+            --template fixtures/legacy_256/converted/template.xsq \
+            --layout fixtures/legacy_256/converted/xlights_rgbeffects.xml \
+            --output-root test_runs/remote_review_preview \
+            --duration-seconds "$duration" \
+            --versions $variants \
+            --fps 15 --width 1280 --height 720 --skip-render
+
+      - name: Pick highest-scoring valid candidate and render MP4
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import shutil
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          out = Path('test_runs/remote_review_preview')
+          summary_path = out / 'v28_legacy_256_preview_summary.json'
+          if not summary_path.exists():
+              raise SystemExit('Missing preview summary; candidate generation failed before scoring.')
+
+          summary = json.loads(summary_path.read_text())
+          candidates = []
+          for item in summary.get('results', []):
+              report = item.get('report', {}) or {}
+              if item.get('sequence_ok'):
+                  score = float(report.get('quality_score') or 0.0)
+                  validation_issues = int(report.get('validation_issues') or 0)
+                  candidates.append((score, -validation_issues, item))
+
+          if not candidates:
+              raise SystemExit('No valid candidate sequence was generated; inspect summary artifact.')
+
+          score, neg_issues, winner = sorted(candidates, reverse=True)[0]
+          xsq = Path(winner['sequence'])
+          media_dir = out / '_media'
+          audio_candidates = sorted(media_dir.glob('LightsOutTheme.first_*s.mp3')) + sorted(media_dir.glob('*.mp3'))
+          audio = audio_candidates[0] if audio_candidates else Path('LightsOutTheme.mp3')
+
+          hq = Path('tools/preview_hq.py')
+          if hq.exists():
+              cmd = [
+                  sys.executable,
+                  'tools/preview_hq.py',
+                  str(xsq),
+                  '--layout', 'fixtures/legacy_256/converted/xlights_rgbeffects.xml',
+                  '--audio', str(audio),
+                  '--quality-preset', '${{ inputs.quality_preset || 'xlights' }}',
+              ]
+          else:
+              cmd = [
+                  sys.executable,
+                  'tools/preview_renderer.py',
+                  str(xsq),
+                  '--layout', 'fixtures/legacy_256/converted/xlights_rgbeffects.xml',
+                  '--audio', str(audio),
+                  '--fps', '15',
+                  '--width', '1280',
+                  '--height', '720',
+              ]
+
+          print('Rendering winner with command:')
+          print(' '.join(cmd), flush=True)
+          subprocess.run(cmd, check=True)
+
+          rendered_mp4 = xsq.with_suffix('.mp4')
+          if not rendered_mp4.exists():
+              raise SystemExit(f'Render command completed but did not create {rendered_mp4}')
+
+          final_mp4 = out / f"REMOTE_REVIEW_WINNER_{winner.get('version')}_{rendered_mp4.name}"
+          shutil.copy2(rendered_mp4, final_mp4)
+
+          result = {
+              'winner_version': winner.get('version'),
+              'quality_score': score,
+              'validation_issues': -neg_issues,
+              'winner_xsq': str(xsq),
+              'winner_mp4': str(final_mp4),
+              'audio': str(audio),
+              'render_command': ' '.join(cmd),
+          }
+          (out / 'remote_review_winner.json').write_text(json.dumps(result, indent=2, sort_keys=True) + '\n')
+          print(json.dumps(result, indent=2, sort_keys=True), flush=True)
+          PY
+
+      - name: Build reviewer summary
+        if: always()
+        run: |
+          set -euo pipefail
+          echo '# Helix Remote Review Preview' > review_summary.md
+          echo '' >> review_summary.md
+          echo 'Download the `helix-remote-review-preview-mp4` artifact from this workflow run.' >> review_summary.md
+          echo '' >> review_summary.md
+          if [[ -f test_runs/remote_review_preview/remote_review_winner.json ]]; then
+            echo '## Winner' >> review_summary.md
+            echo '```json' >> review_summary.md
+            cat test_runs/remote_review_preview/remote_review_winner.json >> review_summary.md
+            echo '```' >> review_summary.md
+          fi
+          echo '' >> review_summary.md
+          echo '## Files' >> review_summary.md
+          find test_runs/remote_review_preview -maxdepth 4 -type f | sort >> review_summary.md || true
+          cat review_summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload MP4 preview and sequence artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-remote-review-preview-mp4
+          path: |
+            review_summary.md
+            test_runs/remote_review_preview/**/*.mp4
+            test_runs/remote_review_preview/**/*.xsq
+            test_runs/remote_review_preview/**/*.json
+            test_runs/remote_review_preview/**/*.txt
+          if-no-files-found: warn
