@@ -52,4 +52,5 @@ jobs:
             tests/test_beat_aligner.py \
             tests/test_vocal_pipeline_integration.py \
             tests/test_export_demo_xsq.py \
-            tests/test_preview_hq.py
+            tests/test_preview_hq.py \
+            tests/test_render_xsq_skeleton_preview.py
