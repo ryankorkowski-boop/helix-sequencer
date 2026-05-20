@@ -56,4 +56,5 @@ jobs:
             tests/test_render_xsq_skeleton_preview.py \
             tests/test_remote_review_workflow_contract.py \
             tests/test_issue_resolution_workflow_contract.py \
-            tests/test_birdsong_feature_state.py
+            tests/test_birdsong_feature_state.py \
+            tests/test_birdsong_phrase_engine.py
