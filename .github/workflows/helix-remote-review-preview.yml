@@ -125,27 +125,16 @@ jobs:
                       validation_issues = int(report.get('validation_issues') or 0)
                       candidates.append((score, -validation_issues, item))
 
+          media_dir = out / '_media'
+          audio_candidates = sorted(media_dir.glob('LightsOutTheme.first_*s.mp3')) + sorted(media_dir.glob('*.mp3'))
+          audio = audio_candidates[0] if audio_candidates else Path('LightsOutTheme.mp3')
+
           if candidates:
               score, neg_issues, winner = sorted(candidates, reverse=True)[0]
               xsq = Path(winner['sequence'])
               source = 'ranked_variant'
               version = str(winner.get('version'))
               validation_issues = -neg_issues
-          else:
-              xsq = out / 'fallback' / 'helix_demo_vocal.xsq'
-              score = 0.0
-              version = 'demo_fallback'
-              source = 'validated_demo_xsq_fallback'
-              validation_issues = 0
-              if not xsq.exists():
-                  raise SystemExit(f'Fallback XSQ missing: {xsq}')
-
-          media_dir = out / '_media'
-          audio_candidates = sorted(media_dir.glob('LightsOutTheme.first_*s.mp3')) + sorted(media_dir.glob('*.mp3'))
-          audio = audio_candidates[0] if audio_candidates else Path('LightsOutTheme.mp3')
-
-          hq = Path('tools/preview_hq.py')
-          if hq.exists():
               cmd = [
                   sys.executable,
                   'tools/preview_hq.py',
@@ -155,15 +144,20 @@ jobs:
                   '--quality-preset', '${{ inputs.quality_preset || 'xlights' }}',
               ]
           else:
+              xsq = out / 'fallback' / 'helix_demo_vocal.xsq'
+              score = 0.0
+              version = 'demo_fallback'
+              source = 'validated_demo_xsq_fallback'
+              validation_issues = 0
+              if not xsq.exists():
+                  raise SystemExit(f'Fallback XSQ missing: {xsq}')
               cmd = [
                   sys.executable,
-                  'tools/preview_renderer.py',
+                  'tools/render_xsq_skeleton_preview.py',
                   str(xsq),
-                  '--layout', 'fixtures/legacy_256/converted/xlights_rgbeffects.xml',
-                  '--audio', str(audio),
-                  '--fps', '15',
                   '--width', '1280',
                   '--height', '720',
+                  '--fps', '24',
               ]
 
           print('Rendering remote review MP4 with command:')
