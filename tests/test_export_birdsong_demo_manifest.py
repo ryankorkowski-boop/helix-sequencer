@@ -9,6 +9,7 @@ from tools.export_birdsong_demo_manifest import (
     export_birdsong_demo_manifest,
     export_birdsong_demo_quality_report,
     export_birdsong_demo_xsq,
+    export_helix_flow_acceptance_summary,
     export_helix_flow_baseline_report,
     export_helix_flow_iteration_report,
 )
@@ -97,6 +98,31 @@ def test_export_helix_flow_iteration_report_writes_advice_json(tmp_path: Path) -
     assert data["iteration_advice"]["iteration"] == 2
     assert "comparison" in data
     assert "parameter_updates" in data["iteration_advice"]
+
+
+def test_export_helix_flow_acceptance_summary_writes_review_markdown(tmp_path: Path) -> None:
+    manifest = export_birdsong_demo_manifest(tmp_path / "helix_flow_intents.json", duration_seconds=20.0)
+    quality = export_birdsong_demo_quality_report(manifest, tmp_path / "helix_flow_quality_report.json")
+    baseline = export_helix_flow_baseline_report(quality, tmp_path / "helix_flow_baseline_report.json")
+    iteration = export_helix_flow_iteration_report(quality, tmp_path / "helix_flow_iteration_report.json", iteration=1)
+    xsq = export_birdsong_demo_xsq(tmp_path / "helix_flow_demo.xsq", duration_seconds=20.0)
+    mp4 = tmp_path / "helix_flow_demo.mp4"
+    mp4.write_bytes(b"placeholder mp4 evidence for acceptance summary test")
+
+    summary = export_helix_flow_acceptance_summary(
+        quality,
+        baseline,
+        iteration,
+        tmp_path / "helix_flow_acceptance_summary.md",
+        xsq_path=xsq,
+        mp4_path=mp4,
+    )
+
+    assert summary.exists()
+    text = summary.read_text(encoding="utf-8")
+    assert "Helix Flow Issue #2 Acceptance Summary" in text
+    assert "- [x] XSQ generated" in text
+    assert "- [x] MP4 preview generated" in text
 
 
 def test_export_birdsong_demo_xsq_writes_valid_xsq(tmp_path: Path) -> None:
