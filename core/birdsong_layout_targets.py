@@ -25,6 +25,7 @@ class BirdsongTargetPlan:
     model_name: str
     model_pool: tuple[str, ...]
     ordered_path: tuple[str, ...] = ()
+    spread_path: tuple[str, ...] = ()
 
 
 def load_helixville3_target_pool(manifest_path: Path = HELIXVILLE3_MANIFEST) -> tuple[str, ...]:
@@ -40,24 +41,42 @@ def load_helixville3_target_pool(manifest_path: Path = HELIXVILLE3_MANIFEST) -> 
     return unique or FALLBACK_TARGETS
 
 
+def _ordered_path(intent: Mapping[str, object], model_pool: tuple[str, ...]) -> tuple[str, ...]:
+    direction = str(intent.get("direction", ""))
+    graph = build_spatial_graph(layout_path=DEFAULT_LAYOUT, model_names=model_pool)
+    return tuple(node.name for node in graph.ordered_for_direction(direction)) or model_pool
+
+
 def choose_target_model(intent: Mapping[str, object], model_pool: tuple[str, ...]) -> str:
     if not model_pool:
         raise ValueError("model_pool must not be empty")
-    direction = str(intent.get("direction", ""))
+    ordered = _ordered_path(intent, model_pool)
     start_time = float(intent.get("start_time", 0.0) or 0.0)
-    graph = build_spatial_graph(layout_path=DEFAULT_LAYOUT, model_names=model_pool)
-    ordered = tuple(node.name for node in graph.ordered_for_direction(direction)) or model_pool
     index = int(round(start_time * 1000.0)) % len(ordered)
     return ordered[index]
 
 
+def build_spread_path(intent: Mapping[str, object], model_pool: tuple[str, ...], *, max_models: int = 4) -> tuple[str, ...]:
+    if not model_pool:
+        raise ValueError("model_pool must not be empty")
+    if max_models <= 0:
+        raise ValueError("max_models must be > 0")
+    ordered = _ordered_path(intent, model_pool)
+    start = choose_target_model(intent, model_pool)
+    start_index = ordered.index(start)
+    path = []
+    for offset in range(min(max_models, len(ordered))):
+        path.append(ordered[(start_index + offset) % len(ordered)])
+    return tuple(path)
+
+
 def build_target_plan(intent: Mapping[str, object], model_pool: tuple[str, ...] | None = None) -> BirdsongTargetPlan:
     pool = model_pool or load_helixville3_target_pool()
-    direction = str(intent.get("direction", ""))
-    graph = build_spatial_graph(layout_path=DEFAULT_LAYOUT, model_names=pool)
-    ordered_path = tuple(node.name for node in graph.ordered_for_direction(direction)) or pool
+    ordered = _ordered_path(intent, pool)
+    spread = build_spread_path(intent, pool)
     return BirdsongTargetPlan(
-        model_name=choose_target_model(intent, pool),
+        model_name=spread[0],
         model_pool=pool,
-        ordered_path=ordered_path,
+        ordered_path=ordered,
+        spread_path=spread,
     )
