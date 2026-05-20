@@ -16,9 +16,6 @@ def _strong_variant(variant_id="strong"):
     }
 
 
-# ... existing tests unchanged above ...
-
-
 def test_showcase_bias_default_is_noop():
     a = _strong_variant("a")
     b = _strong_variant("b")
@@ -43,8 +40,49 @@ def test_showcase_bias_can_flip_winner_when_enabled():
     biased = rank_variants(
         [strong, challenger],
         preset="showcase",
-        weights={"showcase_bias": 0.5},
+        weights={"showcase_bias": 0.4},
     )
 
     assert baseline.winner == "strong"
     assert biased.winner != baseline.winner
+
+
+def test_showcase_bias_is_clamped_per_preset_and_reported():
+    variant = _strong_variant()
+    variant["showcase_score"] = 0.0
+
+    capped = score_variant(variant, preset="showcase", weights={"showcase_bias": 0.4})
+    over_cap = score_variant(variant, preset="showcase", weights={"showcase_bias": 0.9})
+
+    assert over_cap.score == capped.score
+    assert any(finding.code == "showcase_bias_clamped" for finding in over_cap.findings)
+    assert not any(finding.code == "showcase_bias_clamped" for finding in capped.findings)
+
+
+def test_general_and_vendor_showcase_bias_caps_are_distinct():
+    variant = _strong_variant()
+    variant["quality_score"] = 97.0
+    variant["audit_score"] = 92.0
+    variant["showcase_score"] = 0.0
+
+    general_cap = score_variant(variant, preset="general", weights={"showcase_bias": 0.25})
+    general_over_cap = score_variant(variant, preset="general", weights={"showcase_bias": 0.9})
+    vendor_cap = score_variant(variant, preset="vendor", weights={"showcase_bias": 0.20})
+    vendor_over_cap = score_variant(variant, preset="vendor", weights={"showcase_bias": 0.9})
+
+    assert general_over_cap.score == general_cap.score
+    assert vendor_over_cap.score == vendor_cap.score
+    assert general_cap.score != vendor_cap.score
+    assert any(finding.code == "showcase_bias_clamped" for finding in general_over_cap.findings)
+    assert any(finding.code == "showcase_bias_clamped" for finding in vendor_over_cap.findings)
+
+
+def test_negative_showcase_bias_is_treated_as_default_safe_zero():
+    variant = _strong_variant()
+    variant["showcase_score"] = 0.0
+
+    default_report = score_variant(variant, preset="showcase")
+    negative_report = score_variant(variant, preset="showcase", weights={"showcase_bias": -1.0})
+
+    assert negative_report.score == default_report.score
+    assert not any(finding.code == "showcase_bias_clamped" for finding in negative_report.findings)
