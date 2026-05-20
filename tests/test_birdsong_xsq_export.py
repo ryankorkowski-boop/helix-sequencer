@@ -37,7 +37,7 @@ def test_write_birdsong_xsq_validates_with_existing_validator(tmp_path: Path) ->
     assert output.exists()
 
 
-def test_birdsong_xsq_preserves_intent_effect_metadata() -> None:
+def test_birdsong_xsq_preserves_intent_effect_metadata_and_spread_path() -> None:
     intents = build_birdsong_demo_intents(duration_seconds=5.0, step_seconds=1.0, bpm=120.0)
     model_pool = ("Model_A", "Model_B", "Model_C")
     root = ET.fromstring(emit_birdsong_xsq_sequence(intents=intents, model_pool=model_pool).xml_text)
@@ -50,30 +50,40 @@ def test_birdsong_xsq_preserves_intent_effect_metadata() -> None:
 
     assert len(timing_entries) == len(intents)
     assert len(effect_entries) == len(intents)
-    assert len(model_effects) == len(intents)
-
-    model_effect_by_time_name = {
-        (node.attrib["startTime"], node.attrib["endTime"], node.attrib["name"]): node
-        for node in model_effects
-    }
+    assert len(model_effects) == len(intents) * len(model_pool)
 
     for idx, intent in enumerate(sorted(intents, key=lambda item: (item.start_time, item.effect_name, item.score))):
         timing = timing_entries[idx]
         effect = effect_entries[idx]
-        key = (
-            str(int(round(intent.start_time * 1000.0))),
-            str(int(round(intent.end_time * 1000.0))),
-            intent.effect_name,
-        )
+        spread_path = tuple(timing.attrib["spread_path"].split(","))
 
         assert timing.attrib["index"] == str(idx)
         assert timing.attrib["phoneme"] == intent.effect_name
         assert timing.attrib["motif"] == intent.motif
         assert timing.attrib["direction"] == intent.direction
         assert timing.attrib["target_model"] in model_pool
+        assert spread_path
+        assert set(spread_path).issubset(set(model_pool))
         assert effect.attrib["type"] == intent.effect_name
         assert effect.attrib["target_model"] == timing.attrib["target_model"]
-        assert key in model_effect_by_time_name
+        assert effect.attrib["spread_path"] == timing.attrib["spread_path"]
+
+
+def test_birdsong_xsq_spreads_one_intent_across_multiple_model_layers() -> None:
+    intents = build_birdsong_demo_intents(duration_seconds=2.0, step_seconds=1.0, bpm=120.0)[:1]
+    model_pool = ("Model_A", "Model_B", "Model_C", "Model_D")
+    root = ET.fromstring(emit_birdsong_xsq_sequence(intents=intents, model_pool=model_pool).xml_text)
+
+    model_effects = []
+    for element in root.find("ElementEffects").findall("Element")[1:]:
+        layer_effects = element.find("EffectLayer").findall("Effect")
+        if layer_effects:
+            model_effects.extend((element.attrib["name"], layer_effects[0]) for _ in layer_effects)
+
+    assert len(model_effects) == 4
+    start_times = [int(effect.attrib["startTime"]) for _, effect in model_effects]
+    assert start_times == sorted(start_times)
+    assert len({model for model, _ in model_effects}) == 4
 
 
 def test_birdsong_xsq_can_target_real_helixville3_pool() -> None:
@@ -83,11 +93,13 @@ def test_birdsong_xsq_can_target_real_helixville3_pool() -> None:
 
     element_names = [element.attrib["name"] for element in root.find("ElementEffects").findall("Element")[1:]]
     targets = [entry.attrib["target_model"] for entry in root.find("timingtrack").findall("phoneme")]
+    spread_targets = [target for entry in root.find("timingtrack").findall("phoneme") for target in entry.attrib["spread_path"].split(",")]
 
     assert pool
     assert element_names == list(pool)
     assert targets
     assert set(targets).issubset(set(pool))
+    assert set(spread_targets).issubset(set(pool))
 
 
 def test_birdsong_xsq_output_is_deterministic() -> None:
