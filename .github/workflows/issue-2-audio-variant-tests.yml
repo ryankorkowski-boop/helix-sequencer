@@ -9,6 +9,8 @@ on:
 jobs:
   issue-2-audio-variants:
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: ${{ github.workspace }}
 
     steps:
       - uses: actions/checkout@v4
@@ -32,7 +34,7 @@ jobs:
 
       - name: Run Issue #2 audio variant suite
         run: |
-          python tools/run_issue_2_audio_variant_tests.py \
+          python -m tools.run_issue_2_audio_variant_tests \
             --audio "Helix Audiolights.mp3" \
             --output-dir test_runs/issue_2_audio_variants
 
