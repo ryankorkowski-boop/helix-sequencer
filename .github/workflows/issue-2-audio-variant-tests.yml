@@ -1,0 +1,52 @@
+name: Issue #2 Audio Variant Tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/restructure-core
+
+jobs:
+  issue-2-audio-variants:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Verify soundtrack exists
+        run: |
+          ls -lh "Helix Audiolights.mp3"
+
+      - name: Run Issue #2 audio variant suite
+        run: |
+          python tools/run_issue_2_audio_variant_tests.py \
+            --audio "Helix Audiolights.mp3" \
+            --output-dir test_runs/issue_2_audio_variants
+
+      - name: Print scorecard
+        run: |
+          cat test_runs/issue_2_audio_variants/issue_2_audio_variant_scorecard.md
+
+      - name: Upload all Issue #2 audio variant artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: issue-2-audio-variant-artifacts
+          path: |
+            test_runs/issue_2_audio_variants/**/*.xsq
+            test_runs/issue_2_audio_variants/**/*.mp4
+            test_runs/issue_2_audio_variants/**/*.json
+            test_runs/issue_2_audio_variants/**/*.md
+          if-no-files-found: error
