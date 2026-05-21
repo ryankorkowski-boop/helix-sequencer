@@ -30,6 +30,7 @@ jobs:
 
       - name: Export Helix Flow reports and XSQ
         run: |
+          mkdir -p test_runs/helix_flow_demo
           python tools/export_birdsong_demo_manifest.py \
             --output test_runs/helix_flow_demo/helix_flow_intents.json \
             --quality-report test_runs/helix_flow_demo/helix_flow_quality_report.json \
@@ -40,19 +41,22 @@ jobs:
             --mp4-output test_runs/helix_flow_demo/helix_flow_demo.mp4 \
             --duration-seconds 20 \
             --step-seconds 1 \
-            --bpm 120
+            --bpm 120 2>&1 | tee test_runs/helix_flow_demo/export.log
 
       - name: Render Helix Flow MP4
+        id: render_mp4
+        continue-on-error: true
         run: |
           python tools/render_xsq_skeleton_preview.py \
             test_runs/helix_flow_demo/helix_flow_demo.xsq \
             --width 1280 \
             --height 720 \
-            --fps 24
+            --fps 24 2>&1 | tee test_runs/helix_flow_demo/render.log
 
       - name: Refresh acceptance summary after MP4 exists
+        if: always()
         run: |
-          python - <<'PY'
+          python - <<'PY' 2>&1 | tee test_runs/helix_flow_demo/acceptance.log
           from pathlib import Path
           from tools.export_birdsong_demo_manifest import export_helix_flow_acceptance_summary
           base = Path('test_runs/helix_flow_demo')
@@ -67,8 +71,15 @@ jobs:
           PY
 
       - name: Upload Helix Flow review artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: helix-flow-review-artifacts
           path: test_runs/helix_flow_demo/*
-          if-no-files-found: error
+          if-no-files-found: warn
+
+      - name: Fail if MP4 render failed
+        if: steps.render_mp4.outcome == 'failure'
+        run: |
+          echo "::error::Helix Flow MP4 render failed. Download helix-flow-review-artifacts and inspect render.log."
+          exit 1
