@@ -1,0 +1,54 @@
+name: Issue #2 Proven Layout Winner
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/restructure-core
+
+jobs:
+  proven-layout-winner:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: ${{ github.workspace }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Verify soundtrack exists
+        run: |
+          ls -lh "Helix Audiolights.mp3"
+
+      - name: Generate proven-layout winner preview
+        run: |
+          python -m tools.run_issue_2_proven_layout_winner \
+            --audio "Helix Audiolights.mp3" \
+            --duration-seconds 60 \
+            --fps 15 \
+            --width 1280 \
+            --height 720 \
+            --output-dir test_runs/issue_2_proven_layout_winner
+
+      - name: Upload proven-layout winner artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: issue-2-proven-layout-winner
+          path: |
+            test_runs/issue_2_proven_layout_winner/**/*.xsq
+            test_runs/issue_2_proven_layout_winner/**/*.mp4
+            test_runs/issue_2_proven_layout_winner/**/*.json
+            test_runs/issue_2_proven_layout_winner/**/*.md
+          if-no-files-found: error
