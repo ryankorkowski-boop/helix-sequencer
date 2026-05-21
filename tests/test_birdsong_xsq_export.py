@@ -82,7 +82,7 @@ def test_birdsong_xsq_spreads_one_intent_across_multiple_model_layers() -> None:
 
     assert len(model_effects) == 4
     start_times = [int(effect.attrib["startTime"]) for _, effect in model_effects]
-    assert start_times == sorted(start_times)
+    assert sorted(start_times) == [0, 135, 271, 406]
     assert len({model for model, _ in model_effects}) == 4
 
 
