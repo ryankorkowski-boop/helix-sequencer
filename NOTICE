@@ -1,0 +1,17 @@
+Helix Sequence Helper
+Copyright (c) 2026 Ryan Korkowski
+
+This product includes or interoperates with third-party open-source software distributed under GPL, MIT, Apache-2.0, BSD-family, ISC, and similar licenses.
+
+Third-party licenses, notices, and compliance guidance are included in the LICENSES/ and docs/ directories.
+
+Notable projects and ecosystems include:
+- xLights
+- Lua
+- PyInstaller
+- OpenAI Whisper
+- Requests
+- imageio / imageio-ffmpeg
+- numpy / scipy / librosa / soundfile / numba / llvmlite / Pillow
+
+This notice is not legal advice. Distribution builds should include this NOTICE file, the LICENSES/ directory, and the relevant docs/ compliance policies.
