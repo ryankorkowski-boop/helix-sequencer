@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import math
 import re
+import subprocess
+import tempfile
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
@@ -11,6 +13,7 @@ from typing import Sequence
 from core.lazy_imports import LazyModule
 
 imageio = LazyModule("imageio.v2")
+imageio_ffmpeg = LazyModule("imageio_ffmpeg")
 np = LazyModule("numpy")
 Image = LazyModule("PIL.Image")
 ImageDraw = LazyModule("PIL.ImageDraw")
@@ -175,7 +178,42 @@ def _draw_effect(draw, model: str, effect: PreviewEffect, pos: tuple[int, int], 
         draw.ellipse((x - inner, y - inner, x + inner, y + inner), fill=(255, 255, 255))
 
 
-def render_skeleton_preview(xsq_path: Path, *, width: int = 1280, height: int = 720, fps: int = 24) -> Path:
+def _mux_audio(video_path: Path, audio_path: Path) -> Path:
+    if not audio_path.exists():
+        raise FileNotFoundError(audio_path)
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as temp:
+        temp_path = Path(temp.name)
+    try:
+        subprocess.run(
+            [
+                ffmpeg,
+                "-y",
+                "-i",
+                str(video_path),
+                "-i",
+                str(audio_path),
+                "-c:v",
+                "copy",
+                "-c:a",
+                "aac",
+                "-shortest",
+                "-movflags",
+                "+faststart",
+                str(temp_path),
+            ],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        video_path.write_bytes(temp_path.read_bytes())
+    finally:
+        temp_path.unlink(missing_ok=True)
+    return video_path
+
+
+def render_skeleton_preview(xsq_path: Path, *, width: int = 1280, height: int = 720, fps: int = 24, audio_path: Path | None = None) -> Path:
     sequence_name, model_name, events = parse_skeleton_xsq(xsq_path)
     effects = parse_preview_effects(xsq_path)
     duration = max([event.end for event in events] + [effect.end for effect in effects], default=4.0)
@@ -242,6 +280,8 @@ def render_skeleton_preview(xsq_path: Path, *, width: int = 1280, height: int = 
     finally:
         writer.close()
 
+    if audio_path is not None:
+        return _mux_audio(out_path, audio_path)
     return out_path
 
 
@@ -251,12 +291,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--width", type=int, default=1280)
     parser.add_argument("--height", type=int, default=720)
     parser.add_argument("--fps", type=int, default=24)
+    parser.add_argument("--audio", type=Path, default=None, help="Optional audio file to mux into the rendered MP4.")
     return parser
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    print(render_skeleton_preview(args.xsq, width=args.width, height=args.height, fps=args.fps))
+    print(render_skeleton_preview(args.xsq, width=args.width, height=args.height, fps=args.fps, audio_path=args.audio))
     return 0
 
 
