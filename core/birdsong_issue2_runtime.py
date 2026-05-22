@@ -54,8 +54,8 @@ def generate_birdsong_rows(
     if not frames or not models:
         return []
 
-    duration_ms = max(50, int(cfg.duration_ms))
-    target_cap = max(1, int(cfg.max_targets_per_frame))
+    duration_ms = _safe_positive_int(cfg.duration_ms, default=180, minimum=50)
+    target_cap = _safe_positive_int(cfg.max_targets_per_frame, default=3, minimum=1)
     rows: list[BirdsongSequenceRow] = []
 
     for index, frame in enumerate(frames):
@@ -64,9 +64,13 @@ def generate_birdsong_rows(
         if energy < cfg.min_energy and onset < cfg.min_onset:
             continue
 
+        start_ms = _frame_start_ms(frame.time_s)
+        if start_ms is None:
+            # Non-finite frame times cannot be placed deterministically.
+            continue
+
         motif = _motif_for_frame(frame)
         effect = _effect_for_motif(motif, frame)
-        start_ms = max(0, int(round(frame.time_s * 1000.0)))
         intensity = _finite01(max(energy, onset))
         selected = _select_models(models, frame, index, limit=target_cap)
         for step, model in enumerate(selected):
@@ -87,11 +91,18 @@ def generate_birdsong_rows(
 
 
 def emit_birdsong_rows(rows: Iterable[BirdsongSequenceRow], add_model) -> int:
-    """Emit rows through the existing add_model callback contract."""
+    """Emit rows through the existing add_model callback contract.
+
+    Callback results are interpreted when they can confirm placement: bools
+    report success/failure, ints report a placement count, and other placement
+    objects confirm one placement. Legacy callbacks commonly return ``None``;
+    that result is unknown, so it still counts as one emitted row for backward
+    compatibility with the original callback contract.
+    """
 
     count = 0
     for row in rows:
-        add_model(
+        result = add_model(
             row.model,
             int(row.start_ms),
             int(row.end_ms),
@@ -99,7 +110,7 @@ def emit_birdsong_rows(rows: Iterable[BirdsongSequenceRow], add_model) -> int:
             eff=row.effect,
             stem="other",
         )
-        count += 1
+        count += _emission_count(result)
     return count
 
 
@@ -170,6 +181,34 @@ def _finite01(value: object) -> float:
     if out >= 1.0:
         return 1.0
     return out
+
+
+def _safe_positive_int(value: object, *, default: int, minimum: int) -> int:
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return default
+    if not math.isfinite(numeric):
+        return default
+    return max(minimum, int(numeric))
+
+
+def _frame_start_ms(value: object) -> int | None:
+    try:
+        time_s = float(value)
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(time_s):
+        return None
+    return max(0, int(round(time_s * 1000.0)))
+
+
+def _emission_count(result: object) -> int:
+    if isinstance(result, bool):
+        return int(result)
+    if isinstance(result, int):
+        return max(0, result)
+    return 1
 
 
 __all__ = [

@@ -2,6 +2,18 @@
 
 This is the short starting point for humans, Codex-style coding agents, and autonomous repo agents.
 
+## Recovery: verify before closing
+
+Before treating a recently closed implementation or validation issue as complete, record:
+
+- [ ] CI status.
+- [ ] Full and targeted test status.
+- [ ] Generated XSQ artifacts.
+- [ ] MP4 artifacts.
+- [ ] xLights import evidence.
+- [ ] Manual validation evidence.
+- [ ] Remaining known gaps.
+
 ## First read
 
 1. `ROADMAP_BETA_TODO.md` — canonical beta-version roadmap and autonomous TODO.
