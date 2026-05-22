@@ -1,0 +1,133 @@
+name: Publish MP4 Previews to Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "Workflow run ID to scan for MP4 artifacts. Defaults to this run ID."
+        required: false
+        default: ""
+      artifact_name:
+        description: "Optional exact artifact name to download. Leave blank for all artifacts."
+        required: false
+        default: ""
+  workflow_run:
+    workflows:
+      - Helix Remote Review Preview MP4
+    types:
+      - completed
+
+permissions:
+  actions: read
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publish-mp4-previews-pages
+  cancel-in-progress: false
+
+jobs:
+  publish-mp4-previews:
+    name: Publish MP4 previews as raw-style links
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve source run
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
+            run_id="${{ github.event.workflow_run.id }}"
+          elif [[ -n "${{ inputs.run_id }}" ]]; then
+            run_id="${{ inputs.run_id }}"
+          else
+            run_id="${{ github.run_id }}"
+          fi
+          echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+          echo "Using workflow run: $run_id"
+
+      - name: Download source artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ steps.source.outputs.run_id }}
+          ARTIFACT_NAME: ${{ inputs.artifact_name || '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p source_artifacts
+          if [[ -n "$ARTIFACT_NAME" ]]; then
+            gh run download "$RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$ARTIFACT_NAME" --dir source_artifacts
+          else
+            gh run download "$RUN_ID" --repo "$GITHUB_REPOSITORY" --dir source_artifacts
+          fi
+          find source_artifacts -maxdepth 5 -type f | sort
+
+      - name: Stage only MP4 files for GitHub Pages
+        id: stage
+        shell: bash
+        run: |
+          set -euo pipefail
+          run_id="${{ steps.source.outputs.run_id }}"
+          public_dir="public/previews/$run_id"
+          mkdir -p "$public_dir"
+
+          found=0
+          while IFS= read -r -d '' file; do
+            found=1
+            base="$(basename "$file")"
+            safe_base="$(printf '%s' "$base" | tr ' ' '_' | tr -cd 'A-Za-z0-9._-')"
+            cp "$file" "$public_dir/$safe_base"
+          done < <(find source_artifacts -type f -iname '*.mp4' -print0)
+
+          if [[ "$found" -ne 1 ]]; then
+            echo "::error::No .mp4 files were found in downloaded artifacts for run $run_id."
+            exit 1
+          fi
+
+          {
+            echo '# MP4 previews'
+            echo
+            echo "Source workflow run: https://github.com/$GITHUB_REPOSITORY/actions/runs/$run_id"
+            echo
+            for file in "$public_dir"/*.mp4; do
+              name="$(basename "$file")"
+              echo "- [$name](./$name)"
+            done
+          } > "$public_dir/index.md"
+
+          echo "preview_path=previews/$run_id" >> "$GITHUB_OUTPUT"
+          echo "Raw-style preview files staged under $public_dir"
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Print raw-style links
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="${{ steps.deployment.outputs.page_url }}${{ steps.stage.outputs.preview_path }}/"
+          echo '# Raw-style MP4 links' >> "$GITHUB_STEP_SUMMARY"
+          echo '' >> "$GITHUB_STEP_SUMMARY"
+          for file in public/${{ steps.stage.outputs.preview_path }}/*.mp4; do
+            name="$(basename "$file")"
+            echo "- ${base}${name}" >> "$GITHUB_STEP_SUMMARY"
+          done
