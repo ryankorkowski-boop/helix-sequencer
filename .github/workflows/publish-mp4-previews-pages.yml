@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       run_id:
-        description: "Workflow run ID to scan for MP4 artifacts. Defaults to this run ID."
+        description: "Workflow run ID to scan for MP4 artifacts. Leave blank to use latest Helix Remote Review Preview MP4 run."
         required: false
         default: ""
       artifact_name:
@@ -43,16 +43,30 @@ jobs:
 
       - name: Resolve source run
         id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_RUN_ID: ${{ inputs.run_id || '' }}
         shell: bash
         run: |
           set -euo pipefail
           if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
             run_id="${{ github.event.workflow_run.id }}"
-          elif [[ -n "${{ inputs.run_id }}" ]]; then
-            run_id="${{ inputs.run_id }}"
+          elif [[ -n "$INPUT_RUN_ID" ]]; then
+            run_id="$INPUT_RUN_ID"
           else
-            run_id="${{ github.run_id }}"
+            run_id="$(gh run list \
+              --repo "$GITHUB_REPOSITORY" \
+              --workflow "helix-remote-review-preview.yml" \
+              --limit 1 \
+              --json databaseId \
+              --jq '.[0].databaseId // empty')"
           fi
+
+          if [[ -z "$run_id" ]]; then
+            echo "::error::No source run was provided and no Helix Remote Review Preview MP4 runs were found. Run that preview workflow first, or pass a run_id."
+            exit 1
+          fi
+
           echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
           echo "Using workflow run: $run_id"
 
@@ -70,7 +84,13 @@ jobs:
           else
             gh run download "$RUN_ID" --repo "$GITHUB_REPOSITORY" --dir source_artifacts
           fi
-          find source_artifacts -maxdepth 5 -type f | sort
+
+          file_count="$(find source_artifacts -type f | wc -l | tr -d ' ')"
+          if [[ "$file_count" == "0" ]]; then
+            echo "::error::Downloaded no files from artifacts for run $RUN_ID. Make sure the source workflow produced an artifact."
+            exit 1
+          fi
+          find source_artifacts -maxdepth 8 -type f | sort
 
       - name: Stage only MP4 files for GitHub Pages
         id: stage
@@ -90,7 +110,9 @@ jobs:
           done < <(find source_artifacts -type f -iname '*.mp4' -print0)
 
           if [[ "$found" -ne 1 ]]; then
-            echo "::error::No .mp4 files were found in downloaded artifacts for run $run_id."
+            echo "::error::No .mp4 files were found in downloaded artifacts for run $run_id. Run Helix Remote Review Preview MP4 first, or pass a run_id/artifact_name that contains MP4 files."
+            echo "Files downloaded were:"
+            find source_artifacts -maxdepth 8 -type f | sort || true
             exit 1
           fi
 
