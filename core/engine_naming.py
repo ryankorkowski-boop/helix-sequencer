@@ -11,7 +11,7 @@ class EngineName:
 
 
 ENGINE_NAMES: dict[str, EngineName] = {
-    "birdsong": EngineName("birdsong", "Helix Flow Engine", "Birdsong Engine"),
+    "helix_flow": EngineName("helix_flow", "Helix Flow Engine", "Helix Flow Engine"),
     "hardkor": EngineName("hardkor", "Helix Impact Engine", "Hardkor Engine"),
     "chrono": EngineName("chrono", "Helix Time Engine", "Chrono Engine"),
 }
