@@ -8,8 +8,6 @@ from .calibration import (
     engine_threshold_cli_args,
     engine_threshold_kwargs,
 )
-from .helixville2 import build_helixville2_layout
-from .helixville3 import build_helixville3_layout
 from .neighbor_flow import NeighborGraph, build_neighbor_graph, expand_neighbor_targets
 from .variants import (
     DEFAULT_MAX_REJECTED_EFFECTS,
@@ -50,8 +48,6 @@ __all__ = [
     "QualityGatePreset",
     "RuntimeVariantCandidate",
     "apply_quality_gate_overrides",
-    "build_helixville2_layout",
-    "build_helixville3_layout",
     "build_neighbor_graph",
     "build_runtime_candidates",
     "choose_best_candidate",
