@@ -41,13 +41,16 @@ jobs:
             core/birdsong_motion.py \
             core/birdsong_effect_scoring.py \
             core/birdsong_behavior_planner.py \
+            core/birdsong_completion_gate.py \
             core/birdsong_intent_manifest.py \
             tools/export_birdsong_demo_manifest.py \
+            tools/verify_issue_2_birdsong_contract.py \
             tests/test_birdsong_feature_state.py \
             tests/test_birdsong_phrase_engine.py \
             tests/test_birdsong_motion.py \
             tests/test_birdsong_effect_scoring.py \
             tests/test_birdsong_behavior_planner.py \
+            tests/test_birdsong_completion_gate.py \
             tests/test_birdsong_intent_manifest.py \
             tests/test_export_birdsong_demo_manifest.py
 
@@ -59,8 +62,18 @@ jobs:
             tests/test_birdsong_motion.py \
             tests/test_birdsong_effect_scoring.py \
             tests/test_birdsong_behavior_planner.py \
+            tests/test_birdsong_completion_gate.py \
             tests/test_birdsong_intent_manifest.py \
             tests/test_export_birdsong_demo_manifest.py
+
+      - name: Verify Issue #2 Birdsong completion contract
+        run: |
+          python tools/verify_issue_2_birdsong_contract.py \
+            --output test_runs/issue_2_birdsong_contract/contract_report.json \
+            --duration-seconds 20 \
+            --step-seconds 1 \
+            --bpm 120 \
+            --min-quality-score 0.35
 
       - name: Export 20-second Birdsong demo manifest
         run: |
@@ -70,9 +83,11 @@ jobs:
             --step-seconds 1 \
             --bpm 120
 
-      - name: Upload Birdsong demo manifest
+      - name: Upload Birdsong artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: helix-birdsong-demo-manifest
-          path: test_runs/birdsong_demo/birdsong_intents.json
+          name: helix-birdsong-artifacts
+          path: |
+            test_runs/birdsong_demo/birdsong_intents.json
+            test_runs/issue_2_birdsong_contract/contract_report.json
           if-no-files-found: error
