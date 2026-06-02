@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import argparse
-from pathlib import Path
 from typing import Iterable
 
 from core import engine_profiles
 from core.effects_orchestrator_bridge import EffectsOrchestrationRunReport, run_effects_orchestration
+from core.run_config import RunConfig
+from core.run_manager import RunManager
 
 NO_EFFECTS_ORCHESTRATOR_FLAG = "--no-effects-orchestrator"
 NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG = "--no-orchestrator-template-promotion"
@@ -81,23 +82,46 @@ def _promote_orchestrated_template(
         return cleaned
     if report is None or not report.invoked or not report.xsq_written or not report.orchestrated_xsq_path:
         return cleaned
-    promoted_template = str(Path(report.orchestrated_xsq_path))
+    promoted_template = str(report.orchestrated_xsq_path)
     return _set_or_replace_arg(list(cleaned or []), "--template", promoted_template)
+
+
+def _record_orchestration_artifacts(ctx, report: EffectsOrchestrationRunReport | None) -> None:
+    if report is None:
+        return
+    artifacts = (
+        ("effects_orchestration_report", getattr(report, "report_path", None)),
+        ("placement_plan", getattr(report, "placement_plan_path", None)),
+        ("effect_contract", getattr(report, "effect_contract_path", None)),
+        ("orchestrated_xsq", getattr(report, "orchestrated_xsq_path", None)),
+        ("xsq_render_report", getattr(report, "xsq_render_report_path", None)),
+    )
+    for kind, path in artifacts:
+        if path:
+            ctx.record_artifact(kind, path)
 
 
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     profile = engine_profiles.resolve_profile(profile_id)
-    report: EffectsOrchestrationRunReport | None = None
-    if _orchestration_enabled(engine_args):
-        report = run_effects_orchestration(engine_args)
-        if report.invoked:
-            print(f"effects_orchestrator: invoked passes={len(report.passes)} report={report.report_path}")
-        else:
-            print(f"effects_orchestrator: unavailable error={report.error}")
-    effective_engine_args = _promote_orchestrated_template(engine_args, report)
-    if report is not None and report.invoked and report.xsq_written and effective_engine_args != _clean_engine_args(engine_args):
-        print(f"effects_orchestrator: promoted template={report.orchestrated_xsq_path}")
-    _effect_engine().main_for(profile.version, effective_engine_args)
+    original_engine_args = list(engine_args or [])
+    resolved_profile_id = getattr(profile, "profile_id", profile_id or engine_profiles.ACTIVE_PROFILE_ID)
+    run_config = RunConfig.from_engine_args(resolved_profile_id, original_engine_args)
+    command = ["main.py", "--profile", resolved_profile_id, "--", *original_engine_args]
+    with RunManager(run_config).start(command=command, require_existing=False) as ctx:
+        report: EffectsOrchestrationRunReport | None = None
+        if _orchestration_enabled(engine_args):
+            report = run_effects_orchestration(engine_args)
+            if report.invoked:
+                print(f"effects_orchestrator: invoked passes={len(report.passes)} report={report.report_path}")
+            else:
+                print(f"effects_orchestrator: unavailable error={report.error}")
+        _record_orchestration_artifacts(ctx, report)
+        effective_engine_args = _promote_orchestrated_template(engine_args, report)
+        if report is not None and report.invoked and report.xsq_written and effective_engine_args != _clean_engine_args(engine_args):
+            print(f"effects_orchestrator: promoted template={report.orchestrated_xsq_path}")
+        _effect_engine().main_for(profile.version, effective_engine_args)
+        ctx.record_artifact("configured_output_root", run_config.output_root)
+
 
 
 def run_version(version: str, engine_args: list[str] | None = None) -> None:
