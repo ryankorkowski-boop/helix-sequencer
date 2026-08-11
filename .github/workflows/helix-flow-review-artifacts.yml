@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -22,57 +21,30 @@ jobs:
           cache-dependency-path: |
             requirements.txt
             requirements-dev.txt
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
-
       - name: Export Helix Flow reports and XSQ
         run: |
           set -o pipefail
           mkdir -p test_runs/helix_flow_demo
-          python -m tools.export_birdsong_demo_manifest \
-            --output test_runs/helix_flow_demo/helix_flow_intents.json \
-            --quality-report test_runs/helix_flow_demo/helix_flow_quality_report.json \
-            --baseline-report test_runs/helix_flow_demo/helix_flow_baseline_report.json \
-            --iteration-report test_runs/helix_flow_demo/helix_flow_iteration_report.json \
-            --acceptance-summary test_runs/helix_flow_demo/helix_flow_acceptance_summary.md \
-            --xsq-output test_runs/helix_flow_demo/helix_flow_demo.xsq \
-            --mp4-output test_runs/helix_flow_demo/helix_flow_demo.mp4 \
-            --duration-seconds 20 \
-            --step-seconds 1 \
-            --bpm 120 2>&1 | tee test_runs/helix_flow_demo/export.log
-
+          python -m tools.export_birdsong_demo_manifest --output test_runs/helix_flow_demo/helix_flow_intents.json --quality-report test_runs/helix_flow_demo/helix_flow_quality_report.json --baseline-report test_runs/helix_flow_demo/helix_flow_baseline_report.json --iteration-report test_runs/helix_flow_demo/helix_flow_iteration_report.json --acceptance-summary test_runs/helix_flow_demo/helix_flow_acceptance_summary.md --xsq-output test_runs/helix_flow_demo/helix_flow_demo.xsq --mp4-output test_runs/helix_flow_demo/helix_flow_demo.mp4 --duration-seconds 20 --step-seconds 1 --bpm 120 2>&1 | tee test_runs/helix_flow_demo/export.log
       - name: Render Helix Flow MP4
         id: render_mp4
         continue-on-error: true
         run: |
           set -o pipefail
-          python -m tools.render_xsq_skeleton_preview \
-            test_runs/helix_flow_demo/helix_flow_demo.xsq \
-            --width 1280 \
-            --height 720 \
-            --fps 24 2>&1 | tee test_runs/helix_flow_demo/render.log
-
+          python -m tools.render_xsq_skeleton_preview test_runs/helix_flow_demo/helix_flow_demo.xsq --width 1280 --height 720 --fps 24 2>&1 | tee test_runs/helix_flow_demo/render.log
       - name: Refresh acceptance summary after MP4 exists
         if: always()
         run: |
-          set -o pipefail
           python - <<'PY' 2>&1 | tee test_runs/helix_flow_demo/acceptance.log
           from pathlib import Path
           from tools.export_birdsong_demo_manifest import export_helix_flow_acceptance_summary
           base = Path('test_runs/helix_flow_demo')
-          export_helix_flow_acceptance_summary(
-              base / 'helix_flow_quality_report.json',
-              base / 'helix_flow_baseline_report.json',
-              base / 'helix_flow_iteration_report.json',
-              base / 'helix_flow_acceptance_summary.md',
-              xsq_path=base / 'helix_flow_demo.xsq',
-              mp4_path=base / 'helix_flow_demo.mp4',
-          )
+          export_helix_flow_acceptance_summary(base / 'helix_flow_quality_report.json', base / 'helix_flow_baseline_report.json', base / 'helix_flow_iteration_report.json', base / 'helix_flow_acceptance_summary.md', xsq_path=base / 'helix_flow_demo.xsq', mp4_path=base / 'helix_flow_demo.mp4')
           PY
-
       - name: Upload Helix Flow review artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -85,7 +57,6 @@ jobs:
             test_runs/helix_flow_demo/*.md
             test_runs/helix_flow_demo/*.log
           if-no-files-found: warn
-
       - name: Fail if MP4 render failed
         if: steps.render_mp4.outcome == 'failure'
         run: |
@@ -96,7 +67,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -104,26 +74,18 @@ jobs:
           cache-dependency-path: |
             requirements.txt
             requirements-dev.txt
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
-
       - name: Run drummer regression harness
         run: |
           set -o pipefail
           mkdir -p test_runs/drummer_regression
-          python -m tools.drummer_regression \
-            --output-dir test_runs/drummer_regression \
-            2>&1 | tee test_runs/drummer_regression/regression.log
-
+          python -m tools.drummer_regression --output-dir test_runs/drummer_regression 2>&1 | tee test_runs/drummer_regression/regression.log
       - name: Run focused drummer tests
         run: |
-          python -m pytest -q \
-            tests/test_working_drummer.py \
-            tests/test_drum_mapping.py
-
+          python -m pytest -q tests/test_working_drummer.py tests/test_drum_mapping.py
       - name: Upload drummer regression artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -136,7 +98,6 @@ jobs:
             test_runs/drummer_regression/*.png
             test_runs/drummer_regression/*.log
           if-no-files-found: warn
-
       - name: Fail on regression mismatch
         if: always()
         run: |
@@ -153,3 +114,5 @@ jobs:
           if not report['render_pass']:
               raise SystemExit('Drummer preview render failed')
           PY
+
+# Drummer regression is intentionally part of the canonical review workflow.
