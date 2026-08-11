@@ -32,7 +32,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install imageio imageio-ffmpeg numpy pillow
+          pip install pytest imageio imageio-ffmpeg numpy pillow
 
       - name: Run focused drummer tests
         run: |
