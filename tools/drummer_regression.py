@@ -45,7 +45,9 @@ FEATURES = {
     "kick": {"low_ratio": 0.86, "mid_low_ratio": 0.12, "mid_ratio": 0.10, "high_ratio": 0.08, "centroid_hz": 500, "spectral_spread01": 0.18, "transient_sharpness": 0.72, "decay_profile": 0.20},
     "hihat": {"low_ratio": 0.04, "mid_low_ratio": 0.08, "mid_ratio": 0.10, "high_ratio": 0.82, "centroid_hz": 6500, "spectral_spread01": 0.55, "transient_sharpness": 0.72, "decay_profile": 0.18},
     "snare": {"low_ratio": 0.10, "mid_low_ratio": 0.18, "mid_ratio": 0.62, "high_ratio": 0.30, "centroid_hz": 1800, "spectral_spread01": 0.62, "transient_sharpness": 0.68, "decay_profile": 0.28},
-    "tom": {"low_ratio": 0.16, "mid_low_ratio": 0.72, "mid_ratio": 0.38, "high_ratio": 0.20, "centroid_hz": 900, "spectral_spread01": 0.30, "transient_sharpness": 0.55, "decay_profile": 0.48},
+    # Keep mid energy below the snare gate while retaining strong low-mid energy
+    # so this deterministic fixture exercises the classifier's tom branch.
+    "tom": {"low_ratio": 0.16, "mid_low_ratio": 0.72, "mid_ratio": 0.22, "high_ratio": 0.15, "centroid_hz": 900, "spectral_spread01": 0.30, "transient_sharpness": 0.55, "decay_profile": 0.48},
     "cymbal": {"low_ratio": 0.05, "mid_low_ratio": 0.12, "mid_ratio": 0.20, "high_ratio": 0.72, "centroid_hz": 5200, "spectral_spread01": 0.76, "transient_sharpness": 0.42, "decay_profile": 0.82},
 }
 
@@ -104,9 +106,6 @@ def run(output_dir: Path) -> dict[str, object]:
     renderer = PillowRenderer(width=640, height=480)
     render_error = None
     try:
-        # Prefer the dedicated preview backdrop when present; the authored source
-        # image is a safe deterministic fallback for CI branches that don't carry
-        # the generated preview backdrop yet.
         from helix.preview.drummer_v3 import DRUMMER_V3_BACKDROP, DRUMMER_V3_SOURCE
         backdrop = ROOT / DRUMMER_V3_BACKDROP
         if not backdrop.is_file():
@@ -119,7 +118,7 @@ def run(output_dir: Path) -> dict[str, object]:
                 timestamp_ms = int(round(frame_index * 1000 / 24))
                 frame = renderer.render_drummer_v3(ROOT, render_events, timestamp_ms)
                 writer.append_data(__import__("numpy").asarray(frame.convert("RGB")))
-    except Exception as exc:  # pragma: no cover - surfaced in the report
+    except Exception as exc:
         render_error = f"{type(exc).__name__}: {exc}"
 
     report = {
