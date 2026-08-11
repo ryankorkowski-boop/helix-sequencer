@@ -8,6 +8,7 @@ from helix.preview.drummer_v3 import (
     active_events,
     build_render_event,
     pose_for_drum_type,
+    render_events_from_reactive_cues,
     submodels_for_pose,
     validate_asset_contract,
 )
@@ -52,6 +53,32 @@ def test_build_render_event_exposes_real_xmodel_submodel_target() -> None:
     assert event.intensity == 0.82
     assert event.submodels == ("HX_SNOWMAN_DRUMMER_V3_HIT_SNARE",)
     assert DRUMMER_V3_MODEL == "HX_SNOWMAN_DRUMMER_V3"
+
+
+def test_reactive_cues_bridge_to_authored_v3_render_events() -> None:
+    cues = [
+        {
+            "pose": "kick_hit",
+            "pose_start_ms": 500,
+            "pose_end_ms": 650,
+            "v3_intensity": 0.9,
+            "v3_submodels": ["HX_SNOWMAN_DRUMMER_V3_HIT_KICK"],
+        },
+        {
+            "pose": "hi_hat_pulse",
+            "pose_start_ms": 900,
+            "pose_end_ms": 1000,
+            "v3_intensity": 0.6,
+            "v3_submodels": ["HX_SNOWMAN_DRUMMER_V3_HIT_HIHAT"],
+        },
+    ]
+
+    events = render_events_from_reactive_cues(cues)
+
+    assert [event.pose for event in events] == ["kick_hit", "hi_hat_pulse"]
+    assert [event.timestamp_ms for event in events] == [500, 900]
+    assert events[0].submodels == ("HX_SNOWMAN_DRUMMER_V3_HIT_KICK",)
+    assert events[1].submodels == ("HX_SNOWMAN_DRUMMER_V3_HIT_HIHAT",)
 
 
 def test_active_events_respects_hit_window() -> None:
