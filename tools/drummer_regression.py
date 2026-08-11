@@ -11,8 +11,13 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 import wave
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from audio.drum_classification import DrumEvent, classify_drum_hit
 from helix.preview.drummer_v3 import build_render_event, validate_asset_contract
@@ -90,7 +95,7 @@ def run(output_dir: Path) -> dict[str, object]:
     reactive_path = output_dir / "reactive_drummer.json"
     reactive_path.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
 
-    contract_missing = validate_asset_contract(Path.cwd())
+    contract_missing = validate_asset_contract(ROOT)
     render_events = [
         build_render_event(timestamp_ms=event.timestamp_ms, drum_type=event.drum_type, velocity=event.velocity, index=index)
         for index, event in enumerate(events)
@@ -103,7 +108,7 @@ def run(output_dir: Path) -> dict[str, object]:
         # image is a safe deterministic fallback for CI branches that don't carry
         # the generated preview backdrop yet.
         from helix.preview.drummer_v3 import DRUMMER_V3_BACKDROP, DRUMMER_V3_SOURCE
-        backdrop = Path.cwd() / DRUMMER_V3_BACKDROP
+        backdrop = ROOT / DRUMMER_V3_BACKDROP
         if not backdrop.is_file():
             import helix.preview.drummer_v3 as drummer_v3
             drummer_v3.DRUMMER_V3_BACKDROP = DRUMMER_V3_SOURCE
@@ -112,7 +117,7 @@ def run(output_dir: Path) -> dict[str, object]:
         with imageio.get_writer(mp4_path, fps=24, codec="libx264", quality=7) as writer:
             for frame_index in range(48):
                 timestamp_ms = int(round(frame_index * 1000 / 24))
-                frame = renderer.render_drummer_v3(Path.cwd(), render_events, timestamp_ms)
+                frame = renderer.render_drummer_v3(ROOT, render_events, timestamp_ms)
                 writer.append_data(__import__("numpy").asarray(frame.convert("RGB")))
     except Exception as exc:  # pragma: no cover - surfaced in the report
         render_error = f"{type(exc).__name__}: {exc}"
@@ -130,6 +135,7 @@ def run(output_dir: Path) -> dict[str, object]:
         "render_error": render_error,
         "render_pass": render_error is None,
         "wav": str(wav_path),
+        "mp4": str(output_dir / "drummer_debug.mp4"),
     }
     (output_dir / "detection_report.json").write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")
     return report
