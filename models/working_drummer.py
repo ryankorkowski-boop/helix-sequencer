@@ -10,6 +10,14 @@ from models.snowman_geometry import build_snowman_template, validate_mouth_insid
 from models.working_band_member import WORKING_MEMBER_SCHEMA
 
 
+DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
+DRUMMER_V3_SOURCE_IMAGE = "fixtures/band_geometry/source/drummerbg.png"
+DRUMMER_V3_BACKDROP_IMAGE = "fixtures/band_geometry/source/drummerbg_preview_backdrop.png"
+DRUMMER_V3_POSE_SHEET = "fixtures/band_geometry/previews/HX_SNOWMAN_DRUMMER_V3_pose_sheet.png"
+DRUMMER_V3_LAYER_MANIFEST = "fixtures/band_geometry/drummer_v3_png_layer_manifest.json"
+DRUMMER_V3_XMODEL = "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
+DRUMMER_V3_GRID = {"width": 96, "height": 72}
+
 DRUMMER_DEFAULT_CUES = [
     {
         "start_ms": 0,
@@ -17,6 +25,8 @@ DRUMMER_DEFAULT_CUES = [
         "kind": "kick_hit",
         "submodel": "kick",
         "secondary_submodels": ["drumkit_all", "body_bottom"],
+        "v3_pose": "kick_hit",
+        "v3_submodels": ["HX_SNOWMAN_DRUMMER_V3_HIT_KICK"],
         "intensity": 0.95,
         "motion": "foot_kick_pulse",
         "xlights_effect_hint": "Low-frequency glow on kick with floor-outward pulse",
@@ -27,6 +37,8 @@ DRUMMER_DEFAULT_CUES = [
         "kind": "snare_hit",
         "submodel": "snare",
         "secondary_submodels": ["left_stick", "drumkit_all"],
+        "v3_pose": "snare_hit",
+        "v3_submodels": ["HX_SNOWMAN_DRUMMER_V3_HIT_SNARE"],
         "intensity": 0.86,
         "motion": "left_stick_snare_strike",
         "xlights_effect_hint": "Sharp flash on snare with left stick anticipation/rebound",
@@ -37,6 +49,8 @@ DRUMMER_DEFAULT_CUES = [
         "kind": "hihat_tick",
         "submodel": "hi_hat",
         "secondary_submodels": ["right_stick"],
+        "v3_pose": "hi_hat_pulse",
+        "v3_submodels": ["HX_SNOWMAN_DRUMMER_V3_HIT_HIHAT"],
         "intensity": 0.58,
         "motion": "right_stick_hat_tick",
         "xlights_effect_hint": "Rapid shimmer tick on hi_hat",
@@ -47,6 +61,8 @@ DRUMMER_DEFAULT_CUES = [
         "kind": "cymbal_wash",
         "submodel": "cymbal",
         "secondary_submodels": ["right_stick", "drumkit_all"],
+        "v3_pose": "right_crash",
+        "v3_submodels": ["HX_SNOWMAN_DRUMMER_V3_HIT_RIGHT_CRASH"],
         "intensity": 0.78,
         "motion": "right_stick_cymbal_crash",
         "xlights_effect_hint": "Wide bright wash on cymbal with long tail",
@@ -81,6 +97,8 @@ def _animation_frames() -> list[dict[str, Any]]:
             "time_ms": int(cue["start_ms"]),
             "active_submodel": str(cue["submodel"]),
             "secondary_submodels": list(cue["secondary_submodels"]),
+            "v3_pose": str(cue["v3_pose"]),
+            "v3_submodels": list(cue["v3_submodels"]),
             "motion": str(cue["motion"]),
             "intensity": float(cue["intensity"]),
         }
@@ -88,14 +106,45 @@ def _animation_frames() -> list[dict[str, Any]]:
     ]
 
 
+def _drummer_v3_asset_contract() -> dict[str, Any]:
+    return {
+        "model": DRUMMER_V3_MODEL,
+        "grid": dict(DRUMMER_V3_GRID),
+        "source_image": DRUMMER_V3_SOURCE_IMAGE,
+        "preview_backdrop": DRUMMER_V3_BACKDROP_IMAGE,
+        "pose_sheet": DRUMMER_V3_POSE_SHEET,
+        "layer_manifest": DRUMMER_V3_LAYER_MANIFEST,
+        "xmodel": DRUMMER_V3_XMODEL,
+        "asset_first": True,
+        "visual_source_of_truth": DRUMMER_V3_SOURCE_IMAGE,
+        "required_poses": [
+            "idle_ready",
+            "kick_hit",
+            "snare_hit",
+            "hi_hat_pulse",
+            "left_tom_hit",
+            "right_tom_hit",
+            "left_crash",
+            "right_crash",
+            "both_crash",
+            "downbeat_impact",
+        ],
+    }
+
+
 def build_working_drummer(canvas_size: int = 64) -> dict[str, Any]:
-    """Build the concrete snowman drummer performer package."""
+    """Build the concrete snowman drummer while exposing the Drummer v3 asset-first model.
+
+    The legacy procedural snowman geometry remains available for compatibility, but
+    the authored Drummer v3 xmodel/PNG pose system is now the canonical visual target.
+    """
     model = build_snowman_template("drummer", canvas_size)
     validation_issues = validate_mouth_inside_head(model)
     required_submodels = _required_drummer_submodels()
     submodel_counts = {name: len(submodel.included_coordinates) for name, submodel in model.submodels.items()}
     missing_required = [name for name in required_submodels if name not in model.submodels]
     frames = _animation_frames()
+    v3_asset = _drummer_v3_asset_contract()
     return {
         "schema": WORKING_MEMBER_SCHEMA,
         "role": "drummer",
@@ -109,16 +158,28 @@ def build_working_drummer(canvas_size: int = 64) -> dict[str, Any]:
         "mouth_shapes": sorted(model.mouth_regions),
         "animation_frames": frames,
         "default_cues": list(DRUMMER_DEFAULT_CUES),
+        "drummer_v3": v3_asset,
+        "visual_assets": {
+            "source_image": DRUMMER_V3_SOURCE_IMAGE,
+            "pose_sheet": DRUMMER_V3_POSE_SHEET,
+            "preview_backdrop": DRUMMER_V3_BACKDROP_IMAGE,
+            "xmodel": DRUMMER_V3_XMODEL,
+            "layer_manifest": DRUMMER_V3_LAYER_MANIFEST,
+        },
         "validation": {
             "mouth_inside_head": not validation_issues,
             "issues": validation_issues,
             "has_required_submodels": not missing_required,
             "has_animation_frames": bool(frames),
+            "has_drummer_v3_asset_contract": True,
         },
         "xlights_export_contract": {
             "target_model_type": "custom_model_with_submodels",
             "node_order": "row_major_top_left_1_based",
+            "canonical_model": DRUMMER_V3_MODEL,
+            "canonical_visual_source": DRUMMER_V3_SOURCE_IMAGE,
             "must_export_submodels": required_submodels,
+            "v3_pose_submodels_are_canonical": True,
             "first_sequence_smoke_test": "Apply kick/snare/hi_hat/cymbal cues with stick anticipation/rebound over one 620ms drum phrase.",
         },
     }
@@ -148,9 +209,9 @@ def build_reactive_drummer_member(
     )
     events = list(resolved["events"])
     mapped_events = list(resolved["mapped_events"])
+    v3_pose_events = list(resolved.get("drummer_v3_pose_events", []))
     motions = drummer_motion.build_drummer_motion(events)
     effect_cues = drum_effects.build_drum_effect_cues(events)
-    motion_by_strike = {(str(motion.get("drum_type")), int(motion.get("strike_ms", 0))): motion for motion in motions}
     reactive_cues: list[dict[str, Any]] = []
     for index, mapped in enumerate(mapped_events):
         event = events[index]
@@ -159,6 +220,16 @@ def build_reactive_drummer_member(
             motions,
             key=lambda motion: abs(int(motion.get("strike_ms", 0)) - int(mapped["timestamp_ms"])),
         ) if motions else {}
+        pose = v3_pose_events[index] if index < len(v3_pose_events) else {
+            "model": DRUMMER_V3_MODEL,
+            "pose": drum_mapper.drummer_v3_pose_for_event(event, index),
+            "submodels": [],
+            "timestamp_ms": int(mapped["timestamp_ms"]),
+            "end_ms": int(mapped["timestamp_ms"]) + 140,
+            "intensity": float(mapped["velocity"]),
+            "confidence": float(mapped["confidence"]),
+            "source": mapped["source"],
+        }
         reactive_cues.append(
             {
                 "performer": "drummer",
@@ -166,8 +237,16 @@ def build_reactive_drummer_member(
                 "start_ms": int(effect.get("start_ms", mapped["timestamp_ms"])),
                 "end_ms": int(effect.get("end_ms", int(mapped["timestamp_ms"]) + 140)),
                 "kind": str(mapped["drum_type"]),
+                # Keep the legacy target for compatibility with existing effect code.
                 "submodel": str(mapped["submodel"]),
                 "composite_submodels": list(mapped.get("composite_submodels", [])),
+                # Drummer v3 is now the canonical rendered target.
+                "model": DRUMMER_V3_MODEL,
+                "pose": str(pose.get("pose", "downbeat_impact")),
+                "pose_start_ms": int(pose.get("timestamp_ms", mapped["timestamp_ms"])),
+                "pose_end_ms": int(pose.get("end_ms", int(mapped["timestamp_ms"]) + 140)),
+                "v3_submodels": list(pose.get("submodels", [])),
+                "v3_intensity": float(pose.get("intensity", mapped["velocity"])),
                 "velocity": mapped["velocity"],
                 "confidence": mapped["confidence"],
                 "frequency_band_info": mapped["frequency_band_info"],
@@ -180,28 +259,37 @@ def build_reactive_drummer_member(
                     "effect": effect.get("effect", "drum_hit"),
                     "timing_track": "drums",
                     "target_submodel": str(mapped["submodel"]),
+                    "v3_model": DRUMMER_V3_MODEL,
+                    "v3_pose": str(pose.get("pose", "downbeat_impact")),
+                    "v3_target_submodels": list(pose.get("submodels", [])),
                     "layer": effect.get("layer", "accent"),
                 },
             }
         )
     cue_targets = sorted({str(cue.get("submodel", "")) for cue in reactive_cues if cue.get("submodel")})
+    v3_pose_targets = sorted({str(cue.get("pose", "")) for cue in reactive_cues if cue.get("pose")})
+    v3_submodel_targets = sorted({target for cue in reactive_cues for target in cue.get("v3_submodels", [])})
     payload.update(
         {
             "status": "reactive_working_member_slice",
             "reactive_cues": reactive_cues,
             "reactive_source_events": [event.to_dict() for event in events],
             "reactive_debug": {
-                "schema": "helix.working_drummer.reactivity.v1",
+                "schema": "helix.working_drummer.reactivity.v2",
                 "fallback_mode": resolved["fallback_mode"],
                 "counts": resolved["counts"],
                 "cue_count": len(reactive_cues),
                 "cue_targets": cue_targets,
+                "drummer_v3_pose_targets": v3_pose_targets,
+                "drummer_v3_submodel_targets": v3_submodel_targets,
                 "mapped_events": mapped_events,
+                "drummer_v3_pose_events": v3_pose_events,
                 "motion_events": motions,
                 "effect_cues": effect_cues,
                 "uses_typed_detection": resolved["fallback_mode"] == "typed_detection",
                 "uses_legacy_marks": resolved["fallback_mode"] == "legacy_marks",
                 "uses_drum_bus_distribution": resolved["fallback_mode"] == "drum_bus_distribution",
+                "uses_drummer_v3_assets": True,
             },
             "validation": {
                 **dict(payload["validation"]),
@@ -211,6 +299,7 @@ def build_reactive_drummer_member(
                 "reactive_cues_target_existing_submodels": all(
                     str(cue.get("submodel", "")) in payload["submodel_node_counts"] for cue in reactive_cues
                 ),
+                "reactive_cues_have_v3_targets": all(bool(cue.get("v3_submodels")) for cue in reactive_cues) if reactive_cues else False,
             },
         }
     )
