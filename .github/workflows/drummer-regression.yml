@@ -6,7 +6,10 @@ on:
       - 'audio/**'
       - 'helix/preview/**'
       - 'models/**'
+      - 'fixtures/band_geometry/**'
       - 'tools/drummer_regression.py'
+      - 'tools/build_drummer_v3_assets.py'
+      - 'tools/build_drummer_v3_png_layers.py'
       - 'tests/test_drum*.py'
       - 'tests/test_working_drummer.py'
       - '.github/workflows/drummer-regression.yml'
@@ -33,6 +36,10 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pytest imageio imageio-ffmpeg numpy pillow
+
+      - name: Materialize authored Drummer V3 assets
+        run: |
+          python tools/build_drummer_v3_assets.py --overwrite
 
       - name: Run focused drummer tests
         run: |
