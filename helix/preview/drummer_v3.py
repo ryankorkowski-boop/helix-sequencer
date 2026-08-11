@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Mapping
+from typing import Any, Mapping
 
 
 DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
@@ -54,7 +54,7 @@ DRUM_TYPE_TO_POSE: Mapping[str, str] = {
     "hihat": "hi_hat_pulse",
     "tom": "left_tom_hit",
     "cymbal": "right_crash",
-    "drum_bus": "downbeat_impact",
+    "drum_bus": "idle_ready",
 }
 
 
@@ -116,6 +116,34 @@ def build_render_event(
         intensity=max(0.0, min(1.0, float(velocity))),
         submodels=submodels_for_pose(pose),
     )
+
+
+def render_events_from_reactive_cues(cues: list[Mapping[str, Any]]) -> list[DrummerV3RenderEvent]:
+    """Bridge ``models.working_drummer`` reactive cues into preview events.
+
+    The current drummer logic remains responsible for detection, confidence,
+    timing, and pose choice. The preview adapter only consumes its V3 pose and
+    intensity fields, so the image renderer and xLights mapper share the same
+    cue contract.
+    """
+    events: list[DrummerV3RenderEvent] = []
+    for cue in cues:
+        pose = str(cue.get("pose", cue.get("v3_pose", "idle_ready")) or "idle_ready")
+        if pose == "downbeat_impact":
+            pose = "idle_ready"
+        start_ms = int(cue.get("pose_start_ms", cue.get("start_ms", 0)) or 0)
+        end_ms = int(cue.get("pose_end_ms", cue.get("end_ms", start_ms + 150)) or (start_ms + 150))
+        intensity = float(cue.get("v3_intensity", cue.get("velocity", 0.0)) or 0.0)
+        events.append(
+            DrummerV3RenderEvent(
+                timestamp_ms=start_ms,
+                end_ms=max(start_ms + 1, end_ms),
+                pose=pose if pose in POSE_TO_LAYER else "idle_ready",
+                intensity=max(0.0, min(1.0, intensity)),
+                submodels=tuple(cue.get("v3_submodels", ())) or submodels_for_pose(pose),
+            )
+        )
+    return events
 
 
 def validate_asset_contract(asset_root: str | Path) -> list[str]:
