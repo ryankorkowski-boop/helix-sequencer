@@ -122,8 +122,7 @@ jobs:
         run: |
           python -m pytest -q \
             tests/test_working_drummer.py \
-            tests/test_drum_mapper.py \
-            tests/test_drummer_motion.py
+            tests/test_drum_mapping.py
 
       - name: Upload drummer regression artifacts
         if: always()
