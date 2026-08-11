@@ -1,0 +1,74 @@
+name: Drummer Regression
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'codex/**'
+      - 'feature/**'
+      - 'beta/**'
+      - feature/restructure-core
+
+jobs:
+  drummer-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Run drummer regression harness
+        run: |
+          set -o pipefail
+          mkdir -p test_runs/drummer_regression
+          python -m tools.drummer_regression \
+            --output-dir test_runs/drummer_regression \
+            2>&1 | tee test_runs/drummer_regression/regression.log
+
+      - name: Run focused drummer tests
+        run: |
+          python -m pytest -q \
+            tests/test_working_drummer.py \
+            tests/test_drum_mapper.py \
+            tests/test_drummer_motion.py
+
+      - name: Upload drummer regression artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drummer-regression
+          path: |
+            test_runs/drummer_regression/*.wav
+            test_runs/drummer_regression/*.json
+            test_runs/drummer_regression/*.mp4
+            test_runs/drummer_regression/*.png
+            test_runs/drummer_regression/*.log
+          if-no-files-found: warn
+
+      - name: Fail on regression mismatch
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('test_runs/drummer_regression/detection_report.json').read_text())
+          print(f"classification_pass={report['classification_pass']}")
+          print(f"render_pass={report['render_pass']}")
+          print(f"reactive_cue_count={report['reactive_cue_count']}")
+          print(f"v3_pose_targets={report['v3_pose_targets']}")
+          if not report['classification_pass']:
+              raise SystemExit('Drummer classifier regression detected')
+          if not report['render_pass']:
+              raise SystemExit('Drummer preview render failed')
+          PY
