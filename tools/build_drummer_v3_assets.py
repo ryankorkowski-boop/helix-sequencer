@@ -3,7 +3,8 @@
 
 Drummer v3 is asset-first: ``drummerbg.png`` is the visual source of truth. This
 builder may decode the repo-safe ``drummerbg.png.b64`` fixture, creates the pose
-sheet/layers with the PNG overlay builder, and exports a V3 xmodel whose named
+sheet/layers with the PNG overlay builder, materializes the preview backdrop and
+idle layer required by the preview contract, and exports a V3 xmodel whose named
 zones are derived from the same authored pose spec.
 """
 
@@ -34,6 +35,8 @@ from tools.build_drummer_v3_png_layers import (
 
 DEFAULT_SPEC = ROOT / "fixtures" / "band_geometry" / "drummer_v3_pose_spec.json"
 MODEL_NAME = "HX_SNOWMAN_DRUMMER_V3"
+PREVIEW_BACKDROP = "drummerbg_preview_backdrop.png"
+IDLE_LAYER = "drummer_idle_ready.png"
 
 
 def _repo_path(path: str | Path) -> Path:
@@ -62,6 +65,31 @@ def ensure_source_png(spec: dict[str, Any], *, overwrite: bool = False) -> tuple
     source.parent.mkdir(parents=True, exist_ok=True)
     source.write_bytes(base64.b64decode(payload))
     return source, True
+
+
+def ensure_preview_contract_assets(source: Path, layers_dir: Path, overwrite: bool) -> list[str]:
+    """Materialize deterministic preview-only derivatives required by the V3 contract.
+
+    The approved source image remains the visual source of truth. The backdrop is
+    an exact copy of that source, while the idle layer is intentionally transparent:
+    it represents the absence of a hit without inventing replacement artwork.
+    """
+    written: list[str] = []
+    backdrop = source.parent / PREVIEW_BACKDROP
+    if overwrite or not backdrop.exists():
+        backdrop.parent.mkdir(parents=True, exist_ok=True)
+        with Image.open(source) as image:
+            image.convert("RGBA").save(backdrop, "PNG")
+        written.append(str(backdrop.relative_to(ROOT)))
+
+    idle = layers_dir / IDLE_LAYER
+    if overwrite or not idle.exists():
+        layers_dir.mkdir(parents=True, exist_ok=True)
+        with Image.open(source) as image:
+            transparent = Image.new("RGBA", image.size, (0, 0, 0, 0))
+        transparent.save(idle, "PNG")
+        written.append(str(idle.relative_to(ROOT)))
+    return written
 
 
 def _nodes_from_overlay(overlay: Image.Image, width: int, height: int) -> set[int]:
@@ -190,8 +218,10 @@ def build_assets(
         source_size = image.size
 
     layers = build_png_layers(source, layer_manifest, layers_dir, preview_dir, overwrite)
+    materialized = ensure_preview_contract_assets(source, layers_dir, overwrite)
     xmodel_path = _repo_path(str(spec["xmodel_path"]))
     xmodel = build_xmodel(spec, source, xmodel_path)
+    layers["materialized_contract_assets"] = materialized
     return {
         "schema": "helix.drummer_v3_asset_build.v1",
         "spec": str(spec_path.relative_to(ROOT)),
