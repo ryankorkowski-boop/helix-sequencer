@@ -1,0 +1,57 @@
+name: Drummer Regression
+
+on:
+  pull_request:
+    paths:
+      - 'audio/**'
+      - 'helix/preview/**'
+      - 'models/**'
+      - 'tools/drummer_regression.py'
+      - 'tests/test_drum*.py'
+      - 'tests/test_working_drummer.py'
+      - '.github/workflows/drummer-regression.yml'
+  push:
+    branches:
+      - codex/integrate-drummer-v3-current-logic
+  workflow_dispatch:
+
+jobs:
+  drummer-regression:
+    name: 2s synthetic drummer regression
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install declared dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install imageio imageio-ffmpeg numpy pillow
+
+      - name: Run focused drummer tests
+        run: |
+          python -m pytest -q \
+            tests/test_drum_detection.py \
+            tests/test_drum_mapping.py \
+            tests/test_drummer_v3_preview_renderer.py \
+            tests/test_working_drummer.py
+
+      - name: Generate 2s synthetic fixture and render MP4
+        run: |
+          rm -rf artifacts/drummer-regression
+          python tools/drummer_regression.py --output-dir artifacts/drummer-regression
+
+      - name: Upload drummer regression artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drummer-regression
+          path: artifacts/drummer-regression/
+          if-no-files-found: warn
+          retention-days: 14
