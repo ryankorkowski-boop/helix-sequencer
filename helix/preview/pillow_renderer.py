@@ -121,16 +121,17 @@ class PillowRenderer:
         width, height = self.width, self.height
         if shape in {"ellipse", "ellipse_outline", "rectangle_outline"}:
             x0, y0, x1, y1 = [float(v) for v in command.get("box", [0, 0, 0, 0])]
-            box = (round(x0 * width), round(y0 * height), round(x1 * width), round(y1 * height))
+            # Match the strict acceptance renderer's integer rasterization exactly.
+            box = (int(x0 * width), int(y0 * height), int(x1 * width), int(y1 * height))
             if shape == "ellipse":
                 draw.ellipse(box, fill=255)
             elif shape == "ellipse_outline":
-                draw.ellipse(box, outline=255, width=max(1, round(float(command.get("width", 0.01)) * min(self.width, self.height))))
+                draw.ellipse(box, outline=255, width=max(1, int(float(command.get("width", 0.01)) * min(self.width, self.height))))
             else:
-                draw.rectangle(box, outline=255, width=max(1, round(float(command.get("width", 0.01)) * min(self.width, self.height))))
+                draw.rectangle(box, outline=255, width=max(1, int(float(command.get("width", 0.01)) * min(self.width, self.height))))
         elif shape == "line":
             x0, y0, x1, y1 = [float(v) for v in command.get("points", [0, 0, 0, 0])]
-            draw.line((round(x0 * width), round(y0 * height), round(x1 * width), round(y1 * height)), fill=255, width=max(1, round(float(command.get("width", 0.01)) * min(width, height))))
+            draw.line((int(x0 * width), int(y0 * height), int(x1 * width), int(y1 * height)), fill=255, width=max(1, int(float(command.get("width", 0.01)) * min(width, height))))
 
     def _illuminate_component_mask(self, frame, mask, intensity):
         if mask is None or intensity <= 0:
