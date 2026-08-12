@@ -1,0 +1,66 @@
+name: Synthetic Drummer Ground Truth Test
+
+on:
+  push:
+    branches:
+      - 'feature/synthetic-drummer-test'
+
+permissions:
+  contents: read
+
+jobs:
+  drummer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest
+      - name: Generate known-ground-truth drum audio
+        run: |
+          python - <<'PY'
+          import numpy as np, wave
+          from pathlib import Path
+          sr=44100; duration=12; n=sr*duration; x=np.zeros(n,dtype=np.float32)
+          rng=np.random.default_rng(42); beat=.5
+          def add(t,f=None,a=.5,d=.1,noise=False):
+              s=int(t*sr); L=min(int(d*sr),n-s)
+              if L<=0:return
+              tt=np.arange(L)/sr; env=np.exp(-tt/d)
+              y=(rng.normal(size=L) if noise else np.sin(2*np.pi*f*tt))*env*a
+              x[s:s+L]+=y
+          for bar in range(6):
+              b=bar*2
+              for t in [b,b+.5,b+1,b+1.5]: add(t,58,.9,.18)
+              for t in [b+.5,b+1.5]: add(t,190,.25,.1); add(t,None,.65,.08,True)
+              for i in range(8): add(b+i*.25,None,.25,.025,True)
+              add(b,None,.75,.35,True)
+          fill=8
+          for i,(f,a,d,noise) in enumerate([(90,.7,.16,False),(125,.7,.16,False),(175,.7,.16,False),(190,.2,.08,False),(58,.9,.18,False),(None,.75,.35,True)]):
+              t=fill+i*.125; add(t,f,a,d,noise); 
+              if f==190: add(t,None,.6,.07,True)
+          x=np.clip(x,-.95,.95)
+          out=Path('drumdemo.wav')
+          with wave.open(str(out),'wb') as w:
+              w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr); w.writeframes((x*32767).astype(np.int16).tobytes())
+          print(out)
+          PY
+      - name: Run drummer V3 test harness
+        run: |
+          mkdir -p "$HOME/Desktop/414"
+          cp drumdemo.wav "$HOME/Desktop/414/drumdemo.wav"
+          python run_drummer_v3_test.py
+      - name: Upload drummer artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-drummer-test
+          path: |
+            test_runs/drummer_v3_test/**
+            drumdemo.wav
+          if-no-files-found: warn
