@@ -47,6 +47,7 @@ jobs:
             tests/test_drum_detection.py \
             tests/test_drum_mapping.py \
             tests/test_drummer_v3_preview_renderer.py \
+            tests/test_drummer_v3_submodel_illumination.py \
             tests/test_working_drummer.py
 
       - name: Generate 2s synthetic fixture and render MP4
