@@ -1,13 +1,14 @@
 """Asset-first preview support for the authored Drummer V3 artwork.
 
 The production drummer remains xLights/xmodel driven. This adapter makes the
-preview renderer use the same authored background + hit-layer assets so a
-preview represents the physical V3 prop instead of substituting procedural
-snowman geometry.
+preview renderer use the same authored background and the same named physical
+submodel targets used by the V3 contract. Hit events are rendered as additive
+illumination over the authored base rather than as whole-frame pose swaps.
 """
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
@@ -18,8 +19,6 @@ DRUMMER_V3_BACKDROP = "fixtures/band_geometry/source/drummerbg_preview_backdrop.
 DRUMMER_V3_SOURCE = "fixtures/band_geometry/source/drummerbg.png"
 DRUMMER_V3_LAYER_MANIFEST = "fixtures/band_geometry/drummer_v3_png_layer_manifest.json"
 
-# These are the authored render layers, not approximations of the old procedural
-# snowman. The names intentionally match the pose contract used by drum_mapper.
 POSE_TO_LAYER: Mapping[str, str] = {
     "idle_ready": "drummer_idle_ready.png",
     "kick_hit": "drummer_hit_kick.png",
@@ -32,19 +31,18 @@ POSE_TO_LAYER: Mapping[str, str] = {
     "both_crash": "drummer_hit_both_crash.png",
 }
 
-# Physical xLights submodels represented by each authored pose.
 POSE_TO_SUBMODELS: Mapping[str, tuple[str, ...]] = {
     "idle_ready": (),
-    "kick_hit": ("HX_SNOWMAN_DRUMMER_V3_HIT_KICK",),
-    "snare_hit": ("HX_SNOWMAN_DRUMMER_V3_HIT_SNARE",),
-    "hi_hat_pulse": ("HX_SNOWMAN_DRUMMER_V3_HIT_HIHAT",),
-    "left_tom_hit": ("HX_SNOWMAN_DRUMMER_V3_HIT_TOM_LEFT",),
-    "right_tom_hit": ("HX_SNOWMAN_DRUMMER_V3_HIT_TOM_RIGHT",),
-    "left_crash": ("HX_SNOWMAN_DRUMMER_V3_HIT_LEFT_CRASH",),
-    "right_crash": ("HX_SNOWMAN_DRUMMER_V3_HIT_RIGHT_CRASH",),
+    "kick_hit": ("HX_SNOWMAN_DRUMMER_V3_KICK",),
+    "snare_hit": ("HX_SNOWMAN_DRUMMER_V3_SNARE",),
+    "hi_hat_pulse": ("HX_SNOWMAN_DRUMMER_V3_HI_HAT",),
+    "left_tom_hit": ("HX_SNOWMAN_DRUMMER_V3_TOM_LEFT",),
+    "right_tom_hit": ("HX_SNOWMAN_DRUMMER_V3_TOM_RIGHT",),
+    "left_crash": ("HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",),
+    "right_crash": ("HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",),
     "both_crash": (
-        "HX_SNOWMAN_DRUMMER_V3_HIT_LEFT_CRASH",
-        "HX_SNOWMAN_DRUMMER_V3_HIT_RIGHT_CRASH",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
     ),
 }
 
@@ -77,11 +75,7 @@ class DrummerV3RenderEvent:
 
 
 def pose_for_drum_type(drum_type: str, *, index: int = 0) -> str:
-    """Resolve a detector type into the authored V3 pose.
-
-    Tom/cymbal alternation is deliberately deterministic. The actual authored
-    layer geometry remains the source of truth; this function only chooses it.
-    """
+    """Resolve a detector type into the authored V3 pose/submodel target."""
     normalized = str(drum_type or "").strip().lower()
     if normalized == "tom":
         return "right_tom_hit" if index % 2 else "left_tom_hit"
@@ -98,6 +92,33 @@ def layer_path(asset_root: str | Path, pose: str) -> Path:
 
 def submodels_for_pose(pose: str) -> tuple[str, ...]:
     return tuple(POSE_TO_SUBMODELS.get(str(pose), ()))
+
+
+def _manifest_path(asset_root: str | Path) -> Path:
+    return Path(asset_root) / DRUMMER_V3_LAYER_MANIFEST
+
+
+def illumination_specs_for_pose(asset_root: str | Path, pose: str) -> list[dict[str, Any]]:
+    """Return additive illumination commands for a V3 submodel target.
+
+    The PNG pose files remain an asset-contract resource, but they are no longer
+    the canonical hit renderer. The layer manifest's target components and
+    normalized commands are the preview illumination contract.
+    """
+    path = _manifest_path(asset_root)
+    if not path.is_file() or pose == "idle_ready":
+        return []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    for item in data.get("layers", []):
+        if item.get("id") == pose:
+            return list(item.get("commands", []))
+    return []
+
+
+def illumination_targets_for_pose(asset_root: str | Path, pose: str) -> tuple[str, ...]:
+    """Return the named physical V3 submodels targeted by a pose."""
+    _ = asset_root
+    return submodels_for_pose(pose)
 
 
 def build_render_event(
@@ -119,13 +140,7 @@ def build_render_event(
 
 
 def render_events_from_reactive_cues(cues: list[Mapping[str, Any]]) -> list[DrummerV3RenderEvent]:
-    """Bridge ``models.working_drummer`` reactive cues into preview events.
-
-    The current drummer logic remains responsible for detection, confidence,
-    timing, and pose choice. The preview adapter only consumes its V3 pose and
-    intensity fields, so the image renderer and xLights mapper share the same
-    cue contract.
-    """
+    """Bridge reactive drummer cues into V3 submodel-targeted events."""
     events: list[DrummerV3RenderEvent] = []
     for cue in cues:
         pose = str(cue.get("pose", cue.get("v3_pose", "idle_ready")) or "idle_ready")
@@ -159,5 +174,5 @@ def validate_asset_contract(asset_root: str | Path) -> list[str]:
 
 
 def active_events(events: list[DrummerV3RenderEvent], timestamp_ms: int) -> list[DrummerV3RenderEvent]:
-    """Return V3 hit layers active at a preview timestamp."""
+    """Return V3 events active at a preview timestamp."""
     return [event for event in events if event.timestamp_ms <= timestamp_ms < event.end_ms]
