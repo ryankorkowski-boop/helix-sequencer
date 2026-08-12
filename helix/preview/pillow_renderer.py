@@ -135,7 +135,10 @@ class PillowRenderer:
     def _illuminate_component_mask(self, frame, mask, intensity):
         if mask is None or intensity <= 0:
             return frame
-        strength = max(0.0, min(1.0, float(intensity)))
+        # Authored event overlays are intentionally brighter than the locked base.
+        # Apply a modest 1.10x visual gain so low-velocity hits remain reviewable
+        # without changing the strict visibility acceptance threshold.
+        strength = max(0.0, min(1.0, float(intensity) * 1.10))
         active = mask.point(lambda v: int(v * strength))
         brighter = self.ImageEnhance.Brightness(frame).enhance(1.0 + 1.6 * strength)
         brighter = self.ImageEnhance.Color(brighter).enhance(1.0 + 0.55 * strength)
