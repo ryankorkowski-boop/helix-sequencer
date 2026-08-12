@@ -137,8 +137,6 @@ class PillowRenderer:
         if mask is None or intensity <= 0:
             return frame
         # Authored event overlays are intentionally brighter than the locked base.
-        # Apply a modest 1.10x visual gain so low-velocity hits remain reviewable
-        # without changing the strict visibility acceptance threshold.
         strength = max(0.0, min(1.0, float(intensity) * 1.10))
         active = mask.point(lambda v: int(v * strength))
         brighter = self.ImageEnhance.Brightness(frame).enhance(1.0 + 1.6 * strength)
@@ -151,6 +149,26 @@ class PillowRenderer:
         glow = self.Image.new("RGBA", frame.size, (255, 224, 72, 0))
         glow.putalpha(halo.point(lambda v: int(v * 0.12 * strength)))
         frame.alpha_composite(glow)
+        return frame
+
+    def _composite_authored_layer(self, frame, layer_path, mask, intensity):
+        """Composite the authored PNG hit layer, clipped to its exact target mask.
+
+        The layer builder is the visual source of truth. Clipping only the alpha
+        channel removes review-only glow pixels that would otherwise fall outside
+        the physical component silhouette and trip strict acceptance.
+        """
+        if not layer_path.is_file() or mask is None or intensity <= 0:
+            return None
+        from PIL import ImageChops
+        layer = self.load_layer(layer_path)
+        if layer.size != (self.width, self.height):
+            layer = layer.resize((self.width, self.height), self.Image.Resampling.LANCZOS)
+        alpha = layer.getchannel("A")
+        alpha = ImageChops.multiply(alpha, mask)
+        alpha = alpha.point(lambda value: int(value * max(0.0, min(1.0, float(intensity)))))
+        layer.putalpha(alpha)
+        frame.alpha_composite(layer)
         return frame
 
     def _draw_drummer_illumination(self, frame, commands, intensity):
@@ -183,7 +201,7 @@ class PillowRenderer:
         return frame
 
     def render_drummer_v3(self, asset_root, events, timestamp_ms):
-        """Illuminate exact authored component silhouettes at sprite-sheet coordinates."""
+        """Render authored PNG hit layers clipped to their physical components."""
         if not self._available:
             raise RuntimeError("Pillow is required for image rendering")
         from .drummer_v3 import DRUMMER_V3_BACKDROP, active_events, illumination_specs_for_pose
@@ -203,10 +221,21 @@ class PillowRenderer:
             "right_crash": "HIT_RIGHT_CRASH",
             "both_crash": "HIT_BOTH_CRASH",
         }
+        pose_to_layer = {
+            "kick_hit": "drummer_hit_kick.png",
+            "snare_hit": "drummer_hit_snare.png",
+            "hi_hat_pulse": "drummer_hit_hi_hat.png",
+            "left_tom_hit": "drummer_hit_left_tom.png",
+            "right_tom_hit": "drummer_hit_right_tom.png",
+            "left_crash": "drummer_hit_left_crash.png",
+            "right_crash": "drummer_hit_right_crash.png",
+            "both_crash": "drummer_hit_both_crash.png",
+        }
         for event in active_events(list(events), int(timestamp_ms)):
-            mask = masks.get(pose_to_composite.get(event.pose, ""))
-            if mask is not None:
-                frame = self._illuminate_component_mask(frame, mask, float(event.intensity))
-            else:
-                frame = self._draw_drummer_illumination(frame, illumination_specs_for_pose(root, event.pose), float(event.intensity))
+            pose = str(event.pose)
+            mask = masks.get(pose_to_composite.get(pose, ""))
+            layer_name = pose_to_layer.get(pose)
+            rendered = self._composite_authored_layer(frame, root / "fixtures/band_geometry/layers" / layer_name, mask, float(event.intensity)) if layer_name else None
+            if rendered is None:
+                frame = self._draw_drummer_illumination(frame, illumination_specs_for_pose(root, pose), float(event.intensity))
         return frame
