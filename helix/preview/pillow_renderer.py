@@ -99,9 +99,18 @@ class PillowRenderer:
         logical = self.Image.new("L", (grid_w, grid_h), 0)
         draw = self.ImageDraw.Draw(logical)
         mask_value = max(0, min(255, int(round(255 * intensity))))
+        total_nodes = grid_w * grid_h
         for index in indices:
-            if 0 <= index < grid_w * grid_h:
-                draw.point((index % grid_w, index // grid_w), fill=mask_value)
+            # xLights custom-model line0 ranges are one-based. Accept zero-based
+            # indices too for older hand-authored fixtures, but prefer the
+            # authoritative one-based convention emitted by the V3 builder.
+            if 1 <= index <= total_nodes:
+                node = index - 1
+            elif 0 <= index < total_nodes:
+                node = index
+            else:
+                continue
+            draw.point((node % grid_w, node // grid_w), fill=mask_value)
 
         # Expand sparse node points into a clearly visible but still localized
         # preview footprint. This does not invent target membership: every
