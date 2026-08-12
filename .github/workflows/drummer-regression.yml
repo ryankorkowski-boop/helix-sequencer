@@ -8,6 +8,7 @@ on:
       - 'models/**'
       - 'fixtures/band_geometry/**'
       - 'tools/drummer_regression.py'
+      - 'tools/drummer_regression_preview.py'
       - 'tools/build_drummer_v3_assets.py'
       - 'tools/build_drummer_v3_png_layers.py'
       - 'tests/test_drum*.py'
@@ -53,7 +54,7 @@ jobs:
       - name: Generate 2s synthetic fixture and render MP4
         run: |
           rm -rf artifacts/drummer-regression
-          python tools/drummer_regression.py --output-dir artifacts/drummer-regression
+          python tools/drummer_regression_preview.py --output-dir artifacts/drummer-regression
 
       - name: Upload drummer regression artifact
         if: always()
