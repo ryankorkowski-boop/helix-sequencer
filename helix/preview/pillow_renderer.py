@@ -15,15 +15,18 @@ class PillowRenderer:
         self.height = height
         self._available = False
         try:
-            from PIL import Image, ImageDraw, ImageFilter
+            from PIL import Image, ImageDraw, ImageFilter, ImageEnhance
             self.Image = Image
             self.ImageDraw = ImageDraw
             self.ImageFilter = ImageFilter
+            self.ImageEnhance = ImageEnhance
             self._available = True
         except ImportError:
             self.Image = None
             self.ImageDraw = None
             self.ImageFilter = None
+            self.ImageEnhance = None
+            self._available = False
 
     def load_layer(self, path):
         if not self._available:
@@ -55,14 +58,12 @@ class PillowRenderer:
         return indices
 
     def _xmodel_submodel_indices(self, asset_root, target_names):
-        """Read the authoritative V3 xmodel node membership for target submodels."""
+        """Read authoritative V3 xmodel node membership for target submodels."""
         xmodel = Path(asset_root) / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
         if not xmodel.is_file() or not target_names:
             return []
 
         wanted = set(target_names)
-        # Reactive cue IDs historically used the HIT_* aliases. Normalize them
-        # to the physical xmodel submodel names without changing the event API.
         aliases = {
             "HX_SNOWMAN_DRUMMER_V3_HIT_KICK": "HX_SNOWMAN_DRUMMER_V3_KICK",
             "HX_SNOWMAN_DRUMMER_V3_HIT_SNARE": "HX_SNOWMAN_DRUMMER_V3_SNARE",
@@ -86,19 +87,26 @@ class PillowRenderer:
         return sorted(set(indices))
 
     def _draw_xmodel_submodel_illumination(self, frame, indices, intensity):
-        """Illuminate the exact node cells belonging to an xmodel submodel."""
+        """Light the exact xmodel submodel while preserving the authored artwork.
+
+        The xmodel's node membership is used as a mask. We deliberately do not
+        paint opaque yellow rectangles over those nodes: the authored pixels
+        underneath remain visible and are brightened/tinted in place. This makes
+        the result read as the physical drum submodel lighting up rather than a
+        synthetic shape being pasted over the drummer.
+        """
         if not indices or intensity <= 0.0:
             return frame
 
-        overlay = self.Image.new("RGBA", frame.size, (0, 0, 0, 0))
-        draw = self.ImageDraw.Draw(overlay)
-        # HX_SNOWMAN_DRUMMER_V3 declares a 96 x 72 node grid.
+        mask = self.Image.new("L", frame.size, 0)
+        draw = self.ImageDraw.Draw(mask)
         cols, rows = 96, 72
         cell_w = self.width / cols
         cell_h = self.height / rows
-        alpha = max(0, min(255, int(round(225 * intensity))))
-        fill = (255, 245, 120, alpha)
 
+        # Use a moderate mask value. The authored artwork remains the visual
+        # source of truth; the mask only determines where light is applied.
+        mask_value = max(0, min(255, int(round(185 * intensity))))
         for index in indices:
             if index < 0 or index >= cols * rows:
                 continue
@@ -108,11 +116,24 @@ class PillowRenderer:
             top = int(round(y * cell_h))
             right = max(left + 1, int(round((x + 1) * cell_w)))
             bottom = max(top + 1, int(round((y + 1) * cell_h)))
-            draw.rectangle((left, top, right - 1, bottom - 1), fill=fill)
+            draw.rectangle((left, top, right - 1, bottom - 1), fill=mask_value)
 
-        glow = overlay.filter(self.ImageFilter.GaussianBlur(max(1.0, min(self.width, self.height) * 0.004)))
+        # Slightly soften the node-cell boundaries without changing which
+        # physical submodel owns the illumination.
+        mask = mask.filter(self.ImageFilter.GaussianBlur(max(0.8, min(self.width, self.height) * 0.0015)))
+
+        # Preserve the authored image and create a brighter version of it.
+        # This is intentionally a light treatment, not a solid-color overlay.
+        brighter = self.ImageEnhance.Brightness(frame).enhance(1.0 + 0.70 * intensity)
+        brighter = self.ImageEnhance.Color(brighter).enhance(1.0 + 0.18 * intensity)
+        frame = self.Image.composite(brighter, frame, mask)
+
+        # Add a restrained warm bloom outside the exact node mask so the light
+        # feels emissive while the physical submodel boundary remains clear.
+        glow_mask = mask.filter(self.ImageFilter.GaussianBlur(max(2.0, min(self.width, self.height) * 0.006)))
+        glow = self.Image.new("RGBA", frame.size, (255, 245, 120, 0))
+        glow.putalpha(glow_mask.point(lambda value: int(value * 0.16)))
         frame.alpha_composite(glow)
-        frame.alpha_composite(overlay)
         return frame
 
     def _draw_drummer_illumination(self, frame, commands, intensity):
