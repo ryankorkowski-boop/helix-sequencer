@@ -1,0 +1,72 @@
+name: Drummer Ground Truth Test
+
+on:
+  push:
+    branches:
+      - feature/restructure-core
+    paths:
+      - '.github/workflows/drummer-ground-truth.yml'
+      - 'animation/drummer_motion.py'
+      - 'mapping/drum_mapper.py'
+      - 'fixtures/band_geometry/**'
+      - 'tools/**'
+      - 'tests/**'
+      - 'run_drummer_v3_test.py'
+  workflow_dispatch:
+
+jobs:
+  drummer-ground-truth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest numpy scipy scikit-learn librosa soundfile numba llvmlite imageio-ffmpeg
+      - name: Generate deterministic synthetic drum audio
+        run: python tools/generate_drummer_ground_truth.py --wav test_runs/drummer_ground_truth/drummer_ground_truth.wav --events test_runs/drummer_ground_truth/events.json
+      - name: Run drummer unit tests
+        env:
+          PYTHONPATH: .
+        run: |
+          python -m pytest -q \
+            tests/test_drummer_layers.py \
+            tests/test_drummer_xmodel_asset.py \
+            tests/test_drummer_v3_pose_sheet.py \
+            tests/test_drummer_v3_png_layers.py \
+            tests/test_finished_helixville4_drummer.py
+      - name: Run audio-driven drummer preview
+        run: |
+          python -m tools.export_helix_flow_review_artifacts \
+            --output-dir test_runs/drummer_ground_truth/preview \
+            --duration-seconds 12 \
+            --step-seconds 0.125 \
+            --bpm 120 \
+            --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav
+      - name: Verify preview contains visual drummer effects
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('test_runs/drummer_ground_truth/preview/helix_flow_preview_metadata.json')
+          d=json.loads(p.read_text())
+          print(json.dumps(d, indent=2))
+          models=d.get('visual_models',[])
+          if d.get('visible_effect_count',0) <= 0:
+              raise SystemExit('FAIL: no visible effects')
+          if d.get('visual_model_count',0) <= 1:
+              raise SystemExit(f'FAIL: expected multiple visual models, got {models}')
+          print('PASS: multiple visual models are present in preview metadata')
+          PY
+      - name: Upload drummer ground-truth artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drummer-ground-truth
+          path: test_runs/drummer_ground_truth/**
+          if-no-files-found: error
