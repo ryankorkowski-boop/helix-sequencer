@@ -31,7 +31,25 @@ POSE_TO_LAYER: Mapping[str, str] = {
     "both_crash": "drummer_hit_both_crash.png",
 }
 
+# Preserve the existing event/cue contract. These are the authored V3 hit
+# composite submodels used by the xLights mapper. The renderer resolves each
+# pose to physical instrument targets separately for illumination.
 POSE_TO_SUBMODELS: Mapping[str, tuple[str, ...]] = {
+    "idle_ready": (),
+    "kick_hit": ("HX_SNOWMAN_DRUMMER_V3_HIT_KICK",),
+    "snare_hit": ("HX_SNOWMAN_DRUMMER_V3_HIT_SNARE",),
+    "hi_hat_pulse": ("HX_SNOWMAN_DRUMMER_V3_HIT_HIHAT",),
+    "left_tom_hit": ("HX_SNOWMAN_DRUMMER_V3_HIT_TOM_LEFT",),
+    "right_tom_hit": ("HX_SNOWMAN_DRUMMER_V3_HIT_TOM_RIGHT",),
+    "left_crash": ("HX_SNOWMAN_DRUMMER_V3_HIT_LEFT_CRASH",),
+    "right_crash": ("HX_SNOWMAN_DRUMMER_V3_HIT_RIGHT_CRASH",),
+    "both_crash": (
+        "HX_SNOWMAN_DRUMMER_V3_HIT_LEFT_CRASH",
+        "HX_SNOWMAN_DRUMMER_V3_HIT_RIGHT_CRASH",
+    ),
+}
+
+POSE_TO_PHYSICAL_TARGETS: Mapping[str, tuple[str, ...]] = {
     "idle_ready": (),
     "kick_hit": ("HX_SNOWMAN_DRUMMER_V3_KICK",),
     "snare_hit": ("HX_SNOWMAN_DRUMMER_V3_SNARE",),
@@ -99,12 +117,7 @@ def _manifest_path(asset_root: str | Path) -> Path:
 
 
 def illumination_specs_for_pose(asset_root: str | Path, pose: str) -> list[dict[str, Any]]:
-    """Return additive illumination commands for a V3 submodel target.
-
-    The PNG pose files remain an asset-contract resource, but they are no longer
-    the canonical hit renderer. The layer manifest's target components and
-    normalized commands are the preview illumination contract.
-    """
+    """Return additive illumination commands for a V3 physical target."""
     path = _manifest_path(asset_root)
     if not path.is_file() or pose == "idle_ready":
         return []
@@ -116,9 +129,9 @@ def illumination_specs_for_pose(asset_root: str | Path, pose: str) -> list[dict[
 
 
 def illumination_targets_for_pose(asset_root: str | Path, pose: str) -> tuple[str, ...]:
-    """Return the named physical V3 submodels targeted by a pose."""
+    """Return the physical instrument submodels illuminated by a pose."""
     _ = asset_root
-    return submodels_for_pose(pose)
+    return tuple(POSE_TO_PHYSICAL_TARGETS.get(str(pose), ()))
 
 
 def build_render_event(
