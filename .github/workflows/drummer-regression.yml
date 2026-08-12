@@ -9,6 +9,7 @@ on:
       - 'fixtures/band_geometry/**'
       - 'tools/drummer_regression.py'
       - 'tools/drummer_regression_preview.py'
+      - 'tools/drummer_strict_acceptance.py'
       - 'tools/build_drummer_v3_assets.py'
       - 'tools/build_drummer_v3_png_layers.py'
       - 'tests/test_drum*.py'
@@ -51,10 +52,16 @@ jobs:
             tests/test_drummer_v3_submodel_illumination.py \
             tests/test_working_drummer.py
 
-      - name: Generate 2s synthetic fixture and render MP4
+      - name: Generate 2s synthetic fixture and render authored MP4
         run: |
           rm -rf artifacts/drummer-regression
           python tools/drummer_regression_preview.py --output-dir artifacts/drummer-regression
+
+      - name: Strictly validate every target, timing window, simultaneous hit, and MP4 stream
+        run: |
+          python tools/drummer_strict_acceptance.py \
+            --mp4 artifacts/drummer-regression/drummer_debug.mp4 \
+            --report artifacts/drummer-regression/strict_acceptance.json
 
       - name: Upload drummer regression artifact
         if: always()
