@@ -62,7 +62,6 @@ class PillowRenderer:
         if not xmodel.is_file() or not target_names:
             return []
 
-        wanted = set(target_names)
         aliases = {
             "HX_SNOWMAN_DRUMMER_V3_HIT_KICK": "HX_SNOWMAN_DRUMMER_V3_KICK",
             "HX_SNOWMAN_DRUMMER_V3_HIT_SNARE": "HX_SNOWMAN_DRUMMER_V3_SNARE",
@@ -72,7 +71,7 @@ class PillowRenderer:
             "HX_SNOWMAN_DRUMMER_V3_HIT_LEFT_CRASH": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
             "HX_SNOWMAN_DRUMMER_V3_HIT_RIGHT_CRASH": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
         }
-        wanted = {aliases.get(name, name) for name in wanted}
+        wanted = {aliases.get(str(name), str(name)) for name in target_names}
 
         try:
             root = ET.parse(xmodel).getroot()
@@ -81,7 +80,8 @@ class PillowRenderer:
 
         indices = []
         for element in root.findall(".//subModel"):
-            if element.get("name") in wanted:
+            name = str(element.get("name") or "")
+            if name in wanted:
                 indices.extend(self._parse_ranges(element.get("line0", "")))
         return sorted(set(indices))
 
@@ -177,7 +177,8 @@ class PillowRenderer:
         """Render authored V3 artwork with illumination from real xmodel submodels.
 
         The authored backdrop is always the base. For real V3 assets, active
-        events illuminate the exact node membership declared by the xmodel.
+        events illuminate the physical instrument targets declared by the V3
+        pose contract, resolving those names into authoritative xmodel nodes.
         The normalized manifest commands remain only as a fallback for small
         isolated renderer tests that intentionally omit the xmodel.
         """
@@ -188,6 +189,7 @@ class PillowRenderer:
             DRUMMER_V3_BACKDROP,
             active_events,
             illumination_specs_for_pose,
+            illumination_targets_for_pose,
         )
 
         root = Path(asset_root)
@@ -197,7 +199,11 @@ class PillowRenderer:
 
         frame = backdrop.copy()
         for event in active_events(list(events), int(timestamp_ms)):
-            indices = self._xmodel_submodel_indices(root, event.submodels)
+            # Prefer the physical V3 target mapping. Event submodels are kept
+            # as a compatibility fallback because older cue streams use HIT_*
+            # aliases rather than the physical xmodel names.
+            target_names = illumination_targets_for_pose(root, event.pose) or event.submodels
+            indices = self._xmodel_submodel_indices(root, target_names)
             if indices:
                 self._draw_xmodel_submodel_illumination(frame, indices, float(event.intensity))
             else:
