@@ -5,7 +5,6 @@ hardware. It composites transparent sprite layers into RGBA frames.
 """
 
 from pathlib import Path
-import re
 import xml.etree.ElementTree as ET
 
 
@@ -87,52 +86,40 @@ class PillowRenderer:
         return sorted(set(indices))
 
     def _draw_xmodel_submodel_illumination(self, frame, indices, intensity):
-        """Light the exact xmodel submodel while preserving the authored artwork.
+        """Light exact xmodel nodes while keeping the authored artwork visible.
 
-        The xmodel's node membership is used as a mask. We deliberately do not
-        paint opaque yellow rectangles over those nodes: the authored pixels
-        underneath remain visible and are brightened/tinted in place. This makes
-        the result read as the physical drum submodel lighting up rather than a
-        synthetic shape being pasted over the drummer.
+        The xmodel node membership remains the source of truth. The logical
+        96x72 mask is expanded only for preview legibility, so sparse physical
+        nodes do not disappear after rasterization to a small preview frame.
         """
         if not indices or intensity <= 0.0:
             return frame
 
-        mask = self.Image.new("L", frame.size, 0)
-        draw = self.ImageDraw.Draw(mask)
-        cols, rows = 96, 72
-        cell_w = self.width / cols
-        cell_h = self.height / rows
-
-        # Use a moderate mask value. The authored artwork remains the visual
-        # source of truth; the mask only determines where light is applied.
-        mask_value = max(0, min(255, int(round(185 * intensity))))
+        grid_w, grid_h = 96, 72
+        logical = self.Image.new("L", (grid_w, grid_h), 0)
+        draw = self.ImageDraw.Draw(logical)
+        mask_value = max(0, min(255, int(round(255 * intensity))))
         for index in indices:
-            if index < 0 or index >= cols * rows:
-                continue
-            x = index % cols
-            y = index // cols
-            left = int(round(x * cell_w))
-            top = int(round(y * cell_h))
-            right = max(left + 1, int(round((x + 1) * cell_w)))
-            bottom = max(top + 1, int(round((y + 1) * cell_h)))
-            draw.rectangle((left, top, right - 1, bottom - 1), fill=mask_value)
+            if 0 <= index < grid_w * grid_h:
+                draw.point((index % grid_w, index // grid_w), fill=mask_value)
 
-        # Slightly soften the node-cell boundaries without changing which
-        # physical submodel owns the illumination.
-        mask = mask.filter(self.ImageFilter.GaussianBlur(max(0.8, min(self.width, self.height) * 0.0015)))
+        # Expand sparse node points into a clearly visible but still localized
+        # preview footprint. This does not invent target membership: every
+        # illuminated footprint originates from an xmodel node in the target.
+        logical = logical.filter(self.ImageFilter.MaxFilter(5))
+        mask = logical.resize((self.width, self.height), self.Image.Resampling.BILINEAR)
+        mask = mask.filter(self.ImageFilter.GaussianBlur(max(0.6, min(self.width, self.height) * 0.001)))
 
-        # Preserve the authored image and create a brighter version of it.
-        # This is intentionally a light treatment, not a solid-color overlay.
-        brighter = self.ImageEnhance.Brightness(frame).enhance(1.0 + 0.70 * intensity)
-        brighter = self.ImageEnhance.Color(brighter).enhance(1.0 + 0.18 * intensity)
+        strength = max(0.0, min(1.0, float(intensity)))
+        brighter = self.ImageEnhance.Brightness(frame).enhance(1.0 + 1.15 * strength)
+        brighter = self.ImageEnhance.Color(brighter).enhance(1.0 + 0.30 * strength)
         frame = self.Image.composite(brighter, frame, mask)
 
-        # Add a restrained warm bloom outside the exact node mask so the light
-        # feels emissive while the physical submodel boundary remains clear.
-        glow_mask = mask.filter(self.ImageFilter.GaussianBlur(max(2.0, min(self.width, self.height) * 0.006)))
-        glow = self.Image.new("RGBA", frame.size, (255, 245, 120, 0))
-        glow.putalpha(glow_mask.point(lambda value: int(value * 0.16)))
+        # Add an unmistakable warm emissive component, but keep the source
+        # artwork underneath rather than replacing it with synthetic shapes.
+        glow_mask = mask.filter(self.ImageFilter.GaussianBlur(max(2.0, min(self.width, self.height) * 0.004)))
+        glow = self.Image.new("RGBA", frame.size, (255, 224, 72, 0))
+        glow.putalpha(glow_mask.point(lambda value: int(value * (0.30 * strength))))
         frame.alpha_composite(glow)
         return frame
 
