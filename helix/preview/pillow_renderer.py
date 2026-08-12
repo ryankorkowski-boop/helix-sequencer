@@ -86,12 +86,7 @@ class PillowRenderer:
         return sorted(set(indices))
 
     def _draw_xmodel_submodel_illumination(self, frame, indices, intensity):
-        """Light exact xmodel nodes while keeping the authored artwork visible.
-
-        The xmodel node membership remains the source of truth. The logical
-        96x72 mask is expanded only for preview legibility, so sparse physical
-        nodes do not disappear after rasterization to a small preview frame.
-        """
+        """Light the exact xmodel nodes while preserving the authored artwork."""
         if not indices or intensity <= 0.0:
             return frame
 
@@ -101,7 +96,6 @@ class PillowRenderer:
         mask_value = max(0, min(255, int(round(255 * intensity))))
         total_nodes = grid_w * grid_h
         for index in indices:
-            # xLights custom-model line0 ranges are one-based.
             if 1 <= index <= total_nodes:
                 node = index - 1
             elif 0 <= index < total_nodes:
@@ -110,18 +104,22 @@ class PillowRenderer:
                 continue
             draw.point((node % grid_w, node // grid_w), fill=mask_value)
 
-        logical = logical.filter(self.ImageFilter.MaxFilter(5))
-        mask = logical.resize((self.width, self.height), self.Image.Resampling.BILINEAR)
-        mask = mask.filter(self.ImageFilter.GaussianBlur(max(0.6, min(self.width, self.height) * 0.001)))
+        # Expand only enough to make individual physical nodes visible at preview
+        # resolution. The source positions remain the exact xmodel membership.
+        logical = logical.filter(self.ImageFilter.MaxFilter(3))
+        mask = logical.resize((self.width, self.height), self.Image.Resampling.NEAREST)
+        mask = mask.filter(self.ImageFilter.GaussianBlur(max(0.35, min(self.width, self.height) * 0.0005)))
 
         strength = max(0.0, min(1.0, float(intensity)))
-        brighter = self.ImageEnhance.Brightness(frame).enhance(1.0 + 1.15 * strength)
-        brighter = self.ImageEnhance.Color(brighter).enhance(1.0 + 0.30 * strength)
+        brighter = self.ImageEnhance.Brightness(frame).enhance(1.0 + 1.35 * strength)
+        brighter = self.ImageEnhance.Color(brighter).enhance(1.0 + 0.45 * strength)
         frame = self.Image.composite(brighter, frame, mask)
 
-        glow_mask = mask.filter(self.ImageFilter.GaussianBlur(max(2.0, min(self.width, self.height) * 0.004)))
+        # A restrained halo makes the exact illuminated outline readable without
+        # turning the component into a large synthetic blob.
+        glow_mask = mask.filter(self.ImageFilter.GaussianBlur(max(1.0, min(self.width, self.height) * 0.0015)))
         glow = self.Image.new("RGBA", frame.size, (255, 224, 72, 0))
-        glow.putalpha(glow_mask.point(lambda value: int(value * (0.30 * strength))))
+        glow.putalpha(glow_mask.point(lambda value: int(value * (0.16 * strength))))
         frame.alpha_composite(glow)
         return frame
 
@@ -167,16 +165,14 @@ class PillowRenderer:
                     draw.line(xy, fill=fill, width=width)
 
             if glow > 0.0:
-                blurred = overlay.filter(
-                    self.ImageFilter.GaussianBlur(max(1.0, glow * min(w, h)))
-                )
+                blurred = overlay.filter(self.ImageFilter.GaussianBlur(max(1.0, glow * min(w, h))))
                 frame.alpha_composite(blurred)
 
         frame.alpha_composite(overlay)
         return frame
 
     def _composite_authored_hit_layer(self, frame, asset_root, pose, intensity):
-        """Composite the authored V3 hit artwork additively over the backdrop."""
+        """Composite authored stick/contact artwork only when explicitly available."""
         from .drummer_v3 import layer_path
 
         if intensity <= 0.0:
@@ -196,17 +192,17 @@ class PillowRenderer:
         return frame
 
     def render_drummer_v3(self, asset_root, events, timestamp_ms):
-        """Render authored V3 artwork with additive hit layers.
+        """Render V3 using xmodel component membership as the illumination source of truth.
 
-        The authored backdrop and authored hit layers are the visual source of
-        truth. Physical xmodel targets remain available through the V3 pose
-        contract for mapping/validation, but preview rendering never replaces
-        the artwork with a procedural pose or synthetic instrument geometry.
+        The authored backdrop remains untouched. For each active event the physical
+        V3 target submodel is resolved from the pose contract and its exact xmodel
+        nodes are illuminated. Authored PNG hit layers are used only as a fallback
+        for fixtures that do not have the xmodel, preserving existing unit tests.
         """
         if not self._available:
             raise RuntimeError("Pillow is required for image rendering")
 
-        from .drummer_v3 import DRUMMER_V3_BACKDROP, active_events, illumination_specs_for_pose
+        from .drummer_v3 import DRUMMER_V3_BACKDROP, active_events, illumination_specs_for_pose, illumination_targets_for_pose
 
         root = Path(asset_root)
         backdrop = self.load_layer(root / DRUMMER_V3_BACKDROP)
@@ -215,11 +211,16 @@ class PillowRenderer:
 
         frame = backdrop.copy()
         for event in active_events(list(events), int(timestamp_ms)):
-            before = frame
-            frame = self._composite_authored_hit_layer(frame, root, event.pose, float(event.intensity))
-            # Keep the manifest fallback for isolated fixtures that intentionally
-            # omit authored PNG hit layers.
-            if frame is before:
-                commands = illumination_specs_for_pose(root, event.pose)
-                frame = self._draw_drummer_illumination(frame, commands, float(event.intensity))
+            targets = tuple(getattr(event, "submodels", ())) or illumination_targets_for_pose(root, event.pose)
+            indices = self._xmodel_submodel_indices(root, targets)
+            if indices:
+                frame = self._draw_xmodel_submodel_illumination(frame, indices, float(event.intensity))
+            else:
+                # No xmodel in an isolated test fixture: use its authored layer
+                # rather than silently inventing geometry.
+                before = frame
+                frame = self._composite_authored_hit_layer(frame, root, event.pose, float(event.intensity))
+                if frame is before:
+                    commands = illumination_specs_for_pose(root, event.pose)
+                    frame = self._draw_drummer_illumination(frame, commands, float(event.intensity))
         return frame
