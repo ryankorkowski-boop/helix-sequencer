@@ -1,9 +1,10 @@
 """Deterministic Drummer V3 regression harness.
 
 This intentionally tests the detector/classifier, reactive drummer logic, motion
-bridge, and authored preview renderer without depending on a microphone or an
-uncontrolled audio model. The synthetic WAV is a reproducible fixture; the
-feature vectors model the detector output that the classifier consumes.
+bridge, authored preview renderer, audible output, and visible submodel response
+without depending on a microphone or an uncontrolled audio model. The synthetic
+WAV is a reproducible fixture; the feature vectors model the detector output that
+the classifier consumes.
 """
 
 from __future__ import annotations
@@ -11,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import subprocess
 import sys
 import wave
 from pathlib import Path
@@ -74,6 +76,96 @@ def write_synthetic_wav(path: Path) -> None:
         handle.writeframes(frames)
 
 
+def _mux_audio(video_path: Path, wav_path: Path, output_path: Path) -> None:
+    """Mux the deterministic WAV into the preview so the review artifact is audible."""
+    import imageio_ffmpeg
+
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    command = [
+        ffmpeg,
+        "-y",
+        "-loglevel",
+        "error",
+        "-i",
+        str(video_path),
+        "-i",
+        str(wav_path),
+        "-map",
+        "0:v:0",
+        "-map",
+        "1:a:0",
+        "-c:v",
+        "copy",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "128k",
+        "-shortest",
+        str(output_path),
+    ]
+    result = subprocess.run(command, capture_output=True, text=True)
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or "ffmpeg failed to mux audio")
+
+
+def _has_audio_stream(path: Path) -> bool:
+    """Decode the first audio stream to prove the MP4 is actually audible."""
+    import imageio_ffmpeg
+
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    result = subprocess.run(
+        [ffmpeg, "-v", "error", "-i", str(path), "-map", "0:a:0", "-f", "null", "-"],
+        capture_output=True,
+        text=True,
+    )
+    return result.returncode == 0
+
+
+def _visibility_metrics(base, active) -> dict[str, float]:
+    """Measure whether a hit changes enough pixels to be visibly reviewable."""
+    import numpy as np
+
+    base_rgb = np.asarray(base.convert("RGB"), dtype=np.int16)
+    active_rgb = np.asarray(active.convert("RGB"), dtype=np.int16)
+    delta = np.abs(active_rgb - base_rgb)
+    per_pixel = delta.max(axis=2)
+    changed = per_pixel >= 8
+    return {
+        "mean_abs_delta": float(delta.mean()),
+        "max_abs_delta": float(delta.max()),
+        "changed_pixel_ratio": float(changed.mean()),
+    }
+
+
+def _check_visibility(renderer: PillowRenderer, render_events: list, root: Path) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Render each authored hit alone and fail if its submodel is visually inert."""
+    from helix.preview.drummer_v3 import DRUMMER_V3_BACKDROP
+
+    backdrop = renderer.load_layer(root / DRUMMER_V3_BACKDROP)
+    if backdrop.size != (renderer.width, renderer.height):
+        backdrop = backdrop.resize((renderer.width, renderer.height), renderer.Image.Resampling.LANCZOS)
+
+    metrics: list[dict[str, object]] = []
+    failures: list[dict[str, object]] = []
+    for event in render_events:
+        active = renderer.render_drummer_v3(root, [event], event.timestamp_ms)
+        values = _visibility_metrics(backdrop, active)
+        record = {
+            "timestamp_ms": event.timestamp_ms,
+            "pose": event.pose,
+            "submodels": list(event.submodels),
+            **values,
+        }
+        metrics.append(record)
+        if (
+            values["max_abs_delta"] < 8.0
+            or values["mean_abs_delta"] < 0.50
+            or values["changed_pixel_ratio"] < 0.001
+        ):
+            failures.append(record)
+    return metrics, failures
+
+
 def run(output_dir: Path) -> dict[str, object]:
     output_dir.mkdir(parents=True, exist_ok=True)
     wav_path = output_dir / "synthetic_2s.wav"
@@ -105,19 +197,31 @@ def run(output_dir: Path) -> dict[str, object]:
 
     renderer = PillowRenderer(width=640, height=480)
     render_error = None
+    audio_error = None
+    visibility_metrics: list[dict[str, object]] = []
+    visibility_failures: list[dict[str, object]] = []
+    mp4_path = output_dir / "drummer_debug.mp4"
+    video_only_path = output_dir / "drummer_debug_video_only.mp4"
     try:
         from helix.preview.drummer_v3 import DRUMMER_V3_BACKDROP, DRUMMER_V3_SOURCE
         backdrop = ROOT / DRUMMER_V3_BACKDROP
         if not backdrop.is_file():
             import helix.preview.drummer_v3 as drummer_v3
             drummer_v3.DRUMMER_V3_BACKDROP = DRUMMER_V3_SOURCE
+
+        visibility_metrics, visibility_failures = _check_visibility(renderer, render_events, ROOT)
+
         import imageio.v2 as imageio
-        mp4_path = output_dir / "drummer_debug.mp4"
-        with imageio.get_writer(mp4_path, fps=24, codec="libx264", quality=7) as writer:
+        import numpy as np
+        with imageio.get_writer(video_only_path, fps=24, codec="libx264", quality=7) as writer:
             for frame_index in range(48):
                 timestamp_ms = int(round(frame_index * 1000 / 24))
                 frame = renderer.render_drummer_v3(ROOT, render_events, timestamp_ms)
-                writer.append_data(__import__("numpy").asarray(frame.convert("RGB")))
+                writer.append_data(np.asarray(frame.convert("RGB")))
+
+        _mux_audio(video_only_path, wav_path, mp4_path)
+        if not _has_audio_stream(mp4_path):
+            audio_error = "Final MP4 does not contain a decodable audio stream"
     except Exception as exc:
         render_error = f"{type(exc).__name__}: {exc}"
 
@@ -131,10 +235,16 @@ def run(output_dir: Path) -> dict[str, object]:
         "reactive_targets": sorted({cue["submodel"] for cue in payload["reactive_cues"]}),
         "v3_pose_targets": sorted({cue["pose"] for cue in payload["reactive_cues"]}),
         "asset_contract_missing": contract_missing,
+        "visibility_metrics": visibility_metrics,
+        "visibility_failures": visibility_failures,
+        "visibility_pass": not visibility_failures,
         "render_error": render_error,
-        "render_pass": render_error is None,
+        "audio_error": audio_error,
+        "audio_pass": audio_error is None and mp4_path.is_file(),
+        "render_pass": render_error is None and not contract_missing and not visibility_failures and audio_error is None,
         "wav": str(wav_path),
-        "mp4": str(output_dir / "drummer_debug.mp4"),
+        "video_only_mp4": str(video_only_path),
+        "mp4": str(mp4_path),
     }
     (output_dir / "detection_report.json").write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")
     return report
