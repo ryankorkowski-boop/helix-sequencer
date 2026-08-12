@@ -12,7 +12,7 @@ import subprocess
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[1]
 BACKDROP = ROOT / "fixtures/band_geometry/source/drummerbg_preview_backdrop.png"
@@ -57,12 +57,7 @@ def _commands(manifest: dict, pose: str) -> list[dict]:
 
 
 def _expected_region(pose: str, width: int, height: int) -> np.ndarray:
-    """Build a permissive target mask from authored component command geometry.
-
-    A small expansion accounts for the authored glow and rasterization. The mask
-    is still tied to the exact authored component coordinates; it is not guessed
-    from where a pixel happened to change in the output.
-    """
+    """Build a target mask from the authored component coordinates."""
     mask = Image.new("L", (width, height), 0)
     from PIL import ImageDraw
 
@@ -84,9 +79,8 @@ def _expected_region(pose: str, width: int, height: int) -> np.ndarray:
                 fill=255,
                 width=max(1, int(command.get("width", 0.01) * min(width, height))),
             )
-    # Match the renderer's authored glow/rasterization tolerance without allowing
-    # a hit to wander to another instrument.
-    mask = mask.filter(Image.Filter.MaxFilter(15)) if hasattr(Image, "Filter") else mask
+    # Allow only a small glow/rasterization halo around the authored geometry.
+    mask = mask.filter(ImageFilter.MaxFilter(15))
     return np.asarray(mask) > 0
 
 
@@ -116,13 +110,7 @@ def _stream_check(mp4: Path) -> tuple[bool, bool, float]:
         capture_output=True,
         text=True,
     ).returncode == 0
-    duration_result = subprocess.run(
-        [ffmpeg, "-v", "error", "-i", str(mp4), "-f", "null", "-"],
-        capture_output=True,
-        text=True,
-    )
     duration = 0.0
-    # ffmpeg does not emit duration at -v error, so use imageio's metadata when available.
     try:
         import imageio.v2 as imageio
         reader = imageio.get_reader(mp4)
@@ -191,8 +179,6 @@ def run(mp4: Path | None = None) -> dict:
     # in the same frame, rather than one event replacing the other.
     simultaneous = [render_events[4], render_events[5]]
     both = renderer.render_drummer_v3(ROOT, simultaneous, 950)
-    kick = renderer.render_drummer_v3(ROOT, [render_events[4]], 950)
-    hat = renderer.render_drummer_v3(ROOT, [render_events[5]], 950)
     kick_target = _expected_region("kick_hit", 640, 480)
     hat_target = _expected_region("hi_hat_pulse", 640, 480)
     both_delta = _frame_delta(base, both) >= 8
