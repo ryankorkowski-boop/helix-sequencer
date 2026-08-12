@@ -84,9 +84,8 @@ class PillowRenderer:
         """Build exact reusable component masks from the authored V3 pose spec.
 
         The pose spec is also the source used to make the approved sprite sheet.
-        We rasterize its component geometry once, then illuminate only those
-        pixels. No xmodel grid, ellipse overlay, or whole-component fill is used
-        in the production preview path.
+        Production rendering uses these masks directly; xmodel node grids are not
+        converted into preview geometry.
         """
         spec_path = Path(asset_root) / "fixtures/band_geometry/drummer_v3_pose_spec.json"
         if not spec_path.is_file():
@@ -95,6 +94,7 @@ class PillowRenderer:
             spec = json.loads(spec_path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
             return {}
+        from PIL import ImageChops
         masks = {}
         for zone in spec.get("zones", []):
             if not isinstance(zone, dict) or not zone.get("id"):
@@ -112,13 +112,9 @@ class PillowRenderer:
             for member in composite.get("members", []):
                 member_mask = masks.get(str(member))
                 if member_mask is not None:
-                    mask = self.ImageChops.lighter(mask, member_mask) if hasattr(self, "ImageChops") else self._lighter(mask, member_mask)
+                    mask = ImageChops.lighter(mask, member_mask)
             composites[str(composite["id"])] = mask
         return {**masks, **composites}
-
-    def _lighter(self, a, b):
-        import PIL.ImageChops as ImageChops
-        return ImageChops.lighter(a, b)
 
     def _draw_mask_command(self, draw, command):
         shape = str(command.get("shape", ""))
@@ -140,10 +136,10 @@ class PillowRenderer:
         if mask is None or intensity <= 0:
             return frame
         strength = max(0.0, min(1.0, float(intensity)))
+        active = mask.point(lambda v: int(v * strength))
         brighter = self.ImageEnhance.Brightness(frame).enhance(1.0 + 1.6 * strength)
         brighter = self.ImageEnhance.Color(brighter).enhance(1.0 + 0.55 * strength)
-        frame = self.Image.composite(brighter, frame, mask.point(lambda v: int(v * strength)))
-        # Halo is derived from the exact component silhouette, never from a box.
+        frame = self.Image.composite(brighter, frame, active)
         halo = mask.filter(self.ImageFilter.GaussianBlur(max(1.0, min(self.width, self.height) * 0.0012)))
         glow = self.Image.new("RGBA", frame.size, (255, 224, 72, 0))
         glow.putalpha(halo.point(lambda v: int(v * 0.12 * strength)))
@@ -151,7 +147,7 @@ class PillowRenderer:
         return frame
 
     def _draw_drummer_illumination(self, frame, commands, intensity):
-        """Legacy fallback for isolated renderer tests only."""
+        """Fallback for isolated unit-test fixtures lacking the authored pose spec."""
         if not commands or intensity <= 0.0:
             return frame
         overlay = self.Image.new("RGBA", frame.size, (0, 0, 0, 0))
@@ -180,12 +176,10 @@ class PillowRenderer:
         return frame
 
     def render_drummer_v3(self, asset_root, events, timestamp_ms):
-        """Render the authored component silhouette at its exact sprite-sheet position."""
+        """Illuminate exact authored component silhouettes at sprite-sheet coordinates."""
         if not self._available:
             raise RuntimeError("Pillow is required for image rendering")
-        from .drummer_v3 import DRUMMER_V3_BACKDROP, active_events
-        from PIL import ImageChops
-        self.ImageChops = ImageChops
+        from .drummer_v3 import DRUMMER_V3_BACKDROP, active_events, illumination_specs_for_pose
         root = Path(asset_root)
         backdrop = self.load_layer(root / DRUMMER_V3_BACKDROP)
         if backdrop.size != (self.width, self.height):
@@ -206,4 +200,6 @@ class PillowRenderer:
             mask = masks.get(pose_to_composite.get(event.pose, ""))
             if mask is not None:
                 frame = self._illuminate_component_mask(frame, mask, float(event.intensity))
+            else:
+                frame = self._draw_drummer_illumination(frame, illumination_specs_for_pose(root, event.pose), float(event.intensity))
         return frame
