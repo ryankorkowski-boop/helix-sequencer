@@ -101,9 +101,7 @@ class PillowRenderer:
         mask_value = max(0, min(255, int(round(255 * intensity))))
         total_nodes = grid_w * grid_h
         for index in indices:
-            # xLights custom-model line0 ranges are one-based. Accept zero-based
-            # indices too for older hand-authored fixtures, but prefer the
-            # authoritative one-based convention emitted by the V3 builder.
+            # xLights custom-model line0 ranges are one-based.
             if 1 <= index <= total_nodes:
                 node = index - 1
             elif 0 <= index < total_nodes:
@@ -112,9 +110,6 @@ class PillowRenderer:
                 continue
             draw.point((node % grid_w, node // grid_w), fill=mask_value)
 
-        # Expand sparse node points into a clearly visible but still localized
-        # preview footprint. This does not invent target membership: every
-        # illuminated footprint originates from an xmodel node in the target.
         logical = logical.filter(self.ImageFilter.MaxFilter(5))
         mask = logical.resize((self.width, self.height), self.Image.Resampling.BILINEAR)
         mask = mask.filter(self.ImageFilter.GaussianBlur(max(0.6, min(self.width, self.height) * 0.001)))
@@ -124,8 +119,6 @@ class PillowRenderer:
         brighter = self.ImageEnhance.Color(brighter).enhance(1.0 + 0.30 * strength)
         frame = self.Image.composite(brighter, frame, mask)
 
-        # Add an unmistakable warm emissive component, but keep the source
-        # artwork underneath rather than replacing it with synthetic shapes.
         glow_mask = mask.filter(self.ImageFilter.GaussianBlur(max(2.0, min(self.width, self.height) * 0.004)))
         glow = self.Image.new("RGBA", frame.size, (255, 224, 72, 0))
         glow.putalpha(glow_mask.point(lambda value: int(value * (0.30 * strength))))
@@ -182,24 +175,38 @@ class PillowRenderer:
         frame.alpha_composite(overlay)
         return frame
 
-    def render_drummer_v3(self, asset_root, events, timestamp_ms):
-        """Render authored V3 artwork with illumination from real xmodel submodels.
+    def _composite_authored_hit_layer(self, frame, asset_root, pose, intensity):
+        """Composite the authored V3 hit artwork additively over the backdrop."""
+        from .drummer_v3 import layer_path
 
-        The authored backdrop is always the base. For real V3 assets, active
-        events illuminate the physical instrument targets declared by the V3
-        pose contract, resolving those names into authoritative xmodel nodes.
-        The normalized manifest commands remain only as a fallback for small
-        isolated renderer tests that intentionally omit the xmodel.
+        if intensity <= 0.0:
+            return frame
+        path = layer_path(asset_root, pose)
+        if not path.is_file() or pose == "idle_ready":
+            return frame
+        layer = self.load_layer(path)
+        if layer.size != (self.width, self.height):
+            layer = layer.resize((self.width, self.height), self.Image.Resampling.LANCZOS)
+        if intensity < 1.0:
+            alpha = layer.getchannel("A").point(
+                lambda value: int(round(value * max(0.0, min(1.0, float(intensity)))))
+            )
+            layer.putalpha(alpha)
+        frame.alpha_composite(layer)
+        return frame
+
+    def render_drummer_v3(self, asset_root, events, timestamp_ms):
+        """Render authored V3 artwork with additive hit layers.
+
+        The authored backdrop and authored hit layers are the visual source of
+        truth. Physical xmodel targets remain available through the V3 pose
+        contract for mapping/validation, but preview rendering never replaces
+        the artwork with a procedural pose or synthetic instrument geometry.
         """
         if not self._available:
             raise RuntimeError("Pillow is required for image rendering")
 
-        from .drummer_v3 import (
-            DRUMMER_V3_BACKDROP,
-            active_events,
-            illumination_specs_for_pose,
-            illumination_targets_for_pose,
-        )
+        from .drummer_v3 import DRUMMER_V3_BACKDROP, active_events, illumination_specs_for_pose
 
         root = Path(asset_root)
         backdrop = self.load_layer(root / DRUMMER_V3_BACKDROP)
@@ -208,14 +215,11 @@ class PillowRenderer:
 
         frame = backdrop.copy()
         for event in active_events(list(events), int(timestamp_ms)):
-            # Prefer the physical V3 target mapping. Event submodels are kept
-            # as a compatibility fallback because older cue streams use HIT_*
-            # aliases rather than the physical xmodel names.
-            target_names = illumination_targets_for_pose(root, event.pose) or event.submodels
-            indices = self._xmodel_submodel_indices(root, target_names)
-            if indices:
-                self._draw_xmodel_submodel_illumination(frame, indices, float(event.intensity))
-            else:
+            before = frame
+            frame = self._composite_authored_hit_layer(frame, root, event.pose, float(event.intensity))
+            # Keep the manifest fallback for isolated fixtures that intentionally
+            # omit authored PNG hit layers.
+            if frame is before:
                 commands = illumination_specs_for_pose(root, event.pose)
-                self._draw_drummer_illumination(frame, commands, float(event.intensity))
+                frame = self._draw_drummer_illumination(frame, commands, float(event.intensity))
         return frame
