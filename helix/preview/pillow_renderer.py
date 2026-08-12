@@ -5,6 +5,8 @@ hardware. It composites transparent sprite layers into RGBA frames.
 """
 
 from pathlib import Path
+import re
+import xml.etree.ElementTree as ET
 
 
 class PillowRenderer:
@@ -38,8 +40,83 @@ class PillowRenderer:
                 frame.alpha_composite(layer)
         return frame
 
+    @staticmethod
+    def _parse_ranges(value):
+        indices = []
+        for token in str(value or "").split(","):
+            token = token.strip()
+            if not token:
+                continue
+            if "-" in token:
+                start, end = token.split("-", 1)
+                indices.extend(range(int(start), int(end) + 1))
+            else:
+                indices.append(int(token))
+        return indices
+
+    def _xmodel_submodel_indices(self, asset_root, target_names):
+        """Read the authoritative V3 xmodel node membership for target submodels."""
+        xmodel = Path(asset_root) / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
+        if not xmodel.is_file() or not target_names:
+            return []
+
+        wanted = set(target_names)
+        # Reactive cue IDs historically used the HIT_* aliases. Normalize them
+        # to the physical xmodel submodel names without changing the event API.
+        aliases = {
+            "HX_SNOWMAN_DRUMMER_V3_HIT_KICK": "HX_SNOWMAN_DRUMMER_V3_KICK",
+            "HX_SNOWMAN_DRUMMER_V3_HIT_SNARE": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+            "HX_SNOWMAN_DRUMMER_V3_HIT_HIHAT": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+            "HX_SNOWMAN_DRUMMER_V3_HIT_TOM_LEFT": "HX_SNOWMAN_DRUMMER_V3_TOM_LEFT",
+            "HX_SNOWMAN_DRUMMER_V3_HIT_TOM_RIGHT": "HX_SNOWMAN_DRUMMER_V3_TOM_RIGHT",
+            "HX_SNOWMAN_DRUMMER_V3_HIT_LEFT_CRASH": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+            "HX_SNOWMAN_DRUMMER_V3_HIT_RIGHT_CRASH": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+        }
+        wanted = {aliases.get(name, name) for name in wanted}
+
+        try:
+            root = ET.parse(xmodel).getroot()
+        except (ET.ParseError, OSError):
+            return []
+
+        indices = []
+        for element in root.findall(".//subModel"):
+            if element.get("name") in wanted:
+                indices.extend(self._parse_ranges(element.get("line0", "")))
+        return sorted(set(indices))
+
+    def _draw_xmodel_submodel_illumination(self, frame, indices, intensity):
+        """Illuminate the exact node cells belonging to an xmodel submodel."""
+        if not indices or intensity <= 0.0:
+            return frame
+
+        overlay = self.Image.new("RGBA", frame.size, (0, 0, 0, 0))
+        draw = self.ImageDraw.Draw(overlay)
+        # HX_SNOWMAN_DRUMMER_V3 declares a 96 x 72 node grid.
+        cols, rows = 96, 72
+        cell_w = self.width / cols
+        cell_h = self.height / rows
+        alpha = max(0, min(255, int(round(225 * intensity))))
+        fill = (255, 245, 120, alpha)
+
+        for index in indices:
+            if index < 0 or index >= cols * rows:
+                continue
+            x = index % cols
+            y = index // cols
+            left = int(round(x * cell_w))
+            top = int(round(y * cell_h))
+            right = max(left + 1, int(round((x + 1) * cell_w)))
+            bottom = max(top + 1, int(round((y + 1) * cell_h)))
+            draw.rectangle((left, top, right - 1, bottom - 1), fill=fill)
+
+        glow = overlay.filter(self.ImageFilter.GaussianBlur(max(1.0, min(self.width, self.height) * 0.004)))
+        frame.alpha_composite(glow)
+        frame.alpha_composite(overlay)
+        return frame
+
     def _draw_drummer_illumination(self, frame, commands, intensity):
-        """Additive submodel-targeted illumination from the V3 layer contract."""
+        """Fallback additive illumination for isolated renderer unit tests."""
         if not commands or intensity <= 0.0:
             return frame
 
@@ -89,12 +166,12 @@ class PillowRenderer:
         return frame
 
     def render_drummer_v3(self, asset_root, events, timestamp_ms):
-        """Render the authored V3 drummer with additive submodel illumination.
+        """Render authored V3 artwork with illumination from real xmodel submodels.
 
-        The authored backdrop is always the base. Active drum events illuminate
-        only their named physical V3 targets using the normalized submodel
-        commands in the V3 manifest. Hit PNGs are intentionally NOT composited
-        here; they remain compatibility assets, not the canonical hit renderer.
+        The authored backdrop is always the base. For real V3 assets, active
+        events illuminate the exact node membership declared by the xmodel.
+        The normalized manifest commands remain only as a fallback for small
+        isolated renderer tests that intentionally omit the xmodel.
         """
         if not self._available:
             raise RuntimeError("Pillow is required for image rendering")
@@ -112,6 +189,10 @@ class PillowRenderer:
 
         frame = backdrop.copy()
         for event in active_events(list(events), int(timestamp_ms)):
-            commands = illumination_specs_for_pose(root, event.pose)
-            self._draw_drummer_illumination(frame, commands, float(event.intensity))
+            indices = self._xmodel_submodel_indices(root, event.submodels)
+            if indices:
+                self._draw_xmodel_submodel_illumination(frame, indices, float(event.intensity))
+            else:
+                commands = illumination_specs_for_pose(root, event.pose)
+                self._draw_drummer_illumination(frame, commands, float(event.intensity))
         return frame
