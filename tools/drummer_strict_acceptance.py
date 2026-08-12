@@ -9,12 +9,16 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 import numpy as np
 from PIL import Image, ImageFilter
 
-ROOT = Path(__file__).resolve().parents[1]
 BACKDROP = ROOT / "fixtures/band_geometry/source/drummerbg_preview_backdrop.png"
 MANIFEST = ROOT / "fixtures/band_geometry/drummer_v3_png_layer_manifest.json"
 LAYERS = ROOT / "fixtures/band_geometry/layers"
@@ -79,7 +83,6 @@ def _expected_region(pose: str, width: int, height: int) -> np.ndarray:
                 fill=255,
                 width=max(1, int(command.get("width", 0.01) * min(width, height))),
             )
-    # Allow only a small glow/rasterization halo around the authored geometry.
     mask = mask.filter(ImageFilter.MaxFilter(15))
     return np.asarray(mask) > 0
 
@@ -175,8 +178,6 @@ def run(mp4: Path | None = None) -> dict:
         if np.any(_frame_delta(base, before) >= 8) or np.any(_frame_delta(base, after) >= 8):
             failures.append({**record, "reason": "hit_window_leak"})
 
-    # Explicit simultaneous-hit verification: each component must remain visible
-    # in the same frame, rather than one event replacing the other.
     simultaneous = [render_events[4], render_events[5]]
     both = renderer.render_drummer_v3(ROOT, simultaneous, 950)
     kick_target = _expected_region("kick_hit", 640, 480)
@@ -187,7 +188,6 @@ def run(mp4: Path | None = None) -> dict:
     if kick_capture < 0.10 or hat_capture < 0.10:
         failures.append({"reason": "simultaneous_target_missing", "kick_capture": kick_capture, "hihat_capture": hat_capture})
 
-    # No stray illumination at a quiet frame.
     quiet = renderer.render_drummer_v3(ROOT, render_events, 100)
     if np.any(_frame_delta(base, quiet) >= 8):
         failures.append({"reason": "misfire_before_first_event"})
