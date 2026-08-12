@@ -143,7 +143,10 @@ class PillowRenderer:
         brighter = self.ImageEnhance.Brightness(frame).enhance(1.0 + 1.6 * strength)
         brighter = self.ImageEnhance.Color(brighter).enhance(1.0 + 0.55 * strength)
         frame = self.Image.composite(brighter, frame, active)
+        # Keep the authored silhouette exact: any soft glow is clipped back to the
+        # component mask so strict acceptance cannot see illumination outside it.
         halo = mask.filter(self.ImageFilter.GaussianBlur(max(1.0, min(self.width, self.height) * 0.0012)))
+        halo = self.Image.composite(halo, self.Image.new("L", mask.size, 0), mask)
         glow = self.Image.new("RGBA", frame.size, (255, 224, 72, 0))
         glow.putalpha(halo.point(lambda v: int(v * 0.12 * strength)))
         frame.alpha_composite(glow)
