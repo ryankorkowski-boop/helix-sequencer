@@ -38,7 +38,7 @@
     {"id": "SNARE_RIM", "commands": [{"shape": "ellipse_outline", "box": [0.34, 0.53, 0.50, 0.66], "rgba": [255, 255, 210, 240], "width": 0.012}]},
     {"id": "TOM_LEFT", "commands": [{"shape": "ellipse", "box": [0.31, 0.45, 0.46, 0.58], "rgba": [120, 255, 220, 220]}]},
     {"id": "TOM_RIGHT", "commands": [{"shape": "ellipse", "box": [0.54, 0.45, 0.69, 0.58], "rgba": [120, 255, 220, 220]}]},
-    {"id": "HI_HAT", "commands": [{"shape": "ellipse_outline", "box": [0.12, 0.42, 0.30, 0.50], "rgba": [255, 245, 120, 240], "width": 0.014}]},
+    {"id": "HI_HAT", "commands": [{"shape": "ellipse", "box": [0.12, 0.42, 0.30, 0.50], "rgba": [255, 245, 120, 240]}]},
     {"id": "CYMBAL_LEFT", "commands": [{"shape": "ellipse_outline", "box": [0.08, 0.25, 0.33, 0.36], "rgba": [255, 245, 120, 240], "width": 0.014}]},
     {"id": "CYMBAL_RIGHT", "commands": [{"shape": "ellipse_outline", "box": [0.67, 0.25, 0.92, 0.36], "rgba": [255, 245, 120, 240], "width": 0.014}]},
     {"id": "LEFT_STICK_SNARE", "commands": [{"shape": "line", "points": [0.27, 0.33, 0.42, 0.58], "rgba": [255, 255, 230, 245], "width": 0.012}]},

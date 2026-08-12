@@ -4,7 +4,7 @@ import unittest
 
 from audio.drum_classification import DrumEvent
 from models.working_band_member import WORKING_MEMBER_SCHEMA
-from models.working_drummer import build_reactive_drummer_member, build_working_drummer
+from models.working_drummer import DRUMMER_V3_MODEL, build_reactive_drummer_member, build_working_drummer
 
 
 def _event(ms: int, drum_type: str, velocity: float = 0.8, confidence: float = 0.72) -> DrumEvent:
@@ -21,7 +21,11 @@ class WorkingDrummerTests(unittest.TestCase):
         self.assertTrue(payload["validation"]["has_required_submodels"])
         self.assertTrue(payload["validation"]["has_animation_frames"])
         self.assertTrue(payload["validation"]["mouth_inside_head"])
+        self.assertTrue(payload["validation"]["has_drummer_v3_asset_contract"])
         self.assertEqual(payload["missing_required_submodels"], [])
+        self.assertEqual(payload["drummer_v3"]["model"], DRUMMER_V3_MODEL)
+        self.assertEqual(payload["drummer_v3"]["source_image"], "fixtures/band_geometry/source/drummerbg.png")
+        self.assertEqual(payload["drummer_v3"]["xmodel"], "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel")
 
         node_counts = payload["submodel_node_counts"]
         for submodel_name in payload["required_submodels"]:
@@ -33,6 +37,7 @@ class WorkingDrummerTests(unittest.TestCase):
         self.assertIn("snare", cue_targets)
         self.assertIn("hi_hat", cue_targets)
         self.assertIn("cymbal", cue_targets)
+        self.assertTrue(all(cue["v3_submodels"] for cue in payload["default_cues"]))
 
     def test_reactive_drummer_uses_typed_drum_streams(self) -> None:
         payload = build_reactive_drummer_member(
@@ -51,13 +56,17 @@ class WorkingDrummerTests(unittest.TestCase):
         self.assertTrue(payload["validation"]["has_motion_events"])
         self.assertTrue(payload["validation"]["has_effect_cues"])
         self.assertTrue(payload["validation"]["reactive_cues_target_existing_submodels"])
+        self.assertTrue(payload["validation"]["reactive_cues_have_v3_targets"])
         self.assertTrue(payload["reactive_debug"]["uses_typed_detection"])
+        self.assertTrue(payload["reactive_debug"]["uses_drummer_v3_assets"])
 
         targets = {cue["submodel"] for cue in payload["reactive_cues"]}
         self.assertIn("kick", targets)
         self.assertIn("snare", targets)
         self.assertIn("hi_hat", targets)
         self.assertIn("cymbal", targets)
+        self.assertTrue(all(cue["model"] == DRUMMER_V3_MODEL for cue in payload["reactive_cues"]))
+        self.assertTrue(all(cue["v3_submodels"] for cue in payload["reactive_cues"]))
         self.assertTrue(any(cue["visual_effect"].get("spatial_impulse", {}).get("enabled") for cue in payload["reactive_cues"]))
         self.assertTrue(any(cue["visual_effect"].get("player_piano_hook", {}).get("enabled") for cue in payload["reactive_cues"]))
 
@@ -72,6 +81,7 @@ class WorkingDrummerTests(unittest.TestCase):
         self.assertTrue(payload["validation"]["has_reactive_cues"])
         self.assertTrue(payload["reactive_debug"]["uses_legacy_marks"])
         self.assertEqual(payload["reactive_debug"]["fallback_mode"], "legacy_marks")
+        self.assertTrue(payload["validation"]["reactive_cues_have_v3_targets"])
 
         targets = {cue["submodel"] for cue in payload["reactive_cues"]}
         self.assertIn("kick", targets)
@@ -79,6 +89,7 @@ class WorkingDrummerTests(unittest.TestCase):
         self.assertIn("hi_hat", targets)
         self.assertIn("cymbal", targets)
         self.assertTrue(any("left_stick" in cue["motion_submodels"] or "right_stick" in cue["motion_submodels"] for cue in payload["reactive_cues"]))
+        self.assertTrue(any(cue["motion"].get("v3_submodels") for cue in payload["reactive_cues"]))
 
     def test_reactive_drummer_distributes_drum_bus_when_only_bus_available(self) -> None:
         payload = build_reactive_drummer_member(
@@ -95,6 +106,7 @@ class WorkingDrummerTests(unittest.TestCase):
         self.assertTrue(payload["validation"]["has_reactive_cues"])
         self.assertTrue(payload["reactive_debug"]["uses_drum_bus_distribution"])
         self.assertEqual(payload["reactive_debug"]["fallback_mode"], "drum_bus_distribution")
+        self.assertTrue(payload["validation"]["reactive_cues_have_v3_targets"])
         drum_types = {cue["kind"] for cue in payload["reactive_cues"]}
         self.assertIn("kick", drum_types)
         self.assertIn("snare", drum_types)

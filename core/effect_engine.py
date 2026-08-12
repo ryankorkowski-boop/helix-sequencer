@@ -4,6 +4,11 @@ from __future__ import annotations
 
 # ... existing imports above remain unchanged ...
 
+# Canonical active style version shared with the master engine profile.
+# Keep this exported from effect_engine because legacy callers and regression
+# tests use effect_engine.ACTIVE_STYLE_VERSION as the compatibility contract.
+ACTIVE_STYLE_VERSION = "v27.3"
+
 _NOTE_TO_SEMITONE = {
     "C": 0,
     "C#": 1,
