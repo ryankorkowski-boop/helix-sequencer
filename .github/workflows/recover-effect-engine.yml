@@ -45,6 +45,8 @@ jobs:
           pip install pytest
 
       - name: Verify engine and sequence builder
+        env:
+          PYTHONPATH: .
         run: |
           python - <<'PY'
           import inspect
@@ -60,6 +62,8 @@ jobs:
           pytest -q tests/test_sequence_builder.py tests/test_effects.py tests/test_effect_intelligence_system.py
 
       - name: Verify bridge imports
+        env:
+          PYTHONPATH: .
         run: |
           python - <<'PY'
           from core import effects_orchestration_bridge as bridge
