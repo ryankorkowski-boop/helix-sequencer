@@ -1,4 +1,5 @@
 name: Full Lights Out 256 + Drummer Run
+# Execution trigger: full-theme 256 + 8-channel drummer validation.
 
 on:
   push:
@@ -66,49 +67,30 @@ jobs:
           from pathlib import Path
           from audio.drum_detection import detect_drum_event_streams_from_file
           from mapping.drum_mapper import resolve_drum_streams
-          
           root=Path('test_runs/full_lightsout_drummer')
           xsqs=sorted((root/'base256').glob('*.xsq'))
           if not xsqs: raise SystemExit('No generated 256-channel XSQ found')
           src=xsqs[0]
           out=root/'LightsOutTheme_FULL_256_PLUS_DRUMMER_V3.xsq'
           shutil.copy2(src,out)
-          
           streams=detect_drum_event_streams_from_file(Path('Helix Audiolights.mp3'))
           resolved=resolve_drum_streams(streams)
           events=resolved['events']
-          
-          # Eight AC-style drummer channels appended after the legacy 256 channels.
-          # 257 kick, 258 snare, 259 hi-hat, 260 tom, 261 cymbal,
-          # 262 left stick, 263 right stick, 264 drummer/body impact.
           channel_by_type={'kick':257,'snare':258,'hihat':259,'tom':260,'cymbal':261}
           model_names={257:'HX_DRUMMER_CH01_KICK',258:'HX_DRUMMER_CH02_SNARE',259:'HX_DRUMMER_CH03_HIHAT',260:'HX_DRUMMER_CH04_TOM',261:'HX_DRUMMER_CH05_CYMBAL',262:'HX_DRUMMER_CH06_LEFT_STICK',263:'HX_DRUMMER_CH07_RIGHT_STICK',264:'HX_DRUMMER_CH08_BODY_IMPACT'}
-          
-          # Augment the preview layout with eight single-channel models.
-          layout=ET.parse('xlights_rgbeffects.xml'); lr=layout.getroot()
-          models=lr.find('models')
+          layout=ET.parse('xlights_rgbeffects.xml'); lr=layout.getroot(); models=lr.find('models')
           if models is None: raise SystemExit('Layout has no <models> element')
           existing={m.get('name') for m in models.findall('model')}
           positions=[(760,230),(800,250),(840,230),(880,250),(920,230),(780,330),(860,330),(820,400)]
           for ch,name in model_names.items():
               if name in existing: continue
               x,y=positions[ch-257]
-              ET.SubElement(models,'model',{
-                  'DisplayAs':'Single Line','StartSide':'B','Dir':'L','Antialias':'1','PixelSize':'4',
-                  'Transparency':'0','parm1':'1','parm2':'1','parm3':'1','LayoutGroup':'DRUMMER_V3',
-                  'name':name,'CustomColor':'#FFFFFF','StringType':'Single Color Intensity',
-                  'WorldPosX':str(x),'WorldPosY':str(y),'WorldPosZ':'0','X2':'-10','Y2':'0','Z2':'0',
-                  'versionNumber':'7','StartChannel':str(ch)
-              })
+              ET.SubElement(models,'model',{'DisplayAs':'Single Line','StartSide':'B','Dir':'L','Antialias':'1','PixelSize':'4','Transparency':'0','parm1':'1','parm2':'1','parm3':'1','LayoutGroup':'DRUMMER_V3','name':name,'CustomColor':'#FFFFFF','StringType':'Single Color Intensity','WorldPosX':str(x),'WorldPosY':str(y),'WorldPosZ':'0','X2':'-10','Y2':'0','Z2':'0','versionNumber':'7','StartChannel':str(ch)})
           ET.ElementTree(lr).write(root/'xlights_rgbeffects_plus_drummer.xml',encoding='utf-8',xml_declaration=True)
-          
-          # Add native xLights On effects to the eight channels.
-          tree=ET.parse(out); xr=tree.getroot()
-          ee=None
+          tree=ET.parse(out); xr=tree.getroot(); ee=None
           for node in xr.iter():
               if node.tag.endswith('ElementEffects'): ee=node; break
           if ee is None: ee=ET.SubElement(xr,'ElementEffects')
-          
           layers={}
           def layer_for(name):
               if name in layers: return layers[name]
@@ -116,49 +98,26 @@ jobs:
               for e in ee.findall('Element'):
                   if e.get('name')==name or e.get('Name')==name: elem=e; break
               if elem is None: elem=ET.SubElement(ee,'Element',{'type':'model','name':name})
-              lay=ET.SubElement(elem,'EffectLayer',{'name':'AUTO_Drummer_V3','visible':'1'})
-              layers[name]=lay; return lay
-          
+              lay=ET.SubElement(elem,'EffectLayer',{'name':'AUTO_Drummer_V3','visible':'1'}); layers[name]=lay; return lay
           def add(ch,start,end,intensity):
-              name=model_names[ch]
-              ET.SubElement(layer_for(name),'Effect',{
-                  'name':'On','startTime':str(max(0,start)),'endTime':str(max(start+50,end)),
-                  'settings':f'E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={min(1.0,max(.08,float(intensity))):.3f}',
-                  'palette':'C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#FFFFFF,C_BUTTON_Palette3=#FFFFFF',
-                  'source':'HelixDrummerV3','sourceDrumChannel':str(ch)
-              })
-          
+              ET.SubElement(layer_for(model_names[ch]),'Effect',{'name':'On','startTime':str(max(0,int(start))),'endTime':str(max(int(start)+50,int(end))),'settings':f'E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={min(1.0,max(.08,float(intensity))):.3f}','palette':'C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#FFFFFF,C_BUTTON_Palette3=#FFFFFF','source':'HelixDrummerV3','sourceDrumChannel':str(ch)})
           for ev in events:
-              t=int(ev.timestamp_ms); dur=int(70 + ev.velocity*180)
-              ch=channel_by_type.get(ev.drum_type,264)
-              add(ch,t,t+dur,ev.velocity)
-              if ev.drum_type in ('snare','tom','cymbal'):
-                  add(262,t-20,t+dur*.7,ev.velocity*.9)
-              if ev.drum_type in ('hihat','tom','cymbal'):
-                  add(263,t-15,t+dur*.7,ev.velocity*.85)
-              if ev.drum_type in ('kick','snare') and ev.velocity>=.72:
-                  add(264,t,t+120,ev.velocity*.72)
-          
-          # Add a drummer timing track carrying the exact detected event classes.
+              t=int(ev.timestamp_ms); dur=int(70+ev.velocity*180); ch=channel_by_type.get(ev.drum_type,264); add(ch,t,t+dur,ev.velocity)
+              if ev.drum_type in ('snare','tom','cymbal'): add(262,t-20,t+dur*.7,ev.velocity*.9)
+              if ev.drum_type in ('hihat','tom','cymbal'): add(263,t-15,t+dur*.7,ev.velocity*.85)
+              if ev.drum_type in ('kick','snare') and ev.velocity>=.72: add(264,t,t+120,ev.velocity*.72)
           track=ET.SubElement(xr,'timingtrack',{'name':'HelixDrummerV3'})
-          for i,ev in enumerate(events):
-              ET.SubElement(track,'drumEvent',{'index':str(i),'type':ev.drum_type,'start':f'{ev.timestamp:.6f}','velocity':f'{ev.velocity:.4f}','confidence':f'{ev.confidence:.4f}'})
+          for i,ev in enumerate(events): ET.SubElement(track,'drumEvent',{'index':str(i),'type':ev.drum_type,'start':f'{ev.timestamp:.6f}','velocity':f'{ev.velocity:.4f}','confidence':f'{ev.confidence:.4f}'})
           tree.write(out,encoding='utf-8',xml_declaration=True)
-          
           report={'source_xsq':str(src),'output_xsq':str(out),'drum_event_count':len(events),'fallback_mode':resolved['fallback_mode'],'drummer_channels':model_names,'preview_layout':str(root/'xlights_rgbeffects_plus_drummer.xml')}
-          (root/'drummer_run_report.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
-          print(json.dumps(report,indent=2))
+          (root/'drummer_run_report.json').write_text(json.dumps(report,indent=2),encoding='utf-8'); print(json.dumps(report,indent=2))
           PY
 
       - name: Render full MP4 with synchronized full theme audio
         env:
           PYTHONPATH: .
         run: |
-          python -m tools.preview_renderer \
-            test_runs/full_lightsout_drummer/LightsOutTheme_FULL_256_PLUS_DRUMMER_V3.xsq \
-            --layout test_runs/full_lightsout_drummer/xlights_rgbeffects_plus_drummer.xml \
-            --audio "Helix Audiolights.mp3" \
-            --fps 10 --width 960 --height 540
+          python -m tools.preview_renderer test_runs/full_lightsout_drummer/LightsOutTheme_FULL_256_PLUS_DRUMMER_V3.xsq --layout test_runs/full_lightsout_drummer/xlights_rgbeffects_plus_drummer.xml --audio "Helix Audiolights.mp3" --fps 10 --width 960 --height 540
 
       - name: Validate outputs
         run: |
@@ -167,8 +126,7 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          p=Path('test_runs/full_lightsout_drummer/drummer_run_report.json')
-          d=json.loads(p.read_text())
+          d=json.loads(Path('test_runs/full_lightsout_drummer/drummer_run_report.json').read_text())
           assert d['drum_event_count']>0
           print('VALIDATED:',d)
           PY
