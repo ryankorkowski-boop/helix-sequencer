@@ -35,6 +35,17 @@ def _band_energy(freqs: np.ndarray, spectrum: np.ndarray, low: float, high: floa
     return float(np.sum(spectrum[mask]))
 
 
+def _band_centroid(freqs: np.ndarray, spectrum: np.ndarray, low: float, high: float) -> float:
+    mask = (freqs >= low) & (freqs < high)
+    if not np.any(mask):
+        return 0.0
+    band = spectrum[mask]
+    total = float(np.sum(band))
+    if total <= 1e-9:
+        return 0.0
+    return float(np.sum(freqs[mask] * band) / total)
+
+
 def _compress_events(events: list[DrumEvent], min_gap_ms: int) -> list[DrumEvent]:
     out: list[DrumEvent] = []
     for event in sorted(events, key=lambda item: (item.timestamp, item.drum_type)):
@@ -75,7 +86,15 @@ def detect_drum_event_streams(
         wait=max(1, config.onset_wait),
     )
     if frames.size == 0 and config.prefer_recall:
-        peaks = librosa.util.peak_pick(_norm01(onset_env), pre_max=1, post_max=1, pre_avg=2, post_avg=2, delta=0.025, wait=1)
+        peaks = librosa.util.peak_pick(
+            _norm01(onset_env),
+            pre_max=1,
+            post_max=1,
+            pre_avg=2,
+            post_avg=2,
+            delta=0.025,
+            wait=1,
+        )
         frames = np.asarray(peaks, dtype=int)
     stft = np.abs(librosa.stft(perc, n_fft=n_fft, hop_length=hop))
     freqs = librosa.fft_frequencies(sr=sr, n_fft=n_fft)
@@ -88,14 +107,23 @@ def detect_drum_event_streams(
     for frame in sorted(set(int(frame) for frame in frames if int(frame) < stft.shape[1])):
         spectrum = stft[:, frame]
         total = float(np.sum(spectrum)) + 1e-9
-        low = _band_energy(freqs, spectrum, 20, 160)
+        low = _band_energy(freqs, spectrum, 20, 250)
         mid_low = _band_energy(freqs, spectrum, 160, 700)
         mid = _band_energy(freqs, spectrum, 700, 2500)
         high = _band_energy(freqs, spectrum, 2500, min(sr / 2, 14000))
         centroid = float(librosa.feature.spectral_centroid(S=spectrum.reshape(-1, 1), sr=sr)[0, 0])
         spread = float(librosa.feature.spectral_bandwidth(S=spectrum.reshape(-1, 1), sr=sr)[0, 0])
-        decay_slice = rms01[frame : min(len(rms01), frame + 8)]
-        decay = float(np.mean(decay_slice)) if decay_slice.size else 0.0
+        low_centroid = _band_centroid(freqs, spectrum, 20, 700)
+
+        # Compare the short post-onset RMS to the later tail instead of using
+        # absolute RMS. This makes the feature describe the hit's decay shape,
+        # which is much more useful for separating hats from sustained crashes.
+        attack_slice = rms01[frame : min(len(rms01), frame + 2)]
+        tail_slice = rms01[min(len(rms01), frame + 4) : min(len(rms01), frame + 10)]
+        attack_level = float(np.mean(attack_slice)) if attack_slice.size else 0.0
+        tail_level = float(np.mean(tail_slice)) if tail_slice.size else 0.0
+        decay = tail_level / max(attack_level, 1e-6)
+
         previous = float(onset01[frame - 1]) if frame > 0 and frame - 1 < len(onset01) else 0.0
         current = float(onset01[frame]) if frame < len(onset01) else 0.0
         sharp = max(0.0, current - previous)
@@ -105,6 +133,7 @@ def detect_drum_event_streams(
             "mid_ratio": mid / total,
             "high_ratio": high / total,
             "centroid_hz": centroid,
+            "low_centroid_hz": low_centroid,
             "spectral_spread01": min(1.0, spread / max(1.0, sr / 2)),
             "transient_sharpness": min(1.0, sharp),
             "decay_profile": min(1.0, decay),
@@ -117,7 +146,13 @@ def detect_drum_event_streams(
         timestamp_ms = int(round(timestamp * 1000.0))
         cluster, cluster_id = _cluster_id(timestamp_ms, previous_ms, cluster, config.cluster_gap_ms)
         previous_ms = timestamp_ms
-        velocity = max(0.08, min(1.0, (float(rms01[frame]) if frame < len(rms01) else current) * 0.65 + current * 0.35))
+        velocity = max(
+            0.08,
+            min(
+                1.0,
+                (float(rms01[frame]) if frame < len(rms01) else current) * 0.65 + current * 0.35,
+            ),
+        )
         raw_events.append(
             DrumEvent(
                 timestamp=round(timestamp, 4),
