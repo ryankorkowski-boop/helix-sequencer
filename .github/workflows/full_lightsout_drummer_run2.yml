@@ -1,0 +1,79 @@
+name: Full Lights Out 256 + Drummer Run 2
+on:
+  push:
+    branches: [run/full-lightsout-drummer-20260813]
+permissions:
+  contents: read
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install
+        run: python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn
+      - name: Audio check
+        run: |
+          test -f 'Helix Audiolights.mp3'
+          python - <<'PY'
+          import imageio_ffmpeg,subprocess
+          p=subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(),'-i','Helix Audiolights.mp3','-f','null','-'],capture_output=True)
+          assert p.returncode==0
+          PY
+      - name: Generate legacy 256
+        env: {PYTHONPATH: .}
+        run: |
+          mkdir -p test_runs/full_lightsout_drummer/base256
+          python archive/legacy_versions/v28.9.py --template template.xsq --audio 'Helix Audiolights.mp3' --layout-file xlights_rgbeffects.xml --output-dir test_runs/full_lightsout_drummer/base256 --variants 1 --single --no-prompt --no-save-settings --no-workspace-history --no-auto-timing-tracks --no-matrix-intelligence --audio-reactive-profile showcase --spatial-awareness 0.35 --chase-style left_to_right --max-layers-per-prop 2
+          find test_runs/full_lightsout_drummer/base256 -type f -name '*.xsq' -print
+      - name: Detect drums
+        env: {PYTHONPATH: .}
+        run: python debug/drum_debug.py 'Helix Audiolights.mp3' --json test_runs/full_lightsout_drummer/drum_debug.json
+      - name: Merge drummer 8 channels
+        env: {PYTHONPATH: .}
+        run: |
+          python - <<'PY'
+          import json,shutil,xml.etree.ElementTree as ET
+          from pathlib import Path
+          from audio.drum_detection import detect_drum_event_streams_from_file
+          from mapping.drum_mapper import resolve_drum_streams
+          root=Path('test_runs/full_lightsout_drummer'); xsqs=sorted((root/'base256').rglob('*.xsq'))
+          if not xsqs: raise SystemExit('No generated 256-channel XSQ found')
+          src=xsqs[0]; out=root/'LightsOutTheme_FULL_256_PLUS_DRUMMER_V3.xsq'; shutil.copy2(src,out)
+          r=resolve_drum_streams(detect_drum_event_streams_from_file(Path('Helix Audiolights.mp3'))); events=r['events']
+          chans={'kick':257,'snare':258,'hihat':259,'tom':260,'cymbal':261}; names={257:'HX_DRUMMER_CH01_KICK',258:'HX_DRUMMER_CH02_SNARE',259:'HX_DRUMMER_CH03_HIHAT',260:'HX_DRUMMER_CH04_TOM',261:'HX_DRUMMER_CH05_CYMBAL',262:'HX_DRUMMER_CH06_LEFT_STICK',263:'HX_DRUMMER_CH07_RIGHT_STICK',264:'HX_DRUMMER_CH08_BODY_IMPACT'}
+          lay=ET.parse('xlights_rgbeffects.xml'); models=lay.getroot().find('models'); pos=[(760,230),(800,250),(840,230),(880,250),(920,230),(780,330),(860,330),(820,400)]
+          for ch,n in names.items():
+            if not any(m.get('name')==n for m in models.findall('model')):
+              x,y=pos[ch-257]; ET.SubElement(models,'model',{'DisplayAs':'Single Line','StartSide':'B','Dir':'L','parm1':'1','parm2':'1','parm3':'1','LayoutGroup':'DRUMMER_V3','name':n,'CustomColor':'#FFFFFF','StringType':'Single Color Intensity','WorldPosX':str(x),'WorldPosY':str(y),'WorldPosZ':'0','X2':'-10','Y2':'0','Z2':'0','versionNumber':'7','StartChannel':str(ch)})
+          lay.write(root/'xlights_rgbeffects_plus_drummer.xml',encoding='utf-8',xml_declaration=True)
+          tree=ET.parse(out); xr=tree.getroot(); ee=next((n for n in xr.iter() if n.tag.endswith('ElementEffects')),None) or ET.SubElement(xr,'ElementEffects'); layers={}
+          def getlayer(n):
+            if n in layers:return layers[n]
+            e=next((e for e in ee.findall('Element') if e.get('name')==n),None) or ET.SubElement(ee,'Element',{'type':'model','name':n}); layers[n]=ET.SubElement(e,'EffectLayer',{'name':'AUTO_Drummer_V3','visible':'1'}); return layers[n]
+          def add(ch,s,e,v): ET.SubElement(getlayer(names[ch]),'Effect',{'name':'On','startTime':str(max(0,int(s))),'endTime':str(max(int(s)+50,int(e))),'settings':f'E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={min(1,max(.08,float(v))):.3f}','palette':'C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#FFFFFF,C_BUTTON_Palette3=#FFFFFF','source':'HelixDrummerV3'})
+          for ev in events:
+            t=int(ev.timestamp_ms); d=int(70+ev.velocity*180); ch=chans.get(ev.drum_type,264); add(ch,t,t+d,ev.velocity)
+            if ev.drum_type in ('snare','tom','cymbal'): add(262,t-20,t+int(d*.7),ev.velocity*.9)
+            if ev.drum_type in ('hihat','tom','cymbal'): add(263,t-15,t+int(d*.7),ev.velocity*.85)
+            if ev.drum_type in ('kick','snare') and ev.velocity>=.72: add(264,t,t+120,ev.velocity*.72)
+          tr=ET.SubElement(xr,'timingtrack',{'name':'HelixDrummerV3'})
+          for i,ev in enumerate(events): ET.SubElement(tr,'drumEvent',{'index':str(i),'type':ev.drum_type,'start':f'{ev.timestamp:.6f}','velocity':f'{ev.velocity:.4f}','confidence':f'{ev.confidence:.4f}'})
+          tree.write(out,encoding='utf-8',xml_declaration=True)
+          (root/'drummer_run_report.json').write_text(json.dumps({'output_xsq':str(out),'events':len(events),'fallback_mode':r['fallback_mode'],'channels':names},indent=2),encoding='utf-8')
+          print('DRUM_EVENTS',len(events),r['fallback_mode'])
+          PY
+      - name: Render full MP4
+        env: {PYTHONPATH: .}
+        run: python -m tools.preview_renderer test_runs/full_lightsout_drummer/LightsOutTheme_FULL_256_PLUS_DRUMMER_V3.xsq --layout test_runs/full_lightsout_drummer/xlights_rgbeffects_plus_drummer.xml --audio 'Helix Audiolights.mp3' --fps 10 --width 960 --height 540
+      - name: Validate and upload
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-full-lightsout-256-plus-drummer-v3-final
+          path: test_runs/full_lightsout_drummer/**/*
+          if-no-files-found: warn
