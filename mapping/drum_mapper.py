@@ -71,7 +71,7 @@ def build_streams_from_legacy(kicks: Iterable[int], snares: Iterable[int], hats:
     for drum_type, marks, velocity in (
         ("kick", kicks, 0.78),
         ("snare", snares, 0.68),
-        ("hihat", hats, 0.42),
+        (hihat, hats, 0.42),
         ("cymbal", cymbals, 0.62),
     ):
         for idx, mark in enumerate(sorted(set(int(value) for value in marks))):
