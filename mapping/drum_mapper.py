@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Iterable
 
 from audio.drum_classification import DRUM_STREAM_KEYS, DrumEvent, empty_drum_streams, stream_key_for_type
+from legacy_ac.drummer_bridge import compile_drummer_v3_events_to_legacy
 
 
 DRUM_SUBMODEL_BY_TYPE = {
@@ -207,6 +208,7 @@ def resolve_drum_streams(
     fallback_hats: Iterable[int] = (),
     fallback_cymbals: Iterable[int] = (),
     config: DrumMappingConfig = DrumMappingConfig(),
+    legacy_occupied_channels: Iterable[int] = (),
 ) -> dict[str, object]:
     streams = streams or empty_drum_streams()
     typed_count = sum(len(streams.get(key, [])) for key in DRUM_STREAM_KEYS if key != "drum_bus_events")
@@ -225,10 +227,13 @@ def resolve_drum_streams(
             events.extend(distribute_drum_bus_events(bus_events))
             fallback_mode = "partial_detection_plus_bus"
     scheduled = schedule_drum_events(events, config)
+    v3_poses = map_events_to_drummer_v3_poses(scheduled)
+    legacy_events = compile_drummer_v3_events_to_legacy(v3_poses, occupied_channels=legacy_occupied_channels)
     return {
         "fallback_mode": fallback_mode,
         "events": scheduled,
         "mapped_events": map_events_to_submodels(scheduled),
-        "drummer_v3_pose_events": map_events_to_drummer_v3_poses(scheduled),
+        "drummer_v3_pose_events": v3_poses,
+        "legacy_256_events": legacy_events,
         "counts": {key: len([event for event in scheduled if stream_key_for_type(event.drum_type) == key]) for key in DRUM_STREAM_KEYS},
     }
