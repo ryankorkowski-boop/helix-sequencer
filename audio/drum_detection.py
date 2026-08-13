@@ -18,6 +18,9 @@ class DrumDetectionConfig:
     low_confidence_min: float = 0.34
     cluster_gap_ms: int = 95
     prefer_recall: bool = True
+    raw_kick_low_min: float = 0.18
+    raw_kick_flux_min: float = 0.12
+    raw_kick_centroid_max: float = 3200.0
 
 
 def _norm01(values: np.ndarray) -> np.ndarray:
@@ -78,10 +81,16 @@ def detect_drum_event_streams(
         peaks = librosa.util.peak_pick(_norm01(onset_env), pre_max=1, post_max=1, pre_avg=2, post_avg=2, delta=0.025, wait=1)
         frames = np.asarray(peaks, dtype=int)
     stft = np.abs(librosa.stft(perc, n_fft=n_fft, hop_length=hop))
+    raw_stft = np.abs(librosa.stft(y, n_fft=n_fft, hop_length=hop))
     freqs = librosa.fft_frequencies(sr=sr, n_fft=n_fft)
     rms = librosa.feature.rms(y=perc, hop_length=hop)[0]
     rms01 = _norm01(rms)
     onset01 = _norm01(onset_env)
+    raw_low_energy = np.array([_band_energy(freqs, raw_stft[:, i], 20, 180) for i in range(raw_stft.shape[1])])
+    raw_low01 = _norm01(raw_low_energy)
+    raw_low_flux = _norm01(np.maximum(0.0, np.diff(np.log1p(raw_low_energy), prepend=np.log1p(raw_low_energy[0]))))
+    raw_centroid = librosa.feature.spectral_centroid(S=raw_stft, sr=sr)[0]
+    raw_centroid01 = raw_centroid
     raw_events: list[DrumEvent] = []
     previous_ms: int | None = None
     cluster = -1
@@ -99,6 +108,12 @@ def detect_drum_event_streams(
         previous = float(onset01[frame - 1]) if frame > 0 and frame - 1 < len(onset01) else 0.0
         current = float(onset01[frame]) if frame < len(onset01) else 0.0
         sharp = max(0.0, current - previous)
+        raw_low = float(raw_low01[frame]) if frame < len(raw_low01) else 0.0
+        raw_flux = float(raw_low_flux[frame]) if frame < len(raw_low_flux) else 0.0
+        raw_cent = float(raw_centroid01[frame]) if frame < len(raw_centroid01) else 0.0
+        raw_kick_evidence = _clamp((raw_low - config.raw_kick_low_min) / max(1e-6, 1.0 - config.raw_kick_low_min))
+        raw_kick_evidence *= _clamp(raw_flux / max(1e-6, config.raw_kick_flux_min))
+        raw_kick_evidence *= _clamp((config.raw_kick_centroid_max - raw_cent) / config.raw_kick_centroid_max)
         features = {
             "low_ratio": low / total,
             "mid_low_ratio": mid_low / total,
@@ -113,6 +128,10 @@ def detect_drum_event_streams(
             features,
             DrumClassifierThresholds(low_confidence_min=config.low_confidence_min),
         )
+        if raw_kick_evidence >= 0.18 and raw_cent <= config.raw_kick_centroid_max and raw_flux >= config.raw_kick_flux_min:
+            kick_confidence = _clamp(0.38 + (0.40 * raw_kick_evidence) + (0.22 * sharp))
+            if drum_type in {"drum_bus", "tom"} or (drum_type == "kick" and kick_confidence > confidence):
+                drum_type, confidence = "kick", round(kick_confidence, 3)
         timestamp = float(librosa.frames_to_time(frame, sr=sr, hop_length=hop))
         timestamp_ms = int(round(timestamp * 1000.0))
         cluster, cluster_id = _cluster_id(timestamp_ms, previous_ms, cluster, config.cluster_gap_ms)
@@ -123,7 +142,7 @@ def detect_drum_event_streams(
                 timestamp=round(timestamp, 4),
                 velocity=round(velocity, 3),
                 confidence=confidence,
-                frequency_band_info={key: round(float(value), 4) for key, value in features.items()},
+                frequency_band_info={**{key: round(float(value), 4) for key, value in features.items()}, "raw_kick_low01": round(raw_low, 4), "raw_kick_flux01": round(raw_flux, 4), "raw_kick_centroid_hz": round(raw_cent, 2)},
                 cluster_id=cluster_id,
                 drum_type=drum_type,
             )
@@ -132,6 +151,10 @@ def detect_drum_event_streams(
     for event in _compress_events(raw_events, config.min_gap_ms):
         streams[stream_key_for_type(event.drum_type)].append(event)
     return streams
+
+
+def _clamp(value: float, low: float = 0.0, high: float = 1.0) -> float:
+    return max(low, min(high, float(value)))
 
 
 def detect_drum_event_streams_from_file(
