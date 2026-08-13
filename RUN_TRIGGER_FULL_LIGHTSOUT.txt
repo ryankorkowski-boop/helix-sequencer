@@ -1,0 +1,1 @@
+Trigger full Lights Out 256 plus 8-channel drummer execution.
