@@ -50,11 +50,11 @@ jobs:
           python -m tools.export_drummer_v3_xsq \
             --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav \
             --output test_runs/drummer_ground_truth/drummer_v3_ground_truth.xsq
-      - name: Render audio-driven Drummer V3 preview
+      - name: Render physical-layout Drummer V3 preview
         env:
           PYTHONPATH: .
         run: |
-          python -m tools.render_xsq_skeleton_preview \
+          python -m tools.render_drummer_v3_preview \
             test_runs/drummer_ground_truth/drummer_v3_ground_truth.xsq \
             --width 1280 \
             --height 720 \
@@ -67,7 +67,7 @@ jobs:
           import xml.etree.ElementTree as ET
           from pathlib import Path
           xsq = Path('test_runs/drummer_ground_truth/drummer_v3_ground_truth.xsq')
-          mp4 = xsq.with_suffix('.mp4')
+          mp4 = xsq.with_name(xsq.stem + '_drummer_v3.mp4')
           root = ET.parse(xsq).getroot()
           models = {e.attrib.get('name') for e in root.findall('./ElementEffects/Element') if e.attrib.get('type') == 'model'}
           required = {
@@ -87,9 +87,9 @@ jobs:
           if len(models) < len(required):
               raise SystemExit(f'FAIL: too few visual model targets: {len(models)}')
           if not mp4.exists() or mp4.stat().st_size < 10000:
-              raise SystemExit('FAIL: missing or empty rendered MP4')
+              raise SystemExit('FAIL: missing or empty physical-layout rendered MP4')
           print(json.dumps({'model_count': len(models), 'required_models': sorted(required), 'mp4_bytes': mp4.stat().st_size}, indent=2))
-          print('PASS: audio-driven preview contains the real Drummer V3 submodel targets')
+          print('PASS: physical-layout preview contains the real Drummer V3 submodel targets')
           PY
       - name: Upload drummer ground-truth artifacts
         if: always()
