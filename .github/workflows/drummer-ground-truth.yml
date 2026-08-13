@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pytest pillow pyyaml numpy scipy scikit-learn librosa soundfile numba llvmlite imageio-ffmpeg
+          python -m pip install pytest pillow pyyaml numpy scipy scikit-learn librosa soundfile numba llvmlite imageio imageio-ffmpeg
       - name: Generate deterministic synthetic drum audio
         run: python tools/generate_drummer_ground_truth.py --wav test_runs/drummer_ground_truth/drummer_ground_truth.wav --events test_runs/drummer_ground_truth/events.json
       - name: Run drummer unit tests
