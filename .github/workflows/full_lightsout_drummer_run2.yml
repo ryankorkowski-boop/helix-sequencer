@@ -7,7 +7,7 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -33,7 +33,7 @@ jobs:
       - name: Detect drums
         env: {PYTHONPATH: .}
         run: python debug/drum_debug.py 'Helix Audiolights.mp3' --json test_runs/full_lightsout_drummer/drum_debug.json
-      - name: Merge drummer 8 channels
+      - name: Merge drummer 8 channels into XSQ
         env: {PYTHONPATH: .}
         run: |
           python - <<'PY'
@@ -55,7 +55,7 @@ jobs:
           def getlayer(n):
             if n in layers:return layers[n]
             e=next((e for e in ee.findall('Element') if e.get('name')==n),None) or ET.SubElement(ee,'Element',{'type':'model','name':n}); layers[n]=ET.SubElement(e,'EffectLayer',{'name':'AUTO_Drummer_V3','visible':'1'}); return layers[n]
-          def add(ch,s,e,v): ET.SubElement(getlayer(names[ch]),'Effect',{'name':'On','startTime':str(max(0,int(s))),'endTime':str(max(int(s)+50,int(e))),'settings':f'E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={min(1,max(.08,float(v))):.3f}','palette':'C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#FFFFFF,C_BUTTON_Palette3=#FFFFFF','source':'HelixDrummerV3'})
+          def add(ch,s,e,v): ET.SubElement(getlayer(names[ch]),'Effect',{'name':'On','startTime':str(max(0,int(s))),'endTime':str(max(int(s)+50,int(e))),'settings':f'E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={min(1,max(.08,float(v))):.3f}','palette':'C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#FFFFFF,C_BUTTON_Palette3=#FFFFFF','source':'HelixDrummerV3','sourceDrumChannel':str(ch)})
           for ev in events:
             t=int(ev.timestamp_ms); d=int(70+ev.velocity*180); ch=chans.get(ev.drum_type,264); add(ch,t,t+d,ev.velocity)
             if ev.drum_type in ('snare','tom','cymbal'): add(262,t-20,t+int(d*.7),ev.velocity*.9)
@@ -67,13 +67,27 @@ jobs:
           (root/'drummer_run_report.json').write_text(json.dumps({'output_xsq':str(out),'events':len(events),'fallback_mode':r['fallback_mode'],'channels':names},indent=2),encoding='utf-8')
           print('DRUM_EVENTS',len(events),r['fallback_mode'])
           PY
-      - name: Render full MP4
+      - name: Validate drummer is embedded in XSQ
         env: {PYTHONPATH: .}
-        run: python -m tools.preview_renderer test_runs/full_lightsout_drummer/LightsOutTheme_FULL_256_PLUS_DRUMMER_V3.xsq --layout test_runs/full_lightsout_drummer/xlights_rgbeffects_plus_drummer.xml --audio 'Helix Audiolights.mp3' --fps 10 --width 960 --height 540
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          p=Path('test_runs/full_lightsout_drummer/LightsOutTheme_FULL_256_PLUS_DRUMMER_V3.xsq')
+          root=ET.parse(p).getroot()
+          names={e.get('name') for e in root.findall('./ElementEffects/Element')}
+          expected={f'HX_DRUMMER_CH0{i}_{n}' for i,n in [(1,'KICK'),(2,'SNARE'),(3,'HIHAT'),(4,'TOM'),(5,'CYMBAL'),(6,'LEFT_STICK'),(7,'RIGHT_STICK'),(8,'BODY_IMPACT')]}
+          missing=sorted(expected-names)
+          if missing: raise SystemExit(f'Missing drummer elements in XSQ: {missing}')
+          print('DRUMMER_EMBEDDED_IN_XSQ',len(expected))
+          PY
+      - name: Render xLights-style HQ MP4
+        env: {PYTHONPATH: .}
+        run: python -m tools.preview_hq test_runs/full_lightsout_drummer/LightsOutTheme_FULL_256_PLUS_DRUMMER_V3.xsq --layout test_runs/full_lightsout_drummer/xlights_rgbeffects_plus_drummer.xml --audio 'Helix Audiolights.mp3' --quality-preset xlights
       - name: Validate and upload
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: helix-full-lightsout-256-plus-drummer-v3-final
+          name: helix-full-lightsout-256-plus-drummer-v3-hq
           path: test_runs/full_lightsout_drummer/**/*
           if-no-files-found: warn
