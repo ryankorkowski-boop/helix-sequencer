@@ -17,7 +17,7 @@ class Camera3D:
 
 
 class Spatial3DRenderer:
-    """Perspective light-field renderer backed by the canonical SpatialScene."""
+    """Perspective renderer using actual xLights model geometry and XYZ depth."""
 
     def __init__(self, scene: SpatialRenderScene, layout: pr.LayoutData, width: int, height: int):
         self.scene = scene
@@ -27,8 +27,6 @@ class Spatial3DRenderer:
         self.font = pr.ImageFont.load_default()
         self.camera = Camera3D()
         self.nodes = {node.name: node for node in scene.nodes}
-        # SpatialRenderScene uses canonical bounds ordering:
-        # (min_x, min_y, min_z, max_x, max_y, max_z).
         self.min_x, self.min_y, self.min_z, self.max_x, self.max_y, self.max_z = scene.bounds
         self.cx = (self.min_x + self.max_x) / 2.0
         self.cy = (self.min_y + self.max_y) / 2.0
@@ -50,12 +48,10 @@ class Spatial3DRenderer:
 
     def project(self, point: tuple[float, float, float]) -> tuple[float, float, float] | None:
         x, y, z = self._rotate(*point)
-        camera_distance = self.span * self.camera.distance_scale
-        depth = z + camera_distance
+        depth = z + self.span * self.camera.distance_scale
         if depth <= 0.05:
             return None
-        focal = self.span * self.camera.focal_scale
-        scale = focal / depth
+        scale = (self.span * self.camera.focal_scale) / depth
         px = self.width / 2.0 + x * scale * self.width / self.span
         py = self.height * (0.50 + self.camera.target_height) - y * scale * self.height / self.span
         return px, py, depth
@@ -78,14 +74,18 @@ class Spatial3DRenderer:
         ghost = pr.Image.new("RGBA", image.size, (0, 0, 0, 0))
         gg = pr.ImageDraw.Draw(ghost)
         for node in self.scene.nodes:
-            p = self.project(node.position)
-            if p is None:
+            points = node.geometry_points or (node.position,)
+            projected = [self.project(point) for point in points]
+            projected = [p for p in projected if p is not None]
+            if not projected:
                 continue
-            x, y, _ = p
-            geom = self.layout.leaf_models.get(node.name)
-            color = pr.dim_color(geom.color if geom else (190, 200, 215), 0.12)
-            radius = 3 if node.size[0] + node.size[1] < self.span * 0.02 else 2
-            gg.ellipse((x - radius, y - radius, x + radius, y + radius), fill=color + (110,))
+            color = pr.dim_color(self._node_color(node.name), 0.10)
+            if len(projected) >= 2:
+                for a, b in zip(projected, projected[1:]):
+                    gg.line((a[0], a[1], b[0], b[1]), fill=color + (80,), width=2)
+            else:
+                x, y, _ = projected[0]
+                gg.ellipse((x - 2, y - 2, x + 2, y + 2), fill=color + (100,))
         ghost = ghost.filter(pr.ImageFilter.GaussianBlur(radius=2.0))
         image.alpha_composite(ghost)
         return image
@@ -94,13 +94,41 @@ class Spatial3DRenderer:
         geom = self.layout.leaf_models.get(name)
         return geom.color if geom else (220, 230, 245)
 
-    def render_frame(self, leaf_names: list[str], frame_values, title: str, t_ms: int, duration_ms: int, overlays: dict[str, str]):
+    def _draw_geometry(self, glow_draw, solid_draw, node, color, value):
+        points = node.geometry_points or (node.position,)
+        projected = [(self.project(point), point) for point in points]
+        projected = [(p, point) for p, point in projected if p is not None]
+        if not projected:
+            return 0, 0.0
+
+        avg_depth = sum(p[2] for p, _ in projected) / len(projected)
+        perspective = max(0.55, min(1.8, self.span / max(avg_depth, 0.1)))
+        width = max(2, int(round(2.0 + 3.0 * value * perspective)))
+        bright = tuple(max(0, min(255, int(c * (0.35 + 0.9 * value) + 75 * value))) for c in color)
+
+        if len(projected) >= 2:
+            for first, second in zip(projected, projected[1:]):
+                x1, y1, _ = first[0]
+                x2, y2, _ = second[0]
+                glow_draw.line((x1, y1, x2, y2), fill=bright + (125,), width=width + 8)
+                solid_draw.line((x1, y1, x2, y2), fill=bright + (255,), width=width)
+            return len(projected), avg_depth
+
+        x, y, _ = projected[0][0]
+        radius = max(2.0, 2.5 * perspective + 3.0 * value)
+        glow_draw.ellipse((x - radius * 2.5, y - radius * 2.5, x + radius * 2.5, y + radius * 2.5), fill=bright + (125,))
+        solid_draw.ellipse((x - radius, y - radius, x + radius, y + radius), fill=bright + (255,))
+        core = max(1.0, radius * 0.35)
+        solid_draw.ellipse((x - core, y - core, x + core, y + core), fill=(255, 255, 255, 235))
+        return 1, avg_depth
+
+    def render_frame(self, leaf_names, frame_values, title, t_ms, duration_ms, overlays):
         base = self._base_canvas.copy()
         glow = pr.Image.new("RGBA", base.size, (0, 0, 0, 0))
         solid = pr.Image.new("RGBA", base.size, (0, 0, 0, 0))
         gd = pr.ImageDraw.Draw(glow)
         sd = pr.ImageDraw.Draw(solid)
-        projected: list[tuple[float, float, float, tuple[int, int, int], float]] = []
+        active: list[tuple[float, int, object, tuple[int, int, int], float]] = []
 
         for idx, value in enumerate(frame_values):
             value = float(value)
@@ -110,32 +138,30 @@ class Spatial3DRenderer:
             node = self.nodes.get(name)
             if node is None:
                 continue
-            p = self.project(node.position)
-            if p is None:
+            points = node.geometry_points or (node.position,)
+            depths = [self.project(point)[2] for point in points if self.project(point) is not None]
+            if not depths:
                 continue
-            x, y, depth = p
-            projected.append((x, y, depth, self._node_color(name), value))
+            active.append((sum(depths) / len(depths), idx, node, self._node_color(name), value))
 
-        projected.sort(key=lambda item: item[2], reverse=True)
-        for x, y, depth, color, value in projected:
-            perspective = max(0.55, min(1.8, self.span / max(depth, 0.1)))
-            radius = max(2.0, 2.4 * perspective + 3.0 * value)
-            bright = tuple(max(0, min(255, int(c * (0.35 + 0.9 * value) + 75 * value))) for c in color)
-            gd.ellipse((x - radius * 2.4, y - radius * 2.4, x + radius * 2.4, y + radius * 2.4), fill=bright + (120,))
-            sd.ellipse((x - radius, y - radius, x + radius, y + radius), fill=bright + (255,))
-            core = max(1.0, radius * 0.35)
-            sd.ellipse((x - core, y - core, x + core, y + core), fill=(255, 255, 255, 235))
+        # Render complete model geometry from farthest to nearest so overlapping
+        # trees, arches, canes, stars and matrices read as a spatial scene.
+        active.sort(key=lambda item: item[0], reverse=True)
+        active_geometry_count = 0
+        for _, _, node, color, value in active:
+            count, _ = self._draw_geometry(gd, sd, node, color, value)
+            active_geometry_count += count
 
-        glow = glow.filter(pr.ImageFilter.GaussianBlur(radius=9))
+        glow = glow.filter(pr.ImageFilter.GaussianBlur(radius=8))
         base.alpha_composite(glow)
         base.alpha_composite(solid)
 
         hud = pr.ImageDraw.Draw(base)
-        hud.rounded_rectangle((28, 20, 430, 148), radius=18, fill=(7, 10, 18, 205), outline=(190, 215, 245, 65), width=1)
+        hud.rounded_rectangle((28, 20, 440, 148), radius=18, fill=(7, 10, 18, 205), outline=(190, 215, 245, 65), width=1)
         hud.text((46, 38), pr.safe_label(title, 48), font=self.font, fill=(245, 248, 255, 255))
         hud.text((46, 62), f"time {pr.format_time(t_ms)} / {pr.format_time(duration_ms)}", font=self.font, fill=(200, 216, 240, 255))
-        hud.text((46, 86), f"active lights {len(projected)}", font=self.font, fill=(170, 215, 255, 255))
-        hud.text((46, 110), "3D spatial preview", font=self.font, fill=(145, 190, 225, 255))
+        hud.text((46, 86), f"active geometry points {active_geometry_count}", font=self.font, fill=(170, 215, 255, 255))
+        hud.text((46, 110), "3D spatial preview • native model geometry", font=self.font, fill=(145, 190, 225, 255))
 
         right_x = self.width - 430
         hud.rounded_rectangle((right_x, 20, self.width - 28, 172), radius=18, fill=(7, 10, 18, 205), outline=(190, 215, 245, 65), width=1)
@@ -145,7 +171,6 @@ class Spatial3DRenderer:
             if value:
                 hud.text((right_x + 18, line_y), f"{key}: {pr.safe_label(value, 34)}", font=self.font, fill=(245, 248, 255, 255))
                 line_y += 24
-
         return base
 
 
