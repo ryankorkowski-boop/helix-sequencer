@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Iterable
 
-from core.spatial_render_bridge import RenderNode3D, SpatialRenderScene
+from core.spatial_render_bridge import SpatialRenderScene, build_render_scene
 from tools import preview_renderer as pr
 
 
@@ -18,12 +17,7 @@ class Camera3D:
 
 
 class Spatial3DRenderer:
-    """Perspective light-field renderer backed by the canonical SpatialScene.
-
-    It intentionally renders the same leaf-model intensities produced by the
-    XSQ parser, but projects their real XYZ positions into a nighttime scene.
-    This is a preview renderer, not a replacement for xLights' effect engine.
-    """
+    """Perspective light-field renderer backed by the canonical SpatialScene."""
 
     def __init__(self, scene: SpatialRenderScene, layout: pr.LayoutData, width: int, height: int):
         self.scene = scene
@@ -33,7 +27,9 @@ class Spatial3DRenderer:
         self.font = pr.ImageFont.load_default()
         self.camera = Camera3D()
         self.nodes = {node.name: node for node in scene.nodes}
-        self.min_x, self.max_x, self.min_y, self.max_y, self.min_z, self.max_z = scene.bounds
+        # SpatialRenderScene uses canonical bounds ordering:
+        # (min_x, min_y, min_z, max_x, max_y, max_z).
+        self.min_x, self.min_y, self.min_z, self.max_x, self.max_y, self.max_z = scene.bounds
         self.cx = (self.min_x + self.max_x) / 2.0
         self.cy = (self.min_y + self.max_y) / 2.0
         self.cz = (self.min_z + self.max_z) / 2.0
@@ -71,8 +67,6 @@ class Spatial3DRenderer:
             mix = row / max(1, self.height - 1)
             draw.line((0, row, self.width, row), fill=(int(4 + 10 * mix), int(7 + 12 * mix), int(14 + 22 * mix), 255))
 
-        # Ground plane and a subtle horizon make depth legible without inventing
-        # a house model that isn't present in the xLights layout.
         ground = pr.Image.new("RGBA", image.size, (0, 0, 0, 0))
         gd = pr.ImageDraw.Draw(ground)
         horizon = int(self.height * 0.70)
@@ -88,7 +82,8 @@ class Spatial3DRenderer:
             if p is None:
                 continue
             x, y, _ = p
-            color = pr.dim_color(self.layout.leaf_models.get(node.name, pr.ModelGeom(node.name, 0, 0, 0, 0, (), "", (190, 200, 215))).color, 0.12)
+            geom = self.layout.leaf_models.get(node.name)
+            color = pr.dim_color(geom.color if geom else (190, 200, 215), 0.12)
             radius = 3 if node.size[0] + node.size[1] < self.span * 0.02 else 2
             gg.ellipse((x - radius, y - radius, x + radius, y + radius), fill=color + (110,))
         ghost = ghost.filter(pr.ImageFilter.GaussianBlur(radius=2.0))
@@ -121,7 +116,6 @@ class Spatial3DRenderer:
             x, y, depth = p
             projected.append((x, y, depth, self._node_color(name), value))
 
-        # Far objects first; near objects are composited over them.
         projected.sort(key=lambda item: item[2], reverse=True)
         for x, y, depth, color, value in projected:
             perspective = max(0.55, min(1.8, self.span / max(depth, 0.1)))
@@ -158,10 +152,12 @@ class Spatial3DRenderer:
 def render_3d_sequence(sequence_path, layout, audio_path, fps, width, height):
     sequence = pr.parse_sequence(sequence_path)
     leaf_names, intensity = pr.build_leaf_intensity_matrix(layout, sequence, fps)
-    scene = pr.spatial_scene.build_scene(pr.xmp.parse_layout(layout_path_from_layout(layout)))
+    source_layout = getattr(layout, "source_path", None)
+    if source_layout is None:
+        raise RuntimeError("LayoutData does not retain its source xLights layout path")
+    scene = pr.spatial_scene.build_scene(pr.xmp.parse_layout(source_layout))
     if scene.capability != pr.spatial_scene.LAYOUT_CAPABILITY_3D:
         raise RuntimeError(f"3D renderer requires a true 3D layout; detected {scene.capability!r}")
-    from core.spatial_render_bridge import build_render_scene
     render_scene = build_render_scene(scene)
     renderer = Spatial3DRenderer(render_scene, layout, width, height)
     tracks = {
@@ -185,16 +181,9 @@ def render_3d_sequence(sequence_path, layout, audio_path, fps, width, height):
         out_path.unlink()
     if audio_path and audio_path.exists():
         ffmpeg = pr.imageio_ffmpeg.get_ffmpeg_exe()
-        subprocess = __import__("subprocess")
+        import subprocess
         subprocess.run([ffmpeg, "-y", "-i", str(temp_path), "-i", str(audio_path), "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-shortest", str(out_path)], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         temp_path.unlink(missing_ok=True)
     else:
         temp_path.replace(out_path)
     return out_path
-
-
-def layout_path_from_layout(layout: pr.LayoutData):
-    path = getattr(layout, "source_path", None)
-    if path is None:
-        raise RuntimeError("LayoutData does not retain its source xLights layout path")
-    return path
