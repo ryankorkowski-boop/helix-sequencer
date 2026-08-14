@@ -11,6 +11,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from tools import preview_renderer as pr  # noqa: E402
+from tools import preview_renderer_3d as pr3d  # noqa: E402
 
 
 @dataclass(frozen=True)
@@ -45,7 +46,16 @@ def ffmpeg_params(p: Preset, codec: str, bitrate: str | None, faststart: bool) -
     return args
 
 
-def render_one(seq_path: Path, layout: pr.LayoutData, audio: Path | None, p: Preset, codec: str, bitrate: str | None, faststart: bool) -> Path:
+def render_one(seq_path: Path, layout: pr.LayoutData, audio: Path | None, p: Preset, codec: str, bitrate: str | None, faststart: bool, spatial_mode: str) -> Path:
+    if spatial_mode in {"auto", "3d"}:
+        try:
+            result = pr3d.render_3d_sequence(seq_path, layout, audio, p.fps, p.width, p.height)
+            return result
+        except RuntimeError:
+            if spatial_mode == "3d":
+                raise
+            print("3D scene unavailable; falling back to existing 2D renderer.", flush=True)
+
     seq = pr.parse_sequence(seq_path)
     leaf_names, intensity = pr.build_leaf_intensity_matrix(layout, seq, p.fps)
     tracks = {
@@ -84,10 +94,7 @@ def render_one(seq_path: Path, layout: pr.LayoutData, audio: Path | None, p: Pre
     if out_path.exists():
         out_path.unlink()
     if audio and audio.exists():
-        cmd = [
-            pr.imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-i", str(temp_path), "-i", str(audio),
-            "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-shortest",
-        ]
+        cmd = [pr.imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-i", str(temp_path), "-i", str(audio), "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-shortest"]
         if faststart:
             cmd += ["-movflags", "+faststart"]
         cmd.append(str(out_path))
@@ -104,6 +111,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--layout", default=pr.DEFAULT_LAYOUT)
     parser.add_argument("--audio", default="13.wav")
     parser.add_argument("--quality-preset", choices=PRESETS, default="xlights")
+    parser.add_argument("--spatial-mode", choices=("auto", "2d", "3d"), default="auto")
     parser.add_argument("--width", type=int)
     parser.add_argument("--height", type=int)
     parser.add_argument("--fps", type=int)
@@ -128,10 +136,11 @@ def main() -> int:
     if not targets:
         raise RuntimeError("No XSQ files found to render.")
     layout = pr.parse_models(layout_path)
-    print(f"HQ preview encode: {p.width}x{p.height} {p.fps}fps codec={args.codec} crf={p.crf} preset={p.preset}")
+    layout.source_path = layout_path
+    print(f"HQ preview encode: {p.width}x{p.height} {p.fps}fps spatial={args.spatial_mode}")
     for target in targets:
         print(f"Rendering {target.name} ...", flush=True)
-        print(f"Created {render_one(target, layout, audio, p, args.codec, args.video_bitrate, not args.no_faststart)}", flush=True)
+        print(f"Created {render_one(target, layout, audio, p, args.codec, args.video_bitrate, not args.no_faststart, args.spatial_mode)}", flush=True)
     return 0
 
 
