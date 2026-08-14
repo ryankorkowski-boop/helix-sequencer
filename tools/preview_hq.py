@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from core import spatial_scene  # noqa: E402
 from tools import preview_renderer as pr  # noqa: E402
 from tools import preview_renderer_3d as pr3d  # noqa: E402
 
@@ -48,13 +49,12 @@ def ffmpeg_params(p: Preset, codec: str, bitrate: str | None, faststart: bool) -
 
 def render_one(seq_path: Path, layout: pr.LayoutData, audio: Path | None, p: Preset, codec: str, bitrate: str | None, faststart: bool, spatial_mode: str) -> Path:
     if spatial_mode in {"auto", "3d"}:
-        try:
-            result = pr3d.render_3d_sequence(seq_path, layout, audio, p.fps, p.width, p.height)
-            return result
-        except RuntimeError:
-            if spatial_mode == "3d":
-                raise
-            print("3D scene unavailable; falling back to existing 2D renderer.", flush=True)
+        scene = spatial_scene.load_scene(layout.source_path)
+        if scene.capability == spatial_scene.LAYOUT_CAPABILITY_3D:
+            return pr3d.render_3d_sequence(seq_path, layout, audio, p.fps, p.width, p.height)
+        if spatial_mode == "3d":
+            raise RuntimeError(f"3D rendering requested but layout capability is {scene.capability!r}")
+        print(f"3D scene unavailable ({scene.capability}); falling back to existing 2D renderer.", flush=True)
 
     seq = pr.parse_sequence(seq_path)
     leaf_names, intensity = pr.build_leaf_intensity_matrix(layout, seq, p.fps)
@@ -67,26 +67,11 @@ def render_one(seq_path: Path, layout: pr.LayoutData, audio: Path | None, p: Pre
     renderer = pr.HouseRenderer(layout, width=p.width, height=p.height)
     out_path = seq_path.with_suffix(".mp4")
     temp_path = out_path.with_suffix(".silent.mp4")
-    writer = pr.imageio.get_writer(
-        temp_path,
-        fps=p.fps,
-        codec=codec,
-        ffmpeg_log_level="error",
-        pixelformat="yuv420p",
-        macro_block_size=None,
-        output_params=ffmpeg_params(p, codec, bitrate, faststart),
-    )
+    writer = pr.imageio.get_writer(temp_path, fps=p.fps, codec=codec, ffmpeg_log_level="error", pixelformat="yuv420p", macro_block_size=None, output_params=ffmpeg_params(p, codec, bitrate, faststart))
     try:
         for frame_idx in range(intensity.shape[1]):
             t_ms = int(round(frame_idx * 1000.0 / p.fps))
-            frame = renderer.render_frame(
-                leaf_names=leaf_names,
-                frame_values=intensity[:, frame_idx],
-                title=seq_path.name,
-                t_ms=t_ms,
-                duration_ms=seq.duration_ms,
-                overlays={k: pr.active_label(v, t_ms) for k, v in tracks.items()},
-            )
+            frame = renderer.render_frame(leaf_names=leaf_names, frame_values=intensity[:, frame_idx], title=seq_path.name, t_ms=t_ms, duration_ms=seq.duration_ms, overlays={k: pr.active_label(v, t_ms) for k, v in tracks.items()})
             writer.append_data(pr.np.asarray(frame.convert("RGB"), dtype=pr.np.uint8))
     finally:
         writer.close()
