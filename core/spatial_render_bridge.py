@@ -2,10 +2,10 @@ from __future__ import annotations
 
 """Bridge Helix's canonical SpatialScene into a renderer-friendly 3D scene.
 
-The bridge deliberately does not invent geometry.  It consumes the same
-WorldPos/scene data used by spatial orchestration and exposes a stable,
-normalized representation for preview renderers.  2D layouts remain valid and
-are marked as a fallback instead of silently pretending to be 3D.
+The bridge deliberately does not invent geometry. It consumes the same
+WorldPos/scene data used by spatial orchestration and exposes a stable
+representation for preview renderers. 2D layouts remain valid and are marked
+as a fallback instead of silently pretending to be 3D.
 """
 
 from dataclasses import asdict, dataclass
@@ -52,12 +52,7 @@ class SpatialRenderScene:
 
 
 def build_render_scene(scene: spatial_scene.SpatialScene) -> SpatialRenderScene:
-    """Convert a SpatialScene without losing its Z coordinate.
-
-    The renderer receives center, extents and full XYZ bounds.  This keeps the
-    render path aligned with the spatial orchestrators instead of reconstructing
-    positions from a 2D projection.
-    """
+    """Convert a SpatialScene without losing its Z coordinate."""
     model_nodes = [
         node for node in scene.nodes.values()
         if node.kind == "model" and "root" in node.tags
@@ -67,14 +62,14 @@ def build_render_scene(scene: spatial_scene.SpatialScene) -> SpatialRenderScene:
     if model_nodes:
         bounds = (
             min(node.bounds_xyz[0] for node in model_nodes),
-            max(node.bounds_xyz[3] for node in model_nodes),
             min(node.bounds_xyz[1] for node in model_nodes),
-            max(node.bounds_xyz[4] for node in model_nodes),
             min(node.bounds_xyz[2] for node in model_nodes),
+            max(node.bounds_xyz[3] for node in model_nodes),
+            max(node.bounds_xyz[4] for node in model_nodes),
             max(node.bounds_xyz[5] for node in model_nodes),
         )
     else:
-        bounds = (0.0, 1.0, 0.0, 1.0, 0.0, 1.0)
+        bounds = (0.0, 0.0, 0.0, 1.0, 1.0, 1.0)
 
     nodes = tuple(
         RenderNode3D(
@@ -100,7 +95,7 @@ def build_render_scene(scene: spatial_scene.SpatialScene) -> SpatialRenderScene:
 
 def build_render_scene_from_layout(layout_path: Path) -> SpatialRenderScene:
     """Build the canonical render scene directly from an xLights layout."""
-    scene = spatial_scene.build_spatial_scene(layout_path)
+    scene = spatial_scene.load_scene(layout_path)
     return build_render_scene(scene)
 
 
@@ -110,7 +105,7 @@ def validate_true_3d(render_scene: SpatialRenderScene) -> tuple[bool, str]:
         return False, "scene contains no root model nodes"
     if not render_scene.is_true_3d:
         return False, f"layout capability is {render_scene.capability!r}, not '3d'"
-    z_span = render_scene.bounds[5] - render_scene.bounds[4]
+    z_span = render_scene.bounds[5] - render_scene.bounds[2]
     if z_span <= 1e-6:
         return False, "3D scene has zero Z span"
     return True, "true 3D scene"
