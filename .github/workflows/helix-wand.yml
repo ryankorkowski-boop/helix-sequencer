@@ -91,9 +91,21 @@ jobs:
       - name: Render demo MP4 with synchronized audio
         run: |
           python tools/render_xsq_skeleton_preview.py wand_output/helix_wand_demo.xsq --width 1280 --height 720 --fps 24 --audio wand_output/helix_wand_demo.wav
-          test -f wand_output/helix_wand_demo.mp4
-          ffprobe -v error -select_streams a:0 -show_entries stream=codec_name,duration -of default=noprint_wrappers=1 wand_output/helix_wand_demo.mp4
-          ffprobe -v error -select_streams v:0 -show_entries stream=codec_name,duration -of default=noprint_wrappers=1 wand_output/helix_wand_demo.mp4
+          test -s wand_output/helix_wand_demo.mp4
+          python - <<'PY'
+          import subprocess
+          from pathlib import Path
+          import imageio_ffmpeg
+          video = Path('wand_output/helix_wand_demo.mp4')
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          probe = subprocess.run([ffmpeg, '-hide_banner', '-i', str(video)], capture_output=True, text=True)
+          text = probe.stdout + probe.stderr
+          if 'Audio:' not in text:
+              raise SystemExit('VALIDATION FAILED: MP4 has no audio stream')
+          if 'Video:' not in text:
+              raise SystemExit('VALIDATION FAILED: MP4 has no video stream')
+          print('MEDIA VALIDATION PASSED: MP4 contains audio + video streams')
+          PY
 
       - name: Upload Helix Wand results
         if: always()
