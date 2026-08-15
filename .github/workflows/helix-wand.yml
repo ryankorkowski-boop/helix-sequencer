@@ -25,6 +25,7 @@ jobs:
     timeout-minutes: 60
     env:
       PYTHONPATH: .
+      HELIX_DURATION: ${{ inputs.duration_seconds || '20' }}
     steps:
       - name: Checkout Helix
         uses: actions/checkout@v4
@@ -53,16 +54,46 @@ jobs:
         run: |
           pytest -q tests/test_preview_hq.py tests/test_render_xsq_skeleton_preview.py tests/test_export_demo_xsq.py
 
-      - name: Generate validated demo XSQ
+      - name: Generate deterministic demo audio
         run: |
           mkdir -p wand_output
+          python - <<'PY'
+          import math, os, struct, wave
+          duration = max(1.0, float(os.environ.get('HELIX_DURATION', '20')))
+          sr = 44100
+          frames = int(duration * sr)
+          bpm = 120.0
+          beat = 60.0 / bpm
+          out = 'wand_output/helix_wand_demo.wav'
+          with wave.open(out, 'wb') as w:
+              w.setnchannels(2); w.setsampwidth(2); w.setframerate(sr)
+              for i in range(frames):
+                  t = i / sr
+                  phase = t % beat
+                  beat_i = int(t / beat)
+                  kick = math.exp(-phase * 35.0) * math.sin(2*math.pi*(65-25*min(phase/0.08,1))*t) if beat_i % 4 in (0,2) else 0.0
+                  snare_phase = (t - beat*1.0) % (beat*2)
+                  snare = math.exp(-snare_phase*55.0) * (math.sin(2*math.pi*1800*t)+0.5*math.sin(2*math.pi*2400*t)) if snare_phase < 0.09 else 0.0
+                  hat_phase = t % (beat/2)
+                  hat = math.exp(-hat_phase*90.0) * math.sin(2*math.pi*7000*t) * 0.22
+                  bass = 0.16 * math.sin(2*math.pi*(110 + 25*math.sin(2*math.pi*t/4))*t)
+                  x = max(-0.95, min(0.95, 0.42*kick + 0.18*snare + hat + bass))
+                  s = int(x * 32767)
+                  w.writeframes(struct.pack('<hh', s, s))
+          PY
+          test -s wand_output/helix_wand_demo.wav
+
+      - name: Generate validated demo XSQ
+        run: |
           python tools/export_demo_xsq.py --output wand_output/helix_wand_demo.xsq
           python tools/validate_xsq_structure.py wand_output/helix_wand_demo.xsq
 
-      - name: Render demo MP4
+      - name: Render demo MP4 with synchronized audio
         run: |
-          python tools/render_xsq_skeleton_preview.py wand_output/helix_wand_demo.xsq --width 1280 --height 720 --fps 24
-          test -f wand_output/helix_wand_demo.mp4 || test -f wand_output/helix_wand_demo/helix_wand_demo.mp4
+          python tools/render_xsq_skeleton_preview.py wand_output/helix_wand_demo.xsq --width 1280 --height 720 --fps 24 --audio wand_output/helix_wand_demo.wav
+          test -f wand_output/helix_wand_demo.mp4
+          ffprobe -v error -select_streams a:0 -show_entries stream=codec_name,duration -of default=noprint_wrappers=1 wand_output/helix_wand_demo.mp4
+          ffprobe -v error -select_streams v:0 -show_entries stream=codec_name,duration -of default=noprint_wrappers=1 wand_output/helix_wand_demo.mp4
 
       - name: Upload Helix Wand results
         if: always()
