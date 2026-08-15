@@ -39,6 +39,16 @@ def _add_effect(element: ET.Element, name: str, label: str, start: float, durati
     })
 
 
+def _sort_timing_events(track: ET.Element) -> None:
+    """Keep timing events chronologically ordered while preserving simultaneous hits."""
+    events = list(track.findall("phoneme"))
+    events.sort(key=lambda event: (float(event.get("start", "0")), int(event.get("index", "0"))))
+    for index, event in enumerate(events):
+        event.set("index", str(index))
+        track.remove(event)
+    track.extend(events)
+
+
 def build_drummer_ground_truth_xsq_text(duration: float = 20.0) -> str:
     duration = max(1.0, float(duration))
     root = ET.Element("xsequence", {"name": "HelixDrummerGroundTruth", "model": DRUMMER_MODEL, "duration": f"{duration:.6f}"})
@@ -83,6 +93,10 @@ def build_drummer_ground_truth_xsq_text(duration: float = 20.0) -> str:
         if beat_i % 16 == 0:
             _add_effect(elements[SUBMODELS[7]], "DrumKitAll", "DRUMKIT_ALL", t, 0.10, 70)
         t += beat
+
+    # Accent events are generated after the hat event. Normalize the timing track
+    # before strict validation, preserving every hit and simultaneous cymbal strike.
+    _sort_timing_events(track)
 
     ET.SubElement(effects_root, "effect", {"type": "drummer_ground_truth", "duration": f"{duration:.6f}"})
     return ET.tostring(root, encoding="unicode")
