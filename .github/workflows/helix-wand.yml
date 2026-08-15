@@ -1,0 +1,77 @@
+name: Helix Wand
+
+on:
+  workflow_dispatch:
+    inputs:
+      duration_seconds:
+        description: Preview/test duration
+        required: false
+        default: "20"
+      run_drummer:
+        description: Run drummer and submodel validation
+        required: false
+        default: "true"
+  push:
+    branches:
+      - feature/restructure-core
+
+permissions:
+  contents: read
+
+jobs:
+  helix-wand:
+    name: Cloud Helix runtime
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PYTHONPATH: .
+    steps:
+      - name: Checkout Helix
+        uses: actions/checkout@v4
+
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest pyyaml
+
+      - name: Compile Helix runtime
+        run: |
+          python -m compileall -q core ai models mapping animation export tools tests main.py gui_launcher.py
+
+      - name: Validate drummer/submodel stack
+        if: ${{ inputs.run_drummer != 'false' }}
+        run: |
+          pytest -q tests/test_drummer_layers.py tests/test_drummer_xmodel_asset.py tests/test_drummer_v3_pose_sheet.py tests/test_drummer_v3_png_layers.py tests/test_finished_helixville4_drummer.py
+
+      - name: Validate preview stack
+        run: |
+          pytest -q tests/test_preview_hq.py tests/test_render_xsq_skeleton_preview.py tests/test_export_demo_xsq.py
+
+      - name: Generate validated demo XSQ
+        run: |
+          mkdir -p wand_output
+          python tools/export_demo_xsq.py --output wand_output/helix_wand_demo.xsq
+          python tools/validate_xsq_structure.py wand_output/helix_wand_demo.xsq
+
+      - name: Render demo MP4
+        run: |
+          python tools/render_xsq_skeleton_preview.py wand_output/helix_wand_demo.xsq --width 1280 --height 720 --fps 24
+          test -f wand_output/helix_wand_demo.mp4 || test -f wand_output/helix_wand_demo/helix_wand_demo.mp4
+
+      - name: Upload Helix Wand results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-wand-results
+          path: |
+            wand_output/**
+            fixtures/band_geometry/drummer_v3_pose_spec.json
+            fixtures/band_geometry/drummer_v3_png_layer_manifest.json
+            fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel
+          if-no-files-found: warn
