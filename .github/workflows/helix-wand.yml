@@ -54,7 +54,7 @@ jobs:
         run: |
           pytest -q tests/test_preview_hq.py tests/test_render_xsq_skeleton_preview.py tests/test_export_demo_xsq.py
 
-      - name: Generate deterministic demo audio
+      - name: Generate deterministic ground-truth drum audio
         run: |
           mkdir -p wand_output
           python - <<'PY'
@@ -64,7 +64,7 @@ jobs:
           frames = int(duration * sr)
           bpm = 120.0
           beat = 60.0 / bpm
-          out = 'wand_output/helix_wand_demo.wav'
+          out = 'wand_output/helix_drummer_ground_truth.wav'
           with wave.open(out, 'wb') as w:
               w.setnchannels(2); w.setsampwidth(2); w.setframerate(sr)
               for i in range(frames):
@@ -76,27 +76,53 @@ jobs:
                   snare = math.exp(-snare_phase*55.0) * (math.sin(2*math.pi*1800*t)+0.5*math.sin(2*math.pi*2400*t)) if snare_phase < 0.09 else 0.0
                   hat_phase = t % (beat/2)
                   hat = math.exp(-hat_phase*90.0) * math.sin(2*math.pi*7000*t) * 0.22
-                  bass = 0.16 * math.sin(2*math.pi*(110 + 25*math.sin(2*math.pi*t/4))*t)
-                  x = max(-0.95, min(0.95, 0.42*kick + 0.18*snare + hat + bass))
+                  accent_phase = (t - 2.0) % 4.0
+                  tom = 0.12 * math.exp(-((accent_phase) * 22.0)) * math.sin(2*math.pi*140*t) if accent_phase < 0.12 else 0.0
+                  cym = 0.10 * math.exp(-((accent_phase) * 35.0)) * math.sin(2*math.pi*5200*t) if accent_phase < 0.12 else 0.0
+                  bass = 0.10 * math.sin(2*math.pi*(110 + 25*math.sin(2*math.pi*t/4))*t)
+                  x = max(-0.95, min(0.95, 0.42*kick + 0.18*snare + hat + tom + cym + bass))
                   s = int(x * 32767)
                   w.writeframes(struct.pack('<hh', s, s))
           PY
-          test -s wand_output/helix_wand_demo.wav
+          test -s wand_output/helix_drummer_ground_truth.wav
 
-      - name: Generate validated demo XSQ
+      - name: Generate drummer ground-truth XSQ
         run: |
-          python tools/export_demo_xsq.py --output wand_output/helix_wand_demo.xsq
-          python tools/validate_xsq_structure.py wand_output/helix_wand_demo.xsq
+          python tools/export_drummer_ground_truth_xsq.py --output wand_output/helix_drummer_ground_truth.xsq
+          python tools/validate_xsq_structure.py wand_output/helix_drummer_ground_truth.xsq
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          p = 'wand_output/helix_drummer_ground_truth.xsq'
+          root = ET.parse(p).getroot()
+          expected = {
+              'HX_SNOWMAN_DRUMMER_V3_KICK',
+              'HX_SNOWMAN_DRUMMER_V3_SNARE',
+              'HX_SNOWMAN_DRUMMER_V3_HI_HAT',
+              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT',
+              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_LEFT',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_RIGHT',
+              'HX_SNOWMAN_DRUMMER_V3_DRUMKIT_ALL',
+          }
+          actual = {e.attrib.get('name') for e in root.findall('./ElementEffects/Element')}
+          missing = expected - actual
+          if missing:
+              raise SystemExit(f'Missing drummer submodels: {sorted(missing)}')
+          effect_count = len(root.findall('./ElementEffects/Element/EffectLayer/Effect'))
+          if effect_count < 40:
+              raise SystemExit(f'Ground-truth effect count unexpectedly low: {effect_count}')
+          print(f'DRUMMER GROUND TRUTH PASSED: {len(actual)} real submodels, {effect_count} visible effects')
+          PY
 
-      - name: Render demo MP4 with synchronized audio
+      - name: Render real drummer submodel preview with synchronized audio
         run: |
-          python tools/render_xsq_skeleton_preview.py wand_output/helix_wand_demo.xsq --width 1280 --height 720 --fps 24 --audio wand_output/helix_wand_demo.wav
-          test -s wand_output/helix_wand_demo.mp4
+          python tools/render_xsq_skeleton_preview.py wand_output/helix_drummer_ground_truth.xsq --width 1280 --height 720 --fps 24 --audio wand_output/helix_drummer_ground_truth.wav
+          test -s wand_output/helix_drummer_ground_truth.mp4
           python - <<'PY'
           import subprocess
           from pathlib import Path
           import imageio_ffmpeg
-          video = Path('wand_output/helix_wand_demo.mp4')
+          video = Path('wand_output/helix_drummer_ground_truth.mp4')
           ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
           probe = subprocess.run([ffmpeg, '-hide_banner', '-i', str(video)], capture_output=True, text=True)
           text = probe.stdout + probe.stderr
@@ -104,7 +130,7 @@ jobs:
               raise SystemExit('VALIDATION FAILED: MP4 has no audio stream')
           if 'Video:' not in text:
               raise SystemExit('VALIDATION FAILED: MP4 has no video stream')
-          print('MEDIA VALIDATION PASSED: MP4 contains audio + video streams')
+          print('MEDIA VALIDATION PASSED: drummer MP4 contains audio + video streams')
           PY
 
       - name: Upload Helix Wand results
