@@ -23,77 +23,67 @@ SUBMODELS = (
 
 
 def _add_event(track: ET.Element, index: int, performer: str, phoneme: str, start: float, duration: float) -> None:
-    node = ET.SubElement(track, "phoneme", {
-        "index": str(index),
-        "performer": performer,
-        "phoneme": phoneme,
-        "start": f"{start:.6f}",
-        "duration": f"{duration:.6f}",
-        "intensity": "1.0000",
+    ET.SubElement(track, "phoneme", {
+        "index": str(index), "performer": performer, "phoneme": phoneme,
+        "start": f"{start:.6f}", "duration": f"{duration:.6f}", "intensity": "1.0000",
+    })
+
+
+def _add_effect(element: ET.Element, name: str, label: str, start: float, duration: float, intensity: int = 100) -> None:
+    layer = ET.SubElement(element, "EffectLayer")
+    ET.SubElement(layer, "Effect", {
+        "name": name, "label": label,
+        "startTime": str(int(start * 1000)),
+        "endTime": str(int((start + duration) * 1000)),
+        "settings": f"Start={intensity}",
     })
 
 
 def build_drummer_ground_truth_xsq_text(duration: float = 20.0) -> str:
     duration = max(1.0, float(duration))
-    root = ET.Element("xsequence", {
-        "name": "HelixDrummerGroundTruth",
-        "model": DRUMMER_MODEL,
-        "duration": f"{duration:.6f}",
-    })
+    root = ET.Element("xsequence", {"name": "HelixDrummerGroundTruth", "model": DRUMMER_MODEL, "duration": f"{duration:.6f}"})
     track = ET.SubElement(root, "timingtrack", {"name": "HelixDrummerGroundTruth"})
     effects_root = ET.SubElement(root, "effects")
     element_effects = ET.SubElement(root, "ElementEffects")
-
+    elements = {}
     for model in SUBMODELS:
         element = ET.SubElement(element_effects, "Element", {"type": "model", "name": model})
         ET.SubElement(element, "EffectLayer")
+        elements[model] = element
 
     index = 0
     beat = 0.5
     t = 0.0
     while t < duration:
         beat_i = int(round(t / beat))
-        # Kick on beats 1/3, snare on 2/4, hats on every half beat.
         if beat_i % 4 in (0, 2):
-            _add_event(track, index, "drummer", "KICK", t, 0.12)
-            index += 1
-            target = SUBMODELS[0]
-            effect = ET.SubElement(element_effects.find(f"Element[@name='{target}']"), "EffectLayer")
-            ET.SubElement(effect, "Effect", {"name": "Kick", "label": "KICK", "startTime": str(int(t * 1000)), "endTime": str(int((t + 0.12) * 1000)), "settings": "Start=100"})
-        elif beat_i % 4 in (1, 3):
-            _add_event(track, index, "drummer", "SNARE", t, 0.12)
-            index += 1
-            target = SUBMODELS[1]
-            effect = ET.SubElement(element_effects.find(f"Element[@name='{target}']"), "EffectLayer")
-            ET.SubElement(effect, "Effect", {"name": "Snare", "label": "SNARE", "startTime": str(int(t * 1000)), "endTime": str(int((t + 0.12) * 1000)), "settings": "Start=100"})
-        # Hi-hat gets its own visible pulse every half beat.
+            _add_event(track, index, "drummer", "KICK", t, 0.12); index += 1
+            _add_effect(elements[SUBMODELS[0]], "Kick", "KICK", t, 0.12, 100)
+        else:
+            _add_event(track, index, "drummer", "SNARE", t, 0.12); index += 1
+            _add_effect(elements[SUBMODELS[1]], "Snare", "SNARE", t, 0.12, 100)
+
         hat_t = t + beat / 2
         if hat_t < duration:
-            _add_event(track, index, "drummer", "HI_HAT", hat_t, 0.07)
-            index += 1
-            target = SUBMODELS[2]
-            effect = ET.SubElement(element_effects.find(f"Element[@name='{target}']"), "EffectLayer")
-            ET.SubElement(effect, "Effect", {"name": "Hi-Hat", "label": "HI_HAT", "startTime": str(int(hat_t * 1000)), "endTime": str(int((hat_t + 0.07) * 1000)), "settings": "Start=85"})
-        # Four extra instrument accents prove the remaining real submodel targets.
+            _add_event(track, index, "drummer", "HI_HAT", hat_t, 0.07); index += 1
+            _add_effect(elements[SUBMODELS[2]], "Hi-Hat", "HI_HAT", hat_t, 0.07, 85)
+
         if beat_i % 8 == 4:
-            for offset, target, label in ((0.0, SUBMODELS[3], "CYMBAL_LEFT"), (0.0, SUBMODELS[4], "CYMBAL_RIGHT"), (0.02, SUBMODELS[5], "TOM_LEFT"), (0.06, SUBMODELS[6], "TOM_RIGHT")):
+            for offset, target, label in (
+                (0.00, SUBMODELS[3], "CYMBAL_LEFT"),
+                (0.00, SUBMODELS[4], "CYMBAL_RIGHT"),
+                (0.02, SUBMODELS[5], "TOM_LEFT"),
+                (0.06, SUBMODELS[6], "TOM_RIGHT"),
+            ):
                 et = t + offset
-                if et >= duration:
-                    continue
-                _add_event(track, index, "drummer", label, et, 0.16)
-                index += 1
-                element = element_effects.find(f"Element[@name='{target}']")
-                layer = ET.SubElement(element, "EffectLayer")
-                ET.SubElement(layer, "Effect", {"name": label.title().replace("_", "-"), "label": label, "startTime": str(int(et * 1000)), "endTime": str(int((et + 0.16) * 1000)), "settings": "Start=100"})
-        # Whole-kit accent ties the ground-truth event to the complete drummer.
+                if et < duration:
+                    _add_event(track, index, "drummer", label, et, 0.16); index += 1
+                    _add_effect(elements[target], label.title().replace("_", "-"), label, et, 0.16, 100)
+
         if beat_i % 16 == 0:
-            element = element_effects.find(f"Element[@name='{SUBMODELS[7]}'")
-            if element is not None:
-                layer = ET.SubElement(element, "EffectLayer")
-                ET.SubElement(layer, "Effect", {"name": "DrumKitAll", "label": "DRUMKIT_ALL", "startTime": str(int(t * 1000)), "endTime": str(int((t + 0.10) * 1000)), "settings": "Start=70"})
+            _add_effect(elements[SUBMODELS[7]], "DrumKitAll", "DRUMKIT_ALL", t, 0.10, 70)
         t += beat
 
-    # Keep a simple effects container for structural compatibility.
     ET.SubElement(effects_root, "effect", {"type": "drummer_ground_truth", "duration": f"{duration:.6f}"})
     return ET.tostring(root, encoding="unicode")
 
