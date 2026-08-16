@@ -72,3 +72,4 @@ jobs:
           name: helix-full-current-256-plus-drummer
           path: test_runs/full_current/**/*
           if-no-files-found: warn
+# Force fresh full-render execution on feature/restructure-core.
