@@ -1,4 +1,4 @@
-name: Helix Full Current 256 + Drummer
+name: Helix Full Experimental Layout
 on:
   push:
     branches: [feature/restructure-core]
@@ -25,23 +25,25 @@ jobs:
           p=subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(),'-i','Helix Audiolights.mp3','-f','null','-'],capture_output=True)
           assert p.returncode==0
           PY
-      - name: Generate current 256
+      - name: Build experimental layout
+        run: python tools/make_layout_variant.py xlights_rgbeffects.xml xlights_rgbeffects_experimental.xml
+      - name: Generate current 256 experimental
         env: {PYTHONPATH: .}
         run: |
-          mkdir -p test_runs/full_current/base256
-          python archive/legacy_versions/v28.9.py --template template.xsq --audio 'Helix Audiolights.mp3' --layout-file xlights_rgbeffects.xml --output-dir test_runs/full_current/base256 --variants 1 --single --no-prompt --no-save-settings --no-workspace-history --no-auto-timing-tracks --no-matrix-intelligence --audio-reactive-profile showcase --spatial-awareness 0.35 --chase-style left_to_right --max-layers-per-prop 2
+          mkdir -p test_runs/full_experimental/base256
+          python archive/legacy_versions/v28.9.py --template template.xsq --audio 'Helix Audiolights.mp3' --layout-file xlights_rgbeffects_experimental.xml --output-dir test_runs/full_experimental/base256 --variants 1 --single --no-prompt --no-save-settings --no-workspace-history --no-auto-timing-tracks --no-matrix-intelligence --audio-reactive-profile showcase --spatial-awareness 0.35 --chase-style left_to_right --max-layers-per-prop 2
       - name: Detect drums and merge 8 channels
         env: {PYTHONPATH: .}
         run: |
-          python debug/drum_debug.py 'Helix Audiolights.mp3' --json test_runs/full_current/drum_debug.json
+          python debug/drum_debug.py 'Helix Audiolights.mp3' --json test_runs/full_experimental/drum_debug.json
           python - <<'PY'
           import json, shutil, xml.etree.ElementTree as ET
           from pathlib import Path
           from audio.drum_detection import detect_drum_event_streams_from_file
           from mapping.drum_mapper import resolve_drum_streams
-          root=Path('test_runs/full_current'); xsqs=sorted((root/'base256').rglob('*.xsq'))
+          root=Path('test_runs/full_experimental'); xsqs=sorted((root/'base256').rglob('*.xsq'))
           if not xsqs: raise SystemExit('No generated XSQ')
-          out=root/'LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq'; shutil.copy2(xsqs[0],out)
+          out=root/'LightsOutTheme_FULL_256_PLUS_DRUMMER_EXPERIMENTAL.xsq'; shutil.copy2(xsqs[0],out)
           r=resolve_drum_streams(detect_drum_event_streams_from_file(Path('Helix Audiolights.mp3'))); events=r['events']
           names={257:'HX_DRUMMER_CH01_KICK',258:'HX_DRUMMER_CH02_SNARE',259:'HX_DRUMMER_CH03_HIHAT',260:'HX_DRUMMER_CH04_TOM',261:'HX_DRUMMER_CH05_CYMBAL',262:'HX_DRUMMER_CH06_LEFT_STICK',263:'HX_DRUMMER_CH07_RIGHT_STICK',264:'HX_DRUMMER_CH08_BODY_IMPACT'}
           tree=ET.parse(out); xr=tree.getroot(); ee=next((n for n in xr.iter() if n.tag.endswith('ElementEffects')),None) or ET.SubElement(xr,'ElementEffects')
@@ -49,27 +51,27 @@ jobs:
           def layer(n):
             if n in layers:return layers[n]
             e=next((e for e in ee.findall('Element') if e.get('name')==n),None) or ET.SubElement(ee,'Element',{'type':'model','name':n})
-            layers[n]=ET.SubElement(e,'EffectLayer',{'name':'AUTO_Drummer_Current','visible':'1'}); return layers[n]
+            layers[n]=ET.SubElement(e,'EffectLayer',{'name':'AUTO_Drummer_Experimental','visible':'1'}); return layers[n]
           chans={'kick':257,'snare':258,'hihat':259,'tom':260,'cymbal':261}
           for ev in events:
             ch=chans.get(ev.drum_type,264); t=max(0,int(ev.timestamp_ms)); d=max(50,int(70+ev.velocity*180))
-            ET.SubElement(layer(names[ch]),'Effect',{'name':'On','startTime':str(t),'endTime':str(t+d),'settings':f'E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={min(1,max(.08,float(ev.velocity))):.3f}','palette':'C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#FFFFFF,C_BUTTON_Palette3=#FFFFFF','source':'HelixDrummerCurrent','sourceDrumChannel':str(ch)})
-          ET.SubElement(xr,'timingtrack',{'name':'HelixDrummerCurrent'})
+            ET.SubElement(layer(names[ch]),'Effect',{'name':'On','startTime':str(t),'endTime':str(t+d),'settings':f'E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={min(1,max(.08,float(ev.velocity))):.3f}','palette':'C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#FFFFFF,C_BUTTON_Palette3=#FFFFFF','source':'HelixDrummerExperimental','sourceDrumChannel':str(ch)})
+          ET.SubElement(xr,'timingtrack',{'name':'HelixDrummerExperimental'})
           tree.write(out,encoding='utf-8',xml_declaration=True)
           (root/'drummer_run_report.json').write_text(json.dumps({'events':len(events),'fallback_mode':r['fallback_mode'],'channels':names},indent=2))
           print('DRUM_EVENTS',len(events))
           PY
       - name: Validate XSQ
         continue-on-error: true
-        run: python tools/validate_xsq_structure.py test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq
+        run: python tools/validate_xsq_structure.py test_runs/full_experimental/LightsOutTheme_FULL_256_PLUS_DRUMMER_EXPERIMENTAL.xsq
       - name: Render HQ MP4
         env: {PYTHONPATH: .}
-        run: python -m tools.preview_hq test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq --layout xlights_rgbeffects.xml --audio 'Helix Audiolights.mp3' --quality-preset xlights
-      - name: Upload full render
+        run: python -m tools.preview_hq test_runs/full_experimental/LightsOutTheme_FULL_256_PLUS_DRUMMER_EXPERIMENTAL.xsq --layout xlights_rgbeffects_experimental.xml --audio 'Helix Audiolights.mp3' --quality-preset xlights
+      - name: Upload experimental render
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: helix-full-current-256-plus-drummer
-          path: test_runs/full_current/**/*
+          name: helix-full-experimental-layout-256-plus-drummer
+          path: test_runs/full_experimental/**/*
           if-no-files-found: warn
-# Force fresh full-render execution on feature/restructure-core.
+# Experimental layout: wide fan, 1.35x horizontal spread, 0.82x vertical compression, 7 degree rotation.
