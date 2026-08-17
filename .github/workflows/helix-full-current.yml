@@ -26,7 +26,7 @@ jobs:
           assert p.returncode==0
           PY
       - name: Build experimental layout
-        run: python tools/make_layout_variant.py xlights_rgbeffects.xml xlights_rgbeffects_experimental.xml
+        run: python tools/create_layout_variant.py xlights_rgbeffects.xml xlights_rgbeffects_experimental.xml --scale-x 1.35 --scale-y 0.82 --rotate-deg 7
       - name: Generate current 256 experimental
         env: {PYTHONPATH: .}
         run: |
