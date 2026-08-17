@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - feature/restructure-core
+      - agent/drummer-submodel-renderer
     paths:
       - '.github/workflows/drummer-ground-truth.yml'
       - 'animation/drummer_motion.py'
+      - 'audio/**'
       - 'mapping/drum_mapper.py'
       - 'fixtures/band_geometry/**'
       - 'tools/**'
@@ -27,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pytest pillow numpy scipy scikit-learn librosa soundfile numba llvmlite imageio-ffmpeg
+          python -m pip install pytest pillow pyyaml numpy scipy scikit-learn librosa soundfile numba llvmlite imageio imageio-ffmpeg
       - name: Generate deterministic synthetic drum audio
         run: python tools/generate_drummer_ground_truth.py --wav test_runs/drummer_ground_truth/drummer_ground_truth.wav --events test_runs/drummer_ground_truth/events.json
       - name: Run drummer unit tests
@@ -39,29 +41,55 @@ jobs:
             tests/test_drummer_xmodel_asset.py \
             tests/test_drummer_v3_pose_sheet.py \
             tests/test_drummer_v3_png_layers.py \
-            tests/test_finished_helixville4_drummer.py
-      - name: Run audio-driven drummer preview
+            tests/test_finished_helixville4_drummer.py \
+            tests/test_drummer_v3_xsq_export.py
+      - name: Export audio-driven Drummer V3 submodel XSQ
+        env:
+          PYTHONPATH: .
         run: |
-          python -m tools.export_helix_flow_review_artifacts \
-            --output-dir test_runs/drummer_ground_truth/preview \
-            --duration-seconds 12 \
-            --step-seconds 0.125 \
-            --bpm 120 \
+          python -m tools.export_drummer_v3_xsq \
+            --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav \
+            --output test_runs/drummer_ground_truth/drummer_v3_ground_truth.xsq
+      - name: Render physical-layout Drummer V3 preview
+        env:
+          PYTHONPATH: .
+        run: |
+          python -m tools.render_drummer_v3_preview \
+            test_runs/drummer_ground_truth/drummer_v3_ground_truth.xsq \
+            --width 1280 \
+            --height 720 \
+            --fps 24 \
             --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav
-      - name: Verify preview contains visual drummer effects
+      - name: Verify preview contains real Drummer V3 submodels
         run: |
           python - <<'PY'
           import json
+          import xml.etree.ElementTree as ET
           from pathlib import Path
-          p=Path('test_runs/drummer_ground_truth/preview/helix_flow_preview_metadata.json')
-          d=json.loads(p.read_text())
-          print(json.dumps(d, indent=2))
-          models=d.get('visual_models',[])
-          if d.get('visible_effect_count',0) <= 0:
-              raise SystemExit('FAIL: no visible effects')
-          if d.get('visual_model_count',0) <= 1:
-              raise SystemExit(f'FAIL: expected multiple visual models, got {models}')
-          print('PASS: multiple visual models are present in preview metadata')
+          xsq = Path('test_runs/drummer_ground_truth/drummer_v3_ground_truth.xsq')
+          mp4 = xsq.with_name(xsq.stem + '_drummer_v3.mp4')
+          root = ET.parse(xsq).getroot()
+          models = {e.attrib.get('name') for e in root.findall('./ElementEffects/Element') if e.attrib.get('type') == 'model'}
+          required = {
+              'HX_SNOWMAN_DRUMMER_V3_HIT_KICK',
+              'HX_SNOWMAN_DRUMMER_V3_HIT_SNARE',
+              'HX_SNOWMAN_DRUMMER_V3_HIT_HIHAT',
+              'HX_SNOWMAN_DRUMMER_V3_HIT_LEFT_TOM',
+              'HX_SNOWMAN_DRUMMER_V3_HIT_RIGHT_TOM',
+              'HX_SNOWMAN_DRUMMER_V3_HIT_LEFT_CRASH',
+              'HX_SNOWMAN_DRUMMER_V3_HIT_RIGHT_CRASH',
+              'HX_SNOWMAN_DRUMMER_V3_HIT_BOTH_CRASH',
+              'HX_SNOWMAN_DRUMMER_V3_DOWNBEAT_IMPACT',
+          }
+          missing = required - models
+          if missing:
+              raise SystemExit(f'FAIL: missing V3 submodels: {sorted(missing)}')
+          if len(models) < len(required):
+              raise SystemExit(f'FAIL: too few visual model targets: {len(models)}')
+          if not mp4.exists() or mp4.stat().st_size < 10000:
+              raise SystemExit('FAIL: missing or empty physical-layout rendered MP4')
+          print(json.dumps({'model_count': len(models), 'required_models': sorted(required), 'mp4_bytes': mp4.stat().st_size}, indent=2))
+          print('PASS: physical-layout preview contains the real Drummer V3 submodel targets')
           PY
       - name: Upload drummer ground-truth artifacts
         if: always()
