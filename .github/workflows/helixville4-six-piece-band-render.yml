@@ -1,0 +1,117 @@
+name: Helixville4 Six Piece Band Render
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/restructure-core
+    paths:
+      - 'tools/build_helpers/helixville4_full_band.py'
+      - 'tools/build_helixville4_full_band_layout.py'
+      - 'tools/build_helpers/helixville4_floor_piano.py'
+      - 'tools/run_helixville4_full_band_lightsouttheme_30s.py'
+      - '.github/workflows/helixville4-six-piece-band-render.yml'
+
+jobs:
+  six-piece-render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/restructure-core
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install render dependencies
+        run: python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn
+
+      - name: Verify audio
+        run: |
+          test -f 'Helix Audiolights.mp3'
+          python - <<'PY'
+          import imageio_ffmpeg, subprocess
+          p = subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), '-i', 'Helix Audiolights.mp3', '-f', 'null', '-'], capture_output=True)
+          assert p.returncode == 0, p.stderr.decode(errors='ignore')
+          PY
+
+      - name: Build full band plus keyboard layout
+        env:
+          PYTHONPATH: .
+        run: |
+          mkdir -p test_runs/helixville4_six_piece_band
+          python tools/build_helixville4_full_band_layout.py --output-dir test_runs/helixville4_six_piece_band
+          python - <<'PY'
+          from pathlib import Path
+          from tools.build_helpers.helixville4_floor_piano import add_floor_piano_to_layout
+          out = Path('test_runs/helixville4_six_piece_band')
+          add_floor_piano_to_layout(out / 'xlights_rgbeffects.xml')
+          print('SIX_PIECE_BAND: singer + backup singer + bass + guitar + keyboard + drummer')
+          PY
+
+      - name: Generate six-piece sequence
+        env:
+          PYTHONPATH: .
+        run: |
+          python -m core.sequence_builder \
+            --profile v27.3 -- \
+            --template template.xsq \
+            --audio 'Helix Audiolights.mp3' \
+            --layout-file test_runs/helixville4_six_piece_band/xlights_rgbeffects.xml \
+            --single \
+            --output-dir test_runs/helixville4_six_piece_band \
+            --variants 1 \
+            --no-prompt \
+            --no-save-settings \
+            --no-workspace-history \
+            --no-polish \
+            --no-matrix-intelligence \
+            --audio-reactive-profile showcase \
+            --spatial-awareness 0.8 \
+            --chase-style top_to_bottom \
+            --polyphony 6 \
+            --keyboard-mix 1.0 \
+            --max-layers-per-prop 3
+
+      - name: Locate generated sequence
+        run: |
+          find test_runs/helixville4_six_piece_band -maxdepth 2 -name '*.xsq' -print
+
+      - name: Render MP4
+        env:
+          PYTHONPATH: .
+        run: |
+          XSQ=$(find test_runs/helixville4_six_piece_band -maxdepth 1 -name '*.xsq' -print -quit)
+          test -n "$XSQ"
+          python -m tools.preview_renderer "$XSQ" \
+            --layout test_runs/helixville4_six_piece_band/xlights_rgbeffects.xml \
+            --audio 'Helix Audiolights.mp3' \
+            --fps 10 \
+            --width 960 \
+            --height 540
+
+      - name: Write six-piece manifest
+        run: |
+          cat > test_runs/helixville4_six_piece_band/SIX_PIECE_BAND_MANIFEST.txt <<'EOF'
+          HELIXVILLE4 SIX-PIECE BAND TEST
+          1. Singer: HX_SNOWMAN_SINGER
+          2. Backup singer: HX_SNOWMAN_SINGER_FEMALE
+          3. Bass: HX_SNOWMAN_BASSIST
+          4. Guitar: HX_SNOWMAN_GUITARIST
+          5. Keyboard: HX_FLOOR_PIANO
+          6. Drummer: HX_SNOWMAN_DRUMMER
+          Audio: Helix Audiolights.mp3
+          Render: 960x540 @ 10 fps
+          EOF
+
+      - name: Upload six-piece MP4 and sequence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helixville4-six-piece-band-render
+          path: |
+            test_runs/helixville4_six_piece_band/**/*
+          if-no-files-found: warn
