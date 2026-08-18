@@ -69,7 +69,7 @@ jobs:
           PYTHONPATH: .
         run: |
           OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band"
-          python -m core.sequence_builder \
+          python -c 'from core.sequence_builder import main; raise SystemExit(main())' \
             --profile v27.3 -- \
             --template "$GITHUB_WORKSPACE/template.xsq" \
             --audio "$GITHUB_WORKSPACE/Helix Audiolights.mp3" \
