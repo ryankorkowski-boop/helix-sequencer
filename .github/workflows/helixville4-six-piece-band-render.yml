@@ -147,3 +147,5 @@ jobs:
           path: |
             test_runs/helixville4_six_piece_band/**/*
           if-no-files-found: error
+
+# Triggered from feature/restructure-core after explicit sequence-builder entry-point fix.
