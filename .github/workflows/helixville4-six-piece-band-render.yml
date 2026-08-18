@@ -1,23 +1,9 @@
 name: Helixville4 Six Piece Band Render
 
+# Manual dispatch only. This avoids GitHub running an older workflow definition
+# from a push event while the checkout points at a newer branch head.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - feature/restructure-core
-    paths:
-      - 'tools/build_helpers/helixville4_full_band.py'
-      - 'tools/build_helixville4_full_band_layout.py'
-      - 'tools/build_helpers/helixville4_floor_piano.py'
-      - 'tools/run_helixville4_full_band_lightsouttheme_30s.py'
-      - 'core/sequence_builder.py'
-      - 'core/effect_engine.py'
-      - 'core/run_config.py'
-      - 'core/run_spine.py'
-      - 'core/run_manager.py'
-      - 'core/effects_orchestration_bridge.py'
-      - 'tools/preview_renderer.py'
-      - '.github/workflows/helixville4-six-piece-band-render.yml'
 
 jobs:
   six-piece-render:
@@ -27,6 +13,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: feature/restructure-core
+
+      - name: Show exact source revision
+        run: |
+          echo "WORKFLOW_REF=feature/restructure-core"
+          echo "CHECKED_OUT_COMMIT=$(git rev-parse HEAD)"
+          git status --short
 
       - uses: actions/setup-python@v5
         with:
@@ -38,31 +30,65 @@ jobs:
 
       - name: Verify audio
         run: |
-          test -f "$GITHUB_WORKSPACE/Helix Audiolights.mp3"
+          test -s "$GITHUB_WORKSPACE/Helix Audiolights.mp3"
           python - <<'PY'
           import imageio_ffmpeg, subprocess
           from pathlib import Path
           audio = Path("Helix Audiolights.mp3")
-          p = subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), '-i', str(audio), '-f', 'null', '-'], capture_output=True)
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          p = subprocess.run([ffmpeg, '-i', str(audio), '-f', 'null', '-'], capture_output=True)
           assert p.returncode == 0, p.stderr.decode(errors='ignore')
           print(f"AUDIO_OK: {audio.resolve()}")
           PY
 
-      - name: Build full band plus keyboard layout
+      - name: Build full six-piece layout
         env:
           PYTHONPATH: .
         run: |
           LAYOUT_OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band_layout"
+          rm -rf "$LAYOUT_OUT"
           mkdir -p "$LAYOUT_OUT"
           python tools/build_helixville4_full_band_layout.py --output-dir "$LAYOUT_OUT"
           python - <<'PY'
           from pathlib import Path
+          import xml.etree.ElementTree as ET
           from tools.build_helpers.helixville4_floor_piano import add_floor_piano_to_layout
-          out = Path("test_runs/helixville4_six_piece_band_layout").resolve()
-          add_floor_piano_to_layout(out / "xlights_rgbeffects.xml")
-          print("SIX_PIECE_BAND: singer + backup singer + bass + guitar + keyboard + drummer")
-          print(f"LAYOUT: {out / 'xlights_rgbeffects.xml'}")
+
+          layout = Path("test_runs/helixville4_six_piece_band_layout/xlights_rgbeffects.xml").resolve()
+          add_floor_piano_to_layout(layout)
+          root = ET.parse(layout).getroot()
+          models = {m.attrib.get("name") for m in root.findall(".//model")}
+          required = {
+              "HX_SNOWMAN_SINGER",
+              "HX_SNOWMAN_SINGER_FEMALE",
+              "HX_SNOWMAN_BASSIST",
+              "HX_SNOWMAN_GUITARIST",
+              "HX_SNOWMAN_DRUMMER",
+              "HX_FLOOR_PIANO",
+          }
+          missing = sorted(required - models)
+          assert not missing, f"Missing required six-piece models: {missing}"
+          counts = {}
+          for name in sorted(required):
+              model = next(m for m in root.findall(".//model") if m.attrib.get("name") == name)
+              counts[name] = len(model.findall("subModel"))
+              assert counts[name] > 0, f"Model has no submodels: {name}"
+          print("SIX_PIECE_LAYOUT_OK")
+          for name, count in counts.items():
+              print(f"  {name}: {count} submodels")
+          print(f"LAYOUT={layout}")
           PY
+
+      - name: Preflight path separation
+        run: |
+          LAYOUT_OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band_layout"
+          OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          test -f "$LAYOUT_OUT/xlights_rgbeffects.xml"
+          test "$(realpath "$LAYOUT_OUT")" != "$(realpath "$OUT")"
+          echo "LAYOUT_OUT=$LAYOUT_OUT"
+          echo "OUTPUT_ROOT=$OUT"
 
       - name: Generate six-piece sequence
         env:
@@ -70,7 +96,6 @@ jobs:
         run: |
           LAYOUT_OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band_layout"
           OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band"
-          mkdir -p "$OUT"
           python -c 'from core.sequence_builder import main; raise SystemExit(main())' \
             --profile v27.3 -- \
             --template "$GITHUB_WORKSPACE/template.xsq" \
@@ -94,20 +119,61 @@ jobs:
       - name: Locate and validate generated sequence
         run: |
           OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band"
-          echo "=== XSQ candidates in requested output ==="
+          echo "=== XSQ candidates ==="
           find "$OUT" -type f -name '*.xsq' -print | sort
-          echo "=== XSQ candidates anywhere in workspace ==="
-          find "$GITHUB_WORKSPACE" -type f -name '*.xsq' -print | sort | head -200
           XSQ=$(find "$OUT" -type f -name '*.xsq' -print -quit)
-          if [ -z "$XSQ" ]; then
-            echo "ERROR: sequence_builder completed successfully but produced no XSQ under $OUT"
-            echo "=== output tree ==="
-            find "$OUT" -maxdepth 5 -type f -print | sort
-            exit 1
-          fi
+          test -n "$XSQ"
           test -s "$XSQ"
           echo "GENERATED_XSQ=$XSQ" >> "$GITHUB_ENV"
-          echo "GENERATED_XSQ=$XSQ"
+
+      - name: Verify six-piece sequence coverage
+        run: |
+          LAYOUT_OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band_layout"
+          python - "$GENERATED_XSQ" "$LAYOUT_OUT/xlights_rgbeffects.xml" <<'PY'
+          import sys
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          xsq = Path(sys.argv[1])
+          layout = Path(sys.argv[2])
+          required = {
+              "HX_SNOWMAN_SINGER",
+              "HX_SNOWMAN_SINGER_FEMALE",
+              "HX_SNOWMAN_BASSIST",
+              "HX_SNOWMAN_GUITARIST",
+              "HX_SNOWMAN_DRUMMER",
+              "HX_FLOOR_PIANO",
+          }
+          lroot = ET.parse(layout).getroot()
+          model_names = {m.attrib.get("name") for m in lroot.findall(".//model")}
+          assert required <= model_names
+
+          root = ET.parse(xsq).getroot()
+          targets = set()
+          effects = root.find("./ElementEffects")
+          if effects is not None:
+              for element in effects.findall("Element"):
+                  name = (element.attrib.get("name") or "").strip()
+                  if name:
+                      targets.add(name)
+
+          direct = required & targets
+          groups = {g.attrib.get("name"): (g.attrib.get("models") or "") for g in lroot.findall(".//modelGroup")}
+          covered = set(direct)
+          changed = True
+          while changed:
+              changed = False
+              for group, members in groups.items():
+                  if group in targets:
+                      before = len(covered)
+                      covered.update(m.strip() for m in members.split(",") if m.strip())
+                      changed = len(covered) != before
+          covered_required = required & covered
+          print(f"XSQ_TARGET_COUNT={len(targets)}")
+          print(f"SIX_PIECE_REFERENCED={sorted(covered_required)}")
+          if not covered_required:
+              raise SystemExit("Generated XSQ contains no references to the six-piece band models/groups")
+          PY
 
       - name: Render MP4
         env:
@@ -120,10 +186,29 @@ jobs:
             --fps 10 \
             --width 960 \
             --height 540
-          MP4="${GENERATED_XSQ%.xsq}.mp4"
+
+          OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band"
+          MP4=$(find "$OUT" -type f -name '*.mp4' -print -quit)
+          if [ -z "$MP4" ]; then
+            MP4=$(find "$GITHUB_WORKSPACE" -type f -name '*.mp4' -newer "$GENERATED_XSQ" -print -quit)
+          fi
+          test -n "$MP4"
           test -s "$MP4"
           echo "GENERATED_MP4=$MP4" >> "$GITHUB_ENV"
-          echo "GENERATED_MP4=$MP4"
+
+          python - "$MP4" <<'PY'
+          import imageio_ffmpeg, subprocess, sys, re
+          from pathlib import Path
+          mp4 = Path(sys.argv[1])
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          p = subprocess.run([ffmpeg, '-i', str(mp4), '-f', 'null', '-'], capture_output=True, text=True)
+          assert p.returncode == 0, p.stderr
+          m = re.search(r'Duration: (\d+):(\d+):(\d+(?:\.\d+)?)', p.stderr)
+          assert m, 'Unable to read MP4 duration'
+          duration = int(m.group(1))*3600 + int(m.group(2))*60 + float(m.group(3))
+          assert duration > 0.5, f'MP4 duration too short: {duration}'
+          print(f"MP4_OK path={mp4} duration={duration:.2f}s bytes={mp4.stat().st_size}")
+          PY
 
       - name: Write six-piece manifest
         run: |
@@ -153,5 +238,3 @@ jobs:
             test_runs/helixville4_six_piece_band/**/*
             test_runs/helixville4_six_piece_band_layout/**/*
           if-no-files-found: error
-
-# Layout and Helix run output are deliberately separated because RunConfig rejects overlapping paths.
