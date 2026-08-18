@@ -1,0 +1,117 @@
+name: Helixville4 Performer Preview
+
+on:
+  push:
+    branches:
+      - feature/restructure-core
+  workflow_dispatch:
+
+jobs:
+  performer-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/restructure-core
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install render dependencies
+        run: python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn
+
+      - name: Verify audio
+        run: test -s "$GITHUB_WORKSPACE/Helix Audiolights.mp3"
+
+      - name: Build six-piece layout
+        env:
+          PYTHONPATH: .
+        run: |
+          LAYOUT_OUT="$GITHUB_WORKSPACE/test_runs/helixville4_performer_layout"
+          rm -rf "$LAYOUT_OUT"
+          mkdir -p "$LAYOUT_OUT"
+          python tools/build_helixville4_full_band_layout.py --output-dir "$LAYOUT_OUT"
+          python - <<'PY'
+          from pathlib import Path
+          from tools.build_helpers.helixville4_floor_piano import add_floor_piano_to_layout
+          layout = Path("test_runs/helixville4_performer_layout/xlights_rgbeffects.xml").resolve()
+          add_floor_piano_to_layout(layout)
+          print(layout)
+          PY
+
+      - name: Generate six-piece sequence
+        env:
+          PYTHONPATH: .
+        run: |
+          LAYOUT_OUT="$GITHUB_WORKSPACE/test_runs/helixville4_performer_layout"
+          OUT="$GITHUB_WORKSPACE/test_runs/helixville4_performer_band"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          python -c 'from core.sequence_builder import main; raise SystemExit(main())' \
+            --profile v27.3 -- \
+            --template "$GITHUB_WORKSPACE/template.xsq" \
+            --audio "$GITHUB_WORKSPACE/Helix Audiolights.mp3" \
+            --layout-file "$LAYOUT_OUT/xlights_rgbeffects.xml" \
+            --single \
+            --output-dir "$OUT" \
+            --variants 1 \
+            --no-prompt \
+            --no-save-settings \
+            --no-workspace-history \
+            --no-polish \
+            --no-matrix-intelligence \
+            --audio-reactive-profile showcase \
+            --spatial-awareness 0.8 \
+            --chase-style top_to_bottom \
+            --polyphony 6 \
+            --keyboard-mix 1.0 \
+            --max-layers-per-prop 3
+          XSQ=$(find "$OUT" -type f -name '*.xsq' -print -quit)
+          test -n "$XSQ"
+          test -s "$XSQ"
+          echo "GENERATED_XSQ=$XSQ" >> "$GITHUB_ENV"
+
+      - name: Render performer-focused MP4
+        env:
+          PYTHONPATH: .
+        run: |
+          LAYOUT_OUT="$GITHUB_WORKSPACE/test_runs/helixville4_performer_layout"
+          python -m tools.performer_preview_renderer "$GENERATED_XSQ" \
+            --layout "$LAYOUT_OUT/xlights_rgbeffects.xml" \
+            --audio "$GITHUB_WORKSPACE/Helix Audiolights.mp3" \
+            --fps 10 \
+            --width 960 \
+            --height 540
+          MP4=$(find "$(dirname "$GENERATED_XSQ")" -type f -name '*.mp4' -print -quit)
+          test -n "$MP4"
+          test -s "$MP4"
+          echo "GENERATED_MP4=$MP4" >> "$GITHUB_ENV"
+
+      - name: Validate MP4
+        run: |
+          python - "$GENERATED_MP4" <<'PY'
+          import imageio_ffmpeg, subprocess, sys, re
+          from pathlib import Path
+          mp4 = Path(sys.argv[1])
+          ff = imageio_ffmpeg.get_ffmpeg_exe()
+          p = subprocess.run([ff, '-i', str(mp4), '-f', 'null', '-'], capture_output=True, text=True)
+          assert p.returncode == 0, p.stderr
+          m = re.search(r'Duration: (\d+):(\d+):(\d+(?:\.\d+)?)', p.stderr)
+          assert m
+          duration = int(m.group(1))*3600 + int(m.group(2))*60 + float(m.group(3))
+          assert duration > 0.5
+          print(f"PERFORMER_MP4_OK duration={duration:.2f}s bytes={mp4.stat().st_size}")
+          PY
+
+      - name: Upload performer preview
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helixville4-performer-preview
+          path: |
+            test_runs/helixville4_performer_band/**/*
+            test_runs/helixville4_performer_layout/**/*
+          if-no-files-found: error
