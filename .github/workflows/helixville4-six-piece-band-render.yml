@@ -10,6 +10,13 @@ on:
       - 'tools/build_helixville4_full_band_layout.py'
       - 'tools/build_helpers/helixville4_floor_piano.py'
       - 'tools/run_helixville4_full_band_lightsouttheme_30s.py'
+      - 'core/sequence_builder.py'
+      - 'core/effect_engine.py'
+      - 'core/run_config.py'
+      - 'core/run_spine.py'
+      - 'core/run_manager.py'
+      - 'core/effects_orchestration_bridge.py'
+      - 'tools/preview_renderer.py'
       - '.github/workflows/helixville4-six-piece-band-render.yml'
 
 jobs:
@@ -31,38 +38,44 @@ jobs:
 
       - name: Verify audio
         run: |
-          test -f 'Helix Audiolights.mp3'
+          test -f "$GITHUB_WORKSPACE/Helix Audiolights.mp3"
           python - <<'PY'
           import imageio_ffmpeg, subprocess
-          p = subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), '-i', 'Helix Audiolights.mp3', '-f', 'null', '-'], capture_output=True)
+          from pathlib import Path
+          audio = Path("Helix Audiolights.mp3")
+          p = subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), '-i', str(audio), '-f', 'null', '-'], capture_output=True)
           assert p.returncode == 0, p.stderr.decode(errors='ignore')
+          print(f"AUDIO_OK: {audio.resolve()}")
           PY
 
       - name: Build full band plus keyboard layout
         env:
           PYTHONPATH: .
         run: |
-          mkdir -p test_runs/helixville4_six_piece_band
-          python tools/build_helixville4_full_band_layout.py --output-dir test_runs/helixville4_six_piece_band
+          OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band"
+          mkdir -p "$OUT"
+          python tools/build_helixville4_full_band_layout.py --output-dir "$OUT"
           python - <<'PY'
           from pathlib import Path
           from tools.build_helpers.helixville4_floor_piano import add_floor_piano_to_layout
-          out = Path('test_runs/helixville4_six_piece_band')
-          add_floor_piano_to_layout(out / 'xlights_rgbeffects.xml')
-          print('SIX_PIECE_BAND: singer + backup singer + bass + guitar + keyboard + drummer')
+          out = Path("test_runs/helixville4_six_piece_band").resolve()
+          add_floor_piano_to_layout(out / "xlights_rgbeffects.xml")
+          print("SIX_PIECE_BAND: singer + backup singer + bass + guitar + keyboard + drummer")
+          print(f"LAYOUT: {out / 'xlights_rgbeffects.xml'}")
           PY
 
       - name: Generate six-piece sequence
         env:
           PYTHONPATH: .
         run: |
+          OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band"
           python -m core.sequence_builder \
             --profile v27.3 -- \
-            --template template.xsq \
-            --audio 'Helix Audiolights.mp3' \
-            --layout-file test_runs/helixville4_six_piece_band/xlights_rgbeffects.xml \
+            --template "$GITHUB_WORKSPACE/template.xsq" \
+            --audio "$GITHUB_WORKSPACE/Helix Audiolights.mp3" \
+            --layout-file "$OUT/xlights_rgbeffects.xml" \
             --single \
-            --output-dir test_runs/helixville4_six_piece_band \
+            --output-dir "$OUT" \
             --variants 1 \
             --no-prompt \
             --no-save-settings \
@@ -76,26 +89,43 @@ jobs:
             --keyboard-mix 1.0 \
             --max-layers-per-prop 3
 
-      - name: Locate generated sequence
+      - name: Locate and validate generated sequence
         run: |
-          find test_runs/helixville4_six_piece_band -maxdepth 2 -name '*.xsq' -print
+          OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band"
+          echo "=== XSQ candidates in requested output ==="
+          find "$OUT" -type f -name '*.xsq' -print | sort
+          echo "=== XSQ candidates anywhere in workspace ==="
+          find "$GITHUB_WORKSPACE" -type f -name '*.xsq' -print | sort | head -200
+          XSQ=$(find "$OUT" -type f -name '*.xsq' -print -quit)
+          if [ -z "$XSQ" ]; then
+            echo "ERROR: sequence_builder completed successfully but produced no XSQ under $OUT"
+            echo "=== output tree ==="
+            find "$OUT" -maxdepth 5 -type f -print | sort
+            exit 1
+          fi
+          test -s "$XSQ"
+          echo "GENERATED_XSQ=$XSQ" >> "$GITHUB_ENV"
+          echo "GENERATED_XSQ=$XSQ"
 
       - name: Render MP4
         env:
           PYTHONPATH: .
         run: |
-          XSQ=$(find test_runs/helixville4_six_piece_band -maxdepth 1 -name '*.xsq' -print -quit)
-          test -n "$XSQ"
-          python -m tools.preview_renderer "$XSQ" \
-            --layout test_runs/helixville4_six_piece_band/xlights_rgbeffects.xml \
-            --audio 'Helix Audiolights.mp3' \
+          OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band"
+          python -m tools.preview_renderer "$GENERATED_XSQ" \
+            --layout "$OUT/xlights_rgbeffects.xml" \
+            --audio "$GITHUB_WORKSPACE/Helix Audiolights.mp3" \
             --fps 10 \
             --width 960 \
             --height 540
+          MP4="${GENERATED_XSQ%.xsq}.mp4"
+          test -s "$MP4"
+          echo "GENERATED_MP4=$MP4" >> "$GITHUB_ENV"
+          echo "GENERATED_MP4=$MP4"
 
       - name: Write six-piece manifest
         run: |
-          cat > test_runs/helixville4_six_piece_band/SIX_PIECE_BAND_MANIFEST.txt <<'EOF'
+          cat > "$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band/SIX_PIECE_BAND_MANIFEST.txt" <<EOF
           HELIXVILLE4 SIX-PIECE BAND TEST
           1. Singer: HX_SNOWMAN_SINGER
           2. Backup singer: HX_SNOWMAN_SINGER_FEMALE
@@ -104,6 +134,8 @@ jobs:
           5. Keyboard: HX_FLOOR_PIANO
           6. Drummer: HX_SNOWMAN_DRUMMER
           Audio: Helix Audiolights.mp3
+          XSQ: $GENERATED_XSQ
+          MP4: $GENERATED_MP4
           Render: 960x540 @ 10 fps
           EOF
 
@@ -114,4 +146,4 @@ jobs:
           name: helixville4-six-piece-band-render
           path: |
             test_runs/helixville4_six_piece_band/**/*
-          if-no-files-found: warn
+          if-no-files-found: error
