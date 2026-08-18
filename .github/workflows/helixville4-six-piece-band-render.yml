@@ -1,9 +1,10 @@
 name: Helixville4 Six Piece Band Render
 
-# Manual dispatch only. This avoids GitHub running an older workflow definition
-# from a push event while the checkout points at a newer branch head.
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - feature/restructure-core
 
 jobs:
   six-piece-render:
@@ -180,7 +181,7 @@ jobs:
           PYTHONPATH: .
         run: |
           LAYOUT_OUT="$GITHUB_WORKSPACE/test_runs/helixville4_six_piece_band_layout"
-          python -m tools.preview_renderer "$GENERATED_XSQ" \
+          python -m tools.performer_preview_renderer "$GENERATED_XSQ" \
             --layout "$LAYOUT_OUT/xlights_rgbeffects.xml" \
             --audio "$GITHUB_WORKSPACE/Helix Audiolights.mp3" \
             --fps 10 \
@@ -226,7 +227,7 @@ jobs:
           Layout: $LAYOUT_OUT/xlights_rgbeffects.xml
           XSQ: $GENERATED_XSQ
           MP4: $GENERATED_MP4
-          Render: 960x540 @ 10 fps
+          Render: performer-focused six-piece stage view, 960x540 @ 10 fps
           EOF
 
       - name: Upload six-piece MP4 and sequence
