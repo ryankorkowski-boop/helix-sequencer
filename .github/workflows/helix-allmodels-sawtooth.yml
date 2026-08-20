@@ -1,0 +1,129 @@
+name: Helix Allmodels Sawtooth
+
+on:
+  workflow_dispatch:
+    inputs:
+      variants:
+        description: Number of sequence variants
+        required: false
+        default: "1"
+      audio_reactive_profile:
+        description: Audio reactive profile
+        required: false
+        default: "showcase"
+  push:
+    branches:
+      - feature/restructure-core
+
+permissions:
+  contents: read
+
+jobs:
+  allmodels-sawtooth:
+    name: Helix Allmodels with Sawtooth Audio
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      PYTHONPATH: .
+
+    steps:
+      - name: Checkout Helix
+        uses: actions/checkout@v4
+
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest pyyaml
+
+      - name: Verify audio and layout files
+        run: |
+          test -s "Tinsel Sawtooth (1).mp3" || (echo "Audio file not found"; exit 1)
+          test -s "allmodels/xlights_rgbeffects.xml" || (echo "Layout file not found"; exit 1)
+          echo "✓ Audio and layout files verified"
+
+      - name: Generate sequence with allmodels layout
+        env:
+          PYTHONPATH: .
+        run: |
+          LAYOUT_FILE="$GITHUB_WORKSPACE/allmodels/xlights_rgbeffects.xml"
+          OUT="$GITHUB_WORKSPACE/test_runs/allmodels_sawtooth"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          
+          python -c 'from core.sequence_builder import main; raise SystemExit(main())' \
+            --profile v27.3 -- \
+            --template "$GITHUB_WORKSPACE/template.xsq" \
+            --audio "$GITHUB_WORKSPACE/Tinsel Sawtooth (1).mp3" \
+            --layout-file "$LAYOUT_FILE" \
+            --single \
+            --output-dir "$OUT" \
+            --variants ${{ inputs.variants || '1' }} \
+            --no-prompt \
+            --no-save-settings \
+            --no-workspace-history \
+            --no-polish \
+            --audio-reactive-profile ${{ inputs.audio_reactive_profile || 'showcase' }} \
+            --spatial-awareness 0.85 \
+            --chase-style top_to_bottom \
+            --polyphony 8 \
+            --keyboard-mix 1.0 \
+            --max-layers-per-prop 3
+          
+          XSQ=$(find "$OUT" -type f -name '*.xsq' -print -quit)
+          test -n "$XSQ"
+          test -s "$XSQ"
+          echo "GENERATED_XSQ=$XSQ" >> "$GITHUB_ENV"
+          echo "✓ XSQ generated: $XSQ"
+
+      - name: Render allmodels MP4 preview
+        env:
+          PYTHONPATH: .
+        run: |
+          LAYOUT_FILE="$GITHUB_WORKSPACE/allmodels/xlights_rgbeffects.xml"
+          
+          python -m tools.preview_hq "$GENERATED_XSQ" \
+            --layout "$LAYOUT_FILE" \
+            --audio "$GITHUB_WORKSPACE/Tinsel Sawtooth (1).mp3" \
+            --quality-preset xlights \
+            --fps 24 \
+            --width 1280 \
+            --height 720 || true
+          
+          # Check if MP4 was created
+          MP4=$(find test_runs -name "*.mp4" -type f -print -quit)
+          if [ -n "$MP4" ]; then
+            echo "MP4_PATH=$MP4" >> "$GITHUB_ENV"
+            echo "✓ MP4 generated: $MP4"
+          else
+            echo "Warning: MP4 generation may have had issues, continuing..."
+          fi
+
+      - name: Verify outputs
+        run: |
+          echo "Generated XSQ: $GENERATED_XSQ"
+          test -s "$GENERATED_XSQ" || (echo "XSQ verification failed"; exit 1)
+          echo "✓ XSQ verified"
+          
+          if [ -n "$MP4_PATH" ]; then
+            echo "Generated MP4: $MP4_PATH"
+            test -s "$MP4_PATH" || (echo "MP4 verification failed"; exit 1)
+            echo "✓ MP4 verified"
+          else
+            echo "⚠ MP4 file not found or not generated"
+          fi
+
+      - name: Upload allmodels sawtooth results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-allmodels-sawtooth-results
+          path: |
+            test_runs/allmodels_sawtooth/**
+            test_runs/**/*.mp4
+          if-no-files-found: warn
