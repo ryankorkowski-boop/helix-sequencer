@@ -45,7 +45,45 @@ def ffmpeg_params(p: Preset, codec: str, bitrate: str | None, faststart: bool) -
     return args
 
 
-def render_one(seq_path: Path, layout: pr.LayoutData, audio: Path | None, p: Preset, codec: str, bitrate: str | None, faststart: bool) -> Path:
+def audio_reactive_envelope(audio: Path, frame_count: int, fps: int):
+    """Return a smooth per-frame brightness multiplier derived from the show audio.
+
+    This is deliberately a secondary modulation: the XSQ remains authoritative for
+    which models are active, while the audio prevents a sparse/static XSQ preview
+    from looking frozen and makes the MP4 visibly track the soundtrack.
+    """
+    try:
+        import librosa
+        import numpy as np
+
+        y, sr = librosa.load(str(audio), sr=22050, mono=True)
+        if y.size == 0:
+            return np.ones(frame_count, dtype=np.float32)
+        hop = 512
+        rms = librosa.feature.rms(y=y, frame_length=2048, hop_length=hop, center=True)[0]
+        onset = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop)
+        rms_t = librosa.times_like(rms, sr=sr, hop_length=hop)
+        onset_t = librosa.times_like(onset, sr=sr, hop_length=hop)
+        frame_t = np.arange(frame_count, dtype=np.float32) / float(fps)
+
+        def normalize(values):
+            values = np.asarray(values, dtype=np.float32)
+            lo, hi = np.percentile(values, [10, 95])
+            if hi <= lo + 1e-8:
+                return np.zeros_like(values)
+            return np.clip((values - lo) / (hi - lo), 0.0, 1.0)
+
+        rms_n = normalize(np.interp(frame_t, rms_t, rms, left=rms[0], right=rms[-1]))
+        onset_n = normalize(np.interp(frame_t, onset_t, onset, left=onset[0], right=onset[-1]))
+        # Keep the XSQ's on/off pattern but make intensity breathe with the music.
+        gain = 0.45 + 0.75 * rms_n + 0.65 * onset_n
+        return np.clip(gain, 0.35, 1.8).astype(np.float32)
+    except Exception as exc:
+        print(f"Audio-reactive modulation unavailable: {exc}; using neutral gain.", flush=True)
+        return __import__("numpy").ones(frame_count, dtype=__import__("numpy").float32)
+
+
+def render_one(seq_path: Path, layout: pr.LayoutData, audio: Path | None, p: Preset, codec: str, bitrate: str | None, faststart: bool, audio_reactive: bool) -> Path:
     seq = pr.parse_sequence(seq_path)
     leaf_names, intensity = pr.build_leaf_intensity_matrix(layout, seq, p.fps)
     tracks = {
@@ -57,6 +95,7 @@ def render_one(seq_path: Path, layout: pr.LayoutData, audio: Path | None, p: Pre
     renderer = pr.HouseRenderer(layout, width=p.width, height=p.height)
     out_path = seq_path.with_suffix(".mp4")
     temp_path = out_path.with_suffix(".silent.mp4")
+    audio_gain = audio_reactive_envelope(audio, intensity.shape[1], p.fps) if audio_reactive and audio and audio.exists() else None
     writer = pr.imageio.get_writer(
         temp_path,
         fps=p.fps,
@@ -69,9 +108,12 @@ def render_one(seq_path: Path, layout: pr.LayoutData, audio: Path | None, p: Pre
     try:
         for frame_idx in range(intensity.shape[1]):
             t_ms = int(round(frame_idx * 1000.0 / p.fps))
+            frame_values = intensity[:, frame_idx]
+            if audio_gain is not None:
+                frame_values = frame_values * float(audio_gain[frame_idx])
             frame = renderer.render_frame(
                 leaf_names=leaf_names,
-                frame_values=intensity[:, frame_idx],
+                frame_values=frame_values,
                 title=seq_path.name,
                 t_ms=t_ms,
                 duration_ms=seq.duration_ms,
@@ -90,7 +132,6 @@ def render_one(seq_path: Path, layout: pr.LayoutData, audio: Path | None, p: Pre
         ]
         if faststart:
             cmd += ["-movflags", "+faststart"]
-        cmd.append(str(out_path))
         subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         temp_path.unlink(missing_ok=True)
     else:
@@ -110,6 +151,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--codec", default="libx264")
     parser.add_argument("--video-bitrate")
     parser.add_argument("--no-faststart", action="store_true")
+    parser.add_argument("--audio-reactive", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--validate-quality-presets", action="store_true")
     return parser.parse_args()
 
@@ -129,9 +171,10 @@ def main() -> int:
         raise RuntimeError("No XSQ files found to render.")
     layout = pr.parse_models(layout_path)
     print(f"HQ preview encode: {p.width}x{p.height} {p.fps}fps codec={args.codec} crf={p.crf} preset={p.preset}")
+    print(f"Audio-reactive preview: {'enabled' if args.audio_reactive else 'disabled'}")
     for target in targets:
         print(f"Rendering {target.name} ...", flush=True)
-        print(f"Created {render_one(target, layout, audio, p, args.codec, args.video_bitrate, not args.no_faststart)}", flush=True)
+        print(f"Created {render_one(target, layout, audio, p, args.codec, args.video_bitrate, not args.no_faststart, args.audio_reactive)}", flush=True)
     return 0
 
 
