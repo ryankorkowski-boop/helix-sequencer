@@ -33,8 +33,19 @@ jobs:
       - name: Run current legacy 256 sequencer
         env: {PYTHONPATH: .}
         run: |
+          set -o pipefail
           mkdir -p test_runs/full_lightsout_drummer
-          python -m core.sequence_builder --profile v28.9 -- --template template.xsq --audio "Helix Audiolights.mp3" --layout-file xlights_rgbeffects.xml --single --output-dir test_runs/full_lightsout_drummer/base256 --variants 1 --no-prompt --no-save-settings --no-workspace-history
+          python -m core.sequence_builder --profile v28.9 -- --template template.xsq --audio "Helix Audiolights.mp3" --layout-file xlights_rgbeffects.xml --single --output-dir test_runs/full_lightsout_drummer/base256 --variants 1 --no-prompt --no-save-settings --no-workspace-history 2>&1 | tee test_runs/full_lightsout_drummer/sequence_builder.log
+          xsq_count=$(find test_runs/full_lightsout_drummer/base256 -maxdepth 1 -type f -name '*.xsq' -size +0c | wc -l)
+          if [ "$xsq_count" -lt 1 ]; then
+            echo "ERROR: sequence_builder completed without producing a non-empty XSQ."
+            echo "--- sequence_builder.log ---"
+            cat test_runs/full_lightsout_drummer/sequence_builder.log
+            echo "--- report candidates ---"
+            find test_runs/full_lightsout_drummer -maxdepth 3 -type f | sort || true
+            exit 1
+          fi
+          echo "SEQUENCE_BUILDER_XSQ_COUNT=$xsq_count"
       - name: Detect drums with current drummer intelligence
         env: {PYTHONPATH: .}
         run: |
