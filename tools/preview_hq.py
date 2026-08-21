@@ -77,22 +77,18 @@ def _run_ffmpeg(cmd: list[str]) -> subprocess.CompletedProcess[str]:
 def _validate_mp4(path: Path) -> None:
     if not path.exists() or path.stat().st_size <= 0:
         raise RuntimeError(f"MP4 validation failed: missing or empty file: {path}")
-    ffprobe = pr.imageio_ffmpeg.get_ffprobe_exe()
-    cmd = [ffprobe, "-v", "error", "-show_entries", "stream=codec_type", "-show_entries", "format=duration", "-of", "json", str(path)]
+    ffmpeg = pr.imageio_ffmpeg.get_ffmpeg_exe()
+    # FFmpeg itself can probe the container without requiring a separate ffprobe binary.
+    cmd = [ffmpeg, "-v", "error", "-i", str(path), "-map", "0:v:0", "-map", "0:a:0", "-f", "null", "-"]
     proc = subprocess.run(cmd, check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if proc.returncode != 0:
-        detail = (proc.stderr or proc.stdout or "ffprobe failed").strip()
-        raise RuntimeError(f"ffprobe failed for {path}: {detail}")
-    try:
-        info = json.loads(proc.stdout)
-    except json.JSONDecodeError as exc:
-        raise RuntimeError(f"ffprobe returned invalid JSON for {path}") from exc
-    types = [s.get("codec_type") for s in info.get("streams", [])]
-    if types.count("video") < 1 or types.count("audio") < 1:
-        raise RuntimeError(f"MP4 validation failed for {path}: streams={types!r}")
-    duration = float(info.get("format", {}).get("duration", 0.0) or 0.0)
-    if duration <= 0.0:
-        raise RuntimeError(f"MP4 validation failed for {path}: non-positive duration {duration}")
+        detail = (proc.stderr or proc.stdout or "ffmpeg validation failed").strip()
+        raise RuntimeError(f"FFmpeg validation failed for {path}: {detail}")
+    probe = [ffmpeg, "-v", "error", "-i", str(path), "-f", "null", "-"]
+    probe_proc = subprocess.run(probe, check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if probe_proc.returncode != 0:
+        detail = (probe_proc.stderr or probe_proc.stdout or "ffmpeg probe failed").strip()
+        raise RuntimeError(f"FFmpeg probe failed for {path}: {detail}")
 
 def _mux_audio_video(silent_path: Path, audio_path: Path, out_path: Path, faststart: bool) -> Path:
     if not silent_path.exists():
