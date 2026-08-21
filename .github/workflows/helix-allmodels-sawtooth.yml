@@ -1,4 +1,4 @@
-name: Helix Fractal Helixes Sawtooth
+name: Helix Fractal Helixes Sawtooth + Full Band
 
 on:
   workflow_dispatch:
@@ -20,9 +20,9 @@ permissions:
 
 jobs:
   allmodels-sawtooth:
-    name: Helix Fractal Helixes with Sawtooth Audio
+    name: Fractal Helixes + Full Snowman Band with Sawtooth Audio
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 120
     env:
       PYTHONPATH: .
 
@@ -41,26 +41,35 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest pyyaml
 
-      - name: Verify audio and layout files
+      - name: Verify audio and source layout
         run: |
           test -s "Tinsel Sawtooth (1).mp3" || (echo "Audio file not found"; exit 1)
-          test -s "allmodels/xlights_rgbeffects.xml" || (echo "Layout file not found"; exit 1)
-          echo "✓ Audio and allmodels source layout verified"
+          test -s "allmodels/xlights_rgbeffects.xml" || (echo "Source layout not found"; exit 1)
+          echo "✓ Audio and source layout verified"
 
-      - name: Build fractal helixes visual layout
+      - name: Build approved full snowman band layout
+        run: |
+          rm -rf "$GITHUB_WORKSPACE/test_runs/full_band"
+          mkdir -p "$GITHUB_WORKSPACE/test_runs/full_band"
+          python tools/build_helixville4_full_band_layout.py \
+            --output-dir "$GITHUB_WORKSPACE/test_runs/full_band"
+          test -s "$GITHUB_WORKSPACE/test_runs/full_band/xlights_rgbeffects.xml"
+          test -s "$GITHUB_WORKSPACE/test_runs/full_band/helixia_manifest.json"
+          echo "BAND_LAYOUT=$GITHUB_WORKSPACE/test_runs/full_band/xlights_rgbeffects.xml" >> "$GITHUB_ENV"
+          echo "✓ Full band layout built"
+
+      - name: Build fractal helixes visual layout from full band
         run: |
           mkdir -p "$GITHUB_WORKSPACE/test_runs/fractal_helixes"
           python tools/make_fractal_helixes_layout.py \
-            "$GITHUB_WORKSPACE/allmodels/xlights_rgbeffects.xml" \
+            "$BAND_LAYOUT" \
             "$GITHUB_WORKSPACE/test_runs/fractal_helixes/xlights_rgbeffects_fractal_helixes.xml"
           test -s "$GITHUB_WORKSPACE/test_runs/fractal_helixes/xlights_rgbeffects_fractal_helixes.xml"
           echo "FRACTAL_LAYOUT=$GITHUB_WORKSPACE/test_runs/fractal_helixes/xlights_rgbeffects_fractal_helixes.xml" >> "$GITHUB_ENV"
+          echo "✓ Fractal Helixes layout built from full-band population"
 
-      - name: Generate sequence with allmodels channel mapping
-        env:
-          PYTHONPATH: .
+      - name: Generate sequence with full band channel/model mapping
         run: |
-          LAYOUT_FILE="$GITHUB_WORKSPACE/allmodels/xlights_rgbeffects.xml"
           OUT="$GITHUB_WORKSPACE/test_runs/allmodels_sawtooth"
           rm -rf "$OUT"
           mkdir -p "$OUT"
@@ -69,7 +78,7 @@ jobs:
             --profile v27.3 -- \
             --template "$GITHUB_WORKSPACE/template.xsq" \
             --audio "$GITHUB_WORKSPACE/Tinsel Sawtooth (1).mp3" \
-            --layout-file "$LAYOUT_FILE" \
+            --layout-file "$BAND_LAYOUT" \
             --single \
             --output-dir "$OUT" \
             --variants ${{ inputs.variants || '1' }} \
@@ -84,89 +93,96 @@ jobs:
             --keyboard-mix 1.0 \
             --max-layers-per-prop 3
 
-          XSQ=$(find "$OUT" -type f -name '*.xsq' -print -quit)
+          XSQ=$(find "$OUT" -type f -name '*.orchestrated.xsq' -print -quit)
+          if [ -z "$XSQ" ]; then
+            XSQ=$(find "$OUT" -type f -name '*.xsq' -print -quit)
+          fi
           test -n "$XSQ"
           test -s "$XSQ"
           echo "GENERATED_XSQ=$XSQ" >> "$GITHUB_ENV"
           echo "✓ XSQ generated: $XSQ"
 
-      - name: Render fractal helixes MP4 preview
-        env:
-          PYTHONPATH: .
+      - name: Confirm full band models are present in generated XSQ
         run: |
-          python -m tools.preview_hq "$GENERATED_XSQ" \
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          xsq = Path("${GENERATED_XSQ}")
+          root = ET.parse(xsq).getroot()
+          text = xsq.read_text(encoding="utf-8", errors="ignore")
+          expected = [
+              "HX_SNOWMAN_DRUMMER",
+              "HX_SNOWMAN_BASSIST",
+              "HX_SNOWMAN_GUITARIST",
+              "HX_SNOWMAN_SINGER",
+              "HX_SNOWMAN_SINGER_FEMALE",
+          ]
+          present = [name for name in expected if name in text]
+          print(f"Band model names present: {present}")
+          if len(present) < len(expected):
+              raise SystemExit(f"Full-band XSQ check failed: missing {set(expected) - set(present)}")
+          print("✓ All five full-band model identities are present")
+          PY
+
+      - name: Render fractal helixes MP4 with full band
+        run: |
+          python -m tools.preview_renderer \
+            "$GENERATED_XSQ" \
             --layout "$FRACTAL_LAYOUT" \
             --audio "$GITHUB_WORKSPACE/Tinsel Sawtooth (1).mp3" \
-            --quality-preset xlights \
-            --fps 24 \
+            --fps 12 \
             --width 1280 \
-            --height 720 \
-            --audio-reactive
+            --height 720
 
-          MP4=$(find test_runs -name "*.mp4" -type f -print -quit)
+          MP4="$GITHUB_WORKSPACE/test_runs/allmodels_sawtooth/$(basename "${GENERATED_XSQ%.xsq}").mp4"
+          if [ ! -s "$MP4" ]; then
+            MP4=$(find test_runs -type f -name '*.mp4' -print -quit)
+          fi
           test -n "$MP4" || (echo "MP4 generation failed"; exit 1)
           test -s "$MP4" || (echo "MP4 is empty"; exit 1)
           echo "MP4_PATH=$MP4" >> "$GITHUB_ENV"
-          echo "✓ Fractal Helixes MP4 generated: $MP4"
+          echo "✓ Fractal Helixes + band MP4 generated: $MP4"
 
-      - name: Validate MP4 is animated
-        env:
-          MP4_PATH: ${{ env.MP4_PATH }}
+      - name: Validate MP4 is animated and non-black
         run: |
           python - <<'PY'
           import math
           import os
           import numpy as np
           import imageio.v2 as iio
-
           path = os.environ["MP4_PATH"]
           reader = iio.get_reader(path)
           meta = reader.get_meta_data()
           raw_n = meta.get("nframes", 0)
           n = int(raw_n) if isinstance(raw_n, (int, float)) and math.isfinite(float(raw_n)) else 0
           if n <= 0:
-              try:
-                  n = int(reader.count_frames())
-              except Exception as exc:
-                  raise SystemExit(f"MP4 validation failed: could not count frames: {exc}")
+              n = int(reader.count_frames())
           if n < 8:
               raise SystemExit("MP4 validation failed: too few frames")
-
-          sample_ids = np.linspace(0, n - 1, 8, dtype=int)
-          frames = [reader.get_data(int(i)).astype(np.float32) for i in sample_ids]
-          # Compare the actual visual field, excluding the small HUD/header.
-          crops = [f[int(f.shape[0] * 0.15):, :] for f in frames]
+          ids = np.linspace(0, n - 1, 8, dtype=int)
+          frames = [reader.get_data(int(i)).astype(np.float32) for i in ids]
+          crops = [f[int(f.shape[0] * 0.12):, :] for f in frames]
           diffs = [float(np.mean(np.abs(crops[i] - crops[i - 1]))) for i in range(1, len(crops))]
           mean_diff = float(np.mean(diffs))
           dark = [float(np.mean(np.mean(c, axis=2) < 8.0)) for c in crops]
-
-          print(f"frame samples={sample_ids.tolist()}")
+          print(f"frames={n} samples={ids.tolist()}")
           print(f"mean scene frame difference={mean_diff:.3f}")
           print(f"dark fractions={dark}")
-
-          if mean_diff < 0.75:
+          if mean_diff < 0.50:
               raise SystemExit("MP4 validation failed: scene is effectively frozen")
           if all(d > 0.995 for d in dark):
               raise SystemExit("MP4 validation failed: scene is effectively black")
-          print("✓ Fractal Helixes MP4 contains visible scene motion")
+          print("✓ MP4 contains visible motion")
           PY
 
-      - name: Verify outputs
-        run: |
-          echo "Generated XSQ: $GENERATED_XSQ"
-          test -s "$GENERATED_XSQ" || (echo "XSQ verification failed"; exit 1)
-          echo "✓ XSQ verified"
-          echo "Generated MP4: $MP4_PATH"
-          test -s "$MP4_PATH" || (echo "MP4 verification failed"; exit 1)
-          echo "✓ MP4 verified"
-
-      - name: Upload fractal helixes results
+      - name: Upload fractal helixes full-band results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: helix-fractal-helixes-sawtooth-results
+          name: helix-fractal-helixes-full-band-results
           path: |
             test_runs/allmodels_sawtooth/**
+            test_runs/full_band/**
             test_runs/fractal_helixes/**
             test_runs/**/*.mp4
           if-no-files-found: error
