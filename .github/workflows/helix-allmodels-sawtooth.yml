@@ -1,4 +1,4 @@
-name: Helix Allmodels Sawtooth
+name: Helix Fractal Helixes Sawtooth
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   allmodels-sawtooth:
-    name: Helix Allmodels with Sawtooth Audio
+    name: Helix Fractal Helixes with Sawtooth Audio
     runs-on: ubuntu-latest
     timeout-minutes: 90
     env:
@@ -45,9 +45,18 @@ jobs:
         run: |
           test -s "Tinsel Sawtooth (1).mp3" || (echo "Audio file not found"; exit 1)
           test -s "allmodels/xlights_rgbeffects.xml" || (echo "Layout file not found"; exit 1)
-          echo "✓ Audio and layout files verified"
+          echo "✓ Audio and allmodels source layout verified"
 
-      - name: Generate sequence with allmodels layout
+      - name: Build fractal helixes visual layout
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/test_runs/fractal_helixes"
+          python tools/make_fractal_helixes_layout.py \
+            "$GITHUB_WORKSPACE/allmodels/xlights_rgbeffects.xml" \
+            "$GITHUB_WORKSPACE/test_runs/fractal_helixes/xlights_rgbeffects_fractal_helixes.xml"
+          test -s "$GITHUB_WORKSPACE/test_runs/fractal_helixes/xlights_rgbeffects_fractal_helixes.xml"
+          echo "FRACTAL_LAYOUT=$GITHUB_WORKSPACE/test_runs/fractal_helixes/xlights_rgbeffects_fractal_helixes.xml" >> "$GITHUB_ENV"
+
+      - name: Generate sequence with allmodels channel mapping
         env:
           PYTHONPATH: .
         run: |
@@ -81,14 +90,12 @@ jobs:
           echo "GENERATED_XSQ=$XSQ" >> "$GITHUB_ENV"
           echo "✓ XSQ generated: $XSQ"
 
-      - name: Render allmodels MP4 preview
+      - name: Render fractal helixes MP4 preview
         env:
           PYTHONPATH: .
         run: |
-          LAYOUT_FILE="$GITHUB_WORKSPACE/allmodels/xlights_rgbeffects.xml"
-
           python -m tools.preview_hq "$GENERATED_XSQ" \
-            --layout "$LAYOUT_FILE" \
+            --layout "$FRACTAL_LAYOUT" \
             --audio "$GITHUB_WORKSPACE/Tinsel Sawtooth (1).mp3" \
             --quality-preset xlights \
             --fps 24 \
@@ -100,13 +107,14 @@ jobs:
           test -n "$MP4" || (echo "MP4 generation failed"; exit 1)
           test -s "$MP4" || (echo "MP4 is empty"; exit 1)
           echo "MP4_PATH=$MP4" >> "$GITHUB_ENV"
-          echo "✓ MP4 generated: $MP4"
+          echo "✓ Fractal Helixes MP4 generated: $MP4"
 
       - name: Validate MP4 is animated
         env:
           MP4_PATH: ${{ env.MP4_PATH }}
         run: |
           python - <<'PY'
+          import math
           import os
           import numpy as np
           import imageio.v2 as iio
@@ -114,34 +122,33 @@ jobs:
           path = os.environ["MP4_PATH"]
           reader = iio.get_reader(path)
           meta = reader.get_meta_data()
-          n = int(meta.get("nframes", 0) or 0)
+          raw_n = meta.get("nframes", 0)
+          n = int(raw_n) if isinstance(raw_n, (int, float)) and math.isfinite(float(raw_n)) else 0
           if n <= 0:
               try:
                   n = int(reader.count_frames())
-              except Exception:
-                  n = 0
+              except Exception as exc:
+                  raise SystemExit(f"MP4 validation failed: could not count frames: {exc}")
           if n < 8:
               raise SystemExit("MP4 validation failed: too few frames")
 
           sample_ids = np.linspace(0, n - 1, 8, dtype=int)
           frames = [reader.get_data(int(i)).astype(np.float32) for i in sample_ids]
-          # Exclude the HUD/header and compare the actual light-show area.
-          crops = [f[int(f.shape[0] * 0.22):, :] for f in frames]
+          # Compare the actual visual field, excluding the small HUD/header.
+          crops = [f[int(f.shape[0] * 0.15):, :] for f in frames]
           diffs = [float(np.mean(np.abs(crops[i] - crops[i - 1]))) for i in range(1, len(crops))]
           mean_diff = float(np.mean(diffs))
           dark = [float(np.mean(np.mean(c, axis=2) < 8.0)) for c in crops]
-          bright = [float(np.mean(np.mean(c, axis=2) > 45.0)) for c in crops]
 
           print(f"frame samples={sample_ids.tolist()}")
           print(f"mean scene frame difference={mean_diff:.3f}")
           print(f"dark fractions={dark}")
-          print(f"bright fractions={bright}")
 
           if mean_diff < 0.75:
               raise SystemExit("MP4 validation failed: scene is effectively frozen")
           if all(d > 0.995 for d in dark):
               raise SystemExit("MP4 validation failed: scene is effectively black")
-          print("✓ MP4 contains visible scene motion")
+          print("✓ Fractal Helixes MP4 contains visible scene motion")
           PY
 
       - name: Verify outputs
@@ -153,12 +160,13 @@ jobs:
           test -s "$MP4_PATH" || (echo "MP4 verification failed"; exit 1)
           echo "✓ MP4 verified"
 
-      - name: Upload allmodels sawtooth results
+      - name: Upload fractal helixes results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: helix-allmodels-sawtooth-results
+          name: helix-fractal-helixes-sawtooth-results
           path: |
             test_runs/allmodels_sawtooth/**
+            test_runs/fractal_helixes/**
             test_runs/**/*.mp4
           if-no-files-found: error
