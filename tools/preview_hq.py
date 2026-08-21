@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import subprocess
 import sys
 from dataclasses import dataclass, replace
@@ -75,12 +76,111 @@ def audio_reactive_envelope(audio: Path, frame_count: int, fps: int):
 
         rms_n = normalize(np.interp(frame_t, rms_t, rms, left=rms[0], right=rms[-1]))
         onset_n = normalize(np.interp(frame_t, onset_t, onset, left=onset[0], right=onset[-1]))
-        # Keep the XSQ's on/off pattern but make intensity breathe with the music.
         gain = 0.45 + 0.75 * rms_n + 0.65 * onset_n
         return np.clip(gain, 0.35, 1.8).astype(np.float32)
     except Exception as exc:
         print(f"Audio-reactive modulation unavailable: {exc}; using neutral gain.", flush=True)
         return __import__("numpy").ones(frame_count, dtype=__import__("numpy").float32)
+
+
+def _run_ffmpeg(cmd: list[str]) -> subprocess.CompletedProcess[str]:
+    """Run ffmpeg and always surface stderr for actionable CI diagnostics."""
+    proc = subprocess.run(cmd, check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if proc.returncode != 0:
+        detail = (proc.stderr or proc.stdout or "ffmpeg returned a non-zero exit code").strip()
+        print(f"FFmpeg failed ({proc.returncode}):\n{detail}", file=sys.stderr, flush=True)
+    return proc
+
+
+def _validate_mp4(path: Path) -> None:
+    """Validate that an MP4 exists and contains usable audio + video."""
+    if not path.exists() or path.stat().st_size <= 0:
+        raise RuntimeError(f"MP4 validation failed: missing or empty file: {path}")
+    ffprobe = pr.imageio_ffmpeg.get_ffprobe_exe()
+    cmd = [
+        ffprobe,
+        "-v", "error",
+        "-show_entries", "stream=codec_type",
+        "-show_entries", "format=duration",
+        "-of", "json",
+        str(path),
+    ]
+    proc = subprocess.run(cmd, check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if proc.returncode != 0:
+        detail = (proc.stderr or proc.stdout or "ffprobe failed").strip()
+        raise RuntimeError(f"ffprobe failed for {path}: {detail}")
+    try:
+        info = json.loads(proc.stdout)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"ffprobe returned invalid JSON for {path}") from exc
+    types = [s.get("codec_type") for s in info.get("streams", [])]
+    if types.count("video") < 1 or types.count("audio") < 1:
+        raise RuntimeError(f"MP4 validation failed for {path}: streams={types!r}")
+    duration = float(info.get("format", {}).get("duration", 0.0) or 0.0)
+    if duration <= 0.0:
+        raise RuntimeError(f"MP4 validation failed for {path}: non-positive duration {duration}")
+
+
+def _mux_audio_video(silent_path: Path, audio_path: Path, out_path: Path, faststart: bool) -> Path:
+    """Mux audio into the rendered video, with a timestamp-normalized fallback."""
+    if not silent_path.exists():
+        raise RuntimeError(f"Silent render does not exist: {silent_path}")
+    out_path.unlink(missing_ok=True)
+    ffmpeg = pr.imageio_ffmpeg.get_ffmpeg_exe()
+
+    attempts = []
+    base = [
+        ffmpeg,
+        "-y",
+        "-i", str(silent_path),
+        "-i", str(audio_path),
+        "-map", "0:v:0",
+        "-map", "1:a:0",
+        "-c:v", "copy",
+        "-c:a", "aac",
+        "-shortest",
+    ]
+    if faststart:
+        base += ["-movflags", "+faststart"]
+    attempts.append(("standard", base))
+
+    fallback = [
+        ffmpeg,
+        "-y",
+        "-fflags", "+genpts",
+        "-i", str(silent_path),
+        "-i", str(audio_path),
+        "-map", "0:v:0",
+        "-map", "1:a:0",
+        "-c:v", "copy",
+        "-c:a", "aac",
+        "-shortest",
+        "-avoid_negative_ts", "make_zero",
+    ]
+    if faststart:
+        fallback += ["-movflags", "+faststart"]
+    attempts.append(("timestamp-normalized fallback", fallback))
+
+    errors: list[str] = []
+    for label, cmd in attempts:
+        print(f"Mux attempt: {label}", flush=True)
+        out_path.unlink(missing_ok=True)
+        proc = _run_ffmpeg(cmd)
+        if proc.returncode != 0:
+            errors.append(f"{label}: exit {proc.returncode}")
+            continue
+        try:
+            _validate_mp4(out_path)
+        except Exception as exc:
+            errors.append(f"{label}: validation failed: {exc}")
+            out_path.unlink(missing_ok=True)
+            continue
+        silent_path.unlink(missing_ok=True)
+        print(f"✓ Valid MP4: {out_path} ({out_path.stat().st_size} bytes)", flush=True)
+        return out_path
+
+    detail = "; ".join(errors)
+    raise RuntimeError(f"All MP4 mux attempts failed: {detail}")
 
 
 def render_one(seq_path: Path, layout: pr.LayoutData, audio: Path | None, p: Preset, codec: str, bitrate: str | None, faststart: bool, audio_reactive: bool) -> Path:
@@ -123,19 +223,10 @@ def render_one(seq_path: Path, layout: pr.LayoutData, audio: Path | None, p: Pre
     finally:
         writer.close()
 
-    if out_path.exists():
-        out_path.unlink()
     if audio and audio.exists():
-        cmd = [
-            pr.imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-i", str(temp_path), "-i", str(audio),
-            "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-shortest",
-        ]
-        if faststart:
-            cmd += ["-movflags", "+faststart"]
-        subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        temp_path.unlink(missing_ok=True)
-    else:
-        temp_path.replace(out_path)
+        return _mux_audio_video(temp_path, audio, out_path, faststart)
+    temp_path.replace(out_path)
+    _validate_mp4(out_path)
     return out_path
 
 
