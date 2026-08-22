@@ -105,10 +105,15 @@ jobs:
       - name: Confirm full band models are present in generated XSQ
         run: |
           python - <<'PY'
+          import os
           import xml.etree.ElementTree as ET
           from pathlib import Path
-          xsq = Path("${GENERATED_XSQ}")
-          root = ET.parse(xsq).getroot()
+
+          xsq = Path(os.environ["GENERATED_XSQ"])
+          if not xsq.is_file() or xsq.stat().st_size == 0:
+              raise SystemExit(f"Generated XSQ not found or empty: {xsq}")
+
+          ET.parse(xsq)
           text = xsq.read_text(encoding="utf-8", errors="ignore")
           expected = [
               "HX_SNOWMAN_DRUMMER",
