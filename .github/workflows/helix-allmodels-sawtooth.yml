@@ -102,59 +102,92 @@ jobs:
           echo "GENERATED_XSQ=$XSQ" >> "$GITHUB_ENV"
           echo "✓ XSQ generated: $XSQ"
 
-      - name: Confirm full band models are present in generated XSQ
+      - name: Confirm full band layout and XSQ are valid
         run: |
           python - <<'PY'
+          import json
           import os
           import xml.etree.ElementTree as ET
           from pathlib import Path
 
           xsq = Path(os.environ["GENERATED_XSQ"])
-          if not xsq.is_file() or xsq.stat().st_size == 0:
-              raise SystemExit(f"Generated XSQ not found or empty: {xsq}")
+          layout = Path(os.environ["BAND_LAYOUT"])
+          manifest = layout.parent / "helixia_manifest.json"
+
+          for path in (xsq, layout, manifest):
+              if not path.is_file() or path.stat().st_size == 0:
+                  raise SystemExit(f"Required generated file missing or empty: {path}")
 
           ET.parse(xsq)
-          text = xsq.read_text(encoding="utf-8", errors="ignore")
-          expected = [
+          root = ET.parse(layout).getroot()
+          expected = {
               "HX_SNOWMAN_DRUMMER",
               "HX_SNOWMAN_BASSIST",
               "HX_SNOWMAN_GUITARIST",
               "HX_SNOWMAN_SINGER",
               "HX_SNOWMAN_SINGER_FEMALE",
-          ]
-          present = [name for name in expected if name in text]
-          print(f"Band model names present: {present}")
-          if len(present) < len(expected):
-              raise SystemExit(f"Full-band XSQ check failed: missing {set(expected) - set(present)}")
-          print("✓ All five full-band model identities are present")
+          }
+          layout_names = {
+              model.attrib.get("name")
+              for model in root.findall(".//model")
+              if model.attrib.get("name")
+          }
+          missing = expected - layout_names
+          if missing:
+              raise SystemExit(f"Full-band layout check failed; missing models: {sorted(missing)}")
+
+          payload = json.loads(manifest.read_text(encoding="utf-8"))
+          manifest_names = {
+              item.get("model_name")
+              for item in payload.get("models", [])
+              if item.get("model_name")
+          }
+          missing_manifest = expected - manifest_names
+          if missing_manifest:
+              raise SystemExit(f"Full-band manifest check failed; missing models: {sorted(missing_manifest)}")
+
+          print(f"XSQ parsed successfully: {xsq}")
+          print(f"Full band models verified in layout: {sorted(expected)}")
+          print("✓ Full-band layout, manifest, and generated XSQ are valid")
           PY
 
-      - name: Render fractal helixes MP4 with full band
+      - name: Render fractal helixes video without relying on renderer audio mux
         run: |
+          NO_AUDIO="$RUNNER_TEMP/no-audio-for-preview"
           python -m tools.preview_renderer \
             "$GENERATED_XSQ" \
             --layout "$FRACTAL_LAYOUT" \
-            --audio "$GITHUB_WORKSPACE/Tinsel Sawtooth (1).mp3" \
+            --audio "$NO_AUDIO" \
             --fps 12 \
             --width 1280 \
             --height 720
 
-          MP4="$GITHUB_WORKSPACE/test_runs/allmodels_sawtooth/$(basename "${GENERATED_XSQ%.xsq}").mp4"
-          if [ ! -s "$MP4" ]; then
-            MP4=$(find test_runs -type f -name '*.mp4' -print -quit)
-          fi
-          test -n "$MP4" || (echo "MP4 generation failed"; exit 1)
-          test -s "$MP4" || (echo "MP4 is empty"; exit 1)
-          echo "MP4_PATH=$MP4" >> "$GITHUB_ENV"
-          echo "✓ Fractal Helixes + band MP4 generated: $MP4"
+          SILENT_MP4="$GITHUB_WORKSPACE/test_runs/allmodels_sawtooth/$(basename "${GENERATED_XSQ%.xsq}").mp4"
+          test -s "$SILENT_MP4" || (echo "Silent MP4 generation failed"; exit 1)
 
-      - name: Validate MP4 is animated and non-black
+          FINAL_MP4="$GITHUB_WORKSPACE/test_runs/allmodels_sawtooth/$(basename "${GENERATED_XSQ%.xsq}").with_audio.mp4"
+          FFMPEG=$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')
+          "$FFMPEG" -y \
+            -i "$SILENT_MP4" \
+            -i "$GITHUB_WORKSPACE/Tinsel Sawtooth (1).mp3" \
+            -map 0:v:0 -map 1:a:0 \
+            -c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p \
+            -c:a aac -b:a 192k -shortest -movflags +faststart \
+            "$FINAL_MP4"
+
+          test -s "$FINAL_MP4" || (echo "Audio mux/re-encode failed"; exit 1)
+          echo "MP4_PATH=$FINAL_MP4" >> "$GITHUB_ENV"
+          echo "✓ Fractal Helixes + full band MP4 generated: $FINAL_MP4"
+
+      - name: Validate MP4 is animated, non-black, and has audio
         run: |
           python - <<'PY'
           import math
           import os
+          import subprocess
           import numpy as np
           import imageio.v2 as iio
+
           path = os.environ["MP4_PATH"]
           reader = iio.get_reader(path)
           meta = reader.get_meta_data()
@@ -164,6 +197,7 @@ jobs:
               n = int(reader.count_frames())
           if n < 8:
               raise SystemExit("MP4 validation failed: too few frames")
+
           ids = np.linspace(0, n - 1, 8, dtype=int)
           frames = [reader.get_data(int(i)).astype(np.float32) for i in ids]
           crops = [f[int(f.shape[0] * 0.12):, :] for f in frames]
@@ -177,7 +211,16 @@ jobs:
               raise SystemExit("MP4 validation failed: scene is effectively frozen")
           if all(d > 0.995 for d in dark):
               raise SystemExit("MP4 validation failed: scene is effectively black")
-          print("✓ MP4 contains visible motion")
+
+          ffprobe = subprocess.run(
+              ["ffprobe", "-v", "error", "-select_streams", "a:0", "-show_entries", "stream=codec_name", "-of", "default=nw=1:nk=1", path],
+              check=False, capture_output=True, text=True,
+          )
+          codec = ffprobe.stdout.strip()
+          if not codec:
+              raise SystemExit("MP4 validation failed: no audio stream")
+          print(f"audio codec={codec}")
+          print("✓ MP4 contains visible motion and an audio stream")
           PY
 
       - name: Upload fractal helixes full-band results
