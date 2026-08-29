@@ -118,7 +118,7 @@ jobs:
               if not path.is_file() or path.stat().st_size == 0:
                   raise SystemExit(f"Required generated file missing or empty: {path}")
 
-          ET.parse(xsq)
+          xsq_root = ET.parse(xsq).getroot()
           layout_root = ET.parse(layout).getroot()
           expected = {
               "HX_SNOWMAN_DRUMMER",
@@ -128,39 +128,57 @@ jobs:
               "HX_SNOWMAN_SINGER_FEMALE",
           }
 
-          # The band builder's manifest is the authoritative source for approved
-          # band identities. The generated layout may place those identities in
-          # group/submodel structures rather than as top-level <model> entries.
+          # approved_full_band_export is nested in the Helixia manifest.
           payload = json.loads(manifest.read_text(encoding="utf-8"))
+          export = payload.get("approved_full_band_export")
+          if not isinstance(export, dict):
+              raise SystemExit("Full-band manifest is missing approved_full_band_export")
+
+          manifest_models = export.get("models", [])
           manifest_names = {
               item.get("model_name")
-              for item in payload.get("models", [])
-              if item.get("model_name")
+              for item in manifest_models
+              if isinstance(item, dict) and item.get("model_name")
           }
-          missing_manifest = expected - manifest_names
+          missing_manifest = sorted(expected - manifest_names)
           if missing_manifest:
-              raise SystemExit(f"Full-band manifest check failed; missing models: {sorted(missing_manifest)}")
+              raise SystemExit(f"Full-band manifest check failed; missing models: {missing_manifest}")
 
-          # Confirm each approved band identity is represented somewhere in the
-          # generated layout XML (including submodel/group structures), rather
-          # than requiring a top-level <model name="...">.
-          layout_text = layout_root
-          serialized_layout = ET.tostring(layout_text, encoding="unicode")
+          if export.get("band_model_count") != 5:
+              raise SystemExit(
+                  f"Full-band manifest model count is {export.get('band_model_count')!r}; expected 5"
+              )
+          if export.get("band_submodel_count", 0) < 100:
+              raise SystemExit(
+                  f"Full-band manifest submodel count is unexpectedly low: {export.get('band_submodel_count')!r}"
+              )
+
+          serialized_layout = ET.tostring(layout_root, encoding="unicode")
           missing_layout = sorted(name for name in expected if name not in serialized_layout)
           if missing_layout:
               raise SystemExit(f"Full-band layout content check failed; missing identities: {missing_layout}")
 
-          # Confirm the generated XSQ actually references the approved band
-          # identities. This is the critical check that protects the render step.
-          serialized_xsq = ET.tostring(ET.parse(xsq).getroot(), encoding="unicode")
+          serialized_xsq = ET.tostring(xsq_root, encoding="unicode")
           missing_xsq = sorted(name for name in expected if name not in serialized_xsq)
           if missing_xsq:
               raise SystemExit(f"Generated XSQ is missing approved band identities: {missing_xsq}")
 
           print(f"XSQ parsed successfully: {xsq}")
           print(f"Approved full band verified: {sorted(expected)}")
+          print(f"Approved band models: {export.get('band_model_count')}")
+          print(f"Approved band submodels: {export.get('band_submodel_count')}")
           print("✓ Full-band manifest, layout content, and XSQ references are valid")
           PY
+
+      - name: Preflight MP4 renderer
+        run: |
+          python -m py_compile tools/preview_renderer.py
+          python -c 'import imageio, imageio_ffmpeg, PIL, numpy; print("✓ Preview runtime imports OK")'
+          FFMPEG=$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')
+          test -x "$FFMPEG" || (echo "FFmpeg executable unavailable"; exit 1)
+          test -s "$FRACTAL_LAYOUT" || (echo "Fractal layout unavailable"; exit 1)
+          test -s "$GENERATED_XSQ" || (echo "Generated XSQ unavailable"; exit 1)
+          echo "✓ MP4 renderer preflight passed"
 
       - name: Render fractal helixes video without relying on renderer audio mux
         run: |
@@ -202,22 +220,27 @@ jobs:
           if not mp4.is_file() or mp4.stat().st_size == 0:
               raise SystemExit(f"MP4 missing or empty: {mp4}")
 
-          ffprobe = None
+          ffmpeg = None
           try:
               import imageio_ffmpeg
-              ffprobe = imageio_ffmpeg.get_ffmpeg_exe()
+              ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
           except Exception:
               pass
-          if ffprobe:
-              probe = subprocess.run([
-                  ffprobe, "-v", "error", "-i", str(mp4),
-                  "-map", "0:v:0", "-frames:v", "1", "-f", "null", "-"
-              ], capture_output=True, text=True)
-              if probe.returncode != 0:
-                  raise SystemExit(f"MP4 probe failed: {probe.stderr}")
+          if not ffmpeg:
+              raise SystemExit("FFmpeg executable unavailable during MP4 validation")
+
+          probe = subprocess.run([
+              ffmpeg, "-v", "error", "-i", str(mp4),
+              "-map", "0:v:0", "-frames:v", "1", "-f", "null", "-"
+          ], capture_output=True, text=True)
+          if probe.returncode != 0:
+              raise SystemExit(f"MP4 probe failed: {probe.stderr}")
 
           report = mp4.with_name(mp4.stem + ".validation.json")
-          report.write_text(json.dumps({"mp4": str(mp4), "size_bytes": mp4.stat().st_size, "valid": True}, indent=2), encoding="utf-8")
+          report.write_text(
+              json.dumps({"mp4": str(mp4), "size_bytes": mp4.stat().st_size, "valid": True}, indent=2),
+              encoding="utf-8",
+          )
           print(f"✓ MP4 validated: {mp4} ({mp4.stat().st_size} bytes)")
           PY
 
