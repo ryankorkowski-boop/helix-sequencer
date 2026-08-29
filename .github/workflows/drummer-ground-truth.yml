@@ -30,6 +30,38 @@ jobs:
           python -m pip install pytest pillow numpy scipy scikit-learn librosa soundfile numba llvmlite imageio-ffmpeg
       - name: Generate deterministic synthetic drum audio
         run: python tools/generate_drummer_ground_truth.py --wav test_runs/drummer_ground_truth/drummer_ground_truth.wav --events test_runs/drummer_ground_truth/events.json
+      - name: Export deterministic 8-channel drummer truth XSQ
+        env:
+          PYTHONPATH: .
+          HELIX_DURATION: '20'
+        run: |
+          python tools/export_drummer_ground_truth_xsq.py \
+            --output test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8ch.xsq \
+            --duration 20
+      - name: Verify XSQ is drummer-only and contains all 8 real submodels
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          p=Path('test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8ch.xsq')
+          root=ET.parse(p).getroot()
+          expected={
+            'HX_SNOWMAN_DRUMMER_V3_KICK',
+            'HX_SNOWMAN_DRUMMER_V3_SNARE',
+            'HX_SNOWMAN_DRUMMER_V3_HI_HAT',
+            'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT',
+            'HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT',
+            'HX_SNOWMAN_DRUMMER_V3_TOM_LEFT',
+            'HX_SNOWMAN_DRUMMER_V3_TOM_RIGHT',
+            'HX_SNOWMAN_DRUMMER_V3_DRUMKIT_ALL',
+          }
+          elements={e.get('name') for e in root.findall('./ElementEffects/Element')}
+          if elements != expected:
+              raise SystemExit(f'FAIL: expected exactly 8 drummer submodels, got {sorted(elements)}')
+          if root.get('model') != 'HX_SNOWMAN_DRUMMER_V3':
+              raise SystemExit(f"FAIL: root model is {root.get('model')!r}")
+          print('PASS: drummer-only XSQ contains exactly the 8 real drummer submodels')
+          PY
       - name: Run drummer unit tests
         env:
           PYTHONPATH: .
