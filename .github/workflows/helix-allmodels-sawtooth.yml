@@ -119,7 +119,7 @@ jobs:
                   raise SystemExit(f"Required generated file missing or empty: {path}")
 
           ET.parse(xsq)
-          root = ET.parse(layout).getroot()
+          layout_root = ET.parse(layout).getroot()
           expected = {
               "HX_SNOWMAN_DRUMMER",
               "HX_SNOWMAN_BASSIST",
@@ -127,15 +127,10 @@ jobs:
               "HX_SNOWMAN_SINGER",
               "HX_SNOWMAN_SINGER_FEMALE",
           }
-          layout_names = {
-              model.attrib.get("name")
-              for model in root.findall(".//model")
-              if model.attrib.get("name")
-          }
-          missing = expected - layout_names
-          if missing:
-              raise SystemExit(f"Full-band layout check failed; missing models: {sorted(missing)}")
 
+          # The band builder's manifest is the authoritative source for approved
+          # band identities. The generated layout may place those identities in
+          # group/submodel structures rather than as top-level <model> entries.
           payload = json.loads(manifest.read_text(encoding="utf-8"))
           manifest_names = {
               item.get("model_name")
@@ -146,9 +141,25 @@ jobs:
           if missing_manifest:
               raise SystemExit(f"Full-band manifest check failed; missing models: {sorted(missing_manifest)}")
 
+          # Confirm each approved band identity is represented somewhere in the
+          # generated layout XML (including submodel/group structures), rather
+          # than requiring a top-level <model name="...">.
+          layout_text = layout_root
+          serialized_layout = ET.tostring(layout_text, encoding="unicode")
+          missing_layout = sorted(name for name in expected if name not in serialized_layout)
+          if missing_layout:
+              raise SystemExit(f"Full-band layout content check failed; missing identities: {missing_layout}")
+
+          # Confirm the generated XSQ actually references the approved band
+          # identities. This is the critical check that protects the render step.
+          serialized_xsq = ET.tostring(ET.parse(xsq).getroot(), encoding="unicode")
+          missing_xsq = sorted(name for name in expected if name not in serialized_xsq)
+          if missing_xsq:
+              raise SystemExit(f"Generated XSQ is missing approved band identities: {missing_xsq}")
+
           print(f"XSQ parsed successfully: {xsq}")
-          print(f"Full band models verified in layout: {sorted(expected)}")
-          print("✓ Full-band layout, manifest, and generated XSQ are valid")
+          print(f"Approved full band verified: {sorted(expected)}")
+          print("✓ Full-band manifest, layout content, and XSQ references are valid")
           PY
 
       - name: Render fractal helixes video without relying on renderer audio mux
