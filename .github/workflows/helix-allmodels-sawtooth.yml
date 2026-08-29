@@ -99,8 +99,17 @@ jobs:
           fi
           test -n "$XSQ"
           test -s "$XSQ"
+
+          BAND_JSON=$(find "$OUT" -type f -name '*.snowman_band.json' -print -quit)
+          test -n "$BAND_JSON"
+          test -s "$BAND_JSON"
+
+          python tools/ensure_full_band_xsq.py "$XSQ" "$BAND_JSON"
+          test -s "$XSQ"
+
           echo "GENERATED_XSQ=$XSQ" >> "$GITHUB_ENV"
-          echo "✓ XSQ generated: $XSQ"
+          echo "BAND_JSON=$BAND_JSON" >> "$GITHUB_ENV"
+          echo "✓ XSQ generated and full-band cues written: $XSQ"
 
       - name: Confirm full band layout and XSQ are valid
         run: |
@@ -113,8 +122,9 @@ jobs:
           xsq = Path(os.environ["GENERATED_XSQ"])
           layout = Path(os.environ["BAND_LAYOUT"])
           manifest = layout.parent / "helixia_manifest.json"
+          band_json = Path(os.environ["BAND_JSON"])
 
-          for path in (xsq, layout, manifest):
+          for path in (xsq, layout, manifest, band_json):
               if not path.is_file() or path.stat().st_size == 0:
                   raise SystemExit(f"Required generated file missing or empty: {path}")
 
@@ -128,51 +138,68 @@ jobs:
               "HX_SNOWMAN_SINGER_FEMALE",
           }
 
-          # approved_full_band_export is nested in the Helixia manifest.
           payload = json.loads(manifest.read_text(encoding="utf-8"))
           export = payload.get("approved_full_band_export")
           if not isinstance(export, dict):
               raise SystemExit("Full-band manifest is missing approved_full_band_export")
 
-          manifest_models = export.get("models", [])
           manifest_names = {
               item.get("model_name")
-              for item in manifest_models
+              for item in export.get("models", [])
               if isinstance(item, dict) and item.get("model_name")
           }
           missing_manifest = sorted(expected - manifest_names)
           if missing_manifest:
               raise SystemExit(f"Full-band manifest check failed; missing models: {missing_manifest}")
-
           if export.get("band_model_count") != 5:
-              raise SystemExit(
-                  f"Full-band manifest model count is {export.get('band_model_count')!r}; expected 5"
-              )
+              raise SystemExit(f"Full-band manifest model count is {export.get('band_model_count')!r}; expected 5")
           if export.get("band_submodel_count", 0) < 100:
-              raise SystemExit(
-                  f"Full-band manifest submodel count is unexpectedly low: {export.get('band_submodel_count')!r}"
-              )
+              raise SystemExit(f"Full-band manifest submodel count is unexpectedly low: {export.get('band_submodel_count')!r}")
 
           serialized_layout = ET.tostring(layout_root, encoding="unicode")
           missing_layout = sorted(name for name in expected if name not in serialized_layout)
           if missing_layout:
               raise SystemExit(f"Full-band layout content check failed; missing identities: {missing_layout}")
 
-          serialized_xsq = ET.tostring(xsq_root, encoding="unicode")
-          missing_xsq = sorted(name for name in expected if name not in serialized_xsq)
+          elements = xsq_root.find("ElementEffects")
+          if elements is None:
+              raise SystemExit("Generated XSQ has no ElementEffects block")
+
+          band_elements = {}
+          for element in elements.findall("Element"):
+              name = element.attrib.get("name", "")
+              for model in expected:
+                  if name == model or name.startswith(model + "/"):
+                      band_elements[name] = element
+
+          missing_xsq = sorted(model for model in expected if not any(
+              name == model or name.startswith(model + "/") for name in band_elements
+          ))
           if missing_xsq:
-              raise SystemExit(f"Generated XSQ is missing approved band identities: {missing_xsq}")
+              raise SystemExit(f"Generated XSQ is missing full-band element references: {missing_xsq}")
+
+          empty_band = sorted(
+              name for name, element in band_elements.items()
+              if not element.findall(".//Effect")
+          )
+          if empty_band:
+              raise SystemExit(f"Generated XSQ contains band elements with no effects: {empty_band[:20]}")
+
+          band_json_payload = json.loads(band_json.read_text(encoding="utf-8"))
+          if not band_json_payload.get("enabled"):
+              raise SystemExit("Snowman band export is not enabled")
 
           print(f"XSQ parsed successfully: {xsq}")
           print(f"Approved full band verified: {sorted(expected)}")
           print(f"Approved band models: {export.get('band_model_count')}")
           print(f"Approved band submodels: {export.get('band_submodel_count')}")
-          print("✓ Full-band manifest, layout content, and XSQ references are valid")
+          print(f"XSQ band elements with effects: {len(band_elements)}")
+          print("✓ Full-band manifest, layout, cue export, and XSQ effects are valid")
           PY
 
       - name: Preflight MP4 renderer
         run: |
-          python -m py_compile tools/preview_renderer.py
+          python -m py_compile tools/preview_renderer.py tools/ensure_full_band_xsq.py
           python -c 'import imageio, imageio_ffmpeg, PIL, numpy; print("✓ Preview runtime imports OK")'
           FFMPEG=$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')
           test -x "$FFMPEG" || (echo "FFmpeg executable unavailable"; exit 1)
@@ -220,15 +247,8 @@ jobs:
           if not mp4.is_file() or mp4.stat().st_size == 0:
               raise SystemExit(f"MP4 missing or empty: {mp4}")
 
-          ffmpeg = None
-          try:
-              import imageio_ffmpeg
-              ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
-          except Exception:
-              pass
-          if not ffmpeg:
-              raise SystemExit("FFmpeg executable unavailable during MP4 validation")
-
+          import imageio_ffmpeg
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
           probe = subprocess.run([
               ffmpeg, "-v", "error", "-i", str(mp4),
               "-map", "0:v:0", "-frames:v", "1", "-f", "null", "-"
