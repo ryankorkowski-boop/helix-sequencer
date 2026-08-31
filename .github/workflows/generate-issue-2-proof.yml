@@ -49,7 +49,8 @@ jobs:
             --no-prompt \
             --no-save-settings \
             --no-workspace-history \
-            --no-polish
+            --no-polish \
+            --enable-birdsong
         continue-on-error: true
 
       - name: Find generated XSQ file
