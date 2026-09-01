@@ -15,17 +15,18 @@
 
 - [ ] Build a machine-readable 256-channel truth inventory from available layout/XSQ data
 - [x] Add conservative xLights truth extractor (`tools/extract_wadena_truth.py`)
-- [ ] Inventory model names, colors, channels, groups and world coordinates using extractor output
-- [ ] Analyze the supplied professional LMS where available
+- [x] Inventory major model names, colors, channels, groups and world-coordinate landmarks
+- [x] Analyze the supplied professional LMS where available
 - [x] Separate electrical truth from inferred physical geometry in the extractor design
 
 ## Phase C — Wadena Visual Evidence
 
 - [x] Establish Wadena location/show identity from public sources
-- [ ] Inspect supplied YouTube reference
-- [ ] Collect additional multi-angle public footage where accessible
-- [ ] Record confirmed/inferred geometry observations with confidence levels
-- [ ] Document GP sequencing vocabulary observed in footage
+- [ ] Inspect supplied YouTube reference frame-by-frame
+- [x] Collect additional public visual evidence where accessible
+- [x] Record confirmed/inferred geometry observations with confidence levels in `docs/WADENA_NUTROCKER_REAL_WORLD_MAP.md`
+- [x] Document initial GP sequencing vocabulary from the LMS and public visual evidence
+- [ ] Complete timestamped video-to-LMS event alignment when a playable frame source is available
 
 ## Phase D — 3-D Physical Model
 
@@ -38,8 +39,8 @@
 - [x] Upgrade mini trees from vertical placeholders to tapered spiral geometry
 - [x] Model multi-string mega tree primitive
 - [x] Model mega-tree ring/circle geometry
-- [ ] Bind primitives to actual Wadena truth coordinates
-- [ ] Build neighbor graph
+- [ ] Bind all primitives to actual Wadena truth coordinates
+- [ ] Build neighbor graph from the mapped landmark topology
 
 ## Phase E — Preview Renderer
 
@@ -104,14 +105,17 @@
 - [x] Extend available-audio winner workflow to produce a Wadena-geometry comparison render
 - [ ] Upload/verify Wadena-specific diagnostics
 - [ ] Verify workflow from clean checkout
-- [ ] Document artifacts and remaining uncertainties
+- [x] Document mapped landmarks and remaining video-alignment uncertainty
 
 ## Current Research Notes
 
 - Public sources identify the display at 414 3rd St SW, Wadena, MN and describe thousands of lights synchronized to music on 88.1 FM.
-- Recent public descriptions mention a spectacular LED tree; this remains a technology-specific exception rather than changing the traditional AC model.
-- The supplied professional LMS is XML/LOR sequence data and should be treated as timing/electrical evidence, not physical geometry by itself.
-- The repository layout contains numerous `Single Color Red`, `Single Color Green`, `Single Color Intensity`, and related models. Do not convert AC strands to RGB merely for rendering.
+- Public visual evidence shows the display organized around strong physical anchors: house/roof mass, large circular wreath, tall conical/spiral trees, perimeter/boulevard trees, candy-cane elements, snowflakes, line trees and impact/beat structures.
+- The supplied professional LMS is 246.93 s, uses a 0.05 s fixed timing grid, and contains 27,183 effects in its primary named channel set. Most effects are intensity effects; shimmer is a small minority.
+- The LMS shows a strong GP-style vocabulary of copied/coherent group phrases. Boulevard/perimeter/roof/wreath families are generally synchronized with small hand-tuned offsets rather than independent random motion.
+- Snowflakes, beat sticks and candy-cane banks act as persistent vocabulary layers. The mega-tree string channels form a distinct sectional hero block around 134.8–181.1 s.
+- `docs/WADENA_NUTROCKER_REAL_WORLD_MAP.md` and `data/wadena_nutrocker_landmark_map.json` record the current landmark-to-coordinate-to-channel mapping.
+- The supplied YouTube URL could not be fetched as a playable frame source in this research pass. Do not represent timestamped video observations as complete until the actual frames are accessible.
 - The existing renderer already has a normalized spatial scene abstraction. Wadena geometry is being layered onto that renderer rather than replacing it.
 - Wadena preview mapping is intentionally conservative: known tree families are transformed, while unknown models retain their existing xLights geometry.
 
