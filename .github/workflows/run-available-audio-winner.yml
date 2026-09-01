@@ -83,17 +83,52 @@ jobs:
           mp4 = xsq.with_suffix('.mp4')
           final = out / f"WINNER_{winner.get('version')}_{mp4.name}"
           shutil.copy2(mp4, final)
+
+          # Second render: same XSQ/electrical truth, but with the Wadena
+          # physical geometry overlay. This is deliberately a wrapper around
+          # the stable renderer so the comparison isolates geometry changes.
+          wadena_cmd = [
+              sys.executable,
+              'tools/render_wadena_preview.py',
+              str(xsq),
+              '--layout', 'fixtures/legacy_256/converted/xlights_rgbeffects.xml',
+              '--audio', str(audio),
+              '--fps', '15', '--width', '1280', '--height', '720',
+          ]
+          print(' '.join(wadena_cmd), flush=True)
+          subprocess.run(wadena_cmd, check=True)
+          wadena_mp4 = xsq.with_suffix('.mp4')
+          wadena_final = out / f"WADENA_{winner.get('version')}_{mp4.name}"
+          shutil.copy2(wadena_mp4, wadena_final)
+
           payload = {
               'winner': winner.get('version'),
               'score': score,
               'issues': -neg_issues,
               'winner_xsq': str(xsq),
               'winner_mp4': str(final),
+              'wadena_mp4': str(wadena_final),
               'audio': str(audio),
               'render_command': ' '.join(cmd),
+              'wadena_render_command': ' '.join(wadena_cmd),
           }
           (out / 'winner_preview_result.json').write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n')
           print(json.dumps(payload, indent=2, sort_keys=True), flush=True)
+          PY
+
+      - name: Validate Wadena MP4 is non-empty
+        env:
+          PYTHONPATH: .
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          out = Path('test_runs/available_audio_newest_winner')
+          payload = json.loads((out / 'winner_preview_result.json').read_text())
+          path = Path(payload['wadena_mp4'])
+          if not path.exists() or path.stat().st_size < 100_000:
+              raise SystemExit(f'Wadena preview missing or suspiciously small: {path}')
+          print(f'Wadena preview OK: {path} ({path.stat().st_size} bytes)')
           PY
 
       - name: Upload winner artifacts
