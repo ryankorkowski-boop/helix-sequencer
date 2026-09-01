@@ -1,0 +1,31 @@
+{
+  "source": {
+    "lms": "2024_RGBNutrocker_antiLag_16CCRs_archive_sup.lms",
+    "duration_seconds": 246.93,
+    "timing_grid_seconds": 0.05,
+    "primary_named_channels": 176,
+    "effect_count": 27183,
+    "effect_types": {"intensity": 26878, "shimmer": 305}
+  },
+  "landmarks": [
+    {"id":"left_tree","model":"LEFT_TREE","world":[122.15,301.92,0.0],"lms_channels":["Left Tree Grn","Left Tree White","Left Tree Red"],"role":"perimeter_frame"},
+    {"id":"blvd_left","model":"BLVD_LEFT","world":[120.46,61.98,0.0],"lms_channels":["Left Blvd Grn","Left Blvd White","Left Blvd Red"],"role":"perimeter_frame"},
+    {"id":"blvd_center","model":"BLVD_CENTER","world":[644.20,10.63,0.0],"lms_channels":["Center Blvd Grn","Center Blvd White","Center Blvd Red"],"role":"central_anchor"},
+    {"id":"blvd_right","model":"BLVD_RIGHT","world":[999.36,-26.08,0.0],"lms_channels":["Right Blvd Grn","Right Blvd White","Right Blvd Red"],"role":"perimeter_frame"},
+    {"id":"right_linden","model":"RIGHT_LINDEN","world":[1290.00,391.23,0.0],"lms_channels":["Linden Grn","Linden White","Linden Red"],"role":"perimeter_frame"},
+    {"id":"central_wreath","model":"wreath1 2","world":[556.35,340.62,0.0],"lms_channels":["N Wreath Grn","N Wreath White","N Wreath Red","S Wreath Grn","S Wreath White","S Wreath Red"],"role":"hero_anchor"},
+    {"id":"garage_snowflake","model":"big snowflake garage","world":[666.17,341.73,0.0],"lms_channels":["Garage Snowflake"],"role":"punctuation"},
+    {"id":"roof_snowflake","model":"big snowflake roof","world":[855.16,469.34,0.0],"lms_channels":["Roof Snowflake"],"role":"punctuation"},
+    {"id":"beat_stick_center","model":"Beat Stick B 4","world":[621.17,372.18,0.0],"lms_channels":["Beat Stick 1","Beat Stick 2","Beat Stick 1A","Beat Stick 2A"],"role":"impact"},
+    {"id":"beat_stick_right","model":"Beat Stick White A 4","world":[1278.99,238.60,0.0],"lms_channels":["Beat Stick 3","Beat Stick 4","Beat Stick 3A","Beat Stick 4A"],"role":"impact"},
+    {"id":"line_tree_field","model":"Line Tree 1-4","world_bounds":[820.12,219.0,956.0,240.0],"lms_channels":["GRN TREE 1","GRN TREE 2","GRN TREE 3","GRN TREE 4","GRN TREE 5","GRN TREE 6","GRN TREE 7","GRN TREE 8","GRN TREE 9","RED TREE 1","RED TREE 2","RED TREE 3","RED TREE 4","RED TREE 5","RED TREE 6","RED TREE 7","RED TREE 8","RED TREE 9"],"role":"foreground_rhythm"},
+    {"id":"candy_cane_banks","model":"North/South Candy Cane banks","lms_channels":["Candy Canes 10.1-10.16","Candy Canes 11.1-11.16"],"role":"spatial_note_field"},
+    {"id":"mega_tree","model":"Mega Tree strings 1-8","lms_channels":["Mega Tree 1-8 red","Mega Tree 1-8 green","Mega Tree 1-8 white"],"role":"sectional_hero","active_window_seconds":[134.8,181.1]}
+  ],
+  "choreography_layers": {
+    "persistent": ["beat_sticks","snowflakes","candy_canes"],
+    "long_phrase": ["roof_c9","boulevard_perimeter","wreath"],
+    "sectional_hero": ["mega_tree"]
+  },
+  "video_alignment_status": "pending_playable_frame_source"
+}
