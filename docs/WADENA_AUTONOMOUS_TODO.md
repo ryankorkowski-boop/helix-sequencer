@@ -14,9 +14,10 @@
 ## Phase B — Truth Extraction
 
 - [ ] Build a machine-readable 256-channel truth inventory from available layout/XSQ data
-- [ ] Inventory model names, colors, channels, groups and world coordinates
+- [x] Add conservative xLights truth extractor (`tools/extract_wadena_truth.py`)
+- [ ] Inventory model names, colors, channels, groups and world coordinates using extractor output
 - [ ] Analyze the supplied professional LMS where available
-- [ ] Separate electrical truth from inferred physical geometry
+- [x] Separate electrical truth from inferred physical geometry in the extractor design
 
 ## Phase C — Wadena Visual Evidence
 
@@ -28,15 +29,16 @@
 
 ## Phase D — 3-D Physical Model
 
-- [ ] Establish canonical XYZ coordinate system
-- [ ] Build physical-element schema
+- [x] Establish canonical XYZ coordinate system in geometry primitives
+- [x] Add initial physical-element geometry primitives
+- [x] Model R/G/W as coincident shared paths on AC geometry
+- [x] Model boulevard/perimeter spiral tree primitive
+- [x] Model large downward apex spiral
+- [x] Model distributed cone/traffic-cone yard-tree primitive
+- [x] Model multi-string mega tree primitive
+- [x] Model mega-tree ring/circle geometry
+- [ ] Bind primitives to actual Wadena truth coordinates
 - [ ] Build neighbor graph
-- [ ] Model R/G/W as coincident/interwoven AC strands on shared geometry
-- [ ] Model boulevard/perimeter spiral trees
-- [ ] Model large downward apex spirals
-- [ ] Model distributed cone/traffic-cone yard trees
-- [ ] Model multi-string mega tree
-- [ ] Model mega-tree ring/circle geometry
 
 ## Phase E — Preview Renderer
 
@@ -50,13 +52,14 @@
 
 ## Phase F — Acoustic Manifold
 
-- [ ] Replace species-driven Birdsong semantics with music-as-organism semantics
-- [ ] Extract normalized energy/onset/pitch/spectral state
+- [x] Add music-first acoustic state representation
+- [x] Extract normalized energy/onset/pitch/spectral state primitives
 - [ ] Build phrase/trajectory representation
-- [ ] Derive musical pressure/tension controls
-- [ ] Map acoustic state to spatial intent
+- [x] Derive musical pressure/tension controls
+- [x] Map acoustic state to renderer-independent spatial intent
 - [ ] Map visual color intent to AC R/G/W combinations
-- [ ] Preserve deterministic output
+- [x] Preserve deterministic output at the primitive level
+- [ ] Replace species-driven Birdsong semantics in the active sequencing path
 
 ## Phase G — Integration
 
@@ -68,12 +71,12 @@
 
 ## Phase H — Validation
 
-- [ ] Geometry unit tests
+- [x] Geometry unit tests added
 - [ ] Channel/truth tests
 - [ ] R/G/W separation tests
-- [ ] Mega-tree ring tests
-- [ ] Acoustic manifold tests
-- [ ] Determinism tests
+- [x] Mega-tree ring geometry tests
+- [x] Acoustic manifold tests added
+- [x] Determinism tests added
 - [ ] Failsafe tests
 - [ ] Regression tests for existing sequence generation
 
@@ -100,7 +103,8 @@
 - Public sources identify the display at 414 3rd St SW, Wadena, MN and describe thousands of lights synchronized to music on 88.1 FM.
 - Recent public descriptions mention a spectacular LED tree; this should remain a technology-specific exception rather than changing the traditional AC model.
 - The supplied professional LMS is XML/LOR sequence data and should be treated as timing/electrical evidence, not as physical geometry by itself.
-- The repository layout already contains numerous `Single Color Red`, `Single Color Green`, `Single Color Intensity`, and related models. Do not convert AC strands to RGB merely for rendering.
+- The repository layout contains numerous `Single Color Red`, `Single Color Green`, `Single Color Intensity`, and related models. Do not convert AC strands to RGB merely for rendering.
+- The current Birdsong engine is still species-oriented; the new acoustic manifold is intentionally separate until integration is tested.
 
 ## Execution Rule
 
