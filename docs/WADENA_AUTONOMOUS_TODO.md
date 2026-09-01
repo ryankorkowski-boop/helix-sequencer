@@ -40,7 +40,7 @@
 - [x] Model multi-string mega tree primitive
 - [x] Model mega-tree ring/circle geometry
 - [ ] Bind all primitives to actual Wadena truth coordinates
-- [ ] Build neighbor graph from the mapped landmark topology
+- [x] Build initial deterministic neighbor graph from mapped landmark topology
 
 ## Phase E — Preview Renderer
 
@@ -84,6 +84,7 @@
 - [x] Acoustic manifold tests added
 - [x] Determinism tests added
 - [x] Wadena preview mapper tests added
+- [x] Wadena landmark graph tests added
 - [ ] Failsafe tests
 - [ ] Regression tests for existing sequence generation
 - [ ] CI verification of all new tests
@@ -115,6 +116,7 @@
 - The LMS shows a strong GP-style vocabulary of copied/coherent group phrases. Boulevard/perimeter/roof/wreath families are generally synchronized with small hand-tuned offsets rather than independent random motion.
 - Snowflakes, beat sticks and candy-cane banks act as persistent vocabulary layers. The mega-tree string channels form a distinct sectional hero block around 134.8–181.1 s.
 - `docs/WADENA_NUTROCKER_REAL_WORLD_MAP.md` and `data/wadena_nutrocker_landmark_map.json` record the current landmark-to-coordinate-to-channel mapping.
+- `core/wadena_spatial_graph.py` now encodes the initial named landmark topology and deterministic left/right, center-out and shortest-hop traversal rules.
 - The supplied YouTube URL could not be fetched as a playable frame source in this research pass. Do not represent timestamped video observations as complete until the actual frames are accessible.
 - The existing renderer already has a normalized spatial scene abstraction. Wadena geometry is being layered onto that renderer rather than replacing it.
 - Wadena preview mapping is intentionally conservative: known tree families are transformed, while unknown models retain their existing xLights geometry.
