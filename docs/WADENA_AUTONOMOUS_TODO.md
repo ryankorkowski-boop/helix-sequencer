@@ -35,6 +35,7 @@
 - [x] Model boulevard/perimeter spiral tree primitive
 - [x] Model large downward apex spiral
 - [x] Model distributed cone/traffic-cone yard-tree primitive
+- [x] Upgrade mini trees from vertical placeholders to tapered spiral geometry
 - [x] Model multi-string mega tree primitive
 - [x] Model mega-tree ring/circle geometry
 - [ ] Bind primitives to actual Wadena truth coordinates
@@ -45,6 +46,7 @@
 - [ ] Bind existing truth models to physical geometry
 - [ ] Add spatial effect propagation
 - [ ] Add AC R/G/W visual mixing without changing electrical truth
+- [x] Add renderer-neutral AC R/G/W color quantization primitive
 - [ ] Add mega-tree ring rendering
 - [ ] Add spiral-tree rendering
 - [ ] Add useful front/wide/close camera presets
@@ -57,7 +59,7 @@
 - [ ] Build phrase/trajectory representation
 - [x] Derive musical pressure/tension controls
 - [x] Map acoustic state to renderer-independent spatial intent
-- [ ] Map visual color intent to AC R/G/W combinations
+- [x] Add renderer-neutral visual color-to-AC intent primitive
 - [x] Preserve deterministic output at the primitive level
 - [ ] Replace species-driven Birdsong semantics in the active sequencing path
 
@@ -73,12 +75,13 @@
 
 - [x] Geometry unit tests added
 - [ ] Channel/truth tests
-- [ ] R/G/W separation tests
+- [x] R/G/W separation/color tests added
 - [x] Mega-tree ring geometry tests
 - [x] Acoustic manifold tests added
 - [x] Determinism tests added
 - [ ] Failsafe tests
 - [ ] Regression tests for existing sequence generation
+- [ ] CI verification of all new tests
 
 ## Phase I — Proof Render
 
@@ -93,6 +96,7 @@
 
 ## Phase J — CI / Artifacts
 
+- [x] Extend Helix Beta CI with Wadena geometry/acoustic/color tests
 - [ ] Add/update Wadena proof workflow
 - [ ] Upload XSQ/MP4/diagnostics
 - [ ] Verify workflow from clean checkout
@@ -100,11 +104,12 @@
 
 ## Current Research Notes
 
-- Public sources identify the display at 414 3rd St SW, Wadena, MN and describe thousands of lights synchronized to music on 88.1 FM.
-- Recent public descriptions mention a spectacular LED tree; this should remain a technology-specific exception rather than changing the traditional AC model.
-- The supplied professional LMS is XML/LOR sequence data and should be treated as timing/electrical evidence, not as physical geometry by itself.
+- Public sources identify the display at 414 3rd St SW, Wadena, MN and describe thousands of lights synchronized to music on 88.1 FM. citeturn0search0turn0search7
+- Recent public descriptions mention a spectacular LED tree; this remains a technology-specific exception rather than changing the traditional AC model. citeturn0search3
+- The supplied professional LMS is XML/LOR sequence data and should be treated as timing/electrical evidence, not physical geometry by itself.
 - The repository layout contains numerous `Single Color Red`, `Single Color Green`, `Single Color Intensity`, and related models. Do not convert AC strands to RGB merely for rendering.
 - The current Birdsong engine is still species-oriented; the new acoustic manifold is intentionally separate until integration is tested.
+- The preview renderer already has a normalized spatial scene abstraction; the next integration should adapt Wadena physical geometry into that existing path rather than replace the renderer wholesale. fileciteturn76file0turn76file2
 
 ## Execution Rule
 
