@@ -10,12 +10,10 @@ def test_spiral_tree_has_shared_rgw_geometry_and_apex_descent():
     assert paths[0].points == paths[1].points == paths[2].points
     points = paths[0].points
     assert max(p.y for p in points) == 10
-    # The path rises, reaches the apex, then visibly descends.
     apex_index = max(range(len(points)), key=lambda i: points[i].y)
     assert apex_index > 0
     assert apex_index < len(points) - 1
     assert points[-1].y < points[apex_index].y
-    # The descending spiral is intentionally broader than the trunk radius.
     max_desc_radius = max(hypot(p.x, p.z) for p in points[apex_index:])
     assert max_desc_radius > 2.0
 
@@ -28,12 +26,16 @@ def test_spiral_direction_is_deterministic():
     assert cw[1].z == -ccw[1].z
 
 
-def test_cone_tree_is_tapered_physical_placeholder():
-    tree = ConeTree(Point3(5, 0, 7), 3, 1)
+def test_cone_tree_is_actually_tapered_and_spatial():
+    tree = ConeTree(Point3(5, 0, 7), 3, 1, turns=2.5)
     paths = tree.paths()
     assert len(paths) == 3
-    assert all(path.points[0] == Point3(5, 0, 7) for path in paths)
-    assert all(path.points[-1] == Point3(5, 3, 7) for path in paths)
+    assert paths[0].points == paths[1].points == paths[2].points
+    radii = [hypot(p.x - 5, p.z - 7) for p in paths[0].points]
+    assert radii[0] == 1
+    assert radii[-1] == 0
+    assert max(radii) > min(radii)
+    assert len({(round(p.x, 6), round(p.z, 6)) for p in paths[0].points}) > 10
 
 
 def test_mega_tree_has_many_strings_and_circular_ring():
