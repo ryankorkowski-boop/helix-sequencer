@@ -43,12 +43,14 @@
 
 ## Phase E — Preview Renderer
 
-- [ ] Bind existing truth models to physical geometry
+- [x] Add conservative Wadena model-name → physical-path mapper
+- [x] Add renderer wrapper that preserves the existing renderer/electrical truth
+- [ ] Bind all truth models to physical geometry
 - [ ] Add spatial effect propagation
 - [ ] Add AC R/G/W visual mixing without changing electrical truth
 - [x] Add renderer-neutral AC R/G/W color quantization primitive
 - [ ] Add mega-tree ring rendering
-- [ ] Add spiral-tree rendering
+- [x] Add spiral-tree rendering through Wadena preview wrapper
 - [ ] Add useful front/wide/close camera presets
 - [ ] Add optional geometry/channel diagnostics
 
@@ -66,10 +68,11 @@
 ## Phase G — Integration
 
 - [ ] Keep professional XSQ/LMS timing authoritative
-- [ ] Feed physical geometry from existing channel truth
+- [x] Add Wadena physical geometry as a preview-only transformation layer
+- [ ] Feed physical geometry from complete channel truth
 - [ ] Integrate manifold intent through existing effect engine
 - [ ] Add layered fallbacks
-- [ ] Ensure preview failures never invalidate sequence generation
+- [x] Keep preview geometry failures isolated from sequence generation
 
 ## Phase H — Validation
 
@@ -79,6 +82,7 @@
 - [x] Mega-tree ring geometry tests
 - [x] Acoustic manifold tests added
 - [x] Determinism tests added
+- [x] Wadena preview mapper tests added
 - [ ] Failsafe tests
 - [ ] Regression tests for existing sequence generation
 - [ ] CI verification of all new tests
@@ -86,7 +90,7 @@
 ## Phase I — Proof Render
 
 - [ ] Run professional Wadena/LMS-derived proof
-- [ ] Generate preview MP4
+- [ ] Generate Wadena preview MP4
 - [ ] Inspect spiral-tree appearance
 - [ ] Inspect mini-tree density
 - [ ] Inspect mega-tree string density
@@ -96,20 +100,20 @@
 
 ## Phase J — CI / Artifacts
 
-- [x] Extend Helix Beta CI with Wadena geometry/acoustic/color tests
-- [ ] Add/update Wadena proof workflow
-- [ ] Upload XSQ/MP4/diagnostics
+- [x] Extend Helix Beta CI with Wadena geometry/acoustic/color/mapper tests
+- [x] Extend available-audio winner workflow to produce a Wadena-geometry comparison render
+- [ ] Upload/verify Wadena-specific diagnostics
 - [ ] Verify workflow from clean checkout
 - [ ] Document artifacts and remaining uncertainties
 
 ## Current Research Notes
 
-- Public sources identify the display at 414 3rd St SW, Wadena, MN and describe thousands of lights synchronized to music on 88.1 FM. citeturn0search0turn0search7
-- Recent public descriptions mention a spectacular LED tree; this remains a technology-specific exception rather than changing the traditional AC model. citeturn0search3
+- Public sources identify the display at 414 3rd St SW, Wadena, MN and describe thousands of lights synchronized to music on 88.1 FM.
+- Recent public descriptions mention a spectacular LED tree; this remains a technology-specific exception rather than changing the traditional AC model.
 - The supplied professional LMS is XML/LOR sequence data and should be treated as timing/electrical evidence, not physical geometry by itself.
 - The repository layout contains numerous `Single Color Red`, `Single Color Green`, `Single Color Intensity`, and related models. Do not convert AC strands to RGB merely for rendering.
-- The current Birdsong engine is still species-oriented; the new acoustic manifold is intentionally separate until integration is tested.
-- The preview renderer already has a normalized spatial scene abstraction; the next integration should adapt Wadena physical geometry into that existing path rather than replace the renderer wholesale. fileciteturn76file0turn76file2
+- The existing renderer already has a normalized spatial scene abstraction. Wadena geometry is being layered onto that renderer rather than replacing it.
+- Wadena preview mapping is intentionally conservative: known tree families are transformed, while unknown models retain their existing xLights geometry.
 
 ## Execution Rule
 
