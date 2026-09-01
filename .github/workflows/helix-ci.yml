@@ -71,4 +71,7 @@ jobs:
             tests/test_birdsong_layout_targets.py \
             tests/test_helix_flow_spatial_graph.py \
             tests/test_birdsong_xsq_export.py \
-            tests/test_export_birdsong_demo_manifest.py
+            tests/test_export_birdsong_demo_manifest.py \
+            tests/test_wadena_geometry.py \
+            tests/test_acoustic_manifold.py \
+            tests/test_ac_rgw_color.py
