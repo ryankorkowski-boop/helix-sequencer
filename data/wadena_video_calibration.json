@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "source": {
+    "video": "XRecorder_20260901_06.mp4",
+    "duration_s": 230.514,
+    "fps": 31.174,
+    "audio_duration_s": 230.644,
+    "status": "playable_scene_ends_before_recorder_ui"
+  },
+  "semantics": {
+    "observation_type": ["observed", "inferred", "uncertain", "not_visible"],
+    "note": "Frame windows are inspection windows around independently detected candidate transitions; they do not assert exact event boundaries or LMS synchronization."
+  },
+  "candidate_windows": [
+    {
+      "time_window": [7.2, 8.2],
+      "frame_range": [225, 255],
+      "region": "whole_scene",
+      "observation_type": "uncertain",
+      "roles": ["field_change", "perimeter"],
+      "direction": "unknown",
+      "magnitude": 0.50,
+      "confidence": 0.62,
+      "notes": "Candidate visual transition near 7.7 s; frame evidence supports a scene-level change but not a unique gesture direction."
+    },
+    {
+      "time_window": [31.2, 32.2],
+      "frame_range": [973, 1004],
+      "region": "whole_scene",
+      "observation_type": "uncertain",
+      "roles": ["field_change", "perimeter"],
+      "direction": "unknown",
+      "magnitude": 0.45,
+      "confidence": 0.58,
+      "notes": "Candidate visual transition near 31.7 s; treat as calibration anchor only."
+    },
+    {
+      "time_window": [36.3, 37.3],
+      "frame_range": [1132, 1163],
+      "region": "whole_scene",
+      "observation_type": "uncertain",
+      "roles": ["field_change", "hero"],
+      "direction": "unknown",
+      "magnitude": 0.65,
+      "confidence": 0.68,
+      "notes": "Strong candidate transition near 36.8 s; exact participating models require frame inspection."
+    },
+    {
+      "time_window": [59.4, 60.4],
+      "frame_range": [1853, 1884],
+      "region": "whole_scene",
+      "observation_type": "uncertain",
+      "roles": ["field_change", "perimeter"],
+      "direction": "unknown",
+      "magnitude": 0.60,
+      "confidence": 0.64,
+      "notes": "Candidate transition near 59.9 s."
+    },
+    {
+      "time_window": [78.9, 79.9],
+      "frame_range": [2461, 2492],
+      "region": "whole_scene",
+      "observation_type": "uncertain",
+      "roles": ["reset", "quiet"],
+      "direction": "unknown",
+      "magnitude": 0.70,
+      "confidence": 0.72,
+      "notes": "Candidate low-activity/reset region near 79.4 s; do not interpret as synchronization proof."
+    },
+    {
+      "time_window": [96.7, 97.7],
+      "frame_range": [3016, 3047],
+      "region": "whole_scene",
+      "observation_type": "uncertain",
+      "roles": ["field_change"],
+      "direction": "unknown",
+      "magnitude": 0.52,
+      "confidence": 0.60,
+      "notes": "Candidate transition near 97.2 s."
+    },
+    {
+      "time_window": [107.6, 108.6],
+      "frame_range": [3356, 3387],
+      "region": "whole_scene",
+      "observation_type": "uncertain",
+      "roles": ["field_change", "impact"],
+      "direction": "unknown",
+      "magnitude": 0.72,
+      "confidence": 0.73,
+      "notes": "Strong candidate transition near 108.1 s; participating elements require individual-frame review."
+    },
+    {
+      "time_window": [153.9, 154.9],
+      "frame_range": [4798, 4829],
+      "region": "whole_scene",
+      "observation_type": "uncertain",
+      "roles": ["field_change", "hero", "impact"],
+      "direction": "unknown",
+      "magnitude": 0.80,
+      "confidence": 0.78,
+      "notes": "Strong candidate transition near 154.4 s."
+    },
+    {
+      "time_window": [162.6, 163.6],
+      "frame_range": [5069, 5100],
+      "region": "whole_scene",
+      "observation_type": "uncertain",
+      "roles": ["field_change", "impact"],
+      "direction": "unknown",
+      "magnitude": 0.68,
+      "confidence": 0.71,
+      "notes": "Candidate transition near 163.1 s."
+    },
+    {
+      "time_window": [218.2, 219.2],
+      "frame_range": [6802, 6833],
+      "region": "whole_scene",
+      "observation_type": "uncertain",
+      "roles": ["field_change"],
+      "direction": "unknown",
+      "magnitude": 0.45,
+      "confidence": 0.55,
+      "notes": "Candidate transition near 218.7 s; recording is approaching recorder UI/end state."
+    },
+    {
+      "time_window": [225.4, 226.4],
+      "frame_range": [7027, 7058],
+      "region": "whole_scene",
+      "observation_type": "not_visible",
+      "roles": ["recording_end", "recorder_ui"],
+      "direction": "unknown",
+      "magnitude": 0.0,
+      "confidence": 0.99,
+      "notes": "Excluded from choreography calibration because recorder UI/end-state contamination begins here."
+    }
+  ],
+  "guardrails": [
+    "Do not infer an exact model or electrical channel from these windows alone.",
+    "Do not use these candidates to stretch the video to LMS duration.",
+    "Do not treat direction=unknown as a license to guess direction.",
+    "LMS remains authoritative for electrical channel identity."
+  ]
+}
