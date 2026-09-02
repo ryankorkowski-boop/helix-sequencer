@@ -12,6 +12,12 @@ from dataclasses import dataclass
 from math import exp
 
 from core.wadena_spatial_graph import WadenaSpatialGraph, wadena_spatial_graph
+from core.wadena_spatial_propagation import (
+    PropagationProfile,
+    PropagationSample,
+    compile_direction_propagation,
+    compile_propagation,
+)
 
 
 @dataclass(frozen=True)
@@ -91,5 +97,35 @@ def propagate_route(
     """Convenience API for impulse/phrase propagation between landmarks."""
     return compile_gesture(
         SpatialGesture(start=start, end=end, strength=strength),
+        graph=graph,
+    )
+
+
+def compile_temporal_gesture(
+    gesture: SpatialGesture,
+    profile: PropagationProfile | None = None,
+    graph: WadenaSpatialGraph | None = None,
+) -> tuple[PropagationSample, ...]:
+    """Compile a spatial gesture into a travelling temporal wave.
+
+    This is the bridge between the existing spatial intent API and the new
+    temporal propagation primitive.  Spatial ordering remains deterministic;
+    arrival/release timing is handled separately by ``PropagationProfile``.
+    """
+    graph = graph or wadena_spatial_graph()
+    if gesture.start is not None or gesture.end is not None:
+        if gesture.start is None or gesture.end is None:
+            return ()
+        return compile_propagation(
+            gesture.start,
+            gesture.end,
+            strength=gesture.strength,
+            profile=profile,
+            graph=graph,
+        )
+    return compile_direction_propagation(
+        gesture.direction,
+        strength=gesture.strength,
+        profile=profile,
         graph=graph,
     )
