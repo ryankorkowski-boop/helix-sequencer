@@ -1,127 +1,143 @@
-# Wadena Execution Roadmap v2
+# Wadena Execution Roadmap v3 — Autonomous Control Document
 
-> Autonomous execution plan after obtaining the actual MP4 recording. This roadmap is deliberately evidence-first: direct frame/audio observations are separated from inference, and no test/render is marked complete until an artifact exists.
+> Evidence-first execution plan for the Wadena digital twin, acoustic manifold, spatial choreography and electrically truthful XSQ generation. This is the **living control document**. Execute unchecked items autonomously in priority order; repair failures and continue. Never mark an item complete without a real artifact, test result, inspected source, or reproducible command output.
 
-## 0. Evidence baseline — COMPLETE
+## Operating contract
 
-- [x] Obtain playable MP4 rather than relying on YouTube access.
-- [x] Measure video/audio duration, frame count, FPS and resolution.
-- [x] Extract embedded audio for analysis.
-- [x] Produce coarse visual-state measurements.
-- [x] Produce visual transition candidates.
-- [x] Produce audio onset candidates.
-- [x] Record the 230.5 s video vs 246.93 s LMS clock mismatch.
-- [x] Refuse duration-only time stretching as an alignment method.
+1. Prefer implementation over discussion.
+2. Never guess electrical channels, model identities, coordinates, timing offsets, or video timestamps.
+3. Direct frame/audio evidence outranks public descriptions for appearance and timing.
+4. LMS/xLights source outranks visual inference for electrical truth.
+5. Preserve independent R/G/W AC channels; RGB is a visualization concept only.
+6. Never stretch the 230.5 s recording to 246.93 s without multiple independent synchronization anchors.
+7. Unknown evidence becomes explicit `unknown`/`uncertain`, never a guessed value.
+8. Every generated proof must carry commit SHA, source inputs, commands and artifact hashes.
+9. A synthetic proof channel such as `WADENA_PROOF_*` is never allowed to masquerade as physical channel truth.
+10. After each implementation slice: run focused tests → run relevant full tests → generate proof artifact → update this roadmap → continue.
 
-## 1. Build the visual calibration fixture — NEXT
+## Priority queue
 
-- [ ] Sample candidate transition windows at frame-level resolution (not only 0.5/2 s).
-- [ ] Compute left/center/right activity centroid and transition magnitude for each window.
-- [ ] Classify visible changes as field, propagation, pulse, reset, hero, punctuation, or uncertain.
-- [ ] Attach confidence to every observation.
-- [ ] Create `data/wadena_video_calibration.json` containing observations only; no guessed channel IDs.
-- [ ] Create tests proving calibration data is deterministic and schema-valid.
+### P0 — Evidence + electrical safety gate
+- [x] Obtain and inspect playable Wadena MP4.
+- [x] Measure video/audio duration, FPS, frame count and resolution.
+- [x] Extract embedded audio.
+- [x] Analyze supplied professional LMS: duration, 0.05 s grid, named-channel/effect inventory.
+- [x] Build conservative Wadena landmark/channel evidence map.
+- [x] Make AC binding explicit and fail-safe: unknown landmarks are dropped, not guessed.
+- [x] Add validator-compatible Wadena XSQ emitter.
+- [x] Add deterministic temporal-propagation MP4 proof.
+- [x] Add CI workflow that renders and validates MP4 + XSQ proof artifacts.
+- [ ] Verify latest CI workflow from a clean checkout.
+- [ ] Record successful run ID, commit SHA and artifact hash.
 
-## 2. Establish audio ↔ video synchronization
+### P1 — Machine-readable evidence fixture
+- [ ] Create `data/wadena_video_calibration.json` containing only observed frame/audio evidence.
+- [ ] Schema fields: `source`, `time_window`, `frame_range`, `region`, `observation_type`, `roles`, `direction`, `magnitude`, `confidence`, `notes`.
+- [ ] Explicitly distinguish `observed`, `inferred`, `uncertain` and `not_visible`.
+- [ ] Encode the known ~7.7, 31.7, 36.8, 59.9, 79.4, 97.2, 108.1, 154.4, 163.1, 218.7 s candidate windows.
+- [ ] Add deterministic schema/fixture tests.
+- [ ] Add calibration fixture to CI.
+- [ ] Generate a diagnostic CSV/JSON artifact in CI.
 
-- [ ] Compare video-audio onset envelope against visual transition envelope.
-- [ ] Detect stable musical section boundaries and repeated motifs.
-- [ ] Search for multiple independent audio/visual anchors.
-- [ ] Determine whether the recording is cropped, edited, or a different Nutcracker/Nutrocker performance before aligning to LMS.
-- [ ] If a defensible offset/segment mapping exists, record it as an interval with confidence rather than a forced global warp.
-- [ ] If no defensible mapping exists, keep the video as an independent choreography reference fixture.
+### P2 — Audio/video synchronization
+- [ ] Compare video-derived transition envelope with extracted-audio onset/energy envelope.
+- [ ] Search multiple independent anchors rather than fitting one global offset.
+- [ ] Determine whether recording and LMS represent the same performance/edit before alignment.
+- [ ] If defensible, record alignment as piecewise interval(s) with confidence and uncertainty bounds.
+- [ ] If not defensible, formally declare the video an independent choreography fixture.
+- [ ] Never duration-warp the recording merely to match LMS length.
 
-## 3. Extract choreography grammar
+### P3 — Choreography grammar
+- [ ] Label high-confidence gestures: left→right, right→left, center→out, out→center, bottom→top, impact propagation, field change, hero reveal, punctuation and reset.
+- [ ] Inspect candidate windows at individual-frame resolution.
+- [ ] Measure sequential vs simultaneous participation.
+- [ ] Estimate launch/travel/dwell/decay and overlap.
+- [ ] Separate persistent infrastructure from phrase-driven events.
+- [ ] Classify hero/support/punctuation/impact/perimeter participation.
+- [ ] Encode reusable renderer-independent gesture fixtures.
 
-- [ ] Label recurring spatial gestures: left→right, right→left, center→out, out→center, vertical/bottom→top, impact propagation, quiet/reset.
-- [ ] Detect persistent infrastructure fields separately from transient phrase events.
-- [ ] Measure whether propagation is sequential, overlapping, or simultaneous.
-- [ ] Estimate gesture duration, dwell, overlap and decay.
-- [ ] Identify hero-element participation vs support-element participation.
-- [ ] Identify color-state changes that span multiple physical regions.
-- [ ] Encode a compact reusable gesture vocabulary in renderer-independent terms.
+### P4 — Temporal spatial compiler
+- [x] Deterministic landmark topology exists.
+- [x] Explicit launch/travel/decay propagation exists.
+- [x] Temporal renderer and AC-safe event adapter exist.
+- [ ] Validate propagation parameters against observed choreography fixtures.
+- [ ] Add role-aware participation weights.
+- [ ] Add explicit quiet/reset intent.
+- [ ] Add overlapping gesture composition.
+- [ ] Add fail-safe behavior for missing/invalid routes.
+- [ ] Keep static spatial ordering separate from temporal propagation.
 
-## 4. Fix/strengthen the spatial intent compiler
+### P5 — Music-first Birdsong replacement
+- [ ] Remove species/confidence semantics from active music sequencing.
+- [ ] Preserve F0, RMS/energy, onset, spectral centroid, bandwidth, flux and tension/pressure primitives.
+- [ ] Build phrase/trajectory objects.
+- [ ] Convert acoustic trajectories into spatial gesture intents.
+- [ ] Add conservative instrument priors only when confidence is adequate.
+- [ ] Provide pitch-unknown and instrument-unknown fallbacks.
+- [ ] Prove deterministic output for identical audio/configuration.
 
-- [ ] Review `core/wadena_spatial_intent.py` against observed gesture timing.
-- [ ] Separate spatial ordering from temporal wave propagation.
-- [ ] Add explicit propagation profile: launch → travel → decay.
-- [ ] Preserve deterministic landmark routes from `core/wadena_spatial_graph.py`.
-- [ ] Add role-aware participation: hero / infrastructure / impact / punctuation / perimeter.
-- [ ] Add quiet/reset intent that can intentionally reduce activity.
-- [ ] Add tests for route ordering, temporal propagation, strength clamping and invalid-landmark fail-safe behavior.
-
-## 5. Replace species semantics in Birdsong
-
-- [ ] Remove species/confidence semantics from the active music-first path.
-- [ ] Preserve useful acoustic primitives: F0, RMS/energy, onset, spectral centroid/bandwidth/flux, phrase/tension.
-- [ ] Convert acoustic state into trajectory/gesture descriptors.
-- [ ] Add instrument-aware priors only where evidence is reliable.
-- [ ] Keep graceful fallbacks when pitch or instrument inference is uncertain.
-- [ ] Ensure deterministic output from identical audio + configuration.
-
-## 6. Integrate without breaking electrical truth
-
-- [ ] Keep `sequence_builder → effect_engine → xsq_writer` authoritative for electrical output.
-- [ ] Feed spatial intent into existing effect selection rather than bypassing it.
-- [ ] Preserve independent R/G/W AC channels.
-- [ ] Never synthesize RGB values as electrical truth.
-- [ ] Quantize visual color intent to available AC color channels only at the final rendering stage.
+### P6 — Existing effect-engine integration
+- [ ] Feed spatial intent into `sequence_builder → effect_engine → xsq_writer` rather than bypassing the engine.
+- [ ] Preserve existing effect-selection contracts.
+- [ ] Quantize visual color intent to available AC R/G/W channels only at the final stage.
 - [ ] Add channel-truth regression tests.
-- [ ] Add fail-safe fallback to existing behavior when spatial intent is unavailable.
+- [ ] Add fallback to legacy sequencing when spatial intent is unavailable.
+- [ ] Compare baseline vs spatial-intent output for identical electrical constraints.
 
-## 7. Complete Wadena physical digital twin
-
-- [ ] Bind all known truth models to physical coordinates.
-- [ ] Map every major model family to a physical primitive or explicit fallback.
-- [ ] Finish mega-tree ring rendering.
-- [ ] Verify spiral-tree path orientation and density.
-- [ ] Verify mini-tree density and spacing.
+### P7 — Physical digital twin
+- [ ] Bind every verified truth model to physical coordinates.
+- [ ] Map every major family to a physical primitive or explicit fallback.
+- [ ] Finish/verify mega-tree ring rendering.
+- [ ] Verify spiral orientation/density.
+- [ ] Verify mini-tree density/spacing.
 - [ ] Add front/wide/close camera presets.
-- [ ] Add optional model/channel/landmark diagnostic overlays.
+- [ ] Add optional geometry/channel/landmark diagnostic overlays.
+- [ ] Render a clean Wadena scene independent of sequencing.
 
-## 8. Calibration against the supplied professional LMS
+### P8 — LMS calibration
+- [ ] Inventory all available channels/models/colors from actual source files.
+- [ ] Preserve 0.05 s timing authority when LMS is used.
+- [ ] Quantify persistent vocabulary: snowflakes, beat sticks, candy canes, perimeter/roof/wreath.
+- [ ] Quantify copied timing blocks and controlled offsets.
+- [ ] Treat mega-tree activity as sectional unless evidence says otherwise.
+- [ ] Calibrate density/persistence/effect vocabulary without inventing geometry.
 
-- [ ] Inventory all 256 channels and model/color conventions.
-- [ ] Preserve the LMS 0.05 s timing grid when using it as timing authority.
-- [ ] Compare persistent vocabulary layers: snowflakes, beat sticks, candy canes, perimeter/roof/wreath.
-- [ ] Treat mega-tree activity as sectional rather than always-on hero behavior.
-- [ ] Measure copied/coherent timing blocks and controlled offsets.
-- [ ] Use LMS evidence to calibrate density, persistence, offsets and effect vocabulary—not to invent physical geometry unsupported by evidence.
-
-## 9. Proof sequence
-
-- [ ] Generate a baseline existing-engine XSQ.
-- [ ] Generate the same input with spatial-intent enabled.
-- [ ] Verify identical electrical constraints/channel validity.
-- [ ] Render both through the Wadena physical overlay.
-- [ ] Produce side-by-side or sequential MP4 proof.
-- [ ] Produce a machine-readable diagnostic report.
+### P9 — End-to-end proof
+- [ ] Generate baseline XSQ from existing engine.
+- [ ] Generate spatial-intent XSQ from identical input.
+- [ ] Validate both electrically and structurally.
+- [ ] Render both through Wadena overlay/digital twin.
+- [ ] Generate side-by-side/sequential comparison MP4.
+- [ ] Generate machine-readable diagnostic report.
 - [ ] Inspect hero, perimeter, spiral, impact, reset and color-field behavior.
-- [ ] Iterate based on measurable differences.
+- [ ] Iterate using measurable differences.
 
-## 10. CI and artifacts
+### P10 — Release/CI gate
+- [ ] Full test suite passes from clean checkout.
+- [ ] Focused Wadena tests pass.
+- [ ] Calibration tests pass.
+- [ ] Electrical-truth regression passes.
+- [ ] Proof MP4 is nonempty and decodable.
+- [ ] Proof XSQ passes structural validation.
+- [ ] Artifacts uploaded with reproducible metadata.
+- [ ] Final report records exact SHA, commands, durations and hashes.
 
-- [ ] Add calibration-fixture tests to Helix CI.
-- [ ] Add spatial-propagation tests to Helix CI.
-- [ ] Add electrical-truth regression tests.
-- [ ] Add Wadena diagnostic artifact upload.
-- [ ] Add a proof-render workflow using available audio/assets.
-- [ ] Verify clean-checkout execution.
-- [ ] Record exact commit SHA, test command, render command and artifact hash for every proof.
+## Evidence ledger
 
-## Research guardrails
+| Evidence | Authority | Status | Rule |
+|---|---|---|---|
+| Supplied Wadena MP4 | direct frame/audio | available | timing/appearance evidence |
+| Supplied professional LMS | electrical/timing source | available | channel/effect truth |
+| Wadena landmark map | extracted source + documented inference | available | only verified bindings may drive AC |
+| Public Wadena descriptions | secondary | available | context only |
+| YouTube footage | secondary visual | not frame-addressable | never fabricate timestamps |
 
-1. **Direct frame evidence outranks public descriptions for timing/appearance.**
-2. **LMS data outranks visual inference for electrical/channel truth.**
-3. **Never infer a channel from a visually ambiguous frame.**
-4. **Never stretch the 230.5 s recording to 246.93 s without multiple synchronization anchors.**
-5. **No fabricated video timestamps.**
-6. **No species classification in the music-first Birdsong metaphor.**
-7. **No RGB abstraction may overwrite the physical R/G/W AC model.**
-8. **Every completed checkbox requires a real test, generated file, or inspected artifact.**
-9. **If evidence is insufficient, encode uncertainty instead of guessing.**
+## Current verified implementation
 
-## Current highest-priority execution order
+The repository already contains deterministic Wadena spatial topology, temporal propagation, AC-safe event compilation, explicit XSQ emission, and a CI proof workflow. The XSQ emitter intentionally requires caller-supplied landmark/channel bindings and does not infer electrical channels. fileciteturn265file0
 
-`visual calibration fixture → audio/video alignment → choreography grammar → temporal spatial propagation → Birdsong replacement → effect-engine integration → Wadena proof render → CI artifact gate`
+The current landmark map records real LMS channel names and physical landmark coordinates separately from choreography roles, including perimeter, hero, punctuation, impact, foreground rhythm, candy-cane and mega-tree families. fileciteturn266file0
+
+## Autonomous next action
+
+**Do not redesign architecture until the evidence/CI gate is green.** First verify the latest Wadena proof workflow from clean checkout. If it fails, diagnose and repair. If it passes, immediately implement P1 (`wadena_video_calibration.json` + schema tests + CI artifact), then proceed to P2 synchronization.
