@@ -74,5 +74,7 @@ jobs:
             tests/test_export_birdsong_demo_manifest.py \
             tests/test_wadena_geometry.py \
             tests/test_acoustic_manifold.py \
-            tests/test_ac_rgw_color.py \
-            tests/test_wadena_preview_mapper.py
+            tests/test_wadena_preview_mapper.py \
+            tests/test_wadena_spatial_graph.py \
+            tests/test_wadena_spatial_intent_temporal.py \
+            tests/test_wadena_spatial_propagation.py
