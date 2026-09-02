@@ -1,0 +1,40 @@
+name: Wadena Propagation Proof
+
+on:
+  push:
+    branches: [feature/restructure-core]
+  workflow_dispatch:
+
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: .
+    steps:
+      - name: Checkout Helix
+        uses: actions/checkout@v4
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy matplotlib
+      - name: Compile proof renderer
+        run: python -m py_compile tools/render_wadena_propagation_proof.py
+      - name: Render Wadena propagation MP4
+        run: |
+          mkdir -p proof_output
+          python tools/render_wadena_propagation_proof.py proof_output/wadena_temporal_propagation_proof.mp4
+      - name: Validate MP4
+        run: |
+          test -s proof_output/wadena_temporal_propagation_proof.mp4
+          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 proof_output/wadena_temporal_propagation_proof.mp4
+      - name: Upload Wadena proof artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wadena-temporal-propagation-proof
+          path: proof_output/wadena_temporal_propagation_proof.mp4
+          retention-days: 14
