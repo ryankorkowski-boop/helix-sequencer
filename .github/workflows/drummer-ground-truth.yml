@@ -1,5 +1,8 @@
 name: Drummer Ground Truth Test
 
+# This workflow intentionally runs on drummer-related tool changes so the
+# real eight-submodel contract is exercised after cue-targeting fixes.
+
 on:
   push:
     branches:
