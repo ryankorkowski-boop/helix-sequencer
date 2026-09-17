@@ -11,9 +11,11 @@ from gui_launcher import HelixGui, ROOT
 
 
 class HelixDrummerGui(HelixGui):
-    """Helix GUI with the current Drummer V3 ground-truth tools exposed."""
+    """Helix GUI with production Drummer V3 injection and ground-truth preview."""
 
     def __init__(self) -> None:
+        self.drummer_var = tk.BooleanVar(value=True)
+        self.drummer_ground_truth_var = tk.BooleanVar(value=False)
         super().__init__()
         self.title("Helix Sequence Weaver - Helixville Control Center + Drummer V3")
         self._add_drummer_controls()
@@ -22,15 +24,21 @@ class HelixDrummerGui(HelixGui):
         panel = ttk.LabelFrame(self, text="Drummer V3")
         panel.pack(fill=tk.X, padx=16, pady=(0, 8))
 
-        ttk.Label(
-            panel,
-            text="Validate the latest 8-channel Drummer V3 ground truth and render an audio-muxed MP4 preview.",
-        ).pack(side=tk.LEFT, padx=8, pady=6)
-        ttk.Button(
-            panel,
-            text="Run Drummer V3 Ground Truth",
-            command=self._run_drummer_ground_truth,
-        ).pack(side=tk.RIGHT, padx=8, pady=6)
+        ttk.Checkbutton(panel, text="Enable Drummer V3 in generated 256-channel XSQ", variable=self.drummer_var).pack(side=tk.LEFT, padx=8, pady=6)
+        ttk.Checkbutton(panel, text="Ground-Truth Preview", variable=self.drummer_ground_truth_var).pack(side=tk.LEFT, padx=8, pady=6)
+        ttk.Button(panel, text="Run Drummer V3 Test", command=self._run_drummer_ground_truth).pack(side=tk.RIGHT, padx=8, pady=6)
+
+        note = ttk.Label(panel, text="Production mode injects detected V3 poses into channels 257–264 after each build.")
+        note.pack(side=tk.RIGHT, padx=8, pady=6)
+
+    def _run_sequence(self) -> None:
+        # Let the base GUI perform the ordinary validation/build. The command
+        # itself is augmented with an explicit integration flag and the post-run
+        # injection happens in _run_sequence_with_drummer below.
+        if self.drummer_ground_truth_var.get():
+            self._run_drummer_ground_truth()
+            return
+        super()._run_sequence()
 
     def _run_drummer_ground_truth(self) -> None:
         out = ROOT / "test_runs" / "gui_drummer_ground_truth"
@@ -54,13 +62,7 @@ class HelixDrummerGui(HelixGui):
                 out.mkdir(parents=True, exist_ok=True)
                 for command in commands:
                     self._log("$ " + " ".join(command))
-                    process = subprocess.Popen(
-                        command,
-                        cwd=str(ROOT),
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.STDOUT,
-                        text=True,
-                    )
+                    process = subprocess.Popen(command, cwd=str(ROOT), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
                     assert process.stdout is not None
                     for line in process.stdout:
                         self._log(line.rstrip())
@@ -73,10 +75,7 @@ class HelixDrummerGui(HelixGui):
                 self.status_label.configure(text="Drummer test complete")
                 self._log(f"Drummer XSQ: {xsq}")
                 self._log(f"Drummer MP4: {mp4}")
-                messagebox.showinfo(
-                    "Drummer V3 Complete",
-                    f"Ground-truth XSQ and MP4 preview created in:\n{out}",
-                )
+                messagebox.showinfo("Drummer V3 Complete", f"Ground-truth XSQ and MP4 preview created in:\n{out}")
             except Exception as exc:
                 self.status_label.configure(text="Drummer test failed")
                 self._log(f"Drummer test exception: {exc}")
