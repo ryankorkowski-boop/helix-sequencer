@@ -14,6 +14,18 @@ PERFORMER_MODELS = {
     "female_singer": "HX_SNOWMAN_SINGER_FEMALE",
 }
 
+DRUMMER_SUBMODEL_BY_CUE = {
+    "kick": "HX_SNOWMAN_DRUMMER_KICK",
+    "snare": "HX_SNOWMAN_DRUMMER_SNARE",
+    "hihat": "HX_SNOWMAN_DRUMMER_HI_HAT",
+    "hi_hat": "HX_SNOWMAN_DRUMMER_HI_HAT",
+    "tom_left": "HX_SNOWMAN_DRUMMER_TOM_LEFT",
+    "tom_right": "HX_SNOWMAN_DRUMMER_TOM_RIGHT",
+    "cymbal_left": "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT",
+    "cymbal_right": "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",
+    "drumkit_all": "HX_SNOWMAN_DRUMMER_DRUMKIT_ALL",
+}
+
 
 def _target_for_cue(performer: str, cue: dict) -> str:
     model = PERFORMER_MODELS[performer]
@@ -41,14 +53,26 @@ def _target_for_cue(performer: str, cue: dict) -> str:
         else:
             suffix = "HX_SNOWMAN_GUITARIST_GUITAR_BODY"
     elif performer == "drummer":
-        suffix = {
-            "kick": "HX_SNOWMAN_DRUMMER_KICK",
-            "snare": "HX_SNOWMAN_DRUMMER_SNARE",
-            "tom": "HX_SNOWMAN_DRUMMER_TOM_LEFT",
-            "hihat": "HX_SNOWMAN_DRUMMER_HI_HAT",
-            "cymbal": "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT",
-            "drum_bus": "HX_SNOWMAN_DRUMMER_TORSO",
-        }.get(submodel, "HX_SNOWMAN_DRUMMER_TORSO")
+        # Prefer an explicit target/pose over the legacy generic drum type.
+        # This is important because the real drummer contract has eight distinct
+        # lighting submodels, including separate left/right toms and cymbals.
+        explicit = str(cue.get("target_submodel") or cue.get("pose") or "").strip().lower()
+        explicit = explicit.replace("hx_snowman_drummer_", "")
+        if explicit in {"left_tom_hit", "tom_left"}:
+            suffix = "HX_SNOWMAN_DRUMMER_TOM_LEFT"
+        elif explicit in {"right_tom_hit", "tom_right"}:
+            suffix = "HX_SNOWMAN_DRUMMER_TOM_RIGHT"
+        elif explicit in {"left_crash", "cymbal_left"}:
+            suffix = "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT"
+        elif explicit in {"right_crash", "cymbal_right"}:
+            suffix = "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT"
+        elif explicit == "both_crash":
+            # A simultaneous crash deliberately drives both physical cymbals.
+            suffix = "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT"
+        elif explicit == "downbeat_impact":
+            suffix = "HX_SNOWMAN_DRUMMER_DRUMKIT_ALL"
+        else:
+            suffix = DRUMMER_SUBMODEL_BY_CUE.get(submodel, "HX_SNOWMAN_DRUMMER_DRUMKIT_ALL")
     elif performer == "lead_singer":
         suffix = {
             "mouth": "HX_SNOWMAN_SINGER_MOUTH",
