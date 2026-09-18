@@ -116,7 +116,7 @@ def map_events_to_submodels(events: Iterable[DrumEvent]) -> list[dict[str, objec
 
 def drummer_v3_pose_for_event(event: DrumEvent, event_index: int = 0) -> str:
     if event.drum_type == "tom":
-        return "right_tom_hit" if event_index % 2 else "left_tom_hit"
+        return "right_tom_hit" if event_index % 2 == 0 else "left_tom_hit"
     if event.drum_type == "cymbal":
         if event.velocity >= 0.9 and event.confidence >= 0.65:
             return "both_crash"
