@@ -93,13 +93,13 @@ class RestraintRules:
         return _clean(payload)
 
 
-@dataclass
 Restraint = RestraintRules
 
 
 PropGroup = PlanPropGroup
 
 
+@dataclass
 class ScoringTargets:
     timing_alignment_min: float = 0.90
     section_contrast_min: float = 0.75
