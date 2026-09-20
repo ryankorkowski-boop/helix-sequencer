@@ -33,7 +33,10 @@ def main():
  effects=parse_effects(a.xsq)
  if not effects: raise SystemExit("FAIL: no drummer pose effects found in XSQ")
  duration_ms=min(int(a.duration*1000),max(1000,max(e[1] for e in effects)))
- size=bg.size
+ size=(bg.width - (bg.width % 2), bg.height - (bg.height % 2))
+ if size != bg.size:
+  bg=bg.crop((0,0,size[0],size[1]))
+  layers={k:v.crop((0,0,size[0],size[1])) for k,v in layers.items()}
  frames=[]
  writer=imageio.get_writer(a.output,fps=a.fps,codec="libx264",quality=8,macro_block_size=None)
  try:
