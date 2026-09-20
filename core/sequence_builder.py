@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Iterable
 
 from core import engine_profiles
+from core.plan.build_sequence_plan import build_sequence_plan
 from core.effects_orchestration_bridge import EffectsOrchestrationRunReport, run_effects_orchestration
 from core.prime_beat_grid import prime_beat_grid_args
 from core.run_config import RunConfig
@@ -39,6 +40,7 @@ _ARTIFACT_KIND_BY_SUFFIX = {
     ".snowman_band.json": "snowman_band_json",
     "placement_plan.json": "placement_plan",
     "xlights_effect_contract.json": "xlights_effect_contract",
+    ".sequence_plan.json": "sequence_plan",
 }
 
 
@@ -140,6 +142,36 @@ def _promote_orchestrated_template(
         return cleaned
     promoted_template = Path(report.orchestrated_xsq_path).as_posix()
     return _set_or_replace_arg(list(cleaned or []), "--template", promoted_template)
+
+
+def _changed_xsq_paths(
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+) -> list[Path]:
+    changed: list[Path] = []
+    for artifact in _known_artifact_paths(roots):
+        if artifact.suffix.lower() != ".xsq":
+            continue
+        resolved = artifact.resolve(strict=False)
+        try:
+            stat = artifact.stat()
+        except OSError:
+            continue
+        if before.get(resolved) != (stat.st_mtime_ns, stat.st_size):
+            changed.append(artifact)
+    return sorted(changed, key=lambda path: str(path))
+
+
+def _require_changed_xsq(
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+) -> list[Path]:
+    changed = _changed_xsq_paths(roots, before)
+    if not changed:
+        raise RuntimeError(
+            "Sequence engine returned without producing a new or changed .xsq artifact."
+        )
+    return changed
 
 
 def _record_orchestration_artifacts(ctx: RunContext, report: EffectsOrchestrationRunReport | None) -> None:
@@ -442,6 +474,7 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
 
         artifact_roots = _artifact_search_roots(config, profile.version)
         artifact_snapshot = _snapshot_known_artifacts(artifact_roots)
+        changed_xsqs: list[Path] = []
         try:
             _effect_engine().main_for(profile.version, effective_engine_args)
             # Optional birdsong post-run hook (guarded by explicit engine flag)
@@ -452,6 +485,25 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         finally:
             _record_changed_artifacts(ctx, artifact_roots, artifact_snapshot)
             ctx.record_artifact("configured_output_root", config.output_root)
+            changed_xsqs = _changed_xsq_paths(artifact_roots, artifact_snapshot)
+
+        # Fail loudly when the engine swallowed an internal error or otherwise
+        # returned without producing an XSQ. A zero exit from the renderer is
+        # not sufficient evidence of a successful sequencing run.
+        changed_xsqs = _require_changed_xsq(artifact_roots, artifact_snapshot)
+
+        # Slice 0 sidecar: describe the run using existing audio/layout
+        # analysis. This does not feed placement back into the renderer.
+        plan_path = changed_xsqs[0].parent / f"{config.audio_path.stem if config.audio_path else 'sequence'}.sequence_plan.json"
+        plan = build_sequence_plan(
+            audio_path=config.audio_path,
+            layout_path=config.layout_path,
+            profile_id=resolved_profile_id,
+            style_version=profile.version,
+            style_title=profile.title,
+        )
+        plan.write_json(plan_path)
+        ctx.record_artifact("sequence_plan", plan_path)
 
         ctx.finalize(success=True)
         print(f"SUCCESS: Run completed. Manifest: {ctx.manifest_path}", file=sys.stderr)
