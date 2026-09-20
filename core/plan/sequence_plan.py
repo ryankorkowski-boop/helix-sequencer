@@ -5,7 +5,8 @@ from pathlib import Path
 from typing import Any, Mapping
 import json
 
-PLAN_VERSION = "0.2"
+PLAN_VERSION = "0.1"
+PLAN_SCHEMA = "helix.sequence_plan.v1"
 
 
 def _clean(value: Any) -> Any:
@@ -93,6 +94,12 @@ class RestraintRules:
 
 
 @dataclass
+Restraint = RestraintRules
+
+
+PropGroup = PlanPropGroup
+
+
 class ScoringTargets:
     timing_alignment_min: float = 0.90
     section_contrast_min: float = 0.75
@@ -116,6 +123,7 @@ class SequencePlan:
     restraint: RestraintRules = field(default_factory=RestraintRules)
     cues: list[PlanCue] = field(default_factory=list)
     scoring_targets: ScoringTargets = field(default_factory=ScoringTargets)
+    schema: str = PLAN_SCHEMA
     version: str = PLAN_VERSION
     metadata: dict[str, Any] = field(default_factory=dict)
 
@@ -141,6 +149,7 @@ class SequencePlan:
 
     def to_dict(self) -> dict[str, Any]:
         return {
+            "schema": self.schema,
             "version": self.version,
             "source_audio": self.source_audio,
             "fps": self.fps,
@@ -165,6 +174,7 @@ class SequencePlan:
     @classmethod
     def from_dict(cls, payload: Mapping[str, Any]) -> "SequencePlan":
         return cls(
+            schema=str(payload.get("schema", PLAN_SCHEMA)),
             version=str(payload.get("version", PLAN_VERSION)),
             source_audio=str(payload.get("source_audio", "")),
             fps=int(payload.get("fps", 40)),
