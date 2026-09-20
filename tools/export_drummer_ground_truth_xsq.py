@@ -39,7 +39,7 @@ def _add_event(track: ET.Element, index: int, performer: str, phoneme: str, star
     })
 
 
-def _add_effect(element: ET.Element, name: str, label: str, start: float, duration: float, intensity: int = 100) -> None:
+def _add_effect(element: ET.Element, name: str, label: str, start: float, duration: float, intensity: int = 100, source_submodel: str | None = None) -> None:
     layer = ET.SubElement(element, "EffectLayer")
     ET.SubElement(layer, "Effect", {
         "name": name, "label": label,
@@ -47,7 +47,7 @@ def _add_effect(element: ET.Element, name: str, label: str, start: float, durati
         "endTime": str(int((start + duration) * 1000)),
         "settings": f"Start={intensity}",
         "source": "HelixDrummerV3GroundTruth",
-        "sourcePoseSubmodel": POSE_TARGETS.get(label, label),
+        "sourcePoseSubmodel": source_submodel or label,
     })
 
 
@@ -67,7 +67,7 @@ def build_drummer_ground_truth_xsq_text(duration: float = 20.0) -> str:
     effects_root = ET.SubElement(root, "effects")
     element_effects = ET.SubElement(root, "ElementEffects")
     elements = {}
-    for model in (*SUBMODELS, *tuple(POSE_TARGETS.values())):
+    for model in SUBMODELS:
         element = ET.SubElement(element_effects, "Element", {"type": "model", "name": model})
         elements[model] = element
 
@@ -80,14 +80,12 @@ def build_drummer_ground_truth_xsq_text(duration: float = 20.0) -> str:
         else:
             label, target, effect_name = "SNARE", SUBMODELS[1], "Snare"
         _add_event(track, index, "drummer", label, t, 0.12); index += 1
-        _add_effect(elements[target], effect_name, label, t, 0.12, 100)
-        _add_effect(elements[POSE_TARGETS[label]], effect_name + "Pose", label, t, 0.12, 100)
+        _add_effect(elements[target], effect_name, label, t, 0.12, 100, target)
 
         hat_t = t + beat / 2
         if hat_t < duration:
             _add_event(track, index, "drummer", "HI_HAT", hat_t, 0.07); index += 1
-            _add_effect(elements[SUBMODELS[2]], "Hi-Hat", "HI_HAT", hat_t, 0.07, 85)
-            _add_effect(elements[POSE_TARGETS["HI_HAT"]], "Hi-HatPose", "HI_HAT", hat_t, 0.07, 85)
+            _add_effect(elements[SUBMODELS[2]], "Hi-Hat", "HI_HAT", hat_t, 0.07, 85, SUBMODELS[2])
 
         beat_i = int(round(t / beat))
         if beat_i % 8 == 4:
@@ -100,8 +98,7 @@ def build_drummer_ground_truth_xsq_text(duration: float = 20.0) -> str:
                 et = t + offset
                 if et < duration:
                     _add_event(track, index, "drummer", label, et, 0.16); index += 1
-                    _add_effect(elements[target], label.title().replace("_", "-"), label, et, 0.16, 100)
-                    _add_effect(elements[POSE_TARGETS[label]], label.title() + "Pose", label, et, 0.16, 100)
+                    _add_effect(elements[target], label.title().replace("_", "-"), label, et, 0.16, 100, target)
 
         if beat_i % 16 == 0:
             _add_effect(elements[SUBMODELS[7]], "DrumKitAll", "DRUMKIT_ALL", t, 0.10, 70)
