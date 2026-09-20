@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pytest pillow numpy scipy scikit-learn librosa soundfile numba llvmlite imageio-ffmpeg
+          python -m pip install pytest pillow numpy scipy scikit-learn librosa soundfile numba llvmlite imageio-ffmpeg PyYAML
       - name: Generate deterministic synthetic drum audio
         run: python tools/generate_drummer_ground_truth.py --wav test_runs/drummer_ground_truth/drummer_ground_truth.wav --events test_runs/drummer_ground_truth/events.json
       - name: Export deterministic 8-channel drummer truth XSQ
@@ -38,9 +38,7 @@ jobs:
           PYTHONPATH: .
           HELIX_DURATION: '20'
         run: |
-          python tools/export_drummer_ground_truth_xsq.py \
-            --output test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8ch.xsq \
-            --duration 20
+          python tools/export_drummer_ground_truth_xsq.py             --output test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8ch.xsq             --duration 20
       - name: Verify XSQ is drummer-only and contains all 8 real submodels
         run: |
           python - <<'PY'
@@ -69,20 +67,10 @@ jobs:
         env:
           PYTHONPATH: .
         run: |
-          python -m pytest -q \
-            tests/test_drummer_layers.py \
-            tests/test_drummer_xmodel_asset.py \
-            tests/test_drummer_v3_pose_sheet.py \
-            tests/test_drummer_v3_png_layers.py \
-            tests/test_finished_helixville4_drummer.py
+          python -m pytest -q             tests/test_drummer_layers.py             tests/test_drummer_xmodel_asset.py             tests/test_drummer_v3_pose_sheet.py             tests/test_drummer_v3_png_layers.py             tests/test_finished_helixville4_drummer.py
       - name: Run audio-driven drummer preview
         run: |
-          python -m tools.export_helix_flow_review_artifacts \
-            --output-dir test_runs/drummer_ground_truth/preview \
-            --duration-seconds 12 \
-            --step-seconds 0.125 \
-            --bpm 120 \
-            --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav
+          python -m tools.export_helix_flow_review_artifacts             --output-dir test_runs/drummer_ground_truth/preview             --duration-seconds 12             --step-seconds 0.125             --bpm 120             --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav
       - name: Verify preview contains visual drummer effects
         run: |
           python - <<'PY'
