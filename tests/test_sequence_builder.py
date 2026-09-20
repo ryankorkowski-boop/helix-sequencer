@@ -79,6 +79,25 @@ class SequenceBuilderTests(unittest.TestCase):
             manifest = json.loads(ctx.manifest_path.read_text(encoding="utf-8"))
             self.assertEqual(manifest["artifacts"], [])
 
+    def test_require_changed_xsq_rejects_renderer_success_without_xsq(self) -> None:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            before = sequence_builder._snapshot_known_artifacts([root])
+            with self.assertRaisesRegex(RuntimeError, "without producing.*\\.xsq"):
+                sequence_builder._require_changed_xsq([root], before)
+
+    def test_require_changed_xsq_accepts_new_xsq(self) -> None:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            before = sequence_builder._snapshot_known_artifacts([root])
+            xsq = root / "song,v27.3.xsq"
+            xsq.write_text("<xsequence />", encoding="utf-8")
+            assert sequence_builder._require_changed_xsq([root], before) == [xsq]
+
 
 if __name__ == "__main__":
     unittest.main()

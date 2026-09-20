@@ -2,17 +2,21 @@
   "version": "0.1",
   "source_audio": "LightsOutTheme.mp3",
   "fps": 40,
-  "duration_seconds": 180.0,
+  "duration_seconds": 180,
   "style": "showcase",
   "sections": [
     {
       "name": "intro",
       "kind": "intro",
-      "start": 0.0,
+      "start": 0,
       "end": 14.2,
       "target_intensity": 0.35,
-      "primary_groups": ["roofline"],
-      "secondary_groups": ["mini_trees"],
+      "primary_groups": [
+        "roofline"
+      ],
+      "secondary_groups": [
+        "mini_trees"
+      ],
       "palette": "winter_soft",
       "motion_intent": "gentle_reveal",
       "density": "low"
@@ -20,11 +24,17 @@
     {
       "name": "chorus_1",
       "kind": "chorus",
-      "start": 45.0,
-      "end": 72.0,
+      "start": 45,
+      "end": 72,
       "target_intensity": 0.88,
-      "primary_groups": ["mega_tree", "roofline"],
-      "secondary_groups": ["arches", "snowman_band"],
+      "primary_groups": [
+        "mega_tree",
+        "roofline"
+      ],
+      "secondary_groups": [
+        "arches",
+        "snowman_band"
+      ],
       "palette": "classic_christmas_bright",
       "motion_intent": "wide_sweeps_and_spirals",
       "density": "high"
@@ -32,11 +42,17 @@
     {
       "name": "finale",
       "kind": "finale",
-      "start": 150.0,
-      "end": 180.0,
+      "start": 150,
+      "end": 180,
       "target_intensity": 0.97,
-      "primary_groups": ["whole_layout"],
-      "secondary_groups": ["snowman_band", "arches", "mini_trees"],
+      "primary_groups": [
+        "whole_layout"
+      ],
+      "secondary_groups": [
+        "snowman_band",
+        "arches",
+        "mini_trees"
+      ],
       "palette": "classic_christmas_finale",
       "motion_intent": "layered_bursts_and_cascades",
       "density": "peak"
@@ -46,28 +62,51 @@
     {
       "name": "mega_tree",
       "role": "centerpiece",
-      "members": ["mega_tree"],
-      "best_for": ["spirals", "bursts", "color_washes", "finale"],
+      "members": [
+        "mega_tree"
+      ],
+      "best_for": [
+        "spirals",
+        "bursts",
+        "color_washes",
+        "finale"
+      ],
       "energy_capacity": "high"
     },
     {
       "name": "roofline",
       "role": "outline",
-      "members": ["roofline", "house_outline"],
-      "best_for": ["sweeps", "structure", "section_identity"],
+      "members": [
+        "roofline",
+        "house_outline"
+      ],
+      "best_for": [
+        "sweeps",
+        "structure",
+        "section_identity"
+      ],
       "energy_capacity": "medium"
     },
     {
       "name": "snowman_band",
       "role": "character",
-      "members": ["snowman_singer", "snowman_drummer", "snowman_guitarist", "snowman_bassist"],
-      "best_for": ["vocals", "percussion_hits", "call_and_response"],
+      "members": [
+        "snowman_singer",
+        "snowman_drummer",
+        "snowman_guitarist",
+        "snowman_bassist"
+      ],
+      "best_for": [
+        "vocals",
+        "percussion_hits",
+        "call_and_response"
+      ],
       "energy_capacity": "medium"
     }
   ],
   "restraint": {
     "max_whole_house_hits_per_section": 4,
-    "min_seconds_between_major_hits": 2.0,
+    "min_seconds_between_major_hits": 2,
     "max_simultaneous_dominant_groups": 3,
     "allow_strobe": true,
     "strobe_requires_intensity_at_least": 0.85,
@@ -75,20 +114,25 @@
   },
   "cues": [
     {
-      "time": 45.0,
+      "time": 45,
       "kind": "section_start",
       "confidence": 0.9,
-      "target_groups": ["mega_tree", "roofline"],
+      "target_groups": [
+        "mega_tree",
+        "roofline"
+      ],
       "effect_family": "sweep",
       "intensity": 0.82,
       "locked": false,
       "source": "planner"
     },
     {
-      "time": 72.0,
+      "time": 72,
       "kind": "section_peak",
       "confidence": 0.92,
-      "target_groups": ["whole_layout"],
+      "target_groups": [
+        "whole_layout"
+      ],
       "effect_family": "burst",
       "intensity": 0.95,
       "locked": false,
@@ -102,5 +146,6 @@
     "density_penalty_max": 0.2,
     "prop_coverage_min": 0.7,
     "finale_strength_min": 0.85
-  }
+  },
+  "schema": "helix.sequence_plan.v1"
 }
