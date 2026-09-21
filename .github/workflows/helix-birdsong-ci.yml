@@ -18,9 +18,9 @@ jobs:
         python-version: ['3.11', '3.12']
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -71,7 +71,7 @@ jobs:
             --bpm 120
 
       - name: Upload Birdsong demo manifest
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: helix-birdsong-demo-manifest
           path: test_runs/birdsong_demo/birdsong_intents.json
