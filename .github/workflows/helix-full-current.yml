@@ -1,7 +1,9 @@
 name: Helix Full Current 256 + Drummer
 on:
   push:
-    branches: [feature/restructure-core]
+    branches:
+      - feature/restructure-core
+      - fix/mp4-generation-latest
   workflow_dispatch:
 permissions:
   contents: read
@@ -67,11 +69,48 @@ jobs:
         run: python -m pytest -q tests/test_drummer_v3_xsq_integration.py tests/test_drummer_v3_pose_sheet.py
       - name: Render HQ MP4
         env: {PYTHONPATH: .}
-        run: python -m tools.preview_hq test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq --layout xlights_rgbeffects.xml --audio 'Helix Audiolights.mp3' --quality-preset xlights
+        run: |
+          set -euo pipefail
+          python -m tools.preview_hq test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq --layout xlights_rgbeffects.xml --audio 'Helix Audiolights.mp3' --quality-preset xlights
+          test -s test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.mp4
+      - name: Validate HQ MP4 container and streams
+        env: {PYTHONPATH: .}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import subprocess
+          from pathlib import Path
+          import imageio_ffmpeg
+          p = Path('test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.mp4')
+          if not p.exists() or p.stat().st_size <= 0:
+              raise SystemExit(f'MP4 missing/empty: {p}')
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          result = subprocess.run([ffmpeg, '-v', 'error', '-i', str(p), '-map', '0:v:0', '-map', '0:a:0', '-f', 'null', '-'], text=True, capture_output=True)
+          if result.returncode:
+              raise SystemExit(f'Invalid MP4 or missing audio/video streams: {result.stderr.strip()}')
+          print(f'VALID MP4: {p} ({p.stat().st_size} bytes)')
+          PY
       - name: Render actual Drummer V3 with soundtrack
         env: {PYTHONPATH: .}
         run: |
+          set -euo pipefail
           python tools/render_drummer_v3_preview.py             test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq             --audio 'Helix Audiolights.mp3'             --output test_runs/full_current/Helix_Drummer_V3_WITH_MUSIC.mp4             --duration 20             --fps 30
+          test -s test_runs/full_current/Helix_Drummer_V3_WITH_MUSIC.mp4
+      - name: Validate Drummer MP4 container and streams
+        env: {PYTHONPATH: .}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import subprocess
+          from pathlib import Path
+          import imageio_ffmpeg
+          p = Path('test_runs/full_current/Helix_Drummer_V3_WITH_MUSIC.mp4')
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          result = subprocess.run([ffmpeg, '-v', 'error', '-i', str(p), '-map', '0:v:0', '-map', '0:a:0', '-f', 'null', '-'], text=True, capture_output=True)
+          if result.returncode:
+              raise SystemExit(f'Invalid drummer MP4: {result.stderr.strip()}')
+          print(f'VALID DRUMMER MP4: {p} ({p.stat().st_size} bytes)')
+          PY
       - name: Upload full render
         if: always()
         uses: actions/upload-artifact@v4
