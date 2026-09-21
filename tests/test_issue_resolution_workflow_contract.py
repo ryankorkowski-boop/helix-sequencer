@@ -40,6 +40,6 @@ def test_issue_resolution_workflow_runs_validation_paths() -> None:
 def test_issue_resolution_workflow_uploads_reviewable_artifacts() -> None:
     text = _workflow_text()
 
-    assert 'actions/upload-artifact@v4' in text
+    assert 'actions/upload-artifact@v6' in text
     assert 'helix-issue-resolution-sprint-bundle' in text
     assert 'helix-issue-resolution-validation-report' in text
