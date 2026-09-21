@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: pip
@@ -74,7 +74,7 @@ jobs:
           python tools/render_drummer_v3_preview.py             test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq             --audio 'Helix Audiolights.mp3'             --output test_runs/full_current/Helix_Drummer_V3_WITH_MUSIC.mp4             --duration 20             --fps 30
       - name: Upload full render
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: helix-full-current-256-plus-drummer
           path: test_runs/full_current/**/*
