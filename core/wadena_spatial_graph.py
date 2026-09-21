@@ -44,7 +44,7 @@ class WadenaSpatialGraph:
         self.by_name = {item.name: item for item in landmarks}
 
     def route(self, start: str, end: str) -> tuple[str, ...]:
-        """Return a deterministic shortest hop route between landmarks."""
+        """Return a deterministic shortest-hop route using declared neighbor order."""
         if start not in self.by_name or end not in self.by_name:
             return ()
         if start == end:
@@ -53,7 +53,7 @@ class WadenaSpatialGraph:
         seen = {start}
         while frontier:
             path = frontier.pop(0)
-            for nxt in sorted(self.by_name[path[-1]].neighbors):
+            for nxt in self.by_name[path[-1]].neighbors:
                 if nxt in seen:
                     continue
                 candidate = path + (nxt,)
