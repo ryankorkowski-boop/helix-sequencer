@@ -28,10 +28,10 @@ jobs:
 
     steps:
       - name: Checkout Helix
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -266,7 +266,7 @@ jobs:
 
       - name: Upload fractal helixes full-band results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: helix-fractal-helixes-full-band-results
           path: |
