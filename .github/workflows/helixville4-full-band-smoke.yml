@@ -19,8 +19,8 @@ jobs:
   full-band-smoke:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       - name: Run full-band unit checks
@@ -38,7 +38,7 @@ jobs:
             --output-dir test_runs/helixville4_full_band_lightsouttheme_30s_ci \
             --dry-run
       - name: Upload smoke artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: helixville4-full-band-smoke
           path: |
