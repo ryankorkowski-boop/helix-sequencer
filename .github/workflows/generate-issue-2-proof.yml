@@ -16,10 +16,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: pip
@@ -91,7 +91,7 @@ jobs:
 
       - name: Upload XSQ artifact
         if: steps.find_xsq.outputs.XSQ_FILE != 'not_found'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: issue-2-birdsong-sequence
           path: ${{ steps.find_xsq.outputs.XSQ_FILE }}
@@ -99,7 +99,7 @@ jobs:
 
       - name: Upload MP4 artifact
         if: steps.find_mp4.outputs.MP4_FILE != 'not_found'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: issue-2-birdsong-proof
           path: ${{ steps.find_mp4.outputs.MP4_FILE }}
