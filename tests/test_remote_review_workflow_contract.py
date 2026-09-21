@@ -22,7 +22,7 @@ def test_remote_review_workflow_exists_and_has_render_job() -> None:
 def test_remote_review_workflow_uploads_mp4_artifacts() -> None:
     text = _workflow_text()
 
-    assert 'uses: actions/upload-artifact@v4' in text
+    assert 'uses: actions/upload-artifact@v6' in text
     assert 'name: helix-remote-review-preview-mp4' in text
     assert 'review_summary.md' in text
     assert '**/*.mp4' in text
