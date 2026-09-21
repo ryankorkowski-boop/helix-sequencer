@@ -13,9 +13,9 @@ jobs:
       PYTHONPATH: ${{ github.workspace }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: pip
@@ -43,7 +43,7 @@ jobs:
           cat test_runs/issue_2_audio_variants/issue_2_audio_variant_scorecard.md
 
       - name: Upload all Issue #2 audio variant artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: issue-2-audio-variant-artifacts
           path: |
