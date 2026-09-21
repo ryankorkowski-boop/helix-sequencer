@@ -1,7 +1,9 @@
 name: Helix Full Current 256 + Drummer
 on:
   push:
-    branches: [feature/restructure-core]
+    branches:
+      - feature/restructure-core
+      - fix/mp4-generation-latest
   workflow_dispatch:
 permissions:
   contents: read
