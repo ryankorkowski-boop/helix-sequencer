@@ -23,14 +23,14 @@ class Landmark:
 
 
 WADENA_LANDMARKS: tuple[Landmark, ...] = (
-    Landmark("LEFT_TREE", 122.0, 302.0, "perimeter", ("BLVD_LEFT", "WREATH")),
-    Landmark("BLVD_LEFT", 120.0, 62.0, "boulevard", ("LEFT_TREE", "BLVD_CENTER", "WREATH")),
-    Landmark("BLVD_CENTER", 644.0, 11.0, "boulevard", ("BLVD_LEFT", "BLVD_RIGHT", "WREATH")),
-    Landmark("BLVD_RIGHT", 999.0, -26.0, "boulevard", ("BLVD_CENTER", "RIGHT_LINDEN", "WREATH")),
-    Landmark("RIGHT_LINDEN", 1290.0, 391.0, "perimeter", ("BLVD_RIGHT", "WREATH")),
-    Landmark("WREATH", 556.0, 340.0, "hero", ("LEFT_TREE", "BLVD_LEFT", "BLVD_CENTER", "BLVD_RIGHT", "RIGHT_LINDEN", "GARAGE_SNOWFLAKE")),
+    Landmark("LEFT_TREE", 122.0, 302.0, "perimeter", ("BLVD_LEFT",)),
+    Landmark("BLVD_LEFT", 120.0, 62.0, "boulevard", ("LEFT_TREE", "BLVD_CENTER")),
+    Landmark("BLVD_CENTER", 644.0, 11.0, "boulevard", ("BLVD_LEFT", "BLVD_RIGHT")),
+    Landmark("BLVD_RIGHT", 999.0, -26.0, "boulevard", ("BLVD_CENTER", "RIGHT_LINDEN")),
+    Landmark("RIGHT_LINDEN", 1290.0, 391.0, "perimeter", ("BLVD_RIGHT",)),
+    Landmark("WREATH", 556.0, 340.0, "hero", ("GARAGE_SNOWFLAKE",)),
     Landmark("GARAGE_SNOWFLAKE", 666.0, 342.0, "punctuation", ("WREATH", "ROOF_SNOWFLAKE")),
-    Landmark("ROOF_SNOWFLAKE", 855.0, 469.0, "punctuation", ("GARAGE_SNOWFLAKE", "RIGHT_LINDEN")),
+    Landmark("ROOF_SNOWFLAKE", 855.0, 469.0, "punctuation", ("GARAGE_SNOWFLAKE",)),
     Landmark("FRONT_IMPACT", 621.0, 372.0, "impact", ("WREATH", "RIGHT_IMPACT")),
     Landmark("RIGHT_IMPACT", 1279.0, 239.0, "impact", ("RIGHT_LINDEN", "FRONT_IMPACT")),
 )
@@ -44,7 +44,7 @@ class WadenaSpatialGraph:
         self.by_name = {item.name: item for item in landmarks}
 
     def route(self, start: str, end: str) -> tuple[str, ...]:
-        """Return a deterministic shortest-hop route using declared neighbor order."""
+        """Return a deterministic route over the declared physical topology."""
         if start not in self.by_name or end not in self.by_name:
             return ()
         if start == end:
@@ -53,7 +53,7 @@ class WadenaSpatialGraph:
         seen = {start}
         while frontier:
             path = frontier.pop(0)
-            for nxt in sorted(self.by_name[path[-1]].neighbors):
+            for nxt in self.by_name[path[-1]].neighbors:
                 if nxt in seen:
                     continue
                 candidate = path + (nxt,)
