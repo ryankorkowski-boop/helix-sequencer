@@ -53,7 +53,7 @@ class WadenaSpatialGraph:
         seen = {start}
         while frontier:
             path = frontier.pop(0)
-            for nxt in self.by_name[path[-1]].neighbors:
+            for nxt in sorted(self.by_name[path[-1]].neighbors):
                 if nxt in seen:
                     continue
                 candidate = path + (nxt,)
