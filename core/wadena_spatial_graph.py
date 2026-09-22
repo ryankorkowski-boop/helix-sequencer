@@ -81,3 +81,5 @@ class WadenaSpatialGraph:
 
 def wadena_spatial_graph() -> WadenaSpatialGraph:
     return WadenaSpatialGraph()
+
+# CI trigger: validate the corrected physical topology on the PR merge ref.
