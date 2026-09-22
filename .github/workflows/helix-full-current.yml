@@ -79,3 +79,5 @@ jobs:
           name: helix-full-current-256-plus-drummer
           path: test_runs/full_current/**/*
           if-no-files-found: warn
+
+# CI trigger: execute the current 256-channel drummer render on this branch.
