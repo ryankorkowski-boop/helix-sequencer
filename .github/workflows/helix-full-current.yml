@@ -1,7 +1,7 @@
 name: Helix Full Current 256 + Drummer
 on:
   push:
-    branches: [feature/restructure-core, maintenance/dependency-modernization]
+    branches: [feature/restructure-core, maintenance/dependency-modernization, feature/drummer-v4-performance]
   workflow_dispatch:
 permissions:
   contents: read
@@ -62,16 +62,16 @@ jobs:
       - name: Validate XSQ
         env: {PYTHONPATH: .}
         run: python tools/validate_xsq_structure.py test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq
-      - name: Validate Drummer V3 mapping contract
+      - name: Validate Drummer mapping and V4 performance contract
         env: {PYTHONPATH: .}
-        run: python -m pytest -q tests/test_drummer_v3_xsq_integration.py tests/test_drummer_v3_pose_sheet.py
+        run: python -m pytest -q tests/test_drummer_v3_xsq_integration.py tests/test_drummer_v3_pose_sheet.py tests/test_drum_performance.py
       - name: Render HQ MP4
         env: {PYTHONPATH: .}
         run: python -m tools.preview_hq test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq --layout xlights_rgbeffects.xml --audio 'Helix Audiolights.mp3' --quality-preset xlights
-      - name: Render actual Drummer V3 with soundtrack
+      - name: Render event-driven Drummer V4 with soundtrack
         env: {PYTHONPATH: .}
         run: |
-          python tools/render_drummer_v3_preview.py             test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq             --audio 'Helix Audiolights.mp3'             --output test_runs/full_current/Helix_Drummer_V3_WITH_MUSIC.mp4             --duration 20             --fps 30
+          python tools/render_drummer_v4_preview.py             test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq             --audio 'Helix Audiolights.mp3'             --output test_runs/full_current/Helix_Drummer_V4_WITH_MUSIC.mp4             --duration 20             --fps 30
       - name: Upload full render
         if: always()
         uses: actions/upload-artifact@v6
