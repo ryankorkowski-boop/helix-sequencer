@@ -23,14 +23,18 @@ def test_orchestrator_normalizes_existing_drum_detector(monkeypatch, tmp_path: P
         lambda *args, **kwargs: {"snare": [_FakeEvent()]},
     )
 
-    result = orchestrator.build_musical_event_map(audio)
+    result = orchestrator.build_musical_event_map(
+        audio,
+        config=orchestrator.AudioIntelligenceConfig(use_stem_analysis=False),
+    )
     assert result.duration_ms == 5000
     assert result.providers == ["helix.drum_detection"]
     assert len(result.events) == 1
     assert result.events[0].kind == "drum_snare"
     assert result.events[0].time_ms == 1250
     assert result.events[0].confidence == 0.8
-    assert result.diagnostics["drum_events_emitted"] == 1
+    assert result.diagnostics["direct_drum_events_emitted"] == 1
+    assert result.diagnostics["fused_events"] == 1
 
 
 def test_orchestrator_reports_missing_audio(tmp_path: Path):
