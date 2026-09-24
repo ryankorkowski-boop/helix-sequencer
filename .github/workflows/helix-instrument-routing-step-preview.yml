@@ -14,6 +14,8 @@ on:
       - 'tools/performer_preview_renderer.py'
       - 'tools/build_helixville4_full_band_layout.py'
       - 'tools/build_helpers/helixville4_floor_piano.py'
+      - 'tools/integrate_keyboard_candy_canes_into_xsq.py'
+      - 'tests/test_keyboard_candy_cane_routing.py'
       - 'template.xsq'
       - 'Helix Audiolights.mp3'
       - '.github/workflows/helix-instrument-routing-step-preview.yml'
