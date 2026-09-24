@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: feature/audio-intelligence-v2
+          ref: ${{ github.ref_name }}
 
       - uses: actions/setup-python@v5
         with:
