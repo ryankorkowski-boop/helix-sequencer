@@ -103,7 +103,7 @@ jobs:
           test -n "$XSQ"
           test -s "$XSQ"
           MAPPED="$OUT/Helix_Instrument_Routing_CandyCanes.xsq"
-          python tools/integrate_keyboard_candy_canes_into_xsq.py "$XSQ" --output "$MAPPED" --report "$OUT/KEYBOARD_CANDY_CANE_ROUTING.json"
+          python tools/integrate_keyboard_candy_canes_into_xsq.py "$XSQ" --output "$MAPPED" --audio "$GITHUB_WORKSPACE/Helix Audiolights.mp3" --report "$OUT/KEYBOARD_CANDY_CANE_ROUTING.json"
           test -s "$MAPPED"
           echo "GENERATED_XSQ=$MAPPED" >> "$GITHUB_ENV"
 
