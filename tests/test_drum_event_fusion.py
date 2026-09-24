@@ -53,3 +53,13 @@ def test_fusion_is_deterministically_sorted():
     ]
     fused, _ = fuse_drum_events(events)
     assert [e.time_ms for e in fused] == [500, 1200]
+
+
+def test_same_source_rapid_hits_remain_independent():
+    events = [
+        MusicalEvent(1000, "drum_kick", 0.8, 0.8, "direct", instrument="kick"),
+        MusicalEvent(1020, "drum_kick", 0.85, 0.85, "direct", instrument="kick"),
+    ]
+    fused, diag = fuse_drum_events(events)
+    assert len(fused) == 2
+    assert diag["duplicates_suppressed"] == 0
