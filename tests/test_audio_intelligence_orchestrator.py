@@ -233,3 +233,28 @@ def test_orchestrator_adds_melody_run_from_normalized_notes(monkeypatch, tmp_pat
     assert runs[0].metadata["direction"] == "ascending"
     assert runs[0].metadata["pitches_midi"] == [60, 62, 64]
     assert result.diagnostics["melody_run_events"] == 1
+
+
+def test_melody_run_detector_preserves_direction_changes():
+    from audio.musical_event_model import MusicalEvent
+    from audio.musical_intelligence import detect_melody_runs
+
+    def note(t, pitch):
+        return MusicalEvent(
+            time_ms=t,
+            kind="note_event",
+            confidence=0.9,
+            strength=0.8,
+            instrument="mix_harmonic",
+            duration_ms=100,
+            pitch_midi=pitch,
+        )
+
+    events = [note(0, 60), note(100, 62), note(200, 64), note(300, 61), note(400, 59), note(500, 57)]
+    runs = detect_melody_runs(events, min_notes=3, max_gap_ms=150)
+
+    assert len(runs) == 2
+    assert runs[0].metadata["direction"] == "ascending"
+    assert runs[0].metadata["pitches_midi"] == [60, 62, 64]
+    assert runs[1].metadata["direction"] == "descending"
+    assert runs[1].metadata["pitches_midi"] == [64, 61, 59, 57]
