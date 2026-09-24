@@ -141,3 +141,53 @@ def test_chord_grouping_preserves_polyphony():
     assert len(chords) == 1
     assert chords[0].kind == "harmony_chord"
     assert chords[0].metadata["pitches_midi"] == [60, 64, 67]
+
+
+def test_orchestrator_imports_canonical_notes_and_beats(monkeypatch, tmp_path: Path):
+    audio = tmp_path / "song.wav"
+    audio.write_bytes(b"not-real-audio")
+
+    class _Beat:
+        time_ms = 1000
+        confidence = 0.91
+        strength = 0.88
+        label = "beat"
+        metadata = {"downbeat": True}
+
+    class _Note:
+        timestamp_ms = 1010
+        duration_ms = 180
+        pitch_hz = 261.63
+        midi_note = 60
+        note_name = "C4"
+        velocity = 0.84
+        confidence = 0.93
+        source_stem = "mix_harmonic"
+
+    class _Analysis:
+        beat_events = [_Beat()]
+        note_events = [_Note()]
+
+    monkeypatch.setattr(orchestrator, "_duration_ms", lambda _: 2000)
+    monkeypatch.setattr(orchestrator, "detect_drum_event_streams_from_file", lambda *args, **kwargs: {})
+    monkeypatch.setattr(orchestrator, "analyze_audio_file", lambda *args, **kwargs: _Analysis())
+
+    result = orchestrator.build_musical_event_map(
+        audio,
+        config=orchestrator.AudioIntelligenceConfig(
+            use_stem_analysis=False,
+            adaptive_timing=True,
+            chord_grouping=False,
+        ),
+    )
+
+    notes = [event for event in result.events if event.kind == "note_event"]
+    beats = [event for event in result.events if event.kind == "beat_downbeat"]
+    assert len(notes) == 1
+    assert notes[0].pitch_midi == 60
+    assert notes[0].metadata["note_name"] == "C4"
+    assert len(beats) == 1
+    assert beats[0].metadata["downbeat"] is True
+    assert result.diagnostics["canonical_note_events_imported"] == 1
+    assert result.diagnostics["canonical_timing_events_imported"] == 1
+    assert result.diagnostics["beat_map_available"] is True
