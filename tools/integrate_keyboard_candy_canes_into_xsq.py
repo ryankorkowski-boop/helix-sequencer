@@ -7,6 +7,8 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Iterable
 
+from audio.musical_event_model import MusicalEvent
+
 # Former Helix keyboard/candy-cane routing:
 # C4..C5 natural notes drive matching North 6..13 and South 3..10.
 # Both sides are intentionally lit for each recognized note.
@@ -134,12 +136,39 @@ def _add_on(layer: ET.Element, start: int, end: int, brightness: float) -> None:
     )
 
 
+def _normalized_keyboard_note_events(events: Iterable[MusicalEvent]) -> list[tuple[str, int, int, float]]:
+    mapped: list[tuple[str, int, int, float]] = []
+    for event in events:
+        if event.kind not in {"note_event", "note"}:
+            continue
+        if (event.instrument or "").lower() not in {"keyboard", "piano", "mix_harmonic", "bass", ""}:
+            continue
+        pitch = event.pitch_midi
+        if pitch is None:
+            note_name = str(event.metadata.get("note_name", ""))
+        else:
+            midi = int(round(float(pitch)))
+            octave = (midi // 12) - 1
+            names = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
+            note_name = f"{names[midi % 12]}{octave}"
+        note = _norm_note(note_name)
+        if note is None:
+            continue
+        start = max(0, int(event.time_ms))
+        end = max(start + 50, start + int(event.duration_ms or 50))
+        event_brightness = max(0.0, min(1.0, float(event.strength or event.confidence)))
+        mapped.append((note, start, end, event_brightness))
+    mapped.sort(key=lambda item: (item[1], item[2], item[0]))
+    return mapped
+
+
 def inject_keyboard_candy_canes(
     base_xsq: Path,
     output_xsq: Path,
     *,
     layer_name: str = "AUTO_Keyboard_CandyCanes",
     brightness: float = 1.0,
+    normalized_events: Iterable[MusicalEvent] | None = None,
 ) -> dict[str, object]:
     if not base_xsq.exists():
         raise FileNotFoundError(f"Missing XSQ: {base_xsq}")
@@ -150,11 +179,19 @@ def inject_keyboard_candy_canes(
 
     tree = ET.parse(output_xsq)
     root = tree.getroot()
-    note_events = extract_polyphonic_timing_events(root)
-    if not note_events:
+    normalized_note_events = _normalized_keyboard_note_events(normalized_events or ())
+    legacy_note_events = extract_polyphonic_timing_events(root)
+    if normalized_note_events:
+        note_events = normalized_note_events
+        source_timing_track = "helix.musical_event_map.note_event"
+    elif legacy_note_events:
+        note_events = [(note, start, end, 1.0) for note, start, end in legacy_note_events]
+        source_timing_track = "Polyphonic Transcription"
+    else:
         raise RuntimeError(
-            "Polyphonic Transcription timing track contains no recognized C4-C5 "
-            "natural-note events; refusing to produce a fake candy-cane preview."
+            "No recognized C4-C5 natural-note events were supplied by the normalized "
+            "event map or the Polyphonic Transcription timing track; refusing to "
+            "produce a fake candy-cane preview."
         )
 
     container = _element_effects(root)
@@ -169,9 +206,9 @@ def inject_keyboard_candy_canes(
 
     placements = 0
     note_counts = {note: 0 for note in NOTE_TO_MODELS}
-    for note, start, end in note_events:
+    for note, start, end, event_brightness in note_events:
         for model_name in NOTE_TO_MODELS[note]:
-            _add_on(layers[model_name], start, end, brightness)
+            _add_on(layers[model_name], start, end, min(brightness, event_brightness))
             placements += 1
         note_counts[note] += 1
 
@@ -187,7 +224,9 @@ def inject_keyboard_candy_canes(
             note: {"north": NORTH_BY_NOTE[note], "south": SOUTH_BY_NOTE[note]}
             for note in NOTE_TO_MODELS
         },
-        "source_timing_track": "Polyphonic Transcription",
+        "source_timing_track": source_timing_track,
+        "normalized_note_events": len(normalized_note_events),
+        "legacy_note_events": len(legacy_note_events),
         "recognized_note_events": len(note_events),
         "placement_count": placements,
         "note_counts": note_counts,
