@@ -191,3 +191,45 @@ def test_orchestrator_imports_canonical_notes_and_beats(monkeypatch, tmp_path: P
     assert result.diagnostics["canonical_note_events_imported"] == 1
     assert result.diagnostics["canonical_timing_events_imported"] == 1
     assert result.diagnostics["beat_map_available"] is True
+
+
+def test_orchestrator_adds_melody_run_from_normalized_notes(monkeypatch, tmp_path: Path):
+    audio = tmp_path / "song.wav"
+    audio.write_bytes(b"not-real-audio")
+
+    class _Note:
+        def __init__(self, timestamp_ms, midi_note):
+            self.timestamp_ms = timestamp_ms
+            self.duration_ms = 120
+            self.pitch_hz = 220.0
+            self.midi_note = midi_note
+            self.note_name = "X"
+            self.velocity = 0.82
+            self.confidence = 0.92
+            self.source_stem = "mix_harmonic"
+
+    class _Analysis:
+        beat_events = []
+        note_events = [
+            _Note(1000, 60),
+            _Note(1120, 62),
+            _Note(1240, 64),
+        ]
+
+    monkeypatch.setattr(orchestrator, "_duration_ms", lambda _: 2000)
+    monkeypatch.setattr(orchestrator, "analyze_audio_file", lambda *args, **kwargs: _Analysis())
+    monkeypatch.setattr(orchestrator, "detect_drum_event_streams_from_file", lambda *args, **kwargs: {})
+
+    result = orchestrator.build_musical_event_map(
+        audio,
+        config=orchestrator.AudioIntelligenceConfig(
+            use_stem_analysis=False,
+            chord_grouping=False,
+            adaptive_timing=False,
+        ),
+    )
+    runs = [event for event in result.events if event.kind == "melody_run"]
+    assert len(runs) == 1
+    assert runs[0].metadata["direction"] == "ascending"
+    assert runs[0].metadata["pitches_midi"] == [60, 62, 64]
+    assert result.diagnostics["melody_run_events"] == 1
