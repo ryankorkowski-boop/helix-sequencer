@@ -84,3 +84,60 @@ def test_orchestrator_exposes_instrument_and_vocal_cues(monkeypatch, tmp_path: P
     assert "vocal_onset" in kinds
     assert "vocal_harmony" in kinds
     assert result.diagnostics["instrument_events_emitted"] >= 5
+
+
+def test_orchestrator_adds_musical_salience_and_adaptive_timing(monkeypatch, tmp_path: Path):
+    audio = tmp_path / "song.wav"
+    audio.write_bytes(b"not-real-audio")
+
+    class _Kick:
+        timestamp = 1.0
+        confidence = 0.9
+        velocity = 0.85
+        drum_type = "kick"
+        cluster_id = 1
+        frequency_band_info = {}
+
+    class _Snare:
+        timestamp = 1.03
+        confidence = 0.8
+        velocity = 0.9
+        drum_type = "snare"
+        cluster_id = 2
+        frequency_band_info = {}
+
+    monkeypatch.setattr(orchestrator, "_duration_ms", lambda _: 3000)
+    monkeypatch.setattr(
+        orchestrator,
+        "detect_drum_event_streams_from_file",
+        lambda *args, **kwargs: {"drums": [_Kick(), _Snare()]},
+    )
+
+    result = orchestrator.build_musical_event_map(
+        audio,
+        config=orchestrator.AudioIntelligenceConfig(
+            use_stem_analysis=False,
+            chord_grouping=False,
+        ),
+    )
+
+    assert result.events
+    assert all("musical_importance" in event.metadata for event in result.events)
+    assert result.diagnostics["adaptive_timing_events"] >= 1
+    assert result.diagnostics["musical_intelligence"]["important_event_count"] >= 1
+
+
+def test_chord_grouping_preserves_polyphony():
+    from audio.musical_event_model import MusicalEvent
+    from audio.musical_intelligence import detect_chord_groups
+
+    events = [
+        MusicalEvent(1000, "note", 0.9, 0.8, pitch_midi=60, instrument="keyboard"),
+        MusicalEvent(1010, "note", 0.85, 0.75, pitch_midi=64, instrument="keyboard"),
+        MusicalEvent(1020, "note", 0.88, 0.72, pitch_midi=67, instrument="keyboard"),
+    ]
+
+    chords = detect_chord_groups(events)
+    assert len(chords) == 1
+    assert chords[0].kind == "harmony_chord"
+    assert chords[0].metadata["pitches_midi"] == [60, 64, 67]
