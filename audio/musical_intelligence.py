@@ -224,3 +224,76 @@ def summarize(events: Iterable[MusicalEvent]) -> dict[str, object]:
             sum(importance_values) / max(1, len(importance_values)), 4
         ),
     }
+
+
+def detect_melody_runs(
+    events: Iterable[MusicalEvent],
+    *,
+    min_notes: int = 3,
+    max_gap_ms: int = 180,
+) -> list[MusicalEvent]:
+    """Detect directional runs in normalized pitched events without assigning effects."""
+    notes = [
+        event for event in events
+        if event.kind == "note_event"
+        and event.pitch_midi is not None
+        and event.confidence >= 0.45
+    ]
+    notes.sort(key=lambda item: item.time_ms)
+    runs: list[list[MusicalEvent]] = []
+    current: list[MusicalEvent] = []
+    direction = 0
+    for event in notes:
+        if not current:
+            current = [event]
+            direction = 0
+            continue
+        prev = current[-1]
+        gap = event.time_ms - prev.time_ms
+        step = float(event.pitch_midi) - float(prev.pitch_midi)
+        step_dir = 1 if step > 0 else -1 if step < 0 else 0
+        if gap <= max_gap_ms and step_dir and (direction == 0 or step_dir == direction):
+            current.append(event)
+            direction = step_dir
+        else:
+            if len(current) >= min_notes and direction:
+                runs.append(current)
+            current = [event]
+            direction = 0
+
+    if len(current) >= min_notes and direction:
+        runs.append(current)
+
+    out: list[MusicalEvent] = []
+    for run in runs:
+        direction_name = "ascending" if direction_for_run(run) > 0 else "descending"
+        confidence = sum(item.confidence for item in run) / len(run)
+        strength = max(item.strength for item in run)
+        pitches = [int(round(float(item.pitch_midi))) for item in run]
+        out.append(
+            MusicalEvent(
+                time_ms=run[0].time_ms,
+                kind="melody_run",
+                confidence=clamp01(confidence),
+                strength=clamp01(strength),
+                source="helix.musical_intelligence",
+                instrument="keyboard",
+                duration_ms=max(item.time_ms + item.duration_ms for item in run) - run[0].time_ms,
+                pitch_midi=float(pitches[0]),
+                metadata={
+                    "direction": direction_name,
+                    "note_count": len(run),
+                    "pitches_midi": pitches,
+                    "musical_importance": round(clamp01(0.45 * confidence + 0.40 * strength + 0.15), 4),
+                    "span_ms": run[-1].time_ms - run[0].time_ms,
+                },
+            )
+        )
+    return out
+
+
+def direction_for_run(run: list[MusicalEvent]) -> int:
+    if len(run) < 2:
+        return 0
+    delta = float(run[-1].pitch_midi) - float(run[0].pitch_midi)
+    return 1 if delta > 0 else -1 if delta < 0 else 0
