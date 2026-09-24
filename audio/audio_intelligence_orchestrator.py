@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 
 from audio.drum_detection import DrumDetectionConfig, detect_drum_event_streams_from_file
@@ -128,9 +129,17 @@ def build_musical_event_map(
                 (),
                 beat_ms=[],
             )
+            guitar_onsets: list[int] = []
+            for stem_name, details in stem.stem_features.items():
+                if stem_name in {"bass", "vocals", "drums"} or not isinstance(details, dict):
+                    continue
+                for onset in details.get("onset_events", []) or []:
+                    if isinstance(onset, dict) and "time_ms" in onset:
+                        guitar_onsets.append(int(onset["time_ms"]))
             guitar_events, guitar_diag = derive_guitar_events(
-                (),
-                onset_ms=[],
+                [SimpleNamespace(start_ms=mark, end_ms=mark + 160, notes=[], velocity=0.62)
+                 for mark in sorted(set(guitar_onsets))],
+                onset_ms=guitar_onsets,
                 beat_ms=[],
             )
             for event in bass_events:
@@ -183,6 +192,23 @@ def build_musical_event_map(
                     source="helix.stem_analysis",
                     instrument="singer",
                     metadata={"performer": "singer", "reason": "vocal_energy_peak"},
+                ))
+                instrument_count += 1
+
+            for vocal in stem.background_vocal_events or []:
+                result.add(MusicalEvent(
+                    time_ms=max(0, int(vocal.start_ms)),
+                    kind="vocal_harmony",
+                    confidence=clamp01(vocal.confidence),
+                    strength=clamp01(vocal.energy),
+                    source="helix.background_vocal_classifier",
+                    instrument="singer",
+                    duration_ms=max(0, int(vocal.end_ms - vocal.start_ms)),
+                    metadata={
+                        "role": vocal.role,
+                        "performer_hint": vocal.performer_hint,
+                        "reason": vocal.source_reason,
+                    },
                 ))
                 instrument_count += 1
 
