@@ -1128,7 +1128,32 @@
     <model DisplayAs="Star" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm2="50" StarStartLocation="Bottom Ctr-CW" LayoutGroup="Default" parm3="15" StringType="Single Color Intensity" CustomColor="#000000" name="sf1" WorldPosX="910.0200" WorldPosY="499.8587" WorldPosZ="0.0000" ScaleX="0.4299" ScaleY="0.3708" ScaleZ="0.0200" RotateX="0.00000000" RotateY="0.00000000" RotateZ="-3.00000000" versionNumber="7" StartChannel="97">
       <ControllerConnection Protocol="LOR Optimised"/>
     </model>
-  </models>
+  
+    <model DisplayAs="Single Line" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm2="1" parm3="1" LayoutGroup="All Previews" CustomColor="#FFFFFF" StringType="Single Color Intensity" name="HX_DRUMMER_CH01_KICK" WorldPosX="430.0000" WorldPosY="690.0000" WorldPosZ="0.0000" X2="0.0000" Y2="0.0000" Z2="0.0000" versionNumber="7" StartChannel="257">
+      <ControllerConnection Protocol="LOR Optimised"/>
+    </model>
+    <model DisplayAs="Single Line" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm2="1" parm3="1" LayoutGroup="All Previews" CustomColor="#FFFFFF" StringType="Single Color Intensity" name="HX_DRUMMER_CH02_SNARE" WorldPosX="470.0000" WorldPosY="665.0000" WorldPosZ="0.0000" X2="0.0000" Y2="0.0000" Z2="0.0000" versionNumber="7" StartChannel="258">
+      <ControllerConnection Protocol="LOR Optimised"/>
+    </model>
+    <model DisplayAs="Single Line" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm2="1" parm3="1" LayoutGroup="All Previews" CustomColor="#FFFFFF" StringType="Single Color Intensity" name="HX_DRUMMER_CH03_HIHAT" WorldPosX="525.0000" WorldPosY="640.0000" WorldPosZ="0.0000" X2="0.0000" Y2="0.0000" Z2="0.0000" versionNumber="7" StartChannel="259">
+      <ControllerConnection Protocol="LOR Optimised"/>
+    </model>
+    <model DisplayAs="Single Line" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm2="1" parm3="1" LayoutGroup="All Previews" CustomColor="#FFFFFF" StringType="Single Color Intensity" name="HX_DRUMMER_CH04_TOM" WorldPosX="505.0000" WorldPosY="690.0000" WorldPosZ="0.0000" X2="0.0000" Y2="0.0000" Z2="0.0000" versionNumber="7" StartChannel="260">
+      <ControllerConnection Protocol="LOR Optimised"/>
+    </model>
+    <model DisplayAs="Single Line" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm2="1" parm3="1" LayoutGroup="All Previews" CustomColor="#FFFFFF" StringType="Single Color Intensity" name="HX_DRUMMER_CH05_CYMBAL" WorldPosX="555.0000" WorldPosY="610.0000" WorldPosZ="0.0000" X2="0.0000" Y2="0.0000" Z2="0.0000" versionNumber="7" StartChannel="261">
+      <ControllerConnection Protocol="LOR Optimised"/>
+    </model>
+    <model DisplayAs="Single Line" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm2="1" parm3="1" LayoutGroup="All Previews" CustomColor="#FFFFFF" StringType="Single Color Intensity" name="HX_DRUMMER_CH06_LEFT_STICK" WorldPosX="450.0000" WorldPosY="630.0000" WorldPosZ="0.0000" X2="0.0000" Y2="0.0000" Z2="0.0000" versionNumber="7" StartChannel="262">
+      <ControllerConnection Protocol="LOR Optimised"/>
+    </model>
+    <model DisplayAs="Single Line" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm2="1" parm3="1" LayoutGroup="All Previews" CustomColor="#FFFFFF" StringType="Single Color Intensity" name="HX_DRUMMER_CH07_RIGHT_STICK" WorldPosX="535.0000" WorldPosY="625.0000" WorldPosZ="0.0000" X2="0.0000" Y2="0.0000" Z2="0.0000" versionNumber="7" StartChannel="263">
+      <ControllerConnection Protocol="LOR Optimised"/>
+    </model>
+    <model DisplayAs="Single Line" StartSide="B" Dir="L" Antialias="1" PixelSize="2" Transparency="0" parm1="1" parm2="1" parm3="1" LayoutGroup="All Previews" CustomColor="#FFFFFF" StringType="Single Color Intensity" name="HX_DRUMMER_CH08_BODY_IMPACT" WorldPosX="490.0000" WorldPosY="720.0000" WorldPosZ="0.0000" X2="0.0000" Y2="0.0000" Z2="0.0000" versionNumber="7" StartChannel="264">
+      <ControllerConnection Protocol="LOR Optimised"/>
+    </model>
+</models>
   <view_objects>
     <view_object DisplayAs="Gridlines" LayoutGroup="Default" name="Gridlines" GridLineSpacing="50" GridWidth="2000.0" GridHeight="1000.0" Active="1" WorldPosX="0.0000" WorldPosY="0.0000" WorldPosZ="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" RotateX="-90.00000000" RotateY="-0.00000000" RotateZ="0.00000000" versionNumber="7"/>
   </view_objects>

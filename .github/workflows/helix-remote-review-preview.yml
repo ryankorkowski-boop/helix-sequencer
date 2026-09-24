@@ -129,37 +129,45 @@ jobs:
           audio_candidates = sorted(media_dir.glob('LightsOutTheme.first_*s.mp3')) + sorted(media_dir.glob('*.mp3'))
           audio = audio_candidates[0] if audio_candidates else Path('LightsOutTheme.mp3')
 
-          if candidates:
-              score, neg_issues, winner = sorted(candidates, reverse=True)[0]
-              xsq = Path(winner['sequence'])
-              source = 'ranked_variant'
-              version = str(winner.get('version'))
-              validation_issues = -neg_issues
-              cmd = [
-                  sys.executable,
-                  'tools/preview_hq.py',
-                  str(xsq),
-                  '--layout', 'fixtures/legacy_256/converted/xlights_rgbeffects.xml',
-                  '--audio', str(audio),
-                  '--quality-preset', '${{ inputs.quality_preset || 'xlights' }}',
-              ]
-          else:
-              xsq = out / 'fallback' / 'helix_demo_vocal.xsq'
-              score = 0.0
-              version = 'demo_fallback'
-              source = 'validated_demo_xsq_fallback'
-              validation_issues = 0
-              if not xsq.exists():
-                  raise SystemExit(f'Fallback XSQ missing: {xsq}')
-              cmd = [
-                  sys.executable,
-                  'tools/render_xsq_skeleton_preview.py',
-                  str(xsq),
-                  '--width', '1280',
-                  '--height', '720',
-                  '--fps', '24',
-              ]
+          if not candidates:
+              raise SystemExit('No valid 256-channel Helix candidate XSQ was produced; refusing to generate a drummer preview from a fallback sequence.')
 
+          score, neg_issues, winner = sorted(candidates, reverse=True)[0]
+          base_xsq = Path(winner['sequence'])
+          version = str(winner.get('version'))
+          validation_issues = -neg_issues
+
+          # Inject the drummer into the exact 256-channel Helix sequence that
+          # will be rendered. Never substitute a separate demo sequence.
+          xsq = out / f"{base_xsq.stem}.drummer_v3.xsq"
+          drummer_report = out / f"{base_xsq.stem}.drummer_v3.report.json"
+          inject_cmd = [
+              sys.executable,
+              'tools/integrate_drummer_v3_into_xsq.py',
+              str(base_xsq),
+              str(audio),
+              '--output', str(xsq),
+              '--report', str(drummer_report),
+          ]
+          print('Injecting drummer into the actual 256-channel Helix XSQ:', flush=True)
+          print(' '.join(inject_cmd), flush=True)
+          subprocess.run(inject_cmd, check=True)
+
+          report = json.loads(drummer_report.read_text())
+          if int(report.get('event_count') or 0) <= 0:
+              raise SystemExit('Drummer injection produced zero events; refusing to publish an unverified drummer preview.')
+          if int(report.get('placement_count') or 0) <= 0:
+              raise SystemExit('Drummer injection produced zero channel placements; refusing to publish an unverified drummer preview.')
+
+          source = 'ranked_256_channel_sequence_with_drummer_v3'
+          cmd = [
+              sys.executable,
+              'tools/preview_hq.py',
+              str(xsq),
+              '--layout', 'fixtures/legacy_256/converted/xlights_rgbeffects.xml',
+              '--audio', str(audio),
+              '--quality-preset', '${{ inputs.quality_preset || 'xlights' }}',
+          ]
           print('Rendering remote review MP4 with command:')
           print(' '.join(cmd), flush=True)
           subprocess.run(cmd, check=True)
@@ -176,8 +184,10 @@ jobs:
               'winner_version': version,
               'quality_score': score,
               'validation_issues': validation_issues,
+              'base_xsq': str(base_xsq),
               'winner_xsq': str(xsq),
               'winner_mp4': str(final_mp4),
+              'drummer_report': str(drummer_report),
               'audio': str(audio),
               'variant_generation_outcome': '${{ steps.variants.outcome }}',
               'render_command': ' '.join(cmd),

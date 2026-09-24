@@ -23,12 +23,12 @@ class Landmark:
 
 
 WADENA_LANDMARKS: tuple[Landmark, ...] = (
-    Landmark("LEFT_TREE", 122.0, 302.0, "perimeter", ("BLVD_LEFT", "WREATH")),
-    Landmark("BLVD_LEFT", 120.0, 62.0, "boulevard", ("LEFT_TREE", "BLVD_CENTER", "WREATH")),
+    Landmark("LEFT_TREE", 122.0, 302.0, "perimeter", ("BLVD_LEFT",)),
+    Landmark("BLVD_LEFT", 120.0, 62.0, "boulevard", ("LEFT_TREE", "BLVD_CENTER")),
     Landmark("BLVD_CENTER", 644.0, 11.0, "boulevard", ("BLVD_LEFT", "BLVD_RIGHT", "WREATH")),
-    Landmark("BLVD_RIGHT", 999.0, -26.0, "boulevard", ("BLVD_CENTER", "RIGHT_LINDEN", "WREATH")),
-    Landmark("RIGHT_LINDEN", 1290.0, 391.0, "perimeter", ("BLVD_RIGHT", "WREATH")),
-    Landmark("WREATH", 556.0, 340.0, "hero", ("LEFT_TREE", "BLVD_LEFT", "BLVD_CENTER", "BLVD_RIGHT", "RIGHT_LINDEN", "GARAGE_SNOWFLAKE")),
+    Landmark("BLVD_RIGHT", 999.0, -26.0, "boulevard", ("BLVD_CENTER", "RIGHT_LINDEN")),
+    Landmark("RIGHT_LINDEN", 1290.0, 391.0, "perimeter", ("BLVD_RIGHT",)),
+    Landmark("WREATH", 556.0, 340.0, "hero", ("BLVD_CENTER", "GARAGE_SNOWFLAKE")),
     Landmark("GARAGE_SNOWFLAKE", 666.0, 342.0, "punctuation", ("WREATH", "ROOF_SNOWFLAKE")),
     Landmark("ROOF_SNOWFLAKE", 855.0, 469.0, "punctuation", ("GARAGE_SNOWFLAKE", "RIGHT_LINDEN")),
     Landmark("FRONT_IMPACT", 621.0, 372.0, "impact", ("WREATH", "RIGHT_IMPACT")),

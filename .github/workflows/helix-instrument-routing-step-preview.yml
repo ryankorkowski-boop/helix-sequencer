@@ -1,0 +1,184 @@
+name: Helix Instrument Routing Step Preview
+
+on:
+  push:
+    branches:
+      - feature/audio-intelligence-v2
+    paths:
+      - 'audio/**'
+      - 'core/**'
+      - 'models/**'
+      - 'music/**'
+      - 'render/**'
+      - 'tools/stem_routing.py'
+      - 'tools/performer_preview_renderer.py'
+      - 'tools/build_helixville4_full_band_layout.py'
+      - 'tools/build_helpers/helixville4_floor_piano.py'
+      - 'tools/integrate_keyboard_candy_canes_into_xsq.py'
+      - 'tests/test_keyboard_candy_cane_routing.py'
+      - 'template.xsq'
+      - 'Helix Audiolights.mp3'
+      - '.github/workflows/helix-instrument-routing-step-preview.yml'
+  workflow_dispatch:
+    inputs:
+      duration:
+        description: 'Preview duration in seconds'
+        required: false
+        default: '30'
+
+jobs:
+  routing-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/audio-intelligence-v2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install render dependencies
+        run: python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn
+
+      - name: Verify source audio
+        run: test -s "Helix Audiolights.mp3"
+
+      - name: Validate existing instrument routing and keyboard infrastructure
+        env:
+          PYTHONPATH: .
+        run: |
+          python -m pytest -q             tests/test_string_instrument_realism.py             tests/test_keyboard_geometry.py             tests/test_piano_effect.py             tests/test_working_floor_piano.py             tests/test_floor_piano_animation_map.py             tests/test_keyboard_candy_cane_routing.py
+
+      - name: Build six-piece layout with floor piano
+        env:
+          PYTHONPATH: .
+        run: |
+          OUT="$GITHUB_WORKSPACE/test_runs/instrument_routing_step1_layout"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          python tools/build_helixville4_full_band_layout.py --output-dir "$OUT"
+          python - <<'PY'
+          from pathlib import Path
+          from tools.build_helpers.helixville4_floor_piano import add_floor_piano_to_layout
+          add_floor_piano_to_layout(Path("test_runs/instrument_routing_step1_layout/xlights_rgbeffects.xml"))
+          PY
+
+      - name: Verify performer and keyboard models
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          layout = Path("test_runs/instrument_routing_step1_layout/xlights_rgbeffects.xml")
+          root = ET.parse(layout).getroot()
+          required = {
+              "HX_SNOWMAN_SINGER",
+              "HX_SNOWMAN_SINGER_FEMALE",
+              "HX_SNOWMAN_BASSIST",
+              "HX_SNOWMAN_GUITARIST",
+              "HX_SNOWMAN_DRUMMER",
+              "HX_FLOOR_PIANO",
+          }
+          models = {m.attrib.get("name") for m in root.findall(".//model")}
+          missing = sorted(required - models)
+          assert not missing, missing
+          print("ROUTING_LAYOUT_OK")
+          for name in sorted(required):
+              model = next(m for m in root.findall(".//model") if m.attrib.get("name") == name)
+              print(name, "submodels=", len(model.findall("subModel")))
+          PY
+
+      - name: Generate instrument-aware sequence
+        env:
+          PYTHONPATH: .
+        run: |
+          OUT="$GITHUB_WORKSPACE/test_runs/instrument_routing_step1"
+          LAYOUT="$GITHUB_WORKSPACE/test_runs/instrument_routing_step1_layout/xlights_rgbeffects.xml"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          python -c 'from core.sequence_builder import main; raise SystemExit(main())'             --profile v27.3 --             --template "$GITHUB_WORKSPACE/template.xsq"             --audio "$GITHUB_WORKSPACE/Helix Audiolights.mp3"             --layout-file "$LAYOUT"             --single             --output-dir "$OUT"             --variants 1             --no-prompt             --no-save-settings             --no-workspace-history             --no-polish             --no-matrix-intelligence             --audio-reactive-profile showcase             --spatial-awareness 0.8             --chase-style top_to_bottom             --polyphony 6             --keyboard-mix 1.0             --max-layers-per-prop 3
+          XSQ=$(find "$OUT" -type f -name '*.xsq' -print -quit)
+          test -n "$XSQ"
+          test -s "$XSQ"
+          MAPPED="$OUT/Helix_Instrument_Routing_CandyCanes.xsq"
+          python tools/integrate_keyboard_candy_canes_into_xsq.py "$XSQ" --output "$MAPPED" --report "$OUT/KEYBOARD_CANDY_CANE_ROUTING.json"
+          test -s "$MAPPED"
+          echo "GENERATED_XSQ=$MAPPED" >> "$GITHUB_ENV"
+
+      - name: Write routing inventory
+        env:
+          PYTHONPATH: .
+        run: |
+          python - "$GENERATED_XSQ" <<'PY'
+          import json, sys
+          from pathlib import Path
+          from tools.stem_routing import BandRoutingProfile
+          from models.working_floor_piano import build_working_floor_piano
+          from models.snowman_geometry import build_snowman_template
+
+          out = Path("test_runs/instrument_routing_step1/ROUTING_INVENTORY.json")
+          piano = build_working_floor_piano()
+          inventory = {
+              "step": 1,
+              "purpose": "Verify existing instrument-aware routing before changing physical channel assignments.",
+              "models": {
+                  "guitarist": build_snowman_template("guitarist").submodels.keys(),
+                  "bassist": build_snowman_template("bassist").submodels.keys(),
+                  "lead_singer": build_snowman_template("singer").submodels.keys(),
+                  "floor_piano": piano["required_submodels"],
+              },
+              "routing_profile": BandRoutingProfile().__dict__,
+              "physical_channel_policy": "Do not invent fixed 8-channel allocations; retain performer submodels and resolve physical channels from the real layout.",
+              "keyboard_candy_cane_mapping": {
+                  "C4": ["North Candy Cane 6", "South Candy Cane 3"],
+                  "D4": ["North Candy Cane 7", "South Candy Cane 4"],
+                  "E4": ["North Candy Cane 8", "South Candy Cane 5"],
+                  "F4": ["North Candy Cane 9", "South Candy Cane 6"],
+                  "G4": ["North Candy Cane 10", "South Candy Cane 7"],
+                  "A4": ["North Candy Cane 11", "South Candy Cane 8"],
+                  "B4": ["North Candy Cane 12", "South Candy Cane 9"],
+                  "C5": ["North Candy Cane 13", "South Candy Cane 10"],
+              },
+              "xsq": str(Path(sys.argv[1])),
+          }
+          inventory["models"] = {k: sorted(map(str, v)) for k, v in inventory["models"].items()}
+          out.write_text(json.dumps(inventory, indent=2), encoding="utf-8")
+          PY
+
+      - name: Render performer routing MP4
+        env:
+          PYTHONPATH: .
+        run: |
+          python -m tools.performer_preview_renderer "$GENERATED_XSQ"             --layout "$GITHUB_WORKSPACE/test_runs/instrument_routing_step1_layout/xlights_rgbeffects.xml"             --audio "$GITHUB_WORKSPACE/Helix Audiolights.mp3"             --fps 10             --width 960             --height 540
+          MP4=$(find "$(dirname "$GENERATED_XSQ")" -type f -name '*.mp4' -print -quit)
+          test -n "$MP4"
+          test -s "$MP4"
+          echo "GENERATED_MP4=$MP4" >> "$GITHUB_ENV"
+
+      - name: Validate MP4
+        run: |
+          python - "$GENERATED_MP4" <<'PY'
+          import imageio_ffmpeg, subprocess, sys, re
+          from pathlib import Path
+          pth = Path(sys.argv[1])
+          ff = imageio_ffmpeg.get_ffmpeg_exe()
+          p = subprocess.run([ff, "-i", str(pth), "-f", "null", "-"], capture_output=True, text=True)
+          assert p.returncode == 0, p.stderr
+          m = re.search(r"Duration: (\d+):(\d+):(\d+(?:\.\d+)?)", p.stderr)
+          assert m
+          duration = int(m.group(1))*3600 + int(m.group(2))*60 + float(m.group(3))
+          assert duration > 0.5
+          print(f"INSTRUMENT_ROUTING_MP4_OK duration={duration:.2f}s bytes={pth.stat().st_size}")
+          PY
+
+      - name: Upload step preview
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-instrument-routing-step1-preview
+          path: |
+            test_runs/instrument_routing_step1/**/*
+            test_runs/instrument_routing_step1_layout/**/*
+          if-no-files-found: error

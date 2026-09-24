@@ -1,0 +1,94 @@
+from __future__ import annotations
+
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+from tools.integrate_keyboard_candy_canes_into_xsq import (
+    NOTE_TO_MODELS,
+    extract_polyphonic_timing_events,
+    inject_keyboard_candy_canes,
+)
+
+
+def _fixture() -> ET.Element:
+    root = ET.Element("sequence")
+    effects = ET.SubElement(root, "ElementEffects")
+    timing = ET.SubElement(
+        effects,
+        "Element",
+        {"type": "timing", "name": "Polyphonic Transcription"},
+    )
+    layer = ET.SubElement(timing, "EffectLayer", {"name": "Notes"})
+    for label, start, end in (
+        ("C4", 50, 500),
+        ("D4", 600, 900),
+        ("C5", 1000, 1250),
+        ("F#4", 1300, 1450),
+        ("C3", 1500, 1650),
+    ):
+        ET.SubElement(
+            layer,
+            "Effect",
+            {"label": label, "startTime": str(start), "endTime": str(end)},
+        )
+    return root
+
+
+def test_exact_former_mapping():
+    assert NOTE_TO_MODELS["C4"] == ("North Candy Cane 6", "South Candy Cane 3")
+    assert NOTE_TO_MODELS["D4"] == ("North Candy Cane 7", "South Candy Cane 4")
+    assert NOTE_TO_MODELS["E4"] == ("North Candy Cane 8", "South Candy Cane 5")
+    assert NOTE_TO_MODELS["F4"] == ("North Candy Cane 9", "South Candy Cane 6")
+    assert NOTE_TO_MODELS["G4"] == ("North Candy Cane 10", "South Candy Cane 7")
+    assert NOTE_TO_MODELS["A4"] == ("North Candy Cane 11", "South Candy Cane 8")
+    assert NOTE_TO_MODELS["B4"] == ("North Candy Cane 12", "South Candy Cane 9")
+    assert NOTE_TO_MODELS["C5"] == ("North Candy Cane 13", "South Candy Cane 10")
+
+
+def test_polyphonic_track_filters_to_explicit_natural_note_range():
+    events = extract_polyphonic_timing_events(_fixture())
+    assert events == [("C4", 50, 500), ("D4", 600, 900), ("C5", 1000, 1250)]
+
+
+def test_injector_lights_both_sides_for_each_note(tmp_path: Path):
+    base = tmp_path / "base.xsq"
+    out = tmp_path / "mapped.xsq"
+    ET.ElementTree(_fixture()).write(base, encoding="utf-8", xml_declaration=True)
+
+    report = inject_keyboard_candy_canes(base, out)
+    assert report["recognized_note_events"] == 3
+    assert report["placement_count"] == 6
+    assert report["simultaneous_sides"] is True
+
+    root = ET.parse(out).getroot()
+    for model in (
+        "North Candy Cane 6",
+        "North Candy Cane 7",
+        "North Candy Cane 13",
+        "South Candy Cane 3",
+        "South Candy Cane 4",
+        "South Candy Cane 10",
+    ):
+        effects = root.find("ElementEffects")
+        element = next(e for e in effects.findall("Element") if e.get("name") == model)
+        layer = element.find("EffectLayer")
+        assert layer is not None
+        assert len(layer.findall("Effect")) == 1
+
+    # Out-of-range notes must not create mapped effects.
+    effects = root.find("ElementEffects")
+    assert not any(
+        e.get("name") == "North Candy Cane 9" and e.find("EffectLayer/Effect") is not None
+        for e in effects.findall("Element")
+    )
+
+
+def test_missing_polyphonic_notes_fails_loudly(tmp_path: Path):
+    base = tmp_path / "empty.xsq"
+    ET.ElementTree(ET.Element("sequence")).write(base, encoding="utf-8", xml_declaration=True)
+    try:
+        inject_keyboard_candy_canes(base, tmp_path / "out.xsq")
+    except RuntimeError as exc:
+        assert "Polyphonic Transcription" in str(exc)
+    else:
+        raise AssertionError("expected fail-loud missing timing track error")

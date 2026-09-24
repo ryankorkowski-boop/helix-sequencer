@@ -1,0 +1,132 @@
+name: Helix 256 Drummer Preview
+
+on:
+  push:
+    branches:
+      - feature/audio-intelligence-v2
+  workflow_dispatch:
+    inputs:
+      duration_seconds:
+        description: "Preview duration in seconds"
+        required: false
+        default: "20"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: .
+
+jobs:
+  render:
+    name: Render actual 256-channel XSQ with drummer
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install preview dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest
+
+      - name: Stage real 256-channel layout and audio
+        run: |
+          set -euo pipefail
+          mkdir -p fixtures/legacy_256/converted test_runs/drummer_256
+          cp template.xsq fixtures/legacy_256/converted/template.xsq
+          cp xlights_rgbeffects.xml fixtures/legacy_256/converted/xlights_rgbeffects.xml
+          duration="${{ inputs.duration_seconds || '20' }}"
+          python tools/generate_structured_benchmark_audio.py LightsOutTheme.wav --duration "$duration"
+          python - <<'PY'
+          import imageio_ffmpeg, subprocess
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          subprocess.run([ffmpeg, "-y", "-i", "LightsOutTheme.wav", "-c:a", "libmp3lame", "-b:a", "192k", "LightsOutTheme.mp3"], check=True)
+          PY
+
+      - name: Generate 256-channel Helix candidate XSQs
+        run: |
+          set -euo pipefail
+          python tools/run_v28_legacy_256_previews.py             --audio LightsOutTheme.mp3             --template fixtures/legacy_256/converted/template.xsq             --layout fixtures/legacy_256/converted/xlights_rgbeffects.xml             --output-root test_runs/drummer_256/candidates             --duration-seconds "${{ inputs.duration_seconds || '20' }}"             --versions v28.7 v28.8 v28.9             --skip-render
+
+      - name: Select valid candidate and inject drummer
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("test_runs/drummer_256/candidates")
+          summary = json.loads((root / "v28_legacy_256_preview_summary.json").read_text())
+          valid = [x for x in summary["results"] if x.get("sequence_ok") and x.get("sequence")]
+          if not valid:
+              raise SystemExit("No valid 256-channel candidate XSQ was generated")
+
+          valid.sort(key=lambda x: float((x.get("report") or {}).get("quality_score") or 0.0), reverse=True)
+          winner = valid[0]
+          Path("test_runs/drummer_256/winner.json").write_text(json.dumps(winner, indent=2))
+          print(json.dumps(winner, indent=2))
+          PY
+
+          BASE_XSQ="$(python -c 'import json; print(json.load(open("test_runs/drummer_256/winner.json"))["sequence"])')"
+          python tools/integrate_drummer_v3_into_xsq.py             "$BASE_XSQ" LightsOutTheme.mp3             --output test_runs/drummer_256/Helix_256_Drummer.xsq             --report test_runs/drummer_256/drummer_report.json
+
+      - name: Prove drummer is present in the actual XSQ
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          xsq = Path("test_runs/drummer_256/Helix_256_Drummer.xsq")
+          root = ET.parse(xsq).getroot()
+          text = xsq.read_text()
+          report = json.loads(Path("test_runs/drummer_256/drummer_report.json").read_text())
+
+          required = [
+              "HX_DRUMMER_CH01_KICK", "HX_DRUMMER_CH02_SNARE",
+              "HX_DRUMMER_CH03_HIHAT", "HX_DRUMMER_CH04_TOM",
+              "HX_DRUMMER_CH05_CYMBAL", "HX_DRUMMER_CH06_LEFT_STICK",
+              "HX_DRUMMER_CH07_RIGHT_STICK", "HX_DRUMMER_CH08_BODY_IMPACT",
+          ]
+          missing = [name for name in required if name not in text]
+          if missing:
+              raise SystemExit(f"Drummer channel models missing from XSQ: {missing}")
+          if int(report.get("event_count") or 0) <= 0:
+              raise SystemExit("Drummer event count is zero")
+          if int(report.get("placement_count") or 0) <= 0:
+              raise SystemExit("Drummer channel placement count is zero")
+
+          Path("test_runs/drummer_256/verification.json").write_text(json.dumps({
+              "actual_256_channel_xsq": True,
+              "drummer_models_present": required,
+              "event_count": report["event_count"],
+              "placement_count": report["placement_count"],
+              "audio_intelligence": report.get("audio_intelligence", {}),
+          }, indent=2))
+          PY
+
+      - name: Render MP4 with corresponding audio
+        run: |
+          python tools/preview_hq.py             test_runs/drummer_256/Helix_256_Drummer.xsq             --layout fixtures/legacy_256/converted/xlights_rgbeffects.xml             --audio LightsOutTheme.mp3             --quality-preset draft
+
+      - name: Upload drummer preview artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-256-drummer-preview
+          path: |
+            test_runs/drummer_256/Helix_256_Drummer.xsq
+            test_runs/drummer_256/Helix_256_Drummer.mp4
+            test_runs/drummer_256/drummer_report.json
+            test_runs/drummer_256/verification.json
+            test_runs/drummer_256/winner.json
+          if-no-files-found: error

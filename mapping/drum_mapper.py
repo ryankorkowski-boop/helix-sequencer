@@ -154,3 +154,28 @@ def resolve_drum_streams(streams: dict[str, list[DrumEvent]] | None, *, fallback
             events.extend(distribute_drum_bus_events(bus_events)); fallback_mode = "partial_detection_plus_bus"
     scheduled = schedule_drum_events(events, config)
     return {"fallback_mode": fallback_mode, "events": scheduled, "mapped_events": map_events_to_submodels(scheduled), "drummer_v3_pose_events": map_events_to_drummer_v3_poses(scheduled), "counts": {key: len([event for event in scheduled if stream_key_for_type(event.drum_type) == key]) for key in DRUM_STREAM_KEYS}}
+
+
+def normalized_events_to_drum_streams(events: Iterable[object]) -> dict[str, list[DrumEvent]]:
+    """Adapt normalized MusicalEvent objects into the existing drummer input contract."""
+    streams = empty_drum_streams()
+    for index, event in enumerate(events):
+        kind = str(getattr(event, "instrument", None) or getattr(event, "kind", "drum_bus"))
+        kind = kind.removeprefix("drum_").removeprefix("stem_drum_")
+        if kind == "hi_hat":
+            kind = "hihat"
+        if kind not in {"kick", "snare", "tom", "hihat", "cymbal"}:
+            continue
+        confidence = max(0.0, min(1.0, float(getattr(event, "confidence", 0.0))))
+        velocity = max(0.0, min(1.0, float(getattr(event, "strength", confidence))))
+        raw = DrumEvent(
+            timestamp=max(0.0, float(getattr(event, "time_ms", 0)) / 1000.0),
+            velocity=velocity,
+            confidence=confidence,
+            frequency_band_info={"normalized_event": 1.0},
+            cluster_id=index,
+            drum_type=kind,
+            source=str(getattr(event, "source", "helix.drum_fusion")),
+        )
+        streams[stream_key_for_type(kind)].append(raw)
+    return streams

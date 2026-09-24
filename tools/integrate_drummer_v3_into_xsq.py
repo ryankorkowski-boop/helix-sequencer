@@ -7,8 +7,8 @@ import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from audio.drum_detection import detect_drum_event_streams_from_file
-from mapping.drum_mapper import map_events_to_drummer_v3_poses, resolve_drum_streams
+from audio.audio_intelligence_orchestrator import build_musical_event_map
+from mapping.drum_mapper import map_events_to_drummer_v3_poses, normalized_events_to_drum_streams, resolve_drum_streams
 
 DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
 DRUMMER_CHANNELS = {
@@ -60,7 +60,8 @@ def inject_drummer_v3(base_xsq, output_xsq, audio_path, *, layer_name="AUTO_Drum
     base_xsq, output_xsq, audio_path = Path(base_xsq), Path(output_xsq), Path(audio_path)
     if not base_xsq.exists() or not audio_path.exists():
         raise FileNotFoundError("Missing XSQ or audio input")
-    streams = detect_drum_event_streams_from_file(audio_path)
+    musical_events = build_musical_event_map(audio_path)
+    streams = normalized_events_to_drum_streams(musical_events.events)
     resolved = resolve_drum_streams(streams)
     pose_events = map_events_to_drummer_v3_poses(resolved["events"])
     if output_xsq.resolve() != base_xsq.resolve():
@@ -81,6 +82,7 @@ def inject_drummer_v3(base_xsq, output_xsq, audio_path, *, layer_name="AUTO_Drum
     ET.indent(tree,space="  "); tree.write(output_xsq,encoding="utf-8",xml_declaration=True)
     return {"schema":"helix.drummer_v3_xsq_integration.v1","model":DRUMMER_V3_MODEL,
             "base_xsq":str(base_xsq),"output_xsq":str(output_xsq),"audio":str(audio_path),
+            "audio_intelligence": musical_events.diagnostics,
             "layer":layer_name,"fallback_mode":resolved["fallback_mode"],"event_count":len(pose_events),
             "placement_count":by_pose,
             "pose_counts":{pose:sum(1 for event in pose_events if event["pose"]==pose) for pose in POSE_CHANNELS},

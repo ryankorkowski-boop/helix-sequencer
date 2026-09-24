@@ -247,6 +247,36 @@ class SequencePlanBuilder:
             metadata=metadata,
         )
 
+    def add_musical_event_map(self, plan: SequencePlan, event_map: Any) -> SequencePlan:
+        """Attach normalized musical events without making renderers analyze audio."""
+        events = list(getattr(event_map, "events", []) or [])
+        added = 0
+        for event in events:
+            time_s = float(getattr(event, "time_ms", 0)) / 1000.0
+            if time_s < 0 or time_s > plan.duration_seconds + 0.001:
+                continue
+            kind = str(getattr(event, "kind", "musical_event"))
+            plan.cues.append(
+                PlanCue(
+                    time=time_s,
+                    kind=kind,
+                    confidence=_clamp01(getattr(event, "confidence", 0.5), 0.5),
+                    intensity=_clamp01(getattr(event, "strength", 0.5), 0.5),
+                    source=str(getattr(event, "source", "audio_intelligence")),
+                )
+            )
+            added += 1
+        plan.cues.sort(key=lambda cue: (cue.time, cue.kind))
+        diagnostics = getattr(event_map, "diagnostics", {}) or {}
+        plan.metadata["musical_event_map"] = {
+            "schema": "helix.musical_event_map.v1",
+            "providers": list(getattr(event_map, "providers", []) or []),
+            "event_count": len(events),
+            "events_attached": added,
+            "diagnostics": _clean(diagnostics),
+        }
+        return plan
+
     def add_layout(self, plan: SequencePlan, parsed_layout: Any) -> SequencePlan:
         from helix_layout.prop_roles import classify_prop_role
 
