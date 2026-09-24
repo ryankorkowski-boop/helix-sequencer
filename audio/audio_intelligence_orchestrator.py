@@ -16,7 +16,7 @@ from audio.musical_intelligence import (
     detect_chord_groups,
     summarize as summarize_musical_intelligence,
 )
-from core.audio_intelligence import AudioAnalysisConfig, build_stem_analysis
+from core.audio_intelligence import AudioAnalysisConfig, analyze_audio_file, build_stem_analysis
 
 
 @dataclass(frozen=True)
@@ -33,6 +33,8 @@ class AudioIntelligenceConfig:
     chord_grouping: bool = True
     timing_min_gap_ms: int = 45
     chord_window_ms: int = 85
+    import_note_events: bool = True
+    import_timing_map: bool = True
 
 
 def _duration_ms(path: Path) -> int:
@@ -71,6 +73,56 @@ def build_musical_event_map(
         return result
 
     raw_events: list[MusicalEvent] = []
+    beat_ms: list[int] = []
+    note_event_count = 0
+    timing_event_count = 0
+
+    # Reuse the canonical Helix analysis provider for pitch and timing when
+    # available. These events remain renderer-neutral and are additive to the
+    # existing drum/stem providers. Failures are intentionally non-fatal so
+    # legacy stem-only operation remains available.
+    if config.import_note_events or config.import_timing_map:
+        try:
+            analysis = analyze_audio_file(
+                path,
+                enable_lyrics=False,
+                config=AudioAnalysisConfig(),
+            )
+            if config.import_timing_map:
+                beat_ms = [int(event.time_ms) for event in analysis.beat_events]
+                for event in analysis.beat_events:
+                    result.add(MusicalEvent(
+                        time_ms=max(0, int(event.time_ms)),
+                        kind="beat_downbeat" if event.metadata.get("downbeat") else "beat",
+                        confidence=clamp01(event.confidence),
+                        strength=clamp01(event.strength),
+                        source="helix.audio_analysis",
+                        metadata={"downbeat": bool(event.metadata.get("downbeat")), "label": event.label},
+                    ))
+                    timing_event_count += 1
+                result.providers.append("helix.audio_analysis:timing")
+            if config.import_note_events:
+                for note in analysis.note_events:
+                    result.add(MusicalEvent(
+                        time_ms=max(0, int(note.timestamp_ms)),
+                        kind="note_event",
+                        confidence=clamp01(note.confidence),
+                        strength=clamp01(note.velocity),
+                        source="helix.audio_analysis",
+                        instrument=note.source_stem,
+                        duration_ms=max(0, int(note.duration_ms)),
+                        pitch_midi=float(note.midi_note),
+                        metadata={
+                            "pitch_hz": float(note.pitch_hz),
+                            "note_name": note.note_name,
+                            "velocity": float(note.velocity),
+                            "source_stem": note.source_stem,
+                        },
+                    ))
+                    note_event_count += 1
+                result.providers.append("helix.audio_analysis:pitch")
+        except Exception as exc:
+            result.diagnostics["canonical_audio_analysis_error"] = str(exc)
     streams = detect_drum_event_streams_from_file(
         path,
         DrumDetectionConfig(low_confidence_min=0.0),
@@ -294,6 +346,9 @@ def build_musical_event_map(
         "fusion": "confidence_weighted_v2",
         "musical_intelligence": summarize_musical_intelligence(result.events),
         "adaptive_timing_events": len(adaptive_timing_events),
+        "canonical_timing_events_imported": timing_event_count,
+        "canonical_note_events_imported": note_event_count,
+        "beat_map_available": bool(beat_ms),
         "chord_events": sum(1 for event in result.events if event.kind == "harmony_chord"),
         **fusion_diagnostics,
     })
