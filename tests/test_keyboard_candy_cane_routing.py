@@ -118,3 +118,33 @@ def test_normalized_keyboard_events_prefer_event_map(tmp_path: Path):
     d4 = next(e for e in effects.findall("Element") if e.get("name") == "North Candy Cane 7")
     assert c4.find("EffectLayer/Effect").get("startTime") == "200"
     assert d4.find("EffectLayer/Effect").get("startTime") == "700"
+
+
+def test_normalized_melody_run_creates_sequential_candy_cane_layer(tmp_path: Path):
+    from audio.musical_event_model import MusicalEvent
+
+    base = tmp_path / "base.xsq"
+    out = tmp_path / "mapped.xsq"
+    ET.ElementTree(_fixture()).write(base, encoding="utf-8", xml_declaration=True)
+
+    run = MusicalEvent(
+        100,
+        "melody_run",
+        0.9,
+        0.8,
+        instrument="keyboard",
+        duration_ms=400,
+        pitch_midi=60,
+        metadata={"pitches_midi": [60, 62, 64], "direction": "ascending"},
+    )
+    report = inject_keyboard_candy_canes(base, out, normalized_events=[run])
+    assert report["normalized_melody_run_events"] == 3
+
+    root = ET.parse(out).getroot()
+    effects = root.find("ElementEffects")
+    starts = []
+    for name in ("North Candy Cane 6", "North Candy Cane 7", "North Candy Cane 8"):
+        element = next(e for e in effects.findall("Element") if e.get("name") == name)
+        layer = next(layer for layer in element.findall("EffectLayer") if layer.get("name") == "AUTO_Keyboard_MelodyRuns")
+        starts.append(int(layer.find("Effect").get("startTime")))
+    assert starts == [100, 233, 366]
