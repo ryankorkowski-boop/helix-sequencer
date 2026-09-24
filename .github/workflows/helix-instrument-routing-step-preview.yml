@@ -1,9 +1,9 @@
-name: Helix Instrument Routing Step Preview
+name: Helix Instrument Routing Step Preview — Musical Intelligence
 
 on:
   push:
     branches:
-      - feature/audio-intelligence-v2
+      - feature/audio-intelligence-musical-intelligence
     paths:
       - 'audio/**'
       - 'core/**'
