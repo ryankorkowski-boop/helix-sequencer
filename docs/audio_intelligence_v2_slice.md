@@ -43,3 +43,7 @@ No XSQ output behavior changes in this slice.
 - Existing sequence commands remain unchanged.
 - Existing drum detector remains the source of truth for this first slice.
 - Missing/invalid audio fails closed to an empty event map with diagnostics.
+
+
+## Drummer preview validation
+The normalized fused drum events now feed the existing reactive drummer consumer through `models.working_drummer.build_reactive_drummer_from_musical_events`, preserving the existing motion, effect, and XSQ layers.
