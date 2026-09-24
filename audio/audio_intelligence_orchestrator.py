@@ -7,6 +7,7 @@ from typing import Any
 from audio.drum_detection import DrumDetectionConfig, detect_drum_event_streams_from_file
 from audio.drum_event_fusion import DrumFusionConfig, fuse_drum_events
 from audio.musical_event_model import MusicalEvent, MusicalEventMap, clamp01
+from audio.instrument_detection import derive_bass_events, derive_guitar_events
 from core.audio_intelligence import AudioAnalysisConfig, build_stem_analysis
 
 
@@ -89,6 +90,8 @@ def build_musical_event_map(
     result.providers.append("helix.drum_detection")
 
     stem_count = 0
+    instrument_count = 0
+    instrument_diagnostics: dict[str, Any] = {}
     stem_source = "disabled"
     if config.use_stem_analysis:
         try:
@@ -116,6 +119,72 @@ def build_musical_event_map(
                         instrument=kind.removeprefix("stem_"),
                     ))
                     stem_count += 1
+
+            # Keep bass and guitar on the same normalized event bus as drums.
+            # Guitar uses provider note events when available; this adapter
+            # deliberately remains renderer-neutral.
+            bass_events, bass_diag = derive_bass_events(
+                stem.bass_peaks_ms,
+                (),
+                beat_ms=[],
+            )
+            guitar_events, guitar_diag = derive_guitar_events(
+                (),
+                onset_ms=[],
+                beat_ms=[],
+            )
+            for event in bass_events:
+                result.add(MusicalEvent(
+                    time_ms=event.start_ms,
+                    kind=f"instrument_{event.event_type}",
+                    confidence=clamp01(event.confidence),
+                    strength=clamp01(event.intensity),
+                    source=event.source,
+                    instrument=event.performer,
+                    duration_ms=max(0, event.end_ms - event.start_ms),
+                    pitch_midi=event.pitch_midi,
+                    metadata={
+                        "performer": event.performer,
+                        "reason": event.reason,
+                        "note_count": event.note_count,
+                    },
+                ))
+                instrument_count += 1
+            for event in guitar_events:
+                result.add(MusicalEvent(
+                    time_ms=event.start_ms,
+                    kind=f"instrument_{event.event_type}",
+                    confidence=clamp01(event.confidence),
+                    strength=clamp01(event.intensity),
+                    source=event.source,
+                    instrument=event.performer,
+                    duration_ms=max(0, event.end_ms - event.start_ms),
+                    pitch_midi=event.pitch_midi,
+                    metadata={
+                        "performer": event.performer,
+                        "reason": event.reason,
+                        "note_count": event.note_count,
+                    },
+                ))
+                instrument_count += 1
+            instrument_diagnostics = {
+                "bass": dict(bass_diag),
+                "guitar": dict(guitar_diag),
+            }
+
+            # Vocal timing stays renderer-neutral so singer/face mapping can
+            # consume the same normalized event stream later.
+            for time_ms in sorted(set(int(t) for t in stem.vocal_peaks_ms)):
+                result.add(MusicalEvent(
+                    time_ms=max(0, time_ms),
+                    kind="vocal_onset",
+                    confidence=0.58,
+                    strength=0.62,
+                    source="helix.stem_analysis",
+                    instrument="singer",
+                    metadata={"performer": "singer", "reason": "vocal_energy_peak"},
+                ))
+                instrument_count += 1
 
             for stream_name, events in (stem.drum_event_streams or {}).items():
                 for raw in events:
@@ -152,6 +221,8 @@ def build_musical_event_map(
         "direct_drum_events_emitted": direct_count,
         "direct_drum_events_suppressed": direct_suppressed,
         "stem_events_emitted": stem_count,
+        "instrument_events_emitted": instrument_count,
+        "instrument_mapping": instrument_diagnostics,
         "stem_source": stem_source,
         "fusion": "confidence_weighted_v2",
         **fusion_diagnostics,
