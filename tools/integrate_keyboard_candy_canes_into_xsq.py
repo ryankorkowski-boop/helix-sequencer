@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Iterable
 
 from audio.musical_event_model import MusicalEvent
+from audio.audio_intelligence_orchestrator import build_musical_event_map
 
 # Former Helix keyboard/candy-cane routing:
 # C4..C5 natural notes drive matching North 6..13 and South 3..10.
@@ -169,6 +170,7 @@ def inject_keyboard_candy_canes(
     layer_name: str = "AUTO_Keyboard_CandyCanes",
     brightness: float = 1.0,
     normalized_events: Iterable[MusicalEvent] | None = None,
+    audio_path: Path | None = None,
 ) -> dict[str, object]:
     if not base_xsq.exists():
         raise FileNotFoundError(f"Missing XSQ: {base_xsq}")
@@ -179,6 +181,8 @@ def inject_keyboard_candy_canes(
 
     tree = ET.parse(output_xsq)
     root = tree.getroot()
+    if normalized_events is None and audio_path is not None:
+        normalized_events = build_musical_event_map(audio_path).events
     normalized_note_events = _normalized_keyboard_note_events(normalized_events or ())
     legacy_note_events = extract_polyphonic_timing_events(root)
     if normalized_note_events:
@@ -243,6 +247,7 @@ def main() -> int:
     parser.add_argument("--layer", default="AUTO_Keyboard_CandyCanes")
     parser.add_argument("--brightness", type=float, default=1.0)
     parser.add_argument("--report", type=Path)
+    parser.add_argument("--audio", type=Path, help="Canonical audio source for normalized keyboard note events.")
     args = parser.parse_args()
 
     report = inject_keyboard_candy_canes(
@@ -250,6 +255,7 @@ def main() -> int:
         args.output,
         layer_name=args.layer,
         brightness=args.brightness,
+        audio_path=args.audio,
     )
     print(json.dumps(report, indent=2, sort_keys=True))
     if args.report:
