@@ -128,6 +128,16 @@ def _motion_submodels_for_hit(motion: dict[str, object]) -> list[str]:
     return [str(value) for value in list(motion.get("submodels", []) or [])]
 
 
+def build_reactive_drummer_from_musical_events(
+    musical_events: Iterable[object],
+    *,
+    canvas_size: int = 64,
+) -> dict[str, Any]:
+    """Build drummer reactivity directly from the normalized audio event layer."""
+    streams = drum_mapper.normalized_events_to_drum_streams(musical_events)
+    return build_reactive_drummer_member(drum_event_streams=streams, canvas_size=canvas_size)
+
+
 def build_reactive_drummer_member(
     *,
     drum_event_streams: dict[str, list[Any]] | None = None,
