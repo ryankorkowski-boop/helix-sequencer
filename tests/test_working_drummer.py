@@ -102,3 +102,16 @@ class WorkingDrummerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+    def test_reactive_drummer_accepts_normalized_fused_events(self) -> None:
+        from audio.musical_event_model import MusicalEvent
+
+        payload = build_reactive_drummer_from_musical_events([
+            MusicalEvent(500, "drum_kick", 0.92, 0.88, "helix.drum_fusion", instrument="kick"),
+            MusicalEvent(1000, "drum_snare", 0.86, 0.78, "helix.drum_fusion", instrument="snare"),
+            MusicalEvent(1500, "drum_cymbal", 0.74, 0.70, "helix.drum_fusion", instrument="cymbal"),
+        ])
+        self.assertTrue(payload["validation"]["has_reactive_cues"])
+        self.assertTrue(payload["reactive_debug"]["uses_typed_detection"])
+        self.assertEqual(len(payload["reactive_cues"]), 3)
