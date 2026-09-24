@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from audio.drum_detection import DrumDetectionConfig, detect_drum_event_streams_from_file
-from audio.drum_event_fusion import fuse_drum_events
+from audio.drum_event_fusion import DrumFusionConfig, fuse_drum_events
 from audio.musical_event_model import MusicalEvent, MusicalEventMap, clamp01
 from core.audio_intelligence import AudioAnalysisConfig, build_stem_analysis
 
@@ -139,7 +139,7 @@ def build_musical_event_map(
 
     fused, fusion_diagnostics = fuse_drum_events(
         raw_events,
-        config=__import__("audio.drum_event_fusion", fromlist=["DrumFusionConfig"]).DrumFusionConfig(
+        config=DrumFusionConfig(
             time_tolerance_ms=config.drum_fusion_tolerance_ms,
             minimum_confidence=config.drum_confidence_min,
             support_gain=config.drum_fusion_support_gain,
