@@ -85,8 +85,12 @@ def fuse_drum_events(
                     break
                 continue
             if abs(prior.time_ms - event.time_ms) <= config.time_tolerance_ms:
-                match_index = index
-                break
+                prior_sources = prior.metadata.get("sources", [])
+                # Do not collapse two hits reported by the same provider; close
+                # same-source transients can be genuine rapid drum strokes.
+                if event.source not in prior_sources:
+                    match_index = index
+                    break
             if prior.time_ms < event.time_ms - config.time_tolerance_ms:
                 break
 
