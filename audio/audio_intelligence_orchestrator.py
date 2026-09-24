@@ -9,6 +9,13 @@ from audio.drum_detection import DrumDetectionConfig, detect_drum_event_streams_
 from audio.drum_event_fusion import DrumFusionConfig, fuse_drum_events
 from audio.musical_event_model import MusicalEvent, MusicalEventMap, clamp01
 from audio.instrument_detection import derive_bass_events, derive_guitar_events
+from audio.musical_intelligence import (
+    MusicalIntelligenceConfig,
+    annotate_importance,
+    build_adaptive_timing_events,
+    detect_chord_groups,
+    summarize as summarize_musical_intelligence,
+)
 from core.audio_intelligence import AudioAnalysisConfig, build_stem_analysis
 
 
@@ -22,6 +29,10 @@ class AudioIntelligenceConfig:
     use_moises: bool = False
     drum_fusion_tolerance_ms: int = 45
     drum_fusion_support_gain: float = 0.22
+    adaptive_timing: bool = True
+    chord_grouping: bool = True
+    timing_min_gap_ms: int = 45
+    chord_window_ms: int = 85
 
 
 def _duration_ms(path: Path) -> int:
@@ -243,6 +254,36 @@ def build_musical_event_map(
     for event in fused:
         result.add(event)
 
+    intelligence_config = MusicalIntelligenceConfig(
+        timing_min_gap_ms=max(1, config.timing_min_gap_ms),
+        chord_window_ms=max(1, config.chord_window_ms),
+    )
+    downbeats_ms = [
+        event.time_ms for event in result.events
+        if bool(event.metadata.get("downbeat"))
+    ]
+    result.events = annotate_importance(
+        result.events,
+        downbeats_ms=downbeats_ms,
+        config=intelligence_config,
+    )
+
+    if config.chord_grouping:
+        chord_events = detect_chord_groups(
+            result.events,
+            window_ms=intelligence_config.chord_window_ms,
+        )
+        result.events.extend(chord_events)
+
+    adaptive_timing_events: list[MusicalEvent] = []
+    if config.adaptive_timing:
+        adaptive_timing_events = build_adaptive_timing_events(
+            result.events,
+            beat_ms=[],
+            config=intelligence_config,
+        )
+        result.events.extend(adaptive_timing_events)
+
     result.diagnostics.update({
         "direct_drum_events_emitted": direct_count,
         "direct_drum_events_suppressed": direct_suppressed,
@@ -251,6 +292,9 @@ def build_musical_event_map(
         "instrument_mapping": instrument_diagnostics,
         "stem_source": stem_source,
         "fusion": "confidence_weighted_v2",
+        "musical_intelligence": summarize_musical_intelligence(result.events),
+        "adaptive_timing_events": len(adaptive_timing_events),
+        "chord_events": sum(1 for event in result.events if event.kind == "harmony_chord"),
         **fusion_diagnostics,
     })
     result.sort()
