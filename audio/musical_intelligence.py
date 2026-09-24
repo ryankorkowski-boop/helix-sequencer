@@ -240,33 +240,46 @@ def detect_melody_runs(
         and event.confidence >= 0.45
     ]
     notes.sort(key=lambda item: item.time_ms)
-    runs: list[list[MusicalEvent]] = []
+    runs: list[tuple[list[MusicalEvent], int]] = []
     current: list[MusicalEvent] = []
     direction = 0
+
+    def flush() -> None:
+        nonlocal current, direction
+        if len(current) >= min_notes and direction:
+            runs.append((current, direction))
+        current = []
+        direction = 0
+
     for event in notes:
         if not current:
             current = [event]
-            direction = 0
             continue
         prev = current[-1]
         gap = event.time_ms - prev.time_ms
         step = float(event.pitch_midi) - float(prev.pitch_midi)
         step_dir = 1 if step > 0 else -1 if step < 0 else 0
-        if gap <= max_gap_ms and step_dir and (direction == 0 or step_dir == direction):
-            current.append(event)
-            direction = step_dir
-        else:
-            if len(current) >= min_notes and direction:
-                runs.append(current)
-            current = [event]
-            direction = 0
 
-    if len(current) >= min_notes and direction:
-        runs.append(current)
+        if gap > max_gap_ms or step_dir == 0:
+            flush()
+            current = [event]
+            continue
+        if direction == 0:
+            direction = step_dir
+            current.append(event)
+            continue
+        if step_dir != direction:
+            flush()
+            current = [prev, event]
+            direction = step_dir
+            continue
+        current.append(event)
+
+    flush()
 
     out: list[MusicalEvent] = []
-    for run in runs:
-        direction_name = "ascending" if direction_for_run(run) > 0 else "descending"
+    for run, run_direction in runs:
+        direction_name = "ascending" if run_direction > 0 else "descending"
         confidence = sum(item.confidence for item in run) / len(run)
         strength = max(item.strength for item in run)
         pitches = [int(round(float(item.pitch_midi))) for item in run]
@@ -290,7 +303,6 @@ def detect_melody_runs(
             )
         )
     return out
-
 
 def direction_for_run(run: list[MusicalEvent]) -> int:
     if len(run) < 2:
