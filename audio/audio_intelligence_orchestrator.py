@@ -14,6 +14,7 @@ from audio.musical_intelligence import (
     annotate_importance,
     build_adaptive_timing_events,
     detect_chord_groups,
+    detect_melody_runs,
     summarize as summarize_musical_intelligence,
 )
 from core.audio_intelligence import AudioAnalysisConfig, analyze_audio_file, build_stem_analysis
@@ -33,6 +34,8 @@ class AudioIntelligenceConfig:
     chord_grouping: bool = True
     timing_min_gap_ms: int = 45
     chord_window_ms: int = 85
+    melody_run_min_notes: int = 3
+    melody_run_max_gap_ms: int = 180
     import_note_events: bool = True
     import_timing_map: bool = True
 
@@ -327,6 +330,13 @@ def build_musical_event_map(
         )
         result.events.extend(chord_events)
 
+    melody_events = detect_melody_runs(
+        result.events,
+        min_notes=max(2, config.melody_run_min_notes),
+        max_gap_ms=max(50, config.melody_run_max_gap_ms),
+    )
+    result.events.extend(melody_events)
+
     adaptive_timing_events: list[MusicalEvent] = []
     if config.adaptive_timing:
         adaptive_timing_events = build_adaptive_timing_events(
@@ -350,6 +360,7 @@ def build_musical_event_map(
         "canonical_note_events_imported": note_event_count,
         "beat_map_available": bool(beat_ms),
         "chord_events": sum(1 for event in result.events if event.kind == "harmony_chord"),
+        "melody_run_events": sum(1 for event in result.events if event.kind == "melody_run"),
         **fusion_diagnostics,
     })
     result.sort()
