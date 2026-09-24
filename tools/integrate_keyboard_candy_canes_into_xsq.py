@@ -292,6 +292,7 @@ def main() -> int:
     parser.add_argument("--layer", default="AUTO_Keyboard_CandyCanes")
     parser.add_argument("--brightness", type=float, default=1.0)
     parser.add_argument("--report", type=Path)
+    parser.add_argument("--audio", type=Path, help="Build normalized musical events from this audio before routing.")
     parser.add_argument("--audio", type=Path, help="Canonical audio source for normalized keyboard note events.")
     args = parser.parse_args()
 
