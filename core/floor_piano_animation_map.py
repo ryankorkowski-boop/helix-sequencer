@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal
 
+from audio.musical_event_model import MusicalEvent
 from core.sequential_layering import (
     LayerEvent,
     chord_to_members,
@@ -104,4 +105,23 @@ def plan_idle_shimmer() -> FloorPianoAnimationPlan:
             LayerEvent(layer="base", members=("HX_FLOOR_PIANO_WHITE_KEYS", "HX_FLOOR_PIANO_BLACK_KEYS"), intensity=0.16, sustain_ms=1200, source="idle_shimmer"),
         ),
         description="Low-level ambient shimmer for the floor piano.",
+    )
+
+
+def plan_normalized_melody_run(event: MusicalEvent) -> FloorPianoAnimationPlan:
+    """Translate a normalized melody_run cue into the existing 24-key piano traversal."""
+    if event.kind != "melody_run":
+        raise ValueError("event must be a melody_run")
+    pitches = event.metadata.get("pitches_midi", [])
+    if len(pitches) < 2:
+        raise ValueError("melody_run requires at least two MIDI pitches")
+    indices = [max(0, min(23, int(round(float(pitch))) - 36)) for pitch in pitches]
+    start_index = indices[0]
+    end_index = indices[-1]
+    velocity = max(0.0, min(1.0, float(event.strength)))
+    plan = plan_melody_run(start_index, end_index, velocity=velocity)
+    return FloorPianoAnimationPlan(
+        trigger=plan.trigger,
+        events=plan.events,
+        description=f"Normalized {event.metadata.get('direction', 'directional')} melody run: {pitches}.",
     )
