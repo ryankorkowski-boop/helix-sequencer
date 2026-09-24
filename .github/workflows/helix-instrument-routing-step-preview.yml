@@ -105,6 +105,35 @@ jobs:
           MAPPED="$OUT/Helix_Instrument_Routing_CandyCanes.xsq"
           python tools/integrate_keyboard_candy_canes_into_xsq.py "$XSQ" --output "$MAPPED" --audio "$GITHUB_WORKSPACE/Helix Audiolights.mp3" --report "$OUT/KEYBOARD_CANDY_CANE_ROUTING.json"
           test -s "$MAPPED"
+          python - "$GITHUB_WORKSPACE/Helix Audiolights.mp3" <<'PY'
+          import json, sys
+          from pathlib import Path
+          from audio.audio_intelligence_orchestrator import build_musical_event_map
+          from core.floor_piano_animation_map import plan_normalized_melody_run
+          audio = Path(sys.argv[1])
+          event_map = build_musical_event_map(audio)
+          runs = [event for event in event_map.events if event.kind == "melody_run"]
+          plans = [plan_normalized_melody_run(event) for event in runs[:100]]
+          report = {
+              "schema": "helix.melody_routing_preview.v1",
+              "melody_runs_detected": len(runs),
+              "melody_runs_planned": len(plans),
+              "directions": [str(event.metadata.get("direction", "")) for event in runs[:100]],
+              "first_runs": [
+                  {
+                      "time_ms": event.time_ms,
+                      "pitches_midi": event.metadata.get("pitches_midi", []),
+                      "direction": event.metadata.get("direction"),
+                      "members": list(plans[index].events[0].members),
+                  }
+                  for index, event in enumerate(runs[:10])
+              ],
+          }
+          out = Path("test_runs/instrument_routing_step1/MELODY_ROUTING_PREVIEW.json")
+          out.write_text(json.dumps(report, indent=2), encoding="utf-8")
+          assert report["melody_runs_detected"] >= 0
+          print(json.dumps(report, indent=2))
+          PY
           echo "GENERATED_XSQ=$MAPPED" >> "$GITHUB_ENV"
 
       - name: Write routing inventory
