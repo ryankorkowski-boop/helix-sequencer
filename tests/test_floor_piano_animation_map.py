@@ -57,3 +57,24 @@ class FloorPianoAnimationMapTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_plan_normalized_melody_run_maps_midi_range():
+    from audio.musical_event_model import MusicalEvent
+    from core.floor_piano_animation_map import plan_normalized_melody_run
+
+    event = MusicalEvent(
+        time_ms=1000,
+        kind="melody_run",
+        confidence=0.9,
+        strength=0.8,
+        instrument="keyboard",
+        duration_ms=400,
+        pitch_midi=60,
+        metadata={"direction": "ascending", "pitches_midi": [36, 38, 40, 43]},
+    )
+    plan = plan_normalized_melody_run(event)
+    assert plan.trigger == "melody_run"
+    assert plan.events
+    assert plan.events[0].members[0] == "HX_FLOOR_PIANO_C_LOW"
+    assert plan.events[0].members[-1] == "HX_FLOOR_PIANO_G_LOW"
