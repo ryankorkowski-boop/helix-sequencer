@@ -4,7 +4,7 @@ import unittest
 
 from audio.drum_classification import DrumEvent
 from models.working_band_member import WORKING_MEMBER_SCHEMA
-from models.working_drummer import build_reactive_drummer_member, build_working_drummer
+from models.working_drummer import build_reactive_drummer_from_musical_events, build_reactive_drummer_member, build_working_drummer
 
 
 def _event(ms: int, drum_type: str, velocity: float = 0.8, confidence: float = 0.72) -> DrumEvent:
