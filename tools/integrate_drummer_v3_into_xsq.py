@@ -12,31 +12,10 @@ from mapping.drum_mapper import normalized_events_to_drum_streams, resolve_drum_
 DRUMMER_MODEL = "HX_SNOWMAN_DRUMMER"
 DRUMMER_TIMING_TRACK = "AUTO_Drummer_V3"
 
-# Optional physical output contract: these are appended after the existing 256 AC
-# channels when an export target explicitly requests the eight-channel drummer.
-DRUMMER_CHANNELS = {
-    257: "HX_DRUMMER_CH01_KICK",
-    258: "HX_DRUMMER_CH02_SNARE",
-    259: "HX_DRUMMER_CH03_HIHAT",
-    260: "HX_DRUMMER_CH04_TOM",
-    261: "HX_DRUMMER_CH05_CYMBAL",
-    262: "HX_DRUMMER_CH06_LEFT_STICK",
-    263: "HX_DRUMMER_CH07_RIGHT_STICK",
-    264: "HX_DRUMMER_CH08_BODY_IMPACT",
-}
-
-POSE_CHANNELS = {
-    "kick_hit": (257, 264),
-    "snare_hit": (258, 262, 263),
-    "hi_hat_pulse": (259, 262),
-    "left_tom_hit": (260, 262),
-    "right_tom_hit": (260, 263),
-    "left_crash": (261, 262),
-    "right_crash": (261, 263),
-    "both_crash": (261, 262, 263),
-    "downbeat_impact": (264, 257, 258, 261, 262, 263),
-}
-
+# The drummer is a virtual xLights performer. It deliberately has no fixed
+# LOR/AC channel allocation. The generated layout gives the model a separate
+# high-numbered RGB namespace for preview/sequencing without consuming the
+# user's 256-channel show.
 DRUM_TYPE_LAYER = {
     "kick": "AUTO_Drummer_Kick",
     "snare": "AUTO_Drummer_Snare",
@@ -74,6 +53,22 @@ def _layer_for(
 def _clear_layer(layer: ET.Element) -> None:
     for child in list(layer):
         layer.remove(child)
+
+
+def _ensure_display_element(root: ET.Element, name: str) -> ET.Element:
+    display = root.find("DisplayElements")
+    if display is None:
+        display = ET.SubElement(root, "DisplayElements")
+    for element in display.findall("Element"):
+        if element.get("name") == name:
+            element.set("type", "model")
+            element.set("visible", "1")
+            return element
+    return ET.SubElement(
+        display,
+        "Element",
+        {"collapsed": "0", "type": "model", "name": name, "visible": "1"},
+    )
 
 
 def _add_on(
@@ -165,8 +160,11 @@ def inject_drummer_v3(
     container = _element_effects(root)
     elements = _elements(container)
 
-    # The performer model is the canonical visual target. We no longer create
-    # fake per-channel display elements as the primary animation surface.
+    # The performer model is the canonical visual target. It must exist in both
+    # ElementEffects and DisplayElements; adding only ElementEffects creates XML
+    # that our lightweight renderer can parse but that xLights cannot present as
+    # a normal model in the sequence editor.
+    _ensure_display_element(root, DRUMMER_MODEL)
     model_layer = _layer_for(container, elements, DRUMMER_MODEL, layer_name)
     _clear_layer(model_layer)
 
@@ -178,12 +176,10 @@ def inject_drummer_v3(
     timing_track = _ensure_timing_track(root, DRUMMER_TIMING_TRACK)
     _clear_timing_track(timing_track)
 
-    physical_layers: dict[int, ET.Element] = {}
-    if physical_channels:
-        for channel, name in DRUMMER_CHANNELS.items():
-            physical_layers[channel] = _layer_for(container, elements, name, layer_name)
-            _clear_layer(physical_layers[channel])
-
+    # physical_channels is retained only as a backwards-compatible CLI flag.
+    # It is intentionally ignored: the drummer integration no longer invents
+    # physical AC channels. Physical routing, if ever desired, belongs in a
+    # separate routing profile.
     placement_count = 0
     for event in pose_events:
         start = int(event["timestamp_ms"])
@@ -228,14 +224,15 @@ def inject_drummer_v3(
             for pose in POSE_CHANNELS
         },
         "placement_count": placement_count,
-        "physical_channels_enabled": physical_channels,
-        "channels": DRUMMER_CHANNELS if physical_channels else {},
+        "physical_channels_enabled": False,
+        "channels": {},
+        "physical_channel_policy": "none",
         "drummer_model_target": DRUMMER_MODEL,
         "contract": {
             "single_visual_target": True,
             "typed_layers": sorted(type_layers),
             "timing_cues": len(pose_events),
-            "physical_channel_policy": "secondary_output_contract",
+            "physical_channel_policy": "none_for_virtual_performer",
         },
     }
 
@@ -246,7 +243,9 @@ def main() -> int:
     parser.add_argument("audio", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--layer", default="AUTO_Drummer_V3")
-    parser.add_argument("--physical-channels", action="store_true")
+    # Kept as a deprecated no-op so older automation does not break while the
+    # physical routing layer is being separated from performer generation.
+    parser.add_argument("--physical-channels", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--report", type=Path)
     args = parser.parse_args()
 
