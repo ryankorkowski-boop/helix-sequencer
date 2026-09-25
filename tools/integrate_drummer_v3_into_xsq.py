@@ -193,18 +193,6 @@ def inject_drummer_v3(
             _add_on(type_layers[drum_type], start, end, intensity, pose, drum_type)
         _add_timing_cue(timing_track, start, end, pose, drum_type, intensity)
 
-        if physical_channels:
-            for channel in POSE_CHANNELS.get(pose, (264,)):
-                _add_on(
-                    physical_layers[channel],
-                    start,
-                    end,
-                    intensity,
-                    pose,
-                    drum_type,
-                )
-                placement_count += 1
-
     ET.indent(tree, space="  ")
     tree.write(output_xsq, encoding="utf-8", xml_declaration=True)
 
@@ -221,7 +209,7 @@ def inject_drummer_v3(
         "event_count": len(pose_events),
         "pose_counts": {
             pose: sum(1 for event in pose_events if event["pose"] == pose)
-            for pose in POSE_CHANNELS
+            for pose in DRUM_POSES
         },
         "placement_count": placement_count,
         "physical_channels_enabled": False,
