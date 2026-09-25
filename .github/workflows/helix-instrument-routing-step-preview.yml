@@ -17,6 +17,12 @@ on:
       - 'tools/integrate_keyboard_candy_canes_into_xsq.py'
       - 'tests/test_keyboard_candy_cane_routing.py'
       - 'tests/test_audio_intelligence_orchestrator.py'
+      - 'mapping/drum_mapper.py'
+      - 'animation/drummer_motion.py'
+      - 'effects/drum_effects.py'
+      - 'models/working_drummer.py'
+      - 'tools/integrate_drummer_v3_into_xsq.py'
+      - 'tests/test_working_drummer.py'
       - 'template.xsq'
       - 'Helix Audiolights.mp3'
       - '.github/workflows/helix-instrument-routing-step-preview.yml'
@@ -106,6 +112,30 @@ jobs:
           MAPPED="$OUT/Helix_Instrument_Routing_CandyCanes.xsq"
           python tools/integrate_keyboard_candy_canes_into_xsq.py "$XSQ" --output "$MAPPED" --audio "$GITHUB_WORKSPACE/Helix Audiolights.mp3" --report "$OUT/KEYBOARD_CANDY_CANE_ROUTING.json"
           test -s "$MAPPED"
+
+          DRUMMER="$OUT/Helix_Drummer_Performance.xsq"
+          python tools/integrate_drummer_v3_into_xsq.py "$MAPPED" "$GITHUB_WORKSPACE/Helix Audiolights.mp3" --output "$DRUMMER" --physical-channels --report "$OUT/DRUMMER_PERFORMANCE.json"
+          test -s "$DRUMMER"
+          python - "$DRUMMER" <<'PY'
+          import json, sys, xml.etree.ElementTree as ET
+          from pathlib import Path
+          root = ET.parse(sys.argv[1]).getroot()
+          names = {e.get("name") for e in root.findall(".//Element")}
+          required = ["KICK","SNARE","HIHAT","TOM","CYMBAL","LEFT_STICK","RIGHT_STICK","BODY_IMPACT"]
+          assert "HX_SNOWMAN_DRUMMER" in names
+          assert all(f"HX_DRUMMER_CH0{i}_{kind}" in names for i, kind in enumerate(required, 1))
+          tracks = {t.get("name"): t for t in root.findall("timingtrack")}
+          assert "AUTO_Drummer_V3" in tracks
+          assert len(tracks["AUTO_Drummer_V3"].findall("Effect")) > 0
+          report = json.loads(Path("test_runs/instrument_routing_step1/DRUMMER_PERFORMANCE.json").read_text())
+          assert report["event_count"] > 0
+          assert report["contract"]["single_visual_target"] is True
+          assert report["physical_channels_enabled"] is True
+          print("DRUMMER_PERFORMANCE_OK", report["event_count"], report["placement_count"])
+          PY
+          GENERATED_XSQ="$DRUMMER"
+          echo "GENERATED_XSQ=$GENERATED_XSQ" >> "$GITHUB_ENV"
+
           python - "$MAPPED" <<'PY'
           import json, sys, xml.etree.ElementTree as ET
           from pathlib import Path
@@ -154,6 +184,12 @@ jobs:
           print(json.dumps(report, indent=2))
           PY
           echo "GENERATED_XSQ=$MAPPED" >> "$GITHUB_ENV"
+
+      - name: Validate drummer implementation
+        env:
+          PYTHONPATH: .
+        run: |
+          python -m pytest -q tests/test_working_drummer.py
 
       - name: Write routing inventory
         env:
