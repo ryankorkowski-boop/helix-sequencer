@@ -140,6 +140,6 @@ def plan_normalized_melody_run(event: MusicalEvent) -> FloorPianoAnimationPlan:
 
 
 def _piano_pitch_name(midi: int) -> str:
-    names = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
-    octave = (midi // 12) - 1
+    names = ("C", "CS", "D", "DS", "E", "F", "FS", "G", "GS", "A", "AS", "B")
+    octave = "LOW" if midi < 60 else "HIGH"
     return f"{names[midi % 12]}_{octave}"
