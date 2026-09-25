@@ -152,6 +152,7 @@ def _add_timing_cue(
     pose: str,
     drum_type: str,
     intensity: float,
+    hand: str,
 ) -> None:
     ET.SubElement(
         track,
@@ -162,7 +163,8 @@ def _add_timing_cue(
             "endTime": str(max(int(start_ms) + 50, int(end_ms))),
             "settings": (
                 f"drum_type={drum_type},"
-                f"intensity={max(0.0, min(1.0, float(intensity))):.3f}"
+                f"intensity={max(0.0, min(1.0, float(intensity))):.3f},"
+                f"hand={hand}"
             ),
         },
     )
@@ -225,8 +227,8 @@ def inject_drummer_v3(
         _add_on(model_layer, start, end, intensity, pose, drum_type)
         if drum_type in type_layers:
             _add_on(type_layers[drum_type], start, end, intensity, pose, drum_type)
-        _add_timing_cue(timing_track, start, end, pose, drum_type, intensity)
         hand = str(event.get("hand", "both"))
+        _add_timing_cue(timing_track, start, end, pose, drum_type, intensity, hand)
         for submodel in _drummer_submodel_targets(drum_type, pose, hand):
             target = f"{DRUMMER_MODEL}/{submodel}"
             _ensure_display_element(root, target)
