@@ -244,6 +244,12 @@ def inject_drummer_v3(
     ET.indent(tree, space="  ")
     tree.write(output_xsq, encoding="utf-8", xml_declaration=True)
 
+    by_timestamp: dict[int, int] = {}
+    for event in pose_events:
+        ts = int(event["timestamp_ms"])
+        by_timestamp[ts] = by_timestamp.get(ts, 0) + 1
+    polyphony_peak = max(by_timestamp.values(), default=0)
+
     return {
         "schema": "helix.drummer_performance.v2",
         "model": DRUMMER_MODEL,
@@ -260,6 +266,8 @@ def inject_drummer_v3(
             for pose in DRUM_POSES
         },
         "placement_count": placement_count,
+        "polyphony_peak": polyphony_peak,
+        "polyphony_policy": "preserve_independent_drum_types_at_same_timestamp",
         "physical_channels_enabled": False,
         "channels": {},
         "physical_channel_policy": "none",
