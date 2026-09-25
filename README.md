@@ -1,4 +1,5 @@
 <!-- CI trigger: repaired drummer preview -->
+<!-- PR preview trigger enabled -->
 # Helix Sequencer
 
 > **Sequencing, simplified.** Audio in. Lights out. Helix.
