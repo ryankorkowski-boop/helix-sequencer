@@ -262,6 +262,45 @@ def inject_keyboard_candy_canes(
         if melody_layer_name not in {item.get("name") for item in root.findall("timingtrack")}:
             ET.SubElement(root, "timingtrack", {"name": melody_layer_name})
 
+        # Build a directional companion lane from the same normalized melody runs.
+        # It does not replace the former mapping: it adds an inspectable traversal
+        # cue so ascending phrases travel forward and descending phrases travel back.
+        direction_layer = "AUTO_Keyboard_MelodyDirection"
+        direction_timing = root.find("timingtrack")
+        for run in normalized_source:
+            if run.kind != "melody_run":
+                continue
+            direction = str(run.metadata.get("direction", "")).lower()
+            pitches = run.metadata.get("pitches_midi") or []
+            if len(pitches) < 2:
+                continue
+            ordered_notes = []
+            for pitch in pitches:
+                try:
+                    midi = int(round(float(pitch)))
+                except (TypeError, ValueError):
+                    continue
+                octave = (midi // 12) - 1
+                names = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
+                note = _norm_note(f"{names[midi % 12]}{octave}")
+                if note is not None:
+                    ordered_notes.append(note)
+            if not ordered_notes:
+                continue
+            start = max(0, int(run.time_ms))
+            duration = max(50, int(run.duration_ms or 50))
+            step = max(25, duration // len(ordered_notes))
+            sequence = ordered_notes if direction != "descending" else list(reversed(ordered_notes))
+            for index, note in enumerate(sequence):
+                hit_start = start + index * step
+                hit_end = min(start + duration, hit_start + step)
+                if hit_end <= hit_start:
+                    hit_end = hit_start + 50
+                for model_name in NOTE_TO_MODELS[note]:
+                    _add_on(melody_layers[model_name], hit_start, hit_end, min(brightness, float(run.strength or run.confidence)))
+        if direction_layer not in {item.get("name") for item in root.findall("timingtrack")}:
+            ET.SubElement(root, "timingtrack", {"name": direction_layer})
+
 
     ET.indent(tree, space="  ")
     tree.write(output_xsq, encoding="utf-8", xml_declaration=True)
