@@ -55,8 +55,13 @@ def stream_key_for_type(drum_type: str) -> str:
         "kick": "kick_events",
         "snare": "snare_events",
         "tom": "tom_events",
+        "tom_left": "tom_events",
+        "tom_right": "tom_events",
+        "floor_tom": "tom_events",
         "hihat": "hihat_events",
         "cymbal": "cymbal_events",
+        "crash": "cymbal_events",
+        "ride": "cymbal_events",
     }.get(str(drum_type), "drum_bus_events")
 
 
