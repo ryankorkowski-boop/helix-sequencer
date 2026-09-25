@@ -138,10 +138,10 @@ Helix generated-sequence opening contract
 4. Do not replace this layout with the user's 256-channel show layout when
    evaluating the performer preview.
 EOF
-          python - <<'PY'
-          import json
+          python - "$OUT" <<'PY'
+          import json, sys
           from pathlib import Path
-          out = Path("$OUT") / "XLIGHTS_OPENING_CONTRACT.json"
+          out = Path(sys.argv[1]) / "XLIGHTS_OPENING_CONTRACT.json"
           out.write_text(json.dumps({
               "schema": "helix.xlights.opening_contract.v1",
               "layout_file": "xlights_rgbeffects.xml",
