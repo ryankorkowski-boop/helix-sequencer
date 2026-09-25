@@ -239,6 +239,7 @@ def inject_drummer_v3(
             _ensure_display_element(root, target)
             target_layer = _layer_for(container, elements, target, layer_name)
             _add_on(target_layer, start, end, intensity, pose, drum_type)
+            placement_count += 1
 
     ET.indent(tree, space="  ")
     tree.write(output_xsq, encoding="utf-8", xml_declaration=True)
