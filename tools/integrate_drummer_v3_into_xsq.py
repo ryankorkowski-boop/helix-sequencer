@@ -21,7 +21,12 @@ DRUM_TYPE_LAYER = {
     "snare": "AUTO_Drummer_Snare",
     "hihat": "AUTO_Drummer_HiHat",
     "tom": "AUTO_Drummer_Tom",
+    "tom_left": "AUTO_Drummer_LeftTom",
+    "tom_right": "AUTO_Drummer_RightTom",
+    "floor_tom": "AUTO_Drummer_FloorTom",
     "cymbal": "AUTO_Drummer_Cymbal",
+    "crash": "AUTO_Drummer_Crash",
+    "ride": "AUTO_Drummer_Ride",
     "drum_bus": "AUTO_Drummer_Bus",
 }
 
