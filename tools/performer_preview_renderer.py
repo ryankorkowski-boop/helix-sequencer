@@ -227,7 +227,7 @@ def main():
             t = int(round(fi * 1000 / args.fps))
             active = {name: float(intensity[idx[name], fi]) for name in BAND if name in idx}
             overlays = {k: active_label(v, t) for k, v in tracks.items()}
-            frame = renderer.render(active, t, seq.duration_ms, overlays, Path(args.xsq).name, drummer_cue_at(t))
+            frame = renderer.render(active, t, seq.duration_ms, overlays, Path(args.xsq).name, drummer_cues_at(t))
             writer.append_data(np.asarray(frame.convert("RGB"), dtype=np.uint8))
     finally:
         writer.close()
