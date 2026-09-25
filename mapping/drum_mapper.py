@@ -167,16 +167,18 @@ def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str
     snare_index = 0
     for event in sorted(events, key=lambda item: (item.timestamp_ms, DRUM_PRIORITY.get(item.drum_type, 9))):
         if event.drum_type in {"tom", "tom_left", "tom_right", "floor_tom"}:
+            hand_index = tom_index
             pose = drummer_v3_pose_for_event(event, tom_index)
             tom_index += 1
         elif event.drum_type in {"cymbal", "crash", "ride"}:
+            hand_index = cymbal_index
             pose = drummer_v3_pose_for_event(event, cymbal_index)
             cymbal_index += 1
         else:
+            hand_index = snare_index
             pose = drummer_v3_pose_for_event(event, snare_index if event.drum_type == "snare" else 0)
             if event.drum_type == "snare":
                 snare_index += 1
-        hand_index = snare_index if event.drum_type == "snare" else (tom_index if event.drum_type in {"tom", "tom_left", "tom_right", "floor_tom"} else cymbal_index)
         mapped.append({
             "timestamp_ms": event.timestamp_ms,
             "end_ms": event.timestamp_ms + DRUMMER_V3_DURATION_BY_POSE.get(pose, 140),
