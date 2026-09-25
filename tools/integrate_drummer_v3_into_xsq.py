@@ -86,7 +86,13 @@ def _drummer_submodel_targets(drum_type: str, pose: str, hand: str) -> tuple[str
     elif drum_type == "hihat":
         targets.append("HI_HAT")
     elif drum_type in {"cymbal", "crash"}:
-        targets.append("CYMBAL_LEFT" if pose == "left_crash" else "CYMBAL_RIGHT" if pose == "right_crash" else "CYMBAL_LEFT")
+        targets.append(
+            "CYMBAL_LEFT"
+            if pose == "left_crash"
+            else "CYMBAL_RIGHT"
+            if pose == "right_crash"
+            else "CYMBAL_LEFT"
+        )
         if pose == "both_crash":
             targets.append("CYMBAL_RIGHT")
     elif drum_type == "ride":
@@ -98,11 +104,13 @@ def _drummer_submodel_targets(drum_type: str, pose: str, hand: str) -> tuple[str
     elif drum_type == "floor_tom":
         targets.append("FLOOR_TOM")
     elif drum_type == "tom":
-        targets.append({
-            "left_tom_hit": "TOM_LEFT",
-            "right_tom_hit": "TOM_RIGHT",
-            "floor_tom_hit": "FLOOR_TOM",
-        }.get(pose, "TOM_LEFT"))
+        targets.append(
+            {
+                "left_tom_hit": "TOM_LEFT",
+                "right_tom_hit": "TOM_RIGHT",
+                "floor_tom_hit": "FLOOR_TOM",
+            }.get(pose, "TOM_LEFT")
+        )
     elif drum_type == "drum_bus":
         targets.extend(("KICK", "SNARE", "CYMBAL_LEFT", "CYMBAL_RIGHT"))
     if stick and drum_type not in {"kick"}:
@@ -175,7 +183,6 @@ def _add_timing_cue(
     )
 
 
-
 def inject_drummer_v3(
     base_xsq: Path,
     output_xsq: Path,
@@ -201,10 +208,6 @@ def inject_drummer_v3(
     container = _element_effects(root)
     elements = _elements(container)
 
-    # The performer model is the canonical visual target. It must exist in both
-    # ElementEffects and DisplayElements; adding only ElementEffects creates XML
-    # that our lightweight renderer can parse but that xLights cannot present as
-    # a normal model in the sequence editor.
     _ensure_display_element(root, DRUMMER_MODEL)
     model_layer = _layer_for(container, elements, DRUMMER_MODEL, layer_name)
     _clear_layer(model_layer)
@@ -217,10 +220,6 @@ def inject_drummer_v3(
     timing_track = _ensure_timing_track(root, DRUMMER_TIMING_TRACK)
     _clear_timing_track(timing_track)
 
-    # physical_channels is retained only as a backwards-compatible CLI flag.
-    # It is intentionally ignored: the drummer integration no longer invents
-    # physical AC channels. Physical routing, if ever desired, belongs in a
-    # separate routing profile.
     placement_count = 0
     for event in pose_events:
         start = int(event["timestamp_ms"])
@@ -250,6 +249,16 @@ def inject_drummer_v3(
         by_timestamp[ts] = by_timestamp.get(ts, 0) + 1
     polyphony_peak = max(by_timestamp.values(), default=0)
 
+    # Keep the report data-driven. The previous implementation referenced a
+    # stale DRUM_POSES symbol that no longer exists after the drummer model was
+    # changed to typed performance events. That caused the entire MP4 render
+    # stage to abort even though XSQ generation had succeeded.
+    pose_names = sorted({str(event["pose"]) for event in pose_events})
+    pose_counts = {
+        pose: sum(1 for event in pose_events if str(event["pose"]) == pose)
+        for pose in pose_names
+    }
+
     return {
         "schema": "helix.drummer_performance.v2",
         "model": DRUMMER_MODEL,
@@ -261,10 +270,7 @@ def inject_drummer_v3(
         "layer": layer_name,
         "fallback_mode": resolved["fallback_mode"],
         "event_count": len(pose_events),
-        "pose_counts": {
-            pose: sum(1 for event in pose_events if event["pose"] == pose)
-            for pose in DRUM_POSES
-        },
+        "pose_counts": pose_counts,
         "placement_count": placement_count,
         "polyphony_peak": polyphony_peak,
         "polyphony_policy": "preserve_independent_drum_types_at_same_timestamp",
@@ -289,8 +295,6 @@ def main() -> int:
     parser.add_argument("audio", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--layer", default="AUTO_Drummer_V3")
-    # Kept as a deprecated no-op so older automation does not break while the
-    # physical routing layer is being separated from performer generation.
     parser.add_argument("--physical-channels", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--report", type=Path)
     args = parser.parse_args()
