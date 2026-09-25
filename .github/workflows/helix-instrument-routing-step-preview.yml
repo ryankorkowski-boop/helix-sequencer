@@ -1,9 +1,9 @@
-name: Helix Instrument Routing Step Preview
+name: Helix Instrument Routing Step Preview — Musical Intelligence
 
 on:
   push:
     branches:
-      - feature/audio-intelligence-v2
+      - feature/audio-intelligence-musical-intelligence
     paths:
       - 'audio/**'
       - 'core/**'
@@ -16,6 +16,14 @@ on:
       - 'tools/build_helpers/helixville4_floor_piano.py'
       - 'tools/integrate_keyboard_candy_canes_into_xsq.py'
       - 'tests/test_keyboard_candy_cane_routing.py'
+      - 'tests/test_audio_intelligence_orchestrator.py'
+      - 'mapping/drum_mapper.py'
+      - 'animation/drummer_motion.py'
+      - 'effects/drum_effects.py'
+      - 'models/working_drummer.py'
+      - 'tools/integrate_drummer_v3_into_xsq.py'
+      - 'tests/test_working_drummer.py'
+      - 'tests/test_drummer_v3_integration.py'
       - 'template.xsq'
       - 'Helix Audiolights.mp3'
       - '.github/workflows/helix-instrument-routing-step-preview.yml'
@@ -33,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: feature/audio-intelligence-v2
+          ref: ${{ github.ref_name }}
 
       - uses: actions/setup-python@v5
         with:
@@ -103,9 +111,86 @@ jobs:
           test -n "$XSQ"
           test -s "$XSQ"
           MAPPED="$OUT/Helix_Instrument_Routing_CandyCanes.xsq"
-          python tools/integrate_keyboard_candy_canes_into_xsq.py "$XSQ" --output "$MAPPED" --report "$OUT/KEYBOARD_CANDY_CANE_ROUTING.json"
+          python tools/integrate_keyboard_candy_canes_into_xsq.py "$XSQ" --output "$MAPPED" --audio "$GITHUB_WORKSPACE/Helix Audiolights.mp3" --report "$OUT/KEYBOARD_CANDY_CANE_ROUTING.json"
           test -s "$MAPPED"
+
+          DRUMMER="$OUT/Helix_Drummer_Performance.xsq"
+          python tools/integrate_drummer_v3_into_xsq.py "$MAPPED" "$GITHUB_WORKSPACE/Helix Audiolights.mp3" --output "$DRUMMER" --physical-channels --report "$OUT/DRUMMER_PERFORMANCE.json"
+          test -s "$DRUMMER"
+          python - "$DRUMMER" <<'PY'
+          import json, sys, xml.etree.ElementTree as ET
+          from pathlib import Path
+          root = ET.parse(sys.argv[1]).getroot()
+          names = {e.get("name") for e in root.findall(".//Element")}
+          required = ["KICK","SNARE","HIHAT","TOM","CYMBAL","LEFT_STICK","RIGHT_STICK","BODY_IMPACT"]
+          assert "HX_SNOWMAN_DRUMMER" in names
+          assert all(f"HX_DRUMMER_CH0{i}_{kind}" in names for i, kind in enumerate(required, 1))
+          tracks = {t.get("name"): t for t in root.findall("timingtrack")}
+          assert "AUTO_Drummer_V3" in tracks
+          assert len(tracks["AUTO_Drummer_V3"].findall("Effect")) > 0
+          report = json.loads(Path("test_runs/instrument_routing_step1/DRUMMER_PERFORMANCE.json").read_text())
+          assert report["event_count"] > 0
+          assert report["contract"]["single_visual_target"] is True
+          assert report["physical_channels_enabled"] is True
+          print("DRUMMER_PERFORMANCE_OK", report["event_count"], report["placement_count"])
+          PY
+          GENERATED_XSQ="$DRUMMER"
+          echo "GENERATED_XSQ=$GENERATED_XSQ" >> "$GITHUB_ENV"
+
+          python - "$MAPPED" <<'PY'
+          import json, sys, xml.etree.ElementTree as ET
+          from pathlib import Path
+          xsq = Path(sys.argv[1])
+          root = ET.parse(xsq).getroot()
+          required = {
+              "North Candy Cane 6","North Candy Cane 7","North Candy Cane 8","North Candy Cane 9",
+              "North Candy Cane 10","North Candy Cane 11","North Candy Cane 12","North Candy Cane 13",
+              "South Candy Cane 3","South Candy Cane 4","South Candy Cane 5","South Candy Cane 6",
+              "South Candy Cane 7","South Candy Cane 8","South Candy Cane 9","South Candy Cane 10",
+          }
+          names = {e.get("name") for e in root.findall(".//Element")}
+          assert required <= names, sorted(required - names)
+          report = json.loads(Path("$OUT/KEYBOARD_CANDY_CANE_ROUTING.json").read_text())
+          assert report["recognized_note_events"] > 0
+          assert report["placement_count"] == report["recognized_note_events"] * 2
+          print("PHYSICAL_CANDY_CANES_OK", report["recognized_note_events"], report["placement_count"])
+          PY
+          python - "$GITHUB_WORKSPACE/Helix Audiolights.mp3" <<'PY'
+          import json, sys
+          from pathlib import Path
+          from audio.audio_intelligence_orchestrator import build_musical_event_map
+          from core.floor_piano_animation_map import plan_normalized_melody_run
+          audio = Path(sys.argv[1])
+          event_map = build_musical_event_map(audio)
+          runs = [event for event in event_map.events if event.kind == "melody_run"]
+          plans = [plan_normalized_melody_run(event) for event in runs[:100]]
+          report = {
+              "schema": "helix.melody_routing_preview.v1",
+              "melody_runs_detected": len(runs),
+              "melody_runs_planned": len(plans),
+              "directions": [str(event.metadata.get("direction", "")) for event in runs[:100]],
+              "first_runs": [
+                  {
+                      "time_ms": event.time_ms,
+                      "pitches_midi": event.metadata.get("pitches_midi", []),
+                      "direction": event.metadata.get("direction"),
+                      "members": list(plans[index].events[0].members),
+                  }
+                  for index, event in enumerate(runs[:10])
+              ],
+          }
+          out = Path("test_runs/instrument_routing_step1/MELODY_ROUTING_PREVIEW.json")
+          out.write_text(json.dumps(report, indent=2), encoding="utf-8")
+          assert report["melody_runs_detected"] >= 0
+          print(json.dumps(report, indent=2))
+          PY
           echo "GENERATED_XSQ=$MAPPED" >> "$GITHUB_ENV"
+
+      - name: Validate drummer implementation
+        env:
+          PYTHONPATH: .
+        run: |
+          python -m pytest -q tests/test_working_drummer.py tests/test_drummer_v3_integration.py
 
       - name: Write routing inventory
         env:
@@ -156,6 +241,18 @@ jobs:
           test -n "$MP4"
           test -s "$MP4"
           echo "GENERATED_MP4=$MP4" >> "$GITHUB_ENV"
+
+      - name: Validate melody routing report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("test_runs/instrument_routing_step1/MELODY_ROUTING_PREVIEW.json")
+          data = json.loads(p.read_text())
+          assert "melody_runs_detected" in data
+          assert "first_runs" in data
+          print("MELODY_ROUTING_REPORT_OK", data["melody_runs_detected"])
+          PY
 
       - name: Validate MP4
         run: |

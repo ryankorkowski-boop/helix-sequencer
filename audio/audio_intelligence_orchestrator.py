@@ -9,7 +9,15 @@ from audio.drum_detection import DrumDetectionConfig, detect_drum_event_streams_
 from audio.drum_event_fusion import DrumFusionConfig, fuse_drum_events
 from audio.musical_event_model import MusicalEvent, MusicalEventMap, clamp01
 from audio.instrument_detection import derive_bass_events, derive_guitar_events
-from core.audio_intelligence import AudioAnalysisConfig, build_stem_analysis
+from audio.musical_intelligence import (
+    MusicalIntelligenceConfig,
+    annotate_importance,
+    build_adaptive_timing_events,
+    detect_chord_groups,
+    detect_melody_runs,
+    summarize as summarize_musical_intelligence,
+)
+from core.audio_intelligence import AudioAnalysisConfig, analyze_audio_file, build_stem_analysis
 
 
 @dataclass(frozen=True)
@@ -22,6 +30,14 @@ class AudioIntelligenceConfig:
     use_moises: bool = False
     drum_fusion_tolerance_ms: int = 45
     drum_fusion_support_gain: float = 0.22
+    adaptive_timing: bool = True
+    chord_grouping: bool = True
+    timing_min_gap_ms: int = 45
+    chord_window_ms: int = 85
+    melody_run_min_notes: int = 3
+    melody_run_max_gap_ms: int = 180
+    import_note_events: bool = True
+    import_timing_map: bool = True
 
 
 def _duration_ms(path: Path) -> int:
@@ -60,6 +76,56 @@ def build_musical_event_map(
         return result
 
     raw_events: list[MusicalEvent] = []
+    beat_ms: list[int] = []
+    note_event_count = 0
+    timing_event_count = 0
+
+    # Reuse the canonical Helix analysis provider for pitch and timing when
+    # available. These events remain renderer-neutral and are additive to the
+    # existing drum/stem providers. Failures are intentionally non-fatal so
+    # legacy stem-only operation remains available.
+    if config.import_note_events or config.import_timing_map:
+        try:
+            analysis = analyze_audio_file(
+                path,
+                enable_lyrics=False,
+                config=AudioAnalysisConfig(),
+            )
+            if config.import_timing_map:
+                beat_ms = [int(event.time_ms) for event in analysis.beat_events]
+                for event in analysis.beat_events:
+                    result.add(MusicalEvent(
+                        time_ms=max(0, int(event.time_ms)),
+                        kind="beat_downbeat" if event.metadata.get("downbeat") else "beat",
+                        confidence=clamp01(event.confidence),
+                        strength=clamp01(event.strength),
+                        source="helix.audio_analysis",
+                        metadata={"downbeat": bool(event.metadata.get("downbeat")), "label": event.label},
+                    ))
+                    timing_event_count += 1
+                result.providers.append("helix.audio_analysis:timing")
+            if config.import_note_events:
+                for note in analysis.note_events:
+                    result.add(MusicalEvent(
+                        time_ms=max(0, int(note.timestamp_ms)),
+                        kind="note_event",
+                        confidence=clamp01(note.confidence),
+                        strength=clamp01(note.velocity),
+                        source="helix.audio_analysis",
+                        instrument=note.source_stem,
+                        duration_ms=max(0, int(note.duration_ms)),
+                        pitch_midi=float(note.midi_note),
+                        metadata={
+                            "pitch_hz": float(note.pitch_hz),
+                            "note_name": note.note_name,
+                            "velocity": float(note.velocity),
+                            "source_stem": note.source_stem,
+                        },
+                    ))
+                    note_event_count += 1
+                result.providers.append("helix.audio_analysis:pitch")
+        except Exception as exc:
+            result.diagnostics["canonical_audio_analysis_error"] = str(exc)
     streams = detect_drum_event_streams_from_file(
         path,
         DrumDetectionConfig(low_confidence_min=0.0),
@@ -243,6 +309,43 @@ def build_musical_event_map(
     for event in fused:
         result.add(event)
 
+    intelligence_config = MusicalIntelligenceConfig(
+        timing_min_gap_ms=max(1, config.timing_min_gap_ms),
+        chord_window_ms=max(1, config.chord_window_ms),
+    )
+    downbeats_ms = [
+        event.time_ms for event in result.events
+        if bool(event.metadata.get("downbeat"))
+    ]
+    result.events = annotate_importance(
+        result.events,
+        downbeats_ms=downbeats_ms,
+        config=intelligence_config,
+    )
+
+    if config.chord_grouping:
+        chord_events = detect_chord_groups(
+            result.events,
+            window_ms=intelligence_config.chord_window_ms,
+        )
+        result.events.extend(chord_events)
+
+    melody_events = detect_melody_runs(
+        result.events,
+        min_notes=max(2, config.melody_run_min_notes),
+        max_gap_ms=max(50, config.melody_run_max_gap_ms),
+    )
+    result.events.extend(melody_events)
+
+    adaptive_timing_events: list[MusicalEvent] = []
+    if config.adaptive_timing:
+        adaptive_timing_events = build_adaptive_timing_events(
+            result.events,
+            beat_ms=[],
+            config=intelligence_config,
+        )
+        result.events.extend(adaptive_timing_events)
+
     result.diagnostics.update({
         "direct_drum_events_emitted": direct_count,
         "direct_drum_events_suppressed": direct_suppressed,
@@ -251,6 +354,13 @@ def build_musical_event_map(
         "instrument_mapping": instrument_diagnostics,
         "stem_source": stem_source,
         "fusion": "confidence_weighted_v2",
+        "musical_intelligence": summarize_musical_intelligence(result.events),
+        "adaptive_timing_events": len(adaptive_timing_events),
+        "canonical_timing_events_imported": timing_event_count,
+        "canonical_note_events_imported": note_event_count,
+        "beat_map_available": bool(beat_ms),
+        "chord_events": sum(1 for event in result.events if event.kind == "harmony_chord"),
+        "melody_run_events": sum(1 for event in result.events if event.kind == "melody_run"),
         **fusion_diagnostics,
     })
     result.sort()

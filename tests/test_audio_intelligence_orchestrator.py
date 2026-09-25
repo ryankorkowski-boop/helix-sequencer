@@ -84,3 +84,177 @@ def test_orchestrator_exposes_instrument_and_vocal_cues(monkeypatch, tmp_path: P
     assert "vocal_onset" in kinds
     assert "vocal_harmony" in kinds
     assert result.diagnostics["instrument_events_emitted"] >= 5
+
+
+def test_orchestrator_adds_musical_salience_and_adaptive_timing(monkeypatch, tmp_path: Path):
+    audio = tmp_path / "song.wav"
+    audio.write_bytes(b"not-real-audio")
+
+    class _Kick:
+        timestamp = 1.0
+        confidence = 0.9
+        velocity = 0.85
+        drum_type = "kick"
+        cluster_id = 1
+        frequency_band_info = {}
+
+    class _Snare:
+        timestamp = 1.03
+        confidence = 0.8
+        velocity = 0.9
+        drum_type = "snare"
+        cluster_id = 2
+        frequency_band_info = {}
+
+    monkeypatch.setattr(orchestrator, "_duration_ms", lambda _: 3000)
+    monkeypatch.setattr(
+        orchestrator,
+        "detect_drum_event_streams_from_file",
+        lambda *args, **kwargs: {"drums": [_Kick(), _Snare()]},
+    )
+
+    result = orchestrator.build_musical_event_map(
+        audio,
+        config=orchestrator.AudioIntelligenceConfig(
+            use_stem_analysis=False,
+            chord_grouping=False,
+        ),
+    )
+
+    assert result.events
+    assert all("musical_importance" in event.metadata for event in result.events)
+    assert result.diagnostics["adaptive_timing_events"] >= 1
+    assert result.diagnostics["musical_intelligence"]["important_event_count"] >= 1
+
+
+def test_chord_grouping_preserves_polyphony():
+    from audio.musical_event_model import MusicalEvent
+    from audio.musical_intelligence import detect_chord_groups
+
+    events = [
+        MusicalEvent(1000, "note", 0.9, 0.8, pitch_midi=60, instrument="keyboard"),
+        MusicalEvent(1010, "note", 0.85, 0.75, pitch_midi=64, instrument="keyboard"),
+        MusicalEvent(1020, "note", 0.88, 0.72, pitch_midi=67, instrument="keyboard"),
+    ]
+
+    chords = detect_chord_groups(events)
+    assert len(chords) == 1
+    assert chords[0].kind == "harmony_chord"
+    assert chords[0].metadata["pitches_midi"] == [60, 64, 67]
+
+
+def test_orchestrator_imports_canonical_notes_and_beats(monkeypatch, tmp_path: Path):
+    audio = tmp_path / "song.wav"
+    audio.write_bytes(b"not-real-audio")
+
+    class _Beat:
+        time_ms = 1000
+        confidence = 0.91
+        strength = 0.88
+        label = "beat"
+        metadata = {"downbeat": True}
+
+    class _Note:
+        timestamp_ms = 1010
+        duration_ms = 180
+        pitch_hz = 261.63
+        midi_note = 60
+        note_name = "C4"
+        velocity = 0.84
+        confidence = 0.93
+        source_stem = "mix_harmonic"
+
+    class _Analysis:
+        beat_events = [_Beat()]
+        note_events = [_Note()]
+
+    monkeypatch.setattr(orchestrator, "_duration_ms", lambda _: 2000)
+    monkeypatch.setattr(orchestrator, "detect_drum_event_streams_from_file", lambda *args, **kwargs: {})
+    monkeypatch.setattr(orchestrator, "analyze_audio_file", lambda *args, **kwargs: _Analysis())
+
+    result = orchestrator.build_musical_event_map(
+        audio,
+        config=orchestrator.AudioIntelligenceConfig(
+            use_stem_analysis=False,
+            adaptive_timing=True,
+            chord_grouping=False,
+        ),
+    )
+
+    notes = [event for event in result.events if event.kind == "note_event"]
+    beats = [event for event in result.events if event.kind == "beat_downbeat"]
+    assert len(notes) == 1
+    assert notes[0].pitch_midi == 60
+    assert notes[0].metadata["note_name"] == "C4"
+    assert len(beats) == 1
+    assert beats[0].metadata["downbeat"] is True
+    assert result.diagnostics["canonical_note_events_imported"] == 1
+    assert result.diagnostics["canonical_timing_events_imported"] == 1
+    assert result.diagnostics["beat_map_available"] is True
+
+
+def test_orchestrator_adds_melody_run_from_normalized_notes(monkeypatch, tmp_path: Path):
+    audio = tmp_path / "song.wav"
+    audio.write_bytes(b"not-real-audio")
+
+    class _Note:
+        def __init__(self, timestamp_ms, midi_note):
+            self.timestamp_ms = timestamp_ms
+            self.duration_ms = 120
+            self.pitch_hz = 220.0
+            self.midi_note = midi_note
+            self.note_name = "X"
+            self.velocity = 0.82
+            self.confidence = 0.92
+            self.source_stem = "mix_harmonic"
+
+    class _Analysis:
+        beat_events = []
+        note_events = [
+            _Note(1000, 60),
+            _Note(1120, 62),
+            _Note(1240, 64),
+        ]
+
+    monkeypatch.setattr(orchestrator, "_duration_ms", lambda _: 2000)
+    monkeypatch.setattr(orchestrator, "analyze_audio_file", lambda *args, **kwargs: _Analysis())
+    monkeypatch.setattr(orchestrator, "detect_drum_event_streams_from_file", lambda *args, **kwargs: {})
+
+    result = orchestrator.build_musical_event_map(
+        audio,
+        config=orchestrator.AudioIntelligenceConfig(
+            use_stem_analysis=False,
+            chord_grouping=False,
+            adaptive_timing=False,
+        ),
+    )
+    runs = [event for event in result.events if event.kind == "melody_run"]
+    assert len(runs) == 1
+    assert runs[0].metadata["direction"] == "ascending"
+    assert runs[0].metadata["pitches_midi"] == [60, 62, 64]
+    assert result.diagnostics["melody_run_events"] == 1
+
+
+def test_melody_run_detector_preserves_direction_changes():
+    from audio.musical_event_model import MusicalEvent
+    from audio.musical_intelligence import detect_melody_runs
+
+    def note(t, pitch):
+        return MusicalEvent(
+            time_ms=t,
+            kind="note_event",
+            confidence=0.9,
+            strength=0.8,
+            instrument="mix_harmonic",
+            duration_ms=100,
+            pitch_midi=pitch,
+        )
+
+    events = [note(0, 60), note(100, 62), note(200, 64), note(300, 61), note(400, 59), note(500, 57)]
+    runs = detect_melody_runs(events, min_notes=3, max_gap_ms=150)
+
+    assert len(runs) == 2
+    assert runs[0].metadata["direction"] == "ascending"
+    assert runs[0].metadata["pitches_midi"] == [60, 62, 64]
+    assert runs[1].metadata["direction"] == "descending"
+    assert runs[1].metadata["pitches_midi"] == [64, 61, 59, 57]

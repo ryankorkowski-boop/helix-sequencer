@@ -7,6 +7,8 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Iterable
 
+from audio.musical_event_model import MusicalEvent
+
 # Former Helix keyboard/candy-cane routing:
 # C4..C5 natural notes drive matching North 6..13 and South 3..10.
 # Both sides are intentionally lit for each recognized note.
@@ -95,8 +97,10 @@ def _elements(container: ET.Element) -> dict[str, ET.Element]:
 def _layer(container: ET.Element, elements: dict[str, ET.Element], name: str, layer_name: str) -> ET.Element:
     element = elements.get(name)
     if element is None:
-        element = ET.SubElement(container, "Element", {"type": "model", "name": name})
-        elements[name] = element
+        raise RuntimeError(
+            f"Required physical candy-cane model {name!r} is missing from the XSQ; "
+            "refusing to create a disconnected model element."
+        )
     for layer in element.findall("EffectLayer"):
         if layer.get("name") == layer_name:
             return layer
@@ -134,12 +138,69 @@ def _add_on(layer: ET.Element, start: int, end: int, brightness: float) -> None:
     )
 
 
+def _normalized_keyboard_note_events(events: Iterable[MusicalEvent]) -> list[tuple[str, int, int, float]]:
+    mapped: list[tuple[str, int, int, float]] = []
+    for event in events:
+        if event.kind not in {"note_event", "note"}:
+            continue
+        if (event.instrument or "").lower() not in {"keyboard", "piano", "mix_harmonic", "bass", ""}:
+            continue
+        pitch = event.pitch_midi
+        if pitch is None:
+            note_name = str(event.metadata.get("note_name", ""))
+        else:
+            midi = int(round(float(pitch)))
+            octave = (midi // 12) - 1
+            names = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
+            note_name = f"{names[midi % 12]}{octave}"
+        note = _norm_note(note_name)
+        if note is None:
+            continue
+        start = max(0, int(event.time_ms))
+        end = max(start + 50, start + int(event.duration_ms or 50))
+        event_brightness = max(0.0, min(1.0, float(event.strength or event.confidence)))
+        mapped.append((note, start, end, event_brightness))
+    mapped.sort(key=lambda item: (item[1], item[2], item[0]))
+    return mapped
+
+
+def _melody_run_note_events(events: Iterable[MusicalEvent]) -> list[tuple[str, int, int, float]]:
+    routed: list[tuple[str, int, int, float]] = []
+    for event in events:
+        if event.kind != "melody_run":
+            continue
+        pitches = event.metadata.get("pitches_midi") or []
+        if not isinstance(pitches, list) or len(pitches) < 2:
+            continue
+        start = max(0, int(event.time_ms))
+        duration = max(50, int(event.duration_ms or 50))
+        step = max(25, duration // len(pitches))
+        for index, pitch in enumerate(pitches):
+            try:
+                midi = int(round(float(pitch)))
+            except (TypeError, ValueError):
+                continue
+            octave = (midi // 12) - 1
+            names = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
+            note = _norm_note(f"{names[midi % 12]}{octave}")
+            if note is None:
+                continue
+            hit_start = start + index * step
+            hit_end = min(start + duration, hit_start + step)
+            if hit_end <= hit_start:
+                hit_end = hit_start + 50
+            routed.append((note, hit_start, hit_end, float(event.strength or event.confidence)))
+    return routed
+
+
 def inject_keyboard_candy_canes(
     base_xsq: Path,
     output_xsq: Path,
     *,
     layer_name: str = "AUTO_Keyboard_CandyCanes",
     brightness: float = 1.0,
+    normalized_events: Iterable[MusicalEvent] | None = None,
+    audio_path: Path | None = None,
 ) -> dict[str, object]:
     if not base_xsq.exists():
         raise FileNotFoundError(f"Missing XSQ: {base_xsq}")
@@ -150,15 +211,36 @@ def inject_keyboard_candy_canes(
 
     tree = ET.parse(output_xsq)
     root = tree.getroot()
-    note_events = extract_polyphonic_timing_events(root)
-    if not note_events:
+    if normalized_events is None and audio_path is not None:
+        normalized_events = build_musical_event_map(audio_path).events
+    normalized_source = list(normalized_events or ())
+    normalized_note_events = _normalized_keyboard_note_events(normalized_source)
+    melody_run_events = _melody_run_note_events(normalized_source)
+    legacy_note_events = extract_polyphonic_timing_events(root)
+    if normalized_note_events:
+        note_events = normalized_note_events
+        source_timing_track = "helix.musical_event_map.note_event"
+    elif legacy_note_events:
+        note_events = [(note, start, end, 1.0) for note, start, end in legacy_note_events]
+        source_timing_track = "Polyphonic Transcription"
+    else:
         raise RuntimeError(
-            "Polyphonic Transcription timing track contains no recognized C4-C5 "
-            "natural-note events; refusing to produce a fake candy-cane preview."
+            "No recognized C4-C5 natural-note events were supplied by the normalized "
+            "event map or the Polyphonic Transcription timing track; refusing to "
+            "produce a fake candy-cane preview."
         )
 
     container = _element_effects(root)
     elements = _elements(container)
+    missing_models = sorted(
+        model for pair in NOTE_TO_MODELS.values() for model in pair
+        if model not in elements
+    )
+    if missing_models:
+        raise RuntimeError(
+            "Required physical candy-cane models are missing from the input XSQ: "
+            + ", ".join(missing_models)
+        )
     target_names = sorted({model for pair in NOTE_TO_MODELS.values() for model in pair})
     layers = {
         name: _layer(container, elements, name, layer_name)
@@ -169,14 +251,66 @@ def inject_keyboard_candy_canes(
 
     placements = 0
     note_counts = {note: 0 for note in NOTE_TO_MODELS}
-    for note, start, end in note_events:
+    for note, start, end, event_brightness in note_events:
         for model_name in NOTE_TO_MODELS[note]:
-            _add_on(layers[model_name], start, end, brightness)
+            _add_on(layers[model_name], start, end, min(brightness, event_brightness))
             placements += 1
         note_counts[note] += 1
 
     if layer_name not in {item.get("name") for item in root.findall("timingtrack")}:
         ET.SubElement(root, "timingtrack", {"name": layer_name})
+    if melody_run_events:
+        melody_layers = {
+            name: _layer(container, elements, name, melody_layer_name)
+            for name in target_names
+        }
+        for target in melody_layers.values():
+            _clear(target)
+        for note, start, end, event_brightness in melody_run_events:
+            for model_name in NOTE_TO_MODELS[note]:
+                _add_on(melody_layers[model_name], start, end, min(brightness, event_brightness))
+        if melody_layer_name not in {item.get("name") for item in root.findall("timingtrack")}:
+            ET.SubElement(root, "timingtrack", {"name": melody_layer_name})
+
+        # Build a directional companion lane from the same normalized melody runs.
+        # It does not replace the former mapping: it adds an inspectable traversal
+        # cue so ascending phrases travel forward and descending phrases travel back.
+        direction_layer = "AUTO_Keyboard_MelodyDirection"
+        direction_timing = root.find("timingtrack")
+        for run in normalized_source:
+            if run.kind != "melody_run":
+                continue
+            direction = str(run.metadata.get("direction", "")).lower()
+            pitches = run.metadata.get("pitches_midi") or []
+            if len(pitches) < 2:
+                continue
+            ordered_notes = []
+            for pitch in pitches:
+                try:
+                    midi = int(round(float(pitch)))
+                except (TypeError, ValueError):
+                    continue
+                octave = (midi // 12) - 1
+                names = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
+                note = _norm_note(f"{names[midi % 12]}{octave}")
+                if note is not None:
+                    ordered_notes.append(note)
+            if not ordered_notes:
+                continue
+            start = max(0, int(run.time_ms))
+            duration = max(50, int(run.duration_ms or 50))
+            step = max(25, duration // len(ordered_notes))
+            # Detector order already encodes the musical contour; do not reverse it.\n            sequence = ordered_notes
+            for index, note in enumerate(sequence):
+                hit_start = start + index * step
+                hit_end = min(start + duration, hit_start + step)
+                if hit_end <= hit_start:
+                    hit_end = hit_start + 50
+                for model_name in NOTE_TO_MODELS[note]:
+                    _add_on(melody_layers[model_name], hit_start, hit_end, min(brightness, float(run.strength or run.confidence)))
+        if direction_layer not in {item.get("name") for item in root.findall("timingtrack")}:
+            ET.SubElement(root, "timingtrack", {"name": direction_layer})
+
 
     ET.indent(tree, space="  ")
     tree.write(output_xsq, encoding="utf-8", xml_declaration=True)
@@ -187,7 +321,10 @@ def inject_keyboard_candy_canes(
             note: {"north": NORTH_BY_NOTE[note], "south": SOUTH_BY_NOTE[note]}
             for note in NOTE_TO_MODELS
         },
-        "source_timing_track": "Polyphonic Transcription",
+        "source_timing_track": source_timing_track,
+        "normalized_note_events": len(normalized_note_events),
+        "normalized_melody_run_events": len(melody_run_events),
+        "legacy_note_events": len(legacy_note_events),
         "recognized_note_events": len(note_events),
         "placement_count": placements,
         "note_counts": note_counts,
@@ -204,6 +341,8 @@ def main() -> int:
     parser.add_argument("--layer", default="AUTO_Keyboard_CandyCanes")
     parser.add_argument("--brightness", type=float, default=1.0)
     parser.add_argument("--report", type=Path)
+    parser.add_argument("--audio", type=Path, help="Build normalized musical events from this audio before routing.")
+    parser.add_argument("--audio", type=Path, help="Canonical audio source for normalized keyboard note events.")
     args = parser.parse_args()
 
     report = inject_keyboard_candy_canes(
@@ -211,6 +350,7 @@ def main() -> int:
         args.output,
         layer_name=args.layer,
         brightness=args.brightness,
+        audio_path=args.audio,
     )
     print(json.dumps(report, indent=2, sort_keys=True))
     if args.report:

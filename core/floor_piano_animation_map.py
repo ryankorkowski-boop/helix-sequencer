@@ -3,6 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal
 
+from audio.musical_event_model import MusicalEvent
+
+from audio.musical_event_model import MusicalEvent
 from core.sequential_layering import (
     LayerEvent,
     chord_to_members,
@@ -105,3 +108,38 @@ def plan_idle_shimmer() -> FloorPianoAnimationPlan:
         ),
         description="Low-level ambient shimmer for the floor piano.",
     )
+
+
+def plan_normalized_melody_run(event: MusicalEvent) -> FloorPianoAnimationPlan:
+    """Translate a normalized melody_run cue into the existing 24-key piano traversal."""
+    if event.kind != "melody_run":
+        raise ValueError("event must be a melody_run")
+    pitches = event.metadata.get("pitches_midi", [])
+    if len(pitches) < 2:
+        raise ValueError("melody_run requires at least two MIDI pitches")
+    indices = [max(0, min(23, int(round(float(pitch))) - 36)) for pitch in pitches]
+    direction = str(event.metadata.get("direction", "")).lower()
+    keys = tuple(
+        f"HX_FLOOR_PIANO_{_piano_pitch_name(int(round(float(pitch))))}"
+        for pitch in pitches
+        if 36 <= int(round(float(pitch))) <= 84
+    )
+    if not keys:
+        keys = melody_run("HX_FLOOR_PIANO", indices[0], indices[-1])
+    velocity = max(0.0, min(1.0, float(event.strength)))
+    chase = "HX_FLOOR_PIANO_LEFT_TO_RIGHT_CHASE" if direction != "descending" else "HX_FLOOR_PIANO_RIGHT_TO_LEFT_CHASE"
+    sustain = max(120, int(event.duration_ms or 360))
+    return FloorPianoAnimationPlan(
+        trigger="melody_run",
+        events=(
+            LayerEvent(layer="motion", members=keys, intensity=velocity, sustain_ms=sustain, source=f"normalized_melody_{direction or 'directional'}"),
+            LayerEvent(layer="motion", members=(chase,), intensity=velocity * 0.65, sustain_ms=sustain, source="melody_chase_lane"),
+        ),
+        description=f"Normalized {direction or 'directional'} melody run: {pitches}.",
+    )
+
+
+def _piano_pitch_name(midi: int) -> str:
+    names = ("C", "CS", "D", "DS", "E", "F", "FS", "G", "GS", "A", "AS", "B")
+    octave = "LOW" if midi < 60 else "HIGH"
+    return f"{names[midi % 12]}_{octave}"

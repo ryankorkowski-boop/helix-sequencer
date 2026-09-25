@@ -1,6 +1,7 @@
 name: Helix Remote Review Preview MP4
 
 on:
+  pull_request:
   push:
     branches:
       - feature/restructure-core
@@ -36,10 +37,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -217,7 +218,7 @@ jobs:
 
       - name: Upload MP4 preview and sequence artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: helix-remote-review-preview-mp4
           path: |
