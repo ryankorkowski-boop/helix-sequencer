@@ -139,18 +139,6 @@ def _add_timing_cue(
     )
 
 
-def _validate_physical_channel_contract(root: ET.Element) -> None:
-    # The physical eight-channel elements are deliberately explicit. This prevents
-    # the integration from silently creating a second, unrelated channel map.
-    names = {e.get("name") for e in root.findall(".//Element")}
-    missing = [name for name in DRUMMER_CHANNELS.values() if name not in names]
-    if missing:
-        raise RuntimeError(
-            "Physical drummer channel contract is not present in the input XSQ: "
-            + ", ".join(missing)
-            + ". Run the physical export adapter first rather than inventing channels here."
-        )
-
 
 def inject_drummer_v3(
     base_xsq: Path,
@@ -192,7 +180,6 @@ def inject_drummer_v3(
 
     physical_layers: dict[int, ET.Element] = {}
     if physical_channels:
-        _validate_physical_channel_contract(root)
         for channel, name in DRUMMER_CHANNELS.items():
             physical_layers[channel] = _layer_for(container, elements, name, layer_name)
             _clear_layer(physical_layers[channel])
@@ -248,11 +235,7 @@ def inject_drummer_v3(
             "single_visual_target": True,
             "typed_layers": sorted(type_layers),
             "timing_cues": len(pose_events),
-            "physical_channel_policy": (
-                "explicit_only"
-                if physical_channels
-                else "disabled_by_default"
-            ),
+            "physical_channel_policy": "secondary_output_contract",
         },
     }
 
