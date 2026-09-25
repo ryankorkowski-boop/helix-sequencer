@@ -200,6 +200,11 @@ def generate_submodels(role: str, regions: dict[str, PixelRegion]) -> dict[str, 
         category = "drum" if role == "drummer" else "instrument"
         stems = ["drums"] if role == "drummer" else ["bass"] if role == "bassist" else ["vocals"] if role == "singer" else ["other"]
         submodels[name] = _submodel(name, category, regions, [name], [category, "timing_target"], stems)
+    if role == "drummer":
+        # Backward-compatible composite aliases used by the existing working
+        # drummer API. New sequencing targets use the explicit components.
+        submodels["tom"] = _submodel("tom", "drum", regions, ["tom_left", "tom_right", "floor_tom"], ["drum", "tom", "timing_target"], ["drums"])
+        submodels["cymbal"] = _submodel("cymbal", "drum", regions, ["cymbal_left", "cymbal_right", "ride"], ["drum", "cymbal", "timing_target"], ["drums"])
     submodels["mouth_all"] = _submodel("mouth_all", "composite", regions, ["mouth_A", "mouth_E", "mouth_I", "mouth_O", "mouth_U", "mouth_MBP"], ["mouth", "face_definition"], ["vocals"])
     instrument_regions = [name for name in role_specific if name not in {"left_stick", "right_stick"}]
     if role == "drummer":
