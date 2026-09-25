@@ -290,7 +290,7 @@ def inject_keyboard_candy_canes(
             start = max(0, int(run.time_ms))
             duration = max(50, int(run.duration_ms or 50))
             step = max(25, duration // len(ordered_notes))
-            sequence = ordered_notes if direction != "descending" else list(reversed(ordered_notes))
+            # Detector order already encodes the musical contour; do not reverse it.\n            sequence = ordered_notes
             for index, note in enumerate(sequence):
                 hit_start = start + index * step
                 hit_end = min(start + duration, hit_start + step)
