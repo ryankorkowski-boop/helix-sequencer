@@ -8,7 +8,6 @@ from pathlib import Path
 from typing import Iterable
 
 from audio.musical_event_model import MusicalEvent
-from audio.audio_intelligence_orchestrator import build_musical_event_map
 
 # Former Helix keyboard/candy-cane routing:
 # C4..C5 natural notes drive matching North 6..13 and South 3..10.
@@ -98,8 +97,10 @@ def _elements(container: ET.Element) -> dict[str, ET.Element]:
 def _layer(container: ET.Element, elements: dict[str, ET.Element], name: str, layer_name: str) -> ET.Element:
     element = elements.get(name)
     if element is None:
-        element = ET.SubElement(container, "Element", {"type": "model", "name": name})
-        elements[name] = element
+        raise RuntimeError(
+            f"Required physical candy-cane model {name!r} is missing from the XSQ; "
+            "refusing to create a disconnected model element."
+        )
     for layer in element.findall("EffectLayer"):
         if layer.get("name") == layer_name:
             return layer
@@ -231,6 +232,15 @@ def inject_keyboard_candy_canes(
 
     container = _element_effects(root)
     elements = _elements(container)
+    missing_models = sorted(
+        model for pair in NOTE_TO_MODELS.values() for model in pair
+        if model not in elements
+    )
+    if missing_models:
+        raise RuntimeError(
+            "Required physical candy-cane models are missing from the input XSQ: "
+            + ", ".join(missing_models)
+        )
     target_names = sorted({model for pair in NOTE_TO_MODELS.values() for model in pair})
     layers = {
         name: _layer(container, elements, name, layer_name)
