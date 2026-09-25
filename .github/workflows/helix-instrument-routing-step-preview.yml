@@ -16,6 +16,7 @@ on:
       - 'tools/build_helpers/helixville4_floor_piano.py'
       - 'tools/integrate_keyboard_candy_canes_into_xsq.py'
       - 'tests/test_keyboard_candy_cane_routing.py'
+      - 'tests/test_audio_intelligence_orchestrator.py'
       - 'template.xsq'
       - 'Helix Audiolights.mp3'
       - '.github/workflows/helix-instrument-routing-step-preview.yml'
@@ -185,6 +186,18 @@ jobs:
           test -n "$MP4"
           test -s "$MP4"
           echo "GENERATED_MP4=$MP4" >> "$GITHUB_ENV"
+
+      - name: Validate melody routing report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("test_runs/instrument_routing_step1/MELODY_ROUTING_PREVIEW.json")
+          data = json.loads(p.read_text())
+          assert "melody_runs_detected" in data
+          assert "first_runs" in data
+          print("MELODY_ROUTING_REPORT_OK", data["melody_runs_detected"])
+          PY
 
       - name: Validate MP4
         run: |
