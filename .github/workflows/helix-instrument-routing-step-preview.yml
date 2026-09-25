@@ -23,6 +23,7 @@ on:
       - 'models/working_drummer.py'
       - 'tools/integrate_drummer_v3_into_xsq.py'
       - 'tests/test_working_drummer.py'
+      - 'tests/test_drummer_v3_integration.py'
       - 'template.xsq'
       - 'Helix Audiolights.mp3'
       - '.github/workflows/helix-instrument-routing-step-preview.yml'
@@ -189,7 +190,7 @@ jobs:
         env:
           PYTHONPATH: .
         run: |
-          python -m pytest -q tests/test_working_drummer.py
+          python -m pytest -q tests/test_working_drummer.py tests/test_drummer_v3_integration.py
 
       - name: Write routing inventory
         env:
