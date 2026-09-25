@@ -71,6 +71,40 @@ def _ensure_display_element(root: ET.Element, name: str) -> ET.Element:
     )
 
 
+def _drummer_submodel_targets(drum_type: str, pose: str, hand: str) -> tuple[str, ...]:
+    stick = "LEFT_STICK" if hand == "left" else "RIGHT_STICK" if hand == "right" else None
+    targets: list[str] = []
+    if drum_type == "kick":
+        targets.append("KICK")
+    elif drum_type == "snare":
+        targets.append("SNARE")
+    elif drum_type == "hihat":
+        targets.append("HI_HAT")
+    elif drum_type in {"cymbal", "crash"}:
+        targets.append("CYMBAL_LEFT" if pose == "left_crash" else "CYMBAL_RIGHT" if pose == "right_crash" else "CYMBAL_LEFT")
+        if pose == "both_crash":
+            targets.append("CYMBAL_RIGHT")
+    elif drum_type == "ride":
+        targets.append("RIDE")
+    elif drum_type == "tom_left":
+        targets.append("TOM_LEFT")
+    elif drum_type == "tom_right":
+        targets.append("TOM_RIGHT")
+    elif drum_type == "floor_tom":
+        targets.append("FLOOR_TOM")
+    elif drum_type == "tom":
+        targets.append({
+            "left_tom_hit": "TOM_LEFT",
+            "right_tom_hit": "TOM_RIGHT",
+            "floor_tom_hit": "FLOOR_TOM",
+        }.get(pose, "TOM_LEFT"))
+    elif drum_type == "drum_bus":
+        targets.extend(("KICK", "SNARE", "CYMBAL_LEFT", "CYMBAL_RIGHT"))
+    if stick and drum_type not in {"kick"}:
+        targets.append(stick)
+    return tuple(dict.fromkeys(targets))
+
+
 def _add_on(
     layer: ET.Element,
     start_ms: int,
@@ -192,6 +226,12 @@ def inject_drummer_v3(
         if drum_type in type_layers:
             _add_on(type_layers[drum_type], start, end, intensity, pose, drum_type)
         _add_timing_cue(timing_track, start, end, pose, drum_type, intensity)
+        hand = str(event.get("hand", "both"))
+        for submodel in _drummer_submodel_targets(drum_type, pose, hand):
+            target = f"{DRUMMER_MODEL}/{submodel}"
+            _ensure_display_element(root, target)
+            target_layer = _layer_for(container, elements, target, layer_name)
+            _add_on(target_layer, start, end, intensity, pose, drum_type)
 
     ET.indent(tree, space="  ")
     tree.write(output_xsq, encoding="utf-8", xml_declaration=True)
@@ -221,6 +261,8 @@ def inject_drummer_v3(
             "typed_layers": sorted(type_layers),
             "timing_cues": len(pose_events),
             "physical_channel_policy": "none_for_virtual_performer",
+            "component_targets": True,
+            "polyphonic_events_preserved": True,
         },
     }
 
