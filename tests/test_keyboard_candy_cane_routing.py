@@ -19,6 +19,8 @@ def _fixture() -> ET.Element:
         {"type": "timing", "name": "Polyphonic Transcription"},
     )
     layer = ET.SubElement(timing, "EffectLayer", {"name": "Notes"})
+    for model_name in sorted({model for pair in NOTE_TO_MODELS.values() for model in pair}):
+        ET.SubElement(effects, "Element", {"type": "model", "name": model_name})
     for label, start, end in (
         ("C4", 50, 500),
         ("D4", 600, 900),
