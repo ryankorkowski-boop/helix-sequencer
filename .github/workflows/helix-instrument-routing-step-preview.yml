@@ -28,6 +28,9 @@ on:
       - 'template.xsq'
       - 'Helix Audiolights.mp3'
       - '.github/workflows/helix-instrument-routing-step-preview.yml'
+  pull_request:
+    branches:
+      - feature/audio-intelligence-musical-intelligence
   workflow_dispatch:
     inputs:
       duration:
