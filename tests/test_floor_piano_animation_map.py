@@ -78,3 +78,27 @@ def test_plan_normalized_melody_run_maps_midi_range():
     assert plan.events
     assert plan.events[0].members[0] == "HX_FLOOR_PIANO_C_LOW"
     assert plan.events[0].members[-1] == "HX_FLOOR_PIANO_G_LOW"
+
+
+def test_normalized_melody_run_preserves_full_contour_and_descending_lane():
+    from audio.musical_event_model import MusicalEvent
+    from core.floor_piano_animation_map import plan_normalized_melody_run
+
+    event = MusicalEvent(
+        time_ms=1000,
+        kind="melody_run",
+        confidence=0.9,
+        strength=0.8,
+        instrument="keyboard",
+        duration_ms=500,
+        pitch_midi=67,
+        metadata={"direction": "descending", "pitches_midi": [67, 65, 64, 60]},
+    )
+    plan = plan_normalized_melody_run(event)
+    assert plan.events[0].members == (
+        "HX_FLOOR_PIANO_G_4",
+        "HX_FLOOR_PIANO_F_4",
+        "HX_FLOOR_PIANO_E_4",
+        "HX_FLOOR_PIANO_C_4",
+    )
+    assert plan.events[1].members == ("HX_FLOOR_PIANO_RIGHT_TO_LEFT_CHASE",)
