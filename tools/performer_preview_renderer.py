@@ -55,7 +55,7 @@ class BandRenderer:
             d.line((x, 72, x, 105), fill=(70, 90, 120, 150), width=3)
         return im
 
-    def snowman(self, d, cx, cy, scale, bright, role, phase):
+    def snowman(self, d, cx, cy, scale, bright, role, phase, drummer_cue=None):
         glow = Image.new("RGBA", (self.width, self.height), (0, 0, 0, 0))
         gd = ImageDraw.Draw(glow)
         def C(f=1.0):
@@ -78,13 +78,13 @@ class BandRenderer:
         hand_y = cy - body * 0.9
         d.line((cx - body * 0.75, arm_y, cx - body * 1.45, hand_y), fill=C(0.85), width=max(2, int(4 * scale)))
         d.line((cx + body * 0.75, arm_y, cx + body * 1.45, hand_y), fill=C(0.85), width=max(2, int(4 * scale)))
-        if role == "HX_SNOWMAN_DRUMMER": self.drums(d, cx, cy, scale, bright, phase)
+        if role == "HX_SNOWMAN_DRUMMER": self.drums(d, cx, cy, scale, bright, phase, drummer_cue)
         elif role == "HX_SNOWMAN_BASSIST": self.instrument(d, cx + 10 * scale, cy - 5 * scale, scale, bright, True)
         elif role == "HX_SNOWMAN_GUITARIST": self.instrument(d, cx + 10 * scale, cy - 8 * scale, scale, bright, False)
         elif role in ("HX_SNOWMAN_SINGER", "HX_SNOWMAN_SINGER_FEMALE"): self.mic(d, cx, cy, scale, bright)
         self._frame_glow = glow.filter(ImageFilter.GaussianBlur(radius=10))
 
-    def drums(self, d, cx, cy, s, b, p):
+    def drums(self, d, cx, cy, s, b, p, cue=None):
         base = cy + 30 * s
         w = 55 * s
         h = 28 * s
@@ -93,10 +93,13 @@ class BandRenderer:
         d.ellipse((cx - w * .38, base - h * .5, cx + w * .38, base + h * .5), fill=(20, 25, 35, 255), outline=(220, 225, 235, 255), width=max(1, int(2 * s)))
         d.ellipse((cx - 65 * s, base - 20 * s, cx - 35 * s, base + 4 * s), fill=(35, 40, 52, 255), outline=(210, 215, 225, 255), width=max(2, int(3 * s)))
         d.ellipse((cx + 35 * s, base - 20 * s, cx + 65 * s, base + 4 * s), fill=(35, 40, 52, 255), outline=(210, 215, 225, 255), width=max(2, int(3 * s)))
-        hit = math.sin(p * 3) > 0.2 and b > .3
+        pose = str(cue.get("name", "")) if cue else ""
+        hit = bool(cue) or (math.sin(p * 3) > 0.2 and b > .3)
         arm = 32 * s * (1.35 if hit else 1.0)
-        d.line((cx - 18 * s, cy - 18 * s, cx - 42 * s, cy - 18 * s - arm * .35), fill=(255, 230, 170, 255), width=max(2, int(4 * s)))
-        d.line((cx + 18 * s, cy - 18 * s, cx + 42 * s, cy - 18 * s - arm * .35), fill=(255, 230, 170, 255), width=max(2, int(4 * s)))
+        left_drop = 18 * s if pose in {"snare_hit", "left_tom_hit", "left_crash", "both_crash", "downbeat_impact"} else 0
+        right_drop = 18 * s if pose in {"hi_hat_pulse", "right_tom_hit", "right_crash", "both_crash", "downbeat_impact"} else 0
+        d.line((cx - 18 * s, cy - 18 * s, cx - 42 * s, cy - 18 * s - arm * .35 + left_drop), fill=(255, 230, 170, 255), width=max(2, int(4 * s)))
+        d.line((cx + 18 * s, cy - 18 * s, cx + 42 * s, cy - 18 * s - arm * .35 + right_drop), fill=(255, 230, 170, 255), width=max(2, int(4 * s)))
         d.ellipse((cx - 85 * s, base - 48 * s, cx - 58 * s, base - 42 * s), fill=(190, 200, 215, 255))
         d.ellipse((cx + 58 * s, base - 52 * s, cx + 85 * s, base - 46 * s), fill=(190, 200, 215, 255))
 
@@ -131,13 +134,13 @@ class BandRenderer:
                 d.ellipse((hand_x - 7 * s, y - 45 * s, hand_x + 7 * s, y - 31 * s), fill=(245, 245, 250, 255))
                 d.line((hand_x, y - 31 * s, hand_x + 10 * math.sin(b * 8) * s, y - 12 * s), fill=(245, 245, 250, 255), width=max(2, int(3 * s)))
 
-    def render(self, active, t_ms, duration, overlays, title):
+    def render(self, active, t_ms, duration, overlays, title, drummer_cue=None):
         base = self._base.copy()
         self.piano(ImageDraw.Draw(base), 450, 455, 1.0, float(active.get("HX_FLOOR_PIANO", 0)))
         for name, (x, y, role) in BAND.items():
             if role == "piano":
                 continue
-            self.snowman(ImageDraw.Draw(base), x, y, 1.0, float(active.get(name, 0.0)), name, t_ms / 250.0)
+            self.snowman(ImageDraw.Draw(base), x, y, 1.0, float(active.get(name, 0.0)), name, t_ms / 250.0, drummer_cue if name == "HX_SNOWMAN_DRUMMER" else None)
             base.alpha_composite(self._frame_glow)
         d = ImageDraw.Draw(base)
         d.rounded_rectangle((25, 18, 400, 105), radius=15, fill=(7, 11, 19, 225), outline=(180, 205, 235, 80))
@@ -175,13 +178,24 @@ def main():
     out = Path(args.xsq).with_name(Path(args.xsq).stem + ".mp4")
     tmp = out.with_suffix(".silent.mp4")
     renderer = BandRenderer(args.width, args.height)
+
+    def drummer_cue_at(time_ms):
+        track = seq.timing_tracks.get("AUTO_Drummer_V3")
+        if track is None:
+            return None
+        active_cues = [event for event in track.events if event.start_ms <= time_ms < event.end_ms]
+        if not active_cues:
+            return None
+        cue = max(active_cues, key=lambda event: event.end_ms - event.start_ms)
+        return {"name": cue.name, "start_ms": cue.start_ms, "end_ms": cue.end_ms}
+
     writer = imageio.get_writer(tmp, fps=args.fps, codec="libx264", quality=7, ffmpeg_log_level="error", pixelformat="yuv420p", macro_block_size=None)
     try:
         for fi in range(intensity.shape[1]):
             t = int(round(fi * 1000 / args.fps))
             active = {name: float(intensity[idx[name], fi]) for name in BAND if name in idx}
             overlays = {k: active_label(v, t) for k, v in tracks.items()}
-            frame = renderer.render(active, t, seq.duration_ms, overlays, Path(args.xsq).name)
+            frame = renderer.render(active, t, seq.duration_ms, overlays, Path(args.xsq).name, drummer_cue_at(t))
             writer.append_data(np.asarray(frame.convert("RGB"), dtype=np.uint8))
     finally:
         writer.close()
