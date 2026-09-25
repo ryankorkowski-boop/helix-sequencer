@@ -9,13 +9,18 @@ from audio.drum_classification import DRUM_STREAM_KEYS, DrumEvent, empty_drum_st
 DRUM_SUBMODEL_BY_TYPE = {
     "kick": "kick",
     "snare": "snare",
-    "tom": "tom",
+    "tom": "tom_left",
+    "tom_left": "tom_left",
+    "tom_right": "tom_right",
+    "floor_tom": "floor_tom",
     "hihat": "hi_hat",
-    "cymbal": "cymbal",
+    "cymbal": "cymbal_left",
+    "crash": "cymbal_left",
+    "ride": "ride",
     "drum_bus": "drum_bus",
 }
 
-DRUM_PRIORITY = {"kick": 0, "snare": 1, "cymbal": 2, "tom": 3, "hihat": 4, "drum_bus": 5}
+DRUM_PRIORITY = {"kick": 0, "snare": 1, "cymbal": 2, "crash": 2, "ride": 3, "tom": 4, "tom_left": 4, "tom_right": 4, "floor_tom": 4, "hihat": 5, "drum_bus": 6}
 DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
 DRUMMER_V3_POSE_BY_TYPE = {
     "kick": "kick_hit",
@@ -32,6 +37,8 @@ DRUMMER_V3_SUBMODELS_BY_POSE = {
     "hi_hat_pulse": ("HX_SNOWMAN_DRUMMER_V3_HIT_HIHAT",),
     "left_tom_hit": ("HX_SNOWMAN_DRUMMER_V3_HIT_LEFT_TOM",),
     "right_tom_hit": ("HX_SNOWMAN_DRUMMER_V3_HIT_RIGHT_TOM",),
+    "floor_tom_hit": ("HX_SNOWMAN_DRUMMER_V3_HIT_FLOOR_TOM",),
+    "ride_hit": ("HX_SNOWMAN_DRUMMER_V3_HIT_RIDE",),
     "left_crash": ("HX_SNOWMAN_DRUMMER_V3_HIT_LEFT_CRASH",),
     "right_crash": ("HX_SNOWMAN_DRUMMER_V3_HIT_RIGHT_CRASH",),
     "both_crash": ("HX_SNOWMAN_DRUMMER_V3_HIT_BOTH_CRASH",),
@@ -43,6 +50,8 @@ DRUMMER_V3_DURATION_BY_POSE = {
     "hi_hat_pulse": 80,
     "left_tom_hit": 155,
     "right_tom_hit": 155,
+    "floor_tom_hit": 180,
+    "ride_hit": 105,
     "left_crash": 320,
     "right_crash": 320,
     "both_crash": 360,
@@ -115,28 +124,71 @@ def map_events_to_submodels(events: Iterable[DrumEvent]) -> list[dict[str, objec
 
 
 def drummer_v3_pose_for_event(event: DrumEvent, event_index: int = 0) -> str:
-    if event.drum_type == "tom":
-        return "right_tom_hit" if event_index % 2 == 0 else "left_tom_hit"
-    if event.drum_type == "cymbal":
+    drum_type = event.drum_type
+    if drum_type == "floor_tom":
+        return "floor_tom_hit"
+    if drum_type == "tom_left":
+        return "left_tom_hit"
+    if drum_type == "tom_right":
+        return "right_tom_hit"
+    if drum_type == "tom":
+        return ("left_tom_hit", "right_tom_hit", "floor_tom_hit")[event_index % 3]
+    if drum_type == "ride":
+        return "ride_hit"
+    if drum_type in {"cymbal", "crash"}:
         if event.velocity >= 0.9 and event.confidence >= 0.65:
             return "both_crash"
         return "left_crash" if event_index % 2 else "right_crash"
-    return DRUMMER_V3_POSE_BY_TYPE.get(event.drum_type, "downbeat_impact")
+    return DRUMMER_V3_POSE_BY_TYPE.get(drum_type, "downbeat_impact")
+
+
+def drummer_hand_for_event(event: DrumEvent, event_index: int = 0) -> str:
+    if event.drum_type == "kick":
+        return "foot"
+    if event.drum_type in {"hihat", "ride"}:
+        return "right"
+    if event.drum_type in {"crash", "cymbal"}:
+        return "right" if event_index % 2 == 0 else "left"
+    if event.drum_type in {"floor_tom", "tom_right"}:
+        return "right"
+    if event.drum_type == "tom_left":
+        return "left"
+    if event.drum_type == "tom":
+        return ("left", "right")[event_index % 2]
+    if event.drum_type == "snare":
+        return ("left", "right")[event_index % 2]
+    return "both"
 
 
 def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
     mapped: list[dict[str, object]] = []
     tom_index = 0
     cymbal_index = 0
+    snare_index = 0
     for event in sorted(events, key=lambda item: (item.timestamp_ms, DRUM_PRIORITY.get(item.drum_type, 9))):
-        if event.drum_type == "tom":
-            pose = drummer_v3_pose_for_event(event, tom_index); tom_index += 1
-        elif event.drum_type == "cymbal":
-            pose = drummer_v3_pose_for_event(event, cymbal_index); cymbal_index += 1
+        if event.drum_type in {"tom", "tom_left", "tom_right", "floor_tom"}:
+            pose = drummer_v3_pose_for_event(event, tom_index)
+            tom_index += 1
+        elif event.drum_type in {"cymbal", "crash", "ride"}:
+            pose = drummer_v3_pose_for_event(event, cymbal_index)
+            cymbal_index += 1
         else:
-            pose = drummer_v3_pose_for_event(event, 0)
-        duration = DRUMMER_V3_DURATION_BY_POSE.get(pose, 140)
-        mapped.append({"timestamp_ms": event.timestamp_ms, "end_ms": event.timestamp_ms + duration, "model": DRUMMER_V3_MODEL, "drum_type": event.drum_type, "pose": pose, "submodels": list(DRUMMER_V3_SUBMODELS_BY_POSE[pose]), "intensity": round(event.velocity, 3), "confidence": event.confidence, "source": event.source})
+            pose = drummer_v3_pose_for_event(event, snare_index if event.drum_type == "snare" else 0)
+            if event.drum_type == "snare":
+                snare_index += 1
+        hand_index = snare_index if event.drum_type == "snare" else (tom_index if event.drum_type in {"tom", "tom_left", "tom_right", "floor_tom"} else cymbal_index)
+        mapped.append({
+            "timestamp_ms": event.timestamp_ms,
+            "end_ms": event.timestamp_ms + DRUMMER_V3_DURATION_BY_POSE.get(pose, 140),
+            "model": DRUMMER_V3_MODEL,
+            "drum_type": event.drum_type,
+            "pose": pose,
+            "hand": drummer_hand_for_event(event, hand_index),
+            "submodels": list(DRUMMER_V3_SUBMODELS_BY_POSE[pose]),
+            "intensity": round(event.velocity, 3),
+            "confidence": event.confidence,
+            "source": event.source,
+        })
     return mapped
 
 
@@ -162,9 +214,19 @@ def normalized_events_to_drum_streams(events: Iterable[object]) -> dict[str, lis
     for index, event in enumerate(events):
         kind = str(getattr(event, "instrument", None) or getattr(event, "kind", "drum_bus"))
         kind = kind.removeprefix("drum_").removeprefix("stem_drum_")
-        if kind == "hi_hat":
+        if kind in {"hi_hat", "hat", "hat_closed", "hat_open"}:
             kind = "hihat"
-        if kind not in {"kick", "snare", "tom", "hihat", "cymbal"}:
+        if kind in {"crash", "crash_cymbal"}:
+            kind = "crash"
+        if kind in {"floor", "floor_tom", "low_tom"}:
+            kind = "floor_tom"
+        if kind in {"left_tom", "tom_left"}:
+            kind = "tom_left"
+        if kind in {"right_tom", "tom_right"}:
+            kind = "tom_right"
+        if kind in {"ride_cymbal"}:
+            kind = "ride"
+        if kind not in {"kick", "snare", "tom", "tom_left", "tom_right", "floor_tom", "hihat", "cymbal", "crash", "ride"}:
             continue
         confidence = max(0.0, min(1.0, float(getattr(event, "confidence", 0.0))))
         velocity = max(0.0, min(1.0, float(getattr(event, "strength", confidence))))
