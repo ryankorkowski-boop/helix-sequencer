@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/audio-intelligence-musical-intelligence
+      - feature/drummer-virtual-xlights
     paths:
       - 'audio/**'
       - 'core/**'
