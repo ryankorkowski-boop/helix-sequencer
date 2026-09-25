@@ -121,6 +121,36 @@ jobs:
           DRUMMER="$OUT/Helix_Drummer_Performance.xsq"
           python tools/integrate_drummer_v3_into_xsq.py "$MAPPED" "$GITHUB_WORKSPACE/Helix Audiolights.mp3" --output "$DRUMMER" --report "$OUT/DRUMMER_PERFORMANCE.json"
           test -s "$DRUMMER"
+
+          # Package the exact layout beside the XSQ. Opening the XSQ from this
+          # directory then has the matching RGB effects/model definitions at
+          # hand instead of relying on the user's currently-open xLights layout.
+          cp "$LAYOUT" "$OUT/xlights_rgbeffects.xml"
+          cat > "$OUT/OPEN_IN_XLIGHTS.txt" <<'EOF'
+Helix generated-sequence opening contract
+
+1. Keep this xlights_rgbeffects.xml in the same folder as the .xsq.
+2. Open/import the matching layout in xLights before judging the sequence.
+3. If xLights does not render the sequence, assign the models to a Null
+   controller in Controller Setup and render the sequence once. This is a
+   preview/bootstrap step only; it does not change Helix's physical show
+   channel policy.
+4. Do not replace this layout with the user's 256-channel show layout when
+   evaluating the performer preview.
+EOF
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          out = Path("$OUT") / "XLIGHTS_OPENING_CONTRACT.json"
+          out.write_text(json.dumps({
+              "schema": "helix.xlights.opening_contract.v1",
+              "layout_file": "xlights_rgbeffects.xml",
+              "layout_is_paired_with_xsq": True,
+              "controller_bootstrap": "null_controller_then_render_if_xlights_requires_model_output_mapping",
+              "physical_show_channel_policy": "unchanged",
+          }, indent=2), encoding="utf-8")
+          PY
+
           python - "$DRUMMER" "$LAYOUT" <<'PY'
           import json, sys, xml.etree.ElementTree as ET
           from pathlib import Path
