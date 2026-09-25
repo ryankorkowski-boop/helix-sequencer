@@ -1,6 +1,11 @@
 name: Helix Remote Review Preview MP4
 
 on:
+  pull_request:
+    branches:
+      - 'feature/**'
+      - 'beta/**'
+      - feature/restructure-core
   push:
     branches:
       - feature/restructure-core
