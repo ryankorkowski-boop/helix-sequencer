@@ -39,6 +39,7 @@ class DrummerV3IntegrationTests(unittest.TestCase):
             self.assertFalse(report["physical_channels_enabled"])
 
             parsed = ET.parse(output).getroot()
+            self.assertEqual(len(parsed.findall("ElementEffects")), 1)
             names = {element.get("name") for element in parsed.findall(".//Element")}
             self.assertIn("HX_SNOWMAN_DRUMMER", names)
             display_names = {element.get("name") for element in parsed.findall("./DisplayElements/Element")}
@@ -50,6 +51,10 @@ class DrummerV3IntegrationTests(unittest.TestCase):
                 [effect.get("name") for effect in track.findall("Effect")],
                 ["kick_hit", "snare_hit", "hi_hat_pulse", "right_crash"],
             )
+            self.assertIn("hand=foot", track.findall("Effect")[0].get("settings", ""))
+            self.assertIn("hand=left", track.findall("Effect")[1].get("settings", ""))
+            self.assertIn("hand=right", track.findall("Effect")[2].get("settings", ""))
+            self.assertIn("hand=right", track.findall("Effect")[3].get("settings", ""))
             self.assertTrue(any(name.startswith("HX_SNOWMAN_DRUMMER/") for name in names))
 
 
