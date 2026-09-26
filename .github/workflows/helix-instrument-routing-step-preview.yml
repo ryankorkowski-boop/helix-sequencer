@@ -1,5 +1,7 @@
 name: Helix Instrument Routing Step Preview — Musical Intelligence
 
+# Slice 1 drummer stabilization validation trigger
+
 on:
   push:
     branches:
