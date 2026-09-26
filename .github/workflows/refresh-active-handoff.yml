@@ -1,0 +1,44 @@
+name: Refresh Active Helix Handoff
+
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "Optional progress note to include in the active handoff"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Refresh automation note
+        env:
+          NOTE: ${{ inputs.note }}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          p = Path("docs/ACTIVE_HANDOFF.md")
+          text = p.read_text(encoding="utf-8")
+          marker = "## Automation note"
+          head = text.split(marker, 1)[0].rstrip()
+          note = os.environ.get("NOTE", "").strip() or "No additional note supplied."
+          p.write_text(head + "\n\n" + marker + "\nThis file is the persistent handoff. Future agents/runs should read it directly from the repository instead of requiring the user to paste a handoff prompt.\n\nLatest operator note:\n" + note + "\n", encoding="utf-8")
+          PY
+
+      - name: Commit refreshed handoff
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/ACTIVE_HANDOFF.md
+          git diff --cached --quiet || git commit -m "docs: refresh active helix handoff"
+          git push
