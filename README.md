@@ -1,3 +1,5 @@
+<!-- CI trigger: repaired drummer preview -->
+<!-- PR preview trigger enabled -->
 # Helix Sequencer
 
 > **Sequencing, simplified.** Audio in. Lights out. Helix.
@@ -56,16 +58,16 @@ python main.py --list-profiles
 
 Run the active master profile:
 ```bash
-python main.py --profile master -- \
-  --audio song.mp3 \
-  --template template.xsq \
+python main.py --profile master -- \\
+  --audio song.mp3 \\
+  --template template.xsq \\
   --output-root outputs/
 ```
 
 Run a specific version:
 ```bash
-python main.py --profile v27.3 -- \
-  --audio song.mp3 \
+python main.py --profile v27.3 -- \\
+  --audio song.mp3 \\
   --template template.xsq
 ```
 
@@ -209,9 +211,9 @@ Example manifest:
 
 ### Installation Issues
 
-**Problem:** `pip install` fails on librosa or numpy
+**Problem:** pip install fails on librosa or numpy
 ```bash
-# Solution: Ensure Python 3.11+ and upgrade pip
+# Solution: Ensure Python 3.11+ and upgrade pip setuptools wheel
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install -r requirements.txt
 ```
@@ -242,7 +244,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ### Code Quality
 
@@ -257,7 +259,7 @@ All contributions must:
 
 - **Questions?** → [GitHub Discussions](https://github.com/ryankorkowski-boop/helix-sequencer/discussions)
 - **Found a bug?** → [GitHub Issues](https://github.com/ryankorkowski-boop/helix-sequencer/issues)
-- **Security concern?** → See [BETA_POLICY.md](docs/BETA_POLICY.md#bug-reports-and-feature-requests)
+- **Security concern?** → See [BETA_POLICY.md](BETA_POLICY.md#bug-reports-and-feature-requests)
 
 ## 📚 Additional Resources
 

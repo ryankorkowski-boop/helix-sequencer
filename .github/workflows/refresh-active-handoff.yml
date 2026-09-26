@@ -1,0 +1,93 @@
+name: Refresh Active Helix Handoff
+
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "Optional progress note to include in the active handoff"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 1
+
+      - name: Refresh handoff with repository and CI state
+        env:
+          NOTE: ${{ inputs.note }}
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+          
+          p = Path("docs/ACTIVE_HANDOFF.md")
+          text = p.read_text(encoding="utf-8")
+          marker = "## Automation note"
+          head = text.split(marker, 1)[0].rstrip()
+          
+          sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          runs_raw = subprocess.check_output([
+              "gh", "run", "list",
+              "--repo", os.environ["REPO"],
+              "--branch", os.environ["BRANCH"],
+              "--limit", "20",
+              "--json", "name,status,conclusion,headSha,url,databaseId",
+          ], text=True)
+          runs = json.loads(runs_raw)
+          
+          current = [r for r in runs if r.get("headSha") == sha]
+          current.sort(key=lambda r: r.get("databaseId", 0), reverse=True)
+          lines = [
+              "## Current run state",
+              f"- Branch: `{os.environ['BRANCH']}`",
+              f"- HEAD: `{sha}`",
+              f"- Refreshed by: GitHub Actions run `{os.environ.get('GITHUB_RUN_ID', '')}`",
+              "",
+              "| Workflow | Status | Conclusion | Run |",
+              "|---|---|---|---|",
+          ]
+          if current:
+              for r in current:
+                  lines.append(
+                      f"| {r.get('name','')} | {r.get('status','')} | "
+                      f"{r.get('conclusion') or '—'} | {r.get('url','')} |"
+                  )
+          else:
+              lines.append("| No current-HEAD runs reported | — | — | — |")
+          lines += [
+              "",
+              "The current HEAD is not considered validated until the relevant workflows finish successfully.",
+          ]
+          
+          note = os.environ.get("NOTE", "").strip() or "No additional note supplied."
+          automation = (
+              "## Automation note\n"
+              "This file is the persistent handoff. Future agents/runs should read it directly "
+              "from the repository instead of requiring the user to paste a handoff prompt.\n\n"
+              "Latest operator note:\n" + note + "\n"
+          )
+          p.write_text(head + "\n\n" + "\n".join(lines) + "\n\n" + automation, encoding="utf-8")
+          PY
+
+      - name: Commit refreshed handoff
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/ACTIVE_HANDOFF.md
+          git diff --cached --quiet || git commit -m "docs: refresh active helix handoff"
+          git push

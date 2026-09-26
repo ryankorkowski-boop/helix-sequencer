@@ -22,7 +22,7 @@ def test_remote_review_workflow_exists_and_has_render_job() -> None:
 def test_remote_review_workflow_uploads_mp4_artifacts() -> None:
     text = _workflow_text()
 
-    assert 'uses: actions/upload-artifact@v4' in text
+    assert 'uses: actions/upload-artifact@v7' in text
     assert 'name: helix-remote-review-preview-mp4' in text
     assert 'review_summary.md' in text
     assert '**/*.mp4' in text
@@ -30,14 +30,12 @@ def test_remote_review_workflow_uploads_mp4_artifacts() -> None:
     assert '**/*.json' in text
 
 
-def test_remote_review_workflow_contains_fallback_renderer_path() -> None:
+def test_remote_review_workflow_uses_canonical_renderer_path() -> None:
     text = _workflow_text()
 
-    assert 'render_xsq_skeleton_preview.py' in text
-    assert 'validated_demo_xsq_fallback' in text
     assert 'preview_hq.py' in text
-
-
+    assert 'Pick highest-scoring valid candidate or fallback and render MP4' in text
+    assert 'ranked_256_channel_sequence_with_drummer_v3' in text
 def test_remote_review_workflow_generates_validated_demo_fallback() -> None:
     text = _workflow_text()
 

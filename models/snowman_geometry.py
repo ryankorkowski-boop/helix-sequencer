@@ -114,8 +114,12 @@ def _base_regions(role: str, canvas: GridCanvas) -> dict[str, PixelRegion]:
             {
                 "kick": PixelRegion.from_coords("kick", "drum", circle(cx, _scale(49, s), max(5, _scale(7, s))), canvas, tags=["drums", "kick"]),
                 "snare": PixelRegion.from_coords("snare", "drum", ellipse(cx - _scale(12, s), _scale(39, s), max(3, _scale(5, s)), max(2, _scale(3, s))), canvas, tags=["drums", "snare"]),
-                "tom": PixelRegion.from_coords("tom", "drum", ellipse(cx + _scale(11, s), _scale(38, s), max(3, _scale(5, s)), max(2, _scale(3, s))), canvas, tags=["drums", "tom"]),
-                "cymbal": PixelRegion.from_coords("cymbal", "drum", ellipse(cx + _scale(19, s), _scale(29, s), max(4, _scale(7, s)), max(1, _scale(2, s))), canvas, tags=["drums", "cymbal"]),
+                "tom_left": PixelRegion.from_coords("tom_left", "drum", ellipse(cx + _scale(7, s), _scale(38, s), max(3, _scale(4, s)), max(2, _scale(3, s))), canvas, tags=["drums", "tom", "left_tom"]),
+                "tom_right": PixelRegion.from_coords("tom_right", "drum", ellipse(cx + _scale(15, s), _scale(38, s), max(3, _scale(4, s)), max(2, _scale(3, s))), canvas, tags=["drums", "tom", "right_tom"]),
+                "floor_tom": PixelRegion.from_coords("floor_tom", "drum", ellipse(cx + _scale(23, s), _scale(42, s), max(4, _scale(6, s)), max(3, _scale(5, s))), canvas, tags=["drums", "floor_tom"]),
+                "cymbal_left": PixelRegion.from_coords("cymbal_left", "drum", ellipse(cx + _scale(18, s), _scale(29, s), max(4, _scale(6, s)), max(1, _scale(2, s))), canvas, tags=["drums", "cymbal", "crash"]),
+                "cymbal_right": PixelRegion.from_coords("cymbal_right", "drum", ellipse(cx + _scale(28, s), _scale(27, s), max(4, _scale(6, s)), max(1, _scale(2, s))), canvas, tags=["drums", "cymbal", "crash"]),
+                "ride": PixelRegion.from_coords("ride", "drum", ellipse(cx + _scale(34, s), _scale(31, s), max(4, _scale(6, s)), max(1, _scale(2, s))), canvas, tags=["drums", "ride"]),
                 "hi_hat": PixelRegion.from_coords("hi_hat", "drum", ellipse(cx - _scale(21, s), _scale(30, s), max(4, _scale(6, s)), max(1, _scale(2, s))), canvas, tags=["drums", "hihat"]),
                 "left_stick": PixelRegion.from_coords("left_stick", "drumstick", line(cx - _scale(10, s), _scale(28, s), cx - _scale(22, s), _scale(18, s), 1), canvas, tags=["drums", "stick"]),
                 "right_stick": PixelRegion.from_coords("right_stick", "drumstick", line(cx + _scale(10, s), _scale(28, s), cx + _scale(22, s), _scale(18, s), 1), canvas, tags=["drums", "stick"]),
@@ -190,12 +194,17 @@ def generate_submodels(role: str, regions: dict[str, PixelRegion]) -> dict[str, 
         "singer": ["mic_stand", "mic_head"],
         "guitarist": ["guitar_body", "guitar_neck", "guitar_headstock", "strum_zone", "fret_zone"],
         "bassist": ["bass_body", "bass_neck", "bass_scroll", "pluck_zone", "neck_zone"],
-        "drummer": ["kick", "snare", "tom", "cymbal", "hi_hat", "left_stick", "right_stick"],
+        "drummer": ["kick", "snare", "tom_left", "tom_right", "floor_tom", "cymbal_left", "cymbal_right", "ride", "hi_hat", "left_stick", "right_stick"],
     }[role]
     for name in role_specific:
         category = "drum" if role == "drummer" else "instrument"
         stems = ["drums"] if role == "drummer" else ["bass"] if role == "bassist" else ["vocals"] if role == "singer" else ["other"]
         submodels[name] = _submodel(name, category, regions, [name], [category, "timing_target"], stems)
+    if role == "drummer":
+        # Backward-compatible composite aliases used by the existing working
+        # drummer API. New sequencing targets use the explicit components.
+        submodels["tom"] = _submodel("tom", "drum", regions, ["tom_left", "tom_right", "floor_tom"], ["drum", "tom", "timing_target"], ["drums"])
+        submodels["cymbal"] = _submodel("cymbal", "drum", regions, ["cymbal_left", "cymbal_right", "ride"], ["drum", "cymbal", "timing_target"], ["drums"])
     submodels["mouth_all"] = _submodel("mouth_all", "composite", regions, ["mouth_A", "mouth_E", "mouth_I", "mouth_O", "mouth_U", "mouth_MBP"], ["mouth", "face_definition"], ["vocals"])
     instrument_regions = [name for name in role_specific if name not in {"left_stick", "right_stick"}]
     if role == "drummer":

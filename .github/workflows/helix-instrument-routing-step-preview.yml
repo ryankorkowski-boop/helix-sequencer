@@ -1,9 +1,12 @@
 name: Helix Instrument Routing Step Preview — Musical Intelligence
 
+# Slice 1 drummer stabilization validation trigger
+
 on:
   push:
     branches:
       - feature/audio-intelligence-musical-intelligence
+      - feature/drummer-virtual-xlights
     paths:
       - 'audio/**'
       - 'core/**'
@@ -27,6 +30,9 @@ on:
       - 'template.xsq'
       - 'Helix Audiolights.mp3'
       - '.github/workflows/helix-instrument-routing-step-preview.yml'
+  pull_request:
+    branches:
+      - feature/audio-intelligence-musical-intelligence
   workflow_dispatch:
     inputs:
       duration:
@@ -39,17 +45,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: pip
 
       - name: Install render dependencies
-        run: python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn
+        run: python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest
 
       - name: Verify source audio
         run: test -s "Helix Audiolights.mp3"
@@ -115,24 +121,62 @@ jobs:
           test -s "$MAPPED"
 
           DRUMMER="$OUT/Helix_Drummer_Performance.xsq"
-          python tools/integrate_drummer_v3_into_xsq.py "$MAPPED" "$GITHUB_WORKSPACE/Helix Audiolights.mp3" --output "$DRUMMER" --physical-channels --report "$OUT/DRUMMER_PERFORMANCE.json"
+          python tools/integrate_drummer_v3_into_xsq.py "$MAPPED" "$GITHUB_WORKSPACE/Helix Audiolights.mp3" --output "$DRUMMER" --report "$OUT/DRUMMER_PERFORMANCE.json"
           test -s "$DRUMMER"
-          python - "$DRUMMER" <<'PY'
+
+          # Package the exact layout beside the XSQ. Opening the XSQ from this
+          # directory then has the matching RGB effects/model definitions at
+          # hand instead of relying on the user's currently-open xLights layout.
+          cp "$LAYOUT" "$OUT/xlights_rgbeffects.xml"
+          cat > "$OUT/OPEN_IN_XLIGHTS.txt" <<'EOF'
+Helix generated-sequence opening contract
+
+1. Keep this xlights_rgbeffects.xml in the same folder as the .xsq.
+2. Open/import the matching layout in xLights before judging the sequence.
+3. If xLights does not render the sequence, assign the models to a Null
+   controller in Controller Setup and render the sequence once. This is a
+   preview/bootstrap step only; it does not change Helix's physical show
+   channel policy.
+4. Do not replace this layout with the user's 256-channel show layout when
+   evaluating the performer preview.
+EOF
+          python - "$OUT" <<'PY'
+          import json, sys
+          from pathlib import Path
+          out = Path(sys.argv[1]) / "XLIGHTS_OPENING_CONTRACT.json"
+          out.write_text(json.dumps({
+              "schema": "helix.xlights.opening_contract.v1",
+              "layout_file": "xlights_rgbeffects.xml",
+              "layout_is_paired_with_xsq": True,
+              "controller_bootstrap": "null_controller_then_render_if_xlights_requires_model_output_mapping",
+              "physical_show_channel_policy": "unchanged",
+          }, indent=2), encoding="utf-8")
+          PY
+
+          python - "$DRUMMER" "$LAYOUT" <<'PY'
           import json, sys, xml.etree.ElementTree as ET
           from pathlib import Path
           root = ET.parse(sys.argv[1]).getroot()
-          names = {e.get("name") for e in root.findall(".//Element")}
-          required = ["KICK","SNARE","HIHAT","TOM","CYMBAL","LEFT_STICK","RIGHT_STICK","BODY_IMPACT"]
+          layout = ET.parse(sys.argv[2]).getroot()
+          names = {e.get("name") for e in root.findall("./ElementEffects/Element")}
+          display = {e.get("name") for e in root.findall("./DisplayElements/Element")}
+          models = {m.get("name") for m in layout.findall(".//model")}
+          assert "HX_SNOWMAN_DRUMMER" in models
           assert "HX_SNOWMAN_DRUMMER" in names
-          assert all(f"HX_DRUMMER_CH0{i}_{kind}" in names for i, kind in enumerate(required, 1))
+          assert "HX_SNOWMAN_DRUMMER" in display
+          required_submodels = {"KICK","SNARE","HI_HAT","TOM_LEFT","TOM_RIGHT","FLOOR_TOM","CYMBAL_LEFT","CYMBAL_RIGHT","RIDE","LEFT_STICK","RIGHT_STICK"}
+          assert required_submodels <= {s.get("name") for m in layout.findall(".//model[@name='HX_SNOWMAN_DRUMMER']/subModel")}, "missing drummer submodels"
+          targets = {name for name in names if name.startswith("HX_SNOWMAN_DRUMMER/")}
+          assert targets, "no drummer component targets"
           tracks = {t.get("name"): t for t in root.findall("timingtrack")}
           assert "AUTO_Drummer_V3" in tracks
           assert len(tracks["AUTO_Drummer_V3"].findall("Effect")) > 0
           report = json.loads(Path("test_runs/instrument_routing_step1/DRUMMER_PERFORMANCE.json").read_text())
           assert report["event_count"] > 0
           assert report["contract"]["single_visual_target"] is True
-          assert report["physical_channels_enabled"] is True
-          print("DRUMMER_PERFORMANCE_OK", report["event_count"], report["placement_count"])
+          assert report["physical_channels_enabled"] is False
+          assert not any(name.startswith("HX_DRUMMER_CH") for name in names)
+          print("DRUMMER_PERFORMANCE_OK", report["event_count"], "component_targets=", len(targets))
           PY
           GENERATED_XSQ="$DRUMMER"
           echo "GENERATED_XSQ=$GENERATED_XSQ" >> "$GITHUB_ENV"
@@ -184,7 +228,7 @@ jobs:
           assert report["melody_runs_detected"] >= 0
           print(json.dumps(report, indent=2))
           PY
-          echo "GENERATED_XSQ=$MAPPED" >> "$GITHUB_ENV"
+          # Keep the drummer-enabled XSQ as the canonical generated sequence.
 
       - name: Validate drummer implementation
         env:
@@ -215,7 +259,7 @@ jobs:
                   "floor_piano": piano["required_submodels"],
               },
               "routing_profile": BandRoutingProfile().__dict__,
-              "physical_channel_policy": "Do not invent fixed 8-channel allocations; retain performer submodels and resolve physical channels from the real layout.",
+              "physical_channel_policy": "virtual performer only; no fixed LOR/AC assignment",
               "keyboard_candy_cane_mapping": {
                   "C4": ["North Candy Cane 6", "South Candy Cane 3"],
                   "D4": ["North Candy Cane 7", "South Candy Cane 4"],
@@ -272,7 +316,7 @@ jobs:
 
       - name: Upload step preview
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: helix-instrument-routing-step1-preview
           path: |

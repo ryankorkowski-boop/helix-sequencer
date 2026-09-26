@@ -51,7 +51,7 @@ def _state(prefix: str, name: str, desc: str, parts: tuple[str, ...], intensity:
 DRUMMER_PARTS = (
     "HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "PLATFORM",
     "HAT_HOLLY", "LEFT_STICK", "RIGHT_STICK", "KICK", "KICK_RIM", "SNARE", "SNARE_RIM", "TOM_LEFT",
-    "TOM_RIGHT", "HI_HAT", "CYMBAL_LEFT", "CYMBAL_RIGHT", "STANDS",
+    "TOM_RIGHT", "FLOOR_TOM", "HI_HAT", "CYMBAL_LEFT", "CYMBAL_RIGHT", "RIDE", "STANDS",
 )
 BASSIST_PARTS = (
     "HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "PLATFORM",
@@ -89,11 +89,12 @@ DRUMMER = PerformerRuntimeSpec(
         _state("HX_SNOWMAN_DRUMMER", "kick_hit", "Kick drum impact.", ("KICK", "KICK_RIM"), 0.75),
         _state("HX_SNOWMAN_DRUMMER", "snare_hit", "Snare hit with stick motion.", ("SNARE", "SNARE_RIM", "LEFT_STICK", "RIGHT_STICK"), 0.9),
         _state("HX_SNOWMAN_DRUMMER", "hi_hat_pulse", "Tight hi-hat pulse.", ("HI_HAT", "LEFT_ARM"), 0.65),
-        _state("HX_SNOWMAN_DRUMMER", "tom_fill", "Tom fill movement across the kit.", ("TOM_LEFT", "TOM_RIGHT", "LEFT_STICK", "RIGHT_STICK"), 0.8),
+        _state("HX_SNOWMAN_DRUMMER", "tom_fill", "Tom fill movement across the kit.", ("TOM_LEFT", "TOM_RIGHT", "FLOOR_TOM", "LEFT_STICK", "RIGHT_STICK"), 0.8),
         _state("HX_SNOWMAN_DRUMMER", "cymbal_crash", "Wide cymbal crash.", ("CYMBAL_LEFT", "CYMBAL_RIGHT", "RIGHT_ARM"), 1.0),
+        _state("HX_SNOWMAN_DRUMMER", "ride_pattern", "Ride pattern with right-hand stick motion.", ("RIDE", "RIGHT_ARM"), 0.7),
         _state("HX_SNOWMAN_DRUMMER", "downbeat_impact", "Full-kit downbeat impact.", ("KICK", "SNARE", "CYMBAL_LEFT", "CYMBAL_RIGHT"), 1.0),
     ),
-    audio_inputs=("kick", "snare", "cymbal_energy", "transients", "fill_density", "downbeat"),
+    audio_inputs=("kick", "snare", "hihat", "crash", "ride", "tom_left", "tom_right", "floor_tom", "transients", "fill_density", "downbeat"),
     sequencing_groups=("HX_SNOWMAN_BAND", "HX_SNOWMAN_INSTRUMENTS", "HX_SNOWMAN_DRUMS"),
 )
 
