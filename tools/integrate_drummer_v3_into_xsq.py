@@ -32,7 +32,10 @@ DRUM_TYPE_LAYER = {
 
 
 def _element_effects(root: ET.Element) -> ET.Element:
-    return root.find("ElementEffects") or ET.SubElement(root, "ElementEffects")
+    container = root.find("ElementEffects")
+    if container is None:
+        container = ET.SubElement(root, "ElementEffects")
+    return container
 
 
 def _elements(container: ET.Element) -> dict[str, ET.Element]:
