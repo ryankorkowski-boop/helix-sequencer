@@ -115,6 +115,75 @@ def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig 
     return sorted(scheduled, key=lambda event: (event.timestamp_ms, DRUM_PRIORITY.get(event.drum_type, 9)))
 
 
+@dataclass(frozen=True)
+class DrummerChoreographyConfig:
+    accent_velocity: float = 0.82
+    fill_density_threshold: int = 4
+    fill_window_ms: int = 420
+    max_motion_span_ms: int = 260
+
+
+def apply_drummer_choreography(
+    events: Iterable[DrumEvent],
+    config: DrummerChoreographyConfig = DrummerChoreographyConfig(),
+) -> list[dict[str, object]]:
+    """Annotate scheduled hits with deterministic performer-motion intent.
+
+    This is intentionally separate from XSQ emission. It turns musical hit
+    streams into choreography metadata without allocating physical channels
+    or changing event timing.
+    """
+    ordered = sorted(
+        events,
+        key=lambda event: (
+            event.timestamp_ms,
+            DRUM_PRIORITY.get(event.drum_type, 9),
+            -event.velocity,
+        ),
+    )
+    output: list[dict[str, object]] = []
+    for index, event in enumerate(ordered):
+        nearby = [
+            other
+            for other in ordered
+            if abs(other.timestamp_ms - event.timestamp_ms) <= config.fill_window_ms
+        ]
+        density = len(nearby)
+        accented = event.velocity >= config.accent_velocity
+        fill = density >= config.fill_density_threshold and event.drum_type in {
+            "tom", "tom_left", "tom_right", "floor_tom", "snare"
+        }
+
+        if event.drum_type == "kick":
+            motion = "foot_stomp" if accented else "foot_tap"
+        elif event.drum_type == "snare":
+            motion = "two_hand_snap" if accented else ("left_snap" if index % 2 == 0 else "right_snap")
+        elif event.drum_type == "hihat":
+            motion = "right_hand_tight_pulse"
+        elif event.drum_type == "ride":
+            motion = "right_hand_ride_pattern"
+        elif event.drum_type in {"crash", "cymbal"}:
+            motion = "both_arm_crash" if accented else "alternating_cymbal_sweep"
+        elif event.drum_type in {"tom", "tom_left", "tom_right", "floor_tom"}:
+            motion = "traveling_tom_fill" if fill else "single_tom_hit"
+        else:
+            motion = "full_kit_downbeat" if accented else "kit_idle_accent"
+
+        output.append({
+            "timestamp_ms": event.timestamp_ms,
+            "drum_type": event.drum_type,
+            "motion_profile": motion,
+            "accent": accented,
+            "fill": fill,
+            "local_density": density,
+            "velocity": event.velocity,
+            "confidence": event.confidence,
+            "source": event.source,
+            "max_motion_span_ms": config.max_motion_span_ms,
+        })
+    return output
+
+
 def map_events_to_submodels(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
     mapped = []
     for event in events:
