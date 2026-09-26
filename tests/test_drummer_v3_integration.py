@@ -87,5 +87,61 @@ class DrummerV3IntegrationTests(unittest.TestCase):
             self.assertTrue({"HX_SNOWMAN_DRUMMER/KICK", "HX_SNOWMAN_DRUMMER/SNARE"} <= targets)
 
 
+    def test_full_kit_component_contract_has_no_physical_channel_targets(self) -> None:
+        event_map = MusicalEventMap(
+            duration_ms=2000,
+            events=[
+                MusicalEvent(100, "kick", 1.0, 1.0, "test", instrument="kick"),
+                MusicalEvent(200, "snare", 1.0, 1.0, "test", instrument="snare"),
+                MusicalEvent(300, "hat", 1.0, 1.0, "test", instrument="hihat"),
+                MusicalEvent(400, "left_tom", 1.0, 1.0, "test", instrument="tom_left"),
+                MusicalEvent(500, "right_tom", 1.0, 1.0, "test", instrument="tom_right"),
+                MusicalEvent(600, "floor_tom", 1.0, 1.0, "test", instrument="floor_tom"),
+                MusicalEvent(700, "crash", 1.0, 1.0, "test", instrument="crash"),
+                MusicalEvent(800, "ride", 1.0, 1.0, "test", instrument="ride"),
+            ],
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = ET.Element("xsequence")
+            ET.SubElement(root, "ElementEffects")
+            base = Path(tmp) / "base.xsq"
+            output = Path(tmp) / "drummer.xsq"
+            audio = Path(tmp) / "song.mp3"
+            audio.write_bytes(b"placeholder")
+            ET.ElementTree(root).write(base, encoding="utf-8", xml_declaration=True)
+
+            with patch("tools.integrate_drummer_v3_into_xsq.build_musical_event_map", return_value=event_map):
+                report = inject_drummer_v3(base, output, audio)
+
+            self.assertFalse(report["physical_channels_enabled"])
+            self.assertEqual(report["physical_channel_policy"], "none")
+            self.assertEqual(report["event_count"], 8)
+
+            parsed = ET.parse(output).getroot()
+            element_names = {
+                element.get("name", "")
+                for element in parsed.findall("./ElementEffects/Element")
+            }
+            expected = {
+                "HX_SNOWMAN_DRUMMER/KICK",
+                "HX_SNOWMAN_DRUMMER/SNARE",
+                "HX_SNOWMAN_DRUMMER/HI_HAT",
+                "HX_SNOWMAN_DRUMMER/TOM_LEFT",
+                "HX_SNOWMAN_DRUMMER/TOM_RIGHT",
+                "HX_SNOWMAN_DRUMMER/FLOOR_TOM",
+                "HX_SNOWMAN_DRUMMER/CYMBAL_LEFT",
+                "HX_SNOWMAN_DRUMMER/RIDE",
+            }
+            self.assertTrue(expected <= element_names)
+            self.assertFalse(any(name.startswith("HX_DRUMMER_CH") for name in element_names))
+
+            display_names = {
+                element.get("name", "")
+                for element in parsed.findall("./DisplayElements/Element")
+            }
+            self.assertTrue(expected <= display_names)
+
+
 if __name__ == "__main__":
     unittest.main()
