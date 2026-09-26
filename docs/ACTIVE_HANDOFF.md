@@ -94,5 +94,13 @@ Next Slice 2 step:
 - add regression coverage proving motion intent maps to the correct drummer submodels;
 - only then wire the intent into preview animation/XSQ emission.
 
+### Latest Slice 2 progress — pose-plan integration
+- 7cc64989 — pose events now carry deterministic choreography metadata (motion_profile, accent/fill state, local density, motion span) while preserving existing timing, pose, hand, and submodel fields.
+- 0da7c6d8 — added regression coverage proving motion intent reaches the virtual drummer pose plan without changing event timestamps.
+- XSQ emission has not yet been changed to consume the new motion metadata.
+- Preview animation has not yet been changed to consume the new motion metadata.
+- Current validation status: code/tests committed, but no current-HEAD CI run has been observed yet.
+- Next smallest slice: expose the motion metadata on AUTO_Drummer_V3 timing cues, then update the existing preview renderer to consume those profiles and render distinct limb/tom/cymbal motion.
+
 ## Automation note
 This file is the persistent handoff. Future agents/runs should read it directly from the repository instead of requiring the user to paste a handoff prompt.
