@@ -74,5 +74,25 @@ After Slice 1 is green, move to the next drummer-musical-intelligence slice: imp
 
 Do not merge automatically. Do not rewrite unrelated systems.
 
+## Slice 2 — drummer musical interpretation and choreography
+
+**Status:** started, isolated from XSQ emission.
+
+Completed in Slice 2 so far:
+1. Added deterministic `DrummerChoreographyConfig`.
+2. Added `apply_drummer_choreography()` as a pure transformation over scheduled drum events.
+3. Added motion intent for foot, snare-hand alternation, hi-hat, ride, crash, and traveling tom fills.
+4. Added deterministic regression tests for accents, dense fills, timing preservation, and repeatability.
+5. Kept the 256-channel physical layout untouched and did not change existing XSQ rendering.
+
+Current Slice 2 commits:
+- `c7cba2f9` — choreography layer
+- `81d38b98` — choreography tests
+
+Next Slice 2 step:
+- feed choreography metadata into the existing virtual-performer pose plan;
+- add regression coverage proving motion intent maps to the correct drummer submodels;
+- only then wire the intent into preview animation/XSQ emission.
+
 ## Automation note
 This file is the persistent handoff. Future agents/runs should read it directly from the repository instead of requiring the user to paste a handoff prompt.
