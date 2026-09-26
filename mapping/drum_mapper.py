@@ -231,10 +231,15 @@ def drummer_hand_for_event(event: DrumEvent, event_index: int = 0) -> str:
 
 def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
     mapped: list[dict[str, object]] = []
+    ordered_events = sorted(
+        events,
+        key=lambda item: (item.timestamp_ms, DRUM_PRIORITY.get(item.drum_type, 9), -item.velocity),
+    )
+    choreography = apply_drummer_choreography(ordered_events)
     tom_index = 0
     cymbal_index = 0
     snare_index = 0
-    for event in sorted(events, key=lambda item: (item.timestamp_ms, DRUM_PRIORITY.get(item.drum_type, 9))):
+    for event, motion in zip(ordered_events, choreography):
         if event.drum_type in {"tom", "tom_left", "tom_right", "floor_tom"}:
             hand_index = tom_index
             pose = drummer_v3_pose_for_event(event, tom_index)
@@ -259,6 +264,11 @@ def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str
             "intensity": round(event.velocity, 3),
             "confidence": event.confidence,
             "source": event.source,
+            "motion_profile": motion["motion_profile"],
+            "accent": motion["accent"],
+            "fill": motion["fill"],
+            "local_density": motion["local_density"],
+            "max_motion_span_ms": motion["max_motion_span_ms"],
         })
     return mapped
 
