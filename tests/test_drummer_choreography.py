@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 
 from audio.drum_classification import DrumEvent
-from mapping.drum_mapper import apply_drummer_choreography
+from mapping.drum_mapper import apply_drummer_choreography, map_events_to_drummer_v3_poses
 
 
 class DrummerChoreographyTests(unittest.TestCase):
@@ -54,6 +54,23 @@ class DrummerChoreographyTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual([item["timestamp_ms"] for item in first], [0, 250, 500])
         self.assertEqual(first[2]["motion_profile"], "both_arm_crash")
+
+    def test_pose_plan_carries_motion_intent_without_changing_timing(self) -> None:
+        events = [
+            DrumEvent(100, 0.95, 0.9, {}, 1, "kick"),
+            DrumEvent(200, 0.88, 0.85, {}, 2, "snare"),
+            DrumEvent(300, 0.92, 0.9, {}, 3, "crash"),
+            DrumEvent(400, 0.7, 0.8, {}, 4, "tom_left"),
+            DrumEvent(500, 0.7, 0.8, {}, 5, "tom_right"),
+            DrumEvent(600, 0.7, 0.8, {}, 6, "floor_tom"),
+        ]
+        poses = map_events_to_drummer_v3_poses(events)
+        self.assertEqual([item["timestamp_ms"] for item in poses], [100, 200, 300, 400, 500, 600])
+        self.assertEqual(poses[0]["motion_profile"], "foot_stomp")
+        self.assertEqual(poses[1]["motion_profile"], "two_hand_snap")
+        self.assertEqual(poses[2]["motion_profile"], "both_arm_crash")
+        self.assertTrue(all("motion_profile" in item for item in poses))
+        self.assertTrue(all("max_motion_span_ms" in item for item in poses))
 
 
 if __name__ == "__main__":
