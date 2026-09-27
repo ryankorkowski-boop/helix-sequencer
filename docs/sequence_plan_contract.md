@@ -1,6 +1,6 @@
 # Sequence Plan Contract
 
-Status: Slice 1 contract  
+Status: Slice 0 contract  
 Behavior change: none  
 Purpose: define the intermediate planning target between audio analysis and effect rendering
 
@@ -28,6 +28,10 @@ This contract does not replace the current renderer. It gives `core.sequence_bui
 ```
 
 ## Fields
+
+### `schema`
+
+Stable schema identifier. Slice 0 writes `helix.sequence_plan.v1` so manifests and tools can distinguish the plan shape independently of the contract version.
 
 ### `version`
 
@@ -172,10 +176,12 @@ Targets for explainable candidate selection.
 
 The sequence plan may store Helix decisions, measured structure, generated score metrics, and generated sequence context. It must not store copied choreography from third-party/vendor sequences or persistently learn from unapproved source material.
 
-## Slice 1 Acceptance
+## Slice 0 Acceptance
 
 This file is accepted when:
 
-1. The contract documents a minimal sequence plan shape.
-2. A sample JSON file exists.
-3. Existing render commands do not need to change.
+1. Every successful sequence run writes a `*.sequence_plan.json` sidecar using existing audio/layout analysis and the active engine profile.
+2. The sidecar contains `schema: "helix.sequence_plan.v1"` and `version: "0.1"`.
+3. A run that returns from the renderer without producing a new or changed `.xsq` fails instead of claiming success.
+4. The production XSQ writer and placement inputs are unchanged; the plan remains sidecar-only.
+5. Existing render commands do not need to change.
