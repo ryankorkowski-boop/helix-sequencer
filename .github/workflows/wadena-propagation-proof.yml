@@ -12,9 +12,9 @@ jobs:
       PYTHONPATH: .
     steps:
       - name: Checkout Helix
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: pip
@@ -48,7 +48,7 @@ jobs:
         run: |
           cp data/wadena_video_calibration.json proof_output/wadena_video_calibration.json
       - name: Upload Wadena proof artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: wadena-temporal-propagation-proof
           path: proof_output/

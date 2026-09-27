@@ -31,7 +31,7 @@ def test_review_artifact_workflow_renders_mp4_and_xsq() -> None:
 def test_review_artifact_workflow_uploads_expected_artifacts() -> None:
     text = _workflow_text()
 
-    assert 'uses: actions/upload-artifact@v4' in text
+    assert 'uses: actions/upload-artifact@v6' in text
     assert 'name: helix-flow-review-artifacts' in text
     assert '*.json' in text
     assert '*.xsq' in text

@@ -18,10 +18,10 @@ jobs:
   floor-piano-smoke:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
+          python-version: '3.12'
 
       - name: Run sequential layering tests
         run: |
@@ -35,7 +35,7 @@ jobs:
             --output-dir test_runs/helixville4_floor_piano_ci
 
       - name: Upload floor piano artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: helixville4-floor-piano
           path: |

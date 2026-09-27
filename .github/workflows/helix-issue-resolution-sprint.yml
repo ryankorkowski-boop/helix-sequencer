@@ -38,7 +38,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Collect current issues
         id: collect
@@ -188,7 +188,7 @@ jobs:
           Path('sprint/grouped_issues.json').write_text(json.dumps(grouped, indent=2))
 
       - name: Upload sprint bundle
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: helix-issue-resolution-sprint-bundle
           path: sprint/
@@ -205,10 +205,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -305,7 +305,7 @@ jobs:
 
       - name: Upload validation report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: helix-issue-resolution-validation-report
           path: sprint/
