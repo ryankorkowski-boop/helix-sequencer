@@ -26,6 +26,9 @@ class DrumClassifierThresholds:
     snare_mid_ratio_min: float = 0.20
     snare_sharpness_min: float = 0.08
     tom_mid_low_ratio_min: float = 0.22
+    tom_high_centroid_min: float = 520.0
+    tom_mid_centroid_min: float = 760.0
+    tom_floor_centroid_max: float = 520.0
     hihat_high_ratio_min: float = 0.38
     hihat_decay_max: float = 0.42
     cymbal_high_ratio_min: float = 0.32
@@ -42,6 +45,19 @@ def stream_key_for_type(drum_type: str) -> str:
     return {"kick":"kick_events","snare":"snare_events","tom":"tom_events","hihat":"hihat_events","cymbal":"cymbal_events"}.get(str(drum_type), "drum_bus_events")
 
 def _clamp(value: float, low: float = 0.0, high: float = 1.0) -> float: return max(low, min(high, float(value)))
+
+def _tom_class_for_features(features: dict[str, float]) -> tuple[str, float]:
+    """Return high/mid/floor plus confidence from the detected tom spectral center."""
+    centroid = float(features.get("centroid_hz", 0.0) or 0.0)
+    low_centroid = float(features.get("low_centroid_hz", centroid) or centroid)
+    mid_low = _clamp(features.get("mid_low_ratio", 0.0))
+    candidates = [
+        ("floor", max(0.0, 1.0 - abs(low_centroid - 380.0) / 700.0) * 0.55 + max(0.0, 1.0 - abs(centroid - 480.0) / 1200.0) * 0.25 + mid_low * 0.20),
+        ("high", max(0.0, 1.0 - abs(low_centroid - 650.0) / 900.0) * 0.45 + max(0.0, 1.0 - abs(centroid - 900.0) / 1600.0) * 0.35 + mid_low * 0.20),
+        ("mid", max(0.0, 1.0 - abs(low_centroid - 900.0) / 1100.0) * 0.45 + max(0.0, 1.0 - abs(centroid - 1300.0) / 1800.0) * 0.35 + mid_low * 0.20),
+    ]
+    ranked = sorted(candidates, key=lambda item: item[1], reverse=True)
+    return ranked[0][0], _clamp(ranked[0][1] - ranked[1][1] + 0.55)
 
 def classify_drum_hit(features: dict[str, float], thresholds: DrumClassifierThresholds = DrumClassifierThresholds()) -> tuple[str, float]:
     low=_clamp(features.get("low_ratio",0)); mid_low=_clamp(features.get("mid_low_ratio",0)); mid=_clamp(features.get("mid_ratio",0)); high=_clamp(features.get("high_ratio",0))
@@ -68,3 +84,10 @@ def classify_drum_hit(features: dict[str, float], thresholds: DrumClassifierThre
     if score < thresholds.low_confidence_min or (score-runner) < thresholds.ambiguous_margin_min:
         return "drum_bus", round(score,3)
     return best, round(score,3)
+
+
+def classify_tom_class(features: dict[str, float], thresholds: DrumClassifierThresholds = DrumClassifierThresholds()) -> tuple[str, float]:
+    """Classify an already-detected tom as high, mid, or floor using its spectral center."""
+    if float(features.get("mid_low_ratio", 0.0) or 0.0) < thresholds.tom_mid_low_ratio_min:
+        return "mid", 0.0
+    return _tom_class_for_features(features)
