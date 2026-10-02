@@ -13,6 +13,7 @@ DRUMMER_COMPONENTS = (
     "HX_SNOWMAN_DRUMMER_V3_TOM_1", "HX_SNOWMAN_DRUMMER_V3_TOM_2", "HX_SNOWMAN_DRUMMER_V3_TOM_3", "HX_SNOWMAN_DRUMMER_V3_TOM_4",
     "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT", "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
 )
+TOM_COMPONENT_BY_CLASS = {"high": "HX_SNOWMAN_DRUMMER_V3_TOM_1", "mid": "HX_SNOWMAN_DRUMMER_V3_TOM_2", "floor": "HX_SNOWMAN_DRUMMER_V3_TOM_3"}
 DRUMMER_V3_POSE_BY_TYPE = {"kick": "kick_hit", "snare": "snare_hit", "hihat": "hi_hat_pulse", "tom": "tom_hit", "cymbal": "cymbal_hit", "drum_bus": "downbeat_impact"}
 DRUMMER_V3_DURATION_BY_POSE = {"kick_hit": 150, "snare_hit": 125, "hi_hat_pulse": 80, "tom_hit": 155, "cymbal_hit": 320, "downbeat_impact": 220}
 
@@ -65,11 +66,21 @@ def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig 
     return sorted(scheduled, key=lambda event: (event.timestamp_ms, DRUM_PRIORITY.get(event.drum_type, 9)))
 
 
+def tom_class_for_event(event: DrumEvent, event_index: int = 0) -> str:
+    """Resolve an explicitly classified tom to the original three-tom ground truth."""
+    info = event.frequency_band_info or {}
+    raw = str(info.get("tom_class", info.get("tom_position", ""))).strip().lower()
+    aliases = {"high_tom": "high", "hi": "high", "upper": "high", "mid_tom": "mid", "middle": "mid", "medium": "mid", "floor_tom": "floor", "low": "floor"}
+    if raw in aliases: raw = aliases[raw]
+    if raw in TOM_COMPONENT_BY_CLASS: return raw
+    return ("high", "mid", "floor")[event_index % 3]
+
+
 def drummer_component_for_event(event: DrumEvent, *, event_index: int = 0) -> str:
     if event.drum_type == "kick": return DRUMMER_COMPONENTS[0]
     if event.drum_type == "snare": return DRUMMER_COMPONENTS[1]
     if event.drum_type == "hihat": return DRUMMER_COMPONENTS[2]
-    if event.drum_type == "tom": return DRUMMER_COMPONENTS[3 + (event_index % 4)]
+    if event.drum_type == "tom": return TOM_COMPONENT_BY_CLASS[tom_class_for_event(event, event_index)]
     if event.drum_type == "cymbal": return DRUMMER_COMPONENTS[7 + (event_index % 2)]
     return DRUMMER_COMPONENTS[0]
 
@@ -81,7 +92,7 @@ def map_events_to_drummer_components(events: Iterable[DrumEvent]) -> list[dict[s
         elif event.drum_type == "cymbal": component = drummer_component_for_event(event, event_index=cymbal_index); cymbal_index += 1
         else: component = drummer_component_for_event(event)
         pose = DRUMMER_V3_POSE_BY_TYPE.get(event.drum_type, "downbeat_impact")
-        mapped.append({"timestamp_ms": event.timestamp_ms, "end_ms": event.timestamp_ms + DRUMMER_V3_DURATION_BY_POSE.get(pose, 140), "model": DRUMMER_V3_MODEL, "drum_type": event.drum_type, "component": component, "intensity": round(event.velocity, 3), "confidence": event.confidence, "source": event.source})
+        mapped.append({"timestamp_ms": event.timestamp_ms, "end_ms": event.timestamp_ms + DRUMMER_V3_DURATION_BY_POSE.get(pose, 140), "model": DRUMMER_V3_MODEL, "drum_type": event.drum_type, "component": component, "tom_class": tom_class_for_event(event, tom_index - 1) if event.drum_type == "tom" else None, "intensity": round(event.velocity, 3), "confidence": event.confidence, "source": event.source})
     return mapped
 
 
