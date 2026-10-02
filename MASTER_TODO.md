@@ -5,7 +5,28 @@
 ## Current mission
 Build Helix into a reliable AI-assisted xLights auto-sequencer while preserving deterministic sequencing, verified artifacts, and cumulative behavior.
 
-**Current priority:** finish drummer/band logic and prove it with real-song XSQ + MP4 artifacts.
+## Beta roadmap baseline status
+
+This repo is currently in the beta-safety phase described by `ROADMAP_BETA_TODO.md`.
+
+- [x] Phase 0 guidance is in place: beta roadmap, safety baseline, and support/data-use policy are documented.
+- [x] Core beta docs are linked from the README and are available under `docs/`.
+- [x] Agent task index is aligned with the roadmap and points to the current next tasks.
+- [ ] Continue with Phase 0/1 execution in the exact order called out by the roadmap before moving into engine-facing refactors.
+- [ ] Keep this ledger updated as each beta phase completes.
+
+## Current priority
+The current repo priority is the beta-readiness sequence defined in `ROADMAP_BETA_TODO.md`:
+
+1. Add/maintain `TASKS.md` pointing to the beta roadmap.
+2. Maintain `docs/SUPPORT_MATRIX.md` and `docs/BETA_POLICY.md`.
+3. Normalize dependencies and CI with `requirements-dev.txt`.
+4. Add repo-safe smoke fixtures and structural validation.
+5. Add run manifest/output safety behavior.
+6. Add GUI beta mode + dry-check behavior.
+7. Add beta tester docs and issue templates.
+8. Add Windows packaging smoke coverage.
+9. Only then begin engine facade/extraction work.
 
 ## Drummer / band current state
 - [x] Canonical nine-component drummer contract documented.
@@ -38,15 +59,12 @@ Build Helix into a reliable AI-assisted xLights auto-sequencer while preserving 
 ## Detection architecture
 **audio → HPSS/percussive isolation → onset candidates → spectral/transient features → confidence-gated drum classification → nine-component mapper → XSQ**
 
-The repository has a richer stem-event adapter, but the current drummer path is not an external neural stem-separation pipeline. Do not claim Demucs/Spleeter-style separation is active until implemented and validated.
-
 ## Ground-truth regression oracle
 A prior drummer render was explicitly identified by the user as having the **correct drummer logic** and must be preserved as the behavioral reference while the implementation is upgraded.
 
 - Known-good commit: `b27e8d77a63027ed32bcf6851dcff3925472c155`.
 - Prior successful artifact lineage: **Helix Full Current 256 + Drummer**; published workflow run `35486153096` was previously identified as the MP4-producing run.
 - The repository's dedicated ground-truth workflow at that point exercised the real V3 drummer submodels and generated deterministic audio/XSQ/preview artifacts.
-- Important historical contract: that older workflow used **8 V3 submodels** (kick, snare, hi-hat, left/right cymbal, left/right tom, drumkit-all). It is a regression oracle for behavior, not a reason to revert the current physical nine-component design.
 - Current nine-component geometry remains authoritative for the new implementation: four tom zones and contacting-stick geometry integrated into the hit component.
 
 **Rule:** do not discard or rewrite the behavior that made the prior render correct. New detection/mapping logic must be compared against the prior oracle before being accepted.
@@ -57,6 +75,19 @@ A prior drummer render was explicitly identified by the user as having the **cor
 Do not mark complete from unit tests alone.
 
 ## Change Ledger
+
+### 2026-10-02 — Beta roadmap baseline alignment
+**Agent:** GitHub Copilot
+**Branch:** `feature/restructure-core`
+
+**Recorded:**
+- Restored the task index to the beta-roadmap-first workflow required by `ROADMAP_BETA_TODO.md`.
+- Added a repo-level beta baseline status note to this ledger so the project continues in the intended order.
+- Preserved the active drummer work while making the higher-priority beta safety work explicit.
+
+**Limitations:**
+- This does not replace the deeper engineering work required for drum detection or xLights import validation.
+- Beta-safety milestones must still be executed in order before engine refactor work begins.
 
 ### 2026-09-30 — Ground-truth regression oracle locked
 **Agent:** ChatGPT/GitHub

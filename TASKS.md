@@ -1,48 +1,46 @@
 # Helix Agent Task Index
 
-> **Start here:** MASTER_TODO.md is the canonical cross-agent roadmap and handoff ledger.
+> Start here: ROADMAP_BETA_TODO.md is the canonical beta-readiness roadmap for the current phase.
 
 ## First read
 
-1. MASTER_TODO.md — canonical state, roadmap, decisions, unresolved work, and change ledger.
-2. AGENTS.md — mandatory agent operating rules.
-3. ROADMAP_BETA_TODO.md — existing beta roadmap; reconcile changes into the master ledger.
+1. ROADMAP_BETA_TODO.md — active beta roadmap, phase order, acceptance criteria, and PR slicing.
+2. AGENTS.md — mandatory operating rules for this repo.
+3. MASTER_TODO.md — canonical project ledger for active technical work and cross-agent continuity.
 4. README.md / README_CURRENT.md — active entrypoints and current repo structure.
 
-## Continuity rule
+## Working contract
 
-Every agent change must update MASTER_TODO.md in the same change set.
-
-Before editing:
-- Read the relevant master roadmap section.
-- Inspect current implementation.
-- Identify behavior that must be preserved.
-- Choose one small implementation slice.
-
-After editing:
-- Update the Change Ledger.
-- Record tests and artifacts.
-- Record limitations and deferred work.
-- Do not declare completion without appropriate evidence.
+- Keep changes small and scoped to one phase or milestone at a time.
+- Work in the order specified by ROADMAP_BETA_TODO.md unless a blocker is explicitly documented.
+- Preserve existing behavior unless the current task is a repo-safety or beta-harness change.
+- Update MASTER_TODO.md in the same change set whenever any engineering, docs, workflow, or product-facing work changes.
+- Never commit private tester layouts, templates, songs, screenshots, or generated files without explicit written permission in repo docs.
 
 ## Current next recommended task
 
-1. Audit the current drummer/band implementation against MASTER_TODO.md.
-2. Identify implemented-but-unverified drummer behavior.
-3. Generate the current XSQ + MP4 baseline.
-4. Fix the highest-impact drummer gap as one isolated slice.
-5. Update MASTER_TODO.md before beginning another slice.
+Follow the roadmap's Immediate first tasks in order:
+
+1. Confirm TASKS.md points to the beta roadmap and current next task.
+2. Confirm docs/SUPPORT_MATRIX.md is current and linked from README.
+3. Confirm docs/BETA_POLICY.md is current and linked from README and beta guidance.
+4. Keep dependency policy and CI aligned with requirements-dev.txt.
+5. Keep smoke fixture and validation scripts repo-safe.
+6. Add/keep run manifest support without changing sequencing output.
+7. Add/keep GUI beta mode and dry-check behavior.
+8. Add/keep beta README and feedback form templates.
+9. Add/keep Windows packaging smoke validation.
+10. Only after those gates, begin engine facade/extraction work.
 
 ## Recovery / evidence
 
 Do not treat a task as fully closed until the applicable evidence exists:
-- [ ] CI status
-- [ ] targeted/full tests
-- [ ] generated XSQ
-- [ ] generated MP4 when visual behavior is involved
-- [ ] xLights import evidence
-- [ ] manual visual validation
-- [ ] remaining known gaps
+
+- [ ] CI status or a documented reason dry-run testing was not possible
+- [ ] targeted/full tests for the changed behavior
+- [ ] generated artifact path or reproduction steps
+- [ ] run manifest/log evidence when relevant
+- [ ] explicit note of remaining known gaps
 
 ## Non-goals for near-term agents
 
