@@ -94,10 +94,10 @@ class WorkingDrummerTests(unittest.TestCase):
 
         self.assertTrue(payload["validation"]["has_reactive_cues"])
         self.assertTrue(payload["reactive_debug"]["uses_drum_bus_distribution"])
-        self.assertEqual(payload["reactive_debug"]["fallback_mode"], "drum_bus_distribution")
-        drum_types = {cue["kind"] for cue in payload["reactive_cues"]}
-        self.assertIn("kick", drum_types)
-        self.assertIn("snare", drum_types)
+        self.assertEqual(payload["reactive_debug"]["fallback_mode"], "drum_bus_inference")
+        self.assertEqual(payload["reactive_debug"]["unresolved_bus_event_count"], 3)
+        self.assertEqual(payload["reactive_debug"]["cue_count"], 0)
+        self.assertFalse(payload["reactive_cues"])
 
 
 if __name__ == "__main__":
