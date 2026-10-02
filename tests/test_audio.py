@@ -4,9 +4,10 @@ import math
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 import wave
 
-from core import audio_intelligence
+from core import audio_intelligence, stem_cache
 
 
 class AudioIntelligenceTests(unittest.TestCase):
@@ -59,6 +60,125 @@ class AudioIntelligenceTests(unittest.TestCase):
         self.assertEqual(result.drum_hats_ms, [])
         self.assertEqual(result.background_vocal_events, [])
         self.assertEqual(result.drum_event_streams, {})
+
+
+    def test_demucs_uses_six_stem_model_and_preserves_guitar_piano(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            root = Path(tempdir)
+            audio = root / "song.wav"
+            audio.write_bytes(b"fake")
+            out_dir = root / "stems"
+
+            def fake_run(cmd, check, capture_output):
+                self.assertIn("htdemucs_6s", cmd)
+                track_dir = out_dir / "htdemucs_6s" / audio.stem
+                track_dir.mkdir(parents=True, exist_ok=True)
+                for name in ("vocals", "drums", "bass", "guitar", "piano", "other"):
+                    (track_dir / f"{name}.wav").write_bytes(b"stem")
+
+            with mock.patch.object(audio_intelligence.shutil, "which", return_value="/fake/demucs"), mock.patch.object(
+                audio_intelligence.subprocess, "run", side_effect=fake_run
+            ):
+                stems = audio_intelligence._try_demucs_stem_separation(audio, out_dir, None)
+
+        self.assertIsNotNone(stems)
+        self.assertEqual(
+            set(stems or {}),
+            {"vocals", "drums", "bass", "guitar", "piano", "other"},
+        )
+
+    def test_build_stem_analysis_reuses_cached_demucs_stems(self) -> None:
+        audio = self._write_wave([0.0] * 4096)
+        with tempfile.TemporaryDirectory() as cache:
+            stem_dir = Path(cache) / audio.stem
+            track_dir = stem_dir / "htdemucs_6s" / audio.stem
+            track_dir.mkdir(parents=True, exist_ok=True)
+            stems = {}
+            for name in ("vocals", "drums", "bass", "guitar", "piano", "other"):
+                path = track_dir / f"{name}.wav"
+                path.write_bytes(b"stem")
+                stems[name] = path
+            stem_cache.write_stem_cache_manifest(
+                audio,
+                stem_dir,
+                source="demucs",
+                stems=stems,
+                separator="htdemucs_6s",
+            )
+            detector_result = {
+                "kick_events": [],
+                "snare_events": [],
+                "tom_events": [],
+                "hihat_events": [],
+                "cymbal_events": [],
+                "drum_bus_events": [],
+            }
+            with mock.patch.object(
+                audio_intelligence,
+                "_try_demucs_stem_separation",
+                side_effect=AssertionError("valid cache should bypass Demucs"),
+            ) as demucs, mock.patch.object(
+                audio_intelligence, "_analyze_drum_events", return_value=([], [], [])
+            ), mock.patch.object(
+                audio_intelligence, "_analyze_peak_events", return_value=[]
+            ), mock.patch.object(
+                audio_intelligence, "_classify_background_vocals", return_value=[]
+            ), mock.patch.object(
+                audio_intelligence, "_summarize_stem_file", return_value={"confidence": 0.5}
+            ), mock.patch.object(
+                audio_intelligence.drum_intel,
+                "detect_drum_event_streams_from_file",
+                return_value=detector_result,
+            ) as detector:
+                result = audio_intelligence.build_stem_analysis(
+                    audio_path=audio,
+                    use_moises=False,
+                    api_key=None,
+                    cache_dir=Path(cache),
+                )
+
+        demucs.assert_not_called()
+        self.assertEqual(result.source, "demucs")
+        self.assertEqual(set(result.stems), {"vocals", "drums", "bass", "guitar", "piano", "other"})
+        detector.assert_called_once()
+        self.assertEqual(detector.call_args.args[0].name, "drums.wav")
+        self.assertEqual(detector.call_args.kwargs["source_label"], "demucs:drums")
+
+    def test_build_stem_analysis_routes_detector_to_isolated_drum_stem(self) -> None:
+        audio = self._write_wave([0.0] * 4096)
+        with tempfile.TemporaryDirectory() as cache:
+            stem_root = Path(cache) / "fake_stems"
+            stems = {
+                name: stem_root / f"{name}.wav"
+                for name in ("vocals", "drums", "bass", "guitar", "piano", "other")
+            }
+            detector_result = {"kick_events": [], "snare_events": [], "tom_events": [], "hihat_events": [], "cymbal_events": [], "drum_bus_events": []}
+            with mock.patch.object(audio_intelligence, "_try_demucs_stem_separation", return_value=stems), mock.patch.object(
+                audio_intelligence, "_analyze_drum_events", return_value=([], [], [])
+            ), mock.patch.object(
+                audio_intelligence, "_analyze_peak_events", return_value=[]
+            ), mock.patch.object(
+                audio_intelligence, "_classify_background_vocals", return_value=[]
+            ), mock.patch.object(
+                audio_intelligence, "_summarize_stem_file", return_value={"confidence": 0.5}
+            ), mock.patch.object(
+                audio_intelligence.drum_intel,
+                "detect_drum_event_streams_from_file",
+                return_value=detector_result,
+            ) as detector:
+                result = audio_intelligence.build_stem_analysis(
+                    audio_path=audio,
+                    use_moises=False,
+                    api_key=None,
+                    cache_dir=Path(cache),
+                )
+
+        self.assertEqual(result.source, "demucs")
+        self.assertIn("guitar", result.stems)
+        self.assertIn("piano", result.stems)
+        detector.assert_called_once()
+        self.assertEqual(detector.call_args.args[0], stems["drums"])
+        self.assertEqual(detector.call_args.kwargs["source_label"], "demucs:drums")
 
     def test_background_vocal_score_grouping_classifies_harmony_and_chant(self) -> None:
         harmony = audio_intelligence._group_background_vocal_scores(

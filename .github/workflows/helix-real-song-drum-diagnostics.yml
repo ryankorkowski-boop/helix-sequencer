@@ -1,0 +1,129 @@
+name: Helix Real Song Drum Diagnostics
+
+on:
+  push:
+    branches:
+      - codex/derwin-audio-intelligence-v1
+  workflow_dispatch:
+
+concurrency:
+  group: helix-real-song-drums-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  real-song-drum-diagnostics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install audio analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+          python -m pip install demucs
+
+      - name: Verify real song and Demucs
+        run: |
+          test -f 'Helix Audiolights.mp3'
+          command -v demucs
+          demucs --help >/dev/null
+
+      - name: Restore separated-stem cache
+        uses: actions/cache@v4
+        with:
+          path: test_runs/stem_cache
+          key: helix-demucs6-${{ runner.os }}-${{ hashFiles('Helix Audiolights.mp3') }}
+
+      - name: Evaluate deterministic labeled drum oracle
+        env:
+          PYTHONPATH: .
+        run: |
+          mkdir -p test_runs/drum_oracle
+          python tools/generate_drummer_ground_truth.py             --wav test_runs/drum_oracle/drummer_ground_truth.wav             --events test_runs/drum_oracle/events.json
+          python tools/evaluate_drum_detector_oracle.py             test_runs/drum_oracle/drummer_ground_truth.wav             test_runs/drum_oracle/events.json             --output test_runs/real_song_drum_diagnostics/oracle_evaluation.json             --tolerance-ms 70
+
+      - name: Analyze full mix baseline
+        env:
+          PYTHONPATH: .
+        run: |
+          mkdir -p test_runs/real_song_drum_diagnostics
+          python tools/analyze_drum_detection.py             'Helix Audiolights.mp3'             --output test_runs/real_song_drum_diagnostics/direct_mix.json
+
+      - name: Analyze isolated Demucs drums stem
+        env:
+          PYTHONPATH: .
+        run: |
+          python tools/analyze_drum_detection.py             'Helix Audiolights.mp3'             --use-stems             --stem-cache test_runs/stem_cache             --output test_runs/real_song_drum_diagnostics/demucs_drums.json
+
+      - name: Compare detection quality signals
+        env:
+          PYTHONPATH: .
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("test_runs/real_song_drum_diagnostics")
+          direct = json.loads((root / "direct_mix.json").read_text())
+          stem = json.loads((root / "demucs_drums.json").read_text())
+
+          if stem.get("stem_source") != "demucs":
+              raise SystemExit(f"Expected actual Demucs separation, got {stem.get('stem_source')!r}")
+
+          classes = sorted(set(direct.get("class_counts", {})) | set(stem.get("class_counts", {})))
+          comparison = {
+              "audio": "Helix Audiolights.mp3",
+              "direct_mix": {
+                  "candidate_events": direct.get("candidate_events", 0),
+                  "class_counts": direct.get("class_counts", {}),
+                  "typed_event_fraction": direct.get("typed_event_fraction", 0.0),
+                  "drum_bus_fraction": direct.get("drum_bus_fraction", 0.0),
+                  "detector_evidence": direct.get("detector_evidence", {}),
+                  "multi_hit_clusters": direct.get("multi_hit_clusters", 0),
+              },
+              "demucs_drums": {
+                  "candidate_events": stem.get("candidate_events", 0),
+                  "class_counts": stem.get("class_counts", {}),
+                  "typed_event_fraction": stem.get("typed_event_fraction", 0.0),
+                  "drum_bus_fraction": stem.get("drum_bus_fraction", 0.0),
+                  "detector_evidence": stem.get("detector_evidence", {}),
+                  "multi_hit_clusters": stem.get("multi_hit_clusters", 0),
+              },
+              "delta": {
+                  "typed_event_fraction": round(float(stem.get("typed_event_fraction", 0.0)) - float(direct.get("typed_event_fraction", 0.0)), 4),
+                  "drum_bus_fraction": round(float(stem.get("drum_bus_fraction", 0.0)) - float(direct.get("drum_bus_fraction", 0.0)), 4),
+                  "class_counts": {
+                      name: int(stem.get("class_counts", {}).get(name, 0)) - int(direct.get("class_counts", {}).get(name, 0))
+                      for name in classes
+                  },
+              },
+          }
+          (root / "comparison.json").write_text(json.dumps(comparison, indent=2, sort_keys=True) + "\n")
+          print(json.dumps(comparison, indent=2, sort_keys=True))
+          PY
+
+      - name: Run focused regression tests
+        env:
+          PYTHONPATH: .
+        run: |
+          python -m pytest -q             tests/test_audio.py             tests/test_drum_detection.py             tests/test_stem_cache.py             tests/test_drummer_v3_xsq_integration.py
+
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: real-song-drum-diagnostics
+          path: |
+            test_runs/real_song_drum_diagnostics/*.json
+            test_runs/stem_cache/**/stem_cache_manifest.json
+          if-no-files-found: warn

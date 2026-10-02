@@ -16,6 +16,7 @@ import xml.etree.ElementTree as ET
 from core.lazy_imports import LazyModule, optional_import
 from core import audio_trigger_routes
 from core import feature_state
+from core import stem_cache
 from core import band_sync
 from core import model_parser as xmp
 from core import spatial_scene
@@ -400,13 +401,14 @@ def _try_demucs_stem_separation(
     demucs_exe = shutil.which("demucs")
     if not demucs_exe:
         return None
-    _log(log_fn, "Stem split: attempting local Demucs separation.")
+    model_name = "htdemucs_6s"
+    _log(log_fn, f"Stem split: attempting local Demucs separation ({model_name}).")
     try:
         out_dir.mkdir(parents=True, exist_ok=True)
         cmd = [
             demucs_exe,
             "-n",
-            "htdemucs",
+            model_name,
             "-o",
             str(out_dir),
             str(audio_path),
@@ -427,13 +429,15 @@ def _try_demucs_stem_separation(
     if track_dir is None:
         return None
 
+    expected_names = ("vocals", "drums", "bass", "guitar", "piano", "other")
     stems = {
-        "vocals": track_dir / "vocals.wav",
-        "drums": track_dir / "drums.wav",
-        "bass": track_dir / "bass.wav",
-        "other": track_dir / "other.wav",
+        name: track_dir / f"{name}.wav"
+        for name in expected_names
+        if (track_dir / f"{name}.wav").exists()
     }
-    if not stems["vocals"].exists():
+    required_names = {"vocals", "drums", "bass", "other"}
+    if not required_names.issubset(stems):
+        _log(log_fn, "Demucs: required stems were not produced; falling back.")
         return None
     _log(log_fn, f"Demucs: stems ready ({', '.join(sorted(stems))}).")
     return stems
@@ -579,6 +583,10 @@ def _try_moises_stem_separation(
             typed_urls["drums"] = url
         elif "bass" in low and "bass" not in typed_urls:
             typed_urls["bass"] = url
+        elif "guitar" in low and "guitar" not in typed_urls:
+            typed_urls["guitar"] = url
+        elif "piano" in low and "piano" not in typed_urls:
+            typed_urls["piano"] = url
         elif "other" in low and "other" not in typed_urls:
             typed_urls["other"] = url
     if len(typed_urls) < 2:
@@ -841,7 +849,27 @@ def build_stem_analysis(
 
     stems: dict[str, Path] | None = None
     source = "local"
-    if use_moises:
+    prefer_moises = bool(use_moises and (api_key or "").strip())
+    allowed_cache_sources = {"moises"} if prefer_moises else {"demucs", "local"}
+    cached = stem_cache.load_cached_stems(
+        audio_path,
+        stem_dir,
+        allowed_sources=allowed_cache_sources,
+    )
+    cache_hit = cached is not None
+    if cached is not None:
+        source, stems = cached
+        # A local HPSS cache should not hide a newly available Demucs install.
+        # Cached Demucs output remains reusable even when the executable/model
+        # is unavailable on a later run.
+        if source == "local" and shutil.which("demucs"):
+            stems = None
+            source = "local"
+            cache_hit = False
+        else:
+            _log(log_fn, f"Stem split: reusing cached {source} stems for {audio_path.name}.")
+
+    if not stems and prefer_moises:
         stems = _try_moises_stem_separation(audio_path, stem_dir, api_key or "", log_fn)
         if stems:
             source = "moises"
@@ -858,11 +886,30 @@ def build_stem_analysis(
             stems = {}
             source = "direct"
 
-    drum_src = stems.get("drums") or audio_path
+    if stems and not cache_hit:
+        try:
+            separator_name = "htdemucs_6s" if source == "demucs" else source
+            stem_cache.write_stem_cache_manifest(
+                audio_path,
+                stem_dir,
+                source=source,
+                stems=stems,
+                separator=separator_name,
+            )
+        except Exception as exc:
+            _log(log_fn, f"Stem cache manifest skipped: {exc}")
+
+    isolated_drum_src = stems.get("drums")
+    drum_src = isolated_drum_src or audio_path
     bass_src = stems.get("bass") or audio_path
     vocal_src = stems.get("vocals") or audio_path
+    drum_source_label = f"{source}:drums" if isolated_drum_src is not None else f"{source}:mix"
     kicks, snares, hats = _analyze_drum_events(drum_src)
-    drum_event_streams = drum_intel.detect_drum_event_streams_from_file(drum_src, log_fn=log_fn)
+    drum_event_streams = drum_intel.detect_drum_event_streams_from_file(
+        drum_src,
+        log_fn=log_fn,
+        source_label=drum_source_label,
+    )
     bass_peaks = _analyze_peak_events(bass_src, "bass")
     vocal_peaks = _analyze_peak_events(vocal_src, "vocals")
     background_vocal_events = _classify_background_vocals(vocal_src, log_fn)

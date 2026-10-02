@@ -80,7 +80,7 @@ HELIXVILLE4_BAND_MEMBERS: tuple[BandMemberSpec, ...] = (
         stage_position=StagePosition(x_ft=345.0, y_ft=-58.0),
         sequencing_lane="lane_drum_hits",
         timing_tracks=("kick", "snare", "hihat", "fills", "downbeats"),
-        animation_cues=("kick_hit", "snare_hit", "cymbal_crash", "stick_motion", "fill_sweep"),
+        animation_cues=("kick_hit", "snare_hit", "hi_hat_pedal", "tom_fill", "cymbal_crash"),
         priority=4,
     ),
     BandMemberSpec(

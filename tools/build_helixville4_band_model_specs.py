@@ -20,8 +20,9 @@ MODEL_KIND_BY_SUBMODEL_SUFFIX: tuple[tuple[str, str], ...] = (
     ("SNARE", "drum"),
     ("TOM", "drum"),
     ("HI_HAT", "drum"),
-    ("CYMBALS", "drum"),
-    ("STICKS", "drum"),
+    ("CYMBAL", "drum"),
+    ("STICK", "drum_contact"),
+    ("PEDAL", "drum_contact"),
     ("LEFT_ARM", "body_motion"),
     ("RIGHT_ARM", "body_motion"),
     ("HAIR", "body_detail"),
@@ -33,9 +34,8 @@ MODEL_KIND_BY_SUBMODEL_SUFFIX: tuple[tuple[str, str], ...] = (
 )
 
 DRUMMER_EXTRA_SUBMODELS: tuple[tuple[str, str], ...] = (
+    ("HX_SNOWMAN_DRUMMER_KICK_RIM", "HX_SNOWMAN_DRUMMER_KICK"),
     ("HX_SNOWMAN_DRUMMER_SNARE_RIM", "HX_SNOWMAN_DRUMMER_SNARE"),
-    ("HX_SNOWMAN_DRUMMER_TOM_RIGHT", "HX_SNOWMAN_DRUMMER_TOM"),
-    ("HX_SNOWMAN_DRUMMER_CYMBALS_RIGHT", "HX_SNOWMAN_DRUMMER_CYMBALS"),
 )
 
 

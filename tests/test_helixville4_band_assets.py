@@ -66,12 +66,17 @@ class Helixville4BandAssetsTests(unittest.TestCase):
         for submodel in (
             "HX_SNOWMAN_DRUMMER_LEFT_ARM",
             "HX_SNOWMAN_DRUMMER_RIGHT_ARM",
-            "HX_SNOWMAN_DRUMMER_STICKS",
+            "HX_SNOWMAN_DRUMMER_LEFT_STICK",
+            "HX_SNOWMAN_DRUMMER_RIGHT_STICK",
             "HX_SNOWMAN_DRUMMER_KICK",
             "HX_SNOWMAN_DRUMMER_SNARE",
-            "HX_SNOWMAN_DRUMMER_TOM",
+            "HX_SNOWMAN_DRUMMER_TOM_LEFT",
+            "HX_SNOWMAN_DRUMMER_TOM_RIGHT",
+            "HX_SNOWMAN_DRUMMER_TOM_FLOOR",
             "HX_SNOWMAN_DRUMMER_HI_HAT",
-            "HX_SNOWMAN_DRUMMER_CYMBALS",
+            "HX_SNOWMAN_DRUMMER_HI_HAT_PEDAL",
+            "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT",
+            "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",
         ):
             self.assertIn(submodel, drummer.submodel_order)
 

@@ -12,26 +12,25 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 TARGETS = {
-    "HX_SNOWMAN_DRUMMER_KICK": "KICK",
-    "HX_SNOWMAN_DRUMMER_SNARE": "SNARE",
-    "HX_SNOWMAN_DRUMMER_HI_HAT": "HI-HAT",
-    "HX_SNOWMAN_DRUMMER_TOM_LEFT": "TOM L",
-    "HX_SNOWMAN_DRUMMER_TOM_RIGHT": "TOM R",
-    "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT": "CRASH L",
-    "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT": "CRASH R",
-    "HX_SNOWMAN_DRUMMER_LEFT_STICK": "LEFT STICK",
-    "HX_SNOWMAN_DRUMMER_RIGHT_STICK": "RIGHT STICK",
+    "HX_SNOWMAN_DRUMMER_HIT_KICK": "KICK",
+    "HX_SNOWMAN_DRUMMER_HIT_SNARE": "SNARE",
+    "HX_SNOWMAN_DRUMMER_HIT_HI_HAT": "HI-HAT / PEDAL",
+    "HX_SNOWMAN_DRUMMER_HIT_TOM_LEFT": "TOM L",
+    "HX_SNOWMAN_DRUMMER_HIT_TOM_RIGHT": "TOM R",
+    "HX_SNOWMAN_DRUMMER_HIT_TOM_FLOOR": "FLOOR TOM",
+    "HX_SNOWMAN_DRUMMER_HIT_CYMBAL_LEFT": "CRASH L",
+    "HX_SNOWMAN_DRUMMER_HIT_CYMBAL_RIGHT": "CRASH R",
 }
 
 POSE_NAMES = {
     "kick_hit": "KICK",
     "snare_hit": "SNARE",
-    "hi_hat_pulse": "HI-HAT",
+    "hi_hat_pulse": "HI-HAT / PEDAL",
     "left_tom_hit": "TOM L",
     "right_tom_hit": "TOM R",
+    "floor_tom_hit": "FLOOR TOM",
     "left_crash": "CRASH L",
     "right_crash": "CRASH R",
-    "both_crash": "CRASH L + CRASH R",
     "downbeat_impact": "FULL KIT",
 }
 
@@ -87,25 +86,45 @@ def draw_drummer(width: int, height: int, active: dict[str, float], t_ms: int, d
     # Drum kit geometry: every illuminated object corresponds to a real XSQ target.
     kick = (cx-65, cy+65, cx+65, cy+125)
     snare = (cx-145, cy+35, cx-80, cy+78)
-    tom_l = (cx-78, cy-5, cx-20, cy+38)
-    tom_r = (cx+20, cy-5, cx+78, cy+38)
+    tom_l = (cx-82, cy-5, cx-28, cy+36)
+    tom_r = (cx-20, cy-8, cx+34, cy+34)
+    floor_tom = (cx+82, cy+30, cx+150, cy+88)
     hi_hat = (cx-190, cy-10, cx-140, cy)
     crash_l = (cx-215, cy-95, cx-145, cy-75)
     crash_r = (cx+145, cy-95, cx+215, cy-75)
 
-    glow_box(kick, active.get("HX_SNOWMAN_DRUMMER_KICK", 0), "KICK")
-    glow_box(snare, active.get("HX_SNOWMAN_DRUMMER_SNARE", 0), "SNARE")
-    glow_box(tom_l, active.get("HX_SNOWMAN_DRUMMER_TOM_LEFT", 0), "TOM L")
-    glow_box(tom_r, active.get("HX_SNOWMAN_DRUMMER_TOM_RIGHT", 0), "TOM R")
-    glow_box(hi_hat, active.get("HX_SNOWMAN_DRUMMER_HI_HAT", 0), "HI-HAT")
-    glow_box(crash_l, active.get("HX_SNOWMAN_DRUMMER_CYMBAL_LEFT", 0), "CRASH L")
-    glow_box(crash_r, active.get("HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT", 0), "CRASH R")
+    kick_on = active.get("HX_SNOWMAN_DRUMMER_HIT_KICK", 0)
+    snare_on = active.get("HX_SNOWMAN_DRUMMER_HIT_SNARE", 0)
+    hihat_on = active.get("HX_SNOWMAN_DRUMMER_HIT_HI_HAT", 0)
+    tom_l_on = active.get("HX_SNOWMAN_DRUMMER_HIT_TOM_LEFT", 0)
+    tom_r_on = active.get("HX_SNOWMAN_DRUMMER_HIT_TOM_RIGHT", 0)
+    floor_on = active.get("HX_SNOWMAN_DRUMMER_HIT_TOM_FLOOR", 0)
+    crash_l_on = active.get("HX_SNOWMAN_DRUMMER_HIT_CYMBAL_LEFT", 0)
+    crash_r_on = active.get("HX_SNOWMAN_DRUMMER_HIT_CYMBAL_RIGHT", 0)
 
-    # Sticks point toward the currently active targets.
-    left_hit = max(active.get("HX_SNOWMAN_DRUMMER_LEFT_STICK", 0), active.get("HX_SNOWMAN_DRUMMER_SNARE", 0), active.get("HX_SNOWMAN_DRUMMER_TOM_LEFT", 0), active.get("HX_SNOWMAN_DRUMMER_CYMBAL_LEFT", 0))
-    right_hit = max(active.get("HX_SNOWMAN_DRUMMER_RIGHT_STICK", 0), active.get("HX_SNOWMAN_DRUMMER_HI_HAT", 0), active.get("HX_SNOWMAN_DRUMMER_TOM_RIGHT", 0), active.get("HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT", 0))
-    d.line((cx-30, cy+5, cx-125, cy-35-int(25*left_hit)), fill=(255,230,170), width=5)
-    d.line((cx+30, cy+5, cx+125, cy-35-int(25*right_hit)), fill=(255,230,170), width=5)
+    glow_box(kick, kick_on, "KICK")
+    glow_box(snare, snare_on, "SNARE")
+    glow_box(tom_l, tom_l_on, "TOM L")
+    glow_box(tom_r, tom_r_on, "TOM R")
+    glow_box(floor_tom, floor_on, "FLOOR")
+    glow_box(hi_hat, hihat_on, "HI-HAT")
+    glow_box(crash_l, crash_l_on, "CRASH L")
+    glow_box(crash_r, crash_r_on, "CRASH R")
+
+    # Hi-hat is foot/pedal-driven: no stick reaches the hi-hat.
+    pedal_y = cy + 112
+    d.line((cx-164, cy+2, cx-164, pedal_y), fill=(130,145,165), width=3)
+    d.line((cx-178, pedal_y, cx-145, pedal_y), fill=(255, 245 if hihat_on else 180, 120 if hihat_on else 150), width=5)
+    if hihat_on > .02:
+        d.ellipse((cx-181, pedal_y-5, cx-142, pedal_y+5), outline=(255,230,130), width=3)
+
+    # Kick has no stick. Snare/toms/cymbals carry the active arm/stick.
+    left_hit = max(snare_on, tom_l_on, crash_l_on)
+    right_hit = max(tom_r_on, floor_on, crash_r_on)
+    left_target = (cx-125, cy-35-int(25*left_hit)) if crash_l_on >= max(snare_on, tom_l_on) else ((cx-55, cy+13) if tom_l_on >= snare_on else (cx-112, cy+52))
+    right_target = (cx+125, cy-35-int(25*right_hit)) if crash_r_on >= max(tom_r_on, floor_on) else ((cx+116, cy+57) if floor_on >= tom_r_on else (cx+8, cy+10))
+    d.line((cx-30, cy+5, left_target[0], left_target[1]), fill=(255,230,170), width=5)
+    d.line((cx+30, cy+5, right_target[0], right_target[1]), fill=(255,230,170), width=5)
 
     active_names = [TARGETS[k] for k,v in active.items() if v > .02 and k in TARGETS]
     pose_names = []
@@ -118,7 +137,7 @@ def draw_drummer(width: int, height: int, active: dict[str, float], t_ms: int, d
     d.text((42, 84), f"{t_ms/1000:.2f}s / {duration_ms/1000:.2f}s", font=font, fill=(185,205,230))
 
     # Target legend.
-    d.text((24, height-42), "XSQ target → visible object: kick • snare • hi-hat • toms • cymbals • sticks", font=font, fill=(165,190,220))
+    d.text((24, height-42), "XSQ target → composite: kick(no stick) • hi-hat(pedal) • 3 toms • snare/cymbals+arms/sticks", font=font, fill=(165,190,220))
     return im
 
 

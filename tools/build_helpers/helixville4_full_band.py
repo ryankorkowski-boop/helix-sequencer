@@ -53,6 +53,18 @@ def _p(prefix: str, suffix: str) -> str:
     return f"{prefix}_{suffix}"
 
 
+DRUMMER_HIT_COMPONENT_PARTS: dict[str, tuple[str, ...]] = {
+    "HIT_KICK": ("KICK", "KICK_RIM"),
+    "HIT_SNARE": ("SNARE", "SNARE_RIM", "LEFT_ARM", "LEFT_STICK"),
+    "HIT_HI_HAT": ("HI_HAT", "HI_HAT_PEDAL"),
+    "HIT_TOM_LEFT": ("TOM_LEFT", "LEFT_ARM", "LEFT_STICK"),
+    "HIT_TOM_RIGHT": ("TOM_RIGHT", "RIGHT_ARM", "RIGHT_STICK"),
+    "HIT_TOM_FLOOR": ("TOM_FLOOR", "RIGHT_ARM", "RIGHT_STICK"),
+    "HIT_CYMBAL_LEFT": ("CYMBAL_LEFT", "LEFT_ARM", "LEFT_STICK"),
+    "HIT_CYMBAL_RIGHT": ("CYMBAL_RIGHT", "RIGHT_ARM", "RIGHT_STICK"),
+}
+
+
 FULL_BAND_SPECS: tuple[PerformerSpec, ...] = (
     PerformerSpec(
         model_name="HX_SNOWMAN_DRUMMER",
@@ -64,7 +76,7 @@ FULL_BAND_SPECS: tuple[PerformerSpec, ...] = (
         z=12.0,
         start_channel=900000,
         visual_target="docs/HELIXVILLE4_DRUMMER_TARGET.md",
-        animation_states=("idle_ready", "kick_hit", "snare_hit", "hi_hat_pulse", "tom_fill", "cymbal_crash", "stick_accent", "both_arms_up", "downbeat_impact"),
+        animation_states=("idle_ready", "kick_hit", "snare_hit", "hi_hat_pulse", "left_tom_hit", "right_tom_hit", "floor_tom_hit", "left_crash", "right_crash", "downbeat_impact"),
         parts=(
             *BASE_SNOWMAN_PARTS,
             PartSpec("HAT_HOLLY", "ellipse", 10),
@@ -76,7 +88,9 @@ FULL_BAND_SPECS: tuple[PerformerSpec, ...] = (
             PartSpec("SNARE_RIM", "ellipse", 18),
             PartSpec("TOM_LEFT", "ellipse", 32),
             PartSpec("TOM_RIGHT", "ellipse", 32),
+            PartSpec("TOM_FLOOR", "ellipse", 38),
             PartSpec("HI_HAT", "ellipse", 22),
+            PartSpec("HI_HAT_PEDAL", "line", 14),
             PartSpec("CYMBAL_LEFT", "ellipse", 28),
             PartSpec("CYMBAL_RIGHT", "ellipse", 28),
             PartSpec("STANDS", "line", 44),
@@ -213,6 +227,30 @@ def _runs(parts: tuple[PartSpec, ...], prefix: str) -> list[tuple[str, int, int]
     return out
 
 
+def _add_drummer_hit_composites(model: ET.Element, spec: PerformerSpec) -> None:
+    if spec.model_name != "HX_SNOWMAN_DRUMMER":
+        return
+    ranges = {name: (start, end) for name, start, end in _runs(spec.parts, spec.model_name)}
+    for suffix, members in DRUMMER_HIT_COMPONENT_PARTS.items():
+        member_names = [_p(spec.model_name, member) for member in members]
+        missing = [name for name in member_names if name not in ranges]
+        if missing:
+            raise ValueError(f"Drummer composite {suffix} missing members: {missing}")
+        line0 = ",".join(f"{ranges[name][0]}-{ranges[name][1]}" for name in member_names)
+        contact_mode = "none" if suffix == "HIT_KICK" else ("pedal" if suffix == "HIT_HI_HAT" else "arm_and_stick")
+        ET.SubElement(
+            model,
+            "subModel",
+            {
+                "name": _p(spec.model_name, suffix),
+                "line0": line0,
+                "HelixComposite": "true",
+                "HelixContactMode": contact_mode,
+                "HelixMembers": ",".join(member_names),
+            },
+        )
+
+
 def _custom_model(spec: PerformerSpec) -> str:
     grid = [["." for _ in range(spec.width)] for _ in range(spec.height)]
     cursor = 1
@@ -289,6 +327,32 @@ def _custom_model(spec: PerformerSpec) -> str:
             line(cx - 12, spec.height * 0.43, cx - 26, spec.height * 0.58, part.count)
         elif n == "RIGHT_ARM":
             line(cx + 12, spec.height * 0.43, cx + 29, spec.height * 0.33, part.count)
+        elif n == "LEFT_STICK":
+            line(cx - 26, spec.height * 0.58, cx - 13, spec.height * 0.50, part.count)
+        elif n == "RIGHT_STICK":
+            line(cx + 29, spec.height * 0.33, cx + 12, spec.height * 0.49, part.count)
+        elif n == "KICK":
+            ellipse(cx, spec.height * 0.73, spec.width * 0.16, spec.height * 0.12, part.count)
+        elif n == "KICK_RIM":
+            ellipse(cx, spec.height * 0.73, spec.width * 0.18, spec.height * 0.14, part.count)
+        elif n == "SNARE":
+            ellipse(cx - 18, spec.height * 0.61, 8, 4, part.count)
+        elif n == "SNARE_RIM":
+            ellipse(cx - 18, spec.height * 0.61, 9, 5, part.count)
+        elif n == "TOM_LEFT":
+            ellipse(cx - 12, spec.height * 0.51, 8, 5, part.count)
+        elif n == "TOM_RIGHT":
+            ellipse(cx + 5, spec.height * 0.50, 8, 5, part.count)
+        elif n == "TOM_FLOOR":
+            ellipse(cx + 24, spec.height * 0.64, 10, 7, part.count)
+        elif n == "HI_HAT":
+            ellipse(cx - 29, spec.height * 0.47, 10, 3, part.count)
+        elif n == "HI_HAT_PEDAL":
+            line(cx - 29, spec.height * 0.50, cx - 23, spec.height * 0.82, part.count)
+        elif n == "CYMBAL_LEFT":
+            ellipse(cx - 29, spec.height * 0.32, 13, 4, part.count)
+        elif n == "CYMBAL_RIGHT":
+            ellipse(cx + 30, spec.height * 0.32, 13, 4, part.count)
         elif "HAND" in n:
             ellipse(cx + (24 if "RIGHT" in n else -24), spec.height * (0.33 if "RIGHT" in n else 0.58), 5, 4, part.count)
         elif n == "PLATFORM":
@@ -354,6 +418,7 @@ def add_performer_model(models_el: ET.Element, spec: PerformerSpec) -> ET.Elemen
     })
     for name, start, end in _runs(spec.parts, spec.model_name):
         ET.SubElement(model, "subModel", {"name": name, "line0": f"{start}-{end}", "HelixPixelCount": str(end - start + 1)})
+    _add_drummer_hit_composites(model, spec)
     return model
 
 

@@ -14,10 +14,12 @@ Build Helix into a reliable AI-assisted xLights auto-sequencer while preserving 
 - [x] XML exporter no longer emits the legacy `line0="1-4"` placeholder for drummer components.
 - [x] Pose geometry spec now defines nine component composites with embedded contacting-stick geometry.
 - [~] xLights model exporter still needs to emit the new component composites as the nine canonical sequencing submodels.
-- [~] Drum detector uses HPSS/percussive onset analysis plus spectral features.
-- [x] Classification now rejects high harmonic-contamination candidates when unsupported and suppresses ambiguous low-margin classifications into `drum_bus`.
-- [ ] Add per-event source/stem provenance to rendered XSQ debug metadata.
-- [ ] Validate detector against real-song audio and quantify false positives.
+- [x] Drum detector uses HPSS/percussive onset analysis plus spectral features and a second positive-spectral-flux candidate detector.
+- [x] Classification now exposes independent drum-family evidence and can preserve compatible simultaneous hits instead of forcing one winner.
+- [x] Optional `htdemucs_6s` separation produces vocals/drums/bass/guitar/piano/other with source-audio SHA-256 caching and deterministic local fallback.
+- [x] Production drummer XSQ injection now consumes the stem-analysis path and prefers the isolated drums stem.
+- [x] Per-event source/stem provenance, family scores, and detector-agreement evidence are available in drum diagnostics.
+- [~] Real-song direct-mix vs Demucs-drums validation workflow is implemented and awaiting/collecting CI artifact evidence.
 - [ ] Generate real-song XSQ.
 - [ ] Render full-song MP4 with audio.
 - [ ] Human visual review of rendered drummer timing.
@@ -36,9 +38,9 @@ Build Helix into a reliable AI-assisted xLights auto-sequencer while preserving 
 **Physical rule:** the contacting stick is part of the corresponding hit component. There are no independent stick sequencing channels. Kick has no stick.
 
 ## Detection architecture
-**audio → HPSS/percussive isolation → onset candidates → spectral/transient features → confidence-gated drum classification → nine-component mapper → XSQ**
+**audio → hash-validated stem cache → optional htdemucs_6s → isolated drums stem → HPSS/percussive isolation → onset + spectral-flux candidates → independent drum-family evidence → compatible multi-hit selection → ambiguity handling → drummer mapper → XSQ**
 
-The repository has a richer stem-event adapter, but the current drummer path is not an external neural stem-separation pipeline. Do not claim Demucs/Spleeter-style separation is active until implemented and validated.
+When the Demucs executable/model is available, the production drummer path now uses real neural six-stem separation. When it is unavailable or separation fails, Helix keeps the deterministic local HPSS/frequency-mask fallback. Real-song quality claims still require the direct-mix-vs-stem diagnostics and rendered MP4 verification gate below.
 
 ## Ground-truth regression oracle
 A prior drummer render was explicitly identified by the user as having the **correct drummer logic** and must be preserved as the behavioral reference while the implementation is upgraded.
@@ -57,6 +59,24 @@ A prior drummer render was explicitly identified by the user as having the **cor
 Do not mark complete from unit tests alone.
 
 ## Change Ledger
+
+### 2026-10-01 — Derwin-inspired six-stem production audio path
+**Agent:** ChatGPT/GitHub
+**Branch:** `codex/derwin-audio-intelligence-v1`
+**PR:** #124
+
+**Changed:**
+- Switched optional Demucs model to `htdemucs_6s` and preserved guitar/piano stems.
+- Added SHA-256 stem-cache manifests so expensive separation can be reused safely.
+- Routed the real drummer injector through `build_stem_analysis()` instead of direct full-mix detection.
+- Added spectral-flux candidate detection beside the existing HPSS/librosa onset detector.
+- Added independent per-family scores, compatible simultaneous-hit selection, source provenance, and detector-agreement evidence.
+- Fixed the diagnostics tool to read actual `DrumEvent` labels/features instead of reclassifying a nonexistent field.
+- Suppressed raw ambiguous `drum_bus` placements when typed evidence exists and removed duplicate bus/distribution scheduling.
+- Added a real-song diagnostic workflow comparing direct mix against the isolated Demucs drums stem.
+- Updated the full current drummer workflow to install Demucs, use the hash-keyed stem cache, and render from the production stem-aware injector.
+
+**Verification in progress:** real `Helix Audiolights.mp3` class balance, drum-bus fraction, detector agreement, XSQ injection, and MP4 timing.
 
 ### 2026-09-30 — Ground-truth regression oracle locked
 **Agent:** ChatGPT/GitHub

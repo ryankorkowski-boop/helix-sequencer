@@ -2,49 +2,58 @@
 
 ## Purpose
 
-This is the canonical sequencing contract for the Helix snowman drummer. It supersedes the old assumption that left/right arms or left/right sticks are independent lighting channels.
+This is the canonical sequencing contract for the Helix snowman drummer. It replaces the abandoned four-tom / stick-driven-hi-hat contract and keeps motion geometry inside physically meaningful hit composites.
 
-## Nine sequenced components
+## Eight sequenced hit composites
 
-The drummer uses exactly nine sequenced components:
+1. `HX_SNOWMAN_DRUMMER_HIT_KICK`
+2. `HX_SNOWMAN_DRUMMER_HIT_SNARE`
+3. `HX_SNOWMAN_DRUMMER_HIT_HI_HAT`
+4. `HX_SNOWMAN_DRUMMER_HIT_TOM_LEFT`
+5. `HX_SNOWMAN_DRUMMER_HIT_TOM_RIGHT`
+6. `HX_SNOWMAN_DRUMMER_HIT_TOM_FLOOR`
+7. `HX_SNOWMAN_DRUMMER_HIT_CYMBAL_LEFT`
+8. `HX_SNOWMAN_DRUMMER_HIT_CYMBAL_RIGHT`
 
-1. `HX_SNOWMAN_DRUMMER_KICK`
-2. `HX_SNOWMAN_DRUMMER_SNARE`
-3. `HX_SNOWMAN_DRUMMER_HI_HAT`
-4. `HX_SNOWMAN_DRUMMER_TOM_1`
-5. `HX_SNOWMAN_DRUMMER_TOM_2`
-6. `HX_SNOWMAN_DRUMMER_TOM_3`
-7. `HX_SNOWMAN_DRUMMER_TOM_4`
-8. `HX_SNOWMAN_DRUMMER_CYMBAL_LEFT`
-9. `HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT`
+## Physical kit truth
 
-## Non-negotiable behavior
+- Exactly three toms: **left, right, floor**.
+- No fourth tom and no extra far-right drum.
+- Kick has **no stick**.
+- Hi-hat is activated by **foot/pedal**, with **no stick contacting the hi-hat**.
+- Snare, each tom, and each crash include the appropriate arm/stick contact geometry.
+- Arms, sticks and pedal may exist as geometry submodels, but are never independent sequencing channels.
 
-- There are **no separate stick channels**.
-- There are **no separate left-stick or right-stick sequencing targets**.
-- A snare hit lights the snare and its contacting stick geometry as one component/event, using one color and one timing event.
-- A tom hit lights that tom and the contacting stick geometry as one component/event.
-- A hi-hat hit lights the hi-hat and its contacting stick geometry as one component/event.
-- A cymbal hit lights the selected cymbal and its contacting stick geometry as one component/event.
-- A kick hit lights only the kick component. It has no stick target.
-- Left and right cymbals are separate components and alternate during ordinary fills/crashes unless the musical event explicitly represents a simultaneous crash.
-- Multiple components may be active at the same timestamp; mapping must never collapse simultaneous kick/snare/cymbal/tom events into one replacement event.
-- The four tom components are distinct targets. Generic tom detections are distributed across the four toms deterministically until richer tom classification is available.
+## Mapping behavior
 
-## Visual versus sequenced submodels
+- Generic tom detections rotate deterministically left -> right -> floor.
+- Generic cymbal detections alternate left -> right.
+- Compatible simultaneous hits remain simultaneous.
+- Ambiguous `drum_bus` events must never be silently converted into duplicate raw-kick placements.
+- Audio-detector tuning must not change the physical kit contract.
 
-The snowman may still contain visual/geometry submodels for arms, sticks, stands, rims, etc. Those are implementation geometry, not independent sequencing channels. Sequencing targets must resolve to the nine components above.
+## Canonical implementation
+
+Production truth is defined by:
+
+- `mapping/drum_mapper.py`
+- `tools/build_helpers/helixville4_full_band.py`
+- `tools/render_drummer_v3_preview.py`
+- `docs/HELIXVILLE4_DRUMMER_TARGET.md`
+- `fixtures/band_geometry/drummer_v3_pose_spec.json`
+
+The old checked-in `HX_SNOWMAN_DRUMMER_V3.xmodel` is a historical asset and is explicitly noncanonical.
 
 ## Acceptance criteria
 
-A drummer mapping is correct only if:
+A production drummer change is correct only if:
 
-- the emitted sequenced component IDs are a subset of the nine canonical IDs;
-- no emitted target contains `LEFT_STICK`, `RIGHT_STICK`, `LEFT_ARM`, or `RIGHT_ARM` as a sequencing component;
-- kick events target only kick;
-- snare, hi-hat, tom, and cymbal events target the appropriate combined component;
-- cymbal alternation is deterministic;
-- simultaneous events remain simultaneous;
-- a full-song real-audio render is used for final visual validation.
-
-This contract is intentionally narrower than the visual asset specification. Geometry may be richer than the sequencing interface.
+- emitted sequencing targets are a subset of the eight IDs above;
+- the exported layout contains all eight composite submodels;
+- kick composite contains no stick/arm contact;
+- hi-hat composite contains pedal geometry and no stick;
+- floor tom exists;
+- no fourth tom exists;
+- snare/tom/cymbal composites include contact arm/stick geometry;
+- simultaneous hits remain simultaneous;
+- a real-audio full-song XSQ and drummer MP4 are generated for visual validation.

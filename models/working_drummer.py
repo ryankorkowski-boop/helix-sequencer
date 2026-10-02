@@ -36,10 +36,10 @@ DRUMMER_DEFAULT_CUES = [
         "end_ms": 340,
         "kind": "hihat_tick",
         "submodel": "hi_hat",
-        "secondary_submodels": ["right_stick"],
+        "secondary_submodels": ["hi_hat_pedal"],
         "intensity": 0.58,
-        "motion": "right_stick_hat_tick",
-        "xlights_effect_hint": "Rapid shimmer tick on hi_hat",
+        "motion": "foot_hihat_pulse",
+        "xlights_effect_hint": "Rapid hi-hat shimmer driven by the foot/pedal; no stick",
     },
     {
         "start_ms": 340,
@@ -67,6 +67,7 @@ def _required_drummer_submodels() -> list[str]:
         "tom",
         "cymbal",
         "hi_hat",
+        "hi_hat_pedal",
         "left_stick",
         "right_stick",
         "drumkit_all",
@@ -119,7 +120,7 @@ def build_working_drummer(canvas_size: int = 64) -> dict[str, Any]:
             "target_model_type": "custom_model_with_submodels",
             "node_order": "row_major_top_left_1_based",
             "must_export_submodels": required_submodels,
-            "first_sequence_smoke_test": "Apply kick/snare/hi_hat/cymbal cues with stick anticipation/rebound over one 620ms drum phrase.",
+            "first_sequence_smoke_test": "Apply kick/snare/hi_hat/cymbal cues with hi-hat pedal motion and stick anticipation/rebound only on stick-struck instruments.",
         },
     }
 

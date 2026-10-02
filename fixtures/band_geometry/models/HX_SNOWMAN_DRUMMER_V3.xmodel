@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<custommodel name="HX_SNOWMAN_DRUMMER_V3" parm1="96" parm2="72" Depth="1" StringType="RGB Nodes" Transparency="0" PixelSize="2" ModelBrightness="0" Antialias="1" HelixImplementationState="drummer_v3_asset_first_side_by_side" HelixVisualSource="fixtures\band_geometry\source\drummerbg.png" CustomBkgImage="C:\Users\User\Desktop\414-drummer-v3-pr\fixtures\band_geometry\source\drummerbg.png">
+<custommodel name="HX_SNOWMAN_DRUMMER_V3" parm1="96" parm2="72" Depth="1" StringType="RGB Nodes" Transparency="0" PixelSize="2" ModelBrightness="0" Antialias="1" HelixImplementationState="archived_legacy_asset_not_production" HelixCanonical="false" HelixCanonicalExporter="tools/build_helpers/helixville4_full_band.py" HelixVisualSource="fixtures\band_geometry\source\drummerbg.png" CustomBkgImage="C:\Users\User\Desktop\414-drummer-v3-pr\fixtures\band_geometry\source\drummerbg.png">
   <modelGroups />
   <subModels>
     <subModel name="HX_SNOWMAN_DRUMMER_V3_HEAD" layout="ranges" type="ranges" line0="909-917,1002-1016,1097-1113,1191-1211,1286-1308,1382-1404,1477-1501,1573-1597,1669-1693,1765-1789,1862-1884,1958-1980,2055-2075,2153-2169,2250-2264,2349-2357" />

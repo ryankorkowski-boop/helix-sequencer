@@ -1,8 +1,14 @@
 name: Helix Full Current 256 + Drummer
 on:
   push:
-    branches: [feature/restructure-core]
+    branches:
+      - feature/restructure-core
+      - codex/derwin-audio-intelligence-v1
   workflow_dispatch:
+concurrency:
+  group: helix-full-current-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 jobs:
@@ -18,7 +24,7 @@ jobs:
       - name: Install
         run: |
           python -m pip install --upgrade pip
-          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest demucs
       - name: Audio check
         run: |
           test -f 'Helix Audiolights.mp3'
@@ -27,6 +33,12 @@ jobs:
           p=subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(),'-i','Helix Audiolights.mp3','-f','null','-'],capture_output=True)
           assert p.returncode==0
           PY
+      - name: Restore separated-stem cache
+        uses: actions/cache@v4
+        with:
+          path: test_runs/stem_cache
+          key: helix-demucs6-${{ runner.os }}-${{ hashFiles('Helix Audiolights.mp3') }}
+
       - name: Build render layout with real drummer geometry
         env: {PYTHONPATH: .}
         run: |
@@ -65,10 +77,10 @@ jobs:
       - name: Detect and inject Drummer V3
         env: {PYTHONPATH: .}
         run: |
-          python debug/drum_debug.py 'Helix Audiolights.mp3' --json test_runs/full_current/drum_debug.json
+          python tools/analyze_drum_detection.py             'Helix Audiolights.mp3'             --use-stems             --stem-cache test_runs/stem_cache             --output test_runs/full_current/drum_detection_report.json
           xsq=$(find test_runs/full_current/base256 -type f -name '*.xsq' | head -n 1)
           test -n "$xsq"
-          python tools/integrate_drummer_v3_into_xsq.py "$xsq" 'Helix Audiolights.mp3' --output test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq --report test_runs/full_current/drummer_run_report.json
+          python tools/integrate_drummer_v3_into_xsq.py             "$xsq"             'Helix Audiolights.mp3'             --stem-cache test_runs/stem_cache             --output test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq             --report test_runs/full_current/drummer_run_report.json
       - name: Validate XSQ
         env: {PYTHONPATH: .}
         run: python tools/validate_xsq_structure.py test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq
@@ -76,9 +88,11 @@ jobs:
         env: {PYTHONPATH: .}
         run: python -m pytest -q tests/test_drummer_v3_xsq_integration.py tests/test_drummer_v3_pose_sheet.py
       - name: Render HQ MP4
+        if: always()
         env: {PYTHONPATH: .}
         run: python -m tools.preview_hq test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq --layout test_runs/full_current/xlights_rgbeffects_full_band.xml --audio 'Helix Audiolights.mp3' --quality-preset xlights
       - name: Validate full-song duration before artifact generation
+        if: always()
         env: {PYTHONPATH: .}
         run: |
           python - <<'PY'
@@ -102,10 +116,12 @@ jobs:
           print(f'FULL-SONG VALIDATION: audio_ms={audio_ms} xsq_end_ms={xsq_ms}')
           PY
       - name: Render actual Drummer V3 with soundtrack
+        if: always()
         env: {PYTHONPATH: .}
         run: |
           python tools/render_drummer_v3_preview.py             test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq             --audio 'Helix Audiolights.mp3'             --output test_runs/full_current/Helix_Drummer_V3_WITH_MUSIC.mp4             --fps 30
       - name: Validate rendered MP4 durations
+        if: always()
         env: {PYTHONPATH: .}
         run: |
           python - <<'PY'

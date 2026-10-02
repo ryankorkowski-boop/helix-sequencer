@@ -22,10 +22,12 @@ def assign_hand(event: DrumEvent, previous_hand: str | None = None) -> str:
         return "foot"
     if event.drum_type == "snare":
         return "left"
-    if event.drum_type in {"hihat", "cymbal"}:
-        return "left" if previous_hand == "right" and event.drum_type == "hihat" else "right"
+    if event.drum_type == "hihat":
+        return "foot"
+    if event.drum_type == "cymbal":
+        return "right"
     if event.drum_type == "tom":
-        return "both"
+        return "left" if previous_hand == "right" else "right"
     return "both"
 
 
@@ -51,7 +53,13 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
                 "strike_ms": strike,
                 "rebound_end_ms": end,
                 "velocity": round(max(0.0, min(1.0, event.velocity * (0.92 + rng.random() * 0.16))), 3),
-                "submodels": ["left_stick" if hand == "left" else "right_stick" if hand == "right" else "left_stick", "right_stick"] if hand == "both" else ([] if hand == "foot" else [f"{hand}_stick"]),
+                "submodels": (
+                    ["hi_hat_pedal"]
+                    if hand == "foot" and event.drum_type == "hihat"
+                    else []
+                    if hand == "foot"
+                    else [f"{hand}_stick"]
+                ),
                 "humanized_offset_ms": humanize,
             }
         )

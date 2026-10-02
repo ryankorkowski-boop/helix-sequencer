@@ -6,7 +6,7 @@ import shutil
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from audio.drum_detection import detect_drum_event_streams_from_file
+from core.audio_intelligence import build_stem_analysis
 from mapping.drum_mapper import DRUMMER_COMPONENTS, map_events_to_drummer_components, resolve_drum_streams
 
 DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER"
@@ -48,12 +48,27 @@ def _add_on(layer, start_ms, end_ms, intensity, component, source_type):
     })
 
 
-def inject_drummer_v3(base_xsq, output_xsq, audio_path, *, layer_name="AUTO_Drummer_V3"):
+def inject_drummer_v3(
+    base_xsq,
+    output_xsq,
+    audio_path,
+    *,
+    layer_name="AUTO_Drummer_V3",
+    stem_cache_dir: Path | None = None,
+):
     base_xsq, output_xsq, audio_path = Path(base_xsq), Path(output_xsq), Path(audio_path)
     if not base_xsq.exists() or not audio_path.exists():
         raise FileNotFoundError("Missing XSQ or audio input")
 
-    resolved = resolve_drum_streams(detect_drum_event_streams_from_file(audio_path))
+    cache_dir = Path(stem_cache_dir) if stem_cache_dir is not None else output_xsq.parent / "stem_cache"
+    stem_analysis = build_stem_analysis(
+        audio_path=audio_path,
+        use_moises=False,
+        api_key=None,
+        cache_dir=cache_dir,
+    )
+    streams = stem_analysis.drum_event_streams or {}
+    resolved = resolve_drum_streams(streams)
     component_events = map_events_to_drummer_components(resolved["events"])
 
     if output_xsq.resolve() != base_xsq.resolve():
@@ -87,6 +102,10 @@ def inject_drummer_v3(base_xsq, output_xsq, audio_path, *, layer_name="AUTO_Drum
         "model": DRUMMER_V3_MODEL, "base_xsq": str(base_xsq),
         "output_xsq": str(output_xsq), "audio": str(audio_path),
         "layer": layer_name, "fallback_mode": resolved["fallback_mode"],
+        "stem_source": stem_analysis.source,
+        "stem_cache_dir": str(cache_dir),
+        "stems": {name: str(path) for name, path in sorted(stem_analysis.stems.items())},
+        "detector_counts": dict(resolved.get("counts", {})),
         "event_count": len(component_events), "placement_count": placements,
         "component_counts": {component: sum(1 for event in component_events if event["component"] == component) for component in sorted(DRUMMER_TARGETS)},
         "targets": sorted(DRUMMER_TARGETS),
@@ -99,8 +118,15 @@ def main():
     p.add_argument("base_xsq", type=Path); p.add_argument("audio", type=Path)
     p.add_argument("--output", type=Path, required=True); p.add_argument("--layer", default="AUTO_Drummer_V3")
     p.add_argument("--report", type=Path)
+    p.add_argument("--stem-cache", type=Path, default=None)
     a = p.parse_args()
-    report = inject_drummer_v3(a.base_xsq, a.output, a.audio, layer_name=a.layer)
+    report = inject_drummer_v3(
+        a.base_xsq,
+        a.output,
+        a.audio,
+        layer_name=a.layer,
+        stem_cache_dir=a.stem_cache,
+    )
     print(json.dumps(report, indent=2, sort_keys=True))
     if a.report:
         a.report.parent.mkdir(parents=True, exist_ok=True)

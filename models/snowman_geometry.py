@@ -117,6 +117,7 @@ def _base_regions(role: str, canvas: GridCanvas) -> dict[str, PixelRegion]:
                 "tom": PixelRegion.from_coords("tom", "drum", ellipse(cx + _scale(11, s), _scale(38, s), max(3, _scale(5, s)), max(2, _scale(3, s))), canvas, tags=["drums", "tom"]),
                 "cymbal": PixelRegion.from_coords("cymbal", "drum", ellipse(cx + _scale(19, s), _scale(29, s), max(4, _scale(7, s)), max(1, _scale(2, s))), canvas, tags=["drums", "cymbal"]),
                 "hi_hat": PixelRegion.from_coords("hi_hat", "drum", ellipse(cx - _scale(21, s), _scale(30, s), max(4, _scale(6, s)), max(1, _scale(2, s))), canvas, tags=["drums", "hihat"]),
+                "hi_hat_pedal": PixelRegion.from_coords("hi_hat_pedal", "pedal", line(cx - _scale(21, s), _scale(32, s), cx - _scale(18, s), _scale(56, s), max(1, _scale(2, s))), canvas, tags=["drums", "hihat", "foot", "pedal"]),
                 "left_stick": PixelRegion.from_coords("left_stick", "drumstick", line(cx - _scale(10, s), _scale(28, s), cx - _scale(22, s), _scale(18, s), 1), canvas, tags=["drums", "stick"]),
                 "right_stick": PixelRegion.from_coords("right_stick", "drumstick", line(cx + _scale(10, s), _scale(28, s), cx + _scale(22, s), _scale(18, s), 1), canvas, tags=["drums", "stick"]),
             }
@@ -190,7 +191,7 @@ def generate_submodels(role: str, regions: dict[str, PixelRegion]) -> dict[str, 
         "singer": ["mic_stand", "mic_head"],
         "guitarist": ["guitar_body", "guitar_neck", "guitar_headstock", "strum_zone", "fret_zone"],
         "bassist": ["bass_body", "bass_neck", "bass_scroll", "pluck_zone", "neck_zone"],
-        "drummer": ["kick", "snare", "tom", "cymbal", "hi_hat", "left_stick", "right_stick"],
+        "drummer": ["kick", "snare", "tom", "cymbal", "hi_hat", "hi_hat_pedal", "left_stick", "right_stick"],
     }[role]
     for name in role_specific:
         category = "drum" if role == "drummer" else "instrument"

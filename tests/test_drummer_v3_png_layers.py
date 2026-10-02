@@ -19,9 +19,9 @@ REQUIRED_FRAMES = {
     "hi_hat_pulse",
     "left_tom_hit",
     "right_tom_hit",
+    "floor_tom_hit",
     "left_crash",
     "right_crash",
-    "both_crash",
     "downbeat_impact",
 }
 
@@ -57,6 +57,10 @@ def test_drummer_v3_manifest_declares_png_input_and_frames() -> None:
 
     layer_ids = {layer["id"] for layer in manifest["layers"]}
     assert REQUIRED_FRAMES - {"idle_ready"} <= layer_ids
+    layers = {layer["id"]: layer for layer in manifest["layers"]}
+    assert layers["hi_hat_pulse"]["contact_components"] == ["foot", "pedal"]
+    assert all("stick" not in item for item in layers["hi_hat_pulse"]["contact_components"])
+    assert "floor_tom_hit" in layers
 
     for layer in manifest["layers"]:
         assert layer["file"].endswith(".png")

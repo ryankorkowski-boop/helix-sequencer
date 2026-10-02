@@ -19,6 +19,8 @@ class FinishedHelixville4DrummerTests(unittest.TestCase):
         self.assertEqual(len(runs), len(DRUMMER_SUBMODEL_NAMES))
         self.assertTrue(any(run.name.endswith("KICK") for run in runs))
         self.assertTrue(any(run.name.endswith("CYMBAL_LEFT") for run in runs))
+        self.assertTrue(any(run.name.endswith("TOM_FLOOR") for run in runs))
+        self.assertTrue(any(run.name.endswith("HI_HAT_PEDAL") for run in runs))
         self.assertTrue(all(run.count > 4 for run in runs))
 
     def test_drummer_does_not_use_placeholder_dimensions(self) -> None:
