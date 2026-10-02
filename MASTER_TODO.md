@@ -12,6 +12,7 @@ This repo is currently in the beta-safety phase described by `ROADMAP_BETA_TODO.
 - [x] Phase 0 guidance is in place: beta roadmap, safety baseline, and support/data-use policy are documented.
 - [x] Core beta docs are linked from the README and are available under `docs/`.
 - [x] Agent task index is aligned with the roadmap and points to the current next tasks.
+- [x] Sample beta tester feedback checklist exists and is documented for testers.
 - [ ] Continue with Phase 0/1 execution in the exact order called out by the roadmap before moving into engine-facing refactors.
 - [ ] Keep this ledger updated as each beta phase completes.
 
@@ -76,6 +77,19 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-10-02 — Beta tester feedback checklist documented
+**Agent:** GitHub Copilot
+**Branch:** `feature/restructure-core`
+
+**Recorded:**
+- Added a repo-safe beta tester feedback checklist document for single-run evidence collection.
+- Linked the checklist from the root README so testers can find it from the main entrypoint.
+- Kept the checklist focused on privacy-safe, local-only evidence collection without requiring private asset disclosure.
+
+**Limitations:**
+- This is a documentation gate only; it does not claim xLights import success or visual quality.
+- The beta roadmap still requires run manifest, GUI, and packaging safety work before broader beta claims.
+
 ### 2026-10-02 — Beta roadmap baseline alignment
 **Agent:** GitHub Copilot
 **Branch:** `feature/restructure-core`
@@ -100,7 +114,7 @@ Do not mark complete from unit tests alone.
 ### 2026-09-30 — Confidence-gated drum classification
 **Agent:** ChatGPT/GitHub
 **Branch:** `feature/restructure-core`
-**Commit:** `b8e7f8fa5ab5044c774b3ca482711b47b89fb61e`
+**Commit:** `b8e7f8fa5ab5044c774b3ca482711b47b89fb61c`
 
 **Changed:** `audio/drum_classification.py`
 - Added harmonic-contamination gating using the existing percussive/harmonic ratio.
