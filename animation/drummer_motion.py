@@ -50,7 +50,7 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
 
         visual_offset = _visual_offset(rng, event, config)
         musical_strike = max(0, event.timestamp_ms)
-        anticipation = max(0, musical_strike - config.anticipation_ms + visual_offset)
+        anticipation = max(0, min(musical_strike, musical_strike - config.anticipation_ms + visual_offset))
         end = musical_strike + config.strike_ms + config.rebound_ms
         visual_velocity = max(0.0, min(1.0, event.velocity * (1.0 + rng.uniform(-config.velocity_jitter, config.velocity_jitter))))
         motions.append(
