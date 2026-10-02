@@ -71,9 +71,10 @@ DRUMMER_V3_DURATION_BY_POSE = {
 class DrumMappingConfig:
     merge_window_ms: int = 24
     clutter_window_ms: int = 70
-    max_hits_per_window: int = 4
+    max_hits_per_window: int = 6
     rapid_repeat_window_ms: int = 90
-    fallback_distribution_seed: int = 414
+    rapid_repeat_velocity_scale: float = 0.82
+    fallback_confidence_floor: float = 0.24
 
 
 def flatten_drum_streams(streams: dict[str, list[DrumEvent]]) -> list[DrumEvent]:
@@ -92,9 +93,53 @@ def build_streams_from_legacy(kicks: Iterable[int], snares: Iterable[int], hats:
     return streams
 
 
-def distribute_drum_bus_events(events: Iterable[DrumEvent]) -> list[DrumEvent]:
-    pattern = ("kick", "hihat", "snare", "hihat", "tom", "cymbal", "snare", "hihat")
-    return [DrumEvent(timestamp=e.timestamp, velocity=e.velocity, confidence=round(max(0.22, e.confidence * 0.72), 3), frequency_band_info={**e.frequency_band_info, "fallback_from_bus": 1.0}, cluster_id=e.cluster_id, drum_type=pattern[i % len(pattern)], source="drum_bus_probabilistic_fallback") for i, e in enumerate(sorted(events, key=lambda item: item.timestamp_ms))]
+def infer_drum_bus_type(event: DrumEvent, *, prior_type: str | None = None) -> tuple[str, float]:
+    """Infer an uncertain bus hit from measured spectral features; never guess by event index."""
+    f = event.frequency_band_info
+    low = float(f.get("low_ratio", 0.0))
+    mid_low = float(f.get("mid_low_ratio", 0.0))
+    mid = float(f.get("mid_ratio", 0.0))
+    high = float(f.get("high_ratio", 0.0))
+    centroid = float(f.get("centroid_hz", 0.0))
+    sharp = float(f.get("transient_sharpness", 0.0))
+    decay = float(f.get("decay_profile", 0.0))
+    flatness = float(f.get("spectral_flatness", 0.0))
+    percussive = float(f.get("percussive_ratio", 0.0))
+    scores = {
+        "kick": low * 0.60 + max(0.0, 1.0 - centroid / 1400.0) * 0.20 + sharp * 0.20,
+        "snare": mid * 0.42 + sharp * 0.30 + mid_low * 0.12,
+        "tom": mid_low * 0.48 + max(0.0, 1.0 - abs(centroid - 900.0) / 1800.0) * 0.22 + decay * 0.18 + sharp * 0.12,
+        "hihat": high * 0.52 + sharp * 0.18 + (1.0 - decay) * 0.16 + percussive * 0.14,
+        "cymbal": high * 0.34 + decay * 0.24 + percussive * 0.22 + flatness * 0.10,
+    }
+    if prior_type in scores:
+        scores[prior_type] += 0.025
+    ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
+    best, best_score = ranked[0]
+    margin = best_score - ranked[1][1]
+    if best_score < 0.34 or margin < 0.10:
+        return "drum_bus", round(max(0.18, event.confidence * 0.72), 3)
+    return best, round(min(0.88, max(event.confidence * 0.72, best_score * 0.82)), 3)
+
+
+def distribute_drum_bus_events(events: Iterable[DrumEvent], config: DrumMappingConfig = DrumMappingConfig()) -> list[DrumEvent]:
+    """Resolve bus events from their features; unresolved events stay on the bus."""
+    resolved: list[DrumEvent] = []
+    prior_type: str | None = None
+    for event in sorted(events, key=lambda item: item.timestamp_ms):
+        drum_type, confidence = infer_drum_bus_type(event, prior_type=prior_type)
+        resolved.append(DrumEvent(
+            timestamp=event.timestamp,
+            velocity=event.velocity,
+            confidence=max(config.fallback_confidence_floor, confidence),
+            frequency_band_info={**event.frequency_band_info, "bus_inference": 1.0, "inferred_type": drum_type},
+            cluster_id=event.cluster_id,
+            drum_type=drum_type,
+            source="drum_bus_inferred" if drum_type != "drum_bus" else "drum_bus_unresolved",
+        ))
+        if drum_type != "drum_bus":
+            prior_type = drum_type
+    return resolved
 
 
 def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig = DrumMappingConfig()) -> list[DrumEvent]:
@@ -109,15 +154,16 @@ def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig 
     scheduled: list[DrumEvent] = []
     last_by_type: dict[str, DrumEvent] = {}
     for event in merged:
-        nearby = [item for item in scheduled if 0 <= event.timestamp_ms - item.timestamp_ms <= config.clutter_window_ms]
+        nearby = [item for item in scheduled if abs(event.timestamp_ms - item.timestamp_ms) <= config.clutter_window_ms]
         if len(nearby) >= config.max_hits_per_window:
-            worst = max(nearby, key=lambda item: (DRUM_PRIORITY.get(item.drum_type, 9), -item.velocity))
-            if (DRUM_PRIORITY.get(event.drum_type, 9), -event.velocity) >= (DRUM_PRIORITY.get(worst.drum_type, 9), -worst.velocity):
+            weakest = min(nearby, key=lambda item: (item.confidence, item.velocity))
+            if weakest.confidence < event.confidence and weakest.velocity < event.velocity:
+                scheduled.remove(weakest)
+            else:
                 continue
-            scheduled.remove(worst)
         previous = last_by_type.get(event.drum_type)
         if previous and event.timestamp_ms - previous.timestamp_ms <= config.rapid_repeat_window_ms:
-            event = DrumEvent(timestamp=event.timestamp, velocity=round(max(0.08, event.velocity * 0.74), 3), confidence=event.confidence, frequency_band_info={**event.frequency_band_info, "rapid_repeat_scale": 0.74}, cluster_id=event.cluster_id, drum_type=event.drum_type, source=event.source)
+            event = DrumEvent(timestamp=event.timestamp, velocity=round(max(0.08, event.velocity * config.rapid_repeat_velocity_scale), 3), confidence=event.confidence, frequency_band_info={**event.frequency_band_info, "rapid_repeat_scale": config.rapid_repeat_velocity_scale}, cluster_id=event.cluster_id, drum_type=event.drum_type, source=event.source)
         scheduled.append(event)
         last_by_type[event.drum_type] = event
     return sorted(scheduled, key=lambda event: (event.timestamp_ms, DRUM_PRIORITY.get(event.drum_type, 9)))
@@ -206,12 +252,12 @@ def resolve_drum_streams(streams: dict[str, list[DrumEvent]] | None, *, fallback
     typed_count = sum(len(streams.get(key, [])) for key in DRUM_STREAM_KEYS if key != "drum_bus_events")
     bus_events = list(streams.get("drum_bus_events", []))
     if typed_count == 0 and bus_events:
-        events = distribute_drum_bus_events(bus_events); fallback_mode = "drum_bus_distribution"
+        events = distribute_drum_bus_events(bus_events, config); fallback_mode = "drum_bus_inference"
     elif typed_count == 0:
         events = flatten_drum_streams(build_streams_from_legacy(fallback_kicks, fallback_snares, fallback_hats, fallback_cymbals)); fallback_mode = "legacy_marks"
     else:
         events = flatten_drum_streams(streams); fallback_mode = "typed_detection"
         if bus_events and typed_count < max(2, len(bus_events) // 2):
-            events.extend(distribute_drum_bus_events(bus_events)); fallback_mode = "partial_detection_plus_bus"
+            events.extend(distribute_drum_bus_events(bus_events, config)); fallback_mode = "partial_detection_plus_bus"
     scheduled = schedule_drum_events(events, config)
     return {"fallback_mode": fallback_mode, "events": scheduled, "mapped_events": map_events_to_submodels(scheduled), "drummer_v3_pose_events": map_events_to_drummer_v3_poses(scheduled), "drummer_component_events": map_events_to_drummer_components(scheduled), "counts": {key: len([event for event in scheduled if stream_key_for_type(event.drum_type) == key]) for key in DRUM_STREAM_KEYS}}
