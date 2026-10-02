@@ -34,8 +34,9 @@ def build_snowman_bassist_structure(): return _build_snowman_member_structure(pr
 def build_snowman_guitarist_structure(): return _build_snowman_member_structure(prop_name="HX_SNOWMAN_GUITARIST",instrument_suffixes=("GUITAR_BODY","GUITAR_NECK","GUITAR_STRINGS","STRUM_ZONE"))
 
 def build_snowman_drummer_structure():
-    # Nine and only nine sequencing components. Stick/arm geometry is physically included in the hit component.
-    components=("KICK","SNARE","TOM_1","TOM_2","TOM_3","TOM_4","HI_HAT","CYMBAL_LEFT","CYMBAL_RIGHT")
+    # Exactly eight sequencing components: kick, snare, hi-hat, three toms, two cymbals.
+    # Contacting-stick geometry belongs to each hit component; there are no stick channels.
+    components=("KICK","SNARE","TOM_HIGH","TOM_MID","TOM_FLOOR","HI_HAT","CYMBAL_LEFT","CYMBAL_RIGHT")
     body=_submodel_names("HX_SNOWMAN_DRUMMER",("HEAD","FACE","HAT","HAT_BAND","SCARF","TORSO","BUTTONS","PLATFORM"))
     hits=_submodel_names("HX_SNOWMAN_DRUMMER",components)
     body_model=HelixiaModelDefinition("HX_SNOWMAN_DRUMMER_BODY","body",body)
