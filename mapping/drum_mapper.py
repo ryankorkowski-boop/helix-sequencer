@@ -9,11 +9,11 @@ DRUM_SUBMODEL_BY_TYPE = {"kick": "kick", "snare": "snare", "tom": "tom", "hihat"
 DRUM_PRIORITY = {"kick": 0, "snare": 1, "cymbal": 2, "tom": 3, "hihat": 4, "drum_bus": 5}
 DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
 DRUMMER_COMPONENTS = (
-    "HX_SNOWMAN_DRUMMER_V3_KICK", "HX_SNOWMAN_DRUMMER_V3_SNARE", "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
-    "HX_SNOWMAN_DRUMMER_V3_TOM_1", "HX_SNOWMAN_DRUMMER_V3_TOM_2", "HX_SNOWMAN_DRUMMER_V3_TOM_3", "HX_SNOWMAN_DRUMMER_V3_TOM_4",
-    "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT", "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+    "HX_SNOWMAN_DRUMMER_KICK", "HX_SNOWMAN_DRUMMER_SNARE", "HX_SNOWMAN_DRUMMER_HI_HAT",
+    "HX_SNOWMAN_DRUMMER_TOM_HIGH", "HX_SNOWMAN_DRUMMER_TOM_MID", "HX_SNOWMAN_DRUMMER_TOM_FLOOR",
+    "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT", "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",
 )
-TOM_COMPONENT_BY_CLASS = {"high": "HX_SNOWMAN_DRUMMER_V3_TOM_1", "mid": "HX_SNOWMAN_DRUMMER_V3_TOM_2", "floor": "HX_SNOWMAN_DRUMMER_V3_TOM_3"}
+TOM_COMPONENT_BY_CLASS = {"high": "HX_SNOWMAN_DRUMMER_TOM_HIGH", "mid": "HX_SNOWMAN_DRUMMER_TOM_MID", "floor": "HX_SNOWMAN_DRUMMER_TOM_FLOOR"}
 DRUMMER_V3_POSE_BY_TYPE = {"kick": "kick_hit", "snare": "snare_hit", "hihat": "hi_hat_pulse", "tom": "tom_hit", "cymbal": "cymbal_hit", "drum_bus": "downbeat_impact"}
 DRUMMER_V3_DURATION_BY_POSE = {"kick_hit": 150, "snare_hit": 125, "hi_hat_pulse": 80, "tom_hit": 155, "cymbal_hit": 320, "downbeat_impact": 220}
 
@@ -67,7 +67,7 @@ def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig 
 
 
 def tom_class_for_event(event: DrumEvent, event_index: int = 0) -> str:
-    """Resolve an explicitly classified tom to the original three-tom ground truth."""
+    """Resolve an explicitly classified tom to the canonical three-tom ground truth."""
     info = event.frequency_band_info or {}
     raw = str(info.get("tom_class", info.get("tom_position", ""))).strip().lower()
     aliases = {"high_tom": "high", "hi": "high", "upper": "high", "mid_tom": "mid", "middle": "mid", "medium": "mid", "floor_tom": "floor", "low": "floor"}
@@ -81,7 +81,7 @@ def drummer_component_for_event(event: DrumEvent, *, event_index: int = 0) -> st
     if event.drum_type == "snare": return DRUMMER_COMPONENTS[1]
     if event.drum_type == "hihat": return DRUMMER_COMPONENTS[2]
     if event.drum_type == "tom": return TOM_COMPONENT_BY_CLASS[tom_class_for_event(event, event_index)]
-    if event.drum_type == "cymbal": return DRUMMER_COMPONENTS[7 + (event_index % 2)]
+    if event.drum_type == "cymbal": return DRUMMER_COMPONENTS[6 + (event_index % 2)]
     return DRUMMER_COMPONENTS[0]
 
 
