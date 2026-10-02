@@ -172,7 +172,11 @@ def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig 
 def map_events_to_submodels(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
     mapped = []
     for event in events:
-        submodel = DRUM_SUBMODEL_BY_TYPE.get(event.drum_type, "drum_bus")
+        # Unresolved bus hits remain available in the source-event/debug path,
+        # but must never become a concrete drummer component placement.
+        if event.drum_type == "drum_bus":
+            continue
+        submodel = DRUM_SUBMODEL_BY_TYPE[event.drum_type]
         mapped.append({"timestamp_ms": event.timestamp_ms, "drum_type": event.drum_type, "submodel": submodel, "composite_submodels": ["drumkit_all", "drum_bus" if event.drum_type == "drum_bus" else submodel], "velocity": event.velocity, "confidence": event.confidence, "frequency_band_info": event.frequency_band_info, "cluster_id": event.cluster_id, "source": event.source})
     return mapped
 
@@ -193,7 +197,7 @@ def drummer_component_for_event(event: DrumEvent, *, event_index: int = 0) -> st
         return DRUMMER_COMPONENTS[3 + (event_index % 4)]
     if event.drum_type == "cymbal":
         return DRUMMER_COMPONENTS[7 + (event_index % 2)]
-    return DRUMMER_COMPONENTS[0]
+    return ""
 
 
 def map_events_to_drummer_components(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
@@ -202,6 +206,8 @@ def map_events_to_drummer_components(events: Iterable[DrumEvent]) -> list[dict[s
     tom_index = 0
     cymbal_index = 0
     for event in sorted(events, key=lambda item: (item.timestamp_ms, DRUM_PRIORITY.get(item.drum_type, 9), -item.velocity)):
+        if event.drum_type == "drum_bus":
+            continue
         if event.drum_type == "tom":
             component = drummer_component_for_event(event, event_index=tom_index)
             tom_index += 1
