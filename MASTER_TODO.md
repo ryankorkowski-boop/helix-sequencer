@@ -90,6 +90,22 @@ Do not mark complete from unit tests alone.
 
 **Known limitation:** xmodel exporter still needs to make the nine composites the canonical sequencing submodels.
 
+### 2026-10-02 — Drummer musicality/fallback contract reconciliation
+**Agent:** ChatGPT/GitHub
+**Branch:** `codex/drummer-musicality`
+**PR:** #125
+
+**Changed:** `mapping/drum_mapper.py`, `models/working_drummer.py`, `animation/drummer_motion.py`, and drummer regression tests.
+- Replaced cyclic bus assignment with feature-based, confidence-gated inference.
+- Unresolved `drum_bus` events remain in source/debug data and are omitted from concrete drummer component placement instead of falling through to kick.
+- Preserved dense simultaneous hits and reduced only saturated/weak events; rapid repeats retain timing while velocity is scaled.
+- Locked visual strike time to the musical event and clamped anticipation so it cannot begin after the strike.
+- Preserved the existing nine-component drummer contract and two-hand tom motion semantics.
+
+**Validation evidence:** tests were updated for unresolved-bus behavior, fallback mode, component omission, dense-hit scheduling, and anticipation clamping. The local environment has no repository checkout/runtime, so the Python suite has not been executed here; GitHub Actions remains the authoritative execution path.
+
+**Limitations / deferred work:** real-song detector validation, XSQ generation, MP4 rendering, and visual comparison against the known-good drummer artifact remain pending. No claim of real-song validation is made by this change.
+
 ## Next actions
 1. Preserve the prior known-good drummer behavior as the regression baseline.
 2. Reconcile xLights drummer geometry with the nine canonical composites.
