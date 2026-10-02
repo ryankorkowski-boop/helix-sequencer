@@ -5,7 +5,7 @@ import unittest
 from animation.drummer_motion import assign_hand, build_drummer_motion
 from audio.drum_classification import DrumEvent, empty_drum_streams
 from effects.drum_effects import build_drum_effect_cues
-from mapping.drum_mapper import resolve_drum_streams, schedule_drum_events
+from mapping.drum_mapper import map_events_to_drummer_components, resolve_drum_streams, schedule_drum_events
 
 
 def _event(ms: int, drum_type: str, velocity: float = 0.8, confidence: float = 0.7) -> DrumEvent:
@@ -48,6 +48,12 @@ class DrumMappingTests(unittest.TestCase):
         self.assertEqual(motions[0]["strike_ms"], 100)
         self.assertEqual(motions[0]["musical_strike_ms"], 100)
         self.assertTrue(motions[0]["musical_event_locked"])
+        clamped = build_drummer_motion([_event(100, "snare")], config=__import__("animation.drummer_motion", fromlist=["DrummerMotionConfig"]).DrummerMotionConfig(anticipation_ms=10, humanize_min_ms=30, humanize_max_ms=30, seed=414))
+        self.assertLessEqual(clamped[0]["start_ms"], clamped[0]["strike_ms"])
+
+    def test_unresolved_bus_never_maps_to_kick_component(self) -> None:
+        mapped = map_events_to_drummer_components([_event(100, "drum_bus")])
+        self.assertEqual(mapped, [])
 
     def test_effect_cues_expose_spatial_and_piano_hooks(self) -> None:
         cues = build_drum_effect_cues([_event(100, "kick")])
