@@ -150,10 +150,16 @@ def build_reactive_drummer_member(
     mapped_events = list(resolved["mapped_events"])
     motions = drummer_motion.build_drummer_motion(events)
     effect_cues = drum_effects.build_drum_effect_cues(events)
-    motion_by_strike = {(str(motion.get("drum_type")), int(motion.get("strike_ms", 0))): motion for motion in motions}
     reactive_cues: list[dict[str, Any]] = []
-    for index, mapped in enumerate(mapped_events):
-        event = events[index]
+    for index, event in enumerate(events):
+        if event.drum_type == "drum_bus":
+            # Preserve unresolved bus hits in reactive_source_events/debug data,
+            # but never emit a concrete xLights component placement for them.
+            continue
+        mapped = next(
+            item for item in mapped_events
+            if item["timestamp_ms"] == event.timestamp_ms and item["drum_type"] == event.drum_type
+        )
         effect = effect_cues[index] if index < len(effect_cues) else {}
         nearest_motion = min(
             motions,
@@ -201,7 +207,8 @@ def build_reactive_drummer_member(
                 "effect_cues": effect_cues,
                 "uses_typed_detection": resolved["fallback_mode"] == "typed_detection",
                 "uses_legacy_marks": resolved["fallback_mode"] == "legacy_marks",
-                "uses_drum_bus_distribution": resolved["fallback_mode"] == "drum_bus_distribution",
+                "uses_drum_bus_distribution": resolved["fallback_mode"] == "drum_bus_inference",
+                "unresolved_bus_event_count": sum(1 for event in events if event.drum_type == "drum_bus"),
             },
             "validation": {
                 **dict(payload["validation"]),

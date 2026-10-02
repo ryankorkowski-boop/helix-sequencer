@@ -15,6 +15,7 @@ class DrummerMotionConfig:
     humanize_min_ms: int = 10
     humanize_max_ms: int = 30
     seed: int = 414
+    velocity_jitter: float = 0.08
 
 
 def assign_hand(event: DrumEvent, previous_hand: str | None = None) -> str:
@@ -29,6 +30,15 @@ def assign_hand(event: DrumEvent, previous_hand: str | None = None) -> str:
     return "both"
 
 
+def _visual_offset(rng: random.Random, event: DrumEvent, config: DrummerMotionConfig) -> int:
+    if event.drum_type == "kick":
+        return 0
+    magnitude = rng.randint(config.humanize_min_ms, config.humanize_max_ms)
+    if event.drum_type in {"tom", "cymbal"}:
+        magnitude = int(round(magnitude * 0.6))
+    return (-1 if rng.random() < 0.5 else 1) * magnitude
+
+
 def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfig = DrummerMotionConfig()) -> list[dict[str, object]]:
     rng = random.Random(config.seed)
     motions: list[dict[str, object]] = []
@@ -37,22 +47,25 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
         hand = assign_hand(event, previous_hand)
         if hand in {"left", "right"}:
             previous_hand = hand
-        sign = -1 if rng.random() < 0.5 else 1
-        humanize = sign * rng.randint(config.humanize_min_ms, config.humanize_max_ms)
-        strike = max(0, event.timestamp_ms + humanize)
-        start = max(0, strike - config.anticipation_ms)
-        end = strike + config.strike_ms + config.rebound_ms
+
+        visual_offset = _visual_offset(rng, event, config)
+        musical_strike = max(0, event.timestamp_ms)
+        anticipation = max(0, min(musical_strike, musical_strike - config.anticipation_ms + visual_offset))
+        end = musical_strike + config.strike_ms + config.rebound_ms
+        visual_velocity = max(0.0, min(1.0, event.velocity * (1.0 + rng.uniform(-config.velocity_jitter, config.velocity_jitter))))
         motions.append(
             {
                 "drum_type": event.drum_type,
                 "hand": hand,
-                "start_ms": start,
-                "anticipation_ms": strike - config.anticipation_ms,
-                "strike_ms": strike,
+                "start_ms": anticipation,
+                "anticipation_ms": anticipation,
+                "musical_strike_ms": musical_strike,
+                "strike_ms": musical_strike,
                 "rebound_end_ms": end,
-                "velocity": round(max(0.0, min(1.0, event.velocity * (0.92 + rng.random() * 0.16))), 3),
-                "submodels": ["left_stick" if hand == "left" else "right_stick" if hand == "right" else "left_stick", "right_stick"] if hand == "both" else ([] if hand == "foot" else [f"{hand}_stick"]),
-                "humanized_offset_ms": humanize,
+                "velocity": round(visual_velocity, 3),
+                "submodels": (["left_stick", "right_stick"] if hand == "both" else [] if hand == "foot" else [f"{hand}_stick"]),
+                "visual_humanized_offset_ms": visual_offset,
+                "musical_event_locked": True,
             }
         )
     return motions
