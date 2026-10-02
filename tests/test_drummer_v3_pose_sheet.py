@@ -30,6 +30,7 @@ REQUIRED_SUBMODELS = {
     "HX_SNOWMAN_DRUMMER_V3_HIT_RIGHT_CRASH", "HX_SNOWMAN_DRUMMER_V3_HIT_BOTH_CRASH", "HX_SNOWMAN_DRUMMER_V3_DRUMKIT_ALL",
 }
 
+
 def _ranges(value: str) -> set[int]:
     nodes: set[int] = set()
     for chunk in value.split(","):
@@ -39,9 +40,11 @@ def _ranges(value: str) -> set[int]:
             nodes.add(int(chunk))
     return nodes
 
+
 def _submodels() -> dict[str, set[int]]:
     root = ET.parse(XMODEL).getroot()
     return {submodel.attrib["name"]: _ranges(submodel.attrib.get("line0", "")) for submodel in root.findall("./subModels/subModel")}
+
 
 def test_drummer_v3_source_and_pose_sheet_are_real_images() -> None:
     assert SOURCE.exists()
@@ -51,17 +54,20 @@ def test_drummer_v3_source_and_pose_sheet_are_real_images() -> None:
     with Image.open(POSE_SHEET) as sheet:
         assert sheet.format == "PNG" and sheet.width > 0 and sheet.height > 0 and sheet.getbbox() is not None
 
+
 def test_drummer_v3_pose_spec_declares_visual_first_contract() -> None:
     spec = json.loads(SPEC.read_text(encoding="utf-8"))
     assert spec["source_image"] == "fixtures/band_geometry/source/drummerbg.png"
     assert spec["source_image_b64"] == "fixtures/band_geometry/source/drummerbg.png.b64"
     assert spec["model_name"] == "HX_SNOWMAN_DRUMMER_V3"
-    assert len(spec["required_pose_frames"]) == 10
+    assert len(spec["required_pose_frames"]) == 12
     zone_ids = {zone["id"] for zone in spec["zones"]}
-    assert {"LEFT_STICK_SNARE", "RIGHT_STICK_SNARE", "LEFT_STICK_CRASH", "RIGHT_STICK_CRASH"} <= zone_ids
+    assert {"SNARE_CONTACT_STICK", "HIHAT_CONTACT_STICK", "TOM_1_CONTACT_STICK", "TOM_4_CONTACT_STICK", "CYMBAL_LEFT_CONTACT_STICK", "CYMBAL_RIGHT_CONTACT_STICK"} <= zone_ids
     composites = {item["id"]: set(item["members"]) for item in spec["composites"]}
-    assert {"SNARE", "SNARE_RIM", "LEFT_STICK_SNARE", "RIGHT_STICK_SNARE"} <= composites["HIT_SNARE"]
-    assert {"CYMBAL_LEFT", "CYMBAL_RIGHT", "LEFT_STICK_CRASH", "RIGHT_STICK_CRASH"} <= composites["HIT_BOTH_CRASH"]
+    assert {"SNARE", "SNARE_RIM", "SNARE_CONTACT_STICK"} <= composites["DRUMMER_SNARE"]
+    assert {"CYMBAL_LEFT", "CYMBAL_LEFT_CONTACT_STICK"} <= composites["DRUMMER_CYMBAL_LEFT"]
+    assert {"CYMBAL_RIGHT", "CYMBAL_RIGHT_CONTACT_STICK"} <= composites["DRUMMER_CYMBAL_RIGHT"]
+
 
 def test_drummer_v3_xmodel_has_named_zones_and_nontrivial_ranges() -> None:
     root = ET.parse(XMODEL).getroot()
@@ -73,16 +79,15 @@ def test_drummer_v3_xmodel_has_named_zones_and_nontrivial_ranges() -> None:
     for name, line0 in submodels.items():
         assert RANGE_RE.match(line0), f"{name} has invalid ranges: {line0}"
 
+
 def test_drummer_v3_hit_composites_include_contact_pose_nodes() -> None:
     submodels = _submodels()
     for pose, base in (("HIT_KICK", "KICK"), ("HIT_SNARE", "SNARE"), ("HIT_HIHAT", "HI_HAT"), ("HIT_LEFT_TOM", "TOM_LEFT"), ("HIT_RIGHT_TOM", "TOM_RIGHT")):
         assert submodels[f"HX_SNOWMAN_DRUMMER_V3_{pose}"] > submodels[f"HX_SNOWMAN_DRUMMER_V3_{base}"]
-    # The both-crash composite is allowed to be exactly the union of the
-    # two cymbal zones plus both stick-contact zones. The contract requires
-    # inclusion, not an artificial extra pixel/node.
     assert submodels["HX_SNOWMAN_DRUMMER_V3_HIT_BOTH_CRASH"] >= (submodels["HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT"] | submodels["HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT"])
     assert submodels["HX_SNOWMAN_DRUMMER_V3_SNARE"] != submodels["HX_SNOWMAN_DRUMMER_V3_KICK"]
     assert submodels["HX_SNOWMAN_DRUMMER_V3_TOM_LEFT"] != submodels["HX_SNOWMAN_DRUMMER_V3_TOM_RIGHT"]
+
 
 def test_detected_drum_events_map_to_drummer_v3_pose_names() -> None:
     events = [
@@ -94,5 +99,12 @@ def test_detected_drum_events_map_to_drummer_v3_pose_names() -> None:
     ]
     mapped = map_events_to_drummer_v3_poses(events)
     poses = [event["pose"] for event in mapped]
-    assert poses == ["kick_hit", "snare_hit", "hi_hat_pulse", "right_tom_hit", "both_crash"]
-    assert mapped[1]["submodels"] == ["HX_SNOWMAN_DRUMMER_V3_HIT_SNARE"]
+    assert poses == ["kick_hit", "snare_hit", "hi_hat_pulse", "tom_hit", "cymbal_hit"]
+    assert mapped[1]["submodels"] == ["HX_SNOWMAN_DRUMMER_SNARE"]
+    assert mapped[3]["component"] in {
+        "HX_SNOWMAN_DRUMMER_TOM_1", "HX_SNOWMAN_DRUMMER_TOM_2",
+        "HX_SNOWMAN_DRUMMER_TOM_3", "HX_SNOWMAN_DRUMMER_TOM_4",
+    }
+    assert mapped[4]["component"] in {
+        "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT", "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",
+    }
