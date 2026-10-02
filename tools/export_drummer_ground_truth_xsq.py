@@ -61,6 +61,7 @@ def _sort_timing_events(track: ET.Element) -> None:
 
 
 def build_drummer_ground_truth_xsq_text(duration: float = 20.0) -> str:
+    """Build a deterministic drummer ground-truth XSQ with all eight submodels."""
     duration = max(1.0, float(duration))
     root = ET.Element("xsequence", {"name": "HelixDrummerGroundTruth", "model": DRUMMER_MODEL, "duration": f"{duration:.6f}"})
     track = ET.SubElement(root, "timingtrack", {"name": "HelixDrummerGroundTruth"})
@@ -107,15 +108,18 @@ def build_drummer_ground_truth_xsq_text(duration: float = 20.0) -> str:
 
     _sort_timing_events(track)
     ET.SubElement(effects_root, "effect", {"type": "drummer_ground_truth", "duration": f"{duration:.6f}"})
+    ET.indent(root, space="  ")
     return ET.tostring(root, encoding="unicode")
 
 
 def export_drummer_ground_truth_xsq(output_path: str | Path, duration: float | None = None) -> Path:
+    """Export a deterministic drummer ground-truth XSQ with validation."""
     if duration is None:
         duration = float(os.environ.get("HELIX_DURATION", "20"))
     path = Path(output_path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(build_drummer_ground_truth_xsq_text(duration), encoding="utf-8")
+    xsq_text = build_drummer_ground_truth_xsq_text(duration)
+    path.write_text(xsq_text, encoding="utf-8")
     validate_xsq(path)
     return path
 
@@ -125,7 +129,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--duration", type=float, default=None)
     args = parser.parse_args(argv)
-    print(export_drummer_ground_truth_xsq(args.output, args.duration))
+    output_path = export_drummer_ground_truth_xsq(args.output, args.duration)
+    print(f"Exported drummer ground-truth XSQ to {output_path}")
     return 0
 
 
