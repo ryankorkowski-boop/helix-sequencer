@@ -5,67 +5,16 @@ from typing import Iterable
 
 from audio.drum_classification import DRUM_STREAM_KEYS, DrumEvent, empty_drum_streams, stream_key_for_type
 
-
-DRUM_SUBMODEL_BY_TYPE = {
-    "kick": "kick",
-    "snare": "snare",
-    "tom": "tom",
-    "hihat": "hi_hat",
-    "cymbal": "cymbal",
-    "drum_bus": "drum_bus",
-}
-
+DRUM_SUBMODEL_BY_TYPE = {"kick": "kick", "snare": "snare", "tom": "tom", "hihat": "hi_hat", "cymbal": "cymbal", "drum_bus": "drum_bus"}
 DRUM_PRIORITY = {"kick": 0, "snare": 1, "cymbal": 2, "tom": 3, "hihat": 4, "drum_bus": 5}
-DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER"
-
-# Canonical sequenced drummer components. Arms/sticks remain geometry inside these
-# components; they are never independent sequencing channels.
+DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
 DRUMMER_COMPONENTS = (
-    "HX_SNOWMAN_DRUMMER_KICK",
-    "HX_SNOWMAN_DRUMMER_SNARE",
-    "HX_SNOWMAN_DRUMMER_HI_HAT",
-    "HX_SNOWMAN_DRUMMER_TOM_1",
-    "HX_SNOWMAN_DRUMMER_TOM_2",
-    "HX_SNOWMAN_DRUMMER_TOM_3",
-    "HX_SNOWMAN_DRUMMER_TOM_4",
-    "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT",
-    "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",
+    "HX_SNOWMAN_DRUMMER_V3_KICK", "HX_SNOWMAN_DRUMMER_V3_SNARE", "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_1", "HX_SNOWMAN_DRUMMER_V3_TOM_2", "HX_SNOWMAN_DRUMMER_V3_TOM_3", "HX_SNOWMAN_DRUMMER_V3_TOM_4",
+    "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT", "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
 )
-
-DRUMMER_V3_POSE_BY_TYPE = {
-    "kick": "kick_hit",
-    "snare": "snare_hit",
-    "hihat": "hi_hat_pulse",
-    "tom": "tom_hit",
-    "cymbal": "cymbal_hit",
-    "drum_bus": "downbeat_impact",
-}
-
-# Poses resolve to sequenced components only. Contacting-stick geometry is part
-# of the target component and must not become a separate target.
-DRUMMER_V3_SUBMODELS_BY_POSE = {
-    "idle_ready": (),
-    "kick_hit": ("HX_SNOWMAN_DRUMMER_KICK",),
-    "snare_hit": ("HX_SNOWMAN_DRUMMER_SNARE",),
-    "hi_hat_pulse": ("HX_SNOWMAN_DRUMMER_HI_HAT",),
-    "tom_hit": ("HX_SNOWMAN_DRUMMER_TOM_1",),
-    "cymbal_hit": ("HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",),
-    "downbeat_impact": (
-        "HX_SNOWMAN_DRUMMER_KICK",
-        "HX_SNOWMAN_DRUMMER_SNARE",
-        "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT",
-    ),
-}
-
-DRUMMER_V3_DURATION_BY_POSE = {
-    "kick_hit": 150,
-    "snare_hit": 125,
-    "hi_hat_pulse": 80,
-    "tom_hit": 155,
-    "cymbal_hit": 320,
-    "downbeat_impact": 220,
-}
-
+DRUMMER_V3_POSE_BY_TYPE = {"kick": "kick_hit", "snare": "snare_hit", "hihat": "hi_hat_pulse", "tom": "tom_hit", "cymbal": "cymbal_hit", "drum_bus": "downbeat_impact"}
+DRUMMER_V3_DURATION_BY_POSE = {"kick_hit": 150, "snare_hit": 125, "hi_hat_pulse": 80, "tom_hit": 155, "cymbal_hit": 320, "downbeat_impact": 220}
 
 @dataclass(frozen=True)
 class DrumMappingConfig:
@@ -78,23 +27,21 @@ class DrumMappingConfig:
 
 def flatten_drum_streams(streams: dict[str, list[DrumEvent]]) -> list[DrumEvent]:
     events: list[DrumEvent] = []
-    for key in DRUM_STREAM_KEYS:
-        events.extend(streams.get(key, []))
+    for key in DRUM_STREAM_KEYS: events.extend(streams.get(key, []))
     return sorted(events, key=lambda event: (event.timestamp_ms, DRUM_PRIORITY.get(event.drum_type, 9), -event.velocity))
 
 
 def build_streams_from_legacy(kicks: Iterable[int], snares: Iterable[int], hats: Iterable[int], cymbals: Iterable[int] = ()) -> dict[str, list[DrumEvent]]:
     streams = empty_drum_streams()
-    for drum_type, marks, velocity in (("kick", kicks, 0.78), ("snare", snares, 0.68), ("hihat", hats, 0.42), ("cymbal", cymbals, 0.62)):
-        for idx, mark in enumerate(sorted(set(int(value) for value in marks))):
-            event = DrumEvent(timestamp=round(mark / 1000.0, 4), velocity=velocity, confidence=0.48, frequency_band_info={"legacy_ms": float(mark)}, cluster_id=idx, drum_type=drum_type, source="legacy_drum_marks")
-            streams[stream_key_for_type(drum_type)].append(event)
+    for drum_type, marks, velocity in (("kick", kicks, .78), ("snare", snares, .68), ("hihat", hats, .42), ("cymbal", cymbals, .62)):
+        for idx, mark in enumerate(sorted(set(int(v) for v in marks))):
+            streams[stream_key_for_type(drum_type)].append(DrumEvent(timestamp=round(mark / 1000.0, 4), velocity=velocity, confidence=.48, frequency_band_info={"legacy_ms": float(mark)}, cluster_id=idx, drum_type=drum_type, source="legacy_drum_marks"))
     return streams
 
 
 def distribute_drum_bus_events(events: Iterable[DrumEvent]) -> list[DrumEvent]:
     pattern = ("kick", "hihat", "snare", "hihat", "tom", "cymbal", "snare", "hihat")
-    return [DrumEvent(timestamp=e.timestamp, velocity=e.velocity, confidence=round(max(0.22, e.confidence * 0.72), 3), frequency_band_info={**e.frequency_band_info, "fallback_from_bus": 1.0}, cluster_id=e.cluster_id, drum_type=pattern[i % len(pattern)], source="drum_bus_probabilistic_fallback") for i, e in enumerate(sorted(events, key=lambda item: item.timestamp_ms))]
+    return [DrumEvent(timestamp=e.timestamp, velocity=e.velocity, confidence=round(max(.22, e.confidence * .72), 3), frequency_band_info={**e.frequency_band_info, "fallback_from_bus": 1.0}, cluster_id=e.cluster_id, drum_type=pattern[i % len(pattern)], source="drum_bus_probabilistic_fallback") for i, e in enumerate(sorted(events, key=lambda item: item.timestamp_ms))]
 
 
 def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig = DrumMappingConfig()) -> list[DrumEvent]:
@@ -102,116 +49,59 @@ def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig 
     merged: list[DrumEvent] = []
     for event in sorted_events:
         if merged and event.drum_type == merged[-1].drum_type and event.timestamp_ms - merged[-1].timestamp_ms <= config.merge_window_ms:
-            prev = merged[-1]
-            merged[-1] = event if (event.velocity, event.confidence) > (prev.velocity, prev.confidence) else prev
-            continue
+            prev = merged[-1]; merged[-1] = event if (event.velocity, event.confidence) > (prev.velocity, prev.confidence) else prev; continue
         merged.append(event)
-    scheduled: list[DrumEvent] = []
-    last_by_type: dict[str, DrumEvent] = {}
+    scheduled: list[DrumEvent] = []; last_by_type: dict[str, DrumEvent] = {}
     for event in merged:
         nearby = [item for item in scheduled if 0 <= event.timestamp_ms - item.timestamp_ms <= config.clutter_window_ms]
         if len(nearby) >= config.max_hits_per_window:
             worst = max(nearby, key=lambda item: (DRUM_PRIORITY.get(item.drum_type, 9), -item.velocity))
-            if (DRUM_PRIORITY.get(event.drum_type, 9), -event.velocity) >= (DRUM_PRIORITY.get(worst.drum_type, 9), -worst.velocity):
-                continue
+            if (DRUM_PRIORITY.get(event.drum_type, 9), -event.velocity) >= (DRUM_PRIORITY.get(worst.drum_type, 9), -worst.velocity): continue
             scheduled.remove(worst)
         previous = last_by_type.get(event.drum_type)
         if previous and event.timestamp_ms - previous.timestamp_ms <= config.rapid_repeat_window_ms:
-            event = DrumEvent(timestamp=event.timestamp, velocity=round(max(0.08, event.velocity * 0.74), 3), confidence=event.confidence, frequency_band_info={**event.frequency_band_info, "rapid_repeat_scale": 0.74}, cluster_id=event.cluster_id, drum_type=event.drum_type, source=event.source)
-        scheduled.append(event)
-        last_by_type[event.drum_type] = event
+            event = DrumEvent(timestamp=event.timestamp, velocity=round(max(.08, event.velocity * .74), 3), confidence=event.confidence, frequency_band_info={**event.frequency_band_info, "rapid_repeat_scale": .74}, cluster_id=event.cluster_id, drum_type=event.drum_type, source=event.source)
+        scheduled.append(event); last_by_type[event.drum_type] = event
     return sorted(scheduled, key=lambda event: (event.timestamp_ms, DRUM_PRIORITY.get(event.drum_type, 9)))
 
 
-def map_events_to_submodels(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
-    mapped = []
-    for event in events:
-        submodel = DRUM_SUBMODEL_BY_TYPE.get(event.drum_type, "drum_bus")
-        mapped.append({"timestamp_ms": event.timestamp_ms, "drum_type": event.drum_type, "submodel": submodel, "composite_submodels": ["drumkit_all", "drum_bus" if event.drum_type == "drum_bus" else submodel], "velocity": event.velocity, "confidence": event.confidence, "frequency_band_info": event.frequency_band_info, "cluster_id": event.cluster_id, "source": event.source})
-    return mapped
-
-
 def drummer_component_for_event(event: DrumEvent, *, event_index: int = 0) -> str:
-    """Return exactly one canonical nine-component target for a drum event.
-
-    Generic toms rotate deterministically across four tom components. Cymbals
-    alternate left/right. No arm or stick target is ever emitted.
-    """
-    if event.drum_type == "kick":
-        return DRUMMER_COMPONENTS[0]
-    if event.drum_type == "snare":
-        return DRUMMER_COMPONENTS[1]
-    if event.drum_type == "hihat":
-        return DRUMMER_COMPONENTS[2]
-    if event.drum_type == "tom":
-        return DRUMMER_COMPONENTS[3 + (event_index % 4)]
-    if event.drum_type == "cymbal":
-        return DRUMMER_COMPONENTS[7 + (event_index % 2)]
+    if event.drum_type == "kick": return DRUMMER_COMPONENTS[0]
+    if event.drum_type == "snare": return DRUMMER_COMPONENTS[1]
+    if event.drum_type == "hihat": return DRUMMER_COMPONENTS[2]
+    if event.drum_type == "tom": return DRUMMER_COMPONENTS[3 + (event_index % 4)]
+    if event.drum_type == "cymbal": return DRUMMER_COMPONENTS[7 + (event_index % 2)]
     return DRUMMER_COMPONENTS[0]
 
 
 def map_events_to_drummer_components(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
-    """Map detected events to the canonical nine-component drummer contract."""
-    mapped: list[dict[str, object]] = []
-    tom_index = 0
-    cymbal_index = 0
+    mapped: list[dict[str, object]] = []; tom_index = cymbal_index = 0
     for event in sorted(events, key=lambda item: (item.timestamp_ms, DRUM_PRIORITY.get(item.drum_type, 9), -item.velocity)):
-        if event.drum_type == "tom":
-            component = drummer_component_for_event(event, event_index=tom_index)
-            tom_index += 1
-        elif event.drum_type == "cymbal":
-            component = drummer_component_for_event(event, event_index=cymbal_index)
-            cymbal_index += 1
-        else:
-            component = drummer_component_for_event(event)
-        mapped.append({
-            "timestamp_ms": event.timestamp_ms,
-            "end_ms": event.timestamp_ms + DRUMMER_V3_DURATION_BY_POSE.get(DRUMMER_V3_POSE_BY_TYPE.get(event.drum_type, "kick_hit"), 140),
-            "model": DRUMMER_V3_MODEL,
-            "drum_type": event.drum_type,
-            "component": component,
-            "intensity": round(event.velocity, 3),
-            "confidence": event.confidence,
-            "source": event.source,
-        })
+        if event.drum_type == "tom": component = drummer_component_for_event(event, event_index=tom_index); tom_index += 1
+        elif event.drum_type == "cymbal": component = drummer_component_for_event(event, event_index=cymbal_index); cymbal_index += 1
+        else: component = drummer_component_for_event(event)
+        pose = DRUMMER_V3_POSE_BY_TYPE.get(event.drum_type, "downbeat_impact")
+        mapped.append({"timestamp_ms": event.timestamp_ms, "end_ms": event.timestamp_ms + DRUMMER_V3_DURATION_BY_POSE.get(pose, 140), "model": DRUMMER_V3_MODEL, "drum_type": event.drum_type, "component": component, "intensity": round(event.velocity, 3), "confidence": event.confidence, "source": event.source})
     return mapped
 
 
-def drummer_v3_pose_for_event(event: DrumEvent, event_index: int = 0) -> str:
-    return DRUMMER_V3_POSE_BY_TYPE.get(event.drum_type, "downbeat_impact")
+def drummer_v3_pose_for_event(event: DrumEvent, event_index: int = 0) -> str: return DRUMMER_V3_POSE_BY_TYPE.get(event.drum_type, "downbeat_impact")
 
 
 def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
-    mapped: list[dict[str, object]] = []
-    component_events = map_events_to_drummer_components(events)
-    for item in component_events:
-        pose = DRUMMER_V3_POSE_BY_TYPE.get(str(item["drum_type"]), "downbeat_impact")
-        mapped.append({
-            "timestamp_ms": item["timestamp_ms"],
-            "end_ms": item["end_ms"],
-            "model": DRUMMER_V3_MODEL,
-            "drum_type": item["drum_type"],
-            "pose": pose,
-            "submodels": [item["component"]],
-            "component": item["component"],
-            "intensity": item["intensity"],
-            "confidence": item["confidence"],
-            "source": item["source"],
-        })
-    return mapped
+    return [{**item, "pose": DRUMMER_V3_POSE_BY_TYPE.get(str(item["drum_type"]), "downbeat_impact"), "submodels": [item["component"]]} for item in map_events_to_drummer_components(events)]
+
+
+def map_events_to_submodels(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
+    return [{"timestamp_ms": e.timestamp_ms, "drum_type": e.drum_type, "submodel": DRUM_SUBMODEL_BY_TYPE.get(e.drum_type, "drum_bus"), "velocity": e.velocity, "confidence": e.confidence, "frequency_band_info": e.frequency_band_info, "cluster_id": e.cluster_id, "source": e.source} for e in events]
 
 
 def resolve_drum_streams(streams: dict[str, list[DrumEvent]] | None, *, fallback_kicks: Iterable[int] = (), fallback_snares: Iterable[int] = (), fallback_hats: Iterable[int] = (), fallback_cymbals: Iterable[int] = (), config: DrumMappingConfig = DrumMappingConfig()) -> dict[str, object]:
-    streams = streams or empty_drum_streams()
-    typed_count = sum(len(streams.get(key, [])) for key in DRUM_STREAM_KEYS if key != "drum_bus_events")
-    bus_events = list(streams.get("drum_bus_events", []))
-    if typed_count == 0 and bus_events:
-        events = distribute_drum_bus_events(bus_events); fallback_mode = "drum_bus_distribution"
-    elif typed_count == 0:
-        events = flatten_drum_streams(build_streams_from_legacy(fallback_kicks, fallback_snares, fallback_hats, fallback_cymbals)); fallback_mode = "legacy_marks"
+    streams = streams or empty_drum_streams(); typed_count = sum(len(streams.get(key, [])) for key in DRUM_STREAM_KEYS if key != "drum_bus_events"); bus_events = list(streams.get("drum_bus_events", []))
+    if typed_count == 0 and bus_events: events = distribute_drum_bus_events(bus_events); fallback_mode = "drum_bus_distribution"
+    elif typed_count == 0: events = flatten_drum_streams(build_streams_from_legacy(fallback_kicks, fallback_snares, fallback_hats, fallback_cymbals)); fallback_mode = "legacy_marks"
     else:
         events = flatten_drum_streams(streams); fallback_mode = "typed_detection"
-        if bus_events and typed_count < max(2, len(bus_events) // 2):
-            events.extend(distribute_drum_bus_events(bus_events)); fallback_mode = "partial_detection_plus_bus"
+        if bus_events and typed_count < max(2, len(bus_events) // 2): events.extend(distribute_drum_bus_events(bus_events)); fallback_mode = "partial_detection_plus_bus"
     scheduled = schedule_drum_events(events, config)
     return {"fallback_mode": fallback_mode, "events": scheduled, "mapped_events": map_events_to_submodels(scheduled), "drummer_v3_pose_events": map_events_to_drummer_v3_poses(scheduled), "drummer_component_events": map_events_to_drummer_components(scheduled), "counts": {key: len([event for event in scheduled if stream_key_for_type(event.drum_type) == key]) for key in DRUM_STREAM_KEYS}}
