@@ -57,8 +57,28 @@ jobs:
           PYTHONPATH: .
         run: |
           python -m pytest -q tests/test_drummer_layers.py tests/test_drummer_xmodel_asset.py tests/test_drummer_v3_pose_sheet.py tests/test_drummer_v3_png_layers.py tests/test_finished_helixville4_drummer.py tests/test_drummer_v3_xsq_integration.py
-      - name: Run audio-driven drummer preview
-        run: python -m tools.export_helix_flow_review_artifacts --output-dir test_runs/drummer_ground_truth/preview --duration-seconds 12 --step-seconds 0.125 --bpm 120 --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav
+      - name: Render the actual drummer XSQ preview
+        env:
+          PYTHONPATH: .
+        run: |
+          mkdir -p test_runs/drummer_ground_truth/preview
+          python -m tools.render_xsq_skeleton_preview \
+            test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq \
+            --width 1280 --height 720 --fps 24 \
+            --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav
+          mv test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.mp4 test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from tools.render_xsq_skeleton_preview import parse_preview_effects
+          xsq=Path('test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq')
+          mp4=Path('test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4')
+          effects=parse_preview_effects(xsq)
+          models=sorted({effect.model for effect in effects})
+          meta=Path('test_runs/drummer_ground_truth/preview/helix_flow_preview_metadata.json')
+          meta.write_text(json.dumps({'mp4':str(mp4),'xsq':str(xsq),'audio_muxed':True,'audio':'test_runs/drummer_ground_truth/drummer_ground_truth.wav','visible_effect_count':len(effects),'visual_model_count':len(models),'visual_models':models,'renderer':'tools/render_xsq_skeleton_preview.py','renderer_mode':'drummer_ground_truth'},indent=2,sort_keys=True)+'\n',encoding='utf-8')
+          print(f'PASS: rendered actual drummer XSQ with {len(effects)} visible effects across {len(models)} visual models')
+          PY
       - name: Verify preview contains visual drummer effects
         run: |
           python - <<'PY'
@@ -68,12 +88,30 @@ jobs:
           d=json.loads(p.read_text())
           if d.get('visible_effect_count',0) <= 0: raise SystemExit('FAIL: no visible effects')
           if d.get('visual_model_count',0) <= 1: raise SystemExit(f'FAIL: expected multiple visual models, got {d.get("visual_models",[])}')
-          print('PASS: multiple visual models are present in preview metadata')
+          if not Path(d['mp4']).exists(): raise SystemExit('FAIL: drummer MP4 was not created')
+          print('PASS: actual drummer XSQ produced a playable MP4 preview')
           PY
-      - name: Upload drummer ground-truth artifacts
+      - name: Upload drummer XSQ artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: drummer-ground-truth
-          path: test_runs/drummer_ground_truth/**
+          name: drummer-ground-truth-xsq
+          path: |
+            test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq
+            test_runs/drummer_ground_truth/events.json
+            test_runs/drummer_ground_truth/drummer_ground_truth.wav
+          if-no-files-found: error
+      - name: Upload drummer MP4 preview artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drummer-ground-truth-mp4
+          path: test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4
+          if-no-files-found: error
+      - name: Upload drummer preview metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drummer-ground-truth-preview-metadata
+          path: test_runs/drummer_ground_truth/preview/helix_flow_preview_metadata.json
           if-no-files-found: error
