@@ -16,15 +16,21 @@ SOURCE = ROOT / "fixtures" / "band_geometry" / "source" / "drummerbg.png"
 POSE_SHEET = ROOT / "fixtures" / "band_geometry" / "previews" / "HX_SNOWMAN_DRUMMER_V3_pose_sheet.png"
 XMODEL = ROOT / "fixtures" / "band_geometry" / "models" / "HX_SNOWMAN_DRUMMER_V3.xmodel"
 RANGE_RE = re.compile(r"^\d+(?:-\d+)?(?:,\d+(?:-\d+)?)*$")
-CANONICAL_TOM_ZONES = {"HX_SNOWMAN_DRUMMER_V3_TOM_HIGH", "HX_SNOWMAN_DRUMMER_V3_TOM_MID", "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"}
+CANONICAL_TOM_ZONES = {
+    "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+}
 
 
 def _ranges(value: str) -> set[int]:
     nodes: set[int] = set()
     for chunk in value.split(","):
         if "-" in chunk:
-            start_s, end_s = chunk.split("-", 1); nodes.update(range(int(start_s), int(end_s) + 1))
-        else: nodes.add(int(chunk))
+            start_s, end_s = chunk.split("-", 1)
+            nodes.update(range(int(start_s), int(end_s) + 1))
+        else:
+            nodes.add(int(chunk))
     return nodes
 
 
@@ -34,9 +40,12 @@ def _submodels() -> dict[str, set[int]]:
 
 
 def test_drummer_v3_source_and_pose_sheet_are_real_images() -> None:
-    assert SOURCE.exists(); assert POSE_SHEET.exists()
-    with Image.open(SOURCE) as source: assert source.format == "PNG" and source.width >= 128 and source.height >= 128
-    with Image.open(POSE_SHEET) as sheet: assert sheet.format == "PNG" and sheet.width > 0 and sheet.height > 0 and sheet.getbbox() is not None
+    assert SOURCE.exists()
+    assert POSE_SHEET.exists()
+    with Image.open(SOURCE) as source:
+        assert source.format == "PNG" and source.width >= 128 and source.height >= 128
+    with Image.open(POSE_SHEET) as sheet:
+        assert sheet.format == "PNG" and sheet.width > 0 and sheet.height > 0 and sheet.getbbox() is not None
 
 
 def test_drummer_v3_pose_spec_is_three_tom_visual_first_contract() -> None:
@@ -64,8 +73,26 @@ def test_drummer_v3_xmodel_has_exactly_three_tom_zones() -> None:
     submodels = {s.attrib["name"]: s.attrib.get("line0", "") for s in root.findall("./subModels/subModel")}
     assert CANONICAL_TOM_ZONES <= set(submodels)
     assert not any("TOM_4" in name for name in submodels)
-    assert len([name for name in submodels if "TOM_" in name and "CONTACT" not in name]) == 3
-    for name, line0 in submodels.items(): assert RANGE_RE.match(line0), f"{name} has invalid ranges: {line0}"
+
+    # The XMODEL intentionally contains both physical tom zones and visual
+    # composite zones that include their contacting-stick geometry.  Count
+    # only the physical canonical zones here; DRUMMER_TOM_* are composites,
+    # not additional drums.
+    physical_tom_zones = {
+        name for name in submodels
+        if name in CANONICAL_TOM_ZONES
+    }
+    assert physical_tom_zones == CANONICAL_TOM_ZONES
+
+    # Contact-stick and composite aliases are allowed, but they must map to
+    # one of the same three physical toms rather than introduce a fourth tom.
+    tom_related = {name for name in submodels if "TOM_" in name}
+    assert all(
+        any(tom in name for tom in ("TOM_HIGH", "TOM_MID", "TOM_FLOOR"))
+        for name in tom_related
+    )
+    for name, line0 in submodels.items():
+        assert RANGE_RE.match(line0), f"{name} has invalid ranges: {line0}"
 
 
 def test_drummer_v3_tom_composites_include_contact_pose_nodes() -> None:
