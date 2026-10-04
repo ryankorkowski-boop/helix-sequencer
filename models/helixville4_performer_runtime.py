@@ -31,8 +31,13 @@ class PerformerRuntimeSpec:
 def _sm(prefix: str, *names: str) -> tuple[str, ...]: return tuple(f"{prefix}_{name}" for name in names)
 def _state(prefix: str, name: str, desc: str, parts: tuple[str, ...], intensity: float = 1.0) -> PerformerState: return PerformerState(name=name, description=desc, primary_submodels=_sm(prefix, *parts), intensity=intensity)
 
-DRUMMER_PARTS = ("HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "PLATFORM", "KICK", "SNARE", "TOM_HIGH", "TOM_MID", "TOM_FLOOR", "HI_HAT", "CYMBAL_LEFT", "CYMBAL_RIGHT")
-DRUMMER_COMPONENTS = _sm("HX_SNOWMAN_DRUMMER", "KICK", "SNARE", "HI_HAT", "TOM_HIGH", "TOM_MID", "TOM_FLOOR", "CYMBAL_LEFT", "CYMBAL_RIGHT")
+# Drummer V3 is asset-first and must use the approved V3 visual/model contract.
+DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
+DRUMMER_V3_TOMS = ("TOM_HIGH", "TOM_MID", "TOM_FLOOR")
+DRUMMER_V3_COMPONENTS = ("KICK", "SNARE", "HI_HAT", "TOM_HIGH", "TOM_MID", "TOM_FLOOR", "CYMBAL_LEFT", "CYMBAL_RIGHT")
+
+DRUMMER_PARTS = ("HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "PLATFORM", *DRUMMER_V3_COMPONENTS)
+DRUMMER_COMPONENTS = _sm(DRUMMER_V3_MODEL, *DRUMMER_V3_COMPONENTS)
 
 BASSIST_PARTS = ("HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "PLATFORM", "HAT_HOLLY", "BASS_BODY", "BASS_NECK", "BASS_SCROLL", "STRING_E", "STRING_A", "STRING_D", "STRING_G", "FINGERBOARD", "NECK_LOW", "NECK_MID", "NECK_HIGH", "PLUCK_ZONE", "BRIDGE", "BODY_RESONANCE")
 GUITARIST_PARTS = ("HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "PLATFORM", "HAT_HOLLY", "GUITAR_BODY", "GUITAR_NECK", "GUITAR_HEAD", "STRING_LOW_E", "STRING_A", "STRING_D", "STRING_G", "STRING_B", "STRING_HIGH_E", "PICK_ZONE", "PICKUPS", "BRIDGE", "FRETBOARD_LOW", "FRETBOARD_MID", "FRETBOARD_HIGH", "BODY_RESONANCE")
@@ -41,20 +46,20 @@ SINGER_PARTS = ("HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", 
 FEMALE_SINGER_PARTS = ("HEAD", "FACE", "HAT", "HAT_BAND", "SCARF", "TORSO", "BUTTONS", "LEFT_ARM", "RIGHT_ARM", "PLATFORM", "BOW", "EYES", "EYELASHES", "CARROT_NOSE", "MOUTH", *PHONEME_MOUTH_PARTS, "SCARF_TAIL_LEFT", "SCARF_TAIL_RIGHT", "LEFT_HAND", "RIGHT_HAND", "MICROPHONE", "MIC_STAND", "TORSO_UPPER", "TORSO_LOWER", "VOCAL_GLOW", "STAGE_GLOW")
 
 DRUMMER = PerformerRuntimeSpec(
-    performer_id="drummer", display_name="Mad Drummer Snowman", role="drums_transient_driver", model_name="HX_SNOWMAN_DRUMMER",
-    approved_state="approved_design_drummer_v3_three_tom_eight_component", visual_target="docs/DRUMMER_COMPONENT_CONTRACT.md",
+    performer_id="drummer", display_name="Mad Drummer Snowman", role="drums_transient_driver", model_name=DRUMMER_V3_MODEL,
+    approved_state="approved_design_drummer_v3_three_tom_eight_component", visual_target="fixtures/band_geometry/drummer_v3_pose_spec.json",
     submodels=DRUMMER_COMPONENTS,
     states=(
-        _state("HX_SNOWMAN_DRUMMER", "ready_idle", "Standing ready behind the kit.", ("KICK",), 0.25),
-        _state("HX_SNOWMAN_DRUMMER", "kick_hit", "Kick drum impact; no stick channel.", ("KICK",), 0.85),
-        _state("HX_SNOWMAN_DRUMMER", "snare_hit", "Snare plus contacting stick contained in the snare component.", ("SNARE",), 0.9),
-        _state("HX_SNOWMAN_DRUMMER", "hi_hat_pulse", "Hi-hat plus contacting stick contained in the hi-hat component.", ("HI_HAT",), 0.65),
-        _state("HX_SNOWMAN_DRUMMER", "high_tom_hit", "High tom plus its contacting stick.", ("TOM_HIGH",), 0.8),
-        _state("HX_SNOWMAN_DRUMMER", "mid_tom_hit", "Mid tom plus its contacting stick.", ("TOM_MID",), 0.8),
-        _state("HX_SNOWMAN_DRUMMER", "floor_tom_hit", "Floor tom plus its contacting stick.", ("TOM_FLOOR",), 0.8),
-        _state("HX_SNOWMAN_DRUMMER", "left_cymbal_hit", "Left cymbal plus contacting stick contained in the left cymbal component.", ("CYMBAL_LEFT",), 1.0),
-        _state("HX_SNOWMAN_DRUMMER", "right_cymbal_hit", "Right cymbal plus contacting stick contained in the right cymbal component.", ("CYMBAL_RIGHT",), 1.0),
-        _state("HX_SNOWMAN_DRUMMER", "downbeat_impact", "Simultaneous kit impact across canonical components; no synthetic stick channels.", ("KICK", "SNARE", "CYMBAL_LEFT", "CYMBAL_RIGHT"), 1.0),
+        _state(DRUMMER_V3_MODEL, "ready_idle", "Standing ready behind the kit.", ("KICK",), 0.25),
+        _state(DRUMMER_V3_MODEL, "kick_hit", "Kick drum impact; no stick channel.", ("KICK",), 0.85),
+        _state(DRUMMER_V3_MODEL, "snare_hit", "Snare plus contacting stick contained in the snare component.", ("SNARE",), 0.9),
+        _state(DRUMMER_V3_MODEL, "hi_hat_pulse", "Hi-hat plus contacting stick contained in the hi-hat component.", ("HI_HAT",), 0.65),
+        _state(DRUMMER_V3_MODEL, "high_tom_hit", "High tom plus its contacting stick.", ("TOM_HIGH",), 0.8),
+        _state(DRUMMER_V3_MODEL, "mid_tom_hit", "Mid tom plus its contacting stick.", ("TOM_MID",), 0.8),
+        _state(DRUMMER_V3_MODEL, "floor_tom_hit", "Floor tom plus its contacting stick.", ("TOM_FLOOR",), 0.8),
+        _state(DRUMMER_V3_MODEL, "left_cymbal_hit", "Left cymbal plus contacting stick contained in the left cymbal component.", ("CYMBAL_LEFT",), 1.0),
+        _state(DRUMMER_V3_MODEL, "right_cymbal_hit", "Right cymbal plus contacting stick contained in the right cymbal component.", ("CYMBAL_RIGHT",), 1.0),
+        _state(DRUMMER_V3_MODEL, "downbeat_impact", "Simultaneous kit impact across canonical components; no synthetic stick channels.", ("KICK", "SNARE", "CYMBAL_LEFT", "CYMBAL_RIGHT"), 1.0),
     ),
     audio_inputs=("kick", "snare", "cymbal_energy", "transients", "fill_density", "downbeat"),
     sequencing_groups=("HX_SNOWMAN_BAND", "HX_SNOWMAN_INSTRUMENTS", "HX_SNOWMAN_DRUMS"),
@@ -78,6 +83,9 @@ def validate_performer_runtime_catalog() -> dict[str, Any]:
         for state in performer.states:
             missing=sorted(set(state.primary_submodels)-known)
             if missing: errors.append(f"{performer.model_name}.{state.name} references missing submodels: {missing}")
+    if DRUMMER.model_name != DRUMMER_V3_MODEL: errors.append("Drummer runtime is not bound to HX_SNOWMAN_DRUMMER_V3")
+    if DRUMMER_V3_TOMS != ("TOM_HIGH", "TOM_MID", "TOM_FLOOR"): errors.append("Drummer V3 tom contract changed")
+    if len(DRUMMER_V3_COMPONENTS) != 8: errors.append("Drummer V3 must expose exactly eight canonical components")
     phoneme_validation=validate_vocal_phoneme_catalog(singer_submodels=SINGER.submodels,female_singer_submodels=FEMALE_SINGER.submodels)
     errors.extend(phoneme_validation["errors"])
     return {"schema":"helixville4.performer_runtime_validation.v3","valid":not errors,"error_count":len(errors),"errors":errors,"performer_count":len(HELIXVILLE4_PERFORMERS),"phoneme_count":phoneme_validation["phoneme_count"]}
