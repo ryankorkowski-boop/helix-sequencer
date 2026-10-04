@@ -67,7 +67,6 @@ def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig 
 
 
 def tom_class_for_event(event: DrumEvent, event_index: int = 0) -> str:
-    """Resolve an explicitly classified tom to the canonical three-tom ground truth."""
     info = event.frequency_band_info or {}
     raw = str(info.get("tom_class", info.get("tom_position", ""))).strip().lower()
     aliases = {"high_tom": "high", "hi": "high", "upper": "high", "mid_tom": "mid", "middle": "mid", "medium": "mid", "floor_tom": "floor", "low": "floor"}
@@ -98,21 +97,28 @@ def map_events_to_drummer_components(events: Iterable[DrumEvent]) -> list[dict[s
 
 def drummer_v3_pose_for_event(event: DrumEvent, event_index: int = 0) -> str: return DRUMMER_V3_POSE_BY_TYPE.get(event.drum_type, "downbeat_impact")
 
-
 def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
     return [{**item, "pose": DRUMMER_V3_POSE_BY_TYPE.get(str(item["drum_type"]), "downbeat_impact"), "submodels": [item["component"]]} for item in map_events_to_drummer_components(events)]
-
 
 def map_events_to_submodels(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
     return [{"timestamp_ms": e.timestamp_ms, "drum_type": e.drum_type, "submodel": DRUM_SUBMODEL_BY_TYPE.get(e.drum_type, "drum_bus"), "velocity": e.velocity, "confidence": e.confidence, "frequency_band_info": e.frequency_band_info, "cluster_id": e.cluster_id, "source": e.source} for e in events]
 
 
 def resolve_drum_streams(streams: dict[str, list[DrumEvent]] | None, *, fallback_kicks: Iterable[int] = (), fallback_snares: Iterable[int] = (), fallback_hats: Iterable[int] = (), fallback_cymbals: Iterable[int] = (), config: DrumMappingConfig = DrumMappingConfig()) -> dict[str, object]:
-    streams = streams or empty_drum_streams(); typed_count = sum(len(streams.get(key, [])) for key in DRUM_STREAM_KEYS if key != "drum_bus_events"); bus_events = list(streams.get("drum_bus_events", []))
-    if typed_count == 0 and bus_events: events = distribute_drum_bus_events(bus_events); fallback_mode = "drum_bus_distribution"
-    elif typed_count == 0: events = flatten_drum_streams(build_streams_from_legacy(fallback_kicks, fallback_snares, fallback_hats, fallback_cymbals)); fallback_mode = "legacy_marks"
+    streams = streams or empty_drum_streams()
+    typed_count = sum(len(streams.get(key, [])) for key in DRUM_STREAM_KEYS if key != "drum_bus_events")
+    bus_events = list(streams.get("drum_bus_events", []))
+    if typed_count == 0 and bus_events:
+        events = distribute_drum_bus_events(bus_events)
+        fallback_mode = "drum_bus_distribution"
+    elif typed_count == 0:
+        events = flatten_drum_streams(build_streams_from_legacy(fallback_kicks, fallback_snares, fallback_hats, fallback_cymbals))
+        fallback_mode = "legacy_marks"
     else:
-        events = flatten_drum_streams(streams); fallback_mode = "typed_detection"
-        if bus_events and typed_count < max(2, len(bus_events) // 2): events.extend(distribute_drum_bus_events(bus_events)); fallback_mode = "partial_detection_plus_bus"
+        # Once any real typed detections exist, never inject the entire bus stream.
+        # The previous partial-detection path could turn hundreds of ambiguous
+        # events into fake hits and overwhelm the actual V3 performance.
+        events = flatten_drum_streams({key: streams.get(key, []) for key in DRUM_STREAM_KEYS if key != "drum_bus_events"})
+        fallback_mode = "typed_detection" if not bus_events else "typed_detection_bus_suppressed"
     scheduled = schedule_drum_events(events, config)
     return {"fallback_mode": fallback_mode, "events": scheduled, "mapped_events": map_events_to_submodels(scheduled), "drummer_v3_pose_events": map_events_to_drummer_v3_poses(scheduled), "drummer_component_events": map_events_to_drummer_components(scheduled), "counts": {key: len([event for event in scheduled if stream_key_for_type(event.drum_type) == key]) for key in DRUM_STREAM_KEYS}}
