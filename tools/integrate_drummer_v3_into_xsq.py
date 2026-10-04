@@ -53,7 +53,8 @@ def inject_drummer_v3(base_xsq, output_xsq, audio_path, *, layer_name="AUTO_Drum
     if not base_xsq.exists() or not audio_path.exists():
         raise FileNotFoundError("Missing XSQ or audio input")
 
-    resolved = resolve_drum_streams(detect_drum_event_streams_from_file(audio_path))
+    streams = detect_drum_event_streams_from_file(audio_path)
+    resolved = resolve_drum_streams(streams)
     component_events = map_events_to_drummer_components(resolved["events"])
 
     if output_xsq.resolve() != base_xsq.resolve():
@@ -82,13 +83,21 @@ def inject_drummer_v3(base_xsq, output_xsq, audio_path, *, layer_name="AUTO_Drum
 
     ET.indent(tree, space="  ")
     tree.write(output_xsq, encoding="utf-8", xml_declaration=True)
+    drum_type_counts = {key.removesuffix("_events"): len(streams.get(key, [])) for key in streams}
+    component_counts = {component: sum(1 for event in component_events if event["component"] == component) for component in sorted(DRUMMER_TARGETS)}
+    typed_count = sum(v for k, v in drum_type_counts.items() if k != "drum_bus")
+    bus_count = drum_type_counts.get("drum_bus", 0)
     return {
-        "schema": "helix.drummer_v3_xsq_integration.v3",
+        "schema": "helix.drummer_v3_xsq_integration.v4",
         "model": DRUMMER_V3_MODEL, "base_xsq": str(base_xsq),
         "output_xsq": str(output_xsq), "audio": str(audio_path),
         "layer": layer_name, "fallback_mode": resolved["fallback_mode"],
         "event_count": len(component_events), "placement_count": placements,
-        "component_counts": {component: sum(1 for event in component_events if event["component"] == component) for component in sorted(DRUMMER_TARGETS)},
+        "drum_type_counts": drum_type_counts,
+        "typed_event_count": typed_count,
+        "drum_bus_event_count": bus_count,
+        "drum_bus_ratio": round(bus_count / max(1, typed_count + bus_count), 4),
+        "component_counts": component_counts,
         "targets": sorted(DRUMMER_TARGETS),
         "target_count": len(DRUMMER_TARGETS),
     }
