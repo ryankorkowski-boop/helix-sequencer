@@ -1,0 +1,47 @@
+name: Drum ground-truth benchmark
+
+on:
+  push:
+    branches:
+      - test/high-impact-drum-groundtruth
+  pull_request:
+    branches:
+      - feature/restructure-core
+      - test/high-impact-drum-groundtruth
+  workflow_dispatch:
+
+jobs:
+  synthetic-benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install audio dependencies
+        run: python -m pip install --upgrade pip librosa numpy
+      - name: Generate deterministic fixtures
+        run: python helix-drum-test-data/scripts/make_synthetic_drums.py --output helix-drum-test-data
+      - name: Run Helix detector benchmark
+        run: |
+          python helix-drum-test-data/scripts/run_helix_drum_test.py \
+            --root helix-drum-test-data \
+            --ground-truth helix-drum-test-data/ground_truth \
+            --tolerance-ms 60 \
+            --output /tmp/drum-benchmark.json
+      - name: Validate benchmark output
+        run: |
+          python - <<'PY'
+          import json
+          p='/tmp/drum-benchmark.json'
+          data=json.load(open(p, encoding='utf-8'))
+          assert len(data['tracks']) >= 3
+          assert all(row['status'] == 'ok' for row in data['tracks'])
+          assert set(data['classes']) == {'kick','snare','hihat','tom','cymbal'}
+          print(json.dumps(data, indent=2))
+          PY
+      - name: Upload metrics
+        uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-drum-benchmark
+          path: /tmp/drum-benchmark.json
