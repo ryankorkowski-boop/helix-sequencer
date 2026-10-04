@@ -45,7 +45,7 @@ jobs:
       - name: Emit Sequence Plan shadow sidecar
         env: {PYTHONPATH: .}
         run: |
-          python tools/emit_sequence_plan.py             --audio 'Helix Audiolights.mp3'             --layout test_runs/full_current/xlights_rgbeffects_full_band.xml             --output test_runs/full_current/sequence_plan.json             --fps 40
+          python tools/emit_sequence_plan.py --audio 'Helix Audiolights.mp3' --layout test_runs/full_current/xlights_rgbeffects_full_band.xml --output test_runs/full_current/sequence_plan.json --fps 40
           python - <<'PY'
           import json
           from pathlib import Path
@@ -53,14 +53,7 @@ jobs:
           assert plan['version'] == '0.2'
           assert plan['metadata']['renderer_changed'] is False
           assert plan['source_audio'] == 'Helix Audiolights.mp3'
-          print(json.dumps({
-              'plan_version': plan['version'],
-              'sections': len(plan['sections']),
-              'prop_groups': len(plan['prop_groups']),
-              'cues': len(plan['cues']),
-              'style': plan['style'],
-              'renderer_changed': plan['metadata']['renderer_changed'],
-          }, indent=2))
+          print(json.dumps({'plan_version': plan['version'],'sections': len(plan['sections']),'prop_groups': len(plan['prop_groups']),'cues': len(plan['cues']),'style': plan['style'],'renderer_changed': plan['metadata']['renderer_changed']}, indent=2))
           PY
       - name: Detect and inject Drummer V3
         env: {PYTHONPATH: .}
@@ -69,6 +62,25 @@ jobs:
           xsq=$(find test_runs/full_current/base256 -type f -name '*.xsq' | head -n 1)
           test -n "$xsq"
           python tools/integrate_drummer_v3_into_xsq.py "$xsq" 'Helix Audiolights.mp3' --output test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq --report test_runs/full_current/drummer_run_report.json
+      - name: Drummer V3 audio intelligence quality gate
+        env: {PYTHONPATH: .}
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('test_runs/full_current/drummer_run_report.json').read_text())
+          counts=report['drum_type_counts']
+          components=report['component_counts']
+          print(json.dumps(report, indent=2))
+          assert report['fallback_mode'] != 'drum_bus_distribution', 'Drummer V3 fell back entirely to drum_bus distribution'
+          assert report['typed_event_count'] > 0, 'No typed drum events detected'
+          assert report['drum_bus_ratio'] <= 0.10, f"Too many ambiguous drum_bus events: {report['drum_bus_ratio']:.1%}"
+          for required in ('kick','snare','hihat','tom','cymbal'):
+              assert counts.get(required, 0) > 0, f'Missing typed {required} events'
+          for required_component in ('HX_SNOWMAN_DRUMMER_TOM_HIGH','HX_SNOWMAN_DRUMMER_TOM_MID','HX_SNOWMAN_DRUMMER_TOM_FLOOR','HX_SNOWMAN_DRUMMER_CYMBAL_LEFT','HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT'):
+              assert components.get(required_component, 0) > 0, f'Missing canonical component activity: {required_component}'
+          PY
+          python -m pytest -q tests/test_drum_detection.py tests/test_drum_mapping.py tests/test_drummer_v3_xsq_integration.py tests/test_drummer_v3_pose_sheet.py
       - name: Validate XSQ
         env: {PYTHONPATH: .}
         run: python tools/validate_xsq_structure.py test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq
@@ -104,7 +116,7 @@ jobs:
       - name: Render actual Drummer V3 with soundtrack
         env: {PYTHONPATH: .}
         run: |
-          python tools/render_drummer_v3_preview.py             test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq             --audio 'Helix Audiolights.mp3'             --output test_runs/full_current/Helix_Drummer_V3_WITH_MUSIC.mp4             --fps 30
+          python tools/render_drummer_v3_preview.py test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.xsq --audio 'Helix Audiolights.mp3' --output test_runs/full_current/Helix_Drummer_V3_WITH_MUSIC.mp4 --fps 30
       - name: Validate rendered MP4 durations
         env: {PYTHONPATH: .}
         run: |
@@ -114,10 +126,7 @@ jobs:
           import imageio_ffmpeg
           ff = imageio_ffmpeg.get_ffmpeg_exe()
           audio = Path('Helix Audiolights.mp3')
-          outputs = [
-              Path('test_runs/full_current/Helix_Drummer_V3_WITH_MUSIC.mp4'),
-              Path('test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.mp4'),
-          ]
+          outputs = [Path('test_runs/full_current/Helix_Drummer_V3_WITH_MUSIC.mp4'),Path('test_runs/full_current/LightsOutTheme_FULL_256_PLUS_DRUMMER_CURRENT.mp4')]
           def duration_ms(path):
               p=subprocess.run([ff,'-i',str(path)],capture_output=True,text=True)
               line=next(x for x in p.stderr.splitlines() if 'Duration:' in x)
