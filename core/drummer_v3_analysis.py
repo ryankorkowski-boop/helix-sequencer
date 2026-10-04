@@ -1,7 +1,7 @@
-"""Multi-detector Drummer V3 analysis inspired by xLights AutoSequencer architecture.
+"""Multi-detector Drummer V3 analysis for the Helix performer.
 
 This module is intentionally dependency-light. It accepts precomputed audio features so
-Helix can use a Demucs drum stem when available without making stem separation mandatory.
+Helix can use an isolated drum stem when available without making stem separation mandatory.
 It does not create visual channels; it emits typed musical candidates for the V3 performer.
 """
 from __future__ import annotations
@@ -62,7 +62,7 @@ def _positive_flux(band_energy: np.ndarray) -> np.ndarray:
 
 
 def _peaks(x: np.ndarray, threshold: np.ndarray, min_gap: int = 2) -> np.ndarray:
-    """Simple deterministic local maxima with adaptive threshold and re-arm gap."""
+    """Deterministic local maxima with adaptive threshold and re-arm gap."""
     x = np.asarray(x, dtype=float)
     threshold = np.asarray(threshold, dtype=float)
     if x.size < 3:
@@ -115,13 +115,11 @@ def analyze_drummer_features(
         times_arr = np.asarray(times, dtype=float)[:n]
 
     candidates: list[Candidate] = []
-    # Independent full-mix detector families.
     candidates += _emit_family(low, DrumType.KICK, "mix.low_flux", 0.06, 5)
     candidates += _emit_family(mid, DrumType.SNARE, "mix.mid_flux", 0.05, 4)
     candidates += _emit_family(high, DrumType.HI_HAT, "mix.high_flux", 0.035, 2)
     candidates += _emit_family(high, DrumType.CYMBAL, "mix.high_flux_long", 0.08, 8)
 
-    # Optional isolated drum stem: stronger evidence and tom analysis.
     if drum_low is not None and drum_mid is not None and drum_high is not None:
         dl = np.asarray(drum_low, dtype=float)[:n]
         dm = np.asarray(drum_mid, dtype=float)[:n]
@@ -131,27 +129,21 @@ def analyze_drummer_features(
         candidates += _emit_family(dh, DrumType.HI_HAT, "drum.high_flux", 0.02, 2)
         candidates += _emit_family(dh, DrumType.CYMBAL, "drum.high_flux_long", 0.045, 8)
 
-        # Toms: detect mid-band transients, then classify by local spectral centroid proxy.
         tm = _positive_flux(dm)
         floor = _adaptive_floor(tm)
         for i in _peaks(tm, floor + 0.025, min_gap=6):
-            # Without a full STFT centroid, use low/mid energy ratio as a stable proxy.
             ratio = float(dl[i] / (dm[i] + 1e-9))
             kind = DrumType.TOM_HIGH if ratio > 0.80 else DrumType.TOM_MID if ratio > 0.35 else DrumType.TOM_FLOOR
-            candidates.append(Candidate(float(times_arr[i]), kind, float(tm[i]), "drum.tom_band"))
+            candidates.append(Candidate(float(i), kind, float(tm[i]), "drum.tom_band"))
 
-    # Convert frame indices from the simple full-mix detector to seconds.
     normalized: list[Candidate] = []
     for c in candidates:
-        if c.source.startswith("mix.") or c.source.startswith("drum."):
-            # _emit_family emitted a frame index for mix; tom already used seconds.
-            if c.time >= 0 and c.time < n:
-                normalized.append(Candidate(float(times_arr[int(c.time)]), c.kind, c.strength, c.source))
-            else:
-                normalized.append(c)
+        if c.time >= 0 and c.time < n:
+            normalized.append(Candidate(float(times_arr[int(c.time)]), c.kind, c.strength, c.source))
+        else:
+            normalized.append(c)
     candidates = normalized
 
-    # Consensus clustering: nearby independent detectors vote on one event.
     clusters: list[list[Candidate]] = []
     for c in sorted(candidates, key=lambda z: z.time):
         if clusters and c.kind == clusters[-1][0].kind and abs(c.time - clusters[-1][-1].time) <= 0.045:
@@ -162,14 +154,10 @@ def analyze_drummer_features(
     beat_set = np.asarray(list(beat_indices), dtype=int)
     events: list[DrumEvent] = []
     for cluster in clusters:
-        kinds = {c.kind for c in cluster}
-        if len(kinds) != 1:
-            continue
         kind = cluster[0].kind
         sources = tuple(dict.fromkeys(c.source for c in cluster))
         weighted = sum((2.0 if c.source.startswith("drum.") else 1.0) for c in cluster)
         confidence = min(1.0, 0.18 + 0.18 * weighted)
-        # Context boosts confidence only; it never creates an event.
         if beat_set.size:
             tframe = int(round(cluster[0].time * frame_rate))
             if np.min(np.abs(beat_set - tframe)) <= 2:
