@@ -1,0 +1,53 @@
+name: Helix Ultimate Showcase Preview
+on:
+  push:
+    branches: [feature/restructure-core]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest
+      - name: Build ultimate 3D showcase layout
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/build_ultimate_showcase_layout.py
+          test -s test_runs/ultimate_showcase/xlights_rgbeffects_ultimate.xml
+      - name: Generate showcase sequence
+        env: {PYTHONPATH: .}
+        run: |
+          mkdir -p test_runs/ultimate_showcase/base256
+          python archive/legacy_versions/v28.9.py --template template.xsq --audio 'Helix Audiolights.mp3' --layout-file test_runs/ultimate_showcase/xlights_rgbeffects_ultimate.xml --output-dir test_runs/ultimate_showcase/base256 --variants 1 --single --no-prompt --no-save-settings --no-workspace-history --no-auto-timing-tracks --no-matrix-intelligence --audio-reactive-profile showcase --spatial-awareness 0.65 --chase-style left_to_right --max-layers-per-prop 3
+      - name: Inject canonical Drummer V3
+        env: {PYTHONPATH: .}
+        run: |
+          xsq=$(find test_runs/ultimate_showcase/base256 -type f -name '*.xsq' | head -n 1)
+          test -n "$xsq"
+          python tools/integrate_drummer_v3_into_xsq.py "$xsq" 'Helix Audiolights.mp3' --output test_runs/ultimate_showcase/HELIX_ULTIMATE_256_DRUMMER.xsq --report test_runs/ultimate_showcase/drummer_report.json
+      - name: Validate XSQ
+        env: {PYTHONPATH: .}
+        run: python tools/validate_xsq_structure.py test_runs/ultimate_showcase/HELIX_ULTIMATE_256_DRUMMER.xsq
+      - name: Render HQ showcase MP4
+        env: {PYTHONPATH: .}
+        run: python -m tools.preview_hq test_runs/ultimate_showcase/HELIX_ULTIMATE_256_DRUMMER.xsq --layout test_runs/ultimate_showcase/xlights_rgbeffects_ultimate.xml --audio 'Helix Audiolights.mp3' --quality-preset xlights
+      - name: Render actual drummer preview
+        env: {PYTHONPATH: .}
+        run: python tools/render_drummer_v3_preview.py test_runs/ultimate_showcase/HELIX_ULTIMATE_256_DRUMMER.xsq --audio 'Helix Audiolights.mp3' --output test_runs/ultimate_showcase/HELIX_ULTIMATE_DRUMMER.mp4 --fps 30
+      - name: Upload showcase artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-ultimate-showcase-3d-preview
+          path: test_runs/ultimate_showcase/**/*
+          if-no-files-found: warn
