@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "default_tolerance_ms": 60,
+  "classes": ["kick", "snare", "hihat", "tom", "cymbal"],
+  "tracks": [],
+  "sources": {
+    "idmt": {
+      "priority": 1,
+      "url": "https://zenodo.org/records/7544164",
+      "archive": "IDMT-SMT-DRUMS-V2.zip",
+      "archive_size_mb": 287.1,
+      "selection_target": "6-8 short RealDrum/WaveDrum/TechnoDrum loops",
+      "notes": "Manual kick/snare/hi-hat onset annotations; selected subsets also contain isolated stems. Do not commit the source archive."
+    },
+    "gmd": {
+      "priority": 2,
+      "url": "https://magenta.withgoogle.com/datasets/groove",
+      "archive": "groove-v1.0.0-midionly.zip",
+      "archive_size_mb": 3.11,
+      "selection_target": "4-6 short beat/fill sequences across contrasting styles",
+      "notes": "CC BY 4.0. MIDI carries exact event timing and velocity."
+    },
+    "mdb": {
+      "priority": 3,
+      "url": "https://github.com/CarlSouthall/MDBDrums",
+      "selection_target": "2-3 short mixed excerpts",
+      "notes": "Keep provider annotation files local; adapter accepts normalized tabular/JSON annotations."
+    },
+    "synthetic": {
+      "priority": 4,
+      "selection_target": "3 deterministic regression fixtures",
+      "notes": "Generated locally by make_synthetic_drums.py."
+    }
+  }
+}
