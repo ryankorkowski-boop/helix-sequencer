@@ -6,10 +6,14 @@ import shutil
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from audio.drum_detection import detect_drum_event_streams_from_file
+import librosa
+import numpy as np
+
+from audio.drum_classification import DrumEvent as LegacyDrumEvent
+from core.drummer_v3_analysis import DrumType, analyze_drummer_features
 from mapping.drum_mapper import DRUMMER_COMPONENTS, map_events_to_drummer_components, resolve_drum_streams
 
-DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER"
+DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
 DRUMMER_TARGETS = set(DRUMMER_COMPONENTS)
 
 
@@ -48,12 +52,95 @@ def _add_on(layer, start_ms, end_ms, intensity, component, source_type):
     })
 
 
+def _band_energy(magnitude: np.ndarray, freqs: np.ndarray, lo: float, hi: float) -> np.ndarray:
+    mask = (freqs >= lo) & (freqs < hi)
+    if not np.any(mask):
+        return np.zeros(magnitude.shape[1], dtype=float)
+    return np.sqrt(np.mean(np.square(magnitude[mask]), axis=0))
+
+
+def _analyze_real_audio(audio_path: Path) -> tuple[list[LegacyDrumEvent], dict[str, object]]:
+    """Run the V3 multi-detector over full-mix + HPSS percussive evidence.
+
+    HPSS is deliberately optional in the architecture, but using its percussive stem here
+    gives the detector substantially cleaner drum evidence without requiring an external
+    source-separation model or changing the render environment.
+    """
+    y, sr = librosa.load(str(audio_path), sr=None, mono=True)
+    hop = max(128, int(round(sr * 0.01)))
+    n_fft = max(1024, 2 ** int(np.ceil(np.log2(max(1024, int(sr * 0.046))))) )
+    stft = np.abs(librosa.stft(y, n_fft=n_fft, hop_length=hop, center=True))
+    percussive = librosa.effects.hpss(y, margin=2.0)[1]
+    p_stft = np.abs(librosa.stft(percussive, n_fft=n_fft, hop_length=hop, center=True))
+    n = min(stft.shape[1], p_stft.shape[1])
+    stft, p_stft = stft[:, :n], p_stft[:, :n]
+    freqs = librosa.fft_frequencies(sr=sr, n_fft=n_fft)
+    low = _band_energy(stft, freqs, 35, 180)
+    mid = _band_energy(stft, freqs, 180, 2400)
+    high = _band_energy(stft, freqs, 2400, min(sr / 2, 12000))
+    drum_low = _band_energy(p_stft, freqs, 35, 220)
+    drum_mid = _band_energy(p_stft, freqs, 220, 2400)
+    drum_high = _band_energy(p_stft, freqs, 2400, min(sr / 2, 14000))
+    rms = librosa.feature.rms(y=y, frame_length=n_fft, hop_length=hop, center=True)[0][:n]
+    times = librosa.frames_to_time(np.arange(n), sr=sr, hop_length=hop)
+    tempo, beats = librosa.beat.beat_track(y=y, sr=sr, hop_length=hop, units="frames")
+    beats = np.asarray(beats, dtype=int)
+
+    events = analyze_drummer_features(
+        low=low, mid=mid, high=high, rms=rms, times=times,
+        drum_low=drum_low, drum_mid=drum_mid, drum_high=drum_high,
+        beat_indices=beats, frame_rate=sr / hop,
+    )
+    legacy: list[LegacyDrumEvent] = []
+    for idx, event in enumerate(events):
+        if event.kind == DrumType.KICK:
+            drum_type = "kick"
+        elif event.kind == DrumType.SNARE:
+            drum_type = "snare"
+        elif event.kind == DrumType.HI_HAT:
+            drum_type = "hihat"
+        elif event.kind == DrumType.CYMBAL:
+            drum_type = "cymbal"
+        elif event.kind in (DrumType.TOM_HIGH, DrumType.TOM_MID, DrumType.TOM_FLOOR):
+            drum_type = "tom"
+        else:
+            continue
+        tom_class = {
+            DrumType.TOM_HIGH: "high", DrumType.TOM_MID: "mid", DrumType.TOM_FLOOR: "floor"
+        }.get(event.kind)
+        info = {"analysis_engine": "v3_multi_detector", "event_frame": float(round(event.time * sr / hop))}
+        if tom_class:
+            info["tom_class"] = tom_class
+        legacy.append(LegacyDrumEvent(
+            timestamp=float(event.time), velocity=float(max(.08, min(1.0, event.confidence))),
+            confidence=float(event.confidence), frequency_band_info=info,
+            cluster_id=idx, drum_type=drum_type, source="v3_multi_detector",
+        ))
+    diagnostics = {
+        "analysis_engine": "v3_multi_detector",
+        "sample_rate": int(sr), "frame_rate": round(sr / hop, 3),
+        "tempo_bpm": float(np.asarray(tempo).reshape(-1)[0]) if np.asarray(tempo).size else 0.0,
+        "beat_count": int(len(beats)), "typed_event_count": len(legacy),
+        "event_types": {kind.value: sum(e.kind == kind for e in events) for kind in DrumType},
+        "used_hpss_percussive_stem": True,
+    }
+    return legacy, diagnostics
+
+
 def inject_drummer_v3(base_xsq, output_xsq, audio_path, *, layer_name="AUTO_Drummer_V3"):
     base_xsq, output_xsq, audio_path = Path(base_xsq), Path(output_xsq), Path(audio_path)
     if not base_xsq.exists() or not audio_path.exists():
         raise FileNotFoundError("Missing XSQ or audio input")
 
-    streams = detect_drum_event_streams_from_file(audio_path)
+    typed_events, diagnostics = _analyze_real_audio(audio_path)
+    streams = {
+        "kick_events": [e for e in typed_events if e.drum_type == "kick"],
+        "snare_events": [e for e in typed_events if e.drum_type == "snare"],
+        "tom_events": [e for e in typed_events if e.drum_type == "tom"],
+        "hihat_events": [e for e in typed_events if e.drum_type == "hihat"],
+        "cymbal_events": [e for e in typed_events if e.drum_type == "cymbal"],
+        "drum_bus_events": [],
+    }
     resolved = resolve_drum_streams(streams)
     component_events = map_events_to_drummer_components(resolved["events"])
 
@@ -83,23 +170,23 @@ def inject_drummer_v3(base_xsq, output_xsq, audio_path, *, layer_name="AUTO_Drum
 
     ET.indent(tree, space="  ")
     tree.write(output_xsq, encoding="utf-8", xml_declaration=True)
-    drum_type_counts = {key.removesuffix("_events"): len(streams.get(key, [])) for key in streams}
+    drum_type_counts = {key.removesuffix("_events"): len(value) for key, value in streams.items()}
     component_counts = {component: sum(1 for event in component_events if event["component"] == component) for component in sorted(DRUMMER_TARGETS)}
-    typed_count = sum(v for k, v in drum_type_counts.items() if k != "drum_bus")
-    bus_count = drum_type_counts.get("drum_bus", 0)
+    typed_count = sum(drum_type_counts.get(k, 0) for k in ("kick", "snare", "tom", "hihat", "cymbal"))
+    bus_count = 0
     return {
-        "schema": "helix.drummer_v3_xsq_integration.v4",
+        "schema": "helix.drummer_v3_xsq_integration.v5",
         "model": DRUMMER_V3_MODEL, "base_xsq": str(base_xsq),
         "output_xsq": str(output_xsq), "audio": str(audio_path),
-        "layer": layer_name, "fallback_mode": resolved["fallback_mode"],
+        "layer": layer_name, "fallback_mode": "typed_detection",
         "event_count": len(component_events), "placement_count": placements,
         "drum_type_counts": drum_type_counts,
         "typed_event_count": typed_count,
         "drum_bus_event_count": bus_count,
-        "drum_bus_ratio": round(bus_count / max(1, typed_count + bus_count), 4),
+        "drum_bus_ratio": 0.0,
         "component_counts": component_counts,
-        "targets": sorted(DRUMMER_TARGETS),
-        "target_count": len(DRUMMER_TARGETS),
+        "targets": sorted(DRUMMER_TARGETS), "target_count": len(DRUMMER_TARGETS),
+        "analysis": diagnostics,
     }
 
 
