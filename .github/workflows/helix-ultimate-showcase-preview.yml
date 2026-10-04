@@ -2,6 +2,8 @@ name: Helix Ultimate Showcase Preview
 on:
   push:
     branches: [feature/restructure-core]
+  pull_request:
+    branches: [feature/restructure-core]
   workflow_dispatch:
 permissions:
   contents: read
