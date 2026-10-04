@@ -26,4 +26,4 @@ def test_rms_transient_can_confirm_snare():
 
 def test_analyzer_never_emits_bus_fallback():
     events=analyze_drummer_features(low=_pulse(),mid=_pulse(),high=_pulse())
-    assert all(e.kind not in ("drum_bus",DrumType) for e in events)
+    assert all(e.kind != "drum_bus" for e in events)
