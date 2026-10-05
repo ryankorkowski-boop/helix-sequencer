@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import argparse
-import subprocess
 import json
+import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -11,28 +11,21 @@ import imageio_ffmpeg
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-TARGETS = {
-    "HX_SNOWMAN_DRUMMER_KICK": "KICK",
-    "HX_SNOWMAN_DRUMMER_SNARE": "SNARE",
-    "HX_SNOWMAN_DRUMMER_HI_HAT": "HI-HAT",
-    "HX_SNOWMAN_DRUMMER_TOM_LEFT": "TOM L",
-    "HX_SNOWMAN_DRUMMER_TOM_RIGHT": "TOM R",
-    "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT": "CRASH L",
-    "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT": "CRASH R",
-    "HX_SNOWMAN_DRUMMER_LEFT_STICK": "LEFT STICK",
-    "HX_SNOWMAN_DRUMMER_RIGHT_STICK": "RIGHT STICK",
-}
+ROOT = Path(__file__).resolve().parents[1]
+SOURCE = ROOT / "fixtures/band_geometry/source/drummerbg.png"
+MANIFEST = ROOT / "fixtures/band_geometry/drummer_v3_png_layer_manifest.json"
+LAYER_DIR = ROOT / "fixtures/band_geometry/layers"
 
-POSE_NAMES = {
-    "kick_hit": "KICK",
-    "snare_hit": "SNARE",
-    "hi_hat_pulse": "HI-HAT",
-    "left_tom_hit": "TOM L",
-    "right_tom_hit": "TOM R",
-    "left_crash": "CRASH L",
-    "right_crash": "CRASH R",
-    "both_crash": "CRASH L + CRASH R",
-    "downbeat_impact": "FULL KIT",
+# These are the physical V3 xmodel submodels that are actually written to the XSQ.
+# The visual layer is the canonical authored drummer asset, not a drawn snowman.
+TARGET_TO_LAYER = {
+    "HX_SNOWMAN_DRUMMER_V3_KICK": "drummer_hit_kick.png",
+    "HX_SNOWMAN_DRUMMER_V3_SNARE": "drummer_hit_snare.png",
+    "HX_SNOWMAN_DRUMMER_V3_HI_HAT": "drummer_hit_hi_hat.png",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_LEFT": "drummer_hit_left_tom.png",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_RIGHT": "drummer_hit_right_tom.png",
+    "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT": "drummer_hit_left_crash.png",
+    "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT": "drummer_hit_right_crash.png",
 }
 
 
@@ -41,109 +34,88 @@ def parse_effects(xsq: Path) -> list[tuple[int, int, str, str]]:
     out: list[tuple[int, int, str, str]] = []
     for element in root.findall("./ElementEffects/Element"):
         name = element.get("name", "")
-        if name not in TARGETS:
+        if name not in TARGET_TO_LAYER:
             continue
         for layer in element.findall("EffectLayer"):
             for fx in layer.findall("Effect"):
                 pose = fx.get("sourcePose", "")
-                out.append((
-                    int(float(fx.get("startTime", "0"))),
-                    int(float(fx.get("endTime", "0"))),
-                    name,
-                    pose,
-                ))
+                out.append((int(float(fx.get("startTime", "0"))), int(float(fx.get("endTime", "0"))), name, pose))
     return sorted(out)
 
 
-def draw_drummer(width: int, height: int, active: dict[str, float], t_ms: int, duration_ms: int, font) -> Image.Image:
-    im = Image.new("RGB", (width, height), (7, 10, 18))
-    d = ImageDraw.Draw(im)
+def load_canonical_asset() -> tuple[Image.Image, dict[str, Image.Image]]:
+    if not SOURCE.exists():
+        raise SystemExit(f"FAIL: canonical drummer source image missing: {SOURCE}")
+    if not MANIFEST.exists():
+        raise SystemExit(f"FAIL: canonical drummer layer manifest missing: {MANIFEST}")
+    source = Image.open(SOURCE).convert("RGBA")
+    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    required = {str(layer["file"]) for layer in manifest.get("layers", []) if layer.get("file")}
+    layers: dict[str, Image.Image] = {}
+    for filename in sorted(required):
+        path = LAYER_DIR / filename
+        if not path.exists():
+            raise SystemExit(f"FAIL: canonical drummer visual layer missing: {path}")
+        layers[filename] = Image.open(path).convert("RGBA")
+    return source, layers
 
-    # Stage.
-    d.rectangle((0, int(height * .72), width, height), fill=(12, 17, 28))
-    for x in range(0, width, 48):
-        d.line((x, int(height * .72), x + 170, height), fill=(30, 42, 60), width=1)
 
-    cx, cy = width // 2, int(height * .38)
+def draw_frame(source: Image.Image, layers: dict[str, Image.Image], active: dict[str, float], width: int, height: int, t_ms: int, duration_ms: int, font) -> Image.Image:
+    # Start from the authored canonical drummer image and composite only the
+    # corresponding authored V3 hit layers. No placeholder geometry is generated.
+    base = source.copy()
+    base.thumbnail((width, height), Image.Resampling.LANCZOS)
+    canvas = Image.new("RGBA", (width, height), (4, 7, 12, 255))
+    x = (width - base.width) // 2
+    y = (height - base.height) // 2
+    canvas.alpha_composite(base, (x, y))
 
-    def glow_box(box, intensity, label):
-        intensity = max(0.0, min(1.0, intensity))
-        if intensity > .02:
-            glow = int(70 + 185 * intensity)
-            for pad in (18, 10, 4):
-                b = tuple(int(v) for v in (box[0]-pad, box[1]-pad, box[2]+pad, box[3]+pad))
-                d.ellipse(b, outline=(255, 90, 90), width=max(2, pad // 4))
-        d.ellipse(box, fill=(45 + int(150*intensity), 50 + int(90*intensity), 65 + int(80*intensity)), outline=(215, 225, 235), width=2)
-        tw = d.textbbox((0,0), label, font=font)[2]
-        d.text(((box[0]+box[2]-tw)/2, box[3]+5), label, font=font, fill=(235,240,248))
+    for target, intensity in active.items():
+        if intensity <= 0.02:
+            continue
+        filename = TARGET_TO_LAYER.get(target)
+        layer = layers.get(filename) if filename else None
+        if layer is None:
+            continue
+        overlay = layer.copy()
+        if intensity < 0.99:
+            alpha = overlay.getchannel("A").point(lambda a: int(a * max(0.0, min(1.0, intensity))))
+            overlay.putalpha(alpha)
+        if overlay.size != base.size:
+            overlay = overlay.resize(base.size, Image.Resampling.LANCZOS)
+        canvas.alpha_composite(overlay, (x, y))
 
-    # Snowman body.
-    d.ellipse((cx-65, cy-55, cx+65, cy+75), fill=(225,230,238), outline=(150,160,175), width=3)
-    d.ellipse((cx-46, cy-112, cx+46, cy-20), fill=(235,240,246), outline=(150,160,175), width=3)
-    d.rectangle((cx-38, cy-128, cx+38, cy-112), fill=(30,35,45))
-    d.rectangle((cx-25, cy-142, cx+25, cy-127), fill=(40,45,55))
-    d.line((cx-42, cy-34, cx+42, cy-34), fill=(45,90,125), width=5)
-
-    # Drum kit geometry: every illuminated object corresponds to a real XSQ target.
-    kick = (cx-65, cy+65, cx+65, cy+125)
-    snare = (cx-145, cy+35, cx-80, cy+78)
-    tom_l = (cx-78, cy-5, cx-20, cy+38)
-    tom_r = (cx+20, cy-5, cx+78, cy+38)
-    hi_hat = (cx-190, cy-10, cx-140, cy)
-    crash_l = (cx-215, cy-95, cx-145, cy-75)
-    crash_r = (cx+145, cy-95, cx+215, cy-75)
-
-    glow_box(kick, active.get("HX_SNOWMAN_DRUMMER_KICK", 0), "KICK")
-    glow_box(snare, active.get("HX_SNOWMAN_DRUMMER_SNARE", 0), "SNARE")
-    glow_box(tom_l, active.get("HX_SNOWMAN_DRUMMER_TOM_LEFT", 0), "TOM L")
-    glow_box(tom_r, active.get("HX_SNOWMAN_DRUMMER_TOM_RIGHT", 0), "TOM R")
-    glow_box(hi_hat, active.get("HX_SNOWMAN_DRUMMER_HI_HAT", 0), "HI-HAT")
-    glow_box(crash_l, active.get("HX_SNOWMAN_DRUMMER_CYMBAL_LEFT", 0), "CRASH L")
-    glow_box(crash_r, active.get("HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT", 0), "CRASH R")
-
-    # Sticks point toward the currently active targets.
-    left_hit = max(active.get("HX_SNOWMAN_DRUMMER_LEFT_STICK", 0), active.get("HX_SNOWMAN_DRUMMER_SNARE", 0), active.get("HX_SNOWMAN_DRUMMER_TOM_LEFT", 0), active.get("HX_SNOWMAN_DRUMMER_CYMBAL_LEFT", 0))
-    right_hit = max(active.get("HX_SNOWMAN_DRUMMER_RIGHT_STICK", 0), active.get("HX_SNOWMAN_DRUMMER_HI_HAT", 0), active.get("HX_SNOWMAN_DRUMMER_TOM_RIGHT", 0), active.get("HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT", 0))
-    d.line((cx-30, cy+5, cx-125, cy-35-int(25*left_hit)), fill=(255,230,170), width=5)
-    d.line((cx+30, cy+5, cx+125, cy-35-int(25*right_hit)), fill=(255,230,170), width=5)
-
-    active_names = [TARGETS[k] for k,v in active.items() if v > .02 and k in TARGETS]
-    pose_names = []
-    for name, pose in sorted(((k,p) for s,e,k,p in []), key=lambda x:x[0]):
-        pose_names.append(POSE_NAMES.get(pose, pose))
-
-    d.rounded_rectangle((24, 20, width-24, 108), radius=14, fill=(8,12,20), outline=(95,115,145), width=2)
-    d.text((42, 36), "HELIX — REAL DRUMMER TARGETS", font=font, fill=(245,248,255))
-    d.text((42, 62), "ACTIVE: " + (", ".join(active_names) if active_names else "idle"), font=font, fill=(255,190,160))
-    d.text((42, 84), f"{t_ms/1000:.2f}s / {duration_ms/1000:.2f}s", font=font, fill=(185,205,230))
-
-    # Target legend.
-    d.text((24, height-42), "XSQ target → visible object: kick • snare • hi-hat • toms • cymbals • sticks", font=font, fill=(165,190,220))
-    return im
-
+    d = ImageDraw.Draw(canvas)
+    d.rounded_rectangle((18, 16, width - 18, 88), radius=12, fill=(5, 9, 16, 205), outline=(120, 140, 170, 210), width=2)
+    active_names = []
+    labels = {
+        "HX_SNOWMAN_DRUMMER_V3_KICK": "KICK",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE": "SNARE",
+        "HX_SNOWMAN_DRUMMER_V3_HI_HAT": "HI-HAT",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_LEFT": "TOM HIGH/MID",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_RIGHT": "TOM FLOOR/OTHER",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT": "CRASH L",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT": "CRASH R",
+    }
+    for target, value in active.items():
+        if value > 0.02:
+            active_names.append(labels.get(target, target))
+    d.text((34, 30), "HELIX — CANONICAL DRUMMER V3", font=font, fill=(245, 248, 255, 255))
+    d.text((34, 53), "ACTIVE: " + (", ".join(active_names) if active_names else "idle"), font=font, fill=(255, 215, 150, 255))
+    d.text((width - 190, 30), f"{t_ms/1000:.2f}s / {duration_ms/1000:.2f}s", font=font, fill=(190, 210, 235, 255))
+    return canvas.convert("RGB")
 
 
 def _audio_duration_ms(audio: Path) -> int:
     ff = imageio_ffmpeg.get_ffmpeg_exe()
-    proc = subprocess.run(
-        [ff, "-v", "error", "-show_entries", "format=duration", "-of", "json", str(audio)],
-        capture_output=True, text=True,
-    )
+    proc = subprocess.run([ff, "-v", "error", "-show_entries", "format=duration", "-of", "json", str(audio)], capture_output=True, text=True)
     if proc.returncode == 0:
         try:
-            data = json.loads(proc.stdout)
-            duration = float(data["format"]["duration"])
+            duration = float(json.loads(proc.stdout)["format"]["duration"])
             if duration > 0:
                 return int(round(duration * 1000.0))
         except (KeyError, TypeError, ValueError, json.JSONDecodeError):
             pass
-    probe = subprocess.run([ff, "-i", str(audio)], capture_output=True, text=True)
-    marker = "Duration: "
-    for line in probe.stderr.splitlines():
-        if marker in line:
-            value = line.split(marker, 1)[1].split(",", 1)[0].strip()
-            h, m, s = value.split(":")
-            return int(round((int(h) * 3600 + int(m) * 60 + float(s)) * 1000.0))
     raise RuntimeError(f"Unable to determine audio duration for {audio}")
 
 
@@ -153,50 +125,45 @@ def main() -> int:
     ap.add_argument("--audio", type=Path, required=True)
     ap.add_argument("--output", type=Path, required=True)
     ap.add_argument("--fps", type=int, default=30)
-    ap.add_argument("--duration", type=float, default=0.0, help="Optional debug cap in seconds; default renders the entire audio.")
+    ap.add_argument("--duration", type=float, default=0.0)
     args = ap.parse_args()
 
+    source, layers = load_canonical_asset()
     effects = parse_effects(args.xsq)
     if not effects:
-        raise SystemExit("FAIL: no real HX_SNOWMAN_DRUMMER submodel effects found")
+        raise SystemExit("FAIL: no canonical HX_SNOWMAN_DRUMMER_V3 submodel effects found")
 
     audio_duration_ms = _audio_duration_ms(args.audio)
     effect_end_ms = max(e[1] for e in effects)
     if effect_end_ms < int(audio_duration_ms * 0.95):
-        raise SystemExit(
-            f"FAIL: drummer XSQ ends at {effect_end_ms} ms, but repo audio is {audio_duration_ms} ms; "
-            "refusing to render a partial performance"
-        )
+        raise SystemExit(f"FAIL: drummer XSQ ends at {effect_end_ms} ms, but audio is {audio_duration_ms} ms")
     duration_ms = audio_duration_ms if args.duration <= 0 else min(int(args.duration * 1000), audio_duration_ms)
-    if args.duration <= 0:
-        print(f"FULL-SONG MODE: audio_duration_ms={audio_duration_ms} effect_end_ms={effect_end_ms}")
+    print(f"CANONICAL-ASSET MODE: source={SOURCE} effects={len(effects)} audio_duration_ms={audio_duration_ms}")
+
     out = args.output
     silent = out.with_suffix(".silent.mp4")
     font = ImageFont.load_default()
     writer = imageio.get_writer(silent, fps=args.fps, codec="libx264", quality=8, macro_block_size=None)
-
     try:
         for i in range(int(duration_ms / 1000 * args.fps)):
             t = int(i * 1000 / args.fps)
-            active = {name: 0.0 for name in TARGETS}
+            active = {name: 0.0 for name in TARGET_TO_LAYER}
             for start, end, name, _pose in effects:
                 if start <= t < end:
                     active[name] = max(active[name], 1.0)
-            frame = draw_drummer(960, 540, active, t, duration_ms, font)
+            frame = draw_frame(source, layers, active, 960, 540, t, duration_ms, font)
             writer.append_data(np.asarray(frame))
     finally:
         writer.close()
 
     ff = imageio_ffmpeg.get_ffmpeg_exe()
-    cmd = [ff, "-y", "-i", str(silent), "-i", str(args.audio), "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-shortest", "-movflags", "+faststart", str(out)]
-    proc = subprocess.run(cmd, capture_output=True, text=True)
+    proc = subprocess.run([ff, "-y", "-i", str(silent), "-i", str(args.audio), "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-shortest", "-movflags", "+faststart", str(out)], capture_output=True, text=True)
     if proc.returncode != 0:
         raise SystemExit(proc.stderr[-4000:])
     silent.unlink(missing_ok=True)
-
     if not out.exists() or out.stat().st_size < 10000:
-        raise SystemExit("FAIL: drummer MP4 missing/empty")
-    print(f"PASS: real drummer MP4 targets={len(TARGETS)} effects={len(effects)} duration_ms={duration_ms} audio_duration_ms={audio_duration_ms}")
+        raise SystemExit("FAIL: canonical drummer MP4 missing/empty")
+    print(f"PASS: canonical drummer V3 MP4 effects={len(effects)} duration_ms={duration_ms}")
     return 0
 
 
