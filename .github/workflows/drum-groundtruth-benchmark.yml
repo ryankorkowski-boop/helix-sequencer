@@ -25,7 +25,7 @@ jobs:
       - name: Run Helix detector benchmark
         run: |
           python helix-drum-test-data/scripts/run_helix_drum_test.py \
-            --root helix-drum-test-data \
+            --helix-root . \
             --ground-truth helix-drum-test-data/ground_truth \
             --tolerance-ms 60 \
             --output /tmp/drum-benchmark.json
