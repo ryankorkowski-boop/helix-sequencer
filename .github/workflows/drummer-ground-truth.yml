@@ -32,12 +32,12 @@ jobs:
           python -m pip install pytest pillow numpy scipy scikit-learn librosa soundfile numba llvmlite imageio imageio-ffmpeg PyYAML
       - name: Generate deterministic ground-truth drum audio
         run: python tools/generate_drummer_ground_truth.py --wav test_runs/drummer_ground_truth/drummer_ground_truth.wav --events test_runs/drummer_ground_truth/events.json
-      - name: Export deterministic 8-lane drummer truth XSQ
+      - name: Export deterministic 8-lane drummer truth XSQ using canonical xmodel zones
         env:
           PYTHONPATH: .
           HELIX_DURATION: '20'
         run: python tools/export_drummer_ground_truth_xsq.py --output test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq --duration 20
-      - name: Verify XSQ has exactly eight logical components and no fourth tom
+      - name: Verify XSQ has exactly eight logical components and canonical physical targets
         run: |
           python - <<'PY'
           import xml.etree.ElementTree as ET
@@ -46,50 +46,62 @@ jobs:
           root=ET.parse(p).getroot()
           expected={'KICK','SNARE','HI_HAT','TOM_HIGH','TOM_MID','TOM_FLOOR','CYMBAL_LEFT','CYMBAL_RIGHT'}
           channels=set(root.find('./timingtrack').get('channels','').split(','))
+          expected_models={
+              'HX_SNOWMAN_DRUMMER_V3_KICK','HX_SNOWMAN_DRUMMER_V3_SNARE','HX_SNOWMAN_DRUMMER_V3_HI_HAT',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH','HX_SNOWMAN_DRUMMER_V3_TOM_MID','HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR',
+              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT','HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT'}
+          models={e.get('name') for e in root.findall('./ElementEffects/Element')}
           if root.get('drummerChannels') != '8' or channels != expected:
               raise SystemExit(f'FAIL: expected 8 drummer components, got {sorted(channels)}')
-          if any('STICK' in name.upper() or 'ARM' in name.upper() or 'TOM_4' in name.upper() for name in channels):
-              raise SystemExit(f'FAIL: invalid drummer target leaked into contract: {sorted(channels)}')
-          print('PASS: exactly 8 logical components: kick/snare/hi-hat/high/mid/floor/left-cymbal/right-cymbal')
+          if models != expected_models:
+              raise SystemExit(f'FAIL: non-canonical physical targets: {sorted(models)}')
+          if any('TOM_LEFT' in name or 'TOM_RIGHT' in name or 'TOM_4' in name for name in models):
+              raise SystemExit(f'FAIL: legacy/extra tom target leaked into canonical XSQ: {sorted(models)}')
+          print('PASS: logical 8-lane contract maps directly to canonical High/Mid/Floor xmodel zones')
           PY
       - name: Run drummer unit tests
         env:
           PYTHONPATH: .
         run: |
           python -m pytest -q tests/test_drummer_layers.py tests/test_drummer_xmodel_asset.py tests/test_drummer_v3_pose_sheet.py tests/test_drummer_v3_png_layers.py tests/test_finished_helixville4_drummer.py tests/test_drummer_v3_xsq_integration.py
-      - name: Render the actual drummer XSQ preview
+      - name: Render canonical drummer preview from canonical xmodel targets
         env:
           PYTHONPATH: .
         run: |
           mkdir -p test_runs/drummer_ground_truth/preview
-          python -m tools.render_xsq_skeleton_preview \
+          python tools/render_drummer_v3_preview.py \
             test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq \
-            --width 1280 --height 720 --fps 24 \
-            --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav
-          mv test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.mp4 test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4
+            --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav \
+            --output test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4 \
+            --fps 24
           python - <<'PY'
           import json
           from pathlib import Path
-          from tools.render_xsq_skeleton_preview import parse_preview_effects
+          import xml.etree.ElementTree as ET
           xsq=Path('test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq')
           mp4=Path('test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4')
-          effects=parse_preview_effects(xsq)
-          models=sorted({effect.model for effect in effects})
+          root=ET.parse(xsq).getroot()
+          models=sorted(e.get('name') for e in root.findall('./ElementEffects/Element'))
+          effects=sum(len(layer.findall('Effect')) for element in root.findall('./ElementEffects/Element') for layer in element.findall('EffectLayer'))
           meta=Path('test_runs/drummer_ground_truth/preview/helix_flow_preview_metadata.json')
-          meta.write_text(json.dumps({'mp4':str(mp4),'xsq':str(xsq),'audio_muxed':True,'audio':'test_runs/drummer_ground_truth/drummer_ground_truth.wav','visible_effect_count':len(effects),'visual_model_count':len(models),'visual_models':models,'renderer':'tools/render_xsq_skeleton_preview.py','renderer_mode':'drummer_ground_truth'},indent=2,sort_keys=True)+'\n',encoding='utf-8')
-          print(f'PASS: rendered actual drummer XSQ with {len(effects)} visible effects across {len(models)} visual models')
+          meta.write_text(json.dumps({'mp4':str(mp4),'xsq':str(xsq),'audio_muxed':True,'audio':'test_runs/drummer_ground_truth/drummer_ground_truth.wav','visible_effect_count':effects,'visual_model_count':len(models),'visual_models':models,'renderer':'tools/render_drummer_v3_preview.py','renderer_mode':'canonical_xmodel','tom_contract':'HIGH_MID_FLOOR'},indent=2,sort_keys=True)+'\n',encoding='utf-8')
+          print(f'PASS: rendered canonical drummer xmodel targets with {effects} effects across {len(models)} components')
           PY
-      - name: Verify preview contains visual drummer effects
+      - name: Verify canonical preview contains all eight visual components
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
           p=Path('test_runs/drummer_ground_truth/preview/helix_flow_preview_metadata.json')
           d=json.loads(p.read_text())
+          required={
+              'HX_SNOWMAN_DRUMMER_V3_KICK','HX_SNOWMAN_DRUMMER_V3_SNARE','HX_SNOWMAN_DRUMMER_V3_HI_HAT',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH','HX_SNOWMAN_DRUMMER_V3_TOM_MID','HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR',
+              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT','HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT'}
           if d.get('visible_effect_count',0) <= 0: raise SystemExit('FAIL: no visible effects')
-          if d.get('visual_model_count',0) <= 1: raise SystemExit(f'FAIL: expected multiple visual models, got {d.get("visual_models",[])}')
-          if not Path(d['mp4']).exists(): raise SystemExit('FAIL: drummer MP4 was not created')
-          print('PASS: actual drummer XSQ produced a playable MP4 preview')
+          if set(d.get('visual_models',[])) != required: raise SystemExit(f'FAIL: canonical component set mismatch: {d.get("visual_models",[])}')
+          if not Path(d['mp4']).exists(): raise SystemExit('FAIL: canonical drummer MP4 was not created')
+          print('PASS: canonical drummer MP4 contains exactly the eight expected visual components')
           PY
       - name: Upload drummer XSQ artifact
         if: always()
@@ -101,7 +113,7 @@ jobs:
             test_runs/drummer_ground_truth/events.json
             test_runs/drummer_ground_truth/drummer_ground_truth.wav
           if-no-files-found: error
-      - name: Upload drummer MP4 preview artifact
+      - name: Upload canonical drummer MP4 preview artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
