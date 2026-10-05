@@ -13,10 +13,16 @@ def test_typed_events_require_isolated_drum_evidence():
     assert DrumType.KICK in kinds and DrumType.SNARE in kinds and DrumType.HI_HAT in kinds
 
 def test_guitar_like_full_mix_transients_do_not_create_drums():
-    n=600
-    guitar=np.zeros(n); guitar[[100,180,260,340,420]]=1.0
-    silent=np.zeros(n)
+    n=600; guitar=np.zeros(n); guitar[[100,180,260,340,420]]=1.0; silent=np.zeros(n)
     events=analyze_drummer_features(low=guitar,mid=guitar,high=guitar,rms=guitar,drum_low=silent,drum_mid=silent,drum_high=silent,frame_rate=100)
+    assert events == []
+
+def test_harmonic_guitar_transients_are_rejected_even_after_hpss():
+    n=500; guitar=_pulse(n,(80,160,240,320)); low=guitar.copy(); mid=guitar.copy(); high=guitar.copy(); rms=guitar.copy()
+    # A harmonic-dominant source can still leak into HPSS. Give it enough apparent
+    # percussive energy to reach the old gate, but very low spectral flatness.
+    p_low=guitar.copy(); p_mid=guitar.copy(); p_high=guitar.copy(); quality=np.full(n,0.42); flatness=np.full(n,0.008)
+    events=analyze_drummer_features(low=low,mid=mid,high=high,rms=rms,drum_low=p_low,drum_mid=p_mid,drum_high=p_high,drum_percussive_ratio=quality,percussive_flatness=flatness,frame_rate=100)
     assert events == []
 
 def test_drum_stem_adds_three_tom_targets():
