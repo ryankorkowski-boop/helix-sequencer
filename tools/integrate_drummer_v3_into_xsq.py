@@ -60,20 +60,17 @@ def _band_energy(magnitude: np.ndarray, freqs: np.ndarray, lo: float, hi: float)
 
 
 def _analyze_real_audio(audio_path: Path) -> tuple[list[LegacyDrumEvent], dict[str, object]]:
-    """Run the V3 multi-detector over full-mix + HPSS percussive evidence.
-
-    HPSS is deliberately optional in the architecture, but using its percussive stem here
-    gives the detector substantially cleaner drum evidence without requiring an external
-    source-separation model or changing the render environment.
-    """
     y, sr = librosa.load(str(audio_path), sr=None, mono=True)
     hop = max(128, int(round(sr * 0.01)))
     n_fft = max(1024, 2 ** int(np.ceil(np.log2(max(1024, int(sr * 0.046))))) )
     stft = np.abs(librosa.stft(y, n_fft=n_fft, hop_length=hop, center=True))
-    percussive = librosa.effects.hpss(y, margin=2.0)[1]
+    harmonic, percussive = librosa.effects.hpss(y, margin=2.0)
     p_stft = np.abs(librosa.stft(percussive, n_fft=n_fft, hop_length=hop, center=True))
-    n = min(stft.shape[1], p_stft.shape[1])
+    h_rms = librosa.feature.rms(y=harmonic, frame_length=n_fft, hop_length=hop, center=True)[0]
+    p_rms = librosa.feature.rms(y=percussive, frame_length=n_fft, hop_length=hop, center=True)[0]
+    n = min(stft.shape[1], p_stft.shape[1], len(h_rms), len(p_rms))
     stft, p_stft = stft[:, :n], p_stft[:, :n]
+    h_rms, p_rms = h_rms[:n], p_rms[:n]
     freqs = librosa.fft_frequencies(sr=sr, n_fft=n_fft)
     low = _band_energy(stft, freqs, 35, 180)
     mid = _band_energy(stft, freqs, 180, 2400)
@@ -81,6 +78,7 @@ def _analyze_real_audio(audio_path: Path) -> tuple[list[LegacyDrumEvent], dict[s
     drum_low = _band_energy(p_stft, freqs, 35, 220)
     drum_mid = _band_energy(p_stft, freqs, 220, 2400)
     drum_high = _band_energy(p_stft, freqs, 2400, min(sr / 2, 14000))
+    drum_quality = p_rms / np.maximum(p_rms + h_rms, 1e-9)
     rms = librosa.feature.rms(y=y, frame_length=n_fft, hop_length=hop, center=True)[0][:n]
     times = librosa.frames_to_time(np.arange(n), sr=sr, hop_length=hop)
     tempo, beats = librosa.beat.beat_track(y=y, sr=sr, hop_length=hop, units="frames")
@@ -90,6 +88,7 @@ def _analyze_real_audio(audio_path: Path) -> tuple[list[LegacyDrumEvent], dict[s
         low=low, mid=mid, high=high, rms=rms, times=times,
         drum_low=drum_low, drum_mid=drum_mid, drum_high=drum_high,
         beat_indices=beats, frame_rate=sr / hop,
+        drum_percussive_ratio=drum_quality, min_percussive_ratio=0.30,
     )
     legacy: list[LegacyDrumEvent] = []
     for idx, event in enumerate(events):
@@ -105,10 +104,10 @@ def _analyze_real_audio(audio_path: Path) -> tuple[list[LegacyDrumEvent], dict[s
             drum_type = "tom"
         else:
             continue
-        tom_class = {
-            DrumType.TOM_HIGH: "high", DrumType.TOM_MID: "mid", DrumType.TOM_FLOOR: "floor"
-        }.get(event.kind)
-        info = {"analysis_engine": "v3_multi_detector", "event_frame": float(round(event.time * sr / hop))}
+        tom_class = {DrumType.TOM_HIGH: "high", DrumType.TOM_MID: "mid", DrumType.TOM_FLOOR: "floor"}.get(event.kind)
+        frame = min(n - 1, max(0, int(round(event.time * sr / hop))))
+        quality = float(drum_quality[frame])
+        info = {"analysis_engine": "v3_multi_detector", "event_frame": float(round(event.time * sr / hop)), "percussive_ratio": round(quality, 4)}
         if tom_class:
             info["tom_class"] = tom_class
         legacy.append(LegacyDrumEvent(
@@ -123,6 +122,9 @@ def _analyze_real_audio(audio_path: Path) -> tuple[list[LegacyDrumEvent], dict[s
         "beat_count": int(len(beats)), "typed_event_count": len(legacy),
         "event_types": {kind.value: sum(e.kind == kind for e in events) for kind in DrumType},
         "used_hpss_percussive_stem": True,
+        "min_percussive_ratio": 0.30,
+        "percussive_ratio_p10": round(float(np.percentile(drum_quality, 10)), 4) if len(drum_quality) else 0.0,
+        "percussive_ratio_median": round(float(np.median(drum_quality)), 4) if len(drum_quality) else 0.0,
     }
     return legacy, diagnostics
 
@@ -173,36 +175,19 @@ def inject_drummer_v3(base_xsq, output_xsq, audio_path, *, layer_name="AUTO_Drum
     drum_type_counts = {key.removesuffix("_events"): len(value) for key, value in streams.items()}
     component_counts = {component: sum(1 for event in component_events if event["component"] == component) for component in sorted(DRUMMER_TARGETS)}
     typed_count = sum(drum_type_counts.get(k, 0) for k in ("kick", "snare", "tom", "hihat", "cymbal"))
-    bus_count = 0
     return {
-        "schema": "helix.drummer_v3_xsq_integration.v5",
-        "model": DRUMMER_V3_MODEL, "base_xsq": str(base_xsq),
-        "output_xsq": str(output_xsq), "audio": str(audio_path),
-        "layer": layer_name, "fallback_mode": "typed_detection",
-        "event_count": len(component_events), "placement_count": placements,
-        "drum_type_counts": drum_type_counts,
-        "typed_event_count": typed_count,
-        "drum_bus_event_count": bus_count,
-        "drum_bus_ratio": 0.0,
-        "component_counts": component_counts,
-        "targets": sorted(DRUMMER_TARGETS), "target_count": len(DRUMMER_TARGETS),
-        "analysis": diagnostics,
+        "schema": "helix.drummer_v3_xsq_integration.v6",
+        "model": DRUMMER_V3_MODEL, "base_xsq": str(base_xsq), "output_xsq": str(output_xsq), "audio": str(audio_path),
+        "layer": layer_name, "fallback_mode": "typed_detection", "event_count": len(component_events), "placement_count": placements,
+        "drum_type_counts": drum_type_counts, "typed_event_count": typed_count, "drum_bus_event_count": 0, "drum_bus_ratio": 0.0,
+        "component_counts": component_counts, "targets": sorted(DRUMMER_TARGETS), "target_count": len(DRUMMER_TARGETS), "analysis": diagnostics,
     }
 
 
 def main():
-    p = argparse.ArgumentParser()
-    p.add_argument("base_xsq", type=Path); p.add_argument("audio", type=Path)
-    p.add_argument("--output", type=Path, required=True); p.add_argument("--layer", default="AUTO_Drummer_V3")
-    p.add_argument("--report", type=Path)
-    a = p.parse_args()
-    report = inject_drummer_v3(a.base_xsq, a.output, a.audio, layer_name=a.layer)
-    print(json.dumps(report, indent=2, sort_keys=True))
-    if a.report:
-        a.report.parent.mkdir(parents=True, exist_ok=True)
-        a.report.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    p = argparse.ArgumentParser(); p.add_argument("base_xsq", type=Path); p.add_argument("audio", type=Path); p.add_argument("--output", type=Path, required=True); p.add_argument("--layer", default="AUTO_Drummer_V3"); p.add_argument("--report", type=Path)
+    a = p.parse_args(); report = inject_drummer_v3(a.base_xsq, a.output, a.audio, layer_name=a.layer); print(json.dumps(report, indent=2, sort_keys=True))
+    if a.report: a.report.parent.mkdir(parents=True, exist_ok=True); a.report.write_text(json.dumps(report, indent=2), encoding="utf-8")
     return 0
 
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+if __name__ == "__main__": raise SystemExit(main())
