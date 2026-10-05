@@ -19,6 +19,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest
+      - name: Protect Wadena spatial topology
+        env: {PYTHONPATH: .}
+        run: python -m pytest -q tests/test_wadena_spatial_graph.py tests/test_wadena_spatial_intent.py
       - name: Build canonical Drummer V3 visual assets
         env: {PYTHONPATH: .}
         run: |
@@ -29,6 +32,7 @@ jobs:
           test -s fixtures/band_geometry/layers/drummer_hit_hi_hat.png
           test -s fixtures/band_geometry/layers/drummer_hit_left_tom.png
           test -s fixtures/band_geometry/layers/drummer_hit_right_tom.png
+          test -s fixtures/band_geometry/layers/drummer_hit_floor_tom.png
           test -s fixtures/band_geometry/layers/drummer_hit_left_crash.png
           test -s fixtures/band_geometry/layers/drummer_hit_right_crash.png
       - name: Audio check
