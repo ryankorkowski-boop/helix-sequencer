@@ -9,6 +9,7 @@ from pathlib import Path
 import imageio.v2 as imageio
 import imageio_ffmpeg
 import numpy as np
+import soundfile as sf
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,7 +41,7 @@ def parse_effects(xsq: Path):
                     int(float(fx.get("startTime", "0"))),
                     int(float(fx.get("endTime", "0"))),
                     name,
-                    fx.get("sourcePose", ""),
+                    fx.get("sourcePoseSubmodel", ""),
                 ))
     return sorted(out)
 
@@ -59,9 +60,7 @@ def load_canonical_asset():
         if not path.exists():
             raise SystemExit(f"FAIL: canonical drummer visual layer missing: {path}")
         layers[filename] = Image.open(path).convert("RGBA")
-    # Floor tom must be an independently built manifest layer. Never derive or alias it at render time.
-    floor = layers.get("drummer_hit_floor_tom.png")
-    if floor is None:
+    if layers.get("drummer_hit_floor_tom.png") is None:
         raise SystemExit("FAIL: canonical floor-tom visual layer missing")
     return source, layers
 
@@ -107,15 +106,13 @@ def draw_frame(source, layers, active, width, height, t_ms, duration_ms, font):
 
 
 def _audio_duration_ms(audio: Path) -> int:
-    ff = imageio_ffmpeg.get_ffmpeg_exe()
-    proc = subprocess.run([ff, "-v", "error", "-show_entries", "format=duration", "-of", "json", str(audio)], capture_output=True, text=True)
-    if proc.returncode == 0:
-        try:
-            duration = float(json.loads(proc.stdout)["format"]["duration"])
-            if duration > 0:
-                return int(round(duration * 1000.0))
-        except (KeyError, TypeError, ValueError, json.JSONDecodeError):
-            pass
+    try:
+        info = sf.info(str(audio))
+        duration = float(info.frames) / float(info.samplerate)
+        if duration > 0:
+            return int(round(duration * 1000.0))
+    except Exception as exc:
+        raise RuntimeError(f"Unable to determine audio duration for {audio}: {exc}") from exc
     raise RuntimeError(f"Unable to determine audio duration for {audio}")
 
 
