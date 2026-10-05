@@ -2,7 +2,6 @@ name: Drummer Ground Truth Test
 
 # Ground truth for the current eight-component drummer contract. Three toms:
 # High, Mid, Floor. Contacting sticks are geometry inside each hit component.
-# Temporary render trigger; remove after CI artifact is produced.
 on:
   push:
     branches:
