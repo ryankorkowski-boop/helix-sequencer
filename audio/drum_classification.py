@@ -20,9 +20,9 @@ class DrumEvent:
 
 @dataclass(frozen=True)
 class DrumClassifierThresholds:
-    # These are deliberately recall-oriented for mixed real music. HPSS is already
-    # used upstream, so requiring a clean isolated percussive signal here caused
-    # real snare/tom hits to collapse into drum_bus.
+    # Recall is useful for isolated drum stems, but full mixes must reject tonal
+    # instrument attacks. HPSS alone is not sufficient: guitar pick attacks can
+    # leak into the percussive component and look like sharp drum onsets.
     low_confidence_min: float = 0.27
     kick_low_ratio_min: float = 0.18
     kick_low_centroid_max: float = 800.0
@@ -39,7 +39,10 @@ class DrumClassifierThresholds:
     cymbal_percussive_ratio_min: float = 0.18
     cymbal_flatness_min: float = 0.025
     hihat_percussive_ratio_min: float = 0.14
-    harmonic_contamination_max: float = 0.85
+    harmonic_contamination_max: float = 0.82
+    tonal_flatness_max: float = 0.018
+    tonal_spread_max: float = 0.32
+    min_percussive_ratio: float = 0.16
     ambiguous_margin_min: float = 0.035
 
 def empty_drum_streams() -> dict[str, list[DrumEvent]]: return {key: [] for key in DRUM_STREAM_KEYS}
@@ -65,6 +68,7 @@ def classify_drum_hit(features: dict[str, float], thresholds: DrumClassifierThre
     low=_clamp(features.get("low_ratio",0)); mid_low=_clamp(features.get("mid_low_ratio",0)); mid=_clamp(features.get("mid_ratio",0)); high=_clamp(features.get("high_ratio",0))
     centroid=float(features.get("centroid_hz",0) or 0); low_centroid=float(features.get("low_centroid_hz",centroid) or centroid)
     spread=_clamp(features.get("spectral_spread01",0)); sharp=_clamp(features.get("transient_sharpness",0)); decay=_clamp(features.get("decay_profile",0)); percussive_ratio=_clamp(features.get("percussive_ratio",0)); flatness=_clamp(features.get("spectral_flatness",0))
+    harmonic_contamination = _clamp(features.get("harmonic_contamination", 1.0 - percussive_ratio))
 
     candidates=[
         ("kick", (low*.58) + ((1-min(1,low_centroid/1400))*.22) + (sharp*.20)),
@@ -82,12 +86,21 @@ def classify_drum_hit(features: dict[str, float], thresholds: DrumClassifierThre
     if best=="cymbal" and (high<thresholds.cymbal_high_ratio_min or decay<thresholds.cymbal_decay_min): score*=.70
     score=_clamp(score)
 
+    # Critical mixed-audio guard: a tonal guitar/piano/synth attack can survive
+    # HPSS as a short percussive transient. Reject events that are simultaneously
+    # harmonic-dominant, spectrally tonal, and insufficiently percussive. This is
+    # intentionally conservative so genuine noisy drum transients remain eligible.
+    tonal_attack = (
+        harmonic_contamination > thresholds.harmonic_contamination_max
+        and flatness < thresholds.tonal_flatness_max
+        and spread < thresholds.tonal_spread_max
+    )
+    if percussive_ratio < thresholds.min_percussive_ratio or tonal_attack:
+        return "drum_bus", round(score, 3)
+
     # drum_bus is now a last-resort label, not the normal outcome for a mixed track.
-    # Only use it when there is genuinely too little discriminating information.
     discriminating_energy = max(low, mid_low, mid, high)
     if discriminating_energy < 0.055 or score < thresholds.low_confidence_min or (score-runner) < thresholds.ambiguous_margin_min:
-        # Preserve a useful typed hit when the winner is materially stronger than
-        # the others even if the absolute score is modest.
         if score >= 0.22 and (score-runner) >= 0.075:
             return best, round(score,3)
         return "drum_bus", round(score,3)
