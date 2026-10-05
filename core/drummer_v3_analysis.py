@@ -87,18 +87,22 @@ def _supported_by_full_mix(candidate: Candidate, low, mid, high, rms, frame: int
     rms_value=float(rms[frame]); rms_local=float(np.median(rms[max(0,frame-8):min(n,frame+9)]))
     return value>=local and rms_value>=rms_local
 
-def analyze_drummer_features(*,low,mid,high,times=None,rms=None,drum_low=None,drum_mid=None,drum_high=None,beat_indices:Iterable[int]=(),frame_rate:float=100.0,cluster_tolerance:float=0.045):
+def _percussive_evidence_ok(frame: int, quality: np.ndarray | None, min_ratio: float) -> bool:
+    if quality is None:return True
+    if frame < 0 or frame >= len(quality):return False
+    lo=max(0, frame-1); hi=min(len(quality), frame+2)
+    return float(np.max(quality[lo:hi])) >= min_ratio
+
+def analyze_drummer_features(*,low,mid,high,times=None,rms=None,drum_low=None,drum_mid=None,drum_high=None,beat_indices:Iterable[int]=(),frame_rate:float=100.0,cluster_tolerance:float=0.045,drum_percussive_ratio=None,min_percussive_ratio:float=0.30):
     low=np.asarray(low,dtype=float); mid=np.asarray(mid,dtype=float); high=np.asarray(high,dtype=float)
     n=min(len(low),len(mid),len(high))
     if n<3 or drum_low is None or drum_mid is None or drum_high is None:
-        # Deliberately return no drummer events without isolated drum evidence.
         return []
     low,mid,high=low[:n],mid[:n],high[:n]
     dl=np.asarray(drum_low,dtype=float)[:n]; dm=np.asarray(drum_mid,dtype=float)[:n]; dh=np.asarray(drum_high,dtype=float)[:n]
+    quality=None if drum_percussive_ratio is None else np.asarray(drum_percussive_ratio,dtype=float)[:n]
     times_arr=np.arange(n,dtype=float)/frame_rate if times is None else np.asarray(times,dtype=float)[:n]
 
-    # The isolated percussive/drum signal is the source of truth. Full-mix analysis is
-    # confirmation only; this prevents guitar/piano/vocal transients from becoming drums.
     candidates=[]
     candidates+=_emit_flux_family(dl,DrumType.KICK,"drum.low_flux",0.035,5,times_arr)
     candidates+=_emit_flux_family(dm,DrumType.SNARE,"drum.mid_flux",0.030,4,times_arr)
@@ -109,7 +113,7 @@ def analyze_drummer_features(*,low,mid,high,times=None,rms=None,drum_low=None,dr
     beat_set=np.asarray(list(beat_indices),dtype=int); events=[]
     for cluster in _cluster_candidates(candidates,cluster_tolerance):
         kind=cluster[0].kind
-        if not any(_supported_by_full_mix(c,low,mid,high,rms,c.frame) for c in cluster):
+        if not any(_percussive_evidence_ok(c.frame, quality, min_percussive_ratio) and _supported_by_full_mix(c,low,mid,high,rms,c.frame) for c in cluster):
             continue
         sources=tuple(dict.fromkeys(c.source for c in cluster))
         stem_votes=len(cluster)
