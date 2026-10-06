@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any
 
-from PIL import Image
+from PIL import Image, ImageChops
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -22,7 +22,11 @@ from tools.build_drummer_v3_png_layers import (
     DEFAULT_PREVIEW_DIR,
     build as build_png_layers,
 )
-from tools.drummer_v3_visual_masks import build_geometry_masks
+from tools.drummer_v3_visual_masks import (
+    build_geometry_masks,
+    refine_actuator_to_source_art,
+    refine_surface_to_source_art,
+)
 
 DEFAULT_SPEC = ROOT / "fixtures" / "band_geometry" / "drummer_v3_pose_spec.json"
 MODEL_NAME = "HX_SNOWMAN_DRUMMER_V3"
@@ -92,20 +96,65 @@ def _prefixed(name: str) -> str:
     return f"{MODEL_NAME}_{name}"
 
 
+def _downsample_exact_mask(mask: Image.Image, width: int, height: int) -> Image.Image:
+    """Project full-resolution source artwork onto the xLights node grid.
+
+    BOX averaging plus a low occupancy threshold preserves thin wireframe pixels
+    that NEAREST sampling can miss while avoiding the old filled polygons.
+    """
+    reduced = mask.resize((width, height), Image.Resampling.BOX)
+    return reduced.point(lambda value: 255 if value >= 8 else 0, mode="L")
+
+
 def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> dict[str, object]:
     grid = spec.get("grid", {})
     width = int(grid.get("width", 96))
     height = int(grid.get("height", 72))
-    geometry = build_geometry_masks((width, height), spec)
-    raw_masks = geometry["raw"]
-    surface_masks = geometry["surfaces"]
-    actuator_masks = geometry["actuators"]
-    public_masks = geometry["targets"]
 
-    zone_nodes = {
-        name: _nodes_from_overlay(mask, width, height)
-        for name, mask in raw_masks.items()
+    with Image.open(source_path) as handle:
+        source = handle.convert("RGBA")
+    full_geometry = build_geometry_masks(source.size, spec)
+
+    target_specs = {
+        str(item["id"]): item
+        for item in spec.get("lighting_targets", [])
+        if isinstance(item, dict) and item.get("id") and item.get("surface")
     }
+    surface_to_target = {
+        str(item["surface"]): f"{MODEL_NAME}_{str(item['id'])}"
+        for item in target_specs.values()
+    }
+
+    exact_surfaces_full: dict[str, Image.Image] = {}
+    for surface_id, target_name in surface_to_target.items():
+        exact_surfaces_full[surface_id] = refine_surface_to_source_art(
+            source,
+            full_geometry["surfaces"][surface_id],
+            target_name,
+        )
+
+    exact_actuators_full: dict[str, Image.Image] = {}
+    for actuator_id, authored in full_geometry["actuators"].items():
+        exact_actuators_full[actuator_id] = refine_actuator_to_source_art(source, authored)
+
+    surface_masks = {
+        name: _downsample_exact_mask(mask, width, height)
+        for name, mask in exact_surfaces_full.items()
+    }
+    actuator_masks = {
+        name: _downsample_exact_mask(mask, width, height)
+        for name, mask in exact_actuators_full.items()
+    }
+
+    target_masks: dict[str, Image.Image] = {}
+    for target_id, target in target_specs.items():
+        surface_id = str(target["surface"])
+        mask = surface_masks[surface_id].copy()
+        for actuator_id in target.get("actuators", []):
+            actuator_id = str(actuator_id)
+            mask = ImageChops.lighter(mask, actuator_masks[actuator_id])
+        target_masks[target_id] = mask
+
     surface_nodes = {
         name: _nodes_from_overlay(mask, width, height)
         for name, mask in surface_masks.items()
@@ -115,9 +164,18 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
         for name, mask in actuator_masks.items()
     }
     target_nodes = {
-        name.removeprefix(f"{MODEL_NAME}_"): _nodes_from_overlay(mask, width, height)
-        for name, mask in public_masks.items()
+        name: _nodes_from_overlay(mask, width, height)
+        for name, mask in target_masks.items()
     }
+
+    for collection_name, collection in (
+        ("surface", surface_nodes),
+        ("actuator", actuator_nodes),
+        ("target", target_nodes),
+    ):
+        empty = [name for name, nodes in collection.items() if not nodes]
+        if empty:
+            raise ValueError(f"Exact {collection_name} masks lost all xLights nodes: {empty}")
 
     relative_background = "../source/drummerbg.png"
     root = ET.Element(
@@ -135,33 +193,46 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
             "CustomModel": _dense_custom_model(width, height),
             "CustomBkgImage": relative_background,
             "HelixVisualSource": relative_background,
-            "HelixImplementationState": "drummer_v3_independent_component_lighting",
+            "HelixImplementationState": "drummer_v3_exact_source_pixel_components",
         },
     )
     ET.SubElement(root, "modelGroups")
     submodels = ET.SubElement(root, "subModels")
 
-    # Surface-only aliases are the geometry truth used by spatial tests.
     for name, nodes in surface_nodes.items():
         ET.SubElement(
-            submodels, "subModel",
-            {"name": _prefixed(name), "layout": "ranges", "type": "ranges", "line0": _ranges(nodes)},
+            submodels,
+            "subModel",
+            {
+                "name": _prefixed(name),
+                "layout": "ranges",
+                "type": "ranges",
+                "line0": _ranges(nodes),
+            },
         )
 
-    # Actuator geometry is exported for review/debug but is never sequenced
-    # independently by the eight-lane public contract.
     for name, nodes in actuator_nodes.items():
         ET.SubElement(
-            submodels, "subModel",
-            {"name": _prefixed(name), "layout": "ranges", "type": "ranges", "line0": _ranges(nodes)},
+            submodels,
+            "subModel",
+            {
+                "name": _prefixed(name),
+                "layout": "ranges",
+                "type": "ranges",
+                "line0": _ranges(nodes),
+            },
         )
 
-    # Public hit targets contain the physical surface plus its required
-    # arm/stick or foot pixels.
     for target_id, nodes in target_nodes.items():
         ET.SubElement(
-            submodels, "subModel",
-            {"name": _prefixed(target_id), "layout": "ranges", "type": "ranges", "line0": _ranges(nodes)},
+            submodels,
+            "subModel",
+            {
+                "name": _prefixed(target_id),
+                "layout": "ranges",
+                "type": "ranges",
+                "line0": _ranges(nodes),
+            },
         )
 
     xmodel_path.parent.mkdir(parents=True, exist_ok=True)
@@ -172,12 +243,12 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
         "xmodel": str(xmodel_path.relative_to(ROOT)),
         "model_name": MODEL_NAME,
         "grid": {"width": width, "height": height},
+        "geometry_source": "exact drummerbg source pixels projected to xLights grid",
         "surface_count": len(surface_nodes),
         "actuator_count": len(actuator_nodes),
         "target_count": len(target_nodes),
         "submodel_count": len(list(submodels)),
     }
-
 
 def build_assets(
     *,
