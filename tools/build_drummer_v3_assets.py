@@ -109,11 +109,28 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
         zone_nodes[zone_id] = nodes
         zone_kind[zone_id] = str(zone.get("kind", ""))
 
-    surface_nodes = {
+    raw_surface_nodes = {
         name: nodes for name, nodes in zone_nodes.items()
         if zone_kind.get(name) == "surface"
     }
-    all_surfaces: set[int] = set().union(*surface_nodes.values()) if surface_nodes else set()
+    raw_surface_union: set[int] = (
+        set().union(*raw_surface_nodes.values()) if raw_surface_nodes else set()
+    )
+
+    # A 96x72 node cell cannot physically belong to two independently lit
+    # instruments. Adjacent source-normalized polygons may touch/overlap after
+    # rasterization, so remove shared cells from *both* surfaces. This produces
+    # a conservative dark seam instead of allowing one hit to brighten another
+    # instrument (the kick/snare boundary was the motivating regression).
+    surface_nodes: dict[str, set[int]] = {}
+    for name, nodes in raw_surface_nodes.items():
+        others = set().union(
+            *(other for other_name, other in raw_surface_nodes.items() if other_name != name)
+        )
+        exclusive = nodes - others
+        if not exclusive:
+            raise ValueError(f"V3 surface lost all nodes after isolation: {name}")
+        surface_nodes[name] = exclusive
 
     target_nodes: dict[str, set[int]] = {}
     targets = spec.get("lighting_targets", [])
@@ -132,7 +149,7 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
                 raise ValueError(f"{target_id} references missing actuator {actuator_id}")
             # An arm/stick can cross a drum in the artwork. Never let an
             # actuator accidentally light a neighbouring instrument surface.
-            nodes.update(actuator - all_surfaces)
+            nodes.update(actuator - raw_surface_union)
         if not nodes:
             raise ValueError(f"Lighting target generated no nodes: {target_id}")
         target_nodes[target_id] = nodes
