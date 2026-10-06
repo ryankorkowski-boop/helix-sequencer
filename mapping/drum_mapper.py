@@ -69,7 +69,7 @@ def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig 
 def tom_class_for_event(event: DrumEvent, event_index: int = 0) -> str:
     info = event.frequency_band_info or {}
     raw = str(info.get("tom_class", info.get("tom_position", ""))).strip().lower()
-    aliases = {"high_tom": "high", "hi": "high", "upper": "high", "mid_tom": "mid", "middle": "mid", "medium": "mid", "floor_tom": "floor", "low": "floor"}
+    aliases = {"high_tom": "high", "hi": "high", "upper": "high", "1": "high", "1.0": "high", "mid_tom": "mid", "middle": "mid", "medium": "mid", "2": "mid", "2.0": "mid", "floor_tom": "floor", "low": "floor", "3": "floor", "3.0": "floor"}
     if raw in aliases: raw = aliases[raw]
     if raw in TOM_COMPONENT_BY_CLASS: return raw
     return ("high", "mid", "floor")[event_index % 3]
