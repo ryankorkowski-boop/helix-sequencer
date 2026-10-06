@@ -48,6 +48,15 @@ class DrumMappingConfig:
     max_hits_per_window: int = 4
     rapid_repeat_window_ms: int = 90
     fallback_distribution_seed: int = 414
+    # Reject isolated low-energy intro transients until a real drum pattern is
+    # established.  This is intentionally pattern-based rather than a hardcoded
+    # song timestamp, so songs that begin with drums still open immediately.
+    intro_gate_enabled: bool = True
+    intro_anchor_min_velocity: float = 0.28
+    intro_support_min_velocity: float = 0.24
+    intro_confirm_window_ms: int = 1500
+    intro_preroll_ms: int = 100
+    intro_search_limit_ms: int = 30000
 
 
 def flatten_drum_streams(streams: dict[str, list[DrumEvent]]) -> list[DrumEvent]:
@@ -97,6 +106,53 @@ def distribute_drum_bus_events(events: Iterable[DrumEvent]) -> list[DrumEvent]:
         )
         for i, e in enumerate(sorted(events, key=lambda item: item.timestamp_ms))
     ]
+
+
+def suppress_intro_false_hits(
+    events: Iterable[DrumEvent],
+    config: DrumMappingConfig = DrumMappingConfig(),
+) -> tuple[list[DrumEvent], int | None, int]:
+    """Drop pre-performance false triggers until a real drum pattern is proven.
+
+    The gate opens only after a strong kick/snare/tom is followed by another
+    credible typed drum event within a short confirmation window.  A small
+    preroll keeps a crash that belongs to the same first real downbeat.  Weak
+    isolated clicks and spectral cymbal guesses in a quiet intro therefore do
+    not animate the drummer.
+    """
+    ordered = sorted(
+        events,
+        key=lambda event: (
+            event.timestamp_ms,
+            DRUM_PRIORITY.get(event.drum_type, 9),
+            -event.velocity,
+        ),
+    )
+    if not config.intro_gate_enabled or len(ordered) < 2:
+        return ordered, None, 0
+
+    typed = {"kick", "snare", "tom", "hihat", "cymbal"}
+    anchors = {"kick", "snare", "tom"}
+    for anchor in ordered:
+        if anchor.timestamp_ms > config.intro_search_limit_ms:
+            break
+        if anchor.drum_type not in anchors or anchor.velocity < config.intro_anchor_min_velocity:
+            continue
+        confirmed = any(
+            other.timestamp_ms > anchor.timestamp_ms
+            and other.timestamp_ms - anchor.timestamp_ms <= config.intro_confirm_window_ms
+            and other.drum_type in typed
+            and other.velocity >= config.intro_support_min_velocity
+            for other in ordered
+        )
+        if not confirmed:
+            continue
+        start_ms = max(0, anchor.timestamp_ms - config.intro_preroll_ms)
+        kept = [event for event in ordered if event.timestamp_ms >= start_ms]
+        return kept, start_ms, len(ordered) - len(kept)
+
+    # Do not erase soft songs that never establish a strong drum entrance.
+    return ordered, None, 0
 
 
 def schedule_drum_events(
@@ -346,10 +402,13 @@ def resolve_drum_streams(
             events = flatten_drum_streams(streams)
             fallback_mode = "typed_detection"
 
-    scheduled = schedule_drum_events(events, config)
+    gated_events, intro_gate_start_ms, intro_gate_suppressed_count = suppress_intro_false_hits(events, config)
+    scheduled = schedule_drum_events(gated_events, config)
     poses = map_events_to_drummer_v3_poses(scheduled)
     return {
         "fallback_mode": fallback_mode,
+        "intro_gate_start_ms": intro_gate_start_ms,
+        "intro_gate_suppressed_count": intro_gate_suppressed_count,
         "events": scheduled,
         "mapped_events": map_events_to_submodels(scheduled),
         "drummer_v3_pose_events": poses,
