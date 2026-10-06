@@ -13,6 +13,16 @@ from mapping.drum_mapper import DRUMMER_COMPONENTS, map_events_to_drummer_v3_pos
 
 DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
 DRUMMER_TARGETS = set(DRUMMER_COMPONENTS)
+COMPONENT_HEX = {
+    f"{DRUMMER_V3_MODEL}_KICK": "#DC2D1C",
+    f"{DRUMMER_V3_MODEL}_SNARE": "#D65CBE",
+    f"{DRUMMER_V3_MODEL}_HI_HAT": "#DCA416",
+    f"{DRUMMER_V3_MODEL}_TOM_HIGH": "#2CB242",
+    f"{DRUMMER_V3_MODEL}_TOM_MID": "#2CB242",
+    f"{DRUMMER_V3_MODEL}_TOM_FLOOR": "#2CB242",
+    f"{DRUMMER_V3_MODEL}_CYMBAL_LEFT": "#DCA416",
+    f"{DRUMMER_V3_MODEL}_CYMBAL_RIGHT": "#DCA416",
+}
 ORACLE_COMMIT = "b27e8d77a63027ed32bcf6851dcff3925472c155"
 ORACLE_COUNTS = {
     "kick": 194,
@@ -96,7 +106,7 @@ def _add_on(
                 f"E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={brightness},"
                 f"HELIX_DrummerIntensity={max(0.0, min(1.0, float(intensity))):.3f}"
             ),
-            "palette": "C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#FFFFFF,C_BUTTON_Palette3=#FFFFFF",
+            "palette": ",".join(f"C_BUTTON_Palette{index}={COMPONENT_HEX[component]}" for index in (1, 2, 3)),
             "source": "HelixDrummerV3",
             "sourceModel": DRUMMER_V3_MODEL,
             "sourceComponent": component,
