@@ -162,6 +162,14 @@ jobs:
               f"real-song detector regressed from approved oracle: "
               f"current={counts} oracle={report['oracle_reference_counts']}"
           )
+          assert report['event_count'] == 1315, report
+          assert report['scheduled_drum_type_counts'] == report['oracle_scheduled_counts'], report
+          assert report['pose_counts'] == report['oracle_pose_counts'], report
+          assert report['historical_timeline_sha256'] == report['oracle_timeline_sha256'], (
+              f"historical timing/pose timeline mismatch: "
+              f"current={report['historical_timeline_sha256']} oracle={report['oracle_timeline_sha256']}"
+          )
+          assert report['oracle_timeline_sha256'] == '953386d5d69564abd83fb3c50fc7bf3e2aebb017e5995df8264771eda3b851ea'
           components=report['component_counts']
           assert report['target_count'] == 8, report
           assert set(components) == set(report['targets']), (components, report['targets'])
