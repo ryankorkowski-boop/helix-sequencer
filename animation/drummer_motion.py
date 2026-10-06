@@ -19,6 +19,25 @@ class DrummerMotionConfig:
     rapid_alternation_threshold_ms: int = 180
 
 
+def assign_hand(event: DrumEvent, previous_hand: str | None = None) -> str:
+    """Preserve the historical drummer-motion hand contract.
+
+    This is performance metadata only; physical illumination still routes through
+    the canonical eight integrated components, never independent stick channels.
+    """
+    if event.drum_type == "kick":
+        return "foot"
+    if event.drum_type == "snare":
+        return "left"
+    if event.drum_type == "hihat":
+        return "left" if previous_hand == "right" else "right"
+    if event.drum_type == "cymbal":
+        return "right"
+    if event.drum_type == "tom":
+        return "both"
+    return "both"
+
+
 def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfig = DrummerMotionConfig()) -> list[dict[str, object]]:
     """Create visual hit timing and deterministic hand assignment.
 
@@ -32,7 +51,7 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
     tom_index = 0
     cymbal_index = 0
     previous_by_type: dict[str, int] = {}
-    hand_by_type: dict[str, str] = {"snare": "L", "cymbal": "L"}
+    hand_by_type: dict[str, str] = {"snare": "left", "cymbal": "right"}
     for event in sorted(events, key=lambda item: item.timestamp_ms):
         if event.drum_type == "tom":
             component = drummer_component_for_event(event, event_index=tom_index)
@@ -46,13 +65,14 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
             component = drummer_component_for_event(event)
             tom_class = None
 
-        hand: str | None = None
         previous = previous_by_type.get(event.drum_type)
         if event.drum_type in {"snare", "cymbal"}:
             if previous is not None and event.timestamp_ms - previous <= config.rapid_alternation_threshold_ms:
-                hand_by_type[event.drum_type] = "R" if hand_by_type[event.drum_type] == "L" else "L"
+                hand_by_type[event.drum_type] = "right" if hand_by_type[event.drum_type] == "left" else "left"
             hand = hand_by_type[event.drum_type]
             previous_by_type[event.drum_type] = event.timestamp_ms
+        else:
+            hand = assign_hand(event)
 
         sign = -1 if rng.random() < 0.5 else 1
         humanize = sign * rng.randint(config.humanize_min_ms, config.humanize_max_ms)
