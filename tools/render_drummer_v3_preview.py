@@ -116,7 +116,10 @@ def load_component_masks(
         authored_surface = geometry["surfaces"][surface_id]
         exact_surface = refine_surface_to_source_art(source, authored_surface, name)
         authored_actuator = ImageChops.subtract(target_masks[name], authored_surface)
-        exact_actuator = refine_actuator_to_source_art(source, authored_actuator)
+        if authored_actuator.getbbox() is None:
+            exact_actuator = Image.new("L", source.size, 0)
+        else:
+            exact_actuator = refine_actuator_to_source_art(source, authored_actuator)
         masks[name] = ImageChops.lighter(exact_surface, exact_actuator)
         masks[target_surface_key(name)] = exact_surface
     return source, masks
