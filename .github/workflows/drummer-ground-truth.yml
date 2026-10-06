@@ -1,8 +1,5 @@
 name: Drummer Ground Truth Test
 
-permissions:
-  contents: write
-
 concurrency:
   group: drummer-ground-truth-${{ github.ref }}
   cancel-in-progress: true
@@ -87,17 +84,9 @@ jobs:
               raise SystemExit(f"FAIL: nonportable background path: {root.get('CustomBkgImage')}")
           print(f'PASS: regenerated V3 geometry HIGH={high} MID={mid} FLOOR={floor}')
           PY
-      - name: Persist regenerated exact-source xmodel
+      - name: Verify regenerated xmodel remains reproducible
         run: |
-          if ! git diff --quiet -- fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel
-            git commit -m "fix(drummer): regenerate exact-source xmodel"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          else
-            echo "Canonical xmodel already reproducible."
-          fi
+          git diff --exit-code -- fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel
       - name: Generate deterministic ground-truth audio and events
         env: {PYTHONPATH: .}
         run: python tools/generate_drummer_ground_truth.py --wav test_runs/drummer_ground_truth/drummer_ground_truth.wav --events test_runs/drummer_ground_truth/events.json
@@ -258,7 +247,6 @@ jobs:
             test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq
             test_runs/drummer_ground_truth/events.json
             test_runs/drummer_ground_truth/drummer_ground_truth.wav
-            fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel
           if-no-files-found: error
       - name: Upload canonical drummer MP4 preview
         if: always()
