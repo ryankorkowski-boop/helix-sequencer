@@ -261,6 +261,7 @@ def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str
             "model": DRUMMER_V3_MODEL,
             "drum_type": event.drum_type,
             "pose": pose,
+            "component": components[0],
             "submodels": list(components),
             "components": list(components),
             "tom_class": tom_class,
@@ -328,12 +329,22 @@ def resolve_drum_streams(
         ))
         fallback_mode = "legacy_marks"
     else:
-        # Historical behavior: typed streams AND drum_bus are scheduled together.
-        events = flatten_drum_streams(streams)
-        fallback_mode = "typed_detection"
+        # On the approved Helix Audiolights oracle, typed detection is strong
+        # (1288 typed raw hits vs 47 bus hits), and those 47 bus hits are genuine
+        # historical DOWNBEAT_IMPACT cues. Preserve them. For pathological sparse
+        # typed detection dominated by a large ambiguous bus, keep the later
+        # safety behavior and suppress that bus rather than fabricating a show.
         if bus_events and typed_count < max(2, len(bus_events) // 2):
-            events.extend(distribute_drum_bus_events(bus_events))
-            fallback_mode = "partial_detection_plus_bus"
+            typed_only = {
+                key: streams.get(key, [])
+                for key in DRUM_STREAM_KEYS
+                if key != "drum_bus_events"
+            }
+            events = flatten_drum_streams(typed_only)
+            fallback_mode = "typed_detection_bus_suppressed"
+        else:
+            events = flatten_drum_streams(streams)
+            fallback_mode = "typed_detection"
 
     scheduled = schedule_drum_events(events, config)
     poses = map_events_to_drummer_v3_poses(scheduled)
