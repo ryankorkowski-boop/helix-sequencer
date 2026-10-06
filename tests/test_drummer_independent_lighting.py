@@ -13,7 +13,8 @@ from PIL import ImageFilter
 from tools.drummer_ground_truth_oracle import TARGETS as LOGICAL_TARGETS, fixture_events
 from tools.export_drummer_ground_truth_xsq import export_drummer_ground_truth_xsq
 from tools.generate_drummer_ground_truth import generate
-from tools.render_drummer_v3_preview import TARGETS, compose_lighting, load_component_masks\nfrom tools.drummer_v3_visual_masks import target_surface_key
+from tools.render_drummer_v3_preview import TARGETS, compose_lighting, load_component_masks
+from tools.drummer_v3_visual_masks import target_surface_key
 
 ROOT = Path(__file__).resolve().parents[1]
 XMODEL = ROOT / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
