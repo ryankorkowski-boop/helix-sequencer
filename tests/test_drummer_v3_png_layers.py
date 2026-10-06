@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+import shutil
 from pathlib import Path
 
 from PIL import Image
@@ -11,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BUILDER = ROOT / "tools/build_drummer_v3_png_layers.py"
 MANIFEST = ROOT / "fixtures/band_geometry/drummer_v3_png_layer_manifest.json"
 XMODEL = ROOT / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
+SOURCE = ROOT / "fixtures/band_geometry/source/drummerbg.png"
 
 REQUIRED_FRAMES = {
     "idle_ready", "kick_hit", "snare_hit", "hi_hat_pulse",
@@ -45,9 +47,9 @@ def test_builder_reports_absent_png_input(tmp_path: Path) -> None:
     assert "missing.png" in result.stderr
 
 
-def test_builder_creates_full_resolution_transparent_layers_and_contact_sheet(tmp_path: Path) -> None:
+def test_builder_creates_exact_source_pixel_layers_and_contact_sheet(tmp_path: Path) -> None:
     source = tmp_path / "drummerbg.png"
-    Image.new("RGBA", (320, 240), (80, 120, 160, 255)).save(source)
+    shutil.copyfile(SOURCE, source)
     layers_dir, preview_dir = tmp_path / "layers", tmp_path / "previews"
     result = _run_builder(source, layers_dir, preview_dir)
     assert result.returncode == 0, result.stderr + result.stdout
@@ -55,12 +57,14 @@ def test_builder_creates_full_resolution_transparent_layers_and_contact_sheet(tm
     assert payload["layer_count"] == 10 and payload["frame_count"] == 11
     assert "exact drummerbg source pixels" in payload["geometry_source"]
 
+    with Image.open(SOURCE) as canonical:
+        expected_size = canonical.size
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     for layer in manifest["layers"]:
         path = layers_dir / layer["file"]
         assert path.exists()
         with Image.open(path) as image:
-            assert image.size == (320, 240) and image.mode == "RGBA"
+            assert image.size == expected_size and image.mode == "RGBA"
             assert image.getchannel("A").getextrema() == (0, 255)
     assert (preview_dir / manifest["contact_sheet"]).exists()
 
