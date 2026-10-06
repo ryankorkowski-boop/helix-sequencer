@@ -13,14 +13,17 @@ def _event(ms: int, drum_type: str, velocity: float = 0.8, confidence: float = 0
 
 
 class DrumMappingTests(unittest.TestCase):
-    def test_bus_fallback_distributes_across_kit(self) -> None:
+    def test_ambiguous_bus_is_rejected_instead_of_fabricating_a_pattern(self) -> None:
         streams = empty_drum_streams()
-        streams["drum_bus_events"] = [_event(100, "drum_bus"), _event(300, "drum_bus"), _event(500, "drum_bus")]
+        streams["drum_bus_events"] = [
+            _event(100, "drum_bus"),
+            _event(300, "drum_bus"),
+            _event(500, "drum_bus"),
+        ]
         resolved = resolve_drum_streams(streams)
-        types = [event.drum_type for event in resolved["events"]]
-        self.assertEqual(resolved["fallback_mode"], "drum_bus_distribution")
-        self.assertIn("kick", types)
-        self.assertIn("snare", types)
+        self.assertEqual(resolved["fallback_mode"], "ambiguous_bus_rejected")
+        self.assertEqual(resolved["events"], [])
+        self.assertEqual(resolved["ambiguous_bus_rejected_count"], 3)
 
     def test_scheduler_prioritizes_dense_hits_and_reduces_repeats(self) -> None:
         events = [
@@ -40,16 +43,16 @@ class DrumMappingTests(unittest.TestCase):
     def test_intro_gate_rejects_weak_false_hits_before_confirmed_drum_entry(self) -> None:
         events = [
             _event(576, "kick", 0.20),
-            _event(907, "cymbal", 0.08),
-            _event(3819, "drum_bus", 0.08),
-            _event(8405, "kick", 0.10),
-            _event(11008, "kick", 0.41),
-            _event(11989, "kick", 0.30),
-            _event(12181, "cymbal", 0.22),
+            _event(907, "cymbal", 0.12),
+            _event(3819, "drum_bus", 0.80),
+            _event(8405, "kick", 0.22),
+            _event(11008, "kick", 0.62),
+            _event(11989, "snare", 0.54),
+            _event(12181, "cymbal", 0.48),
         ]
         gated, start_ms, suppressed = suppress_intro_false_hits(events)
-        self.assertEqual(start_ms, 10908)
-        self.assertEqual(suppressed, 4)
+        self.assertEqual(start_ms, 10928)
+        self.assertEqual(suppressed, 3)
         self.assertEqual([event.timestamp_ms for event in gated], [11008, 11989, 12181])
 
     def test_arm_assignment_and_motion_windows(self) -> None:
