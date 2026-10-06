@@ -33,6 +33,93 @@ def target_surface_key(target: str) -> str:
     return f"__surface__:{target}"
 
 
+def target_art_key(target: str) -> str:
+    return f"__art__:{target}"
+
+
+def strike_transform(strike: dict, size: tuple[int, int]) -> tuple[float, ...]:
+    """Inverse similarity transform: source shaft grip/tip to wrist/contact.
+
+    Only source-art pixels are resampled; no replacement line is painted.
+    Coordinates use the same normalized image space as the instrument surfaces.
+    """
+    scale = np.array(size, dtype=float) - 1
+    a, b, c, d = (np.asarray(strike[k]) * scale for k in
+                  ("source_grip", "source_tip", "grip", "contact"))
+    u, v = b - a, d - c
+    if np.linalg.norm(u) < 1 or np.linalg.norm(v) < 1:
+        raise ValueError("Degenerate strike shaft")
+    real = float(np.dot(u, v) / np.dot(u, u))
+    imag = float((u[0]*v[1] - u[1]*v[0]) / np.dot(u, u))
+    inverse = np.linalg.inv(np.array([[real, -imag], [imag, real]]))
+    offset = a - inverse @ c
+    return (*inverse[0], offset[0], *inverse[1], offset[1])
+
+
+def exact_actuator_art(source: Image.Image, zone: dict, excluded: Image.Image,
+                       source_surfaces: Image.Image | None = None) -> Image.Image:
+    """Source-colored arm and target-specific shaft, clipped away from other drums."""
+    arm_mask = refine_actuator_to_source_art(source, build_zone_mask(source.size, zone))
+    if zone.get("strike") and source_surfaces is not None:
+        arm_mask = ImageChops.subtract(arm_mask, source_surfaces)
+        # The arm is neutral wire artwork. Do not carry neighboring scarf or
+        # face pixels into a reposed arm merely because the search window grazes them.
+        hsv = np.asarray(source.convert("HSV"))
+        neutral = Image.fromarray(np.where(hsv[..., 1] <= 90, 255, 0).astype(np.uint8))
+        arm_mask = ImageChops.multiply(arm_mask, neutral)
+    arm = source.convert("RGBA").copy()
+    arm.putalpha(arm_mask)
+    strike = zone.get("strike")
+    if strike:
+        if "arm_transform" in strike:
+            arm = arm.transform(source.size, Image.Transform.AFFINE,
+                                strike_transform(strike["arm_transform"], source.size),
+                                Image.Resampling.BICUBIC)
+        shaft_mask = refine_actuator_to_source_art(
+            source, build_zone_mask(source.size, strike["source_stick"]))
+        shaft = source.convert("RGBA").copy()
+        shaft.putalpha(shaft_mask)
+        shaft = shaft.transform(source.size, Image.Transform.AFFINE,
+                                strike_transform(strike, source.size), Image.Resampling.BICUBIC)
+        arm = Image.alpha_composite(arm, shaft)
+    arm.putalpha(ImageChops.subtract(arm.getchannel("A"), excluded))
+    return arm
+
+
+def exact_geometry(source: Image.Image, spec: dict | None = None) -> dict:
+    """One source-art extraction path for preview, layers and xmodel projection."""
+    spec = spec or load_spec()
+    geometry = build_geometry_masks(source.size, spec)
+    surfaces = {item["surface"]: refine_surface_to_source_art(
+        source, geometry["surfaces"][item["surface"]], f"{MODEL_NAME}_{item['id']}")
+        for item in spec["lighting_targets"]}
+    # Exclude actual instrument pixels, not their search windows: sticks may
+    # approach the head through otherwise empty background within the window.
+    exclusion = _union(list(surfaces.values()), source.size)
+    arts = {}
+    for zone in spec["zones"]:
+        if zone["kind"] != "actuator":
+            continue
+        own_surface = zone.get("strike", {}).get("instrument_surface")
+        excluded = _union([mask for name, mask in surfaces.items() if name != own_surface], source.size)
+        arts[zone["id"]] = exact_actuator_art(source, zone, excluded, exclusion)
+    masks = {}
+    for item in spec["lighting_targets"]:
+        name = f"{MODEL_NAME}_{item['id']}"
+        mask = surfaces[item["surface"]].copy()
+        art = source.convert("RGBA").copy()
+        for actuator in item["actuators"]:
+            overlay = arts[actuator]
+            art = Image.alpha_composite(art, overlay)
+            alpha = overlay.getchannel("A").point(
+                lambda value: round(value * item.get("actuator_intensity", 1.0)))
+            mask = ImageChops.lighter(mask, alpha)
+        masks[name] = mask
+        masks[target_surface_key(name)] = surfaces[item["surface"]]
+        masks[target_art_key(name)] = art
+    return {"surfaces": surfaces, "actuators": arts, "masks": masks}
+
+
 def _hue_distance(hue: np.ndarray, target_hue: int) -> np.ndarray:
     distance = np.abs(hue.astype(np.int16) - int(target_hue))
     return np.minimum(distance, 256 - distance)
@@ -173,6 +260,17 @@ def build_geometry_masks(
         if isinstance(zone, dict) and zone.get("id")
     }
     raw = {name: build_zone_mask(size, zone) for name, zone in zones.items()}
+    for name, zone in zones.items():
+        strike = zone.get("strike")
+        if not strike:
+            continue
+        arm = raw[name]
+        if "arm_transform" in strike:
+            arm = arm.transform(size, Image.Transform.AFFINE,
+                                strike_transform(strike["arm_transform"], size))
+        shaft = build_zone_mask(size, strike["source_stick"]).transform(
+            size, Image.Transform.AFFINE, strike_transform(strike, size))
+        raw[name] = ImageChops.lighter(arm, shaft)
     kinds = {name: str(zone.get("kind", "")) for name, zone in zones.items()}
 
     raw_surfaces = {name: mask for name, mask in raw.items() if kinds.get(name) == "surface"}
@@ -227,7 +325,7 @@ def compose_emissive(
     active_targets: list[str] | tuple[str, ...] | set[str],
     *,
     idle_brightness: float = 0.30,
-    active_brightness: float = 1.78,
+    active_brightness: float = 1.45,
     halo_radius: float = 3.2,
 ) -> Image.Image:
     """Dim the canonical artwork, then brighten only its exact hit pixels.
@@ -252,22 +350,22 @@ def compose_emissive(
     if union.getbbox() is None:
         return idle
 
-    active_rgb = ImageEnhance.Brightness(source_rgb).enhance(active_brightness)
-    active_rgb = ImageEnhance.Color(active_rgb).enhance(1.18)
-    frame = Image.composite(active_rgb.convert("RGBA"), idle, union)
-
-    # Soft source-colored bloom only; never draw an artificial edge. Each bloom
-    # derives from the exact surface mask and cannot turn an arm into a scribble.
-    for target in active_set:
+    # Compose each posed source independently, then take a pixelwise maximum.
+    # Shared arms retain one brightness even when several targets coincide.
+    frame_array = np.asarray(idle).copy()
+    for target in sorted(active_set):
+        art = masks.get(target_art_key(target), source_rgba).convert("RGB")
+        active_rgb = ImageEnhance.Brightness(art).enhance(active_brightness)
+        active_rgb = ImageEnhance.Color(active_rgb).enhance(1.18)
+        lit = Image.composite(active_rgb.convert("RGBA"), idle, masks[target])
         surface = masks.get(target_surface_key(target), masks[target])
         color = TARGET_OUTLINE_RGB.get(target)
-        if color is None or surface.getbbox() is None:
-            continue
-        blurred = surface.filter(ImageFilter.GaussianBlur(max(0.1, float(halo_radius))))
-        outside = ImageChops.subtract(blurred, surface)
-        outside = outside.point(lambda value: int(value * 0.32))
-        glow = Image.new("RGBA", source_rgba.size, (*color, 255))
-        frame = Image.composite(glow, frame, outside)
+        if color is not None and surface.getbbox() is not None:
+            blurred = surface.filter(ImageFilter.GaussianBlur(max(0.1, float(halo_radius))))
+            outside = ImageChops.subtract(blurred, surface).point(lambda value: int(value * 0.32))
+            glow = Image.new("RGBA", source_rgba.size, (*color, 255))
+            lit = Image.composite(glow, lit, outside)
+        frame_array = np.maximum(frame_array, np.asarray(lit))
+    frame = Image.fromarray(frame_array)
 
     return frame
-

@@ -2,6 +2,55 @@
 
 > Canonical project roadmap and cross-agent handoff layer.
 
+## 2026-10-06 corrective pass — completed engineering pass, acceptance open
+
+Baseline/rollback: `87c4b51bab45fb80b630288ef82f29c3da5e0014`; branch `fix/drummer-target-strikes`.
+The attached corrective handoff supersedes historical claims that cycling toms or green CI imply musical/visual acceptance.
+
+- [x] Verify remote baseline, preserve it, and inspect source artwork/tests (38 selected baseline tests passed).
+- [x] Six target-specific source-art shaft poses with explicit distal-tip/contact coordinates.
+- [x] Repose floor-tom arm to reach the visible upper edge rather than crossing the mid tom.
+- [x] Tighten instrument search windows to remove neighboring green artwork; restore complete red kick rim.
+- [x] Keep idle artwork at 30%; use 32% supplemental hi-hat pedal intensity, no hat arm/stick.
+- [x] Split native neutral-arm/gold-stick nodes using source colors; keep eight musical components.
+- [x] Extract production HPSS classifier to `audio/drummer_v3.py`; detection/export consume it.
+- [x] Archive older classifiers; unknown tom classes and drum_bus do not emit, including animation callers.
+- [x] Log every accepted event with spectral evidence and physical assignment; provide 10–30s timeline/CSV.
+- [x] Inspect nine isolated states and one decoded MP4 frame per state (18s slow video, 2s/state).
+- [x] Full focused drummer/geometry/audio/legacy-analysis suite: 76 passed, no xfails, 2 preexisting warnings.
+- [x] Regenerate 14 xmodel/layer/sheet files and verify byte-identical hashes.
+- [x] Render and inspect 25s proof (source 9.5–34.5s), 24 fps, 600 frames, aligned AAC audio.
+- [x] Update workflow with pose artifacts, event audit, broader regressions, and strict generated-asset checks.
+- [ ] Auditory annotation and musical approval: detector thresholds intentionally unchanged pending evidence.
+- [ ] Native xLights import/playback validation and user visual approval.
+
+Goal: physical contact and traceable musical evidence, not arbitrary hit coverage.
+Changed modules: pose spec; shared source-art mask/pose compositor; xmodel/layer builders;
+preview and pose-review tools; audio detector/archives; XSQ integration and audit tool;
+mapper/animation; regression tests; generated geometry/layers; ground-truth workflow; this ledger.
+Preserved: exact eight public targets, original background, source instrument colors, intro quality
+gate, simultaneous body+metal hits, non-emitting drum_bus, untouched rollback baseline.
+New: target-specific transformed source shafts and floor arm; narrower correct instrument windows;
+neutral/wood native submodels (median source palettes); obsolete generated generic-arm layers removed on re-injection;
+one active production classifier; unclassified toms no longer cycle.
+
+Evidence: 455 scheduled song events: kick 54, snare 142, hat 154, tom 23, cymbal 82.
+Zero events before 10s; first 10.990s. In 10–71s: 122 events, 46 with confidence <0.45,
+18 simultaneous onsets. Full-song maximum rolling 1s counts: snare 5, cymbal 3, kick 3,
+hat 4, tom 2. Confidence measures percussive support, NOT calibrated instrument-class probability.
+Encoded proof audio correlation to decoded source at 9.5s: 0.9967868; selected decoded frames
+at 9.75, 11.00, 18.82, 20.82, 21.82, 27.84, 28.63, 29.79, 29.96s inspected.
+
+Limitations: no auditory hit-by-hit labels; sparse 11–18s region and 142 snares still require listening.
+Source-derived static strike poses are not articulated motion; simultaneous poses sharing a hand can
+show more than one stick. Native 96x72 nodes/median palettes approximate the full-resolution preview;
+xLights playback, continuous native idle lighting, and exact native palette appearance are unverified.
+The source screenshot contains numbers and resting sticks, which remain dimly visible by design.
+Regression risks: callers of `audio.drum_detection` now use conservative V3 detection; older config
+fields other than onset_delta are compatibility-only. Unknown toms now drop rather than cycling.
+Deferred: beta roadmap, unrelated engine work, stem separation, and classifier retuning remain open.
+See `docs/DRUMMER_TARGET_STRIKES_HANDOFF.md` for reproduction and next steps; this ledger is authoritative.
+
 ## Current mission
 Build Helix into a reliable AI-assisted xLights auto-sequencer while preserving deterministic sequencing, verified artifacts, and cumulative behavior.
 
@@ -35,14 +84,14 @@ This supersedes the nine-component/four-tom V3 claims retained below as history.
 
 - Eight hit targets: KICK, SNARE, HI_HAT, TOM_HIGH, TOM_MID, TOM_FLOOR, CYMBAL_LEFT, CYMBAL_RIGHT.
 - HIGH is image-right, MID image-left, FLOOR lower-left. The extra lower-right drum is unused.
-- Snare/toms/cymbals include the corresponding existing arm/stick pixels; kick has no arm/stick; hi-hat includes the foot/pedal and no arm/stick.
-- Review rendering keeps inactive artwork at a 15% dim baseline and gives active full-resolution component masks a strong emissive lift while preserving the source artwork. xLights effects use 60–100% brightness. Simultaneous hits take a max-union; shared arms do not compound brightness.
+- Snare/toms/cymbals use target-specific transformed source-art strike poses; kick has no arm/stick; hi-hat includes a secondary foot/pedal and no arm/stick. This supersedes the generic raised-arm behavior retained in historical entries.
+- Review rendering uses a 30% dim baseline and 1.45 active gain on full-resolution source artwork. Native effects use 68–100% brightness, with pedal effects scaled to 32% of that. Simultaneous poses/bloom take a pixelwise maximum; shared arms do not compound brightness.
 - Source remains \`fixtures/band_geometry/source/drummerbg.png\`; no substitute drummer.
 
 ### Running implementation checklist
 - [x] Replace misregistered primitive lighting with source-normalized physical surfaces/actuators.
 - [x] Export integrated eight public hit targets plus \`_SURFACE\` geometry submodels.
-- [x] Render actual xmodel node ranges and reject missing/empty/out-of-range geometry.
+- [x] Render the shared full-resolution source-art spec and reject missing/empty/out-of-range xmodel targets. This supersedes enlarging native 96x72 masks, which produced blocky artwork.
 - [x] Remove global brightness changes and painted yellow blobs.
 - [x] Use max-union simultaneous hits and exclude other instrument surfaces from actuator contributions.
 - [x] Derive PNG review layers from the same exported nodes.

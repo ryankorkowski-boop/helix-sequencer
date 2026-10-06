@@ -55,7 +55,7 @@ def test_drummer_v3_source_and_pose_sheet_are_real_images() -> None:
 
 def test_pose_spec_is_three_tom_eight_target_source_normalized_contract() -> None:
     spec = json.loads(SPEC.read_text(encoding="utf-8"))
-    assert spec["schema"] == "helix.drummer_v3_pose_spec.v4"
+    assert spec["schema"] == "helix.drummer_v3_pose_spec.v5"
     assert spec["canonical_toms"] == ["HIGH", "MID", "FLOOR"]
     assert len(spec["lighting_targets"]) == 8
     zones = {zone["id"]: zone for zone in spec["zones"]}
@@ -69,9 +69,9 @@ def test_pose_spec_is_three_tom_eight_target_source_normalized_contract() -> Non
     target_map = {target["id"]: target for target in spec["lighting_targets"]}
     assert target_map["KICK"]["actuators"] == []
     assert target_map["HI_HAT"]["actuators"] == ["HI_HAT_FOOT"]
-    assert target_map["TOM_HIGH"]["actuators"] == ["RIGHT_ARM_STICK"]
-    assert target_map["TOM_MID"]["actuators"] == ["LEFT_ARM_STICK"]
-    assert target_map["TOM_FLOOR"]["actuators"] == ["LEFT_ARM_STICK"]
+    assert target_map["TOM_HIGH"]["actuators"] == ["TOM_HIGH_ARM_STICK"]
+    assert target_map["TOM_MID"]["actuators"] == ["TOM_MID_ARM_STICK"]
+    assert target_map["TOM_FLOOR"]["actuators"] == ["TOM_FLOOR_ARM_STICK"]
 
 
 def test_xmodel_has_dense_grid_and_surface_orientation() -> None:
@@ -97,12 +97,12 @@ def test_xmodel_has_dense_grid_and_surface_orientation() -> None:
 def test_public_targets_integrate_required_actuator_geometry() -> None:
     submodels = _submodels()
     cases = {
-        "SNARE": "LEFT_ARM_STICK",
-        "TOM_HIGH": "RIGHT_ARM_STICK",
-        "TOM_MID": "LEFT_ARM_STICK",
-        "TOM_FLOOR": "LEFT_ARM_STICK",
-        "CYMBAL_LEFT": "LEFT_ARM_STICK",
-        "CYMBAL_RIGHT": "RIGHT_ARM_STICK",
+        "SNARE": "SNARE_ARM_STICK",
+        "TOM_HIGH": "TOM_HIGH_ARM_STICK",
+        "TOM_MID": "TOM_MID_ARM_STICK",
+        "TOM_FLOOR": "TOM_FLOOR_ARM_STICK",
+        "CYMBAL_LEFT": "CYMBAL_LEFT_ARM_STICK",
+        "CYMBAL_RIGHT": "CYMBAL_RIGHT_ARM_STICK",
         "HI_HAT": "HI_HAT_FOOT",
     }
     for target, actuator in cases.items():

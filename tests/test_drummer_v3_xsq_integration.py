@@ -188,7 +188,9 @@ def test_visual_geometry_keeps_instrument_color_separate_from_actuator() -> None
         parts = COMPONENT_VISUAL_PARTS[tom]
         assert parts[0][0] == f"{tom}_SURFACE"
         assert parts[0][1] == "#2CB242"
-        assert parts[1][0].endswith("_ARM_STICK")
+        assert parts[1][0].endswith("_ARM_STICK_NEUTRAL")
+        assert parts[2][0].endswith("_ARM_STICK_WOOD")
+        assert parts[1][1] != parts[2][1]
         assert parts[1][1] != "#2CB242"
 
     hi_hat_parts = COMPONENT_VISUAL_PARTS[DRUMMER_COMPONENTS[2]]

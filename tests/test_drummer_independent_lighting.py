@@ -13,7 +13,7 @@ from tools.drummer_ground_truth_oracle import TARGETS as LOGICAL_TARGETS, fixtur
 from tools.export_drummer_ground_truth_xsq import export_drummer_ground_truth_xsq
 from tools.generate_drummer_ground_truth import generate
 from tools.render_drummer_v3_preview import TARGETS, compose_lighting, load_component_masks
-from tools.drummer_v3_visual_masks import target_surface_key
+from tools.drummer_v3_visual_masks import target_surface_key, build_geometry_masks, load_spec
 
 ROOT = Path(__file__).resolve().parents[1]
 XMODEL = ROOT / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
@@ -119,11 +119,21 @@ def test_each_tom_mask_is_the_green_source_art_not_a_polygon_outline() -> None:
         pixels = rgb[surface].astype(float)
         green = (pixels[:, 1] > pixels[:, 0] * 1.20) & (pixels[:, 1] > pixels[:, 2] * 1.08)
         assert green.mean() > 0.45, (tom, green.mean())
-        # Exact source-pixel masks are sparse wireframe/art pixels, not filled
-        # circles or rectangles.
-        ys, xs = np.where(surface)
-        bbox_area = (ys.max() - ys.min() + 1) * (xs.max() - xs.min() + 1)
-        assert surface.sum() < bbox_area * 0.72, tom
+        # Compare to the authored search shape, not its bounding rectangle:
+        # tightening a window around the real artwork legitimately increases
+        # rectangle occupancy. A filled replacement polygon must still fail.
+        authored = np.asarray(build_geometry_masks(source.size, load_spec())["surfaces"][tom.removeprefix("HX_SNOWMAN_DRUMMER_V3_")+"_SURFACE"]) > 0
+        assert surface.sum() < authored.sum() * 0.95
+        assert not np.any(surface & (rgb.max(axis=2) < 24))
+
+
+def test_tom_windows_do_not_pick_up_neighboring_green_drums():
+    _, masks = load_component_masks()
+    mid = np.asarray(masks[target_surface_key(TARGETS[4])])
+    high = np.asarray(masks[target_surface_key(TARGETS[3])])
+    assert not mid[255:275, 145:180].any()  # floor-tom upper left body
+    assert not high[260:280, 407:422].any()  # unused lower-right drum
+
 
 
 def test_actuator_brightens_in_its_original_source_colors() -> None:

@@ -15,11 +15,9 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from tools.drummer_v3_visual_masks import (
-    build_geometry_masks,
+    exact_geometry,
     compose_emissive,
     load_spec,
-    refine_actuator_to_source_art,
-    refine_surface_to_source_art,
 )
 
 DEFAULT_SOURCE = ROOT / "fixtures" / "band_geometry" / "source" / "drummerbg.png"
@@ -70,7 +68,7 @@ def _transparent_emissive(source: Image.Image, mask: Image.Image) -> Image.Image
     return layer
 
 
-def make_contact_sheet(source: Image.Image, masks_by_frame: dict[str, Image.Image], frames: list[str]) -> Image.Image:
+def make_contact_sheet(source: Image.Image, masks_by_frame: dict[str, Image.Image], frames: list[str], *, masks=None, manifest=None) -> Image.Image:
     base = source.convert("RGBA")
     frame_w, label_h = 360, 28
     scale = frame_w / base.width
@@ -86,7 +84,8 @@ def make_contact_sheet(source: Image.Image, masks_by_frame: dict[str, Image.Imag
         if mask is None:
             composed = compose_emissive(base, {}, [])
         else:
-            composed = compose_emissive(base, {"_ACTIVE": mask}, ["_ACTIVE"])
+            targets = next(item["targets"] for item in manifest["layers"] if item["id"] == frame) if manifest else ["_ACTIVE"]
+            composed = compose_emissive(base, masks or {"_ACTIVE": mask}, targets)
         sheet.alpha_composite(composed.resize((frame_w, frame_h), Image.Resampling.LANCZOS), (x, y + label_h))
         draw.text((x + 8, y + 7), frame, fill=(255, 255, 255, 255))
     return sheet
@@ -128,25 +127,7 @@ def build(
     if source.width < 128 or source.height < 128:
         raise ValueError(f"Source image is too small for a useful review sheet: {source.size}")
     spec = load_spec()
-    geometry = build_geometry_masks(source.size, spec)
-    authored_targets = geometry["targets"]
-    target_specs = {
-        f"{spec['model_name']}_{str(item['id'])}": item
-        for item in spec.get("lighting_targets", [])
-        if isinstance(item, dict) and item.get("id") and item.get("surface")
-    }
-    masks: dict[str, Image.Image] = {}
-    for target, target_spec in target_specs.items():
-        surface_id = str(target_spec["surface"])
-        authored_surface = geometry["surfaces"][surface_id]
-        exact_surface = refine_surface_to_source_art(source, authored_surface, target)
-        authored_actuator = ImageChops.subtract(authored_targets[target], authored_surface)
-        if authored_actuator.getbbox() is None:
-            exact_actuator = Image.new("L", source.size, 0)
-        else:
-            exact_actuator = refine_actuator_to_source_art(source, authored_actuator)
-        masks[target] = ImageChops.lighter(exact_surface, exact_actuator)
-
+    masks = exact_geometry(source, spec)["masks"]
     overlays: dict[str, Image.Image] = {}
     frame_masks: dict[str, Image.Image] = {}
     written: list[str] = []
@@ -155,13 +136,14 @@ def build(
         layer_id = str(layer["id"])
         mask = _union_masks([str(t) for t in layer["targets"]], masks, source.size)
         frame_masks[layer_id] = mask
-        overlay = _transparent_emissive(source, mask)
+        overlay = compose_emissive(source, masks, layer["targets"])
+        overlay.putalpha(mask)
         overlays[layer_id] = overlay
         out_path = layers_dir / str(layer["file"])
         (written if save_image(out_path, overlay, overwrite) else skipped).append(_relative(out_path))
 
     frames = [str(frame) for frame in manifest["required_frames"]]
-    contact = make_contact_sheet(source, frame_masks, frames)
+    contact = make_contact_sheet(source, frame_masks, frames, masks=masks, manifest=manifest)
     contact_path = preview_dir / str(manifest.get("contact_sheet", "drummer_v3_contact_sheet.png"))
     (written if save_image(contact_path, contact, overwrite) else skipped).append(_relative(contact_path))
     return {

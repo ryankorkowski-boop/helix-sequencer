@@ -9,6 +9,7 @@ on:
     branches:
       - feature/restructure-core
       - fix/drummer-independent-illumination
+      - fix/drummer-target-strikes
     paths:
       - '.github/workflows/drummer-ground-truth.yml'
       - 'audio/**'
@@ -87,6 +88,19 @@ jobs:
       - name: Verify regenerated xmodel remains reproducible
         run: |
           git diff --exit-code -- fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel
+          python - <<'PY_CHECK'
+          import io, subprocess
+          from pathlib import Path
+          import numpy as np
+          from PIL import Image
+          paths = [*Path('fixtures/band_geometry/layers').glob('drummer*.png'), Path('fixtures/band_geometry/previews/HX_SNOWMAN_DRUMMER_V3_pose_sheet.png')]
+          for path in paths:
+              original = subprocess.check_output(['git', 'show', f'HEAD:{path.as_posix()}'])
+              before = np.asarray(Image.open(io.BytesIO(original)).convert('RGBA'))
+              after = np.asarray(Image.open(path).convert('RGBA'))
+              assert np.array_equal(before, after), f'Generated source-art pixels drifted: {path}'
+          print(f'PASS: {len(paths)} generated layers/sheet match committed pixels')
+          PY_CHECK
       - name: Generate deterministic ground-truth audio and events
         env: {PYTHONPATH: .}
         run: python tools/generate_drummer_ground_truth.py --wav test_runs/drummer_ground_truth/drummer_ground_truth.wav --events test_runs/drummer_ground_truth/events.json
@@ -125,8 +139,13 @@ jobs:
             tests/test_drummer_independent_lighting.py \
             tests/test_drum_detection.py \
             tests/test_drum_mapping.py \
+            tests/test_drummer_target_strikes.py \
+            tests/test_drummer_v3_real_audio.py \
             tests/test_band_geometry_manifest.py \
             tests/test_band_geometry_status.py
+      - name: Render isolated pose validation before music
+        env: {PYTHONPATH: .}
+        run: python tools/review_drummer_v3_poses.py --output test_runs/drummer_poses
       - name: Render canonical independent-lighting preview
         env: {PYTHONPATH: .}
         run: |
@@ -219,14 +238,18 @@ jobs:
           print('REAL-SONG EARLIEST ACCEPTED HIT (ms):', earliest)
           print('VISIBLE GEOMETRY SUBMODELS:', sorted(visual_names))
           PY
-      - name: Render 60-second real-song proof
+      - name: Write per-hit evidence and first-section timeline
+        env: {PYTHONPATH: .}
+        run: python tools/audit_drummer_v3_events.py test_runs/drummer_real_audio/drummer_real_audio_report.json --output test_runs/drummer_real_audio
+      - name: Render 25-second real-song proof
         env: {PYTHONPATH: .}
         run: |
           python tools/render_drummer_v3_preview.py \
             test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq \
             --audio 'Helix Audiolights.mp3' \
-            --output test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_60s.mp4 \
-            --duration 60 \
+            --output test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4 \
+            --start 9.5 \
+            --duration 25 \
             --fps 24
       - name: Upload real-song proof
         if: always()
@@ -236,7 +259,9 @@ jobs:
           path: |
             test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq
             test_runs/drummer_real_audio/drummer_real_audio_report.json
-            test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_60s.mp4
+            test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4
+            test_runs/drummer_real_audio/Drummer_*
+            test_runs/drummer_poses/*
           if-no-files-found: error
       - name: Upload drummer truth artifacts
         if: always()

@@ -130,7 +130,8 @@ def suppress_intro_false_hits(
     config: DrumMappingConfig = DrumMappingConfig(),
 ) -> tuple[list[DrumEvent], int | None, int]:
     ordered = sorted(
-        (event for event in events if event.drum_type != "drum_bus"),
+        (event for event in events if event.drum_type != "drum_bus"
+         and (event.drum_type != "tom" or _explicit_tom_class(event)[0] is not None)),
         key=lambda event: (
             event.timestamp_ms,
             DRUM_PRIORITY.get(event.drum_type, 9),
@@ -174,7 +175,8 @@ def schedule_drum_events(
     config: DrumMappingConfig = DrumMappingConfig(),
 ) -> list[DrumEvent]:
     sorted_events = sorted(
-        (event for event in events if event.drum_type != "drum_bus"),
+        (event for event in events if event.drum_type != "drum_bus"
+         and (event.drum_type != "tom" or _explicit_tom_class(event)[0] is not None)),
         key=lambda event: (
             event.timestamp_ms,
             DRUM_PRIORITY.get(event.drum_type, 9),
@@ -285,7 +287,7 @@ def tom_class_for_event(event: DrumEvent, event_index: int = 0) -> str:
     explicit, _ = _explicit_tom_class(event)
     if explicit:
         return explicit
-    return ("high", "mid", "floor")[event_index % 3]
+    raise ValueError("Tom event has no detected physical class")
 
 
 def drummer_v3_pose_for_event(event: DrumEvent, event_index: int = 0) -> str:
@@ -312,7 +314,7 @@ def _pose_components(
         return (HI_HAT,), None, None
     if event.drum_type == "tom":
         tom_class = tom_class_for_event(event, tom_index)
-        source = "detected_tom_class" if _explicit_tom_class(event)[0] else "deterministic_three_tom_fallback"
+        source = "detected_tom_class"
         return (TOM_COMPONENT_BY_CLASS[tom_class],), tom_class, source
     if event.drum_type == "cymbal":
         component = CYMBAL_LEFT if pose == "left_crash" else CYMBAL_RIGHT
@@ -324,7 +326,8 @@ def _pose_components(
 
 def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
     ordered = sorted(
-        (event for event in events if event.drum_type != "drum_bus"),
+        (event for event in events if event.drum_type != "drum_bus"
+         and (event.drum_type != "tom" or _explicit_tom_class(event)[0] is not None)),
         key=lambda item: (
             item.timestamp_ms,
             DRUM_PRIORITY.get(item.drum_type, 9),

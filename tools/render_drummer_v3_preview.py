@@ -9,15 +9,12 @@ import imageio.v2 as imageio
 import imageio_ffmpeg
 import numpy as np
 import soundfile as sf
-from PIL import Image, ImageChops, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 from tools.drummer_v3_visual_masks import (
-    build_geometry_masks,
+    exact_geometry,
     compose_emissive,
     load_spec,
-    refine_actuator_to_source_art,
-    refine_surface_to_source_art,
-    target_surface_key,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -94,34 +91,7 @@ def load_component_masks(
     validate_xmodel_targets(xmodel_path)
     source = Image.open(source_path).convert("RGBA")
     spec = load_spec()
-    geometry = build_geometry_masks(source.size, spec)
-    target_masks = geometry["targets"]
-    missing = set(TARGETS) - set(target_masks)
-    if missing:
-        raise ValueError(f"visual geometry missing canonical drummer targets: {sorted(missing)}")
-
-    # Keep public target masks unchanged, but carry a private surface-only mask
-    # beside each one so rendering can outline the actual drum/cymbal and leave
-    # integrated arms/sticks/foot in their original source colors.
-    surface_by_target = {
-        f"{spec['model_name']}_{str(item['id'])}": str(item["surface"])
-        for item in spec.get("lighting_targets", [])
-        if isinstance(item, dict) and item.get("id") and item.get("surface")
-    }
-    masks: dict[str, Image.Image] = {}
-    for name in TARGETS:
-        surface_id = surface_by_target.get(name)
-        if not surface_id or surface_id not in geometry["surfaces"]:
-            raise ValueError(f"visual geometry missing surface mask for {name}")
-        authored_surface = geometry["surfaces"][surface_id]
-        exact_surface = refine_surface_to_source_art(source, authored_surface, name)
-        authored_actuator = ImageChops.subtract(target_masks[name], authored_surface)
-        if authored_actuator.getbbox() is None:
-            exact_actuator = Image.new("L", source.size, 0)
-        else:
-            exact_actuator = refine_actuator_to_source_art(source, authored_actuator)
-        masks[name] = ImageChops.lighter(exact_surface, exact_actuator)
-        masks[target_surface_key(name)] = exact_surface
+    masks = exact_geometry(source, spec)["masks"]
     return source, masks
 
 
@@ -221,6 +191,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--fps", type=int, default=24)
     parser.add_argument("--duration", type=float, default=0.0)
+    parser.add_argument("--start", type=float, default=0.0, help="First source-audio second to render")
     parser.add_argument("--require-all-targets", action="store_true")
     args = parser.parse_args()
 
@@ -234,7 +205,11 @@ def main() -> int:
         raise SystemExit(f"FAIL: XSQ missing canonical drummer targets: {sorted(missing)}")
 
     audio_duration_ms = _audio_duration_ms(args.audio)
-    duration_ms = audio_duration_ms if args.duration <= 0 else min(int(args.duration * 1000), audio_duration_ms)
+    start_ms = int(round(args.start * 1000))
+    if args.fps <= 0 or start_ms < 0 or start_ms >= audio_duration_ms or args.duration < 0:
+        raise SystemExit("Invalid fps/start/duration for audio")
+    remaining_ms = audio_duration_ms - start_ms
+    duration_ms = remaining_ms if args.duration == 0 else min(int(args.duration * 1000), remaining_ms)
 
     output = args.output
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -245,17 +220,17 @@ def main() -> int:
     try:
         frame_count = int(round(duration_ms / 1000 * args.fps))
         for index in range(frame_count):
-            t_ms = int(round(index * 1000 / args.fps))
+            t_ms = start_ms + int(round(index * 1000 / args.fps))
             active = {name for start, end, name in effects if start <= t_ms < end}
             writer.append_data(np.asarray(draw_frame(
-                source, masks, active, 960, 540, t_ms, duration_ms, font, art_cache
+                source, masks, active, 960, 540, t_ms, start_ms + duration_ms, font, art_cache
             )))
     finally:
         writer.close()
 
     ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
     result = subprocess.run(
-        [ffmpeg, "-y", "-i", str(silent), "-i", str(args.audio), "-map", "0:v:0", "-map", "1:a:0",
+        [ffmpeg, "-y", "-i", str(silent), "-ss", str(args.start), "-i", str(args.audio), "-map", "0:v:0", "-map", "1:a:0",
          "-c:v", "copy", "-c:a", "aac", "-shortest", "-movflags", "+faststart", str(output)],
         capture_output=True,
         text=True,

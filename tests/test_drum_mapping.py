@@ -59,7 +59,7 @@ class DrumMappingTests(unittest.TestCase):
         self.assertEqual(assign_hand(_event(100, "kick")), "foot")
         self.assertEqual(assign_hand(_event(100, "snare")), "left")
         self.assertEqual(assign_hand(_event(100, "cymbal")), "right")
-        motions = build_drummer_motion([_event(100, "snare"), _event(250, "tom")])
+        motions = build_drummer_motion([_event(100, "snare"), DrumEvent(.25, .8, .7, {"tom_class": "mid"}, 1, "tom")])
         self.assertEqual(motions[0]["hand"], "left")
         self.assertEqual(motions[1]["hand"], "both")
         self.assertLess(motions[0]["start_ms"], motions[0]["strike_ms"])

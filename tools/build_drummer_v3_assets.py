@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 from PIL import Image, ImageChops
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,9 +24,7 @@ from tools.build_drummer_v3_png_layers import (
     build as build_png_layers,
 )
 from tools.drummer_v3_visual_masks import (
-    build_geometry_masks,
-    refine_actuator_to_source_art,
-    refine_surface_to_source_art,
+    exact_geometry,
 )
 
 DEFAULT_SPEC = ROOT / "fixtures" / "band_geometry" / "drummer_v3_pose_spec.json"
@@ -113,29 +112,15 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
 
     with Image.open(source_path) as handle:
         source = handle.convert("RGBA")
-    full_geometry = build_geometry_masks(source.size, spec)
 
     target_specs = {
         str(item["id"]): item
         for item in spec.get("lighting_targets", [])
         if isinstance(item, dict) and item.get("id") and item.get("surface")
     }
-    surface_to_target = {
-        str(item["surface"]): f"{MODEL_NAME}_{str(item['id'])}"
-        for item in target_specs.values()
-    }
-
-    exact_surfaces_full: dict[str, Image.Image] = {}
-    for surface_id, target_name in surface_to_target.items():
-        exact_surfaces_full[surface_id] = refine_surface_to_source_art(
-            source,
-            full_geometry["surfaces"][surface_id],
-            target_name,
-        )
-
-    exact_actuators_full: dict[str, Image.Image] = {}
-    for actuator_id, authored in full_geometry["actuators"].items():
-        exact_actuators_full[actuator_id] = refine_actuator_to_source_art(source, authored)
+    exact = exact_geometry(source, spec)
+    exact_surfaces_full = exact["surfaces"]
+    exact_actuators_full = {name: art.getchannel("A") for name, art in exact["actuators"].items()}
 
     raw_surface_masks = {
         name: _downsample_exact_mask(mask, width, height)
@@ -244,6 +229,28 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
                 "line0": _ranges(nodes),
             },
         )
+
+        if name.endswith("_ARM_STICK") and name not in {"LEFT_ARM_STICK", "RIGHT_ARM_STICK"}:
+            # Native On effects need separate source-neutral arm and source-gold
+            # shaft palettes. Partition nodes, never recolor the complete arm gold.
+            art = exact["actuators"][name]
+            rgb = np.asarray(art.convert("RGB"))
+            alpha = np.asarray(art.getchannel("A"))
+            hsv = np.asarray(art.convert("RGB").convert("HSV"))
+            wood = (hsv[..., 1] > 90) & (alpha > 32)
+            wood_mask = Image.fromarray(np.where(wood, 255, 0).astype(np.uint8))
+            wood_nodes = _nodes_from_overlay(_downsample_exact_mask(wood_mask, width, height), width, height) & nodes
+            for suffix, selected, pixels in (
+                ("WOOD", wood_nodes, rgb[wood]),
+                ("NEUTRAL", nodes - wood_nodes, rgb[(~wood) & (alpha > 32)]),
+            ):
+                if not selected or not len(pixels):
+                    raise ValueError(f"Empty source-color actuator partition: {name}_{suffix}")
+                color = "#" + "".join(f"{round(float(v)):02X}" for v in np.median(pixels, axis=0))
+                ET.SubElement(submodels, "subModel", {
+                    "name": _prefixed(f"{name}_{suffix}"), "layout": "ranges", "type": "ranges",
+                    "line0": _ranges(selected), "HelixSourceColor": color,
+                })
 
     for target_id, nodes in target_nodes.items():
         ET.SubElement(
