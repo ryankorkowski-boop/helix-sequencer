@@ -28,7 +28,7 @@ def _run_builder(source: Path, layers_dir: Path, preview_dir: Path):
     )
 
 
-def test_manifest_selects_xmodel_targets_without_duplicate_geometry_commands() -> None:
+def test_manifest_selects_canonical_targets_without_duplicate_geometry_commands() -> None:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     assert manifest["xmodel_path"].endswith("HX_SNOWMAN_DRUMMER_V3.xmodel")
     assert set(manifest["required_frames"]) == REQUIRED_FRAMES
@@ -45,7 +45,7 @@ def test_builder_reports_absent_png_input(tmp_path: Path) -> None:
     assert "missing.png" in result.stderr
 
 
-def test_builder_creates_node_derived_transparent_layers_and_contact_sheet(tmp_path: Path) -> None:
+def test_builder_creates_full_resolution_transparent_layers_and_contact_sheet(tmp_path: Path) -> None:
     source = tmp_path / "drummerbg.png"
     Image.new("RGBA", (320, 240), (80, 120, 160, 255)).save(source)
     layers_dir, preview_dir = tmp_path / "layers", tmp_path / "previews"
@@ -53,6 +53,7 @@ def test_builder_creates_node_derived_transparent_layers_and_contact_sheet(tmp_p
     assert result.returncode == 0, result.stderr + result.stdout
     payload = json.loads(result.stdout)
     assert payload["layer_count"] == 10 and payload["frame_count"] == 11
+    assert "full-resolution" in payload["geometry_source"]
 
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     for layer in manifest["layers"]:
@@ -60,8 +61,7 @@ def test_builder_creates_node_derived_transparent_layers_and_contact_sheet(tmp_p
         assert path.exists()
         with Image.open(path) as image:
             assert image.size == (320, 240) and image.mode == "RGBA"
-            assert image.getchannel("A").getextrema()[0] == 0
-            assert image.getchannel("A").getextrema()[1] == 255
+            assert image.getchannel("A").getextrema() == (0, 255)
     assert (preview_dir / manifest["contact_sheet"]).exists()
 
 
