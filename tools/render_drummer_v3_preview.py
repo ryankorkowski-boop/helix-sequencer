@@ -11,7 +11,7 @@ import numpy as np
 import soundfile as sf
 from PIL import Image, ImageDraw, ImageFont
 
-from tools.drummer_v3_visual_masks import build_geometry_masks, compose_emissive, load_spec
+from tools.drummer_v3_visual_masks import build_geometry_masks, compose_emissive, load_spec, target_surface_key
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "fixtures/band_geometry/source/drummerbg.png"
@@ -86,11 +86,28 @@ def load_component_masks(
         raise ValueError(f"canonical drummer xmodel missing: {xmodel_path}")
     validate_xmodel_targets(xmodel_path)
     source = Image.open(source_path).convert("RGBA")
-    masks = build_geometry_masks(source.size, load_spec())["targets"]
-    missing = set(TARGETS) - set(masks)
+    spec = load_spec()
+    geometry = build_geometry_masks(source.size, spec)
+    target_masks = geometry["targets"]
+    missing = set(TARGETS) - set(target_masks)
     if missing:
         raise ValueError(f"visual geometry missing canonical drummer targets: {sorted(missing)}")
-    return source, {name: masks[name] for name in TARGETS}
+
+    # Keep public target masks unchanged, but carry a private surface-only mask
+    # beside each one so rendering can outline the actual drum/cymbal and leave
+    # integrated arms/sticks/foot in their original source colors.
+    surface_by_target = {
+        f"{spec['model_name']}_{str(item['id'])}": str(item["surface"])
+        for item in spec.get("lighting_targets", [])
+        if isinstance(item, dict) and item.get("id") and item.get("surface")
+    }
+    masks = {name: target_masks[name] for name in TARGETS}
+    for name in TARGETS:
+        surface_id = surface_by_target.get(name)
+        if not surface_id or surface_id not in geometry["surfaces"]:
+            raise ValueError(f"visual geometry missing surface mask for {name}")
+        masks[target_surface_key(name)] = geometry["surfaces"][surface_id]
+    return source, masks
 
 
 def compose_lighting(
