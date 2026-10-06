@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import shutil
@@ -8,7 +9,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from audio.drum_detection import detect_drum_event_streams_from_file
-from mapping.drum_mapper import DRUMMER_COMPONENTS, map_events_to_drummer_components, resolve_drum_streams
+from mapping.drum_mapper import DRUMMER_COMPONENTS, map_events_to_drummer_v3_poses, resolve_drum_streams
 
 DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
 DRUMMER_TARGETS = set(DRUMMER_COMPONENTS)
@@ -21,6 +22,26 @@ ORACLE_COUNTS = {
     "cymbal": 840,
     "drum_bus": 47,
 }
+ORACLE_SCHEDULED_COUNTS = {
+    "kick": 193,
+    "snare": 37,
+    "tom": 9,
+    "hihat": 205,
+    "cymbal": 824,
+    "drum_bus": 47,
+}
+ORACLE_POSE_COUNTS = {
+    "kick_hit": 193,
+    "snare_hit": 37,
+    "hi_hat_pulse": 205,
+    "right_tom_hit": 5,
+    "left_tom_hit": 4,
+    "right_crash": 412,
+    "left_crash": 412,
+    "both_crash": 0,
+    "downbeat_impact": 47,
+}
+ORACLE_TIMELINE_SHA256 = "953386d5d69564abd83fb3c50fc7bf3e2aebb017e5995df8264771eda3b851ea"
 
 
 def _find_or_create_element_effects(root: ET.Element) -> ET.Element:
@@ -61,6 +82,7 @@ def _add_on(
     intensity: float,
     component: str,
     source_type: str,
+    source_pose: str,
 ) -> None:
     brightness = _brightness_percent(intensity)
     ET.SubElement(
@@ -79,6 +101,7 @@ def _add_on(
             "sourceModel": DRUMMER_V3_MODEL,
             "sourceComponent": component,
             "sourceDrumType": source_type,
+            "sourcePose": source_pose,
             "sourceDetector": "oracle_compatible_hpss_classifier",
         },
     )
@@ -98,7 +121,7 @@ def inject_drummer_v3(
 
     streams = detect_drum_event_streams_from_file(audio_path)
     resolved = resolve_drum_streams(streams)
-    component_events = map_events_to_drummer_components(resolved["events"])
+    pose_events = map_events_to_drummer_v3_poses(resolved["events"])
 
     if output_xsq.resolve() != base_xsq.resolve():
         output_xsq.parent.mkdir(parents=True, exist_ok=True)
@@ -114,19 +137,25 @@ def inject_drummer_v3(
         _clear_layer(layers[name])
 
     placements = 0
-    for event in component_events:
-        component = str(event["component"])
-        if component not in DRUMMER_TARGETS:
-            raise ValueError(f"Non-canonical drummer target emitted: {component}")
-        _add_on(
-            layers[component],
-            int(event["timestamp_ms"]),
-            int(event["end_ms"]),
-            float(event["intensity"]),
-            component,
-            str(event["drum_type"]),
-        )
-        placements += 1
+    component_counts = {component: 0 for component in sorted(DRUMMER_TARGETS)}
+    for event in pose_events:
+        components = tuple(str(value) for value in event.get("components", ()))
+        if not components:
+            raise ValueError(f"Drummer pose emitted no physical components: {event}")
+        for component in components:
+            if component not in DRUMMER_TARGETS:
+                raise ValueError(f"Non-canonical drummer target emitted: {component}")
+            _add_on(
+                layers[component],
+                int(event["timestamp_ms"]),
+                int(event["end_ms"]),
+                float(event["intensity"]),
+                component,
+                str(event["drum_type"]),
+                str(event["pose"]),
+            )
+            component_counts[component] += 1
+            placements += 1
 
     if layer_name not in {node.get("name") for node in root.findall("timingtrack")}:
         ET.SubElement(root, "timingtrack", {"name": layer_name})
@@ -138,14 +167,21 @@ def inject_drummer_v3(
         kind: sum(1 for event in resolved["events"] if event.drum_type == kind)
         for kind in ("kick", "snare", "tom", "hihat", "cymbal", "drum_bus")
     }
-    component_counts = {
-        component: sum(1 for event in component_events if event["component"] == component)
-        for component in sorted(DRUMMER_TARGETS)
+    pose_counts = {
+        pose: sum(1 for event in pose_events if event["pose"] == pose)
+        for pose in ORACLE_POSE_COUNTS
     }
+    timeline_rows = [
+        [int(event["timestamp_ms"]), int(event["end_ms"]), str(event["pose"]), str(event["drum_type"])]
+        for event in pose_events
+    ]
+    timeline_sha256 = hashlib.sha256(
+        json.dumps(timeline_rows, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
     typed_count = sum(raw_counts.get(k, 0) for k in ("kick", "snare", "tom", "hihat", "cymbal"))
     bus_count = raw_counts.get("drum_bus", 0)
     return {
-        "schema": "helix.drummer_v3_xsq_integration.v7",
+        "schema": "helix.drummer_v3_xsq_integration.v8",
         "model": DRUMMER_V3_MODEL,
         "base_xsq": str(base_xsq),
         "output_xsq": str(output_xsq),
@@ -155,10 +191,15 @@ def inject_drummer_v3(
         "oracle_commit": ORACLE_COMMIT,
         "oracle_reference_counts": ORACLE_COUNTS,
         "fallback_mode": resolved["fallback_mode"],
-        "event_count": len(component_events),
+        "event_count": len(pose_events),
         "placement_count": placements,
         "raw_drum_type_counts": raw_counts,
         "scheduled_drum_type_counts": scheduled_counts,
+        "oracle_scheduled_counts": ORACLE_SCHEDULED_COUNTS,
+        "pose_counts": pose_counts,
+        "oracle_pose_counts": ORACLE_POSE_COUNTS,
+        "historical_timeline_sha256": timeline_sha256,
+        "oracle_timeline_sha256": ORACLE_TIMELINE_SHA256,
         "typed_event_count": typed_count,
         "drum_bus_event_count": bus_count,
         "drum_bus_ratio": round(bus_count / max(1, typed_count + bus_count), 4),
