@@ -11,7 +11,14 @@ import numpy as np
 import soundfile as sf
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 
-from tools.drummer_v3_visual_masks import (\n    build_geometry_masks,\n    compose_emissive,\n    load_spec,\n    refine_actuator_to_source_art,\n    refine_surface_to_source_art,\n    target_surface_key,\n)
+from tools.drummer_v3_visual_masks import (
+    build_geometry_masks,
+    compose_emissive,
+    load_spec,
+    refine_actuator_to_source_art,
+    refine_surface_to_source_art,
+    target_surface_key,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "fixtures/band_geometry/source/drummerbg.png"
