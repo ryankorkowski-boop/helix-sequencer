@@ -53,7 +53,7 @@ def test_builder_creates_full_resolution_transparent_layers_and_contact_sheet(tm
     assert result.returncode == 0, result.stderr + result.stdout
     payload = json.loads(result.stdout)
     assert payload["layer_count"] == 10 and payload["frame_count"] == 11
-    assert "full-resolution" in payload["geometry_source"]
+    assert "exact drummerbg source pixels" in payload["geometry_source"]
 
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     for layer in manifest["layers"]:
