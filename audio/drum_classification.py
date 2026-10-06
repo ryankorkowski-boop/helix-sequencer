@@ -23,19 +23,19 @@ class DrumClassifierThresholds:
     # Recall is useful for isolated drum stems, but full mixes must reject tonal
     # instrument attacks. HPSS alone is not sufficient: guitar pick attacks can
     # leak into the percussive component and look like sharp drum onsets.
-    low_confidence_min: float = 0.27
-    kick_low_ratio_min: float = 0.18
-    kick_low_centroid_max: float = 800.0
-    snare_mid_ratio_min: float = 0.14
-    snare_sharpness_min: float = 0.04
-    tom_mid_low_ratio_min: float = 0.16
+    low_confidence_min: float = 0.34
+    kick_low_ratio_min: float = 0.24
+    kick_low_centroid_max: float = 700.0
+    snare_mid_ratio_min: float = 0.20
+    snare_sharpness_min: float = 0.08
+    tom_mid_low_ratio_min: float = 0.22
     tom_high_centroid_min: float = 520.0
     tom_mid_centroid_min: float = 760.0
     tom_floor_centroid_max: float = 520.0
-    hihat_high_ratio_min: float = 0.28
-    hihat_decay_max: float = 0.50
-    cymbal_high_ratio_min: float = 0.25
-    cymbal_decay_min: float = 0.35
+    hihat_high_ratio_min: float = 0.38
+    hihat_decay_max: float = 0.42
+    cymbal_high_ratio_min: float = 0.32
+    cymbal_decay_min: float = 0.42
     cymbal_percussive_ratio_min: float = 0.18
     cymbal_flatness_min: float = 0.025
     hihat_percussive_ratio_min: float = 0.14
@@ -80,23 +80,6 @@ def classify_drum_hit(features: dict[str, float], thresholds: DrumClassifierThre
     spread = _clamp(features.get("spectral_spread01", 0.0))
     sharp = _clamp(features.get("transient_sharpness", 0.0))
     decay = _clamp(features.get("decay_profile", 0.0))
-
-    has_percussive = "percussive_ratio" in features
-    has_flatness = "spectral_flatness" in features
-    percussive_ratio = _clamp(features.get("percussive_ratio", 1.0))
-    flatness = _clamp(features.get("spectral_flatness", 1.0))
-    harmonic_contamination = _clamp(features.get("harmonic_contamination", 1.0 - percussive_ratio))
-
-    if has_percussive and percussive_ratio < thresholds.min_percussive_ratio:
-        return "drum_bus", 0.0
-    if (
-        has_percussive
-        and has_flatness
-        and harmonic_contamination > thresholds.harmonic_contamination_max
-        and flatness < thresholds.tonal_flatness_max
-        and spread < thresholds.tonal_spread_max
-    ):
-        return "drum_bus", 0.0
 
     # Preserve the known-good b27e8d77 rule order.
     if low >= thresholds.kick_low_ratio_min and low_centroid <= thresholds.kick_low_centroid_max:
