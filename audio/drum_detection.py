@@ -73,10 +73,11 @@ def detect_drum_event_streams(y: np.ndarray, sr: int, config: DrumDetectionConfi
         if drum_type == "tom": tom_class, tom_class_confidence = classify_tom_class(features)
         timestamp = float(librosa.frames_to_time(frame, sr=sr, hop_length=hop)); timestamp_ms = int(round(timestamp*1000.0)); cluster, cluster_id = _cluster_id(timestamp_ms, previous_ms, cluster, config.cluster_gap_ms); previous_ms = timestamp_ms
         velocity = max(0.08, min(1.0, (float(rms01[frame]) if frame < len(rms01) else current)*0.65 + current*0.35))
-        info = {key: round(float(value), 4) for key, value in features.items()}
+        info: dict[str, object] = {key: round(float(value), 4) for key, value in features.items()}
         if tom_class is not None:
-            info["tom_class"] = {"high": 1.0, "mid": 2.0, "floor": 3.0}[tom_class]
             info["tom_class_confidence"] = round(float(tom_class_confidence), 4)
+            if tom_class_confidence >= config.tom_class_confidence_min:
+                info["tom_class"] = tom_class
         raw_events.append(DrumEvent(timestamp=round(timestamp,4), velocity=round(velocity,3), confidence=confidence, frequency_band_info=info, cluster_id=cluster_id, drum_type=drum_type))
     streams = empty_drum_streams()
     for event in _compress_events(raw_events, config.min_gap_ms): streams[stream_key_for_type(event.drum_type)].append(event)
