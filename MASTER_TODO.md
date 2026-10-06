@@ -29,7 +29,34 @@ The current repo priority is the beta-readiness sequence defined in `ROADMAP_BET
 8. Add Windows packaging smoke coverage.
 9. Only then begin engine facade/extraction work.
 
-## Drummer / band current state
+## Current V3 drummer contract — independent component lighting
+
+This supersedes the nine-component/four-tom V3 claims retained below as history.
+
+- Eight hit targets: KICK, SNARE, HI_HAT, TOM_HIGH, TOM_MID, TOM_FLOOR, CYMBAL_LEFT, CYMBAL_RIGHT.
+- HIGH is image-right, MID image-left, FLOOR lower-left. The extra lower-right drum is unused.
+- Snare/toms/cymbals include the corresponding existing arm/stick pixels; kick has no arm/stick; hi-hat includes the foot/pedal and no arm/stick.
+- Inactive artwork stays at fixed 28% idle brightness. Simultaneous hits take a max-union; shared arms do not compound brightness.
+- Source remains \`fixtures/band_geometry/source/drummerbg.png\`; no substitute drummer.
+
+### Running implementation checklist
+- [x] Replace misregistered primitive lighting with source-normalized physical surfaces/actuators.
+- [x] Export integrated eight public hit targets plus \`_SURFACE\` geometry submodels.
+- [x] Render actual xmodel node ranges and reject missing/empty/out-of-range geometry.
+- [x] Remove global brightness changes and painted yellow blobs.
+- [x] Use max-union simultaneous hits and exclude other instrument surfaces from actuator contributions.
+- [x] Derive PNG review layers from the same exported nodes.
+- [x] Share one deterministic event oracle between WAV and XSQ; 68 events over 20 seconds.
+- [x] Fix the former starter-model/manifest expected failure and archive that legacy contract.
+- [ ] GitHub Actions verification of the reconstructed branch.
+- [ ] User visual approval of the reconstructed candidate.
+- [ ] xLights import/playback confirmation.
+- [ ] Real-song drum detection/guitar rejection evaluation; unchanged by this visual fix.
+
+See \`docs/DRUMMER_INDEPENDENT_LIGHTING_HANDOFF.md\` for reproduction and limitations.
+
+## Historical drummer / band state — superseded for V3
+
 - [x] Canonical nine-component drummer contract documented.
 - [x] Runtime drummer state model changed to nine integrated hit components.
 - [x] Structure catalog changed to nine drummer sequencing components.
@@ -44,7 +71,7 @@ The current repo priority is the beta-readiness sequence defined in `ROADMAP_BET
 - [ ] Render full-song MP4 with audio.
 - [ ] Human visual review of rendered drummer timing.
 
-## Canonical drummer components
+## Historical nine-component contract — superseded for V3
 1. `HX_SNOWMAN_DRUMMER_KICK` = KICK + KICK_RIM
 2. `HX_SNOWMAN_DRUMMER_SNARE` = SNARE + SNARE_RIM + SNARE_CONTACT_STICK
 3. `HX_SNOWMAN_DRUMMER_TOM_1` = TOM_1 + TOM_1_CONTACT_STICK
@@ -76,6 +103,23 @@ A prior drummer render was explicitly identified by the user as having the **cor
 Do not mark complete from unit tests alone.
 
 ## Change Ledger
+
+### 2026-10-06 — Reconstruct independent V3 component lighting
+**Goal:** restore the tested independent-lighting design from the saved candidate artifacts and handoff after the original local patch could not be recovered.
+**Changed:** V3 pose geometry, xmodel exporter/static asset, node-driven PNG layer builder, canonical preview renderer, shared fixture oracle/WAV/XSQ exporters, focused tests, ground-truth workflow, runtime hi-hat description, geometry manifest, and this ledger.
+**Preserved:** canonical source image, eight public XSQ target names, HIGH-right/MID-left/FLOOR-left orientation, deterministic sequencing contract, extra-drum exclusion, and production drum detector.
+**New:** source-aligned surfaces/actuators, integrated hit nodes, dense xmodel grid, portable background path, fixed 28% idle brightness, xmodel-node-driven max-union rendering, hi-hat foot/no-arm behavior, and exact WAV/XSQ oracle agreement.
+**Evidence pending:** branch CI must regenerate assets, run focused tests and render the 20-second candidate before this reconstruction is considered verified.
+**Limitations/deferred:** static reference arms illuminate but are not re-posed; xLights native import and real-song detector quality remain separate gates.
+**Regression risks:** public hit targets now include actuator nodes; geometry-only checks must use \`_SURFACE\` submodels.
+
+### 2026-10-06 — Resolve legacy starter expected failure
+**Goal:** make the archived starter xmodel/manifest contract internally valid without confusing it with the active V3 runtime.
+**Changed:** starter HEAD and DRUMKIT_ALL unions, geometry manifest active/archived split, strict xmodel and manifest tests.
+**Preserved:** all existing starter node ranges and all five active performer identities other than replacing the obsolete starter drummer identity with V3.
+**New:** starter contract is archived and fully testable; active manifest resolves the V3 runtime.
+**Evidence pending:** focused CI on the publication branch.
+
 
 ### 2026-10-02 — Beta tester feedback checklist documented
 **Agent:** GitHub Copilot
@@ -144,3 +188,9 @@ Do not mark complete from unit tests alone.
 6. Render full-song MP4 with real audio.
 7. Compare rendered component flashes to actual audible drum events and the prior known-good render.
 8. Iterate only on measured false positives/false negatives.
+
+
+## Publication status
+- [x] User explicitly authorized publication.
+- [x] GitHub write access restored.
+- [ ] Publish and validate \`fix/drummer-independent-illumination\`.
