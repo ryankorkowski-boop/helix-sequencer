@@ -30,6 +30,48 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install pytest pillow numpy scipy scikit-learn librosa soundfile numba llvmlite imageio imageio-ffmpeg PyYAML
+      - name: Regenerate canonical V3 drummer assets from the authored ground truth
+        env:
+          PYTHONPATH: .
+        run: |
+          python tools/build_drummer_v3_assets.py --overwrite
+          python - <<'PY'
+          import re
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          path = Path('fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel')
+          root = ET.parse(path).getroot()
+          width = int(root.get('parm1', '96'))
+          expected = {
+              'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH': 'left/upper',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_MID': 'right/upper',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR': 'left/lower',
+          }
+          centroids = {}
+          for sm in root.findall('./subModels/subModel'):
+              name = sm.get('name')
+              if name not in expected:
+                  continue
+              xs=[]; ys=[]
+              for token in sm.get('line0','').split(','):
+                  m=re.fullmatch(r'(\d+)(?:-(\d+))?', token)
+                  if not m: raise SystemExit(f'FAIL: malformed node range: {token}')
+                  a=int(m.group(1)); b=int(m.group(2) or m.group(1))
+                  for node in range(a,b+1):
+                      idx=node-1; xs.append(idx % width); ys.append(idx // width)
+              centroids[name]=(sum(xs)/len(xs),sum(ys)/len(ys))
+          if set(centroids) != set(expected):
+              raise SystemExit(f'FAIL: missing canonical toms: {sorted(set(expected)-set(centroids))}')
+          high=centroids['HX_SNOWMAN_DRUMMER_V3_TOM_HIGH']
+          mid=centroids['HX_SNOWMAN_DRUMMER_V3_TOM_MID']
+          floor=centroids['HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR']
+          if not (high[0] < 48 and mid[0] > 48 and floor[0] < 48):
+              raise SystemExit(f'FAIL: V3 tom geometry not grounded: HIGH={high} MID={mid} FLOOR={floor}')
+          if not (floor[1] > high[1] and floor[1] > mid[1]):
+              raise SystemExit(f'FAIL: V3 floor tom is not below the upper toms: HIGH={high} MID={mid} FLOOR={floor}')
+          print(f'PASS: regenerated canonical V3 tom geometry HIGH={high} MID={mid} FLOOR={floor}')
+          PY
       - name: Generate deterministic ground-truth drum audio
         run: python tools/generate_drummer_ground_truth.py --wav test_runs/drummer_ground_truth/drummer_ground_truth.wav --events test_runs/drummer_ground_truth/events.json
       - name: Export deterministic 8-lane drummer truth XSQ using canonical xmodel zones
