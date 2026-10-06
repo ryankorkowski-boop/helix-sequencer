@@ -166,14 +166,50 @@ jobs:
           missing=[name for name in report['targets'] if components.get(name,0) <= 0]
           assert not missing, f'real song did not exercise all eight V3 targets: {missing}; counts={components}'
           PY
-      - name: Render 60-second real-song proof
+      - name: Verify all eight V3 targets occur inside the real-song proof window
+        env: {PYTHONPATH: .}
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          xsq=Path('test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq')
+          root=ET.parse(xsq).getroot()
+          expected={
+              'HX_SNOWMAN_DRUMMER_V3_KICK',
+              'HX_SNOWMAN_DRUMMER_V3_SNARE',
+              'HX_SNOWMAN_DRUMMER_V3_HI_HAT',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_MID',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR',
+              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT',
+              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT',
+          }
+          seen={}
+          for element in root.findall('./ElementEffects/Element'):
+              name=element.get('name','')
+              if name not in expected:
+                  continue
+              starts=[
+                  int(float(effect.get('startTime','0')))
+                  for layer in element.findall('EffectLayer')
+                  for effect in layer.findall('Effect')
+              ]
+              if starts:
+                  seen[name]=min(starts)
+          missing=expected-set(seen)
+          assert not missing, f'missing V3 targets from real-song XSQ: {sorted(missing)}'
+          late={name:ms for name,ms in seen.items() if ms >= 160000}
+          assert not late, f'160-second proof would miss targets: {late}'
+          print('REAL-SONG FIRST-HIT TIMES (ms):', dict(sorted(seen.items())))
+          PY
+      - name: Render 160-second real-song proof
         env: {PYTHONPATH: .}
         run: |
           python tools/render_drummer_v3_preview.py \
             test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq \
             --audio 'Helix Audiolights.mp3' \
-            --output test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_60s.mp4 \
-            --duration 60 \
+            --output test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_160s.mp4 \
+            --duration 160 \
             --fps 24
       - name: Upload real-song proof
         if: always()
@@ -183,7 +219,7 @@ jobs:
           path: |
             test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq
             test_runs/drummer_real_audio/drummer_real_audio_report.json
-            test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_60s.mp4
+            test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_160s.mp4
           if-no-files-found: error
       - name: Upload drummer truth artifacts
         if: always()
