@@ -73,3 +73,23 @@ def test_injection_helper_creates_current_xlights_container_without_legacy_effec
     container = _find_or_create_element_effects(root)
     assert container.tag == "ElementEffects"
     assert root.find("effects") is None
+
+
+def test_numeric_legacy_tom_classes_are_not_lost() -> None:
+    events = [
+        DrumEvent(0.1, 0.7, 0.9, {"tom_class": 1.0}, 1, "tom"),
+        DrumEvent(0.2, 0.7, 0.9, {"tom_class": 2.0}, 2, "tom"),
+        DrumEvent(0.3, 0.7, 0.9, {"tom_class": 3.0}, 3, "tom"),
+    ]
+    mapped = map_events_to_drummer_components(events)
+    assert [item["component"] for item in mapped] == list(CANONICAL_TOMS)
+
+
+def test_xlights_brightness_uses_percent_scale() -> None:
+    from tools.integrate_drummer_v3_into_xsq import _add_on
+    layer = ET.Element("EffectLayer")
+    _add_on(layer, 100, 200, 0.25, DRUMMER_COMPONENTS[0], "kick")
+    settings = layer.find("Effect").get("settings", "")
+    brightness = int(settings.split("E_SLIDER_Brightness=", 1)[1].split(",", 1)[0])
+    assert 60 <= brightness <= 100
+    assert brightness > 1
