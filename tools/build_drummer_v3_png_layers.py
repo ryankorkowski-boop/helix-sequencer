@@ -14,7 +14,13 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from tools.drummer_v3_visual_masks import build_geometry_masks, compose_emissive, load_spec
+from tools.drummer_v3_visual_masks import (
+    build_geometry_masks,
+    compose_emissive,
+    load_spec,
+    refine_actuator_to_source_art,
+    refine_surface_to_source_art,
+)
 
 DEFAULT_SOURCE = ROOT / "fixtures" / "band_geometry" / "source" / "drummerbg.png"
 DEFAULT_MANIFEST = ROOT / "fixtures" / "band_geometry" / "drummer_v3_png_layer_manifest.json"
@@ -121,7 +127,25 @@ def build(
     source = Image.open(source_path).convert("RGBA")
     if source.width < 128 or source.height < 128:
         raise ValueError(f"Source image is too small for a useful review sheet: {source.size}")
-    masks = build_geometry_masks(source.size, load_spec())["targets"]
+    spec = load_spec()
+    geometry = build_geometry_masks(source.size, spec)
+    authored_targets = geometry["targets"]
+    target_specs = {
+        f"{spec['model_name']}_{str(item['id'])}": item
+        for item in spec.get("lighting_targets", [])
+        if isinstance(item, dict) and item.get("id") and item.get("surface")
+    }
+    masks: dict[str, Image.Image] = {}
+    for target, target_spec in target_specs.items():
+        surface_id = str(target_spec["surface"])
+        authored_surface = geometry["surfaces"][surface_id]
+        exact_surface = refine_surface_to_source_art(source, authored_surface, target)
+        authored_actuator = ImageChops.subtract(authored_targets[target], authored_surface)
+        if authored_actuator.getbbox() is None:
+            exact_actuator = Image.new("L", source.size, 0)
+        else:
+            exact_actuator = refine_actuator_to_source_art(source, authored_actuator)
+        masks[target] = ImageChops.lighter(exact_surface, exact_actuator)
 
     overlays: dict[str, Image.Image] = {}
     frame_masks: dict[str, Image.Image] = {}
@@ -144,7 +168,7 @@ def build(
         "schema": "helix.drummer_v3_png_layer_build.v3",
         "source_image": _relative(source_path),
         "xmodel": _relative(xmodel_path),
-        "geometry_source": "drummer_v3_pose_spec full-resolution masks",
+        "geometry_source": "exact drummerbg source pixels inside canonical pose-spec zones",
         "layer_count": len(overlays),
         "frame_count": len(frames),
         "written": written,
