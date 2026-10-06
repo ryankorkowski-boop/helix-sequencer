@@ -9,9 +9,9 @@ import imageio.v2 as imageio
 import imageio_ffmpeg
 import numpy as np
 import soundfile as sf
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFont
 
-from tools.drummer_v3_visual_masks import build_geometry_masks, compose_emissive, load_spec, target_surface_key
+from tools.drummer_v3_visual_masks import (\n    build_geometry_masks,\n    compose_emissive,\n    load_spec,\n    refine_actuator_to_source_art,\n    refine_surface_to_source_art,\n    target_surface_key,\n)
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "fixtures/band_geometry/source/drummerbg.png"
@@ -101,12 +101,17 @@ def load_component_masks(
         for item in spec.get("lighting_targets", [])
         if isinstance(item, dict) and item.get("id") and item.get("surface")
     }
-    masks = {name: target_masks[name] for name in TARGETS}
+    masks: dict[str, Image.Image] = {}
     for name in TARGETS:
         surface_id = surface_by_target.get(name)
         if not surface_id or surface_id not in geometry["surfaces"]:
             raise ValueError(f"visual geometry missing surface mask for {name}")
-        masks[target_surface_key(name)] = geometry["surfaces"][surface_id]
+        authored_surface = geometry["surfaces"][surface_id]
+        exact_surface = refine_surface_to_source_art(source, authored_surface, name)
+        authored_actuator = ImageChops.subtract(target_masks[name], authored_surface)
+        exact_actuator = refine_actuator_to_source_art(source, authored_actuator)
+        masks[name] = ImageChops.lighter(exact_surface, exact_actuator)
+        masks[target_surface_key(name)] = exact_surface
     return source, masks
 
 
