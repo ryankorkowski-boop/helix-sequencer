@@ -49,7 +49,7 @@ def test_exact_eight_public_targets_exist_and_are_nonempty() -> None:
         assert submodels[target]
 
 
-def test_each_public_target_contains_its_surface_and_actuator_leaks_into_no_instrument_surface() -> None:
+def test_each_public_target_is_spatially_isolated_from_other_instrument_surfaces() -> None:
     submodels = _submodels()
     all_surfaces = {
         target: submodels[f"{target}_SURFACE"]
@@ -60,10 +60,16 @@ def test_each_public_target_contains_its_surface_and_actuator_leaks_into_no_inst
         surface = all_surfaces[target]
         public = submodels[target]
         assert surface <= public
-        # Adjacent authored instrument polygons may share boundary/grid cells at
-        # 96x72. The isolation guarantee applies to the *actuator contribution*:
-        # after removing the target's own surface, arm/stick/foot nodes must not
-        # introduce any node belonging to any instrument surface.
+
+        # Public targets may add an arm/stick/foot, but they must never contain
+        # a node owned by a different instrument surface.
+        for other, other_surface in all_surfaces.items():
+            if other == target:
+                continue
+            assert not (public & other_surface), (target, other)
+
+        # The actuator contribution itself must stay outside all instrument
+        # surfaces, including rasterized boundary cells.
         actuator_contribution = public - surface
         assert not (actuator_contribution & union_of_surfaces), target
 
