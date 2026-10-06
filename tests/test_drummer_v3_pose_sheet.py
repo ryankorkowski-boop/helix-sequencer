@@ -39,6 +39,11 @@ def _submodels() -> dict[str, set[int]]:
     return {s.attrib["name"]: _ranges(s.attrib.get("line0", "")) for s in root.findall("./subModels/subModel")}
 
 
+def _centroid_xy(nodes: set[int], width: int = 96) -> tuple[float, float]:
+    points = [((n - 1) % width, (n - 1) // width) for n in nodes]
+    return sum(x for x, _ in points) / len(points), sum(y for _, y in points) / len(points)
+
+
 def test_drummer_v3_source_and_pose_sheet_are_real_images() -> None:
     assert SOURCE.exists()
     assert POSE_SHEET.exists()
@@ -66,6 +71,13 @@ def test_drummer_v3_pose_spec_is_three_tom_visual_first_contract() -> None:
     assert {"TOM_FLOOR", "TOM_FLOOR_CONTACT_STICK"} <= composites["DRUMMER_TOM_FLOOR"]
     assert all("TOM_4" not in json.dumps(item) for item in spec["zones"] + spec["composites"])
 
+    zones = {z["id"]: z for z in spec["zones"]}
+    floor_box = zones["TOM_FLOOR"]["commands"][0]["box"]
+    # The uploaded ground-truth drummer has three toms: high=upper-left,
+    # mid=upper-right, floor=large lower-left.  The lower-right drum is an
+    # extra visual drum and must never be the canonical floor tom.
+    assert floor_box[0] < 0.20 and floor_box[2] < 0.45
+
 
 def test_drummer_v3_xmodel_has_exactly_three_tom_zones() -> None:
     root = ET.parse(XMODEL).getroot()
@@ -74,18 +86,9 @@ def test_drummer_v3_xmodel_has_exactly_three_tom_zones() -> None:
     assert CANONICAL_TOM_ZONES <= set(submodels)
     assert not any("TOM_4" in name for name in submodels)
 
-    # The XMODEL intentionally contains both physical tom zones and visual
-    # composite zones that include their contacting-stick geometry.  Count
-    # only the physical canonical zones here; DRUMMER_TOM_* are composites,
-    # not additional drums.
-    physical_tom_zones = {
-        name for name in submodels
-        if name in CANONICAL_TOM_ZONES
-    }
+    physical_tom_zones = {name for name in submodels if name in CANONICAL_TOM_ZONES}
     assert physical_tom_zones == CANONICAL_TOM_ZONES
 
-    # Contact-stick and composite aliases are allowed, but they must map to
-    # one of the same three physical toms rather than introduce a fourth tom.
     tom_related = {name for name in submodels if "TOM_" in name}
     assert all(
         any(tom in name for tom in ("TOM_HIGH", "TOM_MID", "TOM_FLOOR"))
@@ -93,6 +96,19 @@ def test_drummer_v3_xmodel_has_exactly_three_tom_zones() -> None:
     )
     for name, line0 in submodels.items():
         assert RANGE_RE.match(line0), f"{name} has invalid ranges: {line0}"
+
+    # Spatial contract from the actual uploaded drummer image: HIGH is the
+    # upper-left tom, MID is upper-right, FLOOR is the large lower-left tom.
+    # This catches the previous bug where TOM_FLOOR was accidentally authored
+    # onto the extra lower-right drum.
+    high_x, high_y = _centroid_xy(_ranges(submodels["HX_SNOWMAN_DRUMMER_V3_TOM_HIGH"]))
+    mid_x, mid_y = _centroid_xy(_ranges(submodels["HX_SNOWMAN_DRUMMER_V3_TOM_MID"]))
+    floor_x, floor_y = _centroid_xy(_ranges(submodels["HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"]))
+    assert high_x < mid_x
+    assert floor_x < high_x
+    assert floor_y > high_y
+    assert floor_x < 45.0
+    assert max((n - 1) % 96 for n in _ranges(submodels["HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"])) < 45
 
 
 def test_drummer_v3_tom_composites_include_contact_pose_nodes() -> None:
