@@ -72,10 +72,14 @@ def test_drummer_v3_pose_spec_is_three_tom_visual_first_contract() -> None:
     assert all("TOM_4" not in json.dumps(item) for item in spec["zones"] + spec["composites"])
 
     zones = {z["id"]: z for z in spec["zones"]}
+    high_box = zones["TOM_HIGH"]["commands"][0]["box"]
+    mid_box = zones["TOM_MID"]["commands"][0]["box"]
     floor_box = zones["TOM_FLOOR"]["commands"][0]["box"]
-    # The uploaded ground-truth drummer has three toms: high=upper-left,
-    # mid=upper-right, floor=large lower-left.  The lower-right drum is an
-    # extra visual drum and must never be the canonical floor tom.
+    # Uploaded ground-truth image orientation: HIGH is upper-right
+    # (drummer's left), MID is upper-left (drummer's right), FLOOR is the
+    # large lower-left tom. The lower-right drum is extra.
+    assert high_box[0] > 0.50 and high_box[2] > 0.65
+    assert mid_box[0] < 0.45 and mid_box[2] < 0.45
     assert floor_box[0] < 0.20 and floor_box[2] < 0.45
 
 
@@ -97,18 +101,19 @@ def test_drummer_v3_xmodel_has_exactly_three_tom_zones() -> None:
     for name, line0 in submodels.items():
         assert RANGE_RE.match(line0), f"{name} has invalid ranges: {line0}"
 
-    # Spatial contract from the actual uploaded drummer image: HIGH is the
-    # upper-left tom, MID is upper-right, FLOOR is the large lower-left tom.
-    # This catches the previous bug where TOM_FLOOR was accidentally authored
-    # onto the extra lower-right drum.
+    # Spatial contract from the uploaded ground-truth image:
+    # HIGH is upper-right, MID is upper-left, FLOOR is lower-left.
     high_x, high_y = _centroid_xy(_ranges(submodels["HX_SNOWMAN_DRUMMER_V3_TOM_HIGH"]))
     mid_x, mid_y = _centroid_xy(_ranges(submodels["HX_SNOWMAN_DRUMMER_V3_TOM_MID"]))
     floor_x, floor_y = _centroid_xy(_ranges(submodels["HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"]))
-    assert high_x < mid_x
-    assert floor_x < high_x
+    assert high_x > mid_x
+    assert high_x > 48.0
+    assert mid_x < 48.0
+    assert floor_x < 48.0
     assert floor_y > high_y
-    assert floor_x < 45.0
-    assert max((n - 1) % 96 for n in _ranges(submodels["HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"])) < 45
+    assert floor_y > mid_y
+    # Explicitly reject the extra lower-right drum as FLOOR.
+    assert max((n - 1) % 96 for n in _ranges(submodels["HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"])) < 48
 
 
 def test_drummer_v3_tom_composites_include_contact_pose_nodes() -> None:
