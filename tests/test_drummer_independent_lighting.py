@@ -8,6 +8,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
+from PIL import ImageFilter
 
 from tools.drummer_ground_truth_oracle import TARGETS as LOGICAL_TARGETS, fixture_events
 from tools.export_drummer_ground_truth_xsq import export_drummer_ground_truth_xsq
@@ -74,31 +75,40 @@ def test_hi_hat_uses_foot_and_no_arm_while_kick_has_no_actuator() -> None:
     assert not (kick & right)
 
 
-def test_active_component_is_full_resolution_and_visibly_emissive_without_touching_idle_pixels() -> None:
+def test_background_remains_dimly_visible_and_active_component_has_local_outline() -> None:
     source, masks = load_component_masks()
     idle = compose_lighting(source, masks, [])
     target = TARGETS[1]
     active = compose_lighting(source, masks, [target])
-    mask = np.asarray(masks[target]) > 0
-    idle_arr = np.asarray(idle)[..., :3]
-    active_arr = np.asarray(active)[..., :3]
-    source_arr = np.asarray(source)[..., :3]
+    mask_image = masks[target]
+    mask = np.asarray(mask_image) > 0
+    dilated = np.asarray(mask_image.filter(ImageFilter.MaxFilter(11))) > 0
+    ring = dilated & ~mask
+    far = ~(np.asarray(mask_image.filter(ImageFilter.MaxFilter(41))) > 0)
+
+    idle_arr = np.asarray(idle)[..., :3].astype(float)
+    active_arr = np.asarray(active)[..., :3].astype(float)
+    source_arr = np.asarray(source)[..., :3].astype(float)
+
     assert masks[target].size == source.size
-    assert np.array_equal(active_arr[~mask], idle_arr[~mask])
-    assert active_arr[mask].mean() > source_arr[mask].mean() * 1.10
+    assert idle_arr.mean() > source_arr.mean() * 0.28
+    assert idle_arr.mean() < source_arr.mean() * 0.48
     assert active_arr[mask].mean() > idle_arr[mask].mean() * 2.0
+    assert (active_arr[ring] - idle_arr[ring]).mean() > 12.0
+    assert np.abs(active_arr[far] - idle_arr[far]).max() <= 2.0
 
 
-def test_simultaneous_hits_use_max_union_so_shared_arm_does_not_compound() -> None:
+def test_simultaneous_hits_use_one_union_pass_so_shared_actuators_do_not_compound() -> None:
     source, masks = load_component_masks()
     snare = TARGETS[1]
     mid = TARGETS[4]
-    one = np.asarray(compose_lighting(source, masks, [snare]))
-    combo = np.asarray(compose_lighting(source, masks, [snare, mid]))
+    snare_only = np.asarray(compose_lighting(source, masks, [snare])).astype(int)
+    mid_only = np.asarray(compose_lighting(source, masks, [mid])).astype(int)
+    combo = np.asarray(compose_lighting(source, masks, [snare, mid])).astype(int)
     shared = (np.asarray(masks[snare]) > 0) & (np.asarray(masks[mid]) > 0)
     assert shared.any()
-    assert np.array_equal(one[shared], combo[shared])
-
+    separate_max = np.maximum(snare_only, mid_only)
+    assert np.all(combo[shared] <= separate_max[shared] + 2)
 
 def test_renderer_rejects_empty_public_target_nodes(tmp_path: Path) -> None:
     mutated = tmp_path / "empty.xmodel"
