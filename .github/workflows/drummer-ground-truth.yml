@@ -154,22 +154,23 @@ jobs:
           from pathlib import Path
           report=json.loads(Path('test_runs/drummer_real_audio/drummer_real_audio_report.json').read_text())
           print(json.dumps(report,indent=2))
-          assert report['detector'] == 'oracle_compatible_hpss_classifier'
+          assert report['detector'] == 'hpss_classifier_intro_gated'
           assert report['oracle_commit'] == 'b27e8d77a63027ed32bcf6851dcff3925472c155'
           assert report['typed_event_count'] >= 250, report
+          # Raw detector lineage stays reproducible, but the rejected historical
+          # schedule is no longer the behavioral oracle: it contained false intro
+          # hits.  The new gate must remove those before any drummer placement.
           counts=report['raw_drum_type_counts']
           assert counts == report['oracle_reference_counts'], (
-              f"real-song detector regressed from approved oracle: "
-              f"current={counts} oracle={report['oracle_reference_counts']}"
+              f"raw detector lineage changed unexpectedly: "
+              f"current={counts} reference={report['oracle_reference_counts']}"
           )
-          assert report['event_count'] == 1315, report
-          assert report['scheduled_drum_type_counts'] == report['oracle_scheduled_counts'], report
-          assert report['pose_counts'] == report['oracle_pose_counts'], report
-          assert report['historical_timeline_sha256'] == report['oracle_timeline_sha256'], (
-              f"historical timing/pose timeline mismatch: "
-              f"current={report['historical_timeline_sha256']} oracle={report['oracle_timeline_sha256']}"
-          )
-          assert report['oracle_timeline_sha256'] == '953386d5d69564abd83fb3c50fc7bf3e2aebb017e5995df8264771eda3b851ea'
+          gate=report['intro_gate_start_ms']
+          first=report['first_scheduled_event_ms']
+          assert gate is not None and 10000 <= gate <= 12000, report
+          assert report['intro_gate_suppressed_count'] >= 20, report
+          assert first is not None and first >= gate, report
+          assert report['event_count'] < 1315, report
           components=report['component_counts']
           assert report['target_count'] == 8, report
           assert set(components) == set(report['targets']), (components, report['targets'])
@@ -210,6 +211,8 @@ jobs:
           assert not missing, f'missing V3 targets from real-song XSQ: {sorted(missing)}'
           late={name:ms for name,ms in seen.items() if ms >= 160000}
           assert not late, f'160-second proof would miss targets: {late}'
+          earliest=min(seen.values())
+          assert earliest >= 10500, f'false intro hit leaked into real-song XSQ: earliest={earliest}ms'
           print('REAL-SONG FIRST-HIT TIMES (ms):', dict(sorted(seen.items())))
           PY
       - name: Render 160-second real-song proof
