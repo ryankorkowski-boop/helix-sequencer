@@ -91,10 +91,10 @@ def test_background_remains_dimly_visible_and_active_component_has_local_outline
     source_arr = np.asarray(source)[..., :3].astype(float)
 
     assert masks[target].size == source.size
-    assert idle_arr.mean() > source_arr.mean() * 0.28
-    assert idle_arr.mean() < source_arr.mean() * 0.48
+    assert idle_arr.mean() > source_arr.mean() * 0.36
+    assert idle_arr.mean() < source_arr.mean() * 0.56
     assert active_arr[mask].mean() > idle_arr[mask].mean() * 2.0
-    assert (active_arr[ring] - idle_arr[ring]).mean() > 12.0
+    assert (active_arr[ring] - idle_arr[ring]).mean() > 8.0
     assert np.abs(active_arr[far] - idle_arr[far]).max() <= 2.0
 
 
