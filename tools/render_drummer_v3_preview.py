@@ -138,13 +138,19 @@ def draw_frame(
     t_ms: int,
     duration_ms: int,
     font: ImageFont.ImageFont,
+    art_cache: dict[tuple[str, ...], Image.Image] | None = None,
 ) -> Image.Image:
-    lit = compose_lighting(source, masks, active)
-    art = lit.crop(_content_crop(source))
-    max_w, max_h = width - 250, height - 108
-    scale = min(max_w / art.width, max_h / art.height)
-    size = (max(1, round(art.width * scale)), max(1, round(art.height * scale)))
-    art = art.resize(size, Image.Resampling.LANCZOS)
+    key = tuple(target for target in TARGETS if target in active)
+    art = art_cache.get(key) if art_cache is not None else None
+    if art is None:
+        lit = compose_lighting(source, masks, active)
+        art = lit.crop(_content_crop(source))
+        max_w, max_h = width - 250, height - 108
+        scale = min(max_w / art.width, max_h / art.height)
+        size = (max(1, round(art.width * scale)), max(1, round(art.height * scale)))
+        art = art.resize(size, Image.Resampling.LANCZOS)
+        if art_cache is not None:
+            art_cache[key] = art
 
     canvas = Image.new("RGBA", (width, height), (4, 7, 12, 255))
     x = (width - art.width) // 2
@@ -203,12 +209,15 @@ def main() -> int:
     silent = output.with_suffix(".silent.mp4")
     font = ImageFont.load_default()
     writer = imageio.get_writer(silent, fps=args.fps, codec="libx264", quality=8, macro_block_size=None)
+    art_cache: dict[tuple[str, ...], Image.Image] = {}
     try:
         frame_count = int(round(duration_ms / 1000 * args.fps))
         for index in range(frame_count):
             t_ms = int(round(index * 1000 / args.fps))
             active = {name for start, end, name in effects if start <= t_ms < end}
-            writer.append_data(np.asarray(draw_frame(source, masks, active, 960, 540, t_ms, duration_ms, font)))
+            writer.append_data(np.asarray(draw_frame(
+                source, masks, active, 960, 540, t_ms, duration_ms, font, art_cache
+            )))
     finally:
         writer.close()
 
