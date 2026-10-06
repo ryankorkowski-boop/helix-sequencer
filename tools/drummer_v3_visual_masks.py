@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from PIL import Image, ImageChops, ImageDraw, ImageEnhance
+from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SPEC = ROOT / "fixtures" / "band_geometry" / "drummer_v3_pose_spec.json"
@@ -129,13 +129,25 @@ def compose_emissive(
     masks: dict[str, Image.Image],
     active_targets: list[str] | tuple[str, ...] | set[str],
     *,
-    idle_brightness: float = 0.15,
-    active_brightness: float = 2.05,
-    white_lift: float = 0.12,
+    idle_brightness: float = 0.34,
+    active_brightness: float = 1.22,
+    white_lift: float = 0.025,
+    outline_radius: int = 5,
+    halo_radius: float = 7.0,
 ) -> Image.Image:
-    """Make active components read as lit while preserving the original artwork."""
+    """Render the approved drummer artwork as a dim stage image plus hit outlines.
+
+    The entire drummerbg remains continuously visible. A hit restores the
+    component toward its source brightness, then adds a crisp warm-white outline
+    and a restrained outer halo. The outline is derived from the exact target
+    mask, so it follows the drum/cymbal and its integrated actuator rather than
+    replacing the artwork with a painted blob.
+    """
     source_rgba = source.convert("RGBA")
-    idle = ImageEnhance.Brightness(source_rgba.convert("RGB")).enhance(idle_brightness).convert("RGBA")
+    source_rgb = source_rgba.convert("RGB")
+    idle_rgb = ImageEnhance.Brightness(source_rgb).enhance(idle_brightness)
+    idle = idle_rgb.convert("RGBA")
+
     union = Image.new("L", source_rgba.size, 0)
     for target in active_targets:
         if target not in masks:
@@ -144,8 +156,35 @@ def compose_emissive(
     if union.getbbox() is None:
         return idle
 
-    bright = ImageEnhance.Brightness(source_rgba.convert("RGB")).enhance(active_brightness)
-    bright = ImageEnhance.Color(bright).enhance(1.18)
+    active_rgb = ImageEnhance.Brightness(source_rgb).enhance(active_brightness)
+    active_rgb = ImageEnhance.Color(active_rgb).enhance(1.08)
     if white_lift > 0:
-        bright = Image.blend(bright, Image.new("RGB", source_rgba.size, (255, 255, 255)), white_lift)
-    return Image.composite(bright.convert("RGBA"), idle, union)
+        active_rgb = Image.blend(
+            active_rgb,
+            Image.new("RGB", source_rgba.size, (255, 255, 255)),
+            white_lift,
+        )
+    frame = Image.composite(active_rgb.convert("RGBA"), idle, union)
+
+    # Trace both sides of the component boundary. The outer band makes adjacent
+    # drums distinct while the inner band keeps the outline attached to the
+    # actual source artwork.
+    radius = max(1, int(outline_radius))
+    kernel = radius * 2 + 1
+    dilated = union.filter(ImageFilter.MaxFilter(kernel))
+    eroded = union.filter(ImageFilter.MinFilter(kernel))
+    outer = ImageChops.subtract(dilated, union)
+    inner = ImageChops.subtract(union, eroded)
+    edge = ImageChops.lighter(outer, inner)
+
+    # Soft halo first, then a crisp outline. Limit the halo so the background
+    # remains visibly dim rather than turning into a global flash.
+    halo = outer.filter(ImageFilter.GaussianBlur(max(0.1, float(halo_radius))))
+    halo = halo.point(lambda value: int(value * 0.42))
+    halo_color = Image.new("RGBA", source_rgba.size, (255, 196, 96, 255))
+    frame = Image.composite(halo_color, frame, halo)
+
+    crisp = edge.point(lambda value: int(value * 0.88))
+    outline_color = Image.new("RGBA", source_rgba.size, (255, 246, 202, 255))
+    frame = Image.composite(outline_color, frame, crisp)
+    return frame
