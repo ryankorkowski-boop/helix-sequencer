@@ -11,6 +11,8 @@ on:
       - fix/drummer-independent-illumination
     paths:
       - '.github/workflows/drummer-ground-truth.yml'
+      - 'audio/**'
+      - 'core/drummer_v3_analysis.py'
       - 'animation/drummer_motion.py'
       - 'mapping/drum_mapper.py'
       - 'models/helixville4_performer_runtime.py'
