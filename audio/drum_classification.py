@@ -10,7 +10,7 @@ class DrumEvent:
     timestamp: float
     velocity: float
     confidence: float
-    frequency_band_info: dict[str, float]
+    frequency_band_info: dict[str, Any]
     cluster_id: int | None
     drum_type: str
     source: str = "drum_detection"
