@@ -8,12 +8,15 @@ from audio.drum_classification import DRUM_STREAM_KEYS, DrumEvent, empty_drum_st
 DRUM_SUBMODEL_BY_TYPE = {"kick": "kick", "snare": "snare", "tom": "tom", "hihat": "hi_hat", "cymbal": "cymbal", "drum_bus": "drum_bus"}
 DRUM_PRIORITY = {"kick": 0, "snare": 1, "cymbal": 2, "tom": 3, "hihat": 4, "drum_bus": 5}
 DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
-DRUMMER_COMPONENTS = (
-    "HX_SNOWMAN_DRUMMER_KICK", "HX_SNOWMAN_DRUMMER_SNARE", "HX_SNOWMAN_DRUMMER_HI_HAT",
-    "HX_SNOWMAN_DRUMMER_TOM_HIGH", "HX_SNOWMAN_DRUMMER_TOM_MID", "HX_SNOWMAN_DRUMMER_TOM_FLOOR",
-    "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT", "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",
+DRUMMER_COMPONENTS = tuple(
+    f"{DRUMMER_V3_MODEL}_{name}"
+    for name in ("KICK", "SNARE", "HI_HAT", "TOM_HIGH", "TOM_MID", "TOM_FLOOR", "CYMBAL_LEFT", "CYMBAL_RIGHT")
 )
-TOM_COMPONENT_BY_CLASS = {"high": "HX_SNOWMAN_DRUMMER_TOM_HIGH", "mid": "HX_SNOWMAN_DRUMMER_TOM_MID", "floor": "HX_SNOWMAN_DRUMMER_TOM_FLOOR"}
+TOM_COMPONENT_BY_CLASS = {
+    "high": f"{DRUMMER_V3_MODEL}_TOM_HIGH",
+    "mid": f"{DRUMMER_V3_MODEL}_TOM_MID",
+    "floor": f"{DRUMMER_V3_MODEL}_TOM_FLOOR",
+}
 DRUMMER_V3_POSE_BY_TYPE = {"kick": "kick_hit", "snare": "snare_hit", "hihat": "hi_hat_pulse", "tom": "tom_hit", "cymbal": "cymbal_hit", "drum_bus": "downbeat_impact"}
 DRUMMER_V3_DURATION_BY_POSE = {"kick_hit": 150, "snare_hit": 125, "hi_hat_pulse": 80, "tom_hit": 155, "cymbal_hit": 320, "downbeat_impact": 220}
 
