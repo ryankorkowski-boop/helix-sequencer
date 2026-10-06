@@ -44,9 +44,9 @@ jobs:
           root = ET.parse(path).getroot()
           width = int(root.get('parm1', '96'))
           expected = {
-              'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH': 'left/upper',
-              'HX_SNOWMAN_DRUMMER_V3_TOM_MID': 'right/upper',
-              'HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR': 'left/lower',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH': 'right/upper (drummer left)',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_MID': 'left/upper (drummer right)',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR': 'left/lower (drummer right/lower)',
           }
           centroids = {}
           for sm in root.findall('./subModels/subModel'):
@@ -66,10 +66,13 @@ jobs:
           high=centroids['HX_SNOWMAN_DRUMMER_V3_TOM_HIGH']
           mid=centroids['HX_SNOWMAN_DRUMMER_V3_TOM_MID']
           floor=centroids['HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR']
-          if not (high[0] < 48 and mid[0] > 48 and floor[0] < 48):
+          if not (high[0] > 48 and mid[0] < 48 and floor[0] < 48):
               raise SystemExit(f'FAIL: V3 tom geometry not grounded: HIGH={high} MID={mid} FLOOR={floor}')
           if not (floor[1] > high[1] and floor[1] > mid[1]):
               raise SystemExit(f'FAIL: V3 floor tom is not below the upper toms: HIGH={high} MID={mid} FLOOR={floor}')
+          # Extra lower-right drum must not become TOM_FLOOR.
+          if floor[0] > 48:
+              raise SystemExit(f'FAIL: TOM_FLOOR is on the extra right-hand drum: {floor}')
           print(f'PASS: regenerated canonical V3 tom geometry HIGH={high} MID={mid} FLOOR={floor}')
           PY
       - name: Generate deterministic ground-truth drum audio
