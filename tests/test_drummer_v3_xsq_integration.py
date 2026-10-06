@@ -93,3 +93,16 @@ def test_xlights_brightness_uses_percent_scale() -> None:
     brightness = int(settings.split("E_SLIDER_Brightness=", 1)[1].split(",", 1)[0])
     assert 60 <= brightness <= 100
     assert brightness > 1
+
+
+def test_collapsed_tom_subclasses_fall_back_to_three_tom_distribution() -> None:
+    events = [
+        DrumEvent(0.1, 0.7, 0.9, {"tom_class": "high", "tom_class_confidence": 0.9}, 1, "tom"),
+        DrumEvent(0.2, 0.7, 0.9, {"tom_class": "floor", "tom_class_confidence": 0.9}, 2, "tom"),
+        DrumEvent(0.3, 0.7, 0.9, {"tom_class": "floor", "tom_class_confidence": 0.9}, 3, "tom"),
+        DrumEvent(0.4, 0.7, 0.9, {"tom_class": "high", "tom_class_confidence": 0.9}, 4, "tom"),
+    ]
+    mapped = map_events_to_drummer_components(events)
+    assert [item["tom_class"] for item in mapped[:3]] == ["high", "mid", "floor"]
+    assert [item["component"] for item in mapped[:3]] == list(CANONICAL_TOMS)
+    assert all(item["tom_class_source"] == "oracle_distribution_fallback" for item in mapped)
