@@ -190,7 +190,7 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
             continue
         ET.SubElement(
             submodels, "subModel",
-            {"name": _prefixed(name), "layout": "ranges", "type": "ranges", "line0": _ranges(nodes - all_surfaces)},
+            {"name": _prefixed(name), "layout": "ranges", "type": "ranges", "line0": _ranges(nodes - raw_surface_union)},
         )
 
     # Public hit targets contain the physical surface plus its required
