@@ -65,46 +65,107 @@ def _tom_class_for_features(features: dict[str, float]) -> tuple[str, float]:
     return ranked[0][0], _clamp(ranked[0][1] - ranked[1][1] + 0.55)
 
 def classify_drum_hit(features: dict[str, float], thresholds: DrumClassifierThresholds = DrumClassifierThresholds()) -> tuple[str, float]:
-    low=_clamp(features.get("low_ratio",0)); mid_low=_clamp(features.get("mid_low_ratio",0)); mid=_clamp(features.get("mid_ratio",0)); high=_clamp(features.get("high_ratio",0))
-    centroid=float(features.get("centroid_hz",0) or 0); low_centroid=float(features.get("low_centroid_hz",centroid) or centroid)
-    spread=_clamp(features.get("spectral_spread01",0)); sharp=_clamp(features.get("transient_sharpness",0)); decay=_clamp(features.get("decay_profile",0)); percussive_ratio=_clamp(features.get("percussive_ratio",0)); flatness=_clamp(features.get("spectral_flatness",0))
+    """Classify with the historically approved V3 decision order.
+
+    The b27e8d77 oracle behavior is preserved for spectral/transient profiles.
+    Newer HPSS evidence is used only as a rejection guard when those fields are
+    present, so callers that predate the extra evidence keep their old result.
+    """
+    low = _clamp(features.get("low_ratio", 0.0))
+    mid_low = _clamp(features.get("mid_low_ratio", 0.0))
+    mid = _clamp(features.get("mid_ratio", 0.0))
+    high = _clamp(features.get("high_ratio", 0.0))
+    centroid = float(features.get("centroid_hz", 0.0) or 0.0)
+    low_centroid = float(features.get("low_centroid_hz", centroid) or centroid)
+    spread = _clamp(features.get("spectral_spread01", 0.0))
+    sharp = _clamp(features.get("transient_sharpness", 0.0))
+    decay = _clamp(features.get("decay_profile", 0.0))
+
+    has_percussive = "percussive_ratio" in features
+    has_flatness = "spectral_flatness" in features
+    percussive_ratio = _clamp(features.get("percussive_ratio", 1.0))
+    flatness = _clamp(features.get("spectral_flatness", 1.0))
     harmonic_contamination = _clamp(features.get("harmonic_contamination", 1.0 - percussive_ratio))
 
-    candidates=[
-        ("kick", (low*.58) + ((1-min(1,low_centroid/1400))*.22) + (sharp*.20)),
-        ("snare", (mid*.44) + (sharp*.28) + (spread*.18) + (high*.06) + (mid_low*.04)),
-        ("tom", (mid_low*.46) + (max(0,1-abs(centroid-950)/1900)*.22) + (decay*.18) + (sharp*.10) + (low*.04)),
-        ("hihat", (high*.48) + (sharp*.20) + ((1-decay)*.16) + (percussive_ratio*.16)),
-        ("cymbal", (high*.34) + (decay*.24) + (spread*.14) + (percussive_ratio*.18) + (flatness*.10)),
-    ]
-    ranked=sorted(candidates,key=lambda item:item[1],reverse=True)
-    best, score=ranked[0]; runner=ranked[1][1]
-    if best=="kick" and low < thresholds.kick_low_ratio_min: score*=.78
-    if best=="snare" and mid < thresholds.snare_mid_ratio_min: score*=.80
-    if best=="tom" and mid_low < thresholds.tom_mid_low_ratio_min: score*=.80
-    if best=="hihat" and high < thresholds.hihat_high_ratio_min: score*=.78
-    if best=="cymbal" and (high<thresholds.cymbal_high_ratio_min or decay<thresholds.cymbal_decay_min): score*=.70
-    score=_clamp(score)
-
-    # Critical mixed-audio guard: a tonal guitar/piano/synth attack can survive
-    # HPSS as a short percussive transient. Reject events that are simultaneously
-    # harmonic-dominant, spectrally tonal, and insufficiently percussive. This is
-    # intentionally conservative so genuine noisy drum transients remain eligible.
-    tonal_attack = (
-        harmonic_contamination > thresholds.harmonic_contamination_max
+    if has_percussive and percussive_ratio < thresholds.min_percussive_ratio:
+        return "drum_bus", 0.0
+    if (
+        has_percussive
+        and has_flatness
+        and harmonic_contamination > thresholds.harmonic_contamination_max
         and flatness < thresholds.tonal_flatness_max
         and spread < thresholds.tonal_spread_max
-    )
-    if percussive_ratio < thresholds.min_percussive_ratio or tonal_attack:
-        return "drum_bus", round(score, 3)
+    ):
+        return "drum_bus", 0.0
 
-    # drum_bus is now a last-resort label, not the normal outcome for a mixed track.
-    discriminating_energy = max(low, mid_low, mid, high)
-    if discriminating_energy < 0.055 or score < thresholds.low_confidence_min or (score-runner) < thresholds.ambiguous_margin_min:
-        if score >= 0.22 and (score-runner) >= 0.075:
-            return best, round(score,3)
-        return "drum_bus", round(score,3)
-    return best, round(score,3)
+    # Preserve the known-good b27e8d77 rule order.
+    if low >= thresholds.kick_low_ratio_min and low_centroid <= thresholds.kick_low_centroid_max:
+        confidence = _clamp(
+            (low * 0.55)
+            + (0.25 * (1.0 - min(1.0, low_centroid / 700.0)))
+            + (sharp * 0.20)
+        )
+        return "kick", round(confidence, 3)
+
+    if (
+        high >= thresholds.hihat_high_ratio_min
+        and decay <= thresholds.hihat_decay_max
+        and sharp >= thresholds.snare_sharpness_min
+    ):
+        confidence = _clamp((high * 0.55) + (sharp * 0.30) + ((1.0 - decay) * 0.15))
+        return "hihat", round(confidence, 3)
+
+    if high >= thresholds.cymbal_high_ratio_min and decay >= thresholds.cymbal_decay_min:
+        confidence = _clamp((high * 0.45) + (decay * 0.35) + (spread * 0.20))
+        return "cymbal", round(confidence, 3)
+
+    if (
+        mid >= thresholds.snare_mid_ratio_min
+        and sharp >= thresholds.snare_sharpness_min
+        and high < 0.60
+        and mid_low < 0.35
+    ):
+        confidence = _clamp(
+            (mid * 0.48)
+            + (sharp * 0.30)
+            + (spread * 0.12)
+            + ((1.0 - high) * 0.10)
+        )
+        return "snare", round(confidence, 3)
+
+    if mid_low >= thresholds.tom_mid_low_ratio_min and high < 0.50 and centroid < 2200:
+        confidence = _clamp(
+            (mid_low * 0.52)
+            + (1.0 - min(1.0, abs(centroid - 900.0) / 1800.0)) * 0.20
+            + (decay * 0.18)
+            + (sharp * 0.10)
+        )
+        return "tom", round(confidence, 3)
+
+    candidates: list[tuple[str, float]] = [
+        ("kick", (low * 0.55) + ((1.0 - min(1.0, low_centroid / 1200.0)) * 0.25) + (sharp * 0.20)),
+        ("snare", (mid * 0.42) + (sharp * 0.32) + (spread * 0.18) + (mid_low * 0.08)),
+        ("tom", (mid_low * 0.48) + ((1.0 - abs(centroid - 900.0) / 1800.0) * 0.22) + (decay * 0.16) + (sharp * 0.14)),
+        ("hihat", (high * 0.56) + (sharp * 0.28) + ((1.0 - decay) * 0.16)),
+        ("cymbal", (high * 0.42) + (decay * 0.36) + (spread * 0.22)),
+    ]
+    drum_type, score = max(candidates, key=lambda item: item[1])
+
+    if drum_type == "kick" and low < thresholds.kick_low_ratio_min:
+        score *= 0.78
+    if drum_type == "snare" and mid < thresholds.snare_mid_ratio_min:
+        score *= 0.78
+    if drum_type == "tom" and mid_low < thresholds.tom_mid_low_ratio_min:
+        score *= 0.76
+    if drum_type == "hihat" and high < thresholds.hihat_high_ratio_min:
+        score *= 0.72
+    if drum_type == "cymbal" and (high < thresholds.cymbal_high_ratio_min or decay < thresholds.cymbal_decay_min):
+        score *= 0.78
+
+    confidence = _clamp(score)
+    if confidence < thresholds.low_confidence_min:
+        return "drum_bus", round(confidence, 3)
+    return drum_type, round(confidence, 3)
 
 
 def classify_tom_class(features: dict[str, float], thresholds: DrumClassifierThresholds = DrumClassifierThresholds()) -> tuple[str, float]:
