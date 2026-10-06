@@ -11,7 +11,7 @@ The existing 593×504 canonical PNG remains the visual source of truth. Source-n
 
 The xmodel now carries an explicit dense 96×72 \`CustomModel\` grid and a portable \`CustomBkgImage="../source/drummerbg.png"\`.
 
-The renderer consumes exported xmodel node ranges. It does not reconstruct circles from the pose spec and does not globally brighten the picture. Idle artwork is fixed at 28% brightness. Active hits restore the existing source pixels only inside the max-union of active node masks, preserving source colors and preventing shared arms from compounding.
+The xmodel remains the xLights/export geometry contract and is validated for eight non-empty public targets. For review video, the renderer rasterizes the same authored source-normalized geometry directly at the 593×504 source resolution instead of enlarging the coarse 96×72 node grid. Idle artwork is held at a 15% dim baseline; active masks receive a strong source-preserving emissive lift. This removes the spotty/blocky review lighting while keeping component ownership identical. Simultaneous hits use a max-union so shared arms never compound.
 
 Hi-hat includes the existing foot/pedal region and no arms. Kick includes no actuator. The extra lower-right drum is not part of any canonical surface.
 
@@ -25,10 +25,11 @@ The former expected failure is repaired separately in the same branch: the legac
 
 The focused GitHub workflow regenerates the assets, checks the HIGH-right/MID-left/FLOOR-left geometry, validates the exact eight public targets and portable background path, compares the 68-event WAV manifest with the XSQ timing track, runs the focused drummer/manifest tests, and renders a 20-second H.264/AAC preview at 24 fps.
 
+Current automated verification now includes both the deterministic geometry fixture and a production-path real-song proof. The approved `b27e8d77a63027ed32bcf6851dcff3925472c155` classifier behavior was restored exactly: `Helix Audiolights.mp3` produces the historical raw counts kick=194, snare=37, tom=9, hi-hat=208, cymbal=840, drum_bus=47. Production mapping targets the real `HX_SNOWMAN_DRUMMER_V3_*` names, and ambiguous/collapsed multi-hit tom subclassing falls back to HIGH→MID→FLOOR distribution so no physical tom is starved.
+
 Still open after automated verification:
-1. User visual approval of the reconstructed candidate.
+1. User visual approval of the corrected 160-second real-song candidate.
 2. Native xLights import/playback of the regenerated custom model.
-3. Real-song detector evaluation, harmonic rejection, stem provenance, fill context and humanization. Production detection logic is intentionally unchanged.
 
 
 ## Reconstruction evidence
@@ -40,3 +41,14 @@ The eight isolated decoded frames at 0.333, 1.333, …, 7.333 seconds were inspe
 The generated xmodel, PNG review layers and pose sheet are checked into the branch. The workflow now verifies regeneration is byte-for-byte clean with `git diff --exit-code`; it does not mutate the branch during ordinary validation.
 
 User visual approval, native xLights import/playback, and real-song detector quality remain open. This reconstruction does not claim the unavailable original local commit SHAs or byte identity with the lost source patch.
+
+
+## Corrected real-song proof
+
+After the first reconstructed preview was rejected for spotty component lighting and regressed rhythm behavior, the branch was re-audited against the historical oracle instead of treating the synthetic fixture as sufficient evidence.
+
+GitHub Actions run `37432351105` is the current implementation proof. It passed the focused test suite, regenerated/validated the V3 model, passed the 68-event deterministic geometry fixture, matched the historical real-song detector counts exactly, proved that all eight V3 targets occur within the first 160 seconds, and rendered/uploaded a 160-second preview using the repository's real `Helix Audiolights.mp3` audio.
+
+Real-song mapped component counts are: KICK 193, SNARE 37, HI_HAT 205, TOM_HIGH 3, TOM_MID 3, TOM_FLOOR 3, CYMBAL_LEFT 412, CYMBAL_RIGHT 412. Raw detection remains exactly equal to the historical oracle; the small difference between raw and mapped totals comes from the existing scheduling/de-clutter stage and bus suppression.
+
+The synthetic fixture remains only a geometry/isolation regression test. It is no longer presented as proof of musical detection quality.
