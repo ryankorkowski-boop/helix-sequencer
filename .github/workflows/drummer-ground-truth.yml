@@ -158,8 +158,10 @@ jobs:
           assert report['oracle_commit'] == 'b27e8d77a63027ed32bcf6851dcff3925472c155'
           assert report['typed_event_count'] >= 250, report
           counts=report['raw_drum_type_counts']
-          for kind in ('kick','snare','tom','hihat','cymbal'):
-              assert counts.get(kind,0) > 0, f'missing real-song {kind}: {counts}'
+          assert counts == report['oracle_reference_counts'], (
+              f"real-song detector regressed from approved oracle: "
+              f"current={counts} oracle={report['oracle_reference_counts']}"
+          )
           components=report['component_counts']
           assert report['target_count'] == 8, report
           assert set(components) == set(report['targets']), (components, report['targets'])
