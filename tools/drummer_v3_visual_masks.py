@@ -11,6 +11,26 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SPEC = ROOT / "fixtures" / "band_geometry" / "drummer_v3_pose_spec.json"
 MODEL_NAME = "HX_SNOWMAN_DRUMMER_V3"
 
+# Review/output colors are part of the physical drummer contract.  They match
+# the actual prop artwork: red kick rim, magenta snare, gold metal, green toms.
+# Actuators (arms/sticks/hi-hat foot) are never recolored; they are only restored
+# from the source artwork so they continue to look like the photographed/drawn
+# component instead of a generic white tracing.
+TARGET_OUTLINE_RGB = {
+    f"{MODEL_NAME}_KICK": (220, 45, 28),
+    f"{MODEL_NAME}_SNARE": (214, 92, 190),
+    f"{MODEL_NAME}_HI_HAT": (220, 164, 22),
+    f"{MODEL_NAME}_TOM_HIGH": (44, 178, 66),
+    f"{MODEL_NAME}_TOM_MID": (44, 178, 66),
+    f"{MODEL_NAME}_TOM_FLOOR": (44, 178, 66),
+    f"{MODEL_NAME}_CYMBAL_LEFT": (220, 164, 22),
+    f"{MODEL_NAME}_CYMBAL_RIGHT": (220, 164, 22),
+}
+
+
+def target_surface_key(target: str) -> str:
+    return f"__surface__:{target}"
+
 
 def load_spec(path: Path = DEFAULT_SPEC) -> dict[str, Any]:
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -129,26 +149,25 @@ def compose_emissive(
     masks: dict[str, Image.Image],
     active_targets: list[str] | tuple[str, ...] | set[str],
     *,
-    idle_brightness: float = 0.42,
-    active_brightness: float = 1.15,
-    white_lift: float = 0.015,
-    outline_radius: int = 3,
-    halo_radius: float = 5.0,
+    idle_brightness: float = 0.48,
+    active_brightness: float = 1.30,
+    outline_radius: int = 2,
+    halo_radius: float = 4.0,
 ) -> Image.Image:
-    """Render the approved drummer artwork as a dim stage image plus hit outlines.
+    """Illuminate the real component artwork, not a generic traced substitute.
 
-    The entire drummerbg remains continuously visible. A hit restores the
-    component toward its source brightness, then adds a crisp warm-white outline
-    and a restrained outer halo. The outline is derived from the exact target
-    mask, so it follows the drum/cymbal and its integrated actuator rather than
-    replacing the artwork with a painted blob.
+    The complete drummerbg stays visible at a dim stage level.  Active targets
+    restore the original source pixels at higher brightness.  Only the actual
+    instrument surface gets a thin, component-colored edge/halo (red kick,
+    green toms, gold metal, magenta snare).  Integrated arms/sticks/foot brighten
+    in their own source colors and are deliberately *not* outlined.
     """
     source_rgba = source.convert("RGBA")
     source_rgb = source_rgba.convert("RGB")
-    idle_rgb = ImageEnhance.Brightness(source_rgb).enhance(idle_brightness)
-    idle = idle_rgb.convert("RGBA")
+    idle = ImageEnhance.Brightness(source_rgb).enhance(idle_brightness).convert("RGBA")
 
     union = Image.new("L", source_rgba.size, 0)
+    ordered_targets = [target for target in masks if target in set(active_targets) and not target.startswith("__surface__:")]
     for target in active_targets:
         if target not in masks:
             raise ValueError(f"Unknown drummer target: {target}")
@@ -156,35 +175,33 @@ def compose_emissive(
     if union.getbbox() is None:
         return idle
 
+    # First restore the exact source artwork for the complete integrated target.
     active_rgb = ImageEnhance.Brightness(source_rgb).enhance(active_brightness)
-    active_rgb = ImageEnhance.Color(active_rgb).enhance(1.08)
-    if white_lift > 0:
-        active_rgb = Image.blend(
-            active_rgb,
-            Image.new("RGB", source_rgba.size, (255, 255, 255)),
-            white_lift,
-        )
+    active_rgb = ImageEnhance.Color(active_rgb).enhance(1.12)
     frame = Image.composite(active_rgb.convert("RGBA"), idle, union)
 
-    # Trace both sides of the component boundary. The outer band makes adjacent
-    # drums distinct while the inner band keeps the outline attached to the
-    # actual source artwork.
+    # Then outline only the physical drum/cymbal surface.  This avoids the
+    # Apple-II-looking white scribble around arms and sticks.
     radius = max(1, int(outline_radius))
     kernel = radius * 2 + 1
-    dilated = union.filter(ImageFilter.MaxFilter(kernel))
-    eroded = union.filter(ImageFilter.MinFilter(kernel))
-    outer = ImageChops.subtract(dilated, union)
-    inner = ImageChops.subtract(union, eroded)
-    edge = ImageChops.lighter(outer, inner)
+    for target in active_targets:
+        surface = masks.get(target_surface_key(target), masks[target])
+        color = TARGET_OUTLINE_RGB.get(target)
+        if color is None or surface.getbbox() is None:
+            continue
+        dilated = surface.filter(ImageFilter.MaxFilter(kernel))
+        eroded = surface.filter(ImageFilter.MinFilter(kernel))
+        outer = ImageChops.subtract(dilated, surface)
+        inner = ImageChops.subtract(surface, eroded)
+        edge = ImageChops.lighter(outer, inner)
 
-    # Soft halo first, then a crisp outline. Limit the halo so the background
-    # remains visibly dim rather than turning into a global flash.
-    halo = outer.filter(ImageFilter.GaussianBlur(max(0.1, float(halo_radius))))
-    halo = halo.point(lambda value: int(value * 0.28))
-    halo_color = Image.new("RGBA", source_rgba.size, (255, 196, 96, 255))
-    frame = Image.composite(halo_color, frame, halo)
+        halo = outer.filter(ImageFilter.GaussianBlur(max(0.1, float(halo_radius))))
+        halo = halo.point(lambda value: int(value * 0.22))
+        color_image = Image.new("RGBA", source_rgba.size, (*color, 255))
+        frame = Image.composite(color_image, frame, halo)
 
-    crisp = edge.point(lambda value: int(value * 0.72))
-    outline_color = Image.new("RGBA", source_rgba.size, (255, 246, 202, 255))
-    frame = Image.composite(outline_color, frame, crisp)
+        crisp = edge.point(lambda value: int(value * 0.78))
+        frame = Image.composite(color_image, frame, crisp)
+
     return frame
+
