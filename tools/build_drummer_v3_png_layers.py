@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
-"""Build Drummer V3 review layers from the same xmodel nodes used by the renderer."""
+"""Build high-fidelity Drummer V3 review layers from the canonical pose spec."""
 from __future__ import annotations
 
 import argparse
 import json
 import sys
-import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any
 
 from PIL import Image, ImageChops, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.drummer_v3_visual_masks import build_geometry_masks, compose_emissive, load_spec
+
 DEFAULT_SOURCE = ROOT / "fixtures" / "band_geometry" / "source" / "drummerbg.png"
 DEFAULT_MANIFEST = ROOT / "fixtures" / "band_geometry" / "drummer_v3_png_layer_manifest.json"
 DEFAULT_XMODEL = ROOT / "fixtures" / "band_geometry" / "models" / "HX_SNOWMAN_DRUMMER_V3.xmodel"
@@ -24,88 +28,6 @@ def load_manifest(path: Path) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise ValueError(f"Manifest did not parse as an object: {path}")
     return data
-
-
-def _rgba(command: dict[str, Any]) -> tuple[int, int, int, int]:
-    values = command.get("rgba", [255, 255, 255, 255])
-    if not isinstance(values, list) or len(values) != 4:
-        raise ValueError(f"Invalid rgba value in command: {command!r}")
-    return tuple(int(v) for v in values)  # type: ignore[return-value]
-
-
-def _xy_pairs(command: dict[str, Any], size: tuple[int, int]) -> list[tuple[int, int]]:
-    raw = command.get("points")
-    if not isinstance(raw, list) or len(raw) < 3:
-        raise ValueError(f"Polygon command missing normalized points: {command!r}")
-    width, height = size
-    points: list[tuple[int, int]] = []
-    for pair in raw:
-        if not isinstance(pair, list) or len(pair) != 2:
-            raise ValueError(f"Invalid polygon point: {pair!r}")
-        points.append((round(float(pair[0]) * (width - 1)), round(float(pair[1]) * (height - 1))))
-    return points
-
-
-def draw_command(draw: ImageDraw.ImageDraw, command: dict[str, Any], size: tuple[int, int]) -> None:
-    shape = str(command.get("shape", ""))
-    if shape == "polygon":
-        draw.polygon(_xy_pairs(command, size), fill=_rgba(command))
-        return
-    raise ValueError(f"Unsupported V3 geometry command shape: {shape}")
-
-
-def build_overlay(size: tuple[int, int], zone: dict[str, Any]) -> Image.Image:
-    overlay = Image.new("RGBA", size, (0, 0, 0, 0))
-    draw = ImageDraw.Draw(overlay, "RGBA")
-    commands = zone.get("commands", [])
-    if not isinstance(commands, list) or not commands:
-        raise ValueError(f"Zone {zone.get('id')} has no draw commands")
-    for command in commands:
-        if not isinstance(command, dict):
-            raise ValueError(f"Invalid command in {zone.get('id')}: {command!r}")
-        draw_command(draw, command, size)
-    return overlay
-
-
-def _expand_ranges(text: str) -> set[int]:
-    nodes: set[int] = set()
-    for token in text.split(","):
-        token = token.strip()
-        if not token:
-            continue
-        if "-" in token:
-            a, b = token.split("-", 1)
-            start, end = int(a), int(b)
-            if start > end:
-                raise ValueError(f"Invalid node range: {token}")
-            nodes.update(range(start, end + 1))
-        else:
-            nodes.add(int(token))
-    return nodes
-
-
-def load_xmodel_masks(xmodel_path: Path, source_size: tuple[int, int]) -> dict[str, Image.Image]:
-    root = ET.parse(xmodel_path).getroot()
-    width = int(root.get("parm1", "0"))
-    height = int(root.get("parm2", "0"))
-    if width <= 0 or height <= 0:
-        raise ValueError("xmodel has invalid grid dimensions")
-    max_node = width * height
-    masks: dict[str, Image.Image] = {}
-    for submodel in root.findall("./subModels/subModel"):
-        name = submodel.get("name", "")
-        nodes = _expand_ranges(submodel.get("line0", ""))
-        if not nodes:
-            raise ValueError(f"xmodel submodel is empty: {name}")
-        if min(nodes) < 1 or max(nodes) > max_node:
-            raise ValueError(f"xmodel submodel has out-of-range nodes: {name}")
-        grid = Image.new("L", (width, height), 0)
-        pixels = grid.load()
-        for node in nodes:
-            idx = node - 1
-            pixels[idx % width, idx // width] = 255
-        masks[name] = grid.resize(source_size, Image.Resampling.NEAREST)
-    return masks
 
 
 def validate_manifest(manifest: dict[str, Any]) -> None:
@@ -130,20 +52,20 @@ def _union_masks(targets: list[str], masks: dict[str, Image.Image], size: tuple[
     union = Image.new("L", size, 0)
     for target in targets:
         if target not in masks:
-            raise ValueError(f"Review layer references missing xmodel target: {target}")
+            raise ValueError(f"Review layer references missing canonical target: {target}")
         union = ImageChops.lighter(union, masks[target])
     return union
 
 
-def _transparent_source(source: Image.Image, mask: Image.Image) -> Image.Image:
-    layer = source.convert("RGBA").copy()
+def _transparent_emissive(source: Image.Image, mask: Image.Image) -> Image.Image:
+    composed = compose_emissive(source, {"_ACTIVE": mask}, ["_ACTIVE"])
+    layer = composed.convert("RGBA")
     layer.putalpha(mask)
     return layer
 
 
-def make_contact_sheet(source: Image.Image, overlays: dict[str, Image.Image], frames: list[str]) -> Image.Image:
+def make_contact_sheet(source: Image.Image, masks_by_frame: dict[str, Image.Image], frames: list[str]) -> Image.Image:
     base = source.convert("RGBA")
-    dim = base.convert("RGB").point(lambda v: int(v * 0.28)).convert("RGBA")
     frame_w, label_h = 360, 28
     scale = frame_w / base.width
     frame_h = max(1, round(base.height * scale))
@@ -154,10 +76,11 @@ def make_contact_sheet(source: Image.Image, overlays: dict[str, Image.Image], fr
     for index, frame in enumerate(frames):
         x = (index % cols) * frame_w
         y = (index // cols) * (frame_h + label_h)
-        composed = dim.copy()
-        overlay = overlays.get(frame)
-        if overlay is not None:
-            composed.alpha_composite(overlay)
+        mask = masks_by_frame.get(frame)
+        if mask is None:
+            composed = compose_emissive(base, {}, [])
+        else:
+            composed = compose_emissive(base, {"_ACTIVE": mask}, ["_ACTIVE"])
         sheet.alpha_composite(composed.resize((frame_w, frame_h), Image.Resampling.LANCZOS), (x, y + label_h))
         draw.text((x + 8, y + 7), frame, fill=(255, 255, 255, 255))
     return sheet
@@ -191,32 +114,37 @@ def build(
         raise FileNotFoundError(f"Required source image is missing: {_relative(source_path)}")
     if source_path.suffix.lower() != ".png":
         raise ValueError(f"Source image must be a PNG: {_relative(source_path)}")
+    if not xmodel_path.exists():
+        raise FileNotFoundError(f"Required xmodel is missing: {_relative(xmodel_path)}")
     manifest = load_manifest(manifest_path)
     validate_manifest(manifest)
     source = Image.open(source_path).convert("RGBA")
     if source.width < 128 or source.height < 128:
         raise ValueError(f"Source image is too small for a useful review sheet: {source.size}")
-    masks = load_xmodel_masks(xmodel_path, source.size)
+    masks = build_geometry_masks(source.size, load_spec())["targets"]
 
     overlays: dict[str, Image.Image] = {}
+    frame_masks: dict[str, Image.Image] = {}
     written: list[str] = []
     skipped: list[str] = []
     for layer in manifest["layers"]:
         layer_id = str(layer["id"])
         mask = _union_masks([str(t) for t in layer["targets"]], masks, source.size)
-        overlay = _transparent_source(source, mask)
+        frame_masks[layer_id] = mask
+        overlay = _transparent_emissive(source, mask)
         overlays[layer_id] = overlay
         out_path = layers_dir / str(layer["file"])
         (written if save_image(out_path, overlay, overwrite) else skipped).append(_relative(out_path))
 
     frames = [str(frame) for frame in manifest["required_frames"]]
-    contact = make_contact_sheet(source, overlays, frames)
+    contact = make_contact_sheet(source, frame_masks, frames)
     contact_path = preview_dir / str(manifest.get("contact_sheet", "drummer_v3_contact_sheet.png"))
     (written if save_image(contact_path, contact, overwrite) else skipped).append(_relative(contact_path))
     return {
-        "schema": "helix.drummer_v3_png_layer_build.v2",
+        "schema": "helix.drummer_v3_png_layer_build.v3",
         "source_image": _relative(source_path),
         "xmodel": _relative(xmodel_path),
+        "geometry_source": "drummer_v3_pose_spec full-resolution masks",
         "layer_count": len(overlays),
         "frame_count": len(frames),
         "written": written,
@@ -234,10 +162,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args(argv)
     try:
-        result = build(
-            args.source, args.manifest, args.layers_dir, args.preview_dir,
-            args.overwrite, xmodel_path=args.xmodel
-        )
+        result = build(args.source, args.manifest, args.layers_dir, args.preview_dir, args.overwrite, xmodel_path=args.xmodel)
     except Exception as exc:
         print(f"Drummer V3 PNG layer build failed: {exc}", file=sys.stderr)
         return 1
