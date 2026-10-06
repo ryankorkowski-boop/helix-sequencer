@@ -7,9 +7,9 @@ from mapping.drum_mapper import DRUMMER_COMPONENTS, map_events_to_drummer_compon
 
 LEGACY_STICK_OR_ARM_TOKENS = ("LEFT_STICK", "RIGHT_STICK", "LEFT_ARM", "RIGHT_ARM")
 CANONICAL_TOMS = (
-    "HX_SNOWMAN_DRUMMER_TOM_HIGH",
-    "HX_SNOWMAN_DRUMMER_TOM_MID",
-    "HX_SNOWMAN_DRUMMER_TOM_FLOOR",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
 )
 
 
@@ -32,9 +32,9 @@ def test_component_mapper_never_emits_independent_sticks_arms_or_fourth_tom() ->
     components = [str(item["component"]) for item in mapped]
     assert set(components).issubset(set(DRUMMER_COMPONENTS))
     assert not any(any(token in component for token in LEGACY_STICK_OR_ARM_TOKENS) for component in components)
-    assert components[0:3] == ["HX_SNOWMAN_DRUMMER_KICK", "HX_SNOWMAN_DRUMMER_SNARE", "HX_SNOWMAN_DRUMMER_HI_HAT"]
+    assert components[0:3] == ["HX_SNOWMAN_DRUMMER_V3_KICK", "HX_SNOWMAN_DRUMMER_V3_SNARE", "HX_SNOWMAN_DRUMMER_V3_HI_HAT"]
     assert components[3:6] == list(CANONICAL_TOMS)
-    assert components[6:8] == ["HX_SNOWMAN_DRUMMER_CYMBAL_LEFT", "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT"]
+    assert components[6:8] == ["HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT", "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT"]
     assert not any("TOM_4" in component for component in components)
 
 
