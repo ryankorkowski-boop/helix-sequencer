@@ -56,7 +56,7 @@ def ensure_source_png(spec: dict[str, Any], *, overwrite: bool = False) -> tuple
 
 
 def _nodes_from_overlay(overlay: Image.Image, width: int, height: int) -> set[int]:
-    alpha = overlay.convert("RGBA").getchannel("A")
+    alpha = overlay if overlay.mode == "L" else overlay.convert("RGBA").getchannel("A")
     return {
         y * width + x + 1
         for y in range(height)
@@ -103,19 +103,19 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
     public_masks = geometry["targets"]
 
     zone_nodes = {
-        name: _nodes_from_overlay(mask.convert("RGBA"), width, height)
+        name: _nodes_from_overlay(mask, width, height)
         for name, mask in raw_masks.items()
     }
     surface_nodes = {
-        name: _nodes_from_overlay(mask.convert("RGBA"), width, height)
+        name: _nodes_from_overlay(mask, width, height)
         for name, mask in surface_masks.items()
     }
     actuator_nodes = {
-        name: _nodes_from_overlay(mask.convert("RGBA"), width, height)
+        name: _nodes_from_overlay(mask, width, height)
         for name, mask in actuator_masks.items()
     }
     target_nodes = {
-        name.removeprefix(f"{MODEL_NAME}_"): _nodes_from_overlay(mask.convert("RGBA"), width, height)
+        name.removeprefix(f"{MODEL_NAME}_"): _nodes_from_overlay(mask, width, height)
         for name, mask in public_masks.items()
     }
 
