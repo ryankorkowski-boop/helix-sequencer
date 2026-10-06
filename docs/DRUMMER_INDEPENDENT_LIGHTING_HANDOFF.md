@@ -29,3 +29,14 @@ Still open after automated verification:
 1. User visual approval of the reconstructed candidate.
 2. Native xLights import/playback of the regenerated custom model.
 3. Real-song detector evaluation, harmonic rejection, stem provenance, fill context and humanization. Production detection logic is intentionally unchanged.
+
+
+## Reconstruction evidence
+
+Remote GitHub Actions run `37416429803` succeeded on the implementation branch after the independent-surface fix. The workflow regenerated canonical assets, proved the exact 68-event WAV/XSQ oracle and eight public targets, ran **37 focused tests with 3 existing deprecation warnings**, rendered a 20-second 960×540 H.264/AAC preview at 24 fps, and uploaded both XSQ/audio and MP4 artifacts.
+
+The eight isolated decoded frames at 0.333, 1.333, …, 7.333 seconds were inspected after encoding. An intermediate reconstruction exposed a kick/snare shared-grid-cell bleed; the builder now gives adjacent instrument surfaces mutually exclusive node ownership, and the corrected kick state leaves the snare at idle brightness. The renderer still uses a max-union for simultaneous hits and subtracts all raw instrument surfaces from actuator contributions.
+
+The generated xmodel, PNG review layers and pose sheet are checked into the branch. The workflow now verifies regeneration is byte-for-byte clean with `git diff --exit-code`; it does not mutate the branch during ordinary validation.
+
+User visual approval, native xLights import/playback, and real-song detector quality remain open. This reconstruction does not claim the unavailable original local commit SHAs or byte identity with the lost source patch.

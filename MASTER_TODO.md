@@ -48,7 +48,7 @@ This supersedes the nine-component/four-tom V3 claims retained below as history.
 - [x] Derive PNG review layers from the same exported nodes.
 - [x] Share one deterministic event oracle between WAV and XSQ; 68 events over 20 seconds.
 - [x] Fix the former starter-model/manifest expected failure and archive that legacy contract.
-- [ ] GitHub Actions verification of the reconstructed branch.
+- [x] GitHub Actions verification of the reconstructed branch: run `37416429803` passed regeneration, oracle checks, 37 focused tests, rendering and artifact upload.
 - [ ] User visual approval of the reconstructed candidate.
 - [ ] xLights import/playback confirmation.
 - [ ] Real-song drum detection/guitar rejection evaluation; unchanged by this visual fix.
@@ -109,7 +109,7 @@ Do not mark complete from unit tests alone.
 **Changed:** V3 pose geometry, xmodel exporter/static asset, node-driven PNG layer builder, canonical preview renderer, shared fixture oracle/WAV/XSQ exporters, focused tests, ground-truth workflow, runtime hi-hat description, geometry manifest, and this ledger.
 **Preserved:** canonical source image, eight public XSQ target names, HIGH-right/MID-left/FLOOR-left orientation, deterministic sequencing contract, extra-drum exclusion, and production drum detector.
 **New:** source-aligned surfaces/actuators, integrated hit nodes, dense xmodel grid, portable background path, fixed 28% idle brightness, xmodel-node-driven max-union rendering, hi-hat foot/no-arm behavior, and exact WAV/XSQ oracle agreement.
-**Evidence pending:** branch CI must regenerate assets, run focused tests and render the 20-second candidate before this reconstruction is considered verified.
+**Evidence:** GitHub Actions run `37416429803` passed canonical regeneration, exact 68-event WAV/XSQ agreement, 37 focused tests with 3 existing deprecation warnings, and a 20-second H.264/AAC render at 24 fps. All eight isolated decoded states were inspected after encoding; the kick/snare shared-cell regression was corrected by exclusive instrument-surface ownership. User approval and native xLights import remain open.
 **Limitations/deferred:** static reference arms illuminate but are not re-posed; xLights native import and real-song detector quality remain separate gates.
 **Regression risks:** public hit targets now include actuator nodes; geometry-only checks must use \`_SURFACE\` submodels.
 

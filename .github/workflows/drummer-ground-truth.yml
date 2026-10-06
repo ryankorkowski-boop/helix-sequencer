@@ -78,6 +78,21 @@ jobs:
               raise SystemExit(f"FAIL: nonportable background path: {root.get('CustomBkgImage')}")
           print(f'PASS: regenerated V3 geometry HIGH={high} MID={mid} FLOOR={floor}')
           PY
+      - name: Verify regenerated V3 assets match the checked-in canonical assets
+        run: |
+          git diff --exit-code -- \
+            fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel \
+            fixtures/band_geometry/layers/drummer_hit_kick.png \
+            fixtures/band_geometry/layers/drummer_hit_snare.png \
+            fixtures/band_geometry/layers/drummer_hit_hi_hat.png \
+            fixtures/band_geometry/layers/drummer_hit_high_tom.png \
+            fixtures/band_geometry/layers/drummer_hit_mid_tom.png \
+            fixtures/band_geometry/layers/drummer_hit_floor_tom.png \
+            fixtures/band_geometry/layers/drummer_hit_left_crash.png \
+            fixtures/band_geometry/layers/drummer_hit_right_crash.png \
+            fixtures/band_geometry/layers/drummer_hit_both_crash.png \
+            fixtures/band_geometry/layers/drummer_downbeat_impact.png \
+            fixtures/band_geometry/previews/HX_SNOWMAN_DRUMMER_V3_pose_sheet.png
       - name: Generate deterministic ground-truth audio and events
         env: {PYTHONPATH: .}
         run: python tools/generate_drummer_ground_truth.py --wav test_runs/drummer_ground_truth/drummer_ground_truth.wav --events test_runs/drummer_ground_truth/events.json
@@ -125,28 +140,6 @@ jobs:
             --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav \
             --output test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4 \
             --fps 24
-      - name: Refresh checked-in generated V3 assets on implementation branch
-        if: success() && github.ref_name == 'fix/drummer-independent-illumination'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel \
-            fixtures/band_geometry/layers/drummer_hit_kick.png \
-            fixtures/band_geometry/layers/drummer_hit_snare.png \
-            fixtures/band_geometry/layers/drummer_hit_hi_hat.png \
-            fixtures/band_geometry/layers/drummer_hit_high_tom.png \
-            fixtures/band_geometry/layers/drummer_hit_mid_tom.png \
-            fixtures/band_geometry/layers/drummer_hit_floor_tom.png \
-            fixtures/band_geometry/layers/drummer_hit_left_crash.png \
-            fixtures/band_geometry/layers/drummer_hit_right_crash.png \
-            fixtures/band_geometry/layers/drummer_hit_both_crash.png \
-            fixtures/band_geometry/layers/drummer_downbeat_impact.png \
-            fixtures/band_geometry/previews/HX_SNOWMAN_DRUMMER_V3_pose_sheet.png
-          if ! git diff --cached --quiet; then
-            git commit -m "chore(drummer): refresh generated V3 assets [skip ci]"
-            git push origin HEAD:fix/drummer-independent-illumination
-          fi
       - name: Upload drummer truth artifacts
         if: always()
         uses: actions/upload-artifact@v4
