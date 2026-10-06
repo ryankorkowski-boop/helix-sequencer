@@ -129,11 +129,11 @@ def compose_emissive(
     masks: dict[str, Image.Image],
     active_targets: list[str] | tuple[str, ...] | set[str],
     *,
-    idle_brightness: float = 0.34,
-    active_brightness: float = 1.22,
-    white_lift: float = 0.025,
-    outline_radius: int = 5,
-    halo_radius: float = 7.0,
+    idle_brightness: float = 0.42,
+    active_brightness: float = 1.15,
+    white_lift: float = 0.015,
+    outline_radius: int = 3,
+    halo_radius: float = 5.0,
 ) -> Image.Image:
     """Render the approved drummer artwork as a dim stage image plus hit outlines.
 
@@ -180,11 +180,11 @@ def compose_emissive(
     # Soft halo first, then a crisp outline. Limit the halo so the background
     # remains visibly dim rather than turning into a global flash.
     halo = outer.filter(ImageFilter.GaussianBlur(max(0.1, float(halo_radius))))
-    halo = halo.point(lambda value: int(value * 0.42))
+    halo = halo.point(lambda value: int(value * 0.28))
     halo_color = Image.new("RGBA", source_rgba.size, (255, 196, 96, 255))
     frame = Image.composite(halo_color, frame, halo)
 
-    crisp = edge.point(lambda value: int(value * 0.88))
+    crisp = edge.point(lambda value: int(value * 0.72))
     outline_color = Image.new("RGBA", source_rgba.size, (255, 246, 202, 255))
     frame = Image.composite(outline_color, frame, crisp)
     return frame
