@@ -131,6 +131,25 @@ def parse_effects(xsq: Path) -> list[tuple[int, int, str]]:
     return sorted(out)
 
 
+def _frame_time_ms(start_ms: int, frame_index: int, fps: int) -> float:
+    return float(start_ms) + (float(frame_index) * 1000.0 / float(fps))
+
+
+def _active_targets_for_frame(
+    effects: list[tuple[int, int, str]],
+    frame_time_ms: float,
+    fps: int,
+) -> set[str]:
+    """Sample effect intervals at the nearest video frame, not only after them."""
+    half_frame_ms = 500.0 / float(fps)
+    return {
+        name
+        for start, end, name in effects
+        if start < frame_time_ms + half_frame_ms
+        and end > frame_time_ms - half_frame_ms
+    }
+
+
 def draw_frame(
     source: Image.Image,
     masks: dict[str, Image.Image],
@@ -189,7 +208,7 @@ def main() -> int:
     parser.add_argument("xsq", type=Path)
     parser.add_argument("--audio", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--fps", type=int, default=24)
+    parser.add_argument("--fps", type=int, default=60)
     parser.add_argument("--duration", type=float, default=0.0)
     parser.add_argument("--start", type=float, default=0.0, help="First source-audio second to render")
     parser.add_argument("--require-all-targets", action="store_true")
@@ -220,8 +239,9 @@ def main() -> int:
     try:
         frame_count = int(round(duration_ms / 1000 * args.fps))
         for index in range(frame_count):
-            t_ms = start_ms + int(round(index * 1000 / args.fps))
-            active = {name for start, end, name in effects if start <= t_ms < end}
+            frame_time_ms = _frame_time_ms(start_ms, index, args.fps)
+            active = _active_targets_for_frame(effects, frame_time_ms, args.fps)
+            t_ms = int(round(frame_time_ms))
             writer.append_data(np.asarray(draw_frame(
                 source, masks, active, 960, 540, t_ms, start_ms + duration_ms, font, art_cache
             )))

@@ -141,6 +141,7 @@ jobs:
             tests/test_drum_mapping.py \
             tests/test_drummer_target_strikes.py \
             tests/test_drummer_v3_real_audio.py \
+            tests/test_drummer_v3_detector_sync.py \
             tests/test_band_geometry_manifest.py \
             tests/test_band_geometry_status.py
       - name: Render isolated pose validation before music
@@ -154,7 +155,7 @@ jobs:
             test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq \
             --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav \
             --output test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4 \
-            --fps 24 \
+            --fps 60 \
             --require-all-targets
       - name: Build real-song drummer proof through production detector
         env: {PYTHONPATH: .}
@@ -180,6 +181,10 @@ jobs:
           assert report['analysis']['used_hpss_percussive_evidence'] is True, report
           assert report['analysis']['typed_event_count'] >= 20, report
           assert report['analysis']['analysis_engine'] == 'v3_hpss_onset_classifier', report
+          assert report['analysis']['analysis_sample_rate'] == 44100, report
+          assert report['analysis']['analysis_hop_length'] == 441, report
+          assert report['analysis']['analysis_n_fft'] == 2048, report
+          assert report['analysis']['timing_refinement'] == 'waveform_attack', report
           assert report['event_count'] >= 20, report
           assert report['early_event_count_5s'] == 0, report
           assert report['early_event_count_10s'] == 0, report
@@ -250,7 +255,7 @@ jobs:
             --output test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4 \
             --start 9.5 \
             --duration 25 \
-            --fps 24
+            --fps 60
       - name: Upload real-song proof
         if: always()
         uses: actions/upload-artifact@v4

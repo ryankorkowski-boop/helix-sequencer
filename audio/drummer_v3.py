@@ -8,6 +8,12 @@ import librosa
 import numpy as np
 from audio.drum_classification import DrumEvent as LegacyDrumEvent
 
+ANALYSIS_SAMPLE_RATE = 44100
+ANALYSIS_HOP_LENGTH = 441
+ANALYSIS_N_FFT = 2048
+MIN_ATTACK_CONTRAST = 1.05
+
+
 def _tom_class_from_low_centroid(low_centroid_hz: float) -> str:
     """Map an accepted tom onset to the physical HIGH/MID/FLOOR drum."""
     if low_centroid_hz >= 380.0:
@@ -51,8 +57,12 @@ def _classify_onset(
     tom_signature = (
         low_mid >= 0.28
         and high <= 0.43
-        and low_centroid >= 225.0
-        and low_mid >= low * 0.78
+        and centroid <= 4300.0
+        and low_mid >= low * 0.72
+        and (
+            low_centroid >= 185.0
+            or (centroid >= 450.0 and low <= 0.58)
+        )
     )
     if tom_signature:
         body = "tom"
@@ -69,20 +79,63 @@ def _classify_onset(
             low_mid >= 0.22
             and high <= 0.45
             and centroid <= 4300.0
-            and low_centroid >= 225.0
+            and low_centroid >= 185.0
         ):
             body = "tom"
             tom_class = _tom_class_from_low_centroid(low_centroid)
 
     metal: str | None = None
     if high >= 0.46 and centroid >= 3500.0:
-        sustained = decay_100ms >= 0.45 or decay_300ms >= 0.20
+        sustained = decay_100ms >= 0.50 and decay_300ms >= 0.16
         if high >= 0.60 and sustained:
             metal = "cymbal"
         else:
             metal = "hihat"
 
     return body, metal, tom_class
+
+
+def _refine_attack_sample(
+    y: np.ndarray,
+    sr: int,
+    coarse_sample: int,
+) -> tuple[int, float]:
+    """Refine a 10 ms onset frame to the waveform attack and reject release edges."""
+    back = int(round(sr * 0.030))
+    forward = int(round(sr * 0.040))
+    lo = max(0, int(coarse_sample) - back)
+    hi = min(len(y), int(coarse_sample) + forward)
+    segment = np.asarray(y[lo:hi], dtype=float)
+    if segment.size < 16:
+        return int(coarse_sample), 1.0
+
+    smooth = max(3, int(round(sr * 0.003)))
+    power = np.convolve(segment * segment, np.ones(smooth) / smooth, mode="same")
+    envelope = np.sqrt(np.maximum(power, 0.0))
+    rise = np.diff(envelope, prepend=envelope[0])
+    edge = max(smooth // 2 + 1, int(round(sr * 0.008)))
+    if rise.size <= (2 * edge + 2):
+        return int(coarse_sample), 1.0
+    rise[:edge] = 0.0
+    rise[-edge:] = 0.0
+    peak_index = int(np.argmax(rise))
+
+    span = max(2, int(round(sr * 0.006)))
+    before = envelope[max(edge, peak_index - span):peak_index]
+    after = envelope[peak_index:min(len(envelope) - edge, peak_index + span)]
+    if before.size == 0 or after.size == 0:
+        return int(coarse_sample), 1.0
+    attack_contrast = float(np.median(after)) / max(float(np.median(before)), 1e-8)
+
+    baseline_lo = max(edge, peak_index - int(round(sr * 0.015)))
+    baseline_hi = max(baseline_lo + 1, peak_index - int(round(sr * 0.004)))
+    baseline = float(np.median(envelope[baseline_lo:baseline_hi]))
+    local_peak = float(np.max(after))
+    threshold = baseline + (0.12 * max(0.0, local_peak - baseline))
+    search_lo = max(edge, peak_index - int(round(sr * 0.012)))
+    crossings = np.flatnonzero(envelope[search_lo:peak_index + 1] >= threshold)
+    onset_index = search_lo + int(crossings[0]) if crossings.size else peak_index
+    return lo + onset_index, attack_contrast
 
 
 def analyze_drummer_audio(audio_path: Path) -> tuple[list[LegacyDrumEvent], dict[str, object]]:
@@ -103,10 +156,23 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
     y = np.asarray(y, dtype=np.float32).reshape(-1)
     if sr <= 0:
         raise ValueError("Sample rate must be positive")
+    source_sr = int(sr)
     if y.size == 0:
-        return [], {"analysis_engine": "v3_hpss_onset_classifier", "typed_event_count": 0}
-    hop = max(128, int(round(sr * 0.01)))
-    n_fft = max(1024, 2 ** int(np.ceil(np.log2(max(1024, int(sr * 0.046))))))
+        return [], {
+            "analysis_engine": "v3_hpss_onset_classifier",
+            "source_sample_rate": source_sr,
+            "analysis_sample_rate": ANALYSIS_SAMPLE_RATE,
+            "typed_event_count": 0,
+        }
+    if source_sr != ANALYSIS_SAMPLE_RATE:
+        y = librosa.resample(
+            y,
+            orig_sr=source_sr,
+            target_sr=ANALYSIS_SAMPLE_RATE,
+        ).astype(np.float32, copy=False)
+    sr = ANALYSIS_SAMPLE_RATE
+    hop = ANALYSIS_HOP_LENGTH
+    n_fft = ANALYSIS_N_FFT
 
     harmonic, percussive = librosa.effects.hpss(y, margin=2.0)
     p_stft = np.abs(
@@ -195,6 +261,7 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
     rejected_quality = 0
     rejected_support = 0
     rejected_unclassified = 0
+    rejected_release_edge = 0
     accepted_onsets = 0
 
     for onset_index, frame in enumerate(onset_frames):
@@ -214,6 +281,11 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
         local_hi = min(n, frame + 9)
         if float(full_rms[frame]) < float(np.median(full_rms[local_lo:local_hi])):
             rejected_support += 1
+            continue
+
+        refined_sample, attack_contrast = _refine_attack_sample(y, sr, frame * hop)
+        if attack_contrast < MIN_ATTACK_CONTRAST:
+            rejected_release_edge += 1
             continue
 
         attack = float(np.mean(p_rms[frame:min(n, frame + 3)]))
@@ -245,7 +317,8 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
             continue
 
         accepted_onsets += 1
-        timestamp = float(frame * hop / sr)
+        coarse_timestamp = float(frame * hop / sr)
+        timestamp = float(refined_sample / sr)
         onset_strength = min(1.0, float(onset_env[frame]) / onset_scale)
         confidence = max(
             0.36,
@@ -259,6 +332,10 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
         common_info: dict[str, object] = {
             "analysis_engine": "v3_hpss_onset_classifier",
             "event_frame": float(frame),
+            "coarse_timestamp_ms": round(coarse_timestamp * 1000.0, 3),
+            "refined_attack_sample": int(refined_sample),
+            "attack_contrast": round(float(attack_contrast), 4),
+            "timing_refinement_ms": round((timestamp - coarse_timestamp) * 1000.0, 3),
             "percussive_ratio": round(quality, 4),
             "percussive_flatness": round(float(flatness[frame]), 6),
             "low_ratio": round(float(low_ratio[frame]), 4),
@@ -309,7 +386,14 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
 
     diagnostics: dict[str, object] = {
         "analysis_engine": "v3_hpss_onset_classifier",
+        "source_sample_rate": source_sr,
         "sample_rate": int(sr),
+        "analysis_sample_rate": int(sr),
+        "analysis_hop_length": int(hop),
+        "analysis_n_fft": int(n_fft),
+        "analysis_window_ms": round((n_fft / sr) * 1000.0, 3),
+        "timing_refinement": "waveform_attack",
+        "min_attack_contrast": MIN_ATTACK_CONTRAST,
         "frame_rate": round(sr / hop, 3),
         "onset_candidate_count": int(len(onset_frames)),
         "accepted_onset_count": int(accepted_onsets),
@@ -319,6 +403,7 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
         "rejected_low_percussive_quality": int(rejected_quality),
         "rejected_weak_local_support": int(rejected_support),
         "rejected_unclassified": int(rejected_unclassified),
+        "rejected_release_edge": int(rejected_release_edge),
         "used_hpss_percussive_evidence": True,
         "min_percussive_ratio": 0.36,
         "percussive_ratio_p10": round(float(np.percentile(drum_quality, 10)), 4) if len(drum_quality) else 0.0,

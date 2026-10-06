@@ -2,6 +2,17 @@
 
 > Canonical project roadmap and cross-agent handoff layer.
 
+## 2026-10-06 music sync / drummer logic corrective pass — implementation
+
+- [x] Preserve the user-approved independent target-lighting artwork and strike geometry.
+- [x] Normalize drummer analysis to 44.1 kHz / 441-sample hop / 2048-sample FFT so 48 kHz input cannot silently expand the spectral window to 4096 samples.
+- [x] Refine accepted HPSS onset frames to the waveform attack and record the correction in every event audit row.
+- [x] Reject decay/cutoff release edges with a local attack-contrast gate instead of manufacturing extra hits.
+- [x] Tighten cymbal-vs-hi-hat decay evidence and restore three tom body classes without weakening the exact eight-target contract.
+- [x] Render musical proof at 60 fps using nearest-frame interval sampling (maximum placement quantization ~8.3 ms).
+- [x] Add deterministic 44.1/48 kHz identity, cutoff, attack-timing, and preview-frame regression coverage.
+- [ ] GitHub CI + regenerated real-song artifact inspection pending this commit.
+
 ## 2026-10-06 corrective pass — completed engineering pass, acceptance open
 
 Baseline/rollback: `87c4b51bab45fb80b630288ef82f29c3da5e0014`; branch `fix/drummer-target-strikes`.
