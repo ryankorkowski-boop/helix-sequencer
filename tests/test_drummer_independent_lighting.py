@@ -8,7 +8,6 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-from PIL import ImageFilter
 
 from tools.drummer_ground_truth_oracle import TARGETS as LOGICAL_TARGETS, fixture_events
 from tools.export_drummer_ground_truth_xsq import export_drummer_ground_truth_xsq
@@ -76,57 +75,58 @@ def test_hi_hat_uses_foot_and_no_arm_while_kick_has_no_actuator() -> None:
     assert not (kick & right)
 
 
-def test_background_remains_dimly_visible_and_active_component_has_local_outline() -> None:
+def test_background_remains_dim_and_active_component_restores_exact_source_pixels() -> None:
     source, masks = load_component_masks()
     idle = compose_lighting(source, masks, [])
     target = TARGETS[1]
     active = compose_lighting(source, masks, [target])
-    mask_image = masks[target]
-    mask = np.asarray(mask_image) > 0
-    dilated = np.asarray(mask_image.filter(ImageFilter.MaxFilter(11))) > 0
-    ring = dilated & ~mask
-    far = ~(np.asarray(mask_image.filter(ImageFilter.MaxFilter(41))) > 0)
 
+    mask = np.asarray(masks[target]) > 0
     idle_arr = np.asarray(idle)[..., :3].astype(float)
     active_arr = np.asarray(active)[..., :3].astype(float)
     source_arr = np.asarray(source)[..., :3].astype(float)
 
     assert masks[target].size == source.size
-    assert idle_arr.mean() > source_arr.mean() * 0.36
-    assert idle_arr.mean() < source_arr.mean() * 0.56
-    assert active_arr[mask].mean() > idle_arr[mask].mean() * 2.0
-    assert (active_arr[ring] - idle_arr[ring]).mean() > 8.0
+    assert source_arr.mean() * 0.22 < idle_arr.mean() < source_arr.mean() * 0.42
+    assert active_arr[mask].mean() > idle_arr[mask].mean() * 2.8
+
+    # Far-away pixels remain the fixed dim drummerbg; a hit never brightens the
+    # whole snowman.
+    far = np.ones(mask.shape, dtype=bool)
+    ys, xs = np.where(mask)
+    pad = 28
+    far[max(0, ys.min() - pad):min(mask.shape[0], ys.max() + pad + 1),
+        max(0, xs.min() - pad):min(mask.shape[1], xs.max() + pad + 1)] = False
     assert np.abs(active_arr[far] - idle_arr[far]).max() <= 2.0
 
 
-def _surface_edge(mask_image):
-    radius = 2
-    kernel = radius * 2 + 1
-    dilated = np.asarray(mask_image.filter(ImageFilter.MaxFilter(kernel))) > 0
-    eroded = np.asarray(mask_image.filter(ImageFilter.MinFilter(kernel))) > 0
-    surface = np.asarray(mask_image) > 0
-    return (dilated & ~surface) | (surface & ~eroded)
-
-
-def test_kick_outline_is_red_and_tom_outlines_are_green() -> None:
+def test_kick_is_actual_red_ring_with_blue_snowflake_source_art() -> None:
     source, masks = load_component_masks()
+    surface = np.asarray(masks[target_surface_key(TARGETS[0])]) > 0
+    rgb = np.asarray(source)[..., :3]
+    pixels = rgb[surface].astype(float)
+    red = (pixels[:, 0] > pixels[:, 1] * 1.20) & (pixels[:, 0] > pixels[:, 2] * 1.10)
+    blue = (pixels[:, 2] > pixels[:, 0] * 1.15) & (pixels[:, 2] > pixels[:, 1] * 1.05)
+    assert red.sum() >= 20
+    assert blue.sum() >= 10
 
-    kick = TARGETS[0]
-    kick_frame = np.asarray(compose_lighting(source, masks, [kick]))[..., :3].astype(float)
-    kick_edge = _surface_edge(masks[target_surface_key(kick)])
-    kick_rgb = kick_frame[kick_edge].mean(axis=0)
-    assert kick_rgb[0] > kick_rgb[1] * 1.45
-    assert kick_rgb[0] > kick_rgb[2] * 1.35
 
+def test_each_tom_mask_is_the_green_source_art_not_a_polygon_outline() -> None:
+    source, masks = load_component_masks()
+    rgb = np.asarray(source)[..., :3]
     for tom in TARGETS[3:6]:
-        frame = np.asarray(compose_lighting(source, masks, [tom]))[..., :3].astype(float)
-        edge = _surface_edge(masks[target_surface_key(tom)])
-        rgb = frame[edge].mean(axis=0)
-        assert rgb[1] > rgb[0] * 1.35, (tom, rgb)
-        assert rgb[1] > rgb[2] * 1.15, (tom, rgb)
+        surface = np.asarray(masks[target_surface_key(tom)]) > 0
+        pixels = rgb[surface].astype(float)
+        green = (pixels[:, 1] > pixels[:, 0] * 1.20) & (pixels[:, 1] > pixels[:, 2] * 1.08)
+        assert green.mean() > 0.45, (tom, green.mean())
+        # Exact source-pixel masks are sparse wireframe/art pixels, not filled
+        # circles or rectangles.
+        ys, xs = np.where(surface)
+        bbox_area = (ys.max() - ys.min() + 1) * (xs.max() - xs.min() + 1)
+        assert surface.sum() < bbox_area * 0.72, tom
 
 
-def test_actuator_is_brightened_but_not_wrapped_in_instrument_color() -> None:
+def test_actuator_brightens_in_its_original_source_colors() -> None:
     source, masks = load_component_masks()
     snare = TARGETS[1]
     target_mask = np.asarray(masks[snare]) > 0
@@ -134,11 +134,17 @@ def test_actuator_is_brightened_but_not_wrapped_in_instrument_color() -> None:
     actuator_only = target_mask & ~surface_mask
     idle = np.asarray(compose_lighting(source, masks, []))[..., :3].astype(float)
     active = np.asarray(compose_lighting(source, masks, [snare]))[..., :3].astype(float)
+    source_arr = np.asarray(source)[..., :3].astype(float)
+
     assert actuator_only.any()
-    assert active[actuator_only].mean() > idle[actuator_only].mean() * 1.8
-    # It should remain source-colored instead of becoming a flat magenta trace.
-    actuator_rgb = active[actuator_only].mean(axis=0)
-    assert max(actuator_rgb) - min(actuator_rgb) < 95.0
+    assert active[actuator_only].mean() > idle[actuator_only].mean() * 2.8
+
+    # Active actuator pixels are a brightness/saturation transform of the real
+    # source art, not a flat instrument-color paint.
+    source_spread = source_arr[actuator_only].std(axis=0).mean()
+    active_spread = active[actuator_only].std(axis=0).mean()
+    assert source_spread > 5.0
+    assert active_spread > 5.0
 
 
 def test_simultaneous_hits_use_one_union_pass_so_shared_actuators_do_not_compound() -> None:
