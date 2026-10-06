@@ -181,16 +181,19 @@ def inject_drummer_v3(
     typed_count = sum(raw_counts.get(k, 0) for k in ("kick", "snare", "tom", "hihat", "cymbal"))
     bus_count = raw_counts.get("drum_bus", 0)
     return {
-        "schema": "helix.drummer_v3_xsq_integration.v8",
+        "schema": "helix.drummer_v3_xsq_integration.v9",
         "model": DRUMMER_V3_MODEL,
         "base_xsq": str(base_xsq),
         "output_xsq": str(output_xsq),
         "audio": str(audio_path),
         "layer": layer_name,
-        "detector": "oracle_compatible_hpss_classifier",
+        "detector": "hpss_classifier_intro_gated",
         "oracle_commit": ORACLE_COMMIT,
         "oracle_reference_counts": ORACLE_COUNTS,
         "fallback_mode": resolved["fallback_mode"],
+        "intro_gate_start_ms": resolved.get("intro_gate_start_ms"),
+        "intro_gate_suppressed_count": int(resolved.get("intro_gate_suppressed_count", 0) or 0),
+        "first_scheduled_event_ms": min((int(event["timestamp_ms"]) for event in pose_events), default=None),
         "event_count": len(pose_events),
         "placement_count": placements,
         "raw_drum_type_counts": raw_counts,
