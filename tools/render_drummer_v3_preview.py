@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -11,12 +10,12 @@ import imageio.v2 as imageio
 import imageio_ffmpeg
 import numpy as np
 import soundfile as sf
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "fixtures/band_geometry/source/drummerbg.png"
 XMODEL = ROOT / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
-MANIFEST = ROOT / "fixtures/band_geometry/drummer_v3_png_layer_manifest.json"
+POSE_SPEC = ROOT / "fixtures/band_geometry/drummer_v3_pose_spec.json"
 
 TARGETS = (
     "HX_SNOWMAN_DRUMMER_V3_KICK",
@@ -38,6 +37,16 @@ LABELS = {
     "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT": "CRASH L",
     "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT": "CRASH R",
 }
+TARGET_TO_ZONE = {
+    "HX_SNOWMAN_DRUMMER_V3_KICK": "KICK",
+    "HX_SNOWMAN_DRUMMER_V3_SNARE": "SNARE",
+    "HX_SNOWMAN_DRUMMER_V3_HI_HAT": "HI_HAT",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH": "TOM_HIGH",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_MID": "TOM_MID",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR": "TOM_FLOOR",
+    "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT": "CYMBAL_LEFT",
+    "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT": "CYMBAL_RIGHT",
+}
 
 
 def _expand_ranges(text: str) -> set[int]:
@@ -54,39 +63,64 @@ def _expand_ranges(text: str) -> set[int]:
     return nodes
 
 
-def load_xmodel_masks() -> tuple[Image.Image, dict[str, Image.Image]]:
+def _scaled_width(command, size):
+    return max(1, round(float(command.get("width", 0.01)) * min(size)))
+
+
+def _zone_mask(size: tuple[int, int], zone: dict) -> Image.Image:
+    """Build a filled lighting mask from the canonical authored component zone.
+
+    The pose spec is the same source used to author the V3 xmodel zones. We use
+    it only as a mask over the real drummer background -- never as replacement
+    artwork or a skeleton overlay.
+    """
+    width, height = size
+    mask = Image.new("L", size, 0)
+    draw = ImageDraw.Draw(mask)
+    for command in zone.get("commands", []):
+        shape = command.get("shape")
+        alpha = int(command.get("rgba", [255, 255, 255, 220])[3])
+        if shape == "ellipse":
+            box = tuple(round(float(v) * (width if i % 2 == 0 else height)) for i, v in enumerate(command["box"]))
+            draw.ellipse(box, fill=alpha)
+        elif shape == "ellipse_outline":
+            box = tuple(round(float(v) * (width if i % 2 == 0 else height)) for i, v in enumerate(command["box"]))
+            # Cymbals/hats are authored as outlines; fill the actual component
+            # interior at low strength so the hardware itself lights, not a ring.
+            draw.ellipse(box, fill=max(70, alpha // 3))
+            draw.ellipse(box, outline=alpha, width=max(3, _scaled_width(command, size) * 4))
+        elif shape == "rectangle_outline":
+            box = tuple(round(float(v) * (width if i % 2 == 0 else height)) for i, v in enumerate(command["box"]))
+            draw.rectangle(box, fill=max(50, alpha // 4), outline=alpha, width=max(3, _scaled_width(command, size) * 3))
+        elif shape == "line":
+            pts = command["points"]
+            xy = [round(float(pts[i]) * (width if i % 2 == 0 else height)) for i in range(4)]
+            draw.line(tuple(xy), fill=alpha, width=max(3, _scaled_width(command, size) * 4))
+    return mask
+
+
+def load_component_masks() -> tuple[Image.Image, dict[str, Image.Image]]:
     if not SOURCE.exists():
         raise SystemExit(f"FAIL: canonical drummer source image missing: {SOURCE}")
     if not XMODEL.exists():
         raise SystemExit(f"FAIL: canonical drummer xmodel missing: {XMODEL}")
+    if not POSE_SPEC.exists():
+        raise SystemExit(f"FAIL: canonical V3 pose spec missing: {POSE_SPEC}")
 
     source = Image.open(SOURCE).convert("RGBA")
     root = ET.parse(XMODEL).getroot()
-    width = int(root.get("parm1", "96"))
-    height = int(root.get("parm2", "72"))
-    masks: dict[str, Image.Image] = {}
-
-    for submodel in root.findall("./subModels/subModel"):
-        name = submodel.get("name", "")
-        if name not in TARGETS:
-            continue
-        nodes = _expand_ranges(submodel.get("line0", ""))
-        mask = Image.new("L", (width, height), 0)
-        px = mask.load()
-        for node in nodes:
-            # build_drummer_v3_assets.py defines node IDs as y*width+x+1.
-            zero = node - 1
-            if 0 <= zero < width * height:
-                x = zero % width
-                y = zero // width
-                px[x, y] = 255
-        masks[name] = mask
-
-    missing = set(TARGETS) - set(masks)
+    xmodel_names = {sm.get("name", "") for sm in root.findall("./subModels/subModel")}
+    missing = set(TARGETS) - xmodel_names
     if missing:
         raise SystemExit(f"FAIL: xmodel missing canonical drummer submodels: {sorted(missing)}")
-    if source.width <= 0 or source.height <= 0:
-        raise SystemExit("FAIL: canonical drummer source image has invalid dimensions")
+
+    spec = json.loads(POSE_SPEC.read_text(encoding="utf-8"))
+    zones = {str(z["id"]): z for z in spec.get("zones", [])}
+    masks = {}
+    for target, zone_id in TARGET_TO_ZONE.items():
+        if zone_id not in zones:
+            raise SystemExit(f"FAIL: canonical V3 pose zone missing: {zone_id}")
+        masks[target] = _zone_mask(source.size, zones[zone_id])
     return source, masks
 
 
@@ -103,46 +137,54 @@ def parse_effects(xsq: Path):
                     int(float(fx.get("startTime", "0"))),
                     int(float(fx.get("endTime", "0"))),
                     name,
-                    fx.get("sourcePoseSubmodel", ""),
                 ))
     return sorted(out)
 
 
-def _mask_to_source(mask: Image.Image, source_size: tuple[int, int]) -> Image.Image:
-    return mask.resize(source_size, Image.Resampling.NEAREST)
+def light_component(base: Image.Image, mask: Image.Image, intensity: float) -> Image.Image:
+    if intensity <= 0.02:
+        return base
+    intensity = max(0.0, min(1.0, intensity))
+    core = mask.point(lambda a: int(a * intensity))
+    glow = core.filter(ImageFilter.GaussianBlur(max(4, base.width // 160)))
+
+    # Illuminate the actual pixels of the canonical drummer. This is deliberately
+    # not an outline/skeleton overlay. The component gets a bloom plus a bright
+    # core while the underlying artwork remains visible.
+    bloom = Image.new("RGBA", base.size, (255, 220, 75, 0))
+    bloom.putalpha(glow.point(lambda a: int(a * 0.55)))
+    out = Image.alpha_composite(base, bloom)
+
+    bright = ImageEnhance.Brightness(out.convert("RGB")).enhance(1.0 + 0.75 * intensity)
+    out = bright.convert("RGBA")
+    core_layer = Image.new("RGBA", base.size, (255, 250, 150, 0))
+    core_layer.putalpha(core.point(lambda a: int(a * 0.70)))
+    return Image.alpha_composite(out, core_layer)
 
 
 def draw_frame(source, masks, active, width, height, t_ms, duration_ms, font):
-    base = source.copy()
-    base.thumbnail((width, height), Image.Resampling.LANCZOS)
+    # Keep the source aspect ratio. Previous versions resized a 96x72 xmodel mask
+    # independently of the source artwork, causing component highlights to drift.
+    scale = min(width / source.width, height / source.height)
+    size = (max(1, round(source.width * scale)), max(1, round(source.height * scale)))
+    base = source.resize(size, Image.Resampling.LANCZOS)
+
+    for target, intensity in active.items():
+        if intensity <= 0.02:
+            continue
+        mask = masks[target].resize(size, Image.Resampling.BILINEAR)
+        base = light_component(base, mask, intensity)
+
     canvas = Image.new("RGBA", (width, height), (4, 7, 12, 255))
     x = (width - base.width) // 2
     y = (height - base.height) // 2
     canvas.alpha_composite(base, (x, y))
 
-    for target, intensity in active.items():
-        if intensity <= 0.02:
-            continue
-        mask = _mask_to_source(masks[target], base.size)
-        # The xmodel mask is the authoritative physical component geometry. Draw
-        # the hit directly on those nodes; do not use the old illustrative/skeleton
-        # PNG overlays, which can be visually offset from the actual xmodel zones.
-        glow = mask.filter(ImageFilter.GaussianBlur(max(2, base.width // 180)))
-        glow_alpha = glow.point(lambda a: int(a * min(1.0, intensity) * 0.72))
-        glow_layer = Image.new("RGBA", base.size, (255, 225, 70, 0))
-        glow_layer.putalpha(glow_alpha)
-        canvas.alpha_composite(glow_layer, (x, y))
-
-        hit_alpha = mask.point(lambda a: int(a * min(1.0, intensity)))
-        hit_layer = Image.new("RGBA", base.size, (255, 250, 135, 0))
-        hit_layer.putalpha(hit_alpha)
-        canvas.alpha_composite(hit_layer, (x, y))
-
     d = ImageDraw.Draw(canvas)
     d.rounded_rectangle((18, 16, width - 18, 88), radius=12, fill=(5, 9, 16, 205), outline=(120, 140, 170, 210), width=2)
     active_names = [LABELS.get(t, t) for t, v in active.items() if v > 0.02]
-    d.text((34, 30), "HELIX — CANONICAL DRUMMER V3 / XMODEL", font=font, fill=(245, 248, 255, 255))
-    d.text((34, 53), "ACTIVE: " + (", ".join(active_names) if active_names else "idle"), font=font, fill=(255, 215, 150, 255))
+    d.text((34, 30), "HELIX — CANONICAL DRUMMER V3", font=font, fill=(245, 248, 255, 255))
+    d.text((34, 53), "LIGHTING: " + (", ".join(active_names) if active_names else "idle"), font=font, fill=(255, 215, 150, 255))
     d.text((width - 190, 30), f"{t_ms/1000:.2f}s / {duration_ms/1000:.2f}s", font=font, fill=(190, 210, 235, 255))
     return canvas.convert("RGB")
 
@@ -167,7 +209,7 @@ def main() -> int:
     ap.add_argument("--duration", type=float, default=0.0)
     args = ap.parse_args()
 
-    source, masks = load_xmodel_masks()
+    source, masks = load_component_masks()
     effects = parse_effects(args.xsq)
     if not effects:
         raise SystemExit("FAIL: no canonical HX_SNOWMAN_DRUMMER_V3 submodel effects found")
@@ -181,7 +223,7 @@ def main() -> int:
     if effect_end_ms < int(audio_duration_ms * 0.95):
         raise SystemExit(f"FAIL: drummer XSQ ends at {effect_end_ms} ms, but audio is {audio_duration_ms} ms")
     duration_ms = audio_duration_ms if args.duration <= 0 else min(int(args.duration * 1000), audio_duration_ms)
-    print(f"XMODEL-GEOMETRY MODE: xmodel={XMODEL} effects={len(effects)} targets={sorted(found)} audio_duration_ms={audio_duration_ms}")
+    print(f"CANONICAL-COMPONENT-LIGHT MODE: source={SOURCE} effects={len(effects)} targets={sorted(found)} audio_duration_ms={audio_duration_ms}")
 
     out = args.output
     silent = out.with_suffix(".silent.mp4")
@@ -191,7 +233,7 @@ def main() -> int:
         for i in range(int(duration_ms / 1000 * args.fps)):
             t = int(i * 1000 / args.fps)
             active = {name: 0.0 for name in TARGETS}
-            for start, end, name, _pose in effects:
+            for start, end, name in effects:
                 if start <= t < end:
                     active[name] = max(active[name], 1.0)
             writer.append_data(np.asarray(draw_frame(source, masks, active, 960, 540, t, duration_ms, font)))
@@ -205,7 +247,7 @@ def main() -> int:
     silent.unlink(missing_ok=True)
     if not out.exists() or out.stat().st_size < 10000:
         raise SystemExit("FAIL: canonical drummer MP4 missing/empty")
-    print(f"PASS: canonical drummer V3 MP4 rendered from xmodel geometry; effects={len(effects)} duration_ms={duration_ms}")
+    print(f"PASS: canonical component-light MP4 effects={len(effects)} duration_ms={duration_ms}")
     return 0
 
 
