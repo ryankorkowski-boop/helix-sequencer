@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "market-pulse-mvp"
+version = "0.1.0"
+description = "Paper-first live market intelligence prototype"
+requires-python = ">=3.10"
+dependencies = ["websockets>=12,<16"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
