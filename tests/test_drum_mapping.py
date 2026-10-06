@@ -5,7 +5,7 @@ import unittest
 from animation.drummer_motion import assign_hand, build_drummer_motion
 from audio.drum_classification import DrumEvent, empty_drum_streams
 from effects.drum_effects import build_drum_effect_cues
-from mapping.drum_mapper import resolve_drum_streams, schedule_drum_events
+from mapping.drum_mapper import resolve_drum_streams, schedule_drum_events, suppress_intro_false_hits
 
 
 def _event(ms: int, drum_type: str, velocity: float = 0.8, confidence: float = 0.7) -> DrumEvent:
@@ -36,6 +36,21 @@ class DrumMappingTests(unittest.TestCase):
         self.assertIn("kick", types)
         self.assertIn("snare", types)
         self.assertLessEqual(len([event for event in scheduled if event.timestamp_ms <= 170]), 4)
+
+    def test_intro_gate_rejects_weak_false_hits_before_confirmed_drum_entry(self) -> None:
+        events = [
+            _event(576, "kick", 0.20),
+            _event(907, "cymbal", 0.08),
+            _event(3819, "drum_bus", 0.08),
+            _event(8405, "kick", 0.10),
+            _event(11008, "kick", 0.41),
+            _event(11989, "kick", 0.30),
+            _event(12181, "cymbal", 0.22),
+        ]
+        gated, start_ms, suppressed = suppress_intro_false_hits(events)
+        self.assertEqual(start_ms, 10908)
+        self.assertEqual(suppressed, 4)
+        self.assertEqual([event.timestamp_ms for event in gated], [11008, 11989, 12181])
 
     def test_arm_assignment_and_motion_windows(self) -> None:
         self.assertEqual(assign_hand(_event(100, "kick")), "foot")
