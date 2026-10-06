@@ -114,20 +114,30 @@ def test_public_targets_integrate_required_actuator_geometry() -> None:
     assert submodels["HX_SNOWMAN_DRUMMER_V3_KICK"] == submodels["HX_SNOWMAN_DRUMMER_V3_KICK_SURFACE"]
 
 
-def test_detected_events_still_map_to_exact_public_component_names() -> None:
+def test_detected_events_map_to_exact_public_components_and_three_tom_poses() -> None:
     events = [
         DrumEvent(0.10, 0.8, 0.7, {}, 1, "kick", "test"),
         DrumEvent(0.20, 0.9, 0.8, {}, 2, "snare", "test"),
         DrumEvent(0.30, 0.5, 0.7, {}, 3, "hihat", "test"),
-        DrumEvent(0.40, 0.7, 0.7, {"tom_class":"high", "tom_class_confidence":0.85}, 4, "tom", "test"),
-        DrumEvent(0.50, 0.7, 0.7, {"tom_class":"mid", "tom_class_confidence":0.85}, 5, "tom", "test"),
-        DrumEvent(0.60, 0.7, 0.7, {"tom_class":"floor", "tom_class_confidence":0.92}, 6, "tom", "test"),
+        DrumEvent(0.40, 0.7, 0.7, {"tom_class": "high"}, 4, "tom", "test"),
+        DrumEvent(0.50, 0.7, 0.7, {"tom_class": "mid"}, 5, "tom", "test"),
+        DrumEvent(0.60, 0.7, 0.7, {"tom_class": "floor"}, 6, "tom", "test"),
         DrumEvent(0.70, 1.0, 0.8, {}, 7, "cymbal", "test"),
+        DrumEvent(0.90, 1.0, 0.8, {}, 8, "cymbal", "test"),
     ]
     mapped = map_events_to_drummer_v3_poses(events)
     assert [event["component"] for event in mapped[:6]] == [
-        *DRUMMER_COMPONENTS[:3], *DRUMMER_COMPONENTS[3:6]
+        *DRUMMER_COMPONENTS[:3],
+        *DRUMMER_COMPONENTS[3:6],
     ]
-    assert mapped[6]["pose"] == "both_crash"
-    assert mapped[6]["components"] == [DRUMMER_COMPONENTS[6], DRUMMER_COMPONENTS[7]]
+    assert [event["pose"] for event in mapped[3:6]] == [
+        "tom_high_hit",
+        "tom_mid_hit",
+        "tom_floor_hit",
+    ]
+    assert mapped[6]["pose"] == "left_crash"
+    assert mapped[6]["components"] == [DRUMMER_COMPONENTS[6]]
+    assert mapped[7]["pose"] == "right_crash"
+    assert mapped[7]["components"] == [DRUMMER_COMPONENTS[7]]
     assert all(set(event["submodels"]).issubset(set(DRUMMER_COMPONENTS)) for event in mapped)
+
