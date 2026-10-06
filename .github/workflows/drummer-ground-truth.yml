@@ -161,15 +161,10 @@ jobs:
           for kind in ('kick','snare','tom','hihat','cymbal'):
               assert counts.get(kind,0) > 0, f'missing real-song {kind}: {counts}'
           components=report['component_counts']
-          assert sum(1 for value in components.values() if value > 0) >= 6, components
-          for required in (
-              'HX_SNOWMAN_DRUMMER_KICK',
-              'HX_SNOWMAN_DRUMMER_SNARE',
-              'HX_SNOWMAN_DRUMMER_HI_HAT',
-              'HX_SNOWMAN_DRUMMER_CYMBAL_LEFT',
-              'HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT',
-          ):
-              assert components.get(required,0) > 0, f'missing {required}: {components}'
+          assert report['target_count'] == 8, report
+          assert set(components) == set(report['targets']), (components, report['targets'])
+          missing=[name for name in report['targets'] if components.get(name,0) <= 0]
+          assert not missing, f'real song did not exercise all eight V3 targets: {missing}; counts={components}'
           PY
       - name: Render 60-second real-song proof
         env: {PYTHONPATH: .}
