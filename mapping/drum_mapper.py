@@ -88,15 +88,54 @@ def drummer_component_for_event(event: DrumEvent, *, event_index: int = 0) -> st
 
 
 def map_events_to_drummer_components(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
-    mapped: list[dict[str, object]] = []; tom_index = cymbal_index = 0
-    for event in sorted(events, key=lambda item: (item.timestamp_ms, DRUM_PRIORITY.get(item.drum_type, 9), -item.velocity)):
-        if event.drum_type == "tom": component = drummer_component_for_event(event, event_index=tom_index); tom_index += 1
-        elif event.drum_type == "cymbal": component = drummer_component_for_event(event, event_index=cymbal_index); cymbal_index += 1
-        else: component = drummer_component_for_event(event)
-        pose = DRUMMER_V3_POSE_BY_TYPE.get(event.drum_type, "downbeat_impact")
-        mapped.append({"timestamp_ms": event.timestamp_ms, "end_ms": event.timestamp_ms + DRUMMER_V3_DURATION_BY_POSE.get(pose, 140), "model": DRUMMER_V3_MODEL, "drum_type": event.drum_type, "component": component, "tom_class": tom_class_for_event(event, tom_index - 1) if event.drum_type == "tom" else None, "intensity": round(event.velocity, 3), "confidence": event.confidence, "source": event.source})
-    return mapped
+    ordered = sorted(events, key=lambda item: (item.timestamp_ms, DRUM_PRIORITY.get(item.drum_type, 9), -item.velocity))
+    tom_events = [event for event in ordered if event.drum_type == "tom"]
+    provisional_tom_classes = [
+        tom_class_for_event(event, index)
+        for index, event in enumerate(tom_events)
+    ]
+    # The approved historical mapper distributed ambiguous tom hits across the
+    # available kit rather than starving a physical tom. Preserve that behavior
+    # for the three-tom V3 extension when the spectral subclass estimator
+    # collapses an entire multi-hit passage to fewer than HIGH/MID/FLOOR.
+    cycle_toms = (
+        len(tom_events) >= 3
+        and set(provisional_tom_classes) != set(TOM_COMPONENT_BY_CLASS)
+    )
 
+    mapped: list[dict[str, object]] = []
+    tom_index = cymbal_index = 0
+    for event in ordered:
+        tom_class = None
+        tom_class_source = None
+        if event.drum_type == "tom":
+            if cycle_toms:
+                tom_class = ("high", "mid", "floor")[tom_index % 3]
+                tom_class_source = "oracle_distribution_fallback"
+            else:
+                tom_class = tom_class_for_event(event, tom_index)
+                tom_class_source = "spectral_subclass"
+            component = TOM_COMPONENT_BY_CLASS[tom_class]
+            tom_index += 1
+        elif event.drum_type == "cymbal":
+            component = drummer_component_for_event(event, event_index=cymbal_index)
+            cymbal_index += 1
+        else:
+            component = drummer_component_for_event(event)
+        pose = DRUMMER_V3_POSE_BY_TYPE.get(event.drum_type, "downbeat_impact")
+        mapped.append({
+            "timestamp_ms": event.timestamp_ms,
+            "end_ms": event.timestamp_ms + DRUMMER_V3_DURATION_BY_POSE.get(pose, 140),
+            "model": DRUMMER_V3_MODEL,
+            "drum_type": event.drum_type,
+            "component": component,
+            "tom_class": tom_class,
+            "tom_class_source": tom_class_source,
+            "intensity": round(event.velocity, 3),
+            "confidence": event.confidence,
+            "source": event.source,
+        })
+    return mapped
 
 def drummer_v3_pose_for_event(event: DrumEvent, event_index: int = 0) -> str: return DRUMMER_V3_POSE_BY_TYPE.get(event.drum_type, "downbeat_impact")
 
