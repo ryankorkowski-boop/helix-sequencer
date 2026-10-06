@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
-"""Build Drummer v3 source-image assets and side-by-side xLights model.
-
-Drummer v3 is asset-first: ``drummerbg.png`` is the visual source of truth. This
-builder may decode the repo-safe ``drummerbg.png.b64`` fixture, creates the pose
-sheet/layers with the PNG overlay builder, and exports a V3 xmodel whose named
-zones are derived from the same authored pose spec.
-"""
-
+"""Build the canonical Drummer V3 xmodel and review layers from one geometry source."""
 from __future__ import annotations
 
 import argparse
@@ -31,7 +24,6 @@ from tools.build_drummer_v3_png_layers import (
     build_overlay,
 )
 
-
 DEFAULT_SPEC = ROOT / "fixtures" / "band_geometry" / "drummer_v3_pose_spec.json"
 MODEL_NAME = "HX_SNOWMAN_DRUMMER_V3"
 
@@ -44,9 +36,9 @@ def _repo_path(path: str | Path) -> Path:
 def load_spec(path: Path) -> dict[str, Any]:
     data = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
-        raise ValueError(f"Drummer v3 pose spec must be a JSON object: {path}")
+        raise ValueError(f"Drummer V3 pose spec must be an object: {path}")
     if data.get("model_name") != MODEL_NAME:
-        raise ValueError(f"Unexpected Drummer v3 model name: {data.get('model_name')!r}")
+        raise ValueError(f"Unexpected Drummer V3 model name: {data.get('model_name')!r}")
     return data
 
 
@@ -54,10 +46,9 @@ def ensure_source_png(spec: dict[str, Any], *, overwrite: bool = False) -> tuple
     source = _repo_path(str(spec["source_image"]))
     if source.exists() and not overwrite:
         return source, False
-
     encoded = _repo_path(str(spec.get("source_image_b64", "")))
     if not encoded.exists():
-        raise FileNotFoundError(f"Missing Drummer v3 source PNG and b64 fixture: {source}")
+        raise FileNotFoundError(f"Missing Drummer V3 source PNG and b64 fixture: {source}")
     payload = "".join(encoded.read_text(encoding="utf-8").split())
     source.parent.mkdir(parents=True, exist_ok=True)
     source.write_bytes(base64.b64decode(payload))
@@ -66,12 +57,12 @@ def ensure_source_png(spec: dict[str, Any], *, overwrite: bool = False) -> tuple
 
 def _nodes_from_overlay(overlay: Image.Image, width: int, height: int) -> set[int]:
     alpha = overlay.convert("RGBA").getchannel("A")
-    nodes: set[int] = set()
-    for y in range(height):
-        for x in range(width):
-            if alpha.getpixel((x, y)) > 0:
-                nodes.add(y * width + x + 1)
-    return nodes
+    return {
+        y * width + x + 1
+        for y in range(height)
+        for x in range(width)
+        if alpha.getpixel((x, y)) > 0
+    }
 
 
 def _ranges(nodes: set[int]) -> str:
@@ -90,6 +81,13 @@ def _ranges(nodes: set[int]) -> str:
     return ",".join(chunks)
 
 
+def _dense_custom_model(width: int, height: int) -> str:
+    return ";".join(
+        ",".join(str(y * width + x + 1) for x in range(width))
+        for y in range(height)
+    )
+
+
 def _prefixed(name: str) -> str:
     return f"{MODEL_NAME}_{name}"
 
@@ -99,30 +97,47 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
     width = int(grid.get("width", 96))
     height = int(grid.get("height", 72))
     zone_nodes: dict[str, set[int]] = {}
+    zone_kind: dict[str, str] = {}
 
     for zone in spec.get("zones", []):
         if not isinstance(zone, dict):
             raise ValueError(f"Invalid V3 zone entry: {zone!r}")
         zone_id = str(zone["id"])
-        overlay = build_overlay((width, height), zone)
-        nodes = _nodes_from_overlay(overlay, width, height)
+        nodes = _nodes_from_overlay(build_overlay((width, height), zone), width, height)
         if not nodes:
-            raise ValueError(f"V3 zone generated no xmodel nodes: {zone_id}")
+            raise ValueError(f"V3 zone generated no nodes: {zone_id}")
         zone_nodes[zone_id] = nodes
+        zone_kind[zone_id] = str(zone.get("kind", ""))
 
-    composite_nodes: dict[str, set[int]] = {}
-    for composite in spec.get("composites", []):
-        if not isinstance(composite, dict):
-            raise ValueError(f"Invalid V3 composite entry: {composite!r}")
-        composite_id = str(composite["id"])
-        nodes: set[int] = set()
-        for member in composite.get("members", []):
-            member_nodes = zone_nodes.get(str(member))
-            if not member_nodes:
-                raise ValueError(f"Composite {composite_id} references unknown member: {member}")
-            nodes.update(member_nodes)
-        composite_nodes[composite_id] = nodes
+    surface_nodes = {
+        name: nodes for name, nodes in zone_nodes.items()
+        if zone_kind.get(name) == "surface"
+    }
+    all_surfaces: set[int] = set().union(*surface_nodes.values()) if surface_nodes else set()
 
+    target_nodes: dict[str, set[int]] = {}
+    targets = spec.get("lighting_targets", [])
+    if len(targets) != 8:
+        raise ValueError(f"Expected exactly eight lighting targets, found {len(targets)}")
+    for target in targets:
+        target_id = str(target["id"])
+        surface_id = str(target["surface"])
+        surface = zone_nodes.get(surface_id)
+        if not surface:
+            raise ValueError(f"{target_id} references missing surface {surface_id}")
+        nodes = set(surface)
+        for actuator_id in target.get("actuators", []):
+            actuator = zone_nodes.get(str(actuator_id))
+            if not actuator:
+                raise ValueError(f"{target_id} references missing actuator {actuator_id}")
+            # An arm/stick can cross a drum in the artwork. Never let an
+            # actuator accidentally light a neighbouring instrument surface.
+            nodes.update(actuator - all_surfaces)
+        if not nodes:
+            raise ValueError(f"Lighting target generated no nodes: {target_id}")
+        target_nodes[target_id] = nodes
+
+    relative_background = "../source/drummerbg.png"
     root = ET.Element(
         "custommodel",
         {
@@ -135,29 +150,38 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
             "PixelSize": "2",
             "ModelBrightness": "0",
             "Antialias": "1",
-            "HelixImplementationState": "drummer_v3_asset_first_side_by_side",
-            "HelixVisualSource": str(source_path.relative_to(ROOT)),
-            "CustomBkgImage": str(source_path.resolve()),
+            "CustomModel": _dense_custom_model(width, height),
+            "CustomBkgImage": relative_background,
+            "HelixVisualSource": relative_background,
+            "HelixImplementationState": "drummer_v3_independent_component_lighting",
         },
     )
     ET.SubElement(root, "modelGroups")
     submodels = ET.SubElement(root, "subModels")
-    for zone_id in zone_nodes:
+
+    # Surface-only aliases are the geometry truth used by spatial tests.
+    for name, nodes in surface_nodes.items():
         ET.SubElement(
-            submodels,
-            "subModel",
-            {"name": _prefixed(zone_id), "layout": "ranges", "type": "ranges", "line0": _ranges(zone_nodes[zone_id])},
+            submodels, "subModel",
+            {"name": _prefixed(name), "layout": "ranges", "type": "ranges", "line0": _ranges(nodes)},
         )
-    for composite_id in composite_nodes:
+
+    # Actuator geometry is exported for review/debug but is never sequenced
+    # independently by the eight-lane public contract.
+    for name, nodes in zone_nodes.items():
+        if zone_kind.get(name) != "actuator":
+            continue
         ET.SubElement(
-            submodels,
-            "subModel",
-            {
-                "name": _prefixed(composite_id),
-                "layout": "ranges",
-                "type": "ranges",
-                "line0": _ranges(composite_nodes[composite_id]),
-            },
+            submodels, "subModel",
+            {"name": _prefixed(name), "layout": "ranges", "type": "ranges", "line0": _ranges(nodes - all_surfaces)},
+        )
+
+    # Public hit targets contain the physical surface plus its required
+    # arm/stick or foot pixels.
+    for target_id, nodes in target_nodes.items():
+        ET.SubElement(
+            submodels, "subModel",
+            {"name": _prefixed(target_id), "layout": "ranges", "type": "ranges", "line0": _ranges(nodes)},
         )
 
     xmodel_path.parent.mkdir(parents=True, exist_ok=True)
@@ -168,9 +192,10 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
         "xmodel": str(xmodel_path.relative_to(ROOT)),
         "model_name": MODEL_NAME,
         "grid": {"width": width, "height": height},
-        "zone_count": len(zone_nodes),
-        "composite_count": len(composite_nodes),
-        "submodel_count": len(zone_nodes) + len(composite_nodes),
+        "surface_count": len(surface_nodes),
+        "actuator_count": sum(1 for kind in zone_kind.values() if kind == "actuator"),
+        "target_count": len(target_nodes),
+        "submodel_count": len(list(submodels)),
     }
 
 
@@ -186,14 +211,16 @@ def build_assets(
     source, decoded_source = ensure_source_png(spec, overwrite=overwrite)
     with Image.open(source) as image:
         if image.width < 128 or image.height < 128:
-            raise ValueError(f"Drummer v3 source image is too small: {image.size}")
+            raise ValueError(f"Drummer V3 source image is too small: {image.size}")
         source_size = image.size
 
-    layers = build_png_layers(source, layer_manifest, layers_dir, preview_dir, overwrite)
     xmodel_path = _repo_path(str(spec["xmodel_path"]))
     xmodel = build_xmodel(spec, source, xmodel_path)
+    layers = build_png_layers(
+        source, layer_manifest, layers_dir, preview_dir, overwrite, xmodel_path=xmodel_path
+    )
     return {
-        "schema": "helix.drummer_v3_asset_build.v1",
+        "schema": "helix.drummer_v3_asset_build.v2",
         "spec": str(spec_path.relative_to(ROOT)),
         "source_image": str(source.relative_to(ROOT)),
         "source_decoded": decoded_source,
@@ -212,7 +239,6 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--preview-dir", type=Path, default=DEFAULT_PREVIEW_DIR)
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args(argv)
-
     try:
         payload = build_assets(
             spec_path=args.spec,
@@ -222,11 +248,11 @@ def main(argv: list[str] | None = None) -> int:
             overwrite=args.overwrite,
         )
     except Exception as exc:
-        print(f"Drummer v3 asset build failed: {exc}", file=sys.stderr)
+        print(f"Drummer V3 asset build failed: {exc}", file=sys.stderr)
         return 1
     print(json.dumps(payload, indent=2, sort_keys=True))
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())

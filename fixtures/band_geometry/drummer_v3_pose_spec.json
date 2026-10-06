@@ -1,51 +1,783 @@
 {
-  "schema":"helix.drummer_v3_pose_spec.v3",
-  "asset_id":"HX_SNOWMAN_DRUMMER_V3",
-  "model_name":"HX_SNOWMAN_DRUMMER_V3",
-  "source_image":"fixtures/band_geometry/source/drummerbg.png",
-  "source_image_b64":"fixtures/band_geometry/source/drummerbg.png.b64",
-  "xmodel_path":"fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel",
-  "pose_sheet":"fixtures/band_geometry/previews/HX_SNOWMAN_DRUMMER_V3_pose_sheet.png",
-  "grid":{"width":96,"height":72},
-  "required_pose_frames":["idle_ready","kick_hit","snare_hit","hi_hat_pulse","tom_high_hit","tom_mid_hit","tom_floor_hit","left_crash","right_crash","both_crash","downbeat_impact"],
-  "canonical_tom_count":3,
-  "canonical_toms":["HIGH","MID","FLOOR"],
-  "zones":[
-    {"id":"HEAD","commands":[{"shape":"ellipse","box":[0.37,0.13,0.63,0.34],"rgba":[255,255,255,230]}]},
-    {"id":"FACE","commands":[{"shape":"ellipse","box":[0.41,0.19,0.59,0.31],"rgba":[120,245,255,210]}]},
-    {"id":"HAT","commands":[{"shape":"rectangle_outline","box":[0.38,0.06,0.62,0.18],"rgba":[255,80,95,230],"width":0.018}]},
-    {"id":"HAT_BAND","commands":[{"shape":"line","points":[0.39,0.16,0.61,0.16],"rgba":[255,80,95,230],"width":0.018}]},
-    {"id":"SCARF","commands":[{"shape":"rectangle_outline","box":[0.34,0.32,0.66,0.39],"rgba":[255,80,95,230],"width":0.018}]},
-    {"id":"TORSO","commands":[{"shape":"ellipse","box":[0.30,0.34,0.70,0.68],"rgba":[255,255,255,210]}]},
-    {"id":"BUTTONS","commands":[{"shape":"line","points":[0.50,0.41,0.50,0.61],"rgba":[80,240,255,240],"width":0.02}]},
-    {"id":"PLATFORM","commands":[{"shape":"rectangle_outline","box":[0.18,0.88,0.82,0.96],"rgba":[160,120,255,220],"width":0.018}]},
-    {"id":"STANDS","commands":[{"shape":"line","points":[0.22,0.34,0.22,0.83],"rgba":[180,210,255,190],"width":0.012},{"shape":"line","points":[0.78,0.34,0.78,0.83],"rgba":[180,210,255,190],"width":0.012}]},
-    {"id":"KICK","commands":[{"shape":"ellipse","box":[0.39,0.66,0.61,0.91],"rgba":[255,245,120,220]}]},
-    {"id":"KICK_RIM","commands":[{"shape":"ellipse_outline","box":[0.37,0.64,0.63,0.93],"rgba":[255,255,210,240],"width":0.014}]},
-    {"id":"SNARE","commands":[{"shape":"ellipse","box":[0.35,0.54,0.49,0.65],"rgba":[255,245,120,220]}]},
-    {"id":"SNARE_RIM","commands":[{"shape":"ellipse_outline","box":[0.34,0.53,0.50,0.66],"rgba":[255,255,210,240],"width":0.012}]},
-    {"id":"TOM_HIGH","commands":[{"shape":"ellipse","box":[0.56,0.42,0.73,0.58],"rgba":[120,255,220,220]}]},
-    {"id":"TOM_MID","commands":[{"shape":"ellipse","box":[0.24,0.42,0.40,0.58],"rgba":[120,255,220,220]}]},
-    {"id":"TOM_FLOOR","commands":[{"shape":"ellipse","box":[0.13,0.57,0.39,0.82],"rgba":[120,255,220,220]}]},
-    {"id":"HI_HAT","commands":[{"shape":"ellipse_outline","box":[0.12,0.42,0.30,0.50],"rgba":[255,245,120,240],"width":0.014}]},
-    {"id":"CYMBAL_LEFT","commands":[{"shape":"ellipse_outline","box":[0.08,0.25,0.33,0.36],"rgba":[255,245,120,240],"width":0.014}]},
-    {"id":"CYMBAL_RIGHT","commands":[{"shape":"ellipse_outline","box":[0.67,0.25,0.92,0.36],"rgba":[255,245,120,240],"width":0.014}]},
-    {"id":"SNARE_CONTACT_STICK","commands":[{"shape":"line","points":[0.27,0.33,0.43,0.58],"rgba":[255,255,230,245],"width":0.012}]},
-    {"id":"HIHAT_CONTACT_STICK","commands":[{"shape":"line","points":[0.27,0.32,0.21,0.45],"rgba":[255,255,230,245],"width":0.012}]},
-    {"id":"TOM_HIGH_CONTACT_STICK","commands":[{"shape":"line","points":[0.61,0.32,0.64,0.50],"rgba":[255,255,230,245],"width":0.012}]},
-    {"id":"TOM_MID_CONTACT_STICK","commands":[{"shape":"line","points":[0.28,0.32,0.32,0.50],"rgba":[255,255,230,245],"width":0.012}]},
-    {"id":"TOM_FLOOR_CONTACT_STICK","commands":[{"shape":"line","points":[0.31,0.32,0.27,0.64],"rgba":[255,255,230,245],"width":0.012}]},
-    {"id":"CYMBAL_LEFT_CONTACT_STICK","commands":[{"shape":"line","points":[0.31,0.34,0.20,0.29],"rgba":[255,255,230,245],"width":0.012}]},
-    {"id":"CYMBAL_RIGHT_CONTACT_STICK","commands":[{"shape":"line","points":[0.60,0.34,0.80,0.29],"rgba":[255,255,230,245],"width":0.012}]}
+  "schema": "helix.drummer_v3_pose_spec.v4",
+  "asset_id": "HX_SNOWMAN_DRUMMER_V3",
+  "model_name": "HX_SNOWMAN_DRUMMER_V3",
+  "source_image": "fixtures/band_geometry/source/drummerbg.png",
+  "source_image_b64": "fixtures/band_geometry/source/drummerbg.png.b64",
+  "xmodel_path": "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel",
+  "pose_sheet": "fixtures/band_geometry/previews/HX_SNOWMAN_DRUMMER_V3_pose_sheet.png",
+  "grid": {
+    "width": 96,
+    "height": 72
+  },
+  "canonical_tom_count": 3,
+  "canonical_toms": [
+    "HIGH",
+    "MID",
+    "FLOOR"
   ],
-  "composites":[
-    {"id":"DRUMMER_KICK","members":["KICK","KICK_RIM"]},
-    {"id":"DRUMMER_SNARE","members":["SNARE","SNARE_RIM","SNARE_CONTACT_STICK"]},
-    {"id":"DRUMMER_TOM_HIGH","members":["TOM_HIGH","TOM_HIGH_CONTACT_STICK"]},
-    {"id":"DRUMMER_TOM_MID","members":["TOM_MID","TOM_MID_CONTACT_STICK"]},
-    {"id":"DRUMMER_TOM_FLOOR","members":["TOM_FLOOR","TOM_FLOOR_CONTACT_STICK"]},
-    {"id":"DRUMMER_HI_HAT","members":["HI_HAT","HIHAT_CONTACT_STICK"]},
-    {"id":"DRUMMER_CYMBAL_LEFT","members":["CYMBAL_LEFT","CYMBAL_LEFT_CONTACT_STICK"]},
-    {"id":"DRUMMER_CYMBAL_RIGHT","members":["CYMBAL_RIGHT","CYMBAL_RIGHT_CONTACT_STICK"]}
+  "required_pose_frames": [
+    "idle_ready",
+    "kick_hit",
+    "snare_hit",
+    "hi_hat_pulse",
+    "tom_high_hit",
+    "tom_mid_hit",
+    "tom_floor_hit",
+    "left_crash",
+    "right_crash",
+    "both_crash",
+    "downbeat_impact"
+  ],
+  "zones": [
+    {
+      "id": "KICK_SURFACE",
+      "kind": "surface",
+      "commands": [
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.405,
+              0.63
+            ],
+            [
+              0.414,
+              0.586
+            ],
+            [
+              0.438,
+              0.552
+            ],
+            [
+              0.477,
+              0.536
+            ],
+            [
+              0.526,
+              0.536
+            ],
+            [
+              0.568,
+              0.552
+            ],
+            [
+              0.595,
+              0.586
+            ],
+            [
+              0.607,
+              0.631
+            ],
+            [
+              0.603,
+              0.68
+            ],
+            [
+              0.582,
+              0.716
+            ],
+            [
+              0.545,
+              0.741
+            ],
+            [
+              0.5,
+              0.748
+            ],
+            [
+              0.455,
+              0.737
+            ],
+            [
+              0.424,
+              0.71
+            ],
+            [
+              0.408,
+              0.671
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SNARE_SURFACE",
+      "kind": "surface",
+      "commands": [
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.397,
+              0.516
+            ],
+            [
+              0.42,
+              0.5
+            ],
+            [
+              0.477,
+              0.494
+            ],
+            [
+              0.536,
+              0.5
+            ],
+            [
+              0.574,
+              0.518
+            ],
+            [
+              0.568,
+              0.548
+            ],
+            [
+              0.53,
+              0.567
+            ],
+            [
+              0.47,
+              0.572
+            ],
+            [
+              0.418,
+              0.558
+            ],
+            [
+              0.396,
+              0.539
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "HI_HAT_SURFACE",
+      "kind": "surface",
+      "commands": [
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.718,
+              0.478
+            ],
+            [
+              0.74,
+              0.466
+            ],
+            [
+              0.778,
+              0.467
+            ],
+            [
+              0.8,
+              0.478
+            ],
+            [
+              0.788,
+              0.49
+            ],
+            [
+              0.803,
+              0.501
+            ],
+            [
+              0.783,
+              0.513
+            ],
+            [
+              0.74,
+              0.514
+            ],
+            [
+              0.717,
+              0.501
+            ],
+            [
+              0.733,
+              0.49
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TOM_HIGH_SURFACE",
+      "kind": "surface",
+      "commands": [
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.574,
+              0.474
+            ],
+            [
+              0.594,
+              0.455
+            ],
+            [
+              0.648,
+              0.449
+            ],
+            [
+              0.69,
+              0.462
+            ],
+            [
+              0.704,
+              0.493
+            ],
+            [
+              0.694,
+              0.535
+            ],
+            [
+              0.664,
+              0.558
+            ],
+            [
+              0.614,
+              0.56
+            ],
+            [
+              0.584,
+              0.543
+            ],
+            [
+              0.573,
+              0.51
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TOM_MID_SURFACE",
+      "kind": "surface",
+      "commands": [
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.254,
+              0.485
+            ],
+            [
+              0.273,
+              0.463
+            ],
+            [
+              0.319,
+              0.455
+            ],
+            [
+              0.365,
+              0.463
+            ],
+            [
+              0.397,
+              0.486
+            ],
+            [
+              0.401,
+              0.521
+            ],
+            [
+              0.382,
+              0.55
+            ],
+            [
+              0.34,
+              0.563
+            ],
+            [
+              0.292,
+              0.554
+            ],
+            [
+              0.26,
+              0.532
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TOM_FLOOR_SURFACE",
+      "kind": "surface",
+      "commands": [
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.238,
+              0.584
+            ],
+            [
+              0.26,
+              0.56
+            ],
+            [
+              0.318,
+              0.551
+            ],
+            [
+              0.374,
+              0.565
+            ],
+            [
+              0.407,
+              0.599
+            ],
+            [
+              0.41,
+              0.651
+            ],
+            [
+              0.395,
+              0.694
+            ],
+            [
+              0.36,
+              0.718
+            ],
+            [
+              0.305,
+              0.718
+            ],
+            [
+              0.26,
+              0.698
+            ],
+            [
+              0.238,
+              0.659
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CYMBAL_LEFT_SURFACE",
+      "kind": "surface",
+      "commands": [
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.207,
+              0.389
+            ],
+            [
+              0.23,
+              0.373
+            ],
+            [
+              0.276,
+              0.365
+            ],
+            [
+              0.324,
+              0.371
+            ],
+            [
+              0.359,
+              0.391
+            ],
+            [
+              0.348,
+              0.411
+            ],
+            [
+              0.315,
+              0.425
+            ],
+            [
+              0.269,
+              0.427
+            ],
+            [
+              0.229,
+              0.415
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CYMBAL_RIGHT_SURFACE",
+      "kind": "surface",
+      "commands": [
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.672,
+              0.414
+            ],
+            [
+              0.698,
+              0.397
+            ],
+            [
+              0.744,
+              0.391
+            ],
+            [
+              0.789,
+              0.399
+            ],
+            [
+              0.813,
+              0.416
+            ],
+            [
+              0.802,
+              0.438
+            ],
+            [
+              0.768,
+              0.451
+            ],
+            [
+              0.722,
+              0.45
+            ],
+            [
+              0.687,
+              0.439
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "LEFT_ARM_STICK",
+      "kind": "actuator",
+      "commands": [
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.467,
+              0.397
+            ],
+            [
+              0.447,
+              0.403
+            ],
+            [
+              0.421,
+              0.425
+            ],
+            [
+              0.394,
+              0.443
+            ],
+            [
+              0.367,
+              0.438
+            ],
+            [
+              0.347,
+              0.417
+            ],
+            [
+              0.355,
+              0.397
+            ],
+            [
+              0.382,
+              0.411
+            ],
+            [
+              0.412,
+              0.397
+            ],
+            [
+              0.441,
+              0.378
+            ]
+          ]
+        },
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.314,
+              0.301
+            ],
+            [
+              0.329,
+              0.292
+            ],
+            [
+              0.37,
+              0.414
+            ],
+            [
+              0.353,
+              0.425
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "RIGHT_ARM_STICK",
+      "kind": "actuator",
+      "commands": [
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.563,
+              0.414
+            ],
+            [
+              0.584,
+              0.438
+            ],
+            [
+              0.612,
+              0.44
+            ],
+            [
+              0.639,
+              0.418
+            ],
+            [
+              0.66,
+              0.386
+            ],
+            [
+              0.676,
+              0.381
+            ],
+            [
+              0.686,
+              0.399
+            ],
+            [
+              0.666,
+              0.431
+            ],
+            [
+              0.636,
+              0.46
+            ],
+            [
+              0.602,
+              0.469
+            ],
+            [
+              0.572,
+              0.451
+            ]
+          ]
+        },
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.649,
+              0.286
+            ],
+            [
+              0.665,
+              0.282
+            ],
+            [
+              0.682,
+              0.386
+            ],
+            [
+              0.664,
+              0.394
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "HI_HAT_FOOT",
+      "kind": "actuator",
+      "commands": [
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.63,
+              0.697
+            ],
+            [
+              0.649,
+              0.692
+            ],
+            [
+              0.674,
+              0.704
+            ],
+            [
+              0.699,
+              0.716
+            ],
+            [
+              0.707,
+              0.735
+            ],
+            [
+              0.69,
+              0.743
+            ],
+            [
+              0.663,
+              0.735
+            ],
+            [
+              0.64,
+              0.721
+            ]
+          ]
+        },
+        {
+          "shape": "polygon",
+          "points": [
+            [
+              0.691,
+              0.512
+            ],
+            [
+              0.703,
+              0.512
+            ],
+            [
+              0.704,
+              0.711
+            ],
+            [
+              0.691,
+              0.711
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "lighting_targets": [
+    {
+      "id": "KICK",
+      "surface": "KICK_SURFACE",
+      "actuators": []
+    },
+    {
+      "id": "SNARE",
+      "surface": "SNARE_SURFACE",
+      "actuators": [
+        "LEFT_ARM_STICK"
+      ]
+    },
+    {
+      "id": "HI_HAT",
+      "surface": "HI_HAT_SURFACE",
+      "actuators": [
+        "HI_HAT_FOOT"
+      ]
+    },
+    {
+      "id": "TOM_HIGH",
+      "surface": "TOM_HIGH_SURFACE",
+      "actuators": [
+        "RIGHT_ARM_STICK"
+      ]
+    },
+    {
+      "id": "TOM_MID",
+      "surface": "TOM_MID_SURFACE",
+      "actuators": [
+        "LEFT_ARM_STICK"
+      ]
+    },
+    {
+      "id": "TOM_FLOOR",
+      "surface": "TOM_FLOOR_SURFACE",
+      "actuators": [
+        "LEFT_ARM_STICK"
+      ]
+    },
+    {
+      "id": "CYMBAL_LEFT",
+      "surface": "CYMBAL_LEFT_SURFACE",
+      "actuators": [
+        "LEFT_ARM_STICK"
+      ]
+    },
+    {
+      "id": "CYMBAL_RIGHT",
+      "surface": "CYMBAL_RIGHT_SURFACE",
+      "actuators": [
+        "RIGHT_ARM_STICK"
+      ]
+    }
+  ],
+  "composites": [
+    {
+      "id": "DRUMMER_KICK",
+      "members": [
+        "KICK_SURFACE"
+      ]
+    },
+    {
+      "id": "DRUMMER_SNARE",
+      "members": [
+        "SNARE_SURFACE",
+        "LEFT_ARM_STICK"
+      ]
+    },
+    {
+      "id": "DRUMMER_HI_HAT",
+      "members": [
+        "HI_HAT_SURFACE",
+        "HI_HAT_FOOT"
+      ]
+    },
+    {
+      "id": "DRUMMER_TOM_HIGH",
+      "members": [
+        "TOM_HIGH_SURFACE",
+        "RIGHT_ARM_STICK"
+      ]
+    },
+    {
+      "id": "DRUMMER_TOM_MID",
+      "members": [
+        "TOM_MID_SURFACE",
+        "LEFT_ARM_STICK"
+      ]
+    },
+    {
+      "id": "DRUMMER_TOM_FLOOR",
+      "members": [
+        "TOM_FLOOR_SURFACE",
+        "LEFT_ARM_STICK"
+      ]
+    },
+    {
+      "id": "DRUMMER_CYMBAL_LEFT",
+      "members": [
+        "CYMBAL_LEFT_SURFACE",
+        "LEFT_ARM_STICK"
+      ]
+    },
+    {
+      "id": "DRUMMER_CYMBAL_RIGHT",
+      "members": [
+        "CYMBAL_RIGHT_SURFACE",
+        "RIGHT_ARM_STICK"
+      ]
+    }
   ]
 }

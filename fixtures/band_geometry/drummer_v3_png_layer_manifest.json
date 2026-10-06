@@ -1,21 +1,98 @@
 {
-  "schema": "helix.drummer_v3_png_layers.v1",
+  "schema": "helix.drummer_v3_png_layers.v2",
   "asset_id": "HX_SNOWMAN_DRUMMER_V3_PNG",
   "source_image": "fixtures/band_geometry/source/drummerbg.png",
+  "xmodel_path": "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel",
   "layers_dir": "fixtures/band_geometry/layers",
   "preview_dir": "fixtures/band_geometry/previews",
   "contact_sheet": "HX_SNOWMAN_DRUMMER_V3_pose_sheet.png",
-  "required_frames": ["idle_ready", "kick_hit", "snare_hit", "hi_hat_pulse", "left_tom_hit", "right_tom_hit", "floor_tom_hit", "left_crash", "right_crash", "both_crash", "downbeat_impact"],
+  "required_frames": [
+    "idle_ready",
+    "kick_hit",
+    "snare_hit",
+    "hi_hat_pulse",
+    "tom_high_hit",
+    "tom_mid_hit",
+    "tom_floor_hit",
+    "left_crash",
+    "right_crash",
+    "both_crash",
+    "downbeat_impact"
+  ],
   "layers": [
-    {"id":"kick_hit","file":"drummer_hit_kick.png","target_components":["kick_drum"],"contact_components":["kick_pulse"],"commands":[{"shape":"ellipse","box":[0.39,0.66,0.61,0.91],"rgba":[255,245,120,210],"glow":0.035}]},
-    {"id":"snare_hit","file":"drummer_hit_snare.png","target_components":["snare"],"contact_components":["left_stick","right_stick"],"commands":[{"shape":"ellipse","box":[0.35,0.54,0.49,0.65],"rgba":[255,245,120,205],"glow":0.025},{"shape":"line","points":[0.27,0.33,0.42,0.58],"rgba":[255,255,230,245],"width":0.01,"glow":0.014},{"shape":"line","points":[0.61,0.34,0.43,0.58],"rgba":[255,255,230,245],"width":0.01,"glow":0.014}]},
-    {"id":"hi_hat_pulse","file":"drummer_hit_hi_hat.png","target_components":["hi_hat"],"contact_components":["left_stick"],"commands":[{"shape":"ellipse","box":[0.12,0.42,0.30,0.50],"rgba":[255,245,120,205],"glow":0.03},{"shape":"line","points":[0.27,0.32,0.21,0.45],"rgba":[255,255,230,245],"width":0.01,"glow":0.014}]},
-    {"id":"left_tom_hit","file":"drummer_hit_left_tom.png","target_components":["left_tom"],"contact_components":["left_stick"],"commands":[{"shape":"ellipse","box":[0.31,0.45,0.46,0.58],"rgba":[255,245,120,205],"glow":0.025},{"shape":"line","points":[0.28,0.32,0.38,0.50],"rgba":[255,255,230,245],"width":0.01,"glow":0.014}]},
-    {"id":"right_tom_hit","file":"drummer_hit_right_tom.png","target_components":["right_tom"],"contact_components":["right_stick"],"commands":[{"shape":"ellipse","box":[0.54,0.45,0.69,0.58],"rgba":[255,245,120,205],"glow":0.025},{"shape":"line","points":[0.62,0.32,0.61,0.50],"rgba":[255,255,230,245],"width":0.01,"glow":0.014}]},
-    {"id":"floor_tom_hit","file":"drummer_hit_floor_tom.png","target_components":["floor_tom"],"contact_components":["right_stick"],"commands":[{"shape":"ellipse","box":[0.57,0.60,0.78,0.78],"rgba":[255,245,120,215],"glow":0.04},{"shape":"line","points":[0.66,0.36,0.67,0.67],"rgba":[255,255,230,245],"width":0.01,"glow":0.018}]},
-    {"id":"left_crash","file":"drummer_hit_left_crash.png","target_components":["left_cymbal"],"contact_components":["left_stick"],"commands":[{"shape":"ellipse","box":[0.08,0.25,0.33,0.36],"rgba":[255,245,120,200],"glow":0.04},{"shape":"line","points":[0.31,0.34,0.20,0.29],"rgba":[255,255,230,245],"width":0.01,"glow":0.014}]},
-    {"id":"right_crash","file":"drummer_hit_right_crash.png","target_components":["right_cymbal"],"contact_components":["right_stick"],"commands":[{"shape":"ellipse","box":[0.67,0.25,0.92,0.36],"rgba":[255,245,120,200],"glow":0.04},{"shape":"line","points":[0.60,0.34,0.80,0.29],"rgba":[255,255,230,245],"width":0.01,"glow":0.014}]},
-    {"id":"both_crash","file":"drummer_hit_both_crash.png","target_components":["left_cymbal","right_cymbal"],"contact_components":["left_stick","right_stick"],"commands":[{"shape":"ellipse","box":[0.08,0.25,0.33,0.36],"rgba":[255,245,120,200],"glow":0.04},{"shape":"ellipse","box":[0.67,0.25,0.92,0.36],"rgba":[255,245,120,200],"glow":0.04},{"shape":"line","points":[0.31,0.34,0.20,0.29],"rgba":[255,255,230,245],"width":0.01,"glow":0.014},{"shape":"line","points":[0.60,0.34,0.80,0.29],"rgba":[255,255,230,245],"width":0.01,"glow":0.014}]},
-    {"id":"downbeat_impact","file":"drummer_downbeat_impact.png","target_components":["kick_drum","snare","left_cymbal","right_cymbal"],"contact_components":["left_stick","right_stick","kit_pulse"],"commands":[{"shape":"ellipse","box":[0.39,0.66,0.61,0.91],"rgba":[255,245,120,190],"glow":0.035},{"shape":"ellipse","box":[0.35,0.54,0.49,0.65],"rgba":[255,245,120,190],"glow":0.025},{"shape":"rectangle_outline","box":[0.05,0.08,0.95,0.94],"rgba":[255,255,210,130],"width":0.008,"glow":0.02}]}
+    {
+      "id": "kick_hit",
+      "file": "drummer_hit_kick.png",
+      "targets": [
+        "HX_SNOWMAN_DRUMMER_V3_KICK"
+      ]
+    },
+    {
+      "id": "snare_hit",
+      "file": "drummer_hit_snare.png",
+      "targets": [
+        "HX_SNOWMAN_DRUMMER_V3_SNARE"
+      ]
+    },
+    {
+      "id": "hi_hat_pulse",
+      "file": "drummer_hit_hi_hat.png",
+      "targets": [
+        "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+      ]
+    },
+    {
+      "id": "tom_high_hit",
+      "file": "drummer_hit_high_tom.png",
+      "targets": [
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH"
+      ]
+    },
+    {
+      "id": "tom_mid_hit",
+      "file": "drummer_hit_mid_tom.png",
+      "targets": [
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID"
+      ]
+    },
+    {
+      "id": "tom_floor_hit",
+      "file": "drummer_hit_floor_tom.png",
+      "targets": [
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"
+      ]
+    },
+    {
+      "id": "left_crash",
+      "file": "drummer_hit_left_crash.png",
+      "targets": [
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT"
+      ]
+    },
+    {
+      "id": "right_crash",
+      "file": "drummer_hit_right_crash.png",
+      "targets": [
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT"
+      ]
+    },
+    {
+      "id": "both_crash",
+      "file": "drummer_hit_both_crash.png",
+      "targets": [
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT"
+      ]
+    },
+    {
+      "id": "downbeat_impact",
+      "file": "drummer_downbeat_impact.png",
+      "targets": [
+        "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT"
+      ]
+    }
   ]
 }
