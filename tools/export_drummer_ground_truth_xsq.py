@@ -13,6 +13,16 @@ DRUMMER_MODEL = "HX_SNOWMAN_DRUMMER_V3"
 CHANNELS = TARGETS
 PHYSICAL_SUBMODELS = tuple(f"{DRUMMER_MODEL}_{channel}" for channel in CHANNELS)
 CHANNEL_TO_PHYSICAL = dict(zip(CHANNELS, PHYSICAL_SUBMODELS))
+CHANNEL_HEX = {
+    "KICK": "#DC2D1C",
+    "SNARE": "#D65CBE",
+    "HI_HAT": "#DCA416",
+    "TOM_HIGH": "#2CB242",
+    "TOM_MID": "#2CB242",
+    "TOM_FLOOR": "#2CB242",
+    "CYMBAL_LEFT": "#DCA416",
+    "CYMBAL_RIGHT": "#DCA416",
+}
 
 
 def _add_event(track: ET.Element, index: int, channel: str, start: float, duration: float) -> None:
@@ -31,6 +41,7 @@ def _add_effect(element: ET.Element, channel: str, start: float, duration: float
         "startTime": str(int(round(start * 1000))),
         "endTime": str(int(round((start + duration) * 1000))),
         "settings": "Start=100",
+        "palette": ",".join(f"C_BUTTON_Palette{index}={CHANNEL_HEX[channel]}" for index in (1, 2, 3)),
         "source": "HelixDrummerV3GroundTruth",
         "sourcePoseSubmodel": CHANNEL_TO_PHYSICAL[channel],
     })
