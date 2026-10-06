@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,6 +31,56 @@ TARGET_OUTLINE_RGB = {
 
 def target_surface_key(target: str) -> str:
     return f"__surface__:{target}"
+
+
+def refine_surface_to_source_art(
+    source: Image.Image,
+    authored_surface: Image.Image,
+    target: str,
+) -> Image.Image:
+    """Keep only source pixels that actually draw the colored instrument."""
+    color = TARGET_OUTLINE_RGB.get(target)
+    if color is None:
+        return authored_surface.copy()
+
+    hsv = np.asarray(source.convert("RGB").convert("HSV"), dtype=np.int16)
+    target_h = int(Image.new("RGB", (1, 1), color).convert("HSV").getpixel((0, 0))[0])
+    hue = hsv[..., 0]
+    sat = hsv[..., 1]
+    val = hsv[..., 2]
+    distance = np.abs(hue - target_h)
+    distance = np.minimum(distance, 256 - distance)
+
+    if target.endswith("_KICK"):
+        tolerance = 26
+    elif "CYMBAL" in target or target.endswith("_HI_HAT"):
+        tolerance = 24
+    elif "_TOM_" in target:
+        tolerance = 28
+    else:
+        tolerance = 30
+
+    authored = np.asarray(authored_surface, dtype=np.uint8) > 0
+    selected = authored & (distance <= tolerance) & (sat >= 48) & (val >= 24)
+    count = int(np.count_nonzero(selected))
+    minimum = max(6, int(np.count_nonzero(authored) * 0.025))
+    if count < minimum:
+        return authored_surface.copy()
+
+    exact = Image.fromarray(np.where(selected, 255, 0).astype(np.uint8), mode="L")
+    return ImageChops.darker(exact.filter(ImageFilter.MaxFilter(3)), authored_surface)
+
+
+def refine_actuator_to_source_art(source: Image.Image, authored_actuator: Image.Image) -> Image.Image:
+    """Remove black/background pixels from an arm/stick/foot search polygon."""
+    hsv = np.asarray(source.convert("RGB").convert("HSV"), dtype=np.uint8)
+    value = hsv[..., 2]
+    authored = np.asarray(authored_actuator, dtype=np.uint8) > 0
+    selected = authored & (value >= 38)
+    if int(np.count_nonzero(selected)) < max(4, int(np.count_nonzero(authored) * 0.02)):
+        return authored_actuator.copy()
+    exact = Image.fromarray(np.where(selected, 255, 0).astype(np.uint8), mode="L")
+    return ImageChops.darker(exact.filter(ImageFilter.MaxFilter(3)), authored_actuator)
 
 
 def load_spec(path: Path = DEFAULT_SPEC) -> dict[str, Any]:
