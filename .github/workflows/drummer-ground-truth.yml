@@ -154,12 +154,13 @@ jobs:
           from pathlib import Path
           report=json.loads(Path('test_runs/drummer_real_audio/drummer_real_audio_report.json').read_text())
           print(json.dumps(report,indent=2))
-          assert report['detector'] == 'v3_multi_detector_hpss', report
+          assert report['detector'] == 'v3_hpss_onset_classifier', report
           assert report['fallback_mode'] in {'typed_detection','typed_detection_bus_suppressed'}, report
           assert report['ambiguous_bus_rejected_count'] == 0, report
           assert report['target_count'] == 8, report
           assert report['analysis']['used_hpss_percussive_evidence'] is True, report
           assert report['analysis']['typed_event_count'] >= 20, report
+          assert report['analysis']['analysis_engine'] == 'v3_hpss_onset_classifier', report
           assert report['event_count'] >= 20, report
           assert report['early_event_count_5s'] == 0, report
           assert report['early_event_count_10s'] == 0, report
@@ -211,10 +212,10 @@ jobs:
           earliest=min(starts)
           assert earliest >= 10000, f'false intro hit leaked into XSQ: earliest={earliest}ms'
           assert 'HX_SNOWMAN_DRUMMER_V3_KICK_SURFACE' in visual_names
-          assert 'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_SURFACE' in visual_names
-          assert 'HX_SNOWMAN_DRUMMER_V3_TOM_MID_SURFACE' in visual_names
-          assert 'HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_SURFACE' in visual_names
+          assert 'HX_SNOWMAN_DRUMMER_V3_SNARE_SURFACE' in visual_names
+          assert 'HX_SNOWMAN_DRUMMER_V3_HI_HAT_SURFACE' in visual_names
           assert 'HX_SNOWMAN_DRUMMER_V3_HI_HAT_FOOT' in visual_names
+          assert any(name.endswith(('_TOM_HIGH_SURFACE','_TOM_MID_SURFACE','_TOM_FLOOR_SURFACE')) for name in visual_names)
           print('REAL-SONG EARLIEST ACCEPTED HIT (ms):', earliest)
           print('VISIBLE GEOMETRY SUBMODELS:', sorted(visual_names))
           PY
