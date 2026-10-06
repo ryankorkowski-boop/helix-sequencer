@@ -36,7 +36,7 @@ This supersedes the nine-component/four-tom V3 claims retained below as history.
 - Eight hit targets: KICK, SNARE, HI_HAT, TOM_HIGH, TOM_MID, TOM_FLOOR, CYMBAL_LEFT, CYMBAL_RIGHT.
 - HIGH is image-right, MID image-left, FLOOR lower-left. The extra lower-right drum is unused.
 - Snare/toms/cymbals include the corresponding existing arm/stick pixels; kick has no arm/stick; hi-hat includes the foot/pedal and no arm/stick.
-- Inactive artwork stays at fixed 28% idle brightness. Simultaneous hits take a max-union; shared arms do not compound brightness.
+- Review rendering keeps inactive artwork at a 15% dim baseline and gives active full-resolution component masks a strong emissive lift while preserving the source artwork. xLights effects use 60–100% brightness. Simultaneous hits take a max-union; shared arms do not compound brightness.
 - Source remains \`fixtures/band_geometry/source/drummerbg.png\`; no substitute drummer.
 
 ### Running implementation checklist
@@ -48,10 +48,14 @@ This supersedes the nine-component/four-tom V3 claims retained below as history.
 - [x] Derive PNG review layers from the same exported nodes.
 - [x] Share one deterministic event oracle between WAV and XSQ; 68 events over 20 seconds.
 - [x] Fix the former starter-model/manifest expected failure and archive that legacy contract.
-- [x] GitHub Actions verification of the reconstructed branch: run `37416429803` passed regeneration, oracle checks, 37 focused tests, rendering and artifact upload.
-- [ ] User visual approval of the reconstructed candidate.
-- [ ] xLights import/playback confirmation.
-- [ ] Real-song drum detection/guitar rejection evaluation; unchanged by this visual fix.
+- [x] GitHub Actions verification of the reconstructed branch.
+- [x] Replace spotty 96×72-upscaled preview masks with full-resolution masks from the same authored geometry.
+- [x] Restore the approved `b27e8d77...` detector decision order and thresholds; real-song raw counts now match the oracle exactly.
+- [x] Fix production mapping to the actual `HX_SNOWMAN_DRUMMER_V3_*` target names and xLights brightness to 60–100%.
+- [x] Preserve all three toms when spectral subclassing collapses by falling back to HIGH→MID→FLOOR distribution across real detected tom hits.
+- [x] Render a 160-second proof using `Helix Audiolights.mp3`; all eight V3 targets occur inside the rendered window.
+- [ ] User visual approval of the corrected real-song candidate.
+- [ ] Native xLights import/playback confirmation.
 
 See \`docs/DRUMMER_INDEPENDENT_LIGHTING_HANDOFF.md\` for reproduction and limitations.
 
@@ -103,6 +107,14 @@ A prior drummer render was explicitly identified by the user as having the **cor
 Do not mark complete from unit tests alone.
 
 ## Change Ledger
+
+### 2026-10-06 — Correct rejected drummer proof: full-component lighting + oracle logic restoration
+**Trigger:** user rejected the prior candidate because components were spottily lit and the musical logic appeared regressed.
+**Visual fix:** review rendering now rasterizes the same authored component geometry at full source-image resolution instead of enlarging the 96×72 xmodel grid. Idle is dimmed to 15%; active artwork receives a strong source-preserving emissive lift. xLights effect brightness is emitted on the correct 60–100 percent scale.
+**Logic fix:** restored the exact approved `b27e8d77a63027ed32bcf6851dcff3925472c155` classifier decision order and thresholds. On `Helix Audiolights.mp3`, the raw detector counts now exactly match the historical oracle: kick 194, snare 37, tom 9, hi-hat 208, cymbal 840, drum_bus 47.
+**Mapping fix:** production events now target the actual `HX_SNOWMAN_DRUMMER_V3_*` submodels. When a multi-hit tom passage's spectral subclasses collapse to fewer than HIGH/MID/FLOOR, the mapper preserves the historical distribution behavior by cycling real detected tom hits HIGH→MID→FLOOR; the final real-song mapping yields 3 hits on each tom.
+**Proof:** GitHub Actions run `37432351105` passed focused tests, the deterministic 68-event geometry regression, exact real-song oracle-count gating, all-eight-target-in-window gating, and a 160-second real-song H.264/AAC preview.
+**Still open:** user visual approval and native xLights import/playback.
 
 ### 2026-10-06 — Reconstruct independent V3 component lighting
 **Goal:** restore the tested independent-lighting design from the saved candidate artifacts and handoff after the original local patch could not be recovered.
@@ -193,4 +205,5 @@ Do not mark complete from unit tests alone.
 ## Publication status
 - [x] User explicitly authorized publication.
 - [x] GitHub write access restored.
-- [ ] Publish and validate \`fix/drummer-independent-illumination\`.
+- [x] Publish and validate \`fix/drummer-independent-illumination\`; implementation run `37432351105` passed all automated gates.
+- [ ] User visual approval and native xLights import/playback remain final acceptance gates.
