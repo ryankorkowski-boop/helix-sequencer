@@ -13,7 +13,7 @@ from PIL import ImageFilter
 from tools.drummer_ground_truth_oracle import TARGETS as LOGICAL_TARGETS, fixture_events
 from tools.export_drummer_ground_truth_xsq import export_drummer_ground_truth_xsq
 from tools.generate_drummer_ground_truth import generate
-from tools.render_drummer_v3_preview import TARGETS, compose_lighting, load_component_masks
+from tools.render_drummer_v3_preview import TARGETS, compose_lighting, load_component_masks\nfrom tools.drummer_v3_visual_masks import target_surface_key
 
 ROOT = Path(__file__).resolve().parents[1]
 XMODEL = ROOT / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
@@ -96,6 +96,48 @@ def test_background_remains_dimly_visible_and_active_component_has_local_outline
     assert active_arr[mask].mean() > idle_arr[mask].mean() * 2.0
     assert (active_arr[ring] - idle_arr[ring]).mean() > 8.0
     assert np.abs(active_arr[far] - idle_arr[far]).max() <= 2.0
+
+
+def _surface_edge(mask_image):
+    radius = 2
+    kernel = radius * 2 + 1
+    dilated = np.asarray(mask_image.filter(ImageFilter.MaxFilter(kernel))) > 0
+    eroded = np.asarray(mask_image.filter(ImageFilter.MinFilter(kernel))) > 0
+    surface = np.asarray(mask_image) > 0
+    return (dilated & ~surface) | (surface & ~eroded)
+
+
+def test_kick_outline_is_red_and_tom_outlines_are_green() -> None:
+    source, masks = load_component_masks()
+
+    kick = TARGETS[0]
+    kick_frame = np.asarray(compose_lighting(source, masks, [kick]))[..., :3].astype(float)
+    kick_edge = _surface_edge(masks[target_surface_key(kick)])
+    kick_rgb = kick_frame[kick_edge].mean(axis=0)
+    assert kick_rgb[0] > kick_rgb[1] * 1.45
+    assert kick_rgb[0] > kick_rgb[2] * 1.35
+
+    for tom in TARGETS[3:6]:
+        frame = np.asarray(compose_lighting(source, masks, [tom]))[..., :3].astype(float)
+        edge = _surface_edge(masks[target_surface_key(tom)])
+        rgb = frame[edge].mean(axis=0)
+        assert rgb[1] > rgb[0] * 1.35, (tom, rgb)
+        assert rgb[1] > rgb[2] * 1.15, (tom, rgb)
+
+
+def test_actuator_is_brightened_but_not_wrapped_in_instrument_color() -> None:
+    source, masks = load_component_masks()
+    snare = TARGETS[1]
+    target_mask = np.asarray(masks[snare]) > 0
+    surface_mask = np.asarray(masks[target_surface_key(snare)]) > 0
+    actuator_only = target_mask & ~surface_mask
+    idle = np.asarray(compose_lighting(source, masks, []))[..., :3].astype(float)
+    active = np.asarray(compose_lighting(source, masks, [snare]))[..., :3].astype(float)
+    assert actuator_only.any()
+    assert active[actuator_only].mean() > idle[actuator_only].mean() * 1.8
+    # It should remain source-colored instead of becoming a flat magenta trace.
+    actuator_rgb = active[actuator_only].mean(axis=0)
+    assert max(actuator_rgb) - min(actuator_rgb) < 95.0
 
 
 def test_simultaneous_hits_use_one_union_pass_so_shared_actuators_do_not_compound() -> None:
