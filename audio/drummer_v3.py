@@ -11,7 +11,9 @@ from audio.drum_classification import DrumEvent as LegacyDrumEvent
 ANALYSIS_SAMPLE_RATE = 44100
 ANALYSIS_HOP_LENGTH = 441
 ANALYSIS_N_FFT = 2048
+CONTEXT_N_FFT = 4096
 MIN_ATTACK_CONTRAST = 1.05
+MIN_CONTEXT_PERCUSSIVE_RATIO = 0.34
 
 
 def _tom_class_from_low_centroid(low_centroid_hz: float) -> str:
@@ -178,6 +180,9 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
     p_stft = np.abs(
         librosa.stft(percussive, n_fft=n_fft, hop_length=hop, center=True)
     )
+    context_stft = np.abs(
+        librosa.stft(percussive, n_fft=CONTEXT_N_FFT, hop_length=hop, center=True)
+    )
     h_rms = librosa.feature.rms(
         y=harmonic,
         frame_length=n_fft,
@@ -187,6 +192,18 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
     p_rms = librosa.feature.rms(
         y=percussive,
         frame_length=n_fft,
+        hop_length=hop,
+        center=True,
+    )[0]
+    context_h_rms = librosa.feature.rms(
+        y=harmonic,
+        frame_length=CONTEXT_N_FFT,
+        hop_length=hop,
+        center=True,
+    )[0]
+    context_p_rms = librosa.feature.rms(
+        y=percussive,
+        frame_length=CONTEXT_N_FFT,
         hop_length=hop,
         center=True,
     )[0]
@@ -204,14 +221,20 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
 
     n = min(
         p_stft.shape[1],
+        context_stft.shape[1],
         len(h_rms),
         len(p_rms),
+        len(context_h_rms),
+        len(context_p_rms),
         len(full_rms),
         len(onset_env),
     )
     p_stft = p_stft[:, :n]
+    context_stft = context_stft[:, :n]
     h_rms = h_rms[:n]
     p_rms = p_rms[:n]
+    context_h_rms = context_h_rms[:n]
+    context_p_rms = context_p_rms[:n]
     full_rms = full_rms[:n]
     onset_env = onset_env[:n]
 
@@ -241,8 +264,40 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
         axis=0,
     ) / np.maximum(low_total, 1e-9)
 
+    context_freqs = librosa.fft_frequencies(sr=sr, n_fft=CONTEXT_N_FFT)
+
+    def context_band_sum(low_hz: float, high_hz: float) -> np.ndarray:
+        mask = (context_freqs >= low_hz) & (context_freqs < high_hz)
+        if not np.any(mask):
+            return np.zeros(n, dtype=float)
+        return np.sum(context_stft[mask], axis=0)
+
+    context_low = context_band_sum(30, 180)
+    context_low_mid = context_band_sum(180, 700)
+    context_mid = context_band_sum(700, 2500)
+    context_high = context_band_sum(2500, min(sr / 2, 14000))
+    context_total = np.maximum(
+        context_low + context_low_mid + context_mid + context_high,
+        1e-9,
+    )
+    context_low_ratio = context_low / context_total
+    context_low_mid_ratio = context_low_mid / context_total
+    context_mid_ratio = context_mid / context_total
+    context_high_ratio = context_high / context_total
+    context_centroid = librosa.feature.spectral_centroid(S=context_stft, sr=sr)[0][:n]
+    context_low_mask = (context_freqs >= 30) & (context_freqs < 700)
+    context_low_total = np.sum(context_stft[context_low_mask], axis=0)
+    context_low_centroid = np.sum(
+        context_freqs[context_low_mask, None] * context_stft[context_low_mask],
+        axis=0,
+    ) / np.maximum(context_low_total, 1e-9)
+
     flatness = librosa.feature.spectral_flatness(S=p_stft)[0][:n]
     drum_quality = p_rms / np.maximum(p_rms + h_rms, 1e-9)
+    context_drum_quality = context_p_rms / np.maximum(
+        context_p_rms + context_h_rms,
+        1e-9,
+    )
 
     onset_frames = np.asarray(
         librosa.onset.onset_detect(
@@ -259,6 +314,7 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
 
     typed: list[LegacyDrumEvent] = []
     rejected_quality = 0
+    rejected_context_quality = 0
     rejected_support = 0
     rejected_unclassified = 0
     rejected_release_edge = 0
@@ -275,6 +331,10 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
         quality = float(drum_quality[frame])
         if quality < 0.36:
             rejected_quality += 1
+            continue
+        context_quality = float(context_drum_quality[frame])
+        if context_quality < MIN_CONTEXT_PERCUSSIVE_RATIO:
+            rejected_context_quality += 1
             continue
 
         local_lo = max(0, frame - 8)
@@ -312,6 +372,24 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
             decay_100ms=decay_100,
             decay_300ms=decay_300,
         )
+        context_body, _, _ = _classify_onset(
+            low_ratio=float(context_low_ratio[frame]),
+            low_mid_ratio=float(context_low_mid_ratio[frame]),
+            mid_ratio=float(context_mid_ratio[frame]),
+            high_ratio=float(context_high_ratio[frame]),
+            centroid_hz=float(context_centroid[frame]),
+            low_centroid_hz=float(context_low_centroid[frame]),
+            decay_100ms=decay_100,
+            decay_300ms=decay_300,
+        )
+        if body != context_body:
+            if context_body == "kick" and body in (None, "snare"):
+                body = "kick"
+                tom_class = None
+            else:
+                body = None
+                tom_class = None
+
         if body is None and metal is None:
             rejected_unclassified += 1
             continue
@@ -337,6 +415,8 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
             "attack_contrast": round(float(attack_contrast), 4),
             "timing_refinement_ms": round((timestamp - coarse_timestamp) * 1000.0, 3),
             "percussive_ratio": round(quality, 4),
+            "context_percussive_ratio": round(context_quality, 4),
+            "context_body_class": context_body,
             "percussive_flatness": round(float(flatness[frame]), 6),
             "low_ratio": round(float(low_ratio[frame]), 4),
             "low_mid_ratio": round(float(low_mid_ratio[frame]), 4),
@@ -392,6 +472,9 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
         "analysis_hop_length": int(hop),
         "analysis_n_fft": int(n_fft),
         "analysis_window_ms": round((n_fft / sr) * 1000.0, 3),
+        "context_n_fft": CONTEXT_N_FFT,
+        "context_window_ms": round((CONTEXT_N_FFT / sr) * 1000.0, 3),
+        "min_context_percussive_ratio": MIN_CONTEXT_PERCUSSIVE_RATIO,
         "timing_refinement": "waveform_attack",
         "min_attack_contrast": MIN_ATTACK_CONTRAST,
         "frame_rate": round(sr / hop, 3),
@@ -401,6 +484,7 @@ def analyze_drummer_samples(y: np.ndarray, sr: int, *, onset_delta: float = 0.06
         "event_types": counts,
         "tom_classes": tom_counts,
         "rejected_low_percussive_quality": int(rejected_quality),
+        "rejected_low_context_percussive_quality": int(rejected_context_quality),
         "rejected_weak_local_support": int(rejected_support),
         "rejected_unclassified": int(rejected_unclassified),
         "rejected_release_edge": int(rejected_release_edge),

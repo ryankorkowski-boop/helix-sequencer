@@ -16,7 +16,9 @@ def song_events():
 def test_known_non_drum_intro_and_first_real_entrance(song_events):
     assert song_events
     assert not [e for e in song_events if e.timestamp < 10]
-    assert 10.7 <= min(e.timestamp for e in song_events) <= 11.3
+    first = min(song_events, key=lambda event: event.timestamp)
+    assert 10.7 <= first.timestamp <= 11.3
+    assert first.drum_type == "kick"
 
 
 def test_real_song_has_no_impossible_dense_snare_or_crash_burst(song_events):

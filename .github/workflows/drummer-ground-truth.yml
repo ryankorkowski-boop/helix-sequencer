@@ -184,6 +184,8 @@ jobs:
           assert report['analysis']['analysis_sample_rate'] == 44100, report
           assert report['analysis']['analysis_hop_length'] == 441, report
           assert report['analysis']['analysis_n_fft'] == 2048, report
+          assert report['analysis']['context_n_fft'] == 4096, report
+          assert report['analysis']['min_context_percussive_ratio'] == 0.34, report
           assert report['analysis']['timing_refinement'] == 'waveform_attack', report
           assert report['event_count'] >= 20, report
           assert report['early_event_count_5s'] == 0, report

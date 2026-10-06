@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from audio.drummer_v3 import ANALYSIS_HOP_LENGTH, ANALYSIS_N_FFT, ANALYSIS_SAMPLE_RATE, analyze_drummer_samples
+from audio.drummer_v3 import ANALYSIS_HOP_LENGTH, ANALYSIS_N_FFT, ANALYSIS_SAMPLE_RATE, CONTEXT_N_FFT, analyze_drummer_samples
 from tools.render_drummer_v3_preview import _active_targets_for_frame, _frame_time_ms
 
 SEEDS = {"kick": 1, "tom_floor": 2, "tom_mid": 3, "tom_high": 4, "snare": 5, "hihat": 6, "cymbal": 7}
@@ -67,6 +67,7 @@ def test_isolated_hits_keep_identity_remove_release_edges_and_refine_attack(kind
     assert diagnostics["analysis_sample_rate"] == ANALYSIS_SAMPLE_RATE
     assert diagnostics["analysis_hop_length"] == ANALYSIS_HOP_LENGTH
     assert diagnostics["analysis_n_fft"] == ANALYSIS_N_FFT
+    assert diagnostics["context_n_fft"] == CONTEXT_N_FFT
 
 
 @pytest.mark.parametrize("kind", list(SEEDS))
