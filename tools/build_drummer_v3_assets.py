@@ -137,14 +137,36 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
     for actuator_id, authored in full_geometry["actuators"].items():
         exact_actuators_full[actuator_id] = refine_actuator_to_source_art(source, authored)
 
-    surface_masks = {
+    raw_surface_masks = {
         name: _downsample_exact_mask(mask, width, height)
         for name, mask in exact_surfaces_full.items()
     }
-    actuator_masks = {
-        name: _downsample_exact_mask(mask, width, height)
-        for name, mask in exact_actuators_full.items()
-    }
+
+    # Several thin source-art strokes can land on the same 96x72 cell when
+    # projected down.  Resolve those collisions deterministically so one xLights
+    # node never belongs to two instrument surfaces.
+    surface_masks: dict[str, Image.Image] = {}
+    for name, mask in raw_surface_masks.items():
+        others = Image.new("L", (width, height), 0)
+        for other_name, other_mask in raw_surface_masks.items():
+            if other_name != name:
+                others = ImageChops.lighter(others, other_mask)
+        exclusive = ImageChops.subtract(mask, others)
+        if exclusive.getbbox() is None:
+            raise ValueError(f"Exact surface lost all nodes after grid isolation: {name}")
+        surface_masks[name] = exclusive
+
+    surface_union = Image.new("L", (width, height), 0)
+    for mask in surface_masks.values():
+        surface_union = ImageChops.lighter(surface_union, mask)
+
+    actuator_masks: dict[str, Image.Image] = {}
+    for name, mask in exact_actuators_full.items():
+        downsampled = _downsample_exact_mask(mask, width, height)
+        isolated = ImageChops.subtract(downsampled, surface_union)
+        if isolated.getbbox() is None:
+            raise ValueError(f"Exact actuator lost all nodes after grid isolation: {name}")
+        actuator_masks[name] = isolated
 
     target_masks: dict[str, Image.Image] = {}
     for target_id, target in target_specs.items():
