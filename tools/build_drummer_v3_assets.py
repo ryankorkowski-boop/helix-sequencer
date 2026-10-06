@@ -139,9 +139,9 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
     for target in targets:
         target_id = str(target["id"])
         surface_id = str(target["surface"])
-        surface = zone_nodes.get(surface_id)
+        surface = surface_nodes.get(surface_id)
         if not surface:
-            raise ValueError(f"{target_id} references missing surface {surface_id}")
+            raise ValueError(f"{target_id} references missing/excluded surface {surface_id}")
         nodes = set(surface)
         for actuator_id in target.get("actuators", []):
             actuator = zone_nodes.get(str(actuator_id))
