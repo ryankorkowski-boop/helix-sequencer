@@ -33,55 +33,81 @@ def target_surface_key(target: str) -> str:
     return f"__surface__:{target}"
 
 
+def _hue_distance(hue: np.ndarray, target_hue: int) -> np.ndarray:
+    distance = np.abs(hue.astype(np.int16) - int(target_hue))
+    return np.minimum(distance, 256 - distance)
+
+
+def _rgb_hue(rgb: tuple[int, int, int]) -> int:
+    return int(Image.new("RGB", (1, 1), rgb).convert("HSV").getpixel((0, 0))[0])
+
+
 def refine_surface_to_source_art(
     source: Image.Image,
     authored_surface: Image.Image,
     target: str,
 ) -> Image.Image:
-    """Keep only source pixels that actually draw the colored instrument."""
-    color = TARGET_OUTLINE_RGB.get(target)
-    if color is None:
-        return authored_surface.copy()
+    """Extract the actual painted/wireframe pixels for one instrument.
 
-    hsv = np.asarray(source.convert("RGB").convert("HSV"), dtype=np.int16)
-    target_h = int(Image.new("RGB", (1, 1), color).convert("HSV").getpixel((0, 0))[0])
+    The pose-spec polygon is only a search window. The returned mask follows
+    the colored source pixels inside that window, so a lit kick is the real red
+    kick ring (plus its blue snowflake), a lit tom is the real green tom, etc.
+    No polygon edge is ever shown as the component.
+    """
+    hsv = np.asarray(source.convert("RGB").convert("HSV"), dtype=np.uint8)
     hue = hsv[..., 0]
     sat = hsv[..., 1]
     val = hsv[..., 2]
-    distance = np.abs(hue - target_h)
-    distance = np.minimum(distance, 256 - distance)
+    authored = np.asarray(authored_surface, dtype=np.uint8) > 0
 
     if target.endswith("_KICK"):
-        tolerance = 26
-    elif "CYMBAL" in target or target.endswith("_HI_HAT"):
-        tolerance = 24
-    elif "_TOM_" in target:
-        tolerance = 28
+        # The canonical kick is a red/orange ring with a blue snowflake inside.
+        # Preserve both source colors instead of painting a replacement circle.
+        selected = authored & (sat >= 48) & (val >= 24)
     else:
-        tolerance = 30
+        color = TARGET_OUTLINE_RGB.get(target)
+        if color is None:
+            return authored_surface.copy()
+        target_hue = _rgb_hue(color)
+        tolerance = 30 if "_TOM_" in target else 27
+        if "CYMBAL" in target or target.endswith("_HI_HAT"):
+            tolerance = 25
+        selected = (
+            authored
+            & (_hue_distance(hue, target_hue) <= tolerance)
+            & (sat >= 46)
+            & (val >= 24)
+        )
 
-    authored = np.asarray(authored_surface, dtype=np.uint8) > 0
-    selected = authored & (distance <= tolerance) & (sat >= 48) & (val >= 24)
     count = int(np.count_nonzero(selected))
-    minimum = max(6, int(np.count_nonzero(authored) * 0.025))
+    minimum = max(8, int(np.count_nonzero(authored) * 0.018))
     if count < minimum:
-        return authored_surface.copy()
+        raise ValueError(f"Could not recover exact source pixels for {target}: {count} < {minimum}")
 
-    exact = Image.fromarray(np.where(selected, 255, 0).astype(np.uint8), mode="L")
-    return ImageChops.darker(exact.filter(ImageFilter.MaxFilter(3)), authored_surface)
+    return Image.fromarray(np.where(selected, 255, 0).astype(np.uint8), mode="L")
 
 
-def refine_actuator_to_source_art(source: Image.Image, authored_actuator: Image.Image) -> Image.Image:
-    """Remove black/background pixels from an arm/stick/foot search polygon."""
+def refine_actuator_to_source_art(
+    source: Image.Image,
+    authored_actuator: Image.Image,
+) -> Image.Image:
+    """Keep the real arm/stick/foot pixels and discard its search polygon."""
     hsv = np.asarray(source.convert("RGB").convert("HSV"), dtype=np.uint8)
-    value = hsv[..., 2]
+    sat = hsv[..., 1]
+    val = hsv[..., 2]
     authored = np.asarray(authored_actuator, dtype=np.uint8) > 0
-    selected = authored & (value >= 38)
-    if int(np.count_nonzero(selected)) < max(4, int(np.count_nonzero(authored) * 0.02)):
-        return authored_actuator.copy()
-    exact = Image.fromarray(np.where(selected, 255, 0).astype(np.uint8), mode="L")
-    return ImageChops.darker(exact.filter(ImageFilter.MaxFilter(3)), authored_actuator)
 
+    # Arms are pale/white while sticks are gold/orange. Both are source artwork;
+    # dark stage/grid pixels are not.
+    selected = authored & (
+        ((sat <= 70) & (val >= 72))
+        | ((sat > 70) & (val >= 34))
+    )
+    count = int(np.count_nonzero(selected))
+    minimum = max(5, int(np.count_nonzero(authored) * 0.012))
+    if count < minimum:
+        raise ValueError(f"Could not recover actuator source pixels: {count} < {minimum}")
+    return Image.fromarray(np.where(selected, 255, 0).astype(np.uint8), mode="L")
 
 def load_spec(path: Path = DEFAULT_SPEC) -> dict[str, Any]:
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -200,59 +226,48 @@ def compose_emissive(
     masks: dict[str, Image.Image],
     active_targets: list[str] | tuple[str, ...] | set[str],
     *,
-    idle_brightness: float = 0.48,
-    active_brightness: float = 1.30,
-    outline_radius: int = 2,
-    halo_radius: float = 4.0,
+    idle_brightness: float = 0.30,
+    active_brightness: float = 1.78,
+    halo_radius: float = 3.2,
 ) -> Image.Image:
-    """Illuminate the real component artwork, not a generic traced substitute.
+    """Dim the canonical artwork, then brighten only its exact hit pixels.
 
-    The complete drummerbg stays visible at a dim stage level.  Active targets
-    restore the original source pixels at higher brightness.  Only the actual
-    instrument surface gets a thin, component-colored edge/halo (red kick,
-    green toms, gold metal, magenta snare).  Integrated arms/sticks/foot brighten
-    in their own source colors and are deliberately *not* outlined.
+    There are no synthetic outlines, circles, or painted polygons. Active
+    components are literally the source artwork restored brighter, with a
+    restrained bloom outside the exact pixels so the hit reads clearly.
     """
     source_rgba = source.convert("RGBA")
     source_rgb = source_rgba.convert("RGB")
     idle = ImageEnhance.Brightness(source_rgb).enhance(idle_brightness).convert("RGBA")
 
+    active_set = set(active_targets)
+    if not active_set:
+        return idle
+
     union = Image.new("L", source_rgba.size, 0)
-    ordered_targets = [target for target in masks if target in set(active_targets) and not target.startswith("__surface__:")]
-    for target in active_targets:
+    for target in active_set:
         if target not in masks:
             raise ValueError(f"Unknown drummer target: {target}")
         union = ImageChops.lighter(union, masks[target])
     if union.getbbox() is None:
         return idle
 
-    # First restore the exact source artwork for the complete integrated target.
     active_rgb = ImageEnhance.Brightness(source_rgb).enhance(active_brightness)
-    active_rgb = ImageEnhance.Color(active_rgb).enhance(1.12)
+    active_rgb = ImageEnhance.Color(active_rgb).enhance(1.18)
     frame = Image.composite(active_rgb.convert("RGBA"), idle, union)
 
-    # Then outline only the physical drum/cymbal surface.  This avoids the
-    # Apple-II-looking white scribble around arms and sticks.
-    radius = max(1, int(outline_radius))
-    kernel = radius * 2 + 1
-    for target in active_targets:
+    # Soft source-colored bloom only; never draw an artificial edge. Each bloom
+    # derives from the exact surface mask and cannot turn an arm into a scribble.
+    for target in active_set:
         surface = masks.get(target_surface_key(target), masks[target])
         color = TARGET_OUTLINE_RGB.get(target)
         if color is None or surface.getbbox() is None:
             continue
-        dilated = surface.filter(ImageFilter.MaxFilter(kernel))
-        eroded = surface.filter(ImageFilter.MinFilter(kernel))
-        outer = ImageChops.subtract(dilated, surface)
-        inner = ImageChops.subtract(surface, eroded)
-        edge = ImageChops.lighter(outer, inner)
-
-        halo = outer.filter(ImageFilter.GaussianBlur(max(0.1, float(halo_radius))))
-        halo = halo.point(lambda value: int(value * 0.22))
-        color_image = Image.new("RGBA", source_rgba.size, (*color, 255))
-        frame = Image.composite(color_image, frame, halo)
-
-        crisp = edge.point(lambda value: int(value * 0.78))
-        frame = Image.composite(color_image, frame, crisp)
+        blurred = surface.filter(ImageFilter.GaussianBlur(max(0.1, float(halo_radius))))
+        outside = ImageChops.subtract(blurred, surface)
+        outside = outside.point(lambda value: int(value * 0.32))
+        glow = Image.new("RGBA", source_rgba.size, (*color, 255))
+        frame = Image.composite(glow, frame, outside)
 
     return frame
 
