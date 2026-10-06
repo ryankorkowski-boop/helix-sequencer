@@ -186,7 +186,7 @@ def _tom_floor_selection(ordered: list[DrumEvent]) -> set[int]:
     The approved oracle had two rack-tom poses (RIGHT/LEFT). V3 now has a real
     floor tom too. We keep the oracle's rack alternation and allow at most one
     third of detected toms to move to FLOOR when the new subclass estimator has
-    strong evidence. This extends rather than replaces the old behavior.
+    evidence already accepted by drum_detection (>=0.58). This extends rather\n    than replaces the old behavior.
     """
     toms = [event for event in ordered if event.drum_type == "tom"]
     if len(toms) < 3:
@@ -194,7 +194,7 @@ def _tom_floor_selection(ordered: list[DrumEvent]) -> set[int]:
     candidates: list[tuple[float, int]] = []
     for idx, event in enumerate(toms):
         klass, confidence = _explicit_tom_class(event)
-        if klass == "floor" and confidence >= 0.72:
+        if klass == "floor" and confidence >= 0.58:
             candidates.append((confidence, idx))
     quota = max(1, len(toms) // 3)
     candidates.sort(reverse=True)
