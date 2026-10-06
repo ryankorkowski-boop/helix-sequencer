@@ -140,12 +140,12 @@ def draw_frame(
     font: ImageFont.ImageFont,
     art_cache: dict[tuple[str, ...], Image.Image] | None = None,
 ) -> Image.Image:
+    max_w, max_h = width - 250, height - 108
     key = tuple(target for target in TARGETS if target in active)
     art = art_cache.get(key) if art_cache is not None else None
     if art is None:
         lit = compose_lighting(source, masks, active)
         art = lit.crop(_content_crop(source))
-        max_w, max_h = width - 250, height - 108
         scale = min(max_w / art.width, max_h / art.height)
         size = (max(1, round(art.width * scale)), max(1, round(art.height * scale)))
         art = art.resize(size, Image.Resampling.LANCZOS)
