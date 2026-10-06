@@ -119,6 +119,18 @@ def test_xlights_brightness_uses_percent_scale_and_carries_pose_metadata() -> No
     assert effect.get("sourcePose") == "kick_hit"
 
 
+def test_real_xsq_effects_use_physical_component_colors() -> None:
+    from tools.integrate_drummer_v3_into_xsq import _add_on
+    kick_layer = ET.Element("EffectLayer")
+    _add_on(kick_layer, 100, 200, 0.8, DRUMMER_COMPONENTS[0], "kick", "kick_hit")
+    assert "#DC2D1C" in kick_layer.find("Effect").get("palette", "")
+
+    for tom in DRUMMER_COMPONENTS[3:6]:
+        layer = ET.Element("EffectLayer")
+        _add_on(layer, 100, 200, 0.8, tom, "tom", "right_tom_hit")
+        assert "#2CB242" in layer.find("Effect").get("palette", "")
+
+
 def test_high_energy_cymbal_retains_historical_both_crash_semantics() -> None:
     event = DrumEvent(0.1, 0.95, 0.8, {}, 1, "cymbal")
     mapped = map_events_to_drummer_v3_poses([event])[0]
