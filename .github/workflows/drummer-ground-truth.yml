@@ -16,6 +16,7 @@ on:
       - 'audio/**'
       - 'core/drummer_v3_analysis.py'
       - 'animation/drummer_motion.py'
+      - 'animation/cymbal_lighting.py'
       - 'mapping/drum_mapper.py'
       - 'models/helixville4_performer_runtime.py'
       - 'fixtures/band_geometry/**'
@@ -143,6 +144,7 @@ jobs:
             tests/test_drum_mapping.py \
             tests/test_drummer_target_strikes.py \
             tests/test_drummer_visual_polish.py \
+            tests/test_cymbal_lighting.py \
             tests/test_drummer_v3_real_audio.py \
             tests/test_drummer_recovery.py \
             tests/test_drummer_only_export.py \
@@ -306,6 +308,62 @@ jobs:
           python tools/drummer_diagnostic_clicks.py test_runs/drummer_recovery/recovery_events.json --output test_runs/drummer_recovery/recovery_clicks_with_song.wav
           python tools/drummer_diagnostic_clicks.py test_runs/drummer_recovery/historical_events.json --output test_runs/drummer_recovery/historical_clicks_with_song.wav
           python tools/drummer_diagnostic_clicks.py test_runs/drummer_recovery/rejected_events.json --output test_runs/drummer_recovery/rejected_clicks_with_song.wav
+      - name: Run uploaded Dry Drum Test through current transcription workflow
+        env: {PYTHONPATH: .}
+        run: |
+          mkdir -p test_runs/drummer_dry_test
+          python tools/integrate_drummer_v3_into_xsq.py \
+            template.xsq evidence/drummer/dry_drum_test.wav \
+            --drum-events evidence/drummer/dry_drum_test_adtof.json \
+            --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.xsq \
+            --report test_runs/drummer_dry_test/report.json
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          import soundfile as sf
+          audio = Path('evidence/drummer/dry_drum_test.wav')
+          info = sf.info(audio)
+          report = json.loads(Path('test_runs/drummer_dry_test/report.json').read_text())
+          analysis = report['analysis']
+          assert analysis['audio_sha256'] == hashlib.sha256(audio.read_bytes()).hexdigest()
+          assert analysis['review_status'] == 'model_inferred_pending_human_listening'
+          assert analysis['transcription_provenance']['tom_reference_hz'] is None
+          assert all(row['rejection_reason'] == 'unresolved_tom_identity'
+                     and row['physical_target'] is None
+                     for row in analysis['onset_audit'] if row['drum_family'] == 'tom')
+          manifest = dict(source=str(audio), sha256=analysis['audio_sha256'],
+                          duration=info.duration, sample_rate=info.samplerate,
+                          channels=info.channels, frames=info.frames, subtype=info.subtype,
+                          note='Cached model inference, not human-reviewed expected events.')
+          Path('test_runs/drummer_dry_test/source_manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
+          PY
+          python tools/export_drummer_only_xsq.py \
+            test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.xsq \
+            --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
+            --audio evidence/drummer/dry_drum_test.wav
+          python tools/audit_drummer_v3_events.py test_runs/drummer_dry_test/report.json --output test_runs/drummer_dry_test
+          python tools/render_drummer_v3_preview.py \
+            test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
+            --audio evidence/drummer/dry_drum_test.wav \
+            --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.mp4 --fps 60
+          python tools/inspect_drummer_preview.py \
+            test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.mp4 \
+            --xsq test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
+            --audio evidence/drummer/dry_drum_test.wav \
+            --start 0 --duration 38.32 \
+            --times 0.95,1.7333,2.05,3.3,10.3333,20.25,31.1167,35.0333 \
+            --output test_runs/drummer_dry_test/decoded
+      - name: Upload uploaded-audio drummer test
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drummer-dry-audio-test
+          path: |
+            test_runs/drummer_dry_test/*
+            evidence/drummer/dry_drum_test.wav
+            evidence/drummer/dry_drum_test_adtof.json
+            evidence/drummer/dry_drum_test_signal_inspection.json
+          if-no-files-found: error
       - name: Upload historical recovery evidence
         if: always()
         uses: actions/upload-artifact@v4

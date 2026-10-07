@@ -10,6 +10,7 @@ import imageio_ffmpeg
 import numpy as np
 import soundfile as sf
 from PIL import Image, ImageChops, ImageDraw, ImageFont
+from animation.cymbal_lighting import cymbal_level, is_cymbal, DEFAULT_FRAME_MS
 
 from tools.drummer_v3_visual_masks import (
     exact_geometry,
@@ -93,6 +94,7 @@ def load_component_masks(
     source = Image.open(source_path).convert("RGBA")
     spec = load_spec()
     masks = exact_geometry(source, spec, preview_front_overlap=True)["masks"]
+    masks["__preview_body__"] = _preview_body_keepalive_mask(source, masks)
     return source, masks
 
 
@@ -138,14 +140,16 @@ def compose_lighting(
     active_targets: tuple[str, ...] | list[str] | set[str],
     *,
     snare_hand: str = "left",
+    cymbal_levels: dict[str, float] | None = None,
 ) -> Image.Image:
     return compose_emissive(
         source,
         masks,
         active_targets,
-        idle_overlay_mask=_preview_body_keepalive_mask(source, masks),
+        idle_overlay_mask=masks["__preview_body__"] if "__preview_body__" in masks else _preview_body_keepalive_mask(source, masks),
         idle_overlay_brightness=0.42,
         snare_hand=snare_hand,
+        cymbal_levels=cymbal_levels,
     )
 
 
@@ -188,6 +192,24 @@ def parse_snare_hands(xsq: Path) -> list[tuple[int, int, str]]:
             for i, (start, end, hand) in enumerate(hits)]
 
 
+def parse_cymbal_hits(xsq: Path) -> tuple[dict[str, list[tuple[int, float]]], int]:
+    root = ET.parse(xsq).getroot()
+    timing = root.findtext("./head/sequenceTiming", f"{DEFAULT_FRAME_MS} ms")
+    frame_ms = int(float(timing.split()[0]))
+    if frame_ms <= 0:
+        raise ValueError("Sequence frame duration must be positive")
+    hits = {target: [] for target in TARGETS if is_cymbal(target)}
+    for element in root.findall("./ElementEffects/Element"):
+        target = element.get("name", "")
+        if target not in hits:
+            continue
+        for effect in element.findall("./EffectLayer/Effect"):
+            settings = dict(token.split("=", 1) for token in effect.get("settings", "").split(",") if "=" in token)
+            hits[target].append((int(float(effect.get("startTime", "0"))),
+                                 float(settings.get("HELIX_DrummerIntensity", "1"))))
+    return {target: sorted(set(rows)) for target, rows in hits.items()}, frame_ms
+
+
 def snare_hand_for_frame(hits: list[tuple[int, int, str]], time_ms: float, fps: int) -> str:
     half_frame = 500.0 / fps
     active = [(start, hand) for start, end, hand in hits
@@ -225,19 +247,25 @@ def draw_frame(
     font: ImageFont.ImageFont,
     art_cache: dict[tuple[str, ...], Image.Image] | None = None,
     snare_hand: str = "left",
+    cymbal_levels: dict[str, float] | None = None,
 ) -> Image.Image:
     max_w, max_h = width - 250, height - 108
     key = tuple(target for target in TARGETS if target in active)
     if TARGETS[1] in active:
         key += (snare_hand,)
+    levels = None if cymbal_levels is None else {t: round(v * 100) / 100 for t, v in cymbal_levels.items()}
+    if levels is not None:
+        key += tuple(f"{target}:ring:{level:.2f}" for target, level in sorted(levels.items()))
     art = art_cache.get(key) if art_cache is not None else None
     if art is None:
-        lit = compose_lighting(source, masks, active, snare_hand=snare_hand)
+        lit = compose_lighting(source, masks, active, snare_hand=snare_hand, cymbal_levels=levels)
         art = lit.crop(_content_crop(source))
         scale = min(max_w / art.width, max_h / art.height)
         size = (max(1, round(art.width * scale)), max(1, round(art.height * scale)))
         art = art.resize(size, Image.Resampling.LANCZOS)
         if art_cache is not None:
+            if len(art_cache) >= 128:
+                art_cache.pop(next(iter(art_cache)))
             art_cache[key] = art
 
     canvas = Image.new("RGBA", (width, height), (4, 7, 12, 255))
@@ -284,6 +312,7 @@ def main() -> int:
     source, masks = load_component_masks()
     effects = parse_effects(args.xsq)
     snare_hits = parse_snare_hands(args.xsq)
+    cymbal_hits, sequence_frame_ms = parse_cymbal_hits(args.xsq)
     if not effects:
         raise SystemExit("FAIL: no canonical HX_SNOWMAN_DRUMMER_V3 effects found")
     found = {event[2] for event in effects}
@@ -312,7 +341,9 @@ def main() -> int:
             t_ms = int(round(frame_time_ms))
             writer.append_data(np.asarray(draw_frame(
                 source, masks, active, 960, 540, t_ms, start_ms + duration_ms, font, art_cache,
-                snare_hand_for_frame(snare_hits, frame_time_ms, args.fps)
+                snare_hand_for_frame(snare_hits, frame_time_ms, args.fps),
+                {target: cymbal_level(hits, frame_time_ms, frame_ms=sequence_frame_ms,
+                                       nearest_ms=500 / args.fps) for target, hits in cymbal_hits.items()}
             )))
     finally:
         writer.close()

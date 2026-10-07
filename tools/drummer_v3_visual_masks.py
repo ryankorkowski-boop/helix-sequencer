@@ -444,6 +444,7 @@ def compose_emissive(
     idle_overlay_mask: Image.Image | None = None,
     idle_overlay_brightness: float = 0.42,
     snare_hand: str = "left",
+    cymbal_levels: dict[str, float] | None = None,
 ) -> Image.Image:
     """Dim the canonical artwork, then brighten only its exact hit pixels.
 
@@ -460,11 +461,13 @@ def compose_emissive(
         idle = Image.composite(keepalive, idle, idle_overlay_mask)
 
     active_set = set(active_targets)
-    if not active_set:
+    ringing = {target for target, level in (cymbal_levels or {}).items() if level > 0}
+    render_set = active_set | ringing
+    if not render_set:
         return idle
 
     union = Image.new("L", source_rgba.size, 0)
-    for target in active_set:
+    for target in render_set:
         if target not in masks:
             raise ValueError(f"Unknown drummer target: {target}")
         key = target_variant_key(target, snare_hand) if target.endswith("_SNARE") and snare_hand != "left" else target
@@ -475,17 +478,29 @@ def compose_emissive(
     # Compose each posed source independently, then take a pixelwise maximum.
     # Shared arms retain one brightness even when several targets coincide.
     frame_array = np.asarray(idle).copy()
-    for target in sorted(active_set):
+    for target in sorted(render_set):
         key = target_variant_key(target, snare_hand) if target.endswith("_SNARE") and snare_hand != "left" else target
         art = masks.get(target_art_key(key), source_rgba).convert("RGB")
         active_rgb = ImageEnhance.Brightness(art).enhance(active_brightness)
         active_rgb = ImageEnhance.Color(active_rgb).enhance(1.18)
-        lit = Image.composite(active_rgb.convert("RGBA"), idle, masks[key])
         surface = masks.get(target_surface_key(target), masks[target])
+        gain = 1.0
+        if cymbal_levels is not None and target.endswith(("_CYMBAL_LEFT", "_CYMBAL_RIGHT")):
+            gain = max(0.0, min(1.0, cymbal_levels.get(target, 0.0)))
+            # The surface rings; the strike pose only follows the original hit.
+            arm_mask = ImageChops.subtract(masks[key], surface)
+            lit = Image.composite(active_rgb.convert("RGBA"), idle, arm_mask) if target in active_set else idle.copy()
+            surface_rgb = ImageEnhance.Brightness(source_rgba.convert("RGB")).enhance(active_brightness)
+            surface_rgb = ImageEnhance.Color(surface_rgb).enhance(1.18)
+            fading_mask = surface.point(lambda value: round(value * gain))
+            surface_lit = Image.composite(surface_rgb.convert("RGBA"), idle, fading_mask)
+            lit = Image.fromarray(np.maximum(np.asarray(lit), np.asarray(surface_lit)))
+        else:
+            lit = Image.composite(active_rgb.convert("RGBA"), idle, masks[key])
         color = TARGET_OUTLINE_RGB.get(target)
         if color is not None and surface.getbbox() is not None:
             blurred = surface.filter(ImageFilter.GaussianBlur(max(0.1, float(halo_radius))))
-            outside = ImageChops.subtract(blurred, surface).point(lambda value: int(value * 0.32))
+            outside = ImageChops.subtract(blurred, surface).point(lambda value: int(value * 0.32 * gain))
             glow = Image.new("RGBA", source_rgba.size, (*color, 255))
             lit = Image.composite(glow, lit, outside)
         frame_array = np.maximum(frame_array, np.asarray(lit))

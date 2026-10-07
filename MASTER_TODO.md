@@ -2,13 +2,32 @@
 
 > Canonical project roadmap and cross-agent handoff layer.
 
+## 2026-10-07 — uploaded Dry Drum Test requested for false hi-hat audit
+
+User confirms excess/false hi-hat hits and supplies a 38.32 s stereo 48 kHz PCM16 WAV. User is unsure whether/where real hi-hats are present; do not invent negative hat labels or use inferred output as expected truth.
+Goal: run the actual current Demucs/LarsNet/ADTOF drummer workflow on the uploaded recording, export source-bound report/XSQ/MP4 and independent signal evidence. Continue requested cymbal shimmer.
+Changed modules/data: original uploaded WAV, cached model inference and unlabelled signal measurements in `evidence/drummer/`; `.github/workflows/drummer-ground-truth.yml` uploaded-audio stage; `docs/DRUMMER_DRY_TEST_AND_CYMBALS.md`, recovery checklist and local audit artifacts. Source SHA256: `4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913`.
+Preserved: no global detector thresholds changed, all 1,022 Helix events identical, existing geometry/lighting/alternating snare hands, unknown tom abstention. The new recording has no measured three-tom kit calibration; its 34 generic tom guesses cannot be assigned to physical toms without evidence.
+Evidence: original dry audio 147 hat candidates; separated drum input 138. Stem-backed raw counts kick 67/snare 53/tom 34/hat 138/cymbal 17. Independent isolated-band inspection shows significant body leakage in the nominal hi-hat stem (e.g. strong 2.04 s/3.29 s peaks have 94%/96% power below 1 kHz). These are evidence about separation/native dynamics, not human-approved false-hit labels. Weak high-frequency hits can still be real hats. Complete 275-placement XSQ/MP4 and CSV exported; eight decoded source frames inspected and soundtrack correlation .9959113596 verified. 120 relevant tests passed.
+Checklist: [x] verify exact uploaded source; [x] original-mix and separated transcription; [x] isolated attack-energy and source-band plots; [x] source-bound XSQ/MP4; [x] inspect local proof; [ ] run CI using uploaded audio; [ ] inspect uploaded proof; [ ] resolve false-hi-hat behavior using additional evidence/human review.
+Limitations: model and separator output remain untrusted for class correctness. User's false-hit judgment remains authoritative; this run reproduces it for inspection and must not be declared a musical fix because tests pass. All unknown toms abstain; no previous-song pitch calibration is reused.
+
+## 2026-10-07 — requested cymbal shimmer and decay
+
+Goal: add a bright cymbal attack, subtle metallic shimmer and roughly1.8s visual decay to both MP4 and native XSQ.
+Changed modules: `animation/cymbal_lighting.py`, preview compositor/renderer, native cymbal-surface effect export, `tests/test_cymbal_lighting.py`, workflow, documentation/checklist. No detector or mapper changes.
+Preserved: all 1,022 detected/scheduled hits, timestamps, families, velocities, physical assignments, short arm/stick strikes, alternating snare hands, clear idle background, full snare shell through kick, eight targets/three toms, independent surfaces and 32% hi-hat pedal.
+New behavior: only left/right cymbal surfaces ring out; a new hit restarts its own cymbal. Native On fade and two warm-gold shimmer colours use stock xLights parameters verified against source. Arms retain the existing320ms cue, and hi-hat behavior is unchanged.
+Evidence/checklist: [x] inspect current flash/source effect settings; [x] implement and test (four new lighting regressions; 120 relevant tests passed); [x] exact identical event audit/analysis; [x] real-song 25 s MP4/XSQ plus eight decoded attack/decay frames, soundtrack correlation .9962146413; [ ] push and CI/full-song proof; [ ] user approval.
+Limitations/risks: decay is an authored lighting effect, not a newly measured audio sustain; native playback remains unverified, though effect fields are source-confirmed. Rapid repeated hits restart the same surface rather than adding musical events. Preview matches sequence-frame shimmer phase; native frame quantization may differ by one frame.
+
 ## 2026-10-07 — user finds #219 music pretty decent; requested visual polish
 
 Goal: preserve the reviewed ADTOF performance and fix disappearing strike sections, persistent raised sticks, alternating snare hands, and the complete snare outline visible through the kick.
 Preserved: audio transcription, all timing/family/velocity decisions, eight logical targets, three evidence-based toms, independent surfaces, dim body, kick without a stick and hi-hat surface with 32% pedal.
 Changed modules: pose spec, source-art compositor, native/layer builders and generated assets including clean idle background, mapper hand metadata, XSQ visual placement, preview/pose review, visual regression tests and CI. Details: `docs/DRUMMER_VISUAL_POLISH.md`.
 New behavior: remove raised actuators from idle artwork; full strike overlays in front of instrument surfaces; alternating left/right snare actuation on the same SNARE component; restore hidden magenta snare shell outline (explicit visual geometry, not inferred percussion); kick contains only red rim/blue snowflake.
-Evidence/checklist: [x] inspect and implement; [x] exact event audit/analysis comparison; [x] complete native projection and both decoded snare hands; [x] isolated XSQ and original-song 25s MP4 (audio correlation .9962146413); [x]116 relevant tests plus61 final visual checks; [x] full237.44s MP4 and decoded snare/kick overlap (source correlation .9919693452); [ ] push/remote CI; [ ] user preview approval. Evidence: `test_runs/drummer_visual_polish/`.
+Evidence/checklist: [x] inspect and implement; [x] exact event audit/analysis comparison; [x] complete native projection and both decoded snare hands; [x] isolated XSQ and original-song 25s MP4 (audio correlation .9962146413); [x]116 relevant tests plus61 final visual checks; [x] full237.44s MP4 and decoded snare/kick overlap (source correlation .9919693452); [x] pushed cd16a03 and CI#220 success (116 tests); uploaded report/native assets identical, decoded uploaded frames inspected; [ ] user preview approval. Evidence: `test_runs/drummer_visual_polish/`.
 User's possible excessive hi-hat activity is recorded for inspection, not permission to suppress uncertain notes without evidence. No detector retuning in this visual pass.
 Limitations/risks: artwork-derived snare shell completion is an authored visual approximation; shared native grid cells can carry arm overlays; native xLights import remains unverified; human review remains final gate. Prior claims that idle raised sticks are intentionally preserved or native surface clipping is desirable are superseded by this explicit request.
 

@@ -6,6 +6,7 @@ import math
 import shutil
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from animation.cymbal_lighting import DECAY_MS, SHIMMER_SOFT_GAIN, decay_intervals
 
 from audio.drummer_v3 import analyze_drummer_audio as _analyze_real_audio
 from audio.drummer_v3 import ANALYSIS_ENGINE
@@ -163,6 +164,33 @@ def event_audit(typed_events, pose_events) -> list[dict[str, object]]:
                      "physical_component": mapped["component"] if mapped else None,
                      "scheduled": mapped is not None})
     return rows
+
+
+def _add_cymbal_shimmer(layer: ET.Element, rows: list[dict], engine: str) -> int:
+    """Stock On uses start/end levels and alternates two enabled gold colours."""
+    if not rows:
+        return 0
+    info = rows[0]
+    color = str(info["palette_hex"])
+    rgb = [int(color[i:i+2], 16) for i in (1, 3, 5)]
+    soft = "#" + "".join(f"{round(value * SHIMMER_SOFT_GAIN):02X}" for value in rgb)
+    intervals = decay_intervals((int(row["start_ms"]), float(row["intensity"])) for row in rows)
+    for start, end, peak, finish in intervals:
+        ET.SubElement(layer, "Effect", {
+            "name": "On", "startTime": str(start), "endTime": str(end),
+            "settings": (f"E_TEXTCTRL_Eff_On_Start={round(peak * 100)},"
+                         f"E_TEXTCTRL_Eff_On_End={round(finish * 100)},"
+                         "E_TEXTCTRL_On_Cycles=1,E_CHECKBOX_On_Shimmer=1,"
+                         "E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness=100,"
+                         f"HELIX_CymbalDecayMs={DECAY_MS}"),
+            "palette": (f"C_BUTTON_Palette1={color},C_CHECKBOX_Palette1=1,"
+                        f"C_BUTTON_Palette2={soft},C_CHECKBOX_Palette2=1,C_CHECKBOX_Palette3=0"),
+            "source": "HelixDrummerV3", "sourceModel": DRUMMER_V3_MODEL,
+            "sourceComponent": str(info["source_component"]),
+            "sourceDrumType": "cymbal", "sourcePose": "cymbal_shimmer_decay",
+            "sourceRole": "visual_cymbal_decay", "sourceDetector": engine,
+        })
+    return len(intervals)
 
 
 def _visual_submodel_names() -> set[str]:
@@ -339,6 +367,9 @@ def inject_drummer_v3(
 
     visual_placements = 0
     for visual_name, rows in visual_rows.items():
+        if visual_name.endswith(("_CYMBAL_LEFT_SURFACE", "_CYMBAL_RIGHT_SURFACE")):
+            visual_placements += _add_cymbal_shimmer(visual_layers[visual_name], rows, engine)
+            continue
         for row in _merge_visual_events(rows):
             _add_on(
                 visual_layers[visual_name],
@@ -397,6 +428,8 @@ def inject_drummer_v3(
         "analysis": diagnostics,
         "event_audit": event_audit(typed_events, pose_events),
         "xlights_brightness_scale": "68..100 percent, sqrt velocity curve",
+        "cymbal_lighting": {"decay_ms": DECAY_MS, "soft_shimmer_gain": SHIMMER_SOFT_GAIN,
+                            "surface_only": True, "native_effect": "On fade with two lit gold shimmer colours"},
     }
 
 

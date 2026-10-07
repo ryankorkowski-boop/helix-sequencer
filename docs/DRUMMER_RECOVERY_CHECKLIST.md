@@ -1,3 +1,16 @@
+# Uploaded Dry Drum Test and cymbal shimmer
+
+- [x] Verify exact uploaded WAV and retain its source hash.
+- [x] Run actual original-mix and separated-input pretrained transcription.
+- [x] Inspect isolated stems and original-source bands; record hat-stem body leakage without inventing labels.
+- [x] Export complete 38.32 s drummer-only XSQ/MP4 and event report/CSV; verify decoded frames and original soundtrack.
+- [x] Add cymbal surface shimmer/decay with short original strike poses; all 1,022 Helix musical events unchanged.
+- [x] Four focused lighting regressions and the complete relevant local suite.
+- [ ] Push and verify remote workflow/artifacts, including uploaded audio.
+- [ ] User review of dry-test MP4; false-hi-hat behavior is unresolved and must not be called fixed.
+
+See `DRUMMER_DRY_TEST_AND_CYMBALS.md` and `MASTER_TODO.md`.
+
 # Current visual polish after positive #219 feedback
 
 The user finds the transcription candidate pretty decent. Preserve its events; possible hi-hat excess remains uncertain. Current work supersedes the old raised-idle/actuator-exclusion visual behavior.
@@ -7,7 +20,7 @@ The user finds the transcription candidate pretty decent. Preserve its events; p
 - [x] Complete native/preview strike overlays; alternating snare hand metadata.
 - [x] Full snare shell lights behind the transparent kick.
 - [x]116 tests plus61 final focused checks; decoded real-song frames, full and25s MP4 with source audio verified.
-- [ ] Push and remote CI/artifact verification.
+- [x] Push cd16a03; CI #220 success and uploaded report/assets/frame evidence verified.
 - [ ] User approval of the updated preview; native xLights playback remains unverified.
 
 See `docs/DRUMMER_VISUAL_POLISH.md` and `MASTER_TODO.md`.
@@ -22,7 +35,7 @@ See `docs/DRUMMER_VISUAL_POLISH.md` and `MASTER_TODO.md`.
 - [x] Inspect disputed song windows with source/stem/activation evidence.
 - [x] Implement the strongest measured method with reproducible provenance.
 - [x] Generate event report, isolated XSQ and actual-song comparison MP4s.
-- [ ] Run relevant checks, commit, push and verify uploaded artifacts.
+- [x] Run relevant checks, commit 474dec70, push and verify uploaded #219 artifacts.
 - [ ] Obtain explicit human musical approval; remains open.
 
 ## Prior recovery candidate — rejected musically
