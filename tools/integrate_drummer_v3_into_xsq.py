@@ -117,6 +117,7 @@ def _add_on(
     source_type: str,
     source_pose: str,
     role: str,
+    source_detector: str = ANALYSIS_ENGINE,
 ) -> None:
     brightness = _brightness_percent(intensity)
     if role == "visual_pedal":
@@ -142,7 +143,7 @@ def _add_on(
             "sourceDrumType": source_type,
             "sourcePose": source_pose,
             "sourceRole": role,
-            "sourceDetector": ANALYSIS_ENGINE,
+            "sourceDetector": source_detector,
         },
     )
 
@@ -196,6 +197,7 @@ def inject_drummer_v3(
     audio_path: str | Path,
     *,
     layer_name: str = "AUTO_Drummer_V3",
+    transcription_path: str | Path | None = None,
 ) -> dict[str, object]:
     base_xsq = Path(base_xsq)
     output_xsq = Path(output_xsq)
@@ -203,7 +205,12 @@ def inject_drummer_v3(
     if not base_xsq.exists() or not audio_path.exists():
         raise FileNotFoundError("Missing XSQ or audio input")
 
-    typed_events, diagnostics = _analyze_real_audio(audio_path)
+    if transcription_path is None:
+        typed_events, diagnostics = _analyze_real_audio(audio_path)
+    else:
+        from audio.drum_transcription import load_drum_transcription
+        typed_events, diagnostics = load_drum_transcription(transcription_path, audio_path)
+    engine = diagnostics.get("analysis_engine", ANALYSIS_ENGINE)
     streams = {
         "kick_events": [event for event in typed_events if event.drum_type == "kick"],
         "snare_events": [event for event in typed_events if event.drum_type == "snare"],
@@ -305,6 +312,7 @@ def inject_drummer_v3(
             source_type=drum_type,
             source_pose=pose,
             role="logical_component",
+            source_detector=engine,
         )
         component_counts[component] += 1
 
@@ -334,6 +342,7 @@ def inject_drummer_v3(
                 source_type=str(row["source_type"]),
                 source_pose=str(row["source_pose"]),
                 role="visual_pedal" if visual_name.endswith("_HI_HAT_FOOT") else "visual_geometry",
+                source_detector=engine,
             )
             visual_placements += 1
 
@@ -361,7 +370,7 @@ def inject_drummer_v3(
         "audio": str(audio_path),
         "layer": layer_name,
         "logical_layer": logical_layer_name,
-        "detector": ANALYSIS_ENGINE,
+        "detector": engine,
         "fallback_mode": resolved["fallback_mode"],
         "intro_gate_start_ms": resolved.get("intro_gate_start_ms"),
         "intro_gate_suppressed_count": int(resolved.get("intro_gate_suppressed_count", 0) or 0),
@@ -391,6 +400,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--layer", default="AUTO_Drummer_V3")
     parser.add_argument("--report", type=Path)
+    parser.add_argument("--drum-events", type=Path, help="Source-hash-verified polyphonic drum transcription JSON")
     args = parser.parse_args()
 
     report = inject_drummer_v3(
@@ -398,6 +408,7 @@ def main() -> int:
         args.output,
         args.audio,
         layer_name=args.layer,
+        transcription_path=args.drum_events,
     )
     payload = json.dumps(report, indent=2, sort_keys=True)
     print(json.dumps({k:v for k,v in report.items() if k not in {"analysis", "event_audit"}}, indent=2))

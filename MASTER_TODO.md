@@ -2,6 +2,20 @@
 
 > Canonical project roadmap and cross-agent handoff layer.
 
+## 2026-10-07 — recovery preview #218 rejected; reassess transcription methods
+
+User says the 73bb80b / #218 preview is still far from passable. Historical agreement is insufficient and the recovery candidate is rejected musically. Approved physical artwork remains authoritative.
+Goal: assess other automatic sequencers and drum transcription systems; test independent methods on the identical song and deliver a more convincing actual-audio performance.
+Current work: new source-hash-verified polyphonic transcription import and external-model exporter; comparing pretrained ADTOF and ADT_STR on the identical original mix and Demucs drums. LarsNet instrument stems provide independent signal and dynamics evidence. Original ADT_STR mix probe hallucinated weak auxiliary/tom events; stem input improved the probe, but the first51.2s still had unreliable identities and long decoding stalls, so that full run was stopped. Existing heuristic remains a rejected comparator, not an accepted default.
+Preserved: all eight targets, three evidence-based tom identities, body keepalive, independent lighting, complete strike poses, 32% pedal and no kick/hat sticks.
+Changed: `audio/drum_transcription.py`; external stem-preparation/ADTOF exporters; source-verified XSQ input and truthful detector metadata; comparison/audit/click tools; cached model evidence; import/physical contract tests and CI candidate selection; reassessment docs/checklist. Original heuristic is retained only as rejected comparator for this pass.
+New behavior: independent 100fps family activations from separated drums, simultaneous typed placements, measured isolated per-family dynamics, source-calibrated stable tom resonance with abstention; no fake groove/grid notes.
+Evidence: ADTOF on complete mix and drum stem, individual-stem ablation, ADT_STR mix/stem probes and first51.2s (not adopted); waveform/activation/family-stem views. Candidate1022 hits (kick349/snare227/hat416/cymbal18/tom12); 35 unresolved toms abstain. All9 earlier provisional anchors match;110 tests passed plus21 focused checks; original song soundtrack correlation .99621464; 25s and full237.44s video and isolated XSQ generated. Counts/model agreement are not musical acceptance.
+Limitations: external evaluation model licenses and dependencies are recorded, not bundled. CI renders a source-bound inferred performance rather than independently rerunning ML. Legacy callers without `--drum-events` retain the rejected heuristic; general backend promotion awaits acceptance. Human listening/labels, native xLights import and tom calibration remain pending. Risks: separator-induced loss of quiet hats/cymbals, false low-velocity notes, heuristic calibrated tom resonance, estimated dynamics.
+Detailed reproduction and tradeoffs: `docs/DRUMMER_TRANSCRIPTION_REASSESSMENT.md`; artifacts: `test_runs/drummer_transcription/`.
+Evidence and limitations: #218 passed 100 tests but user rejected its musical performance. No auditory perception tool is available; model agreement and signal inspection will not be called human listening or acceptance.
+Deferred/final gate: explicit user approval of the next real-audio preview. Running checklist: `docs/DRUMMER_RECOVERY_CHECKLIST.md`.
+
 ## 2026-10-07 — recover accepted drummer behavior; musical acceptance remains open
 
 The user rejected #217. This supersedes all prior #216/#217 musical-acceptance claims. Approved physical artwork remains authoritative.
@@ -135,7 +149,7 @@ This supersedes the nine-component/four-tom V3 claims retained below as history.
 - [x] Replace spotty 96×72-upscaled preview masks with full-resolution masks from the same authored geometry.
 - [x] Restore the approved `b27e8d77...` detector decision order and thresholds; real-song raw counts now match the oracle exactly.
 - [x] Fix production mapping to the actual `HX_SNOWMAN_DRUMMER_V3_*` target names and xLights brightness to 60–100%.
-- [x] Preserve all three toms when spectral subclassing collapses by falling back to HIGH→MID→FLOOR distribution across real detected tom hits.
+- [~] Historical HIGH→MID→FLOOR fallback is superseded: the current contract rejects unknown tom identities; no cycling is permitted.
 - [x] Render a 160-second proof using `Helix Audiolights.mp3`; all eight V3 targets occur inside the rendered window.
 - [ ] User visual approval of the corrected real-song candidate.
 - [ ] Native xLights import/playback confirmation.

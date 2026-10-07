@@ -19,7 +19,7 @@ def compare(output):
         return dict(timestamp=e['timestamp'],drum_family=e[kind],tom_class=info.get('tom_class'),
                     confidence=e['confidence'],velocity=e['velocity'],
                     source_onset_index=info.get('onset_index',e.get('source_onset_index')),
-                    source_onset_frame=info.get('event_frame',round(e['timestamp']*48000/512)),
+                    source_onset_frame=info.get('event_frame',info.get('activation_frame')),
                     rejection_reason=reason,physical_target=e.get('physical_component'),
                     scheduled=e.get('scheduled',True))
     streams={'historical':[canonical(e,'drum_type') for e in historical['events']],

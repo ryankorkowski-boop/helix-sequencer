@@ -12,6 +12,7 @@ on:
       - fix/drummer-target-strikes
     paths:
       - '.github/workflows/drummer-ground-truth.yml'
+      - 'evidence/drummer/**'
       - 'audio/**'
       - 'core/drummer_v3_analysis.py'
       - 'animation/drummer_motion.py'
@@ -144,6 +145,7 @@ jobs:
             tests/test_drummer_v3_real_audio.py \
             tests/test_drummer_recovery.py \
             tests/test_drummer_only_export.py \
+            tests/test_drum_transcription.py \
             tests/test_drummer_v3_detector_sync.py \
             tests/test_drummer_v3_analysis.py \
             tests/test_drummer_v3_guitar_rejection.py \
@@ -162,13 +164,14 @@ jobs:
             --output test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4 \
             --fps 60 \
             --require-all-targets
-      - name: Build real-song drummer proof through production detector
+      - name: Build real-song candidate from source-verified polyphonic transcription
         env: {PYTHONPATH: .}
         run: |
           test -s 'Helix Audiolights.mp3'
           mkdir -p test_runs/drummer_real_audio
           python tools/integrate_drummer_v3_into_xsq.py \
             template.xsq 'Helix Audiolights.mp3' \
+            --drum-events evidence/drummer/helix_adtof_stem.json \
             --output test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq \
             --report test_runs/drummer_real_audio/drummer_real_audio_report.json
       - name: Export drummer-only real-song XSQ with correct media and duration
@@ -186,17 +189,16 @@ jobs:
           from pathlib import Path
           report=json.loads(Path('test_runs/drummer_real_audio/drummer_real_audio_report.json').read_text())
           print(json.dumps({k:v for k,v in report.items() if k not in {'analysis','event_audit'}},indent=2))
-          assert report['detector'] == 'v3_historical_hpss_onset_classifier', report
+          assert report['detector'] == 'adtof_frame_rnn_polyphonic', report
           assert report['fallback_mode'] in {'typed_detection','typed_detection_bus_suppressed'}, report
           assert report['ambiguous_bus_rejected_count'] == 0, report
           assert report['target_count'] == 8, report
-          assert report['analysis']['used_hpss_percussive_evidence'] is True, report
           assert report['analysis']['typed_event_count'] >= 20, report
           assert report['analysis']['analysis_engine'] == report['detector'], report
           analysis=report['analysis']
-          assert analysis['analysis_sample_rate'] == analysis['source_sample_rate'], analysis
-          assert analysis['hpss_margin'] == 1.0, analysis
-          assert analysis['timing_refinement'] == 'none_detected_transient_grid', analysis
+          assert analysis['transcription_provenance']['activation_fps'] == 100, analysis
+          assert analysis['review_status'] == 'model_inferred_pending_human_listening', analysis
+          assert analysis['transcription_provenance']['weights_sha256'], analysis
           candidates=analysis['onset_audit']
           assert len(candidates)==analysis['onset_candidate_count'], analysis
           assert all(row['rejection_reason'] is not None or row['scheduler_decision'] in {'scheduled','merge_or_clutter_suppressed'} for row in candidates)

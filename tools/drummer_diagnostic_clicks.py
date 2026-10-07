@@ -15,6 +15,8 @@ if __name__=='__main__':
     rows=json.loads(a.events.read_text())['events']
     freqs={'kick':90,'snare':700,'hihat':6500,'cymbal':2400,'tom':320}
     for event in rows:
+        if event.get("rejection_reason") or event.get("scheduled") is False:
+            continue
         time=event['timestamp']-a.start
         family=event['drum_family']
         if not 0<=time<a.duration or family not in freqs:continue
