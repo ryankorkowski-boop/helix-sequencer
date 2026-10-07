@@ -12,8 +12,18 @@ import pytest
 from tools.drummer_ground_truth_oracle import TARGETS as LOGICAL_TARGETS, fixture_events
 from tools.export_drummer_ground_truth_xsq import export_drummer_ground_truth_xsq
 from tools.generate_drummer_ground_truth import generate
-from tools.render_drummer_v3_preview import TARGETS, compose_lighting, load_component_masks
-from tools.drummer_v3_visual_masks import target_surface_key, build_geometry_masks, load_spec
+from tools.render_drummer_v3_preview import (
+    TARGETS,
+    _preview_body_keepalive_mask,
+    compose_lighting,
+    load_component_masks,
+)
+from tools.drummer_v3_visual_masks import (
+    target_surface_key,
+    build_geometry_masks,
+    exact_geometry,
+    load_spec,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 XMODEL = ROOT / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
@@ -98,6 +108,32 @@ def test_background_remains_dim_and_active_component_restores_exact_source_pixel
     far[max(0, ys.min() - pad):min(mask.shape[0], ys.max() + pad + 1),
         max(0, xs.min() - pad):min(mask.shape[1], xs.max() + pad + 1)] = False
     assert np.abs(active_arr[far] - idle_arr[far]).max() <= 2.0
+
+
+def test_preview_body_stays_dimly_lit_during_idle_and_hits() -> None:
+    source, masks = load_component_masks()
+    body = np.asarray(_preview_body_keepalive_mask(source, masks)) > 0
+    assert body.any()
+
+    source_arr = np.asarray(source)[..., :3].astype(float)
+    idle = np.asarray(compose_lighting(source, masks, []))[..., :3].astype(float)
+    active = np.asarray(compose_lighting(source, masks, [TARGETS[0]]))[..., :3].astype(float)
+
+    ratio = idle[body].mean() / max(source_arr[body].mean(), 1e-9)
+    assert 0.38 <= ratio <= 0.48
+    assert np.all(active[body] >= idle[body] - 2.0)
+
+
+def test_preview_strike_poses_are_not_clipped_by_foreign_surfaces() -> None:
+    source, preview_masks = load_component_masks()
+    safe_masks = exact_geometry(source, load_spec())["masks"]
+    arm_targets = [TARGETS[1], *TARGETS[3:]]
+    gained = {
+        target: int((np.asarray(preview_masks[target]) > 0).sum())
+        - int((np.asarray(safe_masks[target]) > 0).sum())
+        for target in arm_targets
+    }
+    assert any(value > 0 for value in gained.values()), gained
 
 
 def test_kick_is_actual_red_ring_with_blue_snowflake_source_art() -> None:

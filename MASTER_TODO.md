@@ -2,6 +2,16 @@
 
 > Canonical project roadmap and cross-agent handoff layer.
 
+## 2026-10-06 run #216 user acceptance — preserve music logic, polish visuals
+
+- [x] User reviewed Action #216 and reports the current real-audio drummer logic is working great.
+- [x] Freeze the #216 detector/classification/timing logic for this visual-polish pass.
+- [x] Identify the arm/stick glitch: preview strike art was clipped against foreign instrument surface masks.
+- [x] Allow full-resolution preview strike poses to pass in front of neighboring kit artwork while leaving native xLights node isolation unchanged.
+- [x] Add a preview-only 42% body keepalive so the central snowman remains dimly readable at idle and during hits.
+- [x] Add regressions for body persistence and unclipped preview strike pixels.
+- [ ] Regenerate the real-audio proof, inspect CI/artifacts, and obtain user visual approval.
+
 ## 2026-10-06 music sync / drummer logic corrective pass — implementation
 
 - [x] Preserve the user-approved independent target-lighting artwork and strike geometry.

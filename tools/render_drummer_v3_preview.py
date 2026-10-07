@@ -9,12 +9,13 @@ import imageio.v2 as imageio
 import imageio_ffmpeg
 import numpy as np
 import soundfile as sf
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 from tools.drummer_v3_visual_masks import (
     exact_geometry,
     compose_emissive,
     load_spec,
+    target_surface_key,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -91,8 +92,42 @@ def load_component_masks(
     validate_xmodel_targets(xmodel_path)
     source = Image.open(source_path).convert("RGBA")
     spec = load_spec()
-    masks = exact_geometry(source, spec)["masks"]
+    masks = exact_geometry(source, spec, preview_front_overlap=True)["masks"]
     return source, masks
+
+
+def _preview_body_keepalive_mask(
+    source: Image.Image,
+    masks: dict[str, Image.Image],
+) -> Image.Image:
+    """Keep the central snowman readable without lighting the kit."""
+    width, height = source.size
+    zone = Image.new("L", source.size, 0)
+    draw = ImageDraw.Draw(zone)
+    points = [
+        (round(width * 0.34), round(height * 0.18)),
+        (round(width * 0.66), round(height * 0.18)),
+        (round(width * 0.70), round(height * 0.43)),
+        (round(width * 0.64), round(height * 0.58)),
+        (round(width * 0.38), round(height * 0.58)),
+        (round(width * 0.31), round(height * 0.44)),
+    ]
+    draw.polygon(points, fill=255)
+
+    hsv = np.asarray(source.convert("RGB").convert("HSV"), dtype=np.uint8)
+    visible = (
+        (hsv[..., 2] >= 42)
+        | ((hsv[..., 1] >= 50) & (hsv[..., 2] >= 28))
+    )
+    body = ImageChops.multiply(
+        zone,
+        Image.fromarray(np.where(visible, 255, 0).astype(np.uint8), mode="L"),
+    )
+    for target in TARGETS:
+        surface = masks.get(target_surface_key(target))
+        if surface is not None:
+            body = ImageChops.subtract(body, surface)
+    return body
 
 
 def compose_lighting(
@@ -100,7 +135,13 @@ def compose_lighting(
     masks: dict[str, Image.Image],
     active_targets: tuple[str, ...] | list[str] | set[str],
 ) -> Image.Image:
-    return compose_emissive(source, masks, active_targets)
+    return compose_emissive(
+        source,
+        masks,
+        active_targets,
+        idle_overlay_mask=_preview_body_keepalive_mask(source, masks),
+        idle_overlay_brightness=0.42,
+    )
 
 
 def _content_crop(source: Image.Image) -> tuple[int, int, int, int]:

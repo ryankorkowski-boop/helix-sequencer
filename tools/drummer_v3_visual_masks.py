@@ -56,9 +56,21 @@ def strike_transform(strike: dict, size: tuple[int, int]) -> tuple[float, ...]:
     return (*inverse[0], offset[0], *inverse[1], offset[1])
 
 
-def exact_actuator_art(source: Image.Image, zone: dict, excluded: Image.Image,
-                       source_surfaces: Image.Image | None = None) -> Image.Image:
-    """Source-colored arm and target-specific shaft, clipped away from other drums."""
+def exact_actuator_art(
+    source: Image.Image,
+    zone: dict,
+    excluded: Image.Image,
+    source_surfaces: Image.Image | None = None,
+    *,
+    allow_front_overlap: bool = False,
+) -> Image.Image:
+    """Source-colored arm/shaft art, optionally allowed to pass in front of drums.
+
+    Native xLights node geometry still isolates actuator nodes from instrument
+    surfaces downstream. The preview renderer can opt into front overlap so a
+    transformed strike is not visually chopped into disconnected pieces when
+    the arm or stick crosses another instrument.
+    """
     arm_mask = refine_actuator_to_source_art(source, build_zone_mask(source.size, zone))
     if zone.get("strike") and source_surfaces is not None:
         arm_mask = ImageChops.subtract(arm_mask, source_surfaces)
@@ -82,12 +94,23 @@ def exact_actuator_art(source: Image.Image, zone: dict, excluded: Image.Image,
         shaft = shaft.transform(source.size, Image.Transform.AFFINE,
                                 strike_transform(strike, source.size), Image.Resampling.BICUBIC)
         arm = Image.alpha_composite(arm, shaft)
-    arm.putalpha(ImageChops.subtract(arm.getchannel("A"), excluded))
+    if not allow_front_overlap:
+        arm.putalpha(ImageChops.subtract(arm.getchannel("A"), excluded))
     return arm
 
 
-def exact_geometry(source: Image.Image, spec: dict | None = None) -> dict:
-    """One source-art extraction path for preview, layers and xmodel projection."""
+def exact_geometry(
+    source: Image.Image,
+    spec: dict | None = None,
+    *,
+    preview_front_overlap: bool = False,
+) -> dict:
+    """One source-art extraction path for preview, layers and xmodel projection.
+
+    preview_front_overlap affects only full-resolution review art. Generated
+    xLights assets keep their existing isolated-node contract by using the
+    default False value.
+    """
     spec = spec or load_spec()
     geometry = build_geometry_masks(source.size, spec)
     surfaces = {item["surface"]: refine_surface_to_source_art(
@@ -102,7 +125,13 @@ def exact_geometry(source: Image.Image, spec: dict | None = None) -> dict:
             continue
         own_surface = zone.get("strike", {}).get("instrument_surface")
         excluded = _union([mask for name, mask in surfaces.items() if name != own_surface], source.size)
-        arts[zone["id"]] = exact_actuator_art(source, zone, excluded, exclusion)
+        arts[zone["id"]] = exact_actuator_art(
+            source,
+            zone,
+            excluded,
+            exclusion,
+            allow_front_overlap=preview_front_overlap,
+        )
     masks = {}
     for item in spec["lighting_targets"]:
         name = f"{MODEL_NAME}_{item['id']}"
@@ -327,6 +356,8 @@ def compose_emissive(
     idle_brightness: float = 0.30,
     active_brightness: float = 1.45,
     halo_radius: float = 3.2,
+    idle_overlay_mask: Image.Image | None = None,
+    idle_overlay_brightness: float = 0.42,
 ) -> Image.Image:
     """Dim the canonical artwork, then brighten only its exact hit pixels.
 
@@ -337,6 +368,11 @@ def compose_emissive(
     source_rgba = source.convert("RGBA")
     source_rgb = source_rgba.convert("RGB")
     idle = ImageEnhance.Brightness(source_rgb).enhance(idle_brightness).convert("RGBA")
+    if idle_overlay_mask is not None and idle_overlay_mask.getbbox() is not None:
+        keepalive = ImageEnhance.Brightness(source_rgb).enhance(
+            idle_overlay_brightness
+        ).convert("RGBA")
+        idle = Image.composite(keepalive, idle, idle_overlay_mask)
 
     active_set = set(active_targets)
     if not active_set:
