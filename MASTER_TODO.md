@@ -2,10 +2,23 @@
 
 > Canonical project roadmap and cross-agent handoff layer.
 
-## 2026-10-06 run #216 user acceptance — preserve music logic, polish visuals
+## 2026-10-07 — recover accepted drummer behavior; musical acceptance remains open
 
-- [x] User reviewed Action #216 and reports the current real-audio drummer logic is working great.
-- [x] Freeze the #216 detector/classification/timing logic for this visual-polish pass.
+The user rejected #217. This supersedes all prior #216/#217 musical-acceptance claims. Approved physical artwork remains authoritative.
+
+Goal: reconstruct historical/current timelines from the identical song, diagnose stages, port useful b27 behavior into the modern drummer, and provide human-reviewable artifacts.
+Changed: active audio detector and compatibility config entry; archived rejected #217; integration audit; isolated XSQ export; historical replay/ablation/comparison/plot/click/frame inspection tools; sparse provisional and archived-timeline fixtures/tests; drummer CI workflow; audio docs/checklist/handoff and this ledger.
+Preserved: original source artwork and generated asset bytes, exact eight targets, body keepalive, strike overlap, three toms, no kick/hat sticks, 32% pedal, non-emitting bus, no tom cycling, scheduler merge/clutter/attenuation, simultaneous typed-input mapping, and unrelated integration effects.
+New: historical native-rate HPSS/transient grid/features/principal-family behavior, traceable rejection and target decisions, measured tom resonance above background, literal cutoff rejection, supported entrance, full-song/media-correct drummer-only XSQ, archival behavior protection, independent provisional anchors, and full-song real-audio MP4/diagnostic evidence.
+Evidence: true historical run 35485877322 found; all 1335 raw events reproduced, 1315 scheduled, all 400 archived timeline rows verified. Rejected #217 reproduced at 405 events with 825 rejected candidates. Recovered candidate: 1182 physical hits (kick188/snare36/hat202/cymbal749/tom7), 1182 one-to-one historical family/time matches versus185 for rejected logic. 100 relevant local tests passed; deterministic 68-event eight-target fixture, byte-identical assets, signal plots, full/25s MP4s, exact decoded-hit frames and soundtrack correlation .99621464 are recorded in `test_runs/drummer_recovery/`.
+Limitations: signal-inspected sparse labels await human listening; native xLights playback unverified; mono cymbal side and relative tom pitch remain conventions/heuristics. Original archived 48MB video located but not decoded here due transfer limit. Risks: historical mixed-family classification and sustained-metal/hat distinction remain uncertain. Counts, source agreement and CI are not musical acceptance. No unrelated beta roadmap work performed.
+Deferred/final gate: user must approve real-song MP4 and sparse auditory labels. If rejected, continue from timestamp-specific audit evidence. Remote CI status and commit are discoverable on `fix/drummer-target-strikes`; the final handoff names the actual outcome.
+Running checklist: `docs/DRUMMER_RECOVERY_CHECKLIST.md`; detailed evidence/reproduction: `docs/DRUMMER_FINAL_FIX_HANDOFF.md`.
+
+## 2026-10-06 run #216 musical-acceptance claim — superseded by 2026-10-07 rejection
+
+- [~] Earlier #216 acceptance report is superseded by the newest explicit user rejection of #217 musical logic.
+- [~] The earlier detector freeze is superseded; historical musical behavior is being recovered. Approved visuals remain preserved.
 - [x] Identify the arm/stick glitch: preview strike art was clipped against foreign instrument surface masks.
 - [x] Allow full-resolution preview strike poses to pass in front of neighboring kit artwork while leaving native xLights node isolation unchanged.
 - [x] Add a preview-only 42% body keepalive so the central snowman remains dimly readable at idle and during hits.

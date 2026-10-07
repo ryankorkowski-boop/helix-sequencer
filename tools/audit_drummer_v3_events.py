@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw, ImageFont
 def audit(report_path: Path, output: Path, start: float=10, end: float=30) -> dict:
     report=json.loads(report_path.read_text());events=report['event_audit']
     output.mkdir(parents=True,exist_ok=True)
-    columns=['timestamp','type','confidence','velocity','physical_component','scheduled','percussive_ratio','low_ratio','low_mid_ratio','mid_ratio','high_ratio','centroid_hz','low_centroid_hz','percussive_flatness','decay_100ms','decay_300ms']
+    columns=['timestamp','type','confidence','velocity','physical_component','scheduled','source_onset_index','tom_class','tom_peak_hz','tom_class_confidence','rejection_reason','percussive_ratio','low_ratio','mid_low_ratio','mid_ratio','high_ratio','centroid_hz','low_centroid_hz','percussive_flatness','decay_profile']
     with (output/'Drummer_Event_Audit.csv').open('w',newline='') as handle:
         writer=csv.DictWriter(handle,fieldnames=columns,extrasaction='ignore');writer.writeheader();writer.writerows(events)
     section=[e for e in events if start<=e['timestamp']<=end]
@@ -22,7 +22,7 @@ def audit(report_path: Path, output: Path, start: float=10, end: float=30) -> di
              '10_to_71s_low_confidence_below_045':sum(e['confidence']<.45 for e in meaningful),
              'simultaneous_onsets_10_to_71s':sum(n>1 for n in collections.Counter(e['timestamp'] for e in meaningful).values()),
              'max_hits_per_second':{k:max((sum(e['timestamp']<=o['timestamp']<e['timestamp']+1 for o in events if o['type']==k) for e in events if e['type']==k),default=0) for k in report['scheduled_drum_type_counts']},
-             'note':'Confidence measures percussive onset support, not calibrated instrument-class probability. Counts and timing checks are not musical approval. No auditory ground-truth annotation has been made.'}
+             'note':'Confidence is a historical heuristic family score, not calibrated probability. Counts and timing checks are not musical approval. No auditory ground-truth annotation has been made.'}
     (output/'Drummer_Audit_Summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     names=['KICK','SNARE','HI_HAT','TOM_HIGH','TOM_MID','TOM_FLOOR','CYMBAL_LEFT','CYMBAL_RIGHT']
     colors=['#ed573c','#de7acb','#e8bd40','#60d278','#60d278','#60d278','#e8bd40','#e8bd40']

@@ -129,53 +129,19 @@ def test_xlights_effect_uses_percent_brightness_color_and_pose_metadata() -> Non
     assert 68 <= brightness <= 100
     assert "#DC2D1C" in effect.get("palette", "")
     assert effect.get("sourcePose") == "kick_hit"
-    assert effect.get("sourceDetector") == "v3_hpss_onset_classifier"
+    assert effect.get("sourceDetector") == "v3_historical_hpss_onset_classifier"
 
 
-def test_onset_classifier_separates_kick_toms_and_metal_without_triple_firing() -> None:
-    from tools.integrate_drummer_v3_into_xsq import _classify_onset
-
-    kick = _classify_onset(
-        low_ratio=.41, low_mid_ratio=.17, mid_ratio=.21, high_ratio=.21,
-        centroid_hz=1750, low_centroid_hz=178,
-        decay_100ms=.49, decay_300ms=.09,
-    )
-    assert kick == ("kick", None, None)
-
-    high_tom = _classify_onset(
-        low_ratio=.06, low_mid_ratio=.32, mid_ratio=.29, high_ratio=.33,
-        centroid_hz=3190, low_centroid_hz=410,
-        decay_100ms=.40, decay_300ms=.20,
-    )
-    assert high_tom == ("tom", None, "high")
-
-    mid_tom = _classify_onset(
-        low_ratio=.12, low_mid_ratio=.31, mid_ratio=.27, high_ratio=.30,
-        centroid_hz=3000, low_centroid_hz=320,
-        decay_100ms=.40, decay_300ms=.20,
-    )
-    assert mid_tom == ("tom", None, "mid")
-
-    floor_tom = _classify_onset(
-        low_ratio=.29, low_mid_ratio=.29, mid_ratio=.15, high_ratio=.27,
-        centroid_hz=2590, low_centroid_hz=250,
-        decay_100ms=.40, decay_300ms=.20,
-    )
-    assert floor_tom == ("tom", None, "floor")
-
-    snare_hat = _classify_onset(
-        low_ratio=.04, low_mid_ratio=.23, mid_ratio=.23, high_ratio=.50,
-        centroid_hz=4150, low_centroid_hz=330,
-        decay_100ms=.23, decay_300ms=.04,
-    )
-    assert snare_hat == ("snare", "hihat", None)
-
-    crash = _classify_onset(
-        low_ratio=.03, low_mid_ratio=.06, mid_ratio=.16, high_ratio=.75,
-        centroid_hz=5750, low_centroid_hz=360,
-        decay_100ms=.88, decay_300ms=.34,
-    )
-    assert crash == (None, "cymbal", None)
+def test_tom_identity_requires_a_resolved_pitch_and_never_cycles():
+    import numpy as np
+    from audio.drummer_v3 import _tom_class_from_spectrum
+    freqs=np.linspace(0,1000,1001)
+    for pitch, expected in [(130,"floor"),(310,"mid"),(480,"high")]:
+        spectrum=np.exp(-((freqs-pitch)/8)**2)
+        name,confidence,hz=_tom_class_from_spectrum(spectrum,freqs)
+        assert name == expected
+        assert abs(hz-pitch)<2 and confidence>.5
+    assert _tom_class_from_spectrum(np.ones_like(freqs),freqs)[0] is None
 
 
 def test_visual_geometry_keeps_instrument_color_separate_from_actuator() -> None:

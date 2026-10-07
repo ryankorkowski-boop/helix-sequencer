@@ -3,7 +3,8 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from audio.drummer_v3 import ANALYSIS_HOP_LENGTH, ANALYSIS_N_FFT, ANALYSIS_SAMPLE_RATE, CONTEXT_N_FFT, analyze_drummer_samples
+from audio.drummer_v3 import ANALYSIS_HOP_LENGTH, ANALYSIS_N_FFT, analyze_drummer_samples
+from mapping.drum_mapper import schedule_drum_events, DrumMappingConfig
 from tools.render_drummer_v3_preview import _active_targets_for_frame, _frame_time_ms
 
 SEEDS = {"kick": 1, "tom_floor": 2, "tom_mid": 3, "tom_high": 4, "snare": 5, "hihat": 6, "cymbal": 7}
@@ -55,32 +56,37 @@ def _isolated_hit(sr: int, kind: str, *, onset: float = 0.300) -> np.ndarray:
     ("kick","kick",None), ("snare","snare",None), ("hihat","hihat",None), ("cymbal","cymbal",None),
     ("tom_floor","tom","floor"), ("tom_mid","tom","mid"), ("tom_high","tom","high"),
 ])
-def test_isolated_hits_keep_identity_remove_release_edges_and_refine_attack(kind, expected_type, tom_class) -> None:
+def test_isolated_hits_keep_identity_reject_cutoffs_and_keep_detected_grid(kind, expected_type, tom_class) -> None:
     events, diagnostics = analyze_drummer_samples(_isolated_hit(44100, kind), 44100)
+    events = schedule_drum_events(events, DrumMappingConfig(intro_gate_enabled=False))
     typed = [event for event in events if event.drum_type == expected_type]
     assert len(events) == len(typed) == 1, [(event.timestamp, event.drum_type) for event in events]
     event = typed[0]
-    assert abs(event.timestamp - 0.300) <= 0.002
-    assert float(event.frequency_band_info["attack_contrast"]) >= 1.05
+    assert abs(event.timestamp - 0.300) <= 0.035
+    assert event.frequency_band_info["waveform_cutoff"] is False
+    assert event.frequency_band_info["timing_refinement_ms"] == 0
     if tom_class is not None:
         assert event.frequency_band_info["tom_class"] == tom_class
-    assert diagnostics["analysis_sample_rate"] == ANALYSIS_SAMPLE_RATE
+    assert diagnostics["analysis_sample_rate"] == 44100
     assert diagnostics["analysis_hop_length"] == ANALYSIS_HOP_LENGTH
     assert diagnostics["analysis_n_fft"] == ANALYSIS_N_FFT
-    assert diagnostics["context_n_fft"] == CONTEXT_N_FFT
+    assert diagnostics["timing_refinement"] == "none_detected_transient_grid"
 
 
 @pytest.mark.parametrize("kind", list(SEEDS))
 def test_44100_and_48000_sources_converge(kind: str) -> None:
     first, first_diag = analyze_drummer_samples(_isolated_hit(44100, kind), 44100)
     second, second_diag = analyze_drummer_samples(_isolated_hit(48000, kind), 48000)
+    first = schedule_drum_events(first, DrumMappingConfig(intro_gate_enabled=False))
+    second = schedule_drum_events(second, DrumMappingConfig(intro_gate_enabled=False))
     signature = lambda rows: [(event.drum_type, event.frequency_band_info.get("tom_class")) for event in rows]
     assert signature(first) == signature(second)
     assert len(first) == len(second) == 1
-    assert abs(first[0].timestamp - second[0].timestamp) <= 0.002
+    assert abs(first[0].timestamp - second[0].timestamp) <= 0.035
     assert first_diag["source_sample_rate"] == 44100
     assert second_diag["source_sample_rate"] == 48000
-    assert first_diag["analysis_sample_rate"] == second_diag["analysis_sample_rate"] == 44100
+    assert first_diag["analysis_sample_rate"] == 44100
+    assert second_diag["analysis_sample_rate"] == 48000
 
 
 def test_60fps_preview_uses_nearest_frame_for_hit_start() -> None:

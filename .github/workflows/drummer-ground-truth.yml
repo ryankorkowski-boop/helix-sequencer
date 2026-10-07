@@ -30,6 +30,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -37,7 +38,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pytest pillow numpy scipy scikit-learn librosa soundfile numba llvmlite imageio imageio-ffmpeg PyYAML
+          python -m pip install pytest pillow numpy scipy scikit-learn librosa soundfile numba llvmlite imageio imageio-ffmpeg PyYAML matplotlib
       - name: Regenerate canonical V3 drummer assets
         env:
           PYTHONPATH: .
@@ -141,7 +142,11 @@ jobs:
             tests/test_drum_mapping.py \
             tests/test_drummer_target_strikes.py \
             tests/test_drummer_v3_real_audio.py \
+            tests/test_drummer_recovery.py \
+            tests/test_drummer_only_export.py \
             tests/test_drummer_v3_detector_sync.py \
+            tests/test_drummer_v3_analysis.py \
+            tests/test_drummer_v3_guitar_rejection.py \
             tests/test_band_geometry_manifest.py \
             tests/test_band_geometry_status.py
       - name: Render isolated pose validation before music
@@ -166,6 +171,13 @@ jobs:
             template.xsq 'Helix Audiolights.mp3' \
             --output test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq \
             --report test_runs/drummer_real_audio/drummer_real_audio_report.json
+      - name: Export drummer-only real-song XSQ with correct media and duration
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/export_drummer_only_xsq.py \
+            test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq \
+            --output test_runs/drummer_real_audio/Helix_Drummer_ONLY_REAL_AUDIO.xsq \
+            --audio 'Helix Audiolights.mp3'
       - name: Gate real-song detector against false intro hits
         env: {PYTHONPATH: .}
         run: |
@@ -173,20 +185,22 @@ jobs:
           import json
           from pathlib import Path
           report=json.loads(Path('test_runs/drummer_real_audio/drummer_real_audio_report.json').read_text())
-          print(json.dumps(report,indent=2))
-          assert report['detector'] == 'v3_hpss_onset_classifier', report
+          print(json.dumps({k:v for k,v in report.items() if k not in {'analysis','event_audit'}},indent=2))
+          assert report['detector'] == 'v3_historical_hpss_onset_classifier', report
           assert report['fallback_mode'] in {'typed_detection','typed_detection_bus_suppressed'}, report
           assert report['ambiguous_bus_rejected_count'] == 0, report
           assert report['target_count'] == 8, report
           assert report['analysis']['used_hpss_percussive_evidence'] is True, report
           assert report['analysis']['typed_event_count'] >= 20, report
-          assert report['analysis']['analysis_engine'] == 'v3_hpss_onset_classifier', report
-          assert report['analysis']['analysis_sample_rate'] == 44100, report
-          assert report['analysis']['analysis_hop_length'] == 441, report
-          assert report['analysis']['analysis_n_fft'] == 2048, report
-          assert report['analysis']['context_n_fft'] == 4096, report
-          assert report['analysis']['min_context_percussive_ratio'] == 0.34, report
-          assert report['analysis']['timing_refinement'] == 'waveform_attack', report
+          assert report['analysis']['analysis_engine'] == report['detector'], report
+          analysis=report['analysis']
+          assert analysis['analysis_sample_rate'] == analysis['source_sample_rate'], analysis
+          assert analysis['hpss_margin'] == 1.0, analysis
+          assert analysis['timing_refinement'] == 'none_detected_transient_grid', analysis
+          candidates=analysis['onset_audit']
+          assert len(candidates)==analysis['onset_candidate_count'], analysis
+          assert all(row['rejection_reason'] is not None or row['scheduler_decision'] in {'scheduled','merge_or_clutter_suppressed'} for row in candidates)
+          assert all(row['physical_target'] in report['targets'] for row in candidates if row['scheduler_decision']=='scheduled')
           assert report['event_count'] >= 20, report
           assert report['early_event_count_5s'] == 0, report
           assert report['early_event_count_10s'] == 0, report
@@ -252,12 +266,52 @@ jobs:
         env: {PYTHONPATH: .}
         run: |
           python tools/render_drummer_v3_preview.py \
-            test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq \
+            test_runs/drummer_real_audio/Helix_Drummer_ONLY_REAL_AUDIO.xsq \
             --audio 'Helix Audiolights.mp3' \
             --output test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4 \
             --start 9.5 \
             --duration 25 \
             --fps 60
+      - name: Decode known-hit frames and verify real soundtrack
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/inspect_drummer_preview.py \
+            test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4 \
+            --xsq test_runs/drummer_real_audio/Helix_Drummer_ONLY_REAL_AUDIO.xsq \
+            --output test_runs/drummer_real_audio/decoded
+      - name: Reconstruct historical and rejected streams and comparison
+        env: {PYTHONPATH: .}
+        run: |
+          mkdir -p test_runs/drummer_recovery
+          cp test_runs/drummer_real_audio/drummer_real_audio_report.json test_runs/drummer_recovery/recovery_report.json
+          python tools/recover_drummer_reference.py
+          python tools/audit_rejected_drummer_217.py
+          python tools/compare_drummer_recovery.py
+          python tools/ablate_drummer_history.py
+          python tools/plot_drummer_history.py
+      - name: Render full-song recovery preview
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/render_drummer_v3_preview.py \
+            test_runs/drummer_real_audio/Helix_Drummer_ONLY_REAL_AUDIO.xsq \
+            --audio 'Helix Audiolights.mp3' \
+            --output test_runs/drummer_real_audio/Helix_Drummer_RECOVERY_FULL.mp4 \
+            --fps 60
+      - name: Export diagnostic family clicks for review
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/drummer_diagnostic_clicks.py test_runs/drummer_recovery/recovery_events.json --output test_runs/drummer_recovery/recovery_clicks_with_song.wav
+          python tools/drummer_diagnostic_clicks.py test_runs/drummer_recovery/historical_events.json --output test_runs/drummer_recovery/historical_clicks_with_song.wav
+          python tools/drummer_diagnostic_clicks.py test_runs/drummer_recovery/rejected_events.json --output test_runs/drummer_recovery/rejected_clicks_with_song.wav
+      - name: Upload historical recovery evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drummer-recovery-comparison
+          path: |
+            test_runs/drummer_recovery/*
+            tests/fixtures/drummer/*.json
+          if-no-files-found: error
       - name: Upload real-song proof
         if: always()
         uses: actions/upload-artifact@v4
@@ -265,9 +319,13 @@ jobs:
           name: drummer-real-audio-proof
           path: |
             test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq
+            test_runs/drummer_real_audio/Helix_Drummer_ONLY_REAL_AUDIO.xsq
             test_runs/drummer_real_audio/drummer_real_audio_report.json
             test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4
+            test_runs/drummer_real_audio/Helix_Drummer_RECOVERY_FULL.mp4
             test_runs/drummer_real_audio/Drummer_*
+            test_runs/drummer_real_audio/decoded/*.png
+            test_runs/drummer_real_audio/decoded/*.json
             test_runs/drummer_poses/*
           if-no-files-found: error
       - name: Upload drummer truth artifacts

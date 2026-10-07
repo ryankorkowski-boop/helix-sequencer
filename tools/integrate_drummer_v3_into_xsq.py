@@ -8,8 +8,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from audio.drummer_v3 import analyze_drummer_audio as _analyze_real_audio
-# Compatibility aliases for callers/tests; classification is owned by audio.
-from audio.drummer_v3 import _classify_onset, _tom_class_from_low_centroid
+from audio.drummer_v3 import ANALYSIS_ENGINE
 from tools.drummer_v3_visual_masks import load_spec
 from mapping.drum_mapper import (
     DRUMMER_COMPONENTS,
@@ -143,7 +142,7 @@ def _add_on(
             "sourceDrumType": source_type,
             "sourcePose": source_pose,
             "sourceRole": role,
-            "sourceDetector": "v3_hpss_onset_classifier",
+            "sourceDetector": ANALYSIS_ENGINE,
         },
     )
 
@@ -155,6 +154,7 @@ def event_audit(typed_events, pose_events) -> list[dict[str, object]]:
         mapped = assignments.get((event.timestamp_ms, event.drum_type))
         rows.append({"timestamp": event.timestamp, "type": event.drum_type,
                      "confidence": event.confidence, "velocity": event.velocity,
+                     "source_onset_index": event.frequency_band_info.get("onset_index"),
                      **event.frequency_band_info,
                      "physical_component": mapped["component"] if mapped else None,
                      "scheduled": mapped is not None})
@@ -219,6 +219,13 @@ def inject_drummer_v3(
         config=DrumMappingConfig(intro_gate_enabled=False),
     )
     pose_events = map_events_to_drummer_v3_poses(resolved["events"])
+    assignments = {(e["timestamp_ms"],e["drum_type"]):e for e in pose_events}
+    for row in diagnostics.get("onset_audit", []):
+        if row["rejection_reason"] is None:
+            mapped = assignments.get((round(row["timestamp"]*1000),row["drum_family"]))
+            row["scheduler_decision"] = "scheduled" if mapped else "merge_or_clutter_suppressed"
+            row["physical_target"] = mapped["component"] if mapped else None
+
 
     if output_xsq.resolve() != base_xsq.resolve():
         output_xsq.parent.mkdir(parents=True, exist_ok=True)
@@ -347,14 +354,14 @@ def inject_drummer_v3(
     early_10s = sum(1 for event in pose_events if int(event["timestamp_ms"]) < 10000)
 
     return {
-        "schema": "helix.drummer_v3_xsq_integration.v10",
+        "schema": "helix.drummer_v3_xsq_integration.v11",
         "model": DRUMMER_V3_MODEL,
         "base_xsq": str(base_xsq),
         "output_xsq": str(output_xsq),
         "audio": str(audio_path),
         "layer": layer_name,
         "logical_layer": logical_layer_name,
-        "detector": "v3_hpss_onset_classifier",
+        "detector": ANALYSIS_ENGINE,
         "fallback_mode": resolved["fallback_mode"],
         "intro_gate_start_ms": resolved.get("intro_gate_start_ms"),
         "intro_gate_suppressed_count": int(resolved.get("intro_gate_suppressed_count", 0) or 0),
@@ -393,7 +400,7 @@ def main() -> int:
         layer_name=args.layer,
     )
     payload = json.dumps(report, indent=2, sort_keys=True)
-    print(payload)
+    print(json.dumps({k:v for k,v in report.items() if k not in {"analysis", "event_audit"}}, indent=2))
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)
         args.report.write_text(payload + "\n", encoding="utf-8")
