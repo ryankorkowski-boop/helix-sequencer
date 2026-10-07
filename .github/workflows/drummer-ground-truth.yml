@@ -351,7 +351,7 @@ jobs:
             --xsq test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
             --audio evidence/drummer/dry_drum_test.wav \
             --start 0 --duration 38.32 \
-            --times 0.95,1.7333,2.05,3.3,10.3333,20.25,31.1167,35.0333 \
+            --times 0.3333,0.95,1.25,1.7333,2.05,3.3,10.3333,20.25 \
             --output test_runs/drummer_dry_test/decoded
       - name: Upload uploaded-audio drummer test
         if: always()

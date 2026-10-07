@@ -37,6 +37,10 @@ def target_art_key(target: str) -> str:
     return f"__art__:{target}"
 
 
+def target_actuator_key(target: str) -> str:
+    return f"__actuator__:{target}"
+
+
 def target_variant_key(target: str, hand: str) -> str:
     return f"__variant__:{target}:{hand}"
 
@@ -218,6 +222,7 @@ def exact_geometry(
         variants = item.get("actuator_variants", {"left": item["actuators"]})
         for hand, actuators in variants.items():
             mask = surfaces[item["surface"]].copy()
+            actuator_mask = Image.new("L", source.size, 0)
             art = surface_art.copy()
             for actuator in actuators:
                 overlay = arts[actuator]
@@ -225,9 +230,11 @@ def exact_geometry(
                 alpha = overlay.getchannel("A").point(
                     lambda value: round(value * item.get("actuator_intensity", 1.0)))
                 mask = ImageChops.lighter(mask, alpha)
+                actuator_mask = ImageChops.lighter(actuator_mask, alpha)
             key = name if hand == "left" else target_variant_key(name, hand)
             masks[key] = mask
             masks[target_art_key(key)] = art
+            masks[target_actuator_key(key)] = actuator_mask
         masks[target_surface_key(name)] = surfaces[item["surface"]]
     return {"surfaces": surfaces, "actuators": arts, "masks": masks}
 
@@ -488,13 +495,16 @@ def compose_emissive(
         if cymbal_levels is not None and target.endswith(("_CYMBAL_LEFT", "_CYMBAL_RIGHT")):
             gain = max(0.0, min(1.0, cymbal_levels.get(target, 0.0)))
             # The surface rings; the strike pose only follows the original hit.
-            arm_mask = ImageChops.subtract(masks[key], surface)
-            lit = Image.composite(active_rgb.convert("RGBA"), idle, arm_mask) if target in active_set else idle.copy()
+            actuator = masks.get(target_actuator_key(key), ImageChops.subtract(masks[key], surface))
+            # Keep the full posed artwork at contact pixels, including its
+            # antialiasing already composited over the source instrument.
+            contact = ImageChops.multiply(surface, actuator.point(lambda value: 255 if value else 0))
+            arm_mask = ImageChops.lighter(actuator, contact)
             surface_rgb = ImageEnhance.Brightness(source_rgba.convert("RGB")).enhance(active_brightness)
             surface_rgb = ImageEnhance.Color(surface_rgb).enhance(1.18)
             fading_mask = surface.point(lambda value: round(value * gain))
             surface_lit = Image.composite(surface_rgb.convert("RGBA"), idle, fading_mask)
-            lit = Image.fromarray(np.maximum(np.asarray(lit), np.asarray(surface_lit)))
+            lit = Image.composite(active_rgb.convert("RGBA"), surface_lit, arm_mask) if target in active_set else surface_lit
         else:
             lit = Image.composite(active_rgb.convert("RGBA"), idle, masks[key])
         color = TARGET_OUTLINE_RGB.get(target)

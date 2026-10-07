@@ -1,10 +1,11 @@
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import numpy as np
+import pytest
 from PIL import ImageFilter
 from animation.cymbal_lighting import DECAY_MS, cymbal_level, decay_intervals, peak_level
 from tools.render_drummer_v3_preview import TARGETS, compose_lighting, load_component_masks, parse_effects, parse_cymbal_hits
-from tools.drummer_v3_visual_masks import target_surface_key
+from tools.drummer_v3_visual_masks import target_surface_key, target_actuator_key
 from audio.drum_classification import DrumEvent
 
 
@@ -40,6 +41,17 @@ def test_surface_rings_after_arm_has_finished_and_body_other_targets_stay_idle()
     assert np.max(np.abs(tail[~near]-idle[~near]))<=2
     ended=np.asarray(compose_lighting(source,masks,[],cymbal_levels={target:0})).astype(int)
     assert np.array_equal(idle,ended)
+
+
+@pytest.mark.parametrize('target',TARGETS[6:])
+def test_shimmer_never_masks_the_stick_where_it_contacts_its_cymbal(target):
+    source,masks=load_component_masks()
+    contact=(np.asarray(masks[target_surface_key(target)])>0)&(np.asarray(masks[target_actuator_key(target)])>0)
+    assert contact.any()
+    approved=np.asarray(compose_lighting(source,masks,[target]))
+    for level in (1.,.35):
+        animated=np.asarray(compose_lighting(source,masks,[target],cymbal_levels={target:level}))
+        assert np.array_equal(approved[contact],animated[contact])
 
 
 def test_native_fade_and_preview_keep_same_hits_and_short_strikes(tmp_path,monkeypatch):
