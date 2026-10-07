@@ -338,6 +338,7 @@ def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str
     mapped: list[dict[str, object]] = []
     tom_index = 0
     cymbal_index = 0
+    snare_index = 0
     for event in ordered:
         if event.drum_type == "tom":
             pose = drummer_v3_pose_for_event(event, tom_index)
@@ -364,6 +365,11 @@ def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str
         if not components:
             continue
 
+        hand = None
+        if event.drum_type == "snare":
+            hand = "left" if snare_index % 2 == 0 else "right"
+            snare_index += 1
+
         mapped.append(
             {
                 "timestamp_ms": event.timestamp_ms,
@@ -371,6 +377,7 @@ def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str
                 "model": DRUMMER_V3_MODEL,
                 "drum_type": event.drum_type,
                 "pose": pose,
+                "hand": hand,
                 "component": components[0],
                 "submodels": list(components),
                 "components": list(components),

@@ -127,6 +127,8 @@ def _preview_body_keepalive_mask(
         surface = masks.get(target_surface_key(target))
         if surface is not None:
             body = ImageChops.subtract(body, surface)
+    if "__idle_removed__" in masks:
+        body = ImageChops.subtract(body, masks["__idle_removed__"])
     return body
 
 
@@ -134,6 +136,8 @@ def compose_lighting(
     source: Image.Image,
     masks: dict[str, Image.Image],
     active_targets: tuple[str, ...] | list[str] | set[str],
+    *,
+    snare_hand: str = "left",
 ) -> Image.Image:
     return compose_emissive(
         source,
@@ -141,6 +145,7 @@ def compose_lighting(
         active_targets,
         idle_overlay_mask=_preview_body_keepalive_mask(source, masks),
         idle_overlay_brightness=0.42,
+        snare_hand=snare_hand,
     )
 
 
@@ -172,6 +177,24 @@ def parse_effects(xsq: Path) -> list[tuple[int, int, str]]:
     return sorted(out)
 
 
+def parse_snare_hands(xsq: Path) -> list[tuple[int, int, str]]:
+    """Read native hand metadata; old eight-lane files alternate from song start."""
+    root = ET.parse(xsq).getroot()
+    hits = sorted({(int(float(effect.get("startTime", "0"))),
+                    int(float(effect.get("endTime", "0"))), effect.get("sourceHand", ""))
+                   for effect in root.findall(
+                       f'./ElementEffects/Element[@name="{TARGETS[1]}"]/EffectLayer/Effect')})
+    return [(start, end, hand or ("left" if i % 2 == 0 else "right"))
+            for i, (start, end, hand) in enumerate(hits)]
+
+
+def snare_hand_for_frame(hits: list[tuple[int, int, str]], time_ms: float, fps: int) -> str:
+    half_frame = 500.0 / fps
+    active = [(start, hand) for start, end, hand in hits
+              if start < time_ms + half_frame and end > time_ms - half_frame]
+    return max(active)[1] if active else "left"
+
+
 def _frame_time_ms(start_ms: int, frame_index: int, fps: int) -> float:
     return float(start_ms) + (float(frame_index) * 1000.0 / float(fps))
 
@@ -201,12 +224,15 @@ def draw_frame(
     duration_ms: int,
     font: ImageFont.ImageFont,
     art_cache: dict[tuple[str, ...], Image.Image] | None = None,
+    snare_hand: str = "left",
 ) -> Image.Image:
     max_w, max_h = width - 250, height - 108
     key = tuple(target for target in TARGETS if target in active)
+    if TARGETS[1] in active:
+        key += (snare_hand,)
     art = art_cache.get(key) if art_cache is not None else None
     if art is None:
-        lit = compose_lighting(source, masks, active)
+        lit = compose_lighting(source, masks, active, snare_hand=snare_hand)
         art = lit.crop(_content_crop(source))
         scale = min(max_w / art.width, max_h / art.height)
         size = (max(1, round(art.width * scale)), max(1, round(art.height * scale)))
@@ -257,6 +283,7 @@ def main() -> int:
 
     source, masks = load_component_masks()
     effects = parse_effects(args.xsq)
+    snare_hits = parse_snare_hands(args.xsq)
     if not effects:
         raise SystemExit("FAIL: no canonical HX_SNOWMAN_DRUMMER_V3 effects found")
     found = {event[2] for event in effects}
@@ -284,7 +311,8 @@ def main() -> int:
             active = _active_targets_for_frame(effects, frame_time_ms, args.fps)
             t_ms = int(round(frame_time_ms))
             writer.append_data(np.asarray(draw_frame(
-                source, masks, active, 960, 540, t_ms, start_ms + duration_ms, font, art_cache
+                source, masks, active, 960, 540, t_ms, start_ms + duration_ms, font, art_cache,
+                snare_hand_for_frame(snare_hits, frame_time_ms, args.fps)
             )))
     finally:
         writer.close()

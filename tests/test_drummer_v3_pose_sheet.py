@@ -55,7 +55,7 @@ def test_drummer_v3_source_and_pose_sheet_are_real_images() -> None:
 
 def test_pose_spec_is_three_tom_eight_target_source_normalized_contract() -> None:
     spec = json.loads(SPEC.read_text(encoding="utf-8"))
-    assert spec["schema"] == "helix.drummer_v3_pose_spec.v5"
+    assert spec["schema"] == "helix.drummer_v3_pose_spec.v6"
     assert spec["canonical_toms"] == ["HIGH", "MID", "FLOOR"]
     assert len(spec["lighting_targets"]) == 8
     zones = {zone["id"]: zone for zone in spec["zones"]}
@@ -79,7 +79,8 @@ def test_xmodel_has_dense_grid_and_surface_orientation() -> None:
     assert root.get("CustomModel")
     rows = root.get("CustomModel", "").split(";")
     assert len(rows) == 72 and all(len(row.split(",")) == 96 for row in rows)
-    assert root.get("CustomBkgImage") == "../source/drummerbg.png"
+    assert root.get("CustomBkgImage") == "../source/drummer_idle.png"
+    assert root.get("HelixVisualSource") == "../source/drummerbg.png"
     submodels = {sm.get("name", ""): sm.get("line0", "") for sm in root.findall("./subModels/subModel")}
     assert CANONICAL_SURFACES <= set(submodels)
     for name, line0 in submodels.items():

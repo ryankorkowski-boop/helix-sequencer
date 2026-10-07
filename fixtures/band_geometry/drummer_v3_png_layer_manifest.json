@@ -10,6 +10,7 @@
     "idle_ready",
     "kick_hit",
     "snare_hit",
+    "snare_right_hit",
     "hi_hat_pulse",
     "tom_high_hit",
     "tom_mid_hit",
@@ -33,6 +34,14 @@
       "targets": [
         "HX_SNOWMAN_DRUMMER_V3_SNARE"
       ]
+    },
+    {
+      "id": "snare_right_hit",
+      "file": "drummer_hit_snare_right.png",
+      "targets": [
+        "HX_SNOWMAN_DRUMMER_V3_SNARE"
+      ],
+      "hand": "right"
     },
     {
       "id": "hi_hat_pulse",

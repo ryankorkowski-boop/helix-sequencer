@@ -37,6 +37,65 @@ def target_art_key(target: str) -> str:
     return f"__art__:{target}"
 
 
+def target_variant_key(target: str, hand: str) -> str:
+    return f"__variant__:{target}:{hand}"
+
+
+def idle_art_key() -> str:
+    return "__idle_art__"
+
+
+def snare_shell_mask(size: tuple[int, int], outline: dict) -> Image.Image:
+    """Complete the snare shell hidden by the photographed foreground kick."""
+    scale = (size[0] - 1, size[1] - 1)
+    top, bottom = [tuple(round(v * scale[i % 2]) for i, v in enumerate(outline[key]))
+                   for key in ("top_bbox", "bottom_bbox")]
+    mask = Image.new("L", size, 0)
+    draw = ImageDraw.Draw(mask)
+    width = max(1, round(float(outline["width"]) * scale[0]))
+    draw.ellipse(top, outline=255, width=width)
+    draw.arc(bottom, 0, 180, fill=255, width=width)
+    for x in (top[0], top[2]):
+        draw.line((x, (top[1]+top[3])//2, x, (bottom[1]+bottom[3])//2), fill=255, width=width)
+    return mask
+
+
+def resting_stick_mask(source: Image.Image, spec: dict) -> Image.Image:
+    hsv = np.asarray(source.convert("HSV"))
+    gold = Image.fromarray(np.where(
+        (_hue_distance(hsv[..., 0], _rgb_hue((220, 164, 22))) <= 25)
+        & (hsv[..., 1] >= 46) & (hsv[..., 2] >= 24), 255, 0).astype(np.uint8))
+    zones = [build_zone_mask(source.size, {"commands": [{"shape": "polygon", "points": points}]})
+             for points in spec.get("idle_stick_polygons", [])]
+    return ImageChops.multiply(_union(zones, source.size), gold)
+
+
+def resting_actuator_mask(source: Image.Image, spec: dict, surfaces: dict) -> Image.Image:
+    """Erase only resting arm/shaft artwork; retain the head, scarf and kit."""
+    masks = []
+    hsv = np.asarray(source.convert("HSV"))
+    neutral = Image.fromarray(np.where((hsv[..., 1] <= 90) & (hsv[..., 2] >= 24), 255, 0).astype(np.uint8))
+    gold = Image.fromarray(np.where(
+        (_hue_distance(hsv[..., 0], _rgb_hue((220, 164, 22))) <= 25)
+        & (hsv[..., 1] >= 46) & (hsv[..., 2] >= 24), 255, 0).astype(np.uint8))
+    removable_color = ImageChops.lighter(neutral, gold)
+    for zone in spec["zones"]:
+        if zone["kind"] != "actuator" or zone["id"] == "HI_HAT_FOOT":
+            continue
+        arm = build_zone_mask(source.size, zone)
+        masks.append(ImageChops.multiply(arm, removable_color))
+        shaft = zone.get("strike", {}).get("source_stick")
+        if shaft:
+            masks.append(refine_actuator_to_source_art(source, build_zone_mask(source.size, shaft)))
+    for points in spec.get("idle_extra_stick_polygons", []):
+        masks.append(ImageChops.multiply(build_zone_mask(source.size, {
+            "commands": [{"shape": "polygon", "points": points}]}), removable_color))
+    removed = _union(masks, source.size).filter(ImageFilter.MaxFilter(3))
+    return ImageChops.lighter(
+        ImageChops.subtract(removed, _union(list(surfaces.values()), source.size)),
+        resting_stick_mask(source, spec).filter(ImageFilter.MaxFilter(3)))
+
+
 def strike_transform(strike: dict, size: tuple[int, int]) -> tuple[float, ...]:
     """Inverse similarity transform: source shaft grip/tip to wrist/contact.
 
@@ -66,10 +125,9 @@ def exact_actuator_art(
 ) -> Image.Image:
     """Source-colored arm/shaft art, optionally allowed to pass in front of drums.
 
-    Native xLights node geometry still isolates actuator nodes from instrument
-    surfaces downstream. The preview renderer can opt into front overlap so a
-    transformed strike is not visually chopped into disconnected pieces when
-    the arm or stick crosses another instrument.
+    Preview and native assets preserve front overlap so an arm or shaft stays
+    continuous when it crosses another instrument. False is available only
+    for regression comparison against the previous clipped geometry.
     """
     arm_mask = refine_actuator_to_source_art(source, build_zone_mask(source.size, zone))
     if zone.get("strike") and source_surfaces is not None:
@@ -103,19 +161,35 @@ def exact_geometry(
     source: Image.Image,
     spec: dict | None = None,
     *,
-    preview_front_overlap: bool = False,
+    preview_front_overlap: bool = True,
 ) -> dict:
     """One source-art extraction path for preview, layers and xmodel projection.
 
-    preview_front_overlap affects only full-resolution review art. Generated
-    xLights assets keep their existing isolated-node contract by using the
-    default False value.
+    Full-resolution review art and native projection use complete front strikes.
+    Instrument surfaces themselves remain independently assigned.
     """
     spec = spec or load_spec()
     geometry = build_geometry_masks(source.size, spec)
     surfaces = {item["surface"]: refine_surface_to_source_art(
         source, geometry["surfaces"][item["surface"]], f"{MODEL_NAME}_{item['id']}")
         for item in spec["lighting_targets"]}
+    if spec.get("idle_remove_raised_actuators"):
+        sticks = resting_stick_mask(source, spec)
+        for name in ("CYMBAL_LEFT_SURFACE", "CYMBAL_RIGHT_SURFACE"):
+            # Gold resting shafts crossing a cymbal search window are not part
+            # of the cymbal itself. Remove these before independent lighting.
+            surfaces[name] = ImageChops.subtract(surfaces[name], sticks)
+    surface_art = source.convert("RGBA").copy()
+    for zone in spec["zones"]:
+        if zone.get("shell_outline"):
+            shell = snare_shell_mask(source.size, zone["shell_outline"])
+            surfaces[zone["id"]] = ImageChops.lighter(surfaces[zone["id"]], shell)
+            surface_art = Image.composite(
+                Image.new("RGBA", source.size, (*TARGET_OUTLINE_RGB[f"{MODEL_NAME}_SNARE"], 255)),
+                surface_art, shell)
+    # The kick's photographed search window includes part of the purple snare.
+    # Keep the kick independent; the completed snare is visible through it.
+    surfaces["KICK_SURFACE"] = ImageChops.subtract(surfaces["KICK_SURFACE"], surfaces["SNARE_SURFACE"])
     # Exclude actual instrument pixels, not their search windows: sticks may
     # approach the head through otherwise empty background within the window.
     exclusion = _union(list(surfaces.values()), source.size)
@@ -133,19 +207,28 @@ def exact_geometry(
             allow_front_overlap=preview_front_overlap,
         )
     masks = {}
+    idle = source.convert("RGBA").copy()
+    if spec.get("idle_remove_raised_actuators"):
+        removed = resting_actuator_mask(source, spec, surfaces)
+        idle = Image.composite(Image.new("RGBA", source.size, (0, 0, 0, 255)), idle, removed)
+        masks["__idle_removed__"] = removed
+    masks[idle_art_key()] = idle
     for item in spec["lighting_targets"]:
         name = f"{MODEL_NAME}_{item['id']}"
-        mask = surfaces[item["surface"]].copy()
-        art = source.convert("RGBA").copy()
-        for actuator in item["actuators"]:
-            overlay = arts[actuator]
-            art = Image.alpha_composite(art, overlay)
-            alpha = overlay.getchannel("A").point(
-                lambda value: round(value * item.get("actuator_intensity", 1.0)))
-            mask = ImageChops.lighter(mask, alpha)
-        masks[name] = mask
+        variants = item.get("actuator_variants", {"left": item["actuators"]})
+        for hand, actuators in variants.items():
+            mask = surfaces[item["surface"]].copy()
+            art = surface_art.copy()
+            for actuator in actuators:
+                overlay = arts[actuator]
+                art = Image.alpha_composite(art, overlay)
+                alpha = overlay.getchannel("A").point(
+                    lambda value: round(value * item.get("actuator_intensity", 1.0)))
+                mask = ImageChops.lighter(mask, alpha)
+            key = name if hand == "left" else target_variant_key(name, hand)
+            masks[key] = mask
+            masks[target_art_key(key)] = art
         masks[target_surface_key(name)] = surfaces[item["surface"]]
-        masks[target_art_key(name)] = art
     return {"surfaces": surfaces, "actuators": arts, "masks": masks}
 
 
@@ -179,7 +262,9 @@ def refine_surface_to_source_art(
     if target.endswith("_KICK"):
         # The canonical kick is a red/orange ring with a blue snowflake inside.
         # Preserve both source colors instead of painting a replacement circle.
-        selected = authored & (sat >= 48) & (val >= 24)
+        red = (_hue_distance(hue, _rgb_hue((220, 45, 28))) <= 20)
+        blue = (_hue_distance(hue, _rgb_hue((35, 135, 210))) <= 24)
+        selected = authored & (sat >= 48) & (val >= 24) & (red | blue)
     else:
         color = TARGET_OUTLINE_RGB.get(target)
         if color is None:
@@ -216,7 +301,7 @@ def refine_actuator_to_source_art(
     # Arms are pale/white while sticks are gold/orange. Both are source artwork;
     # dark stage/grid pixels are not.
     selected = authored & (
-        ((sat <= 70) & (val >= 72))
+        ((sat <= 90) & (val >= 24))
         | ((sat > 70) & (val >= 34))
     )
     count = int(np.count_nonzero(selected))
@@ -358,15 +443,15 @@ def compose_emissive(
     halo_radius: float = 3.2,
     idle_overlay_mask: Image.Image | None = None,
     idle_overlay_brightness: float = 0.42,
+    snare_hand: str = "left",
 ) -> Image.Image:
     """Dim the canonical artwork, then brighten only its exact hit pixels.
 
-    There are no synthetic outlines, circles, or painted polygons. Active
-    components are literally the source artwork restored brighter, with a
-    restrained bloom outside the exact pixels so the hit reads clearly.
+    Components use the source artwork, with the explicitly authored completion
+    of the snare shell hidden by the kick. A restrained bloom makes hits clear.
     """
     source_rgba = source.convert("RGBA")
-    source_rgb = source_rgba.convert("RGB")
+    source_rgb = masks.get(idle_art_key(), source_rgba).convert("RGB")
     idle = ImageEnhance.Brightness(source_rgb).enhance(idle_brightness).convert("RGBA")
     if idle_overlay_mask is not None and idle_overlay_mask.getbbox() is not None:
         keepalive = ImageEnhance.Brightness(source_rgb).enhance(
@@ -382,7 +467,8 @@ def compose_emissive(
     for target in active_set:
         if target not in masks:
             raise ValueError(f"Unknown drummer target: {target}")
-        union = ImageChops.lighter(union, masks[target])
+        key = target_variant_key(target, snare_hand) if target.endswith("_SNARE") and snare_hand != "left" else target
+        union = ImageChops.lighter(union, masks[key])
     if union.getbbox() is None:
         return idle
 
@@ -390,10 +476,11 @@ def compose_emissive(
     # Shared arms retain one brightness even when several targets coincide.
     frame_array = np.asarray(idle).copy()
     for target in sorted(active_set):
-        art = masks.get(target_art_key(target), source_rgba).convert("RGB")
+        key = target_variant_key(target, snare_hand) if target.endswith("_SNARE") and snare_hand != "left" else target
+        art = masks.get(target_art_key(key), source_rgba).convert("RGB")
         active_rgb = ImageEnhance.Brightness(art).enhance(active_brightness)
         active_rgb = ImageEnhance.Color(active_rgb).enhance(1.18)
-        lit = Image.composite(active_rgb.convert("RGBA"), idle, masks[target])
+        lit = Image.composite(active_rgb.convert("RGBA"), idle, masks[key])
         surface = masks.get(target_surface_key(target), masks[target])
         color = TARGET_OUTLINE_RGB.get(target)
         if color is not None and surface.getbbox() is not None:

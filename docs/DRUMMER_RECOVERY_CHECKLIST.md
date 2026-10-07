@@ -1,3 +1,17 @@
+# Current visual polish after positive #219 feedback
+
+The user finds the transcription candidate pretty decent. Preserve its events; possible hi-hat excess remains uncertain. Current work supersedes the old raised-idle/actuator-exclusion visual behavior.
+
+- [x] Exact previous/new event audit and analysis comparison: unchanged.
+- [x] Remove resting raised arms/sticks; keep dim body and clean native background.
+- [x] Complete native/preview strike overlays; alternating snare hand metadata.
+- [x] Full snare shell lights behind the transparent kick.
+- [x]116 tests plus61 final focused checks; decoded real-song frames, full and25s MP4 with source audio verified.
+- [ ] Push and remote CI/artifact verification.
+- [ ] User approval of the updated preview; native xLights playback remains unverified.
+
+See `docs/DRUMMER_VISUAL_POLISH.md` and `MASTER_TODO.md`.
+
 # Drummer recovery — 2026-10-07
 
 ## Reopened after user rejection of #218 / 73bb80b

@@ -10,15 +10,16 @@ from tools.render_drummer_v3_preview import TARGETS, LABELS, load_component_mask
 def render_review(output: Path) -> dict:
     output.mkdir(parents=True, exist_ok=True)
     source, masks = load_component_masks()
-    states = [None, *TARGETS]
-    sheet = Image.new('RGB', (1440, 1050), '#090d15')
+    states = [(None, 'left'), *[(target, 'left') for target in TARGETS], (TARGETS[1], 'right')]
+    sheet = Image.new('RGB', (1440, 350 * ((len(states)+2)//3)), '#090d15')
     frames = []
-    for i, target in enumerate(states):
-        art = compose_lighting(source, masks, [] if target is None else [target]).crop(_content_crop(source))
+    for i, (target, hand) in enumerate(states):
+        art = compose_lighting(source, masks, [] if target is None else [target], snare_hand=hand).crop(_content_crop(source))
         art.thumbnail((460, 300), Image.Resampling.LANCZOS)
         tile = Image.new('RGB', (480, 350), '#090d15')
         tile.paste(art, ((480-art.width)//2, 42))
-        ImageDraw.Draw(tile).text((14, 12), 'IDLE' if target is None else LABELS[target], fill='white', font=ImageFont.load_default(size=20))
+        label = 'IDLE' if target is None else LABELS[target] + (f' {hand.upper()}' if target == TARGETS[1] else '')
+        ImageDraw.Draw(tile).text((14, 12), label, fill='white', font=ImageFont.load_default(size=20))
         sheet.paste(tile, ((i%3)*480, (i//3)*350))
         frames.append(tile.resize((960, 700), Image.Resampling.LANCZOS))
     sheet.save(output/'Drummer_Pose_Review.png')
@@ -30,7 +31,7 @@ def render_review(output: Path) -> dict:
     # Decode one frame per pose from the delivered file, so review includes encoding.
     decoded = Image.new('RGB', sheet.size, '#090d15')
     with imageio.get_reader(path) as reader:
-        for i in range(9):
+        for i in range(len(states)):
             im = Image.fromarray(reader.get_data(i*48+24)).resize((480,350))
             decoded.paste(im, ((i%3)*480,(i//3)*350))
     decoded.save(output/'Drummer_Pose_Decoded.png')

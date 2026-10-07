@@ -2,6 +2,16 @@
 
 > Canonical project roadmap and cross-agent handoff layer.
 
+## 2026-10-07 — user finds #219 music pretty decent; requested visual polish
+
+Goal: preserve the reviewed ADTOF performance and fix disappearing strike sections, persistent raised sticks, alternating snare hands, and the complete snare outline visible through the kick.
+Preserved: audio transcription, all timing/family/velocity decisions, eight logical targets, three evidence-based toms, independent surfaces, dim body, kick without a stick and hi-hat surface with 32% pedal.
+Changed modules: pose spec, source-art compositor, native/layer builders and generated assets including clean idle background, mapper hand metadata, XSQ visual placement, preview/pose review, visual regression tests and CI. Details: `docs/DRUMMER_VISUAL_POLISH.md`.
+New behavior: remove raised actuators from idle artwork; full strike overlays in front of instrument surfaces; alternating left/right snare actuation on the same SNARE component; restore hidden magenta snare shell outline (explicit visual geometry, not inferred percussion); kick contains only red rim/blue snowflake.
+Evidence/checklist: [x] inspect and implement; [x] exact event audit/analysis comparison; [x] complete native projection and both decoded snare hands; [x] isolated XSQ and original-song 25s MP4 (audio correlation .9962146413); [x]116 relevant tests plus61 final visual checks; [x] full237.44s MP4 and decoded snare/kick overlap (source correlation .9919693452); [ ] push/remote CI; [ ] user preview approval. Evidence: `test_runs/drummer_visual_polish/`.
+User's possible excessive hi-hat activity is recorded for inspection, not permission to suppress uncertain notes without evidence. No detector retuning in this visual pass.
+Limitations/risks: artwork-derived snare shell completion is an authored visual approximation; shared native grid cells can carry arm overlays; native xLights import remains unverified; human review remains final gate. Prior claims that idle raised sticks are intentionally preserved or native surface clipping is desirable are superseded by this explicit request.
+
 ## 2026-10-07 — recovery preview #218 rejected; reassess transcription methods
 
 User says the 73bb80b / #218 preview is still far from passable. Historical agreement is insufficient and the recovery candidate is rejected musically. Approved physical artwork remains authoritative.

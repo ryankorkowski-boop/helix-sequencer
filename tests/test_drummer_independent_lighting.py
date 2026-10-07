@@ -55,19 +55,18 @@ def test_exact_eight_public_targets_exist_and_are_nonempty() -> None:
         assert submodels[target]
 
 
-def test_each_public_target_is_spatially_isolated_from_other_instrument_surfaces() -> None:
+def test_instrument_surfaces_remain_independent_with_complete_front_strikes() -> None:
     submodels = _submodels()
     all_surfaces = {target: submodels[f"{target}_SURFACE"] for target in TARGETS}
-    union_of_surfaces = set().union(*all_surfaces.values())
     for target in TARGETS:
         surface = all_surfaces[target]
         public = submodels[target]
         assert surface <= public
         for other, other_surface in all_surfaces.items():
             if other != target:
-                assert not (public & other_surface), (target, other)
-        actuator_contribution = public - surface
-        assert not (actuator_contribution & union_of_surfaces), target
+                assert not (surface & other_surface), (target, other)
+        # Public lanes are hidden logic. Visible arm submodels may cross a
+        # surface; deleting those nodes caused the reported disappearing arms.
 
 
 def test_hi_hat_uses_foot_and_no_arm_while_kick_has_no_actuator() -> None:
@@ -126,7 +125,7 @@ def test_preview_body_stays_dimly_lit_during_idle_and_hits() -> None:
 
 def test_preview_strike_poses_are_not_clipped_by_foreign_surfaces() -> None:
     source, preview_masks = load_component_masks()
-    safe_masks = exact_geometry(source, load_spec())["masks"]
+    safe_masks = exact_geometry(source, load_spec(), preview_front_overlap=False)["masks"]
     arm_targets = [TARGETS[1], *TARGETS[3:]]
     gained = {
         target: int((np.asarray(preview_masks[target]) > 0).sum())

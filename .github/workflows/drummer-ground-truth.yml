@@ -83,7 +83,7 @@ jobs:
               raise SystemExit(f'FAIL: missing public targets: {sorted(public-names.keys())}')
           if not root.get('CustomModel'):
               raise SystemExit('FAIL: dense CustomModel grid missing')
-          if root.get('CustomBkgImage') != '../source/drummerbg.png':
+          if root.get('CustomBkgImage') != '../source/drummer_idle.png':
               raise SystemExit(f"FAIL: nonportable background path: {root.get('CustomBkgImage')}")
           print(f'PASS: regenerated V3 geometry HIGH={high} MID={mid} FLOOR={floor}')
           PY
@@ -95,7 +95,7 @@ jobs:
           from pathlib import Path
           import numpy as np
           from PIL import Image
-          paths = [*Path('fixtures/band_geometry/layers').glob('drummer*.png'), Path('fixtures/band_geometry/previews/HX_SNOWMAN_DRUMMER_V3_pose_sheet.png')]
+          paths = [*Path('fixtures/band_geometry/layers').glob('drummer*.png'), Path('fixtures/band_geometry/previews/HX_SNOWMAN_DRUMMER_V3_pose_sheet.png'), Path('fixtures/band_geometry/source/drummer_idle.png')]
           for path in paths:
               original = subprocess.check_output(['git', 'show', f'HEAD:{path.as_posix()}'])
               before = np.asarray(Image.open(io.BytesIO(original)).convert('RGBA'))
@@ -142,6 +142,7 @@ jobs:
             tests/test_drum_detection.py \
             tests/test_drum_mapping.py \
             tests/test_drummer_target_strikes.py \
+            tests/test_drummer_visual_polish.py \
             tests/test_drummer_v3_real_audio.py \
             tests/test_drummer_recovery.py \
             tests/test_drummer_only_export.py \
@@ -329,6 +330,9 @@ jobs:
             test_runs/drummer_real_audio/decoded/*.png
             test_runs/drummer_real_audio/decoded/*.json
             test_runs/drummer_poses/*
+            fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel
+            fixtures/band_geometry/source/drummer_idle.png
+            fixtures/band_geometry/source/drummerbg.png
           if-no-files-found: error
       - name: Upload drummer truth artifacts
         if: always()

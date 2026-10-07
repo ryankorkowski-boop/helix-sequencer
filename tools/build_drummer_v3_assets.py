@@ -25,6 +25,7 @@ from tools.build_drummer_v3_png_layers import (
 )
 from tools.drummer_v3_visual_masks import (
     exact_geometry,
+    idle_art_key,
 )
 
 DEFAULT_SPEC = ROOT / "fixtures" / "band_geometry" / "drummer_v3_pose_spec.json"
@@ -119,6 +120,8 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
         if isinstance(item, dict) and item.get("id") and item.get("surface")
     }
     exact = exact_geometry(source, spec)
+    idle_background = source_path.with_name("drummer_idle.png")
+    exact["masks"][idle_art_key()].save(idle_background, "PNG")
     exact_surfaces_full = exact["surfaces"]
     exact_actuators_full = {name: art.getchannel("A") for name, art in exact["actuators"].items()}
 
@@ -148,16 +151,20 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
     actuator_masks: dict[str, Image.Image] = {}
     for name, mask in exact_actuators_full.items():
         downsampled = _downsample_exact_mask(mask, width, height)
-        isolated = ImageChops.subtract(downsampled, surface_union)
-        if isolated.getbbox() is None:
-            raise ValueError(f"Exact actuator lost all nodes after grid isolation: {name}")
-        actuator_masks[name] = isolated
+        if downsampled.getbbox() is None:
+            raise ValueError(f"Exact actuator lost all nodes after projection: {name}")
+        # Strikes pass in front of the kit. Surface exclusion used to chop out
+        # sections of a valid shaft/arm whenever it crossed another drum.
+        actuator_masks[name] = downsampled
 
     target_masks: dict[str, Image.Image] = {}
     for target_id, target in target_specs.items():
         surface_id = str(target["surface"])
         mask = surface_masks[surface_id].copy()
-        for actuator_id in target.get("actuators", []):
+        actuators = set(target.get("actuators", []))
+        for variant in target.get("actuator_variants", {}).values():
+            actuators.update(variant)
+        for actuator_id in sorted(actuators):
             actuator_id = str(actuator_id)
             mask = ImageChops.lighter(mask, actuator_masks[actuator_id])
         target_masks[target_id] = mask
@@ -184,7 +191,7 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
         if empty:
             raise ValueError(f"Exact {collection_name} masks lost all xLights nodes: {empty}")
 
-    relative_background = "../source/drummerbg.png"
+    relative_background = "../source/drummer_idle.png"
     root = ET.Element(
         "custommodel",
         {
@@ -199,8 +206,8 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
             "Antialias": "1",
             "CustomModel": _dense_custom_model(width, height),
             "CustomBkgImage": relative_background,
-            "HelixVisualSource": relative_background,
-            "HelixImplementationState": "drummer_v3_exact_source_pixel_components",
+            "HelixVisualSource": "../source/drummerbg.png",
+            "HelixImplementationState": "drummer_v3_source_art_front_strikes_completed_snare",
         },
     )
     ET.SubElement(root, "modelGroups")
@@ -240,9 +247,13 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
             wood = (hsv[..., 1] > 90) & (alpha > 32)
             wood_mask = Image.fromarray(np.where(wood, 255, 0).astype(np.uint8))
             wood_nodes = _nodes_from_overlay(_downsample_exact_mask(wood_mask, width, height), width, height) & nodes
+            # Complete arm geometry includes dim source shading. Derive the
+            # native uniform color from the visible wire, so adding that
+            # shading does not darken every physical arm node.
+            neutral_wire = (~wood) & (alpha > 32) & (hsv[..., 2] >= 72)
             for suffix, selected, pixels in (
                 ("WOOD", wood_nodes, rgb[wood]),
-                ("NEUTRAL", nodes - wood_nodes, rgb[(~wood) & (alpha > 32)]),
+                ("NEUTRAL", nodes - wood_nodes, rgb[neutral_wire]),
             ):
                 if not selected or not len(pixels):
                     raise ValueError(f"Empty source-color actuator partition: {name}_{suffix}")
@@ -272,7 +283,7 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
         "xmodel": str(xmodel_path.relative_to(ROOT)),
         "model_name": MODEL_NAME,
         "grid": {"width": width, "height": height},
-        "geometry_source": "exact drummerbg source pixels projected to xLights grid",
+        "geometry_source": "source artwork and authored snare shell completion projected to xLights grid",
         "surface_count": len(surface_nodes),
         "actuator_count": len(actuator_nodes),
         "target_count": len(target_nodes),

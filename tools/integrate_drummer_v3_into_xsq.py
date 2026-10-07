@@ -34,14 +34,15 @@ COMPONENT_HEX = {
 }
 
 
-def component_visual_parts() -> dict:
+def component_visual_parts(snare_hand: str = "left") -> dict:
     source_colors = {node.get("name"): node.get("HelixSourceColor")
                      for node in ET.parse(XMODEL).getroot().findall("./subModels/subModel")}
     result = {}
     for item in load_spec()["lighting_targets"]:
         component = f"{DRUMMER_V3_MODEL}_{item['id']}"
         parts = [(f"{DRUMMER_V3_MODEL}_{item['surface']}", COMPONENT_HEX[component])]
-        for actuator in item["actuators"]:
+        actuators = item.get("actuator_variants", {}).get(snare_hand, item["actuators"])
+        for actuator in actuators:
             name = f"{DRUMMER_V3_MODEL}_{actuator}"
             if actuator.endswith("_ARM_STICK"):
                 for suffix in ("NEUTRAL", "WOOD"):
@@ -118,6 +119,7 @@ def _add_on(
     source_pose: str,
     role: str,
     source_detector: str = ANALYSIS_ENGINE,
+    source_hand: str | None = None,
 ) -> None:
     brightness = _brightness_percent(intensity)
     if role == "visual_pedal":
@@ -144,6 +146,7 @@ def _add_on(
             "sourcePose": source_pose,
             "sourceRole": role,
             "sourceDetector": source_detector,
+            **({"sourceHand": source_hand} if source_hand else {}),
         },
     )
 
@@ -266,9 +269,10 @@ def inject_drummer_v3(
         _clear_layer(logical_layers[component])
 
     visual_parts = component_visual_parts()
+    right_visual_parts = component_visual_parts("right")
     required_visual = {
         name
-        for parts in visual_parts.values()
+        for parts in (*visual_parts.values(), *right_visual_parts.values())
         for name, _ in parts
     }
     available_visual = _visual_submodel_names()
@@ -301,6 +305,7 @@ def inject_drummer_v3(
         intensity = float(event["intensity"])
         drum_type = str(event["drum_type"])
         pose = str(event["pose"])
+        hand = event.get("hand")
 
         _add_on(
             logical_layers[component],
@@ -313,10 +318,12 @@ def inject_drummer_v3(
             source_pose=pose,
             role="logical_component",
             source_detector=engine,
+            source_hand=hand,
         )
         component_counts[component] += 1
 
-        for visual_name, visual_color in visual_parts[component]:
+        event_parts = right_visual_parts if hand == "right" else visual_parts
+        for visual_name, visual_color in event_parts[component]:
             visual_rows[visual_name].append(
                 {
                     "start_ms": start_ms,
@@ -326,6 +333,7 @@ def inject_drummer_v3(
                     "source_component": component,
                     "source_type": drum_type,
                     "source_pose": pose,
+                    "source_hand": hand,
                 }
             )
 
@@ -343,6 +351,7 @@ def inject_drummer_v3(
                 source_pose=str(row["source_pose"]),
                 role="visual_pedal" if visual_name.endswith("_HI_HAT_FOOT") else "visual_geometry",
                 source_detector=engine,
+                source_hand=row.get("source_hand"),
             )
             visual_placements += 1
 

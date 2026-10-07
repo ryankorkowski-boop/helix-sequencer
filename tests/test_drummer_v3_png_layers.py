@@ -15,7 +15,7 @@ XMODEL = ROOT / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
 SOURCE = ROOT / "fixtures/band_geometry/source/drummerbg.png"
 
 REQUIRED_FRAMES = {
-    "idle_ready", "kick_hit", "snare_hit", "hi_hat_pulse",
+    "idle_ready", "kick_hit", "snare_hit", "snare_right_hit", "hi_hat_pulse",
     "tom_high_hit", "tom_mid_hit", "tom_floor_hit",
     "left_crash", "right_crash", "both_crash", "downbeat_impact",
 }
@@ -34,7 +34,7 @@ def test_manifest_selects_canonical_targets_without_duplicate_geometry_commands(
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     assert manifest["xmodel_path"].endswith("HX_SNOWMAN_DRUMMER_V3.xmodel")
     assert set(manifest["required_frames"]) == REQUIRED_FRAMES
-    assert len(manifest["layers"]) == 10
+    assert len(manifest["layers"]) == 11
     for layer in manifest["layers"]:
         assert layer["file"].endswith(".png")
         assert layer["targets"]
@@ -54,7 +54,7 @@ def test_builder_creates_exact_source_pixel_layers_and_contact_sheet(tmp_path: P
     result = _run_builder(source, layers_dir, preview_dir)
     assert result.returncode == 0, result.stderr + result.stdout
     payload = json.loads(result.stdout)
-    assert payload["layer_count"] == 10 and payload["frame_count"] == 11
+    assert payload["layer_count"] == 11 and payload["frame_count"] == 12
     assert "exact drummerbg source pixels" in payload["geometry_source"]
 
     with Image.open(SOURCE) as canonical:

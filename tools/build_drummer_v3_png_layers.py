@@ -18,6 +18,7 @@ from tools.drummer_v3_visual_masks import (
     exact_geometry,
     compose_emissive,
     load_spec,
+    target_variant_key,
 )
 
 DEFAULT_SOURCE = ROOT / "fixtures" / "band_geometry" / "source" / "drummerbg.png"
@@ -52,12 +53,13 @@ def validate_manifest(manifest: dict[str, Any]) -> None:
             raise ValueError(f"Layer {layer.get('id')} must not duplicate authored geometry commands")
 
 
-def _union_masks(targets: list[str], masks: dict[str, Image.Image], size: tuple[int, int]) -> Image.Image:
+def _union_masks(targets: list[str], masks: dict[str, Image.Image], size: tuple[int, int], hand: str = "left") -> Image.Image:
     union = Image.new("L", size, 0)
     for target in targets:
         if target not in masks:
             raise ValueError(f"Review layer references missing canonical target: {target}")
-        union = ImageChops.lighter(union, masks[target])
+        key = target_variant_key(target, hand) if target.endswith("_SNARE") and hand != "left" else target
+        union = ImageChops.lighter(union, masks[key])
     return union
 
 
@@ -85,7 +87,8 @@ def make_contact_sheet(source: Image.Image, masks_by_frame: dict[str, Image.Imag
             composed = compose_emissive(base, {}, [])
         else:
             targets = next(item["targets"] for item in manifest["layers"] if item["id"] == frame) if manifest else ["_ACTIVE"]
-            composed = compose_emissive(base, masks or {"_ACTIVE": mask}, targets)
+            layer = next((item for item in manifest["layers"] if item["id"] == frame), {}) if manifest else {}
+            composed = compose_emissive(base, masks or {"_ACTIVE": mask}, targets, snare_hand=layer.get("hand", "left"))
         sheet.alpha_composite(composed.resize((frame_w, frame_h), Image.Resampling.LANCZOS), (x, y + label_h))
         draw.text((x + 8, y + 7), frame, fill=(255, 255, 255, 255))
     return sheet
@@ -134,9 +137,9 @@ def build(
     skipped: list[str] = []
     for layer in manifest["layers"]:
         layer_id = str(layer["id"])
-        mask = _union_masks([str(t) for t in layer["targets"]], masks, source.size)
+        mask = _union_masks([str(t) for t in layer["targets"]], masks, source.size, layer.get("hand", "left"))
         frame_masks[layer_id] = mask
-        overlay = compose_emissive(source, masks, layer["targets"])
+        overlay = compose_emissive(source, masks, layer["targets"], snare_hand=layer.get("hand", "left"))
         overlay.putalpha(mask)
         overlays[layer_id] = overlay
         out_path = layers_dir / str(layer["file"])
@@ -150,7 +153,7 @@ def build(
         "schema": "helix.drummer_v3_png_layer_build.v3",
         "source_image": _relative(source_path),
         "xmodel": _relative(xmodel_path),
-        "geometry_source": "exact drummerbg source pixels inside canonical pose-spec zones",
+        "geometry_source": "exact drummerbg source pixels plus authored snare shell completion inside canonical pose-spec zones",
         "layer_count": len(overlays),
         "frame_count": len(frames),
         "written": written,
