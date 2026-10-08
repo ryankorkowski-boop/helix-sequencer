@@ -44,14 +44,20 @@ jobs:
               artist = str(row.get("artistName", "")).lower()
               title = str(row.get("trackName", "")).lower()
               preview = row.get("previewUrl")
-              if artist == "iron butterfly" and "in-a-gadda-da-vida" in title and preview:
+              excluded = ("live", "single", "rerecorded", "re-recorded")
+              if (
+                  artist == "iron butterfly"
+                  and "in-a-gadda-da-vida" in title
+                  and preview
+                  and not any(word in title for word in excluded)
+              ):
                   candidates.append(row)
 
           if not candidates:
-              raise SystemExit("No Apple preview found for Iron Butterfly - In-A-Gadda-Da-Vida")
+              raise SystemExit("No non-live Apple preview found for Iron Butterfly - In-A-Gadda-Da-Vida")
 
-          # Prefer the full-length recording when available; otherwise use the
-          # longest matching official preview result.
+          # Prefer the longest non-live studio result, which selects the
+          # full-length recording/remaster rather than the radio edit.
           candidates.sort(key=lambda row: int(row.get("trackTimeMillis", 0) or 0), reverse=True)
           pick = candidates[0]
           out = Path("test_runs/inagadda")
