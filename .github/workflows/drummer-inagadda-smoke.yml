@@ -73,7 +73,17 @@ jobs:
           urllib.request.urlretrieve(pick["previewUrl"], out / "inagadda_preview.m4a")
           print(json.dumps(source, indent=2))
           PY
-          ffmpeg -hide_banner -loglevel error -y             -i test_runs/inagadda/inagadda_preview.m4a             -ar 44100 -ac 1 test_runs/inagadda/inagadda_preview.wav
+          python - <<'PY'
+          import imageio_ffmpeg
+          import subprocess
+          exe = imageio_ffmpeg.get_ffmpeg_exe()
+          subprocess.run([
+              exe, "-hide_banner", "-loglevel", "error", "-y",
+              "-i", "test_runs/inagadda/inagadda_preview.m4a",
+              "-ar", "44100", "-ac", "1",
+              "test_runs/inagadda/inagadda_preview.wav",
+          ], check=True)
+          PY
 
       - name: Regenerate drummer assets
         env: {PYTHONPATH: .}
