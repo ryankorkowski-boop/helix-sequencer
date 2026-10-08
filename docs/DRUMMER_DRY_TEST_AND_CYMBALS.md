@@ -1,5 +1,15 @@
 # Uploaded dry drum test and cymbal lighting
 
+## User-reviewed tom passage — next revision
+
+The user identifies the high → mid → floor passage at roughly 9–11 s. The previous run detected generic tom attacks at 9.69, 10.01, 10.32 and 10.47 s, but all four were omitted because their physical identities were unresolved. The new sparse review overlay assigns high, mid, floor, floor to those existing attacks. It changes no timestamp, velocity, confidence or other instrument event. Viewer right is TOM_HIGH, viewer left is TOM_MID, and the lower viewer-left drum is TOM_FLOOR (the drummer's far right).
+
+`evidence/drummer/dry_drum_test_tom_review.json` is tied to the exact uploaded audio. The first three labels come from the user's auditory order, with independently inspected original-source RMS attack rises at 9.6995, 10.0115 and 10.3235 s. The repeat at 10.4815 s has the same measured floor resonance (~148 Hz versus ~146.5 Hz at the preceding floor); that fourth identity is signal-supported inference, not a separate user timestamp label. The sparse benchmark in `tests/fixtures/drummer/dry_user_tom_anchors.json` contains only the three user-reviewed primary anchors.
+
+Inspection found the original and Demucs drum bus preserve the body of the first two toms, while LarsNet largely removes it. Original-source body modes around 181.6 and 177.2 Hz are too close to warrant reliable automatic high/mid pitch discrimination. No classifier margin is weakened and no global pitch calibration is fabricated. `audio/drum_review.py` requires an explicit high/mid/floor label, original-audio SHA, local finite tolerance, unique existing same-family attack and recorded label source. Missing/ambiguous hits, foreign audio and other rejection gates fail closed. Every resolved audit retains its original identity method and rejection. All unreviewed unknown toms remain unassigned.
+
+The integration flag is `--drum-review evidence/drummer/dry_drum_test_tom_review.json`, used with the original `--drum-events` file. CI includes this source-bound overlay, real-audio anchor checks and decoded tom frames. The original inferred transcript is preserved separately as before evidence. The previous all-tom abstention statement below describes baseline #222 and is superseded only for these four source-supported placements. Hi-hat events and the full Helix performance are unchanged. Double kick and Steve-style flailing were explicitly questions, so no physical layout or motion changes are made.
+
 Read `MASTER_TODO.md` first. The user reports false hi-hat hits in the Helix preview and requests the drummer workflow on their uploaded recording. They are unsure whether or where that recording contains real hats. This run provides a diagnostic preview, not approved percussion labels or a claimed hi-hat fix.
 
 ## Exact uploaded source and workflow
@@ -39,8 +49,8 @@ The Helix report's entire `analysis` and `event_audit` match the previous visual
 # Use the separately installed, pinned external model environment for inference.
 PYTHONPATH=. python tools/prepare_drummer_stems.py evidence/drummer/dry_drum_test.wav --output test_runs/drummer_dry_test/stems --larsnet-code /path/to/larsnet
 PYTHONPATH=. python tools/transcribe_drummer_adtof.py evidence/drummer/dry_drum_test.wav --analysis-audio test_runs/drummer_dry_test/stems/separated/htdemucs/dry_drum_test/drums.wav --family-stems test_runs/drummer_dry_test/stems/lars_full --output test_runs/drummer_dry_test/new_inference.json
-# Cached source-bound inference reproduces the reviewed export without installing models.
-PYTHONPATH=. python tools/integrate_drummer_v3_into_xsq.py template.xsq evidence/drummer/dry_drum_test.wav --drum-events evidence/drummer/dry_drum_test_adtof.json --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.xsq --report test_runs/drummer_dry_test/report.json
+# Cached inference plus source-bound reviewed tom labels reproduces the current export without installing models.
+PYTHONPATH=. python tools/integrate_drummer_v3_into_xsq.py template.xsq evidence/drummer/dry_drum_test.wav --drum-events evidence/drummer/dry_drum_test_adtof.json --drum-review evidence/drummer/dry_drum_test_tom_review.json --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.xsq --report test_runs/drummer_dry_test/report.json
 PYTHONPATH=. python tools/export_drummer_only_xsq.py test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.xsq --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq --audio evidence/drummer/dry_drum_test.wav
 PYTHONPATH=. python tools/render_drummer_v3_preview.py test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq --audio evidence/drummer/dry_drum_test.wav --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.mp4 --fps 60
 ```

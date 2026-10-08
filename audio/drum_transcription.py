@@ -16,7 +16,7 @@ SCHEMA = "helix.drum_transcription.v1"
 FAMILIES = {"kick", "snare", "hihat", "cymbal", "tom"}
 
 
-def load_drum_transcription(path, audio_path):
+def load_drum_transcription(path, audio_path, review_path=None):
     payload = json.loads(Path(path).read_text(encoding="utf-8"))
     if payload.get("schema") != SCHEMA:
         raise ValueError("Unsupported drum transcription schema")
@@ -26,8 +26,12 @@ def load_drum_transcription(path, audio_path):
     source = payload.get("provenance", {})
     if not source.get("engine"):
         raise ValueError("Drum transcription must name its source engine")
+    rows, review = payload["events"], None
+    if review_path is not None:
+        from audio.drum_review import apply_tom_review
+        rows, review = apply_tom_review(rows, digest, review_path)
     events, audit = [], []
-    for index, row in enumerate(payload["events"]):
+    for index, row in enumerate(rows):
         timestamp = float(row["timestamp"])
         confidence, velocity = float(row["confidence"]), float(row["velocity"])
         if not math.isfinite(timestamp) or timestamp < 0:
@@ -57,8 +61,11 @@ def load_drum_transcription(path, audio_path):
             events.append(DrumEvent(timestamp, velocity, confidence, info, index,
                                     family, source["engine"]))
     events.sort(key=lambda e: (e.timestamp, e.drum_type))
-    return events, dict(analysis_engine=source["engine"], transcription_provenance=source,
+    diagnostics = dict(analysis_engine=source["engine"], transcription_provenance=source,
                         audio_sha256=digest, review_status=payload.get("review_status", "unreviewed"),
                         rejection_counts=dict(Counter(r["rejection_reason"] for r in audit if r["rejection_reason"])),
                         onset_candidate_count=len(audit), typed_event_count=len(events),
                         onset_audit=audit)
+    if review is not None:
+        diagnostics["tom_review"] = review
+    return events, diagnostics

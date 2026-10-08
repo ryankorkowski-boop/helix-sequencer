@@ -229,6 +229,7 @@ def inject_drummer_v3(
     *,
     layer_name: str = "AUTO_Drummer_V3",
     transcription_path: str | Path | None = None,
+    review_path: str | Path | None = None,
 ) -> dict[str, object]:
     base_xsq = Path(base_xsq)
     output_xsq = Path(output_xsq)
@@ -237,10 +238,12 @@ def inject_drummer_v3(
         raise FileNotFoundError("Missing XSQ or audio input")
 
     if transcription_path is None:
+        if review_path is not None:
+            raise ValueError("Tom review requires a source-bound drum transcription")
         typed_events, diagnostics = _analyze_real_audio(audio_path)
     else:
         from audio.drum_transcription import load_drum_transcription
-        typed_events, diagnostics = load_drum_transcription(transcription_path, audio_path)
+        typed_events, diagnostics = load_drum_transcription(transcription_path, audio_path, review_path)
     engine = diagnostics.get("analysis_engine", ANALYSIS_ENGINE)
     streams = {
         "kick_events": [event for event in typed_events if event.drum_type == "kick"],
@@ -443,6 +446,7 @@ def main() -> int:
     parser.add_argument("--layer", default="AUTO_Drummer_V3")
     parser.add_argument("--report", type=Path)
     parser.add_argument("--drum-events", type=Path, help="Source-hash-verified polyphonic drum transcription JSON")
+    parser.add_argument("--drum-review", type=Path, help="Source-bound reviewed identities for existing tom attacks")
     args = parser.parse_args()
 
     report = inject_drummer_v3(
@@ -451,6 +455,7 @@ def main() -> int:
         args.audio,
         layer_name=args.layer,
         transcription_path=args.drum_events,
+        review_path=args.drum_review,
     )
     payload = json.dumps(report, indent=2, sort_keys=True)
     print(json.dumps({k:v for k,v in report.items() if k not in {"analysis", "event_audit"}}, indent=2))

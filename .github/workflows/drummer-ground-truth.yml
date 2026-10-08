@@ -149,6 +149,7 @@ jobs:
             tests/test_drummer_recovery.py \
             tests/test_drummer_only_export.py \
             tests/test_drum_transcription.py \
+            tests/test_drum_review.py \
             tests/test_drummer_v3_detector_sync.py \
             tests/test_drummer_v3_analysis.py \
             tests/test_drummer_v3_guitar_rejection.py \
@@ -315,6 +316,7 @@ jobs:
           python tools/integrate_drummer_v3_into_xsq.py \
             template.xsq evidence/drummer/dry_drum_test.wav \
             --drum-events evidence/drummer/dry_drum_test_adtof.json \
+            --drum-review evidence/drummer/dry_drum_test_tom_review.json \
             --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.xsq \
             --report test_runs/drummer_dry_test/report.json
           python - <<'PY'
@@ -328,13 +330,19 @@ jobs:
           assert analysis['audio_sha256'] == hashlib.sha256(audio.read_bytes()).hexdigest()
           assert analysis['review_status'] == 'model_inferred_pending_human_listening'
           assert analysis['transcription_provenance']['tom_reference_hz'] is None
-          assert all(row['rejection_reason'] == 'unresolved_tom_identity'
-                     and row['physical_target'] is None
-                     for row in analysis['onset_audit'] if row['drum_family'] == 'tom')
+          assert analysis['tom_review']['review_status'] == 'partial_source_bound_tom_review'
+          for row in analysis['onset_audit']:
+              if row['drum_family'] != 'tom':
+                  continue
+              if row['primary'].get('tom_review'):
+                  expected = 'HX_SNOWMAN_DRUMMER_V3_TOM_' + row['primary']['tom_class'].upper()
+                  assert row['scheduler_decision'] == 'scheduled' and row['physical_target'] == expected
+              else:
+                  assert row['rejection_reason'] == 'unresolved_tom_identity' and row['physical_target'] is None
           manifest = dict(source=str(audio), sha256=analysis['audio_sha256'],
                           duration=info.duration, sample_rate=info.samplerate,
                           channels=info.channels, frames=info.frames, subtype=info.subtype,
-                          note='Cached model inference, not human-reviewed expected events.')
+                          note='Cached inference with sparse user-reviewed tom identities; other events remain unreviewed.')
           Path('test_runs/drummer_dry_test/source_manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
           PY
           python tools/export_drummer_only_xsq.py \
@@ -351,7 +359,7 @@ jobs:
             --xsq test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
             --audio evidence/drummer/dry_drum_test.wav \
             --start 0 --duration 38.32 \
-            --times 0.3333,0.95,1.25,1.7333,2.05,3.3,10.3333,20.25 \
+            --times 0.3333,0.95,1.25,9.7,10.0333,10.3333,10.4833,20.25 \
             --output test_runs/drummer_dry_test/decoded
       - name: Upload uploaded-audio drummer test
         if: always()
@@ -363,6 +371,8 @@ jobs:
             evidence/drummer/dry_drum_test.wav
             evidence/drummer/dry_drum_test_adtof.json
             evidence/drummer/dry_drum_test_signal_inspection.json
+            evidence/drummer/dry_drum_test_tom_review.json
+            tests/fixtures/drummer/dry_user_tom_anchors.json
           if-no-files-found: error
       - name: Upload historical recovery evidence
         if: always()

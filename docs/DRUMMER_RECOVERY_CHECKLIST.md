@@ -1,3 +1,13 @@
+# User-reviewed descending tom fill
+
+- [x] Inspect independent original-source attacks and separator loss around 9–11 s.
+- [x] Record user-confirmed high → mid → floor labels and source-refined timing anchors.
+- [x] Add source-bound review overlay; unknown other toms still abstain, no synthetic attacks or class cycling.
+- [x]134 relevant tests passed; all 275 non-tom audit rows and 1,022-event Helix audit/analysis unchanged.
+- [x] Render full dry-audio MP4/XSQ; inspect all three decoded tom strikes and floor repeat, source audio correlation .9959113596; all 16 physical assets unchanged.
+- [ ] Push and verify final workflow artifacts.
+- [ ] User approval; hi-hat issue remains open. Double kick and flailing arms are questions only.
+
 # Uploaded Dry Drum Test and cymbal shimmer
 
 - [x] Verify exact uploaded WAV and retain its source hash.
@@ -5,8 +15,8 @@
 - [x] Inspect isolated stems and original-source bands; record hat-stem body leakage without inventing labels.
 - [x] Export complete 38.32 s drummer-only XSQ/MP4 and event report/CSV; verify decoded frames and original soundtrack.
 - [x] Add cymbal surface shimmer/decay with short original strike poses; all 1,022 Helix musical events unchanged.
-- [x] Four focused lighting regressions and the complete relevant local suite.
-- [ ] Push and verify remote workflow/artifacts, including uploaded audio.
+- [x] Six focused lighting regressions and the complete relevant local suite.
+- [x] Push c0e8bae and verify CI #222/artifacts, 122 tests; this supersedes #221's contact-clipped preview.
 - [ ] User review of dry-test MP4; false-hi-hat behavior is unresolved and must not be called fixed.
 
 See `DRUMMER_DRY_TEST_AND_CYMBALS.md` and `MASTER_TODO.md`.
