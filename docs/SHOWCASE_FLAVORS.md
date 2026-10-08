@@ -50,4 +50,17 @@ Local native rendering verifies 480 frames at 50 ms for each show and the intend
 
 These MP4s use actual native channel values in the design geometry compositor. Custom node coordinates exactly match exported grids; stock model review paths are illustrative. Native headless import/render is checked for every flavor. No new six-layout GUI attribute audit or native screen recording is claimed. The studies have no song audio. Physical engineering, site surveying, controllers, wiring and power are separate work. Existing layouts and the drummer are preserved; drummer musical approval remains open in `MASTER_TODO.md`.
 
-Artistic acceptance belongs to the user. Final validation, branch commit, CI run and artifact links are recorded in the collection's `HANDOFF.json` and the master ledger.
+Final validation: 64 layout checks pass locally and in native CI. Six 1600×90020fps480-frame24s videos, their 1/5/12/20-second decoded frames, the 36-second tour and all six browser viewers were checked. Downloaded compact-package 210 hashes and gallery links verify; all six complete 480-frame native channel arrays and XML/XSQ/manifest/inventory match local builds exactly.
+
+Implementation commit: `536dcca52e5f686643f396bd9e9758efacfc4cd0`, branch `feature/showcase-six-flavors`. [Native CI run 37794173215](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215) succeeded.
+
+- [All six native layouts and offline comparison gallery](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557618824)
+- [Collection video tour and comparison image](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557958280)
+- [Neon Circuit full show and MP4](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557953390)
+- [Enchanted Grove full show and MP4](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557673718)
+- [Celestial Orrery full show and MP4](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557499059)
+- [Fire & Ice full show and MP4](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557998029)
+- [Crystal Lagoon full show and MP4](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557803680)
+- [Midnight Masquerade full show and MP4](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557593938)
+
+The remote compact ZIP SHA256 is `f7fed219f594ef86ba80a058a0d1c4d6e1fa4baf964982ca7b5b3a39c1fadd36`. Artifacts have 30-day retention; permanent import shows and generated builders remain checked in. `docs/evidence/showcase_flavors_verification.json` records the downloaded checks. Artistic acceptance belongs to the user and remains pending. The collection's `HANDOFF.json` and master ledger preserve continuity.
