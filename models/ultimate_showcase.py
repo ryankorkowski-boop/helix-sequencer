@@ -71,8 +71,11 @@ def _path(vertices: Any, count: int, *, closed: bool = False) -> np.ndarray:
 
 
 class Garden:
-    def __init__(self) -> None:
+    def __init__(self, *, title: str = "Helix Aurora", slug: str = "Helix_Aurora",
+                 description: str = "A cathedral of cyan and magenta DNA, surrounded by graduated spiral groves, golden crowns and a flowing infinity promenade.",
+                 palette: tuple[str, str, str] = (CYAN, PINK, GOLD)) -> None:
         self.models: list[Sculpture] = []
+        self.title, self.slug, self.description, self.palette = title, slug, description, palette
 
     def box(self, name: str, display: str, raw: Any, pos: tuple[float, float, float],
             size: tuple[float, float, float], zone: str, design: str, *,
@@ -431,7 +434,7 @@ def build_ultimate_garden() -> Garden:
 
 
 def garden_manifest(g: Garden) -> dict[str, Any]:
-    return {"schema":"helix.ultimate_showcase.v1","name":"Helix Aurora — Ultimate Showcase",
+    result = {"schema":"helix.ultimate_showcase.v1","name":g.title+" — Ultimate Showcase",
             "coordinate_system":"x-right, y-up, z-depth; design feet", "xlights_source_ref":XLIGHTS_SOURCE,
             "coverage":dict(sorted(Counter(family(m.display) for m in g.models).items())),
             "native_families":list(NATIVE_TYPES), "native_coverage_complete":True,
@@ -443,3 +446,6 @@ def garden_manifest(g: Garden) -> dict[str, Any]:
                        "kind":m.kind,"nodes":len(m.points),"start_channel":m.start,"end_channel":m.start+m.channels-1,
                        "bounds_ft":[m.points.min(axis=0).round(6).tolist(),m.points.max(axis=0).round(6).tolist()],
                        "submodels":list(m.submodels),**m.details} for m in g.models]}
+    if g.slug!="Helix_Aurora":
+        result.update({"file_prefix":g.slug,"description":g.description,"palette":list(g.palette)})
+    return result

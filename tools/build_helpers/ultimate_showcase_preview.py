@@ -74,12 +74,12 @@ def _project(points: np.ndarray, width: int, height: int, yaw: float, pitch: flo
     return np.c_[width/2+x*scale,height*.53-y*scale,z]
 
 
-def _base(width: int, height: int) -> Image.Image:
+def _base(width: int, height: int, title: str = "Helix Aurora") -> Image.Image:
     t=np.linspace(0,1,height)[:,None,None]
     pixels=np.repeat(np.array([[[6,9,22]]])*(1-t)+np.array([[[10,23,38]]])*t,width,axis=1).astype(np.uint8)
     result=Image.fromarray(pixels)
     d=ImageDraw.Draw(result)
-    d.text((width*.045,height*.05),"H E L I X   A U R O R A",font=_font(round(width*.025)),fill=(222,241,250))
+    d.text((width*.045,height*.05)," ".join(title.upper()),font=_font(round(width*.025)),fill=(222,241,250))
     d.text((width*.047,height*.105),"THE ULTIMATE SHOWCASE  /  SCULPTURE + LIGHT",font=_font(round(width*.009)),fill=(114,155,179))
     return result
 
@@ -90,7 +90,7 @@ def _rgb(colors: list[str]) -> np.ndarray:
 
 def render_frame(g: Garden, width: int = 1920, height: int = 1080, *, yaw: float = 7,
                  pitch: float = 18, time: float | None = None, native: np.ndarray | None = None) -> Image.Image:
-    base=_base(width,height)
+    base=_base(width,height,g.title)
     # Restrained ground grid: staging and depth remain legible, without fake props.
     grid=Image.new("RGB",(width,height));draw=ImageDraw.Draw(grid)
     for z in range(-120,61,20):
@@ -126,21 +126,23 @@ def render_frame(g: Garden, width: int = 1920, height: int = 1080, *, yaw: float
     halo=lights.filter(ImageFilter.GaussianBlur(4))
     result=ImageChops.add(base,ImageChops.add(lights,halo))
     draw=ImageDraw.Draw(result)
-    draw.text((width*.045,height*.914),"36 SPIRAL TREES    /    12 DNA SCULPTURES    /    27 NATIVE FAMILIES",font=_font(round(width*.0105)),fill=(183,222,238))
+    spirals=sum(bool(m.details.get("spiral_tree")) for m in g.models)
+    dna=sum(bool(m.details.get("double_helix")) for m in g.models)
+    draw.text((width*.045,height*.914),f"{spirals} SPIRAL TREES    /    {dna} DNA SCULPTURES    /    27 NATIVE FAMILIES",font=_font(round(width*.0105)),fill=(183,222,238))
     label="NATIVE XLIGHTS LIGHTING • 24 SECOND STUDY" if native is not None else "3D LAYOUT DESIGN • NIGHT VIEW"
     draw.text((width*.045,height*.949),label,font=_font(round(width*.0075)),fill=(99,140,157))
     return result
 
 
 def write_previews(g: Garden, output: Path, *, video: bool = True, fseq: Path | None = None) -> dict:
-    render_frame(g).save(output/"Helix_Aurora_Night.png")
-    render_frame(g,yaw=-26,pitch=25).save(output/"Helix_Aurora_Perspective.png")
+    render_frame(g).save(output/(g.slug+"_Night.png"))
+    render_frame(g,yaw=-26,pitch=25).save(output/(g.slug+"_Perspective.png"))
     write_html(g,output)
     frames,step=read_fseq(fseq) if fseq else (None,50)
     if video:
         width,height,fps=1600,900,20
         cmd=["ffmpeg","-y","-loglevel","error","-f","rawvideo","-pix_fmt","rgb24","-s",f"{width}x{height}","-r",str(fps),"-i","-",
-             "-an","-c:v","libx264","-preset","fast","-crf","19","-pix_fmt","yuv420p","-movflags","+faststart",str(output/"Helix_Aurora_Showcase.mp4")]
+             "-an","-c:v","libx264","-preset","fast","-crf","19","-pix_fmt","yuv420p","-movflags","+faststart",str(output/(g.slug+"_Showcase.mp4"))]
         process=subprocess.Popen(cmd,stdin=subprocess.PIPE)
         try:
             for i in range(24*fps):
@@ -194,5 +196,13 @@ c.addEventListener('pointerdown',e=>{pointers.set(e.pointerId,[e.clientX,e.clien
 document.getElementById('model').onchange=e=>{selected=e.target.value;update()};document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;selected='';document.querySelectorAll('[data-mode]').forEach(v=>v.classList.toggle('active',v===b));update()});
 document.getElementById('front').onclick=()=>{yaw=0;pitch=0;orbit=false};document.getElementById('plan').onclick=()=>{yaw=0;pitch=1.5;orbit=false};document.getElementById('orbit').onclick=()=>orbit=!orbit;document.getElementById('reset').onclick=()=>{yaw=.12;pitch=.32;zoom=1;orbit=false;selected='';update()};update();requestAnimationFrame(render);
 </script></html>'''
+    if g.slug!="Helix_Aurora":
+        spirals=sum(bool(m.details.get("spiral_tree")) for m in g.models)
+        dna=sum(bool(m.details.get("double_helix")) for m in g.models)
+        html=html.replace("Helix Aurora",g.title).replace("HELIX AURORA",g.title.upper())
+        html=html.replace("<b>36</b>",f"<b>{spirals}</b>").replace("<b>12</b>",f"<b>{dna}</b>")
+        html=html.replace("108 models across",f"{len(g.models)} models across")
+        html=html.replace("A cathedral of cyan and magenta DNA, surrounded by graduated spiral groves, golden crowns and a flowing infinity promenade.",g.description)
+        for old,new in zip(("#64f5ff","#ff70ce","#ffd98a"),g.palette,strict=True):html=html.replace(old,new)
     html=html.replace("__DATA__",json.dumps(data,separators=(",",":")))
-    (output/"Helix_Aurora_3D.html").write_text(html,encoding="utf-8")
+    (output/(g.slug+"_3D.html")).write_text(html,encoding="utf-8")

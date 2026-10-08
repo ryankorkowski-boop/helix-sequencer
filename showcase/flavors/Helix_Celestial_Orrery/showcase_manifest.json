@@ -1,0 +1,3808 @@
+{
+  "schema": "helix.ultimate_showcase.v1",
+  "name": "Helix Celestial Orrery \u2014 Ultimate Showcase",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Arches": 8,
+    "Candy Canes": 2,
+    "Channel Block": 1,
+    "Circle": 2,
+    "Cube": 2,
+    "Custom": 19,
+    "DmxFloodArea": 1,
+    "DmxFloodlight": 1,
+    "DmxGeneral": 1,
+    "DmxMovingHead": 1,
+    "DmxMovingHeadAdv": 1,
+    "DmxServo": 1,
+    "DmxServo3d": 1,
+    "DmxSkull": 1,
+    "Icicles": 2,
+    "Image": 1,
+    "Label": 1,
+    "Matrix": 2,
+    "MultiPoint": 1,
+    "Poly Line": 1,
+    "Single Line": 2,
+    "Sphere": 2,
+    "Spinner": 2,
+    "Star": 1,
+    "Tree": 44,
+    "Window Frame": 2,
+    "Wreath": 2
+  },
+  "native_families": [
+    "Arches",
+    "Candy Canes",
+    "Channel Block",
+    "Circle",
+    "Cube",
+    "Custom",
+    "DmxMovingHead",
+    "DmxMovingHeadAdv",
+    "DmxFloodlight",
+    "DmxFloodArea",
+    "DmxGeneral",
+    "DmxSkull",
+    "DmxServo",
+    "DmxServo3d",
+    "Image",
+    "Label",
+    "Window Frame",
+    "Wreath",
+    "Sphere",
+    "Single Line",
+    "Poly Line",
+    "MultiPoint",
+    "Tree",
+    "Matrix",
+    "Spinner",
+    "Star",
+    "Icicles"
+  ],
+  "native_coverage_complete": true,
+  "model_count": 105,
+  "rgb_pixels": 34408,
+  "channel_count": 103322,
+  "spiral_trees": 40,
+  "double_helices": 13,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_CO_NATIVE_Tree_360",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "NATIVE_TREE_GALLERY",
+      "design": "Celestial Orrery \u2014 Tree 360 tree; 12 strands, 0 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 576,
+      "start_channel": 1,
+      "end_channel": 1728,
+      "bounds_ft": [
+        [
+          -180.2,
+          0.0,
+          37.8
+        ],
+        [
+          -165.8,
+          22.4,
+          52.2
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03",
+        "STRAND_04",
+        "STRAND_05",
+        "STRAND_06",
+        "STRAND_07",
+        "STRAND_08",
+        "STRAND_09",
+        "STRAND_10",
+        "STRAND_11",
+        "STRAND_12"
+      ],
+      "spiral_tree": false,
+      "turns": 0,
+      "height_ft": 22.400000000000002
+    },
+    {
+      "name": "HX_CO_NATIVE_Tree_180",
+      "native_type": "Tree 180",
+      "family": "Tree",
+      "zone": "NATIVE_TREE_GALLERY",
+      "design": "Celestial Orrery \u2014 Tree 180 tree; 12 strands, 0 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 576,
+      "start_channel": 1729,
+      "end_channel": 3456,
+      "bounds_ft": [
+        [
+          165.8,
+          0.0,
+          37.8
+        ],
+        [
+          180.2,
+          22.4,
+          52.2
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03",
+        "STRAND_04",
+        "STRAND_05",
+        "STRAND_06",
+        "STRAND_07",
+        "STRAND_08",
+        "STRAND_09",
+        "STRAND_10",
+        "STRAND_11",
+        "STRAND_12"
+      ],
+      "spiral_tree": false,
+      "turns": 0,
+      "height_ft": 22.400000000000002
+    },
+    {
+      "name": "HX_CO_NATIVE_Tree_Flat",
+      "native_type": "Tree Flat",
+      "family": "Tree",
+      "zone": "NATIVE_TREE_GALLERY",
+      "design": "Celestial Orrery \u2014 Tree Flat tree; 12 strands, 0 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 576,
+      "start_channel": 3457,
+      "end_channel": 5184,
+      "bounds_ft": [
+        [
+          -172.2,
+          0.0,
+          -42.0
+        ],
+        [
+          -157.8,
+          22.4,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03",
+        "STRAND_04",
+        "STRAND_05",
+        "STRAND_06",
+        "STRAND_07",
+        "STRAND_08",
+        "STRAND_09",
+        "STRAND_10",
+        "STRAND_11",
+        "STRAND_12"
+      ],
+      "spiral_tree": false,
+      "turns": 0,
+      "height_ft": 22.400000000000002
+    },
+    {
+      "name": "HX_CO_NATIVE_Tree_Ribbon",
+      "native_type": "Tree Ribbon",
+      "family": "Tree",
+      "zone": "NATIVE_TREE_GALLERY",
+      "design": "Celestial Orrery \u2014 Tree Ribbon tree; 12 strands, 0 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 576,
+      "start_channel": 5185,
+      "end_channel": 6912,
+      "bounds_ft": [
+        [
+          157.8,
+          0.0,
+          -42.0
+        ],
+        [
+          172.2,
+          22.4,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03",
+        "STRAND_04",
+        "STRAND_05",
+        "STRAND_06",
+        "STRAND_07",
+        "STRAND_08",
+        "STRAND_09",
+        "STRAND_10",
+        "STRAND_11",
+        "STRAND_12"
+      ],
+      "spiral_tree": false,
+      "turns": 0,
+      "height_ft": 22.400000000000002
+    },
+    {
+      "name": "HX_CO_ORRERY_MOON_-1",
+      "native_type": "Sphere",
+      "family": "Sphere",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Pixel moon above a lyric pavilion; full-depth meridians",
+      "kind": "pixel",
+      "nodes": 480,
+      "start_channel": 6913,
+      "end_channel": 8352,
+      "bounds_ft": [
+        [
+          -121.5,
+          17.98,
+          -65.34
+        ],
+        [
+          -112.82,
+          26.66,
+          -56.66
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_AURORA_HORIZONTAL",
+      "native_type": "Horiz Matrix",
+      "family": "Matrix",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 A wide lyric cinema",
+      "kind": "pixel",
+      "nodes": 800,
+      "start_channel": 8353,
+      "end_channel": 10752,
+      "bounds_ft": [
+        [
+          -125.53,
+          4.65,
+          -61.0
+        ],
+        [
+          -108.79,
+          16.43,
+          -61.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_JEWEL_WINDOW_-1",
+      "native_type": "Window Frame",
+      "family": "Window Frame",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Oversized jewel-box frame around the art canvas",
+      "kind": "pixel",
+      "nodes": 192,
+      "start_channel": 10753,
+      "end_channel": 11328,
+      "bounds_ft": [
+        [
+          -126.46,
+          3.72,
+          -61.31
+        ],
+        [
+          -107.86,
+          17.36,
+          -61.31
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_ORBIT_TRIPTYCH_-1",
+      "native_type": "Circle",
+      "family": "Circle",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Nested astronomical orbit rings",
+      "kind": "pixel",
+      "nodes": 288,
+      "start_channel": 11329,
+      "end_channel": 12192,
+      "bounds_ft": [
+        [
+          -146.61,
+          7.13,
+          -60.38
+        ],
+        [
+          -134.83,
+          18.91,
+          -60.38
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_MOON_WREATH_-1",
+      "native_type": "Wreath",
+      "family": "Wreath",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Halo wreath with an open, readable center",
+      "kind": "pixel",
+      "nodes": 96,
+      "start_channel": 12193,
+      "end_channel": 12480,
+      "bounds_ft": [
+        [
+          -144.13,
+          20.77,
+          -60.38
+        ],
+        [
+          -137.31,
+          27.59,
+          -60.38
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_SOLAR_SPINNER_-1",
+      "native_type": "Spinner",
+      "family": "Spinner",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Twelve-arm hollow solar rosette; independent radial chase lanes",
+      "kind": "pixel",
+      "nodes": 216,
+      "start_channel": 12481,
+      "end_channel": 13128,
+      "bounds_ft": [
+        [
+          -164.28,
+          6.2,
+          -61.62
+        ],
+        [
+          -151.88,
+          18.6,
+          -61.62
+        ]
+      ],
+      "submodels": [
+        "RAY_01",
+        "RAY_02",
+        "RAY_03",
+        "RAY_04",
+        "RAY_05",
+        "RAY_06",
+        "RAY_07",
+        "RAY_08",
+        "RAY_09",
+        "RAY_10",
+        "RAY_11",
+        "RAY_12"
+      ]
+    },
+    {
+      "name": "HX_CO_ORRERY_MOON_1",
+      "native_type": "Sphere",
+      "family": "Sphere",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Pixel moon above a lyric pavilion; full-depth meridians",
+      "kind": "pixel",
+      "nodes": 480,
+      "start_channel": 13129,
+      "end_channel": 14568,
+      "bounds_ft": [
+        [
+          112.82,
+          17.98,
+          -65.34
+        ],
+        [
+          121.5,
+          26.66,
+          -56.66
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_AURORA_VERTICAL",
+      "native_type": "Vert Matrix",
+      "family": "Matrix",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Portrait generative-art canvas",
+      "kind": "pixel",
+      "nodes": 640,
+      "start_channel": 14569,
+      "end_channel": 16488,
+      "bounds_ft": [
+        [
+          108.79,
+          4.65,
+          -61.0
+        ],
+        [
+          125.53,
+          16.43,
+          -61.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_JEWEL_WINDOW_1",
+      "native_type": "Window Frame",
+      "family": "Window Frame",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Oversized jewel-box frame around the art canvas",
+      "kind": "pixel",
+      "nodes": 192,
+      "start_channel": 16489,
+      "end_channel": 17064,
+      "bounds_ft": [
+        [
+          107.86,
+          3.72,
+          -61.31
+        ],
+        [
+          126.46,
+          17.36,
+          -61.31
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_ORBIT_TRIPTYCH_1",
+      "native_type": "Circle",
+      "family": "Circle",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Nested astronomical orbit rings",
+      "kind": "pixel",
+      "nodes": 288,
+      "start_channel": 17065,
+      "end_channel": 17928,
+      "bounds_ft": [
+        [
+          134.83,
+          7.13,
+          -60.38
+        ],
+        [
+          146.61,
+          18.91,
+          -60.38
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_MOON_WREATH_1",
+      "native_type": "Wreath",
+      "family": "Wreath",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Halo wreath with an open, readable center",
+      "kind": "pixel",
+      "nodes": 96,
+      "start_channel": 17929,
+      "end_channel": 18216,
+      "bounds_ft": [
+        [
+          137.31,
+          20.77,
+          -60.38
+        ],
+        [
+          144.13,
+          27.59,
+          -60.38
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_SOLAR_SPINNER_1",
+      "native_type": "Spinner",
+      "family": "Spinner",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Twelve-arm hollow solar rosette; independent radial chase lanes",
+      "kind": "pixel",
+      "nodes": 216,
+      "start_channel": 18217,
+      "end_channel": 18864,
+      "bounds_ft": [
+        [
+          151.88,
+          6.2,
+          -61.62
+        ],
+        [
+          164.28,
+          18.6,
+          -61.62
+        ]
+      ],
+      "submodels": [
+        "RAY_01",
+        "RAY_02",
+        "RAY_03",
+        "RAY_04",
+        "RAY_05",
+        "RAY_06",
+        "RAY_07",
+        "RAY_08",
+        "RAY_09",
+        "RAY_10",
+        "RAY_11",
+        "RAY_12"
+      ]
+    },
+    {
+      "name": "HX_CO_RIBBON_ARCH_01",
+      "native_type": "Arches",
+      "family": "Arches",
+      "zone": "RIBBON_PROMENADE",
+      "design": "Celestial Orrery \u2014 A scalloped aurora entrance arch",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 18865,
+      "end_channel": 19104,
+      "bounds_ft": [
+        [
+          -146.28,
+          0.0,
+          -92.68
+        ],
+        [
+          -126.04,
+          9.198181,
+          -92.68
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_RIBBON_ARCH_02",
+      "native_type": "Arches",
+      "family": "Arches",
+      "zone": "RIBBON_PROMENADE",
+      "design": "Celestial Orrery \u2014 A scalloped aurora entrance arch",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 19105,
+      "end_channel": 19344,
+      "bounds_ft": [
+        [
+          -120.52,
+          0.0,
+          -92.68
+        ],
+        [
+          -100.28,
+          9.198181,
+          -92.68
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_RIBBON_ARCH_03",
+      "native_type": "Arches",
+      "family": "Arches",
+      "zone": "RIBBON_PROMENADE",
+      "design": "Celestial Orrery \u2014 A scalloped aurora entrance arch",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 19345,
+      "end_channel": 19584,
+      "bounds_ft": [
+        [
+          -94.76,
+          0.0,
+          -92.68
+        ],
+        [
+          -74.52,
+          9.198181,
+          -92.68
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_RIBBON_ARCH_04",
+      "native_type": "Arches",
+      "family": "Arches",
+      "zone": "RIBBON_PROMENADE",
+      "design": "Celestial Orrery \u2014 A scalloped aurora entrance arch",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 19585,
+      "end_channel": 19824,
+      "bounds_ft": [
+        [
+          -69.0,
+          0.0,
+          -92.68
+        ],
+        [
+          -48.76,
+          9.198181,
+          -92.68
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_RIBBON_ARCH_05",
+      "native_type": "Arches",
+      "family": "Arches",
+      "zone": "RIBBON_PROMENADE",
+      "design": "Celestial Orrery \u2014 A scalloped aurora entrance arch",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 19825,
+      "end_channel": 20064,
+      "bounds_ft": [
+        [
+          48.76,
+          0.0,
+          -92.68
+        ],
+        [
+          69.0,
+          9.198181,
+          -92.68
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_RIBBON_ARCH_06",
+      "native_type": "Arches",
+      "family": "Arches",
+      "zone": "RIBBON_PROMENADE",
+      "design": "Celestial Orrery \u2014 A scalloped aurora entrance arch",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 20065,
+      "end_channel": 20304,
+      "bounds_ft": [
+        [
+          74.52,
+          0.0,
+          -92.68
+        ],
+        [
+          94.76,
+          9.198181,
+          -92.68
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_RIBBON_ARCH_07",
+      "native_type": "Arches",
+      "family": "Arches",
+      "zone": "RIBBON_PROMENADE",
+      "design": "Celestial Orrery \u2014 A scalloped aurora entrance arch",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 20305,
+      "end_channel": 20544,
+      "bounds_ft": [
+        [
+          100.28,
+          0.0,
+          -92.68
+        ],
+        [
+          120.52,
+          9.198181,
+          -92.68
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_RIBBON_ARCH_08",
+      "native_type": "Arches",
+      "family": "Arches",
+      "zone": "RIBBON_PROMENADE",
+      "design": "Celestial Orrery \u2014 A scalloped aurora entrance arch",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 20545,
+      "end_channel": 20784,
+      "bounds_ft": [
+        [
+          126.04,
+          0.0,
+          -92.68
+        ],
+        [
+          146.28,
+          9.198181,
+          -92.68
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_CANDY_GARDEN_-1",
+      "native_type": "Candy Canes",
+      "family": "Candy Canes",
+      "zone": "RIBBON_PROMENADE",
+      "design": "Celestial Orrery \u2014 Five slim hooked candy reeds; mirrored portal accents",
+      "kind": "pixel",
+      "nodes": 240,
+      "start_channel": 20785,
+      "end_channel": 21504,
+      "bounds_ft": [
+        [
+          -156.650909,
+          0.0,
+          -98.2
+        ],
+        [
+          -142.6,
+          6.7275,
+          -98.2
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_CANDY_GARDEN_1",
+      "native_type": "Candy Canes",
+      "family": "Candy Canes",
+      "zone": "RIBBON_PROMENADE",
+      "design": "Celestial Orrery \u2014 Five slim hooked candy reeds; mirrored portal accents",
+      "kind": "pixel",
+      "nodes": 240,
+      "start_channel": 21505,
+      "end_channel": 22224,
+      "bounds_ft": [
+        [
+          156.4,
+          0.0,
+          -98.2
+        ],
+        [
+          170.450909,
+          6.7275,
+          -98.2
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_VOXEL_LANTERN_-1",
+      "native_type": "Cube",
+      "family": "Cube",
+      "zone": "CRYSTAL_GARDEN",
+      "design": "Celestial Orrery \u2014 Deep crystal voxel lantern; three-dimensional chase volume",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 22225,
+      "end_channel": 23760,
+      "bounds_ft": [
+        [
+          -108.910415,
+          1.2,
+          -98.910415
+        ],
+        [
+          -95.089585,
+          14.8,
+          -85.089585
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_VOXEL_LANTERN_1",
+      "native_type": "Cube",
+      "family": "Cube",
+      "zone": "CRYSTAL_GARDEN",
+      "design": "Celestial Orrery \u2014 Deep crystal voxel lantern; three-dimensional chase volume",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 23761,
+      "end_channel": 25296,
+      "bounds_ft": [
+        [
+          95.089585,
+          1.2,
+          -98.910415
+        ],
+        [
+          108.910415,
+          14.8,
+          -85.089585
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_FIBONACCI_ICICLES_-1",
+      "native_type": "Icicles",
+      "family": "Icicles",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Fibonacci-length ice fringe under the lyric pavilion",
+      "kind": "pixel",
+      "nodes": 136,
+      "start_channel": 25297,
+      "end_channel": 25704,
+      "bounds_ft": [
+        [
+          -125.84,
+          0.31,
+          -69.68
+        ],
+        [
+          -108.48,
+          4.65,
+          -69.68
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_FIBONACCI_ICICLES_1",
+      "native_type": "Icicles",
+      "family": "Icicles",
+      "zone": "NATIVE_PAVILIONS",
+      "design": "Celestial Orrery \u2014 Fibonacci-length ice fringe under the lyric pavilion",
+      "kind": "pixel",
+      "nodes": 136,
+      "start_channel": 25705,
+      "end_channel": 26112,
+      "bounds_ft": [
+        [
+          108.48,
+          0.31,
+          -69.68
+        ],
+        [
+          125.84,
+          4.65,
+          -69.68
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_INFINITY_RIBBON",
+      "native_type": "Poly Line",
+      "family": "Poly Line",
+      "zone": "SIGNATURE_PATH",
+      "design": "Celestial Orrery signature illuminated contour",
+      "kind": "pixel",
+      "nodes": 420,
+      "start_channel": 26113,
+      "end_channel": 27372,
+      "bounds_ft": [
+        [
+          -66.988476,
+          1.2,
+          -61.997735
+        ],
+        [
+          67.0,
+          2.199892,
+          21.997735
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_FIREFLY_CONSTELLATION",
+      "native_type": "MultiPoint",
+      "family": "MultiPoint",
+      "zone": "SKY_MOTIFS",
+      "design": "Celestial Orrery \u2014 Seeded, independently positioned native MultiPoint fireflies",
+      "kind": "pixel",
+      "nodes": 64,
+      "start_channel": 27373,
+      "end_channel": 27564,
+      "bounds_ft": [
+        [
+          -153.496685,
+          65.065457,
+          67.619781
+        ],
+        [
+          154.061963,
+          84.055523,
+          75.398806
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_HORIZON_RAIL_-1",
+      "native_type": "Single Line",
+      "family": "Single Line",
+      "zone": "RIBBON_PROMENADE",
+      "design": "Celestial Orrery \u2014 Continuous low horizon rail for clean opposing chases",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 27565,
+      "end_channel": 28104,
+      "bounds_ft": [
+        [
+          -158.7,
+          0.276,
+          -125.8
+        ],
+        [
+          -25.3,
+          0.276,
+          -125.8
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_HORIZON_RAIL_1",
+      "native_type": "Single Line",
+      "family": "Single Line",
+      "zone": "RIBBON_PROMENADE",
+      "design": "Celestial Orrery \u2014 Continuous low horizon rail for clean opposing chases",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 28105,
+      "end_channel": 28644,
+      "bounds_ft": [
+        [
+          25.3,
+          0.276,
+          -125.8
+        ],
+        [
+          158.7,
+          0.276,
+          -125.8
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_FRACTAL_SNOWFLAKE_-1_0",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SKY_MOTIFS",
+      "design": "Celestial Orrery \u2014 Sixfold crystalline snowflake with branching tips",
+      "kind": "pixel",
+      "nodes": 210,
+      "start_channel": 28645,
+      "end_channel": 29274,
+      "bounds_ft": [
+        [
+          -69.3,
+          66.05,
+          69.2
+        ],
+        [
+          -60.3,
+          75.95,
+          69.2
+        ]
+      ],
+      "submodels": [],
+      "grid_spacing_ft": 0.1125,
+      "max_snap_error_ft": 0.06364080735571256
+    },
+    {
+      "name": "HX_CO_FRACTAL_SNOWFLAKE_-1_1",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SKY_MOTIFS",
+      "design": "Celestial Orrery \u2014 Sixfold crystalline snowflake with branching tips",
+      "kind": "pixel",
+      "nodes": 210,
+      "start_channel": 29275,
+      "end_channel": 29904,
+      "bounds_ft": [
+        [
+          -99.9,
+          58.85,
+          69.2
+        ],
+        [
+          -90.9,
+          68.75,
+          69.2
+        ]
+      ],
+      "submodels": [],
+      "grid_spacing_ft": 0.1125,
+      "max_snap_error_ft": 0.06364080735571256
+    },
+    {
+      "name": "HX_CO_FRACTAL_SNOWFLAKE_-1_2",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SKY_MOTIFS",
+      "design": "Celestial Orrery \u2014 Sixfold crystalline snowflake with branching tips",
+      "kind": "pixel",
+      "nodes": 210,
+      "start_channel": 29905,
+      "end_channel": 30534,
+      "bounds_ft": [
+        [
+          -130.5,
+          51.65,
+          69.2
+        ],
+        [
+          -121.5,
+          61.55,
+          69.2
+        ]
+      ],
+      "submodels": [],
+      "grid_spacing_ft": 0.1125,
+      "max_snap_error_ft": 0.06364080735571256
+    },
+    {
+      "name": "HX_CO_FRACTAL_SNOWFLAKE_1_0",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SKY_MOTIFS",
+      "design": "Celestial Orrery \u2014 Sixfold crystalline snowflake with branching tips",
+      "kind": "pixel",
+      "nodes": 210,
+      "start_channel": 30535,
+      "end_channel": 31164,
+      "bounds_ft": [
+        [
+          60.3,
+          66.05,
+          69.2
+        ],
+        [
+          69.3,
+          75.95,
+          69.2
+        ]
+      ],
+      "submodels": [],
+      "grid_spacing_ft": 0.1125,
+      "max_snap_error_ft": 0.06364080735571256
+    },
+    {
+      "name": "HX_CO_FRACTAL_SNOWFLAKE_1_1",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SKY_MOTIFS",
+      "design": "Celestial Orrery \u2014 Sixfold crystalline snowflake with branching tips",
+      "kind": "pixel",
+      "nodes": 210,
+      "start_channel": 31165,
+      "end_channel": 31794,
+      "bounds_ft": [
+        [
+          90.9,
+          58.85,
+          69.2
+        ],
+        [
+          99.9,
+          68.75,
+          69.2
+        ]
+      ],
+      "submodels": [],
+      "grid_spacing_ft": 0.1125,
+      "max_snap_error_ft": 0.06364080735571256
+    },
+    {
+      "name": "HX_CO_FRACTAL_SNOWFLAKE_1_2",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SKY_MOTIFS",
+      "design": "Celestial Orrery \u2014 Sixfold crystalline snowflake with branching tips",
+      "kind": "pixel",
+      "nodes": 210,
+      "start_channel": 31795,
+      "end_channel": 32424,
+      "bounds_ft": [
+        [
+          121.5,
+          51.65,
+          69.2
+        ],
+        [
+          130.5,
+          61.55,
+          69.2
+        ]
+      ],
+      "submodels": [],
+      "grid_spacing_ft": 0.1125,
+      "max_snap_error_ft": 0.06364080735571256
+    },
+    {
+      "name": "HX_CO_HELIX_CREST_IMAGE",
+      "native_type": "Image",
+      "family": "Image",
+      "zone": "WELCOME_CREST",
+      "design": "Celestial Orrery \u2014 Original Celestial Orrery luminous crest; portable image asset",
+      "kind": "control",
+      "nodes": 1,
+      "start_channel": 32425,
+      "end_channel": 32425,
+      "bounds_ft": [
+        [
+          0.0,
+          5.0,
+          -133.0
+        ],
+        [
+          0.0,
+          5.0,
+          -133.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_WELCOME_LABEL",
+      "native_type": "Label",
+      "family": "Label",
+      "zone": "WELCOME_CREST",
+      "design": "Celestial Orrery \u2014 Native scene label: HELIX AURORA",
+      "kind": "control",
+      "nodes": 1,
+      "start_channel": 32426,
+      "end_channel": 32426,
+      "bounds_ft": [
+        [
+          0.0,
+          1.0,
+          -145.0
+        ],
+        [
+          0.0,
+          1.0,
+          -145.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_TECH_Channel_Block",
+      "native_type": "Channel Block",
+      "family": "Channel Block",
+      "zone": "TECHNOLOGY_ALCOVES",
+      "design": "Celestial Orrery \u2014 An amber legacy AC marquee",
+      "kind": "control",
+      "nodes": 16,
+      "start_channel": 32427,
+      "end_channel": 32442,
+      "bounds_ft": [
+        [
+          -189.0,
+          2.25,
+          -24.0
+        ],
+        [
+          -183.0,
+          2.25,
+          -24.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_TECH_DmxGeneral",
+      "native_type": "DmxGeneral",
+      "family": "DmxGeneral",
+      "zone": "TECHNOLOGY_ALCOVES",
+      "design": "Celestial Orrery \u2014 Eight-channel fountain/utility controller",
+      "kind": "control",
+      "nodes": 8,
+      "start_channel": 32443,
+      "end_channel": 32450,
+      "bounds_ft": [
+        [
+          -189.0,
+          2.25,
+          -36.0
+        ],
+        [
+          -183.0,
+          2.25,
+          -36.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_TECH_DmxMovingHead",
+      "native_type": "DmxMovingHead",
+      "family": "DmxMovingHead",
+      "zone": "TECHNOLOGY_ALCOVES",
+      "design": "Celestial Orrery \u2014 Classic cyan spotlight turret",
+      "kind": "control",
+      "nodes": 16,
+      "start_channel": 32451,
+      "end_channel": 32466,
+      "bounds_ft": [
+        [
+          -189.0,
+          2.25,
+          -48.0
+        ],
+        [
+          -183.0,
+          2.25,
+          -48.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_TECH_DmxMovingHeadAdv",
+      "native_type": "DmxMovingHeadAdv",
+      "family": "DmxMovingHeadAdv",
+      "zone": "TECHNOLOGY_ALCOVES",
+      "design": "Celestial Orrery \u2014 Full 3D magenta spotlight turret",
+      "kind": "control",
+      "nodes": 16,
+      "start_channel": 32467,
+      "end_channel": 32482,
+      "bounds_ft": [
+        [
+          -189.0,
+          2.25,
+          -60.0
+        ],
+        [
+          -183.0,
+          2.25,
+          -60.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_TECH_DmxFloodlight",
+      "native_type": "DmxFloodlight",
+      "family": "DmxFloodlight",
+      "zone": "TECHNOLOGY_ALCOVES",
+      "design": "Celestial Orrery \u2014 RGB garden uplighter",
+      "kind": "control",
+      "nodes": 3,
+      "start_channel": 32483,
+      "end_channel": 32485,
+      "bounds_ft": [
+        [
+          -189.0,
+          2.25,
+          -72.0
+        ],
+        [
+          -183.0,
+          2.25,
+          -72.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_TECH_DmxFloodArea",
+      "native_type": "DmxFloodArea",
+      "family": "DmxFloodArea",
+      "zone": "TECHNOLOGY_ALCOVES",
+      "design": "Celestial Orrery \u2014 Broad aurora lawn wash",
+      "kind": "control",
+      "nodes": 3,
+      "start_channel": 32486,
+      "end_channel": 32488,
+      "bounds_ft": [
+        [
+          183.0,
+          2.25,
+          -24.0
+        ],
+        [
+          189.0,
+          2.25,
+          -24.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_TECH_DmxSkull",
+      "native_type": "DmxSkull",
+      "family": "DmxSkull",
+      "zone": "TECHNOLOGY_ALCOVES",
+      "design": "Celestial Orrery \u2014 Articulated Halloween guest in the technology alcove",
+      "kind": "control",
+      "nodes": 26,
+      "start_channel": 32489,
+      "end_channel": 32514,
+      "bounds_ft": [
+        [
+          183.0,
+          2.25,
+          -36.0
+        ],
+        [
+          189.0,
+          2.25,
+          -36.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_TECH_DmxServo",
+      "native_type": "DmxServo",
+      "family": "DmxServo",
+      "zone": "TECHNOLOGY_ALCOVES",
+      "design": "Celestial Orrery \u2014 2D kinetic pinwheel ornament",
+      "kind": "control",
+      "nodes": 2,
+      "start_channel": 32515,
+      "end_channel": 32516,
+      "bounds_ft": [
+        [
+          183.0,
+          2.25,
+          -48.0
+        ],
+        [
+          189.0,
+          2.25,
+          -48.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_TECH_DmxServo3d",
+      "native_type": "DmxServo3d",
+      "family": "DmxServo3d",
+      "zone": "TECHNOLOGY_ALCOVES",
+      "design": "Celestial Orrery \u2014 Three-axis kinetic DNA wind sculpture",
+      "kind": "control",
+      "nodes": 6,
+      "start_channel": 32517,
+      "end_channel": 32522,
+      "bounds_ft": [
+        [
+          183.0,
+          2.25,
+          -60.0
+        ],
+        [
+          189.0,
+          2.25,
+          -60.0
+        ]
+      ],
+      "submodels": []
+    },
+    {
+      "name": "HX_CO_OBSERVATORY_WEST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Two-strand DNA sculpture: 4 turns, full illuminated ladder rungs",
+      "kind": "pixel",
+      "nodes": 1440,
+      "start_channel": 32523,
+      "end_channel": 36842,
+      "bounds_ft": [
+        [
+          -29.0,
+          0.0,
+          12.0
+        ],
+        [
+          -13.0,
+          78.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20090788062448148,
+      "double_helix": true,
+      "ring": false,
+      "strand_nodes": 360,
+      "rung_count": 40,
+      "height_ft": 78,
+      "turns": 4
+    },
+    {
+      "name": "HX_CO_OBSERVATORY_EAST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Two-strand DNA sculpture: 4 turns, full illuminated ladder rungs",
+      "kind": "pixel",
+      "nodes": 1440,
+      "start_channel": 36843,
+      "end_channel": 41162,
+      "bounds_ft": [
+        [
+          13.0,
+          0.0,
+          12.0
+        ],
+        [
+          29.0,
+          78.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20090788062448148,
+      "double_helix": true,
+      "ring": false,
+      "strand_nodes": 360,
+      "rung_count": 40,
+      "height_ft": 78,
+      "turns": 4
+    },
+    {
+      "name": "HX_CO_ORBITAL_HALO_0",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Twisted orbital DNA halo",
+      "kind": "pixel",
+      "nodes": 1180,
+      "start_channel": 41163,
+      "end_channel": 44702,
+      "bounds_ft": [
+        [
+          -24.5,
+          12.5,
+          -48.25
+        ],
+        [
+          24.5,
+          17.5,
+          0.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.2004680709215847,
+      "double_helix": true,
+      "ring": true,
+      "strand_nodes": 320,
+      "rung_count": 90,
+      "height_ft": 0,
+      "turns": 9
+    },
+    {
+      "name": "HX_CO_ORBITAL_HALO_1",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Twisted orbital DNA halo",
+      "kind": "pixel",
+      "nodes": 1240,
+      "start_channel": 44703,
+      "end_channel": 48422,
+      "bounds_ft": [
+        [
+          -35.5,
+          31.5,
+          -23.5
+        ],
+        [
+          35.5,
+          36.5,
+          47.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4034862879586306,
+      "double_helix": true,
+      "ring": true,
+      "strand_nodes": 320,
+      "rung_count": 100,
+      "height_ft": 0,
+      "turns": 10
+    },
+    {
+      "name": "HX_CO_ORBITAL_HALO_2",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Twisted orbital DNA halo",
+      "kind": "pixel",
+      "nodes": 1300,
+      "start_channel": 48423,
+      "end_channel": 52322,
+      "bounds_ft": [
+        [
+          -46.5,
+          52.5,
+          -20.0
+        ],
+        [
+          46.5,
+          57.5,
+          72.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4072386752193676,
+      "double_helix": true,
+      "ring": true,
+      "strand_nodes": 320,
+      "rung_count": 110,
+      "height_ft": 0,
+      "turns": 11
+    },
+    {
+      "name": "HX_CO_PLANET_MARKER_0",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs",
+      "kind": "pixel",
+      "nodes": 510,
+      "start_channel": 52323,
+      "end_channel": 53852,
+      "bounds_ft": [
+        [
+          71.25,
+          0.0,
+          -20.75
+        ],
+        [
+          76.75,
+          15.0,
+          -15.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0957718030196443,
+      "double_helix": true,
+      "ring": false,
+      "strand_nodes": 180,
+      "rung_count": 25,
+      "height_ft": 15,
+      "turns": 2.5
+    },
+    {
+      "name": "HX_CO_PLANET_MARKER_1",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs",
+      "kind": "pixel",
+      "nodes": 510,
+      "start_channel": 53853,
+      "end_channel": 55382,
+      "bounds_ft": [
+        [
+          49.5,
+          0.0,
+          12.375
+        ],
+        [
+          55.125,
+          19.0,
+          18.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.09733244861622094,
+      "double_helix": true,
+      "ring": false,
+      "strand_nodes": 180,
+      "rung_count": 25,
+      "height_ft": 19,
+      "turns": 2.5
+    },
+    {
+      "name": "HX_CO_PLANET_MARKER_2",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs",
+      "kind": "pixel",
+      "nodes": 510,
+      "start_channel": 55383,
+      "end_channel": 56912,
+      "bounds_ft": [
+        [
+          -2.75,
+          0.0,
+          26.25
+        ],
+        [
+          2.75,
+          23.0,
+          31.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.09924537087199027,
+      "double_helix": true,
+      "ring": false,
+      "strand_nodes": 180,
+      "rung_count": 25,
+      "height_ft": 23,
+      "turns": 2.5
+    },
+    {
+      "name": "HX_CO_PLANET_MARKER_3",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs",
+      "kind": "pixel",
+      "nodes": 510,
+      "start_channel": 56913,
+      "end_channel": 58442,
+      "bounds_ft": [
+        [
+          -55.125,
+          0.0,
+          12.375
+        ],
+        [
+          -49.5,
+          15.0,
+          18.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.09769173684649489,
+      "double_helix": true,
+      "ring": false,
+      "strand_nodes": 180,
+      "rung_count": 25,
+      "height_ft": 15,
+      "turns": 2.5
+    },
+    {
+      "name": "HX_CO_PLANET_MARKER_4",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs",
+      "kind": "pixel",
+      "nodes": 510,
+      "start_channel": 58443,
+      "end_channel": 59972,
+      "bounds_ft": [
+        [
+          -76.75,
+          0.0,
+          -20.75
+        ],
+        [
+          -71.25,
+          19.0,
+          -15.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.09510074963226903,
+      "double_helix": true,
+      "ring": false,
+      "strand_nodes": 180,
+      "rung_count": 25,
+      "height_ft": 19,
+      "turns": 2.5
+    },
+    {
+      "name": "HX_CO_PLANET_MARKER_5",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs",
+      "kind": "pixel",
+      "nodes": 510,
+      "start_channel": 59973,
+      "end_channel": 61502,
+      "bounds_ft": [
+        [
+          -55.125,
+          0.0,
+          -54.0
+        ],
+        [
+          -49.5,
+          23.0,
+          -48.375
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.10064531999525266,
+      "double_helix": true,
+      "ring": false,
+      "strand_nodes": 180,
+      "rung_count": 25,
+      "height_ft": 23,
+      "turns": 2.5
+    },
+    {
+      "name": "HX_CO_PLANET_MARKER_6",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs",
+      "kind": "pixel",
+      "nodes": 510,
+      "start_channel": 61503,
+      "end_channel": 63032,
+      "bounds_ft": [
+        [
+          -2.75,
+          0.0,
+          -67.75
+        ],
+        [
+          2.75,
+          15.0,
+          -62.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.09577180301965607,
+      "double_helix": true,
+      "ring": false,
+      "strand_nodes": 180,
+      "rung_count": 25,
+      "height_ft": 15,
+      "turns": 2.5
+    },
+    {
+      "name": "HX_CO_PLANET_MARKER_7",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DNA_CATHEDRAL",
+      "design": "Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs",
+      "kind": "pixel",
+      "nodes": 510,
+      "start_channel": 63033,
+      "end_channel": 64562,
+      "bounds_ft": [
+        [
+          49.5,
+          0.0,
+          -54.0
+        ],
+        [
+          55.125,
+          19.0,
+          -48.375
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "RUNGS_EVEN",
+        "RUNGS_ODD",
+        "TOP"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.10072161542057197,
+      "double_helix": true,
+      "ring": false,
+      "strand_nodes": 180,
+      "rung_count": 25,
+      "height_ft": 19,
+      "turns": 2.5
+    },
+    {
+      "name": "HX_CO_SPIRAL_00",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 224,
+      "start_channel": 64563,
+      "end_channel": 65234,
+      "bounds_ft": [
+        [
+          105.45,
+          -0.0,
+          -18.55
+        ],
+        [
+          110.55,
+          15.0,
+          -13.45
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.5,
+      "height_ft": 15
+    },
+    {
+      "name": "HX_CO_SPIRAL_01",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 2.7 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 384,
+      "start_channel": 65235,
+      "end_channel": 66386,
+      "bounds_ft": [
+        [
+          99.743841,
+          0.0,
+          -2.283345
+        ],
+        [
+          105.684367,
+          17.472136,
+          3.657181
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 2.7,
+      "height_ft": 17.47213595499958
+    },
+    {
+      "name": "HX_CO_SPIRAL_02",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.9 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 288,
+      "start_channel": 66387,
+      "end_channel": 67250,
+      "bounds_ft": [
+        [
+          84.024447,
+          0.0,
+          12.391016
+        ],
+        [
+          90.723223,
+          19.702282,
+          19.089792
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.9,
+      "height_ft": 19.702282018339787
+    },
+    {
+      "name": "HX_CO_SPIRAL_03",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.1 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 336,
+      "start_channel": 67251,
+      "end_channel": 68258,
+      "bounds_ft": [
+        [
+          59.830544,
+          0.0,
+          24.036655
+        ],
+        [
+          67.13107,
+          21.472136,
+          31.337181
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.1,
+      "height_ft": 21.47213595499958
+    },
+    {
+      "name": "HX_CO_SPIRAL_04",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 3.3 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 256,
+      "start_channel": 68259,
+      "end_channel": 69026,
+      "bounds_ft": [
+        [
+          29.530399,
+          0.0,
+          31.513615
+        ],
+        [
+          37.217272,
+          22.608452,
+          39.200489
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 3.3,
+      "height_ft": 22.60845213036123
+    },
+    {
+      "name": "HX_CO_SPIRAL_05",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 432,
+      "start_channel": 69027,
+      "end_channel": 70322,
+      "bounds_ft": [
+        [
+          -3.91,
+          0.0,
+          34.09
+        ],
+        [
+          3.91,
+          23.0,
+          41.91
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.5,
+      "height_ft": 23.0
+    },
+    {
+      "name": "HX_CO_SPIRAL_06",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 224,
+      "start_channel": 70323,
+      "end_channel": 70994,
+      "bounds_ft": [
+        [
+          -37.217272,
+          -0.0,
+          31.513615
+        ],
+        [
+          -29.530399,
+          22.608452,
+          39.200489
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.5,
+      "height_ft": 22.60845213036123
+    },
+    {
+      "name": "HX_CO_SPIRAL_07",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 2.7 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 384,
+      "start_channel": 70995,
+      "end_channel": 72146,
+      "bounds_ft": [
+        [
+          -67.13107,
+          0.0,
+          24.036655
+        ],
+        [
+          -59.830544,
+          21.472136,
+          31.337181
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 2.7,
+      "height_ft": 21.47213595499958
+    },
+    {
+      "name": "HX_CO_SPIRAL_08",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.9 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 288,
+      "start_channel": 72147,
+      "end_channel": 73010,
+      "bounds_ft": [
+        [
+          -90.723223,
+          0.0,
+          12.391016
+        ],
+        [
+          -84.024447,
+          19.702282,
+          19.089792
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.9,
+      "height_ft": 19.702282018339787
+    },
+    {
+      "name": "HX_CO_SPIRAL_09",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.1 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 336,
+      "start_channel": 73011,
+      "end_channel": 74018,
+      "bounds_ft": [
+        [
+          -105.684367,
+          -0.0,
+          -2.283345
+        ],
+        [
+          -99.743841,
+          17.472136,
+          3.657181
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.1,
+      "height_ft": 17.47213595499958
+    },
+    {
+      "name": "HX_CO_SPIRAL_10",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 3.3 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 256,
+      "start_channel": 74019,
+      "end_channel": 74786,
+      "bounds_ft": [
+        [
+          -110.55,
+          0.0,
+          -18.55
+        ],
+        [
+          -105.45,
+          15.0,
+          -13.45
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 3.3,
+      "height_ft": 15.000000000000002
+    },
+    {
+      "name": "HX_CO_SPIRAL_11",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 432,
+      "start_channel": 74787,
+      "end_channel": 76082,
+      "bounds_ft": [
+        [
+          -105.264104,
+          -0.0,
+          -35.236918
+        ],
+        [
+          -100.164104,
+          15.0,
+          -30.136918
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.5,
+      "height_ft": 15
+    },
+    {
+      "name": "HX_CO_SPIRAL_12",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 224,
+      "start_channel": 76083,
+      "end_channel": 76754,
+      "bounds_ft": [
+        [
+          -89.923835,
+          -0.0,
+          -50.290404
+        ],
+        [
+          -84.823835,
+          15.0,
+          -45.190404
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.5,
+      "height_ft": 15
+    },
+    {
+      "name": "HX_CO_SPIRAL_13",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 2.7 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 384,
+      "start_channel": 76755,
+      "end_channel": 77906,
+      "bounds_ft": [
+        [
+          -66.030807,
+          0.0,
+          -62.236918
+        ],
+        [
+          -60.930807,
+          15.0,
+          -57.136918
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 2.7,
+      "height_ft": 15
+    },
+    {
+      "name": "HX_CO_SPIRAL_14",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.9 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 288,
+      "start_channel": 77907,
+      "end_channel": 78770,
+      "bounds_ft": [
+        [
+          -35.923835,
+          -0.0,
+          -69.907052
+        ],
+        [
+          -30.823835,
+          15.0,
+          -64.807052
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.9,
+      "height_ft": 15
+    },
+    {
+      "name": "HX_CO_SPIRAL_15",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.1 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 336,
+      "start_channel": 78771,
+      "end_channel": 79778,
+      "bounds_ft": [
+        [
+          -2.55,
+          -0.0,
+          -72.55
+        ],
+        [
+          2.55,
+          15.0,
+          -67.45
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.1,
+      "height_ft": 15
+    },
+    {
+      "name": "HX_CO_SPIRAL_16",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 3.3 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 256,
+      "start_channel": 79779,
+      "end_channel": 80546,
+      "bounds_ft": [
+        [
+          30.823835,
+          0.0,
+          -69.907052
+        ],
+        [
+          35.923835,
+          15.0,
+          -64.807052
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 3.3,
+      "height_ft": 15
+    },
+    {
+      "name": "HX_CO_SPIRAL_17",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 432,
+      "start_channel": 80547,
+      "end_channel": 81842,
+      "bounds_ft": [
+        [
+          60.930807,
+          -0.0,
+          -62.236918
+        ],
+        [
+          66.030807,
+          15.0,
+          -57.136918
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.5,
+      "height_ft": 15
+    },
+    {
+      "name": "HX_CO_SPIRAL_18",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 224,
+      "start_channel": 81843,
+      "end_channel": 82514,
+      "bounds_ft": [
+        [
+          84.823835,
+          -0.0,
+          -50.290404
+        ],
+        [
+          89.923835,
+          15.0,
+          -45.190404
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.5,
+      "height_ft": 15
+    },
+    {
+      "name": "HX_CO_SPIRAL_19",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 2.7 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 384,
+      "start_channel": 82515,
+      "end_channel": 83666,
+      "bounds_ft": [
+        [
+          100.164104,
+          0.0,
+          -35.236918
+        ],
+        [
+          105.264104,
+          15.0,
+          -30.136918
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 2.7,
+      "height_ft": 15
+    },
+    {
+      "name": "HX_CO_SPIRAL_20",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.9 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 288,
+      "start_channel": 83667,
+      "end_channel": 84530,
+      "bounds_ft": [
+        [
+          138.9,
+          -0.0,
+          -21.1
+        ],
+        [
+          149.1,
+          30.0,
+          -10.9
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.9,
+      "height_ft": 30
+    },
+    {
+      "name": "HX_CO_SPIRAL_21",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.1 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 336,
+      "start_channel": 84531,
+      "end_channel": 85538,
+      "bounds_ft": [
+        [
+          131.431875,
+          -0.0,
+          0.72896
+        ],
+        [
+          142.472401,
+          32.472136,
+          11.769487
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.1,
+      "height_ft": 32.47213595499958
+    },
+    {
+      "name": "HX_CO_SPIRAL_22",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 3.3 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 256,
+      "start_channel": 85539,
+      "end_channel": 86306,
+      "bounds_ft": [
+        [
+          110.599059,
+          0.0,
+          20.42115
+        ],
+        [
+          122.397835,
+          34.702282,
+          32.219926
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 3.3,
+      "height_ft": 34.70228201833979
+    },
+    {
+      "name": "HX_CO_SPIRAL_23",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 432,
+      "start_channel": 86307,
+      "end_channel": 87602,
+      "bounds_ft": [
+        [
+          78.440813,
+          0.0,
+          36.04896
+        ],
+        [
+          90.841339,
+          36.472136,
+          48.449487
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.5,
+      "height_ft": 36.47213595499958
+    },
+    {
+      "name": "HX_CO_SPIRAL_24",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 224,
+      "start_channel": 87603,
+      "end_channel": 88274,
+      "bounds_ft": [
+        [
+          38.10501,
+          -0.0,
+          46.082632
+        ],
+        [
+          50.891884,
+          37.608452,
+          58.869506
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.5,
+      "height_ft": 37.60845213036123
+    },
+    {
+      "name": "HX_CO_SPIRAL_25",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 2.7 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 384,
+      "start_channel": 88275,
+      "end_channel": 89426,
+      "bounds_ft": [
+        [
+          -6.46,
+          0.0,
+          49.54
+        ],
+        [
+          6.46,
+          38.0,
+          62.46
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 2.7,
+      "height_ft": 38.0
+    },
+    {
+      "name": "HX_CO_SPIRAL_26",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.9 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 288,
+      "start_channel": 89427,
+      "end_channel": 90290,
+      "bounds_ft": [
+        [
+          -50.891884,
+          0.0,
+          46.082632
+        ],
+        [
+          -38.10501,
+          37.608452,
+          58.869506
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.9,
+      "height_ft": 37.60845213036123
+    },
+    {
+      "name": "HX_CO_SPIRAL_27",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.1 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 336,
+      "start_channel": 90291,
+      "end_channel": 91298,
+      "bounds_ft": [
+        [
+          -90.841339,
+          -0.0,
+          36.04896
+        ],
+        [
+          -78.440813,
+          36.472136,
+          48.449487
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.1,
+      "height_ft": 36.47213595499958
+    },
+    {
+      "name": "HX_CO_SPIRAL_28",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 3.3 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 256,
+      "start_channel": 91299,
+      "end_channel": 92066,
+      "bounds_ft": [
+        [
+          -122.397835,
+          0.0,
+          20.42115
+        ],
+        [
+          -110.599059,
+          34.702282,
+          32.219926
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 3.3,
+      "height_ft": 34.70228201833979
+    },
+    {
+      "name": "HX_CO_SPIRAL_29",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 432,
+      "start_channel": 92067,
+      "end_channel": 93362,
+      "bounds_ft": [
+        [
+          -142.472401,
+          0.0,
+          0.72896
+        ],
+        [
+          -131.431875,
+          32.472136,
+          11.769487
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.5,
+      "height_ft": 32.47213595499958
+    },
+    {
+      "name": "HX_CO_SPIRAL_30",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 224,
+      "start_channel": 93363,
+      "end_channel": 94034,
+      "bounds_ft": [
+        [
+          -149.1,
+          -0.0,
+          -21.1
+        ],
+        [
+          -138.9,
+          30.0,
+          -10.9
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.5,
+      "height_ft": 30.0
+    },
+    {
+      "name": "HX_CO_SPIRAL_31",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 2.7 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 384,
+      "start_channel": 94035,
+      "end_channel": 95186,
+      "bounds_ft": [
+        [
+          -142.052138,
+          0.0,
+          -43.349224
+        ],
+        [
+          -131.852138,
+          30.0,
+          -33.149224
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 2.7,
+      "height_ft": 30
+    },
+    {
+      "name": "HX_CO_SPIRAL_32",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.9 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 288,
+      "start_channel": 95187,
+      "end_channel": 96050,
+      "bounds_ft": [
+        [
+          -121.598447,
+          -0.0,
+          -63.420538
+        ],
+        [
+          -111.398447,
+          30.0,
+          -53.220538
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.9,
+      "height_ft": 30
+    },
+    {
+      "name": "HX_CO_SPIRAL_33",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.1 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 336,
+      "start_channel": 96051,
+      "end_channel": 97058,
+      "bounds_ft": [
+        [
+          -89.741076,
+          -0.0,
+          -79.349224
+        ],
+        [
+          -79.541076,
+          30.0,
+          -69.149224
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.1,
+      "height_ft": 30
+    },
+    {
+      "name": "HX_CO_SPIRAL_34",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 3.3 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 256,
+      "start_channel": 97059,
+      "end_channel": 97826,
+      "bounds_ft": [
+        [
+          -49.598447,
+          0.0,
+          -89.576069
+        ],
+        [
+          -39.398447,
+          30.0,
+          -79.376069
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 3.3,
+      "height_ft": 30
+    },
+    {
+      "name": "HX_CO_SPIRAL_35",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 432,
+      "start_channel": 97827,
+      "end_channel": 99122,
+      "bounds_ft": [
+        [
+          -5.1,
+          -0.0,
+          -93.1
+        ],
+        [
+          5.1,
+          30.0,
+          -82.9
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.5,
+      "height_ft": 30
+    },
+    {
+      "name": "HX_CO_SPIRAL_36",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.5 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 224,
+      "start_channel": 99123,
+      "end_channel": 99794,
+      "bounds_ft": [
+        [
+          39.398447,
+          -0.0,
+          -89.576069
+        ],
+        [
+          49.598447,
+          30.0,
+          -79.376069
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.5,
+      "height_ft": 30
+    },
+    {
+      "name": "HX_CO_SPIRAL_37",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 2.7 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 384,
+      "start_channel": 99795,
+      "end_channel": 100946,
+      "bounds_ft": [
+        [
+          79.541076,
+          0.0,
+          -79.349224
+        ],
+        [
+          89.741076,
+          30.0,
+          -69.149224
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 2.7,
+      "height_ft": 30
+    },
+    {
+      "name": "HX_CO_SPIRAL_38",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 2 strands, 2.9 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 288,
+      "start_channel": 100947,
+      "end_channel": 101810,
+      "bounds_ft": [
+        [
+          111.398447,
+          -0.0,
+          -63.420538
+        ],
+        [
+          121.598447,
+          30.0,
+          -53.220538
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02"
+      ],
+      "spiral_tree": true,
+      "turns": 2.9,
+      "height_ft": 30
+    },
+    {
+      "name": "HX_CO_SPIRAL_39",
+      "native_type": "Tree 360",
+      "family": "Tree",
+      "zone": "SPIRAL_GROVES",
+      "design": "Spiral tree; 3 strands, 3.1 twists; graduated canopy",
+      "kind": "pixel",
+      "nodes": 336,
+      "start_channel": 101811,
+      "end_channel": 102818,
+      "bounds_ft": [
+        [
+          131.852138,
+          -0.0,
+          -43.349224
+        ],
+        [
+          142.052138,
+          30.0,
+          -33.149224
+        ]
+      ],
+      "submodels": [
+        "STRAND_01",
+        "STRAND_02",
+        "STRAND_03"
+      ],
+      "spiral_tree": true,
+      "turns": 3.1,
+      "height_ft": 30
+    },
+    {
+      "name": "HX_CO_POLARIS",
+      "native_type": "Star",
+      "family": "Star",
+      "zone": "SKY_CROWNS",
+      "design": "7-point jewel crown; warm gold contrasts the cool spiral forest",
+      "kind": "pixel",
+      "nodes": 168,
+      "start_channel": 102819,
+      "end_channel": 103322,
+      "bounds_ft": [
+        [
+          -7.5,
+          90.5,
+          25.0
+        ],
+        [
+          7.5,
+          105.5,
+          25.0
+        ]
+      ],
+      "submodels": []
+    }
+  ],
+  "file_prefix": "Helix_Celestial_Orrery",
+  "description": "A golden astronomical plaza: concentric orbital groves, suspended DNA halos and a tall paired observatory at the centre.",
+  "palette": [
+    "#9FD5FF",
+    "#C5A7FF",
+    "#FFD979"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_CO_NATIVE_Tree_360",
+      "HX_CO_NATIVE_Tree_180",
+      "HX_CO_NATIVE_Tree_Flat",
+      "HX_CO_NATIVE_Tree_Ribbon",
+      "HX_CO_ORRERY_MOON_-1",
+      "HX_CO_AURORA_HORIZONTAL",
+      "HX_CO_JEWEL_WINDOW_-1",
+      "HX_CO_ORBIT_TRIPTYCH_-1",
+      "HX_CO_MOON_WREATH_-1",
+      "HX_CO_SOLAR_SPINNER_-1",
+      "HX_CO_ORRERY_MOON_1",
+      "HX_CO_AURORA_VERTICAL",
+      "HX_CO_JEWEL_WINDOW_1",
+      "HX_CO_ORBIT_TRIPTYCH_1",
+      "HX_CO_MOON_WREATH_1",
+      "HX_CO_SOLAR_SPINNER_1",
+      "HX_CO_RIBBON_ARCH_01",
+      "HX_CO_RIBBON_ARCH_02",
+      "HX_CO_RIBBON_ARCH_03",
+      "HX_CO_RIBBON_ARCH_04",
+      "HX_CO_RIBBON_ARCH_05",
+      "HX_CO_RIBBON_ARCH_06",
+      "HX_CO_RIBBON_ARCH_07",
+      "HX_CO_RIBBON_ARCH_08",
+      "HX_CO_CANDY_GARDEN_-1",
+      "HX_CO_CANDY_GARDEN_1",
+      "HX_CO_VOXEL_LANTERN_-1",
+      "HX_CO_VOXEL_LANTERN_1",
+      "HX_CO_FIBONACCI_ICICLES_-1",
+      "HX_CO_FIBONACCI_ICICLES_1",
+      "HX_CO_INFINITY_RIBBON",
+      "HX_CO_FIREFLY_CONSTELLATION",
+      "HX_CO_HORIZON_RAIL_-1",
+      "HX_CO_HORIZON_RAIL_1",
+      "HX_CO_FRACTAL_SNOWFLAKE_-1_0",
+      "HX_CO_FRACTAL_SNOWFLAKE_-1_1",
+      "HX_CO_FRACTAL_SNOWFLAKE_-1_2",
+      "HX_CO_FRACTAL_SNOWFLAKE_1_0",
+      "HX_CO_FRACTAL_SNOWFLAKE_1_1",
+      "HX_CO_FRACTAL_SNOWFLAKE_1_2",
+      "HX_CO_OBSERVATORY_WEST",
+      "HX_CO_OBSERVATORY_EAST",
+      "HX_CO_ORBITAL_HALO_0",
+      "HX_CO_ORBITAL_HALO_1",
+      "HX_CO_ORBITAL_HALO_2",
+      "HX_CO_PLANET_MARKER_0",
+      "HX_CO_PLANET_MARKER_1",
+      "HX_CO_PLANET_MARKER_2",
+      "HX_CO_PLANET_MARKER_3",
+      "HX_CO_PLANET_MARKER_4",
+      "HX_CO_PLANET_MARKER_5",
+      "HX_CO_PLANET_MARKER_6",
+      "HX_CO_PLANET_MARKER_7",
+      "HX_CO_SPIRAL_00",
+      "HX_CO_SPIRAL_01",
+      "HX_CO_SPIRAL_02",
+      "HX_CO_SPIRAL_03",
+      "HX_CO_SPIRAL_04",
+      "HX_CO_SPIRAL_05",
+      "HX_CO_SPIRAL_06",
+      "HX_CO_SPIRAL_07",
+      "HX_CO_SPIRAL_08",
+      "HX_CO_SPIRAL_09",
+      "HX_CO_SPIRAL_10",
+      "HX_CO_SPIRAL_11",
+      "HX_CO_SPIRAL_12",
+      "HX_CO_SPIRAL_13",
+      "HX_CO_SPIRAL_14",
+      "HX_CO_SPIRAL_15",
+      "HX_CO_SPIRAL_16",
+      "HX_CO_SPIRAL_17",
+      "HX_CO_SPIRAL_18",
+      "HX_CO_SPIRAL_19",
+      "HX_CO_SPIRAL_20",
+      "HX_CO_SPIRAL_21",
+      "HX_CO_SPIRAL_22",
+      "HX_CO_SPIRAL_23",
+      "HX_CO_SPIRAL_24",
+      "HX_CO_SPIRAL_25",
+      "HX_CO_SPIRAL_26",
+      "HX_CO_SPIRAL_27",
+      "HX_CO_SPIRAL_28",
+      "HX_CO_SPIRAL_29",
+      "HX_CO_SPIRAL_30",
+      "HX_CO_SPIRAL_31",
+      "HX_CO_SPIRAL_32",
+      "HX_CO_SPIRAL_33",
+      "HX_CO_SPIRAL_34",
+      "HX_CO_SPIRAL_35",
+      "HX_CO_SPIRAL_36",
+      "HX_CO_SPIRAL_37",
+      "HX_CO_SPIRAL_38",
+      "HX_CO_SPIRAL_39",
+      "HX_CO_POLARIS"
+    ],
+    "HX_CONTROL_FIXTURES": [
+      "HX_CO_HELIX_CREST_IMAGE",
+      "HX_CO_WELCOME_LABEL",
+      "HX_CO_TECH_Channel_Block",
+      "HX_CO_TECH_DmxGeneral",
+      "HX_CO_TECH_DmxMovingHead",
+      "HX_CO_TECH_DmxMovingHeadAdv",
+      "HX_CO_TECH_DmxFloodlight",
+      "HX_CO_TECH_DmxFloodArea",
+      "HX_CO_TECH_DmxSkull",
+      "HX_CO_TECH_DmxServo",
+      "HX_CO_TECH_DmxServo3d"
+    ],
+    "HX_DNA_ALL": [
+      "HX_CO_OBSERVATORY_WEST",
+      "HX_CO_OBSERVATORY_EAST",
+      "HX_CO_ORBITAL_HALO_0",
+      "HX_CO_ORBITAL_HALO_1",
+      "HX_CO_ORBITAL_HALO_2",
+      "HX_CO_PLANET_MARKER_0",
+      "HX_CO_PLANET_MARKER_1",
+      "HX_CO_PLANET_MARKER_2",
+      "HX_CO_PLANET_MARKER_3",
+      "HX_CO_PLANET_MARKER_4",
+      "HX_CO_PLANET_MARKER_5",
+      "HX_CO_PLANET_MARKER_6",
+      "HX_CO_PLANET_MARKER_7"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_CO_OBSERVATORY_WEST/RUNGS",
+      "HX_CO_OBSERVATORY_EAST/RUNGS",
+      "HX_CO_ORBITAL_HALO_0/RUNGS",
+      "HX_CO_ORBITAL_HALO_1/RUNGS",
+      "HX_CO_ORBITAL_HALO_2/RUNGS",
+      "HX_CO_PLANET_MARKER_0/RUNGS",
+      "HX_CO_PLANET_MARKER_1/RUNGS",
+      "HX_CO_PLANET_MARKER_2/RUNGS",
+      "HX_CO_PLANET_MARKER_3/RUNGS",
+      "HX_CO_PLANET_MARKER_4/RUNGS",
+      "HX_CO_PLANET_MARKER_5/RUNGS",
+      "HX_CO_PLANET_MARKER_6/RUNGS",
+      "HX_CO_PLANET_MARKER_7/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_CO_OBSERVATORY_WEST/STRAND_A",
+      "HX_CO_OBSERVATORY_EAST/STRAND_A",
+      "HX_CO_ORBITAL_HALO_0/STRAND_A",
+      "HX_CO_ORBITAL_HALO_1/STRAND_A",
+      "HX_CO_ORBITAL_HALO_2/STRAND_A",
+      "HX_CO_PLANET_MARKER_0/STRAND_A",
+      "HX_CO_PLANET_MARKER_1/STRAND_A",
+      "HX_CO_PLANET_MARKER_2/STRAND_A",
+      "HX_CO_PLANET_MARKER_3/STRAND_A",
+      "HX_CO_PLANET_MARKER_4/STRAND_A",
+      "HX_CO_PLANET_MARKER_5/STRAND_A",
+      "HX_CO_PLANET_MARKER_6/STRAND_A",
+      "HX_CO_PLANET_MARKER_7/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_CO_OBSERVATORY_WEST/STRAND_B",
+      "HX_CO_OBSERVATORY_EAST/STRAND_B",
+      "HX_CO_ORBITAL_HALO_0/STRAND_B",
+      "HX_CO_ORBITAL_HALO_1/STRAND_B",
+      "HX_CO_ORBITAL_HALO_2/STRAND_B",
+      "HX_CO_PLANET_MARKER_0/STRAND_B",
+      "HX_CO_PLANET_MARKER_1/STRAND_B",
+      "HX_CO_PLANET_MARKER_2/STRAND_B",
+      "HX_CO_PLANET_MARKER_3/STRAND_B",
+      "HX_CO_PLANET_MARKER_4/STRAND_B",
+      "HX_CO_PLANET_MARKER_5/STRAND_B",
+      "HX_CO_PLANET_MARKER_6/STRAND_B",
+      "HX_CO_PLANET_MARKER_7/STRAND_B"
+    ],
+    "HX_NATIVE_ARCHES": [
+      "HX_CO_RIBBON_ARCH_01",
+      "HX_CO_RIBBON_ARCH_02",
+      "HX_CO_RIBBON_ARCH_03",
+      "HX_CO_RIBBON_ARCH_04",
+      "HX_CO_RIBBON_ARCH_05",
+      "HX_CO_RIBBON_ARCH_06",
+      "HX_CO_RIBBON_ARCH_07",
+      "HX_CO_RIBBON_ARCH_08"
+    ],
+    "HX_NATIVE_CANDY_CANES": [
+      "HX_CO_CANDY_GARDEN_-1",
+      "HX_CO_CANDY_GARDEN_1"
+    ],
+    "HX_NATIVE_CHANNEL_BLOCK": [
+      "HX_CO_TECH_Channel_Block"
+    ],
+    "HX_NATIVE_CIRCLE": [
+      "HX_CO_ORBIT_TRIPTYCH_-1",
+      "HX_CO_ORBIT_TRIPTYCH_1"
+    ],
+    "HX_NATIVE_CUBE": [
+      "HX_CO_VOXEL_LANTERN_-1",
+      "HX_CO_VOXEL_LANTERN_1"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_CO_FRACTAL_SNOWFLAKE_-1_0",
+      "HX_CO_FRACTAL_SNOWFLAKE_-1_1",
+      "HX_CO_FRACTAL_SNOWFLAKE_-1_2",
+      "HX_CO_FRACTAL_SNOWFLAKE_1_0",
+      "HX_CO_FRACTAL_SNOWFLAKE_1_1",
+      "HX_CO_FRACTAL_SNOWFLAKE_1_2",
+      "HX_CO_OBSERVATORY_WEST",
+      "HX_CO_OBSERVATORY_EAST",
+      "HX_CO_ORBITAL_HALO_0",
+      "HX_CO_ORBITAL_HALO_1",
+      "HX_CO_ORBITAL_HALO_2",
+      "HX_CO_PLANET_MARKER_0",
+      "HX_CO_PLANET_MARKER_1",
+      "HX_CO_PLANET_MARKER_2",
+      "HX_CO_PLANET_MARKER_3",
+      "HX_CO_PLANET_MARKER_4",
+      "HX_CO_PLANET_MARKER_5",
+      "HX_CO_PLANET_MARKER_6",
+      "HX_CO_PLANET_MARKER_7"
+    ],
+    "HX_NATIVE_DMXFLOODAREA": [
+      "HX_CO_TECH_DmxFloodArea"
+    ],
+    "HX_NATIVE_DMXFLOODLIGHT": [
+      "HX_CO_TECH_DmxFloodlight"
+    ],
+    "HX_NATIVE_DMXGENERAL": [
+      "HX_CO_TECH_DmxGeneral"
+    ],
+    "HX_NATIVE_DMXMOVINGHEAD": [
+      "HX_CO_TECH_DmxMovingHead"
+    ],
+    "HX_NATIVE_DMXMOVINGHEADADV": [
+      "HX_CO_TECH_DmxMovingHeadAdv"
+    ],
+    "HX_NATIVE_DMXSERVO": [
+      "HX_CO_TECH_DmxServo"
+    ],
+    "HX_NATIVE_DMXSERVO3D": [
+      "HX_CO_TECH_DmxServo3d"
+    ],
+    "HX_NATIVE_DMXSKULL": [
+      "HX_CO_TECH_DmxSkull"
+    ],
+    "HX_NATIVE_ICICLES": [
+      "HX_CO_FIBONACCI_ICICLES_-1",
+      "HX_CO_FIBONACCI_ICICLES_1"
+    ],
+    "HX_NATIVE_IMAGE": [
+      "HX_CO_HELIX_CREST_IMAGE"
+    ],
+    "HX_NATIVE_LABEL": [
+      "HX_CO_WELCOME_LABEL"
+    ],
+    "HX_NATIVE_MATRIX": [
+      "HX_CO_AURORA_HORIZONTAL",
+      "HX_CO_AURORA_VERTICAL"
+    ],
+    "HX_NATIVE_MULTIPOINT": [
+      "HX_CO_FIREFLY_CONSTELLATION"
+    ],
+    "HX_NATIVE_POLY_LINE": [
+      "HX_CO_INFINITY_RIBBON"
+    ],
+    "HX_NATIVE_SINGLE_LINE": [
+      "HX_CO_HORIZON_RAIL_-1",
+      "HX_CO_HORIZON_RAIL_1"
+    ],
+    "HX_NATIVE_SPHERE": [
+      "HX_CO_ORRERY_MOON_-1",
+      "HX_CO_ORRERY_MOON_1"
+    ],
+    "HX_NATIVE_SPINNER": [
+      "HX_CO_SOLAR_SPINNER_-1",
+      "HX_CO_SOLAR_SPINNER_1"
+    ],
+    "HX_NATIVE_STAR": [
+      "HX_CO_POLARIS"
+    ],
+    "HX_NATIVE_TREE": [
+      "HX_CO_NATIVE_Tree_360",
+      "HX_CO_NATIVE_Tree_180",
+      "HX_CO_NATIVE_Tree_Flat",
+      "HX_CO_NATIVE_Tree_Ribbon",
+      "HX_CO_SPIRAL_00",
+      "HX_CO_SPIRAL_01",
+      "HX_CO_SPIRAL_02",
+      "HX_CO_SPIRAL_03",
+      "HX_CO_SPIRAL_04",
+      "HX_CO_SPIRAL_05",
+      "HX_CO_SPIRAL_06",
+      "HX_CO_SPIRAL_07",
+      "HX_CO_SPIRAL_08",
+      "HX_CO_SPIRAL_09",
+      "HX_CO_SPIRAL_10",
+      "HX_CO_SPIRAL_11",
+      "HX_CO_SPIRAL_12",
+      "HX_CO_SPIRAL_13",
+      "HX_CO_SPIRAL_14",
+      "HX_CO_SPIRAL_15",
+      "HX_CO_SPIRAL_16",
+      "HX_CO_SPIRAL_17",
+      "HX_CO_SPIRAL_18",
+      "HX_CO_SPIRAL_19",
+      "HX_CO_SPIRAL_20",
+      "HX_CO_SPIRAL_21",
+      "HX_CO_SPIRAL_22",
+      "HX_CO_SPIRAL_23",
+      "HX_CO_SPIRAL_24",
+      "HX_CO_SPIRAL_25",
+      "HX_CO_SPIRAL_26",
+      "HX_CO_SPIRAL_27",
+      "HX_CO_SPIRAL_28",
+      "HX_CO_SPIRAL_29",
+      "HX_CO_SPIRAL_30",
+      "HX_CO_SPIRAL_31",
+      "HX_CO_SPIRAL_32",
+      "HX_CO_SPIRAL_33",
+      "HX_CO_SPIRAL_34",
+      "HX_CO_SPIRAL_35",
+      "HX_CO_SPIRAL_36",
+      "HX_CO_SPIRAL_37",
+      "HX_CO_SPIRAL_38",
+      "HX_CO_SPIRAL_39"
+    ],
+    "HX_NATIVE_WINDOW_FRAME": [
+      "HX_CO_JEWEL_WINDOW_-1",
+      "HX_CO_JEWEL_WINDOW_1"
+    ],
+    "HX_NATIVE_WREATH": [
+      "HX_CO_MOON_WREATH_-1",
+      "HX_CO_MOON_WREATH_1"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_CO_SPIRAL_00",
+      "HX_CO_SPIRAL_01",
+      "HX_CO_SPIRAL_02",
+      "HX_CO_SPIRAL_03",
+      "HX_CO_SPIRAL_04",
+      "HX_CO_SPIRAL_16",
+      "HX_CO_SPIRAL_17",
+      "HX_CO_SPIRAL_18",
+      "HX_CO_SPIRAL_19",
+      "HX_CO_SPIRAL_20",
+      "HX_CO_SPIRAL_21",
+      "HX_CO_SPIRAL_22",
+      "HX_CO_SPIRAL_23",
+      "HX_CO_SPIRAL_24",
+      "HX_CO_SPIRAL_36",
+      "HX_CO_SPIRAL_37",
+      "HX_CO_SPIRAL_38",
+      "HX_CO_SPIRAL_39"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_CO_SPIRAL_05",
+      "HX_CO_SPIRAL_06",
+      "HX_CO_SPIRAL_07",
+      "HX_CO_SPIRAL_08",
+      "HX_CO_SPIRAL_09",
+      "HX_CO_SPIRAL_10",
+      "HX_CO_SPIRAL_11",
+      "HX_CO_SPIRAL_12",
+      "HX_CO_SPIRAL_13",
+      "HX_CO_SPIRAL_14",
+      "HX_CO_SPIRAL_15",
+      "HX_CO_SPIRAL_25",
+      "HX_CO_SPIRAL_26",
+      "HX_CO_SPIRAL_27",
+      "HX_CO_SPIRAL_28",
+      "HX_CO_SPIRAL_29",
+      "HX_CO_SPIRAL_30",
+      "HX_CO_SPIRAL_31",
+      "HX_CO_SPIRAL_32",
+      "HX_CO_SPIRAL_33",
+      "HX_CO_SPIRAL_34",
+      "HX_CO_SPIRAL_35"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_CO_SPIRAL_00",
+      "HX_CO_SPIRAL_01",
+      "HX_CO_SPIRAL_02",
+      "HX_CO_SPIRAL_03",
+      "HX_CO_SPIRAL_04",
+      "HX_CO_SPIRAL_05",
+      "HX_CO_SPIRAL_06",
+      "HX_CO_SPIRAL_07",
+      "HX_CO_SPIRAL_08",
+      "HX_CO_SPIRAL_09",
+      "HX_CO_SPIRAL_10",
+      "HX_CO_SPIRAL_11",
+      "HX_CO_SPIRAL_12",
+      "HX_CO_SPIRAL_13",
+      "HX_CO_SPIRAL_14",
+      "HX_CO_SPIRAL_15",
+      "HX_CO_SPIRAL_16",
+      "HX_CO_SPIRAL_17",
+      "HX_CO_SPIRAL_18",
+      "HX_CO_SPIRAL_19",
+      "HX_CO_SPIRAL_20",
+      "HX_CO_SPIRAL_21",
+      "HX_CO_SPIRAL_22",
+      "HX_CO_SPIRAL_23",
+      "HX_CO_SPIRAL_24",
+      "HX_CO_SPIRAL_25",
+      "HX_CO_SPIRAL_26",
+      "HX_CO_SPIRAL_27",
+      "HX_CO_SPIRAL_28",
+      "HX_CO_SPIRAL_29",
+      "HX_CO_SPIRAL_30",
+      "HX_CO_SPIRAL_31",
+      "HX_CO_SPIRAL_32",
+      "HX_CO_SPIRAL_33",
+      "HX_CO_SPIRAL_34",
+      "HX_CO_SPIRAL_35",
+      "HX_CO_SPIRAL_36",
+      "HX_CO_SPIRAL_37",
+      "HX_CO_SPIRAL_38",
+      "HX_CO_SPIRAL_39"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_CO_NATIVE_Tree_360",
+      "HX_CO_NATIVE_Tree_180",
+      "HX_CO_NATIVE_Tree_Flat",
+      "HX_CO_NATIVE_Tree_Ribbon",
+      "HX_CO_ORRERY_MOON_-1",
+      "HX_CO_AURORA_HORIZONTAL",
+      "HX_CO_JEWEL_WINDOW_-1",
+      "HX_CO_ORBIT_TRIPTYCH_-1",
+      "HX_CO_MOON_WREATH_-1",
+      "HX_CO_SOLAR_SPINNER_-1",
+      "HX_CO_ORRERY_MOON_1",
+      "HX_CO_AURORA_VERTICAL",
+      "HX_CO_JEWEL_WINDOW_1",
+      "HX_CO_ORBIT_TRIPTYCH_1",
+      "HX_CO_MOON_WREATH_1",
+      "HX_CO_SOLAR_SPINNER_1",
+      "HX_CO_RIBBON_ARCH_01",
+      "HX_CO_RIBBON_ARCH_02",
+      "HX_CO_RIBBON_ARCH_03",
+      "HX_CO_RIBBON_ARCH_04",
+      "HX_CO_RIBBON_ARCH_05",
+      "HX_CO_RIBBON_ARCH_06",
+      "HX_CO_RIBBON_ARCH_07",
+      "HX_CO_RIBBON_ARCH_08",
+      "HX_CO_CANDY_GARDEN_-1",
+      "HX_CO_CANDY_GARDEN_1",
+      "HX_CO_VOXEL_LANTERN_-1",
+      "HX_CO_VOXEL_LANTERN_1",
+      "HX_CO_FIBONACCI_ICICLES_-1",
+      "HX_CO_FIBONACCI_ICICLES_1",
+      "HX_CO_INFINITY_RIBBON",
+      "HX_CO_FIREFLY_CONSTELLATION",
+      "HX_CO_HORIZON_RAIL_-1",
+      "HX_CO_HORIZON_RAIL_1",
+      "HX_CO_FRACTAL_SNOWFLAKE_-1_0",
+      "HX_CO_FRACTAL_SNOWFLAKE_-1_1",
+      "HX_CO_FRACTAL_SNOWFLAKE_-1_2",
+      "HX_CO_FRACTAL_SNOWFLAKE_1_0",
+      "HX_CO_FRACTAL_SNOWFLAKE_1_1",
+      "HX_CO_FRACTAL_SNOWFLAKE_1_2",
+      "HX_CO_HELIX_CREST_IMAGE",
+      "HX_CO_WELCOME_LABEL",
+      "HX_CO_TECH_Channel_Block",
+      "HX_CO_TECH_DmxGeneral",
+      "HX_CO_TECH_DmxMovingHead",
+      "HX_CO_TECH_DmxMovingHeadAdv",
+      "HX_CO_TECH_DmxFloodlight",
+      "HX_CO_TECH_DmxFloodArea",
+      "HX_CO_TECH_DmxSkull",
+      "HX_CO_TECH_DmxServo",
+      "HX_CO_TECH_DmxServo3d",
+      "HX_CO_OBSERVATORY_WEST",
+      "HX_CO_OBSERVATORY_EAST",
+      "HX_CO_ORBITAL_HALO_0",
+      "HX_CO_ORBITAL_HALO_1",
+      "HX_CO_ORBITAL_HALO_2",
+      "HX_CO_PLANET_MARKER_0",
+      "HX_CO_PLANET_MARKER_1",
+      "HX_CO_PLANET_MARKER_2",
+      "HX_CO_PLANET_MARKER_3",
+      "HX_CO_PLANET_MARKER_4",
+      "HX_CO_PLANET_MARKER_5",
+      "HX_CO_PLANET_MARKER_6",
+      "HX_CO_PLANET_MARKER_7",
+      "HX_CO_SPIRAL_00",
+      "HX_CO_SPIRAL_01",
+      "HX_CO_SPIRAL_02",
+      "HX_CO_SPIRAL_03",
+      "HX_CO_SPIRAL_04",
+      "HX_CO_SPIRAL_05",
+      "HX_CO_SPIRAL_06",
+      "HX_CO_SPIRAL_07",
+      "HX_CO_SPIRAL_08",
+      "HX_CO_SPIRAL_09",
+      "HX_CO_SPIRAL_10",
+      "HX_CO_SPIRAL_11",
+      "HX_CO_SPIRAL_12",
+      "HX_CO_SPIRAL_13",
+      "HX_CO_SPIRAL_14",
+      "HX_CO_SPIRAL_15",
+      "HX_CO_SPIRAL_16",
+      "HX_CO_SPIRAL_17",
+      "HX_CO_SPIRAL_18",
+      "HX_CO_SPIRAL_19",
+      "HX_CO_SPIRAL_20",
+      "HX_CO_SPIRAL_21",
+      "HX_CO_SPIRAL_22",
+      "HX_CO_SPIRAL_23",
+      "HX_CO_SPIRAL_24",
+      "HX_CO_SPIRAL_25",
+      "HX_CO_SPIRAL_26",
+      "HX_CO_SPIRAL_27",
+      "HX_CO_SPIRAL_28",
+      "HX_CO_SPIRAL_29",
+      "HX_CO_SPIRAL_30",
+      "HX_CO_SPIRAL_31",
+      "HX_CO_SPIRAL_32",
+      "HX_CO_SPIRAL_33",
+      "HX_CO_SPIRAL_34",
+      "HX_CO_SPIRAL_35",
+      "HX_CO_SPIRAL_36",
+      "HX_CO_SPIRAL_37",
+      "HX_CO_SPIRAL_38",
+      "HX_CO_SPIRAL_39",
+      "HX_CO_POLARIS"
+    ],
+    "HX_ZONE_CRYSTAL_GARDEN": [
+      "HX_CO_VOXEL_LANTERN_-1",
+      "HX_CO_VOXEL_LANTERN_1"
+    ],
+    "HX_ZONE_DNA_CATHEDRAL": [
+      "HX_CO_OBSERVATORY_WEST",
+      "HX_CO_OBSERVATORY_EAST",
+      "HX_CO_ORBITAL_HALO_0",
+      "HX_CO_ORBITAL_HALO_1",
+      "HX_CO_ORBITAL_HALO_2",
+      "HX_CO_PLANET_MARKER_0",
+      "HX_CO_PLANET_MARKER_1",
+      "HX_CO_PLANET_MARKER_2",
+      "HX_CO_PLANET_MARKER_3",
+      "HX_CO_PLANET_MARKER_4",
+      "HX_CO_PLANET_MARKER_5",
+      "HX_CO_PLANET_MARKER_6",
+      "HX_CO_PLANET_MARKER_7"
+    ],
+    "HX_ZONE_NATIVE_PAVILIONS": [
+      "HX_CO_ORRERY_MOON_-1",
+      "HX_CO_AURORA_HORIZONTAL",
+      "HX_CO_JEWEL_WINDOW_-1",
+      "HX_CO_ORBIT_TRIPTYCH_-1",
+      "HX_CO_MOON_WREATH_-1",
+      "HX_CO_SOLAR_SPINNER_-1",
+      "HX_CO_ORRERY_MOON_1",
+      "HX_CO_AURORA_VERTICAL",
+      "HX_CO_JEWEL_WINDOW_1",
+      "HX_CO_ORBIT_TRIPTYCH_1",
+      "HX_CO_MOON_WREATH_1",
+      "HX_CO_SOLAR_SPINNER_1",
+      "HX_CO_FIBONACCI_ICICLES_-1",
+      "HX_CO_FIBONACCI_ICICLES_1"
+    ],
+    "HX_ZONE_NATIVE_TREE_GALLERY": [
+      "HX_CO_NATIVE_Tree_360",
+      "HX_CO_NATIVE_Tree_180",
+      "HX_CO_NATIVE_Tree_Flat",
+      "HX_CO_NATIVE_Tree_Ribbon"
+    ],
+    "HX_ZONE_RIBBON_PROMENADE": [
+      "HX_CO_RIBBON_ARCH_01",
+      "HX_CO_RIBBON_ARCH_02",
+      "HX_CO_RIBBON_ARCH_03",
+      "HX_CO_RIBBON_ARCH_04",
+      "HX_CO_RIBBON_ARCH_05",
+      "HX_CO_RIBBON_ARCH_06",
+      "HX_CO_RIBBON_ARCH_07",
+      "HX_CO_RIBBON_ARCH_08",
+      "HX_CO_CANDY_GARDEN_-1",
+      "HX_CO_CANDY_GARDEN_1",
+      "HX_CO_HORIZON_RAIL_-1",
+      "HX_CO_HORIZON_RAIL_1"
+    ],
+    "HX_ZONE_SIGNATURE_PATH": [
+      "HX_CO_INFINITY_RIBBON"
+    ],
+    "HX_ZONE_SKY_CROWNS": [
+      "HX_CO_POLARIS"
+    ],
+    "HX_ZONE_SKY_MOTIFS": [
+      "HX_CO_FIREFLY_CONSTELLATION",
+      "HX_CO_FRACTAL_SNOWFLAKE_-1_0",
+      "HX_CO_FRACTAL_SNOWFLAKE_-1_1",
+      "HX_CO_FRACTAL_SNOWFLAKE_-1_2",
+      "HX_CO_FRACTAL_SNOWFLAKE_1_0",
+      "HX_CO_FRACTAL_SNOWFLAKE_1_1",
+      "HX_CO_FRACTAL_SNOWFLAKE_1_2"
+    ],
+    "HX_ZONE_SPIRAL_GROVES": [
+      "HX_CO_SPIRAL_00",
+      "HX_CO_SPIRAL_01",
+      "HX_CO_SPIRAL_02",
+      "HX_CO_SPIRAL_03",
+      "HX_CO_SPIRAL_04",
+      "HX_CO_SPIRAL_05",
+      "HX_CO_SPIRAL_06",
+      "HX_CO_SPIRAL_07",
+      "HX_CO_SPIRAL_08",
+      "HX_CO_SPIRAL_09",
+      "HX_CO_SPIRAL_10",
+      "HX_CO_SPIRAL_11",
+      "HX_CO_SPIRAL_12",
+      "HX_CO_SPIRAL_13",
+      "HX_CO_SPIRAL_14",
+      "HX_CO_SPIRAL_15",
+      "HX_CO_SPIRAL_16",
+      "HX_CO_SPIRAL_17",
+      "HX_CO_SPIRAL_18",
+      "HX_CO_SPIRAL_19",
+      "HX_CO_SPIRAL_20",
+      "HX_CO_SPIRAL_21",
+      "HX_CO_SPIRAL_22",
+      "HX_CO_SPIRAL_23",
+      "HX_CO_SPIRAL_24",
+      "HX_CO_SPIRAL_25",
+      "HX_CO_SPIRAL_26",
+      "HX_CO_SPIRAL_27",
+      "HX_CO_SPIRAL_28",
+      "HX_CO_SPIRAL_29",
+      "HX_CO_SPIRAL_30",
+      "HX_CO_SPIRAL_31",
+      "HX_CO_SPIRAL_32",
+      "HX_CO_SPIRAL_33",
+      "HX_CO_SPIRAL_34",
+      "HX_CO_SPIRAL_35",
+      "HX_CO_SPIRAL_36",
+      "HX_CO_SPIRAL_37",
+      "HX_CO_SPIRAL_38",
+      "HX_CO_SPIRAL_39"
+    ],
+    "HX_ZONE_TECHNOLOGY_ALCOVES": [
+      "HX_CO_TECH_Channel_Block",
+      "HX_CO_TECH_DmxGeneral",
+      "HX_CO_TECH_DmxMovingHead",
+      "HX_CO_TECH_DmxMovingHeadAdv",
+      "HX_CO_TECH_DmxFloodlight",
+      "HX_CO_TECH_DmxFloodArea",
+      "HX_CO_TECH_DmxSkull",
+      "HX_CO_TECH_DmxServo",
+      "HX_CO_TECH_DmxServo3d"
+    ],
+    "HX_ZONE_WELCOME_CREST": [
+      "HX_CO_HELIX_CREST_IMAGE",
+      "HX_CO_WELCOME_LABEL"
+    ]
+  },
+  "group_count": 48
+}

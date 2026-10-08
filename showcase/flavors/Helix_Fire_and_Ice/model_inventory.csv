@@ -1,0 +1,110 @@
+model,native_type,zone,nodes,start_channel,end_channel,design
+HX_FI_NATIVE_Tree_360,Tree 360,NATIVE_TREE_GALLERY,576,1,1728,"Fire & Ice — Tree 360 tree; 12 strands, 0 twists; graduated canopy"
+HX_FI_NATIVE_Tree_180,Tree 180,NATIVE_TREE_GALLERY,576,1729,3456,"Fire & Ice — Tree 180 tree; 12 strands, 0 twists; graduated canopy"
+HX_FI_NATIVE_Tree_Flat,Tree Flat,NATIVE_TREE_GALLERY,576,3457,5184,"Fire & Ice — Tree Flat tree; 12 strands, 0 twists; graduated canopy"
+HX_FI_NATIVE_Tree_Ribbon,Tree Ribbon,NATIVE_TREE_GALLERY,576,5185,6912,"Fire & Ice — Tree Ribbon tree; 12 strands, 0 twists; graduated canopy"
+HX_FI_ORRERY_MOON_-1,Sphere,NATIVE_PAVILIONS,480,6913,8352,Fire & Ice — Pixel moon above a lyric pavilion; full-depth meridians
+HX_FI_AURORA_HORIZONTAL,Horiz Matrix,NATIVE_PAVILIONS,800,8353,10752,Fire & Ice — A wide lyric cinema
+HX_FI_JEWEL_WINDOW_-1,Window Frame,NATIVE_PAVILIONS,192,10753,11328,Fire & Ice — Oversized jewel-box frame around the art canvas
+HX_FI_ORBIT_TRIPTYCH_-1,Circle,NATIVE_PAVILIONS,288,11329,12192,Fire & Ice — Nested astronomical orbit rings
+HX_FI_MOON_WREATH_-1,Wreath,NATIVE_PAVILIONS,96,12193,12480,"Fire & Ice — Halo wreath with an open, readable center"
+HX_FI_SOLAR_SPINNER_-1,Spinner,NATIVE_PAVILIONS,216,12481,13128,Fire & Ice — Twelve-arm hollow solar rosette; independent radial chase lanes
+HX_FI_ORRERY_MOON_1,Sphere,NATIVE_PAVILIONS,480,13129,14568,Fire & Ice — Pixel moon above a lyric pavilion; full-depth meridians
+HX_FI_AURORA_VERTICAL,Vert Matrix,NATIVE_PAVILIONS,640,14569,16488,Fire & Ice — Portrait generative-art canvas
+HX_FI_JEWEL_WINDOW_1,Window Frame,NATIVE_PAVILIONS,192,16489,17064,Fire & Ice — Oversized jewel-box frame around the art canvas
+HX_FI_ORBIT_TRIPTYCH_1,Circle,NATIVE_PAVILIONS,288,17065,17928,Fire & Ice — Nested astronomical orbit rings
+HX_FI_MOON_WREATH_1,Wreath,NATIVE_PAVILIONS,96,17929,18216,"Fire & Ice — Halo wreath with an open, readable center"
+HX_FI_SOLAR_SPINNER_1,Spinner,NATIVE_PAVILIONS,216,18217,18864,Fire & Ice — Twelve-arm hollow solar rosette; independent radial chase lanes
+HX_FI_RIBBON_ARCH_01,Arches,RIBBON_PROMENADE,80,18865,19104,Fire & Ice — A scalloped aurora entrance arch
+HX_FI_RIBBON_ARCH_02,Arches,RIBBON_PROMENADE,80,19105,19344,Fire & Ice — A scalloped aurora entrance arch
+HX_FI_RIBBON_ARCH_03,Arches,RIBBON_PROMENADE,80,19345,19584,Fire & Ice — A scalloped aurora entrance arch
+HX_FI_RIBBON_ARCH_04,Arches,RIBBON_PROMENADE,80,19585,19824,Fire & Ice — A scalloped aurora entrance arch
+HX_FI_RIBBON_ARCH_05,Arches,RIBBON_PROMENADE,80,19825,20064,Fire & Ice — A scalloped aurora entrance arch
+HX_FI_RIBBON_ARCH_06,Arches,RIBBON_PROMENADE,80,20065,20304,Fire & Ice — A scalloped aurora entrance arch
+HX_FI_RIBBON_ARCH_07,Arches,RIBBON_PROMENADE,80,20305,20544,Fire & Ice — A scalloped aurora entrance arch
+HX_FI_RIBBON_ARCH_08,Arches,RIBBON_PROMENADE,80,20545,20784,Fire & Ice — A scalloped aurora entrance arch
+HX_FI_CANDY_GARDEN_-1,Candy Canes,RIBBON_PROMENADE,240,20785,21504,Fire & Ice — Five slim hooked candy reeds; mirrored portal accents
+HX_FI_CANDY_GARDEN_1,Candy Canes,RIBBON_PROMENADE,240,21505,22224,Fire & Ice — Five slim hooked candy reeds; mirrored portal accents
+HX_FI_VOXEL_LANTERN_-1,Cube,CRYSTAL_GARDEN,512,22225,23760,Fire & Ice — Deep crystal voxel lantern; three-dimensional chase volume
+HX_FI_VOXEL_LANTERN_1,Cube,CRYSTAL_GARDEN,512,23761,25296,Fire & Ice — Deep crystal voxel lantern; three-dimensional chase volume
+HX_FI_FIBONACCI_ICICLES_-1,Icicles,NATIVE_PAVILIONS,136,25297,25704,Fire & Ice — Fibonacci-length ice fringe under the lyric pavilion
+HX_FI_FIBONACCI_ICICLES_1,Icicles,NATIVE_PAVILIONS,136,25705,26112,Fire & Ice — Fibonacci-length ice fringe under the lyric pavilion
+HX_FI_INFINITY_RIBBON,Poly Line,SIGNATURE_PATH,420,26113,27372,Fire & Ice signature illuminated contour
+HX_FI_FIREFLY_CONSTELLATION,MultiPoint,SKY_MOTIFS,64,27373,27564,"Fire & Ice — Seeded, independently positioned native MultiPoint fireflies"
+HX_FI_HORIZON_RAIL_-1,Single Line,RIBBON_PROMENADE,180,27565,28104,Fire & Ice — Continuous low horizon rail for clean opposing chases
+HX_FI_HORIZON_RAIL_1,Single Line,RIBBON_PROMENADE,180,28105,28644,Fire & Ice — Continuous low horizon rail for clean opposing chases
+HX_FI_FRACTAL_SNOWFLAKE_-1_0,Custom,SKY_MOTIFS,210,28645,29274,Fire & Ice — Sixfold crystalline snowflake with branching tips
+HX_FI_FRACTAL_SNOWFLAKE_-1_1,Custom,SKY_MOTIFS,210,29275,29904,Fire & Ice — Sixfold crystalline snowflake with branching tips
+HX_FI_FRACTAL_SNOWFLAKE_-1_2,Custom,SKY_MOTIFS,210,29905,30534,Fire & Ice — Sixfold crystalline snowflake with branching tips
+HX_FI_FRACTAL_SNOWFLAKE_1_0,Custom,SKY_MOTIFS,210,30535,31164,Fire & Ice — Sixfold crystalline snowflake with branching tips
+HX_FI_FRACTAL_SNOWFLAKE_1_1,Custom,SKY_MOTIFS,210,31165,31794,Fire & Ice — Sixfold crystalline snowflake with branching tips
+HX_FI_FRACTAL_SNOWFLAKE_1_2,Custom,SKY_MOTIFS,210,31795,32424,Fire & Ice — Sixfold crystalline snowflake with branching tips
+HX_FI_HELIX_CREST_IMAGE,Image,WELCOME_CREST,1,32425,32425,Fire & Ice — Original Fire & Ice luminous crest; portable image asset
+HX_FI_WELCOME_LABEL,Label,WELCOME_CREST,1,32426,32426,Fire & Ice — Native scene label: HELIX AURORA
+HX_FI_TECH_Channel_Block,Channel Block,TECHNOLOGY_ALCOVES,16,32427,32442,Fire & Ice — An amber legacy AC marquee
+HX_FI_TECH_DmxGeneral,DmxGeneral,TECHNOLOGY_ALCOVES,8,32443,32450,Fire & Ice — Eight-channel fountain/utility controller
+HX_FI_TECH_DmxMovingHead,DmxMovingHead,TECHNOLOGY_ALCOVES,16,32451,32466,Fire & Ice — Classic cyan spotlight turret
+HX_FI_TECH_DmxMovingHeadAdv,DmxMovingHeadAdv,TECHNOLOGY_ALCOVES,16,32467,32482,Fire & Ice — Full 3D magenta spotlight turret
+HX_FI_TECH_DmxFloodlight,DmxFloodlight,TECHNOLOGY_ALCOVES,3,32483,32485,Fire & Ice — RGB garden uplighter
+HX_FI_TECH_DmxFloodArea,DmxFloodArea,TECHNOLOGY_ALCOVES,3,32486,32488,Fire & Ice — Broad aurora lawn wash
+HX_FI_TECH_DmxSkull,DmxSkull,TECHNOLOGY_ALCOVES,26,32489,32514,Fire & Ice — Articulated Halloween guest in the technology alcove
+HX_FI_TECH_DmxServo,DmxServo,TECHNOLOGY_ALCOVES,2,32515,32516,Fire & Ice — 2D kinetic pinwheel ornament
+HX_FI_TECH_DmxServo3d,DmxServo3d,TECHNOLOGY_ALCOVES,6,32517,32522,Fire & Ice — Three-axis kinetic DNA wind sculpture
+HX_FI_ELEMENT_-1_0,Custom,DNA_CATHEDRAL,1232,32523,36218,"Two-strand DNA sculpture: 3.2 turns, full illuminated ladder rungs"
+HX_FI_ELEMENT_-1_1,Custom,DNA_CATHEDRAL,828,36219,38702,"Two-strand DNA sculpture: 3.6 turns, full illuminated ladder rungs"
+HX_FI_ELEMENT_-1_2,Custom,DNA_CATHEDRAL,800,38703,41102,"Two-strand DNA sculpture: 4 turns, full illuminated ladder rungs"
+HX_FI_SPIRAL_00,Tree 360,SPIRAL_GROVES,224,41103,41774,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_FI_SPIRAL_01,Tree 360,SPIRAL_GROVES,384,41775,42926,"Spiral tree; 3 strands, 2.6 twists; graduated canopy"
+HX_FI_SPIRAL_02,Tree 360,SPIRAL_GROVES,288,42927,43790,"Spiral tree; 2 strands, 2.7 twists; graduated canopy"
+HX_FI_SPIRAL_03,Tree 360,SPIRAL_GROVES,336,43791,44798,"Spiral tree; 3 strands, 2.8 twists; graduated canopy"
+HX_FI_SPIRAL_04,Tree 360,SPIRAL_GROVES,256,44799,45566,"Spiral tree; 2 strands, 2.9 twists; graduated canopy"
+HX_FI_SPIRAL_05,Tree 360,SPIRAL_GROVES,432,45567,46862,"Spiral tree; 3 strands, 3 twists; graduated canopy"
+HX_FI_SPIRAL_06,Tree 360,SPIRAL_GROVES,224,46863,47534,"Spiral tree; 2 strands, 3.1 twists; graduated canopy"
+HX_FI_SPIRAL_07,Tree 360,SPIRAL_GROVES,384,47535,48686,"Spiral tree; 3 strands, 3.2 twists; graduated canopy"
+HX_FI_SPIRAL_08,Tree 360,SPIRAL_GROVES,288,48687,49550,"Spiral tree; 2 strands, 3.3 twists; graduated canopy"
+HX_FI_SPIRAL_09,Tree 360,SPIRAL_GROVES,336,49551,50558,"Spiral tree; 3 strands, 3.4 twists; graduated canopy"
+HX_FI_SPIRAL_10,Tree 360,SPIRAL_GROVES,256,50559,51326,"Spiral tree; 2 strands, 3.5 twists; graduated canopy"
+HX_FI_SPIRAL_11,Tree 360,SPIRAL_GROVES,432,51327,52622,"Spiral tree; 3 strands, 3.6 twists; graduated canopy"
+HX_FI_SPIRAL_12,Tree 360,SPIRAL_GROVES,224,52623,53294,"Spiral tree; 2 strands, 3.7 twists; graduated canopy"
+HX_FI_SPIRAL_13,Tree 360,SPIRAL_GROVES,384,53295,54446,"Spiral tree; 3 strands, 3.8 twists; graduated canopy"
+HX_FI_SPIRAL_14,Tree 360,SPIRAL_GROVES,288,54447,55310,"Spiral tree; 2 strands, 3.9 twists; graduated canopy"
+HX_FI_SPIRAL_15,Tree 360,SPIRAL_GROVES,336,55311,56318,"Spiral tree; 3 strands, 4 twists; graduated canopy"
+HX_FI_SPIRAL_16,Tree 360,SPIRAL_GROVES,256,56319,57086,"Spiral tree; 2 strands, 4.1 twists; graduated canopy"
+HX_FI_SPIRAL_17,Tree 360,SPIRAL_GROVES,432,57087,58382,"Spiral tree; 3 strands, 4.2 twists; graduated canopy"
+HX_FI_SPIRAL_18,Tree 360,SPIRAL_GROVES,224,58383,59054,"Spiral tree; 2 strands, 4.3 twists; graduated canopy"
+HX_FI_SPIRAL_19,Tree 360,SPIRAL_GROVES,384,59055,60206,"Spiral tree; 3 strands, 4.4 twists; graduated canopy"
+HX_FI_SENTINEL_-1_0,Custom,DNA_CATHEDRAL,528,60207,61790,"Two-strand DNA sculpture: 2.8 turns, full illuminated ladder rungs"
+HX_FI_SENTINEL_-1_1,Custom,DNA_CATHEDRAL,528,61791,63374,"Two-strand DNA sculpture: 2.8 turns, full illuminated ladder rungs"
+HX_FI_SENTINEL_-1_2,Custom,DNA_CATHEDRAL,528,63375,64958,"Two-strand DNA sculpture: 2.8 turns, full illuminated ladder rungs"
+HX_FI_SENTINEL_-1_3,Custom,DNA_CATHEDRAL,528,64959,66542,"Two-strand DNA sculpture: 2.8 turns, full illuminated ladder rungs"
+HX_FI_ELEMENT_1_0,Custom,DNA_CATHEDRAL,1232,66543,70238,"Two-strand DNA sculpture: 3.2 turns, full illuminated ladder rungs"
+HX_FI_ELEMENT_1_1,Custom,DNA_CATHEDRAL,828,70239,72722,"Two-strand DNA sculpture: 3.6 turns, full illuminated ladder rungs"
+HX_FI_ELEMENT_1_2,Custom,DNA_CATHEDRAL,800,72723,75122,"Two-strand DNA sculpture: 4 turns, full illuminated ladder rungs"
+HX_FI_SPIRAL_20,Tree 360,SPIRAL_GROVES,288,75123,75986,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_FI_SPIRAL_21,Tree 360,SPIRAL_GROVES,336,75987,76994,"Spiral tree; 3 strands, 2.6 twists; graduated canopy"
+HX_FI_SPIRAL_22,Tree 360,SPIRAL_GROVES,256,76995,77762,"Spiral tree; 2 strands, 2.7 twists; graduated canopy"
+HX_FI_SPIRAL_23,Tree 360,SPIRAL_GROVES,432,77763,79058,"Spiral tree; 3 strands, 2.8 twists; graduated canopy"
+HX_FI_SPIRAL_24,Tree 360,SPIRAL_GROVES,224,79059,79730,"Spiral tree; 2 strands, 2.9 twists; graduated canopy"
+HX_FI_SPIRAL_25,Tree 360,SPIRAL_GROVES,384,79731,80882,"Spiral tree; 3 strands, 3 twists; graduated canopy"
+HX_FI_SPIRAL_26,Tree 360,SPIRAL_GROVES,288,80883,81746,"Spiral tree; 2 strands, 3.1 twists; graduated canopy"
+HX_FI_SPIRAL_27,Tree 360,SPIRAL_GROVES,336,81747,82754,"Spiral tree; 3 strands, 3.2 twists; graduated canopy"
+HX_FI_SPIRAL_28,Tree 360,SPIRAL_GROVES,256,82755,83522,"Spiral tree; 2 strands, 3.3 twists; graduated canopy"
+HX_FI_SPIRAL_29,Tree 360,SPIRAL_GROVES,432,83523,84818,"Spiral tree; 3 strands, 3.4 twists; graduated canopy"
+HX_FI_SPIRAL_30,Tree 360,SPIRAL_GROVES,224,84819,85490,"Spiral tree; 2 strands, 3.5 twists; graduated canopy"
+HX_FI_SPIRAL_31,Tree 360,SPIRAL_GROVES,384,85491,86642,"Spiral tree; 3 strands, 3.6 twists; graduated canopy"
+HX_FI_SPIRAL_32,Tree 360,SPIRAL_GROVES,288,86643,87506,"Spiral tree; 2 strands, 3.7 twists; graduated canopy"
+HX_FI_SPIRAL_33,Tree 360,SPIRAL_GROVES,336,87507,88514,"Spiral tree; 3 strands, 3.8 twists; graduated canopy"
+HX_FI_SPIRAL_34,Tree 360,SPIRAL_GROVES,256,88515,89282,"Spiral tree; 2 strands, 3.9 twists; graduated canopy"
+HX_FI_SPIRAL_35,Tree 360,SPIRAL_GROVES,432,89283,90578,"Spiral tree; 3 strands, 4 twists; graduated canopy"
+HX_FI_SPIRAL_36,Tree 360,SPIRAL_GROVES,224,90579,91250,"Spiral tree; 2 strands, 4.1 twists; graduated canopy"
+HX_FI_SPIRAL_37,Tree 360,SPIRAL_GROVES,384,91251,92402,"Spiral tree; 3 strands, 4.2 twists; graduated canopy"
+HX_FI_SPIRAL_38,Tree 360,SPIRAL_GROVES,288,92403,93266,"Spiral tree; 2 strands, 4.3 twists; graduated canopy"
+HX_FI_SPIRAL_39,Tree 360,SPIRAL_GROVES,336,93267,94274,"Spiral tree; 3 strands, 4.4 twists; graduated canopy"
+HX_FI_SENTINEL_1_0,Custom,DNA_CATHEDRAL,528,94275,95858,"Two-strand DNA sculpture: 2.8 turns, full illuminated ladder rungs"
+HX_FI_SENTINEL_1_1,Custom,DNA_CATHEDRAL,528,95859,97442,"Two-strand DNA sculpture: 2.8 turns, full illuminated ladder rungs"
+HX_FI_SENTINEL_1_2,Custom,DNA_CATHEDRAL,528,97443,99026,"Two-strand DNA sculpture: 2.8 turns, full illuminated ladder rungs"
+HX_FI_SENTINEL_1_3,Custom,DNA_CATHEDRAL,528,99027,100610,"Two-strand DNA sculpture: 2.8 turns, full illuminated ladder rungs"
+HX_FI_ELEMENTAL_BRIDGE,Custom,DNA_BRIDGES,1270,100611,104420,Horizontal double-helix bridge with full illuminated ladder rungs
+HX_FI_CONFLUENCE_RING,Custom,DNA_CATHEDRAL,1240,104421,108140,Twisted orbital DNA halo
+HX_FI_CROWN_-1,Star,SKY_CROWNS,168,108141,108644,7-point jewel crown; warm gold contrasts the cool spiral forest
+HX_FI_CROWN_1,Star,SKY_CROWNS,168,108645,109148,7-point jewel crown; warm gold contrasts the cool spiral forest

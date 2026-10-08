@@ -14,10 +14,11 @@ from tools.build_helpers.ultimate_showcase_preview import write_previews
 
 def package_showcase(output: Path) -> Path:
     """Package only portable deliverables, excluding xLights caches/backups."""
-    required = ["xlights_rgbeffects.xml", "xlights_networks.xml", "Helix_Aurora_Showcase.xsq",
+    slug=json.loads((output/"showcase_manifest.json").read_text()).get("file_prefix","Helix_Aurora")
+    required = ["xlights_rgbeffects.xml", "xlights_networks.xml", slug+"_Showcase.xsq",
                 "README.txt", "showcase_manifest.json", "model_inventory.csv"]
-    optional = ["Helix_Aurora_Night.png", "Helix_Aurora_Perspective.png", "Helix_Aurora_3D.html",
-                "Helix_Aurora_Showcase.mp4", "Helix_Aurora_Showcase.fseq", "preview_geometry.json",
+    optional = [slug+"_Night.png", slug+"_Perspective.png", slug+"_3D.html",
+                slug+"_Showcase.mp4", slug+"_Showcase.fseq", "preview_geometry.json",
                 "BUILD_SUMMARY.json", "native_verification.json", "native_model_attributes.json",
                 "VALIDATION.md", "native_gui_layout.png"]
     paths = [output / name for name in required]
@@ -31,10 +32,10 @@ def package_showcase(output: Path) -> Path:
     checksums = output / "bundle_checksums.json"
     checksums.write_text(json.dumps({p.relative_to(output).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                                     for p in paths}, indent=2) + "\n", encoding="utf-8")
-    bundle = output.parent / "Helix_Aurora_Ultimate_Showcase.zip"
+    bundle = output.parent / (slug+"_Ultimate_Showcase.zip")
     with zipfile.ZipFile(bundle, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for p in sorted(paths + [checksums]):
-            archive.write(p, Path("Helix_Aurora") / p.relative_to(output))
+            archive.write(p, Path(slug) / p.relative_to(output))
     return bundle
 
 

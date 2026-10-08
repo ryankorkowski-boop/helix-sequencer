@@ -11,6 +11,11 @@ on:
       - 'tests/test_ultimate_showcase.py'
       - '.github/workflows/helix-ultimate-showcase-preview.yml'
   workflow_dispatch:
+    inputs:
+      collection:
+        description: 'Build the six additional artistic showcase layouts'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -22,7 +27,7 @@ concurrency:
 jobs:
   render:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       SHOW_DIR: outputs/ultimate_showcase/Helix_Aurora
       XL_NO_GPU_COMPUTE: '1'
@@ -39,6 +44,7 @@ jobs:
       - name: Validate new and existing layouts
         run: |
           python -m pytest -q \
+            tests/test_showcase_flavors.py \
             tests/test_ultimate_showcase.py \
             tests/test_helixia_layout.py tests/test_helixia_3d_layout.py \
             tests/test_preview_helixia_3d_layout.py \
@@ -47,6 +53,7 @@ jobs:
             tests/test_helixia_double_helix_xlights_plan.py \
             tests/test_preview_helixia_double_helix.py tests/test_working_double_helix.py
       - name: Build the standalone native show
+        if: ${{ inputs.collection != true }}
         run: python -m tools.build_ultimate_showcase_layout --output "$SHOW_DIR" --no-video --no-zip
       - name: Install pinned xLights 2026.18
         run: |
@@ -57,6 +64,7 @@ jobs:
           chmod +x xlights.AppImage
           ./xlights.AppImage --appimage-extract > /dev/null
       - name: Render actual native channel values
+        if: ${{ inputs.collection != true }}
         run: |
           xvfb-run -a "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun" \
             --headless -q -s "$GITHUB_WORKSPACE/$SHOW_DIR" \
@@ -64,6 +72,7 @@ jobs:
             "$GITHUB_WORKSPACE/$SHOW_DIR/Helix_Aurora_Showcase.xsq"
           test -s "$SHOW_DIR/Helix_Aurora_Showcase.fseq"
       - name: Create MP4 using native lighting and verify all RGB pixels
+        if: ${{ inputs.collection != true }}
         run: |
           python -m tools.build_ultimate_showcase_layout --output "$SHOW_DIR" \
             --native-fseq "$SHOW_DIR/Helix_Aurora_Showcase.fseq" --no-zip
@@ -75,9 +84,96 @@ jobs:
           done
           python -m tools.build_ultimate_showcase_layout --output "$SHOW_DIR" --package-only
       - name: Upload the importable show, viewer, MP4 and native proof
+        if: ${{ inputs.collection != true }}
         uses: actions/upload-artifact@v4
         with:
           name: helix-aurora-ultimate-showcase
           path: outputs/ultimate_showcase/Helix_Aurora_Ultimate_Showcase.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Build and verify all six native shows and lighting videos
+        if: ${{ inputs.collection == true }}
+        run: |
+          xvfb-run -a python -m tools.build_showcase_flavors \
+            --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from tools.build_ultimate_showcase_layout import package_showcase
+          import subprocess
+          root=Path('outputs/showcase_flavors')
+          collection=json.loads((root/'collection_manifest.json').read_text())
+          for show in collection['layouts']:
+              folder=root/show['slug'];frames=folder/'review_frames';frames.mkdir(exist_ok=True)
+              for second in (1,5,12,20):
+                  subprocess.run(['ffmpeg','-v','error','-y','-ss',str(second),'-i',str(folder/(show['slug']+'_Showcase.mp4')),'-frames:v','1',str(frames/f'frame_{second}s.png')],check=True)
+              package_showcase(folder)
+          PY
+          python -m tools.build_showcase_flavors --gallery-only
+      - name: Upload compact all-layouts gallery and native shows
+        if: ${{ inputs.collection == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-six-flavors-layouts
+          path: outputs/showcase_flavors/Helix_Six_Flavors_Layouts.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload the collection tour and comparison
+        if: ${{ inputs.collection == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-six-flavors-review
+          path: |
+            outputs/showcase_flavors/Helix_Six_Flavors_Tour.mp4
+            outputs/showcase_flavors/Helix_Six_Flavors_Comparison.png
+            outputs/showcase_flavors/collection_manifest.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload Neon Circuit
+        if: ${{ inputs.collection == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-neon-circuit
+          path: outputs/showcase_flavors/Helix_Neon_Circuit_Ultimate_Showcase.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload Enchanted Grove
+        if: ${{ inputs.collection == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-enchanted-grove
+          path: outputs/showcase_flavors/Helix_Enchanted_Grove_Ultimate_Showcase.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload Celestial Orrery
+        if: ${{ inputs.collection == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-celestial-orrery
+          path: outputs/showcase_flavors/Helix_Celestial_Orrery_Ultimate_Showcase.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload Fire and Ice
+        if: ${{ inputs.collection == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-fire-and-ice
+          path: outputs/showcase_flavors/Helix_Fire_and_Ice_Ultimate_Showcase.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload Crystal Lagoon
+        if: ${{ inputs.collection == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-crystal-lagoon
+          path: outputs/showcase_flavors/Helix_Crystal_Lagoon_Ultimate_Showcase.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload Midnight Masquerade
+        if: ${{ inputs.collection == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-midnight-masquerade
+          path: outputs/showcase_flavors/Helix_Midnight_Masquerade_Ultimate_Showcase.zip
           if-no-files-found: error
           retention-days: 30

@@ -42,23 +42,24 @@ def model_xml(m, tag: str = "model") -> ET.Element:
     return root
 
 
-def _assets(path: Path) -> None:
+def _assets(path: Path, palette: tuple[str,str,str] = (CYAN,PINK,GOLD)) -> None:
     path.mkdir(exist_ok=True)
+    cyan,pink,gold=palette
     # Original, generated graphics: not external artwork, no machine-local paths.
     for name,rotor in [("helix_crest.png",False),("kinetic_rotor.png",True),("kinetic_base.png",False)]:
         image=Image.new("RGBA",(512,192 if not rotor else 512));d=ImageDraw.Draw(image)
         if rotor:
             for i in range(12):
                 a=i*np.pi/6
-                d.line((256,256,256+220*np.sin(a),256+220*np.cos(a)),fill=GOLD,width=12)
-            d.ellipse((225,225,287,287),fill=CYAN)
+                d.line((256,256,256+220*np.sin(a),256+220*np.cos(a)),fill=gold,width=12)
+            d.ellipse((225,225,287,287),fill=cyan)
         else:
-            for phase,color in [(0,CYAN),(np.pi,PINK)]:
+            for phase,color in [(0,cyan),(np.pi,pink)]:
                 p=[(32+448*t,96+60*np.sin(t*4*np.pi+phase)) for t in np.linspace(0,1,200)]
                 d.line(p,fill=color,width=8)
             for t in np.linspace(0,1,24):
                 s=60*np.sin(t*4*np.pi)
-                d.line((32+448*t,96+s,32+448*t,96-s),fill=GOLD,width=3)
+                d.line((32+448*t,96+s,32+448*t,96-s),fill=gold,width=3)
         image.save(path/name)
     # Simple, original mesh assets for the native 3D servo; quad-faced rods.
     def mesh(filename,segments):
@@ -84,7 +85,7 @@ def _assets(path: Path) -> None:
 
 def write_layout(g: Garden, output: Path) -> dict:
     output.mkdir(parents=True,exist_ok=True)
-    _assets(output/"assets")
+    _assets(output/"assets",g.palette)
     root=ET.Element("xrgb")
     models=ET.SubElement(root,"models")
     groups=ET.SubElement(root,"modelGroups")
@@ -117,7 +118,7 @@ def write_layout(g: Garden, output: Path) -> dict:
             "angleX":"20","angleY":"7","angleZ":"0","distance":"-430","zoom":"1",
             "panx":"0","pany":"-35","panz":"25","zoom_corrx":"0","zoom_corry":"0"}
     ET.SubElement(root.find("Viewpoints"),"DefaultCamera3D",camera)
-    ET.SubElement(root.find("Viewpoints"),"Camera",{**camera,"name":"Aurora overview"})
+    ET.SubElement(root.find("Viewpoints"),"Camera",{**camera,"name":g.title.removeprefix("Helix ")+" overview"})
     settings=ET.SubElement(root,"settings")
     for name,value in {"backgroundBrightness":"0","storedLayoutGroup":"All Models","LayoutMode3D":"1",
                        "Display2DCenter0":"1","previewWidth":"480","previewHeight":"260"}.items():
@@ -140,13 +141,13 @@ def write_layout(g: Garden, output: Path) -> dict:
     (output/"preview_geometry.json").write_text(json.dumps(points,separators=(",",":")),encoding="utf-8")
     write_demo(g,output)
     (output/"README.txt").write_text(
-        "HELIX AURORA — ULTIMATE SHOWCASE\n\n"
+        g.title.upper()+" — ULTIMATE SHOWCASE\n\n"
         f"{manifest['model_count']} models / {len(manifest['native_families'])} stock families / {manifest['spiral_trees']} spiral trees / {manifest['double_helices']} double helices\n\n"
         "1. Extract this entire folder; keep assets/ and models/ alongside the XML.\n"
         "2. In xLights, select this folder as a NEW show directory. Use xLights 2026.18 or newer.\n"
-        "3. Open Layout in 3D. Use Default preview and Restore Default ViewPoint or load Aurora overview.\n"
-        "4. Open Helix_Aurora_Showcase.xsq for the 24-second lighting demonstration (no audio required).\n"
-        "5. Open Helix_Aurora_3D.html in a browser for the portable orbit/zoom design review.\n\n"
+        f"3. Open Layout in 3D. Use Default preview and Restore Default ViewPoint or load {g.title.removeprefix('Helix ')} overview.\n"
+        f"4. Open {g.slug}_Showcase.xsq for the 24-second lighting demonstration (no audio required).\n"
+        f"5. Open {g.slug}_3D.html in a browser for the portable orbit/zoom design review.\n\n"
         "This is a standalone layout. Existing Helixia/user layouts and drummer assets are unchanged.\n"
         "DNA models expose STRAND_A, STRAND_B, RUNGS, RUNGS_EVEN, RUNGS_ODD and TOP submodels.\n"
         "Spiral tree strands, spinner rays, zones and native families also have sequencing groups.\n"
@@ -169,7 +170,7 @@ def demo_envelope(m, index: int) -> list[tuple[int,int,int,int]]:
 def write_demo(g: Garden, output: Path) -> None:
     root=ET.Element("xsequence",{"BaseChannel":"1","ChanCtrlBasic":"0","ChanCtrlColor":"0","FixedPointTiming":"1","ModelBlending":"true"})
     head=ET.SubElement(root,"head")
-    for name,text in {"version":"2026.18","author":"Helix","song":"Helix Aurora lighting study",
+    for name,text in {"version":"2026.18","author":"Helix","song":g.title+" lighting study",
                       "comment":"24-second layout lighting demonstration; no musical/detector claims",
                       "sequenceTiming":"50 ms","sequenceType":"Animation","sequenceDuration":"24.000","mediaFile":""}.items():
         ET.SubElement(head,name).text=text
@@ -184,7 +185,8 @@ def write_demo(g: Garden, output: Path) -> None:
         layers=[]
         base_layer=ET.SubElement(element,"EffectLayer")
         if m.details.get("double_helix"):
-            for part,color in [("STRAND_A",CYAN),("STRAND_B",PINK),("RUNGS",GOLD)]:
+            for part in ("STRAND_A","STRAND_B","RUNGS"):
+                color=m.colors[m.submodels[part][0]-1]
                 layers.append((ET.SubElement(element,"SubModelEffectLayer",{"name":part,"layer":"0"}),color))
         else:
             layers=[(base_layer,m.colors[0])]
@@ -203,4 +205,4 @@ def write_demo(g: Garden, output: Path) -> None:
     root.find("nextid").text=str(identifier)
     ET.SubElement(root,"DataLayers")
     ET.SubElement(root,"lastView").text="0"
-    _write_xml(root,output/"Helix_Aurora_Showcase.xsq")
+    _write_xml(root,output/(g.slug+"_Showcase.xsq"))

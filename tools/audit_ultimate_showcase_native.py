@@ -12,8 +12,8 @@ from models.ultimate_showcase import build_ultimate_garden, NATIVE_TYPES, family
 from tools.build_helpers.ultimate_showcase_preview import read_fseq, _rgb
 
 
-def audit_native(output: Path, attributes_path: Path | None = None) -> dict:
-    g=build_ultimate_garden();frames,step=read_fseq(output/"Helix_Aurora_Showcase.fseq")
+def audit_native(output: Path, attributes_path: Path | None = None, *, garden=None) -> dict:
+    g=garden or build_ultimate_garden();frames,step=read_fseq(output/(g.slug+"_Showcase.fseq"))
     if len(frames)*step!=24000:raise ValueError("Native duration does not match the24s XSQ")
     index=round(20000/step)
     rows=[]
@@ -42,9 +42,9 @@ def audit_native(output: Path, attributes_path: Path | None = None) -> dict:
            "native_gui_channels_match":True if native else None,
            "native_gui_families_checked":len(NATIVE_TYPES) if native else None,
            "layout_sha256":hashlib.sha256((output/"xlights_rgbeffects.xml").read_bytes()).hexdigest(),
-           "xsq_sha256":hashlib.sha256((output/"Helix_Aurora_Showcase.xsq").read_bytes()).hexdigest(),
-           "fseq_sha256":hashlib.sha256((output/"Helix_Aurora_Showcase.fseq").read_bytes()).hexdigest(),
-           "source_geometry_note":"Custom nodes are exact exported grids. Stock-native preview paths follow authored geometry; native GUI/import was separately checked.",
+           "xsq_sha256":hashlib.sha256((output/(g.slug+"_Showcase.xsq")).read_bytes()).hexdigest(),
+           "fseq_sha256":hashlib.sha256((output/(g.slug+"_Showcase.fseq")).read_bytes()).hexdigest(),
+           "source_geometry_note":"Custom nodes are exact exported grids. Stock-native preview paths follow authored geometry. Native headless import/render was checked; GUI attributes were checked only when supplied.",
            "models":rows}
     (output/"native_verification.json").write_text(json.dumps(proof,indent=2)+"\n",encoding="utf-8")
     return proof
