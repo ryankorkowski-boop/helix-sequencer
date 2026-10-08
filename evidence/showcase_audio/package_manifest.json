@@ -1,0 +1,32 @@
+{
+  "Wire_Tree": {
+    "file": "Wire_Tree_Six_Layouts_Import.zip",
+    "sha256": "9c7f73a6f118260693decb89d956f96735b9ac6de3aa96335badf0fc16106e62",
+    "bytes": 38195966,
+    "layouts": 6
+  },
+  "Tinsel_Sawtooth": {
+    "file": "Tinsel_Sawtooth_Six_Layouts_Import.zip",
+    "sha256": "d54b583031a7e21c717153f081f3b70a25452542d02c9679a4ea56b8b9de377a",
+    "bytes": 21427435,
+    "layouts": 6
+  },
+  "Frostbitten_Fingerboard": {
+    "file": "Frostbitten_Fingerboard_Six_Layouts_Import.zip",
+    "sha256": "a40f7776412773aa09c2a42737462001aabab211e26ca4d39330d1a7fda31464",
+    "bytes": 8626020,
+    "layouts": 6
+  },
+  "Holly_Steel_Run": {
+    "file": "Holly_Steel_Run_Six_Layouts_Import.zip",
+    "sha256": "109b62d9bc8f07cd2f0f113f459a8835500db0fcd1e529e61cb80a802f8ef823",
+    "bytes": 16579368,
+    "layouts": 6
+  },
+  "Bell_Circuit_Carol": {
+    "file": "Bell_Circuit_Carol_Six_Layouts_Import.zip",
+    "sha256": "372e4aef87b760c44e2927fde9fd8314fe48f7c61979a366389769e92197266e",
+    "bytes": 13014180,
+    "layouts": 6
+  }
+}

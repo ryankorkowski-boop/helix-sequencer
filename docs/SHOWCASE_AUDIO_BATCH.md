@@ -97,3 +97,20 @@ Prime uses its existing local fallback separation and sequencing rules.
 This task does not tune or certify its inferred instrumentation, nor the
 physical drummer. Engine scores, channel coverage and CI establish technical
 execution; musical and artistic acceptance require the user's preview review.
+
+## Completed batch evidence
+
+All thirty complete songs/layouts have native XSQ/FSEQ/actual-audio MP4
+outputs. The native audit covers72,384 frames; every RGB model receives
+lighting, all control channels remain dark and all effect names are native.
+Full decoded-source audio correlation is at least0.9988084 across all thirty
+previews; the five24-second comparison reels are at least0.9989922.
+The five import archives and673MiB complete review bundle pass CRC, and
+all100 offline gallery links resolve inside the complete bundle.
+
+108 focused regressions pass. Corrected native CI37818565266, general
+CI37818565193 and BetaCI37818565229 succeeded. The downloaded native
+artifact11569095042 has verified source/XSQ/FSEQ/MP4/layout hashes; all963
+local and remote pilot frames are identical. The native alias probe is
+included in that workflow. Checked-in final evidence is in
+`evidence/showcase_audio/`; musical/artistic user review remains pending.

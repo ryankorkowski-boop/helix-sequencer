@@ -1,0 +1,219 @@
+{
+  "schema": "helix.native_alias_before_after.v1",
+  "total_placements": 367246,
+  "repaired_ramp_cues": 111433,
+  "all_original_cue_intervals_targets_palettes_preserved": true,
+  "non_ramp_settings_preserved": true,
+  "per_show": [
+    {
+      "track": "Wire_Tree",
+      "layout": "neon_circuit",
+      "placements": 18930,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 5971
+    },
+    {
+      "track": "Wire_Tree",
+      "layout": "enchanted_grove",
+      "placements": 18918,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 5923
+    },
+    {
+      "track": "Wire_Tree",
+      "layout": "celestial_orrery",
+      "placements": 19245,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 5987
+    },
+    {
+      "track": "Wire_Tree",
+      "layout": "fire_and_ice",
+      "placements": 19255,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 5968
+    },
+    {
+      "track": "Wire_Tree",
+      "layout": "crystal_lagoon",
+      "placements": 19260,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 5999
+    },
+    {
+      "track": "Wire_Tree",
+      "layout": "midnight_masquerade",
+      "placements": 19231,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 6237
+    },
+    {
+      "track": "Tinsel_Sawtooth",
+      "layout": "neon_circuit",
+      "placements": 15753,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 4381
+    },
+    {
+      "track": "Tinsel_Sawtooth",
+      "layout": "enchanted_grove",
+      "placements": 15734,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 4388
+    },
+    {
+      "track": "Tinsel_Sawtooth",
+      "layout": "celestial_orrery",
+      "placements": 15874,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 4364
+    },
+    {
+      "track": "Tinsel_Sawtooth",
+      "layout": "fire_and_ice",
+      "placements": 15961,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 4392
+    },
+    {
+      "track": "Tinsel_Sawtooth",
+      "layout": "crystal_lagoon",
+      "placements": 15802,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 4388
+    },
+    {
+      "track": "Tinsel_Sawtooth",
+      "layout": "midnight_masquerade",
+      "placements": 16172,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 4832
+    },
+    {
+      "track": "Frostbitten_Fingerboard",
+      "layout": "neon_circuit",
+      "placements": 6347,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 2098
+    },
+    {
+      "track": "Frostbitten_Fingerboard",
+      "layout": "enchanted_grove",
+      "placements": 6340,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 2090
+    },
+    {
+      "track": "Frostbitten_Fingerboard",
+      "layout": "celestial_orrery",
+      "placements": 6343,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 2123
+    },
+    {
+      "track": "Frostbitten_Fingerboard",
+      "layout": "fire_and_ice",
+      "placements": 6388,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 2137
+    },
+    {
+      "track": "Frostbitten_Fingerboard",
+      "layout": "crystal_lagoon",
+      "placements": 6322,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 2121
+    },
+    {
+      "track": "Frostbitten_Fingerboard",
+      "layout": "midnight_masquerade",
+      "placements": 6476,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 2260
+    },
+    {
+      "track": "Holly_Steel_Run",
+      "layout": "neon_circuit",
+      "placements": 11969,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 3633
+    },
+    {
+      "track": "Holly_Steel_Run",
+      "layout": "enchanted_grove",
+      "placements": 11940,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 3610
+    },
+    {
+      "track": "Holly_Steel_Run",
+      "layout": "celestial_orrery",
+      "placements": 12106,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 3685
+    },
+    {
+      "track": "Holly_Steel_Run",
+      "layout": "fire_and_ice",
+      "placements": 12155,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 3694
+    },
+    {
+      "track": "Holly_Steel_Run",
+      "layout": "crystal_lagoon",
+      "placements": 12111,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 3666
+    },
+    {
+      "track": "Holly_Steel_Run",
+      "layout": "midnight_masquerade",
+      "placements": 12312,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 3919
+    },
+    {
+      "track": "Bell_Circuit_Carol",
+      "layout": "neon_circuit",
+      "placements": 7703,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 2263
+    },
+    {
+      "track": "Bell_Circuit_Carol",
+      "layout": "enchanted_grove",
+      "placements": 7703,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 2254
+    },
+    {
+      "track": "Bell_Circuit_Carol",
+      "layout": "celestial_orrery",
+      "placements": 7663,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 2192
+    },
+    {
+      "track": "Bell_Circuit_Carol",
+      "layout": "fire_and_ice",
+      "placements": 7728,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 2223
+    },
+    {
+      "track": "Bell_Circuit_Carol",
+      "layout": "crystal_lagoon",
+      "placements": 7662,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 2202
+    },
+    {
+      "track": "Bell_Circuit_Carol",
+      "layout": "midnight_masquerade",
+      "placements": 7843,
+      "timings_targets_palettes_and_supported_settings_preserved": true,
+      "repaired_ramp_cues": 2433
+    }
+  ]
+}

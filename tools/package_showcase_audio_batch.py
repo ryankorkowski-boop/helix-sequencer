@@ -141,6 +141,7 @@ def package_review_bundle(root:Path,manifest:dict)->Path:
     """Offline gallery plus every full preview/native show; omit temporary runs."""
     files=[root/name for name in ('index.html','batch_manifest.json','soundtrack_verification.json','package_manifest.json',
         'review_reels.json','representative_times.json')]
+    files.extend(root/name for name in ('native_alias_before_after.json','native_effect_probe.json') if (root/name).is_file())
     files.extend(root/p['file'] for p in manifest['packages'].values())
     files.extend(root/p['file'] for p in manifest['review_reels'].values())
     files.extend(root.glob('*_Six_Layouts.png'))

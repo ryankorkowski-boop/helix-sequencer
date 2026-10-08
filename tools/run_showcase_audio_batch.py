@@ -184,7 +184,9 @@ def main():
         if not args.audio_dir:parser.error('--audio-dir required for generation')
         manifest=generate(args.output,args.audio_dir,track=args.track,flavor=args.flavor)
     with ProcessPoolExecutor(max_workers=args.workers,mp_context=multiprocessing.get_context('spawn')) as executor:
-        futures={executor.submit(finish_one,args.output,row,args.xlights):row for row in manifest['runs']}
+        # Short full songs become reviewable first; gallery/source order stays
+        # unchanged, and cached completed outputs retain their verified hashes.
+        futures={executor.submit(finish_one,args.output,row,args.xlights):row for row in sorted(manifest['runs'],key=lambda r:r['duration_seconds'])}
         for future in as_completed(futures):
             row=futures[future];proof=future.result();row['status']='verified_preview';row['verification']=proof
             write_progress(args.output,manifest)

@@ -1,0 +1,16 @@
+{
+  "ci_run": 37818565266,
+  "artifact_id": 11569095042,
+  "native_alias_probe_passed": true,
+  "all_artifact_hashes_verified": true,
+  "exact_local_input_matches": {
+    "Frostbitten_Fingerboard__Helix_Neon_Circuit.xsq": true,
+    "xlights_rgbeffects.xml": true
+  },
+  "native_frames": 963,
+  "active_rgb_models": 93,
+  "controls_dark": true,
+  "soundtrack_correlation": 0.9993269793905605,
+  "all_local_and_remote_native_frames_identical": true,
+  "native_frame_ms": 50
+}
