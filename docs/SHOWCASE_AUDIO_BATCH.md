@@ -26,11 +26,15 @@ FSEQ and MP4 hashes; native render stamps also bind the layout XML.
 
 Open `outputs/showcase_audio/index.html` for all full-song MP4s, XSQs,
 twenty-four-second six-layout comparison reels and five import packages.
+The complete offline review ZIP includes all thirty videos/native shows and
+a gallery with working relative links.
 Each package contains six separate shows: set one directory as a new xLights
 show, open its XSQ and keep the media/assets beside it. Render locally before
 connecting output hardware. Native FSEQs remain in the complete local output.
 Each comparison shows the same song interval simultaneously in all six
-layouts; full previews retain the entire uploaded recording.
+layouts, centred on a bright native frame in the middle70% of the first
+layout. Selection is recorded; no lighting is changed for the excerpt.
+Full previews retain the entire uploaded recording.
 
 ## What is preserved and corrected
 
@@ -60,7 +64,9 @@ layouts; full previews retain the entire uploaded recording.
 - Videos project actual native channel values through a cached geometry
   view; they do not generate independent lighting from playback time. Exact
   native dots remain full resolution; soft halos use a half-resolution blur
-  to reduce processing cost. Custom grid coordinates match the export;
+  to reduce processing cost. A grid-aligned crop removes empty screen margins
+  during compositing; all six layouts match the prior full-screen compositor
+  byte-for-byte in both halo modes. Custom grid coordinates match the export;
   stock model review geometry remains illustrative.
 
 ## Evidence and limits

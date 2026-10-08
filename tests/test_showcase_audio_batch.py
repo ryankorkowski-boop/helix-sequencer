@@ -124,8 +124,9 @@ def test_explicit_routes_cover_both_sides_and_only_rgb(key):
     assert any(m.points[:,0].mean()>0 for m in trees)
 
 
-def test_cached_projection_matches_native_reference_outside_song_footer():
-    g=build_flavor('neon_circuit');channels=max(m.start-1+m.channels for m in g.models)
+@pytest.mark.parametrize('key',[f.key for f in FLAVORS])
+def test_cached_projection_matches_native_reference_outside_song_footer(key):
+    g=build_flavor(key);channels=max(m.start-1+m.channels for m in g.models)
     values=np.random.default_rng(3).integers(0,256,channels,dtype=np.uint8)
     expected=np.asarray(render_frame(g,640,360,yaw=7,pitch=18,native=values))
     actual=np.asarray(NativeSongView(g,'song',640,360).frame(values))

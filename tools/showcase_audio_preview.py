@@ -32,13 +32,22 @@ class NativeSongView:
         locations=np.asarray(locations);self.indices=np.asarray(indices)
         self.order=np.argsort(locations,kind='stable');ordered=locations[self.order]
         self.starts=np.r_[0,np.flatnonzero(np.diff(ordered))+1]
-        self.unique=ordered[self.starts]
+        unique=ordered[self.starts];x=unique%width;y=unique//width
+        # Crop only empty screen margins, not native nodes. Align the crop to
+        # the halo downsampling grid; 24px of zeros preserve the blur support.
+        align=max(1,halo_scale)
+        left=max(0,(int(x.min())-24)//align*align);top=max(0,(int(y.min())-24)//align*align)
+        right=min(width,math.ceil((int(x.max())+25)/align)*align)
+        bottom=min(height,math.ceil((int(y.max())+25)/align)*align)
+        self.box=(left,top,right,bottom);self.scene_width=right-left;self.scene_height=bottom-top
+        self.unique=(y-top)*self.scene_width+x-left
+        self.scene_base=self.base.crop(self.box)
 
     def frame(self,values:np.ndarray)->Image.Image:
         colors=values[self.indices[:,None]+np.arange(3)]
         merged=np.maximum.reduceat(colors[self.order],self.starts,axis=0)
-        screen=np.zeros((self.height*self.width,3),dtype=np.uint8)
-        screen[self.unique]=merged;screen=screen.reshape(self.height,self.width,3)
+        screen=np.zeros((self.scene_height*self.scene_width,3),dtype=np.uint8)
+        screen[self.unique]=merged;screen=screen.reshape(self.scene_height,self.scene_width,3)
         # Same five-pixel dot footprint as the original compositor; collisions
         # use maximum, never sums that would invent brightness.
         small=(screen*.48).astype(np.uint8);lights=screen.copy()
@@ -51,9 +60,11 @@ class NativeSongView:
             glow=image.filter(ImageFilter.GaussianBlur(4))
         else:
             scale=self.halo_scale
-            glow=image.resize((self.width//scale,self.height//scale),Image.Resampling.BOX).filter(
+            glow=image.resize((self.scene_width//scale,self.scene_height//scale),Image.Resampling.BOX).filter(
                 ImageFilter.GaussianBlur(4/scale)).resize(image.size,Image.Resampling.BILINEAR)
-        return ImageChops.add(self.base,ImageChops.add(image,glow))
+        result=self.base.copy()
+        result.paste(ImageChops.add(self.scene_base,ImageChops.add(image,glow)),self.box[:2])
+        return result
 
 
 def render_native_song(g,fseq:Path,audio:Path,output:Path,duration_s:float,*,fps=20,width=1280,height=720)->dict:
