@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import xml.etree.ElementTree as ET
 
 import numpy as np
 
@@ -20,7 +21,7 @@ from core.audio_run_cache import AudioRunCache
 from core import effect_engine as engine
 from models.showcase_flavors import FLAVORS,build_flavor
 from tools.build_helpers.ultimate_showcase_preview import read_fseq
-from tools.showcase_audio_native import prepare_template,native_music_xsq
+from tools.showcase_audio_native import prepare_template,native_music_xsq,NATIVE_EFFECTS
 from tools.showcase_audio_preview import render_native_song
 
 TRACKS=(('Wire_Tree','Wire Tree'),('Tinsel_Sawtooth','Tinsel Sawtooth'),
@@ -96,6 +97,8 @@ def generate(root:Path,audio_dir:Path,*,track:str|None=None,flavor:str|None=None
 
 def finish_one(root:Path,row:dict,xlights:Path)->dict:
     folder=root/row['folder'];g=build_flavor(row['flavor']);xsq=folder/row['xsq'];fseq=xsq.with_suffix('.fseq')
+    unsupported={e.get('name') for e in ET.parse(xsq).getroot().findall('ElementEffects/Element[@type="model"]//Effect') if e.get('name') not in NATIVE_EFFECTS}
+    if unsupported:raise ValueError(f'Native effect names are unsupported: {sorted(unsupported)}; regenerate the music export')
     proof_path=folder/'verification.json'
     if digest(folder/row['audio'])!=row['audio_sha256']:
         raise ValueError('Uploaded soundtrack no longer matches the verified source')
@@ -127,7 +130,7 @@ def finish_one(root:Path,row:dict,xlights:Path)->dict:
     if not frames.any():raise ValueError('Native render is completely dark')
     lit=np.flatnonzero(frames.max(axis=1)>0)
     proof={'track':row['title'],'layout':g.title,'xsq_sha256':digest(xsq),'layout_sha256':render_id['layout_sha256'],'fseq_sha256':digest(fseq),
-           'audio_sha256':digest(folder/row['audio']),'native_frames':len(frames),'native_frame_ms':step,
+           'audio_sha256':digest(folder/row['audio']),'all_effect_names_native':True,'native_frames':len(frames),'native_frame_ms':step,
            'first_active_ms':int(lit[0])*step,'last_active_ms':int(lit[-1])*step,
            'active_rgb_models':sum(r['active_frames']>0 for r in coverage),'rgb_models':len(coverage),
            'models':coverage,'control_channels_dark':True,'native_channel_animation':bool(np.any(frames[1:]!=frames[:-1]))}

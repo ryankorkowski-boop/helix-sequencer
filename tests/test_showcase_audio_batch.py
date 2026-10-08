@@ -13,7 +13,7 @@ from core.audio_run_cache import AudioRunCache
 from models.showcase_flavors import FLAVORS, build_flavor
 from tools.build_helpers.ultimate_showcase_preview import render_frame
 from tools.run_showcase_audio_batch import model_routes
-from tools.showcase_audio_native import native_music_xsq, prepare_template
+from tools.showcase_audio_native import native_music_xsq, prepare_template,native_effect
 from tools.showcase_audio_preview import NativeSongView
 from tools.package_showcase_audio_batch import verify_soundtracks,package_imports
 
@@ -37,6 +37,16 @@ def test_cache_reuses_analysis_without_leaking_layout_mutations(tmp_path):
         cache.validate_source(source)
     with pytest.raises(ValueError,match='different analysis configuration'):
         cache.validate_configuration((True,'other-provider'))
+
+
+def test_native_aliases_restore_attack_decay_and_fail_closed_on_unknown_effects():
+    name,settings=native_effect('Ramp','')
+    assert name=='On' and 'Eff_On_Start=100' in settings and 'Eff_On_End=0' in settings
+    explicit='E_TEXTCTRL_Eff_On_Start=25,E_TEXTCTRL_Eff_On_End=80'
+    assert native_effect('Ramp',explicit)==('On',explicit)
+    assert native_effect('Single Strand','')==('SingleStrand','')
+    with pytest.raises(ValueError,match='Unsupported native xLights effect'):
+        native_effect('silently dark invented effect','')
 
 
 @pytest.fixture

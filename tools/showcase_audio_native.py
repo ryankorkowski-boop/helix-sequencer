@@ -3,12 +3,29 @@ from __future__ import annotations
 
 from copy import deepcopy
 from collections import Counter, defaultdict
+import json
 import math
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
 from models.ultimate_showcase import Garden
 from tools.build_helpers.ultimate_showcase import write_layout
+
+
+NATIVE_EFFECTS=frozenset(json.loads((Path(__file__).resolve().parents[1]/'xlights/effect_catalog.json').read_text())['effect_names'])
+
+
+def native_effect(name:str,settings:str)->tuple[str,str]:
+    """Resolve artistic aliases instead of letting xLights silently drop them."""
+    if name=='Single Strand':name='SingleStrand'
+    if name=='Ramp':
+        name='On'
+        # Preserve explicit envelopes. Empty legacy motion cues get an actual
+        # onset-aligned attack/decay, not an unrenderable placeholder effect.
+        if 'E_TEXTCTRL_Eff_On_Start=' not in settings:settings+=',E_TEXTCTRL_Eff_On_Start=100'
+        if 'E_TEXTCTRL_Eff_On_End=' not in settings:settings+=',E_TEXTCTRL_Eff_On_End=0'
+    if name not in NATIVE_EFFECTS:raise ValueError(f'Unsupported native xLights effect: {name}')
+    return name,settings.strip(',')
 
 
 def prepare_template(g: Garden, folder: Path) -> Path:
@@ -88,7 +105,7 @@ def native_music_xsq(raw: Path, output: Path, g: Garden, audio: Path, duration_s
     elements=root.find('ElementEffects');displays=root.find('DisplayElements')
     elements.clear();displays.clear()
     db=root.find('EffectDB');palettes=root.find('ColorPalettes');db.clear();palettes.clear()
-    setting_ids={};palette_ids={};parents={};layer_numbers=defaultdict(int);counts=Counter();skipped=Counter();identifier=1
+    setting_ids={};palette_ids={};parents={};layer_numbers=defaultdict(int);counts=Counter();skipped=Counter();translations=Counter();identifier=1
     def palette(color):
         if color not in palette_ids:
             palette_ids[color]=len(palette_ids)
@@ -121,7 +138,9 @@ def native_music_xsq(raw: Path, output: Path, g: Garden, audio: Path, duration_s
             for original in original_layer.findall('Effect'):
                 start=max(0,int(original.get('startTime','0')));end=min(duration_ms,int(original.get('endTime','0')))
                 if end<=start:skipped['invalid_timing']+=1;continue
-                effect_name=original.get('name','On');text=original.get('settings',original.text or '')
+                original_name=original.get('name','On');text=original.get('settings',original.text or '')
+                effect_name,text=native_effect(original_name,text)
+                if effect_name!=original_name:translations[original_name+' → '+effect_name]+=1
                 # These engine choices need an actual native content source.
                 if effect_name=='Pictures' and 'E_FILEPICKER_Pictures_Filename' not in text:
                     text+=',E_FILEPICKER_Pictures_Filename=assets/helix_crest.png'
@@ -134,4 +153,4 @@ def native_music_xsq(raw: Path, output: Path, g: Garden, audio: Path, duration_s
     ET.indent(root);ET.ElementTree(root).write(output,encoding='utf-8',xml_declaration=True)
     return {'duration_ms':duration_ms,'native_effects':sum(counts.values()),'effect_families':dict(counts),
             'skipped':dict(skipped),'mixed_groups_restricted_to_pixels':changed_groups,'source_events_retimed':False,
-            'mirrored_rgb_motifs':mirrored}
+            'mirrored_rgb_motifs':mirrored,'native_effect_aliases':dict(translations),'all_effects_in_native_catalog':True}

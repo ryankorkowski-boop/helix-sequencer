@@ -67,6 +67,9 @@ jobs:
           ./xlights.AppImage --appimage-extract > /dev/null
       - name: Run one complete uploaded song through Prime and native rendering
         run: |
+          xvfb-run -a python -m tools.audit_showcase_audio_native_aliases \
+            --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun" \
+            --output outputs/showcase_audio_ci/native_alias_probe
           xvfb-run -a python -m tools.run_showcase_audio_batch \
             --audio-dir evidence/showcase_audio/source \
             --track Frostbitten_Fingerboard --flavor neon_circuit \

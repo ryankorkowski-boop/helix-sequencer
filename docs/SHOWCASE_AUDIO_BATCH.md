@@ -45,6 +45,12 @@ Full previews retain the entire uploaded recording.
 - Clean templates contain no twenty-four-second demo choreography. The
   fixed thirty-second orchestration bridge seed is not used. Prime detects
   song features and generates its existing audio-driven placements.
+- Legacy Ramp cues do not name a native xLights effect. The adapter converts
+  them to native On envelopes, preserving explicit endpoints or supplying an
+  onset-aligned100→0 attack/decay. Single Strand is canonicalized to
+  SingleStrand. Unknown effect names fail closed against the native catalog.
+  A pinned native probe checks the formerly dark Ramp interval, its decay and
+  preservation of the existing On/SingleStrand intervals.
 - The native adapter sets Media type and full-song duration rounded up to
   fifty-millisecond frames. It converts legacy inline settings/palettes and
   flat model/submodel rows into native EffectDB/ColorPalettes references

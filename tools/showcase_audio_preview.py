@@ -31,6 +31,7 @@ class NativeSongView:
             indices.extend((m.start-1+np.arange(len(m.points))[keep]*3).tolist())
         locations=np.asarray(locations);self.indices=np.asarray(indices)
         self.order=np.argsort(locations,kind='stable');ordered=locations[self.order]
+        self.sorted_rgb_indices=(self.indices[:,None]+np.arange(3))[self.order]
         self.starts=np.r_[0,np.flatnonzero(np.diff(ordered))+1]
         unique=ordered[self.starts];x=unique%width;y=unique//width
         # Crop only empty screen margins, not native nodes. Align the crop to
@@ -44,8 +45,8 @@ class NativeSongView:
         self.scene_base=self.base.crop(self.box)
 
     def frame(self,values:np.ndarray)->Image.Image:
-        colors=values[self.indices[:,None]+np.arange(3)]
-        merged=np.maximum.reduceat(colors[self.order],self.starts,axis=0)
+        colors=values[self.sorted_rgb_indices]
+        merged=np.maximum.reduceat(colors,self.starts,axis=0)
         screen=np.zeros((self.scene_height*self.scene_width,3),dtype=np.uint8)
         screen[self.unique]=merged;screen=screen.reshape(self.scene_height,self.scene_width,3)
         # Same five-pixel dot footprint as the original compositor; collisions
