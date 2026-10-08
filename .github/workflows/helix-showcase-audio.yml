@@ -1,0 +1,92 @@
+name: Helix Uploaded Audio Showcase
+
+on:
+  push:
+    branches: [feature/showcase-audio-batch]
+    paths:
+      - 'core/audio_run_cache.py'
+      - 'core/effect_engine.py'
+      - 'tools/*showcase_audio*.py'
+      - 'tests/test_showcase_audio_batch.py'
+      - 'evidence/showcase_audio/**'
+      - '.github/workflows/helix-showcase-audio.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: showcase-audio-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      XL_NO_GPU_COMPUTE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install sequencing and native-render dependencies
+        run: |
+          python -m pip install numpy scipy librosa soundfile numba pillow zstandard pytest scikit-learn imageio imageio-ffmpeg requests PyYAML
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+      - name: Check full-song export, source reuse, native projection and compatibility
+        run: |
+          python -m pytest -q \
+            tests/test_showcase_audio_batch.py tests/test_showcase_flavors.py \
+            tests/test_audio_reactive_routes.py tests/test_xlights_effect_contract.py \
+            tests/test_xsq_template_writer.py tests/test_variant_quality_gates.py tests/test_variant_lanes.py \
+            tests/test_sequence_builder.py tests/test_sequence_builder_orchestrator_promotion.py \
+            tests/test_xsq_emitter.py tests/test_xsq_beat_grid_timing.py tests/test_validate_xsq_current_schema.py \
+            tests/test_explainable_variant_scoring.py tests/test_hardkor_engine.py tests/test_power_engine.py tests/test_ultimate_showcase.py
+      - name: Verify the five uploaded source files
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('evidence/showcase_audio')
+          for row in json.loads((root/'sources.json').read_text()):
+              source=root/'source'/row['file']
+              assert source.stat().st_size==row['bytes']
+              assert hashlib.sha256(source.read_bytes()).hexdigest()==row['sha256']
+          PY
+      - name: Install pinned xLights 2026.18
+        run: |
+          mkdir -p "$RUNNER_TEMP/xlights-native"
+          cd "$RUNNER_TEMP/xlights-native"
+          curl --fail --location --retry 3 --output xlights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xlights.AppImage' | sha256sum --check
+          chmod +x xlights.AppImage
+          ./xlights.AppImage --appimage-extract > /dev/null
+      - name: Run one complete uploaded song through Prime and native rendering
+        run: |
+          xvfb-run -a python -m tools.run_showcase_audio_batch \
+            --audio-dir evidence/showcase_audio/source \
+            --track Frostbitten_Fingerboard --flavor neon_circuit \
+            --output outputs/showcase_audio_ci --workers 1 \
+            --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from tools.package_showcase_audio_batch import verify_soundtracks
+          root=Path('outputs/showcase_audio_ci')
+          manifest=json.loads((root/'batch_manifest.json').read_text())
+          proof=manifest['runs'][0]['verification']
+          assert proof['native_frames']>480 and proof['control_channels_dark']
+          assert proof['active_rgb_models']==proof['rgb_models']
+          verify_soundtracks(root,manifest)
+          PY
+      - name: Upload full-song native pilot and source evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-uploaded-audio-native-pilot
+          path: outputs/showcase_audio_ci/
+          if-no-files-found: error
+          retention-days: 30
