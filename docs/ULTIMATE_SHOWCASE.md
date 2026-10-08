@@ -64,3 +64,7 @@ python -m tools.build_ultimate_showcase_layout --package-only
 Without a native FSEQ the CLI can make a clearly labelled geometry lighting study using the same authored fades. Native validation and deliverable generation are automated by [Helix Ultimate Showcase Preview](../.github/workflows/helix-ultimate-showcase-preview.yml). It pins the upstream AppImage by SHA256, tests layouts, renders native data, checks every RGB pixel and uploads a clean ZIP without xLights backups/caches.
 
 The running checklist and preserved/deferred work are in [`MASTER_TODO.md`](../MASTER_TODO.md).
+
+## Delivered build
+
+[Native showcase workflow37731290603](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37731290603) passed on `ea1692c5bf3fb5ac649e1085f3234ed244f7e984`. [Download the show artifact](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37731290603/artifacts/11530225902); it contains `Helix_Aurora_Ultimate_Showcase.zip`. Extract the outer artifact and then the show ZIP. The downloaded show has35 verified file hashes, identical XML/XSQ/manifest/inventory and byte-identical480-frame native channel data compared with the locally inspected build. The uploaded MP4 and its decoded20-second frame were also inspected. Artifact retention is30 days; the permanent checked-in show and deterministic builder remain available afterward. ZIP SHA256: `5837cc843f870390884fdaf5b73fab605d41af1797c3f6b4eae70df1ee88ccf4`.
