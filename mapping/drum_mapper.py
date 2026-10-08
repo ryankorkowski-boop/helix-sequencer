@@ -388,6 +388,18 @@ def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str
                 "source": event.source,
             }
         )
+    # A tom roll must retrigger visibly rather than hold one contact pose.
+    # Preserve each attack/time/target; cap only same-target cues needing rest.
+    # A 50 ms rest is one native sequence frame and three 60 fps video frames.
+    previous_tom: dict[str, dict[str, object]] = {}
+    for hit in mapped:
+        if hit["drum_type"] != "tom":
+            continue
+        component = str(hit["component"])
+        prior = previous_tom.get(component)
+        if prior is not None and int(hit["timestamp_ms"]) - int(prior["timestamp_ms"]) >= 100:
+            prior["end_ms"] = min(int(prior["end_ms"]), int(hit["timestamp_ms"]) - 50)
+        previous_tom[component] = hit
     return mapped
 
 

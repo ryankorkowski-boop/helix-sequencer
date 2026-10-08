@@ -16,7 +16,17 @@ SCHEMA = "helix.drum_transcription.v1"
 FAMILIES = {"kick", "snare", "hihat", "cymbal", "tom"}
 
 
-def load_drum_transcription(path, audio_path, review_path=None):
+def _validate_values(row):
+    timestamp = float(row["timestamp"])
+    confidence, velocity = float(row["confidence"]), float(row["velocity"])
+    if not math.isfinite(timestamp) or timestamp < 0:
+        raise ValueError("Invalid transcription timestamp")
+    if any(not math.isfinite(v) or not 0 <= v <= 1 for v in (confidence, velocity)):
+        raise ValueError("Invalid transcription confidence or velocity")
+    return timestamp, confidence, velocity
+
+
+def load_drum_transcription(path, audio_path, review_path=None, calibration_path=None):
     payload = json.loads(Path(path).read_text(encoding="utf-8"))
     if payload.get("schema") != SCHEMA:
         raise ValueError("Unsupported drum transcription schema")
@@ -27,17 +37,19 @@ def load_drum_transcription(path, audio_path, review_path=None):
     if not source.get("engine"):
         raise ValueError("Drum transcription must name its source engine")
     rows, review = payload["events"], None
+    # Calibration must never launder an invalid original score/time.
+    for row in rows:
+        _validate_values(row)
     if review_path is not None:
         from audio.drum_review import apply_tom_review
         rows, review = apply_tom_review(rows, digest, review_path)
+    calibration = None
+    if calibration_path is not None:
+        from audio.drum_source_calibration import apply_source_calibration
+        rows, calibration = apply_source_calibration(rows, audio_path, calibration_path)
     events, audit = [], []
     for index, row in enumerate(rows):
-        timestamp = float(row["timestamp"])
-        confidence, velocity = float(row["confidence"]), float(row["velocity"])
-        if not math.isfinite(timestamp) or timestamp < 0:
-            raise ValueError("Invalid transcription timestamp")
-        if any(not math.isfinite(v) or not 0 <= v <= 1 for v in (confidence, velocity)):
-            raise ValueError("Invalid transcription confidence or velocity")
+        timestamp, confidence, velocity = _validate_values(row)
         family, tom = row["drum_family"], row.get("tom_class")
         reason = row.get("rejection_reason")
         if family not in FAMILIES:
@@ -68,4 +80,6 @@ def load_drum_transcription(path, audio_path, review_path=None):
                         onset_audit=audit)
     if review is not None:
         diagnostics["tom_review"] = review
+    if calibration is not None:
+        diagnostics["source_calibration"] = calibration
     return events, diagnostics

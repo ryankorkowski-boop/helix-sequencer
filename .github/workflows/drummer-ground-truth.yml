@@ -150,6 +150,7 @@ jobs:
             tests/test_drummer_only_export.py \
             tests/test_drum_transcription.py \
             tests/test_drum_review.py \
+            tests/test_drum_source_calibration.py \
             tests/test_drummer_v3_detector_sync.py \
             tests/test_drummer_v3_analysis.py \
             tests/test_drummer_v3_guitar_rejection.py \
@@ -317,6 +318,13 @@ jobs:
             template.xsq evidence/drummer/dry_drum_test.wav \
             --drum-events evidence/drummer/dry_drum_test_adtof.json \
             --drum-review evidence/drummer/dry_drum_test_tom_review.json \
+            --output test_runs/drummer_dry_test/Before_Ending_Fix.xsq \
+            --report test_runs/drummer_dry_test/Before_Ending_Fix.json
+          python tools/integrate_drummer_v3_into_xsq.py \
+            template.xsq evidence/drummer/dry_drum_test.wav \
+            --drum-events evidence/drummer/dry_drum_test_adtof.json \
+            --drum-review evidence/drummer/dry_drum_test_tom_review.json \
+            --drum-calibration evidence/drummer/dry_drum_test_source_calibration.json \
             --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.xsq \
             --report test_runs/drummer_dry_test/report.json
           python - <<'PY'
@@ -331,7 +339,16 @@ jobs:
           assert analysis['review_status'] == 'model_inferred_pending_human_listening'
           assert analysis['transcription_provenance']['tom_reference_hz'] is None
           assert analysis['tom_review']['review_status'] == 'partial_source_bound_tom_review'
+          assert analysis['source_calibration']['review_status'] == 'source_inspected_inference_pending_user_listening'
           for row in analysis['onset_audit']:
+              calibration = row['primary'].get('source_calibration', {})
+              if calibration.get('accepted'):
+                  assert calibration['original_family'] == 'tom'
+                  assert calibration['original_rejection_reason'] == 'unresolved_tom_identity'
+                  assert row['scheduler_decision'] in {'scheduled', 'merge_or_clutter_suppressed'}
+                  if row['scheduler_decision'] == 'scheduled':
+                      assert row['physical_target'] in report['targets']
+                  continue
               if row['drum_family'] != 'tom':
                   continue
               if row['primary'].get('tom_review'):
@@ -342,7 +359,7 @@ jobs:
           manifest = dict(source=str(audio), sha256=analysis['audio_sha256'],
                           duration=info.duration, sample_rate=info.samplerate,
                           channels=info.channels, frames=info.frames, subtype=info.subtype,
-                          note='Cached inference with sparse user-reviewed tom identities; other events remain unreviewed.')
+                          note='Cached inference with reviewed tom fill and provisional source-timbre ending calibration; user listening remains the final gate.')
           Path('test_runs/drummer_dry_test/source_manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
           PY
           python tools/export_drummer_only_xsq.py \
@@ -350,6 +367,9 @@ jobs:
             --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
             --audio evidence/drummer/dry_drum_test.wav
           python tools/audit_drummer_v3_events.py test_runs/drummer_dry_test/report.json --output test_runs/drummer_dry_test
+          python tools/audit_drummer_source_calibration.py evidence/drummer/dry_drum_test.wav \
+            test_runs/drummer_dry_test/Before_Ending_Fix.json test_runs/drummer_dry_test/report.json \
+            --output test_runs/drummer_dry_test
           python tools/render_drummer_v3_preview.py \
             test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
             --audio evidence/drummer/dry_drum_test.wav \
@@ -359,8 +379,13 @@ jobs:
             --xsq test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
             --audio evidence/drummer/dry_drum_test.wav \
             --start 0 --duration 38.32 \
-            --times 0.3333,0.95,1.25,9.7,10.0333,10.3333,10.4833,20.25 \
+            --times 9.7,10.0333,10.3333,32.4,32.4833,32.55,33.3333,33.5 \
             --output test_runs/drummer_dry_test/decoded
+          python tools/render_drummer_v3_preview.py \
+            test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
+            --audio evidence/drummer/dry_drum_test.wav \
+            --output test_runs/drummer_dry_test/Helix_Drummer_ENDING.mp4 \
+            --start 29.8 --duration 6 --fps 60
       - name: Upload uploaded-audio drummer test
         if: always()
         uses: actions/upload-artifact@v4
@@ -372,7 +397,10 @@ jobs:
             evidence/drummer/dry_drum_test_adtof.json
             evidence/drummer/dry_drum_test_signal_inspection.json
             evidence/drummer/dry_drum_test_tom_review.json
+            evidence/drummer/dry_drum_test_source_calibration.json
+            evidence/drummer/dry_drum_test_detailed_probe.json
             tests/fixtures/drummer/dry_user_tom_anchors.json
+            tests/fixtures/drummer/dry_ending_signal_anchors.json
           if-no-files-found: error
       - name: Upload historical recovery evidence
         if: always()
