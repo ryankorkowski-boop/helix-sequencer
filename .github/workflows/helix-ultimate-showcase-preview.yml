@@ -35,7 +35,7 @@ jobs:
         run: |
           python -m pip install numpy pillow pytest zstandard
           sudo apt-get update -qq
-          sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libglu1-mesa libgstreamer-plugins-base1.0-0
+          sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
       - name: Validate new and existing layouts
         run: |
           python -m pytest -q \
