@@ -1,0 +1,120 @@
+name: In-A-Gadda-Da-Vida Drummer Smoke
+
+on:
+  push:
+    branches:
+      - diagnostic/inagadda-drummer-smoke
+    paths:
+      - '.github/workflows/drummer-inagadda-smoke.yml'
+  workflow_dispatch:
+
+jobs:
+  inagadda-drummer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pillow numpy scipy scikit-learn librosa soundfile numba llvmlite imageio imageio-ffmpeg PyYAML
+
+      - name: Fetch official Apple preview
+        run: |
+          mkdir -p test_runs/inagadda
+          python - <<'PY'
+          import json
+          import urllib.parse
+          import urllib.request
+          from pathlib import Path
+
+          term = urllib.parse.quote("In-A-Gadda-Da-Vida Iron Butterfly")
+          url = f"https://itunes.apple.com/search?term={term}&entity=song&limit=50&country=US"
+          with urllib.request.urlopen(url, timeout=30) as response:
+              payload = json.load(response)
+
+          candidates = []
+          for row in payload.get("results", []):
+              artist = str(row.get("artistName", "")).lower()
+              title = str(row.get("trackName", "")).lower()
+              preview = row.get("previewUrl")
+              if artist == "iron butterfly" and "in-a-gadda-da-vida" in title and preview:
+                  candidates.append(row)
+
+          if not candidates:
+              raise SystemExit("No Apple preview found for Iron Butterfly - In-A-Gadda-Da-Vida")
+
+          # Prefer the full-length recording when available; otherwise use the
+          # longest matching official preview result.
+          candidates.sort(key=lambda row: int(row.get("trackTimeMillis", 0) or 0), reverse=True)
+          pick = candidates[0]
+          out = Path("test_runs/inagadda")
+          source = {
+              "artist": pick.get("artistName"),
+              "track": pick.get("trackName"),
+              "collection": pick.get("collectionName"),
+              "trackTimeMillis": pick.get("trackTimeMillis"),
+              "trackViewUrl": pick.get("trackViewUrl"),
+              "preview_source": "Apple/iTunes public preview",
+          }
+          (out / "source.json").write_text(json.dumps(source, indent=2) + "\n")
+          urllib.request.urlretrieve(pick["previewUrl"], out / "inagadda_preview.m4a")
+          print(json.dumps(source, indent=2))
+          PY
+          ffmpeg -hide_banner -loglevel error -y             -i test_runs/inagadda/inagadda_preview.m4a             -ar 44100 -ac 1 test_runs/inagadda/inagadda_preview.wav
+
+      - name: Regenerate drummer assets
+        env: {PYTHONPATH: .}
+        run: python tools/build_drummer_v3_assets.py --overwrite
+
+      - name: Run latest built-in drummer analyzer
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/integrate_drummer_v3_into_xsq.py             template.xsq test_runs/inagadda/inagadda_preview.wav             --output test_runs/inagadda/InAGadda_Drummer.xsq             --report test_runs/inagadda/InAGadda_Drummer_report.json
+
+      - name: Export drummer-only XSQ
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/export_drummer_only_xsq.py             test_runs/inagadda/InAGadda_Drummer.xsq             --output test_runs/inagadda/InAGadda_Drummer_ONLY.xsq             --audio test_runs/inagadda/inagadda_preview.wav
+
+      - name: Write event audit
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/audit_drummer_v3_events.py             test_runs/inagadda/InAGadda_Drummer_report.json             --output test_runs/inagadda
+
+      - name: Render real-audio preview
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/render_drummer_v3_preview.py             test_runs/inagadda/InAGadda_Drummer_ONLY.xsq             --audio test_runs/inagadda/inagadda_preview.wav             --output test_runs/inagadda/InAGadda_Drummer_Preview.mp4             --start 0             --duration 29             --fps 60
+
+      - name: Summarize run
+        env: {PYTHONPATH: .}
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path("test_runs/inagadda/InAGadda_Drummer_report.json").read_text())
+          summary = {
+              "detector": report.get("detector"),
+              "event_count": report.get("event_count"),
+              "scheduled_drum_type_counts": report.get("scheduled_drum_type_counts"),
+              "component_counts": report.get("component_counts"),
+              "first_scheduled_event_ms": report.get("first_scheduled_event_ms"),
+              "analysis_engine": report.get("analysis", {}).get("analysis_engine"),
+          }
+          Path("test_runs/inagadda/summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+          print(json.dumps(summary, indent=2))
+          PY
+
+      - name: Upload test artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: inagadda-drummer-smoke
+          path: test_runs/inagadda/**
+          if-no-files-found: error
