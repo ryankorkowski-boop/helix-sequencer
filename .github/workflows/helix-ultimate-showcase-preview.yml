@@ -1,66 +1,83 @@
 name: Helix Ultimate Showcase Preview
+
 on:
   push:
-    branches: [test/high-impact-drum-groundtruth]
+    branches: [feature/ultimate-helix-showcase]
+    paths:
+      - 'models/ultimate_showcase.py'
+      - 'tools/build_ultimate_showcase_layout.py'
+      - 'tools/build_helpers/ultimate_showcase*.py'
+      - 'tools/audit_ultimate_showcase_native.py'
+      - 'tests/test_ultimate_showcase.py'
+      - '.github/workflows/helix-ultimate-showcase-preview.yml'
   workflow_dispatch:
+
 permissions:
   contents: read
+
+concurrency:
+  group: ultimate-showcase-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   render:
-    runs-on: ubuntu-latest
-    timeout-minutes: 120
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      SHOW_DIR: outputs/ultimate_showcase/Helix_Aurora
+      XL_NO_GPU_COMPUTE: '1'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          cache: pip
-      - name: Install
+      - name: Install layout and native-render dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest
-      - name: Build ultimate 3D showcase layout
-        env: {PYTHONPATH: .}
+          python -m pip install numpy pillow pytest zstandard
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libglu1-mesa libgstreamer-plugins-base1.0-0
+      - name: Validate new and existing layouts
         run: |
-          python tools/build_ultimate_showcase_layout.py
-          test -s test_runs/ultimate_showcase/xlights_rgbeffects_ultimate.xml
-      - name: Generate showcase sequence
-        env: {PYTHONPATH: .}
+          python -m pytest -q \
+            tests/test_ultimate_showcase.py \
+            tests/test_helixia_layout.py tests/test_helixia_3d_layout.py \
+            tests/test_preview_helixia_3d_layout.py \
+            tests/test_build_helixia_layout_cli.py tests/test_build_demo_helixia_bundle.py \
+            tests/test_helixia_double_helix.py tests/test_helixia_double_helix_integration.py \
+            tests/test_helixia_double_helix_xlights_plan.py \
+            tests/test_preview_helixia_double_helix.py tests/test_working_double_helix.py
+      - name: Build the standalone native show
+        run: python -m tools.build_ultimate_showcase_layout --output "$SHOW_DIR" --no-video --no-zip
+      - name: Install pinned xLights 2026.18
         run: |
-          mkdir -p test_runs/ultimate_showcase/base256
-          python archive/legacy_versions/v28.9.py --template template.xsq --audio 'Helix Audiolights.mp3' --layout-file test_runs/ultimate_showcase/xlights_rgbeffects_ultimate.xml --output-dir test_runs/ultimate_showcase/base256 --variants 1 --single --no-prompt --no-save-settings --no-workspace-history --no-auto-timing-tracks --no-matrix-intelligence --audio-reactive-profile showcase --spatial-awareness 0.65 --chase-style left_to_right --max-layers-per-prop 3
-      - name: Inject canonical Drummer V3
-        env: {PYTHONPATH: .}
+          mkdir -p "$RUNNER_TEMP/xlights-native"
+          cd "$RUNNER_TEMP/xlights-native"
+          curl --fail --location --retry 3 --output xlights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xlights.AppImage' | sha256sum --check
+          chmod +x xlights.AppImage
+          ./xlights.AppImage --appimage-extract > /dev/null
+      - name: Render actual native channel values
         run: |
-          xsq=$(find test_runs/ultimate_showcase/base256 -type f -name '*.xsq' | head -n 1)
-          test -n "$xsq"
-          python tools/integrate_drummer_v3_into_xsq.py "$xsq" 'Helix Audiolights.mp3' --output test_runs/ultimate_showcase/HELIX_ULTIMATE_256_DRUMMER.xsq --report test_runs/ultimate_showcase/drummer_report.json
-      - name: Validate canonical drummer contract
-        env: {PYTHONPATH: .}
+          xvfb-run -a "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun" \
+            --headless -q -s "$GITHUB_WORKSPACE/$SHOW_DIR" \
+            -od "$GITHUB_WORKSPACE/$SHOW_DIR" \
+            "$GITHUB_WORKSPACE/$SHOW_DIR/Helix_Aurora_Showcase.xsq"
+          test -s "$SHOW_DIR/Helix_Aurora_Showcase.fseq"
+      - name: Create MP4 using native lighting and verify all RGB pixels
         run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          r=json.loads(Path('test_runs/ultimate_showcase/drummer_report.json').read_text())
-          required=['HX_SNOWMAN_DRUMMER_KICK','HX_SNOWMAN_DRUMMER_SNARE','HX_SNOWMAN_DRUMMER_HI_HAT','HX_SNOWMAN_DRUMMER_TOM_HIGH','HX_SNOWMAN_DRUMMER_TOM_MID','HX_SNOWMAN_DRUMMER_TOM_FLOOR','HX_SNOWMAN_DRUMMER_CYMBAL_LEFT','HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT']
-          assert all(r['component_counts'].get(x,0)>0 for x in required), r['component_counts']
-          assert r['drum_bus_ratio']==0.0
-          print(json.dumps(r,indent=2))
-          PY
-          python -m pytest -q tests/test_drummer_v3_xsq_integration.py tests/test_drummer_v3_pose_sheet.py
-      - name: Validate XSQ
-        env: {PYTHONPATH: .}
-        run: python tools/validate_xsq_structure.py test_runs/ultimate_showcase/HELIX_ULTIMATE_256_DRUMMER.xsq
-      - name: Render HQ showcase MP4
-        env: {PYTHONPATH: .}
-        run: python -m tools.preview_hq test_runs/ultimate_showcase/HELIX_ULTIMATE_256_DRUMMER.xsq --layout test_runs/ultimate_showcase/xlights_rgbeffects_ultimate.xml --audio 'Helix Audiolights.mp3' --quality-preset xlights
-      - name: Render drummer target preview
-        env: {PYTHONPATH: .}
-        run: python tools/render_drummer_v3_preview.py test_runs/ultimate_showcase/HELIX_ULTIMATE_256_DRUMMER.xsq --audio 'Helix Audiolights.mp3' --output test_runs/ultimate_showcase/HELIX_ULTIMATE_DRUMMER.mp4 --fps 30
-      - name: Upload showcase artifacts
-        if: always()
+          python -m tools.build_ultimate_showcase_layout --output "$SHOW_DIR" \
+            --native-fseq "$SHOW_DIR/Helix_Aurora_Showcase.fseq" --no-zip
+          python -m tools.audit_ultimate_showcase_native "$SHOW_DIR"
+          mkdir -p "$SHOW_DIR/review_frames"
+          for second in 1 5 12 20; do
+            ffmpeg -v error -y -ss "$second" -i "$SHOW_DIR/Helix_Aurora_Showcase.mp4" \
+              -frames:v 1 "$SHOW_DIR/review_frames/frame_${second}s.png"
+          done
+          python -m tools.build_ultimate_showcase_layout --output "$SHOW_DIR" --package-only
+      - name: Upload the importable show, viewer, MP4 and native proof
         uses: actions/upload-artifact@v4
         with:
-          name: helix-ultimate-showcase-3d-preview
-          path: test_runs/ultimate_showcase/**/*
-          if-no-files-found: warn
+          name: helix-aurora-ultimate-showcase
+          path: outputs/ultimate_showcase/Helix_Aurora_Ultimate_Showcase.zip
+          if-no-files-found: error
+          retention-days: 30

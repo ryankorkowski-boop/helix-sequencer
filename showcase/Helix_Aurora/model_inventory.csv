@@ -1,0 +1,109 @@
+model,native_type,zone,nodes,start_channel,end_channel,design
+HX_DNA_CATHEDRAL,Custom,DNA_CATHEDRAL,2055,1,6165,"Two-strand DNA sculpture: 4.5 turns, full illuminated ladder rungs"
+HX_DNA_TOWER_WEST,Custom,DNA_CATHEDRAL,1206,6166,9783,"Two-strand DNA sculpture: 3.5 turns, full illuminated ladder rungs"
+HX_SPIRAL_W_1_1,Tree 360,SPIRAL_FOREST,360,9784,10863,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_CANOPY_CROWN_-1_0,Star,SKY_JEWELS,120,10864,11223,5-point jewel crown; warm gold contrasts the cool spiral forest
+HX_SPIRAL_W_1_2,Tree 360,SPIRAL_FOREST,360,11224,12303,"Spiral tree; 2 strands, 2.75 twists; graduated canopy"
+HX_CANOPY_CROWN_-1_1,Star,SKY_JEWELS,145,12304,12738,6-point jewel crown; warm gold contrasts the cool spiral forest
+HX_SPIRAL_W_1_3,Tree 360,SPIRAL_FOREST,360,12739,13818,"Spiral tree; 2 strands, 3 twists; graduated canopy"
+HX_CANOPY_CROWN_-1_2,Star,SKY_JEWELS,168,13819,14322,7-point jewel crown; warm gold contrasts the cool spiral forest
+HX_SPIRAL_W_1_4,Tree 360,SPIRAL_FOREST,360,14323,15402,"Spiral tree; 2 strands, 3.25 twists; graduated canopy"
+HX_CANOPY_CROWN_-1_3,Star,SKY_JEWELS,120,15403,15762,5-point jewel crown; warm gold contrasts the cool spiral forest
+HX_SPIRAL_W_2_1,Tree 360,SPIRAL_FOREST,444,15763,17094,"Spiral tree; 3 strands, 3 twists; graduated canopy"
+HX_SPIRAL_W_2_2,Tree 360,SPIRAL_FOREST,444,17095,18426,"Spiral tree; 3 strands, 3.25 twists; graduated canopy"
+HX_SPIRAL_W_2_3,Tree 360,SPIRAL_FOREST,444,18427,19758,"Spiral tree; 3 strands, 3.5 twists; graduated canopy"
+HX_SPIRAL_W_2_4,Tree 360,SPIRAL_FOREST,444,19759,21090,"Spiral tree; 3 strands, 3.75 twists; graduated canopy"
+HX_SPIRAL_W_3_1,Tree 360,SPIRAL_FOREST,232,21091,21786,"Spiral tree; 2 strands, 3.5 twists; graduated canopy"
+HX_SPIRAL_W_3_2,Tree 360,SPIRAL_FOREST,232,21787,22482,"Spiral tree; 2 strands, 3.75 twists; graduated canopy"
+HX_SPIRAL_W_3_3,Tree 360,SPIRAL_FOREST,232,22483,23178,"Spiral tree; 2 strands, 4 twists; graduated canopy"
+HX_SPIRAL_W_3_4,Tree 360,SPIRAL_FOREST,232,23179,23874,"Spiral tree; 2 strands, 4.25 twists; graduated canopy"
+HX_SPIRAL_MINI_-1_1,Tree 360,MINI_SPIRAL_GARDEN,192,23875,24450,"Spiral tree; 2 strands, 2 twists; graduated canopy"
+HX_SPIRAL_MINI_-1_2,Tree 360,MINI_SPIRAL_GARDEN,192,24451,25026,"Spiral tree; 2 strands, 2.2 twists; graduated canopy"
+HX_SPIRAL_MINI_-1_3,Tree 360,MINI_SPIRAL_GARDEN,192,25027,25602,"Spiral tree; 2 strands, 2.4 twists; graduated canopy"
+HX_SPIRAL_MINI_-1_4,Tree 360,MINI_SPIRAL_GARDEN,192,25603,26178,"Spiral tree; 2 strands, 2.6 twists; graduated canopy"
+HX_SPIRAL_MINI_-1_5,Tree 360,MINI_SPIRAL_GARDEN,192,26179,26754,"Spiral tree; 2 strands, 2.8 twists; graduated canopy"
+HX_SPIRAL_MINI_-1_6,Tree 360,MINI_SPIRAL_GARDEN,192,26755,27330,"Spiral tree; 2 strands, 3 twists; graduated canopy"
+HX_DNA_PATH_-1_1,Custom,DNA_WALK,358,27331,28404,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_DNA_PATH_-1_2,Custom,DNA_WALK,358,28405,29478,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_DNA_PATH_-1_3,Custom,DNA_WALK,358,29479,30552,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_DNA_GATE_-1,Custom,DNA_WALK,622,30553,32418,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_DNA_TOWER_EAST,Custom,DNA_CATHEDRAL,1206,32419,36036,"Two-strand DNA sculpture: 3.5 turns, full illuminated ladder rungs"
+HX_SPIRAL_E_1_1,Tree 360,SPIRAL_FOREST,360,36037,37116,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_CANOPY_CROWN_1_0,Star,SKY_JEWELS,120,37117,37476,5-point jewel crown; warm gold contrasts the cool spiral forest
+HX_SPIRAL_E_1_2,Tree 360,SPIRAL_FOREST,360,37477,38556,"Spiral tree; 2 strands, 2.75 twists; graduated canopy"
+HX_CANOPY_CROWN_1_1,Star,SKY_JEWELS,145,38557,38991,6-point jewel crown; warm gold contrasts the cool spiral forest
+HX_SPIRAL_E_1_3,Tree 360,SPIRAL_FOREST,360,38992,40071,"Spiral tree; 2 strands, 3 twists; graduated canopy"
+HX_CANOPY_CROWN_1_2,Star,SKY_JEWELS,168,40072,40575,7-point jewel crown; warm gold contrasts the cool spiral forest
+HX_SPIRAL_E_1_4,Tree 360,SPIRAL_FOREST,360,40576,41655,"Spiral tree; 2 strands, 3.25 twists; graduated canopy"
+HX_CANOPY_CROWN_1_3,Star,SKY_JEWELS,120,41656,42015,5-point jewel crown; warm gold contrasts the cool spiral forest
+HX_SPIRAL_E_2_1,Tree 360,SPIRAL_FOREST,444,42016,43347,"Spiral tree; 3 strands, 3 twists; graduated canopy"
+HX_SPIRAL_E_2_2,Tree 360,SPIRAL_FOREST,444,43348,44679,"Spiral tree; 3 strands, 3.25 twists; graduated canopy"
+HX_SPIRAL_E_2_3,Tree 360,SPIRAL_FOREST,444,44680,46011,"Spiral tree; 3 strands, 3.5 twists; graduated canopy"
+HX_SPIRAL_E_2_4,Tree 360,SPIRAL_FOREST,444,46012,47343,"Spiral tree; 3 strands, 3.75 twists; graduated canopy"
+HX_SPIRAL_E_3_1,Tree 360,SPIRAL_FOREST,232,47344,48039,"Spiral tree; 2 strands, 3.5 twists; graduated canopy"
+HX_SPIRAL_E_3_2,Tree 360,SPIRAL_FOREST,232,48040,48735,"Spiral tree; 2 strands, 3.75 twists; graduated canopy"
+HX_SPIRAL_E_3_3,Tree 360,SPIRAL_FOREST,232,48736,49431,"Spiral tree; 2 strands, 4 twists; graduated canopy"
+HX_SPIRAL_E_3_4,Tree 360,SPIRAL_FOREST,232,49432,50127,"Spiral tree; 2 strands, 4.25 twists; graduated canopy"
+HX_SPIRAL_MINI_1_1,Tree 360,MINI_SPIRAL_GARDEN,192,50128,50703,"Spiral tree; 2 strands, 2 twists; graduated canopy"
+HX_SPIRAL_MINI_1_2,Tree 360,MINI_SPIRAL_GARDEN,192,50704,51279,"Spiral tree; 2 strands, 2.2 twists; graduated canopy"
+HX_SPIRAL_MINI_1_3,Tree 360,MINI_SPIRAL_GARDEN,192,51280,51855,"Spiral tree; 2 strands, 2.4 twists; graduated canopy"
+HX_SPIRAL_MINI_1_4,Tree 360,MINI_SPIRAL_GARDEN,192,51856,52431,"Spiral tree; 2 strands, 2.6 twists; graduated canopy"
+HX_SPIRAL_MINI_1_5,Tree 360,MINI_SPIRAL_GARDEN,192,52432,53007,"Spiral tree; 2 strands, 2.8 twists; graduated canopy"
+HX_SPIRAL_MINI_1_6,Tree 360,MINI_SPIRAL_GARDEN,192,53008,53583,"Spiral tree; 2 strands, 3 twists; graduated canopy"
+HX_DNA_PATH_1_1,Custom,DNA_WALK,358,53584,54657,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_DNA_PATH_1_2,Custom,DNA_WALK,358,54658,55731,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_DNA_PATH_1_3,Custom,DNA_WALK,358,55732,56805,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_DNA_GATE_1,Custom,DNA_WALK,622,56806,58671,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_DNA_ORBIT,Custom,DNA_CATHEDRAL,1744,58672,63903,Twisted orbital DNA halo
+HX_NORTH_STAR,Star,SKY_JEWELS,168,63904,64407,7-point jewel crown; warm gold contrasts the cool spiral forest
+HX_NATIVE_Tree_360,Tree 360,NATIVE_TREE_GALLERY,576,64408,66135,"Tree 360 tree; 12 strands, 0 twists; graduated canopy"
+HX_NATIVE_Tree_180,Tree 180,NATIVE_TREE_GALLERY,576,66136,67863,"Tree 180 tree; 12 strands, 0 twists; graduated canopy"
+HX_NATIVE_Tree_Flat,Tree Flat,NATIVE_TREE_GALLERY,576,67864,69591,"Tree Flat tree; 12 strands, 0 twists; graduated canopy"
+HX_NATIVE_Tree_Ribbon,Tree Ribbon,NATIVE_TREE_GALLERY,576,69592,71319,"Tree Ribbon tree; 12 strands, 0 twists; graduated canopy"
+HX_ORRERY_MOON_-1,Sphere,ORRERY_PAVILIONS,480,71320,72759,Pixel moon above a lyric pavilion; full-depth meridians
+HX_AURORA_HORIZONTAL,Horiz Matrix,ORRERY_PAVILIONS,800,72760,75159,A wide lyric cinema
+HX_JEWEL_WINDOW_-1,Window Frame,ORRERY_PAVILIONS,192,75160,75735,Oversized jewel-box frame around the art canvas
+HX_ORBIT_TRIPTYCH_-1,Circle,ORRERY_PAVILIONS,288,75736,76599,Nested astronomical orbit rings
+HX_MOON_WREATH_-1,Wreath,ORRERY_PAVILIONS,96,76600,76887,"Halo wreath with an open, readable center"
+HX_SOLAR_SPINNER_-1,Spinner,ORRERY_PAVILIONS,216,76888,77535,Twelve-arm hollow solar rosette; independent radial chase lanes
+HX_ORRERY_MOON_1,Sphere,ORRERY_PAVILIONS,480,77536,78975,Pixel moon above a lyric pavilion; full-depth meridians
+HX_AURORA_VERTICAL,Vert Matrix,ORRERY_PAVILIONS,640,78976,80895,Portrait generative-art canvas
+HX_JEWEL_WINDOW_1,Window Frame,ORRERY_PAVILIONS,192,80896,81471,Oversized jewel-box frame around the art canvas
+HX_ORBIT_TRIPTYCH_1,Circle,ORRERY_PAVILIONS,288,81472,82335,Nested astronomical orbit rings
+HX_MOON_WREATH_1,Wreath,ORRERY_PAVILIONS,96,82336,82623,"Halo wreath with an open, readable center"
+HX_SOLAR_SPINNER_1,Spinner,ORRERY_PAVILIONS,216,82624,83271,Twelve-arm hollow solar rosette; independent radial chase lanes
+HX_RIBBON_ARCH_01,Arches,RIBBON_PROMENADE,80,83272,83511,A scalloped aurora entrance arch
+HX_RIBBON_ARCH_02,Arches,RIBBON_PROMENADE,80,83512,83751,A scalloped aurora entrance arch
+HX_RIBBON_ARCH_03,Arches,RIBBON_PROMENADE,80,83752,83991,A scalloped aurora entrance arch
+HX_RIBBON_ARCH_04,Arches,RIBBON_PROMENADE,80,83992,84231,A scalloped aurora entrance arch
+HX_RIBBON_ARCH_05,Arches,RIBBON_PROMENADE,80,84232,84471,A scalloped aurora entrance arch
+HX_RIBBON_ARCH_06,Arches,RIBBON_PROMENADE,80,84472,84711,A scalloped aurora entrance arch
+HX_RIBBON_ARCH_07,Arches,RIBBON_PROMENADE,80,84712,84951,A scalloped aurora entrance arch
+HX_RIBBON_ARCH_08,Arches,RIBBON_PROMENADE,80,84952,85191,A scalloped aurora entrance arch
+HX_CANDY_GARDEN_-1,Candy Canes,RIBBON_PROMENADE,240,85192,85911,Five slim hooked candy reeds; mirrored portal accents
+HX_CANDY_GARDEN_1,Candy Canes,RIBBON_PROMENADE,240,85912,86631,Five slim hooked candy reeds; mirrored portal accents
+HX_VOXEL_LANTERN_-1,Cube,CRYSTAL_GARDEN,512,86632,88167,Deep crystal voxel lantern; three-dimensional chase volume
+HX_VOXEL_LANTERN_1,Cube,CRYSTAL_GARDEN,512,88168,89703,Deep crystal voxel lantern; three-dimensional chase volume
+HX_FIBONACCI_ICICLES_-1,Icicles,ORRERY_PAVILIONS,136,89704,90111,Fibonacci-length ice fringe under the lyric pavilion
+HX_FIBONACCI_ICICLES_1,Icicles,ORRERY_PAVILIONS,136,90112,90519,Fibonacci-length ice fringe under the lyric pavilion
+HX_INFINITY_RIBBON,Poly Line,DNA_WALK,420,90520,91779,An illuminated figure-eight/infinity ribbon woven into the entrance
+HX_FIREFLY_CONSTELLATION,MultiPoint,SKY_JEWELS,64,91780,91971,"Seeded, independently positioned native MultiPoint fireflies"
+HX_HORIZON_RAIL_-1,Single Line,RIBBON_PROMENADE,180,91972,92511,Continuous low horizon rail for clean opposing chases
+HX_HORIZON_RAIL_1,Single Line,RIBBON_PROMENADE,180,92512,93051,Continuous low horizon rail for clean opposing chases
+HX_FRACTAL_SNOWFLAKE_-1_0,Custom,SKY_JEWELS,210,93052,93681,Sixfold crystalline snowflake with branching tips
+HX_FRACTAL_SNOWFLAKE_-1_1,Custom,SKY_JEWELS,210,93682,94311,Sixfold crystalline snowflake with branching tips
+HX_FRACTAL_SNOWFLAKE_-1_2,Custom,SKY_JEWELS,210,94312,94941,Sixfold crystalline snowflake with branching tips
+HX_FRACTAL_SNOWFLAKE_1_0,Custom,SKY_JEWELS,210,94942,95571,Sixfold crystalline snowflake with branching tips
+HX_FRACTAL_SNOWFLAKE_1_1,Custom,SKY_JEWELS,210,95572,96201,Sixfold crystalline snowflake with branching tips
+HX_FRACTAL_SNOWFLAKE_1_2,Custom,SKY_JEWELS,210,96202,96831,Sixfold crystalline snowflake with branching tips
+HX_HELIX_CREST_IMAGE,Image,WELCOME_CREST,1,96832,96832,Original Helix Aurora luminous crest; portable image asset
+HX_WELCOME_LABEL,Label,WELCOME_CREST,1,96833,96833,Native scene label: HELIX AURORA
+HX_TECH_Channel_Block,Channel Block,TECHNOLOGY_ALCOVES,16,96834,96849,An amber legacy AC marquee
+HX_TECH_DmxGeneral,DmxGeneral,TECHNOLOGY_ALCOVES,8,96850,96857,Eight-channel fountain/utility controller
+HX_TECH_DmxMovingHead,DmxMovingHead,TECHNOLOGY_ALCOVES,16,96858,96873,Classic cyan spotlight turret
+HX_TECH_DmxMovingHeadAdv,DmxMovingHeadAdv,TECHNOLOGY_ALCOVES,16,96874,96889,Full 3D magenta spotlight turret
+HX_TECH_DmxFloodlight,DmxFloodlight,TECHNOLOGY_ALCOVES,3,96890,96892,RGB garden uplighter
+HX_TECH_DmxFloodArea,DmxFloodArea,TECHNOLOGY_ALCOVES,3,96893,96895,Broad aurora lawn wash
+HX_TECH_DmxSkull,DmxSkull,TECHNOLOGY_ALCOVES,26,96896,96921,Articulated Halloween guest in the technology alcove
+HX_TECH_DmxServo,DmxServo,TECHNOLOGY_ALCOVES,2,96922,96923,2D kinetic pinwheel ornament
+HX_TECH_DmxServo3d,DmxServo3d,TECHNOLOGY_ALCOVES,6,96924,96929,Three-axis kinetic DNA wind sculpture
