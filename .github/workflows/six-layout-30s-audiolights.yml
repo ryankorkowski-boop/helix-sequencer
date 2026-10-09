@@ -1,0 +1,153 @@
+name: Helix Audiolights Six-Layout 30s Addendum
+
+on:
+  push:
+    branches: [preview/six-layout-30s-2026-10-09]
+    paths: ['.github/workflows/six-layout-30s-audiolights.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: .
+  XL_NO_GPU_COMPUTE: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+
+jobs:
+  render-song:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        track: [Helix_Audiolights]
+    env:
+      TRACK: ${{ matrix.track }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Helix and native xLights renderer
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install numpy scipy librosa soundfile numba pillow zstandard scikit-learn imageio imageio-ffmpeg requests PyYAML
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          mkdir -p "$RUNNER_TEMP/xlights-native"
+          cd "$RUNNER_TEMP/xlights-native"
+          curl --fail --location --retry 3 --output xlights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xlights.AppImage' | sha256sum --check
+          chmod +x xlights.AppImage
+          ./xlights.AppImage --appimage-extract >/dev/null
+      - name: Select a lively 30-second segment from each original song
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          import numpy as np
+          source_dir=Path('evidence/showcase_audio/source')
+          target=Path('outputs/30s_clips')
+          target.mkdir(parents=True,exist_ok=True)
+          source_files=sorted(source_dir.glob('*.mp3'))
+          source_files[0]=Path('Helix Audiolights.mp3')  # Sixth distinct song replaces duplicate Wire Tree input
+          assert len(source_files)==5, f'Expected 5 original songs, found {len(source_files)}'
+          clips=[]
+          for original in source_files:
+              buf=subprocess.check_output(['ffmpeg','-v','error','-i',str(original),'-ac','1','-ar','2000','-f','f32le','-'])
+              samples=np.frombuffer(buf,dtype='<f4')
+              if len(samples)<30*2000:
+                  raise RuntimeError(f'Original song shorter than 30 seconds: {original.name}')
+              samples=np.pad(samples,(0,(-len(samples))%2000))
+              power=np.mean(samples.reshape(-1,2000)**2,axis=1)
+              start=int(np.argmax(np.convolve(power,np.ones(30),mode='valid')))
+              start=min(start,max(0,int(len(buf)/4/2000-30)))
+              outfile=target/('1-Helix-Audiolights.mp3' if original.name=='Helix Audiolights.mp3' else original.name)
+              subprocess.run(['ffmpeg','-v','error','-y','-ss',str(start),'-i',str(original),
+                              '-t','30','-af','apad=whole_dur=30','-ac','2',
+                              '-c:a','libmp3lame','-b:a','192k',str(outfile)],check=True)
+              check=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries',
+                  'format=duration','-of','json',str(outfile)]))
+              assert abs(float(check['format']['duration'])-30)<.15,(outfile,check)
+              clips.append(dict(source=original.name,highlight_start_seconds=start,clip_seconds=30,
+                                clip_file=str(outfile)))
+          (target/'clip_provenance.json').write_text(json.dumps(clips,indent=2)+'\n')
+          print(json.dumps(clips,indent=2))
+          PY
+      - name: Run Helix Prime and render all six original showcase layouts with xLights
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a python - <<'PY'
+          import os,sys
+          from tools import run_showcase_audio_batch as batch
+          batch.TRACKS=(('Helix_Audiolights','Helix Audiolights'),)+batch.TRACKS[1:]
+          sys.argv=['showcase-audio-batch','--audio-dir','outputs/30s_clips',
+                    '--track','Helix_Audiolights','--output','outputs/six_up_Helix_Audiolights',
+                    '--workers','2','--xlights',
+                    os.path.join(os.environ['RUNNER_TEMP'],'xlights-native/squashfs-root/AppRun')]
+          batch.main()
+          PY
+      - name: Produce verified simultaneous six-layout 30-second movie
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          track=os.environ['TRACK']
+          root=Path('outputs/six_up_'+track)
+          manifest=json.loads((root/'batch_manifest.json').read_text())
+          rows=manifest['runs']
+          assert len(rows)==6, f'Expected six different layouts, found {len(rows)}'
+          assert len({r['flavor'] for r in rows})==6
+          assert all(r['status']=='verified_preview' and r['verification']['native_channel_animation'] for r in rows)
+          output=Path('deliverables');output.mkdir(exist_ok=True)
+          movie=output/(track+'_Six_Layouts_30s.mp4')
+          cmd=['ffmpeg','-v','error','-y','-filter_complex_threads','1']
+          for row in rows:
+              path=root/row['folder']/Path(row['xsq']).with_suffix('.mp4')
+              assert path.exists(),str(path)
+              cmd+=['-i',str(path)]
+          src=Path('outputs/30s_clips/1-Helix-Audiolights.mp3')
+          cmd+=['-i',str(src)]
+          font='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+          graph=[]
+          for i,row in enumerate(rows):
+              label=row['layout'].replace(':','').replace("'",'').replace('\\','')
+              graph.append(f"[{i}:v]scale=640:360:flags=lanczos,setsar=1,"
+                           f"drawtext=fontfile={font}:text='{label}':x=14:y=14:fontsize=20:"
+                           f"fontcolor=white:box=1:boxcolor=black@0.65:boxborderw=6[v{i}]")
+          graph.append(''.join(f'[v{i}]' for i in range(6))+
+              'xstack=inputs=6:layout=0_0|640_0|1280_0|0_360|640_360|1280_360[out]')
+          cmd+=['-filter_complex',';'.join(graph),'-map','[out]','-map','6:a:0',
+                '-t','30','-r','20','-c:v','libx264','-preset','veryfast','-crf','23',
+                '-threads','2','-pix_fmt','yuv420p','-c:a','aac','-b:a','160k',
+                '-movflags','+faststart',str(movie)]
+          subprocess.run(cmd,check=True)
+          probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries',
+              'stream=codec_type,width,height:format=duration','-of','json',str(movie)]))
+          assert abs(float(probe['format']['duration'])-30)<.2,probe
+          assert any(s['codec_type']=='audio' for s in probe['streams'])
+          assert any(s['codec_type']=='video' and s['width']==1920 and s['height']==720 for s in probe['streams'])
+          provenance=json.loads(Path('outputs/30s_clips/clip_provenance.json').read_text())
+          selected=next(x for x in provenance if x['clip_file']==str(src))
+          (output/(track+'_verification.json')).write_text(json.dumps({
+              'song':track,'clip':selected,'layouts':[r['layout'] for r in rows],
+              'source':'Helix Prime generated native XSQ/FSEQ; original soundtrack excerpt',
+              'verified_native_previews':True,'output':movie.name,'ffprobe':probe
+              },indent=2)+'\n')
+          print('VALIDATED',movie,flush=True)
+          PY
+      - name: Upload song comparison
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-six-up-${{ matrix.track }}
+          path: deliverables/
+          if-no-files-found: warn
+          retention-days: 30
+
