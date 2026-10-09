@@ -25,12 +25,19 @@ def native_faces_probe(root,xlights):
         seq=NativeSequence(g,2,'','Native Faces definition probe')
         seq.root.find('head/sequenceType').text='Animation'
         palette=ET.SubElement(seq.root.find('ColorPalettes'),'ColorPalette');palette.text='C_BUTTON_Palette1=#FFFFFF,C_CHECKBOX_Palette1=1'
+        track='Helix xLights Visemes'
+        ET.SubElement(seq.root.find('DisplayElements'),'Element',{'type':'timing','name':track,'visible':'1','collapsed':'0'})
+        timing=ET.SubElement(seq.root.find('ElementEffects'),'Element',{'type':'timing','name':track,'fixed':'0'})
+        for label in ('Wiring probe','Recognized phoneme aliases'):
+            layer=ET.SubElement(timing,'EffectLayer');ET.SubElement(layer,'Effect',{'label':label,'startTime':'0','endTime':'2000'})
+        phone_layer=ET.SubElement(timing,'EffectLayer')
         for i,(viseme,shape) in enumerate(VISEME_TO_SHAPE.items()):
-            ET.SubElement(seq.root.find('EffectDB'),'Effect').text=f'E_CHOICE_Faces_FaceDefinition={FACE_NAME},E_CHOICE_Faces_Phoneme={viseme},E_CHOICE_Faces_Eyes=Off,E_CHECKBOX_Faces_Outline=0,E_CHECKBOX_Faces_SuppressShimmer=1'
-            for model in g.models:
-                if not face_definition(model):continue
+            ET.SubElement(phone_layer,'Effect',{'label':viseme,'startTime':str(i*200),'endTime':str((i+1)*200)})
+        ET.SubElement(seq.root.find('EffectDB'),'Effect').text=f'E_CHOICE_Faces_FaceDefinition={FACE_NAME},E_CHOICE_Faces_TimingTrack={track},E_CHOICE_Faces_Eyes=Off,E_CHECKBOX_Faces_Outline=0,E_CHECKBOX_Faces_SuppressShimmer=1'
+        for model in g.models:
+            if face_definition(model):
                 layer=seq.elements[model.name].find('EffectLayer')
-                ET.SubElement(layer,'Effect',{'name':'Faces','ref':str(i),'palette':'0','startTime':str(i*200),'endTime':str((i+1)*200),'id':str(i+1)})
+                ET.SubElement(layer,'Effect',{'name':'Faces','ref':'0','palette':'0','startTime':'0','endTime':'2000','id':'1'})
         xsq=folder/'Native_Faces_Probe.xsq';seq.write(xsq)
         with (folder/'render.log').open('w') as log:
             subprocess.run([str(xlights),'--headless','-q','-s',str(folder),'-od',str(folder),str(xsq)],stdout=log,stderr=log,check=True,timeout=120)
@@ -42,7 +49,7 @@ def native_faces_probe(root,xlights):
                 expected=set(model.submodels['MOUTH_'+shape])
                 actual=set((np.flatnonzero(pixels[i*4+1].max(axis=1)>0)+1).tolist())
                 if actual!=expected:raise ValueError(f'Native Faces mismatch {model.name}/{viseme}: {len(actual)} vs {len(expected)}')
-            evidence.append(dict(model=model.name,standard_native_visemes=10,physical_mouth_shapes=7,all_visemes_exact_native_nodes=True))
+            evidence.append(dict(model=model.name,standard_native_visemes=10,physical_mouth_shapes=7,all_visemes_exact_native_nodes=True,native_three_layer_track_drives_faces=True))
     return evidence
 
 
@@ -50,6 +57,9 @@ def upgrade(root,xlights):
     evidence=[]
     for p in sorted((root/'shows').glob('*/verification.json')):
         folder=p.parent;report=json.loads(p.read_text());variant=report['variant'];g=build_ensemble(variant)
+        if report.get('native_faces_three_layer_track'):
+            if any(sha(folder/name)!=digest for name,digest in report['hashes'].items()):raise ValueError('Verified native show changed')
+            evidence.append(dict(show=folder.name,already_verified=True));continue
         definitions={m.name:face_definition(m) for m in g.models if face_definition(m)}
         layout=folder/'xlights_rgbeffects.xml';tree=ET.parse(layout)
         for model in tree.findall('./models/model'):
@@ -62,11 +72,17 @@ def upgrade(root,xlights):
         _write_xml(tree.getroot(),layout)
         xsq=folder/('Snowman_Band.xsq' if variant=='band' else 'Helix_Singing_Faces.xsq');tree=ET.parse(xsq)
         name='Helix xLights Visemes';root_xml=tree.getroot()
-        if not any(e.get('name')==name for e in root_xml.findall('./ElementEffects/Element')):
+        for element in list(root_xml.findall('./ElementEffects/Element')):
+            if element.get('name')==name:root_xml.find('ElementEffects').remove(element)
+        if not any(e.get('name')==name for e in root_xml.findall('./DisplayElements/Element')):
             ET.SubElement(root_xml.find('DisplayElements'),'Element',{'type':'timing','name':name,'visible':'1','collapsed':'0'})
-            e=ET.SubElement(root_xml.find('ElementEffects'),'Element',{'type':'timing','name':name,'fixed':'0'});layer=ET.SubElement(e,'EffectLayer')
-            for event in root_xml.findall('./ElementEffects/Element[@name="Helix Phonemes"]/EffectLayer/Effect'):
-                ET.SubElement(layer,'Effect',{**event.attrib,'label':SHAPE_TO_VISEME[event.get('label')]})
+        e=ET.SubElement(root_xml.find('ElementEffects'),'Element',{'type':'timing','name':name,'fixed':'0'})
+        for track in ('Helix Lyrics','Helix Words','Helix Phonemes'):
+            layer=ET.SubElement(e,'EffectLayer')
+            for event in root_xml.findall(f'./ElementEffects/Element[@name="{track}"]/EffectLayer/Effect'):
+                attrs=dict(event.attrib)
+                if track=='Helix Phonemes':attrs['label']=SHAPE_TO_VISEME[attrs['label']]
+                ET.SubElement(layer,'Effect',attrs)
         _write_xml(root_xml,xsq)
         before,_=read_fseq(xsq.with_suffix('.fseq'))
         with (folder/'native_face_metadata_render.log').open('w') as log:
@@ -74,6 +90,7 @@ def upgrade(root,xlights):
         after,_=read_fseq(xsq.with_suffix('.fseq'))
         if not np.array_equal(before,after):raise ValueError('Native metadata upgrade changed the performance')
         report['native_faces_definition_reusable']=True;report['native_faces_metadata_preserves_every_fseq_frame']=True
+        report['native_faces_three_layer_track']=True
         for file in (layout,xsq,xsq.with_suffix('.fseq')):report['hashes'][file.name]=sha(file)
         p.write_text(json.dumps(report,indent=2)+'\n');evidence.append(dict(show=folder.name,frames_identical=len(after),face_definitions=len(definitions)))
         print('FACE_METADATA_READY',folder.name,flush=True)

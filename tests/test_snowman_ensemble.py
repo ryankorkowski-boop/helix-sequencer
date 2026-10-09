@@ -91,3 +91,15 @@ def test_reusable_native_face_definitions_map_standard_visemes_to_real_nodes(var
         assert attrs['Name']==FACE_NAME and attrs['Type']=='NodeRange'
         for native,shape in VISEME_TO_SHAPE.items():
             assert _expand_ranges(attrs['Mouth-'+native])==set(model.submodels['MOUTH_'+shape])
+
+
+def test_native_faces_timing_has_phrases_words_then_phonemes():
+    from tools.build_snowman_ensemble import timing_tracks
+    g=build_ensemble();seq=NativeSequence(g,1,'media/song.mp3','test')
+    vocals={'lines':[dict(start_ms=0,end_ms=1000,text='Love')],
+            'words':[dict(start=0,end=1,word='Love')],
+            'mouths':[dict(start_ms=0,end_ms=1000,phoneme='AH')]}
+    timing_tracks(seq,vocals)
+    layers=seq.root.findall('./ElementEffects/Element[@name="Helix xLights Visemes"]/EffectLayer')
+    assert len(layers)==3
+    assert [layer.find('Effect').get('label') for layer in layers]==['Love','Love','AI']

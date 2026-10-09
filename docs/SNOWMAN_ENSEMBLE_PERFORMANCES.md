@@ -54,7 +54,8 @@ listening review rather than a claim of perfect lip synchronization.
 Both singers and the four alternate faces share the recognized vocal line.
 Their roles are authored ensemble choreography; this does not identify or
 separate male/female singers from a mix. Lyric, word and phoneme timing tracks
-are editable in the XSQ. A separate standard xLights viseme track and reusable
+are editable in the XSQ. A separate standard xLights viseme track (three layers: phrases, words,
+phonemes) and reusable
 `Helix_Seven_Mouths` NodeRange face definition support the native Faces effect;
 ten standard viseme names alias the seven physical mouth shapes. The existing
 lyric-trigger lexicon provides stage

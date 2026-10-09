@@ -174,7 +174,14 @@ def timing_tracks(seq,vocals):
                        ('xLights Visemes',[dict(start_ms=w['start_ms'],end_ms=w['end_ms'],text=SHAPE_TO_VISEME[w['phoneme']]) for w in vocals['mouths']])]:
         name='Helix '+label
         ET.SubElement(seq.root.find('DisplayElements'),'Element',{'type':'timing','name':name,'visible':'1','collapsed':'0'})
-        e=ET.SubElement(seq.root.find('ElementEffects'),'Element',{'type':'timing','name':name,'fixed':'0'});layer=ET.SubElement(e,'EffectLayer')
+        e=ET.SubElement(seq.root.find('ElementEffects'),'Element',{'type':'timing','name':name,'fixed':'0'})
+        if label=='xLights Visemes':
+            # Native Faces reads phonemes from layer2: phrases, words, phonemes.
+            for upstream in ('Helix Lyrics','Helix Words'):
+                source=seq.root.find(f'./ElementEffects/Element[@name="{upstream}"]/EffectLayer')
+                first=ET.SubElement(e,'EffectLayer')
+                for event in source.findall('Effect'):ET.SubElement(first,'Effect',dict(event.attrib))
+        layer=ET.SubElement(e,'EffectLayer')
         for row in rows:
             if row['end_ms']>row['start_ms']:ET.SubElement(layer,'Effect',{'label':row['text'],'startTime':str(row['start_ms']),'endTime':str(row['end_ms'])})
 
