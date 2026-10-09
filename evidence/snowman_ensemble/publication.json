@@ -139,5 +139,17 @@
       "name": "02_49_Band.mp4",
       "http_status": 200
     }
-  ]
+  ],
+  "release": {
+    "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/snowman-band-lyrics-2026-10-09",
+    "id": 408387878,
+    "tag": "snowman-band-lyrics-2026-10-09",
+    "target_commitish": "feature/snowman-band-lyric-performances",
+    "source_commit_at_publication": "6703659",
+    "http_status": 200,
+    "verified_mp4_links": 11,
+    "verified_zip_links": 2,
+    "draft": false,
+    "prerelease": false
+  }
 }
