@@ -2,6 +2,18 @@
 
 > Canonical project roadmap and cross-agent handoff layer.
 
+## 2026-10-09 — approved-visual/stage drummer request (scope clarification pending)
+
+Goal: build the user's approved visuals as native shows, regenerate MP4 comparisons and assess drummer placement in stage layouts. The six comparison layouts already have native XML and complete corrected XSQs; the 22 concept artworks remain unbuilt. User selection of visual set and stage destinations is requested asynchronously; no new artwork concept or final stage placement is assumed.
+
+Changed files/modules: `tools/probe_native_drummer.py`, `evidence/stage_drummer/native_connectivity.json`, independent probe outputs and this ledger on `feature/approved-stage-prep`. New behavior: import a prepared copy of the unchanged canonical 96×72 custom-model grid with all 40 visual/logical submodels and verify eight named target node sets against real xLights FSEQ values. The four-second animation is explicitly a wiring test, not musical choreography. Preserved: source drummer assets, three toms/eight public targets, original detector/timing logic, saved shows, recordings, native cue exports and all concept artworks. Prepared native import adds supported model/submodel wrapper attributes and brightness; source geometry/node ranges remain unchanged.
+
+Checklist/evidence: [x] read rules/ledger and inspect native shows/drummer contract; [x] ask which visual set and which stages; [x] eight-target native connectivity render (80 × 50ms frames, 6,912 pixels / 20,736 channels, all eight exact canonical node sets); [ ] chosen native stage/visual builds; [ ] song-bound drummer performance; [ ] regenerated MP4s and six-layout comparisons. Existing Helix Audiolights/Dry Drum Test transcriptions cannot be reused on the five different showcase songs; new performance needs source-bound analysis.
+
+Native evidence: pinned xLights 2026.18 renders all eight component probes; sampled lit nodes match source submodel ranges exactly and all expected RGB values are 255, with no extra nodes. All 40 model submodels import; source xmodel SHA256 remains `d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1`. The first attempt encountered an expired virtual-display session; a new display provided the successful native render. Actual probe is under `outputs/Canonical_Drummer_Native_Probe_Retry/`; concise proof is checked in. This proves native target connectivity, not a musical drummer performance.
+
+Limitations/deferred/risks: scope and stage placement are pending user input. Connectivity proof does not establish musical correctness, full source-art fidelity, body keepalive, scene placement or drummer acceptance. The latest mapper's unknown-tom abstention remains authoritative despite a stale generic-tom sentence in the older component contract. No physical controllers or unsupported native effects; do not turn the connectivity chase into a claimed song performance. Native model wrapping, overlapping actuator cells and per-song transcription are the relevant integration risks.
+
 ## 2026-10-09 — Android MP4 previews (complete; layout packaging accepted)
 
 Goal: downloadable phone-compatible previews from working portable show files. User says to consider the rest a pass while back on Android: layout/package acceptance is passed, laptop launch is deferred rather than newly verified, and drummer acceptance stays separate. Branch `feature/android-native-previews` starts from portable delivery `f826cb3`.
