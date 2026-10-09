@@ -410,3 +410,9 @@ Do not mark complete from unit tests alone.
 **Preserved:** Source MP3s and existing 5-track recordings; `tools.run_showcase_audio_batch` remains unchanged. A wrapper substitutes the sixth song into the fixed five-slot test contract and correctly overrides its display/track name at runtime.
 **Evidence:** The first five per-song renders and two combined videos completed successfully in GitHub Actions run `38003603196`; the sixth-source addendum is subject to its own CI result. After its artifact passes, append its 30-second six-layout movie to the 60-second B reel to produce a 90-second 3-song B reel. The final two delivered reels will then contain all **six distinct** repository songs in 30-second segments.
 **Limitations and risks:** Two source collections use inconsistent song inventory schemas; the wrapper is a focused review-only workaround. Every new rendered source needs native channel, original soundtrack, codec and duration verification. No assertion of live hardware / controller feasibility.
+
+### 2026-10-09 — Sixth-song CI spawning correction
+**Failure evidence:** Initial addendum workflow run `38004139337` completed audio clipping and sequencing but failed in `finish_one` because `multiprocessing.spawn` cannot import a `<stdin>` entrypoint.
+**Changed:** New `tools/run_audiolights_30s_review.py` stable entrypoint and addendum workflow command.
+**Preserved:** The canonical audio batch runner, six layout definitions, native export and audio mappings remain unchanged.
+**Validation still required:** New addendum workflow must complete native FSEQ rendering, produce an original-audio six-up MP4, and pass ffprobe duration/audio checks before the amended 3+3 final reels are advertised.
