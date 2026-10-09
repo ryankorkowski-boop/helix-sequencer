@@ -2,6 +2,16 @@
 
 > Canonical project roadmap and cross-agent handoff layer.
 
+## 2026-10-09 — Android MP4 previews (generating; layout packaging accepted)
+
+Goal: provide downloadable phone-compatible MP4s from the working portable show files. User says to consider the rest a pass and requests previews while back on Android; layout/package acceptance is recorded as passed, laptop launch is deferred rather than falsely verified, and drummer acceptance remains separate. Branch `feature/android-native-previews` starts from portable delivery `f826cb3`.
+
+Changed files/modules: `tools/render_portable_xlights_previews.py`, `tests/test_portable_xlights_previews.py`, `docs/ANDROID_XLIGHTS_PREVIEWS.md`, verification evidence and this ledger. New behavior: source-hash-checked previews from the exact verified FSEQs, 960×540 at native 20fps with H.264/yuv420p and AAC soundtracks, seven silent original studies, five common-time comparison reels, phone-friendly gallery and movie-only download ZIPs. Preserved: all production show folders, source recordings, cue timing, palettes, geometry, native effects, saved favorites, 22 concept artworks and drummer work. Aurora remains a 24-second study.
+
+Evidence/checklist: [x] read rules/ledger and verify native inputs; [x] record user's acceptance and deferred laptop launch; [x] 11 focused preview/package tests pass; [ ] all 37 previews encoded and completely decoded; [ ] all 30 soundtracks correlated with preserved originals; [ ] decoded frame inspection; [ ] five comparison reels; [ ] ZIP CRC/hash/inventory; [ ] focused validation and feature-branch handoff.
+
+Limitations/risks: geometry previews project actual xLights channel values and are not screen recordings; custom-node coordinates are exact while stock review paths remain illustrative. Lower resolution favors Android viewing. Native full-song timing and original soundtrack are preserved. Laptop audio-device playback and physical installation are not newly verified. No controller output or new concepts; no drummer acceptance claim.
+
 ## 2026-10-08 — seven portable xLights shows (verified; laptop launch pending)
 
 Goal: consolidate matching complete sequences and copied original media into independent show folders, then open Fire & Ice / Wire Tree in the user's laptop xLights. Branch `feature/portable-xlights-shows` starts from concept handoff `b56f2cf`. This executor is cloud Linux without laptop desktop access, so laptop GUI launch and audio-device playback remain pending.
