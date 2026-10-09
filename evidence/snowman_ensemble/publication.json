@@ -1,0 +1,143 @@
+{
+  "artifact_commit": "550a7c70fd0218f1fceee56cd37a7a17cdeb6c86",
+  "artifact_branch": "artifacts/snowman-band-2026-10-09",
+  "all_remote_blob_hashes_and_sizes_match": true,
+  "files": [
+    {
+      "name": "00_Wire_Tree_Band.mp4",
+      "size": 9737110,
+      "sha256": "f4cff525455a7efb776aeaa2a050506a681ca7049a58559f95025f6e7b0ee1bc",
+      "git_blob_sha": "cf9f86ac660e94df7f8e3e17c9667a9a37d3f60b"
+    },
+    {
+      "name": "01_Who_Knew_Band.mp4",
+      "size": 4725085,
+      "sha256": "95e7ba9a2d39997f684f16898e53f128278c3f4435c4e214a5b9a4fd86316d2b",
+      "git_blob_sha": "86dd8933881890c876df159f9c0e5b02a19f642d"
+    },
+    {
+      "name": "01_Who_Knew_Helix_Faces.mp4",
+      "size": 5955715,
+      "sha256": "3c3b0e567dcfdf7fddba68a23773001daf91964b9735e2f1d8f7adb2da0775a2",
+      "git_blob_sha": "e28cd7a084ecad23f9efa42dce47ab979d54410c"
+    },
+    {
+      "name": "02_49_Band.mp4",
+      "size": 8660454,
+      "sha256": "fc952465af355b3b1a99f5997b1e03be305bd217f7ff5e11f9f8e50b6a74ad5c",
+      "git_blob_sha": "1412800073d62088d59a7aa26de10ed46396da53"
+    },
+    {
+      "name": "02_49_Helix_Faces.mp4",
+      "size": 8897362,
+      "sha256": "de4d026f49a0f93ebe97bdc7acfc9c827902cef18bc94cbd9c5c73a58df00c6e",
+      "git_blob_sha": "bccbcf3a8284bef7a0345200f8aa7140f25d8af3"
+    },
+    {
+      "name": "03_Candy_Cane_Chaos_Band.mp4",
+      "size": 8751780,
+      "sha256": "ca71bb186473a777558c5b52f58cfd9fa8201b66262f7039133d41c968e2d3f0",
+      "git_blob_sha": "805017f5b1710198ee9537f96fa715e9fff2633b"
+    },
+    {
+      "name": "03_Candy_Cane_Chaos_Helix_Faces.mp4",
+      "size": 10118831,
+      "sha256": "c1a3aca79ed33f14602ebd18c0ed76307bc98530e735d61dd76fbf0e86367a3d",
+      "git_blob_sha": "5cd40bb1c478100ec12476f86b0382d871299c6a"
+    },
+    {
+      "name": "04_Phoneme_Test_Hook_Band.mp4",
+      "size": 1427677,
+      "sha256": "744ce940303fa9cd64e2dcad640906f05ad84a13dda43019767e932d0499c2c1",
+      "git_blob_sha": "b40216a02ef1d73073822f0dbf38f39bd8414120"
+    },
+    {
+      "name": "04_Phoneme_Test_Hook_Helix_Faces.mp4",
+      "size": 1722702,
+      "sha256": "6b691724ad1283af8f23586ca0d0724b46a80500dfb0f292628774eb9fd3b157",
+      "git_blob_sha": "4b66809453f042c227cf5aa52a0f3d399b7931c8"
+    },
+    {
+      "name": "05_Festivus_Band.mp4",
+      "size": 4265477,
+      "sha256": "7357479c178a7177b52256cd7f070bf4333bbd65ad7c306331a24b81c47cb637",
+      "git_blob_sha": "58d6ce011241c0ac8e5146fee913b1f96cdaacd8"
+    },
+    {
+      "name": "05_Festivus_Helix_Faces.mp4",
+      "size": 4918111,
+      "sha256": "b003c6a0fd58125134342b677618a2004b7c66390bd8e03dcfa394f5a5aa8c63",
+      "git_blob_sha": "c6e63d49f75172a471168bbcab4ea1d807d9dfc8"
+    },
+    {
+      "name": "README.md",
+      "size": 1258,
+      "sha256": "91885037d5bcbb10d1abd80bdc775ba5a98d3f464efc23c1477ed88ea290892d",
+      "git_blob_sha": "83a488f9582147d3059a4516b49eb819ed19ea0f"
+    },
+    {
+      "name": "Snowman_Ensemble_All_MP4s.zip",
+      "size": 67514302,
+      "sha256": "2c0d604b6e4f216013df107a2e6ed81d60826c63dceb6c50cea81e06387bbeb8",
+      "git_blob_sha": "791eee87ec03ad7ef61d35291a1ece4f0cb04801"
+    },
+    {
+      "name": "Snowman_Ensemble_Contact_Sheet.jpg",
+      "size": 218524,
+      "sha256": "43d8ae5d02624211e9fbc24cad12e991e66d0871149c94074578c128ad8308f0",
+      "git_blob_sha": "3bb970b2d7fda2ce6ab32390ac4597d2af1713f2"
+    },
+    {
+      "name": "Snowman_Ensemble_XLights.zip",
+      "size": 57447106,
+      "sha256": "a9def20023b93a69dc15235d701fbc8e7b17d98d4fe5c3ac58fdeadf23cfae4e",
+      "git_blob_sha": "586aeacdb12c26726bbad44eb5c819528ca64cef"
+    },
+    {
+      "name": "index.html",
+      "size": 2326,
+      "sha256": "19f24221ba764c8787e6ca9dedd68ce3c2b12b191968f7a7252500dfdf3ebb33",
+      "git_blob_sha": "72227a5120b0e1331c68eeffc93940bbc852591f"
+    },
+    {
+      "name": "verification.json",
+      "size": 34006,
+      "sha256": "3a5da4099db2fc6c1640512f5ed038ffdc0dea97820ae299e31250ffb4905194",
+      "git_blob_sha": "cf4d2e471db1d4ee86c09faf47c46088a53ad4ec"
+    }
+  ],
+  "download_checks": [
+    {
+      "name": "Snowman_Ensemble_XLights.zip",
+      "http_status": 200,
+      "sha256_matches": true,
+      "downloaded_bytes": 57447106
+    },
+    {
+      "name": "01_Who_Knew_Helix_Faces.mp4",
+      "http_status": 200,
+      "sha256_matches": true,
+      "downloaded_bytes": 5955715
+    },
+    {
+      "name": "05_Festivus_Band.mp4",
+      "http_status": 200,
+      "sha256_matches": true,
+      "downloaded_bytes": 4265477
+    }
+  ],
+  "head_checks": [
+    {
+      "name": "Snowman_Ensemble_All_MP4s.zip",
+      "http_status": 200
+    },
+    {
+      "name": "03_Candy_Cane_Chaos_Helix_Faces.mp4",
+      "http_status": 200
+    },
+    {
+      "name": "02_49_Band.mp4",
+      "http_status": 200
+    }
+  ]
+}

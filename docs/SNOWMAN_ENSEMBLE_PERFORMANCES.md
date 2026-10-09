@@ -105,7 +105,15 @@ fixed/mouth isolation, pronounced words/50 ms allocation and source-only
 instrument activity. Native proof checks every mouth node/frame and exclusive
 active/rest arm holds against the source-derived schedules. Every movie is
 fully decoded and its soundtrack compared at zero offset to the original.
-Full batch proof/publication links will be added once all runs finish.
+All 11 native shows and full-song movies are complete: 33,726 native frames and
+105 lit models. Every mouth/arm schedule matches native output; all five paired
+drummer performances match every channel/frame. Metadata rerenders preserve
+every performance frame. Minimum original-vs-AAC soundtrack correlation is
+0.9992747792. 48 focused tests pass. Both delivery ZIPs pass CRC, and a relocated
+show rerenders identically. See [all download links](SNOWMAN_ENSEMBLE_DOWNLOAD_LINKS.md)
+and `evidence/snowman_ensemble/verification.json`. One embedded-reference
+segment in 49 failed alignment; detected-word performances remain separate
+from reference alignment and are not claimed as reviewed ground truth.
 
 The older `test_band_demo_manifest_includes_vocal_face_export` fails on the
 unchanged inherited demo path because non-drummer runtime states are empty.
