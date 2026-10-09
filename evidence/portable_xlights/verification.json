@@ -1,0 +1,479 @@
+{
+  "schema": "helix.portable_xlights_shows.v1",
+  "baseline_commit": "b56f2cf4a39401e201b729e253c8037509bb8c3f",
+  "default_show": "Helix_Fire_and_Ice",
+  "default_sequence": "Wire_Tree__Helix_Fire_and_Ice.xsq",
+  "laptop_launch": "blocked: current executor is cloud Linux, not the laptop",
+  "full_song_sequences": 30,
+  "lighting_studies": 7,
+  "native_xlights_version": "2026.18",
+  "native_xlights_appimage_sha256": "62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b",
+  "focused_tests_passed": 56,
+  "relocated_sequences_verified": 37,
+  "favorite_baseline_files_unchanged": 85,
+  "original_audio_files_unchanged": 5,
+  "cloud_gui": {
+    "status": "opened; correct sequence title and full waveform verified",
+    "display": ":99",
+    "laptop_access": false,
+    "sequence": "Wire_Tree__Helix_Fire_and_Ice.xsq"
+  },
+  "shows": [
+    {
+      "folder": "Helix_Aurora",
+      "absolute_path": "/workspace/helix-laptop-prep/outputs/Helix_Portable_Shows/Helix_Aurora",
+      "layout_sha256": "be3f510a19fff5eaaa7abf2a7f49c597918ecdbff364198e8fed31c2cd577d63",
+      "sequences": [
+        {
+          "file": "Helix_Aurora_Showcase.xsq",
+          "kind": "lighting_study",
+          "duration_seconds": 24.0,
+          "media": "",
+          "xsq_sha256": "668a44e57b74136e5ca7b72c8afbc775efc50db05bf6eb39e1dc387548d15336",
+          "native_frames": 480,
+          "rgb_models": 97,
+          "controls_dark": true,
+          "fseq_sha256": "255870bb3a91c6120b2a719d242621a56b84c0b763b40fba8090fb47048f17cc"
+        }
+      ]
+    },
+    {
+      "folder": "Helix_Celestial_Orrery",
+      "absolute_path": "/workspace/helix-laptop-prep/outputs/Helix_Portable_Shows/Helix_Celestial_Orrery",
+      "layout_sha256": "59315d7769a47b367ea82b5759b1d69018025e532303a35ebdf476f373b28204",
+      "sequences": [
+        {
+          "file": "Wire_Tree__Helix_Celestial_Orrery.xsq",
+          "kind": "full_song",
+          "duration_seconds": 256.55,
+          "media": "media/Wire_Tree.mp3",
+          "xsq_sha256": "815017ff692b2386694150398175dae2359f75e654c4b6716de50939ea5bb4c4",
+          "native_frames": 5131,
+          "rgb_models": 94,
+          "controls_dark": true,
+          "fseq_sha256": "77d8ea23e5fb4e2c4c0fc2bb67d4131fc11e2eb49323a8c80cc32f239a6b87da"
+        },
+        {
+          "file": "Tinsel_Sawtooth__Helix_Celestial_Orrery.xsq",
+          "kind": "full_song",
+          "duration_seconds": 126.95,
+          "media": "media/Tinsel_Sawtooth.mp3",
+          "xsq_sha256": "5d7c7ddb8bc3eb8ef005f4640ae4b11caeb051519d3e721f661d8bce377bdd36",
+          "native_frames": 2539,
+          "rgb_models": 94,
+          "controls_dark": true,
+          "fseq_sha256": "b4da4bf943c64ce05419ee05716ee3995ed22c5fbe12380c1130544ae39a5750"
+        },
+        {
+          "file": "Frostbitten_Fingerboard__Helix_Celestial_Orrery.xsq",
+          "kind": "full_song",
+          "duration_seconds": 48.15,
+          "media": "media/Frostbitten_Fingerboard.mp3",
+          "xsq_sha256": "c8a7f43846c733374b43af9039581e0f73f7a1995edaa51e0f14b45a3c4d1da0",
+          "native_frames": 963,
+          "rgb_models": 94,
+          "controls_dark": true,
+          "fseq_sha256": "8761443e2dc34b9f2b57e60492db8066df11fbc460cc7ccc88a1558b4b9a7d68"
+        },
+        {
+          "file": "Holly_Steel_Run__Helix_Celestial_Orrery.xsq",
+          "kind": "full_song",
+          "duration_seconds": 98.75,
+          "media": "media/Holly_Steel_Run.mp3",
+          "xsq_sha256": "2e9cc0b2b887110c7e56b0fc0036cbbb53c62bc398a7a2ead23be4552348fefc",
+          "native_frames": 1975,
+          "rgb_models": 94,
+          "controls_dark": true,
+          "fseq_sha256": "48a5d06893a55b74dc7eff084f8ad43163817bcacf757bbb2535bb4439fe64d6"
+        },
+        {
+          "file": "Bell_Circuit_Carol__Helix_Celestial_Orrery.xsq",
+          "kind": "full_song",
+          "duration_seconds": 72.8,
+          "media": "media/Bell_Circuit_Carol.mp3",
+          "xsq_sha256": "e8e8756b7a07b67df2b56491e4bd78a14b86f04da9c1bd21995600f79096ae91",
+          "native_frames": 1456,
+          "rgb_models": 94,
+          "controls_dark": true,
+          "fseq_sha256": "5887ae6fa2983fe88e99dde7d978e95eba6939884652556e065071e8bf255d34"
+        },
+        {
+          "file": "Helix_Celestial_Orrery_Showcase.xsq",
+          "kind": "lighting_study",
+          "duration_seconds": 24.0,
+          "media": "",
+          "xsq_sha256": "10e3c9bdfd3067a332a7cd9dfc9150bd4a0a3c58018503b0c2f9b8c43c113aa1",
+          "native_frames": 480,
+          "rgb_models": 94,
+          "controls_dark": true,
+          "fseq_sha256": "f30855b6d4f430a09e7340b20404a2a37d28fb97123f3f5d50b6da54ca4258dc"
+        }
+      ]
+    },
+    {
+      "folder": "Helix_Crystal_Lagoon",
+      "absolute_path": "/workspace/helix-laptop-prep/outputs/Helix_Portable_Shows/Helix_Crystal_Lagoon",
+      "layout_sha256": "019803150c9b6206a41a843f57dff9e5f711705dcbaa21745ce026b0fa6b42e7",
+      "sequences": [
+        {
+          "file": "Wire_Tree__Helix_Crystal_Lagoon.xsq",
+          "kind": "full_song",
+          "duration_seconds": 256.55,
+          "media": "media/Wire_Tree.mp3",
+          "xsq_sha256": "9bc8e5af6ef093f509167781c09bf0288e25659bfaf71c6493b294385b161de3",
+          "native_frames": 5131,
+          "rgb_models": 93,
+          "controls_dark": true,
+          "fseq_sha256": "c8a06c36c8a0952b2c5a6ae2e3e2bc3a95e02e7b3b8ad6b606366445802fe9d0"
+        },
+        {
+          "file": "Tinsel_Sawtooth__Helix_Crystal_Lagoon.xsq",
+          "kind": "full_song",
+          "duration_seconds": 126.95,
+          "media": "media/Tinsel_Sawtooth.mp3",
+          "xsq_sha256": "e9de90ada8f97f800dfee17fc6e492c3e95987c8432a351fb1ee2c01355a98fe",
+          "native_frames": 2539,
+          "rgb_models": 93,
+          "controls_dark": true,
+          "fseq_sha256": "e8abfeb1f629b10d3b02bcf4b3a6560fda9daa4d6314bd29d348816f46a592b8"
+        },
+        {
+          "file": "Frostbitten_Fingerboard__Helix_Crystal_Lagoon.xsq",
+          "kind": "full_song",
+          "duration_seconds": 48.15,
+          "media": "media/Frostbitten_Fingerboard.mp3",
+          "xsq_sha256": "c0a6875a4fa2d43c6c80249d286a2f844003c0bfc96b03502dd97ef078bf40c6",
+          "native_frames": 963,
+          "rgb_models": 93,
+          "controls_dark": true,
+          "fseq_sha256": "77539f14b82efb6c9e68c3b0e617fea8bc3f80902ce05ad22c984357529b8c4c"
+        },
+        {
+          "file": "Holly_Steel_Run__Helix_Crystal_Lagoon.xsq",
+          "kind": "full_song",
+          "duration_seconds": 98.75,
+          "media": "media/Holly_Steel_Run.mp3",
+          "xsq_sha256": "28bf5d023f58272efda24df86f47e9f719f9296b62dc6f1a692b97f6929558a0",
+          "native_frames": 1975,
+          "rgb_models": 93,
+          "controls_dark": true,
+          "fseq_sha256": "a3635d4f23e4dfb8644b317aef11ce480f4b926b918a0eaaa7360186bcfdaec1"
+        },
+        {
+          "file": "Bell_Circuit_Carol__Helix_Crystal_Lagoon.xsq",
+          "kind": "full_song",
+          "duration_seconds": 72.8,
+          "media": "media/Bell_Circuit_Carol.mp3",
+          "xsq_sha256": "aac8f211f1689356c2b11c04933923d808377e5f89e30c41d5ee92abe52df699",
+          "native_frames": 1456,
+          "rgb_models": 93,
+          "controls_dark": true,
+          "fseq_sha256": "bd42a136c8f6f7067abb365c1e36bd5c4354cd59828625e04fc206ed9aa47ba2"
+        },
+        {
+          "file": "Helix_Crystal_Lagoon_Showcase.xsq",
+          "kind": "lighting_study",
+          "duration_seconds": 24.0,
+          "media": "",
+          "xsq_sha256": "c8cbc54a65d7e26c975e764f20b1da6dd295819569f30a0869de29546a49a2ea",
+          "native_frames": 480,
+          "rgb_models": 93,
+          "controls_dark": true,
+          "fseq_sha256": "fd3158702d9158069024996fd91a50826d9e8ceee65c0efccb0822df820ae83e"
+        }
+      ]
+    },
+    {
+      "folder": "Helix_Enchanted_Grove",
+      "absolute_path": "/workspace/helix-laptop-prep/outputs/Helix_Portable_Shows/Helix_Enchanted_Grove",
+      "layout_sha256": "f2f6c755efbf456a52fd3085584c0873281709626d4b793f3384cb0577cb789a",
+      "sequences": [
+        {
+          "file": "Wire_Tree__Helix_Enchanted_Grove.xsq",
+          "kind": "full_song",
+          "duration_seconds": 256.55,
+          "media": "media/Wire_Tree.mp3",
+          "xsq_sha256": "f41884eeb75433fff3f94a65c987d551c22419975056a8953961f4558b505fe3",
+          "native_frames": 5131,
+          "rgb_models": 89,
+          "controls_dark": true,
+          "fseq_sha256": "9b5a2d6b8aa81e8780f681ed876d697b76c00b2b49931fa5d7f6bfcbb183595e"
+        },
+        {
+          "file": "Tinsel_Sawtooth__Helix_Enchanted_Grove.xsq",
+          "kind": "full_song",
+          "duration_seconds": 126.95,
+          "media": "media/Tinsel_Sawtooth.mp3",
+          "xsq_sha256": "72eb72851590c73d0b51d048e7fc1b52dd7499cc79239665ab0f70e292a88e07",
+          "native_frames": 2539,
+          "rgb_models": 89,
+          "controls_dark": true,
+          "fseq_sha256": "7be8050cac2e3ef2e5b445e5e629b1e7ab8e25d21ff646dfe1f610855a483183"
+        },
+        {
+          "file": "Frostbitten_Fingerboard__Helix_Enchanted_Grove.xsq",
+          "kind": "full_song",
+          "duration_seconds": 48.15,
+          "media": "media/Frostbitten_Fingerboard.mp3",
+          "xsq_sha256": "a961282b4d223294172db102d8dddc72953b8179d5fe6551ef407e2d6881cdf9",
+          "native_frames": 963,
+          "rgb_models": 89,
+          "controls_dark": true,
+          "fseq_sha256": "07bbbab71151ae232d3b8c359be47f35a5f061241a0bcd12b252ff55146eb65e"
+        },
+        {
+          "file": "Holly_Steel_Run__Helix_Enchanted_Grove.xsq",
+          "kind": "full_song",
+          "duration_seconds": 98.75,
+          "media": "media/Holly_Steel_Run.mp3",
+          "xsq_sha256": "bbcf92bcb535bfd3ca975f5cd415f2da80a11116f316d9334c2258a2e04142d6",
+          "native_frames": 1975,
+          "rgb_models": 89,
+          "controls_dark": true,
+          "fseq_sha256": "a8cf65483b79a0b248b3c21762c8449ead2b0e8521788c8890e4622afaa6043d"
+        },
+        {
+          "file": "Bell_Circuit_Carol__Helix_Enchanted_Grove.xsq",
+          "kind": "full_song",
+          "duration_seconds": 72.8,
+          "media": "media/Bell_Circuit_Carol.mp3",
+          "xsq_sha256": "a5868e1ca6a1e8196f72a6e025cb25f45f981ec8dd236170acb9f20e34cdb898",
+          "native_frames": 1456,
+          "rgb_models": 89,
+          "controls_dark": true,
+          "fseq_sha256": "c7d1b1be0e92ab38ca64d186ffaacfffa97f201151d732e708feb64131175199"
+        },
+        {
+          "file": "Helix_Enchanted_Grove_Showcase.xsq",
+          "kind": "lighting_study",
+          "duration_seconds": 24.0,
+          "media": "",
+          "xsq_sha256": "3ceda68781f9f736b89566160219cb1eb3ad9205672dd78b14000754d0a73f6c",
+          "native_frames": 480,
+          "rgb_models": 89,
+          "controls_dark": true,
+          "fseq_sha256": "467ed8b8eb76c4d6d4cb1063bcaa92ada573d9bc4e94859400d11bd2c0b4a6df"
+        }
+      ]
+    },
+    {
+      "folder": "Helix_Fire_and_Ice",
+      "absolute_path": "/workspace/helix-laptop-prep/outputs/Helix_Portable_Shows/Helix_Fire_and_Ice",
+      "layout_sha256": "412b4f96acfb261b44cf3db31f6249044ec79a2e2d642491008fd3e62d109966",
+      "sequences": [
+        {
+          "file": "Wire_Tree__Helix_Fire_and_Ice.xsq",
+          "kind": "full_song",
+          "duration_seconds": 256.55,
+          "media": "media/Wire_Tree.mp3",
+          "xsq_sha256": "8eddbd7c8e61fb29a9f9eec78d112fced903cf5e39b31cd8efa43b09f16f924e",
+          "native_frames": 5131,
+          "rgb_models": 98,
+          "controls_dark": true,
+          "fseq_sha256": "522cb933d968e19a9069777845dfa126a17c3dc1322946b224db21766016e1d3"
+        },
+        {
+          "file": "Tinsel_Sawtooth__Helix_Fire_and_Ice.xsq",
+          "kind": "full_song",
+          "duration_seconds": 126.95,
+          "media": "media/Tinsel_Sawtooth.mp3",
+          "xsq_sha256": "6d4793a554fbff41b6b3d490b6643a9756e76a3553b438437b19da86778629e7",
+          "native_frames": 2539,
+          "rgb_models": 98,
+          "controls_dark": true,
+          "fseq_sha256": "916d53e85ae024b34856c0091a4f13cb02e86d646bb9813a71f1bba774d31225"
+        },
+        {
+          "file": "Frostbitten_Fingerboard__Helix_Fire_and_Ice.xsq",
+          "kind": "full_song",
+          "duration_seconds": 48.15,
+          "media": "media/Frostbitten_Fingerboard.mp3",
+          "xsq_sha256": "c48bb56f53bd3844f3c1ccfdece81afac661dfb01472e2e4933bc81e93f77bd3",
+          "native_frames": 963,
+          "rgb_models": 98,
+          "controls_dark": true,
+          "fseq_sha256": "8f95e0d965192ed6b21367c1d1f2ce500adf1a146a6a68c55a43327b6f8dd3e4"
+        },
+        {
+          "file": "Holly_Steel_Run__Helix_Fire_and_Ice.xsq",
+          "kind": "full_song",
+          "duration_seconds": 98.75,
+          "media": "media/Holly_Steel_Run.mp3",
+          "xsq_sha256": "02501b9019e54a547222604999c0c4983b5db20d9032176ca2e1e305d7a3bdfe",
+          "native_frames": 1975,
+          "rgb_models": 98,
+          "controls_dark": true,
+          "fseq_sha256": "97904786bdde5beac1f72c3f2506afae7b2ffa49ecbd8ca72fea83f92fd7f611"
+        },
+        {
+          "file": "Bell_Circuit_Carol__Helix_Fire_and_Ice.xsq",
+          "kind": "full_song",
+          "duration_seconds": 72.8,
+          "media": "media/Bell_Circuit_Carol.mp3",
+          "xsq_sha256": "33be412ca616dc8d98600239a07fcdbb4f2989c5fff569329645af927449082e",
+          "native_frames": 1456,
+          "rgb_models": 98,
+          "controls_dark": true,
+          "fseq_sha256": "778a9891c1610be46947df8625fd88559030db62b028573d7d9db7e0fb4be458"
+        },
+        {
+          "file": "Helix_Fire_and_Ice_Showcase.xsq",
+          "kind": "lighting_study",
+          "duration_seconds": 24.0,
+          "media": "",
+          "xsq_sha256": "6f8b815cefdfb3561df7600325439d2d652d569ac56fc1df000461b1a8d43ae2",
+          "native_frames": 480,
+          "rgb_models": 98,
+          "controls_dark": true,
+          "fseq_sha256": "54f63ec17a1b631b050ec72be97081013d03524bd05271770161012008bbf365"
+        }
+      ]
+    },
+    {
+      "folder": "Helix_Midnight_Masquerade",
+      "absolute_path": "/workspace/helix-laptop-prep/outputs/Helix_Portable_Shows/Helix_Midnight_Masquerade",
+      "layout_sha256": "cc6946c79c7268afd94bf764f36487e84268451b23399f906cc0e8af2bbbb591",
+      "sequences": [
+        {
+          "file": "Wire_Tree__Helix_Midnight_Masquerade.xsq",
+          "kind": "full_song",
+          "duration_seconds": 256.55,
+          "media": "media/Wire_Tree.mp3",
+          "xsq_sha256": "bc9b48063381f4ea5222233edfcbc7a3be08e2ce5a6b0da281c16db18d08f6f1",
+          "native_frames": 5131,
+          "rgb_models": 95,
+          "controls_dark": true,
+          "fseq_sha256": "5d2d4bcbbd91de6a7aa4e0bc00d1f3313deeed9097858b84225b2abd77ee7b58"
+        },
+        {
+          "file": "Tinsel_Sawtooth__Helix_Midnight_Masquerade.xsq",
+          "kind": "full_song",
+          "duration_seconds": 126.95,
+          "media": "media/Tinsel_Sawtooth.mp3",
+          "xsq_sha256": "52cc92ed7a64e08518ddbdac5f800ba33e6d40ba929dc5d356f0f313b142d995",
+          "native_frames": 2539,
+          "rgb_models": 95,
+          "controls_dark": true,
+          "fseq_sha256": "327645ebc182ea19434c65d15a65a4752dd439ae24d3d72f36aa7b10a0e640e8"
+        },
+        {
+          "file": "Frostbitten_Fingerboard__Helix_Midnight_Masquerade.xsq",
+          "kind": "full_song",
+          "duration_seconds": 48.15,
+          "media": "media/Frostbitten_Fingerboard.mp3",
+          "xsq_sha256": "916036d5c024c7a8991c0f02ed8057b4b86a581742f38f2bf1a0c37430b9d7ed",
+          "native_frames": 963,
+          "rgb_models": 95,
+          "controls_dark": true,
+          "fseq_sha256": "f834e1de7b1be9cdac78e864bfba4c9633c5a2281c2d2d4068fd237cf9cef2ef"
+        },
+        {
+          "file": "Holly_Steel_Run__Helix_Midnight_Masquerade.xsq",
+          "kind": "full_song",
+          "duration_seconds": 98.75,
+          "media": "media/Holly_Steel_Run.mp3",
+          "xsq_sha256": "9b7f9efc6f67e1298b9ba91d61abc0af60e99a9670643a52d0808123ce859fb9",
+          "native_frames": 1975,
+          "rgb_models": 95,
+          "controls_dark": true,
+          "fseq_sha256": "4c63ba8d92823a4d6e0a863f5235ebc55b051cc8b484ec7d9262523a41682ecf"
+        },
+        {
+          "file": "Bell_Circuit_Carol__Helix_Midnight_Masquerade.xsq",
+          "kind": "full_song",
+          "duration_seconds": 72.8,
+          "media": "media/Bell_Circuit_Carol.mp3",
+          "xsq_sha256": "16bc869afdfffb7b3824246ac4685b61efb805f89ff84f9f854acb13305dcbce",
+          "native_frames": 1456,
+          "rgb_models": 95,
+          "controls_dark": true,
+          "fseq_sha256": "7ac2f7cfe28083fac1f989a98c6ab0dd4f590aec484805aef924171aa2127b48"
+        },
+        {
+          "file": "Helix_Midnight_Masquerade_Showcase.xsq",
+          "kind": "lighting_study",
+          "duration_seconds": 24.0,
+          "media": "",
+          "xsq_sha256": "730a3bf16152c0fb59423cb75b298603bde4927975f584fd32a632869de3ec5b",
+          "native_frames": 480,
+          "rgb_models": 95,
+          "controls_dark": true,
+          "fseq_sha256": "2c059ea4550f90d66986ebf9d404ef72e7f27e4787c59cc8d4390b50ad9a2849"
+        }
+      ]
+    },
+    {
+      "folder": "Helix_Neon_Circuit",
+      "absolute_path": "/workspace/helix-laptop-prep/outputs/Helix_Portable_Shows/Helix_Neon_Circuit",
+      "layout_sha256": "1332b60a2760cd87b6dee4e25a1b59f52db2a253dfa0bc7faeebd2b632d269c8",
+      "sequences": [
+        {
+          "file": "Wire_Tree__Helix_Neon_Circuit.xsq",
+          "kind": "full_song",
+          "duration_seconds": 256.55,
+          "media": "media/Wire_Tree.mp3",
+          "xsq_sha256": "b2534d083298e1461f995287a0976a125e0ab66d01e74a0366c7ed5f1fc5e3fc",
+          "native_frames": 5131,
+          "rgb_models": 93,
+          "controls_dark": true,
+          "fseq_sha256": "02edfe244c6ded2986b908c1f15d137c85c23da221cac9529c1ca5e90cf80c00"
+        },
+        {
+          "file": "Tinsel_Sawtooth__Helix_Neon_Circuit.xsq",
+          "kind": "full_song",
+          "duration_seconds": 126.95,
+          "media": "media/Tinsel_Sawtooth.mp3",
+          "xsq_sha256": "b000f73bd8ae16be64716fb929fda068fc4bd9c435ed7a4a6d812fd74c3e06d1",
+          "native_frames": 2539,
+          "rgb_models": 93,
+          "controls_dark": true,
+          "fseq_sha256": "dac62e189b0f4e08e5f2f7b33a94331c564c7cf741b208bc0861d903e59fa38f"
+        },
+        {
+          "file": "Frostbitten_Fingerboard__Helix_Neon_Circuit.xsq",
+          "kind": "full_song",
+          "duration_seconds": 48.15,
+          "media": "media/Frostbitten_Fingerboard.mp3",
+          "xsq_sha256": "79efdb88de3618dfe7afa69bc97701a4007852c1fda45c3c7eea2d33b75ed1c3",
+          "native_frames": 963,
+          "rgb_models": 93,
+          "controls_dark": true,
+          "fseq_sha256": "37ce0cb6dc07d36f28bb636087e77df8948995946e6f3f53aaf033c81cba0003"
+        },
+        {
+          "file": "Holly_Steel_Run__Helix_Neon_Circuit.xsq",
+          "kind": "full_song",
+          "duration_seconds": 98.75,
+          "media": "media/Holly_Steel_Run.mp3",
+          "xsq_sha256": "b41435922595c1dfac36f8b44e783415cbfece782cc4b395fce5cbdeb7464713",
+          "native_frames": 1975,
+          "rgb_models": 93,
+          "controls_dark": true,
+          "fseq_sha256": "16589cd2d3c7cf229ae66f064a90cc0eaf3e9311e48a18b6e73e2b241a79d446"
+        },
+        {
+          "file": "Bell_Circuit_Carol__Helix_Neon_Circuit.xsq",
+          "kind": "full_song",
+          "duration_seconds": 72.8,
+          "media": "media/Bell_Circuit_Carol.mp3",
+          "xsq_sha256": "7b52db3ae2592be572ac747fc106c4564ede172d948590dfed134b171a84c4e3",
+          "native_frames": 1456,
+          "rgb_models": 93,
+          "controls_dark": true,
+          "fseq_sha256": "c1dd2464c4a2aed9d7b610e7fa918c1862d30b9ede918be9900d5d64a08a5fa2"
+        },
+        {
+          "file": "Helix_Neon_Circuit_Showcase.xsq",
+          "kind": "lighting_study",
+          "duration_seconds": 24.0,
+          "media": "",
+          "xsq_sha256": "c6d3bfbbbddccd5c7eac4a906e33b3ada82c83bcd5f2e1e2c7868ee903140a23",
+          "native_frames": 480,
+          "rgb_models": 93,
+          "controls_dark": true,
+          "fseq_sha256": "58b41e3b69e7734724d7bb7852b3fa27458e49c50c3e181270de18ade084e278"
+        }
+      ]
+    }
+  ]
+}
