@@ -1,0 +1,913 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Tidal Observatory",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 19
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 19,
+  "rgb_pixels": 4795,
+  "channel_count": 14385,
+  "spiral_trees": 10,
+  "double_helices": 1,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_BASIN_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "BASIN RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1,
+      "end_channel": 450,
+      "bounds_ft": [
+        [
+          -45.0,
+          0.0,
+          -25.0
+        ],
+        [
+          45.0,
+          0.0,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.300223880144742
+    },
+    {
+      "name": "HX_002_BASIN_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "BASIN RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 451,
+      "end_channel": 900,
+      "bounds_ft": [
+        [
+          -69.0,
+          3.0,
+          -39.0
+        ],
+        [
+          69.0,
+          3.0,
+          39.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3384125451509573
+    },
+    {
+      "name": "HX_003_BASIN_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "BASIN RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 901,
+      "end_channel": 1350,
+      "bounds_ft": [
+        [
+          -93.0,
+          6.0,
+          -53.0
+        ],
+        [
+          93.0,
+          6.0,
+          53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3139241201401584
+    },
+    {
+      "name": "HX_004_BASIN_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "BASIN RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1351,
+      "end_channel": 1800,
+      "bounds_ft": [
+        [
+          -117.0,
+          9.0,
+          -67.0
+        ],
+        [
+          117.0,
+          9.0,
+          67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31609067891780307
+    },
+    {
+      "name": "HX_005_BASIN_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "BASIN RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1801,
+      "end_channel": 2250,
+      "bounds_ft": [
+        [
+          -141.0,
+          12.0,
+          -81.0
+        ],
+        [
+          141.0,
+          12.0,
+          81.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2793320064556982
+    },
+    {
+      "name": "HX_006_BEACON",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CENTER",
+      "design": "BEACON",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 2251,
+      "end_channel": 3435,
+      "bounds_ft": [
+        [
+          -8.0,
+          0.0,
+          -8.0
+        ],
+        [
+          8.0,
+          85.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37819694794588826,
+      "double_helix": true
+    },
+    {
+      "name": "HX_007_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 3436,
+      "end_channel": 4395,
+      "bounds_ft": [
+        [
+          114.5,
+          6.0,
+          -10.5
+        ],
+        [
+          135.5,
+          41.0,
+          10.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3787073528821543,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_008_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 4396,
+      "end_channel": 5355,
+      "bounds_ft": [
+        [
+          90.5,
+          6.0,
+          27.5
+        ],
+        [
+          112.0,
+          51.0,
+          49.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3919326692261926,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_009_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 5356,
+      "end_channel": 6315,
+      "bounds_ft": [
+        [
+          28.0,
+          6.0,
+          51.0
+        ],
+        [
+          49.5,
+          61.0,
+          72.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4057342353692686,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_010_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 6316,
+      "end_channel": 7275,
+      "bounds_ft": [
+        [
+          -49.25,
+          6.0,
+          51.0
+        ],
+        [
+          -28.0,
+          41.0,
+          72.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1971877851040582,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_011_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 7276,
+      "end_channel": 8235,
+      "bounds_ft": [
+        [
+          -112.0,
+          6.0,
+          27.5
+        ],
+        [
+          -90.5,
+          51.0,
+          49.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3832717747764583,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_012_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 8236,
+      "end_channel": 9195,
+      "bounds_ft": [
+        [
+          -135.5,
+          6.0,
+          -10.5
+        ],
+        [
+          -114.5,
+          61.0,
+          10.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.359067733783794,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_013_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 9196,
+      "end_channel": 10155,
+      "bounds_ft": [
+        [
+          -111.75,
+          6.0,
+          -49.0
+        ],
+        [
+          -90.5,
+          41.0,
+          -27.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20481176002711954,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_014_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 10156,
+      "end_channel": 11115,
+      "bounds_ft": [
+        [
+          -49.5,
+          6.0,
+          -72.5
+        ],
+        [
+          -28.0,
+          51.0,
+          -51.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3910696917834007,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_015_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 11116,
+      "end_channel": 12075,
+      "bounds_ft": [
+        [
+          28.0,
+          6.0,
+          -72.5
+        ],
+        [
+          49.5,
+          61.0,
+          -51.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40083391411581487,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_016_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 12076,
+      "end_channel": 13035,
+      "bounds_ft": [
+        [
+          90.5,
+          6.0,
+          -49.0
+        ],
+        [
+          111.75,
+          41.0,
+          -27.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20252860784241408,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_017_ORBIT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ORBITS",
+      "design": "ORBIT",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 13036,
+      "end_channel": 13485,
+      "bounds_ft": [
+        [
+          -135.0,
+          74.0,
+          -50.5
+        ],
+        [
+          -65.0,
+          96.0,
+          -9.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4058479117604601
+    },
+    {
+      "name": "HX_018_ORBIT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ORBITS",
+      "design": "ORBIT",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 13486,
+      "end_channel": 13935,
+      "bounds_ft": [
+        [
+          -35.0,
+          76.5,
+          -51.5
+        ],
+        [
+          35.0,
+          93.5,
+          -8.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34566502493196394
+    },
+    {
+      "name": "HX_019_ORBIT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ORBITS",
+      "design": "ORBIT",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 13936,
+      "end_channel": 14385,
+      "bounds_ft": [
+        [
+          65.0,
+          71.0,
+          -48.0
+        ],
+        [
+          135.0,
+          99.0,
+          -12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3912827328446533
+    }
+  ],
+  "file_prefix": "Tidal_Observatory",
+  "description": "An indigo-and-gold sunken amphitheater encloses a helix beacon, rising spiral islands and tilted orbit hoops.",
+  "palette": [
+    "#A8B5FF",
+    "#FFD37A",
+    "#66BFFF"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_BASIN_RING",
+      "HX_002_BASIN_RING",
+      "HX_003_BASIN_RING",
+      "HX_004_BASIN_RING",
+      "HX_005_BASIN_RING",
+      "HX_006_BEACON",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE",
+      "HX_017_ORBIT",
+      "HX_018_ORBIT",
+      "HX_019_ORBIT"
+    ],
+    "HX_DNA_ALL": [
+      "HX_006_BEACON"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_006_BEACON/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_006_BEACON/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_006_BEACON/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_BASIN_RING",
+      "HX_002_BASIN_RING",
+      "HX_003_BASIN_RING",
+      "HX_004_BASIN_RING",
+      "HX_005_BASIN_RING",
+      "HX_006_BEACON",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE",
+      "HX_017_ORBIT",
+      "HX_018_ORBIT",
+      "HX_019_ORBIT"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_015_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_BASIN_RING",
+      "HX_002_BASIN_RING",
+      "HX_003_BASIN_RING",
+      "HX_004_BASIN_RING",
+      "HX_005_BASIN_RING",
+      "HX_006_BEACON",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE",
+      "HX_017_ORBIT",
+      "HX_018_ORBIT",
+      "HX_019_ORBIT"
+    ],
+    "HX_ZONE_CENTER": [
+      "HX_006_BEACON"
+    ],
+    "HX_ZONE_GROVE": [
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE"
+    ],
+    "HX_ZONE_ORBITS": [
+      "HX_017_ORBIT",
+      "HX_018_ORBIT",
+      "HX_019_ORBIT"
+    ],
+    "HX_ZONE_TERRACES": [
+      "HX_001_BASIN_RING",
+      "HX_002_BASIN_RING",
+      "HX_003_BASIN_RING",
+      "HX_004_BASIN_RING",
+      "HX_005_BASIN_RING"
+    ]
+  },
+  "group_count": 14,
+  "concept_id": "04",
+  "source_art": "images/03_04_Aurora_Tidal.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "04",
+    "name": "Tidal Observatory",
+    "round": "spatial",
+    "board": 2,
+    "side": "right",
+    "description": "An indigo-and-gold sunken amphitheater encloses a helix beacon, rising spiral islands and tilted orbit hoops.",
+    "spatial": "Recessed center, terraced viewing rings, staggered islands and supported elevated hoops.",
+    "choreography": "Concentric ground waves rise through islands and into the orbit layer.",
+    "constraint": "The basin is a dry stage illusion; no real water or unsupported hoops are implied.",
+    "image": "images/03_04_Aurora_Tidal.png",
+    "panel_ratio": 1.0,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "The basin is a dry stage illusion; no real water or unsupported hoops are implied.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

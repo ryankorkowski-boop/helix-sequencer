@@ -1,0 +1,914 @@
+{
+  "schema": "helix.approved_concepts_delivery.v1",
+  "preserved_source_hashes": {
+    "showcase/flavors/Helix_Fire_and_Ice/Helix_Fire_and_Ice_3D.html": "d693f9b3d6efbe9f37b2cea64a4433d5baf43cc1845af5469a4957b940338801",
+    "showcase/flavors/Helix_Fire_and_Ice/Helix_Fire_and_Ice_Night.png": "ce287e5f9f72c7e322044ad4238b95ee487aefe0b6c2fe8b754ea232b50e3d9a",
+    "showcase/flavors/Helix_Fire_and_Ice/Helix_Fire_and_Ice_Perspective.png": "2366b7bc1878066a8567edbaf63aafca501b4902d968fe92b1d7a3f6af0ed368",
+    "showcase/flavors/Helix_Fire_and_Ice/Helix_Fire_and_Ice_Showcase.xsq": "6f8b815cefdfb3561df7600325439d2d652d569ac56fc1df000461b1a8d43ae2",
+    "showcase/flavors/Helix_Fire_and_Ice/README.txt": "4aafe4a42f7166db08c1711873c663a4e30467570b6de49305cb26a4e26efaa1",
+    "showcase/flavors/Helix_Fire_and_Ice/assets/helix_crest.png": "74a9b84296f226c690423e2b973ec19abad036b7d9c0c360a69852a87c5fe95e",
+    "showcase/flavors/Helix_Fire_and_Ice/assets/kinetic_base.obj": "5d888f4000ba7fa60367552d95ee4d4cbb387cf188eb7e12fdd2a8195082ba39",
+    "showcase/flavors/Helix_Fire_and_Ice/assets/kinetic_base.png": "74a9b84296f226c690423e2b973ec19abad036b7d9c0c360a69852a87c5fe95e",
+    "showcase/flavors/Helix_Fire_and_Ice/assets/kinetic_dna.obj": "2d188c11a58f76e1811462514f8b3861fcf537296598f5ce8edf655df2f4e1a9",
+    "showcase/flavors/Helix_Fire_and_Ice/assets/kinetic_rotor.png": "a3e45f1fc9e36911629fa6708de070cf812823ab3901ba8e856694c7e7658682",
+    "showcase/flavors/Helix_Fire_and_Ice/model_inventory.csv": "7bf4cd67b7227bee72a098f05725eaa1701e30bb316534bbb2a9acaeb2022219",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_CONFLUENCE_RING.xmodel": "82cc35692b6f874f93d602df31637f0894caf39ca001e060189517febb11ccd2",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENTAL_BRIDGE.xmodel": "ce98fbf73c7677fcb5c387005637644874ce2ce9e04358448df2ca3228932697",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENT_-1_0.xmodel": "d2dd5b3340afea536e16c73952fb17995bf65a3a69f4c579163ca07930cb469d",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENT_-1_1.xmodel": "e260f4b237f697c57a8b6deaeb276362c1165b051d8ae99246d4272b2308d8cf",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENT_-1_2.xmodel": "ffd5baf0fb71f6a8954a4808be1aafec98cab13e18a125a27bf74c1a78341809",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENT_1_0.xmodel": "cdb696ddf2712363932c9ae2a6a8ab9beb0f285d27721bcd0c6ac295efc24603",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENT_1_1.xmodel": "60abf44fe586b6730cba04af4f8e4a2b20f5fb13b4d0e21e27b15e35fee7fe20",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENT_1_2.xmodel": "f2848fc470c697155b259d6454896e8ad4208f3b287c725926fa94d36ea9690b",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_-1_0.xmodel": "155fa4aae150c86a73d2fb89a2035d8780d79251274a36815f331b95bb5551d3",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_-1_1.xmodel": "1bd838cf67d46e857bb64d1eddbbda22c26094c78ca5e1f24952274eefb0b6fb",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_-1_2.xmodel": "48e4ab9972e5994756face22b1e8d907d5e7e3ec92d4eed639177ccc8216f03e",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_-1_3.xmodel": "bc7c9afa712b1a6655b8ff0fe3216a0caf8243db3bd86ad1301046ecf252d2a9",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_1_0.xmodel": "aab7068091f0b7e1568c430a70e0bc65c8d0857a3a799429089534078ea7ea7f",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_1_1.xmodel": "f8dbee4c07a94c2ebf3fd20b528edf8df32ee40aa71d22281624c68f4a017713",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_1_2.xmodel": "ebd4fdb2b4e66283308392ea7ad30d22788c30eb4b101ec145df044aa17ca646",
+    "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_1_3.xmodel": "a6045a5375f25002e857809840bb0039742ce1260e0cc1b2ca485f63d8360ab9",
+    "showcase/flavors/Helix_Fire_and_Ice/native_verification.json": "83c7d1bb78b3204cb65e493d4b32cbb9f9eafbbf0f1c394adfe00154c0cf746c",
+    "showcase/flavors/Helix_Fire_and_Ice/showcase_manifest.json": "dde5c6a593725f78760d0417f0726930d065fdcd52d5a64de039c3762a8cd3b9",
+    "showcase/flavors/Helix_Fire_and_Ice/xlights_networks.xml": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295",
+    "showcase/flavors/Helix_Fire_and_Ice/xlights_rgbeffects.xml": "692f9ec4b765e4e66121131afaeafadbf97ab9764a77da15b790366f73594c6c",
+    "showcase/flavors/Helix_Enchanted_Grove/Helix_Enchanted_Grove_3D.html": "6a3b06e46ffdffdfb8fbc2dc26a4e496cd7e08d1eefd98900e88b9c882453879",
+    "showcase/flavors/Helix_Enchanted_Grove/Helix_Enchanted_Grove_Night.png": "6d3d4bbb7754e2791fa7c1a8858dd264fc1db6341b58b65469055201299169d2",
+    "showcase/flavors/Helix_Enchanted_Grove/Helix_Enchanted_Grove_Perspective.png": "bd6ee2f43c6acbfe45b50ed9ece9497428c755287f50ddc1f3273b41160d389b",
+    "showcase/flavors/Helix_Enchanted_Grove/Helix_Enchanted_Grove_Showcase.xsq": "3ceda68781f9f736b89566160219cb1eb3ad9205672dd78b14000754d0a73f6c",
+    "showcase/flavors/Helix_Enchanted_Grove/README.txt": "e82fbcd85dbb852b2e27dd5f01eb9ca91a321c77b55c79d27e3f3f7084dc96cc",
+    "showcase/flavors/Helix_Enchanted_Grove/assets/helix_crest.png": "3d0a7ce543f1c91c84753b50adb0599909690e0081b3a07eb70a41828bc3b57a",
+    "showcase/flavors/Helix_Enchanted_Grove/assets/kinetic_base.obj": "5d888f4000ba7fa60367552d95ee4d4cbb387cf188eb7e12fdd2a8195082ba39",
+    "showcase/flavors/Helix_Enchanted_Grove/assets/kinetic_base.png": "3d0a7ce543f1c91c84753b50adb0599909690e0081b3a07eb70a41828bc3b57a",
+    "showcase/flavors/Helix_Enchanted_Grove/assets/kinetic_dna.obj": "2d188c11a58f76e1811462514f8b3861fcf537296598f5ce8edf655df2f4e1a9",
+    "showcase/flavors/Helix_Enchanted_Grove/assets/kinetic_rotor.png": "dfb4bd46eab0cdf5a9052b84c19cb0658ffabe87d9a20d003cd3918a3be78631",
+    "showcase/flavors/Helix_Enchanted_Grove/model_inventory.csv": "448c0a379f5decf3e816031373b11f6aa14112097bd6d20148c5b61bc4b6e758",
+    "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_ANCIENT_TRUNK_0.xmodel": "da6f1c0f26309b055d37972d7b41eb8267a2ad981232a57e5296b420cc9c11b7",
+    "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_ANCIENT_TRUNK_1.xmodel": "cefaecf8d230d452c69941c4f34faf91100dad67c656dee26d682081c69baef9",
+    "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_ANCIENT_TRUNK_2.xmodel": "66313ab1a61259b9083bbda09b4dc02da6abbedaf4ba648c696d9ccc84b0577c",
+    "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_0.xmodel": "279ad4916f83edaf9ff2bfd48a60847f3986a34ab0959ad22dd219129ed84217",
+    "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_1.xmodel": "8bcceb036528eb3003c63b30037309f95368a54b35de76d9d966ef20e539fe67",
+    "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_2.xmodel": "9b2a3d993146edc12cd3bf9821e86eb6e8be4144b7bee189d20a22ac77fb52cf",
+    "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_3.xmodel": "ebc62277b436a1030b5b70c3b561990fd62308b0d36131d833549b7971677298",
+    "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_4.xmodel": "dc17cdd77f99dd4a35c4381db4d46dd631f782b6f5d46681f53c2a1014ac99b6",
+    "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_5.xmodel": "67052f06854b75a126731d298e863bf14d95d0a0cbc200f5b88333f09d4a7ef8",
+    "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_6.xmodel": "51603df0a346eccd1292617c7fc8c71ba3d107bc9b69debf8e5ae5df65990438",
+    "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_7.xmodel": "a4f5c40274f072947d5998f204c63338e62ecb1032b5df8d5d52df57704d24bd",
+    "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_ROOT_BRIDGE.xmodel": "4f40e64d13cdd9b2c8e621923d1e38be089f34637c58a943570b818dae52146b",
+    "showcase/flavors/Helix_Enchanted_Grove/native_verification.json": "40a8d8a546517e144b3e1d387977432ea2595afa2d91bc2e11627bf620d55ebc",
+    "showcase/flavors/Helix_Enchanted_Grove/showcase_manifest.json": "c212375fa06674b692367b1b07760d03ba58d9c1aec48e085fbf073364eaac36",
+    "showcase/flavors/Helix_Enchanted_Grove/xlights_networks.xml": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295",
+    "showcase/flavors/Helix_Enchanted_Grove/xlights_rgbeffects.xml": "ae49f1d2f4b45b0e30a552d8fe69891435041052b597a5dd7898c1b47c06fb91",
+    "showcase/Helix_Aurora/Helix_Aurora_3D.html": "0d07c1c8ac242c5ec3035911bc57f31dd186df562163d80328a1efddf06fe3e3",
+    "showcase/Helix_Aurora/Helix_Aurora_Night.png": "329663fb972c500fa553e5c7f89db5f79a0a5997edc62c6388f0897d9d58284d",
+    "showcase/Helix_Aurora/Helix_Aurora_Perspective.png": "7a32166526bfa52a39a725dfe323dc86734efc49fc6387aa97ee1996f2ce15bc",
+    "showcase/Helix_Aurora/Helix_Aurora_Showcase.xsq": "668a44e57b74136e5ca7b72c8afbc775efc50db05bf6eb39e1dc387548d15336",
+    "showcase/Helix_Aurora/README.txt": "4525b757996f2af21fd28e9d795f2ffcf524087656fe82aa894e46c8580c51fd",
+    "showcase/Helix_Aurora/assets/helix_crest.png": "c171ce52544375541126419ab8963bbb44290cabfb614f33404275500fed8768",
+    "showcase/Helix_Aurora/assets/kinetic_base.obj": "5d888f4000ba7fa60367552d95ee4d4cbb387cf188eb7e12fdd2a8195082ba39",
+    "showcase/Helix_Aurora/assets/kinetic_base.png": "c171ce52544375541126419ab8963bbb44290cabfb614f33404275500fed8768",
+    "showcase/Helix_Aurora/assets/kinetic_dna.obj": "2d188c11a58f76e1811462514f8b3861fcf537296598f5ce8edf655df2f4e1a9",
+    "showcase/Helix_Aurora/assets/kinetic_rotor.png": "d5d61ae5a2d636f516a7c5115519be1768bae3dc34c4bd0454a42bda054c46e3",
+    "showcase/Helix_Aurora/model_inventory.csv": "24d3e1b9db7bd388d8b185895e871f8b10291bd04d95ffda7043d630a233915e",
+    "showcase/Helix_Aurora/models/HX_DNA_CATHEDRAL.xmodel": "1532f4f84805bbfd5ee99f659bfb77e230d25da7b3f2d9074de76e5ef97f817c",
+    "showcase/Helix_Aurora/models/HX_DNA_GATE_-1.xmodel": "1dd05a4fc9f0ef25047871b184f951a5a4660201fd82fdb6f4bafc09d8d64816",
+    "showcase/Helix_Aurora/models/HX_DNA_GATE_1.xmodel": "25e66a7723e4ceab12db1ec6f93ca31da03719bb0796c018f9f816b8c4f7a33f",
+    "showcase/Helix_Aurora/models/HX_DNA_ORBIT.xmodel": "49c707b29f83830d7adf5d3df1533257ef70d85f5a61b212a4ead0f7f8dd28cc",
+    "showcase/Helix_Aurora/models/HX_DNA_PATH_-1_1.xmodel": "3ad0fc7ebb8884f5987631efc7c2d33cb3833e8f7804ac5d6422b619509ec7d0",
+    "showcase/Helix_Aurora/models/HX_DNA_PATH_-1_2.xmodel": "9423c1b036311798b0ec9d76165c649a10091d2d2229e995583125afd9523c6b",
+    "showcase/Helix_Aurora/models/HX_DNA_PATH_-1_3.xmodel": "0328e5ceaa6e44f26a39191d6f5b5de67f6e396df92e60980fa985d32c7e4e33",
+    "showcase/Helix_Aurora/models/HX_DNA_PATH_1_1.xmodel": "d0742ab09beda178046489ea12590a3660b5b17e8f5b6900d9438b60deec35c9",
+    "showcase/Helix_Aurora/models/HX_DNA_PATH_1_2.xmodel": "29dca1796ab6915dcbfdc16ee7d7aafbea75aaa2134dd2f1cedea7734bb4910a",
+    "showcase/Helix_Aurora/models/HX_DNA_PATH_1_3.xmodel": "2e39aa2526cec2dc0db8d2becefee4d760269b9010eb6ccd25210b914943a457",
+    "showcase/Helix_Aurora/models/HX_DNA_TOWER_EAST.xmodel": "30435deed504a0a936d44eda3f42fb70afce1013add4d91ca387d16fa8d8f241",
+    "showcase/Helix_Aurora/models/HX_DNA_TOWER_WEST.xmodel": "5f6a600b4634e07b102d8bbac8a7e9b0035e9319cb493e886f83016dbcef6ab9",
+    "showcase/Helix_Aurora/native_verification.json": "bdf3ae92ae90133bd66e2c025c5a4c4aec84375759821a22f1e1036d35f688a3",
+    "showcase/Helix_Aurora/showcase_manifest.json": "ca752e53906f449e51f9ee4160b677052ed02c567a03eda92d2e38ccbdb7bae2",
+    "showcase/Helix_Aurora/xlights_networks.xml": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295",
+    "showcase/Helix_Aurora/xlights_rgbeffects.xml": "be3f510a19fff5eaaa7abf2a7f49c597918ecdbff364198e8fed31c2cd577d63",
+    "showcase/concepts/2026_10_08/concepts.json": "6b029de2eb2cf2e4a9d042a8f595fa3d4dcf68eff615a94a3fb7f4fb431234ed",
+    "showcase/concepts/2026_10_08/images/Saved_Helix_Enchanted_Grove.png": "6d3d4bbb7754e2791fa7c1a8858dd264fc1db6341b58b65469055201299169d2",
+    "showcase/concepts/2026_10_08/images/05_06_Mangrove_Solstice.png": "cf0dfe0c671d0ba6893753db44cf1fab557eeccede2b347d7bf488e5e65e405f",
+    "showcase/concepts/2026_10_08/images/Saved_Helix_Aurora.png": "329663fb972c500fa553e5c7f89db5f79a0a5997edc62c6388f0897d9d58284d",
+    "showcase/concepts/2026_10_08/images/01_02_Emberfrost_Canopy.png": "344b78925703db2358fd0aca7d194146f9597c3483cf92a5871104cf4250d0d6",
+    "showcase/concepts/2026_10_08/images/15_16_Arena_Stages.png": "a33788be9fa5bce4f79eff47ae5b87a94c343dd6e68b80a250e111a5cda62dda",
+    "showcase/concepts/2026_10_08/images/Saved_Helix_Fire_and_Ice.png": "ce287e5f9f72c7e322044ad4238b95ee487aefe0b6c2fe8b754ea232b50e3d9a",
+    "showcase/concepts/2026_10_08/images/11_12_Mandelbrot_Reef.png": "519a4ed962db2cc0c004755d319f7a4b1a77629c8434d78d16ddbb29e9c2b453",
+    "showcase/concepts/2026_10_08/images/21_22_Pontoon_Boats.png": "3b7127242abc6cc104a75b59347bfa879cd317f3f0e959aa08acfa12172b5583",
+    "showcase/concepts/2026_10_08/images/13_14_Traditional_Extreme.png": "954ab1fe0cdb4f55031bef7a402d8c525c782f3558d40f565d7bccdac46dafc3",
+    "showcase/concepts/2026_10_08/images/09_10_Gravity_Vortex.png": "041f517750a0ebf082f5f1c2790c349ef93348669a987cda9d5775104d8e9ce2",
+    "showcase/concepts/2026_10_08/images/19_20_Gothic_Churches.png": "8b97af4fa43d16fb5a0964f5d9a93a262905e59681ccebde92eeadfcc05ec8b0",
+    "showcase/concepts/2026_10_08/images/17_18_Impala_Show_Cars.png": "b2939983c9db4d79938c277666803b9882df80d6374063f2a647222869da8f6b",
+    "showcase/concepts/2026_10_08/images/03_04_Aurora_Tidal.png": "20fd611d9638b3620344809bd14572845ce8fff2a53a8a9fa42aa978682939e7",
+    "showcase/concepts/2026_10_08/images/07_08_Moire_Mycelium.png": "0a13a374440de5b66fccc26b0edc192e95eea92c927c4ca8b445617713b90fe1",
+    "showcase/favorites/selected_layouts.json": "4a43f1e34292ed97830c43887101a2505b105f93d056a4f513a26502bb4dc29f",
+    "showcase/favorites/README.md": "2b2165e8d04b6cde20040043ee791894822116a1be9720a8c5f5ddad560e4dc5",
+    "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+    "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+    "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+    "evidence/showcase_audio/source/2-Tinsel-Sawtooth-1-.mp3": "e9add1d351989d4a359cdda837fc5139a8e358ca067d31a839cafa6b35c954fc",
+    "evidence/showcase_audio/source/5-Bell-Circuit-Carol-1-.mp3": "546d214fafc467c8581175bae47e78531eae01fb7abcd99a1a37358670885885",
+    "evidence/showcase_audio/source/1-Wire-Tree.mp3": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+    "evidence/showcase_audio/source/4-Holly-Steel-Run-1-.mp3": "47e61a145578fa7d153b2ecb7de02bf10c61646bf246421365f24439df697dc1",
+    "evidence/showcase_audio/source/3-Frostbitten-Fingerboard-1-.mp3": "657e5c5dbb9b6372d5c9086b547d236b47815c32306e53a753735f5f5775e504"
+  },
+  "unresolved": [
+    "Whale artwork/name is absent from the saved 22-concept catalog and workspace."
+  ],
+  "sample_type": "24-second silent native lighting studies; not full-song music sequences.",
+  "xlights_version": "2026.18",
+  "xlights_appimage_sha256": "62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b",
+  "relocation_checks": [
+    {
+      "id": "01",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "02",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "03",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "04",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "05",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "06",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "07",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "08",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "09",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "10",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "11",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "12",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "13",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "14",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "15",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "16",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "17",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "18",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "19",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "20",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "21",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    },
+    {
+      "id": "22",
+      "native_after_relocation": "pass",
+      "all_native_frames_identical": true
+    }
+  ],
+  "visual_review": "All 22 decoded native-lit samples inspected; silhouettes distinguish source brief categories.",
+  "native_warning": "XFree86-VidModeExtension absent on virtual display; all renders completed.",
+  "concepts": [
+    {
+      "id": "01",
+      "name": "Emberfrost Canyon",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/01_Emberfrost_Canyon",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/01_Emberfrost_Canyon/Emberfrost_Canyon_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/01_Emberfrost_Canyon/Emberfrost_Canyon.mp4",
+      "models": 26,
+      "pixels": 7505,
+      "channels": 22515,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "0d2a7cc59506184096c255aa34aa86c3b4eb78f28bd3871441710e7d62a89248",
+        "xsq": "57fde3e0f1e667454aa8258e6c7618e6eb1d9bea39120fe32048f60405823acd",
+        "fseq": "84088f40146aa605deeada7976f426dbbc31b85e1a9082ff29a210db16615a7f",
+        "mp4": "dea01c80851a1230cf45952028ab6d8fac596bdad48ecd7ddf7b77c9aaa288dc"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Emberfrost_Canyon.mp4"
+    },
+    {
+      "id": "02",
+      "name": "Canopy Cathedral",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/02_Canopy_Cathedral",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/02_Canopy_Cathedral/Canopy_Cathedral_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/02_Canopy_Cathedral/Canopy_Cathedral.mp4",
+      "models": 23,
+      "pixels": 7500,
+      "channels": 22500,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "4200844e00c1971697dea25a0c52ac387cadbbda05da3f8b0c03de6c07518b3e",
+        "xsq": "a6b61907f84385abc27eaa8d3e13d0fa2dc9a8ac7418e34915bdbf86bca1991f",
+        "fseq": "d8ead82092c987406bc7d661e8ec10e4d127b9809eef52a453cf62850aa24151",
+        "mp4": "2887effe86fc7b7ca13ce9ac0f51665326b1ffcbb8cff7cc6cf2f1a9d3754bb6"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Canopy_Cathedral.mp4"
+    },
+    {
+      "id": "03",
+      "name": "Aurora Switchback",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/03_Aurora_Switchback",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/03_Aurora_Switchback/Aurora_Switchback_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/03_Aurora_Switchback/Aurora_Switchback.mp4",
+      "models": 21,
+      "pixels": 6515,
+      "channels": 19545,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "e4bc06a7fbfa582869013cc4555a047786953b236a752978a3b719c4c509e70f",
+        "xsq": "afe2775b444b7d80f85bc911ebe250a6b27ee3df2c6da60ea0aad87b56059d36",
+        "fseq": "33c1e5519ebc34a82ebc15eaafef216fc46f4e87ae90b3a0523c932a442b9457",
+        "mp4": "405b91524d498e65d3a4a9167252b87dd795683decbd3421d73510cd08cb682f"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Aurora_Switchback.mp4"
+    },
+    {
+      "id": "04",
+      "name": "Tidal Observatory",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/04_Tidal_Observatory",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/04_Tidal_Observatory/Tidal_Observatory_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/04_Tidal_Observatory/Tidal_Observatory.mp4",
+      "models": 19,
+      "pixels": 4795,
+      "channels": 14385,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "e5fa549eb3c21d718a4e736a3934959471f85860dc847e65ea101f495d734c4a",
+        "xsq": "ed6b2f88850e75ac6e23a314f0048bacfab616a3dee698c5dde12bb2b9f65bbe",
+        "fseq": "a0d6e938a6d12bb9da15dcd63f48c6d5987de8f17137837767b8d611dba0f39e",
+        "mp4": "bdbaa08f81ae9c15f551fbb2036ab55e1f82ef6cdf099bded05b36cab891c61e"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Tidal_Observatory.mp4"
+    },
+    {
+      "id": "05",
+      "name": "Bioluminescent Mangrove",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/05_Bioluminescent_Mangrove",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/05_Bioluminescent_Mangrove/Bioluminescent_Mangrove_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/05_Bioluminescent_Mangrove/Bioluminescent_Mangrove.mp4",
+      "models": 57,
+      "pixels": 6945,
+      "channels": 20835,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "8051f62347d43de9c96c0589bc4cb8a14b0d6be487f07c6f0be055b6916623cb",
+        "xsq": "14b2fce3399ec7621ed5dddff02ed1a0e2d9289e043b2f595e2c6c75659bd871",
+        "fseq": "1adddbb13109cb0a8f2dacb7670cd4d77951e360cccd254e9cf34a3df3918005",
+        "mp4": "106d2bf5caa2893518053fc2c2faa08873e962204893dc7da8570d9939eb51b8"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Bioluminescent_Mangrove.mp4"
+    },
+    {
+      "id": "06",
+      "name": "Solstice Spiral",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/06_Solstice_Spiral",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/06_Solstice_Spiral/Solstice_Spiral_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/06_Solstice_Spiral/Solstice_Spiral.mp4",
+      "models": 29,
+      "pixels": 8920,
+      "channels": 26760,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "e9d531ba703cef77ee05d430b9564ea13c416b43554c7fc311dfa1b6d4879a2f",
+        "xsq": "0df3a0e48d362b8a917bc0c484f64b192ff08f26cd62fba18752d401ff8e4630",
+        "fseq": "247b0be8ae83db29d0d3fa6d5e6ee6456d4f7d01cd1b2b854ccc3b2df27271f0",
+        "mp4": "621c21e2943872fc94e6ddd052d9049ea86c23e81728e44a5f6c5dc156100497"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Solstice_Spiral.mp4"
+    },
+    {
+      "id": "07",
+      "name": "Moire Mirage",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/07_Moire_Mirage",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/07_Moire_Mirage/Moire_Mirage_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/07_Moire_Mirage/Moire_Mirage.mp4",
+      "models": 11,
+      "pixels": 3438,
+      "channels": 10314,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "48de819ffdea25c3bf46b4b8e5cf9ce3883934476a81fa102f47984805c0b9f8",
+        "xsq": "112167af6f4cbc59ebc955581a7983143e231bab7ee3243947ced072073b7887",
+        "fseq": "46f72e0d90ece80ab55376a713b85f044fc41898b8ae86723eca517bc62d834c",
+        "mp4": "03e8d1bce36b1bd7e8699f5c0ad162740aca4c544e2f904d1fd7f6559499559b"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Moire_Mirage.mp4"
+    },
+    {
+      "id": "08",
+      "name": "Mycelium Dream",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/08_Mycelium_Dream",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/08_Mycelium_Dream/Mycelium_Dream_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/08_Mycelium_Dream/Mycelium_Dream.mp4",
+      "models": 38,
+      "pixels": 7720,
+      "channels": 23160,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "436452759df01521a15571e4f28e10f5f45dc2b7b61d373985d40d6b3d072042",
+        "xsq": "8f4dafd8a711693ee661af4fde02d7616314500a6e596d43a4860fc939316b02",
+        "fseq": "87e0c6260f25fcab04c3c381942a4d193409565893751c8794143388b3d4f162",
+        "mp4": "0012b089fb6bfb82476810f2c6b8e980195dd67b0378d9f6ff024fb2a6a4592d"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Mycelium_Dream.mp4"
+    },
+    {
+      "id": "09",
+      "name": "Gravity Garden",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/09_Gravity_Garden",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/09_Gravity_Garden/Gravity_Garden_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/09_Gravity_Garden/Gravity_Garden.mp4",
+      "models": 11,
+      "pixels": 3425,
+      "channels": 10275,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "589308be3a7bbacc96d95c9bcfe2a3284f85fca13d4a7fd0f0eef616150af4d6",
+        "xsq": "ee399da8a376a71e9e5a26ba967ed181f4dc63ec7c9be26e549cdb5716991c38",
+        "fseq": "4991eef65113fdea3c423a44ad7a95b8f967532c96b7e50e229e9ddde63140c8",
+        "mp4": "59605ebeee6b3c7b7bed5d8277de7d0a7524018c6f547bd98d99dcf963cca0dd"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Gravity_Garden.mp4"
+    },
+    {
+      "id": "10",
+      "name": "Prismatic Vortex",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/10_Prismatic_Vortex",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/10_Prismatic_Vortex/Prismatic_Vortex_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/10_Prismatic_Vortex/Prismatic_Vortex.mp4",
+      "models": 76,
+      "pixels": 5510,
+      "channels": 16530,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "2af4750a372febd97cf21c61ad2af1ce5f2d40ce81237960bae7e33ae6701342",
+        "xsq": "ef5c1ae5ca3b4ecb3276ce3892313dfc772fa6a1f2ce4854b8b98d9d9e531b10",
+        "fseq": "ef5912306d0b62825d465e5e6741cdc2897a46d0c0564f9548cca2f95345cd0e",
+        "mp4": "7bbeaae3a7b0cfaadd96adc79221d9f131bdd50409bc0c805af5e98366ee6826"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Prismatic_Vortex.mp4"
+    },
+    {
+      "id": "11",
+      "name": "Mandelbrot Meadow",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/11_Mandelbrot_Meadow",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/11_Mandelbrot_Meadow/Mandelbrot_Meadow_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/11_Mandelbrot_Meadow/Mandelbrot_Meadow.mp4",
+      "models": 25,
+      "pixels": 8055,
+      "channels": 24165,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "6c656002390fba471e4c2b133c5d9c0cee5a153be5557cdebc30477e6ef79db7",
+        "xsq": "41176c18683d1d5cd8604feb52473fe1ca09b6b9b79c18baa5d9370b81184a9c",
+        "fseq": "1144379e1c4501e8d614c47bcea71e049b33e429e8b3e41ff3c1e4d4c8960361",
+        "mp4": "3cd8cfd8c1c259fc4848e6140a7c7fc9dc3e1d55c1878dc8a3e76b2affd30c9a"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Mandelbrot_Meadow.mp4"
+    },
+    {
+      "id": "12",
+      "name": "Interference Reef",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/12_Interference_Reef",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/12_Interference_Reef/Interference_Reef_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/12_Interference_Reef/Interference_Reef.mp4",
+      "models": 18,
+      "pixels": 5731,
+      "channels": 17193,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "20fb91f46d65f134562716b2fccc7192091e399dae090974f1cb320958820467",
+        "xsq": "cf88942739e07aa74fdd0950c83c6da82b15952b85c0d6c9769ee5651142eb81",
+        "fseq": "e18438a91af6b8df73a6a3e2a4ab020dab831c94aa0fecdc0045be833c9b62ec",
+        "mp4": "e3a6ec0747a9c3cce8f81d2bd2f60d11e6652d1de789e181906027f42b1885cf"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Interference_Reef.mp4"
+    },
+    {
+      "id": "13",
+      "name": "Christmas Overdrive",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/13_Christmas_Overdrive",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/13_Christmas_Overdrive/Christmas_Overdrive_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/13_Christmas_Overdrive/Christmas_Overdrive.mp4",
+      "models": 105,
+      "pixels": 14920,
+      "channels": 44760,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "c80ca98377b2b4dc08bd8b8ea5e617ac08c1729e1597772caff0ce724a8499b1",
+        "xsq": "86d752f51a6b2f7337840d74b3f777418c1e0475928dfc77dfb90711c7f755cb",
+        "fseq": "8446b08989ee71fb8ac6ad8b8a48ece762230147bd1555c7067fb72d9e25386a",
+        "mp4": "9d1e148119e7eeb376d00f1f0328038085ee0ad7436617b6b95ca5ee5ab23dd0"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Christmas_Overdrive.mp4"
+    },
+    {
+      "id": "14",
+      "name": "Peppermint Boulevard",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/14_Peppermint_Boulevard",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/14_Peppermint_Boulevard/Peppermint_Boulevard_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/14_Peppermint_Boulevard/Peppermint_Boulevard.mp4",
+      "models": 64,
+      "pixels": 10700,
+      "channels": 32100,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "75862af68c073dd0a20047925ea1c536c5557315f2fec2e7c4abda41bdde7db6",
+        "xsq": "b84518e61a87f168b19a394a8440c599b607689a7fc951c2637a422c4e584055",
+        "fseq": "b2bf29ccc1bfc947fb2207b7b6b98b3fc004cde016584ff37089592129b28ac8",
+        "mp4": "4ac3b92eb8c0e523022033f1f95547703581539d6438f88c96f5653c275734a5"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Peppermint_Boulevard.mp4"
+    },
+    {
+      "id": "15",
+      "name": "Helix Arena",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/15_Helix_Arena",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/15_Helix_Arena/Helix_Arena_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/15_Helix_Arena/Helix_Arena.mp4",
+      "models": 16,
+      "pixels": 10384,
+      "channels": 31152,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "7dfd7727d23fe1fc85ccbc4d6047831123ba61f0852ec386cf97956fbb6b5bb3",
+        "xsq": "7ba03effc9eb4e729ee04cb9f660b94f54bdeaf03cdef990155741f316ac51f3",
+        "fseq": "42c9e7da14078ab4e407dd86831c261e73d3aa7a52220dc52278a08d2c462d7d",
+        "mp4": "2828555e3291818c028ac7de3d5ac8ea95ab3252457826885372072a2d99beb2"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "canonical_drummer": {
+        "all_40_source_submodels_preserved": true,
+        "pixels": 6912,
+        "body_keepalive": true,
+        "source_model_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+      },
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Helix_Arena.mp4"
+    },
+    {
+      "id": "16",
+      "name": "Thunder Vault Stage",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/16_Thunder_Vault_Stage",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/16_Thunder_Vault_Stage/Thunder_Vault_Stage_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/16_Thunder_Vault_Stage/Thunder_Vault_Stage.mp4",
+      "models": 42,
+      "pixels": 16126,
+      "channels": 48378,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "616ec3d4db6cdf2c414f57153f60795b458d219596d2b2aea43d5934fc8e8b5a",
+        "xsq": "07f44ad0179a5bd9a3ee51e7ce96c7ba285bb36dfc0cad8081ede47c4dc0d19b",
+        "fseq": "dc82c5ccd94906a73027a436b8ce46a45d58b9258ac41c2860ffc1b4958fa70a",
+        "mp4": "d3e547a56e2707e8861169de89cf8f1c7418cb4ac366f007ddac7c8cdecbd6bd"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "canonical_drummer": {
+        "all_40_source_submodels_preserved": true,
+        "pixels": 6912,
+        "body_keepalive": true,
+        "source_model_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+      },
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Thunder_Vault_Stage.mp4"
+    },
+    {
+      "id": "17",
+      "name": "Impala Neon Royalty",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/17_Impala_Neon_Royalty",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/17_Impala_Neon_Royalty/Impala_Neon_Royalty_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/17_Impala_Neon_Royalty/Impala_Neon_Royalty.mp4",
+      "models": 79,
+      "pixels": 4944,
+      "channels": 14832,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "157ddca2bc602252f60f3a6699afbc6dd496437a1946383e7c78920f22c899ad",
+        "xsq": "4de1ff0e38b0b11dbd347ffa114d0fb77e51d75f2b704495a9e32abf1199c651",
+        "fseq": "560a125e665593d2b98bdace0aa4658f709dc2a68b73f5552e256e794755a1da",
+        "mp4": "d6f733808e2f3cc2dc082456428b67385a6efbe38a9f1daa7ffd18b2c42f0148"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Impala_Neon_Royalty.mp4"
+    },
+    {
+      "id": "18",
+      "name": "Impala Golden Frequency",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/18_Impala_Golden_Frequency",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/18_Impala_Golden_Frequency/Impala_Golden_Frequency_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/18_Impala_Golden_Frequency/Impala_Golden_Frequency.mp4",
+      "models": 78,
+      "pixels": 4549,
+      "channels": 13647,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "4fb3e9129322e85059f9b01f78f6615c1ab4f14550c9cb481bb70e9c558d6aab",
+        "xsq": "14c09719516ab7b4b67bd2aaa02e556231fda769a122615e3142d272289a705f",
+        "fseq": "240336ae3f8eca246f703227b39e0d633e56335fc85f618ebcf8dead97296c93",
+        "mp4": "6be8e49a059def8fc5115293bb311ea8d121a1b1c53aa970e13cbc135d8b1c75"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Impala_Golden_Frequency.mp4"
+    },
+    {
+      "id": "19",
+      "name": "Gothic Ember Cathedral",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/19_Gothic_Ember_Cathedral",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/19_Gothic_Ember_Cathedral/Gothic_Ember_Cathedral_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/19_Gothic_Ember_Cathedral/Gothic_Ember_Cathedral.mp4",
+      "models": 42,
+      "pixels": 6396,
+      "channels": 19188,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "475fd4b159bf3416fb4d9dec9ea79a5fe414e70a78c87df9026ea6c9fef076fa",
+        "xsq": "ff1ee2a570afd7c91417b50efb86c1dde5bc50512100d0f0da5e62943cc84361",
+        "fseq": "624788e8befbc8028f84e267c9d63066278d18773208b6278dc8db4cb3fe1db8",
+        "mp4": "6db705dac1957e82c17d4028cd6ecea7e9d5fb7714be159894a777eca5aeb589"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Gothic_Ember_Cathedral.mp4"
+    },
+    {
+      "id": "20",
+      "name": "Moonlit Gothic Cloister",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/20_Moonlit_Gothic_Cloister",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/20_Moonlit_Gothic_Cloister/Moonlit_Gothic_Cloister_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/20_Moonlit_Gothic_Cloister/Moonlit_Gothic_Cloister.mp4",
+      "models": 50,
+      "pixels": 9086,
+      "channels": 27258,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "44eaef55a7b31317d36a303b330c7c6f98893a5f21e7f290a37d91b488ffac52",
+        "xsq": "7d01936bb75c7063f7d0855b7212c86e9d3d35e679206cdc200ee5012271c62e",
+        "fseq": "2413af463f49ea8887d3c2b067f30c52481db0ca830689f06d4ad7b619f55723",
+        "mp4": "5f3ec0f63c29d281a2cad932652ce184664fbfbecb197d53e2324a465300b67b"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Moonlit_Gothic_Cloister.mp4"
+    },
+    {
+      "id": "21",
+      "name": "Pontoon Aurora",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/21_Pontoon_Aurora",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/21_Pontoon_Aurora/Pontoon_Aurora_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/21_Pontoon_Aurora/Pontoon_Aurora.mp4",
+      "models": 49,
+      "pixels": 6584,
+      "channels": 19752,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "daa1c91a59e283f8bf1968f2a73ecc1911a69bff2b617cdbe24b8185ab560d68",
+        "xsq": "53d974fa3f0382a749a580beea7ce7374d544d9a444e2d4a421e2c45abbf1724",
+        "fseq": "a6d106da474806d14901a0ece3d9002db2901946834a1d28376aa0c8fb45d33e",
+        "mp4": "e2e616bf74dd53d27c316ce36a01c4dafcc485e802f1bee0596cb1a77d1528cc"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Pontoon_Aurora.mp4"
+    },
+    {
+      "id": "22",
+      "name": "Riverboat Carnival",
+      "show_folder": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/22_Riverboat_Carnival",
+      "xsq": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/22_Riverboat_Carnival/Riverboat_Carnival_Showcase.xsq",
+      "mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/22_Riverboat_Carnival/Riverboat_Carnival.mp4",
+      "models": 84,
+      "pixels": 6078,
+      "channels": 18234,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "physical_output_networks": 0,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "duration_s": 24,
+        "frames": 480,
+        "full_decode": "pass",
+        "audio": false
+      },
+      "sha256": {
+        "layout": "4afcfb0896a19af6c478c635b2ab9a4e4a8ac4820080f0cd38443d73b9450f3a",
+        "xsq": "d2e33a5ca260668aa48456d2a436cd97d0f45ed42594f83da8c756e171e9158b",
+        "fseq": "e6e1a8ff3514a2d85b3c32820330ad2412750ab695010a447bfd7b54d5a6744a",
+        "mp4": "68b19f5ca128df3b0b003ed339be4af3f7c3267760c16d27a7a5634ae69e5983"
+      },
+      "musical_drummer_acceptance": false,
+      "lighting_source": "Actual native xLights FSEQ; exact geometry projection, not GUI recording.",
+      "direct_mp4": "/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/Riverboat_Carnival.mp4"
+    }
+  ],
+  "total_models": 963,
+  "total_pixels": 165826,
+  "all_963_native_models_received_lighting": true,
+  "focused_tests": "45 passed",
+  "full_repository_test_suite": "not run"
+}

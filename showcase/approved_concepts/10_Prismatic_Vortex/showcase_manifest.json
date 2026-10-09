@@ -1,0 +1,3080 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Prismatic Vortex",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 76
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 76,
+  "rgb_pixels": 5510,
+  "channel_count": 16530,
+  "spiral_trees": 2,
+  "double_helices": 2,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_VORTEX_HOOP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "VORTEX HOOP",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1,
+      "end_channel": 450,
+      "bounds_ft": [
+        [
+          -70.0,
+          -3.5,
+          40.5
+        ],
+        [
+          70.0,
+          133.5,
+          69.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4004599714382615
+    },
+    {
+      "name": "HX_002_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 451,
+      "end_channel": 585,
+      "bounds_ft": [
+        [
+          17.5,
+          65.0,
+          55.0
+        ],
+        [
+          70.0,
+          65.0,
+          55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_003_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 586,
+      "end_channel": 720,
+      "bounds_ft": [
+        [
+          12.5,
+          77.5,
+          55.0
+        ],
+        [
+          49.5,
+          114.5,
+          55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3524170559442968
+    },
+    {
+      "name": "HX_004_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 721,
+      "end_channel": 855,
+      "bounds_ft": [
+        [
+          0.0,
+          82.5,
+          55.0
+        ],
+        [
+          0.0,
+          135.0,
+          55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_005_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 856,
+      "end_channel": 990,
+      "bounds_ft": [
+        [
+          -49.5,
+          77.5,
+          55.0
+        ],
+        [
+          -12.5,
+          114.5,
+          55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3524170559442955
+    },
+    {
+      "name": "HX_006_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 991,
+      "end_channel": 1125,
+      "bounds_ft": [
+        [
+          -70.0,
+          65.0,
+          55.0
+        ],
+        [
+          -17.5,
+          65.0,
+          55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_007_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 1126,
+      "end_channel": 1260,
+      "bounds_ft": [
+        [
+          -49.5,
+          15.5,
+          55.0
+        ],
+        [
+          -12.5,
+          52.5,
+          55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35241705594430306
+    },
+    {
+      "name": "HX_008_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 1261,
+      "end_channel": 1395,
+      "bounds_ft": [
+        [
+          0.0,
+          -5.0,
+          55.0
+        ],
+        [
+          0.0,
+          47.5,
+          55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_009_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 1396,
+      "end_channel": 1530,
+      "bounds_ft": [
+        [
+          12.5,
+          15.5,
+          55.0
+        ],
+        [
+          49.5,
+          52.5,
+          55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.352417055944298
+    },
+    {
+      "name": "HX_010_VORTEX_HOOP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "VORTEX HOOP",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1531,
+      "end_channel": 1980,
+      "bounds_ft": [
+        [
+          -65.0,
+          1.5,
+          21.5
+        ],
+        [
+          65.0,
+          128.5,
+          48.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3410887604363773
+    },
+    {
+      "name": "HX_011_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 1981,
+      "end_channel": 2115,
+      "bounds_ft": [
+        [
+          15.5,
+          70.5,
+          35.0
+        ],
+        [
+          61.0,
+          87.5,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3410177641932104
+    },
+    {
+      "name": "HX_012_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 2116,
+      "end_channel": 2250,
+      "bounds_ft": [
+        [
+          7.0,
+          79.5,
+          35.0
+        ],
+        [
+          27.5,
+          124.0,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3478820150182539
+    },
+    {
+      "name": "HX_013_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 2251,
+      "end_channel": 2385,
+      "bounds_ft": [
+        [
+          -22.5,
+          80.5,
+          35.0
+        ],
+        [
+          -5.5,
+          126.0,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34101776419322527
+    },
+    {
+      "name": "HX_014_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 2386,
+      "end_channel": 2520,
+      "bounds_ft": [
+        [
+          -59.0,
+          72.0,
+          35.0
+        ],
+        [
+          -14.5,
+          92.5,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34788201501824517
+    },
+    {
+      "name": "HX_015_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 2521,
+      "end_channel": 2655,
+      "bounds_ft": [
+        [
+          -61.0,
+          42.5,
+          35.0
+        ],
+        [
+          -15.5,
+          59.5,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3410177641932104
+    },
+    {
+      "name": "HX_016_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 2656,
+      "end_channel": 2790,
+      "bounds_ft": [
+        [
+          -27.5,
+          6.0,
+          35.0
+        ],
+        [
+          -7.0,
+          50.5,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3478820150182426
+    },
+    {
+      "name": "HX_017_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 2791,
+      "end_channel": 2925,
+      "bounds_ft": [
+        [
+          5.5,
+          4.0,
+          35.0
+        ],
+        [
+          22.5,
+          49.5,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3410177641932094
+    },
+    {
+      "name": "HX_018_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 2926,
+      "end_channel": 3060,
+      "bounds_ft": [
+        [
+          14.5,
+          37.5,
+          35.0
+        ],
+        [
+          59.0,
+          58.0,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3478820150182426
+    },
+    {
+      "name": "HX_019_VORTEX_HOOP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "VORTEX HOOP",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 3061,
+      "end_channel": 3510,
+      "bounds_ft": [
+        [
+          -60.0,
+          6.5,
+          2.5
+        ],
+        [
+          60.0,
+          123.5,
+          27.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39405280918764324
+    },
+    {
+      "name": "HX_020_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 3511,
+      "end_channel": 3645,
+      "bounds_ft": [
+        [
+          11.5,
+          74.5,
+          15.0
+        ],
+        [
+          46.0,
+          103.5,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3219456550201668
+    },
+    {
+      "name": "HX_021_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 3646,
+      "end_channel": 3780,
+      "bounds_ft": [
+        [
+          1.5,
+          80.0,
+          15.0
+        ],
+        [
+          5.0,
+          125.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3318603401033333
+    },
+    {
+      "name": "HX_022_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 3781,
+      "end_channel": 3915,
+      "bounds_ft": [
+        [
+          -38.5,
+          76.5,
+          15.0
+        ],
+        [
+          -9.5,
+          111.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32194565502016864
+    },
+    {
+      "name": "HX_023_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 3916,
+      "end_channel": 4050,
+      "bounds_ft": [
+        [
+          -60.0,
+          66.5,
+          15.0
+        ],
+        [
+          -15.0,
+          70.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3318603401033215
+    },
+    {
+      "name": "HX_024_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 4051,
+      "end_channel": 4185,
+      "bounds_ft": [
+        [
+          -46.0,
+          26.5,
+          15.0
+        ],
+        [
+          -11.5,
+          55.5,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3219456550201691
+    },
+    {
+      "name": "HX_025_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 4186,
+      "end_channel": 4320,
+      "bounds_ft": [
+        [
+          -5.0,
+          5.0,
+          15.0
+        ],
+        [
+          -1.5,
+          50.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33186034010332593
+    },
+    {
+      "name": "HX_026_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 4321,
+      "end_channel": 4455,
+      "bounds_ft": [
+        [
+          9.5,
+          19.0,
+          15.0
+        ],
+        [
+          38.5,
+          53.5,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32194565502017136
+    },
+    {
+      "name": "HX_027_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 4456,
+      "end_channel": 4590,
+      "bounds_ft": [
+        [
+          15.0,
+          60.0,
+          15.0
+        ],
+        [
+          60.0,
+          63.5,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33186034010332655
+    },
+    {
+      "name": "HX_028_VORTEX_HOOP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "VORTEX HOOP",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 4591,
+      "end_channel": 5040,
+      "bounds_ft": [
+        [
+          -55.0,
+          11.0,
+          -16.5
+        ],
+        [
+          55.0,
+          119.0,
+          6.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3429857307974786
+    },
+    {
+      "name": "HX_029_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 5041,
+      "end_channel": 5175,
+      "bounds_ft": [
+        [
+          7.0,
+          77.0,
+          -5.0
+        ],
+        [
+          27.5,
+          112.5,
+          -5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3373977040038481
+    },
+    {
+      "name": "HX_030_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 5176,
+      "end_channel": 5310,
+      "bounds_ft": [
+        [
+          -14.5,
+          78.5,
+          -5.0
+        ],
+        [
+          -3.5,
+          118.0,
+          -5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3332878368736734
+    },
+    {
+      "name": "HX_031_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 5311,
+      "end_channel": 5445,
+      "bounds_ft": [
+        [
+          -47.5,
+          72.0,
+          -5.0
+        ],
+        [
+          -12.0,
+          92.5,
+          -5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3373977040038457
+    },
+    {
+      "name": "HX_032_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 5446,
+      "end_channel": 5580,
+      "bounds_ft": [
+        [
+          -53.0,
+          50.5,
+          -5.0
+        ],
+        [
+          -13.5,
+          61.5,
+          -5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3332878368736699
+    },
+    {
+      "name": "HX_033_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 5581,
+      "end_channel": 5715,
+      "bounds_ft": [
+        [
+          -27.5,
+          17.5,
+          -5.0
+        ],
+        [
+          -7.0,
+          53.0,
+          -5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3373977040038481
+    },
+    {
+      "name": "HX_034_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 5716,
+      "end_channel": 5850,
+      "bounds_ft": [
+        [
+          3.5,
+          12.0,
+          -5.0
+        ],
+        [
+          14.5,
+          51.5,
+          -5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33328783687366603
+    },
+    {
+      "name": "HX_035_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 5851,
+      "end_channel": 5985,
+      "bounds_ft": [
+        [
+          12.0,
+          37.5,
+          -5.0
+        ],
+        [
+          47.5,
+          58.0,
+          -5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3373977040038457
+    },
+    {
+      "name": "HX_036_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 5986,
+      "end_channel": 6120,
+      "bounds_ft": [
+        [
+          13.5,
+          68.5,
+          -5.0
+        ],
+        [
+          53.0,
+          79.5,
+          -5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33328783687366476
+    },
+    {
+      "name": "HX_037_VORTEX_HOOP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "VORTEX HOOP",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 6121,
+      "end_channel": 6570,
+      "bounds_ft": [
+        [
+          -50.0,
+          16.0,
+          -35.5
+        ],
+        [
+          50.0,
+          114.0,
+          -14.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3682841114814537
+    },
+    {
+      "name": "HX_038_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 6571,
+      "end_channel": 6705,
+      "bounds_ft": [
+        [
+          2.0,
+          77.5,
+          -25.0
+        ],
+        [
+          8.5,
+          114.5,
+          -25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3085738011035419
+    },
+    {
+      "name": "HX_039_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 6706,
+      "end_channel": 6840,
+      "bounds_ft": [
+        [
+          -29.0,
+          75.0,
+          -25.0
+        ],
+        [
+          -7.0,
+          106.0,
+          -25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2973243154805185
+    },
+    {
+      "name": "HX_040_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 6841,
+      "end_channel": 6975,
+      "bounds_ft": [
+        [
+          -49.5,
+          67.0,
+          -25.0
+        ],
+        [
+          -12.5,
+          73.5,
+          -25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3085738011035464
+    },
+    {
+      "name": "HX_041_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 6976,
+      "end_channel": 7110,
+      "bounds_ft": [
+        [
+          -41.0,
+          36.0,
+          -25.0
+        ],
+        [
+          -10.0,
+          58.0,
+          -25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2973243154805185
+    },
+    {
+      "name": "HX_042_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 7111,
+      "end_channel": 7245,
+      "bounds_ft": [
+        [
+          -8.5,
+          15.5,
+          -25.0
+        ],
+        [
+          -2.0,
+          52.5,
+          -25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30857380110355515
+    },
+    {
+      "name": "HX_043_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 7246,
+      "end_channel": 7380,
+      "bounds_ft": [
+        [
+          7.0,
+          24.0,
+          -25.0
+        ],
+        [
+          29.0,
+          55.0,
+          -25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2973243154805142
+    },
+    {
+      "name": "HX_044_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 7381,
+      "end_channel": 7515,
+      "bounds_ft": [
+        [
+          12.5,
+          56.5,
+          -25.0
+        ],
+        [
+          49.5,
+          63.0,
+          -25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30857380110355737
+    },
+    {
+      "name": "HX_045_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 7516,
+      "end_channel": 7650,
+      "bounds_ft": [
+        [
+          10.0,
+          72.0,
+          -25.0
+        ],
+        [
+          41.0,
+          94.0,
+          -25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29732431548051613
+    },
+    {
+      "name": "HX_046_VORTEX_HOOP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "VORTEX HOOP",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 7651,
+      "end_channel": 8100,
+      "bounds_ft": [
+        [
+          -45.0,
+          21.0,
+          -54.5
+        ],
+        [
+          45.0,
+          109.0,
+          -35.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38377845686931855
+    },
+    {
+      "name": "HX_047_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 8101,
+      "end_channel": 8235,
+      "bounds_ft": [
+        [
+          -8.0,
+          76.0,
+          -45.0
+        ],
+        [
+          -2.0,
+          109.5,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.338069480085111
+    },
+    {
+      "name": "HX_048_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 8236,
+      "end_channel": 8370,
+      "bounds_ft": [
+        [
+          -37.0,
+          71.5,
+          -45.0
+        ],
+        [
+          -9.0,
+          90.5,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32316403470534577
+    },
+    {
+      "name": "HX_049_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 8371,
+      "end_channel": 8505,
+      "bounds_ft": [
+        [
+          -44.5,
+          57.0,
+          -45.0
+        ],
+        [
+          -11.0,
+          63.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33806948008510135
+    },
+    {
+      "name": "HX_050_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 8506,
+      "end_channel": 8640,
+      "bounds_ft": [
+        [
+          -25.5,
+          28.0,
+          -45.0
+        ],
+        [
+          -6.5,
+          56.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3231640347053406
+    },
+    {
+      "name": "HX_051_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 8641,
+      "end_channel": 8775,
+      "bounds_ft": [
+        [
+          2.0,
+          20.5,
+          -45.0
+        ],
+        [
+          8.0,
+          54.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3380694800851005
+    },
+    {
+      "name": "HX_052_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 8776,
+      "end_channel": 8910,
+      "bounds_ft": [
+        [
+          9.0,
+          39.5,
+          -45.0
+        ],
+        [
+          37.0,
+          58.5,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3231640347053406
+    },
+    {
+      "name": "HX_053_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 8911,
+      "end_channel": 9045,
+      "bounds_ft": [
+        [
+          11.0,
+          67.0,
+          -45.0
+        ],
+        [
+          44.5,
+          73.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33806948008509613
+    },
+    {
+      "name": "HX_054_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 9046,
+      "end_channel": 9180,
+      "bounds_ft": [
+        [
+          6.5,
+          74.0,
+          -45.0
+        ],
+        [
+          25.5,
+          102.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.323164034705338
+    },
+    {
+      "name": "HX_055_VORTEX_HOOP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "VORTEX HOOP",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 9181,
+      "end_channel": 9630,
+      "bounds_ft": [
+        [
+          -40.0,
+          26.0,
+          -73.5
+        ],
+        [
+          40.0,
+          104.0,
+          -56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36951518151016516
+    },
+    {
+      "name": "HX_056_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 9631,
+      "end_channel": 9765,
+      "bounds_ft": [
+        [
+          -20.0,
+          73.5,
+          -65.0
+        ],
+        [
+          -5.0,
+          99.5,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3328218912073661
+    },
+    {
+      "name": "HX_057_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 9766,
+      "end_channel": 9900,
+      "bounds_ft": [
+        [
+          -38.5,
+          67.5,
+          -65.0
+        ],
+        [
+          -9.5,
+          75.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3316728733544669
+    },
+    {
+      "name": "HX_058_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 9901,
+      "end_channel": 10035,
+      "bounds_ft": [
+        [
+          -34.5,
+          45.0,
+          -65.0
+        ],
+        [
+          -8.5,
+          60.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3328218912073661
+    },
+    {
+      "name": "HX_059_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 10036,
+      "end_channel": 10170,
+      "bounds_ft": [
+        [
+          -10.0,
+          26.5,
+          -65.0
+        ],
+        [
+          -2.5,
+          55.5,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3316728733544639
+    },
+    {
+      "name": "HX_060_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 10171,
+      "end_channel": 10305,
+      "bounds_ft": [
+        [
+          5.0,
+          30.5,
+          -65.0
+        ],
+        [
+          20.0,
+          56.5,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3328218912073635
+    },
+    {
+      "name": "HX_061_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 10306,
+      "end_channel": 10440,
+      "bounds_ft": [
+        [
+          9.5,
+          55.0,
+          -65.0
+        ],
+        [
+          38.5,
+          62.5,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.331672873354472
+    },
+    {
+      "name": "HX_062_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 10441,
+      "end_channel": 10575,
+      "bounds_ft": [
+        [
+          8.5,
+          70.0,
+          -65.0
+        ],
+        [
+          34.5,
+          85.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3328218912073661
+    },
+    {
+      "name": "HX_063_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 10576,
+      "end_channel": 10710,
+      "bounds_ft": [
+        [
+          2.5,
+          74.5,
+          -65.0
+        ],
+        [
+          10.0,
+          103.5,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3316728733544675
+    },
+    {
+      "name": "HX_064_VORTEX_HOOP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "VORTEX HOOP",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 10711,
+      "end_channel": 11160,
+      "bounds_ft": [
+        [
+          -35.0,
+          31.0,
+          -92.5
+        ],
+        [
+          35.0,
+          99.0,
+          -77.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3957196420225076
+    },
+    {
+      "name": "HX_065_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 11161,
+      "end_channel": 11295,
+      "bounds_ft": [
+        [
+          -27.0,
+          70.5,
+          -85.0
+        ],
+        [
+          -6.75,
+          87.25,
+          -85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15024569734549076
+    },
+    {
+      "name": "HX_066_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 11296,
+      "end_channel": 11430,
+      "bounds_ft": [
+        [
+          -35.0,
+          61.5,
+          -85.0
+        ],
+        [
+          -8.5,
+          64.0,
+          -85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33306626275667406
+    },
+    {
+      "name": "HX_067_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 11431,
+      "end_channel": 11565,
+      "bounds_ft": [
+        [
+          -22.25,
+          38.0,
+          -85.0
+        ],
+        [
+          -5.5,
+          58.25,
+          -85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15024569734549323
+    },
+    {
+      "name": "HX_068_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 11566,
+      "end_channel": 11700,
+      "bounds_ft": [
+        [
+          1.0,
+          30.0,
+          -85.0
+        ],
+        [
+          3.5,
+          56.5,
+          -85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.333066262756683
+    },
+    {
+      "name": "HX_069_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 11701,
+      "end_channel": 11835,
+      "bounds_ft": [
+        [
+          6.75,
+          42.75,
+          -85.0
+        ],
+        [
+          27.0,
+          59.5,
+          -85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15024569734549864
+    },
+    {
+      "name": "HX_070_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 11836,
+      "end_channel": 11970,
+      "bounds_ft": [
+        [
+          8.5,
+          66.0,
+          -85.0
+        ],
+        [
+          35.0,
+          68.5,
+          -85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33306626275668355
+    },
+    {
+      "name": "HX_071_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 11971,
+      "end_channel": 12105,
+      "bounds_ft": [
+        [
+          5.5,
+          71.75,
+          -85.0
+        ],
+        [
+          22.25,
+          92.0,
+          -85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1502456973454947
+    },
+    {
+      "name": "HX_072_CROSSED_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPOKES",
+      "design": "CROSSED SPOKE",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 12106,
+      "end_channel": 12240,
+      "bounds_ft": [
+        [
+          -3.5,
+          73.5,
+          -85.0
+        ],
+        [
+          -1.0,
+          100.0,
+          -85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3330662627566803
+    },
+    {
+      "name": "HX_073_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 12241,
+      "end_channel": 13200,
+      "bounds_ft": [
+        [
+          -148.5,
+          0.0,
+          -18.5
+        ],
+        [
+          -111.5,
+          80.0,
+          18.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39629143572822795,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_074_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 13201,
+      "end_channel": 14160,
+      "bounds_ft": [
+        [
+          111.5,
+          0.0,
+          -18.5
+        ],
+        [
+          148.5,
+          80.0,
+          18.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39629143572822795,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_075_COUNTERWOUND_RAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "COUNTERWOUND RAIL",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 14161,
+      "end_channel": 15345,
+      "bounds_ft": [
+        [
+          -94.5,
+          2.5,
+          -101.5
+        ],
+        [
+          -25.5,
+          52.5,
+          66.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3951753631983208,
+      "double_helix": true
+    },
+    {
+      "name": "HX_076_COUNTERWOUND_RAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "COUNTERWOUND RAIL",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 15346,
+      "end_channel": 16530,
+      "bounds_ft": [
+        [
+          25.5,
+          2.5,
+          -101.5
+        ],
+        [
+          94.5,
+          52.5,
+          66.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3951753631983208,
+      "double_helix": true
+    }
+  ],
+  "file_prefix": "Prismatic_Vortex",
+  "description": "Offset tilted hoops, crossed spoke planes and counterwound helix rails create a deep kaleidoscopic light tunnel.",
+  "palette": [
+    "#6EE5FF",
+    "#FF7CCC",
+    "#FFE293"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_VORTEX_HOOP",
+      "HX_002_CROSSED_SPOKE",
+      "HX_003_CROSSED_SPOKE",
+      "HX_004_CROSSED_SPOKE",
+      "HX_005_CROSSED_SPOKE",
+      "HX_006_CROSSED_SPOKE",
+      "HX_007_CROSSED_SPOKE",
+      "HX_008_CROSSED_SPOKE",
+      "HX_009_CROSSED_SPOKE",
+      "HX_010_VORTEX_HOOP",
+      "HX_011_CROSSED_SPOKE",
+      "HX_012_CROSSED_SPOKE",
+      "HX_013_CROSSED_SPOKE",
+      "HX_014_CROSSED_SPOKE",
+      "HX_015_CROSSED_SPOKE",
+      "HX_016_CROSSED_SPOKE",
+      "HX_017_CROSSED_SPOKE",
+      "HX_018_CROSSED_SPOKE",
+      "HX_019_VORTEX_HOOP",
+      "HX_020_CROSSED_SPOKE",
+      "HX_021_CROSSED_SPOKE",
+      "HX_022_CROSSED_SPOKE",
+      "HX_023_CROSSED_SPOKE",
+      "HX_024_CROSSED_SPOKE",
+      "HX_025_CROSSED_SPOKE",
+      "HX_026_CROSSED_SPOKE",
+      "HX_027_CROSSED_SPOKE",
+      "HX_028_VORTEX_HOOP",
+      "HX_029_CROSSED_SPOKE",
+      "HX_030_CROSSED_SPOKE",
+      "HX_031_CROSSED_SPOKE",
+      "HX_032_CROSSED_SPOKE",
+      "HX_033_CROSSED_SPOKE",
+      "HX_034_CROSSED_SPOKE",
+      "HX_035_CROSSED_SPOKE",
+      "HX_036_CROSSED_SPOKE",
+      "HX_037_VORTEX_HOOP",
+      "HX_038_CROSSED_SPOKE",
+      "HX_039_CROSSED_SPOKE",
+      "HX_040_CROSSED_SPOKE",
+      "HX_041_CROSSED_SPOKE",
+      "HX_042_CROSSED_SPOKE",
+      "HX_043_CROSSED_SPOKE",
+      "HX_044_CROSSED_SPOKE",
+      "HX_045_CROSSED_SPOKE",
+      "HX_046_VORTEX_HOOP",
+      "HX_047_CROSSED_SPOKE",
+      "HX_048_CROSSED_SPOKE",
+      "HX_049_CROSSED_SPOKE",
+      "HX_050_CROSSED_SPOKE",
+      "HX_051_CROSSED_SPOKE",
+      "HX_052_CROSSED_SPOKE",
+      "HX_053_CROSSED_SPOKE",
+      "HX_054_CROSSED_SPOKE",
+      "HX_055_VORTEX_HOOP",
+      "HX_056_CROSSED_SPOKE",
+      "HX_057_CROSSED_SPOKE",
+      "HX_058_CROSSED_SPOKE",
+      "HX_059_CROSSED_SPOKE",
+      "HX_060_CROSSED_SPOKE",
+      "HX_061_CROSSED_SPOKE",
+      "HX_062_CROSSED_SPOKE",
+      "HX_063_CROSSED_SPOKE",
+      "HX_064_VORTEX_HOOP",
+      "HX_065_CROSSED_SPOKE",
+      "HX_066_CROSSED_SPOKE",
+      "HX_067_CROSSED_SPOKE",
+      "HX_068_CROSSED_SPOKE",
+      "HX_069_CROSSED_SPOKE",
+      "HX_070_CROSSED_SPOKE",
+      "HX_071_CROSSED_SPOKE",
+      "HX_072_CROSSED_SPOKE",
+      "HX_073_SPIRAL_TREE",
+      "HX_074_SPIRAL_TREE",
+      "HX_075_COUNTERWOUND_RAIL",
+      "HX_076_COUNTERWOUND_RAIL"
+    ],
+    "HX_DNA_ALL": [
+      "HX_075_COUNTERWOUND_RAIL",
+      "HX_076_COUNTERWOUND_RAIL"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_075_COUNTERWOUND_RAIL/RUNGS",
+      "HX_076_COUNTERWOUND_RAIL/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_075_COUNTERWOUND_RAIL/STRAND_A",
+      "HX_076_COUNTERWOUND_RAIL/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_075_COUNTERWOUND_RAIL/STRAND_B",
+      "HX_076_COUNTERWOUND_RAIL/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_VORTEX_HOOP",
+      "HX_002_CROSSED_SPOKE",
+      "HX_003_CROSSED_SPOKE",
+      "HX_004_CROSSED_SPOKE",
+      "HX_005_CROSSED_SPOKE",
+      "HX_006_CROSSED_SPOKE",
+      "HX_007_CROSSED_SPOKE",
+      "HX_008_CROSSED_SPOKE",
+      "HX_009_CROSSED_SPOKE",
+      "HX_010_VORTEX_HOOP",
+      "HX_011_CROSSED_SPOKE",
+      "HX_012_CROSSED_SPOKE",
+      "HX_013_CROSSED_SPOKE",
+      "HX_014_CROSSED_SPOKE",
+      "HX_015_CROSSED_SPOKE",
+      "HX_016_CROSSED_SPOKE",
+      "HX_017_CROSSED_SPOKE",
+      "HX_018_CROSSED_SPOKE",
+      "HX_019_VORTEX_HOOP",
+      "HX_020_CROSSED_SPOKE",
+      "HX_021_CROSSED_SPOKE",
+      "HX_022_CROSSED_SPOKE",
+      "HX_023_CROSSED_SPOKE",
+      "HX_024_CROSSED_SPOKE",
+      "HX_025_CROSSED_SPOKE",
+      "HX_026_CROSSED_SPOKE",
+      "HX_027_CROSSED_SPOKE",
+      "HX_028_VORTEX_HOOP",
+      "HX_029_CROSSED_SPOKE",
+      "HX_030_CROSSED_SPOKE",
+      "HX_031_CROSSED_SPOKE",
+      "HX_032_CROSSED_SPOKE",
+      "HX_033_CROSSED_SPOKE",
+      "HX_034_CROSSED_SPOKE",
+      "HX_035_CROSSED_SPOKE",
+      "HX_036_CROSSED_SPOKE",
+      "HX_037_VORTEX_HOOP",
+      "HX_038_CROSSED_SPOKE",
+      "HX_039_CROSSED_SPOKE",
+      "HX_040_CROSSED_SPOKE",
+      "HX_041_CROSSED_SPOKE",
+      "HX_042_CROSSED_SPOKE",
+      "HX_043_CROSSED_SPOKE",
+      "HX_044_CROSSED_SPOKE",
+      "HX_045_CROSSED_SPOKE",
+      "HX_046_VORTEX_HOOP",
+      "HX_047_CROSSED_SPOKE",
+      "HX_048_CROSSED_SPOKE",
+      "HX_049_CROSSED_SPOKE",
+      "HX_050_CROSSED_SPOKE",
+      "HX_051_CROSSED_SPOKE",
+      "HX_052_CROSSED_SPOKE",
+      "HX_053_CROSSED_SPOKE",
+      "HX_054_CROSSED_SPOKE",
+      "HX_055_VORTEX_HOOP",
+      "HX_056_CROSSED_SPOKE",
+      "HX_057_CROSSED_SPOKE",
+      "HX_058_CROSSED_SPOKE",
+      "HX_059_CROSSED_SPOKE",
+      "HX_060_CROSSED_SPOKE",
+      "HX_061_CROSSED_SPOKE",
+      "HX_062_CROSSED_SPOKE",
+      "HX_063_CROSSED_SPOKE",
+      "HX_064_VORTEX_HOOP",
+      "HX_065_CROSSED_SPOKE",
+      "HX_066_CROSSED_SPOKE",
+      "HX_067_CROSSED_SPOKE",
+      "HX_068_CROSSED_SPOKE",
+      "HX_069_CROSSED_SPOKE",
+      "HX_070_CROSSED_SPOKE",
+      "HX_071_CROSSED_SPOKE",
+      "HX_072_CROSSED_SPOKE",
+      "HX_073_SPIRAL_TREE",
+      "HX_074_SPIRAL_TREE",
+      "HX_075_COUNTERWOUND_RAIL",
+      "HX_076_COUNTERWOUND_RAIL"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_074_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_073_SPIRAL_TREE"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_073_SPIRAL_TREE",
+      "HX_074_SPIRAL_TREE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_VORTEX_HOOP",
+      "HX_002_CROSSED_SPOKE",
+      "HX_003_CROSSED_SPOKE",
+      "HX_004_CROSSED_SPOKE",
+      "HX_005_CROSSED_SPOKE",
+      "HX_006_CROSSED_SPOKE",
+      "HX_007_CROSSED_SPOKE",
+      "HX_008_CROSSED_SPOKE",
+      "HX_009_CROSSED_SPOKE",
+      "HX_010_VORTEX_HOOP",
+      "HX_011_CROSSED_SPOKE",
+      "HX_012_CROSSED_SPOKE",
+      "HX_013_CROSSED_SPOKE",
+      "HX_014_CROSSED_SPOKE",
+      "HX_015_CROSSED_SPOKE",
+      "HX_016_CROSSED_SPOKE",
+      "HX_017_CROSSED_SPOKE",
+      "HX_018_CROSSED_SPOKE",
+      "HX_019_VORTEX_HOOP",
+      "HX_020_CROSSED_SPOKE",
+      "HX_021_CROSSED_SPOKE",
+      "HX_022_CROSSED_SPOKE",
+      "HX_023_CROSSED_SPOKE",
+      "HX_024_CROSSED_SPOKE",
+      "HX_025_CROSSED_SPOKE",
+      "HX_026_CROSSED_SPOKE",
+      "HX_027_CROSSED_SPOKE",
+      "HX_028_VORTEX_HOOP",
+      "HX_029_CROSSED_SPOKE",
+      "HX_030_CROSSED_SPOKE",
+      "HX_031_CROSSED_SPOKE",
+      "HX_032_CROSSED_SPOKE",
+      "HX_033_CROSSED_SPOKE",
+      "HX_034_CROSSED_SPOKE",
+      "HX_035_CROSSED_SPOKE",
+      "HX_036_CROSSED_SPOKE",
+      "HX_037_VORTEX_HOOP",
+      "HX_038_CROSSED_SPOKE",
+      "HX_039_CROSSED_SPOKE",
+      "HX_040_CROSSED_SPOKE",
+      "HX_041_CROSSED_SPOKE",
+      "HX_042_CROSSED_SPOKE",
+      "HX_043_CROSSED_SPOKE",
+      "HX_044_CROSSED_SPOKE",
+      "HX_045_CROSSED_SPOKE",
+      "HX_046_VORTEX_HOOP",
+      "HX_047_CROSSED_SPOKE",
+      "HX_048_CROSSED_SPOKE",
+      "HX_049_CROSSED_SPOKE",
+      "HX_050_CROSSED_SPOKE",
+      "HX_051_CROSSED_SPOKE",
+      "HX_052_CROSSED_SPOKE",
+      "HX_053_CROSSED_SPOKE",
+      "HX_054_CROSSED_SPOKE",
+      "HX_055_VORTEX_HOOP",
+      "HX_056_CROSSED_SPOKE",
+      "HX_057_CROSSED_SPOKE",
+      "HX_058_CROSSED_SPOKE",
+      "HX_059_CROSSED_SPOKE",
+      "HX_060_CROSSED_SPOKE",
+      "HX_061_CROSSED_SPOKE",
+      "HX_062_CROSSED_SPOKE",
+      "HX_063_CROSSED_SPOKE",
+      "HX_064_VORTEX_HOOP",
+      "HX_065_CROSSED_SPOKE",
+      "HX_066_CROSSED_SPOKE",
+      "HX_067_CROSSED_SPOKE",
+      "HX_068_CROSSED_SPOKE",
+      "HX_069_CROSSED_SPOKE",
+      "HX_070_CROSSED_SPOKE",
+      "HX_071_CROSSED_SPOKE",
+      "HX_072_CROSSED_SPOKE",
+      "HX_073_SPIRAL_TREE",
+      "HX_074_SPIRAL_TREE",
+      "HX_075_COUNTERWOUND_RAIL",
+      "HX_076_COUNTERWOUND_RAIL"
+    ],
+    "HX_ZONE_GROVE": [
+      "HX_073_SPIRAL_TREE",
+      "HX_074_SPIRAL_TREE"
+    ],
+    "HX_ZONE_RAILS": [
+      "HX_075_COUNTERWOUND_RAIL",
+      "HX_076_COUNTERWOUND_RAIL"
+    ],
+    "HX_ZONE_SPOKES": [
+      "HX_002_CROSSED_SPOKE",
+      "HX_003_CROSSED_SPOKE",
+      "HX_004_CROSSED_SPOKE",
+      "HX_005_CROSSED_SPOKE",
+      "HX_006_CROSSED_SPOKE",
+      "HX_007_CROSSED_SPOKE",
+      "HX_008_CROSSED_SPOKE",
+      "HX_009_CROSSED_SPOKE",
+      "HX_011_CROSSED_SPOKE",
+      "HX_012_CROSSED_SPOKE",
+      "HX_013_CROSSED_SPOKE",
+      "HX_014_CROSSED_SPOKE",
+      "HX_015_CROSSED_SPOKE",
+      "HX_016_CROSSED_SPOKE",
+      "HX_017_CROSSED_SPOKE",
+      "HX_018_CROSSED_SPOKE",
+      "HX_020_CROSSED_SPOKE",
+      "HX_021_CROSSED_SPOKE",
+      "HX_022_CROSSED_SPOKE",
+      "HX_023_CROSSED_SPOKE",
+      "HX_024_CROSSED_SPOKE",
+      "HX_025_CROSSED_SPOKE",
+      "HX_026_CROSSED_SPOKE",
+      "HX_027_CROSSED_SPOKE",
+      "HX_029_CROSSED_SPOKE",
+      "HX_030_CROSSED_SPOKE",
+      "HX_031_CROSSED_SPOKE",
+      "HX_032_CROSSED_SPOKE",
+      "HX_033_CROSSED_SPOKE",
+      "HX_034_CROSSED_SPOKE",
+      "HX_035_CROSSED_SPOKE",
+      "HX_036_CROSSED_SPOKE",
+      "HX_038_CROSSED_SPOKE",
+      "HX_039_CROSSED_SPOKE",
+      "HX_040_CROSSED_SPOKE",
+      "HX_041_CROSSED_SPOKE",
+      "HX_042_CROSSED_SPOKE",
+      "HX_043_CROSSED_SPOKE",
+      "HX_044_CROSSED_SPOKE",
+      "HX_045_CROSSED_SPOKE",
+      "HX_047_CROSSED_SPOKE",
+      "HX_048_CROSSED_SPOKE",
+      "HX_049_CROSSED_SPOKE",
+      "HX_050_CROSSED_SPOKE",
+      "HX_051_CROSSED_SPOKE",
+      "HX_052_CROSSED_SPOKE",
+      "HX_053_CROSSED_SPOKE",
+      "HX_054_CROSSED_SPOKE",
+      "HX_056_CROSSED_SPOKE",
+      "HX_057_CROSSED_SPOKE",
+      "HX_058_CROSSED_SPOKE",
+      "HX_059_CROSSED_SPOKE",
+      "HX_060_CROSSED_SPOKE",
+      "HX_061_CROSSED_SPOKE",
+      "HX_062_CROSSED_SPOKE",
+      "HX_063_CROSSED_SPOKE",
+      "HX_065_CROSSED_SPOKE",
+      "HX_066_CROSSED_SPOKE",
+      "HX_067_CROSSED_SPOKE",
+      "HX_068_CROSSED_SPOKE",
+      "HX_069_CROSSED_SPOKE",
+      "HX_070_CROSSED_SPOKE",
+      "HX_071_CROSSED_SPOKE",
+      "HX_072_CROSSED_SPOKE"
+    ],
+    "HX_ZONE_TUNNEL": [
+      "HX_001_VORTEX_HOOP",
+      "HX_010_VORTEX_HOOP",
+      "HX_019_VORTEX_HOOP",
+      "HX_028_VORTEX_HOOP",
+      "HX_037_VORTEX_HOOP",
+      "HX_046_VORTEX_HOOP",
+      "HX_055_VORTEX_HOOP",
+      "HX_064_VORTEX_HOOP"
+    ]
+  },
+  "group_count": 14,
+  "concept_id": "10",
+  "source_art": "images/09_10_Gravity_Vortex.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "10",
+    "name": "Prismatic Vortex",
+    "round": "abstract",
+    "board": 5,
+    "side": "right",
+    "description": "Offset tilted hoops, crossed spoke planes and counterwound helix rails create a deep kaleidoscopic light tunnel.",
+    "spatial": "Sequential ring planes with changing orientation and real depth gaps.",
+    "choreography": "Phase-shifted ring chases produce a vortex illusion and alternating expansion/contraction.",
+    "constraint": "No moving rings or infinite tunnel are implied; viewpoint controls the illusion.",
+    "image": "images/09_10_Gravity_Vortex.png",
+    "panel_ratio": 1.0,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "No moving rings or infinite tunnel are implied; viewpoint controls the illusion.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

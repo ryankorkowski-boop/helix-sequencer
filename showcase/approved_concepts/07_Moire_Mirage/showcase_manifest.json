@@ -1,0 +1,583 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Moire Mirage",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 11
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 11,
+  "rgb_pixels": 3438,
+  "channel_count": 10314,
+  "spiral_trees": 2,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_MOIRE_LATTICE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LATTICES",
+      "design": "MOIRE LATTICE",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 1,
+      "end_channel": 1536,
+      "bounds_ft": [
+        [
+          -97.0,
+          5.0,
+          -41.5
+        ],
+        [
+          -3.0,
+          90.0,
+          -8.5
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31876014619387855
+    },
+    {
+      "name": "HX_002_MOIRE_LATTICE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LATTICES",
+      "design": "MOIRE LATTICE",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 1537,
+      "end_channel": 3072,
+      "bounds_ft": [
+        [
+          -64.5,
+          5.0,
+          -14.5
+        ],
+        [
+          34.5,
+          90.0,
+          -3.5
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35274733582551365
+    },
+    {
+      "name": "HX_003_MOIRE_LATTICE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LATTICES",
+      "design": "MOIRE LATTICE",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 3073,
+      "end_channel": 4608,
+      "bounds_ft": [
+        [
+          -29.5,
+          5.0,
+          1.5
+        ],
+        [
+          69.5,
+          90.0,
+          12.5
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35274733582551254
+    },
+    {
+      "name": "HX_004_MOIRE_LATTICE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LATTICES",
+      "design": "MOIRE LATTICE",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 4609,
+      "end_channel": 6144,
+      "bounds_ft": [
+        [
+          8.0,
+          5.0,
+          6.5
+        ],
+        [
+          102.0,
+          90.0,
+          39.5
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31876014619388116
+    },
+    {
+      "name": "HX_005_PHASE_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RINGS",
+      "design": "PHASE RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 6145,
+      "end_channel": 6594,
+      "bounds_ft": [
+        [
+          -12.0,
+          36.0,
+          45.0
+        ],
+        [
+          12.0,
+          60.0,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15364073664964162
+    },
+    {
+      "name": "HX_006_PHASE_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RINGS",
+      "design": "PHASE RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 6595,
+      "end_channel": 7044,
+      "bounds_ft": [
+        [
+          -27.0,
+          21.0,
+          45.0
+        ],
+        [
+          27.0,
+          75.0,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2876805571425854
+    },
+    {
+      "name": "HX_007_PHASE_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RINGS",
+      "design": "PHASE RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 7045,
+      "end_channel": 7494,
+      "bounds_ft": [
+        [
+          -42.0,
+          6.0,
+          45.0
+        ],
+        [
+          42.0,
+          90.0,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31299351458870467
+    },
+    {
+      "name": "HX_008_PHASE_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RINGS",
+      "design": "PHASE RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 7495,
+      "end_channel": 7944,
+      "bounds_ft": [
+        [
+          -57.0,
+          -9.0,
+          45.0
+        ],
+        [
+          57.0,
+          105.0,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3050080282566176
+    },
+    {
+      "name": "HX_009_PHASE_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RINGS",
+      "design": "PHASE RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 7945,
+      "end_channel": 8394,
+      "bounds_ft": [
+        [
+          -72.0,
+          -24.0,
+          45.0
+        ],
+        [
+          72.0,
+          120.0,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31098356664269633
+    },
+    {
+      "name": "HX_010_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 8395,
+      "end_channel": 9354,
+      "bounds_ft": [
+        [
+          -163.5,
+          0.0,
+          -68.5
+        ],
+        [
+          -126.5,
+          72.0,
+          -31.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3849765368301036,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_011_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 9355,
+      "end_channel": 10314,
+      "bounds_ft": [
+        [
+          126.5,
+          0.0,
+          -68.5
+        ],
+        [
+          163.5,
+          72.0,
+          -31.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3849765368301036,
+      "spiral_tree": true,
+      "custom_exact": true
+    }
+  ],
+  "file_prefix": "Moire_Mirage",
+  "description": "Several slightly rotated sparse pixel lattices overlap concentric rings and helix silhouettes, creating rippling optical moire.",
+  "palette": [
+    "#60DFFF",
+    "#ED78FF",
+    "#FFE292"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_MOIRE_LATTICE",
+      "HX_002_MOIRE_LATTICE",
+      "HX_003_MOIRE_LATTICE",
+      "HX_004_MOIRE_LATTICE",
+      "HX_005_PHASE_RING",
+      "HX_006_PHASE_RING",
+      "HX_007_PHASE_RING",
+      "HX_008_PHASE_RING",
+      "HX_009_PHASE_RING",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_MOIRE_LATTICE",
+      "HX_002_MOIRE_LATTICE",
+      "HX_003_MOIRE_LATTICE",
+      "HX_004_MOIRE_LATTICE",
+      "HX_005_PHASE_RING",
+      "HX_006_PHASE_RING",
+      "HX_007_PHASE_RING",
+      "HX_008_PHASE_RING",
+      "HX_009_PHASE_RING",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_011_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_010_SPIRAL_TREE"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_MOIRE_LATTICE",
+      "HX_002_MOIRE_LATTICE",
+      "HX_003_MOIRE_LATTICE",
+      "HX_004_MOIRE_LATTICE",
+      "HX_005_PHASE_RING",
+      "HX_006_PHASE_RING",
+      "HX_007_PHASE_RING",
+      "HX_008_PHASE_RING",
+      "HX_009_PHASE_RING",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE"
+    ],
+    "HX_ZONE_GROVE": [
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE"
+    ],
+    "HX_ZONE_LATTICES": [
+      "HX_001_MOIRE_LATTICE",
+      "HX_002_MOIRE_LATTICE",
+      "HX_003_MOIRE_LATTICE",
+      "HX_004_MOIRE_LATTICE"
+    ],
+    "HX_ZONE_RINGS": [
+      "HX_005_PHASE_RING",
+      "HX_006_PHASE_RING",
+      "HX_007_PHASE_RING",
+      "HX_008_PHASE_RING",
+      "HX_009_PHASE_RING"
+    ]
+  },
+  "group_count": 9,
+  "concept_id": "07",
+  "source_art": "images/07_08_Moire_Mycelium.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "07",
+    "name": "Moire Mirage",
+    "round": "abstract",
+    "board": 4,
+    "side": "left",
+    "description": "Several slightly rotated sparse pixel lattices overlap concentric rings and helix silhouettes, creating rippling optical moire.",
+    "spatial": "Separated lattice planes in front of a deeper spiral forest.",
+    "choreography": "Alternating planes and phase-shifted ring patterns suggest bending waves; viewpoint movement changes overlap.",
+    "constraint": "Moir\u00e9 is viewpoint- and spacing-dependent; low-resolution image patterns are illustrative.",
+    "image": "images/07_08_Moire_Mycelium.png",
+    "panel_ratio": 1.2503152585119799,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Moir\u00e9 is viewpoint- and spacing-dependent; low-resolution image patterns are illustrative.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

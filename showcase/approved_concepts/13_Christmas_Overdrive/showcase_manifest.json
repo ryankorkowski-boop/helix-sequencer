@@ -1,0 +1,4405 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Christmas Overdrive",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 105
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 105,
+  "rgb_pixels": 14920,
+  "channel_count": 44760,
+  "spiral_trees": 29,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_HOUSE_FACADE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACADES",
+      "design": "HOUSE FACADE",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 1,
+      "end_channel": 750,
+      "bounds_ft": [
+        [
+          -152.5,
+          0.0,
+          -90.0
+        ],
+        [
+          -57.5,
+          73.0,
+          -90.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3332525675906818
+    },
+    {
+      "name": "HX_002_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 751,
+      "end_channel": 930,
+      "bounds_ft": [
+        [
+          -136.0,
+          18.0,
+          -90.0
+        ],
+        [
+          -122.0,
+          35.0,
+          -90.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34197140881138716
+    },
+    {
+      "name": "HX_003_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 931,
+      "end_channel": 1110,
+      "bounds_ft": [
+        [
+          -88.0,
+          18.0,
+          -90.0
+        ],
+        [
+          -74.0,
+          35.0,
+          -90.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34197140881138716
+    },
+    {
+      "name": "HX_004_HOUSE_FACADE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACADES",
+      "design": "HOUSE FACADE",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 1111,
+      "end_channel": 1860,
+      "bounds_ft": [
+        [
+          -47.5,
+          0.0,
+          -90.0
+        ],
+        [
+          47.5,
+          73.0,
+          -90.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3332525675906818
+    },
+    {
+      "name": "HX_005_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 1861,
+      "end_channel": 2040,
+      "bounds_ft": [
+        [
+          -31.0,
+          18.0,
+          -90.0
+        ],
+        [
+          -17.0,
+          35.0,
+          -90.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34197140881138716
+    },
+    {
+      "name": "HX_006_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 2041,
+      "end_channel": 2220,
+      "bounds_ft": [
+        [
+          17.0,
+          18.0,
+          -90.0
+        ],
+        [
+          31.0,
+          35.0,
+          -90.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34197140881138716
+    },
+    {
+      "name": "HX_007_HOUSE_FACADE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACADES",
+      "design": "HOUSE FACADE",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 2221,
+      "end_channel": 2970,
+      "bounds_ft": [
+        [
+          57.5,
+          0.0,
+          -90.0
+        ],
+        [
+          152.5,
+          73.0,
+          -90.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3332525675906912
+    },
+    {
+      "name": "HX_008_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 2971,
+      "end_channel": 3150,
+      "bounds_ft": [
+        [
+          74.0,
+          18.0,
+          -90.0
+        ],
+        [
+          88.0,
+          35.0,
+          -90.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34197140881138716
+    },
+    {
+      "name": "HX_009_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 3151,
+      "end_channel": 3330,
+      "bounds_ft": [
+        [
+          122.0,
+          18.0,
+          -90.0
+        ],
+        [
+          136.0,
+          35.0,
+          -90.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34197140881138716
+    },
+    {
+      "name": "HX_010_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 3331,
+      "end_channel": 4290,
+      "bounds_ft": [
+        [
+          -177.5,
+          0.0,
+          -92.5
+        ],
+        [
+          -132.5,
+          115.0,
+          -47.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36543573826942277,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_011_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 4291,
+      "end_channel": 5250,
+      "bounds_ft": [
+        [
+          132.5,
+          0.0,
+          -92.5
+        ],
+        [
+          177.5,
+          115.0,
+          -47.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36543573826942277,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_012_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 5251,
+      "end_channel": 6210,
+      "bounds_ft": [
+        [
+          -150.75,
+          0.0,
+          -25.75
+        ],
+        [
+          -139.25,
+          17.0,
+          -14.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535926,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_013_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 6211,
+      "end_channel": 6660,
+      "bounds_ft": [
+        [
+          -141.0,
+          0.0,
+          -8.0
+        ],
+        [
+          -123.0,
+          15.0,
+          -8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536193
+    },
+    {
+      "name": "HX_014_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 6661,
+      "end_channel": 7620,
+      "bounds_ft": [
+        [
+          -114.5,
+          0.0,
+          -25.75
+        ],
+        [
+          -103.0,
+          17.0,
+          -14.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535318,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_015_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 7621,
+      "end_channel": 8070,
+      "bounds_ft": [
+        [
+          -104.75,
+          0.0,
+          -8.0
+        ],
+        [
+          -86.75,
+          15.0,
+          -8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_016_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 8071,
+      "end_channel": 9030,
+      "bounds_ft": [
+        [
+          -78.25,
+          0.0,
+          -25.75
+        ],
+        [
+          -66.75,
+          17.0,
+          -14.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535318,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_017_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 9031,
+      "end_channel": 9480,
+      "bounds_ft": [
+        [
+          -68.5,
+          0.0,
+          -8.0
+        ],
+        [
+          -50.5,
+          15.0,
+          -8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_018_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 9481,
+      "end_channel": 10440,
+      "bounds_ft": [
+        [
+          -42.0,
+          0.0,
+          -25.75
+        ],
+        [
+          -30.5,
+          17.0,
+          -14.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535524,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_019_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 10441,
+      "end_channel": 10890,
+      "bounds_ft": [
+        [
+          -32.25,
+          0.0,
+          -8.0
+        ],
+        [
+          -14.25,
+          15.0,
+          -8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_020_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 10891,
+      "end_channel": 11850,
+      "bounds_ft": [
+        [
+          -5.75,
+          0.0,
+          -25.75
+        ],
+        [
+          5.75,
+          17.0,
+          -14.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535374,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_021_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 11851,
+      "end_channel": 12300,
+      "bounds_ft": [
+        [
+          4.0,
+          0.0,
+          -8.0
+        ],
+        [
+          22.0,
+          15.0,
+          -8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536325
+    },
+    {
+      "name": "HX_022_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 12301,
+      "end_channel": 13260,
+      "bounds_ft": [
+        [
+          30.5,
+          0.0,
+          -25.75
+        ],
+        [
+          42.0,
+          17.0,
+          -14.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535524,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_023_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 13261,
+      "end_channel": 13710,
+      "bounds_ft": [
+        [
+          40.25,
+          0.0,
+          -8.0
+        ],
+        [
+          58.25,
+          15.0,
+          -8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_024_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 13711,
+      "end_channel": 14670,
+      "bounds_ft": [
+        [
+          66.75,
+          0.0,
+          -25.75
+        ],
+        [
+          78.25,
+          17.0,
+          -14.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535318,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_025_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 14671,
+      "end_channel": 15120,
+      "bounds_ft": [
+        [
+          76.5,
+          0.0,
+          -8.0
+        ],
+        [
+          94.5,
+          15.0,
+          -8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_026_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 15121,
+      "end_channel": 16080,
+      "bounds_ft": [
+        [
+          103.0,
+          0.0,
+          -25.75
+        ],
+        [
+          114.5,
+          17.0,
+          -14.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535318,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_027_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 16081,
+      "end_channel": 16530,
+      "bounds_ft": [
+        [
+          112.75,
+          0.0,
+          -8.0
+        ],
+        [
+          130.75,
+          15.0,
+          -8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_028_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 16531,
+      "end_channel": 17490,
+      "bounds_ft": [
+        [
+          139.25,
+          0.0,
+          -25.75
+        ],
+        [
+          150.75,
+          17.0,
+          -14.25
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535926,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_029_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 17491,
+      "end_channel": 17940,
+      "bounds_ft": [
+        [
+          149.0,
+          0.0,
+          -8.0
+        ],
+        [
+          167.0,
+          15.0,
+          -8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583535458
+    },
+    {
+      "name": "HX_030_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 17941,
+      "end_channel": 18900,
+      "bounds_ft": [
+        [
+          -150.75,
+          0.0,
+          14.25
+        ],
+        [
+          -139.25,
+          17.0,
+          25.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535926,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_031_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 18901,
+      "end_channel": 19350,
+      "bounds_ft": [
+        [
+          -141.0,
+          0.0,
+          32.0
+        ],
+        [
+          -123.0,
+          15.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536193
+    },
+    {
+      "name": "HX_032_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 19351,
+      "end_channel": 20310,
+      "bounds_ft": [
+        [
+          -114.5,
+          0.0,
+          14.25
+        ],
+        [
+          -103.0,
+          17.0,
+          25.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535318,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_033_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 20311,
+      "end_channel": 20760,
+      "bounds_ft": [
+        [
+          -104.75,
+          0.0,
+          32.0
+        ],
+        [
+          -86.75,
+          15.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_034_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 20761,
+      "end_channel": 21720,
+      "bounds_ft": [
+        [
+          -78.25,
+          0.0,
+          14.25
+        ],
+        [
+          -66.75,
+          17.0,
+          25.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535318,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_035_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 21721,
+      "end_channel": 22170,
+      "bounds_ft": [
+        [
+          -68.5,
+          0.0,
+          32.0
+        ],
+        [
+          -50.5,
+          15.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_036_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 22171,
+      "end_channel": 23130,
+      "bounds_ft": [
+        [
+          -42.0,
+          0.0,
+          14.25
+        ],
+        [
+          -30.5,
+          17.0,
+          25.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535524,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_037_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 23131,
+      "end_channel": 23580,
+      "bounds_ft": [
+        [
+          -32.25,
+          0.0,
+          32.0
+        ],
+        [
+          -14.25,
+          15.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_038_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 23581,
+      "end_channel": 24540,
+      "bounds_ft": [
+        [
+          -5.75,
+          0.0,
+          14.25
+        ],
+        [
+          5.75,
+          17.0,
+          25.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535374,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_039_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 24541,
+      "end_channel": 24990,
+      "bounds_ft": [
+        [
+          4.0,
+          0.0,
+          32.0
+        ],
+        [
+          22.0,
+          15.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536325
+    },
+    {
+      "name": "HX_040_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 24991,
+      "end_channel": 25950,
+      "bounds_ft": [
+        [
+          30.5,
+          0.0,
+          14.25
+        ],
+        [
+          42.0,
+          17.0,
+          25.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535524,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_041_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 25951,
+      "end_channel": 26400,
+      "bounds_ft": [
+        [
+          40.25,
+          0.0,
+          32.0
+        ],
+        [
+          58.25,
+          15.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_042_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 26401,
+      "end_channel": 27360,
+      "bounds_ft": [
+        [
+          66.75,
+          0.0,
+          14.25
+        ],
+        [
+          78.25,
+          17.0,
+          25.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535318,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_043_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 27361,
+      "end_channel": 27810,
+      "bounds_ft": [
+        [
+          76.5,
+          0.0,
+          32.0
+        ],
+        [
+          94.5,
+          15.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_044_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 27811,
+      "end_channel": 28770,
+      "bounds_ft": [
+        [
+          103.0,
+          0.0,
+          14.25
+        ],
+        [
+          114.5,
+          17.0,
+          25.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535318,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_045_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 28771,
+      "end_channel": 29220,
+      "bounds_ft": [
+        [
+          112.75,
+          0.0,
+          32.0
+        ],
+        [
+          130.75,
+          15.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_046_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 29221,
+      "end_channel": 30180,
+      "bounds_ft": [
+        [
+          139.25,
+          0.0,
+          14.25
+        ],
+        [
+          150.75,
+          17.0,
+          25.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535926,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_047_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 30181,
+      "end_channel": 30630,
+      "bounds_ft": [
+        [
+          149.0,
+          0.0,
+          32.0
+        ],
+        [
+          167.0,
+          15.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583535458
+    },
+    {
+      "name": "HX_048_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 30631,
+      "end_channel": 31590,
+      "bounds_ft": [
+        [
+          -150.75,
+          0.0,
+          54.25
+        ],
+        [
+          -139.25,
+          17.0,
+          65.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535926,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_049_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 31591,
+      "end_channel": 32040,
+      "bounds_ft": [
+        [
+          -141.0,
+          0.0,
+          72.0
+        ],
+        [
+          -123.0,
+          15.0,
+          72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536193
+    },
+    {
+      "name": "HX_050_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 32041,
+      "end_channel": 33000,
+      "bounds_ft": [
+        [
+          -114.5,
+          0.0,
+          54.25
+        ],
+        [
+          -103.0,
+          17.0,
+          65.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535118,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_051_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 33001,
+      "end_channel": 33450,
+      "bounds_ft": [
+        [
+          -104.75,
+          0.0,
+          72.0
+        ],
+        [
+          -86.75,
+          15.0,
+          72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_052_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 33451,
+      "end_channel": 34410,
+      "bounds_ft": [
+        [
+          -78.25,
+          0.0,
+          54.25
+        ],
+        [
+          -66.75,
+          17.0,
+          65.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535118,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_053_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 34411,
+      "end_channel": 34860,
+      "bounds_ft": [
+        [
+          -68.5,
+          0.0,
+          72.0
+        ],
+        [
+          -50.5,
+          15.0,
+          72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_054_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 34861,
+      "end_channel": 35820,
+      "bounds_ft": [
+        [
+          -42.0,
+          0.0,
+          54.25
+        ],
+        [
+          -30.5,
+          17.0,
+          65.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535524,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_055_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 35821,
+      "end_channel": 36270,
+      "bounds_ft": [
+        [
+          -32.25,
+          0.0,
+          72.0
+        ],
+        [
+          -14.25,
+          15.0,
+          72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_056_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 36271,
+      "end_channel": 37230,
+      "bounds_ft": [
+        [
+          -5.75,
+          0.0,
+          54.25
+        ],
+        [
+          5.75,
+          17.0,
+          65.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535374,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_057_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 37231,
+      "end_channel": 37680,
+      "bounds_ft": [
+        [
+          4.0,
+          0.0,
+          72.0
+        ],
+        [
+          22.0,
+          15.0,
+          72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536325
+    },
+    {
+      "name": "HX_058_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 37681,
+      "end_channel": 38640,
+      "bounds_ft": [
+        [
+          30.5,
+          0.0,
+          54.25
+        ],
+        [
+          42.0,
+          17.0,
+          65.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535524,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_059_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 38641,
+      "end_channel": 39090,
+      "bounds_ft": [
+        [
+          40.25,
+          0.0,
+          72.0
+        ],
+        [
+          58.25,
+          15.0,
+          72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_060_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 39091,
+      "end_channel": 40050,
+      "bounds_ft": [
+        [
+          66.75,
+          0.0,
+          54.25
+        ],
+        [
+          78.25,
+          17.0,
+          65.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535118,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_061_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 40051,
+      "end_channel": 40500,
+      "bounds_ft": [
+        [
+          76.5,
+          0.0,
+          72.0
+        ],
+        [
+          94.5,
+          15.0,
+          72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_062_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 40501,
+      "end_channel": 41460,
+      "bounds_ft": [
+        [
+          103.0,
+          0.0,
+          54.25
+        ],
+        [
+          114.5,
+          17.0,
+          65.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535118,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_063_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 41461,
+      "end_channel": 41910,
+      "bounds_ft": [
+        [
+          112.75,
+          0.0,
+          72.0
+        ],
+        [
+          130.75,
+          15.0,
+          72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583536449
+    },
+    {
+      "name": "HX_064_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 41911,
+      "end_channel": 42870,
+      "bounds_ft": [
+        [
+          139.25,
+          0.0,
+          54.25
+        ],
+        [
+          150.75,
+          17.0,
+          65.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19962349241535926,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_065_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 42871,
+      "end_channel": 43320,
+      "bounds_ft": [
+        [
+          149.0,
+          0.0,
+          72.0
+        ],
+        [
+          167.0,
+          15.0,
+          72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08057828583535458
+    },
+    {
+      "name": "HX_066_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43321,
+      "end_channel": 43356,
+      "bounds_ft": [
+        [
+          -124.0,
+          62.0,
+          -82.0
+        ],
+        [
+          -116.0,
+          62.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_067_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43357,
+      "end_channel": 43392,
+      "bounds_ft": [
+        [
+          -124.5,
+          62.5,
+          -82.0
+        ],
+        [
+          -118.5,
+          68.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_068_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43393,
+      "end_channel": 43428,
+      "bounds_ft": [
+        [
+          -125.0,
+          63.0,
+          -82.0
+        ],
+        [
+          -125.0,
+          71.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_069_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43429,
+      "end_channel": 43464,
+      "bounds_ft": [
+        [
+          -131.5,
+          62.5,
+          -82.0
+        ],
+        [
+          -125.5,
+          68.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_070_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43465,
+      "end_channel": 43500,
+      "bounds_ft": [
+        [
+          -134.0,
+          62.0,
+          -82.0
+        ],
+        [
+          -126.0,
+          62.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_071_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43501,
+      "end_channel": 43536,
+      "bounds_ft": [
+        [
+          -131.5,
+          55.5,
+          -82.0
+        ],
+        [
+          -125.5,
+          61.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_072_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43537,
+      "end_channel": 43572,
+      "bounds_ft": [
+        [
+          -125.0,
+          53.0,
+          -82.0
+        ],
+        [
+          -125.0,
+          61.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_073_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43573,
+      "end_channel": 43608,
+      "bounds_ft": [
+        [
+          -124.5,
+          55.5,
+          -82.0
+        ],
+        [
+          -118.5,
+          61.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_074_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43609,
+      "end_channel": 43644,
+      "bounds_ft": [
+        [
+          -64.0,
+          62.0,
+          -82.0
+        ],
+        [
+          -56.0,
+          62.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_075_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43645,
+      "end_channel": 43680,
+      "bounds_ft": [
+        [
+          -64.5,
+          62.5,
+          -82.0
+        ],
+        [
+          -58.5,
+          68.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_076_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43681,
+      "end_channel": 43716,
+      "bounds_ft": [
+        [
+          -65.0,
+          63.0,
+          -82.0
+        ],
+        [
+          -65.0,
+          71.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_077_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43717,
+      "end_channel": 43752,
+      "bounds_ft": [
+        [
+          -71.5,
+          62.5,
+          -82.0
+        ],
+        [
+          -65.5,
+          68.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_078_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43753,
+      "end_channel": 43788,
+      "bounds_ft": [
+        [
+          -74.0,
+          62.0,
+          -82.0
+        ],
+        [
+          -66.0,
+          62.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_079_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43789,
+      "end_channel": 43824,
+      "bounds_ft": [
+        [
+          -71.5,
+          55.5,
+          -82.0
+        ],
+        [
+          -65.5,
+          61.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_080_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43825,
+      "end_channel": 43860,
+      "bounds_ft": [
+        [
+          -65.0,
+          53.0,
+          -82.0
+        ],
+        [
+          -65.0,
+          61.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_081_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43861,
+      "end_channel": 43896,
+      "bounds_ft": [
+        [
+          -64.5,
+          55.5,
+          -82.0
+        ],
+        [
+          -58.5,
+          61.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_082_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43897,
+      "end_channel": 43932,
+      "bounds_ft": [
+        [
+          1.0,
+          62.0,
+          -82.0
+        ],
+        [
+          9.0,
+          62.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2272727272727273
+    },
+    {
+      "name": "HX_083_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43933,
+      "end_channel": 43968,
+      "bounds_ft": [
+        [
+          0.5,
+          62.5,
+          -82.0
+        ],
+        [
+          6.5,
+          68.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3533910570719927
+    },
+    {
+      "name": "HX_084_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 43969,
+      "end_channel": 44004,
+      "bounds_ft": [
+        [
+          0.0,
+          63.0,
+          -82.0
+        ],
+        [
+          0.0,
+          71.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_085_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44005,
+      "end_channel": 44040,
+      "bounds_ft": [
+        [
+          -6.5,
+          62.5,
+          -82.0
+        ],
+        [
+          -0.5,
+          68.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3533910570719924
+    },
+    {
+      "name": "HX_086_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44041,
+      "end_channel": 44076,
+      "bounds_ft": [
+        [
+          -9.0,
+          62.0,
+          -82.0
+        ],
+        [
+          -1.0,
+          62.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2272727272727273
+    },
+    {
+      "name": "HX_087_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44077,
+      "end_channel": 44112,
+      "bounds_ft": [
+        [
+          -6.5,
+          55.5,
+          -82.0
+        ],
+        [
+          -0.5,
+          61.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199303
+    },
+    {
+      "name": "HX_088_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44113,
+      "end_channel": 44148,
+      "bounds_ft": [
+        [
+          0.0,
+          53.0,
+          -82.0
+        ],
+        [
+          0.0,
+          61.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_089_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44149,
+      "end_channel": 44184,
+      "bounds_ft": [
+        [
+          0.5,
+          55.5,
+          -82.0
+        ],
+        [
+          6.5,
+          61.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3533910570719924
+    },
+    {
+      "name": "HX_090_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44185,
+      "end_channel": 44220,
+      "bounds_ft": [
+        [
+          66.0,
+          62.0,
+          -82.0
+        ],
+        [
+          74.0,
+          62.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_091_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44221,
+      "end_channel": 44256,
+      "bounds_ft": [
+        [
+          65.5,
+          62.5,
+          -82.0
+        ],
+        [
+          71.5,
+          68.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_092_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44257,
+      "end_channel": 44292,
+      "bounds_ft": [
+        [
+          65.0,
+          63.0,
+          -82.0
+        ],
+        [
+          65.0,
+          71.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_093_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44293,
+      "end_channel": 44328,
+      "bounds_ft": [
+        [
+          58.5,
+          62.5,
+          -82.0
+        ],
+        [
+          64.5,
+          68.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_094_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44329,
+      "end_channel": 44364,
+      "bounds_ft": [
+        [
+          56.0,
+          62.0,
+          -82.0
+        ],
+        [
+          64.0,
+          62.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_095_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44365,
+      "end_channel": 44400,
+      "bounds_ft": [
+        [
+          58.5,
+          55.5,
+          -82.0
+        ],
+        [
+          64.5,
+          61.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_096_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44401,
+      "end_channel": 44436,
+      "bounds_ft": [
+        [
+          65.0,
+          53.0,
+          -82.0
+        ],
+        [
+          65.0,
+          61.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_097_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44437,
+      "end_channel": 44472,
+      "bounds_ft": [
+        [
+          65.5,
+          55.5,
+          -82.0
+        ],
+        [
+          71.5,
+          61.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_098_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44473,
+      "end_channel": 44508,
+      "bounds_ft": [
+        [
+          126.0,
+          62.0,
+          -82.0
+        ],
+        [
+          134.0,
+          62.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_099_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44509,
+      "end_channel": 44544,
+      "bounds_ft": [
+        [
+          125.5,
+          62.5,
+          -82.0
+        ],
+        [
+          131.5,
+          68.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_100_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44545,
+      "end_channel": 44580,
+      "bounds_ft": [
+        [
+          125.0,
+          63.0,
+          -82.0
+        ],
+        [
+          125.0,
+          71.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_101_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44581,
+      "end_channel": 44616,
+      "bounds_ft": [
+        [
+          118.5,
+          62.5,
+          -82.0
+        ],
+        [
+          124.5,
+          68.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_102_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44617,
+      "end_channel": 44652,
+      "bounds_ft": [
+        [
+          116.0,
+          62.0,
+          -82.0
+        ],
+        [
+          124.0,
+          62.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_103_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44653,
+      "end_channel": 44688,
+      "bounds_ft": [
+        [
+          118.5,
+          55.5,
+          -82.0
+        ],
+        [
+          124.5,
+          61.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    },
+    {
+      "name": "HX_104_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44689,
+      "end_channel": 44724,
+      "bounds_ft": [
+        [
+          125.0,
+          53.0,
+          -82.0
+        ],
+        [
+          125.0,
+          61.0,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_105_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SNOWFLAKES",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 44725,
+      "end_channel": 44760,
+      "bounds_ft": [
+        [
+          125.5,
+          55.5,
+          -82.0
+        ],
+        [
+          131.5,
+          61.5,
+          -82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35339105707199364
+    }
+  ],
+  "file_prefix": "Christmas_Overdrive",
+  "description": "A traditional Christmas estate pushed to absurd density: rooflines, candy canes, arches, snowflakes and ranks of mega and mini trees.",
+  "palette": [
+    "#FF535B",
+    "#63FF93",
+    "#FFF0D3"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_HOUSE_FACADE",
+      "HX_002_WINDOW",
+      "HX_003_WINDOW",
+      "HX_004_HOUSE_FACADE",
+      "HX_005_WINDOW",
+      "HX_006_WINDOW",
+      "HX_007_HOUSE_FACADE",
+      "HX_008_WINDOW",
+      "HX_009_WINDOW",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_ARCH",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_ARCH",
+      "HX_016_SPIRAL_TREE",
+      "HX_017_ARCH",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_ARCH",
+      "HX_020_SPIRAL_TREE",
+      "HX_021_ARCH",
+      "HX_022_SPIRAL_TREE",
+      "HX_023_ARCH",
+      "HX_024_SPIRAL_TREE",
+      "HX_025_ARCH",
+      "HX_026_SPIRAL_TREE",
+      "HX_027_ARCH",
+      "HX_028_SPIRAL_TREE",
+      "HX_029_ARCH",
+      "HX_030_SPIRAL_TREE",
+      "HX_031_ARCH",
+      "HX_032_SPIRAL_TREE",
+      "HX_033_ARCH",
+      "HX_034_SPIRAL_TREE",
+      "HX_035_ARCH",
+      "HX_036_SPIRAL_TREE",
+      "HX_037_ARCH",
+      "HX_038_SPIRAL_TREE",
+      "HX_039_ARCH",
+      "HX_040_SPIRAL_TREE",
+      "HX_041_ARCH",
+      "HX_042_SPIRAL_TREE",
+      "HX_043_ARCH",
+      "HX_044_SPIRAL_TREE",
+      "HX_045_ARCH",
+      "HX_046_SPIRAL_TREE",
+      "HX_047_ARCH",
+      "HX_048_SPIRAL_TREE",
+      "HX_049_ARCH",
+      "HX_050_SPIRAL_TREE",
+      "HX_051_ARCH",
+      "HX_052_SPIRAL_TREE",
+      "HX_053_ARCH",
+      "HX_054_SPIRAL_TREE",
+      "HX_055_ARCH",
+      "HX_056_SPIRAL_TREE",
+      "HX_057_ARCH",
+      "HX_058_SPIRAL_TREE",
+      "HX_059_ARCH",
+      "HX_060_SPIRAL_TREE",
+      "HX_061_ARCH",
+      "HX_062_SPIRAL_TREE",
+      "HX_063_ARCH",
+      "HX_064_SPIRAL_TREE",
+      "HX_065_ARCH",
+      "HX_066_STAR_RAY",
+      "HX_067_STAR_RAY",
+      "HX_068_STAR_RAY",
+      "HX_069_STAR_RAY",
+      "HX_070_STAR_RAY",
+      "HX_071_STAR_RAY",
+      "HX_072_STAR_RAY",
+      "HX_073_STAR_RAY",
+      "HX_074_STAR_RAY",
+      "HX_075_STAR_RAY",
+      "HX_076_STAR_RAY",
+      "HX_077_STAR_RAY",
+      "HX_078_STAR_RAY",
+      "HX_079_STAR_RAY",
+      "HX_080_STAR_RAY",
+      "HX_081_STAR_RAY",
+      "HX_082_STAR_RAY",
+      "HX_083_STAR_RAY",
+      "HX_084_STAR_RAY",
+      "HX_085_STAR_RAY",
+      "HX_086_STAR_RAY",
+      "HX_087_STAR_RAY",
+      "HX_088_STAR_RAY",
+      "HX_089_STAR_RAY",
+      "HX_090_STAR_RAY",
+      "HX_091_STAR_RAY",
+      "HX_092_STAR_RAY",
+      "HX_093_STAR_RAY",
+      "HX_094_STAR_RAY",
+      "HX_095_STAR_RAY",
+      "HX_096_STAR_RAY",
+      "HX_097_STAR_RAY",
+      "HX_098_STAR_RAY",
+      "HX_099_STAR_RAY",
+      "HX_100_STAR_RAY",
+      "HX_101_STAR_RAY",
+      "HX_102_STAR_RAY",
+      "HX_103_STAR_RAY",
+      "HX_104_STAR_RAY",
+      "HX_105_STAR_RAY"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_HOUSE_FACADE",
+      "HX_002_WINDOW",
+      "HX_003_WINDOW",
+      "HX_004_HOUSE_FACADE",
+      "HX_005_WINDOW",
+      "HX_006_WINDOW",
+      "HX_007_HOUSE_FACADE",
+      "HX_008_WINDOW",
+      "HX_009_WINDOW",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_ARCH",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_ARCH",
+      "HX_016_SPIRAL_TREE",
+      "HX_017_ARCH",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_ARCH",
+      "HX_020_SPIRAL_TREE",
+      "HX_021_ARCH",
+      "HX_022_SPIRAL_TREE",
+      "HX_023_ARCH",
+      "HX_024_SPIRAL_TREE",
+      "HX_025_ARCH",
+      "HX_026_SPIRAL_TREE",
+      "HX_027_ARCH",
+      "HX_028_SPIRAL_TREE",
+      "HX_029_ARCH",
+      "HX_030_SPIRAL_TREE",
+      "HX_031_ARCH",
+      "HX_032_SPIRAL_TREE",
+      "HX_033_ARCH",
+      "HX_034_SPIRAL_TREE",
+      "HX_035_ARCH",
+      "HX_036_SPIRAL_TREE",
+      "HX_037_ARCH",
+      "HX_038_SPIRAL_TREE",
+      "HX_039_ARCH",
+      "HX_040_SPIRAL_TREE",
+      "HX_041_ARCH",
+      "HX_042_SPIRAL_TREE",
+      "HX_043_ARCH",
+      "HX_044_SPIRAL_TREE",
+      "HX_045_ARCH",
+      "HX_046_SPIRAL_TREE",
+      "HX_047_ARCH",
+      "HX_048_SPIRAL_TREE",
+      "HX_049_ARCH",
+      "HX_050_SPIRAL_TREE",
+      "HX_051_ARCH",
+      "HX_052_SPIRAL_TREE",
+      "HX_053_ARCH",
+      "HX_054_SPIRAL_TREE",
+      "HX_055_ARCH",
+      "HX_056_SPIRAL_TREE",
+      "HX_057_ARCH",
+      "HX_058_SPIRAL_TREE",
+      "HX_059_ARCH",
+      "HX_060_SPIRAL_TREE",
+      "HX_061_ARCH",
+      "HX_062_SPIRAL_TREE",
+      "HX_063_ARCH",
+      "HX_064_SPIRAL_TREE",
+      "HX_065_ARCH",
+      "HX_066_STAR_RAY",
+      "HX_067_STAR_RAY",
+      "HX_068_STAR_RAY",
+      "HX_069_STAR_RAY",
+      "HX_070_STAR_RAY",
+      "HX_071_STAR_RAY",
+      "HX_072_STAR_RAY",
+      "HX_073_STAR_RAY",
+      "HX_074_STAR_RAY",
+      "HX_075_STAR_RAY",
+      "HX_076_STAR_RAY",
+      "HX_077_STAR_RAY",
+      "HX_078_STAR_RAY",
+      "HX_079_STAR_RAY",
+      "HX_080_STAR_RAY",
+      "HX_081_STAR_RAY",
+      "HX_082_STAR_RAY",
+      "HX_083_STAR_RAY",
+      "HX_084_STAR_RAY",
+      "HX_085_STAR_RAY",
+      "HX_086_STAR_RAY",
+      "HX_087_STAR_RAY",
+      "HX_088_STAR_RAY",
+      "HX_089_STAR_RAY",
+      "HX_090_STAR_RAY",
+      "HX_091_STAR_RAY",
+      "HX_092_STAR_RAY",
+      "HX_093_STAR_RAY",
+      "HX_094_STAR_RAY",
+      "HX_095_STAR_RAY",
+      "HX_096_STAR_RAY",
+      "HX_097_STAR_RAY",
+      "HX_098_STAR_RAY",
+      "HX_099_STAR_RAY",
+      "HX_100_STAR_RAY",
+      "HX_101_STAR_RAY",
+      "HX_102_STAR_RAY",
+      "HX_103_STAR_RAY",
+      "HX_104_STAR_RAY",
+      "HX_105_STAR_RAY"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_011_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_022_SPIRAL_TREE",
+      "HX_024_SPIRAL_TREE",
+      "HX_026_SPIRAL_TREE",
+      "HX_028_SPIRAL_TREE",
+      "HX_038_SPIRAL_TREE",
+      "HX_040_SPIRAL_TREE",
+      "HX_042_SPIRAL_TREE",
+      "HX_044_SPIRAL_TREE",
+      "HX_046_SPIRAL_TREE",
+      "HX_056_SPIRAL_TREE",
+      "HX_058_SPIRAL_TREE",
+      "HX_060_SPIRAL_TREE",
+      "HX_062_SPIRAL_TREE",
+      "HX_064_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_010_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE",
+      "HX_018_SPIRAL_TREE",
+      "HX_030_SPIRAL_TREE",
+      "HX_032_SPIRAL_TREE",
+      "HX_034_SPIRAL_TREE",
+      "HX_036_SPIRAL_TREE",
+      "HX_048_SPIRAL_TREE",
+      "HX_050_SPIRAL_TREE",
+      "HX_052_SPIRAL_TREE",
+      "HX_054_SPIRAL_TREE"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE",
+      "HX_018_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_022_SPIRAL_TREE",
+      "HX_024_SPIRAL_TREE",
+      "HX_026_SPIRAL_TREE",
+      "HX_028_SPIRAL_TREE",
+      "HX_030_SPIRAL_TREE",
+      "HX_032_SPIRAL_TREE",
+      "HX_034_SPIRAL_TREE",
+      "HX_036_SPIRAL_TREE",
+      "HX_038_SPIRAL_TREE",
+      "HX_040_SPIRAL_TREE",
+      "HX_042_SPIRAL_TREE",
+      "HX_044_SPIRAL_TREE",
+      "HX_046_SPIRAL_TREE",
+      "HX_048_SPIRAL_TREE",
+      "HX_050_SPIRAL_TREE",
+      "HX_052_SPIRAL_TREE",
+      "HX_054_SPIRAL_TREE",
+      "HX_056_SPIRAL_TREE",
+      "HX_058_SPIRAL_TREE",
+      "HX_060_SPIRAL_TREE",
+      "HX_062_SPIRAL_TREE",
+      "HX_064_SPIRAL_TREE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_HOUSE_FACADE",
+      "HX_002_WINDOW",
+      "HX_003_WINDOW",
+      "HX_004_HOUSE_FACADE",
+      "HX_005_WINDOW",
+      "HX_006_WINDOW",
+      "HX_007_HOUSE_FACADE",
+      "HX_008_WINDOW",
+      "HX_009_WINDOW",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_ARCH",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_ARCH",
+      "HX_016_SPIRAL_TREE",
+      "HX_017_ARCH",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_ARCH",
+      "HX_020_SPIRAL_TREE",
+      "HX_021_ARCH",
+      "HX_022_SPIRAL_TREE",
+      "HX_023_ARCH",
+      "HX_024_SPIRAL_TREE",
+      "HX_025_ARCH",
+      "HX_026_SPIRAL_TREE",
+      "HX_027_ARCH",
+      "HX_028_SPIRAL_TREE",
+      "HX_029_ARCH",
+      "HX_030_SPIRAL_TREE",
+      "HX_031_ARCH",
+      "HX_032_SPIRAL_TREE",
+      "HX_033_ARCH",
+      "HX_034_SPIRAL_TREE",
+      "HX_035_ARCH",
+      "HX_036_SPIRAL_TREE",
+      "HX_037_ARCH",
+      "HX_038_SPIRAL_TREE",
+      "HX_039_ARCH",
+      "HX_040_SPIRAL_TREE",
+      "HX_041_ARCH",
+      "HX_042_SPIRAL_TREE",
+      "HX_043_ARCH",
+      "HX_044_SPIRAL_TREE",
+      "HX_045_ARCH",
+      "HX_046_SPIRAL_TREE",
+      "HX_047_ARCH",
+      "HX_048_SPIRAL_TREE",
+      "HX_049_ARCH",
+      "HX_050_SPIRAL_TREE",
+      "HX_051_ARCH",
+      "HX_052_SPIRAL_TREE",
+      "HX_053_ARCH",
+      "HX_054_SPIRAL_TREE",
+      "HX_055_ARCH",
+      "HX_056_SPIRAL_TREE",
+      "HX_057_ARCH",
+      "HX_058_SPIRAL_TREE",
+      "HX_059_ARCH",
+      "HX_060_SPIRAL_TREE",
+      "HX_061_ARCH",
+      "HX_062_SPIRAL_TREE",
+      "HX_063_ARCH",
+      "HX_064_SPIRAL_TREE",
+      "HX_065_ARCH",
+      "HX_066_STAR_RAY",
+      "HX_067_STAR_RAY",
+      "HX_068_STAR_RAY",
+      "HX_069_STAR_RAY",
+      "HX_070_STAR_RAY",
+      "HX_071_STAR_RAY",
+      "HX_072_STAR_RAY",
+      "HX_073_STAR_RAY",
+      "HX_074_STAR_RAY",
+      "HX_075_STAR_RAY",
+      "HX_076_STAR_RAY",
+      "HX_077_STAR_RAY",
+      "HX_078_STAR_RAY",
+      "HX_079_STAR_RAY",
+      "HX_080_STAR_RAY",
+      "HX_081_STAR_RAY",
+      "HX_082_STAR_RAY",
+      "HX_083_STAR_RAY",
+      "HX_084_STAR_RAY",
+      "HX_085_STAR_RAY",
+      "HX_086_STAR_RAY",
+      "HX_087_STAR_RAY",
+      "HX_088_STAR_RAY",
+      "HX_089_STAR_RAY",
+      "HX_090_STAR_RAY",
+      "HX_091_STAR_RAY",
+      "HX_092_STAR_RAY",
+      "HX_093_STAR_RAY",
+      "HX_094_STAR_RAY",
+      "HX_095_STAR_RAY",
+      "HX_096_STAR_RAY",
+      "HX_097_STAR_RAY",
+      "HX_098_STAR_RAY",
+      "HX_099_STAR_RAY",
+      "HX_100_STAR_RAY",
+      "HX_101_STAR_RAY",
+      "HX_102_STAR_RAY",
+      "HX_103_STAR_RAY",
+      "HX_104_STAR_RAY",
+      "HX_105_STAR_RAY"
+    ],
+    "HX_ZONE_ARCHES": [
+      "HX_013_ARCH",
+      "HX_015_ARCH",
+      "HX_017_ARCH",
+      "HX_019_ARCH",
+      "HX_021_ARCH",
+      "HX_023_ARCH",
+      "HX_025_ARCH",
+      "HX_027_ARCH",
+      "HX_029_ARCH",
+      "HX_031_ARCH",
+      "HX_033_ARCH",
+      "HX_035_ARCH",
+      "HX_037_ARCH",
+      "HX_039_ARCH",
+      "HX_041_ARCH",
+      "HX_043_ARCH",
+      "HX_045_ARCH",
+      "HX_047_ARCH",
+      "HX_049_ARCH",
+      "HX_051_ARCH",
+      "HX_053_ARCH",
+      "HX_055_ARCH",
+      "HX_057_ARCH",
+      "HX_059_ARCH",
+      "HX_061_ARCH",
+      "HX_063_ARCH",
+      "HX_065_ARCH"
+    ],
+    "HX_ZONE_FACADES": [
+      "HX_001_HOUSE_FACADE",
+      "HX_004_HOUSE_FACADE",
+      "HX_007_HOUSE_FACADE"
+    ],
+    "HX_ZONE_GROVE": [
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE",
+      "HX_018_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_022_SPIRAL_TREE",
+      "HX_024_SPIRAL_TREE",
+      "HX_026_SPIRAL_TREE",
+      "HX_028_SPIRAL_TREE",
+      "HX_030_SPIRAL_TREE",
+      "HX_032_SPIRAL_TREE",
+      "HX_034_SPIRAL_TREE",
+      "HX_036_SPIRAL_TREE",
+      "HX_038_SPIRAL_TREE",
+      "HX_040_SPIRAL_TREE",
+      "HX_042_SPIRAL_TREE",
+      "HX_044_SPIRAL_TREE",
+      "HX_046_SPIRAL_TREE",
+      "HX_048_SPIRAL_TREE",
+      "HX_050_SPIRAL_TREE",
+      "HX_052_SPIRAL_TREE",
+      "HX_054_SPIRAL_TREE",
+      "HX_056_SPIRAL_TREE",
+      "HX_058_SPIRAL_TREE",
+      "HX_060_SPIRAL_TREE",
+      "HX_062_SPIRAL_TREE",
+      "HX_064_SPIRAL_TREE"
+    ],
+    "HX_ZONE_SNOWFLAKES": [
+      "HX_066_STAR_RAY",
+      "HX_067_STAR_RAY",
+      "HX_068_STAR_RAY",
+      "HX_069_STAR_RAY",
+      "HX_070_STAR_RAY",
+      "HX_071_STAR_RAY",
+      "HX_072_STAR_RAY",
+      "HX_073_STAR_RAY",
+      "HX_074_STAR_RAY",
+      "HX_075_STAR_RAY",
+      "HX_076_STAR_RAY",
+      "HX_077_STAR_RAY",
+      "HX_078_STAR_RAY",
+      "HX_079_STAR_RAY",
+      "HX_080_STAR_RAY",
+      "HX_081_STAR_RAY",
+      "HX_082_STAR_RAY",
+      "HX_083_STAR_RAY",
+      "HX_084_STAR_RAY",
+      "HX_085_STAR_RAY",
+      "HX_086_STAR_RAY",
+      "HX_087_STAR_RAY",
+      "HX_088_STAR_RAY",
+      "HX_089_STAR_RAY",
+      "HX_090_STAR_RAY",
+      "HX_091_STAR_RAY",
+      "HX_092_STAR_RAY",
+      "HX_093_STAR_RAY",
+      "HX_094_STAR_RAY",
+      "HX_095_STAR_RAY",
+      "HX_096_STAR_RAY",
+      "HX_097_STAR_RAY",
+      "HX_098_STAR_RAY",
+      "HX_099_STAR_RAY",
+      "HX_100_STAR_RAY",
+      "HX_101_STAR_RAY",
+      "HX_102_STAR_RAY",
+      "HX_103_STAR_RAY",
+      "HX_104_STAR_RAY",
+      "HX_105_STAR_RAY"
+    ],
+    "HX_ZONE_WINDOWS": [
+      "HX_002_WINDOW",
+      "HX_003_WINDOW",
+      "HX_005_WINDOW",
+      "HX_006_WINDOW",
+      "HX_008_WINDOW",
+      "HX_009_WINDOW"
+    ]
+  },
+  "group_count": 11,
+  "concept_id": "13",
+  "source_art": "images/13_14_Traditional_Extreme.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "13",
+    "name": "Christmas Overdrive",
+    "round": "traditional",
+    "board": 7,
+    "side": "left",
+    "description": "A traditional Christmas estate pushed to absurd density: rooflines, candy canes, arches, snowflakes and ranks of mega and mini trees.",
+    "spatial": "Layered front lawn rows, two tall rear trees and separate house facade bands.",
+    "choreography": "Massed traditional chases sweep from lawn rows to roof peaks, with quieter sections preserving contrast.",
+    "constraint": "High prop density and repeated patterns need visual separation and realistic power/channel planning.",
+    "image": "images/13_14_Traditional_Extreme.png",
+    "panel_ratio": 1.0,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "High prop density and repeated patterns need visual separation and realistic power/channel planning.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

@@ -1,0 +1,1911 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Thunder Vault Stage",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 42
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 42,
+  "rgb_pixels": 16126,
+  "channel_count": 48378,
+  "spiral_trees": 0,
+  "double_helices": 6,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_STAGE_APRON",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STAGE",
+      "design": "STAGE APRON",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1,
+      "end_channel": 450,
+      "bounds_ft": [
+        [
+          -72.0,
+          0.0,
+          -10.0
+        ],
+        [
+          72.0,
+          0.0,
+          54.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3139179712639082
+    },
+    {
+      "name": "HX_002_STAGE_APRON",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STAGE",
+      "design": "STAGE APRON",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 451,
+      "end_channel": 900,
+      "bounds_ft": [
+        [
+          -67.0,
+          5.0,
+          -7.0
+        ],
+        [
+          67.0,
+          5.0,
+          51.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3079835019391534
+    },
+    {
+      "name": "HX_003_STAGE_APRON",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STAGE",
+      "design": "STAGE APRON",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 901,
+      "end_channel": 1350,
+      "bounds_ft": [
+        [
+          -62.0,
+          10.0,
+          -4.0
+        ],
+        [
+          62.0,
+          10.0,
+          48.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.28133747298128986
+    },
+    {
+      "name": "HX_004_DRUM_RISER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BAND",
+      "design": "DRUM RISER",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 1351,
+      "end_channel": 1950,
+      "bounds_ft": [
+        [
+          -30.0,
+          18.0,
+          -4.0
+        ],
+        [
+          30.0,
+          18.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_005_FACETED_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FACETED WING",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 1951,
+      "end_channel": 2490,
+      "bounds_ft": [
+        [
+          -112.75,
+          0.0,
+          -36.0
+        ],
+        [
+          -77.0,
+          59.75,
+          -24.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.21445342091098515
+    },
+    {
+      "name": "HX_006_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 2491,
+      "end_channel": 2745,
+      "bounds_ft": [
+        [
+          -105.0,
+          18.0,
+          -30.0
+        ],
+        [
+          -83.0,
+          50.0,
+          -30.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3047595365321889
+    },
+    {
+      "name": "HX_007_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 2746,
+      "end_channel": 3000,
+      "bounds_ft": [
+        [
+          -107.0,
+          18.0,
+          -30.0
+        ],
+        [
+          -80.0,
+          45.0,
+          -30.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17641701704895432
+    },
+    {
+      "name": "HX_008_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 3001,
+      "end_channel": 3255,
+      "bounds_ft": [
+        [
+          -109.0,
+          18.0,
+          -30.0
+        ],
+        [
+          -77.0,
+          39.75,
+          -30.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16580063973066086
+    },
+    {
+      "name": "HX_009_FACETED_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FACETED WING",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 3256,
+      "end_channel": 3795,
+      "bounds_ft": [
+        [
+          -132.75,
+          22.0,
+          -46.0
+        ],
+        [
+          -97.0,
+          81.75,
+          -34.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.21445342091098515
+    },
+    {
+      "name": "HX_010_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 3796,
+      "end_channel": 4050,
+      "bounds_ft": [
+        [
+          -125.0,
+          40.0,
+          -40.0
+        ],
+        [
+          -103.0,
+          72.0,
+          -40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3047595365321889
+    },
+    {
+      "name": "HX_011_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 4051,
+      "end_channel": 4305,
+      "bounds_ft": [
+        [
+          -127.0,
+          40.0,
+          -40.0
+        ],
+        [
+          -100.0,
+          67.0,
+          -40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17641701704895432
+    },
+    {
+      "name": "HX_012_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 4306,
+      "end_channel": 4560,
+      "bounds_ft": [
+        [
+          -129.0,
+          40.0,
+          -40.0
+        ],
+        [
+          -97.0,
+          61.75,
+          -40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16580063973066086
+    },
+    {
+      "name": "HX_013_FACETED_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FACETED WING",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 4561,
+      "end_channel": 5100,
+      "bounds_ft": [
+        [
+          -152.75,
+          44.0,
+          -56.0
+        ],
+        [
+          -117.0,
+          103.75,
+          -44.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.21445342091098515
+    },
+    {
+      "name": "HX_014_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 5101,
+      "end_channel": 5355,
+      "bounds_ft": [
+        [
+          -145.0,
+          62.0,
+          -50.0
+        ],
+        [
+          -123.0,
+          94.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3047595365322003
+    },
+    {
+      "name": "HX_015_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 5356,
+      "end_channel": 5610,
+      "bounds_ft": [
+        [
+          -147.0,
+          62.0,
+          -50.0
+        ],
+        [
+          -120.0,
+          89.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1764170170489694
+    },
+    {
+      "name": "HX_016_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 5611,
+      "end_channel": 5865,
+      "bounds_ft": [
+        [
+          -149.0,
+          62.0,
+          -50.0
+        ],
+        [
+          -117.0,
+          83.75,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16580063973066086
+    },
+    {
+      "name": "HX_017_FACETED_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FACETED WING",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 5866,
+      "end_channel": 6405,
+      "bounds_ft": [
+        [
+          77.0,
+          0.0,
+          -36.0
+        ],
+        [
+          112.75,
+          59.75,
+          -24.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.21445342091098515
+    },
+    {
+      "name": "HX_018_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 6406,
+      "end_channel": 6660,
+      "bounds_ft": [
+        [
+          83.0,
+          18.0,
+          -30.0
+        ],
+        [
+          105.0,
+          50.0,
+          -30.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3047595365321889
+    },
+    {
+      "name": "HX_019_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 6661,
+      "end_channel": 6915,
+      "bounds_ft": [
+        [
+          86.0,
+          18.0,
+          -30.0
+        ],
+        [
+          103.0,
+          44.75,
+          -30.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.087157303111145
+    },
+    {
+      "name": "HX_020_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 6916,
+      "end_channel": 7170,
+      "bounds_ft": [
+        [
+          89.0,
+          18.0,
+          -30.0
+        ],
+        [
+          101.0,
+          39.875,
+          -30.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0880410770112841
+    },
+    {
+      "name": "HX_021_FACETED_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FACETED WING",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 7171,
+      "end_channel": 7710,
+      "bounds_ft": [
+        [
+          97.0,
+          22.0,
+          -46.0
+        ],
+        [
+          132.75,
+          81.75,
+          -34.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.21445342091098515
+    },
+    {
+      "name": "HX_022_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 7711,
+      "end_channel": 7965,
+      "bounds_ft": [
+        [
+          103.0,
+          40.0,
+          -40.0
+        ],
+        [
+          125.0,
+          72.0,
+          -40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3047595365321889
+    },
+    {
+      "name": "HX_023_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 7966,
+      "end_channel": 8220,
+      "bounds_ft": [
+        [
+          106.0,
+          40.0,
+          -40.0
+        ],
+        [
+          123.0,
+          66.75,
+          -40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.087157303111145
+    },
+    {
+      "name": "HX_024_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 8221,
+      "end_channel": 8475,
+      "bounds_ft": [
+        [
+          109.0,
+          40.0,
+          -40.0
+        ],
+        [
+          121.0,
+          61.875,
+          -40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0880410770112841
+    },
+    {
+      "name": "HX_025_FACETED_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FACETED WING",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 8476,
+      "end_channel": 9015,
+      "bounds_ft": [
+        [
+          117.0,
+          44.0,
+          -56.0
+        ],
+        [
+          152.75,
+          103.75,
+          -44.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.21445342091098515
+    },
+    {
+      "name": "HX_026_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 9016,
+      "end_channel": 9270,
+      "bounds_ft": [
+        [
+          123.0,
+          62.0,
+          -50.0
+        ],
+        [
+          145.0,
+          94.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3047595365322003
+    },
+    {
+      "name": "HX_027_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 9271,
+      "end_channel": 9525,
+      "bounds_ft": [
+        [
+          126.0,
+          62.0,
+          -50.0
+        ],
+        [
+          143.0,
+          88.75,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08715730311115512
+    },
+    {
+      "name": "HX_028_WING_INSET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "WING INSET",
+      "kind": "pixel",
+      "nodes": 85,
+      "start_channel": 9526,
+      "end_channel": 9780,
+      "bounds_ft": [
+        [
+          129.0,
+          62.0,
+          -50.0
+        ],
+        [
+          141.0,
+          83.875,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08804107701127908
+    },
+    {
+      "name": "HX_029_REAR_LED_PANEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BACKDROP",
+      "design": "REAR LED PANEL",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 9781,
+      "end_channel": 11316,
+      "bounds_ft": [
+        [
+          -77.5,
+          15.0,
+          -65.0
+        ],
+        [
+          -62.5,
+          95.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1468932913152154
+    },
+    {
+      "name": "HX_030_REAR_LED_PANEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BACKDROP",
+      "design": "REAR LED PANEL",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 11317,
+      "end_channel": 12852,
+      "bounds_ft": [
+        [
+          -54.5,
+          15.0,
+          -75.0
+        ],
+        [
+          -39.5,
+          95.0,
+          -75.0
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1468932913152154
+    },
+    {
+      "name": "HX_031_REAR_LED_PANEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BACKDROP",
+      "design": "REAR LED PANEL",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 12853,
+      "end_channel": 14388,
+      "bounds_ft": [
+        [
+          -31.5,
+          15.0,
+          -65.0
+        ],
+        [
+          -16.5,
+          95.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.14689329131521248
+    },
+    {
+      "name": "HX_032_REAR_LED_PANEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BACKDROP",
+      "design": "REAR LED PANEL",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 14389,
+      "end_channel": 15924,
+      "bounds_ft": [
+        [
+          -8.5,
+          15.0,
+          -75.0
+        ],
+        [
+          6.5,
+          95.0,
+          -75.0
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.14689329131521248
+    },
+    {
+      "name": "HX_033_REAR_LED_PANEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BACKDROP",
+      "design": "REAR LED PANEL",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 15925,
+      "end_channel": 17460,
+      "bounds_ft": [
+        [
+          14.5,
+          15.0,
+          -65.0
+        ],
+        [
+          29.5,
+          95.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.14689329131521248
+    },
+    {
+      "name": "HX_034_REAR_LED_PANEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BACKDROP",
+      "design": "REAR LED PANEL",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 17461,
+      "end_channel": 18996,
+      "bounds_ft": [
+        [
+          37.5,
+          15.0,
+          -75.0
+        ],
+        [
+          52.5,
+          95.0,
+          -75.0
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1468932913152154
+    },
+    {
+      "name": "HX_035_REAR_LED_PANEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BACKDROP",
+      "design": "REAR LED PANEL",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 18997,
+      "end_channel": 20532,
+      "bounds_ft": [
+        [
+          60.5,
+          15.0,
+          -65.0
+        ],
+        [
+          75.5,
+          95.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1468932913152154
+    },
+    {
+      "name": "HX_036_OVERHEAD_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CEILING",
+      "design": "OVERHEAD RIB",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 20533,
+      "end_channel": 21717,
+      "bounds_ft": [
+        [
+          -105.5,
+          101.5,
+          -77.0
+        ],
+        [
+          105.5,
+          129.5,
+          -55.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.41112838765208115,
+      "double_helix": true
+    },
+    {
+      "name": "HX_037_CROSSED_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CEILING",
+      "design": "CROSSED RIB",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 21718,
+      "end_channel": 22902,
+      "bounds_ft": [
+        [
+          -105.5,
+          101.5,
+          -77.0
+        ],
+        [
+          105.5,
+          129.5,
+          -55.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.41112838765208115,
+      "double_helix": true
+    },
+    {
+      "name": "HX_038_OVERHEAD_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CEILING",
+      "design": "OVERHEAD RIB",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 22903,
+      "end_channel": 24087,
+      "bounds_ft": [
+        [
+          -105.5,
+          101.5,
+          -37.0
+        ],
+        [
+          105.5,
+          129.5,
+          -15.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.41112838765208326,
+      "double_helix": true
+    },
+    {
+      "name": "HX_039_CROSSED_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CEILING",
+      "design": "CROSSED RIB",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 24088,
+      "end_channel": 25272,
+      "bounds_ft": [
+        [
+          -105.5,
+          101.5,
+          -37.0
+        ],
+        [
+          105.5,
+          129.5,
+          -15.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.41112838765208326,
+      "double_helix": true
+    },
+    {
+      "name": "HX_040_OVERHEAD_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CEILING",
+      "design": "OVERHEAD RIB",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 25273,
+      "end_channel": 26457,
+      "bounds_ft": [
+        [
+          -105.5,
+          101.5,
+          3.0
+        ],
+        [
+          105.5,
+          129.5,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4111283876520822,
+      "double_helix": true
+    },
+    {
+      "name": "HX_041_CROSSED_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CEILING",
+      "design": "CROSSED RIB",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 26458,
+      "end_channel": 27642,
+      "bounds_ft": [
+        [
+          -105.5,
+          101.5,
+          3.0
+        ],
+        [
+          105.5,
+          129.5,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.41112838765208326,
+      "double_helix": true
+    },
+    {
+      "name": "HX_SNOWMAN_DRUMMER_V3",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BAND",
+      "design": "Unchanged canonical drummer placed on center riser",
+      "kind": "pixel",
+      "nodes": 6912,
+      "start_channel": 27643,
+      "end_channel": 48378,
+      "bounds_ft": [
+        [
+          -29.45,
+          13.99,
+          8.0
+        ],
+        [
+          29.45,
+          58.01,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "HX_SNOWMAN_DRUMMER_V3_KICK_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_HI_HAT_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_LEFT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_RIGHT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_HI_HAT_FOOT",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_RIGHT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_RIGHT_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_RIGHT_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+        "BODY_KEEPALIVE"
+      ],
+      "canonical_drummer": true,
+      "source_grid_preserved": true
+    }
+  ],
+  "file_prefix": "Thunder_Vault_Stage",
+  "description": "A dramatic black-steel concert stage with faceted pixel wings, interlocking helix ribs and a deep multilevel truss ceiling.",
+  "palette": [
+    "#FFE1A0",
+    "#D8EFFF",
+    "#FFB34E"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_STAGE_APRON",
+      "HX_002_STAGE_APRON",
+      "HX_003_STAGE_APRON",
+      "HX_004_DRUM_RISER",
+      "HX_005_FACETED_WING",
+      "HX_006_WING_INSET",
+      "HX_007_WING_INSET",
+      "HX_008_WING_INSET",
+      "HX_009_FACETED_WING",
+      "HX_010_WING_INSET",
+      "HX_011_WING_INSET",
+      "HX_012_WING_INSET",
+      "HX_013_FACETED_WING",
+      "HX_014_WING_INSET",
+      "HX_015_WING_INSET",
+      "HX_016_WING_INSET",
+      "HX_017_FACETED_WING",
+      "HX_018_WING_INSET",
+      "HX_019_WING_INSET",
+      "HX_020_WING_INSET",
+      "HX_021_FACETED_WING",
+      "HX_022_WING_INSET",
+      "HX_023_WING_INSET",
+      "HX_024_WING_INSET",
+      "HX_025_FACETED_WING",
+      "HX_026_WING_INSET",
+      "HX_027_WING_INSET",
+      "HX_028_WING_INSET",
+      "HX_029_REAR_LED_PANEL",
+      "HX_030_REAR_LED_PANEL",
+      "HX_031_REAR_LED_PANEL",
+      "HX_032_REAR_LED_PANEL",
+      "HX_033_REAR_LED_PANEL",
+      "HX_034_REAR_LED_PANEL",
+      "HX_035_REAR_LED_PANEL",
+      "HX_036_OVERHEAD_RIB",
+      "HX_037_CROSSED_RIB",
+      "HX_038_OVERHEAD_RIB",
+      "HX_039_CROSSED_RIB",
+      "HX_040_OVERHEAD_RIB",
+      "HX_041_CROSSED_RIB",
+      "HX_SNOWMAN_DRUMMER_V3"
+    ],
+    "HX_DNA_ALL": [
+      "HX_036_OVERHEAD_RIB",
+      "HX_037_CROSSED_RIB",
+      "HX_038_OVERHEAD_RIB",
+      "HX_039_CROSSED_RIB",
+      "HX_040_OVERHEAD_RIB",
+      "HX_041_CROSSED_RIB"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_036_OVERHEAD_RIB/RUNGS",
+      "HX_037_CROSSED_RIB/RUNGS",
+      "HX_038_OVERHEAD_RIB/RUNGS",
+      "HX_039_CROSSED_RIB/RUNGS",
+      "HX_040_OVERHEAD_RIB/RUNGS",
+      "HX_041_CROSSED_RIB/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_036_OVERHEAD_RIB/STRAND_A",
+      "HX_037_CROSSED_RIB/STRAND_A",
+      "HX_038_OVERHEAD_RIB/STRAND_A",
+      "HX_039_CROSSED_RIB/STRAND_A",
+      "HX_040_OVERHEAD_RIB/STRAND_A",
+      "HX_041_CROSSED_RIB/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_036_OVERHEAD_RIB/STRAND_B",
+      "HX_037_CROSSED_RIB/STRAND_B",
+      "HX_038_OVERHEAD_RIB/STRAND_B",
+      "HX_039_CROSSED_RIB/STRAND_B",
+      "HX_040_OVERHEAD_RIB/STRAND_B",
+      "HX_041_CROSSED_RIB/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_STAGE_APRON",
+      "HX_002_STAGE_APRON",
+      "HX_003_STAGE_APRON",
+      "HX_004_DRUM_RISER",
+      "HX_005_FACETED_WING",
+      "HX_006_WING_INSET",
+      "HX_007_WING_INSET",
+      "HX_008_WING_INSET",
+      "HX_009_FACETED_WING",
+      "HX_010_WING_INSET",
+      "HX_011_WING_INSET",
+      "HX_012_WING_INSET",
+      "HX_013_FACETED_WING",
+      "HX_014_WING_INSET",
+      "HX_015_WING_INSET",
+      "HX_016_WING_INSET",
+      "HX_017_FACETED_WING",
+      "HX_018_WING_INSET",
+      "HX_019_WING_INSET",
+      "HX_020_WING_INSET",
+      "HX_021_FACETED_WING",
+      "HX_022_WING_INSET",
+      "HX_023_WING_INSET",
+      "HX_024_WING_INSET",
+      "HX_025_FACETED_WING",
+      "HX_026_WING_INSET",
+      "HX_027_WING_INSET",
+      "HX_028_WING_INSET",
+      "HX_029_REAR_LED_PANEL",
+      "HX_030_REAR_LED_PANEL",
+      "HX_031_REAR_LED_PANEL",
+      "HX_032_REAR_LED_PANEL",
+      "HX_033_REAR_LED_PANEL",
+      "HX_034_REAR_LED_PANEL",
+      "HX_035_REAR_LED_PANEL",
+      "HX_036_OVERHEAD_RIB",
+      "HX_037_CROSSED_RIB",
+      "HX_038_OVERHEAD_RIB",
+      "HX_039_CROSSED_RIB",
+      "HX_040_OVERHEAD_RIB",
+      "HX_041_CROSSED_RIB",
+      "HX_SNOWMAN_DRUMMER_V3"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_STAGE_APRON",
+      "HX_002_STAGE_APRON",
+      "HX_003_STAGE_APRON",
+      "HX_004_DRUM_RISER",
+      "HX_005_FACETED_WING",
+      "HX_006_WING_INSET",
+      "HX_007_WING_INSET",
+      "HX_008_WING_INSET",
+      "HX_009_FACETED_WING",
+      "HX_010_WING_INSET",
+      "HX_011_WING_INSET",
+      "HX_012_WING_INSET",
+      "HX_013_FACETED_WING",
+      "HX_014_WING_INSET",
+      "HX_015_WING_INSET",
+      "HX_016_WING_INSET",
+      "HX_017_FACETED_WING",
+      "HX_018_WING_INSET",
+      "HX_019_WING_INSET",
+      "HX_020_WING_INSET",
+      "HX_021_FACETED_WING",
+      "HX_022_WING_INSET",
+      "HX_023_WING_INSET",
+      "HX_024_WING_INSET",
+      "HX_025_FACETED_WING",
+      "HX_026_WING_INSET",
+      "HX_027_WING_INSET",
+      "HX_028_WING_INSET",
+      "HX_029_REAR_LED_PANEL",
+      "HX_030_REAR_LED_PANEL",
+      "HX_031_REAR_LED_PANEL",
+      "HX_032_REAR_LED_PANEL",
+      "HX_033_REAR_LED_PANEL",
+      "HX_034_REAR_LED_PANEL",
+      "HX_035_REAR_LED_PANEL",
+      "HX_036_OVERHEAD_RIB",
+      "HX_037_CROSSED_RIB",
+      "HX_038_OVERHEAD_RIB",
+      "HX_039_CROSSED_RIB",
+      "HX_040_OVERHEAD_RIB",
+      "HX_041_CROSSED_RIB",
+      "HX_SNOWMAN_DRUMMER_V3"
+    ],
+    "HX_ZONE_BACKDROP": [
+      "HX_029_REAR_LED_PANEL",
+      "HX_030_REAR_LED_PANEL",
+      "HX_031_REAR_LED_PANEL",
+      "HX_032_REAR_LED_PANEL",
+      "HX_033_REAR_LED_PANEL",
+      "HX_034_REAR_LED_PANEL",
+      "HX_035_REAR_LED_PANEL"
+    ],
+    "HX_ZONE_BAND": [
+      "HX_004_DRUM_RISER",
+      "HX_SNOWMAN_DRUMMER_V3"
+    ],
+    "HX_ZONE_CEILING": [
+      "HX_036_OVERHEAD_RIB",
+      "HX_037_CROSSED_RIB",
+      "HX_038_OVERHEAD_RIB",
+      "HX_039_CROSSED_RIB",
+      "HX_040_OVERHEAD_RIB",
+      "HX_041_CROSSED_RIB"
+    ],
+    "HX_ZONE_STAGE": [
+      "HX_001_STAGE_APRON",
+      "HX_002_STAGE_APRON",
+      "HX_003_STAGE_APRON"
+    ],
+    "HX_ZONE_WINGS": [
+      "HX_005_FACETED_WING",
+      "HX_006_WING_INSET",
+      "HX_007_WING_INSET",
+      "HX_008_WING_INSET",
+      "HX_009_FACETED_WING",
+      "HX_010_WING_INSET",
+      "HX_011_WING_INSET",
+      "HX_012_WING_INSET",
+      "HX_013_FACETED_WING",
+      "HX_014_WING_INSET",
+      "HX_015_WING_INSET",
+      "HX_016_WING_INSET",
+      "HX_017_FACETED_WING",
+      "HX_018_WING_INSET",
+      "HX_019_WING_INSET",
+      "HX_020_WING_INSET",
+      "HX_021_FACETED_WING",
+      "HX_022_WING_INSET",
+      "HX_023_WING_INSET",
+      "HX_024_WING_INSET",
+      "HX_025_FACETED_WING",
+      "HX_026_WING_INSET",
+      "HX_027_WING_INSET",
+      "HX_028_WING_INSET"
+    ]
+  },
+  "group_count": 12,
+  "concept_id": "16",
+  "source_art": "images/15_16_Arena_Stages.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "16",
+    "name": "Thunder Vault Stage",
+    "round": "stage",
+    "board": 8,
+    "side": "right",
+    "description": "A dramatic black-steel concert stage with faceted pixel wings, interlocking helix ribs and a deep multilevel truss ceiling.",
+    "spatial": "Front stage edge, band risers, rear geometric planes and multiple overhead truss layers.",
+    "choreography": "Faceted planes answer in sequence while overhead depth chases frame the performers.",
+    "constraint": "DMX behavior, sightlines and show control require dedicated design beyond RGB pixel placement.",
+    "image": "images/15_16_Arena_Stages.png",
+    "panel_ratio": 1.3437908496732027,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "DMX behavior, sightlines and show control require dedicated design beyond RGB pixel placement.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}
