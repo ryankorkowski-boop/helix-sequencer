@@ -1,0 +1,20 @@
+{
+  "versions": {
+    "torch": "2.5.1+cpu",
+    "torchaudio": "2.5.1+cpu",
+    "demucs": "4.0.1",
+    "librosa": "0.10.2.post1",
+    "stable-ts": "2.19.1",
+    "openai-whisper": "20250625",
+    "cmudict": "1.1.3",
+    "adtof-pytorch": "0.1.0"
+  },
+  "weights_sha256": {
+    "small.en.pt": "f953ad0fd29cacd07d5a9eda5624af0f6bcf2258be67c92b79389873d91e0872",
+    "5c90dfd2-34c22ccb.th": "34c22ccb381c6f9fdbf324f04e1e2fe21aaaf293f5ded163a162697ff9a02ddd",
+    "adtof_frame_rnn_pytorch_weights.pth": "1bc986e596ec47ba0b44916f87cd4a39f0b2bec23596df3fb5d0e87749217320"
+  },
+  "ADTOF_code_revision": "85c192e78f716ea0b111cc8a5ee4a8f6a3a4f8a9",
+  "inference_device": "CPU",
+  "models_external_not_redistributed": true
+}
