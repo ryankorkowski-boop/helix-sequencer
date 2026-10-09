@@ -392,3 +392,14 @@ Do not mark complete from unit tests alone.
 - [x] GitHub write access restored.
 - [x] Publish and validate \`fix/drummer-independent-illumination\`; implementation run `37432351105` passed all automated gates.
 - [ ] User visual approval and native xLights import/playback remain final acceptance gates.
+
+### 2026-10-09 — Six-layout 30-second multi-song comparison reviews
+**Agent:** ChatGPT/GitHub
+**Branch:** `preview/six-layout-30s-2026-10-09`
+**Goal:** Generate two downloadable comparison reels, each with six distinct native xLights layout previews playing simultaneously. Divide the five user-supplied repository songs across the two reels; show exactly 30 seconds of each song in both audio and rendered lighting.
+**Changed files:** `.github/workflows/six-layout-30s-comparisons.yml`, this ledger.
+**Preserved behavior:** Original five audio source files, existing Helix Prime / xLights mapping, source-verified audio, six layout definitions, and canonical drummer geometry are not modified.
+**New behavior:** Parallel GitHub-hosted rendering for each trimmed 30-second music excerpt; native FSEQ-backed movie for each of six showroom flavors; six-up montage per song; two combined review videos (songs 1–3 and songs 4–5), with one original source soundtrack audible at a time.
+**Tests/evidence:** Workflow must produce five per-song six-up MP4s and two combined MP4s. The MP4 duration/audio/provenance checks are built into the workflow. Completion and musical quality are **pending CI execution and human review**, not presumed by this documentation.
+**Limitations:** All six flavors are compared on each song; these are not the 62 approved concept layouts. Show excerpts favor a strong RMS window, not necessarily a beat-perfect music phrase. Visual quality and physical feasibility require user review.
+**Regression risks:** GitHub-hosted xLights AppImage availability/runtime, native export incompatibilities, and generation time on GitHub-hosted CPU workers. All work is confined to the review branch; no default-branch changes.
