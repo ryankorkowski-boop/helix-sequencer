@@ -82,16 +82,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          xvfb-run -a python - <<'PY'
-          import os,sys
-          from tools import run_showcase_audio_batch as batch
-          batch.TRACKS=(('Helix_Audiolights','Helix Audiolights'),)+batch.TRACKS[1:]
-          sys.argv=['showcase-audio-batch','--audio-dir','outputs/30s_clips',
-                    '--track','Helix_Audiolights','--output','outputs/six_up_Helix_Audiolights',
-                    '--workers','2','--xlights',
-                    os.path.join(os.environ['RUNNER_TEMP'],'xlights-native/squashfs-root/AppRun')]
-          batch.main()
-          PY
+          xvfb-run -a python tools/run_audiolights_30s_review.py "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun"
       - name: Produce verified simultaneous six-layout 30-second movie
         shell: bash
         run: |
