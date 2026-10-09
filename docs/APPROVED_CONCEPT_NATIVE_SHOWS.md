@@ -11,8 +11,8 @@ state study. The user explicitly approved all through #62 in this session.
 The complete current verification is `evidence/approved_concepts_62/verification.json`.
 Compact native sources for all 62 are in `showcase/approved_concepts/`.
 The delivery includes a ZIP of all native shows and reusable `.xmodel` files,
-a ZIP of all 62 movies, and individual MP4s. The release is titled
-**Approved concepts 1–62: xLights files and MP4 previews**.
+a ZIP of all 62 movies, and individual MP4s. See [all 62 MP4 links and downloads](CONCEPTS_62_MP4_LINKS.md) or the
+[published release](https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/concept-layouts-62-2026-10-09).
 
 Reproduce all 62 with the existing command below (omit `--ids`); use the
 `models/advanced_concepts.py` and `models/stop_motion_concepts.py` modules for
@@ -22,7 +22,7 @@ dark against the actual native FSEQ. Perspective layouts use a frontal hero
 camera where alignment matters and an oblique view for depth-heavy sculptures.
 Point previews do not simulate physical lenticular baffles.
 
-Verified: 62 native renders, 29,760 frames, 2,714 lit models and 347,170 RGB pixels;
+Verified: 62 native renders, 29,760 frames, 2,714 lit models with 347,170 configured RGB pixels;
 all 62 movies fully decode to 480 H.264/yuv420p frames at 20fps / 24 seconds.
 127 focused tests pass. Six representative shows were relocated to folders with
 spaces and rerendered with every native frame identical. Source art, favorites,
