@@ -13,13 +13,29 @@ import xml.etree.ElementTree as ET
 import numpy as np
 from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
-from models.approved_concepts import ROOT, CONCEPTS, build_concept, catalog
+from models.approved_concepts import ROOT, CONCEPTS, CATALOGS, build_concept, catalog
 from tools.build_helpers.ultimate_showcase import write_layout, model_xml, _write_xml
 from tools.build_helpers.ultimate_showcase_preview import read_fseq, _font
 
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def pose_intervals(m):
+    """600ms held replacement poses; explicit holds encoded in pose_order."""
+    d=m.details
+    order=d['pose_order']
+    return [(start,min(start+600,24000)) for start in range(0,24000,600)
+            if order[(start//600)%len(order)]==d['pose_index']]
+
+
+def preview_angles(concept_id):
+    n=int(concept_id)
+    if n<=22:return (22,19)
+    if n==41:return (0,22)
+    if n in (25,26,28,29,30,34,45,52,59,60,61):return (22,19)
+    return (0,0)
 
 
 def sequence(g, output):
@@ -44,9 +60,33 @@ def sequence(g, output):
         ET.SubElement(root.find('DisplayElements'),'Element',{'type':'model','name':m.name,'visible':'1','collapsed':'1'})
         e=ET.SubElement(root.find('ElementEffects'),'Element',{'type':'model','name':m.name})
         base=ET.SubElement(e,'EffectLayer')
+        if 'pose_index' in m.details:
+            for k in range(8):
+                part=f'SECTOR_{k:02}'
+                if part not in m.submodels:continue
+                layer=ET.SubElement(e,'SubModelEffectLayer',{'name':part,'layer':'0'})
+                ids=m.submodels[part];color=m.colors[ids[len(ids)//2]-1]
+                for start,end in pose_intervals(m):effect(layer,color,start,end,90,90)
+            continue
+        if concept_stop := int(g.concept_id)>42:
+            if not m.details.get('canonical_drummer'):
+                if 'assembly_index' in m.details:
+                    intervals=[(start,min(start+600,24000)) for start in range(0,24000,600)
+                               if (start//600)%5>=m.details['assembly_index'] and (start//600)%5<4]
+                elif 'domino_index' in m.details:
+                    intervals=[(start,min(start+600,24000)) for start in range(0,24000,600)
+                               if (((start//600)%14)>m.details['domino_index'])==m.details['domino_lean']]
+                else:intervals=[(0,24000)]
+                for k in range(8):
+                    part=f'SECTOR_{k:02}'
+                    if part not in m.submodels:continue
+                    layer=ET.SubElement(e,'SubModelEffectLayer',{'name':part,'layer':'0'})
+                    ids=m.submodels[part];color=m.colors[ids[len(ids)//2]-1]
+                    for start,end in intervals:effect(layer,color,start,end,50,50)
+                continue
         if m.details.get('canonical_drummer'):
             body=ET.SubElement(e,'SubModelEffectLayer',{'name':'BODY_KEEPALIVE','layer':'0'})
-            effect(body,'#BECAD3',0,24000,30,30)
+            effect(body,'#BECAD3',0,24000,40 if concept_stop else 30,40 if concept_stop else 30)
             # Exact instrument/actuator helpers, decorative demonstration only.
             targets=('KICK','SNARE','HI_HAT','TOM_HIGH','TOM_MID','TOM_FLOOR','CYMBAL_LEFT','CYMBAL_RIGHT')
             for k,target in enumerate(targets):
@@ -55,8 +95,14 @@ def sequence(g, output):
                     part=prefix+suffix
                     if part not in m.submodels:continue
                     layer=ET.SubElement(e,'SubModelEffectLayer',{'name':part,'layer':'0'})
-                    for start in range(k*800,24000,6400):effect(layer,color,start,min(start+600,24000),90,20)
-                if target=='HI_HAT':
+                    if concept_stop and suffix=='_SURFACE':
+                        for start in range(0,24000,600):
+                            level=90 if target=='SNARE' and (start//600)%4==1 else 18
+                            effect(layer,color,start,start+600,level,level)
+                        continue
+                    starts=range(600,24000,2400) if concept_stop and target=='SNARE' else ([] if concept_stop else range(k*800,24000,6400))
+                    for start in starts:effect(layer,color,start,min(start+600,24000),90,20)
+                if target=='HI_HAT' and not concept_stop:
                     layer=ET.SubElement(e,'SubModelEffectLayer',{'name':prefix+'_FOOT','layer':'0'})
                     for start in range(k*800,24000,6400):effect(layer,'#DAAD6D',start,min(start+600,24000),32,12)
             continue
@@ -70,9 +116,10 @@ def sequence(g, output):
             for cycle in range(4):
                 start=4000+cycle*4000
                 delay=((k+i%8)%8)*350
-                effect(layer,color,start,start+delay,20,20) if delay else None
-                effect(layer,color,start+delay,start+delay+650,25,100)
-                effect(layer,color,start+delay+650,min(start+4000,20000),100,20)
+                floor=20 if int(g.concept_id)<=22 else 45
+                effect(layer,color,start,start+delay,floor,floor) if delay else None
+                effect(layer,color,start+delay,start+delay+650,max(25,floor),100)
+                effect(layer,color,start+delay+650,min(start+4000,20000),100,floor)
             effect(layer,color,20000,22000,30,95)
             effect(layer,color,22000,24000,95,15)
     root.find('nextid').text=str(identifier)
@@ -83,6 +130,7 @@ def sequence(g, output):
 
 def export(concept,output):
     g=build_concept(concept)
+    g.concept_id=concept['id']
     manifest=write_layout(g,output)
     # This batch intentionally covers its own structure, not Aurora's 27 families.
     manifest.update({'schema':'helix.approved_concept.v1','name':g.title,'concept_id':concept['id'],
@@ -93,11 +141,12 @@ def export(concept,output):
                      'limits':[concept['constraint'],'Artwork-guided finite geometry, not a scanned/surveyed reconstruction.',
                                'No complete music sequence or musical drummer acceptance claimed.']})
     for m in g.models:_write_xml(model_xml(m,'custommodel'),output/'models'/(m.name+'.xmodel'))
-    if concept['round']=='stage':
+    if any(m.details.get('canonical_drummer') for m in g.models):
         for name in ('drummer_idle.png','drummerbg.png'):
             shutil.copy2(ROOT/'fixtures/band_geometry/source'/name,output/'assets'/name)
     # Human-readable source reference is a copy, never an edit of the original.
-    shutil.copy2(CONCEPTS.parent/concept['image'],output/'assets'/'concept_reference.png')
+    source=ROOT/concept.get('source_catalog',str(CONCEPTS.relative_to(ROOT)))
+    shutil.copy2(source.parent/concept['image'],output/'assets'/'concept_reference.png')
     (output/'media').mkdir(exist_ok=True)
     (output/'media/README.txt').write_text('Silent lighting study; no soundtrack is required. Copy original song media here when authoring a matching music XSQ.\n')
     layout=ET.parse(output/'xlights_rgbeffects.xml')
@@ -106,6 +155,9 @@ def export(concept,output):
     for camera in layout.findall('./Viewpoints/*'):
         camera.set('distance',f'{distance:.2f}')
         camera.set('pany',str(-float((points[:,1].max()+points[:,1].min())/2)))
+        if int(concept['id'])>22:
+            yaw,pitch=preview_angles(concept['id'])
+            camera.set('angleX',str(pitch));camera.set('angleY',str(yaw))
     _write_xml(layout.getroot(),output/'xlights_rgbeffects.xml')
     xsq=sequence(g,output)
     (output/'showcase_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
@@ -127,7 +179,7 @@ class ConceptView:
     """Auto-fit exact XML points, with fixed depth projection and native colors."""
     def __init__(self,g,width=960,height=540):
         self.width,self.height=width,height
-        p=np.vstack([m.points for m in g.models]);yaw,pitch=np.radians([22,19])
+        p=np.vstack([m.points for m in g.models]);yaw,pitch=np.radians(preview_angles(g.concept_id))
         x=p[:,0]*np.cos(yaw)-p[:,2]*np.sin(yaw)
         z=p[:,0]*np.sin(yaw)+p[:,2]*np.cos(yaw)
         y=p[:,1]*np.cos(pitch)+z*np.sin(pitch)
@@ -167,10 +219,19 @@ def render_one(args):
     frames,step=read_fseq(xsq.with_suffix('.fseq'))
     assert frames.shape==(480,manifest['channel_count']) and step==50,(frames.shape,manifest['channel_count'])
     coverage=[]
+    pose_proof=[]
     for m in g.models:
         values=frames[:,m.start-1:m.start-1+m.channels]
         assert values.max()>0,f'Unlit model {m.name}'
         coverage.append({'model':m.name,'lit':True,'start_channel':m.start,'nodes':len(m.points)})
+        if 'pose_index' in m.details:
+            expected=np.zeros(480,dtype=bool)
+            for start,end in pose_intervals(m):expected[start//50:end//50]=True
+            actual=np.any(values>0,axis=1)
+            assert np.array_equal(actual,expected),f'Native held-pose mismatch: {m.name}'
+            pose_proof.append({'model':m.name,'track':m.details['pose_track'],
+                               'pose_index':m.details['pose_index'],'active_frames':int(actual.sum()),
+                               'inactive_frames_dark':True,'native_schedule_matches':True})
     view=ConceptView(g);movie=output/(g.slug+'.mp4')
     command=['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s','960x540','-r','20','-i','-',
              '-c:v','libx264','-preset','veryfast','-crf','21','-threads','1','-pix_fmt','yuv420p','-movflags','+faststart',str(movie)]
@@ -190,10 +251,11 @@ def render_one(args):
     result={'id':concept['id'],'name':g.title,'show_folder':str(output),'xsq':str(xsq),'mp4':str(movie),
             'models':len(g.models),'pixels':manifest['rgb_pixels'],'channels':manifest['channel_count'],
             'native_frames':480,'frame_ms':50,'native_models_lit':coverage,'physical_output_networks':0,
+            'held_pose_verification':pose_proof,
             'video':{'codec':'h264','pixel_format':'yuv420p','duration_s':24,'frames':480,'full_decode':'pass','audio':False},
             'sha256':{'layout':sha(output/'xlights_rgbeffects.xml'),'xsq':sha(xsq),'fseq':sha(xsq.with_suffix('.fseq')),'mp4':sha(movie)},
             'musical_drummer_acceptance':False,'lighting_source':'Actual native xLights FSEQ; exact geometry projection, not GUI recording.'}
-    if concept['round']=='stage':
+    if any(m.details.get('canonical_drummer') for m in g.models):
         source=ET.parse(ROOT/'fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel').getroot()
         drummer=next(m for m in g.models if m.details.get('canonical_drummer'))
         from tools.render_drummer_v3_preview import _expand_ranges
@@ -232,7 +294,7 @@ def preserved_hashes():
     selected=json.loads((ROOT/'showcase/favorites/selected_layouts.json').read_text())
     hashes={f['path']:f['sha256'] for favorite in selected['favorites'] for f in favorite['files']}
     assert all(sha(ROOT/p)==v for p,v in hashes.items()),'Saved favorite differs from pinned original'
-    paths=[CONCEPTS,*CONCEPTS.parent.glob('images/*.png'),*(ROOT/'showcase/favorites').rglob('*'),
+    paths=[*CATALOGS,*(p for c in CATALOGS for p in c.parent.glob('images/*.png')),*(ROOT/'showcase/favorites').rglob('*'),
            *(ROOT/'fixtures/band_geometry/source').glob('drummer*.png'),
            ROOT/'fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel',
            *(ROOT/'evidence/showcase_audio').rglob('*.mp3')]
@@ -259,7 +321,7 @@ def main():
             results.append(row);print(json.dumps({k:row[k] for k in ('id','name','models','pixels','mp4')}),flush=True)
     assert all(sha(ROOT/p)==v for p,v in source_hashes.items()),'Preserved source changed'
     result={'schema':'helix.approved_concepts_delivery.v1','concepts':results,'preserved_source_hashes':source_hashes,
-            'unresolved':['Whale artwork/name is absent from the saved 22-concept catalog and workspace.'],
+            'unresolved':[],
             'sample_type':'24-second silent native lighting studies; not full-song music sequences.'}
     (args.output/'VERIFICATION.json').write_text(json.dumps(result,indent=2)+'\n')
     if args.native_source_root:save_native_sources(result,args.native_source_root)

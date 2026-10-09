@@ -1,0 +1,3577 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Fractal Geode Cavern",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 90
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 90,
+  "rgb_pixels": 6175,
+  "channel_count": 18525,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_JAGGED_SHELL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SHELLS",
+      "design": "JAGGED SHELL",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 1,
+      "end_channel": 900,
+      "bounds_ft": [
+        [
+          -106.5,
+          0.0,
+          0.0
+        ],
+        [
+          106.5,
+          110.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34643717480184893
+    },
+    {
+      "name": "HX_002_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 901,
+      "end_channel": 1065,
+      "bounds_ft": [
+        [
+          84.0,
+          0.0,
+          0.0
+        ],
+        [
+          106.5,
+          30.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3518842030682252
+    },
+    {
+      "name": "HX_003_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 1066,
+      "end_channel": 1230,
+      "bounds_ft": [
+        [
+          84.0,
+          18.5,
+          0.0
+        ],
+        [
+          107.0,
+          52.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3863112634809148
+    },
+    {
+      "name": "HX_004_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 1231,
+      "end_channel": 1395,
+      "bounds_ft": [
+        [
+          79.5,
+          30.5,
+          0.0
+        ],
+        [
+          91.5,
+          66.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38783013563674495
+    },
+    {
+      "name": "HX_005_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 1396,
+      "end_channel": 1560,
+      "bounds_ft": [
+        [
+          57.5,
+          52.5,
+          0.0
+        ],
+        [
+          91.5,
+          68.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39522991542036434
+    },
+    {
+      "name": "HX_006_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 1561,
+      "end_channel": 1725,
+      "bounds_ft": [
+        [
+          55.0,
+          57.0,
+          0.0
+        ],
+        [
+          79.5,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3635839919988563
+    },
+    {
+      "name": "HX_007_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 1726,
+      "end_channel": 1890,
+      "bounds_ft": [
+        [
+          33.5,
+          68.5,
+          0.0
+        ],
+        [
+          57.5,
+          92.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39407154805947925
+    },
+    {
+      "name": "HX_008_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 1891,
+      "end_channel": 2055,
+      "bounds_ft": [
+        [
+          16.0,
+          80.5,
+          0.0
+        ],
+        [
+          55.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35295949678693894
+    },
+    {
+      "name": "HX_009_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 2056,
+      "end_channel": 2220,
+      "bounds_ft": [
+        [
+          0.0,
+          79.5,
+          0.0
+        ],
+        [
+          33.5,
+          111.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39121945605303504
+    },
+    {
+      "name": "HX_010_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 2221,
+      "end_channel": 2385,
+      "bounds_ft": [
+        [
+          -16.0,
+          91.5,
+          0.0
+        ],
+        [
+          16.0,
+          99.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3342435866616689
+    },
+    {
+      "name": "HX_011_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 2386,
+      "end_channel": 2550,
+      "bounds_ft": [
+        [
+          -33.5,
+          79.5,
+          0.0
+        ],
+        [
+          0.0,
+          111.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3912194560530267
+    },
+    {
+      "name": "HX_012_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 2551,
+      "end_channel": 2715,
+      "bounds_ft": [
+        [
+          -55.0,
+          80.5,
+          0.0
+        ],
+        [
+          -16.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3529594967869331
+    },
+    {
+      "name": "HX_013_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 2716,
+      "end_channel": 2880,
+      "bounds_ft": [
+        [
+          -57.5,
+          68.5,
+          0.0
+        ],
+        [
+          -33.5,
+          92.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3940715480594639
+    },
+    {
+      "name": "HX_014_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 2881,
+      "end_channel": 3045,
+      "bounds_ft": [
+        [
+          -79.5,
+          57.0,
+          0.0
+        ],
+        [
+          -55.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36358399199886826
+    },
+    {
+      "name": "HX_015_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 3046,
+      "end_channel": 3210,
+      "bounds_ft": [
+        [
+          -91.5,
+          53.0,
+          0.0
+        ],
+        [
+          -57.5,
+          68.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3952299154203683
+    },
+    {
+      "name": "HX_016_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 3211,
+      "end_channel": 3375,
+      "bounds_ft": [
+        [
+          -91.5,
+          30.5,
+          0.0
+        ],
+        [
+          -79.5,
+          66.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3878301356367357
+    },
+    {
+      "name": "HX_017_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 3376,
+      "end_channel": 3540,
+      "bounds_ft": [
+        [
+          -107.0,
+          18.5,
+          0.0
+        ],
+        [
+          -84.0,
+          53.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3863112634809203
+    },
+    {
+      "name": "HX_018_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 3541,
+      "end_channel": 3705,
+      "bounds_ft": [
+        [
+          -106.5,
+          0.0,
+          0.0
+        ],
+        [
+          -84.0,
+          30.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3518842030682442
+    },
+    {
+      "name": "HX_019_JAGGED_SHELL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SHELLS",
+      "design": "JAGGED SHELL",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 3706,
+      "end_channel": 4605,
+      "bounds_ft": [
+        [
+          -85.5,
+          0.0,
+          -25.0
+        ],
+        [
+          85.5,
+          88.5,
+          -25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34687632320985123
+    },
+    {
+      "name": "HX_020_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 4606,
+      "end_channel": 4770,
+      "bounds_ft": [
+        [
+          67.0,
+          0.0,
+          -25.0
+        ],
+        [
+          85.5,
+          24.5,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38345874851513834
+    },
+    {
+      "name": "HX_021_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 4771,
+      "end_channel": 4935,
+      "bounds_ft": [
+        [
+          67.0,
+          12.5,
+          -25.0
+        ],
+        [
+          85.5,
+          42.0,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37600033612573663
+    },
+    {
+      "name": "HX_022_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 4936,
+      "end_channel": 5100,
+      "bounds_ft": [
+        [
+          63.5,
+          24.5,
+          -25.0
+        ],
+        [
+          73.0,
+          53.5,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35737058281033074
+    },
+    {
+      "name": "HX_023_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 5101,
+      "end_channel": 5265,
+      "bounds_ft": [
+        [
+          46.0,
+          41.5,
+          -25.0
+        ],
+        [
+          73.0,
+          55.0,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33040618303599184
+    },
+    {
+      "name": "HX_024_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 5266,
+      "end_channel": 5430,
+      "bounds_ft": [
+        [
+          44.0,
+          43.0,
+          -25.0
+        ],
+        [
+          63.5,
+          76.0,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34788762509552884
+    },
+    {
+      "name": "HX_025_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 5431,
+      "end_channel": 5595,
+      "bounds_ft": [
+        [
+          27.0,
+          55.0,
+          -25.0
+        ],
+        [
+          46.0,
+          73.5,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38644767894915094
+    },
+    {
+      "name": "HX_026_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 5596,
+      "end_channel": 5760,
+      "bounds_ft": [
+        [
+          13.0,
+          62.0,
+          -25.0
+        ],
+        [
+          44.0,
+          76.0,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36734121765661043
+    },
+    {
+      "name": "HX_027_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 5761,
+      "end_channel": 5925,
+      "bounds_ft": [
+        [
+          0.0,
+          61.5,
+          -25.0
+        ],
+        [
+          27.0,
+          89.0,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36975524328291076
+    },
+    {
+      "name": "HX_028_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 5926,
+      "end_channel": 6090,
+      "bounds_ft": [
+        [
+          -13.0,
+          73.0,
+          -25.0
+        ],
+        [
+          13.0,
+          77.0,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37645275103731435
+    },
+    {
+      "name": "HX_029_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 6091,
+      "end_channel": 6255,
+      "bounds_ft": [
+        [
+          -27.0,
+          61.5,
+          -25.0
+        ],
+        [
+          0.0,
+          89.0,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3697552432829062
+    },
+    {
+      "name": "HX_030_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 6256,
+      "end_channel": 6420,
+      "bounds_ft": [
+        [
+          -44.0,
+          62.0,
+          -25.0
+        ],
+        [
+          -13.0,
+          76.0,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3673412176566046
+    },
+    {
+      "name": "HX_031_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 6421,
+      "end_channel": 6585,
+      "bounds_ft": [
+        [
+          -46.0,
+          55.0,
+          -25.0
+        ],
+        [
+          -27.0,
+          73.5,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3864476789491671
+    },
+    {
+      "name": "HX_032_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 6586,
+      "end_channel": 6750,
+      "bounds_ft": [
+        [
+          -63.5,
+          43.0,
+          -25.0
+        ],
+        [
+          -44.0,
+          76.0,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34788762509553167
+    },
+    {
+      "name": "HX_033_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 6751,
+      "end_channel": 6915,
+      "bounds_ft": [
+        [
+          -73.0,
+          41.5,
+          -25.0
+        ],
+        [
+          -46.0,
+          55.0,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3304061830360072
+    },
+    {
+      "name": "HX_034_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 6916,
+      "end_channel": 7080,
+      "bounds_ft": [
+        [
+          -73.0,
+          24.5,
+          -25.0
+        ],
+        [
+          -63.5,
+          53.5,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3573705828103465
+    },
+    {
+      "name": "HX_035_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 7081,
+      "end_channel": 7245,
+      "bounds_ft": [
+        [
+          -85.5,
+          12.5,
+          -25.0
+        ],
+        [
+          -67.0,
+          42.0,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37600033612571787
+    },
+    {
+      "name": "HX_036_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 7246,
+      "end_channel": 7410,
+      "bounds_ft": [
+        [
+          -85.5,
+          0.0,
+          -25.0
+        ],
+        [
+          -67.0,
+          24.5,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38345874851512773
+    },
+    {
+      "name": "HX_037_JAGGED_SHELL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SHELLS",
+      "design": "JAGGED SHELL",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 7411,
+      "end_channel": 8310,
+      "bounds_ft": [
+        [
+          -68.5,
+          0.0,
+          -50.0
+        ],
+        [
+          68.5,
+          70.5,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3455654355869776
+    },
+    {
+      "name": "HX_038_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 8311,
+      "end_channel": 8475,
+      "bounds_ft": [
+        [
+          53.5,
+          0.0,
+          -50.0
+        ],
+        [
+          68.5,
+          19.5,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3563424137203965
+    },
+    {
+      "name": "HX_039_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 8476,
+      "end_channel": 8640,
+      "bounds_ft": [
+        [
+          53.5,
+          7.5,
+          -50.0
+        ],
+        [
+          68.5,
+          34.0,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39498312014838916
+    },
+    {
+      "name": "HX_040_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 8641,
+      "end_channel": 8805,
+      "bounds_ft": [
+        [
+          51.0,
+          19.5,
+          -50.0
+        ],
+        [
+          58.5,
+          42.5,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36194325048360576
+    },
+    {
+      "name": "HX_041_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 8806,
+      "end_channel": 8970,
+      "bounds_ft": [
+        [
+          37.0,
+          30.75,
+          -50.0
+        ],
+        [
+          58.5,
+          44.0,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19242798920846968
+    },
+    {
+      "name": "HX_042_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 8971,
+      "end_channel": 9135,
+      "bounds_ft": [
+        [
+          35.0,
+          32.0,
+          -50.0
+        ],
+        [
+          51.0,
+          60.5,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34371190896737097
+    },
+    {
+      "name": "HX_043_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 9136,
+      "end_channel": 9300,
+      "bounds_ft": [
+        [
+          21.5,
+          44.0,
+          -50.0
+        ],
+        [
+          37.0,
+          59.0,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1938718656859204
+    },
+    {
+      "name": "HX_044_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 9301,
+      "end_channel": 9465,
+      "bounds_ft": [
+        [
+          10.5,
+          47.0,
+          -50.0
+        ],
+        [
+          35.0,
+          60.5,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3797122275032955
+    },
+    {
+      "name": "HX_045_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 9466,
+      "end_channel": 9630,
+      "bounds_ft": [
+        [
+          0.0,
+          47.0,
+          -50.0
+        ],
+        [
+          21.5,
+          71.0,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4094974022157495
+    },
+    {
+      "name": "HX_046_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 9631,
+      "end_channel": 9795,
+      "bounds_ft": [
+        [
+          -10.25,
+          58.5,
+          -50.0
+        ],
+        [
+          10.25,
+          59.0,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1800749786427864
+    },
+    {
+      "name": "HX_047_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 9796,
+      "end_channel": 9960,
+      "bounds_ft": [
+        [
+          -21.5,
+          47.0,
+          -50.0
+        ],
+        [
+          0.0,
+          71.0,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4094974022157368
+    },
+    {
+      "name": "HX_048_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 9961,
+      "end_channel": 10125,
+      "bounds_ft": [
+        [
+          -35.0,
+          47.0,
+          -50.0
+        ],
+        [
+          -10.5,
+          60.5,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3797122275032872
+    },
+    {
+      "name": "HX_049_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 10126,
+      "end_channel": 10290,
+      "bounds_ft": [
+        [
+          -37.0,
+          44.0,
+          -50.0
+        ],
+        [
+          -21.5,
+          59.0,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19387186568592102
+    },
+    {
+      "name": "HX_050_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 10291,
+      "end_channel": 10455,
+      "bounds_ft": [
+        [
+          -51.0,
+          32.0,
+          -50.0
+        ],
+        [
+          -35.0,
+          60.5,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3437119089673782
+    },
+    {
+      "name": "HX_051_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 10456,
+      "end_channel": 10620,
+      "bounds_ft": [
+        [
+          -58.5,
+          30.75,
+          -50.0
+        ],
+        [
+          -37.0,
+          44.0,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1924279892084697
+    },
+    {
+      "name": "HX_052_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 10621,
+      "end_channel": 10785,
+      "bounds_ft": [
+        [
+          -58.5,
+          19.5,
+          -50.0
+        ],
+        [
+          -51.0,
+          42.5,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3619432504836146
+    },
+    {
+      "name": "HX_053_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 10786,
+      "end_channel": 10950,
+      "bounds_ft": [
+        [
+          -68.5,
+          7.5,
+          -50.0
+        ],
+        [
+          -53.5,
+          34.0,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39498312014837605
+    },
+    {
+      "name": "HX_054_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 10951,
+      "end_channel": 11115,
+      "bounds_ft": [
+        [
+          -68.5,
+          0.0,
+          -50.0
+        ],
+        [
+          -53.5,
+          19.5,
+          -42.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3563424137203763
+    },
+    {
+      "name": "HX_055_JAGGED_SHELL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SHELLS",
+      "design": "JAGGED SHELL",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 11116,
+      "end_channel": 12015,
+      "bounds_ft": [
+        [
+          -54.75,
+          0.0,
+          -75.0
+        ],
+        [
+          54.75,
+          56.5,
+          -75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16755488993145184
+    },
+    {
+      "name": "HX_056_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 12016,
+      "end_channel": 12180,
+      "bounds_ft": [
+        [
+          43.0,
+          -2.25,
+          -75.0
+        ],
+        [
+          54.5,
+          15.5,
+          -67.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18799870482665715
+    },
+    {
+      "name": "HX_057_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 12181,
+      "end_channel": 12345,
+      "bounds_ft": [
+        [
+          43.0,
+          4.0,
+          -75.0
+        ],
+        [
+          54.5,
+          27.0,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.401021535318189
+    },
+    {
+      "name": "HX_058_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 12346,
+      "end_channel": 12510,
+      "bounds_ft": [
+        [
+          40.5,
+          15.0,
+          -75.0
+        ],
+        [
+          46.5,
+          34.0,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35158555153183646
+    },
+    {
+      "name": "HX_059_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 12511,
+      "end_channel": 12675,
+      "bounds_ft": [
+        [
+          29.5,
+          22.25,
+          -75.0
+        ],
+        [
+          46.75,
+          35.25,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18777563708642397
+    },
+    {
+      "name": "HX_060_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 12676,
+      "end_channel": 12840,
+      "bounds_ft": [
+        [
+          28.0,
+          23.5,
+          -75.0
+        ],
+        [
+          40.5,
+          48.5,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36925943066212413
+    },
+    {
+      "name": "HX_061_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 12841,
+      "end_channel": 13005,
+      "bounds_ft": [
+        [
+          17.25,
+          35.25,
+          -75.0
+        ],
+        [
+          29.5,
+          47.25,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1992420559087148
+    },
+    {
+      "name": "HX_062_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 13006,
+      "end_channel": 13170,
+      "bounds_ft": [
+        [
+          8.25,
+          35.25,
+          -75.0
+        ],
+        [
+          28.0,
+          48.5,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1848715934094162
+    },
+    {
+      "name": "HX_063_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 13171,
+      "end_channel": 13335,
+      "bounds_ft": [
+        [
+          0.0,
+          35.0,
+          -75.0
+        ],
+        [
+          17.0,
+          57.0,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40764259224873467
+    },
+    {
+      "name": "HX_064_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 13336,
+      "end_channel": 13500,
+      "bounds_ft": [
+        [
+          -8.25,
+          44.75,
+          -75.0
+        ],
+        [
+          8.25,
+          46.75,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1874451496609402
+    },
+    {
+      "name": "HX_065_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 13501,
+      "end_channel": 13665,
+      "bounds_ft": [
+        [
+          -17.0,
+          35.0,
+          -75.0
+        ],
+        [
+          0.0,
+          57.0,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4076425922487371
+    },
+    {
+      "name": "HX_066_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 13666,
+      "end_channel": 13830,
+      "bounds_ft": [
+        [
+          -28.0,
+          35.25,
+          -75.0
+        ],
+        [
+          -8.25,
+          48.5,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1848715934094167
+    },
+    {
+      "name": "HX_067_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 13831,
+      "end_channel": 13995,
+      "bounds_ft": [
+        [
+          -29.5,
+          35.25,
+          -75.0
+        ],
+        [
+          -17.25,
+          47.25,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19924205590872515
+    },
+    {
+      "name": "HX_068_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 13996,
+      "end_channel": 14160,
+      "bounds_ft": [
+        [
+          -40.5,
+          23.5,
+          -75.0
+        ],
+        [
+          -28.0,
+          48.5,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.369259430662126
+    },
+    {
+      "name": "HX_069_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 14161,
+      "end_channel": 14325,
+      "bounds_ft": [
+        [
+          -46.75,
+          22.25,
+          -75.0
+        ],
+        [
+          -29.5,
+          35.25,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18777563708642397
+    },
+    {
+      "name": "HX_070_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 14326,
+      "end_channel": 14490,
+      "bounds_ft": [
+        [
+          -46.5,
+          15.0,
+          -75.0
+        ],
+        [
+          -40.5,
+          34.0,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35158555153183935
+    },
+    {
+      "name": "HX_071_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 14491,
+      "end_channel": 14655,
+      "bounds_ft": [
+        [
+          -54.5,
+          4.0,
+          -75.0
+        ],
+        [
+          -43.0,
+          27.0,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4010215353181873
+    },
+    {
+      "name": "HX_072_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 14656,
+      "end_channel": 14820,
+      "bounds_ft": [
+        [
+          -54.5,
+          -2.25,
+          -75.0
+        ],
+        [
+          -43.0,
+          15.5,
+          -67.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1879987048266392
+    },
+    {
+      "name": "HX_073_JAGGED_SHELL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SHELLS",
+      "design": "JAGGED SHELL",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 14821,
+      "end_channel": 15720,
+      "bounds_ft": [
+        [
+          -43.75,
+          0.0,
+          -100.0
+        ],
+        [
+          43.75,
+          45.25,
+          -100.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16246182112929394
+    },
+    {
+      "name": "HX_074_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 15721,
+      "end_channel": 15885,
+      "bounds_ft": [
+        [
+          34.25,
+          -4.25,
+          -100.0
+        ],
+        [
+          43.75,
+          12.5,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.191162373971827
+    },
+    {
+      "name": "HX_075_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 15886,
+      "end_channel": 16050,
+      "bounds_ft": [
+        [
+          34.25,
+          0.5,
+          -100.0
+        ],
+        [
+          43.75,
+          21.5,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18831218211196257
+    },
+    {
+      "name": "HX_076_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 16051,
+      "end_channel": 16215,
+      "bounds_ft": [
+        [
+          32.5,
+          9.75,
+          -100.0
+        ],
+        [
+          37.5,
+          27.25,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18946779789477572
+    },
+    {
+      "name": "HX_077_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 16216,
+      "end_channel": 16380,
+      "bounds_ft": [
+        [
+          23.5,
+          15.25,
+          -100.0
+        ],
+        [
+          37.5,
+          28.25,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17396195668254547
+    },
+    {
+      "name": "HX_078_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 16381,
+      "end_channel": 16545,
+      "bounds_ft": [
+        [
+          22.5,
+          16.0,
+          -100.0
+        ],
+        [
+          32.5,
+          39.0,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39040765090373014
+    },
+    {
+      "name": "HX_079_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 16546,
+      "end_channel": 16710,
+      "bounds_ft": [
+        [
+          13.75,
+          26.75,
+          -100.0
+        ],
+        [
+          23.5,
+          37.75,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1890601820648506
+    },
+    {
+      "name": "HX_080_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 16711,
+      "end_channel": 16875,
+      "bounds_ft": [
+        [
+          6.5,
+          26.0,
+          -100.0
+        ],
+        [
+          22.5,
+          38.75,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18915881457881958
+    },
+    {
+      "name": "HX_081_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 16876,
+      "end_channel": 17040,
+      "bounds_ft": [
+        [
+          0.0,
+          25.5,
+          -100.0
+        ],
+        [
+          13.5,
+          45.5,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36604853307302315
+    },
+    {
+      "name": "HX_082_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 17041,
+      "end_channel": 17205,
+      "bounds_ft": [
+        [
+          -6.5,
+          33.5,
+          -100.0
+        ],
+        [
+          6.5,
+          37.5,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17485617432812417
+    },
+    {
+      "name": "HX_083_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 17206,
+      "end_channel": 17370,
+      "bounds_ft": [
+        [
+          -13.5,
+          25.5,
+          -100.0
+        ],
+        [
+          0.0,
+          45.5,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36604853307302565
+    },
+    {
+      "name": "HX_084_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 17371,
+      "end_channel": 17535,
+      "bounds_ft": [
+        [
+          -22.5,
+          26.0,
+          -100.0
+        ],
+        [
+          -6.5,
+          38.75,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18915881457882153
+    },
+    {
+      "name": "HX_085_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 17536,
+      "end_channel": 17700,
+      "bounds_ft": [
+        [
+          -23.5,
+          26.75,
+          -100.0
+        ],
+        [
+          -13.75,
+          37.75,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18906018206485065
+    },
+    {
+      "name": "HX_086_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 17701,
+      "end_channel": 17865,
+      "bounds_ft": [
+        [
+          -32.5,
+          16.0,
+          -100.0
+        ],
+        [
+          -22.5,
+          39.0,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39040765090372015
+    },
+    {
+      "name": "HX_087_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 17866,
+      "end_channel": 18030,
+      "bounds_ft": [
+        [
+          -37.5,
+          15.25,
+          -100.0
+        ],
+        [
+          -23.5,
+          28.25,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17396195668254055
+    },
+    {
+      "name": "HX_088_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 18031,
+      "end_channel": 18195,
+      "bounds_ft": [
+        [
+          -37.5,
+          9.75,
+          -100.0
+        ],
+        [
+          -32.5,
+          27.25,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18946779789478874
+    },
+    {
+      "name": "HX_089_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 18196,
+      "end_channel": 18360,
+      "bounds_ft": [
+        [
+          -43.75,
+          0.5,
+          -100.0
+        ],
+        [
+          -34.25,
+          21.5,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18831218211197442
+    },
+    {
+      "name": "HX_090_CRYSTAL_TRIANGLE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CRYSTALS",
+      "design": "CRYSTAL TRIANGLE",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 18361,
+      "end_channel": 18525,
+      "bounds_ft": [
+        [
+          -43.75,
+          -4.25,
+          -100.0
+        ],
+        [
+          -34.25,
+          12.5,
+          -92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19116237397183855
+    }
+  ],
+  "file_prefix": "Fractal_Geode_Cavern",
+  "description": "Nested angular shells use repeated scales to make a shallow opening feel like a deep crystalline chamber.",
+  "palette": [
+    "#FFD277",
+    "#C9A1FF",
+    "#FFF0CF"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_JAGGED_SHELL",
+      "HX_002_CRYSTAL_TRIANGLE",
+      "HX_003_CRYSTAL_TRIANGLE",
+      "HX_004_CRYSTAL_TRIANGLE",
+      "HX_005_CRYSTAL_TRIANGLE",
+      "HX_006_CRYSTAL_TRIANGLE",
+      "HX_007_CRYSTAL_TRIANGLE",
+      "HX_008_CRYSTAL_TRIANGLE",
+      "HX_009_CRYSTAL_TRIANGLE",
+      "HX_010_CRYSTAL_TRIANGLE",
+      "HX_011_CRYSTAL_TRIANGLE",
+      "HX_012_CRYSTAL_TRIANGLE",
+      "HX_013_CRYSTAL_TRIANGLE",
+      "HX_014_CRYSTAL_TRIANGLE",
+      "HX_015_CRYSTAL_TRIANGLE",
+      "HX_016_CRYSTAL_TRIANGLE",
+      "HX_017_CRYSTAL_TRIANGLE",
+      "HX_018_CRYSTAL_TRIANGLE",
+      "HX_019_JAGGED_SHELL",
+      "HX_020_CRYSTAL_TRIANGLE",
+      "HX_021_CRYSTAL_TRIANGLE",
+      "HX_022_CRYSTAL_TRIANGLE",
+      "HX_023_CRYSTAL_TRIANGLE",
+      "HX_024_CRYSTAL_TRIANGLE",
+      "HX_025_CRYSTAL_TRIANGLE",
+      "HX_026_CRYSTAL_TRIANGLE",
+      "HX_027_CRYSTAL_TRIANGLE",
+      "HX_028_CRYSTAL_TRIANGLE",
+      "HX_029_CRYSTAL_TRIANGLE",
+      "HX_030_CRYSTAL_TRIANGLE",
+      "HX_031_CRYSTAL_TRIANGLE",
+      "HX_032_CRYSTAL_TRIANGLE",
+      "HX_033_CRYSTAL_TRIANGLE",
+      "HX_034_CRYSTAL_TRIANGLE",
+      "HX_035_CRYSTAL_TRIANGLE",
+      "HX_036_CRYSTAL_TRIANGLE",
+      "HX_037_JAGGED_SHELL",
+      "HX_038_CRYSTAL_TRIANGLE",
+      "HX_039_CRYSTAL_TRIANGLE",
+      "HX_040_CRYSTAL_TRIANGLE",
+      "HX_041_CRYSTAL_TRIANGLE",
+      "HX_042_CRYSTAL_TRIANGLE",
+      "HX_043_CRYSTAL_TRIANGLE",
+      "HX_044_CRYSTAL_TRIANGLE",
+      "HX_045_CRYSTAL_TRIANGLE",
+      "HX_046_CRYSTAL_TRIANGLE",
+      "HX_047_CRYSTAL_TRIANGLE",
+      "HX_048_CRYSTAL_TRIANGLE",
+      "HX_049_CRYSTAL_TRIANGLE",
+      "HX_050_CRYSTAL_TRIANGLE",
+      "HX_051_CRYSTAL_TRIANGLE",
+      "HX_052_CRYSTAL_TRIANGLE",
+      "HX_053_CRYSTAL_TRIANGLE",
+      "HX_054_CRYSTAL_TRIANGLE",
+      "HX_055_JAGGED_SHELL",
+      "HX_056_CRYSTAL_TRIANGLE",
+      "HX_057_CRYSTAL_TRIANGLE",
+      "HX_058_CRYSTAL_TRIANGLE",
+      "HX_059_CRYSTAL_TRIANGLE",
+      "HX_060_CRYSTAL_TRIANGLE",
+      "HX_061_CRYSTAL_TRIANGLE",
+      "HX_062_CRYSTAL_TRIANGLE",
+      "HX_063_CRYSTAL_TRIANGLE",
+      "HX_064_CRYSTAL_TRIANGLE",
+      "HX_065_CRYSTAL_TRIANGLE",
+      "HX_066_CRYSTAL_TRIANGLE",
+      "HX_067_CRYSTAL_TRIANGLE",
+      "HX_068_CRYSTAL_TRIANGLE",
+      "HX_069_CRYSTAL_TRIANGLE",
+      "HX_070_CRYSTAL_TRIANGLE",
+      "HX_071_CRYSTAL_TRIANGLE",
+      "HX_072_CRYSTAL_TRIANGLE",
+      "HX_073_JAGGED_SHELL",
+      "HX_074_CRYSTAL_TRIANGLE",
+      "HX_075_CRYSTAL_TRIANGLE",
+      "HX_076_CRYSTAL_TRIANGLE",
+      "HX_077_CRYSTAL_TRIANGLE",
+      "HX_078_CRYSTAL_TRIANGLE",
+      "HX_079_CRYSTAL_TRIANGLE",
+      "HX_080_CRYSTAL_TRIANGLE",
+      "HX_081_CRYSTAL_TRIANGLE",
+      "HX_082_CRYSTAL_TRIANGLE",
+      "HX_083_CRYSTAL_TRIANGLE",
+      "HX_084_CRYSTAL_TRIANGLE",
+      "HX_085_CRYSTAL_TRIANGLE",
+      "HX_086_CRYSTAL_TRIANGLE",
+      "HX_087_CRYSTAL_TRIANGLE",
+      "HX_088_CRYSTAL_TRIANGLE",
+      "HX_089_CRYSTAL_TRIANGLE",
+      "HX_090_CRYSTAL_TRIANGLE"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_JAGGED_SHELL",
+      "HX_002_CRYSTAL_TRIANGLE",
+      "HX_003_CRYSTAL_TRIANGLE",
+      "HX_004_CRYSTAL_TRIANGLE",
+      "HX_005_CRYSTAL_TRIANGLE",
+      "HX_006_CRYSTAL_TRIANGLE",
+      "HX_007_CRYSTAL_TRIANGLE",
+      "HX_008_CRYSTAL_TRIANGLE",
+      "HX_009_CRYSTAL_TRIANGLE",
+      "HX_010_CRYSTAL_TRIANGLE",
+      "HX_011_CRYSTAL_TRIANGLE",
+      "HX_012_CRYSTAL_TRIANGLE",
+      "HX_013_CRYSTAL_TRIANGLE",
+      "HX_014_CRYSTAL_TRIANGLE",
+      "HX_015_CRYSTAL_TRIANGLE",
+      "HX_016_CRYSTAL_TRIANGLE",
+      "HX_017_CRYSTAL_TRIANGLE",
+      "HX_018_CRYSTAL_TRIANGLE",
+      "HX_019_JAGGED_SHELL",
+      "HX_020_CRYSTAL_TRIANGLE",
+      "HX_021_CRYSTAL_TRIANGLE",
+      "HX_022_CRYSTAL_TRIANGLE",
+      "HX_023_CRYSTAL_TRIANGLE",
+      "HX_024_CRYSTAL_TRIANGLE",
+      "HX_025_CRYSTAL_TRIANGLE",
+      "HX_026_CRYSTAL_TRIANGLE",
+      "HX_027_CRYSTAL_TRIANGLE",
+      "HX_028_CRYSTAL_TRIANGLE",
+      "HX_029_CRYSTAL_TRIANGLE",
+      "HX_030_CRYSTAL_TRIANGLE",
+      "HX_031_CRYSTAL_TRIANGLE",
+      "HX_032_CRYSTAL_TRIANGLE",
+      "HX_033_CRYSTAL_TRIANGLE",
+      "HX_034_CRYSTAL_TRIANGLE",
+      "HX_035_CRYSTAL_TRIANGLE",
+      "HX_036_CRYSTAL_TRIANGLE",
+      "HX_037_JAGGED_SHELL",
+      "HX_038_CRYSTAL_TRIANGLE",
+      "HX_039_CRYSTAL_TRIANGLE",
+      "HX_040_CRYSTAL_TRIANGLE",
+      "HX_041_CRYSTAL_TRIANGLE",
+      "HX_042_CRYSTAL_TRIANGLE",
+      "HX_043_CRYSTAL_TRIANGLE",
+      "HX_044_CRYSTAL_TRIANGLE",
+      "HX_045_CRYSTAL_TRIANGLE",
+      "HX_046_CRYSTAL_TRIANGLE",
+      "HX_047_CRYSTAL_TRIANGLE",
+      "HX_048_CRYSTAL_TRIANGLE",
+      "HX_049_CRYSTAL_TRIANGLE",
+      "HX_050_CRYSTAL_TRIANGLE",
+      "HX_051_CRYSTAL_TRIANGLE",
+      "HX_052_CRYSTAL_TRIANGLE",
+      "HX_053_CRYSTAL_TRIANGLE",
+      "HX_054_CRYSTAL_TRIANGLE",
+      "HX_055_JAGGED_SHELL",
+      "HX_056_CRYSTAL_TRIANGLE",
+      "HX_057_CRYSTAL_TRIANGLE",
+      "HX_058_CRYSTAL_TRIANGLE",
+      "HX_059_CRYSTAL_TRIANGLE",
+      "HX_060_CRYSTAL_TRIANGLE",
+      "HX_061_CRYSTAL_TRIANGLE",
+      "HX_062_CRYSTAL_TRIANGLE",
+      "HX_063_CRYSTAL_TRIANGLE",
+      "HX_064_CRYSTAL_TRIANGLE",
+      "HX_065_CRYSTAL_TRIANGLE",
+      "HX_066_CRYSTAL_TRIANGLE",
+      "HX_067_CRYSTAL_TRIANGLE",
+      "HX_068_CRYSTAL_TRIANGLE",
+      "HX_069_CRYSTAL_TRIANGLE",
+      "HX_070_CRYSTAL_TRIANGLE",
+      "HX_071_CRYSTAL_TRIANGLE",
+      "HX_072_CRYSTAL_TRIANGLE",
+      "HX_073_JAGGED_SHELL",
+      "HX_074_CRYSTAL_TRIANGLE",
+      "HX_075_CRYSTAL_TRIANGLE",
+      "HX_076_CRYSTAL_TRIANGLE",
+      "HX_077_CRYSTAL_TRIANGLE",
+      "HX_078_CRYSTAL_TRIANGLE",
+      "HX_079_CRYSTAL_TRIANGLE",
+      "HX_080_CRYSTAL_TRIANGLE",
+      "HX_081_CRYSTAL_TRIANGLE",
+      "HX_082_CRYSTAL_TRIANGLE",
+      "HX_083_CRYSTAL_TRIANGLE",
+      "HX_084_CRYSTAL_TRIANGLE",
+      "HX_085_CRYSTAL_TRIANGLE",
+      "HX_086_CRYSTAL_TRIANGLE",
+      "HX_087_CRYSTAL_TRIANGLE",
+      "HX_088_CRYSTAL_TRIANGLE",
+      "HX_089_CRYSTAL_TRIANGLE",
+      "HX_090_CRYSTAL_TRIANGLE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_JAGGED_SHELL",
+      "HX_002_CRYSTAL_TRIANGLE",
+      "HX_003_CRYSTAL_TRIANGLE",
+      "HX_004_CRYSTAL_TRIANGLE",
+      "HX_005_CRYSTAL_TRIANGLE",
+      "HX_006_CRYSTAL_TRIANGLE",
+      "HX_007_CRYSTAL_TRIANGLE",
+      "HX_008_CRYSTAL_TRIANGLE",
+      "HX_009_CRYSTAL_TRIANGLE",
+      "HX_010_CRYSTAL_TRIANGLE",
+      "HX_011_CRYSTAL_TRIANGLE",
+      "HX_012_CRYSTAL_TRIANGLE",
+      "HX_013_CRYSTAL_TRIANGLE",
+      "HX_014_CRYSTAL_TRIANGLE",
+      "HX_015_CRYSTAL_TRIANGLE",
+      "HX_016_CRYSTAL_TRIANGLE",
+      "HX_017_CRYSTAL_TRIANGLE",
+      "HX_018_CRYSTAL_TRIANGLE",
+      "HX_019_JAGGED_SHELL",
+      "HX_020_CRYSTAL_TRIANGLE",
+      "HX_021_CRYSTAL_TRIANGLE",
+      "HX_022_CRYSTAL_TRIANGLE",
+      "HX_023_CRYSTAL_TRIANGLE",
+      "HX_024_CRYSTAL_TRIANGLE",
+      "HX_025_CRYSTAL_TRIANGLE",
+      "HX_026_CRYSTAL_TRIANGLE",
+      "HX_027_CRYSTAL_TRIANGLE",
+      "HX_028_CRYSTAL_TRIANGLE",
+      "HX_029_CRYSTAL_TRIANGLE",
+      "HX_030_CRYSTAL_TRIANGLE",
+      "HX_031_CRYSTAL_TRIANGLE",
+      "HX_032_CRYSTAL_TRIANGLE",
+      "HX_033_CRYSTAL_TRIANGLE",
+      "HX_034_CRYSTAL_TRIANGLE",
+      "HX_035_CRYSTAL_TRIANGLE",
+      "HX_036_CRYSTAL_TRIANGLE",
+      "HX_037_JAGGED_SHELL",
+      "HX_038_CRYSTAL_TRIANGLE",
+      "HX_039_CRYSTAL_TRIANGLE",
+      "HX_040_CRYSTAL_TRIANGLE",
+      "HX_041_CRYSTAL_TRIANGLE",
+      "HX_042_CRYSTAL_TRIANGLE",
+      "HX_043_CRYSTAL_TRIANGLE",
+      "HX_044_CRYSTAL_TRIANGLE",
+      "HX_045_CRYSTAL_TRIANGLE",
+      "HX_046_CRYSTAL_TRIANGLE",
+      "HX_047_CRYSTAL_TRIANGLE",
+      "HX_048_CRYSTAL_TRIANGLE",
+      "HX_049_CRYSTAL_TRIANGLE",
+      "HX_050_CRYSTAL_TRIANGLE",
+      "HX_051_CRYSTAL_TRIANGLE",
+      "HX_052_CRYSTAL_TRIANGLE",
+      "HX_053_CRYSTAL_TRIANGLE",
+      "HX_054_CRYSTAL_TRIANGLE",
+      "HX_055_JAGGED_SHELL",
+      "HX_056_CRYSTAL_TRIANGLE",
+      "HX_057_CRYSTAL_TRIANGLE",
+      "HX_058_CRYSTAL_TRIANGLE",
+      "HX_059_CRYSTAL_TRIANGLE",
+      "HX_060_CRYSTAL_TRIANGLE",
+      "HX_061_CRYSTAL_TRIANGLE",
+      "HX_062_CRYSTAL_TRIANGLE",
+      "HX_063_CRYSTAL_TRIANGLE",
+      "HX_064_CRYSTAL_TRIANGLE",
+      "HX_065_CRYSTAL_TRIANGLE",
+      "HX_066_CRYSTAL_TRIANGLE",
+      "HX_067_CRYSTAL_TRIANGLE",
+      "HX_068_CRYSTAL_TRIANGLE",
+      "HX_069_CRYSTAL_TRIANGLE",
+      "HX_070_CRYSTAL_TRIANGLE",
+      "HX_071_CRYSTAL_TRIANGLE",
+      "HX_072_CRYSTAL_TRIANGLE",
+      "HX_073_JAGGED_SHELL",
+      "HX_074_CRYSTAL_TRIANGLE",
+      "HX_075_CRYSTAL_TRIANGLE",
+      "HX_076_CRYSTAL_TRIANGLE",
+      "HX_077_CRYSTAL_TRIANGLE",
+      "HX_078_CRYSTAL_TRIANGLE",
+      "HX_079_CRYSTAL_TRIANGLE",
+      "HX_080_CRYSTAL_TRIANGLE",
+      "HX_081_CRYSTAL_TRIANGLE",
+      "HX_082_CRYSTAL_TRIANGLE",
+      "HX_083_CRYSTAL_TRIANGLE",
+      "HX_084_CRYSTAL_TRIANGLE",
+      "HX_085_CRYSTAL_TRIANGLE",
+      "HX_086_CRYSTAL_TRIANGLE",
+      "HX_087_CRYSTAL_TRIANGLE",
+      "HX_088_CRYSTAL_TRIANGLE",
+      "HX_089_CRYSTAL_TRIANGLE",
+      "HX_090_CRYSTAL_TRIANGLE"
+    ],
+    "HX_ZONE_CRYSTALS": [
+      "HX_002_CRYSTAL_TRIANGLE",
+      "HX_003_CRYSTAL_TRIANGLE",
+      "HX_004_CRYSTAL_TRIANGLE",
+      "HX_005_CRYSTAL_TRIANGLE",
+      "HX_006_CRYSTAL_TRIANGLE",
+      "HX_007_CRYSTAL_TRIANGLE",
+      "HX_008_CRYSTAL_TRIANGLE",
+      "HX_009_CRYSTAL_TRIANGLE",
+      "HX_010_CRYSTAL_TRIANGLE",
+      "HX_011_CRYSTAL_TRIANGLE",
+      "HX_012_CRYSTAL_TRIANGLE",
+      "HX_013_CRYSTAL_TRIANGLE",
+      "HX_014_CRYSTAL_TRIANGLE",
+      "HX_015_CRYSTAL_TRIANGLE",
+      "HX_016_CRYSTAL_TRIANGLE",
+      "HX_017_CRYSTAL_TRIANGLE",
+      "HX_018_CRYSTAL_TRIANGLE",
+      "HX_020_CRYSTAL_TRIANGLE",
+      "HX_021_CRYSTAL_TRIANGLE",
+      "HX_022_CRYSTAL_TRIANGLE",
+      "HX_023_CRYSTAL_TRIANGLE",
+      "HX_024_CRYSTAL_TRIANGLE",
+      "HX_025_CRYSTAL_TRIANGLE",
+      "HX_026_CRYSTAL_TRIANGLE",
+      "HX_027_CRYSTAL_TRIANGLE",
+      "HX_028_CRYSTAL_TRIANGLE",
+      "HX_029_CRYSTAL_TRIANGLE",
+      "HX_030_CRYSTAL_TRIANGLE",
+      "HX_031_CRYSTAL_TRIANGLE",
+      "HX_032_CRYSTAL_TRIANGLE",
+      "HX_033_CRYSTAL_TRIANGLE",
+      "HX_034_CRYSTAL_TRIANGLE",
+      "HX_035_CRYSTAL_TRIANGLE",
+      "HX_036_CRYSTAL_TRIANGLE",
+      "HX_038_CRYSTAL_TRIANGLE",
+      "HX_039_CRYSTAL_TRIANGLE",
+      "HX_040_CRYSTAL_TRIANGLE",
+      "HX_041_CRYSTAL_TRIANGLE",
+      "HX_042_CRYSTAL_TRIANGLE",
+      "HX_043_CRYSTAL_TRIANGLE",
+      "HX_044_CRYSTAL_TRIANGLE",
+      "HX_045_CRYSTAL_TRIANGLE",
+      "HX_046_CRYSTAL_TRIANGLE",
+      "HX_047_CRYSTAL_TRIANGLE",
+      "HX_048_CRYSTAL_TRIANGLE",
+      "HX_049_CRYSTAL_TRIANGLE",
+      "HX_050_CRYSTAL_TRIANGLE",
+      "HX_051_CRYSTAL_TRIANGLE",
+      "HX_052_CRYSTAL_TRIANGLE",
+      "HX_053_CRYSTAL_TRIANGLE",
+      "HX_054_CRYSTAL_TRIANGLE",
+      "HX_056_CRYSTAL_TRIANGLE",
+      "HX_057_CRYSTAL_TRIANGLE",
+      "HX_058_CRYSTAL_TRIANGLE",
+      "HX_059_CRYSTAL_TRIANGLE",
+      "HX_060_CRYSTAL_TRIANGLE",
+      "HX_061_CRYSTAL_TRIANGLE",
+      "HX_062_CRYSTAL_TRIANGLE",
+      "HX_063_CRYSTAL_TRIANGLE",
+      "HX_064_CRYSTAL_TRIANGLE",
+      "HX_065_CRYSTAL_TRIANGLE",
+      "HX_066_CRYSTAL_TRIANGLE",
+      "HX_067_CRYSTAL_TRIANGLE",
+      "HX_068_CRYSTAL_TRIANGLE",
+      "HX_069_CRYSTAL_TRIANGLE",
+      "HX_070_CRYSTAL_TRIANGLE",
+      "HX_071_CRYSTAL_TRIANGLE",
+      "HX_072_CRYSTAL_TRIANGLE",
+      "HX_074_CRYSTAL_TRIANGLE",
+      "HX_075_CRYSTAL_TRIANGLE",
+      "HX_076_CRYSTAL_TRIANGLE",
+      "HX_077_CRYSTAL_TRIANGLE",
+      "HX_078_CRYSTAL_TRIANGLE",
+      "HX_079_CRYSTAL_TRIANGLE",
+      "HX_080_CRYSTAL_TRIANGLE",
+      "HX_081_CRYSTAL_TRIANGLE",
+      "HX_082_CRYSTAL_TRIANGLE",
+      "HX_083_CRYSTAL_TRIANGLE",
+      "HX_084_CRYSTAL_TRIANGLE",
+      "HX_085_CRYSTAL_TRIANGLE",
+      "HX_086_CRYSTAL_TRIANGLE",
+      "HX_087_CRYSTAL_TRIANGLE",
+      "HX_088_CRYSTAL_TRIANGLE",
+      "HX_089_CRYSTAL_TRIANGLE",
+      "HX_090_CRYSTAL_TRIANGLE"
+    ],
+    "HX_ZONE_SHELLS": [
+      "HX_001_JAGGED_SHELL",
+      "HX_019_JAGGED_SHELL",
+      "HX_037_JAGGED_SHELL",
+      "HX_055_JAGGED_SHELL",
+      "HX_073_JAGGED_SHELL"
+    ]
+  },
+  "group_count": 5,
+  "concept_id": "40",
+  "source_art": "images/39_40.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "40",
+    "name": "Fractal Geode Cavern",
+    "standout": "Nested angular shells use repeated scales to make a shallow opening feel like a deep crystalline chamber.",
+    "scene": "A glowing geode cavern sculpture constructed from FIVE nested jagged polygonal wireframe shells on visible low dark bases, amber crystal rims outside graduating to mint and ice-blue smaller inner rims, repeated finite triangular crystal ribs. Dramatic receding black opening, physically narrowing interior and offset depths create an exaggerated deep-cavern illusion. No massive solid rock surface; all primary visual material is buildable open light frames.",
+    "board": 9,
+    "side": "right",
+    "image": "images/39_40.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Nested angular shells use repeated scales to make a shallow opening feel like a deep crystalline chamber.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

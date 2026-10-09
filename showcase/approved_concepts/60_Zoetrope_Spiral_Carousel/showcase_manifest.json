@@ -1,0 +1,4951 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Zoetrope Spiral Carousel",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 88
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 88,
+  "rgb_pixels": 5100,
+  "channel_count": 15300,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_DEER_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DEER BODY",
+      "kind": "pixel",
+      "nodes": 140,
+      "start_channel": 1,
+      "end_channel": 420,
+      "bounds_ft": [
+        [
+          82.0,
+          17.0,
+          0.0
+        ],
+        [
+          137.0,
+          48.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3211527728524794,
+      "pose_index": 0,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_002_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 421,
+      "end_channel": 555,
+      "bounds_ft": [
+        [
+          88.0,
+          0.0,
+          0.0
+        ],
+        [
+          88.0,
+          18.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636509,
+      "pose_index": 0,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_003_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 556,
+      "end_channel": 690,
+      "bounds_ft": [
+        [
+          86.0,
+          0.0,
+          0.0
+        ],
+        [
+          104.0,
+          18.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3512313407358414,
+      "pose_index": 0,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_004_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 691,
+      "end_channel": 825,
+      "bounds_ft": [
+        [
+          110.0,
+          0.0,
+          0.0
+        ],
+        [
+          110.0,
+          18.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636509,
+      "pose_index": 0,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_005_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 826,
+      "end_channel": 960,
+      "bounds_ft": [
+        [
+          108.0,
+          0.0,
+          0.0
+        ],
+        [
+          126.0,
+          18.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3512313407358414,
+      "pose_index": 0,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_006_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 961,
+      "end_channel": 1050,
+      "bounds_ft": [
+        [
+          109.0,
+          47.0,
+          0.0
+        ],
+        [
+          127.0,
+          63.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34690789425159074,
+      "pose_index": 0,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_007_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 1051,
+      "end_channel": 1140,
+      "bounds_ft": [
+        [
+          127.0,
+          47.0,
+          0.0
+        ],
+        [
+          137.0,
+          63.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34919689393167286,
+      "pose_index": 0,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_008_DEER_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DEER BODY",
+      "kind": "pixel",
+      "nodes": 140,
+      "start_channel": 1141,
+      "end_channel": 1560,
+      "bounds_ft": [
+        [
+          68.5,
+          17.0,
+          32.5
+        ],
+        [
+          123.5,
+          48.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3349787535800362,
+      "pose_index": 1,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_009_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 1561,
+      "end_channel": 1695,
+      "bounds_ft": [
+        [
+          65.5,
+          0.0,
+          32.5
+        ],
+        [
+          83.5,
+          18.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2880009104645358,
+      "pose_index": 1,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_010_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 1696,
+      "end_channel": 1830,
+      "bounds_ft": [
+        [
+          81.5,
+          0.0,
+          32.5
+        ],
+        [
+          81.5,
+          18.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15306126992779595,
+      "pose_index": 1,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_011_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 1831,
+      "end_channel": 1965,
+      "bounds_ft": [
+        [
+          87.5,
+          0.0,
+          32.5
+        ],
+        [
+          105.5,
+          18.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056584733154098,
+      "pose_index": 1,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_012_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 1966,
+      "end_channel": 2100,
+      "bounds_ft": [
+        [
+          103.5,
+          0.0,
+          32.5
+        ],
+        [
+          103.5,
+          18.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15306126992779595,
+      "pose_index": 1,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_013_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 2101,
+      "end_channel": 2190,
+      "bounds_ft": [
+        [
+          95.5,
+          47.0,
+          32.5
+        ],
+        [
+          113.5,
+          63.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32492221539048716,
+      "pose_index": 1,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_014_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 2191,
+      "end_channel": 2280,
+      "bounds_ft": [
+        [
+          113.5,
+          47.0,
+          32.5
+        ],
+        [
+          123.5,
+          63.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30998256193186274,
+      "pose_index": 1,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_015_DEER_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DEER BODY",
+      "kind": "pixel",
+      "nodes": 140,
+      "start_channel": 2281,
+      "end_channel": 2700,
+      "bounds_ft": [
+        [
+          32.0,
+          17.0,
+          56.5
+        ],
+        [
+          87.0,
+          48.0,
+          56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3828162833644655,
+      "pose_index": 2,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_016_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 2701,
+      "end_channel": 2835,
+      "bounds_ft": [
+        [
+          38.0,
+          0.0,
+          56.25
+        ],
+        [
+          38.0,
+          18.0,
+          56.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1210291263824195,
+      "pose_index": 2,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_017_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 2836,
+      "end_channel": 2970,
+      "bounds_ft": [
+        [
+          36.0,
+          0.0,
+          56.5
+        ],
+        [
+          54.0,
+          18.0,
+          56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40837808219007926,
+      "pose_index": 2,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_018_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 2971,
+      "end_channel": 3105,
+      "bounds_ft": [
+        [
+          60.0,
+          0.0,
+          56.25
+        ],
+        [
+          60.0,
+          18.0,
+          56.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1210291263824195,
+      "pose_index": 2,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_019_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 3106,
+      "end_channel": 3240,
+      "bounds_ft": [
+        [
+          58.0,
+          0.0,
+          56.5
+        ],
+        [
+          76.0,
+          18.0,
+          56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40837808219005767,
+      "pose_index": 2,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_020_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 3241,
+      "end_channel": 3330,
+      "bounds_ft": [
+        [
+          59.0,
+          47.0,
+          56.5
+        ],
+        [
+          77.0,
+          63.0,
+          56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4046656525975731,
+      "pose_index": 2,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_021_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 3331,
+      "end_channel": 3420,
+      "bounds_ft": [
+        [
+          77.0,
+          47.0,
+          56.5
+        ],
+        [
+          87.0,
+          63.0,
+          56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40662965217710684,
+      "pose_index": 2,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_022_DEER_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DEER BODY",
+      "kind": "pixel",
+      "nodes": 140,
+      "start_channel": 3421,
+      "end_channel": 3840,
+      "bounds_ft": [
+        [
+          -18.0,
+          17.0,
+          65.0
+        ],
+        [
+          37.0,
+          48.0,
+          65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32115277285248456,
+      "pose_index": 3,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_023_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 3841,
+      "end_channel": 3975,
+      "bounds_ft": [
+        [
+          -21.0,
+          0.0,
+          65.0
+        ],
+        [
+          -3.0,
+          18.0,
+          65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35123134073585144,
+      "pose_index": 3,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_024_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 3976,
+      "end_channel": 4110,
+      "bounds_ft": [
+        [
+          -5.0,
+          0.0,
+          65.0
+        ],
+        [
+          -5.0,
+          18.0,
+          65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636509,
+      "pose_index": 3,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_025_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 4111,
+      "end_channel": 4245,
+      "bounds_ft": [
+        [
+          1.0,
+          0.0,
+          65.0
+        ],
+        [
+          19.0,
+          18.0,
+          65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3512313407358426,
+      "pose_index": 3,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_026_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 4246,
+      "end_channel": 4380,
+      "bounds_ft": [
+        [
+          17.0,
+          0.0,
+          65.0
+        ],
+        [
+          17.0,
+          18.0,
+          65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636509,
+      "pose_index": 3,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_027_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 4381,
+      "end_channel": 4470,
+      "bounds_ft": [
+        [
+          9.0,
+          47.0,
+          65.0
+        ],
+        [
+          27.0,
+          63.0,
+          65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3469078942515983,
+      "pose_index": 3,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_028_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 4471,
+      "end_channel": 4560,
+      "bounds_ft": [
+        [
+          27.0,
+          47.0,
+          65.0
+        ],
+        [
+          37.0,
+          63.0,
+          65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34919689393167536,
+      "pose_index": 3,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_029_DEER_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_04",
+      "design": "DEER BODY",
+      "kind": "pixel",
+      "nodes": 140,
+      "start_channel": 4561,
+      "end_channel": 4980,
+      "bounds_ft": [
+        [
+          -68.0,
+          17.0,
+          56.5
+        ],
+        [
+          -13.0,
+          48.0,
+          56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38281628336446977,
+      "pose_index": 4,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_030_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_04",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 4981,
+      "end_channel": 5115,
+      "bounds_ft": [
+        [
+          -62.0,
+          0.0,
+          56.25
+        ],
+        [
+          -62.0,
+          18.0,
+          56.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.12102912638242194,
+      "pose_index": 4,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_031_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_04",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 5116,
+      "end_channel": 5250,
+      "bounds_ft": [
+        [
+          -64.0,
+          0.0,
+          56.5
+        ],
+        [
+          -46.0,
+          18.0,
+          56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40837808219005406,
+      "pose_index": 4,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_032_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_04",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 5251,
+      "end_channel": 5385,
+      "bounds_ft": [
+        [
+          -40.0,
+          0.0,
+          56.25
+        ],
+        [
+          -40.0,
+          18.0,
+          56.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.12102912638242194,
+      "pose_index": 4,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_033_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_04",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 5386,
+      "end_channel": 5520,
+      "bounds_ft": [
+        [
+          -42.0,
+          0.0,
+          56.5
+        ],
+        [
+          -24.0,
+          18.0,
+          56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4083780821900799,
+      "pose_index": 4,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_034_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_04",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 5521,
+      "end_channel": 5610,
+      "bounds_ft": [
+        [
+          -41.0,
+          47.0,
+          56.5
+        ],
+        [
+          -23.0,
+          63.0,
+          56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4046656525975759,
+      "pose_index": 4,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_035_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_04",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 5611,
+      "end_channel": 5700,
+      "bounds_ft": [
+        [
+          -23.0,
+          47.0,
+          56.5
+        ],
+        [
+          -13.0,
+          63.0,
+          56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4066296521771054,
+      "pose_index": 4,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_036_DEER_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_05",
+      "design": "DEER BODY",
+      "kind": "pixel",
+      "nodes": 140,
+      "start_channel": 5701,
+      "end_channel": 6120,
+      "bounds_ft": [
+        [
+          -104.5,
+          17.0,
+          32.5
+        ],
+        [
+          -50.0,
+          48.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34169741419346356,
+      "pose_index": 5,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_037_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_05",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 6121,
+      "end_channel": 6255,
+      "bounds_ft": [
+        [
+          -107.5,
+          0.0,
+          32.5
+        ],
+        [
+          -89.5,
+          18.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056584733154098,
+      "pose_index": 5,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_038_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_05",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 6256,
+      "end_channel": 6390,
+      "bounds_ft": [
+        [
+          -91.5,
+          0.0,
+          32.5
+        ],
+        [
+          -91.5,
+          18.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15306126992779595,
+      "pose_index": 5,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_039_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_05",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 6391,
+      "end_channel": 6525,
+      "bounds_ft": [
+        [
+          -85.5,
+          0.0,
+          32.5
+        ],
+        [
+          -67.5,
+          18.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2880009104645358,
+      "pose_index": 5,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_040_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_05",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 6526,
+      "end_channel": 6660,
+      "bounds_ft": [
+        [
+          -69.5,
+          0.0,
+          32.5
+        ],
+        [
+          -69.5,
+          18.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15306126992779595,
+      "pose_index": 5,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_041_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_05",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 6661,
+      "end_channel": 6750,
+      "bounds_ft": [
+        [
+          -77.5,
+          47.0,
+          32.5
+        ],
+        [
+          -59.5,
+          63.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34204821563575794,
+      "pose_index": 5,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_042_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_05",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 6751,
+      "end_channel": 6840,
+      "bounds_ft": [
+        [
+          -59.5,
+          47.0,
+          32.5
+        ],
+        [
+          -49.5,
+          63.0,
+          32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3411240913032026,
+      "pose_index": 5,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_043_DEER_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_06",
+      "design": "DEER BODY",
+      "kind": "pixel",
+      "nodes": 140,
+      "start_channel": 6841,
+      "end_channel": 7260,
+      "bounds_ft": [
+        [
+          -118.0,
+          17.0,
+          0.0
+        ],
+        [
+          -63.0,
+          48.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3211527728524794,
+      "pose_index": 6,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_044_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_06",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 7261,
+      "end_channel": 7395,
+      "bounds_ft": [
+        [
+          -112.0,
+          0.0,
+          0.0
+        ],
+        [
+          -112.0,
+          18.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636509,
+      "pose_index": 6,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_045_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_06",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 7396,
+      "end_channel": 7530,
+      "bounds_ft": [
+        [
+          -114.0,
+          0.0,
+          0.0
+        ],
+        [
+          -96.0,
+          18.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3512313407358414,
+      "pose_index": 6,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_046_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_06",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 7531,
+      "end_channel": 7665,
+      "bounds_ft": [
+        [
+          -90.0,
+          0.0,
+          0.0
+        ],
+        [
+          -90.0,
+          18.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636509,
+      "pose_index": 6,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_047_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_06",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 7666,
+      "end_channel": 7800,
+      "bounds_ft": [
+        [
+          -92.0,
+          0.0,
+          0.0
+        ],
+        [
+          -74.0,
+          18.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3512313407358414,
+      "pose_index": 6,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_048_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_06",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 7801,
+      "end_channel": 7890,
+      "bounds_ft": [
+        [
+          -91.0,
+          47.0,
+          0.0
+        ],
+        [
+          -73.0,
+          63.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34690789425159074,
+      "pose_index": 6,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_049_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_06",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 7891,
+      "end_channel": 7980,
+      "bounds_ft": [
+        [
+          -73.0,
+          47.0,
+          0.0
+        ],
+        [
+          -63.0,
+          63.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34919689393167286,
+      "pose_index": 6,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_050_DEER_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_07",
+      "design": "DEER BODY",
+      "kind": "pixel",
+      "nodes": 140,
+      "start_channel": 7981,
+      "end_channel": 8400,
+      "bounds_ft": [
+        [
+          -104.5,
+          17.0,
+          -32.5
+        ],
+        [
+          -50.0,
+          48.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34169741419346356,
+      "pose_index": 7,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_051_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_07",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 8401,
+      "end_channel": 8535,
+      "bounds_ft": [
+        [
+          -107.5,
+          0.0,
+          -32.5
+        ],
+        [
+          -89.5,
+          18.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2880009104645358,
+      "pose_index": 7,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_052_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_07",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 8536,
+      "end_channel": 8670,
+      "bounds_ft": [
+        [
+          -91.5,
+          0.0,
+          -32.5
+        ],
+        [
+          -91.5,
+          18.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15306126992779595,
+      "pose_index": 7,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_053_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_07",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 8671,
+      "end_channel": 8805,
+      "bounds_ft": [
+        [
+          -85.5,
+          0.0,
+          -32.5
+        ],
+        [
+          -67.5,
+          18.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056584733154098,
+      "pose_index": 7,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_054_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_07",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 8806,
+      "end_channel": 8940,
+      "bounds_ft": [
+        [
+          -69.5,
+          0.0,
+          -32.5
+        ],
+        [
+          -69.5,
+          18.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15306126992779595,
+      "pose_index": 7,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_055_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_07",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 8941,
+      "end_channel": 9030,
+      "bounds_ft": [
+        [
+          -77.5,
+          47.0,
+          -32.5
+        ],
+        [
+          -59.5,
+          63.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34204821563575794,
+      "pose_index": 7,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_056_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_07",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 9031,
+      "end_channel": 9120,
+      "bounds_ft": [
+        [
+          -59.5,
+          47.0,
+          -32.5
+        ],
+        [
+          -49.5,
+          63.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3411240913032026,
+      "pose_index": 7,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_057_DEER_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_08",
+      "design": "DEER BODY",
+      "kind": "pixel",
+      "nodes": 140,
+      "start_channel": 9121,
+      "end_channel": 9540,
+      "bounds_ft": [
+        [
+          -68.0,
+          17.0,
+          -56.5
+        ],
+        [
+          -13.0,
+          48.0,
+          -56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38281628336443846,
+      "pose_index": 8,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_058_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_08",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 9541,
+      "end_channel": 9675,
+      "bounds_ft": [
+        [
+          -62.0,
+          0.0,
+          -56.25
+        ],
+        [
+          -62.0,
+          18.0,
+          -56.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1210291263824146,
+      "pose_index": 8,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_059_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_08",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 9676,
+      "end_channel": 9810,
+      "bounds_ft": [
+        [
+          -64.0,
+          0.0,
+          -56.5
+        ],
+        [
+          -46.0,
+          18.0,
+          -56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40837808219010385,
+      "pose_index": 8,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_060_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_08",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 9811,
+      "end_channel": 9945,
+      "bounds_ft": [
+        [
+          -40.0,
+          0.0,
+          -56.25
+        ],
+        [
+          -40.0,
+          18.0,
+          -56.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1210291263824146,
+      "pose_index": 8,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_061_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_08",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 9946,
+      "end_channel": 10080,
+      "bounds_ft": [
+        [
+          -42.0,
+          0.0,
+          -56.5
+        ],
+        [
+          -24.0,
+          18.0,
+          -56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.408378082190052,
+      "pose_index": 8,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_062_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_08",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 10081,
+      "end_channel": 10170,
+      "bounds_ft": [
+        [
+          -41.0,
+          47.0,
+          -56.5
+        ],
+        [
+          -23.0,
+          63.0,
+          -56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4046656525975481,
+      "pose_index": 8,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_063_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_08",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 10171,
+      "end_channel": 10260,
+      "bounds_ft": [
+        [
+          -23.0,
+          47.0,
+          -56.5
+        ],
+        [
+          -13.0,
+          63.0,
+          -56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40662965217707725,
+      "pose_index": 8,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_064_DEER_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_09",
+      "design": "DEER BODY",
+      "kind": "pixel",
+      "nodes": 140,
+      "start_channel": 10261,
+      "end_channel": 10680,
+      "bounds_ft": [
+        [
+          -18.0,
+          17.0,
+          -65.0
+        ],
+        [
+          37.0,
+          48.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.321152772852471,
+      "pose_index": 9,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_065_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_09",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 10681,
+      "end_channel": 10815,
+      "bounds_ft": [
+        [
+          -21.0,
+          0.0,
+          -65.0
+        ],
+        [
+          -3.0,
+          18.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3512313407358577,
+      "pose_index": 9,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_066_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_09",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 10816,
+      "end_channel": 10950,
+      "bounds_ft": [
+        [
+          -5.0,
+          0.0,
+          -65.0
+        ],
+        [
+          -5.0,
+          18.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636509,
+      "pose_index": 9,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_067_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_09",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 10951,
+      "end_channel": 11085,
+      "bounds_ft": [
+        [
+          1.0,
+          0.0,
+          -65.0
+        ],
+        [
+          19.0,
+          18.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35123134073583256,
+      "pose_index": 9,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_068_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_09",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 11086,
+      "end_channel": 11220,
+      "bounds_ft": [
+        [
+          17.0,
+          0.0,
+          -65.0
+        ],
+        [
+          17.0,
+          18.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636509,
+      "pose_index": 9,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_069_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_09",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 11221,
+      "end_channel": 11310,
+      "bounds_ft": [
+        [
+          9.0,
+          47.0,
+          -65.0
+        ],
+        [
+          27.0,
+          63.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3469078942515807,
+      "pose_index": 9,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_070_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_09",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 11311,
+      "end_channel": 11400,
+      "bounds_ft": [
+        [
+          27.0,
+          47.0,
+          -65.0
+        ],
+        [
+          37.0,
+          63.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3491968939316577,
+      "pose_index": 9,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_071_DEER_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_10",
+      "design": "DEER BODY",
+      "kind": "pixel",
+      "nodes": 140,
+      "start_channel": 11401,
+      "end_channel": 11820,
+      "bounds_ft": [
+        [
+          32.0,
+          17.0,
+          -56.5
+        ],
+        [
+          87.0,
+          48.0,
+          -56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3828162833644655,
+      "pose_index": 10,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_072_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_10",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 11821,
+      "end_channel": 11955,
+      "bounds_ft": [
+        [
+          38.0,
+          0.0,
+          -56.25
+        ],
+        [
+          38.0,
+          18.0,
+          -56.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1210291263824195,
+      "pose_index": 10,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_073_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_10",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 11956,
+      "end_channel": 12090,
+      "bounds_ft": [
+        [
+          36.0,
+          0.0,
+          -56.5
+        ],
+        [
+          54.0,
+          18.0,
+          -56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40837808219007926,
+      "pose_index": 10,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_074_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_10",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 12091,
+      "end_channel": 12225,
+      "bounds_ft": [
+        [
+          60.0,
+          0.0,
+          -56.25
+        ],
+        [
+          60.0,
+          18.0,
+          -56.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1210291263824195,
+      "pose_index": 10,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_075_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_10",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 12226,
+      "end_channel": 12360,
+      "bounds_ft": [
+        [
+          58.0,
+          0.0,
+          -56.5
+        ],
+        [
+          76.0,
+          18.0,
+          -56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40837808219005767,
+      "pose_index": 10,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_076_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_10",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 12361,
+      "end_channel": 12450,
+      "bounds_ft": [
+        [
+          59.0,
+          47.0,
+          -56.5
+        ],
+        [
+          77.0,
+          63.0,
+          -56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4046656525975731,
+      "pose_index": 10,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_077_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_10",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 12451,
+      "end_channel": 12540,
+      "bounds_ft": [
+        [
+          77.0,
+          47.0,
+          -56.5
+        ],
+        [
+          87.0,
+          63.0,
+          -56.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40662965217710684,
+      "pose_index": 10,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_078_DEER_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_11",
+      "design": "DEER BODY",
+      "kind": "pixel",
+      "nodes": 140,
+      "start_channel": 12541,
+      "end_channel": 12960,
+      "bounds_ft": [
+        [
+          68.5,
+          17.0,
+          -32.5
+        ],
+        [
+          123.5,
+          48.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33497875358006746,
+      "pose_index": 11,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_079_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_11",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 12961,
+      "end_channel": 13095,
+      "bounds_ft": [
+        [
+          65.5,
+          0.0,
+          -32.5
+        ],
+        [
+          83.5,
+          18.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30565847331537493,
+      "pose_index": 11,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_080_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_11",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 13096,
+      "end_channel": 13230,
+      "bounds_ft": [
+        [
+          81.5,
+          0.0,
+          -32.5
+        ],
+        [
+          81.5,
+          18.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1530612699277674,
+      "pose_index": 11,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_081_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_11",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 13231,
+      "end_channel": 13365,
+      "bounds_ft": [
+        [
+          87.5,
+          0.0,
+          -32.5
+        ],
+        [
+          105.5,
+          18.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2880009104645574,
+      "pose_index": 11,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_082_DEER_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_11",
+      "design": "DEER LEG",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 13366,
+      "end_channel": 13500,
+      "bounds_ft": [
+        [
+          103.5,
+          0.0,
+          -32.5
+        ],
+        [
+          103.5,
+          18.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1530612699277674,
+      "pose_index": 11,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_083_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_11",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 13501,
+      "end_channel": 13590,
+      "bounds_ft": [
+        [
+          95.5,
+          47.0,
+          -32.5
+        ],
+        [
+          113.5,
+          63.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32492221539051797,
+      "pose_index": 11,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_084_ANTLER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_11",
+      "design": "ANTLER",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 13591,
+      "end_channel": 13680,
+      "bounds_ft": [
+        [
+          113.5,
+          47.0,
+          -32.5
+        ],
+        [
+          123.5,
+          63.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3099825619318372,
+      "pose_index": 11,
+      "pose_count": 12,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "HX_085_CAROUSEL_HALO",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HALO",
+      "design": "CAROUSEL HALO",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 13681,
+      "end_channel": 14130,
+      "bounds_ft": [
+        [
+          -120.0,
+          85.0,
+          -80.0
+        ],
+        [
+          120.0,
+          85.0,
+          80.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2775343193200936
+    },
+    {
+      "name": "HX_086_CAROUSEL_HALO",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HALO",
+      "design": "CAROUSEL HALO",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 14131,
+      "end_channel": 14580,
+      "bounds_ft": [
+        [
+          -120.0,
+          100.0,
+          -80.0
+        ],
+        [
+          120.0,
+          100.0,
+          80.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2775343193200936
+    },
+    {
+      "name": "HX_087_HALO_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SUPPORTS",
+      "design": "HALO POST",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 14581,
+      "end_channel": 14940,
+      "bounds_ft": [
+        [
+          -120.0,
+          0.0,
+          0.0
+        ],
+        [
+          -120.0,
+          100.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24789915966387355
+    },
+    {
+      "name": "HX_088_HALO_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SUPPORTS",
+      "design": "HALO POST",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 14941,
+      "end_channel": 15300,
+      "bounds_ft": [
+        [
+          120.0,
+          0.0,
+          0.0
+        ],
+        [
+          120.0,
+          100.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24789915966387355
+    }
+  ],
+  "file_prefix": "Zoetrope_Spiral_Carousel",
+  "description": "A circular series of running poses turns a chase into a repeating animation around the audience.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_DEER_BODY",
+      "HX_002_DEER_LEG",
+      "HX_003_DEER_LEG",
+      "HX_004_DEER_LEG",
+      "HX_005_DEER_LEG",
+      "HX_006_ANTLER",
+      "HX_007_ANTLER",
+      "HX_008_DEER_BODY",
+      "HX_009_DEER_LEG",
+      "HX_010_DEER_LEG",
+      "HX_011_DEER_LEG",
+      "HX_012_DEER_LEG",
+      "HX_013_ANTLER",
+      "HX_014_ANTLER",
+      "HX_015_DEER_BODY",
+      "HX_016_DEER_LEG",
+      "HX_017_DEER_LEG",
+      "HX_018_DEER_LEG",
+      "HX_019_DEER_LEG",
+      "HX_020_ANTLER",
+      "HX_021_ANTLER",
+      "HX_022_DEER_BODY",
+      "HX_023_DEER_LEG",
+      "HX_024_DEER_LEG",
+      "HX_025_DEER_LEG",
+      "HX_026_DEER_LEG",
+      "HX_027_ANTLER",
+      "HX_028_ANTLER",
+      "HX_029_DEER_BODY",
+      "HX_030_DEER_LEG",
+      "HX_031_DEER_LEG",
+      "HX_032_DEER_LEG",
+      "HX_033_DEER_LEG",
+      "HX_034_ANTLER",
+      "HX_035_ANTLER",
+      "HX_036_DEER_BODY",
+      "HX_037_DEER_LEG",
+      "HX_038_DEER_LEG",
+      "HX_039_DEER_LEG",
+      "HX_040_DEER_LEG",
+      "HX_041_ANTLER",
+      "HX_042_ANTLER",
+      "HX_043_DEER_BODY",
+      "HX_044_DEER_LEG",
+      "HX_045_DEER_LEG",
+      "HX_046_DEER_LEG",
+      "HX_047_DEER_LEG",
+      "HX_048_ANTLER",
+      "HX_049_ANTLER",
+      "HX_050_DEER_BODY",
+      "HX_051_DEER_LEG",
+      "HX_052_DEER_LEG",
+      "HX_053_DEER_LEG",
+      "HX_054_DEER_LEG",
+      "HX_055_ANTLER",
+      "HX_056_ANTLER",
+      "HX_057_DEER_BODY",
+      "HX_058_DEER_LEG",
+      "HX_059_DEER_LEG",
+      "HX_060_DEER_LEG",
+      "HX_061_DEER_LEG",
+      "HX_062_ANTLER",
+      "HX_063_ANTLER",
+      "HX_064_DEER_BODY",
+      "HX_065_DEER_LEG",
+      "HX_066_DEER_LEG",
+      "HX_067_DEER_LEG",
+      "HX_068_DEER_LEG",
+      "HX_069_ANTLER",
+      "HX_070_ANTLER",
+      "HX_071_DEER_BODY",
+      "HX_072_DEER_LEG",
+      "HX_073_DEER_LEG",
+      "HX_074_DEER_LEG",
+      "HX_075_DEER_LEG",
+      "HX_076_ANTLER",
+      "HX_077_ANTLER",
+      "HX_078_DEER_BODY",
+      "HX_079_DEER_LEG",
+      "HX_080_DEER_LEG",
+      "HX_081_DEER_LEG",
+      "HX_082_DEER_LEG",
+      "HX_083_ANTLER",
+      "HX_084_ANTLER",
+      "HX_085_CAROUSEL_HALO",
+      "HX_086_CAROUSEL_HALO",
+      "HX_087_HALO_POST",
+      "HX_088_HALO_POST"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_DEER_BODY",
+      "HX_002_DEER_LEG",
+      "HX_003_DEER_LEG",
+      "HX_004_DEER_LEG",
+      "HX_005_DEER_LEG",
+      "HX_006_ANTLER",
+      "HX_007_ANTLER",
+      "HX_008_DEER_BODY",
+      "HX_009_DEER_LEG",
+      "HX_010_DEER_LEG",
+      "HX_011_DEER_LEG",
+      "HX_012_DEER_LEG",
+      "HX_013_ANTLER",
+      "HX_014_ANTLER",
+      "HX_015_DEER_BODY",
+      "HX_016_DEER_LEG",
+      "HX_017_DEER_LEG",
+      "HX_018_DEER_LEG",
+      "HX_019_DEER_LEG",
+      "HX_020_ANTLER",
+      "HX_021_ANTLER",
+      "HX_022_DEER_BODY",
+      "HX_023_DEER_LEG",
+      "HX_024_DEER_LEG",
+      "HX_025_DEER_LEG",
+      "HX_026_DEER_LEG",
+      "HX_027_ANTLER",
+      "HX_028_ANTLER",
+      "HX_029_DEER_BODY",
+      "HX_030_DEER_LEG",
+      "HX_031_DEER_LEG",
+      "HX_032_DEER_LEG",
+      "HX_033_DEER_LEG",
+      "HX_034_ANTLER",
+      "HX_035_ANTLER",
+      "HX_036_DEER_BODY",
+      "HX_037_DEER_LEG",
+      "HX_038_DEER_LEG",
+      "HX_039_DEER_LEG",
+      "HX_040_DEER_LEG",
+      "HX_041_ANTLER",
+      "HX_042_ANTLER",
+      "HX_043_DEER_BODY",
+      "HX_044_DEER_LEG",
+      "HX_045_DEER_LEG",
+      "HX_046_DEER_LEG",
+      "HX_047_DEER_LEG",
+      "HX_048_ANTLER",
+      "HX_049_ANTLER",
+      "HX_050_DEER_BODY",
+      "HX_051_DEER_LEG",
+      "HX_052_DEER_LEG",
+      "HX_053_DEER_LEG",
+      "HX_054_DEER_LEG",
+      "HX_055_ANTLER",
+      "HX_056_ANTLER",
+      "HX_057_DEER_BODY",
+      "HX_058_DEER_LEG",
+      "HX_059_DEER_LEG",
+      "HX_060_DEER_LEG",
+      "HX_061_DEER_LEG",
+      "HX_062_ANTLER",
+      "HX_063_ANTLER",
+      "HX_064_DEER_BODY",
+      "HX_065_DEER_LEG",
+      "HX_066_DEER_LEG",
+      "HX_067_DEER_LEG",
+      "HX_068_DEER_LEG",
+      "HX_069_ANTLER",
+      "HX_070_ANTLER",
+      "HX_071_DEER_BODY",
+      "HX_072_DEER_LEG",
+      "HX_073_DEER_LEG",
+      "HX_074_DEER_LEG",
+      "HX_075_DEER_LEG",
+      "HX_076_ANTLER",
+      "HX_077_ANTLER",
+      "HX_078_DEER_BODY",
+      "HX_079_DEER_LEG",
+      "HX_080_DEER_LEG",
+      "HX_081_DEER_LEG",
+      "HX_082_DEER_LEG",
+      "HX_083_ANTLER",
+      "HX_084_ANTLER",
+      "HX_085_CAROUSEL_HALO",
+      "HX_086_CAROUSEL_HALO",
+      "HX_087_HALO_POST",
+      "HX_088_HALO_POST"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_DEER_BODY",
+      "HX_002_DEER_LEG",
+      "HX_003_DEER_LEG",
+      "HX_004_DEER_LEG",
+      "HX_005_DEER_LEG",
+      "HX_006_ANTLER",
+      "HX_007_ANTLER",
+      "HX_008_DEER_BODY",
+      "HX_009_DEER_LEG",
+      "HX_010_DEER_LEG",
+      "HX_011_DEER_LEG",
+      "HX_012_DEER_LEG",
+      "HX_013_ANTLER",
+      "HX_014_ANTLER",
+      "HX_015_DEER_BODY",
+      "HX_016_DEER_LEG",
+      "HX_017_DEER_LEG",
+      "HX_018_DEER_LEG",
+      "HX_019_DEER_LEG",
+      "HX_020_ANTLER",
+      "HX_021_ANTLER",
+      "HX_022_DEER_BODY",
+      "HX_023_DEER_LEG",
+      "HX_024_DEER_LEG",
+      "HX_025_DEER_LEG",
+      "HX_026_DEER_LEG",
+      "HX_027_ANTLER",
+      "HX_028_ANTLER",
+      "HX_029_DEER_BODY",
+      "HX_030_DEER_LEG",
+      "HX_031_DEER_LEG",
+      "HX_032_DEER_LEG",
+      "HX_033_DEER_LEG",
+      "HX_034_ANTLER",
+      "HX_035_ANTLER",
+      "HX_036_DEER_BODY",
+      "HX_037_DEER_LEG",
+      "HX_038_DEER_LEG",
+      "HX_039_DEER_LEG",
+      "HX_040_DEER_LEG",
+      "HX_041_ANTLER",
+      "HX_042_ANTLER",
+      "HX_043_DEER_BODY",
+      "HX_044_DEER_LEG",
+      "HX_045_DEER_LEG",
+      "HX_046_DEER_LEG",
+      "HX_047_DEER_LEG",
+      "HX_048_ANTLER",
+      "HX_049_ANTLER",
+      "HX_050_DEER_BODY",
+      "HX_051_DEER_LEG",
+      "HX_052_DEER_LEG",
+      "HX_053_DEER_LEG",
+      "HX_054_DEER_LEG",
+      "HX_055_ANTLER",
+      "HX_056_ANTLER",
+      "HX_057_DEER_BODY",
+      "HX_058_DEER_LEG",
+      "HX_059_DEER_LEG",
+      "HX_060_DEER_LEG",
+      "HX_061_DEER_LEG",
+      "HX_062_ANTLER",
+      "HX_063_ANTLER",
+      "HX_064_DEER_BODY",
+      "HX_065_DEER_LEG",
+      "HX_066_DEER_LEG",
+      "HX_067_DEER_LEG",
+      "HX_068_DEER_LEG",
+      "HX_069_ANTLER",
+      "HX_070_ANTLER",
+      "HX_071_DEER_BODY",
+      "HX_072_DEER_LEG",
+      "HX_073_DEER_LEG",
+      "HX_074_DEER_LEG",
+      "HX_075_DEER_LEG",
+      "HX_076_ANTLER",
+      "HX_077_ANTLER",
+      "HX_078_DEER_BODY",
+      "HX_079_DEER_LEG",
+      "HX_080_DEER_LEG",
+      "HX_081_DEER_LEG",
+      "HX_082_DEER_LEG",
+      "HX_083_ANTLER",
+      "HX_084_ANTLER",
+      "HX_085_CAROUSEL_HALO",
+      "HX_086_CAROUSEL_HALO",
+      "HX_087_HALO_POST",
+      "HX_088_HALO_POST"
+    ],
+    "HX_ZONE_HALO": [
+      "HX_085_CAROUSEL_HALO",
+      "HX_086_CAROUSEL_HALO"
+    ],
+    "HX_ZONE_POSE_BODY_00": [
+      "HX_001_DEER_BODY",
+      "HX_002_DEER_LEG",
+      "HX_003_DEER_LEG",
+      "HX_004_DEER_LEG",
+      "HX_005_DEER_LEG",
+      "HX_006_ANTLER",
+      "HX_007_ANTLER"
+    ],
+    "HX_ZONE_POSE_BODY_01": [
+      "HX_008_DEER_BODY",
+      "HX_009_DEER_LEG",
+      "HX_010_DEER_LEG",
+      "HX_011_DEER_LEG",
+      "HX_012_DEER_LEG",
+      "HX_013_ANTLER",
+      "HX_014_ANTLER"
+    ],
+    "HX_ZONE_POSE_BODY_02": [
+      "HX_015_DEER_BODY",
+      "HX_016_DEER_LEG",
+      "HX_017_DEER_LEG",
+      "HX_018_DEER_LEG",
+      "HX_019_DEER_LEG",
+      "HX_020_ANTLER",
+      "HX_021_ANTLER"
+    ],
+    "HX_ZONE_POSE_BODY_03": [
+      "HX_022_DEER_BODY",
+      "HX_023_DEER_LEG",
+      "HX_024_DEER_LEG",
+      "HX_025_DEER_LEG",
+      "HX_026_DEER_LEG",
+      "HX_027_ANTLER",
+      "HX_028_ANTLER"
+    ],
+    "HX_ZONE_POSE_BODY_04": [
+      "HX_029_DEER_BODY",
+      "HX_030_DEER_LEG",
+      "HX_031_DEER_LEG",
+      "HX_032_DEER_LEG",
+      "HX_033_DEER_LEG",
+      "HX_034_ANTLER",
+      "HX_035_ANTLER"
+    ],
+    "HX_ZONE_POSE_BODY_05": [
+      "HX_036_DEER_BODY",
+      "HX_037_DEER_LEG",
+      "HX_038_DEER_LEG",
+      "HX_039_DEER_LEG",
+      "HX_040_DEER_LEG",
+      "HX_041_ANTLER",
+      "HX_042_ANTLER"
+    ],
+    "HX_ZONE_POSE_BODY_06": [
+      "HX_043_DEER_BODY",
+      "HX_044_DEER_LEG",
+      "HX_045_DEER_LEG",
+      "HX_046_DEER_LEG",
+      "HX_047_DEER_LEG",
+      "HX_048_ANTLER",
+      "HX_049_ANTLER"
+    ],
+    "HX_ZONE_POSE_BODY_07": [
+      "HX_050_DEER_BODY",
+      "HX_051_DEER_LEG",
+      "HX_052_DEER_LEG",
+      "HX_053_DEER_LEG",
+      "HX_054_DEER_LEG",
+      "HX_055_ANTLER",
+      "HX_056_ANTLER"
+    ],
+    "HX_ZONE_POSE_BODY_08": [
+      "HX_057_DEER_BODY",
+      "HX_058_DEER_LEG",
+      "HX_059_DEER_LEG",
+      "HX_060_DEER_LEG",
+      "HX_061_DEER_LEG",
+      "HX_062_ANTLER",
+      "HX_063_ANTLER"
+    ],
+    "HX_ZONE_POSE_BODY_09": [
+      "HX_064_DEER_BODY",
+      "HX_065_DEER_LEG",
+      "HX_066_DEER_LEG",
+      "HX_067_DEER_LEG",
+      "HX_068_DEER_LEG",
+      "HX_069_ANTLER",
+      "HX_070_ANTLER"
+    ],
+    "HX_ZONE_POSE_BODY_10": [
+      "HX_071_DEER_BODY",
+      "HX_072_DEER_LEG",
+      "HX_073_DEER_LEG",
+      "HX_074_DEER_LEG",
+      "HX_075_DEER_LEG",
+      "HX_076_ANTLER",
+      "HX_077_ANTLER"
+    ],
+    "HX_ZONE_POSE_BODY_11": [
+      "HX_078_DEER_BODY",
+      "HX_079_DEER_LEG",
+      "HX_080_DEER_LEG",
+      "HX_081_DEER_LEG",
+      "HX_082_DEER_LEG",
+      "HX_083_ANTLER",
+      "HX_084_ANTLER"
+    ],
+    "HX_ZONE_SUPPORTS": [
+      "HX_087_HALO_POST",
+      "HX_088_HALO_POST"
+    ]
+  },
+  "group_count": 17,
+  "concept_id": "60",
+  "source_art": "images/59_60.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "60",
+    "name": "Zoetrope Spiral Carousel",
+    "principle": "Repeating pose cycles",
+    "standout": "A circular series of running poses turns a chase into a repeating animation around the audience.",
+    "scene": "A circular midnight light garden inspired by a zoetrope: TWELVE grounded bays of simple original cyan/gold running deer-like silhouette contour frames, successive limb poses arranged around a dark open center, violet helix ring above on columns. Hero a short visible arc of bright poses, other bays dim. Four bottom storyboard cells show successive running poses 1, 2, 3, and pose 1 again to imply looping. Finite static pose chase, NO actual spinning platform or high-frequency strobe.",
+    "board": 9,
+    "side": "right",
+    "image": "images/59_60.png",
+    "status": "awaiting approval",
+    "source_catalog": "showcase/concepts/2026_10_09_stop_motion/concepts.json",
+    "description": "A circular series of running poses turns a chase into a repeating animation around the audience.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "stop_motion"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

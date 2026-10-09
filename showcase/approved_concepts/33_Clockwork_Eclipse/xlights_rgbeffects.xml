@@ -1,0 +1,431 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xrgb>
+  <models>
+    <model name="HX_001_ECLIPSE_ORBIT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="281" parm2="281" parm3="1" Depth="1" CustomWidth="281" CustomHeight="281" CustomStrings="1" String1="1" CustomModelCompressed="1,140,280,0;2,134,280,0;3,128,280,0;4,122,279,0;5,117,278,0;6,111,277,0;7,105,276,0;8,100,274,0;9,94,272,0;10,88,270,0;11,83,268,0;12,78,265,0;13,73,263,0;14,67,260,0;15,63,257,0;16,58,253,0;17,53,250,0;18,49,246,0;19,44,242,0;20,40,238,0;21,36,234,0;22,32,229,0;23,28,225,0;24,25,220,0;25,22,215,0;26,19,210,0;27,16,205,0;28,13,200,0;29,11,194,0;30,9,189,0;31,7,183,0;32,5,178,0;33,4,172,0;34,2,166,0;35,2,160,0;36,1,155,0;37,0,149,0;38,0,143,0;39,0,137,0;40,0,131,0;41,1,125,0;42,2,120,0;43,2,114,0;44,4,108,0;45,5,102,0;46,7,97,0;47,9,91,0;48,11,86,0;49,13,80,0;50,16,75,0;51,19,70,0;52,22,65,0;53,25,60,0;54,28,55,0;55,32,51,0;56,36,46,0;57,40,42,0;58,44,38,0;59,49,34,0;60,53,30,0;61,58,27,0;62,63,23,0;63,67,20,0;64,73,17,0;65,78,15,0;66,83,12,0;67,88,10,0;68,94,8,0;69,100,6,0;70,105,4,0;71,111,3,0;72,117,2,0;73,122,1,0;74,128,0,0;75,134,0,0;76,140,0,0;77,146,0,0;78,152,0,0;79,158,1,0;80,163,2,0;81,169,3,0;82,175,4,0;83,180,6,0;84,186,8,0;85,192,10,0;86,197,12,0;87,202,15,0;88,207,17,0;89,213,20,0;90,217,23,0;91,222,27,0;92,227,30,0;93,231,34,0;94,236,38,0;95,240,42,0;96,244,46,0;97,248,51,0;98,252,55,0;99,255,60,0;100,258,65,0;101,261,70,0;102,264,75,0;103,267,80,0;104,269,86,0;105,271,91,0;106,273,97,0;107,275,102,0;108,276,108,0;109,278,114,0;110,278,120,0;111,279,125,0;112,280,131,0;113,280,137,0;114,280,143,0;115,280,149,0;116,279,155,0;117,278,160,0;118,278,166,0;119,276,172,0;120,275,178,0;121,273,183,0;122,271,189,0;123,269,194,0;124,267,200,0;125,264,205,0;126,261,210,0;127,258,215,0;128,255,220,0;129,252,225,0;130,248,229,0;131,244,234,0;132,240,238,0;133,236,242,0;134,231,246,0;135,227,250,0;136,222,253,0;137,217,257,0;138,213,260,0;139,207,263,0;140,202,265,0;141,197,268,0;142,192,270,0;143,186,272,0;144,180,274,0;145,175,276,0;146,169,277,0;147,163,278,0;148,158,279,0;149,152,280,0;150,146,280,0" WorldPosX="-13.500000" WorldPosY="83.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_002_ECLIPSE_ORBIT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="451" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="313" parm2="261" parm3="1" Depth="1" CustomWidth="313" CustomHeight="261" CustomStrings="1" String1="1" CustomModelCompressed="1,130,312,0;2,125,312,0;3,119,311,0;4,114,311,0;5,108,310,0;6,103,309,0;7,98,307,0;8,92,305,0;9,87,303,0;10,82,301,0;11,77,299,0;12,72,296,0;13,67,293,0;14,63,289,0;15,58,286,0;16,54,282,0;17,49,278,0;18,45,274,0;19,41,270,0;20,37,265,0;21,33,260,0;22,30,255,0;23,26,250,0;24,23,245,0;25,20,240,0;26,17,234,0;27,15,228,0;28,12,222,0;29,10,216,0;30,8,210,0;31,6,204,0;32,5,198,0;33,3,192,0;34,2,185,0;35,1,179,0;36,1,172,0;37,0,166,0;38,0,159,0;39,0,153,0;40,0,146,0;41,1,140,0;42,1,133,0;43,2,127,0;44,3,120,0;45,5,114,0;46,6,108,0;47,8,102,0;48,10,96,0;49,12,90,0;50,15,84,0;51,17,78,0;52,20,72,0;53,23,67,0;54,26,62,0;55,30,57,0;56,33,52,0;57,37,47,0;58,41,42,0;59,45,38,0;60,49,34,0;61,54,30,0;62,58,26,0;63,63,23,0;64,67,19,0;65,72,16,0;66,77,13,0;67,82,11,0;68,87,9,0;69,92,7,0;70,98,5,0;71,103,3,0;72,108,2,0;73,114,1,0;74,119,1,0;75,125,0,0;76,130,0,0;77,135,0,0;78,141,1,0;79,146,1,0;80,152,2,0;81,157,3,0;82,162,5,0;83,168,7,0;84,173,9,0;85,178,11,0;86,183,13,0;87,188,16,0;88,193,19,0;89,197,23,0;90,202,26,0;91,206,30,0;92,211,34,0;93,215,38,0;94,219,42,0;95,223,47,0;96,227,52,0;97,230,57,0;98,234,62,0;99,237,67,0;100,240,72,0;101,243,78,0;102,245,84,0;103,248,90,0;104,250,96,0;105,252,102,0;106,254,108,0;107,255,114,0;108,257,120,0;109,258,127,0;110,259,133,0;111,259,140,0;112,260,146,0;113,260,153,0;114,260,159,0;115,260,166,0;116,259,172,0;117,259,179,0;118,258,185,0;119,257,192,0;120,255,198,0;121,254,204,0;122,252,210,0;123,250,216,0;124,248,222,0;125,245,228,0;126,243,234,0;127,240,240,0;128,237,245,0;129,234,250,0;130,230,255,0;131,227,260,0;132,223,265,0;133,219,270,0;134,215,274,0;135,211,278,0;136,206,282,0;137,202,286,0;138,197,289,0;139,193,293,0;140,188,296,0;141,183,299,0;142,178,301,0;143,173,303,0;144,168,305,0;145,162,307,0;146,157,309,0;147,152,310,0;148,146,311,0;149,141,311,0;150,135,312,0" WorldPosX="-4.500000" WorldPosY="83.000000" WorldPosZ="-20.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_003_ECLIPSE_ORBIT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="901" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="345" parm2="241" parm3="1" Depth="1" CustomWidth="345" CustomHeight="241" CustomStrings="1" String1="1" CustomModelCompressed="1,120,344,0;2,115,344,0;3,110,343,0;4,105,343,0;5,100,342,0;6,95,340,0;7,90,339,0;8,85,337,0;9,81,334,0;10,76,332,0;11,71,329,0;12,67,326,0;13,62,323,0;14,58,319,0;15,54,315,0;16,49,311,0;17,45,307,0;18,42,302,0;19,38,297,0;20,34,292,0;21,31,287,0;22,28,282,0;23,24,276,0;24,21,270,0;25,19,264,0;26,16,258,0;27,14,252,0;28,11,245,0;29,9,239,0;30,8,232,0;31,6,225,0;32,4,218,0;33,3,211,0;34,2,204,0;35,1,197,0;36,1,190,0;37,0,183,0;38,0,176,0;39,0,168,0;40,0,161,0;41,1,154,0;42,1,147,0;43,2,140,0;44,3,133,0;45,4,126,0;46,6,119,0;47,8,112,0;48,9,105,0;49,11,99,0;50,14,92,0;51,16,86,0;52,19,80,0;53,21,74,0;54,24,68,0;55,28,62,0;56,31,57,0;57,34,52,0;58,38,47,0;59,42,42,0;60,45,37,0;61,49,33,0;62,54,29,0;63,58,25,0;64,62,21,0;65,67,18,0;66,71,15,0;67,76,12,0;68,81,10,0;69,85,7,0;70,90,5,0;71,95,4,0;72,100,2,0;73,105,1,0;74,110,1,0;75,115,0,0;76,120,0,0;77,125,0,0;78,130,1,0;79,135,1,0;80,140,2,0;81,145,4,0;82,150,5,0;83,155,7,0;84,159,10,0;85,164,12,0;86,169,15,0;87,173,18,0;88,178,21,0;89,182,25,0;90,186,29,0;91,191,33,0;92,195,37,0;93,198,42,0;94,202,47,0;95,206,52,0;96,209,57,0;97,212,62,0;98,216,68,0;99,219,74,0;100,221,80,0;101,224,86,0;102,226,92,0;103,229,99,0;104,231,105,0;105,232,112,0;106,234,119,0;107,236,126,0;108,237,133,0;109,238,140,0;110,239,147,0;111,239,154,0;112,240,161,0;113,240,168,0;114,240,176,0;115,240,183,0;116,239,190,0;117,239,197,0;118,238,204,0;119,237,211,0;120,236,218,0;121,234,225,0;122,232,232,0;123,231,239,0;124,229,245,0;125,226,252,0;126,224,258,0;127,221,264,0;128,219,270,0;129,216,276,0;130,212,282,0;131,209,287,0;132,206,292,0;133,202,297,0;134,198,302,0;135,195,307,0;136,191,311,0;137,186,315,0;138,182,319,0;139,178,323,0;140,173,326,0;141,169,329,0;142,164,332,0;143,159,334,0;144,155,337,0;145,150,339,0;146,145,340,0;147,140,342,0;148,135,343,0;149,130,343,0;150,125,344,0" WorldPosX="4.500000" WorldPosY="83.000000" WorldPosZ="-40.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_004_ECLIPSE_ORBIT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1351" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="377" parm2="221" parm3="1" Depth="1" CustomWidth="377" CustomHeight="221" CustomStrings="1" String1="1" CustomModelCompressed="1,110,376,0;2,105,376,0;3,101,375,0;4,96,375,0;5,92,373,0;6,87,372,0;7,83,370,0;8,78,368,0;9,74,366,0;10,70,363,0;11,65,360,0;12,61,356,0;13,57,353,0;14,53,349,0;15,49,345,0;16,45,340,0;17,42,335,0;18,38,330,0;19,35,325,0;20,31,320,0;21,28,314,0;22,25,308,0;23,22,302,0;24,20,295,0;25,17,289,0;26,15,282,0;27,13,275,0;28,10,268,0;29,9,261,0;30,7,254,0;31,5,246,0;32,4,239,0;33,3,231,0;34,2,223,0;35,1,215,0;36,1,208,0;37,0,200,0;38,0,192,0;39,0,184,0;40,0,176,0;41,1,168,0;42,1,161,0;43,2,153,0;44,3,145,0;45,4,137,0;46,5,130,0;47,7,122,0;48,9,115,0;49,10,108,0;50,13,101,0;51,15,94,0;52,17,87,0;53,20,81,0;54,22,74,0;55,25,68,0;56,28,62,0;57,31,56,0;58,35,51,0;59,38,46,0;60,42,41,0;61,45,36,0;62,49,31,0;63,53,27,0;64,57,23,0;65,61,20,0;66,65,16,0;67,70,13,0;68,74,10,0;69,78,8,0;70,83,6,0;71,87,4,0;72,92,3,0;73,96,1,0;74,101,1,0;75,105,0,0;76,110,0,0;77,115,0,0;78,119,1,0;79,124,1,0;80,128,3,0;81,133,4,0;82,137,6,0;83,142,8,0;84,146,10,0;85,150,13,0;86,155,16,0;87,159,20,0;88,163,23,0;89,167,27,0;90,171,31,0;91,175,36,0;92,178,41,0;93,182,46,0;94,185,51,0;95,189,56,0;96,192,62,0;97,195,68,0;98,198,74,0;99,200,81,0;100,203,87,0;101,205,94,0;102,207,101,0;103,210,108,0;104,211,115,0;105,213,122,0;106,215,130,0;107,216,137,0;108,217,145,0;109,218,153,0;110,219,161,0;111,219,168,0;112,220,176,0;113,220,184,0;114,220,192,0;115,220,200,0;116,219,208,0;117,219,215,0;118,218,223,0;119,217,231,0;120,216,239,0;121,215,246,0;122,213,254,0;123,211,261,0;124,210,268,0;125,207,275,0;126,205,282,0;127,203,289,0;128,200,295,0;129,198,302,0;130,195,308,0;131,192,314,0;132,189,320,0;133,185,325,0;134,182,330,0;135,178,335,0;136,175,340,0;137,171,345,0;138,167,349,0;139,163,353,0;140,159,356,0;141,155,360,0;142,150,363,0;143,146,366,0;144,142,368,0;145,137,370,0;146,133,372,0;147,128,373,0;148,124,375,0;149,119,375,0;150,115,376,0" WorldPosX="13.500000" WorldPosY="83.000000" WorldPosZ="-60.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_005_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1801" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="79" parm2="1" parm3="1" Depth="1" CustomWidth="79" CustomHeight="1" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,0,2,0;3,0,5,0;4,0,7,0;5,0,9,0;6,0,11,0;7,0,14,0;8,0,16,0;9,0,18,0;10,0,21,0;11,0,23,0;12,0,25,0;13,0,28,0;14,0,30,0;15,0,32,0;16,0,34,0;17,0,37,0;18,0,39,0;19,0,41,0;20,0,44,0;21,0,46,0;22,0,48,0;23,0,50,0;24,0,53,0;25,0,55,0;26,0,57,0;27,0,60,0;28,0,62,0;29,0,64,0;30,0,67,0;31,0,69,0;32,0,71,0;33,0,73,0;34,0,76,0;35,0,78,0" WorldPosX="46.500000" WorldPosY="83.000000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_006_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1906" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="78" parm2="15" parm3="1" Depth="1" CustomWidth="78" CustomHeight="15" CustomStrings="1" String1="1" CustomModelCompressed="1,14,0,0;2,13,2,0;3,13,5,0;4,12,7,0;5,12,9,0;6,12,11,0;7,11,14,0;8,11,16,0;9,10,18,0;10,10,21,0;11,10,23,0;12,9,25,0;13,9,27,0;14,8,30,0;15,8,32,0;16,8,34,0;17,7,36,0;18,7,39,0;19,6,41,0;20,6,43,0;21,6,45,0;22,5,48,0;23,5,50,0;24,4,52,0;25,4,54,0;26,4,57,0;27,3,59,0;28,3,61,0;29,2,63,0;30,2,66,0;31,2,68,0;32,1,70,0;33,1,72,0;34,0,75,0;35,0,77,0" WorldPosX="45.750000" WorldPosY="91.000000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_007_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2011" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="74" parm2="28" parm3="1" Depth="1" CustomWidth="74" CustomHeight="28" CustomStrings="1" String1="1" CustomModelCompressed="1,27,0,0;2,26,2,0;3,25,4,0;4,24,6,0;5,23,8,0;6,23,11,0;7,22,13,0;8,21,15,0;9,20,17,0;10,19,19,0;11,19,21,0;12,18,23,0;13,17,26,0;14,16,28,0;15,16,30,0;16,15,32,0;17,14,34,0;18,13,36,0;19,12,39,0;20,12,41,0;21,11,43,0;22,10,45,0;23,9,47,0;24,8,49,0;25,8,51,0;26,7,54,0;27,6,56,0;28,5,58,0;29,5,60,0;30,4,62,0;31,3,64,0;32,2,67,0;33,1,69,0;34,1,71,0;35,0,73,0" WorldPosX="43.750000" WorldPosY="98.750000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_008_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2116" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="68" parm2="40" parm3="1" Depth="1" CustomWidth="68" CustomHeight="40" CustomStrings="1" String1="1" CustomModelCompressed="1,39,0,0;2,38,2,0;3,37,4,0;4,36,6,0;5,34,8,0;6,33,10,0;7,32,12,0;8,31,14,0;9,30,16,0;10,29,18,0;11,28,20,0;12,26,22,0;13,25,24,0;14,24,26,0;15,23,28,0;16,22,30,0;17,21,32,0;18,20,34,0;19,18,36,0;20,17,38,0;21,16,40,0;22,15,41,0;23,14,43,0;24,13,45,0;25,11,47,0;26,10,49,0;27,9,51,0;28,8,53,0;29,7,55,0;30,6,57,0;31,5,59,0;32,3,61,0;33,2,63,0;34,1,65,0;35,0,67,0" WorldPosX="40.250000" WorldPosY="106.250000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_009_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2221" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="61" parm2="51" parm3="1" Depth="1" CustomWidth="61" CustomHeight="51" CustomStrings="1" String1="1" CustomModelCompressed="1,50,0,0;2,49,2,0;3,47,4,0;4,46,6,0;5,44,7,0;6,43,9,0;7,41,11,0;8,40,13,0;9,38,14,0;10,37,16,0;11,36,18,0;12,34,20,0;13,33,21,0;14,31,23,0;15,30,25,0;16,28,27,0;17,27,28,0;18,25,30,0;19,24,32,0;20,22,34,0;21,21,36,0;22,19,37,0;23,18,39,0;24,16,41,0;25,15,43,0;26,13,44,0;27,12,46,0;28,10,48,0;29,9,50,0;30,8,51,0;31,6,53,0;32,5,55,0;33,3,57,0;34,2,58,0;35,0,60,0" WorldPosX="35.500000" WorldPosY="113.000000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_010_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2326" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="51" parm2="61" parm3="1" Depth="1" CustomWidth="51" CustomHeight="61" CustomStrings="1" String1="1" CustomModelCompressed="1,60,0,0;2,58,1,0;3,56,3,0;4,54,4,0;5,53,6,0;6,51,7,0;7,49,9,0;8,47,10,0;9,46,12,0;10,44,13,0;11,42,14,0;12,40,16,0;13,39,17,0;14,37,19,0;15,35,20,0;16,33,22,0;17,32,23,0;18,30,25,0;19,28,26,0;20,26,28,0;21,24,29,0;22,23,31,0;23,21,32,0;24,19,34,0;25,17,35,0;26,16,37,0;27,14,38,0;28,12,40,0;29,10,41,0;30,9,42,0;31,7,44,0;32,5,45,0;33,3,47,0;34,2,48,0;35,0,50,0" WorldPosX="30.000000" WorldPosY="118.500000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_011_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2431" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="40" parm2="68" parm3="1" Depth="1" CustomWidth="40" CustomHeight="68" CustomStrings="1" String1="1" CustomModelCompressed="1,67,0,0;2,65,1,0;3,63,2,0;4,61,3,0;5,59,5,0;6,57,6,0;7,55,7,0;8,53,8,0;9,51,9,0;10,49,10,0;11,47,11,0;12,45,13,0;13,43,14,0;14,41,15,0;15,39,16,0;16,37,17,0;17,35,18,0;18,33,20,0;19,31,21,0;20,29,22,0;21,27,23,0;22,26,24,0;23,24,25,0;24,22,26,0;25,20,28,0;26,18,29,0;27,16,30,0;28,14,31,0;29,12,32,0;30,10,33,0;31,8,34,0;32,6,36,0;33,4,37,0;34,2,38,0;35,0,39,0" WorldPosX="23.250000" WorldPosY="123.250000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_012_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2536" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="28" parm2="74" parm3="1" Depth="1" CustomWidth="28" CustomHeight="74" CustomStrings="1" String1="1" CustomModelCompressed="1,73,0,0;2,71,1,0;3,69,2,0;4,67,3,0;5,65,4,0;6,62,4,0;7,60,5,0;8,58,6,0;9,56,7,0;10,54,8,0;11,52,8,0;12,50,9,0;13,47,10,0;14,45,11,0;15,43,11,0;16,41,12,0;17,39,13,0;18,37,14,0;19,34,15,0;20,32,15,0;21,30,16,0;22,28,17,0;23,26,18,0;24,24,19,0;25,22,19,0;26,19,20,0;27,17,21,0;28,15,22,0;29,13,22,0;30,11,23,0;31,9,24,0;32,6,25,0;33,4,26,0;34,2,26,0;35,0,27,0" WorldPosX="15.750000" WorldPosY="126.750000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_013_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2641" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="15" parm2="78" parm3="1" Depth="1" CustomWidth="15" CustomHeight="78" CustomStrings="1" String1="1" CustomModelCompressed="1,77,0,0;2,75,1,0;3,72,1,0;4,70,2,0;5,68,2,0;6,66,2,0;7,63,3,0;8,61,3,0;9,59,4,0;10,56,4,0;11,54,4,0;12,52,5,0;13,50,5,0;14,47,6,0;15,45,6,0;16,43,6,0;17,41,7,0;18,38,7,0;19,36,8,0;20,34,8,0;21,32,8,0;22,29,9,0;23,27,9,0;24,25,10,0;25,23,10,0;26,20,10,0;27,18,11,0;28,16,11,0;29,14,12,0;30,11,12,0;31,9,12,0;32,7,13,0;33,5,13,0;34,2,14,0;35,0,14,0" WorldPosX="8.000000" WorldPosY="128.750000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_014_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2746" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="79" parm3="1" Depth="1" CustomWidth="1" CustomHeight="79" CustomStrings="1" String1="1" CustomModelCompressed="1,78,0,0;2,76,0,0;3,73,0,0;4,71,0,0;5,69,0,0;6,67,0,0;7,64,0,0;8,62,0,0;9,60,0,0;10,57,0,0;11,55,0,0;12,53,0,0;13,50,0,0;14,48,0,0;15,46,0,0;16,44,0,0;17,41,0,0;18,39,0,0;19,37,0,0;20,34,0,0;21,32,0,0;22,30,0,0;23,28,0,0;24,25,0,0;25,23,0,0;26,21,0,0;27,18,0,0;28,16,0,0;29,14,0,0;30,11,0,0;31,9,0,0;32,7,0,0;33,5,0,0;34,2,0,0;35,0,0,0" WorldPosX="0.000000" WorldPosY="129.500000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_015_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2851" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="15" parm2="78" parm3="1" Depth="1" CustomWidth="15" CustomHeight="78" CustomStrings="1" String1="1" CustomModelCompressed="1,77,14,0;2,75,13,0;3,72,13,0;4,70,12,0;5,68,12,0;6,66,12,0;7,63,11,0;8,61,11,0;9,59,10,0;10,56,10,0;11,54,10,0;12,52,9,0;13,50,9,0;14,47,8,0;15,45,8,0;16,43,8,0;17,41,7,0;18,38,7,0;19,36,6,0;20,34,6,0;21,32,6,0;22,29,5,0;23,27,5,0;24,25,4,0;25,23,4,0;26,20,4,0;27,18,3,0;28,16,3,0;29,14,2,0;30,11,2,0;31,9,2,0;32,7,1,0;33,5,1,0;34,2,0,0;35,0,0,0" WorldPosX="-8.000000" WorldPosY="128.750000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_016_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2956" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="28" parm2="74" parm3="1" Depth="1" CustomWidth="28" CustomHeight="74" CustomStrings="1" String1="1" CustomModelCompressed="1,73,27,0;2,71,26,0;3,69,25,0;4,67,24,0;5,65,23,0;6,62,23,0;7,60,22,0;8,58,21,0;9,56,20,0;10,54,19,0;11,52,19,0;12,50,18,0;13,47,17,0;14,45,16,0;15,43,16,0;16,41,15,0;17,39,14,0;18,37,13,0;19,34,12,0;20,32,12,0;21,30,11,0;22,28,10,0;23,26,9,0;24,24,8,0;25,22,8,0;26,19,7,0;27,17,6,0;28,15,5,0;29,13,5,0;30,11,4,0;31,9,3,0;32,6,2,0;33,4,1,0;34,2,1,0;35,0,0,0" WorldPosX="-15.750000" WorldPosY="126.750000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_017_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3061" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="40" parm2="68" parm3="1" Depth="1" CustomWidth="40" CustomHeight="68" CustomStrings="1" String1="1" CustomModelCompressed="1,67,39,0;2,65,38,0;3,63,37,0;4,61,36,0;5,59,34,0;6,57,33,0;7,55,32,0;8,53,31,0;9,51,30,0;10,49,29,0;11,47,28,0;12,45,26,0;13,43,25,0;14,41,24,0;15,39,23,0;16,37,22,0;17,35,21,0;18,33,20,0;19,31,18,0;20,29,17,0;21,27,16,0;22,26,15,0;23,24,14,0;24,22,13,0;25,20,11,0;26,18,10,0;27,16,9,0;28,14,8,0;29,12,7,0;30,10,6,0;31,8,5,0;32,6,3,0;33,4,2,0;34,2,1,0;35,0,0,0" WorldPosX="-23.250000" WorldPosY="123.250000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_018_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3166" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="51" parm2="61" parm3="1" Depth="1" CustomWidth="51" CustomHeight="61" CustomStrings="1" String1="1" CustomModelCompressed="1,60,50,0;2,58,49,0;3,56,47,0;4,54,46,0;5,53,44,0;6,51,43,0;7,49,41,0;8,47,40,0;9,46,38,0;10,44,37,0;11,42,36,0;12,40,34,0;13,39,33,0;14,37,31,0;15,35,30,0;16,33,28,0;17,32,27,0;18,30,25,0;19,28,24,0;20,26,22,0;21,24,21,0;22,23,19,0;23,21,18,0;24,19,16,0;25,17,15,0;26,16,13,0;27,14,12,0;28,12,10,0;29,10,9,0;30,9,8,0;31,7,6,0;32,5,5,0;33,3,3,0;34,2,2,0;35,0,0,0" WorldPosX="-30.000000" WorldPosY="118.500000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_019_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3271" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="61" parm2="51" parm3="1" Depth="1" CustomWidth="61" CustomHeight="51" CustomStrings="1" String1="1" CustomModelCompressed="1,50,60,0;2,49,58,0;3,47,56,0;4,46,54,0;5,44,53,0;6,43,51,0;7,41,49,0;8,40,47,0;9,38,46,0;10,37,44,0;11,36,42,0;12,34,40,0;13,33,39,0;14,31,37,0;15,30,35,0;16,28,33,0;17,27,32,0;18,25,30,0;19,24,28,0;20,22,26,0;21,21,24,0;22,19,23,0;23,18,21,0;24,16,19,0;25,15,17,0;26,13,16,0;27,12,14,0;28,10,12,0;29,9,10,0;30,8,9,0;31,6,7,0;32,5,5,0;33,3,3,0;34,2,2,0;35,0,0,0" WorldPosX="-35.500000" WorldPosY="113.000000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_020_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3376" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="68" parm2="40" parm3="1" Depth="1" CustomWidth="68" CustomHeight="40" CustomStrings="1" String1="1" CustomModelCompressed="1,39,67,0;2,38,65,0;3,37,63,0;4,36,61,0;5,34,59,0;6,33,57,0;7,32,55,0;8,31,53,0;9,30,51,0;10,29,49,0;11,28,47,0;12,26,45,0;13,25,43,0;14,24,41,0;15,23,39,0;16,22,37,0;17,21,35,0;18,20,33,0;19,18,31,0;20,17,29,0;21,16,27,0;22,15,26,0;23,14,24,0;24,13,22,0;25,11,20,0;26,10,18,0;27,9,16,0;28,8,14,0;29,7,12,0;30,6,10,0;31,5,8,0;32,3,6,0;33,2,4,0;34,1,2,0;35,0,0,0" WorldPosX="-40.250000" WorldPosY="106.250000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_021_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3481" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="74" parm2="28" parm3="1" Depth="1" CustomWidth="74" CustomHeight="28" CustomStrings="1" String1="1" CustomModelCompressed="1,27,73,0;2,26,71,0;3,25,69,0;4,24,67,0;5,23,65,0;6,23,62,0;7,22,60,0;8,21,58,0;9,20,56,0;10,19,54,0;11,19,52,0;12,18,50,0;13,17,47,0;14,16,45,0;15,16,43,0;16,15,41,0;17,14,39,0;18,13,37,0;19,12,34,0;20,12,32,0;21,11,30,0;22,10,28,0;23,9,26,0;24,8,24,0;25,8,22,0;26,7,19,0;27,6,17,0;28,5,15,0;29,5,13,0;30,4,11,0;31,3,9,0;32,2,6,0;33,1,4,0;34,1,2,0;35,0,0,0" WorldPosX="-43.750000" WorldPosY="98.750000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_022_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3586" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="78" parm2="15" parm3="1" Depth="1" CustomWidth="78" CustomHeight="15" CustomStrings="1" String1="1" CustomModelCompressed="1,14,77,0;2,13,75,0;3,13,72,0;4,12,70,0;5,12,68,0;6,12,66,0;7,11,63,0;8,11,61,0;9,10,59,0;10,10,56,0;11,10,54,0;12,9,52,0;13,9,50,0;14,8,47,0;15,8,45,0;16,8,43,0;17,7,41,0;18,7,38,0;19,6,36,0;20,6,34,0;21,6,32,0;22,5,29,0;23,5,27,0;24,4,25,0;25,4,23,0;26,4,20,0;27,3,18,0;28,3,16,0;29,2,14,0;30,2,11,0;31,2,9,0;32,1,7,0;33,1,5,0;34,0,2,0;35,0,0,0" WorldPosX="-45.750000" WorldPosY="91.000000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_023_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3691" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="79" parm2="1" parm3="1" Depth="1" CustomWidth="79" CustomHeight="1" CustomStrings="1" String1="1" CustomModelCompressed="1,0,78,0;2,0,76,0;3,0,73,0;4,0,71,0;5,0,69,0;6,0,67,0;7,0,64,0;8,0,62,0;9,0,60,0;10,0,57,0;11,0,55,0;12,0,53,0;13,0,50,0;14,0,48,0;15,0,46,0;16,0,44,0;17,0,41,0;18,0,39,0;19,0,37,0;20,0,34,0;21,0,32,0;22,0,30,0;23,0,28,0;24,0,25,0;25,0,23,0;26,0,21,0;27,0,18,0;28,0,16,0;29,0,14,0;30,0,11,0;31,0,9,0;32,0,7,0;33,0,5,0;34,0,2,0;35,0,0,0" WorldPosX="-46.500000" WorldPosY="83.000000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_024_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3796" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="78" parm2="15" parm3="1" Depth="1" CustomWidth="78" CustomHeight="15" CustomStrings="1" String1="1" CustomModelCompressed="1,0,77,0;2,1,75,0;3,1,72,0;4,2,70,0;5,2,68,0;6,2,66,0;7,3,63,0;8,3,61,0;9,4,59,0;10,4,56,0;11,4,54,0;12,5,52,0;13,5,50,0;14,6,47,0;15,6,45,0;16,6,43,0;17,7,41,0;18,7,38,0;19,8,36,0;20,8,34,0;21,8,32,0;22,9,29,0;23,9,27,0;24,10,25,0;25,10,23,0;26,10,20,0;27,11,18,0;28,11,16,0;29,12,14,0;30,12,11,0;31,12,9,0;32,13,7,0;33,13,5,0;34,14,2,0;35,14,0,0" WorldPosX="-45.750000" WorldPosY="75.000000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_025_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3901" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="74" parm2="28" parm3="1" Depth="1" CustomWidth="74" CustomHeight="28" CustomStrings="1" String1="1" CustomModelCompressed="1,0,73,0;2,1,71,0;3,2,69,0;4,3,67,0;5,4,65,0;6,4,62,0;7,5,60,0;8,6,58,0;9,7,56,0;10,8,54,0;11,8,52,0;12,9,50,0;13,10,47,0;14,11,45,0;15,11,43,0;16,12,41,0;17,13,39,0;18,14,37,0;19,15,34,0;20,15,32,0;21,16,30,0;22,17,28,0;23,18,26,0;24,19,24,0;25,19,22,0;26,20,19,0;27,21,17,0;28,22,15,0;29,22,13,0;30,23,11,0;31,24,9,0;32,25,6,0;33,26,4,0;34,26,2,0;35,27,0,0" WorldPosX="-43.750000" WorldPosY="67.250000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_026_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4006" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="68" parm2="40" parm3="1" Depth="1" CustomWidth="68" CustomHeight="40" CustomStrings="1" String1="1" CustomModelCompressed="1,0,67,0;2,1,65,0;3,2,63,0;4,3,61,0;5,5,59,0;6,6,57,0;7,7,55,0;8,8,53,0;9,9,51,0;10,10,49,0;11,11,47,0;12,13,45,0;13,14,43,0;14,15,41,0;15,16,39,0;16,17,37,0;17,18,35,0;18,19,33,0;19,21,31,0;20,22,29,0;21,23,27,0;22,24,26,0;23,25,24,0;24,26,22,0;25,28,20,0;26,29,18,0;27,30,16,0;28,31,14,0;29,32,12,0;30,33,10,0;31,34,8,0;32,36,6,0;33,37,4,0;34,38,2,0;35,39,0,0" WorldPosX="-40.250000" WorldPosY="59.750000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_027_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4111" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="61" parm2="51" parm3="1" Depth="1" CustomWidth="61" CustomHeight="51" CustomStrings="1" String1="1" CustomModelCompressed="1,0,60,0;2,1,58,0;3,3,56,0;4,4,54,0;5,6,53,0;6,7,51,0;7,9,49,0;8,10,47,0;9,12,46,0;10,13,44,0;11,14,42,0;12,16,40,0;13,17,39,0;14,19,37,0;15,20,35,0;16,22,33,0;17,23,32,0;18,25,30,0;19,26,28,0;20,28,26,0;21,29,24,0;22,31,23,0;23,32,21,0;24,34,19,0;25,35,17,0;26,37,16,0;27,38,14,0;28,40,12,0;29,41,10,0;30,42,9,0;31,44,7,0;32,45,5,0;33,47,3,0;34,48,2,0;35,50,0,0" WorldPosX="-35.500000" WorldPosY="53.000000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_028_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4216" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="51" parm2="61" parm3="1" Depth="1" CustomWidth="51" CustomHeight="61" CustomStrings="1" String1="1" CustomModelCompressed="1,0,50,0;2,2,49,0;3,4,47,0;4,6,46,0;5,7,44,0;6,9,43,0;7,11,41,0;8,13,40,0;9,14,38,0;10,16,37,0;11,18,36,0;12,20,34,0;13,21,33,0;14,23,31,0;15,25,30,0;16,27,28,0;17,28,27,0;18,30,25,0;19,32,24,0;20,34,22,0;21,36,21,0;22,37,19,0;23,39,18,0;24,41,16,0;25,43,15,0;26,44,13,0;27,46,12,0;28,48,10,0;29,50,9,0;30,51,8,0;31,53,6,0;32,55,5,0;33,57,3,0;34,58,2,0;35,60,0,0" WorldPosX="-30.000000" WorldPosY="47.500000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_029_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4321" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="40" parm2="68" parm3="1" Depth="1" CustomWidth="40" CustomHeight="68" CustomStrings="1" String1="1" CustomModelCompressed="1,0,39,0;2,2,38,0;3,4,37,0;4,6,36,0;5,8,34,0;6,10,33,0;7,12,32,0;8,14,31,0;9,16,30,0;10,18,29,0;11,20,28,0;12,22,26,0;13,24,25,0;14,26,24,0;15,28,23,0;16,30,22,0;17,32,21,0;18,34,19,0;19,36,18,0;20,38,17,0;21,40,16,0;22,41,15,0;23,43,14,0;24,45,13,0;25,47,11,0;26,49,10,0;27,51,9,0;28,53,8,0;29,55,7,0;30,57,6,0;31,59,5,0;32,61,3,0;33,63,2,0;34,65,1,0;35,67,0,0" WorldPosX="-23.250000" WorldPosY="42.750000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_030_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4426" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="28" parm2="74" parm3="1" Depth="1" CustomWidth="28" CustomHeight="74" CustomStrings="1" String1="1" CustomModelCompressed="1,0,27,0;2,2,26,0;3,4,25,0;4,6,24,0;5,8,23,0;6,11,23,0;7,13,22,0;8,15,21,0;9,17,20,0;10,19,19,0;11,21,19,0;12,23,18,0;13,26,17,0;14,28,16,0;15,30,16,0;16,32,15,0;17,34,14,0;18,36,13,0;19,39,12,0;20,41,12,0;21,43,11,0;22,45,10,0;23,47,9,0;24,49,8,0;25,51,8,0;26,54,7,0;27,56,6,0;28,58,5,0;29,60,5,0;30,62,4,0;31,64,3,0;32,67,2,0;33,69,1,0;34,71,1,0;35,73,0,0" WorldPosX="-15.750000" WorldPosY="39.250000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_031_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4531" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="15" parm2="78" parm3="1" Depth="1" CustomWidth="15" CustomHeight="78" CustomStrings="1" String1="1" CustomModelCompressed="1,0,14,0;2,2,13,0;3,5,13,0;4,7,12,0;5,9,12,0;6,11,12,0;7,14,11,0;8,16,11,0;9,18,10,0;10,21,10,0;11,23,10,0;12,25,9,0;13,27,9,0;14,30,8,0;15,32,8,0;16,34,8,0;17,36,7,0;18,39,7,0;19,41,6,0;20,43,6,0;21,45,6,0;22,48,5,0;23,50,5,0;24,52,4,0;25,54,4,0;26,57,4,0;27,59,3,0;28,61,3,0;29,63,2,0;30,66,2,0;31,68,2,0;32,70,1,0;33,72,1,0;34,75,0,0;35,77,0,0" WorldPosX="-8.000000" WorldPosY="37.250000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_032_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4636" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="79" parm3="1" Depth="1" CustomWidth="1" CustomHeight="79" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,5,0,0;4,7,0,0;5,9,0,0;6,11,0,0;7,14,0,0;8,16,0,0;9,18,0,0;10,21,0,0;11,23,0,0;12,25,0,0;13,28,0,0;14,30,0,0;15,32,0,0;16,34,0,0;17,37,0,0;18,39,0,0;19,41,0,0;20,44,0,0;21,46,0,0;22,48,0,0;23,50,0,0;24,53,0,0;25,55,0,0;26,57,0,0;27,60,0,0;28,62,0,0;29,64,0,0;30,67,0,0;31,69,0,0;32,71,0,0;33,73,0,0;34,76,0,0;35,78,0,0" WorldPosX="0.000000" WorldPosY="36.500000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_033_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4741" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="15" parm2="78" parm3="1" Depth="1" CustomWidth="15" CustomHeight="78" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,1,0;3,5,1,0;4,7,2,0;5,9,2,0;6,11,2,0;7,14,3,0;8,16,3,0;9,18,4,0;10,21,4,0;11,23,4,0;12,25,5,0;13,27,5,0;14,30,6,0;15,32,6,0;16,34,6,0;17,36,7,0;18,39,7,0;19,41,8,0;20,43,8,0;21,45,8,0;22,48,9,0;23,50,9,0;24,52,10,0;25,54,10,0;26,57,10,0;27,59,11,0;28,61,11,0;29,63,12,0;30,66,12,0;31,68,12,0;32,70,13,0;33,72,13,0;34,75,14,0;35,77,14,0" WorldPosX="8.000000" WorldPosY="37.250000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_034_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4846" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="28" parm2="74" parm3="1" Depth="1" CustomWidth="28" CustomHeight="74" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,1,0;3,4,2,0;4,6,3,0;5,8,4,0;6,11,4,0;7,13,5,0;8,15,6,0;9,17,7,0;10,19,8,0;11,21,8,0;12,23,9,0;13,26,10,0;14,28,11,0;15,30,11,0;16,32,12,0;17,34,13,0;18,36,14,0;19,39,15,0;20,41,15,0;21,43,16,0;22,45,17,0;23,47,18,0;24,49,19,0;25,51,19,0;26,54,20,0;27,56,21,0;28,58,22,0;29,60,22,0;30,62,23,0;31,64,24,0;32,67,25,0;33,69,26,0;34,71,26,0;35,73,27,0" WorldPosX="15.750000" WorldPosY="39.250000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_035_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4951" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="40" parm2="68" parm3="1" Depth="1" CustomWidth="40" CustomHeight="68" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,1,0;3,4,2,0;4,6,3,0;5,8,5,0;6,10,6,0;7,12,7,0;8,14,8,0;9,16,9,0;10,18,10,0;11,20,11,0;12,22,13,0;13,24,14,0;14,26,15,0;15,28,16,0;16,30,17,0;17,32,18,0;18,34,20,0;19,36,21,0;20,38,22,0;21,40,23,0;22,41,24,0;23,43,25,0;24,45,26,0;25,47,28,0;26,49,29,0;27,51,30,0;28,53,31,0;29,55,32,0;30,57,33,0;31,59,34,0;32,61,36,0;33,63,37,0;34,65,38,0;35,67,39,0" WorldPosX="23.250000" WorldPosY="42.750000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_036_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5056" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="51" parm2="61" parm3="1" Depth="1" CustomWidth="51" CustomHeight="61" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,1,0;3,4,3,0;4,6,4,0;5,7,6,0;6,9,7,0;7,11,9,0;8,13,10,0;9,14,12,0;10,16,13,0;11,18,14,0;12,20,16,0;13,21,17,0;14,23,19,0;15,25,20,0;16,27,22,0;17,28,23,0;18,30,25,0;19,32,26,0;20,34,28,0;21,36,29,0;22,37,31,0;23,39,32,0;24,41,34,0;25,43,35,0;26,44,37,0;27,46,38,0;28,48,40,0;29,50,41,0;30,51,42,0;31,53,44,0;32,55,45,0;33,57,47,0;34,58,48,0;35,60,50,0" WorldPosX="30.000000" WorldPosY="47.500000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_037_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5161" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="61" parm2="51" parm3="1" Depth="1" CustomWidth="61" CustomHeight="51" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,1,2,0;3,3,4,0;4,4,6,0;5,6,7,0;6,7,9,0;7,9,11,0;8,10,13,0;9,12,14,0;10,13,16,0;11,14,18,0;12,16,20,0;13,17,21,0;14,19,23,0;15,20,25,0;16,22,27,0;17,23,28,0;18,25,30,0;19,26,32,0;20,28,34,0;21,29,36,0;22,31,37,0;23,32,39,0;24,34,41,0;25,35,43,0;26,37,44,0;27,38,46,0;28,40,48,0;29,41,50,0;30,42,51,0;31,44,53,0;32,45,55,0;33,47,57,0;34,48,58,0;35,50,60,0" WorldPosX="35.500000" WorldPosY="53.000000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_038_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5266" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="68" parm2="40" parm3="1" Depth="1" CustomWidth="68" CustomHeight="40" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,1,2,0;3,2,4,0;4,3,6,0;5,5,8,0;6,6,10,0;7,7,12,0;8,8,14,0;9,9,16,0;10,10,18,0;11,11,20,0;12,13,22,0;13,14,24,0;14,15,26,0;15,16,28,0;16,17,30,0;17,18,32,0;18,20,34,0;19,21,36,0;20,22,38,0;21,23,40,0;22,24,41,0;23,25,43,0;24,26,45,0;25,28,47,0;26,29,49,0;27,30,51,0;28,31,53,0;29,32,55,0;30,33,57,0;31,34,59,0;32,36,61,0;33,37,63,0;34,38,65,0;35,39,67,0" WorldPosX="40.250000" WorldPosY="59.750000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_039_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5371" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="74" parm2="28" parm3="1" Depth="1" CustomWidth="74" CustomHeight="28" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,1,2,0;3,2,4,0;4,3,6,0;5,4,8,0;6,4,11,0;7,5,13,0;8,6,15,0;9,7,17,0;10,8,19,0;11,8,21,0;12,9,23,0;13,10,26,0;14,11,28,0;15,11,30,0;16,12,32,0;17,13,34,0;18,14,36,0;19,15,39,0;20,15,41,0;21,16,43,0;22,17,45,0;23,18,47,0;24,19,49,0;25,19,51,0;26,20,54,0;27,21,56,0;28,22,58,0;29,22,60,0;30,23,62,0;31,24,64,0;32,25,67,0;33,26,69,0;34,26,71,0;35,27,73,0" WorldPosX="43.750000" WorldPosY="67.250000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+    <model name="HX_040_CORONA_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5476" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="78" parm2="15" parm3="1" Depth="1" CustomWidth="78" CustomHeight="15" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,1,2,0;3,1,5,0;4,2,7,0;5,2,9,0;6,2,11,0;7,3,14,0;8,3,16,0;9,4,18,0;10,4,21,0;11,4,23,0;12,5,25,0;13,5,27,0;14,6,30,0;15,6,32,0;16,6,34,0;17,7,36,0;18,7,39,0;19,8,41,0;20,8,43,0;21,8,45,0;22,9,48,0;23,9,50,0;24,10,52,0;25,10,54,0;26,10,57,0;27,11,59,0;28,11,61,0;29,12,63,0;30,12,66,0;31,12,68,0;32,13,70,0;33,13,72,0;34,14,75,0;35,14,77,0" WorldPosX="45.750000" WorldPosY="75.000000" WorldPosZ="5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-5" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="6-10" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="11-15" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="16-19" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="20-23" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="24-27" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="28-31" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="32-35" />
+    </model>
+  </models>
+  <modelGroups>
+    <modelGroup name="HX_ALL_PIXELS" models="HX_001_ECLIPSE_ORBIT,HX_002_ECLIPSE_ORBIT,HX_003_ECLIPSE_ORBIT,HX_004_ECLIPSE_ORBIT,HX_005_CORONA_SPOKE,HX_006_CORONA_SPOKE,HX_007_CORONA_SPOKE,HX_008_CORONA_SPOKE,HX_009_CORONA_SPOKE,HX_010_CORONA_SPOKE,HX_011_CORONA_SPOKE,HX_012_CORONA_SPOKE,HX_013_CORONA_SPOKE,HX_014_CORONA_SPOKE,HX_015_CORONA_SPOKE,HX_016_CORONA_SPOKE,HX_017_CORONA_SPOKE,HX_018_CORONA_SPOKE,HX_019_CORONA_SPOKE,HX_020_CORONA_SPOKE,HX_021_CORONA_SPOKE,HX_022_CORONA_SPOKE,HX_023_CORONA_SPOKE,HX_024_CORONA_SPOKE,HX_025_CORONA_SPOKE,HX_026_CORONA_SPOKE,HX_027_CORONA_SPOKE,HX_028_CORONA_SPOKE,HX_029_CORONA_SPOKE,HX_030_CORONA_SPOKE,HX_031_CORONA_SPOKE,HX_032_CORONA_SPOKE,HX_033_CORONA_SPOKE,HX_034_CORONA_SPOKE,HX_035_CORONA_SPOKE,HX_036_CORONA_SPOKE,HX_037_CORONA_SPOKE,HX_038_CORONA_SPOKE,HX_039_CORONA_SPOKE,HX_040_CORONA_SPOKE" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_NATIVE_CUSTOM" models="HX_001_ECLIPSE_ORBIT,HX_002_ECLIPSE_ORBIT,HX_003_ECLIPSE_ORBIT,HX_004_ECLIPSE_ORBIT,HX_005_CORONA_SPOKE,HX_006_CORONA_SPOKE,HX_007_CORONA_SPOKE,HX_008_CORONA_SPOKE,HX_009_CORONA_SPOKE,HX_010_CORONA_SPOKE,HX_011_CORONA_SPOKE,HX_012_CORONA_SPOKE,HX_013_CORONA_SPOKE,HX_014_CORONA_SPOKE,HX_015_CORONA_SPOKE,HX_016_CORONA_SPOKE,HX_017_CORONA_SPOKE,HX_018_CORONA_SPOKE,HX_019_CORONA_SPOKE,HX_020_CORONA_SPOKE,HX_021_CORONA_SPOKE,HX_022_CORONA_SPOKE,HX_023_CORONA_SPOKE,HX_024_CORONA_SPOKE,HX_025_CORONA_SPOKE,HX_026_CORONA_SPOKE,HX_027_CORONA_SPOKE,HX_028_CORONA_SPOKE,HX_029_CORONA_SPOKE,HX_030_CORONA_SPOKE,HX_031_CORONA_SPOKE,HX_032_CORONA_SPOKE,HX_033_CORONA_SPOKE,HX_034_CORONA_SPOKE,HX_035_CORONA_SPOKE,HX_036_CORONA_SPOKE,HX_037_CORONA_SPOKE,HX_038_CORONA_SPOKE,HX_039_CORONA_SPOKE,HX_040_CORONA_SPOKE" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_WHOLE_SHOW" models="HX_001_ECLIPSE_ORBIT,HX_002_ECLIPSE_ORBIT,HX_003_ECLIPSE_ORBIT,HX_004_ECLIPSE_ORBIT,HX_005_CORONA_SPOKE,HX_006_CORONA_SPOKE,HX_007_CORONA_SPOKE,HX_008_CORONA_SPOKE,HX_009_CORONA_SPOKE,HX_010_CORONA_SPOKE,HX_011_CORONA_SPOKE,HX_012_CORONA_SPOKE,HX_013_CORONA_SPOKE,HX_014_CORONA_SPOKE,HX_015_CORONA_SPOKE,HX_016_CORONA_SPOKE,HX_017_CORONA_SPOKE,HX_018_CORONA_SPOKE,HX_019_CORONA_SPOKE,HX_020_CORONA_SPOKE,HX_021_CORONA_SPOKE,HX_022_CORONA_SPOKE,HX_023_CORONA_SPOKE,HX_024_CORONA_SPOKE,HX_025_CORONA_SPOKE,HX_026_CORONA_SPOKE,HX_027_CORONA_SPOKE,HX_028_CORONA_SPOKE,HX_029_CORONA_SPOKE,HX_030_CORONA_SPOKE,HX_031_CORONA_SPOKE,HX_032_CORONA_SPOKE,HX_033_CORONA_SPOKE,HX_034_CORONA_SPOKE,HX_035_CORONA_SPOKE,HX_036_CORONA_SPOKE,HX_037_CORONA_SPOKE,HX_038_CORONA_SPOKE,HX_039_CORONA_SPOKE,HX_040_CORONA_SPOKE" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_CORONA" models="HX_005_CORONA_SPOKE,HX_006_CORONA_SPOKE,HX_007_CORONA_SPOKE,HX_008_CORONA_SPOKE,HX_009_CORONA_SPOKE,HX_010_CORONA_SPOKE,HX_011_CORONA_SPOKE,HX_012_CORONA_SPOKE,HX_013_CORONA_SPOKE,HX_014_CORONA_SPOKE,HX_015_CORONA_SPOKE,HX_016_CORONA_SPOKE,HX_017_CORONA_SPOKE,HX_018_CORONA_SPOKE,HX_019_CORONA_SPOKE,HX_020_CORONA_SPOKE,HX_021_CORONA_SPOKE,HX_022_CORONA_SPOKE,HX_023_CORONA_SPOKE,HX_024_CORONA_SPOKE,HX_025_CORONA_SPOKE,HX_026_CORONA_SPOKE,HX_027_CORONA_SPOKE,HX_028_CORONA_SPOKE,HX_029_CORONA_SPOKE,HX_030_CORONA_SPOKE,HX_031_CORONA_SPOKE,HX_032_CORONA_SPOKE,HX_033_CORONA_SPOKE,HX_034_CORONA_SPOKE,HX_035_CORONA_SPOKE,HX_036_CORONA_SPOKE,HX_037_CORONA_SPOKE,HX_038_CORONA_SPOKE,HX_039_CORONA_SPOKE,HX_040_CORONA_SPOKE" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_ORBITS" models="HX_001_ECLIPSE_ORBIT,HX_002_ECLIPSE_ORBIT,HX_003_ECLIPSE_ORBIT,HX_004_ECLIPSE_ORBIT" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+  </modelGroups>
+  <view_objects />
+  <effects version="0007" />
+  <views />
+  <palettes />
+  <layoutGroups />
+  <perspectives />
+  <colors />
+  <Viewpoints>
+    <DefaultCamera3D name="DEFAULT3D" is_3d="1" posX="0" posY="0" posZ="0" angleX="0" angleY="0" angleZ="0" distance="-362.90" zoom="1" panx="0" pany="-83.0" panz="25" zoom_corrx="0" zoom_corry="0" />
+    <Camera name="Clockwork Eclipse overview" is_3d="1" posX="0" posY="0" posZ="0" angleX="0" angleY="0" angleZ="0" distance="-362.90" zoom="1" panx="0" pany="-83.0" panz="25" zoom_corrx="0" zoom_corry="0" />
+  </Viewpoints>
+  <settings>
+    <backgroundBrightness value="0" />
+    <storedLayoutGroup value="All Models" />
+    <LayoutMode3D value="1" />
+    <Display2DCenter0 value="1" />
+    <previewWidth value="480" />
+    <previewHeight value="260" />
+  </settings>
+</xrgb>

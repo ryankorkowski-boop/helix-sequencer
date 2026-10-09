@@ -1,5 +1,21 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-09 — all concepts 1–62 approved, native exports and downloadable MP4s complete
+
+Goal: answer the latest-layout status request, recover links for the original 22 concepts (including both original pontoons), and convert every newly approved design. The user explicitly clarified approval of **all through #62**, superseding the selection gates in the advanced and stop-motion artwork entries below.
+
+Changed files/modules: `models/approved_concepts.py` catalog dispatch; focused `models/advanced_concepts.py` and `models/stop_motion_concepts.py` geometry; `tools/build_approved_concepts.py` native held-pose sequences, camera choice and FSEQ pose checks; expanded `tests/test_approved_concepts.py`; 40 new compact source show folders under `showcase/approved_concepts/`; current delivery documentation; `evidence/approved_concepts_62/verification.json` and this ledger. Generated release files live in `outputs/Concepts_62_Delivery/`.
+
+New behavior: IDs23–42 have finite native Custom structures guided by their approved briefs; IDs43–62 implement discrete 600ms replacement poses/holds, staged assembly or domino state changes. Each layout has embedded geometry/submodels/groups, a dedicated Animation XSQ, rendered FSEQ, reusable XMODEL exports and a direct MP4. Native pose pixels are checked dark outside their scheduled holds. All62 previews are silent24-second H.264/yuv420p movies from actual native xLights FSEQ data; movies are not art slideshows or GUI recordings. Stage31/32/55 use the unchanged canonical drummer grid and original40 submodel ranges;55 adds static stick replacements and a snare demonstration without claiming music transcription.
+
+Preserved behavior: every original1–22 XML/XSQ is byte-identical to its earlier checked-in show. All three source artwork catalogs/boards, original favorite files, recordings and canonical drummer node order/ranges are preserved. No production shows, source music, controllers, detectors or broader sequencing engine changed. Historical approval-pending artwork manifests remain historical records; current approval and native implementation are recorded here.
+
+Evidence: pinned xLights2026.18 AppImage SHA256 `62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b`;62 successful native renders,29,760×50ms frames, all2,714 models and347,170 RGB pixels receiving lighting. All62 MP4s fully decode, with480 frames/20fps/24s/no audio.127 focused geometry, binding, range-preservation, catalog and pose tests pass. Native held-pose schedules match their FSEQ data, inactive pose pixels stay dark. Six relocated independent shows (1,21,42,43,55,62) rerender every frame identically in paths with spaces. All62 sampled frames and representative four-pose video strips visually inspected. Both delivery ZIPs pass CRC checks.
+
+Limitations/deferred work: artwork-guided planning contours are not scanned or surveyed fabrication meshes; sparse point previews cannot prove lenticular occlusion, rigging or marine construction. Preview camera projections are not xLights GUI recordings. Drummer cues are demonstrations, not song transcription. Whole-repository tests and a physical laptop/controller pass were not run. The older remembered missing whale is not recovered; the two newly approved whale designs27/51 are explicitly original current concepts. Regression risks are confined to new catalog dispatch, geometry/pose schedules and preview projections; original XML/XSQ byte checks and native timing tests guard the preserved batch.
+
+Checklist: [x] locate all concept branches and original22 evidence; [x] capture explicit approval through62; [x] convert40 new shows; [x] regenerate22 original movies; [x] native render/MP4/native-pose/preservation checks; [x] portable folder checks; [x] ZIP packaging; [ ] durable release upload and download links (publication follow-up below).
+
 > Canonical project roadmap and cross-agent handoff layer.
 
 ## 2026-10-09 — twenty stop-motion concept layouts (artwork ready; approval pending)

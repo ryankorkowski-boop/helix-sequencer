@@ -1,0 +1,923 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xrgb>
+  <models>
+    <model name="HX_001_DEER_BODY" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="111" parm2="63" parm3="1" Depth="1" CustomWidth="111" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,36,6,0;2,36,8,0;3,36,10,0;4,36,12,0;5,36,14,0;6,36,16,0;7,36,18,0;8,36,20,0;9,36,21,0;10,36,23,0;11,36,25,0;12,36,27,0;13,36,29,0;14,36,31,0;15,36,33,0;16,36,35,0;17,36,37,0;18,36,39,0;19,36,41,0;20,36,43,0;21,36,45,0;22,36,47,0;23,36,48,0;24,36,50,0;25,36,52,0;26,36,54,0;27,36,56,0;28,36,58,0;29,36,60,0;30,36,62,0;31,36,64,0;32,36,66,0;33,35,67,0;34,33,68,0;35,31,69,0;36,30,70,0;37,28,71,0;38,27,72,0;39,25,73,0;40,23,74,0;41,22,76,0;42,20,77,0;43,19,78,0;44,17,79,0;45,15,80,0;46,14,81,0;47,12,82,0;48,10,83,0;49,9,84,0;50,7,85,0;51,6,86,0;52,4,87,0;53,2,88,0;54,1,89,0;55,0,91,0;56,1,93,0;57,2,94,0;58,2,96,0;59,3,98,0;60,4,100,0;61,5,102,0;62,5,103,0;63,6,105,0;64,7,107,0;65,7,109,0;66,8,110,0;67,9,108,0;68,10,106,0;69,11,104,0;70,12,103,0;71,13,101,0;72,14,99,0;73,15,98,0;74,16,96,0;75,16,94,0;76,17,93,0;77,18,91,0;78,19,89,0;79,20,87,0;80,21,86,0;81,22,84,0;82,24,83,0;83,26,83,0;84,28,82,0;85,29,82,0;86,31,81,0;87,33,81,0;88,35,80,0;89,37,80,0;90,39,79,0;91,40,78,0;92,42,78,0;93,44,77,0;94,46,77,0;95,48,76,0;96,50,76,0;97,52,75,0;98,53,75,0;99,55,74,0;100,57,73,0;101,59,73,0;102,61,72,0;103,62,71,0;104,62,69,0;105,62,68,0;106,62,66,0;107,62,64,0;108,62,62,0;109,62,60,0;110,62,58,0;111,62,56,0;112,62,54,0;113,62,52,0;114,62,50,0;115,62,48,0;116,62,46,0;117,62,44,0;118,62,42,0;119,62,41,0;120,62,39,0;121,62,37,0;122,62,35,0;123,62,33,0;124,62,31,0;125,62,29,0;126,62,27,0;127,62,25,0;128,62,23,0;129,62,21,0;130,62,19,0;131,62,17,0;132,62,15,0;133,62,14,0;134,62,12,0;135,62,10,0;136,62,8,0;137,62,6,0;138,62,4,0;139,62,2,0;140,62,0,0" WorldPosX="109.500000" WorldPosY="32.500000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-18" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="19-36" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="37-54" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="55-72" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="73-89" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="90-106" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="107-123" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="124-140" />
+    </model>
+    <model name="HX_002_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="421" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="88.000000" WorldPosY="9.000000" WorldPosZ="0.000000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_003_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="556" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,19,0;3,2,20,0;4,3,21,0;5,4,22,0;6,5,23,0;7,6,24,0;8,7,25,0;9,8,26,0;10,10,28,0;11,11,29,0;12,12,30,0;13,13,31,0;14,14,32,0;15,15,33,0;16,16,34,0;17,17,35,0;18,18,36,0;19,19,35,0;20,19,33,0;21,20,32,0;22,21,31,0;23,21,29,0;24,22,28,0;25,23,27,0;26,23,25,0;27,24,24,0;28,25,23,0;29,25,21,0;30,26,20,0;31,27,19,0;32,27,17,0;33,28,16,0;34,29,15,0;35,29,13,0;36,30,12,0;37,31,11,0;38,31,9,0;39,32,8,0;40,33,7,0;41,33,5,0;42,34,4,0;43,35,3,0;44,35,1,0;45,36,0,0" WorldPosX="95.000000" WorldPosY="9.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_004_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="691" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="110.000000" WorldPosY="9.000000" WorldPosZ="0.000000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_005_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="826" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,17,0;3,2,16,0;4,3,15,0;5,4,14,0;6,5,13,0;7,6,12,0;8,7,11,0;9,8,10,0;10,10,8,0;11,11,7,0;12,12,6,0;13,13,5,0;14,14,4,0;15,15,3,0;16,16,2,0;17,17,1,0;18,18,0,0;19,19,1,0;20,19,3,0;21,20,4,0;22,21,5,0;23,21,7,0;24,22,8,0;25,23,9,0;26,23,11,0;27,24,12,0;28,25,13,0;29,25,15,0;30,26,16,0;31,27,17,0;32,27,19,0;33,28,20,0;34,29,21,0;35,29,23,0;36,30,24,0;37,31,25,0;38,31,27,0;39,32,28,0;40,33,29,0;41,33,31,0;42,34,32,0;43,35,33,0;44,35,35,0;45,36,36,0" WorldPosX="117.000000" WorldPosY="9.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_006_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="961" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="33" parm3="1" Depth="1" CustomWidth="37" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,36,0;2,31,35,0;3,30,34,0;4,28,32,0;5,27,31,0;6,26,30,0;7,25,29,0;8,24,28,0;9,23,27,0;10,21,25,0;11,20,24,0;12,19,23,0;13,18,22,0;14,17,21,0;15,15,19,0;16,14,18,0;17,13,17,0;18,12,16,0;19,11,15,0;20,10,14,0;21,8,12,0;22,7,11,0;23,6,10,0;24,6,8,0;25,5,7,0;26,4,6,0;27,3,4,0;28,2,3,0;29,1,1,0;30,0,0,0" WorldPosX="118.000000" WorldPosY="55.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_007_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1051" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="33" parm3="1" Depth="1" CustomWidth="21" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,0,0;2,31,0,0;3,29,1,0;4,28,1,0;5,27,2,0;6,26,2,0;7,24,3,0;8,23,3,0;9,22,3,0;10,20,4,0;11,19,4,0;12,18,5,0;13,16,5,0;14,15,6,0;15,14,6,0;16,13,6,0;17,11,7,0;18,10,7,0;19,9,8,0;20,8,9,0;21,7,10,0;22,6,11,0;23,5,12,0;24,5,13,0;25,4,14,0;26,3,15,0;27,2,17,0;28,2,18,0;29,1,19,0;30,0,20,0" WorldPosX="132.000000" WorldPosY="55.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_008_DEER_BODY" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1141" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="111" parm2="63" parm3="1" Depth="1" CustomWidth="111" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,36,6,0;2,36,8,0;3,36,10,0;4,36,12,0;5,36,14,0;6,36,16,0;7,36,18,0;8,36,20,0;9,36,22,0;10,36,24,0;11,36,25,0;12,36,27,0;13,36,29,0;14,36,31,0;15,36,33,0;16,36,35,0;17,36,37,0;18,36,39,0;19,36,41,0;20,36,43,0;21,36,45,0;22,36,47,0;23,36,49,0;24,36,51,0;25,36,52,0;26,36,54,0;27,36,56,0;28,36,58,0;29,36,60,0;30,36,62,0;31,36,64,0;32,36,66,0;33,35,67,0;34,33,68,0;35,31,69,0;36,30,70,0;37,28,71,0;38,27,73,0;39,25,74,0;40,23,75,0;41,22,76,0;42,20,77,0;43,19,78,0;44,17,79,0;45,15,80,0;46,14,81,0;47,12,82,0;48,10,83,0;49,9,84,0;50,7,85,0;51,6,86,0;52,4,87,0;53,2,89,0;54,1,90,0;55,0,91,0;56,1,93,0;57,2,95,0;58,2,96,0;59,3,98,0;60,4,100,0;61,5,102,0;62,5,104,0;63,6,105,0;64,7,107,0;65,7,109,0;66,8,110,0;67,9,108,0;68,10,106,0;69,11,105,0;70,12,103,0;71,13,101,0;72,14,100,0;73,15,98,0;74,16,96,0;75,16,94,0;76,17,93,0;77,18,91,0;78,19,89,0;79,20,88,0;80,21,86,0;81,22,84,0;82,24,84,0;83,26,83,0;84,28,83,0;85,29,82,0;86,31,81,0;87,33,81,0;88,35,80,0;89,37,80,0;90,39,79,0;91,40,79,0;92,42,78,0;93,44,78,0;94,46,77,0;95,48,76,0;96,50,76,0;97,52,75,0;98,53,75,0;99,55,74,0;100,57,74,0;101,59,73,0;102,61,73,0;103,62,72,0;104,62,70,0;105,62,68,0;106,62,66,0;107,62,64,0;108,62,62,0;109,62,60,0;110,62,58,0;111,62,56,0;112,62,54,0;113,62,52,0;114,62,50,0;115,62,48,0;116,62,46,0;117,62,45,0;118,62,43,0;119,62,41,0;120,62,39,0;121,62,37,0;122,62,35,0;123,62,33,0;124,62,31,0;125,62,29,0;126,62,27,0;127,62,25,0;128,62,23,0;129,62,21,0;130,62,19,0;131,62,18,0;132,62,16,0;133,62,14,0;134,62,12,0;135,62,10,0;136,62,8,0;137,62,6,0;138,62,4,0;139,62,2,0;140,62,0,0" WorldPosX="96.000000" WorldPosY="32.500000" WorldPosZ="32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-18" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="19-36" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="37-54" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="55-72" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="73-89" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="90-106" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="107-123" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="124-140" />
+    </model>
+    <model name="HX_009_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1561" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,19,0;3,2,20,0;4,3,21,0;5,4,22,0;6,5,23,0;7,6,25,0;8,7,26,0;9,8,27,0;10,10,28,0;11,11,29,0;12,12,30,0;13,13,31,0;14,14,32,0;15,15,33,0;16,16,34,0;17,17,35,0;18,18,36,0;19,19,35,0;20,19,34,0;21,20,32,0;22,21,31,0;23,21,30,0;24,22,28,0;25,23,27,0;26,23,26,0;27,24,24,0;28,25,23,0;29,25,22,0;30,26,20,0;31,27,19,0;32,27,18,0;33,28,16,0;34,29,15,0;35,29,14,0;36,30,12,0;37,31,11,0;38,31,10,0;39,32,8,0;40,33,7,0;41,33,6,0;42,34,4,0;43,35,3,0;44,35,2,0;45,36,0,0" WorldPosX="74.500000" WorldPosY="9.000000" WorldPosZ="32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_010_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1696" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="81.500000" WorldPosY="9.000000" WorldPosZ="32.500000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_011_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1831" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,17,0;3,2,16,0;4,3,15,0;5,4,14,0;6,5,13,0;7,6,12,0;8,7,11,0;9,8,10,0;10,10,9,0;11,11,8,0;12,12,7,0;13,13,6,0;14,14,4,0;15,15,3,0;16,16,2,0;17,17,1,0;18,18,0,0;19,19,1,0;20,19,3,0;21,20,4,0;22,21,5,0;23,21,7,0;24,22,8,0;25,23,9,0;26,23,11,0;27,24,12,0;28,25,13,0;29,25,15,0;30,26,16,0;31,27,18,0;32,27,19,0;33,28,20,0;34,29,22,0;35,29,23,0;36,30,24,0;37,31,26,0;38,31,27,0;39,32,28,0;40,33,30,0;41,33,31,0;42,34,32,0;43,35,34,0;44,35,35,0;45,36,36,0" WorldPosX="96.500000" WorldPosY="9.000000" WorldPosZ="32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_012_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1966" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="103.500000" WorldPosY="9.000000" WorldPosZ="32.500000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_013_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2101" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="33" parm3="1" Depth="1" CustomWidth="37" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,36,0;2,31,35,0;3,30,34,0;4,28,33,0;5,27,31,0;6,26,30,0;7,25,29,0;8,24,28,0;9,23,27,0;10,21,26,0;11,20,24,0;12,19,23,0;13,18,22,0;14,17,21,0;15,15,20,0;16,14,19,0;17,13,17,0;18,12,16,0;19,11,15,0;20,10,14,0;21,8,13,0;22,7,11,0;23,6,10,0;24,6,9,0;25,5,7,0;26,4,6,0;27,3,4,0;28,2,3,0;29,1,2,0;30,0,0,0" WorldPosX="104.500000" WorldPosY="55.000000" WorldPosZ="32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_014_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2191" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="33" parm3="1" Depth="1" CustomWidth="21" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,0,0;2,31,1,0;3,29,1,0;4,28,2,0;5,27,2,0;6,26,2,0;7,24,3,0;8,23,3,0;9,22,4,0;10,20,4,0;11,19,5,0;12,18,5,0;13,16,5,0;14,15,6,0;15,14,6,0;16,13,7,0;17,11,7,0;18,10,8,0;19,9,8,0;20,8,9,0;21,7,10,0;22,6,11,0;23,5,12,0;24,5,13,0;25,4,15,0;26,3,16,0;27,2,17,0;28,2,18,0;29,1,19,0;30,0,20,0" WorldPosX="118.500000" WorldPosY="55.000000" WorldPosZ="32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_015_DEER_BODY" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2281" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="111" parm2="63" parm3="1" Depth="1" CustomWidth="111" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,36,6,0;2,36,8,0;3,36,10,0;4,36,12,0;5,36,14,0;6,36,16,0;7,36,18,0;8,36,20,0;9,36,21,0;10,36,23,0;11,36,25,0;12,36,27,0;13,36,29,0;14,36,31,0;15,36,33,0;16,36,35,0;17,36,37,0;18,36,39,0;19,36,41,0;20,36,43,0;21,36,45,0;22,36,47,0;23,36,48,0;24,36,50,0;25,36,52,0;26,36,54,0;27,36,56,0;28,36,58,0;29,36,60,0;30,36,62,0;31,36,64,0;32,36,66,0;33,35,67,0;34,33,68,0;35,31,69,0;36,30,70,0;37,28,71,0;38,27,72,0;39,25,73,0;40,23,74,0;41,22,76,0;42,20,77,0;43,19,78,0;44,17,79,0;45,15,80,0;46,14,81,0;47,12,82,0;48,10,83,0;49,9,84,0;50,7,85,0;51,6,86,0;52,4,87,0;53,2,88,0;54,1,89,0;55,0,91,0;56,1,93,0;57,2,94,0;58,2,96,0;59,3,98,0;60,4,100,0;61,5,102,0;62,5,103,0;63,6,105,0;64,7,107,0;65,7,109,0;66,8,110,0;67,9,108,0;68,10,106,0;69,11,104,0;70,12,103,0;71,13,101,0;72,14,99,0;73,15,98,0;74,16,96,0;75,16,94,0;76,17,93,0;77,18,91,0;78,19,89,0;79,20,87,0;80,21,86,0;81,22,84,0;82,24,83,0;83,26,83,0;84,28,82,0;85,29,82,0;86,31,81,0;87,33,81,0;88,35,80,0;89,37,80,0;90,39,79,0;91,40,78,0;92,42,78,0;93,44,77,0;94,46,77,0;95,48,76,0;96,50,76,0;97,52,75,0;98,53,75,0;99,55,74,0;100,57,73,0;101,59,73,0;102,61,72,0;103,62,71,0;104,62,69,0;105,62,68,0;106,62,66,0;107,62,64,0;108,62,62,0;109,62,60,0;110,62,58,0;111,62,56,0;112,62,54,0;113,62,52,0;114,62,50,0;115,62,48,0;116,62,46,0;117,62,44,0;118,62,42,0;119,62,41,0;120,62,39,0;121,62,37,0;122,62,35,0;123,62,33,0;124,62,31,0;125,62,29,0;126,62,27,0;127,62,25,0;128,62,23,0;129,62,21,0;130,62,19,0;131,62,17,0;132,62,15,0;133,62,14,0;134,62,12,0;135,62,10,0;136,62,8,0;137,62,6,0;138,62,4,0;139,62,2,0;140,62,0,0" WorldPosX="59.500000" WorldPosY="32.500000" WorldPosZ="56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-18" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="19-36" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="37-54" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="55-72" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="73-89" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="90-106" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="107-123" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="124-140" />
+    </model>
+    <model name="HX_016_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2701" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="38.000000" WorldPosY="9.000000" WorldPosZ="56.250000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_017_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2836" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,17,0;3,2,16,0;4,3,15,0;5,4,14,0;6,5,13,0;7,6,12,0;8,7,11,0;9,8,10,0;10,10,8,0;11,11,7,0;12,12,6,0;13,13,5,0;14,14,4,0;15,15,3,0;16,16,2,0;17,17,1,0;18,18,0,0;19,19,1,0;20,19,3,0;21,20,4,0;22,21,5,0;23,21,7,0;24,22,8,0;25,23,9,0;26,23,11,0;27,24,12,0;28,25,13,0;29,25,15,0;30,26,16,0;31,27,17,0;32,27,19,0;33,28,20,0;34,29,21,0;35,29,23,0;36,30,24,0;37,31,25,0;38,31,27,0;39,32,28,0;40,33,29,0;41,33,31,0;42,34,32,0;43,35,33,0;44,35,35,0;45,36,36,0" WorldPosX="45.000000" WorldPosY="9.000000" WorldPosZ="56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_018_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2971" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="60.000000" WorldPosY="9.000000" WorldPosZ="56.250000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_019_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3106" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,19,0;3,2,20,0;4,3,21,0;5,4,22,0;6,5,23,0;7,6,24,0;8,7,25,0;9,8,26,0;10,10,28,0;11,11,29,0;12,12,30,0;13,13,31,0;14,14,32,0;15,15,33,0;16,16,34,0;17,17,35,0;18,18,36,0;19,19,35,0;20,19,33,0;21,20,32,0;22,21,31,0;23,21,29,0;24,22,28,0;25,23,27,0;26,23,25,0;27,24,24,0;28,25,23,0;29,25,21,0;30,26,20,0;31,27,19,0;32,27,17,0;33,28,16,0;34,29,15,0;35,29,13,0;36,30,12,0;37,31,11,0;38,31,9,0;39,32,8,0;40,33,7,0;41,33,5,0;42,34,4,0;43,35,3,0;44,35,1,0;45,36,0,0" WorldPosX="67.000000" WorldPosY="9.000000" WorldPosZ="56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_020_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3241" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="33" parm3="1" Depth="1" CustomWidth="37" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,36,0;2,31,35,0;3,30,34,0;4,28,32,0;5,27,31,0;6,26,30,0;7,25,29,0;8,24,28,0;9,23,27,0;10,21,25,0;11,20,24,0;12,19,23,0;13,18,22,0;14,17,21,0;15,15,19,0;16,14,18,0;17,13,17,0;18,12,16,0;19,11,15,0;20,10,14,0;21,8,12,0;22,7,11,0;23,6,10,0;24,6,8,0;25,5,7,0;26,4,6,0;27,3,4,0;28,2,3,0;29,1,1,0;30,0,0,0" WorldPosX="68.000000" WorldPosY="55.000000" WorldPosZ="56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_021_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3331" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="33" parm3="1" Depth="1" CustomWidth="21" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,0,0;2,31,0,0;3,29,1,0;4,28,1,0;5,27,2,0;6,26,2,0;7,24,3,0;8,23,3,0;9,22,3,0;10,20,4,0;11,19,4,0;12,18,5,0;13,16,5,0;14,15,6,0;15,14,6,0;16,13,6,0;17,11,7,0;18,10,7,0;19,9,8,0;20,8,9,0;21,7,10,0;22,6,11,0;23,5,12,0;24,5,13,0;25,4,14,0;26,3,15,0;27,2,17,0;28,2,18,0;29,1,19,0;30,0,20,0" WorldPosX="82.000000" WorldPosY="55.000000" WorldPosZ="56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_022_DEER_BODY" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3421" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="111" parm2="63" parm3="1" Depth="1" CustomWidth="111" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,36,6,0;2,36,8,0;3,36,10,0;4,36,12,0;5,36,14,0;6,36,16,0;7,36,18,0;8,36,20,0;9,36,21,0;10,36,23,0;11,36,25,0;12,36,27,0;13,36,29,0;14,36,31,0;15,36,33,0;16,36,35,0;17,36,37,0;18,36,39,0;19,36,41,0;20,36,43,0;21,36,45,0;22,36,47,0;23,36,48,0;24,36,50,0;25,36,52,0;26,36,54,0;27,36,56,0;28,36,58,0;29,36,60,0;30,36,62,0;31,36,64,0;32,36,66,0;33,35,67,0;34,33,68,0;35,31,69,0;36,30,70,0;37,28,71,0;38,27,72,0;39,25,73,0;40,23,74,0;41,22,76,0;42,20,77,0;43,19,78,0;44,17,79,0;45,15,80,0;46,14,81,0;47,12,82,0;48,10,83,0;49,9,84,0;50,7,85,0;51,6,86,0;52,4,87,0;53,2,88,0;54,1,89,0;55,0,91,0;56,1,93,0;57,2,94,0;58,2,96,0;59,3,98,0;60,4,100,0;61,5,102,0;62,5,103,0;63,6,105,0;64,7,107,0;65,7,109,0;66,8,110,0;67,9,108,0;68,10,106,0;69,11,104,0;70,12,103,0;71,13,101,0;72,14,99,0;73,15,98,0;74,16,96,0;75,16,94,0;76,17,93,0;77,18,91,0;78,19,89,0;79,20,87,0;80,21,86,0;81,22,84,0;82,24,83,0;83,26,83,0;84,28,82,0;85,29,82,0;86,31,81,0;87,33,81,0;88,35,80,0;89,37,80,0;90,39,79,0;91,40,78,0;92,42,78,0;93,44,77,0;94,46,77,0;95,48,76,0;96,50,76,0;97,52,75,0;98,53,75,0;99,55,74,0;100,57,73,0;101,59,73,0;102,61,72,0;103,62,71,0;104,62,69,0;105,62,68,0;106,62,66,0;107,62,64,0;108,62,62,0;109,62,60,0;110,62,58,0;111,62,56,0;112,62,54,0;113,62,52,0;114,62,50,0;115,62,48,0;116,62,46,0;117,62,44,0;118,62,42,0;119,62,41,0;120,62,39,0;121,62,37,0;122,62,35,0;123,62,33,0;124,62,31,0;125,62,29,0;126,62,27,0;127,62,25,0;128,62,23,0;129,62,21,0;130,62,19,0;131,62,17,0;132,62,15,0;133,62,14,0;134,62,12,0;135,62,10,0;136,62,8,0;137,62,6,0;138,62,4,0;139,62,2,0;140,62,0,0" WorldPosX="9.500000" WorldPosY="32.500000" WorldPosZ="65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-18" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="19-36" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="37-54" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="55-72" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="73-89" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="90-106" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="107-123" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="124-140" />
+    </model>
+    <model name="HX_023_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3841" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,17,0;3,2,16,0;4,3,15,0;5,4,14,0;6,5,13,0;7,6,12,0;8,7,11,0;9,8,10,0;10,10,8,0;11,11,7,0;12,12,6,0;13,13,5,0;14,14,4,0;15,15,3,0;16,16,2,0;17,17,1,0;18,18,0,0;19,19,1,0;20,19,3,0;21,20,4,0;22,21,5,0;23,21,7,0;24,22,8,0;25,23,9,0;26,23,11,0;27,24,12,0;28,25,13,0;29,25,15,0;30,26,16,0;31,27,17,0;32,27,19,0;33,28,20,0;34,29,21,0;35,29,23,0;36,30,24,0;37,31,25,0;38,31,27,0;39,32,28,0;40,33,29,0;41,33,31,0;42,34,32,0;43,35,33,0;44,35,35,0;45,36,36,0" WorldPosX="-12.000000" WorldPosY="9.000000" WorldPosZ="65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_024_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3976" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="-5.000000" WorldPosY="9.000000" WorldPosZ="65.000000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_025_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4111" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,19,0;3,2,20,0;4,3,21,0;5,4,22,0;6,5,23,0;7,6,24,0;8,7,25,0;9,8,26,0;10,10,28,0;11,11,29,0;12,12,30,0;13,13,31,0;14,14,32,0;15,15,33,0;16,16,34,0;17,17,35,0;18,18,36,0;19,19,35,0;20,19,33,0;21,20,32,0;22,21,31,0;23,21,29,0;24,22,28,0;25,23,27,0;26,23,25,0;27,24,24,0;28,25,23,0;29,25,21,0;30,26,20,0;31,27,19,0;32,27,17,0;33,28,16,0;34,29,15,0;35,29,13,0;36,30,12,0;37,31,11,0;38,31,9,0;39,32,8,0;40,33,7,0;41,33,5,0;42,34,4,0;43,35,3,0;44,35,1,0;45,36,0,0" WorldPosX="10.000000" WorldPosY="9.000000" WorldPosZ="65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_026_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4246" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="17.000000" WorldPosY="9.000000" WorldPosZ="65.000000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_027_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4381" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="33" parm3="1" Depth="1" CustomWidth="37" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,36,0;2,31,35,0;3,30,34,0;4,28,32,0;5,27,31,0;6,26,30,0;7,25,29,0;8,24,28,0;9,23,27,0;10,21,25,0;11,20,24,0;12,19,23,0;13,18,22,0;14,17,21,0;15,15,19,0;16,14,18,0;17,13,17,0;18,12,16,0;19,11,15,0;20,10,14,0;21,8,12,0;22,7,11,0;23,6,10,0;24,6,8,0;25,5,7,0;26,4,6,0;27,3,4,0;28,2,3,0;29,1,1,0;30,0,0,0" WorldPosX="18.000000" WorldPosY="55.000000" WorldPosZ="65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_028_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4471" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="33" parm3="1" Depth="1" CustomWidth="21" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,0,0;2,31,0,0;3,29,1,0;4,28,1,0;5,27,2,0;6,26,2,0;7,24,3,0;8,23,3,0;9,22,3,0;10,20,4,0;11,19,4,0;12,18,5,0;13,16,5,0;14,15,6,0;15,14,6,0;16,13,6,0;17,11,7,0;18,10,7,0;19,9,8,0;20,8,9,0;21,7,10,0;22,6,11,0;23,5,12,0;24,5,13,0;25,4,14,0;26,3,15,0;27,2,17,0;28,2,18,0;29,1,19,0;30,0,20,0" WorldPosX="32.000000" WorldPosY="55.000000" WorldPosZ="65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_029_DEER_BODY" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4561" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="111" parm2="63" parm3="1" Depth="1" CustomWidth="111" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,36,6,0;2,36,8,0;3,36,10,0;4,36,12,0;5,36,14,0;6,36,16,0;7,36,18,0;8,36,20,0;9,36,21,0;10,36,23,0;11,36,25,0;12,36,27,0;13,36,29,0;14,36,31,0;15,36,33,0;16,36,35,0;17,36,37,0;18,36,39,0;19,36,41,0;20,36,43,0;21,36,45,0;22,36,47,0;23,36,48,0;24,36,50,0;25,36,52,0;26,36,54,0;27,36,56,0;28,36,58,0;29,36,60,0;30,36,62,0;31,36,64,0;32,36,66,0;33,35,67,0;34,33,68,0;35,31,69,0;36,30,70,0;37,28,71,0;38,27,72,0;39,25,73,0;40,23,74,0;41,22,76,0;42,20,77,0;43,19,78,0;44,17,79,0;45,15,80,0;46,14,81,0;47,12,82,0;48,10,83,0;49,9,84,0;50,7,85,0;51,6,86,0;52,4,87,0;53,2,88,0;54,1,89,0;55,0,91,0;56,1,93,0;57,2,94,0;58,2,96,0;59,3,98,0;60,4,100,0;61,5,102,0;62,5,103,0;63,6,105,0;64,7,107,0;65,7,109,0;66,8,110,0;67,9,108,0;68,10,106,0;69,11,104,0;70,12,103,0;71,13,101,0;72,14,99,0;73,15,98,0;74,16,96,0;75,16,94,0;76,17,93,0;77,18,91,0;78,19,89,0;79,20,87,0;80,21,86,0;81,22,84,0;82,24,83,0;83,26,83,0;84,28,82,0;85,29,82,0;86,31,81,0;87,33,81,0;88,35,80,0;89,37,80,0;90,39,79,0;91,40,78,0;92,42,78,0;93,44,77,0;94,46,77,0;95,48,76,0;96,50,76,0;97,52,75,0;98,53,75,0;99,55,74,0;100,57,73,0;101,59,73,0;102,61,72,0;103,62,71,0;104,62,69,0;105,62,68,0;106,62,66,0;107,62,64,0;108,62,62,0;109,62,60,0;110,62,58,0;111,62,56,0;112,62,54,0;113,62,52,0;114,62,50,0;115,62,48,0;116,62,46,0;117,62,44,0;118,62,42,0;119,62,41,0;120,62,39,0;121,62,37,0;122,62,35,0;123,62,33,0;124,62,31,0;125,62,29,0;126,62,27,0;127,62,25,0;128,62,23,0;129,62,21,0;130,62,19,0;131,62,17,0;132,62,15,0;133,62,14,0;134,62,12,0;135,62,10,0;136,62,8,0;137,62,6,0;138,62,4,0;139,62,2,0;140,62,0,0" WorldPosX="-40.500000" WorldPosY="32.500000" WorldPosZ="56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-18" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="19-36" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="37-54" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="55-72" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="73-89" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="90-106" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="107-123" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="124-140" />
+    </model>
+    <model name="HX_030_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4981" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="-62.000000" WorldPosY="9.000000" WorldPosZ="56.250000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_031_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5116" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,19,0;3,2,20,0;4,3,21,0;5,4,22,0;6,5,23,0;7,6,24,0;8,7,25,0;9,8,26,0;10,10,28,0;11,11,29,0;12,12,30,0;13,13,31,0;14,14,32,0;15,15,33,0;16,16,34,0;17,17,35,0;18,18,36,0;19,19,35,0;20,19,33,0;21,20,32,0;22,21,31,0;23,21,29,0;24,22,28,0;25,23,27,0;26,23,25,0;27,24,24,0;28,25,23,0;29,25,21,0;30,26,20,0;31,27,19,0;32,27,17,0;33,28,16,0;34,29,15,0;35,29,13,0;36,30,12,0;37,31,11,0;38,31,9,0;39,32,8,0;40,33,7,0;41,33,5,0;42,34,4,0;43,35,3,0;44,35,1,0;45,36,0,0" WorldPosX="-55.000000" WorldPosY="9.000000" WorldPosZ="56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_032_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5251" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="-40.000000" WorldPosY="9.000000" WorldPosZ="56.250000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_033_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5386" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,17,0;3,2,16,0;4,3,15,0;5,4,14,0;6,5,13,0;7,6,12,0;8,7,11,0;9,8,10,0;10,10,8,0;11,11,7,0;12,12,6,0;13,13,5,0;14,14,4,0;15,15,3,0;16,16,2,0;17,17,1,0;18,18,0,0;19,19,1,0;20,19,3,0;21,20,4,0;22,21,5,0;23,21,7,0;24,22,8,0;25,23,9,0;26,23,11,0;27,24,12,0;28,25,13,0;29,25,15,0;30,26,16,0;31,27,17,0;32,27,19,0;33,28,20,0;34,29,21,0;35,29,23,0;36,30,24,0;37,31,25,0;38,31,27,0;39,32,28,0;40,33,29,0;41,33,31,0;42,34,32,0;43,35,33,0;44,35,35,0;45,36,36,0" WorldPosX="-33.000000" WorldPosY="9.000000" WorldPosZ="56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_034_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5521" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="33" parm3="1" Depth="1" CustomWidth="37" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,36,0;2,31,35,0;3,30,34,0;4,28,32,0;5,27,31,0;6,26,30,0;7,25,29,0;8,24,28,0;9,23,27,0;10,21,25,0;11,20,24,0;12,19,23,0;13,18,22,0;14,17,21,0;15,15,19,0;16,14,18,0;17,13,17,0;18,12,16,0;19,11,15,0;20,10,14,0;21,8,12,0;22,7,11,0;23,6,10,0;24,6,8,0;25,5,7,0;26,4,6,0;27,3,4,0;28,2,3,0;29,1,1,0;30,0,0,0" WorldPosX="-32.000000" WorldPosY="55.000000" WorldPosZ="56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_035_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5611" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="33" parm3="1" Depth="1" CustomWidth="21" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,0,0;2,31,0,0;3,29,1,0;4,28,1,0;5,27,2,0;6,26,2,0;7,24,3,0;8,23,3,0;9,22,3,0;10,20,4,0;11,19,4,0;12,18,5,0;13,16,5,0;14,15,6,0;15,14,6,0;16,13,6,0;17,11,7,0;18,10,7,0;19,9,8,0;20,8,9,0;21,7,10,0;22,6,11,0;23,5,12,0;24,5,13,0;25,4,14,0;26,3,15,0;27,2,17,0;28,2,18,0;29,1,19,0;30,0,20,0" WorldPosX="-18.000000" WorldPosY="55.000000" WorldPosZ="56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_036_DEER_BODY" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5701" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="110" parm2="63" parm3="1" Depth="1" CustomWidth="110" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,36,6,0;2,36,8,0;3,36,10,0;4,36,12,0;5,36,14,0;6,36,15,0;7,36,17,0;8,36,19,0;9,36,21,0;10,36,23,0;11,36,25,0;12,36,27,0;13,36,29,0;14,36,31,0;15,36,33,0;16,36,35,0;17,36,37,0;18,36,39,0;19,36,41,0;20,36,42,0;21,36,44,0;22,36,46,0;23,36,48,0;24,36,50,0;25,36,52,0;26,36,54,0;27,36,56,0;28,36,58,0;29,36,60,0;30,36,62,0;31,36,64,0;32,36,66,0;33,35,67,0;34,33,68,0;35,31,69,0;36,30,70,0;37,28,71,0;38,27,72,0;39,25,73,0;40,23,74,0;41,22,75,0;42,20,76,0;43,19,77,0;44,17,79,0;45,15,80,0;46,14,81,0;47,12,82,0;48,10,83,0;49,9,84,0;50,7,85,0;51,6,86,0;52,4,87,0;53,2,88,0;54,1,89,0;55,0,91,0;56,1,92,0;57,2,94,0;58,2,96,0;59,3,98,0;60,4,100,0;61,5,101,0;62,5,103,0;63,6,105,0;64,7,107,0;65,7,109,0;66,8,109,0;67,9,108,0;68,10,106,0;69,11,104,0;70,12,103,0;71,13,101,0;72,14,99,0;73,15,97,0;74,16,96,0;75,16,94,0;76,17,92,0;77,18,91,0;78,19,89,0;79,20,87,0;80,21,86,0;81,22,84,0;82,24,83,0;83,26,83,0;84,28,82,0;85,29,82,0;86,31,81,0;87,33,80,0;88,35,80,0;89,37,79,0;90,39,79,0;91,40,78,0;92,42,78,0;93,44,77,0;94,46,77,0;95,48,76,0;96,50,75,0;97,52,75,0;98,53,74,0;99,55,74,0;100,57,73,0;101,59,73,0;102,61,72,0;103,62,71,0;104,62,69,0;105,62,67,0;106,62,65,0;107,62,63,0;108,62,62,0;109,62,60,0;110,62,58,0;111,62,56,0;112,62,54,0;113,62,52,0;114,62,50,0;115,62,48,0;116,62,46,0;117,62,44,0;118,62,42,0;119,62,40,0;120,62,38,0;121,62,36,0;122,62,35,0;123,62,33,0;124,62,31,0;125,62,29,0;126,62,27,0;127,62,25,0;128,62,23,0;129,62,21,0;130,62,19,0;131,62,17,0;132,62,15,0;133,62,13,0;134,62,11,0;135,62,9,0;136,62,8,0;137,62,6,0;138,62,4,0;139,62,2,0;140,62,0,0" WorldPosX="-77.250000" WorldPosY="32.500000" WorldPosZ="32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-18" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="19-36" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="37-54" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="55-72" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="73-89" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="90-106" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="107-123" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="124-140" />
+    </model>
+    <model name="HX_037_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6121" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,19,0;3,2,20,0;4,3,21,0;5,4,22,0;6,5,23,0;7,6,24,0;8,7,25,0;9,8,26,0;10,10,27,0;11,11,28,0;12,12,29,0;13,13,30,0;14,14,32,0;15,15,33,0;16,16,34,0;17,17,35,0;18,18,36,0;19,19,35,0;20,19,33,0;21,20,32,0;22,21,31,0;23,21,29,0;24,22,28,0;25,23,27,0;26,23,25,0;27,24,24,0;28,25,23,0;29,25,21,0;30,26,20,0;31,27,18,0;32,27,17,0;33,28,16,0;34,29,14,0;35,29,13,0;36,30,12,0;37,31,10,0;38,31,9,0;39,32,8,0;40,33,6,0;41,33,5,0;42,34,4,0;43,35,2,0;44,35,1,0;45,36,0,0" WorldPosX="-98.500000" WorldPosY="9.000000" WorldPosZ="32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_038_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6256" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="-91.500000" WorldPosY="9.000000" WorldPosZ="32.500000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_039_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6391" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,17,0;3,2,16,0;4,3,15,0;5,4,14,0;6,5,13,0;7,6,11,0;8,7,10,0;9,8,9,0;10,10,8,0;11,11,7,0;12,12,6,0;13,13,5,0;14,14,4,0;15,15,3,0;16,16,2,0;17,17,1,0;18,18,0,0;19,19,1,0;20,19,2,0;21,20,4,0;22,21,5,0;23,21,6,0;24,22,8,0;25,23,9,0;26,23,10,0;27,24,12,0;28,25,13,0;29,25,14,0;30,26,16,0;31,27,17,0;32,27,18,0;33,28,20,0;34,29,21,0;35,29,22,0;36,30,24,0;37,31,25,0;38,31,26,0;39,32,28,0;40,33,29,0;41,33,30,0;42,34,32,0;43,35,33,0;44,35,34,0;45,36,36,0" WorldPosX="-76.500000" WorldPosY="9.000000" WorldPosZ="32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_040_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6526" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="-69.500000" WorldPosY="9.000000" WorldPosZ="32.500000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_041_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6661" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="33" parm3="1" Depth="1" CustomWidth="37" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,36,0;2,31,35,0;3,30,33,0;4,28,32,0;5,27,31,0;6,26,30,0;7,25,29,0;8,24,28,0;9,23,26,0;10,21,25,0;11,20,24,0;12,19,23,0;13,18,22,0;14,17,20,0;15,15,19,0;16,14,18,0;17,13,17,0;18,12,16,0;19,11,15,0;20,10,13,0;21,8,12,0;22,7,11,0;23,6,10,0;24,6,8,0;25,5,7,0;26,4,5,0;27,3,4,0;28,2,3,0;29,1,1,0;30,0,0,0" WorldPosX="-68.500000" WorldPosY="55.000000" WorldPosZ="32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_042_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6751" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="33" parm3="1" Depth="1" CustomWidth="21" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,0,0;2,31,0,0;3,29,1,0;4,28,1,0;5,27,2,0;6,26,2,0;7,24,2,0;8,23,3,0;9,22,3,0;10,20,4,0;11,19,4,0;12,18,5,0;13,16,5,0;14,15,5,0;15,14,6,0;16,13,6,0;17,11,7,0;18,10,7,0;19,9,8,0;20,8,8,0;21,7,10,0;22,6,11,0;23,5,12,0;24,5,13,0;25,4,14,0;26,3,15,0;27,2,16,0;28,2,18,0;29,1,19,0;30,0,20,0" WorldPosX="-54.500000" WorldPosY="55.000000" WorldPosZ="32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_043_DEER_BODY" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6841" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="111" parm2="63" parm3="1" Depth="1" CustomWidth="111" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,36,6,0;2,36,8,0;3,36,10,0;4,36,12,0;5,36,14,0;6,36,16,0;7,36,18,0;8,36,20,0;9,36,21,0;10,36,23,0;11,36,25,0;12,36,27,0;13,36,29,0;14,36,31,0;15,36,33,0;16,36,35,0;17,36,37,0;18,36,39,0;19,36,41,0;20,36,43,0;21,36,45,0;22,36,47,0;23,36,48,0;24,36,50,0;25,36,52,0;26,36,54,0;27,36,56,0;28,36,58,0;29,36,60,0;30,36,62,0;31,36,64,0;32,36,66,0;33,35,67,0;34,33,68,0;35,31,69,0;36,30,70,0;37,28,71,0;38,27,72,0;39,25,73,0;40,23,74,0;41,22,76,0;42,20,77,0;43,19,78,0;44,17,79,0;45,15,80,0;46,14,81,0;47,12,82,0;48,10,83,0;49,9,84,0;50,7,85,0;51,6,86,0;52,4,87,0;53,2,88,0;54,1,89,0;55,0,91,0;56,1,93,0;57,2,94,0;58,2,96,0;59,3,98,0;60,4,100,0;61,5,102,0;62,5,103,0;63,6,105,0;64,7,107,0;65,7,109,0;66,8,110,0;67,9,108,0;68,10,106,0;69,11,104,0;70,12,103,0;71,13,101,0;72,14,99,0;73,15,98,0;74,16,96,0;75,16,94,0;76,17,93,0;77,18,91,0;78,19,89,0;79,20,87,0;80,21,86,0;81,22,84,0;82,24,83,0;83,26,83,0;84,28,82,0;85,29,82,0;86,31,81,0;87,33,81,0;88,35,80,0;89,37,80,0;90,39,79,0;91,40,78,0;92,42,78,0;93,44,77,0;94,46,77,0;95,48,76,0;96,50,76,0;97,52,75,0;98,53,75,0;99,55,74,0;100,57,73,0;101,59,73,0;102,61,72,0;103,62,71,0;104,62,69,0;105,62,68,0;106,62,66,0;107,62,64,0;108,62,62,0;109,62,60,0;110,62,58,0;111,62,56,0;112,62,54,0;113,62,52,0;114,62,50,0;115,62,48,0;116,62,46,0;117,62,44,0;118,62,42,0;119,62,41,0;120,62,39,0;121,62,37,0;122,62,35,0;123,62,33,0;124,62,31,0;125,62,29,0;126,62,27,0;127,62,25,0;128,62,23,0;129,62,21,0;130,62,19,0;131,62,17,0;132,62,15,0;133,62,14,0;134,62,12,0;135,62,10,0;136,62,8,0;137,62,6,0;138,62,4,0;139,62,2,0;140,62,0,0" WorldPosX="-90.500000" WorldPosY="32.500000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-18" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="19-36" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="37-54" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="55-72" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="73-89" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="90-106" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="107-123" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="124-140" />
+    </model>
+    <model name="HX_044_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7261" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="-112.000000" WorldPosY="9.000000" WorldPosZ="0.000000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_045_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7396" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,17,0;3,2,16,0;4,3,15,0;5,4,14,0;6,5,13,0;7,6,12,0;8,7,11,0;9,8,10,0;10,10,8,0;11,11,7,0;12,12,6,0;13,13,5,0;14,14,4,0;15,15,3,0;16,16,2,0;17,17,1,0;18,18,0,0;19,19,1,0;20,19,3,0;21,20,4,0;22,21,5,0;23,21,7,0;24,22,8,0;25,23,9,0;26,23,11,0;27,24,12,0;28,25,13,0;29,25,15,0;30,26,16,0;31,27,17,0;32,27,19,0;33,28,20,0;34,29,21,0;35,29,23,0;36,30,24,0;37,31,25,0;38,31,27,0;39,32,28,0;40,33,29,0;41,33,31,0;42,34,32,0;43,35,33,0;44,35,35,0;45,36,36,0" WorldPosX="-105.000000" WorldPosY="9.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_046_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7531" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="-90.000000" WorldPosY="9.000000" WorldPosZ="0.000000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_047_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7666" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,19,0;3,2,20,0;4,3,21,0;5,4,22,0;6,5,23,0;7,6,24,0;8,7,25,0;9,8,26,0;10,10,28,0;11,11,29,0;12,12,30,0;13,13,31,0;14,14,32,0;15,15,33,0;16,16,34,0;17,17,35,0;18,18,36,0;19,19,35,0;20,19,33,0;21,20,32,0;22,21,31,0;23,21,29,0;24,22,28,0;25,23,27,0;26,23,25,0;27,24,24,0;28,25,23,0;29,25,21,0;30,26,20,0;31,27,19,0;32,27,17,0;33,28,16,0;34,29,15,0;35,29,13,0;36,30,12,0;37,31,11,0;38,31,9,0;39,32,8,0;40,33,7,0;41,33,5,0;42,34,4,0;43,35,3,0;44,35,1,0;45,36,0,0" WorldPosX="-83.000000" WorldPosY="9.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_048_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7801" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="33" parm3="1" Depth="1" CustomWidth="37" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,36,0;2,31,35,0;3,30,34,0;4,28,32,0;5,27,31,0;6,26,30,0;7,25,29,0;8,24,28,0;9,23,27,0;10,21,25,0;11,20,24,0;12,19,23,0;13,18,22,0;14,17,21,0;15,15,19,0;16,14,18,0;17,13,17,0;18,12,16,0;19,11,15,0;20,10,14,0;21,8,12,0;22,7,11,0;23,6,10,0;24,6,8,0;25,5,7,0;26,4,6,0;27,3,4,0;28,2,3,0;29,1,1,0;30,0,0,0" WorldPosX="-82.000000" WorldPosY="55.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_049_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7891" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="33" parm3="1" Depth="1" CustomWidth="21" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,0,0;2,31,0,0;3,29,1,0;4,28,1,0;5,27,2,0;6,26,2,0;7,24,3,0;8,23,3,0;9,22,3,0;10,20,4,0;11,19,4,0;12,18,5,0;13,16,5,0;14,15,6,0;15,14,6,0;16,13,6,0;17,11,7,0;18,10,7,0;19,9,8,0;20,8,9,0;21,7,10,0;22,6,11,0;23,5,12,0;24,5,13,0;25,4,14,0;26,3,15,0;27,2,17,0;28,2,18,0;29,1,19,0;30,0,20,0" WorldPosX="-68.000000" WorldPosY="55.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_050_DEER_BODY" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7981" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="110" parm2="63" parm3="1" Depth="1" CustomWidth="110" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,36,6,0;2,36,8,0;3,36,10,0;4,36,12,0;5,36,14,0;6,36,15,0;7,36,17,0;8,36,19,0;9,36,21,0;10,36,23,0;11,36,25,0;12,36,27,0;13,36,29,0;14,36,31,0;15,36,33,0;16,36,35,0;17,36,37,0;18,36,39,0;19,36,41,0;20,36,42,0;21,36,44,0;22,36,46,0;23,36,48,0;24,36,50,0;25,36,52,0;26,36,54,0;27,36,56,0;28,36,58,0;29,36,60,0;30,36,62,0;31,36,64,0;32,36,66,0;33,35,67,0;34,33,68,0;35,31,69,0;36,30,70,0;37,28,71,0;38,27,72,0;39,25,73,0;40,23,74,0;41,22,75,0;42,20,76,0;43,19,77,0;44,17,79,0;45,15,80,0;46,14,81,0;47,12,82,0;48,10,83,0;49,9,84,0;50,7,85,0;51,6,86,0;52,4,87,0;53,2,88,0;54,1,89,0;55,0,91,0;56,1,92,0;57,2,94,0;58,2,96,0;59,3,98,0;60,4,100,0;61,5,101,0;62,5,103,0;63,6,105,0;64,7,107,0;65,7,109,0;66,8,109,0;67,9,108,0;68,10,106,0;69,11,104,0;70,12,103,0;71,13,101,0;72,14,99,0;73,15,97,0;74,16,96,0;75,16,94,0;76,17,92,0;77,18,91,0;78,19,89,0;79,20,87,0;80,21,86,0;81,22,84,0;82,24,83,0;83,26,83,0;84,28,82,0;85,29,82,0;86,31,81,0;87,33,80,0;88,35,80,0;89,37,79,0;90,39,79,0;91,40,78,0;92,42,78,0;93,44,77,0;94,46,77,0;95,48,76,0;96,50,75,0;97,52,75,0;98,53,74,0;99,55,74,0;100,57,73,0;101,59,73,0;102,61,72,0;103,62,71,0;104,62,69,0;105,62,67,0;106,62,65,0;107,62,63,0;108,62,62,0;109,62,60,0;110,62,58,0;111,62,56,0;112,62,54,0;113,62,52,0;114,62,50,0;115,62,48,0;116,62,46,0;117,62,44,0;118,62,42,0;119,62,40,0;120,62,38,0;121,62,36,0;122,62,35,0;123,62,33,0;124,62,31,0;125,62,29,0;126,62,27,0;127,62,25,0;128,62,23,0;129,62,21,0;130,62,19,0;131,62,17,0;132,62,15,0;133,62,13,0;134,62,11,0;135,62,9,0;136,62,8,0;137,62,6,0;138,62,4,0;139,62,2,0;140,62,0,0" WorldPosX="-77.250000" WorldPosY="32.500000" WorldPosZ="-32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-18" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="19-36" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="37-54" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="55-72" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="73-89" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="90-106" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="107-123" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="124-140" />
+    </model>
+    <model name="HX_051_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8401" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,17,0;3,2,16,0;4,3,15,0;5,4,14,0;6,5,13,0;7,6,11,0;8,7,10,0;9,8,9,0;10,10,8,0;11,11,7,0;12,12,6,0;13,13,5,0;14,14,4,0;15,15,3,0;16,16,2,0;17,17,1,0;18,18,0,0;19,19,1,0;20,19,2,0;21,20,4,0;22,21,5,0;23,21,6,0;24,22,8,0;25,23,9,0;26,23,10,0;27,24,12,0;28,25,13,0;29,25,14,0;30,26,16,0;31,27,17,0;32,27,18,0;33,28,20,0;34,29,21,0;35,29,22,0;36,30,24,0;37,31,25,0;38,31,26,0;39,32,28,0;40,33,29,0;41,33,30,0;42,34,32,0;43,35,33,0;44,35,34,0;45,36,36,0" WorldPosX="-98.500000" WorldPosY="9.000000" WorldPosZ="-32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_052_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8536" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="-91.500000" WorldPosY="9.000000" WorldPosZ="-32.500000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_053_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8671" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,19,0;3,2,20,0;4,3,21,0;5,4,22,0;6,5,23,0;7,6,24,0;8,7,25,0;9,8,26,0;10,10,27,0;11,11,28,0;12,12,29,0;13,13,30,0;14,14,32,0;15,15,33,0;16,16,34,0;17,17,35,0;18,18,36,0;19,19,35,0;20,19,33,0;21,20,32,0;22,21,31,0;23,21,29,0;24,22,28,0;25,23,27,0;26,23,25,0;27,24,24,0;28,25,23,0;29,25,21,0;30,26,20,0;31,27,18,0;32,27,17,0;33,28,16,0;34,29,14,0;35,29,13,0;36,30,12,0;37,31,10,0;38,31,9,0;39,32,8,0;40,33,6,0;41,33,5,0;42,34,4,0;43,35,2,0;44,35,1,0;45,36,0,0" WorldPosX="-76.500000" WorldPosY="9.000000" WorldPosZ="-32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_054_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8806" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="-69.500000" WorldPosY="9.000000" WorldPosZ="-32.500000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_055_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8941" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="33" parm3="1" Depth="1" CustomWidth="37" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,36,0;2,31,35,0;3,30,33,0;4,28,32,0;5,27,31,0;6,26,30,0;7,25,29,0;8,24,28,0;9,23,26,0;10,21,25,0;11,20,24,0;12,19,23,0;13,18,22,0;14,17,20,0;15,15,19,0;16,14,18,0;17,13,17,0;18,12,16,0;19,11,15,0;20,10,13,0;21,8,12,0;22,7,11,0;23,6,10,0;24,6,8,0;25,5,7,0;26,4,5,0;27,3,4,0;28,2,3,0;29,1,1,0;30,0,0,0" WorldPosX="-68.500000" WorldPosY="55.000000" WorldPosZ="-32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_056_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9031" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="33" parm3="1" Depth="1" CustomWidth="21" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,0,0;2,31,0,0;3,29,1,0;4,28,1,0;5,27,2,0;6,26,2,0;7,24,2,0;8,23,3,0;9,22,3,0;10,20,4,0;11,19,4,0;12,18,5,0;13,16,5,0;14,15,5,0;15,14,6,0;16,13,6,0;17,11,7,0;18,10,7,0;19,9,8,0;20,8,8,0;21,7,10,0;22,6,11,0;23,5,12,0;24,5,13,0;25,4,14,0;26,3,15,0;27,2,16,0;28,2,18,0;29,1,19,0;30,0,20,0" WorldPosX="-54.500000" WorldPosY="55.000000" WorldPosZ="-32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_057_DEER_BODY" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9121" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="111" parm2="63" parm3="1" Depth="1" CustomWidth="111" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,36,6,0;2,36,8,0;3,36,10,0;4,36,12,0;5,36,14,0;6,36,16,0;7,36,18,0;8,36,20,0;9,36,21,0;10,36,23,0;11,36,25,0;12,36,27,0;13,36,29,0;14,36,31,0;15,36,33,0;16,36,35,0;17,36,37,0;18,36,39,0;19,36,41,0;20,36,43,0;21,36,45,0;22,36,47,0;23,36,48,0;24,36,50,0;25,36,52,0;26,36,54,0;27,36,56,0;28,36,58,0;29,36,60,0;30,36,62,0;31,36,64,0;32,36,66,0;33,35,67,0;34,33,68,0;35,31,69,0;36,30,70,0;37,28,71,0;38,27,72,0;39,25,73,0;40,23,74,0;41,22,76,0;42,20,77,0;43,19,78,0;44,17,79,0;45,15,80,0;46,14,81,0;47,12,82,0;48,10,83,0;49,9,84,0;50,7,85,0;51,6,86,0;52,4,87,0;53,2,88,0;54,1,89,0;55,0,91,0;56,1,93,0;57,2,94,0;58,2,96,0;59,3,98,0;60,4,100,0;61,5,102,0;62,5,103,0;63,6,105,0;64,7,107,0;65,7,109,0;66,8,110,0;67,9,108,0;68,10,106,0;69,11,104,0;70,12,103,0;71,13,101,0;72,14,99,0;73,15,98,0;74,16,96,0;75,16,94,0;76,17,93,0;77,18,91,0;78,19,89,0;79,20,87,0;80,21,86,0;81,22,84,0;82,24,83,0;83,26,83,0;84,28,82,0;85,29,82,0;86,31,81,0;87,33,81,0;88,35,80,0;89,37,80,0;90,39,79,0;91,40,78,0;92,42,78,0;93,44,77,0;94,46,77,0;95,48,76,0;96,50,76,0;97,52,75,0;98,53,75,0;99,55,74,0;100,57,73,0;101,59,73,0;102,61,72,0;103,62,71,0;104,62,69,0;105,62,68,0;106,62,66,0;107,62,64,0;108,62,62,0;109,62,60,0;110,62,58,0;111,62,56,0;112,62,54,0;113,62,52,0;114,62,50,0;115,62,48,0;116,62,46,0;117,62,44,0;118,62,42,0;119,62,41,0;120,62,39,0;121,62,37,0;122,62,35,0;123,62,33,0;124,62,31,0;125,62,29,0;126,62,27,0;127,62,25,0;128,62,23,0;129,62,21,0;130,62,19,0;131,62,17,0;132,62,15,0;133,62,14,0;134,62,12,0;135,62,10,0;136,62,8,0;137,62,6,0;138,62,4,0;139,62,2,0;140,62,0,0" WorldPosX="-40.500000" WorldPosY="32.500000" WorldPosZ="-56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-18" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="19-36" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="37-54" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="55-72" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="73-89" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="90-106" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="107-123" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="124-140" />
+    </model>
+    <model name="HX_058_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9541" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="-62.000000" WorldPosY="9.000000" WorldPosZ="-56.250000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_059_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9676" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,19,0;3,2,20,0;4,3,21,0;5,4,22,0;6,5,23,0;7,6,24,0;8,7,25,0;9,8,26,0;10,10,28,0;11,11,29,0;12,12,30,0;13,13,31,0;14,14,32,0;15,15,33,0;16,16,34,0;17,17,35,0;18,18,36,0;19,19,35,0;20,19,33,0;21,20,32,0;22,21,31,0;23,21,29,0;24,22,28,0;25,23,27,0;26,23,25,0;27,24,24,0;28,25,23,0;29,25,21,0;30,26,20,0;31,27,19,0;32,27,17,0;33,28,16,0;34,29,15,0;35,29,13,0;36,30,12,0;37,31,11,0;38,31,9,0;39,32,8,0;40,33,7,0;41,33,5,0;42,34,4,0;43,35,3,0;44,35,1,0;45,36,0,0" WorldPosX="-55.000000" WorldPosY="9.000000" WorldPosZ="-56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_060_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9811" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="-40.000000" WorldPosY="9.000000" WorldPosZ="-56.250000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_061_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9946" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,17,0;3,2,16,0;4,3,15,0;5,4,14,0;6,5,13,0;7,6,12,0;8,7,11,0;9,8,10,0;10,10,8,0;11,11,7,0;12,12,6,0;13,13,5,0;14,14,4,0;15,15,3,0;16,16,2,0;17,17,1,0;18,18,0,0;19,19,1,0;20,19,3,0;21,20,4,0;22,21,5,0;23,21,7,0;24,22,8,0;25,23,9,0;26,23,11,0;27,24,12,0;28,25,13,0;29,25,15,0;30,26,16,0;31,27,17,0;32,27,19,0;33,28,20,0;34,29,21,0;35,29,23,0;36,30,24,0;37,31,25,0;38,31,27,0;39,32,28,0;40,33,29,0;41,33,31,0;42,34,32,0;43,35,33,0;44,35,35,0;45,36,36,0" WorldPosX="-33.000000" WorldPosY="9.000000" WorldPosZ="-56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_062_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10081" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="33" parm3="1" Depth="1" CustomWidth="37" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,36,0;2,31,35,0;3,30,34,0;4,28,32,0;5,27,31,0;6,26,30,0;7,25,29,0;8,24,28,0;9,23,27,0;10,21,25,0;11,20,24,0;12,19,23,0;13,18,22,0;14,17,21,0;15,15,19,0;16,14,18,0;17,13,17,0;18,12,16,0;19,11,15,0;20,10,14,0;21,8,12,0;22,7,11,0;23,6,10,0;24,6,8,0;25,5,7,0;26,4,6,0;27,3,4,0;28,2,3,0;29,1,1,0;30,0,0,0" WorldPosX="-32.000000" WorldPosY="55.000000" WorldPosZ="-56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_063_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10171" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="33" parm3="1" Depth="1" CustomWidth="21" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,0,0;2,31,0,0;3,29,1,0;4,28,1,0;5,27,2,0;6,26,2,0;7,24,3,0;8,23,3,0;9,22,3,0;10,20,4,0;11,19,4,0;12,18,5,0;13,16,5,0;14,15,6,0;15,14,6,0;16,13,6,0;17,11,7,0;18,10,7,0;19,9,8,0;20,8,9,0;21,7,10,0;22,6,11,0;23,5,12,0;24,5,13,0;25,4,14,0;26,3,15,0;27,2,17,0;28,2,18,0;29,1,19,0;30,0,20,0" WorldPosX="-18.000000" WorldPosY="55.000000" WorldPosZ="-56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_064_DEER_BODY" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10261" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="111" parm2="63" parm3="1" Depth="1" CustomWidth="111" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,36,6,0;2,36,8,0;3,36,10,0;4,36,12,0;5,36,14,0;6,36,16,0;7,36,18,0;8,36,20,0;9,36,21,0;10,36,23,0;11,36,25,0;12,36,27,0;13,36,29,0;14,36,31,0;15,36,33,0;16,36,35,0;17,36,37,0;18,36,39,0;19,36,41,0;20,36,43,0;21,36,45,0;22,36,47,0;23,36,48,0;24,36,50,0;25,36,52,0;26,36,54,0;27,36,56,0;28,36,58,0;29,36,60,0;30,36,62,0;31,36,64,0;32,36,66,0;33,35,67,0;34,33,68,0;35,31,69,0;36,30,70,0;37,28,71,0;38,27,72,0;39,25,73,0;40,23,74,0;41,22,76,0;42,20,77,0;43,19,78,0;44,17,79,0;45,15,80,0;46,14,81,0;47,12,82,0;48,10,83,0;49,9,84,0;50,7,85,0;51,6,86,0;52,4,87,0;53,2,88,0;54,1,89,0;55,0,91,0;56,1,93,0;57,2,94,0;58,2,96,0;59,3,98,0;60,4,100,0;61,5,102,0;62,5,103,0;63,6,105,0;64,7,107,0;65,7,109,0;66,8,110,0;67,9,108,0;68,10,106,0;69,11,104,0;70,12,103,0;71,13,101,0;72,14,99,0;73,15,98,0;74,16,96,0;75,16,94,0;76,17,93,0;77,18,91,0;78,19,89,0;79,20,87,0;80,21,86,0;81,22,84,0;82,24,83,0;83,26,83,0;84,28,82,0;85,29,82,0;86,31,81,0;87,33,81,0;88,35,80,0;89,37,80,0;90,39,79,0;91,40,78,0;92,42,78,0;93,44,77,0;94,46,77,0;95,48,76,0;96,50,76,0;97,52,75,0;98,53,75,0;99,55,74,0;100,57,73,0;101,59,73,0;102,61,72,0;103,62,71,0;104,62,69,0;105,62,68,0;106,62,66,0;107,62,64,0;108,62,62,0;109,62,60,0;110,62,58,0;111,62,56,0;112,62,54,0;113,62,52,0;114,62,50,0;115,62,48,0;116,62,46,0;117,62,44,0;118,62,42,0;119,62,41,0;120,62,39,0;121,62,37,0;122,62,35,0;123,62,33,0;124,62,31,0;125,62,29,0;126,62,27,0;127,62,25,0;128,62,23,0;129,62,21,0;130,62,19,0;131,62,17,0;132,62,15,0;133,62,14,0;134,62,12,0;135,62,10,0;136,62,8,0;137,62,6,0;138,62,4,0;139,62,2,0;140,62,0,0" WorldPosX="9.500000" WorldPosY="32.500000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-18" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="19-36" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="37-54" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="55-72" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="73-89" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="90-106" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="107-123" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="124-140" />
+    </model>
+    <model name="HX_065_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10681" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,19,0;3,2,20,0;4,3,21,0;5,4,22,0;6,5,23,0;7,6,24,0;8,7,25,0;9,8,26,0;10,10,28,0;11,11,29,0;12,12,30,0;13,13,31,0;14,14,32,0;15,15,33,0;16,16,34,0;17,17,35,0;18,18,36,0;19,19,35,0;20,19,33,0;21,20,32,0;22,21,31,0;23,21,29,0;24,22,28,0;25,23,27,0;26,23,25,0;27,24,24,0;28,25,23,0;29,25,21,0;30,26,20,0;31,27,19,0;32,27,17,0;33,28,16,0;34,29,15,0;35,29,13,0;36,30,12,0;37,31,11,0;38,31,9,0;39,32,8,0;40,33,7,0;41,33,5,0;42,34,4,0;43,35,3,0;44,35,1,0;45,36,0,0" WorldPosX="-12.000000" WorldPosY="9.000000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_066_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10816" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="-5.000000" WorldPosY="9.000000" WorldPosZ="-65.000000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_067_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10951" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,17,0;3,2,16,0;4,3,15,0;5,4,14,0;6,5,13,0;7,6,12,0;8,7,11,0;9,8,10,0;10,10,8,0;11,11,7,0;12,12,6,0;13,13,5,0;14,14,4,0;15,15,3,0;16,16,2,0;17,17,1,0;18,18,0,0;19,19,1,0;20,19,3,0;21,20,4,0;22,21,5,0;23,21,7,0;24,22,8,0;25,23,9,0;26,23,11,0;27,24,12,0;28,25,13,0;29,25,15,0;30,26,16,0;31,27,17,0;32,27,19,0;33,28,20,0;34,29,21,0;35,29,23,0;36,30,24,0;37,31,25,0;38,31,27,0;39,32,28,0;40,33,29,0;41,33,31,0;42,34,32,0;43,35,33,0;44,35,35,0;45,36,36,0" WorldPosX="10.000000" WorldPosY="9.000000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_068_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11086" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="17.000000" WorldPosY="9.000000" WorldPosZ="-65.000000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_069_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11221" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="33" parm3="1" Depth="1" CustomWidth="37" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,36,0;2,31,35,0;3,30,34,0;4,28,32,0;5,27,31,0;6,26,30,0;7,25,29,0;8,24,28,0;9,23,27,0;10,21,25,0;11,20,24,0;12,19,23,0;13,18,22,0;14,17,21,0;15,15,19,0;16,14,18,0;17,13,17,0;18,12,16,0;19,11,15,0;20,10,14,0;21,8,12,0;22,7,11,0;23,6,10,0;24,6,8,0;25,5,7,0;26,4,6,0;27,3,4,0;28,2,3,0;29,1,1,0;30,0,0,0" WorldPosX="18.000000" WorldPosY="55.000000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_070_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11311" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="33" parm3="1" Depth="1" CustomWidth="21" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,0,0;2,31,0,0;3,29,1,0;4,28,1,0;5,27,2,0;6,26,2,0;7,24,3,0;8,23,3,0;9,22,3,0;10,20,4,0;11,19,4,0;12,18,5,0;13,16,5,0;14,15,6,0;15,14,6,0;16,13,6,0;17,11,7,0;18,10,7,0;19,9,8,0;20,8,9,0;21,7,10,0;22,6,11,0;23,5,12,0;24,5,13,0;25,4,14,0;26,3,15,0;27,2,17,0;28,2,18,0;29,1,19,0;30,0,20,0" WorldPosX="32.000000" WorldPosY="55.000000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_071_DEER_BODY" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11401" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="111" parm2="63" parm3="1" Depth="1" CustomWidth="111" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,36,6,0;2,36,8,0;3,36,10,0;4,36,12,0;5,36,14,0;6,36,16,0;7,36,18,0;8,36,20,0;9,36,21,0;10,36,23,0;11,36,25,0;12,36,27,0;13,36,29,0;14,36,31,0;15,36,33,0;16,36,35,0;17,36,37,0;18,36,39,0;19,36,41,0;20,36,43,0;21,36,45,0;22,36,47,0;23,36,48,0;24,36,50,0;25,36,52,0;26,36,54,0;27,36,56,0;28,36,58,0;29,36,60,0;30,36,62,0;31,36,64,0;32,36,66,0;33,35,67,0;34,33,68,0;35,31,69,0;36,30,70,0;37,28,71,0;38,27,72,0;39,25,73,0;40,23,74,0;41,22,76,0;42,20,77,0;43,19,78,0;44,17,79,0;45,15,80,0;46,14,81,0;47,12,82,0;48,10,83,0;49,9,84,0;50,7,85,0;51,6,86,0;52,4,87,0;53,2,88,0;54,1,89,0;55,0,91,0;56,1,93,0;57,2,94,0;58,2,96,0;59,3,98,0;60,4,100,0;61,5,102,0;62,5,103,0;63,6,105,0;64,7,107,0;65,7,109,0;66,8,110,0;67,9,108,0;68,10,106,0;69,11,104,0;70,12,103,0;71,13,101,0;72,14,99,0;73,15,98,0;74,16,96,0;75,16,94,0;76,17,93,0;77,18,91,0;78,19,89,0;79,20,87,0;80,21,86,0;81,22,84,0;82,24,83,0;83,26,83,0;84,28,82,0;85,29,82,0;86,31,81,0;87,33,81,0;88,35,80,0;89,37,80,0;90,39,79,0;91,40,78,0;92,42,78,0;93,44,77,0;94,46,77,0;95,48,76,0;96,50,76,0;97,52,75,0;98,53,75,0;99,55,74,0;100,57,73,0;101,59,73,0;102,61,72,0;103,62,71,0;104,62,69,0;105,62,68,0;106,62,66,0;107,62,64,0;108,62,62,0;109,62,60,0;110,62,58,0;111,62,56,0;112,62,54,0;113,62,52,0;114,62,50,0;115,62,48,0;116,62,46,0;117,62,44,0;118,62,42,0;119,62,41,0;120,62,39,0;121,62,37,0;122,62,35,0;123,62,33,0;124,62,31,0;125,62,29,0;126,62,27,0;127,62,25,0;128,62,23,0;129,62,21,0;130,62,19,0;131,62,17,0;132,62,15,0;133,62,14,0;134,62,12,0;135,62,10,0;136,62,8,0;137,62,6,0;138,62,4,0;139,62,2,0;140,62,0,0" WorldPosX="59.500000" WorldPosY="32.500000" WorldPosZ="-56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-18" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="19-36" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="37-54" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="55-72" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="73-89" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="90-106" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="107-123" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="124-140" />
+    </model>
+    <model name="HX_072_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11821" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="38.000000" WorldPosY="9.000000" WorldPosZ="-56.250000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_073_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11956" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,17,0;3,2,16,0;4,3,15,0;5,4,14,0;6,5,13,0;7,6,12,0;8,7,11,0;9,8,10,0;10,10,8,0;11,11,7,0;12,12,6,0;13,13,5,0;14,14,4,0;15,15,3,0;16,16,2,0;17,17,1,0;18,18,0,0;19,19,1,0;20,19,3,0;21,20,4,0;22,21,5,0;23,21,7,0;24,22,8,0;25,23,9,0;26,23,11,0;27,24,12,0;28,25,13,0;29,25,15,0;30,26,16,0;31,27,17,0;32,27,19,0;33,28,20,0;34,29,21,0;35,29,23,0;36,30,24,0;37,31,25,0;38,31,27,0;39,32,28,0;40,33,29,0;41,33,31,0;42,34,32,0;43,35,33,0;44,35,35,0;45,36,36,0" WorldPosX="45.000000" WorldPosY="9.000000" WorldPosZ="-56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_074_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="12091" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="60.000000" WorldPosY="9.000000" WorldPosZ="-56.250000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_075_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="12226" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,19,0;3,2,20,0;4,3,21,0;5,4,22,0;6,5,23,0;7,6,24,0;8,7,25,0;9,8,26,0;10,10,28,0;11,11,29,0;12,12,30,0;13,13,31,0;14,14,32,0;15,15,33,0;16,16,34,0;17,17,35,0;18,18,36,0;19,19,35,0;20,19,33,0;21,20,32,0;22,21,31,0;23,21,29,0;24,22,28,0;25,23,27,0;26,23,25,0;27,24,24,0;28,25,23,0;29,25,21,0;30,26,20,0;31,27,19,0;32,27,17,0;33,28,16,0;34,29,15,0;35,29,13,0;36,30,12,0;37,31,11,0;38,31,9,0;39,32,8,0;40,33,7,0;41,33,5,0;42,34,4,0;43,35,3,0;44,35,1,0;45,36,0,0" WorldPosX="67.000000" WorldPosY="9.000000" WorldPosZ="-56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_076_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="12361" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="33" parm3="1" Depth="1" CustomWidth="37" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,36,0;2,31,35,0;3,30,34,0;4,28,32,0;5,27,31,0;6,26,30,0;7,25,29,0;8,24,28,0;9,23,27,0;10,21,25,0;11,20,24,0;12,19,23,0;13,18,22,0;14,17,21,0;15,15,19,0;16,14,18,0;17,13,17,0;18,12,16,0;19,11,15,0;20,10,14,0;21,8,12,0;22,7,11,0;23,6,10,0;24,6,8,0;25,5,7,0;26,4,6,0;27,3,4,0;28,2,3,0;29,1,1,0;30,0,0,0" WorldPosX="68.000000" WorldPosY="55.000000" WorldPosZ="-56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_077_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="12451" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="33" parm3="1" Depth="1" CustomWidth="21" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,0,0;2,31,0,0;3,29,1,0;4,28,1,0;5,27,2,0;6,26,2,0;7,24,3,0;8,23,3,0;9,22,3,0;10,20,4,0;11,19,4,0;12,18,5,0;13,16,5,0;14,15,6,0;15,14,6,0;16,13,6,0;17,11,7,0;18,10,7,0;19,9,8,0;20,8,9,0;21,7,10,0;22,6,11,0;23,5,12,0;24,5,13,0;25,4,14,0;26,3,15,0;27,2,17,0;28,2,18,0;29,1,19,0;30,0,20,0" WorldPosX="82.000000" WorldPosY="55.000000" WorldPosZ="-56.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_078_DEER_BODY" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="12541" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="111" parm2="63" parm3="1" Depth="1" CustomWidth="111" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,36,6,0;2,36,8,0;3,36,10,0;4,36,12,0;5,36,14,0;6,36,16,0;7,36,18,0;8,36,20,0;9,36,22,0;10,36,24,0;11,36,25,0;12,36,27,0;13,36,29,0;14,36,31,0;15,36,33,0;16,36,35,0;17,36,37,0;18,36,39,0;19,36,41,0;20,36,43,0;21,36,45,0;22,36,47,0;23,36,49,0;24,36,51,0;25,36,52,0;26,36,54,0;27,36,56,0;28,36,58,0;29,36,60,0;30,36,62,0;31,36,64,0;32,36,66,0;33,35,67,0;34,33,68,0;35,31,69,0;36,30,70,0;37,28,71,0;38,27,73,0;39,25,74,0;40,23,75,0;41,22,76,0;42,20,77,0;43,19,78,0;44,17,79,0;45,15,80,0;46,14,81,0;47,12,82,0;48,10,83,0;49,9,84,0;50,7,85,0;51,6,86,0;52,4,87,0;53,2,89,0;54,1,90,0;55,0,91,0;56,1,93,0;57,2,95,0;58,2,96,0;59,3,98,0;60,4,100,0;61,5,102,0;62,5,104,0;63,6,105,0;64,7,107,0;65,7,109,0;66,8,110,0;67,9,108,0;68,10,106,0;69,11,105,0;70,12,103,0;71,13,101,0;72,14,100,0;73,15,98,0;74,16,96,0;75,16,94,0;76,17,93,0;77,18,91,0;78,19,89,0;79,20,88,0;80,21,86,0;81,22,84,0;82,24,84,0;83,26,83,0;84,28,83,0;85,29,82,0;86,31,81,0;87,33,81,0;88,35,80,0;89,37,80,0;90,39,79,0;91,40,79,0;92,42,78,0;93,44,78,0;94,46,77,0;95,48,76,0;96,50,76,0;97,52,75,0;98,53,75,0;99,55,74,0;100,57,74,0;101,59,73,0;102,61,73,0;103,62,72,0;104,62,70,0;105,62,68,0;106,62,66,0;107,62,64,0;108,62,62,0;109,62,60,0;110,62,58,0;111,62,56,0;112,62,54,0;113,62,52,0;114,62,50,0;115,62,48,0;116,62,46,0;117,62,45,0;118,62,43,0;119,62,41,0;120,62,39,0;121,62,37,0;122,62,35,0;123,62,33,0;124,62,31,0;125,62,29,0;126,62,27,0;127,62,25,0;128,62,23,0;129,62,21,0;130,62,19,0;131,62,18,0;132,62,16,0;133,62,14,0;134,62,12,0;135,62,10,0;136,62,8,0;137,62,6,0;138,62,4,0;139,62,2,0;140,62,0,0" WorldPosX="96.000000" WorldPosY="32.500000" WorldPosZ="-32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-18" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="19-36" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="37-54" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="55-72" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="73-89" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="90-106" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="107-123" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="124-140" />
+    </model>
+    <model name="HX_079_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="12961" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,17,0;3,2,16,0;4,3,15,0;5,4,14,0;6,5,13,0;7,6,12,0;8,7,11,0;9,8,10,0;10,10,9,0;11,11,8,0;12,12,7,0;13,13,6,0;14,14,4,0;15,15,3,0;16,16,2,0;17,17,1,0;18,18,0,0;19,19,1,0;20,19,3,0;21,20,4,0;22,21,5,0;23,21,7,0;24,22,8,0;25,23,9,0;26,23,11,0;27,24,12,0;28,25,13,0;29,25,15,0;30,26,16,0;31,27,18,0;32,27,19,0;33,28,20,0;34,29,22,0;35,29,23,0;36,30,24,0;37,31,26,0;38,31,27,0;39,32,28,0;40,33,30,0;41,33,31,0;42,34,32,0;43,35,34,0;44,35,35,0;45,36,36,0" WorldPosX="74.500000" WorldPosY="9.000000" WorldPosZ="-32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_080_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="13096" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="81.500000" WorldPosY="9.000000" WorldPosZ="-32.500000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_081_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="13231" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="37" parm3="1" Depth="1" CustomWidth="37" CustomHeight="37" CustomStrings="1" String1="1" CustomModelCompressed="1,0,18,0;2,1,19,0;3,2,20,0;4,3,21,0;5,4,22,0;6,5,23,0;7,6,25,0;8,7,26,0;9,8,27,0;10,10,28,0;11,11,29,0;12,12,30,0;13,13,31,0;14,14,32,0;15,15,33,0;16,16,34,0;17,17,35,0;18,18,36,0;19,19,35,0;20,19,34,0;21,20,32,0;22,21,31,0;23,21,30,0;24,22,28,0;25,23,27,0;26,23,26,0;27,24,24,0;28,25,23,0;29,25,22,0;30,26,20,0;31,27,19,0;32,27,18,0;33,28,16,0;34,29,15,0;35,29,14,0;36,30,12,0;37,31,11,0;38,31,10,0;39,32,8,0;40,33,7,0;41,33,6,0;42,34,4,0;43,35,3,0;44,35,2,0;45,36,0,0" WorldPosX="96.500000" WorldPosY="9.000000" WorldPosZ="-32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_082_DEER_LEG" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="13366" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="73" parm3="1" Depth="1" CustomWidth="1" CustomHeight="73" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,5,0,0;5,7,0,0;6,8,0,0;7,10,0,0;8,11,0,0;9,13,0,0;10,15,0,0;11,16,0,0;12,18,0,0;13,20,0,0;14,21,0,0;15,23,0,0;16,25,0,0;17,26,0,0;18,28,0,0;19,29,0,0;20,31,0,0;21,33,0,0;22,34,0,0;23,36,0,0;24,38,0,0;25,39,0,0;26,41,0,0;27,43,0,0;28,44,0,0;29,46,0,0;30,47,0,0;31,49,0,0;32,51,0,0;33,52,0,0;34,54,0,0;35,56,0,0;36,57,0,0;37,59,0,0;38,61,0,0;39,62,0,0;40,64,0,0;41,65,0,0;42,67,0,0;43,69,0,0;44,70,0,0;45,72,0,0" WorldPosX="103.500000" WorldPosY="9.000000" WorldPosZ="-32.500000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_083_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="13501" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="37" parm2="33" parm3="1" Depth="1" CustomWidth="37" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,36,0;2,31,35,0;3,30,34,0;4,28,33,0;5,27,31,0;6,26,30,0;7,25,29,0;8,24,28,0;9,23,27,0;10,21,26,0;11,20,24,0;12,19,23,0;13,18,22,0;14,17,21,0;15,15,20,0;16,14,19,0;17,13,17,0;18,12,16,0;19,11,15,0;20,10,14,0;21,8,13,0;22,7,11,0;23,6,10,0;24,6,9,0;25,5,7,0;26,4,6,0;27,3,4,0;28,2,3,0;29,1,2,0;30,0,0,0" WorldPosX="104.500000" WorldPosY="55.000000" WorldPosZ="-32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_084_ANTLER" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="13591" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="33" parm3="1" Depth="1" CustomWidth="21" CustomHeight="33" CustomStrings="1" String1="1" CustomModelCompressed="1,32,0,0;2,31,1,0;3,29,1,0;4,28,2,0;5,27,2,0;6,26,2,0;7,24,3,0;8,23,3,0;9,22,4,0;10,20,4,0;11,19,5,0;12,18,5,0;13,16,5,0;14,15,6,0;15,14,6,0;16,13,7,0;17,11,7,0;18,10,8,0;19,9,8,0;20,8,9,0;21,7,10,0;22,6,11,0;23,5,12,0;24,5,13,0;25,4,15,0;26,3,16,0;27,2,17,0;28,2,18,0;29,1,19,0;30,0,20,0" WorldPosX="118.500000" WorldPosY="55.000000" WorldPosZ="-32.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_085_CAROUSEL_HALO" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="13681" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="481" parm2="1" parm3="1" Depth="321" CustomWidth="481" CustomHeight="1" CustomStrings="1" String1="1" CustomModelCompressed="1,0,480,160;2,0,480,153;3,0,479,147;4,0,478,140;5,0,477,133;6,0,475,127;7,0,472,120;8,0,470,114;9,0,467,107;10,0,463,101;11,0,459,95;12,0,455,89;13,0,450,83;14,0,445,77;15,0,440,71;16,0,434,66;17,0,428,61;18,0,422,55;19,0,415,50;20,0,408,46;21,0,401,41;22,0,393,37;23,0,385,33;24,0,377,29;25,0,369,25;26,0,360,21;27,0,351,18;28,0,342,15;29,0,333,13;30,0,324,10;31,0,314,8;32,0,305,6;33,0,295,4;34,0,285,3;35,0,275,2;36,0,265,1;37,0,255,0;38,0,245,0;39,0,235,0;40,0,225,0;41,0,215,1;42,0,205,2;43,0,195,3;44,0,185,4;45,0,175,6;46,0,166,8;47,0,156,10;48,0,147,13;49,0,138,15;50,0,129,18;51,0,120,21;52,0,111,25;53,0,103,29;54,0,95,33;55,0,87,37;56,0,79,41;57,0,72,46;58,0,65,50;59,0,58,55;60,0,52,61;61,0,46,66;62,0,40,71;63,0,35,77;64,0,30,83;65,0,25,89;66,0,21,95;67,0,17,101;68,0,13,107;69,0,10,114;70,0,8,120;71,0,5,127;72,0,3,133;73,0,2,140;74,0,1,147;75,0,0,153;76,0,0,160;77,0,0,167;78,0,1,173;79,0,2,180;80,0,3,187;81,0,5,193;82,0,8,200;83,0,10,206;84,0,13,213;85,0,17,219;86,0,21,225;87,0,25,231;88,0,30,237;89,0,35,243;90,0,40,249;91,0,46,254;92,0,52,259;93,0,58,265;94,0,65,270;95,0,72,274;96,0,79,279;97,0,87,283;98,0,95,287;99,0,103,291;100,0,111,295;101,0,120,299;102,0,129,302;103,0,138,305;104,0,147,307;105,0,156,310;106,0,166,312;107,0,175,314;108,0,185,316;109,0,195,317;110,0,205,318;111,0,215,319;112,0,225,320;113,0,235,320;114,0,245,320;115,0,255,320;116,0,265,319;117,0,275,318;118,0,285,317;119,0,295,316;120,0,305,314;121,0,314,312;122,0,324,310;123,0,333,307;124,0,342,305;125,0,351,302;126,0,360,299;127,0,369,295;128,0,377,291;129,0,385,287;130,0,393,283;131,0,401,279;132,0,408,274;133,0,415,270;134,0,422,265;135,0,428,259;136,0,434,254;137,0,440,249;138,0,445,243;139,0,450,237;140,0,455,231;141,0,459,225;142,0,463,219;143,0,467,213;144,0,470,206;145,0,472,200;146,0,475,193;147,0,477,187;148,0,478,180;149,0,479,173;150,0,480,167" WorldPosX="0.000000" WorldPosY="85.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_086_CAROUSEL_HALO" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="14131" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="481" parm2="1" parm3="1" Depth="321" CustomWidth="481" CustomHeight="1" CustomStrings="1" String1="1" CustomModelCompressed="1,0,480,160;2,0,480,153;3,0,479,147;4,0,478,140;5,0,477,133;6,0,475,127;7,0,472,120;8,0,470,114;9,0,467,107;10,0,463,101;11,0,459,95;12,0,455,89;13,0,450,83;14,0,445,77;15,0,440,71;16,0,434,66;17,0,428,61;18,0,422,55;19,0,415,50;20,0,408,46;21,0,401,41;22,0,393,37;23,0,385,33;24,0,377,29;25,0,369,25;26,0,360,21;27,0,351,18;28,0,342,15;29,0,333,13;30,0,324,10;31,0,314,8;32,0,305,6;33,0,295,4;34,0,285,3;35,0,275,2;36,0,265,1;37,0,255,0;38,0,245,0;39,0,235,0;40,0,225,0;41,0,215,1;42,0,205,2;43,0,195,3;44,0,185,4;45,0,175,6;46,0,166,8;47,0,156,10;48,0,147,13;49,0,138,15;50,0,129,18;51,0,120,21;52,0,111,25;53,0,103,29;54,0,95,33;55,0,87,37;56,0,79,41;57,0,72,46;58,0,65,50;59,0,58,55;60,0,52,61;61,0,46,66;62,0,40,71;63,0,35,77;64,0,30,83;65,0,25,89;66,0,21,95;67,0,17,101;68,0,13,107;69,0,10,114;70,0,8,120;71,0,5,127;72,0,3,133;73,0,2,140;74,0,1,147;75,0,0,153;76,0,0,160;77,0,0,167;78,0,1,173;79,0,2,180;80,0,3,187;81,0,5,193;82,0,8,200;83,0,10,206;84,0,13,213;85,0,17,219;86,0,21,225;87,0,25,231;88,0,30,237;89,0,35,243;90,0,40,249;91,0,46,254;92,0,52,259;93,0,58,265;94,0,65,270;95,0,72,274;96,0,79,279;97,0,87,283;98,0,95,287;99,0,103,291;100,0,111,295;101,0,120,299;102,0,129,302;103,0,138,305;104,0,147,307;105,0,156,310;106,0,166,312;107,0,175,314;108,0,185,316;109,0,195,317;110,0,205,318;111,0,215,319;112,0,225,320;113,0,235,320;114,0,245,320;115,0,255,320;116,0,265,319;117,0,275,318;118,0,285,317;119,0,295,316;120,0,305,314;121,0,314,312;122,0,324,310;123,0,333,307;124,0,342,305;125,0,351,302;126,0,360,299;127,0,369,295;128,0,377,291;129,0,385,287;130,0,393,283;131,0,401,279;132,0,408,274;133,0,415,270;134,0,422,265;135,0,428,259;136,0,434,254;137,0,440,249;138,0,445,243;139,0,450,237;140,0,455,231;141,0,459,225;142,0,463,219;143,0,467,213;144,0,470,206;145,0,472,200;146,0,475,193;147,0,477,187;148,0,478,180;149,0,479,173;150,0,480,167" WorldPosX="0.000000" WorldPosY="100.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_087_HALO_POST" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="14581" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="201" parm3="1" Depth="1" CustomWidth="1" CustomHeight="201" CustomStrings="1" String1="1" CustomModelCompressed="1,200,0,0;2,198,0,0;3,197,0,0;4,195,0,0;5,193,0,0;6,192,0,0;7,190,0,0;8,188,0,0;9,187,0,0;10,185,0,0;11,183,0,0;12,182,0,0;13,180,0,0;14,178,0,0;15,176,0,0;16,175,0,0;17,173,0,0;18,171,0,0;19,170,0,0;20,168,0,0;21,166,0,0;22,165,0,0;23,163,0,0;24,161,0,0;25,160,0,0;26,158,0,0;27,156,0,0;28,155,0,0;29,153,0,0;30,151,0,0;31,150,0,0;32,148,0,0;33,146,0,0;34,145,0,0;35,143,0,0;36,141,0,0;37,139,0,0;38,138,0,0;39,136,0,0;40,134,0,0;41,133,0,0;42,131,0,0;43,129,0,0;44,128,0,0;45,126,0,0;46,124,0,0;47,123,0,0;48,121,0,0;49,119,0,0;50,118,0,0;51,116,0,0;52,114,0,0;53,113,0,0;54,111,0,0;55,109,0,0;56,108,0,0;57,106,0,0;58,104,0,0;59,103,0,0;60,101,0,0;61,99,0,0;62,97,0,0;63,96,0,0;64,94,0,0;65,92,0,0;66,91,0,0;67,89,0,0;68,87,0,0;69,86,0,0;70,84,0,0;71,82,0,0;72,81,0,0;73,79,0,0;74,77,0,0;75,76,0,0;76,74,0,0;77,72,0,0;78,71,0,0;79,69,0,0;80,67,0,0;81,66,0,0;82,64,0,0;83,62,0,0;84,61,0,0;85,59,0,0;86,57,0,0;87,55,0,0;88,54,0,0;89,52,0,0;90,50,0,0;91,49,0,0;92,47,0,0;93,45,0,0;94,44,0,0;95,42,0,0;96,40,0,0;97,39,0,0;98,37,0,0;99,35,0,0;100,34,0,0;101,32,0,0;102,30,0,0;103,29,0,0;104,27,0,0;105,25,0,0;106,24,0,0;107,22,0,0;108,20,0,0;109,18,0,0;110,17,0,0;111,15,0,0;112,13,0,0;113,12,0,0;114,10,0,0;115,8,0,0;116,7,0,0;117,5,0,0;118,3,0,0;119,2,0,0;120,0,0,0" WorldPosX="-120.000000" WorldPosY="50.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-15" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="16-30" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="31-45" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="46-60" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="61-75" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="76-90" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="91-105" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="106-120" />
+    </model>
+    <model name="HX_088_HALO_POST" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="14941" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="201" parm3="1" Depth="1" CustomWidth="1" CustomHeight="201" CustomStrings="1" String1="1" CustomModelCompressed="1,200,0,0;2,198,0,0;3,197,0,0;4,195,0,0;5,193,0,0;6,192,0,0;7,190,0,0;8,188,0,0;9,187,0,0;10,185,0,0;11,183,0,0;12,182,0,0;13,180,0,0;14,178,0,0;15,176,0,0;16,175,0,0;17,173,0,0;18,171,0,0;19,170,0,0;20,168,0,0;21,166,0,0;22,165,0,0;23,163,0,0;24,161,0,0;25,160,0,0;26,158,0,0;27,156,0,0;28,155,0,0;29,153,0,0;30,151,0,0;31,150,0,0;32,148,0,0;33,146,0,0;34,145,0,0;35,143,0,0;36,141,0,0;37,139,0,0;38,138,0,0;39,136,0,0;40,134,0,0;41,133,0,0;42,131,0,0;43,129,0,0;44,128,0,0;45,126,0,0;46,124,0,0;47,123,0,0;48,121,0,0;49,119,0,0;50,118,0,0;51,116,0,0;52,114,0,0;53,113,0,0;54,111,0,0;55,109,0,0;56,108,0,0;57,106,0,0;58,104,0,0;59,103,0,0;60,101,0,0;61,99,0,0;62,97,0,0;63,96,0,0;64,94,0,0;65,92,0,0;66,91,0,0;67,89,0,0;68,87,0,0;69,86,0,0;70,84,0,0;71,82,0,0;72,81,0,0;73,79,0,0;74,77,0,0;75,76,0,0;76,74,0,0;77,72,0,0;78,71,0,0;79,69,0,0;80,67,0,0;81,66,0,0;82,64,0,0;83,62,0,0;84,61,0,0;85,59,0,0;86,57,0,0;87,55,0,0;88,54,0,0;89,52,0,0;90,50,0,0;91,49,0,0;92,47,0,0;93,45,0,0;94,44,0,0;95,42,0,0;96,40,0,0;97,39,0,0;98,37,0,0;99,35,0,0;100,34,0,0;101,32,0,0;102,30,0,0;103,29,0,0;104,27,0,0;105,25,0,0;106,24,0,0;107,22,0,0;108,20,0,0;109,18,0,0;110,17,0,0;111,15,0,0;112,13,0,0;113,12,0,0;114,10,0,0;115,8,0,0;116,7,0,0;117,5,0,0;118,3,0,0;119,2,0,0;120,0,0,0" WorldPosX="120.000000" WorldPosY="50.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-15" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="16-30" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="31-45" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="46-60" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="61-75" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="76-90" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="91-105" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="106-120" />
+    </model>
+  </models>
+  <modelGroups>
+    <modelGroup name="HX_ALL_PIXELS" models="HX_001_DEER_BODY,HX_002_DEER_LEG,HX_003_DEER_LEG,HX_004_DEER_LEG,HX_005_DEER_LEG,HX_006_ANTLER,HX_007_ANTLER,HX_008_DEER_BODY,HX_009_DEER_LEG,HX_010_DEER_LEG,HX_011_DEER_LEG,HX_012_DEER_LEG,HX_013_ANTLER,HX_014_ANTLER,HX_015_DEER_BODY,HX_016_DEER_LEG,HX_017_DEER_LEG,HX_018_DEER_LEG,HX_019_DEER_LEG,HX_020_ANTLER,HX_021_ANTLER,HX_022_DEER_BODY,HX_023_DEER_LEG,HX_024_DEER_LEG,HX_025_DEER_LEG,HX_026_DEER_LEG,HX_027_ANTLER,HX_028_ANTLER,HX_029_DEER_BODY,HX_030_DEER_LEG,HX_031_DEER_LEG,HX_032_DEER_LEG,HX_033_DEER_LEG,HX_034_ANTLER,HX_035_ANTLER,HX_036_DEER_BODY,HX_037_DEER_LEG,HX_038_DEER_LEG,HX_039_DEER_LEG,HX_040_DEER_LEG,HX_041_ANTLER,HX_042_ANTLER,HX_043_DEER_BODY,HX_044_DEER_LEG,HX_045_DEER_LEG,HX_046_DEER_LEG,HX_047_DEER_LEG,HX_048_ANTLER,HX_049_ANTLER,HX_050_DEER_BODY,HX_051_DEER_LEG,HX_052_DEER_LEG,HX_053_DEER_LEG,HX_054_DEER_LEG,HX_055_ANTLER,HX_056_ANTLER,HX_057_DEER_BODY,HX_058_DEER_LEG,HX_059_DEER_LEG,HX_060_DEER_LEG,HX_061_DEER_LEG,HX_062_ANTLER,HX_063_ANTLER,HX_064_DEER_BODY,HX_065_DEER_LEG,HX_066_DEER_LEG,HX_067_DEER_LEG,HX_068_DEER_LEG,HX_069_ANTLER,HX_070_ANTLER,HX_071_DEER_BODY,HX_072_DEER_LEG,HX_073_DEER_LEG,HX_074_DEER_LEG,HX_075_DEER_LEG,HX_076_ANTLER,HX_077_ANTLER,HX_078_DEER_BODY,HX_079_DEER_LEG,HX_080_DEER_LEG,HX_081_DEER_LEG,HX_082_DEER_LEG,HX_083_ANTLER,HX_084_ANTLER,HX_085_CAROUSEL_HALO,HX_086_CAROUSEL_HALO,HX_087_HALO_POST,HX_088_HALO_POST" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_NATIVE_CUSTOM" models="HX_001_DEER_BODY,HX_002_DEER_LEG,HX_003_DEER_LEG,HX_004_DEER_LEG,HX_005_DEER_LEG,HX_006_ANTLER,HX_007_ANTLER,HX_008_DEER_BODY,HX_009_DEER_LEG,HX_010_DEER_LEG,HX_011_DEER_LEG,HX_012_DEER_LEG,HX_013_ANTLER,HX_014_ANTLER,HX_015_DEER_BODY,HX_016_DEER_LEG,HX_017_DEER_LEG,HX_018_DEER_LEG,HX_019_DEER_LEG,HX_020_ANTLER,HX_021_ANTLER,HX_022_DEER_BODY,HX_023_DEER_LEG,HX_024_DEER_LEG,HX_025_DEER_LEG,HX_026_DEER_LEG,HX_027_ANTLER,HX_028_ANTLER,HX_029_DEER_BODY,HX_030_DEER_LEG,HX_031_DEER_LEG,HX_032_DEER_LEG,HX_033_DEER_LEG,HX_034_ANTLER,HX_035_ANTLER,HX_036_DEER_BODY,HX_037_DEER_LEG,HX_038_DEER_LEG,HX_039_DEER_LEG,HX_040_DEER_LEG,HX_041_ANTLER,HX_042_ANTLER,HX_043_DEER_BODY,HX_044_DEER_LEG,HX_045_DEER_LEG,HX_046_DEER_LEG,HX_047_DEER_LEG,HX_048_ANTLER,HX_049_ANTLER,HX_050_DEER_BODY,HX_051_DEER_LEG,HX_052_DEER_LEG,HX_053_DEER_LEG,HX_054_DEER_LEG,HX_055_ANTLER,HX_056_ANTLER,HX_057_DEER_BODY,HX_058_DEER_LEG,HX_059_DEER_LEG,HX_060_DEER_LEG,HX_061_DEER_LEG,HX_062_ANTLER,HX_063_ANTLER,HX_064_DEER_BODY,HX_065_DEER_LEG,HX_066_DEER_LEG,HX_067_DEER_LEG,HX_068_DEER_LEG,HX_069_ANTLER,HX_070_ANTLER,HX_071_DEER_BODY,HX_072_DEER_LEG,HX_073_DEER_LEG,HX_074_DEER_LEG,HX_075_DEER_LEG,HX_076_ANTLER,HX_077_ANTLER,HX_078_DEER_BODY,HX_079_DEER_LEG,HX_080_DEER_LEG,HX_081_DEER_LEG,HX_082_DEER_LEG,HX_083_ANTLER,HX_084_ANTLER,HX_085_CAROUSEL_HALO,HX_086_CAROUSEL_HALO,HX_087_HALO_POST,HX_088_HALO_POST" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_WHOLE_SHOW" models="HX_001_DEER_BODY,HX_002_DEER_LEG,HX_003_DEER_LEG,HX_004_DEER_LEG,HX_005_DEER_LEG,HX_006_ANTLER,HX_007_ANTLER,HX_008_DEER_BODY,HX_009_DEER_LEG,HX_010_DEER_LEG,HX_011_DEER_LEG,HX_012_DEER_LEG,HX_013_ANTLER,HX_014_ANTLER,HX_015_DEER_BODY,HX_016_DEER_LEG,HX_017_DEER_LEG,HX_018_DEER_LEG,HX_019_DEER_LEG,HX_020_ANTLER,HX_021_ANTLER,HX_022_DEER_BODY,HX_023_DEER_LEG,HX_024_DEER_LEG,HX_025_DEER_LEG,HX_026_DEER_LEG,HX_027_ANTLER,HX_028_ANTLER,HX_029_DEER_BODY,HX_030_DEER_LEG,HX_031_DEER_LEG,HX_032_DEER_LEG,HX_033_DEER_LEG,HX_034_ANTLER,HX_035_ANTLER,HX_036_DEER_BODY,HX_037_DEER_LEG,HX_038_DEER_LEG,HX_039_DEER_LEG,HX_040_DEER_LEG,HX_041_ANTLER,HX_042_ANTLER,HX_043_DEER_BODY,HX_044_DEER_LEG,HX_045_DEER_LEG,HX_046_DEER_LEG,HX_047_DEER_LEG,HX_048_ANTLER,HX_049_ANTLER,HX_050_DEER_BODY,HX_051_DEER_LEG,HX_052_DEER_LEG,HX_053_DEER_LEG,HX_054_DEER_LEG,HX_055_ANTLER,HX_056_ANTLER,HX_057_DEER_BODY,HX_058_DEER_LEG,HX_059_DEER_LEG,HX_060_DEER_LEG,HX_061_DEER_LEG,HX_062_ANTLER,HX_063_ANTLER,HX_064_DEER_BODY,HX_065_DEER_LEG,HX_066_DEER_LEG,HX_067_DEER_LEG,HX_068_DEER_LEG,HX_069_ANTLER,HX_070_ANTLER,HX_071_DEER_BODY,HX_072_DEER_LEG,HX_073_DEER_LEG,HX_074_DEER_LEG,HX_075_DEER_LEG,HX_076_ANTLER,HX_077_ANTLER,HX_078_DEER_BODY,HX_079_DEER_LEG,HX_080_DEER_LEG,HX_081_DEER_LEG,HX_082_DEER_LEG,HX_083_ANTLER,HX_084_ANTLER,HX_085_CAROUSEL_HALO,HX_086_CAROUSEL_HALO,HX_087_HALO_POST,HX_088_HALO_POST" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_HALO" models="HX_085_CAROUSEL_HALO,HX_086_CAROUSEL_HALO" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_00" models="HX_001_DEER_BODY,HX_002_DEER_LEG,HX_003_DEER_LEG,HX_004_DEER_LEG,HX_005_DEER_LEG,HX_006_ANTLER,HX_007_ANTLER" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_01" models="HX_008_DEER_BODY,HX_009_DEER_LEG,HX_010_DEER_LEG,HX_011_DEER_LEG,HX_012_DEER_LEG,HX_013_ANTLER,HX_014_ANTLER" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_02" models="HX_015_DEER_BODY,HX_016_DEER_LEG,HX_017_DEER_LEG,HX_018_DEER_LEG,HX_019_DEER_LEG,HX_020_ANTLER,HX_021_ANTLER" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_03" models="HX_022_DEER_BODY,HX_023_DEER_LEG,HX_024_DEER_LEG,HX_025_DEER_LEG,HX_026_DEER_LEG,HX_027_ANTLER,HX_028_ANTLER" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_04" models="HX_029_DEER_BODY,HX_030_DEER_LEG,HX_031_DEER_LEG,HX_032_DEER_LEG,HX_033_DEER_LEG,HX_034_ANTLER,HX_035_ANTLER" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_05" models="HX_036_DEER_BODY,HX_037_DEER_LEG,HX_038_DEER_LEG,HX_039_DEER_LEG,HX_040_DEER_LEG,HX_041_ANTLER,HX_042_ANTLER" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_06" models="HX_043_DEER_BODY,HX_044_DEER_LEG,HX_045_DEER_LEG,HX_046_DEER_LEG,HX_047_DEER_LEG,HX_048_ANTLER,HX_049_ANTLER" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_07" models="HX_050_DEER_BODY,HX_051_DEER_LEG,HX_052_DEER_LEG,HX_053_DEER_LEG,HX_054_DEER_LEG,HX_055_ANTLER,HX_056_ANTLER" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_08" models="HX_057_DEER_BODY,HX_058_DEER_LEG,HX_059_DEER_LEG,HX_060_DEER_LEG,HX_061_DEER_LEG,HX_062_ANTLER,HX_063_ANTLER" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_09" models="HX_064_DEER_BODY,HX_065_DEER_LEG,HX_066_DEER_LEG,HX_067_DEER_LEG,HX_068_DEER_LEG,HX_069_ANTLER,HX_070_ANTLER" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_10" models="HX_071_DEER_BODY,HX_072_DEER_LEG,HX_073_DEER_LEG,HX_074_DEER_LEG,HX_075_DEER_LEG,HX_076_ANTLER,HX_077_ANTLER" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_11" models="HX_078_DEER_BODY,HX_079_DEER_LEG,HX_080_DEER_LEG,HX_081_DEER_LEG,HX_082_DEER_LEG,HX_083_ANTLER,HX_084_ANTLER" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_SUPPORTS" models="HX_087_HALO_POST,HX_088_HALO_POST" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+  </modelGroups>
+  <view_objects />
+  <effects version="0007" />
+  <views />
+  <palettes />
+  <layoutGroups />
+  <perspectives />
+  <colors />
+  <Viewpoints>
+    <DefaultCamera3D name="DEFAULT3D" is_3d="1" posX="0" posY="0" posZ="0" angleX="19" angleY="22" angleZ="0" distance="-488.30" zoom="1" panx="0" pany="-50.0" panz="25" zoom_corrx="0" zoom_corry="0" />
+    <Camera name="Zoetrope Spiral Carousel overview" is_3d="1" posX="0" posY="0" posZ="0" angleX="19" angleY="22" angleZ="0" distance="-488.30" zoom="1" panx="0" pany="-50.0" panz="25" zoom_corrx="0" zoom_corry="0" />
+  </Viewpoints>
+  <settings>
+    <backgroundBrightness value="0" />
+    <storedLayoutGroup value="All Models" />
+    <LayoutMode3D value="1" />
+    <Display2DCenter0 value="1" />
+    <previewWidth value="480" />
+    <previewHeight value="260" />
+  </settings>
+</xrgb>

@@ -1,0 +1,890 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Hologram Atlas",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 21
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 21,
+  "rgb_pixels": 3130,
+  "channel_count": 9390,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_GLOBE_DEPTH_SLICE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SLICES",
+      "design": "GLOBE DEPTH SLICE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1,
+      "end_channel": 450,
+      "bounds_ft": [
+        [
+          -36.0,
+          44.0,
+          -60.0
+        ],
+        [
+          36.0,
+          116.0,
+          -60.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3296616667451358
+    },
+    {
+      "name": "HX_002_GLOBE_DEPTH_SLICE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SLICES",
+      "design": "GLOBE DEPTH SLICE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 451,
+      "end_channel": 900,
+      "bounds_ft": [
+        [
+          -60.0,
+          20.0,
+          -36.0
+        ],
+        [
+          60.0,
+          140.0,
+          -36.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33725961673122706
+    },
+    {
+      "name": "HX_003_GLOBE_DEPTH_SLICE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SLICES",
+      "design": "GLOBE DEPTH SLICE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 901,
+      "end_channel": 1350,
+      "bounds_ft": [
+        [
+          -69.0,
+          11.0,
+          -12.0
+        ],
+        [
+          69.0,
+          149.0,
+          -12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33682443723631167
+    },
+    {
+      "name": "HX_004_GLOBE_DEPTH_SLICE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SLICES",
+      "design": "GLOBE DEPTH SLICE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1351,
+      "end_channel": 1800,
+      "bounds_ft": [
+        [
+          -69.0,
+          11.0,
+          12.0
+        ],
+        [
+          69.0,
+          149.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33682443723631167
+    },
+    {
+      "name": "HX_005_GLOBE_DEPTH_SLICE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SLICES",
+      "design": "GLOBE DEPTH SLICE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1801,
+      "end_channel": 2250,
+      "bounds_ft": [
+        [
+          -60.0,
+          20.0,
+          36.0
+        ],
+        [
+          60.0,
+          140.0,
+          36.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33725961673122706
+    },
+    {
+      "name": "HX_006_GLOBE_DEPTH_SLICE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SLICES",
+      "design": "GLOBE DEPTH SLICE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 2251,
+      "end_channel": 2700,
+      "bounds_ft": [
+        [
+          -36.0,
+          44.0,
+          60.0
+        ],
+        [
+          36.0,
+          116.0,
+          60.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3296616667451358
+    },
+    {
+      "name": "HX_007_MERIDIAN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MERIDIANS",
+      "design": "MERIDIAN",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 2701,
+      "end_channel": 3240,
+      "bounds_ft": [
+        [
+          -70.0,
+          10.0,
+          0.0
+        ],
+        [
+          70.0,
+          150.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30243489817448915
+    },
+    {
+      "name": "HX_008_MERIDIAN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MERIDIANS",
+      "design": "MERIDIAN",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 3241,
+      "end_channel": 3780,
+      "bounds_ft": [
+        [
+          -60.5,
+          10.0,
+          -35.0
+        ],
+        [
+          60.5,
+          150.0,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3383572407634432
+    },
+    {
+      "name": "HX_009_MERIDIAN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MERIDIANS",
+      "design": "MERIDIAN",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 3781,
+      "end_channel": 4320,
+      "bounds_ft": [
+        [
+          -35.0,
+          10.0,
+          -60.5
+        ],
+        [
+          35.0,
+          150.0,
+          60.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3383572407634396
+    },
+    {
+      "name": "HX_010_MERIDIAN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MERIDIANS",
+      "design": "MERIDIAN",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 4321,
+      "end_channel": 4860,
+      "bounds_ft": [
+        [
+          0.0,
+          10.0,
+          -70.0
+        ],
+        [
+          0.0,
+          150.0,
+          70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30243489817448915
+    },
+    {
+      "name": "HX_011_MERIDIAN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MERIDIANS",
+      "design": "MERIDIAN",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 4861,
+      "end_channel": 5400,
+      "bounds_ft": [
+        [
+          -35.0,
+          10.0,
+          -60.5
+        ],
+        [
+          35.0,
+          150.0,
+          60.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33835724076344725
+    },
+    {
+      "name": "HX_012_MERIDIAN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MERIDIANS",
+      "design": "MERIDIAN",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 5401,
+      "end_channel": 5940,
+      "bounds_ft": [
+        [
+          -60.5,
+          10.0,
+          -35.0
+        ],
+        [
+          60.5,
+          150.0,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3383572407634432
+    },
+    {
+      "name": "HX_013_LATITUDE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LATITUDE",
+      "design": "LATITUDE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 5941,
+      "end_channel": 6390,
+      "bounds_ft": [
+        [
+          -53.5,
+          35.0,
+          -53.5
+        ],
+        [
+          53.5,
+          35.0,
+          53.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3241920688921189
+    },
+    {
+      "name": "HX_014_LATITUDE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LATITUDE",
+      "design": "LATITUDE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 6391,
+      "end_channel": 6840,
+      "bounds_ft": [
+        [
+          -67.0,
+          60.0,
+          -67.0
+        ],
+        [
+          67.0,
+          60.0,
+          67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30602870901326307
+    },
+    {
+      "name": "HX_015_LATITUDE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LATITUDE",
+      "design": "LATITUDE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 6841,
+      "end_channel": 7290,
+      "bounds_ft": [
+        [
+          -70.0,
+          80.0,
+          -70.0
+        ],
+        [
+          70.0,
+          80.0,
+          70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33618981269003845
+    },
+    {
+      "name": "HX_016_LATITUDE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LATITUDE",
+      "design": "LATITUDE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 7291,
+      "end_channel": 7740,
+      "bounds_ft": [
+        [
+          -67.0,
+          100.0,
+          -67.0
+        ],
+        [
+          67.0,
+          100.0,
+          67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30602870901326307
+    },
+    {
+      "name": "HX_017_LATITUDE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LATITUDE",
+      "design": "LATITUDE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 7741,
+      "end_channel": 8190,
+      "bounds_ft": [
+        [
+          -53.5,
+          125.0,
+          -53.5
+        ],
+        [
+          53.5,
+          125.0,
+          53.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3241920688921189
+    },
+    {
+      "name": "HX_018_CONTINENT_CONTOUR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONTINENTS",
+      "design": "CONTINENT CONTOUR",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8191,
+      "end_channel": 8490,
+      "bounds_ft": [
+        [
+          -52.0,
+          88.0,
+          37.0
+        ],
+        [
+          -13.0,
+          127.0,
+          64.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3953599259196848
+    },
+    {
+      "name": "HX_019_CONTINENT_CONTOUR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONTINENTS",
+      "design": "CONTINENT CONTOUR",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8491,
+      "end_channel": 8790,
+      "bounds_ft": [
+        [
+          -37.0,
+          32.0,
+          42.5
+        ],
+        [
+          -10.0,
+          84.0,
+          69.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37038486244014457
+    },
+    {
+      "name": "HX_020_CONTINENT_CONTOUR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONTINENTS",
+      "design": "CONTINENT CONTOUR",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8791,
+      "end_channel": 9090,
+      "bounds_ft": [
+        [
+          9.0,
+          76.0,
+          37.0
+        ],
+        [
+          54.5,
+          127.0,
+          67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37747149624492415
+    },
+    {
+      "name": "HX_021_CONTINENT_CONTOUR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONTINENTS",
+      "design": "CONTINENT CONTOUR",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 9091,
+      "end_channel": 9390,
+      "bounds_ft": [
+        [
+          12.0,
+          50.25,
+          58.5
+        ],
+        [
+          31.0,
+          90.0,
+          67.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1826940627774312
+    }
+  ],
+  "file_prefix": "Hologram_Atlas",
+  "description": "Stacked sparse meshes create a volumetric globe impression with visible depth slices.",
+  "palette": [
+    "#69EFFF",
+    "#FFAB99",
+    "#E5F6FF"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_GLOBE_DEPTH_SLICE",
+      "HX_002_GLOBE_DEPTH_SLICE",
+      "HX_003_GLOBE_DEPTH_SLICE",
+      "HX_004_GLOBE_DEPTH_SLICE",
+      "HX_005_GLOBE_DEPTH_SLICE",
+      "HX_006_GLOBE_DEPTH_SLICE",
+      "HX_007_MERIDIAN",
+      "HX_008_MERIDIAN",
+      "HX_009_MERIDIAN",
+      "HX_010_MERIDIAN",
+      "HX_011_MERIDIAN",
+      "HX_012_MERIDIAN",
+      "HX_013_LATITUDE",
+      "HX_014_LATITUDE",
+      "HX_015_LATITUDE",
+      "HX_016_LATITUDE",
+      "HX_017_LATITUDE",
+      "HX_018_CONTINENT_CONTOUR",
+      "HX_019_CONTINENT_CONTOUR",
+      "HX_020_CONTINENT_CONTOUR",
+      "HX_021_CONTINENT_CONTOUR"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_GLOBE_DEPTH_SLICE",
+      "HX_002_GLOBE_DEPTH_SLICE",
+      "HX_003_GLOBE_DEPTH_SLICE",
+      "HX_004_GLOBE_DEPTH_SLICE",
+      "HX_005_GLOBE_DEPTH_SLICE",
+      "HX_006_GLOBE_DEPTH_SLICE",
+      "HX_007_MERIDIAN",
+      "HX_008_MERIDIAN",
+      "HX_009_MERIDIAN",
+      "HX_010_MERIDIAN",
+      "HX_011_MERIDIAN",
+      "HX_012_MERIDIAN",
+      "HX_013_LATITUDE",
+      "HX_014_LATITUDE",
+      "HX_015_LATITUDE",
+      "HX_016_LATITUDE",
+      "HX_017_LATITUDE",
+      "HX_018_CONTINENT_CONTOUR",
+      "HX_019_CONTINENT_CONTOUR",
+      "HX_020_CONTINENT_CONTOUR",
+      "HX_021_CONTINENT_CONTOUR"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_GLOBE_DEPTH_SLICE",
+      "HX_002_GLOBE_DEPTH_SLICE",
+      "HX_003_GLOBE_DEPTH_SLICE",
+      "HX_004_GLOBE_DEPTH_SLICE",
+      "HX_005_GLOBE_DEPTH_SLICE",
+      "HX_006_GLOBE_DEPTH_SLICE",
+      "HX_007_MERIDIAN",
+      "HX_008_MERIDIAN",
+      "HX_009_MERIDIAN",
+      "HX_010_MERIDIAN",
+      "HX_011_MERIDIAN",
+      "HX_012_MERIDIAN",
+      "HX_013_LATITUDE",
+      "HX_014_LATITUDE",
+      "HX_015_LATITUDE",
+      "HX_016_LATITUDE",
+      "HX_017_LATITUDE",
+      "HX_018_CONTINENT_CONTOUR",
+      "HX_019_CONTINENT_CONTOUR",
+      "HX_020_CONTINENT_CONTOUR",
+      "HX_021_CONTINENT_CONTOUR"
+    ],
+    "HX_ZONE_CONTINENTS": [
+      "HX_018_CONTINENT_CONTOUR",
+      "HX_019_CONTINENT_CONTOUR",
+      "HX_020_CONTINENT_CONTOUR",
+      "HX_021_CONTINENT_CONTOUR"
+    ],
+    "HX_ZONE_LATITUDE": [
+      "HX_013_LATITUDE",
+      "HX_014_LATITUDE",
+      "HX_015_LATITUDE",
+      "HX_016_LATITUDE",
+      "HX_017_LATITUDE"
+    ],
+    "HX_ZONE_MERIDIANS": [
+      "HX_007_MERIDIAN",
+      "HX_008_MERIDIAN",
+      "HX_009_MERIDIAN",
+      "HX_010_MERIDIAN",
+      "HX_011_MERIDIAN",
+      "HX_012_MERIDIAN"
+    ],
+    "HX_ZONE_SLICES": [
+      "HX_001_GLOBE_DEPTH_SLICE",
+      "HX_002_GLOBE_DEPTH_SLICE",
+      "HX_003_GLOBE_DEPTH_SLICE",
+      "HX_004_GLOBE_DEPTH_SLICE",
+      "HX_005_GLOBE_DEPTH_SLICE",
+      "HX_006_GLOBE_DEPTH_SLICE"
+    ]
+  },
+  "group_count": 7,
+  "concept_id": "36",
+  "source_art": "images/35_36.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "36",
+    "name": "Hologram Atlas",
+    "standout": "Stacked sparse meshes create a volumetric globe impression with visible depth slices.",
+    "scene": "A huge atlas-like glowing globe in cyan and silver built from SIX physically separated transparent sparse pixel mesh panels, curved latitude arcs distributed across depths, gold meridian contours and violet points of continents. Sculptural finite layered light globe illusion, panels and side supports subtly visible, grounded dark semicircular base. No true hologram, no solid projection surface, generous black gaps.",
+    "board": 7,
+    "side": "right",
+    "image": "images/35_36.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Stacked sparse meshes create a volumetric globe impression with visible depth slices.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

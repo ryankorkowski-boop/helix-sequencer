@@ -1,0 +1,457 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Cathedral of Echoes",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 10
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 10,
+  "rgb_pixels": 1620,
+  "channel_count": 4860,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "NAVE",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 1,
+      "end_channel": 480,
+      "bounds_ft": [
+        [
+          -72.0,
+          0.0,
+          0.0
+        ],
+        [
+          78.0,
+          144.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32164417500398956
+    },
+    {
+      "name": "HX_002_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "NAVE",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 481,
+      "end_channel": 960,
+      "bounds_ft": [
+        [
+          -65.0,
+          0.0,
+          -24.0
+        ],
+        [
+          59.0,
+          120.0,
+          -24.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35201241689262025
+    },
+    {
+      "name": "HX_003_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "NAVE",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 961,
+      "end_channel": 1440,
+      "bounds_ft": [
+        [
+          -48.5,
+          0.0,
+          -48.0
+        ],
+        [
+          54.5,
+          99.5,
+          -48.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3200595946104454
+    },
+    {
+      "name": "HX_004_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "NAVE",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 1441,
+      "end_channel": 1920,
+      "bounds_ft": [
+        [
+          -46.0,
+          0.0,
+          -72.0
+        ],
+        [
+          40.0,
+          82.5,
+          -72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30994741578919566
+    },
+    {
+      "name": "HX_005_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "NAVE",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 1921,
+      "end_channel": 2400,
+      "bounds_ft": [
+        [
+          -32.5,
+          0.0,
+          -96.0
+        ],
+        [
+          38.5,
+          68.5,
+          -96.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30141934084254324
+    },
+    {
+      "name": "HX_006_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "NAVE",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 2401,
+      "end_channel": 2880,
+      "bounds_ft": [
+        [
+          -32.5,
+          0.0,
+          -120.0
+        ],
+        [
+          26.5,
+          57.0,
+          -120.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3208483429217446
+    },
+    {
+      "name": "HX_007_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "NAVE",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 2881,
+      "end_channel": 3360,
+      "bounds_ft": [
+        [
+          -21.5,
+          0.0,
+          -144.0
+        ],
+        [
+          27.5,
+          47.0,
+          -144.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31263260594935177
+    },
+    {
+      "name": "HX_008_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "NAVE",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 3361,
+      "end_channel": 3840,
+      "bounds_ft": [
+        [
+          -23.5,
+          0.0,
+          -168.0
+        ],
+        [
+          17.5,
+          39.0,
+          -168.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3038512182758634
+    },
+    {
+      "name": "HX_009_PATHWAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "PATHWAY",
+      "kind": "pixel",
+      "nodes": 170,
+      "start_channel": 3841,
+      "end_channel": 4350,
+      "bounds_ft": [
+        [
+          -65.0,
+          0.0,
+          -190.0
+        ],
+        [
+          -13.0,
+          0.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3305675200819836
+    },
+    {
+      "name": "HX_010_PATHWAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "PATHWAY",
+      "kind": "pixel",
+      "nodes": 170,
+      "start_channel": 4351,
+      "end_channel": 4860,
+      "bounds_ft": [
+        [
+          13.0,
+          0.0,
+          -190.0
+        ],
+        [
+          65.0,
+          0.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3305675200819836
+    }
+  ],
+  "file_prefix": "Cathedral_of_Echoes",
+  "description": "Skewed, shrinking pointed arches exaggerate depth and appear to straighten from a chosen entrance view.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_POINTED_ARCH",
+      "HX_002_POINTED_ARCH",
+      "HX_003_POINTED_ARCH",
+      "HX_004_POINTED_ARCH",
+      "HX_005_POINTED_ARCH",
+      "HX_006_POINTED_ARCH",
+      "HX_007_POINTED_ARCH",
+      "HX_008_POINTED_ARCH",
+      "HX_009_PATHWAY",
+      "HX_010_PATHWAY"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_POINTED_ARCH",
+      "HX_002_POINTED_ARCH",
+      "HX_003_POINTED_ARCH",
+      "HX_004_POINTED_ARCH",
+      "HX_005_POINTED_ARCH",
+      "HX_006_POINTED_ARCH",
+      "HX_007_POINTED_ARCH",
+      "HX_008_POINTED_ARCH",
+      "HX_009_PATHWAY",
+      "HX_010_PATHWAY"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_POINTED_ARCH",
+      "HX_002_POINTED_ARCH",
+      "HX_003_POINTED_ARCH",
+      "HX_004_POINTED_ARCH",
+      "HX_005_POINTED_ARCH",
+      "HX_006_POINTED_ARCH",
+      "HX_007_POINTED_ARCH",
+      "HX_008_POINTED_ARCH",
+      "HX_009_PATHWAY",
+      "HX_010_PATHWAY"
+    ],
+    "HX_ZONE_GROUND": [
+      "HX_009_PATHWAY",
+      "HX_010_PATHWAY"
+    ],
+    "HX_ZONE_NAVE": [
+      "HX_001_POINTED_ARCH",
+      "HX_002_POINTED_ARCH",
+      "HX_003_POINTED_ARCH",
+      "HX_004_POINTED_ARCH",
+      "HX_005_POINTED_ARCH",
+      "HX_006_POINTED_ARCH",
+      "HX_007_POINTED_ARCH",
+      "HX_008_POINTED_ARCH"
+    ]
+  },
+  "group_count": 5,
+  "concept_id": "39",
+  "source_art": "images/39_40.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "39",
+    "name": "Cathedral of Echoes",
+    "standout": "Skewed, shrinking pointed arches exaggerate depth and appear to straighten from a chosen entrance view.",
+    "scene": "A dramatic non-building light cathedral corridor: EIGHT finite pointed Gothic arch frames in cyan, silver and violet, progressively smaller and physically skewed at alternating angles but aligned from one entrance viewpoint into an apparently perfectly straight soaring nave. Discrete dark columns, low paired gold pathway outlines, no stone church facade, abundant black negative space; distant tiny helix accent marks the finite rear.",
+    "board": 9,
+    "side": "left",
+    "image": "images/39_40.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Skewed, shrinking pointed arches exaggerate depth and appear to straighten from a chosen entrance view.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

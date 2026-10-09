@@ -1,0 +1,2951 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Helix Caterpillar",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 60
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 60,
+  "rgb_pixels": 4200,
+  "channel_count": 12600,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1,
+      "end_channel": 210,
+      "bounds_ft": [
+        [
+          -80.0,
+          0.0,
+          -13.0
+        ],
+        [
+          -80.0,
+          26.0,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749561633275294,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_002_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 211,
+      "end_channel": 420,
+      "bounds_ft": [
+        [
+          -65.5,
+          1.0,
+          -13.0
+        ],
+        [
+          -65.5,
+          27.0,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3374663730610754,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_003_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 421,
+      "end_channel": 630,
+      "bounds_ft": [
+        [
+          -51.0,
+          1.5,
+          -13.0
+        ],
+        [
+          -51.0,
+          27.5,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3545445119928184,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_004_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 631,
+      "end_channel": 840,
+      "bounds_ft": [
+        [
+          -36.5,
+          2.5,
+          -13.0
+        ],
+        [
+          -36.5,
+          28.5,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3294544374696946,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_005_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 841,
+      "end_channel": 1050,
+      "bounds_ft": [
+        [
+          -22.0,
+          2.5,
+          -13.0
+        ],
+        [
+          -22.0,
+          28.5,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35308400307533333,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_006_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1051,
+      "end_channel": 1260,
+      "bounds_ft": [
+        [
+          -7.5,
+          3.0,
+          -13.0
+        ],
+        [
+          -7.5,
+          29.0,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37296561298506603,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_007_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1261,
+      "end_channel": 1470,
+      "bounds_ft": [
+        [
+          7.5,
+          3.0,
+          -13.0
+        ],
+        [
+          7.5,
+          29.0,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37296561298506603,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_008_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1471,
+      "end_channel": 1680,
+      "bounds_ft": [
+        [
+          22.0,
+          2.5,
+          -13.0
+        ],
+        [
+          22.0,
+          28.5,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.353084003075337,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_009_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1681,
+      "end_channel": 1890,
+      "bounds_ft": [
+        [
+          36.5,
+          2.5,
+          -13.0
+        ],
+        [
+          36.5,
+          28.5,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32945443746969755,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_010_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1891,
+      "end_channel": 2100,
+      "bounds_ft": [
+        [
+          51.0,
+          1.5,
+          -13.0
+        ],
+        [
+          51.0,
+          27.5,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3545445119928184,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_011_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 2101,
+      "end_channel": 2310,
+      "bounds_ft": [
+        [
+          65.5,
+          1.0,
+          -13.0
+        ],
+        [
+          65.5,
+          27.0,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3374663730610735,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_012_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 2311,
+      "end_channel": 2520,
+      "bounds_ft": [
+        [
+          80.0,
+          0.0,
+          -13.0
+        ],
+        [
+          80.0,
+          26.0,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749561633275306,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_013_CATERPILLAR_HEAD",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "CATERPILLAR HEAD",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 2521,
+      "end_channel": 2970,
+      "bounds_ft": [
+        [
+          80.0,
+          2.0,
+          -15.0
+        ],
+        [
+          80.0,
+          32.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3053489534601714,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_014_ANTENNA",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "ANTENNA",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 2971,
+      "end_channel": 3060,
+      "bounds_ft": [
+        [
+          80.0,
+          25.0,
+          -15.0
+        ],
+        [
+          90.0,
+          42.0,
+          -7.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3701881129928251,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_015_ANTENNA",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "ANTENNA",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 3061,
+      "end_channel": 3150,
+      "bounds_ft": [
+        [
+          80.0,
+          25.0,
+          7.0
+        ],
+        [
+          90.0,
+          42.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3701881129928251,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_016_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 3151,
+      "end_channel": 3360,
+      "bounds_ft": [
+        [
+          -55.0,
+          0.0,
+          -10.0
+        ],
+        [
+          -55.0,
+          26.0,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749561633275294,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_017_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 3361,
+      "end_channel": 3570,
+      "bounds_ft": [
+        [
+          -45.0,
+          5.0,
+          -10.0
+        ],
+        [
+          -45.0,
+          31.0,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3257588386777114,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_018_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 3571,
+      "end_channel": 3780,
+      "bounds_ft": [
+        [
+          -35.0,
+          9.5,
+          -10.0
+        ],
+        [
+          -35.0,
+          35.5,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30077809778707,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_019_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 3781,
+      "end_channel": 3990,
+      "bounds_ft": [
+        [
+          -25.0,
+          13.5,
+          -10.0
+        ],
+        [
+          -25.0,
+          39.5,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33007000455541713,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_020_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 3991,
+      "end_channel": 4200,
+      "bounds_ft": [
+        [
+          -15.0,
+          16.5,
+          -10.0
+        ],
+        [
+          -15.0,
+          42.5,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3459945740775028,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_021_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 4201,
+      "end_channel": 4410,
+      "bounds_ft": [
+        [
+          -5.0,
+          18.0,
+          -10.0
+        ],
+        [
+          -5.0,
+          44.0,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31626417294893916,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_022_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 4411,
+      "end_channel": 4620,
+      "bounds_ft": [
+        [
+          5.0,
+          18.0,
+          -10.0
+        ],
+        [
+          5.0,
+          44.0,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31626417294893383,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_023_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 4621,
+      "end_channel": 4830,
+      "bounds_ft": [
+        [
+          15.0,
+          16.5,
+          -10.0
+        ],
+        [
+          15.0,
+          42.5,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3459945740775028,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_024_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 4831,
+      "end_channel": 5040,
+      "bounds_ft": [
+        [
+          25.0,
+          13.5,
+          -10.0
+        ],
+        [
+          25.0,
+          39.5,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33007000455541713,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_025_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 5041,
+      "end_channel": 5250,
+      "bounds_ft": [
+        [
+          35.0,
+          9.5,
+          -10.0
+        ],
+        [
+          35.0,
+          35.5,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3007780977870649,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_026_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 5251,
+      "end_channel": 5460,
+      "bounds_ft": [
+        [
+          45.0,
+          5.0,
+          -10.0
+        ],
+        [
+          45.0,
+          31.0,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3257588386777114,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_027_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 5461,
+      "end_channel": 5670,
+      "bounds_ft": [
+        [
+          55.0,
+          0.0,
+          -10.0
+        ],
+        [
+          55.0,
+          26.0,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.27495616332753636,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_028_CATERPILLAR_HEAD",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "CATERPILLAR HEAD",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 5671,
+      "end_channel": 6120,
+      "bounds_ft": [
+        [
+          55.0,
+          2.0,
+          -12.0
+        ],
+        [
+          55.0,
+          32.0,
+          18.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3053489534601714,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_029_ANTENNA",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "ANTENNA",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 6121,
+      "end_channel": 6210,
+      "bounds_ft": [
+        [
+          55.0,
+          25.0,
+          -12.0
+        ],
+        [
+          65.0,
+          42.0,
+          -4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3701881129928251,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_030_ANTENNA",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "ANTENNA",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 6211,
+      "end_channel": 6300,
+      "bounds_ft": [
+        [
+          55.0,
+          25.0,
+          10.0
+        ],
+        [
+          65.0,
+          42.0,
+          18.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3701881129928251,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_031_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 6301,
+      "end_channel": 6510,
+      "bounds_ft": [
+        [
+          -42.5,
+          0.0,
+          -7.0
+        ],
+        [
+          -42.5,
+          26.0,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749561633275294,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_032_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 6511,
+      "end_channel": 6720,
+      "bounds_ft": [
+        [
+          -31.0,
+          1.0,
+          -7.0
+        ],
+        [
+          -31.0,
+          27.0,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3611266793894249,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_033_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 6721,
+      "end_channel": 6930,
+      "bounds_ft": [
+        [
+          -20.0,
+          1.5,
+          -7.0
+        ],
+        [
+          -20.0,
+          27.5,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.41120583742973676,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_034_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 6931,
+      "end_channel": 7140,
+      "bounds_ft": [
+        [
+          -8.5,
+          2.5,
+          -7.0
+        ],
+        [
+          -8.5,
+          28.5,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3133841857147191,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_035_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 7141,
+      "end_channel": 7350,
+      "bounds_ft": [
+        [
+          3.0,
+          2.5,
+          -7.0
+        ],
+        [
+          3.0,
+          28.5,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3060662962341864,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_036_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 7351,
+      "end_channel": 7560,
+      "bounds_ft": [
+        [
+          14.5,
+          3.0,
+          -7.0
+        ],
+        [
+          14.5,
+          29.0,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34714306437981496,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_037_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 7561,
+      "end_channel": 7770,
+      "bounds_ft": [
+        [
+          25.5,
+          3.0,
+          -7.0
+        ],
+        [
+          25.5,
+          29.0,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3471430643798187,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_038_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 7771,
+      "end_channel": 7980,
+      "bounds_ft": [
+        [
+          37.0,
+          2.5,
+          -7.0
+        ],
+        [
+          37.0,
+          28.5,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3060662962341864,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_039_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 7981,
+      "end_channel": 8190,
+      "bounds_ft": [
+        [
+          48.5,
+          2.5,
+          -7.0
+        ],
+        [
+          48.5,
+          28.5,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3133841857147191,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_040_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 8191,
+      "end_channel": 8400,
+      "bounds_ft": [
+        [
+          60.0,
+          1.5,
+          -7.0
+        ],
+        [
+          60.0,
+          27.5,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4112058374297407,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_041_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 8401,
+      "end_channel": 8610,
+      "bounds_ft": [
+        [
+          71.0,
+          1.0,
+          -7.0
+        ],
+        [
+          71.0,
+          27.0,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3611266793894249,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_042_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 8611,
+      "end_channel": 8820,
+      "bounds_ft": [
+        [
+          82.5,
+          0.0,
+          -7.0
+        ],
+        [
+          82.5,
+          26.0,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749561633275306,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_043_CATERPILLAR_HEAD",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "CATERPILLAR HEAD",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 8821,
+      "end_channel": 9270,
+      "bounds_ft": [
+        [
+          82.5,
+          2.0,
+          -9.0
+        ],
+        [
+          82.5,
+          32.0,
+          21.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3053489534601714,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_044_ANTENNA",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "ANTENNA",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 9271,
+      "end_channel": 9360,
+      "bounds_ft": [
+        [
+          82.5,
+          25.0,
+          -9.0
+        ],
+        [
+          92.5,
+          42.0,
+          -1.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37018811299282467,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_045_ANTENNA",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "ANTENNA",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 9361,
+      "end_channel": 9450,
+      "bounds_ft": [
+        [
+          82.5,
+          25.0,
+          13.0
+        ],
+        [
+          92.5,
+          42.0,
+          21.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3701881129928251,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_046_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 9451,
+      "end_channel": 9660,
+      "bounds_ft": [
+        [
+          -62.5,
+          0.0,
+          -4.0
+        ],
+        [
+          -62.5,
+          26.0,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749561633275294,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_047_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 9661,
+      "end_channel": 9870,
+      "bounds_ft": [
+        [
+          -47.5,
+          1.0,
+          -4.0
+        ],
+        [
+          -47.5,
+          27.0,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33439114408805354,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_048_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 9871,
+      "end_channel": 10080,
+      "bounds_ft": [
+        [
+          -32.5,
+          1.5,
+          -4.0
+        ],
+        [
+          -32.5,
+          27.5,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34269133075452596,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_049_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 10081,
+      "end_channel": 10290,
+      "bounds_ft": [
+        [
+          -17.5,
+          2.5,
+          -4.0
+        ],
+        [
+          -17.5,
+          28.5,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2999086278288101,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_050_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 10291,
+      "end_channel": 10500,
+      "bounds_ft": [
+        [
+          -2.5,
+          2.5,
+          -4.0
+        ],
+        [
+          -2.5,
+          28.5,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3026722022056742,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_051_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 10501,
+      "end_channel": 10710,
+      "bounds_ft": [
+        [
+          12.5,
+          3.0,
+          -4.0
+        ],
+        [
+          12.5,
+          29.0,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29572023249574864,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_052_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 10711,
+      "end_channel": 10920,
+      "bounds_ft": [
+        [
+          27.5,
+          3.0,
+          -4.0
+        ],
+        [
+          27.5,
+          29.0,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29572023249574864,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_053_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 10921,
+      "end_channel": 11130,
+      "bounds_ft": [
+        [
+          42.5,
+          2.5,
+          -4.0
+        ],
+        [
+          42.5,
+          28.5,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3026722022056742,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_054_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 11131,
+      "end_channel": 11340,
+      "bounds_ft": [
+        [
+          57.5,
+          2.5,
+          -4.0
+        ],
+        [
+          57.5,
+          28.5,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2999086278288101,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_055_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 11341,
+      "end_channel": 11550,
+      "bounds_ft": [
+        [
+          72.5,
+          1.5,
+          -4.0
+        ],
+        [
+          72.5,
+          27.5,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34269133075452596,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_056_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 11551,
+      "end_channel": 11760,
+      "bounds_ft": [
+        [
+          87.5,
+          1.0,
+          -4.0
+        ],
+        [
+          87.5,
+          27.0,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33439114408805354,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_057_CATERPILLAR_SEGMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR SEGMENT",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 11761,
+      "end_channel": 11970,
+      "bounds_ft": [
+        [
+          102.5,
+          0.0,
+          -4.0
+        ],
+        [
+          102.5,
+          26.0,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749561633275306,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_058_CATERPILLAR_HEAD",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "CATERPILLAR HEAD",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 11971,
+      "end_channel": 12420,
+      "bounds_ft": [
+        [
+          102.5,
+          2.0,
+          -6.0
+        ],
+        [
+          102.5,
+          32.0,
+          24.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3053489534601714,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_059_ANTENNA",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "ANTENNA",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 12421,
+      "end_channel": 12510,
+      "bounds_ft": [
+        [
+          102.5,
+          25.0,
+          -6.0
+        ],
+        [
+          112.5,
+          42.0,
+          2.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37018811299282467,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_060_ANTENNA",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "ANTENNA",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 12511,
+      "end_channel": 12600,
+      "bounds_ft": [
+        [
+          102.5,
+          25.0,
+          16.0
+        ],
+        [
+          112.5,
+          42.0,
+          24.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3701881129928251,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "file_prefix": "Helix_Caterpillar",
+  "description": "Alternating compressed and extended body poses make a helix creature appear to inch through the garden.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_CATERPILLAR_SEGMENT",
+      "HX_002_CATERPILLAR_SEGMENT",
+      "HX_003_CATERPILLAR_SEGMENT",
+      "HX_004_CATERPILLAR_SEGMENT",
+      "HX_005_CATERPILLAR_SEGMENT",
+      "HX_006_CATERPILLAR_SEGMENT",
+      "HX_007_CATERPILLAR_SEGMENT",
+      "HX_008_CATERPILLAR_SEGMENT",
+      "HX_009_CATERPILLAR_SEGMENT",
+      "HX_010_CATERPILLAR_SEGMENT",
+      "HX_011_CATERPILLAR_SEGMENT",
+      "HX_012_CATERPILLAR_SEGMENT",
+      "HX_013_CATERPILLAR_HEAD",
+      "HX_014_ANTENNA",
+      "HX_015_ANTENNA",
+      "HX_016_CATERPILLAR_SEGMENT",
+      "HX_017_CATERPILLAR_SEGMENT",
+      "HX_018_CATERPILLAR_SEGMENT",
+      "HX_019_CATERPILLAR_SEGMENT",
+      "HX_020_CATERPILLAR_SEGMENT",
+      "HX_021_CATERPILLAR_SEGMENT",
+      "HX_022_CATERPILLAR_SEGMENT",
+      "HX_023_CATERPILLAR_SEGMENT",
+      "HX_024_CATERPILLAR_SEGMENT",
+      "HX_025_CATERPILLAR_SEGMENT",
+      "HX_026_CATERPILLAR_SEGMENT",
+      "HX_027_CATERPILLAR_SEGMENT",
+      "HX_028_CATERPILLAR_HEAD",
+      "HX_029_ANTENNA",
+      "HX_030_ANTENNA",
+      "HX_031_CATERPILLAR_SEGMENT",
+      "HX_032_CATERPILLAR_SEGMENT",
+      "HX_033_CATERPILLAR_SEGMENT",
+      "HX_034_CATERPILLAR_SEGMENT",
+      "HX_035_CATERPILLAR_SEGMENT",
+      "HX_036_CATERPILLAR_SEGMENT",
+      "HX_037_CATERPILLAR_SEGMENT",
+      "HX_038_CATERPILLAR_SEGMENT",
+      "HX_039_CATERPILLAR_SEGMENT",
+      "HX_040_CATERPILLAR_SEGMENT",
+      "HX_041_CATERPILLAR_SEGMENT",
+      "HX_042_CATERPILLAR_SEGMENT",
+      "HX_043_CATERPILLAR_HEAD",
+      "HX_044_ANTENNA",
+      "HX_045_ANTENNA",
+      "HX_046_CATERPILLAR_SEGMENT",
+      "HX_047_CATERPILLAR_SEGMENT",
+      "HX_048_CATERPILLAR_SEGMENT",
+      "HX_049_CATERPILLAR_SEGMENT",
+      "HX_050_CATERPILLAR_SEGMENT",
+      "HX_051_CATERPILLAR_SEGMENT",
+      "HX_052_CATERPILLAR_SEGMENT",
+      "HX_053_CATERPILLAR_SEGMENT",
+      "HX_054_CATERPILLAR_SEGMENT",
+      "HX_055_CATERPILLAR_SEGMENT",
+      "HX_056_CATERPILLAR_SEGMENT",
+      "HX_057_CATERPILLAR_SEGMENT",
+      "HX_058_CATERPILLAR_HEAD",
+      "HX_059_ANTENNA",
+      "HX_060_ANTENNA"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_CATERPILLAR_SEGMENT",
+      "HX_002_CATERPILLAR_SEGMENT",
+      "HX_003_CATERPILLAR_SEGMENT",
+      "HX_004_CATERPILLAR_SEGMENT",
+      "HX_005_CATERPILLAR_SEGMENT",
+      "HX_006_CATERPILLAR_SEGMENT",
+      "HX_007_CATERPILLAR_SEGMENT",
+      "HX_008_CATERPILLAR_SEGMENT",
+      "HX_009_CATERPILLAR_SEGMENT",
+      "HX_010_CATERPILLAR_SEGMENT",
+      "HX_011_CATERPILLAR_SEGMENT",
+      "HX_012_CATERPILLAR_SEGMENT",
+      "HX_013_CATERPILLAR_HEAD",
+      "HX_014_ANTENNA",
+      "HX_015_ANTENNA",
+      "HX_016_CATERPILLAR_SEGMENT",
+      "HX_017_CATERPILLAR_SEGMENT",
+      "HX_018_CATERPILLAR_SEGMENT",
+      "HX_019_CATERPILLAR_SEGMENT",
+      "HX_020_CATERPILLAR_SEGMENT",
+      "HX_021_CATERPILLAR_SEGMENT",
+      "HX_022_CATERPILLAR_SEGMENT",
+      "HX_023_CATERPILLAR_SEGMENT",
+      "HX_024_CATERPILLAR_SEGMENT",
+      "HX_025_CATERPILLAR_SEGMENT",
+      "HX_026_CATERPILLAR_SEGMENT",
+      "HX_027_CATERPILLAR_SEGMENT",
+      "HX_028_CATERPILLAR_HEAD",
+      "HX_029_ANTENNA",
+      "HX_030_ANTENNA",
+      "HX_031_CATERPILLAR_SEGMENT",
+      "HX_032_CATERPILLAR_SEGMENT",
+      "HX_033_CATERPILLAR_SEGMENT",
+      "HX_034_CATERPILLAR_SEGMENT",
+      "HX_035_CATERPILLAR_SEGMENT",
+      "HX_036_CATERPILLAR_SEGMENT",
+      "HX_037_CATERPILLAR_SEGMENT",
+      "HX_038_CATERPILLAR_SEGMENT",
+      "HX_039_CATERPILLAR_SEGMENT",
+      "HX_040_CATERPILLAR_SEGMENT",
+      "HX_041_CATERPILLAR_SEGMENT",
+      "HX_042_CATERPILLAR_SEGMENT",
+      "HX_043_CATERPILLAR_HEAD",
+      "HX_044_ANTENNA",
+      "HX_045_ANTENNA",
+      "HX_046_CATERPILLAR_SEGMENT",
+      "HX_047_CATERPILLAR_SEGMENT",
+      "HX_048_CATERPILLAR_SEGMENT",
+      "HX_049_CATERPILLAR_SEGMENT",
+      "HX_050_CATERPILLAR_SEGMENT",
+      "HX_051_CATERPILLAR_SEGMENT",
+      "HX_052_CATERPILLAR_SEGMENT",
+      "HX_053_CATERPILLAR_SEGMENT",
+      "HX_054_CATERPILLAR_SEGMENT",
+      "HX_055_CATERPILLAR_SEGMENT",
+      "HX_056_CATERPILLAR_SEGMENT",
+      "HX_057_CATERPILLAR_SEGMENT",
+      "HX_058_CATERPILLAR_HEAD",
+      "HX_059_ANTENNA",
+      "HX_060_ANTENNA"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_CATERPILLAR_SEGMENT",
+      "HX_002_CATERPILLAR_SEGMENT",
+      "HX_003_CATERPILLAR_SEGMENT",
+      "HX_004_CATERPILLAR_SEGMENT",
+      "HX_005_CATERPILLAR_SEGMENT",
+      "HX_006_CATERPILLAR_SEGMENT",
+      "HX_007_CATERPILLAR_SEGMENT",
+      "HX_008_CATERPILLAR_SEGMENT",
+      "HX_009_CATERPILLAR_SEGMENT",
+      "HX_010_CATERPILLAR_SEGMENT",
+      "HX_011_CATERPILLAR_SEGMENT",
+      "HX_012_CATERPILLAR_SEGMENT",
+      "HX_013_CATERPILLAR_HEAD",
+      "HX_014_ANTENNA",
+      "HX_015_ANTENNA",
+      "HX_016_CATERPILLAR_SEGMENT",
+      "HX_017_CATERPILLAR_SEGMENT",
+      "HX_018_CATERPILLAR_SEGMENT",
+      "HX_019_CATERPILLAR_SEGMENT",
+      "HX_020_CATERPILLAR_SEGMENT",
+      "HX_021_CATERPILLAR_SEGMENT",
+      "HX_022_CATERPILLAR_SEGMENT",
+      "HX_023_CATERPILLAR_SEGMENT",
+      "HX_024_CATERPILLAR_SEGMENT",
+      "HX_025_CATERPILLAR_SEGMENT",
+      "HX_026_CATERPILLAR_SEGMENT",
+      "HX_027_CATERPILLAR_SEGMENT",
+      "HX_028_CATERPILLAR_HEAD",
+      "HX_029_ANTENNA",
+      "HX_030_ANTENNA",
+      "HX_031_CATERPILLAR_SEGMENT",
+      "HX_032_CATERPILLAR_SEGMENT",
+      "HX_033_CATERPILLAR_SEGMENT",
+      "HX_034_CATERPILLAR_SEGMENT",
+      "HX_035_CATERPILLAR_SEGMENT",
+      "HX_036_CATERPILLAR_SEGMENT",
+      "HX_037_CATERPILLAR_SEGMENT",
+      "HX_038_CATERPILLAR_SEGMENT",
+      "HX_039_CATERPILLAR_SEGMENT",
+      "HX_040_CATERPILLAR_SEGMENT",
+      "HX_041_CATERPILLAR_SEGMENT",
+      "HX_042_CATERPILLAR_SEGMENT",
+      "HX_043_CATERPILLAR_HEAD",
+      "HX_044_ANTENNA",
+      "HX_045_ANTENNA",
+      "HX_046_CATERPILLAR_SEGMENT",
+      "HX_047_CATERPILLAR_SEGMENT",
+      "HX_048_CATERPILLAR_SEGMENT",
+      "HX_049_CATERPILLAR_SEGMENT",
+      "HX_050_CATERPILLAR_SEGMENT",
+      "HX_051_CATERPILLAR_SEGMENT",
+      "HX_052_CATERPILLAR_SEGMENT",
+      "HX_053_CATERPILLAR_SEGMENT",
+      "HX_054_CATERPILLAR_SEGMENT",
+      "HX_055_CATERPILLAR_SEGMENT",
+      "HX_056_CATERPILLAR_SEGMENT",
+      "HX_057_CATERPILLAR_SEGMENT",
+      "HX_058_CATERPILLAR_HEAD",
+      "HX_059_ANTENNA",
+      "HX_060_ANTENNA"
+    ],
+    "HX_ZONE_POSE_BODY_00": [
+      "HX_001_CATERPILLAR_SEGMENT",
+      "HX_002_CATERPILLAR_SEGMENT",
+      "HX_003_CATERPILLAR_SEGMENT",
+      "HX_004_CATERPILLAR_SEGMENT",
+      "HX_005_CATERPILLAR_SEGMENT",
+      "HX_006_CATERPILLAR_SEGMENT",
+      "HX_007_CATERPILLAR_SEGMENT",
+      "HX_008_CATERPILLAR_SEGMENT",
+      "HX_009_CATERPILLAR_SEGMENT",
+      "HX_010_CATERPILLAR_SEGMENT",
+      "HX_011_CATERPILLAR_SEGMENT",
+      "HX_012_CATERPILLAR_SEGMENT",
+      "HX_013_CATERPILLAR_HEAD",
+      "HX_014_ANTENNA",
+      "HX_015_ANTENNA"
+    ],
+    "HX_ZONE_POSE_BODY_01": [
+      "HX_016_CATERPILLAR_SEGMENT",
+      "HX_017_CATERPILLAR_SEGMENT",
+      "HX_018_CATERPILLAR_SEGMENT",
+      "HX_019_CATERPILLAR_SEGMENT",
+      "HX_020_CATERPILLAR_SEGMENT",
+      "HX_021_CATERPILLAR_SEGMENT",
+      "HX_022_CATERPILLAR_SEGMENT",
+      "HX_023_CATERPILLAR_SEGMENT",
+      "HX_024_CATERPILLAR_SEGMENT",
+      "HX_025_CATERPILLAR_SEGMENT",
+      "HX_026_CATERPILLAR_SEGMENT",
+      "HX_027_CATERPILLAR_SEGMENT",
+      "HX_028_CATERPILLAR_HEAD",
+      "HX_029_ANTENNA",
+      "HX_030_ANTENNA"
+    ],
+    "HX_ZONE_POSE_BODY_02": [
+      "HX_031_CATERPILLAR_SEGMENT",
+      "HX_032_CATERPILLAR_SEGMENT",
+      "HX_033_CATERPILLAR_SEGMENT",
+      "HX_034_CATERPILLAR_SEGMENT",
+      "HX_035_CATERPILLAR_SEGMENT",
+      "HX_036_CATERPILLAR_SEGMENT",
+      "HX_037_CATERPILLAR_SEGMENT",
+      "HX_038_CATERPILLAR_SEGMENT",
+      "HX_039_CATERPILLAR_SEGMENT",
+      "HX_040_CATERPILLAR_SEGMENT",
+      "HX_041_CATERPILLAR_SEGMENT",
+      "HX_042_CATERPILLAR_SEGMENT",
+      "HX_043_CATERPILLAR_HEAD",
+      "HX_044_ANTENNA",
+      "HX_045_ANTENNA"
+    ],
+    "HX_ZONE_POSE_BODY_03": [
+      "HX_046_CATERPILLAR_SEGMENT",
+      "HX_047_CATERPILLAR_SEGMENT",
+      "HX_048_CATERPILLAR_SEGMENT",
+      "HX_049_CATERPILLAR_SEGMENT",
+      "HX_050_CATERPILLAR_SEGMENT",
+      "HX_051_CATERPILLAR_SEGMENT",
+      "HX_052_CATERPILLAR_SEGMENT",
+      "HX_053_CATERPILLAR_SEGMENT",
+      "HX_054_CATERPILLAR_SEGMENT",
+      "HX_055_CATERPILLAR_SEGMENT",
+      "HX_056_CATERPILLAR_SEGMENT",
+      "HX_057_CATERPILLAR_SEGMENT",
+      "HX_058_CATERPILLAR_HEAD",
+      "HX_059_ANTENNA",
+      "HX_060_ANTENNA"
+    ]
+  },
+  "group_count": 7,
+  "concept_id": "45",
+  "source_art": "images/45_46.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "45",
+    "name": "Helix Caterpillar",
+    "principle": "Cyclic compression",
+    "standout": "Alternating compressed and extended body poses make a helix creature appear to inch through the garden.",
+    "scene": "A cute elongated original caterpillar of mint and warm-gold luminous rib rings across a dark garden path, small illuminated head with two antennae and violet spots. Two rows of discrete static body-pose contours imply compression and extension; ONE coherent caterpillar lit in hero. Four bottom storyboard cells show long body, arched compressed body, head advancing, body stretching forward. Supported low pixel frames; sculpture does not physically crawl.",
+    "board": 2,
+    "side": "left",
+    "image": "images/45_46.png",
+    "status": "awaiting approval",
+    "source_catalog": "showcase/concepts/2026_10_09_stop_motion/concepts.json",
+    "description": "Alternating compressed and extended body poses make a helix creature appear to inch through the garden.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "stop_motion"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

@@ -1,0 +1,1235 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Klein Bottle Lantern",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 30
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 30,
+  "rgb_pixels": 3000,
+  "channel_count": 9000,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 1,
+      "end_channel": 300,
+      "bounds_ft": [
+        [
+          -24.0,
+          10.0,
+          -19.0
+        ],
+        [
+          24.0,
+          10.0,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3334791826889722
+    },
+    {
+      "name": "HX_002_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 301,
+      "end_channel": 600,
+      "bounds_ft": [
+        [
+          -31.0,
+          14.5,
+          -25.0
+        ],
+        [
+          31.0,
+          14.5,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38113526718234875
+    },
+    {
+      "name": "HX_003_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 601,
+      "end_channel": 900,
+      "bounds_ft": [
+        [
+          -38.0,
+          19.5,
+          -30.5
+        ],
+        [
+          38.0,
+          19.5,
+          30.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2957347147668581
+    },
+    {
+      "name": "HX_004_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 901,
+      "end_channel": 1200,
+      "bounds_ft": [
+        [
+          -44.5,
+          24.0,
+          -35.5
+        ],
+        [
+          44.5,
+          24.0,
+          35.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29909655835338866
+    },
+    {
+      "name": "HX_005_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 1201,
+      "end_channel": 1500,
+      "bounds_ft": [
+        [
+          -50.0,
+          29.0,
+          -40.0
+        ],
+        [
+          50.0,
+          29.0,
+          40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34673147159905987
+    },
+    {
+      "name": "HX_006_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 1501,
+      "end_channel": 1800,
+      "bounds_ft": [
+        [
+          -55.0,
+          33.5,
+          -44.0
+        ],
+        [
+          55.0,
+          33.5,
+          44.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32965525404798524
+    },
+    {
+      "name": "HX_007_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 1801,
+      "end_channel": 2100,
+      "bounds_ft": [
+        [
+          -58.0,
+          38.0,
+          -46.5
+        ],
+        [
+          58.0,
+          38.0,
+          46.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.374038636602713
+    },
+    {
+      "name": "HX_008_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 2101,
+      "end_channel": 2400,
+      "bounds_ft": [
+        [
+          -60.5,
+          43.0,
+          -48.5
+        ],
+        [
+          60.5,
+          43.0,
+          48.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3140631698496344
+    },
+    {
+      "name": "HX_009_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 2401,
+      "end_channel": 2700,
+      "bounds_ft": [
+        [
+          -61.0,
+          47.5,
+          -49.0
+        ],
+        [
+          61.0,
+          47.5,
+          49.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31750769020167247
+    },
+    {
+      "name": "HX_010_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 2701,
+      "end_channel": 3000,
+      "bounds_ft": [
+        [
+          -60.0,
+          52.5,
+          -48.0
+        ],
+        [
+          60.0,
+          52.5,
+          48.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34987885977425254
+    },
+    {
+      "name": "HX_011_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 3001,
+      "end_channel": 3300,
+      "bounds_ft": [
+        [
+          -58.0,
+          57.0,
+          -46.5
+        ],
+        [
+          58.0,
+          57.0,
+          46.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2843371091357287
+    },
+    {
+      "name": "HX_012_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 3301,
+      "end_channel": 3600,
+      "bounds_ft": [
+        [
+          -54.5,
+          61.5,
+          -43.5
+        ],
+        [
+          54.5,
+          61.5,
+          43.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35580061952369907
+    },
+    {
+      "name": "HX_013_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 3601,
+      "end_channel": 3900,
+      "bounds_ft": [
+        [
+          -50.0,
+          66.5,
+          -40.0
+        ],
+        [
+          50.0,
+          66.5,
+          40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3429183322276744
+    },
+    {
+      "name": "HX_014_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 3901,
+      "end_channel": 4200,
+      "bounds_ft": [
+        [
+          -44.5,
+          71.0,
+          -35.5
+        ],
+        [
+          44.5,
+          71.0,
+          35.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3416155680366005
+    },
+    {
+      "name": "HX_015_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 4201,
+      "end_channel": 4500,
+      "bounds_ft": [
+        [
+          -38.0,
+          76.0,
+          -30.5
+        ],
+        [
+          38.0,
+          76.0,
+          30.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3247890932660932
+    },
+    {
+      "name": "HX_016_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 4501,
+      "end_channel": 4800,
+      "bounds_ft": [
+        [
+          -31.0,
+          80.5,
+          -24.5
+        ],
+        [
+          31.0,
+          80.5,
+          24.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3233050240278476
+    },
+    {
+      "name": "HX_017_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 4801,
+      "end_channel": 5100,
+      "bounds_ft": [
+        [
+          -11.5,
+          86.0,
+          -9.5
+        ],
+        [
+          12.5,
+          86.0,
+          9.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33216734904901113
+    },
+    {
+      "name": "HX_018_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 5101,
+      "end_channel": 5400,
+      "bounds_ft": [
+        [
+          -2.5,
+          106.0,
+          -8.0
+        ],
+        [
+          21.5,
+          106.0,
+          11.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3969207180227387
+    },
+    {
+      "name": "HX_019_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 5401,
+      "end_channel": 5700,
+      "bounds_ft": [
+        [
+          6.0,
+          123.0,
+          -6.5
+        ],
+        [
+          30.0,
+          123.0,
+          12.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4161965830223081
+    },
+    {
+      "name": "HX_020_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 5701,
+      "end_channel": 6000,
+      "bounds_ft": [
+        [
+          13.5,
+          136.5,
+          -5.0
+        ],
+        [
+          37.5,
+          136.5,
+          14.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36212738485778107
+    },
+    {
+      "name": "HX_021_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 6001,
+      "end_channel": 6300,
+      "bounds_ft": [
+        [
+          19.5,
+          143.5,
+          -3.5
+        ],
+        [
+          43.5,
+          143.5,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.393244587715164
+    },
+    {
+      "name": "HX_022_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 6301,
+      "end_channel": 6600,
+      "bounds_ft": [
+        [
+          23.5,
+          144.5,
+          -2.0
+        ],
+        [
+          47.5,
+          144.5,
+          17.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31434281086694404
+    },
+    {
+      "name": "HX_023_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 6601,
+      "end_channel": 6900,
+      "bounds_ft": [
+        [
+          26.0,
+          138.5,
+          -0.5
+        ],
+        [
+          50.0,
+          138.5,
+          19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3529376502058541
+    },
+    {
+      "name": "HX_024_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 6901,
+      "end_channel": 7200,
+      "bounds_ft": [
+        [
+          25.5,
+          126.5,
+          1.0
+        ],
+        [
+          49.5,
+          126.5,
+          20.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3278157661835089
+    },
+    {
+      "name": "HX_025_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 7201,
+      "end_channel": 7500,
+      "bounds_ft": [
+        [
+          23.5,
+          110.0,
+          2.5
+        ],
+        [
+          47.5,
+          110.0,
+          22.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35928169182226005
+    },
+    {
+      "name": "HX_026_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 7501,
+      "end_channel": 7800,
+      "bounds_ft": [
+        [
+          19.0,
+          90.5,
+          4.5
+        ],
+        [
+          43.0,
+          90.5,
+          23.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3346515763478272
+    },
+    {
+      "name": "HX_027_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 7801,
+      "end_channel": 8100,
+      "bounds_ft": [
+        [
+          13.0,
+          70.5,
+          6.0
+        ],
+        [
+          37.0,
+          70.5,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35698055015810687
+    },
+    {
+      "name": "HX_028_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8101,
+      "end_channel": 8400,
+      "bounds_ft": [
+        [
+          5.5,
+          52.0,
+          7.5
+        ],
+        [
+          29.5,
+          52.0,
+          26.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3232962214269395
+    },
+    {
+      "name": "HX_029_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8401,
+      "end_channel": 8700,
+      "bounds_ft": [
+        [
+          -3.0,
+          37.5,
+          9.0
+        ],
+        [
+          21.0,
+          37.5,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3945160968891126
+    },
+    {
+      "name": "HX_030_BOTTLE_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LANTERN",
+      "design": "BOTTLE RIB",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8701,
+      "end_channel": 9000,
+      "bounds_ft": [
+        [
+          -12.0,
+          28.0,
+          10.5
+        ],
+        [
+          12.0,
+          28.0,
+          29.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29942317933695073
+    }
+  ],
+  "file_prefix": "Klein_Bottle_Lantern",
+  "description": "Depth-separated funnels suggest an impossible self-intersecting bottle while keeping the light frames physically apart.",
+  "palette": [
+    "#FFD277",
+    "#C9A1FF",
+    "#FFF0CF"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_BOTTLE_RIB",
+      "HX_002_BOTTLE_RIB",
+      "HX_003_BOTTLE_RIB",
+      "HX_004_BOTTLE_RIB",
+      "HX_005_BOTTLE_RIB",
+      "HX_006_BOTTLE_RIB",
+      "HX_007_BOTTLE_RIB",
+      "HX_008_BOTTLE_RIB",
+      "HX_009_BOTTLE_RIB",
+      "HX_010_BOTTLE_RIB",
+      "HX_011_BOTTLE_RIB",
+      "HX_012_BOTTLE_RIB",
+      "HX_013_BOTTLE_RIB",
+      "HX_014_BOTTLE_RIB",
+      "HX_015_BOTTLE_RIB",
+      "HX_016_BOTTLE_RIB",
+      "HX_017_BOTTLE_RIB",
+      "HX_018_BOTTLE_RIB",
+      "HX_019_BOTTLE_RIB",
+      "HX_020_BOTTLE_RIB",
+      "HX_021_BOTTLE_RIB",
+      "HX_022_BOTTLE_RIB",
+      "HX_023_BOTTLE_RIB",
+      "HX_024_BOTTLE_RIB",
+      "HX_025_BOTTLE_RIB",
+      "HX_026_BOTTLE_RIB",
+      "HX_027_BOTTLE_RIB",
+      "HX_028_BOTTLE_RIB",
+      "HX_029_BOTTLE_RIB",
+      "HX_030_BOTTLE_RIB"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_BOTTLE_RIB",
+      "HX_002_BOTTLE_RIB",
+      "HX_003_BOTTLE_RIB",
+      "HX_004_BOTTLE_RIB",
+      "HX_005_BOTTLE_RIB",
+      "HX_006_BOTTLE_RIB",
+      "HX_007_BOTTLE_RIB",
+      "HX_008_BOTTLE_RIB",
+      "HX_009_BOTTLE_RIB",
+      "HX_010_BOTTLE_RIB",
+      "HX_011_BOTTLE_RIB",
+      "HX_012_BOTTLE_RIB",
+      "HX_013_BOTTLE_RIB",
+      "HX_014_BOTTLE_RIB",
+      "HX_015_BOTTLE_RIB",
+      "HX_016_BOTTLE_RIB",
+      "HX_017_BOTTLE_RIB",
+      "HX_018_BOTTLE_RIB",
+      "HX_019_BOTTLE_RIB",
+      "HX_020_BOTTLE_RIB",
+      "HX_021_BOTTLE_RIB",
+      "HX_022_BOTTLE_RIB",
+      "HX_023_BOTTLE_RIB",
+      "HX_024_BOTTLE_RIB",
+      "HX_025_BOTTLE_RIB",
+      "HX_026_BOTTLE_RIB",
+      "HX_027_BOTTLE_RIB",
+      "HX_028_BOTTLE_RIB",
+      "HX_029_BOTTLE_RIB",
+      "HX_030_BOTTLE_RIB"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_BOTTLE_RIB",
+      "HX_002_BOTTLE_RIB",
+      "HX_003_BOTTLE_RIB",
+      "HX_004_BOTTLE_RIB",
+      "HX_005_BOTTLE_RIB",
+      "HX_006_BOTTLE_RIB",
+      "HX_007_BOTTLE_RIB",
+      "HX_008_BOTTLE_RIB",
+      "HX_009_BOTTLE_RIB",
+      "HX_010_BOTTLE_RIB",
+      "HX_011_BOTTLE_RIB",
+      "HX_012_BOTTLE_RIB",
+      "HX_013_BOTTLE_RIB",
+      "HX_014_BOTTLE_RIB",
+      "HX_015_BOTTLE_RIB",
+      "HX_016_BOTTLE_RIB",
+      "HX_017_BOTTLE_RIB",
+      "HX_018_BOTTLE_RIB",
+      "HX_019_BOTTLE_RIB",
+      "HX_020_BOTTLE_RIB",
+      "HX_021_BOTTLE_RIB",
+      "HX_022_BOTTLE_RIB",
+      "HX_023_BOTTLE_RIB",
+      "HX_024_BOTTLE_RIB",
+      "HX_025_BOTTLE_RIB",
+      "HX_026_BOTTLE_RIB",
+      "HX_027_BOTTLE_RIB",
+      "HX_028_BOTTLE_RIB",
+      "HX_029_BOTTLE_RIB",
+      "HX_030_BOTTLE_RIB"
+    ],
+    "HX_ZONE_LANTERN": [
+      "HX_001_BOTTLE_RIB",
+      "HX_002_BOTTLE_RIB",
+      "HX_003_BOTTLE_RIB",
+      "HX_004_BOTTLE_RIB",
+      "HX_005_BOTTLE_RIB",
+      "HX_006_BOTTLE_RIB",
+      "HX_007_BOTTLE_RIB",
+      "HX_008_BOTTLE_RIB",
+      "HX_009_BOTTLE_RIB",
+      "HX_010_BOTTLE_RIB",
+      "HX_011_BOTTLE_RIB",
+      "HX_012_BOTTLE_RIB",
+      "HX_013_BOTTLE_RIB",
+      "HX_014_BOTTLE_RIB",
+      "HX_015_BOTTLE_RIB",
+      "HX_016_BOTTLE_RIB",
+      "HX_017_BOTTLE_RIB",
+      "HX_018_BOTTLE_RIB",
+      "HX_019_BOTTLE_RIB",
+      "HX_020_BOTTLE_RIB",
+      "HX_021_BOTTLE_RIB",
+      "HX_022_BOTTLE_RIB",
+      "HX_023_BOTTLE_RIB",
+      "HX_024_BOTTLE_RIB",
+      "HX_025_BOTTLE_RIB",
+      "HX_026_BOTTLE_RIB",
+      "HX_027_BOTTLE_RIB",
+      "HX_028_BOTTLE_RIB",
+      "HX_029_BOTTLE_RIB",
+      "HX_030_BOTTLE_RIB"
+    ]
+  },
+  "group_count": 4,
+  "concept_id": "30",
+  "source_art": "images/29_30.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "30",
+    "name": "Klein Bottle Lantern",
+    "standout": "Depth-separated funnels suggest an impossible self-intersecting bottle while keeping the light frames physically apart.",
+    "scene": "A colossal warm-amber and violet Klein-bottle-like lantern sculpture, open wireframe circular ribs forming a bulbous lower bowl and a curving narrow neck that appears to pass through its own side from the hero camera. Actual intersecting-looking sections offset in depth, dark discrete structural bases, tiny oblique inset reveals clearance between apparent intersections. Static luminous ribs, no solid glass or physically impossible object.",
+    "board": 4,
+    "side": "right",
+    "image": "images/29_30.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Depth-separated funnels suggest an impossible self-intersecting bottle while keeping the light frames physically apart.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

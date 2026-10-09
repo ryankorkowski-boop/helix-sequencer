@@ -1,0 +1,730 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Parallax Helix Gate",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 17
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 17,
+  "rgb_pixels": 1270,
+  "channel_count": 3810,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1,
+      "end_channel": 210,
+      "bounds_ft": [
+        [
+          0.0,
+          10.0,
+          0.0
+        ],
+        [
+          46.0,
+          23.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34440737532462
+    },
+    {
+      "name": "HX_002_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 211,
+      "end_channel": 420,
+      "bounds_ft": [
+        [
+          51.5,
+          25.625,
+          24.0
+        ],
+        [
+          62.0,
+          39.0,
+          24.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.07578827488415274
+    },
+    {
+      "name": "HX_003_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 421,
+      "end_channel": 630,
+      "bounds_ft": [
+        [
+          20.5,
+          41.25,
+          48.0
+        ],
+        [
+          57.25,
+          54.5,
+          48.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1699614981942311
+    },
+    {
+      "name": "HX_004_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 631,
+      "end_channel": 840,
+      "bounds_ft": [
+        [
+          -37.0,
+          57.0,
+          72.0
+        ],
+        [
+          12.0,
+          70.0,
+          72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33704658052760833
+    },
+    {
+      "name": "HX_005_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 841,
+      "end_channel": 1050,
+      "bounds_ft": [
+        [
+          -62.0,
+          72.5,
+          0.0
+        ],
+        [
+          -43.875,
+          85.875,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0798574651895605
+    },
+    {
+      "name": "HX_006_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1051,
+      "end_channel": 1260,
+      "bounds_ft": [
+        [
+          -60.75,
+          88.0,
+          24.0
+        ],
+        [
+          -31.5,
+          101.5,
+          24.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16978091466658302
+    },
+    {
+      "name": "HX_007_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1261,
+      "end_channel": 1470,
+      "bounds_ft": [
+        [
+          -23.5,
+          104.0,
+          48.0
+        ],
+        [
+          27.0,
+          117.0,
+          48.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33726050403817137
+    },
+    {
+      "name": "HX_008_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1471,
+      "end_channel": 1680,
+      "bounds_ft": [
+        [
+          34.5,
+          119.375,
+          72.0
+        ],
+        [
+          61.375,
+          132.75,
+          72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.07815664629869375
+    },
+    {
+      "name": "HX_009_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1681,
+      "end_channel": 1890,
+      "bounds_ft": [
+        [
+          -46.0,
+          10.0,
+          6.0
+        ],
+        [
+          0.0,
+          23.5,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34440737532462
+    },
+    {
+      "name": "HX_010_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1891,
+      "end_channel": 2100,
+      "bounds_ft": [
+        [
+          -62.0,
+          25.625,
+          30.0
+        ],
+        [
+          -51.5,
+          39.0,
+          30.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.07578827488415274
+    },
+    {
+      "name": "HX_011_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 2101,
+      "end_channel": 2310,
+      "bounds_ft": [
+        [
+          -57.25,
+          41.25,
+          54.0
+        ],
+        [
+          -20.5,
+          54.5,
+          54.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16996149819424577
+    },
+    {
+      "name": "HX_012_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 2311,
+      "end_channel": 2520,
+      "bounds_ft": [
+        [
+          -12.0,
+          57.0,
+          78.0
+        ],
+        [
+          37.0,
+          70.0,
+          78.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33704658052760356
+    },
+    {
+      "name": "HX_013_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 2521,
+      "end_channel": 2730,
+      "bounds_ft": [
+        [
+          43.875,
+          72.5,
+          6.0
+        ],
+        [
+          62.0,
+          85.875,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0798574651895605
+    },
+    {
+      "name": "HX_014_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 2731,
+      "end_channel": 2940,
+      "bounds_ft": [
+        [
+          31.5,
+          88.0,
+          30.0
+        ],
+        [
+          60.75,
+          101.5,
+          30.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16978091466657294
+    },
+    {
+      "name": "HX_015_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 2941,
+      "end_channel": 3150,
+      "bounds_ft": [
+        [
+          -27.0,
+          104.0,
+          54.0
+        ],
+        [
+          23.5,
+          117.0,
+          54.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33726050403817376
+    },
+    {
+      "name": "HX_016_DEPTH_HELIX_ARC",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GATE",
+      "design": "DEPTH HELIX ARC",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 3151,
+      "end_channel": 3360,
+      "bounds_ft": [
+        [
+          -61.375,
+          119.375,
+          78.0
+        ],
+        [
+          -34.5,
+          132.75,
+          78.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0781566462986641
+    },
+    {
+      "name": "HX_017_VIEWING_MARKER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "VIEWING MARKER",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 3361,
+      "end_channel": 3810,
+      "bounds_ft": [
+        [
+          -9.0,
+          0.0,
+          111.0
+        ],
+        [
+          9.0,
+          0.0,
+          129.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15787533300411846
+    }
+  ],
+  "file_prefix": "Parallax_Helix_Gate",
+  "description": "Separated arcs align into one monumental double helix from a marked viewing spot, then unravel as you move sideways.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_DEPTH_HELIX_ARC",
+      "HX_002_DEPTH_HELIX_ARC",
+      "HX_003_DEPTH_HELIX_ARC",
+      "HX_004_DEPTH_HELIX_ARC",
+      "HX_005_DEPTH_HELIX_ARC",
+      "HX_006_DEPTH_HELIX_ARC",
+      "HX_007_DEPTH_HELIX_ARC",
+      "HX_008_DEPTH_HELIX_ARC",
+      "HX_009_DEPTH_HELIX_ARC",
+      "HX_010_DEPTH_HELIX_ARC",
+      "HX_011_DEPTH_HELIX_ARC",
+      "HX_012_DEPTH_HELIX_ARC",
+      "HX_013_DEPTH_HELIX_ARC",
+      "HX_014_DEPTH_HELIX_ARC",
+      "HX_015_DEPTH_HELIX_ARC",
+      "HX_016_DEPTH_HELIX_ARC",
+      "HX_017_VIEWING_MARKER"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_DEPTH_HELIX_ARC",
+      "HX_002_DEPTH_HELIX_ARC",
+      "HX_003_DEPTH_HELIX_ARC",
+      "HX_004_DEPTH_HELIX_ARC",
+      "HX_005_DEPTH_HELIX_ARC",
+      "HX_006_DEPTH_HELIX_ARC",
+      "HX_007_DEPTH_HELIX_ARC",
+      "HX_008_DEPTH_HELIX_ARC",
+      "HX_009_DEPTH_HELIX_ARC",
+      "HX_010_DEPTH_HELIX_ARC",
+      "HX_011_DEPTH_HELIX_ARC",
+      "HX_012_DEPTH_HELIX_ARC",
+      "HX_013_DEPTH_HELIX_ARC",
+      "HX_014_DEPTH_HELIX_ARC",
+      "HX_015_DEPTH_HELIX_ARC",
+      "HX_016_DEPTH_HELIX_ARC",
+      "HX_017_VIEWING_MARKER"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_DEPTH_HELIX_ARC",
+      "HX_002_DEPTH_HELIX_ARC",
+      "HX_003_DEPTH_HELIX_ARC",
+      "HX_004_DEPTH_HELIX_ARC",
+      "HX_005_DEPTH_HELIX_ARC",
+      "HX_006_DEPTH_HELIX_ARC",
+      "HX_007_DEPTH_HELIX_ARC",
+      "HX_008_DEPTH_HELIX_ARC",
+      "HX_009_DEPTH_HELIX_ARC",
+      "HX_010_DEPTH_HELIX_ARC",
+      "HX_011_DEPTH_HELIX_ARC",
+      "HX_012_DEPTH_HELIX_ARC",
+      "HX_013_DEPTH_HELIX_ARC",
+      "HX_014_DEPTH_HELIX_ARC",
+      "HX_015_DEPTH_HELIX_ARC",
+      "HX_016_DEPTH_HELIX_ARC",
+      "HX_017_VIEWING_MARKER"
+    ],
+    "HX_ZONE_GATE": [
+      "HX_001_DEPTH_HELIX_ARC",
+      "HX_002_DEPTH_HELIX_ARC",
+      "HX_003_DEPTH_HELIX_ARC",
+      "HX_004_DEPTH_HELIX_ARC",
+      "HX_005_DEPTH_HELIX_ARC",
+      "HX_006_DEPTH_HELIX_ARC",
+      "HX_007_DEPTH_HELIX_ARC",
+      "HX_008_DEPTH_HELIX_ARC",
+      "HX_009_DEPTH_HELIX_ARC",
+      "HX_010_DEPTH_HELIX_ARC",
+      "HX_011_DEPTH_HELIX_ARC",
+      "HX_012_DEPTH_HELIX_ARC",
+      "HX_013_DEPTH_HELIX_ARC",
+      "HX_014_DEPTH_HELIX_ARC",
+      "HX_015_DEPTH_HELIX_ARC",
+      "HX_016_DEPTH_HELIX_ARC"
+    ],
+    "HX_ZONE_GROUND": [
+      "HX_017_VIEWING_MARKER"
+    ]
+  },
+  "group_count": 5,
+  "concept_id": "23",
+  "source_art": "images/23_24.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "23",
+    "name": "Parallax Helix Gate",
+    "standout": "Separated arcs align into one monumental double helix from a marked viewing spot, then unravel as you move sideways.",
+    "scene": "A gigantic cyan and violet double-helix gateway made of DISCONNECTED sculptural arc segments set at multiple distinct depths, perfectly aligned into a coherent double helix in the primary frontal view. A tiny lower inset shows the same physical arrangement from the side, revealing spaced grounded arc frames and the illusion breaking apart. A clear narrow viewing plaza and small gold ground marker. Sparse supports, no levitating light.",
+    "board": 1,
+    "side": "left",
+    "image": "images/23_24.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Separated arcs align into one monumental double helix from a marked viewing spot, then unravel as you move sideways.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

@@ -1,4 +1,4 @@
-"""Artwork-guided finite pixel structures for the 22 selected concept briefs.
+"""Artwork-guided finite pixel structures for the 62 approved concept briefs.
 
 All emitted geometry is native Custom with exact grid coordinates. These are
 editable planning layouts, not surveyed structures or fabrication drawings.
@@ -17,6 +17,8 @@ from models.ultimate_showcase import Garden, Sculpture, _path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONCEPTS = ROOT / 'showcase/concepts/2026_10_08/concepts.json'
+CATALOGS = (CONCEPTS, ROOT/'showcase/concepts/2026_10_09_advanced/concepts.json',
+            ROOT/'showcase/concepts/2026_10_09_stop_motion/concepts.json')
 PALETTES = {
     1: ('#FF9C32', '#79CEFF', '#FFF0CD'), 2: ('#83FFA3', '#CEACFF', '#FFF3CC'),
     3: ('#B69BFF', '#75FFD5', '#FF91D7'), 4: ('#A8B5FF', '#FFD37A', '#66BFFF'),
@@ -360,7 +362,10 @@ def boat(s,n):
 def build_concept(concept):
     n=int(concept['id'])
     slug=concept['name'].replace(' ','_')
-    g=Garden(title=concept['name'],slug=slug,description=concept['description'],palette=PALETTES[n])
+    palette=PALETTES.get(n, ('#69EFFF','#B599FF','#FFD98A'))
+    if n in (25,30,33,38,40,46,57):palette=('#FFD277','#C9A1FF','#FFF0CF')
+    if n in (27,28,36,48,51,52):palette=('#69EFFF','#FFAB99','#E5F6FF')
+    g=Garden(title=concept['name'],slug=slug,description=concept['description'],palette=palette)
     s=Structures(g)
     if n<=6:spatial(s,n)
     elif n<=12:abstract(s,n)
@@ -368,11 +373,26 @@ def build_concept(concept):
     elif n<=16:stage(s,n)
     elif n<=18:car(s,n)
     elif n<=20:church(s,n)
-    else:boat(s,n)
+    elif n<=22:boat(s,n)
+    elif n<=42:
+        from models.advanced_concepts import build
+        build(s,n)
+    else:
+        from models.stop_motion_concepts import build
+        build(s,n)
     start=1
     for m in g.models:m.start=start;start+=m.channels
     return g
 
 
 def catalog():
-    return json.loads(CONCEPTS.read_text())['concepts']
+    result=[]
+    for path in CATALOGS:
+        for original in json.loads(path.read_text())['concepts']:
+            c=dict(original);n=int(c['id'])
+            c['source_catalog']=str(path.relative_to(ROOT))
+            c.setdefault('description',c.get('standout',''))
+            c.setdefault('constraint','Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.')
+            c.setdefault('round','advanced' if n<=42 else 'stop_motion')
+            result.append(c)
+    return result

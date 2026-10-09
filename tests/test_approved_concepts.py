@@ -71,7 +71,7 @@ def test_portable_native_bindings(tmp_path,concept):
 def test_stage_drummer_has_unchanged_canonical_ranges():
     from tools.render_drummer_v3_preview import _expand_ranges
     source=ET.parse(ROOT/'fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel').getroot()
-    for c in catalog()[14:16]:
+    for c in [c for c in catalog() if int(c['id']) in (15,16,31,32,55)]:
         g=build_concept(c)
         drummer=next(m for m in g.models if m.details.get('canonical_drummer'))
         assert drummer.attrs['CustomModel']==source.get('CustomModel')
@@ -79,3 +79,28 @@ def test_stage_drummer_has_unchanged_canonical_ranges():
             assert set(drummer.submodels[sub.get('name')])==_expand_ranges(sub.get('line0'))
         assert drummer.submodels['BODY_KEEPALIVE']
         assert drummer.attrs['ModelBrightness']=='100'
+
+
+def test_approval_catalog_contains_each_design_once():
+    assert [int(c['id']) for c in catalog()]==list(range(1,63))
+
+
+def test_replacement_poses_have_dark_holds_and_complete_cycles(tmp_path):
+    # A full native render checks these schedules again against actual FSEQ values.
+    from tools.build_approved_concepts import pose_intervals
+    for c in catalog()[42:]:
+        g=build_concept(c)
+        poses=[m for m in g.models if 'pose_index' in m.details]
+        if int(c['id']) in (57,58):
+            assert all('assembly_index' in m.details or 'domino_index' in m.details for m in g.models)
+            continue
+        assert poses
+        for m in poses:
+            intervals=pose_intervals(m)
+            assert intervals
+            assert all(a%600==b%600==0 and a<b<=24000 for a,b in intervals)
+            assert sum(b-a for a,b in intervals)<24000
+        tracks={m.details['pose_track'] for m in poses}
+        for track in tracks:
+            group=[m for m in poses if m.details['pose_track']==track]
+            assert {m.details['pose_index'] for m in group}==set(range(group[0].details['pose_count']))

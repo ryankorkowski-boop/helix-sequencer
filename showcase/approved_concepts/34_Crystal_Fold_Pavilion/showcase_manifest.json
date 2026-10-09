@@ -1,0 +1,611 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Crystal Fold Pavilion",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 14
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 14,
+  "rgb_pixels": 2100,
+  "channel_count": 6300,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1,
+      "end_channel": 450,
+      "bounds_ft": [
+        [
+          -108.0,
+          5.0,
+          0.0
+        ],
+        [
+          -60.0,
+          54.0,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3800334090865415
+    },
+    {
+      "name": "HX_002_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 451,
+      "end_channel": 900,
+      "bounds_ft": [
+        [
+          -108.0,
+          5.0,
+          -8.0
+        ],
+        [
+          -60.25,
+          53.75,
+          15.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19946926484058644
+    },
+    {
+      "name": "HX_003_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 901,
+      "end_channel": 1350,
+      "bounds_ft": [
+        [
+          -80.0,
+          5.0,
+          24.0
+        ],
+        [
+          -32.0,
+          70.5,
+          40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34592729072802064
+    },
+    {
+      "name": "HX_004_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1351,
+      "end_channel": 1800,
+      "bounds_ft": [
+        [
+          -80.0,
+          5.0,
+          16.0
+        ],
+        [
+          -32.0,
+          70.5,
+          40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.378195256912429
+    },
+    {
+      "name": "HX_005_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1801,
+      "end_channel": 2250,
+      "bounds_ft": [
+        [
+          -52.0,
+          5.0,
+          48.0
+        ],
+        [
+          -4.0,
+          88.0,
+          64.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3736702959314841
+    },
+    {
+      "name": "HX_006_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 2251,
+      "end_channel": 2700,
+      "bounds_ft": [
+        [
+          -52.0,
+          5.0,
+          40.0
+        ],
+        [
+          -4.0,
+          88.0,
+          64.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.42244968431674956
+    },
+    {
+      "name": "HX_007_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 2701,
+      "end_channel": 3150,
+      "bounds_ft": [
+        [
+          -24.0,
+          5.0,
+          0.0
+        ],
+        [
+          24.0,
+          104.5,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36280428356981004
+    },
+    {
+      "name": "HX_008_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 3151,
+      "end_channel": 3600,
+      "bounds_ft": [
+        [
+          -24.0,
+          5.0,
+          -8.0
+        ],
+        [
+          24.0,
+          104.5,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4008921880655079
+    },
+    {
+      "name": "HX_009_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 3601,
+      "end_channel": 4050,
+      "bounds_ft": [
+        [
+          4.0,
+          5.0,
+          24.0
+        ],
+        [
+          52.0,
+          88.0,
+          40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37367029593148343
+    },
+    {
+      "name": "HX_010_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 4051,
+      "end_channel": 4500,
+      "bounds_ft": [
+        [
+          4.0,
+          5.0,
+          16.0
+        ],
+        [
+          52.0,
+          88.0,
+          40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4224496843167475
+    },
+    {
+      "name": "HX_011_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 4501,
+      "end_channel": 4950,
+      "bounds_ft": [
+        [
+          32.0,
+          5.0,
+          48.0
+        ],
+        [
+          80.0,
+          70.5,
+          64.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.345927290728019
+    },
+    {
+      "name": "HX_012_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 4951,
+      "end_channel": 5400,
+      "bounds_ft": [
+        [
+          32.0,
+          5.0,
+          40.0
+        ],
+        [
+          80.0,
+          70.5,
+          64.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.378195256912429
+    },
+    {
+      "name": "HX_013_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 5401,
+      "end_channel": 5850,
+      "bounds_ft": [
+        [
+          60.0,
+          5.0,
+          0.0
+        ],
+        [
+          108.0,
+          54.0,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3800334090865415
+    },
+    {
+      "name": "HX_014_CRYSTAL_FACET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACETS",
+      "design": "CRYSTAL FACET",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 5851,
+      "end_channel": 6300,
+      "bounds_ft": [
+        [
+          60.0,
+          5.0,
+          -8.0
+        ],
+        [
+          107.75,
+          53.75,
+          15.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19946926484058644
+    }
+  ],
+  "file_prefix": "Crystal_Fold_Pavilion",
+  "description": "Angular planes overlap into a hovering crystal impression while leaving open corridors between the frames.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_CRYSTAL_FACET",
+      "HX_002_CRYSTAL_FACET",
+      "HX_003_CRYSTAL_FACET",
+      "HX_004_CRYSTAL_FACET",
+      "HX_005_CRYSTAL_FACET",
+      "HX_006_CRYSTAL_FACET",
+      "HX_007_CRYSTAL_FACET",
+      "HX_008_CRYSTAL_FACET",
+      "HX_009_CRYSTAL_FACET",
+      "HX_010_CRYSTAL_FACET",
+      "HX_011_CRYSTAL_FACET",
+      "HX_012_CRYSTAL_FACET",
+      "HX_013_CRYSTAL_FACET",
+      "HX_014_CRYSTAL_FACET"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_CRYSTAL_FACET",
+      "HX_002_CRYSTAL_FACET",
+      "HX_003_CRYSTAL_FACET",
+      "HX_004_CRYSTAL_FACET",
+      "HX_005_CRYSTAL_FACET",
+      "HX_006_CRYSTAL_FACET",
+      "HX_007_CRYSTAL_FACET",
+      "HX_008_CRYSTAL_FACET",
+      "HX_009_CRYSTAL_FACET",
+      "HX_010_CRYSTAL_FACET",
+      "HX_011_CRYSTAL_FACET",
+      "HX_012_CRYSTAL_FACET",
+      "HX_013_CRYSTAL_FACET",
+      "HX_014_CRYSTAL_FACET"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_CRYSTAL_FACET",
+      "HX_002_CRYSTAL_FACET",
+      "HX_003_CRYSTAL_FACET",
+      "HX_004_CRYSTAL_FACET",
+      "HX_005_CRYSTAL_FACET",
+      "HX_006_CRYSTAL_FACET",
+      "HX_007_CRYSTAL_FACET",
+      "HX_008_CRYSTAL_FACET",
+      "HX_009_CRYSTAL_FACET",
+      "HX_010_CRYSTAL_FACET",
+      "HX_011_CRYSTAL_FACET",
+      "HX_012_CRYSTAL_FACET",
+      "HX_013_CRYSTAL_FACET",
+      "HX_014_CRYSTAL_FACET"
+    ],
+    "HX_ZONE_FACETS": [
+      "HX_001_CRYSTAL_FACET",
+      "HX_002_CRYSTAL_FACET",
+      "HX_003_CRYSTAL_FACET",
+      "HX_004_CRYSTAL_FACET",
+      "HX_005_CRYSTAL_FACET",
+      "HX_006_CRYSTAL_FACET",
+      "HX_007_CRYSTAL_FACET",
+      "HX_008_CRYSTAL_FACET",
+      "HX_009_CRYSTAL_FACET",
+      "HX_010_CRYSTAL_FACET",
+      "HX_011_CRYSTAL_FACET",
+      "HX_012_CRYSTAL_FACET",
+      "HX_013_CRYSTAL_FACET",
+      "HX_014_CRYSTAL_FACET"
+    ]
+  },
+  "group_count": 4,
+  "concept_id": "34",
+  "source_art": "images/33_34.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "34",
+    "name": "Crystal Fold Pavilion",
+    "standout": "Angular planes overlap into a hovering crystal impression while leaving open corridors between the frames.",
+    "scene": "A walk-around crystalline pavilion made from SEVEN large faceted folded triangular LED lattice planes in ice blue, lilac and warm white, each on discreet grounded posts. Depth-separated origami wing planes align into a giant diamond/crystal silhouette from the entrance viewpoint. Open black gaps and a clear path through the lower center, sparse pixel ribs rather than opaque glass walls; legible folds and triangulation.",
+    "board": 6,
+    "side": "right",
+    "image": "images/33_34.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Angular planes overlap into a hovering crystal impression while leaving open corridors between the frames.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

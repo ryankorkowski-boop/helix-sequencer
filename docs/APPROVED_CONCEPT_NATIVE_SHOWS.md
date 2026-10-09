@@ -1,5 +1,39 @@
 # Selected concept native shows
 
+## 2026-10-09: approval extended through #62
+
+All 62 concepts now have independent native xLights shows. The original 22
+XML/XSQ exports are preserved byte for byte, and their missing downloadable
+movies have been regenerated. Concepts 23–42 add perspective and sculptural
+structures; 43–62 add held replacement poses, incremental assembly and a domino
+state study. The user explicitly approved all through #62 in this session.
+
+The complete current verification is `evidence/approved_concepts_62/verification.json`.
+Compact native sources for all 62 are in `showcase/approved_concepts/`.
+The delivery includes a ZIP of all native shows and reusable `.xmodel` files,
+a ZIP of all 62 movies, and individual MP4s. The release is titled
+**Approved concepts 1–62: xLights files and MP4 previews**.
+
+Reproduce all 62 with the existing command below (omit `--ids`); use the
+`models/advanced_concepts.py` and `models/stop_motion_concepts.py` modules for
+new geometry. Native replacement poses use 600ms holds, with explicit longer
+holds in the firefly, bloom and marionette cycles. Each inactive pose is verified
+dark against the actual native FSEQ. Perspective layouts use a frontal hero
+camera where alignment matters and an oblique view for depth-heavy sculptures.
+Point previews do not simulate physical lenticular baffles.
+
+Verified: 62 native renders, 29,760 frames, 2,714 lit models and 347,170 RGB pixels;
+all 62 movies fully decode to 480 H.264/yuv420p frames at 20fps / 24 seconds.
+127 focused tests pass. Six representative shows were relocated to folders with
+spaces and rerendered with every native frame identical. Source art, favorites,
+recordings and canonical drummer ranges remain intact.
+
+The previews are silent artwork-guided planning studies. They project native
+xLights channel values onto the exact exported coordinates. Physical installation,
+angle-dependent occlusion and full-song drummer transcription remain separate.
+
+The section below records the earlier 22-concept delivery.
+
 The user requested the roughly 20 visually approved concepts, including the two
 band stages and two pontoons. This batch implements all 22 saved entries from
 `showcase/concepts/2026_10_08/concepts.json`. The remembered whale has no saved

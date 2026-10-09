@@ -1,0 +1,1157 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Impossible Stair Garden",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 28
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 28,
+  "rgb_pixels": 2240,
+  "channel_count": 6720,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 1,
+      "end_channel": 240,
+      "bounds_ft": [
+        [
+          50.0,
+          10.0,
+          -73.0
+        ],
+        [
+          80.0,
+          10.0,
+          -57.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_002_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 241,
+      "end_channel": 480,
+      "bounds_ft": [
+        [
+          50.0,
+          19.0,
+          -53.0
+        ],
+        [
+          80.0,
+          19.0,
+          -37.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_003_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 481,
+      "end_channel": 720,
+      "bounds_ft": [
+        [
+          50.0,
+          28.0,
+          -33.0
+        ],
+        [
+          80.0,
+          28.0,
+          -17.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_004_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 721,
+      "end_channel": 960,
+      "bounds_ft": [
+        [
+          50.0,
+          37.0,
+          -13.0
+        ],
+        [
+          80.0,
+          37.0,
+          3.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_005_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 961,
+      "end_channel": 1200,
+      "bounds_ft": [
+        [
+          50.0,
+          46.0,
+          7.0
+        ],
+        [
+          80.0,
+          46.0,
+          23.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_006_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 1201,
+      "end_channel": 1440,
+      "bounds_ft": [
+        [
+          50.0,
+          55.0,
+          27.0
+        ],
+        [
+          80.0,
+          55.0,
+          43.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_007_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 1441,
+      "end_channel": 1680,
+      "bounds_ft": [
+        [
+          50.0,
+          64.0,
+          47.0
+        ],
+        [
+          80.0,
+          64.0,
+          63.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_008_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 1681,
+      "end_channel": 1920,
+      "bounds_ft": [
+        [
+          -73.0,
+          10.0,
+          49.0
+        ],
+        [
+          -56.0,
+          10.0,
+          80.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3088721578020239
+    },
+    {
+      "name": "HX_009_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 1921,
+      "end_channel": 2160,
+      "bounds_ft": [
+        [
+          -52.0,
+          19.0,
+          50.0
+        ],
+        [
+          -36.0,
+          19.0,
+          80.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_010_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 2161,
+      "end_channel": 2400,
+      "bounds_ft": [
+        [
+          -32.0,
+          28.0,
+          50.0
+        ],
+        [
+          -16.0,
+          28.0,
+          80.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_011_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 2401,
+      "end_channel": 2640,
+      "bounds_ft": [
+        [
+          -12.0,
+          37.0,
+          50.0
+        ],
+        [
+          3.0,
+          37.0,
+          80.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_012_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 2641,
+      "end_channel": 2880,
+      "bounds_ft": [
+        [
+          7.0,
+          46.0,
+          50.0
+        ],
+        [
+          23.0,
+          46.0,
+          80.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_013_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 2881,
+      "end_channel": 3120,
+      "bounds_ft": [
+        [
+          27.0,
+          55.0,
+          50.0
+        ],
+        [
+          43.0,
+          55.0,
+          80.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_014_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 3121,
+      "end_channel": 3360,
+      "bounds_ft": [
+        [
+          47.0,
+          64.0,
+          50.0
+        ],
+        [
+          63.0,
+          64.0,
+          80.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_015_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 3361,
+      "end_channel": 3600,
+      "bounds_ft": [
+        [
+          -80.0,
+          10.0,
+          57.0
+        ],
+        [
+          -50.0,
+          10.0,
+          73.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_016_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 3601,
+      "end_channel": 3840,
+      "bounds_ft": [
+        [
+          -80.0,
+          19.0,
+          37.0
+        ],
+        [
+          -50.0,
+          19.0,
+          53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_017_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 3841,
+      "end_channel": 4080,
+      "bounds_ft": [
+        [
+          -80.0,
+          28.0,
+          17.0
+        ],
+        [
+          -50.0,
+          28.0,
+          33.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_018_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 4081,
+      "end_channel": 4320,
+      "bounds_ft": [
+        [
+          -80.0,
+          37.0,
+          -2.0
+        ],
+        [
+          -50.0,
+          37.0,
+          13.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_019_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 4321,
+      "end_channel": 4560,
+      "bounds_ft": [
+        [
+          -80.0,
+          46.0,
+          -22.0
+        ],
+        [
+          -50.0,
+          46.0,
+          -6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_020_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 4561,
+      "end_channel": 4800,
+      "bounds_ft": [
+        [
+          -80.0,
+          55.0,
+          -42.0
+        ],
+        [
+          -49.0,
+          55.0,
+          -26.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3085067198554373
+    },
+    {
+      "name": "HX_021_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 4801,
+      "end_channel": 5040,
+      "bounds_ft": [
+        [
+          -80.0,
+          64.0,
+          -62.0
+        ],
+        [
+          -49.0,
+          64.0,
+          -46.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_022_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 5041,
+      "end_channel": 5280,
+      "bounds_ft": [
+        [
+          56.0,
+          10.0,
+          -79.0
+        ],
+        [
+          72.0,
+          10.0,
+          -49.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_023_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 5281,
+      "end_channel": 5520,
+      "bounds_ft": [
+        [
+          36.0,
+          19.0,
+          -80.0
+        ],
+        [
+          52.0,
+          19.0,
+          -49.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.308506719855442
+    },
+    {
+      "name": "HX_024_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 5521,
+      "end_channel": 5760,
+      "bounds_ft": [
+        [
+          16.0,
+          28.0,
+          -80.0
+        ],
+        [
+          32.0,
+          28.0,
+          -49.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.27679629161072744
+    },
+    {
+      "name": "HX_025_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 5761,
+      "end_channel": 6000,
+      "bounds_ft": [
+        [
+          -3.0,
+          37.0,
+          -80.0
+        ],
+        [
+          12.0,
+          37.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_026_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 6001,
+      "end_channel": 6240,
+      "bounds_ft": [
+        [
+          -23.0,
+          46.0,
+          -80.0
+        ],
+        [
+          -7.0,
+          46.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_027_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 6241,
+      "end_channel": 6480,
+      "bounds_ft": [
+        [
+          -43.0,
+          55.0,
+          -80.0
+        ],
+        [
+          -27.0,
+          55.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_028_OFFSET_STAIR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "OFFSET STAIR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 6481,
+      "end_channel": 6720,
+      "bounds_ft": [
+        [
+          -63.0,
+          64.0,
+          -80.0
+        ],
+        [
+          -47.0,
+          64.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    }
+  ],
+  "file_prefix": "Impossible_Stair_Garden",
+  "description": "Offset terraces visually connect into an Escher-like staircase loop from one angle.",
+  "palette": [
+    "#FFD277",
+    "#C9A1FF",
+    "#FFF0CF"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_OFFSET_STAIR",
+      "HX_002_OFFSET_STAIR",
+      "HX_003_OFFSET_STAIR",
+      "HX_004_OFFSET_STAIR",
+      "HX_005_OFFSET_STAIR",
+      "HX_006_OFFSET_STAIR",
+      "HX_007_OFFSET_STAIR",
+      "HX_008_OFFSET_STAIR",
+      "HX_009_OFFSET_STAIR",
+      "HX_010_OFFSET_STAIR",
+      "HX_011_OFFSET_STAIR",
+      "HX_012_OFFSET_STAIR",
+      "HX_013_OFFSET_STAIR",
+      "HX_014_OFFSET_STAIR",
+      "HX_015_OFFSET_STAIR",
+      "HX_016_OFFSET_STAIR",
+      "HX_017_OFFSET_STAIR",
+      "HX_018_OFFSET_STAIR",
+      "HX_019_OFFSET_STAIR",
+      "HX_020_OFFSET_STAIR",
+      "HX_021_OFFSET_STAIR",
+      "HX_022_OFFSET_STAIR",
+      "HX_023_OFFSET_STAIR",
+      "HX_024_OFFSET_STAIR",
+      "HX_025_OFFSET_STAIR",
+      "HX_026_OFFSET_STAIR",
+      "HX_027_OFFSET_STAIR",
+      "HX_028_OFFSET_STAIR"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_OFFSET_STAIR",
+      "HX_002_OFFSET_STAIR",
+      "HX_003_OFFSET_STAIR",
+      "HX_004_OFFSET_STAIR",
+      "HX_005_OFFSET_STAIR",
+      "HX_006_OFFSET_STAIR",
+      "HX_007_OFFSET_STAIR",
+      "HX_008_OFFSET_STAIR",
+      "HX_009_OFFSET_STAIR",
+      "HX_010_OFFSET_STAIR",
+      "HX_011_OFFSET_STAIR",
+      "HX_012_OFFSET_STAIR",
+      "HX_013_OFFSET_STAIR",
+      "HX_014_OFFSET_STAIR",
+      "HX_015_OFFSET_STAIR",
+      "HX_016_OFFSET_STAIR",
+      "HX_017_OFFSET_STAIR",
+      "HX_018_OFFSET_STAIR",
+      "HX_019_OFFSET_STAIR",
+      "HX_020_OFFSET_STAIR",
+      "HX_021_OFFSET_STAIR",
+      "HX_022_OFFSET_STAIR",
+      "HX_023_OFFSET_STAIR",
+      "HX_024_OFFSET_STAIR",
+      "HX_025_OFFSET_STAIR",
+      "HX_026_OFFSET_STAIR",
+      "HX_027_OFFSET_STAIR",
+      "HX_028_OFFSET_STAIR"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_OFFSET_STAIR",
+      "HX_002_OFFSET_STAIR",
+      "HX_003_OFFSET_STAIR",
+      "HX_004_OFFSET_STAIR",
+      "HX_005_OFFSET_STAIR",
+      "HX_006_OFFSET_STAIR",
+      "HX_007_OFFSET_STAIR",
+      "HX_008_OFFSET_STAIR",
+      "HX_009_OFFSET_STAIR",
+      "HX_010_OFFSET_STAIR",
+      "HX_011_OFFSET_STAIR",
+      "HX_012_OFFSET_STAIR",
+      "HX_013_OFFSET_STAIR",
+      "HX_014_OFFSET_STAIR",
+      "HX_015_OFFSET_STAIR",
+      "HX_016_OFFSET_STAIR",
+      "HX_017_OFFSET_STAIR",
+      "HX_018_OFFSET_STAIR",
+      "HX_019_OFFSET_STAIR",
+      "HX_020_OFFSET_STAIR",
+      "HX_021_OFFSET_STAIR",
+      "HX_022_OFFSET_STAIR",
+      "HX_023_OFFSET_STAIR",
+      "HX_024_OFFSET_STAIR",
+      "HX_025_OFFSET_STAIR",
+      "HX_026_OFFSET_STAIR",
+      "HX_027_OFFSET_STAIR",
+      "HX_028_OFFSET_STAIR"
+    ],
+    "HX_ZONE_TERRACES": [
+      "HX_001_OFFSET_STAIR",
+      "HX_002_OFFSET_STAIR",
+      "HX_003_OFFSET_STAIR",
+      "HX_004_OFFSET_STAIR",
+      "HX_005_OFFSET_STAIR",
+      "HX_006_OFFSET_STAIR",
+      "HX_007_OFFSET_STAIR",
+      "HX_008_OFFSET_STAIR",
+      "HX_009_OFFSET_STAIR",
+      "HX_010_OFFSET_STAIR",
+      "HX_011_OFFSET_STAIR",
+      "HX_012_OFFSET_STAIR",
+      "HX_013_OFFSET_STAIR",
+      "HX_014_OFFSET_STAIR",
+      "HX_015_OFFSET_STAIR",
+      "HX_016_OFFSET_STAIR",
+      "HX_017_OFFSET_STAIR",
+      "HX_018_OFFSET_STAIR",
+      "HX_019_OFFSET_STAIR",
+      "HX_020_OFFSET_STAIR",
+      "HX_021_OFFSET_STAIR",
+      "HX_022_OFFSET_STAIR",
+      "HX_023_OFFSET_STAIR",
+      "HX_024_OFFSET_STAIR",
+      "HX_025_OFFSET_STAIR",
+      "HX_026_OFFSET_STAIR",
+      "HX_027_OFFSET_STAIR",
+      "HX_028_OFFSET_STAIR"
+    ]
+  },
+  "group_count": 4,
+  "concept_id": "25",
+  "source_art": "images/25_26.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "25",
+    "name": "Impossible Stair Garden",
+    "standout": "Offset terraces visually connect into an Escher-like staircase loop from one angle.",
+    "scene": "A violet, mint and warm-white sculptural garden of four groups of illuminated staircase edges at different depths, their ends optically meeting from a carefully chosen hero viewpoint to form an impossible ascending rectangular stair loop. Real grounded tier frames, subtle interruptions visible at side edges, small spiral accents below. Not a literal impossible gravity-defying building.",
+    "board": 2,
+    "side": "left",
+    "image": "images/25_26.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Offset terraces visually connect into an Escher-like staircase loop from one angle.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}
