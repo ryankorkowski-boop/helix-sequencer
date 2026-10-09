@@ -403,3 +403,10 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Workflow must produce five per-song six-up MP4s and two combined MP4s. The MP4 duration/audio/provenance checks are built into the workflow. Completion and musical quality are **pending CI execution and human review**, not presumed by this documentation.
 **Limitations:** All six flavors are compared on each song; these are not the 62 approved concept layouts. Show excerpts favor a strong RMS window, not necessarily a beat-perfect music phrase. Visual quality and physical feasibility require user review.
 **Regression risks:** GitHub-hosted xLights AppImage availability/runtime, native export incompatibilities, and generation time on GitHub-hosted CPU workers. All work is confined to the review branch; no default-branch changes.
+
+### 2026-10-09 — Audio inventory correction / sixth source song
+**Goal:** The original repository also contains `Helix Audiolights.mp3`, distinct from the five uploaded showcase tracks. The root Tinsel file duplicates uploaded Tinsel by Git blob SHA.
+**Changed:** `.github/workflows/six-layout-30s-audiolights.yml` (additional single-track native six-layout run), this ledger.
+**Preserved:** Source MP3s and existing 5-track recordings; `tools.run_showcase_audio_batch` remains unchanged. A wrapper substitutes the sixth song into the fixed five-slot test contract and correctly overrides its display/track name at runtime.
+**Evidence:** The first five per-song renders and two combined videos completed successfully in GitHub Actions run `38003603196`; the sixth-source addendum is subject to its own CI result. After its artifact passes, append its 30-second six-layout movie to the 60-second B reel to produce a 90-second 3-song B reel. The final two delivered reels will then contain all **six distinct** repository songs in 30-second segments.
+**Limitations and risks:** Two source collections use inconsistent song inventory schemas; the wrapper is a focused review-only workaround. Every new rendered source needs native channel, original soundtrack, codec and duration verification. No assertion of live hardware / controller feasibility.
