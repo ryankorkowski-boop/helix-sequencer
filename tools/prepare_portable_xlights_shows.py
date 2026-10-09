@@ -197,6 +197,9 @@ def prepare(batch: Path, output: Path) -> dict:
 def package(output: Path, archive: Path) -> None:
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as z:
         for path in sorted(output.rglob("*")):
+            if any(part.casefold() in {"backup", "backups", "cache", "caches", "__pycache__"}
+                   for part in path.relative_to(output).parts):
+                continue
             if path.is_dir() and not any(path.iterdir()):
                 z.writestr(str(output.name / path.relative_to(output)) + "/", "")
             elif path.is_file() and path.suffix not in (".log", ".bak"):

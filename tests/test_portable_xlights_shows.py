@@ -5,6 +5,7 @@ from pathlib import Path
 import shutil
 import struct
 import sys
+import zipfile
 import xml.etree.ElementTree as ET
 
 import pytest
@@ -89,6 +90,20 @@ def test_different_layout_for_one_song_is_rejected(inputs):
     path.write_text(path.read_text().replace('name="PROP"', 'name="WRONG"'))
     with pytest.raises(ValueError, match="physical model nodes"):
         portable.prepare(batch, output)
+
+
+def test_package_excludes_automatic_xlights_startup_backups(inputs, tmp_path):
+    _, batch, output = inputs
+    report = portable.prepare(batch, output)
+    folder = output / report["default_show"]
+    backup = folder / "Backup/OnStart"
+    backup.mkdir(parents=True)
+    shutil.copy2(folder / report["default_sequence"], backup / report["default_sequence"])
+    archive = tmp_path / "delivery.zip"
+    portable.package(output, archive)
+    with zipfile.ZipFile(archive) as z:
+        assert sum(n.endswith(".xsq") for n in z.namelist()) == 37
+        assert not any("/Backup/" in n for n in z.namelist())
 
 
 def test_missing_media_and_non_native_effects_are_rejected(inputs):
