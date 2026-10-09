@@ -1,0 +1,94 @@
+{
+  "schema": "helix.android_preview_verification.v1",
+  "baseline_commit": "f826cb3481db1bf601c61c1d720c50ac2d75c134",
+  "branch": "feature/android-native-previews",
+  "layout_packaging_acceptance": "passed by user",
+  "laptop_launch": "deferred by user; no laptop verification",
+  "drummer_acceptance": "separate and unchanged",
+  "output_absolute_path": "/workspace/helix-laptop-prep/outputs/Helix_Android_Previews",
+  "full_song_mp4s": 30,
+  "silent_24_second_studies": 7,
+  "same_song_comparison_reels": 5,
+  "all_42_movies_completely_decoded": true,
+  "all_reels_exact_frames": 480,
+  "all_video_codec": "h264",
+  "full_movie_resolution": [
+    960,
+    540
+  ],
+  "fps": 20,
+  "audio_codec": "aac",
+  "all_mp4_faststart": true,
+  "minimum_full_song_soundtrack_correlation": 0.9988084397773184,
+  "minimum_comparison_soundtrack_correlation": 0.9978757949946574,
+  "native_inputs_preserved_after_render": 37,
+  "all_42_packaged_movie_bytes_equal_verified_sources": true,
+  "all_gallery_links_resolve_inside_zip": true,
+  "gallery_links": 42,
+  "focused_tests_passed": 11,
+  "decoded_layout_samples_inspected": 7,
+  "wire_tree_fire_and_ice_decoded_sample_psnr_db": [
+    42.53256,
+    40.26299,
+    37.51599
+  ],
+  "comparison_seek_fix": "Native 50ms-aligned clip starts and zero-based video timestamps; first Frostbitten pass had 479 frames, final all-five clips have 480 frames.",
+  "packages": [
+    {
+      "file": "Helix_All_MP4_Previews.zip",
+      "bytes": 339126653,
+      "sha256": "b470653206f4d55e8a834f4f101547da8d4781963f4dfd96e6e68e570b3d9150",
+      "movies": 42,
+      "crc_valid": true
+    },
+    {
+      "file": "Bell_Circuit_Carol_MP4s.zip",
+      "bytes": 42451171,
+      "sha256": "21eb0e096051a97aff11d47450212a23dda5765a5af5989248f1900df97a66b4",
+      "movies": 7,
+      "crc_valid": true
+    },
+    {
+      "file": "Frostbitten_Fingerboard_MP4s.zip",
+      "bytes": 36003877,
+      "sha256": "509b7de0ca8ed0b30134bb9a8828f2f642c993cfbb5fc13275a3452adde2b327",
+      "movies": 7,
+      "crc_valid": true
+    },
+    {
+      "file": "Holly_Steel_Run_MP4s.zip",
+      "bytes": 64103764,
+      "sha256": "2748499dbe74faeaffdbf5dae91f4ffd3cbb54fe60cdd394969c587d983f179b",
+      "movies": 7,
+      "crc_valid": true
+    },
+    {
+      "file": "Tinsel_Sawtooth_MP4s.zip",
+      "bytes": 76494715,
+      "sha256": "dc85cd2fff9914e7fa03d0d4f07eec29572f2cf57493426732c43786bac05e26",
+      "movies": 7,
+      "crc_valid": true
+    },
+    {
+      "file": "Wire_Tree_MP4s.zip",
+      "bytes": 114116832,
+      "sha256": "051ab3c151b0c68826004568566a60c4e51824fd8911fdf1f6ee32d5c84ad700",
+      "movies": 7,
+      "crc_valid": true
+    },
+    {
+      "file": "Helix_Lighting_Studies_MP4s.zip",
+      "bytes": 5995857,
+      "sha256": "a38a62260d89eb98626f6e730612e017a27234c3ba27742415a09719df3625c8",
+      "movies": 7,
+      "crc_valid": true
+    }
+  ],
+  "limits": [
+    "Geometry compositor with actual native FSEQ lighting; not xLights screen recordings.",
+    "Stock review paths remain illustrative; custom nodes match export.",
+    "No laptop audio-device or physical installation verification.",
+    "No drummer acceptance or concept build.",
+    "No full repository suite or new CI pass claimed."
+  ]
+}

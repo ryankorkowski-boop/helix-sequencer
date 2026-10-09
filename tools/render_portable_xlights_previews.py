@@ -165,12 +165,14 @@ def finish(root: Path, output: Path, rows: list[dict]) -> dict:
     for track in dict.fromkeys(row['track'] for row in rows if row['kind'] == 'full_song'):
         selected = sorted((r for r in rows if r['track'] == track), key=lambda r: r['folder'])
         duration = selected[0]['duration_seconds']
-        start = min(max(0, duration / 2 - 12), duration - 24)
+        # Seeking between native 50ms frames can leave the first stacked frame
+        # at +50ms, losing a frame when ffmpeg trims the output to 24 seconds.
+        start = math.floor(min(max(0, duration / 2 - 12), duration - 24) * 20) / 20
         movie = output / (Path(selected[0]['sequence']).stem.split('__')[0] + '_Six_Layouts_Review.mp4')
         args = ['ffmpeg', '-v', 'error', '-y', '-filter_complex_threads', '1']
         for row in selected:
             args += ['-threads', '1', '-ss', str(start), '-i', str(output / row['file'])]
-        filters = [f'[{i}:v]scale=640:360[v{i}]' for i in range(6)]
+        filters = [f'[{i}:v]setpts=PTS-STARTPTS,scale=640:360[v{i}]' for i in range(6)]
         filters += [''.join(f'[v{i}]' for i in range(6)) + 'xstack=inputs=6:layout=0_0|640_0|1280_0|0_360|640_360|1280_360[v]']
         args += ['-filter_complex', ';'.join(filters), '-map', '[v]', '-map', '0:a:0', '-t', '24',
                  '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '22', '-threads', '1',
