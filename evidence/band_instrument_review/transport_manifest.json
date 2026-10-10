@@ -1,0 +1,87 @@
+{
+  "media_commit": "cdb999779bab3b925656bb4839432549b7784009",
+  "archives": [
+    {
+      "file": "Snowman_Band_Instrument_Review_42s.zip",
+      "bytes": 727307058,
+      "sha256": "f87ed79007426e11e55e613c00abca50d814c4261c73135d163fe94802e6561d",
+      "parts": [
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_001.bin",
+          "bytes": 49283072,
+          "sha256": "1dd274969f36dc9b48f9311d0ba48e8566d3476f1ad07c3733acf30fc0abfe93"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_002.bin",
+          "bytes": 49283072,
+          "sha256": "334b3accacff1d6587d11d4d8bae022f7bba9291e3987e7d6050e346481e92bd"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_003.bin",
+          "bytes": 49283072,
+          "sha256": "a08b34d28cd9c8a27af62cea3776f8424c3a67901cf33a426d39cf789478ab3d"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_004.bin",
+          "bytes": 49283072,
+          "sha256": "b047ce4e9618561e1dd3fdef7ba693270cc44d16ffa7a3f37dc374159cdf5705"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_005.bin",
+          "bytes": 49283072,
+          "sha256": "b97ee9c310f029cf7954ae0d426051f1678bd93133e1c2587bb4c87875ee8811"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_006.bin",
+          "bytes": 49283072,
+          "sha256": "1389a4aefcd796a89b0f98982d8e553b8a2194b084dc1106b25494eb13e10d85"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_007.bin",
+          "bytes": 49283072,
+          "sha256": "dc0830b874563251f6c4e587bb9894112924840ff38f51d49b8667fa279c782f"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_008.bin",
+          "bytes": 49283072,
+          "sha256": "09a75200d65cd564f6d03eb9cf09616f48adb5c8a6f728b88f6ae099f229b27c"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_009.bin",
+          "bytes": 49283072,
+          "sha256": "6d17e367f0f59d2544fbfa824ddb7a85bc6ec393c1e14292fe39beac265c3e01"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_010.bin",
+          "bytes": 49283072,
+          "sha256": "3a7ec27f7a2c1fa5f1face9b694582294e481e49c9aade83cfdfe9075068a231"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_011.bin",
+          "bytes": 49283072,
+          "sha256": "6e299d9535ac5c07f562357fecee2eadd7173ac5030de0407d61bd928cda844a"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_012.bin",
+          "bytes": 49283072,
+          "sha256": "cb6e99539c1b1ead4cf84cc5ba2df43b31b3ffcf32f340c51be3e90e650ffbfc"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_013.bin",
+          "bytes": 49283072,
+          "sha256": "2d1c7a9a734a9b41829e0323929168bf69d00e08b54472f9665ea01695fa7dff"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_014.bin",
+          "bytes": 49283072,
+          "sha256": "a25cd283d779fda48000203962aef3b990eeab2ce26a508abec8c449effe5596"
+        },
+        {
+          "file": "archive_parts/Band_Instrument_Review/part_015.bin",
+          "bytes": 37344050,
+          "sha256": "1538ca8a695c0369343d82dcde19508e758e7a5987e8e8733eaebbccd1875c55"
+        }
+      ]
+    }
+  ]
+}

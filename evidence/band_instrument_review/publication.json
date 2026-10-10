@@ -1,0 +1,15 @@
+{
+  "release_url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/band-instrument-review-2026-10-10",
+  "asset_id": 629101347,
+  "public_zip_url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/band-instrument-review-2026-10-10/Snowman_Band_Instrument_Review_42s.zip",
+  "bytes": 727307058,
+  "sha256": "f87ed79007426e11e55e613c00abca50d814c4261c73135d163fe94802e6561d",
+  "github_asset_digest": "sha256:f87ed79007426e11e55e613c00abca50d814c4261c73135d163fe94802e6561d",
+  "head": {
+    "http_status": 200,
+    "bytes": 727307058
+  },
+  "complete_public_download_matches": true,
+  "publisher_run": 38089915091,
+  "media_commit": "cdb999779bab3b925656bb4839432549b7784009"
+}
