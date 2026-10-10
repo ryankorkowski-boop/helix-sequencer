@@ -1,0 +1,56 @@
+{
+  "archives": [
+    {
+      "file": "Earlier_Layout_And_Drummer_MP4s.zip",
+      "bytes": 405628496,
+      "sha256": "52b50b007b67771501f3bc25595ef1ef6906e4586a647c8ba81874297035c7b8",
+      "parts": [
+        {
+          "file": "archive_parts/earlier/part_000.bin",
+          "bytes": 49283072,
+          "sha256": "b43fb138300249f185e70a1b117fc81b1d8ba429dd847ca840b68d3328de9f4f"
+        },
+        {
+          "file": "archive_parts/earlier/part_001.bin",
+          "bytes": 49283072,
+          "sha256": "1c4adede088e13dd4c3064caa051d49b522318bc114f20bc69d0546b6b53a531"
+        },
+        {
+          "file": "archive_parts/earlier/part_002.bin",
+          "bytes": 49283072,
+          "sha256": "31eba70a504e84f4f2c6f48b0c3844b5bed7184350b12f479593fc38bc231470"
+        },
+        {
+          "file": "archive_parts/earlier/part_003.bin",
+          "bytes": 49283072,
+          "sha256": "7f83f8785c741c43e68e5fbdc16ac89d1689c020af6035ccf86ded9f47a3a6ed"
+        },
+        {
+          "file": "archive_parts/earlier/part_004.bin",
+          "bytes": 49283072,
+          "sha256": "b283ab65bdac66f0993f83a14b79066a9bacd5f92cd321492f4f28c5059ea234"
+        },
+        {
+          "file": "archive_parts/earlier/part_005.bin",
+          "bytes": 49283072,
+          "sha256": "71b3b37d8d32f7fd9454b7ed4347735aa3d9dec25708a84791cb7c14bdc7fa44"
+        },
+        {
+          "file": "archive_parts/earlier/part_006.bin",
+          "bytes": 49283072,
+          "sha256": "e10c65f7cb098948e6a81132fcf28765e1c57c10053b3e4e0d454893d951160c"
+        },
+        {
+          "file": "archive_parts/earlier/part_007.bin",
+          "bytes": 49283072,
+          "sha256": "4e383cf4da2608bf062aed3371130736af5f15dc48f2784abaf16bfe46ba8c66"
+        },
+        {
+          "file": "archive_parts/earlier/part_008.bin",
+          "bytes": 11363920,
+          "sha256": "caca4d28fda61217be08fb77f66e86c3fe95b555be3a6c1b418bd4481e64651e"
+        }
+      ]
+    }
+  ]
+}
