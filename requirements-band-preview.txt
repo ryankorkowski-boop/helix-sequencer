@@ -1,0 +1,6 @@
+# Optional offline 3D character-review and voice-profile tooling.
+-r requirements.txt
+trimesh==5.1.1
+moderngl==5.13.0
+speechbrain==1.1.1
+scikit-learn>=1.4

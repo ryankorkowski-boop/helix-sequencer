@@ -29,14 +29,27 @@ def verify(item):
     cache = OUT / 'validation' / (item['sha256'] + '.json')
     if cache.exists():
         return json.loads(cache.read_text())
-    probe = json.loads(subprocess.check_output([
+    command = subprocess.run([
         'ffprobe', '-v', 'error', '-show_entries',
         'stream=codec_type,codec_name,width,height,nb_frames:format=duration',
-        '-of', 'json', str(path)]))
+        '-of', 'json', str(path)], capture_output=True)
+    if command.returncode:
+        proof = {'sha256': item['sha256'], 'bytes': path.stat().st_size,
+                 'full_decode_passed': False, 'incomplete_historical_file': True,
+                 'error': command.stderr.decode().strip()}
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        cache.write_text(json.dumps(proof, indent=2) + '\n')
+        return proof
+    probe = json.loads(command.stdout)
     result = subprocess.run(['ffmpeg', '-v', 'error', '-threads', '1', '-i',
                              str(path), '-f', 'null', '-'], capture_output=True)
     if result.returncode or result.stderr:
-        raise ValueError(f'Full decode failed: {path}: {result.stderr.decode()[:500]}')
+        proof = {'sha256': item['sha256'], 'bytes': path.stat().st_size,
+                 'full_decode_passed': False, 'incomplete_historical_file': True,
+                 'error': result.stderr.decode()[:2000]}
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        cache.write_text(json.dumps(proof, indent=2) + '\n')
+        return proof
     video = next(s for s in probe['streams'] if s['codec_type'] == 'video')
     proof = {'sha256': item['sha256'], 'bytes': path.stat().st_size,
              'duration_seconds': float(probe['format']['duration']),
@@ -55,7 +68,7 @@ def candidates(mode):
     initial = json.loads((RUNTIME / 'mp4_inventory_initial_hashed.json').read_text())
     result = remote + initial
     for folder in ('Concept_Art_Comparisons', 'Snowman_Band_Upgrade/movies'):
-        for p in sorted((ROOT / 'outputs' / folder).glob('*.mp4')):
+        for p in sorted((ROOT / 'outputs' / folder).rglob('*.mp4')):
             # A fresh render must have its completed verification before inclusion.
             if 'Snowman_Band_Upgrade' in str(p) and not p.with_suffix('.verification.json').exists():
                 continue
@@ -73,17 +86,23 @@ def earlier_source(source):
 
 
 def destination(item, mode):
-    s = item['sources'][0]
+    # Prefer a delivery filename over a temporary downloaded duplicate.
+    s = next((s for s in item['sources'] if '/outputs/Concepts_62_Delivery/' in s['path']),
+             item['sources'][0])
     name = Path(s.get('original_archive_path', s['path']).split('::')[-1]).name
-    if 'Helix_Comparison_' in name:
+    if item.get('verification', {}).get('incomplete_historical_file'):
+        group = 'Incomplete_Historical_Files_NOT_PLAYABLE'
+    elif 'Helix_Comparison_' in name:
         group = '00_Start_Here'
     elif 'Six_Layouts' in name:
         group = '01_Six_Layout_Song_Clips'
+    elif 'superseded_dim_mouths' in s['path']:
+        group = 'Superseded_Upgrade_Previews'
     elif 'Refined_3D' in name:
         group = 'Fresh_Band_Upgrade'
     elif 'Concept_Art_Comparisons' in s['path']:
         group = 'Concept_Art_Comparisons'
-    elif 'Concepts_62' in s['path'] or 'concepts-62' in s['path']:
+    elif any('Concepts_62' in a['path'] or 'concepts-62' in a['path'] for a in item['sources']):
         group = 'Silent_Concepts_1-62'
     elif 'drummer' in name.lower() or 'drummer' in s.get('artifact_name', '').lower():
         group = 'Historical_Drummer_Versions'
@@ -114,6 +133,9 @@ def package(mode):
         for item, proof in zip(items, executor.map(verify, items)):
             item['verification'] = proof
             item['archive_path'] = destination(item, mode)
+    incomplete = sum(not i['verification']['full_decode_passed'] for i in items)
+    if mode == 'earlier' and incomplete:
+        raise ValueError('The earlier review archive must contain only playable recovered movies')
     if mode == 'earlier':
         title = 'Earlier_Layout_And_Drummer_MP4s'
         scope = ('Recovered earlier review movies, excluding all 62 short silent '
@@ -138,8 +160,12 @@ def package(mode):
                 'earlier_batch_boundary_utc': CUTOFF,
                 'time_basis': 'Original CI artifact creation dates and initial local inventory; restored file mtimes are not original creation dates.',
                 'unique_mp4_count': len(items), 'movie_bytes': sum(i['bytes'] for i in items),
+                'playable_mp4_count': len(items)-incomplete,
+                'incomplete_historical_mp4_count': incomplete,
                 'known_unavailable_history': missing, 'movies': items}
-    text = (f'{title}\n\n{scope}\n\n{len(items)} unique, fully decoded MP4s. '
+    text = (f'{title}\n\n{scope}\n\n{len(items)} unique MP4 payloads: '
+            f'{len(items)-incomplete} fully decoded movies and {incomplete} incomplete '
+            'historical files kept separately for byte preservation. '
             'Identical copies occur once; distinct revisions remain separate. '
             'SHA256 prefixes distinguish same-named revisions. See inventory.json '
             'for all recovered source paths and original artifact dates.\n\n'
@@ -161,7 +187,9 @@ def package(mode):
                 assert h.hexdigest() == item['sha256']
     proof = {'file': str(archive), 'bytes': archive.stat().st_size,
              'sha256': digest(archive), 'unique_mp4_count': len(items),
-             'all_mp4s_fully_decoded': True, 'zip_crc_passed': True,
+             'all_mp4s_fully_decoded': incomplete == 0,
+             'playable_mp4_count': len(items)-incomplete,
+             'incomplete_historical_mp4_count': incomplete, 'zip_crc_passed': True,
              'all_zipped_movie_sha256_match_sources': True,
              'known_unavailable_history': missing}
     (OUT / (title + '.inventory.json')).write_text(json.dumps(manifest, indent=2) + '\n')

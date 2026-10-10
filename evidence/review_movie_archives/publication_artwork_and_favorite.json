@@ -1,0 +1,26 @@
+[
+  {
+    "file": "movies/Helix_Comparison_A_3_Songs_6_Layouts_90s.mp4",
+    "bytes": 16724969,
+    "sha256": "54aeba7909c070774373c34d4a9dba0a48a079fcfc6558af7bc56af2469d3705",
+    "full_public_raw_download_matches": true
+  },
+  {
+    "file": "movies/Set_B_All_11_Songs_Comparison.mp4",
+    "bytes": 23922606,
+    "sha256": "7664928fc2b9596283b1d8566465da9e626fcc8058af34c457f4c41bafc7adc5",
+    "full_public_raw_download_matches": true
+  },
+  {
+    "file": "movies/Set_A_All_11_Songs_Comparison.mp4",
+    "bytes": 22599187,
+    "sha256": "5ce3e5ad44864787771d362ff3b3f4621c9800c907f9773caff2aa40defe5407",
+    "full_public_raw_download_matches": true
+  },
+  {
+    "file": "concept_art/Concepts_63-82_Artwork.zip",
+    "bytes": 30339864,
+    "sha256": "5ce8c0f4be039bcca338aa3e62a4abe00809fa75abcaf269d70992fe88785b2c",
+    "full_public_raw_download_matches": true
+  }
+]
