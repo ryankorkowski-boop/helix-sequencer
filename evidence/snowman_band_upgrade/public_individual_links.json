@@ -1,0 +1,68 @@
+[
+  {
+    "file": "00_band_Refined_3D.mp4",
+    "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/209b6f7416afb35fa366aef272c8b3bd33406e25/movies/00_band_Refined_3D.mp4",
+    "http_status": 200,
+    "local_bytes": 13693916
+  },
+  {
+    "file": "01_band_Refined_3D.mp4",
+    "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/209b6f7416afb35fa366aef272c8b3bd33406e25/movies/01_band_Refined_3D.mp4",
+    "http_status": 200,
+    "local_bytes": 6487223
+  },
+  {
+    "file": "01_faces_Refined_3D.mp4",
+    "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/209b6f7416afb35fa366aef272c8b3bd33406e25/movies/01_faces_Refined_3D.mp4",
+    "http_status": 200,
+    "local_bytes": 9039781
+  },
+  {
+    "file": "02_band_Refined_3D.mp4",
+    "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/209b6f7416afb35fa366aef272c8b3bd33406e25/movies/02_band_Refined_3D.mp4",
+    "http_status": 200,
+    "local_bytes": 12262529
+  },
+  {
+    "file": "02_faces_Refined_3D.mp4",
+    "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/209b6f7416afb35fa366aef272c8b3bd33406e25/movies/02_faces_Refined_3D.mp4",
+    "http_status": 200,
+    "local_bytes": 14963467
+  },
+  {
+    "file": "03_band_Refined_3D.mp4",
+    "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/209b6f7416afb35fa366aef272c8b3bd33406e25/movies/03_band_Refined_3D.mp4",
+    "http_status": 200,
+    "local_bytes": 11816135
+  },
+  {
+    "file": "03_faces_Refined_3D.mp4",
+    "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/209b6f7416afb35fa366aef272c8b3bd33406e25/movies/03_faces_Refined_3D.mp4",
+    "http_status": 200,
+    "local_bytes": 15923846
+  },
+  {
+    "file": "04_band_Refined_3D.mp4",
+    "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/209b6f7416afb35fa366aef272c8b3bd33406e25/movies/04_band_Refined_3D.mp4",
+    "http_status": 200,
+    "local_bytes": 1993089
+  },
+  {
+    "file": "04_faces_Refined_3D.mp4",
+    "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/209b6f7416afb35fa366aef272c8b3bd33406e25/movies/04_faces_Refined_3D.mp4",
+    "http_status": 200,
+    "local_bytes": 2852445
+  },
+  {
+    "file": "05_band_Refined_3D.mp4",
+    "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/209b6f7416afb35fa366aef272c8b3bd33406e25/movies/05_band_Refined_3D.mp4",
+    "http_status": 200,
+    "local_bytes": 6021184
+  },
+  {
+    "file": "05_faces_Refined_3D.mp4",
+    "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/209b6f7416afb35fa366aef272c8b3bd33406e25/movies/05_faces_Refined_3D.mp4",
+    "http_status": 200,
+    "local_bytes": 7683729
+  }
+]
