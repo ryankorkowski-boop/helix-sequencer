@@ -1,5 +1,25 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-10 — six-concept artwork comparisons and last-72-hour MP4 ZIP (in progress)
+
+Goal: two six-layout comparison sets using 30-second excerpts from each distinct song in the repo, then one ZIP containing all unique recent MP4s. The user explicitly chose new concepts63–82 as concept-art videos. Sets use63–68 and77–82, spanning the opening sculptures and final recursive/stage/pontoon designs. All20 images remain in the concept catalog.
+
+Changed files/modules: focused artwork-comparison and archive packaging tools, source-bound manifests, generated outputs, documentation/evidence and this ledger. New behavior: six-up static original concept-art videos with identified songs and exact30-second clips, two combined reels; hash-deduplicated recent MP4 collection with a path/time inventory and historical versions distinguished. Preserved: original artwork bytes, all native XML/XMODEL/XSQ/FSEQ files, prior movies, source audio, core sequencer/drummer/audio inference.
+
+Evidence/checklist: [x] user comparison preference; [x] inventory local paths and song hashes; [ ] render/verify audio excerpts and video duration/decoding; [ ] all recent videos/hash/timestamp inventory; [ ] archive CRC and exact extracted bytes; [ ] publication/download checks. Native sequencing and physical lighting are not claimed for artwork comparisons. All distinct MP3 songs are included, byte-identical duplicates are not repeated; dry-drum diagnostic WAV/stem intermediates are not songs.
+
+Limitations/deferred/risks: still concept art paired with music, not reactive/native lighting or real moving sculptures. Filesystem timestamps are combined with checked-in evidence/remote artifact dates where available because restored files may have new metadata. Some earlier documented movies may require recovery from remote CI artifacts. Packaging risks are archive size, duplicate copies and unavailable historical binaries; inventory/proofs make completeness reviewable.
+
+## 2026-10-09 — twenty mesmerizing geometry concepts 63–82 (artwork complete)
+
+Goal: generate 20 new intricate, mesmerizing light-layout concepts following the existing 1–62 catalog. The user requests concepts; this round develops visual studies and proposed choreography.
+
+Changed files/modules: only `showcase/concepts/2026_10_09_mesmerizing/` catalog, ten paired hero plates, mobile review gallery, README and verification, plus this ledger. New behavior: original linked-circle, saddle-surface, aperiodic, knotted, cellular, recursive, orbital and marine-canopy ideas with distinctive palettes, artistic intent, sequencing proposals and construction questions. Preserved: all prior concepts, approved native shows, source recordings, finished drummer/band geometry, sequencing and inference tools. Feature branch: `feature/mesmerizing-concepts-63-82`.
+
+Evidence/checklist: [x] inspect catalog/rules; [x] 20 distinct contiguous briefs; [x] ten generated/visually inspected plates; [x] image/catalog/gallery/link/hash checks; [x] complete review package. All ten original PNG copies retain their bytes. ZIP CRC passes. No production code changes or test claims.
+
+Limitations/deferred/risks: mathematical forms are artistic inspirations rather than exact topology/mesh proofs; lighting motion is described rather than rendered. Physical fabrication, support loads, audience sightlines, native xLights coordinates, sequence exports and MP4s are deferred. Existing approval through62 does not assert approval of63–82. Regressions are confined to this new art/docs folder; existing assets will be checked unchanged. Handoff through this ledger and the new README.
+
 ## 2026-10-09 — six-member snowman band and helix singing faces (technical delivery complete)
 
 Goal: deliver the finished canonical drummer with upright bass, guitar, male/female singers and keyboardist in an animated 3D native layout; a prior-upload run plus all five new lyric songs, and five drummer/helix-face alternatives. Wire Tree is the prior-upload working choice after the optional preference question remained unanswered. The user authorized generation; no new design-approval pause applies.

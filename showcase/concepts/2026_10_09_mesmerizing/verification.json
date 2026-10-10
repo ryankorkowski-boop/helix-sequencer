@@ -1,0 +1,104 @@
+{
+  "schema": "helix.mesmerizing_concept_art.v1",
+  "concept_count": 20,
+  "ids": [
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82
+  ],
+  "plate_count": 10,
+  "plates": [
+    {
+      "file": "images/63_64.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3145713,
+      "sha256": "ef443b8a4468d996db8dc4d9e928cca5c699cedb46b51e4b839cd9edf8945b75"
+    },
+    {
+      "file": "images/65_66.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3187744,
+      "sha256": "5e99c7cb79291741aef2111f625615048e7f6cdab185b838ca743e334fdc49fe"
+    },
+    {
+      "file": "images/67_68.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3013003,
+      "sha256": "3975c4f04c320de164606b817a8b449a97f4cb801b6274bcc262b1eab3bf173b"
+    },
+    {
+      "file": "images/69_70.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2950442,
+      "sha256": "689f67e775e7c048522991880bfb2f55e14d25fe440137d4d37280988a153bb1"
+    },
+    {
+      "file": "images/71_72.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3356862,
+      "sha256": "edd4531b266582453ad7a78db0e1806bd3a6603e3c19ac583311836f4f077670"
+    },
+    {
+      "file": "images/73_74.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3197018,
+      "sha256": "f1c4970eedc2a0872232057d4b304e232fadd279ab3790217f593fe5099e58ec"
+    },
+    {
+      "file": "images/75_76.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3113708,
+      "sha256": "f2e9b6d73446c83102b1d726300f27b09567ac77f9790ad80cd46a694f2e578a"
+    },
+    {
+      "file": "images/77_78.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3273160,
+      "sha256": "cb08e6afcac9c1641a9842ae622c67129e3b5d60d665cfbd3d013c98d6658225"
+    },
+    {
+      "file": "images/79_80.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3007883,
+      "sha256": "16c10c9fc34af783a2f13321d1ce890dee42cb25966de8b421ddf3e5b3b4f578"
+    },
+    {
+      "file": "images/81_82.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 3210699,
+      "sha256": "ea0eb1982c369d5b49b268962956d79fa16bd625217ed76860ba88f1144945a4"
+    }
+  ],
+  "visually_reviewed": true,
+  "gallery_cards": 20,
+  "all_image_links_resolve": true,
+  "native_models_created": 0,
+  "native_sequences_created": 0
+}
