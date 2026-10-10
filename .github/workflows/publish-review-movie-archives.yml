@@ -1,0 +1,72 @@
+name: Publish verified review movie archives
+
+on:
+  push:
+    branches: [feature/mesmerizing-concepts-63-82]
+    paths:
+      - evidence/review_movie_archives/publication_request.json
+      - .github/workflows/publish-review-movie-archives.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: review-movie-archive-publication
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Read pinned media revision
+        id: media
+        run: |
+          python - <<'PY'
+          import json, os, re
+          request=json.load(open('evidence/review_movie_archives/publication_request.json'))
+          assert re.fullmatch('[0-9a-f]{40}',request['media_commit'])
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('commit='+request['media_commit']+'\n')
+          PY
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.media.outputs.commit }}
+          path: media
+          persist-credentials: false
+          sparse-checkout: |
+            archive_parts
+            archive_transport.json
+            RELEASE.md
+      - name: Reassemble exact ZIPs and verify their hashes
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root=Path('media'); out=Path('release_assets');out.mkdir()
+          for a in json.loads((root/'archive_transport.json').read_text())['archives']:
+              assert Path(a['file']).name==a['file'] and a['file'].endswith('.zip')
+              target=out/a['file'];h=hashlib.sha256();size=0
+              with target.open('wb') as f:
+                  for part in a['parts']:
+                      p=root/part['file'];assert p.resolve().is_relative_to(root.resolve())
+                      data=p.read_bytes();assert hashlib.sha256(data).hexdigest()==part['sha256']
+                      f.write(data);h.update(data);size+=len(data)
+              assert h.hexdigest()==a['sha256'] and size==a['bytes']
+              print(a['file'],size,h.hexdigest())
+          PY
+      - name: Publish single-file ZIP downloads
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag=review-movies-2026-10-10
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release edit "$tag" --repo "$GITHUB_REPOSITORY" --notes-file media/RELEASE.md
+          else
+            gh release create "$tag" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Earlier previews, recent MP4 archive and refined snowman band" --notes-file media/RELEASE.md
+          fi
+          gh release upload "$tag" release_assets/*.zip --repo "$GITHUB_REPOSITORY" --clobber
