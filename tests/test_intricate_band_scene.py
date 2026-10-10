@@ -47,13 +47,16 @@ def test_key_hands_target_actual_white_and_raised_black_keys_and_idle_guitar_doe
     monkeypatch.setattr(renderer,'OUT',tmp_path)
     monkeypatch.setattr(renderer,'native_drummer',lambda row:(np.zeros((n,8)),np.zeros((n,8)),np.zeros(n),{}))
     s=IntricateBandScene('prismatic_orrery');p=renderer.SamplerPerformance({'id':'99'},s)
-    piano=next(r for r in s.rigs if r['role']=='piano' and r['side']=='left')
+    piano_rigs={r['side']:r for r in s.rigs if r['role']=='piano'}
     guitar=next(r for r in s.rigs if r['role']=='guitar' and r['side']=='strum')
     guitar_idle=s.instances[guitar['ids'][2]]['matrix'].copy()
     for i,note in enumerate((48,49,84)):
         p.pose(i)
+        side='left' if note<66 else 'right';piano=piano_rigs[side]
         hand=s.instances[piano['ids'][2]]['matrix'][:3,3]
         key=p.key_centers[note]
         assert abs(hand[0]-key[0])<1e-6 and abs(hand[2]-key[2]-.1)<1e-6
         assert abs(hand[1]-key[1]-.130)<1e-6
+        other=piano_rigs['right' if side=='left' else 'left']
+        assert np.allclose(s.instances[other['ids'][2]]['matrix'][:3,3],other['hand'],atol=1e-6)
         assert np.array_equal(s.instances[guitar['ids'][2]]['matrix'],guitar_idle)

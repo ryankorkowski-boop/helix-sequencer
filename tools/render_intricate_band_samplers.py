@@ -24,7 +24,7 @@ from tools.build_helpers.ultimate_showcase_preview import _font
 ROOT=Path(__file__).resolve().parents[1]
 OLD=ROOT/'outputs/Snowman_Ensemble'
 OUT=ROOT/'outputs/Intricate_Band_Samplers'
-REVISION=4
+REVISION=5
 SAMPLER_VERTEX=VERTEX.replace('out vec3 world;', 'out float channel; out vec3 world;').replace(
     'energy=slot>=0?activity[slot]:0.0;', 'channel=float(slot); energy=slot>=0?activity[slot]:0.0;')
 SAMPLER_FRAGMENT=FRAGMENT.replace('in vec3 world;', 'in float channel; in vec3 world;').replace(
@@ -194,12 +194,21 @@ class SamplerPerformance(Performance):
                 # Parent key positions are relative to its old center; retain
                 # the new instrument offset for both complete arm segments.
                 from models.band_performance_scene import line_matrix
-                notes=[int(n) for n in self.curves['piano_notes'][i] if n>=0]
-                hand=rig['hand'].copy()
-                if notes:
-                    note=min(notes) if rig['side']=='left' else max(notes)
+                notes=[]
+                for note in self.curves['piano_notes'][i]:
+                    if note<0:continue
+                    note=int(note)
                     while note<48:note+=12
                     while note>84:note-=12
+                    notes.append(note)
+                notes=sorted(set(notes))
+                hand=rig['hand'].copy()
+                # A one-note mallet melody needs one hand, not two mittens
+                # stacked on the same key. Use both for a sufficiently spread chord.
+                spread=bool(notes and notes[-1]-notes[0]>=3)
+                single_hand='left' if notes and notes[0]<66 else 'right'
+                if notes and (spread or rig['side']==single_hand):
+                    note=notes[0] if rig['side']=='left' else notes[-1]
                     key=self.key_centers[note]
                     hand[0]=key[0];hand[2]=key[2]+.10
                     hand[1]=key[1]+.035+.095-.030*self.curves['piano_attack'][i]
