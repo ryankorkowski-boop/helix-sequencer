@@ -1,149 +1,84 @@
 {
   "archives": [
     {
-      "file": "Snowman_Band_Intricate_42s_Samplers.zip",
-      "bytes": 1375629654,
-      "sha256": "bf32f48fff1d0874fef2adbdc130a8f716651ac50c4c96c089b909f34df29564",
+      "file": "Snowman_Band_Instrument_Review_42s.zip",
+      "bytes": 727307058,
+      "sha256": "f87ed79007426e11e55e613c00abca50d814c4261c73135d163fe94802e6561d",
       "parts": [
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0001.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_001.bin",
           "bytes": 49283072,
-          "sha256": "860ee6ad588edb52a6d0f0ed783550d9813a1594eda87e30e3a96a0b34b3ea5f"
+          "sha256": "1dd274969f36dc9b48f9311d0ba48e8566d3476f1ad07c3733acf30fc0abfe93"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0002.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_002.bin",
           "bytes": 49283072,
-          "sha256": "c2542241bddb4e8400b61dd1690576322bc910ae4aa407b116d34b8167e5c44b"
+          "sha256": "334b3accacff1d6587d11d4d8bae022f7bba9291e3987e7d6050e346481e92bd"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0003.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_003.bin",
           "bytes": 49283072,
-          "sha256": "dfeecca9e63fad4903fbf3c7661985d3d26059e4fe57f0930d091a509fef31e3"
+          "sha256": "a08b34d28cd9c8a27af62cea3776f8424c3a67901cf33a426d39cf789478ab3d"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0004.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_004.bin",
           "bytes": 49283072,
-          "sha256": "cf0cf9efbb94fc3f4401a9e02cb0c4ab1c7ffe77585fa92cd664dbe06e52e29f"
+          "sha256": "b047ce4e9618561e1dd3fdef7ba693270cc44d16ffa7a3f37dc374159cdf5705"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0005.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_005.bin",
           "bytes": 49283072,
-          "sha256": "020af2beb4f8298ad7f7316672381cdc229905682ddf34dd08fb2e30ec982381"
+          "sha256": "b97ee9c310f029cf7954ae0d426051f1678bd93133e1c2587bb4c87875ee8811"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0006.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_006.bin",
           "bytes": 49283072,
-          "sha256": "6e4d24e9e2e90a4f4c389ee0007d995dcd3b0587c34c01e0304e703acc90a0b2"
+          "sha256": "1389a4aefcd796a89b0f98982d8e553b8a2194b084dc1106b25494eb13e10d85"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0007.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_007.bin",
           "bytes": 49283072,
-          "sha256": "6ba7e692db0cbfeef10e93b58981f61a3d901b59c42b0985979617bb06b979dc"
+          "sha256": "dc0830b874563251f6c4e587bb9894112924840ff38f51d49b8667fa279c782f"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0008.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_008.bin",
           "bytes": 49283072,
-          "sha256": "2689e39ec532e87e71e85c47a5a309b36c810463f92e1d19e83919008636c42e"
+          "sha256": "09a75200d65cd564f6d03eb9cf09616f48adb5c8a6f728b88f6ae099f229b27c"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0009.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_009.bin",
           "bytes": 49283072,
-          "sha256": "53f2d069a30f585d6a371ee720c80decb62d44d06035a39949bd382809f7fa39"
+          "sha256": "6d17e367f0f59d2544fbfa824ddb7a85bc6ec393c1e14292fe39beac265c3e01"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0010.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_010.bin",
           "bytes": 49283072,
-          "sha256": "61fac9cf628ca62e9b87c5c9c9de16c6f6307468fba276e3333dc4c2a063f50d"
+          "sha256": "3a7ec27f7a2c1fa5f1face9b694582294e481e49c9aade83cfdfe9075068a231"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0011.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_011.bin",
           "bytes": 49283072,
-          "sha256": "ee856db18f43b5a1bdca2f44a5ac6f328ff2319c8f858f0a244c057cfa8cf27f"
+          "sha256": "6e299d9535ac5c07f562357fecee2eadd7173ac5030de0407d61bd928cda844a"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0012.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_012.bin",
           "bytes": 49283072,
-          "sha256": "b901583afd43cab80f9b73fb0e2d6a24cc70a8f981caebcbba3631208bf52aea"
+          "sha256": "cb6e99539c1b1ead4cf84cc5ba2df43b31b3ffcf32f340c51be3e90e650ffbfc"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0013.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_013.bin",
           "bytes": 49283072,
-          "sha256": "3ac9bf42ef7e675d9190c321bf713ad13c61431996f7e720d60873f4a440d3f5"
+          "sha256": "2d1c7a9a734a9b41829e0323929168bf69d00e08b54472f9665ea01695fa7dff"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0014.bin",
+          "file": "archive_parts/Band_Instrument_Review/part_014.bin",
           "bytes": 49283072,
-          "sha256": "5e2d755c9616268d6eecf221caf8aea25b26c8075582fb210a4072ebb29fce39"
+          "sha256": "a25cd283d779fda48000203962aef3b990eeab2ce26a508abec8c449effe5596"
         },
         {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0015.bin",
-          "bytes": 49283072,
-          "sha256": "6266fa33081dad215a87f97d09b8052f2c57817485eab67ff85b62651cecec4f"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0016.bin",
-          "bytes": 49283072,
-          "sha256": "5ec8db44796756b6083d1a4e1fb323d7e39878be9e71efe3f4a9f5e2ca58b998"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0017.bin",
-          "bytes": 49283072,
-          "sha256": "22d77a11369e7b4fd5d8d9b53aab92492fd7d59e41c88a2812d4f7f24b36b72d"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0018.bin",
-          "bytes": 49283072,
-          "sha256": "8b806fc7284cbd4b2e566886efccb4a9197234b57c08d6dfdb171eac79aeb145"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0019.bin",
-          "bytes": 49283072,
-          "sha256": "b14dc98acdffb44cb1d53e402df14faaf771062832b3ad1439fc86fd2d72d7a6"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0020.bin",
-          "bytes": 49283072,
-          "sha256": "788f1d7379cc45930e4652b1c8551f2e6bbcce5a84f859e45ac42ff69893d077"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0021.bin",
-          "bytes": 49283072,
-          "sha256": "251668388177a27fdd88ded0e6797e2e7bd4e251174ec2749c16dba7602371a6"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0022.bin",
-          "bytes": 49283072,
-          "sha256": "038823df8040e50117366c222397f1cac880c6918a247386a449e4686b68360b"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0023.bin",
-          "bytes": 49283072,
-          "sha256": "2e4c48e43125f268f5b6d8a28d9c8eb9ea00b29ec91e3d36605f1827c7f61711"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0024.bin",
-          "bytes": 49283072,
-          "sha256": "937b4c4ab7ccaaff05fdca41063c64321efb09a985582ce2dd9a8429a830ea9b"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0025.bin",
-          "bytes": 49283072,
-          "sha256": "7d7ad2f73558e454d84c14e3772aa4bbd0a90cff26620e20f7659d9bb2400925"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0026.bin",
-          "bytes": 49283072,
-          "sha256": "3f4be004987256ba900b3654f850db280cfd11dc8ef4c3539b55d0e5325007c7"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0027.bin",
-          "bytes": 49283072,
-          "sha256": "8ef2736257f7c92b2fd67c94a6511143a71117b4031159b3235755f7fc519e2d"
-        },
-        {
-          "file": "archive_parts/Intricate_42s_Samplers/part-0028.bin",
-          "bytes": 44986710,
-          "sha256": "f94cbc77ebb274a07551c9005c5c6e2ee1289f94de48bd55455d4d87ae2bed4c"
+          "file": "archive_parts/Band_Instrument_Review/part_015.bin",
+          "bytes": 37344050,
+          "sha256": "1538ca8a695c0369343d82dcde19508e758e7a5987e8e8733eaebbccd1875c55"
         }
       ]
     }
