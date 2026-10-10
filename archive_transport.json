@@ -51,6 +51,125 @@
           "sha256": "caca4d28fda61217be08fb77f66e86c3fe95b555be3a6c1b418bd4481e64651e"
         }
       ]
+    },
+    {
+      "file": "All_Available_Recent_MP4s.zip",
+      "bytes": 855995646,
+      "sha256": "5816d2f07e227d328e0581726d0319339a553056e9f14da24d17f8b84cda0274",
+      "parts": [
+        {
+          "file": "archive_parts/recent/part_000.bin",
+          "bytes": 49283072,
+          "sha256": "e72804e904f302b5e79d70244a937b89aae21f23db3bc9c400d69cf42109eedd"
+        },
+        {
+          "file": "archive_parts/recent/part_001.bin",
+          "bytes": 49283072,
+          "sha256": "2274152f4d1ca919f5e1f4e82cb73982c7be107c0be9b92be170da3f2596a357"
+        },
+        {
+          "file": "archive_parts/recent/part_002.bin",
+          "bytes": 49283072,
+          "sha256": "aa8ced9596530ef3c58a3ef397c537ed75a71eedf474e21e87113c5d1162cef8"
+        },
+        {
+          "file": "archive_parts/recent/part_003.bin",
+          "bytes": 49283072,
+          "sha256": "6a6c005bbe4a846e7fc69717bbffc75b7ba12c4afeaf22346895f61859e9a040"
+        },
+        {
+          "file": "archive_parts/recent/part_004.bin",
+          "bytes": 49283072,
+          "sha256": "5e70ff00bde04464e0bdb6fe0d19e1b3bb290c081a69278898d70eef18e72de5"
+        },
+        {
+          "file": "archive_parts/recent/part_005.bin",
+          "bytes": 49283072,
+          "sha256": "230f9e5fc353d4cfab144d8188f8ce7c818c1da81cfec976e589fd306e9d5973"
+        },
+        {
+          "file": "archive_parts/recent/part_006.bin",
+          "bytes": 49283072,
+          "sha256": "201006d9f1785909c2759d70ec345e20b008dee727234b84f52a8240996b2dfd"
+        },
+        {
+          "file": "archive_parts/recent/part_007.bin",
+          "bytes": 49283072,
+          "sha256": "7e2f209d6523a48da3370eeb81e0d2d661ef6fc56cb297acd46809be97717d8b"
+        },
+        {
+          "file": "archive_parts/recent/part_008.bin",
+          "bytes": 49283072,
+          "sha256": "a6aaa478b34b844af57d6adcd011936b64b27b78b12a98eb731f0ed59e3aca4d"
+        },
+        {
+          "file": "archive_parts/recent/part_009.bin",
+          "bytes": 49283072,
+          "sha256": "94e7722bc5c965e8280e405549119eaa3e825ebfc9da6643803295601d2b487c"
+        },
+        {
+          "file": "archive_parts/recent/part_010.bin",
+          "bytes": 49283072,
+          "sha256": "038ecb0be25e08910428c34ba3203b4c0adc5062a267b1e82cae2f4d0785d4d7"
+        },
+        {
+          "file": "archive_parts/recent/part_011.bin",
+          "bytes": 49283072,
+          "sha256": "ae00c121c1b8f3263ed290e9e6129ea902908d559b5a990d1bfbaa68f0576ef5"
+        },
+        {
+          "file": "archive_parts/recent/part_012.bin",
+          "bytes": 49283072,
+          "sha256": "725c87c6ecd75794068a198164a83090c90888c7337c0fdd8b9e1cd08bf29af6"
+        },
+        {
+          "file": "archive_parts/recent/part_013.bin",
+          "bytes": 49283072,
+          "sha256": "66cbe956c89eda6a71204e570ff55e7615464632fa88254345a7851efeb6abfe"
+        },
+        {
+          "file": "archive_parts/recent/part_014.bin",
+          "bytes": 49283072,
+          "sha256": "63e91d9d685b297f8a7b8a4ad3e39aa88b1457818dc28fd5b0fc6b974aa61a20"
+        },
+        {
+          "file": "archive_parts/recent/part_015.bin",
+          "bytes": 49283072,
+          "sha256": "208608973c0ac1272a7ad8d1a6bee90a4ab0b4301e3cb3fb97d34feed81bbedc"
+        },
+        {
+          "file": "archive_parts/recent/part_016.bin",
+          "bytes": 49283072,
+          "sha256": "298b7339f5c9e4150bee5fb390d248f37a4676c6434380aa0f176b3fcb9fadc4"
+        },
+        {
+          "file": "archive_parts/recent/part_017.bin",
+          "bytes": 18183422,
+          "sha256": "187dda4929f5896f6dde854c5c47ad0a16c5921d61b8dbbd7b48274349229c87"
+        }
+      ]
+    },
+    {
+      "file": "Snowman_Band_Refined_3D_MP4s.zip",
+      "bytes": 103718403,
+      "sha256": "8ee26b0dc6d42628d2d99bd43348c14da1b1591b4c0c627babcc0e89fe341e4c",
+      "parts": [
+        {
+          "file": "archive_parts/band/part_000.bin",
+          "bytes": 49283072,
+          "sha256": "046b2aff32bc3d12145ef2080e023887c8238b62c569837f85fa17e0c2e0278c"
+        },
+        {
+          "file": "archive_parts/band/part_001.bin",
+          "bytes": 49283072,
+          "sha256": "1e93c9995a642a5e54dd59f4a033b462cf7ed735653261fcdc50bcf87e5cc909"
+        },
+        {
+          "file": "archive_parts/band/part_002.bin",
+          "bytes": 5152259,
+          "sha256": "7a69f6d10f8091ece275cdcdac0bc28f3d55e8134114da5d8298b473034c8a66"
+        }
+      ]
     }
   ]
 }
