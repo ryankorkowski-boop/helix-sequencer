@@ -1,0 +1,98 @@
+{
+  "previous_geometry_source": "aed733a",
+  "dry_artifact_id": 11527580859,
+  "source_xsq_sha256": "65a579c7b659e689fb331387d2199038c98f78cfa92da90ae9ff6e0388485a13",
+  "source_xsq_unchanged": true,
+  "physical_effect_intervals": 289,
+  "all_eight_surface_masks_unchanged": {
+    "KICK_SURFACE": true,
+    "SNARE_SURFACE": true,
+    "HI_HAT_SURFACE": true,
+    "TOM_HIGH_SURFACE": true,
+    "TOM_MID_SURFACE": true,
+    "TOM_FLOOR_SURFACE": true,
+    "CYMBAL_LEFT_SURFACE": true,
+    "CYMBAL_RIGHT_SURFACE": true
+  },
+  "all_seven_stick_contacts_unchanged": {
+    "SNARE_ARM_STICK": [
+      0.4408784,
+      0.5248509
+    ],
+    "TOM_MID_ARM_STICK": [
+      0.347973,
+      0.4850895
+    ],
+    "TOM_FLOOR_ARM_STICK": [
+      0.2989864864864865,
+      0.5168986083499006
+    ],
+    "CYMBAL_LEFT_ARM_STICK": [
+      0.2939189,
+      0.4055666
+    ],
+    "TOM_HIGH_ARM_STICK": [
+      0.6351351,
+      0.4771372
+    ],
+    "CYMBAL_RIGHT_ARM_STICK": [
+      0.7314189,
+      0.4294235
+    ],
+    "SNARE_RIGHT_ARM_STICK": [
+      0.4408784,
+      0.5248509
+    ]
+  },
+  "preserved_files": [
+    {
+      "file": "fixtures/band_geometry/source/drummerbg.png",
+      "unchanged": true,
+      "sha256": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa"
+    },
+    {
+      "file": "fixtures/band_geometry/source/drummerbg.png.b64",
+      "unchanged": true,
+      "sha256": "3607e20e6c19c383b2c66ea33fdddb3d3e3e5a52f127b320b5d24f1e3ae9301e"
+    },
+    {
+      "file": "evidence/drummer/dry_drum_test.wav",
+      "unchanged": true,
+      "sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913"
+    },
+    {
+      "file": "evidence/drummer/dry_drum_test_adtof.json",
+      "unchanged": true,
+      "sha256": "63bd55c7d7db57de12d45f4c19335fe1cf57b1f096e8104a87265d4ef1270eca"
+    },
+    {
+      "file": "evidence/drummer/dry_drum_test_source_calibration.json",
+      "unchanged": true,
+      "sha256": "dcb1083a009ddd9a20d5deda576dd66a24b3128d3e9bc877bd7aa0e92d8f892c"
+    }
+  ],
+  "shoulder_anchors": {
+    "source": {
+      "left": [
+        0.4543918918918919,
+        0.3956262425447316
+      ],
+      "right": [
+        0.5658783783783784,
+        0.4135188866799205
+      ]
+    },
+    "revised": {
+      "left": [
+        0.428,
+        0.442
+      ],
+      "right": [
+        0.6,
+        0.45
+      ]
+    },
+    "reason": "Move arms outward and below the scarf onto upper-torso shoulders; preserve all wrist positions and strike contacts."
+  },
+  "intentional_change": "Torso shoulder contours and reposed source arms; canonical projected arm nodes/layers rebuilt. Prior films remain unchanged."
+}

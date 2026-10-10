@@ -144,11 +144,14 @@ def exact_actuator_art(
     arm = source.convert("RGBA").copy()
     arm.putalpha(arm_mask)
     strike = zone.get("strike")
+    # Ready and strike poses share the revised torso shoulder anchors. Keep
+    # wrist/contact coordinates fixed and resample the original wire artwork.
+    arm_transform = (strike or {}).get("arm_transform", zone.get("arm_transform"))
+    if arm_transform:
+        arm = arm.transform(source.size, Image.Transform.AFFINE,
+                            strike_transform(arm_transform, source.size),
+                            Image.Resampling.BICUBIC)
     if strike:
-        if "arm_transform" in strike:
-            arm = arm.transform(source.size, Image.Transform.AFFINE,
-                                strike_transform(strike["arm_transform"], source.size),
-                                Image.Resampling.BICUBIC)
         shaft_mask = refine_actuator_to_source_art(
             source, build_zone_mask(source.size, strike["source_stick"]))
         shaft = source.convert("RGBA").copy()
@@ -217,6 +220,15 @@ def exact_geometry(
         idle = Image.composite(Image.new("RGBA", source.size, (0, 0, 0, 255)), idle, removed)
         masks["__idle_removed__"] = removed
     masks[idle_art_key()] = idle
+    if spec.get("torso_shoulders"):
+        # A short upper-torso contour connects the lowered arm roots to the
+        # body below the scarf. It is body keepalive, never a strike actuator.
+        shoulder_mask = build_zone_mask(source.size, spec["torso_shoulders"])
+        shoulder_art = Image.new("RGBA", source.size,
+                                 (*spec["torso_shoulders"]["rgb"], 255))
+        shoulder_art.putalpha(shoulder_mask)
+        masks[idle_art_key()] = Image.alpha_composite(idle, shoulder_art)
+        masks["__torso_shoulders__"] = shoulder_mask
     for item in spec["lighting_targets"]:
         name = f"{MODEL_NAME}_{item['id']}"
         variants = item.get("actuator_variants", {"left": item["actuators"]})
@@ -383,12 +395,14 @@ def build_geometry_masks(
     raw = {name: build_zone_mask(size, zone) for name, zone in zones.items()}
     for name, zone in zones.items():
         strike = zone.get("strike")
+        arm = raw[name]
+        arm_transform = (strike or {}).get("arm_transform", zone.get("arm_transform"))
+        if arm_transform:
+            arm = arm.transform(size, Image.Transform.AFFINE,
+                                strike_transform(arm_transform, size))
+        raw[name] = arm
         if not strike:
             continue
-        arm = raw[name]
-        if "arm_transform" in strike:
-            arm = arm.transform(size, Image.Transform.AFFINE,
-                                strike_transform(strike["arm_transform"], size))
         shaft = build_zone_mask(size, strike["source_stick"]).transform(
             size, Image.Transform.AFFINE, strike_transform(strike, size))
         raw[name] = ImageChops.lighter(arm, shaft)

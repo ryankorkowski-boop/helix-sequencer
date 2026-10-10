@@ -131,6 +131,8 @@ def _preview_body_keepalive_mask(
             body = ImageChops.subtract(body, surface)
     if "__idle_removed__" in masks:
         body = ImageChops.subtract(body, masks["__idle_removed__"])
+    if "__torso_shoulders__" in masks:
+        body = ImageChops.lighter(body, masks["__torso_shoulders__"])
     return body
 
 

@@ -1,0 +1,5128 @@
+{
+  "audio_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+  "source_duration": 38.32,
+  "frames": 2299,
+  "fps": 60,
+  "width": 1920,
+  "height": 1080,
+  "cached_family_hits": 309,
+  "preserved_physical_hits": 289,
+  "score_count": 312,
+  "unassigned_responses": 23,
+  "independent_source_attacks": [
+    {
+      "timestamp": 0.024943310657596373,
+      "novelty": 1.7425074408379604
+    },
+    {
+      "timestamp": 0.18458049886621314,
+      "novelty": 2.7807009308342954
+    },
+    {
+      "timestamp": 0.33424036281179137,
+      "novelty": 2.9012591405291683
+    },
+    {
+      "timestamp": 0.6385487528344671,
+      "novelty": 15.880023779285832
+    },
+    {
+      "timestamp": 0.7882086167800454,
+      "novelty": 8.03904693105105
+    },
+    {
+      "timestamp": 0.9578231292517007,
+      "novelty": 1.9983890511937068
+    },
+    {
+      "timestamp": 1.252154195011338,
+      "novelty": 4.354792108186133
+    },
+    {
+      "timestamp": 2.055328798185941,
+      "novelty": 3.8609422113353267
+    },
+    {
+      "timestamp": 2.3746031746031746,
+      "novelty": 2.53658163866326
+    },
+    {
+      "timestamp": 2.529251700680272,
+      "novelty": 5.360329763941275
+    },
+    {
+      "timestamp": 2.838548752834467,
+      "novelty": 3.7593108623884923
+    },
+    {
+      "timestamp": 2.993197278911565,
+      "novelty": 5.236976126015406
+    },
+    {
+      "timestamp": 3.1528344671201816,
+      "novelty": 2.3605787352194145
+    },
+    {
+      "timestamp": 3.3024943310657595,
+      "novelty": 13.039866932959459
+    },
+    {
+      "timestamp": 3.6217687074829934,
+      "novelty": 5.291100070784608
+    },
+    {
+      "timestamp": 3.78140589569161,
+      "novelty": 5.500666576542817
+    },
+    {
+      "timestamp": 3.9360544217687075,
+      "novelty": 7.252548112887969
+    },
+    {
+      "timestamp": 4.085714285714285,
+      "novelty": 11.41181787978467
+    },
+    {
+      "timestamp": 4.245351473922902,
+      "novelty": 8.246949872880755
+    },
+    {
+      "timestamp": 4.554648526077098,
+      "novelty": 15.694885297547412
+    },
+    {
+      "timestamp": 4.873922902494331,
+      "novelty": 4.134557740957007
+    },
+    {
+      "timestamp": 5.01859410430839,
+      "novelty": 11.93701734667383
+    },
+    {
+      "timestamp": 5.178231292517006,
+      "novelty": 4.785659154697046
+    },
+    {
+      "timestamp": 5.327891156462585,
+      "novelty": 9.222391909436633
+    },
+    {
+      "timestamp": 5.487528344671202,
+      "novelty": 8.67431805087971
+    },
+    {
+      "timestamp": 5.801814058956916,
+      "novelty": 4.829233504346611
+    },
+    {
+      "timestamp": 6.265759637188209,
+      "novelty": 3.806665991819735
+    },
+    {
+      "timestamp": 6.425396825396826,
+      "novelty": 2.5202049133437687
+    },
+    {
+      "timestamp": 6.585034013605442,
+      "novelty": 4.358794741795948
+    },
+    {
+      "timestamp": 6.73968253968254,
+      "novelty": 1.6627070048630332
+    },
+    {
+      "timestamp": 7.048979591836734,
+      "novelty": 8.629864347479272
+    },
+    {
+      "timestamp": 7.208616780045351,
+      "novelty": 2.9671928440475757
+    },
+    {
+      "timestamp": 7.363265306122449,
+      "novelty": 3.6268706743595165
+    },
+    {
+      "timestamp": 7.517913832199547,
+      "novelty": 10.369814156045656
+    },
+    {
+      "timestamp": 7.677551020408163,
+      "novelty": 4.613269532839004
+    },
+    {
+      "timestamp": 7.832199546485261,
+      "novelty": 5.117257264175356
+    },
+    {
+      "timestamp": 7.986848072562358,
+      "novelty": 8.37575228439058
+    },
+    {
+      "timestamp": 8.141496598639456,
+      "novelty": 4.878697091910626
+    },
+    {
+      "timestamp": 8.301133786848073,
+      "novelty": 8.710073653280348
+    },
+    {
+      "timestamp": 8.45578231292517,
+      "novelty": 3.0327052973637314
+    },
+    {
+      "timestamp": 8.615419501133786,
+      "novelty": 3.603574402657112
+    },
+    {
+      "timestamp": 8.765079365079366,
+      "novelty": 10.986182846454257
+    },
+    {
+      "timestamp": 9.0843537414966,
+      "novelty": 5.954377412949734
+    },
+    {
+      "timestamp": 9.229024943310657,
+      "novelty": 10.472345011370116
+    },
+    {
+      "timestamp": 9.398639455782313,
+      "novelty": 2.964818265464672
+    },
+    {
+      "timestamp": 9.543310657596372,
+      "novelty": 7.905995940352507
+    },
+    {
+      "timestamp": 9.707936507936507,
+      "novelty": 3.6637520782974033
+    },
+    {
+      "timestamp": 9.872562358276644,
+      "novelty": 4.454583736021485
+    },
+    {
+      "timestamp": 10.017233560090704,
+      "novelty": 8.37295215049446
+    },
+    {
+      "timestamp": 10.18684807256236,
+      "novelty": 4.2865578124967385
+    },
+    {
+      "timestamp": 10.331519274376417,
+      "novelty": 8.701750873192976
+    },
+    {
+      "timestamp": 10.486167800453515,
+      "novelty": 5.043377781139595
+    },
+    {
+      "timestamp": 10.65079365079365,
+      "novelty": 4.140501746613742
+    },
+    {
+      "timestamp": 10.800453514739228,
+      "novelty": 9.630559823896684
+    },
+    {
+      "timestamp": 10.960090702947845,
+      "novelty": 2.662488620692859
+    },
+    {
+      "timestamp": 11.264399092970521,
+      "novelty": 10.507837813799728
+    },
+    {
+      "timestamp": 11.738321995464853,
+      "novelty": 1.9365135798028852
+    },
+    {
+      "timestamp": 12.057596371882086,
+      "novelty": 2.515264154576177
+    },
+    {
+      "timestamp": 12.356916099773242,
+      "novelty": 1.98399977057998
+    },
+    {
+      "timestamp": 12.526530612244898,
+      "novelty": 2.02952295424014
+    },
+    {
+      "timestamp": 12.676190476190476,
+      "novelty": 2.3288788078017246
+    },
+    {
+      "timestamp": 12.840816326530613,
+      "novelty": 2.666874466880411
+    },
+    {
+      "timestamp": 12.980498866213152,
+      "novelty": 4.331300602316103
+    },
+    {
+      "timestamp": 13.150113378684807,
+      "novelty": 4.4290872175863765
+    },
+    {
+      "timestamp": 13.294784580498867,
+      "novelty": 4.156217575126064
+    },
+    {
+      "timestamp": 13.459410430839002,
+      "novelty": 3.4253751689176077
+    },
+    {
+      "timestamp": 13.60907029478458,
+      "novelty": 4.257633060106432
+    },
+    {
+      "timestamp": 13.768707482993197,
+      "novelty": 2.4702165311248336
+    },
+    {
+      "timestamp": 13.923356009070295,
+      "novelty": 3.2594062019088677
+    },
+    {
+      "timestamp": 14.082993197278912,
+      "novelty": 2.3583406976420007
+    },
+    {
+      "timestamp": 14.23764172335601,
+      "novelty": 3.900692619254225
+    },
+    {
+      "timestamp": 14.397278911564626,
+      "novelty": 2.0784217713725512
+    },
+    {
+      "timestamp": 14.551927437641723,
+      "novelty": 2.672925757639794
+    },
+    {
+      "timestamp": 14.71156462585034,
+      "novelty": 5.4305890556302545
+    },
+    {
+      "timestamp": 14.866213151927438,
+      "novelty": 5.474247286908752
+    },
+    {
+      "timestamp": 15.020861678004534,
+      "novelty": 2.7517972753192232
+    },
+    {
+      "timestamp": 15.175510204081633,
+      "novelty": 6.817542663953122
+    },
+    {
+      "timestamp": 15.489795918367347,
+      "novelty": 4.090380877544935
+    },
+    {
+      "timestamp": 15.649433106575964,
+      "novelty": 1.5745292148289194
+    },
+    {
+      "timestamp": 15.799092970521542,
+      "novelty": 2.6810508395806965
+    },
+    {
+      "timestamp": 15.958730158730159,
+      "novelty": 3.6105617706134625
+    },
+    {
+      "timestamp": 16.268027210884355,
+      "novelty": 2.621473611112212
+    },
+    {
+      "timestamp": 16.741950113378685,
+      "novelty": 1.7636227561512805
+    },
+    {
+      "timestamp": 17.06122448979592,
+      "novelty": 2.405699411507571
+    },
+    {
+      "timestamp": 17.530158730158732,
+      "novelty": 1.8618322567849004
+    },
+    {
+      "timestamp": 17.679818594104308,
+      "novelty": 2.3003878790867844
+    },
+    {
+      "timestamp": 17.839455782312925,
+      "novelty": 2.351935298932716
+    },
+    {
+      "timestamp": 17.989115646258504,
+      "novelty": 2.663973154960594
+    },
+    {
+      "timestamp": 18.158730158730158,
+      "novelty": 3.1332865161682095
+    },
+    {
+      "timestamp": 18.303401360544218,
+      "novelty": 2.0079881657664944
+    },
+    {
+      "timestamp": 18.468027210884355,
+      "novelty": 1.8231110069345269
+    },
+    {
+      "timestamp": 18.61768707482993,
+      "novelty": 3.7813415421582004
+    },
+    {
+      "timestamp": 18.77233560090703,
+      "novelty": 6.691157066388801
+    },
+    {
+      "timestamp": 18.926984126984127,
+      "novelty": 4.2341446200285855
+    },
+    {
+      "timestamp": 19.091609977324264,
+      "novelty": 1.9907265594261956
+    },
+    {
+      "timestamp": 19.24126984126984,
+      "novelty": 4.412716755580508
+    },
+    {
+      "timestamp": 19.400907029478457,
+      "novelty": 4.250349198960671
+    },
+    {
+      "timestamp": 19.560544217687074,
+      "novelty": 2.0627768303752885
+    },
+    {
+      "timestamp": 19.710204081632654,
+      "novelty": 3.4116597211051563
+    },
+    {
+      "timestamp": 19.86485260770975,
+      "novelty": 4.713573109460906
+    },
+    {
+      "timestamp": 20.029478458049887,
+      "novelty": 2.330286826068395
+    },
+    {
+      "timestamp": 20.179138321995463,
+      "novelty": 5.32545393260573
+    },
+    {
+      "timestamp": 20.33877551020408,
+      "novelty": 2.5999341597965375
+    },
+    {
+      "timestamp": 20.49342403628118,
+      "novelty": 5.008954598930905
+    },
+    {
+      "timestamp": 20.653061224489797,
+      "novelty": 2.3440183116603075
+    },
+    {
+      "timestamp": 20.802721088435373,
+      "novelty": 5.399753308316527
+    },
+    {
+      "timestamp": 20.96235827664399,
+      "novelty": 3.361741229220573
+    },
+    {
+      "timestamp": 21.271655328798186,
+      "novelty": 7.519322604478658
+    },
+    {
+      "timestamp": 22.054875283446712,
+      "novelty": 2.552979833540399
+    },
+    {
+      "timestamp": 22.21451247165533,
+      "novelty": 1.6100798085376151
+    },
+    {
+      "timestamp": 22.374149659863946,
+      "novelty": 3.9281659476499766
+    },
+    {
+      "timestamp": 22.523809523809526,
+      "novelty": 5.817501340888057
+    },
+    {
+      "timestamp": 22.83809523809524,
+      "novelty": 4.238256645169148
+    },
+    {
+      "timestamp": 23.30204081632653,
+      "novelty": 10.671470970531724
+    },
+    {
+      "timestamp": 23.466666666666665,
+      "novelty": 2.4187497319666447
+    },
+    {
+      "timestamp": 23.616326530612245,
+      "novelty": 7.680961211437203
+    },
+    {
+      "timestamp": 23.77097505668934,
+      "novelty": 11.841201649175169
+    },
+    {
+      "timestamp": 23.930612244897958,
+      "novelty": 1.9984010404083774
+    },
+    {
+      "timestamp": 24.085260770975058,
+      "novelty": 6.21731956130713
+    },
+    {
+      "timestamp": 24.244897959183675,
+      "novelty": 1.7970402850817422
+    },
+    {
+      "timestamp": 24.554195011337868,
+      "novelty": 9.98365346842468
+    },
+    {
+      "timestamp": 24.868480725623584,
+      "novelty": 5.713929790088195
+    },
+    {
+      "timestamp": 25.02312925170068,
+      "novelty": 10.975298191911095
+    },
+    {
+      "timestamp": 25.347392290249434,
+      "novelty": 2.6013407886878275
+    },
+    {
+      "timestamp": 25.49705215419501,
+      "novelty": 1.64134474031742
+    },
+    {
+      "timestamp": 25.65170068027211,
+      "novelty": 5.707782360165041
+    },
+    {
+      "timestamp": 25.806349206349207,
+      "novelty": 3.4768395939992547
+    },
+    {
+      "timestamp": 25.965986394557824,
+      "novelty": 2.6817043757224357
+    },
+    {
+      "timestamp": 26.275283446712017,
+      "novelty": 4.772952616615489
+    },
+    {
+      "timestamp": 26.589569160997733,
+      "novelty": 4.760495757780613
+    },
+    {
+      "timestamp": 26.74421768707483,
+      "novelty": 4.501456829780668
+    },
+    {
+      "timestamp": 27.058503401360543,
+      "novelty": 2.708391585638762
+    },
+    {
+      "timestamp": 27.22312925170068,
+      "novelty": 2.8302428078158384
+    },
+    {
+      "timestamp": 27.377777777777776,
+      "novelty": 2.24772636129172
+    },
+    {
+      "timestamp": 27.527437641723356,
+      "novelty": 5.170828398137324
+    },
+    {
+      "timestamp": 27.687074829931973,
+      "novelty": 3.2052995607418318
+    },
+    {
+      "timestamp": 27.84172335600907,
+      "novelty": 3.908144541066626
+    },
+    {
+      "timestamp": 28.001360544217686,
+      "novelty": 5.771444029915663
+    },
+    {
+      "timestamp": 28.160997732426303,
+      "novelty": 1.6604385064341416
+    },
+    {
+      "timestamp": 28.310657596371883,
+      "novelty": 6.981222189351052
+    },
+    {
+      "timestamp": 28.629931972789116,
+      "novelty": 3.097773676658662
+    },
+    {
+      "timestamp": 28.784580498866212,
+      "novelty": 2.7183768191852224
+    },
+    {
+      "timestamp": 28.939229024943312,
+      "novelty": 7.187345532220319
+    },
+    {
+      "timestamp": 29.253514739229026,
+      "novelty": 3.6133384487856013
+    },
+    {
+      "timestamp": 29.408163265306122,
+      "novelty": 8.003093059005119
+    },
+    {
+      "timestamp": 29.56281179138322,
+      "novelty": 7.93004646138552
+    },
+    {
+      "timestamp": 29.727437641723355,
+      "novelty": 3.194961229594849
+    },
+    {
+      "timestamp": 29.877097505668935,
+      "novelty": 2.2062841491143526
+    },
+    {
+      "timestamp": 30.03174603174603,
+      "novelty": 8.806174943510355
+    },
+    {
+      "timestamp": 30.341043083900228,
+      "novelty": 10.07701088326439
+    },
+    {
+      "timestamp": 30.500680272108845,
+      "novelty": 4.097466834719515
+    },
+    {
+      "timestamp": 30.66031746031746,
+      "novelty": 4.00937130452711
+    },
+    {
+      "timestamp": 30.80498866213152,
+      "novelty": 7.169296867247509
+    },
+    {
+      "timestamp": 30.969614512471654,
+      "novelty": 2.7431753449844356
+    },
+    {
+      "timestamp": 31.124263038548754,
+      "novelty": 4.714103495057522
+    },
+    {
+      "timestamp": 31.27891156462585,
+      "novelty": 5.292834848703351
+    },
+    {
+      "timestamp": 31.76281179138322,
+      "novelty": 2.577699519981988
+    },
+    {
+      "timestamp": 32.072108843537414,
+      "novelty": 3.3305470909849624
+    },
+    {
+      "timestamp": 32.37641723356009,
+      "novelty": 3.865023429339107
+    },
+    {
+      "timestamp": 32.53106575963719,
+      "novelty": 6.266366482213732
+    },
+    {
+      "timestamp": 32.695691609977324,
+      "novelty": 4.125707883847555
+    },
+    {
+      "timestamp": 32.8453514739229,
+      "novelty": 11.113630875987942
+    },
+    {
+      "timestamp": 33.00498866213152,
+      "novelty": 4.436746832881947
+    },
+    {
+      "timestamp": 33.15963718820862,
+      "novelty": 6.942118927114208
+    },
+    {
+      "timestamp": 33.31927437641723,
+      "novelty": 9.720949078847033
+    },
+    {
+      "timestamp": 33.478911564625854,
+      "novelty": 2.3275917157666646
+    },
+    {
+      "timestamp": 33.628571428571426,
+      "novelty": 10.336521669685176
+    },
+    {
+      "timestamp": 33.78820861678005,
+      "novelty": 6.219842623657132
+    },
+    {
+      "timestamp": 33.94285714285714,
+      "novelty": 14.17747410710543
+    },
+    {
+      "timestamp": 34.102494331065756,
+      "novelty": 5.89198761579614
+    },
+    {
+      "timestamp": 34.25714285714286,
+      "novelty": 8.850827705767179
+    },
+    {
+      "timestamp": 34.411791383219956,
+      "novelty": 8.660514174763986
+    },
+    {
+      "timestamp": 34.56643990929705,
+      "novelty": 16.93453726097262
+    },
+    {
+      "timestamp": 34.736054421768706,
+      "novelty": 3.006526175062401
+    },
+    {
+      "timestamp": 34.875736961451246,
+      "novelty": 4.413824488581142
+    },
+    {
+      "timestamp": 35.04036281179138,
+      "novelty": 16.03902372163828
+    },
+    {
+      "timestamp": 35.2,
+      "novelty": 7.5749149906241415
+    },
+    {
+      "timestamp": 35.3546485260771,
+      "novelty": 8.725595384782352
+    },
+    {
+      "timestamp": 35.51428571428571,
+      "novelty": 9.007311685607142
+    },
+    {
+      "timestamp": 35.66893424036281,
+      "novelty": 14.99517283950522
+    },
+    {
+      "timestamp": 35.82358276643991,
+      "novelty": 12.609868637390903
+    },
+    {
+      "timestamp": 35.993197278911566,
+      "novelty": 1.9750822931572665
+    },
+    {
+      "timestamp": 36.30249433106576,
+      "novelty": 5.070790722794086
+    },
+    {
+      "timestamp": 36.78140589569161,
+      "novelty": 1.5788073074419555
+    },
+    {
+      "timestamp": 37.100680272108846,
+      "novelty": 2.335985555868578
+    }
+  ],
+  "scores": [
+    {
+      "timestamp": 0.024943310657596373,
+      "target": null,
+      "family": "source",
+      "confidence": null,
+      "provenance": "independent_source_novelty",
+      "novelty": 1.7425074408379604,
+      "uncertainty": "family_and_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 1
+    },
+    {
+      "timestamp": 0.12,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7045392990112305,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 61,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 7
+    },
+    {
+      "timestamp": 0.17,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7090231776237488,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 86,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 10
+    },
+    {
+      "timestamp": 0.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "confidence": 0.5220370292663574,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 164,
+      "uncertainty": null,
+      "response_xy": [
+        463,
+        400
+      ],
+      "nearest_video_frame": 19
+    },
+    {
+      "timestamp": 0.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8689635992050171,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 160,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 19
+    },
+    {
+      "timestamp": 0.63,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7347227334976196,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 315,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 38
+    },
+    {
+      "timestamp": 0.78,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.8249887228012085,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 391,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 47
+    },
+    {
+      "timestamp": 0.78,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.7088265419006348,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 392,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 47
+    },
+    {
+      "timestamp": 0.94,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.3453758656978607,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 473,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 56
+    },
+    {
+      "timestamp": 0.94,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.777509331703186,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 470,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 56
+    },
+    {
+      "timestamp": 1.24,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "confidence": 0.8153685927391052,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 624,
+      "uncertainty": null,
+      "response_xy": [
+        1313,
+        440
+      ],
+      "nearest_video_frame": 74
+    },
+    {
+      "timestamp": 1.24,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.873285710811615,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 620,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 74
+    },
+    {
+      "timestamp": 1.56,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.3688647150993347,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 783,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 94
+    },
+    {
+      "timestamp": 1.56,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.5050005316734314,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 781,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 94
+    },
+    {
+      "timestamp": 1.72,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6466024518013,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 863,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 103
+    },
+    {
+      "timestamp": 1.72,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8014801740646362,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 860,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 103
+    },
+    {
+      "timestamp": 1.89,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.3497404158115387,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 948,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 113
+    },
+    {
+      "timestamp": 2.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5511071681976318,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1023,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 122
+    },
+    {
+      "timestamp": 2.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.8796137571334839,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1021,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 122
+    },
+    {
+      "timestamp": 2.2,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.755303144454956,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1101,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 132
+    },
+    {
+      "timestamp": 2.35,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.31939342617988586,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1178,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 141
+    },
+    {
+      "timestamp": 2.35,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.40529143810272217,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1177,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 141
+    },
+    {
+      "timestamp": 2.43,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.58024001121521,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1216,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 146
+    },
+    {
+      "timestamp": 2.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5504124164581299,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1258,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 151
+    },
+    {
+      "timestamp": 2.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8837807178497314,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1255,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 151
+    },
+    {
+      "timestamp": 2.66,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.3998468518257141,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1333,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 160
+    },
+    {
+      "timestamp": 2.66,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.3634019196033478,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1331,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 160
+    },
+    {
+      "timestamp": 2.82,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.6786145567893982,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1411,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 169
+    },
+    {
+      "timestamp": 2.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.414872944355011,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1493,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 179
+    },
+    {
+      "timestamp": 2.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.6590030789375305,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1491,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 179
+    },
+    {
+      "timestamp": 3.14,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.37883955240249634,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1573,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 188
+    },
+    {
+      "timestamp": 3.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.4893210530281067,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1648,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 197
+    },
+    {
+      "timestamp": 3.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.8472237586975098,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1646,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 197
+    },
+    {
+      "timestamp": 3.45,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.6773219704627991,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1726,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 207
+    },
+    {
+      "timestamp": 3.53,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.5985065698623657,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1766,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 212
+    },
+    {
+      "timestamp": 3.61,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.40137040615081787,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1808,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 217
+    },
+    {
+      "timestamp": 3.61,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.5342944264411926,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1807,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 217
+    },
+    {
+      "timestamp": 3.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.2766146957874298,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1888,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 226
+    },
+    {
+      "timestamp": 3.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.5297024846076965,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1886,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 226
+    },
+    {
+      "timestamp": 3.92,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.35038885474205017,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1963,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 235
+    },
+    {
+      "timestamp": 3.92,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.4443652033805847,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 1962,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 235
+    },
+    {
+      "timestamp": 4.07,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5641806721687317,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2038,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 244
+    },
+    {
+      "timestamp": 4.07,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8507117033004761,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2035,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 244
+    },
+    {
+      "timestamp": 4.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7721579074859619,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2118,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 254
+    },
+    {
+      "timestamp": 4.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8810495138168335,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2115,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 254
+    },
+    {
+      "timestamp": 4.39,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6430871486663818,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2198,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 263
+    },
+    {
+      "timestamp": 4.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7441743016242981,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2271,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 272
+    },
+    {
+      "timestamp": 4.55,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.600943386554718,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2278,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 273
+    },
+    {
+      "timestamp": 4.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.3027190566062927,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2353,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 282
+    },
+    {
+      "timestamp": 4.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7205680012702942,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2351,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 282
+    },
+    {
+      "timestamp": 4.86,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.4330514371395111,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2433,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 292
+    },
+    {
+      "timestamp": 5.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7016616463661194,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2508,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 301
+    },
+    {
+      "timestamp": 5.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8728816509246826,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2505,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 301
+    },
+    {
+      "timestamp": 5.16,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5777357220649719,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2583,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 310
+    },
+    {
+      "timestamp": 5.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6479155421257019,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2663,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 319
+    },
+    {
+      "timestamp": 5.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8396323323249817,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2660,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 319
+    },
+    {
+      "timestamp": 5.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "confidence": 0.6028758883476257,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2744,
+      "uncertainty": null,
+      "response_xy": [
+        463,
+        400
+      ],
+      "nearest_video_frame": 329
+    },
+    {
+      "timestamp": 5.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.36090585589408875,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2743,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 329
+    },
+    {
+      "timestamp": 5.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8840224146842957,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2740,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 329
+    },
+    {
+      "timestamp": 5.79,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6551122069358826,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2898,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 347
+    },
+    {
+      "timestamp": 5.79,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.8460433483123779,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2896,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 347
+    },
+    {
+      "timestamp": 5.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.43686339259147644,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2978,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 357
+    },
+    {
+      "timestamp": 5.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.3454441428184509,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 2976,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 357
+    },
+    {
+      "timestamp": 6.1,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.49219053983688354,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3053,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 366
+    },
+    {
+      "timestamp": 6.25,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6303437352180481,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3128,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 375
+    },
+    {
+      "timestamp": 6.25,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8768945932388306,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3125,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 375
+    },
+    {
+      "timestamp": 6.41,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5287883877754211,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3208,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 385
+    },
+    {
+      "timestamp": 6.57,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.4739626348018646,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3288,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 394
+    },
+    {
+      "timestamp": 6.57,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.5183292031288147,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3286,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 394
+    },
+    {
+      "timestamp": 6.72,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.8096361756324768,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3363,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 403
+    },
+    {
+      "timestamp": 6.72,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.9099363088607788,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3360,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 403
+    },
+    {
+      "timestamp": 6.88,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6844480633735657,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3443,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 413
+    },
+    {
+      "timestamp": 7.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.670120120048523,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3523,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 422
+    },
+    {
+      "timestamp": 7.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.858556866645813,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3521,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 422
+    },
+    {
+      "timestamp": 7.19,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7875666618347168,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3595,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 431
+    },
+    {
+      "timestamp": 7.2,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.514881432056427,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3603,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 432
+    },
+    {
+      "timestamp": 7.35,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5707544684410095,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3678,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 441
+    },
+    {
+      "timestamp": 7.5,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8079455494880676,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3750,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 450
+    },
+    {
+      "timestamp": 7.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6985076665878296,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3758,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 451
+    },
+    {
+      "timestamp": 7.66,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.506571888923645,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3833,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 460
+    },
+    {
+      "timestamp": 7.82,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.3431926965713501,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3913,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 469
+    },
+    {
+      "timestamp": 7.82,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7122619152069092,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3911,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 469
+    },
+    {
+      "timestamp": 7.97,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.4085448980331421,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 3988,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 478
+    },
+    {
+      "timestamp": 8.06,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.5517983436584473,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4031,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 484
+    },
+    {
+      "timestamp": 8.13,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.376144677400589,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4068,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 488
+    },
+    {
+      "timestamp": 8.13,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.793441891670227,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4065,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 488
+    },
+    {
+      "timestamp": 8.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5487270951271057,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4148,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 497
+    },
+    {
+      "timestamp": 8.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7930139899253845,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4146,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 497
+    },
+    {
+      "timestamp": 8.44,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.4006500840187073,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4223,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 506
+    },
+    {
+      "timestamp": 8.44,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8641940355300903,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4220,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 506
+    },
+    {
+      "timestamp": 8.6,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5353712439537048,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4303,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 516
+    },
+    {
+      "timestamp": 8.76,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7798061370849609,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4381,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 526
+    },
+    {
+      "timestamp": 8.91,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.33970320224761963,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4458,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 535
+    },
+    {
+      "timestamp": 8.99,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.5672785043716431,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4496,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 539
+    },
+    {
+      "timestamp": 9.07,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8363785743713379,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4535,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 544
+    },
+    {
+      "timestamp": 9.22,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7963364124298096,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4611,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 553
+    },
+    {
+      "timestamp": 9.38,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.709095299243927,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4690,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 563
+    },
+    {
+      "timestamp": 9.53,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7317596673965454,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4766,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 572
+    },
+    {
+      "timestamp": 9.69,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "confidence": 0.7300213575363159,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4847,
+      "uncertainty": null,
+      "response_xy": [
+        1126,
+        519
+      ],
+      "nearest_video_frame": 581
+    },
+    {
+      "timestamp": 9.86,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.649834394454956,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 4930,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 592
+    },
+    {
+      "timestamp": 10.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+      "family": "tom",
+      "confidence": 0.8579543232917786,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5007,
+      "uncertainty": null,
+      "response_xy": [
+        568,
+        532
+      ],
+      "nearest_video_frame": 601
+    },
+    {
+      "timestamp": 10.17,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.525014340877533,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5085,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 610
+    },
+    {
+      "timestamp": 10.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+      "family": "tom",
+      "confidence": 0.8759229183197021,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5162,
+      "uncertainty": null,
+      "response_xy": [
+        473,
+        584
+      ],
+      "nearest_video_frame": 619
+    },
+    {
+      "timestamp": 10.47,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+      "family": "tom",
+      "confidence": 0.7285867929458618,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5237,
+      "uncertainty": null,
+      "response_xy": [
+        473,
+        584
+      ],
+      "nearest_video_frame": 628
+    },
+    {
+      "timestamp": 10.63,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7335313558578491,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5315,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 638
+    },
+    {
+      "timestamp": 10.79,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7827051281929016,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5396,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 647
+    },
+    {
+      "timestamp": 10.94,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "confidence": 0.5820916891098022,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5474,
+      "uncertainty": null,
+      "response_xy": [
+        1313,
+        440
+      ],
+      "nearest_video_frame": 656
+    },
+    {
+      "timestamp": 10.94,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8318265676498413,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5470,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 656
+    },
+    {
+      "timestamp": 11.25,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "confidence": 0.8337041139602661,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5629,
+      "uncertainty": null,
+      "response_xy": [
+        463,
+        400
+      ],
+      "nearest_video_frame": 675
+    },
+    {
+      "timestamp": 11.25,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8725341558456421,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5625,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 675
+    },
+    {
+      "timestamp": 11.57,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7743040323257446,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5785,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 694
+    },
+    {
+      "timestamp": 11.72,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7819137573242188,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5861,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 703
+    },
+    {
+      "timestamp": 11.72,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.40427181124687195,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 5862,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 703
+    },
+    {
+      "timestamp": 12.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.3893570005893707,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 6023,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 722
+    },
+    {
+      "timestamp": 12.34,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.4984228312969208,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 6173,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 740
+    },
+    {
+      "timestamp": 12.526530612244898,
+      "target": null,
+      "family": "source",
+      "confidence": null,
+      "provenance": "independent_source_novelty",
+      "novelty": 2.02952295424014,
+      "uncertainty": "family_and_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 752
+    },
+    {
+      "timestamp": 12.66,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6291645169258118,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 6333,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 760
+    },
+    {
+      "timestamp": 12.82,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.44836997985839844,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 6413,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 769
+    },
+    {
+      "timestamp": 12.97,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5931096076965332,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 6488,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 778
+    },
+    {
+      "timestamp": 13.13,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.4546550214290619,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 6568,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 788
+    },
+    {
+      "timestamp": 13.28,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5886324644088745,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 6643,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 797
+    },
+    {
+      "timestamp": 13.44,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.48108136653900146,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 6723,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 806
+    },
+    {
+      "timestamp": 13.59,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5897276401519775,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 6798,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 815
+    },
+    {
+      "timestamp": 13.75,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5556076169013977,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 6878,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 825
+    },
+    {
+      "timestamp": 13.91,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6186811923980713,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 6958,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 835
+    },
+    {
+      "timestamp": 14.07,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.617743968963623,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7038,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 844
+    },
+    {
+      "timestamp": 14.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5894303917884827,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7118,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 854
+    },
+    {
+      "timestamp": 14.38,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.4663873016834259,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7193,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 863
+    },
+    {
+      "timestamp": 14.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5649285912513733,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7273,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 872
+    },
+    {
+      "timestamp": 14.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6280567049980164,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7353,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 882
+    },
+    {
+      "timestamp": 14.85,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5411072373390198,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7428,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 891
+    },
+    {
+      "timestamp": 14.85,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.300530344247818,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7426,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 891
+    },
+    {
+      "timestamp": 15.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7366646528244019,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7508,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 901
+    },
+    {
+      "timestamp": 15.16,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6132245659828186,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7583,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 910
+    },
+    {
+      "timestamp": 15.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6670721173286438,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7663,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 919
+    },
+    {
+      "timestamp": 15.4,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5362344980239868,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7703,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 924
+    },
+    {
+      "timestamp": 15.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.60443115234375,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7743,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 929
+    },
+    {
+      "timestamp": 15.63,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6115688681602478,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7818,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 938
+    },
+    {
+      "timestamp": 15.79,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.49615800380706787,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7898,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 947
+    },
+    {
+      "timestamp": 15.94,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5859615802764893,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 7973,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 956
+    },
+    {
+      "timestamp": 16.1,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5981385111808777,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8053,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 966
+    },
+    {
+      "timestamp": 16.25,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "confidence": 0.8520537614822388,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8129,
+      "uncertainty": null,
+      "response_xy": [
+        1313,
+        440
+      ],
+      "nearest_video_frame": 975
+    },
+    {
+      "timestamp": 16.25,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8612579703330994,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8125,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 975
+    },
+    {
+      "timestamp": 16.57,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8060592412948608,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8285,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 994
+    },
+    {
+      "timestamp": 16.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.48426517844200134,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8368,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1004
+    },
+    {
+      "timestamp": 16.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7907956838607788,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8366,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1004
+    },
+    {
+      "timestamp": 17.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5237564444541931,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8523,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1022
+    },
+    {
+      "timestamp": 17.2,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6049404144287109,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8603,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1032
+    },
+    {
+      "timestamp": 17.35,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6032090187072754,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8678,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1041
+    },
+    {
+      "timestamp": 17.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5318388938903809,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8758,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1051
+    },
+    {
+      "timestamp": 17.67,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6199238300323486,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8838,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1060
+    },
+    {
+      "timestamp": 17.82,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5067453384399414,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8913,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1069
+    },
+    {
+      "timestamp": 17.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5851112604141235,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 8993,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1079
+    },
+    {
+      "timestamp": 18.13,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6231638789176941,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9068,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1088
+    },
+    {
+      "timestamp": 18.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5848079919815063,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9148,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1097
+    },
+    {
+      "timestamp": 18.45,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6611003279685974,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9228,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1107
+    },
+    {
+      "timestamp": 18.6,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5000076293945312,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9303,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1116
+    },
+    {
+      "timestamp": 18.76,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7952083945274353,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9380,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1126
+    },
+    {
+      "timestamp": 18.91,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.4395175874233246,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9458,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1135
+    },
+    {
+      "timestamp": 18.91,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7572938203811646,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9456,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1135
+    },
+    {
+      "timestamp": 19.07,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7242910861968994,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9535,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1144
+    },
+    {
+      "timestamp": 19.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7514987587928772,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9618,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1154
+    },
+    {
+      "timestamp": 19.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8879417777061462,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9615,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1154
+    },
+    {
+      "timestamp": 19.39,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.3268800675868988,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9698,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1163
+    },
+    {
+      "timestamp": 19.39,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7161424160003662,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9696,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1163
+    },
+    {
+      "timestamp": 19.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.4017123281955719,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9773,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1172
+    },
+    {
+      "timestamp": 19.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7167205214500427,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9770,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1172
+    },
+    {
+      "timestamp": 19.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.32802340388298035,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9853,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1182
+    },
+    {
+      "timestamp": 19.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7930201888084412,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9850,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1182
+    },
+    {
+      "timestamp": 19.85,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7668866515159607,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 9926,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1191
+    },
+    {
+      "timestamp": 20.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8386783003807068,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10005,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1201
+    },
+    {
+      "timestamp": 20.17,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.6508711576461792,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10086,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1210
+    },
+    {
+      "timestamp": 20.24,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.6319774985313416,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10122,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 1214
+    },
+    {
+      "timestamp": 20.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7323665618896484,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10160,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1219
+    },
+    {
+      "timestamp": 20.4,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7792980670928955,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10200,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1224
+    },
+    {
+      "timestamp": 20.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.8397248983383179,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10241,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1229
+    },
+    {
+      "timestamp": 20.56,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.8100991249084473,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10282,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 1234
+    },
+    {
+      "timestamp": 20.64,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7160592079162598,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10320,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1238
+    },
+    {
+      "timestamp": 20.72,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.780187726020813,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10360,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1243
+    },
+    {
+      "timestamp": 20.79,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.8282875418663025,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10396,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1247
+    },
+    {
+      "timestamp": 20.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "confidence": 0.5554940700531006,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10479,
+      "uncertainty": null,
+      "response_xy": [
+        463,
+        400
+      ],
+      "nearest_video_frame": 1257
+    },
+    {
+      "timestamp": 20.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8449816107749939,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10475,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1257
+    },
+    {
+      "timestamp": 21.26,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "confidence": 0.8108367323875427,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10634,
+      "uncertainty": null,
+      "response_xy": [
+        1313,
+        440
+      ],
+      "nearest_video_frame": 1276
+    },
+    {
+      "timestamp": 21.26,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8651355504989624,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10630,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1276
+    },
+    {
+      "timestamp": 21.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "confidence": 0.816611647605896,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10869,
+      "uncertainty": null,
+      "response_xy": [
+        463,
+        400
+      ],
+      "nearest_video_frame": 1304
+    },
+    {
+      "timestamp": 21.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.9097471237182617,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 10865,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1304
+    },
+    {
+      "timestamp": 22.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.49823692440986633,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11023,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1322
+    },
+    {
+      "timestamp": 22.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.8460947275161743,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11021,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1322
+    },
+    {
+      "timestamp": 22.21451247165533,
+      "target": null,
+      "family": "source",
+      "confidence": null,
+      "provenance": "independent_source_novelty",
+      "novelty": 1.6100798085376151,
+      "uncertainty": "family_and_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 1333
+    },
+    {
+      "timestamp": 22.36,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5128882527351379,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11183,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1342
+    },
+    {
+      "timestamp": 22.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7158780097961426,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11258,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1351
+    },
+    {
+      "timestamp": 22.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.9032642841339111,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11255,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1351
+    },
+    {
+      "timestamp": 22.67,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6886723637580872,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11338,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1360
+    },
+    {
+      "timestamp": 22.83,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6153743863105774,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11418,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1370
+    },
+    {
+      "timestamp": 22.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7636182904243469,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11493,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1379
+    },
+    {
+      "timestamp": 22.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8841137290000916,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11490,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1379
+    },
+    {
+      "timestamp": 23.14,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.554422914981842,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11573,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1388
+    },
+    {
+      "timestamp": 23.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5281367897987366,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11648,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1397
+    },
+    {
+      "timestamp": 23.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.835029661655426,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11646,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1397
+    },
+    {
+      "timestamp": 23.45,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5808194875717163,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11728,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1407
+    },
+    {
+      "timestamp": 23.61,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5578049421310425,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11808,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1417
+    },
+    {
+      "timestamp": 23.76,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7465270757675171,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11883,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1426
+    },
+    {
+      "timestamp": 23.76,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8995919823646545,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11880,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1426
+    },
+    {
+      "timestamp": 23.92,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6491191983222961,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 11963,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1435
+    },
+    {
+      "timestamp": 24.08,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6295837759971619,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12043,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1445
+    },
+    {
+      "timestamp": 24.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7536278963088989,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12118,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1454
+    },
+    {
+      "timestamp": 24.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8589367270469666,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12115,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1454
+    },
+    {
+      "timestamp": 24.39,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5621980428695679,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12198,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1463
+    },
+    {
+      "timestamp": 24.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6447191834449768,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12273,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1472
+    },
+    {
+      "timestamp": 24.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.8035854697227478,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12271,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1472
+    },
+    {
+      "timestamp": 24.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5868495106697083,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12353,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1482
+    },
+    {
+      "timestamp": 24.86,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5389885306358337,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12433,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1492
+    },
+    {
+      "timestamp": 25.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.766453742980957,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12508,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1501
+    },
+    {
+      "timestamp": 25.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8827487826347351,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12505,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1501
+    },
+    {
+      "timestamp": 25.17,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.666663408279419,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12588,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1510
+    },
+    {
+      "timestamp": 25.33,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5891900658607483,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12668,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1520
+    },
+    {
+      "timestamp": 25.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7183467745780945,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12743,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1529
+    },
+    {
+      "timestamp": 25.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.866448163986206,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12740,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1529
+    },
+    {
+      "timestamp": 25.63,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7456789612770081,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12815,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1538
+    },
+    {
+      "timestamp": 25.64,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7256666421890259,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12823,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1538
+    },
+    {
+      "timestamp": 25.79,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7598618865013123,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12896,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1547
+    },
+    {
+      "timestamp": 25.8,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5482569336891174,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12903,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1548
+    },
+    {
+      "timestamp": 25.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6419157981872559,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12978,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1557
+    },
+    {
+      "timestamp": 25.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7313122749328613,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 12975,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1557
+    },
+    {
+      "timestamp": 26.1,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5549131035804749,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13053,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1566
+    },
+    {
+      "timestamp": 26.26,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "confidence": 0.5507803559303284,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13134,
+      "uncertainty": null,
+      "response_xy": [
+        1313,
+        440
+      ],
+      "nearest_video_frame": 1576
+    },
+    {
+      "timestamp": 26.26,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.348238468170166,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13133,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1576
+    },
+    {
+      "timestamp": 26.26,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8374484181404114,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13130,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1576
+    },
+    {
+      "timestamp": 26.41,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.2952183485031128,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13208,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1585
+    },
+    {
+      "timestamp": 26.57,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7126047015190125,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13288,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1594
+    },
+    {
+      "timestamp": 26.57,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.74104905128479,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13285,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1594
+    },
+    {
+      "timestamp": 26.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "confidence": 0.5810208916664124,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13369,
+      "uncertainty": null,
+      "response_xy": [
+        463,
+        400
+      ],
+      "nearest_video_frame": 1604
+    },
+    {
+      "timestamp": 26.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.4917723834514618,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13368,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1604
+    },
+    {
+      "timestamp": 26.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8864606618881226,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13365,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1604
+    },
+    {
+      "timestamp": 27.05,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5332446694374084,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13528,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1623
+    },
+    {
+      "timestamp": 27.05,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7877843379974365,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13526,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1623
+    },
+    {
+      "timestamp": 27.21,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6448798179626465,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13608,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1633
+    },
+    {
+      "timestamp": 27.36,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7176616787910461,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13683,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1642
+    },
+    {
+      "timestamp": 27.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.8581663966178894,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13758,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1651
+    },
+    {
+      "timestamp": 27.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8973246216773987,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13755,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1651
+    },
+    {
+      "timestamp": 27.67,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.703586995601654,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13838,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1660
+    },
+    {
+      "timestamp": 27.83,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.8032306432723999,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13918,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1670
+    },
+    {
+      "timestamp": 27.83,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7691803574562073,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13915,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1670
+    },
+    {
+      "timestamp": 27.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8351974487304688,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13990,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1679
+    },
+    {
+      "timestamp": 27.99,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.8395710587501526,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 13998,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1679
+    },
+    {
+      "timestamp": 28.14,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7028576731681824,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14073,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1688
+    },
+    {
+      "timestamp": 28.3,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7524968981742859,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14153,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1698
+    },
+    {
+      "timestamp": 28.3,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.8555593490600586,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14151,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1698
+    },
+    {
+      "timestamp": 28.46,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7056900858879089,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14233,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1708
+    },
+    {
+      "timestamp": 28.61,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.69272381067276,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14308,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1717
+    },
+    {
+      "timestamp": 28.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6151848435401917,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14388,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1726
+    },
+    {
+      "timestamp": 28.85,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.674201488494873,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14428,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1731
+    },
+    {
+      "timestamp": 28.92,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.8081225156784058,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14463,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1735
+    },
+    {
+      "timestamp": 28.92,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8619526624679565,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14460,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1735
+    },
+    {
+      "timestamp": 29.08,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5847435593605042,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14543,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1745
+    },
+    {
+      "timestamp": 29.24,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.604716956615448,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14623,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1754
+    },
+    {
+      "timestamp": 29.4,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.6997201442718506,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14703,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1764
+    },
+    {
+      "timestamp": 29.4,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8301597237586975,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14700,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1764
+    },
+    {
+      "timestamp": 29.55,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5504522323608398,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14778,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1773
+    },
+    {
+      "timestamp": 29.55,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7853692770004272,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14776,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1773
+    },
+    {
+      "timestamp": 29.71,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.7444407343864441,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14858,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1783
+    },
+    {
+      "timestamp": 29.71,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8335503935813904,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14855,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1783
+    },
+    {
+      "timestamp": 29.86,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.5835662484169006,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 14933,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1792
+    },
+    {
+      "timestamp": 30.02,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "confidence": 0.41641348600387573,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15014,
+      "uncertainty": null,
+      "response_xy": [
+        1313,
+        440
+      ],
+      "nearest_video_frame": 1801
+    },
+    {
+      "timestamp": 30.02,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "confidence": 0.3419136106967926,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15013,
+      "uncertainty": null,
+      "response_xy": [
+        1329,
+        525
+      ],
+      "nearest_video_frame": 1801
+    },
+    {
+      "timestamp": 30.02,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8381922841072083,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15010,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1801
+    },
+    {
+      "timestamp": 30.33,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7443378567695618,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15166,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1820
+    },
+    {
+      "timestamp": 30.49,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.6604737043380737,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15246,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1829
+    },
+    {
+      "timestamp": 30.65,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8197882771492004,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15325,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1839
+    },
+    {
+      "timestamp": 30.8,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7398898601531982,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15401,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1848
+    },
+    {
+      "timestamp": 30.95,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.8374388217926025,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15477,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 1857
+    },
+    {
+      "timestamp": 31.11,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.8271080255508423,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15557,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 1867
+    },
+    {
+      "timestamp": 31.27,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "confidence": 0.8667997717857361,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15639,
+      "uncertainty": null,
+      "response_xy": [
+        463,
+        400
+      ],
+      "nearest_video_frame": 1876
+    },
+    {
+      "timestamp": 31.27,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8853453993797302,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15635,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1876
+    },
+    {
+      "timestamp": 31.59,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.6829190254211426,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15795,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1895
+    },
+    {
+      "timestamp": 31.75,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "confidence": 0.8121554255485535,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15879,
+      "uncertainty": null,
+      "response_xy": [
+        1313,
+        440
+      ],
+      "nearest_video_frame": 1905
+    },
+    {
+      "timestamp": 31.75,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8669859766960144,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 15875,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 1905
+    },
+    {
+      "timestamp": 32.06,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7289620637893677,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16031,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1924
+    },
+    {
+      "timestamp": 32.21,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.4298589527606964,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16106,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 1933
+    },
+    {
+      "timestamp": 32.36,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "confidence": 0.7457340955734253,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16182,
+      "uncertainty": null,
+      "response_xy": [
+        1126,
+        519
+      ],
+      "nearest_video_frame": 1942
+    },
+    {
+      "timestamp": 32.52,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "confidence": 0.7591679692268372,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16262,
+      "uncertainty": null,
+      "response_xy": [
+        1126,
+        519
+      ],
+      "nearest_video_frame": 1951
+    },
+    {
+      "timestamp": 32.68,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "confidence": 0.7375155687332153,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16342,
+      "uncertainty": null,
+      "response_xy": [
+        1126,
+        519
+      ],
+      "nearest_video_frame": 1961
+    },
+    {
+      "timestamp": 32.83,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "confidence": 0.7212617993354797,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16417,
+      "uncertainty": null,
+      "response_xy": [
+        1126,
+        519
+      ],
+      "nearest_video_frame": 1970
+    },
+    {
+      "timestamp": 32.99,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "confidence": 0.7321229577064514,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16497,
+      "uncertainty": null,
+      "response_xy": [
+        1126,
+        519
+      ],
+      "nearest_video_frame": 1979
+    },
+    {
+      "timestamp": 33.15,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "confidence": 0.6169828772544861,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16577,
+      "uncertainty": null,
+      "response_xy": [
+        1126,
+        519
+      ],
+      "nearest_video_frame": 1989
+    },
+    {
+      "timestamp": 33.3,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "confidence": 0.7316489219665527,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16652,
+      "uncertainty": null,
+      "response_xy": [
+        1126,
+        519
+      ],
+      "nearest_video_frame": 1998
+    },
+    {
+      "timestamp": 33.46,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "confidence": 0.6924055218696594,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16732,
+      "uncertainty": null,
+      "response_xy": [
+        1126,
+        519
+      ],
+      "nearest_video_frame": 2008
+    },
+    {
+      "timestamp": 33.61,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "confidence": 0.7581086158752441,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16807,
+      "uncertainty": null,
+      "response_xy": [
+        1126,
+        519
+      ],
+      "nearest_video_frame": 2017
+    },
+    {
+      "timestamp": 33.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "confidence": 0.6751800179481506,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16887,
+      "uncertainty": null,
+      "response_xy": [
+        1126,
+        519
+      ],
+      "nearest_video_frame": 2026
+    },
+    {
+      "timestamp": 33.93,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.7818664312362671,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 16967,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 2036
+    },
+    {
+      "timestamp": 34.09,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.6700994372367859,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17047,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 2045
+    },
+    {
+      "timestamp": 34.24,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.7255865931510925,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17122,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 2054
+    },
+    {
+      "timestamp": 34.4,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.7129147052764893,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17202,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 2064
+    },
+    {
+      "timestamp": 34.56,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.45206427574157715,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17281,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 2074
+    },
+    {
+      "timestamp": 34.56,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.5752272009849548,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17282,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 2074
+    },
+    {
+      "timestamp": 34.72,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.6245375275611877,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17362,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 2083
+    },
+    {
+      "timestamp": 34.87,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.6917258501052856,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17437,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 2092
+    },
+    {
+      "timestamp": 35.03,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.7284512519836426,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17517,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 2102
+    },
+    {
+      "timestamp": 35.19,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.58339923620224,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17597,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 2111
+    },
+    {
+      "timestamp": 35.34,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.6125791668891907,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17672,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 2120
+    },
+    {
+      "timestamp": 35.5,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.451138436794281,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17751,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 2130
+    },
+    {
+      "timestamp": 35.66,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.7502837777137756,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17830,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 2140
+    },
+    {
+      "timestamp": 35.81,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7928653359413147,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17906,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 2149
+    },
+    {
+      "timestamp": 35.82,
+      "target": null,
+      "family": "tom",
+      "confidence": 0.5338088274002075,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17912,
+      "uncertainty": "physical_position_unresolved",
+      "response_xy": [
+        893,
+        499
+      ],
+      "nearest_video_frame": 2149
+    },
+    {
+      "timestamp": 35.97,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "confidence": 0.48689553141593933,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17989,
+      "uncertainty": null,
+      "response_xy": [
+        463,
+        400
+      ],
+      "nearest_video_frame": 2158
+    },
+    {
+      "timestamp": 35.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.77774578332901,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 17990,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 2159
+    },
+    {
+      "timestamp": 36.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "confidence": 0.8310365676879883,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 18149,
+      "uncertainty": null,
+      "response_xy": [
+        1313,
+        440
+      ],
+      "nearest_video_frame": 2177
+    },
+    {
+      "timestamp": 36.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8740888237953186,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 18145,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 2177
+    },
+    {
+      "timestamp": 36.61,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.6653217673301697,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 18305,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 2197
+    },
+    {
+      "timestamp": 36.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "confidence": 0.8058043122291565,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 18389,
+      "uncertainty": null,
+      "response_xy": [
+        463,
+        400
+      ],
+      "nearest_video_frame": 2206
+    },
+    {
+      "timestamp": 36.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "confidence": 0.8488286137580872,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 18385,
+      "uncertainty": null,
+      "response_xy": [
+        844,
+        794
+      ],
+      "nearest_video_frame": 2206
+    },
+    {
+      "timestamp": 37.08,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "confidence": 0.7509318590164185,
+      "provenance": "cached_family_detection",
+      "source_onset_index": 18541,
+      "uncertainty": null,
+      "response_xy": [
+        749,
+        597
+      ],
+      "nearest_video_frame": 2225
+    }
+  ],
+  "scope": "Physical poses from original accepted XSQ; unresolved positions and source-only candidates are labelled torso pulses.",
+  "video_sha256": "816adc99bbcba755e975f182e55c22ba51a916e9085d43e99b7b896b20801a3c",
+  "video_bytes": 6061359,
+  "source_xsq_sha256": "65a579c7b659e689fb331387d2199038c98f78cfa92da90ae9ff6e0388485a13"
+}

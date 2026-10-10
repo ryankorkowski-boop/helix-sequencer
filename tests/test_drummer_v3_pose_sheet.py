@@ -55,7 +55,7 @@ def test_drummer_v3_source_and_pose_sheet_are_real_images() -> None:
 
 def test_pose_spec_is_three_tom_eight_target_source_normalized_contract() -> None:
     spec = json.loads(SPEC.read_text(encoding="utf-8"))
-    assert spec["schema"] == "helix.drummer_v3_pose_spec.v6"
+    assert spec["schema"] == "helix.drummer_v3_pose_spec.v7"
     assert spec["canonical_toms"] == ["HIGH", "MID", "FLOOR"]
     assert len(spec["lighting_targets"]) == 8
     zones = {zone["id"]: zone for zone in spec["zones"]}

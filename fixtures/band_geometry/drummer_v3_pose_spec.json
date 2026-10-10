@@ -1,5 +1,5 @@
 {
-  "schema": "helix.drummer_v3_pose_spec.v6",
+  "schema": "helix.drummer_v3_pose_spec.v7",
   "asset_id": "HX_SNOWMAN_DRUMMER_V3",
   "model_name": "HX_SNOWMAN_DRUMMER_V3",
   "source_image": "fixtures/band_geometry/source/drummerbg.png",
@@ -604,7 +604,25 @@
             ]
           ]
         }
-      ]
+      ],
+      "arm_transform": {
+        "source_grip": [
+          0.4543918918918919,
+          0.3956262425447316
+        ],
+        "source_tip": [
+          0.3597972972972973,
+          0.4592445328031809
+        ],
+        "grip": [
+          0.428,
+          0.442
+        ],
+        "contact": [
+          0.3597972972972973,
+          0.4592445328031809
+        ]
+      }
     },
     {
       "id": "RIGHT_ARM_STICK",
@@ -680,7 +698,25 @@
             ]
           ]
         }
-      ]
+      ],
+      "arm_transform": {
+        "source_grip": [
+          0.5658783783783784,
+          0.4135188866799205
+        ],
+        "source_tip": [
+          0.6706081081081081,
+          0.3836978131212724
+        ],
+        "grip": [
+          0.6,
+          0.45
+        ],
+        "contact": [
+          0.6706081081081081,
+          0.3836978131212724
+        ]
+      }
     },
     {
       "id": "HI_HAT_FOOT",
@@ -828,7 +864,25 @@
         "instrument_surface": "SNARE_SURFACE",
         "striking_arm": "left",
         "hit_duration_ms": 125,
-        "intensity": 1.0
+        "intensity": 1.0,
+        "arm_transform": {
+          "source_grip": [
+            0.4543918918918919,
+            0.3956262425447316
+          ],
+          "source_tip": [
+            0.3597972972972973,
+            0.4592445328031809
+          ],
+          "grip": [
+            0.428,
+            0.442
+          ],
+          "contact": [
+            0.3597973,
+            0.4592445
+          ]
+        }
       }
     },
     {
@@ -934,7 +988,25 @@
         "instrument_surface": "TOM_MID_SURFACE",
         "striking_arm": "left",
         "hit_duration_ms": 165,
-        "intensity": 1.0
+        "intensity": 1.0,
+        "arm_transform": {
+          "source_grip": [
+            0.4543918918918919,
+            0.3956262425447316
+          ],
+          "source_tip": [
+            0.3597972972972973,
+            0.4592445328031809
+          ],
+          "grip": [
+            0.428,
+            0.442
+          ],
+          "contact": [
+            0.3597973,
+            0.4592445
+          ]
+        }
       }
     },
     {
@@ -1051,8 +1123,8 @@
             0.4592445328031809
           ],
           "grip": [
-            0.4543918918918919,
-            0.3956262425447316
+            0.428,
+            0.442
           ],
           "contact": [
             0.32094594594594594,
@@ -1164,7 +1236,25 @@
         "instrument_surface": "CYMBAL_LEFT_SURFACE",
         "striking_arm": "left",
         "hit_duration_ms": 320,
-        "intensity": 1.0
+        "intensity": 1.0,
+        "arm_transform": {
+          "source_grip": [
+            0.4543918918918919,
+            0.3956262425447316
+          ],
+          "source_tip": [
+            0.3597972972972973,
+            0.4592445328031809
+          ],
+          "grip": [
+            0.428,
+            0.442
+          ],
+          "contact": [
+            0.3597973,
+            0.4592445
+          ]
+        }
       }
     },
     {
@@ -1266,7 +1356,25 @@
         "instrument_surface": "TOM_HIGH_SURFACE",
         "striking_arm": "right",
         "hit_duration_ms": 165,
-        "intensity": 1.0
+        "intensity": 1.0,
+        "arm_transform": {
+          "source_grip": [
+            0.5658783783783784,
+            0.4135188866799205
+          ],
+          "source_tip": [
+            0.6706081081081081,
+            0.3836978131212724
+          ],
+          "grip": [
+            0.6,
+            0.45
+          ],
+          "contact": [
+            0.6706081,
+            0.3836978
+          ]
+        }
       }
     },
     {
@@ -1368,7 +1476,25 @@
         "instrument_surface": "CYMBAL_RIGHT_SURFACE",
         "striking_arm": "right",
         "hit_duration_ms": 320,
-        "intensity": 1.0
+        "intensity": 1.0,
+        "arm_transform": {
+          "source_grip": [
+            0.5658783783783784,
+            0.4135188866799205
+          ],
+          "source_tip": [
+            0.6706081081081081,
+            0.3836978131212724
+          ],
+          "grip": [
+            0.6,
+            0.45
+          ],
+          "contact": [
+            0.6706081,
+            0.3836978
+          ]
+        }
       }
     },
     {
@@ -1481,8 +1607,8 @@
             0.3836978131212724
           ],
           "grip": [
-            0.5658783783783784,
-            0.4135188866799205
+            0.6,
+            0.45
           ],
           "contact": [
             0.5422297297297297,
@@ -1884,5 +2010,151 @@
         0.5009940357852882
       ]
     ]
-  ]
+  ],
+  "shoulder_anchors": {
+    "source": {
+      "left": [
+        0.4543918918918919,
+        0.3956262425447316
+      ],
+      "right": [
+        0.5658783783783784,
+        0.4135188866799205
+      ]
+    },
+    "revised": {
+      "left": [
+        0.428,
+        0.442
+      ],
+      "right": [
+        0.6,
+        0.45
+      ]
+    },
+    "reason": "Move arms outward and below the scarf onto upper-torso shoulders; preserve all wrist positions and strike contacts."
+  },
+  "torso_shoulders": {
+    "rgb": [
+      158,
+      164,
+      159
+    ],
+    "commands": [
+      {
+        "shape": "polygon",
+        "points": [
+          [
+            0.458,
+            0.435
+          ],
+          [
+            0.44,
+            0.434
+          ],
+          [
+            0.425,
+            0.439
+          ],
+          [
+            0.414,
+            0.448
+          ],
+          [
+            0.407,
+            0.46
+          ],
+          [
+            0.405,
+            0.475
+          ],
+          [
+            0.411,
+            0.488
+          ],
+          [
+            0.416,
+            0.484
+          ],
+          [
+            0.411,
+            0.474
+          ],
+          [
+            0.413,
+            0.462
+          ],
+          [
+            0.42,
+            0.452
+          ],
+          [
+            0.429,
+            0.445
+          ],
+          [
+            0.443,
+            0.44
+          ],
+          [
+            0.458,
+            0.441
+          ]
+        ]
+      },
+      {
+        "shape": "polygon",
+        "points": [
+          [
+            0.571,
+            0.443
+          ],
+          [
+            0.59,
+            0.445
+          ],
+          [
+            0.602,
+            0.45
+          ],
+          [
+            0.614,
+            0.462
+          ],
+          [
+            0.621,
+            0.478
+          ],
+          [
+            0.622,
+            0.5
+          ],
+          [
+            0.616,
+            0.5
+          ],
+          [
+            0.615,
+            0.479
+          ],
+          [
+            0.609,
+            0.465
+          ],
+          [
+            0.598,
+            0.455
+          ],
+          [
+            0.588,
+            0.451
+          ],
+          [
+            0.571,
+            0.449
+          ]
+        ]
+      }
+    ]
+  }
 }
