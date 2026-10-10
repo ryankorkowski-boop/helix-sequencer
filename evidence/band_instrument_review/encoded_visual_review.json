@@ -1,0 +1,132 @@
+{
+  "movies": [
+    {
+      "movie": "00_knot_cathedral_stage_42s.mp4",
+      "frame": 680,
+      "encoded_review_frame": "00_knot_cathedral_stage_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "00_prismatic_orrery_stage_42s.mp4",
+      "frame": 680,
+      "encoded_review_frame": "00_prismatic_orrery_stage_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "00_knot_cathedral_bass_42s.mp4",
+      "frame": 680,
+      "encoded_review_frame": "00_knot_cathedral_bass_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "00_prismatic_orrery_keyboard_instrument_42s.mp4",
+      "frame": 117,
+      "encoded_review_frame": "00_prismatic_orrery_keyboard_instrument_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "02_infinity_observatory_stage_42s.mp4",
+      "frame": 693,
+      "encoded_review_frame": "02_infinity_observatory_stage_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "02_quasicrystal_theatre_stage_42s.mp4",
+      "frame": 693,
+      "encoded_review_frame": "02_quasicrystal_theatre_stage_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "02_infinity_observatory_bass_42s.mp4",
+      "frame": 419,
+      "encoded_review_frame": "02_infinity_observatory_bass_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "02_quasicrystal_theatre_guitar_instrument_42s.mp4",
+      "frame": 342,
+      "encoded_review_frame": "02_quasicrystal_theatre_guitar_instrument_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "03_knot_cathedral_stage_42s.mp4",
+      "frame": 1,
+      "encoded_review_frame": "03_knot_cathedral_stage_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "03_prismatic_orrery_stage_42s.mp4",
+      "frame": 1,
+      "encoded_review_frame": "03_prismatic_orrery_stage_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "03_knot_cathedral_bass_42s.mp4",
+      "frame": 76,
+      "encoded_review_frame": "03_knot_cathedral_bass_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "03_prismatic_orrery_keyboard_instrument_42s.mp4",
+      "frame": 260,
+      "encoded_review_frame": "03_prismatic_orrery_keyboard_instrument_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "01_woven_aurora_stage_42s.mp4",
+      "frame": 5,
+      "encoded_review_frame": "01_woven_aurora_stage_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "01_cymatic_geode_stage_42s.mp4",
+      "frame": 5,
+      "encoded_review_frame": "01_cymatic_geode_stage_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "01_woven_aurora_bass_42s.mp4",
+      "frame": 570,
+      "encoded_review_frame": "01_woven_aurora_bass_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "01_cymatic_geode_guitar_instrument_42s.mp4",
+      "frame": 837,
+      "encoded_review_frame": "01_cymatic_geode_guitar_instrument_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "05_woven_aurora_stage_42s.mp4",
+      "frame": 316,
+      "encoded_review_frame": "05_woven_aurora_stage_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "05_cymatic_geode_stage_42s.mp4",
+      "frame": 316,
+      "encoded_review_frame": "05_cymatic_geode_stage_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "05_woven_aurora_bass_42s.mp4",
+      "frame": 316,
+      "encoded_review_frame": "05_woven_aurora_bass_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "05_cymatic_geode_guitar_instrument_42s.mp4",
+      "frame": 52,
+      "encoded_review_frame": "05_cymatic_geode_guitar_instrument_42s.png",
+      "visually_inspected": true
+    },
+    {
+      "movie": "05_woven_aurora_keyboard_mallets_42s.mp4",
+      "frame": 562,
+      "encoded_review_frame": "05_woven_aurora_keyboard_mallets_42s.png",
+      "visually_inspected": true
+    }
+  ],
+  "method": "actual encoded frames at representative own-channel attacks; every movie visually inspected across six contact sheets",
+  "notes": "string visibility, guitar neck clearance, bass hand height, pianist key reach, band/stage/drummer clearance and lyrics checked"
+}

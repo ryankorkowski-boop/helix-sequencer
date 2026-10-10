@@ -1,0 +1,32 @@
+[
+  {
+    "artifact_id": 11683961562,
+    "zip_bytes": 143441038,
+    "files": 24,
+    "zip_crc_passed": true
+  },
+  {
+    "artifact_id": 11684060202,
+    "zip_bytes": 154942622,
+    "files": 24,
+    "zip_crc_passed": true
+  },
+  {
+    "artifact_id": 11682928169,
+    "zip_bytes": 146484347,
+    "files": 24,
+    "zip_crc_passed": true
+  },
+  {
+    "artifact_id": 11683681495,
+    "zip_bytes": 171318733,
+    "files": 24,
+    "zip_crc_passed": true
+  },
+  {
+    "artifact_id": 11683177812,
+    "zip_bytes": 192603436,
+    "files": 30,
+    "zip_crc_passed": true
+  }
+]

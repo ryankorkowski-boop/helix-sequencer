@@ -25,7 +25,7 @@ def verify(movie):
     video=next(s for s in p['streams'] if s['codec_type']=='video');audio=next(s for s in p['streams'] if s['codec_type']=='audio')
     assert int(video['nb_frames'])==840 and video['pix_fmt']=='yuv420p' and video['codec_name']=='h264' and audio['codec_name']=='aac'
     print('DELIVERY VERIFIED',movie.name,flush=True)
-    return dict(file=movie.name,sha256=q['sha256'],bytes=q['bytes'],id=q['id'],title=q['title'],focus=q['focus'],layout=q['layout'],source_start_seconds=q['start'],encoded_checks=len(q['encoded_instrument_checks']),audio_correlation=q['soundtrack']['zero_offset_correlation'])
+    return dict(file=movie.name,sha256=q['sha256'],verification_sha256=sha(movie.with_suffix('.verification.json')),bytes=q['bytes'],id=q['id'],title=q['title'],focus=q['focus'],layout=q['layout'],source_start_seconds=q['start'],encoded_checks=len(q['encoded_instrument_checks']),audio_correlation=q['soundtrack']['zero_offset_correlation'])
 
 
 def expected_movies():
@@ -34,10 +34,18 @@ def expected_movies():
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--media-commit');p.add_argument('--verify-only',action='store_true');args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--media-commit');p.add_argument('--verify-only',action='store_true');p.add_argument('--archive-only',action='store_true');args=p.parse_args()
     movies=expected_movies();assert len(movies)==21 and all(p.exists() for p in movies)
-    with ThreadPoolExecutor(max_workers=2) as pool:manifest=list(pool.map(verify,movies))
     evidence=ROOT/'evidence/band_instrument_review';evidence.mkdir(exist_ok=True)
+    if args.archive_only:
+        manifest=json.loads((evidence/'delivery_manifest.json').read_text())
+        assert len(manifest)==21 and {m['file'] for m in manifest}=={p.name for p in movies}
+        for m in manifest:
+            movie=OUT/'movies'/m['file']
+            assert sha(movie)==m['sha256'] and movie.stat().st_size==m['bytes']
+            assert sha(movie.with_suffix('.verification.json'))==m['verification_sha256']
+    else:
+        with ThreadPoolExecutor(max_workers=2) as pool:manifest=list(pool.map(verify,movies))
     (evidence/'delivery_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     if args.verify_only:return
     assert args.media_commit and len(args.media_commit)==40
@@ -46,7 +54,7 @@ def main():
     text='# Snowman band: 21 new 42-second instrument studies\n\n'+f'[Download the entire ZIP]({release})\n\n'
     text+='Brighter independent string shimmer, source-timed picking, distinct playable guitar strings, pitch-directed bass hands, and piano/mallet keys. Latest outward torso shoulders retained. Each clip contains original audio.\n\n'
     text+='Full-stage and close-up views span Wire Tree, Who Knew, 49, Candy Cane Chaos and Festivus across six intricate stages. Who Knew includes its guitar outro; Festivus includes the mallet intro.\n\n'
-    text+='All21 movies pass full decoding, original-audio checks and every-frame routing/pose checks. Encoded representative cues are tested against an instrument-muted version of the same scene. Pitches/stems are estimates; quiet instruments are not given fabricated notes. These are3D review movies, not new verified native xLights/controller exports.\n\n'
+    text+='All 21 movies pass full decoding, original-audio checks and every-frame routing/pose checks. Encoded representative cues are tested against an instrument-muted version of the same scene. Pitches/stems are estimates; quiet instruments are not given fabricated notes. These are 3D review movies, not new verified native xLights/controller exports.\n\n'
     for m in manifest:
         m['url']=url+m['file'];text+=f'- [{m["title"]} — {m["focus"]}, {m["layout"]}, {m["source_start_seconds"]:g}s start]({m["url"]})\n'
     (ROOT/'docs/BAND_INSTRUMENT_REVIEW_DOWNLOADS.md').write_text(text)
