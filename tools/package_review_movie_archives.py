@@ -98,6 +98,8 @@ def destination(item, mode):
         group = '01_Six_Layout_Song_Clips'
     elif '/superseded_' in s['path'] and 'Snowman_Band_Upgrade' in s['path']:
         group = 'Superseded_Upgrade_Previews'
+    elif '_pilot' in name and 'Snowman_Band_Upgrade' in s['path']:
+        group = 'Upgrade_Pilot_Previews'
     elif 'Refined_3D' in name:
         group = 'Fresh_Band_Upgrade'
     elif 'Concept_Art_Comparisons' in s['path']:
@@ -146,8 +148,9 @@ def package(mode):
     else:
         title = 'All_Available_Recent_MP4s'
         scope = ('All unique MP4 payloads available locally at collection and '
-                 'recovered from the 92 unexpired CI artifacts in the request '
-                 'window, plus newly requested artwork comparisons and band upgrades.')
+                 'recovered from surviving CI artifacts at the recorded collection '
+                 'snapshot, including newly requested artwork comparisons, band '
+                 'upgrades and their explicitly separated historical drafts.')
     missing = ('The older Android delivery documented 42 movies at '
                '/workspace/helix-laptop-prep/outputs/Helix_Android_Previews. '
                'That workspace and its 339126653-byte ZIP are absent here; no '
@@ -163,6 +166,9 @@ def package(mode):
                 'playable_mp4_count': len(items)-incomplete,
                 'incomplete_historical_mp4_count': incomplete,
                 'known_unavailable_history': missing, 'movies': items}
+    metadata = RUNTIME/'review_collection_metadata.json'
+    if metadata.exists():
+        manifest['collection_metadata'] = json.loads(metadata.read_text())
     text = (f'{title}\n\n{scope}\n\n{len(items)} unique MP4 payloads: '
             f'{len(items)-incomplete} fully decoded movies and {incomplete} incomplete '
             'historical files kept separately for byte preservation. '

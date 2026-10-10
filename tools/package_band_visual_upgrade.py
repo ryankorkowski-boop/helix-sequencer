@@ -23,6 +23,7 @@ def main():
     for p in proofs:
         assert sha(p['file']) == p['sha256'] and p['full_decode_passed']
         assert p['width'] == 1920 and p['height'] == 1080
+        assert p['render_revision'] == 2
         assert p['soundtrack']['full_song_duration_matches']
         assert p['soundtrack']['zero_offset_correlation'] > .999
         assert not p['native_xlights_playback'] and p['new_3d_drummer_interpretation']

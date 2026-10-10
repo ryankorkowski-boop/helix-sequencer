@@ -1,0 +1,12 @@
+{
+  "file": "/workspace/helix-sequencer/outputs/Review_Movie_Archives/All_Available_Recent_MP4s.zip",
+  "bytes": 855995646,
+  "sha256": "5816d2f07e227d328e0581726d0319339a553056e9f14da24d17f8b84cda0274",
+  "unique_mp4_count": 179,
+  "all_mp4s_fully_decoded": false,
+  "playable_mp4_count": 178,
+  "incomplete_historical_mp4_count": 1,
+  "zip_crc_passed": true,
+  "all_zipped_movie_sha256_match_sources": true,
+  "known_unavailable_history": "The older Android delivery documented 42 movies at /workspace/helix-laptop-prep/outputs/Helix_Android_Previews. That workspace and its 339126653-byte ZIP are absent here; no published copy was found. Those exact historical bytes are not claimed as recovered. This archive is the available recovered collection, not proof that every previously generated movie survives."
+}

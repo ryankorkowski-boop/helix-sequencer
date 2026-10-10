@@ -1,8 +1,10 @@
 {
-  "media_commit": "f70eedb5859494a20f14769fcbce73432647b7cd",
+  "media_commit": "9746dfe853431c5c67c5f23d2b5086f9e0508bd4",
   "release_tag": "review-movies-2026-10-10",
   "archives": [
-    "Earlier_Layout_And_Drummer_MP4s.zip"
+    "Earlier_Layout_And_Drummer_MP4s.zip",
+    "All_Available_Recent_MP4s.zip",
+    "Snowman_Band_Refined_3D_MP4s.zip"
   ],
-  "local_verification": "evidence/review_movie_archives/Earlier_Layout_And_Drummer_MP4s.verification.json"
+  "final_movies_commit": "209b6f7416afb35fa366aef272c8b3bd33406e25"
 }

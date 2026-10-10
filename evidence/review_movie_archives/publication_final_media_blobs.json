@@ -1,0 +1,199 @@
+{
+  "media_commit": "209b6f7416afb35fa366aef272c8b3bd33406e25",
+  "files": [
+    {
+      "file": "movies/03_faces_Refined_3D.mp4",
+      "bytes": 15923846,
+      "git_blob_sha1": "6a7631a56b526f09768e07dd9747876efa9a69b2",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "movies/01_faces_Refined_3D.mp4",
+      "bytes": 9039781,
+      "git_blob_sha1": "ad12f3f0e1fb9a2be5130c04281254baf2bb00d8",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "movies/05_faces_Refined_3D.mp4",
+      "bytes": 7683729,
+      "git_blob_sha1": "8778e948c5f8ca070aac7d785f3d58f077fafe2b",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "movies/04_faces_Refined_3D.mp4",
+      "bytes": 2852445,
+      "git_blob_sha1": "b9712d54b2f300f44386518c32e640eff1fe16d1",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "movies/01_band_Refined_3D.mp4",
+      "bytes": 6487223,
+      "git_blob_sha1": "8196c111cd3d01ff2da13a5b0c11155bcec644a3",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "movies/02_band_Refined_3D.mp4",
+      "bytes": 12262529,
+      "git_blob_sha1": "e53f68d20a70f81149c3388c61efcd01a40e13db",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "movies/02_faces_Refined_3D.mp4",
+      "bytes": 14963467,
+      "git_blob_sha1": "4e9671729810c8d359cbaeda7f2da970e868aab3",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "movies/03_band_Refined_3D.mp4",
+      "bytes": 11816135,
+      "git_blob_sha1": "5b0d971ec400d26206c31807e3213baeaa277a8c",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "movies/00_band_Refined_3D.mp4",
+      "bytes": 13693916,
+      "git_blob_sha1": "f6e3e931bda9588edf61d397882a8c8e1791bf9c",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "movies/05_band_Refined_3D.mp4",
+      "bytes": 6021184,
+      "git_blob_sha1": "5f6419a32a7be8f368c9d9de6b0b3921dc9ce7ed",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "movies/04_band_Refined_3D.mp4",
+      "bytes": 1993089,
+      "git_blob_sha1": "abb52d81e9196ba8dfd4a4b8c8f13d75143b7587",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_001.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "c8713a09295b55bb4d34346c5924ab466f1eebe6",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_010.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "d8b0c21448a61287e01e706fdcb3e515f2db5fb6",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_011.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "bba44ba545fd0d416bc98e52af24f4d52d87bf6e",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_003.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "0601fad09d66eca03740d09b9b591e26e9054e87",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_017.bin",
+      "bytes": 18183422,
+      "git_blob_sha1": "79e4feb3131fe57bdab7a1d19b4c4005e9809166",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_016.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "81b816f4dfa13fa5b6e4fc49954814244cabcf8a",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_008.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "d5dffd06d05ada2bda212cb3db570122d886b674",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_002.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "e59013c117d01869c0d052224b8c260997c73155",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_000.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "966b6a86ed346a9076bdb75d2e3f606dfb4d721a",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_004.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "d438cb0eae25ba2790a9a1e9ab4fe66ead19c7cb",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_013.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "afb50d1abab9d268774874750be9942f2c39e428",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_012.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "dbfa918fb009a91f50c66f87ab11dda3b55dfe4b",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_006.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "b37a2a75f7c7cf45aa6ecfa839c04ed738671c65",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_007.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "882ff24caa0cde5a4f966288dadb039b0b0a3028",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_009.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "5dee065ed8e81a0cd248bd12b174726021c8f5ae",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_005.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "94fc6c429da5cea28d068d10ebf683aa994d710a",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_014.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "4fdecfafdf425094d1e2a37c2ae7fc09ddd0e325",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/recent/part_015.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "2f4b075de31afca6bb55166c73e80828ce0be6a0",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/band/part_001.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "1f672536afc9886929d0853d964941af5209531c",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/band/part_002.bin",
+      "bytes": 5152259,
+      "git_blob_sha1": "9795174e197d8eb61bc81b50a5a057950623cec5",
+      "remote_blob_matches": true
+    },
+    {
+      "file": "archive_parts/band/part_000.bin",
+      "bytes": 49283072,
+      "git_blob_sha1": "c24154324975d39382947df5a28befabc47f77cb",
+      "remote_blob_matches": true
+    }
+  ],
+  "all_11_mp4s_match": true,
+  "all_21_new_transport_parts_match": true
+}
