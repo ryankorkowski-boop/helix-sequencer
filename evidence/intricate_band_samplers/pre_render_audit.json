@@ -1,0 +1,218 @@
+{
+  "real_song_pose_checks": [
+    {
+      "id": "00",
+      "title": "Wire Tree",
+      "start_seconds": 212.5,
+      "pose_frames_inspected": 84,
+      "singer_active_frames": [
+        438,
+        533
+      ],
+      "real_bass_pitch_direction_and_finite_arms_passed": true,
+      "guitar_attack_frames": 39,
+      "mallet_key_frames": 97,
+      "lyric_lines": 63,
+      "coverage": {
+        "bass": 0.4154761904761905,
+        "guitar": 0.10119047619047619,
+        "piano": 0.10119047619047619,
+        "vocal": 0.7095238095238096,
+        "lexical_vocals": 0.5238095238095238
+      }
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "start_seconds": 27.0,
+      "pose_frames_inspected": 84,
+      "singer_active_frames": [
+        514,
+        395
+      ],
+      "real_bass_pitch_direction_and_finite_arms_passed": true,
+      "guitar_attack_frames": 0,
+      "mallet_key_frames": 209,
+      "lyric_lines": 53,
+      "coverage": {
+        "bass": 0.5892857142857143,
+        "guitar": 0.0,
+        "piano": 0.22023809523809523,
+        "vocal": 0.9452380952380952,
+        "lexical_vocals": 0.9380952380952381
+      }
+    },
+    {
+      "id": "02",
+      "title": "49 (Remastered)",
+      "start_seconds": 56.0,
+      "pose_frames_inspected": 84,
+      "singer_active_frames": [
+        562,
+        491
+      ],
+      "real_bass_pitch_direction_and_finite_arms_passed": true,
+      "guitar_attack_frames": 9,
+      "mallet_key_frames": 80,
+      "lyric_lines": 30,
+      "coverage": {
+        "bass": 0.39285714285714285,
+        "guitar": 0.03214285714285714,
+        "piano": 0.15476190476190477,
+        "vocal": 0.830952380952381,
+        "lexical_vocals": 0.6678571428571428
+      }
+    },
+    {
+      "id": "03",
+      "title": "Candy Cane Chaos",
+      "start_seconds": 130.5,
+      "pose_frames_inspected": 84,
+      "singer_active_frames": [
+        406,
+        442
+      ],
+      "real_bass_pitch_direction_and_finite_arms_passed": true,
+      "guitar_attack_frames": 62,
+      "mallet_key_frames": 79,
+      "lyric_lines": 84,
+      "coverage": {
+        "bass": 0.2630952380952381,
+        "guitar": 0.11190476190476191,
+        "piano": 0.08333333333333333,
+        "vocal": 0.7416666666666667,
+        "lexical_vocals": 0.6035714285714285
+      }
+    },
+    {
+      "id": "05",
+      "title": "Festivus (Remastered)",
+      "start_seconds": 68.0,
+      "pose_frames_inspected": 84,
+      "singer_active_frames": [
+        494,
+        500
+      ],
+      "real_bass_pitch_direction_and_finite_arms_passed": true,
+      "guitar_attack_frames": 136,
+      "mallet_key_frames": 343,
+      "lyric_lines": 44,
+      "coverage": {
+        "bass": 0.35714285714285715,
+        "guitar": 0.24047619047619048,
+        "piano": 0.37976190476190474,
+        "vocal": 0.6892857142857143,
+        "lexical_vocals": 0.35
+      }
+    }
+  ],
+  "stages": [
+    {
+      "layout": "knot_cathedral",
+      "title": "Borealis Knot Cathedral",
+      "curves_and_meshes": 172,
+      "instanced_parts": 355,
+      "custom_triangles": 272472,
+      "finite_geometry": true,
+      "canonical_dry_drummer": true,
+      "band_members": [
+        "drummer",
+        "bass",
+        "guitar",
+        "male singer",
+        "female singer",
+        "keyboard"
+      ]
+    },
+    {
+      "layout": "prismatic_orrery",
+      "title": "Prismatic Orrery",
+      "curves_and_meshes": 615,
+      "instanced_parts": 475,
+      "custom_triangles": 118068,
+      "finite_geometry": true,
+      "canonical_dry_drummer": true,
+      "band_members": [
+        "drummer",
+        "bass",
+        "guitar",
+        "male singer",
+        "female singer",
+        "keyboard"
+      ]
+    },
+    {
+      "layout": "woven_aurora",
+      "title": "Woven Aurora Vault",
+      "curves_and_meshes": 176,
+      "instanced_parts": 355,
+      "custom_triangles": 310048,
+      "finite_geometry": true,
+      "canonical_dry_drummer": true,
+      "band_members": [
+        "drummer",
+        "bass",
+        "guitar",
+        "male singer",
+        "female singer",
+        "keyboard"
+      ]
+    },
+    {
+      "layout": "cymatic_geode",
+      "title": "Cymatic Geode Garden",
+      "curves_and_meshes": 1324,
+      "instanced_parts": 355,
+      "custom_triangles": 172672,
+      "finite_geometry": true,
+      "canonical_dry_drummer": true,
+      "band_members": [
+        "drummer",
+        "bass",
+        "guitar",
+        "male singer",
+        "female singer",
+        "keyboard"
+      ]
+    },
+    {
+      "layout": "infinity_observatory",
+      "title": "Infinity Observatory",
+      "curves_and_meshes": 187,
+      "instanced_parts": 355,
+      "custom_triangles": 234068,
+      "finite_geometry": true,
+      "canonical_dry_drummer": true,
+      "band_members": [
+        "drummer",
+        "bass",
+        "guitar",
+        "male singer",
+        "female singer",
+        "keyboard"
+      ]
+    },
+    {
+      "layout": "quasicrystal_theatre",
+      "title": "Quasicrystal Theatre",
+      "curves_and_meshes": 680,
+      "instanced_parts": 355,
+      "custom_triangles": 151768,
+      "finite_geometry": true,
+      "canonical_dry_drummer": true,
+      "band_members": [
+        "drummer",
+        "bass",
+        "guitar",
+        "male singer",
+        "female singer",
+        "keyboard"
+      ]
+    }
+  ],
+  "preserved_inputs_count": 21,
+  "all_original_21_inputs_match": true,
+  "focused_tests": "17 passed",
+  "decoded_pilot_scope": "full 42s revision3 Festivus; final revision4 Who Knew pending",
+  "all_six_rendered_views": "wide and dolly-close; see PNG evidence"
+}

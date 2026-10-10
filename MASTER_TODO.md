@@ -1,5 +1,16 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-10 — intricate 42-second band samplers (in progress)
+
+Goal: improve missed wordless vowels, give both singers usable independent performance lanes, route piano and xylophone-like mallet cues to keys, make bass hand height monotonic with absolute pitch, retain the exact dry-test drummer and create intricate musical stages containing the band, explicitly including Who Knew and Festivus.
+
+Changed modules planned: focused acoustic/performance analysis, intricate geometry/cue renderer, meaningful logic/geometry regression tests, sampler packaging/publication and evidence/docs. Preserve all earlier native shows, source recordings, canonical drummer artwork/xmodel/pose masks and original strike schedules. Prior refined 3D rendering remains archived and available. All19 canonical dry-test source/pose/compositor files are byte-identical to source3cbd736. New singer casting is authored because identity separation is unreliable; no gender classification claim. Mallet identification and musical pitches remain estimates.
+
+Evidence/checklist: [x] inspect current source, six-stem RMS and original dry artifact11527580859; [x] five source-bound acoustic/lyric/stem analyses and clip choices, screened embedded reference and fresh Festivus recognition; [x] 17 geometry/performance/idle/reference tests; [x] full 42s pilot/audio and decoded-frame review, floor and keyboard/guitar occlusion fixes; [ ] full 42-second render/audio/ZIP verification; [ ] immutable downloads. Exact dry-test preview uses canonical source-art extraction and the preserved pose specification; do not silently substitute the previous mirrored-wrong 3D interpretation. New stages are actual geometric performance visualizations, not concept-art slides. Native xLights export/playback is outside this preview request and must not be implied.
+
+Limitations/deferred/risks: mixed-vocal attribution and wordless-vowel identity can be uncertain; keep inferred vocables distinct from verified lyric text. Source separation leaks instruments and does not guarantee all six stems are musically present. Song selection will show measured strengths and weaknesses. Physical installation/controller wiring and native conversion of new stages deferred. Check silence/idle motion, bass monotonicity, keyboard mallet routing, intact drummer poses, finite geometry, visual clearance, exact duration and source-audio alignment before publication.
+
+
 ## 2026-10-10 — earlier preview archive after visual review (published)
 
 Goal: user rejected the visual fidelity of the 62 silent contour previews and requests movies from before that batch; retain the favorite 90-second six-layout music comparison. This review supersedes the prior artistic-acceptance implication, while preserving all native files and historical technical verification. No new native/art fidelity acceptance is claimed.

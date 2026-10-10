@@ -1,0 +1,73 @@
+name: Render intricate 42-second band samplers
+
+on:
+  push:
+    branches: [feature/band-intricate-42s]
+    paths:
+      - evidence/intricate_band_samplers/remote_render_request.json
+      - .github/workflows/render-intricate-band-samplers.yml
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        layout: [knot_cathedral, prismatic_orrery, woven_aurora, cymatic_geode, infinity_observatory, quasicrystal_theatre]
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      EGL_PLATFORM: surfaceless
+      LP_NUM_THREADS: '3'
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install focused rendering dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg libegl1 libegl-mesa0 libgl1-mesa-dri
+          python -m pip install numpy scipy Pillow PyYAML trimesh==5.1.1 moderngl==5.13.0 zstandard imageio imageio-ffmpeg soundfile
+      - name: Restore pinned original audio and refined performance analysis
+        run: |
+          python - <<'PY'
+          import hashlib,json,re,urllib.request,zipfile
+          from pathlib import Path
+          request=json.load(open('evidence/intricate_band_samplers/remote_render_request.json'))
+          assert re.fullmatch('[0-9a-f]{40}',request['media_commit'])
+          url='https://raw.githubusercontent.com/'+request['repo']+'/'+request['media_commit']+'/intricate_sampler_inputs.zip'
+          data=urllib.request.urlopen(url,timeout=120).read()
+          assert len(data)==request['bytes'] and hashlib.sha256(data).hexdigest()==request['sha256']
+          p=Path('sampler_inputs.zip');p.write_bytes(data)
+          with zipfile.ZipFile(p) as z:
+              assert z.testzip() is None
+              for n in z.namelist():assert Path(n).resolve().is_relative_to(Path.cwd())
+              z.extractall('.')
+          PY
+      - name: Render five source-bound songs in this stage
+        run: python -m tools.render_intricate_band_samplers --layouts ${{ matrix.layout }}
+      - name: Render additional vocal and instrument review windows
+        run: |
+          if [ '${{ matrix.layout }}' = knot_cathedral ]; then
+            python -m tools.render_intricate_band_samplers --layouts knot_cathedral --ids 01 --start 0 --suffix _vocal_intro
+          fi
+          if [ '${{ matrix.layout }}' = prismatic_orrery ]; then
+            python -m tools.render_intricate_band_samplers --layouts prismatic_orrery --ids 01 --start 77 --suffix _guitar_outro
+          fi
+          if [ '${{ matrix.layout }}' = woven_aurora ]; then
+            python -m tools.render_intricate_band_samplers --layouts woven_aurora --ids 05 --start 0 --suffix _mallet_intro
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: intricate-band-${{ matrix.layout }}
+          path: outputs/Intricate_Band_Samplers/movies/
+          compression-level: 0
+          retention-days: 30

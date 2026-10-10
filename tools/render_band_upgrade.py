@@ -76,11 +76,11 @@ def view_projection(width,height):
 
 
 class GLView:
-    def __init__(self,scene,width=1920,height=1080):
+    def __init__(self,scene,width=1920,height=1080,vertex_shader=None,fragment_shader=None):
         self.scene=scene;self.width=width;self.height=height
         self.ctx=moderngl.create_standalone_context(backend='egl')
         self.ctx.enable(moderngl.DEPTH_TEST)
-        self.program=self.ctx.program(vertex_shader=VERTEX,fragment_shader=FRAGMENT)
+        self.program=self.ctx.program(vertex_shader=vertex_shader or VERTEX,fragment_shader=fragment_shader or FRAGMENT)
         vp,eye=view_projection(width,height);self.program['view_projection'].write(vp.T.tobytes());self.program['eye'].value=tuple(eye)
         self.fbo=self.ctx.simple_framebuffer((width,height),components=3);self.fbo.use()
         templates={'sphere':trimesh.creation.icosphere(subdivisions=2),
@@ -109,7 +109,7 @@ class GLView:
             (instances,'4f 4f 4f 4f 3f 1f /i','m0','m1','m2','m3','instance_color','instance_slot')])
         return vao,instances,objects
 
-    def frame(self,levels):
+    def draw(self,levels):
         self.fbo.clear(.018,.027,.047,1)
         self.program['activity'].write(np.asarray(levels,dtype='f4').tobytes())
         for vao,buffer,objects in self.groups:
@@ -117,6 +117,8 @@ class GLView:
             values=np.array([np.r_[o['matrix'].T.ravel(),o['color'],o['slot']] for o in objects],dtype='f4')
             buffer.write(values.tobytes());vao.render(instances=len(objects))
         if self.static:self.static.render()
+    def frame(self,levels):
+        self.draw(levels)
         return Image.frombytes('RGB',(self.width,self.height),self.fbo.read(components=3,alignment=1)).transpose(Image.Transpose.FLIP_TOP_BOTTOM)
 
     def close(self):self.ctx.release()
