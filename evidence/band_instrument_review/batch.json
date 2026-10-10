@@ -1,0 +1,149 @@
+[
+  {
+    "id": "00",
+    "layout": "knot_cathedral",
+    "start": 212.5,
+    "focus": "stage",
+    "suffix": ""
+  },
+  {
+    "id": "00",
+    "layout": "prismatic_orrery",
+    "start": 212.5,
+    "focus": "stage",
+    "suffix": ""
+  },
+  {
+    "id": "00",
+    "layout": "knot_cathedral",
+    "start": 212.5,
+    "focus": "bass",
+    "suffix": ""
+  },
+  {
+    "id": "00",
+    "layout": "prismatic_orrery",
+    "start": 1.0,
+    "focus": "keyboard",
+    "suffix": "_instrument"
+  },
+  {
+    "id": "01",
+    "layout": "woven_aurora",
+    "start": 27,
+    "focus": "stage",
+    "suffix": ""
+  },
+  {
+    "id": "01",
+    "layout": "cymatic_geode",
+    "start": 27,
+    "focus": "stage",
+    "suffix": ""
+  },
+  {
+    "id": "01",
+    "layout": "woven_aurora",
+    "start": 27,
+    "focus": "bass",
+    "suffix": ""
+  },
+  {
+    "id": "01",
+    "layout": "cymatic_geode",
+    "start": 77,
+    "focus": "guitar",
+    "suffix": "_instrument"
+  },
+  {
+    "id": "02",
+    "layout": "infinity_observatory",
+    "start": 56,
+    "focus": "stage",
+    "suffix": ""
+  },
+  {
+    "id": "02",
+    "layout": "quasicrystal_theatre",
+    "start": 56,
+    "focus": "stage",
+    "suffix": ""
+  },
+  {
+    "id": "02",
+    "layout": "infinity_observatory",
+    "start": 56,
+    "focus": "bass",
+    "suffix": ""
+  },
+  {
+    "id": "02",
+    "layout": "quasicrystal_theatre",
+    "start": 0.0,
+    "focus": "guitar",
+    "suffix": "_instrument"
+  },
+  {
+    "id": "03",
+    "layout": "knot_cathedral",
+    "start": 130.5,
+    "focus": "stage",
+    "suffix": ""
+  },
+  {
+    "id": "03",
+    "layout": "prismatic_orrery",
+    "start": 130.5,
+    "focus": "stage",
+    "suffix": ""
+  },
+  {
+    "id": "03",
+    "layout": "knot_cathedral",
+    "start": 130.5,
+    "focus": "bass",
+    "suffix": ""
+  },
+  {
+    "id": "03",
+    "layout": "prismatic_orrery",
+    "start": 0.0,
+    "focus": "keyboard",
+    "suffix": "_instrument"
+  },
+  {
+    "id": "05",
+    "layout": "woven_aurora",
+    "start": 68,
+    "focus": "stage",
+    "suffix": ""
+  },
+  {
+    "id": "05",
+    "layout": "cymatic_geode",
+    "start": 68,
+    "focus": "stage",
+    "suffix": ""
+  },
+  {
+    "id": "05",
+    "layout": "woven_aurora",
+    "start": 68,
+    "focus": "bass",
+    "suffix": ""
+  },
+  {
+    "id": "05",
+    "layout": "cymatic_geode",
+    "start": 0.0,
+    "focus": "guitar",
+    "suffix": "_instrument"
+  },
+  {
+    "id": "05",
+    "layout": "woven_aurora",
+    "start": 0,
+    "focus": "keyboard",
+    "suffix": "_mallets"
+  }
+]

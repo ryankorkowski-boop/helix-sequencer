@@ -91,8 +91,8 @@ class ExactDryDrummer:
 
 
 class SamplerView(GLView):
-    def __init__(self,scene,width,height):
-        super().__init__(scene,width,height,SAMPLER_VERTEX,SAMPLER_FRAGMENT)
+    def __init__(self,scene,width,height,vertex_shader=None,fragment_shader=None):
+        super().__init__(scene,width,height,vertex_shader or SAMPLER_VERTEX,fragment_shader or SAMPLER_FRAGMENT)
         self.dry=ExactDryDrummer()
         self.quad=self.ctx.program(vertex_shader='''#version 330
             in vec3 position; in vec2 uv; uniform mat4 view_projection;
@@ -135,7 +135,7 @@ class SamplerView(GLView):
         self.output_fbo=self.fbo
 
     def frame(self,levels,lighting,strikes,hand,source_time,elapsed):
-        vp,eye=camera(self.width,self.height,elapsed)
+        vp,eye=getattr(self,'camera_callback',camera)(self.width,self.height,elapsed)
         self.program['view_projection'].write(vp.T.tobytes());self.program['eye'].value=tuple(eye)
         self.program['song_time'].value=source_time
         self.fbo=self.scene_fbo;self.fbo.use();self.draw(levels)

@@ -1,5 +1,15 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-10 — band instrument input audit and readable string performance (in progress)
+
+Goal: reassess all band-member inputs and historical candy/player-piano logic, correct bass/guitar/keyboard routes, make individual bass strings and playing movements obvious, and deliver another verified ZIP of musical samplers.
+
+Changed modules planned: focused instrument-event compiler/analysis, source-driven string/hand/keyboard performance adapter, readable instrument meshes/shaders/cameras, batch renderer/audits and publication evidence. Preserve original audio/native shows, existing screened lyrics/authored duet casting and latest torso-shoulder drummer geometry. Historical source/render evidence remains unchanged. The current full source history includes April player-piano/cane-pool logic and May reactive-string/floor-piano work; no recovered year-old asset is claimed.
+
+Evidence/checklist: [x] historical and current input audit; [x] per-note source-bound events and maximum-cardinality playable string/chord routes; [x]17 focused regressions; [ ] final actual-pose checks; [ ] final HD encoded visual/cue pilot review; [ ]21×42s full batch MP4/audio/decode/cue checks; [ ] ZIP/public download checks. Tuned harmonic templates fix detuned-single-note false chords. Segmented bass/guitar strings independently shimmer with source velocity; attack phase drives plucking/strumming; per-note keyboard hold/velocity and screened mallet cues drive literal keys. String/neck clearance and low-up/high-down bass targeting are explicit. Five-song CI batch and pinned inputs are prepared; publication and handoff remain pending.
+
+Limitations/deferred/risks: separated stems and pitches remain estimates rather than a verified score; weak/absent guitar passages must not be animated as fabricated guitar. Candy pool beat hooks are decorative fallback and must not be mistaken for measured keyboard notes. Musical note range folding must be explicit; overlapping chord notes need distinct physical strings; no missed input is hidden by making the entire instrument glow. Native/controller playback and automatic singer identity separation remain deferred. Triple checking means separate source/event, actual pose/render and encoded delivery checks, with fixes and new rendering if a check fails.
+
 ## 2026-10-10 — natural drummer shoulders and dry-test hit coverage (published)
 
 Goal: apply the drummer-technique feedback by anchoring arms outward/lower on the torso, deliver a fresh dry-test MP4, and audit every scored hit and independently measured source attack for a visible response.

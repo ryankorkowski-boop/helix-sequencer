@@ -1,0 +1,58 @@
+name: Render source-timed readable band studies
+on:
+  push:
+    branches: [feature/band-instrument-readability]
+    paths:
+      - evidence/band_instrument_review/remote_render_request.json
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        song: ['00','01','02','03','05']
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      EGL_PLATFORM: surfaceless
+      LP_NUM_THREADS: '3'
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install focused rendering dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg libegl1 libegl-mesa0 libgl1-mesa-dri
+          python -m pip install numpy scipy Pillow PyYAML trimesh==5.1.1 moderngl==5.13.0 zstandard imageio imageio-ffmpeg soundfile
+      - name: Restore hash-pinned audio, native drum schedules and instrument events
+        run: |
+          python - <<'PY'
+          import hashlib,json,re,urllib.request,zipfile
+          from pathlib import Path
+          r=json.load(open('evidence/band_instrument_review/remote_render_request.json'))
+          assert re.fullmatch('[0-9a-f]{40}',r['media_commit'])
+          url='https://raw.githubusercontent.com/'+r['repo']+'/'+r['media_commit']+'/band_instrument_inputs.zip'
+          data=urllib.request.urlopen(url,timeout=120).read()
+          assert len(data)==r['bytes'] and hashlib.sha256(data).hexdigest()==r['sha256']
+          p=Path('band_inputs.zip');p.write_bytes(data)
+          with zipfile.ZipFile(p) as z:
+              assert z.testzip() is None
+              for n in z.namelist():assert Path(n).resolve().is_relative_to(Path.cwd())
+              z.extractall('.')
+          PY
+      - name: Render and audit full movies including original audio and encoded instrument cues
+        run: python -m tools.render_readable_band --group '${{ matrix.song }}'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: readable-band-${{ matrix.song }}
+          path: outputs/Band_Instrument_Review/movies/
+          compression-level: 0
+          retention-days: 30
