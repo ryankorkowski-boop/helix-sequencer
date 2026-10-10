@@ -5,7 +5,6 @@ on:
     branches: [feature/band-instrument-readability]
     paths:
       - evidence/band_instrument_review/publication_request.json
-      - .github/workflows/publish-readable-band.yml
 
 permissions:
   contents: write
