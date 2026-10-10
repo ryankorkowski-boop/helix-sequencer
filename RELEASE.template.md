@@ -1,0 +1,31 @@
+# Snowman band inside intricate stages
+
+[Download all 33 × 42-second MP4s in one ZIP](https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/intricate-band-samplers-2026-10-10/Snowman_Band_Intricate_42s_Samplers.zip)
+
+Five songs across six new geometric stages, plus three focused vocal/instrument excerpts. The complete band appears inside every layout. Full-HD H.264/AAC with original-source audio.
+
+The exact dry-test drummer is preserved. Both singer characters perform through authored duet casting. Revised lyric/vowel cues, mallet-aware keys and absolute-pitch bass hand placement are included. These are 3D review renders; singer identity and inferred notes remain estimates.
+
+| Stage | Who Knew | Festivus | Other songs |
+| --- | --- | --- | --- |
+| Borealis Knot Cathedral | [Play](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/01_knot_cathedral_42s.mp4) | [Play](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/05_knot_cathedral_42s.mp4) | [Wire Tree](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/00_knot_cathedral_42s.mp4) · [49](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/02_knot_cathedral_42s.mp4) · [Candy Cane Chaos](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/03_knot_cathedral_42s.mp4) |
+| Prismatic Orrery | [Play](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/01_prismatic_orrery_42s.mp4) | [Play](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/05_prismatic_orrery_42s.mp4) | [Wire Tree](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/00_prismatic_orrery_42s.mp4) · [49](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/02_prismatic_orrery_42s.mp4) · [Candy Cane Chaos](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/03_prismatic_orrery_42s.mp4) |
+| Woven Aurora Vault | [Play](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/01_woven_aurora_42s.mp4) | [Play](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/05_woven_aurora_42s.mp4) | [Wire Tree](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/00_woven_aurora_42s.mp4) · [49](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/02_woven_aurora_42s.mp4) · [Candy Cane Chaos](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/03_woven_aurora_42s.mp4) |
+| Cymatic Geode Garden | [Play](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/01_cymatic_geode_42s.mp4) | [Play](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/05_cymatic_geode_42s.mp4) | [Wire Tree](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/00_cymatic_geode_42s.mp4) · [49](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/02_cymatic_geode_42s.mp4) · [Candy Cane Chaos](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/03_cymatic_geode_42s.mp4) |
+| Infinity Observatory | [Play](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/01_infinity_observatory_42s.mp4) | [Play](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/05_infinity_observatory_42s.mp4) | [Wire Tree](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/00_infinity_observatory_42s.mp4) · [49](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/02_infinity_observatory_42s.mp4) · [Candy Cane Chaos](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/03_infinity_observatory_42s.mp4) |
+| Quasicrystal Theatre | [Play](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/01_quasicrystal_theatre_42s.mp4) | [Play](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/05_quasicrystal_theatre_42s.mp4) | [Wire Tree](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/00_quasicrystal_theatre_42s.mp4) · [49](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/02_quasicrystal_theatre_42s.mp4) · [Candy Cane Chaos](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/03_quasicrystal_theatre_42s.mp4) |
+
+Extra excerpts:
+
+- [Who Knew opening vocals](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/01_knot_cathedral_vocal_intro_42s.mp4)
+- [Who Knew later guitar part](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/01_prismatic_orrery_guitar_outro_42s.mp4)
+- [Festivus early mallet part](https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/{MEDIA_COMMIT}/samplers/05_woven_aurora_mallet_intro_42s.mp4)
+
+All 33 clips have 840 frames / 42 seconds. Every final movie fully decoded on the render worker; its exact downloaded hash, codec/duration and encoded review frame were checked again. 17 focused tests pass. All 21 original inputs and 19 canonical dry-test source files match.
+
+ZIP bytes: 1,375,629,654. SHA256: `bf32f48fff1d0874fef2adbdc130a8f716651ac50c4c96c089b909f34df29564`.
+Minimum original/encoded excerpt correlation: 0.9991422905.
+
+The ZIP includes an offline browsing index, technical notes and verification. It contains fresh final samplers only. Earlier/silent/draft previews are excluded.
+
+These movies are geometric performance visualizations, not new native xLights exports or native playback recordings.

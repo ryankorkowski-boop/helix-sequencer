@@ -1,173 +1,149 @@
 {
   "archives": [
     {
-      "file": "Earlier_Layout_And_Drummer_MP4s.zip",
-      "bytes": 405628496,
-      "sha256": "52b50b007b67771501f3bc25595ef1ef6906e4586a647c8ba81874297035c7b8",
+      "file": "Snowman_Band_Intricate_42s_Samplers.zip",
+      "bytes": 1375629654,
+      "sha256": "bf32f48fff1d0874fef2adbdc130a8f716651ac50c4c96c089b909f34df29564",
       "parts": [
         {
-          "file": "archive_parts/earlier/part_000.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0001.bin",
           "bytes": 49283072,
-          "sha256": "b43fb138300249f185e70a1b117fc81b1d8ba429dd847ca840b68d3328de9f4f"
+          "sha256": "860ee6ad588edb52a6d0f0ed783550d9813a1594eda87e30e3a96a0b34b3ea5f"
         },
         {
-          "file": "archive_parts/earlier/part_001.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0002.bin",
           "bytes": 49283072,
-          "sha256": "1c4adede088e13dd4c3064caa051d49b522318bc114f20bc69d0546b6b53a531"
+          "sha256": "c2542241bddb4e8400b61dd1690576322bc910ae4aa407b116d34b8167e5c44b"
         },
         {
-          "file": "archive_parts/earlier/part_002.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0003.bin",
           "bytes": 49283072,
-          "sha256": "31eba70a504e84f4f2c6f48b0c3844b5bed7184350b12f479593fc38bc231470"
+          "sha256": "dfeecca9e63fad4903fbf3c7661985d3d26059e4fe57f0930d091a509fef31e3"
         },
         {
-          "file": "archive_parts/earlier/part_003.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0004.bin",
           "bytes": 49283072,
-          "sha256": "7f83f8785c741c43e68e5fbdc16ac89d1689c020af6035ccf86ded9f47a3a6ed"
+          "sha256": "cf0cf9efbb94fc3f4401a9e02cb0c4ab1c7ffe77585fa92cd664dbe06e52e29f"
         },
         {
-          "file": "archive_parts/earlier/part_004.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0005.bin",
           "bytes": 49283072,
-          "sha256": "b283ab65bdac66f0993f83a14b79066a9bacd5f92cd321492f4f28c5059ea234"
+          "sha256": "020af2beb4f8298ad7f7316672381cdc229905682ddf34dd08fb2e30ec982381"
         },
         {
-          "file": "archive_parts/earlier/part_005.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0006.bin",
           "bytes": 49283072,
-          "sha256": "71b3b37d8d32f7fd9454b7ed4347735aa3d9dec25708a84791cb7c14bdc7fa44"
+          "sha256": "6e4d24e9e2e90a4f4c389ee0007d995dcd3b0587c34c01e0304e703acc90a0b2"
         },
         {
-          "file": "archive_parts/earlier/part_006.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0007.bin",
           "bytes": 49283072,
-          "sha256": "e10c65f7cb098948e6a81132fcf28765e1c57c10053b3e4e0d454893d951160c"
+          "sha256": "6ba7e692db0cbfeef10e93b58981f61a3d901b59c42b0985979617bb06b979dc"
         },
         {
-          "file": "archive_parts/earlier/part_007.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0008.bin",
           "bytes": 49283072,
-          "sha256": "4e383cf4da2608bf062aed3371130736af5f15dc48f2784abaf16bfe46ba8c66"
+          "sha256": "2689e39ec532e87e71e85c47a5a309b36c810463f92e1d19e83919008636c42e"
         },
         {
-          "file": "archive_parts/earlier/part_008.bin",
-          "bytes": 11363920,
-          "sha256": "caca4d28fda61217be08fb77f66e86c3fe95b555be3a6c1b418bd4481e64651e"
-        }
-      ]
-    },
-    {
-      "file": "All_Available_Recent_MP4s.zip",
-      "bytes": 855995646,
-      "sha256": "5816d2f07e227d328e0581726d0319339a553056e9f14da24d17f8b84cda0274",
-      "parts": [
-        {
-          "file": "archive_parts/recent/part_000.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0009.bin",
           "bytes": 49283072,
-          "sha256": "e72804e904f302b5e79d70244a937b89aae21f23db3bc9c400d69cf42109eedd"
+          "sha256": "53f2d069a30f585d6a371ee720c80decb62d44d06035a39949bd382809f7fa39"
         },
         {
-          "file": "archive_parts/recent/part_001.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0010.bin",
           "bytes": 49283072,
-          "sha256": "2274152f4d1ca919f5e1f4e82cb73982c7be107c0be9b92be170da3f2596a357"
+          "sha256": "61fac9cf628ca62e9b87c5c9c9de16c6f6307468fba276e3333dc4c2a063f50d"
         },
         {
-          "file": "archive_parts/recent/part_002.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0011.bin",
           "bytes": 49283072,
-          "sha256": "aa8ced9596530ef3c58a3ef397c537ed75a71eedf474e21e87113c5d1162cef8"
+          "sha256": "ee856db18f43b5a1bdca2f44a5ac6f328ff2319c8f858f0a244c057cfa8cf27f"
         },
         {
-          "file": "archive_parts/recent/part_003.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0012.bin",
           "bytes": 49283072,
-          "sha256": "6a6c005bbe4a846e7fc69717bbffc75b7ba12c4afeaf22346895f61859e9a040"
+          "sha256": "b901583afd43cab80f9b73fb0e2d6a24cc70a8f981caebcbba3631208bf52aea"
         },
         {
-          "file": "archive_parts/recent/part_004.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0013.bin",
           "bytes": 49283072,
-          "sha256": "5e70ff00bde04464e0bdb6fe0d19e1b3bb290c081a69278898d70eef18e72de5"
+          "sha256": "3ac9bf42ef7e675d9190c321bf713ad13c61431996f7e720d60873f4a440d3f5"
         },
         {
-          "file": "archive_parts/recent/part_005.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0014.bin",
           "bytes": 49283072,
-          "sha256": "230f9e5fc353d4cfab144d8188f8ce7c818c1da81cfec976e589fd306e9d5973"
+          "sha256": "5e2d755c9616268d6eecf221caf8aea25b26c8075582fb210a4072ebb29fce39"
         },
         {
-          "file": "archive_parts/recent/part_006.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0015.bin",
           "bytes": 49283072,
-          "sha256": "201006d9f1785909c2759d70ec345e20b008dee727234b84f52a8240996b2dfd"
+          "sha256": "6266fa33081dad215a87f97d09b8052f2c57817485eab67ff85b62651cecec4f"
         },
         {
-          "file": "archive_parts/recent/part_007.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0016.bin",
           "bytes": 49283072,
-          "sha256": "7e2f209d6523a48da3370eeb81e0d2d661ef6fc56cb297acd46809be97717d8b"
+          "sha256": "5ec8db44796756b6083d1a4e1fb323d7e39878be9e71efe3f4a9f5e2ca58b998"
         },
         {
-          "file": "archive_parts/recent/part_008.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0017.bin",
           "bytes": 49283072,
-          "sha256": "a6aaa478b34b844af57d6adcd011936b64b27b78b12a98eb731f0ed59e3aca4d"
+          "sha256": "22d77a11369e7b4fd5d8d9b53aab92492fd7d59e41c88a2812d4f7f24b36b72d"
         },
         {
-          "file": "archive_parts/recent/part_009.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0018.bin",
           "bytes": 49283072,
-          "sha256": "94e7722bc5c965e8280e405549119eaa3e825ebfc9da6643803295601d2b487c"
+          "sha256": "8b806fc7284cbd4b2e566886efccb4a9197234b57c08d6dfdb171eac79aeb145"
         },
         {
-          "file": "archive_parts/recent/part_010.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0019.bin",
           "bytes": 49283072,
-          "sha256": "038ecb0be25e08910428c34ba3203b4c0adc5062a267b1e82cae2f4d0785d4d7"
+          "sha256": "b14dc98acdffb44cb1d53e402df14faaf771062832b3ad1439fc86fd2d72d7a6"
         },
         {
-          "file": "archive_parts/recent/part_011.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0020.bin",
           "bytes": 49283072,
-          "sha256": "ae00c121c1b8f3263ed290e9e6129ea902908d559b5a990d1bfbaa68f0576ef5"
+          "sha256": "788f1d7379cc45930e4652b1c8551f2e6bbcce5a84f859e45ac42ff69893d077"
         },
         {
-          "file": "archive_parts/recent/part_012.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0021.bin",
           "bytes": 49283072,
-          "sha256": "725c87c6ecd75794068a198164a83090c90888c7337c0fdd8b9e1cd08bf29af6"
+          "sha256": "251668388177a27fdd88ded0e6797e2e7bd4e251174ec2749c16dba7602371a6"
         },
         {
-          "file": "archive_parts/recent/part_013.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0022.bin",
           "bytes": 49283072,
-          "sha256": "66cbe956c89eda6a71204e570ff55e7615464632fa88254345a7851efeb6abfe"
+          "sha256": "038823df8040e50117366c222397f1cac880c6918a247386a449e4686b68360b"
         },
         {
-          "file": "archive_parts/recent/part_014.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0023.bin",
           "bytes": 49283072,
-          "sha256": "63e91d9d685b297f8a7b8a4ad3e39aa88b1457818dc28fd5b0fc6b974aa61a20"
+          "sha256": "2e4c48e43125f268f5b6d8a28d9c8eb9ea00b29ec91e3d36605f1827c7f61711"
         },
         {
-          "file": "archive_parts/recent/part_015.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0024.bin",
           "bytes": 49283072,
-          "sha256": "208608973c0ac1272a7ad8d1a6bee90a4ab0b4301e3cb3fb97d34feed81bbedc"
+          "sha256": "937b4c4ab7ccaaff05fdca41063c64321efb09a985582ce2dd9a8429a830ea9b"
         },
         {
-          "file": "archive_parts/recent/part_016.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0025.bin",
           "bytes": 49283072,
-          "sha256": "298b7339f5c9e4150bee5fb390d248f37a4676c6434380aa0f176b3fcb9fadc4"
+          "sha256": "7d7ad2f73558e454d84c14e3772aa4bbd0a90cff26620e20f7659d9bb2400925"
         },
         {
-          "file": "archive_parts/recent/part_017.bin",
-          "bytes": 18183422,
-          "sha256": "187dda4929f5896f6dde854c5c47ad0a16c5921d61b8dbbd7b48274349229c87"
-        }
-      ]
-    },
-    {
-      "file": "Snowman_Band_Refined_3D_MP4s.zip",
-      "bytes": 103718403,
-      "sha256": "8ee26b0dc6d42628d2d99bd43348c14da1b1591b4c0c627babcc0e89fe341e4c",
-      "parts": [
-        {
-          "file": "archive_parts/band/part_000.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0026.bin",
           "bytes": 49283072,
-          "sha256": "046b2aff32bc3d12145ef2080e023887c8238b62c569837f85fa17e0c2e0278c"
+          "sha256": "3f4be004987256ba900b3654f850db280cfd11dc8ef4c3539b55d0e5325007c7"
         },
         {
-          "file": "archive_parts/band/part_001.bin",
+          "file": "archive_parts/Intricate_42s_Samplers/part-0027.bin",
           "bytes": 49283072,
-          "sha256": "1e93c9995a642a5e54dd59f4a033b462cf7ed735653261fcdc50bcf87e5cc909"
+          "sha256": "8ef2736257f7c92b2fd67c94a6511143a71117b4031159b3235755f7fc519e2d"
         },
         {
-          "file": "archive_parts/band/part_002.bin",
-          "bytes": 5152259,
-          "sha256": "7a69f6d10f8091ece275cdcdac0bc28f3d55e8134114da5d8298b473034c8a66"
+          "file": "archive_parts/Intricate_42s_Samplers/part-0028.bin",
+          "bytes": 44986710,
+          "sha256": "f94cbc77ebb274a07551c9005c5c6e2ee1289f94de48bd55455d4d87ae2bed4c"
         }
       ]
     }
