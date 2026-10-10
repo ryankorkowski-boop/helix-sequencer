@@ -34,6 +34,6 @@ Analysis requires the retained original six stems under `outputs/Snowman_Ensembl
 
 ## Validation, downloads and remaining scope
 
-Seventeen focused regressions pass. Final full-HD pilots, full-source actual-pose audit, remote batch, archive verification and immutable links are being recorded here before delivery.
+Seventeen focused regressions pass. The full-source audit checks6,518 actual poses, including every accepted source onset. Four final1080p pilots pass18 own-channel encoded checks and original-audio correlation≥0.999499. Independent prior pYIN and the new bass estimator agree within1 semitone on93.4–98.8% of mutually supported frames; this does not verify unsupported frames or a musical score. The21-movie batch is workflow38088707142 at code0d855b2; archive verification and immutable downloads are pending.
 
 Separated stems, inferred pitches and mallet classification are estimates, not a verified musical score. Guitar can legitimately remain quiet in weak passages; targeted close-ups use stronger source windows. The shortest phoneme-test song cannot supply a 42-second movie and is excluded. New stage native xLights/controller playback and automatic singer identity separation remain deferred. Do not claim exhaustive audible-hit/note ground truth from detection and routing tests. Future work must retain source binding, independent string routing, literal key geometry and the current drummer shoulders.

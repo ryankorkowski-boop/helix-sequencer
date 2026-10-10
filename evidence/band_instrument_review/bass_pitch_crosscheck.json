@@ -1,0 +1,35 @@
+{
+  "comparison": "new harmonic-template bass vs prior independent pYIN bass on mutually supported frames; not hand-labelled score ground truth",
+  "songs": [
+    {
+      "id": "00",
+      "joint_supported_frames": 917,
+      "within_one_semitone_fraction": 0.9520174482006543,
+      "median_absolute_semitone_difference": 0.0
+    },
+    {
+      "id": "01",
+      "joint_supported_frames": 1140,
+      "within_one_semitone_fraction": 0.9771929824561404,
+      "median_absolute_semitone_difference": 0.0
+    },
+    {
+      "id": "02",
+      "joint_supported_frames": 1432,
+      "within_one_semitone_fraction": 0.9343575418994413,
+      "median_absolute_semitone_difference": 0.0
+    },
+    {
+      "id": "03",
+      "joint_supported_frames": 1367,
+      "within_one_semitone_fraction": 0.9875640087783467,
+      "median_absolute_semitone_difference": 0.0
+    },
+    {
+      "id": "05",
+      "joint_supported_frames": 184,
+      "within_one_semitone_fraction": 0.9510869565217391,
+      "median_absolute_semitone_difference": 0.0
+    }
+  ]
+}

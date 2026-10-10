@@ -1,0 +1,30 @@
+{
+  "command": "python -m pytest -q tests/test_readable_band_instruments.py tests/test_intricate_band_scene.py tests/test_band_sampler_logic.py tests/test_drummer_shoulder_revision.py",
+  "passed": 17,
+  "hd_pilots": [
+    {
+      "name": "01_prismatic_orrery_bass_pilot_6s.verification.json",
+      "checks": 5,
+      "source_start": 30.0,
+      "audio_correlation": 0.9997641519197376
+    },
+    {
+      "name": "02_prismatic_orrery_stage_pilot_6s.verification.json",
+      "checks": 5,
+      "source_start": 56.0,
+      "audio_correlation": 0.9996135853687925
+    },
+    {
+      "name": "05_prismatic_orrery_keyboard_pilot_6s.verification.json",
+      "checks": 3,
+      "source_start": 0.0,
+      "audio_correlation": 0.9994991641260168
+    },
+    {
+      "name": "01_prismatic_orrery_guitar_pilot_6s.verification.json",
+      "checks": 5,
+      "source_start": 112.0,
+      "audio_correlation": 0.9995638832098017
+    }
+  ]
+}
