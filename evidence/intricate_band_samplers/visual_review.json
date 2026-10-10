@@ -1,0 +1,11 @@
+{
+  "all_33_encoded_midpoint_frames_reviewed": true,
+  "contact_sheet": "all_33_encoded_contact_sheet.jpg",
+  "all_six_stages_visible": true,
+  "guitar_and_keyboard_sightlines_clear": true,
+  "no_blank_or_corrupt_frames_in_review_samples": true,
+  "camera_dolly_intentionally_crops_upper_architecture_in_closer_shots": true,
+  "final_voice_example": "final_who_knew_chorus.png",
+  "full_frame_and_audio_checks": "verification.json",
+  "sampling_limit": "Visual frame samples and deterministic gesture tests are not independent ground truth for every inferred note/vowel."
+}

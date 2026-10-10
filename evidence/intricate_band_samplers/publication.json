@@ -1,0 +1,16 @@
+{
+  "movie_commit": "229b4b4a1c1d2b59d873a43625e12864e757d76a",
+  "all_33_remote_git_blob_hashes_and_sizes_match": true,
+  "public_movie_downloads": [
+    {
+      "file": "01_prismatic_orrery_42s.mp4",
+      "full_public_download_hash_matches": true,
+      "sha256": "df975e0e5bfd286d7750d6a50662a0ac83fd2cd50311dd6411eaf67f616b71cb"
+    },
+    {
+      "file": "05_quasicrystal_theatre_42s.mp4",
+      "full_public_download_hash_matches": true,
+      "sha256": "50a64777457a50405e3cd40e4fcb2b982aa88e3a76d70ae58bfd470371d9548d"
+    }
+  ]
+}

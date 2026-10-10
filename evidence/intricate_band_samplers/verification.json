@@ -1,0 +1,3070 @@
+{
+  "schema": "helix.intricate_band_samplers.v1",
+  "movie_count": 33,
+  "layout_count": 6,
+  "song_count": 5,
+  "total_frames": 27720,
+  "total_duration_seconds": 1386,
+  "movies": [
+    {
+      "id": "00",
+      "title": "Wire Tree",
+      "layout": "cymatic_geode",
+      "layout_title": "Cymatic Geode Garden",
+      "revision": 5,
+      "file": "movies/cymatic_geode/00_cymatic_geode_42s.mp4",
+      "bytes": 41175144,
+      "sha256": "de75adedf47681780813cda29ad19f5d88a51286ee3ffb5735c5a4db7912441b",
+      "analysis_inputs": {
+        "vocals.json": "feb941afdc83a190d1b8f5c7e8dbd95bced55a3ad13c16464fc353f666d75078",
+        "performance_curves.npz": "db108090f69e989bbda686db1b2efd7e4c21753f1eb0f4bc2b0aa491fe1ec42a",
+        "verification.json": "0375916393657889b05a536f4954dbec4f46ac78ae6fe94649d2c28195b956c9"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 212.5,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997340557131397,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+      "source_native_drummer": {
+        "fseq_sha256": "bff60de28187b0b6051bad1aa7051406adbc6ab80de76e69a5fc854c8dd409c8",
+        "xsq_sha256": "92b3755ecbb8b8b9f55c3a65d5e7c8d7df6fb9382b9deb21f84004bc6c347ca0",
+        "drummer_levels_sha256": "3c20e0ad30902c2bc8ef23fb4c6c626b6055ae11533c524dbf0ee2d75be30fd5",
+        "drummer_strike_holds_sha256": "dc22877629f40834d6a187cc9c11ea7bfce7e008e8afa3831a9fdb300706bd0d",
+        "source_hand_schedule_sha256": "1c4c69094e490a2da16b90f3a2e3995f8aac0e473fce2c2f8110d7787d1bf383",
+        "schedule": {
+          "unique_strike_holds": 652,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "cymatic_geode",
+        "title": "Cymatic Geode Garden",
+        "curves_and_meshes": 1324,
+        "instanced_parts": 355,
+        "custom_triangles": 172672,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        438,
+        533
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/00_cymatic_geode_42s.mp4"
+    },
+    {
+      "id": "00",
+      "title": "Wire Tree",
+      "layout": "infinity_observatory",
+      "layout_title": "Infinity Observatory",
+      "revision": 5,
+      "file": "movies/infinity_observatory/00_infinity_observatory_42s.mp4",
+      "bytes": 39987017,
+      "sha256": "8883371f9828ed8567728fdad328a8035fa8c269d7f749b2698ee559cbe22187",
+      "analysis_inputs": {
+        "vocals.json": "feb941afdc83a190d1b8f5c7e8dbd95bced55a3ad13c16464fc353f666d75078",
+        "performance_curves.npz": "db108090f69e989bbda686db1b2efd7e4c21753f1eb0f4bc2b0aa491fe1ec42a",
+        "verification.json": "0375916393657889b05a536f4954dbec4f46ac78ae6fe94649d2c28195b956c9"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 212.5,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997340557131397,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+      "source_native_drummer": {
+        "fseq_sha256": "bff60de28187b0b6051bad1aa7051406adbc6ab80de76e69a5fc854c8dd409c8",
+        "xsq_sha256": "92b3755ecbb8b8b9f55c3a65d5e7c8d7df6fb9382b9deb21f84004bc6c347ca0",
+        "drummer_levels_sha256": "3c20e0ad30902c2bc8ef23fb4c6c626b6055ae11533c524dbf0ee2d75be30fd5",
+        "drummer_strike_holds_sha256": "dc22877629f40834d6a187cc9c11ea7bfce7e008e8afa3831a9fdb300706bd0d",
+        "source_hand_schedule_sha256": "1c4c69094e490a2da16b90f3a2e3995f8aac0e473fce2c2f8110d7787d1bf383",
+        "schedule": {
+          "unique_strike_holds": 652,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "infinity_observatory",
+        "title": "Infinity Observatory",
+        "curves_and_meshes": 187,
+        "instanced_parts": 355,
+        "custom_triangles": 234068,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        438,
+        533
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/00_infinity_observatory_42s.mp4"
+    },
+    {
+      "id": "00",
+      "title": "Wire Tree",
+      "layout": "knot_cathedral",
+      "layout_title": "Borealis Knot Cathedral",
+      "revision": 5,
+      "file": "movies/knot_cathedral/00_knot_cathedral_42s.mp4",
+      "bytes": 43705044,
+      "sha256": "c7eb05e340bf7857c329f243d6c2cda5c8dd2ce581775ba2fe8bb9af19fc35a1",
+      "analysis_inputs": {
+        "vocals.json": "feb941afdc83a190d1b8f5c7e8dbd95bced55a3ad13c16464fc353f666d75078",
+        "performance_curves.npz": "db108090f69e989bbda686db1b2efd7e4c21753f1eb0f4bc2b0aa491fe1ec42a",
+        "verification.json": "0375916393657889b05a536f4954dbec4f46ac78ae6fe94649d2c28195b956c9"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 212.5,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997340557131397,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+      "source_native_drummer": {
+        "fseq_sha256": "bff60de28187b0b6051bad1aa7051406adbc6ab80de76e69a5fc854c8dd409c8",
+        "xsq_sha256": "92b3755ecbb8b8b9f55c3a65d5e7c8d7df6fb9382b9deb21f84004bc6c347ca0",
+        "drummer_levels_sha256": "3c20e0ad30902c2bc8ef23fb4c6c626b6055ae11533c524dbf0ee2d75be30fd5",
+        "drummer_strike_holds_sha256": "dc22877629f40834d6a187cc9c11ea7bfce7e008e8afa3831a9fdb300706bd0d",
+        "source_hand_schedule_sha256": "1c4c69094e490a2da16b90f3a2e3995f8aac0e473fce2c2f8110d7787d1bf383",
+        "schedule": {
+          "unique_strike_holds": 652,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "knot_cathedral",
+        "title": "Borealis Knot Cathedral",
+        "curves_and_meshes": 172,
+        "instanced_parts": 355,
+        "custom_triangles": 272472,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        438,
+        533
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/00_knot_cathedral_42s.mp4"
+    },
+    {
+      "id": "00",
+      "title": "Wire Tree",
+      "layout": "prismatic_orrery",
+      "layout_title": "Prismatic Orrery",
+      "revision": 5,
+      "file": "movies/prismatic_orrery/00_prismatic_orrery_42s.mp4",
+      "bytes": 34355336,
+      "sha256": "83648b340e11d42e6c72705ed2d44073428657309bf9c6e5bbf1f5089dc7b1e3",
+      "analysis_inputs": {
+        "vocals.json": "feb941afdc83a190d1b8f5c7e8dbd95bced55a3ad13c16464fc353f666d75078",
+        "performance_curves.npz": "db108090f69e989bbda686db1b2efd7e4c21753f1eb0f4bc2b0aa491fe1ec42a",
+        "verification.json": "0375916393657889b05a536f4954dbec4f46ac78ae6fe94649d2c28195b956c9"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 212.5,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997340557131397,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+      "source_native_drummer": {
+        "fseq_sha256": "bff60de28187b0b6051bad1aa7051406adbc6ab80de76e69a5fc854c8dd409c8",
+        "xsq_sha256": "92b3755ecbb8b8b9f55c3a65d5e7c8d7df6fb9382b9deb21f84004bc6c347ca0",
+        "drummer_levels_sha256": "3c20e0ad30902c2bc8ef23fb4c6c626b6055ae11533c524dbf0ee2d75be30fd5",
+        "drummer_strike_holds_sha256": "dc22877629f40834d6a187cc9c11ea7bfce7e008e8afa3831a9fdb300706bd0d",
+        "source_hand_schedule_sha256": "1c4c69094e490a2da16b90f3a2e3995f8aac0e473fce2c2f8110d7787d1bf383",
+        "schedule": {
+          "unique_strike_holds": 652,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "prismatic_orrery",
+        "title": "Prismatic Orrery",
+        "curves_and_meshes": 615,
+        "instanced_parts": 475,
+        "custom_triangles": 118068,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        438,
+        533
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/00_prismatic_orrery_42s.mp4"
+    },
+    {
+      "id": "00",
+      "title": "Wire Tree",
+      "layout": "quasicrystal_theatre",
+      "layout_title": "Quasicrystal Theatre",
+      "revision": 5,
+      "file": "movies/quasicrystal_theatre/00_quasicrystal_theatre_42s.mp4",
+      "bytes": 43721033,
+      "sha256": "6a1d7b8f5b8dd1dfc504d8924da8955b8c71a10d3dc5d4f8e8567825bdaa068d",
+      "analysis_inputs": {
+        "vocals.json": "feb941afdc83a190d1b8f5c7e8dbd95bced55a3ad13c16464fc353f666d75078",
+        "performance_curves.npz": "db108090f69e989bbda686db1b2efd7e4c21753f1eb0f4bc2b0aa491fe1ec42a",
+        "verification.json": "0375916393657889b05a536f4954dbec4f46ac78ae6fe94649d2c28195b956c9"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 212.5,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997340557131413,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+      "source_native_drummer": {
+        "fseq_sha256": "bff60de28187b0b6051bad1aa7051406adbc6ab80de76e69a5fc854c8dd409c8",
+        "xsq_sha256": "92b3755ecbb8b8b9f55c3a65d5e7c8d7df6fb9382b9deb21f84004bc6c347ca0",
+        "drummer_levels_sha256": "3c20e0ad30902c2bc8ef23fb4c6c626b6055ae11533c524dbf0ee2d75be30fd5",
+        "drummer_strike_holds_sha256": "dc22877629f40834d6a187cc9c11ea7bfce7e008e8afa3831a9fdb300706bd0d",
+        "source_hand_schedule_sha256": "1c4c69094e490a2da16b90f3a2e3995f8aac0e473fce2c2f8110d7787d1bf383",
+        "schedule": {
+          "unique_strike_holds": 652,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "quasicrystal_theatre",
+        "title": "Quasicrystal Theatre",
+        "curves_and_meshes": 680,
+        "instanced_parts": 355,
+        "custom_triangles": 151768,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        438,
+        533
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/00_quasicrystal_theatre_42s.mp4"
+    },
+    {
+      "id": "00",
+      "title": "Wire Tree",
+      "layout": "woven_aurora",
+      "layout_title": "Woven Aurora Vault",
+      "revision": 5,
+      "file": "movies/woven_aurora/00_woven_aurora_42s.mp4",
+      "bytes": 46258768,
+      "sha256": "674de33cedf06cca247efabfd7d27a00d23cab66fe32817aa41e0995c6061309",
+      "analysis_inputs": {
+        "vocals.json": "feb941afdc83a190d1b8f5c7e8dbd95bced55a3ad13c16464fc353f666d75078",
+        "performance_curves.npz": "db108090f69e989bbda686db1b2efd7e4c21753f1eb0f4bc2b0aa491fe1ec42a",
+        "verification.json": "0375916393657889b05a536f4954dbec4f46ac78ae6fe94649d2c28195b956c9"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 212.5,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997340557131397,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+      "source_native_drummer": {
+        "fseq_sha256": "bff60de28187b0b6051bad1aa7051406adbc6ab80de76e69a5fc854c8dd409c8",
+        "xsq_sha256": "92b3755ecbb8b8b9f55c3a65d5e7c8d7df6fb9382b9deb21f84004bc6c347ca0",
+        "drummer_levels_sha256": "3c20e0ad30902c2bc8ef23fb4c6c626b6055ae11533c524dbf0ee2d75be30fd5",
+        "drummer_strike_holds_sha256": "dc22877629f40834d6a187cc9c11ea7bfce7e008e8afa3831a9fdb300706bd0d",
+        "source_hand_schedule_sha256": "1c4c69094e490a2da16b90f3a2e3995f8aac0e473fce2c2f8110d7787d1bf383",
+        "schedule": {
+          "unique_strike_holds": 652,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "woven_aurora",
+        "title": "Woven Aurora Vault",
+        "curves_and_meshes": 176,
+        "instanced_parts": 355,
+        "custom_triangles": 310048,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        438,
+        533
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/00_woven_aurora_42s.mp4"
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "layout": "cymatic_geode",
+      "layout_title": "Cymatic Geode Garden",
+      "revision": 5,
+      "file": "movies/cymatic_geode/01_cymatic_geode_42s.mp4",
+      "bytes": 42519103,
+      "sha256": "3b4931c1f8b3567e43b04591521c995ebe03aeb31502f06eb03161aaf12f0a00",
+      "analysis_inputs": {
+        "vocals.json": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302",
+        "performance_curves.npz": "340abfc35d95ac0d824d2a9724fe90fe111af2c9f32fb15840f9434ec1f0b9ec",
+        "verification.json": "a37301883439f56b232ca8d6e59c40b38d5d47af384593477b506f7f42e7b647"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 27.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997609174077596,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+      "source_native_drummer": {
+        "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+        "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+        "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+        "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+        "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+        "schedule": {
+          "unique_strike_holds": 559,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "cymatic_geode",
+        "title": "Cymatic Geode Garden",
+        "curves_and_meshes": 1324,
+        "instanced_parts": 355,
+        "custom_triangles": 172672,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        514,
+        395
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/01_cymatic_geode_42s.mp4"
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "layout": "infinity_observatory",
+      "layout_title": "Infinity Observatory",
+      "revision": 5,
+      "file": "movies/infinity_observatory/01_infinity_observatory_42s.mp4",
+      "bytes": 40853383,
+      "sha256": "de99ebb0f0cb6115a2dfcd09d09fa21990e53ce30589d09e5d1e826821860b16",
+      "analysis_inputs": {
+        "vocals.json": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302",
+        "performance_curves.npz": "340abfc35d95ac0d824d2a9724fe90fe111af2c9f32fb15840f9434ec1f0b9ec",
+        "verification.json": "a37301883439f56b232ca8d6e59c40b38d5d47af384593477b506f7f42e7b647"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 27.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997609174077596,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+      "source_native_drummer": {
+        "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+        "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+        "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+        "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+        "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+        "schedule": {
+          "unique_strike_holds": 559,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "infinity_observatory",
+        "title": "Infinity Observatory",
+        "curves_and_meshes": 187,
+        "instanced_parts": 355,
+        "custom_triangles": 234068,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        514,
+        395
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/01_infinity_observatory_42s.mp4"
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "layout": "knot_cathedral",
+      "layout_title": "Borealis Knot Cathedral",
+      "revision": 5,
+      "file": "movies/knot_cathedral/01_knot_cathedral_42s.mp4",
+      "bytes": 44033978,
+      "sha256": "3f5ededf2fd2126f2f1703238e15c1e314eee9eee753da6345135b8686dee262",
+      "analysis_inputs": {
+        "vocals.json": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302",
+        "performance_curves.npz": "340abfc35d95ac0d824d2a9724fe90fe111af2c9f32fb15840f9434ec1f0b9ec",
+        "verification.json": "a37301883439f56b232ca8d6e59c40b38d5d47af384593477b506f7f42e7b647"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 27.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997609174077633,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+      "source_native_drummer": {
+        "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+        "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+        "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+        "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+        "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+        "schedule": {
+          "unique_strike_holds": 559,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "knot_cathedral",
+        "title": "Borealis Knot Cathedral",
+        "curves_and_meshes": 172,
+        "instanced_parts": 355,
+        "custom_triangles": 272472,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        514,
+        395
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/01_knot_cathedral_42s.mp4"
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "layout": "knot_cathedral",
+      "layout_title": "Borealis Knot Cathedral",
+      "revision": 5,
+      "file": "movies/knot_cathedral/01_knot_cathedral_vocal_intro_42s.mp4",
+      "bytes": 43856093,
+      "sha256": "9b239ac50f5ad34113ef96cc96b61d6539b7d41d4839e7b4f67b74fe525ceb39",
+      "analysis_inputs": {
+        "vocals.json": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302",
+        "performance_curves.npz": "340abfc35d95ac0d824d2a9724fe90fe111af2c9f32fb15840f9434ec1f0b9ec",
+        "verification.json": "a37301883439f56b232ca8d6e59c40b38d5d47af384593477b506f7f42e7b647"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 0.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997802616462129,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+      "source_native_drummer": {
+        "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+        "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+        "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+        "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+        "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+        "schedule": {
+          "unique_strike_holds": 559,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "knot_cathedral",
+        "title": "Borealis Knot Cathedral",
+        "curves_and_meshes": 172,
+        "instanced_parts": 355,
+        "custom_triangles": 272472,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        442,
+        385
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/01_knot_cathedral_vocal_intro_42s.mp4"
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "layout": "prismatic_orrery",
+      "layout_title": "Prismatic Orrery",
+      "revision": 5,
+      "file": "movies/prismatic_orrery/01_prismatic_orrery_42s.mp4",
+      "bytes": 35464410,
+      "sha256": "df975e0e5bfd286d7750d6a50662a0ac83fd2cd50311dd6411eaf67f616b71cb",
+      "analysis_inputs": {
+        "vocals.json": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302",
+        "performance_curves.npz": "340abfc35d95ac0d824d2a9724fe90fe111af2c9f32fb15840f9434ec1f0b9ec",
+        "verification.json": "a37301883439f56b232ca8d6e59c40b38d5d47af384593477b506f7f42e7b647"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 27.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997609174077596,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+      "source_native_drummer": {
+        "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+        "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+        "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+        "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+        "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+        "schedule": {
+          "unique_strike_holds": 559,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "prismatic_orrery",
+        "title": "Prismatic Orrery",
+        "curves_and_meshes": 615,
+        "instanced_parts": 475,
+        "custom_triangles": 118068,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        514,
+        395
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/01_prismatic_orrery_42s.mp4"
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "layout": "prismatic_orrery",
+      "layout_title": "Prismatic Orrery",
+      "revision": 5,
+      "file": "movies/prismatic_orrery/01_prismatic_orrery_guitar_outro_42s.mp4",
+      "bytes": 33737879,
+      "sha256": "bf6fcb2cd9836544869b070553e7c8387888dc7e50cbc143cf787858f9ab3ace",
+      "analysis_inputs": {
+        "vocals.json": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302",
+        "performance_curves.npz": "340abfc35d95ac0d824d2a9724fe90fe111af2c9f32fb15840f9434ec1f0b9ec",
+        "verification.json": "a37301883439f56b232ca8d6e59c40b38d5d47af384593477b506f7f42e7b647"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 77.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997033196267427,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+      "source_native_drummer": {
+        "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+        "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+        "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+        "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+        "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+        "schedule": {
+          "unique_strike_holds": 559,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "prismatic_orrery",
+        "title": "Prismatic Orrery",
+        "curves_and_meshes": 615,
+        "instanced_parts": 475,
+        "custom_triangles": 118068,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        264,
+        287
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/01_prismatic_orrery_guitar_outro_42s.mp4"
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "layout": "quasicrystal_theatre",
+      "layout_title": "Quasicrystal Theatre",
+      "revision": 5,
+      "file": "movies/quasicrystal_theatre/01_quasicrystal_theatre_42s.mp4",
+      "bytes": 44877713,
+      "sha256": "11b7a5a01136e21f343c4fcbf7958c3e72b677d938d6f9a5eed59b5bdc559cf6",
+      "analysis_inputs": {
+        "vocals.json": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302",
+        "performance_curves.npz": "340abfc35d95ac0d824d2a9724fe90fe111af2c9f32fb15840f9434ec1f0b9ec",
+        "verification.json": "a37301883439f56b232ca8d6e59c40b38d5d47af384593477b506f7f42e7b647"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 27.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997609174077623,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+      "source_native_drummer": {
+        "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+        "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+        "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+        "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+        "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+        "schedule": {
+          "unique_strike_holds": 559,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "quasicrystal_theatre",
+        "title": "Quasicrystal Theatre",
+        "curves_and_meshes": 680,
+        "instanced_parts": 355,
+        "custom_triangles": 151768,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        514,
+        395
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/01_quasicrystal_theatre_42s.mp4"
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "layout": "woven_aurora",
+      "layout_title": "Woven Aurora Vault",
+      "revision": 5,
+      "file": "movies/woven_aurora/01_woven_aurora_42s.mp4",
+      "bytes": 47400940,
+      "sha256": "8bc1f0135cdb687831d15efcc9a68b64b359349ac553e2ac9b010010258bbba5",
+      "analysis_inputs": {
+        "vocals.json": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302",
+        "performance_curves.npz": "340abfc35d95ac0d824d2a9724fe90fe111af2c9f32fb15840f9434ec1f0b9ec",
+        "verification.json": "a37301883439f56b232ca8d6e59c40b38d5d47af384593477b506f7f42e7b647"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 27.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9997609174077596,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+      "source_native_drummer": {
+        "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+        "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+        "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+        "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+        "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+        "schedule": {
+          "unique_strike_holds": 559,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "woven_aurora",
+        "title": "Woven Aurora Vault",
+        "curves_and_meshes": 176,
+        "instanced_parts": 355,
+        "custom_triangles": 310048,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        514,
+        395
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/01_woven_aurora_42s.mp4"
+    },
+    {
+      "id": "02",
+      "title": "49 (Remastered)",
+      "layout": "cymatic_geode",
+      "layout_title": "Cymatic Geode Garden",
+      "revision": 5,
+      "file": "movies/cymatic_geode/02_cymatic_geode_42s.mp4",
+      "bytes": 40612849,
+      "sha256": "4fa0bdf81d4d46a066e21856be2efc2c068777d398db95deda6367a8ee2c537e",
+      "analysis_inputs": {
+        "vocals.json": "63558d500e828530e2a83ea04e812db5e21e1f85750f3b0752da47d1d54fdba2",
+        "performance_curves.npz": "3b01bcb9cf1c10169010317abf4f87a8e3870f9b47a945a9299733c04fb48d8c",
+        "verification.json": "4d345466d5a2695dfa0e09e0e2969213275f68c6cad36a26918bdab703eb977e"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 56.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9993309757111876,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e",
+      "source_native_drummer": {
+        "fseq_sha256": "a41192cac247366f9ccadbb9c9411bd7d36e6d60fcf53ab6e5e42d72af3debfc",
+        "xsq_sha256": "4e56a6db2faeb6be8872485ecf6dc1ecde0b0e021f9fb1484efc4ffbb528ac77",
+        "drummer_levels_sha256": "e13e7899e952749ecf3f8227ee3cb21f46b29cac8e844b5956ab5eb70114e8cc",
+        "drummer_strike_holds_sha256": "9ac28d601562de20a0f99af57433c278755c9cee5ee5799c09460683fff3f847",
+        "source_hand_schedule_sha256": "eccc4a9c277bcad9cacf98248f2f0b5e20a95d8053b7df87b601aad8463478b3",
+        "schedule": {
+          "unique_strike_holds": 948,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "cymatic_geode",
+        "title": "Cymatic Geode Garden",
+        "curves_and_meshes": 1324,
+        "instanced_parts": 355,
+        "custom_triangles": 172672,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        562,
+        491
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/02_cymatic_geode_42s.mp4"
+    },
+    {
+      "id": "02",
+      "title": "49 (Remastered)",
+      "layout": "infinity_observatory",
+      "layout_title": "Infinity Observatory",
+      "revision": 5,
+      "file": "movies/infinity_observatory/02_infinity_observatory_42s.mp4",
+      "bytes": 39253648,
+      "sha256": "b2efa649c0a8b86e52c6b16f559158b797c603cde65f2e6ed7e4dc9b1d3c9fe2",
+      "analysis_inputs": {
+        "vocals.json": "63558d500e828530e2a83ea04e812db5e21e1f85750f3b0752da47d1d54fdba2",
+        "performance_curves.npz": "3b01bcb9cf1c10169010317abf4f87a8e3870f9b47a945a9299733c04fb48d8c",
+        "verification.json": "4d345466d5a2695dfa0e09e0e2969213275f68c6cad36a26918bdab703eb977e"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 56.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9993309757111876,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e",
+      "source_native_drummer": {
+        "fseq_sha256": "a41192cac247366f9ccadbb9c9411bd7d36e6d60fcf53ab6e5e42d72af3debfc",
+        "xsq_sha256": "4e56a6db2faeb6be8872485ecf6dc1ecde0b0e021f9fb1484efc4ffbb528ac77",
+        "drummer_levels_sha256": "e13e7899e952749ecf3f8227ee3cb21f46b29cac8e844b5956ab5eb70114e8cc",
+        "drummer_strike_holds_sha256": "9ac28d601562de20a0f99af57433c278755c9cee5ee5799c09460683fff3f847",
+        "source_hand_schedule_sha256": "eccc4a9c277bcad9cacf98248f2f0b5e20a95d8053b7df87b601aad8463478b3",
+        "schedule": {
+          "unique_strike_holds": 948,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "infinity_observatory",
+        "title": "Infinity Observatory",
+        "curves_and_meshes": 187,
+        "instanced_parts": 355,
+        "custom_triangles": 234068,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        562,
+        491
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/02_infinity_observatory_42s.mp4"
+    },
+    {
+      "id": "02",
+      "title": "49 (Remastered)",
+      "layout": "knot_cathedral",
+      "layout_title": "Borealis Knot Cathedral",
+      "revision": 5,
+      "file": "movies/knot_cathedral/02_knot_cathedral_42s.mp4",
+      "bytes": 42726973,
+      "sha256": "56cdb84b8e2e13fb2a448241f1a1b445d019eac35643c50f1b7e35559f91f76f",
+      "analysis_inputs": {
+        "vocals.json": "63558d500e828530e2a83ea04e812db5e21e1f85750f3b0752da47d1d54fdba2",
+        "performance_curves.npz": "3b01bcb9cf1c10169010317abf4f87a8e3870f9b47a945a9299733c04fb48d8c",
+        "verification.json": "4d345466d5a2695dfa0e09e0e2969213275f68c6cad36a26918bdab703eb977e"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 56.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9993309757111872,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e",
+      "source_native_drummer": {
+        "fseq_sha256": "a41192cac247366f9ccadbb9c9411bd7d36e6d60fcf53ab6e5e42d72af3debfc",
+        "xsq_sha256": "4e56a6db2faeb6be8872485ecf6dc1ecde0b0e021f9fb1484efc4ffbb528ac77",
+        "drummer_levels_sha256": "e13e7899e952749ecf3f8227ee3cb21f46b29cac8e844b5956ab5eb70114e8cc",
+        "drummer_strike_holds_sha256": "9ac28d601562de20a0f99af57433c278755c9cee5ee5799c09460683fff3f847",
+        "source_hand_schedule_sha256": "eccc4a9c277bcad9cacf98248f2f0b5e20a95d8053b7df87b601aad8463478b3",
+        "schedule": {
+          "unique_strike_holds": 948,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "knot_cathedral",
+        "title": "Borealis Knot Cathedral",
+        "curves_and_meshes": 172,
+        "instanced_parts": 355,
+        "custom_triangles": 272472,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        562,
+        491
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/02_knot_cathedral_42s.mp4"
+    },
+    {
+      "id": "02",
+      "title": "49 (Remastered)",
+      "layout": "prismatic_orrery",
+      "layout_title": "Prismatic Orrery",
+      "revision": 5,
+      "file": "movies/prismatic_orrery/02_prismatic_orrery_42s.mp4",
+      "bytes": 33912166,
+      "sha256": "998917130d362aefdec47d9b2320d9b9b23cd955eb740cd8805b419d40d48c07",
+      "analysis_inputs": {
+        "vocals.json": "63558d500e828530e2a83ea04e812db5e21e1f85750f3b0752da47d1d54fdba2",
+        "performance_curves.npz": "3b01bcb9cf1c10169010317abf4f87a8e3870f9b47a945a9299733c04fb48d8c",
+        "verification.json": "4d345466d5a2695dfa0e09e0e2969213275f68c6cad36a26918bdab703eb977e"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 56.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9993309757111876,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e",
+      "source_native_drummer": {
+        "fseq_sha256": "a41192cac247366f9ccadbb9c9411bd7d36e6d60fcf53ab6e5e42d72af3debfc",
+        "xsq_sha256": "4e56a6db2faeb6be8872485ecf6dc1ecde0b0e021f9fb1484efc4ffbb528ac77",
+        "drummer_levels_sha256": "e13e7899e952749ecf3f8227ee3cb21f46b29cac8e844b5956ab5eb70114e8cc",
+        "drummer_strike_holds_sha256": "9ac28d601562de20a0f99af57433c278755c9cee5ee5799c09460683fff3f847",
+        "source_hand_schedule_sha256": "eccc4a9c277bcad9cacf98248f2f0b5e20a95d8053b7df87b601aad8463478b3",
+        "schedule": {
+          "unique_strike_holds": 948,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "prismatic_orrery",
+        "title": "Prismatic Orrery",
+        "curves_and_meshes": 615,
+        "instanced_parts": 475,
+        "custom_triangles": 118068,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        562,
+        491
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/02_prismatic_orrery_42s.mp4"
+    },
+    {
+      "id": "02",
+      "title": "49 (Remastered)",
+      "layout": "quasicrystal_theatre",
+      "layout_title": "Quasicrystal Theatre",
+      "revision": 5,
+      "file": "movies/quasicrystal_theatre/02_quasicrystal_theatre_42s.mp4",
+      "bytes": 43199023,
+      "sha256": "f73ce65fbb70a0f1a197e455f3c20869fefa160ff441f8280d8c65382defe7fd",
+      "analysis_inputs": {
+        "vocals.json": "63558d500e828530e2a83ea04e812db5e21e1f85750f3b0752da47d1d54fdba2",
+        "performance_curves.npz": "3b01bcb9cf1c10169010317abf4f87a8e3870f9b47a945a9299733c04fb48d8c",
+        "verification.json": "4d345466d5a2695dfa0e09e0e2969213275f68c6cad36a26918bdab703eb977e"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 56.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9993309757111877,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e",
+      "source_native_drummer": {
+        "fseq_sha256": "a41192cac247366f9ccadbb9c9411bd7d36e6d60fcf53ab6e5e42d72af3debfc",
+        "xsq_sha256": "4e56a6db2faeb6be8872485ecf6dc1ecde0b0e021f9fb1484efc4ffbb528ac77",
+        "drummer_levels_sha256": "e13e7899e952749ecf3f8227ee3cb21f46b29cac8e844b5956ab5eb70114e8cc",
+        "drummer_strike_holds_sha256": "9ac28d601562de20a0f99af57433c278755c9cee5ee5799c09460683fff3f847",
+        "source_hand_schedule_sha256": "eccc4a9c277bcad9cacf98248f2f0b5e20a95d8053b7df87b601aad8463478b3",
+        "schedule": {
+          "unique_strike_holds": 948,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "quasicrystal_theatre",
+        "title": "Quasicrystal Theatre",
+        "curves_and_meshes": 680,
+        "instanced_parts": 355,
+        "custom_triangles": 151768,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        562,
+        491
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/02_quasicrystal_theatre_42s.mp4"
+    },
+    {
+      "id": "02",
+      "title": "49 (Remastered)",
+      "layout": "woven_aurora",
+      "layout_title": "Woven Aurora Vault",
+      "revision": 5,
+      "file": "movies/woven_aurora/02_woven_aurora_42s.mp4",
+      "bytes": 45873053,
+      "sha256": "91db1b11f5c8f6d8310e6974945e56b35ff937651a7b53646e8048174d923745",
+      "analysis_inputs": {
+        "vocals.json": "63558d500e828530e2a83ea04e812db5e21e1f85750f3b0752da47d1d54fdba2",
+        "performance_curves.npz": "3b01bcb9cf1c10169010317abf4f87a8e3870f9b47a945a9299733c04fb48d8c",
+        "verification.json": "4d345466d5a2695dfa0e09e0e2969213275f68c6cad36a26918bdab703eb977e"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 56.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9993309757111876,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e",
+      "source_native_drummer": {
+        "fseq_sha256": "a41192cac247366f9ccadbb9c9411bd7d36e6d60fcf53ab6e5e42d72af3debfc",
+        "xsq_sha256": "4e56a6db2faeb6be8872485ecf6dc1ecde0b0e021f9fb1484efc4ffbb528ac77",
+        "drummer_levels_sha256": "e13e7899e952749ecf3f8227ee3cb21f46b29cac8e844b5956ab5eb70114e8cc",
+        "drummer_strike_holds_sha256": "9ac28d601562de20a0f99af57433c278755c9cee5ee5799c09460683fff3f847",
+        "source_hand_schedule_sha256": "eccc4a9c277bcad9cacf98248f2f0b5e20a95d8053b7df87b601aad8463478b3",
+        "schedule": {
+          "unique_strike_holds": 948,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "woven_aurora",
+        "title": "Woven Aurora Vault",
+        "curves_and_meshes": 176,
+        "instanced_parts": 355,
+        "custom_triangles": 310048,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        562,
+        491
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/02_woven_aurora_42s.mp4"
+    },
+    {
+      "id": "03",
+      "title": "Candy Cane Chaos",
+      "layout": "cymatic_geode",
+      "layout_title": "Cymatic Geode Garden",
+      "revision": 5,
+      "file": "movies/cymatic_geode/03_cymatic_geode_42s.mp4",
+      "bytes": 41960113,
+      "sha256": "f7e436934e0cea4498f770efe6eb2859c498b78747ca24964ce8152905813651",
+      "analysis_inputs": {
+        "vocals.json": "d7228095ad19ed7e622e42c87a6659fb74eaec19711df240bee1d38f52825b75",
+        "performance_curves.npz": "b36d92260392e246d9bfbaddc325dc3f8ceb9381859cf8ced4cf1f650867adc5",
+        "verification.json": "ac813609605083fd4a4d847a889ab316e6ff907f1e362da079b1983a311fc098"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 130.5,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9994060541286728,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25",
+      "source_native_drummer": {
+        "fseq_sha256": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+        "xsq_sha256": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+        "drummer_levels_sha256": "76376662825d760a04c471d930a0332b7b1347cb9b78001afd645f7fbddf20de",
+        "drummer_strike_holds_sha256": "b9ab208b36b228f2c852c8ddeb25f0dad4e8f3e4cafe5a91f59287818753d788",
+        "source_hand_schedule_sha256": "0563c463280cdadfec66835d18e70480b266bb8f32da3ba4bb6e003743cf8268",
+        "schedule": {
+          "unique_strike_holds": 986,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "cymatic_geode",
+        "title": "Cymatic Geode Garden",
+        "curves_and_meshes": 1324,
+        "instanced_parts": 355,
+        "custom_triangles": 172672,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        406,
+        442
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/03_cymatic_geode_42s.mp4"
+    },
+    {
+      "id": "03",
+      "title": "Candy Cane Chaos",
+      "layout": "infinity_observatory",
+      "layout_title": "Infinity Observatory",
+      "revision": 5,
+      "file": "movies/infinity_observatory/03_infinity_observatory_42s.mp4",
+      "bytes": 40744550,
+      "sha256": "6b67226fc3522fd1206eec449833ad72572fd33dcce213f5cb02dc1bc1ca1446",
+      "analysis_inputs": {
+        "vocals.json": "d7228095ad19ed7e622e42c87a6659fb74eaec19711df240bee1d38f52825b75",
+        "performance_curves.npz": "b36d92260392e246d9bfbaddc325dc3f8ceb9381859cf8ced4cf1f650867adc5",
+        "verification.json": "ac813609605083fd4a4d847a889ab316e6ff907f1e362da079b1983a311fc098"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 130.5,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9994060541286728,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25",
+      "source_native_drummer": {
+        "fseq_sha256": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+        "xsq_sha256": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+        "drummer_levels_sha256": "76376662825d760a04c471d930a0332b7b1347cb9b78001afd645f7fbddf20de",
+        "drummer_strike_holds_sha256": "b9ab208b36b228f2c852c8ddeb25f0dad4e8f3e4cafe5a91f59287818753d788",
+        "source_hand_schedule_sha256": "0563c463280cdadfec66835d18e70480b266bb8f32da3ba4bb6e003743cf8268",
+        "schedule": {
+          "unique_strike_holds": 986,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "infinity_observatory",
+        "title": "Infinity Observatory",
+        "curves_and_meshes": 187,
+        "instanced_parts": 355,
+        "custom_triangles": 234068,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        406,
+        442
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/03_infinity_observatory_42s.mp4"
+    },
+    {
+      "id": "03",
+      "title": "Candy Cane Chaos",
+      "layout": "knot_cathedral",
+      "layout_title": "Borealis Knot Cathedral",
+      "revision": 5,
+      "file": "movies/knot_cathedral/03_knot_cathedral_42s.mp4",
+      "bytes": 44467288,
+      "sha256": "3d1e57c75bcd0a658b45618caee8e54ee28c511d0b964b2883d4e6362796bc1c",
+      "analysis_inputs": {
+        "vocals.json": "d7228095ad19ed7e622e42c87a6659fb74eaec19711df240bee1d38f52825b75",
+        "performance_curves.npz": "b36d92260392e246d9bfbaddc325dc3f8ceb9381859cf8ced4cf1f650867adc5",
+        "verification.json": "ac813609605083fd4a4d847a889ab316e6ff907f1e362da079b1983a311fc098"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 130.5,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.999406054128675,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25",
+      "source_native_drummer": {
+        "fseq_sha256": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+        "xsq_sha256": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+        "drummer_levels_sha256": "76376662825d760a04c471d930a0332b7b1347cb9b78001afd645f7fbddf20de",
+        "drummer_strike_holds_sha256": "b9ab208b36b228f2c852c8ddeb25f0dad4e8f3e4cafe5a91f59287818753d788",
+        "source_hand_schedule_sha256": "0563c463280cdadfec66835d18e70480b266bb8f32da3ba4bb6e003743cf8268",
+        "schedule": {
+          "unique_strike_holds": 986,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "knot_cathedral",
+        "title": "Borealis Knot Cathedral",
+        "curves_and_meshes": 172,
+        "instanced_parts": 355,
+        "custom_triangles": 272472,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        406,
+        442
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/03_knot_cathedral_42s.mp4"
+    },
+    {
+      "id": "03",
+      "title": "Candy Cane Chaos",
+      "layout": "prismatic_orrery",
+      "layout_title": "Prismatic Orrery",
+      "revision": 5,
+      "file": "movies/prismatic_orrery/03_prismatic_orrery_42s.mp4",
+      "bytes": 34881683,
+      "sha256": "f6290a6a4be8d2bc0aec3bd4ea78edc335b5e6b93e48c0780a0aed7dca0276a3",
+      "analysis_inputs": {
+        "vocals.json": "d7228095ad19ed7e622e42c87a6659fb74eaec19711df240bee1d38f52825b75",
+        "performance_curves.npz": "b36d92260392e246d9bfbaddc325dc3f8ceb9381859cf8ced4cf1f650867adc5",
+        "verification.json": "ac813609605083fd4a4d847a889ab316e6ff907f1e362da079b1983a311fc098"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 130.5,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9994060541286728,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25",
+      "source_native_drummer": {
+        "fseq_sha256": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+        "xsq_sha256": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+        "drummer_levels_sha256": "76376662825d760a04c471d930a0332b7b1347cb9b78001afd645f7fbddf20de",
+        "drummer_strike_holds_sha256": "b9ab208b36b228f2c852c8ddeb25f0dad4e8f3e4cafe5a91f59287818753d788",
+        "source_hand_schedule_sha256": "0563c463280cdadfec66835d18e70480b266bb8f32da3ba4bb6e003743cf8268",
+        "schedule": {
+          "unique_strike_holds": 986,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "prismatic_orrery",
+        "title": "Prismatic Orrery",
+        "curves_and_meshes": 615,
+        "instanced_parts": 475,
+        "custom_triangles": 118068,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        406,
+        442
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/03_prismatic_orrery_42s.mp4"
+    },
+    {
+      "id": "03",
+      "title": "Candy Cane Chaos",
+      "layout": "quasicrystal_theatre",
+      "layout_title": "Quasicrystal Theatre",
+      "revision": 5,
+      "file": "movies/quasicrystal_theatre/03_quasicrystal_theatre_42s.mp4",
+      "bytes": 44244213,
+      "sha256": "f15ba792a92f1375b3e26d645f404e56e36c597658adbc3ad16d16a9dd296427",
+      "analysis_inputs": {
+        "vocals.json": "d7228095ad19ed7e622e42c87a6659fb74eaec19711df240bee1d38f52825b75",
+        "performance_curves.npz": "b36d92260392e246d9bfbaddc325dc3f8ceb9381859cf8ced4cf1f650867adc5",
+        "verification.json": "ac813609605083fd4a4d847a889ab316e6ff907f1e362da079b1983a311fc098"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 130.5,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9994060541286733,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25",
+      "source_native_drummer": {
+        "fseq_sha256": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+        "xsq_sha256": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+        "drummer_levels_sha256": "76376662825d760a04c471d930a0332b7b1347cb9b78001afd645f7fbddf20de",
+        "drummer_strike_holds_sha256": "b9ab208b36b228f2c852c8ddeb25f0dad4e8f3e4cafe5a91f59287818753d788",
+        "source_hand_schedule_sha256": "0563c463280cdadfec66835d18e70480b266bb8f32da3ba4bb6e003743cf8268",
+        "schedule": {
+          "unique_strike_holds": 986,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "quasicrystal_theatre",
+        "title": "Quasicrystal Theatre",
+        "curves_and_meshes": 680,
+        "instanced_parts": 355,
+        "custom_triangles": 151768,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        406,
+        442
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/03_quasicrystal_theatre_42s.mp4"
+    },
+    {
+      "id": "03",
+      "title": "Candy Cane Chaos",
+      "layout": "woven_aurora",
+      "layout_title": "Woven Aurora Vault",
+      "revision": 5,
+      "file": "movies/woven_aurora/03_woven_aurora_42s.mp4",
+      "bytes": 46650254,
+      "sha256": "44efda72b9c25a70f0f88ed5396208c66d63d93966a0a4ac4958fbf61bbb4c75",
+      "analysis_inputs": {
+        "vocals.json": "d7228095ad19ed7e622e42c87a6659fb74eaec19711df240bee1d38f52825b75",
+        "performance_curves.npz": "b36d92260392e246d9bfbaddc325dc3f8ceb9381859cf8ced4cf1f650867adc5",
+        "verification.json": "ac813609605083fd4a4d847a889ab316e6ff907f1e362da079b1983a311fc098"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 130.5,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9994060541286728,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25",
+      "source_native_drummer": {
+        "fseq_sha256": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+        "xsq_sha256": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+        "drummer_levels_sha256": "76376662825d760a04c471d930a0332b7b1347cb9b78001afd645f7fbddf20de",
+        "drummer_strike_holds_sha256": "b9ab208b36b228f2c852c8ddeb25f0dad4e8f3e4cafe5a91f59287818753d788",
+        "source_hand_schedule_sha256": "0563c463280cdadfec66835d18e70480b266bb8f32da3ba4bb6e003743cf8268",
+        "schedule": {
+          "unique_strike_holds": 986,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "woven_aurora",
+        "title": "Woven Aurora Vault",
+        "curves_and_meshes": 176,
+        "instanced_parts": 355,
+        "custom_triangles": 310048,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        406,
+        442
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/03_woven_aurora_42s.mp4"
+    },
+    {
+      "id": "05",
+      "title": "Festivus (Remastered)",
+      "layout": "cymatic_geode",
+      "layout_title": "Cymatic Geode Garden",
+      "revision": 5,
+      "file": "movies/cymatic_geode/05_cymatic_geode_42s.mp4",
+      "bytes": 41100129,
+      "sha256": "fbcb3becdf77301980a713307454c1619874b7f9e2bad5e4ca48d7aeb9beaa28",
+      "analysis_inputs": {
+        "recognition_second_pass.json": "5b5036ecc62c24f97a45640ae5a0c9f8f23f07121504cbeeb374bba3e098aee3",
+        "vocals.json": "bb7e3a3b7dbf2803f0a9af2c462de9a0770f16c2c9657bdfc5d823d31122a232",
+        "performance_curves.npz": "b3b8e539f0ea0e5099b38dc5121711f2d188a97a42c7c7b063512cc710ca055f",
+        "verification.json": "e2e84e91dbe7606787dac05012647ee8ffb95782a6f43049f1aa12c5c4f1f337"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 68.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9992920800114314,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+      "source_native_drummer": {
+        "fseq_sha256": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+        "xsq_sha256": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+        "drummer_levels_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "drummer_strike_holds_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "source_hand_schedule_sha256": "3fa0c56bf9b2e27ef4d103f767b98fa3af97c78d981ea42efb80621bb53c04d2",
+        "schedule": {
+          "unique_strike_holds": 290,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "cymatic_geode",
+        "title": "Cymatic Geode Garden",
+        "curves_and_meshes": 1324,
+        "instanced_parts": 355,
+        "custom_triangles": 172672,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        494,
+        500
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/05_cymatic_geode_42s.mp4"
+    },
+    {
+      "id": "05",
+      "title": "Festivus (Remastered)",
+      "layout": "infinity_observatory",
+      "layout_title": "Infinity Observatory",
+      "revision": 5,
+      "file": "movies/infinity_observatory/05_infinity_observatory_42s.mp4",
+      "bytes": 39630309,
+      "sha256": "1fbe7bddabcd79ab1094ba9ffb87622ab88298baafb528939daf4f03c962b7f7",
+      "analysis_inputs": {
+        "recognition_second_pass.json": "5b5036ecc62c24f97a45640ae5a0c9f8f23f07121504cbeeb374bba3e098aee3",
+        "vocals.json": "bb7e3a3b7dbf2803f0a9af2c462de9a0770f16c2c9657bdfc5d823d31122a232",
+        "performance_curves.npz": "b3b8e539f0ea0e5099b38dc5121711f2d188a97a42c7c7b063512cc710ca055f",
+        "verification.json": "e2e84e91dbe7606787dac05012647ee8ffb95782a6f43049f1aa12c5c4f1f337"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 68.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9992920800114314,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+      "source_native_drummer": {
+        "fseq_sha256": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+        "xsq_sha256": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+        "drummer_levels_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "drummer_strike_holds_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "source_hand_schedule_sha256": "3fa0c56bf9b2e27ef4d103f767b98fa3af97c78d981ea42efb80621bb53c04d2",
+        "schedule": {
+          "unique_strike_holds": 290,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "infinity_observatory",
+        "title": "Infinity Observatory",
+        "curves_and_meshes": 187,
+        "instanced_parts": 355,
+        "custom_triangles": 234068,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        494,
+        500
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/05_infinity_observatory_42s.mp4"
+    },
+    {
+      "id": "05",
+      "title": "Festivus (Remastered)",
+      "layout": "knot_cathedral",
+      "layout_title": "Borealis Knot Cathedral",
+      "revision": 5,
+      "file": "movies/knot_cathedral/05_knot_cathedral_42s.mp4",
+      "bytes": 43162109,
+      "sha256": "927298657d79cb73edbd9b3269d08dc1b6c1819e22be90f1ad446ac93f8db774",
+      "analysis_inputs": {
+        "recognition_second_pass.json": "5b5036ecc62c24f97a45640ae5a0c9f8f23f07121504cbeeb374bba3e098aee3",
+        "vocals.json": "bb7e3a3b7dbf2803f0a9af2c462de9a0770f16c2c9657bdfc5d823d31122a232",
+        "performance_curves.npz": "b3b8e539f0ea0e5099b38dc5121711f2d188a97a42c7c7b063512cc710ca055f",
+        "verification.json": "e2e84e91dbe7606787dac05012647ee8ffb95782a6f43049f1aa12c5c4f1f337"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 68.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9992920800114329,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+      "source_native_drummer": {
+        "fseq_sha256": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+        "xsq_sha256": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+        "drummer_levels_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "drummer_strike_holds_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "source_hand_schedule_sha256": "3fa0c56bf9b2e27ef4d103f767b98fa3af97c78d981ea42efb80621bb53c04d2",
+        "schedule": {
+          "unique_strike_holds": 290,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "knot_cathedral",
+        "title": "Borealis Knot Cathedral",
+        "curves_and_meshes": 172,
+        "instanced_parts": 355,
+        "custom_triangles": 272472,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        494,
+        500
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/05_knot_cathedral_42s.mp4"
+    },
+    {
+      "id": "05",
+      "title": "Festivus (Remastered)",
+      "layout": "prismatic_orrery",
+      "layout_title": "Prismatic Orrery",
+      "revision": 5,
+      "file": "movies/prismatic_orrery/05_prismatic_orrery_42s.mp4",
+      "bytes": 34537439,
+      "sha256": "febdac4848c73ec4ca9e1db4b6d0b5fc9db676665fb7d0f29ec8d26af00c5066",
+      "analysis_inputs": {
+        "recognition_second_pass.json": "5b5036ecc62c24f97a45640ae5a0c9f8f23f07121504cbeeb374bba3e098aee3",
+        "vocals.json": "bb7e3a3b7dbf2803f0a9af2c462de9a0770f16c2c9657bdfc5d823d31122a232",
+        "performance_curves.npz": "b3b8e539f0ea0e5099b38dc5121711f2d188a97a42c7c7b063512cc710ca055f",
+        "verification.json": "e2e84e91dbe7606787dac05012647ee8ffb95782a6f43049f1aa12c5c4f1f337"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 68.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9992920800114314,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+      "source_native_drummer": {
+        "fseq_sha256": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+        "xsq_sha256": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+        "drummer_levels_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "drummer_strike_holds_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "source_hand_schedule_sha256": "3fa0c56bf9b2e27ef4d103f767b98fa3af97c78d981ea42efb80621bb53c04d2",
+        "schedule": {
+          "unique_strike_holds": 290,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "prismatic_orrery",
+        "title": "Prismatic Orrery",
+        "curves_and_meshes": 615,
+        "instanced_parts": 475,
+        "custom_triangles": 118068,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        494,
+        500
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/05_prismatic_orrery_42s.mp4"
+    },
+    {
+      "id": "05",
+      "title": "Festivus (Remastered)",
+      "layout": "quasicrystal_theatre",
+      "layout_title": "Quasicrystal Theatre",
+      "revision": 5,
+      "file": "movies/quasicrystal_theatre/05_quasicrystal_theatre_42s.mp4",
+      "bytes": 43778331,
+      "sha256": "50a64777457a50405e3cd40e4fcb2b982aa88e3a76d70ae58bfd470371d9548d",
+      "analysis_inputs": {
+        "recognition_second_pass.json": "5b5036ecc62c24f97a45640ae5a0c9f8f23f07121504cbeeb374bba3e098aee3",
+        "vocals.json": "bb7e3a3b7dbf2803f0a9af2c462de9a0770f16c2c9657bdfc5d823d31122a232",
+        "performance_curves.npz": "b3b8e539f0ea0e5099b38dc5121711f2d188a97a42c7c7b063512cc710ca055f",
+        "verification.json": "e2e84e91dbe7606787dac05012647ee8ffb95782a6f43049f1aa12c5c4f1f337"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 68.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9992920800114329,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+      "source_native_drummer": {
+        "fseq_sha256": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+        "xsq_sha256": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+        "drummer_levels_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "drummer_strike_holds_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "source_hand_schedule_sha256": "3fa0c56bf9b2e27ef4d103f767b98fa3af97c78d981ea42efb80621bb53c04d2",
+        "schedule": {
+          "unique_strike_holds": 290,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "quasicrystal_theatre",
+        "title": "Quasicrystal Theatre",
+        "curves_and_meshes": 680,
+        "instanced_parts": 355,
+        "custom_triangles": 151768,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        494,
+        500
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/05_quasicrystal_theatre_42s.mp4"
+    },
+    {
+      "id": "05",
+      "title": "Festivus (Remastered)",
+      "layout": "woven_aurora",
+      "layout_title": "Woven Aurora Vault",
+      "revision": 5,
+      "file": "movies/woven_aurora/05_woven_aurora_42s.mp4",
+      "bytes": 46698491,
+      "sha256": "b8e63bbe213252c3aa169a7d66072dd0bd3c2a5b2a8be0f0be61f9f74f12fe61",
+      "analysis_inputs": {
+        "recognition_second_pass.json": "5b5036ecc62c24f97a45640ae5a0c9f8f23f07121504cbeeb374bba3e098aee3",
+        "vocals.json": "bb7e3a3b7dbf2803f0a9af2c462de9a0770f16c2c9657bdfc5d823d31122a232",
+        "performance_curves.npz": "b3b8e539f0ea0e5099b38dc5121711f2d188a97a42c7c7b063512cc710ca055f",
+        "verification.json": "e2e84e91dbe7606787dac05012647ee8ffb95782a6f43049f1aa12c5c4f1f337"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 68.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9992920800114314,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+      "source_native_drummer": {
+        "fseq_sha256": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+        "xsq_sha256": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+        "drummer_levels_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "drummer_strike_holds_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "source_hand_schedule_sha256": "3fa0c56bf9b2e27ef4d103f767b98fa3af97c78d981ea42efb80621bb53c04d2",
+        "schedule": {
+          "unique_strike_holds": 290,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "woven_aurora",
+        "title": "Woven Aurora Vault",
+        "curves_and_meshes": 176,
+        "instanced_parts": 355,
+        "custom_triangles": 310048,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        494,
+        500
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/05_woven_aurora_42s.mp4"
+    },
+    {
+      "id": "05",
+      "title": "Festivus (Remastered)",
+      "layout": "woven_aurora",
+      "layout_title": "Woven Aurora Vault",
+      "revision": 5,
+      "file": "movies/woven_aurora/05_woven_aurora_mallet_intro_42s.mp4",
+      "bytes": 45656879,
+      "sha256": "ca9e010a8460555b2a685735c77a736df6e96bb3e55b5d94c6f7d2576c802ece",
+      "analysis_inputs": {
+        "recognition_second_pass.json": "5b5036ecc62c24f97a45640ae5a0c9f8f23f07121504cbeeb374bba3e098aee3",
+        "vocals.json": "bb7e3a3b7dbf2803f0a9af2c462de9a0770f16c2c9657bdfc5d823d31122a232",
+        "performance_curves.npz": "b3b8e539f0ea0e5099b38dc5121711f2d188a97a42c7c7b063512cc710ca055f",
+        "verification.json": "e2e84e91dbe7606787dac05012647ee8ffb95782a6f43049f1aa12c5c4f1f337"
+      },
+      "implementation_sha256": {
+        "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+        "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+        "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+        "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+        "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+        "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+      },
+      "duration_seconds": 42,
+      "frames": 840,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "source_offset_seconds": 0.0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9991422904567253,
+        "source_samples": 336000,
+        "movie_samples": 336000,
+        "original_excerpt_matches": true
+      },
+      "source_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+      "source_native_drummer": {
+        "fseq_sha256": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+        "xsq_sha256": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+        "drummer_levels_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "drummer_strike_holds_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "source_hand_schedule_sha256": "3fa0c56bf9b2e27ef4d103f767b98fa3af97c78d981ea42efb80621bb53c04d2",
+        "schedule": {
+          "unique_strike_holds": 290,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "drummer_geometry": {
+        "source": "same canonical geometry/compositor as dry artifact11527580859",
+        "assets": {
+          "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+          "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+          "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+          "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+        },
+        "replacement_3d_kit": false,
+        "high_tom_viewer_right": true,
+        "mid_and_floor_toms_viewer_left": true,
+        "crop": [
+          99,
+          124,
+          494,
+          380
+        ],
+        "planar_physical_prop_mounted_in_3d_stage": true
+      },
+      "geometry": {
+        "layout": "woven_aurora",
+        "title": "Woven Aurora Vault",
+        "curves_and_meshes": 176,
+        "instanced_parts": 355,
+        "custom_triangles": 310048,
+        "finite_geometry": true,
+        "canonical_dry_drummer": true,
+        "band_members": [
+          "drummer",
+          "bass",
+          "guitar",
+          "male singer",
+          "female singer",
+          "keyboard"
+        ]
+      },
+      "singer_active_frames": [
+        458,
+        360
+      ],
+      "native_xlights_playback": false,
+      "static_concept_art_video": false,
+      "render_worker_file": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Intricate_Band_Samplers/movies/05_woven_aurora_mallet_intro_42s.mp4"
+    }
+  ],
+  "minimum_soundtrack_correlation": 0.9991422904567253,
+  "all_remote_full_decodes_and_local_exact_hashes_passed": true,
+  "all_local_codec_duration_checks_passed": true,
+  "all_33_encoded_midpoint_frames_decoded": true,
+  "all_six_layouts_preserve_each_song_drums_and_hands": true,
+  "all_21_original_inputs_preserved": true,
+  "all_19_dry_source_files_identical": true,
+  "focused_tests": "17 passed",
+  "native_xlights_playback": false,
+  "implementation_sha256": {
+    "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+    "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+    "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+    "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+    "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+    "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+  }
+}

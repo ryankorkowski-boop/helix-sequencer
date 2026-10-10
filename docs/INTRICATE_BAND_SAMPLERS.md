@@ -52,13 +52,20 @@ artwork and earlier MP4s remain preserved. New stage native exports, physical
 installation engineering, verified scores, acoustic word-level correction and
 reliable overlapping-singer separation remain deferred.
 
-Reproduce after restoring the pinned review inputs:
+Rerender the published previews after restoring the SHA-pinned input ZIP from
+`evidence/intricate_band_samplers/remote_render_request.json` into the repository root:
 
 ```bash
-python -m tools.analyze_band_samplers
 python -m tools.render_intricate_band_samplers
 ```
 
+Regenerating the analysis additionally requires the original six-stem Demucs
+cache, the earlier instrument curves and lyric/reference alignment files, and
+the separately installed Whisper/analysis dependencies. The render input ZIP
+contains the finished curves and lyric results, not those raw separated stems.
+With those analysis inputs present, run `python -m tools.recognize_sampler_lyrics`
+and then `python -m tools.analyze_band_samplers`.
+
 Analysis, dry-source preservation, decoded pilot inspection, focused tests and
 final movie/ZIP/audio proofs are tracked in `evidence/intricate_band_samplers/`
-and `MASTER_TODO.md`. Download links will be recorded after verified publication.
+and `MASTER_TODO.md`. Downloads: [single sampler ZIP](https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/intricate-band-samplers-2026-10-10/Snowman_Band_Intricate_42s_Samplers.zip) and [all individual MP4 links](INTRICATE_BAND_DOWNLOADS.md).
