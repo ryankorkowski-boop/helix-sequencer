@@ -14,7 +14,6 @@ import math
 from pathlib import Path
 import subprocess
 import time
-import xml.etree.ElementTree as ET
 
 import moderngl
 import numpy as np
@@ -24,14 +23,14 @@ import trimesh
 from models.band_performance_scene import BandScene, matrix, line_matrix, string_assignment
 from tools.build_helpers.ultimate_showcase_preview import _font, read_fseq
 from tools.build_snowman_ensemble import soundtrack_check
-from models.snowman_ensemble import build_ensemble
+from models.drummer_review_schedule import decode_review_schedule
 
 ROOT=Path(__file__).resolve().parents[1]
 OLD=ROOT/'outputs/Snowman_Ensemble'
 OUT=ROOT/'outputs/Snowman_Band_Upgrade'
 SHAPES={'REST':(.105,.012),'MBP':(.10,.017),'AH':(.11,.105),'EE':(.14,.035),
         'OH':(.066,.085),'FV':(.105,.031),'L':(.09,.067)}
-TARGETS=('KICK','SNARE','HI_HAT','TOM_HIGH','TOM_MID','TOM_FLOOR','CYMBAL_LEFT','CYMBAL_RIGHT')
+RENDER_REVISION=2
 
 VERTEX='''#version 330
 in vec3 in_position; in vec3 in_normal; in vec3 in_color; in float in_slot;
@@ -126,23 +125,13 @@ class GLView:
 def native_drummer(row):
     folder=OLD/'shows'/f'{row["id"]}_band'
     frames,step=read_fseq(folder/'Snowman_Band.fseq');assert step==50
-    model=build_ensemble('band').models[0]
-    values=frames[:,:model.channels].reshape(len(frames),-1,3)
-    levels=np.zeros((len(frames),8),dtype=np.float32)
-    for i,target in enumerate(TARGETS):
-        part='HX_SNOWMAN_DRUMMER_V3_'+target+'_SURFACE'
-        ids=np.array(model.submodels[part])-1
-        levels[:,i]=values[:,ids,:].max(axis=(1,2))/255
-    hands=np.zeros(len(frames),dtype=np.int8)
-    tree=ET.parse(folder/'Snowman_Band.xsq')
-    for effect in tree.findall('.//Effect'):
-        hand=effect.get('sourceHand')
-        if hand in ('left','right'):
-            lo=int(effect.get('startTime'))//50;hi=min(len(frames),math.ceil(int(effect.get('endTime'))/50))
-            hands[lo:hi]=1 if hand=='right' else 0
-    return levels,hands,{'fseq_sha256':sha(folder/'Snowman_Band.fseq'),
+    levels,strikes,hands,schedule=decode_review_schedule(folder/'Snowman_Band.xsq',len(frames))
+    return levels,strikes,hands,{'fseq_sha256':sha(folder/'Snowman_Band.fseq'),
+                         'xsq_sha256':sha(folder/'Snowman_Band.xsq'),
                          'drummer_levels_sha256':hashlib.sha256(levels.tobytes()).hexdigest(),
-                         'source_hand_schedule_sha256':hashlib.sha256(hands.tobytes()).hexdigest()}
+                         'drummer_strike_holds_sha256':hashlib.sha256(strikes.tobytes()).hexdigest(),
+                         'source_hand_schedule_sha256':hashlib.sha256(hands.tobytes()).hexdigest(),
+                         'schedule':schedule}
 
 
 class Performance:
@@ -150,7 +139,7 @@ class Performance:
         self.row=row;self.variant=variant;self.scene=scene
         self.curves=np.load(OUT/'analysis'/row['id']/'performance_curves.npz')
         self.vocals=json.loads((OLD/'analysis'/row['id']/'vocals.json').read_text())
-        self.drums,self.hands,self.drum_proof=native_drummer(row)
+        self.drums,self.strikes,self.hands,self.drum_proof=native_drummer(row)
         self.n=len(self.drums);self.mouths=np.full(self.n,'REST',dtype='<U4')
         for event in self.vocals['mouths']:
             lo=max(0,event['start_ms']//50);hi=min(self.n,math.ceil(event['end_ms']/50))
@@ -210,12 +199,12 @@ class Performance:
                 hand[1]+=.65*energy;hand[0]+=.14*energy
             elif role=='drums':
                 left=side=='left';hit=0.;point=hand.copy();tip=hand+(-.27 if left else .27,-.25,.07)
-                # Surface envelopes are decoded from the unchanged native sequence.
-                # Snare alternation uses its persisted original sourceHand schedule.
-                options=[(self.drums[i,6 if left else 7],(-1.42 if left else 1.4,2.51,-1.74))]
-                if (left and self.hands[i]==0) or (not left and self.hands[i]==1):options.append((self.drums[i,1],(-.88,1.70,-1.18)))
-                options += [(self.drums[i,3 if left else 4],(-.54 if left else .46,2.17 if left else 2.10,-1.60)),
-                            (self.drums[i,5] if not left else 0.,(.97,1.40,-1.79))]
+                # Only source-tagged strike holds move arms. Idle art and the
+                # longer cymbal shimmer must never be treated as motion cues.
+                options=[(self.strikes[i,6 if left else 7],(-1.42 if left else 1.4,2.51,-1.74))]
+                if (left and self.hands[i]==0) or (not left and self.hands[i]==1):options.append((self.strikes[i,1],(-.88,1.70,-1.18)))
+                options += [(self.strikes[i,3 if left else 4],(-.54 if left else .46,2.17 if left else 2.10,-1.60)),
+                            (self.strikes[i,5] if not left else 0.,(.97,1.40,-1.79))]
                 hit,target=max(options,key=lambda pair:pair[0])
                 if hit>.16:
                     tip=np.array(target,float);point=tip+(.20 if left else -.20,.35,-.18)
@@ -248,7 +237,10 @@ def render(row,variant,seconds=0,start=0,width=1920,height=1080):
     suffix='_pilot' if seconds else ''
     name=f'{row["id"]}_{variant}_Refined_3D{suffix}.mp4';movie=folder/name
     proof_path=movie.with_suffix('.verification.json')
-    if proof_path.exists() and movie.exists():return json.loads(proof_path.read_text())
+    if proof_path.exists() and movie.exists():
+        cached=json.loads(proof_path.read_text())
+        if (cached.get('render_revision')==RENDER_REVISION and cached['width']==width
+                and cached['height']==height and sha(movie)==cached['sha256']):return cached
     scene=BandScene(variant);performance=Performance(row,variant,scene);view=GLView(scene,width,height)
     scene.export_glb(folder/f'{variant}_Refined_3D.glb')
     offset=round(start*20);count=min(performance.n-offset,round(seconds*20)) if seconds else performance.n
@@ -273,7 +265,7 @@ def render(row,variant,seconds=0,start=0,width=1920,height=1080):
     assert int(video['nb_frames'])==count and video['r_frame_rate']=='20/1' and video['pix_fmt']=='yuv420p'
     subprocess.run(['ffmpeg','-v','error','-threads','1','-i',str(movie),'-f','null','-'],check=True)
     sound=soundtrack_check(original,movie) if not seconds else {'pilot_source_offset_seconds':start}
-    proof={'id':row['id'],'title':row['title'],'variant':variant,'file':str(movie),'bytes':movie.stat().st_size,
+    proof={'id':row['id'],'title':row['title'],'variant':variant,'render_revision':RENDER_REVISION,'file':str(movie),'bytes':movie.stat().st_size,
            'sha256':sha(movie),'source_sha256':row['sha256'],'duration_seconds':count/20,'frames':count,
            'width':width,'height':height,'full_decode_passed':True,'soundtrack':sound,
            'source_native_drummer':performance.drum_proof,'native_xlights_playback':False,

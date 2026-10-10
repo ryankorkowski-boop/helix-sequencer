@@ -96,7 +96,7 @@ def destination(item, mode):
         group = '00_Start_Here'
     elif 'Six_Layouts' in name:
         group = '01_Six_Layout_Song_Clips'
-    elif 'superseded_dim_mouths' in s['path']:
+    elif '/superseded_' in s['path'] and 'Snowman_Band_Upgrade' in s['path']:
         group = 'Superseded_Upgrade_Previews'
     elif 'Refined_3D' in name:
         group = 'Fresh_Band_Upgrade'

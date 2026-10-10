@@ -46,9 +46,9 @@ def main():
                'native_xlights_playback': False,
                'preferred_approved_drummer_image_recovered': False,
                'all_six_songs_use_lead_only_due_to_voice_uncertainty': all(not a['vocal_routing']['two_voice_candidates'] for a in analysis),
-               'focused_geometry_tests': '6 passed',
+               'focused_geometry_and_strike_schedule_tests': '9 passed',
                'implementation_sha256': {str(p): sha(ROOT/p) for p in map(Path, [
-                   'models/band_performance_scene.py', 'tools/analyze_band_upgrade.py',
+                   'models/band_performance_scene.py', 'models/drummer_review_schedule.py', 'tools/analyze_band_upgrade.py',
                    'tools/render_band_upgrade.py'])}}
     (OUT/'verification.json').write_text(json.dumps(summary, indent=2)+'\n')
     readme = ('Eleven refined 3D character-performance previews\n\n'
