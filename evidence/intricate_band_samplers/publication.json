@@ -12,5 +12,36 @@
       "full_public_download_hash_matches": true,
       "sha256": "50a64777457a50405e3cd40e4fcb2b982aa88e3a76d70ae58bfd470371d9548d"
     }
-  ]
+  ],
+  "archive_media_commit": "3772f44d5f294272c25b21728f1aca4a60941a03",
+  "all_28_remote_archive_part_git_blob_hashes_and_sizes_match": true,
+  "publisher_run": {
+    "id": 38074949218,
+    "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38074949218",
+    "conclusion": "success",
+    "source_commit": "f962f738db5610222b693d3a4e3acee7c1c91b4d"
+  },
+  "release": {
+    "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/intricate-band-samplers-2026-10-10",
+    "asset_id": 628658176,
+    "name": "Snowman_Band_Intricate_42s_Samplers.zip",
+    "size": 1375629654,
+    "digest": "sha256:bf32f48fff1d0874fef2adbdc130a8f716651ac50c4c96c089b909f34df29564",
+    "state": "uploaded",
+    "download_url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/intricate-band-samplers-2026-10-10/Snowman_Band_Intricate_42s_Samplers.zip",
+    "matches_verified_local_zip": true
+  },
+  "public_http_checks": [
+    {
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/intricate-band-samplers-2026-10-10",
+      "status": 200,
+      "content_length": null
+    },
+    {
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/intricate-band-samplers-2026-10-10/Snowman_Band_Intricate_42s_Samplers.zip",
+      "status": 200,
+      "content_length": "1375629654"
+    }
+  ],
+  "verified_at_utc": "2026-10-10T18:16:43.293841+00:00"
 }
