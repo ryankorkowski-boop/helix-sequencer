@@ -1,0 +1,282 @@
+{
+  "id": "03",
+  "title": "Candy Cane Chaos",
+  "layout": "knot_cathedral",
+  "focus": "stage",
+  "start": 130.5,
+  "seconds": 42,
+  "width": 1920,
+  "height": 1080,
+  "frames": 840,
+  "sha256": "42303c2fff1c443ef370ecb3d1717c7d3f00f6dbfa35a04f684e7722d42eab2c",
+  "bytes": 40414370,
+  "source_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25",
+  "full_decode_passed": true,
+  "all_frames_pose_routing_checked": true,
+  "encoded_instrument_checks": [
+    {
+      "frame": 1,
+      "kind": "bass",
+      "box": [
+        607,
+        511,
+        647,
+        748
+      ],
+      "own_channel_pixels": 563,
+      "active_error": 9.683836589698046,
+      "muted_error": 172.7643576080521
+    },
+    {
+      "frame": 76,
+      "kind": "bass",
+      "box": [
+        605,
+        511,
+        645,
+        749
+      ],
+      "own_channel_pixels": 626,
+      "active_error": 8.957933972310968,
+      "muted_error": 165.31150159744408
+    },
+    {
+      "frame": 145,
+      "kind": "bass",
+      "box": [
+        603,
+        511,
+        644,
+        750
+      ],
+      "own_channel_pixels": 537,
+      "active_error": 7.889509621353196,
+      "muted_error": 110.34326505276226
+    },
+    {
+      "frame": 195,
+      "kind": "piano",
+      "box": [
+        1399,
+        718,
+        1658,
+        745
+      ],
+      "own_channel_pixels": 584,
+      "active_error": 7.2979452054794525,
+      "muted_error": 29.771689497716896
+    },
+    {
+      "frame": 220,
+      "kind": "piano",
+      "box": [
+        1400,
+        718,
+        1659,
+        745
+      ],
+      "own_channel_pixels": 1638,
+      "active_error": 7.443833943833944,
+      "muted_error": 39.63695563695564
+    },
+    {
+      "frame": 246,
+      "kind": "piano",
+      "box": [
+        1400,
+        719,
+        1660,
+        745
+      ],
+      "own_channel_pixels": 746,
+      "active_error": 6.656836461126005,
+      "muted_error": 34.05138516532618
+    },
+    {
+      "frame": 247,
+      "kind": "guitar",
+      "box": [
+        1187,
+        577,
+        1352,
+        724
+      ],
+      "own_channel_pixels": 1518,
+      "active_error": 12.67786561264822,
+      "muted_error": 33.586297760210805
+    },
+    {
+      "frame": 481,
+      "kind": "piano",
+      "box": [
+        1401,
+        719,
+        1661,
+        746
+      ],
+      "own_channel_pixels": 1260,
+      "active_error": 6.252380952380952,
+      "muted_error": 29.57248677248677
+    },
+    {
+      "frame": 535,
+      "kind": "piano",
+      "box": [
+        1400,
+        719,
+        1660,
+        745
+      ],
+      "own_channel_pixels": 383,
+      "active_error": 6.688424717145344,
+      "muted_error": 34.15578764142733
+    },
+    {
+      "frame": 668,
+      "kind": "bass",
+      "box": [
+        604,
+        511,
+        644,
+        750
+      ],
+      "own_channel_pixels": 600,
+      "active_error": 11.908333333333333,
+      "muted_error": 135.66222222222223
+    },
+    {
+      "frame": 760,
+      "kind": "bass",
+      "box": [
+        606,
+        511,
+        646,
+        748
+      ],
+      "own_channel_pixels": 537,
+      "active_error": 7.39602731222843,
+      "muted_error": 102.75108628181255
+    },
+    {
+      "frame": 775,
+      "kind": "guitar",
+      "box": [
+        1184,
+        576,
+        1346,
+        721
+      ],
+      "own_channel_pixels": 2941,
+      "active_error": 9.876685934489402,
+      "muted_error": 55.00022668026749
+    },
+    {
+      "frame": 797,
+      "kind": "guitar",
+      "box": [
+        1183,
+        576,
+        1345,
+        721
+      ],
+      "own_channel_pixels": 3455,
+      "active_error": 10.471104679208874,
+      "muted_error": 62.89117221418235
+    },
+    {
+      "frame": 817,
+      "kind": "guitar",
+      "box": [
+        1183,
+        576,
+        1345,
+        721
+      ],
+      "own_channel_pixels": 4765,
+      "active_error": 11.204407135362015,
+      "muted_error": 59.42042672263029
+    },
+    {
+      "frame": 832,
+      "kind": "guitar",
+      "box": [
+        1183,
+        576,
+        1345,
+        721
+      ],
+      "own_channel_pixels": 4950,
+      "active_error": 11.01878787878788,
+      "muted_error": 61.606329966329966
+    }
+  ],
+  "source_attacks": {
+    "bass": {
+      "source_attack_frames": 64,
+      "visible_checks": 5
+    },
+    "guitar": {
+      "source_attack_frames": 47,
+      "visible_checks": 5
+    },
+    "piano": {
+      "source_attack_frames": 24,
+      "visible_checks": 5
+    }
+  },
+  "soundtrack": {
+    "source_offset_seconds": 130.5,
+    "sample_rate": 8000,
+    "zero_offset_correlation": 0.9994060541286733,
+    "source_samples": 336000,
+    "movie_samples": 336000,
+    "original_excerpt_matches": true
+  },
+  "drummer_geometry": {
+    "source": "canonical source-art compositor with torso shoulder revision, pose spec v7",
+    "assets": {
+      "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+      "fixtures/band_geometry/source/drummer_idle.png": "7299061b867c324ee46f037aef15fe64a04f946992021235e69ec137e9f4137e",
+      "fixtures/band_geometry/drummer_v3_pose_spec.json": "2964ec17bec74bcf947d68e43fee5bc2afea9ed83327a6b77fa19f6e0346b8a1",
+      "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "70c11eafe25243f2ec10e8207ed89c1456acf2692d9e1de7db5a4801f0cd8c79"
+    },
+    "replacement_3d_kit": false,
+    "high_tom_viewer_right": true,
+    "mid_and_floor_toms_viewer_left": true,
+    "crop": [
+      99,
+      124,
+      494,
+      380
+    ],
+    "planar_physical_prop_mounted_in_3d_stage": true
+  },
+  "native_drummer": {
+    "fseq_sha256": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+    "xsq_sha256": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+    "drummer_levels_sha256": "76376662825d760a04c471d930a0332b7b1347cb9b78001afd645f7fbddf20de",
+    "drummer_strike_holds_sha256": "b9ab208b36b228f2c852c8ddeb25f0dad4e8f3e4cafe5a91f59287818753d788",
+    "source_hand_schedule_sha256": "0563c463280cdadfec66835d18e70480b266bb8f32da3ba4bb6e003743cf8268",
+    "schedule": {
+      "unique_strike_holds": 986,
+      "idle_colors_used_as_strikes": false,
+      "cymbal_decay_moves_arms": false
+    }
+  },
+  "native_xlights_playback": false,
+  "verified_musical_score": false,
+  "analysis_inputs": {
+    "note_events.json": "3744911ba11f5330d8d0872ce70028e62360f05d2a18411d81819534537454e0",
+    "vocals.json": "d7228095ad19ed7e622e42c87a6659fb74eaec19711df240bee1d38f52825b75",
+    "performance_curves.npz": "2e10bbd784055ee7281998104c46ff1003da88e9f73ddb863fd000c749de5bdb",
+    "verification.json": "345af45d22438b90b82dd9ce46e5c11438ffc90834289fee72add3b96cf41a1c"
+  },
+  "implementation_sha256": {
+    "models/readable_band_scene.py": "d4853712997522be492611908eeb2b9e76eab4563a43bc7e6b218d2eb3887d3d",
+    "models/band_instrument_logic.py": "88ca129f7104e5be373f4429365d5747aa984966be6c663e22cb49d7ddfd1595",
+    "tools/readable_band_performance.py": "f753853f9581e0fdf0eb534157ef4be2c12aa8b1be3d5f4db050564d559a5cf0",
+    "tools/render_readable_band.py": "7a0a5afe4d3df780670ad8ada198cbb48d546d0c2f0dc8c4485bbbd4b0aa50a0",
+    "tools/render_intricate_band_samplers.py": "15d82f5e175008a54899b2fa3b04668021fa078ae4bef302b1c75004f9cef632",
+    "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+  }
+}

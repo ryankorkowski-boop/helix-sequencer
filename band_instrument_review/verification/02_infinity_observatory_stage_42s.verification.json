@@ -1,0 +1,282 @@
+{
+  "id": "02",
+  "title": "49 (Remastered)",
+  "layout": "infinity_observatory",
+  "focus": "stage",
+  "start": 56,
+  "seconds": 42,
+  "width": 1920,
+  "height": 1080,
+  "frames": 840,
+  "sha256": "f7fd7692ac5727342811527c6d311b34091c02bcbe6ca150dc591a6b6d6bbe6a",
+  "bytes": 34179113,
+  "source_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e",
+  "full_decode_passed": true,
+  "all_frames_pose_routing_checked": true,
+  "encoded_instrument_checks": [
+    {
+      "frame": 4,
+      "kind": "piano",
+      "box": [
+        1392,
+        715,
+        1648,
+        743
+      ],
+      "own_channel_pixels": 1201,
+      "active_error": 5.852345267832361,
+      "muted_error": 28.154593394393565
+    },
+    {
+      "frame": 57,
+      "kind": "piano",
+      "box": [
+        1395,
+        716,
+        1651,
+        742
+      ],
+      "own_channel_pixels": 839,
+      "active_error": 8.451728247914184,
+      "muted_error": 33.24394119984108
+    },
+    {
+      "frame": 123,
+      "kind": "bass",
+      "box": [
+        604,
+        511,
+        644,
+        750
+      ],
+      "own_channel_pixels": 599,
+      "active_error": 9.022259321090706,
+      "muted_error": 145.08514190317194
+    },
+    {
+      "frame": 151,
+      "kind": "piano",
+      "box": [
+        1398,
+        717,
+        1656,
+        746
+      ],
+      "own_channel_pixels": 2116,
+      "active_error": 6.573408947700062,
+      "muted_error": 29.543950850661627
+    },
+    {
+      "frame": 213,
+      "kind": "piano",
+      "box": [
+        1399,
+        718,
+        1658,
+        746
+      ],
+      "own_channel_pixels": 2385,
+      "active_error": 6.355415793151642,
+      "muted_error": 37.84304682040531
+    },
+    {
+      "frame": 246,
+      "kind": "piano",
+      "box": [
+        1400,
+        719,
+        1660,
+        746
+      ],
+      "own_channel_pixels": 1135,
+      "active_error": 6.888693098384728,
+      "muted_error": 28.01204111600587
+    },
+    {
+      "frame": 419,
+      "kind": "bass",
+      "box": [
+        600,
+        511,
+        641,
+        752
+      ],
+      "own_channel_pixels": 637,
+      "active_error": 8.282051282051283,
+      "muted_error": 184.4270015698587
+    },
+    {
+      "frame": 528,
+      "kind": "bass",
+      "box": [
+        601,
+        511,
+        642,
+        751
+      ],
+      "own_channel_pixels": 613,
+      "active_error": 9.275149537792277,
+      "muted_error": 153.22403480152255
+    },
+    {
+      "frame": 626,
+      "kind": "bass",
+      "box": [
+        603,
+        511,
+        643,
+        750
+      ],
+      "own_channel_pixels": 597,
+      "active_error": 10.592964824120603,
+      "muted_error": 135.21552205471804
+    },
+    {
+      "frame": 693,
+      "kind": "bass",
+      "box": [
+        604,
+        511,
+        645,
+        749
+      ],
+      "own_channel_pixels": 545,
+      "active_error": 7.400611620795107,
+      "muted_error": 197.33333333333334
+    },
+    {
+      "frame": 806,
+      "kind": "guitar",
+      "box": [
+        1183,
+        576,
+        1345,
+        721
+      ],
+      "own_channel_pixels": 2114,
+      "active_error": 10.47019867549669,
+      "muted_error": 33.53973509933775
+    },
+    {
+      "frame": 810,
+      "kind": "guitar",
+      "box": [
+        1183,
+        576,
+        1345,
+        721
+      ],
+      "own_channel_pixels": 3183,
+      "active_error": 10.94365902188711,
+      "muted_error": 45.06796523196146
+    },
+    {
+      "frame": 816,
+      "kind": "guitar",
+      "box": [
+        1183,
+        576,
+        1345,
+        721
+      ],
+      "own_channel_pixels": 4191,
+      "active_error": 11.185635886423288,
+      "muted_error": 59.152946790742064
+    },
+    {
+      "frame": 824,
+      "kind": "guitar",
+      "box": [
+        1183,
+        576,
+        1345,
+        721
+      ],
+      "own_channel_pixels": 3075,
+      "active_error": 10.8170189701897,
+      "muted_error": 43.940487804878046
+    },
+    {
+      "frame": 831,
+      "kind": "guitar",
+      "box": [
+        1183,
+        576,
+        1345,
+        721
+      ],
+      "own_channel_pixels": 2931,
+      "active_error": 10.735130217218241,
+      "muted_error": 43.29841919708859
+    }
+  ],
+  "source_attacks": {
+    "bass": {
+      "source_attack_frames": 72,
+      "visible_checks": 5
+    },
+    "guitar": {
+      "source_attack_frames": 16,
+      "visible_checks": 5
+    },
+    "piano": {
+      "source_attack_frames": 71,
+      "visible_checks": 5
+    }
+  },
+  "soundtrack": {
+    "source_offset_seconds": 56,
+    "sample_rate": 8000,
+    "zero_offset_correlation": 0.9993309757111877,
+    "source_samples": 336000,
+    "movie_samples": 336000,
+    "original_excerpt_matches": true
+  },
+  "drummer_geometry": {
+    "source": "canonical source-art compositor with torso shoulder revision, pose spec v7",
+    "assets": {
+      "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+      "fixtures/band_geometry/source/drummer_idle.png": "7299061b867c324ee46f037aef15fe64a04f946992021235e69ec137e9f4137e",
+      "fixtures/band_geometry/drummer_v3_pose_spec.json": "2964ec17bec74bcf947d68e43fee5bc2afea9ed83327a6b77fa19f6e0346b8a1",
+      "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "70c11eafe25243f2ec10e8207ed89c1456acf2692d9e1de7db5a4801f0cd8c79"
+    },
+    "replacement_3d_kit": false,
+    "high_tom_viewer_right": true,
+    "mid_and_floor_toms_viewer_left": true,
+    "crop": [
+      99,
+      124,
+      494,
+      380
+    ],
+    "planar_physical_prop_mounted_in_3d_stage": true
+  },
+  "native_drummer": {
+    "fseq_sha256": "a41192cac247366f9ccadbb9c9411bd7d36e6d60fcf53ab6e5e42d72af3debfc",
+    "xsq_sha256": "4e56a6db2faeb6be8872485ecf6dc1ecde0b0e021f9fb1484efc4ffbb528ac77",
+    "drummer_levels_sha256": "e13e7899e952749ecf3f8227ee3cb21f46b29cac8e844b5956ab5eb70114e8cc",
+    "drummer_strike_holds_sha256": "9ac28d601562de20a0f99af57433c278755c9cee5ee5799c09460683fff3f847",
+    "source_hand_schedule_sha256": "eccc4a9c277bcad9cacf98248f2f0b5e20a95d8053b7df87b601aad8463478b3",
+    "schedule": {
+      "unique_strike_holds": 948,
+      "idle_colors_used_as_strikes": false,
+      "cymbal_decay_moves_arms": false
+    }
+  },
+  "native_xlights_playback": false,
+  "verified_musical_score": false,
+  "analysis_inputs": {
+    "note_events.json": "98b36b093af730d55027ee4eb31b5465aec4d2f4f7dccf1ed6e0f2d04042b95d",
+    "vocals.json": "63558d500e828530e2a83ea04e812db5e21e1f85750f3b0752da47d1d54fdba2",
+    "performance_curves.npz": "4632dc6969d6d8be8573961d88185af49c78ee3e7a25601aa11b38ebfd8cf787",
+    "verification.json": "799782fed1b317594afcff84e0dfdcafb16f5e1d009ec4d852511cc9264533aa"
+  },
+  "implementation_sha256": {
+    "models/readable_band_scene.py": "d4853712997522be492611908eeb2b9e76eab4563a43bc7e6b218d2eb3887d3d",
+    "models/band_instrument_logic.py": "88ca129f7104e5be373f4429365d5747aa984966be6c663e22cb49d7ddfd1595",
+    "tools/readable_band_performance.py": "f753853f9581e0fdf0eb534157ef4be2c12aa8b1be3d5f4db050564d559a5cf0",
+    "tools/render_readable_band.py": "7a0a5afe4d3df780670ad8ada198cbb48d546d0c2f0dc8c4485bbbd4b0aa50a0",
+    "tools/render_intricate_band_samplers.py": "15d82f5e175008a54899b2fa3b04668021fa078ae4bef302b1c75004f9cef632",
+    "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+  }
+}

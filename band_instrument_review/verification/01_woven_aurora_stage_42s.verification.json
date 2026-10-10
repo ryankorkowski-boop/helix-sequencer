@@ -1,0 +1,217 @@
+{
+  "id": "01",
+  "title": "Who Knew (Grinch's Redemption) (Remastered)",
+  "layout": "woven_aurora",
+  "focus": "stage",
+  "start": 27,
+  "seconds": 42,
+  "width": 1920,
+  "height": 1080,
+  "frames": 840,
+  "sha256": "f86d98018e1d85093b3c83a2b5679cfe1791ca34ebcccc976674490c1e40295f",
+  "bytes": 42445714,
+  "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+  "full_decode_passed": true,
+  "all_frames_pose_routing_checked": true,
+  "encoded_instrument_checks": [
+    {
+      "frame": 1,
+      "kind": "piano",
+      "box": [
+        1392,
+        715,
+        1648,
+        742
+      ],
+      "own_channel_pixels": 706,
+      "active_error": 5.8885741265344675,
+      "muted_error": 43.74315391879132
+    },
+    {
+      "frame": 5,
+      "kind": "bass",
+      "box": [
+        606,
+        511,
+        647,
+        748
+      ],
+      "own_channel_pixels": 559,
+      "active_error": 11.350626118067979,
+      "muted_error": 136.3530113297555
+    },
+    {
+      "frame": 207,
+      "kind": "bass",
+      "box": [
+        602,
+        511,
+        643,
+        751
+      ],
+      "own_channel_pixels": 536,
+      "active_error": 10.62810945273632,
+      "muted_error": 91.78358208955224
+    },
+    {
+      "frame": 344,
+      "kind": "bass",
+      "box": [
+        600,
+        511,
+        641,
+        752
+      ],
+      "own_channel_pixels": 589,
+      "active_error": 11.217317487266554,
+      "muted_error": 128.39501980758348
+    },
+    {
+      "frame": 383,
+      "kind": "piano",
+      "box": [
+        1402,
+        719,
+        1662,
+        746
+      ],
+      "own_channel_pixels": 888,
+      "active_error": 6.9789789789789785,
+      "muted_error": 33.27477477477478
+    },
+    {
+      "frame": 570,
+      "kind": "bass",
+      "box": [
+        602,
+        511,
+        642,
+        751
+      ],
+      "own_channel_pixels": 568,
+      "active_error": 10.984154929577464,
+      "muted_error": 125.45187793427229
+    },
+    {
+      "frame": 646,
+      "kind": "piano",
+      "box": [
+        1397,
+        717,
+        1655,
+        744
+      ],
+      "own_channel_pixels": 538,
+      "active_error": 8.39467162329616,
+      "muted_error": 36.108426270136306
+    },
+    {
+      "frame": 770,
+      "kind": "piano",
+      "box": [
+        1393,
+        715,
+        1649,
+        742
+      ],
+      "own_channel_pixels": 880,
+      "active_error": 7.108712121212121,
+      "muted_error": 33.30265151515152
+    },
+    {
+      "frame": 835,
+      "kind": "bass",
+      "box": [
+        608,
+        511,
+        648,
+        747
+      ],
+      "own_channel_pixels": 537,
+      "active_error": 10.972067039106145,
+      "muted_error": 117.25946617008069
+    },
+    {
+      "frame": 835,
+      "kind": "piano",
+      "box": [
+        1391,
+        714,
+        1645,
+        741
+      ],
+      "own_channel_pixels": 1490,
+      "active_error": 7.791275167785235,
+      "muted_error": 43.084340044742724
+    }
+  ],
+  "source_attacks": {
+    "bass": {
+      "source_attack_frames": 74,
+      "visible_checks": 5
+    },
+    "guitar": {
+      "source_attack_frames": 0,
+      "visible_checks": 0
+    },
+    "piano": {
+      "source_attack_frames": 101,
+      "visible_checks": 5
+    }
+  },
+  "soundtrack": {
+    "source_offset_seconds": 27,
+    "sample_rate": 8000,
+    "zero_offset_correlation": 0.9997609174077596,
+    "source_samples": 336000,
+    "movie_samples": 336000,
+    "original_excerpt_matches": true
+  },
+  "drummer_geometry": {
+    "source": "canonical source-art compositor with torso shoulder revision, pose spec v7",
+    "assets": {
+      "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+      "fixtures/band_geometry/source/drummer_idle.png": "7299061b867c324ee46f037aef15fe64a04f946992021235e69ec137e9f4137e",
+      "fixtures/band_geometry/drummer_v3_pose_spec.json": "2964ec17bec74bcf947d68e43fee5bc2afea9ed83327a6b77fa19f6e0346b8a1",
+      "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "70c11eafe25243f2ec10e8207ed89c1456acf2692d9e1de7db5a4801f0cd8c79"
+    },
+    "replacement_3d_kit": false,
+    "high_tom_viewer_right": true,
+    "mid_and_floor_toms_viewer_left": true,
+    "crop": [
+      99,
+      124,
+      494,
+      380
+    ],
+    "planar_physical_prop_mounted_in_3d_stage": true
+  },
+  "native_drummer": {
+    "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+    "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+    "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+    "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+    "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+    "schedule": {
+      "unique_strike_holds": 559,
+      "idle_colors_used_as_strikes": false,
+      "cymbal_decay_moves_arms": false
+    }
+  },
+  "native_xlights_playback": false,
+  "verified_musical_score": false,
+  "analysis_inputs": {
+    "note_events.json": "951146abcdc1860ce43f52c7c82aec2d18c3a9d1409aefd6cff376605ecca9de",
+    "vocals.json": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302",
+    "performance_curves.npz": "d3352a064b56d6e17b966c753e4321969b466eecf68b79577a94bdb0d5102f65",
+    "verification.json": "2b5dceeeedde49f5c7830e504815ed9c316ca1962d133a75070cf03cb55d248c"
+  },
+  "implementation_sha256": {
+    "models/readable_band_scene.py": "d4853712997522be492611908eeb2b9e76eab4563a43bc7e6b218d2eb3887d3d",
+    "models/band_instrument_logic.py": "88ca129f7104e5be373f4429365d5747aa984966be6c663e22cb49d7ddfd1595",
+    "tools/readable_band_performance.py": "f753853f9581e0fdf0eb534157ef4be2c12aa8b1be3d5f4db050564d559a5cf0",
+    "tools/render_readable_band.py": "7a0a5afe4d3df780670ad8ada198cbb48d546d0c2f0dc8c4485bbbd4b0aa50a0",
+    "tools/render_intricate_band_samplers.py": "15d82f5e175008a54899b2fa3b04668021fa078ae4bef302b1c75004f9cef632",
+    "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+  }
+}

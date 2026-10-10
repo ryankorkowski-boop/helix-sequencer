@@ -1,0 +1,152 @@
+{
+  "id": "00",
+  "title": "Wire Tree",
+  "layout": "prismatic_orrery",
+  "focus": "keyboard",
+  "start": 1.0,
+  "seconds": 42,
+  "width": 1920,
+  "height": 1080,
+  "frames": 840,
+  "sha256": "cffeae7dd2ac5519d25a858cb4b7342b6a5d58f4715e6ede5ec49f6f05760d32",
+  "bytes": 22545830,
+  "source_sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+  "full_decode_passed": true,
+  "all_frames_pose_routing_checked": true,
+  "encoded_instrument_checks": [
+    {
+      "frame": 26,
+      "kind": "piano",
+      "box": [
+        678,
+        618,
+        1240,
+        664
+      ],
+      "own_channel_pixels": 339,
+      "active_error": 6.469026548672566,
+      "muted_error": 30.534906588003935
+    },
+    {
+      "frame": 117,
+      "kind": "piano",
+      "box": [
+        674,
+        620,
+        1244,
+        668
+      ],
+      "own_channel_pixels": 3864,
+      "active_error": 4.145013802622498,
+      "muted_error": 84.31461352657006
+    },
+    {
+      "frame": 234,
+      "kind": "piano",
+      "box": [
+        670,
+        621,
+        1248,
+        668
+      ],
+      "own_channel_pixels": 4789,
+      "active_error": 4.949119509988168,
+      "muted_error": 63.89197466416092
+    },
+    {
+      "frame": 621,
+      "kind": "piano",
+      "box": [
+        672,
+        620,
+        1246,
+        668
+      ],
+      "own_channel_pixels": 285,
+      "active_error": 5.1649122807017545,
+      "muted_error": 20.47485380116959
+    },
+    {
+      "frame": 836,
+      "kind": "piano",
+      "box": [
+        681,
+        617,
+        1237,
+        661
+      ],
+      "own_channel_pixels": 709,
+      "active_error": 6.834038551951104,
+      "muted_error": 52.9703808180536
+    }
+  ],
+  "source_attacks": {
+    "bass": {
+      "source_attack_frames": 21,
+      "visible_checks": 0
+    },
+    "guitar": {
+      "source_attack_frames": 11,
+      "visible_checks": 0
+    },
+    "piano": {
+      "source_attack_frames": 112,
+      "visible_checks": 5
+    }
+  },
+  "soundtrack": {
+    "source_offset_seconds": 1.0,
+    "sample_rate": 8000,
+    "zero_offset_correlation": 0.9997306454343368,
+    "source_samples": 336000,
+    "movie_samples": 336000,
+    "original_excerpt_matches": true
+  },
+  "drummer_geometry": {
+    "source": "canonical source-art compositor with torso shoulder revision, pose spec v7",
+    "assets": {
+      "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+      "fixtures/band_geometry/source/drummer_idle.png": "7299061b867c324ee46f037aef15fe64a04f946992021235e69ec137e9f4137e",
+      "fixtures/band_geometry/drummer_v3_pose_spec.json": "2964ec17bec74bcf947d68e43fee5bc2afea9ed83327a6b77fa19f6e0346b8a1",
+      "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "70c11eafe25243f2ec10e8207ed89c1456acf2692d9e1de7db5a4801f0cd8c79"
+    },
+    "replacement_3d_kit": false,
+    "high_tom_viewer_right": true,
+    "mid_and_floor_toms_viewer_left": true,
+    "crop": [
+      99,
+      124,
+      494,
+      380
+    ],
+    "planar_physical_prop_mounted_in_3d_stage": true
+  },
+  "native_drummer": {
+    "fseq_sha256": "bff60de28187b0b6051bad1aa7051406adbc6ab80de76e69a5fc854c8dd409c8",
+    "xsq_sha256": "92b3755ecbb8b8b9f55c3a65d5e7c8d7df6fb9382b9deb21f84004bc6c347ca0",
+    "drummer_levels_sha256": "3c20e0ad30902c2bc8ef23fb4c6c626b6055ae11533c524dbf0ee2d75be30fd5",
+    "drummer_strike_holds_sha256": "dc22877629f40834d6a187cc9c11ea7bfce7e008e8afa3831a9fdb300706bd0d",
+    "source_hand_schedule_sha256": "1c4c69094e490a2da16b90f3a2e3995f8aac0e473fce2c2f8110d7787d1bf383",
+    "schedule": {
+      "unique_strike_holds": 652,
+      "idle_colors_used_as_strikes": false,
+      "cymbal_decay_moves_arms": false
+    }
+  },
+  "native_xlights_playback": false,
+  "verified_musical_score": false,
+  "analysis_inputs": {
+    "note_events.json": "1142499568fa2b1b3f490c99683c9aeefb34b5a8ac2f388e0b532812cf7082c2",
+    "vocals.json": "feb941afdc83a190d1b8f5c7e8dbd95bced55a3ad13c16464fc353f666d75078",
+    "performance_curves.npz": "20948c538176a5b0aebd4b4fc655a382c72ae6f21772f812d185277449b73236",
+    "verification.json": "ca18bc3f4359e46f442aab227d6e18bea3321780e1ee8dd343c1be8933f5716d"
+  },
+  "implementation_sha256": {
+    "models/readable_band_scene.py": "d4853712997522be492611908eeb2b9e76eab4563a43bc7e6b218d2eb3887d3d",
+    "models/band_instrument_logic.py": "88ca129f7104e5be373f4429365d5747aa984966be6c663e22cb49d7ddfd1595",
+    "tools/readable_band_performance.py": "f753853f9581e0fdf0eb534157ef4be2c12aa8b1be3d5f4db050564d559a5cf0",
+    "tools/render_readable_band.py": "7a0a5afe4d3df780670ad8ada198cbb48d546d0c2f0dc8c4485bbbd4b0aa50a0",
+    "tools/render_intricate_band_samplers.py": "15d82f5e175008a54899b2fa3b04668021fa078ae4bef302b1c75004f9cef632",
+    "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+  }
+}
