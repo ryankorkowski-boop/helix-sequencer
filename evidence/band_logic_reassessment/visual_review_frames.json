@@ -1,0 +1,77 @@
+{
+  "actual_decoded_visual_review_completed": true,
+  "reviewed_frames": 24,
+  "movies": [
+    {
+      "movie": "02_infinity_observatory_bass_reassessed_12s.mp4",
+      "decoded_frame_times": [
+        0.05,
+        6.0,
+        11.8
+      ]
+    },
+    {
+      "movie": "01_cymatic_geode_guitar_reassessed_12s.mp4",
+      "decoded_frame_times": [
+        2.75,
+        6.0,
+        10.85
+      ]
+    },
+    {
+      "movie": "05_woven_aurora_keyboard_reassessed_12s.mp4",
+      "decoded_frame_times": [
+        1.0,
+        6.0,
+        4.45
+      ]
+    },
+    {
+      "movie": "01_prismatic_orrery_stage_reassessed_18s.mp4",
+      "decoded_frame_times": [
+        0.05,
+        9.0,
+        17.85
+      ]
+    },
+    {
+      "movie": "05_quasicrystal_theatre_stage_reassessed_18s.mp4",
+      "decoded_frame_times": [
+        1.25,
+        9.0,
+        17.45
+      ]
+    },
+    {
+      "movie": "00_prismatic_orrery_drummer_reassessed_3s.mp4",
+      "decoded_frame_times": [
+        1.15,
+        1.5,
+        1.2
+      ]
+    },
+    {
+      "movie": "02_prismatic_orrery_drummer_reassessed_3s.mp4",
+      "decoded_frame_times": [
+        0.95,
+        1.5,
+        1.0
+      ]
+    },
+    {
+      "movie": "03_prismatic_orrery_drummer_reassessed_3s.mp4",
+      "decoded_frame_times": [
+        0.95,
+        1.5,
+        1.0
+      ]
+    }
+  ],
+  "observations": [
+    "Independent strings and supported guitar contact visible",
+    "Keyboard hands follow illuminated/depressed keys",
+    "Both singer characters participate in stage excerpts",
+    "Canonical drummer and revised torso shoulders retained",
+    "No observed geometry corruption or face drift in sampled encoded frames"
+  ]
+}

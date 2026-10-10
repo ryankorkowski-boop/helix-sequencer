@@ -1,0 +1,932 @@
+{
+  "songs": [
+    {
+      "id": "00",
+      "singer_active_frames": [
+        2637,
+        2405
+      ],
+      "actual_singer_shape_pairs_checked": 19,
+      "accepted_drum_target_hold_frames": 1598,
+      "accepted_low_intensity_drum_frames": 2,
+      "face_and_shoulder_pose_frames": 695,
+      "lyrics_casting_and_events_byte_preserved": true,
+      "native_drum_schedule": {
+        "fseq_sha256": "bff60de28187b0b6051bad1aa7051406adbc6ab80de76e69a5fc854c8dd409c8",
+        "xsq_sha256": "92b3755ecbb8b8b9f55c3a65d5e7c8d7df6fb9382b9deb21f84004bc6c347ca0",
+        "drummer_levels_sha256": "3c20e0ad30902c2bc8ef23fb4c6c626b6055ae11533c524dbf0ee2d75be30fd5",
+        "drummer_strike_holds_sha256": "dc22877629f40834d6a187cc9c11ea7bfce7e008e8afa3831a9fdb300706bd0d",
+        "source_hand_schedule_sha256": "1c4c69094e490a2da16b90f3a2e3995f8aac0e473fce2c2f8110d7787d1bf383",
+        "schedule": {
+          "unique_strike_holds": 652,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      }
+    },
+    {
+      "id": "01",
+      "singer_active_frames": [
+        1158,
+        1086
+      ],
+      "actual_singer_shape_pairs_checked": 19,
+      "accepted_drum_target_hold_frames": 1199,
+      "accepted_low_intensity_drum_frames": 0,
+      "face_and_shoulder_pose_frames": 584,
+      "lyrics_casting_and_events_byte_preserved": true,
+      "native_drum_schedule": {
+        "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+        "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+        "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+        "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+        "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+        "schedule": {
+          "unique_strike_holds": 559,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      }
+    },
+    {
+      "id": "02",
+      "singer_active_frames": [
+        1652,
+        1859
+      ],
+      "actual_singer_shape_pairs_checked": 19,
+      "accepted_drum_target_hold_frames": 2048,
+      "accepted_low_intensity_drum_frames": 2,
+      "face_and_shoulder_pose_frames": 959,
+      "lyrics_casting_and_events_byte_preserved": true,
+      "native_drum_schedule": {
+        "fseq_sha256": "a41192cac247366f9ccadbb9c9411bd7d36e6d60fcf53ab6e5e42d72af3debfc",
+        "xsq_sha256": "4e56a6db2faeb6be8872485ecf6dc1ecde0b0e021f9fb1484efc4ffbb528ac77",
+        "drummer_levels_sha256": "e13e7899e952749ecf3f8227ee3cb21f46b29cac8e844b5956ab5eb70114e8cc",
+        "drummer_strike_holds_sha256": "9ac28d601562de20a0f99af57433c278755c9cee5ee5799c09460683fff3f847",
+        "source_hand_schedule_sha256": "eccc4a9c277bcad9cacf98248f2f0b5e20a95d8053b7df87b601aad8463478b3",
+        "schedule": {
+          "unique_strike_holds": 948,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      }
+    },
+    {
+      "id": "03",
+      "singer_active_frames": [
+        2440,
+        2458
+      ],
+      "actual_singer_shape_pairs_checked": 19,
+      "accepted_drum_target_hold_frames": 2226,
+      "accepted_low_intensity_drum_frames": 2,
+      "face_and_shoulder_pose_frames": 705,
+      "lyrics_casting_and_events_byte_preserved": true,
+      "native_drum_schedule": {
+        "fseq_sha256": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+        "xsq_sha256": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+        "drummer_levels_sha256": "76376662825d760a04c471d930a0332b7b1347cb9b78001afd645f7fbddf20de",
+        "drummer_strike_holds_sha256": "b9ab208b36b228f2c852c8ddeb25f0dad4e8f3e4cafe5a91f59287818753d788",
+        "source_hand_schedule_sha256": "0563c463280cdadfec66835d18e70480b266bb8f32da3ba4bb6e003743cf8268",
+        "schedule": {
+          "unique_strike_holds": 986,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      }
+    },
+    {
+      "id": "05",
+      "singer_active_frames": [
+        1165,
+        1179
+      ],
+      "actual_singer_shape_pairs_checked": 18,
+      "accepted_drum_target_hold_frames": 640,
+      "accepted_low_intensity_drum_frames": 0,
+      "face_and_shoulder_pose_frames": 506,
+      "lyrics_casting_and_events_byte_preserved": true,
+      "native_drum_schedule": {
+        "fseq_sha256": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+        "xsq_sha256": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+        "drummer_levels_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "drummer_strike_holds_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "source_hand_schedule_sha256": "3fa0c56bf9b2e27ef4d103f767b98fa3af97c78d981ea42efb80621bb53c04d2",
+        "schedule": {
+          "unique_strike_holds": 290,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      }
+    }
+  ],
+  "legacy_runtime_demo": {
+    "schema": "helixville4.band_demo_manifest.v1",
+    "runtime_catalog": {
+      "schema": "helixville4.performer_runtime_catalog.v3",
+      "catalog_id": "HELIXVILLE4_SNOWMAN_BAND_RUNTIME",
+      "state": "drummer_three_tom_eight_component_contract",
+      "performer_count": 5,
+      "model_names": [
+        "HX_SNOWMAN_DRUMMER_V3",
+        "HX_SNOWMAN_GUITARIST",
+        "HX_SNOWMAN_BASSIST",
+        "HX_SNOWMAN_SINGER",
+        "HX_SNOWMAN_SINGER_FEMALE"
+      ],
+      "groups": [
+        "HX_SNOWMAN_BAND",
+        "HX_SNOWMAN_DRUMS",
+        "HX_SNOWMAN_INSTRUMENTS",
+        "HX_SNOWMAN_STRINGS",
+        "HX_SNOWMAN_VOCALS"
+      ],
+      "vocal_phonemes": {
+        "schema": "helixville4.vocal_phoneme_catalog.v2",
+        "phoneme_count": 7,
+        "required_singer_phoneme_submodels": [
+          "HX_SNOWMAN_SINGER_MOUTH_REST",
+          "HX_SNOWMAN_SINGER_MOUTH_AH",
+          "HX_SNOWMAN_SINGER_MOUTH_EE",
+          "HX_SNOWMAN_SINGER_MOUTH_OH",
+          "HX_SNOWMAN_SINGER_MOUTH_MBP",
+          "HX_SNOWMAN_SINGER_MOUTH_FV",
+          "HX_SNOWMAN_SINGER_MOUTH_L"
+        ],
+        "required_female_singer_phoneme_submodels": [
+          "HX_SNOWMAN_SINGER_FEMALE_MOUTH_REST",
+          "HX_SNOWMAN_SINGER_FEMALE_MOUTH_AH",
+          "HX_SNOWMAN_SINGER_FEMALE_MOUTH_EE",
+          "HX_SNOWMAN_SINGER_FEMALE_MOUTH_OH",
+          "HX_SNOWMAN_SINGER_FEMALE_MOUTH_MBP",
+          "HX_SNOWMAN_SINGER_FEMALE_MOUTH_FV",
+          "HX_SNOWMAN_SINGER_FEMALE_MOUTH_L"
+        ],
+        "phonemes": [
+          {
+            "phoneme": "REST",
+            "mouth_shape": "closed",
+            "description": "Closed or resting mouth between syllables.",
+            "singer_submodels": [
+              "HX_SNOWMAN_SINGER_MOUTH_REST",
+              "HX_SNOWMAN_SINGER_MOUTH"
+            ],
+            "female_singer_submodels": [
+              "HX_SNOWMAN_SINGER_FEMALE_MOUTH_REST",
+              "HX_SNOWMAN_SINGER_FEMALE_MOUTH"
+            ],
+            "xlights_face_effect": "Faces"
+          },
+          {
+            "phoneme": "AH",
+            "mouth_shape": "wide_open",
+            "description": "Open A/R-style vowel shape.",
+            "singer_submodels": [
+              "HX_SNOWMAN_SINGER_MOUTH_AH",
+              "HX_SNOWMAN_SINGER_VOCAL_GLOW"
+            ],
+            "female_singer_submodels": [
+              "HX_SNOWMAN_SINGER_FEMALE_MOUTH_AH",
+              "HX_SNOWMAN_SINGER_FEMALE_VOCAL_GLOW"
+            ],
+            "xlights_face_effect": "Faces"
+          },
+          {
+            "phoneme": "EE",
+            "mouth_shape": "smile_wide",
+            "description": "E/I/Y-style bright vowel shape.",
+            "singer_submodels": [
+              "HX_SNOWMAN_SINGER_MOUTH_EE",
+              "HX_SNOWMAN_SINGER_EYES"
+            ],
+            "female_singer_submodels": [
+              "HX_SNOWMAN_SINGER_FEMALE_MOUTH_EE",
+              "HX_SNOWMAN_SINGER_FEMALE_EYES"
+            ],
+            "xlights_face_effect": "Faces"
+          },
+          {
+            "phoneme": "OH",
+            "mouth_shape": "round_open",
+            "description": "O/U/W-style rounded vowel shape.",
+            "singer_submodels": [
+              "HX_SNOWMAN_SINGER_MOUTH_OH",
+              "HX_SNOWMAN_SINGER_VOCAL_GLOW"
+            ],
+            "female_singer_submodels": [
+              "HX_SNOWMAN_SINGER_FEMALE_MOUTH_OH",
+              "HX_SNOWMAN_SINGER_FEMALE_VOCAL_GLOW"
+            ],
+            "xlights_face_effect": "Faces"
+          },
+          {
+            "phoneme": "MBP",
+            "mouth_shape": "closed_pop",
+            "description": "Closed-lip M/B/P consonant shape.",
+            "singer_submodels": [
+              "HX_SNOWMAN_SINGER_MOUTH_MBP",
+              "HX_SNOWMAN_SINGER_MOUTH"
+            ],
+            "female_singer_submodels": [
+              "HX_SNOWMAN_SINGER_FEMALE_MOUTH_MBP",
+              "HX_SNOWMAN_SINGER_FEMALE_MOUTH"
+            ],
+            "xlights_face_effect": "Faces"
+          },
+          {
+            "phoneme": "FV",
+            "mouth_shape": "teeth_lip",
+            "description": "F/V consonant shape.",
+            "singer_submodels": [
+              "HX_SNOWMAN_SINGER_MOUTH_FV",
+              "HX_SNOWMAN_SINGER_EYEBROWS"
+            ],
+            "female_singer_submodels": [
+              "HX_SNOWMAN_SINGER_FEMALE_MOUTH_FV",
+              "HX_SNOWMAN_SINGER_FEMALE_EYELASHES"
+            ],
+            "xlights_face_effect": "Faces"
+          },
+          {
+            "phoneme": "L",
+            "mouth_shape": "tongue_lift",
+            "description": "L/tongue-lift consonant shape.",
+            "singer_submodels": [
+              "HX_SNOWMAN_SINGER_MOUTH_L",
+              "HX_SNOWMAN_SINGER_MOUTH"
+            ],
+            "female_singer_submodels": [
+              "HX_SNOWMAN_SINGER_FEMALE_MOUTH_L",
+              "HX_SNOWMAN_SINGER_FEMALE_MOUTH"
+            ],
+            "xlights_face_effect": "Faces"
+          }
+        ]
+      },
+      "performers": [
+        {
+          "performer_id": "drummer",
+          "display_name": "Mad Drummer Snowman",
+          "role": "drums_transient_driver",
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "approved_state": "approved_design_drummer_v3_three_tom_eight_component",
+          "visual_target": "fixtures/band_geometry/drummer_v3_pose_spec.json",
+          "submodels": [
+            "HX_SNOWMAN_DRUMMER_V3_KICK",
+            "HX_SNOWMAN_DRUMMER_V3_SNARE",
+            "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+            "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+            "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+            "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+            "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+            "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT"
+          ],
+          "states": [
+            {
+              "name": "ready_idle",
+              "description": "Standing ready behind the kit.",
+              "primary_submodels": [
+                "HX_SNOWMAN_DRUMMER_V3_KICK"
+              ],
+              "intensity": 0.25
+            },
+            {
+              "name": "kick_hit",
+              "description": "Kick drum impact; no stick channel.",
+              "primary_submodels": [
+                "HX_SNOWMAN_DRUMMER_V3_KICK"
+              ],
+              "intensity": 0.85
+            },
+            {
+              "name": "snare_hit",
+              "description": "Snare plus contacting stick contained in the snare component.",
+              "primary_submodels": [
+                "HX_SNOWMAN_DRUMMER_V3_SNARE"
+              ],
+              "intensity": 0.9
+            },
+            {
+              "name": "hi_hat_pulse",
+              "description": "Hi-hat pedal/foot action; no arm or stick is part of the hi-hat component.",
+              "primary_submodels": [
+                "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+              ],
+              "intensity": 0.65
+            },
+            {
+              "name": "high_tom_hit",
+              "description": "High tom plus its contacting stick.",
+              "primary_submodels": [
+                "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH"
+              ],
+              "intensity": 0.8
+            },
+            {
+              "name": "mid_tom_hit",
+              "description": "Mid tom plus its contacting stick.",
+              "primary_submodels": [
+                "HX_SNOWMAN_DRUMMER_V3_TOM_MID"
+              ],
+              "intensity": 0.8
+            },
+            {
+              "name": "floor_tom_hit",
+              "description": "Floor tom plus its contacting stick.",
+              "primary_submodels": [
+                "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"
+              ],
+              "intensity": 0.8
+            },
+            {
+              "name": "left_cymbal_hit",
+              "description": "Left cymbal plus contacting stick contained in the left cymbal component.",
+              "primary_submodels": [
+                "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT"
+              ],
+              "intensity": 1.0
+            },
+            {
+              "name": "right_cymbal_hit",
+              "description": "Right cymbal plus contacting stick contained in the right cymbal component.",
+              "primary_submodels": [
+                "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT"
+              ],
+              "intensity": 1.0
+            },
+            {
+              "name": "downbeat_impact",
+              "description": "Simultaneous kit impact across canonical components; no synthetic stick channels.",
+              "primary_submodels": [
+                "HX_SNOWMAN_DRUMMER_V3_KICK",
+                "HX_SNOWMAN_DRUMMER_V3_SNARE",
+                "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+                "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT"
+              ],
+              "intensity": 1.0
+            }
+          ],
+          "audio_inputs": [
+            "kick",
+            "snare",
+            "cymbal_energy",
+            "transients",
+            "fill_density",
+            "downbeat"
+          ],
+          "sequencing_groups": [
+            "HX_SNOWMAN_BAND",
+            "HX_SNOWMAN_INSTRUMENTS",
+            "HX_SNOWMAN_DRUMS"
+          ]
+        },
+        {
+          "performer_id": "guitarist",
+          "display_name": "Rock Guitar Snowman",
+          "role": "rhythm_guitar_midrange_motion",
+          "model_name": "HX_SNOWMAN_GUITARIST",
+          "approved_state": "approved_design_guitarist_reactive_strings_v2_stem_ready",
+          "visual_target": "docs/HELIXVILLE4_GUITARIST_REACTIVE_STRINGS.md",
+          "submodels": [
+            "HX_SNOWMAN_GUITARIST_HEAD",
+            "HX_SNOWMAN_GUITARIST_FACE",
+            "HX_SNOWMAN_GUITARIST_HAT",
+            "HX_SNOWMAN_GUITARIST_HAT_BAND",
+            "HX_SNOWMAN_GUITARIST_SCARF",
+            "HX_SNOWMAN_GUITARIST_TORSO",
+            "HX_SNOWMAN_GUITARIST_BUTTONS",
+            "HX_SNOWMAN_GUITARIST_LEFT_ARM",
+            "HX_SNOWMAN_GUITARIST_RIGHT_ARM",
+            "HX_SNOWMAN_GUITARIST_PLATFORM",
+            "HX_SNOWMAN_GUITARIST_HAT_HOLLY",
+            "HX_SNOWMAN_GUITARIST_GUITAR_BODY",
+            "HX_SNOWMAN_GUITARIST_GUITAR_NECK",
+            "HX_SNOWMAN_GUITARIST_GUITAR_HEAD",
+            "HX_SNOWMAN_GUITARIST_STRING_LOW_E",
+            "HX_SNOWMAN_GUITARIST_STRING_A",
+            "HX_SNOWMAN_GUITARIST_STRING_D",
+            "HX_SNOWMAN_GUITARIST_STRING_G",
+            "HX_SNOWMAN_GUITARIST_STRING_B",
+            "HX_SNOWMAN_GUITARIST_STRING_HIGH_E",
+            "HX_SNOWMAN_GUITARIST_PICK_ZONE",
+            "HX_SNOWMAN_GUITARIST_PICKUPS",
+            "HX_SNOWMAN_GUITARIST_BRIDGE",
+            "HX_SNOWMAN_GUITARIST_FRETBOARD_LOW",
+            "HX_SNOWMAN_GUITARIST_FRETBOARD_MID",
+            "HX_SNOWMAN_GUITARIST_FRETBOARD_HIGH",
+            "HX_SNOWMAN_GUITARIST_BODY_RESONANCE"
+          ],
+          "states": [],
+          "audio_inputs": [
+            "midrange_energy",
+            "guitar_transients",
+            "beat",
+            "section_intensity",
+            "sustain"
+          ],
+          "sequencing_groups": [
+            "HX_SNOWMAN_BAND",
+            "HX_SNOWMAN_INSTRUMENTS",
+            "HX_SNOWMAN_STRINGS"
+          ]
+        },
+        {
+          "performer_id": "bassist",
+          "display_name": "Bass Snowman",
+          "role": "bass_groove_low_frequency_motion",
+          "model_name": "HX_SNOWMAN_BASSIST",
+          "approved_state": "approved_design_bassist_reactive_strings_v2_stem_ready",
+          "visual_target": "docs/HELIXVILLE4_BASSIST_REACTIVE_STRINGS.md",
+          "submodels": [
+            "HX_SNOWMAN_BASSIST_HEAD",
+            "HX_SNOWMAN_BASSIST_FACE",
+            "HX_SNOWMAN_BASSIST_HAT",
+            "HX_SNOWMAN_BASSIST_HAT_BAND",
+            "HX_SNOWMAN_BASSIST_SCARF",
+            "HX_SNOWMAN_BASSIST_TORSO",
+            "HX_SNOWMAN_BASSIST_BUTTONS",
+            "HX_SNOWMAN_BASSIST_LEFT_ARM",
+            "HX_SNOWMAN_BASSIST_RIGHT_ARM",
+            "HX_SNOWMAN_BASSIST_PLATFORM",
+            "HX_SNOWMAN_BASSIST_HAT_HOLLY",
+            "HX_SNOWMAN_BASSIST_BASS_BODY",
+            "HX_SNOWMAN_BASSIST_BASS_NECK",
+            "HX_SNOWMAN_BASSIST_BASS_SCROLL",
+            "HX_SNOWMAN_BASSIST_STRING_E",
+            "HX_SNOWMAN_BASSIST_STRING_A",
+            "HX_SNOWMAN_BASSIST_STRING_D",
+            "HX_SNOWMAN_BASSIST_STRING_G",
+            "HX_SNOWMAN_BASSIST_FINGERBOARD",
+            "HX_SNOWMAN_BASSIST_NECK_LOW",
+            "HX_SNOWMAN_BASSIST_NECK_MID",
+            "HX_SNOWMAN_BASSIST_NECK_HIGH",
+            "HX_SNOWMAN_BASSIST_PLUCK_ZONE",
+            "HX_SNOWMAN_BASSIST_BRIDGE",
+            "HX_SNOWMAN_BASSIST_BODY_RESONANCE"
+          ],
+          "states": [],
+          "audio_inputs": [
+            "bass_energy",
+            "low_frequency_onsets",
+            "beat",
+            "groove_density",
+            "section_intensity"
+          ],
+          "sequencing_groups": [
+            "HX_SNOWMAN_BAND",
+            "HX_SNOWMAN_INSTRUMENTS",
+            "HX_SNOWMAN_STRINGS"
+          ]
+        },
+        {
+          "performer_id": "singer",
+          "display_name": "Lead Vocal Snowman",
+          "role": "lead_vocal_focus",
+          "model_name": "HX_SNOWMAN_SINGER",
+          "approved_state": "approved_design_singer_vocal_performance_v2_phoneme_ready",
+          "visual_target": "docs/HELIXVILLE4_SINGER_VOCAL_PERFORMANCE.md",
+          "submodels": [
+            "HX_SNOWMAN_SINGER_HEAD",
+            "HX_SNOWMAN_SINGER_FACE",
+            "HX_SNOWMAN_SINGER_HAT",
+            "HX_SNOWMAN_SINGER_HAT_BAND",
+            "HX_SNOWMAN_SINGER_SCARF",
+            "HX_SNOWMAN_SINGER_TORSO",
+            "HX_SNOWMAN_SINGER_BUTTONS",
+            "HX_SNOWMAN_SINGER_LEFT_ARM",
+            "HX_SNOWMAN_SINGER_RIGHT_ARM",
+            "HX_SNOWMAN_SINGER_PLATFORM",
+            "HX_SNOWMAN_SINGER_CARROT_NOSE",
+            "HX_SNOWMAN_SINGER_HAT_HOLLY",
+            "HX_SNOWMAN_SINGER_LEFT_HAND",
+            "HX_SNOWMAN_SINGER_RIGHT_HAND_MIC",
+            "HX_SNOWMAN_SINGER_MICROPHONE",
+            "HX_SNOWMAN_SINGER_MIC_STAND",
+            "HX_SNOWMAN_SINGER_MOUTH",
+            "HX_SNOWMAN_SINGER_MOUTH_REST",
+            "HX_SNOWMAN_SINGER_MOUTH_AH",
+            "HX_SNOWMAN_SINGER_MOUTH_EE",
+            "HX_SNOWMAN_SINGER_MOUTH_OH",
+            "HX_SNOWMAN_SINGER_MOUTH_MBP",
+            "HX_SNOWMAN_SINGER_MOUTH_FV",
+            "HX_SNOWMAN_SINGER_MOUTH_L",
+            "HX_SNOWMAN_SINGER_EYES",
+            "HX_SNOWMAN_SINGER_EYEBROWS",
+            "HX_SNOWMAN_SINGER_VOCAL_GLOW"
+          ],
+          "states": [],
+          "audio_inputs": [
+            "vocal_onset",
+            "vocal_energy",
+            "pitch_confidence",
+            "lyric_phrase",
+            "section_intensity",
+            "phoneme"
+          ],
+          "sequencing_groups": [
+            "HX_SNOWMAN_BAND",
+            "HX_SNOWMAN_VOCALS"
+          ]
+        },
+        {
+          "performer_id": "female_singer",
+          "display_name": "Harmony Vocal Snowman",
+          "role": "harmony_vocal_call_response",
+          "model_name": "HX_SNOWMAN_SINGER_FEMALE",
+          "approved_state": "approved_design_female_singer_vocal_performance_v2_phoneme_ready",
+          "visual_target": "docs/HELIXVILLE4_FEMALE_SINGER_VOCAL_PERFORMANCE.md",
+          "submodels": [
+            "HX_SNOWMAN_SINGER_FEMALE_HEAD",
+            "HX_SNOWMAN_SINGER_FEMALE_FACE",
+            "HX_SNOWMAN_SINGER_FEMALE_HAT",
+            "HX_SNOWMAN_SINGER_FEMALE_HAT_BAND",
+            "HX_SNOWMAN_SINGER_FEMALE_SCARF",
+            "HX_SNOWMAN_SINGER_FEMALE_TORSO",
+            "HX_SNOWMAN_SINGER_FEMALE_BUTTONS",
+            "HX_SNOWMAN_SINGER_FEMALE_LEFT_ARM",
+            "HX_SNOWMAN_SINGER_FEMALE_RIGHT_ARM",
+            "HX_SNOWMAN_SINGER_FEMALE_PLATFORM",
+            "HX_SNOWMAN_SINGER_FEMALE_BOW",
+            "HX_SNOWMAN_SINGER_FEMALE_EYES",
+            "HX_SNOWMAN_SINGER_FEMALE_EYELASHES",
+            "HX_SNOWMAN_SINGER_FEMALE_CARROT_NOSE",
+            "HX_SNOWMAN_SINGER_FEMALE_MOUTH",
+            "HX_SNOWMAN_SINGER_FEMALE_MOUTH_REST",
+            "HX_SNOWMAN_SINGER_FEMALE_MOUTH_AH",
+            "HX_SNOWMAN_SINGER_FEMALE_MOUTH_EE",
+            "HX_SNOWMAN_SINGER_FEMALE_MOUTH_OH",
+            "HX_SNOWMAN_SINGER_FEMALE_MOUTH_MBP",
+            "HX_SNOWMAN_SINGER_FEMALE_MOUTH_FV",
+            "HX_SNOWMAN_SINGER_FEMALE_MOUTH_L",
+            "HX_SNOWMAN_SINGER_FEMALE_SCARF_TAIL_LEFT",
+            "HX_SNOWMAN_SINGER_FEMALE_SCARF_TAIL_RIGHT",
+            "HX_SNOWMAN_SINGER_FEMALE_LEFT_HAND",
+            "HX_SNOWMAN_SINGER_FEMALE_RIGHT_HAND",
+            "HX_SNOWMAN_SINGER_FEMALE_MICROPHONE",
+            "HX_SNOWMAN_SINGER_FEMALE_MIC_STAND",
+            "HX_SNOWMAN_SINGER_FEMALE_TORSO_UPPER",
+            "HX_SNOWMAN_SINGER_FEMALE_TORSO_LOWER",
+            "HX_SNOWMAN_SINGER_FEMALE_VOCAL_GLOW",
+            "HX_SNOWMAN_SINGER_FEMALE_STAGE_GLOW"
+          ],
+          "states": [],
+          "audio_inputs": [
+            "harmony_onset",
+            "vocal_energy",
+            "call_response",
+            "lyric_phrase",
+            "section_intensity",
+            "phoneme"
+          ],
+          "sequencing_groups": [
+            "HX_SNOWMAN_BAND",
+            "HX_SNOWMAN_VOCALS"
+          ]
+        }
+      ]
+    },
+    "intent_count": 2,
+    "expanded_event_count": 8,
+    "adapted_event_count": 40,
+    "timeline_event_count": 8,
+    "deferred_runtime_performers": [
+      {
+        "performer": "guitarist",
+        "model": "HX_SNOWMAN_GUITARIST",
+        "reason": "no approved runtime states"
+      },
+      {
+        "performer": "bassist",
+        "model": "HX_SNOWMAN_BASSIST",
+        "reason": "no approved runtime states"
+      },
+      {
+        "performer": "singer",
+        "model": "HX_SNOWMAN_SINGER",
+        "reason": "no approved runtime states"
+      },
+      {
+        "performer": "female_singer",
+        "model": "HX_SNOWMAN_SINGER_FEMALE",
+        "reason": "no approved runtime states"
+      }
+    ],
+    "runtime_export_complete": false,
+    "xlights_export": {
+      "schema": "helixville4.band_xlights_export.v1",
+      "effect_count": 14,
+      "models": [
+        "HX_SNOWMAN_DRUMMER_V3"
+      ],
+      "performers": [
+        "drummer"
+      ],
+      "effects": [
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_KICK",
+          "effect_type": "Bars",
+          "palette": "Ice Blue",
+          "start": 0.0,
+          "end": 4.0,
+          "intensity": 0.1219,
+          "performer": "drummer",
+          "performer_state": "ready_idle",
+          "emphasis": "rhythmic_foundation"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_KICK",
+          "effect_type": "Bars",
+          "palette": "Ice Blue",
+          "start": 0.0,
+          "end": 4.0,
+          "intensity": 0.1219,
+          "performer": "drummer",
+          "performer_state": "ready_idle",
+          "emphasis": "rhythmic_foundation"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_KICK",
+          "effect_type": "Bars",
+          "palette": "Ice Blue",
+          "start": 0.0,
+          "end": 4.0,
+          "intensity": 0.1381,
+          "performer": "drummer",
+          "performer_state": "ready_idle",
+          "emphasis": "rhythmic_foundation"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_KICK",
+          "effect_type": "Bars",
+          "palette": "Ice Blue",
+          "start": 0.0,
+          "end": 4.0,
+          "intensity": 0.1381,
+          "performer": "drummer",
+          "performer_state": "ready_idle",
+          "emphasis": "rhythmic_foundation"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+          "effect_type": "Bars",
+          "palette": "Ice Blue",
+          "start": 4.0,
+          "end": 10.0,
+          "intensity": 1.0,
+          "performer": "drummer",
+          "performer_state": "downbeat_impact",
+          "emphasis": "rhythmic_foundation"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+          "effect_type": "Bars",
+          "palette": "Ice Blue",
+          "start": 4.0,
+          "end": 10.0,
+          "intensity": 1.0,
+          "performer": "drummer",
+          "performer_state": "downbeat_impact",
+          "emphasis": "rhythmic_foundation"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+          "effect_type": "Bars",
+          "palette": "Ice Blue",
+          "start": 4.0,
+          "end": 10.0,
+          "intensity": 1.0,
+          "performer": "drummer",
+          "performer_state": "downbeat_impact",
+          "emphasis": "rhythmic_foundation"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+          "effect_type": "Bars",
+          "palette": "Ice Blue",
+          "start": 4.0,
+          "end": 10.0,
+          "intensity": 1.0,
+          "performer": "drummer",
+          "performer_state": "downbeat_impact",
+          "emphasis": "rhythmic_foundation"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_KICK",
+          "effect_type": "Bars",
+          "palette": "Ice Blue",
+          "start": 4.0,
+          "end": 10.0,
+          "intensity": 1.0,
+          "performer": "drummer",
+          "performer_state": "downbeat_impact",
+          "emphasis": "rhythmic_foundation"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_KICK",
+          "effect_type": "Bars",
+          "palette": "Ice Blue",
+          "start": 4.0,
+          "end": 10.0,
+          "intensity": 1.0,
+          "performer": "drummer",
+          "performer_state": "downbeat_impact",
+          "emphasis": "rhythmic_foundation"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+          "effect_type": "Bars",
+          "palette": "Ice Blue",
+          "start": 4.0,
+          "end": 10.0,
+          "intensity": 1.0,
+          "performer": "drummer",
+          "performer_state": "downbeat_impact",
+          "emphasis": "rhythmic_foundation"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+          "effect_type": "Bars",
+          "palette": "Ice Blue",
+          "start": 4.0,
+          "end": 10.0,
+          "intensity": 1.0,
+          "performer": "drummer",
+          "performer_state": "downbeat_impact",
+          "emphasis": "rhythmic_foundation"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+          "effect_type": "On",
+          "palette": "Warm Fire",
+          "start": 4.0,
+          "end": 10.0,
+          "intensity": 0.828,
+          "performer": "drummer",
+          "performer_state": "snare_hit",
+          "emphasis": "percussion_hit_focus"
+        },
+        {
+          "model_name": "HX_SNOWMAN_DRUMMER_V3",
+          "submodel": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+          "effect_type": "On",
+          "palette": "Warm Fire",
+          "start": 4.0,
+          "end": 10.0,
+          "intensity": 0.828,
+          "performer": "drummer",
+          "performer_state": "snare_hit",
+          "emphasis": "percussion_hit_focus"
+        }
+      ]
+    },
+    "vocal_face_export": {
+      "schema": "helixville4.band_vocal_face_export.v1",
+      "effect_count": 7,
+      "models": [
+        "HX_SNOWMAN_SINGER",
+        "HX_SNOWMAN_SINGER_FEMALE"
+      ],
+      "performers": [
+        "female_singer",
+        "singer"
+      ],
+      "phonemes": [
+        "AH",
+        "EE",
+        "FV",
+        "L",
+        "MBP",
+        "OH",
+        "REST"
+      ],
+      "effects": [
+        {
+          "performer": "singer",
+          "model_name": "HX_SNOWMAN_SINGER",
+          "phoneme": "AH",
+          "mouth_shape": "wide_open",
+          "submodels": [
+            "HX_SNOWMAN_SINGER_MOUTH_AH",
+            "HX_SNOWMAN_SINGER_VOCAL_GLOW"
+          ],
+          "effect_type": "Faces",
+          "face_definition": "helixville4_lead_singer_full",
+          "timing_track": "helixville4_vocal_phonemes",
+          "start": 4.0,
+          "end": 4.28,
+          "intensity": 0.95
+        },
+        {
+          "performer": "singer",
+          "model_name": "HX_SNOWMAN_SINGER",
+          "phoneme": "EE",
+          "mouth_shape": "smile_wide",
+          "submodels": [
+            "HX_SNOWMAN_SINGER_MOUTH_EE",
+            "HX_SNOWMAN_SINGER_EYES"
+          ],
+          "effect_type": "Faces",
+          "face_definition": "helixville4_lead_singer_full",
+          "timing_track": "helixville4_vocal_phonemes",
+          "start": 4.3,
+          "end": 4.52,
+          "intensity": 0.85
+        },
+        {
+          "performer": "singer",
+          "model_name": "HX_SNOWMAN_SINGER",
+          "phoneme": "MBP",
+          "mouth_shape": "closed_pop",
+          "submodels": [
+            "HX_SNOWMAN_SINGER_MOUTH_MBP",
+            "HX_SNOWMAN_SINGER_MOUTH"
+          ],
+          "effect_type": "Faces",
+          "face_definition": "helixville4_lead_singer_full",
+          "timing_track": "helixville4_vocal_phonemes",
+          "start": 4.55,
+          "end": 4.73,
+          "intensity": 0.75
+        },
+        {
+          "performer": "female_singer",
+          "model_name": "HX_SNOWMAN_SINGER_FEMALE",
+          "phoneme": "OH",
+          "mouth_shape": "round_open",
+          "submodels": [
+            "HX_SNOWMAN_SINGER_FEMALE_MOUTH_OH",
+            "HX_SNOWMAN_SINGER_FEMALE_VOCAL_GLOW"
+          ],
+          "effect_type": "Faces",
+          "face_definition": "helixville4_harmony_singer_full",
+          "timing_track": "helixville4_vocal_phonemes",
+          "start": 4.85,
+          "end": 5.15,
+          "intensity": 0.9
+        },
+        {
+          "performer": "female_singer",
+          "model_name": "HX_SNOWMAN_SINGER_FEMALE",
+          "phoneme": "FV",
+          "mouth_shape": "teeth_lip",
+          "submodels": [
+            "HX_SNOWMAN_SINGER_FEMALE_MOUTH_FV",
+            "HX_SNOWMAN_SINGER_FEMALE_EYELASHES"
+          ],
+          "effect_type": "Faces",
+          "face_definition": "helixville4_harmony_singer_full",
+          "timing_track": "helixville4_vocal_phonemes",
+          "start": 5.2,
+          "end": 5.4,
+          "intensity": 0.7
+        },
+        {
+          "performer": "female_singer",
+          "model_name": "HX_SNOWMAN_SINGER_FEMALE",
+          "phoneme": "L",
+          "mouth_shape": "tongue_lift",
+          "submodels": [
+            "HX_SNOWMAN_SINGER_FEMALE_MOUTH_L",
+            "HX_SNOWMAN_SINGER_FEMALE_MOUTH"
+          ],
+          "effect_type": "Faces",
+          "face_definition": "helixville4_harmony_singer_full",
+          "timing_track": "helixville4_vocal_phonemes",
+          "start": 5.45,
+          "end": 5.67,
+          "intensity": 0.72
+        },
+        {
+          "performer": "singer",
+          "model_name": "HX_SNOWMAN_SINGER",
+          "phoneme": "REST",
+          "mouth_shape": "closed",
+          "submodels": [
+            "HX_SNOWMAN_SINGER_MOUTH_REST",
+            "HX_SNOWMAN_SINGER_MOUTH"
+          ],
+          "effect_type": "Faces",
+          "face_definition": "helixville4_lead_singer_full",
+          "timing_track": "helixville4_vocal_phonemes",
+          "start": 5.75,
+          "end": 5.93,
+          "intensity": 0.3
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,202 @@
+[
+  {
+    "id": "00",
+    "instruments": {
+      "bass": {
+        "events": 436,
+        "source_attacks": 436,
+        "screened_mallet_events": 0,
+        "event_curves_exact_match": true,
+        "unplayable_note_frame_omissions": 0
+      },
+      "guitar": {
+        "events": 127,
+        "source_attacks": 74,
+        "screened_mallet_events": 0,
+        "event_curves_exact_match": true,
+        "unplayable_note_frame_omissions": 20
+      },
+      "piano": {
+        "events": 316,
+        "source_attacks": 194,
+        "screened_mallet_events": 227,
+        "event_curves_exact_match": true
+      }
+    },
+    "actual_pose_frames_checked": 1583,
+    "singer_inputs_preserved": true,
+    "native_drummer": {
+      "fseq_sha256": "bff60de28187b0b6051bad1aa7051406adbc6ab80de76e69a5fc854c8dd409c8",
+      "xsq_sha256": "92b3755ecbb8b8b9f55c3a65d5e7c8d7df6fb9382b9deb21f84004bc6c347ca0",
+      "drummer_levels_sha256": "3c20e0ad30902c2bc8ef23fb4c6c626b6055ae11533c524dbf0ee2d75be30fd5",
+      "drummer_strike_holds_sha256": "dc22877629f40834d6a187cc9c11ea7bfce7e008e8afa3831a9fdb300706bd0d",
+      "source_hand_schedule_sha256": "1c4c69094e490a2da16b90f3a2e3995f8aac0e473fce2c2f8110d7787d1bf383",
+      "schedule": {
+        "unique_strike_holds": 652,
+        "idle_colors_used_as_strikes": false,
+        "cymbal_decay_moves_arms": false
+      }
+    },
+    "analysis_sha256": "ca237dac69bc6a72c5746a4f450d15ff3a756d4ab1e4788b2897a3625a8223dd"
+  },
+  {
+    "id": "01",
+    "instruments": {
+      "bass": {
+        "events": 334,
+        "source_attacks": 334,
+        "screened_mallet_events": 0,
+        "event_curves_exact_match": true,
+        "unplayable_note_frame_omissions": 0
+      },
+      "guitar": {
+        "events": 125,
+        "source_attacks": 82,
+        "screened_mallet_events": 0,
+        "event_curves_exact_match": true,
+        "unplayable_note_frame_omissions": 75
+      },
+      "piano": {
+        "events": 305,
+        "source_attacks": 208,
+        "screened_mallet_events": 281,
+        "event_curves_exact_match": true
+      }
+    },
+    "actual_pose_frames_checked": 947,
+    "singer_inputs_preserved": true,
+    "native_drummer": {
+      "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+      "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+      "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+      "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+      "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+      "schedule": {
+        "unique_strike_holds": 559,
+        "idle_colors_used_as_strikes": false,
+        "cymbal_decay_moves_arms": false
+      }
+    },
+    "analysis_sha256": "c400c3f0d97f44890a1d67735a2d473fe5283392f151e7eb8262b6fa648d18c7"
+  },
+  {
+    "id": "02",
+    "instruments": {
+      "bass": {
+        "events": 605,
+        "source_attacks": 605,
+        "screened_mallet_events": 0,
+        "event_curves_exact_match": true,
+        "unplayable_note_frame_omissions": 0
+      },
+      "guitar": {
+        "events": 179,
+        "source_attacks": 131,
+        "screened_mallet_events": 0,
+        "event_curves_exact_match": true,
+        "unplayable_note_frame_omissions": 15
+      },
+      "piano": {
+        "events": 433,
+        "source_attacks": 250,
+        "screened_mallet_events": 229,
+        "event_curves_exact_match": true
+      }
+    },
+    "actual_pose_frames_checked": 1707,
+    "singer_inputs_preserved": true,
+    "native_drummer": {
+      "fseq_sha256": "a41192cac247366f9ccadbb9c9411bd7d36e6d60fcf53ab6e5e42d72af3debfc",
+      "xsq_sha256": "4e56a6db2faeb6be8872485ecf6dc1ecde0b0e021f9fb1484efc4ffbb528ac77",
+      "drummer_levels_sha256": "e13e7899e952749ecf3f8227ee3cb21f46b29cac8e844b5956ab5eb70114e8cc",
+      "drummer_strike_holds_sha256": "9ac28d601562de20a0f99af57433c278755c9cee5ee5799c09460683fff3f847",
+      "source_hand_schedule_sha256": "eccc4a9c277bcad9cacf98248f2f0b5e20a95d8053b7df87b601aad8463478b3",
+      "schedule": {
+        "unique_strike_holds": 948,
+        "idle_colors_used_as_strikes": false,
+        "cymbal_decay_moves_arms": false
+      }
+    },
+    "analysis_sha256": "d20cd215c1eaf2fce18bb41d4c49a9d2b9a898fdef15751092b53df13ace5916"
+  },
+  {
+    "id": "03",
+    "instruments": {
+      "bass": {
+        "events": 573,
+        "source_attacks": 573,
+        "screened_mallet_events": 0,
+        "event_curves_exact_match": true,
+        "unplayable_note_frame_omissions": 0
+      },
+      "guitar": {
+        "events": 99,
+        "source_attacks": 69,
+        "screened_mallet_events": 0,
+        "event_curves_exact_match": true,
+        "unplayable_note_frame_omissions": 41
+      },
+      "piano": {
+        "events": 83,
+        "source_attacks": 64,
+        "screened_mallet_events": 83,
+        "event_curves_exact_match": true
+      }
+    },
+    "actual_pose_frames_checked": 1438,
+    "singer_inputs_preserved": true,
+    "native_drummer": {
+      "fseq_sha256": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+      "xsq_sha256": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+      "drummer_levels_sha256": "76376662825d760a04c471d930a0332b7b1347cb9b78001afd645f7fbddf20de",
+      "drummer_strike_holds_sha256": "b9ab208b36b228f2c852c8ddeb25f0dad4e8f3e4cafe5a91f59287818753d788",
+      "source_hand_schedule_sha256": "0563c463280cdadfec66835d18e70480b266bb8f32da3ba4bb6e003743cf8268",
+      "schedule": {
+        "unique_strike_holds": 986,
+        "idle_colors_used_as_strikes": false,
+        "cymbal_decay_moves_arms": false
+      }
+    },
+    "analysis_sha256": "ce2f04e551ce8e3266a2d920015091b46a0e4908aa6ce269ffd3703f5a853f9c"
+  },
+  {
+    "id": "05",
+    "instruments": {
+      "bass": {
+        "events": 200,
+        "source_attacks": 200,
+        "screened_mallet_events": 0,
+        "event_curves_exact_match": true,
+        "unplayable_note_frame_omissions": 0
+      },
+      "guitar": {
+        "events": 205,
+        "source_attacks": 158,
+        "screened_mallet_events": 0,
+        "event_curves_exact_match": true,
+        "unplayable_note_frame_omissions": 4
+      },
+      "piano": {
+        "events": 368,
+        "source_attacks": 234,
+        "screened_mallet_events": 337,
+        "event_curves_exact_match": true
+      }
+    },
+    "actual_pose_frames_checked": 843,
+    "singer_inputs_preserved": true,
+    "native_drummer": {
+      "fseq_sha256": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+      "xsq_sha256": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+      "drummer_levels_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+      "drummer_strike_holds_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+      "source_hand_schedule_sha256": "3fa0c56bf9b2e27ef4d103f767b98fa3af97c78d981ea42efb80621bb53c04d2",
+      "schedule": {
+        "unique_strike_holds": 290,
+        "idle_colors_used_as_strikes": false,
+        "cymbal_decay_moves_arms": false
+      }
+    },
+    "analysis_sha256": "9a00c4be485dca743ba2a521206d9db6e5508263804de948f0feaf0cb76afa3f"
+  }
+]

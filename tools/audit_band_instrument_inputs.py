@@ -12,11 +12,11 @@ from tools.render_readable_band import assert_pose
 from tools.render_intricate_band_samplers import sha
 
 
-def main():
+def main(output_root=OUT,evidence_path=None):
     reports=[]
     for row in json.loads((ROOT/'outputs/Snowman_Ensemble/sources.json').read_text()):
         if row['id']=='04':continue
-        path=OUT/'analysis'/row['id'];scene=ReadableBandScene('prismatic_orrery');p=ReadablePerformance(row,scene)
+        path=output_root/'analysis'/row['id'];scene=ReadableBandScene('prismatic_orrery');p=ReadablePerformance(row,scene,output_root/'analysis')
         events=json.loads((path/'note_events.json').read_text());report={'id':row['id'],'instruments':{}}
         previous=ROOT/'outputs/Intricate_Band_Samplers/analysis'/row['id']
         binding=json.loads((path/'verification.json').read_text())
@@ -54,7 +54,7 @@ def main():
         report.update(actual_pose_frames_checked=len(frames),singer_inputs_preserved=True,
                       native_drummer=p.drum_proof,analysis_sha256=sha(path/'performance_curves.npz'))
         reports.append(report);print(row['id'],'source/events/poses PASS',len(frames),flush=True)
-    dest=ROOT/'evidence/band_instrument_review/input_pose_audit.json'
+    dest=evidence_path or ROOT/'evidence/band_instrument_review/input_pose_audit.json'
     dest.write_text(json.dumps(reports,indent=2)+'\n')
 
 

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "00",
+    "prior_inputs_sha256": {
+      "verification.json": "ca18bc3f4359e46f442aab227d6e18bea3321780e1ee8dd343c1be8933f5716d",
+      "vocals.json": "feb941afdc83a190d1b8f5c7e8dbd95bced55a3ad13c16464fc353f666d75078",
+      "performance_curves.npz": "20948c538176a5b0aebd4b4fc655a382c72ae6f21772f812d185277449b73236",
+      "note_events.json": "1142499568fa2b1b3f490c99683c9aeefb34b5a8ac2f388e0b532812cf7082c2"
+    },
+    "detections_and_lyrics_reestimated": false,
+    "changes": {
+      "bass": {
+        "changed_pitch_frames": 49,
+        "hidden_onset_frames_before": 37,
+        "hidden_onset_frames_after": 0
+      },
+      "guitar": {
+        "changed_pitch_frames": 1,
+        "hidden_onset_frames_before": 1,
+        "hidden_onset_frames_after": 0
+      },
+      "piano": {
+        "changed_pitch_frames": 0,
+        "hidden_onset_frames_before": 0,
+        "hidden_onset_frames_after": 0
+      }
+    },
+    "method": "active-before-release / newest articulation owns pitch; selected notes own gestures"
+  },
+  {
+    "id": "01",
+    "prior_inputs_sha256": {
+      "verification.json": "2b5dceeeedde49f5c7830e504815ed9c316ca1962d133a75070cf03cb55d248c",
+      "vocals.json": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302",
+      "performance_curves.npz": "d3352a064b56d6e17b966c753e4321969b466eecf68b79577a94bdb0d5102f65",
+      "note_events.json": "951146abcdc1860ce43f52c7c82aec2d18c3a9d1409aefd6cff376605ecca9de"
+    },
+    "detections_and_lyrics_reestimated": false,
+    "changes": {
+      "bass": {
+        "changed_pitch_frames": 39,
+        "hidden_onset_frames_before": 27,
+        "hidden_onset_frames_after": 0
+      },
+      "guitar": {
+        "changed_pitch_frames": 0,
+        "hidden_onset_frames_before": 0,
+        "hidden_onset_frames_after": 0
+      },
+      "piano": {
+        "changed_pitch_frames": 6,
+        "hidden_onset_frames_before": 4,
+        "hidden_onset_frames_after": 0
+      }
+    },
+    "method": "active-before-release / newest articulation owns pitch; selected notes own gestures"
+  },
+  {
+    "id": "02",
+    "prior_inputs_sha256": {
+      "verification.json": "799782fed1b317594afcff84e0dfdcafb16f5e1d009ec4d852511cc9264533aa",
+      "vocals.json": "63558d500e828530e2a83ea04e812db5e21e1f85750f3b0752da47d1d54fdba2",
+      "performance_curves.npz": "4632dc6969d6d8be8573961d88185af49c78ee3e7a25601aa11b38ebfd8cf787",
+      "note_events.json": "98b36b093af730d55027ee4eb31b5465aec4d2f4f7dccf1ed6e0f2d04042b95d"
+    },
+    "detections_and_lyrics_reestimated": false,
+    "changes": {
+      "bass": {
+        "changed_pitch_frames": 89,
+        "hidden_onset_frames_before": 73,
+        "hidden_onset_frames_after": 0
+      },
+      "guitar": {
+        "changed_pitch_frames": 0,
+        "hidden_onset_frames_before": 0,
+        "hidden_onset_frames_after": 0
+      },
+      "piano": {
+        "changed_pitch_frames": 0,
+        "hidden_onset_frames_before": 0,
+        "hidden_onset_frames_after": 0
+      }
+    },
+    "method": "active-before-release / newest articulation owns pitch; selected notes own gestures"
+  },
+  {
+    "id": "03",
+    "prior_inputs_sha256": {
+      "verification.json": "345af45d22438b90b82dd9ce46e5c11438ffc90834289fee72add3b96cf41a1c",
+      "vocals.json": "d7228095ad19ed7e622e42c87a6659fb74eaec19711df240bee1d38f52825b75",
+      "performance_curves.npz": "2e10bbd784055ee7281998104c46ff1003da88e9f73ddb863fd000c749de5bdb",
+      "note_events.json": "3744911ba11f5330d8d0872ce70028e62360f05d2a18411d81819534537454e0"
+    },
+    "detections_and_lyrics_reestimated": false,
+    "changes": {
+      "bass": {
+        "changed_pitch_frames": 127,
+        "hidden_onset_frames_before": 107,
+        "hidden_onset_frames_after": 0
+      },
+      "guitar": {
+        "changed_pitch_frames": 0,
+        "hidden_onset_frames_before": 0,
+        "hidden_onset_frames_after": 0
+      },
+      "piano": {
+        "changed_pitch_frames": 0,
+        "hidden_onset_frames_before": 0,
+        "hidden_onset_frames_after": 0
+      }
+    },
+    "method": "active-before-release / newest articulation owns pitch; selected notes own gestures"
+  },
+  {
+    "id": "05",
+    "prior_inputs_sha256": {
+      "verification.json": "4b74115c4c277a6895f92a5e0748a5862766219dd50e95441c6207949434d85a",
+      "vocals.json": "bb7e3a3b7dbf2803f0a9af2c462de9a0770f16c2c9657bdfc5d823d31122a232",
+      "performance_curves.npz": "8a1a973d76f16499c1c18c45aa4806e052e6b04072570a0ab1c903b033815133",
+      "note_events.json": "91ef2b380bba1b56e23b2d4f38fdeb91a333abc7c64e326ee18952e05de87939"
+    },
+    "detections_and_lyrics_reestimated": false,
+    "changes": {
+      "bass": {
+        "changed_pitch_frames": 39,
+        "hidden_onset_frames_before": 37,
+        "hidden_onset_frames_after": 0
+      },
+      "guitar": {
+        "changed_pitch_frames": 0,
+        "hidden_onset_frames_before": 0,
+        "hidden_onset_frames_after": 0
+      },
+      "piano": {
+        "changed_pitch_frames": 2,
+        "hidden_onset_frames_before": 1,
+        "hidden_onset_frames_after": 0
+      }
+    },
+    "method": "active-before-release / newest articulation owns pitch; selected notes own gestures"
+  }
+]

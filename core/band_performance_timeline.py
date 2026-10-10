@@ -130,6 +130,8 @@ class BandPerformanceTimelineCompiler:
         }
 
     def _resolve_state(self, event: BandExecutionEvent, performer: PerformerRuntimeSpec) -> str:
+        if not performer.states:
+            raise ValueError(f'{performer.performer_id} has no approved runtime states; use the source-driven review path')
         available = {state.name for state in performer.states}
         candidate = event.performer_state
         if candidate in available:

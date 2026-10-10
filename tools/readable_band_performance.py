@@ -6,6 +6,7 @@ import numpy as np
 from PIL import ImageDraw
 from models.band_performance_scene import matrix,line_matrix
 from models.band_sampler_logic import SHAPE_NAMES
+from models.band_instrument_logic import attack_gestures
 from tools.render_intricate_band_samplers import SamplerPerformance,SAMPLER_FRAGMENT
 from tools.render_band_upgrade import native_drummer
 from tools.build_helpers.ultimate_showcase_preview import _font
@@ -29,9 +30,9 @@ def key_pitch(note):
 
 
 class ReadablePerformance(SamplerPerformance):
-    def __init__(self,row,scene):
+    def __init__(self,row,scene,analysis_root=None):
         self.row=row;self.variant='band';self.scene=scene
-        path=OUT/'analysis'/row['id']
+        path=(Path(analysis_root) if analysis_root is not None else OUT/'analysis')/row['id']
         with np.load(path/'performance_curves.npz') as a:self.curves={k:a[k].copy() for k in a.files}
         self.vocals=json.loads((path/'vocals.json').read_text())
         self.drums,self.strikes,self.hands,self.drum_proof=native_drummer(row)
@@ -39,6 +40,8 @@ class ReadablePerformance(SamplerPerformance):
         self.lyric_starts=[e['start_ms'] for e in self.vocals['lines']];self.note_routes={}
         self.key_centers={int(o['name'].removeprefix('piano_key_')):o['matrix'][:3,3].copy() for o in scene.instances if o['name'].startswith('piano_key_')}
         self.active_routes={};self.key_levels={};self.hand_targets={}
+        self.gestures={kind:attack_gestures(self.curves[kind+'_attack']) for kind in ('bass','guitar','piano')}
+        self.guitar_contact_route=None
 
     def levels(self,i):
         out=np.zeros(128,np.float32);out[5:13]=self.drums[i]
@@ -59,18 +62,22 @@ class ReadablePerformance(SamplerPerformance):
 
     def pose(self,i):
         levels=super().pose(i);t=i/20
-        for idx,role,rest in self.scene.groove:
+        offsets={}
+        for role in ('bass','guitar','piano'):
             phase=float(self.curves[role+'_phase'][i]);gain=float(self.curves[role+'_energy'][i])
-            m=rest.copy();m[0,3]+=.075*gain*math.sin(t*3.7)
-            m[1,3]+=.048*gain*math.exp(-phase*4)
+            offsets[role]=np.array((.075*gain*math.sin(t*3.7),.048*gain*math.exp(-phase*4),0))
+        for idx,role,rest in self.scene.groove:
+            item=self.scene.instances[idx]
+            m=item['matrix'].copy() if 'mouth_role' in item else rest.copy()
+            m[:3,3]+=offsets[role]
             self.scene.instances[idx]['matrix']=m
         self.hand_targets={}
         for rig in self.scene.rigs:
             kind,side=rig['role'],rig['side']
             if kind not in ('bass','guitar','piano'):continue
-            hand=rig['hand'].copy();phase=float(self.curves[kind+'_phase'][i]);energy=float(self.curves[kind+'_energy'][i])
+            hand=rig['hand'].copy();energy=float(self.curves[kind+'_energy'][i])
             # Maximum displacement at onset; return to ready within200ms.
-            stroke=energy*(1-phase)**2
+            stroke=float(self.gestures[kind][i]) if energy>0 else 0.
             routes=self.active_routes.get(kind,[])
             if kind=='bass' and routes:
                 s=self.scene.strings[kind][routes[0][0]]
@@ -79,10 +86,13 @@ class ReadablePerformance(SamplerPerformance):
                 if side=='finger':hand[1]=float(self.curves['bass_height'][i])
                 else:hand[1]=1.03+.16*stroke;hand[2]+=.12*stroke
             elif kind=='guitar' and routes:
-                s=self.scene.strings[kind][routes[0][0]]
+                from models.band_instrument_logic import playable_pitch
+                def strength(route):
+                    return max((float(v) for n,v in zip(self.curves['guitar_notes'][i],self.curves['guitar_note_levels'][i])
+                                if n>=0 and playable_pitch(int(n),'guitar')==route[2]),default=0)
+                selected=max(routes,key=strength);self.guitar_contact_route=selected
                 if side=='finger':
-                    fret=float(np.median([r[1] for r in routes]));u=.96-.50*min(fret,24)/24
-                    hand=s['a']+(s['b']-s['a'])*u;hand[2]+=.065
+                    hand=self.scene.guitar_contact(selected[0],selected[1]);hand[2]+=.065
                 else:
                     hand=np.array((3.87,1.02,.65));hand[1]+=.27*stroke;hand[0]-=.16*stroke
             elif kind=='piano' and self.key_levels:
@@ -90,9 +100,13 @@ class ReadablePerformance(SamplerPerformance):
                 which='left' if notes[0]<66 else 'right'
                 if spread or side==which:
                     pitch=notes[0] if side=='left' else notes[-1]
-                    hand=self.key_centers[pitch]+(0,.11-.045*stroke,.08)
-            elbow=(rig['shoulder']+hand)/2+(-.12 if side in ('left','pluck','strum') else .12,.04,.12)
-            a,b,c=rig['ids'];self.scene.instances[a]['matrix']=line_matrix(rig['shoulder'],elbow,.046)
+                    hand=self.key_centers[pitch]+(0,.11-.020*self.key_levels[pitch]-.018*stroke,.08)
+            elif kind=='bass' and side=='finger':
+                # Keep the last measured neck height through a rest.
+                hand[1]=float(self.curves['bass_height'][i])
+            shoulder=rig['shoulder']+offsets[kind]
+            elbow=(shoulder+hand)/2+(-.12 if side in ('left','pluck','strum') else .12,.04,.12)
+            a,b,c=rig['ids'];self.scene.instances[a]['matrix']=line_matrix(shoulder,elbow,.046)
             self.scene.instances[b]['matrix']=line_matrix(elbow,hand,.046)
             self.scene.instances[c]['matrix']=matrix(hand,(.10,.075,.08))
             self.hand_targets[kind,side]=hand.copy()

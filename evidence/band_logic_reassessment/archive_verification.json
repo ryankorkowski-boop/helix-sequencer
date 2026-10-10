@@ -1,0 +1,177 @@
+{
+  "archive": "Snowman_Band_Logic_Reassessment.zip",
+  "bytes": 70574792,
+  "sha256": "3af81d048898c1fc1abfc690fce40fa31516b98a1cfc60e0d6fc13a00492706a",
+  "movie_count": 8,
+  "crc_and_all_extracted_hashes_verified": true,
+  "files": {
+    "movies/00_prismatic_orrery_drummer_reassessed_3s.mp4": {
+      "bytes": 3159342,
+      "sha256": "a8cdbdd29a21cf27bebf1c9d61f3055ed41fc0b0e3630884f10fafb293b0e433"
+    },
+    "movies/00_prismatic_orrery_drummer_reassessed_3s.verification.json": {
+      "bytes": 4023,
+      "sha256": "347f5954147d16d11197cac84560bb9fb066aaa49572ec45a1daa4db1225af63"
+    },
+    "movies/01_cymatic_geode_guitar_reassessed_12s.mp4": {
+      "bytes": 12578700,
+      "sha256": "44ca24c2f00b6b5869ad9bb024572699a0d0954bb55bcbfe8b64c8c0cdff50c2"
+    },
+    "movies/01_cymatic_geode_guitar_reassessed_12s.verification.json": {
+      "bytes": 4947,
+      "sha256": "910d6cc80194c6160f866df2efb1f10e0334c0a9fe80f6d2b1ba8044f761cdac"
+    },
+    "movies/01_prismatic_orrery_stage_reassessed_18s.mp4": {
+      "bytes": 14186100,
+      "sha256": "2a7a64c939c951bd0813abf488187b0380b9016e37d9a3259617117a2ce0fea5"
+    },
+    "movies/01_prismatic_orrery_stage_reassessed_18s.verification.json": {
+      "bytes": 6157,
+      "sha256": "50276a3836edcdb5a47778a7243c23f63eda1087c86f66846c2423c972a5938d"
+    },
+    "movies/02_infinity_observatory_bass_reassessed_12s.mp4": {
+      "bytes": 10192393,
+      "sha256": "5af64a96935a2ab0ed31e12e092d47c31eb9f12bd62bd6a772130bd8426ef80d"
+    },
+    "movies/02_infinity_observatory_bass_reassessed_12s.verification.json": {
+      "bytes": 4912,
+      "sha256": "863251639685c199826b771968c704f2fb531db81a6cdb0cb9f96d200578d813"
+    },
+    "movies/02_prismatic_orrery_drummer_reassessed_3s.mp4": {
+      "bytes": 3046206,
+      "sha256": "3ab870c1a218e8fe669c564acb584c2ecea6e162241dda5f4cf860cd180e5f09"
+    },
+    "movies/02_prismatic_orrery_drummer_reassessed_3s.verification.json": {
+      "bytes": 4030,
+      "sha256": "78f7ca3f4582765141ac485fb95fa82884c33cfaa2af35794b1f2d790ce6a91f"
+    },
+    "movies/03_prismatic_orrery_drummer_reassessed_3s.mp4": {
+      "bytes": 2946638,
+      "sha256": "163329999d82da73470ef83ac78f4600247b6abb4de54ab82fe723b08d5cee40"
+    },
+    "movies/03_prismatic_orrery_drummer_reassessed_3s.verification.json": {
+      "bytes": 4023,
+      "sha256": "2ae73946a568349b723711d827938a315b47dc2511d90fddce66c3ab1473a541"
+    },
+    "movies/05_quasicrystal_theatre_stage_reassessed_18s.mp4": {
+      "bytes": 16732679,
+      "sha256": "2789083cc9768eaccf9f97605963728f0a35cf4d25ca7ddbde4ded193a69543b"
+    },
+    "movies/05_quasicrystal_theatre_stage_reassessed_18s.verification.json": {
+      "bytes": 6144,
+      "sha256": "801f1037dff9955edb22b1c26a6249f2f5210e1ba9fde746928d2f46d22e7ac2"
+    },
+    "movies/05_woven_aurora_keyboard_reassessed_12s.mp4": {
+      "bytes": 7282360,
+      "sha256": "2cafd37ced56474944aea6405488f54dd68a65b3c0fee56a3071acbbafc42d86"
+    },
+    "movies/05_woven_aurora_keyboard_reassessed_12s.verification.json": {
+      "bytes": 4412,
+      "sha256": "8592cc1dd7d702d597ef4a4e9f7c64db188a0c707c5be2f0501dbd014fb2aad2"
+    },
+    "analysis/02/verification.json": {
+      "bytes": 2913,
+      "sha256": "e363c9bb6100abb35921a10adf63a0fe851ffe12d83e791bc8aad61be621d9a9"
+    },
+    "analysis/02/vocals.json": {
+      "bytes": 123566,
+      "sha256": "63558d500e828530e2a83ea04e812db5e21e1f85750f3b0752da47d1d54fdba2"
+    },
+    "analysis/02/performance_curves.npz": {
+      "bytes": 44599,
+      "sha256": "d20cd215c1eaf2fce18bb41d4c49a9d2b9a898fdef15751092b53df13ace5916"
+    },
+    "analysis/02/note_events.json": {
+      "bytes": 253749,
+      "sha256": "98b36b093af730d55027ee4eb31b5465aec4d2f4f7dccf1ed6e0f2d04042b95d"
+    },
+    "analysis/05/verification.json": {
+      "bytes": 2909,
+      "sha256": "631f9af55a09d94da11d0b3797f1ccedcb6cb33ad697e685a95acbe1b08988a9"
+    },
+    "analysis/05/vocals.json": {
+      "bytes": 143735,
+      "sha256": "bb7e3a3b7dbf2803f0a9af2c462de9a0770f16c2c9657bdfc5d823d31122a232"
+    },
+    "analysis/05/performance_curves.npz": {
+      "bytes": 34880,
+      "sha256": "9a00c4be485dca743ba2a521206d9db6e5508263804de948f0feaf0cb76afa3f"
+    },
+    "analysis/05/note_events.json": {
+      "bytes": 162326,
+      "sha256": "91ef2b380bba1b56e23b2d4f38fdeb91a333abc7c64e326ee18952e05de87939"
+    },
+    "analysis/01/verification.json": {
+      "bytes": 2912,
+      "sha256": "fc903329c61768be331a27f7f8d280f6efa36da6a82706d237bcce6a5817b3c6"
+    },
+    "analysis/01/vocals.json": {
+      "bytes": 208562,
+      "sha256": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302"
+    },
+    "analysis/01/performance_curves.npz": {
+      "bytes": 32035,
+      "sha256": "c400c3f0d97f44890a1d67735a2d473fe5283392f151e7eb8262b6fa648d18c7"
+    },
+    "analysis/01/note_events.json": {
+      "bytes": 159955,
+      "sha256": "951146abcdc1860ce43f52c7c82aec2d18c3a9d1409aefd6cff376605ecca9de"
+    },
+    "analysis/00/verification.json": {
+      "bytes": 2914,
+      "sha256": "f04a9904378ecc569dc968506a8a7a75bfb98e9d5a56a9955f0a9539133c4f45"
+    },
+    "analysis/00/vocals.json": {
+      "bytes": 308196,
+      "sha256": "feb941afdc83a190d1b8f5c7e8dbd95bced55a3ad13c16464fc353f666d75078"
+    },
+    "analysis/00/performance_curves.npz": {
+      "bytes": 44794,
+      "sha256": "ca237dac69bc6a72c5746a4f450d15ff3a756d4ab1e4788b2897a3625a8223dd"
+    },
+    "analysis/00/note_events.json": {
+      "bytes": 183772,
+      "sha256": "1142499568fa2b1b3f490c99683c9aeefb34b5a8ac2f388e0b532812cf7082c2"
+    },
+    "analysis/03/verification.json": {
+      "bytes": 2909,
+      "sha256": "0e7e4f2c1874acab6dc8c2d2d3922e15aa6eeeaee6a322f809df53fd2e5e3b86"
+    },
+    "analysis/03/vocals.json": {
+      "bytes": 382468,
+      "sha256": "d7228095ad19ed7e622e42c87a6659fb74eaec19711df240bee1d38f52825b75"
+    },
+    "analysis/03/performance_curves.npz": {
+      "bytes": 36959,
+      "sha256": "ce2f04e551ce8e3266a2d920015091b46a0e4908aa6ce269ffd3703f5a853f9c"
+    },
+    "analysis/03/note_events.json": {
+      "bytes": 156929,
+      "sha256": "3744911ba11f5330d8d0872ce70028e62360f05d2a18411d81819534537454e0"
+    },
+    "evidence/recompiled_inputs.json": {
+      "bytes": 5175,
+      "sha256": "8445d921a3847e0fbf2ad1c7d8262f1efc2b5fbc0b36c043842abe33182db7a4"
+    },
+    "evidence/input_pose_audit.json": {
+      "bytes": 7273,
+      "sha256": "dc4123858adaee3acb0712285671d6bf6f2aab56e7b7c1072718d918b715acc7"
+    },
+    "evidence/member_audit.json": {
+      "bytes": 32982,
+      "sha256": "ded3d365e673d252214f29c89550d33f767b77a1d8ea35829ece34d593e3d36d"
+    },
+    "evidence/render_batch.json": {
+      "bytes": 41009,
+      "sha256": "cae492e526519fbe89e6bd28952d4db6ee2ddfbd42cf57b0fc918d365283a75f"
+    },
+    "evidence/tests.txt": {
+      "bytes": 100,
+      "sha256": "23fde0f63bc1a1a9e94560c134d05916a1f7f7753ea6ffa3aa3f5d6dc397d313"
+    },
+    "README.txt": {
+      "bytes": 1184,
+      "sha256": "8ef474ae967f392f71ea53e3354f05ec40664bbc4f37c9e04b219a048fced109"
+    }
+  }
+}

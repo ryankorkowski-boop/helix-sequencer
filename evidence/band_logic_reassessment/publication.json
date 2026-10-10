@@ -1,0 +1,78 @@
+{
+  "media_commit": "e0ced9127e677cad2677dadda017a18f59ffd1b1",
+  "files": [
+    {
+      "file": "Snowman_Band_Logic_Reassessment.zip",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/e0ced9127e677cad2677dadda017a18f59ffd1b1/band_logic_reassessment/Snowman_Band_Logic_Reassessment.zip",
+      "http_status": 200,
+      "bytes": 70574792,
+      "sha256": "3af81d048898c1fc1abfc690fce40fa31516b98a1cfc60e0d6fc13a00492706a",
+      "complete_public_download_matches": true
+    },
+    {
+      "file": "movies/00_prismatic_orrery_drummer_reassessed_3s.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/e0ced9127e677cad2677dadda017a18f59ffd1b1/band_logic_reassessment/movies/00_prismatic_orrery_drummer_reassessed_3s.mp4",
+      "http_status": 200,
+      "bytes": 3159342,
+      "sha256": "a8cdbdd29a21cf27bebf1c9d61f3055ed41fc0b0e3630884f10fafb293b0e433",
+      "complete_public_download_matches": true
+    },
+    {
+      "file": "movies/01_cymatic_geode_guitar_reassessed_12s.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/e0ced9127e677cad2677dadda017a18f59ffd1b1/band_logic_reassessment/movies/01_cymatic_geode_guitar_reassessed_12s.mp4",
+      "http_status": 200,
+      "bytes": 12578700,
+      "sha256": "44ca24c2f00b6b5869ad9bb024572699a0d0954bb55bcbfe8b64c8c0cdff50c2",
+      "complete_public_download_matches": true
+    },
+    {
+      "file": "movies/01_prismatic_orrery_stage_reassessed_18s.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/e0ced9127e677cad2677dadda017a18f59ffd1b1/band_logic_reassessment/movies/01_prismatic_orrery_stage_reassessed_18s.mp4",
+      "http_status": 200,
+      "bytes": 14186100,
+      "sha256": "2a7a64c939c951bd0813abf488187b0380b9016e37d9a3259617117a2ce0fea5",
+      "complete_public_download_matches": true
+    },
+    {
+      "file": "movies/02_infinity_observatory_bass_reassessed_12s.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/e0ced9127e677cad2677dadda017a18f59ffd1b1/band_logic_reassessment/movies/02_infinity_observatory_bass_reassessed_12s.mp4",
+      "http_status": 200,
+      "bytes": 10192393,
+      "sha256": "5af64a96935a2ab0ed31e12e092d47c31eb9f12bd62bd6a772130bd8426ef80d",
+      "complete_public_download_matches": true
+    },
+    {
+      "file": "movies/02_prismatic_orrery_drummer_reassessed_3s.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/e0ced9127e677cad2677dadda017a18f59ffd1b1/band_logic_reassessment/movies/02_prismatic_orrery_drummer_reassessed_3s.mp4",
+      "http_status": 200,
+      "bytes": 3046206,
+      "sha256": "3ab870c1a218e8fe669c564acb584c2ecea6e162241dda5f4cf860cd180e5f09",
+      "complete_public_download_matches": true
+    },
+    {
+      "file": "movies/03_prismatic_orrery_drummer_reassessed_3s.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/e0ced9127e677cad2677dadda017a18f59ffd1b1/band_logic_reassessment/movies/03_prismatic_orrery_drummer_reassessed_3s.mp4",
+      "http_status": 200,
+      "bytes": 2946638,
+      "sha256": "163329999d82da73470ef83ac78f4600247b6abb4de54ab82fe723b08d5cee40",
+      "complete_public_download_matches": true
+    },
+    {
+      "file": "movies/05_quasicrystal_theatre_stage_reassessed_18s.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/e0ced9127e677cad2677dadda017a18f59ffd1b1/band_logic_reassessment/movies/05_quasicrystal_theatre_stage_reassessed_18s.mp4",
+      "http_status": 200,
+      "bytes": 16732679,
+      "sha256": "2789083cc9768eaccf9f97605963728f0a35cf4d25ca7ddbde4ded193a69543b",
+      "complete_public_download_matches": true
+    },
+    {
+      "file": "movies/05_woven_aurora_keyboard_reassessed_12s.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/e0ced9127e677cad2677dadda017a18f59ffd1b1/band_logic_reassessment/movies/05_woven_aurora_keyboard_reassessed_12s.mp4",
+      "http_status": 200,
+      "bytes": 7282360,
+      "sha256": "2cafd37ced56474944aea6405488f54dd68a65b3c0fee56a3071acbbafc42d86",
+      "complete_public_download_matches": true
+    }
+  ],
+  "all_public_downloads_verified": true
+}

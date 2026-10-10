@@ -15,6 +15,7 @@ def camera_for(focus):
     positions={'stage':((.3,5.6,16.5),(.7,2.7,-.9),44),
                'bass':((-3.8,3.5,6.8),(-3.5,1.9,.0),40),
                'guitar':((4.9,3.6,6.9),(4.5,1.8,.15),40),
+               'drummer':((0,3.6,6.8),(0,2.2,-1.4),40),
                'keyboard':((6.6,4.6,8.6),(6.5,1.65,2.65),43)}
     eye0,target,fov=positions[focus]
     def camera(width,height,elapsed):
@@ -53,9 +54,13 @@ def assert_pose(performance,i,levels):
                 assert abs(hand[0]-scene.strings[kind][routes[0][0]]['a'][0])<1e-5
                 assert abs(hand[1]-performance.curves['bass_height'][i])<1e-5
             else:
-                s=scene.strings[kind][routes[0][0]]
-                fret=float(np.median([r[1] for r in routes]));u=.96-.50*min(fret,24)/24
-                assert np.allclose(hand,s['a']+(s['b']-s['a'])*u+(0,0,.065))
+                string,fret,note=performance.guitar_contact_route
+                from models.band_performance_scene import TUNINGS
+                assert TUNINGS[kind][string]+fret==note
+                s=scene.strings[kind][string]
+                length=np.linalg.norm(s['b']-s['a'])
+                contact=hand-(0,0,.065)
+                assert np.isclose(np.linalg.norm(contact-s['a'])/length,2**(-fret/12))
     expected=np.zeros(37)
     for pitch,v in performance.key_levels.items():expected[pitch-48]=v
     assert np.allclose(levels[23:60],expected)
@@ -70,10 +75,11 @@ def assert_pose(performance,i,levels):
     assert all(np.isfinite(o['matrix']).all() for o in scene.instances)
 
 
-def render(row,layout,start,focus='stage',seconds=42,width=1920,height=1080,suffix=''):
-    dest=OUT/'movies';dest.mkdir(parents=True,exist_ok=True)
+def render(row,layout,start,focus='stage',seconds=42,width=1920,height=1080,suffix='',output_root=None):
+    out=Path(output_root) if output_root is not None else OUT
+    dest=out/'movies';dest.mkdir(parents=True,exist_ok=True)
     name=f'{row["id"]}_{layout}_{focus}{suffix}_{seconds:g}s'
-    movie=dest/(name+'.mp4');scene=ReadableBandScene(layout);perf=ReadablePerformance(row,scene)
+    movie=dest/(name+'.mp4');scene=ReadableBandScene(layout);perf=ReadablePerformance(row,scene,out/'analysis')
     view=SamplerView(scene,width,height,SAMPLER_VERTEX,STRING_FRAGMENT);view.camera_callback=camera_for(focus)
     view.dry.proof['source']='canonical source-art compositor with torso shoulder revision, pose spec v7'
     offset=round(start*20);count=round(seconds*20);assert offset+count<=perf.n
@@ -89,6 +95,9 @@ def render(row,layout,start,focus='stage',seconds=42,width=1920,height=1080,suff
             choose=hits[np.unique(np.linspace(0,len(hits)-1,min(5,len(hits))).astype(int))]
             for f in choose:selected.setdefault(int(f),[]).append(kind)
     refs=[];began=time.monotonic()
+    drum_refs=[]
+    quiet_drum_frames=set(np.flatnonzero(np.any((perf.strikes[offset:offset+count]>0)&
+                                              (perf.strikes[offset:offset+count]<=.16),axis=1)).tolist())
     proc=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s',f'{width}x{height}',
         '-r','20','-i','-','-ss',str(start),'-i',str(original),'-map','0:v:0','-map','1:a:0','-t',str(seconds),
         '-c:v','libx264','-preset','veryfast','-crf','18','-threads','2','-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',str(movie)],stdin=subprocess.PIPE)
@@ -96,6 +105,15 @@ def render(row,layout,start,focus='stage',seconds=42,width=1920,height=1080,suff
         for f in range(count):
             i=offset+f;levels=perf.pose(i);assert_pose(perf,i,levels)
             frame=view.frame(levels,perf.drums[i],perf.strikes[i],perf.hands[i],i/20,f/20)
+            if focus=='drummer' and f in quiet_drum_frames:
+                muted=perf.strikes[i].copy();muted[(muted>0)&(muted<=.16)]=0
+                control=view.frame(levels,perf.drums[i],muted,perf.hands[i],i/20,f/20)
+                active=np.asarray(frame);quiet=np.asarray(control)
+                mask=np.abs(active.astype(float)-quiet.astype(float)).mean(axis=2)>5
+                # Header/footer are captions, not drum-hit evidence.
+                mask[:90]=False;mask[-95:]=False
+                assert mask.sum()>=6,(name,f,'quiet accepted drum strike is invisible')
+                drum_refs.append((f,active[mask].copy(),quiet[mask].copy(),mask))
             if f in selected:
                 for kind in selected[f]:
                     box=instrument_box(scene,kind,view,f/20);muted=levels.copy()
@@ -118,6 +136,15 @@ def render(row,layout,start,focus='stage',seconds=42,width=1920,height=1080,suff
     assert int(video['nb_frames'])==count and abs(float(video['duration'])-seconds)<.001
     subprocess.run(['ffmpeg','-v','error','-threads','1','-i',str(movie),'-f','null','-'],check=True)
     encoded=[]
+    encoded_drums=[]
+    for f,active,quiet,mask in drum_refs:
+        data=subprocess.check_output(['ffmpeg','-v','error','-ss',str(f/20),'-i',str(movie),'-frames:v','1','-f','rawvideo','-pix_fmt','rgb24','-'])
+        decoded=np.frombuffer(data,np.uint8).reshape(height,width,3)[mask]
+        active_error=float(np.abs(decoded.astype(float)-active).mean())
+        quiet_error=float(np.abs(decoded.astype(float)-quiet).mean())
+        assert quiet_error-active_error>1,(name,f,'encoded quiet strike missing')
+        encoded_drums.append(dict(frame=f,source_time=(offset+f)/20,own_target_pixels=int(mask.sum()),
+                                  active_error=active_error,muted_error=quiet_error))
     for f,kind,box,active,quiet,mask in refs:
         data=subprocess.check_output(['ffmpeg','-v','error','-ss',str(f/20),'-i',str(movie),'-frames:v','1','-f','rawvideo','-pix_fmt','rgb24','-'])
         decoded=np.frombuffer(data,np.uint8).reshape(height,width,3)[box[1]:box[3],box[0]:box[2]]
@@ -129,9 +156,10 @@ def render(row,layout,start,focus='stage',seconds=42,width=1920,height=1080,suff
     proof=dict(id=row['id'],title=row['title'],layout=layout,focus=focus,start=start,seconds=seconds,width=width,height=height,frames=count,
         sha256=sha(movie),bytes=movie.stat().st_size,source_sha256=row['sha256'],full_decode_passed=True,
         all_frames_pose_routing_checked=True,encoded_instrument_checks=encoded,source_attacks=coverage,
+        encoded_quiet_drum_checks=encoded_drums,
         soundtrack=excerpt_audio_check(original,movie,start,seconds),drummer_geometry=view.dry.proof,
         native_drummer=perf.drum_proof,native_xlights_playback=False,verified_musical_score=False,
-        analysis_inputs={p.name:sha(p) for p in (OUT/'analysis'/row['id']).glob('*')},
+        analysis_inputs={p.name:sha(p) for p in (out/'analysis'/row['id']).glob('*')},
         implementation_sha256={p:sha(ROOT/p) for p in ['models/readable_band_scene.py','models/band_instrument_logic.py',
             'tools/readable_band_performance.py','tools/render_readable_band.py','tools/render_intricate_band_samplers.py','tools/render_band_upgrade.py']})
     movie.with_suffix('.verification.json').write_text(json.dumps(proof,indent=2)+'\n')

@@ -6,6 +6,19 @@ from models.band_performance_scene import line_matrix, rgb
 
 
 class ReadableBandScene(IntricateBandScene):
+    def snowman(self,role,p,accent,female=False):
+        first=len(self.instances)
+        center=super().snowman(role,p,accent,female)
+        for o in self.instances[first:]:
+            o['performer_role']=role
+            # Generic decorations also need the piano's stage relocation.
+            if not o['name'].startswith(role+'_'):o['name']=role+'_'+o['name']
+        return center
+
+    def mouth(self,name,center,role,color='#180D1B'):
+        super().mouth(name,center,role,color)
+        self.instances[-1]['performer_role']=role
+
     def __init__(self,layout):
         super().__init__(layout)
         self.strings={'bass':[],'guitar':[]}
@@ -32,21 +45,26 @@ class ReadableBandScene(IntricateBandScene):
         for o in self.instances:
             if o['name']=='guitar_neck':o['matrix'][:3,:2]*=.095/.058
             elif o['name']=='guitar_headstock':o['matrix'][:3,:2]*=.115/.086
-            elif o['name']=='guitar_fret':
-                o['matrix'][:3,2]*=1.9
-                o['matrix'][2,3]=.535
+        # Nut-to-bridge semitone spacing, shared by visible frets and fingertips.
+        existing_frets=[o for o in self.instances if o['name']=='guitar_fret']
+        for fret in range(1,25):
+            center=self.guitar_contact(2,fret);center[2]=.535
+            a=center+(-.10,.10,0);b=center+(.10,-.10,0)
+            if fret<=len(existing_frets):existing_frets[fret-1]['matrix']=line_matrix(a,b,.008)
+            else:self.rod('guitar_fret',a,b,.008,'#A9BED0')
         # Head and torso move; the planted upright instrument keeps its bridge,
         # strings and contact positions coherent.
         self.groove=[]
-        excluded={n for rig in self.rigs for n in rig['ids']}
         for idx,o in enumerate(self.instances):
-            role=o['name'].split('_')[0]
-            if role in ('bass','guitar','piano') and idx not in excluded and 'mouth_role' not in o and not any(
-                s in o['name'] for s in ('string','fingerboard','scroll','bridge','endpin','key_','fret','neck','headstock')):
-                if o['kind']=='sphere' or any(s in o['name'] for s in ('hat','scarf')):
-                    self.groove.append((idx,role,o['matrix'].copy()))
+            role=o.get('performer_role')
+            if role in ('bass','guitar','piano'):
+                self.groove.append((idx,role,o['matrix'].copy()))
         self.key_rest={i:o['matrix'].copy() for i,o in enumerate(self.instances) if o['name'].startswith('piano_key_')}
         self.technical_proof=self.validate()
+
+    def guitar_contact(self,string,fret):
+        s=self.strings['guitar'][string]
+        return s['a']+(s['b']-s['a'])*2**(-fret/12)
 
     def vibrate(self,kind,string,level,source_time):
         s=self.strings[kind][string];u=np.linspace(0,1,17)

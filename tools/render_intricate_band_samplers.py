@@ -70,7 +70,7 @@ class ExactDryDrummer:
         self.ringing={k:np.asarray(compose_lighting(source,masks,[],cymbal_levels={TARGETS[k]:1}).crop(self.crop).convert('RGB'),dtype='f4') for k in (6,7)}
         paths=['fixtures/band_geometry/source/drummerbg.png','fixtures/band_geometry/source/drummer_idle.png',
                'fixtures/band_geometry/drummer_v3_pose_spec.json','fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel']
-        self.proof={'source':'same canonical geometry/compositor as dry artifact11527580859',
+        self.proof={'source':'canonical source-art compositor; geometry version bound by asset hashes below',
                     'assets':{p:sha(ROOT/p) for p in paths},'replacement_3d_kit':False,
                     'high_tom_viewer_right':True,'mid_and_floor_toms_viewer_left':True,
                     'crop':self.crop,'planar_physical_prop_mounted_in_3d_stage':True}
@@ -78,7 +78,7 @@ class ExactDryDrummer:
     def frame(self,lighting,strikes,hand):
         out=self.idle.copy();name='right' if hand else 'left'
         for k in range(8):
-            if strikes[k]>.16:
+            if strikes[k]>0:
                 np.maximum(out,self.poses[k,name],out=out)
         for k in (6,7):
             if lighting[k]>0:

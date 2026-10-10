@@ -57,26 +57,56 @@ def compile_note_events(notes: np.ndarray, velocity: np.ndarray,
 
 def event_curves(events: list[NoteEvent], n: int, columns: int,
                  release: float=.20) -> tuple[np.ndarray,np.ndarray,np.ndarray,np.ndarray]:
-    """Per-note brightness and attack phase, retaining source velocity and rests."""
+    """Held notes outrank release tails; newest articulation owns a pitch.
+
+    Intervals are half-open. A released louder note must neither hide a newly
+    played bass note nor boost the velocity of a quieter same-pitch retrigger.
+    Only selected notes can start a gesture, including at the frame boundary.
+    """
+    if n < 0 or columns < 1 or release < 0:
+        raise ValueError('invalid note grid dimensions or release')
     notes=np.full((n,columns),-1,dtype=np.int16)
     levels=np.zeros((n,columns),dtype=np.float32)
     attack=np.zeros(n,dtype=np.float32);phase=np.full(n,1.,dtype=np.float32)
     frames=[[] for _ in range(n)]
     for e in events:
         lo=max(0,round(e.start*20));hi=min(n,round((e.end+release)*20))
+        if e.end<=e.start or not 0<e.velocity<=1:
+            raise ValueError('note events require positive duration and velocity in (0,1]')
         if lo>=n:continue
-        attack[lo]=max(attack[lo],e.velocity)
         for i in range(lo,hi):
             age=i/20-e.start
-            decay=1 if i/20<=e.end else max(0,1-(i/20-e.end)/release)
-            frames[i].append((e.pitch,e.velocity*decay))
-            if age<.20:phase[i]=min(phase[i],max(0,age/.20))
+            held=i/20<e.end
+            decay=1 if held else max(0,1-(i/20-e.end)/release) if release else 0
+            if decay>0:
+                frames[i].append((e.pitch,e.velocity*decay,held,e.start,lo))
     for i,items in enumerate(frames):
         strongest={}
-        for pitch,v in items:strongest[pitch]=max(strongest.get(pitch,0),v)
-        selected=sorted(sorted(strongest.items(),key=lambda x:-x[1])[:columns])
-        for j,(pitch,v) in enumerate(selected):notes[i,j]=pitch;levels[i,j]=v
+        for item in items:
+            pitch,v,held,start,lo=item
+            previous=strongest.get(pitch)
+            if previous is None or (held,start,v)>(previous[2],previous[3],previous[1]):
+                strongest[pitch]=item
+        selected=sorted(sorted(strongest.values(),key=lambda x:(-x[2],-x[1],-x[3],x[0]))[:columns])
+        for j,(pitch,v,held,start,lo) in enumerate(selected):
+            notes[i,j]=pitch;levels[i,j]=v
+            age=i/20-start
+            if age<.20:phase[i]=min(phase[i],max(0,age/.20))
+            if i==lo:attack[i]=max(attack[i],v)
     return notes,levels,attack,phase
+
+
+def attack_gestures(attacks: np.ndarray, seconds: float=.20) -> np.ndarray:
+    """Each onset owns its velocity; held loud notes cannot amplify a quiet hit."""
+    if seconds<=0:raise ValueError('gesture duration must be positive')
+    result=np.zeros(len(attacks),np.float32)
+    last=None;velocity=0.
+    for i,value in enumerate(attacks):
+        if value>0:last=i;velocity=float(value)
+        if last is not None:
+            phase=min(1.,(i-last)/(20*seconds))
+            result[i]=velocity*(1-phase)**2
+    return result
 
 
 def sparse_harmonic_notes(spectrum: np.ndarray, low: int=24,
