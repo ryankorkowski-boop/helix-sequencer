@@ -1,0 +1,127 @@
+{
+  "id": "05",
+  "title": "Festivus (Remastered)",
+  "layout": "woven_aurora",
+  "focus": "keyboard",
+  "start": 0,
+  "seconds": 12,
+  "width": 1920,
+  "height": 1080,
+  "frames": 240,
+  "sha256": "2cafd37ced56474944aea6405488f54dd68a65b3c0fee56a3071acbbafc42d86",
+  "bytes": 7282360,
+  "source_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+  "full_decode_passed": true,
+  "all_frames_pose_routing_checked": true,
+  "encoded_instrument_checks": [
+    {
+      "frame": 20,
+      "kind": "piano",
+      "box": [
+        678,
+        618,
+        1240,
+        665
+      ],
+      "own_channel_pixels": 746,
+      "active_error": 5.15638963360143,
+      "muted_error": 50.1478999106345
+    },
+    {
+      "frame": 83,
+      "kind": "piano",
+      "box": [
+        676,
+        619,
+        1243,
+        666
+      ],
+      "own_channel_pixels": 675,
+      "active_error": 5.97679012345679,
+      "muted_error": 48.82962962962963
+    },
+    {
+      "frame": 89,
+      "kind": "piano",
+      "box": [
+        675,
+        619,
+        1243,
+        668
+      ],
+      "own_channel_pixels": 801,
+      "active_error": 5.563462338743238,
+      "muted_error": 54.92592592592593
+    }
+  ],
+  "source_attacks": {
+    "bass": {
+      "source_attack_frames": 0,
+      "visible_checks": 0
+    },
+    "guitar": {
+      "source_attack_frames": 72,
+      "visible_checks": 0
+    },
+    "piano": {
+      "source_attack_frames": 3,
+      "visible_checks": 3
+    }
+  },
+  "encoded_quiet_drum_checks": [],
+  "soundtrack": {
+    "source_offset_seconds": 0,
+    "sample_rate": 8000,
+    "zero_offset_correlation": 0.9990036120018922,
+    "source_samples": 96000,
+    "movie_samples": 96000,
+    "original_excerpt_matches": true
+  },
+  "drummer_geometry": {
+    "source": "canonical source-art compositor with torso shoulder revision, pose spec v7",
+    "assets": {
+      "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+      "fixtures/band_geometry/source/drummer_idle.png": "7299061b867c324ee46f037aef15fe64a04f946992021235e69ec137e9f4137e",
+      "fixtures/band_geometry/drummer_v3_pose_spec.json": "2964ec17bec74bcf947d68e43fee5bc2afea9ed83327a6b77fa19f6e0346b8a1",
+      "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "70c11eafe25243f2ec10e8207ed89c1456acf2692d9e1de7db5a4801f0cd8c79"
+    },
+    "replacement_3d_kit": false,
+    "high_tom_viewer_right": true,
+    "mid_and_floor_toms_viewer_left": true,
+    "crop": [
+      99,
+      124,
+      494,
+      380
+    ],
+    "planar_physical_prop_mounted_in_3d_stage": true
+  },
+  "native_drummer": {
+    "fseq_sha256": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+    "xsq_sha256": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+    "drummer_levels_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+    "drummer_strike_holds_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+    "source_hand_schedule_sha256": "3fa0c56bf9b2e27ef4d103f767b98fa3af97c78d981ea42efb80621bb53c04d2",
+    "schedule": {
+      "unique_strike_holds": 290,
+      "idle_colors_used_as_strikes": false,
+      "cymbal_decay_moves_arms": false
+    }
+  },
+  "native_xlights_playback": false,
+  "verified_musical_score": false,
+  "analysis_inputs": {
+    "verification.json": "631f9af55a09d94da11d0b3797f1ccedcb6cb33ad697e685a95acbe1b08988a9",
+    "vocals.json": "bb7e3a3b7dbf2803f0a9af2c462de9a0770f16c2c9657bdfc5d823d31122a232",
+    "performance_curves.npz": "9a00c4be485dca743ba2a521206d9db6e5508263804de948f0feaf0cb76afa3f",
+    "note_events.json": "91ef2b380bba1b56e23b2d4f38fdeb91a333abc7c64e326ee18952e05de87939"
+  },
+  "implementation_sha256": {
+    "models/readable_band_scene.py": "ef5ebaa6d7d664a7114b851f833e8772134401f8261d14bf94780018a3d9fe37",
+    "models/band_instrument_logic.py": "e6b087b091d69249573d2c4c1a29fc3ab84803e894e12224311011af10e7bc0c",
+    "tools/readable_band_performance.py": "8f7f0ccb3856eb8c299c0a3904268b5890d484822eaa453766a4d4b30909822a",
+    "tools/render_readable_band.py": "e710758fab8b0b959fd505fdd83f3a8aee9cb5881969e122b48c16630e8b1a5c",
+    "tools/render_intricate_band_samplers.py": "5650b7d11095ee2be71f68a6acbec3d5d34513f3d3986f776ce8053111674bc0",
+    "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+  }
+}

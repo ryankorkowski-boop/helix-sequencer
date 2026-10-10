@@ -1,0 +1,153 @@
+{
+  "id": "01",
+  "title": "Who Knew (Grinch's Redemption) (Remastered)",
+  "layout": "cymatic_geode",
+  "focus": "guitar",
+  "start": 108,
+  "seconds": 12,
+  "width": 1920,
+  "height": 1080,
+  "frames": 240,
+  "sha256": "44ca24c2f00b6b5869ad9bb024572699a0d0954bb55bcbfe8b64c8c0cdff50c2",
+  "bytes": 12578700,
+  "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+  "full_decode_passed": true,
+  "all_frames_pose_routing_checked": true,
+  "encoded_instrument_checks": [
+    {
+      "frame": 55,
+      "kind": "guitar",
+      "box": [
+        736,
+        429,
+        1145,
+        787
+      ],
+      "own_channel_pixels": 7985,
+      "active_error": 8.307409726570654,
+      "muted_error": 39.566938008766435
+    },
+    {
+      "frame": 98,
+      "kind": "guitar",
+      "box": [
+        735,
+        428,
+        1146,
+        789
+      ],
+      "own_channel_pixels": 22310,
+      "active_error": 9.208322127595995,
+      "muted_error": 81.02746152696848
+    },
+    {
+      "frame": 135,
+      "kind": "guitar",
+      "box": [
+        733,
+        428,
+        1147,
+        790
+      ],
+      "own_channel_pixels": 14661,
+      "active_error": 8.858172475729258,
+      "muted_error": 81.8182934315531
+    },
+    {
+      "frame": 166,
+      "kind": "guitar",
+      "box": [
+        733,
+        427,
+        1148,
+        791
+      ],
+      "own_channel_pixels": 16280,
+      "active_error": 8.770372645372644,
+      "muted_error": 84.38554463554463
+    },
+    {
+      "frame": 217,
+      "kind": "guitar",
+      "box": [
+        731,
+        427,
+        1149,
+        793
+      ],
+      "own_channel_pixels": 16706,
+      "active_error": 8.640668023464624,
+      "muted_error": 93.03044814238396
+    }
+  ],
+  "source_attacks": {
+    "bass": {
+      "source_attack_frames": 42,
+      "visible_checks": 0
+    },
+    "guitar": {
+      "source_attack_frames": 82,
+      "visible_checks": 5
+    },
+    "piano": {
+      "source_attack_frames": 0,
+      "visible_checks": 0
+    }
+  },
+  "encoded_quiet_drum_checks": [],
+  "soundtrack": {
+    "source_offset_seconds": 108,
+    "sample_rate": 8000,
+    "zero_offset_correlation": 0.9997589175709501,
+    "source_samples": 96000,
+    "movie_samples": 96000,
+    "original_excerpt_matches": true
+  },
+  "drummer_geometry": {
+    "source": "canonical source-art compositor with torso shoulder revision, pose spec v7",
+    "assets": {
+      "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+      "fixtures/band_geometry/source/drummer_idle.png": "7299061b867c324ee46f037aef15fe64a04f946992021235e69ec137e9f4137e",
+      "fixtures/band_geometry/drummer_v3_pose_spec.json": "2964ec17bec74bcf947d68e43fee5bc2afea9ed83327a6b77fa19f6e0346b8a1",
+      "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "70c11eafe25243f2ec10e8207ed89c1456acf2692d9e1de7db5a4801f0cd8c79"
+    },
+    "replacement_3d_kit": false,
+    "high_tom_viewer_right": true,
+    "mid_and_floor_toms_viewer_left": true,
+    "crop": [
+      99,
+      124,
+      494,
+      380
+    ],
+    "planar_physical_prop_mounted_in_3d_stage": true
+  },
+  "native_drummer": {
+    "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+    "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+    "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+    "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+    "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+    "schedule": {
+      "unique_strike_holds": 559,
+      "idle_colors_used_as_strikes": false,
+      "cymbal_decay_moves_arms": false
+    }
+  },
+  "native_xlights_playback": false,
+  "verified_musical_score": false,
+  "analysis_inputs": {
+    "verification.json": "fc903329c61768be331a27f7f8d280f6efa36da6a82706d237bcce6a5817b3c6",
+    "vocals.json": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302",
+    "performance_curves.npz": "c400c3f0d97f44890a1d67735a2d473fe5283392f151e7eb8262b6fa648d18c7",
+    "note_events.json": "951146abcdc1860ce43f52c7c82aec2d18c3a9d1409aefd6cff376605ecca9de"
+  },
+  "implementation_sha256": {
+    "models/readable_band_scene.py": "ef5ebaa6d7d664a7114b851f833e8772134401f8261d14bf94780018a3d9fe37",
+    "models/band_instrument_logic.py": "e6b087b091d69249573d2c4c1a29fc3ab84803e894e12224311011af10e7bc0c",
+    "tools/readable_band_performance.py": "8f7f0ccb3856eb8c299c0a3904268b5890d484822eaa453766a4d4b30909822a",
+    "tools/render_readable_band.py": "e710758fab8b0b959fd505fdd83f3a8aee9cb5881969e122b48c16630e8b1a5c",
+    "tools/render_intricate_band_samplers.py": "5650b7d11095ee2be71f68a6acbec3d5d34513f3d3986f776ce8053111674bc0",
+    "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+  }
+}

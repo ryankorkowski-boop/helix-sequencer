@@ -1,0 +1,102 @@
+{
+  "id": "03",
+  "title": "Candy Cane Chaos",
+  "layout": "prismatic_orrery",
+  "focus": "drummer",
+  "start": 4,
+  "seconds": 3,
+  "width": 1920,
+  "height": 1080,
+  "frames": 60,
+  "sha256": "163329999d82da73470ef83ac78f4600247b6abb4de54ab82fe723b08d5cee40",
+  "bytes": 2946638,
+  "source_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25",
+  "full_decode_passed": true,
+  "all_frames_pose_routing_checked": true,
+  "encoded_instrument_checks": [],
+  "source_attacks": {
+    "bass": {
+      "source_attack_frames": 0,
+      "visible_checks": 0
+    },
+    "guitar": {
+      "source_attack_frames": 0,
+      "visible_checks": 0
+    },
+    "piano": {
+      "source_attack_frames": 12,
+      "visible_checks": 0
+    }
+  },
+  "encoded_quiet_drum_checks": [
+    {
+      "frame": 19,
+      "source_time": 4.95,
+      "own_target_pixels": 5012,
+      "active_error": 5.151769087523277,
+      "muted_error": 44.756850226123966
+    },
+    {
+      "frame": 20,
+      "source_time": 5.0,
+      "own_target_pixels": 5017,
+      "active_error": 5.146435452793834,
+      "muted_error": 44.746727792173274
+    }
+  ],
+  "soundtrack": {
+    "source_offset_seconds": 4,
+    "sample_rate": 8000,
+    "zero_offset_correlation": 0.999683821658283,
+    "source_samples": 24000,
+    "movie_samples": 24000,
+    "original_excerpt_matches": true
+  },
+  "drummer_geometry": {
+    "source": "canonical source-art compositor with torso shoulder revision, pose spec v7",
+    "assets": {
+      "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+      "fixtures/band_geometry/source/drummer_idle.png": "7299061b867c324ee46f037aef15fe64a04f946992021235e69ec137e9f4137e",
+      "fixtures/band_geometry/drummer_v3_pose_spec.json": "2964ec17bec74bcf947d68e43fee5bc2afea9ed83327a6b77fa19f6e0346b8a1",
+      "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "70c11eafe25243f2ec10e8207ed89c1456acf2692d9e1de7db5a4801f0cd8c79"
+    },
+    "replacement_3d_kit": false,
+    "high_tom_viewer_right": true,
+    "mid_and_floor_toms_viewer_left": true,
+    "crop": [
+      99,
+      124,
+      494,
+      380
+    ],
+    "planar_physical_prop_mounted_in_3d_stage": true
+  },
+  "native_drummer": {
+    "fseq_sha256": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+    "xsq_sha256": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+    "drummer_levels_sha256": "76376662825d760a04c471d930a0332b7b1347cb9b78001afd645f7fbddf20de",
+    "drummer_strike_holds_sha256": "b9ab208b36b228f2c852c8ddeb25f0dad4e8f3e4cafe5a91f59287818753d788",
+    "source_hand_schedule_sha256": "0563c463280cdadfec66835d18e70480b266bb8f32da3ba4bb6e003743cf8268",
+    "schedule": {
+      "unique_strike_holds": 986,
+      "idle_colors_used_as_strikes": false,
+      "cymbal_decay_moves_arms": false
+    }
+  },
+  "native_xlights_playback": false,
+  "verified_musical_score": false,
+  "analysis_inputs": {
+    "verification.json": "0e7e4f2c1874acab6dc8c2d2d3922e15aa6eeeaee6a322f809df53fd2e5e3b86",
+    "vocals.json": "d7228095ad19ed7e622e42c87a6659fb74eaec19711df240bee1d38f52825b75",
+    "performance_curves.npz": "ce2f04e551ce8e3266a2d920015091b46a0e4908aa6ce269ffd3703f5a853f9c",
+    "note_events.json": "3744911ba11f5330d8d0872ce70028e62360f05d2a18411d81819534537454e0"
+  },
+  "implementation_sha256": {
+    "models/readable_band_scene.py": "ef5ebaa6d7d664a7114b851f833e8772134401f8261d14bf94780018a3d9fe37",
+    "models/band_instrument_logic.py": "e6b087b091d69249573d2c4c1a29fc3ab84803e894e12224311011af10e7bc0c",
+    "tools/readable_band_performance.py": "8f7f0ccb3856eb8c299c0a3904268b5890d484822eaa453766a4d4b30909822a",
+    "tools/render_readable_band.py": "e710758fab8b0b959fd505fdd83f3a8aee9cb5881969e122b48c16630e8b1a5c",
+    "tools/render_intricate_band_samplers.py": "5650b7d11095ee2be71f68a6acbec3d5d34513f3d3986f776ce8053111674bc0",
+    "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+  }
+}
