@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import queue
 import subprocess
 import sys
@@ -325,6 +326,7 @@ class HelixGui(tk.Tk):
                 text=True,
                 errors="replace",
                 bufsize=1,
+                env={**os.environ, "PYTHONUNBUFFERED": "1"},
                 creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0) if getattr(sys, "frozen", False) else 0,
             ) as process:
                 assert process.stdout is not None
