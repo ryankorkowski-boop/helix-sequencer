@@ -452,6 +452,7 @@ def _apply_neon_palettes_to_generated_sequences(
 
 AC_ONLY_FLAG = "--helix-ac-on-only"
 SHOWCASE_GATE_FLAG = "--helix-showcase-quality-gate"
+SPATIAL_ACCENT_FLAG = "--helix-spatial-accent"
 
 
 def _export_generated_ac_sequences(
@@ -518,6 +519,39 @@ def _export_generated_ac_sequences(
         raise RuntimeError("AC-only mode produced no valid new XSQ; check the chosen layout/template")
 
 
+def _add_new_spatial_accents(
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    layout: Path,
+    ctx: RunContext,
+) -> None:
+    import json
+    import os
+    import tempfile
+    from tools.spatial_choreography import add_spatial_accents
+
+    for source in _known_artifact_paths(roots):
+        if source.suffix != ".xsq" or ".uncolored." in source.name:
+            continue
+        stat = source.stat()
+        if before.get(source.resolve(strict=False)) == (stat.st_mtime_ns, stat.st_size):
+            continue
+        with tempfile.NamedTemporaryFile(
+            suffix=".xsq", prefix=".spatial-", dir=source.parent, delete=False
+        ) as stream:
+            temporary = Path(stream.name)
+        try:
+            report = add_spatial_accents(source, layout, temporary)
+            if report.get("added", 0) > 0:
+                os.replace(temporary, source)
+                path = source.with_suffix(".spatial_accent_report.json")
+                path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+                ctx.record_artifact("spatial_accent_report", path)
+                print(f"spatial_accents: {report['added']} at {source}", flush=True)
+        finally:
+            temporary.unlink(missing_ok=True)
+
+
 def _audit_new_showcase_sequences(
     roots: Iterable[Path],
     before: dict[Path, tuple[int, int]],
@@ -561,6 +595,8 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
 
     raw_engine_args = list(engine_args or [])
     ac_only = AC_ONLY_FLAG in raw_engine_args
+    spatial_accent = SPATIAL_ACCENT_FLAG in raw_engine_args
+    raw_engine_args = [arg for arg in raw_engine_args if arg != SPATIAL_ACCENT_FLAG]
     strict_showcase = SHOWCASE_GATE_FLAG in raw_engine_args
     raw_engine_args = [arg for arg in raw_engine_args if arg != SHOWCASE_GATE_FLAG]
     if ac_only:
@@ -625,6 +661,16 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                 _apply_neon_palettes_to_generated_sequences(
                     engine_args, artifact_roots, artifact_snapshot, ctx
                 )
+                if spatial_accent:
+                    layout_option = next(
+                        (engine_args[i + 1] for i, a in enumerate(engine_args[:-1])
+                         if a == "--layout-file"), None
+                    ) if engine_args else None
+                    if not layout_option:
+                        raise RuntimeError("Spatial accents require --layout-file")
+                    _add_new_spatial_accents(
+                        artifact_roots, artifact_snapshot, Path(layout_option), ctx
+                    )
                 neon = "--palette-mode=neon" in (engine_args or []) or any(
                     a == "--palette-mode" and i + 1 < len(engine_args or [])
                     and engine_args[i + 1] == "neon"
