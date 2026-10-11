@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import argparse
 import math
+import hashlib
+import re
 import subprocess
 import sys
 import tempfile
@@ -146,6 +148,7 @@ class SequenceData:
     duration_ms: int
     model_effects: dict[str, list[EffectRecord]]
     timing_tracks: dict[str, TimingTrack]
+    palettes: list[tuple[tuple[int, int, int], ...]] = field(default_factory=list)
 
 
 def parse_models(layout_xml: Path) -> LayoutData:
@@ -259,7 +262,21 @@ def parse_sequence(path: Path) -> SequenceData:
             if layer_records:
                 model_effects[name] = layer_records
 
-    return SequenceData(duration_ms=duration_ms, model_effects=model_effects, timing_tracks=timing_tracks)
+    # The XML's effect.palette values are zero-based indices into ColorPalettes.
+    # Parse only enabled slots, retaining the original palette order.
+    palettes: list[tuple[tuple[int, int, int], ...]] = []
+    for palette_node in root.findall("./ColorPalettes/ColorPalette"):
+        settings = palette_node.text or ""
+        enabled = set(re.findall(r"C_CHECKBOX_Palette(\d+)=1", settings))
+        entries = re.findall(r"C_BUTTON_Palette(\d+)=(#[0-9a-fA-F]{6})", settings)
+        colors = tuple(
+            tuple(int(hex_color[pos:pos + 2], 16) for pos in (1, 3, 5))
+            for index, hex_color in entries
+            if index in enabled
+        )
+        palettes.append(colors)
+    return SequenceData(duration_ms=duration_ms, model_effects=model_effects,
+                        timing_tracks=timing_tracks, palettes=palettes)
 
 
 def ramp_intensity(effect: EffectRecord, frame_times_ms: np.ndarray) -> np.ndarray:
@@ -315,6 +332,61 @@ def build_leaf_intensity_matrix(
                 )
 
     return leaf_names, intensities
+
+
+def build_leaf_color_matrix(
+    layout: LayoutData,
+    sequence: SequenceData,
+    fps: int,
+    leaf_names: list[str],
+    frame_count: int,
+) -> np.ndarray | None:
+    """Approximate per-model palette colors, not native xLights pixel effects.
+
+    Explicit effect palette refs take priority. Multiple overlapping effects
+    choose the strongest currently active effect rather than merging RGB
+    channels into unintended white. Uncolored effects use layout colors.
+    """
+    if not sequence.palettes:
+        return None
+    colors = np.zeros((len(leaf_names), frame_count, 3), dtype=np.uint8)
+    strengths = np.zeros((len(leaf_names), frame_count), dtype=np.float32)
+    leaf_index = {name: idx for idx, name in enumerate(leaf_names)}
+    frame_times_ms = np.arange(frame_count, dtype=np.float32) * (1000.0 / fps)
+    for target, effects in sequence.model_effects.items():
+        indexes = [leaf_index[n] for n in layout.resolve_leaves(target) if n in leaf_index]
+        if not indexes:
+            continue
+        for effect in effects:
+            try:
+                palette_index = int(effect.palette) if effect.palette is not None else -1
+            except ValueError:
+                continue
+            if palette_index < 0 or palette_index >= len(sequence.palettes):
+                continue
+            choices = sequence.palettes[palette_index]
+            if not choices:
+                continue
+            seed = f"{target}|{effect.name}|{effect.start_ms}"
+            choice = int.from_bytes(hashlib.sha256(seed.encode("utf-8")).digest()[:4], "big")
+            color = choices[choice % len(choices)]
+            start = max(0, int(math.floor(effect.start_ms * fps / 1000.0)))
+            end = min(frame_count, int(math.ceil(effect.end_ms * fps / 1000.0)))
+            if end <= start:
+                continue
+            curve = (
+                ramp_intensity(effect, frame_times_ms[start:end])
+                if effect.name.strip().lower() == "ramp"
+                else np.ones(end - start, dtype=np.float32)
+            )
+            for idx in indexes:
+                weights = strengths[idx, start:end]
+                replace = curve > weights
+                if not np.any(replace):
+                    continue
+                weights[replace] = curve[replace]
+                colors[idx, start:end][replace] = color
+    return colors
 
 
 def choose_track(sequence: SequenceData, prefix: str) -> TimingTrack | None:
@@ -428,6 +500,7 @@ class HouseRenderer:
         t_ms: int,
         duration_ms: int,
         overlays: dict[str, str],
+        frame_colors: np.ndarray | None = None,
     ) -> Image.Image:
         base = self._base_canvas.copy()
         glow_layer = Image.new("RGBA", base.size, (0, 0, 0, 0))
@@ -443,9 +516,14 @@ class HouseRenderer:
             model_name = leaf_names[idx]
             geom = self.layout.leaf_models[model_name]
             boost = int(round(3 * float(value)))
+            # Prefer actual XSQ palette colors over fixed layout color when
+            # an explicit valid palette index is present on the active effect.
+            chosen_color = geom.color
+            if frame_colors is not None and np.any(frame_colors[idx]):
+                chosen_color = tuple(int(channel) for channel in frame_colors[idx])
             bright = tuple(
                 max(0, min(255, int(round(channel * (0.4 + 0.7 * float(value)) + 70 * float(value)))))
-                for channel in geom.color
+                for channel in chosen_color
             )
             self.draw_model(glow_draw, model_name, bright, glow=True, width_boost=boost + 2)
             self.draw_model(solid_draw, model_name, bright, glow=False, width_boost=boost)
@@ -496,6 +574,7 @@ def render_sequence_to_mp4(
 ) -> Path:
     sequence = parse_sequence(sequence_path)
     leaf_names, intensity = build_leaf_intensity_matrix(layout, sequence, fps)
+    palette_colors = build_leaf_color_matrix(layout, sequence, fps, leaf_names, intensity.shape[1])
     part_track = choose_track(sequence, "song parts")
     piano_track = choose_track(sequence, "piano")
     sweep_track = choose_track(sequence, "sweeps")
@@ -530,6 +609,7 @@ def render_sequence_to_mp4(
                 t_ms=t_ms,
                 duration_ms=sequence.duration_ms,
                 overlays=overlays,
+                frame_colors=palette_colors[:, frame_idx, :] if palette_colors is not None else None,
             )
             writer.append_data(np.asarray(frame.convert("RGB"), dtype=np.uint8))
     finally:
