@@ -53,6 +53,7 @@ class HelixGui(tk.Tk):
         self.variants_var = tk.IntVar(value=4)
         self.output_mode_var = tk.StringVar(value="Original xLights colors")
         self.showcase_gate_var = tk.BooleanVar(value=False)
+        self.spatial_accent_var = tk.BooleanVar(value=False)
 
         self._build_ui()
         self._apply_layout_preset()
@@ -144,6 +145,12 @@ class HelixGui(tk.Tk):
             output_options, text="Strict showcase quality gate (abort weak RGB output)",
             variable=self.showcase_gate_var
         ).grid(row=2, column=0, columnspan=3, sticky="w", **pad)
+
+        ttk.Checkbutton(
+            output_options,
+            text="Optional RGB chorus chase (left-to-right across RGB props)",
+            variable=self.spatial_accent_var
+        ).grid(row=3, column=0, columnspan=3, sticky="w", **pad)
 
         birdsong = ttk.LabelFrame(frame, text="Birdsong Engine")
         birdsong.pack(fill=tk.X, **pad)
@@ -274,6 +281,9 @@ class HelixGui(tk.Tk):
 
         if self.showcase_gate_var.get() and output_mode != "RGW AC - On effects only (Light-O-Rama)":
             cmd.append("--helix-showcase-quality-gate")
+
+        if self.spatial_accent_var.get() and output_mode == "Neon musical color":
+            cmd.append("--helix-spatial-accent")
 
         if self.vendor_bar_var.get():
             cmd.append("--vendor-bar")
