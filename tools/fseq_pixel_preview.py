@@ -39,6 +39,8 @@ class FseqReader:
             if len(raw) < 28 or raw[:4] not in {b"PSEQ", b"FSEQ"}:
                 raise ValueError("Not an FSEQ file (PSEQ/FSEQ magic missing)")
             version = raw[7]
+            if version == 2 and len(raw) < 32:
+                raise ValueError("Truncated FSEQ V2 header")
             if version not in (1, 2):
                 raise ValueError(f"Unsupported FSEQ major version {version}")
             data_offset = struct.unpack_from("<H", raw, 4)[0]
@@ -73,6 +75,9 @@ class FseqReader:
                     ranges.append((start, count))
                 if ranges and sum(n for _a, n in ranges) != channels:
                     raise ValueError("Sparse FSEQ channel count does not match header")
+            for (previous, count), (following, _next_count) in zip(ranges, ranges[1:]):
+                if following < previous + count:
+                    raise ValueError("FSEQ sparse ranges must be ordered and nonoverlapping")
             if data_offset < (28 if version == 1 else 32) + block_count * 8 + range_count * 6:
                 raise ValueError("Invalid FSEQ channel-data offset")
             if self.path.stat().st_size < data_offset:
@@ -115,7 +120,11 @@ class FseqReader:
 
             if not info.blocks:
                 raise ValueError("Compressed FSEQ has no valid block index")
-            for _first, size in info.blocks:
+            for first_frame, size in info.blocks:
+                if first_frame != total:
+                    raise ValueError(
+                        f"Noncontiguous FSEQ compressed block frames: {first_frame} != {total}"
+                    )
                 compressed = handle.read(size)
                 if len(compressed) != size:
                     raise ValueError("Truncated FSEQ compressed block")
@@ -159,7 +168,7 @@ def pixels_from_csv(path: Path) -> list[Pixel]:
     result = []
     for row in rows:
         kind = (row.get("kind") or "rgb").strip().lower()
-        if kind not in {"rgb", "red", "green", "white"}:
+        if kind not in {"rgb", "grb", "brg", "bgr", "rbg", "gbr", "red", "green", "white"}:
             raise ValueError(f"Unsupported pixel kind {kind}")
         result.append(Pixel(
             int(row["channel"]), float(row["x"]), float(row["y"]), kind
@@ -214,7 +223,8 @@ def render_fseq_preview(fseq_path: Path, output: Path, *, pixel_map: Path | None
     addresses = []
     for node in nodes:
         offsets = tuple(reader.offset_for_channel(node.one_based_channel + index)
-                        for index in range(3 if node.kind == "rgb" else 1))
+                        for index in range(3 if len(node.kind) == 3 and
+                                            set(node.kind) == {"r", "g", "b"} else 1))
         if any(item is None for item in offsets):
             continue
         addresses.append((node, offsets))
@@ -251,8 +261,10 @@ def render_fseq_preview(fseq_path: Path, output: Path, *, pixel_map: Path | None
             image = Image.new("RGB", (width, height), (3, 8, 17))
             draw = ImageDraw.Draw(image)
             for x, y, kind, offsets in mapped:
-                if kind == "rgb":
-                    color = tuple(frame[idx] for idx in offsets)
+                if len(kind) == 3 and set(kind) == {"r", "g", "b"}:
+                    # kind labels the physical order of consecutive FSEQ bytes.
+                    by_component = {letter: frame[offsets[i]] for i, letter in enumerate(kind)}
+                    color = tuple(by_component[channel] for channel in "rgb")
                 else:
                     intensity = frame[offsets[0]]
                     color = {
@@ -289,9 +301,10 @@ def render_fseq_preview(fseq_path: Path, output: Path, *, pixel_map: Path | None
         "frame_step_ms": reader.info.step_ms, "channel_count": reader.info.channels,
         "mapped_nodes": len(mapped), "bright_node_samples": bright_nodes,
         "geometry": "explicit" if pixel_map else "approximate from xLights model outlines",
-        "source": "actual rendered FSEQ channel data (not XSQ effect simulation)",
-        "native_xlights_effect_render": True,
-        "verified_exact_physical_coordinates": bool(pixel_map),
+        "source": "FSEQ channel data (not XSQ effect simulation)",
+        "native_xlights_origin_verified_by_this_tool": False,
+        "geometry_coordinates_explicit": bool(pixel_map),
+        "physical_coordinate_accuracy_verified": False,
     }
     output.with_suffix(".pixel_preview.json").write_text(
         json.dumps(report, indent=2) + "\n", encoding="utf-8"
