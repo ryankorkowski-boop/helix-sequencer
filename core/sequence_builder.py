@@ -450,6 +450,141 @@ def _apply_neon_palettes_to_generated_sequences(
             temporary.unlink(missing_ok=True)
 
 
+AC_ONLY_FLAG = "--helix-ac-on-only"
+SHOWCASE_GATE_FLAG = "--helix-showcase-quality-gate"
+SPATIAL_ACCENT_FLAG = "--helix-spatial-accent"
+
+
+def _export_generated_ac_sequences(
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    layout_file: Path,
+    ctx: RunContext,
+) -> None:
+    """Replace just-created XSQs with strictly validated AC-only XSQs.
+
+    Raw engine sequences are retained in hidden audit storage; protected layouts,
+    templates and existing user files are never changed.
+    """
+    import hashlib
+    import os
+    import shutil
+    import tempfile
+    from tools.ac_on_export import export_ac_on
+
+    written = 0
+    for source in _known_artifact_paths(roots):
+        if source.suffix.lower() != ".xsq" or ".orchestrated." in source.name:
+            continue
+        if source.parent.name == ".helix_source_sequences":
+            continue
+        resolved = source.resolve(strict=False)
+        stat = source.stat()
+        if before.get(resolved) == (stat.st_mtime_ns, stat.st_size):
+            continue
+        with tempfile.NamedTemporaryFile(
+            suffix=".xsq", prefix=".ac-on-", dir=source.parent, delete=False
+        ) as stream:
+            temporary = Path(stream.name)
+        try:
+            result = export_ac_on(source, layout_file, temporary)
+            if not result["output_effects"]:
+                raise RuntimeError(f"AC export was empty: {source}")
+            # Temporary map/report were emitted alongside the temporary XSQ;
+            # move them only when its XML validation succeeds.
+            audit_dir = source.parent / ".helix_source_sequences"
+            audit_dir.mkdir(exist_ok=True)
+            digest = hashlib.sha256(source.read_bytes()).hexdigest()[:16]
+            audit_path = audit_dir / f"{source.stem}.{digest}.raw_xsq"
+            if not audit_path.exists():
+                shutil.copy2(source, audit_path)
+            os.replace(temporary, source)
+            for suffix in (".ac_channel_map.csv", ".ac_validation.json"):
+                old = temporary.with_suffix(suffix)
+                new = source.with_suffix(suffix)
+                os.replace(old, new)
+                ctx.record_artifact("ac_export_evidence", new)
+            ctx.record_artifact("ac_original_audit", audit_path)
+            written += 1
+            print(
+                f"ac_on_only: {result['output_effects']} On effects on "
+                f"{result['active_ac_channels']} single-color channels -> {source}",
+                flush=True,
+            )
+        finally:
+            temporary.unlink(missing_ok=True)
+            for suffix in (".ac_channel_map.csv", ".ac_validation.json"):
+                temporary.with_suffix(suffix).unlink(missing_ok=True)
+    if written == 0:
+        raise RuntimeError("AC-only mode produced no valid new XSQ; check the chosen layout/template")
+
+
+def _add_new_spatial_accents(
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    layout: Path,
+    ctx: RunContext,
+) -> None:
+    import json
+    import os
+    import tempfile
+    from tools.spatial_choreography import add_spatial_accents
+
+    for source in _known_artifact_paths(roots):
+        if source.suffix != ".xsq" or ".uncolored." in source.name:
+            continue
+        stat = source.stat()
+        if before.get(source.resolve(strict=False)) == (stat.st_mtime_ns, stat.st_size):
+            continue
+        with tempfile.NamedTemporaryFile(
+            suffix=".xsq", prefix=".spatial-", dir=source.parent, delete=False
+        ) as stream:
+            temporary = Path(stream.name)
+        try:
+            report = add_spatial_accents(source, layout, temporary)
+            if report.get("added", 0) > 0:
+                os.replace(temporary, source)
+                path = source.with_suffix(".spatial_accent_report.json")
+                path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+                ctx.record_artifact("spatial_accent_report", path)
+                print(f"spatial_accents: {report['added']} at {source}", flush=True)
+        finally:
+            temporary.unlink(missing_ok=True)
+
+
+def _audit_new_showcase_sequences(
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    ctx: RunContext,
+    *,
+    neon: bool = False,
+    strict: bool = False,
+) -> None:
+    from tools.showcase_quality_audit import write_showcase_audit
+
+    for source in _known_artifact_paths(roots):
+        if source.suffix.lower() != ".xsq":
+            continue
+        if ".orchestrated." in source.name or ".uncolored." in source.name:
+            continue
+        resolved = source.resolve(strict=False)
+        stat = source.stat()
+        if before.get(resolved) == (stat.st_mtime_ns, stat.st_size):
+            continue
+        try:
+            result = write_showcase_audit(source, neon_expected=neon, strict=strict)
+        finally:
+            report = source.with_suffix(".showcase_audit.json")
+            if report.exists():
+                ctx.record_artifact("showcase_quality_audit", report)
+        print(
+            f"showcase_quality: effects={result['effects']} "
+            f"palette_dominance={result['dominant_palette_fraction']:.1%} "
+            f"pass={result['quality_gate_pass']}",
+            flush=True,
+        )
+
+
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     """Run a sequencing profile with integrated run tracking."""
     try:
@@ -459,6 +594,27 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         raise SystemExit(1)
 
     raw_engine_args = list(engine_args or [])
+    ac_only = AC_ONLY_FLAG in raw_engine_args
+    spatial_accent = SPATIAL_ACCENT_FLAG in raw_engine_args
+    raw_engine_args = [arg for arg in raw_engine_args if arg != SPATIAL_ACCENT_FLAG]
+    strict_showcase = SHOWCASE_GATE_FLAG in raw_engine_args
+    raw_engine_args = [arg for arg in raw_engine_args if arg != SHOWCASE_GATE_FLAG]
+    if ac_only:
+        raw_engine_args = [flag for flag in raw_engine_args if flag != AC_ONLY_FLAG]
+        # The AC output cannot carry RGB orchestration sidecar effects.
+        if NO_EFFECTS_ORCHESTRATOR_FLAG not in raw_engine_args:
+            raw_engine_args.append(NO_EFFECTS_ORCHESTRATOR_FLAG)
+        from tools.ac_on_export import inventory_layout
+        layout_flag = next(
+            (raw_engine_args[i + 1] for i, arg in enumerate(raw_engine_args[:-1])
+             if arg == "--layout-file"), None
+        )
+        if not layout_flag:
+            raise SystemExit("AC-only mode requires --layout-file with physical RGW single-color models")
+        try:
+            inventory_layout(Path(layout_flag))
+        except (OSError, ValueError) as exc:
+            raise SystemExit(f"AC-only preflight failed: {exc}") from exc
     has_explicit_beat_grid_args = _has_explicit_beat_grid_args(raw_engine_args)
     engine_args = _apply_prime_beat_grid_defaults(profile.version, raw_engine_args)
     resolved_profile_id = getattr(profile, "profile_id", profile_id or engine_profiles.ACTIVE_PROFILE_ID)
@@ -497,7 +653,33 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         artifact_snapshot = _snapshot_known_artifacts(artifact_roots)
         try:
             _effect_engine().main_for(profile.version, effective_engine_args)
-            _apply_neon_palettes_to_generated_sequences(engine_args, artifact_roots, artifact_snapshot, ctx)
+            if ac_only:
+                _export_generated_ac_sequences(
+                    artifact_roots, artifact_snapshot, Path(layout_flag), ctx
+                )
+            else:
+                _apply_neon_palettes_to_generated_sequences(
+                    engine_args, artifact_roots, artifact_snapshot, ctx
+                )
+                if spatial_accent:
+                    layout_option = next(
+                        (engine_args[i + 1] for i, a in enumerate(engine_args[:-1])
+                         if a == "--layout-file"), None
+                    ) if engine_args else None
+                    if not layout_option:
+                        raise RuntimeError("Spatial accents require --layout-file")
+                    _add_new_spatial_accents(
+                        artifact_roots, artifact_snapshot, Path(layout_option), ctx
+                    )
+                neon = "--palette-mode=neon" in (engine_args or []) or any(
+                    a == "--palette-mode" and i + 1 < len(engine_args or [])
+                    and engine_args[i + 1] == "neon"
+                    for i, a in enumerate(engine_args or [])
+                )
+                _audit_new_showcase_sequences(
+                    artifact_roots, artifact_snapshot, ctx,
+                    neon=neon, strict=strict_showcase
+                )
             # Optional birdsong post-run hook (guarded by explicit engine flag)
             try:
                 _run_birdsong_hook(config, engine_args, ctx)

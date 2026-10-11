@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
-import hashlib
 import json
 from pathlib import Path
 import xml.etree.ElementTree as ET
@@ -57,18 +56,37 @@ def _sections(root):
 
 
 def _scene(target, effect, sections):
+    """Map Helix's *detected musical phrases* onto a coherent color story.
+
+    The palette is shared by an entire musical section; longer sections make
+    measured changes every 12 seconds instead of leaving a 60-second bridge
+    in one color. Effect locations and musical timings are never changed.
+    """
     start = int(effect.get("startTime", "0"))
-    middle = (start + int(effect.get("endTime", "0"))) // 2
-    section = next((name for lo, hi, name in sections if lo <= middle < hi), "")
-    if "CHORUS" in section or "DROP" in section:
-        return (2 + (start // 30000) % 2) % len(NEON_SCENES)
-    if "BRIDGE" in section:
-        return 3
-    if "PRECHORUS" in section or "BUILD" in section:
-        return 4
-    family = target.split("/")[0]
-    stable_hash = int.from_bytes(hashlib.sha256(family.encode("utf-8")).digest()[:8], "big")
-    return (stable_hash + start // 8000) % len(NEON_SCENES)
+    midpoint = (start + int(effect.get("endTime", "0"))) // 2
+    match = next(
+        ((ordinal, lo, hi, label)
+         for ordinal, (lo, hi, label) in enumerate(sections)
+         if lo <= midpoint < hi),
+        None,
+    )
+    if match is None:
+        # A source without part tracks still gets a repeatable multi-phrase
+        # progression; avoid per-model random palettes which look chaotic.
+        return (midpoint // 12000) % len(NEON_SCENES)
+    ordinal, lo, _hi, label = match
+    phrase = max(0, (midpoint - lo) // 12000)
+    if "CHORUS" in label or "DROP" in label:
+        return (2, 4, 2, 5)[(ordinal + phrase) % 4]
+    if "PRECHORUS" in label or "BUILD" in label:
+        return (4, 1)[(ordinal + phrase) % 2]
+    if "BRIDGE" in label:
+        return (3, 5, 1)[(ordinal + phrase) % 3]
+    if "OUTRO" in label:
+        return 5
+    if "INTRO" in label:
+        return 1
+    return (0, 1, 3, 0, 5)[(ordinal + phrase) % 5]
 
 
 def repair_xsq(source, destination, *, palette_mode="neon", portable=False, media_file=None):
