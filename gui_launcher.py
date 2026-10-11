@@ -51,6 +51,7 @@ class HelixGui(tk.Tk):
         self.birdsong_intensity_var = tk.DoubleVar(value=1.2)
         self.birdsong_min_conf_var = tk.DoubleVar(value=0.45)
         self.variants_var = tk.IntVar(value=4)
+        self.output_mode_var = tk.StringVar(value="Original xLights colors")
 
         self._build_ui()
         self._apply_layout_preset()
@@ -117,6 +118,26 @@ class HelixGui(tk.Tk):
         ttk.Checkbutton(controls, text="Polish", variable=self.polish_var).grid(row=1, column=2, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Auto Shortlist", variable=self.shortlist_var).grid(row=1, column=3, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Learn From My XSQs", variable=self.learn_xsq_var).grid(row=1, column=4, sticky="w", **pad)
+
+        output_options = ttk.LabelFrame(frame, text="Sequence Output / Controller Compatibility")
+        output_options.pack(fill=tk.X, **pad)
+        ttk.Label(output_options, text="Output Mode").grid(row=0, column=0, sticky="w", **pad)
+        ttk.Combobox(
+            output_options,
+            textvariable=self.output_mode_var,
+            values=[
+                "Original xLights colors",
+                "Neon musical color",
+                "RGW AC - On effects only (Light-O-Rama)",
+            ],
+            width=44,
+            state="readonly",
+        ).grid(row=0, column=1, sticky="w", **pad)
+        ttk.Label(
+            output_options,
+            text="AC mode requires Single Color Red/Green/White models; never converts RGB pixels into AC circuits.",
+            wraplength=690,
+        ).grid(row=1, column=0, columnspan=4, sticky="w", **pad)
 
         birdsong = ttk.LabelFrame(frame, text="Birdsong Engine")
         birdsong.pack(fill=tk.X, **pad)
@@ -226,6 +247,24 @@ class HelixGui(tk.Tk):
             str(max(1, int(self.variants_var.get()))),
             "--no-prompt",
         ]
+
+        output_mode = self.output_mode_var.get()
+        if output_mode == "Neon musical color":
+            cmd.extend(["--palette-mode", "neon"])
+        elif output_mode == "RGW AC - On effects only (Light-O-Rama)":
+            # Preflight hardware truth before running expensive audio analysis.
+            try:
+                from tools.ac_on_export import inventory_layout
+                models, _, _ = inventory_layout(Path(self.layout_var.get().strip()))
+            except (OSError, ValueError) as exc:
+                messagebox.showerror("AC-only layout invalid", str(exc))
+                return
+            cmd.append("--helix-ac-on-only")
+            self._log(
+                f"AC output: {len(models)} explicit RGW single-color circuits; "
+                "On-only XSQ plus per-sequence channel map. "
+                "Confirm Light-O-Rama Unit ID / circuit mapping in xLights."
+            )
 
         if self.vendor_bar_var.get():
             cmd.append("--vendor-bar")
