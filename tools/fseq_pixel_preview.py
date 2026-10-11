@@ -120,7 +120,7 @@ class FseqReader:
 
             if not info.blocks:
                 raise ValueError("Compressed FSEQ has no valid block index")
-            for first_frame, size in info.blocks:
+            for block_number, (first_frame, size) in enumerate(info.blocks):
                 if first_frame != total:
                     raise ValueError(
                         f"Noncontiguous FSEQ compressed block frames: {first_frame} != {total}"
@@ -129,7 +129,20 @@ class FseqReader:
                 if len(compressed) != size:
                     raise ValueError("Truncated FSEQ compressed block")
                 if info.compression == 2:
-                    data = zlib.decompress(compressed)
+                    try:
+                        data = zlib.decompress(compressed)
+                    except zlib.error:
+                        # Certain historical xLights/FPP encoders kept a
+                        # raw first block despite selecting zlib compression.
+                        next_first = (
+                            info.blocks[block_number + 1][0]
+                            if block_number + 1 < len(info.blocks)
+                            else info.frames
+                        )
+                        expected_bytes = (next_first - first_frame) * info.channels
+                        if block_number != 0 or len(compressed) != expected_bytes:
+                            raise ValueError("Invalid FSEQ zlib data; raw fallback not safe")
+                        data = compressed
                 else:
                     try:
                         import zstandard
