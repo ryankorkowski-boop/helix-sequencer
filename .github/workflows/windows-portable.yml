@@ -14,6 +14,8 @@ on:
       - tests/test_windows_portable_entry.py
       - .github/workflows/windows-portable.yml
       - requirements.txt
+      - requirements-windows-portable.txt
+      - requirements-windows-portable.txt
   pull_request:
     paths:
       - gui_launcher.py
@@ -23,6 +25,10 @@ on:
       - tests/test_windows_portable_entry.py
       - .github/workflows/windows-portable.yml
       - requirements.txt
+
+concurrency:
+  group: windows-portable-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write   # Only used to publish a GitHub Release when a version tag is pushed.
@@ -40,7 +46,7 @@ jobs:
       - name: Install build and test dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
+          python -m pip install -r requirements-windows-portable.txt
           python -m pip install pytest
       - name: Check portable entrypoint and Python source
         run: |
