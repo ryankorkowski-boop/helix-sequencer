@@ -44,8 +44,11 @@ def inventory_layout(layout: Path):
                 "Resolve the layout mapping before AC export."
             )
         channels[int(channel)] = name
+        connection = node.find("ControllerConnection")
+        protocol = (connection.get("Protocol") or "").strip() if connection is not None else ""
         models[name] = {"name": name, "color": color, "start_channel": int(channel),
-                        "string_type": node.get("StringType", "")}
+                        "string_type": node.get("StringType", ""),
+                        "controller_protocol": protocol}
     if not models:
         raise ValueError(
             "No explicit Single Color Red/Green/White models found. "
@@ -213,13 +216,15 @@ def export_ac_on(source: Path, layout: Path, destination: Path, *,
     map_path = destination.with_suffix(".ac_channel_map.csv")
     with map_path.open("w", newline="", encoding="utf-8") as stream:
         writer = csv.DictWriter(stream, fieldnames=["model", "color", "xlights_start_channel",
-                          "controller_unit", "controller_circuit", "string_type"])
+                          "controller_unit", "controller_circuit", "controller_protocol",
+                          "string_type"])
         writer.writeheader()
         for model in active_channels:
             writer.writerow({
                 "model": model["name"], "color": model["color"],
                 "xlights_start_channel": model["start_channel"],
                 "controller_unit": "", "controller_circuit": "",
+                "controller_protocol": model["controller_protocol"],
                 "string_type": model["string_type"]
             })
     report = {
@@ -232,6 +237,10 @@ def export_ac_on(source: Path, layout: Path, destination: Path, *,
         "short_pulses_under_ms": min_pulse_warning_ms,
         "short_pulse_count": short_pulses,
         "requires_manual_lor_unit_circuit_mapping": True,
+        "models_not_explicitly_marked_lor": [
+            model["name"] for model in active_channels
+            if "lor" not in model["controller_protocol"].lower()
+        ],
         "native_xlights_render_verified": False,
         "lor_hardware_verified": False,
     }
