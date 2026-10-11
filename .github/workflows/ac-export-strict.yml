@@ -10,12 +10,14 @@ on:
       - "tools/xsq_palette_repair.py"
       - "tools/showcase_quality_audit.py"
       - "tools/preview_renderer.py"
+      - "tools/spatial_choreography.py"
       - "core/sequence_builder.py"
       - "gui_launcher.py"
       - "tests/test_ac_on_export.py"
       - "tests/test_showcase_color_and_quality.py"
       - "tests/test_xsq_palette_repair.py"
       - "tests/test_preview_palette_colors.py"
+      - "tests/test_spatial_choreography.py"
       - ".github/workflows/ac-export-strict.yml"
 
 jobs:
@@ -37,4 +39,4 @@ jobs:
           python -m pip install pytest
       - name: Strict exporter and renderer regressions
         run: |
-          python -m pytest -q tests/test_ac_on_export.py tests/test_showcase_color_and_quality.py tests/test_xsq_palette_repair.py tests/test_preview_palette_colors.py
+          python -m pytest -q tests/test_ac_on_export.py tests/test_showcase_color_and_quality.py tests/test_xsq_palette_repair.py tests/test_preview_palette_colors.py tests/test_spatial_choreography.py
