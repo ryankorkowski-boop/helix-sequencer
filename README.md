@@ -6,7 +6,22 @@ A Python-based automated sequencing engine for [xLights](https://xlights.org/), 
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### Portable Windows GUI (no Python required)
+
+Windows 10/11 64-bit users can download a ZIP containing a standalone
+`Helix.exe`, the bundled runtime, xLights templates/layouts, and internal
+sequencing worker. Extract the **entire** `Helix` folder and launch `Helix.exe`;
+do not run the executable inside the ZIP.
+
+- **Download:** [Helix GitHub Releases](https://github.com/ryankorkowski-boop/helix-sequencer/releases)
+  (the asset will be available after a validated version-tagged build).
+- **Instructions:** [Windows Portable README](WINDOWS_PORTABLE_README.txt).
+- No Python, Git, or pip installation is needed for a published Windows ZIP.
+- To view or edit the generated XSQ, install [xLights](https://xlights.org/).
+- The full Python source installation below remains available for development,
+  other operating systems, and experimental integrations.
+
+### Prerequisites for source installation
 
 - **Python 3.11+** or **3.12** (see [SUPPORT_MATRIX.md](docs/SUPPORT_MATRIX.md))
 - **xLights 2023.x** or **2024.x** (see [SUPPORT_MATRIX.md](docs/SUPPORT_MATRIX.md))

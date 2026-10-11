@@ -5,6 +5,17 @@
 ## Current mission
 Build Helix into a reliable AI-assisted xLights auto-sequencer while preserving deterministic sequencing, verified artifacts, and cumulative behavior.
 
+## Windows standalone distribution gate
+
+- [x] Add dedicated PyInstaller one-folder GUI/worker spec without touching sequencing decisions.
+- [x] Bundle sample layout/template, layout presets, engine resources, FFmpeg, legal notices, and README.
+- [x] Route GUI operations through a bundled helper with stdout/stderr preserved.
+- [x] Process sequencing progress and failure events on Tk's main thread.
+- [x] Add native Windows GitHub Actions build and packaged GUI/CLI smoke checks.
+- [ ] Confirm Windows workflow build succeeds and upload artifact is downloadable.
+- [ ] Confirm a real audio-to-XSQ run plus xLights import with the frozen package.
+- [ ] Assess redistribution/license and antivirus/SmartScreen behavior before public release.
+
 ## Beta roadmap baseline status
 
 This repo is currently in the beta-safety phase described by `ROADMAP_BETA_TODO.md`.
@@ -76,6 +87,48 @@ A prior drummer render was explicitly identified by the user as having the **cor
 Do not mark complete from unit tests alone.
 
 ## Change Ledger
+
+### 2026-10-11 — Windows portable GUI beta implementation (PR #133)
+**Agent:** ChatGPT/GitHub
+**Branch:** `feature/windows-gui-portable-20261010`
+**Goal:** Give Windows customers one extract-and-run ZIP with a user-facing
+`Helix.exe` that runs without separately installing Python or dependencies.
+
+**Changed files:** `.github/workflows/windows-portable.yml`,
+`windows_portable.spec`, `windows_portable_entry.py`, `gui_launcher.py`,
+`tests/test_windows_portable_entry.py`, `WINDOWS_PORTABLE_README.txt`,
+`README.md`, and this ledger.
+
+**Intentionally preserved:** All source layouts (`xlights_rgbeffects.xml`,
+`template.xsq`) and core sequencing/audio/effect selection algorithms,
+profile behavior, generated XSQ formats, and legacy source-based launcher.
+
+**New behavior:** Onedir PyInstaller package builds `Helix.exe` (windowed)
+and `HelixCLI.exe` (internal console-subsystem worker sharing embedded
+dependencies), with nonblocking captured CLI output routed to Tk's main
+thread. Explicit Helixville arguments target writable customer-side presets,
+rather than a frozen module's resource directory. The ZIP contains example
+show assets, legal notices, and the customer README. Version-tagged builds
+publish a prerelease ZIP and checksum through GitHub Releases.
+
+**Tests/evidence:** Python unit tests cover CLI/layout/default GUI routing;
+Windows Actions workflow is configured to compile sources, run tests, build
+both executables, exercise installed engine profile discovery, initialize the
+actual Tk GUI, verify data files, and produce a portable ZIP. **The existence
+of workflow code is not evidence that native Windows CI or real-song sequencing
+has passed.** Inspect the PR's latest workflow run before merging.
+
+**Limitations/deferred:** Optional Whisper/PyTorch transcription is
+deliberately excluded for package size and redistribution practicality.
+Commercial source/code-signing, antivirus reputation, end-to-end audio
+sequencing and xLights import verification, and license audit remain release
+gates. The ZIP must be fully extracted to a writable folder.
+
+**Regression risks:** Dynamic package discovery/hidden imports, packaging
+asset completeness, externally supplied layout paths, native dependency
+binary loading, resource path assumptions, background GUI UI-event handling,
+and real-source file xLights compatibility require smoke checks.
+
 
 ### 2026-10-02 — Beta tester feedback checklist documented
 **Agent:** GitHub Copilot
