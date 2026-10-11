@@ -103,4 +103,21 @@ def test_native_fseq_renders_real_mp4_and_report(tmp_path: Path):
     assert out.exists() and out.stat().st_size > 100
     assert report["frames"] == 2
     assert report["geometry"] == "explicit"
-    assert report["native_xlights_effect_render"]
+    assert report["source"].startswith("FSEQ channel data")
+    assert report["native_xlights_origin_verified_by_this_tool"] is False
+
+
+def test_rgb_wire_color_order_can_be_configured(tmp_path: Path):
+    path = tmp_path / "wire.csv"
+    path.write_text("channel,x,y,kind\n1,0,0,grb\n")
+    assert pixels_from_csv(path)[0].kind == "grb"
+
+
+def test_compressed_fseq_noncontiguous_blocks_fail(tmp_path: Path):
+    path = tmp_path / "broken.fseq"
+    write_fseq(path, version=2, frames=[bytes([12, 13, 14])], compression=2)
+    buf = bytearray(path.read_bytes())
+    struct.pack_into("<I", buf, 32, 42)  # must start at frame 0
+    path.write_bytes(buf)
+    with pytest.raises(ValueError, match="Noncontiguous FSEQ"):
+        list(FseqReader(path).iter_frames())
