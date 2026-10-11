@@ -27,6 +27,11 @@ jobs:
         run: python -m compileall -q gui_launcher.py windows_portable_entry.py core tools xlights
       - name: Build standalone folder
         run: python -m PyInstaller --noconfirm --clean windows_portable.spec
+      - name: Check CLI dispatch in packaged executable
+        shell: pwsh
+        run: |
+          & "dist/Helix/Helix.exe" --helix-cli --list-profiles
+          if ($LASTEXITCODE -ne 0) { throw "Packaged CLI dispatch failed" }
       - name: Check executable and customer assets
         shell: pwsh
         run: |
@@ -37,6 +42,10 @@ jobs:
           Copy-Item "dist/Helix/_internal/xlights_rgbeffects.xml" "dist/Helix/xlights_rgbeffects.xml"
           if (Test-Path "dist/Helix/_internal/CUSTOMER_README.txt") {
             Copy-Item "dist/Helix/_internal/CUSTOMER_README.txt" "dist/Helix/README.txt"
+          }
+          foreach ($preset in @("allmodels", "helixville")) {
+            $source = "dist/Helix/_internal/$preset"
+            if (Test-Path $source) { Copy-Item $source "dist/Helix/$preset" -Recurse -Force }
           }
           New-Item -ItemType Directory -Force -Path "dist/Helix/outputs" | Out-Null
           Compress-Archive -Path "dist/Helix" -DestinationPath "Helix-Windows11-Portable.zip" -CompressionLevel Optimal
