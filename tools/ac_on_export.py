@@ -168,6 +168,17 @@ def export_ac_on(source: Path, layout: Path, destination: Path, *,
             if element.get("type", "").lower() != "timing" and element.get("name") not in models:
                 displays.remove(element)
 
+    # Some templates display only parent groups. Add every emitted AC row to
+    # the view, or xLights may hide valid single-channel effects.
+    if displays is not None:
+        displayed = {e.get("name") for e in displays.findall("Element")}
+        for name in sorted(pulses):
+            if name not in displayed:
+                ET.SubElement(
+                    displays, "Element",
+                    {"collapsed": "0", "type": "model", "name": name, "visible": "1"},
+                )
+
     next_id = 1
     short_pulses = 0
     total_pulses = 0
