@@ -56,6 +56,40 @@ def inventory_layout(layout: Path):
             "Choose a real AC layout containing separate single-color circuits."
         )
 
+    # Account for legacy RGB-channel occupancy even if the RGB prop itself
+    # is excluded. The original 256 layout has an RGB node at 164 using
+    # 164-166 and AC single-color rows at 165/166. Such circuits MUST NOT
+    # be silently included in a purported AC-only sequence.
+    for node in root.findall("./models/model"):
+        kind = (node.get("StringType") or "").strip().lower()
+        if not kind.startswith("rgb"):
+            continue
+        raw_start = (node.get("StartChannel") or "").strip()
+        if not raw_start.isdigit():
+            rejected["rgb_address_not_verified"] += 1
+            continue
+        try:
+            node_count = max(1, int(node.get("parm1") or "1")) * max(
+                1, int(node.get("parm2") or "1")
+            )
+        except ValueError:
+            rejected["rgb_address_not_verified"] += 1
+            continue
+        # For RGB Nodes the channel occupancy is three per node. Never
+        # claim the controller address is safe if it is inside that range.
+        start = int(raw_start)
+        end = start + (3 * node_count) - 1
+        for name, model in list(models.items()):
+            if start <= model["start_channel"] <= end:
+                rejected[f"rgb_channel_overlap:{name}"] += 1
+                channels.pop(model["start_channel"], None)
+                del models[name]
+    if not models:
+        raise ValueError(
+            "Every explicit AC channel overlaps an RGB channel allocation. "
+            "Correct the physical layout before generating AC output."
+        )
+
     groups = {}
     for group in root.findall("./modelGroups/modelGroup"):
         name = (group.get("name") or "").strip()
