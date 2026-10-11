@@ -121,3 +121,14 @@ def test_compressed_fseq_noncontiguous_blocks_fail(tmp_path: Path):
     path.write_bytes(buf)
     with pytest.raises(ValueError, match="Noncontiguous FSEQ"):
         list(FseqReader(path).iter_frames())
+
+
+def test_fseq_v2_historical_raw_first_block(tmp_path: Path):
+    path = tmp_path / "legacyzlib.fseq"
+    original = bytes([9, 10, 11])
+    write_fseq(path, version=2, frames=[original], compression=2)
+    buf = bytearray(path.read_bytes())
+    raw_offset = 32 + 8
+    struct.pack_into("<I", buf, 36, len(original))
+    path.write_bytes(buf[:raw_offset] + original)
+    assert list(FseqReader(path).iter_frames()) == [original]
