@@ -12,6 +12,12 @@ then choose one of three output modes:
 - RGW AC - On effects only (Light-O-Rama): use strictly the distinct
   Single Color Red, Single Color Green and Single Color White circuits.
 
+An optional RGB chorus chase checkbox layers an On-only left-to-right accent
+across three or more actual RGB models, aligned to detected chorus/drop onsets.
+It never runs for AC-only output, and skips accents colliding with a model's
+existing effects. This is an additive spatial accent, not a full replacement
+for native xLights spatial effect rendering.
+
 Optional Strict showcase quality gate rejects empty or monochrome neon runs
 and one-palette dominance above 80%. Normal mode writes advisory quality
 reports without blocking the sequence build.
