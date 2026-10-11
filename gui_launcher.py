@@ -52,6 +52,7 @@ class HelixGui(tk.Tk):
         self.birdsong_min_conf_var = tk.DoubleVar(value=0.45)
         self.variants_var = tk.IntVar(value=4)
         self.output_mode_var = tk.StringVar(value="Original xLights colors")
+        self.showcase_gate_var = tk.BooleanVar(value=False)
 
         self._build_ui()
         self._apply_layout_preset()
@@ -138,6 +139,11 @@ class HelixGui(tk.Tk):
             text="AC mode requires Single Color Red/Green/White models; never converts RGB pixels into AC circuits.",
             wraplength=690,
         ).grid(row=1, column=0, columnspan=4, sticky="w", **pad)
+
+        ttk.Checkbutton(
+            output_options, text="Strict showcase quality gate (abort weak RGB output)",
+            variable=self.showcase_gate_var
+        ).grid(row=2, column=0, columnspan=3, sticky="w", **pad)
 
         birdsong = ttk.LabelFrame(frame, text="Birdsong Engine")
         birdsong.pack(fill=tk.X, **pad)
@@ -265,6 +271,9 @@ class HelixGui(tk.Tk):
                 "On-only XSQ plus per-sequence channel map. "
                 "Confirm Light-O-Rama Unit ID / circuit mapping in xLights."
             )
+
+        if self.showcase_gate_var.get() and output_mode != "RGW AC - On effects only (Light-O-Rama)":
+            cmd.append("--helix-showcase-quality-gate")
 
         if self.vendor_bar_var.get():
             cmd.append("--vendor-bar")
