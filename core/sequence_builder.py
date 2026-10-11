@@ -397,6 +397,59 @@ def _artifact_kind(path: Path) -> str:
     return "artifact"
 
 
+def _apply_neon_palettes_to_generated_sequences(
+    engine_args: list[str] | None,
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    ctx: RunContext,
+) -> None:
+    """Colorize only new/changed XSQs from explicit --palette-mode neon runs.
+
+    Leave user templates and all other modes untouched. Keep an uncolored
+    sidecar of each original generated sequence to permit independent audits.
+    This is a palette-only post-pass; engine effect decisions are unchanged.
+    """
+    args = list(engine_args or [])
+    neon_requested = "--palette-mode=neon" in args or any(
+        arg == "--palette-mode" and i + 1 < len(args) and args[i + 1] == "neon"
+        for i, arg in enumerate(args)
+    )
+    if not neon_requested:
+        return
+
+    import os
+    import shutil
+    import tempfile
+    from tools.xsq_palette_repair import repair_xsq
+
+    for source in _known_artifact_paths(roots):
+        if source.suffix.lower() != ".xsq":
+            continue
+        if ".orchestrated." in source.name or ".uncolored." in source.name:
+            continue
+        resolved = source.resolve(strict=False)
+        stat = source.stat()
+        if before.get(resolved) == (stat.st_mtime_ns, stat.st_size):
+            continue
+
+        with tempfile.NamedTemporaryFile(
+            suffix=".xsq", prefix=".neon-palette-", dir=source.parent, delete=False
+        ) as handle:
+            temporary = Path(handle.name)
+        try:
+            audit = repair_xsq(source, temporary, palette_mode="neon")
+            assigned = audit["changes"].get("palettes_assigned", 0)
+            if not assigned:
+                continue
+            backup = source.with_name(source.stem + ".uncolored.xsq")
+            shutil.copy2(source, backup)
+            os.replace(temporary, source)
+            ctx.record_artifact("xsq_uncolored_backup", backup)
+            print(f"neon_palette: assigned={assigned} xsq={source}")
+        finally:
+            temporary.unlink(missing_ok=True)
+
+
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     """Run a sequencing profile with integrated run tracking."""
     try:
@@ -444,6 +497,7 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         artifact_snapshot = _snapshot_known_artifacts(artifact_roots)
         try:
             _effect_engine().main_for(profile.version, effective_engine_args)
+            _apply_neon_palettes_to_generated_sequences(engine_args, artifact_roots, artifact_snapshot, ctx)
             # Optional birdsong post-run hook (guarded by explicit engine flag)
             try:
                 _run_birdsong_hook(config, engine_args, ctx)
