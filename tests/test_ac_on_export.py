@@ -117,3 +117,19 @@ def test_repository_legacy_layout_is_not_rgb_only():
     models, _groups, _excluded = inventory_layout(source)
     assert {"red", "green", "white"} <= {m["color"] for m in models.values()}
     assert len(models) >= 70
+
+
+def test_rgb_channel_footprint_cannot_claim_ac_channels(tmp_path):
+    layout_path = tmp_path / "legacy.xml"
+    layout_path.write_text(
+        '<xrgb><models>'
+        '<model name="Pixel" StringType="RGB Nodes" StartChannel="164" parm1="1" parm2="1"/>'
+        '<model name="R" StringType="Single Color Red" StartChannel="165"/>'
+        '<model name="W" StringType="Single Color White" StartChannel="166"/>'
+        '<model name="G" StringType="Single Color Green" StartChannel="170"/>'
+        '</models></xrgb>'
+    )
+    models, _groups, excluded = inventory_layout(layout_path)
+    assert list(models) == ["G"]
+    assert excluded["rgb_channel_overlap:R"] == 1
+    assert excluded["rgb_channel_overlap:W"] == 1
