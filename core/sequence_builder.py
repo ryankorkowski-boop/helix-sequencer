@@ -451,6 +451,7 @@ def _apply_neon_palettes_to_generated_sequences(
 
 
 AC_ONLY_FLAG = "--helix-ac-on-only"
+SHOWCASE_GATE_FLAG = "--helix-showcase-quality-gate"
 
 
 def _export_generated_ac_sequences(
@@ -517,6 +518,39 @@ def _export_generated_ac_sequences(
         raise RuntimeError("AC-only mode produced no valid new XSQ; check the chosen layout/template")
 
 
+def _audit_new_showcase_sequences(
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    ctx: RunContext,
+    *,
+    neon: bool = False,
+    strict: bool = False,
+) -> None:
+    from tools.showcase_quality_audit import write_showcase_audit
+
+    for source in _known_artifact_paths(roots):
+        if source.suffix.lower() != ".xsq":
+            continue
+        if ".orchestrated." in source.name or ".uncolored." in source.name:
+            continue
+        resolved = source.resolve(strict=False)
+        stat = source.stat()
+        if before.get(resolved) == (stat.st_mtime_ns, stat.st_size):
+            continue
+        try:
+            result = write_showcase_audit(source, neon_expected=neon, strict=strict)
+        finally:
+            report = source.with_suffix(".showcase_audit.json")
+            if report.exists():
+                ctx.record_artifact("showcase_quality_audit", report)
+        print(
+            f"showcase_quality: effects={result['effects']} "
+            f"palette_dominance={result['dominant_palette_fraction']:.1%} "
+            f"pass={result['quality_gate_pass']}",
+            flush=True,
+        )
+
+
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     """Run a sequencing profile with integrated run tracking."""
     try:
@@ -527,6 +561,8 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
 
     raw_engine_args = list(engine_args or [])
     ac_only = AC_ONLY_FLAG in raw_engine_args
+    strict_showcase = SHOWCASE_GATE_FLAG in raw_engine_args
+    raw_engine_args = [arg for arg in raw_engine_args if arg != SHOWCASE_GATE_FLAG]
     if ac_only:
         raw_engine_args = [flag for flag in raw_engine_args if flag != AC_ONLY_FLAG]
         # The AC output cannot carry RGB orchestration sidecar effects.
@@ -588,6 +624,15 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
             else:
                 _apply_neon_palettes_to_generated_sequences(
                     engine_args, artifact_roots, artifact_snapshot, ctx
+                )
+                neon = "--palette-mode=neon" in (engine_args or []) or any(
+                    a == "--palette-mode" and i + 1 < len(engine_args or [])
+                    and engine_args[i + 1] == "neon"
+                    for i, a in enumerate(engine_args or [])
+                )
+                _audit_new_showcase_sequences(
+                    artifact_roots, artifact_snapshot, ctx,
+                    neon=neon, strict=strict_showcase
                 )
             # Optional birdsong post-run hook (guarded by explicit engine flag)
             try:
