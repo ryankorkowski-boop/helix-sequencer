@@ -15,7 +15,6 @@ on:
       - .github/workflows/windows-portable.yml
       - requirements.txt
       - requirements-windows-portable.txt
-      - requirements-windows-portable.txt
   pull_request:
     paths:
       - gui_launcher.py
@@ -25,6 +24,7 @@ on:
       - tests/test_windows_portable_entry.py
       - .github/workflows/windows-portable.yml
       - requirements.txt
+      - requirements-windows-portable.txt
 
 concurrency:
   group: windows-portable-${{ github.ref }}
