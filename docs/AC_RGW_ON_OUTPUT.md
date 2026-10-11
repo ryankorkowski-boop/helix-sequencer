@@ -123,8 +123,14 @@ audio muxing when an audio file is selected in the GUI.
 
 For a calibrated real-pixel coordinate map, use a CSV with headings
 channel,x,y,kind. Channel is **1-based**; kind is rgb, red, green or white.
-The RGB kind consumes 3 sequential channel values, and AC kinds use one.
+RGB color-order kinds rgb, grb, brg, bgr, rbg or gbr consume three
+sequential FSEQ channels and reorder them for the chosen string hardware;
+red, green and white kinds use one channel.
 Feed this with the --pixel-map option instead of --layout.
+
+FSEQ may come from sources other than xLights; the pixel converter does
+not authenticate its origin. Verify the native render success report, and
+check the CSV's actual coordinates against the display before publication.
 
 **No native xLights render was performed solely by adding this software.**
 The xLights program must be installed and run on the user's workstation.
