@@ -57,7 +57,10 @@ def read_lor_map(path: Path) -> dict[str, dict]:
             raise ValueError(f"Duplicate model mapping: {name}")
         unit = _positive_address(row.get("controller_unit", ""), "controller_unit")
         circuit = _circuit(row.get("controller_circuit", ""))
-        start = _positive_address(row.get("xlights_start_channel", ""), "xlights_start_channel")
+        start_token = str(row.get("xlights_start_channel") or "").strip()
+        if not start_token.isdecimal() or int(start_token) < 1:
+            raise ValueError(f"Invalid xLights StartChannel for {name!r}: {start_token!r}")
+        start = int(start_token)
         if (unit, circuit) in addresses:
             raise ValueError(
                 f"Duplicate LOR Unit/Circuit ({unit},{circuit}): "
