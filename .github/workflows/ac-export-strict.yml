@@ -1,0 +1,40 @@
+name: Helix AC and RGB export strict checks
+
+on:
+  push:
+    branches:
+      - "feature/ac-rgw-on-and-musical-showcase-20261011"
+  pull_request:
+    paths:
+      - "tools/ac_on_export.py"
+      - "tools/xsq_palette_repair.py"
+      - "tools/showcase_quality_audit.py"
+      - "tools/preview_renderer.py"
+      - "core/sequence_builder.py"
+      - "gui_launcher.py"
+      - "tests/test_ac_on_export.py"
+      - "tests/test_showcase_color_and_quality.py"
+      - "tests/test_xsq_palette_repair.py"
+      - "tests/test_preview_palette_colors.py"
+      - ".github/workflows/ac-export-strict.yml"
+
+jobs:
+  targeted:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pytest
+      - name: Strict exporter and renderer regressions
+        run: |
+          python -m pytest -q tests/test_ac_on_export.py tests/test_showcase_color_and_quality.py tests/test_xsq_palette_repair.py tests/test_preview_palette_colors.py
