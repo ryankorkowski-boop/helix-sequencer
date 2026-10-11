@@ -450,6 +450,73 @@ def _apply_neon_palettes_to_generated_sequences(
             temporary.unlink(missing_ok=True)
 
 
+AC_ONLY_FLAG = "--helix-ac-on-only"
+
+
+def _export_generated_ac_sequences(
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    layout_file: Path,
+    ctx: RunContext,
+) -> None:
+    """Replace just-created XSQs with strictly validated AC-only XSQs.
+
+    Raw engine sequences are retained in hidden audit storage; protected layouts,
+    templates and existing user files are never changed.
+    """
+    import hashlib
+    import os
+    import shutil
+    import tempfile
+    from tools.ac_on_export import export_ac_on
+
+    written = 0
+    for source in _known_artifact_paths(roots):
+        if source.suffix.lower() != ".xsq" or ".orchestrated." in source.name:
+            continue
+        if source.parent.name == ".helix_source_sequences":
+            continue
+        resolved = source.resolve(strict=False)
+        stat = source.stat()
+        if before.get(resolved) == (stat.st_mtime_ns, stat.st_size):
+            continue
+        with tempfile.NamedTemporaryFile(
+            suffix=".xsq", prefix=".ac-on-", dir=source.parent, delete=False
+        ) as stream:
+            temporary = Path(stream.name)
+        try:
+            result = export_ac_on(source, layout_file, temporary)
+            if not result["output_effects"]:
+                raise RuntimeError(f"AC export was empty: {source}")
+            # Temporary map/report were emitted alongside the temporary XSQ;
+            # move them only when its XML validation succeeds.
+            audit_dir = source.parent / ".helix_source_sequences"
+            audit_dir.mkdir(exist_ok=True)
+            digest = hashlib.sha256(source.read_bytes()).hexdigest()[:16]
+            audit_path = audit_dir / f"{source.stem}.{digest}.raw_xsq"
+            if not audit_path.exists():
+                shutil.copy2(source, audit_path)
+            os.replace(temporary, source)
+            for suffix in (".ac_channel_map.csv", ".ac_validation.json"):
+                old = temporary.with_suffix(suffix)
+                new = source.with_suffix(suffix)
+                os.replace(old, new)
+                ctx.record_artifact("ac_export_evidence", new)
+            ctx.record_artifact("ac_original_audit", audit_path)
+            written += 1
+            print(
+                f"ac_on_only: {result['output_effects']} On effects on "
+                f"{result['active_ac_channels']} single-color channels -> {source}",
+                flush=True,
+            )
+        finally:
+            temporary.unlink(missing_ok=True)
+            for suffix in (".ac_channel_map.csv", ".ac_validation.json"):
+                temporary.with_suffix(suffix).unlink(missing_ok=True)
+    if written == 0:
+        raise RuntimeError("AC-only mode produced no valid new XSQ; check the chosen layout/template")
+
+
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     """Run a sequencing profile with integrated run tracking."""
     try:
@@ -459,6 +526,23 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         raise SystemExit(1)
 
     raw_engine_args = list(engine_args or [])
+    ac_only = AC_ONLY_FLAG in raw_engine_args
+    if ac_only:
+        raw_engine_args = [flag for flag in raw_engine_args if flag != AC_ONLY_FLAG]
+        # The AC output cannot carry RGB orchestration sidecar effects.
+        if NO_EFFECTS_ORCHESTRATOR_FLAG not in raw_engine_args:
+            raw_engine_args.append(NO_EFFECTS_ORCHESTRATOR_FLAG)
+        from tools.ac_on_export import inventory_layout
+        layout_flag = next(
+            (raw_engine_args[i + 1] for i, arg in enumerate(raw_engine_args[:-1])
+             if arg == "--layout-file"), None
+        )
+        if not layout_flag:
+            raise SystemExit("AC-only mode requires --layout-file with physical RGW single-color models")
+        try:
+            inventory_layout(Path(layout_flag))
+        except (OSError, ValueError) as exc:
+            raise SystemExit(f"AC-only preflight failed: {exc}") from exc
     has_explicit_beat_grid_args = _has_explicit_beat_grid_args(raw_engine_args)
     engine_args = _apply_prime_beat_grid_defaults(profile.version, raw_engine_args)
     resolved_profile_id = getattr(profile, "profile_id", profile_id or engine_profiles.ACTIVE_PROFILE_ID)
@@ -497,7 +581,14 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         artifact_snapshot = _snapshot_known_artifacts(artifact_roots)
         try:
             _effect_engine().main_for(profile.version, effective_engine_args)
-            _apply_neon_palettes_to_generated_sequences(engine_args, artifact_roots, artifact_snapshot, ctx)
+            if ac_only:
+                _export_generated_ac_sequences(
+                    artifact_roots, artifact_snapshot, Path(layout_flag), ctx
+                )
+            else:
+                _apply_neon_palettes_to_generated_sequences(
+                    engine_args, artifact_roots, artifact_snapshot, ctx
+                )
             # Optional birdsong post-run hook (guarded by explicit engine flag)
             try:
                 _run_birdsong_hook(config, engine_args, ctx)
