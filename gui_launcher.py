@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import queue
 import subprocess
 import sys
 import threading
@@ -13,7 +14,7 @@ ROOT = Path(sys.executable).resolve().parent if getattr(sys, "frozen", False) el
 
 def _python_command(mode: str, script: Path) -> list[str]:
     if getattr(sys, "frozen", False):
-        return [sys.executable, mode]
+        return [str(Path(sys.executable).resolve().with_name("HelixCLI.exe")), mode]
     return [sys.executable, str(script)]
 
 
@@ -57,9 +58,11 @@ class HelixGui(tk.Tk):
         self.birdsong_intensity_var = tk.DoubleVar(value=1.2)
         self.birdsong_min_conf_var = tk.DoubleVar(value=0.45)
         self.variants_var = tk.IntVar(value=4)
+        self._events: queue.Queue[tuple[str, object]] = queue.Queue()
 
         self._build_ui()
         self._apply_layout_preset()
+        self.after(100, self._drain_events)
 
     def _build_ui(self) -> None:
         pad = {"padx": 8, "pady": 6}
@@ -174,6 +177,29 @@ class HelixGui(tk.Tk):
         self.log_text.see(tk.END)
         self.update_idletasks()
 
+    def _drain_events(self) -> None:
+        """Process worker results on Tk's main thread (never call Tk from a worker)."""
+        try:
+            while True:
+                kind, payload = self._events.get_nowait()
+                if kind == "log":
+                    self._log(str(payload))
+                elif kind == "run_done":
+                    if payload == 0:
+                        self._log("Run complete.")
+                        self.status_label.configure(text="Completed")
+                    else:
+                        self._log(f"Run failed with exit code {payload}.")
+                        self.status_label.configure(text="Failed")
+                    self.run_button.configure(state=tk.NORMAL)
+                elif kind == "run_error":
+                    self._log(f"Unable to launch Helix: {payload}")
+                    self.status_label.configure(text="Failed")
+                    self.run_button.configure(state=tk.NORMAL)
+        except queue.Empty:
+            pass
+        self.after(100, self._drain_events)
+
     def _apply_layout_preset(self) -> None:
         preset = self.layout_preset_var.get()
         if preset == "Custom":
@@ -189,9 +215,29 @@ class HelixGui(tk.Tk):
                 self.output_var.set(str(ROOT / "outputs"))
 
     def _build_helixville(self) -> None:
-        cmd = _python_command("--helix-build-helixville", ROOT / "tools" / "build_helixville_layout.py")
+        source = ROOT / "allmodels" / "xlights_rgbeffects.xml"
+        if not source.exists():
+            source = ROOT / "xlights_rgbeffects.xml"
+        if not source.exists():
+            messagebox.showerror("Missing Layout", "No bundled source layout was found.")
+            return
+        cmd = [
+            *_python_command("--helix-build-helixville", ROOT / "tools" / "build_helixville_layout.py"),
+            "--source-layout", str(source),
+            "--gps-layout", str(ROOT / "xlights_rgbeffects.xml"),
+            "--output-dir", str(ROOT / "helixville"),
+        ]
         self._log("Building/refreshing helixville layout...")
-        result = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True)
+        try:
+            result = subprocess.run(
+                cmd, cwd=str(ROOT), capture_output=True, text=True,
+                errors="replace",
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0) if getattr(sys, "frozen", False) else 0,
+            )
+        except OSError as exc:
+            self._log(f"Layout builder could not start: {exc}")
+            messagebox.showerror("Helixville Build Failed", str(exc))
+            return
         if result.stdout:
             self._log(result.stdout.strip())
         if result.returncode != 0:
@@ -270,25 +316,24 @@ class HelixGui(tk.Tk):
         thread.start()
 
     def _run_subprocess(self, cmd: list[str]) -> None:
-        process = subprocess.Popen(
-            cmd,
-            cwd=str(ROOT),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-        )
-        assert process.stdout is not None
-        for line in process.stdout:
-            self._log(line.rstrip())
-        process.wait()
-        rc = process.returncode
-        if rc == 0:
-            self._log("Run complete.")
-            self.status_label.configure(text="Completed")
-        else:
-            self._log(f"Run failed with exit code {rc}.")
-            self.status_label.configure(text="Failed")
-        self.run_button.configure(state=tk.NORMAL)
+        try:
+            with subprocess.Popen(
+                cmd,
+                cwd=str(ROOT),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                errors="replace",
+                bufsize=1,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0) if getattr(sys, "frozen", False) else 0,
+            ) as process:
+                assert process.stdout is not None
+                for line in process.stdout:
+                    self._events.put(("log", line.rstrip()))
+                rc = process.wait()
+            self._events.put(("run_done", rc))
+        except OSError as exc:
+            self._events.put(("run_error", str(exc)))
 
 
 def main() -> int:
