@@ -1,0 +1,48 @@
+name: Windows Portable GUI
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/windows-gui-portable-20261010
+    paths:
+      - gui_launcher.py
+      - windows_portable_entry.py
+      - windows_portable.spec
+      - .github/workflows/windows-portable.yml
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install requirements
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+      - name: Validate Python source
+        run: python -m compileall -q gui_launcher.py windows_portable_entry.py core tools xlights
+      - name: Build standalone folder
+        run: python -m PyInstaller --noconfirm --clean windows_portable.spec
+      - name: Check executable and customer assets
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "dist/Helix/Helix.exe")) { throw "Missing GUI executable" }
+          if (-not (Test-Path "dist/Helix/_internal/template.xsq")) { throw "Missing template" }
+          if (-not (Test-Path "dist/Helix/_internal/xlights_rgbeffects.xml")) { throw "Missing sample layout" }
+          Copy-Item "dist/Helix/_internal/template.xsq" "dist/Helix/template.xsq"
+          Copy-Item "dist/Helix/_internal/xlights_rgbeffects.xml" "dist/Helix/xlights_rgbeffects.xml"
+          if (Test-Path "dist/Helix/_internal/CUSTOMER_README.txt") {
+            Copy-Item "dist/Helix/_internal/CUSTOMER_README.txt" "dist/Helix/README.txt"
+          }
+          New-Item -ItemType Directory -Force -Path "dist/Helix/outputs" | Out-Null
+          Compress-Archive -Path "dist/Helix" -DestinationPath "Helix-Windows11-Portable.zip" -CompressionLevel Optimal
+      - name: Upload customer ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Windows11-Portable
+          path: Helix-Windows11-Portable.zip
+          retention-days: 30
