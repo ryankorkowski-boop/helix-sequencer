@@ -8,7 +8,13 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(sys.executable).resolve().parent if getattr(sys, "frozen", False) else Path(__file__).resolve().parent
+
+
+def _python_command(mode: str, script: Path) -> list[str]:
+    if getattr(sys, "frozen", False):
+        return [sys.executable, mode]
+    return [sys.executable, str(script)]
 
 
 def _best_layout_file(folder: Path) -> Path:
@@ -183,7 +189,7 @@ class HelixGui(tk.Tk):
                 self.output_var.set(str(ROOT / "outputs"))
 
     def _build_helixville(self) -> None:
-        cmd = [sys.executable, str(ROOT / "tools" / "build_helixville_layout.py")]
+        cmd = _python_command("--helix-build-helixville", ROOT / "tools" / "build_helixville_layout.py")
         self._log("Building/refreshing helixville layout...")
         result = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True)
         if result.stdout:
@@ -209,8 +215,7 @@ class HelixGui(tk.Tk):
             return
 
         cmd = [
-            sys.executable,
-            str(ROOT / "main.py"),
+            *_python_command("--helix-cli", ROOT / "main.py"),
             "--profile",
             self.profile_var.get().strip() or "master",
             "--",
