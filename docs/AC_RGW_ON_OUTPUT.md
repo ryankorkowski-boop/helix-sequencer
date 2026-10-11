@@ -34,8 +34,11 @@ group targets are excluded, not guessed as AC. Known groups expand to
 eligible AC member circuits. Overlapping On events are coalesced.
 
 Before export the tool rejects a layout without explicit AC color models
-or with multiple eligible models starting on the same channel. The original
-layout and template files are never changed.
+or with multiple eligible models starting on the same channel. It also excludes
+AC circuits whose addresses are occupied by a declared RGB model and reports
+the conflict in the validation JSON (for example original RGB node 164 overlaps
+AC addresses 165 and 166). Do not assume those omitted circuits have been
+remapped. The original layout and template files are never changed.
 
 Each output includes:
 - an XSQ with only On effects on supported single-color models;
