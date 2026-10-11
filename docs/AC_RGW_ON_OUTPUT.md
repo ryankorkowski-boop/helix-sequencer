@@ -95,3 +95,70 @@ This export does not alter original xlights_rgbeffects.xml or template.xsq.
 
 The new strict targeted CI workflow covers AC and RGB export behaviors;
 repository-wide tests may remain non-blocking due to unrelated failures.
+
+
+## Genuine per-pixel MP4 (from native xLights FSEQ)
+
+The Helix GUI now provides the following separate tools:
+
+- **xLights render to FSEQ...** — choose the original XSQ, installed xLights
+  executable, show folder, and an output folder. This runs native xLights
+  headless. The persistent FSEQ is only accepted if xLights returns success
+  and writes a new nonempty sequence. The show folder must contain the
+  xlights_rgbeffects.xml layout matching the XSQ.
+- **FSEQ to pixel MP4...** — choose that FSEQ. The preview reads each
+  channel's actual values from xLights (not fabricated XSQ effect simulations)
+  and displays individual nodes. When using the selected xLights layout,
+  spatial pixel positions are approximate based on model geometry.
+  For exact pixel positions use a verified CSV map in the standalone CLI.
+
+Requires Pillow, imageio, and imageio-ffmpeg. FSEQ v1 and v2 dense/sparse
+channels are supported; v2 zlib supported and v2 zstd requires an optional
+Python zstandard package. The video uses actual channel frames and supports
+audio muxing when an audio file is selected in the GUI.
+
+`python -m tools.validate_native_xlights music.xsq --xlights-exe PATH_TO_XLIGHTS --show-dir SHOW_FOLDER --output-dir OUTPUT_FOLDER`
+
+`python -m tools.fseq_pixel_preview OUTPUT_FOLDER/music.fseq --layout SHOW_FOLDER/xlights_rgbeffects.xml --output music.mp4 --audio song.wav`
+
+For a calibrated real-pixel coordinate map, use a CSV with headings
+channel,x,y,kind. Channel is **1-based**; kind is rgb, red, green or white.
+RGB color-order kinds rgb, grb, brg, bgr, rbg or gbr consume three
+sequential FSEQ channels and reorder them for the chosen string hardware;
+red, green and white kinds use one channel.
+Feed this with the --pixel-map option instead of --layout.
+
+FSEQ may come from sources other than xLights; the pixel converter does
+not authenticate its origin. Verify the native render success report, and
+check the CSV's actual coordinates against the display before publication.
+
+**No native xLights render was performed solely by adding this software.**
+The xLights program must be installed and run on the user's workstation.
+This tool does not claim full physical/3D geometry fidelity from an inferred
+layout. With an exact pixel map, color and pixel positions are both explicit.
+
+## Legacy LMS export (older Light-O-Rama software)
+
+The GUI button **Export legacy LOR LMS...** converts a validated AC-only XSQ
+to an editable legacy LMS XML file. A CSV mapping with all controller_unit and
+controller_circuit fields must first be completed by the user and verified
+against real equipment. This is NOT S5/S6 LOREDIT and not ready for live
+hardware playback without manual checks.
+
+`python -m tools.legacy_lms_export music.xsq --channel-map music.ac_channel_map.csv --output music.lms`
+
+The exporter:
+- refuses missing/duplicate Unit ID/Circuit information (unit decimal 1–255
+  or 0x-prefixed hex; circuit 1–16);
+- refuses non-On effects, fades, unmapped models and non-flat intensity;
+- combines overlapping intervals and converts xLights milliseconds to
+  LOR centiseconds with floor/ceiling rounding;
+- writes legacy XML with channel definitions, fully-on intensity events,
+  timing grid and track/channel references;
+- emits a separate .lms_validation.json with explicit unverified import and
+  hardware status.
+
+See the historical LMS structure described by the Light-O-Rama community:
+https://github.com/fractal13/light-o-rama-auto-sequencer
+and official LOR sequence version distinctions:
+https://www.lightorama.com/downloads/6.6.8/help/concept_sequences.htm

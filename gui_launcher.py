@@ -179,6 +179,15 @@ class HelixGui(tk.Tk):
         actions.pack(fill=tk.X, **pad)
         self.run_button = ttk.Button(actions, text="Run Sequence Build", command=self._run_sequence)
         self.run_button.pack(side=tk.LEFT, padx=8, pady=6)
+        ttk.Button(actions, text="Export legacy LOR LMS...", command=self._export_legacy_lms).pack(
+            side=tk.LEFT, padx=8, pady=6
+        )
+        ttk.Button(actions, text="xLights render to FSEQ...", command=self._native_render_fseq).pack(
+            side=tk.LEFT, padx=8, pady=6
+        )
+        ttk.Button(actions, text="FSEQ to pixel MP4...", command=self._fseq_preview).pack(
+            side=tk.LEFT, padx=8, pady=6
+        )
         self.status_label = ttk.Label(actions, text="Ready")
         self.status_label.pack(side=tk.LEFT, padx=8, pady=6)
 
@@ -230,6 +239,97 @@ class HelixGui(tk.Tk):
         self.layout_preset_var.set("helixville")
         self._apply_layout_preset()
         messagebox.showinfo("Helixville Ready", "Helixville layout has been generated and selected.")
+
+    def _launch_optional_export(self, cmd: list[str]) -> None:
+        self.run_button.configure(state=tk.DISABLED)
+        self.status_label.configure(text="Exporting...")
+        self._log("Running: " + " ".join(cmd))
+        threading.Thread(target=self._run_subprocess, args=(cmd,), daemon=True).start()
+
+    def _export_legacy_lms(self) -> None:
+        source = filedialog.askopenfilename(
+            title="Choose Helix AC-only On XSQ", filetypes=[("xLights XSQ", "*.xsq")]
+        )
+        if not source:
+            return
+        proposed = Path(source).with_suffix(".ac_channel_map.csv")
+        channel_map = str(proposed) if proposed.exists() else filedialog.askopenfilename(
+            title="Choose CSV with verified LOR Unit ID and Circuit mapping",
+            filetypes=[("Channel mapping CSV", "*.csv")]
+        )
+        if not channel_map:
+            return
+        destination = filedialog.asksaveasfilename(
+            title="Save legacy Light-O-Rama LMS",
+            defaultextension=".lms", filetypes=[("Legacy LOR sequence", "*.lms")],
+            initialfile=Path(source).stem + ".lms"
+        )
+        if not destination:
+            return
+        if not messagebox.askokcancel(
+            "Verify AC controller wiring",
+            "This writes legacy .lms, NOT S5/S6 .loredit. "
+            "All LOR Unit/Circuit assignments must be filled in the CSV and "
+            "verified against actual controllers before playback. Continue?"
+        ):
+            return
+        self._launch_optional_export([
+            sys.executable, "-m", "tools.legacy_lms_export", source,
+            "--channel-map", channel_map, "--output", destination
+        ])
+
+    def _native_render_fseq(self) -> None:
+        source = filedialog.askopenfilename(
+            title="Choose XSQ to render in installed xLights",
+            filetypes=[("xLights XSQ", "*.xsq")]
+        )
+        if not source:
+            return
+        executable = filedialog.askopenfilename(
+            title="Choose installed xLights executable",
+            filetypes=[("xLights program", "*.exe"), ("All files", "*")]
+        )
+        if not executable:
+            return
+        show_dir = filedialog.askdirectory(title="Choose xLights show directory")
+        if not show_dir:
+            return
+        out_dir = filedialog.askdirectory(title="Choose directory to keep rendered FSEQ")
+        if not out_dir:
+            return
+        self._launch_optional_export([
+            sys.executable, "-m", "tools.validate_native_xlights",
+            source, "--show-dir", show_dir,
+            "--xlights-exe", executable, "--output-dir", out_dir
+        ])
+
+    def _fseq_preview(self) -> None:
+        fseq = filedialog.askopenfilename(
+            title="Choose real FSEQ rendered by xLights",
+            filetypes=[("Falcon/xLights sequence", "*.fseq")]
+        )
+        if not fseq:
+            return
+        default_layout = Path(self.layout_var.get().strip())
+        if not default_layout.exists():
+            messagebox.showerror("Missing layout", "Choose your original xLights layout first")
+            return
+        destination = filedialog.asksaveasfilename(
+            title="Save real pixel preview MP4", defaultextension=".mp4",
+            filetypes=[("MP4 video", "*.mp4")], initialfile=Path(fseq).stem + ".mp4"
+        )
+        if not destination:
+            return
+        cmd = [
+            sys.executable, "-m", "tools.fseq_pixel_preview",
+            fseq, "--layout", str(default_layout),
+            "--output", destination
+        ]
+        audio = Path(self.audio_var.get().strip()) if self.audio_var.get().strip() else None
+        if audio and audio.exists():
+            cmd.extend(["--audio", str(audio)])
+        self._log("Preview shows actual FSEQ channel colors with approximate model geometry.")
+        self._launch_optional_export(cmd)
 
     def _run_sequence(self) -> None:
         if not self.audio_var.get().strip():
@@ -332,16 +432,18 @@ class HelixGui(tk.Tk):
         )
         assert process.stdout is not None
         for line in process.stdout:
-            self._log(line.rstrip())
+            self.after(0, self._log, line.rstrip())
         process.wait()
         rc = process.returncode
-        if rc == 0:
-            self._log("Run complete.")
-            self.status_label.configure(text="Completed")
-        else:
-            self._log(f"Run failed with exit code {rc}.")
-            self.status_label.configure(text="Failed")
-        self.run_button.configure(state=tk.NORMAL)
+        def finish() -> None:
+            if rc == 0:
+                self._log("Process complete.")
+                self.status_label.configure(text="Completed")
+            else:
+                self._log(f"Process failed with exit code {rc}.")
+                self.status_label.configure(text="Failed")
+            self.run_button.configure(state=tk.NORMAL)
+        self.after(0, finish)
 
 
 def main() -> int:
