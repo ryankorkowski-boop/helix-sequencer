@@ -70,6 +70,7 @@ class HelixGui(tk.Tk):
         self.lor_compatible_var = tk.BooleanVar(value=False)
         self.sequence_mode_var = tk.StringVar(value="xLights")
         self.lor_source_var = tk.StringVar(value="")
+        self.model_routing_var = tk.StringVar(value="")
         self.generate_mp4_var = tk.BooleanVar(value=True)
         self.preview_seconds_var = tk.IntVar(value=30)
 
@@ -95,7 +96,7 @@ class HelixGui(tk.Tk):
         self.after(100, self._drain_events)
 
     def _build_ui(self) -> None:
-        pad = {"padx": 8, "pady": 6}
+        pad = {"padx": 8, "pady": 4}
         frame = ttk.Frame(self)
         frame.pack(fill=tk.BOTH, expand=True, **pad)
 
@@ -239,6 +240,12 @@ class HelixGui(tk.Tk):
             button=ttk.Button(render_tools,text=label,command=callback)
             button.grid(row=1,column=column,columnspan=1,**pad);self.native_buttons.append(button)
 
+        ttk.Label(top, text="Model routing (optional)").grid(row=8,column=0,sticky="w",**pad)
+        self.routing_entry=ttk.Entry(top,textvariable=self.model_routing_var,width=86)
+        self.routing_entry.grid(row=8,column=1,columnspan=2,sticky="we",**pad)
+        self.routing_browse=ttk.Button(top,text="Browse",command=lambda:self._browse_file(self.model_routing_var,[("Model role mapping","*.json")]))
+        self.routing_browse.grid(row=8,column=3,**pad)
+
         actions = ttk.Frame(frame)
         actions.pack(fill=tk.X, **pad)
         self.run_button = ttk.Button(actions, text="Run Sequence Build", command=self._run_sequence)
@@ -255,7 +262,8 @@ class HelixGui(tk.Tk):
         lor = self.sequence_mode_var.get() == "Light-O-Rama"
         for item in (
             self.template_entry, self.template_browse, self.layout_entry,
-            self.layout_browse, self._layout_preset_combo, self.lor_compat_button
+            self.layout_browse, self._layout_preset_combo, self.lor_compat_button,
+            self.routing_entry, self.routing_browse
         ):
             item.configure(state="disabled" if lor else (
                 "readonly" if item is self._layout_preset_combo else "normal"
@@ -491,6 +499,12 @@ class HelixGui(tk.Tk):
             "--no-prompt",
         ]
 
+        if not lor_mode and self.model_routing_var.get().strip():
+            routing=Path(self.model_routing_var.get().strip())
+            if not routing.is_file():
+                messagebox.showwarning("Missing Model Routing", "Choose an existing model role mapping file.")
+                return
+            cmd.extend(["--model-overrides-file",str(routing)])
         if lor_mode:
             cmd.extend([
                 "--helix-lor-source-lms", self.lor_source_var.get().strip(),

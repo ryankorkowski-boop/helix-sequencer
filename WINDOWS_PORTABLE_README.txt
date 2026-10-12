@@ -70,3 +70,8 @@ Default short MP4 is an XSQ simulation. Render in installed xLights and Preview
 rendered FSEQ use actual channel bytes (stock model geometry is approximate).
 Optional Whisper/PyTorch transcription and full 3D band rendering require the
 source runtime; the portable package does not promise those optional capabilities.
+
+For a new custom layout, supply an optional model-role mapping JSON using the
+existing --model-overrides-file contract. House-specific defaults may otherwise
+leave unfamiliar added props untargeted. Mapping assigns real layout models to
+Helix roles; it does not create substitute effects.

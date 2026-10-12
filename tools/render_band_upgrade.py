@@ -125,6 +125,14 @@ class GLView:
 
 
 def native_drummer(row):
+    if row.get('drummer_xsq'):
+        # Additional source-bound recordings can use the unchanged Helix mapper
+        # without impersonating an existing song ID or its native render cache.
+        xsq=Path(row['drummer_xsq'])
+        count=int(np.ceil(row['duration']*20))
+        levels,strikes,hands,schedule=decode_review_schedule(xsq,count)
+        return levels,strikes,hands,{'xsq_sha256':sha(xsq),'schedule':schedule,
+            'source_audio_sha256':row['sha256'],'native_fseq_render_verified':False}
     folder=OLD/'shows'/f'{row["id"]}_band'
     frames,step=read_fseq(folder/'Snowman_Band.fseq');assert step==50
     levels,strikes,hands,schedule=decode_review_schedule(folder/'Snowman_Band.xsq',len(frames))

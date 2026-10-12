@@ -65,6 +65,7 @@ def transcribe(audio_path, analysis_audio, output, activation_output=None, famil
     with torch.inference_mode():
         activations = model(load_audio_for_model(str(analysis_audio))).cpu().numpy()
     if activation_output:
+        Path(activation_output).parent.mkdir(parents=True, exist_ok=True)
         np.save(activation_output, activations)
     peaks = PeakPicker(thresholds=FRAME_RNN_THRESHOLDS, fps=100).pick(activations)[0]
     y, sr = sf.read(analysis_audio, dtype="float32", always_2d=True)
