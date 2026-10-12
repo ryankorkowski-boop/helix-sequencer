@@ -450,6 +450,79 @@ def _apply_neon_palettes_to_generated_sequences(
             temporary.unlink(missing_ok=True)
 
 
+def _validate_lor_generated_sequences(
+    engine_args: list[str] | None,
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    ctx: RunContext,
+) -> None:
+    """Apply AC-only compatibility as a post-engine safeguard.
+
+    Only files generated/changed in this run are processed; a source layout
+    or user template is never rewritten. No LMS conversion code is needed.
+    """
+    if "--ac-lights-only" not in (engine_args or []):
+        return
+    import json
+    import os
+    import tempfile
+    from tools.lor_compatibility import enforce_lor_xsq, inspect_lor_xsq
+
+    args = list(engine_args or [])
+    selected = next(
+        (Path(args[i + 1]) for i, arg in enumerate(args[:-1]) if arg == "--layout-file"),
+        None,
+    )
+    if selected is None or not selected.is_file():
+        raise RuntimeError("LOR Compatible requires an existing --layout-file")
+    template = next(
+        (Path(args[i + 1]) for i, arg in enumerate(args[:-1]) if arg == "--template"),
+        None,
+    )
+    protected = {template.resolve(strict=False)} if template else set()
+    saved = 0
+    for source in _known_artifact_paths(roots):
+        if source.suffix.lower() != ".xsq" or ".orchestrated." in source.name:
+            continue
+        if source.resolve(strict=False) in protected:
+            continue
+        stat = source.stat()
+        if before.get(source.resolve(strict=False)) == (stat.st_mtime_ns, stat.st_size):
+            continue
+        with tempfile.NamedTemporaryFile(
+            suffix=".xsq", prefix=".lor-compat-", dir=source.parent, delete=False
+        ) as stream:
+            temporary = Path(stream.name)
+        try:
+            report = enforce_lor_xsq(source, temporary, selected)
+            verification = inspect_lor_xsq(temporary, selected)
+            if not verification["valid"]:
+                raise ValueError(
+                    "LOR output validation failed: "
+                    + "; ".join(verification["issues"])
+                )
+            os.replace(temporary, source)
+            path = source.with_suffix(".lor_compatibility.json")
+            path.write_text(json.dumps({
+                **report, "validation": verification, "xsq": str(source),
+            }, indent=2) + "\n", encoding="utf-8")
+            ctx.record_artifact("lor_compatibility_report", path)
+            print(
+                f"lor_compatible: {verification['effect_count']} native AC effects "
+                f"on {report['used_single_color_models']} single-color models "
+                f"(xLights XSQ; no LMS export) -> {source}",
+                flush=True,
+            )
+            saved += 1
+        finally:
+            temporary.unlink(missing_ok=True)
+    if not saved:
+        raise RuntimeError(
+            "LOR Compatible did not produce a validated new XSQ. "
+            "Check template/layout names and the selected output folder."
+        )
+
+
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     """Run a sequencing profile with integrated run tracking."""
     try:
@@ -459,6 +532,24 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         raise SystemExit(1)
 
     raw_engine_args = list(engine_args or [])
+    lor_compatible = "--ac-lights-only" in raw_engine_args
+    if lor_compatible:
+        # Avoid an RGB orchestration/template pass or RGB-only logic
+        # reintroducing pixels in an explicitly legacy-AC sequence.
+        if any(
+            a == "--palette-mode=neon" or (
+                a == "--palette-mode" and i + 1 < len(raw_engine_args)
+                and raw_engine_args[i + 1] == "neon"
+            ) for i, a in enumerate(raw_engine_args)
+        ):
+            raise SystemExit("LOR Compatible and neon RGB palette mode cannot be combined")
+        for flag in (
+            NO_EFFECTS_ORCHESTRATOR_FLAG, "--no-pixel-reactive",
+            "--no-matrix-intelligence", "--no-birdsong",
+            "--no-birdsong-auto",
+        ):
+            if flag not in raw_engine_args:
+                raw_engine_args.append(flag)
     has_explicit_beat_grid_args = _has_explicit_beat_grid_args(raw_engine_args)
     engine_args = _apply_prime_beat_grid_defaults(profile.version, raw_engine_args)
     resolved_profile_id = getattr(profile, "profile_id", profile_id or engine_profiles.ACTIVE_PROFILE_ID)
@@ -497,7 +588,14 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         artifact_snapshot = _snapshot_known_artifacts(artifact_roots)
         try:
             _effect_engine().main_for(profile.version, effective_engine_args)
-            _apply_neon_palettes_to_generated_sequences(engine_args, artifact_roots, artifact_snapshot, ctx)
+            if lor_compatible:
+                _validate_lor_generated_sequences(
+                    engine_args, artifact_roots, artifact_snapshot, ctx
+                )
+            else:
+                _apply_neon_palettes_to_generated_sequences(
+                    engine_args, artifact_roots, artifact_snapshot, ctx
+                )
             # Optional birdsong post-run hook (guarded by explicit engine flag)
             try:
                 _run_birdsong_hook(config, engine_args, ctx)
