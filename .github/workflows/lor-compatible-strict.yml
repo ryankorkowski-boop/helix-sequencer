@@ -1,0 +1,37 @@
+name: Helix LOR Compatible strict checks
+
+on:
+  pull_request:
+    paths:
+      - "core/effect_engine.py"
+      - "core/sequence_builder.py"
+      - "gui_launcher.py"
+      - "tools/lor_compatibility.py"
+      - "tests/test_lor_compatibility.py"
+      - "tests/test_xsq_palette_repair.py"
+      - ".github/workflows/lor-compatible-strict.yml"
+  push:
+    branches:
+      - "feature/lor-compatible-checkbox-20261011"
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt pytest
+      - name: Strict LOR and existing RGB regressions
+        run: |
+          python -m pytest -q tests/test_lor_compatibility.py tests/test_xsq_palette_repair.py
