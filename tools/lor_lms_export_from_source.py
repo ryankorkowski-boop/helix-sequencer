@@ -165,10 +165,18 @@ def export_lms_from_xsq(
             intervals.append((lo, hi, attrs))
         for _start, _end, attrs in intervals:
             ET.SubElement(channel, "effect", attrs)
-    # Keep exact source channel metadata/track structure, only update song
-    # duration and music title. Do not attempt to preserve old song timing grids.
+    # Existing beat grids describe the OLD song, so replace them with a
+    # regular 50 ms grid while preserving actual LOR channel rows/tracks.
+    timing_grids = source_root.find("timingGrids")
+    if timing_grids is None:
+        timing_grids = ET.SubElement(source_root, "timingGrids")
+    timing_grids.clear()
+    ET.SubElement(timing_grids, "timingGrid", {
+        "saveID": "0", "name": "Helix 50 ms", "type": "fixed", "spacing": "5"
+    })
     for track in source_root.findall("./tracks/track"):
         track.set("totalCentiseconds", str(duration_cs))
+        track.set("timingGrid", "0")
     source_root.set("musicFilename", Path(xsq_root.findtext("./head/mediaFile") or "").name)
     source_root.set("musicTitle", xsq_root.findtext("./head/song") or destination.stem)
     destination.parent.mkdir(parents=True, exist_ok=True)
