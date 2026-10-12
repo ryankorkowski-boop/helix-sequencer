@@ -59,3 +59,29 @@ def test_sample_mp4_preserves_editable_xsq_and_truncates_preview(tmp_path: Path)
     )
     assert output.exists() and output.stat().st_size > 100
     assert xsq.read_bytes() == original
+
+
+
+def test_lor_preview_simulates_fades_shimmer_and_independent_twinkle():
+    import numpy as np
+    from tools.preview_renderer import EffectRecord, _ac_pulse_curve
+
+    times = np.arange(0, 1000, 50, dtype=np.float32)
+    fade = EffectRecord(
+        name="On", start_ms=0, end_ms=1000,
+        settings="E_TEXTCTRL_Eff_On_Start=0,E_TEXTCTRL_Eff_On_End=100"
+    )
+    brightness = _ac_pulse_curve(fade, times, "Roof red")
+    assert brightness[0] == 0
+    assert 0.4 < brightness[10] < 0.6
+    assert brightness[-1] > 0.90
+
+    shimmer = EffectRecord(name="Shimmer", start_ms=0, end_ms=1000)
+    pulses = _ac_pulse_curve(shimmer, times, "Roof green")
+    assert np.any(pulses == 0) and np.any(pulses > 0)
+
+    twinkle = EffectRecord(name="Twinkle", start_ms=0, end_ms=1000)
+    a = _ac_pulse_curve(twinkle, times, "Roof red")
+    b = _ac_pulse_curve(twinkle, times, "Roof green")
+    assert not np.array_equal(a, b)
+    assert np.array_equal(a, _ac_pulse_curve(twinkle, times, "Roof red"))
