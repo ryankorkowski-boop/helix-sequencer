@@ -15,6 +15,7 @@ from core.run_manager import RunContext, RunManager
 NO_EFFECTS_ORCHESTRATOR_FLAG = "--no-effects-orchestrator"
 LOR_SOURCE_FLAG = "--helix-lor-source-lms"
 PREVIEW_MP4_FLAG = "--helix-preview-mp4"
+PREVIEW_SECONDS_FLAG = "--helix-preview-seconds"
 PROMOTE_ORCHESTRATOR_TEMPLATE_FLAG = "--promote-orchestrated-template"
 NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG = "--no-orchestrator-template-promotion"
 BEAT_GRID_FLAGS = {
@@ -647,6 +648,7 @@ def _render_new_previews(
     ctx: RunContext,
     *,
     lor_mode: bool = False,
+    preview_seconds: float = 30.0,
 ) -> None:
     """Render MP4s automatically after sequencing with honest provenance.
 
@@ -674,12 +676,14 @@ def _render_new_previews(
             fps=12,
             width=960,
             height=540,
+            max_seconds=preview_seconds,
         )
         label = {
             "schema": "helix.preview_provenance.v1",
             "preview": str(preview),
             "xsq": str(source),
             "source": "Helix simulated effect-level model preview",
+            "max_preview_seconds": preview_seconds,
             "audio": str(audio) if audio else None,
             "native_xlights_render_verified": False,
             "native_lor_render_verified": False,
@@ -705,6 +709,18 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
     raw_engine_args = list(engine_args or [])
     preview_requested = PREVIEW_MP4_FLAG in raw_engine_args
     raw_engine_args = [a for a in raw_engine_args if a != PREVIEW_MP4_FLAG]
+    preview_seconds = 30.0
+    if PREVIEW_SECONDS_FLAG in raw_engine_args:
+        idx = raw_engine_args.index(PREVIEW_SECONDS_FLAG)
+        if idx + 1 >= len(raw_engine_args):
+            raise SystemExit("Missing --helix-preview-seconds value")
+        try:
+            preview_seconds = float(raw_engine_args[idx + 1])
+        except ValueError as exc:
+            raise SystemExit("Invalid preview duration") from exc
+        if not 1.0 <= preview_seconds <= 600.0:
+            raise SystemExit("Preview length must be 1 to 600 seconds")
+        del raw_engine_args[idx:idx + 2]
     lor_source: Path | None = None
     workspace: Path | None = None
     if LOR_SOURCE_FLAG in raw_engine_args:
@@ -811,6 +827,7 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                 _render_new_previews(
                     artifact_roots, artifact_snapshot, engine_args,
                     layout, ctx, lor_mode=lor_source is not None,
+                    preview_seconds=preview_seconds,
                 )
             # Optional birdsong post-run hook (guarded by explicit engine flag)
             try:
