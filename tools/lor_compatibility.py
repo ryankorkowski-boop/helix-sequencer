@@ -203,15 +203,26 @@ def enforce_lor_xsq(source: Path, dest: Path, layout: Path) -> dict:
             "No compatible single-color lighting effects remain. "
             "Check the AC layout and XSQ model names."
         )
-    # ID uniqueness includes preserved timing-track effects as well.
-    ids = 1
-    for row in effects.findall("Element"):
-        for event in row.findall("./EffectLayer/Effect"):
-            event.set("id", str(ids))
-            ids += 1
+    # Preserve valid source IDs (including timing events) and allocate fresh
+    # ones only for newly cloned/missing/colliding effects.
+    all_events = effects.findall("./Element/EffectLayer/Effect")
+    originals = [
+        int(event.get("id")) for event in all_events
+        if (event.get("id") or "").isdigit()
+    ]
+    next_id = max(originals, default=0) + 1
+    seen_ids: set[int] = set()
+    for event in all_events:
+        candidate = event.get("id")
+        candidate_id = int(candidate) if candidate and candidate.isdigit() else 0
+        if candidate_id <= 0 or candidate_id in seen_ids:
+            candidate_id = next_id
+            next_id += 1
+            event.set("id", str(candidate_id))
+        seen_ids.add(candidate_id)
     nextid = root.find("nextid")
     if nextid is not None:
-        nextid.text = str(ids)
+        nextid.text = str(max(next_id, int(nextid.text or "1")))
     displays = root.find("DisplayElements")
     if displays is not None:
         for row in list(displays.findall("Element")):
