@@ -71,3 +71,21 @@ def test_bundle_with_multiple_sequences_one_folder(tmp_path: Path):
     result = package_xlights_layout([a, b], layout)
     assert len(result) == 1
     assert result[0]["xsqs"] == ["a.xsq", "b.xsq"]
+
+
+
+def test_bundle_portable_audio_once_and_refuse_conflicts(tmp_path: Path):
+    from tools.show_context_bundle import package_audio_alongside
+    audio = tmp_path / "song.wav"
+    audio.write_bytes(b"Helix audio placeholder")
+    folder = tmp_path / "exports"
+    folder.mkdir()
+    xsq = folder / "output.xsq"
+    xsq.write_text("<xsequence/>")
+    paths = package_audio_alongside([xsq], audio)
+    assert len(paths) == 1
+    assert (folder / "song.wav").read_bytes() == audio.read_bytes()
+    package_audio_alongside([xsq], audio)  # idempotent
+    (folder / "song.wav").write_bytes(b"a different song!")
+    with pytest.raises(ValueError, match="differs"):
+        package_audio_alongside([xsq], audio)
