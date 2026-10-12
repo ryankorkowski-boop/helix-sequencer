@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 """Portable Windows GUI plus hidden console-capable worker; shared one-folder payload."""
 from pathlib import Path
-from PyInstaller.utils.hooks import collect_data_files, collect_submodules
+from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy_metadata
 
 root = Path(SPECPATH).resolve()
 datas = []
@@ -41,6 +41,10 @@ for folder in ("allmodels", "helixville", "config", "data", "fixtures/band_geome
 # Includes the real bundled ffmpeg executable required by imageio-ffmpeg.
 datas += collect_data_files("imageio_ffmpeg")
 datas += collect_data_files("imageio")
+# Modern library imports query their distribution versions at runtime.
+# Source-import smoke cannot detect absent frozen dist-info metadata.
+for distribution in ("imageio", "imageio-ffmpeg", "librosa", "zstandard"):
+    datas += copy_metadata(distribution, recursive=True)
 
 hiddenimports = ["imageio.plugins.ffmpeg", "imageio.plugins.pillow", "zstandard"]
 for package in (
