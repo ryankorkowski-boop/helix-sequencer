@@ -10,6 +10,7 @@ on:
       - "tools/show_context_bundle.py"
       - "tools/preview_renderer.py"
       - "tests/test_dual_mode_lor.py"
+      - "tests/test_dual_mode_mp4.py"
       - "tests/test_show_context_bundle.py"
       - ".github/workflows/dual-mode-strict.yml"
   push:
@@ -37,4 +38,4 @@ jobs:
           python -m py_compile gui_launcher.py core/sequence_builder.py tools/lor_lms_import.py tools/lor_lms_export_from_source.py tools/show_context_bundle.py tools/preview_renderer.py
       - name: Strict packaging and LOR XML tests
         run: |
-          python -m pytest -q tests/test_dual_mode_lor.py tests/test_show_context_bundle.py tests/test_lor_compatibility.py tests/test_xsq_palette_repair.py
+          python -m pytest -q tests/test_dual_mode_lor.py tests/test_dual_mode_mp4.py tests/test_show_context_bundle.py tests/test_lor_compatibility.py tests/test_xsq_palette_repair.py
