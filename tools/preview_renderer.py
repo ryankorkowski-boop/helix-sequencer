@@ -323,7 +323,7 @@ def _ac_pulse_curve(
         # Approximate synchronized rapid AC cycling. 12 fps sampling is
         # necessarily less detailed than a real AC controller switching.
         elapsed = np.maximum(0, frame_times_ms - effect.start_ms)
-        return baseline * ((np.floor(elapsed / 45.0).astype(np.int64) % 2) == 0)
+        return baseline * ((elapsed % 140.0) < 80.0)
     if effect.name.strip().lower() == "twinkle":
         # Stagger pseudo-random phases between independent single-color props.
         seed = int.from_bytes(
