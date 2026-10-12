@@ -16,7 +16,7 @@ Branch: codex/band-performance-refinement-20261012. Baseline: f0aca518f5a1dff15a
 - [x] Complete dry A/B; six real-song excerpts; C/E montages.
 - [x] Native xLights matrix rendering and pixel checks.
 - [x] Fully decode videos; inspect quiet/strike/fill/string/mallet frames; verify source soundtracks.
-- [ ] New phone-accessible downloads verified.
+- [x] Five main movies, full show ZIP, three screenshot sheets and report saved and verified. Independent GitHub run38299471379 succeeded; all9release downloads match exact byte sizes/SHA256.
 - [x] Implementation/evidence commits on requested branch.
 - [ ] User artistic review. No primary merge authorized.
 

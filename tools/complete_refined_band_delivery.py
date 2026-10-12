@@ -23,6 +23,7 @@ def main():
     files=[]
     for path in OUT.rglob('*'):
         if not path.is_file() or path.suffix in ('.fseq','.zip'):continue
+        if path.name in ('delivery_manifest.json','archive_verification.json'):continue
         if 'pilot' in path.as_posix() or path.name.endswith('.silent.mp4'):continue
         if path.suffix not in ('.xsq','.xml','.mp4','.wav','.json','.jpg','.png','.md','.log'):continue
         if path.parent==OUT and path.suffix=='.mp4':continue
@@ -32,11 +33,13 @@ def main():
     meta=OUT/'delivery_manifest.json';meta.write_text(json.dumps(dict(files=manifest,source_implementation=revision,primary_merged=False),indent=2)+'\n')
     files.append(meta)
     archive=OUT/'Helix_Band_Review_Matrix_XSQ_Bundle.zip'
-    with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=4) as z:
+    temporary=archive.with_suffix('.building.zip')
+    with zipfile.ZipFile(temporary,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=4) as z:
         for p in files:z.write(p,p.relative_to(OUT).as_posix())
-    with zipfile.ZipFile(archive) as z:
+    with zipfile.ZipFile(temporary) as z:
         assert z.testzip() is None
         for item in manifest:assert hashlib.sha256(z.read(item['file'])).hexdigest()==item['sha256']
+    temporary.replace(archive)
     result=dict(file=archive.name,bytes=archive.stat().st_size,sha256=hashlib.sha256(archive.read_bytes()).hexdigest(),entries=len(files),crc_passed=True,all_hashes_verified=True)
     (OUT/'archive_verification.json').write_text(json.dumps(result,indent=2)+'\n')
     print(result)

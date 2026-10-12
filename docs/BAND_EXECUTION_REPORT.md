@@ -38,6 +38,14 @@ Video/native pass:10fresh movies fully decode (7,747frames), and xLights2026.18 
 
 Each corresponding XSQ is a genuine Helix-generated384×216 xLights virtual-matrix Video show. Keep each `xlights/<name>/` folder's XSQ, xlights_rgbeffects.xml, xlights_networks.xml, media/performance.mp4 and media/soundtrack.wav together. Actual xLights2026.18 native rendering and frame-pixel comparison verify this route. Controller outputs are empty. These sequences reproduce the review animation on a matrix; individual stationary bass/guitar/xylophone prop articulation is not implemented. Native physical-performer parity is not claimed.
 
+## CI exception
+
+Main, Beta, Birdsong, Remote Review Preview and Flow Review CI succeeded. The separate unchanged Flow Quality Artifact workflow passed49tests, then failed because it invokes `python tools/export_birdsong_demo_manifest.py` without the repository import path (`ModuleNotFoundError: core`). This existing invocation defect is recorded separately; no all-workflows-green claim is made.
+
+## Verified publication
+
+The independent GitHub rebuild and publication succeeded:run38299471379. Nine public release assets were fully downloaded and SHA256/size verified. See BAND_EXECUTION_DOWNLOADS.md for direct Android-friendly links. Source implementation:d9d0cc1; evidence commit:1092f381. No primary merge.
+
 ## Open work
 
 This is a substantial implemented and rendered review build, not completion of every musical-intelligence claim in the mission. Independent raw-stem/label evaluation, confirmed pitched-percussion identity, detailed finger/chord identity, real guitar stroke direction, physical performer model export/controller proof and user artistic approval remain open. The continuous source-art drummer remains a planar prop mounted in the 3D scene. No primary merge is authorized. Continue from MASTER_TODO.md and BAND_EXECUTION_HANDOFF.md.
