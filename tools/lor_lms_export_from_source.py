@@ -106,12 +106,20 @@ def export_lms_from_xsq(
             b = min(duration_cs, (t1 + 9) // 10)
             if b <= a:
                 continue
-            ref = effect.get("ref") or "0"
-            if not ref.isdecimal() or int(ref) >= len(settings):
-                raise ValueError("XSQ effect references unknown intensity settings")
+            explicit_settings = effect.get("settings")
+            if explicit_settings is not None:
+                # Helix's XSQ writer stores effect settings directly on
+                # individual nodes. Do not accidentally use the fallback
+                # EffectDB row, or legitimate dimmer fades would be lost.
+                effect_settings = explicit_settings
+            else:
+                ref = effect.get("ref") or "0"
+                if not ref.isdecimal() or int(ref) >= len(settings):
+                    raise ValueError("XSQ effect references unknown intensity settings")
+                effect_settings = settings[int(ref)]
             for target_name in targets:
                 target = models[target_name]["savedIndex"]
-                events.setdefault(target, []).append((a, b, label, settings[int(ref)]))
+                events.setdefault(target, []).append((a, b, label, effect_settings))
                 valid_count += 1
     if valid_count == 0:
         raise ValueError("No mapped LOR channel effects generated")
