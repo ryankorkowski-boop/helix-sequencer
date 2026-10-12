@@ -93,12 +93,13 @@ class HelixGui(tk.Tk):
         )
 
         ttk.Label(top, text="Template XSQ").grid(row=2, column=0, sticky="w", **pad)
-        self.template_entry = ttk.Entry(top, textvariable=self.template_var, width=86).grid(row=3, column=1, columnspan=2, sticky="we", **pad)
+        self.template_entry = ttk.Entry(top, textvariable=self.template_var, width=86)
+        self.template_entry.grid(row=2, column=1, columnspan=2, sticky="we", **pad)
         self.template_browse = ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.template_var, [("XSQ", "*.xsq")]))
         self.template_browse.grid(row=2, column=3, sticky="w", **pad)
 
         ttk.Label(top, text="Audio File").grid(row=3, column=0, sticky="w", **pad)
-        ttk.Entry(top, textvariable=self.audio_var, width=86).grid(row=2, column=1, columnspan=2, sticky="we", **pad)
+        ttk.Entry(top, textvariable=self.audio_var, width=86).grid(row=3, column=1, columnspan=2, sticky="we", **pad)
         ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.audio_var, [("Audio", "*.wav *.mp3 *.flac *.ogg *.m4a")])).grid(
             row=3, column=3,
             sticky="w",
