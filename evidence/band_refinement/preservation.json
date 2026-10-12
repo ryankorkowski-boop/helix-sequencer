@@ -1,0 +1,106 @@
+{
+  "baseline": "4aca41c5ae83a9f4c838e69393380f1dd0817ae6",
+  "preserved": [
+    {
+      "path": "fixtures/band_geometry/drummer_v3_pose_spec.json",
+      "sha256": "2964ec17bec74bcf947d68e43fee5bc2afea9ed83327a6b77fa19f6e0346b8a1"
+    },
+    {
+      "path": "fixtures/band_geometry/drummer_v3_png_layer_manifest.json",
+      "sha256": "43602cf96f4be45e59b7fdd58c5ffa6c60f89df83858192be22c88266d2b5e18"
+    },
+    {
+      "path": "fixtures/band_geometry/geometry_manifest.json",
+      "sha256": "8eb714383a7b0d26c88fdc9e229a58859a7f97f86a9c2738deae8a9ba2068ee0"
+    },
+    {
+      "path": "fixtures/band_geometry/source/drummerbg.png.b64",
+      "sha256": "3607e20e6c19c383b2c66ea33fdddb3d3e3e5a52f127b320b5d24f1e3ae9301e"
+    },
+    {
+      "path": "fixtures/band_geometry/source/README.md",
+      "sha256": "dddb86c4bb521b44367ae433886382b3c9e7733abf5c6c5616f64de8f3d8aa15"
+    },
+    {
+      "path": "fixtures/band_geometry/source/drummer_idle.png",
+      "sha256": "7299061b867c324ee46f037aef15fe64a04f946992021235e69ec137e9f4137e"
+    },
+    {
+      "path": "fixtures/band_geometry/source/drummerbg.png",
+      "sha256": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_snare_right.png",
+      "sha256": "613f7ab079df6625ff4cad78e0c187e57dc05da70536ecd9b39ca0519ea94540"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_left_tom.png",
+      "sha256": "63b1f5b74b95d5f808640aaea46ee15eb9aac3f031c92cb98f2bdd5a0aae7495"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_floor_tom.png",
+      "sha256": "3e994aa3555d57ed0af333e9a340297b50c3787bde19e3ce24a602c9fbc35447"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_left_crash.png",
+      "sha256": "1f2117022d2747c6a6a68f991b9f00fe369923f8e81f9ab5dfafc1cb6dd7c164"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_kick.png",
+      "sha256": "a37ab16f23cca4ba64924d984f2c8c0f405eaee2506e9214df5522a39e1c6088"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_both_crash.png",
+      "sha256": "a84bc677ddcd4474f8691f15640135e8ab7f673a75578a911d19c757763b03a9"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_high_tom.png",
+      "sha256": "c07845a56f56bd0ad5dfa212f44a0c783ad30a466ab10f4edf84a5fe4b3f7f3e"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_right_crash.png",
+      "sha256": "767be06e8ff0593e650a40a3e6f3ce454c0e14e8cb2152e886759f77aefad6c6"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_right_tom.png",
+      "sha256": "65b16e32ce352113be3d201f423a6481050b25be8d7ca75b022943a08da9373b"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_hi_hat.png",
+      "sha256": "9ceaa92d3e8d75ea5bb3c3aa99d71cc69698f50c269abaee9761b05f6f701ef1"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_snare.png",
+      "sha256": "83a324f2fdaa918a6a23a5eb34487813f8f8f2fa47813f7d86683d96f2c3b7a6"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_mid_tom.png",
+      "sha256": "4f4f992b1bd2dac3564605d7aeab69e91a6c565c87f70e5a43f1dea759c94ee6"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_downbeat_impact.png",
+      "sha256": "fbf9d0faa99597d1a08cadcc7cbdfbf6764ceb7cdea7be51249d30e7ac97804c"
+    },
+    {
+      "path": "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER.xmodel",
+      "sha256": "925cddc6f24487d113d52d4425435bfa6eed56015b5808a3d68bab704af6458a"
+    },
+    {
+      "path": "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel",
+      "sha256": "70c11eafe25243f2ec10e8207ed89c1456acf2692d9e1de7db5a4801f0cd8c79"
+    },
+    {
+      "path": "fixtures/band_geometry/previews/HX_SNOWMAN_DRUMMER_V3_pose_sheet.png",
+      "sha256": "d85075e6bc40fd89ada76224abde56dd5a49260521a30c2edd0d9a5fb2c92d81"
+    },
+    {
+      "path": "evidence/drummer/dry_drum_test.wav",
+      "sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913"
+    },
+    {
+      "path": "evidence/drummer/dry_drum_test_adtof.json",
+      "sha256": "63bd55c7d7db57de12d45f4c19335fe1cf57b1f096e8104a87265d4ef1270eca"
+    }
+  ],
+  "all_match": true
+}

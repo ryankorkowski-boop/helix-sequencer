@@ -1,0 +1,1140 @@
+{
+  "audio_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+  "hpss_heuristic_event_count": 216,
+  "hpss_families": {
+    "kick": 24,
+    "hihat": 127,
+    "cymbal": 58,
+    "snare": 4,
+    "tom": 3
+  },
+  "hpss_diagnostics": {
+    "analysis_engine": "v3_historical_hpss_onset_classifier",
+    "source_sample_rate": 48000,
+    "analysis_sample_rate": 48000,
+    "sample_rate": 48000,
+    "analysis_hop_length": 512,
+    "analysis_n_fft": 2048,
+    "hpss_margin": 1.0,
+    "onset_delta": 0.045,
+    "onset_wait": 1,
+    "timing_refinement": "none_detected_transient_grid",
+    "used_hpss_percussive_evidence": true,
+    "min_percussive_ratio": 0.16,
+    "context_n_fft": null,
+    "typed_event_count": 216,
+    "onset_candidate_count": 233,
+    "accepted_onset_count": 216,
+    "event_types": {
+      "kick": 24,
+      "hihat": 127,
+      "cymbal": 58,
+      "snare": 4,
+      "tom": 3
+    },
+    "tom_classes": {
+      "high": 3
+    },
+    "rejection_counts": {
+      "before_supported_drum_entrance": 4,
+      "harmonic_dominated": 9,
+      "ambiguous_bus": 3,
+      "same_family_compression": 1
+    },
+    "entrance_timestamp": 0.2507,
+    "min_gap_ms": 22
+  },
+  "hpss_events": [
+    {
+      "time": 0.3307,
+      "family": "kick",
+      "velocity": 0.663
+    },
+    {
+      "time": 0.4907,
+      "family": "hihat",
+      "velocity": 0.126
+    },
+    {
+      "time": 0.64,
+      "family": "hihat",
+      "velocity": 0.766
+    },
+    {
+      "time": 0.7787,
+      "family": "cymbal",
+      "velocity": 0.408
+    },
+    {
+      "time": 0.96,
+      "family": "kick",
+      "velocity": 0.383
+    },
+    {
+      "time": 1.2587,
+      "family": "cymbal",
+      "velocity": 0.319
+    },
+    {
+      "time": 1.5893,
+      "family": "cymbal",
+      "velocity": 0.159
+    },
+    {
+      "time": 1.7387,
+      "family": "hihat",
+      "velocity": 0.176
+    },
+    {
+      "time": 2.048,
+      "family": "hihat",
+      "velocity": 0.462
+    },
+    {
+      "time": 2.2187,
+      "family": "hihat",
+      "velocity": 0.101
+    },
+    {
+      "time": 2.368,
+      "family": "cymbal",
+      "velocity": 0.217
+    },
+    {
+      "time": 2.4533,
+      "family": "cymbal",
+      "velocity": 0.223
+    },
+    {
+      "time": 2.528,
+      "family": "kick",
+      "velocity": 0.617
+    },
+    {
+      "time": 2.6667,
+      "family": "hihat",
+      "velocity": 0.124
+    },
+    {
+      "time": 2.8373,
+      "family": "hihat",
+      "velocity": 0.364
+    },
+    {
+      "time": 2.9867,
+      "family": "hihat",
+      "velocity": 0.206
+    },
+    {
+      "time": 3.1467,
+      "family": "hihat",
+      "velocity": 0.08
+    },
+    {
+      "time": 3.296,
+      "family": "hihat",
+      "velocity": 0.451
+    },
+    {
+      "time": 3.488,
+      "family": "cymbal",
+      "velocity": 0.08
+    },
+    {
+      "time": 3.552,
+      "family": "cymbal",
+      "velocity": 0.136
+    },
+    {
+      "time": 3.6267,
+      "family": "hihat",
+      "velocity": 0.397
+    },
+    {
+      "time": 3.7867,
+      "family": "hihat",
+      "velocity": 0.473
+    },
+    {
+      "time": 3.936,
+      "family": "hihat",
+      "velocity": 0.406
+    },
+    {
+      "time": 4.0853,
+      "family": "hihat",
+      "velocity": 0.608
+    },
+    {
+      "time": 4.2453,
+      "family": "hihat",
+      "velocity": 0.61
+    },
+    {
+      "time": 4.4053,
+      "family": "hihat",
+      "velocity": 0.133
+    },
+    {
+      "time": 4.5547,
+      "family": "hihat",
+      "velocity": 0.632
+    },
+    {
+      "time": 4.7253,
+      "family": "hihat",
+      "velocity": 0.162
+    },
+    {
+      "time": 4.8747,
+      "family": "hihat",
+      "velocity": 0.361
+    },
+    {
+      "time": 5.0133,
+      "family": "hihat",
+      "velocity": 0.573
+    },
+    {
+      "time": 5.1733,
+      "family": "hihat",
+      "velocity": 0.172
+    },
+    {
+      "time": 5.3333,
+      "family": "hihat",
+      "velocity": 0.777
+    },
+    {
+      "time": 5.4933,
+      "family": "hihat",
+      "velocity": 0.604
+    },
+    {
+      "time": 5.6533,
+      "family": "kick",
+      "velocity": 0.349
+    },
+    {
+      "time": 5.728,
+      "family": "cymbal",
+      "velocity": 0.216
+    },
+    {
+      "time": 5.8027,
+      "family": "hihat",
+      "velocity": 0.491
+    },
+    {
+      "time": 5.9733,
+      "family": "hihat",
+      "velocity": 0.157
+    },
+    {
+      "time": 6.1227,
+      "family": "cymbal",
+      "velocity": 0.222
+    },
+    {
+      "time": 6.2613,
+      "family": "hihat",
+      "velocity": 0.19
+    },
+    {
+      "time": 6.432,
+      "family": "hihat",
+      "velocity": 0.256
+    },
+    {
+      "time": 6.5813,
+      "family": "cymbal",
+      "velocity": 0.267
+    },
+    {
+      "time": 6.7413,
+      "family": "cymbal",
+      "velocity": 0.285
+    },
+    {
+      "time": 7.0507,
+      "family": "hihat",
+      "velocity": 0.58
+    },
+    {
+      "time": 7.2107,
+      "family": "kick",
+      "velocity": 0.603
+    },
+    {
+      "time": 7.36,
+      "family": "hihat",
+      "velocity": 0.204
+    },
+    {
+      "time": 7.5093,
+      "family": "hihat",
+      "velocity": 0.478
+    },
+    {
+      "time": 7.68,
+      "family": "hihat",
+      "velocity": 0.386
+    },
+    {
+      "time": 7.8293,
+      "family": "hihat",
+      "velocity": 0.284
+    },
+    {
+      "time": 7.9893,
+      "family": "cymbal",
+      "velocity": 0.399
+    },
+    {
+      "time": 8.0853,
+      "family": "cymbal",
+      "velocity": 0.173
+    },
+    {
+      "time": 8.1387,
+      "family": "kick",
+      "velocity": 0.617
+    },
+    {
+      "time": 8.2987,
+      "family": "hihat",
+      "velocity": 0.67
+    },
+    {
+      "time": 8.4587,
+      "family": "kick",
+      "velocity": 0.622
+    },
+    {
+      "time": 8.6187,
+      "family": "hihat",
+      "velocity": 0.371
+    },
+    {
+      "time": 8.7573,
+      "family": "hihat",
+      "velocity": 0.499
+    },
+    {
+      "time": 8.928,
+      "family": "cymbal",
+      "velocity": 0.207
+    },
+    {
+      "time": 9.0133,
+      "family": "cymbal",
+      "velocity": 0.247
+    },
+    {
+      "time": 9.088,
+      "family": "kick",
+      "velocity": 0.813
+    },
+    {
+      "time": 9.2267,
+      "family": "hihat",
+      "velocity": 0.587
+    },
+    {
+      "time": 9.3973,
+      "family": "kick",
+      "velocity": 0.65
+    },
+    {
+      "time": 9.536,
+      "family": "hihat",
+      "velocity": 0.454
+    },
+    {
+      "time": 9.7067,
+      "family": "hihat",
+      "velocity": 0.341
+    },
+    {
+      "time": 9.7493,
+      "family": "hihat",
+      "velocity": 0.188
+    },
+    {
+      "time": 9.8667,
+      "family": "hihat",
+      "velocity": 0.574
+    },
+    {
+      "time": 10.0053,
+      "family": "hihat",
+      "velocity": 0.371
+    },
+    {
+      "time": 10.0267,
+      "family": "hihat",
+      "velocity": 0.599
+    },
+    {
+      "time": 10.1867,
+      "family": "kick",
+      "velocity": 0.69
+    },
+    {
+      "time": 10.3253,
+      "family": "hihat",
+      "velocity": 0.389
+    },
+    {
+      "time": 10.4853,
+      "family": "hihat",
+      "velocity": 0.427
+    },
+    {
+      "time": 10.6453,
+      "family": "hihat",
+      "velocity": 0.55
+    },
+    {
+      "time": 10.7947,
+      "family": "hihat",
+      "velocity": 0.48
+    },
+    {
+      "time": 10.9547,
+      "family": "cymbal",
+      "velocity": 0.261
+    },
+    {
+      "time": 11.264,
+      "family": "cymbal",
+      "velocity": 0.498
+    },
+    {
+      "time": 11.584,
+      "family": "cymbal",
+      "velocity": 0.258
+    },
+    {
+      "time": 11.7333,
+      "family": "cymbal",
+      "velocity": 0.354
+    },
+    {
+      "time": 12.0533,
+      "family": "hihat",
+      "velocity": 0.239
+    },
+    {
+      "time": 12.3627,
+      "family": "hihat",
+      "velocity": 0.254
+    },
+    {
+      "time": 12.5227,
+      "family": "hihat",
+      "velocity": 0.158
+    },
+    {
+      "time": 12.6827,
+      "family": "hihat",
+      "velocity": 0.19
+    },
+    {
+      "time": 12.832,
+      "family": "hihat",
+      "velocity": 0.128
+    },
+    {
+      "time": 12.9813,
+      "family": "hihat",
+      "velocity": 0.158
+    },
+    {
+      "time": 13.1413,
+      "family": "snare",
+      "velocity": 0.113
+    },
+    {
+      "time": 13.2907,
+      "family": "hihat",
+      "velocity": 0.138
+    },
+    {
+      "time": 13.6107,
+      "family": "hihat",
+      "velocity": 0.23
+    },
+    {
+      "time": 13.7707,
+      "family": "hihat",
+      "velocity": 0.132
+    },
+    {
+      "time": 13.9307,
+      "family": "hihat",
+      "velocity": 0.212
+    },
+    {
+      "time": 14.0907,
+      "family": "hihat",
+      "velocity": 0.176
+    },
+    {
+      "time": 14.24,
+      "family": "hihat",
+      "velocity": 0.225
+    },
+    {
+      "time": 14.4,
+      "family": "hihat",
+      "velocity": 0.162
+    },
+    {
+      "time": 14.5493,
+      "family": "hihat",
+      "velocity": 0.14
+    },
+    {
+      "time": 14.72,
+      "family": "cymbal",
+      "velocity": 0.327
+    },
+    {
+      "time": 14.8693,
+      "family": "hihat",
+      "velocity": 0.438
+    },
+    {
+      "time": 15.0187,
+      "family": "hihat",
+      "velocity": 0.094
+    },
+    {
+      "time": 15.1787,
+      "family": "cymbal",
+      "velocity": 0.459
+    },
+    {
+      "time": 15.3387,
+      "family": "cymbal",
+      "velocity": 0.093
+    },
+    {
+      "time": 15.488,
+      "family": "hihat",
+      "velocity": 0.371
+    },
+    {
+      "time": 15.648,
+      "family": "hihat",
+      "velocity": 0.199
+    },
+    {
+      "time": 15.808,
+      "family": "hihat",
+      "velocity": 0.27
+    },
+    {
+      "time": 15.9573,
+      "family": "hihat",
+      "velocity": 0.375
+    },
+    {
+      "time": 16.1173,
+      "family": "hihat",
+      "velocity": 0.279
+    },
+    {
+      "time": 16.2667,
+      "family": "cymbal",
+      "velocity": 0.323
+    },
+    {
+      "time": 16.5867,
+      "family": "cymbal",
+      "velocity": 0.246
+    },
+    {
+      "time": 16.736,
+      "family": "cymbal",
+      "velocity": 0.393
+    },
+    {
+      "time": 17.056,
+      "family": "hihat",
+      "velocity": 0.236
+    },
+    {
+      "time": 17.3653,
+      "family": "hihat",
+      "velocity": 0.178
+    },
+    {
+      "time": 17.5253,
+      "family": "hihat",
+      "velocity": 0.181
+    },
+    {
+      "time": 17.6747,
+      "family": "hihat",
+      "velocity": 0.131
+    },
+    {
+      "time": 17.8347,
+      "family": "hihat",
+      "velocity": 0.164
+    },
+    {
+      "time": 17.9947,
+      "family": "hihat",
+      "velocity": 0.305
+    },
+    {
+      "time": 18.144,
+      "family": "hihat",
+      "velocity": 0.14
+    },
+    {
+      "time": 18.304,
+      "family": "hihat",
+      "velocity": 0.172
+    },
+    {
+      "time": 18.464,
+      "family": "hihat",
+      "velocity": 0.206
+    },
+    {
+      "time": 18.6133,
+      "family": "hihat",
+      "velocity": 0.16
+    },
+    {
+      "time": 18.7733,
+      "family": "kick",
+      "velocity": 0.781
+    },
+    {
+      "time": 18.9227,
+      "family": "cymbal",
+      "velocity": 0.428
+    },
+    {
+      "time": 19.0933,
+      "family": "kick",
+      "velocity": 0.597
+    },
+    {
+      "time": 19.2427,
+      "family": "hihat",
+      "velocity": 0.54
+    },
+    {
+      "time": 19.392,
+      "family": "cymbal",
+      "velocity": 0.39
+    },
+    {
+      "time": 19.5627,
+      "family": "kick",
+      "velocity": 0.517
+    },
+    {
+      "time": 19.712,
+      "family": "kick",
+      "velocity": 0.63
+    },
+    {
+      "time": 19.8613,
+      "family": "cymbal",
+      "velocity": 0.465
+    },
+    {
+      "time": 20.032,
+      "family": "kick",
+      "velocity": 0.658
+    },
+    {
+      "time": 20.1707,
+      "family": "cymbal",
+      "velocity": 0.427
+    },
+    {
+      "time": 20.3413,
+      "family": "kick",
+      "velocity": 0.429
+    },
+    {
+      "time": 20.416,
+      "family": "cymbal",
+      "velocity": 0.476
+    },
+    {
+      "time": 20.4907,
+      "family": "hihat",
+      "velocity": 0.586
+    },
+    {
+      "time": 20.6507,
+      "family": "cymbal",
+      "velocity": 0.304
+    },
+    {
+      "time": 20.736,
+      "family": "kick",
+      "velocity": 0.508
+    },
+    {
+      "time": 20.8,
+      "family": "hihat",
+      "velocity": 0.446
+    },
+    {
+      "time": 20.96,
+      "family": "cymbal",
+      "velocity": 0.392
+    },
+    {
+      "time": 21.2693,
+      "family": "cymbal",
+      "velocity": 0.488
+    },
+    {
+      "time": 21.5893,
+      "family": "hihat",
+      "velocity": 0.278
+    },
+    {
+      "time": 21.7493,
+      "family": "cymbal",
+      "velocity": 0.309
+    },
+    {
+      "time": 22.0587,
+      "family": "hihat",
+      "velocity": 0.482
+    },
+    {
+      "time": 22.208,
+      "family": "kick",
+      "velocity": 0.465
+    },
+    {
+      "time": 22.368,
+      "family": "kick",
+      "velocity": 0.368
+    },
+    {
+      "time": 22.5173,
+      "family": "cymbal",
+      "velocity": 0.33
+    },
+    {
+      "time": 22.8373,
+      "family": "cymbal",
+      "velocity": 0.339
+    },
+    {
+      "time": 22.9973,
+      "family": "cymbal",
+      "velocity": 0.386
+    },
+    {
+      "time": 23.1573,
+      "family": "hihat",
+      "velocity": 0.192
+    },
+    {
+      "time": 23.296,
+      "family": "hihat",
+      "velocity": 0.447
+    },
+    {
+      "time": 23.4667,
+      "family": "kick",
+      "velocity": 0.399
+    },
+    {
+      "time": 23.616,
+      "family": "hihat",
+      "velocity": 0.404
+    },
+    {
+      "time": 23.7653,
+      "family": "cymbal",
+      "velocity": 0.292
+    },
+    {
+      "time": 24.0853,
+      "family": "cymbal",
+      "velocity": 0.35
+    },
+    {
+      "time": 24.2453,
+      "family": "hihat",
+      "velocity": 0.457
+    },
+    {
+      "time": 24.4053,
+      "family": "cymbal",
+      "velocity": 0.185
+    },
+    {
+      "time": 24.5547,
+      "family": "hihat",
+      "velocity": 0.69
+    },
+    {
+      "time": 24.7253,
+      "family": "kick",
+      "velocity": 0.528
+    },
+    {
+      "time": 24.8747,
+      "family": "hihat",
+      "velocity": 0.586
+    },
+    {
+      "time": 25.024,
+      "family": "hihat",
+      "velocity": 0.513
+    },
+    {
+      "time": 25.184,
+      "family": "cymbal",
+      "velocity": 0.225
+    },
+    {
+      "time": 25.344,
+      "family": "cymbal",
+      "velocity": 0.403
+    },
+    {
+      "time": 25.4933,
+      "family": "hihat",
+      "velocity": 0.295
+    },
+    {
+      "time": 25.6427,
+      "family": "hihat",
+      "velocity": 0.272
+    },
+    {
+      "time": 25.8027,
+      "family": "hihat",
+      "velocity": 0.354
+    },
+    {
+      "time": 25.9627,
+      "family": "hihat",
+      "velocity": 0.328
+    },
+    {
+      "time": 26.1227,
+      "family": "hihat",
+      "velocity": 0.223
+    },
+    {
+      "time": 26.272,
+      "family": "cymbal",
+      "velocity": 0.253
+    },
+    {
+      "time": 26.592,
+      "family": "cymbal",
+      "velocity": 0.357
+    },
+    {
+      "time": 26.7413,
+      "family": "cymbal",
+      "velocity": 0.266
+    },
+    {
+      "time": 27.0613,
+      "family": "hihat",
+      "velocity": 0.46
+    },
+    {
+      "time": 27.3707,
+      "family": "hihat",
+      "velocity": 0.291
+    },
+    {
+      "time": 27.52,
+      "family": "cymbal",
+      "velocity": 0.267
+    },
+    {
+      "time": 27.6907,
+      "family": "cymbal",
+      "velocity": 0.314
+    },
+    {
+      "time": 27.84,
+      "family": "cymbal",
+      "velocity": 0.22
+    },
+    {
+      "time": 28.0,
+      "family": "hihat",
+      "velocity": 0.385
+    },
+    {
+      "time": 28.3093,
+      "family": "hihat",
+      "velocity": 0.51
+    },
+    {
+      "time": 28.4693,
+      "family": "kick",
+      "velocity": 0.235
+    },
+    {
+      "time": 28.6187,
+      "family": "hihat",
+      "velocity": 0.247
+    },
+    {
+      "time": 28.7787,
+      "family": "hihat",
+      "velocity": 0.204
+    },
+    {
+      "time": 28.9387,
+      "family": "hihat",
+      "velocity": 0.462
+    },
+    {
+      "time": 29.248,
+      "family": "hihat",
+      "velocity": 0.168
+    },
+    {
+      "time": 29.408,
+      "family": "hihat",
+      "velocity": 0.606
+    },
+    {
+      "time": 29.5573,
+      "family": "hihat",
+      "velocity": 0.487
+    },
+    {
+      "time": 29.7173,
+      "family": "hihat",
+      "velocity": 0.338
+    },
+    {
+      "time": 29.8773,
+      "family": "hihat",
+      "velocity": 0.222
+    },
+    {
+      "time": 30.0267,
+      "family": "cymbal",
+      "velocity": 0.333
+    },
+    {
+      "time": 30.336,
+      "family": "hihat",
+      "velocity": 0.49
+    },
+    {
+      "time": 30.496,
+      "family": "hihat",
+      "velocity": 0.449
+    },
+    {
+      "time": 30.656,
+      "family": "kick",
+      "velocity": 0.627
+    },
+    {
+      "time": 30.8053,
+      "family": "hihat",
+      "velocity": 0.626
+    },
+    {
+      "time": 30.9653,
+      "family": "hihat",
+      "velocity": 0.323
+    },
+    {
+      "time": 31.1253,
+      "family": "hihat",
+      "velocity": 0.349
+    },
+    {
+      "time": 31.2747,
+      "family": "cymbal",
+      "velocity": 0.27
+    },
+    {
+      "time": 31.616,
+      "family": "cymbal",
+      "velocity": 0.215
+    },
+    {
+      "time": 31.7547,
+      "family": "cymbal",
+      "velocity": 0.281
+    },
+    {
+      "time": 32.064,
+      "family": "hihat",
+      "velocity": 0.413
+    },
+    {
+      "time": 32.2347,
+      "family": "cymbal",
+      "velocity": 0.11
+    },
+    {
+      "time": 32.3733,
+      "family": "hihat",
+      "velocity": 0.24
+    },
+    {
+      "time": 32.5333,
+      "family": "hihat",
+      "velocity": 0.518
+    },
+    {
+      "time": 32.6933,
+      "family": "hihat",
+      "velocity": 0.248
+    },
+    {
+      "time": 32.8427,
+      "family": "hihat",
+      "velocity": 0.392
+    },
+    {
+      "time": 33.0027,
+      "family": "hihat",
+      "velocity": 0.204
+    },
+    {
+      "time": 33.1627,
+      "family": "tom",
+      "velocity": 0.384
+    },
+    {
+      "time": 33.312,
+      "family": "snare",
+      "velocity": 0.46
+    },
+    {
+      "time": 33.4827,
+      "family": "tom",
+      "velocity": 0.262
+    },
+    {
+      "time": 33.6213,
+      "family": "snare",
+      "velocity": 0.377
+    },
+    {
+      "time": 33.792,
+      "family": "tom",
+      "velocity": 0.456
+    },
+    {
+      "time": 33.9413,
+      "family": "hihat",
+      "velocity": 0.371
+    },
+    {
+      "time": 34.1013,
+      "family": "hihat",
+      "velocity": 0.145
+    },
+    {
+      "time": 34.2613,
+      "family": "hihat",
+      "velocity": 0.404
+    },
+    {
+      "time": 34.5707,
+      "family": "hihat",
+      "velocity": 0.685
+    },
+    {
+      "time": 34.7307,
+      "family": "kick",
+      "velocity": 0.236
+    },
+    {
+      "time": 34.88,
+      "family": "hihat",
+      "velocity": 0.25
+    },
+    {
+      "time": 35.04,
+      "family": "hihat",
+      "velocity": 0.478
+    },
+    {
+      "time": 35.2,
+      "family": "hihat",
+      "velocity": 0.289
+    },
+    {
+      "time": 35.36,
+      "family": "hihat",
+      "velocity": 0.42
+    },
+    {
+      "time": 35.52,
+      "family": "hihat",
+      "velocity": 0.49
+    },
+    {
+      "time": 35.6693,
+      "family": "hihat",
+      "velocity": 0.833
+    },
+    {
+      "time": 35.8187,
+      "family": "cymbal",
+      "velocity": 0.482
+    },
+    {
+      "time": 35.9893,
+      "family": "cymbal",
+      "velocity": 0.425
+    },
+    {
+      "time": 36.2987,
+      "family": "cymbal",
+      "velocity": 0.412
+    },
+    {
+      "time": 36.6293,
+      "family": "cymbal",
+      "velocity": 0.193
+    },
+    {
+      "time": 36.7787,
+      "family": "cymbal",
+      "velocity": 0.263
+    },
+    {
+      "time": 37.0987,
+      "family": "snare",
+      "velocity": 0.476
+    }
+  ],
+  "cached_adtof_family_count": 309,
+  "cached_adtof_families": {
+    "snare": 53,
+    "cymbal": 17,
+    "kick": 67,
+    "tom": 34,
+    "hihat": 138
+  },
+  "preferred_render_path": "retained source-bound polyphonic ADTOF cache + accepted tom source reviews",
+  "reason": "No independent ground truth permits a new accuracy ranking. Heuristic principal-family output is a diagnostic comparator; the accepted polyphonic path is preserved.",
+  "metrics_are_detection_accuracy": false
+}

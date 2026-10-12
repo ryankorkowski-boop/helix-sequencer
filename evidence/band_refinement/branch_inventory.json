@@ -1,0 +1,787 @@
+{
+  "branches": [
+    {
+      "name": "2-implement-birdsong-engine-phrase-based-generative-sequencing-upgrade",
+      "sha": "7fd36c4ed536fadeaf39c29ce3d3414730307773"
+    },
+    {
+      "name": "agent/drummer-submodel-renderer",
+      "sha": "90d0ffa91ddbcde28657b62255b71ca4a6991d5f"
+    },
+    {
+      "name": "artifacts/band-instrument-review-2026-10-10",
+      "sha": "cdb999779bab3b925656bb4839432549b7784009"
+    },
+    {
+      "name": "artifacts/band-logic-reassessment-2026-10-10",
+      "sha": "e0ced9127e677cad2677dadda017a18f59ffd1b1"
+    },
+    {
+      "name": "artifacts/concepts-62-2026-10-09",
+      "sha": "54502695afd811b2c0b5bcaf7e3f57fb3525d389"
+    },
+    {
+      "name": "artifacts/drummer-shoulder-preview-2026-10-10",
+      "sha": "ea7a5e17447914feba9acf1fec652bcee6df22c9"
+    },
+    {
+      "name": "artifacts/intricate-band-samplers-2026-10-10",
+      "sha": "3772f44d5f294272c25b21728f1aca4a60941a03"
+    },
+    {
+      "name": "artifacts/snowman-band-2026-10-09",
+      "sha": "550a7c70fd0218f1fceee56cd37a7a17cdeb6c86"
+    },
+    {
+      "name": "audit/gui-sync-and-wadena-support",
+      "sha": "131adb2854181ae751af636017c711a0bbce4cb5"
+    },
+    {
+      "name": "band/export-artifact-bundle-v1",
+      "sha": "189cb5d09d8604fcb8ffa8698b1aa078c5e73f95"
+    },
+    {
+      "name": "band/finished-exporter-v1",
+      "sha": "33611598a086da7d8f3f297428d73ab5c2683bc2"
+    },
+    {
+      "name": "band/lyric-phoneme-v1",
+      "sha": "a61cbf8e1a6eda5a040704e56acc8b2ee670f506"
+    },
+    {
+      "name": "band/lyric-section-v1",
+      "sha": "c71776d88431c30db916f5165bf7573d54ad0305"
+    },
+    {
+      "name": "band/runtime-integration-v1",
+      "sha": "4c64676a7a27b7ef659e4ce4a6b87873229b07bd"
+    },
+    {
+      "name": "band/vocal-face-export-v1",
+      "sha": "ce325730467c62463293b21afa296d0063367d45"
+    },
+    {
+      "name": "band/vocal-phoneme-contract-v1",
+      "sha": "1bdabaf241c815e524f4d42351af574f6fc830d2"
+    },
+    {
+      "name": "beta/private-gui-v0.1",
+      "sha": "c59d7d3cafca0a0e93c4054efe46835ba2b07d93"
+    },
+    {
+      "name": "beta-ci-gate",
+      "sha": "49318f82a74589f8775237b7b21c6f9e5065cc39"
+    },
+    {
+      "name": "beta-readiness-docs",
+      "sha": "a5156046cbe6b2721badd908d51cd687a27e556f"
+    },
+    {
+      "name": "beta-smoke-foundation",
+      "sha": "6f17715614a1322b93c635aa3a1c27bf245f7fd4"
+    },
+    {
+      "name": "cleanup/legal-learning-notes",
+      "sha": "1ced352259bd4130d50d87753760354ad0385ee1"
+    },
+    {
+      "name": "codex/beta-phase1-ci",
+      "sha": "95de5ec59c47875e9fc23de20a11550fac6b2635"
+    },
+    {
+      "name": "codex/beta-phase1-followup",
+      "sha": "0f32800e48ba7148017aa62393e11d1bd81c5967"
+    },
+    {
+      "name": "codex/beta-roadmap-status",
+      "sha": "4f30edcc0ac5693f070a06b0139455703f5dd44f"
+    },
+    {
+      "name": "codex/birdsong-engine-expansion",
+      "sha": "44a55bdc399ae7e654dcd6179ec76b5dee3a3572"
+    },
+    {
+      "name": "codex/birdsong-fixtures-89",
+      "sha": "25292b48d639c640ff80989fc3cbe8e63da7d3c3"
+    },
+    {
+      "name": "codex/birdsong-runtime-safety-88",
+      "sha": "0a7c59f9c4afe4676589fae4124392ad9166ec95"
+    },
+    {
+      "name": "codex/birdsong-spatial-score-90",
+      "sha": "5fc2028d5d6e6c7b1151ebe8249a9f161ad74208"
+    },
+    {
+      "name": "codex/ci-unit-tests",
+      "sha": "2987963b9867c41946b19fefd2ea04690e693065"
+    },
+    {
+      "name": "codex/cinematic-cue-planner",
+      "sha": "5ad4f68f04d54bfd2f04fe68251aaafc5ca97280"
+    },
+    {
+      "name": "codex/cinematic-layering-adapter",
+      "sha": "35051776645171c08b2318cd700d210ae039861a"
+    },
+    {
+      "name": "codex/complete-issue-2-birdsong-gate",
+      "sha": "445a0d8fef8946c917040547d99403e66ab2a062"
+    },
+    {
+      "name": "codex/drummer-musicality",
+      "sha": "5cc177692d7057dea5cc50de2716df42e6146c06"
+    },
+    {
+      "name": "codex/drummer-v3-derwin-audio",
+      "sha": "647df23458baac868c6ca7ecdc76b7761c028b9e"
+    },
+    {
+      "name": "codex/feature-state-engine",
+      "sha": "eb1aa3dc1b75b20af27714191a09dd1567228ae9"
+    },
+    {
+      "name": "codex/fix-orchestrator-promotion-ci",
+      "sha": "dadb11bed340fee1173aa9f6430c39ac7a007d71"
+    },
+    {
+      "name": "codex/full-recheck-76",
+      "sha": "df83fb2019f92e2613864d361d4ab94110e5c787"
+    },
+    {
+      "name": "codex/helix-preview-engine",
+      "sha": "7e9220df0506b1f0f04d8dd7acd59982c538d0eb"
+    },
+    {
+      "name": "codex/helix-preview-foundation",
+      "sha": "6c977489b8a4913273bdfb1088dfa31a236b68ef"
+    },
+    {
+      "name": "codex/integrate-drummer-v3-current-logic",
+      "sha": "d3783f0205c08639392d8f1213b5f3b7f8c19c95"
+    },
+    {
+      "name": "codex/issue2-behavior-integration",
+      "sha": "2e9b860d66c39043d242fa4e10772c8b36eb09c9"
+    },
+    {
+      "name": "codex/issue2-runtime-hook",
+      "sha": "d9af6a8d6f502b2a7ac49eaf3cfc6d009ec9d574"
+    },
+    {
+      "name": "codex/issue-83-drummer-v3-pr",
+      "sha": "7e4b9394a61b04d3015f76287e1eaf70a370c82b"
+    },
+    {
+      "name": "codex/issue-85-ci-triage",
+      "sha": "b8eee7892a22e532d4e0bffc6427b1b1c07e9231"
+    },
+    {
+      "name": "codex/legallearning",
+      "sha": "3e849cbe36a336448bc5892bf60783bf2034ae86"
+    },
+    {
+      "name": "codex/lightsout-kick-fix",
+      "sha": "d3783f0205c08639392d8f1213b5f3b7f8c19c95"
+    },
+    {
+      "name": "codex/lightsout-multiband-drum-detection",
+      "sha": "d3783f0205c08639392d8f1213b5f3b7f8c19c95"
+    },
+    {
+      "name": "codex/lightsout-multiband-drum-detection-v2",
+      "sha": "4d561cd3ab5452fbde2a4784405bc966d2b7ad89"
+    },
+    {
+      "name": "codex/musical-intelligence-phase1",
+      "sha": "16124fda536709fc24c2ff041a2aeff3f374c1cb"
+    },
+    {
+      "name": "codex/packaging-and-performance",
+      "sha": "d75d8a7d4dcaf44f1ec63623a0f39626066b3e0f"
+    },
+    {
+      "name": "codex/power-build-validation",
+      "sha": "153fb72afcbb615ad035af838d115b5828335571"
+    },
+    {
+      "name": "codex/power-metadata-input",
+      "sha": "5afc365666f566313ee280f2e8e0b78ed849bf70"
+    },
+    {
+      "name": "codex/promote-orchestrator-planning",
+      "sha": "dfcabd791ea8e3897e2870dac5c80390f8522b67"
+    },
+    {
+      "name": "codex/recover-premature-issue-closures",
+      "sha": "e54761d44bb9b342d799b3401e1efc5339421621"
+    },
+    {
+      "name": "codex/recovery-artifacts-76",
+      "sha": "0846936d010bb878865541f09134cafcd1e8fc2e"
+    },
+    {
+      "name": "codex/recovery-docs-76",
+      "sha": "63edd915610b09be072c1004405a2faad92e323c"
+    },
+    {
+      "name": "codex/recovery-evidence-76",
+      "sha": "2b5b71be3177f85703ecf216e76dc7d782facafb"
+    },
+    {
+      "name": "codex/recovery-gate-issue76-current",
+      "sha": "2bb5413608ec49c735800050c5bb9e06f7ade313"
+    },
+    {
+      "name": "codex/restructure_core",
+      "sha": "f0dd01245262ce6ff4a157ac7aedc825d50f3b16"
+    },
+    {
+      "name": "codex/run-config-recovery-76",
+      "sha": "ece6688e61a2ece360c489a891ea21afc51130a2"
+    },
+    {
+      "name": "codex/scene-engine-phase2",
+      "sha": "70c0bdc4611b8be10042469a65a9565d42e282c6"
+    },
+    {
+      "name": "codex/sequence-builder-recovery-76",
+      "sha": "41984c40efbfc93c1190e6c6ab1e11c9c4e25810"
+    },
+    {
+      "name": "codex/signature-style-phase4",
+      "sha": "23c19aae30fbbfb1c090f3f83e8c1c4420d8e084"
+    },
+    {
+      "name": "codex/slice0-sequence-plan-fail-loud",
+      "sha": "05a66be0323ca34eadfab180c63fb05b18922569"
+    },
+    {
+      "name": "codex/spatial-choreography-phase3",
+      "sha": "ebeebaddf2413faba5de88760258e5d455ad52c6"
+    },
+    {
+      "name": "codex/triage-audio-intelligence",
+      "sha": "81da8cdb46c47737ecc2b29b78945527a99736c2"
+    },
+    {
+      "name": "codex/verify-repository-connection-and-token",
+      "sha": "f186ec1f1c4570cbb1f304acb69bda469aed4ead"
+    },
+    {
+      "name": "codex/verify-repository-connection-and-token-e2i5bj",
+      "sha": "0852a936b5131f38d7b11bad6fde48c4fc163266"
+    },
+    {
+      "name": "codex/xlights-evidence-76",
+      "sha": "90c1c3b15441ec4a6fb5d353cc3531da3c1ec192"
+    },
+    {
+      "name": "codex/xlights-rest-check-76",
+      "sha": "44370bfa1836254f5068f012a220ea720be86e63"
+    },
+    {
+      "name": "codex/xlights-review-kit-76",
+      "sha": "3f3439ce518064d64c86b52257d2ce278b7b4d04"
+    },
+    {
+      "name": "diagnostic/inagadda-drummer-smoke",
+      "sha": "79c51802e640d9612e32c6d52b3d3e16ea60c18b"
+    },
+    {
+      "name": "drummer/8-channel-submodel-wiring",
+      "sha": "64a8613b4a220e7e2133579825de07c5a095ff7c"
+    },
+    {
+      "name": "drummer-companion-v1",
+      "sha": "6012f58ee058991fdf9aca277d940617a1ebfabb"
+    },
+    {
+      "name": "drummer-v2-xmodel-spec",
+      "sha": "fdd938498531bb2c0c38bc7b6ac49b87f1cdb368"
+    },
+    {
+      "name": "feat/canonical-effects-orchestrator",
+      "sha": "0d3cd27f358ae87cc3d1823ae6e0aa0ab57ed6f2"
+    },
+    {
+      "name": "feature/ac-rgw-on-and-musical-showcase-20261011",
+      "sha": "3af352a14add7b611c88be9b4337e405adf54a94"
+    },
+    {
+      "name": "feature/advanced-perspective-concepts",
+      "sha": "15d5b39cb27759d4980bfa46bd9f897c0fe5d2d9"
+    },
+    {
+      "name": "feature/allmodels-neighbor-art-pass",
+      "sha": "bd1ca367a02cd4cc68d1aa9fc334940b2d58a9c5"
+    },
+    {
+      "name": "feature/android-kivy-mvp",
+      "sha": "1738a4c08f5c616ef13c11f6cb80a33471feb86d"
+    },
+    {
+      "name": "feature/android-native-previews",
+      "sha": "322e412165c51a6a183f09f1917433bef560608f"
+    },
+    {
+      "name": "feature/apache-sequence-corpus-v1",
+      "sha": "1f1f6d2089d8aa4ea8ade816084df62919fe07c4"
+    },
+    {
+      "name": "feature/approved-concepts-62-previews",
+      "sha": "4ed84b4c3d1968472129849178b8f421c40606d4"
+    },
+    {
+      "name": "feature/approved-concepts-native",
+      "sha": "9fe5a9dc36dc950b1b1e6ecbd8efd6e9a01db300"
+    },
+    {
+      "name": "feature/approved-stage-prep",
+      "sha": "9ca79f1758338d18605ee7255c9e276784950615"
+    },
+    {
+      "name": "feature/audio-intelligence-musical-intelligence",
+      "sha": "276175dc91fcf83d223e9a631d6097e0feed30c9"
+    },
+    {
+      "name": "feature/audio-intelligence-v2",
+      "sha": "8499c09579e8159cce87a925b83fc9931d43f629"
+    },
+    {
+      "name": "feature/audio-reactivity-pass",
+      "sha": "e21b6b945aefa64a9248a12f9b7306e2e0ff2987"
+    },
+    {
+      "name": "feature/autosize-xlights-controllers",
+      "sha": "789493c2d9ba5f52f5c18b9738bfe04efa2cbb6c"
+    },
+    {
+      "name": "feature/band-geometry-manifest-v1",
+      "sha": "c940bbb1ab7ff44aa08062ab324523195453c29f"
+    },
+    {
+      "name": "feature/band-geometry-validation-v1",
+      "sha": "aa28a0b22ca0ae3ca72c2573dcd248748f193b62"
+    },
+    {
+      "name": "feature/band-instrument-readability",
+      "sha": "56477cb2dd20dabf3c507f2fd11503793528d89f"
+    },
+    {
+      "name": "feature/band-intricate-42s",
+      "sha": "aed733a54a21de84277d4ba5d4aded371574f208"
+    },
+    {
+      "name": "feature/band-logic-reassessment",
+      "sha": "4aca41c5ae83a9f4c838e69393380f1dd0817ae6"
+    },
+    {
+      "name": "feature/beat-alignment-v1",
+      "sha": "067398ea30fa16c095fea0cb8962d45b1ea2fec5"
+    },
+    {
+      "name": "feature/birdsong-complete",
+      "sha": "6fb373ebc11d2dcdbea6f6e5124d5f95cedb4384"
+    },
+    {
+      "name": "feature/birdsong-engine",
+      "sha": "88878995776804110b3bc5a8dedf8d17f8be90e1"
+    },
+    {
+      "name": "feature/birdsong-engine-implementation",
+      "sha": "1f1f6d2089d8aa4ea8ade816084df62919fe07c4"
+    },
+    {
+      "name": "feature/birdsong-engine-v2",
+      "sha": "1fe2d7909f047c12e1281a4ffa6f92ed6f71bf8c"
+    },
+    {
+      "name": "feature/consolidate-engine",
+      "sha": "d77f3db3b19dd59c04143a44dcb39ce15420d90e"
+    },
+    {
+      "name": "feature/consolidate-prs-script",
+      "sha": "205c01beddd2c7b3cdd91b45deec7bac2d1229dc"
+    },
+    {
+      "name": "feature/draft-xmodel-assets-v1",
+      "sha": "670208ea6fa0c1bd9b9e3f0b0b9b7545a0da5452"
+    },
+    {
+      "name": "feature/drummer-shoulder-anchors",
+      "sha": "f0aca518f5a1dff15ab24eb8127d09cc26ea8990"
+    },
+    {
+      "name": "feature/drummer-v4-performance",
+      "sha": "2fba71d5ff77808a86bada6cb780c0619311a9e1"
+    },
+    {
+      "name": "feature/drummer-virtual-xlights",
+      "sha": "8766077e2f5b5b756d3d1ddf54fbe62c5243ecec"
+    },
+    {
+      "name": "feature/dual-xlights-lor-workflows-20261012",
+      "sha": "a95ab5fdaf7dc8d3d04d2c0a03cbbc8783b6001a"
+    },
+    {
+      "name": "feature/energy-scaling-v1",
+      "sha": "4848ed4d25b8b32339caa0be159dab20fb4ccf52"
+    },
+    {
+      "name": "feature/export-demo-xsq-v1",
+      "sha": "3f9e55336cf8d77a0f2240df059507db905da6be"
+    },
+    {
+      "name": "feature/gui-helixville-integration",
+      "sha": "62f6e54686034bb57d450e2315c6ee9cacc1fbdf"
+    },
+    {
+      "name": "feature/helixia-import-validation",
+      "sha": "74d4a60770e4e357c33e22d63d9f03e06dd4ad65"
+    },
+    {
+      "name": "feature/helixia-local-fixes",
+      "sha": "ae5606094d806cc1df15e768d6c1de0cd4db6324"
+    },
+    {
+      "name": "feature/helixia-props",
+      "sha": "5e85789f3c7539b6f2ab1ef2377ed674d3bc9c96"
+    },
+    {
+      "name": "feature/helixville3-spotlog-birdsong",
+      "sha": "34ac5d6b200f22eba2915ab8050f66aac90afa32"
+    },
+    {
+      "name": "feature/layout-concept-rounds",
+      "sha": "b56f2cf4a39401e201b729e253c8037509bb8c3f"
+    },
+    {
+      "name": "feature/lightsout-layout-regression-matrix-v1",
+      "sha": "1c8cbed8a3776491dec2637cb2b87c8a95e5a30b"
+    },
+    {
+      "name": "feature/lor-compatible-checkbox-20261011",
+      "sha": "bdc63b7fa8c5ba5a3e2440940a28a7b63a8f2f11"
+    },
+    {
+      "name": "feature/matrix-intelligence-planner",
+      "sha": "8be3bf2ec368f5c8308c1d4d409c172ce08a67fb"
+    },
+    {
+      "name": "feature/mesmerizing-concepts-63-82",
+      "sha": "7c933955733ec76a8fc3da6281b5b731819da63e"
+    },
+    {
+      "name": "feature/musicality-v29-score",
+      "sha": "131adb2854181ae751af636017c711a0bbce4cb5"
+    },
+    {
+      "name": "feature/musicality-v29-score2",
+      "sha": "131adb2854181ae751af636017c711a0bbce4cb5"
+    },
+    {
+      "name": "feature/musicality-v29-score-engine",
+      "sha": "131adb2854181ae751af636017c711a0bbce4cb5"
+    },
+    {
+      "name": "feature/musicality-v29-score-engine2",
+      "sha": "131adb2854181ae751af636017c711a0bbce4cb5"
+    },
+    {
+      "name": "feature/musicality-v29-score-engine3",
+      "sha": "131adb2854181ae751af636017c711a0bbce4cb5"
+    },
+    {
+      "name": "feature/musicality-v29-score-engine4",
+      "sha": "131adb2854181ae751af636017c711a0bbce4cb5"
+    },
+    {
+      "name": "feature/musicality-v29-score-engine5",
+      "sha": "131adb2854181ae751af636017c711a0bbce4cb5"
+    },
+    {
+      "name": "feature/musicality-v29-score-engine-final",
+      "sha": "131adb2854181ae751af636017c711a0bbce4cb5"
+    },
+    {
+      "name": "feature/musicality-v29-score-engine-tests",
+      "sha": "131adb2854181ae751af636017c711a0bbce4cb5"
+    },
+    {
+      "name": "feature/musicality-v29",
+      "sha": "131adb2854181ae751af636017c711a0bbce4cb5"
+    },
+    {
+      "name": "feature/native-fseq-preview-lor-lms-20261011",
+      "sha": "30bc7adea4e0a89689d7b369b3fbd8a8bebad278"
+    },
+    {
+      "name": "feature/portable-xlights-shows",
+      "sha": "f826cb3481db1bf601c61c1d720c50ac2d75c134"
+    },
+    {
+      "name": "feature/prime-birdsong-v2-orchestration",
+      "sha": "b0d46ffb61005ee45c77753e3f7c48f608d12cf5"
+    },
+    {
+      "name": "feature/restructure-core",
+      "sha": "1f66f5dfa09b3173f5cdfd33d28ab1b4421e11ad"
+    },
+    {
+      "name": "feature/review-media-delivery-2026-10-10",
+      "sha": "9746dfe853431c5c67c5f23d2b5086f9e0508bd4"
+    },
+    {
+      "name": "feature/run-manager-spine",
+      "sha": "ae93e4e4acf096634a2961e3a58c95e45c3256b0"
+    },
+    {
+      "name": "feature/runtime-consolidation-audit-v1",
+      "sha": "04e1432223a436a2722de8eee69ceddd1be6b5de"
+    },
+    {
+      "name": "feature/sequence-builder-restore",
+      "sha": "bc73ce0199fc7193be2af0546e010de58f45704a"
+    },
+    {
+      "name": "feature/showcase-audio-batch",
+      "sha": "15a7e5450d2798eacc57b821267d6a526428884a"
+    },
+    {
+      "name": "feature/showcase-six-flavors",
+      "sha": "b0b6f74c75ef8fae3cb1456df0c3c084f1304342"
+    },
+    {
+      "name": "feature/snowman-band-lyric-performances",
+      "sha": "aef54fc9cebb90454c739169eb6161564a663bfd"
+    },
+    {
+      "name": "feature/stop-motion-concepts",
+      "sha": "80843861003ecfd4606d47df92d1533a262025fc"
+    },
+    {
+      "name": "feature/synthetic-drummer-test",
+      "sha": "ce64469fddebc94b3f650db101f7c713745dd4ea"
+    },
+    {
+      "name": "feature/true-3d-spatial-pipeline",
+      "sha": "96abaefc5e77bcfc5faf68e5eb6ccd6191fffaa0"
+    },
+    {
+      "name": "feature/ultimate-helix-showcase",
+      "sha": "c5c99d19616cda21478d9ec879d29f47962d2afc"
+    },
+    {
+      "name": "feature/windows-gui-portable-20261010",
+      "sha": "874fc3fa7248434ec383a558ee69ac3f58b9aa76"
+    },
+    {
+      "name": "feature/xlights-import-validated-v1",
+      "sha": "8c5ea95ac0c9bfc6c4a893927dfd01dfad483027"
+    },
+    {
+      "name": "feature/xlights-validation-v1",
+      "sha": "f3107826ea3dc788c50846adf8e6cf7cdc125bca"
+    },
+    {
+      "name": "feature/xsq-emitter-v1",
+      "sha": "2628c874628fcd2e5b5665ed1da3a22c6d85d110"
+    },
+    {
+      "name": "feature/xsq-validation-fixtures-v1",
+      "sha": "013f5879853c95c0c0e73a766529dd6cc0b6ab24"
+    },
+    {
+      "name": "finish-band-members",
+      "sha": "2aaa9808189fdc9925a4b2aa2822fd08a2b7fd51"
+    },
+    {
+      "name": "fix/drummer-independent-illumination",
+      "sha": "87c4b51bab45fb80b630288ef82f29c3da5e0014"
+    },
+    {
+      "name": "fix/drummer-target-strikes",
+      "sha": "3cbd736bedf0feadaba69c8a526b2d246ec07b7d"
+    },
+    {
+      "name": "fix/helixville4-band-phoneme-stems",
+      "sha": "3f9abd99b8bb480e78e1b53b943a3e565ac4d02d"
+    },
+    {
+      "name": "fix/issue-72-helixia-phoneme-model",
+      "sha": "98005a6163ab11a606d868ffc78c3bfee949c03b"
+    },
+    {
+      "name": "fix/issue-114-engine-failure-contract",
+      "sha": "b20a51e3c534fe574102a9df90c5bef30db6b430"
+    },
+    {
+      "name": "fix/mp4-generation-latest",
+      "sha": "6612dc4b579984d3e20dfb93716425e117810f9f"
+    },
+    {
+      "name": "fix/neon-xsq-palettes-20261011",
+      "sha": "8776b5bb8071e6e3d2fcc23c3957d978a17daab9"
+    },
+    {
+      "name": "fix/post-helixia-spatial-ci",
+      "sha": "85a359fa7c619b0dacd46cd902c447ecd7ce0d6c"
+    },
+    {
+      "name": "fix/recovery-gate-closure",
+      "sha": "cd32611544f1b1d868bc7d5dabd146857ae9336f"
+    },
+    {
+      "name": "fix/tinsel-no-drummer",
+      "sha": "6748a200670523b334b01330cc01be1342310b6d"
+    },
+    {
+      "name": "giant-leap",
+      "sha": "8699fea5b9d8e967e352bb17538d78b74e3b2489"
+    },
+    {
+      "name": "helix-v2-audio-gui-lab",
+      "sha": "2e3d0f30371c84dee5adda3a786b1152635a6aed"
+    },
+    {
+      "name": "helixia-spatial-grounds",
+      "sha": "4136308abb03006b95da12982023b331996ceb45"
+    },
+    {
+      "name": "implement/helix-preview-milestone-1",
+      "sha": "9d5d5bbcf1fbde4e6f9efd5469995712053614cc"
+    },
+    {
+      "name": "integration/checkpoint-after-pr-b",
+      "sha": "71b9f2e922ca599aef7af8cb79e14ed590363685"
+    },
+    {
+      "name": "main",
+      "sha": "60425a7baaecafa2766e5d3c18f3332d199dbefc"
+    },
+    {
+      "name": "maintenance/dependency-modernization",
+      "sha": "394e78e9baeeedbca61be3a36584cc055a5a1ffa"
+    },
+    {
+      "name": "market-pulse-mvp",
+      "sha": "7ca21a76f5b761989ab4827d0d8b2360dca740d3"
+    },
+    {
+      "name": "preview/six-layout-30s-2026-10-09",
+      "sha": "2dc595c2354b1c07f3e3d1002a1bb599958c78aa"
+    },
+    {
+      "name": "preview-mp4-quality-presets",
+      "sha": "3d9ad911628be6587ba498602d39df69c26049f1"
+    },
+    {
+      "name": "quality-scoring-v1",
+      "sha": "a5bc78eee87929c9397ee35ba0c21d0541e4519c"
+    },
+    {
+      "name": "recovery/effect-engine-full-2026-08-13",
+      "sha": "191bf5ad0586ed1da9ae78fd66e22ded49183520"
+    },
+    {
+      "name": "repair/effect-engine-recovery-2026-08-13",
+      "sha": "f9b25a96ab75ba6f2e1b96bbcbedfb246bb5d31c"
+    },
+    {
+      "name": "run/full-lightsout-drummer-20260813",
+      "sha": "1336f782f34f9b929d80cc26367d19b84a0841b8"
+    },
+    {
+      "name": "split/audio-compat",
+      "sha": "0090604d35d04c843d3cebec48b82c980815d3a9"
+    },
+    {
+      "name": "split/ci-hygiene",
+      "sha": "65e4b9f7dbceb4d9f60862e921076cff766903cb"
+    },
+    {
+      "name": "split/feature-state",
+      "sha": "d9c3fcd02d2f0c7bdadde2f9d62a6e268ff65ede"
+    },
+    {
+      "name": "split/quality-stack",
+      "sha": "b751f54b717d15719cedc467005e5fb8bb610e88"
+    },
+    {
+      "name": "split/vendor-bar",
+      "sha": "f6fcfd56cae543cc28f0d35c0b1250ff24ed1fd3"
+    },
+    {
+      "name": "stem-audio-benchmark-suite",
+      "sha": "8609fb70fbceccb0e5afd59baf0fd4d3d7f62141"
+    },
+    {
+      "name": "test/high-impact-drum-groundtruth",
+      "sha": "8e356ad2065517f50082467cbd523932575e005a"
+    },
+    {
+      "name": "ultimate-showcase-run",
+      "sha": "17734d333ee4f3ba721259fa97f10731766ed324"
+    },
+    {
+      "name": "wire-drummer-legacy-256",
+      "sha": "67d6bb0713e40d9b62ed29bf528331d3c838b34f"
+    }
+  ],
+  "reviewed_heads": [
+    {
+      "branch": "feature/restructure-core",
+      "sha": "1f66f5dfa09b3173f5cdfd33d28ab1b4421e11ad",
+      "message": "Fix drummer V3 HIGH/MID orientation validation",
+      "date": "2026-10-06T03:43:15Z",
+      "files": [
+        "tests/test_drummer_v3_pose_sheet.py"
+      ]
+    },
+    {
+      "branch": "feature/drummer-shoulder-anchors",
+      "sha": "f0aca518f5a1dff15ab24eb8127d09cc26ea8990",
+      "message": "docs(drummer): clarify preview coverage and reproduction [skip ci]",
+      "date": "2026-10-10T20:53:37Z",
+      "files": [
+        "MASTER_TODO.md",
+        "docs/DRUMMER_SHOULDER_REVISION.md"
+      ]
+    },
+    {
+      "branch": "feature/band-instrument-readability",
+      "sha": "56477cb2dd20dabf3c507f2fd11503793528d89f",
+      "message": "docs(band): complete delivery handoff and public archive verification",
+      "date": "2026-10-10T22:08:01Z",
+      "files": [
+        "MASTER_TODO.md",
+        "docs/BAND_INSTRUMENT_REVIEW_HANDOFF.md",
+        "evidence/band_instrument_review/publication.json",
+        "evidence/band_instrument_review/publication_workflow.json",
+        "evidence/band_instrument_review/transport_manifest.json"
+      ]
+    },
+    {
+      "branch": "feature/band-logic-reassessment",
+      "sha": "4aca41c5ae83a9f4c838e69393380f1dd0817ae6",
+      "message": "docs(band): clarify reassessment evidence and handoff",
+      "date": "2026-10-10T22:50:03Z",
+      "files": [
+        "MASTER_TODO.md",
+        "docs/BAND_LOGIC_REASSESSMENT_DOWNLOADS.md",
+        "docs/BAND_LOGIC_REASSESSMENT_HANDOFF.md"
+      ]
+    },
+    {
+      "branch": "feature/drummer-v4-performance",
+      "sha": "2fba71d5ff77808a86bada6cb780c0619311a9e1",
+      "message": "ci(drummer): run event-driven V4 performance render",
+      "date": "2026-09-23T03:33:51Z",
+      "files": [
+        ".github/workflows/helix-full-current.yml"
+      ]
+    }
+  ],
+  "selected_base": "4aca41c5ae83a9f4c838e69393380f1dd0817ae6"
+}

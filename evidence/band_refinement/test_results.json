@@ -1,0 +1,27 @@
+{
+  "focused": "38 passed",
+  "full_suite": "1266 passed, 12 failed, 5 skipped",
+  "baseline_failing_files": "12 failed, 28 passed",
+  "failures": [
+    "tests/test_helixia_props.py::HelixiaPropsTests::test_all_snowman_band_members_have_structural_models",
+    "tests/test_helixia_props.py::HelixiaPropsTests::test_member_specific_instrument_submodels_are_present",
+    "tests/test_helixia_props.py::HelixiaPropsTests::test_snowman_drummer_models_submodels_and_groups",
+    "tests/test_helixia_xlights_band_specs.py::HelixiaXlightsBandSpecsTests::test_opt_in_band_model_specs_are_stem_map_compatible",
+    "tests/test_helixia_xlights_band_specs.py::HelixiaXlightsBandSpecsTests::test_opt_in_band_model_specs_generate_real_band_models_and_submodels",
+    "tests/test_preview_mux.py::test_mux_success_first_attempt",
+    "tests/test_preview_mux.py::test_mux_fallback_then_success",
+    "tests/test_preview_mux.py::test_mux_both_fail_preserve_silent",
+    "tests/test_snowman_band.py::SnowmanBandTests::test_structured_drum_events_drive_intelligent_drummer_cues",
+    "tests/test_working_drummer.py::WorkingDrummerTests::test_reactive_drummer_distributes_drum_bus_when_only_bus_available",
+    "tests/test_working_drummer.py::WorkingDrummerTests::test_reactive_drummer_uses_legacy_marks_when_typed_streams_missing",
+    "tests/test_xsq_validation_tool.py::test_valid_fixture_passes"
+  ],
+  "all_full_suite_failures_reproduced_on_untouched_baseline": true,
+  "baseline_sha": "4aca41c5ae83a9f4c838e69393380f1dd0817ae6",
+  "source_logs_in_delivery": [
+    "final_full_suite.log",
+    "baseline_failure_comparison.log",
+    "focused_tests.log"
+  ],
+  "new_export_regressions": "2 passed after AAC-trimming correction"
+}
