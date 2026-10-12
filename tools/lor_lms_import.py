@@ -79,9 +79,28 @@ def prepare_lms_workspace(source: Path, workspace: Path) -> dict:
     # Deterministic grid visualization only. LMS does not supply prop geometry.
     columns = 16
     for i, entry in enumerate(channels):
+        try:
+            lor_color = int(entry["color"])
+        except ValueError:
+            lor_color = 0xFFFFFF
+        # LOR stores its display swatch as 0xBBGGRR. This is an indication
+        # of appearance for the virtual channel-grid preview, NOT proof of
+        # the type of bulb actually wired to the unit/circuit.
+        rr = lor_color & 255
+        gg = (lor_color >> 8) & 255
+        bb = (lor_color >> 16) & 255
+        if rr > 0 and not gg and not bb:
+            string_type = "Single Color Red"
+        elif gg > 0 and not rr and not bb:
+            string_type = "Single Color Green"
+        elif rr == gg == bb and rr > 0:
+            string_type = "Single Color White"
+        else:
+            string_type = "Single Color Intensity"
         ET.SubElement(models, "model", {
             "name": entry["model"], "DisplayAs": "Single Line",
-            "StringType": "Single Color Intensity", "StartChannel": str(i + 1),
+            "StringType": string_type, "StartChannel": str(i + 1),
+            "CustomColor": f"#{rr:02X}{gg:02X}{bb:02X}",
             "parm1": "1", "parm2": "1", "parm3": "1",
             "WorldPosX": str((i % columns) * 40),
             "WorldPosY": str((i // columns) * 40),
