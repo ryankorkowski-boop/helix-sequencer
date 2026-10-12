@@ -44,6 +44,7 @@ class HelixGui(tk.Tk):
         self.polish_var = tk.BooleanVar(value=True)
         self.shortlist_var = tk.BooleanVar(value=True)
         self.learn_xsq_var = tk.BooleanVar(value=True)
+        self.lor_compatible_var = tk.BooleanVar(value=False)
 
         self.birdsong_var = tk.BooleanVar(value=True)
         self.birdsong_auto_var = tk.BooleanVar(value=True)
@@ -117,6 +118,17 @@ class HelixGui(tk.Tk):
         ttk.Checkbutton(controls, text="Polish", variable=self.polish_var).grid(row=1, column=2, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Auto Shortlist", variable=self.shortlist_var).grid(row=1, column=3, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Learn From My XSQs", variable=self.learn_xsq_var).grid(row=1, column=4, sticky="w", **pad)
+
+        ttk.Checkbutton(
+            controls, text="LOR Compatible (AC effects; export through xLights)",
+            variable=self.lor_compatible_var,
+        ).grid(row=2, column=0, columnspan=5, sticky="w", **pad)
+        ttk.Label(
+            controls,
+            text="For Greg's 256-channel display: keep On, fades, shimmer and twinkle; "
+                 "no RGB/pixel effects, no LMS converter.",
+            wraplength=780,
+        ).grid(row=3, column=0, columnspan=5, sticky="w", **pad)
 
         birdsong = ttk.LabelFrame(frame, text="Birdsong Engine")
         birdsong.pack(fill=tk.X, **pad)
@@ -227,9 +239,18 @@ class HelixGui(tk.Tk):
             "--no-prompt",
         ]
 
+        if self.lor_compatible_var.get():
+            cmd.extend([
+                "--ac-lights-only", "--no-pixel-reactive",
+                "--no-matrix-intelligence", "--no-effects-orchestrator",
+            ])
+            self._log(
+                "LOR Compatible: using existing AC-safe Helix engine and "
+                "single-color XSQ validation. Convert to LOR in xLights."
+            )
         if self.vendor_bar_var.get():
             cmd.append("--vendor-bar")
-        if self.matrix_var.get():
+        if self.matrix_var.get() and not self.lor_compatible_var.get():
             cmd.append("--matrix-intelligence")
         if self.polish_var.get():
             cmd.append("--polish")
@@ -240,7 +261,7 @@ class HelixGui(tk.Tk):
         if self.learn_xsq_var.get():
             cmd.append("--learn-from-my-xsqs")
 
-        if self.birdsong_var.get():
+        if self.birdsong_var.get() and not self.lor_compatible_var.get():
             cmd.extend(
                 [
                     "--birdsong",
