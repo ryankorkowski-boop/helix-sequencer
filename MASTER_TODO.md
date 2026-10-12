@@ -1,5 +1,16 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-12 — resume complete band refinement on requested codex branch (in progress)
+
+Goal: continue the user's full four-performer execution task on `codex/band-performance-refinement-20261012`; never merge the primary branch. Starting head f0aca518 equals the shoulder reference, while primary is 137 commits behind this history. Inspected newer 0d855b2/99bcd7b/37ffbed/5ece855 band work and successful review run 38274055952 rather than blindly merging it.
+
+Changed modules: selectively carry inspected band instrument routing, connected source-art drummer, motion/scene/performance/render/export/audit modules and focused regressions from the newer branch. Original models/band_performance_scene.py, models/band_sampler_logic.py, layouts, generated approved drummer assets, audio and historical composers remain preserved. Further fixes, commands and evidence are tracked in docs/BAND_EXECUTION_CHECKLIST.md.
+
+New behavior: forthcoming fixed-length 3D joints, literal mallet timing and production renderer opt-in integration. Reuse existing separated-source detections, retain uncertainty and all original schedules. Tests/renders/evidence: pending fresh checks on this branch; earlier review results are explicitly historical and not new evidence.
+
+Limitations/deferred/risks: no independently labelled score or raw six-stem WAVs recovered yet; cannot claim measured detection accuracy. Existing review XSQs are virtual-matrix Video effects, not physical performer native parity. Must inspect decoded films, check source/audio and geometry, preserve matrices on repeated/random frame calls, and deliver verified phone downloads. No approval to merge primary.
+
+
 ## 2026-10-10 — natural drummer shoulders and dry-test hit coverage (published)
 
 Goal: apply the drummer-technique feedback by anchoring arms outward/lower on the torso, deliver a fresh dry-test MP4, and audit every scored hit and independently measured source attack for a visible response.

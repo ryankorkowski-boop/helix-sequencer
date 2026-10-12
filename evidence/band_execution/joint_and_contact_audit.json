@@ -1,0 +1,200 @@
+[
+  {
+    "movie": "C_Guitar_Who_Knew",
+    "frames": 360,
+    "max_length_error": 7.771561172376096e-16,
+    "link_length_variation": {
+      "('bass', 'pluck')": [
+        4.440892098500626e-16,
+        1.3322676295501878e-15
+      ],
+      "('bass', 'finger')": [
+        6.661338147750939e-16,
+        1.2212453270876722e-15
+      ],
+      "('guitar', 'strum')": [
+        5.551115123125783e-16,
+        9.992007221626409e-16
+      ],
+      "('guitar', 'finger')": [
+        1.4432899320127035e-15,
+        1.1102230246251565e-15
+      ],
+      "('xylophone', 'left')": [
+        0.0,
+        0.0
+      ],
+      "('xylophone', 'right')": [
+        6.661338147750939e-16,
+        7.771561172376096e-16
+      ]
+    },
+    "mallet_events": 33,
+    "maximum_mallet_display_error_ms": 0.0
+  },
+  {
+    "movie": "C_Bass_49",
+    "frames": 360,
+    "max_length_error": 7.771561172376096e-16,
+    "link_length_variation": {
+      "('bass', 'pluck')": [
+        5.551115123125783e-16,
+        1.4432899320127035e-15
+      ],
+      "('bass', 'finger')": [
+        7.771561172376096e-16,
+        1.2212453270876722e-15
+      ],
+      "('guitar', 'strum')": [
+        0.0,
+        0.0
+      ],
+      "('guitar', 'finger')": [
+        0.0,
+        0.0
+      ],
+      "('xylophone', 'left')": [
+        5.551115123125783e-16,
+        5.551115123125783e-16
+      ],
+      "('xylophone', 'right')": [
+        6.661338147750939e-16,
+        8.881784197001252e-16
+      ]
+    },
+    "mallet_events": 23,
+    "maximum_mallet_display_error_ms": 0.0
+  },
+  {
+    "movie": "D_Pitched_Percussion_Candidates_Festivus",
+    "frames": 360,
+    "max_length_error": 6.661338147750939e-16,
+    "link_length_variation": {
+      "('bass', 'pluck')": [
+        5.551115123125783e-16,
+        1.3322676295501878e-15
+      ],
+      "('bass', 'finger')": [
+        6.661338147750939e-16,
+        8.881784197001252e-16
+      ],
+      "('guitar', 'strum')": [
+        0.0,
+        0.0
+      ],
+      "('guitar', 'finger')": [
+        0.0,
+        0.0
+      ],
+      "('xylophone', 'left')": [
+        1.1102230246251565e-15,
+        9.992007221626409e-16
+      ],
+      "('xylophone', 'right')": [
+        8.881784197001252e-16,
+        1.1102230246251565e-15
+      ]
+    },
+    "mallet_events": 35,
+    "maximum_mallet_display_error_ms": 0.0
+  },
+  {
+    "movie": "E_Band_Wire_Tree",
+    "frames": 360,
+    "max_length_error": 7.771561172376096e-16,
+    "link_length_variation": {
+      "('bass', 'pluck')": [
+        6.661338147750939e-16,
+        1.4432899320127035e-15
+      ],
+      "('bass', 'finger')": [
+        6.661338147750939e-16,
+        1.3322676295501878e-15
+      ],
+      "('guitar', 'strum')": [
+        0.0,
+        0.0
+      ],
+      "('guitar', 'finger')": [
+        0.0,
+        0.0
+      ],
+      "('xylophone', 'left')": [
+        0.0,
+        0.0
+      ],
+      "('xylophone', 'right')": [
+        0.0,
+        0.0
+      ]
+    },
+    "mallet_events": 23,
+    "maximum_mallet_display_error_ms": 0.0
+  },
+  {
+    "movie": "E_Band_Candy_Cane_Chaos",
+    "frames": 360,
+    "max_length_error": 8.881784197001252e-16,
+    "link_length_variation": {
+      "('bass', 'pluck')": [
+        4.440892098500626e-16,
+        1.6653345369377348e-15
+      ],
+      "('bass', 'finger')": [
+        6.661338147750939e-16,
+        1.1102230246251565e-15
+      ],
+      "('guitar', 'strum')": [
+        5.551115123125783e-16,
+        6.661338147750939e-16
+      ],
+      "('guitar', 'finger')": [
+        1.3322676295501878e-15,
+        1.1102230246251565e-15
+      ],
+      "('xylophone', 'left')": [
+        0.0,
+        0.0
+      ],
+      "('xylophone', 'right')": [
+        0.0,
+        0.0
+      ]
+    },
+    "mallet_events": 18,
+    "maximum_mallet_display_error_ms": 0.0
+  },
+  {
+    "movie": "E_Band_Festivus",
+    "frames": 360,
+    "max_length_error": 6.661338147750939e-16,
+    "link_length_variation": {
+      "('bass', 'pluck')": [
+        5.551115123125783e-16,
+        1.3322676295501878e-15
+      ],
+      "('bass', 'finger')": [
+        6.661338147750939e-16,
+        8.881784197001252e-16
+      ],
+      "('guitar', 'strum')": [
+        0.0,
+        0.0
+      ],
+      "('guitar', 'finger')": [
+        0.0,
+        0.0
+      ],
+      "('xylophone', 'left')": [
+        1.1102230246251565e-15,
+        9.992007221626409e-16
+      ],
+      "('xylophone', 'right')": [
+        8.881784197001252e-16,
+        1.1102230246251565e-15
+      ]
+    },
+    "mallet_events": 35,
+    "maximum_mallet_display_error_ms": 0.0
+  }
+]

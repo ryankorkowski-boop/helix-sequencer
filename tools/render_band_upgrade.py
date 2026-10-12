@@ -234,7 +234,13 @@ class Performance:
         return frame
 
 
-def render(row,variant,seconds=0,start=0,width=1920,height=1080):
+def render(row,variant,seconds=0,start=0,width=1920,height=1080,performance_refinement=False):
+    if performance_refinement:
+        if variant!='band':
+            raise ValueError('performance refinement requires the band scene')
+        from tools.render_refined_helix_band import band
+        return band(row,start,seconds or row['duration']-start,'stage',
+            f'{row["id"]}_band_Performance_Refinement',width,height)
     folder=OUT/'movies';folder.mkdir(parents=True,exist_ok=True)
     suffix='_pilot' if seconds else ''
     name=f'{row["id"]}_{variant}_Refined_3D{suffix}.mp4';movie=folder/name
@@ -282,12 +288,15 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--ids',nargs='+',default=['00','01','02','03','04','05'])
     parser.add_argument('--variants',nargs='+',default=['band','faces']);parser.add_argument('--seconds',type=float,default=0)
     parser.add_argument('--start',type=float,default=0);parser.add_argument('--width',type=int,default=1920);parser.add_argument('--height',type=int,default=1080)
+    parser.add_argument('--performance-refinement',action='store_true',
+                        help='Use source-timed fixed-link musicians and the articulated original drummer; requires retained band analysis')
     args=parser.parse_args();rows=json.loads((OLD/'sources.json').read_text());proof=[]
     for row in rows:
         if row['id'] not in args.ids:continue
         for variant in args.variants:
             if row['id']=='00' and variant=='faces':continue
-            proof.append(render(row,variant,args.seconds,args.start,args.width,args.height))
+            result=render(row,variant,args.seconds,args.start,args.width,args.height,args.performance_refinement)
+            proof.append(str(result) if args.performance_refinement else result)
     (OUT/('pilot_verification.json' if args.seconds else 'render_verification.json')).write_text(json.dumps(proof,indent=2)+'\n')
 
 
