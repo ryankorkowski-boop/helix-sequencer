@@ -76,6 +76,11 @@ def export_lms_from_xsq(
     models = {
         e["model"]: e for e in manifest["channels"]
     }
+    # Sequence engine may place group effects. Expand onto actual physical
+    # channels before emitting LMS, without fabricating a group controller.
+    virtual_layout = Path(manifest["layout"])
+    from tools.lor_compatibility import ac_layout_targets, _safe_leaves
+    safe, _other, groups = ac_layout_targets(virtual_layout)
     physical = {
         e.get("savedIndex"): e for e in source_root.findall("./channels/channel")
     }
@@ -86,13 +91,11 @@ def export_lms_from_xsq(
         if row.get("type") == "timing":
             continue
         name = row.get("name", "")
-        if name not in models:
+        targets = {name} if name in models else _safe_leaves(name, safe, groups)
+        if not targets or not targets <= set(models):
             raise ValueError(
-                f"Generated output targets {name!r}, not a mapped physical LMS channel; "
-                "do not export group effects directly to hardware"
+                f"Generated output targets {name!r}, not mapped physical LMS channels"
             )
-        target = models[name]["savedIndex"]
-        out = events.setdefault(target, [])
         for effect in row.findall("./EffectLayer/Effect"):
             label = effect.get("name", "")
             if label not in {"On", "Off", "Shimmer", "Twinkle"}:
@@ -106,8 +109,10 @@ def export_lms_from_xsq(
             ref = effect.get("ref") or "0"
             if not ref.isdecimal() or int(ref) >= len(settings):
                 raise ValueError("XSQ effect references unknown intensity settings")
-            out.append((a, b, label, settings[int(ref)]))
-            valid_count += 1
+            for target_name in targets:
+                target = models[target_name]["savedIndex"]
+                events.setdefault(target, []).append((a, b, label, settings[int(ref)]))
+                valid_count += 1
     if valid_count == 0:
         raise ValueError("No mapped LOR channel effects generated")
 
