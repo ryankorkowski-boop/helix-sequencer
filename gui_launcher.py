@@ -45,6 +45,9 @@ class HelixGui(tk.Tk):
         self.shortlist_var = tk.BooleanVar(value=True)
         self.learn_xsq_var = tk.BooleanVar(value=True)
         self.lor_compatible_var = tk.BooleanVar(value=False)
+        self.sequence_mode_var = tk.StringVar(value="xLights")
+        self.lor_source_var = tk.StringVar(value="")
+        self.generate_mp4_var = tk.BooleanVar(value=True)
 
         self.birdsong_var = tk.BooleanVar(value=True)
         self.birdsong_auto_var = tk.BooleanVar(value=True)
@@ -55,6 +58,7 @@ class HelixGui(tk.Tk):
 
         self._build_ui()
         self._apply_layout_preset()
+        self._update_mode_ui()
 
     def _build_ui(self) -> None:
         pad = {"padx": 8, "pady": 6}
@@ -64,7 +68,15 @@ class HelixGui(tk.Tk):
         top = ttk.LabelFrame(frame, text="Show Context")
         top.pack(fill=tk.X, **pad)
 
-        ttk.Label(top, text="Layout Preset").grid(row=0, column=0, sticky="w", **pad)
+        ttk.Label(top, text="Sequencer Mode").grid(row=0, column=0, sticky="w", **pad)
+        ttk.Combobox(
+            top, textvariable=self.sequence_mode_var,
+            values=["xLights", "Light-O-Rama"],
+            state="readonly", width=20,
+        ).grid(row=0, column=1, sticky="w", **pad)
+        self.sequence_mode_var.trace_add("write", lambda *_a: self._update_mode_ui())
+
+        ttk.Label(top, text="Layout Preset").grid(row=1, column=0, sticky="w", **pad)
         preset_combo = ttk.Combobox(
             top,
             textvariable=self.layout_preset_var,
@@ -72,36 +84,52 @@ class HelixGui(tk.Tk):
             state="readonly",
             width=20,
         )
-        preset_combo.grid(row=0, column=1, sticky="w", **pad)
+        preset_combo.grid(row=1, column=1, sticky="w", **pad)
+        self._layout_preset_combo = preset_combo
         preset_combo.bind("<<ComboboxSelected>>", lambda _event: self._apply_layout_preset())
 
         ttk.Button(top, text="Build/Refresh Helixville", command=self._build_helixville).grid(
-            row=0, column=2, sticky="w", **pad
+            row=1, column=2, sticky="w", **pad
         )
 
-        ttk.Label(top, text="Template XSQ").grid(row=1, column=0, sticky="w", **pad)
-        ttk.Entry(top, textvariable=self.template_var, width=86).grid(row=1, column=1, columnspan=2, sticky="we", **pad)
-        ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.template_var, [("XSQ", "*.xsq")])).grid(
-            row=1, column=3, sticky="w", **pad
-        )
+        ttk.Label(top, text="Template XSQ").grid(row=2, column=0, sticky="w", **pad)
+        self.template_entry = ttk.Entry(top, textvariable=self.template_var, width=86).grid(row=3, column=1, columnspan=2, sticky="we", **pad)
+        self.template_browse = ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.template_var, [("XSQ", "*.xsq")]))
+        self.template_browse.grid(row=2, column=3, sticky="w", **pad)
 
-        ttk.Label(top, text="Audio File").grid(row=2, column=0, sticky="w", **pad)
+        ttk.Label(top, text="Audio File").grid(row=3, column=0, sticky="w", **pad)
         ttk.Entry(top, textvariable=self.audio_var, width=86).grid(row=2, column=1, columnspan=2, sticky="we", **pad)
         ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.audio_var, [("Audio", "*.wav *.mp3 *.flac *.ogg *.m4a")])).grid(
-            row=2, column=3,
+            row=3, column=3,
             sticky="w",
             **pad,
         )
 
-        ttk.Label(top, text="Layout File").grid(row=3, column=0, sticky="w", **pad)
-        ttk.Entry(top, textvariable=self.layout_var, width=86).grid(row=3, column=1, columnspan=2, sticky="we", **pad)
-        ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.layout_var, [("xLights Layout", "*.xml *.xbkp")])).grid(
-            row=3, column=3, sticky="w", **pad
-        )
+        ttk.Label(top, text="Layout File").grid(row=4, column=0, sticky="w", **pad)
+        self.layout_entry = ttk.Entry(top, textvariable=self.layout_var, width=86)
+        self.layout_entry.grid(row=4, column=1, columnspan=2, sticky="we", **pad)
+        self.layout_browse = ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.layout_var, [("xLights Layout", "*.xml *.xbkp")]))
+        self.layout_browse.grid(row=4, column=3, sticky="w", **pad)
 
-        ttk.Label(top, text="Output Folder").grid(row=4, column=0, sticky="w", **pad)
-        ttk.Entry(top, textvariable=self.output_var, width=86).grid(row=4, column=1, columnspan=2, sticky="we", **pad)
-        ttk.Button(top, text="Browse", command=lambda: self._browse_folder(self.output_var)).grid(row=4, column=3, sticky="w", **pad)
+        ttk.Label(top, text="Output Folder").grid(row=5, column=0, sticky="w", **pad)
+        ttk.Entry(top, textvariable=self.output_var, width=86).grid(row=5, column=1, columnspan=2, sticky="we", **pad)
+        ttk.Button(top, text="Browse", command=lambda: self._browse_folder(self.output_var)).grid(row=5, column=3, sticky="w", **pad)
+
+        ttk.Label(top, text="LOR Channel Layout (.lms)").grid(row=6, column=0, sticky="w", **pad)
+        self.lor_source_entry = ttk.Entry(top, textvariable=self.lor_source_var, width=86)
+        self.lor_source_entry.grid(row=6, column=1, columnspan=2, sticky="we", **pad)
+        self.lor_source_browse = ttk.Button(
+            top, text="Browse", command=lambda: self._browse_file(
+                self.lor_source_var, [("Legacy LOR sequence", "*.lms")]
+            )
+        )
+        self.lor_source_browse.grid(row=6, column=3, sticky="w", **pad)
+        ttk.Label(
+            top,
+            text="LOR mode reads channels and Unit/Circuit mapping from your existing LMS. "
+                 "Modern .loredit is not yet supported; import/upgrade the exported LMS in LOR.",
+            wraplength=840,
+        ).grid(row=7, column=0, columnspan=4, sticky="w", **pad)
 
         controls = ttk.LabelFrame(frame, text="Engine Controls")
         controls.pack(fill=tk.X, **pad)
@@ -119,15 +147,15 @@ class HelixGui(tk.Tk):
         ttk.Checkbutton(controls, text="Auto Shortlist", variable=self.shortlist_var).grid(row=1, column=3, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Learn From My XSQs", variable=self.learn_xsq_var).grid(row=1, column=4, sticky="w", **pad)
 
-        ttk.Checkbutton(
-            controls, text="LOR Compatible (AC effects; export through xLights)",
-            variable=self.lor_compatible_var,
-        ).grid(row=2, column=0, columnspan=5, sticky="w", **pad)
-        ttk.Label(
+        self.lor_compat_button = ttk.Checkbutton(
             controls,
-            text="For Greg's 256-channel display: keep On, fades, shimmer and twinkle; "
-                 "no RGB/pixel effects, no LMS converter.",
-            wraplength=780,
+            text="AC-compatible effects (xLights mode, for external LOR conversion)",
+            variable=self.lor_compatible_var,
+        )
+        self.lor_compat_button.grid(row=2, column=0, columnspan=5, sticky="w", **pad)
+        ttk.Checkbutton(
+            controls, text="Generate MP4 preview with every sequence",
+            variable=self.generate_mp4_var,
         ).grid(row=3, column=0, columnspan=5, sticky="w", **pad)
 
         birdsong = ttk.LabelFrame(frame, text="Birdsong Engine")
@@ -164,6 +192,18 @@ class HelixGui(tk.Tk):
         log_frame.pack(fill=tk.BOTH, expand=True, **pad)
         self.log_text = tk.Text(log_frame, wrap=tk.WORD, height=20, bg="#0e1013", fg="#d6deeb", insertbackground="#d6deeb")
         self.log_text.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+    def _update_mode_ui(self) -> None:
+        lor = self.sequence_mode_var.get() == "Light-O-Rama"
+        for item in (
+            self.template_entry, self.template_browse, self.layout_entry,
+            self.layout_browse, self._layout_preset_combo, self.lor_compat_button
+        ):
+            item.configure(state="disabled" if lor else (
+                "readonly" if item is self._layout_preset_combo else "normal"
+            ))
+        for item in (self.lor_source_entry, self.lor_source_browse):
+            item.configure(state="normal" if lor else "disabled")
 
     def _browse_file(self, target_var: tk.StringVar, filetypes: list[tuple[str, str]]) -> None:
         selected = filedialog.askopenfilename(initialdir=str(ROOT), filetypes=filetypes)
@@ -213,12 +253,21 @@ class HelixGui(tk.Tk):
         if not self.audio_var.get().strip():
             messagebox.showwarning("Missing Audio", "Choose an audio file before running.")
             return
-        if not Path(self.layout_var.get().strip()).exists():
-            messagebox.showwarning("Missing Layout", "Layout file does not exist.")
-            return
-        if not Path(self.template_var.get().strip()).exists():
-            messagebox.showwarning("Missing Template", "Template XSQ file does not exist.")
-            return
+        lor_mode = self.sequence_mode_var.get() == "Light-O-Rama"
+        if lor_mode:
+            if not Path(self.lor_source_var.get().strip()).is_file():
+                messagebox.showwarning(
+                    "Missing LOR Layout",
+                    "Choose an existing legacy .lms sequence with your real LOR channels."
+                )
+                return
+        else:
+            if not Path(self.layout_var.get().strip()).exists():
+                messagebox.showwarning("Missing Layout", "Layout file does not exist.")
+                return
+            if not Path(self.template_var.get().strip()).exists():
+                messagebox.showwarning("Missing Template", "Template XSQ file does not exist.")
+                return
 
         cmd = [
             sys.executable,
@@ -239,18 +288,29 @@ class HelixGui(tk.Tk):
             "--no-prompt",
         ]
 
-        if self.lor_compatible_var.get():
+        if lor_mode:
+            cmd.extend([
+                "--helix-lor-source-lms", self.lor_source_var.get().strip(),
+                "--ac-lights-only", "--no-pixel-reactive",
+                "--no-matrix-intelligence", "--no-effects-orchestrator",
+            ])
+            self._log(
+                "Light-O-Rama mode: using Unit/Circuit mapping from the supplied LMS; "
+                "writing a new LMS and simulated channel-layout MP4."
+            )
+        elif self.lor_compatible_var.get():
             cmd.extend([
                 "--ac-lights-only", "--no-pixel-reactive",
                 "--no-matrix-intelligence", "--no-effects-orchestrator",
             ])
             self._log(
-                "LOR Compatible: using existing AC-safe Helix engine and "
-                "single-color XSQ validation. Convert to LOR in xLights."
+                "xLights AC compatible: output XSQ; optionally convert to LOR in xLights."
             )
+        if self.generate_mp4_var.get():
+            cmd.append("--helix-preview-mp4")
         if self.vendor_bar_var.get():
             cmd.append("--vendor-bar")
-        if self.matrix_var.get() and not self.lor_compatible_var.get():
+        if self.matrix_var.get() and not lor_mode and not self.lor_compatible_var.get():
             cmd.append("--matrix-intelligence")
         if self.polish_var.get():
             cmd.append("--polish")
@@ -261,7 +321,7 @@ class HelixGui(tk.Tk):
         if self.learn_xsq_var.get():
             cmd.append("--learn-from-my-xsqs")
 
-        if self.birdsong_var.get() and not self.lor_compatible_var.get():
+        if self.birdsong_var.get() and not lor_mode and not self.lor_compatible_var.get():
             cmd.extend(
                 [
                     "--birdsong",
@@ -295,16 +355,18 @@ class HelixGui(tk.Tk):
         )
         assert process.stdout is not None
         for line in process.stdout:
-            self._log(line.rstrip())
+            self.after(0, self._log, line.rstrip())
         process.wait()
         rc = process.returncode
-        if rc == 0:
-            self._log("Run complete.")
-            self.status_label.configure(text="Completed")
-        else:
-            self._log(f"Run failed with exit code {rc}.")
-            self.status_label.configure(text="Failed")
-        self.run_button.configure(state=tk.NORMAL)
+        def update() -> None:
+            if rc == 0:
+                self._log("Run complete.")
+                self.status_label.configure(text="Completed")
+            else:
+                self._log(f"Run failed with exit code {rc}.")
+                self.status_label.configure(text="Failed")
+            self.run_button.configure(state=tk.NORMAL)
+        self.after(0, update)
 
 
 def main() -> int:
