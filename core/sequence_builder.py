@@ -13,6 +13,9 @@ from core.run_config import RunConfig
 from core.run_manager import RunContext, RunManager
 
 NO_EFFECTS_ORCHESTRATOR_FLAG = "--no-effects-orchestrator"
+LOR_SOURCE_FLAG = "--helix-lor-source-lms"
+PREVIEW_MP4_FLAG = "--helix-preview-mp4"
+PREVIEW_SECONDS_FLAG = "--helix-preview-seconds"
 PROMOTE_ORCHESTRATOR_TEMPLATE_FLAG = "--promote-orchestrated-template"
 NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG = "--no-orchestrator-template-promotion"
 BEAT_GRID_FLAGS = {
@@ -523,6 +526,192 @@ def _validate_lor_generated_sequences(
         )
 
 
+def _package_generated_xlights_show(
+    engine_args: list[str] | None,
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    ctx: RunContext,
+) -> None:
+    """Place the used xLights layout next to every newly created XSQ.
+
+    This follows xLights's show-folder contract, rather than assuming model
+    definitions embedded inside XSQ. Never substitute the repo default for
+    the user's chosen layout or overwrite an existing different layout.
+    """
+    from tools.show_context_bundle import package_audio_alongside, package_xlights_layout
+
+    args = list(engine_args or [])
+    layout = next(
+        (Path(args[i + 1]) for i, arg in enumerate(args[:-1])
+         if arg == "--layout-file"), None
+    )
+    if layout is None or not layout.is_file():
+        print("show_context: no explicit layout supplied; no snapshot packaged", flush=True)
+        return
+    template = next(
+        (Path(args[i + 1]) for i, arg in enumerate(args[:-1])
+         if arg == "--template"), None
+    )
+    protected = {template.resolve(strict=False)} if template is not None else set()
+    generated = []
+    for path in _known_artifact_paths(roots):
+        if path.suffix.lower() != ".xsq" or ".orchestrated." in path.name or ".uncolored." in path.name:
+            continue
+        resolved = path.resolve(strict=False)
+        if resolved in protected:
+            continue
+        stat = path.stat()
+        if before.get(resolved) == (stat.st_mtime_ns, stat.st_size):
+            continue
+        generated.append(path)
+    for evidence in package_xlights_layout(generated, layout):
+        ctx.record_artifact("xlights_show_context", Path(evidence["manifest"]))
+        print(
+            f"show_context: layout+configuration in {evidence['directory']}",
+            flush=True,
+        )
+    audio = next(
+        (Path(args[i + 1]) for i, a in enumerate(args[:-1])
+         if a == "--audio"), None,
+    )
+    for media in package_audio_alongside(generated, audio):
+        ctx.record_artifact("portable_show_audio", media)
+
+
+def _generated_sequence_paths(
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    engine_args: list[str] | None,
+) -> list[Path]:
+    args = list(engine_args or [])
+    template = next(
+        (Path(args[i + 1]) for i, a in enumerate(args[:-1]) if a == "--template"),
+        None,
+    )
+    protected = {template.resolve(strict=False)} if template else set()
+    found = []
+    for source in _known_artifact_paths(roots):
+        if source.suffix.lower() != ".xsq":
+            continue
+        if ".uncolored." in source.name or ".orchestrated." in source.name:
+            continue
+        resolved = source.resolve(strict=False)
+        if resolved in protected:
+            continue
+        stat = source.stat()
+        if before.get(resolved) != (stat.st_mtime_ns, stat.st_size):
+            found.append(source)
+    return found
+
+
+def _publish_native_lor_lms(
+    source_lms: Path,
+    workspace: Path,
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    engine_args: list[str],
+    ctx: RunContext,
+) -> None:
+    import hashlib
+    import json
+    import shutil
+    from tools.lor_lms_export_from_source import export_lms_from_xsq
+    from tools.show_context_bundle import package_audio_alongside
+
+    manifest = workspace / "lor_import_manifest.json"
+    if not manifest.is_file():
+        raise RuntimeError("Missing LOR import manifest")
+    paths = _generated_sequence_paths(roots, before, engine_args)
+    if not paths:
+        raise RuntimeError("No Helix XSQ was generated for Light-O-Rama export")
+    audio = next(
+        (Path(engine_args[i + 1]) for i, a in enumerate(engine_args[:-1])
+         if a == "--audio"), None,
+    )
+    for media in package_audio_alongside(paths, audio):
+        ctx.record_artifact("portable_show_audio", media)
+    for xsq in paths:
+        target = xsq.with_suffix(".lms")
+        if target.resolve() == source_lms.resolve():
+            raise ValueError("Would overwrite the original LOR source LMS")
+        report = export_lms_from_xsq(xsq, source_lms, target, manifest)
+        # The layout snapshot is a backup of the user's real channel setup,
+        # not a fabricated xLights layout that implies physical geometry.
+        backup = xsq.parent / "helix_lor_source_layout.lms"
+        if backup.resolve() != source_lms.resolve():
+            if backup.exists() and hashlib.sha256(backup.read_bytes()).digest() != hashlib.sha256(source_lms.read_bytes()).digest():
+                raise ValueError(f"Existing LOR source backup differs: {backup}")
+            if not backup.exists():
+                shutil.copy2(source_lms, backup)
+        ctx.record_artifact("lor_source_layout", backup)
+        ctx.record_artifact("lor_sequence", target)
+        ctx.record_artifact("lor_lms_validation", target.with_suffix(".lms_validation.json"))
+        print(
+            f"lor_native: wrote {report['output_effects']} intensity/shimmer/twinkle "
+            f"events to {target}; controller addresses taken from supplied LMS",
+            flush=True,
+        )
+
+
+def _render_new_previews(
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    engine_args: list[str] | None,
+    layout: Path,
+    ctx: RunContext,
+    *,
+    lor_mode: bool = False,
+    preview_seconds: float = 30.0,
+) -> None:
+    """Render MP4s automatically after sequencing with honest provenance.
+
+    This uses Helix's per-model visualization (not a native xLights FSEQ nor
+    LOR's actual hardware renderer). The resulting preview is useful for
+    visual review and carries a machine-readable fidelity warning.
+    """
+    import json
+    from tools.preview_renderer import parse_models, render_sequence_to_mp4
+
+    paths = _generated_sequence_paths(roots, before, engine_args)
+    if not paths:
+        raise RuntimeError("Preview requested, but no new XSQ output was found")
+    args = list(engine_args or [])
+    audio = next(
+        (Path(args[i + 1]) for i, a in enumerate(args[:-1]) if a == "--audio"),
+        None,
+    )
+    parsed = parse_models(layout)
+    for source in paths:
+        preview = render_sequence_to_mp4(
+            sequence_path=source,
+            layout=parsed,
+            audio_path=audio,
+            fps=12,
+            width=960,
+            height=540,
+            max_seconds=preview_seconds,
+            use_palette_colors=not lor_mode,
+        )
+        label = {
+            "schema": "helix.preview_provenance.v1",
+            "preview": str(preview),
+            "xsq": str(source),
+            "source": "Helix simulated effect-level model preview",
+            "max_preview_seconds": preview_seconds,
+            "audio": str(audio) if audio else None,
+            "native_xlights_render_verified": False,
+            "native_lor_render_verified": False,
+            "physical_geometry_verified": False,
+            "geometry": "synthetic channel grid" if lor_mode else "approximate xLights layout",
+            "note": "Actual pixel/AC controller behavior must be verified in the target sequencer.",
+        }
+        path = preview.with_suffix(".preview_provenance.json")
+        path.write_text(json.dumps(label, indent=2) + "\n", encoding="utf-8")
+        ctx.record_artifact("preview_mp4", preview)
+        ctx.record_artifact("preview_provenance", path)
+        print(f"preview_mp4: {preview} (simulated, not native rendering)", flush=True)
+
+
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     """Run a sequencing profile with integrated run tracking."""
     try:
@@ -532,6 +721,42 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         raise SystemExit(1)
 
     raw_engine_args = list(engine_args or [])
+    preview_requested = PREVIEW_MP4_FLAG in raw_engine_args
+    raw_engine_args = [a for a in raw_engine_args if a != PREVIEW_MP4_FLAG]
+    preview_seconds = 30.0
+    if PREVIEW_SECONDS_FLAG in raw_engine_args:
+        idx = raw_engine_args.index(PREVIEW_SECONDS_FLAG)
+        if idx + 1 >= len(raw_engine_args):
+            raise SystemExit("Missing --helix-preview-seconds value")
+        try:
+            preview_seconds = float(raw_engine_args[idx + 1])
+        except ValueError as exc:
+            raise SystemExit("Invalid preview duration") from exc
+        if not 1.0 <= preview_seconds <= 600.0:
+            raise SystemExit("Preview length must be 1 to 600 seconds")
+        del raw_engine_args[idx:idx + 2]
+    lor_source: Path | None = None
+    workspace: Path | None = None
+    if LOR_SOURCE_FLAG in raw_engine_args:
+        index = raw_engine_args.index(LOR_SOURCE_FLAG)
+        if index + 1 >= len(raw_engine_args):
+            raise SystemExit("LOR Mode requires a source LMS path")
+        lor_source = Path(raw_engine_args[index + 1]).resolve()
+        del raw_engine_args[index:index + 2]
+        from tools.lor_lms_import import prepare_lms_workspace
+        output_root = next(
+            (Path(raw_engine_args[i + 1]) for i, a in enumerate(raw_engine_args[:-1])
+             if a == "--output-dir"), Path("outputs")
+        )
+        workspace = output_root.resolve() / ".helix_lor_workspace"
+        try:
+            imported = prepare_lms_workspace(lor_source, workspace)
+        except (OSError, ValueError, RuntimeError) as exc:
+            raise SystemExit(f"LOR layout import failed: {exc}") from exc
+        raw_engine_args = _set_or_replace_arg(raw_engine_args, "--template", imported["template"])
+        raw_engine_args = _set_or_replace_arg(raw_engine_args, "--layout-file", imported["layout"])
+        if "--ac-lights-only" not in raw_engine_args:
+            raw_engine_args.append("--ac-lights-only")
     lor_compatible = "--ac-lights-only" in raw_engine_args
     if lor_compatible:
         # Avoid an RGB orchestration/template pass or RGB-only logic
@@ -595,6 +820,28 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
             else:
                 _apply_neon_palettes_to_generated_sequences(
                     engine_args, artifact_roots, artifact_snapshot, ctx
+                )
+            if lor_source is not None and workspace is not None:
+                _publish_native_lor_lms(
+                    lor_source, workspace, artifact_roots, artifact_snapshot,
+                    engine_args, ctx
+                )
+            else:
+                _package_generated_xlights_show(
+                    engine_args, artifact_roots, artifact_snapshot, ctx
+                )
+            if preview_requested:
+                args = list(engine_args or [])
+                layout = next(
+                    (Path(args[i + 1]) for i, a in enumerate(args[:-1])
+                     if a == "--layout-file"), None
+                )
+                if layout is None:
+                    raise RuntimeError("MP4 preview requested without a layout")
+                _render_new_previews(
+                    artifact_roots, artifact_snapshot, engine_args,
+                    layout, ctx, lor_mode=lor_source is not None,
+                    preview_seconds=preview_seconds,
                 )
             # Optional birdsong post-run hook (guarded by explicit engine flag)
             try:

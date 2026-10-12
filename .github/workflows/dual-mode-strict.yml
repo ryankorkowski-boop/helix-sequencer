@@ -1,0 +1,41 @@
+name: Helix Dual Sequencer Modes Strict Checks
+
+on:
+  pull_request:
+    paths:
+      - "core/sequence_builder.py"
+      - "gui_launcher.py"
+      - "tools/lor_lms_import.py"
+      - "tools/lor_lms_export_from_source.py"
+      - "tools/show_context_bundle.py"
+      - "tools/preview_renderer.py"
+      - "tests/test_dual_mode_lor.py"
+      - "tests/test_dual_mode_mp4.py"
+      - "tests/test_show_context_bundle.py"
+      - ".github/workflows/dual-mode-strict.yml"
+  push:
+    branches:
+      - feature/dual-xlights-lor-workflows-20261012
+
+jobs:
+  dual-mode:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install run dependencies
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pip install pytest
+      - name: Compile full new mode surface
+        run: |
+          python -m py_compile gui_launcher.py core/sequence_builder.py tools/lor_lms_import.py tools/lor_lms_export_from_source.py tools/show_context_bundle.py tools/preview_renderer.py
+      - name: Strict packaging and LOR XML tests
+        run: |
+          python -m pytest -q tests/test_dual_mode_lor.py tests/test_dual_mode_mp4.py tests/test_show_context_bundle.py tests/test_lor_compatibility.py tests/test_xsq_palette_repair.py

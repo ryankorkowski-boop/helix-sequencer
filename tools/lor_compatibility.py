@@ -113,10 +113,12 @@ def _transform_effect(effect, stats, db, settings, palette_fallback: str, palett
     elif name == "Ramp":
         effect.set("name", "On")
         effect.set("ref", _setting_ref(db, settings, FADE_SETTINGS))
+        effect.set("settings", FADE_SETTINGS)
         stats["Ramp_to_On_fade"] += 1
     elif name == "Strobe":
         effect.set("name", "Shimmer")
         effect.set("ref", _setting_ref(db, settings, SHIMMER_SETTINGS))
+        effect.set("settings", SHIMMER_SETTINGS)
         stats["Strobe_to_Shimmer"] += 1
     elif name in AC_EFFECTS:
         stats[f"{name}_preserved"] += 1
@@ -125,6 +127,7 @@ def _transform_effect(effect, stats, db, settings, palette_fallback: str, palett
         # vocabulary is conservatively replaced by steady intensity.
         effect.set("name", "On")
         effect.set("ref", _setting_ref(db, settings, ON_SETTINGS))
+        effect.set("settings", ON_SETTINGS)
         stats["unsupported_to_On"] += 1
         stats[f"converted:{name or '<missing>'}"] += 1
     # AC color belongs to the bulb/physical output circuit, not the
