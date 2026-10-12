@@ -88,3 +88,23 @@ def package_xlights_layout(xsqs: list[Path], layout: Path) -> list[dict]:
         manifest.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
         result.append({"directory": str(folder), "manifest": str(manifest), **payload})
     return result
+
+
+
+def package_audio_alongside(sequences: list[Path], audio: Path | None) -> list[Path]:
+    """Keep portable show audio beside new sequencer outputs, without clobbering.
+
+    The sequence head/mediaFile and legacy LMS musicFilename use audio.name.
+    This is optional for nonmusical sequences, and never rewrites the source.
+    """
+    if audio is None:
+        return []
+    audio = Path(audio)
+    if not audio.is_file():
+        raise FileNotFoundError(f"Selected audio missing: {audio}")
+    destinations = []
+    for folder in sorted({Path(p).parent.resolve() for p in sequences}):
+        dest = folder / audio.name
+        _same_or_copy(audio, dest)
+        destinations.append(dest)
+    return destinations
