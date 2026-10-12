@@ -1,5 +1,9 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-12 — recover durable sampler delivery after execution environment outage
+
+The local workspace disconnected after both exact180.149s movies,3603frames each, sixnative layouts, native band matrix and isolated issue132films had been rendered/verified. The final local save could not execute. All valid GUI/band implementation is on323b6cde; all seven latest CI workflows, including actual Windows workers, pass. Do not claim durable links for the unsaved new local films. Rebuild on isolated GitHubActions using the exact prior WAV hash0fc2ab5d. Only ephemeral runner RSA keys decrypt temporary source transfer capabilities; credentials/private source layout package must never enter public files/logs. New orchestration:tools/sampler_build_transfer.py,tools/resume_sampler_review.py and recover-sampler-review.yml. Original assets, sequencing logic, primary branch and legacy clean experiment source remain unchanged. Await actual rebuilt video/native checks and publication before final delivery. Limits:legacyLMS, guessed instrument identity/score/phone boundaries, approximate stock preview geometry and video-only physical band parity remain explicit.
+
 ## 2026-10-12 — complete current GUI integration and synchronized sampler previews (in progress)
 
 Goal: user expands task to audit work created during the last72h, finish neon placement, Windows standalone GUI, distinct LOR/xLights modes and latest GUI integrations; then generate band-with-singers and six-layout comparison MP4s on the exact prior180.1493197279s recovered six-song sampler.
