@@ -48,6 +48,7 @@ class HelixGui(tk.Tk):
         self.sequence_mode_var = tk.StringVar(value="xLights")
         self.lor_source_var = tk.StringVar(value="")
         self.generate_mp4_var = tk.BooleanVar(value=True)
+        self.preview_seconds_var = tk.IntVar(value=30)
 
         self.birdsong_var = tk.BooleanVar(value=True)
         self.birdsong_auto_var = tk.BooleanVar(value=True)
@@ -157,7 +158,12 @@ class HelixGui(tk.Tk):
         ttk.Checkbutton(
             controls, text="Generate MP4 preview with every sequence",
             variable=self.generate_mp4_var,
-        ).grid(row=3, column=0, columnspan=5, sticky="w", **pad)
+        ).grid(row=3, column=0, columnspan=3, sticky="w", **pad)
+        ttk.Label(controls, text="Preview seconds").grid(row=3, column=3, sticky="w", **pad)
+        ttk.Spinbox(
+            controls, from_=1, to=600, increment=5,
+            textvariable=self.preview_seconds_var, width=6,
+        ).grid(row=3, column=4, sticky="w", **pad)
 
         birdsong = ttk.LabelFrame(frame, text="Birdsong Engine")
         birdsong.pack(fill=tk.X, **pad)
@@ -308,7 +314,15 @@ class HelixGui(tk.Tk):
                 "xLights AC compatible: output XSQ; optionally convert to LOR in xLights."
             )
         if self.generate_mp4_var.get():
-            cmd.append("--helix-preview-mp4")
+            try:
+                seconds = int(self.preview_seconds_var.get())
+            except (tk.TclError, ValueError):
+                messagebox.showwarning("Invalid Preview Duration", "Enter 1–600 seconds")
+                return
+            if not 1 <= seconds <= 600:
+                messagebox.showwarning("Invalid Preview Duration", "Enter 1–600 seconds")
+                return
+            cmd.extend(["--helix-preview-mp4", "--helix-preview-seconds", str(seconds)])
         if self.vendor_bar_var.get():
             cmd.append("--vendor-bar")
         if self.matrix_var.get() and not lor_mode and not self.lor_compatible_var.get():
