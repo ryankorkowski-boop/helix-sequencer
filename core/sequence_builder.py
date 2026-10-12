@@ -677,6 +677,7 @@ def _render_new_previews(
             width=960,
             height=540,
             max_seconds=preview_seconds,
+            use_palette_colors=not lor_mode,
         )
         label = {
             "schema": "helix.preview_provenance.v1",
