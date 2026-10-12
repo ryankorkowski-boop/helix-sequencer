@@ -116,3 +116,96 @@ def test_loredit_requires_explicit_unavailable_legacy_import(tmp_path: Path):
     wrong.write_bytes(b"not an LMS")
     with pytest.raises(ValueError, match="Modern .loredit"):
         prepare_lms_workspace(wrong, tmp_path / "work")
+
+
+def test_inline_fade_settings_are_exported_as_start_end_intensity(tmp_path: Path):
+    original = tmp_path / "source.lms"
+    source(original)
+    imp = prepare_lms_workspace(original, tmp_path / "work")
+    tree = ET.parse(imp["template"])
+    root = tree.getroot()
+    root.find("./head/sequenceDuration").text = "1.5"
+    row = root.find("./ElementEffects/Element[@type='model']")
+    ET.SubElement(row.find("EffectLayer"), "Effect", {
+        "name": "On", "startTime": "0", "endTime": "1000",
+        "settings": "E_TEXTCTRL_Eff_On_Start=20,E_TEXTCTRL_Eff_On_End=80",
+        "palette": "0",
+    })
+    xsq = tmp_path / "fade.xsq"
+    tree.write(xsq)
+    destination = tmp_path / "fade.lms"
+    export_lms_from_xsq(xsq, original, destination, Path(imp["manifest"]))
+    exported = ET.parse(destination).getroot().find("./channels/channel/effect")
+    assert exported is not None
+    assert exported.get("startIntensity") == "20"
+    assert exported.get("endIntensity") == "80"
+
+
+def test_sequence_builder_direct_lor_path_without_xlights(monkeypatch, tmp_path: Path):
+    import types
+    from core import sequence_builder as sequence
+
+    original = tmp_path / "source.lms"
+    source(original)
+    audio = tmp_path / "song.wav"
+    audio.write_bytes(b"not actually read by the mocked sequencing engine")
+    output = tmp_path / "exports"
+    output.mkdir()
+    snapshots = []
+
+    class Context:
+        manifest_path = tmp_path / "manifest.json"
+        def record_artifact(self, *args):
+            snapshots.append(args)
+        def finalize(self, **kwargs):
+            snapshots.append(("finished", kwargs))
+
+    class FakeManager:
+        def __init__(self, _config):
+            pass
+        def start(self, **kwargs):
+            return Context()
+
+    class FakeEngine:
+        @staticmethod
+        def main_for(_version, args):
+            def arg(name):
+                return Path(args[args.index(name) + 1])
+            assert arg("--template").exists()
+            assert arg("--layout-file").exists()
+            assert "--ac-lights-only" in args
+            tree = ET.parse(arg("--template"))
+            root = tree.getroot()
+            root.find("./head/sequenceDuration").text = "2.5"
+            row = root.find("./ElementEffects/Element[@type='model']")
+            ET.SubElement(row.find("EffectLayer"), "Effect", {
+                "name": "On", "startTime": "100", "endTime": "600",
+                "settings": "E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=100",
+                "palette": "0",
+            })
+            tree.write(output / "my-song.xsq", encoding="utf-8")
+
+    monkeypatch.setattr(sequence, "_effect_engine", lambda: FakeEngine)
+    monkeypatch.setattr(sequence, "RunManager", FakeManager)
+    monkeypatch.setattr(sequence.RunConfig, "from_engine_args",
+                        staticmethod(lambda *_args: types.SimpleNamespace(output_root=output)))
+    monkeypatch.setattr(sequence, "_apply_prime_beat_grid_defaults",
+                        lambda _id, args: list(args))
+    monkeypatch.setattr(sequence, "_run_birdsong_hook", lambda *args: None)
+
+    sequence.run_profile("master", [
+        "--helix-lor-source-lms", str(original),
+        "--audio", str(audio),
+        "--output-dir", str(output),
+        "--no-prompt", "--no-effects-orchestrator"
+    ])
+    result = output / "my-song.lms"
+    assert result.is_file()
+    assert (output / "helix_lor_source_layout.lms").is_file()
+    assert (output / "my-song.xsq").is_file()
+    channels = ET.parse(result).getroot().findall("./channels/channel")
+    assert [(ch.get("unit"), ch.get("circuit")) for ch in channels] == [
+        ("1", "1"), ("1", "2"), ("2", "1")
+    ]
+    assert any(kind == "lor_sequence" for kind, *_rest in snapshots if isinstance(kind, str))
+    assert original.read_text().find("original.wav") >= 0
