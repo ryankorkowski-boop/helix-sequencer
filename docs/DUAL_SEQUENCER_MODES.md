@@ -15,8 +15,9 @@ Open `gui_launcher.py` and choose **Sequencer Mode**:
   configuration, the run fails instead of silently pairing incompatible
   controller settings. Use separate output folders for different displays.
 - The `helix_show_context.json` manifest records exact layout hashes and
-  names of the generated XSQ files. Audio/video/shader resources may still
-  need to be bundled or relinked. Verify the show in xLights before use.
+  names of the generated XSQ files. Helix also copies the selected audio next
+  to each sequence, rejecting mismatched files with an identical name.
+  Additional image/video/shader resources may still need to be bundled. Verify the show in xLights before use.
 
 **Light-O-Rama** (legacy LMS compatibility)
 - Choose a **real existing .lms** file exported/saved from the user's LOR
@@ -31,7 +32,7 @@ Open `gui_launcher.py` and choose **Sequencer Mode**:
   channel events in centiseconds. Any competing overlapping source effects
   have a documented deterministic winner.
 - A copy named `helix_lor_source_layout.lms` accompanies each exported
-  LMS as the original channel/controller reference, and an
+  LMS as the original channel/controller reference, along with the audio, and an
   `.lms_validation.json` report records the export details.
 - **Modern S5/S6 .loredit** files are not supported for direct input or
   output. S5/S6 LOR software can upgrade older LMS files through its own
