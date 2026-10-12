@@ -523,6 +523,52 @@ def _validate_lor_generated_sequences(
         )
 
 
+def _package_generated_xlights_show(
+    engine_args: list[str] | None,
+    roots: Iterable[Path],
+    before: dict[Path, tuple[int, int]],
+    ctx: RunContext,
+) -> None:
+    """Place the used xLights layout next to every newly created XSQ.
+
+    This follows xLights's show-folder contract, rather than assuming model
+    definitions embedded inside XSQ. Never substitute the repo default for
+    the user's chosen layout or overwrite an existing different layout.
+    """
+    from tools.show_context_bundle import package_xlights_layout
+
+    args = list(engine_args or [])
+    layout = next(
+        (Path(args[i + 1]) for i, arg in enumerate(args[:-1])
+         if arg == "--layout-file"), None
+    )
+    if layout is None or not layout.is_file():
+        print("show_context: no explicit layout supplied; no snapshot packaged", flush=True)
+        return
+    template = next(
+        (Path(args[i + 1]) for i, arg in enumerate(args[:-1])
+         if arg == "--template"), None
+    )
+    protected = {template.resolve(strict=False)} if template is not None else set()
+    generated = []
+    for path in _known_artifact_paths(roots):
+        if path.suffix.lower() != ".xsq" or ".orchestrated." in path.name or ".uncolored." in path.name:
+            continue
+        resolved = path.resolve(strict=False)
+        if resolved in protected:
+            continue
+        stat = path.stat()
+        if before.get(resolved) == (stat.st_mtime_ns, stat.st_size):
+            continue
+        generated.append(path)
+    for evidence in package_xlights_layout(generated, layout):
+        ctx.record_artifact("xlights_show_context", Path(evidence["manifest"]))
+        print(
+            f"show_context: layout+configuration in {evidence['directory']}",
+            flush=True,
+        )
+
+
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     """Run a sequencing profile with integrated run tracking."""
     try:
@@ -596,6 +642,9 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                 _apply_neon_palettes_to_generated_sequences(
                     engine_args, artifact_roots, artifact_snapshot, ctx
                 )
+            _package_generated_xlights_show(
+                engine_args, artifact_roots, artifact_snapshot, ctx
+            )
             # Optional birdsong post-run hook (guarded by explicit engine flag)
             try:
                 _run_birdsong_hook(config, engine_args, ctx)
