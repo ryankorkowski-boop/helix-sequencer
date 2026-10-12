@@ -40,8 +40,9 @@ for folder in ("allmodels", "helixville", "config", "data", "fixtures/band_geome
 
 # Includes the real bundled ffmpeg executable required by imageio-ffmpeg.
 datas += collect_data_files("imageio_ffmpeg")
+datas += collect_data_files("imageio")
 
-hiddenimports = []
+hiddenimports = ["imageio.plugins.ffmpeg", "imageio.plugins.pillow", "zstandard"]
 for package in (
     "core", "xlights", "tools", "audio", "helix", "helix_composers",
     "helix_intent", "helix_knowledge", "helix_layout", "helix_mapping",

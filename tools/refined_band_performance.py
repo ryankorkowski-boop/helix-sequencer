@@ -18,7 +18,7 @@ class RefinedPerformance(ReadablePerformance):
         # notes to a mallet gate. Use the gate's own measured spectral peak.
         from tools.readable_band_performance import ROOT
         local_proof=Path(analysis_root)/row['id']/'verification.json'
-        proof=json.loads(local_proof.read_text())
+        proof=json.loads(local_proof.read_text()) if local_proof.is_file() else {}
         if 'mallet_attacks' not in proof:
             proof=json.loads((ROOT/'outputs/Intricate_Band_Samplers/analysis'/row['id']/'verification.json').read_text())
         if row.get('sha256') and proof.get('source_sha256')!=row['sha256']:

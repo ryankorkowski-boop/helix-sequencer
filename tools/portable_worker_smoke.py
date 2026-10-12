@@ -19,7 +19,9 @@ def main():
     def run(args,label):
         process=subprocess.run([str(worker),*map(str,args)],capture_output=True,text=True,timeout=600)
         (out/(label+'.log')).write_text(process.stdout+process.stderr,encoding='utf-8')
-        if process.returncode:raise RuntimeError(f'{label} failed: {process.returncode}; see {out}')
+        if process.returncode:
+            print((process.stdout+process.stderr)[-14000:],flush=True)
+            raise RuntimeError(f'{label} failed: {process.returncode}; see {out}')
         results.append({'step':label,'returncode':0})
     # A tiny deterministic FSEQ checks the installed worker/codec, not musical quality.
     header=bytearray(28);header[:4]=b'PSEQ';struct.pack_into('<H',header,4,28);header[7]=1

@@ -94,6 +94,13 @@ jobs:
           }
       - name: Exercise packaged native FSEQ rendering
         run: python tools/portable_worker_smoke.py --worker dist/Helix/HelixCLI.exe --output portable_smoke
+      - name: Preserve packaged worker diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Windows-Worker-Diagnostics
+          path: portable_smoke
+          if-no-files-found: ignore
       - name: Create portable ZIP and checksum
         shell: pwsh
         run: |
