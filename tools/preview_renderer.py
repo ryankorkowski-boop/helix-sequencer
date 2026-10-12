@@ -571,6 +571,7 @@ def render_sequence_to_mp4(
     fps: int,
     width: int,
     height: int,
+    max_seconds: float | None = None,
 ) -> Path:
     sequence = parse_sequence(sequence_path)
     leaf_names, intensity = build_leaf_intensity_matrix(layout, sequence, fps)
@@ -584,6 +585,8 @@ def render_sequence_to_mp4(
     out_path = sequence_path.with_suffix(".mp4")
     temp_path = out_path.with_suffix(".silent.mp4")
     frame_count = intensity.shape[1]
+    if max_seconds is not None and max_seconds > 0:
+        frame_count = min(frame_count, max(1, int(round(max_seconds * fps))))
     writer = imageio.get_writer(
         temp_path,
         fps=fps,
