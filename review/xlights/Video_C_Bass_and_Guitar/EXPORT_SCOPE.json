@@ -1,0 +1,20 @@
+{
+  "type": "native_xlights_virtual_matrix",
+  "physical_performer_prop_export": false,
+  "movie": "Video_C_Bass_and_Guitar.mp4",
+  "matrix_pixels": [
+    384,
+    216
+  ],
+  "channels": 248832,
+  "timing_ms": 50,
+  "source_movie_duration": 36.0,
+  "sequence_duration": 36.0,
+  "required_files": [
+    "xlights_rgbeffects.xml",
+    "xlights_networks.xml",
+    "Video_C_Bass_and_Guitar.xsq",
+    "media/performance.mp4",
+    "media/soundtrack.wav"
+  ]
+}

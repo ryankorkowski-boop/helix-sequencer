@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xrgb>
+  <models>
+    <model name="HX_BAND_REVIEW_MATRIX" DisplayAs="Horiz Matrix" StringType="RGB Nodes" StartChannel="1" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="1" Antialias="1" Transparency="0" versionNumber="7" parm1="216" parm2="384" parm3="1" WorldPosX="0" WorldPosY="0" WorldPosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1">
+      <ControllerConnection Protocol="" Port="0" />
+    </model>
+  </models>
+  <modelGroups />
+  <view_objects />
+  <effects />
+  <views />
+  <palettes />
+  <layoutGroups />
+  <perspectives />
+  <colors />
+  <Viewpoints />
+  <settings>
+    <backgroundBrightness value="0" />
+    <storedLayoutGroup value="All Models" />
+    <LayoutMode3D value="0" />
+    <Display2DCenter0 value="1" />
+    <previewWidth value="384" />
+    <previewHeight value="216" />
+  </settings>
+</xrgb>

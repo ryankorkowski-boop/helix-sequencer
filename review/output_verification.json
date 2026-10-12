@@ -1,0 +1,341 @@
+{
+  "movies": [
+    {
+      "file": "C_Bass_49.mp4",
+      "sha256": "743b5aa63b683424d06f706a0dd46d1b1958a1420fe6c44f7593dc1d1c11e63a",
+      "bytes": 8649058,
+      "frames": 360,
+      "fps": "20/1",
+      "seconds": 18.0,
+      "audio_duration": 18.0,
+      "full_decode_passed": true,
+      "video_audio_duration_agree": true,
+      "review_times": [
+        0,
+        1.95,
+        9.0,
+        17.9
+      ]
+    },
+    {
+      "file": "C_Guitar_Who_Knew.mp4",
+      "sha256": "5099fbb1a8298db0a96d1bed8be915883b059235d3e50fa79737f142a0876133",
+      "bytes": 8027463,
+      "frames": 360,
+      "fps": "20/1",
+      "seconds": 18.0,
+      "audio_duration": 18.0,
+      "full_decode_passed": true,
+      "video_audio_duration_agree": true,
+      "review_times": [
+        0,
+        1.95,
+        9.0,
+        17.9
+      ]
+    },
+    {
+      "file": "D_Pitched_Percussion_Candidates_Festivus.mp4",
+      "sha256": "2d5ee1c00cd31da12c3ec1b4735ff258d91e16a74bd722edad5b13764b39c293",
+      "bytes": 3977131,
+      "frames": 360,
+      "fps": "20/1",
+      "seconds": 18.0,
+      "audio_duration": 18.0,
+      "full_decode_passed": true,
+      "video_audio_duration_agree": true,
+      "review_times": [
+        0,
+        1.95,
+        9.0,
+        17.9
+      ]
+    },
+    {
+      "file": "E_Band_Candy_Cane_Chaos.mp4",
+      "sha256": "e87f1861fad69fc733e9a78b1a240a01011a24f4facf3318ac1130b82a386131",
+      "bytes": 7971175,
+      "frames": 360,
+      "fps": "20/1",
+      "seconds": 18.0,
+      "audio_duration": 18.0,
+      "full_decode_passed": true,
+      "video_audio_duration_agree": true,
+      "review_times": [
+        0,
+        1.95,
+        9.0,
+        17.9
+      ]
+    },
+    {
+      "file": "E_Band_Festivus.mp4",
+      "sha256": "2e914d730c1bc687a72917c7e06463fab4e1d474fd8479315e16f25e0eaa3f85",
+      "bytes": 7579629,
+      "frames": 360,
+      "fps": "20/1",
+      "seconds": 18.0,
+      "audio_duration": 18.0,
+      "full_decode_passed": true,
+      "video_audio_duration_agree": true,
+      "review_times": [
+        0,
+        1.95,
+        9.0,
+        17.9
+      ]
+    },
+    {
+      "file": "E_Band_Wire_Tree.mp4",
+      "sha256": "9d081096777ee7cfaa3a650eda2bcc88b103b5a34f89ac27f2e809627c807732",
+      "bytes": 8307971,
+      "frames": 360,
+      "fps": "20/1",
+      "seconds": 18.0,
+      "audio_duration": 18.0,
+      "full_decode_passed": true,
+      "video_audio_duration_agree": true,
+      "review_times": [
+        0,
+        1.95,
+        9.0,
+        17.9
+      ]
+    },
+    {
+      "file": "Video_A_Drummer_Geometry_Comparison.mp4",
+      "sha256": "99fae577d013b2416eda8ae55ee46fd9674cd7798639fca8265254918f17df08",
+      "bytes": 4296196,
+      "frames": 1150,
+      "fps": "30/1",
+      "seconds": 38.333333,
+      "audio_duration": 38.32,
+      "full_decode_passed": true,
+      "video_audio_duration_agree": true,
+      "review_times": [
+        0,
+        1.95,
+        19.1666665,
+        38.233333
+      ],
+      "soundtrack": {
+        "source_offset_seconds": 0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9992862846597641,
+        "source_samples": 306560,
+        "movie_samples": 306560,
+        "original_excerpt_matches": true
+      }
+    },
+    {
+      "file": "Video_B_Original_Dry_Drum_Test.mp4",
+      "sha256": "55f77083621dd471e0f4fa03c90272d607d9d8a56d57251cd513ba783842a68d",
+      "bytes": 4205831,
+      "frames": 1150,
+      "fps": "30/1",
+      "seconds": 38.333333,
+      "audio_duration": 38.32,
+      "full_decode_passed": true,
+      "video_audio_duration_agree": true,
+      "review_times": [
+        0,
+        1.95,
+        19.1666665,
+        38.233333
+      ],
+      "soundtrack": {
+        "source_offset_seconds": 0,
+        "sample_rate": 8000,
+        "zero_offset_correlation": 0.9992862846597641,
+        "source_samples": 306560,
+        "movie_samples": 306560,
+        "original_excerpt_matches": true
+      }
+    },
+    {
+      "file": "Video_C_Bass_and_Guitar.mp4",
+      "sha256": "e5f8a9ef46881edf1a1eb8af4d370d70557218cc435180d418eb313049d1775c",
+      "bytes": 16015603,
+      "frames": 720,
+      "fps": "20/1",
+      "seconds": 36.0,
+      "audio_duration": 36.0,
+      "full_decode_passed": true,
+      "video_audio_duration_agree": true,
+      "review_times": [
+        0,
+        1.95,
+        18.0,
+        35.9
+      ]
+    },
+    {
+      "file": "Video_E_Full_Band_Showcase.mp4",
+      "sha256": "c47219d3ee98192ec0e8bb4478e1ad2bb24541afcdc10ccd7fad485951f6c878",
+      "bytes": 42954036,
+      "frames": 2567,
+      "fps": "20/1",
+      "seconds": 128.35,
+      "audio_duration": 128.35,
+      "full_decode_passed": true,
+      "video_audio_duration_agree": true,
+      "review_times": [
+        0,
+        1.95,
+        64.175,
+        128.25
+      ]
+    }
+  ],
+  "all_frames_decode": true,
+  "total_frames": 7747,
+  "reviewed_screenshot_count": 40,
+  "contact_sheet": "Helix_Band_Actual_Render_Review.jpg",
+  "dry_joint_frames": 1150,
+  "fixed_segment_length_errors": {
+    "left": 4.973799150320701e-14,
+    "right": 6.394884621840902e-14
+  },
+  "max_dry_wrist_step_pixels": {
+    "left": 16.00020591248303,
+    "right": 29.337972057868164
+  },
+  "accepted_drum_events": 289,
+  "rendered_hand_events": 213,
+  "motion_rejections": [
+    {
+      "time": 10.94,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "side": "right",
+      "velocity": 0.12,
+      "reason": "same_hand_travel_unplayable"
+    },
+    {
+      "time": 26.26,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "side": "right",
+      "velocity": 0.342,
+      "reason": "same_hand_travel_unplayable"
+    },
+    {
+      "time": 30.02,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "side": "right",
+      "velocity": 0.527,
+      "reason": "same_hand_travel_unplayable"
+    }
+  ],
+  "hand_reassignments": [
+    {
+      "time": 1.56,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 2.2,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 2.66,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 2.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 3.45,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 3.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 4.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 5.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 7.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 8.06,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 8.76,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 14.85,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 18.91,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 19.85,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 22.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 24.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 27.05,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    },
+    {
+      "time": 29.55,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "source_hand": "right",
+      "rendered_hand": "left"
+    }
+  ],
+  "source_audio_uncut": true,
+  "actual_listening_performed": false,
+  "visual_review_by_model_pending": true
+}
