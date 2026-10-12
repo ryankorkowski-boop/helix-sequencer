@@ -1,5 +1,9 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-12 — recover delivery after local execution environment disconnected (in progress)
+
+Goal: complete the already verified band review downloads without a primary merge. Source implementation and audit receipts are preserved at37ffbed. Local environment went offline during final ZIP creation; direct report upload failed withenvironment_offline. Changes: isolated GitHub Actions rebuild/publisher workflow, report and bounded verified delivery assembler. Same pinned input ZIP, source art/audio, inference caches and opt-in modules are reused. The workflow repeats38focused regressions, actual source renders,10native matrix renders, complete decoding and source-cut waveform verification before publication. A new artifacts branch and prerelease preserve review bytes; no primary or older artifact branch is overwritten, and no force push occurs. Native physical-prop export and independent musical labels remain open; matrix/candidate scope stays explicit. Remote completion, fresh screenshots and public download checks are pending. Continue from MASTER_TODO and the existing handoff.
+
 ## 2026-10-12 — band musical/geometry refinement (review outputs verified; merge pending)
 
 Goal: improve all four requested performers without replacing approved source or primary development. Branch `feature/band-musical-refinement-20261012` starts at latest reassessment `4aca41c`. Changed modules: opt-in articulated-source drummer, shared motion/IK helpers, refined band scene/performance, source-audio renderer, normalized montage builder, native matrix exporter/auditor, output/soundtrack auditors, focused counterexample tests, checklist/handoff and this ledger. Preserved: all source art/pose specs/layers/XMODEL/audio/layout bytes, old compositors, accepted note/stem/drum predictions, lyrics/duet lanes and unrelated sequencing. Preservation receipt compares against untouched baseline.
