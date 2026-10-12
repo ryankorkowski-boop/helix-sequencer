@@ -1,0 +1,18 @@
+# Windows 10/11 portable beta: required local sequencing + rendering runtime.
+# Mirrors requirements.txt except optional openai-whisper/PyTorch transcription,
+# which is deliberately excluded from the PyInstaller spec.
+numpy>=1.26
+scipy>=1.11
+librosa>=0.10.2
+soundfile>=0.12.1
+numba>=0.59
+llvmlite>=0.42
+imageio>=2.34
+imageio-ffmpeg>=0.5
+Pillow>=10.2
+PyYAML>=6.0
+requests>=2.34.2
+pyinstaller>=6.10
+
+# Native FSEQ V2 zstd decoding.
+zstandard>=0.23

@@ -1,0 +1,60 @@
+.......F..........................F.......                               [100%]
+=================================== FAILURES ===================================
+________________ test_lor_source_colors_create_preview_swatches ________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-6/test_lor_source_colors_create_0')
+
+    def test_lor_source_colors_create_preview_swatches(tmp_path: Path):
+        source = tmp_path / "source.lms"
+        source.write_text(
+            '<sequence><channels>'
+            '<channel name="red" deviceType="LOR" unit="1" circuit="1" color="255" savedIndex="0"/>'
+            '<channel name="green" deviceType="LOR" unit="1" circuit="2" color="65280" savedIndex="1"/>'
+            '<channel name="white" deviceType="LOR" unit="1" circuit="3" color="16777215" savedIndex="2"/>'
+            '</channels></sequence>'
+        )
+        imported = prepare_lms_workspace(source, tmp_path / "workspace")
+        layout = parse_models(Path(imported["layout"]))
+        colors = {name: geom.color for name, geom in layout.leaf_models.items()}
+        assert any(c[0] > c[1] and c[0] > c[2] for c in colors.values())
+        assert any(c[1] > c[0] and c[1] > c[2] for c in colors.values())
+>       assert any(max(c) == min(c) for c in colors.values())
+E       assert False
+E        +  where False = any(<generator object test_lor_source_colors_create_preview_swatches.<locals>.<genexpr> at 0x7fb441fb02e0>)
+
+tests/test_dual_mode_mp4.py:25: AssertionError
+_______________ test_color_arc_is_coherent_within_musical_phrase _______________
+
+    def test_color_arc_is_coherent_within_musical_phrase():
+        sections = [
+            (0, 20000, "VERSE"), (20000, 40000, "CHORUS"),
+            (40000, 76000, "BRIDGE"),
+        ]
+>       assert _scene("Rooftop", Event(1000, 1100), sections) == _scene(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            "Random star", Event(1800, 1950), sections
+        )
+
+tests/test_showcase_color_and_quality.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+target = 'Rooftop'
+effect = <test_showcase_color_and_quality.Event object at 0x7fb4413db830>
+sections = [(0, 20000, 'VERSE'), (20000, 40000, 'CHORUS'), (40000, 76000, 'BRIDGE')]
+
+    def _scene(target, effect, sections):
+        """Map Helix's *detected musical phrases* onto a coherent color story.
+    
+        The palette is shared by an entire musical section; longer sections make
+        measured changes every 12 seconds instead of leaving a 60-second bridge
+        in one color. Effect locations and musical timings are never changed.
+        """
+>       start = int(effect.get("startTime", "0"))
+                    ^^^^^^^^^^
+E       AttributeError: 'Event' object has no attribute 'get'
+
+tools/xsq_palette_repair.py:65: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_dual_mode_mp4.py::test_lor_source_colors_create_preview_swatches
+FAILED tests/test_showcase_color_and_quality.py::test_color_arc_is_coherent_within_musical_phrase
+2 failed, 40 passed in 1.25s

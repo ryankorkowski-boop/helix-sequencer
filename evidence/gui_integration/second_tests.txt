@@ -1,0 +1,46 @@
+...............................................F........                 [100%]
+=================================== FAILURES ===================================
+_________________ test_native_fseq_renders_real_mp4_and_report _________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-7/test_native_fseq_renders_real_0')
+
+    def test_native_fseq_renders_real_mp4_and_report(tmp_path: Path):
+        pytest.importorskip("imageio")
+        pytest.importorskip("PIL")
+        pytest.importorskip("imageio_ffmpeg")
+        path, points = tmp_path / "song.fseq", tmp_path / "pixels.csv"
+        write_fseq(path, frames=[
+            bytes([255, 0, 0, 0, 255, 0]),
+            bytes([0, 0, 255, 255, 255, 255])
+        ])
+        points.write_text("channel,x,y,kind\n1,10,20,rgb\n4,40,20,rgb\n")
+        out = tmp_path / "actual.mp4"
+>       report = render_fseq_preview(path, out, pixel_map=points, width=64, height=64)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_fseq_pixel_preview.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/fseq_pixel_preview.py:292: in render_fseq_preview
+    writer.append_data(image)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <imageio.plugins.ffmpeg.FfmpegFormat.Writer object at 0x7fc88451c7d0>
+im = <PIL.Image.Image image mode=RGB size=64x64 at 0x7FC88451D4C0>, meta = None
+
+    def append_data(self, im, meta=None):
+        """append_data(im, meta={})
+    
+        Append an image (and meta data) to the file. The final meta
+        data that is used consists of the meta data on the given
+        image (if applicable), updated with the given meta data.
+        """
+        self._checkClosed()
+        # Check image data
+        if not isinstance(im, np.ndarray):
+>           raise ValueError("append_data requires ndarray as first arg")
+E           ValueError: append_data requires ndarray as first arg
+
+/root/.local/lib/python3.12/site-packages/imageio/core/format.py:574: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_fseq_pixel_preview.py::test_native_fseq_renders_real_mp4_and_report
+1 failed, 55 passed in 0.96s

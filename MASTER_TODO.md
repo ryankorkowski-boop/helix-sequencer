@@ -1,5 +1,18 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-12 — complete current GUI integration and synchronized sampler previews (in progress)
+
+Goal: user expands task to audit work created during the last72h, finish neon placement, Windows standalone GUI, distinct LOR/xLights modes and latest GUI integrations; then generate band-with-singers and six-layout comparison MP4s on the exact prior180.1493197279s recovered six-song sampler.
+
+Branch:codex/gui-complete-integration-20261012, based on preserved band delivery5c78ffa. Inspected separate portable, dual-mode, native-FSEQ and artistic-color branches. Never merge old branch trees or copy their obsolete drummer/assets/ledger over current work. Preserve all band improvements, audio/layout/template bytes and no-primary-merge restriction.
+
+Modules planned:GUI command/state layer, shared worker routing and thread-safe completion; focused sequence-builder postpasses, LOR import/export, palette/render helpers; portable worker/spec/workflow/tests. Backend effect-engine changes limited to existing AC whitelist safety. New source/backend branches are older snapshots, so apply only focused differences. Initial status:latest LOR GUI lacks frozen dispatch and thread-safe logging; portable GUI lacks the new modes; native FSEQ controls and section-based color options are absent from both.
+
+Evidence/checklist:docs/GUI_INTEGRATION_CHECKLIST.md will record tests, actual Windows EXE build, real XSQ/LMS/MP4 runs, native color/address validation, sampler provenance and decoded movies. Recent issue132 remains open; its separate execution-only experiment must preserve a clean source checkout and generate outputs externally. Existing unrelated FlowQuality direct-script import failure is reproduced and fixed in the exporter import bootstrap. 59backend and9worker tests pass; actual Tk modes verified. Windows build and requested sampler renders remain pending.
+
+Limits:legacyLMS supported; .loredit must fail clearly until its actual format is supported. Preview modes must identify native vs simulated provenance; never map RGB onto LOR AC circuits. Optional external xLights/ML tooling is not silently claimed bundled. No merge primary without user approval.
+
+
 ## 2026-10-12 — repeatable review packaging and final delivery
 
 Goal: preserve verified review downloads while safely rebuilding an existing bundle. Changed tools/complete_refined_band_delivery.py: exclude previous manifest/verification files from self-referential hash inventory and validate a temporary ZIP before replacing the existing archive. Original videos/XSQs/art/audio remain unchanged. Evidence:two consecutive real-package rebuilds pass CRC and all200entry hashes with no duplicate manifest. No pipeline or musical changes. Publicly released first-build artifacts remain valid.
