@@ -280,22 +280,61 @@ def parse_sequence(path: Path) -> SequenceData:
 
 
 def ramp_intensity(effect: EffectRecord, frame_times_ms: np.ndarray) -> np.ndarray:
+    """Approximate legacy On intensity and ramps from native xLights settings.
+
+    The source timeline is never modified. An On without explicit settings
+    means full intensity; Ramp with no settings uses the original preview's
+    25%-to-100% fallback.
+    """
     start = effect.start_ms
     end = max(start + 1, effect.end_ms)
     span = max(1.0, float(end - start))
     progress = np.clip((frame_times_ms - start) / span, 0.0, 1.0)
-    start_level = 0.25
-    end_level = 1.0
+    name = effect.name.strip().lower()
+    default_start = 25 if name == "ramp" else 100
+    start_level = default_start
+    end_level = 100
     settings = effect.settings or ""
-    if "End=0" in settings and "Start=100" in settings:
-        start_level = 1.0
-        end_level = 0.0
-    elif "End=100" in settings and "Start=0" in settings:
-        start_level = 0.0
-        end_level = 1.0
-    values = start_level + (end_level - start_level) * progress
+    # Native xLights inline settings: E_TEXTCTRL_Eff_On_Start/End
+    for key, assign in (
+        ("E_TEXTCTRL_Eff_On_Start", "start"),
+        ("E_TEXTCTRL_Eff_On_End", "end"),
+    ):
+        match = re.search(r"(?:^|,)" + re.escape(key) + r"=(-?\d+(?:\.\d+)?)", settings)
+        if match:
+            level = max(0, min(100, round(float(match.group(1)))))
+            if assign == "start":
+                start_level = level
+            else:
+                end_level = level
+    if name == "off":
+        start_level = end_level = 0
+    values = (start_level + (end_level - start_level) * progress) / 100.0
     mask = (frame_times_ms >= start) & (frame_times_ms < end)
     return np.where(mask, values, 0.0)
+
+
+def _ac_pulse_curve(
+    effect: EffectRecord, frame_times_ms: np.ndarray, model_name: str
+) -> np.ndarray:
+    """Preview-only, deterministic AC shimmer and twinkle behavior."""
+    baseline = ramp_intensity(effect, frame_times_ms)
+    if effect.name.strip().lower() == "shimmer":
+        # Approximate synchronized rapid AC cycling. 12 fps sampling is
+        # necessarily less detailed than a real AC controller switching.
+        elapsed = np.maximum(0, frame_times_ms - effect.start_ms)
+        return baseline * ((np.floor(elapsed / 45.0).astype(np.int64) % 2) == 0)
+    if effect.name.strip().lower() == "twinkle":
+        # Stagger pseudo-random phases between independent single-color props.
+        seed = int.from_bytes(
+            hashlib.sha256(model_name.encode("utf-8")).digest()[:4], "big"
+        )
+        bucket = np.floor(
+            np.maximum(0, frame_times_ms - effect.start_ms) / 105.0
+        ).astype(np.int64)
+        flicker = ((bucket * 1103515245 + seed + 12345) % 101) < 61
+        return baseline * flicker
+    return baseline
 
 
 def build_leaf_intensity_matrix(
@@ -322,11 +361,14 @@ def build_leaf_intensity_matrix(
             end_frame = min(frame_count, int(math.ceil(effect.end_ms * fps / 1000.0)))
             if end_frame <= start_frame:
                 end_frame = min(frame_count, start_frame + 1)
-            if eff_name == "ramp":
-                curve = ramp_intensity(effect, frame_times_ms[start_frame:end_frame])
-            else:
-                curve = np.ones((end_frame - start_frame,), dtype=np.float32)
             for idx in indexes:
+                leaf = leaf_names[idx]
+                if eff_name in {"ramp", "on", "off", "shimmer", "twinkle"}:
+                    curve = _ac_pulse_curve(
+                        effect, frame_times_ms[start_frame:end_frame], leaf
+                    )
+                else:
+                    curve = np.ones((end_frame - start_frame,), dtype=np.float32)
                 intensities[idx, start_frame:end_frame] = np.maximum(
                     intensities[idx, start_frame:end_frame], curve
                 )
