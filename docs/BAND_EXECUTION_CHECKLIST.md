@@ -12,12 +12,12 @@ Branch: codex/band-performance-refinement-20261012. Baseline: f0aca518f5a1dff15a
 - [x] Preserve exact mallet acoustic times; display contacts quantized within 25 ms.
 - [x] Existing band renderer offers --performance-refinement.
 - [x] Focused + sampler regressions: 52 passed.
-- [ ] Wider existing regression results recorded.
-- [ ] Complete dry A/B; six real-song excerpts; C/E montages.
-- [ ] Native xLights matrix rendering and pixel checks.
-- [ ] Fully decode videos; inspect quiet/strike/fill/string/mallet frames; verify source soundtracks.
+- [x] Wider existing regressions:67passed;114unique checks with focused suite.
+- [x] Complete dry A/B; six real-song excerpts; C/E montages.
+- [x] Native xLights matrix rendering and pixel checks.
+- [x] Fully decode videos; inspect quiet/strike/fill/string/mallet frames; verify source soundtracks.
 - [ ] New phone-accessible downloads verified.
-- [ ] Implementation/evidence commits on requested branch.
+- [x] Implementation/evidence commits on requested branch.
 - [ ] User artistic review. No primary merge authorized.
 
 Limitations: raw separated WAV stems and exhaustive independent instrument labels are absent from recovered inputs. Counts are not accuracy scores. Mallet instrument identity and real guitar stroke directions remain estimates. Virtual matrix Video XSQs reproduce the rendered performance; individual physical-prop native animation parity is unfinished.

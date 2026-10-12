@@ -26,13 +26,13 @@ Existing `tools/render_band_upgrade.py` can select the new path with `--performa
 
 Dry source SHA256:4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913. Input ZIP:ac7c36b1a749aedf09d2de20681163e3ede052d2062466474f228919bdc6b2ec. Originals are unchanged; soundtrack compression is AAC. A/B video frame rounding yields38.333s; the complete38.32s audio is retained. C36s, D18s, E128.35s. Five additional individual18s source studies accompany the five principal deliverables.
 
-## Verification status
+## Verification results
 
-Source pass:40 protected tracked geometry/drummer/source files match the starting Git blobs; original production scene/sampler/layout/template/audio files are untouched. Focused motion, source routing, runtime, export and prior shoulder tests pass. Earlier broad collection gaps were missing dependencies, not detector failures; torch, mapping modules and cmudict were restored before rerunning. Receipts are in evidence/band_execution.
+Source pass:40 protected tracked geometry/drummer/source files match the starting Git blobs; original production scene/sampler/layout/template/audio files are untouched. 52 focused/sampler/runtime checks and67 wider drummer/geometry regressions pass (5overlap;114unique). Earlier broad collection gaps were missing dependencies, not detector failures; torch, mapping modules and cmudict were restored before rerunning. Receipts are in evidence/band_execution.
 
 Musical pass:10 previously user-reviewed passage/signal anchors remain within14.5ms of accepted dry events. This is sparse independent evidence, not an exhaustive score. All2,160 excerpt frame poses preserve fixed3D link lengths to floating-point precision, with maximum error below9e-16scene units. Source curves preserve held notes over old release tails and restore onsets previously hidden by those tails; these are event-playback corrections. Drum family accuracy, ghost-note precision/recall, bass/guitar note correctness and confirmed mallet identity cannot be measured from prediction caches alone. Original raw six-stem WAVs and exhaustive independent annotations were not recovered.
 
-Video/native pass: fresh complete renders, full decoding, quiet/strike/contact screenshots, original soundtrack and native matrix pixel checks are recorded in the downloadable output_verification.json, montage_audio_verification.json, native_verification.json and review_frames. Current final evidence supersedes interrupted or dim pilots. File hashes, ZIP CRC and playback media are checked before delivery.
+Video/native pass:10fresh movies fully decode (7,747frames), and xLights2026.18 renders6,981native matrixframes. Per-show mean pixel differences are2.18–2.83on the8-bit RGB scale. Decoded head-region minimum mean light rises from26.07to77.32across all1,150comparisonframes (2.97×). All eight montage excerpts have zero measured timing-offset error at8kHz; minimum waveform correlation0.998168. Quiet/strike/contact screenshots, original soundtrack and native matrix pixel checks are recorded in the downloadable output_verification.json, montage_audio_verification.json, native_verification.json and review_frames. Current final evidence supersedes interrupted or dim pilots. File hashes, ZIP CRC and playback media are checked before delivery.
 
 ## xLights scope
 
