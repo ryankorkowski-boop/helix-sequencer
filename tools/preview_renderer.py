@@ -572,10 +572,14 @@ def render_sequence_to_mp4(
     width: int,
     height: int,
     max_seconds: float | None = None,
+    use_palette_colors: bool = True,
 ) -> Path:
     sequence = parse_sequence(sequence_path)
     leaf_names, intensity = build_leaf_intensity_matrix(layout, sequence, fps)
-    palette_colors = build_leaf_color_matrix(layout, sequence, fps, leaf_names, intensity.shape[1])
+    palette_colors = (
+        build_leaf_color_matrix(layout, sequence, fps, leaf_names, intensity.shape[1])
+        if use_palette_colors else None
+    )
     part_track = choose_track(sequence, "song parts")
     piano_track = choose_track(sequence, "piano")
     sweep_track = choose_track(sequence, "sweeps")
