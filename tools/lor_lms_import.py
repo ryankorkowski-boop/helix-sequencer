@@ -30,7 +30,9 @@ def _source_channels(source: Path):
         device = (channel.get("deviceType") or "").strip().upper()
         if device != "LOR":
             continue  # Unsupported proprietary or other controller type
-        unit, circuit = (channel.get(k) or "").strip() for k in ("unit", "circuit")
+        unit, circuit = tuple(
+            (channel.get(k) or "").strip() for k in ("unit", "circuit")
+        )
         if not unit.isdecimal() or not circuit.isdecimal():
             raise ValueError("LMS LOR channel has no numeric Unit ID/Circuit")
         if int(unit) <= 0 or int(circuit) <= 0:
@@ -44,7 +46,7 @@ def _source_channels(source: Path):
         indices.add(saved_index)
         native_name = (channel.get("name") or "").strip() or f"Unit {unit} Circuit {circuit}"
         # Namespace by channel address to avoid repeating labels in layout.
-        sanitized = re.sub(r"[\r\n\t]+", " ", native_name)
+        sanitized = re.sub(r"[,\r\n\t]+", " ", native_name)
         model = f"{sanitized} [LOR U{unit} C{circuit}]"
         if model in names:
             raise ValueError(f"Ambiguous LOR model identity: {model}")
