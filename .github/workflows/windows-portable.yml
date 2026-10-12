@@ -104,6 +104,7 @@ jobs:
       - name: Create portable ZIP and checksum
         shell: pwsh
         run: |
+          Copy-Item "portable_smoke/verification.json" "dist/Helix/VALIDATION.json" -Force
           Compress-Archive -Path "dist/Helix" -DestinationPath "Helix-Windows-Portable.zip" -CompressionLevel Optimal -Force
           $hash = (Get-FileHash "Helix-Windows-Portable.zip" -Algorithm SHA256).Hash.ToLowerInvariant()
           "$hash  Helix-Windows-Portable.zip" | Set-Content -Encoding ascii "Helix-Windows-Portable.sha256"

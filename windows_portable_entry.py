@@ -35,6 +35,8 @@ def main() -> int:
             app.update_idletasks()
             assert str(app.template_entry.cget("state")) == "disabled"
             assert str(app.lor_source_entry.cget("state")) == "normal"
+            assert str(app.matrix_button.cget("state")) == "disabled"
+            assert all(str(w.cget("state")) == "disabled" for w in app.birdsong_frame.winfo_children())
             app.sequence_mode_var.set("xLights")
             app.lor_compatible_var.set(True)
             assert str(app.palette_combo.cget("state")) == "disabled"

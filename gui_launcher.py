@@ -178,7 +178,8 @@ class HelixGui(tk.Tk):
         ttk.Spinbox(controls, from_=1, to=8, textvariable=self.variants_var, width=6).grid(row=0, column=3, sticky="w", **pad)
 
         ttk.Checkbutton(controls, text="Vendor Bar", variable=self.vendor_bar_var).grid(row=1, column=0, sticky="w", **pad)
-        ttk.Checkbutton(controls, text="Matrix Intelligence", variable=self.matrix_var).grid(row=1, column=1, sticky="w", **pad)
+        self.matrix_button=ttk.Checkbutton(controls,text="Matrix Intelligence",variable=self.matrix_var)
+        self.matrix_button.grid(row=1,column=1,sticky="w",**pad)
         ttk.Checkbutton(controls, text="Polish", variable=self.polish_var).grid(row=1, column=2, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Auto Shortlist", variable=self.shortlist_var).grid(row=1, column=3, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Learn From My XSQs", variable=self.learn_xsq_var).grid(row=1, column=4, sticky="w", **pad)
@@ -201,6 +202,7 @@ class HelixGui(tk.Tk):
 
         birdsong = ttk.LabelFrame(frame, text="Birdsong Engine")
         birdsong.pack(fill=tk.X, **pad)
+        self.birdsong_frame=birdsong
         ttk.Checkbutton(birdsong, text="Enable Birdsong", variable=self.birdsong_var).grid(row=0, column=0, sticky="w", **pad)
         ttk.Checkbutton(birdsong, text="Auto Enable By Confidence", variable=self.birdsong_auto_var).grid(
             row=0, column=1, sticky="w", **pad
@@ -270,6 +272,9 @@ class HelixGui(tk.Tk):
             ))
         rgb_disabled = lor or self.lor_compatible_var.get() or self.ac_on_only_var.get()
         self.palette_combo.configure(state="disabled" if rgb_disabled else "readonly")
+        self.matrix_button.configure(state="disabled" if rgb_disabled else "normal")
+        for item in self.birdsong_frame.winfo_children():
+            item.configure(state="disabled" if rgb_disabled else "readonly" if isinstance(item,ttk.Combobox) else "normal")
         for item in (self.spatial_button,self.quality_button):
             item.configure(state="disabled" if rgb_disabled else "normal")
         self.ac_on_button.configure(state="disabled" if lor or self.lor_compatible_var.get() else "normal")
@@ -453,14 +458,16 @@ class HelixGui(tk.Tk):
     def _run_sequence(self) -> None:
         if self._busy:
             return
+        lor_mode = self.sequence_mode_var.get() == "Light-O-Rama"
+        rgb_enabled = not (lor_mode or self.lor_compatible_var.get() or self.ac_on_only_var.get())
         try:
             variants = int(self.variants_var.get())
-            intensity = float(self.birdsong_intensity_var.get())
-            confidence = float(self.birdsong_min_conf_var.get())
-            if not 1 <= variants <= 20 or not 0 <= intensity <= 5 or not 0 <= confidence <= 1:
+            intensity = float(self.birdsong_intensity_var.get()) if rgb_enabled and self.birdsong_var.get() else 1.2
+            confidence = float(self.birdsong_min_conf_var.get()) if rgb_enabled and self.birdsong_var.get() else .45
+            if not 1 <= variants <= 8 or not 0 <= intensity <= 5 or not 0 <= confidence <= 1:
                 raise ValueError("out of range")
         except (tk.TclError, ValueError):
-            messagebox.showwarning("Invalid Settings", "Use 1–20 variants, intensity 0–5, and confidence 0–1.")
+            messagebox.showwarning("Invalid Settings", "Use 1–8 variants, intensity 0–5, and confidence 0–1.")
             return
         if not Path(self.audio_var.get().strip()).is_file():
             messagebox.showwarning("Missing Audio", "Choose an audio file before running.")
@@ -545,7 +552,7 @@ class HelixGui(tk.Tk):
             cmd.extend(["--helix-preview-mp4", "--helix-preview-seconds", str(seconds)])
         if self.vendor_bar_var.get():
             cmd.append("--vendor-bar")
-        if self.matrix_var.get() and not lor_mode and not self.lor_compatible_var.get():
+        if self.matrix_var.get() and rgb_enabled:
             cmd.append("--matrix-intelligence")
         if self.polish_var.get():
             cmd.append("--polish")
@@ -556,7 +563,7 @@ class HelixGui(tk.Tk):
         if self.learn_xsq_var.get():
             cmd.append("--learn-from-my-xsqs")
 
-        if self.birdsong_var.get() and not lor_mode and not self.lor_compatible_var.get():
+        if self.birdsong_var.get() and rgb_enabled:
             cmd.extend(
                 [
                     "--birdsong",
