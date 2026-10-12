@@ -11,12 +11,12 @@ Working branch: `codex/gui-complete-integration-20261012`, based on band deliver
 - [x] 59 backend/render/export tests and 9 worker/command tests pass. Initial failures retained in evidence; corrected and rerun.
 - [x] Actual Tk GUI initializes, switches both modes and AC compatibility, with all visible controls/log fitting 1140x850; screenshot decoded and inspected.
 - [x] Fix independently reproduced direct-script `core` import failure in FlowQuality exporter.
-- [ ] Fresh Windows portable EXE build, GUI smoke and real eight-second source-audio XSQ/LMS/MP4 worker runs.
-- [ ] Native color/address verification on actual xLights FSEQ.
+- [x] Fresh Windows EXEs, both GUI modes, native FSEQ and real eight-second XSQ/LMS/MP4 workers pass at323b6cde.
+- [x] Native duplicate-palette probe confirms RGB255/46/209 and neutral AC255.
 - [x] Retrieve exact previous six-song sampler WAV and its six-layout native reference package.
-- [ ] Render band with singers and six layouts side by side, both on the recovered WAV; source-bound new instrument/drum/vocal evidence and decoded review.
-- [ ] Execute issue132 isolated external experiment without source modifications in its clean checkout.
-- [ ] Publish and verify download sizes/hashes; save user deliverables and handoff.
+- [x] Locally rendered/decoded two3603frame movies on the exact WAV; native six layouts and band matrix verified. Workspace then went offline before saving.
+- [x] Issue132 local experiment completes after external template/CLI fixes; original checkout is clean. Three real-audio movies generated.
+- [ ] Independent Actions rebuild38312641499 restores exact encrypted inputs, passes regressions and is rendering. Publish/inspect/hash-verify new durable downloads before final handoff.
 
 Sampler provenance: previous Library package `Helix_Six_Song_Sampler_Package.zip`. WAV SHA256 `0fc2ab5dfee87d4af3e2ab326f76c7ee9cb3a5a893644487d2e7350a48cefafb`; 7,944,585 stereo PCM16 frames at44100Hz =180.14931972789117s. Prior six30s cuts retained, including recovered AAC tail padding; no guessed reconstruction.
 

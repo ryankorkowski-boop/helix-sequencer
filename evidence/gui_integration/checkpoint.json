@@ -1,0 +1,24 @@
+{
+  "gui_source_commit": "323b6cdeef2f5a26e9835018abc3d7eb48ba6c76",
+  "all_seven_CI_succeeded": true,
+  "gui_test_count": 65,
+  "combined_regression_count": 69,
+  "local_sampler": {
+    "WAV_sha256": "0fc2ab5dfee87d4af3e2ab326f76c7ee9cb3a5a893644487d2e7350a48cefafb",
+    "frames_each": 3603,
+    "minimum_sampled_stereo_correlation": 0.9971828966753942,
+    "native_RGB_lit": [
+      93,
+      89,
+      94,
+      98,
+      93,
+      95
+    ],
+    "control_channels_dark": true,
+    "native_band_mean_pixel_error": 2.5107823507184657
+  },
+  "workspace_offline_before_final_save": true,
+  "rebuild_run": 38312641499,
+  "limitations": "New rebuilt values/downloads must be independently checked; model estimates are not ground truth; band native export is virtual matrix."
+}
