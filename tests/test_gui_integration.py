@@ -1,6 +1,7 @@
 """Command routing and responsive worker behavior in the combined GUI."""
 import queue
 import sys
+from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -10,7 +11,7 @@ import gui_launcher as gui
 @pytest.mark.parametrize('module,flag',gui.TOOL_MODES.items())
 def test_frozen_tools_use_bundled_worker(module,flag):
     with patch.object(sys,'frozen',True,create=True),patch.object(sys,'executable','/portable/Helix.exe'):
-        assert gui._module_command(module)==['/portable/HelixCLI.exe',flag]
+        assert gui._module_command(module)==[str(Path(sys.executable).resolve().with_name('HelixCLI.exe')),flag]
 
 
 def test_unlisted_module_cannot_launch():
