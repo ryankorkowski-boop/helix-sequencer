@@ -538,7 +538,7 @@ def _package_generated_xlights_show(
     definitions embedded inside XSQ. Never substitute the repo default for
     the user's chosen layout or overwrite an existing different layout.
     """
-    from tools.show_context_bundle import package_xlights_layout
+    from tools.show_context_bundle import package_audio_alongside, package_xlights_layout
 
     args = list(engine_args or [])
     layout = next(
@@ -570,6 +570,12 @@ def _package_generated_xlights_show(
             f"show_context: layout+configuration in {evidence['directory']}",
             flush=True,
         )
+    audio = next(
+        (Path(args[i + 1]) for i, a in enumerate(args[:-1])
+         if a == "--audio"), None,
+    )
+    for media in package_audio_alongside(generated, audio):
+        ctx.record_artifact("portable_show_audio", media)
 
 
 def _generated_sequence_paths(
@@ -610,6 +616,7 @@ def _publish_native_lor_lms(
     import json
     import shutil
     from tools.lor_lms_export_from_source import export_lms_from_xsq
+    from tools.show_context_bundle import package_audio_alongside
 
     manifest = workspace / "lor_import_manifest.json"
     if not manifest.is_file():
@@ -617,6 +624,12 @@ def _publish_native_lor_lms(
     paths = _generated_sequence_paths(roots, before, engine_args)
     if not paths:
         raise RuntimeError("No Helix XSQ was generated for Light-O-Rama export")
+    audio = next(
+        (Path(engine_args[i + 1]) for i, a in enumerate(engine_args[:-1])
+         if a == "--audio"), None,
+    )
+    for media in package_audio_alongside(paths, audio):
+        ctx.record_artifact("portable_show_audio", media)
     for xsq in paths:
         target = xsq.with_suffix(".lms")
         if target.resolve() == source_lms.resolve():
