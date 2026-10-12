@@ -89,6 +89,9 @@ def prepare_lms_workspace(source: Path, workspace: Path) -> dict:
         rr = lor_color & 255
         gg = (lor_color >> 8) & 255
         bb = (lor_color >> 16) & 255
+        # An LMS GUI swatch of black should not make a powered AC circuit
+        # disappear from the *simulation*.
+        swatch = (rr, gg, bb) if max(rr, gg, bb) >= 32 else (220, 220, 230)
         if rr > 0 and not gg and not bb:
             string_type = "Single Color Red"
         elif gg > 0 and not rr and not bb:
@@ -100,7 +103,7 @@ def prepare_lms_workspace(source: Path, workspace: Path) -> dict:
         ET.SubElement(models, "model", {
             "name": entry["model"], "DisplayAs": "Single Line",
             "StringType": string_type, "StartChannel": str(i + 1),
-            "CustomColor": f"#{rr:02X}{gg:02X}{bb:02X}",
+            "CustomColor": "#{:02X}{:02X}{:02X}".format(*swatch),
             "parm1": "1", "parm2": "1", "parm3": "1",
             "WorldPosX": str((i % columns) * 40),
             "WorldPosY": str((i // columns) * 40),
