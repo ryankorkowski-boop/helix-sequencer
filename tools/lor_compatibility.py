@@ -127,10 +127,11 @@ def _transform_effect(effect, stats, db, settings, palette_fallback: str, palett
         effect.set("ref", _setting_ref(db, settings, ON_SETTINGS))
         stats["unsupported_to_On"] += 1
         stats[f"converted:{name or '<missing>'}"] += 1
-    raw_palette = effect.get("palette")
-    if raw_palette is None or not raw_palette.isdecimal() or int(raw_palette) >= palette_count:
-        effect.set("palette", palette_fallback)
-        stats["missing_palettes_fixed"] += 1
+    # AC color belongs to the bulb/physical output circuit, not the
+    # xLights pixel palette. White intensity drives all physical RGW colors.
+    if effect.get("palette") != palette_fallback:
+        stats["palettes_set_to_white_intensity"] += 1
+    effect.set("palette", palette_fallback)
     raw_ref = effect.get("ref")
     if raw_ref is None or not raw_ref.isdecimal() or int(raw_ref) >= len(settings):
         effect.set("ref", _setting_ref(db, settings, ON_SETTINGS if effect.get("name") == "On" else ""))
@@ -176,14 +177,22 @@ def enforce_lor_xsq(source: Path, dest: Path, layout: Path) -> dict:
             used_models.update(targets)
             continue
         # Mixed RGB+AC groups cannot remain as-is: they would light RGB data.
+        # Merge into an existing leaf row if present, avoiding duplicated
+        # Element names that xLights cannot reliably import.
         for leaf in sorted(targets):
-            cloned = copy.deepcopy(row)
-            cloned.set("name", leaf)
-            for layer in cloned.findall("EffectLayer"):
-                for effect in layer.findall("Effect"):
+            existing = next((
+                element for element in effects.findall("Element")
+                if element is not row and element.get("type") == "model"
+                and element.get("name") == leaf
+            ), None)
+            if existing is None:
+                existing = ET.SubElement(effects, "Element", {"type": "model", "name": leaf})
+            for layer in row.findall("EffectLayer"):
+                cloned_layer = copy.deepcopy(layer)
+                for effect in cloned_layer.findall("Effect"):
                     _transform_effect(effect, stats, db, settings, default_palette, palette_count)
                     stats["effects_retained"] += 1
-            effects.append(cloned)
+                existing.append(cloned_layer)
             used_models.add(leaf)
         removed_rows.append(target)
         effects.remove(row)
@@ -194,11 +203,9 @@ def enforce_lor_xsq(source: Path, dest: Path, layout: Path) -> dict:
             "No compatible single-color lighting effects remain. "
             "Check the AC layout and XSQ model names."
         )
-    # Prevent duplicate effect IDs when cloning group layers.
+    # ID uniqueness includes preserved timing-track effects as well.
     ids = 1
     for row in effects.findall("Element"):
-        if row.get("type") == "timing":
-            continue
         for event in row.findall("./EffectLayer/Effect"):
             event.set("id", str(ids))
             ids += 1
