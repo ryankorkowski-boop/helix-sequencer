@@ -1,0 +1,886 @@
+{
+  "files": [
+    {
+      "file": "output_verification.json",
+      "bytes": 8469,
+      "sha256": "55956d7b194114b96d1128517c6d5e833bd05a0f9fa24fd2888a4a50038396ef"
+    },
+    {
+      "file": "HANDOFF.md",
+      "bytes": 2425,
+      "sha256": "4c56d35ad2f1cb9405370e8e6f3ae19d9b2ecaeaba7d9e8457f8887a9b42fb0c"
+    },
+    {
+      "file": "dry_verification.json",
+      "bytes": 1230059,
+      "sha256": "dee1b9517271564972d43be431cda94f80abdc0d97d5a9fb771030890d6f4655"
+    },
+    {
+      "file": "BAND_REFINEMENT_CHECKLIST.md",
+      "bytes": 1806,
+      "sha256": "c9c568ac86d94eb2b1f9b80073ef947ad52e7061d076c2db9879e567e8809e24"
+    },
+    {
+      "file": "C_Bass_49.verification.json",
+      "bytes": 1446627,
+      "sha256": "d00fa4bfd0f5f359763f505d6c4f8b1fe99568c18d9d123387f51cf07a7b09bf"
+    },
+    {
+      "file": "E_Band_Festivus.verification.json",
+      "bytes": 1413601,
+      "sha256": "74eabbe7c39bffb4ab93ee2d68f071aaedb0325d12d31d5f350e9e402fafe8a2"
+    },
+    {
+      "file": "native_xvfb.log",
+      "bytes": 11740,
+      "sha256": "b6ed9a83ff6ed2447c0964e3a8c02d20ca091eb229e50d7f8822c9ca65a56217"
+    },
+    {
+      "file": "native_verification.json",
+      "bytes": 5368,
+      "sha256": "01a184c0d1a9f433f5f507543fd49d6a448a3449b40685b0cd3becc180d04250"
+    },
+    {
+      "file": "E_Band_Candy_Cane_Chaos.verification.json",
+      "bytes": 1436722,
+      "sha256": "bebf03c8a2b2a57c32f257a95da31cf822efe135d22c34b842ce119621294a29"
+    },
+    {
+      "file": "E_Band_Wire_Tree.verification.json",
+      "bytes": 1410907,
+      "sha256": "041528c42ab5394d7a7d089375d24b71bede9abe9e7aa8cbe4bcc68c4bc4b6aa"
+    },
+    {
+      "file": "montage_audio_verification.json",
+      "bytes": 2864,
+      "sha256": "3c897c296fe9b31b276d16e464ebca91ffd389bb8d28767211974bfd1e7d0dc0"
+    },
+    {
+      "file": "README.md",
+      "bytes": 277,
+      "sha256": "6cf8c3584b5c818708d5ded2c7ba410fa22f29cd5cd3013dd433513b7f0a5078"
+    },
+    {
+      "file": "Helix_Band_Actual_Render_Review.jpg",
+      "bytes": 598038,
+      "sha256": "5abdfb70c6d532e96e2a19bb9b93d51ff3d85d705f44ef9731635a2bc5bb9ea7"
+    },
+    {
+      "file": "D_Pitched_Percussion_Candidates_Festivus.verification.json",
+      "bytes": 1413601,
+      "sha256": "45187fb52cc7a188ee7c2bdcc0c71d36a8e43a1c9ef6a1069c8dbf526e84fa2a"
+    },
+    {
+      "file": "Helix_Band_Refinement_Report.md",
+      "bytes": 6235,
+      "sha256": "71718af794e1a85fe8ecd50e87827c32b1009013da80ee056d1d514f047fdbc6"
+    },
+    {
+      "file": "C_Guitar_Who_Knew.verification.json",
+      "bytes": 1520792,
+      "sha256": "abbdd19ab7d12ee0e1a033a79f62a87cfa9a7df66f1d4e8122ff59dcb4adfc0e"
+    },
+    {
+      "file": "native_frames/Video_E_Full_Band_Showcase_0855.png",
+      "bytes": 506744,
+      "sha256": "25a21a614e299797d51056f279366e884f7889b62d83e35284ea9c8abcf173a7"
+    },
+    {
+      "file": "native_frames/C_Bass_49_0358.png",
+      "bytes": 696534,
+      "sha256": "3c8075a387175d6ca3fe12651bdc082ff7922b8fe9c41909652409debe745c82"
+    },
+    {
+      "file": "native_frames/E_Band_Festivus_0000.png",
+      "bytes": 481387,
+      "sha256": "51cb6fa6f0b4a67434569ff4519382a5b5df7b19cc2a878a037d90c60ffde0fc"
+    },
+    {
+      "file": "native_frames/Video_A_Drummer_Geometry_Comparison_0765.png",
+      "bytes": 395270,
+      "sha256": "849f3567bcc3467af9e8d641fb53ef76a257251fdb2103c6d7127efd721bfca0"
+    },
+    {
+      "file": "native_frames/E_Band_Wire_Tree_0120.png",
+      "bytes": 503982,
+      "sha256": "160de44cf10ba48863bbccfc6a86f4631cc784958b2108b674154c52531f74df"
+    },
+    {
+      "file": "native_frames/E_Band_Candy_Cane_Chaos_0000.png",
+      "bytes": 484488,
+      "sha256": "618f3efa8bc2ca6ebbd909a28f7b68eccc963ccfb7f8d61514f1e808410ec8bd"
+    },
+    {
+      "file": "native_frames/E_Band_Festivus_0240.png",
+      "bytes": 504837,
+      "sha256": "2ce388794c4fe386818129227e57050d1bc3b08caa622f3d29079ece2224728b"
+    },
+    {
+      "file": "native_frames/E_Band_Candy_Cane_Chaos_0240.png",
+      "bytes": 507562,
+      "sha256": "21ed13a0db52d1bb5f22736f345cee260bd3ff4f402ecf954f1b31fd131e9e00"
+    },
+    {
+      "file": "native_frames/Video_B_Original_Dry_Drum_Test_0255.png",
+      "bytes": 479351,
+      "sha256": "d5b7fc08e1bf74044494ab9a8305e1b5eafa3a466aa6544a9c7c8f4d5bf1d01b"
+    },
+    {
+      "file": "native_frames/Video_A_Drummer_Geometry_Comparison_0255.png",
+      "bytes": 399561,
+      "sha256": "5a212b92261ae771a7e95d5dc5258ee7d61cb3ca245836e63a3e12a3604f67d8"
+    },
+    {
+      "file": "native_frames/Video_C_Bass_and_Guitar_0480.png",
+      "bytes": 707762,
+      "sha256": "b50915bae8fe642b15600664aba074c03440c4944c37796e05d10685dc2b1dc0"
+    },
+    {
+      "file": "native_frames/C_Guitar_Who_Knew_0000.png",
+      "bytes": 698467,
+      "sha256": "dc05743e71daf1e01755f937aa6c82d4a822f80a6742b21a892b6f77bffa9077"
+    },
+    {
+      "file": "native_frames/C_Bass_49_0240.png",
+      "bytes": 691154,
+      "sha256": "96864d336afabeea07464eeeb8669aea5acb540ea3b5152b4251aa545b80feb2"
+    },
+    {
+      "file": "native_frames/Video_A_Drummer_Geometry_Comparison_0511.png",
+      "bytes": 428139,
+      "sha256": "87e193c3a2497dbb7020d6beb99f1bb63c32a761f77b347d94dd81f4f9853b0d"
+    },
+    {
+      "file": "native_frames/C_Guitar_Who_Knew_0120.png",
+      "bytes": 706203,
+      "sha256": "a84644e0bf70a70177fdadc1b5d34185680cbf102bbc466a5e539c19529bd83a"
+    },
+    {
+      "file": "native_frames/E_Band_Wire_Tree_0000.png",
+      "bytes": 504348,
+      "sha256": "e1f7252c65897ed7e3d6255826e48464341b5fed01022d8a40c70e9b0a20afd5"
+    },
+    {
+      "file": "native_frames/Video_A_Drummer_Geometry_Comparison_0000.png",
+      "bytes": 387985,
+      "sha256": "ed614aaed3ef88cd58d35adfde2d1d99db3c4509b323f931071ffb8840dd2d83"
+    },
+    {
+      "file": "native_frames/E_Band_Festivus_0358.png",
+      "bytes": 518446,
+      "sha256": "a779608a7a0b1ac3cdbd13e9c46d34422a54a889aeab375513055e085e89c1cf"
+    },
+    {
+      "file": "native_frames/D_Pitched_Percussion_Candidates_Festivus_0120.png",
+      "bytes": 473914,
+      "sha256": "fd9f7b5aad93af70b80f59925a8e566b23f4d6201482d43ea5a9d7a4a6405aec"
+    },
+    {
+      "file": "native_frames/Video_C_Bass_and_Guitar_0240.png",
+      "bytes": 694605,
+      "sha256": "1f038e272caa10f7d6c5e6f4e39c299158381e3af3a0af41180e77e023da0f4f"
+    },
+    {
+      "file": "native_frames/E_Band_Candy_Cane_Chaos_0358.png",
+      "bytes": 535178,
+      "sha256": "0d17ed5970e609d006e819eed27e53e336ee202ae9a9a3b2823183581995e775"
+    },
+    {
+      "file": "native_frames/Video_B_Original_Dry_Drum_Test_0765.png",
+      "bytes": 475021,
+      "sha256": "615cf661e24d0fe2b2a66b9a447635934347b14f84e30ecb5eb3d075e228fd42"
+    },
+    {
+      "file": "native_frames/Video_B_Original_Dry_Drum_Test_0511.png",
+      "bytes": 504743,
+      "sha256": "9902ec93d0d6226671351d966d24f13047b58a2660352d8d97bf30f0fbd221f9"
+    },
+    {
+      "file": "native_frames/D_Pitched_Percussion_Candidates_Festivus_0000.png",
+      "bytes": 468360,
+      "sha256": "1fcb87e8e978fb088aefaaf78b1a1990c1e93b5b8c0ffb192a5a3ef322c211e0"
+    },
+    {
+      "file": "native_frames/Video_C_Bass_and_Guitar_0000.png",
+      "bytes": 679586,
+      "sha256": "45ba233ad2c9dbf6d2e03ecfa0ab40f0f74f7e0a49097b22dc44e1e89a8c9c96"
+    },
+    {
+      "file": "native_frames/C_Guitar_Who_Knew_0358.png",
+      "bytes": 726085,
+      "sha256": "35666e7707a25d38662ee903c119e608bb2f4b38e9778b57e22c0746c39d3a16"
+    },
+    {
+      "file": "native_frames/C_Bass_49_0120.png",
+      "bytes": 692876,
+      "sha256": "2e87d7c78d77849f09dce0f7930f796578b30e285abaa6dcdbae72fa99194fa9"
+    },
+    {
+      "file": "native_frames/Video_C_Bass_and_Guitar_0718.png",
+      "bytes": 728161,
+      "sha256": "12520485bb3ff9f074ced1386fe74fc86e99a46663ef9b8b06ca7c34acab057c"
+    },
+    {
+      "file": "native_frames/D_Pitched_Percussion_Candidates_Festivus_0240.png",
+      "bytes": 482321,
+      "sha256": "4463a4917816d04228c8f575779c3c0073cde9d24e4d596e183607749a16ffe6"
+    },
+    {
+      "file": "native_frames/E_Band_Candy_Cane_Chaos_0120.png",
+      "bytes": 491948,
+      "sha256": "ca5e3246c41f1aecd939ddd617839424b0274ee6097b81353f1c8a0d7112dbf2"
+    },
+    {
+      "file": "native_frames/C_Bass_49_0000.png",
+      "bytes": 680163,
+      "sha256": "b60c9bd47b6a4bec0c4aeb107cdd5279eaafaf61ea9043caab1bc55c3f89c5f7"
+    },
+    {
+      "file": "native_frames/Video_B_Original_Dry_Drum_Test_0000.png",
+      "bytes": 465889,
+      "sha256": "ce4e8400718ce3455dbcfa8e66cf00b505624016c3dbcb019d39d50fe27c8ac2"
+    },
+    {
+      "file": "native_frames/Video_E_Full_Band_Showcase_0000.png",
+      "bytes": 460512,
+      "sha256": "7c068d8f22bcf6a8015e5a514f4fe0bdef313d5e08a4e4a17dd2b63fccd4cf43"
+    },
+    {
+      "file": "native_frames/E_Band_Wire_Tree_0240.png",
+      "bytes": 529071,
+      "sha256": "f2cb6f9655fd74d5b19a3727fe66d1f1955a8102f47aafda5544b5d65738671e"
+    },
+    {
+      "file": "native_frames/E_Band_Wire_Tree_0358.png",
+      "bytes": 481230,
+      "sha256": "4de5e2fa01f08803a2cf417d55efacacb78523e60dc0b29ca75f29221a9488f1"
+    },
+    {
+      "file": "native_frames/E_Band_Festivus_0120.png",
+      "bytes": 488180,
+      "sha256": "cd822236e6a1510ef6c69c126ce4fbc8cdbf0692b60d88318821c8f46c085dc6"
+    },
+    {
+      "file": "native_frames/Video_E_Full_Band_Showcase_1711.png",
+      "bytes": 506863,
+      "sha256": "bc673658dea495c2f74aea65276a7260a49cc11553d4d905011eb016cce0bcd7"
+    },
+    {
+      "file": "native_frames/D_Pitched_Percussion_Candidates_Festivus_0358.png",
+      "bytes": 494621,
+      "sha256": "dd089b503d49ef5843a9e6a4da80af2c13ddba7840360ea87e524742d8f5083f"
+    },
+    {
+      "file": "native_frames/Video_E_Full_Band_Showcase_2565.png",
+      "bytes": 714842,
+      "sha256": "ef496c8c6ff18cf4099578c371b06591adfdc9277542069b3aa918b5a871eeee"
+    },
+    {
+      "file": "native_frames/C_Guitar_Who_Knew_0240.png",
+      "bytes": 719663,
+      "sha256": "0262dc249265533a121472decfe242aee6ef8d250b082f51ec58ccd244186cf4"
+    },
+    {
+      "file": "review_frames/Video_E_Full_Band_Showcase_3.jpg",
+      "bytes": 89239,
+      "sha256": "638e13d9be36cd6519c497f6bcce447d9a1adf50c744e281634a948a5ae8298d"
+    },
+    {
+      "file": "review_frames/D_Pitched_Percussion_Candidates_Festivus_2.jpg",
+      "bytes": 66920,
+      "sha256": "1c58b7640f827b74407998228a518d25cc3fba44a3a66019cea34024a8d1994c"
+    },
+    {
+      "file": "review_frames/E_Band_Festivus_3.jpg",
+      "bytes": 77366,
+      "sha256": "85ad909ca4f9748944f12f2e7714ff43a7996b6d7dcc0a1d0547becaa8a3ea41"
+    },
+    {
+      "file": "review_frames/Video_C_Bass_and_Guitar_2.jpg",
+      "bytes": 85081,
+      "sha256": "588694e785874c0649fb99ebbda9c6fa8ca36a64c019f38ce6f0175336b15cb5"
+    },
+    {
+      "file": "review_frames/C_Bass_49_3.jpg",
+      "bytes": 85415,
+      "sha256": "b7fa20ea864fad9318f0b6fc9e043f1bca127017c5e6ac92dd854925214b5df4"
+    },
+    {
+      "file": "review_frames/D_Pitched_Percussion_Candidates_Festivus_3.jpg",
+      "bytes": 66367,
+      "sha256": "15d7ed054d8672ae323e6a31f4f56755aaa21237fbe3d052f60812c9207829eb"
+    },
+    {
+      "file": "review_frames/E_Band_Festivus_0.jpg",
+      "bytes": 76867,
+      "sha256": "a479b3c1e07a23cb433ebac330757e50564a240a96f8c26366ee273e5cc6e2c9"
+    },
+    {
+      "file": "review_frames/C_Guitar_Who_Knew_3.jpg",
+      "bytes": 90478,
+      "sha256": "e1e96cf81df5ab42c1ed576fbc32377c0b4d58667a456c824f2de26136bf0a2f"
+    },
+    {
+      "file": "review_frames/C_Bass_49_2.jpg",
+      "bytes": 85599,
+      "sha256": "7d332e0c5c3f3924513ef537a08cd9c81151aad102d0fc7ad2df75174825ec91"
+    },
+    {
+      "file": "review_frames/Video_E_Full_Band_Showcase_2.jpg",
+      "bytes": 82249,
+      "sha256": "c373cd71d6724b5d0b743576e857d93361047f89748a538f4005331530a33a0c"
+    },
+    {
+      "file": "review_frames/C_Bass_49_0.jpg",
+      "bytes": 84750,
+      "sha256": "d05b4eaed7d8d9a03015d5e578a13b674888aec1806396ada55ad75ba073d2d0"
+    },
+    {
+      "file": "review_frames/D_Pitched_Percussion_Candidates_Festivus_1.jpg",
+      "bytes": 66176,
+      "sha256": "b871c8c596912c4850e1786ee26703a732baf6e10a98c446b460cb9ab0d6af7f"
+    },
+    {
+      "file": "review_frames/E_Band_Candy_Cane_Chaos_2.jpg",
+      "bytes": 76886,
+      "sha256": "0286b0faeddb6b4a1016eff9c164a404d4eca175c2fe7f6bfb9b2a5bd0d9d504"
+    },
+    {
+      "file": "review_frames/Video_A_Drummer_Geometry_Comparison_1.jpg",
+      "bytes": 48604,
+      "sha256": "cb5c258bbbcebdd3f91520c988f9e05d61aa43433b498825cfb4b4d1a3d5b212"
+    },
+    {
+      "file": "review_frames/Video_B_Original_Dry_Drum_Test_3.jpg",
+      "bytes": 50431,
+      "sha256": "a48329c05ba670229dfa84729d2a4578baa780307aec2a94aac9e9b1b85b9e0e"
+    },
+    {
+      "file": "review_frames/E_Band_Candy_Cane_Chaos_1.jpg",
+      "bytes": 80593,
+      "sha256": "f36eac0047b1df2550cba111d5aa0548a721b4107fb2d3a8fcbe908ef759e7e3"
+    },
+    {
+      "file": "review_frames/Video_A_Drummer_Geometry_Comparison_3.jpg",
+      "bytes": 46850,
+      "sha256": "b556d1310c4e6772302c903c52644baa7deb06b2d526bc153c452b60fd85560e"
+    },
+    {
+      "file": "review_frames/Video_C_Bass_and_Guitar_3.jpg",
+      "bytes": 89239,
+      "sha256": "638e13d9be36cd6519c497f6bcce447d9a1adf50c744e281634a948a5ae8298d"
+    },
+    {
+      "file": "review_frames/C_Guitar_Who_Knew_1.jpg",
+      "bytes": 86464,
+      "sha256": "41fec64bb7693697482c2f59e511d573b6f7a6089b5da04cf18f7f49df2c7917"
+    },
+    {
+      "file": "review_frames/E_Band_Candy_Cane_Chaos_3.jpg",
+      "bytes": 84145,
+      "sha256": "cb62c1f8b0a2aadf56f3e54f8359464a3793e822a73967dab6627a8c42b42a29"
+    },
+    {
+      "file": "review_frames/Video_A_Drummer_Geometry_Comparison_0.jpg",
+      "bytes": 45973,
+      "sha256": "68ea91a64b77611f6e729062686a9dafbd4361c2783e808b9a6a7d37484dc91d"
+    },
+    {
+      "file": "review_frames/C_Guitar_Who_Knew_0.jpg",
+      "bytes": 86481,
+      "sha256": "6fb4a2217b8557724a9352db7d23bd24fb6b7e3b14189d4f0c34d1193d50573d"
+    },
+    {
+      "file": "review_frames/Video_B_Original_Dry_Drum_Test_2.jpg",
+      "bytes": 55258,
+      "sha256": "865f05085a84ea29a2acd18865fa75336d9aa3ffb76d3c1014b6a2e2e53b86dd"
+    },
+    {
+      "file": "review_frames/E_Band_Wire_Tree_2.jpg",
+      "bytes": 81913,
+      "sha256": "3bff6e108d1ccc0d76791f29981b5f42b5284dd5b823b4d6bee20c851e7ece68"
+    },
+    {
+      "file": "review_frames/Video_A_Drummer_Geometry_Comparison_2.jpg",
+      "bytes": 54132,
+      "sha256": "cc4ace31934260ea1e018a2aec96096ee37b15718286e770477813d31361534c"
+    },
+    {
+      "file": "review_frames/E_Band_Candy_Cane_Chaos_0.jpg",
+      "bytes": 76899,
+      "sha256": "b8f46e4cd2ec746453030ce033e6927a8b7760f7e8003639e9dc2eaf5c07ee76"
+    },
+    {
+      "file": "review_frames/Video_E_Full_Band_Showcase_0.jpg",
+      "bytes": 48587,
+      "sha256": "fcffa6cae9cf371fd83d1ed4533fe6eebaeb93492edf6380c97240e226b1ccd6"
+    },
+    {
+      "file": "review_frames/Video_C_Bass_and_Guitar_1.jpg",
+      "bytes": 81187,
+      "sha256": "b1a7930acee83b98252099221000a5c93fa876971d59306c0ea7b77b6c0afbc6"
+    },
+    {
+      "file": "review_frames/Video_B_Original_Dry_Drum_Test_1.jpg",
+      "bytes": 51774,
+      "sha256": "a9922bfa59bcc034fc032654e9def4c29c751064ca0a2e55b269d5e9be31c3e4"
+    },
+    {
+      "file": "review_frames/C_Guitar_Who_Knew_2.jpg",
+      "bytes": 82197,
+      "sha256": "5b177406ac8f2aa439ec22800d1dc0742ce2ed9b8bdde791ff5fd8c9df13c615"
+    },
+    {
+      "file": "review_frames/D_Pitched_Percussion_Candidates_Festivus_0.jpg",
+      "bytes": 67111,
+      "sha256": "30b55e41c9fbf4276166fad0b8d8fa74155b245c2ee72f3c1ca6944844a37a59"
+    },
+    {
+      "file": "review_frames/C_Bass_49_1.jpg",
+      "bytes": 82453,
+      "sha256": "f29389c34795ce87b82464e6cc2ae4704f90ebc655560442ae1592f352a4efca"
+    },
+    {
+      "file": "review_frames/E_Band_Wire_Tree_3.jpg",
+      "bytes": 79302,
+      "sha256": "027ea9c6edfd927a3f21f73f59437f4de9a4c12226c0b3e3b97ba951e4f807b8"
+    },
+    {
+      "file": "review_frames/Video_E_Full_Band_Showcase_1.jpg",
+      "bytes": 50879,
+      "sha256": "be37d3c3ef7e215c577aaa25c0b7f2186b576bc301375a2fd1456cae11c1c0f1"
+    },
+    {
+      "file": "review_frames/E_Band_Festivus_1.jpg",
+      "bytes": 85159,
+      "sha256": "2781b5b023a53120c0ef620e5445ebb1a1c6f07a3226ec742fdc73d3bd88c162"
+    },
+    {
+      "file": "review_frames/Video_C_Bass_and_Guitar_0.jpg",
+      "bytes": 84017,
+      "sha256": "895565668af78046fadbd022f3e74e0434109fdc2e5a0353c4643f5ffdbb6765"
+    },
+    {
+      "file": "review_frames/E_Band_Wire_Tree_1.jpg",
+      "bytes": 82503,
+      "sha256": "20e196674e5e4db45c4642bbfceea88024e94a5113d269cce1c67f2aa82e27e7"
+    },
+    {
+      "file": "review_frames/E_Band_Wire_Tree_0.jpg",
+      "bytes": 83682,
+      "sha256": "17f4a9c5205b26f63e4be8b8524330e3a9f6c16a1230f171cf85ca908ee23a4f"
+    },
+    {
+      "file": "review_frames/Video_B_Original_Dry_Drum_Test_0.jpg",
+      "bytes": 49595,
+      "sha256": "e5a23b5874cb89c13bd56f92da45f06f272bdeed5c0d9a126ce35b0ce587efe2"
+    },
+    {
+      "file": "review_frames/E_Band_Festivus_2.jpg",
+      "bytes": 77059,
+      "sha256": "57404f2eda205d1a188771ad13dcf43b531a543bfe091e6a6a0698b37d3746d7"
+    },
+    {
+      "file": "evidence/remote_output_audit.log",
+      "bytes": 407,
+      "sha256": "05243f756dbcda148f1d9bd7b38f77aaf3b5a5dc10ae9e899766907aee11a9f0"
+    },
+    {
+      "file": "evidence/joint_and_contact_audit.json",
+      "bytes": 4509,
+      "sha256": "11649036f50c65ddeedad78a6daf8ab27b3e3f55e055289c94765542209bc3d4"
+    },
+    {
+      "file": "evidence/focused_tests.log",
+      "bytes": 100,
+      "sha256": "6422571e82130863ce56b1be0b920790f7d30490c279557864780aca4bab1738"
+    },
+    {
+      "file": "evidence/preservation.json",
+      "bytes": 9218,
+      "sha256": "7e85c221226f4096f9dea9c7dd703391171374c996b1e90b75ba428e6017ff10"
+    },
+    {
+      "file": "evidence/musical_reference_audit.json",
+      "bytes": 2296,
+      "sha256": "47dc6d16fcec1947c06c7edf2ae3449643c9e4a0ecfaafcd13955dd878c12f6b"
+    },
+    {
+      "file": "evidence/remote_focused_tests.log",
+      "bytes": 100,
+      "sha256": "36a379f06242073d18cfab4873b1031eb0e9d6546ca38747e9eb995e70c97e48"
+    },
+    {
+      "file": "evidence/final_focused_tests.log",
+      "bytes": 100,
+      "sha256": "ab9c01a5f3d06a8096311d73ec23c9707f35332817b1e5f1b34a273617fcbee0"
+    },
+    {
+      "file": "evidence/remote_soundtrack_audit.log",
+      "bytes": 2485,
+      "sha256": "0dce8a4c79516c52f5ce29fa5ac6890bca9b506495b13dc636b496f3c4924ae0"
+    },
+    {
+      "file": "evidence/remote_native_audit.log",
+      "bytes": 5119,
+      "sha256": "7975de1c31decff3e32afde2a9737c9c7e327c11762a076c5d1eab9046ef6b93"
+    },
+    {
+      "file": "evidence/regression_initial_environment.log",
+      "bytes": 2494,
+      "sha256": "454e6161e45816adfa7fbde8f86f795443ba3cd6f889586d4aed625d7e8d75a2"
+    },
+    {
+      "file": "xlights/E_Band_Festivus/xlights_rgbeffects.xml",
+      "bytes": 867,
+      "sha256": "ef4449cf17e6001cf05e7b88fb4a028a38b1dc7c14744a0323b7ce3ce8683de7"
+    },
+    {
+      "file": "xlights/E_Band_Festivus/E_Band_Festivus.xsq",
+      "bytes": 1341,
+      "sha256": "5089565550b39781a851cc66c8ea1186c42316ec280042206c767d39dd825270"
+    },
+    {
+      "file": "xlights/E_Band_Festivus/native_render.log",
+      "bytes": 1229,
+      "sha256": "b650263738ac1bf88f7270fc9a9ff545910cdd6725da3d6612bcd87123998e35"
+    },
+    {
+      "file": "xlights/E_Band_Festivus/xlights_networks.xml",
+      "bytes": 81,
+      "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295"
+    },
+    {
+      "file": "xlights/E_Band_Festivus/EXPORT_SCOPE.json",
+      "bytes": 437,
+      "sha256": "efccbf57e1b1ef8021373869f97267ad7ccabef3f9fe2a6cae150090cedee75f"
+    },
+    {
+      "file": "xlights/E_Band_Candy_Cane_Chaos/xlights_rgbeffects.xml",
+      "bytes": 867,
+      "sha256": "ef4449cf17e6001cf05e7b88fb4a028a38b1dc7c14744a0323b7ce3ce8683de7"
+    },
+    {
+      "file": "xlights/E_Band_Candy_Cane_Chaos/native_render.log",
+      "bytes": 1245,
+      "sha256": "636bd4ec053a435d5ccc3493a06fc9ad38b53f120b17f45c143b73acac1ccb2b"
+    },
+    {
+      "file": "xlights/E_Band_Candy_Cane_Chaos/E_Band_Candy_Cane_Chaos.xsq",
+      "bytes": 1349,
+      "sha256": "a1ded1796841abcecdd8f1d6a78f56ea2e992de7078bd15516b888a326d3bda4"
+    },
+    {
+      "file": "xlights/E_Band_Candy_Cane_Chaos/xlights_networks.xml",
+      "bytes": 81,
+      "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295"
+    },
+    {
+      "file": "xlights/E_Band_Candy_Cane_Chaos/EXPORT_SCOPE.json",
+      "bytes": 453,
+      "sha256": "8da48815061289c81940feff07190aeb5df07add39510b80d7021479a2c0c765"
+    },
+    {
+      "file": "xlights/C_Bass_49/xlights_rgbeffects.xml",
+      "bytes": 867,
+      "sha256": "ef4449cf17e6001cf05e7b88fb4a028a38b1dc7c14744a0323b7ce3ce8683de7"
+    },
+    {
+      "file": "xlights/C_Bass_49/C_Bass_49.xsq",
+      "bytes": 1335,
+      "sha256": "c4f6be16185e823c0c6b1e361429c763da9d85d515f96c9ba82683feeedc6fe4"
+    },
+    {
+      "file": "xlights/C_Bass_49/native_render.log",
+      "bytes": 1217,
+      "sha256": "25109e1f72d569cee0b8dcb0baf20a1153d90581bfad5552b1fddcd66031f05f"
+    },
+    {
+      "file": "xlights/C_Bass_49/xlights_networks.xml",
+      "bytes": 81,
+      "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295"
+    },
+    {
+      "file": "xlights/C_Bass_49/EXPORT_SCOPE.json",
+      "bytes": 425,
+      "sha256": "1b67a61e50f19ace17648b1464c6b8ff720ce2a5d412d5eec06645eb4eabef67"
+    },
+    {
+      "file": "xlights/E_Band_Wire_Tree/xlights_rgbeffects.xml",
+      "bytes": 867,
+      "sha256": "ef4449cf17e6001cf05e7b88fb4a028a38b1dc7c14744a0323b7ce3ce8683de7"
+    },
+    {
+      "file": "xlights/E_Band_Wire_Tree/native_render.log",
+      "bytes": 1231,
+      "sha256": "09ff6aa6540018108f1260008ce796954801df54eb4682aabc62d2a344a255b4"
+    },
+    {
+      "file": "xlights/E_Band_Wire_Tree/E_Band_Wire_Tree.xsq",
+      "bytes": 1342,
+      "sha256": "0f569a68020bd83f58cb19a3e91d5c4e77890e916109478819ce6c2330d244cb"
+    },
+    {
+      "file": "xlights/E_Band_Wire_Tree/xlights_networks.xml",
+      "bytes": 81,
+      "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295"
+    },
+    {
+      "file": "xlights/E_Band_Wire_Tree/EXPORT_SCOPE.json",
+      "bytes": 439,
+      "sha256": "e18e5cf1a1a78b2055d4350b5ece936a9a2965abebb98cb862237bca00f8409f"
+    },
+    {
+      "file": "xlights/Video_E_Full_Band_Showcase/xlights_rgbeffects.xml",
+      "bytes": 867,
+      "sha256": "ef4449cf17e6001cf05e7b88fb4a028a38b1dc7c14744a0323b7ce3ce8683de7"
+    },
+    {
+      "file": "xlights/Video_E_Full_Band_Showcase/native_render.log",
+      "bytes": 1251,
+      "sha256": "28211c73df153c2a11b53485b8cbb52b8ffa27067c7bc16939989be3caef0be3"
+    },
+    {
+      "file": "xlights/Video_E_Full_Band_Showcase/xlights_networks.xml",
+      "bytes": 81,
+      "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295"
+    },
+    {
+      "file": "xlights/Video_E_Full_Band_Showcase/Video_E_Full_Band_Showcase.xsq",
+      "bytes": 1354,
+      "sha256": "6130d2f16f27e2aa8fd9e4089cf9dbb2e2eec8269d46c31a21c4a367d49cc349"
+    },
+    {
+      "file": "xlights/Video_E_Full_Band_Showcase/EXPORT_SCOPE.json",
+      "bytes": 463,
+      "sha256": "5ba0464ffa61590ab8c4a59e79264471e9a57a5a2909c22110936af19c6ae6b6"
+    },
+    {
+      "file": "xlights/Video_B_Original_Dry_Drum_Test/xlights_rgbeffects.xml",
+      "bytes": 867,
+      "sha256": "ef4449cf17e6001cf05e7b88fb4a028a38b1dc7c14744a0323b7ce3ce8683de7"
+    },
+    {
+      "file": "xlights/Video_B_Original_Dry_Drum_Test/native_render.log",
+      "bytes": 1259,
+      "sha256": "899292326dce64b23fe8efacf8d5eefca3c28c6d4eefc794b69c1dbb8773d3ca"
+    },
+    {
+      "file": "xlights/Video_B_Original_Dry_Drum_Test/xlights_networks.xml",
+      "bytes": 81,
+      "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295"
+    },
+    {
+      "file": "xlights/Video_B_Original_Dry_Drum_Test/Video_B_Original_Dry_Drum_Test.xsq",
+      "bytes": 1356,
+      "sha256": "28be68cf464ee1511ac7865897865a301243e38a31d44de8db738e465439cae6"
+    },
+    {
+      "file": "xlights/Video_B_Original_Dry_Drum_Test/EXPORT_SCOPE.json",
+      "bytes": 473,
+      "sha256": "cb65c2ab54fa9d3ecebbab6a12a98ae3988b2c9d2243fff11fa2cc4eb784d8eb"
+    },
+    {
+      "file": "xlights/Video_C_Bass_and_Guitar/xlights_rgbeffects.xml",
+      "bytes": 867,
+      "sha256": "ef4449cf17e6001cf05e7b88fb4a028a38b1dc7c14744a0323b7ce3ce8683de7"
+    },
+    {
+      "file": "xlights/Video_C_Bass_and_Guitar/Video_C_Bass_and_Guitar.xsq",
+      "bytes": 1349,
+      "sha256": "cb939c38bde4329721ad1747ad6317c00ed49df40580624c7bfd9204a4fdd04f"
+    },
+    {
+      "file": "xlights/Video_C_Bass_and_Guitar/native_render.log",
+      "bytes": 1245,
+      "sha256": "dc9c44245bc93a478ab4a218538f6e1aaa027131f834d724175836ebc19bd297"
+    },
+    {
+      "file": "xlights/Video_C_Bass_and_Guitar/xlights_networks.xml",
+      "bytes": 81,
+      "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295"
+    },
+    {
+      "file": "xlights/Video_C_Bass_and_Guitar/EXPORT_SCOPE.json",
+      "bytes": 453,
+      "sha256": "f08e0ceebc3dad2cb840c31a3cb767e54ae8f02cc7c143cedb90d888ca23cd6a"
+    },
+    {
+      "file": "xlights/D_Pitched_Percussion_Candidates_Festivus/xlights_rgbeffects.xml",
+      "bytes": 867,
+      "sha256": "ef4449cf17e6001cf05e7b88fb4a028a38b1dc7c14744a0323b7ce3ce8683de7"
+    },
+    {
+      "file": "xlights/D_Pitched_Percussion_Candidates_Festivus/native_render.log",
+      "bytes": 1279,
+      "sha256": "a2ee9fdc90fe90712a4c61df7949a354a846a2a44ce05ec51fea4b9e3e8bf5ce"
+    },
+    {
+      "file": "xlights/D_Pitched_Percussion_Candidates_Festivus/D_Pitched_Percussion_Candidates_Festivus.xsq",
+      "bytes": 1366,
+      "sha256": "f705eac8af0bbae500a47f8c04c6e9af37a2f1be0d179722d7efba543045e734"
+    },
+    {
+      "file": "xlights/D_Pitched_Percussion_Candidates_Festivus/xlights_networks.xml",
+      "bytes": 81,
+      "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295"
+    },
+    {
+      "file": "xlights/D_Pitched_Percussion_Candidates_Festivus/EXPORT_SCOPE.json",
+      "bytes": 487,
+      "sha256": "e789e48e0bb646bba55d48be149b66a96b7857394723e22b4741d959963d311f"
+    },
+    {
+      "file": "xlights/C_Guitar_Who_Knew/C_Guitar_Who_Knew.xsq",
+      "bytes": 1343,
+      "sha256": "b3069452052a88851b8f1b17612d83a9affd3dec3dd4e1c33c0ff30586d50a01"
+    },
+    {
+      "file": "xlights/C_Guitar_Who_Knew/xlights_rgbeffects.xml",
+      "bytes": 867,
+      "sha256": "ef4449cf17e6001cf05e7b88fb4a028a38b1dc7c14744a0323b7ce3ce8683de7"
+    },
+    {
+      "file": "xlights/C_Guitar_Who_Knew/native_render.log",
+      "bytes": 1233,
+      "sha256": "b715c0cb458ae5ca0daaa253ca89149eaf566014d31b72a79048c64f07f9185a"
+    },
+    {
+      "file": "xlights/C_Guitar_Who_Knew/xlights_networks.xml",
+      "bytes": 81,
+      "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295"
+    },
+    {
+      "file": "xlights/C_Guitar_Who_Knew/EXPORT_SCOPE.json",
+      "bytes": 441,
+      "sha256": "f531a1a628be18c1543cc9543535860db8029d9fd8a98b67e478444d95a708f6"
+    },
+    {
+      "file": "xlights/Video_A_Drummer_Geometry_Comparison/Video_A_Drummer_Geometry_Comparison.xsq",
+      "bytes": 1361,
+      "sha256": "11fa74110a11f474338b92873f5d0cf8c7e522845e281eb72ce572679f4aca14"
+    },
+    {
+      "file": "xlights/Video_A_Drummer_Geometry_Comparison/xlights_rgbeffects.xml",
+      "bytes": 867,
+      "sha256": "ef4449cf17e6001cf05e7b88fb4a028a38b1dc7c14744a0323b7ce3ce8683de7"
+    },
+    {
+      "file": "xlights/Video_A_Drummer_Geometry_Comparison/native_render.log",
+      "bytes": 1269,
+      "sha256": "e8b446d956fcf1823a836f837c40e91d0a62d8fbb74e2c82b1bcf4672867c59e"
+    },
+    {
+      "file": "xlights/Video_A_Drummer_Geometry_Comparison/xlights_networks.xml",
+      "bytes": 81,
+      "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295"
+    },
+    {
+      "file": "xlights/Video_A_Drummer_Geometry_Comparison/EXPORT_SCOPE.json",
+      "bytes": 483,
+      "sha256": "3599231189e611f3d4ce3a37b0b893df1b3b91c139cabfd50a0d2f9f8b762d7b"
+    },
+    {
+      "file": "xlights/E_Band_Festivus/media/soundtrack.wav",
+      "bytes": 3457102,
+      "sha256": "99e3416d395d297a1298823e8a72f3a049fbf759f50c0d5e52916bd24206da52"
+    },
+    {
+      "file": "xlights/E_Band_Festivus/media/performance.mp4",
+      "bytes": 7552001,
+      "sha256": "b2c845ba3b66e38d8e6eb8b32db7e3c52cb33650f5cabbcdd45d797ee2456682"
+    },
+    {
+      "file": "xlights/E_Band_Candy_Cane_Chaos/media/soundtrack.wav",
+      "bytes": 3457102,
+      "sha256": "664e278e442224b37faaead7e38b29fcb40cac7426407c00a57c0a056aef85c2"
+    },
+    {
+      "file": "xlights/E_Band_Candy_Cane_Chaos/media/performance.mp4",
+      "bytes": 8035875,
+      "sha256": "4efe30ea00761cfbe211a2f9d091106ca636a3816dae85beab1f9e2459851c62"
+    },
+    {
+      "file": "xlights/C_Bass_49/media/soundtrack.wav",
+      "bytes": 3457102,
+      "sha256": "9d0b2f5561f36023acbd3b7565cf34f43a354787f0889645f01c77c8029f1781"
+    },
+    {
+      "file": "xlights/C_Bass_49/media/performance.mp4",
+      "bytes": 8796708,
+      "sha256": "e5a0589c1d0d8fd745e78cd3c3867cb5c187eea547c89fb706fcb58ba7f5c1ca"
+    },
+    {
+      "file": "xlights/E_Band_Wire_Tree/media/soundtrack.wav",
+      "bytes": 3457102,
+      "sha256": "9418aef2676a3385e66fc17045312416edfdeef115fca37f7d07d2e107c5a7ca"
+    },
+    {
+      "file": "xlights/E_Band_Wire_Tree/media/performance.mp4",
+      "bytes": 8308767,
+      "sha256": "2042b9c780472c489d7c62e898f4ed8e025e3b2493307eaf169186d3782f7290"
+    },
+    {
+      "file": "xlights/Video_E_Full_Band_Showcase/media/soundtrack.wav",
+      "bytes": 24645710,
+      "sha256": "0fae4252d55ca95a641a10aaca0f8bf9f83acdaf33f5e932279ccce58a76774d"
+    },
+    {
+      "file": "xlights/Video_E_Full_Band_Showcase/media/performance.mp4",
+      "bytes": 43381915,
+      "sha256": "976ce859aebb477078d587b8fe3e3bb821838f43bacbe42a5a0b58c7db1849e1"
+    },
+    {
+      "file": "xlights/Video_B_Original_Dry_Drum_Test/media/soundtrack.wav",
+      "bytes": 7360590,
+      "sha256": "e8eebfa3770d1b9cbacb5d65ed31de0cb5a3b0395c6181d2706e3b02a9dff6b9"
+    },
+    {
+      "file": "xlights/Video_B_Original_Dry_Drum_Test/media/performance.mp4",
+      "bytes": 4251385,
+      "sha256": "07c9466f7f2163169f79704ac57f25ddb4fabba63ee5582a27ba3cd45411e5ca"
+    },
+    {
+      "file": "xlights/Video_C_Bass_and_Guitar/media/soundtrack.wav",
+      "bytes": 6914126,
+      "sha256": "cd8f3735bbcd3a9f35fd09000644754c4023624d775458424408f3c19e806460"
+    },
+    {
+      "file": "xlights/Video_C_Bass_and_Guitar/media/performance.mp4",
+      "bytes": 16328290,
+      "sha256": "0acd7c4091b0e7167195ef1111887afe59c4678105f3fefede47a9db22c5e985"
+    },
+    {
+      "file": "xlights/D_Pitched_Percussion_Candidates_Festivus/media/soundtrack.wav",
+      "bytes": 3457102,
+      "sha256": "99e3416d395d297a1298823e8a72f3a049fbf759f50c0d5e52916bd24206da52"
+    },
+    {
+      "file": "xlights/D_Pitched_Percussion_Candidates_Festivus/media/performance.mp4",
+      "bytes": 4094340,
+      "sha256": "0635fc92e3079e7c84f2d9fd82ec94b6e22b3af6a08e490391a8bad6c2dc8d01"
+    },
+    {
+      "file": "xlights/C_Guitar_Who_Knew/media/soundtrack.wav",
+      "bytes": 3457102,
+      "sha256": "8405cdc5d35d0a365cc7313c645500cf98d489e1ca704b93ac0a2596cb084e70"
+    },
+    {
+      "file": "xlights/C_Guitar_Who_Knew/media/performance.mp4",
+      "bytes": 8145227,
+      "sha256": "b46ab32d618e96ca2c2deeaac11b588df50d39413d092ad80cc13ff911269ebb"
+    },
+    {
+      "file": "xlights/Video_A_Drummer_Geometry_Comparison/media/soundtrack.wav",
+      "bytes": 7360590,
+      "sha256": "e8eebfa3770d1b9cbacb5d65ed31de0cb5a3b0395c6181d2706e3b02a9dff6b9"
+    },
+    {
+      "file": "xlights/Video_A_Drummer_Geometry_Comparison/media/performance.mp4",
+      "bytes": 4335385,
+      "sha256": "501a69acb3c9bdf0b820dec331bf1f0f8382f14b0e0bd3cf6e72fd6fc1926001"
+    }
+  ],
+  "source_implementation": "d9d0cc1e1b579ce53d57ea322b9b99e01b9fbeb3",
+  "primary_merged": false
+}

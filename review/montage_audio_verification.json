@@ -1,0 +1,98 @@
+[
+  {
+    "movie": "Video_E_Full_Band_Showcase.mp4",
+    "source_id": "dry",
+    "source_start": 0,
+    "source_duration": 38.32,
+    "expected_montage_offset": 0,
+    "measured_audio_offset": 0.0,
+    "offset_error_ms": 0.0,
+    "waveform_correlation": 0.9984493027722591,
+    "independent_audio_waveform_check": true,
+    "listening_performed": false
+  },
+  {
+    "movie": "Video_E_Full_Band_Showcase.mp4",
+    "source_id": "00",
+    "source_start": 164,
+    "source_duration": 18,
+    "expected_montage_offset": 38.35,
+    "measured_audio_offset": 38.35,
+    "offset_error_ms": 0.0,
+    "waveform_correlation": 0.9994984585446639,
+    "independent_audio_waveform_check": true,
+    "listening_performed": false
+  },
+  {
+    "movie": "Video_E_Full_Band_Showcase.mp4",
+    "source_id": "03",
+    "source_start": 168,
+    "source_duration": 18,
+    "expected_montage_offset": 56.35,
+    "measured_audio_offset": 56.35,
+    "offset_error_ms": 0.0,
+    "waveform_correlation": 0.9988473231985492,
+    "independent_audio_waveform_check": true,
+    "listening_performed": false
+  },
+  {
+    "movie": "Video_E_Full_Band_Showcase.mp4",
+    "source_id": "05",
+    "source_start": 26,
+    "source_duration": 18,
+    "expected_montage_offset": 74.35,
+    "measured_audio_offset": 74.35,
+    "offset_error_ms": 0.0,
+    "waveform_correlation": 0.9981683675424462,
+    "independent_audio_waveform_check": true,
+    "listening_performed": false
+  },
+  {
+    "movie": "Video_E_Full_Band_Showcase.mp4",
+    "source_id": "02",
+    "source_start": 115,
+    "source_duration": 18,
+    "expected_montage_offset": 92.35,
+    "measured_audio_offset": 92.35,
+    "offset_error_ms": 0.0,
+    "waveform_correlation": 0.9991957571705613,
+    "independent_audio_waveform_check": true,
+    "listening_performed": false
+  },
+  {
+    "movie": "Video_E_Full_Band_Showcase.mp4",
+    "source_id": "01",
+    "source_start": 101,
+    "source_duration": 18,
+    "expected_montage_offset": 110.35,
+    "measured_audio_offset": 110.35,
+    "offset_error_ms": 0.0,
+    "waveform_correlation": 0.9995318625284485,
+    "independent_audio_waveform_check": true,
+    "listening_performed": false
+  },
+  {
+    "movie": "Video_C_Bass_and_Guitar.mp4",
+    "source_id": "02",
+    "source_start": 115,
+    "source_duration": 18,
+    "expected_montage_offset": 0,
+    "measured_audio_offset": 0.0,
+    "offset_error_ms": 0.0,
+    "waveform_correlation": 0.9991377744730348,
+    "independent_audio_waveform_check": true,
+    "listening_performed": false
+  },
+  {
+    "movie": "Video_C_Bass_and_Guitar.mp4",
+    "source_id": "01",
+    "source_start": 101,
+    "source_duration": 18,
+    "expected_montage_offset": 18,
+    "measured_audio_offset": 18.0,
+    "offset_error_ms": 0.0,
+    "waveform_correlation": 0.9995540455243048,
+    "independent_audio_waveform_check": true,
+    "listening_performed": false
+  }
+]

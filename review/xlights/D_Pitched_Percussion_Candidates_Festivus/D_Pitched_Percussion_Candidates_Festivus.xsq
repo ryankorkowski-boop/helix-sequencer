@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xsequence BaseChannel="1" FixedPointTiming="1" ModelBlending="true">
+  <head>
+    <version>2026.18</version>
+    <author>Helix</author>
+    <song>D_Pitched_Percussion_Candidates_Festivus</song>
+    <sequenceTiming>50 ms</sequenceTiming>
+    <sequenceType>Media</sequenceType>
+    <sequenceDuration>18.000</sequenceDuration>
+    <mediaFile>media/soundtrack.wav</mediaFile>
+    <comment>Helix virtual-matrix review. Native Video displays exact source-event renderer output; separate physical-prop articulation remains unsupported.</comment>
+  </head>
+  <nextid>2</nextid>
+  <ColorPalettes>
+    <ColorPalette>C_BUTTON_Palette1=#FFFFFF,C_CHECKBOX_Palette1=1</ColorPalette>
+  </ColorPalettes>
+  <EffectDB>
+    <Effect>E_FILEPICKERCTRL_Video_Filename=media/performance.mp4,E_CHECKBOX_Video_AspectRatio=1,E_CHOICE_Video_DurationTreatment=Normal,E_TEXTCTRL_Video_Starttime=0,E_CHECKBOX_SynchroniseWithAudio=0,E_SLIDER_Video_Speed=100</Effect>
+  </EffectDB>
+  <DisplayElements>
+    <Element type="model" name="HX_BAND_REVIEW_MATRIX" visible="1" collapsed="0" />
+  </DisplayElements>
+  <ElementEffects>
+    <Element type="model" name="HX_BAND_REVIEW_MATRIX">
+      <EffectLayer>
+        <Effect name="Video" ref="0" palette="0" startTime="0" endTime="18000" id="1" />
+      </EffectLayer>
+    </Element>
+  </ElementEffects>
+</xsequence>

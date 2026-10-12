@@ -1,0 +1,20 @@
+{
+  "type": "native_xlights_virtual_matrix",
+  "physical_performer_prop_export": false,
+  "movie": "Video_B_Original_Dry_Drum_Test.mp4",
+  "matrix_pixels": [
+    384,
+    216
+  ],
+  "channels": 248832,
+  "timing_ms": 50,
+  "source_movie_duration": 38.333333,
+  "sequence_duration": 38.35,
+  "required_files": [
+    "xlights_rgbeffects.xml",
+    "xlights_networks.xml",
+    "Video_B_Original_Dry_Drum_Test.xsq",
+    "media/performance.mp4",
+    "media/soundtrack.wav"
+  ]
+}
