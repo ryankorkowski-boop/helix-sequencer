@@ -117,7 +117,7 @@ def main() -> None:
                 "-ac", "2", "-shortest", str(clip))
             clips.append(clip)
         concat = tmpdir / "clips.txt"
-        concat.write_text("".join(f"file '{p}'\\n" for p in clips))
+        concat.write_text("".join(f"file '{p}'\n" for p in clips))
         final = out / "Helix_Six_Song_Technical_180s.mp4"
         run("ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
             "-f", "concat", "-safe", "0", "-i", str(concat),
@@ -125,7 +125,7 @@ def main() -> None:
         probe = subprocess.check_output(["ffprobe", "-v", "error", "-show_entries",
                                          "format=duration", "-of", "default=nw=1:nk=1", str(final)])
         manifest["rendered_duration_seconds"] = float(probe)
-        (out / "selection_manifest.json").write_text(json.dumps(manifest, indent=2) + "\\n")
+        (out / "selection_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
         print(json.dumps(manifest, indent=2))
 
 
