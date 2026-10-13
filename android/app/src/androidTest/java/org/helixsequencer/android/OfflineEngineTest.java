@@ -1,6 +1,9 @@
 package org.helixsequencer.android;
 
 import android.content.Context;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.provider.MediaStore;
 import android.media.*;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -50,7 +53,22 @@ public class OfflineEngineTest {
                 assertEquals("video/avc",mp4.getTrackFormat(v).getString(MediaFormat.KEY_MIME));assertEquals("audio/mp4a-latm",mp4.getTrackFormat(a).getString(MediaFormat.KEY_MIME));
                 assertTrue(mp4.getTrackFormat(v).getLong(MediaFormat.KEY_DURATION)>2_000_000);
             }finally{mp4.release();}
+            // Gradle uninstalls the debug app after instrumentation. Keep only
+            // synthetic test proof in public Downloads so the host can collect it.
+            publishProof(context,mode+"-show.zip",Files.readAllBytes(bundle.toPath()),"application/zip");
         }
+        android.app.Instrumentation instrumentation=InstrumentationRegistry.getInstrumentation();
+        instrumentation.runOnMainSync(()->context.startActivity(new Intent(context,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
+        instrumentation.getUiAutomation().waitForIdle(1000,5000);
+        android.graphics.Bitmap shot=instrumentation.getUiAutomation().takeScreenshot();
+        if(shot!=null){ByteArrayOutputStream png=new ByteArrayOutputStream();shot.compress(android.graphics.Bitmap.CompressFormat.PNG,100,png);shot.recycle();publishProof(context,"launcher.png",png.toByteArray(),"image/png");}
+    }
+    static void publishProof(Context context,String name,byte[] bytes,String mime)throws Exception{
+        ContentValues values=new ContentValues();values.put(MediaStore.MediaColumns.DISPLAY_NAME,name);values.put(MediaStore.MediaColumns.MIME_TYPE,mime);
+        values.put(MediaStore.MediaColumns.RELATIVE_PATH,"Download/HelixAndroidSmoke");values.put(MediaStore.MediaColumns.IS_PENDING,1);
+        android.net.Uri uri=context.getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI,values);assertNotNull(uri);
+        try(OutputStream out=context.getContentResolver().openOutputStream(uri)){assertNotNull(out);out.write(bytes);}
+        values.clear();values.put(MediaStore.MediaColumns.IS_PENDING,0);context.getContentResolver().update(uri,values,null,null);
     }
     static void syntheticWav(File file)throws Exception{
         int sr=22050,n=sr*8;ByteBuffer data=ByteBuffer.allocate(44+n*2).order(ByteOrder.LITTLE_ENDIAN);

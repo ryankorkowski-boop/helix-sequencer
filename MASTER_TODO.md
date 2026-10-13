@@ -19,6 +19,14 @@ Add retained device ZIP/MP4/log evidence for both modes, EGL texture edge clampi
 and Android8/9 vs Android15+ foreground-service API/type guards. Native export and
 encoded movie checks are still pending; never advertise the failed APK as ready.
 
+CI `38350866021` now passes both actual Android export modes, 45-frame H.264/AAC
+previews and ZIP presence checks in 16.928s for the two eight-second synthetic
+songs. Both Python sequencing/export paths and codecs run successfully on the
+Android30 x86-64 emulator. The initial proof collector ran after Gradle removed
+the app, losing its private ZIPs; retain synthetic-only proofs through scoped
+MediaStore Downloads during the test and fail collection if missing. Independent
+decoded-pixel/audio QA and installer saving remain the final offline gates.
+
 Goal: provide an actual Android GUI/app. User explicitly selected entirely-on-phone processing,
 so a desktop companion is not a substitute for the offline requirement. Branch:
 `feature/android-offline-app-20261013`, based on current integrated GUI `50e8d0cc`.
