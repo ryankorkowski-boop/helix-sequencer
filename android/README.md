@@ -1,4 +1,4 @@
-# Helix for Android — offline beta
+# Helix for Android — offline and desktop remote beta
 
 The launcher embeds the existing Helix master sequencing engine. Audio analysis,
 XSQ/LMS generation and simulated MP4 previews run on the phone. No desktop,
@@ -83,3 +83,30 @@ document describes intended behavior and does not by itself certify a build.
 Reference documentation: [Chaquopy](https://chaquo.com/chaquopy/doc/current/android.html),
 [Android document picker](https://developer.android.com/training/data-storage/shared/documents-files),
 [Android media codecs](https://developer.android.com/reference/android/media/MediaCodec).
+
+## Control desktop Helix
+
+1. Use the desktop build from this branch and open **Phone Remote**. Click
+   **Start link**. Keep the dialog open. Use a reachable private network, USB
+   tether/network connection, or VPN; the feature does not need a cloud account.
+2. On Android, tap **Control desktop Helix**. Enter `http://<desktop-local-IP>:8765`
+   and the complete pairing key shown on the desktop. Tap **Connect to desktop**.
+   A public address requires HTTPS through a separately configured endpoint.
+3. Select a song and your xLights layout/template or legacy LOR LMS. Choose
+   options and **Build on desktop**. Read the log, cancel a running job, or
+   download/play/save its MP4 and show ZIP. Jobs continue on desktop when this
+   screen closes. Completed files remain in `outputs/phone-jobs`.
+
+The server is off until explicitly started. Closing its dialog cancels its own
+active jobs and stops the link. Restarting the server creates a new session;
+old outputs remain on disk. The pairing key grants control of these Helix jobs.
+Use a trusted local connection or HTTPS/VPN. Remote mode uses Android INTERNET
+permission; local mode continues to run with no server or internet connection.
+The app never follows endpoint redirects or accepts cleartext public addresses.
+
+Source CLI alternative: `python -m tools.desktop_remote --bind 0.0.0.0`.
+Portable Windows alternative: `HelixCLI.exe --helix-remote-server --bind 0.0.0.0`.
+Source dependencies and FFmpeg use the same desktop runtime as the existing GUI.
+Older Windows EXEs do not contain these new dispatch routes; rebuild from this
+branch. USB ADB users can use `adb reverse tcp:8765 tcp:8765` and a loopback URL;
+this is optional developer setup, not an APK installation requirement.

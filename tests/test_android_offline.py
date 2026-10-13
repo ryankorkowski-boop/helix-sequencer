@@ -87,12 +87,15 @@ def test_android_numeric_kernels_match_original_librosa(tmp_path):
             np.testing.assert_allclose(a[key],b[key],rtol=1e-5,atol=1e-6,err_msg=key)
 
 
-def test_manifest_is_offline_and_service_is_private():
+def test_manifest_keeps_offline_service_private_and_remote_opt_in():
     import xml.etree.ElementTree as ET
     root=ET.parse(ROOT/'android/app/src/main/AndroidManifest.xml').getroot()
     n='{http://schemas.android.com/apk/res/android}'
     permissions={p.get(n+'name') for p in root.findall('uses-permission')}
-    assert 'android.permission.INTERNET' not in permissions
+    assert 'android.permission.INTERNET' in permissions
+    main=(ROOT/'android/app/src/main/java/org/helixsequencer/android/MainActivity.java').read_text()
+    assert 'new Intent(this, RemoteActivity.class)' in main
+    assert 'startForegroundService(new Intent(this,EngineService.class)' in main
     assert 'android.permission.MANAGE_EXTERNAL_STORAGE' not in permissions
     service=root.find('./application/service')
     assert service.get(n+'exported')=='false' and service.get(n+'process')==':engine'

@@ -2,9 +2,9 @@ name: Helix Android offline beta
 on:
   push:
     branches: ['feature/android-offline-app-*']
-    paths: ['android/**', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'core/**', 'audio/**', 'tests/test_android_offline.py', '.github/workflows/android-offline.yml']
+    paths: ['android/**', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'core/**', 'audio/**', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml']
   pull_request:
-    paths: ['android/**', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'tests/test_android_offline.py', '.github/workflows/android-offline.yml']
+    paths: ['android/**', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -82,6 +82,10 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
+      - name: Start synthetic desktop transport fixture
+        run: |
+          PYTHONPATH=. python -m tools.run_remote_transport_smoke_server --jobs "$RUNNER_TEMP/helix-remote-test" > "$RUNNER_TEMP/helix-remote-test.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/helix-remote-test.pid"
       - uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
@@ -90,6 +94,10 @@ jobs:
           disable-animations: true
           working-directory: android
           script: python ../tools/run_android_device_smoke.py
+      - name: Stop transport fixture
+        if: always()
+        run: |
+          if test -f "$RUNNER_TEMP/helix-remote-test.pid"; then kill "$(cat "$RUNNER_TEMP/helix-remote-test.pid")" || true; fi
       - name: Independently decode native video and soundtrack
         run: |
           sudo apt-get update

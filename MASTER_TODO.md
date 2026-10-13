@@ -1,5 +1,26 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-13 — Android desktop remote control (implementation in progress)
+
+Goal: user-requested remote control after completing the offline Android beta.
+Changed focused modules: desktop_remote server/job controller, desktop_remote_worker
+canonical profile bridge, desktop_remote_gui opt-in dialog, GUI button and portable
+worker routing; Android remote activity/client and focused tests are next. Preserve
+all desktop sequencing/animation, original sources and entirely-on-phone mode.
+New behavior: bearer-paired fresh private jobs, fixed file roles, bounded uploads,
+validated settings, status/logs, own-process cancellation and output downloads.
+The server starts only through an explicit GUI/CLI action and closes with its dialog.
+Evidence:21 focused HTTP/controller/GUI/routing checks and10 Android host checks pass;
+actual HTTP-to-canonical-desktop exports pass in both xLights/LOR modes with nonempty
+XSQ/LMS,3s H.264/AAC previews, full movie decode and downloaded ZIPs. See
+evidence/desktop_remote/verification.json. Android transport tests and fresh APK pending. Windows portable workflow now builds
+this feature branch, includes remote regressions and verifies the phone-link dialog.
+Offline workflow38358768326 now passes the full native+independent decode checks. Limitations: reachable LAN/tether/VPN or explicit
+HTTPS endpoint required; no cloud relay, remote desktop screen streaming or arbitrary
+OS control. Risks: pairing key exposure on untrusted LAN, interrupted uploads, server
+restart requires a new session; completed files remain on disk. Deferred movie audit
+and all-song advanced-layout batch remain active queue items after this feature.
+
 ## 2026-10-13 — Android offline launcher and embedded master engine (verified beta)
 
 Validation update: the first actual Android run caught a missing `helix_intent`

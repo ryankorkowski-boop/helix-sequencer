@@ -46,3 +46,13 @@ def test_gui_dispatch_is_default():
         with patch.object(sys, "argv", ["Helix.exe"]):
             assert windows_portable_entry.main() == 0
     assert called == [True]
+
+
+def test_remote_worker_dispatch_preserves_private_job_path():
+    captured=[]
+    fake=types.ModuleType("tools.desktop_remote_worker")
+    fake.main=lambda:captured.append(sys.argv[:]) or 0
+    with patch.dict(sys.modules,{"tools.desktop_remote_worker":fake}):
+        with patch.object(sys,"argv",["HelixCLI.exe","--helix-remote-worker","C:/private/job"]):
+            assert windows_portable_entry.main()==0
+    assert captured==[["HelixCLI.exe","C:/private/job"]]

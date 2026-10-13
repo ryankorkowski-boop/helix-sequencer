@@ -252,6 +252,7 @@ class HelixGui(tk.Tk):
         actions.pack(fill=tk.X, **pad)
         self.run_button = ttk.Button(actions, text="Run Sequence Build", command=self._run_sequence)
         self.run_button.pack(side=tk.LEFT, padx=8, pady=6)
+        ttk.Button(actions, text="Phone Remote", command=self._open_phone_remote).pack(side=tk.LEFT, padx=8, pady=6)
         self.status_label = ttk.Label(actions, text="Ready")
         self.status_label.pack(side=tk.LEFT, padx=8, pady=6)
 
@@ -259,6 +260,10 @@ class HelixGui(tk.Tk):
         log_frame.pack(fill=tk.BOTH, expand=True, **pad)
         self.log_text = tk.Text(log_frame, wrap=tk.WORD, height=10, bg="#0e1013", fg="#d6deeb", insertbackground="#d6deeb")
         self.log_text.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+    def _open_phone_remote(self) -> None:
+        from tools.desktop_remote_gui import open_phone_link
+        open_phone_link(self, ROOT)
 
     def _update_mode_ui(self) -> None:
         lor = self.sequence_mode_var.get() == "Light-O-Rama"

@@ -8,6 +8,8 @@ def main() -> int:
     # The console-subsystem helper lets the GUI capture native stdout and
     # tracebacks. The windowed Helix.exe remains the only user-facing launcher.
     tool_modes = {
+        "--helix-remote-server": "tools.desktop_remote",
+        "--helix-remote-worker": "tools.desktop_remote_worker",
         "--helix-legacy-lms-export": "tools.legacy_lms_export",
         "--helix-native-render": "tools.validate_native_xlights",
         "--helix-fseq-preview": "tools.fseq_pixel_preview",
@@ -43,7 +45,9 @@ def main() -> int:
             app.lor_compatible_var.set(False)
             assert str(app.palette_combo.cget("state")) == "readonly"
             assert str(app.template_entry.cget("state")) == "normal"
+            app._open_phone_remote()
             app.update_idletasks()
+            assert app._phone_link_window.winfo_exists(), "Phone remote dialog missing"
             print("Helix GUI initialization OK", flush=True)
         finally:
             app.destroy()

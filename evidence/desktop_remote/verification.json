@@ -1,0 +1,50 @@
+{
+  "scope": "actual HTTP to unchanged canonical desktop master; synthetic8s source",
+  "desktop_modes": [
+    {
+      "mode": "xlights",
+      "phase": "complete",
+      "full_movie_decode": true,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "duration": "3.000000",
+      "bundle_sha256": "1abfc64eec28fbb62e2b17d66953b8d7a9dd282acd8ceefb31032e54a3a0addc",
+      "movie_sha256": "aa87c61122d2dd09832dc5ff5e79bfb34633d155e295fc947944e55a1b5a2c17",
+      "input_files_available": [
+        "audio",
+        "layout",
+        "template"
+      ],
+      "client_uploaded_roles": [
+        "audio"
+      ]
+    },
+    {
+      "mode": "lor",
+      "phase": "complete",
+      "full_movie_decode": true,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "duration": "3.000000",
+      "bundle_sha256": "d97753817e8b156be00321dfbae16e56efb384879064411df6f556d38b99e500",
+      "movie_sha256": "1dcfb5c3e3ff68a9fc64b452fd2d379a7e224fa6d37ab6d9b2d093901542793a",
+      "input_files_available": [
+        "audio",
+        "layout",
+        "template",
+        "lor"
+      ],
+      "client_uploaded_roles": [
+        "audio",
+        "lor"
+      ]
+    }
+  ],
+  "host_tests": 31,
+  "android_transport": "pending",
+  "physical_device": "not tested"
+}
