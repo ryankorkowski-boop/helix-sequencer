@@ -321,5 +321,18 @@ class SnowmanBandTests(unittest.TestCase):
         self.assertEqual({cue["target"] for cue in lyric_cues}, {lead})
 
 
+    def test_keyboard_keeps_pitched_runs_and_overlapping_notes(self) -> None:
+        events = [
+            SimpleNamespace(start_ms=100, end_ms=300, notes=[(60, 0.9), (64, 0.8)]),
+            SimpleNamespace(start_ms=180, end_ms=360, notes=[(62, 0.9)]),
+            SimpleNamespace(start_ms=240, end_ms=400, notes=[(67, 0.9)]),
+        ]
+        cues = snowman_band._build_keyboard_note_cues(events, [])
+        self.assertEqual([cue["pitch_midi"] for cue in cues], [60.0, 64.0, 62.0, 67.0])
+        self.assertEqual([cue["key_index_88"] for cue in cues], [39, 43, 41, 46])
+        self.assertEqual([cue["start_ms"] for cue in cues], [100, 100, 180, 240])
+        self.assertTrue(all(cue["end_ms"] > cue["start_ms"] for cue in cues))
+
+
 if __name__ == "__main__":
     unittest.main()
