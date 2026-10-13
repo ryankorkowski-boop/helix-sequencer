@@ -24,5 +24,16 @@
     "physical ARM64/Samsung, Windows player/controllers and old-beta upgrade not verified",
     "simulated model/effect previews; legacy LMS only",
     "official release and Play publication pending"
-  ]
+  ],
+  "handoff_run": 38396947536,
+  "handoff_passed": true,
+  "download_artifact_ids": {
+    "apk": 11812187859,
+    "aab": 11812732500,
+    "media_shows": 11812722486,
+    "evidence": 11812487689
+  },
+  "apk_sha256": "7bb6a6e59a365a371e29214c8826244d63e090cfee331881044aa46db201a6a6",
+  "aab_sha256": "f287cf81d667e0b542cfa6333d7718f4dc8ca1f268ae110d60fe0985ef6c5082",
+  "debug_certificate_sha256": "5441a200cd4174070148e76cb03189bbfee81f8cd1fa3b551319dd00d2eb4572"
 }

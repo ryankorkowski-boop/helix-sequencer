@@ -83,3 +83,23 @@ Validation: tests/{test_android_mp4.py,test_android_recovery.py}; OfflineEngineT
 | 6bdae4e | Fold optional remote controls into Advanced; delivered app build. |
 
 Official policy sources are linked in the Play assessment. No master/core/desktop/original-source changes are part of these commits.
+
+## Verified download archives
+
+These contain exact bytes from the successful app build; extract the ZIP first.
+GitHub sign-in may be required for Actions artifact downloads.
+
+| Download | Contents |
+| --- | --- |
+| [APK archive](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38396947536/artifacts/11812187859) | Installable debug beta APK, installation/report text, certificate and SHA256SUMS. |
+| [Unsigned AAB archive](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38396947536/artifacts/11812732500) | AAB and Play readiness guidance; not release-ready. |
+| [Real preview and show archive](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38396947536/artifacts/11812722486) | MP4, matching XSQ/RGB ZIP, full-song256 ZIP and real screenshots. |
+| [Test evidence archive](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38396947536/artifacts/11812487689) | Decode/install/cancel/remote reports, failed-preview and LOR proof ZIPs. |
+
+[Artifact-only handoff run](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38396947536) passed.
+APK SHA-256: 7bb6a6e59a365a371e29214c8826244d63e090cfee331881044aa46db201a6a6
+AAB SHA-256: f287cf81d667e0b542cfa6333d7718f4dc8ca1f268ae110d60fe0985ef6c5082
+Debug certificate SHA-256: 5441a200cd4174070148e76cb03189bbfee81f8cd1fa3b551319dd00d2eb4572
+
+Documentation/handoff commit baba20b3c2618e81e3c0cb59415556ef191a583b adds the report,
+verification record and artifact splitting. It does not change the delivered app.
