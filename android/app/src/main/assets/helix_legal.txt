@@ -1,0 +1,13 @@
+Helix — free for homeowner use
+
+Core software: MIT License, Copyright (c) 2026 Helix Sequencer Contributors. The existing license permits use, modification, distribution and commercial use/resale, subject to its notice requirements. This information page does not revoke those permissions or replace third-party licenses.
+
+Commercial products: separately licensed Helix-branded premium assets, proprietary additions, integration services and support may require a written annual vendor/enterprise agreement. Prices and covered rights must be agreed in writing. An annual fee is not imposed on the existing MIT core by this page.
+
+Attribution: exports identify their generator as “Made with Helix”. Please retain that credit when publicly sharing Helix-branded shows; retain applicable license notices when distributing code or protected assets. Separate commercial asset agreements may contain their own attribution requirements.
+
+Music: preview/demo music is supplied by Helix / Ryan Korkowski. Only tracks explicitly marked rights-cleared are offered for free homeowner use under their accompanying music permission. The application does not verify that all songs are exclusively owned or cleared for redistribution. AI music permissions depend on the creation account, subscription and applicable terms. Your uploaded music remains subject to its own rights and permissions; a software license does not grant music rights.
+
+Provenance marks identify the generator and output integrity. They are not DRM, proof of copyright, or permission to use a song. No hidden network tracking is required.
+
+Use previews to review a show. Check physical wiring, controller mapping and final import/playback before using output with lights. The software is provided under the warranty terms in the included MIT license.

@@ -1,5 +1,56 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-13 — approved source publication and Windows UTF-8 fix
+
+User approved publishing both prepared source branches and fresh native builds.
+GUI remote031ca34 has the exact local9947f22 tree; draft PR141 targets the verified
+Android stability base. Windows38436857151 stopped before packaging:59 tests
+passed, one branding test read UTF-8 legal text with Windows cp1252. Fix:
+tests/test_gui_branding.py specifies UTF-8 for both guidance assets. Goal: make
+the existing content-equality check portable, preserving production text and
+all source behavior. Focused test is rerun and a fresh native build is required.
+Android38436857206 is still running; no new native success is claimed yet.
+Risks/limitations: this fixes the test encoding, not signing/device/store gates.
+
+## 2026-10-13 — output credit and direct-engine failure contract
+
+Changed: core/output_provenance.py, core/sequence_builder.py,
+core/effect_engine.py, tools/preview_renderer.py, tools/fseq_pixel_preview.py,
+Android helix_mobile.py and focused tests. Tiny original H at5.5% opacity on
+active desktop/Android preview paths; safe ISO MP4 free-box notice; XSQ/LMS
+ASCII generator comment; hashed provenance sidecar for supported output files.
+UTF-8 BOM/declarations, sequence effect values and LOR addresses are preserved;
+unchanged existing binary companions are excluded. No DRM or network tracking;
+no watermark in controller intensity data. MIT and third-party music rights stay
+separate. main_for now raises chained failures after continuing per-song jobs,
+without changing detector thresholds or sequencing algorithms. Tests:96 focused
+checks, including existing mobile MP4/recovery/librosa numerical parity plus
+real direct main_for injected failure. No complete-repository green claim.
+Deferred: new native Windows/Android build after authorized publication; hardware,
+16KB native dependencies/production signing/Play gates still apply. Risks: notice
+container compatibility and new bundled help/icon assets; native build needed.
+Previously verified stability build6bdae4e is not represented as containing these
+new GUI changes. No remote changes were published by the rejected push.
+
+
+## 2026-10-13 — matched GUI branding, Instructions and discreet Legal tabs (source complete; native build blocked)
+
+Goal: update the verified Android stability GUI and current Windows GUI without
+overwriting separate band/desktop-remote work. Branch starts at verified31d2c86.
+Changed: gui_launcher.py, helix_ui_text.py, windows_portable.spec; Android
+MainActivity, new InfoActivity, manifest/icon/assets and engine staging. New:
+recovered original blue H/double-helix thumbnail, “Audio in. Lights out.”,
+persistent Instructions tabs and discoverable low-emphasis Legal access. Core
+MIT permissions preserved; homeowner use free; annual commercial terms apply
+only to separately licensed Helix products, not retroactively to existing MIT
+code. Music permissions are limited to explicitly cleared tracks; account-level
+Suno clearance is still unresolved. No false all-song ownership assertion.
+Preserved: local/remote engine, MP4 stability fix, six-step navigation, donations,
+LOR/xLights modes, safe export recovery, original media/assets and other branches.
+Evidence:96 final GUI/Android-host/export checks pass in25.38s; later protected-companion refinement passes28 relevant checks. New branding/native UI binaries are NOT built: automatic approval review rejected the source push as disclosure to an unverified remote. Source remains local and reviewable. Physical phone/signing/Play and Windows/controller
+playback remain separate gates. Risks: packaging new logo/help assets and GUI
+navigation must be verified; Legal tab is information, not a license override.
+
 Final handoff update: artifact-only38396947536 succeeds and verifies exact source
 APK/AAB checksums, then supplies four separate download archives (APK11812187859,
 AAB11812732500, media/shows11812722486, evidence11812487689). Full report links all

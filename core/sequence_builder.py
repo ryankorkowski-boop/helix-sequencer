@@ -981,6 +981,10 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                     _add_new_spatial_accents(artifact_roots,artifact_snapshot,selected_layout,ctx)
                 neon = "--palette-mode=neon" in engine_args or any(a=="--palette-mode" and engine_args[i+1]=="neon" for i,a in enumerate(engine_args[:-1]))
                 _audit_new_showcase_sequences(artifact_roots,artifact_snapshot,ctx,neon=neon,strict=strict_showcase)
+            from core.output_provenance import stamp_xml, write_manifest
+            generated = _generated_sequence_paths(artifact_roots, artifact_snapshot, engine_args)
+            for sequence in generated:
+                stamp_xml(sequence)
             if lor_source is not None and workspace is not None:
                 _publish_native_lor_lms(
                     lor_source, workspace, artifact_roots, artifact_snapshot,
@@ -990,6 +994,19 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                 _package_generated_xlights_show(
                     engine_args, artifact_roots, artifact_snapshot, ctx
                 )
+            for folder in {p.parent for p in generated}:
+                outputs = [p for p in generated if p.parent == folder]
+                if lor_source is not None:
+                    outputs += [p.with_suffix('.lms') for p in list(outputs) if p.with_suffix('.lms').is_file()]
+                for p in list(outputs):
+                    companion=p.with_suffix('.fseq')
+                    if companion.is_file():
+                        stat=companion.stat()
+                        if artifact_snapshot.get(companion.resolve(strict=False)) != (stat.st_mtime_ns,stat.st_size):
+                            outputs.append(companion)
+                for output in outputs:
+                    if output.suffix in {'.xsq', '.lms'}:stamp_xml(output)
+                write_manifest(folder, outputs)
             if preview_requested:
                 args = list(engine_args or [])
                 layout = next(

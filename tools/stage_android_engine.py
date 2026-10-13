@@ -24,7 +24,7 @@ def stage(output: Path) -> dict:
             continue
         if (p.parts[0] in PACKAGES or p.parts[0].startswith('helix_')) and p.suffix.lower() in DATA_EXTENSIONS:
             selected.append(name)
-        elif name in {'template.xsq', 'xlights_rgbeffects.xml', 'LICENSE', 'NOTICE'}:
+        elif name in {'template.xsq', 'xlights_rgbeffects.xml', 'LICENSE', 'NOTICE', 'helix_h_logo.png'}:
             selected.append(name)
         elif name.startswith('fixtures/band_geometry/') and p.suffix == '.json':
             selected.append(name)

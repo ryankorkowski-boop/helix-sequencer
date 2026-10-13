@@ -9,6 +9,7 @@ import webbrowser
 from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
+from helix_ui_text import TAGLINE, INSTRUCTIONS, LEGAL
 
 
 ROOT = Path(sys.executable).resolve().parent if getattr(sys, "frozen", False) else Path(__file__).resolve().parent
@@ -98,8 +99,36 @@ class HelixGui(tk.Tk):
 
     def _build_ui(self) -> None:
         pad = {"padx": 8, "pady": 4}
-        frame = ttk.Frame(self)
-        frame.pack(fill=tk.BOTH, expand=True, **pad)
+        outer = ttk.Frame(self)
+        outer.pack(fill=tk.BOTH, expand=True, **pad)
+        header = ttk.Frame(outer); header.pack(fill=tk.X)
+        logo = ROOT / 'helix_h_logo.png'
+        if not logo.is_file():logo = ROOT / '_internal' / 'helix_h_logo.png'
+        if logo.is_file():
+            self._brand_icon = tk.PhotoImage(file=str(logo))
+            self.iconphoto(True, self._brand_icon)
+            self._header_icon = self._brand_icon.subsample(4, 4)
+            ttk.Label(header, image=self._header_icon).pack(side=tk.LEFT, padx=8)
+        ttk.Label(header, text='HELIX  •  '+TAGLINE, font=('Segoe UI', 18)).pack(side=tk.LEFT, padx=8)
+        self.notebook = ttk.Notebook(outer); self.notebook.pack(fill=tk.BOTH, expand=True)
+        sequence_tab = ttk.Frame(self.notebook); self.notebook.add(sequence_tab, text='Sequence')
+        canvas = tk.Canvas(sequence_tab, highlightthickness=0)
+        scrollbar = ttk.Scrollbar(sequence_tab, orient='vertical', command=canvas.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y); canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        canvas.configure(yscrollcommand=scrollbar.set)
+        frame = ttk.Frame(canvas); window = canvas.create_window((0, 0), window=frame, anchor='nw')
+        frame.bind('<Configure>', lambda _e: canvas.configure(scrollregion=canvas.bbox('all')))
+        canvas.bind('<Configure>', lambda e: canvas.itemconfigure(window, width=e.width))
+        for title, content in [('Instructions', INSTRUCTIONS), ('Legal', LEGAL)]:
+            page = ttk.Frame(self.notebook); self.notebook.add(page, text=title)
+            text = tk.Text(page, wrap=tk.WORD, font=('Segoe UI', 12), padx=22, pady=18,
+                           bg='#101824', fg='#D8E5F2', borderwidth=0)
+            text.insert('1.0', content); text.configure(state='disabled'); text.pack(fill=tk.BOTH, expand=True)
+            if title == 'Legal':
+                self.legal_tab = page; self.notebook.hide(page)
+        footer = ttk.Frame(outer); footer.pack(fill=tk.X)
+        ttk.Label(footer, text='Free for homeowner use', foreground='#718093').pack(side=tk.LEFT, padx=8)
+        ttk.Button(footer, text='Legal', command=self._show_legal).pack(side=tk.RIGHT, padx=8)
 
         top = ttk.LabelFrame(frame, text="Show Context")
         top.pack(fill=tk.X, **pad)
@@ -265,6 +294,10 @@ class HelixGui(tk.Tk):
         log_frame.pack(fill=tk.BOTH, expand=True, **pad)
         self.log_text = tk.Text(log_frame, wrap=tk.WORD, height=10, bg="#0e1013", fg="#d6deeb", insertbackground="#d6deeb")
         self.log_text.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+    def _show_legal(self) -> None:
+        self.notebook.add(self.legal_tab, text='Legal')
+        self.notebook.select(self.legal_tab)
 
     def _open_phone_remote(self) -> None:
         from tools.desktop_remote_gui import open_phone_link

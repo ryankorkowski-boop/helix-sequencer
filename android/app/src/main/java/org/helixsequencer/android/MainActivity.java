@@ -68,12 +68,16 @@ public class MainActivity extends Activity {
         root.setOnApplyWindowInsetsListener((v,insets)->{
             v.setPadding(dp(18),dp(16)+insets.getSystemWindowInsetTop(),dp(18),dp(24)+insets.getSystemWindowInsetBottom());return insets;
         });
-        text("HELIX",32,Color.rgb(86,230,197));text("Your music. Your lights.",17,Color.WHITE);stepTitle=text("",14,Color.LTGRAY);
+        ImageView logo=new ImageView(this);logo.setImageResource(org.helixsequencer.android.R.drawable.helix_h_logo);
+        root.addView(logo,new LinearLayout.LayoutParams(dp(56),dp(56)));
+        text("HELIX",32,Color.rgb(101,169,255));text("Audio in. Lights out.",17,Color.WHITE);stepTitle=text("",14,Color.LTGRAY);
         HorizontalScrollView strip=new HorizontalScrollView(this);LinearLayout tabs=new LinearLayout(this);strip.addView(tabs);root.addView(strip);
         for(int i=0;i<steps.length;i++){
             final int target=i;Button tab=new Button(this);tab.setText(steps[i]);tab.setAllCaps(false);tabs.addView(tab);tab.setOnClickListener(v->showPage(target));
             pages[i]=new LinearLayout(this);pages[i].setOrientation(1);root.addView(pages[i]);
         }
+        Button instructions=new Button(this);instructions.setText("Instructions");instructions.setAllCaps(false);tabs.addView(instructions);
+        instructions.setOnClickListener(v->startActivity(new Intent(this,InfoActivity.class)));
         panel(0);text("Choose the song you want your lights to perform.",17,Color.WHITE);select("audio","Choose music · MP3 or WAV");
         text("Your music stays on this phone during local sequencing. The full song is sequenced even when the preview is shorter.",14,Color.LTGRAY);
         settings.add(button("Clear selected files",()->{
@@ -123,7 +127,10 @@ public class MainActivity extends Activity {
         body=root;LinearLayout controls=new LinearLayout(this);root.addView(controls);
         back=new Button(this);back.setText("Back");controls.addView(back,new LinearLayout.LayoutParams(0,-2,1));back.setOnClickListener(v->showPage(page-1));
         next=new Button(this);next.setText("Next");controls.addView(next,new LinearLayout.LayoutParams(0,-2,1));next.setOnClickListener(v->showPage(page+1));
-        SupportLinks.add(this,root);restorePreferences();
+        SupportLinks.add(this,root);
+        TextView legal=new TextView(this);legal.setText("Free for homeowner use · Legal");legal.setTextSize(11);legal.setTextColor(Color.rgb(116,129,143));
+        root.addView(legal);legal.setOnClickListener(v->startActivity(new Intent(this,InfoActivity.class).putExtra("legal",true)));
+        restorePreferences();
         mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             public void onItemSelected(AdapterView<?> p,View v,int n,long id){updateMode();}public void onNothingSelected(AdapterView<?> p){}
         });ac.setOnCheckedChangeListener((b,v)->updateMode());

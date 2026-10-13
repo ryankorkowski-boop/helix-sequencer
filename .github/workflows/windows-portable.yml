@@ -6,6 +6,7 @@ on:
       - feature/windows-gui-portable-20261010
       - codex/gui-complete-integration-20261012
       - feature/android-offline-app-20261013
+      - codex/gui-branding-and-guidance-20261013
     tags:
       - 'v*'
     paths:
@@ -61,7 +62,7 @@ jobs:
       - name: Check portable entrypoint and Python source
         run: |
           python -m compileall -q gui_launcher.py windows_portable_entry.py core tools xlights
-          python -m pytest -q tests/test_windows_portable_entry.py tests/test_gui_integration.py tests/test_desktop_remote.py tests/test_gui_support_links.py tests/test_dual_mode_lor.py tests/test_xsq_palette_repair.py tests/test_fseq_pixel_preview.py tests/test_legacy_lms_export.py
+          python -m pytest -q tests/test_windows_portable_entry.py tests/test_gui_integration.py tests/test_desktop_remote.py tests/test_gui_support_links.py tests/test_dual_mode_lor.py tests/test_xsq_palette_repair.py tests/test_fseq_pixel_preview.py tests/test_legacy_lms_export.py tests/test_gui_branding.py tests/test_output_provenance.py tests/test_engine_failure_contract_direct.py
       - name: Build portable GUI and worker
         run: python -m PyInstaller --noconfirm --clean windows_portable.spec
       - name: Assemble customer distribution
@@ -72,6 +73,7 @@ jobs:
             if (-not (Test-Path "$root/$file")) { throw "Missing packaged file: $file" }
           }
           Copy-Item "$root/_internal/template.xsq" "$root/template.xsq" -Force
+          Copy-Item "$root/_internal/helix_h_logo.png" "$root/helix_h_logo.png" -Force
           Copy-Item "$root/_internal/xlights_rgbeffects.xml" "$root/xlights_rgbeffects.xml" -Force
           Copy-Item "$root/_internal/WINDOWS_PORTABLE_README.txt" "$root/README.txt" -Force
           Copy-Item "$root/_internal/THIRD_PARTY_LICENSES.md" "$root/THIRD_PARTY_LICENSES.md" -Force

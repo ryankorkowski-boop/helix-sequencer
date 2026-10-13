@@ -1,7 +1,7 @@
 name: Helix Android offline beta
 on:
   push:
-    branches: ['feature/android-offline-app-*']
+    branches: ['feature/android-offline-app-*', 'codex/gui-branding-and-guidance-20261013']
     paths: ['android/**', 'config/support_links.json', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'core/**', 'audio/**', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml']
   pull_request:
     paths: ['android/**', 'config/support_links.json', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml']

@@ -290,7 +290,8 @@ def render_fseq_preview(fseq_path: Path, output: Path, *, pixel_map: Path | None
                     continue
                 bright_nodes += 1
                 draw.ellipse((x - 2, y - 2, x + 2, y + 2), fill=color)
-            writer.append_data(np.asarray(image))
+            from core.output_provenance import brand_frame
+            writer.append_data(np.asarray(brand_frame(image)))
             frames_written += 1
     finally:
         writer.close()
@@ -310,6 +311,9 @@ def render_fseq_preview(fseq_path: Path, output: Path, *, pixel_map: Path | None
         silent.unlink(missing_ok=True)
     else:
         silent.replace(output)
+    from core.output_provenance import stamp_mp4, write_manifest
+    stamp_mp4(output)
+    write_manifest(output.parent, [output, Path(fseq_path)] if Path(fseq_path).parent == output.parent else [output])
     report = {
         "fseq": str(fseq_path), "video": str(output), "frames": frames_written,
         "frame_step_ms": reader.info.step_ms, "channel_count": reader.info.channels,
@@ -319,6 +323,8 @@ def render_fseq_preview(fseq_path: Path, output: Path, *, pixel_map: Path | None
         "native_xlights_origin_verified_by_this_tool": False,
         "geometry_coordinates_explicit": bool(pixel_map),
         "physical_coordinate_accuracy_verified": False,
+        "visible_helix_watermark": True,
+        "internal_helix_credit": True,
     }
     output.with_suffix(".pixel_preview.json").write_text(
         json.dumps(report, indent=2) + "\n", encoding="utf-8"

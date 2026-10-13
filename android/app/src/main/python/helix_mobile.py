@@ -147,6 +147,8 @@ def render_preview(xsq, layout, wav, seconds, callback):
             image = renderer.render_frame(leaf_names=leaves, frame_values=intensities[:, i],
                 title=xsq.name, t_ms=round(i*1000/fps), duration_ms=seq.duration_ms,
                 overlays={}, frame_colors=colors[:, i, :])
+            from core.output_provenance import brand_frame
+            image = brand_frame(image)
             buffer = io.BytesIO()
             image.convert('RGB').save(buffer, format='PNG')
             callback.previewFrame(buffer.getvalue(), i*1_000_000//fps)
@@ -164,6 +166,8 @@ def render_preview(xsq, layout, wav, seconds, callback):
     try:
         callback.decodePreviewAudio(str(output), str(decoded))
         alignment = synchronize(output, wav, decoded, intensities.shape[1]/fps)
+        from core.output_provenance import stamp_mp4
+        stamp_mp4(output)
         output.replace(final_output)
     except BaseException:
         output.unlink(missing_ok=True)
@@ -174,6 +178,8 @@ def render_preview(xsq, layout, wav, seconds, callback):
         'schema': 'helix.preview_provenance.v1', 'native_xlights': False,
         'source': 'Helix simulated effect-level model preview; Android MediaCodec H.264/AAC',
         'duration_seconds': intensities.shape[1]/fps, 'fps': fps, 'audio_alignment': alignment,
+        'generator': 'Helix', 'credit': 'Made with Helix | Audio in. Lights out.',
+        'visible_watermark': True,
     }, indent=2))
     return final_output
 
@@ -235,6 +241,10 @@ def run(engine_path, job_path, request_json, callback):
             stages['sequencing'] = {'status': 'success'}
             manifest['sequences'] = [str(x.relative_to(job)) for x in valid]
             manifest['lms'] = [str(x.relative_to(job)) for x in lms_files]
+            from core.output_provenance import stamp_xml,write_manifest,notice
+            for sequence_file in valid+lms_files:stamp_xml(sequence_file)
+            manifest['provenance']=notice()
+            write_manifest(job/'outputs',valid+lms_files)
             # Checkpoint completed sequence and portable ZIP BEFORE optional rendering.
             def package():
                 notify(callback, 'stage', 'packaging', 'Packaging completed sequence, layout and soundtrack…')
