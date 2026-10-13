@@ -11,8 +11,8 @@ def test_both_guis_package_the_original_h_and_matching_guidance():
     for path in ['helix_h_logo.png','android/app/src/main/res/drawable/helix_h_logo.png']:
         assert Image.open(ROOT/path).convert('RGB').tobytes()==a.tobytes()
     assets=ROOT/'android/app/src/main/assets'
-    assert (assets/'helix_instructions.txt').read_text()==INSTRUCTIONS
-    assert (assets/'helix_legal.txt').read_text()==LEGAL
+    assert (assets/'helix_instructions.txt').read_text(encoding='utf-8')==INSTRUCTIONS
+    assert (assets/'helix_legal.txt').read_text(encoding='utf-8')==LEGAL
     assert TAGLINE=='Audio in. Lights out.'
 
 

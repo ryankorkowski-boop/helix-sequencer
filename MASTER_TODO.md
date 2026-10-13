@@ -1,5 +1,17 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-13 — approved source publication and Windows UTF-8 fix
+
+User approved publishing both prepared source branches and fresh native builds.
+GUI remote031ca34 has the exact local9947f22 tree; draft PR141 targets the verified
+Android stability base. Windows38436857151 stopped before packaging:59 tests
+passed, one branding test read UTF-8 legal text with Windows cp1252. Fix:
+tests/test_gui_branding.py specifies UTF-8 for both guidance assets. Goal: make
+the existing content-equality check portable, preserving production text and
+all source behavior. Focused test is rerun and a fresh native build is required.
+Android38436857206 is still running; no new native success is claimed yet.
+Risks/limitations: this fixes the test encoding, not signing/device/store gates.
+
 ## 2026-10-13 — output credit and direct-engine failure contract
 
 Changed: core/output_provenance.py, core/sequence_builder.py,
