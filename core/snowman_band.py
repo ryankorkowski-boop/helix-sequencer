@@ -849,9 +849,8 @@ def _face_target_for_instruction(cue: Mapping[str, Any], face_routing: Mapping[s
     support_faces = list(face_routing.get("support_faces", []) or [])
     lyric_surfaces = list(face_routing.get("lyric_surfaces", []) or [])
     if performer == "lead_singer":
-        if lead_cycle:
-            return str(lead_cycle[(start_ms // 100) % len(lead_cycle)])
-        return str(face_routing.get("preferred_lead", "") or "")
+        # Do not rotate the lead across faces on every 100 ms phoneme.
+        return str(face_routing.get("preferred_lead", "") or (lead_cycle[0] if lead_cycle else ""))
     if performer in {"guitarist", "bassist"} and support_faces:
         offset = 0 if performer == "guitarist" else 1
         return str(support_faces[((start_ms // 100) + offset) % len(support_faces)])
