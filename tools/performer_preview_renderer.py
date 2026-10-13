@@ -3,8 +3,13 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 import subprocess
 from pathlib import Path
+
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
 
 from core.lazy_imports import LazyModule
 from tools.preview_renderer import parse_models, parse_sequence, build_leaf_intensity_matrix, choose_track, active_label, format_time
@@ -189,7 +194,11 @@ def main():
     out = Path(args.xsq).with_name(Path(args.xsq).stem + ".mp4")
     tmp = out.with_suffix(".silent.mp4")
     renderer = BandRenderer(args.width, args.height)
-    keyboard_cues = json.loads(args.keyboard_cues.read_text(encoding="utf-8")) if args.keyboard_cues else []
+    keyboard_payload = json.loads(args.keyboard_cues.read_text(encoding="utf-8")) if args.keyboard_cues else []
+    keyboard_cues = (keyboard_payload.get("cues", {}).get("keyboardist", [])
+                     if isinstance(keyboard_payload, dict) else keyboard_payload)
+    if not isinstance(keyboard_cues, list):
+        raise ValueError("keyboard cues must be a JSON list or a band plan containing cues.keyboardist")
     writer = imageio.get_writer(tmp, fps=args.fps, codec="libx264", quality=7, ffmpeg_log_level="error", pixelformat="yuv420p", macro_block_size=None)
     try:
         for fi in range(intensity.shape[1]):
