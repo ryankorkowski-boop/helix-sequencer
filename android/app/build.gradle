@@ -1,20 +1,39 @@
 plugins { id 'com.android.application'; id 'com.chaquo.python' }
+// Release builds remain unsigned until the project owner supplies the established
+// upload key. Never silently sign a production bundle with the debug certificate.
+def signingKeys = ['HELIX_ANDROID_KEYSTORE', 'HELIX_ANDROID_STORE_PASSWORD', 'HELIX_ANDROID_KEY_ALIAS', 'HELIX_ANDROID_KEY_PASSWORD']
+def releaseSigning = signingKeys.collect { System.getenv(it) }
+if (releaseSigning.any { it } && !releaseSigning.every { it }) {
+    throw new GradleException('Provide all four HELIX_ANDROID signing variables, or none')
+}
 android {
     namespace 'org.helixsequencer.android'
-    compileSdk 35
+    compileSdk 36
     defaultConfig {
         applicationId 'org.helixsequencer.android'
         minSdk 26
-        targetSdk 35
-        versionCode 3
-        versionName '0.2.1-remote-beta'
+        targetSdk 36
+        versionCode 4
+        versionName '0.3.0-stability-beta'
         ndk { abiFilters 'arm64-v8a', 'x86_64' }
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
     sourceSets { main { assets.srcDir layout.buildDirectory.dir('generated/helixAssets') } }
+    if (releaseSigning.every { it }) {
+        signingConfigs {
+            helixRelease {
+                storeFile file(releaseSigning[0])
+                storePassword releaseSigning[1]
+                keyAlias releaseSigning[2]
+                keyPassword releaseSigning[3]
+            }
+        }
+        buildTypes { release { signingConfig signingConfigs.helixRelease } }
+    }
 }
 dependencies {
+    implementation 'androidx.core:core:1.13.1'
     androidTestImplementation 'androidx.test:runner:1.6.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
 }
@@ -46,3 +65,4 @@ tasks.register('buildPurePythonDeps', Exec) {
 tasks.configureEach {
     if (name.startsWith('install') && name.endsWith('PythonRequirements')) { dependsOn 'buildPurePythonDeps' }
 }
+

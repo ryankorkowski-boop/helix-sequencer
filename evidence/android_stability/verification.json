@@ -1,0 +1,39 @@
+{
+  "schema": "helix.android.stability.verification.v1",
+  "build_commit": "6bdae4e461256df6184200e55dde2675741381ad",
+  "ci_run": 38391577471,
+  "api30": true,
+  "api36": true,
+  "host_tests_passed": 65,
+  "full_audio_seconds": 237.44,
+  "native_video_view_playback": true,
+  "native_service_cancel": true,
+  "fresh_install": true,
+  "same_key_same_version_reinstall": true,
+  "private_data_preserved": true,
+  "min_audio_correlation": 0.9977437981465194,
+  "audio_offsets_ms": 0,
+  "max_mean_pixel_error": 2.246111111111111,
+  "workspace_delivery": "standalone saving blocked by environment_offline; exact GitHub artifact split handoff",
+  "source_api36_artifact": 11810536773,
+  "source_archive_sha256": "ec0d186a0fc25054845977da577a001b0a43199be374708731548aa04943219b",
+  "limits": [
+    "debug-signed APK",
+    "unsigned AAB",
+    "4 KB page dependencies",
+    "physical ARM64/Samsung, Windows player/controllers and old-beta upgrade not verified",
+    "simulated model/effect previews; legacy LMS only",
+    "official release and Play publication pending"
+  ],
+  "handoff_run": 38396947536,
+  "handoff_passed": true,
+  "download_artifact_ids": {
+    "apk": 11812187859,
+    "aab": 11812732500,
+    "media_shows": 11812722486,
+    "evidence": 11812487689
+  },
+  "apk_sha256": "7bb6a6e59a365a371e29214c8826244d63e090cfee331881044aa46db201a6a6",
+  "aab_sha256": "f287cf81d667e0b542cfa6333d7718f4dc8ca1f268ae110d60fe0985ef6c5082",
+  "debug_certificate_sha256": "5441a200cd4174070148e76cb03189bbfee81f8cd1fa3b551319dd00d2eb4572"
+}

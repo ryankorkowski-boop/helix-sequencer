@@ -9,8 +9,15 @@ import shutil
 import sys
 import traceback
 import zipfile
+import xml.etree.ElementTree as ET
 from dataclasses import replace
 from pathlib import Path
+
+# Set before librosa/joblib or a numerical backend is imported. Android has no
+# POSIX sem_open; serial joblib executes the same HPSS/analysis kernels.
+os.environ['JOBLIB_MULTIPROCESSING'] = '0'
+os.environ['OPENBLAS_NUM_THREADS'] = '1'
+os.environ['OMP_NUM_THREADS'] = '1'
 
 
 class LogStream(io.TextIOBase):
@@ -59,7 +66,7 @@ def build_args(request, job, engine):
             args += ['--birdsong' if request.get('birdsong', True) else '--no-birdsong']
             if request.get('birdsong', True):
                 args += ['--birdsong-auto', '--birdsong-profile', 'canopy', '--birdsong-intensity', '1.20', '--birdsong-min-confidence', '0.45']
-            if request.get('spatial', False):
+            if request.get('spatial', True):
                 args += ['--helix-spatial-accent']
         if (job/'input/routing.json').is_file():
             args += ['--model-overrides-file', str(job/'input/routing.json')]
@@ -76,6 +83,53 @@ def preview_sequence(sequence, seconds):
     })
 
 
+def file_hash(path):
+    digest = hashlib.sha256()
+    with path.open('rb') as src:
+        for block in iter(lambda: src.read(1024 * 1024), b''):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def notify(callback, method, *args):
+    # Older host fixtures may implement only the media callbacks.
+    target = getattr(callback, method, None)
+    if target is not None:
+        target(*args)
+
+
+def write_report(job, manifest):
+    output = job/'outputs'
+    output.mkdir(exist_ok=True)
+    temporary = output/'android-run.json.tmp'
+    temporary.write_text(json.dumps(manifest, indent=2))
+    temporary.replace(output/'android-run.json')
+    lines = ['Helix Android run', 'Mode: ' + manifest['mode']]
+    for name, state in manifest['stages'].items():
+        lines.append(name + ': ' + state['status'] + (' — ' + state['error'] if state.get('error') else ''))
+    lines += ['Sequences: ' + ', '.join(manifest.get('sequences', [])),
+              'LMS: ' + ', '.join(manifest.get('lms', []))]
+    (output/'Android-run-report.txt').write_text('\n'.join(lines) + '\n')
+
+
+def package_show(job):
+    bundle, temporary = job/'Helix-show.zip', job/'Helix-show.zip.tmp'
+    try:
+        with zipfile.ZipFile(temporary, 'w', zipfile.ZIP_DEFLATED) as archive:
+            for path in sorted((job/'outputs').rglob('*')):
+                if (path.is_file() and '.helix_lor_workspace' not in path.parts
+                        and not path.name.endswith(('.tmp', '.pending.mp4', '.alignment.wav',
+                                                    '.video.mp4', '.audio.m4a'))):
+                    archive.write(path, path.relative_to(job/'outputs'))
+        with zipfile.ZipFile(temporary) as archive:
+            if archive.testzip() is not None:
+                raise RuntimeError('Show ZIP integrity check failed')
+        temporary.replace(bundle)
+        return bundle
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
 def render_preview(xsq, layout, wav, seconds, callback):
     from tools import preview_renderer as p
     seq = preview_sequence(p.parse_sequence(xsq), seconds)
@@ -85,7 +139,8 @@ def render_preview(xsq, layout, wav, seconds, callback):
     leaves, intensities = p.build_leaf_intensity_matrix(geom, seq, fps)
     colors = p.build_leaf_color_matrix(geom, seq, fps, leaves, intensities.shape[1])
     renderer = p.HouseRenderer(geom, width=width, height=height)
-    output = xsq.with_suffix('.mp4')
+    final_output = xsq.with_suffix('.mp4')
+    output = xsq.with_suffix('.pending.mp4')
     callback.beginPreview(str(output), str(wav), width, height, fps)
     try:
         for i in range(intensities.shape[1]):
@@ -95,23 +150,32 @@ def render_preview(xsq, layout, wav, seconds, callback):
             buffer = io.BytesIO()
             image.convert('RGB').save(buffer, format='PNG')
             callback.previewFrame(buffer.getvalue(), i*1_000_000//fps)
+            if i % fps == 0:
+                notify(callback, 'previewProgress', i, intensities.shape[1])
+                notify(callback, 'stage', 'preview',
+                       'Rendering preview: %d/%d seconds' % (i//fps, round(intensities.shape[1]/fps)))
         callback.endPreview()
     except BaseException:
         callback.abortPreview()
+        output.unlink(missing_ok=True)
         raise
     from helix_mp4 import synchronize
     decoded = output.with_suffix('.alignment.wav')
     try:
         callback.decodePreviewAudio(str(output), str(decoded))
         alignment = synchronize(output, wav, decoded, intensities.shape[1]/fps)
+        output.replace(final_output)
+    except BaseException:
+        output.unlink(missing_ok=True)
+        raise
     finally:
         decoded.unlink(missing_ok=True)
-    output.with_suffix('.preview_provenance.json').write_text(json.dumps({
+    final_output.with_suffix('.preview_provenance.json').write_text(json.dumps({
         'schema': 'helix.preview_provenance.v1', 'native_xlights': False,
         'source': 'Helix simulated effect-level model preview; Android MediaCodec H.264/AAC',
         'duration_seconds': intensities.shape[1]/fps, 'fps': fps, 'audio_alignment': alignment,
     }, indent=2))
-    return output
+    return final_output
 
 
 def run(engine_path, job_path, request_json, callback):
@@ -122,60 +186,96 @@ def run(engine_path, job_path, request_json, callback):
         raise ValueError('Android preview length must be 1–120 seconds')
     if str(engine) not in sys.path:
         sys.path.insert(0, str(engine))
-    os.environ['OPENBLAS_NUM_THREADS'] = '1'
-    os.environ['OMP_NUM_THREADS'] = '1'
     os.environ['NUMBA_DISABLE_JIT'] = '1'
     import helix_numba
     helix_numba.install()
     stream = LogStream(callback)
     old_cwd = Path.cwd()
+    stages = {'sequencing': {'status': 'running'}, 'packaging': {'status': 'pending'},
+              'preview': {'status': 'pending' if request.get('preview', True) else 'skipped'}}
+    manifest = {'schema': 'helix.android.run.v2', 'processing': 'on-device',
+        'mode': request.get('mode', 'xlights'), 'stages': stages,
+        'sequences': [], 'lms': [], 'previews': [],
+        'limitations': ['No neural stem separation/Whisper', 'Simulated preview, not native xLights playback',
+                        'Serial joblib and Python Numba kernels; large songs may run slowly'],
+        'input_hashes': {x.name: file_hash(x) for x in (job/'input').iterdir() if x.is_file()}}
+    result = {'bundle': '', 'preview': '', 'sequence': '', 'report': str(job/'outputs/Android-run-report.txt'),
+              'manifest': str(job/'outputs/android-run.json'), 'sequence_count': 0, 'mode': manifest['mode'],
+              'stages': stages}
     try:
-        if request.get('mode', 'xlights') == 'xlights':
+        if manifest['mode'] == 'xlights':
             for name in ('template.xsq', 'xlights_rgbeffects.xml'):
                 dest = job/'input'/name
                 if not dest.exists():
                     shutil.copy2(engine/name, dest)
+                manifest['input_hashes'][name] = file_hash(dest)
         os.chdir(job)
         with contextlib.redirect_stdout(stream), contextlib.redirect_stderr(stream):
             from core import sequence_builder
             callback.log('Running the existing Helix master sequencer entirely on this device.')
-            callback.log('Desktop neural stem/Whisper tools are unavailable. Existing HPSS analysis remains active.')
+            callback.log('Serial analysis avoids Android sem_open. HPSS remains active; neural stems and Whisper require desktop.')
+            notify(callback, 'stage', 'sequencing', 'Analyzing music and generating sequence…')
             args = build_args(request, job, engine)
             sequence_builder.run_profile('master', args)
             xsqs = sorted((job/'outputs').rglob('*.xsq'))
-            # Never declare success on a swallowed engine failure or empty output.
             from tools.preview_renderer import parse_sequence
-            valid = [x for x in xsqs if any(parse_sequence(x).model_effects.values()) and '.helix_lor_workspace' not in x.parts]
+            valid = [x for x in xsqs if any(parse_sequence(x).model_effects.values())
+                     and '.helix_lor_workspace' not in x.parts]
             if not valid:
                 raise RuntimeError('Helix produced no nonempty sequence; inspect the run log')
-            lms_files = list((job/'outputs').rglob('*.lms'))
-            if request.get('mode') == 'lor' and not lms_files:
+            lms_files = [x for x in (job/'outputs').rglob('*.lms')
+                         if x.name != 'helix_lor_source_layout.lms' and '.helix_lor_workspace' not in x.parts]
+            if manifest['mode'] == 'lor' and not lms_files:
                 raise RuntimeError('LOR export did not produce an LMS')
-            previews = []
-            # Render the shortlisted canonical sequence only, retaining all variants.
             selected = next((x for x in valid if '.runtime_' not in x.name), valid[0])
-            layout = selected.parent/'xlights_rgbeffects.xml'
-            if not layout.is_file():
-                layout = next((job/'outputs').rglob('xlights_rgbeffects.xml'), None)
+            result['sequence'] = str(selected.with_suffix('.lms') if manifest['mode'] == 'lor' else selected)
+            if not Path(result['sequence']).is_file():
+                raise RuntimeError('Selected sequence export is missing')
+            result['sequence_count'] = len(valid)
+            stages['sequencing'] = {'status': 'success'}
+            manifest['sequences'] = [str(x.relative_to(job)) for x in valid]
+            manifest['lms'] = [str(x.relative_to(job)) for x in lms_files]
+            # Checkpoint completed sequence and portable ZIP BEFORE optional rendering.
+            def package():
+                notify(callback, 'stage', 'packaging', 'Packaging completed sequence, layout and soundtrack…')
+                stages['packaging'] = {'status': 'success'}
+                write_report(job, manifest)
+                try:
+                    result['bundle'] = str(package_show(job))
+                except Exception as exc:
+                    stages['packaging'] = {'status': 'failed', 'error': str(exc)}
+                    callback.log('Show ZIP failed; sequence can still be saved: ' + str(exc))
+                    write_report(job, manifest)
+                notify(callback, 'checkpoint', json.dumps(result))
+            package()
             if request.get('preview', True):
-                if layout is None:
-                    raise RuntimeError('Generated sequence is missing its packaged layout')
-                callback.log('Encoding simulated preview with the actual soundtrack on this phone…')
-                previews.append(str(render_preview(selected, layout, job/'input/audio.wav', seconds, callback)))
-            manifest = {'schema': 'helix.android.run.v1', 'processing': 'on-device',
-                'mode': request.get('mode', 'xlights'), 'sequences': [str(x.relative_to(job)) for x in valid],
-                'lms': [str(x.relative_to(job)) for x in lms_files], 'previews': previews,
-                'limitations': ['No neural stem separation/Whisper', 'Simulated preview, not native xLights playback',
-                                'Android Numba kernels use Python execution; large songs may run slowly'],
-                'input_hashes': {x.name: hashlib.sha256(x.read_bytes()).hexdigest() for x in (job/'input').iterdir() if x.is_file()}}
-            (job/'outputs/android-run.json').write_text(json.dumps(manifest, indent=2))
-            bundle = job/'Helix-show.zip'
-            with zipfile.ZipFile(bundle, 'w', zipfile.ZIP_DEFLATED) as z:
-                for path in sorted((job/'outputs').rglob('*')):
-                    if path.is_file() and '.helix_lor_workspace' not in path.parts:
-                        z.write(path, path.relative_to(job/'outputs'))
-            return json.dumps({'bundle': str(bundle), 'preview': previews[0] if previews else '',
-                               'sequence_count': len(valid), 'mode': manifest['mode']})
+                notify(callback, 'stage', 'preview', 'Encoding preview with the actual soundtrack…')
+                stages['preview'] = {'status': 'running'}
+                write_report(job, manifest)
+                layout = selected.parent/'xlights_rgbeffects.xml'
+                if not layout.is_file():
+                    layout = next((job/'outputs').rglob('xlights_rgbeffects.xml'), None)
+                try:
+                    if layout is None:
+                        raise RuntimeError('Generated sequence is missing its packaged preview layout')
+                    preview = render_preview(selected, layout, job/'input/audio.wav', seconds, callback)
+                    result['preview'] = str(preview)
+                    manifest['previews'] = [str(preview.relative_to(job))]
+                    stages['preview'] = {'status': 'success'}
+                except Exception as exc:
+                    stages['preview'] = {'status': 'failed', 'error': str(exc)}
+                    callback.log('Sequence succeeded. Optional MP4 preview failed: ' + str(exc))
+                    # Keep the original stack in the local log; never advertise a failed movie.
+                    callback.log(traceback.format_exc())
+                package()
+            write_report(job, manifest)
+            return json.dumps(result)
+    except BaseException as exc:
+        if stages['sequencing']['status'] != 'success':
+            stages['sequencing'] = {'status': 'failed', 'error': str(exc)}
+        write_report(job, manifest)
+        raise
     finally:
         stream.flush()
         os.chdir(old_cwd)
+

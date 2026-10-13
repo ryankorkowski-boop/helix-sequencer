@@ -22,6 +22,11 @@ public class EngineService extends Service {
     private String previewDestination, previewWav;
     private long previewDuration;
     private int previewFps;
+    private JSONObject completedResult;
+    private String activeStage="preparing";
+    private int previewPercent=-1;
+    private long lastLogState;
+    private boolean terminal;
     @Override public IBinder onBind(Intent intent){return null;}
     @Override public int onStartCommand(Intent intent,int flags,int id){
         if(intent==null){stopSelf();return START_NOT_STICKY;}
@@ -58,7 +63,14 @@ public class EngineService extends Service {
             MediaRuntime.decodeWav(new File(input,"original-audio").getAbsolutePath(),new File(input,"audio.wav").getAbsolutePath());
             if(!Python.isStarted())Python.start(new AndroidPlatform(this));
             PyObject result=Python.getInstance().getModule("helix_mobile").callAttr("run",engine.getAbsolutePath(),job.getAbsolutePath(),raw,this);
-            state("complete","Sequence build complete",new JSONObject(result.toString()));
+            JSONObject output=new JSONObject(result.toString());
+            String message="Sequence complete";
+            JSONObject stages=output.optJSONObject("stages");
+            if(stages!=null && "failed".equals(stages.getJSONObject("preview").optString("status")))
+                message+=" · preview failed; save your sequence or show ZIP";
+            if(stages!=null && "failed".equals(stages.getJSONObject("packaging").optString("status")))
+                message+=" · ZIP failed; save your sequence";
+            state("complete",message,output);
         }catch(Throwable e){log(android.util.Log.getStackTraceString(e));state("failed","Build failed: "+e.getMessage(),null);}
         finally{abortPreview();stopForeground(STOP_FOREGROUND_REMOVE);stopSelf();}
     }
@@ -85,14 +97,45 @@ public class EngineService extends Service {
         if(logs.length()>60000)logs.delete(0,logs.length()-45000);
         logs.append(line).append('\n');
         try(FileWriter out=new FileWriter(new File(job,"run.log"),true)){out.write(line+"\n");}catch(IOException ignored){}
-        state("running",line.isEmpty()?"Sequencing…":line,null);
+        long now=System.currentTimeMillis();
+        if(now-lastLogState>=500){lastLogState=now;state("running",line.isEmpty()?"Sequencing…":line,null);}
+    }
+    public synchronized void stage(String stage,String message){
+        try{
+            if(completedResult!=null && completedResult.optJSONObject("stages")!=null){
+                JSONObject value=completedResult.getJSONObject("stages").optJSONObject(stage);
+                if(value!=null)value.put("status","running");
+            }
+        }catch(JSONException ignored){}
+        activeStage=stage;state("running",message,null);
+    }
+    public synchronized void previewProgress(int frame,int total){
+        previewPercent=total>0?Math.min(100,frame*100/total):-1;
+    }
+    public synchronized void checkpoint(String raw)throws JSONException{
+        completedResult=new JSONObject(raw);state("running","Sequence saved; preparing optional outputs…",null);
     }
     private synchronized void state(String phase,String message,JSONObject result){
+        if(terminal)return;
         try{
+            if(result!=null)completedResult=result;
             JSONObject state=new JSONObject();state.put("phase",phase);state.put("message",message);state.put("log",logs.toString());state.put("updated_ms",System.currentTimeMillis());
-            if(result!=null){state.put("bundle",result.optString("bundle"));state.put("preview",result.optString("preview"));}
+            state.put("active_stage",activeStage);state.put("preview_percent",previewPercent);
+            if(completedResult!=null){
+                for(String key:new String[]{"bundle","preview","sequence","report","manifest","stages"})
+                    if(completedResult.has(key))state.put(key,completedResult.get(key));
+                if("cancelled".equals(phase)||"failed".equals(phase)){
+                    JSONObject stages=state.optJSONObject("stages");
+                    if(stages!=null)for(String key:new String[]{"sequencing","packaging","preview"}){
+                        JSONObject stage=stages.optJSONObject(key);
+                        if(stage!=null && ("running".equals(stage.optString("status"))||"pending".equals(stage.optString("status"))))
+                            stage.put("status",phase);
+                    }
+                }
+            }
             File tmp=new File(job,"state.json.tmp");try(FileOutputStream out=new FileOutputStream(tmp)){out.write(state.toString().getBytes(StandardCharsets.UTF_8));}
             Files.move(tmp.toPath(),new File(job,"state.json").toPath(),StandardCopyOption.REPLACE_EXISTING,StandardCopyOption.ATOMIC_MOVE);
+            terminal=!"running".equals(phase);
         }catch(Exception e){android.util.Log.e("Helix","Cannot save job state",e);}
     }
     public void beginPreview(String output,String wav,int width,int height,int fps)throws Exception{
@@ -113,3 +156,4 @@ public class EngineService extends Service {
     @Override public void onTimeout(int id,int fgsType){if(job!=null)state("failed","Android stopped a build after its foreground time limit",null);stopSelf();}
     @Override public void onDestroy(){abortPreview();super.onDestroy();android.os.Process.killProcess(android.os.Process.myPid());}
 }
+

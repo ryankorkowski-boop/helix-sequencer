@@ -1,5 +1,123 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+Final handoff update: artifact-only38396947536 succeeds and verifies exact source
+APK/AAB checksums, then supplies four separate download archives (APK11812187859,
+AAB11812732500, media/shows11812722486, evidence11812487689). Full report links all
+archives and records signing identity. Standalone saving remained blocked by the
+workspace disconnect; no Library save is claimed. App build6bdae4e remains unchanged,
+verified by both-API38391577471 and65 host checks. Public release/Play/physical-device
+and original-beta signing gates remain explicit. No primary merge or unrelated work
+termination. Documentation/handoff completion adds no production code changes.
+
+
+## 2026-10-13 — Android stability verified beta and handoff
+
+Final app build 6bdae4e461256df6184200e55dde2675741381ad passes native API30/API36
+workflow38391577471 and65 host checks. Real MP3/RGB and237.44s full-song sequencing,
+WAV/xLights/original256, legacy LMS mapping, injected-preview-failure export,
+VideoView playback, own-service cancellation, fresh install and matching-key
+reinstall/private-data persistence all pass. Independent decode:0ms offsets,
+minimum correlation.9977438, maximum mean image error2.2462/255. Actual mdat
+size_field=1 confirms the reported parser defect. Six GUI pages/playback inspected;
+expert controls folded on local and remote screens; original donations retained.
+Production app/core/desktop/source assets remain unchanged after6bdae4e.
+
+Workspace disconnected during standalone download saving; persistent standalone
+file creation failed with environment_offline. Exact verified files remain in
+GitHub artifacts. New artifact-only android-stability-handoff workflow copies the
+successful API36 artifact into APK/AAB/media-shows/evidence downloads and verifies
+source APK/AAB hashes; no rerender, new app logic, public release or main merge.
+Changed handoff workflow, docs/ANDROID_STABILITY_REPORT.md, evidence/android_stability/
+verification.json and this ledger only. Report includes defects/files/commits,
+install/update instructions and Play limits. App beta is verified; physical ARM64/
+Samsung/Windows-player/controller/native-lighting-app import and older-beta signing
+upgrades remain unverified. Production key,16KB native rebuild,public privacy policy,
+final store declarations/testing and authorized public release remain deferred.
+Do not remove an old failed-preview installation before its outputs/private data
+are preserved. Prior independent desktop/band work remains unchanged.
+
+
+## 2026-10-13 — Android MP4 stability and guided workflow (verification in progress)
+
+Final UI audit: optional desktop-remote Android screen still exposed the expert
+toggles even though local mode was simplified. RemoteActivity now folds Birdsong,
+Matrix Intelligence, Polish, AC override, chase/variants/preview duration into an
+Advanced disclosure, explains optional Neon and defaults eligible RGB chase to
+automatic. Remote transport/protocol and desktop/master code are unchanged.
+Both-API full validation at 85892f2 passed including playback/cancel/reinstall;
+rebuild this focused Android UI adjustment before final APK handoff.
+
+Final verification extension (test code only): exercise corrected MP4 playback in
+the actual Android VideoView, retain a playback screenshot, show truthful completed
+results in the six captured pages, assert both native donation controls, cancel a
+fresh foreground-service job while previous show ZIPs survive, and fresh-install/
+same-certificate reinstall the APK with private-data persistence. Changes are
+OfflineEngineTest, run_android_device_smoke and this ledger; production app/master
+code is unchanged. 65 combined host checks pass. Expanded API36 real-RGB/full-song
+exports and independent decode at 024ab99 pass; API30/final validation is pending.
+Earlier beta certificate compatibility and physical Samsung/Windows/controller
+playback still require separate testing and are not claimed.
+
+Install-smoke setup explicitly removes only the emulator's test package before
+fresh installation and creates its marker directory before verifying same-key
+reinstall persistence. adb redirection is quoted as one fixed remote command.
+Production app code remains unchanged; install/upgrade validation remains pending.
+
+Screenshot QA caught a compositor-latency capture (the Style image still showed
+Layout). Instrumentation now waits for UI idle plus a frame interval before each
+capture. This changes test capture timing only; the production navigation is
+unchanged. Reinspect final real screenshots before delivering store-preparation
+assets. MP4 inspection directly confirms native mdat size_field=1, the exact
+extended-size condition rejected by the old Android reader.
+
+Follow-up: a nested terminal size=0 mdia must be made finite when the revised audio
+track gains an edts sibling, so it cannot swallow the new edit. A focused MP4
+regression covers this case. Host recovery fixtures now restore their intentional
+JIT environment change before desktop-parity subprocess tests. Changed helix_mp4,
+test_android_mp4, test_android_recovery and Android README; master/source behavior
+is preserved. 34 parser/recovery checks pass after the nested-EOF addition.
+First API30 and API36 beta build/instrumentation/native decode at 6dfc91a pass;
+audio correlations .99995638 and 0ms offset, pixel error <=2.208/255. Final expanded
+full-song tests, source-aligned builds and artifact delivery remain pending.
+
+Goal: fix the phone-reported Unsupported MP4 top-level size without changing master
+sequencing/desktop work. Isolated branch feature/android-offline-app-stability-20261013
+starts at the latest offline Android a5e2577; no other branch is overwritten or merged.
+Changed focused Android helix_mp4/helix_mobile, MainActivity/EngineService,
+manifest/provider resources, build/signing configuration, Android instrumentation,
+offline CI and documentation. Master algorithms, original layouts/audio/templates,
+desktop launchers, both established donation destinations and remote pairing are
+preserved. New behavior: validated 32/64-bit/EOF boxes, v0/v1 duration edits,
+atomic MP4 metadata replacement without shifting sample offsets, sequence/ZIP
+checkpoint before optional preview, independent stage outcomes, direct sequence
+export and temporary ZIP share grants, serial joblib with HPSS retained, guided
+six-step UI with saved preferences/first-run help, expert disclosure for three
+existing analysis controls, optional Neon and automatic capability-gated RGB
+chorus/drop chase. New API target is 36 and versionCode 4; release signing uses
+owner variables only, otherwise release APK/AAB remain unsigned.
+Evidence: 33 new focused host regressions pass, including real AAC full decode from
+MP3/WAV normalization and preview/ZIP interruption recovery. Broader retained tests,
+API30/API36 native builds, real-repo MP3/RGB exports and native failure injection
+are pending. Candidate release text and installation/Play assessment are prepared;
+no release/Play publication. Limitations: 4 KB native wheel requirement, no physical
+phone/Windows player/controller verification yet, simulated model-level previews,
+legacy LMS only, >4 GiB EOF boxes needing relocation and fragmented MP4s rejected
+safely. Deferred: owner signing identity, 16 KB rebuild, public privacy-policy URL,
+store approval and closed testing. Risks: OEM codec/container variation, storage
+needed for atomic movie copy and pre/post preview ZIP, long-song resource pressure,
+debug certificate update conflicts. Existing independent desktop/band queues remain
+unchanged; do not mark this task complete until build/device evidence is recorded.
+
+Verification expansion: 31 retained Android/librosa-parity/LOR/color/donation checks
+now pass. Native smoke additionally prepares unchanged repository music as an 8s
+MP3 and full-length MP3, runs the real RGB and original256 paths, deliberately
+fails one preview after successful sequencing, navigates/captures all six actual
+screens, and collects show ZIPs for independent full decode/audio comparison.
+Changed OfflineEngineTest, run_android_device_smoke, verify_android_device_proof and
+offline CI only; no master/source changes. Full-song/device resource limits remain
+unverified until this expanded run finishes.
+
+
 Final GUI verification: donation build49c1e75 passes Android38365377084 and
 Windows38365377124. Both compiled launchers expose the two restored support
 buttons; native Android screenshot inspected. Android0.2.1 includes the offline
@@ -800,3 +918,4 @@ Do not mark complete from unit tests alone.
 - [ ] User visual approval and native xLights import/playback remain final acceptance gates.
 
 Final October10 publication handoff: `docs/REVIEW_MOVIE_DOWNLOADS.md` links the46-movie earlier ZIP,179-payload recent ZIP,11 final band MP4s and their ZIP, both six-up artwork reels and the20-concept artwork ZIP. Performance/binary revision `209b6f7416afb35fa366aef272c8b3bd33406e25`; pinned release transport/index revision `9746dfe853431c5c67c5f23d2b5086f9e0508bd4` on `feature/review-media-delivery-2026-10-10`. Release workflow38050908245 succeeded. All32 new movie/transport blobs match, all11 direct MP4 links returnHTTP200, all3 release ZIP sizes/digests match and returnHTTP200; full public earlier/band ZIP downloads match local hashes. Evidence: `evidence/review_movie_archives/publication_final_release.json`, `publication_final_media_blobs.json`, `evidence/snowman_band_upgrade/public_individual_links.json`. Native physical/desktop playback and artistic acceptance are not claimed for the new3D review rig; exact preferred drummer art, confident duet separation and missing historical Android bytes remain documented limitations. Read this ledger before continuing.
+
