@@ -1,5 +1,100 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-13 — completion audit, spiral/wave garden and final logic passes
+
+Goal: finish today’s outstanding requests and distinguish implementation from
+external release/hardware gates. Changed: models/flourish_showcase.py,
+tools/render_flourish_showcase.py, tools/mark_helix_video.py,
+core/output_provenance.py and original H asset; indexed EventLane in
+models/band_motion_refinement.py, source drummer and refined performance;
+five-line failure accumulation/raise in core/effect_engine.py; focused tests.
+Final technical-gallery display optimization uses four-face hexagonal LED glyphs
+instead of20-face spheres, preserving every existing review node, color, lighting slot and
+world position. Band geometry/animation is unaffected; full encoded super-layout
+inspection verifies the display change.
+Additional keyboard fix: opt-in transition anchors preserve every change/contact frame; key levels and hands share held notes without release tails. Guitar default transition behavior is unchanged.
+New: 80 ordered flow models in six groups around the108-model/27-family garden;
+source-driven spiral/wave runs; shared XSQ/FSEQ levels and decoded-FSEQ preview;
+neutral singers/xylo and faint H/internal credit in all nine current movies.
+First four samplers updated in place. Direct engine song failures retain their
+original cause and can no longer be mistaken for a successful command.
+Preserved: source audio/layouts/art, detector and sequencing scores, MIT terms,
+all approved guitar events/curves and1,876 sampled matrices. Six of seven prior
+protected files retain exact bytes; engine guard is the documented exception.
+Evidence:65 final band/flourish regressions,96 GUI/Android-host/export checks
+on isolated GUI branch; indexed neighbors match5,000 scan queries and are249.5×
+faster in that microbenchmark (not whole-render speed). Keyboard177 supported
+change contacts match actual key meshes within1e-7 scene units;471 more guitar frames remain identical; five songs have66/58/52/31/82 mallet candidates.
+Final delivery: all9 movies /14,476frames /723.8seconds fully decode, correlation >=.99844149; all3ZIP CRCs and entry hashes pass. Final movie/bundle verification is recorded in evidence/final_20261013/ and
+report docs/HELIX_COMPLETION_AND_MARKET_20261013.md before delivery.
+Limitations: native xLights import of the new musical garden, physical controller
+playback and seven-member wired-pose export remain unverified. Existing66-channel
+plan excludes keyboard/xylo. Mixed-voice separation and instrument ground truth
+remain uncertain; no synthesized beat filler or false accuracy certification.
+New branded Windows/Android source is implemented and host-tested separately;
+publishing was blocked by automatic approval review (unverified remote/disclosure),
+so a fresh installer/native UI build is not claimed. The older Android stability
+API30/36 build38391577471 and prior installer/sampler deliveries remain verified.
+Saved delivery:14/14 operations succeed with local identity metadata applied; first4MP4s/bundle/report replace their existing versions, and the5new MP4s/2bundles/full report are created. See evidence/final_20261013/saved_delivery.json.
+No main merge or public music-rights clearance. MIT commercial permissions remain;
+annual terms cover only separately licensed products/services. Risks: added model
+geometry/stream size, broad ringing cues and packaging assets; tests and real
+media address software behavior, not live stadium or fabrication readiness.
+
+
+## 2026-10-13 — distinct dual-stage shows, neutral performers and super layout (rendered and verified)
+
+Goal: after completing the original four samplers, make three different audio
+tracks with two contrasting stages each, plus one full-screen combined garden.
+Latest steering: both singers and xylophone player should look gender-neutral.
+Changed: models/distinct_band_stages.py, tools/render_dual_band_showcases.py;
+optional neutral beanies/faces in models/refined_band_scene.py; first/second voice
+lane aliases in models/musical_band_response.py. Preserved: original scene
+defaults, all previously delivered movies, source audio and approved guitar
+rig/events/contact math, core engine and desktop/Android development.
+New: six individually authored backgrounds/floors, sculpted and 3D wire-contour
+bands, two independently posed stage rigs sharing a source soundtrack, neutral
+faces/clothing with color identities, geometry from all six prior stage layouts
+and actual native-family node gallery in the combined super garden. Do not infer
+avatar identity from vocal pitch. No fabricated duets; explicit voice cues remain.
+Final evidence: all four1920×1080/20fps films fully decode; soundtrack correlation >=.99845; zero mallet contact error; encoded contact sheets inspected. See evidence/distinct_band_showcases/final_watermarked_audit.json. Limitations: wire contours are visual prop studies,
+not surveyed fabrication or a physical-channel export. Source note identities
+and exact voice separation retain previous uncertainty. Risks: added geometry
+may obscure performers or consume more render time; pilot and encoded-frame
+inspection are required before delivery. First batch remains preserved.
+
+## 2026-10-13 — musical band response and four sampler stages (rendered and verified)
+
+Goal: keep both keyboard and xylophone, preserve approved guitar performance,
+broaden bell/marimba response, tighten bass/keys/singers, improve drummer sleeves
+and grips, and deliver four real-audio samplers with dry-test intros and Wire Tree
+final chorus endings. Branch `codex/band-musical-response-20261013` starts at
+`5c78ffa`; other desktop/Android branches and unfinished local work are untouched.
+Changed: opt-in natural arms in animation/articulated_source_drummer.py;
+configurable literal mallet register in models/refined_band_scene.py; slot lookup
+in tools/refined_band_performance.py; models/musical_band_response.py and
+tools/musical_band_performance.py. Preserved: original 25-bar defaults, source
+art/audio/layouts, drum detection and surfaces, all guitar events/routes/motion,
+master engine and historical renders. New: 49 actual bars (MIDI48–96), separately
+screened ringing attacks, anticipatory key travel, shorter bass release,
+source/explicit interval singer casting instead of arbitrary phrase alternation,
+acoustic mouth closures, thicker shaded drum arms and visible grips.
+Additional changed files: tools/render_musical_band_samplers.py,
+tools/audit_musical_band_movies.py, tests/test_musical_band_response.py,
+docs/MUSICAL_BAND_RESPONSE_20261013.md, evidence/musical_band_response/.
+Evidence: 57 focused regressions pass; guitar events/curves and 1,876 sampled
+guitar pose frames match the approved version; seven protected source files are
+byte-identical. Four 78.2s H264/AAC movies (6,256 frames total) are fully decoded,
+soundtracks correlate above .995, all sampled mallet contact errors are zero,
+and encoded contact sheets were visually inspected. ZIP CRC verifies.
+First batch was completed before starting the subsequently requested dual-stage
+and super-layout batch. Saved delivery is recorded alongside evidence.
+Limitations: pitched percussion identity/score and automated singer character
+assignment require listening review; physical channel props do not reproduce
+continuous animated meshes. Regression risks: broadened mallet cues may include
+other ringing instruments; optional preview geometry does not change core output.
+The previous completed delivery and physical-runtime gaps remain as documented.
+
 ## 2026-10-12 — repeatable review packaging and final delivery
 
 Goal: preserve verified review downloads while safely rebuilding an existing bundle. Changed tools/complete_refined_band_delivery.py: exclude previous manifest/verification files from self-referential hash inventory and validate a temporary ZIP before replacing the existing archive. Original videos/XSQs/art/audio remain unchanged. Evidence:two consecutive real-package rebuilds pass CRC and all200entry hashes with no duplicate manifest. No pipeline or musical changes. Publicly released first-build artifacts remain valid.

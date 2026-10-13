@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from copy import deepcopy
 import numpy as np
 from PIL import Image,ImageDraw,ImageEnhance,ImageChops
-from models.band_motion_refinement import elbow_2d,smoothstep
+from models.band_motion_refinement import elbow_2d,smoothstep,EventLane
 from tools.drummer_v3_visual_masks import (load_spec,exact_geometry,target_surface_key,
     compose_emissive,strike_transform,refine_actuator_to_source_art,build_zone_mask,idle_art_key)
 from tools.render_drummer_v3_preview import SOURCE,TARGETS
@@ -25,7 +25,8 @@ class BandLighting:
             raise ValueError('brightness must be in [0,2]')
 
 class ArticulatedDrummer:
-    def __init__(self, hits, lighting=BandLighting()):
+    def __init__(self, hits, lighting=BandLighting(), natural_arms=False):
+        self.natural_arms=natural_arms
         self.source=Image.open(SOURCE).convert('RGBA');self.spec=load_spec();self.lighting=lighting
         self.geometry=exact_geometry(self.source,self.spec);self.masks=self.geometry['masks']
         self.scale=np.array(self.source.size)-1
@@ -87,15 +88,14 @@ class ArticulatedDrummer:
             planned=dict(event,side=selected)
             if selected!=preferred:self.hand_reassignments.append(dict(time=event['time'],target=event['target'],source_hand=preferred,rendered_hand=selected))
             self.hits.append(planned);last[selected]=dict(time=event['time'],wrist=wrist)
+        self.lanes={side:EventLane(e for e in self.hits if e['side']==side and (e['target'],side) in self.targets) for side in ('left','right')}
         self.body_mask=Image.new('L',self.source.size,0)
         ImageDraw.Draw(self.body_mask).polygon([(int(x*self.scale[0]),int(y*self.scale[1])) for x,y in
             [( .36,.25),(.66,.25),(.66,.47),(.60,.55),(.41,.55),(.34,.46)]],fill=255)
         for target in TARGETS:self.body_mask=ImageChops.subtract(self.body_mask,self.masks[target_surface_key(target)])
 
     def _pose(self,side,time):
-        lane=[e for e in self.hits if e['side']==side and (e['target'],side) in self.targets]
-        previous=next((e for e in reversed(lane) if e['time']<=time),None)
-        following=next((e for e in lane if e['time']>time),None)
+        previous,following=self.lanes[side].neighbors(time)
         ready=self.rest[side].copy();direction=np.array((.8 if side=='left' else -.8,.6));ready_angle=np.arctan2(direction[1],direction[0])
         def target(event):
             contact,grip=self.targets[event['target'],side]
@@ -120,6 +120,11 @@ class ArticulatedDrummer:
             delta=(ready_angle-a+np.pi)%(2*np.pi)-np.pi;angle=a+weight*delta
             gain=(1-weight)*previous.get('velocity',1);lift=8*np.sqrt(gain)*np.sin(np.pi*weight)
         wrist[1]-=lift;tip=wrist+55*np.array((np.cos(angle),np.sin(angle)))
+        if self.natural_arms:
+            # Wrist-led rebound: lift the shaft as well as the forearm. The
+            # offset is zero at a strike, preserving the exact drum contact.
+            angle+=(-1 if side=='left' else 1)*.055*lift
+            tip=wrist+55*np.array((np.cos(angle),np.sin(angle)))
         # Reach is validated; contacts are never silently clamped to a fake drum.
         shoulder=self.roots[side];upper,lower=self.lengths[side]
         elbow=elbow_2d(shoulder,wrist,upper,lower,-1 if side=='left' else 1)
@@ -145,14 +150,33 @@ class ArticulatedDrummer:
             # Thin connected neutral wire sleeves retain the snowman's art style.
             points=[tuple(shoulder),tuple(elbow),tuple(wrist)]
             color=tuple(min(255,round(v*min(brightness,1.35))) for v in (148,155,155))+(255,)
-            d.line(points,fill=color,width=5,joint='curve')
-            for p in (shoulder,elbow,wrist):d.ellipse((p[0]-2.5,p[1]-2.5,p[0]+2.5,p[1]+2.5),fill=color)
-            highlight=tuple(min(255,round(v*brightness)) for v in (195,200,198))+(255,)
-            d.line([(x,y-1) for x,y in points],fill=highlight,width=1)
+            if self.natural_arms:
+                # Rounded, tapered snow sleeves with shaded volume and a
+                # distinct grip replace the old uniform wire skeleton.
+                sleeve=tuple(min(255,round(v*(.70+.30*gain))) for v in (190,205,209))+(255,)
+                shadow=(65,82,90,255)
+                for a,b,width in ((shoulder,elbow,10),(elbow,wrist,8)):
+                    d.line([tuple(a),tuple(b)],fill=shadow,width=width+3)
+                    d.line([tuple(a),tuple(b)],fill=sleeve,width=width)
+                    for p in (a,b):
+                        r=width/2;d.ellipse((p[0]-r,p[1]-r,p[0]+r,p[1]+r),fill=sleeve)
+                d.line([tuple(shoulder+(0,-2)),tuple(elbow+(0,-2)),tuple(wrist+(0,-2))],fill=(227,236,231,255),width=2)
+                direction=(tip-wrist)/55
+                d.line([tuple(wrist-direction*9),tuple(tip)],fill=(198,155,82,255),width=3)
+            else:
+                d.line(points,fill=color,width=5,joint='curve')
+                for p in (shoulder,elbow,wrist):d.ellipse((p[0]-2.5,p[1]-2.5,p[0]+2.5,p[1]+2.5),fill=color)
+                highlight=tuple(min(255,round(v*brightness)) for v in (195,200,198))+(255,)
+                d.line([(x,y-1) for x,y in points],fill=highlight,width=1)
             # Repose original gold shaft pixels; no neon replacement stick.
             transform=dict(source_grip=self.shaft_spec['source_grip'],source_tip=self.shaft_spec['source_tip'],
                            grip=(wrist/self.scale).tolist(),contact=(tip/self.scale).tolist())
             shaft=self.shaft.transform(self.source.size,Image.Transform.AFFINE,strike_transform(transform,self.source.size),Image.Resampling.BICUBIC)
             alpha=shaft.getchannel('A');shaft=ImageEnhance.Brightness(shaft).enhance(brightness);shaft.putalpha(alpha)
-            arm=Image.alpha_composite(arm,shaft);lit=Image.alpha_composite(lit.convert('RGBA'),arm)
+            arm=Image.alpha_composite(arm,shaft)
+            if self.natural_arms:
+                # The hand wraps around the shaft; it must be drawn in front.
+                d=ImageDraw.Draw(arm);d.ellipse((wrist[0]-5,wrist[1]-4,wrist[0]+5,wrist[1]+4),fill=(157,178,188,255))
+                d.arc((wrist[0]-4,wrist[1]-3,wrist[0]+4,wrist[1]+3),20,150,fill=(233,236,225,255),width=2)
+            lit=Image.alpha_composite(lit.convert('RGBA'),arm)
         return lit

@@ -3,7 +3,7 @@ import json
 import numpy as np
 from music.note_events import NoteEvent
 from models.band_instrument_logic import event_curves
-from models.band_motion_refinement import signed_gestures,transition_targets,mallet_events,smoothstep,elbow_3d
+from models.band_motion_refinement import signed_gestures,transition_targets,mallet_events,smoothstep,elbow_3d,EventLane
 from tools.readable_band_performance import ReadablePerformance
 from models.band_performance_scene import line_matrix,matrix
 
@@ -88,7 +88,9 @@ class RefinedPerformance(ReadablePerformance):
         time=i/20
         for hit in self.mallet_schedule:
             age=time-hit['time']
-            if 0<=age<.30:levels[128+hit['pitch']-60]=max(levels[128+hit['pitch']-60],hit['velocity']*np.exp(-age/.105))
+            if 0<=age<.30:
+                slot=self.scene.mallet_slot(hit['pitch'])
+                levels[slot]=max(levels[slot],hit['velocity']*np.exp(-age/.105))
         return levels
 
     def pose(self,i):
@@ -120,9 +122,10 @@ class RefinedPerformance(ReadablePerformance):
         for rig in self.scene.rigs:
             if rig['role']!='xylophone':continue
             side=rig['side'];hand=rig['hand'].copy();tip=hand+(0,0,.30)
-            lane=[e for e in self.mallet_schedule if e['side']==side]
-            previous=next((e for e in reversed(lane) if e['time']<=time),None)
-            following=next((e for e in lane if e['time']>time),None)
+            if getattr(self,'_indexed_schedule',None) is not self.mallet_schedule:
+                self._indexed_schedule=self.mallet_schedule
+                self._indexed_mallets={s:EventLane(e for e in self.mallet_schedule if e['side']==s) for s in ('left','right')}
+            previous,following=self._indexed_mallets[side].neighbors(time)
             def contact(e):return self.scene.bars[e['pitch']]+(0,.0275+.057,0)
             if previous and following and following['time']-previous['time']<=.55:
                 phase=(time-previous['time'])/(following['time']-previous['time'])
