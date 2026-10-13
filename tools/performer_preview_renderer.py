@@ -113,7 +113,13 @@ class BandRenderer:
         count = 4 if bass else 6
         for i in range(count):
             xx = cx + 31 * s + i * 2 * s
-            d.line((xx, cy - 54 * s, xx, cy + 14 * s), fill=(220, 225, 235, 255), width=max(1, int(1.5 * s)))
+            # Solid strings remain legible when idle; brightness and thickness
+            # increase during a strike without hiding the instrument body.
+            strength = max(0.0, min(1.0, float(b)))
+            string_color = tuple(min(255, int(v * (0.65 + .35 * strength))) for v in col)
+            d.line((xx, cy - 54 * s, xx, cy + 14 * s),
+                   fill=string_color + (255,),
+                   width=max(2, int((1.8 + 1.6 * strength) * s)))
         d.ellipse((cx - 3 * s, cy + 2 * s, cx + 7 * s, cy + 12 * s), fill=col + (255,))
 
     def mic(self, d, cx, cy, s, b, role="HX_SNOWMAN_SINGER"):
