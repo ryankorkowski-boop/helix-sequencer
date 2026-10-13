@@ -1,5 +1,32 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-13 — Android stability verified beta and handoff
+
+Final app build 6bdae4e461256df6184200e55dde2675741381ad passes native API30/API36
+workflow38391577471 and65 host checks. Real MP3/RGB and237.44s full-song sequencing,
+WAV/xLights/original256, legacy LMS mapping, injected-preview-failure export,
+VideoView playback, own-service cancellation, fresh install and matching-key
+reinstall/private-data persistence all pass. Independent decode:0ms offsets,
+minimum correlation.9977438, maximum mean image error2.2462/255. Actual mdat
+size_field=1 confirms the reported parser defect. Six GUI pages/playback inspected;
+expert controls folded on local and remote screens; original donations retained.
+Production app/core/desktop/source assets remain unchanged after6bdae4e.
+
+Workspace disconnected during standalone download saving; persistent standalone
+file creation failed with environment_offline. Exact verified files remain in
+GitHub artifacts. New artifact-only android-stability-handoff workflow copies the
+successful API36 artifact into APK/AAB/media-shows/evidence downloads and verifies
+source APK/AAB hashes; no rerender, new app logic, public release or main merge.
+Changed handoff workflow, docs/ANDROID_STABILITY_REPORT.md, evidence/android_stability/
+verification.json and this ledger only. Report includes defects/files/commits,
+install/update instructions and Play limits. App beta is verified; physical ARM64/
+Samsung/Windows-player/controller/native-lighting-app import and older-beta signing
+upgrades remain unverified. Production key,16KB native rebuild,public privacy policy,
+final store declarations/testing and authorized public release remain deferred.
+Do not remove an old failed-preview installation before its outputs/private data
+are preserved. Prior independent desktop/band work remains unchanged.
+
+
 ## 2026-10-13 — Android MP4 stability and guided workflow (verification in progress)
 
 Final UI audit: optional desktop-remote Android screen still exposed the expert
