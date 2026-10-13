@@ -241,7 +241,9 @@ def _build_singer_cues(
         if not fragments:
             continue
         step_ms = max(55, int((end_ms - start_ms) / max(1, len(fragments))))
-        target_name = lead_cycle[index % len(lead_cycle)] if lead_cycle else preferred_lead
+        # Keep the lead on one face: rotating every lyric line falsely turns
+        # a duet into alternating soloists. Harmony faces are routed separately.
+        target_name = preferred_lead or (lead_cycle[0] if lead_cycle else "")
         section = _part_label(parts, start_ms)
         for fragment_index, fragment in enumerate(fragments):
             frag_start = start_ms + fragment_index * step_ms
