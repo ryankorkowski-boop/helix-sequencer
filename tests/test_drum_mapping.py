@@ -40,6 +40,15 @@ class DrumMappingTests(unittest.TestCase):
         self.assertIn("snare", types)
         self.assertLessEqual(len([event for event in scheduled if event.timestamp_ms <= 170]), 4)
 
+    def test_eight_rapid_kicks_keep_velocity_and_each_onset(self) -> None:
+        # At 20 fps each of these onsets is independently visible.
+        kicks = [_event(2000 + index * 50, "kick", 0.82) for index in range(8)]
+        scheduled = schedule_drum_events(kicks)
+        self.assertEqual(len(scheduled), 8)
+        self.assertEqual([hit.timestamp_ms for hit in scheduled],
+                         [2000 + index * 50 for index in range(8)])
+        self.assertTrue(all(hit.velocity == 0.82 for hit in scheduled))
+
     def test_intro_gate_rejects_weak_false_hits_before_confirmed_drum_entry(self) -> None:
         events = [
             _event(576, "kick", 0.20),
