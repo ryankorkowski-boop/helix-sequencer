@@ -227,7 +227,9 @@ def schedule_drum_events(
             scheduled.remove(worst)
 
         previous = last_by_type.get(event.drum_type)
-        if previous and event.timestamp_ms - previous.timestamp_ms <= config.rapid_repeat_window_ms:
+        # Rapid kick doubles are intentional rhythmic events. Do not dim them:
+        # downstream preview thresholding can otherwise hide later kicks in a roll.
+        if previous and event.drum_type != "kick" and event.timestamp_ms - previous.timestamp_ms <= config.rapid_repeat_window_ms:
             event = DrumEvent(
                 timestamp=event.timestamp,
                 velocity=round(max(.08, event.velocity * .74), 3),
