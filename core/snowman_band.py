@@ -79,6 +79,38 @@ def _extract_note_midis(note_events: list[Any], target_ms: int) -> list[float]:
     return out
 
 
+def _build_keyboard_note_cues(note_events: list[Any], parts: list[Any]) -> list[dict[str, Any]]:
+    """Expose all pitched notes to the keyboard without guessing instrument identity.
+
+    The input note events can represent piano, bells, mallets, synths or other
+    pitched sources. Preserve overlapping notes and pitch order for renderers.
+    """
+    cues: list[dict[str, Any]] = []
+    for event in note_events:
+        start_ms = _event_start_ms(event)
+        end_ms = _event_end_ms(event, fallback_ms=120)
+        for note in list(getattr(event, "notes", []) or []):
+            if not isinstance(note, (tuple, list)) or not note:
+                continue
+            try:
+                pitch = float(note[0])
+            except (TypeError, ValueError):
+                continue
+            if not 0 <= pitch <= 127:
+                continue
+            cues.append({
+                "performer": "keyboardist",
+                "kind": "pitched_note",
+                "start_ms": start_ms,
+                "end_ms": end_ms,
+                "pitch_midi": pitch,
+                "key_index_88": min(87, max(0, int(round(pitch)) - 21)),
+                "section": _part_label(parts, start_ms),
+                "source": "note_events",
+            })
+    return sorted(cues, key=lambda cue: (cue["start_ms"], cue["pitch_midi"]))
+
+
 def _string_index_for_pitch(pitch_midi: float) -> int:
     clamped = min(67.0, max(36.0, float(pitch_midi)))
     return int(min(4, max(1, round(((clamped - 36.0) / 31.0) * 3.0) + 1)))
@@ -938,6 +970,7 @@ def build_snowman_band_plan(
     else:
         drum_cues, kit_components = _build_drum_cues(parts, kicks, snares, hats, releases)
         drum_intelligence_debug = {"fallback_mode": "legacy_marks", "counts": {}, "motion_events": [], "effect_cues": [], "mapping": []}
+    keyboard_cues = _build_keyboard_note_cues(note_events, parts)
     background_vocals = _build_background_vocals(vocal_peaks, parts)
     vocal_emotion_payload = vocal_emotion.build_vocal_emotion_timeline(
         lyric_timeline=lyric_timeline,
@@ -968,7 +1001,7 @@ def build_snowman_band_plan(
         vocal_emotion_payload,
     )
     face_activations = lead_face_activations + background_face_activations + part_hit_reactions
-    total_cues = len(singer_cues) + len(bass_cues) + len(guitar_cues) + len(drum_cues) + len(background_vocals) + len(face_activations)
+    total_cues = len(keyboard_cues) + len(singer_cues) + len(bass_cues) + len(guitar_cues) + len(drum_cues) + len(background_vocals) + len(face_activations)
     chronoflow_debug = dict((chronoflow_payload or {}).get("debug", {}) or {})
     band_sync_frames = list((band_sync_payload or {}).get("state_frames", []) or [])
     tempo_bpm = float(getattr(multiband, "tempo_bpm", 0.0) or 0.0)
@@ -1079,6 +1112,7 @@ def build_snowman_band_plan(
             "part_hit_reactions": part_hit_reactions,
             "bassist": bass_cues,
             "guitarist": guitar_cues,
+            "keyboardist": keyboard_cues,
             "drummer": drum_cues,
         },
         "global_timeline": global_timeline,
@@ -1108,6 +1142,7 @@ def build_snowman_band_plan(
             "bass_cues": len(bass_cues),
             "guitar_cues": len(guitar_cues),
             "drum_cues": len(drum_cues),
+            "keyboard_cues": len(keyboard_cues),
             "drum_intelligence_mode": drum_intelligence_debug.get("fallback_mode", "legacy_marks"),
             "guitar_realism_mode": string_realism_debug["guitar"].get("fallback_mode", ""),
             "bass_realism_mode": string_realism_debug["bass"].get("fallback_mode", ""),
