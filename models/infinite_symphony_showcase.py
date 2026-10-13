@@ -89,11 +89,14 @@ def build_megagarden():
     hero = garden.models[-1]
     # Individually addressable note-rung groups, MIDI A0..C8, ordered low to high.
     rung_ids = hero.submodels["RUNGS"]
-    rung_count = max(1, len(rung_ids) // 8)
+    # Each physical rung occupies a narrow horizontal height band. Group its
+    # nodes together so one MIDI event lights an entire rung, not a fragment.
+    rung_heights = np.asarray([hero.points[node_id - 1, 1] for node_id in rung_ids])
+    unique_heights = np.unique(np.round(rung_heights, 3))
     for midi in range(21, 109):
-        a = round((midi-21) * rung_count / 88)
-        b = round((midi-20) * rung_count / 88)
-        ids = rung_ids[a*8:b*8]
+        target_height = unique_heights[round((midi - 21) * (len(unique_heights) - 1) / 87)]
+        ids = [node_id for node_id, height in zip(rung_ids, rung_heights)
+               if abs(height - target_height) < 0.005]
         if ids:
             hero.submodels[f"KEY_MIDI_{midi:03d}"] = ids
     hero.details["keyboard_rung_mapping"] = {
