@@ -4,6 +4,13 @@ import argparse
 import json
 from pathlib import Path
 from typing import Sequence
+import sys
+
+# This script is also executed by path in GitHub Actions, where Python otherwise
+# adds tools/ rather than the repository root to sys.path.
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
 
 from core.birdsong_behavior_planner import EffectIntent, plan_effect_intent
 from core.birdsong_feature_state import FeatureState
