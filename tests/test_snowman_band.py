@@ -334,6 +334,19 @@ class SnowmanBandTests(unittest.TestCase):
         self.assertTrue(all(cue["end_ms"] > cue["start_ms"] for cue in cues))
 
 
+    def test_xlights_lead_phonemes_do_not_jump_between_faces(self) -> None:
+        routing = snowman_band.preferred_face_routing([
+            "HX_SINGING_FACE_LEAD", "HX_SINGING_FACE_SECONDARY",
+        ])
+        lead = routing["preferred_lead"]
+        targets = {
+            snowman_band._face_target_for_instruction(
+                {"performer": "lead_singer", "start_ms": time_ms}, routing
+            )
+            for time_ms in (100, 200, 300, 400, 500, 600)
+        }
+        self.assertEqual(targets, {lead})
+
     def test_band_plan_exposes_keyboard_notes_to_preview(self) -> None:
         payload = snowman_band.build_snowman_band_plan(
             parsed_layout=SimpleNamespace(models={"HX_FLOOR_PIANO": object()}),
