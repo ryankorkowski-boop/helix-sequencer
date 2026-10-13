@@ -98,6 +98,8 @@ def main() -> None:
                                              source_start_seconds=round(start, 3),
                                              duration_seconds=30, **metrics))
             clip = tmpdir / f"segment_{index:02d}.mp4"
+            titlefile = tmpdir / f"title_{index:02d}.txt"
+            titlefile.write_text(f"{index + 1}/6  {title}  |  busiest 30-second passage")
             # Native audio from the six source files. Video makes dense spectral
             # activity reviewable; it does not fabricate a Helix band performance.
             run("ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
@@ -106,6 +108,8 @@ def main() -> None:
                 "[0:a]asplit=2[hear][viz];"
                 "[viz]showfreqs=s=1280x720:mode=bar:ascale=log:fscale=log:"
                 "colors=cyan|magenta|yellow:win_size=2048:rate=20,"
+                f"drawtext=textfile={titlefile}:fontcolor=white:fontsize=32:"
+                "x=35:y=35:box=1:boxcolor=black@0.65:boxborderw=16,"
                 "format=yuv420p[v]",
                 "-map", "[v]", "-map", "[hear]", "-r", "20",
                 "-c:v", "libx264", "-preset", "veryfast", "-crf", "24",
