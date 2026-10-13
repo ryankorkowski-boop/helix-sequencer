@@ -13,6 +13,11 @@ exports and independent decode at 024ab99 pass; API30/final validation is pendin
 Earlier beta certificate compatibility and physical Samsung/Windows/controller
 playback still require separate testing and are not claimed.
 
+Install-smoke setup explicitly removes only the emulator's test package before
+fresh installation and creates its marker directory before verifying same-key
+reinstall persistence. adb redirection is quoted as one fixed remote command.
+Production app code remains unchanged; install/upgrade validation remains pending.
+
 Follow-up: a nested terminal size=0 mdia must be made finite when the revised audio
 track gains an edts sibling, so it cannot swallow the new edit. A focused MP4
 regression covers this case. Host recovery fixtures now restore their intentional

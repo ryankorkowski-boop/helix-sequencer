@@ -22,8 +22,10 @@ def main():
     (dest/'status.json').write_text(json.dumps({'instrumentation_exit_code':result.returncode,'proof_errors':proof_errors},indent=2))
     if result.returncode==0:
         apk=ROOT/'android/app/build/outputs/apk/debug/app-debug.apk'
+        subprocess.run(['adb','uninstall','org.helixsequencer.android'],capture_output=True)
         subprocess.run(['adb','install',str(apk)],check=True)
-        subprocess.run(['adb','shell','run-as','org.helixsequencer.android','sh','-c','echo preserved > files/upgrade-marker'],check=True)
+        subprocess.run(['adb','shell','run-as','org.helixsequencer.android','mkdir','-p','files'],check=True)
+        subprocess.run(['adb','shell',"run-as org.helixsequencer.android sh -c 'echo preserved > files/upgrade-marker'"],check=True)
         subprocess.run(['adb','install','-r',str(apk)],check=True)
         marker=subprocess.check_output(['adb','shell','run-as','org.helixsequencer.android','cat','files/upgrade-marker']).decode().strip()
         assert marker=='preserved'
