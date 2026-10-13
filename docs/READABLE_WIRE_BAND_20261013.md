@@ -43,8 +43,10 @@ and faces exactly and are watertight. See `evidence/readable_wire_band`.
 
 The close-up fully decodes as 644 frames / 32.2 seconds with source soundtrack
 correlation 0.998487416; the encoded mouth details and solid instruments were
-inspected. The full sampler's final media receipt follows its render. These
-checks cover full decode, exact frame counts, duration, audio and decoded frames.
+inspected. The full sampler fully decodes as 1,564 frames / 78.2 seconds with
+correlation 0.998725353. Its WAV soundtrack is byte-identical to the original
+two-stage sampler. Both movies retain zero measured mallet-contact error.
+These checks cover full decode, exact frame counts, duration, audio and decoded frames.
 These are rendered video/pixel previews; the new face geometry does not establish
 physical discrete-channel wiring or new voice-separation accuracy. No GUI,
 sequencing-engine or detector threshold changes are included.

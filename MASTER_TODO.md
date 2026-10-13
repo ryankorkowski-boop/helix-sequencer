@@ -1,6 +1,6 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
-## 2026-10-13 — readable wire-band mouths and solid string players (implemented; full sampler rendering)
+## 2026-10-13 — readable wire-band mouths and solid string players (rendered and verified)
 
 Goal: respond to the review that wire singers' mouths, guitar and bass blend
 into the contours. Isolated branch: codex/band-readable-mouths-solid-strings-20261013.
@@ -18,8 +18,12 @@ Evidence:52 focused regressions pass, plus7 stage checks after the contracting
 face-mask correction. All28,128 sampled string/key/mallet matrices over96 actual
 source frames match; curves, voice lanes and mallet schedules match exactly.
 The32.2s/644-frame closer Wire Tree movie fully decodes; source soundtrack
-correlation=.998487416; decoded frames inspected. The78.2s two-stage sampler
-is still rendering. Receipts: evidence/readable_wire_band; source/reproduction:
+correlation=.998487416; decoded frames inspected. The78.2s/1,564-frame two-stage
+sampler also fully decodes; correlation=.998725353; decoded frames inspected.
+Both movies are1920×1080/20fps H264/AAC, with zero measured mallet-contact error.
+The original two-stage WAV is byte-identical. Source publication to the dedicated
+feature branch is authorized and succeeds with an exact tested-tree match; no
+main merge or public audio/movie publication. Receipts: evidence/readable_wire_band; source/reproduction:
 docs/READABLE_WIRE_BAND_20261013.md. Limits: preview geometry remains video/pixel output; no
 physical channel export or new voice-separation claim. Risks: face occlusion,
 lip bloom and dense full-layout readability require encoded frame inspection.
