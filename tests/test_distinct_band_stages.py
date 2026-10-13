@@ -3,6 +3,43 @@ from models.refined_band_scene import RefinedBandScene
 from models.distinct_band_stages import DistinctBandScene,TwinBandGarden,STAGES
 from models.musical_band_response import cast_source_voice
 from models.intricate_band_scene import LAYOUTS
+from models.expressive_band_face import MOUTH_SIZES
+
+
+def test_wire_strings_keep_original_closed_bodies_and_solid_performers():
+    original=RefinedBandScene('prismatic_orrery',(48,96),neutral_performers=True)
+    wire=DistinctBandScene('glacier_pier',True)
+    for role in ('bass','guitar'):
+        for name in ('base','torso','head','scarf'):
+            assert next(o for o in wire.instances if o['name']==role+'_'+name)['kind']=='sphere'
+        for string_a,string_b in zip(original.strings[role],wire.strings[role]):
+            assert np.array_equal(string_a['a'],string_b['a'])
+            assert np.array_equal(string_a['b'],string_b['b'])
+            assert string_a['ids']==string_b['ids']
+    for name in ('electric_guitar_body','upright_bass_body'):
+        a=next(o['mesh'] for o in original.custom if o['name']==name)
+        b=next(o['mesh'] for o in wire.custom if o['name']==name)
+        assert a.is_watertight and b.is_watertight
+        assert np.array_equal(a.vertices,b.vertices) and np.array_equal(a.faces,b.faces)
+
+
+def test_layered_mouths_close_and_tongues_follow_existing_phonemes():
+    scene=DistinctBandScene('glacier_pier',True)
+    for role in ('lead','harmony'):
+        ids=scene.expressive_mouths[role]
+        assert scene.instances[ids['lips']]['kind']=='lip_ring'
+        for shape in MOUTH_SIZES:
+            scene.update_singer_mouth(role,shape,.8)
+            cavity=scene.instances[ids['cavity']]['matrix']
+            tongue=scene.instances[ids['tongue']]['matrix']
+            assert np.isfinite(cavity).all() and np.isfinite(tongue).all()
+            assert cavity[0,0]>=.20
+            if shape in ('REST','MBP'):
+                assert tongue[0,0]==.0001 and cavity[1,1]<.030
+            else:
+                assert tongue[0,0]>.10 and cavity[1,1]>.06
+                assert abs(tongue[1,3]-cavity[1,3])+tongue[1,1]<cavity[1,1]
+            assert tongue[2,3]>cavity[2,3]
 
 
 def test_neutral_faces_remove_gender_accessories_without_changing_other_musicians():

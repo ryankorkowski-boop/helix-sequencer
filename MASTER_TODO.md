@@ -1,5 +1,29 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-13 — readable wire-band mouths and solid string players (implemented; full sampler rendering)
+
+Goal: respond to the review that wire singers' mouths, guitar and bass blend
+into the contours. Isolated branch: codex/band-readable-mouths-solid-strings-20261013.
+Changed: models/expressive_band_face.py, models/distinct_band_stages.py,
+tools/musical_band_performance.py, tools/render_dual_band_showcases.py and focused
+stage tests. New: large coral lip rings, dark apertures, pink articulated tongues,
+ivory upper teeth and a wire-face backing; guitar/bass players and instrument
+bodies stay solid. The old custom prefix filter dropped electric_guitar_body;
+the corrected filter keeps its original closed mesh. Rendering uses a new output
+folder and filenames. Camera callbacks remain compatible with ongoing work.
+Preserve: original core/GUI/audio/layouts, singer voice lanes and silence closures,
+guitar/bass rig indices, notes, string/fret contact geometry and arm motion;
+previous deliveries and ongoing neighborhood checkout remain untouched.
+Evidence:52 focused regressions pass, plus7 stage checks after the contracting
+face-mask correction. All28,128 sampled string/key/mallet matrices over96 actual
+source frames match; curves, voice lanes and mallet schedules match exactly.
+The32.2s/644-frame closer Wire Tree movie fully decodes; source soundtrack
+correlation=.998487416; decoded frames inspected. The78.2s two-stage sampler
+is still rendering. Receipts: evidence/readable_wire_band; source/reproduction:
+docs/READABLE_WIRE_BAND_20261013.md. Limits: preview geometry remains video/pixel output; no
+physical channel export or new voice-separation claim. Risks: face occlusion,
+lip bloom and dense full-layout readability require encoded frame inspection.
+
 ## 2026-10-13 — completion audit, spiral/wave garden and final logic passes
 
 Goal: finish today’s outstanding requests and distinguish implementation from

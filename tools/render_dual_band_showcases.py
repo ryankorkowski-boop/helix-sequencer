@@ -8,6 +8,7 @@ import moderngl
 from PIL import Image,ImageDraw
 from models.band_performance_scene import tube
 from models.distinct_band_stages import DistinctBandScene,TwinBandGarden,STAGES
+from models.expressive_band_face import lip_ring_mesh
 from tools.musical_band_performance import MusicalBandPerformance
 from tools.render_musical_band_samplers import ROOT,ANALYSIS,soundtrack,sha,silent_performance,build_plan
 from tools.render_refined_helix_band import encoder,physical_hits,DynamicDry,REFINED_FRAGMENT,FONT,SMALL
@@ -18,7 +19,7 @@ from tools.render_drummer_v3_preview import TARGETS,parse_effects,parse_snare_ha
 import soundfile as sf
 from core.output_provenance import brand_frame,stamp_mp4
 
-OUT=ROOT/'outputs/Distinct_Band_Showcases_20261013'
+OUT=ROOT/'outputs/Readable_Wire_Band_20261013'
 PAIRS=[('ember_amphitheatre','glacier_pier'),('cathedral_organ','circuit_garage'),('orbital_halo','lantern_garden'),('ember_amphitheatre','circuit_garage')]
 
 
@@ -31,7 +32,7 @@ def plans(rows):
     result=[]
     for i,selected in enumerate(selections):
         segments=[dict(id=id,title='Dry Drum Test' if id=='dry' else rows[id]['title'],start=float(start),seconds=float(seconds),purpose='musical sampler passage') for id,start,seconds in selected]
-        result.append(dict(version=i+1,stage_pair=list(PAIRS[i]),style_pair=['sculpted snow band','wire contour band'],segments=segments,super_layout=i==3))
+        result.append(dict(version=i+1,stage_pair=list(PAIRS[i]),style_pair=['sculpted snow band','wire band with solid guitar/bass'],segments=segments,super_layout=i==3))
     return result
 
 
@@ -65,12 +66,24 @@ def camera(width,height,time,super_layout=False):
     return p@view,eye
 
 
+def wire_focus_camera(width,height,time,super_layout=False):
+    # A dedicated singer/instrument review angle fills the frame with one rig.
+    eye=np.array((10.0,5.2,17.5),dtype='f4');target=np.array((10.0,1.9,.1))
+    forward=target-eye;forward/=np.linalg.norm(forward)
+    right=np.cross(forward,(0,1,0));right/=np.linalg.norm(right);up=np.cross(right,forward)
+    view=np.eye(4,dtype='f4');view[:3,:3]=np.vstack((right,up,-forward));view[:3,3]=-view[:3,:3]@eye
+    f=1/math.tan(math.radians(36)/2);near,far=.1,120
+    p=np.zeros((4,4),dtype='f4');p[0,0]=f/(width/height);p[1,1]=f
+    p[2,2]=(far+near)/(near-far);p[2,3]=2*far*near/(near-far);p[3,2]=-1
+    return p@view,eye
+
+
 class TwinStageView(SamplerView):
     def __init__(self,scene,width,height,super_layout=False):
         self.super_layout=super_layout
         vertex=SAMPLER_VERTEX.replace('activity[128]','activity[384]').replace('channel=float(slot);','channel=float(slot%192);')
         super().__init__(scene,width,height,vertex,REFINED_FRAGMENT)
-        for kind,mesh in [('wire_sphere',wire_sphere()),('light_point',light_point_glyph())]:
+        for kind,mesh in [('wire_sphere',wire_sphere()),('light_point',light_point_glyph()),('lip_ring',lip_ring_mesh())]:
             objs=[o for o in scene.instances if o['kind']==kind]
             if objs:self.groups.append(GLView.make_vao(self,mesh,objs))
         order=[0,1,2,2,1,3];uv=np.array([(0,1),(1,1),(0,0),(1,0)],dtype='f4')
@@ -80,7 +93,7 @@ class TwinStageView(SamplerView):
         self.second_texture=self.ctx.texture((395,256),4);self.second_texture.filter=(moderngl.LINEAR,moderngl.LINEAR)
 
     def frame(self,levels,lighting,strikes,hand,source_time,elapsed):
-        vp,eye=camera(self.width,self.height,elapsed,self.super_layout)
+        vp,eye=getattr(self,'camera_callback',camera)(self.width,self.height,elapsed,self.super_layout)
         self.program['view_projection'].write(vp.T.tobytes());self.program['eye'].value=tuple(eye)
         self.program['song_time'].value=source_time
         self.fbo=self.scene_fbo;self.fbo.use();self.draw(levels)
@@ -110,7 +123,8 @@ def dry_curves(native):
 
 def render(plan,rows,pilot=False,width=1920,height=1080):
     OUT.mkdir(parents=True,exist_ok=True)
-    name='Helix_Super_Layout_Two_Bands' if plan['super_layout'] else f'Helix_Two_Stages_{plan["version"]}'
+    name='Helix_Readable_Super_Layout' if plan['super_layout'] else f'Helix_Readable_Two_Stages_{plan["version"]}'
+    if plan.get('focus_wire'):name='Helix_Readable_Wire_Band_Closeup'
     if pilot:name+='_pilot'
     segments=[dict(s,seconds=1.0) for s in plan['segments']] if pilot else plan['segments']
     audio=OUT/(name+'.wav');audio_proof=soundtrack(segments,rows,audio);duration=sum(s['seconds'] for s in segments)
@@ -131,6 +145,7 @@ def render(plan,rows,pilot=False,width=1920,height=1080):
             else:drums,strikes,hands=performers[0].drums,performers[0].strikes,performers[0].hands
             garden=TwinBandGarden(a,b,plan['super_layout']);inventory=dict(features=garden.feature_inventory,inherited_layouts=garden.inherited_layouts,technical_models=garden.technical_models)
             view=TwinStageView(garden,width,height,plan['super_layout'])
+            if plan.get('focus_wire'):view.camera_callback=wire_focus_camera
             view.dry=DynamicDry(ArticulatedDrummer(physical_hits(native),natural_arms=True));view.second_dry=DynamicDry(ArticulatedDrummer(physical_hits(native),natural_arms=True))
             count=round(seg['seconds']*20);offset=round(seg['start']*20);contacts=0;max_error=0
             try:
@@ -145,10 +160,14 @@ def render(plan,rows,pilot=False,width=1920,height=1080):
                     garden.sync();view.dry.time=source_index/20;view.second_dry.time=source_index/20
                     image=view.frame(levels,drums[source_index],strikes[source_index],hands[source_index],source_index/20,timeline+frame/20)
                     d=ImageDraw.Draw(image);d.rectangle((0,0,width,48),fill='#07101C')
-                    d.text((22,14),('HELIX SUPER LAYOUT' if plan['super_layout'] else f'HELIX TWO-STAGE SHOWCASE {plan["version"]}')+'  |  '+seg['title'],font=FONT,fill='#DDF5FF')
+                    title='HELIX WIRE BAND CLOSEUP' if plan.get('focus_wire') else 'HELIX SUPER LAYOUT' if plan['super_layout'] else f'HELIX TWO-STAGE SHOWCASE {plan["version"]}'
+                    d.text((22,14),title+'  |  '+seg['title'],font=FONT,fill='#DDF5FF')
                     d.rectangle((0,height-43,width,height),fill='#07101C')
-                    d.text((22,height-30),STAGES[a.stage]+' • Sculpted band',font=SMALL,fill='#E2C7A0')
-                    right=STAGES[b.stage]+' • Wire contour band';d.text((width-d.textlength(right,font=SMALL)-22,height-30),right,font=SMALL,fill='#BBD6DD')
+                    if plan.get('focus_wire'):
+                        d.text((22,height-30),'Solid guitar / bass • Oversized lips • Animated tongues',font=SMALL,fill='#BBD6DD')
+                    else:
+                        d.text((22,height-30),STAGES[a.stage]+' • Sculpted band',font=SMALL,fill='#E2C7A0')
+                        right=STAGES[b.stage]+' • Wire band / solid strings';d.text((width-d.textlength(right,font=SMALL)-22,height-30),right,font=SMALL,fill='#BBD6DD')
                     image=brand_frame(image)
                     writer.stdin.write(image.tobytes());frames+=1
                     for p in performers:
@@ -172,14 +191,20 @@ def render(plan,rows,pilot=False,width=1920,height=1080):
     movie.with_suffix('.verification.json').write_text(json.dumps(dict(plan=plan,seconds=duration,frames=frames,fps=20,resolution=[width,height],
         movie_sha256=sha(movie),audio_sha256=sha(audio),soundtrack=audio_proof,segments=proof,inventory=inventory,
         neutral_singers=True,neutral_xylophone_player=True,visible_helix_watermark=True,internal_helix_credit=True,physical_fabrication_export=False,
+        exaggerated_lips=True,animated_tongues=True,solid_guitar_and_bass_players=True,solid_guitar_and_bass_instruments=True,
         continuous_output='video / pixel matrix',all_six_sampler_stage_features_included=plan['super_layout'],
         technical_led_glyph_faces=4,all_technical_node_positions_preserved=True),indent=2)+'\n')
     return movie
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--version',type=int,choices=range(1,5));p.add_argument('--pilot',action='store_true');p.add_argument('--width',type=int,default=1920);p.add_argument('--height',type=int,default=1080)
+    p=argparse.ArgumentParser();p.add_argument('--version',type=int,choices=range(1,5));p.add_argument('--pilot',action='store_true');p.add_argument('--focus-wire',action='store_true');p.add_argument('--width',type=int,default=1920);p.add_argument('--height',type=int,default=1080)
     a=p.parse_args();rows,_,_=build_plan()
+    if a.focus_wire:
+        plan=plans(rows)[0];plan['focus_wire']=True
+        plan['segments']=[dict(id='dry',title='Dry Drum Test',start=0.,seconds=4.,purpose='idle mouth/drum review'),
+                          dict(id='00',title='Wire Tree',start=196.,seconds=28.2,purpose='source vocal/lip and instrument review')]
+        print(render(plan,rows,a.pilot,a.width,a.height),flush=True);return
     for plan in plans(rows):
         if a.version and plan['version']!=a.version:continue
         print(render(plan,rows,a.pilot,a.width,a.height),flush=True)

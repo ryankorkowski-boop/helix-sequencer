@@ -1,0 +1,18 @@
+[
+  {
+    "song": "Wire Tree",
+    "sampled_frames": 48,
+    "pose_matrices_checked": 14064,
+    "all_curves_and_voice_lanes_identical": true,
+    "string_contact_and_mallet_schedule_identical": true,
+    "max_pose_error": 0
+  },
+  {
+    "song": "49 (Remastered)",
+    "sampled_frames": 48,
+    "pose_matrices_checked": 14064,
+    "all_curves_and_voice_lanes_identical": true,
+    "string_contact_and_mallet_schedule_identical": true,
+    "max_pose_error": 0
+  }
+]
