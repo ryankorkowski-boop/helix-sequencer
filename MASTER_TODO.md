@@ -2,6 +2,14 @@
 
 ## 2026-10-13 — Android offline launcher and embedded master engine (verification in progress)
 
+Validation update: the first actual Android run caught a missing `helix_intent`
+package in the engine archive. Active `helix_*`/AI/spatial/render packages are now
+included, and an isolated import of the packaged archive passes alongside all
+8 numerical/contract tests. The corrected APK builds locally. CI bootstrap's
+default removed SDK `tools` package was also identified; request only
+`platform-tools`. Both-mode device exports/codec proof remain pending. Code
+checkpoint `966c348c` is published on the feature branch; no primary merge.
+
 Goal: provide an actual Android GUI/app. User explicitly selected entirely-on-phone processing,
 so a desktop companion is not a substitute for the offline requirement. Branch:
 `feature/android-offline-app-20261013`, based on current integrated GUI `50e8d0cc`.

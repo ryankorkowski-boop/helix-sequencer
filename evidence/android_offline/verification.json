@@ -7,11 +7,13 @@
   "canonical_engine_effects": 944,
   "desktop_sources_modified": false,
   "first_android_runtime_failure": "Missing helix_intent in packaged archive; stage roots corrected and isolated archive import now passes",
-  "native_device_tests": "pending corrected APK",
+  "native_device_tests": "pending corrected full-module APK",
   "limitations": [
     "4KB-page native numerical wheels",
     "no Whisper/neural separation",
     "simulated preview",
     "physical phone/performance acceptance pending"
-  ]
+  ],
+  "isolated_archive_import": "pass",
+  "ci_setup_failure": "setup-android requested removed tools package; restrict to platform-tools"
 }
