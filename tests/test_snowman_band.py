@@ -334,5 +334,20 @@ class SnowmanBandTests(unittest.TestCase):
         self.assertTrue(all(cue["end_ms"] > cue["start_ms"] for cue in cues))
 
 
+    def test_band_plan_exposes_keyboard_notes_to_preview(self) -> None:
+        payload = snowman_band.build_snowman_band_plan(
+            parsed_layout=SimpleNamespace(models={"HX_FLOOR_PIANO": object()}),
+            parts=[], lyric_events=[],
+            note_events=[SimpleNamespace(start_ms=250, end_ms=550, notes=[(60, 0.8), (67, 0.7)])],
+            beat_ms=[], kicks=[], snares=[], hats=[], bass_peaks=[],
+            vocal_peaks=[], build_lifts=[], releases=[], enable_lyrics=False,
+        )
+        cues = payload["cues"]["keyboardist"]
+        self.assertEqual(len(cues), 2)
+        self.assertEqual({cue["pitch_midi"] for cue in cues}, {60.0, 67.0})
+        self.assertTrue(all(cue["start_ms"] == 250 and cue["end_ms"] == 550 for cue in cues))
+        self.assertEqual(payload["debug"]["keyboard_cues"], 2)
+
+
 if __name__ == "__main__":
     unittest.main()
