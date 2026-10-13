@@ -14,8 +14,22 @@ all sequencing, original media/layouts, donation destinations and optional natur
 Evidence pending focused wiring/assets checks and rebuilt APK/Windows UI smoke.
 Remote builds38363613273 (Android) and38363613533 (Windows) passed, including native
 Android-to-desktop API transport and actual Windows GUI/worker. Movie audit begins:
-prior recovery38312641499 failed; inspect its retained169MB artifact before assuming
-all newest outputs consumed the latest logic. Six distinct repo songs are available:
+prior recovery38312641499 produced both full movies and native/audio proofs but
+failed because its issue132 wrapper expected status complete while the independent
+runner correctly retained rendered; manual visual frame inspection still required.
+Accept that exact review-pending status while retaining blocked/source-hash/clean
+checkout/full decode gates. Both180.149s movies now independently hash/full-decode
+verified. Comparing7f2600b to current49c1e75 shows no changes in core/audio/animation/
+models or existing render/sequence tools; new GUI/mobile wrappers do not change
+these movies. Thus the retained movies already consume the current lighting logic.
+Generate additional all-song samplers anyway as explicitly requested. New focused
+tools/build_all_song_samplers.py inventories/deduplicates tracked audio, records
+immutable source hashes, composes three distinct six-song90s clips, runs the
+retained advanced-native preset on all six current showcase flavors, and renders
+actual FSEQ colors through the existing NativeSongView. Also produce individual
+Neon Circuit/Celestial Orrery movies for sampler A. Original sources/templates/
+geometry and engine decisions stay unchanged; stock geometry remains illustrative.
+Pending native generation, independent frame/audio QA and durable downloads. Six distinct repo songs are available:
 seven MP3 paths with identical Tinsel duplicate; dry_drum_test.wav is a calibration
 fixture, not a song. Risks/limits: browser/network needed only for voluntary support;
 physical phones/controllers and real-song detection accuracy remain unverified.

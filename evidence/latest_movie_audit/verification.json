@@ -1,0 +1,147 @@
+{
+  "artifact_id": 11776980073,
+  "source_commit": "7f2600b330692f2ce6612cb18e8f00bdb9e34001",
+  "compared_current_commit": "49c1e750705fe75f82978764ab1f83e974dbc18e",
+  "relevant_lighting_logic_changes": [],
+  "workflow_failure": "issue132 success status retains manual visual review; wrapper incorrectly required complete",
+  "movies": [
+    {
+      "movie": "Helix_Band_With_Singers_Same_Sampler.mp4",
+      "sha256": "b2cd765f919c9d253fac79b100b30c00ca44eba6d7067955f86f9e3ba174e054",
+      "bytes": 108853545,
+      "windows": [
+        {
+          "start_seconds": 0,
+          "channel_correlations": [
+            0.9989540607648372,
+            0.9989891547580957
+          ]
+        },
+        {
+          "start_seconds": 30,
+          "channel_correlations": [
+            0.999003364813361,
+            0.9989061977683207
+          ]
+        },
+        {
+          "start_seconds": 60,
+          "channel_correlations": [
+            0.9971828966753937,
+            0.9977420771140394
+          ]
+        },
+        {
+          "start_seconds": 90,
+          "channel_correlations": [
+            0.9983102484023302,
+            0.9984461705338313
+          ]
+        },
+        {
+          "start_seconds": 120,
+          "channel_correlations": [
+            0.9978760974957287,
+            0.9978110921100007
+          ]
+        },
+        {
+          "start_seconds": 150,
+          "channel_correlations": [
+            0.9988800197836322,
+            0.9988702933021923
+          ]
+        },
+        {
+          "start_seconds": 176,
+          "channel_correlations": [
+            0.9976061641554873,
+            0.9977013475653665
+          ]
+        }
+      ],
+      "minimum_correlation": 0.9971828966753937,
+      "AAC_bitstream_sha256": "8d1f30187cc928b441b4f113c5dc0d940cbc6af6429a0bf72e576b3fa05d406a",
+      "same_AAC_bitstream_in_both_movies": true
+    },
+    {
+      "movie": "Helix_Six_Layouts_Same_Real_Sampler.mp4",
+      "sha256": "042ee2dfd99b1f6a7e3f9238a7ed940fa8cabb70e19cb0349a19a89f4cc6eb9f",
+      "bytes": 59493437,
+      "windows": [
+        {
+          "start_seconds": 0,
+          "channel_correlations": [
+            0.9989540607648372,
+            0.9989891547580957
+          ]
+        },
+        {
+          "start_seconds": 30,
+          "channel_correlations": [
+            0.999003364813361,
+            0.9989061977683207
+          ]
+        },
+        {
+          "start_seconds": 60,
+          "channel_correlations": [
+            0.9971828966753937,
+            0.9977420771140394
+          ]
+        },
+        {
+          "start_seconds": 90,
+          "channel_correlations": [
+            0.9983102484023302,
+            0.9984461705338313
+          ]
+        },
+        {
+          "start_seconds": 120,
+          "channel_correlations": [
+            0.9978760974957287,
+            0.9978110921100007
+          ]
+        },
+        {
+          "start_seconds": 150,
+          "channel_correlations": [
+            0.9988800197836322,
+            0.9988702933021923
+          ]
+        },
+        {
+          "start_seconds": 176,
+          "channel_correlations": [
+            0.9976061641554873,
+            0.9977013475653665
+          ]
+        }
+      ],
+      "minimum_correlation": 0.9971828966753937,
+      "AAC_bitstream_sha256": "8d1f30187cc928b441b4f113c5dc0d940cbc6af6429a0bf72e576b3fa05d406a",
+      "same_AAC_bitstream_in_both_movies": true
+    }
+  ],
+  "independent_local_hash_and_full_decode": true,
+  "native_proof": [
+    {
+      "movie": "band_with_singers",
+      "native_frames": 3603,
+      "compared_frames": 3603,
+      "step_ms": 50,
+      "channels": 248832,
+      "mean_pixel_error": 2.511733279162512,
+      "p95_frame_pixel_error": 2.738802485210905,
+      "max_frame_pixel_error": 18.193443769290123,
+      "minimum_frame_mean_light": 25.418390721450617,
+      "model_bindings_valid": true,
+      "all_media_paths_resolve": true,
+      "native_xlights_version": "2026.18",
+      "virtual_matrix_export": true,
+      "individual_physical_prop_articulation": false
+    }
+  ],
+  "native_band_physical_articulation_verified": false
+}

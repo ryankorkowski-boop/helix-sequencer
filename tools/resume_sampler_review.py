@@ -107,7 +107,7 @@ def issue132(kit):
 """)
     script=kit/'helix_256_rgb_showcase_runner_executed.py';script.write_text(s)
     run([sys.executable,script,'--repo',checkout,'--output',destination])
-    result=json.loads((destination/'verification_manifest.json').read_text());assert result['status']=='complete' and not result['blocked']
+    result=json.loads((destination/'verification_manifest.json').read_text());assert result['status'] in {'complete', 'rendered; manual visual frame inspection still required'} and not result['blocked']
     assert result['protected_sha256_before']==result['protected_sha256_after']
     assert subprocess.check_output(['git','status','--porcelain=v1'],cwd=checkout,text=True).strip()==''
     for name in ('Helix_Original_256_Montage.mp4','Helix_Experimental_256_Plus_RGB_Montage.mp4','Helix_256_Before_After_Comparison.mp4'):
