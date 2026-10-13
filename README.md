@@ -122,3 +122,23 @@ powershell -File .\scripts\run_smoke.ps1
 - Use copied, permissioned input files only.
 - Keep run manifests and generated outputs in a dedicated output folder.
 - See [BETA_POLICY.md](docs/BETA_POLICY.md) and [BETA_TESTER_FEEDBACK.md](docs/BETA_TESTER_FEEDBACK.md) for policy and evidence collection.
+
+# Android installation and first show
+
+Use the [official Helix Releases page](https://github.com/ryankorkowski-boop/helix-sequencer/releases)
+to download the current Android APK. Open it with Files/My Files, allow installation
+from that specific trusted app if prompted, then install and launch Helix.
+On Samsung, temporarily disable Settings → Security and privacy → Auto Blocker if
+it blocks installation; retry, then re-enable it. Recheck the setting if it appears
+ineffective: toggling it off/on resolved one reported stuck installation, but is not
+a universal fix. Never leave Android security disabled permanently.
+
+Follow Music → Layout (xLights or legacy LOR LMS) → Style → Generate → Results.
+Advanced controls are optional. Results saves your completed sequence even if the
+optional MP4 fails. Save the show ZIP to keep its layout, configuration and soundtrack.
+
+See the [full Android installation/troubleshooting guide](docs/ANDROID_INSTALLATION.md),
+[Android build notes](android/README.md) and [Google Play preparation](docs/GOOGLE_PLAY_READINESS.md).
+Check published checksums/signing details and back up shows before replacing a
+beta with a different signing certificate.
+

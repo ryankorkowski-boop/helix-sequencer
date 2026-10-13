@@ -110,3 +110,30 @@ Source dependencies and FFmpeg use the same desktop runtime as the existing GUI.
 Older Windows EXEs do not contain these new dispatch routes; rebuild from this
 branch. USB ADB users can use `adb reverse tcp:8765 tcp:8765` and a loopback URL;
 this is optional developer setup, not an APK installation requirement.
+
+# Stability beta 0.3.0
+
+The launcher now guides users through Music, Layout, Style, Advanced, Generate and
+Results. Birdsong, Matrix Intelligence and Polish are behind an expert disclosure;
+their existing defaults/algorithms remain. Default palettes use template/layout
+colors, Neon is explicit, and geometry-gated RGB chorus/drop accents are automatic
+with an Advanced override. Local HPSS remains active with serial joblib execution.
+
+Sequence, packaging and preview have independent outcomes. A portable ZIP is
+checkpointed before rendering; Results can save XSQ/LMS directly, save the ZIP,
+share it through a temporary FileProvider grant, or save the report. Failed previews
+are not presented as playable movies. Extended-size/EOF MP4 boxes are validated
+before an atomic presentation edit; oversized EOF boxes needing >4 GiB relocation
+and fragmented movies are rejected safely.
+
+Build debug APK plus unsigned release artifacts with
+`gradle :app:assembleDebug :app:assembleRelease :app:bundleRelease`.
+Owner-managed signing variables are documented in the
+[Play preparation assessment](../docs/GOOGLE_PLAY_READINESS.md). Unsigned bundles
+are not release-ready. targetSdk/compileSdk are 36; existing numerical wheels
+still require 4 KB pages.
+
+Read the [installation guide](../docs/ANDROID_INSTALLATION.md) before distributing
+or updating a beta. [Candidate release notes](../docs/ANDROID_STABILITY_RELEASE_NOTES.md)
+include security and update guidance for the authorized release workflow.
+

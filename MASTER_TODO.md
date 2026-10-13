@@ -1,5 +1,36 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-13 — Android MP4 stability and guided workflow (verification in progress)
+
+Goal: fix the phone-reported Unsupported MP4 top-level size without changing master
+sequencing/desktop work. Isolated branch feature/android-offline-app-stability-20261013
+starts at the latest offline Android a5e2577; no other branch is overwritten or merged.
+Changed focused Android helix_mp4/helix_mobile, MainActivity/EngineService,
+manifest/provider resources, build/signing configuration, Android instrumentation,
+offline CI and documentation. Master algorithms, original layouts/audio/templates,
+desktop launchers, both established donation destinations and remote pairing are
+preserved. New behavior: validated 32/64-bit/EOF boxes, v0/v1 duration edits,
+atomic MP4 metadata replacement without shifting sample offsets, sequence/ZIP
+checkpoint before optional preview, independent stage outcomes, direct sequence
+export and temporary ZIP share grants, serial joblib with HPSS retained, guided
+six-step UI with saved preferences/first-run help, expert disclosure for three
+existing analysis controls, optional Neon and automatic capability-gated RGB
+chorus/drop chase. New API target is 36 and versionCode 4; release signing uses
+owner variables only, otherwise release APK/AAB remain unsigned.
+Evidence: 33 new focused host regressions pass, including real AAC full decode from
+MP3/WAV normalization and preview/ZIP interruption recovery. Broader retained tests,
+API30/API36 native builds, real-repo MP3/RGB exports and native failure injection
+are pending. Candidate release text and installation/Play assessment are prepared;
+no release/Play publication. Limitations: 4 KB native wheel requirement, no physical
+phone/Windows player/controller verification yet, simulated model-level previews,
+legacy LMS only, >4 GiB EOF boxes needing relocation and fragmented MP4s rejected
+safely. Deferred: owner signing identity, 16 KB rebuild, public privacy-policy URL,
+store approval and closed testing. Risks: OEM codec/container variation, storage
+needed for atomic movie copy and pre/post preview ZIP, long-song resource pressure,
+debug certificate update conflicts. Existing independent desktop/band queues remain
+unchanged; do not mark this task complete until build/device evidence is recorded.
+
+
 Final GUI verification: donation build49c1e75 passes Android38365377084 and
 Windows38365377124. Both compiled launchers expose the two restored support
 buttons; native Android screenshot inspected. Android0.2.1 includes the offline
@@ -800,3 +831,4 @@ Do not mark complete from unit tests alone.
 - [ ] User visual approval and native xLights import/playback remain final acceptance gates.
 
 Final October10 publication handoff: `docs/REVIEW_MOVIE_DOWNLOADS.md` links the46-movie earlier ZIP,179-payload recent ZIP,11 final band MP4s and their ZIP, both six-up artwork reels and the20-concept artwork ZIP. Performance/binary revision `209b6f7416afb35fa366aef272c8b3bd33406e25`; pinned release transport/index revision `9746dfe853431c5c67c5f23d2b5086f9e0508bd4` on `feature/review-media-delivery-2026-10-10`. Release workflow38050908245 succeeded. All32 new movie/transport blobs match, all11 direct MP4 links returnHTTP200, all3 release ZIP sizes/digests match and returnHTTP200; full public earlier/band ZIP downloads match local hashes. Evidence: `evidence/review_movie_archives/publication_final_release.json`, `publication_final_media_blobs.json`, `evidence/snowman_band_upgrade/public_individual_links.json`. Native physical/desktop playback and artistic acceptance are not claimed for the new3D review rig; exact preferred drummer art, confident duet separation and missing historical Android bytes remain documented limitations. Read this ledger before continuing.
+

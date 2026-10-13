@@ -23,12 +23,24 @@ import java.util.zip.*;
 public class OfflineEngineTest {
     public static class Callbacks {
         MediaRuntime.VideoEncoder video;String path,wav;long end;int fps;
+        JSONObject checkpoint;
+        public void checkpoint(String raw)throws Exception{checkpoint=new JSONObject(raw);}
+        public void stage(String stage,String message){}
+        public void previewProgress(int frame,int total){}
         public void log(String value){android.util.Log.i("HelixSmoke",value);}
         public void beginPreview(String path,String wav,int width,int height,int fps)throws Exception{this.path=path;this.wav=wav;this.fps=fps;video=new MediaRuntime.VideoEncoder(path+".video.mp4",width,height,fps);}
         public void previewFrame(byte[] data,long pts)throws Exception{video.frame(data,pts);end=pts+1_000_000L/fps;}
         public void endPreview()throws Exception{video.close();video=null;MediaRuntime.encodeAac(wav,path+".audio.m4a",end+500_000);MediaRuntime.mux(path+".video.mp4",path+".audio.m4a",path,end);new File(path+".audio.m4a").delete();new File(path+".video.mp4").delete();}
         public void decodePreviewAudio(String movie,String wav)throws Exception{MediaRuntime.decodeWav(movie,wav);}
         public void abortPreview(){if(video!=null){video.abort();video=null;}}
+    }
+    public static class FailedPreview extends Callbacks {
+        @Override public void beginPreview(String path,String wav,int width,int height,int fps)throws Exception{
+            assertNotNull(checkpoint);
+            assertTrue(new File(checkpoint.getString("sequence")).isFile());
+            assertTrue(new File(checkpoint.getString("bundle")).isFile());
+            throw new IOException("Injected native preview failure");
+        }
     }
     @Test public void runsBothModesLocallyAndEncodesRealAudio()throws Exception{
         Context context=InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -58,6 +70,26 @@ public class OfflineEngineTest {
             // synthetic test proof in public Downloads so the host can collect it.
             publishProof(context,mode+"-show.zip",Files.readAllBytes(bundle.toPath()),"application/zip");
         }
+        // Real repository music through Android's MP3 decoder and the current RGB layout.
+        File real=new File(context.getFilesDir(),"smoke-real-rgb");File ri=new File(real,"input");ri.mkdirs();
+        Context test=InstrumentationRegistry.getInstrumentation().getContext();
+        try(InputStream in=test.getAssets().open("real-song.mp3");OutputStream out=new FileOutputStream(new File(ri,"source.mp3"))){EngineService.copy(in,out);}
+        try(InputStream in=test.getAssets().open("stability-rgb.xml");OutputStream out=new FileOutputStream(new File(ri,"xlights_rgbeffects.xml"))){EngineService.copy(in,out);}
+        MediaRuntime.decodeWav(new File(ri,"source.mp3").toString(),new File(ri,"audio.wav").toString());
+        JSONObject realRequest=new JSONObject();realRequest.put("mode","xlights");realRequest.put("preview",true);realRequest.put("preview_seconds",8);
+        JSONObject realResult=new JSONObject(Python.getInstance().getModule("helix_mobile").callAttr("run",engine.toString(),real.toString(),realRequest.toString(),new Callbacks()).toString());
+        assertEquals("success",realResult.getJSONObject("stages").getJSONObject("preview").getString("status"));
+        publishProof(context,"real-rgb-show.zip",Files.readAllBytes(new File(realResult.getString("bundle")).toPath()),"application/zip");
+        // A fresh actual engine run with an intentionally failing encoder must export.
+        File failed=new File(context.getFilesDir(),"smoke-failed-preview");File fi=new File(failed,"input");fi.mkdirs();
+        Files.copy(new File(ri,"audio.wav").toPath(),new File(fi,"audio.wav").toPath(),StandardCopyOption.REPLACE_EXISTING);
+        JSONObject failedResult=new JSONObject(Python.getInstance().getModule("helix_mobile").callAttr("run",engine.toString(),failed.toString(),realRequest.toString(),new FailedPreview()).toString());
+        assertEquals("success",failedResult.getJSONObject("stages").getJSONObject("sequencing").getString("status"));
+        assertEquals("failed",failedResult.getJSONObject("stages").getJSONObject("preview").getString("status"));
+        assertEquals("",failedResult.getString("preview"));
+        assertTrue(new File(failedResult.getString("sequence")).isFile());
+        publishProof(context,"failed-preview-show.zip",Files.readAllBytes(new File(failedResult.getString("bundle")).toPath()),"application/zip");
+        context.getSharedPreferences(MainActivity.class.getSimpleName(),0).edit().putBoolean("walkthrough_seen",true).apply();
         android.app.Instrumentation instrumentation=InstrumentationRegistry.getInstrumentation();
         instrumentation.runOnMainSync(()->context.startActivity(new Intent(context,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
         instrumentation.getUiAutomation().waitForIdle(1000,5000);
@@ -78,3 +110,4 @@ public class OfflineEngineTest {
         Files.write(file.toPath(),data.array());
     }
 }
+
