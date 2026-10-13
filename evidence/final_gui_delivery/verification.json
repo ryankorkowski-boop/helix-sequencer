@@ -1,0 +1,48 @@
+{
+  "android": {
+    "source": "49c1e750705fe75f82978764ab1f83e974dbc18e",
+    "run": 38365377084,
+    "file": "Helix-Android-0.2.1.apk",
+    "bytes": 141847489,
+    "sha256": "b070887138706e8f5fea684803cbf0e1978b4914856080bd2df22596f366b202"
+  },
+  "windows": {
+    "source": "49c1e750705fe75f82978764ab1f83e974dbc18e",
+    "run": 38365377124,
+    "file": "Helix-Windows-Portable.zip",
+    "bytes": 189243723,
+    "sha256": "339603460e53b409ab26dcc285428313a0ac6dd667cad90570ae01ac725e52b5"
+  },
+  "audio_video_android_proof": [
+    {
+      "mode": "xlights",
+      "frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "3.000000",
+      "max_mean_pixel_error": 1.764089988425926,
+      "minimum_expected_lit_pixels_visible": 0.9822536181943488,
+      "audio_correlation": 0.9999563842574754,
+      "audio_offset_ms": 0.0
+    },
+    {
+      "mode": "lor",
+      "frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "3.000000",
+      "max_mean_pixel_error": 1.6675622106481482,
+      "minimum_expected_lit_pixels_visible": 0.9634881247784474,
+      "audio_correlation": 0.9999563842574754,
+      "audio_offset_ms": 0.0
+    }
+  ],
+  "remote_android_transport": {
+    "schema": "helix.remote.transport.proof.v1",
+    "native_android_transport": true,
+    "desktop_api": true,
+    "auth_upload_start_status_cancel_download": true,
+    "musical_engine_test": false,
+    "remote_activity_launched": true
+  }
+}

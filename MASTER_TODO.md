@@ -1,5 +1,36 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+Final GUI verification: donation build49c1e75 passes Android38365377084 and
+Windows38365377124. Both compiled launchers expose the two restored support
+buttons; native Android screenshot inspected. Android0.2.1 includes the offline
+engine and optional desktop remote; actual transport auth/upload/start/status/
+cancel/download and remote activity pass. Independent Android full decode matches
+45frames per mode,0ms audio offset,.99995638correlation, visual mean error<=1.765.
+All33 focused host checks pass. Desktop real HTTP/canonical xLights+LOR exports
+and Windows packaged engine/GUI also pass. Current GUI controls inventoried for
+delivery. Source/desktop/core behavior stays intact; debug signing,4KB offline
+page requirement and physical phone/controller limits stay explicit. Evidence:
+evidence/final_gui_delivery/verification.json. No primary merge.
+
+Delivery complete: native render38367553613, split transport38370448272, APK/
+Windows donation builds38365377084/38365377124 all succeed. All15 requested
+installer/movie/show/control/proof files are saved and downloadable. Five new
+90s movies cover all six unique repo songs, three different clip/order samplers
+and all six advanced native layouts. Every93/89/94/98/93/95RGB model activates
+in each of A/B/C; control channels stay dark. Decoded frames visually inspected;
+independent audio correlations>=.99385584 and sampled pixel error<=2.156/255.
+Seven-movie ZIP includes the two recovered exact prior180.149s movies. Native
+show ZIP contains18verified All_Songs XSQs, layouts/models and music, with raw
+intermediate/seed templates excluded. Original sources/geometry/engine unchanged.
+Final evidence:evidence/all_song_samplers/verification.json and
+evidence/final_gui_delivery/verification.json. User handoff includes complete
+desktop/Android local+remote control inventories and both installer links.
+Limits preserved: debug beta/4KB offline pages, physical phones/controllers and
+voice/instrument detection accuracy unverified, illustrative stock geometry,
+native band matrix parity only. No primary merge. Previous queue is complete
+for the requested beta/apps/sample artifacts; hardware/artistic acceptance and
+other roadmap items retain their original separate status.
+
 ## 2026-10-13 — Restore GUI donations and finish requested delivery
 
 User requests both donation buttons, complete control inventories, current Android/
