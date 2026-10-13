@@ -30,6 +30,7 @@ def stage(output: Path) -> dict:
             selected.append(name)
     manifest = {'schema': 'helix.android.engine.v1', 'commit': subprocess.check_output(
         ['git', 'rev-parse', 'HEAD'], cwd=ROOT).decode().strip(), 'files': {}}
+    (output / "support-links.json").write_bytes((ROOT / "config/support_links.json").read_bytes())
     archive = output / 'helix-engine.zip'
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as z:
         for name in sorted(selected):

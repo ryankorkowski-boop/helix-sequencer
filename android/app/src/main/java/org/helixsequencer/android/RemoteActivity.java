@@ -32,6 +32,7 @@ public class RemoteActivity extends Activity {
         super.onCreate(saved);ScrollView scroll=new ScrollView(this);body=new LinearLayout(this);body.setOrientation(1);body.setPadding(dp(20),dp(24),dp(20),dp(28));scroll.addView(body);setContentView(scroll);
         body.setOnApplyWindowInsetsListener((v,i)->{v.setPadding(dp(20),dp(24)+i.getSystemWindowInsetTop(),dp(20),dp(28)+i.getSystemWindowInsetBottom());return i;});
         text("HELIX · Desktop remote",27);text("Start Phone Remote in desktop Helix, then pair here. Use a reachable local network, USB tether or VPN. HTTPS is required for a public address.",14);
+        SupportLinks.add(this,body);
         address=field("Desktop URL · e.g. http://192.168.1.20:8765",getPreferences(0).getString("address",""),false);
         key=field("Pairing key from desktop Helix",getPreferences(0).getString("key",""),false);key.setInputType(129);
         button("Connect to desktop",this::connect);text("Sequence mode",14);mode=spinner("xLights · XSQ","Light-O-Rama · LMS");

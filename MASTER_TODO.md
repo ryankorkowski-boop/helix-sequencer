@@ -1,5 +1,25 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-13 — Restore GUI donations and finish requested delivery
+
+User requests both donation buttons, complete control inventories, current Android/
+Windows download links and sample movies; prior all-song/advanced-layout queue stays
+active. Inspection found current launchers lacked the archived Support xLights and
+Helix author links. Restore both exact destinations through config/support_links.json,
+Python support loader and native Android SupportLinks helper; stage shared JSON in
+the APK and existing portable config resources. Official xLights homepage still links
+to the same PayPal button ID. Both Android local/remote screens and desktop launcher
+now expose Donate to xLights/Donate to Helix; clicks open a browser only. Preserve
+all sequencing, original media/layouts, donation destinations and optional nature.
+Evidence pending focused wiring/assets checks and rebuilt APK/Windows UI smoke.
+Remote builds38363613273 (Android) and38363613533 (Windows) passed, including native
+Android-to-desktop API transport and actual Windows GUI/worker. Movie audit begins:
+prior recovery38312641499 failed; inspect its retained169MB artifact before assuming
+all newest outputs consumed the latest logic. Six distinct repo songs are available:
+seven MP3 paths with identical Tinsel duplicate; dry_drum_test.wav is a calibration
+fixture, not a song. Risks/limits: browser/network needed only for voluntary support;
+physical phones/controllers and real-song detection accuracy remain unverified.
+
 ## 2026-10-13 — Android desktop remote control (implementation in progress)
 
 Goal: user-requested remote control after completing the offline Android beta.

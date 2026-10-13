@@ -45,6 +45,13 @@ def main() -> int:
             app.lor_compatible_var.set(False)
             assert str(app.palette_combo.cget("state")) == "readonly"
             assert str(app.template_entry.cget("state")) == "normal"
+            def widget_labels(widget):
+                labels=[]
+                try: labels.append(str(widget.cget("text")))
+                except Exception: pass
+                for child in widget.winfo_children(): labels.extend(widget_labels(child))
+                return labels
+            assert {"Donate to xLights", "Donate to Helix"}.issubset(widget_labels(app)), "Donation controls missing"
             app._open_phone_remote()
             app.update_idletasks()
             assert app._phone_link_window.winfo_exists(), "Phone remote dialog missing"

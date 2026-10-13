@@ -71,6 +71,7 @@ public class MainActivity extends Activity {
         text("HELIX", 34, Color.rgb(86,230,197));
         text("Your music. Your lights. On your phone.", 17, Color.WHITE);
         text("Offline beta • Sequences and simulated previews run on this device. Keep Helix open for best performance.", 13, Color.LTGRAY);
+        SupportLinks.add(this, body);
         button("Control desktop Helix", () -> startActivity(new Intent(this, RemoteActivity.class)));
         text("Sequence mode", 14, Color.rgb(101,169,255)); mode = spinner(new String[]{"xLights · XSQ", "Light-O-Rama · LMS"});
         select("audio", "Choose song"); select("layout", "Choose xLights layout (or use bundled 256-channel)");

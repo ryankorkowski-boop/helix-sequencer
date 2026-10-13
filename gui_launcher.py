@@ -5,6 +5,7 @@ import queue
 import subprocess
 import sys
 import threading
+import webbrowser
 from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
@@ -253,6 +254,10 @@ class HelixGui(tk.Tk):
         self.run_button = ttk.Button(actions, text="Run Sequence Build", command=self._run_sequence)
         self.run_button.pack(side=tk.LEFT, padx=8, pady=6)
         ttk.Button(actions, text="Phone Remote", command=self._open_phone_remote).pack(side=tk.LEFT, padx=8, pady=6)
+        from tools.support_links import links
+        support = links()
+        for label, key in (("Donate to xLights", "xlights"), ("Donate to Helix", "helix")):
+            ttk.Button(actions, text=label, command=lambda url=support[key]: webbrowser.open(url)).pack(side=tk.LEFT, padx=6, pady=6)
         self.status_label = ttk.Label(actions, text="Ready")
         self.status_label.pack(side=tk.LEFT, padx=8, pady=6)
 
