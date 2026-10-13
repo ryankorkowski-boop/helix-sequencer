@@ -104,10 +104,11 @@ public class EngineService extends Service {
         encoder.close();encoder=null;
         String audio=previewDestination+".audio.m4a";
         try{
-            MediaRuntime.encodeAac(previewWav,audio,previewDuration);
+            MediaRuntime.encodeAac(previewWav,audio,previewDuration+500_000);
             MediaRuntime.mux(previewDestination+".video.mp4",audio,previewDestination,previewDuration);
         }finally{new File(audio).delete();new File(previewDestination+".video.mp4").delete();}
     }
+    public void decodePreviewAudio(String movie,String wav)throws Exception{MediaRuntime.decodeWav(movie,wav);}
     public void abortPreview(){if(encoder!=null){encoder.abort();encoder=null;}}
     @Override public void onTimeout(int id,int fgsType){if(job!=null)state("failed","Android stopped a build after its foreground time limit",null);stopSelf();}
     @Override public void onDestroy(){abortPreview();super.onDestroy();android.os.Process.killProcess(android.os.Process.myPid());}

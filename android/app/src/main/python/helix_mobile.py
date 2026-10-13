@@ -99,10 +99,17 @@ def render_preview(xsq, layout, wav, seconds, callback):
     except BaseException:
         callback.abortPreview()
         raise
+    from helix_mp4 import synchronize
+    decoded = output.with_suffix('.alignment.wav')
+    try:
+        callback.decodePreviewAudio(str(output), str(decoded))
+        alignment = synchronize(output, wav, decoded, intensities.shape[1]/fps)
+    finally:
+        decoded.unlink(missing_ok=True)
     output.with_suffix('.preview_provenance.json').write_text(json.dumps({
         'schema': 'helix.preview_provenance.v1', 'native_xlights': False,
         'source': 'Helix simulated effect-level model preview; Android MediaCodec H.264/AAC',
-        'duration_seconds': seq.duration_ms/1000, 'fps': fps,
+        'duration_seconds': intensities.shape[1]/fps, 'fps': fps, 'audio_alignment': alignment,
     }, indent=2))
     return output
 

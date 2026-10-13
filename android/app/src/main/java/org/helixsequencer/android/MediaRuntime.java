@@ -50,14 +50,14 @@ public final class MediaRuntime {
         MediaCodec codec=null;MediaMuxer muxer=null;boolean muxStarted=false;
         try(RandomAccessFile in=new RandomAccessFile(wav,"r")){
             byte[] header=new byte[44];in.readFully(header);ByteBuffer h=ByteBuffer.wrap(header).order(ByteOrder.LITTLE_ENDIAN);
-            int channels=h.getShort(22),rate=h.getInt(24);long max=Math.min(in.length()-44,duration*rate*channels*2/1_000_000);
+            int channels=h.getShort(22),rate=h.getInt(24);long available=in.length()-44,max=duration*rate*channels*2/1_000_000;
             MediaFormat format=MediaFormat.createAudioFormat("audio/mp4a-latm",rate,channels);format.setInteger(MediaFormat.KEY_AAC_PROFILE,MediaCodecInfo.CodecProfileLevel.AACObjectLC);
             format.setInteger(MediaFormat.KEY_BIT_RATE,128000);codec=MediaCodec.createEncoderByType("audio/mp4a-latm");codec.configure(format,null,null,MediaCodec.CONFIGURE_FLAG_ENCODE);codec.start();
             muxer=new MediaMuxer(output,MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);int track=-1;boolean inputDone=false,done=false;long consumed=0,lastProgress=System.nanoTime();
             MediaCodec.BufferInfo info=new MediaCodec.BufferInfo();
             while(!done){
                 if(!inputDone){int i=codec.dequeueInputBuffer(10000);if(i>=0){ByteBuffer b=codec.getInputBuffer(i);int n=(int)Math.min(b.capacity(),max-consumed);n-=n%(channels*2);
-                    byte[] data=new byte[n];in.readFully(data);b.put(data);codec.queueInputBuffer(i,0,n,consumed*1_000_000/(rate*channels*2),n==0?MediaCodec.BUFFER_FLAG_END_OF_STREAM:0);consumed+=n;if(n==0)inputDone=true;}}
+                    byte[] data=new byte[n];int real=(int)Math.min(n,Math.max(0,available-consumed));if(real>0)in.readFully(data,0,real);b.put(data);codec.queueInputBuffer(i,0,n,consumed*1_000_000/(rate*channels*2),n==0?MediaCodec.BUFFER_FLAG_END_OF_STREAM:0);consumed+=n;if(n==0)inputDone=true;}}
                 int i=codec.dequeueOutputBuffer(info,10000);
                 if(i==MediaCodec.INFO_OUTPUT_FORMAT_CHANGED){track=muxer.addTrack(codec.getOutputFormat());muxer.start();muxStarted=true;}
                 if(i>=0){lastProgress=System.nanoTime();if(info.size>0&&(info.flags&MediaCodec.BUFFER_FLAG_CODEC_CONFIG)==0)muxer.writeSampleData(track,codec.getOutputBuffer(i),info);
@@ -74,7 +74,7 @@ public final class MediaRuntime {
             ByteBuffer buffer=ByteBuffer.allocateDirect(4*1024*1024);MediaCodec.BufferInfo info=new MediaCodec.BufferInfo();
             while(v.getSampleTime()>=0||a.getSampleTime()>=0){
                 long vt=v.getSampleTime(),at=a.getSampleTime();boolean videoNext=vt>=0&&(at<0||vt<=at);MediaExtractor e=videoNext?v:a;
-                if(e.getSampleTime()>=maxPts){while(e.advance()){}continue;}
+                if(videoNext&&e.getSampleTime()>=maxPts){while(e.advance()){}continue;}
                 buffer.clear();int n=e.readSampleData(buffer,0);if(n<0)break;
                 info.set(0,n,e.getSampleTime(),e.getSampleFlags());m.writeSampleData(videoNext?vo:ao,buffer,info);e.advance();
             }

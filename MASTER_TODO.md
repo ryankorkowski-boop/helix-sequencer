@@ -27,6 +27,15 @@ the app, losing its private ZIPs; retain synthetic-only proofs through scoped
 MediaStore Downloads during the test and fail collection if missing. Independent
 decoded-pixel/audio QA and installer saving remain the final offline gates.
 
+Independent decode update: CI38352084411 retains both native proof ZIPs and launcher screenshot.
+Visual comparison passes, but actual AAC had2048samples/92.88ms priming delay.
+Changed native codec/mux callbacks to retain500ms audio tail, measure actual encoded
+PCM correlation on the phone, and add a standard MP4 audio edit without moving media
+chunk offsets. New helix_mp4.py and independent proof decoder verify presentation
+alignment; original source/engine/effects/fades preserved. Pending fresh native CI
+and decoded soundtrack QA. Risk: unusual codec delay or poor correlation fails visibly
+instead of silently producing a mistimed movie. Physical devices remain unverified.
+
 Goal: provide an actual Android GUI/app. User explicitly selected entirely-on-phone processing,
 so a desktop companion is not a substitute for the offline requirement. Branch:
 `feature/android-offline-app-20261013`, based on current integrated GUI `50e8d0cc`.

@@ -112,3 +112,15 @@ def test_short_preview_matches_full_timeline_and_keeps_fade_shape():
     assert leaves==short_leaves and short.shape[1]==45
     np.testing.assert_allclose(short,full[:,:45])
     assert sequence.duration_ms==8000 and sequence.model_effects[name][1].start_ms==5000
+
+
+def test_native_aac_delay_is_measured_from_actual_pcm(tmp_path):
+    import soundfile as sf
+    from helix_mp4 import measure_delay
+    rate=22050
+    signal=np.random.default_rng(67).normal(0,.1,(rate*3,2)).astype('float32')
+    source=tmp_path/'source.wav';decoded=tmp_path/'decoded.wav'
+    sf.write(source,signal,rate,subtype='PCM_16')
+    sf.write(decoded,np.vstack([np.zeros((2048,2)),signal,np.zeros((rate//2,2))]),rate,subtype='PCM_16')
+    delay,sr,correlation=measure_delay(source,decoded,3)
+    assert delay==2048 and sr==rate and correlation>.999

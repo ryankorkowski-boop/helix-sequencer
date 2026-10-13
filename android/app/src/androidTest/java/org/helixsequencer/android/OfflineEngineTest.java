@@ -26,7 +26,8 @@ public class OfflineEngineTest {
         public void log(String value){android.util.Log.i("HelixSmoke",value);}
         public void beginPreview(String path,String wav,int width,int height,int fps)throws Exception{this.path=path;this.wav=wav;this.fps=fps;video=new MediaRuntime.VideoEncoder(path+".video.mp4",width,height,fps);}
         public void previewFrame(byte[] data,long pts)throws Exception{video.frame(data,pts);end=pts+1_000_000L/fps;}
-        public void endPreview()throws Exception{video.close();video=null;MediaRuntime.encodeAac(wav,path+".audio.m4a",end);MediaRuntime.mux(path+".video.mp4",path+".audio.m4a",path,end);new File(path+".audio.m4a").delete();new File(path+".video.mp4").delete();}
+        public void endPreview()throws Exception{video.close();video=null;MediaRuntime.encodeAac(wav,path+".audio.m4a",end+500_000);MediaRuntime.mux(path+".video.mp4",path+".audio.m4a",path,end);new File(path+".audio.m4a").delete();new File(path+".video.mp4").delete();}
+        public void decodePreviewAudio(String movie,String wav)throws Exception{MediaRuntime.decodeWav(movie,wav);}
         public void abortPreview(){if(video!=null){video.abort();video=null;}}
     }
     @Test public void runsBothModesLocallyAndEncodesRealAudio()throws Exception{
