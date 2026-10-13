@@ -1,6 +1,6 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
-## 2026-10-13 — Android offline launcher and embedded master engine (verification in progress)
+## 2026-10-13 — Android offline launcher and embedded master engine (verified beta)
 
 Validation update: the first actual Android run caught a missing `helix_intent`
 package in the engine archive. Active `helix_*`/AI/spatial/render packages are now
@@ -32,9 +32,22 @@ Visual comparison passes, but actual AAC had2048samples/92.88ms priming delay.
 Changed native codec/mux callbacks to retain500ms audio tail, measure actual encoded
 PCM correlation on the phone, and add a standard MP4 audio edit without moving media
 chunk offsets. New helix_mp4.py and independent proof decoder verify presentation
-alignment; original source/engine/effects/fades preserved. Pending fresh native CI
-and decoded soundtrack QA. Risk: unusual codec delay or poor correlation fails visibly
+alignment; original source/engine/effects/fades preserved. CI38353979586 passes both native Android modes. Its independent host check
+failed because ffprobe was absent from the runner; explicitly install FFmpeg.
+Native artifacts are retained for local decoded soundtrack QA. Risk: unusual codec delay or poor correlation fails visibly
 instead of silently producing a mistimed movie. Physical devices remain unverified.
+
+Verified beta outcome: commit29be376f, native artifact11792785078 passes actual
+xLights/LOR engine/codec/export/launcher tests. Independent local full decoding
+checks both45frame movies: audio offset0ms, correlation.99995638, visual mean
+error<=1.765/255 and expected lit visibility>=.9634. All10 host checks pass.
+Evidence:evidence/android_offline/verification.json. CI native steps succeeded;
+FFprobe installation is fixed for the next full workflow. Debug APK available,
+ARM64 packaged but actual native proof is Android30 x86_64; physical phones,16KB
+pages, Play Store signing and xLights hardware acceptance remain unverified.
+Preserved runtime warning: original snowman planner can skip on composite_submodels
+schema mismatch; do not count this as band planning validation. Offline app job
+is complete as a beta; proceed to desktop remote control, then all-song movie work.
 
 Goal: provide an actual Android GUI/app. User explicitly selected entirely-on-phone processing,
 so a desktop companion is not a substitute for the offline requirement. Branch:

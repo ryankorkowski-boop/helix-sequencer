@@ -92,6 +92,8 @@ jobs:
           script: python ../tools/run_android_device_smoke.py
       - name: Independently decode native video and soundtrack
         run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
           python -m pip install numpy scipy soundfile Pillow
           PYTHONPATH=. python tools/verify_android_device_proof.py android/app/build/device-proof --output android/app/build/device-proof/decoded
       - uses: actions/upload-artifact@v4

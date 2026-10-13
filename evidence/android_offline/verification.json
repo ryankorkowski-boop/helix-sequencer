@@ -1,20 +1,42 @@
 {
-  "schema": "helix.android.verification.v1",
-  "status": "in_progress",
-  "base_commit": "50e8d0cc4d4c47fc6e0e6d73c91f8a20f2227a55",
-  "host_numeric_parity_tests": 9,
-  "synthetic_audio_seconds": 8,
-  "canonical_engine_effects": 944,
-  "desktop_sources_modified": false,
-  "first_android_runtime_failure": "Missing helix_intent in packaged archive; stage roots corrected and isolated archive import now passes",
-  "native_device_tests": "rerunning both modes after short-preview fix",
-  "limitations": [
-    "4KB-page native numerical wheels",
-    "no Whisper/neural separation",
-    "simulated preview",
-    "physical phone/performance acceptance pending"
+  "source_commit": "29be376f3f39af4e4d0b1f747dedd72a859d1e82",
+  "native_ci_run": 38353979586,
+  "native_artifact": 11792785078,
+  "apk_sha256": "03793a6de09af5c726f584371a2a22f81f2750be46f9c1e0c882c432be14089c",
+  "apk_bytes": 141821493,
+  "host_checks": 10,
+  "native_environment": "Android30 x86_64 emulator; physical phone and16KB pages unverified",
+  "native_tests": "both canonical xLights and legacy LOR exports, real codecs and launcher",
+  "independent_decode": [
+    {
+      "mode": "xlights",
+      "frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "3.000000",
+      "max_mean_pixel_error": 1.764089988425926,
+      "minimum_expected_lit_pixels_visible": 0.9822536181943488,
+      "audio_correlation": 0.9999563842574755,
+      "audio_offset_ms": 0.0
+    },
+    {
+      "mode": "lor",
+      "frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "3.000000",
+      "max_mean_pixel_error": 1.6675622106481482,
+      "minimum_expected_lit_pixels_visible": 0.9634881247784474,
+      "audio_correlation": 0.9999563842574755,
+      "audio_offset_ms": 0.0
+    }
   ],
-  "isolated_archive_import": "pass",
-  "ci_setup_failure": "setup-android requested removed tools package; restrict to platform-tools",
-  "short_preview_prefix_regression": "pass; keeps original fade end times"
+  "limits": [
+    "Simulated effect-level renderer",
+    "No native xLights/physical-controller validation",
+    "4KB pages only",
+    "Debug signing",
+    "No neural separation or Whisper",
+    "Original snowman planning can log composite_submodels schema warning"
+  ]
 }
