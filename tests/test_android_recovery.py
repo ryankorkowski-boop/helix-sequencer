@@ -19,6 +19,9 @@ class Callback:
 
 @pytest.fixture
 def completed_job(tmp_path,monkeypatch):
+    # The bridge intentionally sets JIT off in its dedicated Android process.
+    # Restore that environment change after each in-process host recovery fixture.
+    monkeypatch.setenv('NUMBA_DISABLE_JIT', '0')
     from core import sequence_builder
     from tools import preview_renderer
     import helix_numba

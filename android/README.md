@@ -8,16 +8,16 @@ account, server or internet connection is required for offline builds.
 
 1. Install the provided APK. Android may ask you to allow installation from the
    app used to open the downloaded APK.
-2. Open **Helix**, choose **xLights** or **Light-O-Rama**, then select a song using
+2. Open **Helix**, follow the Music step, then choose **xLights** or **Light-O-Rama** in Layout. Select a song using
    Android's file picker. MP3, WAV, FLAC, OGG and M4A support depends on the phone's
    installed Android codecs; unsupported audio produces a visible error.
 3. In xLights mode, choose your own `xlights_rgbeffects.xml` and XSQ template, or
    use the bundled original layout/template. Controller XML and routing JSON are
    optional. In LOR mode, supply an existing legacy `.lms` containing the real
    Unit/Circuit addresses. Native `.loredit` is unsupported.
-4. Start with one variant and a short preview. Tap **Build sequence on this
-   phone**. The notification keeps the job visible while the app is in the
-   background. **Cancel build** stops the isolated engine process.
+4. Start with one variant and a short preview. Tap **Generate sequence** in
+   Generate. The notification keeps the job visible while the app is in the
+   background. **Cancel current job** stops the isolated engine process.
 5. Play the preview or save the show ZIP and MP4 to a folder you choose.
 
 Sources are copied into a fresh private job directory and never overwritten.
@@ -50,7 +50,7 @@ multi-job library is deferred.
 
 ## Build
 
-Use JDK 17, Gradle 8.11.1, Android SDK 35 / build-tools 35.0.0 and Python 3.10.
+Use JDK 17, Gradle 8.11.1, Android SDK 36 / build-tools 36.0.0 and Python 3.10.
 Android Studio can use the same configuration. Install Python build tools first:
 
 ```sh

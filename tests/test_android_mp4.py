@@ -93,6 +93,19 @@ def test_large_duration_upgrades_headers_and_edit_list(tmp_path):
     assert struct.unpack_from('>IIQq',revised,elst)==(1<<24,1,5_000_000_000,0)
 
 
+def test_eof_media_container_does_not_swallow_appended_audio_edit(tmp_path):
+    data=movie()
+    mdia=data.index(b'mdia')-4
+    data=data[:mdia]+b'\0\0\0\0'+data[mdia+4:]
+    path=tmp_path/'eof-mdia.mp4';path.write_bytes(data)
+    mp4.add_audio_edit(path,0,22050,3)
+    revised=path.read_bytes();root=list(mp4._boxes(revised))[-1]
+    start,end=root[0]+root[3],root[0]+root[1]
+    track=mp4._child(revised,start,end,b'trak')
+    parts=list(mp4.boxes(revised,track[0]+track[3],track[0]+track[1]))
+    assert [kind for _,_,kind in parts]==[b'tkhd',b'mdia',b'edts']
+
+
 @pytest.mark.parametrize('audio_format', ['wav','mp3'])
 @pytest.mark.parametrize('seconds', [2,30])
 def test_real_aac_edit_full_decode_and_soundtrack_alignment(tmp_path,audio_format,seconds):

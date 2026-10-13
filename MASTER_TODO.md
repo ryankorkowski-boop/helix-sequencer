@@ -2,6 +2,16 @@
 
 ## 2026-10-13 — Android MP4 stability and guided workflow (verification in progress)
 
+Follow-up: a nested terminal size=0 mdia must be made finite when the revised audio
+track gains an edts sibling, so it cannot swallow the new edit. A focused MP4
+regression covers this case. Host recovery fixtures now restore their intentional
+JIT environment change before desktop-parity subprocess tests. Changed helix_mp4,
+test_android_mp4, test_android_recovery and Android README; master/source behavior
+is preserved. 34 parser/recovery checks pass after the nested-EOF addition.
+First API30 and API36 beta build/instrumentation/native decode at 6dfc91a pass;
+audio correlations .99995638 and 0ms offset, pixel error <=2.208/255. Final expanded
+full-song tests, source-aligned builds and artifact delivery remain pending.
+
 Goal: fix the phone-reported Unsupported MP4 top-level size without changing master
 sequencing/desktop work. Isolated branch feature/android-offline-app-stability-20261013
 starts at the latest offline Android a5e2577; no other branch is overwritten or merged.

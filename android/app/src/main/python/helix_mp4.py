@@ -175,6 +175,10 @@ def _edited_moov(original, samples, sample_rate, seconds):
                 for t, z, k, _ch, _ce in parts:
                     if k != b'edts':
                         child = piece[t:t+z]
+                        # A terminal size=0 child must become finite before an
+                        # edit sibling is appended, or it would swallow edts.
+                        if _ce:
+                            child = struct.pack('>I', z) + child[4:]
                         pieces.append(_duration(child, duration, track=True) if k == b'tkhd' else child)
                 piece = box(b'trak', b''.join(pieces) + edit)
         result.append(piece)
