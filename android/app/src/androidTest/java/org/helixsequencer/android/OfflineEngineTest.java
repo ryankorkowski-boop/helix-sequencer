@@ -114,6 +114,8 @@ public class OfflineEngineTest {
                 android.widget.Button tab=findButton(launcher.getWindow().getDecorView(),screen);assertNotNull(tab);tab.performClick();
             });
             instrumentation.getUiAutomation().waitForIdle(1000,5000);
+            // Accessibility idleness alone can precede the compositor's frame.
+            instrumentation.waitForIdleSync();Thread.sleep(500);
             android.graphics.Bitmap image=instrumentation.getUiAutomation().takeScreenshot();assertNotNull(image);
             ByteArrayOutputStream bytes=new ByteArrayOutputStream();image.compress(android.graphics.Bitmap.CompressFormat.PNG,100,bytes);image.recycle();
             publishProof(context,"screen-"+screen.toLowerCase()+".png",bytes.toByteArray(),"image/png");

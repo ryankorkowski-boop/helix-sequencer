@@ -18,6 +18,13 @@ fresh installation and creates its marker directory before verifying same-key
 reinstall persistence. adb redirection is quoted as one fixed remote command.
 Production app code remains unchanged; install/upgrade validation remains pending.
 
+Screenshot QA caught a compositor-latency capture (the Style image still showed
+Layout). Instrumentation now waits for UI idle plus a frame interval before each
+capture. This changes test capture timing only; the production navigation is
+unchanged. Reinspect final real screenshots before delivering store-preparation
+assets. MP4 inspection directly confirms native mdat size_field=1, the exact
+extended-size condition rejected by the old Android reader.
+
 Follow-up: a nested terminal size=0 mdia must be made finite when the revised audio
 track gains an edts sibling, so it cannot swallow the new edit. A focused MP4
 regression covers this case. Host recovery fixtures now restore their intentional
