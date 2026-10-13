@@ -1,0 +1,17 @@
+{
+  "schema": "helix.android.verification.v1",
+  "status": "in_progress",
+  "base_commit": "50e8d0cc4d4c47fc6e0e6d73c91f8a20f2227a55",
+  "host_numeric_parity_tests": 8,
+  "synthetic_audio_seconds": 8,
+  "canonical_engine_effects": 944,
+  "desktop_sources_modified": false,
+  "first_android_runtime_failure": "Missing helix_intent in packaged archive; stage roots corrected and isolated archive import now passes",
+  "native_device_tests": "pending corrected APK",
+  "limitations": [
+    "4KB-page native numerical wheels",
+    "no Whisper/neural separation",
+    "simulated preview",
+    "physical phone/performance acceptance pending"
+  ]
+}

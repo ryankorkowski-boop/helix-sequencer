@@ -1,5 +1,44 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-13 — Android offline launcher and embedded master engine (verification in progress)
+
+Goal: provide an actual Android GUI/app. User explicitly selected entirely-on-phone processing,
+so a desktop companion is not a substitute for the offline requirement. Branch:
+`feature/android-offline-app-20261013`, based on current integrated GUI `50e8d0cc`.
+
+Changed modules: `android/` native activity, isolated foreground service, Chaquopy runtime,
+Android audio decode/H.264/AAC export, document picker/saving, preview player and build files;
+`tools/stage_android_engine.py`, `tools/build_android_python_wheels.py`, focused Android tests,
+Android build/instrumentation workflow and this ledger. Preserve all existing desktop GUI,
+engine, audio/layout/template bytes, prior band changes and prior media. No primary merge.
+
+New behavior: native launcher builds xLights XSQ or address-preserving legacy LOR LMS using
+the existing master engine, supports original/custom layouts, template, controller/routing
+files, neon/default palettes, matrix/Birdsong/polish and AC-safe controls, saves show ZIP and
+requested simulated soundtrack MP4, retains current-job state/log and cancels the dedicated
+engine process. Numerical adapter runs original librosa kernels without LLVM; only upstream
+librosa Numba dependency metadata changes in the APK wheel, with source/data identity checked.
+Native package dependencies must still resolve normally (never omit libsndfile/OpenBLAS).
+
+Evidence so far: 8 focused checks pass, including isolated original-librosa vs mobile-kernel
+parity for beats/onsets/HPSS/CQT/pitch/extrema/zero crossings/peak picking; canonical eight-second
+synthetic song run under Python3.10, NumPy1.23.3, SciPy1.8.1 exports 944 actual effects,
+nonempty XSQ, packaged layout/audio and ZIP. This is host runtime evidence, not yet Android
+device proof. Android APK build and Android30 software-emulator both-mode H.264/AAC/export
+instrumentation are underway. Verification must record actual results before completion.
+
+Limits/deferred/risks: no Android Whisper/neural separation, no `.loredit`, simulated house
+preview rather than native xLights/controller parity, slower uncompiled numerical kernels,
+older scientific wheels need 4KB memory pages, no Play Store/release-signing approval.
+Memory pressure and Android foreground time limits can stop long jobs. Physical phone testing
+and large-song performance remain separate acceptance gates. Main/other branches unchanged.
+
+User's additional work queue (2026-10-13): finish these current offline Android jobs first;
+then add Android control of a Helix desktop program; then audit newest MP4 provenance against
+latest logic, update rendering workflow, and produce fresh/more sampler films covering every
+available repository song and the most advanced layouts. Preserve original goals and previous
+samplers. These added tasks are pending; do not mark them complete from Android tests.
+
 ## 2026-10-12 — recover durable sampler delivery after execution environment outage
 
 The local workspace disconnected after both exact180.149s movies,3603frames each, sixnative layouts, native band matrix and isolated issue132films had been rendered/verified. The final local save could not execute. All valid GUI/band implementation is on323b6cde; all seven latest CI workflows, including actual Windows workers, pass. Do not claim durable links for the unsaved new local films. Rebuild on isolated GitHubActions using the exact prior WAV hash0fc2ab5d. Only ephemeral runner RSA keys decrypt temporary source transfer capabilities; credentials/private source layout package must never enter public files/logs. New orchestration:tools/sampler_build_transfer.py,tools/resume_sampler_review.py and recover-sampler-review.yml. Original assets, sequencing logic, primary branch and legacy clean experiment source remain unchanged. Encrypted transfer succeeded; rebuild dependencies and focused regressions pass. Actual rendering/native validation and publication are in progress at38312641499. Detailed handoff and numerical local receipts are preserved in docs/GUI_AND_SAMPLER_HANDOFF.md and evidence/gui_integration/checkpoint.json. Await rebuilt checks/download verification before final delivery. Limits:legacyLMS, guessed instrument identity/score/phone boundaries, approximate stock preview geometry and video-only physical band parity remain explicit.

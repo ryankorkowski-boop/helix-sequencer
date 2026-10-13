@@ -1,0 +1,48 @@
+plugins { id 'com.android.application'; id 'com.chaquo.python' }
+android {
+    namespace 'org.helixsequencer.android'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'org.helixsequencer.android'
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName '0.1.0-offline-beta'
+        ndk { abiFilters 'arm64-v8a', 'x86_64' }
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    sourceSets { main { assets.srcDir layout.buildDirectory.dir('generated/helixAssets') } }
+}
+dependencies {
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+}
+chaquopy {
+    defaultConfig {
+        version '3.10'
+        if (System.getenv('HELIX_BUILD_PYTHON')) { buildPython System.getenv('HELIX_BUILD_PYTHON') }
+        // Numba/LLVM has no current Android wheel. The separately tested Android
+        // adapter executes the original librosa kernels without JIT compilation.
+        pip {
+            install '-r', '../requirements-android.txt'
+            install '../build/pure/msgpack-1.0.8-py3-none-any.whl'
+            install '../build/pure/librosa-0.10.2.post1-py3-none-any.whl'
+        }
+        extractPackages 'librosa'
+    }
+}
+tasks.register('stageHelix', Exec) {
+    workingDir '../..'
+    commandLine System.getenv('HELIX_BUILD_PYTHON') ?: 'python3.10', 'tools/stage_android_engine.py', '--output', layout.buildDirectory.dir('generated/helixAssets').get().asFile
+}
+tasks.named('preBuild').configure { dependsOn 'stageHelix' }
+tasks.register('buildPurePythonDeps', Exec) {
+    inputs.file '../../tools/build_android_python_wheels.py'
+    environment 'MSGPACK_PUREPYTHON', '1'
+    commandLine System.getenv('HELIX_BUILD_PYTHON') ?: 'python3.10', '../../tools/build_android_python_wheels.py', '--output', '../build/pure'
+    outputs.files '../build/pure/msgpack-1.0.8-py3-none-any.whl', '../build/pure/librosa-0.10.2.post1-py3-none-any.whl'
+}
+tasks.configureEach {
+    if (name.startsWith('install') && name.endsWith('PythonRequirements')) { dependsOn 'buildPurePythonDeps' }
+}
