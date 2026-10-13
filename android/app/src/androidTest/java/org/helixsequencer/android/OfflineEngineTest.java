@@ -98,7 +98,9 @@ public class OfflineEngineTest {
         assertEquals("success",fullResult.getJSONObject("stages").getJSONObject("sequencing").getString("status"));
         assertEquals("success",fullResult.getJSONObject("stages").getJSONObject("preview").getString("status"));
         publishProof(context,"full-song-show.zip",Files.readAllBytes(new File(fullResult.getString("bundle")).toPath()),"application/zip");
-        context.getSharedPreferences(MainActivity.class.getSimpleName(),0).edit().putBoolean("walkthrough_seen",true).apply();
+        JSONObject launcherState=new JSONObject(realResult.toString());launcherState.put("phase","complete");launcherState.put("message","Real music sequenced and exported on this device");launcherState.put("updated_ms",System.currentTimeMillis());
+        Files.write(new File(real,"state.json").toPath(),launcherState.toString().getBytes("UTF-8"));
+        context.getSharedPreferences(MainActivity.class.getSimpleName(),0).edit().putBoolean("walkthrough_seen",true).putString("job",real.toString()).apply();
         android.app.Instrumentation instrumentation=InstrumentationRegistry.getInstrumentation();
         android.app.Instrumentation.ActivityMonitor monitor=instrumentation.addMonitor(MainActivity.class.getName(),null,false);
         instrumentation.runOnMainSync(()->context.startActivity(new Intent(context,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
@@ -116,12 +118,51 @@ public class OfflineEngineTest {
             ByteArrayOutputStream bytes=new ByteArrayOutputStream();image.compress(android.graphics.Bitmap.CompressFormat.PNG,100,bytes);image.recycle();
             publishProof(context,"screen-"+screen.toLowerCase()+".png",bytes.toByteArray(),"image/png");
         }
+        // Exercise the real VideoView/MediaPlayer after the MP4 presentation edit.
+        assertNotNull(findButton(launcher.getWindow().getDecorView(),"Donate to Helix"));
+        assertNotNull(findButton(launcher.getWindow().getDecorView(),"Donate to xLights"));
+        android.app.Instrumentation.ActivityMonitor playback=instrumentation.addMonitor(PreviewActivity.class.getName(),null,false);
+        instrumentation.runOnMainSync(()->findButton(launcher.getWindow().getDecorView(),"Play preview").performClick());
+        android.app.Activity player=playback.waitForActivityWithTimeout(5000);assertNotNull(player);instrumentation.removeMonitor(playback);
+        boolean[] playing={false};
+        for(int attempt=0;attempt<40&&!playing[0];attempt++){
+            Thread.sleep(250);
+            instrumentation.runOnMainSync(()->{android.widget.VideoView view=findVideo(player.getWindow().getDecorView());playing[0]=view!=null&&view.isPlaying()&&view.getCurrentPosition()>0;});
+        }
+        assertTrue("Corrected MP4 must actually play in Android VideoView",playing[0]);
+        android.graphics.Bitmap frame=instrumentation.getUiAutomation().takeScreenshot();assertNotNull(frame);
+        ByteArrayOutputStream movieFrame=new ByteArrayOutputStream();frame.compress(android.graphics.Bitmap.CompressFormat.PNG,100,movieFrame);frame.recycle();
+        publishProof(context,"screen-playback.png",movieFrame.toByteArray(),"image/png");
+        instrumentation.runOnMainSync(player::finish);
+        instrumentation.getUiAutomation().waitForIdle(1000,5000);
+        // Cancel only a fresh service job. Earlier completed show files must survive.
+        File cancelJob=new File(context.getFilesDir(),"smoke-cancelled");
+        JSONObject cancelRequest=new JSONObject();JSONObject inputUris=new JSONObject();inputUris.put("audio",android.net.Uri.fromFile(new File(ri,"source.mp3")).toString());
+        cancelRequest.put("inputs",inputUris);cancelRequest.put("mode","xlights");
+        instrumentation.runOnMainSync(()->context.startForegroundService(new Intent(context,EngineService.class).putExtra("job",cancelJob.toString()).putExtra("request",cancelRequest.toString())));
+        File cancelState=new File(cancelJob,"state.json");
+        for(int attempt=0;attempt<80&&!cancelState.isFile();attempt++)Thread.sleep(250);
+        assertTrue(cancelState.isFile());
+        instrumentation.runOnMainSync(()->context.startService(new Intent(context,EngineService.class).setAction("cancel")));
+        boolean cancelled=false;
+        for(int attempt=0;attempt<40&&!cancelled;attempt++){Thread.sleep(250);cancelled="cancelled".equals(new JSONObject(new String(Files.readAllBytes(cancelState.toPath()),"UTF-8")).optString("phase"));}
+        assertTrue("Foreground engine job must report cancellation",cancelled);
+        assertTrue(new File(realResult.getString("bundle")).isFile());assertTrue(new File(fullResult.getString("bundle")).isFile());
+        publishProof(context,"cancellation.json",Files.readAllBytes(cancelState.toPath()),"application/json");
     }
     private static android.widget.Button findButton(android.view.View root,String label){
         if(root instanceof android.widget.Button && label.contentEquals(((android.widget.Button)root).getText()))return (android.widget.Button)root;
         if(root instanceof android.view.ViewGroup){
             android.view.ViewGroup group=(android.view.ViewGroup)root;
             for(int i=0;i<group.getChildCount();i++){android.widget.Button match=findButton(group.getChildAt(i),label);if(match!=null)return match;}
+        }
+        return null;
+    }
+    private static android.widget.VideoView findVideo(android.view.View root){
+        if(root instanceof android.widget.VideoView)return (android.widget.VideoView)root;
+        if(root instanceof android.view.ViewGroup){
+            android.view.ViewGroup group=(android.view.ViewGroup)root;
+            for(int i=0;i<group.getChildCount();i++){android.widget.VideoView match=findVideo(group.getChildAt(i));if(match!=null)return match;}
         }
         return null;
     }

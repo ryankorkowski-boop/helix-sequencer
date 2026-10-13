@@ -2,6 +2,17 @@
 
 ## 2026-10-13 — Android MP4 stability and guided workflow (verification in progress)
 
+Final verification extension (test code only): exercise corrected MP4 playback in
+the actual Android VideoView, retain a playback screenshot, show truthful completed
+results in the six captured pages, assert both native donation controls, cancel a
+fresh foreground-service job while previous show ZIPs survive, and fresh-install/
+same-certificate reinstall the APK with private-data persistence. Changes are
+OfflineEngineTest, run_android_device_smoke and this ledger; production app/master
+code is unchanged. 65 combined host checks pass. Expanded API36 real-RGB/full-song
+exports and independent decode at 024ab99 pass; API30/final validation is pending.
+Earlier beta certificate compatibility and physical Samsung/Windows/controller
+playback still require separate testing and are not claimed.
+
 Follow-up: a nested terminal size=0 mdia must be made finite when the revised audio
 track gains an edts sibling, so it cannot swallow the new edit. A focused MP4
 regression covers this case. Host recovery fixtures now restore their intentional
