@@ -34,7 +34,14 @@ work runtime denies display sockets. Local attempts used hash-verified official
 xLights and private extracted dependencies; no source fallback/simulation substituted.
 New tools/verify_all_song_samplers.py requires full decode,1800frames/90s, all six
 source hashes, twelve independent audio windows and source-image comparisons.
-Pending native generation, independent frame/audio QA and durable downloads. Six distinct repo songs are available:
+Native workflow38367553613 at95c3bb7 completes all18 native shows and five
+new90s/1800frame movies. Independent full decode and all-song audio checks pass:
+minimum correlation.99385584; sampled comparison frame error<=2.156/255.
+Preserved sources hash-identical; all six songs occur in every movie. Raw retained
+artifact552,289,396bytes exceeds the retrieval size cap. Delivery workflow downloads
+the exact successful artifact and splits movies from show files without re-render;
+future all-song runs use this split directly. Remaining: retrieve split artifacts,
+visually inspect decoded frames, save all downloads, complete controls handoff. Six distinct repo songs are available:
 seven MP3 paths with identical Tinsel duplicate; dry_drum_test.wav is a calibration
 fixture, not a song. Risks/limits: browser/network needed only for voluntary support;
 physical phones/controllers and real-song detection accuracy remain unverified.

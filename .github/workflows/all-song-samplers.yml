@@ -1,8 +1,5 @@
 name: All repository songs advanced native samplers
 on:
-  push:
-    branches: [feature/android-offline-app-20261013]
-    paths: [.github/workflows/all-song-samplers.yml]
   workflow_dispatch:
 permissions:
   contents: read
@@ -62,21 +59,30 @@ jobs:
         run: PYTHONPATH=. python -m tools.build_all_song_samplers --output outputs/All_Song_Samplers --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun"
       - name: Independently decode soundtrack and frames
         run: PYTHONPATH=. python -m tools.verify_all_song_samplers outputs/All_Song_Samplers
+      - name: Package shows without duplicating the movie delivery
+        if: success()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile
+          root=Path('outputs/All_Song_Samplers')
+          with zipfile.ZipFile('Helix-All-Song-Sampler-Shows.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for p in sorted(root.rglob('*')):
+                  if p.is_file() and p.suffix not in ('.mp4','.fseq','.mp3') and not p.name.endswith('.prime_raw.xsq'):z.write(p,p.relative_to(root))
+          assert Path('Helix-All-Song-Sampler-Shows.zip').stat().st_size<500*1024*1024
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: Helix-All-Songs-Advanced-Samplers
+          name: Helix-All-Song-Movies
           compression-level: 0
           path: |
             outputs/All_Song_Samplers/manifest.json
             outputs/All_Song_Samplers/verification.json
             outputs/All_Song_Samplers/**/*.mp4
-            outputs/All_Song_Samplers/**/*.wav
-            outputs/All_Song_Samplers/**/sampler.json
-            outputs/All_Song_Samplers/**/decoded_source_*.png
-            outputs/All_Song_Samplers/**/*.xsq
-            outputs/All_Song_Samplers/**/xlights*.xml
-            outputs/All_Song_Samplers/**/native_render.log
-            outputs/All_Song_Samplers/**/engine.log
-            outputs/All_Song_Samplers/**/models/**
-            outputs/All_Song_Samplers/**/assets/**
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: Helix-All-Song-Shows
+          compression-level: 0
+          path: Helix-All-Song-Sampler-Shows.zip
