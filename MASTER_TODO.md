@@ -29,6 +29,11 @@ retained advanced-native preset on all six current showcase flavors, and renders
 actual FSEQ colors through the existing NativeSongView. Also produce individual
 Neon Circuit/Celestial Orrery movies for sampler A. Original sources/templates/
 geometry and engine decisions stay unchanged; stock geometry remains illustrative.
+Native rendering is delegated to the explicit all-song CI workflow because the local
+work runtime denies display sockets. Local attempts used hash-verified official
+xLights and private extracted dependencies; no source fallback/simulation substituted.
+New tools/verify_all_song_samplers.py requires full decode,1800frames/90s, all six
+source hashes, twelve independent audio windows and source-image comparisons.
 Pending native generation, independent frame/audio QA and durable downloads. Six distinct repo songs are available:
 seven MP3 paths with identical Tinsel duplicate; dry_drum_test.wav is a calibration
 fixture, not a song. Risks/limits: browser/network needed only for voluntary support;
