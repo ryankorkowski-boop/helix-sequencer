@@ -5,6 +5,7 @@ from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy
 
 root = Path(SPECPATH).resolve()
 datas = []
+datas.append((str(root / 'helix_h_logo.png'), '.'))
 
 
 def add_file(relative):

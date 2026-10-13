@@ -660,7 +660,8 @@ def render_sequence_to_mp4(
                 overlays=overlays,
                 frame_colors=palette_colors[:, frame_idx, :] if palette_colors is not None else None,
             )
-            writer.append_data(np.asarray(frame.convert("RGB"), dtype=np.uint8))
+            from core.output_provenance import brand_frame
+            writer.append_data(np.asarray(brand_frame(frame).convert("RGB"), dtype=np.uint8))
     finally:
         writer.close()
 
@@ -692,6 +693,8 @@ def render_sequence_to_mp4(
     else:
         temp_path.replace(out_path)
 
+    from core.output_provenance import stamp_mp4
+    stamp_mp4(out_path)
     return out_path
 
 

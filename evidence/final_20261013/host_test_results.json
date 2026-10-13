@@ -1,0 +1,12 @@
+{
+  "latest_gui_export_android_host_suite": {
+    "passed": 96,
+    "seconds": 25.38
+  },
+  "band_flourish_suite": {
+    "passed": 64,
+    "seconds": 52.53
+  },
+  "native_builds_for_new_gui": "blocked: publishing rejected by automatic approval review",
+  "repository_wide_green_claimed": false
+}
