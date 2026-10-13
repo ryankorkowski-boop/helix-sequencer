@@ -299,5 +299,27 @@ class SnowmanBandTests(unittest.TestCase):
         self.assertTrue(payload["kit"]["drum_intelligence"]["motion_events"])
 
 
+    def test_lyric_lead_does_not_rotate_across_faces(self) -> None:
+        layout = SimpleNamespace(models={
+            "HX_SINGING_FACE_LEAD": object(),
+            "HX_SINGING_FACE_SECONDARY": object(),
+        })
+        payload = snowman_band.build_snowman_band_plan(
+            parsed_layout=layout,
+            parts=[SimpleNamespace(label="VERSE", start_ms=0, end_ms=3000, energy=0.8)],
+            lyric_events=[
+                SimpleNamespace(start_ms=100, end_ms=600, text="hello", confidence=0.9),
+                SimpleNamespace(start_ms=800, end_ms=1300, text="world", confidence=0.9),
+            ],
+            note_events=[], beat_ms=[], kicks=[], snares=[], hats=[],
+            bass_peaks=[], vocal_peaks=[], build_lifts=[], releases=[],
+            enable_lyrics=True,
+        )
+        lead = payload["face_routing"]["preferred_lead"]
+        lyric_cues = payload["cues"]["lead_singer"]
+        self.assertTrue(lyric_cues)
+        self.assertEqual({cue["target"] for cue in lyric_cues}, {lead})
+
+
 if __name__ == "__main__":
     unittest.main()
