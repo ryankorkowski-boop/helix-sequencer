@@ -2,6 +2,14 @@
 
 ## 2026-10-13 — Android MP4 stability and guided workflow (verification in progress)
 
+Final UI audit: optional desktop-remote Android screen still exposed the expert
+toggles even though local mode was simplified. RemoteActivity now folds Birdsong,
+Matrix Intelligence, Polish, AC override, chase/variants/preview duration into an
+Advanced disclosure, explains optional Neon and defaults eligible RGB chase to
+automatic. Remote transport/protocol and desktop/master code are unchanged.
+Both-API full validation at 85892f2 passed including playback/cancel/reinstall;
+rebuild this focused Android UI adjustment before final APK handoff.
+
 Final verification extension (test code only): exercise corrected MP4 playback in
 the actual Android VideoView, retain a playback screenshot, show truthful completed
 results in the six captured pages, assert both native donation controls, cancel a

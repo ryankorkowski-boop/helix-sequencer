@@ -37,7 +37,21 @@ public class RemoteActivity extends Activity {
         key=field("Pairing key from desktop Helix",getPreferences(0).getString("key",""),false);key.setInputType(129);
         button("Connect to desktop",this::connect);text("Sequence mode",14);mode=spinner("xLights · XSQ","Light-O-Rama · LMS");
         select("audio","Choose song");select("layout","Choose xLights layout (or desktop bundled layout)");select("template","Choose XSQ template (or desktop bundled template)");select("lor","Choose existing LOR .lms channel layout");select("networks","Optional xLights controller XML");select("routing","Optional model routing JSON");
-        variants=field("Variants ·1–8","1",true);palette=spinner("Default colors","Musical neon palettes");polish=check("Polish sequence",true);matrix=check("Matrix intelligence",true);birdsong=check("Birdsong canopy profile",true);spatial=check("RGB chorus chase",false);ac=check("AC-compatible effects",false);preview=check("Generate desktop MP4 preview with audio",true);duration=field("Preview seconds ·1–120","30",true);
+        palette=spinner("Layout/template colors (recommended)","Neon · optional RGB palette");
+        preview=check("Generate desktop MP4 preview with audio",true);
+        text("Default colors follow your compatible layout/template. Neon is an optional RGB palette override.",13);
+        LinearLayout normal=body,expert=new LinearLayout(this);expert.setOrientation(1);
+        button("Show / hide Advanced desktop settings",()->expert.setVisibility(expert.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE));
+        normal.addView(expert);expert.setVisibility(View.GONE);body=expert;
+        variants=field("Variants ·1–8","1",true);
+        duration=field("Preview seconds ·1–120","30",true);
+        spatial=check("Automatic RGB chorus/drop chase",true);
+        ac=check("AC-compatible effects",false);
+        text("Chase accents use eligible RGB models and layout positions. LOR uses AC-safe effects.",13);
+        polish=check("Polish · automatic finishing pass",true);
+        matrix=check("Matrix Intelligence · supported pixel models",true);
+        birdsong=check("Birdsong · confidence-gated canopy phrasing",true);
+        body=normal;
         build=button("Build on desktop",this::start);cancel=button("Cancel desktop build",this::cancel);cancel.setEnabled(false);
         status=text("Not connected",17);log=text("",12);log.setTextIsSelectable(true);
         watch=button("Download and play MP4",()->download("preview",false));movie=button("Download and save MP4…",()->download("preview",true));save=button("Download and save show ZIP…",()->download("bundle",true));watch.setEnabled(false);movie.setEnabled(false);save.setEnabled(false);
@@ -89,3 +103,4 @@ public class RemoteActivity extends Activity {
     @Override protected void onPause(){resumed=false;handler.removeCallbacks(ticker);super.onPause();}
     @Override protected void onSaveInstanceState(Bundle saved){saved.putString("picking",picking);saved.putString("exporting",exporting);super.onSaveInstanceState(saved);}
 }
+
