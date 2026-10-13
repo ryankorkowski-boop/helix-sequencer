@@ -93,6 +93,7 @@ jobs:
           mkdir -p android/app/src/androidTest/assets
           git show HEAD:'Helix Audiolights.mp3' > "$RUNNER_TEMP/helix-source.mp3"
           ffmpeg -v error -ss 15 -i "$RUNNER_TEMP/helix-source.mp3" -t 8 -c:a libmp3lame android/app/src/androidTest/assets/real-song.mp3
+          cp "$RUNNER_TEMP/helix-source.mp3" android/app/src/androidTest/assets/full-song.mp3
           git show HEAD:helixville4/xlights_rgbeffects.xml > android/app/src/androidTest/assets/stability-rgb.xml
       - name: Host parser and output recovery regressions
         run: |

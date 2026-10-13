@@ -89,12 +89,41 @@ public class OfflineEngineTest {
         assertEquals("",failedResult.getString("preview"));
         assertTrue(new File(failedResult.getString("sequence")).isFile());
         publishProof(context,"failed-preview-show.zip",Files.readAllBytes(new File(failedResult.getString("bundle")).toPath()),"application/zip");
+        File full=new File(context.getFilesDir(),"smoke-full-song");File fullInput=new File(full,"input");fullInput.mkdirs();
+        try(InputStream in=test.getAssets().open("full-song.mp3");OutputStream out=new FileOutputStream(new File(fullInput,"source.mp3"))){EngineService.copy(in,out);}
+        MediaRuntime.decodeWav(new File(fullInput,"source.mp3").toString(),new File(fullInput,"audio.wav").toString());
+        assertTrue(new File(fullInput,"audio.wav").length()>22050L*2*30);
+        JSONObject fullRequest=new JSONObject();fullRequest.put("mode","xlights");fullRequest.put("preview",true);fullRequest.put("preview_seconds",3);
+        JSONObject fullResult=new JSONObject(Python.getInstance().getModule("helix_mobile").callAttr("run",engine.toString(),full.toString(),fullRequest.toString(),new Callbacks()).toString());
+        assertEquals("success",fullResult.getJSONObject("stages").getJSONObject("sequencing").getString("status"));
+        assertEquals("success",fullResult.getJSONObject("stages").getJSONObject("preview").getString("status"));
+        publishProof(context,"full-song-show.zip",Files.readAllBytes(new File(fullResult.getString("bundle")).toPath()),"application/zip");
         context.getSharedPreferences(MainActivity.class.getSimpleName(),0).edit().putBoolean("walkthrough_seen",true).apply();
         android.app.Instrumentation instrumentation=InstrumentationRegistry.getInstrumentation();
+        android.app.Instrumentation.ActivityMonitor monitor=instrumentation.addMonitor(MainActivity.class.getName(),null,false);
         instrumentation.runOnMainSync(()->context.startActivity(new Intent(context,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
+        android.app.Activity launcher=monitor.waitForActivityWithTimeout(5000);
+        assertNotNull(launcher);instrumentation.removeMonitor(monitor);
         instrumentation.getUiAutomation().waitForIdle(1000,5000);
         android.graphics.Bitmap shot=instrumentation.getUiAutomation().takeScreenshot();
         if(shot!=null){ByteArrayOutputStream png=new ByteArrayOutputStream();shot.compress(android.graphics.Bitmap.CompressFormat.PNG,100,png);shot.recycle();publishProof(context,"launcher.png",png.toByteArray(),"image/png");}
+        for(String screen:new String[]{"Music","Layout","Style","Advanced","Generate","Results"}){
+            instrumentation.runOnMainSync(()->{
+                android.widget.Button tab=findButton(launcher.getWindow().getDecorView(),screen);assertNotNull(tab);tab.performClick();
+            });
+            instrumentation.getUiAutomation().waitForIdle(1000,5000);
+            android.graphics.Bitmap image=instrumentation.getUiAutomation().takeScreenshot();assertNotNull(image);
+            ByteArrayOutputStream bytes=new ByteArrayOutputStream();image.compress(android.graphics.Bitmap.CompressFormat.PNG,100,bytes);image.recycle();
+            publishProof(context,"screen-"+screen.toLowerCase()+".png",bytes.toByteArray(),"image/png");
+        }
+    }
+    private static android.widget.Button findButton(android.view.View root,String label){
+        if(root instanceof android.widget.Button && label.contentEquals(((android.widget.Button)root).getText()))return (android.widget.Button)root;
+        if(root instanceof android.view.ViewGroup){
+            android.view.ViewGroup group=(android.view.ViewGroup)root;
+            for(int i=0;i<group.getChildCount();i++){android.widget.Button match=findButton(group.getChildAt(i),label);if(match!=null)return match;}
+        }
+        return null;
     }
     static void publishProof(Context context,String name,byte[] bytes,String mime)throws Exception{
         ContentValues values=new ContentValues();values.put(MediaStore.MediaColumns.DISPLAY_NAME,name);values.put(MediaStore.MediaColumns.MIME_TYPE,mime);

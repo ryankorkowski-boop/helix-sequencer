@@ -11,7 +11,9 @@ def main():
     dest=ROOT/'android/app/build/device-proof';dest.mkdir(parents=True,exist_ok=True)
     result=subprocess.run(['gradle','--no-daemon',':app:connectedDebugAndroidTest'],cwd=ROOT/'android')
     proof_errors=[]
-    for name in ('xlights-show.zip','lor-show.zip','real-rgb-show.zip','failed-preview-show.zip','launcher.png','remote-transport.json'):
+    names=['xlights-show.zip','lor-show.zip','real-rgb-show.zip','failed-preview-show.zip','full-song-show.zip','launcher.png','remote-transport.json']
+    names += ['screen-'+page+'.png' for page in ('music','layout','style','advanced','generate','results')]
+    for name in names:
         cmd=['adb','pull',f'/sdcard/Download/HelixAndroidSmoke/{name}',str(dest/name)]
         proof=subprocess.run(cmd,capture_output=True)
         if proof.returncode:proof_errors.append({'file':name,'error':proof.stderr.decode(errors='replace')})

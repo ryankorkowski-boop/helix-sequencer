@@ -30,6 +30,15 @@ needed for atomic movie copy and pre/post preview ZIP, long-song resource pressu
 debug certificate update conflicts. Existing independent desktop/band queues remain
 unchanged; do not mark this task complete until build/device evidence is recorded.
 
+Verification expansion: 31 retained Android/librosa-parity/LOR/color/donation checks
+now pass. Native smoke additionally prepares unchanged repository music as an 8s
+MP3 and full-length MP3, runs the real RGB and original256 paths, deliberately
+fails one preview after successful sequencing, navigates/captures all six actual
+screens, and collects show ZIPs for independent full decode/audio comparison.
+Changed OfflineEngineTest, run_android_device_smoke, verify_android_device_proof and
+offline CI only; no master/source changes. Full-song/device resource limits remain
+unverified until this expanded run finishes.
+
 
 Final GUI verification: donation build49c1e75 passes Android38365377084 and
 Windows38365377124. Both compiled launchers expose the two restored support
