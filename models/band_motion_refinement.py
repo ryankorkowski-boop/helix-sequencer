@@ -4,6 +4,18 @@ These helpers never synthesize musical events or infer playing technique from a 
 """
 from __future__ import annotations
 import numpy as np
+from bisect import bisect_right
+
+class EventLane:
+    """One immutable sorted index instead of scanning every event every frame."""
+    def __init__(self,events):
+        self.events=tuple(sorted(events,key=lambda e:e['time']))
+        self.times=tuple(e['time'] for e in self.events)
+
+    def neighbors(self,time):
+        i=bisect_right(self.times,time)
+        return (self.events[i-1] if i else None,
+                self.events[i] if i<len(self.events) else None)
 
 
 def smoothstep(x):
@@ -57,17 +69,19 @@ def signed_gestures(attacks, duration=.18, fps=20):
     return out
 
 
-def transition_targets(targets, seconds=.10, fps=20):
-    """Bounded short anticipatory transitions; exact target on every change frame.
+def transition_targets(targets, seconds=.10, fps=20, preserve_changes=False):
+    """Bounded short anticipatory transitions with optional exact contact anchors.
 
     Holds are stable. Interpolation is computed from source frames, so random
-    access and restarting an excerpt produce identical positions.
+    access and restarting an excerpt produce identical positions. Opt-in
+    preserve_changes protects close source contacts; default retains the
+    approved legacy guitar transitions.
     """
     targets=np.asarray(targets,float);out=targets.copy();window=max(1,round(seconds*fps))
     changes=np.flatnonzero(np.any(np.abs(np.diff(targets,axis=0))>1e-7,axis=1))+1
     previous=0
     for index in changes:
-        lo=max(previous,index-window)
+        lo=max(previous+int(preserve_changes),index-window)
         for j in range(lo,index):
             weight=smoothstep((j-lo+1)/(index-lo+1))
             out[j]=targets[lo]*(1-weight)+targets[index]*weight
