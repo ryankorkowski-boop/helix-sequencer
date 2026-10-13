@@ -11,7 +11,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 MOBILE = ROOT/'android/app/src/main/python'
 sys.path.insert(0, str(MOBILE))
-from helix_mobile import build_args
+from helix_mobile import build_args, preview_sequence
 
 
 def test_lor_disables_rgb_and_requires_real_lms(tmp_path):
@@ -96,3 +96,19 @@ def test_manifest_is_offline_and_service_is_private():
     assert 'android.permission.MANAGE_EXTERNAL_STORAGE' not in permissions
     service=root.find('./application/service')
     assert service.get(n+'exported')=='false' and service.get(n+'process')==':engine'
+
+
+def test_short_preview_matches_full_timeline_and_keeps_fade_shape():
+    from tools.preview_renderer import parse_models, SequenceData, EffectRecord, build_leaf_intensity_matrix
+    layout=parse_models(ROOT/'tests/fixtures/beta_demo/minimal_layout.xml')
+    name=next(iter(layout.leaf_models))
+    sequence=SequenceData(8000,{name:[
+        EffectRecord('Ramp',0,6000,'E_TEXTCTRL_Eff_On_Start=0,E_TEXTCTRL_Eff_On_End=100'),
+        EffectRecord('Bars',5000,7800),
+    ]},{})
+    clipped=preview_sequence(sequence,3)
+    leaves,full=build_leaf_intensity_matrix(layout,sequence,15)
+    short_leaves,short=build_leaf_intensity_matrix(layout,clipped,15)
+    assert leaves==short_leaves and short.shape[1]==45
+    np.testing.assert_allclose(short,full[:,:45])
+    assert sequence.duration_ms==8000 and sequence.model_effects[name][1].start_ms==5000

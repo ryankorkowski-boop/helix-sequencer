@@ -108,6 +108,7 @@ public final class MediaRuntime {
             GLES20.glDeleteShader(vertex);GLES20.glDeleteShader(fragment);
             int[] textures=new int[1];GLES20.glGenTextures(1,textures,0);texture=textures[0];GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,texture);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MIN_FILTER,GLES20.GL_LINEAR);GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MAG_FILTER,GLES20.GL_LINEAR);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_WRAP_S,GLES20.GL_CLAMP_TO_EDGE);GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_WRAP_T,GLES20.GL_CLAMP_TO_EDGE);
             vertices=floats(-1,-1,1,-1,-1,1,1,1);uv=floats(0,1,1,1,0,0,1,0);
         }
         private static int shader(int type,String code)throws IOException{int s=GLES20.glCreateShader(type);GLES20.glShaderSource(s,code);GLES20.glCompileShader(s);int[] ok=new int[1];GLES20.glGetShaderiv(s,GLES20.GL_COMPILE_STATUS,ok,0);if(ok[0]==0)throw new IOException(GLES20.glGetShaderInfoLog(s));return s;}

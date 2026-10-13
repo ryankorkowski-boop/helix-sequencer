@@ -89,7 +89,7 @@ jobs:
           arch: x86_64
           disable-animations: true
           working-directory: android
-          script: gradle --no-daemon :app:connectedDebugAndroidTest
+          script: python ../tools/run_android_device_smoke.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -98,3 +98,4 @@ jobs:
             android/app/build/outputs/apk/debug/*.apk
             android/app/build/outputs/androidTest-results/**
             android/app/build/reports/androidTests/**
+            android/app/build/device-proof/**

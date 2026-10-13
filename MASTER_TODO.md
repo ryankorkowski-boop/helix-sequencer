@@ -10,6 +10,15 @@ default removed SDK `tools` package was also identified; request only
 `platform-tools`. Both-mode device exports/codec proof remain pending. Code
 checkpoint `966c348c` is published on the feature branch; no primary merge.
 
+Device verification update: CI `38349605877` builds the APK and runs the canonical
+engine on Android, but the first preview fails with negative dimensions because
+late effects outlive the memory-limited preview timeline. The Android bridge now
+filters out-of-window effects while retaining original fade endpoints; regression
+compares the shortened intensity matrix to the full timeline's exact prefix.
+Add retained device ZIP/MP4/log evidence for both modes, EGL texture edge clamping,
+and Android8/9 vs Android15+ foreground-service API/type guards. Native export and
+encoded movie checks are still pending; never advertise the failed APK as ready.
+
 Goal: provide an actual Android GUI/app. User explicitly selected entirely-on-phone processing,
 so a desktop companion is not a substitute for the offline requirement. Branch:
 `feature/android-offline-app-20261013`, based on current integrated GUI `50e8d0cc`.

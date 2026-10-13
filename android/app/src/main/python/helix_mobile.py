@@ -9,6 +9,7 @@ import shutil
 import sys
 import traceback
 import zipfile
+from dataclasses import replace
 from pathlib import Path
 
 
@@ -65,12 +66,21 @@ def build_args(request, job, engine):
     return args
 
 
+def preview_sequence(sequence, seconds):
+    end = min(sequence.duration_ms, int(seconds*1000))
+    # Retain original end times so a fade spanning the cutoff is not sped up.
+    # Late effects must be excluded before the existing matrix builder allocates.
+    return replace(sequence, duration_ms=end, model_effects={
+        name: [e for e in effects if e.start_ms < end and e.end_ms > 0]
+        for name, effects in sequence.model_effects.items()
+    })
+
+
 def render_preview(xsq, layout, wav, seconds, callback):
     from tools import preview_renderer as p
-    seq = p.parse_sequence(xsq)
+    seq = preview_sequence(p.parse_sequence(xsq), seconds)
     geom = p.parse_models(layout)
     # Crop the frame timeline BEFORE allocating RGB/intensity matrices on a phone.
-    seq.duration_ms = min(seq.duration_ms, int(seconds*1000))
     fps, width, height = 15, 640, 360
     leaves, intensities = p.build_leaf_intensity_matrix(geom, seq, fps)
     colors = p.build_leaf_color_matrix(geom, seq, fps, leaves, intensities.shape[1])

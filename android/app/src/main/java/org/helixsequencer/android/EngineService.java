@@ -35,7 +35,9 @@ public class EngineService extends Service {
         PendingIntent open=PendingIntent.getActivity(this,0,new Intent(this,MainActivity.class),PendingIntent.FLAG_IMMUTABLE);
         Notification notice=new Notification.Builder(this,"helix-jobs").setSmallIcon(org.helixsequencer.android.R.drawable.helix_icon)
             .setContentTitle("Helix is sequencing on your phone").setContentText("Tap to see progress").setOngoing(true).setContentIntent(open).build();
-        startForeground(1,notice,ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
+        if(Build.VERSION.SDK_INT>=35)startForeground(1,notice,ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROCESSING);
+        else if(Build.VERSION.SDK_INT>=29)startForeground(1,notice,ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
+        else startForeground(1,notice);
         state("running","Preparing offline engine…",null);
         String request=intent.getStringExtra("request");
         new Thread(()->execute(request),"helix-engine").start();return START_NOT_STICKY;
