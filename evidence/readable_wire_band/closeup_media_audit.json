@@ -1,0 +1,40 @@
+[
+  {
+    "file": "Helix_Readable_Wire_Band_Closeup.mp4",
+    "bytes": 11453451,
+    "sha256": "e40faf9fb5e303ed926fe5923f57ed121de5a49f88c68a61c5f5ae2c315b4d64",
+    "seconds": 32.2,
+    "frames": 644,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9984874160042176,
+    "decoded_samples": [
+      {
+        "time": 1.9320000000000002,
+        "path": "Helix_Readable_Wire_Band_Closeup_decoded_0.jpg",
+        "lit_fraction": 0.38430989583333336
+      },
+      {
+        "time": 7.0840000000000005,
+        "path": "Helix_Readable_Wire_Band_Closeup_decoded_1.jpg",
+        "lit_fraction": 0.3912943672839506
+      },
+      {
+        "time": 13.846000000000002,
+        "path": "Helix_Readable_Wire_Band_Closeup_decoded_2.jpg",
+        "lit_fraction": 0.39274546682098765
+      },
+      {
+        "time": 20.286,
+        "path": "Helix_Readable_Wire_Band_Closeup_decoded_3.jpg",
+        "lit_fraction": 0.4013888888888889
+      },
+      {
+        "time": 27.37,
+        "path": "Helix_Readable_Wire_Band_Closeup_decoded_4.jpg",
+        "lit_fraction": 0.39882908950617285
+      }
+    ],
+    "max_contact_error": 0
+  }
+]

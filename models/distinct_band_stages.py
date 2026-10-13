@@ -11,6 +11,7 @@ from models.band_performance_scene import matrix,line_matrix,tube,rgb
 from models.intricate_band_scene import IntricateBandScene,LAYOUTS
 from models.ultimate_showcase import Garden
 from models.approved_concepts import Structures
+from models.expressive_band_face import add_expressive_mouths,update_expressive_mouth
 
 STAGES={
     'ember_amphitheatre':'Ember Amphitheatre',
@@ -29,31 +30,32 @@ STYLE_PALETTES={'ember_amphitheatre':('#E9AB5D','#CF7756','#FFE0A8'),
 
 
 class DistinctBandScene(RefinedBandScene):
-    def __init__(self,stage,wire=False):
+    def __init__(self,stage,wire=False,readable_faces=True):
         if stage not in STAGES:raise ValueError(stage)
         super().__init__('prismatic_orrery',(48,96),neutral_performers=True)
         self.stage=stage;self.wire=wire;self.feature_names=[]
         # Keep indices stable: existing poses and key/string maps reference them.
-        prefixes=('bass','guitar','upright_bass','lead','harmony','piano','keyboard','xylophone','drum_riser')
+        prefixes=('bass','guitar','electric_guitar','upright_bass','lead','harmony','piano','keyboard','xylophone','drum_riser')
         for o in self.instances:
             keep=bool(o.get('performer_role') or o['name'].startswith(prefixes))
             if not keep:o['kind']='hidden'
-            if wire and keep and o['kind']=='sphere' and not o['name'].startswith('xylophone_mallet') and any(k in o['name'] for k in ('_base','_torso','_head','_scarf','_hat_crown')):
+            solid_strings=o.get('performer_role') in ('bass','guitar')
+            if wire and keep and not solid_strings and o['kind']=='sphere' and not o['name'].startswith('xylophone_mallet') and any(k in o['name'] for k in ('_base','_torso','_head','_scarf','_hat_crown')):
                 o['kind']='wire_sphere';o['color']=rgb('#D4E1D6');o['slot']=177
-            if wire and keep and o['name'].endswith(('_eye','_coal_button')):o['color']=rgb('#E1D5AE')
-            if wire and o.get('mouth_role') in ('lead','harmony'):o['color']=rgb('#EDDFB5')
+            if wire and keep and not solid_strings and o['name'].endswith(('_eye','_coal_button')):o['color']=rgb('#E1D5AE')
         self.custom=[o for o in self.custom if o['name'].startswith(prefixes)]
-        if wire:
-            for o in self.custom:
-                if o['name'] in ('guitar_body','upright_bass_body'):
-                    mesh=o['mesh'];edges=mesh.face_adjacency_edges[mesh.face_adjacency_angles>.65]
-                    o['mesh']=trimesh.util.concatenate([tube(mesh.vertices[e],.012) for e in edges])
-                    o['color']=rgb('#CFCBAA')
+        # Retain the actual closed instrument surfaces, including the electric
+        # guitar mesh that the old prefix filter accidentally dropped.
+        if readable_faces:add_expressive_mouths(self,wire)
         self.palette=STYLE_PALETTES[stage]
         getattr(self,stage)()
-        self.technical_proof=dict(stage=stage,title=STAGES[stage],style='wire contours' if wire else 'sculpted snow band',
+        self.technical_proof=dict(stage=stage,title=STAGES[stage],style='wire band with solid strings' if wire else 'sculpted snow band',
             neutral_singers=True,neutral_mallet_player=True,features=self.feature_names,
-            preserved_guitar_rig=True,physical_fabrication_dimensions=False)
+            preserved_guitar_rig=True,solid_string_players=True,solid_instrument_bodies=True,
+            expressive_lips_and_tongues=readable_faces,physical_fabrication_dimensions=False)
+
+    def update_singer_mouth(self,role,shape,energy):
+        if hasattr(self,'expressive_mouths'):update_expressive_mouth(self,role,shape,energy)
 
     def path(self,name,points,color=0,radius=.026,slot=64,closed=False):
         self.curve(name,points,self.palette[color%3],radius,closed,slot)

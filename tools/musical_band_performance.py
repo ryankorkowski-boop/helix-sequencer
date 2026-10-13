@@ -97,4 +97,6 @@ class MusicalBandPerformance(RefinedPerformance):
             gain=.55+.45*np.sqrt(self.voice_energy[i,k]) if shape not in ('REST','MBP') else 1
             o['matrix']=matrix(o['mouth_center'],(w,h*gain,.031))
             levels[3+k]=self.voice_energy[i,k]*.6
+            if hasattr(self.scene,'update_singer_mouth'):
+                self.scene.update_singer_mouth(role,shape,self.voice_energy[i,k])
         return levels
