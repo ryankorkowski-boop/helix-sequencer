@@ -1,0 +1,56 @@
+name: Publish verified Helix Beta v1.0 installers
+on:
+  push:
+    branches: [release/beta-installers-20261014]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  package-and-publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ryankorkowski-boop/helix-sequencer
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: transport
+      - uses: actions/checkout@v4
+        with:
+          path: source
+          ref: 2b295284ae2c0d33fc40e8c3d54a9dbea0677fcc
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify source and native build gates
+        run: |
+          python - <<'PY'
+          import json,subprocess
+          for run in [38513380999,38513381015]:
+              data=json.loads(subprocess.check_output(['gh','api',f'repos/ryankorkowski-boop/helix-sequencer/actions/runs/{run}']))
+              assert data['head_sha']=='2b295284ae2c0d33fc40e8c3d54a9dbea0677fcc' and data['conclusion']=='success'
+          PY
+      - name: Download exact platform artifacts
+        run: |
+          mkdir inputs
+          gh api "repos/$REPO/actions/artifacts/11869944063/zip" > inputs/windows.zip
+          gh api "repos/$REPO/actions/artifacts/11871054526/zip" > inputs/android.zip
+          gh api "repos/$REPO/actions/artifacts/11870604535/zip" > inputs/Helix_Beta_v1.0_Native_Verification.zip
+      - name: Package and verify installer ZIP
+        run: |
+          python transport/release_transport/assemble_installers.py --source source --inputs inputs --notes transport/release_transport/BETA_RELEASE_NOTES.md --output deliverables
+          cp inputs/Helix_Beta_v1.0_Native_Verification.zip deliverables/
+          sha256sum deliverables/Helix_Beta_v1.0_Native_Verification.zip >> deliverables/SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Beta-v1.0-Installers
+          path: deliverables/*.zip
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - name: Publish distinct beta prerelease
+        run: |
+          tag=helix-beta-v1.0-integration-20261014
+          gh release view "$tag" --repo "$REPO" >/dev/null 2>&1 || gh release create "$tag" --repo "$REPO" --target 2b295284ae2c0d33fc40e8c3d54a9dbea0677fcc --prerelease --title 'Helix Beta v1.0 installers — integration review' --notes-file transport/release_transport/BETA_RELEASE_NOTES.md
+          gh release upload "$tag" --repo "$REPO" deliverables/Helix_Beta_v1.0_Installers.zip deliverables/Helix-Beta-v1.0.apk deliverables/Helix_Beta_v1.0_Native_Verification.zip deliverables/SHA256SUMS.txt

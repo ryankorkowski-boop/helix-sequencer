@@ -1,0 +1,117 @@
+{
+  "source_commit": "2b295284ae2c0d33fc40e8c3d54a9dbea0677fcc",
+  "tracks": [
+    {
+      "path": "Helix Audiolights.mp3",
+      "bytes": 5574695,
+      "sha256": "8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec",
+      "duration": 237.48,
+      "tags": {
+        "title": "Helix Audiolights",
+        "artist": "hardkor",
+        "comment": "made with suno; created=2026-04-30T10:37:03.782Z; id=5124e1f1-e553-4458-9463-1a62508df4b1",
+        "lyrics-eng": "[Intro \u2013 atmospheric, techy build]\n(whispers / vocoder)\nAudio in\u2026\nLights out\u2026\nWelcome to Helix\u2026\n[Verse 1 \u2013 rhythmic, confident]\nUsed to spend nights dragging beats on a grid,\nFrame by frame, tweaking every little bit,\nTiming was off, colors didn\u2019t feel right,\nHours turned days just to sync one light.\nVendors selling sequences, locked behind a wall,\nPaying for presets that don\u2019t fit at all,\nBut now there\u2019s a system that flips the game out\u2014\nFeed it your audio\u2026 lights go wow.\n[Pre-Chorus \u2013 rising energy]\nIt hears the rhythm, feels the tone,\nMaps the music like it\u2019s grown,\nFrom silence into something loud\u2014\nControl the chaos. Shape the crowd.\n[Chorus \u2013 big, anthemic]\n\ud83c\udfb6 Audio in! Lights out! Watch it come alive!\nEvery beat translated\u2014perfect sync, every time!\nNo more guessing, no more grind,\nHelix reads the sound inside!\nFrom bass to sparkle, fast to slow\u2014\nTell it once, and let it go! \ud83c\udfb6\n[Verse 2 \u2013 feature-focused, punchy]\nBreaks down the waveform, timing is tight,\nPulls out the energy, color, and light,\nBass hits slam like a kick drum should,\nHighs shimmer clean like they always could.\nLyric-aware? Yeah, it knows what you mean\u2014\n\u201cRed\u201d hits red, \u201ccold\u201d fades blue-green,\nEmotion mapping, mood in the air,\nTurns your song into something you feel out there.\n[Pre-Chorus 2 \u2013 variation]\n2D grid or 3D space,\nEvery node falls into place,\nFrom simple shows to full display\u2014\nHelix builds it your way.\n[Chorus \u2013 bigger]\n\ud83c\udfb6 Audio in! Lights out! No more wasted time!\nFrom raw sound to full design\u2014automated, clean, refined!\nThree clicks, done\u2014no stress, no doubt,\nPick your style and render it out!\nFrom soft ambience to full attack\u2014\nHelix builds it. Never looks back! \ud83c\udfb6\n[Bridge \u2013 breakdown, futuristic]\nNot just patterns\u2014intelligence,\nNot just timing\u2014relevance,\nIt learns from pros, improves the flow,\nVendor-level? No\u2014above that now.\nPower-aware, efficient load,\nKeeps your circuits from overload,\nOptimized layouts, 3D mapped,\nEven looks good when it\u2019s flattened back.\n[Build \u2013 tension rising]\nBirdsong logic\u2026 spatial feel\u2026\nSpotify-style emotional reel\u2026\nBut deeper, faster, fully yours\u2014\nNo subscriptions, no locked doors\u2026\n[Final Chorus \u2013 explosive]\n\ud83c\udfb6 Audio in! Lights out! This is the new way!\nFrom idea to full display in seconds\u2014not a day!\nFeel the music, see it shine,\nHelix turns sound into design!\nFrom chaos into something tight\u2014\nYou bring the song\u2026 we bring the light! \ud83c\udfb6\n[Outro \u2013 echoing, signature line]\nAudio in\u2026\nLights out\u2026\nHelix."
+      },
+      "redistribution_verified": false,
+      "reason": "Missing track generation account/date and matching subscription evidence"
+    },
+    {
+      "path": "Tinsel Sawtooth (1).mp3",
+      "bytes": 3088470,
+      "sha256": "e9add1d351989d4a359cdda837fc5139a8e358ca067d31a839cafa6b35c954fc",
+      "duration": 126.96,
+      "tags": {
+        "comment": "made with suno; created=2026-06-06T10:11:06Z; id=71a8dfe1-4ba2-44a2-bf39-18972b05e272",
+        "encoder": "Lavf60.16.100"
+      },
+      "redistribution_verified": false,
+      "reason": "Missing track generation account/date and matching subscription evidence"
+    },
+    {
+      "path": "evidence/drummer/dry_drum_test.wav",
+      "bytes": 7357612,
+      "sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+      "duration": 38.32,
+      "tags": {
+        "comment": "made with suno; created=2026-08-13T01:02:47Z; id=fd16ff81-d3f3-4063-8fee-471a480ccb1e",
+        "encoder": "Lavf60.16.100"
+      },
+      "redistribution_verified": false,
+      "reason": "Synthetic repository calibration fixture; excluded from song count"
+    },
+    {
+      "path": "evidence/showcase_audio/source/1-Wire-Tree.mp3",
+      "bytes": 5844390,
+      "sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+      "duration": 256.56,
+      "tags": {
+        "comment": "made with suno; created=2026-06-15T21:59:02Z; id=ebfed48e-4bbd-443c-996c-95ee08585ca5",
+        "encoder": "Lavf60.16.100"
+      },
+      "redistribution_verified": false,
+      "reason": "Missing track generation account/date and matching subscription evidence"
+    },
+    {
+      "path": "evidence/showcase_audio/source/2-Tinsel-Sawtooth-1-.mp3",
+      "bytes": 3088470,
+      "sha256": "e9add1d351989d4a359cdda837fc5139a8e358ca067d31a839cafa6b35c954fc",
+      "duration": 126.96,
+      "tags": {
+        "comment": "made with suno; created=2026-06-06T10:11:06Z; id=71a8dfe1-4ba2-44a2-bf39-18972b05e272",
+        "encoder": "Lavf60.16.100"
+      },
+      "redistribution_verified": false,
+      "reason": "Missing track generation account/date and matching subscription evidence"
+    },
+    {
+      "path": "evidence/showcase_audio/source/3-Frostbitten-Fingerboard-1-.mp3",
+      "bytes": 1157046,
+      "sha256": "657e5c5dbb9b6372d5c9086b547d236b47815c32306e53a753735f5f5775e504",
+      "duration": 48.144,
+      "tags": {
+        "comment": "made with suno; created=2026-06-06T10:12:26Z; id=e5ec37de-46e7-4190-99a0-c07ba0b3976a",
+        "encoder": "Lavf60.16.100"
+      },
+      "redistribution_verified": false,
+      "reason": "Missing track generation account/date and matching subscription evidence"
+    },
+    {
+      "path": "evidence/showcase_audio/source/4-Holly-Steel-Run-1-.mp3",
+      "bytes": 2361798,
+      "sha256": "47e61a145578fa7d153b2ecb7de02bf10c61646bf246421365f24439df697dc1",
+      "duration": 98.76,
+      "tags": {
+        "comment": "made with suno; created=2026-06-06T10:16:41Z; id=414890a4-7497-4414-9cf0-ff2e69d05452",
+        "encoder": "Lavf60.16.100"
+      },
+      "redistribution_verified": false,
+      "reason": "Missing track generation account/date and matching subscription evidence"
+    },
+    {
+      "path": "evidence/showcase_audio/source/5-Bell-Circuit-Carol-1-.mp3",
+      "bytes": 1837014,
+      "sha256": "546d214fafc467c8581175bae47e78531eae01fb7abcd99a1a37358670885885",
+      "duration": 72.84,
+      "tags": {
+        "comment": "made with suno; created=2026-06-06T10:16:49Z; id=503c6bac-3d0a-49fe-9477-212ffcfe6a88",
+        "encoder": "Lavf60.16.100"
+      },
+      "redistribution_verified": false,
+      "reason": "Missing track generation account/date and matching subscription evidence"
+    }
+  ],
+  "unique_audio_hashes": 7,
+  "unique_song_hashes": 6,
+  "rights_cleared_songs": 0,
+  "omitted_from_public_packages": [
+    "Helix Audiolights.mp3",
+    "Tinsel Sawtooth (1).mp3",
+    "evidence/showcase_audio/source/1-Wire-Tree.mp3",
+    "evidence/showcase_audio/source/2-Tinsel-Sawtooth-1-.mp3",
+    "evidence/showcase_audio/source/3-Frostbitten-Fingerboard-1-.mp3",
+    "evidence/showcase_audio/source/4-Holly-Steel-Run-1-.mp3",
+    "evidence/showcase_audio/source/5-Bell-Circuit-Carol-1-.mp3"
+  ],
+  "separate_suno_accounts_required": true,
+  "missing_full_lightsouttheme": true
+}

@@ -1,0 +1,16 @@
+{
+  "decoded_video_frames": 300,
+  "video_seconds": 3.0,
+  "audio_seconds": 3.01859410430839,
+  "source_audio_seconds": 3.0,
+  "zero_lag_audio_correlation": 0.9987730839176365,
+  "estimated_audio_offset_ms": 0.0,
+  "minimum_frame_mean": 31.246805555555557,
+  "full_decode_pass": true,
+  "black_frame_count": 0,
+  "source_audio_type": "freshly authored synthetic diagnostic, not a repository song",
+  "container_audio_seconds": 3.0,
+  "container_video_seconds": 3.0,
+  "decoded_aac_padding_ms": 18.594104308390147,
+  "note": "AAC decoded PCM includes encoder padding; container duration and content alignment are exact."
+}
