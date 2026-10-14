@@ -1,0 +1,96 @@
+name: Publish final verified Helix Beta integration packages
+on:
+  push:
+    branches: [release/beta-installers-final-20261014]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  package-and-publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ryankorkowski-boop/helix-sequencer
+      XL_NO_GPU_COMPUTE: '1'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: transport
+      - uses: actions/checkout@v4
+        with:
+          path: source
+          ref: b7576e28008b938b0f4d832ae3f2688bde996444
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile packaging helpers and verify strict source/build gates
+        run: |
+          python -m py_compile transport/release_transport/*.py transport/validation/beta_native_proof.py
+          python - <<'PY'
+          import json,subprocess
+          repository='ryankorkowski-boop/helix-sequencer'
+          def api(path):return json.loads(subprocess.check_output(['gh','api','repos/'+repository+'/'+path]))
+          for run in [38517649497,38517654958,38517654938]:
+              data=api(f'actions/runs/{run}')
+              assert data['head_sha']=='cb6cff6bcf0227386a244b4bf2ea369ee9bab228' and data['conclusion']=='success',(run,data['conclusion'])
+          for commit in ['cb6cff6bcf0227386a244b4bf2ea369ee9bab228','b7576e28008b938b0f4d832ae3f2688bde996444']:
+              assert api('git/commits/'+commit)['tree']['sha']=='407732d71ab0f38390e7202a7698596e29ae8503'
+          PY
+      - name: Download exact tested platform artifacts
+        run: |
+          mkdir inputs
+          gh api "repos/$REPO/actions/artifacts/11872766332/zip" > inputs/windows.zip
+          gh api "repos/$REPO/actions/artifacts/11872937055/zip" > inputs/android.zip
+      - name: Install native verification dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install numpy pillow zstandard scipy
+          mkdir -p "$RUNNER_TEMP/xlights-native"
+          cd "$RUNNER_TEMP/xlights-native"
+          curl --fail --location --retry 3 --output xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xLights.AppImage' | sha256sum --check
+          chmod +x xLights.AppImage
+          ./xLights.AppImage --appimage-extract >/dev/null
+      - name: Render and verify actual native rung/circuit outputs
+        working-directory: source
+        run: |
+          xvfb-run -a python ../transport/validation/beta_native_proof.py --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun" --output "$GITHUB_WORKSPACE/native-proof"
+      - name: Package, extract, hash and decode deliverables
+        run: |
+          python transport/release_transport/assemble_installers.py --source source --inputs inputs --notes transport/release_transport/BETA_RELEASE_NOTES.md --output deliverables
+          python transport/release_transport/assemble_diagnostics.py --source source --native native-proof --notes transport/release_transport/BETA_RELEASE_NOTES.md --output deliverables
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Beta-Final-Installer-Payload
+          path: deliverables/Helix_Beta_v1.0_Installers/
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Beta-Final-Layout-Payload
+          path: deliverables/Helix_Beta_v1.0_Layouts_and_Diagnostics/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Publish distinct beta prerelease
+        run: |
+          tag=helix-beta-v1.0-final-integration-20261014
+          gh release create "$tag" --repo "$REPO" --target b7576e28008b938b0f4d832ae3f2688bde996444 --prerelease --title 'Helix Beta v1.0 — tested integration packages' --notes-file transport/release_transport/BETA_RELEASE_NOTES.md
+          gh release upload "$tag" --repo "$REPO" deliverables/Helix_Beta_v1.0_Installers.zip deliverables/Helix-Beta-v1.0.apk deliverables/Helix_Beta_v1.0_Layouts_and_Diagnostics.zip deliverables/SHA256SUMS.txt
+      - name: Verify public release bytes
+        run: |
+          mkdir public-download-check
+          gh release download helix-beta-v1.0-final-integration-20261014 --repo "$REPO" --dir public-download-check
+          cd public-download-check
+          sha256sum --check SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Helix-Beta-Final-Native-Proof
+          path: native-proof/
+          if-no-files-found: warn
+          retention-days: 30
