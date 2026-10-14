@@ -34,3 +34,10 @@ Status: NOT RELEASE READY. This branch stacks on PR #147; do not merge until ver
 
 ## Evidence policy
 Each checkbox requires a concrete source SHA and artifact or test receipt. Synthetic fixture results are not evidence of original-song recognition. Do not mark a missing audio/hardware/legal gate green. Preserve default branch and historical MIT/third-party notices.
+
+## Running implementation log
+
+- 2026-10-14 — Started persistent evidence-gated checklist on this branch. PR #148 includes two kick-recovery protections and two regression cases. Neither a successful CI receipt nor full-suite test receipt has been obtained; these remain unchecked.
+- 2026-10-14 — Native CI workflow edit attempted but blocked by the write safety gate; no workflow change claimed. Next action: run focused tests on exact HEAD using a permitted execution environment, then full CI, and update this ledger with concrete run links and failures.
+
+**Checklist maintenance rule:** Append each implementation commit, exact test outcome, and remaining blocker to this file as work progresses. Never mark a gate complete from a plan, attempted tool call, or prior-source test receipt.
