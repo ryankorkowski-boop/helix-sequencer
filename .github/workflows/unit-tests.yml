@@ -80,6 +80,11 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
 
+      - name: Install native media test tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+
       - name: Compile Python sources
         run: python -m compileall core ai xlights tools tests main.py gui_launcher.py
 

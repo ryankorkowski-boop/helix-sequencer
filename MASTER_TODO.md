@@ -1,5 +1,12 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-14 — complete CI media dependencies; runtime release stays pinned
+
+Goal: make strict3.11/3.12CI run the same1475collected tests as the validated local environment. Change only requirements-dev.txt, unit-tests.yml and this ledger: add zstandard and install systemFFmpeg. Preserve every runtime code/data/GUI byte from a8eb35b5e84772d3fc910d4c07435916b5c3af91; no new platform binary rebuild is needed for these test-only dependencies. The common Windows/Android release source remains a8eb35b.
+
+Evidence: local full suite1470passed/5skipped(2.wav absent)/36warnings in218.06s, plus68focused repair regressions. Strict remote CI exposed9environment failures: eight shellFFmpeg lookups and one missingzstandard import; no runtime algorithm failure was observed. Earlier source2b's allowed broad collection failures are superseded by this strict, fully provisioned gate. New CI receipts must be checked before claiming remote success. Latest Windows build38516812904passes; Android38516813012and pinned native run38517353322supply release-source verification. Risks: apt/PyPI availability, missing fixed2.wav sandbox input, and previously masked tests; no tests are ignored or marked xfail to achieve a pass. Full-song licensing and final performer/choreography gates remain as documented.
+
+
 ## 2026-10-14 — stop hiding full regression collection failures
 
 Goal: correct a discovered CI gate while preserving the verified application source2b295284 and exact installer binaries. Changed requirements-dev.txt and unit-tests.yml on an isolated test-dependency branch; add the preview runtime moderngl5.13 and remove continue-on-error only from full regression. Keep existing lint baseline behavior and all engine/band algorithms, platform builds, original media and integration source intact.

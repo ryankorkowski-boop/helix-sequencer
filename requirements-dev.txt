@@ -10,3 +10,4 @@ trimesh>=5.1.1
 # Band scene/export tests import the supported preview runtime.
 moderngl==5.13.0
 cmudict>=1.0
+zstandard>=0.23
