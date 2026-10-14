@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: source
-          ref: 2b295284ae2c0d33fc40e8c3d54a9dbea0677fcc
+          ref: a8eb35b5e84772d3fc910d4c07435916b5c3af91
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
