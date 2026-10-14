@@ -27,3 +27,8 @@ Support notes
 - Use only sequences and assets you own or have permission to analyze.
 - Review generated sequences before live show use.
 - Legacy multi-version launchers were archived; the current supported path is the maintained master profile.
+
+
+Licensing
+---------
+Helix is free for noncommercial personal and hobby use. Commercial use requires a separate paid written license. PolyForm Noncommercial 1.0.0 applies to Helix-owned material. See LICENSE and COMMERCIAL_LICENSING.md. Contact: facebook.com/helixsequencer.
