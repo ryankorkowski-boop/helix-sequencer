@@ -1,0 +1,16 @@
+name: Cancel superseded native band publication
+on:
+  push:
+    branches: [release/stop-stale-publication-20261014]
+permissions:
+  actions: write
+jobs:
+  stop-stale-publication:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Stop superseded source publication before assets are released
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          status=$(gh api repos/ryankorkowski-boop/helix-sequencer/actions/runs/38615130749 --jq .status)
+          if test "$status" != completed; then gh api --method POST repos/ryankorkowski-boop/helix-sequencer/actions/runs/38615130749/cancel; fi
