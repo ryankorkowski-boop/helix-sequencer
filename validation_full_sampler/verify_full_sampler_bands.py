@@ -23,7 +23,7 @@ def main():
                 expected[int(e.get('startTime'))//50:int(e.get('endTime'))//50,p-48]=True
         ids={p:np.asarray(m.submodels['NOTE_MIDI_'+str(p)])-1 for p in range(48,97)}
         notes[m.name]=(expected,ids)
-    executable=Path('xlights/squashfs-root/AppRun').resolve()
+    executable=Path('native-xlights/squashfs-root/AppRun').resolve()
     with (folder/'native_render.log').open('w') as log:
         subprocess.run([str(executable),'--headless','-q','-s',str(folder.resolve()),'-od',str(folder.resolve()),str(path.resolve())],stdout=log,stderr=subprocess.STDOUT,check=True,timeout=900)
     reader=FseqReader(path.with_suffix('.fseq'));assert reader.info.frames==3603 and reader.info.step_ms==50

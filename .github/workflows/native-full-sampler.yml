@@ -30,11 +30,11 @@ jobs:
           python -m pip install numpy pillow zstandard scipy trimesh moderngl imageio imageio-ffmpeg soundfile
           cp -r proof-checkout/validation_full_sampler source/proof
           cd source
-          mkdir xlights
-          curl --fail --location --retry 3 --output xlights/xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
-          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xlights/xLights.AppImage' | sha256sum --check
-          chmod +x xlights/xLights.AppImage
-          cd xlights
+          mkdir native-xlights
+          curl --fail --location --retry 3 --output native-xlights/xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  native-xlights/xLights.AppImage' | sha256sum --check
+          chmod +x native-xlights/xLights.AppImage
+          cd native-xlights
           ./xLights.AppImage --appimage-extract >/dev/null
       - name: Render and verify every native bar frame and both opening kick passages
         working-directory: source
