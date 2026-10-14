@@ -32,9 +32,11 @@ def test_recovery_abstains_without_references_and_does_not_turn_silence_into_hit
 
 def test_tiny_review_window_abstains_instead_of_crashing():
     sr, y, _, refs = fixture()
-    actual, report = recover_kicks(y, sr, refs[:3], start=.2, end=.2001)
-    assert actual == refs[:3]
-    assert report['abstention'] == 'fewer than three accepted recording-specific kick references'
+    close_refs = [dict(timestamp=t, drum_family='kick', confidence=.8)
+                  for t in (.2, .20003, .20006)]
+    actual, report = recover_kicks(y, sr, close_refs, start=.2, end=.2001)
+    assert actual == close_refs
+    assert report['abstention'] == 'review window too short for zero-phase low-band analysis'
 
 
 def test_silent_accepted_references_do_not_generate_false_kicks():
