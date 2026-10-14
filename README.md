@@ -4,6 +4,10 @@
 
 A Python-based automated sequencing engine for [xLights](https://xlights.org/), transforming audio into synchronized light show sequences.
 
+## Licensing
+
+**Free for noncommercial homeowners and hobbyists. Commercial use requires a separate paid written license.** Helix is offered under the [PolyForm Noncommercial License 1.0.0](LICENSE) for material the licensors may relicense. See [commercial licensing details](COMMERCIAL_LICENSING.md). For commercial inquiries, visit https://facebook.com/helixsequencer. Existing third-party licenses and previously granted MIT rights remain unaffected.
+
 ## 🚀 Quick Start
 
 ### Prerequisites
