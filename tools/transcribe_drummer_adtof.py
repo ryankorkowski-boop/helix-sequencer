@@ -50,7 +50,7 @@ def resolve_tom_pitch(samples, sr, references):
     return ("high","mid","floor")[int(order[0])],evidence
 
 
-def transcribe(audio_path, analysis_audio, output, activation_output=None, family_stems=None, tom_references=None):
+def transcribe(audio_path, analysis_audio, output, activation_output=None, family_stems=None, tom_references=None, kick_recovery_window=None):
     import torch
     from adtof_pytorch import (calculate_n_bins, create_frame_rnn_model,
                                get_default_weights_path, load_audio_for_model,
@@ -131,6 +131,12 @@ def transcribe(audio_path, analysis_audio, output, activation_output=None, famil
                                    velocity_method="per_family_95th_percentile_attack_rms_sqrt",
                                    tom_identity="isolated_resonance_calibration" if tom_references else "not_provided_by_five_family_model",
                                    tom_reference_hz=tom_references, family_stems=str(family_stems) if family_stems else None), events=rows)
+    if kick_recovery_window is not None:
+        if Path(analysis_audio).resolve()==Path(audio_path).resolve():
+            raise ValueError('Kick recovery requires an explicitly isolated drum stem')
+        from audio.rapid_kick_recovery import recover_kicks
+        payload['events'],payload['kick_recovery']=recover_kicks(
+            y,sr,payload['events'],start=kick_recovery_window[0],end=kick_recovery_window[1])
     Path(output).parent.mkdir(parents=True,exist_ok=True)
     Path(output).write_text(json.dumps(payload,indent=2)+"\n")
     return payload
@@ -141,9 +147,11 @@ if __name__ == "__main__":
     p.add_argument("audio",type=Path);p.add_argument("--analysis-audio",type=Path)
     p.add_argument("--output",type=Path,required=True);p.add_argument("--activations",type=Path)
     p.add_argument("--family-stems",type=Path)
+    p.add_argument("--kick-recovery-window",nargs=2,type=float,metavar=('START','END'),
+                   help="Opt-in recording-calibrated transient recovery on an isolated drum stem; requires listening review")
     p.add_argument("--tom-reference-hz",help="Measured recording resonances: HIGH,MID,FLOOR; absent means abstain")
     a=p.parse_args();references=[float(v) for v in a.tom_reference_hz.split(",")] if a.tom_reference_hz else None
-    result=transcribe(a.audio,a.analysis_audio or a.audio,a.output,a.activations,a.family_stems,references)
+    result=transcribe(a.audio,a.analysis_audio or a.audio,a.output,a.activations,a.family_stems,references,a.kick_recovery_window)
     from collections import Counter
     print(json.dumps(dict(raw_counts=Counter(r["drum_family"] for r in result["events"]),
                           output=str(a.output),review_status=result["review_status"]),indent=2))

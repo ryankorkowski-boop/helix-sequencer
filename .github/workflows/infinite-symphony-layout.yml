@@ -2,9 +2,10 @@ name: Infinite Symphony 3D Layout
 
 on:
   push:
-    branches: [codex/band-sampler-timed-corrections-20261013]
+    branches: [codex/band-sampler-timed-corrections-20261013, codex/beta-final-completion-20261014]
     paths:
       - models/infinite_symphony_showcase.py
+      - models/final_band*.py
       - tools/build_infinite_symphony_showcase.py
       - .github/workflows/infinite-symphony-layout.yml
   workflow_dispatch:
@@ -22,7 +23,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install layout dependencies
-        run: python -m pip install numpy Pillow
+        run: python -m pip install numpy Pillow trimesh
       - name: Build nine-world native 3D layout
         run: python -m tools.build_infinite_symphony_showcase
       - name: Verify export and report full-song dependency

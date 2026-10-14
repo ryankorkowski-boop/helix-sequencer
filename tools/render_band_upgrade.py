@@ -125,6 +125,16 @@ class GLView:
 
 
 def native_drummer(row):
+    if row.get('drummer_xsq'):
+        source=Path(row['drummer_xsq'])
+        frames=math.ceil(float(row['duration'])*20)
+        levels,strikes,hands,schedule=decode_review_schedule(source,frames)
+        return levels,strikes,hands,{'xsq_sha256':sha(source),
+            'drummer_levels_sha256':hashlib.sha256(levels.tobytes()).hexdigest(),
+            'drummer_strike_holds_sha256':hashlib.sha256(strikes.tobytes()).hexdigest(),
+            'source_hand_schedule_sha256':hashlib.sha256(hands.tobytes()).hexdigest(),
+            'schedule':schedule,'native_fseq_verified':False,
+            'claim':'source-bound tagged XSQ schedule; native render is a separate gate'}
     folder=OLD/'shows'/f'{row["id"]}_band'
     frames,step=read_fseq(folder/'Snowman_Band.fseq');assert step==50
     levels,strikes,hands,schedule=decode_review_schedule(folder/'Snowman_Band.xsq',len(frames))

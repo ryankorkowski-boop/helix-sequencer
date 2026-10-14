@@ -88,6 +88,7 @@ class HelixGui(tk.Tk):
         self.showcase_gate_var = tk.BooleanVar(value=False)
         self.spatial_accent_var = tk.BooleanVar(value=False)
         self.ac_on_only_var = tk.BooleanVar(value=False)
+        self.pitched_props_var = tk.BooleanVar(value=True)
         self._busy = False
         self._building_layout = False
         self._build_ui()
@@ -266,6 +267,8 @@ class HelixGui(tk.Tk):
         self.quality_button.grid(row=0, column=3, **pad)
         self.ac_on_button = ttk.Checkbutton(render_tools, text="RGW AC On only", variable=self.ac_on_only_var)
         self.ac_on_button.grid(row=0, column=4, **pad)
+        self.pitched_props_button = ttk.Checkbutton(render_tools, text="Note-aware helix and mallet props", variable=self.pitched_props_var)
+        self.pitched_props_button.grid(row=2, column=0, columnspan=3, sticky="w", **pad)
         self.native_buttons = []
         for column,(label,callback) in enumerate([("Render in xLights",self._native_render_fseq),
             ("Preview rendered FSEQ",self._fseq_preview),("Export existing AC XSQ to LMS",self._export_legacy_lms)]):
@@ -320,6 +323,8 @@ class HelixGui(tk.Tk):
             item.configure(state="disabled" if rgb_disabled else "readonly" if isinstance(item,ttk.Combobox) else "normal")
         for item in (self.spatial_button,self.quality_button):
             item.configure(state="disabled" if rgb_disabled else "normal")
+        if hasattr(self,'pitched_props_button'):
+            self.pitched_props_button.configure(state="disabled" if rgb_disabled else "normal")
         self.ac_on_button.configure(state="disabled" if lor or self.lor_compatible_var.get() else "normal")
         for item in self.native_buttons:
             item.configure(state="disabled" if lor else "normal")
@@ -574,6 +579,8 @@ class HelixGui(tk.Tk):
                 "xLights AC compatible: output XSQ; optionally convert to LOR in xLights."
             )
         if not lor_mode and not self.lor_compatible_var.get():
+            if not self.pitched_props_var.get():
+                cmd.append("--helix-no-pitched-props")
             if not self.ac_on_only_var.get() and self.palette_mode_var.get() == "Musical neon palettes":
                 cmd.extend(["--palette-mode", "neon"])
             if not self.ac_on_only_var.get() and self.spatial_accent_var.get():

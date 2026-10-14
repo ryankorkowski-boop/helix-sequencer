@@ -1,5 +1,45 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-14 — final six-performer band and release reconciliation (in progress)
+
+Additional implementation: finite solid-surface native bands with49 addressable
+bars/reachable contact poses, themed18-house variations, 9.102x layout; shared
+GUI/CLI/Android automatic native pitched-prop routing and opt-out; recording-bound
+rapid-kick recovery; screened harmonic residual note analysis; final two-stage
+renderer; native validation of bands and six real-source sampler light sequences.
+Original sampler WAV was recovered with exact expected0fc2ab5d hash; it is kept
+out of source/public releases. Unmodified model found7 opening kicks; measured
+recording-calibrated low-band profiles recover9 missing attacks, including the8
+rapid attacks105–110ms apart. No fabricated count/beat events; listening remains
+open. Direct source output grows from1838 to1865 visual placements.
+
+Evidence: baseline1470passed/5skipped in308.44s;15 scene/rung tests,6 giant-layout
+checks,8 new musical regressions, native band XSQ fixture and53 focused final
+runtime checks pass. Original GUI/LOR/Android recovery tests remain unchanged.
+Official PolyForm text fetched again and byte-matches LICENSE (4563bytes).
+Local xLights2026.18 binary hash matches the previous native runtime, but Xvfb
+cannot establish sockets in this environment; the same-source Actions workflow
+performs native validation instead. Full new candidate suite/media/platform
+verification remains pending. No stable release or default merge is authorized
+by incomplete gates. Read docs/BETA_FINAL_COMPLETION_20261014.md for the full matrix.
+
+Goal: finish issue143/144 on codex/beta-final-completion-20261014 from verified
+cb6cff6. Reconciled PR134/137/138/139/140/141/142/145/146 and 42 integration
+commits in the requested window; previous verified Windows/API30/API36/native
+receipts are retained as prior-source evidence. Default and unfinished branches
+are preserved. Changed: models/final_band_scene.py, music/unified_mallet.py,
+tools/final_band_performance.py and finite-input repairs in music/magic_keyboard.py.
+New: six visible performers, one right-side pitched/mallet performer, solid rock
+costumes, purple secondary singer, all eligible canonical pitched lanes share
+one note schedule, explicit two-hand chord limitations and source-bound separate
+voice inputs. Historical seven-member and wire stages remain available.
+Preserved: guitar event/route/rig/contact math, original assets, drummer detection,
+desktop/Android workflows and physical target contracts. No fabricated voices or
+kick hits. Tests and actual native/media evidence are pending below; no complete
+release claim. Risks: scene visibility, broad pitched routing, finite-frame contact
+quantization. External gates: original mixed-voice separation, rights clearance,
+full LightsOutTheme source, physical Samsung/controller/LOR software validation.
+
 ## 2026-10-14 — complete CI media dependencies; runtime release stays pinned
 
 Goal: make strict3.11/3.12CI run the same1475collected tests as the validated local environment. Change only requirements-dev.txt, unit-tests.yml and this ledger: add zstandard and install systemFFmpeg. Preserve every runtime code/data/GUI byte from a8eb35b5e84772d3fc910d4c07435916b5c3af91; no new platform binary rebuild is needed for these test-only dependencies. The common Windows/Android release source remains a8eb35b.

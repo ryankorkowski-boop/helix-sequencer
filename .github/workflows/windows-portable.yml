@@ -8,9 +8,14 @@ on:
       - feature/android-offline-app-20261013
       - codex/gui-branding-and-guidance-20261013
       - codex/beta-final-integration-20261014
+      - codex/beta-final-completion-20261014
     tags:
       - 'v*'
     paths:
+      - models/**
+      - music/**
+      - audio/**
+      - core/**
       - core/sequence_builder.py
       - tools/**
       - config/support_links.json
@@ -25,6 +30,10 @@ on:
       - requirements-windows-portable.txt
   pull_request:
     paths:
+      - models/**
+      - music/**
+      - audio/**
+      - core/**
       - core/sequence_builder.py
       - tools/**
       - config/support_links.json
