@@ -50,7 +50,7 @@ def main():
         on=np.asarray(curve)>curve[0]+1;starts=np.flatnonzero(on&~np.r_[False,on[:-1]])*.05
         assert len(starts)==16,(name,curve,starts)
         kicks[name]=starts.tolist()
-    result={'source_commit':'f38f489d1efed08e2e5007835a07213d00633c7a',
+    result={'source_commit':'7a1ffa75388b9c331e4e9e807f0f280886f36cfa',
         'source_audio_sha256':'0fc2ab5dfee87d4af3e2ab326f76c7ee9cb3a5a893644487d2e7350a48cefafb',
         'frames':3603,'fps':20,'seconds':180.15,'active_performer_frames':active,
         'exact_bar_state_checks':checked,'opening_kicks':kicks,'audio_included':False,

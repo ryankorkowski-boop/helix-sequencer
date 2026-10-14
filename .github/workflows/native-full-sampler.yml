@@ -18,7 +18,7 @@ jobs:
           path: proof-checkout
       - uses: actions/checkout@v4
         with:
-          ref: f38f489d1efed08e2e5007835a07213d00633c7a
+          ref: 7a1ffa75388b9c331e4e9e807f0f280886f36cfa
           path: source
       - uses: actions/setup-python@v5
         with:

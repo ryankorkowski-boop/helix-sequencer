@@ -1,7 +1,10 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
-### 2026-10-14 — complete sampler native proof runtime directory
-Diagnostic branch only; app source f38f489 unchanged. Run38614265136 stopped before xLights because xlights is a source package. Use native-xlights runtime directory and rerun unchanged full-frame assertions without audio.
+### 2026-10-14 — rerun complete native sampler on exclusive-key source
+Diagnostic branch pins7a1ffa after real key-overlap repair. Keep all3603-frame,49bar and16kick assertions unchanged. Initial native failures are retained. No soundtrack is committed or published.
+
+### 2026-10-14 — full-source native validation found cross-key arm illumination
+Run38614788465 rendered the complete actual sampler and failed unchanged key-state checks at frame651/MIDI55 while only MIDI67 was requested. Finite surface sampling merged passing arm vertices and unrelated bar vertices. Give NOTE_MIDI nodes exclusive ownership, trim those nodes from all other submodels, and preserve channel allocation/bar identities. Add serialized geometry overlap assertions; rerun focused/full/native/platform gates. The GL movie renderer and six-layout engine outputs are unaffected, but final native-band application binaries need a new exact-source build. Prior f38 receipts stay identified as earlier-source evidence, not the final release.
 
 ### 2026-10-14 — Native duplicate drummer names and test-media artifact boundary
 - Native xLights run 38611486666 reached actual FSEQ output and failed the unchanged drummer contact assertion. Both copied drums serialized as HX_SNOWMAN_DRUMMER_V3 because imported attrs overrode their new names; kick nodes were zero on both stages. Remove only that copied identity attribute, preserving original grid/submodels, and verify all serialized model names against allocation.
