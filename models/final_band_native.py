@@ -57,6 +57,9 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
     for i, axis in enumerate('XYZ'):
         drummer.attrs['Scale'+axis] = str(float(drummer.attrs.get('Scale'+axis, 1))*factors[i])
         drummer.attrs['WorldPos'+axis] = str(new_center[i])
+    # Imported XML attributes include the old model name. Native serializers
+    # expand attrs last, so retaining it silently duplicates both stage names.
+    drummer.attrs.pop('name', None)
     drummer.name = prefix+'_DRUMMER'; drummer.zone = prefix
     drummer.details.update(final_band_role='drummer', stage=prefix,
         style='source drummer; original component/contact submodels retained')

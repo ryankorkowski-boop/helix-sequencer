@@ -149,5 +149,8 @@ jobs:
             android/app/build/outputs/bundle/release/*.aab
             android/app/build/outputs/androidTest-results/**
             android/app/build/reports/androidTests/**
-            android/app/build/device-proof/**
+            android/app/build/device-proof/**/*.json
+            android/app/build/device-proof/**/*.txt
+            android/app/build/device-proof/**/*.log
+            android/app/build/device-proof/**/*.png
 

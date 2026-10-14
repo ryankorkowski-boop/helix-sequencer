@@ -6,6 +6,12 @@ from validation.final_band_native_proof import build_fixture
 def test_native_final_band_export_has_two_complete_source_timed_bands(tmp_path):
     garden,sequence,report=build_fixture(tmp_path/'show')
     assert len(report['stages'])==2 and all(set(s)=={'drummer','bass','guitar','lead','harmony','xylophone'} for s in report['stages'].values())
+    # Check serialized native identity, not only in-memory names. Imported
+    # drummer attrs used to override both stage names at XML serialization.
+    models=ET.parse(sequence.parent/'xlights_rgbeffects.xml').getroot().findall('models/model')
+    assert [m.get('name') for m in models]==[m.name for m in garden.models]
+    assert len({m.get('name') for m in models})==len(models)
+    assert [int(m.get('StartChannel')) for m in models]==[m.start for m in garden.models]
     root=ET.parse(sequence).getroot()
     for prefix in ('HX_BETA_STAGE_A','HX_BETA_STAGE_B'):
         parent=root.find(f"ElementEffects/Element[@name='{prefix}_XYLOPHONE']")
