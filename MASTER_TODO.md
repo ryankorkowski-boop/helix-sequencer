@@ -1,5 +1,39 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-14 — fix actual rapid-kick visual coalescing and missed melodic lanes
+
+Goal: close defects found by real output validation rather than accepting the
+first render. Changed the kick-only path of tools/integrate_drummer_v3_into_xsq.py:
+repeated observed kicks keep separate holds/release gaps; overlapping shared-arm
+non-kick poses retain their existing maximum-union behavior. Source detection
+held492kicks but visual coalescing hid eight fast opening attacks in one union.
+The earlier1838→1865 placement estimate above is superseded by measured1839 before
+this repair; final actual counts and native onset verification are recorded below.
+Never claim sixteen visible opening kicks from logical event counts alone.
+
+The residual note analyser now screens the non-bass/non-drum sum of other/guitar/
+piano stems because separator labels misfile melodic sources. Harmonic dominance
+and vocal exclusion stay mandatory. The30–31.5s passage now has7supported note
+events;53–60s has17,38–42s59 and73.5–76s34. These are measured estimates, not verified
+instrument labels. Guitar notes/routes/contact math remain unchanged.
+The final band driver precomputes exactly the same bar decays and reuses identical
+drummer pixels on two stages; this is a rendering optimization, not changed music.
+Add original source-bound light-only kick native regression and21focused passing
+checks. Full new suite and revised media/native validation remain required.
+
+Native CI also exposed missing soundfile in the minimal mask-loader environment.
+All native dependencies now pass a clean isolated-venv build of the giant and
+two-band fixture before remote rerun. Android concurrency cancels stale builds
+only on the same ref. Preserve original files, old review movies and all other
+branches. Previous full1481pass receipt remains valid for the earlier snapshot;
+the new kick semantics need a fresh regression receipt.
+
+Measured after the kick export repair:1997 visual placements; tagged XSQ review
+has16 distinct opening kick rises including8 rapid rises at1.90,2.00,2.10,2.25,
+2.35,2.45,2.55,2.65s. Native playback of these actual source-bound cue intervals
+is now a separate mandatory regression. The isolated nine-dependency native
+environment builds the1153-model giant and two-stage fixture successfully.
+
 ## 2026-10-14 — provision final native layout runtime and keep platform source aligned
 
 Goal: fix concrete remote validation startup failures without changing runtime

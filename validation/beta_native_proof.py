@@ -151,10 +151,13 @@ def main():
     bands=probe(out,a.xlights.resolve(),render)
     from validation.six_layout_native_proof import probe as six_probe
     six=six_probe(out,a.xlights.resolve(),render)
+    from validation.original_kick_native_proof import probe as kick_probe
+    original_kicks=kick_probe(out,a.xlights.resolve(),render)
     result={'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         'xlights_version':'2026.18','layout_native_import_verified':True,
         'rung_output_verified':True,'physical':physical,'final_band_output':bands,
         'six_real_sampler_layouts_verified':len(six),'full_song_showcase_complete':False,
+        'original_sampler_opening_kicks':original_kicks,
         'music_rights_cleared':False,'files':{str(p.relative_to(out)):dict(bytes=p.stat().st_size,sha256=hashlib.sha256(p.read_bytes()).hexdigest()) for p in out.rglob('*') if p.is_file()}}
     (out/'VALIDATION.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps({k:v for k,v in result.items() if k!='files'},indent=2))

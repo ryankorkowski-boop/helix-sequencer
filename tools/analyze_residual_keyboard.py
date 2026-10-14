@@ -47,7 +47,12 @@ def main():
     p.add_argument('--stems',type=Path,required=True);p.add_argument('--analysis',type=Path,required=True)
     a=p.parse_args()
     with np.load(a.analysis/'performance_curves.npz') as arrays:n=len(arrays['bass_energy'])
-    events,proof=residual_notes(mono(a.stems/'other.wav'),mono(a.stems/'vocals.wav'),n)
+    # Six-source separation labels are fallible: synth/bell material can occur
+    # in the guitar lane. Screen the non-bass, non-drum melodic sum acoustically
+    # instead of treating a separator label as an instrument identity.
+    melodic=sum(mono(a.stems/(lane+'.wav')) for lane in ('other','guitar','piano'))
+    events,proof=residual_notes(melodic,mono(a.stems/'vocals.wav'),n)
+    proof['candidate_stems']=['other','guitar','piano']
     path=a.analysis/'note_events.json';data=json.loads(path.read_text())
     data['other_pitched']=[e.to_dict() for e in events];path.write_text(json.dumps(data,indent=2)+'\n')
     proof['source_sha256']=hashlib.sha256(a.source.read_bytes()).hexdigest()

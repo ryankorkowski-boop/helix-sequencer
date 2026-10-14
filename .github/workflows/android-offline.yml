@@ -8,6 +8,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: helix-android-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build-and-offline-smoke:
     strategy:

@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import numpy as np
+from tools.readable_band_performance import ReadablePerformance
 from tools.musical_band_performance import MusicalBandPerformance
 from music.magic_keyboard import magic_keyboard_events
 from music.unified_mallet import unified_mallet_schedule, bar_pitch
@@ -31,6 +32,15 @@ class FinalBandPerformance(MusicalBandPerformance):
             start = max(0, round(e.start*20)); end = min(self.n, max(start+1, round(e.end*20)))
             self._bar_levels[start:end, p-min(scene.bars)] = np.maximum(
                 self._bar_levels[start:end, p-min(scene.bars)], e.velocity)
+        # Precompute the same short mallet decay once. Scanning every source
+        # event for every rendered frame previously dominated dense passages.
+        for hit in self.mallet_schedule:
+            start=max(0,round(hit['time']*20))
+            for i in range(start,min(self.n,start+7)):
+                age=i/20-hit['time']
+                if 0<=age<.30:
+                    p=hit['pitch']-min(scene.bars)
+                    self._bar_levels[i,p]=max(self._bar_levels[i,p],hit['velocity']*np.exp(-age/.105))
         # True separate source lanes are optional, explicitly source-bound and
         # never inferred from duplicated lyrics, pitch/gender or refrains.
         path = Path(analysis_root)/row["id"]/"independent_voices.npz"
@@ -49,9 +59,8 @@ class FinalBandPerformance(MusicalBandPerformance):
             self.independent_voices_verified = bool(proof.get("listening_verified"))
 
     def levels(self, i):
-        levels = super().levels(i)
+        levels = np.pad(ReadablePerformance.levels(self,i),(0,64))
         # Held notes and release remain tied to musical events. The hidden
         # keyboard has no separately visible performer.
-        levels[128:128+len(self.scene.bars)] = np.maximum(
-            levels[128:128+len(self.scene.bars)], self._bar_levels[i])
+        levels[128:128+len(self.scene.bars)] = self._bar_levels[i]
         return levels

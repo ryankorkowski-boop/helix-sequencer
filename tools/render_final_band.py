@@ -15,6 +15,15 @@ from animation.articulated_source_drummer import ArticulatedDrummer
 from core.output_provenance import brand_frame,stamp_mp4
 
 
+class SharedDrummerFrame(DynamicDry):
+    """Both stages use the same source performance; reuse identical pixels."""
+    def frame(self,lighting,strikes,hand):
+        key=(self.time,tuple(lighting),tuple(strikes),int(hand))
+        if getattr(self,'_frame_key',None)!=key:
+            self._frame_pixels=super().frame(lighting,strikes,hand);self._frame_key=key
+        return self._frame_pixels
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--audio',type=Path,required=True);p.add_argument('--analysis',type=Path,required=True)
@@ -29,8 +38,8 @@ def main():
     scenes=[FinalBandScene(),FinalBandScene('circuit_garage',rock=True)]
     performers=[FinalBandPerformance(row,s,a.analysis.parent) for s in scenes]
     garden=TwinBandGarden(*scenes);view=TwinStageView(garden,a.width,a.height)
-    players=[ArticulatedDrummer(physical_hits(a.drummer),natural_arms=True) for _ in scenes]
-    view.dry,view.second_dry=[DynamicDry(p) for p in players]
+    player=ArticulatedDrummer(physical_hits(a.drummer),natural_arms=True)
+    view.dry=view.second_dry=SharedDrummerFrame(player)
     tmp=a.output.with_name(a.output.stem+'.rendering.mp4');writer=encoder(tmp,a.width,a.height,20,a.audio,a.start,seconds)
     contacts=0;max_error=0;frames=math.ceil(seconds*20);snapshot_times=(0,2,2.45,30.5,40,55,74,120,150,179)
     try:

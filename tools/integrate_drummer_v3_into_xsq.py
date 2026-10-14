@@ -208,6 +208,22 @@ def _merge_visual_events(
     if not rows:
         return []
     ordered = sorted(rows, key=lambda row: (int(row["start_ms"]), int(row["end_ms"])))
+    if all(row.get('source_type')=='kick' for row in ordered):
+        # Kick has no shared arm geometry. Merging overlapping holds hides
+        # repeated acoustic attacks and causes review decoders to drop the union.
+        # Keep each observed onset, with a release gap before the next attack.
+        separate=[]
+        for row in ordered:
+            if separate and row['start_ms']==separate[-1]['start_ms']:
+                if float(row['intensity'])>float(separate[-1]['intensity']):
+                    separate[-1]=dict(row)
+            else:separate.append(dict(row))
+        for current,following in zip(separate,separate[1:]):
+            gap=int(following['start_ms'])-int(current['start_ms'])
+            if int(current['end_ms'])>=int(following['start_ms']):
+                release=min(50,max(1,gap//2))
+                current['end_ms']=max(int(current['start_ms'])+1,int(following['start_ms'])-release)
+        return separate
     merged: list[dict[str, object]] = []
     for row in ordered:
         if not merged or int(row["start_ms"]) > int(merged[-1]["end_ms"]):
