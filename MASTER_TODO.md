@@ -1,5 +1,22 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-14 — provision final native layout runtime and keep platform source aligned
+
+Goal: fix concrete remote validation startup failures without changing runtime
+algorithms or weakening checks. Changed only four workflow definitions and this
+ledger: the new solid-band geometry needs SciPy and canonical drummer-mask
+loading needs imageio/imageio-ffmpeg. Layout run38608542592 stopped on missing
+SciPy; native run38608542759 stopped on missing imageio before xLights executed.
+Add those declared dependencies and make the candidate Windows/Android builds
+follow native-workflow changes so all final artifacts use the same revision.
+Preserve every application source/data/GUI byte from ae9ab309.
+Evidence: final local full suite1481passed/5missing-2.wav skips/36warnings in358.57s;
+53 focused runtime and4 native geometry/export checks pass. Real two-stage movie
+has3603frames/180.15s, zero measured mallet-contact error, complete decode and0ms
+audio/video start delta; source correlation audit passes all10windows.
+Remaining gates and regression risks are in the completion matrix; native and
+platform CI rerun receipts must be checked, not inferred from local tests.
+
 ## 2026-10-14 — final six-performer band and release reconciliation (in progress)
 
 Additional implementation: finite solid-surface native bands with49 addressable

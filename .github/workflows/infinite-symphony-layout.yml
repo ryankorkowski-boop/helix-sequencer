@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install layout dependencies
-        run: python -m pip install numpy Pillow trimesh
+        run: python -m pip install numpy Pillow scipy trimesh imageio imageio-ffmpeg
       - name: Build nine-world native 3D layout
         run: python -m tools.build_infinite_symphony_showcase
       - name: Verify export and report full-song dependency

@@ -2,9 +2,9 @@ name: Helix Android offline beta
 on:
   push:
     branches: ['feature/android-offline-app-*', 'codex/gui-branding-and-guidance-20261013', 'codex/beta-final-integration-20261014', 'codex/beta-final-completion-20261014']
-    paths: ['android/**', 'config/support_links.json', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'core/**', 'audio/**', 'music/**', 'models/**', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml']
+    paths: ['android/**', 'config/support_links.json', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'core/**', 'audio/**', 'music/**', 'models/**', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml', '.github/workflows/beta-completion-native.yml']
   pull_request:
-    paths: ['android/**', 'config/support_links.json', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'core/**', 'audio/**', 'music/**', 'models/**', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml']
+    paths: ['android/**', 'config/support_links.json', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'core/**', 'audio/**', 'music/**', 'models/**', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml', '.github/workflows/beta-completion-native.yml']
   workflow_dispatch:
 permissions:
   contents: read

@@ -26,6 +26,7 @@ on:
       - tests/test_windows_portable_entry.py
       - tests/test_gui_integration.py
       - .github/workflows/windows-portable.yml
+      - .github/workflows/beta-completion-native.yml
       - requirements.txt
       - requirements-windows-portable.txt
   pull_request:
@@ -44,6 +45,7 @@ on:
       - tests/test_windows_portable_entry.py
       - tests/test_gui_integration.py
       - .github/workflows/windows-portable.yml
+      - .github/workflows/beta-completion-native.yml
       - requirements.txt
       - requirements-windows-portable.txt
 

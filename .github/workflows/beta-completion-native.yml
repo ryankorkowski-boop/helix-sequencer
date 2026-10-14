@@ -24,7 +24,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
-          python -m pip install numpy pillow zstandard scipy trimesh moderngl
+          python -m pip install numpy pillow zstandard scipy trimesh moderngl imageio imageio-ffmpeg
           mkdir -p "$RUNNER_TEMP/xlights-native"
           cd "$RUNNER_TEMP/xlights-native"
           curl --fail --location --retry 3 --output xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
