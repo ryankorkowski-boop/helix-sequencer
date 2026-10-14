@@ -87,5 +87,4 @@ jobs:
         run: python main.py --list-profiles
 
       - name: Run full regression audit
-        continue-on-error: true
         run: python -m pytest -q --cov=core --cov=ai --cov=xlights --cov=tools --cov-report=term-missing
