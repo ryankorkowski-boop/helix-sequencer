@@ -150,7 +150,7 @@ When reporting bugs:
 
 ## Licensing
 
-By contributing to this project, you agree that your contributions will be licensed under its [MIT License](./LICENSE).
+New contributions are intended to be offered under the [PolyForm Noncommercial License 1.0.0](./LICENSE), subject to contributor authorization and any separately documented rights. Contributors should confirm they have authority to license their work under these terms. Commercial licensing rights for contributed material require appropriate authorization; see [commercial licensing](./COMMERCIAL_LICENSING.md).
 
 ---
 
