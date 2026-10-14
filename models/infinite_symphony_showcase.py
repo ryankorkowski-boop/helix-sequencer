@@ -93,12 +93,20 @@ def build_megagarden():
     # nodes together so one MIDI event lights an entire rung, not a fragment.
     rung_heights = np.asarray([hero.points[node_id - 1, 1] for node_id in rung_ids])
     unique_heights = np.unique(np.round(rung_heights, 3))
+    if len(unique_heights) < 88:
+        raise ValueError(f"Keyboard helix has only {len(unique_heights)} distinct rung heights; 88 required")
+    assigned_heights = set()
     for midi in range(21, 109):
         target_height = unique_heights[round((midi - 21) * (len(unique_heights) - 1) / 87)]
+        if float(target_height) in assigned_heights:
+            raise ValueError(f"Duplicate physical rung assigned to MIDI note {midi}")
+        assigned_heights.add(float(target_height))
         ids = [node_id for node_id, height in zip(rung_ids, rung_heights)
                if abs(height - target_height) < 0.005]
         if ids:
             hero.submodels[f"KEY_MIDI_{midi:03d}"] = ids
+    if len([name for name in hero.submodels if name.startswith("KEY_MIDI_")]) != 88:
+        raise ValueError("Keyboard helix does not contain 88 nonempty note submodels")
     hero.details["keyboard_rung_mapping"] = {
         str(midi): f"KEY_MIDI_{midi:03d}" for midi in range(21, 109)
         if f"KEY_MIDI_{midi:03d}" in hero.submodels
