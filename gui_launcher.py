@@ -145,6 +145,7 @@ class HelixGui(tk.Tk):
         actions.pack(fill=tk.X, **pad)
         self.run_button = ttk.Button(actions, text="Run Sequence Build", command=self._run_sequence)
         self.run_button.pack(side=tk.LEFT, padx=8, pady=6)
+        ttk.Button(actions, text="License", command=self._show_license).pack(side=tk.RIGHT, padx=8, pady=6)
         self.status_label = ttk.Label(actions, text="Ready")
         self.status_label.pack(side=tk.LEFT, padx=8, pady=6)
 
@@ -152,6 +153,10 @@ class HelixGui(tk.Tk):
         log_frame.pack(fill=tk.BOTH, expand=True, **pad)
         self.log_text = tk.Text(log_frame, wrap=tk.WORD, height=20, bg="#0e1013", fg="#d6deeb", insertbackground="#d6deeb")
         self.log_text.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+    def _show_license(self) -> None:
+        messagebox.showinfo("Helix License — PolyForm Noncommercial 1.0.0",
+                            "Helix is free for noncommercial personal and hobby use. Commercial use requires a separate paid written license. PolyForm Noncommercial 1.0.0 applies to Helix-owned material. See LICENSE and COMMERCIAL_LICENSING.md. Contact: facebook.com/helixsequencer.")
 
     def _browse_file(self, target_var: tk.StringVar, filetypes: list[tuple[str, str]]) -> None:
         selected = filedialog.askopenfilename(initialdir=str(ROOT), filetypes=filetypes)
