@@ -1,0 +1,44 @@
+name: Publish verified Helix completion prerelease
+on:
+  push:
+    branches: [release/beta-completion-20261014]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: beta-completion-publication
+  cancel-in-progress: false
+jobs:
+  verified-prerelease:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: transport-checkout
+      - uses: actions/checkout@v4
+        with:
+          ref: f38f489d1efed08e2e5007835a07213d00633c7a
+          path: source
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Assemble exact successful build artifacts with no uncleared songs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp -r transport-checkout/release_transport_completion transport
+          python transport/assemble_verified_release.py
+      - name: Publish beta assets after all exact-source gates pass
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag=helix-beta-v1.0-completion-20261014
+          gh release create "$tag" --repo ryankorkowski-boop/helix-sequencer --target f38f489d1efed08e2e5007835a07213d00633c7a --title 'HELIX BETA RELEASE v1.0 — verified software candidate' --notes-file transport/BETA_RELEASE_NOTES.md --prerelease
+          gh release upload "$tag" --repo ryankorkowski-boop/helix-sequencer release-output/Helix_Beta_v1.0_Installers.zip release-output/Helix-Windows-Portable.zip release-output/Helix-Beta-v1.0.apk release-output/Helix_Beta_v1.0_Native_Verification.zip release-output/SHA256SUMS.txt release-output/RELEASE_MANIFEST.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Helix-Completion-Publication-Proof
+          path: release-output/*.json
