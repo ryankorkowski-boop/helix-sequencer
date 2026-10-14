@@ -28,3 +28,20 @@ def test_recovery_abstains_without_references_and_does_not_turn_silence_into_hit
     y[sr:]=0
     actual,report=recover_kicks(y,sr,refs[:4],start=.15,end=2.6)
     assert actual==refs[:4] and not report['added']
+
+
+def test_tiny_review_window_abstains_instead_of_crashing():
+    sr, y, _, refs = fixture()
+    actual, report = recover_kicks(y, sr, refs[:3], start=.2, end=.2001)
+    assert actual == refs[:3]
+    assert report['abstention'] == 'fewer than three accepted recording-specific kick references'
+
+
+def test_silent_accepted_references_do_not_generate_false_kicks():
+    sr = 16000
+    y = np.zeros(sr)
+    refs = [dict(timestamp=t, drum_family='kick', confidence=.8)
+            for t in (.2, .4, .6)]
+    actual, report = recover_kicks(y, sr, refs, start=.1, end=.9)
+    assert actual == refs
+    assert report['abstention'] == 'accepted references contain no measurable low-band energy'
