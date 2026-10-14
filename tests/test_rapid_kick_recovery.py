@@ -36,7 +36,7 @@ def test_tiny_review_window_abstains_instead_of_crashing():
                   for t in (.2, .20003, .20006)]
     actual, report = recover_kicks(y, sr, close_refs, start=.2, end=.2001)
     assert actual == close_refs
-    assert report['abstention'] == 'review window too short for zero-phase low-band analysis'
+    assert report['abstention'] == 'review window too short for reliable attack/decay analysis'
 
 
 def test_silent_accepted_references_do_not_generate_false_kicks():
