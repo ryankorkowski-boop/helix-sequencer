@@ -1,0 +1,91 @@
+{
+  "id": "01",
+  "title": "Who Knew (Grinch's Redemption) (Remastered)",
+  "layout": "knot_cathedral",
+  "layout_title": "Borealis Knot Cathedral",
+  "revision": 5,
+  "file": "/workspace/helix-sequencer/outputs/Intricate_Band_Samplers/movies/01_knot_cathedral_qualitypilot_final_42s.mp4",
+  "bytes": 3508726,
+  "sha256": "fa381e7ad9956c854eff1dc588c98d25927fe58d3ade474df25cf9d81a44d059",
+  "analysis_inputs": {
+    "verification.json": "a37301883439f56b232ca8d6e59c40b38d5d47af384593477b506f7f42e7b647",
+    "vocals.json": "31ae161224abb71f4861877c177e8622fcdfa36662f0c82b5777d3745fdec302",
+    "performance_curves.npz": "340abfc35d95ac0d824d2a9724fe90fe111af2c9f32fb15840f9434ec1f0b9ec"
+  },
+  "implementation_sha256": {
+    "models/intricate_band_scene.py": "d75e1d03ab9056f15149504af71d216ce2f27d9655fb6e8e5f4fcc818ab8a56c",
+    "models/band_sampler_logic.py": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+    "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+    "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+    "tools/render_intricate_band_samplers.py": "70f850e43e3ee2a7dc0f695556c1251a057f40043ac4d2b5c2d0b3ebb4b15261",
+    "tools/render_band_upgrade.py": "ba94b01d59e042274ffc74661e5b0d99e923db710cc8173c30a46d740ff94e7a"
+  },
+  "duration_seconds": 5.0,
+  "frames": 100,
+  "width": 1920,
+  "height": 1080,
+  "full_decode_passed": true,
+  "soundtrack": {
+    "source_offset_seconds": 37.0,
+    "sample_rate": 8000,
+    "zero_offset_correlation": 0.9997206035508213,
+    "source_samples": 40000,
+    "movie_samples": 40000,
+    "original_excerpt_matches": true
+  },
+  "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+  "source_native_drummer": {
+    "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+    "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+    "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+    "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+    "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+    "schedule": {
+      "unique_strike_holds": 559,
+      "idle_colors_used_as_strikes": false,
+      "cymbal_decay_moves_arms": false
+    }
+  },
+  "drummer_geometry": {
+    "source": "same canonical geometry/compositor as dry artifact11527580859",
+    "assets": {
+      "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+      "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+      "fixtures/band_geometry/drummer_v3_pose_spec.json": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+      "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1"
+    },
+    "replacement_3d_kit": false,
+    "high_tom_viewer_right": true,
+    "mid_and_floor_toms_viewer_left": true,
+    "crop": [
+      99,
+      124,
+      494,
+      380
+    ],
+    "planar_physical_prop_mounted_in_3d_stage": true
+  },
+  "geometry": {
+    "layout": "knot_cathedral",
+    "title": "Borealis Knot Cathedral",
+    "curves_and_meshes": 172,
+    "instanced_parts": 355,
+    "custom_triangles": 272472,
+    "finite_geometry": true,
+    "canonical_dry_drummer": true,
+    "band_members": [
+      "drummer",
+      "bass",
+      "guitar",
+      "male singer",
+      "female singer",
+      "keyboard"
+    ]
+  },
+  "singer_active_frames": [
+    98,
+    63
+  ],
+  "native_xlights_playback": false,
+  "static_concept_art_video": false
+}

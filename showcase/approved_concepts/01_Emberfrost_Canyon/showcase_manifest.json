@@ -1,0 +1,1250 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Emberfrost Canyon",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 26
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 26,
+  "rgb_pixels": 7505,
+  "channel_count": 22515,
+  "spiral_trees": 18,
+  "double_helices": 1,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_TERRACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "TERRACE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 1,
+      "end_channel": 600,
+      "bounds_ft": [
+        [
+          -95.0,
+          0.0,
+          -77.5
+        ],
+        [
+          -35.0,
+          0.0,
+          17.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_002_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 601,
+      "end_channel": 1560,
+      "bounds_ft": [
+        [
+          -75.5,
+          0.0,
+          -75.5
+        ],
+        [
+          -54.5,
+          35.0,
+          -54.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3787073528821482,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_003_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 1561,
+      "end_channel": 2520,
+      "bounds_ft": [
+        [
+          -75.5,
+          0.0,
+          -20.5
+        ],
+        [
+          -54.5,
+          35.0,
+          0.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37870735288214863,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_004_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 2521,
+      "end_channel": 3480,
+      "bounds_ft": [
+        [
+          -75.5,
+          0.0,
+          24.5
+        ],
+        [
+          -54.5,
+          35.0,
+          45.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3787073528821482,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_005_TERRACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "TERRACE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 3481,
+      "end_channel": 4080,
+      "bounds_ft": [
+        [
+          -127.0,
+          12.0,
+          -57.5
+        ],
+        [
+          -67.0,
+          12.0,
+          37.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_006_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 4081,
+      "end_channel": 5040,
+      "bounds_ft": [
+        [
+          -107.5,
+          12.0,
+          -75.5
+        ],
+        [
+          -86.5,
+          59.0,
+          -54.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3901211740206632,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_007_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 5041,
+      "end_channel": 6000,
+      "bounds_ft": [
+        [
+          -107.5,
+          12.0,
+          -20.5
+        ],
+        [
+          -86.5,
+          59.0,
+          0.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3901211740206632,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_008_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 6001,
+      "end_channel": 6960,
+      "bounds_ft": [
+        [
+          -107.5,
+          12.0,
+          24.5
+        ],
+        [
+          -86.5,
+          59.0,
+          45.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3901211740206632,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_009_TERRACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "TERRACE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 6961,
+      "end_channel": 7560,
+      "bounds_ft": [
+        [
+          -159.0,
+          24.0,
+          -37.5
+        ],
+        [
+          -99.0,
+          24.0,
+          57.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_010_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 7561,
+      "end_channel": 8520,
+      "bounds_ft": [
+        [
+          -139.5,
+          24.0,
+          -75.5
+        ],
+        [
+          -118.5,
+          83.0,
+          -54.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36145832099478353,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_011_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 8521,
+      "end_channel": 9480,
+      "bounds_ft": [
+        [
+          -139.5,
+          24.0,
+          -20.5
+        ],
+        [
+          -118.5,
+          83.0,
+          0.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36145832099478115,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_012_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 9481,
+      "end_channel": 10440,
+      "bounds_ft": [
+        [
+          -139.5,
+          24.0,
+          24.5
+        ],
+        [
+          -118.5,
+          83.0,
+          45.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3614583209947787,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_013_TERRACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "TERRACE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 10441,
+      "end_channel": 11040,
+      "bounds_ft": [
+        [
+          35.0,
+          0.0,
+          -77.5
+        ],
+        [
+          95.0,
+          0.0,
+          17.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_014_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 11041,
+      "end_channel": 12000,
+      "bounds_ft": [
+        [
+          54.5,
+          0.0,
+          -75.5
+        ],
+        [
+          75.5,
+          35.0,
+          -54.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3787073528821482,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_015_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 12001,
+      "end_channel": 12960,
+      "bounds_ft": [
+        [
+          54.5,
+          0.0,
+          -20.5
+        ],
+        [
+          75.5,
+          35.0,
+          0.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37870735288214863,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_016_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 12961,
+      "end_channel": 13920,
+      "bounds_ft": [
+        [
+          54.5,
+          0.0,
+          24.5
+        ],
+        [
+          75.5,
+          35.0,
+          45.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3787073528821482,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_017_TERRACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "TERRACE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 13921,
+      "end_channel": 14520,
+      "bounds_ft": [
+        [
+          67.0,
+          12.0,
+          -57.5
+        ],
+        [
+          127.0,
+          12.0,
+          37.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_018_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 14521,
+      "end_channel": 15480,
+      "bounds_ft": [
+        [
+          86.5,
+          12.0,
+          -75.5
+        ],
+        [
+          107.5,
+          59.0,
+          -54.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3901211740206632,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_019_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 15481,
+      "end_channel": 16440,
+      "bounds_ft": [
+        [
+          86.5,
+          12.0,
+          -20.5
+        ],
+        [
+          107.5,
+          59.0,
+          0.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3901211740206632,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_020_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 16441,
+      "end_channel": 17400,
+      "bounds_ft": [
+        [
+          86.5,
+          12.0,
+          24.5
+        ],
+        [
+          107.5,
+          59.0,
+          45.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3901211740206632,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_021_TERRACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TERRACES",
+      "design": "TERRACE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 17401,
+      "end_channel": 18000,
+      "bounds_ft": [
+        [
+          99.0,
+          24.0,
+          -37.5
+        ],
+        [
+          159.0,
+          24.0,
+          57.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_022_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 18001,
+      "end_channel": 18960,
+      "bounds_ft": [
+        [
+          118.5,
+          24.0,
+          -75.5
+        ],
+        [
+          139.5,
+          83.0,
+          -54.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36145832099478353,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_023_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 18961,
+      "end_channel": 19920,
+      "bounds_ft": [
+        [
+          118.5,
+          24.0,
+          -20.5
+        ],
+        [
+          139.5,
+          83.0,
+          0.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36145832099478115,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_024_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 19921,
+      "end_channel": 20880,
+      "bounds_ft": [
+        [
+          118.5,
+          24.0,
+          24.5
+        ],
+        [
+          139.5,
+          83.0,
+          45.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3614583209947787,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_025_VALLEY_BRIDGE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BRIDGE",
+      "design": "VALLEY BRIDGE",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 20881,
+      "end_channel": 22065,
+      "bounds_ft": [
+        [
+          -152.0,
+          15.0,
+          -74.5
+        ],
+        [
+          142.0,
+          65.0,
+          44.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4119271059181068,
+      "double_helix": true
+    },
+    {
+      "name": "HX_026_VALLEY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "VALLEY",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 22066,
+      "end_channel": 22515,
+      "bounds_ft": [
+        [
+          -30.0,
+          0.0,
+          0.0
+        ],
+        [
+          30.0,
+          0.0,
+          40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33518019359299983
+    }
+  ],
+  "file_prefix": "Emberfrost_Canyon",
+  "description": "Warm and icy spiral forests occupy opposing stepped terraces; a diagonal double-helix bridge crosses a low central valley.",
+  "palette": [
+    "#FF9C32",
+    "#79CEFF",
+    "#FFF0CD"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_TERRACE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_TERRACE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_TERRACE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_TERRACE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE",
+      "HX_017_TERRACE",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_021_TERRACE",
+      "HX_022_SPIRAL_TREE",
+      "HX_023_SPIRAL_TREE",
+      "HX_024_SPIRAL_TREE",
+      "HX_025_VALLEY_BRIDGE",
+      "HX_026_VALLEY"
+    ],
+    "HX_DNA_ALL": [
+      "HX_025_VALLEY_BRIDGE"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_025_VALLEY_BRIDGE/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_025_VALLEY_BRIDGE/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_025_VALLEY_BRIDGE/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_TERRACE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_TERRACE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_TERRACE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_TERRACE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE",
+      "HX_017_TERRACE",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_021_TERRACE",
+      "HX_022_SPIRAL_TREE",
+      "HX_023_SPIRAL_TREE",
+      "HX_024_SPIRAL_TREE",
+      "HX_025_VALLEY_BRIDGE",
+      "HX_026_VALLEY"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_014_SPIRAL_TREE",
+      "HX_015_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_022_SPIRAL_TREE",
+      "HX_023_SPIRAL_TREE",
+      "HX_024_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_022_SPIRAL_TREE",
+      "HX_023_SPIRAL_TREE",
+      "HX_024_SPIRAL_TREE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_TERRACE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_TERRACE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_TERRACE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_TERRACE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE",
+      "HX_017_TERRACE",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_021_TERRACE",
+      "HX_022_SPIRAL_TREE",
+      "HX_023_SPIRAL_TREE",
+      "HX_024_SPIRAL_TREE",
+      "HX_025_VALLEY_BRIDGE",
+      "HX_026_VALLEY"
+    ],
+    "HX_ZONE_BRIDGE": [
+      "HX_025_VALLEY_BRIDGE"
+    ],
+    "HX_ZONE_GROUND": [
+      "HX_026_VALLEY"
+    ],
+    "HX_ZONE_GROVE": [
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_SPIRAL_TREE",
+      "HX_016_SPIRAL_TREE",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_022_SPIRAL_TREE",
+      "HX_023_SPIRAL_TREE",
+      "HX_024_SPIRAL_TREE"
+    ],
+    "HX_ZONE_TERRACES": [
+      "HX_001_TERRACE",
+      "HX_005_TERRACE",
+      "HX_009_TERRACE",
+      "HX_013_TERRACE",
+      "HX_017_TERRACE",
+      "HX_021_TERRACE"
+    ]
+  },
+  "group_count": 14,
+  "concept_id": "01",
+  "source_art": "images/01_02_Emberfrost_Canopy.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "01",
+    "name": "Emberfrost Canyon",
+    "round": "spatial",
+    "board": 1,
+    "side": "left",
+    "description": "Warm and icy spiral forests occupy opposing stepped terraces; a diagonal double-helix bridge crosses a low central valley.",
+    "spatial": "Opposing banks, multiple elevations, diagonal cross-depth bridge and a recessed center.",
+    "choreography": "A low valley pulse climbs the terraces, crosses the bridge and answers on the opposite bank.",
+    "constraint": "Raised terraces and bridge require engineered supports; imagery does not certify loads.",
+    "image": "images/01_02_Emberfrost_Canopy.png",
+    "panel_ratio": 1.2503152585119799,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Raised terraces and bridge require engineered supports; imagery does not certify loads.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

@@ -1,0 +1,308 @@
+{
+  "schema": "helix.showcase_soundtrack_verification.v1",
+  "comparisons": [
+    {
+      "track": "Wire_Tree",
+      "flavor": "neon_circuit",
+      "aac_stream_sha256": "4bb8f9ad12e15e3e6d49753680b3069be0662cdabda1fce4d9ef52af1d478637",
+      "correlation": 0.9998486850258475,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 256.52,
+      "decoded_source_seconds": 256.52,
+      "decoded_preview_seconds": 256.5335
+    },
+    {
+      "track": "Wire_Tree",
+      "flavor": "enchanted_grove",
+      "aac_stream_sha256": "4bb8f9ad12e15e3e6d49753680b3069be0662cdabda1fce4d9ef52af1d478637",
+      "correlation": 0.9998486850258475,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 256.52,
+      "decoded_source_seconds": 256.52,
+      "decoded_preview_seconds": 256.5335
+    },
+    {
+      "track": "Wire_Tree",
+      "flavor": "celestial_orrery",
+      "aac_stream_sha256": "4bb8f9ad12e15e3e6d49753680b3069be0662cdabda1fce4d9ef52af1d478637",
+      "correlation": 0.9998486850258475,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 256.52,
+      "decoded_source_seconds": 256.52,
+      "decoded_preview_seconds": 256.5335
+    },
+    {
+      "track": "Wire_Tree",
+      "flavor": "fire_and_ice",
+      "aac_stream_sha256": "4bb8f9ad12e15e3e6d49753680b3069be0662cdabda1fce4d9ef52af1d478637",
+      "correlation": 0.9998486850258475,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 256.52,
+      "decoded_source_seconds": 256.52,
+      "decoded_preview_seconds": 256.5335
+    },
+    {
+      "track": "Wire_Tree",
+      "flavor": "crystal_lagoon",
+      "aac_stream_sha256": "4bb8f9ad12e15e3e6d49753680b3069be0662cdabda1fce4d9ef52af1d478637",
+      "correlation": 0.9998486850258475,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 256.52,
+      "decoded_source_seconds": 256.52,
+      "decoded_preview_seconds": 256.5335
+    },
+    {
+      "track": "Wire_Tree",
+      "flavor": "midnight_masquerade",
+      "aac_stream_sha256": "4bb8f9ad12e15e3e6d49753680b3069be0662cdabda1fce4d9ef52af1d478637",
+      "correlation": 0.9998486850258475,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 256.52,
+      "decoded_source_seconds": 256.52,
+      "decoded_preview_seconds": 256.5335
+    },
+    {
+      "track": "Tinsel_Sawtooth",
+      "flavor": "neon_circuit",
+      "aac_stream_sha256": "0f41123e8d9ef709f7e69e740bc17cfd089947883300c901948e33bb3f0325ed",
+      "correlation": 0.9996526798914112,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 126.92,
+      "decoded_source_seconds": 126.92,
+      "decoded_preview_seconds": 126.9335
+    },
+    {
+      "track": "Tinsel_Sawtooth",
+      "flavor": "enchanted_grove",
+      "aac_stream_sha256": "0f41123e8d9ef709f7e69e740bc17cfd089947883300c901948e33bb3f0325ed",
+      "correlation": 0.9996526798914112,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 126.92,
+      "decoded_source_seconds": 126.92,
+      "decoded_preview_seconds": 126.9335
+    },
+    {
+      "track": "Tinsel_Sawtooth",
+      "flavor": "celestial_orrery",
+      "aac_stream_sha256": "0f41123e8d9ef709f7e69e740bc17cfd089947883300c901948e33bb3f0325ed",
+      "correlation": 0.9996526798914112,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 126.92,
+      "decoded_source_seconds": 126.92,
+      "decoded_preview_seconds": 126.9335
+    },
+    {
+      "track": "Tinsel_Sawtooth",
+      "flavor": "fire_and_ice",
+      "aac_stream_sha256": "0f41123e8d9ef709f7e69e740bc17cfd089947883300c901948e33bb3f0325ed",
+      "correlation": 0.9996526798914112,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 126.92,
+      "decoded_source_seconds": 126.92,
+      "decoded_preview_seconds": 126.9335
+    },
+    {
+      "track": "Tinsel_Sawtooth",
+      "flavor": "crystal_lagoon",
+      "aac_stream_sha256": "0f41123e8d9ef709f7e69e740bc17cfd089947883300c901948e33bb3f0325ed",
+      "correlation": 0.9996526798914112,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 126.92,
+      "decoded_source_seconds": 126.92,
+      "decoded_preview_seconds": 126.9335
+    },
+    {
+      "track": "Tinsel_Sawtooth",
+      "flavor": "midnight_masquerade",
+      "aac_stream_sha256": "0f41123e8d9ef709f7e69e740bc17cfd089947883300c901948e33bb3f0325ed",
+      "correlation": 0.9996526798914112,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 126.92,
+      "decoded_source_seconds": 126.92,
+      "decoded_preview_seconds": 126.9335
+    },
+    {
+      "track": "Frostbitten_Fingerboard",
+      "flavor": "neon_circuit",
+      "aac_stream_sha256": "985de33e4f249013cc2ebb8190ff9aa347d104b32bb6482a9a870b428de0aebe",
+      "correlation": 0.999347288873998,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 48.12,
+      "decoded_source_seconds": 48.12,
+      "decoded_preview_seconds": 48.128
+    },
+    {
+      "track": "Frostbitten_Fingerboard",
+      "flavor": "enchanted_grove",
+      "aac_stream_sha256": "985de33e4f249013cc2ebb8190ff9aa347d104b32bb6482a9a870b428de0aebe",
+      "correlation": 0.999347288873998,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 48.12,
+      "decoded_source_seconds": 48.12,
+      "decoded_preview_seconds": 48.128
+    },
+    {
+      "track": "Frostbitten_Fingerboard",
+      "flavor": "celestial_orrery",
+      "aac_stream_sha256": "985de33e4f249013cc2ebb8190ff9aa347d104b32bb6482a9a870b428de0aebe",
+      "correlation": 0.999347288873998,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 48.12,
+      "decoded_source_seconds": 48.12,
+      "decoded_preview_seconds": 48.128
+    },
+    {
+      "track": "Frostbitten_Fingerboard",
+      "flavor": "fire_and_ice",
+      "aac_stream_sha256": "985de33e4f249013cc2ebb8190ff9aa347d104b32bb6482a9a870b428de0aebe",
+      "correlation": 0.999347288873998,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 48.12,
+      "decoded_source_seconds": 48.12,
+      "decoded_preview_seconds": 48.128
+    },
+    {
+      "track": "Frostbitten_Fingerboard",
+      "flavor": "crystal_lagoon",
+      "aac_stream_sha256": "985de33e4f249013cc2ebb8190ff9aa347d104b32bb6482a9a870b428de0aebe",
+      "correlation": 0.999347288873998,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 48.12,
+      "decoded_source_seconds": 48.12,
+      "decoded_preview_seconds": 48.128
+    },
+    {
+      "track": "Frostbitten_Fingerboard",
+      "flavor": "midnight_masquerade",
+      "aac_stream_sha256": "985de33e4f249013cc2ebb8190ff9aa347d104b32bb6482a9a870b428de0aebe",
+      "correlation": 0.999347288873998,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 48.12,
+      "decoded_source_seconds": 48.12,
+      "decoded_preview_seconds": 48.128
+    },
+    {
+      "track": "Holly_Steel_Run",
+      "flavor": "neon_circuit",
+      "aac_stream_sha256": "2fe6bbc893af352f0e18c72deb19e08f0bbe05c12d3883881111cecbaf1d4e1f",
+      "correlation": 0.9995361457415886,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 98.72,
+      "decoded_source_seconds": 98.72,
+      "decoded_preview_seconds": 98.731
+    },
+    {
+      "track": "Holly_Steel_Run",
+      "flavor": "enchanted_grove",
+      "aac_stream_sha256": "2fe6bbc893af352f0e18c72deb19e08f0bbe05c12d3883881111cecbaf1d4e1f",
+      "correlation": 0.9995361457415886,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 98.72,
+      "decoded_source_seconds": 98.72,
+      "decoded_preview_seconds": 98.731
+    },
+    {
+      "track": "Holly_Steel_Run",
+      "flavor": "celestial_orrery",
+      "aac_stream_sha256": "2fe6bbc893af352f0e18c72deb19e08f0bbe05c12d3883881111cecbaf1d4e1f",
+      "correlation": 0.9995361457415886,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 98.72,
+      "decoded_source_seconds": 98.72,
+      "decoded_preview_seconds": 98.731
+    },
+    {
+      "track": "Holly_Steel_Run",
+      "flavor": "fire_and_ice",
+      "aac_stream_sha256": "2fe6bbc893af352f0e18c72deb19e08f0bbe05c12d3883881111cecbaf1d4e1f",
+      "correlation": 0.9995361457415886,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 98.72,
+      "decoded_source_seconds": 98.72,
+      "decoded_preview_seconds": 98.731
+    },
+    {
+      "track": "Holly_Steel_Run",
+      "flavor": "crystal_lagoon",
+      "aac_stream_sha256": "2fe6bbc893af352f0e18c72deb19e08f0bbe05c12d3883881111cecbaf1d4e1f",
+      "correlation": 0.9995361457415886,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 98.72,
+      "decoded_source_seconds": 98.72,
+      "decoded_preview_seconds": 98.731
+    },
+    {
+      "track": "Holly_Steel_Run",
+      "flavor": "midnight_masquerade",
+      "aac_stream_sha256": "2fe6bbc893af352f0e18c72deb19e08f0bbe05c12d3883881111cecbaf1d4e1f",
+      "correlation": 0.9995361457415886,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 98.72,
+      "decoded_source_seconds": 98.72,
+      "decoded_preview_seconds": 98.731
+    },
+    {
+      "track": "Bell_Circuit_Carol",
+      "flavor": "neon_circuit",
+      "aac_stream_sha256": "594b65c7612a3c36427cd7e0d88818f5411405837faf6271015d9503bde59cfe",
+      "correlation": 0.9988084397773179,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 72.8,
+      "decoded_source_seconds": 72.8,
+      "decoded_preview_seconds": 72.811
+    },
+    {
+      "track": "Bell_Circuit_Carol",
+      "flavor": "enchanted_grove",
+      "aac_stream_sha256": "594b65c7612a3c36427cd7e0d88818f5411405837faf6271015d9503bde59cfe",
+      "correlation": 0.9988084397773179,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 72.8,
+      "decoded_source_seconds": 72.8,
+      "decoded_preview_seconds": 72.811
+    },
+    {
+      "track": "Bell_Circuit_Carol",
+      "flavor": "celestial_orrery",
+      "aac_stream_sha256": "594b65c7612a3c36427cd7e0d88818f5411405837faf6271015d9503bde59cfe",
+      "correlation": 0.9988084397773179,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 72.8,
+      "decoded_source_seconds": 72.8,
+      "decoded_preview_seconds": 72.811
+    },
+    {
+      "track": "Bell_Circuit_Carol",
+      "flavor": "fire_and_ice",
+      "aac_stream_sha256": "594b65c7612a3c36427cd7e0d88818f5411405837faf6271015d9503bde59cfe",
+      "correlation": 0.9988084397773179,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 72.8,
+      "decoded_source_seconds": 72.8,
+      "decoded_preview_seconds": 72.811
+    },
+    {
+      "track": "Bell_Circuit_Carol",
+      "flavor": "crystal_lagoon",
+      "aac_stream_sha256": "594b65c7612a3c36427cd7e0d88818f5411405837faf6271015d9503bde59cfe",
+      "correlation": 0.9988084397773179,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 72.8,
+      "decoded_source_seconds": 72.8,
+      "decoded_preview_seconds": 72.811
+    },
+    {
+      "track": "Bell_Circuit_Carol",
+      "flavor": "midnight_masquerade",
+      "aac_stream_sha256": "594b65c7612a3c36427cd7e0d88818f5411405837faf6271015d9503bde59cfe",
+      "correlation": 0.9988084397773179,
+      "decoded_sample_rate": 2000,
+      "compared_seconds": 72.8,
+      "decoded_source_seconds": 72.8,
+      "decoded_preview_seconds": 72.811
+    }
+  ],
+  "unique_originals": 5,
+  "unique_aac_comparisons": 5,
+  "all_sources_match": true
+}

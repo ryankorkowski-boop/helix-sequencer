@@ -1,0 +1,39 @@
+.......F...........................................................      [100%]
+=================================== FAILURES ===================================
+_ test_embedded_alignment_rejects_a_long_failed_intro_but_keeps_corroborated_refrain _
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-3/test_embedded_alignment_reject0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f12e26670b0>
+
+    def test_embedded_alignment_rejects_a_long_failed_intro_but_keeps_corroborated_refrain(tmp_path,monkeypatch):
+        import json
+        import tools.analyze_band_samplers as analyzer
+        folder=tmp_path/'analysis'/'01';folder.mkdir(parents=True)
+        def w(text,start,end,confidence):return dict(word=text,start=start,end=end,probability=confidence)
+        bad={'text':'Lights are bending time is slow','start':0.,'end':45.,
+             'words':[w('Lights',0,20,.001),w('slow',20,45,.001)]}
+        chorus={'text':'Who knew? Cindy Lou knew.','start':50.,'end':53.,
+                'words':[w('Who',50,50.3,.01),w('knew',50.3,50.6,.01),w('Cindy',51,51.3,.20),
+                         w('Lou',51.3,51.8,.2),w('knew',51.8,53,.05)]}
+        (folder/'embedded_lyrics_aligned.json').write_text(json.dumps({'segments':[bad,chorus]}))
+        old={'words':[w("I'm",2,3,.9),w('going',3,4,.9),w('Cindy',51,51.3,.9),w('Lou',51.3,51.8,.9)],
+             'lines':[dict(start_ms=2000,end_ms=4000,text="I'm going")],'mouths':[]}
+        monkeypatch.setattr(analyzer,'OLD',tmp_path)
+>       result=analyzer.refine_lyrics({'id':'01'},old)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_band_sampler_logic.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+row = {'id': '01'}
+vocals = {'words': [{'word': "I'm", 'start': 2, 'end': 3, 'probability': 0.9}, {'word': 'going', 'start': 3, 'end': 4, 'probabi...3, 'end': 51.8, 'probability': 0.9}], 'lines': [{'start_ms': 2000, 'end_ms': 4000, 'text': "I'm going"}], 'mouths': []}
+
+    def refine_lyrics(row,vocals):
+        """Prefer credible embedded-reference timing, never a failed forced segment."""
+>       import cmudict
+E       ModuleNotFoundError: No module named 'cmudict'
+
+tools/analyze_band_samplers.py:33: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_band_sampler_logic.py::test_embedded_alignment_rejects_a_long_failed_intro_but_keeps_corroborated_refrain
+1 failed, 66 passed in 82.49s (0:01:22)

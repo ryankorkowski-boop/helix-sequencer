@@ -1,19 +1,29 @@
 name: Drummer Ground Truth Test
 
-# Ground truth for the current eight-component drummer contract. Three toms:
-# High, Mid, Floor. Contacting sticks are geometry inside each hit component.
+concurrency:
+  group: drummer-ground-truth-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
       - feature/restructure-core
+      - fix/drummer-independent-illumination
+      - fix/drummer-target-strikes
     paths:
       - '.github/workflows/drummer-ground-truth.yml'
+      - 'evidence/drummer/**'
+      - 'audio/**'
+      - 'core/drummer_v3_analysis.py'
       - 'animation/drummer_motion.py'
+      - 'animation/cymbal_lighting.py'
       - 'mapping/drum_mapper.py'
+      - 'models/helixville4_performer_runtime.py'
       - 'fixtures/band_geometry/**'
       - 'tools/**'
       - 'tests/**'
-      - 'run_drummer_v3_test.py'
+      - 'MASTER_TODO.md'
+      - 'docs/DRUMMER_INDEPENDENT_LIGHTING_HANDOFF.md'
   workflow_dispatch:
 
 jobs:
@@ -22,6 +32,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -29,8 +40,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pytest pillow numpy scipy scikit-learn librosa soundfile numba llvmlite imageio imageio-ffmpeg PyYAML
-      - name: Regenerate canonical V3 drummer assets from the authored ground truth
+          python -m pip install pytest pillow numpy scipy scikit-learn librosa soundfile numba llvmlite imageio imageio-ffmpeg PyYAML matplotlib
+      - name: Regenerate canonical V3 drummer assets
         env:
           PYTHONPATH: .
         run: |
@@ -39,116 +50,387 @@ jobs:
           import re
           import xml.etree.ElementTree as ET
           from pathlib import Path
-
-          path = Path('fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel')
-          root = ET.parse(path).getroot()
-          width = int(root.get('parm1', '96'))
-          expected = {
-              'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH': 'right/upper (drummer left)',
-              'HX_SNOWMAN_DRUMMER_V3_TOM_MID': 'left/upper (drummer right)',
-              'HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR': 'left/lower (drummer right/lower)',
+          path=Path('fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel')
+          root=ET.parse(path).getroot()
+          width=int(root.get('parm1','96'))
+          names={s.get('name'):s.get('line0','') for s in root.findall('./subModels/subModel')}
+          expected={
+            'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_SURFACE',
+            'HX_SNOWMAN_DRUMMER_V3_TOM_MID_SURFACE',
+            'HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_SURFACE',
           }
-          centroids = {}
-          for sm in root.findall('./subModels/subModel'):
-              name = sm.get('name')
-              if name not in expected:
-                  continue
-              xs=[]; ys=[]
-              for token in sm.get('line0','').split(','):
-                  m=re.fullmatch(r'(\d+)(?:-(\d+))?', token)
-                  if not m: raise SystemExit(f'FAIL: malformed node range: {token}')
-                  a=int(m.group(1)); b=int(m.group(2) or m.group(1))
-                  for node in range(a,b+1):
-                      idx=node-1; xs.append(idx % width); ys.append(idx // width)
-              centroids[name]=(sum(xs)/len(xs),sum(ys)/len(ys))
-          if set(centroids) != set(expected):
-              raise SystemExit(f'FAIL: missing canonical toms: {sorted(set(expected)-set(centroids))}')
-          high=centroids['HX_SNOWMAN_DRUMMER_V3_TOM_HIGH']
-          mid=centroids['HX_SNOWMAN_DRUMMER_V3_TOM_MID']
-          floor=centroids['HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR']
-          if not (high[0] > 48 and mid[0] < 48 and floor[0] < 48):
+          if not expected <= names.keys():
+              raise SystemExit(f'FAIL: missing surface truth: {sorted(expected-names.keys())}')
+          def nodes(value):
+              out=set()
+              for token in value.split(','):
+                  m=re.fullmatch(r'(\d+)(?:-(\d+))?',token)
+                  if not m: raise SystemExit(f'FAIL: malformed range {token!r}')
+                  a=int(m.group(1)); b=int(m.group(2) or a); out.update(range(a,b+1))
+              return out
+          def centroid(name):
+              pts=[((n-1)%width,(n-1)//width) for n in nodes(names[name])]
+              return sum(x for x,_ in pts)/len(pts),sum(y for _,y in pts)/len(pts)
+          high=centroid('HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_SURFACE')
+          mid=centroid('HX_SNOWMAN_DRUMMER_V3_TOM_MID_SURFACE')
+          floor=centroid('HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_SURFACE')
+          if not (high[0] > 48 and mid[0] < 48 and floor[0] < 48 and floor[1] > high[1] and floor[1] > mid[1]):
               raise SystemExit(f'FAIL: V3 tom geometry not grounded: HIGH={high} MID={mid} FLOOR={floor}')
-          if not (floor[1] > high[1] and floor[1] > mid[1]):
-              raise SystemExit(f'FAIL: V3 floor tom is not below the upper toms: HIGH={high} MID={mid} FLOOR={floor}')
-          # Extra lower-right drum must not become TOM_FLOOR.
-          if floor[0] > 48:
-              raise SystemExit(f'FAIL: TOM_FLOOR is on the extra right-hand drum: {floor}')
-          print(f'PASS: regenerated canonical V3 tom geometry HIGH={high} MID={mid} FLOOR={floor}')
+          public={
+            'HX_SNOWMAN_DRUMMER_V3_KICK','HX_SNOWMAN_DRUMMER_V3_SNARE','HX_SNOWMAN_DRUMMER_V3_HI_HAT',
+            'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH','HX_SNOWMAN_DRUMMER_V3_TOM_MID','HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR',
+            'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT','HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT'}
+          if not public <= names.keys():
+              raise SystemExit(f'FAIL: missing public targets: {sorted(public-names.keys())}')
+          if not root.get('CustomModel'):
+              raise SystemExit('FAIL: dense CustomModel grid missing')
+          if root.get('CustomBkgImage') != '../source/drummer_idle.png':
+              raise SystemExit(f"FAIL: nonportable background path: {root.get('CustomBkgImage')}")
+          print(f'PASS: regenerated V3 geometry HIGH={high} MID={mid} FLOOR={floor}')
           PY
-      - name: Generate deterministic ground-truth drum audio
+      - name: Verify regenerated xmodel remains reproducible
+        run: |
+          git diff --exit-code -- fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel
+          python - <<'PY_CHECK'
+          import io, subprocess
+          from pathlib import Path
+          import numpy as np
+          from PIL import Image
+          paths = [*Path('fixtures/band_geometry/layers').glob('drummer*.png'), Path('fixtures/band_geometry/previews/HX_SNOWMAN_DRUMMER_V3_pose_sheet.png'), Path('fixtures/band_geometry/source/drummer_idle.png')]
+          for path in paths:
+              original = subprocess.check_output(['git', 'show', f'HEAD:{path.as_posix()}'])
+              before = np.asarray(Image.open(io.BytesIO(original)).convert('RGBA'))
+              after = np.asarray(Image.open(path).convert('RGBA'))
+              assert np.array_equal(before, after), f'Generated source-art pixels drifted: {path}'
+          print(f'PASS: {len(paths)} generated layers/sheet match committed pixels')
+          PY_CHECK
+      - name: Generate deterministic ground-truth audio and events
+        env: {PYTHONPATH: .}
         run: python tools/generate_drummer_ground_truth.py --wav test_runs/drummer_ground_truth/drummer_ground_truth.wav --events test_runs/drummer_ground_truth/events.json
-      - name: Export deterministic 8-lane drummer truth XSQ using canonical xmodel zones
+      - name: Export deterministic eight-target XSQ
         env:
           PYTHONPATH: .
           HELIX_DURATION: '20'
         run: python tools/export_drummer_ground_truth_xsq.py --output test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq --duration 20
-      - name: Verify XSQ has exactly eight logical components and canonical physical targets
+      - name: Verify shared event oracle
+        env: {PYTHONPATH: .}
         run: |
           python - <<'PY'
-          import xml.etree.ElementTree as ET
-          from pathlib import Path
-          p=Path('test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq')
-          root=ET.parse(p).getroot()
+          import json, xml.etree.ElementTree as ET
+          events=json.load(open('test_runs/drummer_ground_truth/events.json',encoding='utf-8'))
+          root=ET.parse('test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq').getroot()
+          timing=[{'time':round(float(n.get('start','0')),4),'duration':round(float(n.get('duration','0')),4),'event':n.get('channel')} for n in root.findall('./timingtrack/phoneme')]
+          if len(events)!=68 or events!=timing:
+              raise SystemExit(f'FAIL: oracle mismatch manifest={len(events)} xsq={len(timing)}')
           expected={'KICK','SNARE','HI_HAT','TOM_HIGH','TOM_MID','TOM_FLOOR','CYMBAL_LEFT','CYMBAL_RIGHT'}
-          channels=set(root.find('./timingtrack').get('channels','').split(','))
-          expected_models={
-              'HX_SNOWMAN_DRUMMER_V3_KICK','HX_SNOWMAN_DRUMMER_V3_SNARE','HX_SNOWMAN_DRUMMER_V3_HI_HAT',
-              'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH','HX_SNOWMAN_DRUMMER_V3_TOM_MID','HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR',
-              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT','HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT'}
           models={e.get('name') for e in root.findall('./ElementEffects/Element')}
-          if root.get('drummerChannels') != '8' or channels != expected:
-              raise SystemExit(f'FAIL: expected 8 drummer components, got {sorted(channels)}')
+          expected_models={f'HX_SNOWMAN_DRUMMER_V3_{x}' for x in expected}
           if models != expected_models:
-              raise SystemExit(f'FAIL: non-canonical physical targets: {sorted(models)}')
-          if any('TOM_LEFT' in name or 'TOM_RIGHT' in name or 'TOM_4' in name for name in models):
-              raise SystemExit(f'FAIL: legacy/extra tom target leaked into canonical XSQ: {sorted(models)}')
-          print('PASS: logical 8-lane contract maps directly to canonical High/Mid/Floor xmodel zones')
+              raise SystemExit(f'FAIL: physical targets mismatch: {sorted(models)}')
+          print('PASS: 68-event WAV/XSQ oracle and exact eight targets agree')
           PY
-      - name: Run drummer unit tests
-        env:
-          PYTHONPATH: .
+      - name: Run focused drummer and geometry tests
+        env: {PYTHONPATH: .}
         run: |
-          python -m pytest -q tests/test_drummer_layers.py tests/test_drummer_xmodel_asset.py tests/test_drummer_v3_pose_sheet.py tests/test_drummer_v3_png_layers.py tests/test_finished_helixville4_drummer.py tests/test_drummer_v3_xsq_integration.py
-      - name: Render canonical drummer preview from canonical xmodel targets
-        env:
-          PYTHONPATH: .
+          python -m pytest -q \
+            tests/test_drummer_layers.py \
+            tests/test_drummer_xmodel_asset.py \
+            tests/test_drummer_v3_pose_sheet.py \
+            tests/test_drummer_v3_png_layers.py \
+            tests/test_finished_helixville4_drummer.py \
+            tests/test_drummer_v3_xsq_integration.py \
+            tests/test_drummer_independent_lighting.py \
+            tests/test_drum_detection.py \
+            tests/test_drum_mapping.py \
+            tests/test_drummer_target_strikes.py \
+            tests/test_drummer_visual_polish.py \
+            tests/test_cymbal_lighting.py \
+            tests/test_drummer_v3_real_audio.py \
+            tests/test_drummer_recovery.py \
+            tests/test_drummer_only_export.py \
+            tests/test_drum_transcription.py \
+            tests/test_drum_review.py \
+            tests/test_drum_source_calibration.py \
+            tests/test_drummer_v3_detector_sync.py \
+            tests/test_drummer_v3_analysis.py \
+            tests/test_drummer_v3_guitar_rejection.py \
+            tests/test_band_geometry_manifest.py \
+            tests/test_band_geometry_status.py
+      - name: Render isolated pose validation before music
+        env: {PYTHONPATH: .}
+        run: python tools/review_drummer_v3_poses.py --output test_runs/drummer_poses
+      - name: Render canonical independent-lighting preview
+        env: {PYTHONPATH: .}
         run: |
           mkdir -p test_runs/drummer_ground_truth/preview
           python tools/render_drummer_v3_preview.py \
             test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq \
             --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav \
             --output test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4 \
-            --fps 24
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          import xml.etree.ElementTree as ET
-          xsq=Path('test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq')
-          mp4=Path('test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4')
-          root=ET.parse(xsq).getroot()
-          models=sorted(e.get('name') for e in root.findall('./ElementEffects/Element'))
-          effects=sum(len(layer.findall('Effect')) for element in root.findall('./ElementEffects/Element') for layer in element.findall('EffectLayer'))
-          meta=Path('test_runs/drummer_ground_truth/preview/helix_flow_preview_metadata.json')
-          meta.write_text(json.dumps({'mp4':str(mp4),'xsq':str(xsq),'audio_muxed':True,'audio':'test_runs/drummer_ground_truth/drummer_ground_truth.wav','visible_effect_count':effects,'visual_model_count':len(models),'visual_models':models,'renderer':'tools/render_drummer_v3_preview.py','renderer_mode':'canonical_xmodel','tom_contract':'HIGH_MID_FLOOR'},indent=2,sort_keys=True)+'\n',encoding='utf-8')
-          print(f'PASS: rendered canonical drummer xmodel targets with {effects} effects across {len(models)} components')
-          PY
-      - name: Verify canonical preview contains all eight visual components
+            --fps 60 \
+            --require-all-targets
+      - name: Build real-song candidate from source-verified polyphonic transcription
+        env: {PYTHONPATH: .}
+        run: |
+          test -s 'Helix Audiolights.mp3'
+          mkdir -p test_runs/drummer_real_audio
+          python tools/integrate_drummer_v3_into_xsq.py \
+            template.xsq 'Helix Audiolights.mp3' \
+            --drum-events evidence/drummer/helix_adtof_stem.json \
+            --output test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq \
+            --report test_runs/drummer_real_audio/drummer_real_audio_report.json
+      - name: Export drummer-only real-song XSQ with correct media and duration
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/export_drummer_only_xsq.py \
+            test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq \
+            --output test_runs/drummer_real_audio/Helix_Drummer_ONLY_REAL_AUDIO.xsq \
+            --audio 'Helix Audiolights.mp3'
+      - name: Gate real-song detector against false intro hits
+        env: {PYTHONPATH: .}
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          p=Path('test_runs/drummer_ground_truth/preview/helix_flow_preview_metadata.json')
-          d=json.loads(p.read_text())
-          required={
-              'HX_SNOWMAN_DRUMMER_V3_KICK','HX_SNOWMAN_DRUMMER_V3_SNARE','HX_SNOWMAN_DRUMMER_V3_HI_HAT',
-              'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH','HX_SNOWMAN_DRUMMER_V3_TOM_MID','HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR',
-              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT','HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT'}
-          if d.get('visible_effect_count',0) <= 0: raise SystemExit('FAIL: no visible effects')
-          if set(d.get('visual_models',[])) != required: raise SystemExit(f'FAIL: canonical component set mismatch: {d.get("visual_models",[])}')
-          if not Path(d['mp4']).exists(): raise SystemExit('FAIL: canonical drummer MP4 was not created')
-          print('PASS: canonical drummer MP4 contains exactly the eight expected visual components')
+          report=json.loads(Path('test_runs/drummer_real_audio/drummer_real_audio_report.json').read_text())
+          print(json.dumps({k:v for k,v in report.items() if k not in {'analysis','event_audit'}},indent=2))
+          assert report['detector'] == 'adtof_frame_rnn_polyphonic', report
+          assert report['fallback_mode'] in {'typed_detection','typed_detection_bus_suppressed'}, report
+          assert report['ambiguous_bus_rejected_count'] == 0, report
+          assert report['target_count'] == 8, report
+          assert report['analysis']['typed_event_count'] >= 20, report
+          assert report['analysis']['analysis_engine'] == report['detector'], report
+          analysis=report['analysis']
+          assert analysis['transcription_provenance']['activation_fps'] == 100, analysis
+          assert analysis['review_status'] == 'model_inferred_pending_human_listening', analysis
+          assert analysis['transcription_provenance']['weights_sha256'], analysis
+          candidates=analysis['onset_audit']
+          assert len(candidates)==analysis['onset_candidate_count'], analysis
+          assert all(row['rejection_reason'] is not None or row['scheduler_decision'] in {'scheduled','merge_or_clutter_suppressed'} for row in candidates)
+          assert all(row['physical_target'] in report['targets'] for row in candidates if row['scheduler_decision']=='scheduled')
+          assert report['event_count'] >= 20, report
+          assert report['early_event_count_5s'] == 0, report
+          assert report['early_event_count_10s'] == 0, report
+          first=report['first_scheduled_event_ms']
+          assert first is not None and first >= 10000, report
+          components=report['component_counts']
+          required=[
+              'HX_SNOWMAN_DRUMMER_V3_KICK',
+              'HX_SNOWMAN_DRUMMER_V3_SNARE',
+              'HX_SNOWMAN_DRUMMER_V3_HI_HAT',
+              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT',
+              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT',
+          ]
+          missing=[name for name in required if components.get(name,0) <= 0]
+          assert not missing, f'real-song proof missing core kit parts: {missing}; counts={components}'
+          assert sum(components.get(name,0) for name in report['targets'] if '_TOM_' in name) > 0, components
           PY
-      - name: Upload drummer XSQ artifact
+      - name: Verify real-song XSQ stays dark through the false-hit intro
+        env: {PYTHONPATH: .}
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          xsq=Path('test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq')
+          root=ET.parse(xsq).getroot()
+          public_prefix='HX_SNOWMAN_DRUMMER_V3_'
+          starts=[]
+          visual_names=set()
+          for element in root.findall('./ElementEffects/Element'):
+              name=element.get('name','')
+              for layer in element.findall('EffectLayer'):
+                  effects=layer.findall('Effect')
+                  if not effects:
+                      continue
+                  if layer.get('name') == 'AUTO_Drummer_V3':
+                      visual_names.add(name)
+                  if name in {
+                      'HX_SNOWMAN_DRUMMER_V3_KICK',
+                      'HX_SNOWMAN_DRUMMER_V3_SNARE',
+                      'HX_SNOWMAN_DRUMMER_V3_HI_HAT',
+                      'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH',
+                      'HX_SNOWMAN_DRUMMER_V3_TOM_MID',
+                      'HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR',
+                      'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT',
+                      'HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT',
+                  }:
+                      starts.extend(int(float(effect.get('startTime','0'))) for effect in effects)
+          assert starts, 'no logical drummer effects emitted'
+          earliest=min(starts)
+          assert earliest >= 10000, f'false intro hit leaked into XSQ: earliest={earliest}ms'
+          assert 'HX_SNOWMAN_DRUMMER_V3_KICK_SURFACE' in visual_names
+          assert 'HX_SNOWMAN_DRUMMER_V3_SNARE_SURFACE' in visual_names
+          assert 'HX_SNOWMAN_DRUMMER_V3_HI_HAT_SURFACE' in visual_names
+          assert 'HX_SNOWMAN_DRUMMER_V3_HI_HAT_FOOT' in visual_names
+          assert any(name.endswith(('_TOM_HIGH_SURFACE','_TOM_MID_SURFACE','_TOM_FLOOR_SURFACE')) for name in visual_names)
+          print('REAL-SONG EARLIEST ACCEPTED HIT (ms):', earliest)
+          print('VISIBLE GEOMETRY SUBMODELS:', sorted(visual_names))
+          PY
+      - name: Write per-hit evidence and first-section timeline
+        env: {PYTHONPATH: .}
+        run: python tools/audit_drummer_v3_events.py test_runs/drummer_real_audio/drummer_real_audio_report.json --output test_runs/drummer_real_audio
+      - name: Render 25-second real-song proof
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/render_drummer_v3_preview.py \
+            test_runs/drummer_real_audio/Helix_Drummer_ONLY_REAL_AUDIO.xsq \
+            --audio 'Helix Audiolights.mp3' \
+            --output test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4 \
+            --start 9.5 \
+            --duration 25 \
+            --fps 60
+      - name: Decode known-hit frames and verify real soundtrack
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/inspect_drummer_preview.py \
+            test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4 \
+            --xsq test_runs/drummer_real_audio/Helix_Drummer_ONLY_REAL_AUDIO.xsq \
+            --output test_runs/drummer_real_audio/decoded
+      - name: Reconstruct historical and rejected streams and comparison
+        env: {PYTHONPATH: .}
+        run: |
+          mkdir -p test_runs/drummer_recovery
+          cp test_runs/drummer_real_audio/drummer_real_audio_report.json test_runs/drummer_recovery/recovery_report.json
+          python tools/recover_drummer_reference.py
+          python tools/audit_rejected_drummer_217.py
+          python tools/compare_drummer_recovery.py
+          python tools/ablate_drummer_history.py
+          python tools/plot_drummer_history.py
+      - name: Render full-song recovery preview
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/render_drummer_v3_preview.py \
+            test_runs/drummer_real_audio/Helix_Drummer_ONLY_REAL_AUDIO.xsq \
+            --audio 'Helix Audiolights.mp3' \
+            --output test_runs/drummer_real_audio/Helix_Drummer_RECOVERY_FULL.mp4 \
+            --fps 60
+      - name: Export diagnostic family clicks for review
+        env: {PYTHONPATH: .}
+        run: |
+          python tools/drummer_diagnostic_clicks.py test_runs/drummer_recovery/recovery_events.json --output test_runs/drummer_recovery/recovery_clicks_with_song.wav
+          python tools/drummer_diagnostic_clicks.py test_runs/drummer_recovery/historical_events.json --output test_runs/drummer_recovery/historical_clicks_with_song.wav
+          python tools/drummer_diagnostic_clicks.py test_runs/drummer_recovery/rejected_events.json --output test_runs/drummer_recovery/rejected_clicks_with_song.wav
+      - name: Run uploaded Dry Drum Test through current transcription workflow
+        env: {PYTHONPATH: .}
+        run: |
+          mkdir -p test_runs/drummer_dry_test
+          python tools/integrate_drummer_v3_into_xsq.py \
+            template.xsq evidence/drummer/dry_drum_test.wav \
+            --drum-events evidence/drummer/dry_drum_test_adtof.json \
+            --drum-review evidence/drummer/dry_drum_test_tom_review.json \
+            --output test_runs/drummer_dry_test/Before_Ending_Fix.xsq \
+            --report test_runs/drummer_dry_test/Before_Ending_Fix.json
+          python tools/integrate_drummer_v3_into_xsq.py \
+            template.xsq evidence/drummer/dry_drum_test.wav \
+            --drum-events evidence/drummer/dry_drum_test_adtof.json \
+            --drum-review evidence/drummer/dry_drum_test_tom_review.json \
+            --drum-calibration evidence/drummer/dry_drum_test_source_calibration.json \
+            --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.xsq \
+            --report test_runs/drummer_dry_test/report.json
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          import soundfile as sf
+          audio = Path('evidence/drummer/dry_drum_test.wav')
+          info = sf.info(audio)
+          report = json.loads(Path('test_runs/drummer_dry_test/report.json').read_text())
+          analysis = report['analysis']
+          assert analysis['audio_sha256'] == hashlib.sha256(audio.read_bytes()).hexdigest()
+          assert analysis['review_status'] == 'model_inferred_pending_human_listening'
+          assert analysis['transcription_provenance']['tom_reference_hz'] is None
+          assert analysis['tom_review']['review_status'] == 'partial_source_bound_tom_review'
+          assert analysis['source_calibration']['review_status'] == 'source_inspected_inference_pending_user_listening'
+          for row in analysis['onset_audit']:
+              calibration = row['primary'].get('source_calibration', {})
+              if calibration.get('accepted'):
+                  assert calibration['original_family'] == 'tom'
+                  assert calibration['original_rejection_reason'] == 'unresolved_tom_identity'
+                  assert row['scheduler_decision'] in {'scheduled', 'merge_or_clutter_suppressed'}
+                  if row['scheduler_decision'] == 'scheduled':
+                      assert row['physical_target'] in report['targets']
+                  continue
+              if row['drum_family'] != 'tom':
+                  continue
+              if row['primary'].get('tom_review'):
+                  expected = 'HX_SNOWMAN_DRUMMER_V3_TOM_' + row['primary']['tom_class'].upper()
+                  assert row['scheduler_decision'] == 'scheduled' and row['physical_target'] == expected
+              else:
+                  assert row['rejection_reason'] == 'unresolved_tom_identity' and row['physical_target'] is None
+          manifest = dict(source=str(audio), sha256=analysis['audio_sha256'],
+                          duration=info.duration, sample_rate=info.samplerate,
+                          channels=info.channels, frames=info.frames, subtype=info.subtype,
+                          note='Cached inference with reviewed tom fill and provisional source-timbre ending calibration; user listening remains the final gate.')
+          Path('test_runs/drummer_dry_test/source_manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
+          PY
+          python tools/export_drummer_only_xsq.py \
+            test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.xsq \
+            --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
+            --audio evidence/drummer/dry_drum_test.wav
+          python tools/audit_drummer_v3_events.py test_runs/drummer_dry_test/report.json --output test_runs/drummer_dry_test
+          python tools/audit_drummer_source_calibration.py evidence/drummer/dry_drum_test.wav \
+            test_runs/drummer_dry_test/Before_Ending_Fix.json test_runs/drummer_dry_test/report.json \
+            --output test_runs/drummer_dry_test
+          python tools/render_drummer_v3_preview.py \
+            test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
+            --audio evidence/drummer/dry_drum_test.wav \
+            --output test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.mp4 --fps 60
+          python tools/inspect_drummer_preview.py \
+            test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.mp4 \
+            --xsq test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
+            --audio evidence/drummer/dry_drum_test.wav \
+            --start 0 --duration 38.32 \
+            --times 9.7,10.0333,10.3333,32.4,32.4833,32.55,33.3333,33.5 \
+            --output test_runs/drummer_dry_test/decoded
+          python tools/render_drummer_v3_preview.py \
+            test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST_ONLY.xsq \
+            --audio evidence/drummer/dry_drum_test.wav \
+            --output test_runs/drummer_dry_test/Helix_Drummer_ENDING.mp4 \
+            --start 29.8 --duration 6 --fps 60
+      - name: Upload uploaded-audio drummer test
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drummer-dry-audio-test
+          path: |
+            test_runs/drummer_dry_test/*
+            evidence/drummer/dry_drum_test.wav
+            evidence/drummer/dry_drum_test_adtof.json
+            evidence/drummer/dry_drum_test_signal_inspection.json
+            evidence/drummer/dry_drum_test_tom_review.json
+            evidence/drummer/dry_drum_test_source_calibration.json
+            evidence/drummer/dry_drum_test_detailed_probe.json
+            tests/fixtures/drummer/dry_user_tom_anchors.json
+            tests/fixtures/drummer/dry_ending_signal_anchors.json
+          if-no-files-found: error
+      - name: Upload historical recovery evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drummer-recovery-comparison
+          path: |
+            test_runs/drummer_recovery/*
+            tests/fixtures/drummer/*.json
+          if-no-files-found: error
+      - name: Upload real-song proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drummer-real-audio-proof
+          path: |
+            test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO.xsq
+            test_runs/drummer_real_audio/Helix_Drummer_ONLY_REAL_AUDIO.xsq
+            test_runs/drummer_real_audio/drummer_real_audio_report.json
+            test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4
+            test_runs/drummer_real_audio/Helix_Drummer_RECOVERY_FULL.mp4
+            test_runs/drummer_real_audio/Drummer_*
+            test_runs/drummer_real_audio/decoded/*.png
+            test_runs/drummer_real_audio/decoded/*.json
+            test_runs/drummer_poses/*
+            fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel
+            fixtures/band_geometry/source/drummer_idle.png
+            fixtures/band_geometry/source/drummerbg.png
+          if-no-files-found: error
+      - name: Upload drummer truth artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -158,17 +440,10 @@ jobs:
             test_runs/drummer_ground_truth/events.json
             test_runs/drummer_ground_truth/drummer_ground_truth.wav
           if-no-files-found: error
-      - name: Upload canonical drummer MP4 preview artifact
+      - name: Upload canonical drummer MP4 preview
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: drummer-ground-truth-mp4
           path: test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4
-          if-no-files-found: error
-      - name: Upload drummer preview metadata
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: drummer-ground-truth-preview-metadata
-          path: test_runs/drummer_ground_truth/preview/helix_flow_preview_metadata.json
           if-no-files-found: error

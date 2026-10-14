@@ -1,0 +1,3939 @@
+{
+  "full_decode_pass": true,
+  "decoded_frames": 2299,
+  "scored_hits": 312,
+  "visible_scored_hits": 312,
+  "cached_family_hits": 309,
+  "physical_hits_preserved": 289,
+  "all_physical_poses_active_at_scored_frame": true,
+  "unassigned_responses": 23,
+  "independent_source_attacks": 185,
+  "covered_source_attacks": 185,
+  "maximum_source_attack_response_distance_ms": 28.73015873015916,
+  "original_audio_zero_lag_correlation": 0.9973257644928796,
+  "video_sha256": "816adc99bbcba755e975f182e55c22ba51a916e9085d43e99b7b896b20801a3c",
+  "audio_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+  "hit_frame_evidence": [
+    {
+      "score_index": 0,
+      "frame": 1,
+      "timestamp": 0.024943310657596373,
+      "target": null,
+      "family": "source",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.12403840463596
+    },
+    {
+      "score_index": 1,
+      "frame": 7,
+      "timestamp": 0.12,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 2,
+      "frame": 10,
+      "timestamp": 0.17,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.477225575051661
+    },
+    {
+      "score_index": 3,
+      "frame": 19,
+      "timestamp": 0.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 10.44030650891055
+    },
+    {
+      "score_index": 4,
+      "frame": 19,
+      "timestamp": 0.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.306623862918075
+    },
+    {
+      "score_index": 5,
+      "frame": 38,
+      "timestamp": 0.63,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.874007874011811
+    },
+    {
+      "score_index": 6,
+      "frame": 47,
+      "timestamp": 0.78,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 9.0
+    },
+    {
+      "score_index": 7,
+      "frame": 47,
+      "timestamp": 0.78,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 9.539392014169456
+    },
+    {
+      "score_index": 8,
+      "frame": 56,
+      "timestamp": 0.94,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 9,
+      "frame": 56,
+      "timestamp": 0.94,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.196152422706632
+    },
+    {
+      "score_index": 10,
+      "frame": 74,
+      "timestamp": 1.24,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.4031242374328485
+    },
+    {
+      "score_index": 11,
+      "frame": 74,
+      "timestamp": 1.24,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.4031242374328485
+    },
+    {
+      "score_index": 12,
+      "frame": 94,
+      "timestamp": 1.56,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.7416573867739413
+    },
+    {
+      "score_index": 13,
+      "frame": 94,
+      "timestamp": 1.56,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.06225774829855
+    },
+    {
+      "score_index": 14,
+      "frame": 103,
+      "timestamp": 1.72,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.1622776601683795
+    },
+    {
+      "score_index": 15,
+      "frame": 103,
+      "timestamp": 1.72,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.557438524302
+    },
+    {
+      "score_index": 16,
+      "frame": 113,
+      "timestamp": 1.89,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.164414002968976
+    },
+    {
+      "score_index": 17,
+      "frame": 122,
+      "timestamp": 2.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.69041575982343
+    },
+    {
+      "score_index": 18,
+      "frame": 122,
+      "timestamp": 2.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.164414002968976
+    },
+    {
+      "score_index": 19,
+      "frame": 132,
+      "timestamp": 2.2,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.898979485566356
+    },
+    {
+      "score_index": 20,
+      "frame": 141,
+      "timestamp": 2.35,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.242640687119285
+    },
+    {
+      "score_index": 21,
+      "frame": 141,
+      "timestamp": 2.35,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.306623862918075
+    },
+    {
+      "score_index": 22,
+      "frame": 146,
+      "timestamp": 2.43,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 23,
+      "frame": 151,
+      "timestamp": 2.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 24,
+      "frame": 151,
+      "timestamp": 2.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 25,
+      "frame": 160,
+      "timestamp": 2.66,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 26,
+      "frame": 160,
+      "timestamp": 2.66,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.1622776601683795
+    },
+    {
+      "score_index": 27,
+      "frame": 169,
+      "timestamp": 2.82,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.0710678118654755
+    },
+    {
+      "score_index": 28,
+      "frame": 179,
+      "timestamp": 2.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.605551275463989
+    },
+    {
+      "score_index": 29,
+      "frame": 179,
+      "timestamp": 2.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.385164807134504
+    },
+    {
+      "score_index": 30,
+      "frame": 188,
+      "timestamp": 3.14,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.385164807134504
+    },
+    {
+      "score_index": 31,
+      "frame": 197,
+      "timestamp": 3.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.23606797749979
+    },
+    {
+      "score_index": 32,
+      "frame": 197,
+      "timestamp": 3.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.0710678118654755
+    },
+    {
+      "score_index": 33,
+      "frame": 207,
+      "timestamp": 3.45,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.47213595499958
+    },
+    {
+      "score_index": 34,
+      "frame": 212,
+      "timestamp": 3.53,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 11.489125293076057
+    },
+    {
+      "score_index": 35,
+      "frame": 217,
+      "timestamp": 3.61,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.708203932499369
+    },
+    {
+      "score_index": 36,
+      "frame": 217,
+      "timestamp": 3.61,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.0710678118654755
+    },
+    {
+      "score_index": 37,
+      "frame": 226,
+      "timestamp": 3.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.483314773547883
+    },
+    {
+      "score_index": 38,
+      "frame": 226,
+      "timestamp": 3.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 39,
+      "frame": 235,
+      "timestamp": 3.92,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 40,
+      "frame": 235,
+      "timestamp": 3.92,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 9.433981132056603
+    },
+    {
+      "score_index": 41,
+      "frame": 244,
+      "timestamp": 4.07,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.69041575982343
+    },
+    {
+      "score_index": 42,
+      "frame": 244,
+      "timestamp": 4.07,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.4142135623730951
+    },
+    {
+      "score_index": 43,
+      "frame": 254,
+      "timestamp": 4.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.4142135623730951
+    },
+    {
+      "score_index": 44,
+      "frame": 254,
+      "timestamp": 4.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.7416573867739413
+    },
+    {
+      "score_index": 45,
+      "frame": 263,
+      "timestamp": 4.39,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.0
+    },
+    {
+      "score_index": 46,
+      "frame": 272,
+      "timestamp": 4.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 47,
+      "frame": 273,
+      "timestamp": 4.55,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.0
+    },
+    {
+      "score_index": 48,
+      "frame": 282,
+      "timestamp": 4.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.0990195135927845
+    },
+    {
+      "score_index": 49,
+      "frame": 282,
+      "timestamp": 4.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.8284271247461903
+    },
+    {
+      "score_index": 50,
+      "frame": 292,
+      "timestamp": 4.86,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.242640687119285
+    },
+    {
+      "score_index": 51,
+      "frame": 301,
+      "timestamp": 5.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.47213595499958
+    },
+    {
+      "score_index": 52,
+      "frame": 301,
+      "timestamp": 5.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.1622776601683795
+    },
+    {
+      "score_index": 53,
+      "frame": 310,
+      "timestamp": 5.16,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 54,
+      "frame": 319,
+      "timestamp": 5.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.708203932499369
+    },
+    {
+      "score_index": 55,
+      "frame": 319,
+      "timestamp": 5.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.164414002968976
+    },
+    {
+      "score_index": 56,
+      "frame": 329,
+      "timestamp": 5.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.557438524302
+    },
+    {
+      "score_index": 57,
+      "frame": 329,
+      "timestamp": 5.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.385164807134504
+    },
+    {
+      "score_index": 58,
+      "frame": 329,
+      "timestamp": 5.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.7416573867739413
+    },
+    {
+      "score_index": 59,
+      "frame": 347,
+      "timestamp": 5.79,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 60,
+      "frame": 347,
+      "timestamp": 5.79,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.8284271247461903
+    },
+    {
+      "score_index": 61,
+      "frame": 357,
+      "timestamp": 5.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 62,
+      "frame": 357,
+      "timestamp": 5.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 63,
+      "frame": 366,
+      "timestamp": 6.1,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.605551275463989
+    },
+    {
+      "score_index": 64,
+      "frame": 375,
+      "timestamp": 6.25,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.4031242374328485
+    },
+    {
+      "score_index": 65,
+      "frame": 375,
+      "timestamp": 6.25,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.358898943540674
+    },
+    {
+      "score_index": 66,
+      "frame": 385,
+      "timestamp": 6.41,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 67,
+      "frame": 394,
+      "timestamp": 6.57,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 68,
+      "frame": 394,
+      "timestamp": 6.57,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 9.0
+    },
+    {
+      "score_index": 69,
+      "frame": 403,
+      "timestamp": 6.72,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.708203932499369
+    },
+    {
+      "score_index": 70,
+      "frame": 403,
+      "timestamp": 6.72,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 9.539392014169456
+    },
+    {
+      "score_index": 71,
+      "frame": 413,
+      "timestamp": 6.88,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 72,
+      "frame": 422,
+      "timestamp": 7.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.4142135623730951
+    },
+    {
+      "score_index": 73,
+      "frame": 422,
+      "timestamp": 7.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.8284271247461903
+    },
+    {
+      "score_index": 74,
+      "frame": 431,
+      "timestamp": 7.19,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.7416573867739413
+    },
+    {
+      "score_index": 75,
+      "frame": 432,
+      "timestamp": 7.2,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.744562646538029
+    },
+    {
+      "score_index": 76,
+      "frame": 441,
+      "timestamp": 7.35,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.358898943540674
+    },
+    {
+      "score_index": 77,
+      "frame": 450,
+      "timestamp": 7.5,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.7320508075688772
+    },
+    {
+      "score_index": 78,
+      "frame": 451,
+      "timestamp": 7.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.196152422706632
+    },
+    {
+      "score_index": 79,
+      "frame": 460,
+      "timestamp": 7.66,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.4142135623730951
+    },
+    {
+      "score_index": 80,
+      "frame": 469,
+      "timestamp": 7.82,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 9.0
+    },
+    {
+      "score_index": 81,
+      "frame": 469,
+      "timestamp": 7.82,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 11.575836902790225
+    },
+    {
+      "score_index": 82,
+      "frame": 478,
+      "timestamp": 7.97,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.23606797749979
+    },
+    {
+      "score_index": 83,
+      "frame": 484,
+      "timestamp": 8.06,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.48074069840786
+    },
+    {
+      "score_index": 84,
+      "frame": 488,
+      "timestamp": 8.13,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.385164807134504
+    },
+    {
+      "score_index": 85,
+      "frame": 488,
+      "timestamp": 8.13,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.557438524302
+    },
+    {
+      "score_index": 86,
+      "frame": 497,
+      "timestamp": 8.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.242640687119285
+    },
+    {
+      "score_index": 87,
+      "frame": 497,
+      "timestamp": 8.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.54400374531753
+    },
+    {
+      "score_index": 88,
+      "frame": 506,
+      "timestamp": 8.44,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 89,
+      "frame": 506,
+      "timestamp": 8.44,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 90,
+      "frame": 516,
+      "timestamp": 8.6,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.1622776601683795
+    },
+    {
+      "score_index": 91,
+      "frame": 526,
+      "timestamp": 8.76,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 9.1104335791443
+    },
+    {
+      "score_index": 92,
+      "frame": 535,
+      "timestamp": 8.91,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.4142135623730951
+    },
+    {
+      "score_index": 93,
+      "frame": 539,
+      "timestamp": 8.99,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.385164807134504
+    },
+    {
+      "score_index": 94,
+      "frame": 544,
+      "timestamp": 9.07,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 95,
+      "frame": 553,
+      "timestamp": 9.22,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 96,
+      "frame": 563,
+      "timestamp": 9.38,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.916079783099616
+    },
+    {
+      "score_index": 97,
+      "frame": 572,
+      "timestamp": 9.53,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 11.874342087037917
+    },
+    {
+      "score_index": 98,
+      "frame": 581,
+      "timestamp": 9.69,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 16.30950643030009
+    },
+    {
+      "score_index": 99,
+      "frame": 592,
+      "timestamp": 9.86,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.69041575982343
+    },
+    {
+      "score_index": 100,
+      "frame": 601,
+      "timestamp": 10.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.602325267042627
+    },
+    {
+      "score_index": 101,
+      "frame": 610,
+      "timestamp": 10.17,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.280109889280518
+    },
+    {
+      "score_index": 102,
+      "frame": 619,
+      "timestamp": 10.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 10.816653826391969
+    },
+    {
+      "score_index": 103,
+      "frame": 628,
+      "timestamp": 10.47,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 11.789826122551595
+    },
+    {
+      "score_index": 104,
+      "frame": 638,
+      "timestamp": 10.63,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.164414002968976
+    },
+    {
+      "score_index": 105,
+      "frame": 647,
+      "timestamp": 10.79,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 106,
+      "frame": 656,
+      "timestamp": 10.94,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.164414002968976
+    },
+    {
+      "score_index": 107,
+      "frame": 656,
+      "timestamp": 10.94,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 108,
+      "frame": 675,
+      "timestamp": 11.25,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.306623862918075
+    },
+    {
+      "score_index": 109,
+      "frame": 675,
+      "timestamp": 11.25,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.0
+    },
+    {
+      "score_index": 110,
+      "frame": 694,
+      "timestamp": 11.57,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 9.16515138991168
+    },
+    {
+      "score_index": 111,
+      "frame": 703,
+      "timestamp": 11.72,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.69041575982343
+    },
+    {
+      "score_index": 112,
+      "frame": 703,
+      "timestamp": 11.72,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.48074069840786
+    },
+    {
+      "score_index": 113,
+      "frame": 722,
+      "timestamp": 12.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.23606797749979
+    },
+    {
+      "score_index": 114,
+      "frame": 740,
+      "timestamp": 12.34,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 115,
+      "frame": 752,
+      "timestamp": 12.526530612244898,
+      "target": null,
+      "family": "source",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.164414002968976
+    },
+    {
+      "score_index": 116,
+      "frame": 760,
+      "timestamp": 12.66,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.23606797749979
+    },
+    {
+      "score_index": 117,
+      "frame": 769,
+      "timestamp": 12.82,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.4031242374328485
+    },
+    {
+      "score_index": 118,
+      "frame": 778,
+      "timestamp": 12.97,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.196152422706632
+    },
+    {
+      "score_index": 119,
+      "frame": 788,
+      "timestamp": 13.13,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.708203932499369
+    },
+    {
+      "score_index": 120,
+      "frame": 797,
+      "timestamp": 13.28,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.324555320336759
+    },
+    {
+      "score_index": 121,
+      "frame": 806,
+      "timestamp": 13.44,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.0990195135927845
+    },
+    {
+      "score_index": 122,
+      "frame": 815,
+      "timestamp": 13.59,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.708203932499369
+    },
+    {
+      "score_index": 123,
+      "frame": 825,
+      "timestamp": 13.75,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.0
+    },
+    {
+      "score_index": 124,
+      "frame": 835,
+      "timestamp": 13.91,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.708203932499369
+    },
+    {
+      "score_index": 125,
+      "frame": 844,
+      "timestamp": 14.07,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 126,
+      "frame": 854,
+      "timestamp": 14.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.8284271247461903
+    },
+    {
+      "score_index": 127,
+      "frame": 863,
+      "timestamp": 14.38,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.3166247903554
+    },
+    {
+      "score_index": 128,
+      "frame": 872,
+      "timestamp": 14.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.164414002968976
+    },
+    {
+      "score_index": 129,
+      "frame": 882,
+      "timestamp": 14.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 130,
+      "frame": 891,
+      "timestamp": 14.85,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 131,
+      "frame": 891,
+      "timestamp": 14.85,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 132,
+      "frame": 901,
+      "timestamp": 15.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.23606797749979
+    },
+    {
+      "score_index": 133,
+      "frame": 910,
+      "timestamp": 15.16,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.196152422706632
+    },
+    {
+      "score_index": 134,
+      "frame": 919,
+      "timestamp": 15.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.47213595499958
+    },
+    {
+      "score_index": 135,
+      "frame": 924,
+      "timestamp": 15.4,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 136,
+      "frame": 929,
+      "timestamp": 15.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 137,
+      "frame": 938,
+      "timestamp": 15.63,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.358898943540674
+    },
+    {
+      "score_index": 138,
+      "frame": 947,
+      "timestamp": 15.79,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.7416573867739413
+    },
+    {
+      "score_index": 139,
+      "frame": 956,
+      "timestamp": 15.94,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.0990195135927845
+    },
+    {
+      "score_index": 140,
+      "frame": 966,
+      "timestamp": 16.1,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.4641016151377544
+    },
+    {
+      "score_index": 141,
+      "frame": 975,
+      "timestamp": 16.25,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 142,
+      "frame": 975,
+      "timestamp": 16.25,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 143,
+      "frame": 994,
+      "timestamp": 16.57,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.358898943540674
+    },
+    {
+      "score_index": 144,
+      "frame": 1004,
+      "timestamp": 16.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 145,
+      "frame": 1004,
+      "timestamp": 16.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 9.0
+    },
+    {
+      "score_index": 146,
+      "frame": 1022,
+      "timestamp": 17.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 147,
+      "frame": 1032,
+      "timestamp": 17.2,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.164414002968976
+    },
+    {
+      "score_index": 148,
+      "frame": 1041,
+      "timestamp": 17.35,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 149,
+      "frame": 1051,
+      "timestamp": 17.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 150,
+      "frame": 1060,
+      "timestamp": 17.67,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.23606797749979
+    },
+    {
+      "score_index": 151,
+      "frame": 1069,
+      "timestamp": 17.82,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.358898943540674
+    },
+    {
+      "score_index": 152,
+      "frame": 1079,
+      "timestamp": 17.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.4031242374328485
+    },
+    {
+      "score_index": 153,
+      "frame": 1088,
+      "timestamp": 18.13,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.358898943540674
+    },
+    {
+      "score_index": 154,
+      "frame": 1097,
+      "timestamp": 18.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.744562646538029
+    },
+    {
+      "score_index": 155,
+      "frame": 1107,
+      "timestamp": 18.45,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.7416573867739413
+    },
+    {
+      "score_index": 156,
+      "frame": 1116,
+      "timestamp": 18.6,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.4142135623730951
+    },
+    {
+      "score_index": 157,
+      "frame": 1126,
+      "timestamp": 18.76,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.744562646538029
+    },
+    {
+      "score_index": 158,
+      "frame": 1135,
+      "timestamp": 18.91,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.4142135623730951
+    },
+    {
+      "score_index": 159,
+      "frame": 1135,
+      "timestamp": 18.91,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.7320508075688772
+    },
+    {
+      "score_index": 160,
+      "frame": 1144,
+      "timestamp": 19.07,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.196152422706632
+    },
+    {
+      "score_index": 161,
+      "frame": 1154,
+      "timestamp": 19.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.4641016151377544
+    },
+    {
+      "score_index": 162,
+      "frame": 1154,
+      "timestamp": 19.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.898979485566356
+    },
+    {
+      "score_index": 163,
+      "frame": 1163,
+      "timestamp": 19.39,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.082762530298219
+    },
+    {
+      "score_index": 164,
+      "frame": 1163,
+      "timestamp": 19.39,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.48528137423857
+    },
+    {
+      "score_index": 165,
+      "frame": 1172,
+      "timestamp": 19.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.8284271247461903
+    },
+    {
+      "score_index": 166,
+      "frame": 1172,
+      "timestamp": 19.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.385164807134504
+    },
+    {
+      "score_index": 167,
+      "frame": 1182,
+      "timestamp": 19.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.358898943540674
+    },
+    {
+      "score_index": 168,
+      "frame": 1182,
+      "timestamp": 19.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.366600265340756
+    },
+    {
+      "score_index": 169,
+      "frame": 1191,
+      "timestamp": 19.85,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.358898943540674
+    },
+    {
+      "score_index": 170,
+      "frame": 1201,
+      "timestamp": 20.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.164414002968976
+    },
+    {
+      "score_index": 171,
+      "frame": 1210,
+      "timestamp": 20.17,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.324555320336759
+    },
+    {
+      "score_index": 172,
+      "frame": 1214,
+      "timestamp": 20.24,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.831760866327848
+    },
+    {
+      "score_index": 173,
+      "frame": 1219,
+      "timestamp": 20.32,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.23606797749979
+    },
+    {
+      "score_index": 174,
+      "frame": 1224,
+      "timestamp": 20.4,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.3166247903554
+    },
+    {
+      "score_index": 175,
+      "frame": 1229,
+      "timestamp": 20.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.602325267042627
+    },
+    {
+      "score_index": 176,
+      "frame": 1234,
+      "timestamp": 20.56,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 9.219544457292887
+    },
+    {
+      "score_index": 177,
+      "frame": 1238,
+      "timestamp": 20.64,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 178,
+      "frame": 1243,
+      "timestamp": 20.72,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.4031242374328485
+    },
+    {
+      "score_index": 179,
+      "frame": 1247,
+      "timestamp": 20.79,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 9.16515138991168
+    },
+    {
+      "score_index": 180,
+      "frame": 1257,
+      "timestamp": 20.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.0990195135927845
+    },
+    {
+      "score_index": 181,
+      "frame": 1257,
+      "timestamp": 20.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.69041575982343
+    },
+    {
+      "score_index": 182,
+      "frame": 1276,
+      "timestamp": 21.26,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.830951894845301
+    },
+    {
+      "score_index": 183,
+      "frame": 1276,
+      "timestamp": 21.26,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 10.099504938362077
+    },
+    {
+      "score_index": 184,
+      "frame": 1304,
+      "timestamp": 21.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.483314773547883
+    },
+    {
+      "score_index": 185,
+      "frame": 1304,
+      "timestamp": 21.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.3484692283495345
+    },
+    {
+      "score_index": 186,
+      "frame": 1322,
+      "timestamp": 22.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 187,
+      "frame": 1322,
+      "timestamp": 22.04,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 188,
+      "frame": 1333,
+      "timestamp": 22.21451247165533,
+      "target": null,
+      "family": "source",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.874007874011811
+    },
+    {
+      "score_index": 189,
+      "frame": 1342,
+      "timestamp": 22.36,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.358898943540674
+    },
+    {
+      "score_index": 190,
+      "frame": 1351,
+      "timestamp": 22.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.681145747868608
+    },
+    {
+      "score_index": 191,
+      "frame": 1351,
+      "timestamp": 22.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.94427190999916
+    },
+    {
+      "score_index": 192,
+      "frame": 1360,
+      "timestamp": 22.67,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.0990195135927845
+    },
+    {
+      "score_index": 193,
+      "frame": 1370,
+      "timestamp": 22.83,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 194,
+      "frame": 1379,
+      "timestamp": 22.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.47213595499958
+    },
+    {
+      "score_index": 195,
+      "frame": 1379,
+      "timestamp": 22.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 196,
+      "frame": 1388,
+      "timestamp": 23.14,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.4142135623730951
+    },
+    {
+      "score_index": 197,
+      "frame": 1397,
+      "timestamp": 23.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.3166247903554
+    },
+    {
+      "score_index": 198,
+      "frame": 1397,
+      "timestamp": 23.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.717797887081348
+    },
+    {
+      "score_index": 199,
+      "frame": 1407,
+      "timestamp": 23.45,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.23606797749979
+    },
+    {
+      "score_index": 200,
+      "frame": 1417,
+      "timestamp": 23.61,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.605551275463989
+    },
+    {
+      "score_index": 201,
+      "frame": 1426,
+      "timestamp": 23.76,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.0
+    },
+    {
+      "score_index": 202,
+      "frame": 1426,
+      "timestamp": 23.76,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.708203932499369
+    },
+    {
+      "score_index": 203,
+      "frame": 1435,
+      "timestamp": 23.92,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 204,
+      "frame": 1445,
+      "timestamp": 24.08,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.47213595499958
+    },
+    {
+      "score_index": 205,
+      "frame": 1454,
+      "timestamp": 24.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 206,
+      "frame": 1454,
+      "timestamp": 24.23,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.0710678118654755
+    },
+    {
+      "score_index": 207,
+      "frame": 1463,
+      "timestamp": 24.39,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.8284271247461903
+    },
+    {
+      "score_index": 208,
+      "frame": 1472,
+      "timestamp": 24.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.385164807134504
+    },
+    {
+      "score_index": 209,
+      "frame": 1472,
+      "timestamp": 24.54,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 210,
+      "frame": 1482,
+      "timestamp": 24.7,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 211,
+      "frame": 1492,
+      "timestamp": 24.86,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.898979485566356
+    },
+    {
+      "score_index": 212,
+      "frame": 1501,
+      "timestamp": 25.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.47213595499958
+    },
+    {
+      "score_index": 213,
+      "frame": 1501,
+      "timestamp": 25.01,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.0
+    },
+    {
+      "score_index": 214,
+      "frame": 1510,
+      "timestamp": 25.17,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.708203932499369
+    },
+    {
+      "score_index": 215,
+      "frame": 1520,
+      "timestamp": 25.33,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.605551275463989
+    },
+    {
+      "score_index": 216,
+      "frame": 1529,
+      "timestamp": 25.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.810249675906654
+    },
+    {
+      "score_index": 217,
+      "frame": 1529,
+      "timestamp": 25.48,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.477225575051661
+    },
+    {
+      "score_index": 218,
+      "frame": 1538,
+      "timestamp": 25.63,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.1622776601683795
+    },
+    {
+      "score_index": 219,
+      "frame": 1538,
+      "timestamp": 25.64,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 220,
+      "frame": 1547,
+      "timestamp": 25.79,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.708203932499369
+    },
+    {
+      "score_index": 221,
+      "frame": 1548,
+      "timestamp": 25.8,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.656854249492381
+    },
+    {
+      "score_index": 222,
+      "frame": 1557,
+      "timestamp": 25.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.4142135623730951
+    },
+    {
+      "score_index": 223,
+      "frame": 1557,
+      "timestamp": 25.95,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 224,
+      "frame": 1566,
+      "timestamp": 26.1,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.0
+    },
+    {
+      "score_index": 225,
+      "frame": 1576,
+      "timestamp": 26.26,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.7416573867739413
+    },
+    {
+      "score_index": 226,
+      "frame": 1576,
+      "timestamp": 26.26,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.605551275463989
+    },
+    {
+      "score_index": 227,
+      "frame": 1576,
+      "timestamp": 26.26,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 228,
+      "frame": 1585,
+      "timestamp": 26.41,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.4142135623730951
+    },
+    {
+      "score_index": 229,
+      "frame": 1594,
+      "timestamp": 26.57,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.69041575982343
+    },
+    {
+      "score_index": 230,
+      "frame": 1594,
+      "timestamp": 26.57,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.69041575982343
+    },
+    {
+      "score_index": 231,
+      "frame": 1604,
+      "timestamp": 26.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.681145747868608
+    },
+    {
+      "score_index": 232,
+      "frame": 1604,
+      "timestamp": 26.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.164414002968976
+    },
+    {
+      "score_index": 233,
+      "frame": 1604,
+      "timestamp": 26.73,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.3166247903554
+    },
+    {
+      "score_index": 234,
+      "frame": 1623,
+      "timestamp": 27.05,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 235,
+      "frame": 1623,
+      "timestamp": 27.05,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 236,
+      "frame": 1633,
+      "timestamp": 27.21,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.7416573867739413
+    },
+    {
+      "score_index": 237,
+      "frame": 1642,
+      "timestamp": 27.36,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 1.4142135623730951
+    },
+    {
+      "score_index": 238,
+      "frame": 1651,
+      "timestamp": 27.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.1622776601683795
+    },
+    {
+      "score_index": 239,
+      "frame": 1651,
+      "timestamp": 27.51,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.385164807134504
+    },
+    {
+      "score_index": 240,
+      "frame": 1660,
+      "timestamp": 27.67,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.358898943540674
+    },
+    {
+      "score_index": 241,
+      "frame": 1670,
+      "timestamp": 27.83,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.1622776601683795
+    },
+    {
+      "score_index": 242,
+      "frame": 1670,
+      "timestamp": 27.83,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 243,
+      "frame": 1679,
+      "timestamp": 27.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.69041575982343
+    },
+    {
+      "score_index": 244,
+      "frame": 1679,
+      "timestamp": 27.99,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.0990195135927845
+    },
+    {
+      "score_index": 245,
+      "frame": 1688,
+      "timestamp": 28.14,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.605551275463989
+    },
+    {
+      "score_index": 246,
+      "frame": 1698,
+      "timestamp": 28.3,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 247,
+      "frame": 1698,
+      "timestamp": 28.3,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 248,
+      "frame": 1708,
+      "timestamp": 28.46,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 249,
+      "frame": 1717,
+      "timestamp": 28.61,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.06225774829855
+    },
+    {
+      "score_index": 250,
+      "frame": 1726,
+      "timestamp": 28.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 251,
+      "frame": 1731,
+      "timestamp": 28.85,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 252,
+      "frame": 1735,
+      "timestamp": 28.92,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 253,
+      "frame": 1735,
+      "timestamp": 28.92,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 254,
+      "frame": 1745,
+      "timestamp": 29.08,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 255,
+      "frame": 1754,
+      "timestamp": 29.24,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.23606797749979
+    },
+    {
+      "score_index": 256,
+      "frame": 1764,
+      "timestamp": 29.4,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.23606797749979
+    },
+    {
+      "score_index": 257,
+      "frame": 1764,
+      "timestamp": 29.4,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 10.099504938362077
+    },
+    {
+      "score_index": 258,
+      "frame": 1773,
+      "timestamp": 29.55,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.0
+    },
+    {
+      "score_index": 259,
+      "frame": 1773,
+      "timestamp": 29.55,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 260,
+      "frame": 1783,
+      "timestamp": 29.71,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 261,
+      "frame": 1783,
+      "timestamp": 29.71,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.7416573867739413
+    },
+    {
+      "score_index": 262,
+      "frame": 1792,
+      "timestamp": 29.86,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.242640687119285
+    },
+    {
+      "score_index": 263,
+      "frame": 1801,
+      "timestamp": 30.02,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.874007874011811
+    },
+    {
+      "score_index": 264,
+      "frame": 1801,
+      "timestamp": 30.02,
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "family": "hihat",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.449489742783178
+    },
+    {
+      "score_index": 265,
+      "frame": 1801,
+      "timestamp": 30.02,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 266,
+      "frame": 1820,
+      "timestamp": 30.33,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 12.68857754044952
+    },
+    {
+      "score_index": 267,
+      "frame": 1829,
+      "timestamp": 30.49,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.324555320336759
+    },
+    {
+      "score_index": 268,
+      "frame": 1839,
+      "timestamp": 30.65,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 10.246950765959598
+    },
+    {
+      "score_index": 269,
+      "frame": 1848,
+      "timestamp": 30.8,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.4031242374328485
+    },
+    {
+      "score_index": 270,
+      "frame": 1857,
+      "timestamp": 30.95,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.0710678118654755
+    },
+    {
+      "score_index": 271,
+      "frame": 1867,
+      "timestamp": 31.11,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.477225575051661
+    },
+    {
+      "score_index": 272,
+      "frame": 1876,
+      "timestamp": 31.27,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.656854249492381
+    },
+    {
+      "score_index": 273,
+      "frame": 1876,
+      "timestamp": 31.27,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.23606797749979
+    },
+    {
+      "score_index": 274,
+      "frame": 1895,
+      "timestamp": 31.59,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.164414002968976
+    },
+    {
+      "score_index": 275,
+      "frame": 1905,
+      "timestamp": 31.75,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.830951894845301
+    },
+    {
+      "score_index": 276,
+      "frame": 1905,
+      "timestamp": 31.75,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.7416573867739413
+    },
+    {
+      "score_index": 277,
+      "frame": 1924,
+      "timestamp": 32.06,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 278,
+      "frame": 1933,
+      "timestamp": 32.21,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.0
+    },
+    {
+      "score_index": 279,
+      "frame": 1942,
+      "timestamp": 32.36,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 28.74021572639983
+    },
+    {
+      "score_index": 280,
+      "frame": 1951,
+      "timestamp": 32.52,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 19.6468827043885
+    },
+    {
+      "score_index": 281,
+      "frame": 1961,
+      "timestamp": 32.68,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 17.233687939614086
+    },
+    {
+      "score_index": 282,
+      "frame": 1970,
+      "timestamp": 32.83,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 15.7797338380595
+    },
+    {
+      "score_index": 283,
+      "frame": 1979,
+      "timestamp": 32.99,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 20.904544960366874
+    },
+    {
+      "score_index": 284,
+      "frame": 1989,
+      "timestamp": 33.15,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 20.024984394500787
+    },
+    {
+      "score_index": 285,
+      "frame": 1998,
+      "timestamp": 33.3,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 24.041630560342615
+    },
+    {
+      "score_index": 286,
+      "frame": 2008,
+      "timestamp": 33.46,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 17.804493814764857
+    },
+    {
+      "score_index": 287,
+      "frame": 2017,
+      "timestamp": 33.61,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 18.33030277982336
+    },
+    {
+      "score_index": 288,
+      "frame": 2026,
+      "timestamp": 33.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 14.071247279470288
+    },
+    {
+      "score_index": 289,
+      "frame": 2036,
+      "timestamp": 33.93,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.831760866327848
+    },
+    {
+      "score_index": 290,
+      "frame": 2045,
+      "timestamp": 34.09,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.0990195135927845
+    },
+    {
+      "score_index": 291,
+      "frame": 2054,
+      "timestamp": 34.24,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.0990195135927845
+    },
+    {
+      "score_index": 292,
+      "frame": 2064,
+      "timestamp": 34.4,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 293,
+      "frame": 2074,
+      "timestamp": 34.56,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 7.0710678118654755
+    },
+    {
+      "score_index": 294,
+      "frame": 2074,
+      "timestamp": 34.56,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 295,
+      "frame": 2083,
+      "timestamp": 34.72,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 296,
+      "frame": 2092,
+      "timestamp": 34.87,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.58257569495584
+    },
+    {
+      "score_index": 297,
+      "frame": 2102,
+      "timestamp": 35.03,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.0
+    },
+    {
+      "score_index": 298,
+      "frame": 2111,
+      "timestamp": 35.19,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 2.0
+    },
+    {
+      "score_index": 299,
+      "frame": 2120,
+      "timestamp": 35.34,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.744562646538029
+    },
+    {
+      "score_index": 300,
+      "frame": 2130,
+      "timestamp": 35.5,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.47213595499958
+    },
+    {
+      "score_index": 301,
+      "frame": 2140,
+      "timestamp": 35.66,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.3166247903554
+    },
+    {
+      "score_index": 302,
+      "frame": 2149,
+      "timestamp": 35.81,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.0
+    },
+    {
+      "score_index": 303,
+      "frame": 2149,
+      "timestamp": 35.82,
+      "target": null,
+      "family": "tom",
+      "visible_encoded_response": true,
+      "minimum_color_error": 4.123105625617661
+    },
+    {
+      "score_index": 304,
+      "frame": 2158,
+      "timestamp": 35.97,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 6.708203932499369
+    },
+    {
+      "score_index": 305,
+      "frame": 2159,
+      "timestamp": 35.98,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.385164807134504
+    },
+    {
+      "score_index": 306,
+      "frame": 2177,
+      "timestamp": 36.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.385164807134504
+    },
+    {
+      "score_index": 307,
+      "frame": 2177,
+      "timestamp": 36.29,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.744562646538029
+    },
+    {
+      "score_index": 308,
+      "frame": 2197,
+      "timestamp": 36.61,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 3.3166247903554
+    },
+    {
+      "score_index": 309,
+      "frame": 2206,
+      "timestamp": 36.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "family": "cymbal",
+      "visible_encoded_response": true,
+      "minimum_color_error": 8.0
+    },
+    {
+      "score_index": 310,
+      "frame": 2206,
+      "timestamp": 36.77,
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "family": "kick",
+      "visible_encoded_response": true,
+      "minimum_color_error": 5.196152422706632
+    },
+    {
+      "score_index": 311,
+      "frame": 2225,
+      "timestamp": 37.08,
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "family": "snare",
+      "visible_encoded_response": true,
+      "minimum_color_error": 9.16515138991168
+    }
+  ],
+  "source_attack_coverage": [
+    {
+      "source_attack": 0.024943310657596373,
+      "novelty": 1.7425074408379604,
+      "response_timestamp": 0.024943310657596373,
+      "distance_ms": 0.0
+    },
+    {
+      "source_attack": 0.18458049886621314,
+      "novelty": 2.7807009308342954,
+      "response_timestamp": 0.17,
+      "distance_ms": 14.580498866213127
+    },
+    {
+      "source_attack": 0.33424036281179137,
+      "novelty": 2.9012591405291683,
+      "response_timestamp": 0.32,
+      "distance_ms": 14.240362811791362
+    },
+    {
+      "source_attack": 0.6385487528344671,
+      "novelty": 15.880023779285832,
+      "response_timestamp": 0.63,
+      "distance_ms": 8.548752834467098
+    },
+    {
+      "source_attack": 0.7882086167800454,
+      "novelty": 8.03904693105105,
+      "response_timestamp": 0.78,
+      "distance_ms": 8.208616780045364
+    },
+    {
+      "source_attack": 0.9578231292517007,
+      "novelty": 1.9983890511937068,
+      "response_timestamp": 0.94,
+      "distance_ms": 17.82312925170071
+    },
+    {
+      "source_attack": 1.252154195011338,
+      "novelty": 4.354792108186133,
+      "response_timestamp": 1.24,
+      "distance_ms": 12.154195011337965
+    },
+    {
+      "source_attack": 2.055328798185941,
+      "novelty": 3.8609422113353267,
+      "response_timestamp": 2.04,
+      "distance_ms": 15.328798185941128
+    },
+    {
+      "source_attack": 2.3746031746031746,
+      "novelty": 2.53658163866326,
+      "response_timestamp": 2.35,
+      "distance_ms": 24.603174603174516
+    },
+    {
+      "source_attack": 2.529251700680272,
+      "novelty": 5.360329763941275,
+      "response_timestamp": 2.51,
+      "distance_ms": 19.251700680272155
+    },
+    {
+      "source_attack": 2.838548752834467,
+      "novelty": 3.7593108623884923,
+      "response_timestamp": 2.82,
+      "distance_ms": 18.54875283446722
+    },
+    {
+      "source_attack": 2.993197278911565,
+      "novelty": 5.236976126015406,
+      "response_timestamp": 2.98,
+      "distance_ms": 13.197278911564858
+    },
+    {
+      "source_attack": 3.1528344671201816,
+      "novelty": 2.3605787352194145,
+      "response_timestamp": 3.14,
+      "distance_ms": 12.834467120181436
+    },
+    {
+      "source_attack": 3.3024943310657595,
+      "novelty": 13.039866932959459,
+      "response_timestamp": 3.29,
+      "distance_ms": 12.494331065759479
+    },
+    {
+      "source_attack": 3.6217687074829934,
+      "novelty": 5.291100070784608,
+      "response_timestamp": 3.61,
+      "distance_ms": 11.768707482993523
+    },
+    {
+      "source_attack": 3.78140589569161,
+      "novelty": 5.500666576542817,
+      "response_timestamp": 3.77,
+      "distance_ms": 11.405895691610102
+    },
+    {
+      "source_attack": 3.9360544217687075,
+      "novelty": 7.252548112887969,
+      "response_timestamp": 3.92,
+      "distance_ms": 16.054421768707527
+    },
+    {
+      "source_attack": 4.085714285714285,
+      "novelty": 11.41181787978467,
+      "response_timestamp": 4.07,
+      "distance_ms": 15.714285714285126
+    },
+    {
+      "source_attack": 4.245351473922902,
+      "novelty": 8.246949872880755,
+      "response_timestamp": 4.23,
+      "distance_ms": 15.351473922901704
+    },
+    {
+      "source_attack": 4.554648526077098,
+      "novelty": 15.694885297547412,
+      "response_timestamp": 4.55,
+      "distance_ms": 4.64852607709787
+    },
+    {
+      "source_attack": 4.873922902494331,
+      "novelty": 4.134557740957007,
+      "response_timestamp": 4.86,
+      "distance_ms": 13.922902494330813
+    },
+    {
+      "source_attack": 5.01859410430839,
+      "novelty": 11.93701734667383,
+      "response_timestamp": 5.01,
+      "distance_ms": 8.594104308389916
+    },
+    {
+      "source_attack": 5.178231292517006,
+      "novelty": 4.785659154697046,
+      "response_timestamp": 5.16,
+      "distance_ms": 18.23129251700628
+    },
+    {
+      "source_attack": 5.327891156462585,
+      "novelty": 9.222391909436633,
+      "response_timestamp": 5.32,
+      "distance_ms": 7.891156462584981
+    },
+    {
+      "source_attack": 5.487528344671202,
+      "novelty": 8.67431805087971,
+      "response_timestamp": 5.48,
+      "distance_ms": 7.528344671201559
+    },
+    {
+      "source_attack": 5.801814058956916,
+      "novelty": 4.829233504346611,
+      "response_timestamp": 5.79,
+      "distance_ms": 11.814058956916007
+    },
+    {
+      "source_attack": 6.265759637188209,
+      "novelty": 3.806665991819735,
+      "response_timestamp": 6.25,
+      "distance_ms": 15.759637188208941
+    },
+    {
+      "source_attack": 6.425396825396826,
+      "novelty": 2.5202049133437687,
+      "response_timestamp": 6.41,
+      "distance_ms": 15.39682539682552
+    },
+    {
+      "source_attack": 6.585034013605442,
+      "novelty": 4.358794741795948,
+      "response_timestamp": 6.57,
+      "distance_ms": 15.034013605442098
+    },
+    {
+      "source_attack": 6.73968253968254,
+      "novelty": 1.6627070048630332,
+      "response_timestamp": 6.72,
+      "distance_ms": 19.682539682539968
+    },
+    {
+      "source_attack": 7.048979591836734,
+      "novelty": 8.629864347479272,
+      "response_timestamp": 7.04,
+      "distance_ms": 8.979591836734357
+    },
+    {
+      "source_attack": 7.208616780045351,
+      "novelty": 2.9671928440475757,
+      "response_timestamp": 7.2,
+      "distance_ms": 8.616780045350936
+    },
+    {
+      "source_attack": 7.363265306122449,
+      "novelty": 3.6268706743595165,
+      "response_timestamp": 7.35,
+      "distance_ms": 13.265306122449694
+    },
+    {
+      "source_attack": 7.517913832199547,
+      "novelty": 10.369814156045656,
+      "response_timestamp": 7.51,
+      "distance_ms": 7.9138321995468885
+    },
+    {
+      "source_attack": 7.677551020408163,
+      "novelty": 4.613269532839004,
+      "response_timestamp": 7.66,
+      "distance_ms": 17.551020408163254
+    },
+    {
+      "source_attack": 7.832199546485261,
+      "novelty": 5.117257264175356,
+      "response_timestamp": 7.82,
+      "distance_ms": 12.199546485260448
+    },
+    {
+      "source_attack": 7.986848072562358,
+      "novelty": 8.37575228439058,
+      "response_timestamp": 7.97,
+      "distance_ms": 16.84807256235832
+    },
+    {
+      "source_attack": 8.141496598639456,
+      "novelty": 4.878697091910626,
+      "response_timestamp": 8.13,
+      "distance_ms": 11.496598639455513
+    },
+    {
+      "source_attack": 8.301133786848073,
+      "novelty": 8.710073653280348,
+      "response_timestamp": 8.29,
+      "distance_ms": 11.133786848073868
+    },
+    {
+      "source_attack": 8.45578231292517,
+      "novelty": 3.0327052973637314,
+      "response_timestamp": 8.44,
+      "distance_ms": 15.782312925169961
+    },
+    {
+      "source_attack": 8.615419501133786,
+      "novelty": 3.603574402657112,
+      "response_timestamp": 8.6,
+      "distance_ms": 15.41950113378654
+    },
+    {
+      "source_attack": 8.765079365079366,
+      "novelty": 10.986182846454257,
+      "response_timestamp": 8.76,
+      "distance_ms": 5.079365079366127
+    },
+    {
+      "source_attack": 9.0843537414966,
+      "novelty": 5.954377412949734,
+      "response_timestamp": 9.07,
+      "distance_ms": 14.35374149659907
+    },
+    {
+      "source_attack": 9.229024943310657,
+      "novelty": 10.472345011370116,
+      "response_timestamp": 9.22,
+      "distance_ms": 9.024943310656397
+    },
+    {
+      "source_attack": 9.398639455782313,
+      "novelty": 2.964818265464672,
+      "response_timestamp": 9.38,
+      "distance_ms": 18.639455782311742
+    },
+    {
+      "source_attack": 9.543310657596372,
+      "novelty": 7.905995940352507,
+      "response_timestamp": 9.53,
+      "distance_ms": 13.310657596372621
+    },
+    {
+      "source_attack": 9.707936507936507,
+      "novelty": 3.6637520782974033,
+      "response_timestamp": 9.69,
+      "distance_ms": 17.936507936507695
+    },
+    {
+      "source_attack": 9.872562358276644,
+      "novelty": 4.454583736021485,
+      "response_timestamp": 9.86,
+      "distance_ms": 12.562358276644758
+    },
+    {
+      "source_attack": 10.017233560090704,
+      "novelty": 8.37295215049446,
+      "response_timestamp": 10.01,
+      "distance_ms": 7.233560090703861
+    },
+    {
+      "source_attack": 10.18684807256236,
+      "novelty": 4.2865578124967385,
+      "response_timestamp": 10.17,
+      "distance_ms": 16.848072562359206
+    },
+    {
+      "source_attack": 10.331519274376417,
+      "novelty": 8.701750873192976,
+      "response_timestamp": 10.32,
+      "distance_ms": 11.519274376416533
+    },
+    {
+      "source_attack": 10.486167800453515,
+      "novelty": 5.043377781139595,
+      "response_timestamp": 10.47,
+      "distance_ms": 16.167800453514403
+    },
+    {
+      "source_attack": 10.65079365079365,
+      "novelty": 4.140501746613742,
+      "response_timestamp": 10.63,
+      "distance_ms": 20.793650793649476
+    },
+    {
+      "source_attack": 10.800453514739228,
+      "novelty": 9.630559823896684,
+      "response_timestamp": 10.79,
+      "distance_ms": 10.453514739229064
+    },
+    {
+      "source_attack": 10.960090702947845,
+      "novelty": 2.662488620692859,
+      "response_timestamp": 10.94,
+      "distance_ms": 20.09070294784543
+    },
+    {
+      "source_attack": 11.264399092970521,
+      "novelty": 10.507837813799728,
+      "response_timestamp": 11.25,
+      "distance_ms": 14.39909297052111
+    },
+    {
+      "source_attack": 11.738321995464853,
+      "novelty": 1.9365135798028852,
+      "response_timestamp": 11.72,
+      "distance_ms": 18.321995464852137
+    },
+    {
+      "source_attack": 12.057596371882086,
+      "novelty": 2.515264154576177,
+      "response_timestamp": 12.04,
+      "distance_ms": 17.59637188208707
+    },
+    {
+      "source_attack": 12.356916099773242,
+      "novelty": 1.98399977057998,
+      "response_timestamp": 12.34,
+      "distance_ms": 16.916099773242266
+    },
+    {
+      "source_attack": 12.526530612244898,
+      "novelty": 2.02952295424014,
+      "response_timestamp": 12.526530612244898,
+      "distance_ms": 0.0
+    },
+    {
+      "source_attack": 12.676190476190476,
+      "novelty": 2.3288788078017246,
+      "response_timestamp": 12.66,
+      "distance_ms": 16.190476190475422
+    },
+    {
+      "source_attack": 12.840816326530613,
+      "novelty": 2.666874466880411,
+      "response_timestamp": 12.82,
+      "distance_ms": 20.816326530612272
+    },
+    {
+      "source_attack": 12.980498866213152,
+      "novelty": 4.331300602316103,
+      "response_timestamp": 12.97,
+      "distance_ms": 10.498866213151103
+    },
+    {
+      "source_attack": 13.150113378684807,
+      "novelty": 4.4290872175863765,
+      "response_timestamp": 13.13,
+      "distance_ms": 20.11337868480645
+    },
+    {
+      "source_attack": 13.294784580498867,
+      "novelty": 4.156217575126064,
+      "response_timestamp": 13.28,
+      "distance_ms": 14.784580498867328
+    },
+    {
+      "source_attack": 13.459410430839002,
+      "novelty": 3.4253751689176077,
+      "response_timestamp": 13.44,
+      "distance_ms": 19.4104308390024
+    },
+    {
+      "source_attack": 13.60907029478458,
+      "novelty": 4.257633060106432,
+      "response_timestamp": 13.59,
+      "distance_ms": 19.07029478458
+    },
+    {
+      "source_attack": 13.768707482993197,
+      "novelty": 2.4702165311248336,
+      "response_timestamp": 13.75,
+      "distance_ms": 18.707482993196578
+    },
+    {
+      "source_attack": 13.923356009070295,
+      "novelty": 3.2594062019088677,
+      "response_timestamp": 13.91,
+      "distance_ms": 13.356009070294661
+    },
+    {
+      "source_attack": 14.082993197278912,
+      "novelty": 2.3583406976420007,
+      "response_timestamp": 14.07,
+      "distance_ms": 12.99319727891124
+    },
+    {
+      "source_attack": 14.23764172335601,
+      "novelty": 3.900692619254225,
+      "response_timestamp": 14.23,
+      "distance_ms": 7.641723356009322
+    },
+    {
+      "source_attack": 14.397278911564626,
+      "novelty": 2.0784217713725512,
+      "response_timestamp": 14.38,
+      "distance_ms": 17.278911564625687
+    },
+    {
+      "source_attack": 14.551927437641723,
+      "novelty": 2.672925757639794,
+      "response_timestamp": 14.54,
+      "distance_ms": 11.92743764172377
+    },
+    {
+      "source_attack": 14.71156462585034,
+      "novelty": 5.4305890556302545,
+      "response_timestamp": 14.7,
+      "distance_ms": 11.564625850340349
+    },
+    {
+      "source_attack": 14.866213151927438,
+      "novelty": 5.474247286908752,
+      "response_timestamp": 14.85,
+      "distance_ms": 16.21315192743822
+    },
+    {
+      "source_attack": 15.020861678004534,
+      "novelty": 2.7517972753192232,
+      "response_timestamp": 15.01,
+      "distance_ms": 10.861678004534525
+    },
+    {
+      "source_attack": 15.175510204081633,
+      "novelty": 6.817542663953122,
+      "response_timestamp": 15.16,
+      "distance_ms": 15.510204081632395
+    },
+    {
+      "source_attack": 15.489795918367347,
+      "novelty": 4.090380877544935,
+      "response_timestamp": 15.48,
+      "distance_ms": 9.795918367347056
+    },
+    {
+      "source_attack": 15.649433106575964,
+      "novelty": 1.5745292148289194,
+      "response_timestamp": 15.63,
+      "distance_ms": 19.43310657596342
+    },
+    {
+      "source_attack": 15.799092970521542,
+      "novelty": 2.6810508395806965,
+      "response_timestamp": 15.79,
+      "distance_ms": 9.092970521543009
+    },
+    {
+      "source_attack": 15.958730158730159,
+      "novelty": 3.6105617706134625,
+      "response_timestamp": 15.94,
+      "distance_ms": 18.730158730159374
+    },
+    {
+      "source_attack": 16.268027210884355,
+      "novelty": 2.621473611112212,
+      "response_timestamp": 16.25,
+      "distance_ms": 18.027210884355327
+    },
+    {
+      "source_attack": 16.741950113378685,
+      "novelty": 1.7636227561512805,
+      "response_timestamp": 16.73,
+      "distance_ms": 11.95011337868479
+    },
+    {
+      "source_attack": 17.06122448979592,
+      "novelty": 2.405699411507571,
+      "response_timestamp": 17.04,
+      "distance_ms": 21.22448979591951
+    },
+    {
+      "source_attack": 17.530158730158732,
+      "novelty": 1.8618322567849004,
+      "response_timestamp": 17.51,
+      "distance_ms": 20.158730158730265
+    },
+    {
+      "source_attack": 17.679818594104308,
+      "novelty": 2.3003878790867844,
+      "response_timestamp": 17.67,
+      "distance_ms": 9.8185941043063
+    },
+    {
+      "source_attack": 17.839455782312925,
+      "novelty": 2.351935298932716,
+      "response_timestamp": 17.82,
+      "distance_ms": 19.45578231292444
+    },
+    {
+      "source_attack": 17.989115646258504,
+      "novelty": 2.663973154960594,
+      "response_timestamp": 17.98,
+      "distance_ms": 9.115646258504029
+    },
+    {
+      "source_attack": 18.158730158730158,
+      "novelty": 3.1332865161682095,
+      "response_timestamp": 18.13,
+      "distance_ms": 28.73015873015916
+    },
+    {
+      "source_attack": 18.303401360544218,
+      "novelty": 2.0079881657664944,
+      "response_timestamp": 18.29,
+      "distance_ms": 13.401360544218477
+    },
+    {
+      "source_attack": 18.468027210884355,
+      "novelty": 1.8231110069345269,
+      "response_timestamp": 18.45,
+      "distance_ms": 18.027210884355327
+    },
+    {
+      "source_attack": 18.61768707482993,
+      "novelty": 3.7813415421582004,
+      "response_timestamp": 18.6,
+      "distance_ms": 17.687074829929372
+    },
+    {
+      "source_attack": 18.77233560090703,
+      "novelty": 6.691157066388801,
+      "response_timestamp": 18.76,
+      "distance_ms": 12.335600907029232
+    },
+    {
+      "source_attack": 18.926984126984127,
+      "novelty": 4.2341446200285855,
+      "response_timestamp": 18.91,
+      "distance_ms": 16.9841269841271
+    },
+    {
+      "source_attack": 19.091609977324264,
+      "novelty": 1.9907265594261956,
+      "response_timestamp": 19.07,
+      "distance_ms": 21.60997732426395
+    },
+    {
+      "source_attack": 19.24126984126984,
+      "novelty": 4.412716755580508,
+      "response_timestamp": 19.23,
+      "distance_ms": 11.269841269839986
+    },
+    {
+      "source_attack": 19.400907029478457,
+      "novelty": 4.250349198960671,
+      "response_timestamp": 19.39,
+      "distance_ms": 10.907029478456565
+    },
+    {
+      "source_attack": 19.560544217687074,
+      "novelty": 2.0627768303752885,
+      "response_timestamp": 19.54,
+      "distance_ms": 20.544217687074706
+    },
+    {
+      "source_attack": 19.710204081632654,
+      "novelty": 3.4116597211051563,
+      "response_timestamp": 19.7,
+      "distance_ms": 10.204081632654294
+    },
+    {
+      "source_attack": 19.86485260770975,
+      "novelty": 4.713573109460906,
+      "response_timestamp": 19.85,
+      "distance_ms": 14.85260770974861
+    },
+    {
+      "source_attack": 20.029478458049887,
+      "novelty": 2.330286826068395,
+      "response_timestamp": 20.01,
+      "distance_ms": 19.47845804988546
+    },
+    {
+      "source_attack": 20.179138321995463,
+      "novelty": 5.32545393260573,
+      "response_timestamp": 20.17,
+      "distance_ms": 9.138321995461496
+    },
+    {
+      "source_attack": 20.33877551020408,
+      "novelty": 2.5999341597965375,
+      "response_timestamp": 20.32,
+      "distance_ms": 18.775510204079637
+    },
+    {
+      "source_attack": 20.49342403628118,
+      "novelty": 5.008954598930905,
+      "response_timestamp": 20.48,
+      "distance_ms": 13.424036281179497
+    },
+    {
+      "source_attack": 20.653061224489797,
+      "novelty": 2.3440183116603075,
+      "response_timestamp": 20.64,
+      "distance_ms": 13.061224489796075
+    },
+    {
+      "source_attack": 20.802721088435373,
+      "novelty": 5.399753308316527,
+      "response_timestamp": 20.79,
+      "distance_ms": 12.721088435373673
+    },
+    {
+      "source_attack": 20.96235827664399,
+      "novelty": 3.361741229220573,
+      "response_timestamp": 20.95,
+      "distance_ms": 12.358276643990251
+    },
+    {
+      "source_attack": 21.271655328798186,
+      "novelty": 7.519322604478658,
+      "response_timestamp": 21.26,
+      "distance_ms": 11.655328798184428
+    },
+    {
+      "source_attack": 22.054875283446712,
+      "novelty": 2.552979833540399,
+      "response_timestamp": 22.04,
+      "distance_ms": 14.875283446713183
+    },
+    {
+      "source_attack": 22.21451247165533,
+      "novelty": 1.6100798085376151,
+      "response_timestamp": 22.21451247165533,
+      "distance_ms": 0.0
+    },
+    {
+      "source_attack": 22.374149659863946,
+      "novelty": 3.9281659476499766,
+      "response_timestamp": 22.36,
+      "distance_ms": 14.14965986394634
+    },
+    {
+      "source_attack": 22.523809523809526,
+      "novelty": 5.817501340888057,
+      "response_timestamp": 22.51,
+      "distance_ms": 13.809523809523938
+    },
+    {
+      "source_attack": 22.83809523809524,
+      "novelty": 4.238256645169148,
+      "response_timestamp": 22.83,
+      "distance_ms": 8.095238095240376
+    },
+    {
+      "source_attack": 23.30204081632653,
+      "novelty": 10.671470970531724,
+      "response_timestamp": 23.29,
+      "distance_ms": 12.040816326532422
+    },
+    {
+      "source_attack": 23.466666666666665,
+      "novelty": 2.4187497319666447,
+      "response_timestamp": 23.45,
+      "distance_ms": 16.66666666666572
+    },
+    {
+      "source_attack": 23.616326530612245,
+      "novelty": 7.680961211437203,
+      "response_timestamp": 23.61,
+      "distance_ms": 6.326530612245307
+    },
+    {
+      "source_attack": 23.77097505668934,
+      "novelty": 11.841201649175169,
+      "response_timestamp": 23.76,
+      "distance_ms": 10.975056689339624
+    },
+    {
+      "source_attack": 23.930612244897958,
+      "novelty": 1.9984010404083774,
+      "response_timestamp": 23.92,
+      "distance_ms": 10.612244897956202
+    },
+    {
+      "source_attack": 24.085260770975058,
+      "novelty": 6.21731956130713,
+      "response_timestamp": 24.08,
+      "distance_ms": 5.260770975059614
+    },
+    {
+      "source_attack": 24.244897959183675,
+      "novelty": 1.7970402850817422,
+      "response_timestamp": 24.23,
+      "distance_ms": 14.897959183674203
+    },
+    {
+      "source_attack": 24.554195011337868,
+      "novelty": 9.98365346842468,
+      "response_timestamp": 24.54,
+      "distance_ms": 14.19501133786838
+    },
+    {
+      "source_attack": 24.868480725623584,
+      "novelty": 5.713929790088195,
+      "response_timestamp": 24.86,
+      "distance_ms": 8.480725623584817
+    },
+    {
+      "source_attack": 25.02312925170068,
+      "novelty": 10.975298191911095,
+      "response_timestamp": 25.01,
+      "distance_ms": 13.129251700679134
+    },
+    {
+      "source_attack": 25.347392290249434,
+      "novelty": 2.6013407886878275,
+      "response_timestamp": 25.33,
+      "distance_ms": 17.392290249436115
+    },
+    {
+      "source_attack": 25.49705215419501,
+      "novelty": 1.64134474031742,
+      "response_timestamp": 25.48,
+      "distance_ms": 17.05215419501016
+    },
+    {
+      "source_attack": 25.65170068027211,
+      "novelty": 5.707782360165041,
+      "response_timestamp": 25.64,
+      "distance_ms": 11.70068027211002
+    },
+    {
+      "source_attack": 25.806349206349207,
+      "novelty": 3.4768395939992547,
+      "response_timestamp": 25.8,
+      "distance_ms": 6.349206349206327
+    },
+    {
+      "source_attack": 25.965986394557824,
+      "novelty": 2.6817043757224357,
+      "response_timestamp": 25.95,
+      "distance_ms": 15.986394557824468
+    },
+    {
+      "source_attack": 26.275283446712017,
+      "novelty": 4.772952616615489,
+      "response_timestamp": 26.26,
+      "distance_ms": 15.283446712015092
+    },
+    {
+      "source_attack": 26.589569160997733,
+      "novelty": 4.760495757780613,
+      "response_timestamp": 26.57,
+      "distance_ms": 19.569160997733093
+    },
+    {
+      "source_attack": 26.74421768707483,
+      "novelty": 4.501456829780668,
+      "response_timestamp": 26.73,
+      "distance_ms": 14.2176870748294
+    },
+    {
+      "source_attack": 27.058503401360543,
+      "novelty": 2.708391585638762,
+      "response_timestamp": 27.05,
+      "distance_ms": 8.503401360542284
+    },
+    {
+      "source_attack": 27.22312925170068,
+      "novelty": 2.8302428078158384,
+      "response_timestamp": 27.21,
+      "distance_ms": 13.129251700679134
+    },
+    {
+      "source_attack": 27.377777777777776,
+      "novelty": 2.24772636129172,
+      "response_timestamp": 27.36,
+      "distance_ms": 17.777777777777004
+    },
+    {
+      "source_attack": 27.527437641723356,
+      "novelty": 5.170828398137324,
+      "response_timestamp": 27.51,
+      "distance_ms": 17.437641723354602
+    },
+    {
+      "source_attack": 27.687074829931973,
+      "novelty": 3.2052995607418318,
+      "response_timestamp": 27.67,
+      "distance_ms": 17.07482993197118
+    },
+    {
+      "source_attack": 27.84172335600907,
+      "novelty": 3.908144541066626,
+      "response_timestamp": 27.83,
+      "distance_ms": 11.72335600907104
+    },
+    {
+      "source_attack": 28.001360544217686,
+      "novelty": 5.771444029915663,
+      "response_timestamp": 27.99,
+      "distance_ms": 11.360544217687618
+    },
+    {
+      "source_attack": 28.160997732426303,
+      "novelty": 1.6604385064341416,
+      "response_timestamp": 28.14,
+      "distance_ms": 20.997732426302207
+    },
+    {
+      "source_attack": 28.310657596371883,
+      "novelty": 6.981222189351052,
+      "response_timestamp": 28.3,
+      "distance_ms": 10.657596371881795
+    },
+    {
+      "source_attack": 28.629931972789116,
+      "novelty": 3.097773676658662,
+      "response_timestamp": 28.61,
+      "distance_ms": 19.931972789116514
+    },
+    {
+      "source_attack": 28.784580498866212,
+      "novelty": 2.7183768191852224,
+      "response_timestamp": 28.77,
+      "distance_ms": 14.580498866212821
+    },
+    {
+      "source_attack": 28.939229024943312,
+      "novelty": 7.187345532220319,
+      "response_timestamp": 28.92,
+      "distance_ms": 19.22902494331069
+    },
+    {
+      "source_attack": 29.253514739229026,
+      "novelty": 3.6133384487856013,
+      "response_timestamp": 29.24,
+      "distance_ms": 13.514739229027128
+    },
+    {
+      "source_attack": 29.408163265306122,
+      "novelty": 8.003093059005119,
+      "response_timestamp": 29.4,
+      "distance_ms": 8.163265306123435
+    },
+    {
+      "source_attack": 29.56281179138322,
+      "novelty": 7.93004646138552,
+      "response_timestamp": 29.55,
+      "distance_ms": 12.811791383217752
+    },
+    {
+      "source_attack": 29.727437641723355,
+      "novelty": 3.194961229594849,
+      "response_timestamp": 29.71,
+      "distance_ms": 17.437641723354602
+    },
+    {
+      "source_attack": 29.877097505668935,
+      "novelty": 2.2062841491143526,
+      "response_timestamp": 29.86,
+      "distance_ms": 17.097505668935753
+    },
+    {
+      "source_attack": 30.03174603174603,
+      "novelty": 8.806174943510355,
+      "response_timestamp": 30.02,
+      "distance_ms": 11.74603174603206
+    },
+    {
+      "source_attack": 30.341043083900228,
+      "novelty": 10.07701088326439,
+      "response_timestamp": 30.33,
+      "distance_ms": 11.043083900229789
+    },
+    {
+      "source_attack": 30.500680272108845,
+      "novelty": 4.097466834719515,
+      "response_timestamp": 30.49,
+      "distance_ms": 10.680272108846367
+    },
+    {
+      "source_attack": 30.66031746031746,
+      "novelty": 4.00937130452711,
+      "response_timestamp": 30.65,
+      "distance_ms": 10.317460317462945
+    },
+    {
+      "source_attack": 30.80498866213152,
+      "novelty": 7.169296867247509,
+      "response_timestamp": 30.8,
+      "distance_ms": 4.988662131520272
+    },
+    {
+      "source_attack": 30.969614512471654,
+      "novelty": 2.7431753449844356,
+      "response_timestamp": 30.95,
+      "distance_ms": 19.614512471655132
+    },
+    {
+      "source_attack": 31.124263038548754,
+      "novelty": 4.714103495057522,
+      "response_timestamp": 31.11,
+      "distance_ms": 14.263038548754992
+    },
+    {
+      "source_attack": 31.27891156462585,
+      "novelty": 5.292834848703351,
+      "response_timestamp": 31.27,
+      "distance_ms": 8.911564625851298
+    },
+    {
+      "source_attack": 31.76281179138322,
+      "novelty": 2.577699519981988,
+      "response_timestamp": 31.75,
+      "distance_ms": 12.811791383221305
+    },
+    {
+      "source_attack": 32.072108843537414,
+      "novelty": 3.3305470909849624,
+      "response_timestamp": 32.06,
+      "distance_ms": 12.108843537411929
+    },
+    {
+      "source_attack": 32.37641723356009,
+      "novelty": 3.865023429339107,
+      "response_timestamp": 32.36,
+      "distance_ms": 16.41723356009095
+    },
+    {
+      "source_attack": 32.53106575963719,
+      "novelty": 6.266366482213732,
+      "response_timestamp": 32.52,
+      "distance_ms": 11.065759637183703
+    },
+    {
+      "source_attack": 32.695691609977324,
+      "novelty": 4.125707883847555,
+      "response_timestamp": 32.68,
+      "distance_ms": 15.691609977324106
+    },
+    {
+      "source_attack": 32.8453514739229,
+      "novelty": 11.113630875987942,
+      "response_timestamp": 32.83,
+      "distance_ms": 15.351473922905257
+    },
+    {
+      "source_attack": 33.00498866213152,
+      "novelty": 4.436746832881947,
+      "response_timestamp": 32.99,
+      "distance_ms": 14.98866213151473
+    },
+    {
+      "source_attack": 33.15963718820862,
+      "novelty": 6.942118927114208,
+      "response_timestamp": 33.15,
+      "distance_ms": 9.637188208621694
+    },
+    {
+      "source_attack": 33.31927437641723,
+      "novelty": 9.720949078847033,
+      "response_timestamp": 33.3,
+      "distance_ms": 19.274376417236283
+    },
+    {
+      "source_attack": 33.478911564625854,
+      "novelty": 2.3275917157666646,
+      "response_timestamp": 33.46,
+      "distance_ms": 18.91156462585286
+    },
+    {
+      "source_attack": 33.628571428571426,
+      "novelty": 10.336521669685176,
+      "response_timestamp": 33.61,
+      "distance_ms": 18.571428571426907
+    },
+    {
+      "source_attack": 33.78820861678005,
+      "novelty": 6.219842623657132,
+      "response_timestamp": 33.77,
+      "distance_ms": 18.208616780043485
+    },
+    {
+      "source_attack": 33.94285714285714,
+      "novelty": 14.17747410710543,
+      "response_timestamp": 33.93,
+      "distance_ms": 12.857142857143344
+    },
+    {
+      "source_attack": 34.102494331065756,
+      "novelty": 5.89198761579614,
+      "response_timestamp": 34.09,
+      "distance_ms": 12.494331065752817
+    },
+    {
+      "source_attack": 34.25714285714286,
+      "novelty": 8.850827705767179,
+      "response_timestamp": 34.24,
+      "distance_ms": 17.142857142857792
+    },
+    {
+      "source_attack": 34.411791383219956,
+      "novelty": 8.660514174763986,
+      "response_timestamp": 34.4,
+      "distance_ms": 11.791383219957652
+    },
+    {
+      "source_attack": 34.56643990929705,
+      "novelty": 16.93453726097262,
+      "response_timestamp": 34.56,
+      "distance_ms": 6.439909297050406
+    },
+    {
+      "source_attack": 34.736054421768706,
+      "novelty": 3.006526175062401,
+      "response_timestamp": 34.72,
+      "distance_ms": 16.054421768707527
+    },
+    {
+      "source_attack": 34.875736961451246,
+      "novelty": 4.413824488581142,
+      "response_timestamp": 34.87,
+      "distance_ms": 5.736961451248135
+    },
+    {
+      "source_attack": 35.04036281179138,
+      "novelty": 16.03902372163828,
+      "response_timestamp": 35.03,
+      "distance_ms": 10.362811791381432
+    },
+    {
+      "source_attack": 35.2,
+      "novelty": 7.5749149906241415,
+      "response_timestamp": 35.19,
+      "distance_ms": 10.000000000005116
+    },
+    {
+      "source_attack": 35.3546485260771,
+      "novelty": 8.725595384782352,
+      "response_timestamp": 35.34,
+      "distance_ms": 14.64852607709588
+    },
+    {
+      "source_attack": 35.51428571428571,
+      "novelty": 9.007311685607142,
+      "response_timestamp": 35.5,
+      "distance_ms": 14.285714285712459
+    },
+    {
+      "source_attack": 35.66893424036281,
+      "novelty": 14.99517283950522,
+      "response_timestamp": 35.66,
+      "distance_ms": 8.934240362812318
+    },
+    {
+      "source_attack": 35.82358276643991,
+      "novelty": 12.609868637390903,
+      "response_timestamp": 35.82,
+      "distance_ms": 3.5827664399121772
+    },
+    {
+      "source_attack": 35.993197278911566,
+      "novelty": 1.9750822931572665,
+      "response_timestamp": 35.98,
+      "distance_ms": 13.197278911569299
+    },
+    {
+      "source_attack": 36.30249433106576,
+      "novelty": 5.070790722794086,
+      "response_timestamp": 36.29,
+      "distance_ms": 12.494331065759923
+    },
+    {
+      "source_attack": 36.78140589569161,
+      "novelty": 1.5788073074419555,
+      "response_timestamp": 36.77,
+      "distance_ms": 11.405895691609658
+    },
+    {
+      "source_attack": 37.100680272108846,
+      "novelty": 2.335985555868578,
+      "response_timestamp": 37.08,
+      "distance_ms": 20.68027210884793
+    }
+  ],
+  "limitation": "All scored cues and measured novelty candidates are checked. This does not prove every audible note is detected or every inferred family label is correct. Unresolved attacks pulse the torso rather than claiming a physical tom position."
+}

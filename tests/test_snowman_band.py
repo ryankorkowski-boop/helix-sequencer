@@ -299,5 +299,68 @@ class SnowmanBandTests(unittest.TestCase):
         self.assertTrue(payload["kit"]["drum_intelligence"]["motion_events"])
 
 
+    def test_lyric_lead_does_not_rotate_across_faces(self) -> None:
+        layout = SimpleNamespace(models={
+            "HX_SINGING_FACE_LEAD": object(),
+            "HX_SINGING_FACE_SECONDARY": object(),
+        })
+        payload = snowman_band.build_snowman_band_plan(
+            parsed_layout=layout,
+            parts=[SimpleNamespace(label="VERSE", start_ms=0, end_ms=3000, energy=0.8)],
+            lyric_events=[
+                SimpleNamespace(start_ms=100, end_ms=600, text="hello", confidence=0.9),
+                SimpleNamespace(start_ms=800, end_ms=1300, text="world", confidence=0.9),
+            ],
+            note_events=[], beat_ms=[], kicks=[], snares=[], hats=[],
+            bass_peaks=[], vocal_peaks=[], build_lifts=[], releases=[],
+            enable_lyrics=True,
+        )
+        lead = payload["face_routing"]["preferred_lead"]
+        lyric_cues = payload["cues"]["lead_singer"]
+        self.assertTrue(lyric_cues)
+        self.assertEqual({cue["target"] for cue in lyric_cues}, {lead})
+
+
+    def test_keyboard_keeps_pitched_runs_and_overlapping_notes(self) -> None:
+        events = [
+            SimpleNamespace(start_ms=100, end_ms=300, notes=[(60, 0.9), (64, 0.8)]),
+            SimpleNamespace(start_ms=180, end_ms=360, notes=[(62, 0.9)]),
+            SimpleNamespace(start_ms=240, end_ms=400, notes=[(67, 0.9)]),
+        ]
+        cues = snowman_band._build_keyboard_note_cues(events, [])
+        self.assertEqual([cue["pitch_midi"] for cue in cues], [60.0, 64.0, 62.0, 67.0])
+        self.assertEqual([cue["key_index_88"] for cue in cues], [39, 43, 41, 46])
+        self.assertEqual([cue["start_ms"] for cue in cues], [100, 100, 180, 240])
+        self.assertTrue(all(cue["end_ms"] > cue["start_ms"] for cue in cues))
+
+
+    def test_xlights_lead_phonemes_do_not_jump_between_faces(self) -> None:
+        routing = snowman_band.preferred_face_routing([
+            "HX_SINGING_FACE_LEAD", "HX_SINGING_FACE_SECONDARY",
+        ])
+        lead = routing["preferred_lead"]
+        targets = {
+            snowman_band._face_target_for_instruction(
+                {"performer": "lead_singer", "start_ms": time_ms}, routing
+            )
+            for time_ms in (100, 200, 300, 400, 500, 600)
+        }
+        self.assertEqual(targets, {lead})
+
+    def test_band_plan_exposes_keyboard_notes_to_preview(self) -> None:
+        payload = snowman_band.build_snowman_band_plan(
+            parsed_layout=SimpleNamespace(models={"HX_FLOOR_PIANO": object()}),
+            parts=[], lyric_events=[],
+            note_events=[SimpleNamespace(start_ms=250, end_ms=550, notes=[(60, 0.8), (67, 0.7)])],
+            beat_ms=[], kicks=[], snares=[], hats=[], bass_peaks=[],
+            vocal_peaks=[], build_lifts=[], releases=[], enable_lyrics=False,
+        )
+        cues = payload["cues"]["keyboardist"]
+        self.assertEqual(len(cues), 2)
+        self.assertEqual({cue["pitch_midi"] for cue in cues}, {60.0, 67.0})
+        self.assertTrue(all(cue["start_ms"] == 250 and cue["end_ms"] == 550 for cue in cues))
+        self.assertEqual(payload["debug"]["keyboard_cues"], 2)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -31,7 +31,7 @@ class HelixiaXlightsBandSpecsTests(unittest.TestCase):
             "HX_SNOWMAN_SINGER_FEMALE",
             "HX_SNOWMAN_GUITARIST",
             "HX_SNOWMAN_BASSIST",
-            "HX_SNOWMAN_DRUMMER",
+            "HX_SNOWMAN_DRUMMER_V3",
         ):
             self.assertIn(model, parsed.models)
 
@@ -44,11 +44,11 @@ class HelixiaXlightsBandSpecsTests(unittest.TestCase):
             "HX_SNOWMAN_GUITARIST/HX_SNOWMAN_GUITARIST_STRING_HIGH_E",
             "HX_SNOWMAN_BASSIST/HX_SNOWMAN_BASSIST_PLUCK_ZONE",
             "HX_SNOWMAN_BASSIST/HX_SNOWMAN_BASSIST_STRING_E",
-            "HX_SNOWMAN_DRUMMER/HX_SNOWMAN_DRUMMER_KICK",
-            "HX_SNOWMAN_DRUMMER/HX_SNOWMAN_DRUMMER_SNARE",
-            "HX_SNOWMAN_DRUMMER/HX_SNOWMAN_DRUMMER_HI_HAT",
-            "HX_SNOWMAN_DRUMMER/HX_SNOWMAN_DRUMMER_CYMBAL_LEFT",
-            "HX_SNOWMAN_DRUMMER/HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",
+            "HX_SNOWMAN_DRUMMER_V3/HX_SNOWMAN_DRUMMER_V3_KICK",
+            "HX_SNOWMAN_DRUMMER_V3/HX_SNOWMAN_DRUMMER_V3_SNARE",
+            "HX_SNOWMAN_DRUMMER_V3/HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+            "HX_SNOWMAN_DRUMMER_V3/HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+            "HX_SNOWMAN_DRUMMER_V3/HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
         )
         for submodel in required_submodels:
             self.assertIn(submodel, parsed.models)

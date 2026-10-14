@@ -1,0 +1,11 @@
+{
+  "models": 188,
+  "groups": 54,
+  "custom_models_roundtrip": 98,
+  "independent_streaming_fseq_frames": 1844,
+  "channel_count": 106913,
+  "xsq_effect_count": 192980,
+  "all_group_references_valid": true,
+  "controls_not_sequenced": true,
+  "native_application_import_verified": false
+}

@@ -1,0 +1,313 @@
+{
+  "created_at": "2026-10-09",
+  "status": "concept artwork only; awaiting explicit approval",
+  "baseline": "15d5b39cb27759d4980bfa46bd9f897c0fe5d2d9",
+  "new_native_layouts_created": 0,
+  "new_animation_sequences_created": 0,
+  "scope": "20 static concept scenes and illustrated four-frame motion studies; no native geometry or timed animations.",
+  "intended_method": "Activate discrete predefined static pose contours and sections in sequence; physical actuation is not assumed.",
+  "concepts": [
+    {
+      "id": "43",
+      "name": "Persistence Parade",
+      "principle": "Successive key poses",
+      "standout": "A row of walking poses lights in sequence, turning the layout itself into a giant flipbook.",
+      "scene": "A playful nighttime LED parade avenue in cyan, gold and violet. Six ORIGINAL simple friendly humanoid puppet contour frames show successive walking poses on separate grounded bays along a dark path. In hero only ONE pose glows brightly, the neighboring frames are dim silhouettes, making the layout an addressable walking flipbook. Bottom four storyboard cells show consecutive lit walking poses traveling left to right, one frame active at a time.",
+      "board": 1,
+      "side": "left",
+      "image": "images/43_44.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "44",
+      "name": "Jumping Jack Meadow",
+      "principle": "Anticipation and settling",
+      "standout": "A crouch, airborne stretch and compressed landing give a simple jump clear weight.",
+      "scene": "A midnight meadow with a central huge playful round-headed wireframe LED jumping character and discrete alternate-pose frames. Cyan body, gold ground marker, violet low spiral plants. Four storyboard cells: bent crouch before jump; tall extended airborne jump; low wide compressed landing; relaxed settled stand. The hero shows the landing pose, inactive alternate-pose frames dim. Finite supported contours; no physically jumping sculpture.",
+      "board": 1,
+      "side": "right",
+      "image": "images/43_44.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "45",
+      "name": "Helix Caterpillar",
+      "principle": "Cyclic compression",
+      "standout": "Alternating compressed and extended body poses make a helix creature appear to inch through the garden.",
+      "scene": "A cute elongated original caterpillar of mint and warm-gold luminous rib rings across a dark garden path, small illuminated head with two antennae and violet spots. Two rows of discrete static body-pose contours imply compression and extension; ONE coherent caterpillar lit in hero. Four bottom storyboard cells show long body, arched compressed body, head advancing, body stretching forward. Supported low pixel frames; sculpture does not physically crawl.",
+      "board": 2,
+      "side": "left",
+      "image": "images/45_46.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "46",
+      "name": "Clay Bloom Courtyard",
+      "principle": "Replacement animation",
+      "standout": "Swapping bud, half-open and full-bloom contours creates a sculpted flower-opening effect.",
+      "scene": "A magical courtyard with three giant coral, pink and mint sculptural light flowers. Their petals are OPEN LED contour ribs in several stacked depth-separated replacement-shape layers, a bright full-bloom flower in hero, surrounding bud and intermediate petal frames dim. Four bottom storyboard cells show a closed bud, small opening, half-open blossom and broad full flower. Clay-animation softness of shape expressed in finite light ribs, no solid clay model.",
+      "board": 2,
+      "side": "right",
+      "image": "images/45_46.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "47",
+      "name": "Clockwork Firefly Woods",
+      "principle": "Timing, spacing and holds",
+      "standout": "Unevenly spaced light positions and brief pauses suggest insects hovering, darting and resting.",
+      "scene": "A whimsical miniature forest of violet spiral trunks and warm-white branching contour shrubs, golden original firefly light sprites at a series of grounded slim pole positions. One bright hovering firefly, other waypoint orbs barely visible. Four bottom storyboard frames show firefly holding low, moving slightly, making a larger dart and holding higher. Discrete lit positions with clear difference in travel spacing, no motion blur or physical flying robot.",
+      "board": 3,
+      "side": "left",
+      "image": "images/47_48.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "48",
+      "name": "Dragon Wing Studio",
+      "principle": "Pose-to-pose animation",
+      "standout": "Strong wing keyframes let the dragon read clearly even at a deliberately stepped cadence.",
+      "scene": "A monumental friendly original teal-and-amber dragon LED skeleton on a dry dark stage, small crisp head, helix torso and two broad symmetric open-rib wings. Three physically separate overlapping wing-outline pose layers on supported frames. Hero shows fully lifted wings. Bottom four storyboard cells show wings raised, level, folded down, lifted again. Clear single dragon body, dim inactive wing outlines, no derivative franchise creature.",
+      "board": 3,
+      "side": "right",
+      "image": "images/47_48.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "49",
+      "name": "Rubber Moon Playground",
+      "principle": "Squash and stretch",
+      "standout": "A moon changes from round to elongated to flattened, making a light-only bounce feel elastic.",
+      "scene": "A fun midnight garden of low cyan playground hoops framing a huge soft-looking glowing gold MOON made of open LED contour ribs. Replacement shapes include a circle, tall narrow oval and low broad ellipse, on separate subtle supported frames; hero bright broad moon near landing, others dark. Four bottom storyboard cells show round moon high, vertical stretched moon falling, flat squashed moon on ground, round moon rebounding. No physically deforming object.",
+      "board": 4,
+      "side": "left",
+      "image": "images/49_50.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "50",
+      "name": "Origami Metamorphosis",
+      "principle": "Shape replacement",
+      "standout": "A finite series of folded outlines turns a flat sheet into a recognizable crane.",
+      "scene": "A refined cyan, silver and coral nighttime light pavilion with four separate original origami replacement contour sculptures on low dark platforms. One luminous completed paper-crane-like open wireframe silhouette is prominent; folded-sheet states are dim. Four bottom storyboard cells show flat square, folded triangle, emerging neck and wings, completed crane. Faceted triangular light ribs, no giant opaque paper walls or physically folding mechanism.",
+      "board": 4,
+      "side": "right",
+      "image": "images/49_50.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "51",
+      "name": "Whale Breach Flipbook",
+      "principle": "Staging and readable arcs",
+      "standout": "Four whale poses tell a complete breach through silhouette and placement rather than continuous motion.",
+      "scene": "A spectacular finite dry-stage ocean made of low cyan wave LED contours, with original humpback whale replacement outline sculptures in four separate supported bays. Hero one bright giant silver-blue breaching whale at the apex; the other three outlines are dark ghost frames. Four bottom storyboard cells show emerging whale, rising whale, curved airborne apex, flukes returning toward waves. Black negative space, no real water effects or actual moving whale.",
+      "board": 5,
+      "side": "left",
+      "image": "images/51_52.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "52",
+      "name": "Manta Glide Corridor",
+      "principle": "Overlapping action",
+      "standout": "Wing tips and the helix tail lag behind the body, giving the glide a supple rhythm.",
+      "scene": "An original giant cyan/coral manta-ray contour light sculpture above a dark supported walkway. Body and multiple finite wing-tip and helix-tail pose frames are separately layered, one clean coherent pose bright in hero. Four bottom storyboard cells show body lifted with low wing tips; wing tips lifting while tail remains curved; body lowering with wings high; tail following the body down. Discrete snapshots and clear delayed appendage positions, no fake continuous motion blur.",
+      "board": 5,
+      "side": "right",
+      "image": "images/51_52.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "53",
+      "name": "Marionettes of Light",
+      "principle": "Jointed puppet poses",
+      "standout": "Segmented limbs and clearly held gestures make a luminous character feel hand-animated.",
+      "scene": "An intimate sculptural nighttime LED puppet theater. A large original friendly geometric marionette made of cyan circles at joints, warm-gold limb contour segments, violet torso, with decorative light strings hanging from a grounded truss. One puppet pose bright and alternate static limb outlines dark. Four bottom storyboard cells show arm lowered, elbow bent, arm extended in greeting, held wave pose. Finite supported contour frames, no actual servo or cable movement promised.",
+      "board": 6,
+      "side": "left",
+      "image": "images/53_54.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "54",
+      "name": "Tiny Giant Town",
+      "principle": "Miniature scale and staging",
+      "standout": "A giant’s stepped footfall beside tiny houses creates the scale contrast of a miniature-film set.",
+      "scene": "A charming dark miniature light village with small warm-gold house-outline props, cyan street strips and a huge friendly violet/cyan giant puppet silhouette behind it, disproportionately large shoe and round head. Grounded alternate foot-position contour frames, one hero giant standing beside the miniature houses. Four bottom storyboard cells show raised foot preparing, foot advancing, broad foot contact beside houses, settled giant stance. No destructive stomp, no actual moving structure.",
+      "board": 6,
+      "side": "right",
+      "image": "images/53_54.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "55",
+      "name": "Drummer’s Animation Stage",
+      "principle": "Anticipation, contact, recovery",
+      "standout": "A clear prepare–strike–recover pose cycle makes the drummer’s action legible between lighting phrases.",
+      "scene": "A sculptural concert stage with warm-white front steps, cyan/violet finite overhead helix ribs and a central SNOWMAN-STYLE LED drummer figure with a top hat and real-looking small kit on its own riser. Shadowed band positions to either side. Hero drummer at rest. Four bottom storyboard cells show concept drummer arm preparing, stick at drum contact, arm recovering, relaxed rest. These are illustrative pose concepts, not exact source drummer art or audio transcription. No floating musician or new machinery.",
+      "board": 7,
+      "side": "left",
+      "image": "images/55_56.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "56",
+      "name": "Shadow Puppet Cinema",
+      "principle": "Cutout animation",
+      "standout": "Bold flat silhouettes and replacement limb poses keep storytelling readable from far away.",
+      "scene": "A large outdoor cutout-style puppet cinema framed with amber bulb-like LED contours and violet curtains suggested by sparse vertical light ribs. Central supported dark panel with a simple original fox-like flat outlined cyan light character, bright active contour, dark inactive limb/ear pose frames. Four bottom storyboard cells show fox sitting, head turning, paw lifting, playful bow. Clear high-contrast graphic cutout silhouettes, not a projected film or video screen.",
+      "board": 7,
+      "side": "right",
+      "image": "images/55_56.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "57",
+      "name": "Brick-by-Brick Cathedral",
+      "principle": "Incremental assembly",
+      "standout": "Lighting successive architectural sections makes the building appear to construct itself one frame at a time.",
+      "scene": "A finite tall gothic-inspired cathedral MADE ONLY of open gold and pearl-white LED facade contour frames and discrete violet spire ribs, all on grounded platforms. Hero complete luminous facade with bright rose-window outline. Four bottom storyboard cells show only foundation lit, walls added, pointed arches and roof added, completed twin spires and rose window. Same static structure in each cell, purely successive illumination, no actual rising masonry.",
+      "board": 8,
+      "side": "left",
+      "image": "images/57_58.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "58",
+      "name": "Domino Wave Arena",
+      "principle": "Cause and effect",
+      "standout": "A staggered chain of leaning poses makes one visual event appear to trigger the next.",
+      "scene": "An arena-like semicircle of oversized cyan, pink and warm-white DOMINO outline props around an open central stage, each bay contains finite supported upright and leaning alternate contour frames. Hero one bright leaning domino next to upright bright neighbors; inactive alternatives dim. Four bottom storyboard cells show upright row, first leaning, two neighbors responding, wave progressing around curve. No actually falling props, no strobe effect.",
+      "board": 8,
+      "side": "right",
+      "image": "images/57_58.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "59",
+      "name": "Paper Tide Pontoon",
+      "principle": "Replacement waves and sails",
+      "standout": "Stepped wave profiles and changing sail outlines give a stationary pontoon a handmade voyage illusion.",
+      "scene": "A clearly DOCKED twin-hull party pontoon with cyan rail outlines, gold speaker rings and a playful finite fan of coral/violet origami-like sail contour frames attached to supported canopy posts. Below the deck are dry-stage-style illustrated light wave contours; no real rough water. Four bottom storyboard cells show low wave/calm sail, rising wave/angled sail, crest/bowed sail outline, falling wave/rest sail. Same stationary boat in every frame, replacement light shapes only.",
+      "board": 9,
+      "side": "left",
+      "image": "images/59_60.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "60",
+      "name": "Zoetrope Spiral Carousel",
+      "principle": "Repeating pose cycles",
+      "standout": "A circular series of running poses turns a chase into a repeating animation around the audience.",
+      "scene": "A circular midnight light garden inspired by a zoetrope: TWELVE grounded bays of simple original cyan/gold running deer-like silhouette contour frames, successive limb poses arranged around a dark open center, violet helix ring above on columns. Hero a short visible arc of bright poses, other bays dim. Four bottom storyboard cells show successive running poses 1, 2, 3, and pose 1 again to imply looping. Finite static pose chase, NO actual spinning platform or high-frequency strobe.",
+      "board": 9,
+      "side": "right",
+      "image": "images/59_60.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "61",
+      "name": "Comet Smear Tunnel",
+      "principle": "Smear frames",
+      "standout": "An elongated intermediate shape bridges discrete positions, giving the comet a sudden burst of speed.",
+      "scene": "A supported tunnel of silver/violet open ring frames with a cyan-and-gold comet made of finite star-head contours and long tapering light-strip replacement smear forms. Hero bright star-head with a dramatic elongated streak behind it, surrounding tunnel dark. Four bottom storyboard cells show compact comet at left, slightly moved comet, long elongated transitional smear, compact comet farther right. Explicit pose strip, no photographic motion blur, physical comet props static.",
+      "board": 10,
+      "side": "left",
+      "image": "images/61_62.png",
+      "status": "awaiting approval"
+    },
+    {
+      "id": "62",
+      "name": "Moonrise Loop Theatre",
+      "principle": "Seamless looping",
+      "standout": "Moon, stars and helix scenery return to the opening composition for a repeatable miniature night story.",
+      "scene": "A jewel-box miniature outdoor LED theater, cyan arched proscenium, warm-gold moon-circle position frames above violet helix scenery and silver point-stars. Hero moon at center behind gentle open-rib hills. Four bottom storyboard cells show moon low left, moon high center, moon low right, opening low-left composition repeated exactly. All finite supported static light shapes, handcrafted stop-motion set feeling, no actual moving moon or continuous video.",
+      "board": 10,
+      "side": "right",
+      "image": "images/61_62.png",
+      "status": "awaiting approval"
+    }
+  ],
+  "boards": [
+    {
+      "board": 1,
+      "image": "images/43_44.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2209964,
+      "sha256": "d8c36b2380aeb2b286146b21bb0419b27d8bc5dc026007abeb63482b7dc1e1ec"
+    },
+    {
+      "board": 2,
+      "image": "images/45_46.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2640433,
+      "sha256": "6742050b236090be03c14471cc9d1c803b9cde2cca93dfd17b04f05ef328a40b"
+    },
+    {
+      "board": 3,
+      "image": "images/47_48.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2396663,
+      "sha256": "9fe003932df6bfe04ba77909033fcefbf317d0cf773ccd99e3205059574da262"
+    },
+    {
+      "board": 4,
+      "image": "images/49_50.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2541939,
+      "sha256": "decabbe76a4095debfeb202bfb011539da15b17461e08310ecbabda8885707c2"
+    },
+    {
+      "board": 5,
+      "image": "images/51_52.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2149861,
+      "sha256": "86d82fbe62d1c710b7a830ced36153f89c53430790669e19bd05728792869afc"
+    },
+    {
+      "board": 6,
+      "image": "images/53_54.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2298232,
+      "sha256": "96ef54cb4fb5126a278790af12020ee4fc78dc1a7600cbff6a61c38684ce4337"
+    },
+    {
+      "board": 7,
+      "image": "images/55_56.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2286109,
+      "sha256": "fd56184620d4c252244591cf475e0933944c69390a383e309544535598b6f2d8"
+    },
+    {
+      "board": 8,
+      "image": "images/57_58.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2249030,
+      "sha256": "f0a2832d4ff6ef47df81552865097aa1ea39a9942a01ee0b01cb64f73f885a91"
+    },
+    {
+      "board": 9,
+      "image": "images/59_60.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2229725,
+      "sha256": "c3ad070658f4bc404bb12b60ec0775a947db2d80f55e9b6482c848e4e061ba07"
+    },
+    {
+      "board": 10,
+      "image": "images/61_62.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2631845,
+      "sha256": "3b8b1e451b6240f33b3da4d4a29428ca7d8c4f2806a43787004de48d894edf6b"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+[
+  {
+    "file": "Helix_Band_1_prismatic_orrery.mp4",
+    "bytes": 44597081,
+    "sha256": "e95551cde1d939dd15f033b7a4356eab301870b19e07c9902919252c42586026",
+    "seconds": 78.2,
+    "frames": 1564,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9985783042257419,
+    "decoded_samples": [
+      {
+        "time": 4.692,
+        "path": "Helix_Band_1_prismatic_orrery_decoded_0.jpg",
+        "lit_fraction": 0.2728125
+      },
+      {
+        "time": 17.204,
+        "path": "Helix_Band_1_prismatic_orrery_decoded_1.jpg",
+        "lit_fraction": 0.4132899305555556
+      },
+      {
+        "time": 33.626,
+        "path": "Helix_Band_1_prismatic_orrery_decoded_2.jpg",
+        "lit_fraction": 0.28141927083333335
+      },
+      {
+        "time": 49.266000000000005,
+        "path": "Helix_Band_1_prismatic_orrery_decoded_3.jpg",
+        "lit_fraction": 0.2745138888888889
+      },
+      {
+        "time": 66.47,
+        "path": "Helix_Band_1_prismatic_orrery_decoded_4.jpg",
+        "lit_fraction": 0.4090266927083333
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Band_2_woven_aurora.mp4",
+    "bytes": 57622982,
+    "sha256": "5753acb586ef319f2659b5c826b4ea40718fc9be1df25548251e92987b07f1de",
+    "seconds": 78.2,
+    "frames": 1564,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9987986716409456,
+    "decoded_samples": [
+      {
+        "time": 4.692,
+        "path": "Helix_Band_2_woven_aurora_decoded_0.jpg",
+        "lit_fraction": 0.2812684461805556
+      },
+      {
+        "time": 17.204,
+        "path": "Helix_Band_2_woven_aurora_decoded_1.jpg",
+        "lit_fraction": 0.42041124131944446
+      },
+      {
+        "time": 33.626,
+        "path": "Helix_Band_2_woven_aurora_decoded_2.jpg",
+        "lit_fraction": 0.2938226996527778
+      },
+      {
+        "time": 49.266000000000005,
+        "path": "Helix_Band_2_woven_aurora_decoded_3.jpg",
+        "lit_fraction": 0.2910026041666667
+      },
+      {
+        "time": 66.47,
+        "path": "Helix_Band_2_woven_aurora_decoded_4.jpg",
+        "lit_fraction": 0.4241167534722222
+      }
+    ],
+    "max_contact_error": 0
+  }
+]

@@ -9399,15 +9399,30 @@ def pick_runtime_effect(
         catalog=catalog,
     ):
         choice_pool.append(normalized_requested)
+    # Existing --ac-lights-only must also fence workspace-learned effects:
+    # the normal candidate list was AC-safe, but memory suggestions weren't.
+    ac_effect_names = {"on", "ramp", "strobe", "twinkle", "shimmer"}
+    if tuning.ac_lights_only:
+        history_effects = [
+            name for name in history_effects
+            if name.strip().lower() in ac_effect_names
+        ]
     choice_pool.extend(history_effects)
     choice_pool.extend(candidates)
     choice_pool.append(selected)
-    selected = choose_first(choice_pool, selected)
+    if tuning.ac_lights_only:
+        choice_pool = [
+            name for name in choice_pool
+            if name.strip().lower() in ac_effect_names
+        ]
+    selected = choose_first(choice_pool, "On" if tuning.ac_lights_only else selected)
     selected = xfb.normalize_effect_name(selected, catalog) or fallback
+    if tuning.ac_lights_only and selected.strip().lower() not in ac_effect_names:
+        return "On"
     if tuning.strict_xlights_effects:
         valid = {name.lower() for name in xfb.catalog_effect_names(catalog)}
         if valid and selected.lower() not in valid:
-            return fallback
+            return "On" if tuning.ac_lights_only else fallback
     return selected
 
 
@@ -10183,8 +10198,12 @@ def run_variant(
     out_path: Path,
     profile: base.UserProfile,
     tuning: RuntimeTuning | None = None,
+    analysis_cache=None,
 ) -> dict[str, object]:
     tuning = tuning or RuntimeTuning()
+    if analysis_cache is not None:
+        analysis_cache.validate_source(audio_path)
+        analysis_cache.validate_configuration((bool(tuning.use_moises), tuning.moises_api_key or ""))
     style = apply_runtime_style(style, tuning)
     rng = random.Random(base.SEED + base.stable_name_seed(style.version + audio_path.stem.lower()))
     auto_layer_name = f"AUTO_DreamSequenceWeaver_{style.version.replace('.', '_')}"
@@ -10380,9 +10399,9 @@ def run_variant(
         )
 
     log("[2/8] Analyzing audio and polyphony")
-    audio = base.analyze(audio_path)
+    audio = analysis_cache.get("audio", lambda: base.analyze(audio_path)) if analysis_cache else base.analyze(audio_path)
     song_length_ms = max(1000, int(audio.dur_s * 1000.0))
-    harmonic = analyze_harmonic(audio)
+    harmonic = analysis_cache.get("harmonic", lambda: analyze_harmonic(audio)) if analysis_cache else analyze_harmonic(audio)
     sections = base.detect_sections(audio)
     parts = infer_song_parts(sections)
     if parts:
@@ -10431,13 +10450,15 @@ def run_variant(
         [base.ms(t) for t in base.peak_times(audio.times_s, audio.bass01, 0.16, 8)],
         base.scaled_gap(80),
     )
-    stem_analysis = ai.build_stem_analysis(
-        audio_path=audio_path,
-        use_moises=bool(tuning.use_moises),
-        api_key=(tuning.moises_api_key or ""),
-        cache_dir=Path("RenderCache") / "stems",
-        log_fn=log,
-    )
+    def analyze_stems():
+        return ai.build_stem_analysis(
+            audio_path=audio_path,
+            use_moises=bool(tuning.use_moises),
+            api_key=(tuning.moises_api_key or ""),
+            cache_dir=Path("RenderCache") / "stems",
+            log_fn=log,
+        )
+    stem_analysis = analysis_cache.get("stems", analyze_stems) if analysis_cache else analyze_stems()
     if stem_analysis.bass_peaks_ms:
         bass_peaks = base.compress_times_ms(stem_analysis.bass_peaks_ms, base.scaled_gap(75))
     if stem_analysis.vocal_peaks_ms:
@@ -10449,7 +10470,7 @@ def run_variant(
     if stem_analysis.drum_hats_ms:
         hats = base.compress_times_ms(stem_analysis.drum_hats_ms, base.scaled_gap(22))
     energy_peaks, build_lifts, releases = derive_dynamic_marks(audio)
-    multiband = derive_multiband_analysis(audio)
+    multiband = analysis_cache.get("multiband", lambda: derive_multiband_analysis(audio), copy_result=True) if analysis_cache else derive_multiband_analysis(audio)
     multiband.section_profiles = derive_section_mir_profiles(
         parts=parts,
         audio=audio,
@@ -13022,6 +13043,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     log(f"Processing {len(audios)} audio file(s) with {style.version}...")
     runtime_candidates = build_runtime_candidates(style, tuning, tuning.variant_count)
 
+    song_failures: list[tuple[Path, Exception]] = []
     for i, audio in enumerate(audios, 1):
         out = variant_output_name(audio, output_dir, style.version)
         log(f"\n[{i}/{len(audios)}] {audio.name} -> {out.name}")
@@ -13120,8 +13142,12 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                     selected_payload["learning_memory"] = learning_result
                     write_report(selected_report_path, selected_payload)
         except Exception as exc:
+            song_failures.append((audio, exc))
             log(f"FAILED: {audio.name}: {repr(exc)}")
 
+    if song_failures:
+        names = ', '.join(audio.name for audio, _ in song_failures)
+        raise RuntimeError(f'Helix failed for {len(song_failures)} song(s): {names}') from song_failures[0][1]
     log("\nDone.")
 
 

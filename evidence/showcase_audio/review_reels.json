@@ -1,0 +1,37 @@
+{
+  "Wire_Tree": {
+    "file": "Wire_Tree_Six_Layouts_Review.mp4",
+    "song_start_seconds": 120.15,
+    "duration_seconds": 24,
+    "sha256": "5c3e308a7702e7d1e8afa972460be8e4e1089306abe36976ee6f8c4b9dff9d81",
+    "soundtrack_correlation": 0.9998257336484148
+  },
+  "Tinsel_Sawtooth": {
+    "file": "Tinsel_Sawtooth_Six_Layouts_Review.mp4",
+    "song_start_seconds": 89.7,
+    "duration_seconds": 24,
+    "sha256": "b563ff9692055cead09b43b24e41be67c5669b74c10cf202d2e63dbc3f887aea",
+    "soundtrack_correlation": 0.9997077496566358
+  },
+  "Frostbitten_Fingerboard": {
+    "file": "Frostbitten_Fingerboard_Six_Layouts_Review.mp4",
+    "song_start_seconds": 14.600000000000001,
+    "duration_seconds": 24,
+    "sha256": "1ac0c198f91a8dd50bfb161b06405ed60391279d5e8ef44844fdd8c5b1e903f1",
+    "soundtrack_correlation": 0.9993354682319535
+  },
+  "Holly_Steel_Run": {
+    "file": "Holly_Steel_Run_Six_Layouts_Review.mp4",
+    "song_start_seconds": 19.95,
+    "duration_seconds": 24,
+    "sha256": "73e67ed6516fe6b38be60f93cf03078b9a03ac88fe2571e036277e694ca23e00",
+    "soundtrack_correlation": 0.9995934471919744
+  },
+  "Bell_Circuit_Carol": {
+    "file": "Bell_Circuit_Carol_Six_Layouts_Review.mp4",
+    "song_start_seconds": 40.2,
+    "duration_seconds": 24,
+    "sha256": "9ab78014c83c27eb1e92a6e53eeb38e6312f795376802667891c783459d04eee",
+    "soundtrack_correlation": 0.9989922172585811
+  }
+}

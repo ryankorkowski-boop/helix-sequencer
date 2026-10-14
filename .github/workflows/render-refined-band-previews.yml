@@ -1,0 +1,67 @@
+name: Render refined snowman band previews
+
+on:
+  push:
+    branches: [feature/mesmerizing-concepts-63-82]
+    paths:
+      - evidence/snowman_band_upgrade/remote_render_request.json
+      - .github/workflows/render-refined-band-previews.yml
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - group: first-three
+            ids: '00 01 02'
+          - group: last-three
+            ids: '03 04 05'
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      EGL_PLATFORM: surfaceless
+      LP_NUM_THREADS: '3'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install focused headless preview dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg libegl1 libegl-mesa0 libgl1-mesa-dri
+          python -m pip install numpy scipy Pillow PyYAML trimesh==5.1.1 moderngl==5.13.0 zstandard
+      - name: Restore pinned original performance inputs
+        run: |
+          python - <<'PY'
+          import hashlib,json,re,urllib.request,zipfile
+          from pathlib import Path
+          request=json.load(open('evidence/snowman_band_upgrade/remote_render_request.json'))
+          assert re.fullmatch('[0-9a-f]{40}',request['media_commit'])
+          url='https://raw.githubusercontent.com/'+request['repo']+'/'+request['media_commit']+'/band_render_inputs.zip'
+          data=urllib.request.urlopen(url,timeout=120).read()
+          assert len(data)==request['bytes'] and hashlib.sha256(data).hexdigest()==request['sha256']
+          p=Path('band_inputs.zip');p.write_bytes(data)
+          with zipfile.ZipFile(p) as z:
+              assert z.testzip() is None
+              for n in z.namelist():
+                  assert Path(n).resolve().is_relative_to(Path.cwd())
+              z.extractall('.')
+          PY
+      - name: Render and verify full-song movies
+        run: python -m tools.render_band_upgrade --ids ${{ matrix.ids }} --variants band faces --width 1920 --height 1080
+      - uses: actions/upload-artifact@v4
+        with:
+          name: refined-band-${{ matrix.group }}
+          path: outputs/Snowman_Band_Upgrade/movies/
+          compression-level: 0
+          retention-days: 14

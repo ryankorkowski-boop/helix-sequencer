@@ -122,3 +122,7 @@ powershell -File .\scripts\run_smoke.ps1
 - Use copied, permissioned input files only.
 - Keep run manifests and generated outputs in a dedicated output folder.
 - See [BETA_POLICY.md](docs/BETA_POLICY.md) and [BETA_TESTER_FEEDBACK.md](docs/BETA_TESTER_FEEDBACK.md) for policy and evidence collection.
+
+## Beta v1.0 licensing
+
+Helix is intended to be free for noncommercial homeowner use under [PolyForm Noncommercial 1.0.0](LICENSE). Commercial use by vendors and businesses requires a separately negotiated paid written license for applicable Helix-owned material. Earlier MIT grants and third-party notices are preserved in [LICENSES/HISTORICAL_MIT.txt](LICENSES/HISTORICAL_MIT.txt). See [commercial terms](COMMERCIAL_LICENSING.md), [welcome](WELCOME_TO_HELIX.md), and [installation instructions](INSTALL_AND_TROUBLESHOOT.md). Community: https://Facebook.com/helixsequencer.

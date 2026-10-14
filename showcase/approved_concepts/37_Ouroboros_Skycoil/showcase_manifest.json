@@ -1,0 +1,1668 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Ouroboros Skycoil",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 41
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 41,
+  "rgb_pixels": 1240,
+  "channel_count": 3720,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_SERPENT_HELIX",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "COIL",
+      "design": "SERPENT HELIX",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 1,
+      "end_channel": 900,
+      "bounds_ft": [
+        [
+          -84.0,
+          1.0,
+          -6.0
+        ],
+        [
+          82.0,
+          169.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39231264959857326
+    },
+    {
+      "name": "HX_002_SERPENT_HELIX",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "COIL",
+      "design": "SERPENT HELIX",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 901,
+      "end_channel": 1800,
+      "bounds_ft": [
+        [
+          -79.0,
+          6.0,
+          -6.0
+        ],
+        [
+          79.0,
+          164.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4002865760025369
+    },
+    {
+      "name": "HX_003_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 1801,
+      "end_channel": 1845,
+      "bounds_ft": [
+        [
+          75.5,
+          98.0,
+          -6.0
+        ],
+        [
+          78.0,
+          98.5,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37774667773138737
+    },
+    {
+      "name": "HX_004_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 1846,
+      "end_channel": 1890,
+      "bounds_ft": [
+        [
+          69.0,
+          108.5,
+          -3.0
+        ],
+        [
+          79.0,
+          112.0,
+          3.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31885346443508844
+    },
+    {
+      "name": "HX_005_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 1891,
+      "end_channel": 1935,
+      "bounds_ft": [
+        [
+          65.0,
+          120.0,
+          -4.5
+        ],
+        [
+          72.5,
+          124.0,
+          4.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37875425833541854
+    },
+    {
+      "name": "HX_006_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 1936,
+      "end_channel": 1980,
+      "bounds_ft": [
+        [
+          59.5,
+          130.5,
+          -5.0
+        ],
+        [
+          64.5,
+          134.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3494571356895026
+    },
+    {
+      "name": "HX_007_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 1981,
+      "end_channel": 2025,
+      "bounds_ft": [
+        [
+          49.5,
+          137.5,
+          -1.5
+        ],
+        [
+          57.5,
+          146.0,
+          1.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4010422833617042
+    },
+    {
+      "name": "HX_008_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2026,
+      "end_channel": 2070,
+      "bounds_ft": [
+        [
+          43.5,
+          149.0,
+          -6.0
+        ],
+        [
+          44.0,
+          150.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3332648259955922
+    },
+    {
+      "name": "HX_009_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2071,
+      "end_channel": 2115,
+      "bounds_ft": [
+        [
+          30.5,
+          150.5,
+          -2.0
+        ],
+        [
+          35.5,
+          161.0,
+          2.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33812701597326633
+    },
+    {
+      "name": "HX_010_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2116,
+      "end_channel": 2160,
+      "bounds_ft": [
+        [
+          20.0,
+          156.5,
+          -5.0
+        ],
+        [
+          22.0,
+          163.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30877183550328763
+    },
+    {
+      "name": "HX_011_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2161,
+      "end_channel": 2205,
+      "bounds_ft": [
+        [
+          8.5,
+          159.0,
+          -4.5
+        ],
+        [
+          9.5,
+          166.0,
+          4.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3666277279354812
+    },
+    {
+      "name": "HX_012_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2206,
+      "end_channel": 2250,
+      "bounds_ft": [
+        [
+          -4.0,
+          157.5,
+          -2.0
+        ],
+        [
+          -3.5,
+          168.5,
+          2.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35330719998472004
+    },
+    {
+      "name": "HX_013_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2251,
+      "end_channel": 2295,
+      "bounds_ft": [
+        [
+          -16.0,
+          161.0,
+          -6.0
+        ],
+        [
+          -16.0,
+          162.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3705311400721243
+    },
+    {
+      "name": "HX_014_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2296,
+      "end_channel": 2340,
+      "bounds_ft": [
+        [
+          -30.5,
+          152.5,
+          -1.0
+        ],
+        [
+          -26.0,
+          163.0,
+          1.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3708342941209303
+    },
+    {
+      "name": "HX_015_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2341,
+      "end_channel": 2385,
+      "bounds_ft": [
+        [
+          -41.0,
+          150.0,
+          -5.5
+        ],
+        [
+          -38.0,
+          154.5,
+          5.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3417769455980474
+    },
+    {
+      "name": "HX_016_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2386,
+      "end_channel": 2430,
+      "bounds_ft": [
+        [
+          -52.5,
+          142.0,
+          -4.0
+        ],
+        [
+          -47.0,
+          148.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3091459741783293
+    },
+    {
+      "name": "HX_017_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2431,
+      "end_channel": 2475,
+      "bounds_ft": [
+        [
+          -62.5,
+          133.0,
+          -3.0
+        ],
+        [
+          -55.0,
+          140.0,
+          3.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3012254983592543
+    },
+    {
+      "name": "HX_018_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2476,
+      "end_channel": 2520,
+      "bounds_ft": [
+        [
+          -67.5,
+          125.5,
+          -6.0
+        ],
+        [
+          -65.0,
+          127.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3632092077474187
+    },
+    {
+      "name": "HX_019_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2521,
+      "end_channel": 2565,
+      "bounds_ft": [
+        [
+          -77.5,
+          113.0,
+          0.0
+        ],
+        [
+          -66.5,
+          117.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33141856447856805
+    },
+    {
+      "name": "HX_020_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2566,
+      "end_channel": 2610,
+      "bounds_ft": [
+        [
+          -77.5,
+          103.0,
+          -5.5
+        ],
+        [
+          -74.0,
+          103.5,
+          5.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33815848373738366
+    },
+    {
+      "name": "HX_021_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2611,
+      "end_channel": 2655,
+      "bounds_ft": [
+        [
+          -82.5,
+          90.5,
+          -3.5
+        ],
+        [
+          -73.0,
+          91.5,
+          3.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3200681958424237
+    },
+    {
+      "name": "HX_022_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2656,
+      "end_channel": 2700,
+      "bounds_ft": [
+        [
+          -82.5,
+          78.0,
+          -4.0
+        ],
+        [
+          -73.0,
+          79.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39335428334741745
+    },
+    {
+      "name": "HX_023_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2701,
+      "end_channel": 2745,
+      "bounds_ft": [
+        [
+          -78.0,
+          65.5,
+          -5.5
+        ],
+        [
+          -73.5,
+          66.5,
+          5.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32423403399533
+    },
+    {
+      "name": "HX_024_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2746,
+      "end_channel": 2790,
+      "bounds_ft": [
+        [
+          -77.0,
+          52.0,
+          -0.5
+        ],
+        [
+          -66.0,
+          56.5,
+          0.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3524927050055701
+    },
+    {
+      "name": "HX_025_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2791,
+      "end_channel": 2835,
+      "bounds_ft": [
+        [
+          -66.5,
+          42.5,
+          -6.0
+        ],
+        [
+          -65.0,
+          43.5,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35649033549681924
+    },
+    {
+      "name": "HX_026_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2836,
+      "end_channel": 2880,
+      "bounds_ft": [
+        [
+          -62.0,
+          29.5,
+          -2.5
+        ],
+        [
+          -54.0,
+          36.5,
+          2.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36657709896872603
+    },
+    {
+      "name": "HX_027_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2881,
+      "end_channel": 2925,
+      "bounds_ft": [
+        [
+          -51.5,
+          21.5,
+          -4.5
+        ],
+        [
+          -46.5,
+          27.5,
+          4.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3602788808120828
+    },
+    {
+      "name": "HX_028_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2926,
+      "end_channel": 2970,
+      "bounds_ft": [
+        [
+          -40.5,
+          14.5,
+          -5.0
+        ],
+        [
+          -37.0,
+          20.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32035058522009086
+    },
+    {
+      "name": "HX_029_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 2971,
+      "end_channel": 3015,
+      "bounds_ft": [
+        [
+          -29.5,
+          6.5,
+          -1.5
+        ],
+        [
+          -25.5,
+          17.5,
+          1.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3758216425197278
+    },
+    {
+      "name": "HX_030_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 3016,
+      "end_channel": 3060,
+      "bounds_ft": [
+        [
+          -15.5,
+          8.5,
+          -6.0
+        ],
+        [
+          -15.5,
+          8.5,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.27462603889979786
+    },
+    {
+      "name": "HX_031_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 3061,
+      "end_channel": 3105,
+      "bounds_ft": [
+        [
+          -3.0,
+          1.5,
+          -2.0
+        ],
+        [
+          -2.5,
+          13.0,
+          2.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37802747315271523
+    },
+    {
+      "name": "HX_032_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 3106,
+      "end_channel": 3150,
+      "bounds_ft": [
+        [
+          9.0,
+          4.5,
+          -5.0
+        ],
+        [
+          10.0,
+          11.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33832924670576714
+    },
+    {
+      "name": "HX_033_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 3151,
+      "end_channel": 3195,
+      "bounds_ft": [
+        [
+          21.0,
+          6.5,
+          -4.5
+        ],
+        [
+          23.0,
+          14.0,
+          4.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.364980824073409
+    },
+    {
+      "name": "HX_034_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 3196,
+      "end_channel": 3240,
+      "bounds_ft": [
+        [
+          31.0,
+          9.5,
+          -2.5
+        ],
+        [
+          36.0,
+          19.5,
+          2.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36395091895227166
+    },
+    {
+      "name": "HX_035_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 3241,
+      "end_channel": 3285,
+      "bounds_ft": [
+        [
+          44.0,
+          20.0,
+          -6.0
+        ],
+        [
+          45.0,
+          21.5,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3548718600489387
+    },
+    {
+      "name": "HX_036_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 3286,
+      "end_channel": 3330,
+      "bounds_ft": [
+        [
+          50.0,
+          24.5,
+          -1.0
+        ],
+        [
+          58.0,
+          33.0,
+          1.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33700754100727714
+    },
+    {
+      "name": "HX_037_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 3331,
+      "end_channel": 3375,
+      "bounds_ft": [
+        [
+          60.5,
+          36.5,
+          -5.5
+        ],
+        [
+          64.5,
+          39.5,
+          5.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30601484085041564
+    },
+    {
+      "name": "HX_038_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 3376,
+      "end_channel": 3420,
+      "bounds_ft": [
+        [
+          65.0,
+          46.5,
+          -4.0
+        ],
+        [
+          73.0,
+          51.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3610078294273559
+    },
+    {
+      "name": "HX_039_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 3421,
+      "end_channel": 3465,
+      "bounds_ft": [
+        [
+          69.0,
+          59.0,
+          -3.0
+        ],
+        [
+          79.0,
+          62.0,
+          3.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.387448803289969
+    },
+    {
+      "name": "HX_040_SERPENT_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "SERPENT RUNG",
+      "kind": "pixel",
+      "nodes": 15,
+      "start_channel": 3466,
+      "end_channel": 3510,
+      "bounds_ft": [
+        [
+          75.5,
+          72.5,
+          -6.0
+        ],
+        [
+          78.5,
+          73.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38081995084036424
+    },
+    {
+      "name": "HX_041_SERPENT_HEAD",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HEAD",
+      "design": "SERPENT HEAD",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 3511,
+      "end_channel": 3720,
+      "bounds_ft": [
+        [
+          67.0,
+          85.0,
+          8.0
+        ],
+        [
+          95.0,
+          101.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3179104203424251
+    }
+  ],
+  "file_prefix": "Ouroboros_Skycoil",
+  "description": "A segmented serpent ring closes visually around a large empty center, turning depth gaps into part of the illusion.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_SERPENT_HELIX",
+      "HX_002_SERPENT_HELIX",
+      "HX_003_SERPENT_RUNG",
+      "HX_004_SERPENT_RUNG",
+      "HX_005_SERPENT_RUNG",
+      "HX_006_SERPENT_RUNG",
+      "HX_007_SERPENT_RUNG",
+      "HX_008_SERPENT_RUNG",
+      "HX_009_SERPENT_RUNG",
+      "HX_010_SERPENT_RUNG",
+      "HX_011_SERPENT_RUNG",
+      "HX_012_SERPENT_RUNG",
+      "HX_013_SERPENT_RUNG",
+      "HX_014_SERPENT_RUNG",
+      "HX_015_SERPENT_RUNG",
+      "HX_016_SERPENT_RUNG",
+      "HX_017_SERPENT_RUNG",
+      "HX_018_SERPENT_RUNG",
+      "HX_019_SERPENT_RUNG",
+      "HX_020_SERPENT_RUNG",
+      "HX_021_SERPENT_RUNG",
+      "HX_022_SERPENT_RUNG",
+      "HX_023_SERPENT_RUNG",
+      "HX_024_SERPENT_RUNG",
+      "HX_025_SERPENT_RUNG",
+      "HX_026_SERPENT_RUNG",
+      "HX_027_SERPENT_RUNG",
+      "HX_028_SERPENT_RUNG",
+      "HX_029_SERPENT_RUNG",
+      "HX_030_SERPENT_RUNG",
+      "HX_031_SERPENT_RUNG",
+      "HX_032_SERPENT_RUNG",
+      "HX_033_SERPENT_RUNG",
+      "HX_034_SERPENT_RUNG",
+      "HX_035_SERPENT_RUNG",
+      "HX_036_SERPENT_RUNG",
+      "HX_037_SERPENT_RUNG",
+      "HX_038_SERPENT_RUNG",
+      "HX_039_SERPENT_RUNG",
+      "HX_040_SERPENT_RUNG",
+      "HX_041_SERPENT_HEAD"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_SERPENT_HELIX",
+      "HX_002_SERPENT_HELIX",
+      "HX_003_SERPENT_RUNG",
+      "HX_004_SERPENT_RUNG",
+      "HX_005_SERPENT_RUNG",
+      "HX_006_SERPENT_RUNG",
+      "HX_007_SERPENT_RUNG",
+      "HX_008_SERPENT_RUNG",
+      "HX_009_SERPENT_RUNG",
+      "HX_010_SERPENT_RUNG",
+      "HX_011_SERPENT_RUNG",
+      "HX_012_SERPENT_RUNG",
+      "HX_013_SERPENT_RUNG",
+      "HX_014_SERPENT_RUNG",
+      "HX_015_SERPENT_RUNG",
+      "HX_016_SERPENT_RUNG",
+      "HX_017_SERPENT_RUNG",
+      "HX_018_SERPENT_RUNG",
+      "HX_019_SERPENT_RUNG",
+      "HX_020_SERPENT_RUNG",
+      "HX_021_SERPENT_RUNG",
+      "HX_022_SERPENT_RUNG",
+      "HX_023_SERPENT_RUNG",
+      "HX_024_SERPENT_RUNG",
+      "HX_025_SERPENT_RUNG",
+      "HX_026_SERPENT_RUNG",
+      "HX_027_SERPENT_RUNG",
+      "HX_028_SERPENT_RUNG",
+      "HX_029_SERPENT_RUNG",
+      "HX_030_SERPENT_RUNG",
+      "HX_031_SERPENT_RUNG",
+      "HX_032_SERPENT_RUNG",
+      "HX_033_SERPENT_RUNG",
+      "HX_034_SERPENT_RUNG",
+      "HX_035_SERPENT_RUNG",
+      "HX_036_SERPENT_RUNG",
+      "HX_037_SERPENT_RUNG",
+      "HX_038_SERPENT_RUNG",
+      "HX_039_SERPENT_RUNG",
+      "HX_040_SERPENT_RUNG",
+      "HX_041_SERPENT_HEAD"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_SERPENT_HELIX",
+      "HX_002_SERPENT_HELIX",
+      "HX_003_SERPENT_RUNG",
+      "HX_004_SERPENT_RUNG",
+      "HX_005_SERPENT_RUNG",
+      "HX_006_SERPENT_RUNG",
+      "HX_007_SERPENT_RUNG",
+      "HX_008_SERPENT_RUNG",
+      "HX_009_SERPENT_RUNG",
+      "HX_010_SERPENT_RUNG",
+      "HX_011_SERPENT_RUNG",
+      "HX_012_SERPENT_RUNG",
+      "HX_013_SERPENT_RUNG",
+      "HX_014_SERPENT_RUNG",
+      "HX_015_SERPENT_RUNG",
+      "HX_016_SERPENT_RUNG",
+      "HX_017_SERPENT_RUNG",
+      "HX_018_SERPENT_RUNG",
+      "HX_019_SERPENT_RUNG",
+      "HX_020_SERPENT_RUNG",
+      "HX_021_SERPENT_RUNG",
+      "HX_022_SERPENT_RUNG",
+      "HX_023_SERPENT_RUNG",
+      "HX_024_SERPENT_RUNG",
+      "HX_025_SERPENT_RUNG",
+      "HX_026_SERPENT_RUNG",
+      "HX_027_SERPENT_RUNG",
+      "HX_028_SERPENT_RUNG",
+      "HX_029_SERPENT_RUNG",
+      "HX_030_SERPENT_RUNG",
+      "HX_031_SERPENT_RUNG",
+      "HX_032_SERPENT_RUNG",
+      "HX_033_SERPENT_RUNG",
+      "HX_034_SERPENT_RUNG",
+      "HX_035_SERPENT_RUNG",
+      "HX_036_SERPENT_RUNG",
+      "HX_037_SERPENT_RUNG",
+      "HX_038_SERPENT_RUNG",
+      "HX_039_SERPENT_RUNG",
+      "HX_040_SERPENT_RUNG",
+      "HX_041_SERPENT_HEAD"
+    ],
+    "HX_ZONE_COIL": [
+      "HX_001_SERPENT_HELIX",
+      "HX_002_SERPENT_HELIX"
+    ],
+    "HX_ZONE_HEAD": [
+      "HX_041_SERPENT_HEAD"
+    ],
+    "HX_ZONE_RUNGS": [
+      "HX_003_SERPENT_RUNG",
+      "HX_004_SERPENT_RUNG",
+      "HX_005_SERPENT_RUNG",
+      "HX_006_SERPENT_RUNG",
+      "HX_007_SERPENT_RUNG",
+      "HX_008_SERPENT_RUNG",
+      "HX_009_SERPENT_RUNG",
+      "HX_010_SERPENT_RUNG",
+      "HX_011_SERPENT_RUNG",
+      "HX_012_SERPENT_RUNG",
+      "HX_013_SERPENT_RUNG",
+      "HX_014_SERPENT_RUNG",
+      "HX_015_SERPENT_RUNG",
+      "HX_016_SERPENT_RUNG",
+      "HX_017_SERPENT_RUNG",
+      "HX_018_SERPENT_RUNG",
+      "HX_019_SERPENT_RUNG",
+      "HX_020_SERPENT_RUNG",
+      "HX_021_SERPENT_RUNG",
+      "HX_022_SERPENT_RUNG",
+      "HX_023_SERPENT_RUNG",
+      "HX_024_SERPENT_RUNG",
+      "HX_025_SERPENT_RUNG",
+      "HX_026_SERPENT_RUNG",
+      "HX_027_SERPENT_RUNG",
+      "HX_028_SERPENT_RUNG",
+      "HX_029_SERPENT_RUNG",
+      "HX_030_SERPENT_RUNG",
+      "HX_031_SERPENT_RUNG",
+      "HX_032_SERPENT_RUNG",
+      "HX_033_SERPENT_RUNG",
+      "HX_034_SERPENT_RUNG",
+      "HX_035_SERPENT_RUNG",
+      "HX_036_SERPENT_RUNG",
+      "HX_037_SERPENT_RUNG",
+      "HX_038_SERPENT_RUNG",
+      "HX_039_SERPENT_RUNG",
+      "HX_040_SERPENT_RUNG"
+    ]
+  },
+  "group_count": 6,
+  "concept_id": "37",
+  "source_art": "images/37_38.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "37",
+    "name": "Ouroboros Skycoil",
+    "standout": "A segmented serpent ring closes visually around a large empty center, turning depth gaps into part of the illusion.",
+    "scene": "An elegant enormous coiled sky-serpent made of emerald/cyan and gold double-helix rib contours, forming a nearly closed circular loop on discreet dark supports. Recognizable angular illuminated serpent head and separate tail align to appear to meet in the hero view, but their frames occupy different depths. Huge dark open circular center, a few tiny spiral plants below, no solid dragon skin and no flying animal.",
+    "board": 8,
+    "side": "left",
+    "image": "images/37_38.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "A segmented serpent ring closes visually around a large empty center, turning depth gaps into part of the illusion.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}
