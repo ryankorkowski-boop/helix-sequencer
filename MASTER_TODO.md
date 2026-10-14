@@ -1,5 +1,8 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+### 2026-10-14 — final native source publication gate
+Transport branch publishes only exact7a1ffa Windows/Android artifacts after full3.11/3.12, native layout,6layout and complete original-sampler native band checks pass. Full native sampler checks353094 key states and16opening kicks on both stages; no soundtrack. Earlier f38 candidate is preserved and marked superseded. Downloaded artifact digests, embedded engine revision, license identity, ZIP CRCs and per-file checksums remain mandatory.
+
 ### 2026-10-14 — full-source native validation found cross-key arm illumination
 Run38614788465 rendered the complete actual sampler and failed unchanged key-state checks at frame651/MIDI55 while only MIDI67 was requested. Finite surface sampling merged passing arm vertices and unrelated bar vertices. Give NOTE_MIDI nodes exclusive ownership, trim those nodes from all other submodels, and preserve channel allocation/bar identities. Add serialized geometry overlap assertions; rerun focused/full/native/platform gates. The GL movie renderer and six-layout engine outputs are unaffected, but final native-band application binaries need a new exact-source build. Prior f38 receipts stay identified as earlier-source evidence, not the final release.
 
