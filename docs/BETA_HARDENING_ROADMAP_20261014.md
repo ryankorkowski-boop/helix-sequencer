@@ -5,7 +5,8 @@ Status: NOT RELEASE READY. This branch stacks on PR #147; do not merge until ver
 ## Gate 1: engine hardening
 - [x] Guard recording-calibrated kick recovery against undersized windows and silent references (PR #148).
 - [x] Add focused regressions for these cases.
-- [ ] Run `python -m pytest -q tests/test_rapid_kick_recovery.py` on the exact branch HEAD.
+- [x] Run the four focused regression tests on an isolated local copy of the two GitHub files: 4 passed after the minimum-duration correction (SciPy 1.17.0, NumPy 2.3.5, pytest 9.0.2). This is not a full repository or GitHub Actions run.
+- [ ] Re-run focused tests on a clean checkout of the exact final branch HEAD in CI.
 - [ ] Run the full Python 3.11/3.12 suite and record SHA, test counts and logs.
 - [ ] Review 137 uncertain tom events against isolated source/audio evidence; abstain rather than fabricate labels.
 
@@ -41,3 +42,5 @@ Each checkbox requires a concrete source SHA and artifact or test receipt. Synth
 - 2026-10-14 — Native CI workflow edit attempted but blocked by the write safety gate; no workflow change claimed. Next action: run focused tests on exact HEAD using a permitted execution environment, then full CI, and update this ledger with concrete run links and failures.
 
 **Checklist maintenance rule:** Append each implementation commit, exact test outcome, and remaining blocker to this file as work progresses. Never mark a gate complete from a plan, attempted tool call, or prior-source test receipt.
+
+- 2026-10-14 — Local focused execution: initial 3 passed / 1 failed; tiny 0.1ms review window did not abstain because filter context padded it. Added explicit minimum 60ms attack/decay review duration and adjusted regression. Re-execution: 4 passed in 3.14 seconds on isolated copies of the two GitHub files. Source commits 3f01e877 and 0bbff6d0. Full checkout/CI still pending.
