@@ -1,5 +1,9 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-14 — pinned native verification execution
+
+Goal: verify release source2b295284 with actual xLights2026.18 without changing the integrated source tree. Changed only validation/beta_native_proof.py, a dedicated workflow and this ledger on validation/beta-native-20261014. Preserve all software, original media/layouts and platform builds. Native diagnostic builds the1081-model layout, tests exact note-rung nodes, exports12single-color circuits, checks eight60ms-separated kick onsets and snare/idle exclusion, and encodes a3second synchronized FSEQ preview with freshly authored synthetic calibration audio. No song or physical hardware compatibility claim. Source validation is pinned; local Xvfb cannot create sockets in this execution environment. Remote run/artifacts will supply actual evidence. Deferred full-song/band/redistribution gates remain unchanged. Regression risk: native timing/grid/SingleColor serialization; failed native assertions must be fixed rather than waived.
+
 ## 2026-10-14 — final beta source integration and concrete release gates (in progress)
 
 Goal: execute issue143/144 and the final delivery task from Infinite Symphony081b8f7 on an isolated feature branch. Inspected default, PR138–145, latest branches and workflow runs before editing. Selected105 compatible GUI/Android/Windows files from verified guidance a678b715; preserved the newest band rig, indexed EventLane, contact transitions, original audio/layouts and other branches. Only the inspected AC learned-effect fence is added to the master engine; the earlier direct failure guard remains.
