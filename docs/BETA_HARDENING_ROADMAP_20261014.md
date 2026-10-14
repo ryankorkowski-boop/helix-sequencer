@@ -7,7 +7,7 @@ Status: NOT RELEASE READY. This branch stacks on PR #147; do not merge until ver
 - [x] Add focused regressions for these cases.
 - [x] Run the four focused regression tests on an isolated local copy of the two GitHub files: 4 passed after the minimum-duration correction (SciPy 1.17.0, NumPy 2.3.5, pytest 9.0.2). This is not a full repository or GitHub Actions run.
 - [ ] Re-run focused tests on a clean checkout of the exact final branch HEAD in CI.
-- [ ] Run the full Python 3.11/3.12 suite and record SHA, test counts and logs.
+- [x] Full Python 3.11/3.12 GitHub CI regression audit succeeded for commit 15e2155e (run 38620436019, all four jobs success). Exact test counts not extracted from job logs.
 - [ ] Review 137 uncertain tom events against isolated source/audio evidence; abstain rather than fabricate labels.
 
 ## Gate 2: musical and band acceptance
@@ -21,7 +21,8 @@ Status: NOT RELEASE READY. This branch stacks on PR #147; do not merge until ver
 - [ ] Record physical controller/LOR verification as blocked until hardware/vendor software is available.
 
 ## Gate 4: app integration
-- [ ] Rebuild Windows and Android from the same final source SHA.
+- [x] Windows and Android workflows succeeded on commit 15e2155e (runs 38620436215 and 38620436180, API30/API36 jobs passed); artifact hashes and on-device verification still pending.
+- [ ] Rebuild Windows and Android from the ultimate release SHA after remaining changes.
 - [ ] Verify desktop GUI startup, xLights/LOR mode, packaged dependencies and MP4 preview.
 - [ ] Verify Android API30/API36, MP3/WAV, full-length preview, recovery and reinstall.
 - [ ] Treat Samsung hardware and production signing as separate gates.
@@ -46,3 +47,5 @@ Each checkbox requires a concrete source SHA and artifact or test receipt. Synth
 - 2026-10-14 — Local focused execution: initial 3 passed / 1 failed; tiny 0.1ms review window did not abstain because filter context padded it. Added explicit minimum 60ms attack/decay review duration and adjusted regression. Re-execution: 4 passed in 3.14 seconds on isolated copies of the two GitHub files. Source commits 3f01e877 and 0bbff6d0. Full checkout/CI still pending.
 
 - 2026-10-14 — GitHub Actions detected on checklist commit 6b870085: Helix CI run 38620251217, Helix Beta CI 38620251177, Android 38620251324, Windows 38620251302, compliance 38620251183 and birdsong 38620251198. All were queued/pending when queried; no success or artifact claim. Native proof workflow not observed in this commit's PR-triggered run listing. Exact repository checkout from local container was blocked by DNS/network, so do not misrepresent isolated test copy as a clean checkout.
+
+- 2026-10-14 — Exact commit 15e2155e GitHub Actions all green: Helix CI 38620436019 (3.11/3.12 regression and lint), Android 38620436180 (API30/API36), Windows 38620436215, Beta smoke 38620436106, birdsong 38620435989, compliance 38620436164. Prior commit 6b870085 jobs had seven cancellations and five successes, superseded by these completed runs. Native xLights proof still unverified on this branch. The newer checklist-only commit itself does not alter application source.
