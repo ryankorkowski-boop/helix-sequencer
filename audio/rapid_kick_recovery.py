@@ -28,6 +28,9 @@ def recover_kicks(samples, sr, events, *, start, end):
     if len(refs)<3:
         report['abstention']='fewer than three accepted recording-specific kick references'
         return list(events),report
+    if end-start < .06:
+        report['abstention']='review window too short for reliable attack/decay analysis'
+        return list(events),report
     hop=max(1,round(sr*.005));step=hop/sr
     # Limit filtering and analysis to the caller's window plus decay support.
     lo=max(0,math.floor((start-.2)*sr));hi=min(len(y),math.ceil((end+.2)*sr))
