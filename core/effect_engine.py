@@ -9399,15 +9399,30 @@ def pick_runtime_effect(
         catalog=catalog,
     ):
         choice_pool.append(normalized_requested)
+    # Existing --ac-lights-only must also fence workspace-learned effects:
+    # the normal candidate list was AC-safe, but memory suggestions weren't.
+    ac_effect_names = {"on", "ramp", "strobe", "twinkle", "shimmer"}
+    if tuning.ac_lights_only:
+        history_effects = [
+            name for name in history_effects
+            if name.strip().lower() in ac_effect_names
+        ]
     choice_pool.extend(history_effects)
     choice_pool.extend(candidates)
     choice_pool.append(selected)
-    selected = choose_first(choice_pool, selected)
+    if tuning.ac_lights_only:
+        choice_pool = [
+            name for name in choice_pool
+            if name.strip().lower() in ac_effect_names
+        ]
+    selected = choose_first(choice_pool, "On" if tuning.ac_lights_only else selected)
     selected = xfb.normalize_effect_name(selected, catalog) or fallback
+    if tuning.ac_lights_only and selected.strip().lower() not in ac_effect_names:
+        return "On"
     if tuning.strict_xlights_effects:
         valid = {name.lower() for name in xfb.catalog_effect_names(catalog)}
         if valid and selected.lower() not in valid:
-            return fallback
+            return "On" if tuning.ac_lights_only else fallback
     return selected
 
 

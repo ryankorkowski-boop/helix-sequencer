@@ -32,7 +32,7 @@ def build_megagarden():
     base = build_ultimate_garden()
     span = np.ptp(np.concatenate([m.points for m in base.models]), axis=0)
     # Three by three independently themed gardens: ~9x the original XZ area.
-    dx, dz = float(span[0] * 1.16), float(span[2] * 1.16)
+    dx, dz = float(span[0]), float(span[2])
     garden = copy.copy(base)
     garden.models = []
     garden.title = "Helix Infinite Symphony — Nine Worlds"
@@ -128,6 +128,10 @@ def mega_manifest(garden):
     original, expanded = footprint(base), footprint(garden)
     result = garden_manifest(garden)
     result["footprint_ratio_xz"] = round(float(np.prod(expanded) / np.prod(original)), 3)
+    result["footprint_method"] = "axis-aligned XZ bounding-box area relative to build_ultimate_garden; full node extents included"
+    result["base_footprint_xz"] = original.tolist()
+    result["expanded_footprint_xz"] = expanded.tolist()
+    result["district_spacing_fraction"] = 1.0
     result["districts"] = [{"name": name, "palette": list(p)} for name, p in PALETTES]
     result["house_count"] = 18
     result["centerpiece"] = "HX_CENTER_KEYBOARD_HELIX"

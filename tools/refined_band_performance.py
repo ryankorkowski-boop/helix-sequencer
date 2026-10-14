@@ -17,7 +17,10 @@ class RefinedPerformance(ReadablePerformance):
         # The old merged CQT lane could assign another 'other' instrument's
         # notes to a mallet gate. Use the gate's own measured spectral peak.
         from tools.readable_band_performance import ROOT
-        proof=json.loads((ROOT/'outputs/Intricate_Band_Samplers/analysis'/row['id']/'verification.json').read_text())
+        local_proof=Path(analysis_root)/row['id']/'verification.json'
+        proof=json.loads(local_proof.read_text()) if local_proof.is_file() else {}
+        if 'mallet_attacks' not in proof:
+            proof=json.loads((ROOT/'outputs/Intricate_Band_Samplers/analysis'/row['id']/'verification.json').read_text())
         if row.get('sha256') and proof.get('source_sha256')!=row['sha256']:
             raise ValueError('mallet evidence does not belong to this source song')
         candidates=proof.get('mallet_attacks',[])

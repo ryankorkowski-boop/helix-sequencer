@@ -17,7 +17,8 @@ from models.band_sampler_logic import SHAPE_NAMES
 class MusicalBandPerformance(RefinedPerformance):
     def __init__(self,row,scene,analysis_root,casting=None):
         super().__init__(row,scene,analysis_root)
-        proof=json.loads((ROOT/'outputs/Intricate_Band_Samplers/analysis'/row['id']/'verification.json').read_text())
+        local_proof=Path(analysis_root)/row['id']/'verification.json'
+        proof=json.loads(local_proof.read_text()) if local_proof.is_file() else json.loads((ROOT/'outputs/Intricate_Band_Samplers/analysis'/row['id']/'verification.json').read_text())
         if proof['source_sha256']!=row['sha256']:raise ValueError('mallet source hash mismatch')
         accepted,rejected=ringing_candidates(proof['mallet_attacks'],min(scene.bars),max(scene.bars))
         self.mallet_schedule=[];previous_side='right';self.mallet_evidence=accepted
@@ -36,7 +37,8 @@ class MusicalBandPerformance(RefinedPerformance):
         self.directions['bass']=signed_gestures(self.curves['bass_attack'],duration=.13)
         # No changes to guitar events, routes, articulation or contacts.
         self.key_hand_targets={};self.key_assignments={}
-        ev=[e for e in self.events['piano'] if e.source=='piano_stem_harmonic_estimate']
+        from music.magic_keyboard import magic_keyboard_events
+        ev=magic_keyboard_events(self.events['piano'], self.mallet_schedule, duration=self.n/20)
         self.keyboard_events=ev
         held,velocity,attack,phase=event_curves(ev,self.n,6,release=0)
         # Keys and hands share the exact held-note lane, without the inherited

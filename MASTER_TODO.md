@@ -1,5 +1,18 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-14 — final beta source integration and concrete release gates (in progress)
+
+Goal: execute issue143/144 and the final delivery task from Infinite Symphony081b8f7 on an isolated feature branch. Inspected default, PR138–145, latest branches and workflow runs before editing. Selected105 compatible GUI/Android/Windows files from verified guidance a678b715; preserved the newest band rig, indexed EventLane, contact transitions, original audio/layouts and other branches. Only the inspected AC learned-effect fence is added to the master engine; the earlier direct failure guard remains.
+
+Changed: GUI/Android/export/Windows integration, official PolyForm license and customer guidance/assets, platform package notices, build triggers, versionCode6/1.0-beta, desktop librosa pinned to the same verified0.10.2.post1 family as Android; local band analysis-proof lookup; native88-rung XSQ writer and pitched-note eligibility router; twelve-string physical contact/idle interval compiler; giant layout spacing and explicit bounding-area methodology; focused regression modules. Earlier seven-performer proposal and wire-band previews remain historical; this request requires a single magic-key/mallet performer and a solid second band, not yet represented by those historical files.
+
+New: native per-rung note layers preserve existing XSQ content and original layout bytes, screened mallet notes can activate keyboard, confident pitched synth/horn sources are eligible while percussion/vocal leakage is excluded, rapid kicks retain independent onset intervals, snare/cymbal contact switches suppress the corresponding idle arm, body/kit dim interval is explicit. The native physical output writer and full media delivery gates remain in progress. The corrected18-house layout builds at9.082x measured fullXZbounding area with1081models/919839channels/27native families; all88rungs are nonempty, disjoint and pitch ordered.
+
+Evidence: first integrated suite162passed/1failed because host initially installed unsupported librosa1.0; after installing project's Android0.10.2.post1, numerical parity and3new note-export checks pass. Seven additional rung/physical-contact/scale checks pass. Final integrated suite170passes and additional spatial/palette/AC/native-export suite15passes; compileall and git diff --check pass. Receipts are evidence/beta_final/integrated_tests.txt and additional_tests.txt. Native/media checks continue independently. Official license downloaded verbatim from https://polyformproject.org/licenses/noncommercial/1.0.0.txt (4563bytes); earlier MIT grant preserved under LICENSES/HISTORICAL_MIT.txt, third-party notices retained.
+
+Limitations/deferred: track-by-track account/date redistribution clearance is absent; no music may be publicly bundled until verified. Full LightsOutTheme identity/source remains unresolved. Actual mixed-voice separation, single-performer final scene, full six-layout/band/ultimate movies, native imports, fresh same-SHA installers and release ZIPs require their own evidence; no completion is claimed from source/tests.12-circuit toms illuminate surfaces only; their articulated sticks need additional channels/pixels. Physical controller addresses, actual Samsung operation, signing continuity and Play16KB dependencies remain unverified. Regression risks: crossed source stacks, broader keyboard note routing, imported GUI postprocessing and large layouts; preserve original guitar/motion/score and inspect real output.
+
+
 ## 2026-10-13 — readable wire-band mouths and solid string players (rendered and verified)
 
 Goal: respond to the review that wire singers' mouths, guitar and bass blend

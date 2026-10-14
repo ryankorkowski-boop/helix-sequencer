@@ -1,0 +1,13 @@
+Helix Beta Release v1.0 — PolyForm Noncommercial 1.0.0
+
+Helix is intended to be free for noncommercial homeowner use. Commercial use by vendors and businesses requires a separately negotiated paid written license for material the licensors are authorized to license. Contact: Facebook.com/helixsequencer. The complete LICENSE controls; this summary does not expand or replace it.
+
+Previously granted MIT rights: earlier MIT releases permitted commercial use/resale, modification and distribution with their notices. This transition does not revoke those permissions. The historical MIT text and third-party notices are included separately. Contributor-owned material retains its applicable rights.
+
+Donations are voluntary and appreciated. They are separate from commercial licensing fees and are never required for permitted noncommercial use.
+
+Attribution: exports identify their generator as “Made with Helix”. Retain applicable license notices when distributing code or protected assets.
+
+Music: only tracks explicitly marked rights-cleared may be included in redistribution packages. The application does not certify that songs are exclusively owned or cleared. Suno permissions depend on the creation account, subscription period and applicable terms; separate accounts are not interchangeable. Your uploaded music retains its own rights. The software license grants no music rights.
+
+Provenance identifies the generator and integrity, without DRM or hidden tracking. Check final imports, wiring and controller mapping before playback. Warranty and liability are governed by the included licenses.

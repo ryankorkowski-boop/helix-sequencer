@@ -1,4 +1,4 @@
-"""Proposed ten-circuit physical snowman drummer with explicit idle poses.
+"""Twelve-circuit physical snowman drummer with explicit idle poses.
 
 Viewer-right means the right side of the image, not the performer's right.
 Physical lighting frames are NOT motor actuation: each hit string must trace
@@ -7,6 +7,7 @@ a complete arm/hand/stick contact pose on a fixed 2D or 3D support.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+import math
 
 @dataclass(frozen=True)
 class DrumCircuit:
@@ -56,3 +57,58 @@ def build_drummer_wiring_plan() -> dict:
             "Controller outputs and load ratings must be verified before connecting mains lighting.",
         ],
     }
+
+
+def compile_contact_intervals(hits: list[dict], *, duration: float,
+                              contact_hold: float = .035, dim: float = .18) -> dict:
+    """Compile fixed lighting strings from already-classified onsets.
+
+    The twelve-string plan has cymbal and snare contact arms. Tom channels
+    illuminate surfaces only; articulated tom contact poses still need more
+    strings or addressable pixels. No physical LOR Unit IDs are guessed.
+    """
+    if not math.isfinite(duration) or duration <= 0 or not 0 < contact_hold <= .1 or not 0 < dim < 1:
+        raise ValueError("Invalid physical drummer duration, hold, or dim level")
+    channels = {c.key: [] for c in DRUM_CIRCUITS}
+    route = {"kick": "kick", "hi_hat": "hi_hat", "hihat": "hi_hat",
+             "tom_high": "high_tom", "tom_mid": "mid_tom", "tom_floor": "floor_tom",
+             "tom_low": "floor_tom", "cymbal_left": "left_cymbal_contact",
+             "cymbal_right": "right_cymbal_contact"}
+    contacts = {"left": [], "right": []}
+    source_onsets = []
+    for hit in sorted(hits, key=lambda h: float(h["time"])):
+        time = float(hit["time"])
+        if not math.isfinite(time) or not 0 <= time < duration:
+            continue
+        target = hit["target"].lower().removeprefix("hx_snowman_drummer_v3_hit_")
+        side = hit.get("side")
+        if target == "snare":
+            if side not in ("left", "right"):
+                raise ValueError("Snare contact export requires an explicit source hand")
+            key = "left_snare_contact" if side == "left" else "snare_right_contact"
+        elif target in route:
+            key = route[target]
+            if target.startswith("cymbal_"):
+                side = target.split("_")[-1]
+        else:
+            raise ValueError(f"Unmapped physical drum target: {target}")
+        end = min(duration, time + contact_hold)
+        velocity = float(hit.get("velocity", 1))
+        if not math.isfinite(velocity) or velocity <= 0:
+            continue
+        channels[key].append(dict(start=time, end=end, brightness=min(1., velocity)))
+        source_onsets.append(dict(time=time, key=key))
+        if key in ("left_snare_contact", "snare_right_contact", "left_cymbal_contact", "right_cymbal_contact"):
+            contacts[side].append((time, end))
+    channels["body_kit_dim"] = [dict(start=0., end=duration, brightness=dim)]
+    for side in ("left", "right"):
+        cursor = 0.
+        for start, end in sorted(contacts[side]):
+            if start > cursor:
+                channels[side + "_stick_idle"].append(dict(start=cursor, end=start, brightness=1.))
+            cursor = max(cursor, end)
+        if cursor < duration:
+            channels[side + "_stick_idle"].append(dict(start=cursor, end=duration, brightness=1.))
+    return {"circuits": channels, "source_onsets": source_onsets,
+            "duration": duration, "controller_addresses_assigned": False,
+            "tom_contact_pose_exported": False}
