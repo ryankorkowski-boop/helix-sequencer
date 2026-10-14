@@ -1,5 +1,8 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+### 2026-10-14 — verified artifact redirect transport repair
+All six exact-source build/test gates passed for f38f489. Publication38613412716 stopped before creating any release: urllib retained the GitHub Authorization header when following a signed Azure artifact redirect, causing401. Strip authorization only on cross-host redirects; keep API authentication, digest assertions and all binary validation unchanged. Rebuild only the transport, never the tested executable bytes.
+
 ### 2026-10-14 — exact-source prerelease transport
 Separate transport branch only. Await successful push runs for source f38f489; verify downloaded artifact digests, embedded APK engine SHA, native FSEQ receipts, binary ZIP CRCs and official license identity. Publish software and explicitly synthetic/native diagnostics as a prerelease, never a partial full-song showcase or uncleared song media. Runtime source and PR147 remain frozen and unmerged. API30 distributed debug APK and API36 same-source companion have separate CI signing keys; no physical-device claim.
 

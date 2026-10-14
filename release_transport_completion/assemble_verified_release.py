@@ -1,5 +1,5 @@
 """Download exact successful workflow artifacts and assemble a no-music beta."""
-import hashlib, io, json, os, shutil, subprocess, time, urllib.request, zipfile
+import hashlib, io, json, os, shutil, subprocess, time, urllib.request, urllib.parse, zipfile
 from pathlib import Path
 
 REPO='ryankorkowski-boop/helix-sequencer'
@@ -8,9 +8,17 @@ RUNS={'windows':38612866472,'android':38612866317,'native':38612866467,
       'unit_integration':38612866417,'beta':38612868376,'layout':38612866440}
 API='https://api.github.com/repos/'+REPO
 TOKEN=os.environ['GH_TOKEN']
+class ArtifactRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        follow=super().redirect_request(req,fp,code,msg,headers,newurl)
+        if urllib.parse.urlsplit(req.full_url).netloc!=urllib.parse.urlsplit(newurl).netloc:
+            follow.remove_header('Authorization')
+            follow.remove_header('Accept')
+        return follow
+OPENER=urllib.request.build_opener(ArtifactRedirect())
 def get(path, binary=False):
     req=urllib.request.Request(API+path,headers={'Authorization':'Bearer '+TOKEN,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'})
-    with urllib.request.urlopen(req,timeout=120) as r:data=r.read()
+    with OPENER.open(req,timeout=120) as r:data=r.read()
     return data if binary else json.loads(data)
 def digest(b):return hashlib.sha256(b).hexdigest()
 def pathsha(p):
