@@ -12,6 +12,13 @@ def test_native_final_band_export_has_two_complete_source_timed_bands(tmp_path):
     assert [m.get('name') for m in models]==[m.name for m in garden.models]
     assert len({m.get('name') for m in models})==len(models)
     assert [int(m.get('StartChannel')) for m in models]==[m.start for m in garden.models]
+    for model in garden.models:
+        if model.details.get('final_band_role')!='xylophone':
+            continue
+        notes=set().union(*(set(v) for k,v in model.submodels.items() if k.startswith('NOTE_MIDI_')))
+        for part,nodes in model.submodels.items():
+            if not part.startswith('NOTE_MIDI_'):
+                assert notes.isdisjoint(nodes),part
     root=ET.parse(sequence).getroot()
     for prefix in ('HX_BETA_STAGE_A','HX_BETA_STAGE_B'):
         parent=root.find(f"ElementEffects/Element[@name='{prefix}_XYLOPHONE']")

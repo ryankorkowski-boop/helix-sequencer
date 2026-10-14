@@ -121,6 +121,15 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
             details=dict(final_band_role=role, stage=prefix, solid_surface_samples=True,
                 pose_method='stationary addressable light poses',
                 continuous_mesh_motion=False, wireframe_performer=False))
+        # Surface sampling can quantize a passing arm and a different bar to
+        # the same node. Keys own their nodes exclusively; an arm must never
+        # illuminate a note that the source did not request. Keep allocation
+        # and bar identities stable, trimming only overlapping pose nodes.
+        note_nodes = set().union(*(set(v) for k,v in model.submodels.items()
+                                  if k.startswith('NOTE_MIDI_')))
+        for part, nodes in model.submodels.items():
+            if not part.startswith('NOTE_MIDI_'):
+                model.submodels[part] = sorted(set(nodes)-note_nodes)
         # Dynamic notes, strings, mouths and pose nodes have exclusive ownership;
         # a dim BODY must not keep a released key or mouth illuminated.
         dynamic = set().union(*(set(v) for k,v in model.submodels.items()
