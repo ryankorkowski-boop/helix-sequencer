@@ -1,5 +1,11 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+### 2026-10-14 — rerun complete native sampler on exclusive-key source
+Diagnostic branch pins7a1ffa after real key-overlap repair. Keep all3603-frame,49bar and16kick assertions unchanged. Initial native failures are retained. No soundtrack is committed or published.
+
+### 2026-10-14 — full-source native validation found cross-key arm illumination
+Run38614788465 rendered the complete actual sampler and failed unchanged key-state checks at frame651/MIDI55 while only MIDI67 was requested. Finite surface sampling merged passing arm vertices and unrelated bar vertices. Give NOTE_MIDI nodes exclusive ownership, trim those nodes from all other submodels, and preserve channel allocation/bar identities. Add serialized geometry overlap assertions; rerun focused/full/native/platform gates. The GL movie renderer and six-layout engine outputs are unaffected, but final native-band application binaries need a new exact-source build. Prior f38 receipts stay identified as earlier-source evidence, not the final release.
+
 ### 2026-10-14 — Native duplicate drummer names and test-media artifact boundary
 - Native xLights run 38611486666 reached actual FSEQ output and failed the unchanged drummer contact assertion. Both copied drums serialized as HX_SNOWMAN_DRUMMER_V3 because imported attrs overrode their new names; kick nodes were zero on both stages. Remove only that copied identity attribute, preserving original grid/submodels, and verify all serialized model names against allocation.
 - Windows and Android still execute real-audio import/sequence/mux/decode checks, but their public artifacts now allow only binary distributions and scalar/log/structure/image evidence. Test WAV/MP3/MP4/decoded samples have no demonstrated redistribution clearance. Remote-review Pages uses generated benchmark audio and remains explicitly synthetic; it is not a requested real-song showcase.
@@ -844,3 +850,5 @@ Do not mark complete from unit tests alone.
 - [ ] User visual approval and native xLights import/playback remain final acceptance gates.
 
 Final October10 publication handoff: `docs/REVIEW_MOVIE_DOWNLOADS.md` links the46-movie earlier ZIP,179-payload recent ZIP,11 final band MP4s and their ZIP, both six-up artwork reels and the20-concept artwork ZIP. Performance/binary revision `209b6f7416afb35fa366aef272c8b3bd33406e25`; pinned release transport/index revision `9746dfe853431c5c67c5f23d2b5086f9e0508bd4` on `feature/review-media-delivery-2026-10-10`. Release workflow38050908245 succeeded. All32 new movie/transport blobs match, all11 direct MP4 links returnHTTP200, all3 release ZIP sizes/digests match and returnHTTP200; full public earlier/band ZIP downloads match local hashes. Evidence: `evidence/review_movie_archives/publication_final_release.json`, `publication_final_media_blobs.json`, `evidence/snowman_band_upgrade/public_individual_links.json`. Native physical/desktop playback and artistic acceptance are not claimed for the new3D review rig; exact preferred drummer art, confident duet separation and missing historical Android bytes remain documented limitations. Read this ledger before continuing.
+
+Earlier f38 candidate publication completed before cancellation. Preserve all assets and mark its release explicitly superseded; final source7a requires fresh exact-source verification.

@@ -1,16 +1,20 @@
-name: Cancel superseded native band publication
+name: Mark earlier native band candidate superseded
 on:
   push:
     branches: [release/stop-stale-publication-20261014]
 permissions:
-  actions: write
+  contents: write
 jobs:
-  stop-stale-publication:
+  superseded-candidate:
     runs-on: ubuntu-24.04
     steps:
-      - name: Stop superseded source publication before assets are released
+      - name: Preserve assets and record newly discovered native key limitation
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          status=$(gh api repos/ryankorkowski-boop/helix-sequencer/actions/runs/38615130749 --jq .status)
-          if test "$status" != completed; then gh api --method POST repos/ryankorkowski-boop/helix-sequencer/actions/runs/38615130749/cancel; fi
+          gh release view helix-beta-v1.0-completion-20261014 --repo ryankorkowski-boop/helix-sequencer --json body --jq .body > release-notes.md
+          cat >> release-notes.md <<'NOTE'
+
+          SUPERSEDED CANDIDATE: Full original-sampler native playback found cross-key illumination at frame651 (MIDI55 lit during a MIDI67 arm strike). The repaired source is 7a1ffa75388b9c331e4e9e807f0f280886f36cfa. These earlier binaries and source f38f489 are preserved for traceability and are not the final native-band release. Fresh exact-source builds and full native revalidation are required. No stable-release or complete-music accuracy claim.
+          NOTE
+          gh release edit helix-beta-v1.0-completion-20261014 --repo ryankorkowski-boop/helix-sequencer --title 'HELIX BETA v1.0 — superseded native band candidate' --notes-file release-notes.md --prerelease
