@@ -1,5 +1,105 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+### 2026-10-14 — full-source native validation found cross-key arm illumination
+Run38614788465 rendered the complete actual sampler and failed unchanged key-state checks at frame651/MIDI55 while only MIDI67 was requested. Finite surface sampling merged passing arm vertices and unrelated bar vertices. Give NOTE_MIDI nodes exclusive ownership, trim those nodes from all other submodels, and preserve channel allocation/bar identities. Add serialized geometry overlap assertions; rerun focused/full/native/platform gates. The GL movie renderer and six-layout engine outputs are unaffected, but final native-band application binaries need a new exact-source build. Prior f38 receipts stay identified as earlier-source evidence, not the final release.
+
+### 2026-10-14 — Native duplicate drummer names and test-media artifact boundary
+- Native xLights run 38611486666 reached actual FSEQ output and failed the unchanged drummer contact assertion. Both copied drums serialized as HX_SNOWMAN_DRUMMER_V3 because imported attrs overrode their new names; kick nodes were zero on both stages. Remove only that copied identity attribute, preserving original grid/submodels, and verify all serialized model names against allocation.
+- Windows and Android still execute real-audio import/sequence/mux/decode checks, but their public artifacts now allow only binary distributions and scalar/log/structure/image evidence. Test WAV/MP3/MP4/decoded samples have no demonstrated redistribution clearance. Remote-review Pages uses generated benchmark audio and remains explicitly synthetic; it is not a requested real-song showcase.
+- Prior source d73b9745 Windows packaged application passed. Final binaries and native output must be rebuilt/verified after this fix; no physical-device or licensed full-song delivery is claimed.
+
+
+## 2026-10-14 — fix actual rapid-kick visual coalescing and missed melodic lanes
+
+Goal: close defects found by real output validation rather than accepting the
+first render. Changed the kick-only path of tools/integrate_drummer_v3_into_xsq.py:
+repeated observed kicks keep separate holds/release gaps; overlapping shared-arm
+non-kick poses retain their existing maximum-union behavior. Source detection
+held492kicks but visual coalescing hid eight fast opening attacks in one union.
+The earlier1838→1865 placement estimate above is superseded by measured1839 before
+this repair; final actual counts and native onset verification are recorded below.
+Never claim sixteen visible opening kicks from logical event counts alone.
+
+The residual note analyser now screens the non-bass/non-drum sum of other/guitar/
+piano stems because separator labels misfile melodic sources. Harmonic dominance
+and vocal exclusion stay mandatory. The30–31.5s passage now has7supported note
+events;53–60s has17,38–42s59 and73.5–76s34. These are measured estimates, not verified
+instrument labels. Guitar notes/routes/contact math remain unchanged.
+The final band driver precomputes exactly the same bar decays and reuses identical
+drummer pixels on two stages; this is a rendering optimization, not changed music.
+Add original source-bound light-only kick native regression and21focused passing
+checks. Full new suite and revised media/native validation remain required.
+
+Native CI also exposed missing soundfile in the minimal mask-loader environment.
+All native dependencies now pass a clean isolated-venv build of the giant and
+two-band fixture before remote rerun. Android concurrency cancels stale builds
+only on the same ref. Preserve original files, old review movies and all other
+branches. Previous full1481pass receipt remains valid for the earlier snapshot;
+the new kick semantics need a fresh regression receipt.
+
+Measured after the kick export repair:1997 visual placements; tagged XSQ review
+has16 distinct opening kick rises including8 rapid rises at1.90,2.00,2.10,2.25,
+2.35,2.45,2.55,2.65s. Native playback of these actual source-bound cue intervals
+is now a separate mandatory regression. The isolated nine-dependency native
+environment builds the1153-model giant and two-stage fixture successfully.
+
+## 2026-10-14 — provision final native layout runtime and keep platform source aligned
+
+Goal: fix concrete remote validation startup failures without changing runtime
+algorithms or weakening checks. Changed only four workflow definitions and this
+ledger: the new solid-band geometry needs SciPy and canonical drummer-mask
+loading needs imageio/imageio-ffmpeg. Layout run38608542592 stopped on missing
+SciPy; native run38608542759 stopped on missing imageio before xLights executed.
+Add those declared dependencies and make the candidate Windows/Android builds
+follow native-workflow changes so all final artifacts use the same revision.
+Preserve every application source/data/GUI byte from ae9ab309.
+Evidence: final local full suite1481passed/5missing-2.wav skips/36warnings in358.57s;
+53 focused runtime and4 native geometry/export checks pass. Real two-stage movie
+has3603frames/180.15s, zero measured mallet-contact error, complete decode and0ms
+audio/video start delta; source correlation audit passes all10windows.
+Remaining gates and regression risks are in the completion matrix; native and
+platform CI rerun receipts must be checked, not inferred from local tests.
+
+## 2026-10-14 — final six-performer band and release reconciliation (in progress)
+
+Additional implementation: finite solid-surface native bands with49 addressable
+bars/reachable contact poses, themed18-house variations, 9.102x layout; shared
+GUI/CLI/Android automatic native pitched-prop routing and opt-out; recording-bound
+rapid-kick recovery; screened harmonic residual note analysis; final two-stage
+renderer; native validation of bands and six real-source sampler light sequences.
+Original sampler WAV was recovered with exact expected0fc2ab5d hash; it is kept
+out of source/public releases. Unmodified model found7 opening kicks; measured
+recording-calibrated low-band profiles recover9 missing attacks, including the8
+rapid attacks105–110ms apart. No fabricated count/beat events; listening remains
+open. Direct source output grows from1838 to1865 visual placements.
+
+Evidence: baseline1470passed/5skipped in308.44s;15 scene/rung tests,6 giant-layout
+checks,8 new musical regressions, native band XSQ fixture and53 focused final
+runtime checks pass. Original GUI/LOR/Android recovery tests remain unchanged.
+Official PolyForm text fetched again and byte-matches LICENSE (4563bytes).
+Local xLights2026.18 binary hash matches the previous native runtime, but Xvfb
+cannot establish sockets in this environment; the same-source Actions workflow
+performs native validation instead. Full new candidate suite/media/platform
+verification remains pending. No stable release or default merge is authorized
+by incomplete gates. Read docs/BETA_FINAL_COMPLETION_20261014.md for the full matrix.
+
+Goal: finish issue143/144 on codex/beta-final-completion-20261014 from verified
+cb6cff6. Reconciled PR134/137/138/139/140/141/142/145/146 and 42 integration
+commits in the requested window; previous verified Windows/API30/API36/native
+receipts are retained as prior-source evidence. Default and unfinished branches
+are preserved. Changed: models/final_band_scene.py, music/unified_mallet.py,
+tools/final_band_performance.py and finite-input repairs in music/magic_keyboard.py.
+New: six visible performers, one right-side pitched/mallet performer, solid rock
+costumes, purple secondary singer, all eligible canonical pitched lanes share
+one note schedule, explicit two-hand chord limitations and source-bound separate
+voice inputs. Historical seven-member and wire stages remain available.
+Preserved: guitar event/route/rig/contact math, original assets, drummer detection,
+desktop/Android workflows and physical target contracts. No fabricated voices or
+kick hits. Tests and actual native/media evidence are pending below; no complete
+release claim. Risks: scene visibility, broad pitched routing, finite-frame contact
+quantization. External gates: original mixed-voice separation, rights clearance,
+full LightsOutTheme source, physical Samsung/controller/LOR software validation.
+
 ## 2026-10-14 — complete CI media dependencies; runtime release stays pinned
 
 Goal: make strict3.11/3.12CI run the same1475collected tests as the validated local environment. Change only requirements-dev.txt, unit-tests.yml and this ledger: add zstandard and install systemFFmpeg. Preserve every runtime code/data/GUI byte from a8eb35b5e84772d3fc910d4c07435916b5c3af91; no new platform binary rebuild is needed for these test-only dependencies. The common Windows/Android release source remains a8eb35b.

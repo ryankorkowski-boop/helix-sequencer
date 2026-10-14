@@ -107,6 +107,8 @@ def _build_keyboard_note_cues(note_events: list[Any], parts: list[Any]) -> list[
                 "key_index_88": min(87, max(0, int(round(pitch)) - 21)),
                 "section": _part_label(parts, start_ms),
                 "source": "note_events",
+                "pitch_source": "helix_harmonic_polyphony",
+                "velocity": float(note[1]) if len(note)>1 else 1.0,
             })
     return sorted(cues, key=lambda cue: (cue["start_ms"], cue["pitch_midi"]))
 

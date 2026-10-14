@@ -60,6 +60,8 @@ def build_args(request, job, engine):
         if request.get('ac_compatible', False):
             args += ['--ac-lights-only', '--no-pixel-reactive', '--no-matrix-intelligence', '--no-birdsong', '--no-birdsong-auto']
         else:
+            if not request.get('pitched_props',True):
+                args += ['--helix-no-pitched-props']
             if request.get('palette', 'default') == 'neon':
                 args += ['--palette-mode', 'neon']
             args += ['--matrix-intelligence' if request.get('matrix', True) else '--no-matrix-intelligence']

@@ -1,0 +1,42 @@
+name: Helix final band and native output verification
+on:
+  push:
+    branches: [codex/beta-final-completion-20261014]
+  pull_request:
+    paths: ['models/final_band*.py','models/infinite_symphony_showcase.py','core/final_band_export.py','validation/**','.github/workflows/beta-completion-native.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-proof:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      XL_NO_GPU_COMPUTE: '1'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install native verification runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install numpy pillow zstandard scipy trimesh moderngl imageio imageio-ffmpeg soundfile
+          mkdir -p "$RUNNER_TEMP/xlights-native"
+          cd "$RUNNER_TEMP/xlights-native"
+          curl --fail --location --retry 3 --output xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xLights.AppImage' | sha256sum --check
+          chmod +x xLights.AppImage
+          ./xLights.AppImage --appimage-extract >/dev/null
+      - name: Verify giant import, actual rung values, twelve drummer circuits and two pixel bands
+        run: xvfb-run -a python validation/beta_native_proof.py --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun" --output native-proof
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Helix-Final-Completion-Native-Proof
+          path: native-proof/
+          if-no-files-found: error
+          retention-days: 30

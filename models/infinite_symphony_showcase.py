@@ -64,7 +64,9 @@ def build_megagarden():
         for house_index in range(2):
             x = hx + (-0.31 if house_index == 0 else 0.32) * dx
             z = hz + (0.26 if house_index == 0 else -0.26) * dz
-            w, depth, height = 18., 13., 13.
+            w, depth = 18.+(district%3)*2, 13.+(district%2)*2
+            height = 12.+(district%4)*2
+            roof_height = 6.+(district%3)*2+house_index
             p = palette[house_index % 3]
             corners = [(x-w/2, 0, z-depth/2), (x+w/2, 0, z-depth/2),
                        (x+w/2, 0, z+depth/2), (x-w/2, 0, z+depth/2)]
@@ -74,14 +76,32 @@ def build_megagarden():
                             [a, b, (b[0],height,b[2]), (a[0],height,a[2]), a],
                             80, f"D{district+1:02d}_HOUSES", title, p)
             garden.poly(f"HX_HOUSE_{district+1:02d}_{house_index+1}_ROOF",
-                        [(x-w/2,height,z-depth/2),(x,height+9,z-depth/2),
+                        [(x-w/2,height,z-depth/2),(x,height+roof_height,z-depth/2),
                          (x+w/2,height,z-depth/2),(x+w/2,height,z+depth/2),
-                         (x,height+9,z+depth/2),(x-w/2,height,z+depth/2)],
+                         (x,height+roof_height,z+depth/2),(x-w/2,height,z+depth/2)],
                         90, f"D{district+1:02d}_HOUSES", title, palette[2])
             garden.poly(f"HX_HOUSE_{district+1:02d}_{house_index+1}_RIDGE",
-                        [(x,height+9,z-depth/2),(x,height+9,z+depth/2)],
+                        [(x,height+roof_height,z-depth/2),(x,height+roof_height,z+depth/2)],
                         28, f"D{district+1:02d}_HOUSES", title, palette[0])
+            front=z+depth/2+.1
+            garden.poly(f"HX_HOUSE_{district+1:02d}_{house_index+1}_DOOR",
+                        [(x-1.5,0,front),(x-1.5,6,front),(x+1.5,6,front),(x+1.5,0,front)],
+                        36,f"D{district+1:02d}_HOUSES",title,palette[2])
+            for side in (-1,1):
+                wx=x+side*w*.28;wy=height*.55
+                garden.poly(f"HX_HOUSE_{district+1:02d}_{house_index+1}_WINDOW_{side}",
+                            [(wx-1.8,wy-1.8,front),(wx-1.8,wy+1.8,front),
+                             (wx+1.8,wy+1.8,front),(wx+1.8,wy-1.8,front),(wx-1.8,wy-1.8,front)],
+                            32,f"D{district+1:02d}_HOUSES",title,palette[1])
 
+    # Foreground stages have clear sightlines outside the dense middle worlds.
+    # Keep the hero last for the existing 88-rung consumers.
+    from models.final_band_native import add_final_native_band
+    garden.final_band_stages = [
+        add_final_native_band(garden, 'HX_BETA_STAGE_A', (-dx*.48, 0, dz*.40)),
+        add_final_native_band(garden, 'HX_BETA_STAGE_B', (dx*.48, 0, dz*.40),
+                              rock=True, stage='circuit_garage'),
+    ]
     # A single towering 3D DNA hero, distinct from district helices.
     center_height = max(300., float(span[1]) * 3.5)
     garden.dna("HX_CENTER_KEYBOARD_HELIX", 0, 0, center_height, 24, 11, 1056,
@@ -136,8 +156,5 @@ def mega_manifest(garden):
     result["house_count"] = 18
     result["centerpiece"] = "HX_CENTER_KEYBOARD_HELIX"
     result["native_counts"] = dict(Counter(m.display for m in garden.models))
-    result["band_stages"] = [
-        {"name": "Main Rock Stage", "zone": "D05", "performance_assets": "requires band stage integration"},
-        {"name": "Mirror Band Stage", "zone": "D02", "performance_assets": "requires band stage integration"},
-    ]
+    result["band_stages"] = garden.final_band_stages
     return result

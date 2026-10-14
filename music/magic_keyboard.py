@@ -12,25 +12,27 @@ def magic_keyboard_events(events, mallet_hits=(), *, duration: float) -> list[No
     Unclassified/synth/horn lanes require calibrated caller evidence: onset,
     pitch confidence, and percussion exclusion. Never manufacture beat notes.
     """
+    if not math.isfinite(duration) or duration <= 0:
+        raise ValueError("duration must be finite and positive")
     selected = []
     for event in events:
-        if event.source not in ("piano_stem_harmonic_estimate", "other_stem_screened_mallet_estimate"):
-            if event.confidence is None or event.confidence < .75:
+        if event.source not in ("piano_stem_harmonic_estimate", "other_stem_screened_mallet_estimate", "helix_harmonic_polyphony"):
+            if event.confidence is None or not math.isfinite(event.confidence) or event.confidence < .75:
                 continue
             if not any(term in event.source.lower() for term in ("pitched", "harmonic", "synth", "horn", "bell")):
                 continue
             if any(term in event.source.lower() for term in ("drum", "percussion", "noise", "vocal")):
                 continue
         selected.append(event)
-    selected.extend(NoteEvent(h.get("source_time", h["time"]),
-                              h.get("source_time", h["time"]) + .10,
+    selected.extend(NoteEvent(h["source_time"] if "source_time" in h else h["time"],
+                              (h["source_time"] if "source_time" in h else h["time"]) + .10,
                               h["pitch"], h["velocity"], source="other_stem_screened_mallet_estimate")
                     for h in mallet_hits)
     unique = {}
     for e in selected:
         if not all(math.isfinite(float(v)) for v in (e.start, e.end, e.pitch, e.velocity)):
             continue
-        if not 21 <= e.pitch <= 108 or e.end <= e.start or e.start >= duration or e.end <= 0 or e.velocity <= 0:
+        if e.pitch != int(e.pitch) or not 21 <= e.pitch <= 108 or e.end <= e.start or e.start >= duration or e.end <= 0 or e.velocity <= 0:
             continue
         key = (max(0., e.start), min(duration, e.end), e.pitch)
         if key not in unique or unique[key].velocity < e.velocity:

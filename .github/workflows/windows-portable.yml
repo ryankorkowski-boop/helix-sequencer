@@ -8,9 +8,14 @@ on:
       - feature/android-offline-app-20261013
       - codex/gui-branding-and-guidance-20261013
       - codex/beta-final-integration-20261014
+      - codex/beta-final-completion-20261014
     tags:
       - 'v*'
     paths:
+      - models/**
+      - music/**
+      - audio/**
+      - core/**
       - core/sequence_builder.py
       - tools/**
       - config/support_links.json
@@ -21,10 +26,15 @@ on:
       - tests/test_windows_portable_entry.py
       - tests/test_gui_integration.py
       - .github/workflows/windows-portable.yml
+      - .github/workflows/beta-completion-native.yml
       - requirements.txt
       - requirements-windows-portable.txt
   pull_request:
     paths:
+      - models/**
+      - music/**
+      - audio/**
+      - core/**
       - core/sequence_builder.py
       - tools/**
       - config/support_links.json
@@ -35,6 +45,7 @@ on:
       - tests/test_windows_portable_entry.py
       - tests/test_gui_integration.py
       - .github/workflows/windows-portable.yml
+      - .github/workflows/beta-completion-native.yml
       - requirements.txt
       - requirements-windows-portable.txt
 
@@ -108,7 +119,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Helix-Windows-Worker-Diagnostics
-          path: portable_smoke
+          path: |
+            portable_smoke/**/*.json
+            portable_smoke/**/*.log
+            portable_smoke/**/*.xsq
+            portable_smoke/**/*.lms
+            portable_smoke/**/*.xml
           if-no-files-found: ignore
       - name: Create portable ZIP and checksum
         shell: pwsh
@@ -124,7 +140,8 @@ jobs:
           path: |
             Helix-Windows-Portable.zip
             Helix-Windows-Portable.sha256
-            portable_smoke
+            portable_smoke/verification.json
+            portable_smoke/*.log
             dist/Helix/README.txt
           retention-days: 30
           if-no-files-found: error

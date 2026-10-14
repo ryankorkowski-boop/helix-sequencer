@@ -708,6 +708,7 @@ def _render_new_previews(
 AC_ONLY_FLAG = "--helix-ac-on-only"
 SHOWCASE_GATE_FLAG = "--helix-showcase-quality-gate"
 SPATIAL_ACCENT_FLAG = "--helix-spatial-accent"
+NO_PITCHED_PROPS_FLAG = "--helix-no-pitched-props"
 
 
 def _export_generated_ac_sequences(
@@ -852,7 +853,8 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
     ac_only = AC_ONLY_FLAG in raw_engine_args
     spatial_accent = SPATIAL_ACCENT_FLAG in raw_engine_args
     strict_showcase = SHOWCASE_GATE_FLAG in raw_engine_args
-    raw_engine_args = [a for a in raw_engine_args if a not in (AC_ONLY_FLAG, SPATIAL_ACCENT_FLAG, SHOWCASE_GATE_FLAG)]
+    pitched_props = NO_PITCHED_PROPS_FLAG not in raw_engine_args
+    raw_engine_args = [a for a in raw_engine_args if a not in (AC_ONLY_FLAG, SPATIAL_ACCENT_FLAG, SHOWCASE_GATE_FLAG, NO_PITCHED_PROPS_FLAG)]
     preview_requested = PREVIEW_MP4_FLAG in raw_engine_args
     raw_engine_args = [a for a in raw_engine_args if a != PREVIEW_MP4_FLAG]
     preview_seconds = 30.0
@@ -974,6 +976,15 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                     engine_args, artifact_roots, artifact_snapshot, ctx
                 )
             if not lor_compatible and not ac_only:
+                selected_layout = next((Path(engine_args[i+1]) for i,a in enumerate(engine_args[:-1]) if a=="--layout-file"),None)
+                if selected_layout is not None and pitched_props:
+                    from core.native_pitched_props import apply_native_pitched_props
+                    for output in _generated_sequence_paths(artifact_roots,artifact_snapshot,engine_args):
+                        band_plan=output.with_name(output.stem+'.snowman_band.json')
+                        routed=apply_native_pitched_props(output,selected_layout,band_plan)
+                        if routed is not None:
+                            ctx.record_artifact('native_pitched_props',output.with_suffix('.native_pitched_props.json'))
+                            print(f"native_pitched_props: {routed['events']} harmonic note events",flush=True)
                 if spatial_accent:
                     selected_layout = next((Path(engine_args[i+1]) for i,a in enumerate(engine_args[:-1]) if a=="--layout-file"),None)
                     if selected_layout is None:
