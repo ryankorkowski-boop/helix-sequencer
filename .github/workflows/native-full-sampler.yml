@@ -1,0 +1,47 @@
+name: Complete original sampler native band playback
+on:
+  push:
+    branches: [validation/native-final-sampler-20261014]
+permissions:
+  contents: read
+jobs:
+  full-source-native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      XL_NO_GPU_COMPUTE: '1'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: proof-checkout
+      - uses: actions/checkout@v4
+        with:
+          ref: f38f489d1efed08e2e5007835a07213d00633c7a
+          path: source
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare pinned native runtime and original-source light cues
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install numpy pillow zstandard scipy trimesh moderngl imageio imageio-ffmpeg soundfile
+          cp -r proof-checkout/validation_full_sampler source/proof
+          cd source
+          mkdir xlights
+          curl --fail --location --retry 3 --output xlights/xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xlights/xLights.AppImage' | sha256sum --check
+          chmod +x xlights/xLights.AppImage
+          cd xlights
+          ./xLights.AppImage --appimage-extract >/dev/null
+      - name: Render and verify every native bar frame and both opening kick passages
+        working-directory: source
+        run: PYTHONPATH=. xvfb-run -a python proof/verify_full_sampler_bands.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Helix-Full-Original-Sampler-Native-Bands
+          path: source/full-native-sampler
+          if-no-files-found: error

@@ -1,5 +1,8 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+### 2026-10-14 — full actual sampler native bands
+Separate validation branch checks 3603 native frames of both real-source bands, all49bars and opening kick reactions. Source audio is excluded. Application source is frozen at f38f489. Authored connectivity diagnostics and full actual-source cue playback remain distinct; no independent duet/listening or complete giant music show claim.
+
 ### 2026-10-14 — Native duplicate drummer names and test-media artifact boundary
 - Native xLights run 38611486666 reached actual FSEQ output and failed the unchanged drummer contact assertion. Both copied drums serialized as HX_SNOWMAN_DRUMMER_V3 because imported attrs overrode their new names; kick nodes were zero on both stages. Remove only that copied identity attribute, preserving original grid/submodels, and verify all serialized model names against allocation.
 - Windows and Android still execute real-audio import/sequence/mux/decode checks, but their public artifacts now allow only binary distributions and scalar/log/structure/image evidence. Test WAV/MP3/MP4/decoded samples have no demonstrated redistribution clearance. Remote-review Pages uses generated benchmark audio and remains explicitly synthetic; it is not a requested real-song showcase.
