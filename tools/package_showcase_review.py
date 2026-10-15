@@ -124,7 +124,7 @@ Every completed MP4 was fully decoded, checked for 720 frames, stereo audio, sou
 
 ## Approval hold
 
-No final/default branch merge or public EXE/APK rebuild was performed. Review the movies and request corrections. Final release integration requires your explicit approval; successful tests and silence do not constitute approval.
+No final/default branch merge or approved public EXE/APK release was performed. Automatic CI test builds do not constitute release approval. Review the movies and request corrections. Final release integration requires your explicit approval; successful tests and silence do not constitute approval.
 
 Music: HelixHelps / hardKor / Helix music mix. Use is authorized by the user's collection permission. Community: https://facebook.com/helixsequencer
 '''

@@ -1,8 +1,8 @@
-## 2026-10-15 — Drive-based 40-video review collection (in progress)
+## 2026-10-15 — Drive-based 40-video review collection delivered for review
 
 Goal: produce 12 standalone, eight embedded-band, ten six-layout and ten vocal
 review MP4s, each 30–42 seconds. Branch `codex/showcase-review-20261015` starts at
-PR150 `63d158f`; no final release merge, EXE/APK rebuild or approval inferred.
+PR150 `63d158f`; no final release merge, approved public EXE/APK release or approval inferred.
 Changed modules: `tools/showcase_excerpt_rank.py` and this ledger; subsequent
 production/validation modules and final receipts will be recorded here.
 Preserve all source audio/Drive organization, existing engine modes, physical
@@ -63,7 +63,7 @@ CTB16PC/LOR contracts, native layouts, GUI/Android and unfinished branches.
   preserve media prefix when refreshing notices, and exclude pilot/intermediate
   images/movies from downloads. Two final embedded views use front-on projection.
 - [x] Restarted renders exposed a shared temporary-filename collision during
-  FFmpeg faststart. Give every encoder a unique temporary path and move final
+  FFmpeg faststart. Give every band encoder a unique temporary path and move final
   production into `Helix_Showcase_Review_Final`, reusing only hash-checked audio,
   analyses and native inputs. Earlier review/pilot outputs are not deliveries.
   All final movies must complete and independently decode in that isolated root.
@@ -73,10 +73,28 @@ CTB16PC/LOR contracts, native layouts, GUI/Android and unfinished branches.
   exact source time. Existing callers/defaults remain uncached. Pixel-equivalence,
   lighting-change and bounded-memory regressions in `test_drummer_lighting_cache`.
   Enable only with `HELIX_CACHE_STATIC_KIT=1` after these regressions pass.
-- [ ] Render/fully decode all 40 new distinct MP4s; validate source correspondence,
-  timing/frame counts/black/frozen frames and contact geometry; inspect screenshots.
-- [ ] Package actual movies, native layouts/sequences, manifests and review guide.
-- [ ] Commit/push isolated review branch and open draft PR; await user feedback.
+- [x] Render/fully decode all40new distinct MP4s in the isolated final root: 12
+  standalone, eight embedded, ten comparisons, ten vocal. Each36s/720frames/20fps;
+  H.264/AACstereo. Bands720p, layouts1080p. Original-audio window correlation
+  minimum0.996534; zero-offset lag, no unexpected black frames. Inspect all four
+  contact sheets and verify200decoded screenshots. Numerical2,823mallet contacts
+  have zero target error; recorded motion omissions remain available for review.
+- [x] Package four movie ZIPs and two technical ZIPs; verify CRCs and SHA256s.
+  Include60actual xLights2026.18 native shows, 22virtual band exports, original
+  excerpts, fingerprints/rankings, rejected/accepted lyric evidence and reports.
+  Seven of ten vocal movies have reference-corroborated captions; other captions
+  abstain. `Helix_Showcase_Video_Downloads.md` links every actual MP4 and ZIP.
+- [x] Isolated implementation source172fb0804b1b5c2b8eb12923555e70a446c8dace,
+  exact tree07e678915f144558cac67d8e0f2e69aca342f841, draft PR151. Full CI
+  38806290207: Python3.11 and3.12 each1,571passed/five missing-2.wav skips;
+  216.14s/343.55s. Local pre-cache full suite1,568passed; cache focused6passed.
+  Static-kit cache benchmark1.22284x for the drummer layer with identical pixels;
+  production stays uncached. Decoder, face geometry and cache changes are ready
+  for code review. Final receipt: `evidence/showcase_review_20261015/delivery_receipt.json`.
+- [ ] Receive user MP4 corrections/explicit acceptance. Unknown toms, mixed-bus
+  singer identity, approximate phonemes/stock geometry and recorded impossible
+  hand travel remain limitations. No hardware testing claimed. No final-release
+  merge or approved EXE/APK distribution until explicit user video approval.
 
 Selection metrics are spectral proxies, not confirmed instruments. Similar
 fingerprints are review candidates; identical names/sizes alone never deduplicate.
