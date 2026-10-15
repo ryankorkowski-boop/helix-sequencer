@@ -1,0 +1,43 @@
+name: Helix verified beta installer bundle
+on:
+  push:
+    branches: ['codex/72h-completion-*']
+    paths:
+      - 'tools/package_beta_installers.py'
+      - 'tools/collect_beta_installers.py'
+      - 'tests/test_beta_installer_bundle.py'
+      - '.github/workflows/beta-installer-bundle.yml'
+      - '.github/workflows/windows-portable.yml'
+      - '.github/workflows/android-offline.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: helix-installers-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check packaging rejection and preservation contracts
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_beta_installer_bundle.py
+      - name: Wait for exact-source builds and assemble verified installers
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HELIX_REPOSITORY: ${{ github.repository }}
+          HELIX_SOURCE_SHA: ${{ github.sha }}
+        run: python -m tools.collect_beta_installers --repository "$HELIX_REPOSITORY" --source-sha "$HELIX_SOURCE_SHA" --work "$RUNNER_TEMP/installer-inputs" --output installer-delivery
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Beta-v1.0-Installers-Review
+          path: installer-delivery/
+          if-no-files-found: error
+          retention-days: 30

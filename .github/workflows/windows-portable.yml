@@ -28,6 +28,9 @@ on:
       - tests/test_windows_portable_entry.py
       - tests/test_gui_integration.py
       - .github/workflows/windows-portable.yml
+      - .github/workflows/android-offline.yml
+      - .github/workflows/beta-installer-bundle.yml
+      - tests/test_beta_installer_bundle.py
       - .github/workflows/beta-completion-native.yml
       - requirements.txt
       - requirements-windows-portable.txt
@@ -47,6 +50,9 @@ on:
       - tests/test_windows_portable_entry.py
       - tests/test_gui_integration.py
       - .github/workflows/windows-portable.yml
+      - .github/workflows/android-offline.yml
+      - .github/workflows/beta-installer-bundle.yml
+      - tests/test_beta_installer_bundle.py
       - .github/workflows/beta-completion-native.yml
       - requirements.txt
       - requirements-windows-portable.txt
@@ -132,6 +138,8 @@ jobs:
         shell: pwsh
         run: |
           Copy-Item "portable_smoke/verification.json" "dist/Helix/VALIDATION.json" -Force
+          python -m tools.package_beta_installers stamp-windows --directory dist/Helix
+          if ($LASTEXITCODE -ne 0) { throw "Windows source provenance failed" }
           Compress-Archive -Path "dist/Helix" -DestinationPath "Helix-Windows-Portable.zip" -CompressionLevel Optimal -Force
           $hash = (Get-FileHash "Helix-Windows-Portable.zip" -Algorithm SHA256).Hash.ToLowerInvariant()
           "$hash  Helix-Windows-Portable.zip" | Set-Content -Encoding ascii "Helix-Windows-Portable.sha256"

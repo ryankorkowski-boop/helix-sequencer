@@ -1,5 +1,32 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-15 — Combined same-source installer review delivery (in progress)
+
+Goal: finish issue143's missing repeatable combined installer package without
+inventing final musical/hardware/signing acceptance. Changed modules:
+tools/package_beta_installers.py, tools/collect_beta_installers.py, focused
+packaging tests, Windows/Android build triggers, dedicated installer workflow and
+docs/BETA_INSTALLER_BUNDLE.md. New Windows builds embed source/run/executable and
+guide hashes after their real packaged smoke. Assembly requires successful
+same-SHA push runs for Windows, both Android APIs, native xLights and the full
+Python regression workflow; verifies GitHub archive digests, inner checksums,
+Windows source receipt, all Android engine bytes, complete decode receipts and
+the final ZIP inventory. Includes original guides and explicit release gates;
+ships the tested API30 debug APK and unchanged Windows ZIP, records API36 proof.
+
+Preserved: all application sequencing/detection/rendering/UI code, original audio,
+native layouts, prior verified builds, signing policy, historical license notices,
+default branch and all other PRs. No music/test movies/unsigned store packages in
+the delivery; no release assets replaced and no reviewed integration assumed.
+Focused rejection/integrity tests pass (20 checks on Python3.12), including real
+temporary Git source stamping, changed bytes, mixed SHAs, invalid decode receipts,
+failed CI attempts and prior-delivery preservation. Actual new-build assembly
+is pending. Python compilation, workflow YAML and whitespace checks pass.
+Regression risks: artifact path/schema drift, source/hash mismatch, CI queue time,
+Windows provenance integration and large archive disk requirements. Earlier c56a097
+software receipts remain valid for that source; new package evidence must name
+its own exact SHA. Final musical/rights/hardware/signing/release gates stay open.
+
 ## 2026-10-15 06:18 UTC — 72-hour implementation verified; release gates remain
 
 Software source: c56a0975bf11f66927091694e7851631dec6c7fa, PR #150. This final
