@@ -31,7 +31,8 @@ Status: NOT RELEASE READY. This branch stacks on PR #147; do not merge until ver
 - [ ] Obtain full original LightsOutTheme file and verify identity/hash.
 - [ ] Audit each Suno track by creation account, subscription period, download and redistribution rights; keep accounts separate.
 - [ ] Package only authorized full-song videos/audio/layouts; publish an omissions ledger for others.
-- [ ] Rebuild and verify installers ZIP and showcase ZIP, checksums, file sizes and extraction.
+- [x] Build and independently verify same-SHA beta review installers ZIP, nested checksums/CRCs, guides and source receipts: d3a3d37, workflow38697129438/artifact11954249825.
+- [ ] Final approved release installers and authorized full-song showcase ZIP, checksums, file sizes and extraction remain open; the review delivery does not close these acceptance gates.
 - [ ] Resolve contributor/asset relicensing authority and acceptance before final public release.
 
 ## Evidence policy
@@ -59,3 +60,12 @@ Each checkbox requires a concrete source SHA and artifact or test receipt. Synth
 - 2026-10-15 — User requested fresh 180-second band/stage MP4 using audio from Android local file `Helix_Band_With_Singers_Same_Sampler-1.mp4` (October 13, 2026, 1280×720, 20fps, H.264/AAC, 109MB). Only screenshot metadata supplied, not media bytes. Prior original sampler SHA256 recorded in docs/BETA_FINAL_COMPLETION_20261014.md, but no playable source audio or requested MP4 accessible in this execution container. Workflow `.github/workflows/beta-completion-native.yml` has a `workflow_dispatch` trigger but automatic push is scoped to the earlier completion branch and its proof is a synthetic/native diagnostic, not a newly rendered 180-second band movie. Thus latest-code movie/audio identity cannot be confirmed and no new MP4 or bundle is claimed. Await actual MP4 or WAV upload (or accessible rendered artifact) and an executable render pipeline before marking complete.
 
 - 2026-10-15 — Continued in codex/72h-completion-20261015 from183057f. Integrated PR149 physical contracts, implemented the opt-in actual-source-addressed CTB16PC XSQ/LMS exporter, and connected hardening/engine changes to native verification plus fresh platform builds. Full localPython3.12 suite:1515passed,5missing-2.wav skips,36warnings,209.69s; focused49passed. Native local attempt failed GTK socket initialization, so native pass remains pending Actions. Read MASTER_TODO.md and docs/REPO_AUDIT_20261015.md for current scope and remaining external gates.
+
+- 2026-10-15 — Continued implementation verified on d3a3d37: both PR150review
+  defects repaired with actual LMS/native regressions; full Python3.11/3.12each
+  1560passed/5missing-fixture skips; native38697129459and Windows38697129450pass;
+  Android38697129307API30/API36full-song decode passes3562frames/237.47s/0ms offset.
+  Combined installer38697129438/artifact11954249825delivered and independently
+  hash/CRC/source checked. This supersedes pending software gates only. See
+  MASTER_TODO.md and evidence/72h_completion/installer_delivery_receipt.json for
+  exact artifacts/hashes and the remaining musical, rights, physical and release gates.

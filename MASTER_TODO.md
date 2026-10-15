@@ -1,5 +1,51 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-15 — Installer review delivery and physical review repairs verified
+
+Verified software/build source: d3a3d377e64b0d95b54e553e89dce34dc0f93194,
+PR150. This receipt supersedes pending software statuses in the two implementation
+entries immediately below. The receipt commit changes documentation/evidence only;
+all application and workflow bytes remain identical to the verified source.
+
+- [x] Address review4279789859/4279789864: all cymbal retriggers have a release
+  gap; accepted quiet contacts/nonzero tails survive percent quantization.
+- [x] Fifty focused export/packaging tests plus eight related controller-contract
+  checks pass locally, including actual addressed LMS export/reimport.
+- [x] Full CI38697129434: Python3.11 and3.12 each1,560 passed / 5 missing-2.wav skips.
+  Actual durations310.85s/231.67s; five/thirty-six warnings, respectively.
+- [x] Native38697129459: all4,800 kit intensities, maximum error0.45/255; explicit
+  retrigger-gap/quiet-hit assertions; six layouts and prior band/key/kick gates.
+  Downloaded native artifact11954881953source/hash/CRC independently checked.
+- [x] Windows38697129450passes packaged GUI/engine/native checks; embedded
+  source/run/executable/guide provenance and nested ZIP hashes/CRC verified.
+- [x] Android38697129307API30/API36pass instrumentation, fresh install/reinstall,
+  recovery/playback and independent full 237.466708s / 3,562-frame decode; both0ms
+  audio offset, correlation>=0.99571445. All968API30 embedded engine hashes
+  independently checked locally; both APK archives/engines checked in CI assembly.
+- [x] Combined installer38697129438passed all four exact-source push-run gates
+  and delivered actual Windows portable ZIP, API30 debug APK, guides/notices,
+  validation report, checksums and explicit release status. Final package and all
+  nested CRCs/checksums independently verified after download.
+
+Delivery: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129438/artifacts/11954249825
+Inner Helix_Beta_v1.0_Installers.zip:334173665bytes, SHA256
+1d93a9cc02d32dcf60f80ba69a279ccb5b8fc10c01a8a4be1991be66578e1eef.
+Outer Actions artifact:287440630bytes, SHA256
+77c6256f056e8755a1eea2819b19c9163510be2a2f41be6a3db79f0bdad127d0.
+Machine receipt:evidence/72h_completion/installer_delivery_receipt.json.
+Usage:docs/BETA_INSTALLER_BUNDLE.md; earlier audit/roadmap retain historical receipts.
+
+Goal/changed files for this receipt: record actual final delivery in this ledger,
+installer guide, audit, hardening roadmap and machine receipt. Preserve all tested
+code/workflows, earlier evidence and application behavior. No new test run is
+needed for this documentation-only receipt. Software review delivery is complete;
+final release readiness remains false. Independent musical/duet/tom review,
+missing original audio/rights, clean physical Windows11/Samsung/ARM64/controllers/
+vendor LOR, production signing/upgrade/16KB/store work, relicensing authority,
+reviewed default integration and authorized full-song showcase acceptance remain
+open. No source songs or test movies are in the installer delivery. No existing
+release asset was replaced and no PR/default branch was merged.
+
 ## 2026-10-15 — Address outstanding PR150 physical-output review
 
 Goal: repair two actual review defects (discussion4279789859/4279789864).

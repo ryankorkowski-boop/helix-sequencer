@@ -1,5 +1,30 @@
 # Helix 72-hour completion audit
 
+## Continued implementation: verified installer delivery and review repairs
+
+Current tested source: `d3a3d377e64b0d95b54e553e89dce34dc0f93194`. PR150 now
+also fixes its two outstanding physical-output review comments: measured cymbal
+tails release before retriggers, and accepted quiet hits retain nonzero intensity.
+The repeated-contact rule applies to actual onset spacing and the10ms grid.
+Original inputs, other intensity values and measured silent tail samples stay preserved.
+
+The missing combined installer bundle is implemented and verified, with embedded
+Windows provenance, same-source CI gates, archive/engine hashes, guides and explicit
+open release gates. Both full CI suites pass1560/5missing-fixture skips; native
+4,800 value checks including both review cases pass(maxerror0.45/255); Windows and
+Android API30/API36pass. Both full-song Android movies decode3,562 frames / 237.466708s
+with0ms audio offset. Software review delivery is complete; final release remains open.
+
+[Verified installer download](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129438/artifacts/11954249825).
+Inner ZIP334173665bytes/SHA256
+`1d93a9cc02d32dcf60f80ba69a279ccb5b8fc10c01a8a4be1991be66578e1eef`.
+Independent final download, nested CRCs/checksums, Windows source/guide hashes
+and all 968 API30 engine files verified. Machine receipt:
+`evidence/72h_completion/installer_delivery_receipt.json`; usage:
+`docs/BETA_INSTALLER_BUNDLE.md`; canonical handoff:`MASTER_TODO.md`. Earlier results
+below remain accurate historical source-specific receipts. No stable release,
+physical hardware, independent listening/duet or licensed full-song delivery is claimed.
+
 ## Final software verification
 
 PR #150 implements the discovered export, dimmer and long-preview gaps. Tested
