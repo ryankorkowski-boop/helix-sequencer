@@ -42,6 +42,26 @@ rates are also rejected.
 
 ## Validation receipts
 
+Additional implementation: Android's purported full-song case only rendered
+three seconds and the local/remote UI and bridges capped previews at120seconds.
+These limits now match desktop600seconds; the actual-song device fixture asks
+for600and must render the complete source beyond120seconds. The host checker
+streams every decoded frame while retaining six samples, eliminating the prior
+multi-gigabyte raw-frame allocation. It verifies full duration/frame count and
+source audio alignment. Focused host verification passed57checks before the
+additional remote-boundary cases; new exact-source API30/API36 checks are required.
+
+Software source182c7c5passed the strict native workflow38688893171: all4,800kit
+intensities within0.4of255, six native layouts, two six-member bands, and all16
+source-bound opening kick rises including8rapid hits. Artifact11951446369's ZIP
+SHA256 is194e61e65bbf8972a496a1fe378be0ecfdf10998820bac695379b4812c5b02dd;
+CRC and declared source commit were independently verified after download.
+Windows38688893139also passed build, packaged GUI/engine and native preview smoke;
+its artifact11951946085is189140863bytes. The final local suite on that source
+passed1515/5missing-fixture skips/36warnings in187.75s. Android long-preview changes
+need their own current-source build and emulator results; do not reuse these
+prior-source receipts as a full-song Android pass.
+
 - Focused physical/output/hardening/LOR suite: **49 passed in1.43s** locally.
 - Python compilation, changed workflow YAML parsing and git diff whitespace
   checks passed. Full combined regression: **1,515 passed, 5 skipped, 36 warnings

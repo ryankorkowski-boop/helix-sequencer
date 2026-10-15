@@ -99,7 +99,7 @@ public class MainActivity extends Activity {
 
         panel(3);text("The defaults work without expert adjustments.",17,Color.WHITE);
         variants=number("Sequence variations · 1–8 (one uses less time and memory)","1");
-        duration=number("Preview length · 1–120 seconds; full song still sequenced","30");
+        duration=number("Preview length · 1–600 seconds, capped at song length","30");
         spatial=check("Automatic RGB chorus/drop chase",true);
         text("An accent travels across at least three RGB models in layout order when a chorus/drop and free effect space allow it. Single-color channels are excluded.",14,Color.LTGRAY);
         ac=check("Force AC-compatible effects",false);
@@ -174,7 +174,7 @@ public class MainActivity extends Activity {
             if(!inputs.containsKey("audio"))throw new IllegalArgumentException("Choose your music in Step 1.");
             if(mode.getSelectedItemPosition()==1&&!inputs.containsKey("lor"))throw new IllegalArgumentException("Choose your existing LOR LMS in Step 2.");
             int n=Integer.parseInt(variants.getText().toString()),sec=Integer.parseInt(duration.getText().toString());
-            if(n<1||n>8||sec<1||sec>120)throw new IllegalArgumentException("Use 1–8 variants and a 1–120 second preview.");
+            if(n<1||n>8||sec<1||sec>600)throw new IllegalArgumentException("Use 1–8 variants and a 1–600 second preview.");
             JSONObject r=new JSONObject();r.put("mode",mode.getSelectedItemPosition()==1?"lor":"xlights");r.put("variants",n);r.put("preview_seconds",sec);
             r.put("preview",preview.isChecked());r.put("polish",polish.isChecked());r.put("palette",palette.getSelectedItemPosition()==1?"neon":"default");
             r.put("matrix",matrix.isChecked());r.put("birdsong",birdsong.isChecked());r.put("spatial",spatial.isChecked());r.put("ac_compatible",ac.isChecked());

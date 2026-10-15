@@ -2,6 +2,27 @@
 
 ## 2026-10-15 — 72-hour audit and physical-output completion (in progress)
 
+Verified physical/runtime checkpoint182c7c5: local1515passed/5missing-2.wav skips/
+36warnings in187.75s; native38688893171passed unchanged gates, including4,800kit
+intensities(maxerror0.4/255),6layouts,2six-member bands and16source-bound opening
+kicks(8rapid). Downloaded artifact11951446369matches declared source, ZIP CRC and
+SHA256194e61e65bbf8972a496a1fe378be0ecfdf10998820bac695379b4812c5b02dd.
+Windows38688893139passes actual packaged GUI/engine/native preview. These receipts
+precede the additional long-Android-preview change below; rebuild after it.
+
+Additional concrete gap: Android's full-song instrumentation case sequenced the
+237-second song but rendered only3seconds; bridge/local/remote UI rejected previews
+over120seconds. Align those request limits with desktop600seconds and make the
+device case render the entire actual source. Host verification now decodes every
+frame incrementally, retaining six samples rather than a multi-gigabyte raw video
+buffer, and checks complete source duration/frame count/audio alignment. New host
+tests cover121/240/600second forwarding, invalid lengths and complete streaming
+decode with bounded retained memory. Preserve30second defaults, preview cropping,
+codec/sync algorithms, source audio, recovery and all sequencing behavior. Changed
+Android UI/bridge/instrumentation, desktop remote validator, proof verifier/tests.
+Risk: longer renders expose memory/encoder/runtime limits; API30/API36 full-song
+evidence is mandatory before closing this gate. Focused/platform receipts pending.
+
 Native follow-up: Actions38688520597 passed the giant/twelve-string probes,
 then failed the new unchanged4,800-value kit assertion. Downloaded FSEQ shows
 18percent body intensity became92/255instead of46/255;55/68percent cymbal tail

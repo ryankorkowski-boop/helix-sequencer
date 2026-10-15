@@ -84,3 +84,20 @@ def test_empty_engine_output_is_still_failure(completed_job,monkeypatch):
     monkeypatch.setattr(preview_renderer,'parse_sequence',lambda p:SimpleNamespace(model_effects={}))
     with pytest.raises(RuntimeError,match='nonempty'):
         mobile.run(str(engine),str(job),'{"preview":false}',Callback())
+
+
+@pytest.mark.parametrize('seconds',[121,240,600])
+def test_long_preview_request_reaches_renderer(completed_job,monkeypatch,seconds):
+    engine,job=completed_job;received=[]
+    def render(xsq,layout,wav,length,callback):
+        received.append(length)
+        movie=xsq.with_suffix('.mp4');movie.write_bytes(b'fixture');return movie
+    monkeypatch.setattr(mobile,'render_preview',render)
+    result=json.loads(mobile.run(str(engine),str(job),json.dumps({'preview_seconds':seconds}),Callback()))
+    assert received==[seconds] and result['stages']['preview']['status']=='success'
+
+
+@pytest.mark.parametrize('seconds',[0,601])
+def test_preview_outside_desktop_parity_limit_is_rejected(tmp_path,seconds):
+    with pytest.raises(ValueError,match='1–600'):
+        mobile.run(str(tmp_path),str(tmp_path),json.dumps({'preview_seconds':seconds}),Callback())

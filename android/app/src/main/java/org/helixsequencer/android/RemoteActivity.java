@@ -44,7 +44,7 @@ public class RemoteActivity extends Activity {
         button("Show / hide Advanced desktop settings",()->expert.setVisibility(expert.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE));
         normal.addView(expert);expert.setVisibility(View.GONE);body=expert;
         variants=field("Variants ·1–8","1",true);
-        duration=field("Preview seconds ·1–120","30",true);
+        duration=field("Preview seconds ·1–600","30",true);
         spatial=check("Automatic RGB chorus/drop chase",true);
         ac=check("AC-compatible effects",false);
         text("Chase accents use eligible RGB models and layout positions. LOR uses AC-safe effects.",13);
@@ -72,7 +72,7 @@ public class RemoteActivity extends Activity {
         if(busy)return;
         try{
             RemoteClient candidate=selectedClient();if(!inputs.containsKey("audio"))throw new IOException("Choose a song first");boolean lor=mode.getSelectedItemPosition()==1;if(lor&&!inputs.containsKey("lor"))throw new IOException("Choose your LOR LMS first");
-            int count=Integer.parseInt(variants.getText().toString()),seconds=Integer.parseInt(duration.getText().toString());if(count<1||count>8||seconds<1||seconds>120)throw new IOException("Use1–8 variants and1–120 seconds");
+            int count=Integer.parseInt(variants.getText().toString()),seconds=Integer.parseInt(duration.getText().toString());if(count<1||count>8||seconds<1||seconds>600)throw new IOException("Use1–8 variants and1–600 seconds");
             JSONObject request=new JSONObject();request.put("mode",lor?"lor":"xlights");request.put("variants",count);request.put("preview_seconds",seconds);request.put("preview",preview.isChecked());request.put("palette",palette.getSelectedItemPosition()==1?"neon":"default");request.put("polish",polish.isChecked());request.put("matrix",matrix.isChecked());request.put("birdsong",birdsong.isChecked());request.put("spatial",spatial.isChecked());request.put("ac_compatible",ac.isChecked());
             Map<String,Uri> selected=new HashMap<>(inputs);remember();busy=true;build.setEnabled(false);status.setText("Preparing desktop job…");watch.setEnabled(false);movie.setEnabled(false);save.setEnabled(false);updateMode();
             network.submit(()->{

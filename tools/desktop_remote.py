@@ -27,7 +27,7 @@ def settings(value):
     result=dict(value)
     if result.get('mode','xlights') not in ('xlights','lor'): raise ValueError('Invalid mode')
     if result.get('palette','default') not in ('default','neon'): raise ValueError('Invalid palette')
-    for key,default,high in [('variants',1,8),('preview_seconds',30,120)]:
+    for key,default,high in [('variants',1,8),('preview_seconds',30,600)]:
         n=result.get(key,default)
         if type(n) is not int or not 1<=n<=high: raise ValueError('Invalid '+key)
         result[key]=n
