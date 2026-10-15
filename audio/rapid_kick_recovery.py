@@ -28,10 +28,20 @@ def recover_kicks(samples, sr, events, *, start, end):
     if len(refs)<3:
         report['abstention']='fewer than three accepted recording-specific kick references'
         return list(events),report
+    if end-start < .06:
+        report['abstention']='review window too short for reliable attack/decay analysis'
+        return list(events),report
     hop=max(1,round(sr*.005));step=hop/sr
     # Limit filtering and analysis to the caller's window plus decay support.
     lo=max(0,math.floor((start-.2)*sr));hi=min(len(y),math.ceil((end+.2)*sr))
-    low=sosfiltfilt(butter(4,[40,180],fs=sr,btype='band',output='sos'),y[lo:hi])
+    # filtfilt requires sufficient samples for its padding; a tiny review window
+    # must abstain rather than abort a full sequencing run.
+    sos=butter(4,[40,180],fs=sr,btype='band',output='sos')
+    padlen=3*(2*len(sos)+1-min((sos[:,2]==0).sum(),(sos[:,5]==0).sum()))
+    if hi-lo<=padlen or (hi-lo)//hop<3:
+        report['abstention']='review window too short for zero-phase low-band analysis'
+        return list(events),report
+    low=sosfiltfilt(sos,y[lo:hi])
     low=low[:len(low)//hop*hop]
     env=uniform_filter1d(np.sqrt(np.mean(low.reshape(-1,hop)**2,axis=1)),3)
     offset=lo/sr;length=max(3,round(.06/step));reference_peaks=[];delays=[]
@@ -43,6 +53,9 @@ def recover_kicks(samples, sr, events, *, start, end):
         report['abstention']='insufficient reference attack/decay samples'
         return list(events),report
     scale=float(np.median(env[reference_peaks]))
+    if not math.isfinite(scale) or scale<=1e-12:
+        report['abstention']='accepted references contain no measurable low-band energy'
+        return list(events),report
     template=np.mean([env[p:p+length]/max(env[p],1e-12) for p in reference_peaks],axis=0)
     delay=float(np.median(delays))
     peaks,_=find_peaks(env,distance=max(1,round(.05/step)),height=scale*.50,prominence=scale*.28)

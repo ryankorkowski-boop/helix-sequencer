@@ -28,3 +28,22 @@ def test_recovery_abstains_without_references_and_does_not_turn_silence_into_hit
     y[sr:]=0
     actual,report=recover_kicks(y,sr,refs[:4],start=.15,end=2.6)
     assert actual==refs[:4] and not report['added']
+
+
+def test_tiny_review_window_abstains_instead_of_crashing():
+    sr, y, _, refs = fixture()
+    close_refs = [dict(timestamp=t, drum_family='kick', confidence=.8)
+                  for t in (.2, .20003, .20006)]
+    actual, report = recover_kicks(y, sr, close_refs, start=.2, end=.2001)
+    assert actual == close_refs
+    assert report['abstention'] == 'review window too short for reliable attack/decay analysis'
+
+
+def test_silent_accepted_references_do_not_generate_false_kicks():
+    sr = 16000
+    y = np.zeros(sr)
+    refs = [dict(timestamp=t, drum_family='kick', confidence=.8)
+            for t in (.2, .4, .6)]
+    actual, report = recover_kicks(y, sr, refs, start=.1, end=.9)
+    assert actual == refs
+    assert report['abstention'] == 'accepted references contain no measurable low-band energy'
