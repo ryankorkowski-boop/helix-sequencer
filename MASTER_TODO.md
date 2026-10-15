@@ -2,6 +2,16 @@
 
 ## 2026-10-15 — 72-hour audit and physical-output completion (in progress)
 
+Native follow-up: Actions38688520597 passed the giant/twelve-string probes,
+then failed the new unchanged4,800-value kit assertion. Downloaded FSEQ shows
+18percent body intensity became92/255instead of46/255;55/68percent cymbal tail
+steps clipped255. The generated LOR grid used legacy ModelBrightness=100,
+which adds100percent gain. Set only generated LMS-workspace grids to neutral0;
+preserve user layouts, source addresses, all cue times and exported LMS values.
+Changed tools/lor_lms_import.py plus existing import/kit regressions. The native
+assertion and tolerance stay unchanged. Focused/remote rerun receipts pending;
+this is a runtime repair prompted by actual playback, not a relaxed gate.
+
 Goal: complete executable gaps found in the October12 05:33–October15 05:33 UTC
 repository window. Candidate branch: codex/72h-completion-20261015, based on
 hardening183057f. Default feature/restructure-core has no commits in this window;

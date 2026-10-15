@@ -107,7 +107,9 @@ def prepare_lms_workspace(source: Path, workspace: Path) -> dict:
             "parm1": "1", "parm2": "1", "parm3": "1",
             "WorldPosX": str((i % columns) * 40),
             "WorldPosY": str((i // columns) * 40),
-            "WorldPosZ": "0", "ModelBrightness": "100",
+            # xLights legacy ModelBrightness is an additive percent adjustment:
+            # 100 doubles dim levels and clips cymbal tails; 0 is neutral.
+            "WorldPosZ": "0", "ModelBrightness": "0",
         })
     groups = ET.SubElement(root_layout, "modelGroups")
     ET.SubElement(groups, "modelGroup", {

@@ -50,6 +50,8 @@ def test_import_lms_keeps_real_addresses_and_generates_all_models(tmp_path: Path
     root = ET.parse(result["template"]).getroot()
     assert len(root.findall("./ElementEffects/Element[@type='model']")) == 3
     assert all(row.get("name") in safe for row in root.findall("./DisplayElements/Element"))
+    layout = ET.parse(result["layout"]).getroot()
+    assert all(model.get("ModelBrightness") == "0" for model in layout.findall("models/model"))
 
 
 def test_direct_lms_export_reuses_real_controller_wiring(tmp_path: Path):

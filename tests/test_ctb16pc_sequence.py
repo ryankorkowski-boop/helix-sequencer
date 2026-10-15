@@ -83,6 +83,8 @@ def test_real_lms_roundtrip_preserves_addresses_timing_and_native_settings(tmp_p
     geometry = json.loads((folder / "front_projection_contract.json").read_text())
     assert geometry["2d"]["channels"] == geometry["3d"]["channels"]
     assert geometry["2d"]["unit_id"] == "0A"
+    layout = ET.parse(folder / "xlights_rgbeffects.xml").getroot()
+    assert all(m.get("ModelBrightness") == "0" for m in layout.findall("models/model"))
     with pytest.raises(FileExistsError):
         export_ctb16pc_sequence(data, source, folder, unit_id="0A")
 

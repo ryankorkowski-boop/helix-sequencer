@@ -59,6 +59,13 @@ rates are also rejected.
 
 ## Remaining work requiring separate evidence
 
+Native run38688520597 exposed an existing generated-LOR-layout brightness bug:
+legacy ModelBrightness=100doubled dimmer values and clipped cymbal decay. The
+new kit's4,800-value native assertion caught it after giant/twelve-string checks
+passed. Generated workspace grids now use neutral0; original user layouts,
+addresses, cue times and LMS intensities are preserved. The native assertion
+remains unchanged; rerun evidence is required before claiming this fix passed.
+
 - Independently review137uncertain tom labels and issue144's audible passages;
   acquire source-separated duet lanes rather than duplicating mixed vocals.
 - Recover the complete original LightsOutTheme input and confirm its hash.
