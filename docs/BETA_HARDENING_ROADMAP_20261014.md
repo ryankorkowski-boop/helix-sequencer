@@ -6,7 +6,7 @@ Status: NOT RELEASE READY. This branch stacks on PR #147; do not merge until ver
 - [x] Guard recording-calibrated kick recovery against undersized windows and silent references (PR #148).
 - [x] Add focused regressions for these cases.
 - [x] Run the four focused regression tests on an isolated local copy of the two GitHub files: 4 passed after the minimum-duration correction (SciPy 1.17.0, NumPy 2.3.5, pytest 9.0.2). This is not a full repository or GitHub Actions run.
-- [ ] Re-run focused tests on a clean checkout of the exact final branch HEAD in CI.
+- [x] Focused regressions are included in clean c56a097 full CI: 1,525 passed/5 missing-fixture skips on Python3.11/3.12, run38689830938.
 - [x] Full Python 3.11/3.12 GitHub CI regression audit succeeded for commit 15e2155e (run 38620436019, all four jobs success). Exact test counts not extracted from job logs.
 - [ ] Review 137 uncertain tom events against isolated source/audio evidence; abstain rather than fabricate labels.
 
@@ -16,15 +16,15 @@ Status: NOT RELEASE READY. This branch stacks on PR #147; do not merge until ver
 - [ ] Verify two six-performer stages and exact 3,603-frame sampler exports without distributing uncleared audio.
 
 ## Gate 3: native output
-- [ ] Run native xLights 2026.18 output proof on the exact source revision, including all 88 keys and both drummers.
+- [x] Native xLights2026.18 proof on c56a097 passes keys, both native bands/drummers and4,800CTB16PC intensities; run38689830974.
 - [ ] Re-run six-layout comparison and giant layout import and check native channel allocations.
 - [ ] Record physical controller/LOR verification as blocked until hardware/vendor software is available.
 
 ## Gate 4: app integration
 - [x] Windows and Android workflows succeeded on commit 15e2155e (runs 38620436215 and 38620436180, API30/API36 jobs passed); artifact hashes and on-device verification still pending.
 - [ ] Rebuild Windows and Android from the ultimate release SHA after remaining changes.
-- [ ] Verify desktop GUI startup, xLights/LOR mode, packaged dependencies and MP4 preview.
-- [ ] Verify Android API30/API36, MP3/WAV, full-length preview, recovery and reinstall.
+- [x] c56a097 Windows38689830954passes packaged GUI/engine, xLights/LOR and native preview; ZIP/checksum/CRC verified.
+- [x] c56a097 Android38689830986passes API30/API36, MP3/WAV, full237.47s/3,562-frame preview, recovery and reinstall;0ms measured audio offset on both.
 - [ ] Treat Samsung hardware and production signing as separate gates.
 
 ## Gate 5: media rights and release
@@ -35,6 +35,12 @@ Status: NOT RELEASE READY. This branch stacks on PR #147; do not merge until ver
 - [ ] Resolve contributor/asset relicensing authority and acceptance before final public release.
 
 ## Evidence policy
+
+Final October15 software receipt: evidence/72h_completion/validation_receipt.json
+and MASTER_TODO.md. Earlier pending log entries are historical, superseded for
+these software checks. The six-layout source cues pass native rendering; the
+requested real-audio comparison/full-song showcase movies and their track rights
+remain separate open gates. Final approved release packaging is still outstanding.
 Each checkbox requires a concrete source SHA and artifact or test receipt. Synthetic fixture results are not evidence of original-song recognition. Do not mark a missing audio/hardware/legal gate green. Preserve default branch and historical MIT/third-party notices.
 
 ## Running implementation log

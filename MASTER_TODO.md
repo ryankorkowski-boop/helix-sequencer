@@ -1,5 +1,47 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-15 06:18 UTC — 72-hour implementation verified; release gates remain
+
+Software source: c56a0975bf11f66927091694e7851631dec6c7fa, PR #150. This final
+receipt supersedes the pending software statuses in the implementation entries
+below. It does not close the broader musical, rights, hardware or release gates.
+The subsequent receipt commit changes documentation/evidence only; application
+builds and runtime verification remain pinned to this exact software revision.
+
+- [x] Integrate PR149 physical contracts into the latest hardening source.
+- [x] Export classified CTB16PC cues to addressed XSQ/legacy LMS, preserving
+  rapid kicks, independent snare hands, measured cymbal tails and chorus mouths.
+- [x] Repair doubled/clipped native dimmer output from generated LOR layouts.
+- [x] Support 1–600-second Android local/remote previews, retaining the 30-second
+  default, source-duration cap, full sequencing and export recovery.
+- [x] Replace the misleading three-second full-song device test with complete
+  source rendering; stream host decoding while retaining six sampled frames.
+- [x] Full local suite: 1,525 passed, 5 missing-2.wav skips, 36 warnings, 186.60s.
+- [x] GitHub 3.11/3.12 full suites: 1,525 passed/5 skipped each (run38689830938).
+- [x] Native xLights2026.18 proof (38689830974): 4,800 kit intensity checks,
+  maximum error0.4/255; six layouts, two six-member bands, sixteen source-bound
+  opening kicks including eight rapid hits. Native ZIP hash/CRC/source verified.
+- [x] Windows38689830954: real build, packaged GUI/engine/native preview; both
+  ZIP layers/checksum verified. Portable ZIP189958671bytes, SHA256
+  ad30b71d3857f5f12fe034b7fadfb7791bcdb0508908bd0cac3c8e6edeb615ec.
+- [x] Android38689830986 API30/API36: MP3/WAV, xLights/LOR, recovery, playback,
+  reinstall and full-song output pass. Both full movies decode3,562frames over
+  237.466708seconds with0ms audio offset and correlation>=0.99571445.
+  API30 APK144078121bytes, SHA256
+  da80349e76b940e3c1f633c1083a4e56ff7ce6d1d436201ff5b398b906225c7f;
+  embedded engine declares c56a097 and all966file hashes match.
+
+Goal/files/new behavior/preserved behavior and regression risks are recorded in
+the implementation entries below; docs/REPO_AUDIT_20261015.md and the machine
+receipt evidence/72h_completion/validation_receipt.json contain final receipts.
+No tests were ignored/weakened and no missing hardware/music evidence was invented.
+Independent listening/duet/tom labels, complete LightsOutTheme, track rights,
+physical Samsung/ARM64/controllers/vendor LOR, production signing/16KB/store
+requirements, final release ZIPs and reviewed integration remain open. Physical
+front-projection contracts and synthetic native diagnostics are not fabrication
+or original-song recognition proofs. Default/other development branches remain
+preserved. This implementation is ready for code review, not a stable-release claim.
+
 ## 2026-10-15 — 72-hour audit and physical-output completion (in progress)
 
 Verified physical/runtime checkpoint182c7c5: local1515passed/5missing-2.wav skips/

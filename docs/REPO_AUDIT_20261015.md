@@ -1,5 +1,32 @@
 # Helix 72-hour completion audit
 
+## Final software verification
+
+PR #150 implements the discovered export, dimmer and long-preview gaps. Tested
+software source: `c56a0975bf11f66927091694e7851631dec6c7fa`. The receipt-only follow-up
+commit changes no application code. Earlier pending paragraphs below describe
+intermediate checkpoints; these final results supersede those software statuses.
+
+| Check | Result / receipt |
+|---|---|
+| Full local Python3.12 suite | 1,525 passed, 5 skipped for missing2.wav, 36 warnings, 186.60s |
+| GitHub full Python3.11/3.12 suites | 1,525 passed/5 skipped each; run38689830938 |
+| Native xLights2026.18 | Pass38689830974;4,800kit intensity checks, maximum error0.4/255;6layouts,2six-member bands,16opening kicks including8rapid |
+| Fresh Windows package | Pass38689830954; packaged GUI/engine/native preview; ZIP/checksum and both archive CRCs independently verified |
+| Fresh Android API30/API36 | Pass38689830986; complete237.466708s/3,562-frame movies,0ms measured audio offset, correlation>=0.99571445 |
+| Android source/package integrity | API30 embedded engine pinsc56a097;966file hashes and archive CRC match; APK SHA256 checked against build checksum |
+
+Source237.439979s differs from video duration only by the final15fps frame boundary.
+Full video decode, sampled beginning/middle/end images, audio alignment, export
+recovery and reinstall all passed. This is emulator evidence; physical Samsung,
+ARM64, controller, vendor-LOR and production-signing claims remain unverified.
+
+See `evidence/72h_completion/validation_receipt.json` for run/job/artifact IDs,
+checksums, sizes, per-platform metrics and remaining gates. Fresh Windows and APK
+downloads are attached to the referenced Actions runs. Existing release assets
+were not replaced and issues143/144 remain open for their unfinished acceptance
+and final distribution requirements.
+
 Window: 2026-10-12 05:33:56 UTC through 2026-10-15 05:33:56 UTC.
 Repository: ryankorkowski-boop/helix-sequencer. Implementation branch:
 `codex/72h-completion-20261015`, starting at hardening `183057f59a7afd6ad9542017e45179e31f4be279`.
