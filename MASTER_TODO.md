@@ -1,3 +1,13 @@
+## 2026-10-15 — User-supplied six-song sampler ingestion
+
+- [x] Received `Helix_Six_Song_Technical_180s.mp4`, video duration 180.021333 s; AAC audio decoded to 44.1 kHz stereo PCM (180.224014 s including codec padding).
+- [x] Source MP4 SHA256: `93b205681c4b8c7d0dc41bbcd39af1ade9719cd3db63fde721eb33ea4020e01e`; extracted WAV SHA256: `efdfe69328b8458ff9b405d091af9d5cb9202e3f53846f1ac0de07814f28739d`.
+- [x] Added `tools/prepare_sampler_audio.py` and focused extraction regressions; equivalent local test implementation passed 2/2 checks. Do not count this as a complete repository test run.
+- [ ] Establish whether this is identical to the October 13 original six-song source; filename, MP4 size and decoded WAV hash differ from earlier original-sampler evidence. AAC padding must be handled explicitly for exact duration alignment.
+- [ ] Generate source-bound musical analysis and native drummer XSQ for this exact uploaded audio. `tools/render_final_band.py` requires both, not just a WAV; no verified fresh band MP4 exists yet.
+- [ ] Render and fully decode two six-member bands, six layouts and comparison movies; independently inspect kick, mallet and keyboard passages. Do not ship an unverified or fabricated video.
+- [ ] Physical CTB16PC, Samsung/ARM64, final signing, song distribution and release gates remain open.
+
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
 ## 2026-10-15 — Installer review delivery and physical review repairs verified
