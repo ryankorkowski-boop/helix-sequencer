@@ -1,12 +1,15 @@
 name: Helix final band and native output verification
 on:
   push:
-    branches: [codex/beta-final-completion-20261014]
+    branches: ['codex/beta-final-*', 'codex/72h-completion-*']
   pull_request:
-    paths: ['models/final_band*.py','models/infinite_symphony_showcase.py','core/final_band_export.py','validation/**','.github/workflows/beta-completion-native.yml']
+    paths: ['models/**','core/**','audio/**','music/**','tools/**','validation/**','tests/**','requirements*.txt','.github/workflows/beta-completion-native.yml']
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: helix-native-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   native-proof:
     runs-on: ubuntu-24.04
@@ -31,7 +34,7 @@ jobs:
           echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xLights.AppImage' | sha256sum --check
           chmod +x xLights.AppImage
           ./xLights.AppImage --appimage-extract >/dev/null
-      - name: Verify giant import, actual rung values, twelve drummer circuits and two pixel bands
+      - name: Verify giant, pitched keys, both physical drummer modes, chorus and two pixel bands
         run: xvfb-run -a python validation/beta_native_proof.py --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun" --output native-proof
       - uses: actions/upload-artifact@v4
         if: always()

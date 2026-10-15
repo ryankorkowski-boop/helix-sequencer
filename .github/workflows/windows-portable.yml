@@ -9,6 +9,8 @@ on:
       - codex/gui-branding-and-guidance-20261013
       - codex/beta-final-integration-20261014
       - codex/beta-final-completion-20261014
+      - 'codex/beta-final-hardening-*'
+      - 'codex/72h-completion-*'
     tags:
       - 'v*'
     paths:

@@ -1,5 +1,41 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-15 — 72-hour audit and physical-output completion (in progress)
+
+Goal: complete executable gaps found in the October12 05:33–October15 05:33 UTC
+repository window. Candidate branch: codex/72h-completion-20261015, based on
+hardening183057f. Default feature/restructure-core has no commits in this window;
+PR146/147/148 and physical PR149 remain unmerged. Prior final native/platform
+receipts on7a1ffa and hardening CI on15e2155 remain prior-source evidence.
+
+Changed: integrate the15physical-contract files from PR149 at92b3a47, then add
+core/ctb16pc_sequence.py and tools/export_ctb16pc_sequence.py to connect classified
+hits, measured cymbal tails and explicit chorus/voice cues to actual XSQ/legacy
+LMS output. Require a supplied LMS containing exactly the selected controller's
+sixteen addresses; explicit Unit ID, fresh output directory, source hash and cue
+hash prevent silent mapping/replacement. Reject unknown hits, missing snare
+hands, invalid inputs and conflicting mouth poses. Preserve all original inputs,
+historical twelve-circuit outputs, current six-performer final scene, musical
+detectors, GUI/Android, guitar motion and historical MIT/third-party notices.
+Fix invalid00Unit ID and nonfinite/undersampled shimmer frequency handling.
+
+Native CI now follows hardening/completion branches and all relevant engine,
+export and test changes; it previously skipped audio-only hardening. Evidence:
+full localPython3.12 suite1515passed/5missing-2.wav skips/36warnings in209.69s;
+49focused checks passed in1.43s. No tests were excluded or weakened. New regressions
+cover real LMS reimport, exact per-centisecond intensities, eight rapid flashes,
+left/right snare, silent vocal suppression, mouth exclusivity and actual XSQ
+settings references. SourceLMS remains byte-identical. Regression risks:10ms
+quantization, changed physical pose mapping and native dimmer interpretation.
+
+Limitations/deferred: this kit exporter is opt-in and consumes observed cues;
+it does not add a voice separator, independent listening labels, controller
+hardware proof, native vendor LOR import or surveyed3D fabrication. Front2D/3D
+parity is a shared construction contract, not a rendered/hardware claim. Real
+full-song movies require original source/analysis and track-specific distribution
+evidence. Missing LightsOutTheme, Samsung hardware, production signing, tom/duet
+listening and final release approvals remain open; no gate is silently removed.
+
 ### 2026-10-14 — full-source native validation found cross-key arm illumination
 Run38614788465 rendered the complete actual sampler and failed unchanged key-state checks at frame651/MIDI55 while only MIDI67 was requested. Finite surface sampling merged passing arm vertices and unrelated bar vertices. Give NOTE_MIDI nodes exclusive ownership, trim those nodes from all other submodels, and preserve channel allocation/bar identities. Add serialized geometry overlap assertions; rerun focused/full/native/platform gates. The GL movie renderer and six-layout engine outputs are unaffected, but final native-band application binaries need a new exact-source build. Prior f38 receipts stay identified as earlier-source evidence, not the final release.
 
