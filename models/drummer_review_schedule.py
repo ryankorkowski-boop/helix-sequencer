@@ -37,7 +37,18 @@ def decode_review_schedule(path: Path, frames: int):
         hi = min(frames, math.ceil(int(e.get('endTime')) / 50))
         if hi <= lo:
             continue
-        settings = dict(field.split('=', 1) for field in db[int(e.get('ref'))].split(',') if '=' in field)
+        # Current injectors write inline settings; native serializers may use
+        # EffectDB references. Both represent the same tagged cue contract.
+        text = e.get('settings')
+        if text is None:
+            try:
+                ref = int(e.get('ref', '-1'))
+                if ref < 0:
+                    raise ValueError('negative or missing effect reference')
+                text = db[ref]
+            except (ValueError, IndexError) as error:
+                raise ValueError('Drummer cue has neither inline settings nor a valid EffectDB reference') from error
+        settings = dict(field.split('=', 1) for field in text.split(',') if '=' in field)
         intensity = float(settings.get('HELIX_DrummerIntensity',
                                       float(settings.get('E_TEXTCTRL_Eff_On_Start', '100')) / 100))
         intensity = float(np.clip(intensity, 0, 1))

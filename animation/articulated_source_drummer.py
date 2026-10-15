@@ -7,6 +7,7 @@ Helix compositor; the approved v7 compositor remains the comparison baseline.
 from __future__ import annotations
 from dataclasses import dataclass
 from copy import deepcopy
+import os
 import numpy as np
 from PIL import Image,ImageDraw,ImageEnhance,ImageChops
 from models.band_motion_refinement import elbow_2d,smoothstep,EventLane
@@ -25,8 +26,12 @@ class BandLighting:
             raise ValueError('brightness must be in [0,2]')
 
 class ArticulatedDrummer:
-    def __init__(self, hits, lighting=BandLighting(), natural_arms=False):
+    def __init__(self, hits, lighting=BandLighting(), natural_arms=False, cache_lighting=None):
         self.natural_arms=natural_arms
+        # Opt-in review acceleration. Cached pixels never include moving arms;
+        # static source artwork/masks must remain unchanged while enabled.
+        self.cache_lighting=(os.environ.get('HELIX_CACHE_STATIC_KIT')=='1') if cache_lighting is None else bool(cache_lighting)
+        self._kit_cache={}
         self.source=Image.open(SOURCE).convert('RGBA');self.spec=load_spec();self.lighting=lighting
         self.geometry=exact_geometry(self.source,self.spec);self.masks=self.geometry['masks']
         self.scale=np.array(self.source.size)-1
@@ -133,16 +138,26 @@ class ArticulatedDrummer:
 
     def frame(self,time,active=(),cymbal_levels=None):
         # Surface lighting never holds an arm aloft during cymbal decay.
-        masked=dict(self.masks)
-        for target in TARGETS:
-            masked[target]=masked[target_surface_key(target)]
-            from tools.drummer_v3_visual_masks import target_actuator_key,target_variant_key
-            masked[target_actuator_key(target)]=Image.new('L',self.source.size,0)
-            key=target_variant_key(target,'right');masked[key]=masked[target_surface_key(target)]
-            masked[target_actuator_key(key)]=Image.new('L',self.source.size,0)
-        lit=compose_emissive(self.source,masked,active,idle_brightness=self.lighting.idle_instrument,
-            active_brightness=self.lighting.strike,idle_overlay_mask=self.body_mask,idle_overlay_brightness=self.lighting.idle_body,
-            cymbal_levels=cymbal_levels)
+        active=tuple(sorted(set(active)))
+        cache_key=(active,None if cymbal_levels is None else tuple(sorted(cymbal_levels.items())),
+                   self.lighting.idle_instrument,self.lighting.strike,self.lighting.idle_body)
+        cached=self._kit_cache.get(cache_key) if self.cache_lighting else None
+        if cached is not None:
+            lit=cached.copy()
+        else:
+            masked=dict(self.masks)
+            for target in TARGETS:
+                masked[target]=masked[target_surface_key(target)]
+                from tools.drummer_v3_visual_masks import target_actuator_key,target_variant_key
+                masked[target_actuator_key(target)]=Image.new('L',self.source.size,0)
+                key=target_variant_key(target,'right');masked[key]=masked[target_surface_key(target)]
+                masked[target_actuator_key(key)]=Image.new('L',self.source.size,0)
+            lit=compose_emissive(self.source,masked,active,idle_brightness=self.lighting.idle_instrument,
+                active_brightness=self.lighting.strike,idle_overlay_mask=self.body_mask,idle_overlay_brightness=self.lighting.idle_body,
+                cymbal_levels=cymbal_levels)
+            if self.cache_lighting:
+                if len(self._kit_cache)>=24:self._kit_cache.pop(next(iter(self._kit_cache)))
+                self._kit_cache[cache_key]=lit.copy()
         for side in ('left','right'):
             shoulder,elbow,wrist,tip,gain=self._pose(side,time)
             brightness=self.lighting.idle_arm+(self.lighting.strike-self.lighting.idle_arm)*gain

@@ -33,6 +33,7 @@ class FinalBandScene(DistinctBandScene):
                 item["color"] = rgb("#9472C9")
         if rock:
             self._rock_costumes()
+        self._attach_solid_faces()
         # Groove uses cached rest matrices. Refresh them after styling so the
         # inherited motion cannot restore a snowman body on the next frame.
         self.groove = [(i, role, self.instances[i]["matrix"].copy()) for i, role, _ in self.groove]
@@ -41,6 +42,21 @@ class FinalBandScene(DistinctBandScene):
             style="solid rock band" if rock else "sculpted snow band",
             wireframe_performers=False, preserved_guitar_rig=True,
             continuous_motion_output="video or pixel matrix")
+
+    def _attach_solid_faces(self):
+        """Wire masks protrude intentionally; solid faces need attached mouths."""
+        from models.expressive_band_face import update_expressive_mouth
+        for role in ('lead', 'harmony'):
+            head = next(o for o in self.instances if o['name'] == role+'_head')
+            center = head['matrix'][:3, 3]
+            depth = float(np.linalg.norm(head['matrix'][:3, 2]))
+            mouth = center + (0, -.12, depth*.98)
+            ids = self.expressive_mouths[role]
+            ids['center'] = mouth.copy()
+            self.instances[ids['cavity']]['mouth_center'] = mouth.copy()
+            nose = next(o for o in self.instances if o['name'] == role+'_carrot')
+            nose['matrix'][:3, 3] = center + (.038, .015, depth+.035)
+            update_expressive_mouth(self, role, 'REST', 0)
 
     def _rock_costumes(self):
         jackets = {"bass": "#354554", "guitar": "#6D3435", "lead": "#283745",

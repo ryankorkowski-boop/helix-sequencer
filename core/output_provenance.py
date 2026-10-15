@@ -16,8 +16,8 @@ def sha256(path):
 
 def notice():
     return dict(schema='helix.output-provenance.v1',generator='Helix',credit=NOTICE,
-                software_license='MIT; existing permissions retained',
-                music_ownership_asserted=False,music_rights='Track-specific clearance required',
+                software_license='PolyForm Noncommercial 1.0.0; historical and third-party rights retained',
+                music_ownership_asserted=False,music_rights='Source-specific permission and evidence recorded separately',
                 tracking=False,drm=False)
 
 
@@ -39,7 +39,7 @@ def brand_frame(image,logo_path=None):
     return result.convert('RGB')
 
 
-def stamp_mp4(path):
+def stamp_mp4(path, *, refresh=False):
     """Append a valid ISO free box; existing media positions stay unchanged.
 
     Refuse a terminal EOF-sized box instead of extending it with notice bytes.
@@ -49,8 +49,10 @@ def stamp_mp4(path):
     size=path.stat().st_size
     with path.open('rb') as stream:
         stream.seek(max(0,size-4096))
-        if b'HELIX_PROVENANCE_V1\0' in stream.read():return
+        tail=stream.read()
+        if b'HELIX_PROVENANCE_V1\0' in tail and not refresh:return
         position=0
+        old_notice=None
         while position<size:
             stream.seek(position);header=stream.read(8)
             if len(header)!=8:raise ValueError('truncated MP4 header')
@@ -62,7 +64,14 @@ def stamp_mp4(path):
                 if len(extended)!=8:raise ValueError('truncated extended box')
                 length=struct.unpack('>Q',extended)[0];minimum=16
             if length<minimum or position+length>size:raise ValueError('invalid MP4 bounds')
+            if kind==b'free' and position+length==size:
+                stream.seek(position+minimum)
+                if stream.read(len(b'HELIX_PROVENANCE_V1\0'))==b'HELIX_PROVENANCE_V1\0':old_notice=position
             position+=length
+    if refresh and old_notice is not None:
+        # Only a terminal Helix-owned metadata box is replaced. All media bytes,
+        # offsets, decoder timing and third-party boxes retain their positions.
+        with path.open('r+b') as stream:stream.truncate(old_notice)
     with path.open('ab') as stream:stream.write(struct.pack('>I4s',8+len(payload),b'free')+payload)
 
 
