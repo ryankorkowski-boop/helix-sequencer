@@ -7,12 +7,15 @@ supports a separately authored mallet player when that asset is added.
 from __future__ import annotations
 
 from models.helixville4_band_assets import HELIXVILLE4_BAND_ASSETS
+from models.helixville4_mallet_asset import mallet_performer_asset
+
+ALL_BAND_ASSETS = (*HELIXVILLE4_BAND_ASSETS, mallet_performer_asset())
 
 
 def band_member_variant(member_id: str, kind: str) -> dict:
     if kind not in ("2d", "3d"):
         raise ValueError("kind must be 2d or 3d")
-    assets = {asset.member_id: asset for asset in HELIXVILLE4_BAND_ASSETS}
+    assets = {asset.member_id: asset for asset in ALL_BAND_ASSETS}
     if member_id not in assets:
         raise ValueError(f"unknown band member: {member_id}")
     asset = assets[member_id]
@@ -40,7 +43,7 @@ def band_member_variant(member_id: str, kind: str) -> dict:
 
 def verify_band_front_parity() -> dict[str, bool]:
     result = {}
-    for asset in HELIXVILLE4_BAND_ASSETS:
+    for asset in ALL_BAND_ASSETS:
         flat = band_member_variant(asset.member_id, "2d")
         dimensional = band_member_variant(asset.member_id, "3d")
         result[asset.member_id] = (
