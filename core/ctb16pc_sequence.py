@@ -59,24 +59,27 @@ def compile_ctb16pc_sequence(hits, *, duration, vocals=(), contact_hold=.035, di
         routed.append((a, b, names[name], velocity, hit, time, target))
     routed.sort(key=lambda row: row[0])
     for i, (a, b, channel, velocity, hit, time, target) in enumerate(routed):
+        # All contacts, including measured tails, need a dark tick before
+        # the next attack. Otherwise an earlier tail can conceal a retrigger.
+        following = next((r for r in routed[i + 1:] if r[2] == channel), None)
+        limit = frames
+        if following is not None:
+            if following[0] - a < 2 or following[5] - time < .02 - 1e-9:
+                raise ValueError("Repeated contacts need at least 20 ms for distinct LMS flashes")
+            limit = following[0] - 1
         if "tail_amplitudes" in hit:
             if not target.startswith("cymbal_"):
                 raise ValueError("Measured cymbal tails require a cymbal target")
             fps = float(hit.get("tail_fps", 40))
             envelope = cymbal_shimmer(hit["tail_amplitudes"], fps=fps)
-            stop = min(frames, round((time + len(envelope) / fps) * 100))
+            stop = min(limit, round((time + len(envelope) / fps) * 100))
             for tick in range(a, stop):
                 sample = min(len(envelope) - 1, max(0, math.floor((tick / 100 - time) * fps + 1e-9)))
-                levels[tick, channel] = max(levels[tick, channel], round(envelope[sample] * velocity))
+                intensity = max(1, round(envelope[sample] * velocity)) if envelope[sample] else 0
+                levels[tick, channel] = max(levels[tick, channel], intensity)
         else:
-            # Preserve a dark tick before a repeated contact, including rapid
-            # kicks. Refuse onsets beyond the LMS centisecond resolution.
-            next_start = next((r[0] for r in routed[i + 1:] if r[2] == channel), None)
-            if next_start is not None:
-                if next_start - a < 2:
-                    raise ValueError("Repeated contacts need at least 20 ms for distinct LMS flashes")
-                b = min(b, next_start - 1)
-            levels[a:b, channel] = np.maximum(levels[a:b, channel], round(velocity * 100))
+            b = min(b, limit)
+            levels[a:b, channel] = np.maximum(levels[a:b, channel], max(1, round(velocity * 100)))
 
     for cue in vocals:
         a, b = span(float(cue["start"]), float(cue["end"]))

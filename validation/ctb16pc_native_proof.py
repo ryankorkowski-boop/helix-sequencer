@@ -26,9 +26,10 @@ def probe(out, executable, render):
         dict(time=1.1, target="snare", side="left"),
         dict(time=1.3, target="snare", side="right"),
         dict(time=1.5, target="cymbal_left", tail_amplitudes=[1, .7, .4, .1, 0], tail_fps=20),
+        dict(time=1.62, target="cymbal_left", tail_amplitudes=[1, .6, .2, 0], tail_fps=20),
         dict(time=1.8, target="cymbal_right"), dict(time=2, target="tom_high"),
         dict(time=2.2, target="tom_mid"), dict(time=2.4, target="tom_floor"),
-        dict(time=2.6, target="hi_hat")], vocals=[
+        dict(time=2.6, target="hi_hat"), dict(time=2.85, target="kick", velocity=.001)], vocals=[
         dict(start=.1, end=.4, phoneme="AH", vocal_layers=1),
         dict(start=1, end=1.2, phoneme="EE", chorus=True),
         dict(start=1.2, end=1.4, phoneme="L", vocal_layers=3)])
@@ -40,8 +41,11 @@ def probe(out, executable, render):
     assert frames.shape == expected.shape and step == 10, (frames.shape, step)
     delta = np.abs(frames.astype(float) - expected.astype(float) * 2.55)
     assert delta.max() <= 1.01, (float(delta.max()), np.argwhere(delta > 1.01)[:10].tolist())
+    assert frames[161, 1] == 0 and frames[162, 1] > 0, 'Cymbal retrigger release gap missing'
+    assert frames[285, 6] > 0, 'Accepted quiet kick vanished in native output'
     report.update(native_xlights_verified=True, synthetic_diagnostic=True,
                   native_value_checks=int(expected.size), max_intensity_error=float(delta.max()),
+                  cymbal_retrigger_gap_verified=True, positive_velocity_native_output_verified=True,
                   musical_transcription_verified=False)
     (folder / "native_verification.json").write_text(json.dumps(report, indent=2) + "\n")
     return report

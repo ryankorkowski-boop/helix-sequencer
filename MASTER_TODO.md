@@ -1,5 +1,26 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-15 — Address outstanding PR150 physical-output review
+
+Goal: repair two actual review defects (discussion4279789859/4279789864).
+Changed core/ctb16pc_sequence.py, focused export regressions, native CTB16PC proof,
+export documentation and this ledger. Enforce the minimum real/grid20ms spacing
+for tailed and ordinary contacts alike; truncate an old cymbal tail to preserve
+one dark tick before a retrigger. Quantize accepted positive contacts and nonzero
+tail values to at least1percent; measured zero tail samples/rests remain dark.
+Preserve all other cue timing/addressing, source files, ordinary intensity values,
+mouth exclusivity, twelve-string mode, detectors and user layouts. Add unsorted
+tail/plain combinations, sub-grid spacing and tiny velocity regressions plus actual
+LMS roundtrip and unchanged4,800-value native assertions for both defects.
+
+Focused export/packaging tests pass50checks in0.24s, including real LMS reimport.
+Compilation and whitespace checks pass. Final same-source platform/native/bundle
+verification is pending. The passing81b1f3b native/Windows builds precede these repairs and cannot
+serve as their final evidence. Regression risks: intentional tail truncation at
+retrigger, rejecting previously ambiguous sub20ms contacts and minimum1percent
+quiet output. Independent transcription/listening/hardware/signing gates remain
+open. No external review comments were posted or acceptance inferred.
+
 ## 2026-10-15 — Combined same-source installer review delivery (in progress)
 
 Goal: finish issue143's missing repeatable combined installer package without

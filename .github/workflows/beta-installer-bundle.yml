@@ -3,6 +3,10 @@ on:
   push:
     branches: ['codex/72h-completion-*']
     paths:
+      - 'core/**'
+      - 'audio/**'
+      - 'music/**'
+      - 'models/**'
       - 'tools/package_beta_installers.py'
       - 'tools/collect_beta_installers.py'
       - 'tests/test_beta_installer_bundle.py'

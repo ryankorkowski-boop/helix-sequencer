@@ -58,10 +58,14 @@ def test_cues_drive_eight_distinct_kicks_hands_and_exclusive_chorus():
     assert not values[170:, 1].any()
 
 
-def test_real_lms_roundtrip_preserves_addresses_timing_and_native_settings(tmp_path):
+@pytest.mark.parametrize('review_cases', [False, True])
+def test_real_lms_roundtrip_preserves_addresses_timing_and_native_settings(tmp_path, review_cases):
     source = source_lms(tmp_path / "source.lms")
     original = source.read_bytes()
     data = cues()
+    if review_cases:
+        data['hits'] += [dict(time=1.62, target='cymbal_left', tail_amplitudes=[1, .6, .2, 0], tail_fps=20),
+                         dict(time=2.85, target='kick', velocity=.001)]
     folder = tmp_path / "export"
     report = export_ctb16pc_sequence(data, source, folder, unit_id="0A")
     assert source.read_bytes() == original
@@ -75,6 +79,9 @@ def test_real_lms_roundtrip_preserves_addresses_timing_and_native_settings(tmp_p
             a, b = (int(effect.get(k)) for k in ("startCentisecond", "endCentisecond"))
             decoded[a:b, circuit] = int(effect.get("intensity"))
     np.testing.assert_array_equal(decoded, expected)
+    if review_cases:
+        assert decoded[161, 1] == 0 and decoded[162, 1] > 0
+        assert decoded[285, 6] == 1
     xsq = ET.parse(folder / "CTB16PC_Drummer_Chorus.xsq").getroot()
     db = xsq.findall("EffectDB/Effect")
     for effect in xsq.findall(".//EffectLayer/Effect"):
@@ -118,3 +125,37 @@ def test_invalid_unit_ids_are_rejected(unit):
 def test_shimmer_rejects_invalid_sampled_frequency(rate):
     with pytest.raises(ValueError):
         cymbal_shimmer([1, .5, 0], fps=40, shimmer_hz=rate)
+
+
+@pytest.mark.parametrize('first_tail', [False, True])
+@pytest.mark.parametrize('second_tail', [False, True])
+def test_cymbal_retriggers_release_old_tail_before_each_attack(first_tail, second_tail):
+    tail = dict(tail_amplitudes=[1, .8, .4, .2, 0], tail_fps=20)
+    first = dict(time=.1, target='cymbal_left', **(tail if first_tail else {}))
+    second = dict(time=.12, target='cymbal_left', **(tail if second_tail else {}))
+    values = compile_ctb16pc_sequence([second, first], duration=1)
+    assert values[10, 1] == 100 and values[11, 1] == 0 and values[12, 1] == 100
+    if not second_tail:
+        assert not values[16:, 1].any()  # The first measured tail must not reappear.
+
+
+@pytest.mark.parametrize('target', ['kick', 'cymbal_left'])
+@pytest.mark.parametrize('times', [(.1, .11), (.004, .016)])
+def test_repeat_spacing_rejects_unrepresentable_or_sub_20ms_attacks(target, times):
+    tail = dict(tail_amplitudes=[1, .5, 0], tail_fps=20) if target.startswith('cymbal') else {}
+    with pytest.raises(ValueError, match='at least 20 ms'):
+        compile_ctb16pc_sequence([dict(time=t, target=target, **tail) for t in times], duration=1)
+
+
+@pytest.mark.parametrize('tail', [False, True])
+@pytest.mark.parametrize('velocity', [1e-12, .001, .005])
+def test_positive_velocity_survives_percent_quantization_without_lighting_rest(tail, velocity):
+    hit = dict(time=.1, target='cymbal_left' if tail else 'kick', velocity=velocity)
+    if tail:
+        hit.update(tail_amplitudes=[1, .4, 0], tail_fps=20)
+    values = compile_ctb16pc_sequence([hit], duration=1)
+    channel = 1 if tail else 6
+    assert values[10, channel] == 1
+    assert not values[:10, channel].any() and not values[20:, channel].any()
+    if tail:
+        assert values[15, channel] == 1

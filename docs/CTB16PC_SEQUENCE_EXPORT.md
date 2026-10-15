@@ -47,6 +47,12 @@ mouth poses fail. A 10 ms grid preserves the supplied rapid hits with a release
 gap; repeated contacts below 20 ms fail because distinct flashes cannot be
 represented at this resolution.
 
+The release-gap rule also applies to measured cymbal tails: an old tail stops
+before the next accepted attack. Both actual onset spacing and the rounded 10 ms
+grid must leave room for a release. Positive velocities that would round to zero
+use the smallest representable 1 percent contact; measured zero tail samples
+remain dark. This preserves quiet accepted hits without inventing sound in rests.
+
 Cymbals spike at their accepted attack and follow the supplied measured cymbal
 tail. Without a measured tail, the output is a short contact flash. Supply only
 accepted cymbal-specific energy, not broadband song loudness. Sample rates below
