@@ -1,3 +1,61 @@
+## 2026-10-15 — Drive-based 40-video review collection (in progress)
+
+Goal: produce 12 standalone, eight embedded-band, ten six-layout and ten vocal
+review MP4s, each 30–42 seconds. Branch `codex/showcase-review-20261015` starts at
+PR150 `63d158f`; no final release merge, EXE/APK rebuild or approval inferred.
+Changed modules: `tools/showcase_excerpt_rank.py` and this ledger; subsequent
+production/validation modules and final receipts will be recorded here.
+Preserve all source audio/Drive organization, existing engine modes, physical
+CTB16PC/LOR contracts, native layouts, GUI/Android and unfinished branches.
+
+- [x] Read AGENTS/roadmap and PR146–150 metadata, issue143/144, recent commits,
+  latest successful native/Windows/Android/full-CI runs at exact PR150 head.
+- [x] Download all 91 Drive audio entries (three nested folders), verify byte
+  counts against inventory; read user-authored permission covering video use.
+- [x] Implement repeatable 36s window ranking over every recording using onset
+  density, spectral-band activity/diversity, chroma motion, contrast and stereo
+  width; record byte/decoded PCM hashes and chroma fingerprint comparisons.
+- [ ] Analyze selected clips with source-bound instrument/vocal estimates.
+- [x] First fresh-source render exposed a real integration defect: the drummer
+  review decoder required EffectDB references although the current injector
+  emits inline settings. Accept both representations in
+  `models/drummer_review_schedule.py`; equivalent native/inline schedule
+  regression in `tests/test_drummer_review_schedule.py`. Preserve all cue timing,
+  velocity, hand assignment and rejection behavior; malformed refs fail clearly.
+- [x] Analyze 22 initial 36s selections using actual htdemucs_6s stems, existing
+  harmonic-note/playable-string/unified-mallet modules and pinned ADTOF weights.
+  Unknown tom identity abstains; one mixed vocal bus does not fabricate singers.
+- [x] Native xLights2026.18 first six-layout set renders all 720 frames per show;
+  every RGB prop activates and controls remain dark. New production tools:
+  `showcase_source_analysis`, `showcase_vocal_alignment`, `showcase_review_bands`,
+  `showcase_review_native`, `showcase_review_layouts`. Exact receipts live beside
+  generated outputs until the final summary is committed.
+- [x] Add explicit camera angles to `NativeSongView`, preserving the old defaults.
+  New foreground stages use the appropriate front perspective; remove duplicate
+  base captions in the new compositor before native lights are drawn. Add
+  source/activity, hallucinated-lyric and camera/channel preservation regressions.
+- [ ] Vocal eligibility refinement: replace the initially instrumental-heavy
+  Ghost window with its next-ranked passage; replace the wordless Audio In
+  Lights Out test hook with the high-activity Wire Tree lyric passage. Preserve
+  initial choices/reasons in the selection manifest; rebind all changed stems.
+- [x] Audit found stale MIT-only generated-output credit after the prior
+  PolyForm transition. Update `core/output_provenance.py` to the current project
+  policy while retaining historical/third-party rights and separate music rights.
+  Add opt-in terminal Helix notice refresh, preserving every media byte/offset;
+  focused regression verifies idempotence and policy. No third-party licenses,
+  historical source grants, controller channels or audiovisual timing changed.
+- [ ] Render/fully decode all 40 new distinct MP4s; validate source correspondence,
+  timing/frame counts/black/frozen frames and contact geometry; inspect screenshots.
+- [ ] Package actual movies, native layouts/sequences, manifests and review guide.
+- [ ] Commit/push isolated review branch and open draft PR; await user feedback.
+
+Selection metrics are spectral proxies, not confirmed instruments. Similar
+fingerprints are review candidates; identical names/sizes alone never deduplicate.
+No claimed physical hardware testing. Risks: source-separation leakage, uncertain
+tom/voice identity, finite 20fps motion sampling, software GL runtime and native
+renderer availability. Earlier sampler-specific work remains open and is not
+silently replaced by this different-source collection.
+
 ## 2026-10-15 — User-supplied six-song sampler ingestion
 
 - [x] Received `Helix_Six_Song_Technical_180s.mp4`, video duration 180.021333 s; AAC audio decoded to 44.1 kHz stereo PCM (180.224014 s including codec padding).

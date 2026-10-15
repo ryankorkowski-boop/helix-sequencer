@@ -48,3 +48,15 @@ def test_utf8_bom_and_declaration_remain_valid(tmp_path):
     p.write_bytes(original);stamp_xml(p)
     assert p.read_bytes().startswith(b'\xef\xbb\xbf<?xml')
     assert ET.parse(p).getroot().get('BaseChannel')=='4'
+
+
+def test_current_license_refresh_replaces_only_terminal_helix_notice(tmp_path):
+    from core.output_provenance import notice
+    p=tmp_path/'movie.mp4';media=struct.pack('>I4s',16,b'ftyp')+b'isom0000'+struct.pack('>I4s',12,b'mdat')+b'data'
+    old=b'HELIX_PROVENANCE_V1\0'+json.dumps(dict(software_license='MIT')).encode()
+    p.write_bytes(media+struct.pack('>I4s',8+len(old),b'free')+old)
+    stamp_mp4(p,refresh=True);first=p.read_bytes();stamp_mp4(p,refresh=True)
+    assert p.read_bytes()==first and first.startswith(media)
+    assert first.count(b'HELIX_PROVENANCE_V1\0')==1
+    assert b'PolyForm Noncommercial 1.0.0' in first
+    assert not notice()['music_ownership_asserted']
