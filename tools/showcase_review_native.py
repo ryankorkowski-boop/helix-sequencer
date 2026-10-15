@@ -12,6 +12,7 @@ from models.final_band_native import add_final_native_band
 from tools.run_showcase_audio_batch import model_routes,digest
 from tools.showcase_audio_native import prepare_template,native_music_xsq
 from tools.build_helpers.ultimate_showcase_preview import read_fseq
+from tools.build_helpers.ultimate_showcase import write_layout
 
 IDS=['E01','E03','E05','E07','E09','E13','E14','E17','E19','E21']
 
@@ -77,10 +78,15 @@ def main():
             bands=i==IDS.index(eid)%6 and IDS.index(eid)<8;g=garden(f.key,bands)
             folder=root/'07_Layouts_and_Sequences'/eid/f.key;folder.mkdir(parents=True,exist_ok=True)
             native=folder/'performance.xsq';receipt=folder/'native.json'
+            face_sha=digest(Path(__file__).resolve().parents[1]/'models/final_band_scene.py')
+            reuse_engine=False
             if receipt.exists() and native.with_suffix('.fseq').exists():
                 old=json.loads(receipt.read_text())
-                if old['audio_sha256']==digest(audio) and old['bands']==bands and old['xsq_sha256']==digest(native) and old['fseq_sha256']==digest(native.with_suffix('.fseq')):
-                    print('CACHED_NATIVE',eid,f.key,flush=True);continue
+                fseq=folder/old.get('fseq_file','performance.fseq')
+                if old['audio_sha256']==digest(audio) and old['bands']==bands and old['xsq_sha256']==digest(native) and fseq.exists() and old['fseq_sha256']==digest(fseq):
+                    if not bands or old.get('face_geometry_sha256')==face_sha:
+                        print('CACHED_NATIVE',eid,f.key,flush=True);continue
+                    reuse_engine=(folder/'engine_raw.xsq').exists()
             template=prepare_template(g,folder);media=folder/'audio.wav';shutil.copyfile(audio,media)
             raw=folder/'engine_raw.xsq'
             tuning=engine.RuntimeTuning(layout_file=folder/'xlights_rgbeffects.xml',template_guidance=False,
@@ -88,23 +94,25 @@ def main():
                 polish_enabled=False,variant_count=1,birdsong_enabled=False,birdsong_auto=False,
                 audio_reactive_profile='showcase',audio_reactive_intensity=1.6,spatial_awareness=.85,
                 chase_style='radial_out',model_overrides=model_routes(g),max_layers_per_prop=3)
-            with (folder/'engine.log').open('w') as log,redirect_stdout(log):
-                engine.run_variant(engine.VARIANTS['v27.3'],template,media,raw,engine.base.UserProfile(),tuning=tuning,analysis_cache=cache)
+            if not reuse_engine:
+                with (folder/'engine.log').open('w') as log,redirect_stdout(log):
+                    engine.run_variant(engine.VARIANTS['v27.3'],template,media,raw,engine.base.UserProfile(),tuning=tuning,analysis_cache=cache)
             export=native_music_xsq(raw,native,g,media,36)
             bandproof=add_bands(g,root,row,folder,native) if bands else None
             with (folder/'native.log').open('w') as log:
                 subprocess.run([str(a.xlights.resolve()),'--headless','-q','-s',str(folder),'-od',str(folder),str(native)],
                     env={**os.environ,'XL_NO_GPU_COMPUTE':'1'},stdout=log,stderr=log,check=True,timeout=600)
-            frames,step=read_fseq(native.with_suffix('.fseq'))
+            snapshot=folder/'verified.fseq';shutil.copyfile(native.with_suffix('.fseq'),snapshot)
+            frames,step=read_fseq(snapshot)
             if len(frames)!=720 or step!=50 or not frames.any():raise ValueError('Incomplete/dark native sequence')
             coverage={m.name:int(np.count_nonzero(frames[:,m.start-1:m.start-1+m.channels].max(axis=1))) for m in g.models if m.kind=='pixel'}
             controls=[m.name for m in g.models if m.kind!='pixel' and frames[:,m.start-1:m.start-1+m.channels].any()]
             if controls:raise ValueError(f'Control fixtures activated: {controls}')
             proof=dict(excerpt_id=eid,flavor=f.key,layout=g.title,bands=bands,frames=720,frame_ms=50,
-                xsq_sha256=digest(native),fseq_sha256=digest(native.with_suffix('.fseq')),layout_sha256=digest(folder/'xlights_rgbeffects.xml'),
+                xsq_sha256=digest(native),fseq_file='verified.fseq',fseq_sha256=digest(snapshot),layout_sha256=digest(folder/'xlights_rgbeffects.xml'),
                 audio_sha256=digest(audio),export=export,band_export=bandproof,active_model_frames=coverage,
                 control_channels_dark=True,channel_animation=bool(np.any(frames[1:]!=frames[:-1])),
-                xlights_version='2026.18',source_timestamps=row,analysis_cache_hits=cache.hits)
+                xlights_version='2026.18',source_timestamps=row,analysis_cache_hits=cache.hits,face_geometry_sha256=face_sha if bands else None)
             receipt.write_text(json.dumps(proof,indent=2)+'\n')
             print('NATIVE_COMPLETE',eid,f.key,export['native_effects'],sum(v>0 for v in coverage.values()),len(coverage),flush=True)
 

@@ -15,7 +15,7 @@ CTB16PC/LOR contracts, native layouts, GUI/Android and unfinished branches.
 - [x] Implement repeatable 36s window ranking over every recording using onset
   density, spectral-band activity/diversity, chroma motion, contrast and stereo
   width; record byte/decoded PCM hashes and chroma fingerprint comparisons.
-- [ ] Analyze selected clips with source-bound instrument/vocal estimates.
+- [x] Analyze selected clips with source-bound instrument/vocal estimates.
 - [x] First fresh-source render exposed a real integration defect: the drummer
   review decoder required EffectDB references although the current injector
   emits inline settings. Accept both representations in
@@ -34,7 +34,7 @@ CTB16PC/LOR contracts, native layouts, GUI/Android and unfinished branches.
   New foreground stages use the appropriate front perspective; remove duplicate
   base captions in the new compositor before native lights are drawn. Add
   source/activity, hallucinated-lyric and camera/channel preservation regressions.
-- [ ] Vocal eligibility refinement: replace the initially instrumental-heavy
+- [x] Vocal eligibility refinement: replace the initially instrumental-heavy
   Ghost window with its next-ranked passage; replace the wordless Audio In
   Lights Out test hook with the high-activity Wire Tree lyric passage. Preserve
   initial choices/reasons in the selection manifest; rebind all changed stems.
@@ -44,6 +44,35 @@ CTB16PC/LOR contracts, native layouts, GUI/Android and unfinished branches.
   Add opt-in terminal Helix notice refresh, preserving every media byte/offset;
   focused regression verifies idempotence and policy. No third-party licenses,
   historical source grants, controller channels or audiovisual timing changed.
+- [x] Closeup review found wire-mask offsets left solid singer mouths/noses
+  detached from their heads. Re-anchor only final solid faces to head-relative
+  coordinates in `models/final_band_scene.py`; preserve voice shapes/timing,
+  guitar geometry, old wire scenes and physical channel contracts. Restore the
+  established visible-lip material level in solo views. New face attachment
+  regression and native export/camera/provenance checks pass17tests. Regenerate
+  all affected movies and eight native band-bearing layouts before delivery.
+- [x] Full local pre-face-correction regression: 1,567 passed / five missing
+  `2.wav` skips / 36 warnings in254.03s; JUnit retained with production evidence.
+  Final exact-source regression and all movie checks remain required below.
+- [x] Publish isolated review implementation as draft PR151 at
+  `2e2e1b7cd4801c78730236497d0a970f114da230`; remote source tree exactly matches
+  local implementation tree8a9afcf. Source-only review; no default/release merge.
+- [x] Package/validator safeguards: require distinct40movies in exact category
+  counts; bind resumed vocal recognition to source hashes; stream native FSEQ
+  snapshots, reject changed inputs, validate current-generation batches only,
+  preserve media prefix when refreshing notices, and exclude pilot/intermediate
+  images/movies from downloads. Two final embedded views use front-on projection.
+- [x] Restarted renders exposed a shared temporary-filename collision during
+  FFmpeg faststart. Give every encoder a unique temporary path and move final
+  production into `Helix_Showcase_Review_Final`, reusing only hash-checked audio,
+  analyses and native inputs. Earlier review/pilot outputs are not deliveries.
+  All final movies must complete and independently decode in that isolated root.
+- [x] Profiled review rendering: median pose55.47ms, drummer248.24ms, complete
+  drawing434.64ms under concurrent load. Add an opt-in24-entry static-kit lighting
+  cache in `animation/articulated_source_drummer.py`; arms still recompute at every
+  exact source time. Existing callers/defaults remain uncached. Pixel-equivalence,
+  lighting-change and bounded-memory regressions in `test_drummer_lighting_cache`.
+  Enable only with `HELIX_CACHE_STATIC_KIT=1` after these regressions pass.
 - [ ] Render/fully decode all 40 new distinct MP4s; validate source correspondence,
   timing/frame counts/black/frozen frames and contact geometry; inspect screenshots.
 - [ ] Package actual movies, native layouts/sequences, manifests and review guide.

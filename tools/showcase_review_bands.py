@@ -1,6 +1,6 @@
 """New solo-band movies from final Helix rigs and source-bound performances."""
 from __future__ import annotations
-import argparse,hashlib,json,math,subprocess,time
+import argparse,hashlib,json,math,subprocess,time,uuid
 from concurrent.futures import ProcessPoolExecutor,as_completed
 from pathlib import Path
 import numpy as np
@@ -56,6 +56,7 @@ def render(args):
     inputs={p.name:sha(p) for p in analysis.glob('*') if p.suffix in ('.json','.npz')}
     config=dict(stage=stage,rock=rock,focus=focus,seconds=seconds,resolution=[1280,720],fps=20,inputs=inputs,
         renderer_sha256=sha(Path(__file__)),decoder_sha256=sha(Path(__file__).resolve().parents[1]/'models/drummer_review_schedule.py'))
+    config['scene_sha256']=sha(Path(__file__).resolve().parents[1]/'models/final_band_scene.py')
     if proofpath.exists() and movie.exists():
         old=json.loads(proofpath.read_text())
         if old['config']==config and old['sha256']==sha(movie):return old
@@ -64,7 +65,7 @@ def render(args):
     perf=FinalBandPerformance(source,scene,root/'analysis')
     view=SoloView(scene,1280,720);view.camera_callback=camera(focus)
     player=ArticulatedDrummer(physical_hits(folder/'drummer.xsq'),natural_arms=True);view.dry=DynamicDry(player)
-    tmp=movie.with_suffix('.rendering.mp4');writer=encoder(tmp,1280,720,20,audio,0,seconds)
+    tmp=movie.with_name(movie.stem+'.'+uuid.uuid4().hex+'.rendering.mp4');writer=encoder(tmp,1280,720,20,audio,0,seconds)
     font=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',22)
     small=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',16)
     began=time.monotonic();contacts=0;maxerror=0;active={k:0 for k in ['bass','guitar','pitched','vocal']}
@@ -72,7 +73,7 @@ def render(args):
     for h in perf.mallet_schedule:hitmap.setdefault(round(h['time']*20),[]).append(h)
     try:
         for i in range(round(seconds*20)):
-            levels=perf.pose(i);view.dry.time=i/20
+            levels=perf.pose(i);levels[177]=.8;view.dry.time=i/20
             image=view.frame(levels,perf.drums[i],perf.strikes[i],perf.hands[i],i/20,i/20)
             d=ImageDraw.Draw(image);d.rectangle((0,0,1280,44),fill='#08111b')
             title=Path(row['filename']).stem

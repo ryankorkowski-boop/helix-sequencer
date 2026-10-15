@@ -16,10 +16,10 @@ def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
 class StreamView:
-    def __init__(self,folder,g,width,height,title,fseq_file='performance.fseq'):
+    def __init__(self,folder,g,width,height,title,fseq_file='performance.fseq',front_on=False):
         self.reader=FseqReader(folder/fseq_file)
         if self.reader.info.frames!=720 or self.reader.info.step_ms!=50:raise ValueError('Native timing mismatch')
-        self.view=NativeSongView(g,title,width,height,halo_scale=2,pitch=-18)
+        self.view=NativeSongView(g,title,width,height,halo_scale=2,yaw=0 if front_on else 7,pitch=0 if front_on else -18)
         # The outer review compositor owns readable labels. Remove only static
         # text from this base, before native light pixels are composited.
         background=np.asarray(self.view.base).copy()
@@ -55,7 +55,7 @@ def render(root,eid,mode):
         for key,path in [('xsq_sha256','performance.xsq'),('fseq_sha256',proof.get('fseq_file','performance.fseq')),('layout_sha256','xlights_rgbeffects.xml')]:
             if proof[key]!=sha(folder/path):raise ValueError('Changed native input: '+key)
         width,height=(640,450) if mode=='comparison' else (1920,1080)
-        views.append(StreamView(folder,g,width,height,Path(row['filename']).stem,proof.get('fseq_file','performance.fseq')));proofs.append(proof)
+        views.append(StreamView(folder,g,width,height,Path(row['filename']).stem,proof.get('fseq_file','performance.fseq'),mode=='embedded' and j in (6,7)));proofs.append(proof)
     tmp=movie.with_suffix('.rendering.mp4');audio=root/'07_Layouts_and_Sequences'/eid/'audio.wav'
     writer=encoder(tmp,1920,1080,20,audio,0,36)
     font=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',28)
@@ -99,6 +99,7 @@ def render(root,eid,mode):
         native_layouts=[{k:p[k] for k in ['flavor','bands','xsq_sha256','fseq_sha256','layout_sha256','frames','frame_ms']} for p in proofs],
         renderer_sha256=sha(Path(__file__)),
         stage_closeup=detail_proof,
+        front_on_2d_projection=mode=='embedded' and j in (6,7),
         all_panels_same_audio_and_start=True,native_xlights_channel_playback=True,stock_model_projection_approximate=True,
         band_pose_output='stationary addressable RGB poses; continuous mesh animation in standalone movies',render_seconds=round(time.monotonic()-began,2))
     receipt.write_text(json.dumps(proof,indent=2)+'\n');print('LAYOUT_COMPLETE',name,proof['render_seconds'],flush=True)

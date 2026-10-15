@@ -86,12 +86,25 @@ def inspect(args):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--minimum',type=int,default=0);p.add_argument('--workers',type=int,default=2);a=p.parse_args();root=a.root.resolve()
+    p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--minimum',type=int,default=0);p.add_argument('--workers',type=int,default=2);p.add_argument('--current-only',action='store_true');a=p.parse_args();root=a.root.resolve()
     rows={r['excerpt_id']:r for r in json.loads((root/'05_Source_Excerpt_Manifests/selected_excerpts.json').read_text())}
     tasks=[]
     for cat in CATEGORIES:
         for p in (root/cat).glob('*.render.json'):
-            proof=json.loads(p.read_text());tasks.append((str(root),proof,rows[proof['excerpt_id']]))
+            proof=json.loads(p.read_text())
+            if a.current_only:
+                if proof.get('seconds')!=36:continue
+                if cat in (CATEGORIES[0],CATEGORIES[3]):
+                    code=Path(__file__).resolve().parents[1]
+                    if proof['config'].get('scene_sha256')!=sha(code/'models/final_band_scene.py') or proof['config']['renderer_sha256']!=sha(code/'tools/showcase_review_bands.py'):continue
+                else:
+                    if proof.get('renderer_sha256')!=sha(Path(__file__).with_name('showcase_review_layouts.py')):continue
+                    current=True
+                    for layout in proof['native_layouts']:
+                        source=root/'07_Layouts_and_Sequences'/proof['excerpt_id']/layout['flavor']/'native.json'
+                        if not source.exists() or json.loads(source.read_text())['fseq_sha256']!=layout['fseq_sha256']:current=False
+                    if not current:continue
+            tasks.append((str(root),proof,rows[proof['excerpt_id']]))
     if len(tasks)<a.minimum:raise ValueError(f'Only {len(tasks)} completed movies; {a.minimum} required')
     reports=[]
     with ProcessPoolExecutor(max_workers=a.workers) as pool:
