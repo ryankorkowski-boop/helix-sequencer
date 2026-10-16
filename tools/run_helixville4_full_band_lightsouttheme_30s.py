@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -30,13 +29,23 @@ def _trimmed_audio_path(output_dir: Path) -> Path:
     return output_dir / "LightsOutTheme_30s.mp3"
 
 
-def _copy_audio_as_30s_placeholder(audio: Path, output_dir: Path) -> Path:
-    # This runner records the 30-second contract in metadata and command names.
-    # If ffmpeg-based audio trimming is added later, keep this path/name stable.
+def _trim_audio_to_30s(audio: Path, output_dir: Path, *, dry_run: bool = False) -> Path:
+    """Produce an actual 30-second source clip; never relabel full-length audio."""
     target = _trimmed_audio_path(output_dir)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    if audio.exists():
-        shutil.copyfile(audio, target)
+    if dry_run:
+        return target
+    if not audio.is_file():
+        raise FileNotFoundError(audio)
+    import imageio_ffmpeg
+
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    subprocess.run(
+        [ffmpeg, "-y", "-i", str(audio), "-t", "30", "-vn",
+         "-codec:a", "libmp3lame", "-q:a", "2", str(target)],
+        check=True, cwd=ROOT,
+    )
+    if not target.is_file() or target.stat().st_size == 0:
+        raise RuntimeError("Audio trim did not produce a usable file")
     return target
 
 
@@ -114,7 +123,7 @@ def run_full_band_lightsouttheme_30s(
 
     layout_payload = build_full_band_layout(output_dir)
     layout = output_dir / "xlights_rgbeffects.xml"
-    audio_30s = _copy_audio_as_30s_placeholder(audio.resolve(), output_dir)
+    audio_30s = _trim_audio_to_30s(audio.resolve(), output_dir, dry_run=dry_run)
     xsq = _sequence_path(output_dir, audio_30s, profile)
 
     sequence_command = build_sequence_command(
@@ -156,7 +165,7 @@ def run_full_band_lightsouttheme_30s(
         },
         "notes": [
             "The generated layout uses the approved Helixville4 full snowman band custom models.",
-            "The 30-second contract is recorded here; current audio handling copies LightsOutTheme to a stable 30s-named path unless future ffmpeg trimming is added.",
+            "Audio is physically trimmed to at most 30 seconds with ffmpeg before sequencing.",
         ],
     }
     report = output_dir / "full_band_lightsouttheme_30s.run.json"
