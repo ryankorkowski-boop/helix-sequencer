@@ -8,16 +8,24 @@ on:
       - 'tools/prepare_native_preview_benchmark.py'
       - 'tools/check_xlights_rest_sequence.py'
       - 'tests/test_native_preview.py'
+      - 'core/section*.py'
+      - 'core/effect_engine.py'
+      - 'tools/section_composer_benchmark.py'
+      - 'tests/test_section_composer.py'
       - 'tests/fixtures/quality/**'
       - '.github/workflows/quality-native-check.yml'
   push:
-    branches: ['codex/quality-metrics-20261016', 'codex/native-audio-preview-20261016']
+    branches: ['codex/quality-metrics-20261016', 'codex/native-audio-preview-20261016', 'codex/section-composer-20261016']
     paths:
       - 'tools/quality/**'
       - 'tools/native_preview.py'
       - 'tools/prepare_native_preview_benchmark.py'
       - 'tools/check_xlights_rest_sequence.py'
       - 'tests/test_native_preview.py'
+      - 'core/section*.py'
+      - 'core/effect_engine.py'
+      - 'tools/section_composer_benchmark.py'
+      - 'tests/test_section_composer.py'
       - 'tests/fixtures/quality/**'
       - '.github/workflows/quality-native-check.yml'
   workflow_dispatch:
@@ -40,7 +48,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y xvfb libegl1 libopengl0 libglu1-mesa libgtk-3-0t64 ffmpeg
-          python -m pip install pytest
+          python -m pip install pytest librosa
       - name: Fetch pinned official xLights 2026.18
         working-directory: ${{ runner.temp }}
         run: |
@@ -105,6 +113,19 @@ jobs:
         env:
           HELIX_NATIVE_PREVIEW_MANIFEST: test_runs/native_audio_preview/run_manifest.json
         run: python -m pytest -q tests/test_native_preview.py tests/test_check_xlights_rest_sequence.py tests/test_native_quality_evidence.py
+      - name: Native section composer before and after (original AC benchmark)
+        run: |
+          python -m tools.section_composer_benchmark test_runs/section_composer_native
+          for variant in baseline composed; do
+            xvfb-run -a python -m tools.native_preview "test_runs/section_composer_native/$variant" \
+              --xsq "test_runs/section_composer_native/$variant/benchmark.xsq" \
+              --audio test_runs/section_composer_native/original.wav \
+              --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun"
+          done
+      - name: Verify section metric gain and actual native channels/audio
+        env:
+          HELIX_SECTION_COMPOSER_BENCHMARK: test_runs/section_composer_native
+        run: python -m pytest -q tests/test_section_composer.py
       - name: Upload native evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -113,4 +134,5 @@ jobs:
           path: |
             test_runs/quality_native/
             test_runs/native_audio_preview/
+            test_runs/section_composer_native/
           if-no-files-found: warn
