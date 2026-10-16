@@ -1,0 +1,116 @@
+{
+  "schema": "helix.universal.plan.v1",
+  "parent_issue": 154,
+  "status": "blocked_pending_explicit_authorization",
+  "baseline": "f8fafec4c3ad4e1495306613cc29dd0fd00e7d44",
+  "tasks": [
+    {
+      "number": 155,
+      "title": "Shared musical analysis and versioned choreography data",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/issues/155",
+      "dependencies": "none",
+      "scope": "Define a versioned, source-hash-bound intermediate representation for notes, drums, phrases, words/phones, certainty, color, intensity, spatial trajectories and supported fallbacks. Reuse existing event objects rather than creating a competing detector.",
+      "accept": "One source analysis feeds both exporters; schema roundtrip, deterministic IDs, stale-cache rejection, exact timestamps and confidence abstention pass.",
+      "reuse": "core/plan/sequence_plan.py; music/note_events.py; audio/musical_events.py"
+    },
+    {
+      "number": 156,
+      "title": "Universal dual-format XSQ and LMS orchestration",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/issues/156",
+      "dependencies": "1",
+      "scope": "Prepare default independent exporter attempts from the shared score, native dependency manifests and per-format diagnostic statuses. Preserve existing opt-in CTB16PC paths. Unsupported pixel effects require disclosed musical AC adaptations.",
+      "accept": "Tests exercise success/success, success/failure, failure/success, both failure and unsupported capabilities; no silent success, no extension-only compatibility.",
+      "reuse": "core/sequence_builder.py; core/final_band_export.py; tools/legacy_lms_export.py; tools/lor_lms_export_from_source.py"
+    },
+    {
+      "number": 157,
+      "title": "CTB16PC and expanded AC controller profiles",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/issues/157",
+      "dependencies": "1,2",
+      "scope": "Specify AC16/32/48/64 addressing, fades, intensity, collision checks, cymbal release gaps, phoneme allocations and configured hardware detection.",
+      "accept": "Reject >16 circuits per CTB16PC bank, duplicate addresses and ambiguous metadata; preserve low intensity/retrigger roundtrips; licensed LOR import and physical tests remain separately recorded.",
+      "reuse": "core/ctb16pc_sequence.py; core/output_capabilities.py; tools/lor_compatibility.py"
+    },
+    {
+      "number": 158,
+      "title": "Residential layout families and capability-aware adaptations",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/issues/158",
+      "dependencies": "1,3",
+      "scope": "Specify eight configurable profiles: AC16, AC32–64, Residential Basic, Residential Standard, Mega Tree, Singing Band, Advanced 3D and Ultimate Helix. Choreograph for each target instead of cropping a large sequence.",
+      "accept": "Three pilot songs exercise at least three families including AC16; missing-prop adaptation retains musical phrases and no channel conflicts.",
+      "reuse": "models/showcase_flavors.py; models/ultimate_showcase.py; helix_layout/prop_roles.py"
+    },
+    {
+      "number": 159,
+      "title": "Professional choreography templates and lyric semantics",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/issues/159",
+      "dependencies": "1,4",
+      "scope": "Plan phrase arcs, palette design, contrast, intentional darkness, independent groups and finales using authorized vendor demos as references. Preserve note-driven helixes; exact RED/BRIGHT/DIM/DARK/SHIMMER/FLICKER cues require trusted timing.",
+      "accept": "Source-labeled timing, density, black/bright contrast and repetitive-pulse metrics reported; semantic effects reach final channel output; no proprietary arrangements copied.",
+      "reuse": "helix_music/section_planner.py; helix_spatial; core/lyric_interpreter.py; tools/showcase"
+    },
+    {
+      "number": 160,
+      "title": "Singing faces and six-snowman band sequence profiles",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/issues/160",
+      "dependencies": "1,3,4",
+      "scope": "Keep six snowmen with one unified keyboard/mallet musician per band for the current direction. Preserve standalone models, distinct mouth circuits and evidence-backed independent vocal lanes.",
+      "accept": "Native face and instrument cue parity, no invented singers from mixed vocal buses, contact/idle checks and <=16 AC circuits per model; identity uncertainty disclosed.",
+      "reuse": "music/vocal_roles.py; core/band_vocal_face_export.py; core/final_band_export.py; models/native_review_band.py"
+    },
+    {
+      "number": 161,
+      "title": "Advanced 3D worlds and musical spatial adaptation",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/issues/161",
+      "dependencies": "1,4,5",
+      "scope": "Plan spatial transforms, front-view parity, spiral groves, moire/forced perspective, giant double helixes and integrated snowman stages.",
+      "accept": "Native xLights 3D load/render, valid groups/assets/transforms, 88 disjoint MIDI rungs and channel parity; historical intermediate XML migrated before compatibility claims.",
+      "reuse": "models/review_spatial_worlds.py; core/keyboard_rung_export.py; tools/showcase_review_native.py"
+    },
+    {
+      "number": 162,
+      "title": "Automatic layout matching and reviewable remapping",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/issues/162",
+      "dependencies": "1,3,4",
+      "scope": "Inventory props, models/groups, pixels/channels, controllers, spatial positions, faces, trees/arches and custom submodels. Rank profiles; offer deterministic semantic remaps with user review.",
+      "accept": "Golden layouts include fewer/missing props, duplicate names, mixed controllers and collisions; stable ranking, explicit unsupported effects and no silent mapping acceptance.",
+      "reuse": "helix_layout/prop_roles.py; helix_layout/semantic_alias_mapper.py; helix_mapping"
+    },
+    {
+      "number": 163,
+      "title": "Native import/export validation and compatibility matrix",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/issues/163",
+      "dependencies": "2,3,6,7,8",
+      "scope": "Record exact xLights/LOR application versions and distinguish XML structure, successful native import, rendering and physical playback. Cover desktop/Android export and large jobs.",
+      "accept": "Native xLights import/render parity and audio synchronization pass on supported versions; licensed LOR and actual hardware checks are blocked when unavailable, never reported green.",
+      "reuse": "tools/verify_showcase_review.py; tools/inspect_lms.py; .github/workflows; tests"
+    },
+    {
+      "number": 164,
+      "title": "Eligible free music catalog and metadata lineage",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/issues/164",
+      "dependencies": "1",
+      "scope": "Design stable song IDs, byte/PCM hashes, durations, fingerprints, alternate-version lineage, HelixXMix/hardKor metadata and song-specific distribution evidence. Filter by profile/controller/channel/pixel/prop/complexity/software support.",
+      "accept": "No same-name deduplication; source originals untouched; catalog filters and provenance checks pass; no bulk publication or Drive sharing changes during planning.",
+      "reuse": "tools/showcase_excerpt_rank.py; tools/showcase/source_registry.py"
+    },
+    {
+      "number": 165,
+      "title": "Resumable cached pilot and batch-generation pipeline",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/issues/165",
+      "dependencies": "2,4,5,6,7,8,9,10",
+      "scope": "Use source+analysis-version+score+profile+exporter hashes for stage caches. Isolate failures, atomic artifacts, per-format statuses and resumable jobs. Start with three songs only after Gate B.",
+      "accept": "Interrupt/resume yields identical validated outputs without duplicate work; stale dependencies invalidate only descendants; pilot approval required before catalog-wide runs.",
+      "reuse": "tools/showcase_source_analysis.py; tools/run_showcase_audio_batch.py; tools/package_showcase_review.py"
+    },
+    {
+      "number": 166,
+      "title": "Review download packaging, previews and import instructions",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/issues/166",
+      "dependencies": "9,10,11",
+      "scope": "Specify Song/Layout Variant/xLights and LOR/Models/Instructions/Preview packages, compatibility manifests, checksums and browsable index. Respect free-homeowner/commercial distinctions.",
+      "accept": "ZIP CRC and required-file checks, relative assets, actual playable MP4/source correspondence, verified import instructions and explicit compatibility limitations; publication separate approval.",
+      "reuse": "tools/package_showcase_review.py; tools/package_review_movie_archives.py; core/output_provenance.py"
+    }
+  ]
+}
