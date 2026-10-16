@@ -1,0 +1,8 @@
+# Optional: lyric / speech transcription support (OpenAI Whisper)
+# Install: python -m pip install -r requirements-lyrics.txt
+#
+# Only needed when using lyric-aware or vocal-analysis features.
+# Whisper is large; keep it out of the default install.
+
+-r requirements.txt
+openai-whisper>=20240930

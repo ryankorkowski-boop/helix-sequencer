@@ -1,0 +1,7 @@
+# Optional: packaging / Windows portable EXE builds
+# Install: python -m pip install -r requirements-packaging.txt
+#
+# Only needed when building distributable binaries with PyInstaller.
+
+-r requirements.txt
+pyinstaller>=6.10
