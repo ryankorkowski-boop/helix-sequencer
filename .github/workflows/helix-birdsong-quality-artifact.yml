@@ -43,7 +43,7 @@ jobs:
 
       - name: Export Helix Flow demo artifacts
         run: |
-          python tools/export_birdsong_demo_manifest.py \
+          python -m tools.export_birdsong_demo_manifest \
             --output test_runs/helix_flow_demo/helix_flow_intents.json \
             --quality-report test_runs/helix_flow_demo/helix_flow_quality_report.json \
             --baseline-report test_runs/helix_flow_demo/helix_flow_baseline_report.json \
@@ -55,9 +55,9 @@ jobs:
             --step-seconds 1 \
             --bpm 120
 
-      - name: Render Helix Flow XSQ MP4 preview
+      - name: Render structural diagnostic MP4 (not native xLights)
         run: |
-          python tools/render_xsq_skeleton_preview.py \
+          python -m tools.render_xsq_skeleton_preview \
             test_runs/helix_flow_demo/helix_flow_demo.xsq \
             --width 1280 \
             --height 720 \
