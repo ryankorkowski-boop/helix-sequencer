@@ -1,3 +1,17 @@
+## 2026-10-16 — Universal Library Stage A planning; Stage B blocked
+
+Goal: incorporate authoritative issue #154 without changing production sequencing or interrupting showcase work. Baseline: f8fafec4c3ad4e1495306613cc29dd0fd00e7d44 (PR153 → 152 → 151 → 150). Default HEAD observed 1f66f5dfa09b3173f5cdfd33d28ab1b4421e11ad.
+
+- [x] Read full #154 and PR146–153 bodies/review comments, branch inventory, latest CI jobs, local AGENTS and current exporters/lyric interpreter/review tools.
+- [x] Create twelve scoped blocked implementation issues #155–#166, linked to #154, with dependencies, reusable modules, acceptance and approval gates.
+- [x] Document shared analysis → choreography → layout adaptation → native exporters, eight profiles, matcher, catalog, cache/resume plan and structural/native/hardware distinctions in docs/UNIVERSAL_SEQUENCE_LIBRARY_PLAN.md.
+- [x] Keep current-cycle video priority and separate Library start, pilot, mass-generation and publication approvals explicit.
+- [ ] Resolve current showcase artistic and musical acceptance; six snowmen/unified pitched performer supersedes the seven-member review choice only for current new output.
+- [ ] Explicit user authorization for Stage B; do not infer it from release approval.
+
+Changed files: this ledger, REPO_IMPROVEMENT_ROADMAP.md, docs/UNIVERSAL_SEQUENCE_LIBRARY_PLAN.md and docs/universal_library_tasks.json. Production code and historical behavior intentionally preserved. Evidence: GitHub issues and baseline readback; no runtime feature completion claimed. Latest Android run38840820654 has API30 emulator failure/API36 success, so current stack is not fully green. Lyric interpreter records triggers/mood but exact requested whole-output semantics lack a verified consumer. Limitations: physical controller/native vendor-LOR acceptance absent, latest review cast conflicts with current request, newer commits must be re-audited at activation. Risks: planning may become stale; all tasks require approved-baseline refresh.
+
+
 ## 2026-10-16 — Vocal, controller, and native 3D review batch complete; approval pending
 
 Goal: implement the latest request on `codex/3d-vocal-controller-review-20261016`, based on the preserved PR #152 tree. Release merge and EXE/APK publication remain held for explicit video approval.

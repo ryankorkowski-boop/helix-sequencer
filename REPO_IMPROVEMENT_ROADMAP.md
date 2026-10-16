@@ -1,5 +1,9 @@
 # Helix Sequencer — Repository Improvement Roadmap
 
+## Approval-gated Universal Sequence Library
+
+Issue #154 and [the implementation plan](docs/UNIVERSAL_SEQUENCE_LIBRARY_PLAN.md) define the future shared-score, dual XSQ/LMS export, eight-profile, layout-matcher and free sequence catalog phase. Tasks #155–#166 are blocked pending explicit user authorization. Current development/showcase review has priority; release approval does not authorize this roadmap or publication. MASTER_TODO.md remains canonical.
+
 > **Purpose**: Transform Helix from research-stage to production-grade through disciplined engineering practices, clear boundaries, and automated validation.
 
 ---
