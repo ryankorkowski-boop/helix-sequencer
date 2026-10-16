@@ -31,7 +31,7 @@ jobs:
       - name: Compile showcase scripts
         run: python -m compileall -q tools/validate_showcase_mp4.py tools/validate_showcase_batch.py tools/validate_showcase_manifest.py
       - name: Run focused regression suite
-        run: python -m pytest -q tests/test_validate_showcase_mp4.py tests/test_validate_showcase_batch.py
+        run: python -m pytest -q tests/test_validate_showcase_mp4.py tests/test_validate_showcase_mp4_edge_cases.py tests/test_validate_showcase_batch.py
       - name: Reject missing showcase media
         run: |
           if python tools/validate_showcase_mp4.py /tmp/helix-missing-showcase.mp4; then
