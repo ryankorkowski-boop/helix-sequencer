@@ -1,3 +1,17 @@
+## 2026-10-16 — Vocal, controller, and native 3D review (in progress)
+
+Goal: implement the latest request on `codex/3d-vocal-controller-review-20261016`, based on the preserved PR #152 tree. Release merge and EXE/APK publication remain held for explicit video approval.
+
+- [x] Audit current review output and native/physical band paths: seven-member GL cast, six-member native cast, lead-only source clock, physical seven-bank plan still proposed.
+- [ ] Add evidence-aware lead/duet/background routing, duplicate-source rejection, independent phrase clocks, explicit phoneme cues, and uncertainty reporting.
+- [ ] Export each of seven snowmen and their instruments as standalone native 3D xmodels, including <=16-channel AC variants with distinct phoneme channels and separate RGB variants.
+- [ ] Resolve output mode per configured model/controller; support mixed AC/pixel shows and abstain on ambiguous metadata. Preserve legacy CTB16PC wiring and channel semantics.
+- [ ] Build three native 3D studies with keyboard/MIDI rung submodels, spiral groves, forced perspective, moire, historical prop coverage, source-driven spatial separation and native sequences.
+- [ ] Run native xLights import/render checks, regression and channel parity checks; render fresh real-audio band/layout MP4s and inspect decoded frames.
+- [ ] Package models, layouts, sequences, video index, wiring map, validation and an execution roadmap; commit and open a draft PR.
+
+Modules: new evidence/router, controller-capability and seven-member native export modules plus opt-in review tools. Existing legacy six-member exports, default builds, desktop/Android, xLights/LOR/CTB16PC behavior and historical artwork remain preserved. Risks: mixed vocals do not establish singer identity; RGB channels are not AC circuits; stationary light poses are not articulated meshes; native render evidence is required before claiming xLights compatibility. Hardware remains untested. Evidence and remaining work will be recorded below.
+
 ## 2026-10-16 — Four preview musical recovery (in progress)
 
 Goal: latest user request is two band movies and two six-layout comparisons.

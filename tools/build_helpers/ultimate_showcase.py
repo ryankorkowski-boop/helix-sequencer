@@ -83,7 +83,7 @@ def _assets(path: Path, palette: tuple[str,str,str] = (CYAN,PINK,GOLD)) -> None:
     mesh("kinetic_base.obj",[([-1,0,-1],[1,0,-1]),([1,0,-1],[1,0,1]),([1,0,1],[-1,0,1]),([-1,0,1],[-1,0,-1])])
 
 
-def write_layout(g: Garden, output: Path) -> dict:
+def write_layout(g: Garden, output: Path, *, include_demo: bool = True) -> dict:
     output.mkdir(parents=True,exist_ok=True)
     _assets(output/"assets",g.palette)
     root=ET.Element("xrgb")
@@ -94,6 +94,8 @@ def write_layout(g: Garden, output: Path) -> dict:
     custom_dir=output/"models";custom_dir.mkdir(exist_ok=True)
     for m in g.models:
         models.append(model_xml(m))
+        if m.display == 'Custom':
+            _write_xml(model_xml(m,"custommodel"),custom_dir/(m.name+".xmodel"))
         membership["HX_ZONE_"+m.zone].append(m.name)
         membership["HX_NATIVE_"+family(m.display).upper().replace(" ","_")].append(m.name)
         membership["HX_ALL_PIXELS" if m.kind=="pixel" else "HX_CONTROL_FIXTURES"].append(m.name)
@@ -139,7 +141,8 @@ def write_layout(g: Garden, output: Path) -> dict:
     points=[{"name":m.name,"zone":m.zone,"type":m.display,"kind":m.kind,"start":m.start,
              "points":m.points.round(6).tolist(),"colors":m.colors} for m in g.models]
     (output/"preview_geometry.json").write_text(json.dumps(points,separators=(",",":")),encoding="utf-8")
-    write_demo(g,output)
+    if include_demo:
+        write_demo(g,output)
     (output/"README.txt").write_text(
         g.title.upper()+" — ULTIMATE SHOWCASE\n\n"
         f"{manifest['model_count']} models / {len(manifest['native_families'])} stock families / {manifest['spiral_trees']} spiral trees / {manifest['double_helices']} double helices\n\n"

@@ -50,6 +50,8 @@ class Sculpture:
 
     @property
     def channels(self) -> int:
+        if self.kind == "ac":
+            return int(self.details['circuit_count'])
         return len(self.points) * (3 if self.kind == "pixel" else 1)
 
 

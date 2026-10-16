@@ -30,6 +30,16 @@ class ReviewBandPerformance(MusicalBandPerformance):
             j=min(len(self.vocal_clock['energy'])-1,i*5)
             self.voice_lanes[i,0]=self.vocal_clock['shapes'][j]
             self.voice_energy[i,0]=self.vocal_clock['energy'][j]
+        # Optional evidence-based routing is source-bound and supersedes only
+        # this review's lead-only clock. Legacy authored casting stays intact.
+        routed=folder/'voice_roles.npz'
+        if routed.exists():
+            report=json.loads((folder/'voice_roles.json').read_text())
+            if report['source_sha256']!=row['sha256']:raise ValueError('voice source mismatch')
+            with np.load(routed) as z:
+                if z['energy'].shape!=(self.n,2):raise ValueError('voice frame count mismatch')
+                self.voice_energy=z['energy'].copy();self.voice_lanes=z['shapes'].copy()
+            self.voice_routing_report=report
         self.curves['vocal_energy']=self.voice_energy[:,0];self.curves['mouth_lanes']=self.voice_lanes
         centers=[]
         for slot in range(64,112):
