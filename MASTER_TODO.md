@@ -113,7 +113,18 @@ lit-channel correlation 0.265961 -> 0.338588 (8 channels, 480 frames/50 ms;
 612 -> 558 nonzero samples). Both native MP4s have verified H.264/AAC,
 24-second streams at time zero. Local artifacts:
 `test_runs/section_composer_ac/{baseline,composed}/` and
-`native_comparison.json`. Remote CI remains pending publication.
+`native_comparison.json`. Remote native CI passed at implementation commit
+`1efb155ba5cc2bcab23dfd644ca93acf3e17f7c3`: 23 Phase 1/2 checks and 14
+composer checks, no skips. [Native job](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38911330696/job/117007628631),
+[74-file artifact](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38911330696/artifacts/12049584096).
+Downloaded ZIP digest verified; both CI MP4s are byte-identical to local
+outputs, and CI matches both structural/native correlation results. Local
+decoded video samples at .1, 7.1, 12.1, 18.1 and 23.9 s agree with FSEQ
+light/rest windows. [Beta matrix](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38911330424)
+passed Python 3.11/3.12: each 220 passed / 4 skipped for missing media tools
+or native artifact environment. Those four ran in strict native CI. Scoped
+lint and strict types passed in both beta jobs. Draft [PR #171](https://github.com/ryankorkowski-boop/helix-sequencer/pull/171)
+is stacked on unmerged Phase 2; stop for review before Phase 4.
 
 **Limitations/deferred:** Correlations still miss the unchanged 0.5 threshold;
 quality/dead-air warnings are retained. This isolates the actual energy_wave
