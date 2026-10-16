@@ -114,7 +114,14 @@ locally and passed those native byte assertions. Scoped flake8 and strict mypy
 pass (five modules); 35 quality/native tests, 50 targeted tests, and all 195
 selected beta smoke tests pass locally. The artifact exporter and diagnostic
 renderer module commands both execute with PYTHONPATH unset. Follow-up remote
-CI is pending publication; its native artifact must be checked separately.
+native CI passed at `7b2aabb2d8815091e9aaf7db0d6952e8bb9e4300`:
+[native job](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38896155114/job/116956997381),
+[native artifact](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38896155114/artifacts/12043453689).
+Runner output matches local channel metrics and all ramp/accent/rest assertions.
+The beta smoke matrix passed on Python 3.11 and 3.12 in run `38896147529`;
+the repaired quality-artifact exporter/diagnostic-render job passed in run
+`38896147378`. Broad audits still tolerate the pre-existing failures; do not
+read their green workflow status as a clean full-suite or lint result.
 The first native runner attempt stopped on missing `libEGL.so.1` before any
 render. The workflow now explicitly installs `libegl1` and prints the captured
 render log while retaining the actual failing exit code. This is a strict gate,
