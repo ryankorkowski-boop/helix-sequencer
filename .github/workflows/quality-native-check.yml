@@ -4,12 +4,20 @@ on:
   pull_request:
     paths:
       - 'tools/quality/**'
+      - 'tools/native_preview.py'
+      - 'tools/prepare_native_preview_benchmark.py'
+      - 'tools/check_xlights_rest_sequence.py'
+      - 'tests/test_native_preview.py'
       - 'tests/fixtures/quality/**'
       - '.github/workflows/quality-native-check.yml'
   push:
-    branches: ['codex/quality-metrics-20261016']
+    branches: ['codex/quality-metrics-20261016', 'codex/native-audio-preview-20261016']
     paths:
       - 'tools/quality/**'
+      - 'tools/native_preview.py'
+      - 'tools/prepare_native_preview_benchmark.py'
+      - 'tools/check_xlights_rest_sequence.py'
+      - 'tests/test_native_preview.py'
       - 'tests/fixtures/quality/**'
       - '.github/workflows/quality-native-check.yml'
   workflow_dispatch:
@@ -31,7 +39,8 @@ jobs:
       - name: Install virtual display dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y xvfb libegl1 libopengl0 libglu1-mesa libgtk-3-0t64
+          sudo apt-get install -y xvfb libegl1 libopengl0 libglu1-mesa libgtk-3-0t64 ffmpeg
+          python -m pip install pytest
       - name: Fetch pinned official xLights 2026.18
         working-directory: ${{ runner.temp }}
         run: |
@@ -85,10 +94,23 @@ jobs:
           assert frame(2500) == [204, 204, 0, 0]
           assert frame(3000) == [0, 0, 0, 0]
           PY
+      - name: Native House Preview with original audio
+        run: |
+          python -m tools.prepare_native_preview_benchmark test_runs/native_audio_preview
+          xvfb-run -a python -m tools.native_preview test_runs/native_audio_preview \
+            --xsq test_runs/native_audio_preview/benchmark.xsq \
+            --audio test_runs/native_audio_preview/original.wav \
+            --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun"
+      - name: Verify native MP4 audio/video streams and timeline
+        env:
+          HELIX_NATIVE_PREVIEW_MANIFEST: test_runs/native_audio_preview/run_manifest.json
+        run: python -m pytest -q tests/test_native_preview.py tests/test_check_xlights_rest_sequence.py tests/test_native_quality_evidence.py
       - name: Upload native evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: quality-native-xlights-2026.18
-          path: test_runs/quality_native/
+          path: |
+            test_runs/quality_native/
+            test_runs/native_audio_preview/
           if-no-files-found: warn
