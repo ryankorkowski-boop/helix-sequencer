@@ -30,12 +30,25 @@ class ReviewBandPerformance(MusicalBandPerformance):
             j=min(len(self.vocal_clock['energy'])-1,i*5)
             self.voice_lanes[i,0]=self.vocal_clock['shapes'][j]
             self.voice_energy[i,0]=self.vocal_clock['energy'][j]
+        # Optional evidence-based routing is source-bound and supersedes only
+        # this review's lead-only clock. Legacy authored casting stays intact.
+        routed=folder/'voice_roles.npz'
+        if routed.exists():
+            report=json.loads((folder/'voice_roles.json').read_text())
+            if report['source_sha256']!=row['sha256']:raise ValueError('voice source mismatch')
+            with np.load(routed) as z:
+                if z['energy'].shape!=(self.n,2):raise ValueError('voice frame count mismatch')
+                self.voice_energy=z['energy'].copy();self.voice_lanes=z['shapes'].copy()
+            self.voice_routing_report=report
         self.curves['vocal_energy']=self.voice_energy[:,0];self.curves['mouth_lanes']=self.voice_lanes
         centers=[]
         for slot in range(64,112):
             parts=[o['mesh'].centroid for o in scene.custom if o['slot']==slot]
             centers.append(np.mean(parts,axis=0) if parts else (slot-88,0,0))
         self.stage_levels,self.stage_proof=spatial_score(self,centers,np.arange(48)%6)
+        if hasattr(scene,'configure_drummer'):
+            from tools.render_refined_helix_band import physical_hits
+            scene.configure_drummer(physical_hits(row['drummer_xsq']))
 
     def levels(self,i):
         out=np.pad(ReadablePerformance.levels(self,i),(0,64))
@@ -48,6 +61,7 @@ class ReviewBandPerformance(MusicalBandPerformance):
 
     def pose(self,i):
         levels=super().pose(i);levels[64:112]=self.stage_levels[:,i]
+        if hasattr(self.scene,'update_drummer'):self.scene.update_drummer(i/20)
         for k,role in enumerate(('lead','harmony')):
             self.scene.update_singer_mouth(role,SHAPE_NAMES[int(self.voice_lanes[i,k])],float(self.voice_energy[i,k]))
         return levels

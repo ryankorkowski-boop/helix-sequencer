@@ -50,6 +50,8 @@ class Sculpture:
 
     @property
     def channels(self) -> int:
+        if self.kind == "ac":
+            return int(self.details['circuit_count'])
         return len(self.points) * (3 if self.kind == "pixel" else 1)
 
 
@@ -434,13 +436,14 @@ def build_ultimate_garden() -> Garden:
 
 
 def garden_manifest(g: Garden) -> dict[str, Any]:
+    present={family(m.display) for m in g.models}
     result = {"schema":"helix.ultimate_showcase.v1","name":g.title+" — Ultimate Showcase",
             "coordinate_system":"x-right, y-up, z-depth; design feet", "xlights_source_ref":XLIGHTS_SOURCE,
             "coverage":dict(sorted(Counter(family(m.display) for m in g.models).items())),
-            "native_families":list(NATIVE_TYPES), "native_coverage_complete":True,
+            "native_families":[name for name in NATIVE_TYPES if name in present], "native_coverage_complete":set(NATIVE_TYPES)<=present,
             "model_count":len(g.models), "rgb_pixels":sum(len(m.points) for m in g.models if m.kind=="pixel"),
             "channel_count":sum(m.channels for m in g.models), "spiral_trees":sum(bool(m.details.get("spiral_tree")) for m in g.models),
-            "double_helices":sum(bool(m.details.get("double_helix")) for m in g.models),
+            "double_helices":sum(bool(m.details.get("double_helix")) for m in g.models)+len({m.details['helix_assembly'] for m in g.models if m.details.get('helix_assembly')}),
             "preview_contract":"Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
             "models":[{"name":m.name,"native_type":m.display,"family":family(m.display),"zone":m.zone,"design":m.design,
                        "kind":m.kind,"nodes":len(m.points),"start_channel":m.start,"end_channel":m.start+m.channels-1,

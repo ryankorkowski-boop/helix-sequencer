@@ -39,7 +39,7 @@ def physical_hits(xsq):
     for element in root.findall('./ElementEffects/Element'):
         for e in element.iter('Effect'):
             target=e.get('sourceComponent',element.get('name'))
-            if target not in TARGETS or target==TARGETS[0]:continue
+            if target not in TARGETS:continue
             role=e.get('sourceRole')
             if role and role!='visual_geometry':continue
             if e.get('sourcePose')=='shared_actuator_union':continue

@@ -1,0 +1,111 @@
+{
+  "review_pr": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/153",
+  "implementation_commit": "0fb97032b582e90af88d840afd48e641be9fead0",
+  "metadata_commit": "970080dbb38a9149a492e000ca11aa2cdf1ba6ca",
+  "branch": "codex/3d-vocal-controller-review-20261016",
+  "videos": [
+    {
+      "file": "videos/01_E03_Snowman_Band.mp4",
+      "description": "Instrumental snowman band: separate keys/mallets and volumetric drummer.",
+      "bytes": 10630863,
+      "sha256": "cad8da486c475e3e83e5257336a04f499ba16cd3b36d3dedf4540fafbb737d91",
+      "excerpt_id": "E03",
+      "source_start_seconds": 116.0,
+      "source_end_seconds": 152.0,
+      "original_audio_sha256": "211a5aa243b4ae0df70fca05a183f534f422e91b4780cf2abf9e6bf79f8c3ac6",
+      "excerpt_sha256": "d01e654d569195410c16615b04ff8d846ebb04f1cb49b329c904b964689197ff",
+      "fps": 20,
+      "seconds": 36
+    },
+    {
+      "file": "videos/02_E14_Snowman_Band.mp4",
+      "description": "Vocal snowman band: restrained mouth, stable lead and source-driven accompaniment.",
+      "bytes": 15337219,
+      "sha256": "7fa644db09332e0aa945d33debeafaca7c4fc62c73f0c96f2fc0347440aa3816",
+      "excerpt_id": "E14",
+      "source_start_seconds": 40.0,
+      "source_end_seconds": 76.0,
+      "original_audio_sha256": "8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec",
+      "excerpt_sha256": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171",
+      "fps": 20,
+      "seconds": 36
+    },
+    {
+      "file": "videos/03_E03_Native_3D_Comparison.mp4",
+      "description": "Six native 3D worlds on the same instrumental excerpt.",
+      "bytes": 39701248,
+      "sha256": "6ca869b19bf3987fc97b57841c62589d02da02600d016860fa381e3e912175ba",
+      "excerpt_id": "E03",
+      "source_start_seconds": 116.0,
+      "source_end_seconds": 152.0,
+      "original_audio_sha256": "211a5aa243b4ae0df70fca05a183f534f422e91b4780cf2abf9e6bf79f8c3ac6",
+      "excerpt_sha256": "d01e654d569195410c16615b04ff8d846ebb04f1cb49b329c904b964689197ff",
+      "fps": 20,
+      "seconds": 36
+    },
+    {
+      "file": "videos/04_E14_Native_3D_Comparison.mp4",
+      "description": "Six native 3D worlds on the same vocal excerpt.",
+      "bytes": 50434950,
+      "sha256": "64cba234513f27b4c90d52943e8e7658c7cc8d1b1579a9ae2c9fe86348eb0a36",
+      "excerpt_id": "E14",
+      "source_start_seconds": 40.0,
+      "source_end_seconds": 76.0,
+      "original_audio_sha256": "8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec",
+      "excerpt_sha256": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171",
+      "fps": 20,
+      "seconds": 36
+    },
+    {
+      "file": "videos/05_AC16_Band_and_88_Note_Helix.mp4",
+      "description": "Native AC16 band, circuit meters and independent 88-note AC helix.",
+      "bytes": 5078407,
+      "sha256": "75ec99a59d4d54ee01af14a93472caa093c802e19871c89d5e7db9cc413e3883",
+      "excerpt_id": "E14",
+      "source_start_seconds": 40.0,
+      "source_end_seconds": 76.0,
+      "original_audio_sha256": "8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec",
+      "excerpt_sha256": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171",
+      "fps": 20,
+      "seconds": 36
+    }
+  ],
+  "archives": {
+    "archives": [
+      {
+        "path": "/workspace/scratch/5da3b631db5c/Helix_3D_Vocal_Review.zip",
+        "bytes": 321300883,
+        "sha256": "0bb9e4b13bfbd74eac602f33b303b6d1a3753bb9e142586868a5ca8c0f613dce"
+      },
+      {
+        "path": "/workspace/scratch/5da3b631db5c/Helix_Standalone_3D_Models.zip",
+        "bytes": 369505,
+        "sha256": "951f86fec57bb9b5224956666482dd32a7b13f66013a6f42107d63e1693b1489"
+      }
+    ],
+    "entries": 1374,
+    "unique_review_mp4s": 5,
+    "standalone_xmodels": 31,
+    "crc_verified": true
+  },
+  "regression": {
+    "tests": 1595,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 5,
+    "seconds": 198.41,
+    "passed": 1590,
+    "metadata_followup": "43 focused tests passed / 8.33 s"
+  },
+  "native_shows": 18,
+  "native_channel_samples": 2163366720,
+  "max_native_channel_error": 1,
+  "standalone_xmodels": 31,
+  "max_ac_circuits_per_model": 16,
+  "roadmap": "Helix_Execution_Roadmap.md",
+  "artifact_root": "/workspace/scratch/5da3b631db5c/Helix_3D_Vocal_Review",
+  "physical_hardware_tested": false,
+  "real_duet_backing_identity_verified": false,
+  "release_integration_approved": false,
+  "public_exe_apk_rebuilt": false
+}
