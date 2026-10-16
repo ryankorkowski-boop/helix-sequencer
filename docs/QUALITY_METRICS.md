@@ -42,7 +42,7 @@ This phase does not add automatic feature extraction or run-completion hooks.
 
 ## Feature contract
 
-All times are milliseconds; energy is normalized to [0, 1]. Times must be finite.
+Feature times are milliseconds; energy is normalized to [0, 1]. Times must be finite.
 Energy samples must be strictly increasing, sections ordered/nonoverlapping,
 and section ids nonempty and unique. Features must correspond to the exact XSQ
 audio clip, including its offset and duration. A mismatch is rejected.
@@ -65,6 +65,17 @@ onsets/energy yield null metrics with warnings; empty/constant series never
 receive fabricated perfect correlation. No sections yields an overall report
 and a warning. Preserve feature provenance alongside these fields. The CI
 fixture supplies synthetic features, not detected events from a real recording.
+
+Native XSQ with `FixedPointTiming="1"` stores effect times in milliseconds.
+Older unflagged XSQ stores seconds and is converted accordingly. Some existing
+Helix demo exporters write millisecond values without that native flag, plus
+settings attributes that xLights does not read as native settings. Such output
+is rejected when its converted effects exceed duration. For a deliberate
+structural inspection of that legacy Helix metadata only, features may include
+`"legacy_millisecond_times": true`; the report then warns
+`non_native_millisecond_timing_override`. This does not make the file native
+compatible. Inline settings/palette attributes and missing DisplayElements also
+warn. Existing exporters and generation profiles are unchanged by this phase.
 
 ## Definitions and initial diagnostic thresholds
 
@@ -115,6 +126,41 @@ controller safety, visual quality, or real-song detector accuracy. Phase 1 is
 implementation-tested but remains native-verification-pending until the project
 gate in MASTER_TODO.md is satisfied with native XSQ/MP4 and human review.
 
+## Native channel-data evidence
+
+The `Native xLights Quality Benchmark` workflow downloads the official Linux
+2026.18 AppImage, checks its published SHA256, renders the benchmark using
+xLights `--headless` under a virtual display, and inspects the resulting FSEQ.
+No Python preview renderer supplies this evidence. Rendering a file or exiting
+successfully is insufficient: the gate checks nonzero channel bytes, dimensions,
+ramp behavior, a timed accent, and dark intervals. Artifacts include the exact
+XSQ/layout, FSEQ, render log, and channel report.
+
+```bash
+python -m tools.quality.native benchmark.fseq --expected-channels 4 \
+  --expected-duration-ms 4000 --require-nonzero --output native_report.json
+```
+
+The bounded inspector handles FSEQ v1/v2, sparse channels, uncompressed/zlib
+blocks, and ZSTD via system libzstd. ZSTD inspection fails clearly if that native
+library is unavailable. Embedded v2.2 metadata after the channel blocks is not
+counted as channel data. Header-only, truncated, wrong-size, or entirely black
+benchmark output cannot satisfy the check. Input and decoded data are limited
+to 128 MiB for this diagnostic tool.
+
+The native report's basis is `decoded_rendered_channel_bytes`, with a hash and
+measured occupancy/dark intervals. It does not change the structural scorer's
+`native_render_verified: false`, and does not certify where an arbitrary FSEQ
+came from. Renderer provenance is supplied by the workflow, binary hash and log.
+Visual review and controller approval remain separate and pending.
+
+Local native 2026.18 evidence: 4 channels, 80 frames, 50 ms, 78 nonzero channel
+samples and mean lit fraction .24375. Structural occupancy is .4375. This
+measured difference illustrates the estimator's documented limits. It is not a
+sequencing improvement claim. The fixture's original missing timing/geometry
+metadata was discovered through native rendering and corrected; synthetic
+golden scores alone had not exposed it.
+
 ## Reproduce the deterministic benchmark
 
 `tests/fixtures/quality/` contains clean-room XSQ, layout, features and the golden
@@ -123,9 +169,9 @@ these files. An integration test also scores the existing Birdsong exporter;
 unsupported curves/effects must produce explicit warnings.
 
 ```bash
-python -m flake8 tools/quality tests/test_quality_metrics.py
+python -m flake8 tools/quality tests/test_quality_metrics.py tests/test_native_quality_evidence.py
 python -m mypy --strict --explicit-package-bases --follow-imports=silent tools/quality
-python -m pytest -q tests/test_quality_metrics.py
+python -m pytest -q tests/test_quality_metrics.py tests/test_native_quality_evidence.py
 ```
 
 The benchmark deliberately contains a late onset and repeated ramp: tests must

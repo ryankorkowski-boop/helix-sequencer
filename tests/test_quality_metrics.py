@@ -168,8 +168,12 @@ def test_existing_birdsong_export_with_inline_settings_is_scored(run_dir):
     intents = build_birdsong_demo_intents(duration_seconds=4)
     xsq = write_birdsong_xsq(
         run_dir / "birdsong.xsq", intents, model_pool=("Arch", "Star"))
-    result = score_sequence(xsq, run_dir / "layout.xml", {})
+    with pytest.raises(ValueError, match="extends past sequence duration"):
+        score_sequence(xsq, run_dir / "layout.xml", {})
+    result = score_sequence(xsq, run_dir / "layout.xml",
+                            {"legacy_millisecond_times": True})
     assert result["overall"]["effect_count"] > 0
+    assert "non_native_millisecond_timing_override" in result["warnings"]
     assert "value_curves_not_evaluated" in result["warnings"]
     assert "non_on_effect_occupancy_is_an_upper_bound" in result["warnings"]
 
@@ -241,3 +245,22 @@ def test_cli_failure_is_actionable_and_keeps_manifest(run_dir):
     assert "quality score:" in result.stderr
     assert "Traceback" not in result.stderr
     assert (run_dir / "run_manifest.json").read_bytes() == original
+
+
+def test_native_legacy_seconds_are_converted_to_milliseconds(run_dir):
+    tree = ET.parse(run_dir / "benchmark.xsq")
+    del tree.getroot().attrib["FixedPointTiming"]
+    for effect in tree.findall("./ElementEffects/Element/EffectLayer/Effect"):
+        for key in ("startTime", "endTime"):
+            effect.set(key, str(float(effect.get(key)) / 1000))
+    tree.write(run_dir / "benchmark.xsq")
+    report = score_run(run_dir)
+    golden = json.loads((FIXTURE / "expected_quality.json").read_text())
+    assert report == golden
+
+
+def test_unflagged_ms_xsq_is_not_reported_as_native_compatible(run_dir):
+    path = run_dir / "benchmark.xsq"
+    path.write_text(path.read_text().replace(' FixedPointTiming="1"', ""))
+    with pytest.raises(ValueError, match="extends past sequence duration"):
+        score_run(run_dir)

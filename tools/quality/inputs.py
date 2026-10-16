@@ -135,7 +135,8 @@ def _levels(name: str, params: dict[str, str]) -> tuple[float, float]:
 
 
 def read_sequence(
-    path: str | Path, targets: dict[str, tuple[str, ...]]
+    path: str | Path, targets: dict[str, tuple[str, ...]], *,
+    legacy_millisecond_times: bool = False,
 ) -> tuple[
     list[Effect], float, list[str]
 ]:
@@ -146,23 +147,33 @@ def read_sequence(
         "./ColorPalettes/ColorPalette")]
     effects: list[Effect] = []
     warnings: set[str] = set()
+    fixed_point = root.get("FixedPointTiming") == "1"
+    scale = 1 if fixed_point or legacy_millisecond_times else 1000
+    if legacy_millisecond_times and not fixed_point:
+        warnings.add("non_native_millisecond_timing_override")
+    if root.find("DisplayElements") is None:
+        warnings.add("missing_native_display_elements")
 
     def read_layers(node: ET.Element, target: str, prefix: str = "") -> None:
         if target not in targets:
             raise ValueError(f"Unknown sequence target: {target}")
         for index, layer in enumerate(node.findall("EffectLayer")):
             for item in layer.findall("Effect"):
-                start = finite(item.get("startTime"))
-                end = finite(item.get("endTime"))
+                start = finite(item.get("startTime")) * scale
+                end = finite(item.get("endTime")) * scale
                 if start < 0 or end <= start:
                     raise ValueError(f"Invalid effect interval on {target}")
                 raw = item.get("settings", item.text or "")
+                if item.get("settings") and item.get("ref") is None:
+                    warnings.add("settings_attribute_is_helix_metadata_only")
                 if item.get("ref") is not None:
                     if not item.get("ref", "").isdigit():
                         raise ValueError("Invalid effect table reference")
                     raw = _table_value(item.get("ref", ""), db, "effect")
-                palette_raw = _table_value(
-                    item.get("palette", ""), palettes, "palette")
+                palette_ref = item.get("palette", "")
+                if "=" in palette_ref:
+                    warnings.add("inline_palette_is_helix_metadata_only")
+                palette_raw = _table_value(palette_ref, palettes, "palette")
                 params = settings(raw)
                 name = item.get("name", "")
                 if not name:

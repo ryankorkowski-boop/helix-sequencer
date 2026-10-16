@@ -77,6 +77,56 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-10-16 — Phase 1 native verification follow-up (PR #169)
+**Goal:** Replace the pending-CI status with actual evidence, repair the failed
+artifact workflow, and expose native format problems hidden by structural tests.
+
+**Changed:** `tools/quality/{inputs,scoring,native}.py`, quality fixtures and
+tests, new native FSEQ tests, `.github/workflows/{helix-ci,
+helix-birdsong-quality-artifact,quality-native-check}.yml`, quality docs and this
+ledger. **Preserved:** all engine profiles, existing demo exporters, drummer
+timing/oracle, learning behavior, and user input files. No renderer replacement.
+
+**Findings:** Remote beta smoke passed on Python 3.11 and 3.12 at `7374d20`.
+The older artifact job failed on `ModuleNotFoundError: core` because it invoked
+tools by filename; commands now use `python -m tools...`. The broad CI audit
+allows failures and is not evidence that the full suite or lint is clean.
+The initial native fixture rendered black, and its missing FixedPointTiming
+flag caused millisecond timestamps to be interpreted as seconds. Native
+metadata, geometry and a zero-intensity On effect now replace the incomplete
+fixture. Structural scores themselves remain the same.
+
+**New behavior:** Scoring converts legacy native second-based times, with an
+explicit warning-producing opt-in for unflagged legacy Helix millisecond
+metadata. Inline settings/palettes not native to xLights warn. A bounded FSEQ
+inspector reads actual compressed/sparse channel bytes and rejects invalid,
+wrong-size or black benchmark output. A pinned official-native CI workflow
+checks ramps, accents and rests and uploads its evidence.
+
+**Evidence:** Official xLights 2026.18 Linux AppImage SHA256
+`62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b`
+matches the official release digest. Native headless render exits 0. Corrected
+fixture: 4 channels, 80 frames, 50 ms; 78 nonzero samples, 49 nonzero frames,
+mean actual lit fraction .24375 versus structural estimate .4375. Native
+samples include a decaying red ramp, blue accent at 1000 ms, red group accent
+at 2500 ms, and darkness at 2000 and 3000 ms. Exact current fixture rendered
+locally and passed those native byte assertions. Scoped flake8 and strict mypy
+pass (five modules); 35 quality/native tests, 50 targeted tests, and all 195
+selected beta smoke tests pass locally. The artifact exporter and diagnostic
+renderer module commands both execute with PYTHONPATH unset. Follow-up remote
+CI is pending publication; its native artifact must be checked separately.
+
+**Limitations:** This is a synthetic 4-second metric fixture, not a real-song
+band showcase. No native MP4/audio, human visual review or physical-controller
+approval is claimed. The structural scorer remains labeled an estimate.
+ZSTD FSEQ inspection needs libzstd; diagnostics are capped at 128 MiB. Native
+CI uses the pinned 2026.18 build and does not prove older versions compatible.
+
+**Deferred/risk:** Phase 2 and release integration await review. Existing full
+suite/lint/type baseline failures are retained as documented below. Native
+color routing and quantized ramp endpoints differ from continuous structural
+estimates; do not tune thresholds by pretending those are identical.
+
 ### 2026-10-16 — Phase 1 saved-XSQ metrics harness (verification pending)
 **Agent:** Codex
 **Branch:** `codex/quality-metrics-20261016`

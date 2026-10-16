@@ -244,7 +244,11 @@ def score_sequence(
 ) -> dict[str, Any]:
     """Return JSON diagnostics, with no writes or global RNG use."""
     models, targets = read_layout(layout_path)
-    effects, sequence_duration, warnings = read_sequence(xsq_path, targets)
+    override = audio_features.get("legacy_millisecond_times", False)
+    if not isinstance(override, bool):
+        raise ValueError("legacy_millisecond_times must be a boolean")
+    effects, sequence_duration, warnings = read_sequence(
+        xsq_path, targets, legacy_millisecond_times=override)
     duration = finite(audio_features.get("duration_ms", sequence_duration))
     if duration <= 0:
         raise ValueError("A positive sequence duration is required")
