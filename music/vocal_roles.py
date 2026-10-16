@@ -71,8 +71,10 @@ def route_voices(tracks: list[VoiceTrack], *, duration: float, fps: int = 20):
         if track.evidence == 'mixed' and track.role in ('second', 'background'):
             raise ValueError('Mixed bus cannot establish an independent singer')
         wave, c = _clock(track)
-        indices = np.minimum(np.floor(np.arange(frames)*100/fps).astype(int), len(c['energy'])-1)
+        raw_indices = np.floor(np.arange(frames)*100/fps).astype(int)
+        indices = np.minimum(raw_indices, len(c['energy'])-1)
         energy, shape = c['energy'][indices].copy(), c['shapes'][indices].copy()
+        energy[raw_indices>=len(c['energy'])]=0;shape[raw_indices>=len(c['energy'])]=0
         duplicate = next((name for name in accepted if _duplicate(wave, waves[name])), None)
         metadata[track.name] = dict(evidence=track.evidence, requested_role=track.role,
             sha256=hashlib.sha256(np.asarray(track.audio, '<f4').tobytes()).hexdigest(),
@@ -99,19 +101,26 @@ def route_voices(tracks: list[VoiceTrack], *, duration: float, fps: int = 20):
     explicit = [t for t in pool if t.role == 'lead']
     if len(explicit) > 1:
         raise ValueError('Only one lead voice allowed; mark the co-lead second')
-    lead = (explicit or sorted(pool, key=lambda t: metadata[t.name]['prominence']*
+    candidates=[t for t in pool if t.evidence!='ensemble' and t.role not in ('background','second')]
+    lead = (explicit or sorted(candidates, key=lambda t: metadata[t.name]['prominence']*
         metadata[t.name]['voiced_fraction'], reverse=True))[:1]
     roles = {}
     if lead:
         roles[lead[0].name] = 'lead'
         lead_meta = metadata[lead[0].name]
-        for track in isolated:
-            if track.name in roles: continue
-            m = metadata[track.name]
-            coequal = (m['voiced_fraction'] >= lead_meta['voiced_fraction']*.60 and
-                       m['prominence'] >= lead_meta['prominence']*.55)
-            roles[track.name] = track.role or ('background' if track.evidence == 'ensemble'
-                                             else 'second' if coequal else 'background')
+    explicit_second=[t for t in isolated if t.role=='second']
+    if len(explicit_second)>1:
+        raise ValueError('A duet has one second singer; assign further tracks background roles')
+    coequals=[t for t in isolated if t.name not in roles and t.role is None and t.evidence=='individual'
+        and lead and metadata[t.name]['voiced_fraction']>=lead_meta['voiced_fraction']*.60
+        and metadata[t.name]['prominence']>=lead_meta['prominence']*.55]
+    second=(explicit_second or sorted(coequals,key=lambda t:metadata[t.name]['prominence']*
+        metadata[t.name]['voiced_fraction'],reverse=True))[:1]
+    for track in isolated:
+        if track.name in roles: continue
+        m = metadata[track.name]
+        roles[track.name] = track.role or ('background' if track.evidence == 'ensemble'
+                                         else 'second' if second and track.name==second[0].name else 'background')
     lanes = []
     for name, role in roles.items():
         energy, shape = clocks[name]
@@ -122,9 +131,10 @@ def route_voices(tracks: list[VoiceTrack], *, duration: float, fps: int = 20):
     for i in range(frames):
         active = [lane['role'] for lane in lanes if lane['energy'][i] > 0]
         if active:
-            modes[i] = ('lead_background' if 'background' in active and 'lead' in active else
+            modes[i] = ('duet_background' if all(r in active for r in ('lead','second','background')) else
+                        'lead_background' if 'background' in active and 'lead' in active else
                         'duet' if 'second' in active and 'lead' in active else
-                        'background' if active == ['background'] else 'solo')
+                        'background' if all(r=='background' for r in active) else 'solo')
     report = dict(schema='helix.voice_roles.v1', input_tracks=metadata,
         voice_identity_resolved=bool(isolated), mixed_bus_only=not bool(isolated),
         independent_tracks=len(isolated), classifications={k:int(np.sum(modes==k)) for k in np.unique(modes)},

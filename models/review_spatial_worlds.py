@@ -5,8 +5,8 @@ from models.showcase_flavors import build_flavor
 from models.approved_concepts import Structures
 from models.native_review_band import add_band, allocate
 
-WORLDS = ('celestial_orrery','enchanted_grove','neon_circuit')
-TITLES = ('Moiré Observatory','Spiral Village','Prismatic Fold')
+WORLDS = ('celestial_orrery','enchanted_grove','neon_circuit','fire_and_ice','crystal_lagoon','midnight_masquerade')
+TITLES = ('Moiré Observatory','Spiral Village','Prismatic Fold','Ember Helix','Tidal Infinity','Velvet Perspective')
 
 
 def build_world(variant):

@@ -18,21 +18,22 @@ LAYOUTS={'E03':'prismatic_orrery','E14':'woven_aurora'}
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
-def setup(root,eid):
+def setup(root,eid,*,scene_factory=None):
     row=next(x for x in json.loads((root/'sources/selected_excerpts.json').read_text()) if x['excerpt_id']==eid)
-    audio=root/'sources'/eid/'audio.wav';scene=ReviewSnowmanScene(LAYOUTS[eid])
+    audio=root/'sources'/eid/'audio.wav';scene=(scene_factory or ReviewSnowmanScene)(LAYOUTS[eid])
     source=dict(id=eid,title=row['filename'],path=str(audio),sha256=sha(audio),duration=36,
                 drummer_xsq=str(root/'sources'/eid/'drummer.xsq'))
     performance=ReviewBandPerformance(source,scene,root/'analysis')
     return row,audio,scene,performance
 
 
-def camera(eid):
+def camera(eid,drummer3d=False):
     def apply(w,h,t):
         eye=(.3,6.0,20.0);target=(0,3.0,-.8);fov=46
         if eid=='E14' and 8<=t<16:eye=(.0,3.6,10);target=(0,2.0,1.2);fov=43
         elif 16<=t<23:eye=(6.8,4.5,7.3);target=(6.5,1.65,3.05);fov=43
         elif 23<=t<29:eye=(-6.5,4.4,6.8);target=(-6.55,1.7,1.8);fov=43
+        if drummer3d and 29<=t<33:eye=(0,4.4,4);target=(0,1.8,-2.8);fov=43
         eye=np.asarray(eye,dtype='f4');eye[0]+=.09*np.sin(t*.15)
         forward=np.asarray(target)-eye;forward/=np.linalg.norm(forward)
         right=np.cross(forward,(0,1,0));right/=np.linalg.norm(right);up=np.cross(right,forward)
@@ -43,23 +44,29 @@ def camera(eid):
     return apply
 
 
-def band(root,eid,frames=720):
-    row,audio,scene,p=setup(root,eid);folder=root/'videos';folder.mkdir(exist_ok=True)
+def band(root,eid,frames=720,*,scene_factory=None):
+    row,audio,scene,p=setup(root,eid,scene_factory=scene_factory);folder=root/'videos';folder.mkdir(exist_ok=True)
     path=folder/(('01' if eid=='E03' else '02')+'_'+eid+'_Snowman_Band.mp4')
     shader=REFINED_FRAGMENT.replace(
         'c=color*(0.07+diffuse*0.10+(0.20+energy)*(.26+.74*wave))+color*sparkle*energy*.60;',
         'c=color*(.022+.90*energy)+color*sparkle*energy*.12;')
     view=SamplerView(scene,1280,720,SAMPLER_VERTEX.replace('activity[128]','activity[192]'),shader)
-    view.camera_callback=camera(eid)
+    view.camera_callback=camera(eid,hasattr(scene,"configure_drummer"))
     player=ArticulatedDrummer(physical_hits(root/'sources'/eid/'drummer.xsq'),natural_arms=True,cache_lighting=True)
     view.dry=DynamicDry(player)
+    if hasattr(scene,"configure_drummer"):
+        class NoSprite:
+            time=0
+            def frame(self,*args):return Image.new("RGBA",(395,256))
+        view.dry=NoSprite()
     temp=path.with_name(path.stem+'.'+uuid.uuid4().hex+'.rendering.mp4');writer=encoder(temp,1280,720,20,audio,0,frames/20)
     font=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',23)
     small=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',17)
-    began=time.monotonic();contacts=[];keys=[];mouths=[];poses=[];snap=root/'diagnostics'/path.stem;snap.mkdir(parents=True,exist_ok=True)
+    began=time.monotonic();contacts=[];keys=[];mouths=[];poses=[];drum_contacts=[];snap=root/'diagnostics'/path.stem;snap.mkdir(parents=True,exist_ok=True)
     try:
         for i in range(frames):
             levels=p.pose(i);view.dry.time=i/20
+            drum_contacts.extend(getattr(scene,"drum_contact_proof",[]))
             image=view.frame(levels,p.drums[i],p.strikes[i],p.hands[i],i/20,i/20)
             d=ImageDraw.Draw(image);d.rectangle((0,0,1280,45),fill='#08131E')
             d.text((18,10),'HELIX  /  '+Path(row['filename']).stem,font=font,fill='#DEEAF4')
@@ -96,7 +103,8 @@ def band(root,eid,frames=720):
         frames=frames,fps=20,seconds=frames/20,all_snowmen=True,visible_roles=list(scene.visible_roles),
         keyboard_events=len(p.keyboard_events),mallet_contacts=contacts,keyboard_contacts=keys,
         mallet_motion_omissions=p.mallet_motion_omissions,mouth_frames=mouths,stage_score=p.stage_proof,
-        drummer_motion_rejections=player.motion_rejections,source_pitch_identity_verified=False,
+        drummer_motion_rejections=[] if hasattr(scene,'configure_drummer') else player.motion_rejections,
+        volumetric_drummer=hasattr(scene,'configure_drummer'),drummer_contacts=drum_contacts,source_pitch_identity_verified=False,
         exact_phonemes_verified=False,independent_backing_singer_verified=False,renderer_sha256=sha(Path(__file__)))
     path.with_suffix('.render.json').write_text(json.dumps(proof,indent=2)+'\n')
     print('BAND_COMPLETE',path.name,flush=True)

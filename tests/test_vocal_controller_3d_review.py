@@ -23,7 +23,7 @@ def test_distinct_voice_tracks_route_duet_and_background_independently():
             VoiceTrack('choir',tone(330,1.2,1.7,.06),16000,'ensemble')]
     lanes,modes,report=route_voices(tracks,duration=2)
     assert [x['role'] for x in lanes]==['lead','second','background']
-    assert 'duet' in modes and 'lead_background' in modes
+    assert 'duet' in modes and 'duet_background' in modes
     assert lanes[1]['energy'][:10].max()==0 and lanes[2]['energy'][:20].max()==0
     assert report['voice_identity_resolved']
 
@@ -63,12 +63,15 @@ def test_native_band_has_seven_standalone_ac_models_and_ten_separate_mouths():
     from models.native_review_band import add_band, ac_variant, allocate, VISEMES
     from models.ultimate_showcase import Garden
     g=Garden();add_band(g);assert len(g.models)==7
+    for m in g.models[1:]:
+        dynamic=[set(v) for k,v in m.submodels.items() if k!='BODY']
+        assert sum(len(v) for v in dynamic)==len(set().union(*dynamic))
     a=Garden();a.models=[ac_variant(m) for m in g.models];allocate(a)
     for i,m in enumerate(a.models):
         assert m.channels<=16 and m.start==i*16+1
         assert detect_output(m.attrs).mode=='ac16'
         assert "WorldPosZ" in m.attrs
-        if m.details["review_role"]!="drummer":assert np.ptp(m.points[:,2])>0
+        assert np.ptp(m.points[:,2])>0
         assert max(m.details['point_circuits'])<=16
         if m.details['review_role'] in ('lead','harmony'):
             channels=[m.submodels['MOUTH_'+v][0] for v in VISEMES]
@@ -87,3 +90,47 @@ def test_every_hero_rung_is_complete_disjoint_and_absolutely_pitched():
     assert len(set(all_nodes))==len(all_nodes)==len(hero.submodels['RUNGS'])
     assert sum(bool(m.details.get('spiral_tree')) for m in g.models)>=24
     assert any(m.details.get('moire') for m in g.models)
+
+
+def test_kick_is_not_discarded_as_a_base_layer(tmp_path):
+    from tools.render_refined_helix_band import physical_hits
+    path=tmp_path/'kick.xsq'
+    path.write_text('<xsequence><ElementEffects><Element name="HX_SNOWMAN_DRUMMER_V3_KICK"><EffectLayer><Effect startTime="50" endTime="100" sourceHand="right"/></EffectLayer></Element></ElementEffects></xsequence>')
+    hits=physical_hits(path)
+    assert len(hits)==1 and hits[0]['target'].endswith('_KICK')
+
+
+def test_volumetric_drummer_contacts_follow_source_clock():
+    from models.review_3d_scene import Review3DScene
+    scene=Review3DScene();scene.configure_drummer([dict(target='HX_SNOWMAN_DRUMMER_V3_SNARE',time=.10,side='left',velocity=1)])
+    scene.update_drummer(.10)
+    assert scene.drum_contact_proof[0]['error']<1e-7
+    assert scene.drum_contact_proof[0]['target']=='SNARE'
+    assert np.isfinite(np.array([x['matrix'] for x in scene.instances])).all()
+
+
+def test_choir_only_input_does_not_invent_a_solo_lead():
+    lanes,modes,_=route_voices([VoiceTrack('choir',tone(220),16000,'ensemble')],duration=2)
+    assert lanes[0]['role']=='background' and 'solo' not in modes
+
+
+def test_short_voice_does_not_hold_last_mouth_after_end():
+    lanes,_,_=route_voices([VoiceTrack('short',tone(180)[:16000],16000)],duration=2)
+    assert lanes[0]['energy'][20:].max()==0 and lanes[0]['shapes'][20:].max()==0
+
+
+def test_ac_full_range_helix_never_aliases_octaves_or_exceeds_sixteen():
+    from models.review_spatial_worlds import build_world
+    from models.native_review_band import ac_midi_helix
+    hero=next(m for m in build_world(0).models if m.details.get('midi_rungs'))
+    g=ac_midi_helix(hero);assert len(g.models)==7
+    keys=[name for m in g.models for name in m.submodels if name.startswith('KEY_MIDI_')]
+    assert len(keys)==len(set(keys))==88
+    for m in g.models:assert m.channels<=16
+
+
+def test_three_individual_tracks_do_not_all_become_co_leads():
+    tracks=[VoiceTrack(str(i),tone(f),16000,'individual') for i,f in enumerate((180,267,330))]
+    lanes,modes,_=route_voices(tracks,duration=2)
+    assert sorted(x['role'] for x in lanes)==['background','lead','second']
+    assert 'duet_background' in modes

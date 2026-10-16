@@ -13,10 +13,10 @@ def audio(p):
     return np.frombuffer(b,'<f4').reshape(-1,2)
 
 
-def verify(root):
+def verify(root,*,expected_videos=4):
     reports=[];folder=root/'validation';folder.mkdir(exist_ok=True)
     receipts=sorted((root/'videos').glob('*.render.json'))
-    if len(receipts)!=4:raise ValueError('Exactly four completed review movies required')
+    if len(receipts)!=expected_videos:raise ValueError('Completed review movie count mismatch')
     for receipt in receipts:
         r=json.loads(receipt.read_text());movie=root/r['file'];source=root/'sources'/r['excerpt_id']/'audio.wav'
         assert r['frames']==720 and r['seconds']==36 and r['sha256']==sha(movie)
@@ -53,24 +53,31 @@ def verify(root):
             maxmallet=max((e['error'] for e in r['mallet_contacts']),default=0)
             maxkey=max((e['error'] for e in r['keyboard_contacts'] if e['source_contact_change']),default=0)
             assert maxmallet<1e-5 and maxkey<1e-5,(maxmallet,maxkey)
-            with np.load(root/'analysis'/r['excerpt_id']/'vocal_clock.npz') as z:
+            routed=root/'analysis'/r['excerpt_id']/'voice_roles.npz'
+            with np.load(routed if routed.exists() else root/'analysis'/r['excerpt_id']/'vocal_clock.npz') as z:
                 for m in r['mouth_frames']:
-                    j=m['source_clock_index'];assert abs(m['energy']-z['energy'][j])<1e-7
-                    if z['energy'][j]==0:assert m['shape']==0 and m['aperture']<=.00701
+                    j=m['frame'] if routed.exists() else m['source_clock_index']
+                    energy=z['energy'][j,0] if routed.exists() else z['energy'][j]
+                    shape=z['shapes'][j,0] if routed.exists() else z['shapes'][j]
+                    assert abs(m['energy']-energy)<1e-7 and m['shape']==shape
+                    if energy==0:assert m['shape']==0 and m['aperture']<=.00701
                     assert m['aperture']<=.07101
+            if r.get('volumetric_drummer'):
+                assert r['drummer_contacts'] and max(c['error'] for c in r['drummer_contacts'])<1e-5
+                assert max(abs(c['time']-c['source_time']) for c in r['drummer_contacts'])<=.02501
             contact=dict(mallet_contacts=len(r['mallet_contacts']),max_mallet_contact_error=maxmallet,
                          keyboard_contact_changes=sum(e['source_contact_change'] for e in r['keyboard_contacts']),
                          maximum_key_contact_error_on_change=maxkey,mouth_clock_matches_source_analysis=True,
                          phone_identity_independently_verified=False)
         else:
-            assert r['panels']==6 and r['all_panels_same_source_clock']
+            assert r['panels'] in (2,6) and r['all_panels_same_source_clock']
         screenshots=folder/movie.stem;screenshots.mkdir(exist_ok=True)
         subprocess.run(['ffmpeg','-v','error','-y','-threads','1','-i',str(movie),'-vf',"select='eq(n,40)+eq(n,240)+eq(n,380)+eq(n,520)+eq(n,700)',scale=640:360",'-vsync','0',str(screenshots/'frame_%02d.jpg')],check=True)
         report=dict(file=r['file'],sha256=sha(movie),source_sha256=sha(source),source_start=r['source_start'],source_end=r['source_end'],
             frames=count,seconds=36,fps=20,resolution=[v['width'],v['height']],complete_video_decode=True,complete_audio_decode=True,
             unexpected_black_frames=black,maximum_repeated_scene_frames=maxrepeat,soundtrack_windows=windows,contacts=contact)
         reports.append(report);(folder/(movie.stem+'.json')).write_text(json.dumps(report,indent=2)+'\n');print('VERIFIED',movie.name,flush=True)
-    summary=dict(videos=4,reports=reports,minimum_soundtrack_correlation=min(min(w['correlations']) for r in reports for w in r['soundtrack_windows']),
+    summary=dict(videos=expected_videos,reports=reports,minimum_soundtrack_correlation=min(min(w['correlations']) for r in reports for w in r['soundtrack_windows']),
         artistic_approval_received=False,physical_hardware_tested=False,release_integration_performed=False)
     (folder/'MASTER_VALIDATION.json').write_text(json.dumps(summary,indent=2)+'\n')
 

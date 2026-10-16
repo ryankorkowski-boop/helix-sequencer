@@ -80,29 +80,45 @@ def instrument_models():
 
 
 def add_band(g, prefix='HX_SNOW', position=(0,0,75), *, scale=5):
-    scene=ReviewSnowmanScene()
-    from models.snowman_ensemble import build_ensemble
-    drum=copy.deepcopy(build_ensemble().models[0]);points=drum.points
-    span=np.maximum(np.ptp(points,axis=0),1);center=(points.min(axis=0)+points.max(axis=0))/2
-    factors=np.array((22.5/span[0],14.6/span[1],4/span[2]))*(scale/5)
-    new=np.asarray(position)+(0,11.3*scale/5,-7*scale/5)
-    # Rebuild quantized native coordinates once rather than changing preview only.
-    subs={c.name:[] for c in DRUMMER}
-    for part,nodes in drum.submodels.items():
-        for c in DRUMMER[1:]:
-            if c.name in part and ('SURFACE' in part or 'ARM_STICK' in part or part.endswith(c.name)):
-                subs[c.name].extend(nodes)
-    # Split snare contact channels retain independent arm/stick poses.
-    for side in ('LEFT','RIGHT'):
-        subs['SNARE_'+side]=sorted(set(drum.submodels.get('HX_SNOWMAN_DRUMMER_V3_SNARE_SURFACE',[])+
-            drum.submodels.get('HX_SNOWMAN_DRUMMER_V3_'+('SNARE_ARM_STICK' if side=='LEFT' else 'RIGHT_ARM_STICK'),[])))
-    dynamic=set().union(*(set(v) for k,v in subs.items() if k!='BASE_DIM'))
-    subs['BASE_DIM']=sorted(set(range(1,len(points)+1))-dynamic)
-    g.custom(prefix+'_DRUMMER',(points-center)*factors+new,prefix,'Canonical snowman drummer',drum.colors,
-        {k:sorted(set(v)) for k,v in subs.items()},details=dict(review_role='drummer',all_snowmen=True))
+    from models.review_3d_scene import Review3DScene
+    scene=Review3DScene();parts=SurfaceParts(position,scale=scale)
+    for item in scene.instances:
+        if item.get('performer_role')=='drummer' or item['name'].startswith('drummer_'):
+            name=item['name'];part='BASE_DIM'
+            for target in scene.drum_centers:
+                if name.startswith('drummer_'+target) and not name.endswith('_STAND'):part=target;break
+            if part=='SNARE':
+                temp=SurfaceParts((0,0,0),scale=1);temp.primitive('TEMP',item)
+                points=np.asarray(temp.points);mid=scene.drum_centers['SNARE'][0]
+                for side,mask in [('LEFT',points[:,0]<=mid),('RIGHT',points[:,0]>mid)]:
+                    if mask.any():parts.add('SNARE_'+side,points[mask],'#BCDDE5')
+            else:parts.primitive(part,item)
+    for target in ('CYMBAL_LEFT','TOM_FLOOR','TOM_MID','SNARE_LEFT','SNARE_RIGHT','TOM_HIGH','HI_HAT','CYMBAL_RIGHT'):
+        side='left' if target in ('CYMBAL_LEFT','TOM_MID','SNARE_LEFT') else 'right'
+        scene.configure_drummer([dict(target='HX_SNOWMAN_DRUMMER_V3_'+('SNARE' if target.startswith('SNARE') else target),time=0,side=side,velocity=1)])
+        scene.update_drummer(0)
+        for idx in scene.drummer_rigs[side]['ids']:parts.primitive(target,scene.instances[idx])
+    subs={k:sorted(set(v)) for k,v in parts.parts.items()}
+    used=set()
+    for part in [c.name for c in DRUMMER[1:]]:
+        subs[part]=sorted(set(subs.get(part,[]))-used);used.update(subs[part])
+    subs['BASE_DIM']=sorted(set(subs['BASE_DIM'])-used)
+    g.custom(prefix+'_DRUMMER',parts.points,prefix,'Volumetric snowman drummer',parts.colors,subs,
+        details=dict(review_role='drummer',all_snowmen=True,volumetric=True,
+        canonical_source_timing=True,physical_circuit_names_preserved=True))
     for role in ROLES[1:]:
         p=_role_parts(scene,role,position,scale)
         subs={k:sorted(set(v)) for k,v in p.parts.items()}
+        # Quantized idle/contact surfaces can meet at a shoulder. Separate
+        # native submodel layers would then overwrite each other's brightness.
+        # Notes/mouths own first, followed by active arms, then idle outlines.
+        claimed=set()
+        def priority(name):
+            return (0 if name.startswith(('MOUTH_','NOTE_MIDI_','STRING_')) else
+                    1 if name.endswith('_ACTIVE') else 2 if name.endswith('_IDLE') else 3)
+        for part in sorted(subs,key=priority):
+            if part=='BODY':continue
+            subs[part]=sorted(set(subs[part])-claimed);claimed.update(subs[part])
         # Dynamic nodes own their channels; BODY never keeps notes/mouths on.
         dynamic=set().union(*(set(v) for k,v in subs.items() if k!='BODY'))
         subs['BODY']=sorted(set(subs.get('BODY',[]))-dynamic)
@@ -156,3 +172,30 @@ def ac_variant(model):
     m.children=[]
     if role in ('lead','harmony'):m.children.append(('faceInfo',face_info(m)))
     return m
+
+
+def ac_midi_helix(hero):
+    """88 independent AC rungs in six <=16-circuit xmodels, plus two strands.
+
+    This avoids octave folding on a full AC sculpture. It requires additional
+    actual controller banks; no addresses are fabricated or sent to hardware.
+    """
+    from models.ultimate_showcase import Garden
+    g=Garden(title='Helix AC MIDI Cathedral',slug='Helix_AC_MIDI')
+    banks=[[(f'KEY_MIDI_{p:03d}',hero.submodels[f'KEY_MIDI_{p:03d}'])
+             for p in range(start,min(109,start+16))] for start in range(21,109,16)]
+    banks.append([(part,hero.submodels[part]) for part in ('STRAND_A','STRAND_B')])
+    entries={int(e.split(',')[0]):e.split(',')[1:] for e in hero.attrs['CustomModelCompressed'].split(';')}
+    for number,bank in enumerate(banks,1):
+        m=copy.deepcopy(hero);points=[];colors=[];raw=[];circuits=[]
+        for circuit,(part,nodes) in enumerate(bank,1):
+            for node in nodes:
+                raw.append(','.join([str(circuit)]+entries[node]));points.append(hero.points[node-1]);colors.append(hero.colors[node-1]);circuits.append(circuit)
+        m.name='HX_AC_MIDI_'+('STRANDS' if number==7 else f'BANK_{number:02d}')
+        m.kind='ac';m.points=np.asarray(points);m.colors=colors;m.submodels={part:[i] for i,(part,_) in enumerate(bank,1)}
+        m.attrs.update(CustomModelCompressed=';'.join(raw),StringType='Single Color White',HelixOutputMode='ac16')
+        m.details.update(circuit_count=len(bank),point_circuits=circuits,ac_circuits=[x[0] for x in bank],
+                         ac_note_bank=True,midi_rungs=False,hardware_tested=False,independent_ac_rungs=True)
+        g.models.append(m)
+    allocate(g)
+    return g

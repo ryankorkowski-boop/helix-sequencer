@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse,json,shutil
 from pathlib import Path
 import numpy as np
-from models.native_review_band import ROLES, SHAPE_VISEME, add_band, ac_variant, allocate
+from models.native_review_band import ROLES, SHAPE_VISEME, add_band, ac_variant, allocate, ac_midi_helix
 from models.ultimate_showcase import Garden
 from models.review_spatial_worlds import build_world
 from models.band_sampler_logic import SHAPE_NAMES
@@ -82,6 +82,9 @@ def score(g,p,variant):
     for j,m in enumerate(g.models):
         if m.details.get('review_role'):
             result[m.name]=band_curves(m,p);continue
+        if m.details.get('ac_note_bank'):
+            result[m.name]={part:notes.get(int(part.rsplit('_',1)[1]),np.zeros(p.n)) if part.startswith('KEY_MIDI_') else p.curves['piano_energy']*.15 if part=='STRAND_A' else p.curves['bass_energy']*.15 for part in m.submodels}
+            continue
         if m.kind!='pixel':result[m.name]={};continue
         if m.details.get('midi_rungs'):
             result[m.name]={f'KEY_MIDI_{pitch:03d}':notes.get(pitch,np.zeros(p.n)) for pitch in range(21,109)}
@@ -104,9 +107,11 @@ def score(g,p,variant):
     return result,proof
 
 
-def build(root,eid,variant):
+def build(root,eid,variant,*,kind='auto'):
     row,audio,scene,p=setup(root,eid)
-    if variant<3:g=build_world(variant);name='World_'+str(variant+1)
+    if kind=='ac_helix':
+        world=build_world(0);g=ac_midi_helix(next(m for m in world.models if m.details.get('midi_rungs')));name='AC_MIDI_Helix'
+    elif variant<3 or kind=='world':g=build_world(variant);name='World_'+str(variant+1)
     else:
         g=Garden(title='Helix '+('AC16' if variant==3 else 'Pixel')+' Snow Band',slug='Helix_Native_Band')
         add_band(g)
@@ -115,7 +120,7 @@ def build(root,eid,variant):
     p.row={'drummer_xsq':str(root/'sources'/eid/'drummer.xsq')}
     cues,proof=score(g,p,variant);folder=root/'shows'/eid/name;folder.mkdir(parents=True,exist_ok=True)
     media=folder/'media';media.mkdir(exist_ok=True);shutil.copy2(audio,media/'audio.wav')
-    write_layout(g,folder,include_demo=False)
+    write_layout(g,folder,include_demo=False,export_all_custom=True)
     seq=NativeSequence(g,36,'media/audio.wav',g.title+' / '+row['filename'])
     seq.root.find('head/comment').text='Source-clock review: native stationary 3D light poses, source keyboard rungs, independent spatial score. No physical hardware test.'
     output={}

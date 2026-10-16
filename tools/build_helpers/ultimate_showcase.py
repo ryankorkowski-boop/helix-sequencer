@@ -83,7 +83,7 @@ def _assets(path: Path, palette: tuple[str,str,str] = (CYAN,PINK,GOLD)) -> None:
     mesh("kinetic_base.obj",[([-1,0,-1],[1,0,-1]),([1,0,-1],[1,0,1]),([1,0,1],[-1,0,1]),([-1,0,1],[-1,0,-1])])
 
 
-def write_layout(g: Garden, output: Path, *, include_demo: bool = True) -> dict:
+def write_layout(g: Garden, output: Path, *, include_demo: bool = True, export_all_custom: bool = False) -> dict:
     output.mkdir(parents=True,exist_ok=True)
     _assets(output/"assets",g.palette)
     root=ET.Element("xrgb")
@@ -94,7 +94,7 @@ def write_layout(g: Garden, output: Path, *, include_demo: bool = True) -> dict:
     custom_dir=output/"models";custom_dir.mkdir(exist_ok=True)
     for m in g.models:
         models.append(model_xml(m))
-        if m.display == 'Custom':
+        if m.display == 'Custom' and (export_all_custom or m.details.get('review_role')):
             _write_xml(model_xml(m,"custommodel"),custom_dir/(m.name+".xmodel"))
         membership["HX_ZONE_"+m.zone].append(m.name)
         membership["HX_NATIVE_"+family(m.display).upper().replace(" ","_")].append(m.name)
@@ -148,9 +148,11 @@ def write_layout(g: Garden, output: Path, *, include_demo: bool = True) -> dict:
         f"{manifest['model_count']} models / {len(manifest['native_families'])} stock families / {manifest['spiral_trees']} spiral trees / {manifest['double_helices']} double helices\n\n"
         "1. Extract this entire folder; keep assets/ and models/ alongside the XML.\n"
         "2. In xLights, select this folder as a NEW show directory. Use xLights 2026.18 or newer.\n"
-        f"3. Open Layout in 3D. Use Default preview and Restore Default ViewPoint or load {g.title.removeprefix('Helix ')} overview.\n"
-        f"4. Open {g.slug}_Showcase.xsq for the 24-second lighting demonstration (no audio required).\n"
-        f"5. Open {g.slug}_3D.html in a browser for the portable orbit/zoom design review.\n\n"
+        f"3. Open Layout in 3D. Use Default preview and Restore Default ViewPoint or load {g.title.removeprefix('Helix ')} overview.\n"+
+        (f"4. Open {g.slug}_Showcase.xsq for the 24-second lighting demonstration (no audio required).\n"
+         f"5. Open {g.slug}_3D.html in a browser for the portable orbit/zoom design review.\n\n" if include_demo else
+         "4. Open the source-bound XSQ supplied beside this layout. No generic demo is created in this mode.\n"
+         "5. Review the accompanying MP4 and native verification evidence.\n\n")+
         "This is a standalone layout. Existing Helixia/user layouts and drummer assets are unchanged.\n"
         "DNA models expose STRAND_A, STRAND_B, RUNGS, RUNGS_EVEN, RUNGS_ODD and TOP submodels.\n"
         "Spiral tree strands, spinner rays, zones and native families also have sequencing groups.\n"
