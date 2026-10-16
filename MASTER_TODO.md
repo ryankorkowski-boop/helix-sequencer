@@ -115,6 +115,10 @@ pass (five modules); 35 quality/native tests, 50 targeted tests, and all 195
 selected beta smoke tests pass locally. The artifact exporter and diagnostic
 renderer module commands both execute with PYTHONPATH unset. Follow-up remote
 CI is pending publication; its native artifact must be checked separately.
+The first native runner attempt stopped on missing `libEGL.so.1` before any
+render. The workflow now explicitly installs `libegl1` and prints the captured
+render log while retaining the actual failing exit code. This is a strict gate,
+not a continue-on-error audit. The failed attempt is not counted as validation.
 
 **Limitations:** This is a synthetic 4-second metric fixture, not a real-song
 band showcase. No native MP4/audio, human visual review or physical-controller

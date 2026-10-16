@@ -31,7 +31,7 @@ jobs:
       - name: Install virtual display dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y xvfb libopengl0 libglu1-mesa libgtk-3-0t64
+          sudo apt-get install -y xvfb libegl1 libopengl0 libglu1-mesa libgtk-3-0t64
       - name: Fetch pinned official xLights 2026.18
         working-directory: ${{ runner.temp }}
         run: |
@@ -56,11 +56,14 @@ jobs:
           PY
       - name: Render with native xLights
         run: |
+          native_exit=0
           xvfb-run -a "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun" \
             --headless --quiet --show "$PWD/test_runs/quality_native" \
             --outputdir "$PWD/test_runs/quality_native" \
             "$PWD/test_runs/quality_native/benchmark.xsq" \
-            > test_runs/quality_native/native_render.log 2>&1
+            > test_runs/quality_native/native_render.log 2>&1 || native_exit=$?
+          cat test_runs/quality_native/native_render.log
+          exit "$native_exit"
       - name: Inspect native channel data and verify effect windows
         run: |
           python -m tools.quality.native test_runs/quality_native/benchmark.fseq \
