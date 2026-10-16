@@ -13,6 +13,9 @@ from tools.build_helpers.ultimate_showcase_preview import _rgb
 
 def export_channels(g,levels,folder):
     folder=Path(folder);folder.mkdir(parents=True,exist_ok=True);write_layout(g,folder)
+    # The general layout writer also creates a demonstration XSQ. It is not
+    # this source-scored sequence and must not accompany the review FSEQ.
+    (folder/(g.slug+'_Showcase.xsq')).unlink(missing_ok=True)
     if levels.shape!=(len(g.models),720):raise ValueError('expected model/720-frame score')
     count=720;channels=max(m.start-1+m.channels for m in g.models);chunks=[]
     for begin in range(0,count,80):

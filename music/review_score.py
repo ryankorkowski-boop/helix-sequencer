@@ -51,9 +51,14 @@ def spatial_score(performance, positions, roles, variant=0):
     authored propagation, like a triggered morph, rather than a new beat note.
     """
     p=performance;n=p.n;positions=np.asarray(positions,float);out=np.zeros((len(positions),n),'f4')
-    sources=[p.curves['bass_energy'],p.curves['guitar_energy'],p.curves['piano_energy'],
+    # A melodic sculpture is not a dedicated physical guitarist. If this
+    # recording has no supported guitar, let its actual keyboard melody use
+    # those geometric paths rather than leaving an entire district dormant.
+    use_keys_for_melody=np.count_nonzero(p.curves['guitar_energy']>.08)<n*.05
+    melodic='piano' if use_keys_for_melody else 'guitar'
+    sources=[p.curves['bass_energy'],p.curves[melodic+'_energy'],p.curves['piano_energy'],
              p.voice_energy[:,0],p.strikes[:,0],np.maximum(p.strikes[:,1],p.strikes[:,6:8].max(axis=1))]
-    attacks=[p.curves['bass_attack'],p.curves['guitar_attack'],p.curves['piano_attack'],
+    attacks=[p.curves['bass_attack'],p.curves[melodic+'_attack'],p.curves['piano_attack'],
              np.r_[p.voice_energy[0,0],np.maximum(0,np.diff(p.voice_energy[:,0]))],
              np.r_[p.strikes[0,0],np.maximum(0,np.diff(p.strikes[:,0]))],
              np.r_[p.strikes[0,1],np.maximum(0,np.diff(p.strikes[:,1]))]]
@@ -90,4 +95,5 @@ def spatial_score(performance, positions, roles, variant=0):
     out[out<.025]=0
     return out,dict(region_boundaries_seconds=((np.flatnonzero(np.diff(regions))+1)/20).tolist(),
                     maximum_model_fraction=float(np.max(np.mean(out>.08,axis=0))),
-                    mean_model_fraction=float(np.mean(out>.08)),overall_volume_broadcast=False)
+                    mean_model_fraction=float(np.mean(out>.08)),overall_volume_broadcast=False,
+                    melodic_prop_source=melodic)

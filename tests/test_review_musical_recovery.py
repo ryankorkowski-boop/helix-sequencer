@@ -56,3 +56,14 @@ def test_spatial_score_keeps_silent_roles_dark_and_obeys_shared_budget():
     assert (np.count_nonzero(actual,axis=0)<=12).all()
     np.testing.assert_array_equal(actual,spatial_score(p,positions,roles)[0])
     assert not proof['overall_volume_broadcast']
+
+
+def test_melodic_props_use_actual_keys_when_the_recording_has_no_guitar():
+    n=100;zero=np.zeros(n);keys=np.ones(n)*.8
+    p=SimpleNamespace(n=n,curves={'bass_energy':zero,'guitar_energy':zero,'piano_energy':keys,
+        'bass_attack':zero,'guitar_attack':zero,'piano_attack':np.r_[.8,np.zeros(n-1)]},
+        voice_energy=np.zeros((n,2)),strikes=np.zeros((n,8)))
+    roles=np.arange(30)%6;positions=np.c_[np.arange(30),np.zeros((30,2))]
+    out,proof=spatial_score(p,positions,roles)
+    assert proof['melodic_prop_source']=='piano' and out[roles==1].any()
+    assert not out[np.isin(roles,[0,3,4,5])].any()

@@ -19,7 +19,21 @@ The legacy driver's optional separate_pitched flag defaults false.
   authored movement/timing/layer discipline over more global amplitude effects.
 - [x] New vocal/role/cast/spatial regressions plus preserved final-band, guitar,
   keyboard, drummer-cache and physical-output contracts: 38 passed in18.66s.
-- [ ] Finish full regressions and actual four fresh MP4s with source receipts.
+- [x] Full repository regression before the melodic-prop fallback: 1,575passed,
+  five missing-2.wav skips,36warnings,228.39s. Four first-pass MP4s fully decoded
+  with zero measured soundtrack offset; minimum correlation0.997958.
+- [x] Visual QA found guitar-only scenic routing starved a synth-only excerpt.
+  Let melodic props use actual keys when supported guitar is absent; no physical
+  guitarist motion is invented. Re-render the affected pair and verify again.
+- [x] Final-source full regression: 1,576passed/five missing-2.wav skips,
+  zero failures/errors,194.385s (authoritative JUnit). Five final score tests pass.
+- [x] Four current MP4s fully decoded: 720frames/36s each, H.264/AAC stereo,
+  no black frames, minimum soundtrack correlation0.997958 and zero measured lag.
+  Numerical key-contact changes and mallet contacts meet their surface targets.
+- [x] Verify every channel sample of ten new source-scored FSEQ shows and exact
+  current-score parity. These are Helix-generated channels; native xLights
+  import/render is not claimed for the new review score. Exclude unrelated
+  generated demonstration XSQs from exports and delivery.
 - [ ] Deliver saved movies, comparison evidence and prioritized audit report.
 - [ ] Obtain user video approval before final release integration.
 
