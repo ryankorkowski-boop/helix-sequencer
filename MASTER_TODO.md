@@ -105,7 +105,19 @@ export/mux produce fallback/null MP4 plus a warning. REST responses without
 Scoped flake8 and strict mypy pass for both new modules. All 50 targeted
 quality/native/REST tests and all 210 updated beta smoke tests pass locally,
 including real ffprobe, decoded audio markers and native light/rest windows.
-Remote native audio CI remains pending publication. No sequencing metric before/after change is expected for this phase.
+Remote native audio CI passed at implementation commit
+`069b6545b849e92103ae58e0c02c6cb22fdcb972` with 23 tests, including real
+ffprobe and decoded native light/audio timeline verification:
+[native job](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38899651480/job/116968447736),
+[evidence artifact](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38899651480/artifacts/12045681866).
+The artifact ZIP digest was verified after download; its MP4 is byte-identical
+to local output (SHA256 `87f86618188ab14835d110290d6a5efccf1c83dfd95202fe96be5f9fe6d7009b`).
+[Beta matrix](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38899651457)
+passed on Python 3.11 and 3.12: each 207 passed / 3 skipped because those
+runners lack ffmpeg/ffprobe; all three media tests ran in the strict native
+job (23 passed, no skips). Scoped lint/types passed in both beta jobs. Phase 2 draft
+[PR #170](https://github.com/ryankorkowski-boop/helix-sequencer/pull/170)
+is stacked on unmerged Phase 1; stop for review before Phase 3. No sequencing metric before/after change is expected for this phase.
 
 **Limitations/deferred:** Synthetic four-second proof only, not the separate
 real-song drummer review gate. Human visual/controller review remains pending.
