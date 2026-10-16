@@ -88,6 +88,6 @@ def spatial_score(performance, positions, roles, variant=0):
         ids=np.argpartition(out,-budget,axis=0)[:-budget]
         np.put_along_axis(out,ids,0,axis=0)
     out[out<.025]=0
-    return out,dict(region_boundaries_seconds=(np.flatnonzero(np.diff(regions))+1).tolist(),
+    return out,dict(region_boundaries_seconds=((np.flatnonzero(np.diff(regions))+1)/20).tolist(),
                     maximum_model_fraction=float(np.max(np.mean(out>.08,axis=0))),
                     mean_model_fraction=float(np.mean(out>.08)),overall_volume_broadcast=False)

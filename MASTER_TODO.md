@@ -7,7 +7,9 @@ Preserve historical scenes, guitar/bass/drum rigs, CTB16PC/LOR, GUI/Android and
 all release gates. Final/default merge and approved EXE/APK release stay held.
 
 Changed modules: music/review_score.py, models/review_snowman_scene.py,
-tools/musical_band_performance.py and the forthcoming approval renderer.
+tools/musical_band_performance.py, tools/review_band_performance.py,
+tools/prepare_approval_revision.py, tools/review_channel_export.py,
+tools/render_approval_revision.py and tools/verify_approval_revision.py.
 New behavior: compact coal mouths, direct source-clock vocal activity, exclusive
 pitched-role assignments, measured-onset correction and bounded spatial groups.
 The legacy driver's optional separate_pitched flag defaults false.
@@ -15,7 +17,9 @@ The legacy driver's optional separate_pitched flag defaults false.
 - [x] Inspect PR151/150 and current open issues using GitHub; no newer PR found.
 - [x] Read official SuperStar, xLights, Vixen and MADRIX documentation. Prefer
   authored movement/timing/layer discipline over more global amplitude effects.
-- [ ] Finish regression checks and actual four fresh MP4s with source receipts.
+- [x] New vocal/role/cast/spatial regressions plus preserved final-band, guitar,
+  keyboard, drummer-cache and physical-output contracts: 38 passed in18.66s.
+- [ ] Finish full regressions and actual four fresh MP4s with source receipts.
 - [ ] Deliver saved movies, comparison evidence and prioritized audit report.
 - [ ] Obtain user video approval before final release integration.
 
