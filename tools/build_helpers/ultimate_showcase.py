@@ -102,7 +102,8 @@ def write_layout(g: Garden, output: Path, *, include_demo: bool = True, export_a
         if m.details.get("double_helix"):
             membership["HX_DNA_ALL"].append(m.name)
             for part in ("STRAND_A","STRAND_B","RUNGS"):
-                membership["HX_DNA_"+part].append(m.name+"/"+part)
+                if part in m.submodels:
+                    membership["HX_DNA_"+part].append(m.name+"/"+part)
             _write_xml(model_xml(m,"custommodel"),custom_dir/(m.name+".xmodel"))
         if m.details.get("spiral_tree"):
             membership["HX_SPIRAL_TREES"].append(m.name)

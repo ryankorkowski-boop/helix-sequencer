@@ -195,7 +195,8 @@ def ac_midi_helix(hero):
         m.kind='ac';m.points=np.asarray(points);m.colors=colors;m.submodels={part:[i] for i,(part,_) in enumerate(bank,1)}
         m.attrs.update(CustomModelCompressed=';'.join(raw),StringType='Single Color White',HelixOutputMode='ac16')
         m.details.update(circuit_count=len(bank),point_circuits=circuits,ac_circuits=[x[0] for x in bank],
-                         ac_note_bank=True,midi_rungs=False,hardware_tested=False,independent_ac_rungs=True)
+                         ac_note_bank=True,midi_rungs=False,hardware_tested=False,independent_ac_rungs=True,
+                         double_helix=False,helix_assembly='HX_AC_MIDI_CATHEDRAL')
         g.models.append(m)
     allocate(g)
     return g
