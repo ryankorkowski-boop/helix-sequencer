@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrgb>
+  <models>
+    <model name="Arch" DisplayAs="Arches" ChannelCount="1"/>
+    <model name="Star" DisplayAs="Star" ChannelCount="3"/>
+  </models>
+  <modelGroups>
+    <modelGroup name="Rhythm" models="Arch"/>
+    <modelGroup name="All" models="Rhythm,Star,Arch"/>
+  </modelGroups>
+</xrgb>

@@ -77,6 +77,78 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-10-16 — Phase 1 saved-XSQ metrics harness (verification pending)
+**Agent:** Codex
+**Branch:** `codex/quality-metrics-20261016`
+
+**Goal:** Establish deterministic, original diagnostics for generated XSQ before
+any opt-in composer, layering, hardware-profile, or learning changes.
+
+**Changed:** `tools/quality/{__init__,inputs,scoring,__main__}.py`,
+`tests/test_quality_metrics.py`, `tests/fixtures/quality/`,
+`docs/QUALITY_METRICS.md`, `.github/workflows/helix-ci.yml`, this ledger.
+
+**Preserved:** Every sequencing profile, existing intent scorer, musical/drummer
+timing, the oracle `b27e8d77a63027ed32bcf6851dcff3925472c155`, and input files.
+No engine refactor, legacy-directory edits, automatic learning or new renderer.
+
+**New behavior:** Pure saved-XSQ scorer plus explicit post-run CLI, overall and
+section metrics, warning thresholds, atomic manifest `quality` update. Saved
+effect/palette tables, inline settings, nested groups, and On ramps are handled.
+Occupancy and focal intensity are explicitly estimates, not rendered values.
+Golden clean-room benchmark and beta-CI CLI/artifact coverage added.
+
+**Evidence:** Initial baseline: `python -m pytest -q
+tests/test_birdsong_quality_score.py tests/test_beta_demo_fixture.py
+tests/test_run_manager.py tests/test_birdsong_xsq_export.py` — 29 passed.
+Final local checks:
+- `python -m flake8 tools/quality tests/test_quality_metrics.py` — passed.
+- `python -m mypy --strict --explicit-package-bases --follow-imports=silent
+  tools/quality` — passed (four modules).
+- `python -m pytest -q tests/test_quality_metrics.py` — 25 passed.
+- Targeted harness + RunManager + existing Birdsong exporter/scorer + beta
+  fixture set — 54 passed.
+- Exact `Run beta smoke tests` command extracted from the updated workflow
+  and executed locally — **185 passed** (Python 3.12). This is not a remote
+  CI run or proof of the Python 3.11 matrix leg.
+- `python -m tools.quality score test_runs/quality_benchmark` — report matches
+  the golden file; manifest quality saved. Artifact paths:
+  `test_runs/quality_benchmark/{benchmark.xsq,layout.xml,audio_features.json,
+  quality_report.json,run_manifest.json}` (local generated diagnostics).
+- `python -m compileall -q tools/quality tests/test_quality_metrics.py`,
+  `python main.py --list-profiles`, `git diff --check` — passed.
+- Full suite collection is blocked by the existing `assign_hand` import in
+  `tests/test_drum_mapping.py`. With only that module excluded, this branch:
+  **19 failed, 935 passed, 5 skipped, 1 xfailed**. Untouched base `1f66f5d`
+  in a separate worktree: **19 failed, 910 passed, 5 skipped, 1 xfailed**.
+  The exact same 19 test ids fail; the added 25 tests pass. No blanket claim
+  of a clean repository test gate is made. Base failures include drummer
+  classification/geometry, band exports/catalogs, preview mux and XSQ validation.
+- Broader existing-area flake8 reports 6,667 violations; mypy reports 232 errors
+  in 30 existing files. This phase does not mass-format or rewrite that code.
+- Repository `template.xsq` paired with root `xlights_rgbeffects.xml` is rejected
+  for unknown target `mt1`; that fixture pair is not a valid scoring benchmark.
+
+**Limitations:** Native xLights is not installed in this execution environment;
+no native import/render, real-audio MP4, visual or controller approval is claimed.
+Features in the golden test are synthetic, not real-song detections. Occupancy
+cannot evaluate pixel effects, curves, blending, shared channels or submodel
+subsets. Explicit channel counts are required for channel weighting; otherwise
+equal model weights are reported. Scoring must run after RunManager finishes.
+
+**Deferred work:** Native verification and human review remain unchecked under
+the existing verification gate. Phases 2–9 await phase-by-phase user review.
+This entry does not supersede any earlier roadmap work or mark it complete.
+The nine-phase task explicitly requires stopping for review after Phase 1.
+Remote publication is also pending: automatic approval review rejected pushing
+the feature branch as an insufficiently authorized external write. The code is
+committed locally; no remote branch/PR/merge/tag was created. Publishing requires
+user approval; do not bypass the review through another publishing route.
+
+**Regression risks:** Unsupported xLights settings may require parser expansion;
+initial thresholds can flag intentional AC restraint/repetition. No aesthetic
+conclusion or sequencing optimization is inferred from synthetic metrics.
+
 ### 2026-10-02 — Beta tester feedback checklist documented
 **Agent:** GitHub Copilot
 **Branch:** `feature/restructure-core`
