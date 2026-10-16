@@ -77,6 +77,97 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-10-16 — Phase 3 opt-in section composer
+**Review reopened after user feedback (2026-10-16):** The user saw four
+flashing points and sustained pitch steps. The synthetic AC fixture is a
+plumbing/placement diagnostic and does not establish musical quality.
+Prepared two fresh official xLights 2026.18 House Preview exports using the
+existing real-song `Helix Audiolights` source, seconds 40–76: seven-performer
+band and 154-model full scene. Their source is the separate unmerged
+`codex/3d-vocal-controller-review-20261016` branch at
+`f8fafec4c3ad4e1495306613cc29dd0fd00e7d44`, recovered from the user's saved
+`Helix_3D_Vocal_Review.zip`; **Phase 3 is not applied to those shows**.
+They illustrate existing native output only. No modern branch code was merged
+into this Phase 3 PR. All 720 video frames decoded for both clips, no fully
+black frames; 711/719 adjacent frames change. Fresh native renders match all
+65,502,000 band and 172,237,680 scene source channel samples exactly. Original
+audio correlation is 0.994316 at zero lag; both streams are 36 s from time zero.
+Camera/pane framing was corrected for review without changing channel values.
+The real native output remains visibly dim; no artistic acceptance is claimed.
+The full scene exceeds the diagnostic reader's 128-MiB expanded-data guard,
+so the owned review harness used an explicit 256-MiB cap after checking trusted
+dimensions; the product guard is unchanged. A true full-engine real-song
+Phase 3 on/off comparison remains outstanding, including the legacy native
+serialization and band-planning blockers above. Phase 4 remains unstarted.
+
+
+**Goal:** User approved Phase 3 after native audio PR #170. Add measured section
+budgets behind `--section-composer`; feed existing placements without replacing
+Birdsong/energy_wave or changing default output / locked drummer timing.
+
+**Changed:** `core/{section_composer,section_placement,effect_engine}.py`,
+`tools/section_composer_benchmark.py`, `tools/quality/scoring.py`,
+`tests/test_section_composer.py`, `.github/workflows/{helix-ci,
+quality-native-check}.yml`, `docs/SECTION_COMPOSER.md`, and this ledger.
+**Preserved:** Existing fixed planners and all default profiles; existing
+Birdsong phrase and energy_wave selectors; drum stems and performer channels.
+No archive/helixville edits or paid/vendor/YouTube material/creator learning.
+
+**New behavior:** Bounded chroma/MFCC self-similarity novelty, four-second
+minimum segments, stable IDs, energy/density/palette/family plans, energy
+build/drop markers and absolute-silence restraint. Successful placements
+reserve conservative 50-ms root-model density slots. RGB palettes and static
+brightness consume section budgets; AC colors are preserved. Protected
+performers/groups and drum stems bypass caps. Unsupported active brightness
+curves are rejected visibly rather than pretending a static slider caps them.
+Opt-in engine reports include the measured plan/counters. Phase 1 quality
+warns when later/higher energy does not receive a larger budget.
+
+**Evidence:** All 224 selected beta smoke tests pass locally, including both
+Phase 2/3 native artifact tests. All 90 targeted composer/quality/Birdsong/
+route/effect tests pass. Scoped flake8 and strict mypy pass (eight checked
+modules); new lines in the existing engine are lint clean. Actual v27.3
+engine run records four measured sections and applies caps. Default-off XSQ
+is byte-identical to the parent implementation, SHA256
+`0c76f81274e02ae79a94f021b0034264a818c91087de83d5cb4603367397b7c6`.
+Original 24-s AC energy_wave benchmark: saved-XSQ Phase 1 correlation improves
+0.273532 -> 0.340514. Official pinned xLights 2026.18 FSEQ confirms actual
+lit-channel correlation 0.265961 -> 0.338588 (8 channels, 480 frames/50 ms;
+612 -> 558 nonzero samples). Both native MP4s have verified H.264/AAC,
+24-second streams at time zero. Local artifacts:
+`test_runs/section_composer_ac/{baseline,composed}/` and
+`native_comparison.json`. Remote native CI passed at implementation commit
+`1efb155ba5cc2bcab23dfd644ca93acf3e17f7c3`: 23 Phase 1/2 checks and 14
+composer checks, no skips. [Native job](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38911330696/job/117007628631),
+[74-file artifact](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38911330696/artifacts/12049584096).
+Downloaded ZIP digest verified; both CI MP4s are byte-identical to local
+outputs, and CI matches both structural/native correlation results. Local
+decoded video samples at .1, 7.1, 12.1, 18.1 and 23.9 s agree with FSEQ
+light/rest windows. [Beta matrix](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38911330424)
+passed Python 3.11/3.12: each 220 passed / 4 skipped for missing media tools
+or native artifact environment. Those four ran in strict native CI. Scoped
+lint and strict types passed in both beta jobs. Draft [PR #171](https://github.com/ryankorkowski-boop/helix-sequencer/pull/171)
+is stacked on unmerged Phase 2; stop for review before Phase 4.
+
+**Limitations/deferred:** Correlations still miss the unchanged 0.5 threshold;
+quality/dead-air warnings are retained. This isolates the actual energy_wave
+placement path with native table serialization, not whole-band or real-song
+approval. The separate full-engine fixture retains the pre-existing snowman
+`composite_submodels` planning error and legacy inline-export limitations.
+RGB experiment: model-presence correlation improves, but actual channel
+correlation declines 0.265961 -> 0.256274 because palette colors zero channels;
+do not equate structural estimates with native bytes. Human visual/controller
+review and drummer-oracle render approval remain pending. No release, merge
+or tag. Stop after Phase 3 for review before Phase 4.
+
+**Regression risks:** Coarse boundaries and library/platform differences;
+minimum-length semantics do not claim verse/chorus labels. Density counts
+root props, not unequal pixel-channel weights. Existing/protected content can
+exceed new caps; conservative reservations can underfill after replacements.
+Only static brightness caps are supported until bounded curves in Phase 5.
+Existing full-suite/lint/type baseline failures and per-song error swallowing
+are unchanged; no whole-repository clean-check claim.
+
 ### 2026-10-16 — Phase 2 native preview with original audio
 **Goal:** Extend the existing official-native headless benchmark path to an
 audio-synced MP4 without adding a renderer. User approved Phase 2 after PR #169.

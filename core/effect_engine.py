@@ -26,6 +26,8 @@ from core import helixualizer as helixualizer_engine
 from core import hardkor_engine
 from core import matrix_intelligence as matrix_planner
 from core import birdsong_engine
+from core import section_composer
+from core import section_placement
 from core import lyric_interpreter
 from core import model_parser as xmp
 from core import polish as sequence_polish
@@ -215,6 +217,7 @@ class RuntimeTuning:
     birdsong_intensity: float = 1.0
     birdsong_min_confidence: float = 0.45
     birdsong_profile: str = "wild"
+    section_composer: bool = False
     hardkor_enabled: bool = False
     hardkor_intensity: float = 1.0
     hardkor_profile: str = "ac256"
@@ -10385,6 +10388,20 @@ def run_variant(
     harmonic = analyze_harmonic(audio)
     sections = base.detect_sections(audio)
     parts = infer_song_parts(sections)
+    section_plan = None
+    section_budget = None
+    if tuning.section_composer:
+        section_plan = section_composer.compose_sections(audio.y, audio.sr)
+        section_targets = (
+            section_placement.expand_targets(
+                {n: m.parent_name or n
+                 for n, m in parsed_layout.models.items()},
+                {n: g.models for n, g in parsed_layout.groups.items()})
+            if parsed_layout is not None else {n: [n] for n in names})
+        section_budget = section_placement.SectionPlacementBudget(
+            section_plan, section_targets)
+        log("Section composer: "
+            f"{len(section_plan.sections)} audio-derived sections")
     if parts:
         log("Song parts: " + ", ".join(f"{part.label}:{part.start_ms/1000:.1f}-{part.end_ms/1000:.1f}s" for part in parts))
 
@@ -10769,6 +10786,7 @@ def run_variant(
         effect_name: str,
         template_to_use: base.EffectTemplate,
         stem_priority: int,
+        section_exempt: bool = False,
     ) -> bool:
         nonlocal total
         duration = end_ms - start_ms
@@ -10783,6 +10801,35 @@ def run_variant(
         if en_i - st_i < max(50, int(tuning.min_effect_ms)):
             reject_effect(nm, st_i, en_i, effect_name, layer_key, "trimmed duration below minimum threshold")
             return False
+        section_request = None
+        if (section_budget is not None and not section_exempt
+                and not section_budget.exempt(nm)):
+            section_request = section_budget.propose(
+                nm, st_i, en_i, effect_name)
+            if section_request is None:
+                return False
+            en_i = section_request.end_ms
+            if en_i - st_i < max(50, int(tuning.min_effect_ms)):
+                return False
+            palette = template_to_use.palette or ""
+            if palette.isdigit():
+                palette = (xsq.root.findall("ColorPalettes/ColorPalette")
+                           [int(palette)].text or "")
+            section_model = (parsed_layout.model_for(nm)
+                             if parsed_layout else None)
+            section_rgb = bool(section_model and (
+                section_model.is_rgb_capable()
+                or "rgb" in section_model.raw_attrs.get(
+                    "StringType", "").lower()))
+            try:
+                palette = section_placement.section_palette(
+                    palette, section_request.section,
+                    rgb=section_rgb)
+            except ValueError as exc:
+                reject_effect(nm, st_i, en_i, effect_name, layer_key, str(exc))
+                return False
+            template_to_use = base.EffectTemplate(
+                settings=template_to_use.settings, palette=palette)
         if layering_mode == "smart_layer":
             existing = existing_windows_by_model.get(nm, [])
             if overlaps_window(st_i, en_i, existing):
@@ -10818,6 +10865,8 @@ def run_variant(
 
         layer_el = layers[nm][layer_key]
         xml_effect = base.add_effect(layer_el, st_i, en_i, effect_name, template_to_use)
+        if section_request is not None:
+            section_budget.commit(section_request)
         timeline.add(
             layer_key,
             TimelineEntry(
@@ -10958,6 +11007,7 @@ def run_variant(
                     effect_name=runtime_effect,
                     template_to_use=template_to_use,
                     stem_priority=stem_priority,
+                    section_exempt=(stem_key == "drums"),
                 ):
                     stats.bump(label)
                     if cd_key and cd_ms > 0:
@@ -12584,6 +12634,13 @@ def run_variant(
         snowman_band_engine.write_export_json(snowman_band_json_path(out_path), snowman_band_payload)
     except Exception as exc:
         log(f"[WARN] Snowman band export skipped: {exc!r}")
+    if section_plan is not None:
+        payload["section_composer"] = section_plan.to_dict()
+        payload["section_composer"]["placement_caps"] = {
+            "accepted": section_budget.accepted,
+            "rejected_attempts": section_budget.rejected,
+            "protected": "drum stems and performer models/groups",
+        }
     validate_report_payload(payload)
     write_report(report_path(out_path), payload)
     write_sequence_notes(notes_path(out_path), payload)
@@ -12742,6 +12799,8 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--vendor-max-rejected", type=int, dest="vendor_max_rejected_effects", help="Maximum rejected effects allowed for vendor-bar pass")
     parser.add_argument("--learn-from-my-xsqs", dest="learn_from_my_xsqs", action="store_true", help="Deprecated compatibility flag; learning is limited to Helix-generated sequences only")
     parser.add_argument("--birdsong", dest="birdsong_enabled", action="store_true", help="Enable the birdsong phrase engine overlay")
+    parser.add_argument("--section-composer", action="store_true",
+                        help="Opt in to audio-derived section budgets")
     parser.add_argument("--no-birdsong", dest="birdsong_enabled", action="store_false", help="Disable the birdsong phrase engine overlay")
     parser.add_argument("--birdsong-auto", dest="birdsong_auto", action="store_true", help="Auto-enable birdsong when audio confidence is high")
     parser.add_argument("--no-birdsong-auto", dest="birdsong_auto", action="store_false", help="Disable birdsong auto-detection")
@@ -12926,6 +12985,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
             int(args.vendor_max_rejected_effects if args.vendor_max_rejected_effects is not None else DEFAULT_VENDOR_MAX_REJECTED_EFFECTS),
         ),
         birdsong_enabled=bool(args.birdsong_enabled),
+        section_composer=bool(args.section_composer),
         birdsong_auto=bool(args.birdsong_auto),
         birdsong_intensity=base.clamp(float(args.birdsong_intensity if args.birdsong_intensity is not None else 1.0), 0.2, 2.4),
         birdsong_min_confidence=base.clamp(float(args.birdsong_min_confidence if args.birdsong_min_confidence is not None else 0.45), 0.0, 1.0),

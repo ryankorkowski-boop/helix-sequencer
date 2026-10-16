@@ -46,6 +46,7 @@ jobs:
         run: |
           python -m pytest -q \
             tests/test_quality_metrics.py \
+            tests/test_section_composer.py \
             tests/test_native_quality_evidence.py \
             tests/test_native_preview.py \
             tests/test_check_xlights_rest_sequence.py \
@@ -89,6 +90,8 @@ jobs:
           python -m mypy --strict --explicit-package-bases --follow-imports=silent tools/quality
           python -m flake8 tools/native_preview.py tools/prepare_native_preview_benchmark.py tests/test_native_preview.py
           python -m mypy --strict --explicit-package-bases --follow-imports=silent tools/native_preview.py tools/prepare_native_preview_benchmark.py
+          python -m flake8 core/section_composer.py core/section_placement.py tools/section_composer_benchmark.py tests/test_section_composer.py
+          python -m mypy --strict --explicit-package-bases --follow-imports=silent core/section_composer.py core/section_placement.py tools/section_composer_benchmark.py
 
       - name: Score deterministic saved-XSQ benchmark
         run: |

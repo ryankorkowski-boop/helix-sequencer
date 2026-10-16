@@ -71,6 +71,15 @@ def _metrics(
     visible = [e for e in overlapping if max(e.start_level, e.end_level) > 0]
     starting = [e for e in visible if start <= e.start < end]
     warnings: set[str] = set()
+    planned = features.get("sections", [])
+    for index, earlier in enumerate(planned):
+        for later in planned[index + 1:]:
+            if all("energy" in s and "energy_budget" in s
+                   for s in (earlier, later)):
+                if (finite(later["energy"]) > finite(earlier["energy"]) + 1e-6
+                        and finite(later["energy_budget"])
+                        <= finite(earlier["energy_budget"])):
+                    warnings.add("section_energy_budget_not_increasing")
     # Match a detected onset only to a causal start within 500 ms.
     onsets = [finite(t) for t in features.get("onsets_ms", [])
               if start <= finite(t) < end]
