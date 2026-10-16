@@ -78,6 +78,29 @@ Do not mark complete from unit tests alone.
 ## Change Ledger
 
 ### 2026-10-16 — Phase 3 opt-in section composer
+**Review reopened after user feedback (2026-10-16):** The user saw four
+flashing points and sustained pitch steps. The synthetic AC fixture is a
+plumbing/placement diagnostic and does not establish musical quality.
+Prepared two fresh official xLights 2026.18 House Preview exports using the
+existing real-song `Helix Audiolights` source, seconds 40–76: seven-performer
+band and 154-model full scene. Their source is the separate unmerged
+`codex/3d-vocal-controller-review-20261016` branch at
+`f8fafec4c3ad4e1495306613cc29dd0fd00e7d44`, recovered from the user's saved
+`Helix_3D_Vocal_Review.zip`; **Phase 3 is not applied to those shows**.
+They illustrate existing native output only. No modern branch code was merged
+into this Phase 3 PR. All 720 video frames decoded for both clips, no fully
+black frames; 711/719 adjacent frames change. Fresh native renders match all
+65,502,000 band and 172,237,680 scene source channel samples exactly. Original
+audio correlation is 0.994316 at zero lag; both streams are 36 s from time zero.
+Camera/pane framing was corrected for review without changing channel values.
+The real native output remains visibly dim; no artistic acceptance is claimed.
+The full scene exceeds the diagnostic reader's 128-MiB expanded-data guard,
+so the owned review harness used an explicit 256-MiB cap after checking trusted
+dimensions; the product guard is unchanged. A true full-engine real-song
+Phase 3 on/off comparison remains outstanding, including the legacy native
+serialization and band-planning blockers above. Phase 4 remains unstarted.
+
+
 **Goal:** User approved Phase 3 after native audio PR #170. Add measured section
 budgets behind `--section-composer`; feed existing placements without replacing
 Birdsong/energy_wave or changing default output / locked drummer timing.
