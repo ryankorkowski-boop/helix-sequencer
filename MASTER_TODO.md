@@ -77,6 +77,49 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-10-16 — Phase 2 native preview with original audio
+**Goal:** Extend the existing official-native headless benchmark path to an
+audio-synced MP4 without adding a renderer. User approved Phase 2 after PR #169.
+
+**Changed:** `tools/native_preview.py`,
+`tools/prepare_native_preview_benchmark.py`, REST response status handling in
+`tools/check_xlights_rest_sequence.py`, `tests/test_native_preview.py`,
+`.github/workflows/{helix-ci,quality-native-check}.yml`,
+`docs/NATIVE_AUDIO_PREVIEW.md`, and this ledger.
+
+**Preserved:** Every sequencing profile, XSQ source/effects, locked drummer
+timing/oracle, model/channel behavior and learning path. Original audio is
+read only. No archive/helixville edits, integration merge, release or tag.
+
+**New behavior:** Explicit post-run native FSEQ render, own-process House
+Preview export, ffmpeg video packet copy plus original-audio AAC mux, real
+ffprobe stream/timestamp/duration checks and full decode. Fresh evidence
+directories prevent stale outputs. Manifest gets provenance and a preview
+report, preserving unrelated keys. Missing dependencies or failed native
+export/mux produce fallback/null MP4 plus a warning. REST responses without
+`res` use HTTP status while explicit native rejection codes are preserved.
+
+**Evidence:** Local pinned official xLights 2026.18 produced H.264 + AAC,
+4.000-second streams at timeline zero. Native FSEQ remains 4 channels,
+80 frames/50 ms and 78 nonzero samples; input XSQ/layout hashes are unchanged.
+Scoped flake8 and strict mypy pass for both new modules. All 50 targeted
+quality/native/REST tests and all 210 updated beta smoke tests pass locally,
+including real ffprobe, decoded audio markers and native light/rest windows.
+Remote native audio CI remains pending publication. No sequencing metric before/after change is expected for this phase.
+
+**Limitations/deferred:** Synthetic four-second proof only, not the separate
+real-song drummer review gate. Human visual/controller review remains pending.
+Linux requires a display/Xvfb and prepared show/assets; native GUI `renderAll`
+timed out, so headless FSEQ is loaded for export. Native House Preview size
+depends on its configuration. Audio starts at zero, is AAC encoded and trimmed
+only at the sequence end; no offset/short-audio padding. Source audio duration
+metadata must be available to ffprobe. Phase 3 waits for user review.
+
+**Regression risks:** Native version/platform, preview geometry and relative
+asset resolution vary. No concurrent manifest writers are supported. Occupied
+REST port, native errors, malformed media and stream mismatches fail clearly;
+no automatic approximate renderer is used.
+
 ### 2026-10-16 — Phase 1 native verification follow-up (PR #169)
 **Goal:** Replace the pending-CI status with actual evidence, repair the failed
 artifact workflow, and expose native format problems hidden by structural tests.
