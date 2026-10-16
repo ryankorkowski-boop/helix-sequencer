@@ -140,10 +140,14 @@ equal model weights are reported. Scoring must run after RunManager finishes.
 the existing verification gate. Phases 2–9 await phase-by-phase user review.
 This entry does not supersede any earlier roadmap work or mark it complete.
 The nine-phase task explicitly requires stopping for review after Phase 1.
-Remote publication is also pending: automatic approval review rejected pushing
-the feature branch as an insufficiently authorized external write. The code is
-committed locally; no remote branch/PR/merge/tag was created. Publishing requires
-user approval; do not bypass the review through another publishing route.
+**Publication update (2026-10-16):** After the initial automatic approval block,
+the user explicitly approved branch publication and opening a draft PR.
+Published `codex/quality-metrics-20261016` and opened draft
+[PR #169](https://github.com/ryankorkowski-boop/helix-sequencer/pull/169)
+against `feature/restructure-core`. Published implementation commit:
+`4277c8345bd7164fd92c18cc614eafda9e24fe47`. Its tree exactly matches the
+tested local implementation (`c3af6bbc5d3e2a4eaff17fd362273d1b8f4cfe9c`).
+Native verification and Phase 1 review remain pending; no merge or tag occurred.
 
 **Regression risks:** Unsupported xLights settings may require parser expansion;
 initial thresholds can flag intentional AC restraint/repetition. No aesthetic
