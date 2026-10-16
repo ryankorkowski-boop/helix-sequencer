@@ -1,3 +1,29 @@
+## 2026-10-16 — Four preview musical recovery (in progress)
+
+Goal: latest user request is two band movies and two six-layout comparisons.
+All visible musicians are snowmen, with independent keyboard and xylophone.
+This supersedes the unified six-member artistic choice for the new review only.
+Preserve historical scenes, guitar/bass/drum rigs, CTB16PC/LOR, GUI/Android and
+all release gates. Final/default merge and approved EXE/APK release stay held.
+
+Changed modules: music/review_score.py, models/review_snowman_scene.py,
+tools/musical_band_performance.py and the forthcoming approval renderer.
+New behavior: compact coal mouths, direct source-clock vocal activity, exclusive
+pitched-role assignments, measured-onset correction and bounded spatial groups.
+The legacy driver's optional separate_pitched flag defaults false.
+
+- [x] Inspect PR151/150 and current open issues using GitHub; no newer PR found.
+- [x] Read official SuperStar, xLights, Vixen and MADRIX documentation. Prefer
+  authored movement/timing/layer discipline over more global amplitude effects.
+- [ ] Finish regression checks and actual four fresh MP4s with source receipts.
+- [ ] Deliver saved movies, comparison evidence and prioritized audit report.
+- [ ] Obtain user video approval before final release integration.
+
+Limits/risks: source separation and vowel/pitch estimates are not annotated
+musical ground truth. Secondary singer remains quiet without independent source
+support. Native controller/vendor-LOR/device testing is not claimed. New review
+renderers must state whether channel output was rendered by native xLights.
+
 ## 2026-10-15 — Drive-based 40-video review collection delivered for review
 
 Goal: produce 12 standalone, eight embedded-band, ten six-layout and ten vocal
