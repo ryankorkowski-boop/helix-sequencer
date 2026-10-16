@@ -1,3 +1,54 @@
+## 2026-10-16 — Four preview musical recovery (in progress)
+
+Goal: latest user request is two band movies and two six-layout comparisons.
+All visible musicians are snowmen, with independent keyboard and xylophone.
+This supersedes the unified six-member artistic choice for the new review only.
+Preserve historical scenes, guitar/bass/drum rigs, CTB16PC/LOR, GUI/Android and
+all release gates. Final/default merge and approved EXE/APK release stay held.
+
+Changed modules: music/review_score.py, models/review_snowman_scene.py,
+tools/musical_band_performance.py, tools/review_band_performance.py,
+tools/prepare_approval_revision.py, tools/review_channel_export.py,
+tools/render_approval_revision.py and tools/verify_approval_revision.py.
+New behavior: compact coal mouths, direct source-clock vocal activity, exclusive
+pitched-role assignments, measured-onset correction and bounded spatial groups.
+The legacy driver's optional separate_pitched flag defaults false.
+
+- [x] Inspect PR151/150 and current open issues using GitHub; no newer PR found.
+- [x] Read official SuperStar, xLights, Vixen and MADRIX documentation. Prefer
+  authored movement/timing/layer discipline over more global amplitude effects.
+- [x] New vocal/role/cast/spatial regressions plus preserved final-band, guitar,
+  keyboard, drummer-cache and physical-output contracts: 38 passed in18.66s.
+- [x] Full repository regression before the melodic-prop fallback: 1,575passed,
+  five missing-2.wav skips,36warnings,228.39s. Four first-pass MP4s fully decoded
+  with zero measured soundtrack offset; minimum correlation0.997958.
+- [x] Visual QA found guitar-only scenic routing starved a synth-only excerpt.
+  Let melodic props use actual keys when supported guitar is absent; no physical
+  guitarist motion is invented. Re-render the affected pair and verify again.
+- [x] Final-source full regression: 1,576passed/five missing-2.wav skips,
+  zero failures/errors,194.385s (authoritative JUnit). Five final score tests pass.
+- [x] Four current MP4s fully decoded: 720frames/36s each, H.264/AAC stereo,
+  no black frames, minimum soundtrack correlation0.997958 and zero measured lag.
+  Numerical key-contact changes and mallet contacts meet their surface targets.
+- [x] Verify every channel sample of ten new source-scored FSEQ shows and exact
+  current-score parity. These are Helix-generated channels; native xLights
+  import/render is not claimed for the new review score. Exclude unrelated
+  generated demonstration XSQs from exports and delivery.
+- [x] Package exactly four final MP4s, ten source-score FSEQ/layouts, source
+  excerpts, analysis and validation in Helix_Four_Revised_Previews.zip; CRC and
+  entry counts verified. Separate product report compares official SuperStar,
+  xLights, Vixen and MADRIX workflows and lists grounded repository priorities.
+  Machine receipt and priorities: evidence/four_preview_review_20261016/.
+- [x] Save all four actual movies, the ZIP, report, guide, contact sheet and
+  validation/index/provenance files; all12ordered saves succeeded.
+- [ ] User reviews the four previews and supplies corrections/explicit approval.
+- [ ] Obtain user video approval before final release integration.
+
+Limits/risks: source separation and vowel/pitch estimates are not annotated
+musical ground truth. Secondary singer remains quiet without independent source
+support. Native controller/vendor-LOR/device testing is not claimed. New review
+renderers must state whether channel output was rendered by native xLights.
+
 ## 2026-10-15 — Drive-based 40-video review collection delivered for review
 
 Goal: produce 12 standalone, eight embedded-band, ten six-layout and ten vocal
