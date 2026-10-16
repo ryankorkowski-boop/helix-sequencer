@@ -34,7 +34,14 @@ The legacy driver's optional separate_pitched flag defaults false.
   current-score parity. These are Helix-generated channels; native xLights
   import/render is not claimed for the new review score. Exclude unrelated
   generated demonstration XSQs from exports and delivery.
-- [ ] Deliver saved movies, comparison evidence and prioritized audit report.
+- [x] Package exactly four final MP4s, ten source-score FSEQ/layouts, source
+  excerpts, analysis and validation in Helix_Four_Revised_Previews.zip; CRC and
+  entry counts verified. Separate product report compares official SuperStar,
+  xLights, Vixen and MADRIX workflows and lists grounded repository priorities.
+  Machine receipt and priorities: evidence/four_preview_review_20261016/.
+- [x] Save all four actual movies, the ZIP, report, guide, contact sheet and
+  validation/index/provenance files; all12ordered saves succeeded.
+- [ ] User reviews the four previews and supplies corrections/explicit approval.
 - [ ] Obtain user video approval before final release integration.
 
 Limits/risks: source separation and vowel/pitch estimates are not annotated
