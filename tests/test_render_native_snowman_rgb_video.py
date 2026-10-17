@@ -71,3 +71,13 @@ def test_encodes_real_native_frame_video(tmp_path):
     assert report["video_sha256"] == hashlib.sha256(output.read_bytes()).hexdigest()
     assert report["musical_accuracy_independently_verified"] is False
     assert report["audio_synchronized"] is False
+
+def test_audio_frame_duration_mismatch_rejected(tmp_path):
+    folder = fixture(tmp_path)
+    frames = folder / "frames.rgb"
+    frames.write_bytes(bytes([255, 0, 0] * 7 * 10))  # 0.5 seconds at 20 fps
+    audio = folder / "audio.wav"
+    subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
+                    "sine=frequency=440:duration=1", "-y", str(audio)], check=True)
+    with pytest.raises(ValueError, match="duration does not match"):
+        render(folder, frames, audio, folder / "mismatched.mp4", fps=20, width=640, height=360)
