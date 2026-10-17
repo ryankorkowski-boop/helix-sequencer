@@ -25,6 +25,9 @@ def export_from_xsq(
     if not source_xsq.is_file() or source_xsq.stat().st_size == 0:
         raise FileNotFoundError(f"Generated XSQ not found: {source_xsq}")
     request = ShowExportRequest(output_format=output_format, layout_variant="band")
+    sidecar = Path(destination) / 'Performance.lms_validation.json'
+    if 'lms' in request.requested_formats and sidecar.exists():
+        raise FileExistsError(f'Existing LMS validation sidecar must not be overwritten: {sidecar}')
     if "lms" in request.requested_formats:
         if mapping_csv is None:
             raise ValueError("LMS requires a verified LOR controller mapping CSV")
@@ -45,7 +48,6 @@ def export_from_xsq(
     try:
         return export_selected(request, exporters, source_xsq, destination)
     except Exception:
-        sidecar = Path(destination) / 'Performance.lms_validation.json'
         if sidecar.is_file():
             sidecar.unlink()
         raise
