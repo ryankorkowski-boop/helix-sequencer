@@ -75,6 +75,62 @@ def test_busy_rest_port_does_not_launch_or_close_a_user_app(tmp_path):
             process.assert_not_called()
 
 
+def test_native_export_sends_full_hd_request(tmp_path):
+    staged = tmp_path / "sequence.xsq"
+    requests = []
+
+    def command(endpoint, cmd, **params):
+        requests.append((cmd, params))
+        if cmd == "getShowFolder":
+            return {"folder": str(tmp_path)}
+        if cmd == "openSequence":
+            return {"fullseq": str(staged)}
+        if cmd == "exportVideoPreview":
+            Path(params["filename"]).write_bytes(b"test-only native response")
+        return {"res": 200}
+
+    with patch.object(preview.socket, "socket"), \
+         patch.object(preview.subprocess, "Popen") as process, \
+         patch.object(preview.rest, "_request_json", return_value={
+             "res": 200, "version": "2026.18"}), \
+         patch.object(preview, "_command", side_effect=command):
+        process.return_value.poll.return_value = None
+        preview._native_export("xLights", tmp_path, staged, 49914)
+    exported = next(params for cmd, params in requests
+                    if cmd == "exportVideoPreview")
+    assert (exported["width"], exported["height"]) == ("1920", "1080")
+
+
+def test_thumbnail_native_export_records_fallback_and_preserves_sequence(tmp_path):
+    run = tmp_path / "run"
+    prepare_benchmark(run)
+    xsq = run / "benchmark.xsq"
+    original = xsq.read_bytes()
+
+    def native_export(binary, show, staged, port):
+        return {"native_video": str(staged.parent / "native.mp4")}
+
+    with patch.object(preview.shutil, "which", return_value="/bin/true"), \
+         patch.object(preview.subprocess, "run") as render, \
+         patch.object(preview, "inspect_fseq", return_value={"duration_ms": 4000}), \
+         patch.object(preview, "_sha256", return_value="test-boundary-only"), \
+         patch.object(preview, "_native_export", side_effect=native_export), \
+         patch.object(preview, "probe_media", return_value={"streams": [
+             {"codec_type": "video", "width": 248, "height": 528}]}), \
+         patch.object(preview, "mux_original_audio") as mux:
+        render.return_value.returncode = 0
+        report = preview.preview_run(
+            run, xsq=xsq, audio=run / "original.wav")
+        mux.assert_not_called()
+    saved = json.loads((run / "run_manifest.json").read_text())
+    assert report["status"] == "fallback" and report["mp4"] is None
+    assert report["native_resolution"] == [248, 528]
+    assert report["requested_resolution"] == [1920, 1080]
+    assert "248x528" in report["warnings"][-1]
+    assert saved["native_preview"] == report
+    assert xsq.read_bytes() == original
+
+
 def _tone(path: Path, frequency: int, duration: float = 1) -> None:
     rate = 16000
     samples = [round(10000 * math.sin(2 * math.pi * frequency * i / rate))

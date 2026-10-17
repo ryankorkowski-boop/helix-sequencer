@@ -1,0 +1,285 @@
+{
+  "schema": "helix.current_reconciliation.v1",
+  "checked_utc": "2026-10-17",
+  "source_base": "9a6fc14c1f4c03c8f051c875a9d956c0e2115d08",
+  "branch": "codex/native-stage-integration-20261017",
+  "pull_request": 173,
+  "default_branch": "feature/restructure-core",
+  "release_status": "not_green; no merge or release performed",
+  "implementation_lineage": {
+    "verified_application_source": "d3a3d377e64b0d95b54e553e89dce34dc0f93194",
+    "comparison_status": "ahead",
+    "ahead": 60,
+    "behind": 0,
+    "merge_base": "d3a3d377e64b0d95b54e553e89dce34dc0f93194",
+    "meaning": "PR172 already contains the verified PR150 application source; preserve its desktop, Android, licensing and physical-output fixes."
+  },
+  "recent_activity": [
+    {
+      "number": 173,
+      "title": "fix(native): preserve current band stages and sparse channel addresses",
+      "state": "open",
+      "updated": "2026-10-17T07:05:00Z",
+      "pull_request": true
+    },
+    {
+      "number": 172,
+      "title": "Recover native showcases, verify real excerpts, and export source-timed RGB arm poses",
+      "state": "open",
+      "updated": "2026-10-17T06:44:22Z",
+      "pull_request": true
+    },
+    {
+      "number": 150,
+      "title": "Complete physical exports, full-song Android previews and verified installer bundles",
+      "state": "open",
+      "updated": "2026-10-17T05:33:11Z",
+      "pull_request": true
+    },
+    {
+      "number": 171,
+      "title": "feat(composer): add opt-in audio-derived section budgets",
+      "state": "open",
+      "updated": "2026-10-16T15:13:36Z",
+      "pull_request": true
+    },
+    {
+      "number": 170,
+      "title": "feat(preview): add native xLights previews with original audio",
+      "state": "open",
+      "updated": "2026-10-16T12:22:30Z",
+      "pull_request": true
+    },
+    {
+      "number": 169,
+      "title": "feat(quality): add deterministic saved-XSQ diagnostics",
+      "state": "open",
+      "updated": "2026-10-16T11:53:45Z",
+      "pull_request": true
+    },
+    {
+      "number": 168,
+      "title": "Add verified MP4 showcase quality gate and regression tests",
+      "state": "open",
+      "updated": "2026-10-16T06:47:55Z",
+      "pull_request": true
+    },
+    {
+      "number": 167,
+      "title": "Plan approval-gated Universal Sequence Library and twelve workstreams",
+      "state": "open",
+      "updated": "2026-10-16T04:57:31Z",
+      "pull_request": true
+    },
+    {
+      "number": 154,
+      "title": "[FUTURE / APPROVAL-GATED] Universal free sequence library, layout variants & dual XSQ/LMS export",
+      "state": "open",
+      "updated": "2026-10-16T04:56:15Z",
+      "pull_request": false
+    },
+    {
+      "number": 166,
+      "title": "[BLOCKED #154] Review download packaging, previews and import instructions",
+      "state": "open",
+      "updated": "2026-10-16T04:54:44Z",
+      "pull_request": false
+    },
+    {
+      "number": 165,
+      "title": "[BLOCKED #154] Resumable cached pilot and batch-generation pipeline",
+      "state": "open",
+      "updated": "2026-10-16T04:54:43Z",
+      "pull_request": false
+    },
+    {
+      "number": 164,
+      "title": "[BLOCKED #154] Eligible free music catalog and metadata lineage",
+      "state": "open",
+      "updated": "2026-10-16T04:54:43Z",
+      "pull_request": false
+    },
+    {
+      "number": 163,
+      "title": "[BLOCKED #154] Native import/export validation and compatibility matrix",
+      "state": "open",
+      "updated": "2026-10-16T04:54:42Z",
+      "pull_request": false
+    },
+    {
+      "number": 162,
+      "title": "[BLOCKED #154] Automatic layout matching and reviewable remapping",
+      "state": "open",
+      "updated": "2026-10-16T04:54:41Z",
+      "pull_request": false
+    },
+    {
+      "number": 161,
+      "title": "[BLOCKED #154] Advanced 3D worlds and musical spatial adaptation",
+      "state": "open",
+      "updated": "2026-10-16T04:54:41Z",
+      "pull_request": false
+    },
+    {
+      "number": 160,
+      "title": "[BLOCKED #154] Singing faces and six-snowman band sequence profiles",
+      "state": "open",
+      "updated": "2026-10-16T04:54:40Z",
+      "pull_request": false
+    },
+    {
+      "number": 159,
+      "title": "[BLOCKED #154] Professional choreography templates and lyric semantics",
+      "state": "open",
+      "updated": "2026-10-16T04:54:39Z",
+      "pull_request": false
+    },
+    {
+      "number": 158,
+      "title": "[BLOCKED #154] Residential layout families and capability-aware adaptations",
+      "state": "open",
+      "updated": "2026-10-16T04:54:39Z",
+      "pull_request": false
+    },
+    {
+      "number": 157,
+      "title": "[BLOCKED #154] CTB16PC and expanded AC controller profiles",
+      "state": "open",
+      "updated": "2026-10-16T04:54:38Z",
+      "pull_request": false
+    },
+    {
+      "number": 156,
+      "title": "[BLOCKED #154] Universal dual-format XSQ and LMS orchestration",
+      "state": "open",
+      "updated": "2026-10-16T04:54:37Z",
+      "pull_request": false
+    },
+    {
+      "number": 155,
+      "title": "[BLOCKED #154] Shared musical analysis and versioned choreography data",
+      "state": "open",
+      "updated": "2026-10-16T04:54:37Z",
+      "pull_request": false
+    },
+    {
+      "number": 153,
+      "title": "Add evidence-aware vocal roles, AC16 snowman exports, and native 3D review worlds",
+      "state": "open",
+      "updated": "2026-10-16T02:31:37Z",
+      "pull_request": true
+    },
+    {
+      "number": 152,
+      "title": "Restore snowman cast, independent keys/mallets and musical spatial previews",
+      "state": "open",
+      "updated": "2026-10-16T01:32:58Z",
+      "pull_request": true
+    },
+    {
+      "number": 151,
+      "title": "Review 40 new Drive-audio showcases and source-bound sequencing fixes",
+      "state": "open",
+      "updated": "2026-10-15T21:13:32Z",
+      "pull_request": true
+    },
+    {
+      "number": 149,
+      "title": "Define physical band circuits, CTB16PC chorus and shared front projections",
+      "state": "open",
+      "updated": "2026-10-15T05:46:29Z",
+      "pull_request": true
+    },
+    {
+      "number": 148,
+      "title": "Harden recording-calibrated kick recovery against degenerate inputs",
+      "state": "open",
+      "updated": "2026-10-15T05:46:27Z",
+      "pull_request": true
+    }
+  ],
+  "completion_matrix": [
+    {
+      "area": "PR148/149/150 application, physical export and installers",
+      "classification": "completed_and_verified",
+      "evidence": "Inherited PR150 application source d3a3d377; full Python3.11/3.12, Windows packaged app/native tests, Android API30/API36 full237.466708s MP4 evidence and combined installer receipt in evidence/72h_completion/installer_delivery_receipt.json. No fresh Android/hardware claim at PR173."
+    },
+    {
+      "area": "PR151/152/153 seven-snowman musical review and native AC16/pixel worlds",
+      "classification": "implemented_requiring_verification",
+      "evidence": "Already integrated in PR172. Fresh PR173 E14 native band/world output and sample parity verified; independent pitch/instrument identity, singer separation, artistic and physical acceptance remain open."
+    },
+    {
+      "area": "PR168/169 saved sequence/media quality gates and PR170 original-audio native preview",
+      "classification": "completed_and_verified",
+      "evidence": "Reused in PR172; PR173 adds real-output size rejection, preserves XSQ fallback, requests1080p and muxes320k AAC. Local format tests plus actual original-audio native movie evidence in native_media.json. Existing128MiB native inspector guard unchanged."
+    },
+    {
+      "area": "PR172 source-timed RGB pose export and current stage integration",
+      "classification": "completed_and_verified",
+      "evidence": "PR173 repaired aliases, compressed addressing, sparse destinations, complete cast replacement, nested groups and interrupted output;225879840 native band samples match exactly and66216 scenery records retained. Verification scope is source transport/format, not independent musical ground truth."
+    },
+    {
+      "area": "Original three-minute sampler rapid-kick transport",
+      "classification": "completed_and_verified",
+      "evidence": "Recovered original WAV hash matches existing source-bound cue fixture. Fresh native test preserves16 starts including8 rapid; original_sampler_kicks.json. Independent listening/annotation and complete corrected sampler acceptance remain open."
+    },
+    {
+      "area": "Unified six-member snow/rock bands versus latest seven-member review",
+      "classification": "implemented_requiring_integration",
+      "evidence": "Existing models/final_band_scene.py, final_band_native.py, tools/final_band_performance.py and tests preserve unified six-member snow/rock paths. Latest PR172 RGB-pose review retains seven models. docs/BAND_MALLET_HIHAT_REVIEW_BLOCKERS_20261017.md requires cast reconciliation before changing counts/release; no default cast migration or artistic approval inferred."
+    },
+    {
+      "area": "Universal melody, bass/guitar correctness and mallet visibility",
+      "classification": "implemented_requiring_verification",
+      "evidence": "Existing magic_keyboard/unified_mallet, pitched_roles, string routes and latest orientation/hi-hat/node-ownership corrections remain. Unrepresented timbre confidence/source evidence, independently annotated pitches, correct mallet passage and close-up acceptance remain unverified. See current running checklist and review blocker documents."
+    },
+    {
+      "area": "PR171 section-aware composer",
+      "classification": "implemented_requiring_integration",
+      "evidence": "Remains opt-in and inactive in the reviewed source/native videos. Activation needs the preserved musical/artistic review gate; no blanket full-layout behavior enabled."
+    },
+    {
+      "area": "PR167 and issues154\u2013166 Universal Sequence Library",
+      "classification": "blocked_by_documented_external_dependency",
+      "evidence": "All are explicitly future/approval-gated in current issue titles and master ledger. Not activated."
+    },
+    {
+      "area": "October14 installer prereleases",
+      "classification": "superseded_by_better_implementation",
+      "evidence": "Preserved unchanged; PR150 provides newer same-source verified build artifacts with complete Android song validation. No older Android limitation repeated as current."
+    },
+    {
+      "area": "Full-song licensed showcase ZIP and final release integration",
+      "classification": "blocked_by_documented_external_dependency",
+      "evidence": "Current native workflow passes diagnostics but its full-showcase acceptance fails for missing VALIDATION.json/non-diagnostic movie. Private36s review does not satisfy full-song collection/rights/artistic acceptance. Review hold, source-specific public redistribution and physical/device/signing/relicensing questions remain."
+    }
+  ],
+  "blockers": [
+    {
+      "requirement": "Full-song showcase archive and native release acceptance",
+      "reason": "The CI-produced archive contains diagnostic proofs, not the required complete accepted musical collection.",
+      "evidence": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39012306162 ; missing VALIDATION.json and non-diagnostic MP4; full_song_showcase_complete=false",
+      "next_action": "Provide approved full-song original audio and redistribution status; render complete real-song native collection and validate exact archive. Keep the gate unchanged."
+    },
+    {
+      "requirement": "Final cast, musical accuracy and artistic acceptance",
+      "reason": "Latest seven-member review and existing unified six-member snow/rock paths both exist; actual new scenery remains dim, source timbre/pitch/vocal identity estimates are not independently annotated.",
+      "evidence": "docs/RUNNING_SHOWCASE_IMPLEMENTATION_CHECKLIST_20261017.md ; docs/BAND_MALLET_HIHAT_REVIEW_BLOCKERS_20261017.md ; native_media.json visual_review",
+      "next_action": "Owner review of visible native outputs and cast choice; source-verified horn/mallet/bass/guitar/duet passages and contact/close-up acceptance before release integration."
+    },
+    {
+      "requirement": "Physical Windows11/Samsung/ARM64/controllers/vendor LOR and production release",
+      "reason": "Current environment supplies Linux native xLights; existing Windows/Android emulator CI is not physical hardware validation. Signing/store readiness and contributor relicensing authority remain documented external gates.",
+      "evidence": "PR150 body and evidence/72h_completion/installer_delivery_receipt.json ; current issue143/144 remain open",
+      "next_action": "Run physical clean-install/controller/vendor checks, resolve signing/store/legal authority and obtain retained release approval."
+    }
+  ],
+  "additional_implementation": "Correct reachable single-mallet hand bias; E03 retained16 notes unchanged while7 move to reachable right-hand contacts. Combined cue evidence now replaces old stage curves at the explicit25ms native clock, archives source metadata and rejects invalid/incomplete evidence.",
+  "final_local_suite": {
+    "passed": 1740,
+    "skipped": 6,
+    "warnings": 36,
+    "seconds": 246.52
+  }
+}

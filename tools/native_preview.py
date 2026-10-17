@@ -23,6 +23,8 @@ from typing import Any, Sequence
 from tools import check_xlights_rest_sequence as rest
 from tools.quality.native import inspect_fseq
 
+NATIVE_RESOLUTION = (1920, 1080)
+
 
 def _run(command: list[str], timeout: float) -> str:
     result = subprocess.run(command, capture_output=True, text=True,
@@ -80,7 +82,8 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
     try:
         _run([ffmpeg, "-v", "error", "-nostdin", "-n", "-i", str(video),
               "-i", str(audio), "-map", "0:v:0", "-map", "1:a:0",
-              "-c:v", "copy", "-c:a", "aac", "-t", str(duration),
+              "-c:v", "copy", "-c:a", "aac", "-b:a", "320k",
+              "-t", str(duration),
               "-movflags", "+faststart", str(output)], max(60, duration * 2))
         probe = probe_media(output, ffprobe)
         for kind in ("video", "audio"):
@@ -141,7 +144,11 @@ def _native_export(xlights: str, show: Path, staged: Path,
             if Path(opened.get("fullseq", "")).resolve() != staged:
                 raise ValueError("xLights opened an unexpected sequence")
             video = staged.parent / "native-silent.mp4"
-            _command(endpoint, "exportVideoPreview", filename=str(video))
+            # Request full HD; the caller also checks the actual encoded size.
+            # First-launch dialogs can leave xLights exporting a docked thumbnail.
+            _command(endpoint, "exportVideoPreview", filename=str(video),
+                     width=str(NATIVE_RESOLUTION[0]),
+                     height=str(NATIVE_RESOLUTION[1]))
             if not video.is_file() or video.stat().st_size == 0:
                 raise ValueError("xLights did not create a fresh native video")
             return {"xlights_version": rest._version_from_response(version),
@@ -256,9 +263,18 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
             json.dumps(channel_report, indent=2, sort_keys=True) + "\n")
         report["native_fseq_sha256"] = _sha256(fseq)
         report.update(_native_export(native_bin, run_dir, staged, port))
+        native_video = Path(report["native_video"])
+        video_stream = _stream(probe_media(native_video, ffprobe), "video")
+        actual_size = (int(video_stream["width"]), int(video_stream["height"]))
+        report.update(requested_resolution=list(NATIVE_RESOLUTION),
+                      native_resolution=list(actual_size))
+        if actual_size != NATIVE_RESOLUTION:
+            raise ValueError(
+                f"xLights exported {actual_size[0]}x{actual_size[1]} instead of "
+                "1920x1080; close its startup dialogs and resize House Preview")
         output = stage / "preview.mp4"
         report["ffprobe"] = mux_original_audio(
-            Path(report["native_video"]), audio, output, duration=duration,
+            native_video, audio, output, duration=duration,
             ffmpeg=ffmpeg, ffprobe=ffprobe)
         report.update(status="success", mp4=str(output),
                       audio_stream_verified=True, mp4_sha256=_sha256(output))

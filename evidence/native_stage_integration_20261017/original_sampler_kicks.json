@@ -1,0 +1,29 @@
+{
+  "source_audio_sha256": "0fc2ab5dfee87d4af3e2ab326f76c7ee9cb3a5a893644487d2e7350a48cefafb",
+  "native_kick_onsets": [
+    0.2,
+    0.4,
+    0.6000000000000001,
+    0.8500000000000001,
+    1.05,
+    1.25,
+    1.5,
+    1.7000000000000002,
+    1.9000000000000001,
+    2.0,
+    2.1,
+    2.25,
+    2.35,
+    2.45,
+    2.5500000000000003,
+    2.6500000000000004
+  ],
+  "rapid_kicks_preserved": 8,
+  "all_opening_kicks_preserved": 16,
+  "frame_ms": 50,
+  "original_source_bound_cues": true,
+  "audio_included": false,
+  "independent_listening_verified": false,
+  "claim": "Measured source events survive XSQ and native render; acoustic similarity is not instrument-class ground truth",
+  "recovered_original_wav_hash_matches": true
+}
