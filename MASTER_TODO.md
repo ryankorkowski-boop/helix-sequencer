@@ -1268,3 +1268,12 @@ Do not mark complete from unit tests alone.
 - [ ] User visual approval and native xLights import/playback remain final acceptance gates.
 
 Final October10 publication handoff: `docs/REVIEW_MOVIE_DOWNLOADS.md` links the46-movie earlier ZIP,179-payload recent ZIP,11 final band MP4s and their ZIP, both six-up artwork reels and the20-concept artwork ZIP. Performance/binary revision `209b6f7416afb35fa366aef272c8b3bd33406e25`; pinned release transport/index revision `9746dfe853431c5c67c5f23d2b5086f9e0508bd4` on `feature/review-media-delivery-2026-10-10`. Release workflow38050908245 succeeded. All32 new movie/transport blobs match, all11 direct MP4 links returnHTTP200, all3 release ZIP sizes/digests match and returnHTTP200; full public earlier/band ZIP downloads match local hashes. Evidence: `evidence/review_movie_archives/publication_final_release.json`, `publication_final_media_blobs.json`, `evidence/snowman_band_upgrade/public_individual_links.json`. Native physical/desktop playback and artistic acceptance are not claimed for the new3D review rig; exact preferred drummer art, confident duet separation and missing historical Android bytes remain documented limitations. Read this ledger before continuing.
+
+
+### 2026-10-16 continuation checkpoint — outstanding production gates
+- [ ] Resume and verify remaining embedded-stage native films; require complete FSEQ and decoded video, original audio matching, and channel parity.
+- [ ] Complete six-layout comparison queue and ensure every pane is sourced from authentic archived native channels.
+- [ ] Finish longer advertisement cuts; verify PCM edit timing and reject AAC-concatenation offsets.
+- [ ] Package all verified MP4s, native source shows, source hashes, contact sheets, QA reports and reproducible commands in a delivery index.
+- [ ] Perform human musical/visual review and controller review before any production merge or public release.
+- [ ] Do not mark scratch-only production outputs as GitHub-persisted until independently uploaded and hash checked.
