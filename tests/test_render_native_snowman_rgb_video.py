@@ -1,5 +1,7 @@
 """Native seven-model RGB renderer rejects incomplete or fabricated input."""
 import csv
+import hashlib
+import subprocess
 import json
 from pathlib import Path
 import pytest
@@ -54,3 +56,18 @@ def test_duplicate_native_pixel_ids_rejected(tmp_path):
     (folder / "audit.json").write_text(json.dumps(manifest))
     with pytest.raises(ValueError, match="unique"):
         layout(folder)
+
+def test_encodes_real_native_frame_video(tmp_path):
+    folder = fixture(tmp_path)
+    frames = folder / "frames.rgb"
+    frames.write_bytes(bytes([255, 0, 0] * 7 * 20))
+    audio = folder / "audio.wav"
+    subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
+                    "sine=frequency=440:duration=1", "-y", str(audio)], check=True)
+    output = folder / "native.mp4"
+    report = render(folder, frames, audio, output, fps=20, width=640, height=360)
+    assert output.stat().st_size > 100
+    assert report["frames"] == 20
+    assert report["video_sha256"] == hashlib.sha256(output.read_bytes()).hexdigest()
+    assert report["musical_accuracy_independently_verified"] is False
+    assert report["audio_synchronized"] is False
