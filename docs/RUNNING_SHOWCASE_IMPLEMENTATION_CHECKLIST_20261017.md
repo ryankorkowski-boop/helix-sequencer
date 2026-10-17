@@ -70,3 +70,10 @@ External comparison discovery: xLights Hub sequence index, official xLights Reso
 - [ ] Execute these regressions and native channel checks in a complete repository environment; do not claim pass before execution.
 - [ ] Recover or provision native xLights rendering workspace, rebuild from latest commit, inspect new XSQ/FSEQ/MP4 and provide actual current-review links.
 - [ ] Current published 2026-10-10 review MP4s remain **historical references**, not approval candidates for recent fixes.
+
+
+## 2026-10-17 — source-event export hardening
+- [x] Reject malformed note start/end timestamps, invalid duration, non-finite intensity, non-integer/out-of-range MIDI pitch **before** rasterization (`tools/build_spatial_review.py`, commit `9927371`).
+- [x] Add focused negative timing/pitch tests (`tests/test_source_instrument_light_curves.py`, commit `aaf18bc`).
+- [ ] Execute focused and full regression tests on a checked-out repository and validate actual native FSEQ key/string samples.
+- [ ] Restore full native xLights renderer for new approval videos; current container has audio files but no native xLights binary or checked-out repository. No new MP4 has been rendered.
