@@ -134,6 +134,21 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50):
             claimed.update(ids)
         if max(claimed)>model.channels:
             raise ValueError(f'{role}: key/string node outside allocated pixel channel range')
+    # An explicit musical visibility audit makes absent mallet/key/strings
+    # distinguishable from a camera, export, or transcription problem.
+    instrument_audit={}
+    for model in new.models:
+        role=model.details['review_role']
+        if role not in ('piano','xylophone','bass','guitar'):continue
+        prefix='NOTE_MIDI_' if role in ('piano','xylophone') else 'STRING_'
+        curves=cues[model.name]
+        active={part:int(np.count_nonzero(np.asarray(curve)>.001))
+                for part,curve in curves.items()
+                if part.startswith(prefix) and model.submodels.get(part)}
+        instrument_audit[role]=dict(addressable_parts=len(active),
+                                    active_parts=sum(v>0 for v in active.values()),
+                                    lit_source_frames=sum(active.values()),
+                                    source_frames_per_part=active)
     allocate(new);output.mkdir(parents=True);(output/'media').mkdir();shutil.copy2(audio,output/'media/audio.wav')
     write_layout(new,output,include_demo=False,export_all_custom=True)
     import xml.etree.ElementTree as ET
@@ -157,7 +172,7 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50):
     sequence.write(output/'Performance.xsq')
     np.savez_compressed(output/'expected_cues.npz',**{name+'::'+part:np.rint(v*20)*5 for name,parts in cues.items() for part,v in parts.items() if new.models[[m.name for m in new.models].index(name)].submodels.get(part)})
     result=dict(excerpt=eid,source_record=row,audio_sha256=digest(audio),source_score='ReviewBandPerformance.pose',geometry_source='Review3DScene',source_frames=720,frame_ms=frame_ms,native_frames=36000//frame_ms,source_pose_frame_ms=50,
-                source_musical_cues_retimed=False,ac16_models_modified=False,channels=sum(m.channels for m in new.models),effects=sequence.identifier-1,rigs=proof,
+                source_musical_cues_retimed=False,ac16_models_modified=False,channels=sum(m.channels for m in new.models),effects=sequence.identifier-1,rigs=proof,instrument_visibility_audit=instrument_audit,
                 limitations=['RGB pose-bank geometry requires its own pixel mapping; not a 16-channel AC model','Source musical estimators retain their uncertainty','Finite source-pose medoids approximate geometric motion; source event clock is preserved'])
     (output/'pose_provenance.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2),flush=True)
     return result
