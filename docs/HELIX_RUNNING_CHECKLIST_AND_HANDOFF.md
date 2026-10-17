@@ -79,3 +79,8 @@ Each milestone records code, tests, and native validation separately. A committe
 - [ ] Run `python -m pytest -q tests/test_snowman_wiring_inventory.py` and actual native band build to validate generated counts and xmodel compatibility.
 - [ ] Populate verified bulb-per-strand and LOR Unit/Circuit values from owner-provided hardware mapping, not from geometry. Check controller loading and electrical capacity separately.
 - [ ] Inventory outputs are *not* hardware-tested or manufacturing-ready until physical wiring verification.
+
+## 2026-10-17 inventory CI follow-up
+- [x] CI path filters now include `models/snowman_wiring_inventory.py` and `tests/test_snowman_wiring_inventory.py`; dedicated pytest step added in `.github/workflows/showcase-recovery-guards.yml`; commit `67fc653d8d960d1afd41c410fc67535bb428a1fa`.
+- [ ] Workflow lookup for that commit returned zero runs; do not represent the suite as passing.
+- [ ] Produce actual Pixel_Band and AC16_Band inventories, inspect counts and exported xmodels, then review CTB16PC physical strand plan with verified wiring values.
