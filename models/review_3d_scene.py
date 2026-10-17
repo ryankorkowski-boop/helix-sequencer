@@ -35,6 +35,10 @@ class Review3DScene(ReviewSnowmanScene):
             self.sphere('drummer_'+side+'_MITTEN',hand,(.10,.075,.08),'#D5E5EF')
             self.rod('drummer_'+side+'_STICK',hand,hand+(0,-.36,.30),.018,'#DDBB83')
             self.drummer_rigs[side]=dict(shoulder=shoulder,ids=tuple(range(start,start+4)),idle=hand)
+        self.hihat_pedal=len(self.instances)
+        self.rod('drummer_HIHAT_FOOT_PEDAL',(-1.05,.09,-3.03),(-1.05,.16,-2.68),.075,'#8095A3')
+        self.hihat_foot=len(self.instances)
+        self.sphere('drummer_HIHAT_FOOT',(-1.05,.22,-2.82),(.20,.095,.30),'#D5E5EF')
         self.kick_beater=len(self.instances)
         self.rod('drummer_KICK_BEATER',(0,.10,-1.94),(0,.45,-1.94),.025,'#C5B592',5)
         self.drum_hits=[];self.drum_contact_proof=[]
@@ -49,7 +53,7 @@ class Review3DScene(ReviewSnowmanScene):
     def update_drummer(self,time):
         contacts=[]
         for side,rig in self.drummer_rigs.items():
-            candidates=[h for h in self.drum_hits if h['target']!='KICK' and h['side']==side and -.10<=time-h['time']<=.18]
+            candidates=[h for h in self.drum_hits if h['target'] not in ('KICK','HI_HAT') and h['side']==side and -.10<=time-h['time']<=.18]
             hit=min(candidates,key=lambda h:abs(h['time']-time)) if candidates else None
             hand=rig['idle'].copy();tip=hand+(0,-.36,.30)
             if hit:
@@ -64,6 +68,10 @@ class Review3DScene(ReviewSnowmanScene):
             self.instances[b]['matrix']=line_matrix(elbow,hand,.041)
             self.instances[c]['matrix']=matrix(hand,(.10,.075,.08))
             self.instances[d]['matrix']=line_matrix(hand,tip,.018)
+        foot_hit=any(h['target']=='HI_HAT' and 0<=time-h['time']<.10 for h in self.drum_hits)
+        pedal_lift=0.0 if foot_hit else .10
+        self.instances[self.hihat_pedal]['matrix']=line_matrix((-1.05,.09,-3.03),(-1.05,.16+pedal_lift,-2.68),.075)
+        self.instances[self.hihat_foot]['matrix']=matrix((-1.05,.22+pedal_lift,-2.82),(.20,.095,.30))
         kicks=[h for h in self.drum_hits if h['target']=='KICK' and 0<=time-h['time']<.1]
         tip=self.drum_centers['KICK'] if kicks else np.array((0,.45,-1.94))
         self.instances[self.kick_beater]['matrix']=line_matrix((0,.10,-1.94),tip,.025)

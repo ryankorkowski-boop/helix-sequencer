@@ -219,7 +219,7 @@ class BandScene:
             geometry=generate_keyboard_geometry(48,84)
             for key in geometry.keys:
                 x=(key.x+key.width/2-.5)*2.65
-                z=.43 if key.is_black else .56
+                z=.79 if key.is_black else .46
                 self.box('piano_key_'+str(key.pitch),p+(x,1.30+(key.is_black*.047),z),
                          (key.width*2.65*.92,.07,.43 if key.is_black else .72),
                          '#152235' if key.is_black else '#E7E7D6',23+key.pitch-48)

@@ -71,6 +71,7 @@ class HelixGui(tk.Tk):
         self.learn_xsq_var = tk.BooleanVar(value=True)
         self.lor_compatible_var = tk.BooleanVar(value=False)
         self.sequence_mode_var = tk.StringVar(value="xLights")
+        self.export_format_var = tk.StringVar(value="XSQ")
         self.lor_source_var = tk.StringVar(value="")
         self.model_routing_var = tk.StringVar(value="")
         self.generate_mp4_var = tk.BooleanVar(value=True)
@@ -140,6 +141,12 @@ class HelixGui(tk.Tk):
             values=["xLights", "Light-O-Rama"],
             state="readonly", width=20,
         ).grid(row=0, column=1, sticky="w", **pad)
+        ttk.Label(top, text="Sequence output").grid(row=0, column=2, sticky="w", **pad)
+        ttk.Combobox(
+            top, textvariable=self.export_format_var,
+            values=["XSQ", "LMS", "Both"], state="readonly", width=12,
+        ).grid(row=0, column=3, sticky="w", **pad)
+        self.export_format_var.trace_add("write", lambda *_a: self._sync_export_format())
         self.sequence_mode_var.trace_add("write", lambda *_a: self._update_mode_ui())
 
         ttk.Label(top, text="Layout Preset").grid(row=1, column=0, sticky="w", **pad)
@@ -285,6 +292,7 @@ class HelixGui(tk.Tk):
         actions.pack(fill=tk.X, **pad)
         self.run_button = ttk.Button(actions, text="Run Sequence Build", command=self._run_sequence)
         self.run_button.pack(side=tk.LEFT, padx=8, pady=6)
+        ttk.Button(actions, text="Export existing AC XSQ + LMS", command=self._export_existing_xsq_both).pack(side=tk.LEFT, padx=8, pady=6)
         ttk.Button(actions, text="Phone Remote", command=self._open_phone_remote).pack(side=tk.LEFT, padx=8, pady=6)
         from tools.support_links import links
         support = links()
@@ -305,6 +313,19 @@ class HelixGui(tk.Tk):
     def _open_phone_remote(self) -> None:
         from tools.desktop_remote_gui import open_phone_link
         open_phone_link(self, ROOT)
+
+    def _sync_export_format(self) -> None:
+        """Map supported choices onto the existing sequencer modes."""
+        selected = self.export_format_var.get()
+        if selected == "Both":
+            messagebox.showwarning(
+                "Both formats not available yet",
+                "Automatic XSQ + LMS generation is not connected. "
+                "Choose XSQ or LMS for now; no second file will be promised."
+            )
+            self.export_format_var.set("XSQ")
+            return
+        self.sequence_mode_var.set("Light-O-Rama" if selected == "LMS" else "xLights")
 
     def _update_mode_ui(self) -> None:
         lor = self.sequence_mode_var.get() == "Light-O-Rama"
@@ -370,6 +391,40 @@ class HelixGui(tk.Tk):
         self.status_label.configure(text="Exporting...")
         self._log("Running: " + " ".join(cmd))
         threading.Thread(target=self._run_subprocess, args=(cmd,), daemon=True).start()
+
+    def _export_existing_xsq_both(self) -> None:
+        """Convert an already generated AC-only XSQ with explicit hardware mapping."""
+        if getattr(sys, "frozen", False):
+            messagebox.showerror("Not packaged", "Dual export is not included in this portable build yet.")
+            return
+        source = filedialog.askopenfilename(
+            title="Choose completed Helix AC-only XSQ",
+            filetypes=[("xLights XSQ", "*.xsq")],
+        )
+        if not source:
+            return
+        mapping = filedialog.askopenfilename(
+            title="Choose verified LOR channel mapping CSV",
+            filetypes=[("CSV files", "*.csv")],
+        )
+        if not mapping:
+            return
+        destination = filedialog.askdirectory(title="Choose new dual-format output folder")
+        if not destination:
+            return
+        if any((Path(destination) / ("Performance." + ext)).exists() for ext in ("xsq", "lms")):
+            messagebox.showerror("Existing output", "Choose a folder without Performance.xsq or Performance.lms.")
+            return
+        if not messagebox.askyesno(
+            "Confirm AC channel mapping",
+            "This converts only constant-intensity AC On effects. "
+            "Have you verified the CSV against your LOR controller unit and circuits?",
+        ):
+            return
+        self._launch_optional_export([
+            sys.executable, "-m", "tools.dual_format_export",
+            source, destination, "--format", "both", "--channel-map", mapping,
+        ])
 
     def _export_legacy_lms(self) -> None:
         source = filedialog.askopenfilename(
@@ -506,6 +561,13 @@ class HelixGui(tk.Tk):
     def _run_sequence(self) -> None:
         if self._busy:
             return
+        selected = self.export_format_var.get()
+        if selected == "Both":
+            messagebox.showerror("Export unavailable", "Both outputs are not yet supported by this GUI.")
+            return
+        expected_mode = "Light-O-Rama" if selected == "LMS" else "xLights"
+        if self.sequence_mode_var.get() != expected_mode:
+            self.sequence_mode_var.set(expected_mode)
         lor_mode = self.sequence_mode_var.get() == "Light-O-Rama"
         rgb_enabled = not (lor_mode or self.lor_compatible_var.get() or self.ac_on_only_var.get())
         try:
