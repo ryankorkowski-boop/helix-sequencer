@@ -23,9 +23,9 @@ jobs:
         run: |
           python -m pip install -r requirements-dev.txt
           python -m pip install trimesh
-      - name: Verify exact native submodels and exported coordinates
+      - name: Verify native geometry and previews
         run: python -m pytest -q tests/test_audit_native_snowman_geometry.py tests/test_preview_native_snowman_geometry.py
-      - name: Export actual native model positions
+      - name: Export native coordinates
         run: python -m tools.audit_native_snowman_geometry --output-dir build/native_snowman_audit
       - name: Generate native coordinate previews
         run: python -m tools.preview_native_snowman_geometry --audit-dir build/native_snowman_audit
