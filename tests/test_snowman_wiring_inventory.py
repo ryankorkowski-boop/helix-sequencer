@@ -65,3 +65,9 @@ def test_standalone_generator_rejects_missing_band_roles(monkeypatch, tmp_path):
     with pytest.raises(ValueError, match='seven distinct snowman roles'):
         generator.export_band_inventories(tmp_path)
     assert not (tmp_path / 'pixel').exists()
+
+
+def test_overlapping_pixel_submodels_are_rejected():
+    model = fake_model('pixel', {'BODY': [1, 2], 'MOUTH_AI': [2, 3]}, [0] * 3)
+    with pytest.raises(ValueError, match='multiple submodels'):
+        inventory_model(model)
