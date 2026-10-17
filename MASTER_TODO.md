@@ -1277,3 +1277,10 @@ Final October10 publication handoff: `docs/REVIEW_MOVIE_DOWNLOADS.md` links the4
 - [ ] Package all verified MP4s, native source shows, source hashes, contact sheets, QA reports and reproducible commands in a delivery index.
 - [ ] Perform human musical/visual review and controller review before any production merge or public release.
 - [ ] Do not mark scratch-only production outputs as GitHub-persisted until independently uploaded and hash checked.
+
+## 2026-10-17 — Artifact recovery evidence follow-up
+
+- Recovered GitHub Actions artifact 12086060785 from successful run 38992026128 (Helix-Final-Completion-Native-Proof); 468 archive entries, including 11 FSEQ, 22 XSQ, 298 xmodel, and one 3-second physical-channel diagnostic MP4. Archive SHA256: `2ef6d96cb42366a0508f25ccd601dfe0df28d304e4ace55bd7a14535adb87ea8`.
+- This archive is **not** the 19 previously reported musical showcase MP4s. `Final_Band_Output_Diagnostic/verification.json` identifies an authored fixture rather than original-song transcription; `CTB16PC_Drummer_Chorus_Diagnostic/native_verification.json` states physical hardware and LOR import are unverified. Do not promote these as showcase deliveries.
+- Added `tools/audit_showcase_artifacts.py` and focused regression tests to fail closed on missing files, SHA mismatch, unsafe paths, duplicate entries and empty inventories. Test execution pending full checkout.
+- The original `/workspace/scratch/1971fd9f91ad` render workspace remains unavailable in this execution environment. Authentic source-audio/native-render continuation remains blocked until actual media/render environment is recovered. No new musical MP4 claimed, no production merge/release/publishing.
