@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Inspect native proof ZIP; distinguish source-verified showcases from diagnostics."""
+"""Inspect native proof ZIPs and optionally enforce the musical-showcase acceptance gate."""
 import argparse
 import hashlib
 import json
@@ -7,11 +7,18 @@ import zipfile
 from collections import Counter
 from pathlib import Path
 
-def inspect(archive):
+
+def inspect(archive, require_showcase=False):
     path = Path(archive)
-    result = {"archive": str(path), "valid_zip": False, "entries": 0,
-              "extensions": {}, "diagnostic_sources": {},
-              "showcase_mp4s_verified": 0, "errors": []}
+    result = {
+        "archive": str(path),
+        "valid_zip": False,
+        "entries": 0,
+        "extensions": {},
+        "diagnostic_sources": {},
+        "showcase_mp4s_verified": 0,
+        "errors": [],
+    }
     with zipfile.ZipFile(path) as z:
         bad = z.testzip()
         if bad:
@@ -32,15 +39,58 @@ def inspect(archive):
         result["mp4s_present"] = [n for n in names if n.lower().endswith(".mp4")]
         # Presence alone cannot prove native render/source-audio identity.
         result["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+
+        if require_showcase:
+            failures = []
+            validation = None
+            if "VALIDATION.json" in names:
+                try:
+                    validation = json.loads(z.read("VALIDATION.json"))
+                except (ValueError, UnicodeDecodeError) as exc:
+                    failures.append("VALIDATION.json is unreadable: " + str(exc))
+            else:
+                failures.append("VALIDATION.json is missing")
+
+            if isinstance(validation, dict):
+                if validation.get("full_song_showcase_complete") is not True:
+                    failures.append("full_song_showcase_complete is not true")
+                final_band = validation.get("final_band_output")
+                band_verified = validation.get("complete_band_verified") is True
+                if isinstance(final_band, dict):
+                    band_verified = band_verified or final_band.get("complete_band_verified") is True
+                if not band_verified:
+                    failures.append("complete-band verification is not true")
+
+            non_diagnostic_mp4s = [
+                n for n in result["mp4s_present"]
+                if "diagnostic" not in n.lower()
+            ]
+            if not non_diagnostic_mp4s:
+                failures.append("no non-diagnostic MP4 is present")
+
+            result["acceptance"] = {
+                "required": True,
+                "passed": not failures,
+                "failures": failures,
+                "non_diagnostic_mp4s": non_diagnostic_mp4s,
+            }
+            if failures:
+                result["errors"].extend("showcase acceptance: " + item for item in failures)
     return result
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
     parser.add_argument("--report", type=Path)
+    parser.add_argument(
+        "--require-showcase",
+        action="store_true",
+        help="fail unless the archive proves a complete, full-band musical showcase",
+    )
     args = parser.parse_args()
     try:
-        result = inspect(args.archive)
+        result = inspect(args.archive, require_showcase=args.require_showcase)
     except (OSError, zipfile.BadZipFile) as exc:
         result = {"valid_zip": False, "errors": [str(exc)]}
     if args.report:
@@ -48,6 +98,7 @@ def main():
         args.report.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(result, indent=2))
     return 0 if result.get("valid_zip") and not result.get("errors") else 1
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
