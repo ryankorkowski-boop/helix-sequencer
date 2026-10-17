@@ -40,4 +40,10 @@ def export_from_xsq(
     exporters = {"xsq": xsq_export}
     if mapping_csv is not None:
         exporters["lms"] = lms_export
-    return export_selected(request, exporters, source_xsq, destination)
+    try:
+        return export_selected(request, exporters, source_xsq, destination)
+    except Exception:
+        sidecar = Path(destination) / 'Performance.lms_validation.json'
+        if sidecar.is_file():
+            sidecar.unlink()
+        raise
