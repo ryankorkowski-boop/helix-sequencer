@@ -1,0 +1,198 @@
+{
+  "schema": "helix.current_native_stage_media.v1",
+  "movie": "Helix_Audiolights_Current_Stage_1080p40.mp4",
+  "bytes": 42940665,
+  "sha256": "fbe4ef865079032cdcfd378ac0b1140e217ca07ee8ced0412d4a3715276f057c",
+  "source_audio_sha256": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171",
+  "source": "hardKor Helix Audiolights original excerpt 40\u201376s; retained E14 source cache",
+  "native_xlights": "2026.18",
+  "video_stream": {
+    "index": 0,
+    "codec_name": "h264",
+    "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+    "profile": "High",
+    "codec_type": "video",
+    "codec_tag_string": "avc1",
+    "codec_tag": "0x31637661",
+    "width": 1920,
+    "height": 1080,
+    "coded_width": 1920,
+    "coded_height": 1080,
+    "closed_captions": 0,
+    "film_grain": 0,
+    "has_b_frames": 0,
+    "pix_fmt": "yuvj420p",
+    "level": 42,
+    "color_range": "pc",
+    "color_space": "bt709",
+    "color_transfer": "bt709",
+    "color_primaries": "bt709",
+    "chroma_location": "left",
+    "field_order": "progressive",
+    "refs": 1,
+    "is_avc": "true",
+    "nal_length_size": "4",
+    "id": "0x1",
+    "r_frame_rate": "40/1",
+    "avg_frame_rate": "40/1",
+    "time_base": "1/40000",
+    "start_pts": 0,
+    "start_time": "0.000000",
+    "duration_ts": 1440000,
+    "duration": "36.000000",
+    "bit_rate": "9214360",
+    "bits_per_raw_sample": "8",
+    "nb_frames": "1440",
+    "extradata_size": 50,
+    "disposition": {
+      "default": 1,
+      "dub": 0,
+      "original": 0,
+      "comment": 0,
+      "lyrics": 0,
+      "karaoke": 0,
+      "forced": 0,
+      "hearing_impaired": 0,
+      "visual_impaired": 0,
+      "clean_effects": 0,
+      "attached_pic": 0,
+      "timed_thumbnails": 0,
+      "non_diegetic": 0,
+      "captions": 0,
+      "descriptions": 0,
+      "metadata": 0,
+      "dependent": 0,
+      "still_image": 0
+    },
+    "tags": {
+      "language": "und",
+      "handler_name": "VideoHandler",
+      "vendor_id": "[0][0][0][0]"
+    }
+  },
+  "audio_stream": {
+    "index": 1,
+    "codec_name": "aac",
+    "codec_long_name": "AAC (Advanced Audio Coding)",
+    "profile": "LC",
+    "codec_type": "audio",
+    "codec_tag_string": "mp4a",
+    "codec_tag": "0x6134706d",
+    "sample_fmt": "fltp",
+    "sample_rate": "44100",
+    "channels": 2,
+    "channel_layout": "stereo",
+    "bits_per_sample": 0,
+    "initial_padding": 0,
+    "id": "0x2",
+    "r_frame_rate": "0/0",
+    "avg_frame_rate": "0/0",
+    "time_base": "1/44100",
+    "start_pts": 0,
+    "start_time": "0.000000",
+    "duration_ts": 1587600,
+    "duration": "36.000000",
+    "bit_rate": "321641",
+    "nb_frames": "1552",
+    "extradata_size": 5,
+    "disposition": {
+      "default": 1,
+      "dub": 0,
+      "original": 0,
+      "comment": 0,
+      "lyrics": 0,
+      "karaoke": 0,
+      "forced": 0,
+      "hearing_impaired": 0,
+      "visual_impaired": 0,
+      "clean_effects": 0,
+      "attached_pic": 0,
+      "timed_thumbnails": 0,
+      "non_diegetic": 0,
+      "captions": 0,
+      "descriptions": 0,
+      "metadata": 0,
+      "dependent": 0,
+      "still_image": 0
+    },
+    "tags": {
+      "language": "und",
+      "handler_name": "SoundHandler",
+      "vendor_id": "[0][0][0][0]"
+    }
+  },
+  "fully_decoded": true,
+  "decoded_frames": 1440,
+  "black_frames": 0,
+  "minimum_small_frame_mean": 6.323912037037037,
+  "maximum_small_frame_mean": 8.080115740740741,
+  "audio_offset_ms": 0.0,
+  "audio_correspondence_windows": [
+    {
+      "start_seconds": 0,
+      "channel_correlations": [
+        0.9998924486768019,
+        0.9998937091202097
+      ]
+    },
+    {
+      "start_seconds": 6,
+      "channel_correlations": [
+        0.9999117555202982,
+        0.9999095577615931
+      ]
+    },
+    {
+      "start_seconds": 12,
+      "channel_correlations": [
+        0.9998761239152515,
+        0.9999006631236074
+      ]
+    },
+    {
+      "start_seconds": 18,
+      "channel_correlations": [
+        0.9998781455650929,
+        0.9998686328665475
+      ]
+    },
+    {
+      "start_seconds": 24,
+      "channel_correlations": [
+        0.999858356490285,
+        0.999849537628095
+      ]
+    },
+    {
+      "start_seconds": 30,
+      "channel_correlations": [
+        0.9998405061000922,
+        0.9998287108369461
+      ]
+    },
+    {
+      "start_seconds": 33,
+      "channel_correlations": [
+        0.999855687546859,
+        0.9998591754519228
+      ]
+    }
+  ],
+  "minimum_audio_correlation": 0.9998287108369461,
+  "requested_resolution": [
+    1920,
+    1080
+  ],
+  "native_canvas": "House Preview maximized after declining startup email prompt and closing tips; no footage upscaled",
+  "musical_accuracy_independently_verified": false,
+  "physical_controller_verified": false,
+  "artistic_acceptance": "pending",
+  "public_music_redistribution_cleared": false,
+  "review_excerpt_not_full_song": true,
+  "source_module_sha256": {
+    "tools/native_preview.py": "827e55c29f222a53e39ba48002cfbb165c006f3cee566b11e1a94ce4ad08c926",
+    "tools/combine_native_stage.py": "2e55a50fe495bbf4ab08bb4ad33dcebff6ede98c9c8d1ed049d5dd0ccd21456b",
+    "tools/native_source_pose_band.py": "ead72f153eb08ca80a76b8634436611bd2d9d46c580fcc0cd0a0b73758b7f885"
+  },
+  "visual_review": "Six decoded frames inspected at 1, 6, 12, 18, 24 and 34 seconds: all seven snowmen and source-timed lighting are visible; scenery remains dim and the composition is not artistically accepted."
+}
