@@ -71,3 +71,11 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] Regression `test_source_named_performance_xsq_is_preserved` confirms original bytes survive; commit `2c9b88897c9e02b43bfe5be776ded1eb19c9b387`.
 - [ ] Tests still require execution and CI confirmation. Next command: `python -m pytest -q tests/test_dual_format_export.py tests/test_show_export_request.py tests/test_gui_export_selector_contract.py`.
 - [ ] Next implementation: integrate verified mapping and dual output into the actual completed sequence-generation pipeline, with safe handling for all output paths.
+
+## 2026-10-17 snowman pixel/AC inventory implementation
+- [x] Added `models/snowman_wiring_inventory.py` with per-submodel unique pixel-node counts, AC circuit counts, geometry-position counts, and explicit unknown physical bulb/strand fields; commit `1b2eca0119e801ebeda16e8e34eaa3fe54bf3eb9`.
+- [x] Added regression tests `tests/test_snowman_wiring_inventory.py` for counts, AC16 limits, and non-overwriting output; commit `94176901c46e34a0d6426bd045b1c692f3ab3d87`.
+- [x] Integrated inventory creation into `tools/build_spatial_review.py::build` for snowman band layouts; JSON and CSV emitted in the native show folder; commit `409f2b734a992aee9c58bb51e074a551c1fa6344`.
+- [ ] Run `python -m pytest -q tests/test_snowman_wiring_inventory.py` and actual native band build to validate generated counts and xmodel compatibility.
+- [ ] Populate verified bulb-per-strand and LOR Unit/Circuit values from owner-provided hardware mapping, not from geometry. Check controller loading and electrical capacity separately.
+- [ ] Inventory outputs are *not* hardware-tested or manufacturing-ready until physical wiring verification.
