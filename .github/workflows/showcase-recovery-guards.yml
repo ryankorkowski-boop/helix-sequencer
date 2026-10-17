@@ -4,6 +4,8 @@ on:
     paths:
       - 'gui_launcher.py'
       - 'tests/test_gui_export_selector_contract.py'
+      - 'tools/dual_format_export.py'
+      - 'tests/test_dual_format_export.py'
       - 'core/show_export_request.py'
       - 'tests/test_show_export_request.py'
       - 'tools/build_spatial_review.py'
@@ -42,7 +44,7 @@ jobs:
             tests/test_keyboard_orientation.py \
             tests/test_native_instrument_channel_ownership.py
       - name: Run export-selection contract tests
-        run: python -m pytest -q tests/test_show_export_request.py tests/test_gui_export_selector_contract.py
+        run: python -m pytest -q tests/test_show_export_request.py tests/test_gui_export_selector_contract.py tests/test_dual_format_export.py
       - name: Run recovery regression tests
         run: python -m unittest discover -s tests -p 'test_*showcase*artifacts.py' -v
       - name: Run audio provenance regression tests
