@@ -42,6 +42,9 @@ def export_from_xsq(
     def lms_export(analysis, path, req):
         export_legacy_lms(source_xsq, mapping_csv, path)
 
+    if source_xsq.resolve() == (Path(destination) / "Performance.xsq").resolve():
+        raise ValueError("Input XSQ cannot be the destination Performance.xsq")
+
     exporters = {"xsq": xsq_export}
     if mapping_csv is not None:
         exporters["lms"] = lms_export
