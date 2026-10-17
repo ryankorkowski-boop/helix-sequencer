@@ -43,3 +43,16 @@ def test_cli_xsq_copy(tmp_path, capsys):
     assert main([str(source), str(output), '--format', 'xsq']) == 0
     assert (output / 'Performance.xsq').read_text() == '<xsequence/>'
     assert 'Performance.xsq' in capsys.readouterr().out
+
+
+def test_existing_lms_sidecar_is_never_deleted(tmp_path):
+    source = tmp_path / 'source.xsq'
+    source.write_text('<xsequence/>')
+    destination = tmp_path / 'output'
+    destination.mkdir()
+    sidecar = destination / 'Performance.lms_validation.json'
+    sidecar.write_text('approved evidence')
+    with pytest.raises(FileExistsError, match='sidecar'):
+        export_from_xsq(source, destination, output_format='both', mapping_csv=tmp_path / 'unused.csv')
+    assert sidecar.read_text() == 'approved evidence'
+    assert not (destination / 'Performance.xsq').exists()
