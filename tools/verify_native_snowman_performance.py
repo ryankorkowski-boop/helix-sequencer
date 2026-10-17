@@ -20,6 +20,9 @@ def verify(report: dict, video: Path) -> None:
     probe = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=codec_name,width,height", "-of", "json", str(video)], capture_output=True, text=True)
     if probe.returncode or not json.loads(probe.stdout or "{}").get("streams"):
         raise ValueError("MP4 has no decodable video stream")
+    decode = subprocess.run(["ffmpeg", "-v", "error", "-xerror", "-i", str(video), "-map", "0:v:0", "-f", "null", "-"], capture_output=True, text=True)
+    if decode.returncode:
+        raise ValueError("MP4 full video decode failed: " + decode.stderr[-500:])
     if video.suffix.lower() != ".mp4":
         raise ValueError("Expected an MP4")
     if report.get("fixture") or report.get("diagnostic") or report.get("authored_fixture"):
