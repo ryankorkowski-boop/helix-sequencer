@@ -58,6 +58,7 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50):
     rigs=[dict(role=r['role'],side=r['side'],ids=tuple(r['ids'])+tuple(r.get('mallet_ids',()))) for r in scene.rigs]
     rigs += [dict(role='drummer',side=side,ids=tuple(r['ids'])) for side,r in scene.drummer_rigs.items()]
     rigs.append(dict(role='drummer',side='kick_beater',ids=(scene.kick_beater,)))
+    rigs.append(dict(role='drummer',side='hihat_foot',ids=(scene.hihat_foot,scene.hihat_pedal)))
     trajectories=[[] for r in rigs]
     for i in range(p.n):
         p.pose(i)
