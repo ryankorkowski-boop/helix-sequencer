@@ -1,0 +1,28 @@
+name: Showcase recovery guards
+on:
+  pull_request:
+    paths:
+      - 'tools/audit_showcase_artifacts.py'
+      - 'tools/verify_showcase_audio_identity.py'
+      - 'tools/verify_native_proof_archive.py'
+      - 'tests/test_audit_showcase_artifacts.py'
+      - 'tests/test_verify_showcase_audio_identity.py'
+      - 'tests/test_verify_native_proof_archive.py'
+      - '.github/workflows/showcase-recovery-guards.yml'
+  workflow_dispatch:
+jobs:
+  recovery-guards:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run recovery regression tests
+        run: python -m unittest discover -s tests -p 'test_*showcase*artifacts.py' -v
+      - name: Run audio provenance regression tests
+        run: python -m unittest discover -s tests -p 'test_verify_showcase_audio_identity.py' -v
+      - name: Run native archive regression tests
+        run: python -m unittest discover -s tests -p 'test_verify_native_proof_archive.py' -v
