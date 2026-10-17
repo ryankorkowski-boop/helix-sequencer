@@ -55,9 +55,11 @@ def inspect(archive, require_showcase=False):
                 if validation.get("full_song_showcase_complete") is not True:
                     failures.append("full_song_showcase_complete is not true")
                 final_band = validation.get("final_band_output")
+                physical = validation.get("physical")
                 band_verified = validation.get("complete_band_verified") is True
-                if isinstance(final_band, dict):
-                    band_verified = band_verified or final_band.get("complete_band_verified") is True
+                for section in (final_band, physical):
+                    if isinstance(section, dict):
+                        band_verified = band_verified or section.get("complete_band_verified") is True
                 if not band_verified:
                     failures.append("complete-band verification is not true")
 
