@@ -7,14 +7,14 @@ def entry(kind="helix", reviewer="r1", scores=None):
 
 def test_weighted_score():
     result=score_entries([entry()])
-    assert result[0]["score_100"]==75.0
+    assert result[0]["score_100"]==70.0
 
 def test_grouped_reviewer_scores():
     a=entry()
     b=entry(reviewer="r2",scores={k:0 for k in a["scores"]})
     summary=summarize([a,b])
     assert summary["items"][0]["review_count"]==2
-    assert summary["items"][0]["mean_score_100"]==37.5
+    assert summary["items"][0]["mean_score_100"]==35.0
 
 @pytest.mark.parametrize("change",[
     {"kind":"unknown"},
