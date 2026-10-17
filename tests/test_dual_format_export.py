@@ -33,3 +33,13 @@ def test_existing_output_never_overwritten(tmp_path):
 def test_missing_source_fails_before_output(tmp_path):
     with pytest.raises(FileNotFoundError):
         export_from_xsq(tmp_path / "missing.xsq", tmp_path / "output", output_format="xsq")
+
+
+def test_cli_xsq_copy(tmp_path, capsys):
+    from tools.dual_format_export import main
+    source = tmp_path / 'source.xsq'
+    source.write_text('<xsequence/>')
+    output = tmp_path / 'generated'
+    assert main([str(source), str(output), '--format', 'xsq']) == 0
+    assert (output / 'Performance.xsq').read_text() == '<xsequence/>'
+    assert 'Performance.xsq' in capsys.readouterr().out
