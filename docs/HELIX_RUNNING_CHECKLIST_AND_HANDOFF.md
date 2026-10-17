@@ -121,3 +121,11 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] Added workflow-level concurrency group and `cancel-in-progress: true` to `.github/workflows/showcase-recovery-guards.yml`, so newer PR runs supersede stale runs instead of accumulating indefinitely; commit `6022e94237a4bda1fa875830e49dfbf815f7cdb3`.
 - [ ] Wait for a *completed* current showcase recovery run and inspect its snowman-band-wiring-inventories artifact. Do not infer pixel counts from code alone.
 - [ ] If no runner starts, inspect Actions runner/concurrency policy and account limits before additional commits; avoid generating more redundant runs.
+
+## 2026-10-17 current CI blocker recovery
+- [x] Corrected GUI AST export-selector test (`item.value.elts` instead of `item.elts`); commit `15cb21afa44cb35fca4ed97b57d555aa328dbdde`; source inspection confirms GUI choices XSQ/LMS/Both. **New CI verification pending**.
+- [ ] P0: Showcase recovery guards run `39058893880` awaits completion; obtain real seven-snowman inventory artifact, verify counts and per-role submodel ownership.
+- [ ] P0: Native proof previously failed because `VALIDATION.json` and non-diagnostic MP4 were absent (run `39029072914`); produce authentic native showcase and acceptance evidence, do not relax gate.
+- [ ] P0: Helix CI previously failed at SHA `c006d94`; inspect latest job logs after run completion and resolve remaining errors.
+- [ ] P1: Reconcile PR #173 stage-address/original-audio fixes with PR #172 before integration; preserve release approval hold.
+- [ ] FUTURE/APPROVAL-GATED: Issue #154 and dependencies #155-166 remain pending owner authorization.
