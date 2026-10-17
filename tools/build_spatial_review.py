@@ -23,13 +23,15 @@ def _note_curves(events,n):
     return result
 
 
-def band_curves(model,p):
+def band_curves(model,p,*,body_level=None):
+    if body_level is not None and (not np.isfinite(body_level) or not 0<=body_level<=1):
+        raise ValueError('body_level must be finite and between zero and one')
     n=p.n;role=model.details['review_role'];out={};notes=_note_curves(p.keyboard_events,n)
     if role=='drummer':
         # Retain independently tagged physical source schedules (two snare hands).
         from tools.render_refined_helix_band import physical_hits
         out={k:np.zeros(n,'f4') for k in model.submodels}
-        out['BASE_DIM'][:]=.14
+        out['BASE_DIM'][:]=.14 if body_level is None else body_level
         for hit in physical_hits(p.row['drummer_xsq']):
             component=hit.get('component',hit.get('target',''))
             # Hits use canonical source names; hand determines snare circuit.
@@ -40,7 +42,7 @@ def band_curves(model,p):
             for k in range(length):
                 if 0<=a+k<n:out[component][a+k]=max(out[component][a+k],float(hit.get('velocity',1))*np.exp(-k/1.3))
         return out
-    out['BODY']=np.full(n,.20,'f4')
+    out['BODY']=np.full(n,.20 if body_level is None else body_level,'f4')
     if 'EYES' in model.submodels:out['EYES']=np.full(n,.30,'f4')
     if role in ('lead','harmony'):
         j=int(role=='harmony');shapes=p.voice_lanes[:,j]
@@ -72,7 +74,7 @@ def band_curves(model,p):
     return out
 
 
-def score(g,p,variant):
+def score(g,p,variant,*,body_level=None):
     positions=[np.mean(m.points,axis=0) for m in g.models];roles=[]
     for j,m in enumerate(g.models):
         role=2 if m.details.get('midi_rungs') else 0 if 'PROMENADE' in m.zone else 1 if m.details.get('spiral_tree') else j%6
@@ -81,7 +83,7 @@ def score(g,p,variant):
     notes=_note_curves(p.keyboard_events,p.n);result={}
     for j,m in enumerate(g.models):
         if m.details.get('review_role'):
-            result[m.name]=band_curves(m,p);continue
+            result[m.name]=band_curves(m,p,body_level=body_level);continue
         if m.details.get('ac_note_bank'):
             result[m.name]={part:notes.get(int(part.rsplit('_',1)[1]),np.zeros(p.n)) if part.startswith('KEY_MIDI_') else p.curves['piano_energy']*.15 if part=='STRAND_A' else p.curves['bass_energy']*.15 for part in m.submodels}
             continue
@@ -107,7 +109,7 @@ def score(g,p,variant):
     return result,proof
 
 
-def build(root,eid,variant,*,kind='auto'):
+def build(root,eid,variant,*,kind='auto',body_level=None):
     row,audio,scene,p=setup(root,eid)
     if kind=='ac_helix':
         world=build_world(0);g=ac_midi_helix(next(m for m in world.models if m.details.get('midi_rungs')));name='AC_MIDI_Helix'
@@ -118,7 +120,7 @@ def build(root,eid,variant,*,kind='auto'):
         if variant==3:g.models=[ac_variant(m) for m in g.models];allocate(g)
         name='AC16_Band' if variant==3 else 'Pixel_Band'
     p.row={'drummer_xsq':str(root/'sources'/eid/'drummer.xsq')}
-    cues,proof=score(g,p,variant);folder=root/'shows'/eid/name;folder.mkdir(parents=True,exist_ok=True)
+    cues,proof=score(g,p,variant,body_level=body_level);folder=root/'shows'/eid/name;folder.mkdir(parents=True,exist_ok=True)
     media=folder/'media';media.mkdir(exist_ok=True);shutil.copy2(audio,media/'audio.wav')
     write_layout(g,folder,include_demo=False,export_all_custom=True)
     seq=NativeSequence(g,36,'media/audio.wav',g.title+' / '+row['filename'])
@@ -138,7 +140,7 @@ def build(root,eid,variant,*,kind='auto'):
                 if value:seq.effect(m,part,int(a)*50,int(b)*50,color,value)
         if mode=='ac16':encode_output(np.zeros((1,m.channels)),mode)
     path=folder/'Performance.xsq';seq.write(path)
-    proof.update(excerpt=eid,variant=name,models=len(g.models),effects=seq.identifier-1,
+    proof.update(excerpt=eid,variant=name,models=len(g.models),effects=seq.identifier-1,body_level=body_level,
                  outputs=output,native_render_pending=True,all_snowmen=True)
     (folder/'score_proof.json').write_text(json.dumps(proof,indent=2)+'\n')
     # Expected cues let the native gate compare real rendered channels rather
@@ -148,4 +150,6 @@ def build(root,eid,variant,*,kind='auto'):
     return g,path
 
 if __name__=='__main__':
-    a=argparse.ArgumentParser();a.add_argument('--root',type=Path,required=True);a.add_argument('--id',default='E03');a.add_argument('--variant',type=int,required=True);args=a.parse_args();build(args.root,args.id,args.variant)
+    a=argparse.ArgumentParser();a.add_argument('--root',type=Path,required=True);a.add_argument('--id',default='E03');a.add_argument('--variant',type=int,required=True)
+    a.add_argument('--body-level',type=float,default=None,help='Opt-in body illumination; preserve musical cue values and timing')
+    args=a.parse_args();build(args.root,args.id,args.variant,body_level=args.body_level)

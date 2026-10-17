@@ -1,0 +1,194 @@
+{
+  "basis": "structural_estimate_not_native_render",
+  "coverage_weighting": "declared_channels",
+  "native_render_verified": false,
+  "overall": {
+    "dead_air": [
+      {
+        "end_ms": 2500.0,
+        "intentional": false,
+        "start_ms": 2000.0
+      },
+      {
+        "end_ms": 3500.0,
+        "intentional": true,
+        "start_ms": 3000.0
+      },
+      {
+        "end_ms": 4000.0,
+        "intentional": false,
+        "start_ms": 3500.0
+      }
+    ],
+    "diversity_by_model_class": {
+      "Arches": {
+        "effect_counts": {
+          "On": 3
+        },
+        "entropy_bits": -0.0
+      },
+      "Star": {
+        "effect_counts": {
+          "On": 2
+        },
+        "entropy_bits": -0.0
+      }
+    },
+    "effect_count": 4,
+    "end_ms": 4000.0,
+    "energy_tracking": {
+      "correlation": 1.0,
+      "mean_lit_fraction_estimate": 0.4375,
+      "paired_samples": 40
+    },
+    "focal_points_estimate": {
+      "p95": 2.0,
+      "peak": 2
+    },
+    "onset_latency": {
+      "match_fraction": 1.0,
+      "matched_count": 4,
+      "median_ms": 30.0,
+      "onset_count": 4,
+      "p95_ms": 390.0
+    },
+    "palette_consistency": 0.75,
+    "peak_simultaneous_effects": 2,
+    "repetition": {
+      "adjacent_identical": 1,
+      "comparisons": 1,
+      "rate": 1.0,
+      "within_5s_identical": 1
+    },
+    "start_ms": 0.0,
+    "warnings": [
+      "onset_alignment_outside_threshold",
+      "repetition_outside_threshold"
+    ]
+  },
+  "schema": "helix.quality.v1",
+  "sections": [
+    {
+      "dead_air": [],
+      "diversity_by_model_class": {
+        "Arches": {
+          "effect_counts": {
+            "On": 2
+          },
+          "entropy_bits": -0.0
+        },
+        "Star": {
+          "effect_counts": {
+            "On": 1
+          },
+          "entropy_bits": -0.0
+        }
+      },
+      "effect_count": 3,
+      "end_ms": 2000.0,
+      "energy_tracking": {
+        "correlation": 1.0,
+        "mean_lit_fraction_estimate": 0.625,
+        "paired_samples": 20
+      },
+      "focal_points_estimate": {
+        "p95": 1.05,
+        "peak": 2
+      },
+      "id": "intro",
+      "onset_latency": {
+        "match_fraction": 1.0,
+        "matched_count": 2,
+        "median_ms": 25.0,
+        "onset_count": 2,
+        "p95_ms": 47.5
+      },
+      "palette_consistency": 0.666667,
+      "peak_simultaneous_effects": 2,
+      "repetition": {
+        "adjacent_identical": 1,
+        "comparisons": 1,
+        "rate": 1.0,
+        "within_5s_identical": 1
+      },
+      "start_ms": 0.0,
+      "warnings": [
+        "repetition_outside_threshold"
+      ]
+    },
+    {
+      "dead_air": [
+        {
+          "end_ms": 2500.0,
+          "intentional": false,
+          "start_ms": 2000.0
+        },
+        {
+          "end_ms": 3500.0,
+          "intentional": true,
+          "start_ms": 3000.0
+        },
+        {
+          "end_ms": 4000.0,
+          "intentional": false,
+          "start_ms": 3500.0
+        }
+      ],
+      "diversity_by_model_class": {
+        "Arches": {
+          "effect_counts": {
+            "On": 1
+          },
+          "entropy_bits": -0.0
+        },
+        "Star": {
+          "effect_counts": {
+            "On": 1
+          },
+          "entropy_bits": -0.0
+        }
+      },
+      "effect_count": 1,
+      "end_ms": 4000.0,
+      "energy_tracking": {
+        "correlation": 1.0,
+        "mean_lit_fraction_estimate": 0.25,
+        "paired_samples": 20
+      },
+      "focal_points_estimate": {
+        "p95": 2.0,
+        "peak": 2
+      },
+      "id": "outro",
+      "onset_latency": {
+        "match_fraction": 1.0,
+        "matched_count": 2,
+        "median_ms": 230.0,
+        "onset_count": 2,
+        "p95_ms": 428.0
+      },
+      "palette_consistency": 1.0,
+      "peak_simultaneous_effects": 1,
+      "repetition": {
+        "adjacent_identical": 0,
+        "comparisons": 0,
+        "rate": 0.0,
+        "within_5s_identical": 0
+      },
+      "start_ms": 2000.0,
+      "warnings": [
+        "onset_alignment_outside_threshold"
+      ]
+    }
+  ],
+  "thresholds": {
+    "dead_air_ms": 1000,
+    "maximum_focal_points": 2,
+    "maximum_repetition_rate": 0.5,
+    "minimum_energy_correlation": 0.5,
+    "minimum_onset_match_fraction": 0.8,
+    "minimum_palette_consistency": 0.5,
+    "onset_p95_ms": 100
+  },
+  "warnings": []
+}
