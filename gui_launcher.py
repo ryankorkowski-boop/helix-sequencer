@@ -292,6 +292,7 @@ class HelixGui(tk.Tk):
         actions.pack(fill=tk.X, **pad)
         self.run_button = ttk.Button(actions, text="Run Sequence Build", command=self._run_sequence)
         self.run_button.pack(side=tk.LEFT, padx=8, pady=6)
+        ttk.Button(actions, text="Export existing AC XSQ + LMS", command=self._export_existing_xsq_both).pack(side=tk.LEFT, padx=8, pady=6)
         ttk.Button(actions, text="Phone Remote", command=self._open_phone_remote).pack(side=tk.LEFT, padx=8, pady=6)
         from tools.support_links import links
         support = links()
@@ -390,6 +391,37 @@ class HelixGui(tk.Tk):
         self.status_label.configure(text="Exporting...")
         self._log("Running: " + " ".join(cmd))
         threading.Thread(target=self._run_subprocess, args=(cmd,), daemon=True).start()
+
+    def _export_existing_xsq_both(self) -> None:
+        """Convert an already generated AC-only XSQ with explicit hardware mapping."""
+        source = filedialog.askopenfilename(
+            title="Choose completed Helix AC-only XSQ",
+            filetypes=[("xLights XSQ", "*.xsq")],
+        )
+        if not source:
+            return
+        mapping = filedialog.askopenfilename(
+            title="Choose verified LOR channel mapping CSV",
+            filetypes=[("CSV files", "*.csv")],
+        )
+        if not mapping:
+            return
+        destination = filedialog.askdirectory(title="Choose new dual-format output folder")
+        if not destination:
+            return
+        if any((Path(destination) / ("Performance." + ext)).exists() for ext in ("xsq", "lms")):
+            messagebox.showerror("Existing output", "Choose a folder without Performance.xsq or Performance.lms.")
+            return
+        if not messagebox.askyesno(
+            "Confirm AC channel mapping",
+            "This converts only constant-intensity AC On effects. "
+            "Have you verified the CSV against your LOR controller unit and circuits?",
+        ):
+            return
+        self._launch_optional_export([
+            *_module_command("tools.dual_format_export"),
+            source, destination, "--format", "both", "--channel-map", mapping,
+        ])
 
     def _export_legacy_lms(self) -> None:
         source = filedialog.askopenfilename(
