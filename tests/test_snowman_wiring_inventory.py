@@ -57,3 +57,11 @@ def test_pixel_submodel_referencing_missing_geometry_fails():
     model.attrs['CustomModelCompressed'] = '1,0,0'
     with pytest.raises(ValueError, match='undefined pixel nodes'):
         inventory_model(model)
+
+
+def test_standalone_generator_rejects_missing_band_roles(monkeypatch, tmp_path):
+    import tools.export_snowman_band_inventory as generator
+    monkeypatch.setattr(generator, 'add_band', lambda garden: [fake_model('pixel', {'BODY': [1]}, [0])])
+    with pytest.raises(ValueError, match='seven distinct snowman roles'):
+        generator.export_band_inventories(tmp_path)
+    assert not (tmp_path / 'pixel').exists()
