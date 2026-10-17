@@ -1,0 +1,494 @@
+{
+  "schema": "helix.native_note_channel_proof.v1",
+  "frames": 1440,
+  "frame_ms": 25,
+  "targets": 96,
+  "native_note_string_samples": 22088160,
+  "max_integer_error": 1,
+  "samples_over_tolerance_2": 0,
+  "all_target_channels_disjoint": true,
+  "source_pitch_accuracy_independently_verified": false,
+  "targets_activity": [
+    {
+      "target": "HX_SNOW_BASS::STRING_0",
+      "nodes": 394,
+      "active_frames": 550
+    },
+    {
+      "target": "HX_SNOW_BASS::STRING_1",
+      "nodes": 393,
+      "active_frames": 428
+    },
+    {
+      "target": "HX_SNOW_BASS::STRING_2",
+      "nodes": 378,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_BASS::STRING_3",
+      "nodes": 393,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_GUITAR::STRING_0",
+      "nodes": 309,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_GUITAR::STRING_1",
+      "nodes": 310,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_GUITAR::STRING_2",
+      "nodes": 308,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_GUITAR::STRING_3",
+      "nodes": 310,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_GUITAR::STRING_4",
+      "nodes": 309,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_GUITAR::STRING_5",
+      "nodes": 309,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_48",
+      "nodes": 20,
+      "active_frames": 12
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_49",
+      "nodes": 20,
+      "active_frames": 4
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_50",
+      "nodes": 20,
+      "active_frames": 20
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_51",
+      "nodes": 20,
+      "active_frames": 82
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_52",
+      "nodes": 20,
+      "active_frames": 20
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_53",
+      "nodes": 16,
+      "active_frames": 148
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_54",
+      "nodes": 20,
+      "active_frames": 4
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_55",
+      "nodes": 20,
+      "active_frames": 66
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_56",
+      "nodes": 20,
+      "active_frames": 6
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_57",
+      "nodes": 20,
+      "active_frames": 18
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_58",
+      "nodes": 20,
+      "active_frames": 110
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_59",
+      "nodes": 20,
+      "active_frames": 4
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_60",
+      "nodes": 20,
+      "active_frames": 36
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_61",
+      "nodes": 20,
+      "active_frames": 4
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_62",
+      "nodes": 16,
+      "active_frames": 68
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_63",
+      "nodes": 20,
+      "active_frames": 18
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_64",
+      "nodes": 20,
+      "active_frames": 4
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_65",
+      "nodes": 20,
+      "active_frames": 64
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_66",
+      "nodes": 20,
+      "active_frames": 22
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_67",
+      "nodes": 16,
+      "active_frames": 80
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_68",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_69",
+      "nodes": 20,
+      "active_frames": 2
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_70",
+      "nodes": 20,
+      "active_frames": 60
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_71",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_72",
+      "nodes": 16,
+      "active_frames": 10
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_73",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_74",
+      "nodes": 20,
+      "active_frames": 48
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_75",
+      "nodes": 20,
+      "active_frames": 8
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_76",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_77",
+      "nodes": 20,
+      "active_frames": 84
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_78",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_79",
+      "nodes": 20,
+      "active_frames": 28
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_80",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_81",
+      "nodes": 16,
+      "active_frames": 12
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_82",
+      "nodes": 20,
+      "active_frames": 42
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_83",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_PIANO::NOTE_MIDI_84",
+      "nodes": 20,
+      "active_frames": 34
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_48",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_49",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_50",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_51",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_52",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_53",
+      "nodes": 20,
+      "active_frames": 4
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_54",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_55",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_56",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_57",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_58",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_59",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_60",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_61",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_62",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_63",
+      "nodes": 20,
+      "active_frames": 4
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_64",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_65",
+      "nodes": 20,
+      "active_frames": 8
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_66",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_67",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_68",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_69",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_70",
+      "nodes": 20,
+      "active_frames": 20
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_71",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_72",
+      "nodes": 20,
+      "active_frames": 8
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_73",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_74",
+      "nodes": 20,
+      "active_frames": 4
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_75",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_76",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_77",
+      "nodes": 20,
+      "active_frames": 4
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_78",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_79",
+      "nodes": 20,
+      "active_frames": 4
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_80",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_81",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_82",
+      "nodes": 20,
+      "active_frames": 4
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_83",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_84",
+      "nodes": 20,
+      "active_frames": 4
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_85",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_86",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_87",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_88",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_89",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_90",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_91",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_92",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_93",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_94",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_95",
+      "nodes": 20,
+      "active_frames": 0
+    },
+    {
+      "target": "HX_SNOW_XYLOPHONE::NOTE_MIDI_96",
+      "nodes": 20,
+      "active_frames": 0
+    }
+  ],
+  "fseq_sha256": "3ce1b0f7b90729e1e1b1f1c8bdf3cf6bcfdba49993b42d48fa113d8ab563386b"
+}

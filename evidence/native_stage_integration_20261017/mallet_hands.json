@@ -1,0 +1,247 @@
+{
+  "schema": "helix.reachable_mallet_hands.v1",
+  "reports": [
+    {
+      "excerpt": "E03",
+      "source_audio_sha256": "d01e654d569195410c16615b04ff8d846ebb04f1cb49b329c904b964689197ff",
+      "source_mallet_candidates": 16,
+      "scheduled": 16,
+      "before": {
+        "left": 16,
+        "right": 0
+      },
+      "after": {
+        "left": 9,
+        "right": 7
+      },
+      "changed_hands": 7,
+      "source_times_pitches_velocities_identical": true,
+      "no_additional_notes": true,
+      "all_contacts_reachable": true,
+      "instrument_identity_independently_verified": false,
+      "schedule": [
+        {
+          "time": 0.2,
+          "source_time": 0.2,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 70,
+          "source_pitch": 70,
+          "velocity": 0.6703370213508606,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 0.7,
+          "source_time": 0.7,
+          "display_error_ms": 0.0,
+          "side": "right",
+          "pitch": 70,
+          "source_pitch": 70,
+          "velocity": 0.48335492610931396,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 2.65,
+          "source_time": 2.65,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 72,
+          "source_pitch": 72,
+          "velocity": 0.6656246781349182,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 4.7,
+          "source_time": 4.7,
+          "display_error_ms": 0.0,
+          "side": "right",
+          "pitch": 74,
+          "source_pitch": 74,
+          "velocity": 0.6965365409851074,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 7.0,
+          "source_time": 7.0,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 65,
+          "source_pitch": 65,
+          "velocity": 0.9851406812667847,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 7.75,
+          "source_time": 7.75,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 63,
+          "source_pitch": 63,
+          "velocity": 0.7988677024841309,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 10.8,
+          "source_time": 10.8,
+          "display_error_ms": 0.0,
+          "side": "right",
+          "pitch": 72,
+          "source_pitch": 72,
+          "velocity": 0.6915648579597473,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 15.05,
+          "source_time": 15.05,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 70,
+          "source_pitch": 70,
+          "velocity": 0.8228620290756226,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 18.1,
+          "source_time": 18.1,
+          "display_error_ms": 0.0,
+          "side": "right",
+          "pitch": 84,
+          "source_pitch": 84,
+          "velocity": 0.5027367472648621,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 25.4,
+          "source_time": 25.4,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 70,
+          "source_pitch": 70,
+          "velocity": 0.8519479632377625,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 28.45,
+          "source_time": 28.45,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 65,
+          "source_pitch": 65,
+          "velocity": 0.7314300537109375,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 30.05,
+          "source_time": 30.05,
+          "display_error_ms": 0.0,
+          "side": "right",
+          "pitch": 70,
+          "source_pitch": 70,
+          "velocity": 0.9270539283752441,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 30.6,
+          "source_time": 30.6,
+          "display_error_ms": 0.0,
+          "side": "right",
+          "pitch": 82,
+          "source_pitch": 82,
+          "velocity": 0.7118699550628662,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 31.35,
+          "source_time": 31.35,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 53,
+          "source_pitch": 53,
+          "velocity": 0.782914936542511,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 33.0,
+          "source_time": 33.0,
+          "display_error_ms": 0.0,
+          "side": "right",
+          "pitch": 79,
+          "source_pitch": 79,
+          "velocity": 1.0,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 35.25,
+          "source_time": 35.25,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 77,
+          "source_pitch": 77,
+          "velocity": 0.8595402836799622,
+          "source": "other_stem_screened_mallet_estimate"
+        }
+      ]
+    },
+    {
+      "excerpt": "E14",
+      "source_audio_sha256": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171",
+      "source_mallet_candidates": 4,
+      "scheduled": 4,
+      "before": {
+        "left": 4,
+        "right": 0
+      },
+      "after": {
+        "left": 4,
+        "right": 0
+      },
+      "changed_hands": 0,
+      "source_times_pitches_velocities_identical": true,
+      "no_additional_notes": true,
+      "all_contacts_reachable": true,
+      "instrument_identity_independently_verified": false,
+      "schedule": [
+        {
+          "time": 2.45,
+          "source_time": 2.45,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 69,
+          "source_pitch": 69,
+          "velocity": 0.4365364909172058,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 3.85,
+          "source_time": 3.85,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 57,
+          "source_pitch": 57,
+          "velocity": 0.5036033391952515,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 6.5,
+          "source_time": 6.5,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 58,
+          "source_pitch": 46,
+          "velocity": 0.22198864817619324,
+          "source": "other_stem_screened_mallet_estimate"
+        },
+        {
+          "time": 16.55,
+          "source_time": 16.55,
+          "display_error_ms": 0.0,
+          "side": "left",
+          "pitch": 56,
+          "source_pitch": 44,
+          "velocity": 0.5503363013267517,
+          "source": "other_stem_screened_mallet_estimate"
+        }
+      ]
+    }
+  ]
+}

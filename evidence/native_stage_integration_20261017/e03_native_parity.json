@@ -1,0 +1,24 @@
+{
+  "source_commit": "9a6fc14c1f4c03c8f051c875a9d956c0e2115d08",
+  "native_xlights": "2026.18",
+  "frames": 1440,
+  "frame_ms": 25,
+  "band_channels": 147999,
+  "combined_channels": 296243,
+  "band_channel_offset": 148244,
+  "compared_native_band_samples": 213118560,
+  "maximum_error": 0,
+  "nonblack_band_frames": 1440,
+  "standalone_band_sha256": "93120a0072399ca3187064cdf6acad4fa868696f63d7f27a1415193baf2ae059",
+  "embedded_band_sha256": "93120a0072399ca3187064cdf6acad4fa868696f63d7f27a1415193baf2ae059",
+  "complete_native_band_span_preserved": true,
+  "source_music_redistribution_cleared": false,
+  "artistic_acceptance": "pending",
+  "physical_controller_verified": false,
+  "source_analysis": "retained hash-bound E03 cache; no fresh acoustic ground-truth claim",
+  "source_module_sha256": {
+    "music/unified_mallet.py": "4e57485cda7f11ad03e6faa86dc3c710f3c63777a62b4d257282f032c8494f95",
+    "tools/combine_native_stage.py": "9442083865d9b96e3c09ad29e6257d2a764cc8ced8f88332d7a4a15eab301dab",
+    "tools/native_source_pose_band.py": "ead72f153eb08ca80a76b8634436611bd2d9d46c580fcc0cd0a0b73758b7f885"
+  }
+}

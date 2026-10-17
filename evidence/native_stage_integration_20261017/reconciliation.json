@@ -240,7 +240,7 @@
       "evidence": "Remains opt-in and inactive in the reviewed source/native videos. Activation needs the preserved musical/artistic review gate; no blanket full-layout behavior enabled."
     },
     {
-      "area": "PR167 and issues154–166 Universal Sequence Library",
+      "area": "PR167 and issues154\u2013166 Universal Sequence Library",
       "classification": "blocked_by_documented_external_dependency",
       "evidence": "All are explicitly future/approval-gated in current issue titles and master ledger. Not activated."
     },
@@ -274,5 +274,12 @@
       "evidence": "PR150 body and evidence/72h_completion/installer_delivery_receipt.json ; current issue143/144 remain open",
       "next_action": "Run physical clean-install/controller/vendor checks, resolve signing/store/legal authority and obtain retained release approval."
     }
-  ]
+  ],
+  "additional_implementation": "Correct reachable single-mallet hand bias; E03 retained16 notes unchanged while7 move to reachable right-hand contacts. Combined cue evidence now replaces old stage curves at the explicit25ms native clock, archives source metadata and rejects invalid/incomplete evidence.",
+  "final_local_suite": {
+    "passed": 1740,
+    "skipped": 6,
+    "warnings": 36,
+    "seconds": 246.52
+  }
 }

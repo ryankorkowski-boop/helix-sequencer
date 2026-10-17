@@ -5,6 +5,7 @@ Edits native XML inputs only; xLights must render fresh channel/video output.
 from pathlib import Path
 import argparse,copy,json,shutil,math,re,tempfile
 import xml.etree.ElementTree as ET
+import numpy as np
 from tools.audio_excerpt import digest
 from tools.fseq_pixel_preview import FseqReader
 
@@ -45,6 +46,52 @@ def _duration(root):
     value=float(root.findtext('head/sequenceDuration','nan'))
     if not math.isfinite(value) or value<=0:raise ValueError('Invalid source sequence duration')
     return value
+
+
+SOURCE_METADATA=('expected_cues.npz','score_proof.json','showcase_manifest.json',
+                 'preview_geometry.json','model_inventory.csv','pose_provenance.json')
+
+
+def _cue_evidence(scenery,band,output,source_sequence,band_sequence,removed,expected):
+    # Preserve input evidence under its original identity, never as a claim
+    # about the replacement cast or the combined model/channel inventory.
+    for label,folder in (('scenery',scenery),('band',band)):
+        for name in SOURCE_METADATA:
+            if (folder/name).is_file():
+                archive=output/'source_metadata'/label;archive.mkdir(parents=True,exist_ok=True)
+                shutil.copy2(folder/name,archive/name)
+    report=dict(complete=False,frame_ms=25,reason='both source cue archives required')
+    if not all((folder/'expected_cues.npz').is_file() for folder in (scenery,band)):
+        return report
+    result={};source_counts={};duration_ms=round(_duration(source_sequence)*1000)
+    for label,folder,sequence in (('scenery',scenery,source_sequence),('band',band,band_sequence)):
+        timing=sequence.findtext('head/sequenceTiming','')
+        match=re.fullmatch(r'\s*(\d+)\s*ms\s*',timing)
+        if not match:raise ValueError('Source cue evidence requires an explicit frame interval')
+        step=int(match.group(1))
+        pose=folder/'pose_provenance.json'
+        if pose.is_file():step=json.loads(pose.read_text()).get('source_pose_frame_ms',step)
+        if type(step) is not int or step<=0 or step%25 or duration_ms%step:
+            raise ValueError('Source cue clock must align to the native 25 ms interval')
+        count=0
+        with np.load(folder/'expected_cues.npz',allow_pickle=False) as cues:
+            for key in cues.files:
+                model,separator,_=key.partition('::')
+                if not separator:raise ValueError('Invalid source cue target')
+                if label=='scenery' and model in removed:continue
+                if label=='band' and model not in expected:raise ValueError('Unexpected band cue target')
+                values=cues[key]
+                if (values.ndim!=1 or len(values)!=duration_ms//step
+                        or values.dtype.kind not in 'biuf' or not np.isfinite(values).all()
+                        or np.any(values<0) or np.any(values>100)):
+                    raise ValueError('Invalid source cue shape, clock or intensity')
+                if key in result:raise ValueError('Duplicate combined cue target')
+                result[key]=np.repeat(values,step//25);count+=1
+        source_counts[label]=count
+    np.savez_compressed(output/'expected_cues.npz',**result)
+    return dict(complete=True,frame_ms=25,frames=duration_ms//25,
+                source_curves=source_counts,curves=len(result),
+                source_events_retimed=False)
 
 
 def _combine_to(scenery:Path,band:Path,output:Path,scale=2.8):
@@ -90,7 +137,7 @@ def _combine_to(scenery:Path,band:Path,output:Path,scale=2.8):
     if any(_start(m)>offset or (_custom_end(m) or _start(m))>offset for m in models):
         raise ValueError('Retained scenery extends into the proposed band channels')
     # Publish a completed directory only; input validation above is read-only.
-    shutil.copytree(scenery,output,ignore=shutil.ignore_patterns('*.fseq','*.mp4','*.log','native.json','engine_raw.xsq','Performance.xsq','performance.xsq'))
+    shutil.copytree(scenery,output,ignore=shutil.ignore_patterns('*.fseq','*.mp4','*.log','native.json','engine_raw.xsq','Performance.xsq','performance.xsq',*SOURCE_METADATA))
     shutil.copy2(source_audio,output/'audio.wav')
     removed_groups=set()
     groups=layout.getroot().find('modelGroups')
@@ -139,9 +186,11 @@ def _combine_to(scenery:Path,band:Path,output:Path,scale=2.8):
     if nextid is None:nextid=ET.SubElement(root,'nextid')
     nextid.text=str(max((int(e.get('id','0')) for e in root.findall('.//Effect') if e.get('id','0').isdigit()),default=0)+1)
     ET.indent(xsq);xsq.write(output/'Performance.xsq',encoding='utf-8',xml_declaration=True)
+    cue_evidence=_cue_evidence(scenery,band,output,ET.parse(source_sequence).getroot(),stage,removed,expected)
     provenance=dict(scenery=str(scenery),band=str(band),audio_sha256=digest(source_audio),band_channel_offset=offset,
                     band_scale=scale,removed_legacy_performers=sorted(old),performers=7,frame_ms=25,source_events_retimed=False,
-                    original_scenery_effects_retained=True,scenery_groups_exclude_new_band=True,native_render_pending=True)
+                    original_scenery_effects_retained=True,scenery_groups_exclude_new_band=True,native_render_pending=True,
+                    expected_cues=cue_evidence,source_metadata_is_archival=True)
     (output/'combined_provenance.json').write_text(json.dumps(provenance,indent=2)+'\n');print(output.name,offset,len(models),flush=True)
     return provenance
 

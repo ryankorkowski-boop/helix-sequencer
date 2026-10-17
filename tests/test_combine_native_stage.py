@@ -1,8 +1,10 @@
 import hashlib
+import json
 import struct
 import xml.etree.ElementTree as ET
 
 import pytest
+import numpy as np
 
 from tools.combine_native_stage import combine
 
@@ -162,3 +164,44 @@ def test_existing_successful_export_is_not_overwritten(inputs):
     scenery,band,out=inputs;out.mkdir();(out/'approved.mp4').write_bytes(b'previous successful output')
     with pytest.raises(FileExistsError):combine(scenery,band,out)
     assert (out/'approved.mp4').read_bytes()==b'previous successful output'
+
+
+def test_combined_cues_replace_old_cast_and_preserve_source_clock(tmp_path):
+    scenery=tmp_path/'scene';band=tmp_path/'band';out=tmp_path/'combined'
+    write_show(scenery,[('SCENE',1)]+[('HX_SNOW_'+r,100+i*3) for i,r in enumerate(ROLES)])
+    write_show(band,[('HX_SNOW_'+r,1+i*3) for i,r in enumerate(ROLES)])
+    tree=ET.parse(band/'Performance.xsq');tree.find('head/sequenceTiming').text='25 ms';tree.write(band/'Performance.xsq')
+    (band/'pose_provenance.json').write_text(json.dumps({'source_pose_frame_ms':50}))
+    np.savez(scenery/'expected_cues.npz',**{'SCENE::BODY':np.arange(20),'HX_SNOW_PIANO::BODY':np.full(20,20)})
+    np.savez(band/'expected_cues.npz',**{'HX_SNOW_PIANO::BODY':np.full(20,85),'HX_SNOW_PIANO::SOURCE_POSE':np.tile([0,90],10)})
+    (scenery/'showcase_manifest.json').write_text('{"models":"old input"}')
+    before=inventory(scenery),inventory(band)
+    report=combine(scenery,band,out)['expected_cues']
+    assert report['complete'] and report['frame_ms']==25 and report['frames']==40
+    with np.load(out/'expected_cues.npz') as cues:
+        np.testing.assert_array_equal(cues['SCENE::BODY'],np.repeat(np.arange(20),2))
+        np.testing.assert_array_equal(cues['HX_SNOW_PIANO::BODY'],np.full(40,85))
+        np.testing.assert_array_equal(cues['HX_SNOW_PIANO::SOURCE_POSE'],np.repeat(np.tile([0,90],10),2))
+    assert not (out/'showcase_manifest.json').exists()
+    assert (out/'source_metadata/scenery/showcase_manifest.json').read_bytes()==(scenery/'showcase_manifest.json').read_bytes()
+    assert (inventory(scenery),inventory(band))==before
+
+
+def test_partial_input_cue_evidence_is_archived_without_false_complete_output(inputs):
+    scenery,band,out=inputs
+    np.savez(scenery/'expected_cues.npz',**{'SCENE::BODY':np.ones(20)})
+    result=combine(scenery,band,out)
+    assert not result['expected_cues']['complete']
+    assert not (out/'expected_cues.npz').exists()
+    assert (out/'source_metadata/scenery/expected_cues.npz').is_file()
+
+
+@pytest.mark.parametrize('values',[np.ones(21),np.full(20,np.nan),np.full(20,101)])
+def test_invalid_cue_evidence_leaves_no_partial_candidate(inputs,values):
+    scenery,band,out=inputs
+    np.savez(scenery/'expected_cues.npz',**{'SCENE::BODY':values})
+    np.savez(band/'expected_cues.npz',**{'HX_SNOW_PIANO::BODY':np.ones(20)})
+    before=inventory(scenery),inventory(band)
+    with pytest.raises(ValueError,match='Invalid source cue'):combine(scenery,band,out)
+    assert not out.exists() and not list(out.parent.glob('.combined-*'))
+    assert (inventory(scenery),inventory(band))==before

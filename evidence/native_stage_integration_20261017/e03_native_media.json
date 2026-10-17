@@ -1,0 +1,199 @@
+{
+  "schema": "helix.current_native_stage_media.v1",
+  "movie": "Helix_E03_Independent_Mallet_1080p40.mp4",
+  "bytes": 33489231,
+  "sha256": "3233c7498b929d2b006f00001e6d177787c5fa97d5a26a95fc4f347521b8da17",
+  "source_audio_sha256": "d01e654d569195410c16615b04ff8d846ebb04f1cb49b329c904b964689197ff",
+  "source": "Kaleidoscope Engine (Remastered).mp3 original excerpt 116.0\u2013152.0s; retained E03 source cache",
+  "native_xlights": "2026.18",
+  "video_stream": {
+    "index": 0,
+    "codec_name": "h264",
+    "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+    "profile": "High",
+    "codec_type": "video",
+    "codec_tag_string": "avc1",
+    "codec_tag": "0x31637661",
+    "width": 1920,
+    "height": 1080,
+    "coded_width": 1920,
+    "coded_height": 1080,
+    "closed_captions": 0,
+    "film_grain": 0,
+    "has_b_frames": 0,
+    "pix_fmt": "yuvj420p",
+    "level": 42,
+    "color_range": "pc",
+    "color_space": "bt709",
+    "color_transfer": "bt709",
+    "color_primaries": "bt709",
+    "chroma_location": "left",
+    "field_order": "progressive",
+    "refs": 1,
+    "is_avc": "true",
+    "nal_length_size": "4",
+    "id": "0x1",
+    "r_frame_rate": "40/1",
+    "avg_frame_rate": "40/1",
+    "time_base": "1/40000",
+    "start_pts": 0,
+    "start_time": "0.000000",
+    "duration_ts": 1440000,
+    "duration": "36.000000",
+    "bit_rate": "7106709",
+    "bits_per_raw_sample": "8",
+    "nb_frames": "1440",
+    "extradata_size": 50,
+    "disposition": {
+      "default": 1,
+      "dub": 0,
+      "original": 0,
+      "comment": 0,
+      "lyrics": 0,
+      "karaoke": 0,
+      "forced": 0,
+      "hearing_impaired": 0,
+      "visual_impaired": 0,
+      "clean_effects": 0,
+      "attached_pic": 0,
+      "timed_thumbnails": 0,
+      "non_diegetic": 0,
+      "captions": 0,
+      "descriptions": 0,
+      "metadata": 0,
+      "dependent": 0,
+      "still_image": 0
+    },
+    "tags": {
+      "language": "und",
+      "handler_name": "VideoHandler",
+      "vendor_id": "[0][0][0][0]"
+    }
+  },
+  "audio_stream": {
+    "index": 1,
+    "codec_name": "aac",
+    "codec_long_name": "AAC (Advanced Audio Coding)",
+    "profile": "LC",
+    "codec_type": "audio",
+    "codec_tag_string": "mp4a",
+    "codec_tag": "0x6134706d",
+    "sample_fmt": "fltp",
+    "sample_rate": "44100",
+    "channels": 2,
+    "channel_layout": "stereo",
+    "bits_per_sample": 0,
+    "initial_padding": 0,
+    "id": "0x2",
+    "r_frame_rate": "0/0",
+    "avg_frame_rate": "0/0",
+    "time_base": "1/44100",
+    "start_pts": 0,
+    "start_time": "0.000000",
+    "duration_ts": 1587600,
+    "duration": "36.000000",
+    "bit_rate": "328968",
+    "nb_frames": "1552",
+    "extradata_size": 5,
+    "disposition": {
+      "default": 1,
+      "dub": 0,
+      "original": 0,
+      "comment": 0,
+      "lyrics": 0,
+      "karaoke": 0,
+      "forced": 0,
+      "hearing_impaired": 0,
+      "visual_impaired": 0,
+      "clean_effects": 0,
+      "attached_pic": 0,
+      "timed_thumbnails": 0,
+      "non_diegetic": 0,
+      "captions": 0,
+      "descriptions": 0,
+      "metadata": 0,
+      "dependent": 0,
+      "still_image": 0
+    },
+    "tags": {
+      "language": "und",
+      "handler_name": "SoundHandler",
+      "vendor_id": "[0][0][0][0]"
+    }
+  },
+  "fully_decoded": true,
+  "decoded_frames": 1440,
+  "black_frames": 0,
+  "minimum_small_frame_mean": 6.319814814814815,
+  "maximum_small_frame_mean": 7.776064814814815,
+  "audio_offset_ms": 0.0,
+  "audio_correspondence_windows": [
+    {
+      "start_seconds": 0,
+      "channel_correlations": [
+        0.9999391141969695,
+        0.9999388889378445
+      ]
+    },
+    {
+      "start_seconds": 6,
+      "channel_correlations": [
+        0.9999467089843856,
+        0.9999510484925853
+      ]
+    },
+    {
+      "start_seconds": 12,
+      "channel_correlations": [
+        0.999926166929428,
+        0.9999263639816329
+      ]
+    },
+    {
+      "start_seconds": 18,
+      "channel_correlations": [
+        0.9999470191861203,
+        0.9999481090823981
+      ]
+    },
+    {
+      "start_seconds": 24,
+      "channel_correlations": [
+        0.9999682312838425,
+        0.9999746522582273
+      ]
+    },
+    {
+      "start_seconds": 30,
+      "channel_correlations": [
+        0.9999370110784507,
+        0.999942486243912
+      ]
+    },
+    {
+      "start_seconds": 33,
+      "channel_correlations": [
+        0.9999415727289898,
+        0.9999470283188749
+      ]
+    }
+  ],
+  "minimum_audio_correlation": 0.999926166929428,
+  "requested_resolution": [
+    1920,
+    1080
+  ],
+  "native_canvas": "House Preview maximized after declining startup email prompt and closing tips; no footage upscaled",
+  "musical_accuracy_independently_verified": false,
+  "physical_controller_verified": false,
+  "artistic_acceptance": "pending",
+  "public_music_redistribution_cleared": false,
+  "review_excerpt_not_full_song": true,
+  "source_module_sha256": {
+    "music/unified_mallet.py": "4e57485cda7f11ad03e6faa86dc3c710f3c63777a62b4d257282f032c8494f95",
+    "tools/combine_native_stage.py": "9442083865d9b96e3c09ad29e6257d2a764cc8ced8f88332d7a4a15eab301dab",
+    "tools/native_preview.py": "827e55c29f222a53e39ba48002cfbb165c006f3cee566b11e1a94ce4ad08c926",
+    "tools/native_source_pose_band.py": "ead72f153eb08ca80a76b8634436611bd2d9d46c580fcc0cd0a0b73758b7f885"
+  },
+  "visual_review": "Six decoded frames inspected; both mallet arms appear in source poses and the seven-member native cast is visible. Scenery remains dim; no final artistic acceptance."
+}

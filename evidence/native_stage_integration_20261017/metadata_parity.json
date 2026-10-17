@@ -1,0 +1,25 @@
+{
+  "input_sha256_identical_to_fresh_native_render": {
+    "Performance.xsq": "e10828c46f5fd7af0fe71c3403d2cd41354af2e62880b059fb0acd2677b72e5c",
+    "xlights_rgbeffects.xml": "fb56a89f93f2c48b010ecdda498e38a8e77aba24bd41761c32142105c70822f8",
+    "audio.wav": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171"
+  },
+  "native_fseq_sha256": "1be5e6d8af0137a99e6e4b779a687d74d990a5b5605dd3d6ec115a58830535b5",
+  "render_reused_only_for_byte_identical_inputs": true,
+  "cue_curves": 1767,
+  "native_frames": 1440,
+  "frame_ms": 25,
+  "expected_cues": {
+    "complete": true,
+    "frame_ms": 25,
+    "frames": 1440,
+    "source_curves": {
+      "scenery": 401,
+      "band": 1366
+    },
+    "curves": 1767,
+    "source_events_retimed": false
+  },
+  "source_metadata_archived": true,
+  "all_cue_model_submodel_targets_exist": true
+}

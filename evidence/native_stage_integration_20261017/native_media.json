@@ -191,8 +191,9 @@
   "review_excerpt_not_full_song": true,
   "source_module_sha256": {
     "tools/native_preview.py": "827e55c29f222a53e39ba48002cfbb165c006f3cee566b11e1a94ce4ad08c926",
-    "tools/combine_native_stage.py": "2e55a50fe495bbf4ab08bb4ad33dcebff6ede98c9c8d1ed049d5dd0ccd21456b",
+    "tools/combine_native_stage.py": "9442083865d9b96e3c09ad29e6257d2a764cc8ced8f88332d7a4a15eab301dab",
     "tools/native_source_pose_band.py": "ead72f153eb08ca80a76b8634436611bd2d9d46c580fcc0cd0a0b73758b7f885"
   },
-  "visual_review": "Six decoded frames inspected at 1, 6, 12, 18, 24 and 34 seconds: all seven snowmen and source-timed lighting are visible; scenery remains dim and the composition is not artistically accepted."
+  "visual_review": "Six decoded frames inspected at 1, 6, 12, 18, 24 and 34 seconds: all seven snowmen and source-timed lighting are visible; scenery remains dim and the composition is not artistically accepted.",
+  "metadata_followup": "metadata_parity.json proves native XSQ/layout/audio unchanged by cue-evidence repair"
 }
