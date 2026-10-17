@@ -14,10 +14,12 @@ def inventory_model(model) -> dict:
     mode = "ac16" if model.kind == "ac" else "pixel"
     submodels = []
     all_ids = set()
+    duplicate_owners = set()
     for name, raw_ids in sorted(model.submodels.items()):
         ids = sorted(set(int(node) for node in raw_ids))
         if any(node < 1 for node in ids):
             raise ValueError(f"Invalid node index in {model.name}/{name}")
+        duplicate_owners.update(all_ids.intersection(ids))
         all_ids.update(ids)
         submodels.append({
             "name": name,
@@ -29,6 +31,8 @@ def inventory_model(model) -> dict:
     if mode == "ac16" and (len(all_ids) > 16 or any(node > 16 for node in all_ids)):
         raise ValueError(f"AC model exceeds 16 circuits: {model.name}")
     geometry_positions = len(model.points)
+    if mode == "pixel" and duplicate_owners:
+        raise ValueError(f"Pixel nodes assigned to multiple submodels: {model.name}: {sorted(duplicate_owners)[:10]}")
     if mode == "pixel":
         raw = model.attrs.get("CustomModelCompressed", "")
         geometry_node_ids = {int(entry.split(",", 1)[0]) for entry in raw.split(";") if entry.strip()}
