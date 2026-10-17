@@ -51,3 +51,37 @@ def test_empty_export_is_an_error(tmp_path):
         path.touch()
     with pytest.raises(RuntimeError, match="nonempty"):
         export_selected(request(), {"xsq": export}, object(), tmp_path)
+
+
+def test_export_refuses_to_overwrite_previous_sequence(tmp_path):
+    existing = tmp_path / "Performance.xsq"
+    existing.write_text("approved version")
+    with pytest.raises(FileExistsError):
+        export_selected(request(), {"xsq": lambda a,p,r: p.write_text("replacement")},
+                        object(), tmp_path)
+    assert existing.read_text() == "approved version"
+
+
+def test_both_formats_roll_back_if_lms_export_raises(tmp_path):
+    def xsq(a, path, req):
+        path.write_text("valid xsq")
+    def lms(a, path, req):
+        path.write_text("partial lms")
+        raise RuntimeError("LMS conversion failed")
+    with pytest.raises(RuntimeError, match="LMS conversion failed"):
+        export_selected(request(output_format="both"),
+                        {"xsq": xsq, "lms": lms}, object(), tmp_path)
+    assert not (tmp_path / "Performance.xsq").exists()
+    assert not (tmp_path / "Performance.lms").exists()
+
+
+def test_both_formats_roll_back_if_second_export_empty(tmp_path):
+    def xsq(a, path, req):
+        path.write_text("valid xsq")
+    def empty(a, path, req):
+        path.touch()
+    with pytest.raises(RuntimeError, match="LMS exporter produced no sequence"):
+        export_selected(request(output_format="both"),
+                        {"xsq": xsq, "lms": empty}, object(), tmp_path)
+    assert not (tmp_path / "Performance.xsq").exists()
+    assert not (tmp_path / "Performance.lms").exists()
