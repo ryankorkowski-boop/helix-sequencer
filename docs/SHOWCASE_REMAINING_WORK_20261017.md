@@ -48,3 +48,14 @@ Updated 2026-10-17. Branch: `codex/showcase-pilot-recovery-20261017`, PR #172.
 - Pending: verify fresh CI run results and resume actual native video production. No new MP4, no approval, no release.
 
 - 2026-10-17 follow-up: CI run `39019020559` regression/lint jobs show **cancelled**; showcase guard run `39019020565` still **queued**; native run `39019020649` currently returns no jobs. Do not interpret any of these as a pass. The newest checklist commit returned no associated PR workflow runs at inspection time.
+
+
+## Required final-product contract — output formats and user layouts (owner direction, 2026-10-17)
+- [ ] **Mandatory** desktop GUI output selection: XSQ only, LMS only, or Both. A three-option selector is acceptable and preferred if it materially reduces implementation time; preserve selection across runs. Never imply unselected formats were generated.
+- [ ] **Mandatory** for each requested format: actually produce an editable, compatible sequence with complete timing/channel metadata; return explicit errors rather than silently skipping or relabeling another format. Test LMS import/playback in supported Light-O-Rama software and XSQ import/render in native xLights.
+- [ ] **Mandatory** layout selection: import the user's existing xLights show layout/controller configuration and generate music-matched effects for **their actual props, groups, submodels and controller limits**, not merely paste a stock layout. Show a mapping preview and warnings for missing/unmatched props; never guess hardware.
+- [ ] **Mandatory** built-in show variants: small home, traditional, mega-tree, seven-member band, advanced 3D pixel, and AC16. Different variants must meaningfully change model coverage/choreography rather than just rename identical exports.
+- [ ] **Mandatory** hardware capability profiles: CTB16PC/other 16-circuit AC, pixel, and mixed. Preserve AC circuit limits and independently addressable RGB semantics. Allow a combined show and per-model routing; never confuse LOR protocol with AC-only hardware.
+- [ ] **Mandatory** make each of the seven performers separately importable as an xmodel, with truthful AC reductions and full pixel model options, preserving 2D/3D front-on parity where supported.
+- [ ] **Mandatory** validate an end-to-end custom-layout workflow and each variant against real fixture layouts and import/render tests. Label unsupported effects explicitly instead of claiming universal compatibility.
+- [ ] **Release blocker:** No final-project signoff until XSQ/LMS/Both GUI choice, preset variants, and custom-layout generation are implemented and demonstrated. Video approval remains a separate release gate.
