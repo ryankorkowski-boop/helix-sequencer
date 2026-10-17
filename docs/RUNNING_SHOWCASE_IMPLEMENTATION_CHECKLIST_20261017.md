@@ -61,3 +61,12 @@ Updated: 2026-10-17. Working branch: `codex/showcase-pilot-recovery-20261017` (P
 - [ ] Publish reproducible before/after reports and benchmark evidence; no blanket 'better than paid vendors' claim until validated across representative references.
 
 External comparison discovery: xLights Hub sequence index, official xLights Resources and xLights Import Effects documentation (2026-10-17). These provide comparison and workflow targets, not proof of quality.
+
+
+## 2026-10-17 — continuation after video-link request
+- [x] Source MP3s and revised excerpt ZIP confirmed present in current working container.
+- [x] Added bass/guitar routed-string illumination regressions and pitch/octave separation regression (`tests/test_source_instrument_light_curves.py`).
+- [x] Clamp routed-string light intensity to native pixel range; never light an unrouted string merely because overall instrument energy exists (`tools/build_spatial_review.py`).
+- [ ] Execute these regressions and native channel checks in a complete repository environment; do not claim pass before execution.
+- [ ] Recover or provision native xLights rendering workspace, rebuild from latest commit, inspect new XSQ/FSEQ/MP4 and provide actual current-review links.
+- [ ] Current published 2026-10-10 review MP4s remain **historical references**, not approval candidates for recent fixes.
