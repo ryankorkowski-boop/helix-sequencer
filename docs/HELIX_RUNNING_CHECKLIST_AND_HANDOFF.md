@@ -101,3 +101,8 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] Inventory now refuses duplicate snowman model names before writing outputs; commit `879e45a2b5f2eca4c89f1d545606087b37adfaac`.
 - [x] Added duplicate-name regression test; commit `738e44c147a8644f23c6efed9c2b95b25ba6b5a3`.
 - [ ] Recheck showcase recovery CI and download `snowman-band-wiring-inventories` artifact when complete. Inspect generated JSON/CSV for actual seven roles and circuit counts.
+
+## 2026-10-17 pixel geometry validation
+- [x] Pixel inventory validates submodel IDs against `CustomModelCompressed` exported node identifiers; commit `d4594415c0cc714fd27d114191f7c6fbcf7dff02`.
+- [x] Added fixture geometry and regression for undefined pixel nodes; commit `0c92d98dec428de6b97b3f7c37bc7c4b40857603`.
+- [ ] CI runs were queued when checked; await native inventory artifacts and verify actual pixel totals and AC circuits before declaring complete.
