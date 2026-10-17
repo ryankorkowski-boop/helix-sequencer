@@ -8,7 +8,7 @@ GUI = Path(__file__).resolve().parents[1] / "gui_launcher.py"
 def test_gui_exposes_all_three_export_choices():
     tree = ast.parse(GUI.read_text(encoding="utf-8"))
     lists = [
-        [node.value for node in item.elts]
+        [node.value for node in item.value.elts]
         for item in ast.walk(tree)
         if isinstance(item, ast.keyword)
         and item.arg == "values"
