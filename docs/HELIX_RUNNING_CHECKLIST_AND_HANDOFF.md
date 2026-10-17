@@ -147,3 +147,8 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] Reject non-object `VALIDATION.json` in strict native-showcase acceptance, even if an MP4 with a non-diagnostic filename exists; fix `e6ca1c39e97f744c600df3a747ef54570774ebc0`, regression `05812e14bdd741ae2c84082fc92ff03949a81d6c`.
 - [ ] Verify new regression on latest CI run; previous latest run at `ab1f92f` had queued/in-progress jobs when inspected.
 - [ ] P0: genuine original-song and native full-band showcase output/validation still not produced. Do not claim release readiness based on format acceptance tests.
+
+## 2026-10-17 MP4 evidence guard
+- [x] Strict archive acceptance now rejects mislabeled MP4 files whose first bytes do not contain a valid `ftyp` container header; implementation `8f2fa3ba2c9dc7a87012a842933b1f2374a130d5`, regression `acc2423a43f4f6ed560ebea19944531c479fcf52`.
+- [ ] P0: MP4 header validation alone does not prove playable audio/video or musical synchronization. Verify media streams and source provenance in native end-to-end showcase before approval.
+- [ ] P0: Latest full-band native proof still must produce non-diagnostic, real-song performance video and manifest; preserve strict acceptance failure until authentic output exists.
