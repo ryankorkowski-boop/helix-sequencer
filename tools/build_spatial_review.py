@@ -19,7 +19,10 @@ def _note_curves(events,n):
     for event in events:
         a=max(0,int(np.ceil(event.start*20-1e-7)));b=min(n,int(np.ceil(event.end*20-1e-7)))
         if b<=a:continue
-        v=result.setdefault(event.pitch,np.zeros(n,'f4'));v[a:b]=np.maximum(v[a:b],event.velocity)
+        velocity=float(event.velocity)
+        if not np.isfinite(velocity) or not 0<=velocity<=1:
+            raise ValueError('Note velocity must be finite and normalized to 0..1')
+        v=result.setdefault(event.pitch,np.zeros(n,'f4'));v[a:b]=np.maximum(v[a:b],velocity)
     return result
 
 
