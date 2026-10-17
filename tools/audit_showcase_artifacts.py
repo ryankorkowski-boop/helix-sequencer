@@ -13,6 +13,9 @@ def audit(root, manifest):
     results = []
     seen = set()
     for record in records:
+        if not isinstance(record, dict):
+            results.append({"path": None, "passed": False, "errors": ["record must be an object"], "actual_sha256": None, "bytes": None})
+            continue
         name = record.get("path")
         expected = record.get("sha256")
         errors = []
