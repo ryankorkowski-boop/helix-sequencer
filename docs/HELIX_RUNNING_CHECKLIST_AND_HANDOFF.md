@@ -65,3 +65,9 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] Add regression test for sidecar preservation: `tests/test_dual_format_export.py`, commit `9d0e163bec00b192a97fd2adcedc4d32c1eb112f`.
 - [ ] Tests not executed locally or confirmed passing by CI in this session. Next: `python -m pytest -q tests/test_dual_format_export.py tests/test_show_export_request.py tests/test_gui_export_selector_contract.py`.
 - [ ] Main Run Sequence Build still does not automatically export Both. Inspect actual generated XSQ path and supported effects before wiring conversion; require verified controller mapping.
+
+## 2026-10-17 continuation: source XSQ collision guard
+- [x] `tools/dual_format_export.py` now rejects the source `Performance.xsq` when it would also be the export target; commit `e06a24ae720d3b49033b9785224833069275564a`.
+- [x] Regression `test_source_named_performance_xsq_is_preserved` confirms original bytes survive; commit `2c9b88897c9e02b43bfe5be776ded1eb19c9b387`.
+- [ ] Tests still require execution and CI confirmation. Next command: `python -m pytest -q tests/test_dual_format_export.py tests/test_show_export_request.py tests/test_gui_export_selector_contract.py`.
+- [ ] Next implementation: integrate verified mapping and dual output into the actual completed sequence-generation pipeline, with safe handling for all output paths.
