@@ -56,3 +56,12 @@ def test_existing_lms_sidecar_is_never_deleted(tmp_path):
         export_from_xsq(source, destination, output_format='both', mapping_csv=tmp_path / 'unused.csv')
     assert sidecar.read_text() == 'approved evidence'
     assert not (destination / 'Performance.xsq').exists()
+
+
+def test_source_named_performance_xsq_is_preserved(tmp_path):
+    source = tmp_path / 'Performance.xsq'
+    original = '<xsequence>keep me</xsequence>'
+    source.write_text(original)
+    with pytest.raises(ValueError, match='Input XSQ'):
+        export_from_xsq(source, tmp_path, output_format='xsq')
+    assert source.read_text() == original
