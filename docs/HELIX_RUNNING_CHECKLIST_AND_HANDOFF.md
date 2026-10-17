@@ -116,3 +116,8 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] Inventory rejects nodes appearing in multiple pixel submodels; commit `067135b9f3d13a7c375d0eead23a4dca4c8907f7`.
 - [x] Regression test for overlapping ownership; commit `81134dcdd701e1dce8f090b6eec9fe8f7e7df02f`.
 - [ ] GitHub Actions showcase recovery jobs still queued when inspected. Verify native seven-snowman artifact before making numerical or hardware claims.
+
+## 2026-10-17 CI queue consolidation
+- [x] Added workflow-level concurrency group and `cancel-in-progress: true` to `.github/workflows/showcase-recovery-guards.yml`, so newer PR runs supersede stale runs instead of accumulating indefinitely; commit `6022e94237a4bda1fa875830e49dfbf815f7cdb3`.
+- [ ] Wait for a *completed* current showcase recovery run and inspect its snowman-band-wiring-inventories artifact. Do not infer pixel counts from code alone.
+- [ ] If no runner starts, inspect Actions runner/concurrency policy and account limits before additional commits; avoid generating more redundant runs.
