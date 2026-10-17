@@ -7,6 +7,8 @@ from __future__ import annotations
 
 from pathlib import Path
 import shutil
+import argparse
+import json
 
 from core.show_export_request import ShowExportRequest, export_selected
 from tools.legacy_lms_export import export_legacy_lms, read_lor_map
@@ -47,3 +49,17 @@ def export_from_xsq(
         if sidecar.is_file():
             sidecar.unlink()
         raise
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('source_xsq', type=Path)
+    parser.add_argument('destination', type=Path)
+    parser.add_argument('--format', dest='output_format', choices=('xsq', 'lms', 'both'), required=True)
+    parser.add_argument('--channel-map', type=Path)
+    args = parser.parse_args(argv)
+    results = export_from_xsq(args.source_xsq, args.destination, output_format=args.output_format, mapping_csv=args.channel_map)
+    print(json.dumps({key: str(value) for key, value in results.items()}, indent=2))
+    return 0
+
+if __name__ == '__main__':
+    raise SystemExit(main())
