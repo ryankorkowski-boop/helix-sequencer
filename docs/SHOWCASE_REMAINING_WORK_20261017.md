@@ -46,3 +46,5 @@ Updated 2026-10-17. Branch: `codex/showcase-pilot-recovery-20261017`, PR #172.
 ## Progress / execution log
 - 2026-10-17: This checklist created to consolidate scattered status updates in `docs/RUNNING_SHOWCASE_IMPLEMENTATION_CHECKLIST_20261017.md` and `MASTER_TODO.md`.
 - Pending: verify fresh CI run results and resume actual native video production. No new MP4, no approval, no release.
+
+- 2026-10-17 follow-up: CI run `39019020559` regression/lint jobs show **cancelled**; showcase guard run `39019020565` still **queued**; native run `39019020649` currently returns no jobs. Do not interpret any of these as a pass. The newest checklist commit returned no associated PR workflow runs at inspection time.
