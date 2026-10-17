@@ -48,7 +48,7 @@ class NativeProofArchiveTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             archive = Path(directory) / "native.zip"
             with zipfile.ZipFile(archive, "w") as z:
-                z.writestr("review/Full_Band_Showcase.mp4", b"video fixture")
+                z.writestr("review/Full_Band_Showcase.mp4", b"\x00\x00\x00\x18ftypisom\x00\x00\x02\x00")
                 z.writestr("VALIDATION.json", json.dumps({
                     "full_song_showcase_complete": True,
                     "final_band_output": {"complete_band_verified": True},
@@ -81,6 +81,19 @@ class NativeProofArchiveTests(unittest.TestCase):
             report = MODULE.inspect(archive, require_showcase=True)
             self.assertFalse(report["acceptance"]["passed"])
             self.assertIn("VALIDATION.json is not a JSON object", report["acceptance"]["failures"])
+
+    def test_strict_gate_rejects_non_mp4_bytes_despite_valid_flags(self):
+        with tempfile.TemporaryDirectory() as directory:
+            archive = Path(directory) / "native.zip"
+            with zipfile.ZipFile(archive, "w") as z:
+                z.writestr("native-proof/VALIDATION.json", json.dumps({
+                    "full_song_showcase_complete": True,
+                    "complete_band_verified": True,
+                }))
+                z.writestr("native-proof/Full_Band_Showcase.mp4", b"not an MP4")
+            report = MODULE.inspect(archive, require_showcase=True)
+            self.assertFalse(report["acceptance"]["passed"])
+            self.assertTrue(any("invalid MP4 container header" in e for e in report["acceptance"]["failures"]))
 
     def test_bad_zip_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
