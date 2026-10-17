@@ -136,3 +136,9 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] **AC logical circuit counts:** drummer 10; bass 9; guitar 11; piano 15; xylophone 15; lead 14; harmony 14. These sum to 88 circuits across seven separate models; none exceeds 16 per model. This is not a verified physical bulb count or controller assignment.
 - [ ] P0: Native proof run `39058926434` still failed: `VALIDATION.json` absent and only diagnostic MP4 present; artifact ID `12110742428` is diagnostic evidence, **not** an accepted musical showcase. Complete original-song native render and acceptance.
 - [ ] P0: Confirm current Helix CI full regression audit passes at or after `55f3d752`; status was in progress when checked.
+
+## 2026-10-17 native acceptance pipeline diagnosis
+- [x] Fixed archive verifier's incorrect root-only `VALIDATION.json` lookup; supports `native-proof/VALIDATION.json` and root location; commit `004ece73260b819fcedffe9e2329a7eafac4ba9b`.
+- [x] Added regression proving nested validation is read while synthetic/diagnostic-only media still fails strict showcase acceptance; commit `aab815336b530e5921cf89c8da5c6dd706b2c836`.
+- [ ] P0: Native full-band fixture (`validation/final_band_native_proof.py`) is explicitly authored diagnostic, not original-song transcription. Six sampler native proofs (`validation/six_layout_native_proof.py`) validate cue rendering but exclude soundtrack. Build original-song end-to-end band output, native render, real MP4 with synchronized licensed audio, and evidence manifest; do not set completion flags based on synthetic fixtures.
+- [ ] P0: Re-run strict acceptance with `--require-showcase`; assert genuine original-song provenance and complete-band verification before marking done. Latest native proof run `39058926434` failed correctly for diagnostic-only output.
