@@ -6,6 +6,7 @@ on:
       - 'tests/test_audit_native_snowman_geometry.py'
       - 'tests/test_preview_native_snowman_geometry.py'
       - 'tools/preview_native_snowman_geometry.py'
+      - 'tools/render_native_snowman_android.py'
       - '.github/workflows/native-snowman-geometry-evidence.yml'
   workflow_dispatch:
 permissions:
@@ -29,6 +30,8 @@ jobs:
         run: python -m tools.audit_native_snowman_geometry --output-dir build/native_snowman_audit
       - name: Generate native coordinate previews
         run: python -m tools.preview_native_snowman_geometry --audit-dir build/native_snowman_audit
+      - name: Render Android-native PNG reviews
+        run: python -m tools.render_native_snowman_android --audit-dir build/native_snowman_audit
       - name: Preserve audit output
         if: always()
         uses: actions/upload-artifact@v4
