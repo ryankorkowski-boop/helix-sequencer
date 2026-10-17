@@ -90,3 +90,8 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] Added command path to showcase CI workflow filters; commit `d2b967933377738c3d2aacd7cb1761606aecb4ec`.
 - [ ] Execute standalone command in environment with Helix dependencies and inspect actual generated counts and xmodels. No execution/CI pass verified in this session.
 - [ ] Physical AC bulb-per-strand values, LOR Unit IDs and circuits must come from inspected wiring, not generated geometry.
+
+## 2026-10-17 native inventory artifact CI
+- [x] Showcase CI now executes `python -m tools.export_snowman_band_inventory --output-dir build/snowman_wiring` and uploads `snowman-band-wiring-inventories` artifact, even if a later step fails; commit `b02342f5036112656fe1eef3ec319f023b14e31f`.
+- [ ] CI must run and artifact must be inspected to claim actual seven-snowman pixel totals, AC circuits and model compatibility. Local runtime has no GitHub DNS/repository checkout, so no native execution result was obtained.
+- [ ] Verify CTB16PC hardware circuit wiring, actual strand bulbs, load and controller mapping with owner before asserting build-ready specifications.
