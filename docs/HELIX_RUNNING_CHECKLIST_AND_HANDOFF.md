@@ -95,3 +95,9 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] Showcase CI now executes `python -m tools.export_snowman_band_inventory --output-dir build/snowman_wiring` and uploads `snowman-band-wiring-inventories` artifact, even if a later step fails; commit `b02342f5036112656fe1eef3ec319f023b14e31f`.
 - [ ] CI must run and artifact must be inspected to claim actual seven-snowman pixel totals, AC circuits and model compatibility. Local runtime has no GitHub DNS/repository checkout, so no native execution result was obtained.
 - [ ] Verify CTB16PC hardware circuit wiring, actual strand bulbs, load and controller mapping with owner before asserting build-ready specifications.
+
+## 2026-10-17 GitHub-connected verification continuation
+- [x] Confirmed PR #172 remains open/unmerged at head `662123e3d9d2fb34a227a85c26471d93edfabd9f` before new writes. The showcase recovery guards run `39027950978` was queued and native proof run `39027950963` was in progress when inspected; no artifacts yet. Do not claim test pass.
+- [x] Inventory now refuses duplicate snowman model names before writing outputs; commit `879e45a2b5f2eca4c89f1d545606087b37adfaac`.
+- [x] Added duplicate-name regression test; commit `738e44c147a8644f23c6efed9c2b95b25ba6b5a3`.
+- [ ] Recheck showcase recovery CI and download `snowman-band-wiring-inventories` artifact when complete. Inspect generated JSON/CSV for actual seven roles and circuit counts.
