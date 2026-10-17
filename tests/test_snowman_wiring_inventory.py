@@ -9,6 +9,7 @@ def fake_model(kind, submodels, points=()):
     return SimpleNamespace(
         name="HX_SNOW_LEAD", kind=kind, submodels=submodels,
         points=points, details={"review_role": "lead"},
+        attrs={"CustomModelCompressed": ";".join(f"{i},0,0" for i in range(1, max((max(v, default=0) for v in submodels.values()), default=0) + 1))},
     )
 
 
@@ -49,3 +50,10 @@ def test_duplicate_model_names_refused_before_writing(tmp_path):
     with pytest.raises(ValueError, match='Duplicate snowman model names'):
         write_inventory([model, model], tmp_path)
     assert not (tmp_path / 'snowman_submodel_inventory.json').exists()
+
+
+def test_pixel_submodel_referencing_missing_geometry_fails():
+    model = fake_model('pixel', {'BODY': [1, 2]}, [0, 0])
+    model.attrs['CustomModelCompressed'] = '1,0,0'
+    with pytest.raises(ValueError, match='undefined pixel nodes'):
+        inventory_model(model)
