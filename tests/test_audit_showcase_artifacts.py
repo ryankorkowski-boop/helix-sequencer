@@ -44,6 +44,15 @@ class ArtifactAuditTests(unittest.TestCase):
             manifest.write_text(json.dumps([{"path": "../escape.mp4", "sha256": "a" * 64}]))
             self.assertFalse(MODULE.audit(root, manifest)["passed"])
 
+    def test_non_object_record_fails_closed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest = root / "manifest.json"
+            manifest.write_text(json.dumps([None, "invalid", 5]))
+            result = MODULE.audit(root, manifest)
+            self.assertFalse(result["passed"])
+            self.assertEqual(result["total"], 3)
+
     def test_empty_inventory_not_success(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
