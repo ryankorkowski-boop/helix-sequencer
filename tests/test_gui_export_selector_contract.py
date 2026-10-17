@@ -22,7 +22,7 @@ def test_gui_exposes_all_three_export_choices():
 def test_gui_rejects_unimplemented_dual_export():
     source = GUI.read_text(encoding="utf-8")
     assert 'if selected == "Both":' in source
-    assert '"Both outputs are not yet supported by this GUI."' in source
+    assert '"Automatic XSQ + LMS generation is not connected. "' in source
     assert 'self.sequence_mode_var.set("Light-O-Rama" if selected == "LMS" else "xLights")' in source
 
 
