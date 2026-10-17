@@ -111,3 +111,8 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] Standalone generator refuses inventories unless seven distinct roles (drummer, bass, guitar, piano, xylophone, lead, harmony) are present and AC variants have at most 16 submodels; commit `da6569f932397ddf6242cf50b6c64944d9e39f08`.
 - [x] Regression added for incomplete band; commit `9fe54b58a73a2aca99133063f9bdae2ce5bd7739`.
 - [ ] Showcase recovery runs still queued when last checked; await run and inspect generated artifact for actual counts.
+
+## 2026-10-17 pixel ownership guard
+- [x] Inventory rejects nodes appearing in multiple pixel submodels; commit `067135b9f3d13a7c375d0eead23a4dca4c8907f7`.
+- [x] Regression test for overlapping ownership; commit `81134dcdd701e1dce8f090b6eec9fe8f7e7df02f`.
+- [ ] GitHub Actions showcase recovery jobs still queued when inspected. Verify native seven-snowman artifact before making numerical or hardware claims.
