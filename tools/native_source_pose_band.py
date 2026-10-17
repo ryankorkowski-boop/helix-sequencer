@@ -70,6 +70,8 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50):
         for rig in oldscene.drummer_rigs.values():
             for idx in rig['ids']:oldpoints.primitive('OLD',oldscene.instances[idx])
         oldpoints.primitive('OLD',oldscene.instances[oldscene.kick_beater])
+        oldpoints.primitive('OLD',oldscene.instances[oldscene.hihat_foot])
+        oldpoints.primitive('OLD',oldscene.instances[oldscene.hihat_pedal])
     oldscene=Review3DScene();full_gather()
     for target in ('CYMBAL_LEFT','TOM_FLOOR','TOM_MID','SNARE_LEFT','SNARE_RIGHT','TOM_HIGH','HI_HAT','CYMBAL_RIGHT'):
         side='left' if target in ('CYMBAL_LEFT','TOM_MID','SNARE_LEFT') else 'right'
