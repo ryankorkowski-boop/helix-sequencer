@@ -7,6 +7,7 @@ Manifest example:
 Never substitutes synthetic footage or music. Requires original audio embedded in clips.
 """
 import argparse
+import hashlib
 import json
 import shutil
 import subprocess
@@ -47,6 +48,18 @@ def assemble(manifest, output):
                 source = (Path(manifest).resolve().parent / source).resolve()
             if not source.is_file():
                 raise FileNotFoundError(source)
+            expected_hash = clip.get("sha256")
+            if expected_hash is not None:
+                if not isinstance(expected_hash, str) or len(expected_hash) != 64 or any(
+                    ch not in "0123456789abcdefABCDEF" for ch in expected_hash
+                ):
+                    raise ValueError(f"Invalid source SHA256: {source}")
+                digest = hashlib.sha256()
+                with source.open("rb") as stream:
+                    for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                        digest.update(chunk)
+                if digest.hexdigest() != expected_hash.lower():
+                    raise ValueError(f"Source SHA256 mismatch: {source}")
             total = probe(source)
             start = float(clip.get("start", 0))
             duration = float(clip["duration"])
