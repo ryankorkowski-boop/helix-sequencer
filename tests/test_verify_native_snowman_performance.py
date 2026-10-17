@@ -1,5 +1,7 @@
 """Regression tests: reject false native Snowman Band showcase acceptance."""
 from pathlib import Path
+import hashlib
+import subprocess
 import pytest
 from tools.verify_native_snowman_performance import verify, ROLES
 
@@ -14,10 +16,17 @@ def proof():
                 full_song_showcase_complete=True)
 
 
+def make_video(tmp_path):
+    video = tmp_path / 'native.mp4'
+    subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','color=c=black:s=32x32:r=2:d=1','-c:v','mpeg4','-y',str(video)],check=True)
+    return video
+
+
 def test_valid_provenance_contract(tmp_path):
-    video = tmp_path / "native.mp4"
-    video.write_bytes(b"not-a-real-video")  # This unit test checks metadata; decoder verifies separately.
-    verify(proof(), video)
+    video = make_video(tmp_path)
+    report = proof()
+    report["video_sha256"] = hashlib.sha256(video.read_bytes()).hexdigest()
+    verify(report, video)
 
 
 @pytest.mark.parametrize("field,value", [
@@ -34,9 +43,9 @@ def test_valid_provenance_contract(tmp_path):
     ("authored_fixture", True),
 ])
 def test_rejects_unverified_showcase(tmp_path, field, value):
-    video = tmp_path / "native.mp4"
-    video.write_bytes(b"stub")
+    video = make_video(tmp_path)
     report = proof()
+    report["video_sha256"] = hashlib.sha256(video.read_bytes()).hexdigest()
     report[field] = value
     with pytest.raises(ValueError):
         verify(report, video)
@@ -45,3 +54,11 @@ def test_rejects_unverified_showcase(tmp_path, field, value):
 def test_rejects_missing_mp4(tmp_path):
     with pytest.raises(ValueError):
         verify(proof(), tmp_path / "missing.mp4")
+
+
+def test_rejects_wrong_video_hash(tmp_path):
+    video = make_video(tmp_path)
+    report = proof()
+    report["video_sha256"] = "0" * 64
+    with pytest.raises(ValueError, match="SHA-256"):
+        verify(report, video)
