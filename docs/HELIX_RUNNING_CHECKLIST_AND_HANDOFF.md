@@ -106,3 +106,8 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] Pixel inventory validates submodel IDs against `CustomModelCompressed` exported node identifiers; commit `d4594415c0cc714fd27d114191f7c6fbcf7dff02`.
 - [x] Added fixture geometry and regression for undefined pixel nodes; commit `0c92d98dec428de6b97b3f7c37bc7c4b40857603`.
 - [ ] CI runs were queued when checked; await native inventory artifacts and verify actual pixel totals and AC circuits before declaring complete.
+
+## 2026-10-17 complete-band inventory gate
+- [x] Standalone generator refuses inventories unless seven distinct roles (drummer, bass, guitar, piano, xylophone, lead, harmony) are present and AC variants have at most 16 submodels; commit `da6569f932397ddf6242cf50b6c64944d9e39f08`.
+- [x] Regression added for incomplete band; commit `9fe54b58a73a2aca99133063f9bdae2ce5bd7739`.
+- [ ] Showcase recovery runs still queued when last checked; await run and inspect generated artifact for actual counts.
