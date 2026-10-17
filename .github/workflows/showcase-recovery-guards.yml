@@ -9,6 +9,8 @@ on:
       - 'core/show_export_request.py'
       - 'tests/test_show_export_request.py'
       - 'tools/build_spatial_review.py'
+      - 'models/snowman_wiring_inventory.py'
+      - 'tests/test_snowman_wiring_inventory.py'
       - 'tools/native_source_pose_band.py'
       - 'tests/test_source_instrument_light_curves.py'
       - 'tests/test_hihat_foot_pose.py'
@@ -45,6 +47,8 @@ jobs:
             tests/test_native_instrument_channel_ownership.py
       - name: Run export-selection contract tests
         run: python -m pytest -q tests/test_show_export_request.py tests/test_gui_export_selector_contract.py tests/test_dual_format_export.py
+      - name: Run snowman wiring inventory tests
+        run: python -m pytest -q tests/test_snowman_wiring_inventory.py
       - name: Run recovery regression tests
         run: python -m unittest discover -s tests -p 'test_*showcase*artifacts.py' -v
       - name: Run audio provenance regression tests
