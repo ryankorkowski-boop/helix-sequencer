@@ -4,6 +4,8 @@ on:
     paths:
       - 'tools/audit_native_snowman_geometry.py'
       - 'tests/test_audit_native_snowman_geometry.py'
+      - 'tests/test_preview_native_snowman_geometry.py'
+      - 'tools/preview_native_snowman_geometry.py'
       - '.github/workflows/native-snowman-geometry-evidence.yml'
   workflow_dispatch:
 permissions:
@@ -22,9 +24,11 @@ jobs:
           python -m pip install -r requirements-dev.txt
           python -m pip install trimesh
       - name: Verify exact native submodels and exported coordinates
-        run: python -m pytest -q tests/test_audit_native_snowman_geometry.py
+        run: python -m pytest -q tests/test_audit_native_snowman_geometry.py tests/test_preview_native_snowman_geometry.py
       - name: Export actual native model positions
         run: python -m tools.audit_native_snowman_geometry --output-dir build/native_snowman_audit
+      - name: Generate native coordinate previews
+        run: python -m tools.preview_native_snowman_geometry --audit-dir build/native_snowman_audit
       - name: Preserve audit output
         if: always()
         uses: actions/upload-artifact@v4
