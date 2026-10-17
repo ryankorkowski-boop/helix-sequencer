@@ -27,6 +27,9 @@ on:
       - 'tests/test_verify_xlights_showcase_media.py'
       - '.github/workflows/showcase-recovery-guards.yml'
   workflow_dispatch:
+concurrency:
+  group: showcase-recovery-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   recovery-guards:
     runs-on: ubuntu-latest
