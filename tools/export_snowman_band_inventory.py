@@ -17,7 +17,13 @@ def export_band_inventories(destination: Path):
     destination = Path(destination)
     garden = Garden(title="Helix Snowman Band Wiring Inventory", slug="Helix_Snowman_Wiring")
     pixel_models = add_band(garden)
+    expected = {"drummer", "bass", "guitar", "piano", "xylophone", "lead", "harmony"}
+    roles = [model.details.get("review_role") for model in pixel_models]
+    if len(roles) != 7 or set(roles) != expected:
+        raise ValueError(f"Expected seven distinct snowman roles, got {roles}")
     ac_models = [ac_variant(model) for model in pixel_models]
+    if any(model.kind != "ac" or len(model.submodels) > 16 for model in ac_models):
+        raise ValueError("AC16 conversion did not produce seven <=16-circuit models")
     ac_garden = Garden(title="Helix Snowman AC16", slug="Helix_Snowman_AC16")
     ac_garden.models.extend(ac_models)
     allocate(ac_garden)
