@@ -10,6 +10,7 @@ on:
       - 'tests/test_show_export_request.py'
       - 'tools/build_spatial_review.py'
       - 'models/snowman_wiring_inventory.py'
+      - 'tools/export_snowman_band_inventory.py'
       - 'tests/test_snowman_wiring_inventory.py'
       - 'tools/native_source_pose_band.py'
       - 'tests/test_source_instrument_light_curves.py'
