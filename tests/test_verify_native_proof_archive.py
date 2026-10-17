@@ -72,6 +72,16 @@ class NativeProofArchiveTests(unittest.TestCase):
             self.assertIn("full_song_showcase_complete is not true", report["acceptance"]["failures"])
             self.assertIn("no non-diagnostic MP4 is present", report["acceptance"]["failures"])
 
+    def test_strict_gate_rejects_non_object_manifest_even_with_video(self):
+        with tempfile.TemporaryDirectory() as directory:
+            archive = Path(directory) / "native.zip"
+            with zipfile.ZipFile(archive, "w") as z:
+                z.writestr("native-proof/VALIDATION.json", json.dumps(["invalid manifest"]))
+                z.writestr("native-proof/Full_Band_Showcase.mp4", b"fixture")
+            report = MODULE.inspect(archive, require_showcase=True)
+            self.assertFalse(report["acceptance"]["passed"])
+            self.assertIn("VALIDATION.json is not a JSON object", report["acceptance"]["failures"])
+
     def test_bad_zip_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             archive = Path(directory) / "broken.zip"
