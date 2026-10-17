@@ -77,3 +77,9 @@ External comparison discovery: xLights Hub sequence index, official xLights Reso
 - [x] Add focused negative timing/pitch tests (`tests/test_source_instrument_light_curves.py`, commit `aaf18bc`).
 - [ ] Execute focused and full regression tests on a checked-out repository and validate actual native FSEQ key/string samples.
 - [ ] Restore full native xLights renderer for new approval videos; current container has audio files but no native xLights binary or checked-out repository. No new MP4 has been rendered.
+
+
+## 2026-10-17 — source visibility instrumentation
+- [x] Native pose export now records independent piano/xylophone note and bass/guitar string source-frame counts in `pose_provenance.json` (`instrument_visibility_audit`), enabling diagnosis of silent mallet/key/string outputs without assuming that a visible model is actually musically active.
+- [ ] Run the export against real original-song excerpts, inspect each `instrument_visibility_audit` and verify actual decoded native frames for every active instrument.
+- [ ] CI workflows for recovery/native output were queued when checked; their success, artifacts, and any new MP4s remain unverified.
