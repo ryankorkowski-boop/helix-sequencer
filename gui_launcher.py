@@ -394,6 +394,9 @@ class HelixGui(tk.Tk):
 
     def _export_existing_xsq_both(self) -> None:
         """Convert an already generated AC-only XSQ with explicit hardware mapping."""
+        if getattr(sys, "frozen", False):
+            messagebox.showerror("Not packaged", "Dual export is not included in this portable build yet.")
+            return
         source = filedialog.askopenfilename(
             title="Choose completed Helix AC-only XSQ",
             filetypes=[("xLights XSQ", "*.xsq")],
@@ -419,7 +422,7 @@ class HelixGui(tk.Tk):
         ):
             return
         self._launch_optional_export([
-            *_module_command("tools.dual_format_export"),
+            sys.executable, "-m", "tools.dual_format_export",
             source, destination, "--format", "both", "--channel-map", mapping,
         ])
 
