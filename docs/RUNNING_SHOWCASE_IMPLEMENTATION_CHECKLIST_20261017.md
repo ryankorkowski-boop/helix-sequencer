@@ -50,7 +50,8 @@ Updated: 2026-10-17. Working branch: `codex/showcase-pilot-recovery-20261017` (P
 
 ## P3 — benchmark and surpass commercial/community sequence quality (added 2026-10-17)
 - [ ] Assemble a legally accessible reference set of at least 5 representative professional vendor previews and 5 freely shared community sequences, covering varied display sizes, singing faces, musical sections and model groups. Log URLs, licenses and evidence limits; do not redistribute paid sequences.
-- [ ] Establish blind human scoring rubric: synchronization 30%, visual choreography 25%, instrument/vocal realism 20%, layout compatibility 15%, import/edit ease 10%. Record individual reviewer scores and failures; do not claim vendor parity without comparable evidence.
+- [x] Implement validated weighted human-rating calculator and tests (`tools/sequence_quality_benchmark.py`, `tests/test_sequence_quality_benchmark.py`); rubric: synchronization 30%, choreography 25%, performance 20%, compatibility 15%, import 10%.
+- [ ] Collect actual blind reviewer scores, execute the benchmark tests and compare against representative reference sequences; do not claim parity without evidence.
 - [ ] Compare source-aligned kick/snare/cymbal, bass, lead melody, harmonies, lyric phonemes, transitions, build/release and finale to reference examples.
 - [ ] Implement phrase-aware orchestration, coherent palettes, tasteful contrast and prop-group choreography; benchmark against static/repetitive and overbusy failure modes.
 - [ ] Create small/traditional/mega-tree/band/advanced-3D/AC16 sequence variants per approved song, with explicit capability limits and preserved canonical source cues.
