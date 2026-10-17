@@ -42,3 +42,10 @@ def test_write_inventory_refuses_overwrite(tmp_path):
     assert "wiring_verified" in csv_path.read_text()
     with pytest.raises(FileExistsError):
         write_inventory([model], tmp_path)
+
+
+def test_duplicate_model_names_refused_before_writing(tmp_path):
+    model = fake_model('pixel', {'BODY': [1]}, [0])
+    with pytest.raises(ValueError, match='Duplicate snowman model names'):
+        write_inventory([model, model], tmp_path)
+    assert not (tmp_path / 'snowman_submodel_inventory.json').exists()
