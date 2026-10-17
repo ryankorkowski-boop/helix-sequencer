@@ -5,9 +5,11 @@ on:
       - 'tools/audit_showcase_artifacts.py'
       - 'tools/verify_showcase_audio_identity.py'
       - 'tools/verify_native_proof_archive.py'
+      - 'tools/verify_xlights_showcase_media.py'
       - 'tests/test_audit_showcase_artifacts.py'
       - 'tests/test_verify_showcase_audio_identity.py'
       - 'tests/test_verify_native_proof_archive.py'
+      - 'tests/test_verify_xlights_showcase_media.py'
       - '.github/workflows/showcase-recovery-guards.yml'
   workflow_dispatch:
 jobs:
@@ -24,5 +26,7 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_*showcase*artifacts.py' -v
       - name: Run audio provenance regression tests
         run: python -m unittest discover -s tests -p 'test_verify_showcase_audio_identity.py' -v
+      - name: Run xLights musical media regression tests
+        run: python -m unittest discover -s tests -p 'test_verify_xlights_showcase_media.py' -v
       - name: Run native archive regression tests
         run: python -m unittest discover -s tests -p 'test_verify_native_proof_archive.py' -v
