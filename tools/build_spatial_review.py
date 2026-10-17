@@ -68,7 +68,11 @@ def band_curves(model,p,*,body_level=None):
             if part.startswith('STRING_'):
                 j=int(part.rsplit('_',1)[1]);v=np.zeros(n)
                 for i,routes in enumerate(p.curves[role+'_routes']):
-                    if any(r[0]==j for r in routes):v[i]=p.curves[role+'_energy'][i]
+                    if any(r[0]==j for r in routes):
+                        # A string illuminates only when the source routes an
+                        # actual note to that string, never from unassigned
+                        # broadband instrument energy alone.
+                        v[i]=max(0.0,min(1.0,float(p.curves[role+'_energy'][i])))
                 out[part]=v
             elif part.startswith('ARM_'):out[part]=p.curves[role+'_attack'] if part.endswith('ACTIVE') else (p.curves[role+'_energy']<.1)*.2
     return out
