@@ -78,7 +78,10 @@ def band_curves(model,p,*,body_level=None):
                         # A string illuminates only when the source routes an
                         # actual note to that string, never from unassigned
                         # broadband instrument energy alone.
-                        v[i]=max(0.0,min(1.0,float(p.curves[role+'_energy'][i])))
+                        energy=float(p.curves[role+'_energy'][i])
+                        if not np.isfinite(energy):
+                            raise ValueError(f'{role}: non-finite source energy at frame {i}')
+                        v[i]=np.clip(energy,0.0,1.0)
                 out[part]=v
             elif part.startswith('ARM_'):out[part]=p.curves[role+'_attack'] if part.endswith('ACTIVE') else (p.curves[role+'_energy']<.1)*.2
     return out
