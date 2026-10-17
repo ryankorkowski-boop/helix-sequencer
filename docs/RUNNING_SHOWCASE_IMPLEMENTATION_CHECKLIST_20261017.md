@@ -83,3 +83,10 @@ External comparison discovery: xLights Hub sequence index, official xLights Reso
 - [x] Native pose export now records independent piano/xylophone note and bass/guitar string source-frame counts in `pose_provenance.json` (`instrument_visibility_audit`), enabling diagnosis of silent mallet/key/string outputs without assuming that a visible model is actually musically active.
 - [ ] Run the export against real original-song excerpts, inspect each `instrument_visibility_audit` and verify actual decoded native frames for every active instrument.
 - [ ] CI workflows for recovery/native output were queued when checked; their success, artifacts, and any new MP4s remain unverified.
+
+
+## 2026-10-17 — advertisement and verification status
+- [x] Add explicit native export warning for musical roles with zero routed source-note activity (`tools/native_source_pose_band.py`); do not silently invent notes to fill an inactive instrument.
+- [ ] Native-output run `39018601628` ended cancelled; full Helix CI run `39018601636` jobs ended cancelled, not passed. Showcase recovery run `39018601655` was queued at last inspection.
+- [ ] Advertisement video: **NOT PRODUCED** as a new validated, music-matched native Helix MP4. Earlier October 10 review renders must not be advertised as final or latest.
+- [ ] Produce and approve actual native full-band song excerpt(s) before editing feature demonstrations, assembling advertisement, publishing assets, or resuming release.
