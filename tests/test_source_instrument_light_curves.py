@@ -60,3 +60,14 @@ def test_rejects_invalid_note_timing_and_pitch(values):
     event.update(values)
     with pytest.raises(ValueError):
         _note_curves([SimpleNamespace(**event)],3)
+
+
+@pytest.mark.parametrize("role",["bass","guitar"])
+def test_nonfinite_routed_string_energy_is_rejected(role):
+    p=SimpleNamespace(n=2,keyboard_events=[],curves={
+        role+"_routes":[[(0,1)],[]],
+        role+"_energy":np.array([np.nan,.5]),
+        role+"_attack":np.zeros(2),
+    })
+    with pytest.raises(ValueError,match="non-finite source energy"):
+        band_curves(_instrument(role),p)
