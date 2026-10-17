@@ -136,6 +136,10 @@ def build(root,eid,variant,*,kind='auto',body_level=None):
     cues,proof=score(g,p,variant,body_level=body_level);folder=root/'shows'/eid/name;folder.mkdir(parents=True,exist_ok=True)
     media=folder/'media';media.mkdir(exist_ok=True);shutil.copy2(audio,media/'audio.wav')
     write_layout(g,folder,include_demo=False,export_all_custom=True)
+    from models.snowman_wiring_inventory import write_inventory
+    snowmen = [m for m in g.models if m.details.get('review_role')]
+    if snowmen:
+        write_inventory(snowmen, folder)
     seq=NativeSequence(g,36,'media/audio.wav',g.title+' / '+row['filename'])
     seq.root.find('head/comment').text='Source-clock review: native stationary 3D light poses, source keyboard rungs, independent spatial score. No physical hardware test.'
     output={}
