@@ -5,6 +5,8 @@ A model-coordinate still or authored diagnostic cannot satisfy this contract.
 from __future__ import annotations
 import argparse
 import json
+import hashlib
+import subprocess
 from pathlib import Path
 
 ROLES = ("drummer", "bass", "guitar", "piano", "xylophone", "lead", "harmony")
@@ -13,6 +15,11 @@ ROLES = ("drummer", "bass", "guitar", "piano", "xylophone", "lead", "harmony")
 def verify(report: dict, video: Path) -> None:
     if not video.is_file() or video.stat().st_size <= 0:
         raise ValueError("Missing nonempty performance MP4")
+    if report.get("video_sha256") != hashlib.sha256(video.read_bytes()).hexdigest():
+        raise ValueError("MP4 bytes do not match the recorded SHA-256")
+    probe = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=codec_name,width,height", "-of", "json", str(video)], capture_output=True, text=True)
+    if probe.returncode or not json.loads(probe.stdout or "{}").get("streams"):
+        raise ValueError("MP4 has no decodable video stream")
     if video.suffix.lower() != ".mp4":
         raise ValueError("Expected an MP4")
     if report.get("fixture") or report.get("diagnostic") or report.get("authored_fixture"):
