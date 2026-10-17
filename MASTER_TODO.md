@@ -1,3 +1,15 @@
+## 2026-10-17 — Current native-stage integration repair (in progress)
+
+Goal: continue the current PR172 implementation after a fresh GitHub audit; preserve PR150's verified installers, the newer seven-snowman direction, all original audio/analysis and the release hold. Branch codex/native-stage-integration-20261017 starts at9a6fc14c1f4c03c8f051c875a9d956c0e2115d08. PR169/170 capabilities are already reused by172; composer171 and Universal Library154 remain inactive.
+
+Changed: tools/combine_native_stage.py, tests/test_combine_native_stage.py, showcase-recovery-guards workflow, this ledger. The combiner used packed sparse FSEQ width as physical extent, accepted only lowercase scenery filenames/root audio, duplicated the current complete HX_SNOW cast and could leave partial output after errors. Upper/lower aliases are now resolved with conflicting copies rejected; actual CustomModelCompressed node IDs determine spans; current complete native casts are replaced once; sparse extent uses physical ranges and complete frame validation; durations/spans are checked, empty nested stage groups are pruned, nextid is updated, and the finished directory is promoted atomically. The old lowercase unlink could delete the new uppercase XSQ on case-insensitive filesystems; copying without either sequence alias avoids that path.
+
+Preserved: source musical events/50ms pose clock, 25ms native rasterization, source audio bytes, scenery effect rows, canonical drummer, AC16/LOR/default exports, source modules and other branches. No merge, release, installer replacement or public music/video publication.
+
+Evidence before changes:24 focused checks and25 quality/native checks passed. After changes:49 broader checks and50 musical/controller checks passed; final focused63passed/9.37s before the nested-group addition. Recovered the actual E14 native review sources and built a fresh32-state band (156861 RGB channels,30135 effects) and154-model embedded world using unchanged source analysis. Fresh official xLights2026.18 parity passed225879840 actual band channel-frame samples across1440frames/25ms, maximum error0; all1440band frames are lit, full156861-channel standalone/embedded stream hashes matcha3d5a79e4c4b39a287e16ff3c512774b3fb6f04cb10b098679762822e6f5ad24. A native House Preview and the full suite are running; final receipts follow below. The pinned AppImage SHA256 is62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b.
+
+Limits/risks: RGB pose states are finite approximations and not16AC circuits; source instrument/vocal identity uncertainty persists; no physical-device/controller test or artistic approval is inferred. Sparse allocation, metadata aliases, nested groups and interrupted writes are explicit regressions. Full-song/licensing/production review gates remain as previously recorded. Read this ledger before continuing.
+
 ## 2026-10-17 — Authentic showcase recovery, pilot in progress
 
 Goal: deliver a visible native full-band MP4 before expanding the collection.
