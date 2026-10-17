@@ -68,6 +68,10 @@ class Review3DScene(ReviewSnowmanScene):
             self.instances[b]['matrix']=line_matrix(elbow,hand,.041)
             self.instances[c]['matrix']=matrix(hand,(.10,.075,.08))
             self.instances[d]['matrix']=line_matrix(hand,tip,.018)
+        foot_hit=any(h['target']=='HI_HAT' and 0<=time-h['time']<.10 for h in self.drum_hits)
+        pedal_lift=0.0 if foot_hit else .10
+        self.instances[self.hihat_pedal]['matrix']=line_matrix((-1.05,.09,-3.03),(-1.05,.16+pedal_lift,-2.68),.075)
+        self.instances[self.hihat_foot]['matrix']=matrix((-1.05,.22+pedal_lift,-2.82),(.20,.095,.30))
         kicks=[h for h in self.drum_hits if h['target']=='KICK' and 0<=time-h['time']<.1]
         tip=self.drum_centers['KICK'] if kicks else np.array((0,.45,-1.94))
         self.instances[self.kick_beater]['matrix']=line_matrix((0,.10,-1.94),tip,.025)
