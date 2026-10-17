@@ -46,3 +46,17 @@ Updated: 2026-10-17. Working branch: `codex/showcase-pilot-recovery-20261017` (P
 4. Render fresh native review clips; retain explicit release hold.
 
 **Honesty gate:** This checklist is an implementation tracker, not proof of tests or video acceptance. The native xLights 2026.18 scratch renderer referenced in `MASTER_TODO.md` may not be available in this session; do not claim fresh native renders without actual verified files.
+
+
+## P3 — benchmark and surpass commercial/community sequence quality (added 2026-10-17)
+- [ ] Assemble a legally accessible reference set of at least 5 representative professional vendor previews and 5 freely shared community sequences, covering varied display sizes, singing faces, musical sections and model groups. Log URLs, licenses and evidence limits; do not redistribute paid sequences.
+- [ ] Establish blind human scoring rubric: synchronization 30%, visual choreography 25%, instrument/vocal realism 20%, layout compatibility 15%, import/edit ease 10%. Record individual reviewer scores and failures; do not claim vendor parity without comparable evidence.
+- [ ] Compare source-aligned kick/snare/cymbal, bass, lead melody, harmonies, lyric phonemes, transitions, build/release and finale to reference examples.
+- [ ] Implement phrase-aware orchestration, coherent palettes, tasteful contrast and prop-group choreography; benchmark against static/repetitive and overbusy failure modes.
+- [ ] Create small/traditional/mega-tree/band/advanced-3D/AC16 sequence variants per approved song, with explicit capability limits and preserved canonical source cues.
+- [ ] Validate automatic model/group/submodel/face/lyric remapping to actual third-party layouts, including import failures and user correction paths.
+- [ ] Verify full-song editable XSQ, valid LMS where supported, FSEQ, model xmodels, audio provenance, licensing, thumbnails, instructions and previews in each release package.
+- [ ] Run native xLights open/import/render and Light-O-Rama compatibility tests, followed by owner review and a small independent community usability trial.
+- [ ] Publish reproducible before/after reports and benchmark evidence; no blanket 'better than paid vendors' claim until validated across representative references.
+
+External comparison discovery: xLights Hub sequence index, official xLights Resources and xLights Import Effects documentation (2026-10-17). These provide comparison and workflow targets, not proof of quality.
