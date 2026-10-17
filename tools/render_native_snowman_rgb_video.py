@@ -49,8 +49,13 @@ def render(audit_dir, frames_path, audio, output, fps=20, width=1280, height=720
     if size == 0 or size % frame_bytes:
         raise ValueError("RGB byte stream does not contain complete seven-model frames")
     count = size // frame_bytes
+    if count > 40 * 60 * 60 * 4:
+        raise ValueError("Unreasonably large RGB frame stream")
     if not Path(audio).is_file():
         raise FileNotFoundError(audio)
+    probe = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "a:0", "-show_entries", "stream=codec_name,duration", "-of", "json", str(audio)], capture_output=True, text=True)
+    if probe.returncode or not json.loads(probe.stdout or "{}").get("streams"):
+        raise ValueError("Source audio has no readable audio stream")
     positions = np.concatenate([points for _, _, points in models])
     lo = positions.min(axis=0)
     span = np.maximum(positions.max(axis=0) - lo, 1e-8)
@@ -64,6 +69,7 @@ def render(audit_dir, frames_path, audio, output, fps=20, width=1280, height=720
            "-map", "0:v:0", "-map", "1:a:0", "-c:v", "libx264",
            "-pix_fmt", "yuv420p", "-crf", "19", "-c:a", "aac",
            "-shortest", str(output)]
+    Path(output).parent.mkdir(parents=True, exist_ok=True)
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     try:
         with Path(frames_path).open("rb") as stream:
