@@ -90,3 +90,9 @@ External comparison discovery: xLights Hub sequence index, official xLights Reso
 - [ ] Native-output run `39018601628` ended cancelled; full Helix CI run `39018601636` jobs ended cancelled, not passed. Showcase recovery run `39018601655` was queued at last inspection.
 - [ ] Advertisement video: **NOT PRODUCED** as a new validated, music-matched native Helix MP4. Earlier October 10 review renders must not be advertised as final or latest.
 - [ ] Produce and approve actual native full-band song excerpt(s) before editing feature demonstrations, assembling advertisement, publishing assets, or resuming release.
+
+
+## 2026-10-17 — showcase CI coverage trigger
+- [x] Extend showcase recovery workflow PR path filters to source instrument lighting, native pose exporter and focused note/hi-hat/keyboard/channel regression files. Previously the workflow would not run for these code-only edits unless its own YAML changed.
+- [ ] Confirm the new workflow run completes and inspect failures before treating the instrument fixes as verified.
+- [ ] Native xLights song performance footage and edited advertisement remain outstanding; no final MP4 approval request yet.
