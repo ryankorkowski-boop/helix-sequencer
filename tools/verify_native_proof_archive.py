@@ -43,9 +43,10 @@ def inspect(archive, require_showcase=False):
         if require_showcase:
             failures = []
             validation = None
-            if "VALIDATION.json" in names:
+            validation_path = next((name for name in ("native-proof/VALIDATION.json", "VALIDATION.json") if name in names), None)
+            if validation_path:
                 try:
-                    validation = json.loads(z.read("VALIDATION.json"))
+                    validation = json.loads(z.read(validation_path))
                 except (ValueError, UnicodeDecodeError) as exc:
                     failures.append("VALIDATION.json is unreadable: " + str(exc))
             else:
