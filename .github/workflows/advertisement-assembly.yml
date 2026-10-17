@@ -1,0 +1,25 @@
+name: Advertisement assembly regression
+on:
+  pull_request:
+    paths:
+      - 'tools/assemble_native_ad.py'
+      - 'tests/test_assemble_native_ad.py'
+      - '.github/workflows/advertisement-assembly.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ad-assembly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install test dependencies
+        run: python -m pip install pytest
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Test source-video assembly
+        run: python -m pytest -q tests/test_assemble_native_ad.py
