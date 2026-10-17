@@ -16,6 +16,11 @@ If Windows blocks the executable, first verify its checksum and source. Keep the
 
 If preview generation fails, completed sequences remain available for saving. Check the specific run error. Advanced technical settings are optional. Local sequencing does not require a desktop connection.
 
+Android previews now accept 1–600 seconds, like desktop. For a complete song up
+to ten minutes long, enter600; Helix stops at the end of the song. The default
+remains30 seconds. Sequencing always uses the full input independently of this
+preview setting.
+
 The beta APK is debug-signed unless its manifest states otherwise. Physical Samsung/ARM64 operation and upgrade from earlier signing keys require device testing. Emulator results do not prove a particular Samsung policy is resolved.
 
 Community and support: [Facebook.com/helixsequencer](https://Facebook.com/helixsequencer).

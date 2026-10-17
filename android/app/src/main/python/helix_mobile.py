@@ -190,8 +190,8 @@ def run(engine_path, job_path, request_json, callback):
     engine, job = Path(engine_path), Path(job_path)
     request = json.loads(request_json)
     seconds = int(request.get('preview_seconds', 30))
-    if not 1 <= seconds <= 120:
-        raise ValueError('Android preview length must be 1–120 seconds')
+    if not 1 <= seconds <= 600:
+        raise ValueError('Android preview length must be 1–600 seconds')
     if str(engine) not in sys.path:
         sys.path.insert(0, str(engine))
     os.environ['NUMBA_DISABLE_JIT'] = '1'

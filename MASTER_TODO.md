@@ -1,4 +1,217 @@
+## 2026-10-15 — User-supplied six-song sampler ingestion
+
+- [x] Received `Helix_Six_Song_Technical_180s.mp4`, video duration 180.021333 s; AAC audio decoded to 44.1 kHz stereo PCM (180.224014 s including codec padding).
+- [x] Source MP4 SHA256: `93b205681c4b8c7d0dc41bbcd39af1ade9719cd3db63fde721eb33ea4020e01e`; extracted WAV SHA256: `efdfe69328b8458ff9b405d091af9d5cb9202e3f53846f1ac0de07814f28739d`.
+- [x] Added `tools/prepare_sampler_audio.py` and focused extraction regressions; equivalent local test implementation passed 2/2 checks. Do not count this as a complete repository test run.
+- [ ] Establish whether this is identical to the October 13 original six-song source; filename, MP4 size and decoded WAV hash differ from earlier original-sampler evidence. AAC padding must be handled explicitly for exact duration alignment.
+- [ ] Generate source-bound musical analysis and native drummer XSQ for this exact uploaded audio. `tools/render_final_band.py` requires both, not just a WAV; no verified fresh band MP4 exists yet.
+- [ ] Render and fully decode two six-member bands, six layouts and comparison movies; independently inspect kick, mallet and keyboard passages. Do not ship an unverified or fabricated video.
+- [ ] Physical CTB16PC, Samsung/ARM64, final signing, song distribution and release gates remain open.
+
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
+
+## 2026-10-15 — Installer review delivery and physical review repairs verified
+
+Verified software/build source: d3a3d377e64b0d95b54e553e89dce34dc0f93194,
+PR150. This receipt supersedes pending software statuses in the two implementation
+entries immediately below. The receipt commit changes documentation/evidence only;
+all application and workflow bytes remain identical to the verified source.
+
+- [x] Address review4279789859/4279789864: all cymbal retriggers have a release
+  gap; accepted quiet contacts/nonzero tails survive percent quantization.
+- [x] Fifty focused export/packaging tests plus eight related controller-contract
+  checks pass locally, including actual addressed LMS export/reimport.
+- [x] Full CI38697129434: Python3.11 and3.12 each1,560 passed / 5 missing-2.wav skips.
+  Actual durations310.85s/231.67s; five/thirty-six warnings, respectively.
+- [x] Native38697129459: all4,800 kit intensities, maximum error0.45/255; explicit
+  retrigger-gap/quiet-hit assertions; six layouts and prior band/key/kick gates.
+  Downloaded native artifact11954881953source/hash/CRC independently checked.
+- [x] Windows38697129450passes packaged GUI/engine/native checks; embedded
+  source/run/executable/guide provenance and nested ZIP hashes/CRC verified.
+- [x] Android38697129307API30/API36pass instrumentation, fresh install/reinstall,
+  recovery/playback and independent full 237.466708s / 3,562-frame decode; both0ms
+  audio offset, correlation>=0.99571445. All968API30 embedded engine hashes
+  independently checked locally; both APK archives/engines checked in CI assembly.
+- [x] Combined installer38697129438passed all four exact-source push-run gates
+  and delivered actual Windows portable ZIP, API30 debug APK, guides/notices,
+  validation report, checksums and explicit release status. Final package and all
+  nested CRCs/checksums independently verified after download.
+
+Delivery: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129438/artifacts/11954249825
+Inner Helix_Beta_v1.0_Installers.zip:334173665bytes, SHA256
+1d93a9cc02d32dcf60f80ba69a279ccb5b8fc10c01a8a4be1991be66578e1eef.
+Outer Actions artifact:287440630bytes, SHA256
+77c6256f056e8755a1eea2819b19c9163510be2a2f41be6a3db79f0bdad127d0.
+Machine receipt:evidence/72h_completion/installer_delivery_receipt.json.
+Usage:docs/BETA_INSTALLER_BUNDLE.md; earlier audit/roadmap retain historical receipts.
+
+Goal/changed files for this receipt: record actual final delivery in this ledger,
+installer guide, audit, hardening roadmap and machine receipt. Preserve all tested
+code/workflows, earlier evidence and application behavior. No new test run is
+needed for this documentation-only receipt. Software review delivery is complete;
+final release readiness remains false. Independent musical/duet/tom review,
+missing original audio/rights, clean physical Windows11/Samsung/ARM64/controllers/
+vendor LOR, production signing/upgrade/16KB/store work, relicensing authority,
+reviewed default integration and authorized full-song showcase acceptance remain
+open. No source songs or test movies are in the installer delivery. No existing
+release asset was replaced and no PR/default branch was merged.
+
+## 2026-10-15 — Address outstanding PR150 physical-output review
+
+Goal: repair two actual review defects (discussion4279789859/4279789864).
+Changed core/ctb16pc_sequence.py, focused export regressions, native CTB16PC proof,
+export documentation and this ledger. Enforce the minimum real/grid20ms spacing
+for tailed and ordinary contacts alike; truncate an old cymbal tail to preserve
+one dark tick before a retrigger. Quantize accepted positive contacts and nonzero
+tail values to at least1percent; measured zero tail samples/rests remain dark.
+Preserve all other cue timing/addressing, source files, ordinary intensity values,
+mouth exclusivity, twelve-string mode, detectors and user layouts. Add unsorted
+tail/plain combinations, sub-grid spacing and tiny velocity regressions plus actual
+LMS roundtrip and unchanged4,800-value native assertions for both defects.
+
+Focused export/packaging tests pass50checks in0.24s, including real LMS reimport.
+Compilation and whitespace checks pass. Final same-source platform/native/bundle
+verification is pending. The passing81b1f3b native/Windows builds precede these repairs and cannot
+serve as their final evidence. Regression risks: intentional tail truncation at
+retrigger, rejecting previously ambiguous sub20ms contacts and minimum1percent
+quiet output. Independent transcription/listening/hardware/signing gates remain
+open. No external review comments were posted or acceptance inferred.
+
+## 2026-10-15 — Combined same-source installer review delivery (in progress)
+
+Goal: finish issue143's missing repeatable combined installer package without
+inventing final musical/hardware/signing acceptance. Changed modules:
+tools/package_beta_installers.py, tools/collect_beta_installers.py, focused
+packaging tests, Windows/Android build triggers, dedicated installer workflow and
+docs/BETA_INSTALLER_BUNDLE.md. New Windows builds embed source/run/executable and
+guide hashes after their real packaged smoke. Assembly requires successful
+same-SHA push runs for Windows, both Android APIs, native xLights and the full
+Python regression workflow; verifies GitHub archive digests, inner checksums,
+Windows source receipt, all Android engine bytes, complete decode receipts and
+the final ZIP inventory. Includes original guides and explicit release gates;
+ships the tested API30 debug APK and unchanged Windows ZIP, records API36 proof.
+
+Preserved: all application sequencing/detection/rendering/UI code, original audio,
+native layouts, prior verified builds, signing policy, historical license notices,
+default branch and all other PRs. No music/test movies/unsigned store packages in
+the delivery; no release assets replaced and no reviewed integration assumed.
+Focused rejection/integrity tests pass (20 checks on Python3.12), including real
+temporary Git source stamping, changed bytes, mixed SHAs, invalid decode receipts,
+failed CI attempts and prior-delivery preservation. Actual new-build assembly
+is pending. Python compilation, workflow YAML and whitespace checks pass.
+Regression risks: artifact path/schema drift, source/hash mismatch, CI queue time,
+Windows provenance integration and large archive disk requirements. Earlier c56a097
+software receipts remain valid for that source; new package evidence must name
+its own exact SHA. Final musical/rights/hardware/signing/release gates stay open.
+
+## 2026-10-15 06:18 UTC — 72-hour implementation verified; release gates remain
+
+Software source: c56a0975bf11f66927091694e7851631dec6c7fa, PR #150. This final
+receipt supersedes the pending software statuses in the implementation entries
+below. It does not close the broader musical, rights, hardware or release gates.
+The subsequent receipt commit changes documentation/evidence only; application
+builds and runtime verification remain pinned to this exact software revision.
+
+- [x] Integrate PR149 physical contracts into the latest hardening source.
+- [x] Export classified CTB16PC cues to addressed XSQ/legacy LMS, preserving
+  rapid kicks, independent snare hands, measured cymbal tails and chorus mouths.
+- [x] Repair doubled/clipped native dimmer output from generated LOR layouts.
+- [x] Support 1–600-second Android local/remote previews, retaining the 30-second
+  default, source-duration cap, full sequencing and export recovery.
+- [x] Replace the misleading three-second full-song device test with complete
+  source rendering; stream host decoding while retaining six sampled frames.
+- [x] Full local suite: 1,525 passed, 5 missing-2.wav skips, 36 warnings, 186.60s.
+- [x] GitHub 3.11/3.12 full suites: 1,525 passed/5 skipped each (run38689830938).
+- [x] Native xLights2026.18 proof (38689830974): 4,800 kit intensity checks,
+  maximum error0.4/255; six layouts, two six-member bands, sixteen source-bound
+  opening kicks including eight rapid hits. Native ZIP hash/CRC/source verified.
+- [x] Windows38689830954: real build, packaged GUI/engine/native preview; both
+  ZIP layers/checksum verified. Portable ZIP189958671bytes, SHA256
+  ad30b71d3857f5f12fe034b7fadfb7791bcdb0508908bd0cac3c8e6edeb615ec.
+- [x] Android38689830986 API30/API36: MP3/WAV, xLights/LOR, recovery, playback,
+  reinstall and full-song output pass. Both full movies decode3,562frames over
+  237.466708seconds with0ms audio offset and correlation>=0.99571445.
+  API30 APK144078121bytes, SHA256
+  da80349e76b940e3c1f633c1083a4e56ff7ce6d1d436201ff5b398b906225c7f;
+  embedded engine declares c56a097 and all966file hashes match.
+
+Goal/files/new behavior/preserved behavior and regression risks are recorded in
+the implementation entries below; docs/REPO_AUDIT_20261015.md and the machine
+receipt evidence/72h_completion/validation_receipt.json contain final receipts.
+No tests were ignored/weakened and no missing hardware/music evidence was invented.
+Independent listening/duet/tom labels, complete LightsOutTheme, track rights,
+physical Samsung/ARM64/controllers/vendor LOR, production signing/16KB/store
+requirements, final release ZIPs and reviewed integration remain open. Physical
+front-projection contracts and synthetic native diagnostics are not fabrication
+or original-song recognition proofs. Default/other development branches remain
+preserved. This implementation is ready for code review, not a stable-release claim.
+
+## 2026-10-15 — 72-hour audit and physical-output completion (in progress)
+
+Verified physical/runtime checkpoint182c7c5: local1515passed/5missing-2.wav skips/
+36warnings in187.75s; native38688893171passed unchanged gates, including4,800kit
+intensities(maxerror0.4/255),6layouts,2six-member bands and16source-bound opening
+kicks(8rapid). Downloaded artifact11951446369matches declared source, ZIP CRC and
+SHA256194e61e65bbf8972a496a1fe378be0ecfdf10998820bac695379b4812c5b02dd.
+Windows38688893139passes actual packaged GUI/engine/native preview. These receipts
+precede the additional long-Android-preview change below; rebuild after it.
+
+Additional concrete gap: Android's full-song instrumentation case sequenced the
+237-second song but rendered only3seconds; bridge/local/remote UI rejected previews
+over120seconds. Align those request limits with desktop600seconds and make the
+device case render the entire actual source. Host verification now decodes every
+frame incrementally, retaining six samples rather than a multi-gigabyte raw video
+buffer, and checks complete source duration/frame count/audio alignment. New host
+tests cover121/240/600second forwarding, invalid lengths and complete streaming
+decode with bounded retained memory. Preserve30second defaults, preview cropping,
+codec/sync algorithms, source audio, recovery and all sequencing behavior. Changed
+Android UI/bridge/instrumentation, desktop remote validator, proof verifier/tests.
+Risk: longer renders expose memory/encoder/runtime limits; API30/API36 full-song
+evidence is mandatory before closing this gate. Focused/platform receipts pending.
+
+Native follow-up: Actions38688520597 passed the giant/twelve-string probes,
+then failed the new unchanged4,800-value kit assertion. Downloaded FSEQ shows
+18percent body intensity became92/255instead of46/255;55/68percent cymbal tail
+steps clipped255. The generated LOR grid used legacy ModelBrightness=100,
+which adds100percent gain. Set only generated LMS-workspace grids to neutral0;
+preserve user layouts, source addresses, all cue times and exported LMS values.
+Changed tools/lor_lms_import.py plus existing import/kit regressions. The native
+assertion and tolerance stay unchanged. Focused/remote rerun receipts pending;
+this is a runtime repair prompted by actual playback, not a relaxed gate.
+
+Goal: complete executable gaps found in the October12 05:33–October15 05:33 UTC
+repository window. Candidate branch: codex/72h-completion-20261015, based on
+hardening183057f. Default feature/restructure-core has no commits in this window;
+PR146/147/148 and physical PR149 remain unmerged. Prior final native/platform
+receipts on7a1ffa and hardening CI on15e2155 remain prior-source evidence.
+
+Changed: integrate the15physical-contract files from PR149 at92b3a47, then add
+core/ctb16pc_sequence.py and tools/export_ctb16pc_sequence.py to connect classified
+hits, measured cymbal tails and explicit chorus/voice cues to actual XSQ/legacy
+LMS output. Require a supplied LMS containing exactly the selected controller's
+sixteen addresses; explicit Unit ID, fresh output directory, source hash and cue
+hash prevent silent mapping/replacement. Reject unknown hits, missing snare
+hands, invalid inputs and conflicting mouth poses. Preserve all original inputs,
+historical twelve-circuit outputs, current six-performer final scene, musical
+detectors, GUI/Android, guitar motion and historical MIT/third-party notices.
+Fix invalid00Unit ID and nonfinite/undersampled shimmer frequency handling.
+
+Native CI now follows hardening/completion branches and all relevant engine,
+export and test changes; it previously skipped audio-only hardening. Evidence:
+full localPython3.12 suite1515passed/5missing-2.wav skips/36warnings in209.69s;
+49focused checks passed in1.43s. No tests were excluded or weakened. New regressions
+cover real LMS reimport, exact per-centisecond intensities, eight rapid flashes,
+left/right snare, silent vocal suppression, mouth exclusivity and actual XSQ
+settings references. SourceLMS remains byte-identical. Regression risks:10ms
+quantization, changed physical pose mapping and native dimmer interpretation.
+
+Limitations/deferred: this kit exporter is opt-in and consumes observed cues;
+it does not add a voice separator, independent listening labels, controller
+hardware proof, native vendor LOR import or surveyed3D fabrication. Front2D/3D
+parity is a shared construction contract, not a rendered/hardware claim. Real
+full-song movies require original source/analysis and track-specific distribution
+evidence. Missing LightsOutTheme, Samsung hardware, production signing, tom/duet
+listening and final release approvals remain open; no gate is silently removed.
 
 ### 2026-10-14 — full-source native validation found cross-key arm illumination
 Run38614788465 rendered the complete actual sampler and failed unchanged key-state checks at frame651/MIDI55 while only MIDI67 was requested. Finite surface sampling merged passing arm vertices and unrelated bar vertices. Give NOTE_MIDI nodes exclusive ownership, trim those nodes from all other submodels, and preserve channel allocation/bar identities. Add serialized geometry overlap assertions; rerun focused/full/native/platform gates. The GL movie renderer and six-layout engine outputs are unaffected, but final native-band application binaries need a new exact-source build. Prior f38 receipts stay identified as earlier-source evidence, not the final release.

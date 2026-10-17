@@ -73,9 +73,14 @@ def test_upload_failure_does_not_promote_partial_file(remote):
     with pytest.raises(ValueError,match='Missing'):jobs.start(identity)
 
 
-@pytest.mark.parametrize('value',[{'variants':True},{'variants':9},{'preview_seconds':0},{'shell':'rm'},{'preview':'false'},{'mode':'other'}])
+@pytest.mark.parametrize('value',[{'variants':True},{'variants':9},{'preview_seconds':0},{'preview_seconds':601},{'shell':'rm'},{'preview':'false'},{'mode':'other'}])
 def test_untrusted_settings_cannot_supply_commands(value):
     with pytest.raises(ValueError):settings(value)
+
+
+@pytest.mark.parametrize('seconds',[121,240,600])
+def test_remote_supports_long_preview_requests(seconds):
+    assert settings({'preview_seconds':seconds})['preview_seconds']==seconds
 
 
 def test_remote_uses_canonical_modes_and_keeps_desktop_orchestrator(tmp_path):

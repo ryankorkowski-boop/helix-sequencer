@@ -93,10 +93,12 @@ public class OfflineEngineTest {
         try(InputStream in=test.getAssets().open("full-song.mp3");OutputStream out=new FileOutputStream(new File(fullInput,"source.mp3"))){EngineService.copy(in,out);}
         MediaRuntime.decodeWav(new File(fullInput,"source.mp3").toString(),new File(fullInput,"audio.wav").toString());
         assertTrue(new File(fullInput,"audio.wav").length()>22050L*2*30);
-        JSONObject fullRequest=new JSONObject();fullRequest.put("mode","xlights");fullRequest.put("preview",true);fullRequest.put("preview_seconds",3);
-        JSONObject fullResult=new JSONObject(Python.getInstance().getModule("helix_mobile").callAttr("run",engine.toString(),full.toString(),fullRequest.toString(),new Callbacks()).toString());
+        JSONObject fullRequest=new JSONObject();fullRequest.put("mode","xlights");fullRequest.put("preview",true);fullRequest.put("preview_seconds",600);
+        Callbacks fullCallbacks=new Callbacks();
+        JSONObject fullResult=new JSONObject(Python.getInstance().getModule("helix_mobile").callAttr("run",engine.toString(),full.toString(),fullRequest.toString(),fullCallbacks).toString());
         assertEquals("success",fullResult.getJSONObject("stages").getJSONObject("sequencing").getString("status"));
         assertEquals("success",fullResult.getJSONObject("stages").getJSONObject("preview").getString("status"));
+        assertTrue("Full-song preview must exceed the former 120-second limit",fullCallbacks.end>120_000_000L);
         publishProof(context,"full-song-show.zip",Files.readAllBytes(new File(fullResult.getString("bundle")).toPath()),"application/zip");
         JSONObject launcherState=new JSONObject(realResult.toString());launcherState.put("phase","complete");launcherState.put("message","Real music sequenced and exported on this device");launcherState.put("updated_ms",System.currentTimeMillis());
         Files.write(new File(real,"state.json").toPath(),launcherState.toString().getBytes("UTF-8"));
