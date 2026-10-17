@@ -73,6 +73,11 @@ def inspect(archive, require_showcase=False):
             ]
             if not non_diagnostic_mp4s:
                 failures.append("no non-diagnostic MP4 is present")
+            for video in non_diagnostic_mp4s:
+                with z.open(video) as stream:
+                    header = stream.read(12)
+                if len(header) < 12 or header[4:8] != b"ftyp":
+                    failures.append(video + ": invalid MP4 container header")
 
             result["acceptance"] = {
                 "required": True,
