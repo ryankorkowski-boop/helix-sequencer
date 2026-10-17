@@ -1284,3 +1284,9 @@ Final October10 publication handoff: `docs/REVIEW_MOVIE_DOWNLOADS.md` links the4
 - This archive is **not** the 19 previously reported musical showcase MP4s. `Final_Band_Output_Diagnostic/verification.json` identifies an authored fixture rather than original-song transcription; `CTB16PC_Drummer_Chorus_Diagnostic/native_verification.json` states physical hardware and LOR import are unverified. Do not promote these as showcase deliveries.
 - Added `tools/audit_showcase_artifacts.py` and focused regression tests to fail closed on missing files, SHA mismatch, unsafe paths, duplicate entries and empty inventories. Test execution pending full checkout.
 - The original `/workspace/scratch/1971fd9f91ad` render workspace remains unavailable in this execution environment. Authentic source-audio/native-render continuation remains blocked until actual media/render environment is recovered. No new musical MP4 claimed, no production merge/release/publishing.
+
+## 2026-10-17 — Original-audio source retrieval
+
+- Connected Google Drive folder contains `Copy of Audio in. Lights out. Welcome to Helix` (Drive ID `11hFomlsAf6u1Nc1jXrkoFbQZiMrv_6JC`, 6,206,675 bytes). Downloaded source MP3 SHA256 `539b7ab219cf5a1bddeae098a8df58f193ceb02d46bacf7b0f3189ea3f4ebe92`.
+- This **differs** from native recovery's prior source SHA256 `8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec`. Do not silently substitute for previously rendered source or claim native video parity.
+- Created real Drive-copy audio excerpt 40–76s, stereo 48 kHz 24-bit PCM WAV, duration exactly 36s, SHA256 `0b2a8167f325885af0c87d3c0eb1b6870578564a6b30006e4ae5e124c1acdaaf`; retained as separate working artifact, not merged into production. Native MP4 render still pending.
