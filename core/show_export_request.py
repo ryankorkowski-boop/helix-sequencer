@@ -43,14 +43,23 @@ def validate_exporters(request: ShowExportRequest, available: set[str] | frozens
 
 
 def export_selected(request: ShowExportRequest, exporters: dict, analysis, destination: Path):
-    """Reuse the exact same analysis for selected formats; never silently skip one."""
+    """Export only requested formats; never overwrite or report a partial success."""
     validate_exporters(request, set(exporters))
     destination = Path(destination)
-    results = {}
-    for fmt in request.requested_formats:
-        path = destination / f"Performance.{fmt}"
-        result = exporters[fmt](analysis, path, request)
-        if not path.is_file() or path.stat().st_size == 0:
-            raise RuntimeError(f"{fmt.upper()} exporter did not create a nonempty sequence: {path}")
-        results[fmt] = path
-    return results
+    destination.mkdir(parents=True, exist_ok=True)
+    paths = {fmt: destination / ("Performance." + fmt) for fmt in request.requested_formats}
+    if any(path.exists() for path in paths.values()):
+        raise FileExistsError("Requested sequence output already exists")
+    completed = {}
+    try:
+        for fmt, path in paths.items():
+            exporters[fmt](analysis, path, request)
+            if not path.is_file() or path.stat().st_size == 0:
+                raise RuntimeError(fmt.upper() + " exporter produced no sequence")
+            completed[fmt] = path
+    except Exception:
+        for path in paths.values():
+            if path.is_file():
+                path.unlink()
+        raise
+    return completed
