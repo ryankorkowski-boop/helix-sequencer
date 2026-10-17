@@ -56,6 +56,13 @@ def render(audit_dir, frames_path, audio, output, fps=20, width=1280, height=720
     probe = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "a:0", "-show_entries", "stream=codec_name,duration", "-of", "json", str(audio)], capture_output=True, text=True)
     if probe.returncode or not json.loads(probe.stdout or "{}").get("streams"):
         raise ValueError("Source audio has no readable audio stream")
+    audio_probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "json", str(audio)], capture_output=True, text=True)
+    try:
+        audio_seconds = float(json.loads(audio_probe.stdout)["format"]["duration"])
+    except (KeyError, ValueError, TypeError, json.JSONDecodeError) as exc:
+        raise ValueError("Source audio duration cannot be established") from exc
+    if not np.isfinite(audio_seconds) or audio_seconds <= 0 or abs(count / fps - audio_seconds) > max(0.1, 1 / fps):
+        raise ValueError("RGB frame duration does not match source audio duration")
     positions = np.concatenate([points for _, _, points in models])
     lo = positions.min(axis=0)
     span = np.maximum(positions.max(axis=0) - lo, 1e-8)
