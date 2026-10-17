@@ -48,6 +48,9 @@ def write_inventory(models, destination: Path) -> tuple[Path, Path]:
     destination = Path(destination)
     destination.mkdir(parents=True, exist_ok=True)
     records = [inventory_model(model) for model in models]
+    names = [record["model"] for record in records]
+    if len(names) != len(set(names)):
+        raise ValueError("Duplicate snowman model names in inventory")
     json_path = destination / "snowman_submodel_inventory.json"
     csv_path = destination / "snowman_submodel_inventory.csv"
     for path in (json_path, csv_path):
