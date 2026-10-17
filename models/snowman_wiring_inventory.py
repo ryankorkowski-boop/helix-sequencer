@@ -29,6 +29,11 @@ def inventory_model(model) -> dict:
     if mode == "ac16" and (len(all_ids) > 16 or any(node > 16 for node in all_ids)):
         raise ValueError(f"AC model exceeds 16 circuits: {model.name}")
     geometry_positions = len(model.points)
+    if mode == "pixel":
+        raw = model.attrs.get("CustomModelCompressed", "")
+        geometry_node_ids = {int(entry.split(",", 1)[0]) for entry in raw.split(";") if entry.strip()}
+        if any(node not in geometry_node_ids for node in all_ids):
+            raise ValueError(f"Submodel references undefined pixel nodes: {model.name}")
     return {
         "model": model.name,
         "role": model.details.get("review_role", ""),
