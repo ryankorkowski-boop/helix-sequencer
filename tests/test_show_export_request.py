@@ -49,7 +49,7 @@ def test_both_formats_share_analysis_and_produce_real_files(tmp_path):
 def test_empty_export_is_an_error(tmp_path):
     def export(a, path, req):
         path.touch()
-    with pytest.raises(RuntimeError, match="nonempty"):
+    with pytest.raises(RuntimeError, match="produced no sequence"):
         export_selected(request(), {"xsq": export}, object(), tmp_path)
 
 
