@@ -35,6 +35,10 @@ class Review3DScene(ReviewSnowmanScene):
             self.sphere('drummer_'+side+'_MITTEN',hand,(.10,.075,.08),'#D5E5EF')
             self.rod('drummer_'+side+'_STICK',hand,hand+(0,-.36,.30),.018,'#DDBB83')
             self.drummer_rigs[side]=dict(shoulder=shoulder,ids=tuple(range(start,start+4)),idle=hand)
+        self.hihat_pedal=len(self.instances)
+        self.rod('drummer_HIHAT_FOOT_PEDAL',(-1.05,.09,-3.03),(-1.05,.16,-2.68),.075,'#8095A3')
+        self.hihat_foot=len(self.instances)
+        self.sphere('drummer_HIHAT_FOOT',(-1.05,.22,-2.82),(.20,.095,.30),'#D5E5EF')
         self.kick_beater=len(self.instances)
         self.rod('drummer_KICK_BEATER',(0,.10,-1.94),(0,.45,-1.94),.025,'#C5B592',5)
         self.drum_hits=[];self.drum_contact_proof=[]
