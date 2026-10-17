@@ -142,3 +142,8 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] Added regression proving nested validation is read while synthetic/diagnostic-only media still fails strict showcase acceptance; commit `aab815336b530e5921cf89c8da5c6dd706b2c836`.
 - [ ] P0: Native full-band fixture (`validation/final_band_native_proof.py`) is explicitly authored diagnostic, not original-song transcription. Six sampler native proofs (`validation/six_layout_native_proof.py`) validate cue rendering but exclude soundtrack. Build original-song end-to-end band output, native render, real MP4 with synchronized licensed audio, and evidence manifest; do not set completion flags based on synthetic fixtures.
 - [ ] P0: Re-run strict acceptance with `--require-showcase`; assert genuine original-song provenance and complete-band verification before marking done. Latest native proof run `39058926434` failed correctly for diagnostic-only output.
+
+## 2026-10-17 strict acceptance schema hardening
+- [x] Reject non-object `VALIDATION.json` in strict native-showcase acceptance, even if an MP4 with a non-diagnostic filename exists; fix `e6ca1c39e97f744c600df3a747ef54570774ebc0`, regression `05812e14bdd741ae2c84082fc92ff03949a81d6c`.
+- [ ] Verify new regression on latest CI run; previous latest run at `ab1f92f` had queued/in-progress jobs when inspected.
+- [ ] P0: genuine original-song and native full-band showcase output/validation still not produced. Do not claim release readiness based on format acceptance tests.
