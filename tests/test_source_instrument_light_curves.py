@@ -1,5 +1,6 @@
 """Source-note lighting regressions; no xLights executable needed."""
 from types import SimpleNamespace
+import pytest
 import numpy as np
 from tools.build_spatial_review import band_curves, _note_curves
 
@@ -41,3 +42,9 @@ def test_only_routed_guitar_strings_illuminate():
     for j in range(6):
         np.testing.assert_allclose(result[f"STRING_{j}"],
             [0,.75 if j in (1,4) else 0,0])
+
+
+def test_rejects_invalid_note_velocity():
+    for velocity in (float('nan'), -0.1, 1.1):
+        with pytest.raises(ValueError):
+            _note_curves([SimpleNamespace(start=0,end=.1,pitch=60,velocity=velocity)],3)
