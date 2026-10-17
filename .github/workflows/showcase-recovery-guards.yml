@@ -2,6 +2,12 @@ name: Showcase recovery guards
 on:
   pull_request:
     paths:
+      - 'tools/build_spatial_review.py'
+      - 'tools/native_source_pose_band.py'
+      - 'tests/test_source_instrument_light_curves.py'
+      - 'tests/test_hihat_foot_pose.py'
+      - 'tests/test_keyboard_orientation.py'
+      - 'tests/test_native_instrument_channel_ownership.py'
       - 'tools/audit_showcase_artifacts.py'
       - 'tools/verify_showcase_audio_identity.py'
       - 'tools/verify_native_proof_archive.py'
