@@ -48,3 +48,15 @@ def test_rejects_invalid_note_velocity():
     for velocity in (float('nan'), -0.1, 1.1):
         with pytest.raises(ValueError):
             _note_curves([SimpleNamespace(start=0,end=.1,pitch=60,velocity=velocity)],3)
+
+
+@pytest.mark.parametrize("values",[
+    {"start":float("nan")}, {"end":float("inf")},
+    {"start":-.1}, {"end":0},
+    {"pitch":-1}, {"pitch":128}, {"pitch":60.5},
+])
+def test_rejects_invalid_note_timing_and_pitch(values):
+    event={"start":0,"end":.1,"pitch":60,"velocity":.7}
+    event.update(values)
+    with pytest.raises(ValueError):
+        _note_curves([SimpleNamespace(**event)],3)
