@@ -42,7 +42,8 @@ def test_sparse_zlib_blocks_expand_to_physical_channels(tmp_path):
     header[:4] = b"PSEQ"
     struct.pack_into("<H", header, 4, 46)
     header[6:8] = bytes([2, 2])
-    struct.pack_into("<II", header, 10, 3, 3)
+    # Native header stores the packed width, not the expanded channel span.
+    struct.pack_into("<II", header, 10, 1, 3)
     header[18] = 50
     header[20:23] = bytes([2, 1, 1])
     compressed = zlib.compress(bytes([255, 0, 128]))
@@ -52,9 +53,33 @@ def test_sparse_zlib_blocks_expand_to_physical_channels(tmp_path):
     # Native v2.2 can append embedded layout/sequence data after the blocks.
     path.write_bytes(header + compressed + b"embedded metadata")
     data, channels, frames, step = read_frames(path)
-    assert (channels, frames, step) == (3, 3, 50)
-    assert data == bytes([0, 255, 0, 0, 0, 0, 0, 128, 0])
+    assert (channels, frames, step) == (2, 3, 50)
+    assert data == bytes([0, 255, 0, 0, 0, 128])
     assert inspect_fseq(path)["nonzero_samples"] == 2
+
+
+def test_sparse_destination_beyond_packed_width_and_expansion_guard(tmp_path, monkeypatch):
+    from tools.quality import native
+    header = bytearray(46)
+    header[:4] = b'PSEQ'
+    struct.pack_into('<H', header, 4, 46)
+    header[6:8] = bytes([2, 2])
+    struct.pack_into('<II', header, 10, 1, 2)
+    header[18] = 25
+    header[20:23] = bytes([2, 1, 1])
+    compressed = zlib.compress(bytes([100, 200]))
+    struct.pack_into('<II', header, 32, 0, len(compressed))
+    header[40:46] = bytes([5, 0, 0, 1, 0, 0])
+    path = tmp_path/'standalone.fseq'
+    path.write_bytes(header + compressed)
+    data, channels, frames, step = read_frames(path)
+    assert (channels, frames, step) == (6, 2, 25)
+    assert data == bytes([0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 200])
+    monkeypatch.setattr(native, 'MAX_BYTES', 64)
+    header[40:43] = bytes([200, 0, 0])
+    path.write_bytes(header + compressed)
+    with pytest.raises(ValueError, match='expanded sparse'):
+        read_frames(path)
 
 
 @pytest.mark.parametrize("payload", [

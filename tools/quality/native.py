@@ -86,12 +86,16 @@ def read_frames(path: Path) -> tuple[bytes, int, int, int]:
                                32 + count * 8 + sparse_count * 6, 6)
             ]
             packed_channels = sum(n for _, n in ranges)
-            if (packed_channels > channels
+            # Native V2 header channel count is the packed width; sparse
+            # destinations may start beyond that width (standalone models).
+            if (packed_channels != channels
                     or any(n == 0 for _, n in ranges)
-                    or any(a + n > channels for a, n in ranges)
                     or any(a + n > b for (a, n), (b, _) in
                            zip(ranges, ranges[1:]))):
                 raise ValueError("Invalid FSEQ sparse ranges")
+            channels = max(a + n for a, n in ranges)
+            if channels * frames > MAX_BYTES:
+                raise ValueError("Invalid or oversized expanded sparse dimensions")
         if compression == 0:
             data = _decode(raw[offset:offset + packed_channels * frames], 0,
                            packed_channels * frames)

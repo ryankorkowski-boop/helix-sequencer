@@ -107,6 +107,7 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50):
             for j,state in members:curve=np.maximum(curve,(selections[j]==state)*.90)
             cues[m.name][part]=curve
         mnew=new.custom(m.name,points,m.zone,m.design,colors,subs,details={**m.details,'pose_method':'native source-timed RGB pose banks','ac16_compatible':False})
+        mnew.children=copy.deepcopy(m.children)
         mnew.attrs.update(PixelSize='4',Antialias='0',BlackTransparency='100',HelixOutputMode='pixel')
     if len(new.models)!=7 or len({m.name for m in new.models})!=7 or sum(m.channels for m in new.models)>250000:
         raise ValueError('Invalid seven-model or bounded RGB channel contract')
