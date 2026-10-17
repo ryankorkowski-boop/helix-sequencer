@@ -129,3 +129,10 @@ Each milestone records code, tests, and native validation separately. A committe
 - [ ] P0: Helix CI previously failed at SHA `c006d94`; inspect latest job logs after run completion and resolve remaining errors.
 - [ ] P1: Reconcile PR #173 stage-address/original-audio fixes with PR #172 before integration; preserve release approval hold.
 - [ ] FUTURE/APPROVAL-GATED: Issue #154 and dependencies #155-166 remain pending owner authorization.
+
+## 2026-10-17 verified CI inventory evidence (run 39058926422)
+- [x] Showcase recovery guards passed at `55f3d752848919c6eecaf75294045595e7a9afd2` and uploaded `snowman-band-wiring-inventories` artifact ID `12110586721`.
+- [x] Inspected generated JSON inside artifact. **Pixel addressable node counts:** drummer 5,607 (10 submodels); bass 4,771 (10); guitar 5,471 (12); piano 3,143 (43); xylophone 5,371 (55); lead 2,987 (16); harmony 2,987 (16).
+- [x] **AC logical circuit counts:** drummer 10; bass 9; guitar 11; piano 15; xylophone 15; lead 14; harmony 14. These sum to 88 circuits across seven separate models; none exceeds 16 per model. This is not a verified physical bulb count or controller assignment.
+- [ ] P0: Native proof run `39058926434` still failed: `VALIDATION.json` absent and only diagnostic MP4 present; artifact ID `12110742428` is diagnostic evidence, **not** an accepted musical showcase. Complete original-song native render and acceptance.
+- [ ] P0: Confirm current Helix CI full regression audit passes at or after `55f3d752`; status was in progress when checked.
