@@ -84,3 +84,9 @@ Each milestone records code, tests, and native validation separately. A committe
 - [x] CI path filters now include `models/snowman_wiring_inventory.py` and `tests/test_snowman_wiring_inventory.py`; dedicated pytest step added in `.github/workflows/showcase-recovery-guards.yml`; commit `67fc653d8d960d1afd41c410fc67535bb428a1fa`.
 - [ ] Workflow lookup for that commit returned zero runs; do not represent the suite as passing.
 - [ ] Produce actual Pixel_Band and AC16_Band inventories, inspect counts and exported xmodels, then review CTB16PC physical strand plan with verified wiring values.
+
+## 2026-10-17 standalone snowman inventory generator
+- [x] Implemented `python -m tools.export_snowman_band_inventory --output-dir build/snowman_wiring`; generates independent `pixel/` and `ac16/` JSON/CSV inventories from native seven-snowman geometry without requiring song/audio. Commit `abddb5eaa5dc4d80c477352f6a75118a687a36cc`.
+- [x] Added command path to showcase CI workflow filters; commit `d2b967933377738c3d2aacd7cb1761606aecb4ec`.
+- [ ] Execute standalone command in environment with Helix dependencies and inspect actual generated counts and xmodels. No execution/CI pass verified in this session.
+- [ ] Physical AC bulb-per-strand values, LOR Unit IDs and circuits must come from inspected wiring, not generated geometry.
