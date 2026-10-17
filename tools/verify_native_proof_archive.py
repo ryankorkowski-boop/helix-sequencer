@@ -64,6 +64,9 @@ def inspect(archive, require_showcase=False):
                 if not band_verified:
                     failures.append("complete-band verification is not true")
 
+            if not isinstance(validation, dict) and validation_path:
+                failures.append("VALIDATION.json is not a JSON object")
+
             non_diagnostic_mp4s = [
                 n for n in result["mp4s_present"]
                 if "diagnostic" not in n.lower()
