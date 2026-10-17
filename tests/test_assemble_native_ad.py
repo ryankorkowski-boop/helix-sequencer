@@ -1,5 +1,6 @@
 """Regression tests for the review-only native advertisement assembler."""
 import importlib.util
+import hashlib
 import json
 import shutil
 import subprocess
@@ -47,4 +48,28 @@ def test_rejects_audio_free_clip(tmp_path):
     manifest = tmp_path / "manifest.json"
     manifest.write_text(json.dumps({"clips": [{"file": "silent.mp4", "duration": 1}]}))
     with pytest.raises(ValueError, match="soundtrack"):
+        ad.assemble(manifest, tmp_path / "ad.mp4")
+
+def test_rejects_changed_source_before_output_replacement(tmp_path):
+    source = tmp_path / "clip.mp4"
+    source.write_bytes(b"tampered source")
+    output = tmp_path / "ad.mp4"
+    output.write_bytes(b"existing approved video")
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text(json.dumps({"clips": [
+        {"file": "clip.mp4", "duration": 1, "sha256": "0" * 64}
+    ]}))
+    with pytest.raises(ValueError, match="SHA256 mismatch"):
+        ad.assemble(manifest, output)
+    assert output.read_bytes() == b"existing approved video"
+
+
+def test_rejects_malformed_source_hash(tmp_path):
+    source = tmp_path / "clip.mp4"
+    source.write_bytes(b"media")
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text(json.dumps({"clips": [
+        {"file": "clip.mp4", "duration": 1, "sha256": "not-a-hash"}
+    ]}))
+    with pytest.raises(ValueError, match="Invalid source SHA256"):
         ad.assemble(manifest, tmp_path / "ad.mp4")
