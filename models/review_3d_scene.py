@@ -49,7 +49,7 @@ class Review3DScene(ReviewSnowmanScene):
     def update_drummer(self,time):
         contacts=[]
         for side,rig in self.drummer_rigs.items():
-            candidates=[h for h in self.drum_hits if h['target']!='KICK' and h['side']==side and -.10<=time-h['time']<=.18]
+            candidates=[h for h in self.drum_hits if h['target'] not in ('KICK','HI_HAT') and h['side']==side and -.10<=time-h['time']<=.18]
             hit=min(candidates,key=lambda h:abs(h['time']-time)) if candidates else None
             hand=rig['idle'].copy();tip=hand+(0,-.36,.30)
             if hit:
