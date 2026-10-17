@@ -117,6 +117,21 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50):
         delta=np.array(positions[m.details['review_role'].upper()])-np.array([float(old.attrs['WorldPos'+a]) for a in 'XYZ'])
         m.points+=delta
         for j,axis in enumerate('XYZ'):m.attrs['WorldPos'+axis]=str(float(m.attrs['WorldPos'+axis])+delta[j])
+    # Native pixel keys and strings must have actual, disjoint addressable nodes.
+    # AC16 pitch-class aliases are a separate deliberately reduced-resolution export.
+    for model in new.models:
+        role=model.details['review_role']
+        prefix='NOTE_MIDI_' if role in ('piano','xylophone') else 'STRING_' if role in ('bass','guitar') else None
+        if prefix is None:continue
+        parts={name:set(ids) for name,ids in model.submodels.items() if name.startswith(prefix)}
+        if not parts or any(not ids for ids in parts.values()):
+            raise ValueError(f'{role}: missing independently addressable {prefix} submodels')
+        claimed=set()
+        for name,ids in parts.items():
+            if claimed.intersection(ids):raise ValueError(f'{role}: overlapping native channels for {name}')
+            claimed.update(ids)
+        if max(claimed)>model.channels:
+            raise ValueError(f'{role}: key/string node outside allocated pixel channel range')
     allocate(new);output.mkdir(parents=True);(output/'media').mkdir();shutil.copy2(audio,output/'media/audio.wav')
     write_layout(new,output,include_demo=False,export_all_custom=True)
     import xml.etree.ElementTree as ET
