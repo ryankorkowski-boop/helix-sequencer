@@ -59,3 +59,9 @@ Each milestone records code, tests, and native validation separately. A committe
 **Environment limitation:** This session can read/write GitHub via connector but has not checked out and run this repository's tests or native xLights/LOR applications. GitHub commits are real; test success and native import are unverified.
 
 **Resume protocol:** Read this file, `docs/SHOWCASE_REMAINING_WORK_20261017.md`, PR #172, latest branch commits, and CI runs; preserve all newer work. Update this document after each meaningful implementation/test milestone, with exact SHA and failures. If blocked or time expires, commit a complete checkpoint with next command and unresolved tasks.
+
+## 2026-10-17 continuation checkpoint
+- [x] Protect preexisting LMS validation sidecar from overwrite or failure cleanup: `tools/dual_format_export.py`, commit `e1d621bb3bc508cc02b76f541c5b8450b65ebd5d`.
+- [x] Add regression test for sidecar preservation: `tests/test_dual_format_export.py`, commit `9d0e163bec00b192a97fd2adcedc4d32c1eb112f`.
+- [ ] Tests not executed locally or confirmed passing by CI in this session. Next: `python -m pytest -q tests/test_dual_format_export.py tests/test_show_export_request.py tests/test_gui_export_selector_contract.py`.
+- [ ] Main Run Sequence Build still does not automatically export Both. Inspect actual generated XSQ path and supported effects before wiring conversion; require verified controller mapping.
