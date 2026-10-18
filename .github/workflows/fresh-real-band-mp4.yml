@@ -60,7 +60,7 @@ jobs:
       - name: Fetch authentic hardKor E14 source + retained analysis (no fabricated events)
         run: |
           mkdir -p "$RUNNER_TEMP/real-source"
-          python -m gdown --id "$ARCHIVE_ID" -O "$RUNNER_TEMP/original.zip"
+          python -m gdown "$ARCHIVE_ID" -O "$RUNNER_TEMP/original.zip"
           echo "$ARCHIVE_SHA256  $RUNNER_TEMP/original.zip" | sha256sum -c -
           python - <<'PY'
           import os,json,zipfile,hashlib
