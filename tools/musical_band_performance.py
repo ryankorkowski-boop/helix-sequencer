@@ -63,20 +63,35 @@ class MusicalBandPerformance(RefinedPerformance):
         for side in ('left','right'):
             rig=next(r for r in self.scene.rigs if r['role']=='piano' and r['side']==side)
             targets=[];pitches=[]
+            last_pitch=None
+            last_change_frame=-100
             for i,notes in enumerate(held):
                 keys=sorted(set(key_pitch(int(x)) for x in notes if x>=0))
                 spread=bool(keys and keys[-1]-keys[0]>=3)
                 hand=rig['hand'].copy();pitch=None
                 if keys and (spread or side==('left' if keys[0]<66 else 'right')):
-                    pitch=keys[0] if side=='left' else keys[-1]
-                    # The mitten bottom contacts the actual depressed key top.
-                    gain=max(float(v) for n,v in zip(notes,velocity[i]) if n>=0 and key_pitch(int(n))==pitch)
-                    hand=self.key_centers[pitch]+(0,.110-.020*gain,.065)
+                    selected=keys[0] if side=='left' else keys[-1]
+                    # A mixed-song estimate can change note identity every 50ms.
+                    # Keys still display their source timing; hands only attempt
+                    # plausible, sustained notes instead of chasing every bin.
+                    if selected==last_pitch:
+                        pitch=selected
+                    elif i-last_change_frame>=5 and (
+                        last_pitch is None or abs(selected-last_pitch)<=12):
+                        pitch=selected
+                        last_pitch=selected
+                        last_change_frame=i
+                    else:
+                        pitch=None
+                    if pitch is not None:
+                        gain=max((float(v) for n,v in zip(notes,velocity[i])
+                                  if n>=0 and key_pitch(int(n))==pitch),default=0.)
+                        hand=self.key_centers[pitch]+(0,.110-.020*gain,.065)
                 targets.append(hand);pitches.append(pitch)
             anticipated=transition_targets(targets,seconds=.10,preserve_changes=True)
             self.key_hand_targets[side]=constrained_keyboard_wrist_lane(
                 anticipated,rig['hand'],rig['shoulder'],
-                rig.get('link_lengths',(.80,.78)),side=side,max_step=.13)
+                rig.get('link_lengths',(.80,.78)),side=side,max_step=.045)
             # A source key can light while the arm is traveling. Never claim
             # mitten contact on an unreachable or too-fast jump.
             self.key_assignments[side]=[
@@ -97,9 +112,6 @@ class MusicalBandPerformance(RefinedPerformance):
                 hand=rig['hand']+(gain*.10,gain*.35,0)
             else:continue
             shoulder=rig['shoulder']
-            if kind=='piano':
-                shoulder=shoulder+(.075*self.curves['piano_energy'][i]*np.sin(i/20*3.7),
-                    .048*self.curves['piano_energy'][i]*np.exp(-self.curves['piano_phase'][i]*4),0)
             lengths=rig.get('link_lengths',(.52,.50) if kind in ('lead','harmony') else (.80,.78))
             elbow=elbow_3d(shoulder,hand,*lengths,(-.8 if side in ('left','pluck') else .8,-.2,.8))
             a,b,c=rig['ids'];self.scene.instances[a]['matrix']=line_matrix(shoulder,elbow,.046)
