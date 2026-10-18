@@ -68,7 +68,15 @@ class Review3DScene(ReviewSnowmanScene):
                 h=dict(h,side='left' if target.endswith('LEFT') else 'right')
                 target='SNARE'
             if target not in self.drum_centers:continue
-            self.drum_hits.append(dict(h,target=target,source_time=h['time'],time=round(h['time']*20)/20))
+            # Keep original source component and timing, but do not animate
+            # physically impossible cross-body strikes on extreme toms/cymbals.
+            source_side=h.get('side')
+            natural_side=('left' if target in ('CYMBAL_LEFT','TOM_FLOOR','TOM_MID')
+                          else 'right' if target in ('CYMBAL_RIGHT','TOM_HIGH')
+                          else source_side)
+            self.drum_hits.append(dict(h,target=target,source_side=source_side,
+                side=natural_side,visual_side_reassigned=(source_side!=natural_side),
+                source_time=h['time'],time=round(h['time']*20)/20))
 
     def update_drummer(self,time):
         contacts=[]
@@ -80,6 +88,13 @@ class Review3DScene(ReviewSnowmanScene):
                 age=time-hit['time'];contact=self.drum_centers[hit['target']]
                 lift=.42*min(1,abs(age)/(.10 if age<0 else .18))
                 tip=contact+(0,lift,0);hand=tip+(0,.36,-.30)
+                # The far cymbals lie outside a mitten's default vertical
+                # striking line. Angle the stick toward the cymbal while
+                # keeping the arm itself within the fixed two-link reach.
+                reach=hand-rig['shoulder']
+                distance=float(np.linalg.norm(reach))
+                if distance>1.68:
+                    hand-=reach*((distance-1.68)/distance)
                 if abs(age)<1e-7:contacts.append(dict(target=hit['target'],side=side,time=time,
                     source_time=hit['source_time'],error=float(np.linalg.norm(tip-contact))))
             elbow=elbow_3d(rig['shoulder'],hand,.91,.89,(-.9 if side=='left' else .9,0,.5))
