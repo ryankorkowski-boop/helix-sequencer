@@ -1,3 +1,10 @@
+## 2026-10-18 — Language fixture report serialization guard
+
+Ensure the actual-model fixture report is strict JSON, without literal trailing
+escape text or NaN values. Model inference, expected labels and gate thresholds
+are unchanged. Language fixture execution remains pending; native proofs and
+all existing release/artist gates retain their prior states.
+
 ## 2026-10-18 — Contextual model executed and native two-song proof passed
 
 Commit 7f2062074798bd59cadbf82430874864dbc67061 passed 127 focused tests,

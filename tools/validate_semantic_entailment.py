@@ -23,7 +23,7 @@ def main():
     payload=dict(schema='helix.semantic_language_fixtures.v1',model=model.identity,
                  cases=result,passed=all(r['passed'] for r in result),
                  limitation='Six authored English examples, not independent song/metaphor/irony calibration.')
-    Path('semantic_language_fixtures.json').write_text(json.dumps(payload,indent=2)+'\\n')
+    Path('semantic_language_fixtures.json').write_text(json.dumps(payload,indent=2,allow_nan=False))
     print(json.dumps(payload),flush=True)
     if not payload['passed']:raise SystemExit('Semantic language fixture gate failed')
 if __name__=='__main__':main()
