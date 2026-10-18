@@ -133,7 +133,13 @@ jobs:
           tree.write(path,encoding='utf-8',xml_declaration=True)
           print('Native preview uses 7x stage review framing; source instruments, original notes, and playback channels unchanged')
           PY
-          python -m tools.verify_showcase_audio_identity review/show/media/audio.wav "$AUDIO_SHA256" --report review/source-identity.json
+          python - <<'PY'
+          import hashlib,os
+          from pathlib import Path
+          audio=Path('review/show/media/audio.wav')
+          if hashlib.sha256(audio.read_bytes()).hexdigest()!=os.environ['AUDIO_SHA256']:
+              raise SystemExit('Recovered audio SHA256 mismatch')
+          PY
           python - <<'PY'
           import json,os
           from pathlib import Path
