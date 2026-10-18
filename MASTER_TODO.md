@@ -1,3 +1,108 @@
+## 2026-10-15 — Drive-based 40-video review collection delivered for review
+
+Goal: produce 12 standalone, eight embedded-band, ten six-layout and ten vocal
+review MP4s, each 30–42 seconds. Branch `codex/showcase-review-20261015` starts at
+PR150 `63d158f`; no final release merge, approved public EXE/APK release or approval inferred.
+Changed modules: `tools/showcase_excerpt_rank.py` and this ledger; subsequent
+production/validation modules and final receipts will be recorded here.
+Preserve all source audio/Drive organization, existing engine modes, physical
+CTB16PC/LOR contracts, native layouts, GUI/Android and unfinished branches.
+
+- [x] Read AGENTS/roadmap and PR146–150 metadata, issue143/144, recent commits,
+  latest successful native/Windows/Android/full-CI runs at exact PR150 head.
+- [x] Download all 91 Drive audio entries (three nested folders), verify byte
+  counts against inventory; read user-authored permission covering video use.
+- [x] Implement repeatable 36s window ranking over every recording using onset
+  density, spectral-band activity/diversity, chroma motion, contrast and stereo
+  width; record byte/decoded PCM hashes and chroma fingerprint comparisons.
+- [x] Analyze selected clips with source-bound instrument/vocal estimates.
+- [x] First fresh-source render exposed a real integration defect: the drummer
+  review decoder required EffectDB references although the current injector
+  emits inline settings. Accept both representations in
+  `models/drummer_review_schedule.py`; equivalent native/inline schedule
+  regression in `tests/test_drummer_review_schedule.py`. Preserve all cue timing,
+  velocity, hand assignment and rejection behavior; malformed refs fail clearly.
+- [x] Analyze 22 initial 36s selections using actual htdemucs_6s stems, existing
+  harmonic-note/playable-string/unified-mallet modules and pinned ADTOF weights.
+  Unknown tom identity abstains; one mixed vocal bus does not fabricate singers.
+- [x] Native xLights2026.18 first six-layout set renders all 720 frames per show;
+  every RGB prop activates and controls remain dark. New production tools:
+  `showcase_source_analysis`, `showcase_vocal_alignment`, `showcase_review_bands`,
+  `showcase_review_native`, `showcase_review_layouts`. Exact receipts live beside
+  generated outputs until the final summary is committed.
+- [x] Add explicit camera angles to `NativeSongView`, preserving the old defaults.
+  New foreground stages use the appropriate front perspective; remove duplicate
+  base captions in the new compositor before native lights are drawn. Add
+  source/activity, hallucinated-lyric and camera/channel preservation regressions.
+- [x] Vocal eligibility refinement: replace the initially instrumental-heavy
+  Ghost window with its next-ranked passage; replace the wordless Audio In
+  Lights Out test hook with the high-activity Wire Tree lyric passage. Preserve
+  initial choices/reasons in the selection manifest; rebind all changed stems.
+- [x] Audit found stale MIT-only generated-output credit after the prior
+  PolyForm transition. Update `core/output_provenance.py` to the current project
+  policy while retaining historical/third-party rights and separate music rights.
+  Add opt-in terminal Helix notice refresh, preserving every media byte/offset;
+  focused regression verifies idempotence and policy. No third-party licenses,
+  historical source grants, controller channels or audiovisual timing changed.
+- [x] Closeup review found wire-mask offsets left solid singer mouths/noses
+  detached from their heads. Re-anchor only final solid faces to head-relative
+  coordinates in `models/final_band_scene.py`; preserve voice shapes/timing,
+  guitar geometry, old wire scenes and physical channel contracts. Restore the
+  established visible-lip material level in solo views. New face attachment
+  regression and native export/camera/provenance checks pass17tests. Regenerate
+  all affected movies and eight native band-bearing layouts before delivery.
+- [x] Full local pre-face-correction regression: 1,567 passed / five missing
+  `2.wav` skips / 36 warnings in254.03s; JUnit retained with production evidence.
+  Final exact-source regression and all movie checks remain required below.
+- [x] Publish isolated review implementation as draft PR151 at
+  `2e2e1b7cd4801c78730236497d0a970f114da230`; remote source tree exactly matches
+  local implementation tree8a9afcf. Source-only review; no default/release merge.
+- [x] Package/validator safeguards: require distinct40movies in exact category
+  counts; bind resumed vocal recognition to source hashes; stream native FSEQ
+  snapshots, reject changed inputs, validate current-generation batches only,
+  preserve media prefix when refreshing notices, and exclude pilot/intermediate
+  images/movies from downloads. Two final embedded views use front-on projection.
+- [x] Restarted renders exposed a shared temporary-filename collision during
+  FFmpeg faststart. Give every band encoder a unique temporary path and move final
+  production into `Helix_Showcase_Review_Final`, reusing only hash-checked audio,
+  analyses and native inputs. Earlier review/pilot outputs are not deliveries.
+  All final movies must complete and independently decode in that isolated root.
+- [x] Profiled review rendering: median pose55.47ms, drummer248.24ms, complete
+  drawing434.64ms under concurrent load. Add an opt-in24-entry static-kit lighting
+  cache in `animation/articulated_source_drummer.py`; arms still recompute at every
+  exact source time. Existing callers/defaults remain uncached. Pixel-equivalence,
+  lighting-change and bounded-memory regressions in `test_drummer_lighting_cache`.
+  Enable only with `HELIX_CACHE_STATIC_KIT=1` after these regressions pass.
+- [x] Render/fully decode all40new distinct MP4s in the isolated final root: 12
+  standalone, eight embedded, ten comparisons, ten vocal. Each36s/720frames/20fps;
+  H.264/AACstereo. Bands720p, layouts1080p. Original-audio window correlation
+  minimum0.996534; zero-offset lag, no unexpected black frames. Inspect all four
+  contact sheets and verify200decoded screenshots. Numerical2,823mallet contacts
+  have zero target error; recorded motion omissions remain available for review.
+- [x] Package four movie ZIPs and two technical ZIPs; verify CRCs and SHA256s.
+  Include60actual xLights2026.18 native shows, 22virtual band exports, original
+  excerpts, fingerprints/rankings, rejected/accepted lyric evidence and reports.
+  Seven of ten vocal movies have reference-corroborated captions; other captions
+  abstain. `Helix_Showcase_Video_Downloads.md` links every actual MP4 and ZIP.
+- [x] Isolated implementation source172fb0804b1b5c2b8eb12923555e70a446c8dace,
+  exact tree07e678915f144558cac67d8e0f2e69aca342f841, draft PR151. Full CI
+  38806290207: Python3.11 and3.12 each1,571passed/five missing-2.wav skips;
+  216.14s/343.55s. Local pre-cache full suite1,568passed; cache focused6passed.
+  Static-kit cache benchmark1.22284x for the drummer layer with identical pixels;
+  production stays uncached. Decoder, face geometry and cache changes are ready
+  for code review. Final receipt: `evidence/showcase_review_20261015/delivery_receipt.json`.
+- [ ] Receive user MP4 corrections/explicit acceptance. Unknown toms, mixed-bus
+  singer identity, approximate phonemes/stock geometry and recorded impossible
+  hand travel remain limitations. No hardware testing claimed. No final-release
+  merge or approved EXE/APK distribution until explicit user video approval.
+
+Selection metrics are spectral proxies, not confirmed instruments. Similar
+fingerprints are review candidates; identical names/sizes alone never deduplicate.
+No claimed physical hardware testing. Risks: source-separation leakage, uncertain
+tom/voice identity, finite 20fps motion sampling, software GL runtime and native
+renderer availability. Earlier sampler-specific work remains open and is not
+silently replaced by this different-source collection.
+
 ## 2026-10-15 — User-supplied six-song sampler ingestion
 
 - [x] Received `Helix_Six_Song_Technical_180s.mp4`, video duration 180.021333 s; AAC audio decoded to 44.1 kHz stereo PCM (180.224014 s including codec padding).

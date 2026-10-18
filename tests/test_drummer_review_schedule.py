@@ -45,3 +45,17 @@ def test_snare_hands_preserve_original_hold_windows(tmp_path):
     light,strikes,hands,proof=decode_review_schedule(fixture(tmp_path),30)
     assert np.array_equal(np.flatnonzero(strikes[:,1]),[2,3,6,7])
     assert not hands[2:4].any() and hands[6:8].all()
+
+
+def test_inline_injector_cues_match_native_reference_schedule(tmp_path):
+    path = fixture(tmp_path)
+    expected = decode_review_schedule(path, 30)
+    tree = ET.parse(path)
+    settings = [e.text for e in tree.findall('./EffectDB/Effect')]
+    for cue in tree.findall('./EffectLayer/Effect'):
+        cue.set('settings', settings[int(cue.attrib.pop('ref'))])
+    tree.write(path)
+    actual = decode_review_schedule(path, 30)
+    for first, second in zip(expected[:3], actual[:3]):
+        assert np.array_equal(first, second)
+    assert expected[3] == actual[3]

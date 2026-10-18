@@ -64,3 +64,18 @@ def test_final_twin_stages_keep_independent_slot_banks():
     banks = [{dst['slot'] for dst, src, world in garden.sources if src['slot'] >= 0 and world[0, 3] == x}
              for x in (-10, 10)]
     assert banks[0] and banks[1] and not banks[0] & banks[1]
+
+
+def test_solid_singer_mouths_attach_to_faces_without_changing_voice_cues():
+    from models.expressive_band_face import update_expressive_mouth
+    for rock in (False, True):
+        scene=FinalBandScene(rock=rock)
+        for role in ('lead','harmony'):
+            head=next(o for o in scene.instances if o['name']==role+'_head')['matrix']
+            ids=scene.expressive_mouths[role];center=ids['center']
+            assert np.allclose(center[:2],head[:2,3]+(0,-.12))
+            assert 0<center[2]-head[2,3]<=np.linalg.norm(head[:3,2])+.01
+            for shape in ('REST','AH','EE','OH','MBP','L'):
+                update_expressive_mouth(scene,role,shape,.8)
+                assert np.allclose(scene.instances[ids['cavity']]['matrix'][:3,3],center)
+                assert scene.instances[ids['lips']]['mouth_shape']==shape
