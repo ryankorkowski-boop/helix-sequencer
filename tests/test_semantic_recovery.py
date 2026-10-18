@@ -231,3 +231,40 @@ def test_semantic_overlap_rejected_without_shifting_source_phrase():
     assert len(result['schedule']) == 1
     assert result['schedule'][0]['start_ms'] == 0
     assert result['rejected'][0]['reason'] == 'overlapping_semantic_phrase'
+
+
+@pytest.mark.parametrize('row,expected', [
+    (dict(start_ms=0,end_ms=250,text='snow',confidence=.9),(0,250)),
+    (dict(start_ms=1500,end_ms=1800,text='snow',confidence=.9),(1500,1800)),
+    (dict(start=0,end=.25,text='snow',confidence=.9),(0,250)),
+])
+def test_provider_explicit_milliseconds_and_zero_seconds_are_preserved(monkeypatch,row,expected):
+    from pathlib import Path
+    from core import audio_intelligence as audio
+    monkeypatch.setattr(audio,'_requests_module',lambda:object())
+    monkeypatch.setattr(audio,'_http_json',lambda *a,**k:dict(events=[row]))
+    events=audio._try_moises_lyrics(Path('source.wav'),'fixture_key')
+    assert len(events)==1
+    assert (events[0].start_ms,events[0].end_ms)==expected
+    assert events[0].timing_level=='phrase'
+
+
+@pytest.mark.parametrize('confidence',[None,0,float('nan')])
+def test_provider_missing_or_zero_confidence_never_becomes_trusted_text(monkeypatch,confidence):
+    from pathlib import Path
+    from core import audio_intelligence as audio
+    row=dict(start_ms=0,end_ms=250,text='snow',confidence=confidence)
+    monkeypatch.setattr(audio,'_requests_module',lambda:object())
+    monkeypatch.setattr(audio,'_http_json',lambda *a,**k:dict(events=[row]))
+    events=audio._try_moises_lyrics(Path('source.wav'),'fixture_key')
+    assert events[0].confidence==0 and events[0].text=='' and not events[0].intelligible
+
+
+def test_unscored_provider_can_fall_back_to_real_recognizer(monkeypatch):
+    from pathlib import Path
+    from core import audio_intelligence as audio
+    unknown=audio.LyricEvent(0,100,'',0,intelligible=False)
+    recognized=audio.LyricEvent(100,250,'snow',.9)
+    monkeypatch.setattr(audio,'_try_moises_lyrics',lambda *a,**k:[unknown])
+    monkeypatch.setattr(audio,'_try_whisper_lyrics',lambda *a,**k:[recognized])
+    assert audio.extract_lyrics_events(Path('source.wav'),True,'fixture_key')==[recognized]

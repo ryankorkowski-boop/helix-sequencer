@@ -979,21 +979,27 @@ def _try_moises_lyrics(
         current = queue.pop(0)
         if isinstance(current, dict):
             text = current.get("text")
-            start = current.get("start") or current.get("startTime") or current.get("start_ms")
-            end = current.get("end") or current.get("endTime") or current.get("end_ms")
+            explicit_ms = current.get("start_ms") is not None and current.get("end_ms") is not None
+            if explicit_ms:
+                start, end = current["start_ms"], current["end_ms"]
+            else:
+                start = current.get("start", current.get("startTime"))
+                end = current.get("end", current.get("endTime"))
             if isinstance(text, str) and start is not None and end is not None:
                 try:
-                    st = int(round(float(start) * (1000.0 if float(start) < 10000 else 1.0)))
-                    en = int(round(float(end) * (1000.0 if float(end) < 10000 else 1.0)))
-                except Exception:
+                    scale = 1.0 if explicit_ms else 1000.0
+                    st, en = int(round(float(start)*scale)), int(round(float(end)*scale))
+                except (TypeError, ValueError, OverflowError):
                     st, en = 0, 0
-                if en > st and text.strip():
-                    conf = current.get("confidence") or current.get("score") or 0.76
-                    try:
-                        confidence = max(0.0, min(1.0, float(conf)))
-                    except Exception:
-                        confidence = 0.76
-                    events.append(LyricEvent(start_ms=st, end_ms=en, text=text.strip(), confidence=confidence))
+                if st >= 0 and en > st and text.strip():
+                    from core.lyric_evidence import probability
+                    confidence = probability(current.get("confidence", current.get("score", 0)))
+                    reliable = confidence >= .65
+                    events.append(LyricEvent(start_ms=st, end_ms=en,
+                        text=text.strip() if reliable else "", confidence=confidence,
+                        source="moises_transcription", timing_level="phrase",
+                        intelligible=reliable,
+                        reason="" if reliable else "missing_or_low_provider_confidence"))
             queue.extend(current.values())
         elif isinstance(current, list):
             queue.extend(current)
@@ -1011,9 +1017,11 @@ def extract_lyrics_events(
     if use_moises and api_key:
         _log(log_fn, "Lyrics: attempting Moises transcription.")
         events = _try_moises_lyrics(audio_path, api_key, log_fn)
-    if not events:
+    if not any(e.intelligible and e.text.strip() and e.confidence >= .65 for e in events):
         _log(log_fn, "Lyrics: using Whisper fallback transcription.")
-        events = _try_whisper_lyrics(audio_path, log_fn)
+        recognized = _try_whisper_lyrics(audio_path, log_fn)
+        if recognized:
+            events = recognized
     if events:
         events.sort(key=lambda e: (e.start_ms, e.end_ms))
     return events

@@ -5,13 +5,11 @@ scored against both its source passage and neighbouring narrative context.
 Model probabilities are uncalibrated evidence, not objective emotional truth.
 """
 from __future__ import annotations
-from collections import Counter
 from copy import deepcopy
 import math
 import os
 
 from core.lyric_evidence import probability
-from core.semantic_story import MOTION
 
 MODEL = 'cross-encoder/nli-deberta-v3-small'
 REVISION = 'fa2804872c3b4bd748f38c0185cc85775361e735'
@@ -91,67 +89,33 @@ def enrich(story, scorer):
     scores=scorer.score(premises,hypotheses)
     if len(scores)!=len(premises) or not all(_valid_score(s) for s in scores):
         raise ValueError('Malformed entailment probabilities; semantic fallback required')
-    motifs={};previous=None;counts=Counter()
+    # Actual-model validation found unsupported fear/travel hypotheses for
+    # ordinary snow/reconciliation text. Keep all NLI output in review metadata.
+    # No model probability alone can alter production concepts, emotion or motifs.
     for index,phrase in enumerate(phrases):
         base=index*len(keys)*2
         focus=dict(zip(keys,scores[base:base+len(keys)]))
         context=dict(zip(keys,scores[base+len(keys):base+2*len(keys)]))
         evidence={}
+        candidates=[]
         for key in keys:
             f,c=focus[key],context[key]
-            accepted=(f['entailment']>=.55 and c['entailment']>=.80
+            proposed=(f['entailment']>=.55 and c['entailment']>=.80
                       and c['contradiction']<=.10 and c['entailment']-c['neutral']>=.25)
-            evidence[key]=dict(focus=f,context=c,accepted=accepted,hypothesis=HYPOTHESES[key])
-        ironic=evidence['irony']['accepted']
-        concepts=[]
-        for key in keys[:11]:
-            if evidence[key]['accepted'] and not ironic:
-                concepts.append(dict(name=key,confidence=min(phrase['confidence'],.8*context[key]['entailment']),
-                                     evidence=[phrase['text']],evidence_kind='contextual_entailment_hypothesis'))
-        emotion=phrase['emotion']
-        positive=context['positive_emotion']['entailment'] if focus['positive_emotion']['entailment']>=.5 else 0
-        negative=context['negative_emotion']['entailment'] if focus['negative_emotion']['entailment']>=.5 else 0
-        affect=max(positive,negative)
-        if affect>=.70:
-            emotion['valence']=round((positive-negative)/max(1,positive+negative),4)
-            emotion['confidence']['valence']=round(min(phrase['confidence'],affect*.75),4)
-            emotion['provenance']['valence']='contextual_nli_hypothesis'
-        if positive>.6 and negative>.6:
-            phrase['uncertainty'].append('conflicting_contextual_emotions')
-            emotion['confidence']['valence']*=.5
-        if ironic:
-            phrase['uncertainty'].append('possible_irony_unresolved')
-            emotion['confidence']['valence']*=.5
-        if not concepts and affect>=.85 and not ironic:
-            concepts.append(dict(name='emotional_transition',confidence=min(phrase['confidence'],affect*.8),
-                                 evidence=[phrase['text']],evidence_kind='contextual_emotion_hypothesis'))
-        valence=emotion['valence']
-        recurrences=[]
-        for concept in concepts:
-            name=concept['name'];counts[name]+=1
-            import hashlib
-            motif=motifs.setdefault(name,dict(id='motif_'+hashlib.sha256(name.encode()).hexdigest()[:10],occurrences=[]))
-            occurrences=motif['occurrences']
-            phase='introduce' if not occurrences else 'transform' if abs(valence-occurrences[-1]['valence'])>=.35 else 'return'
-            occurrences.append(dict(start_ms=phrase['start_ms'],end_ms=phrase['end_ms'],
-                                   valence=valence,phase=phase,phrase_key=phrase['text'].lower()))
-            recurrences.append(dict(id=motif['id'],concept=name,occurrence=len(occurrences),phase=phase))
-        phrase['concepts']=concepts
-        phrase['motifs']=recurrences
-        phrase['narrative']=('opening' if previous is None else 'resolution' if previous<-.15 and valence>.15
-                             else 'reversal' if previous>.15 and valence<-.15 else 'development')
-        if emotion['confidence']['valence']>.3:previous=valence
-        phrase['provenance']='contextual_nli_with_focus_and_neighbour_evidence'
+            evidence[key]=dict(focus=f,context=c,accepted=False,proposed=proposed,
+                blocked_reason='uncalibrated_model_requires_independent_review',
+                hypothesis=HYPOTHESES[key])
+            if proposed:
+                candidates.append(dict(name=key,confidence=min(phrase['confidence'],.8*c['entailment']),
+                    evidence=[phrase['text']],evidence_kind='unreviewed_contextual_hypothesis'))
+        phrase['semantic_candidates']=candidates
         phrase['semantic_evidence']=evidence
-        phrase['interpretation_status']='model_hypothesis_requires_review'
-    out['motifs']=motifs
-    out['global_themes']=dict(counts)
-    out['semantic_backend']={**scorer.identity,'status':'inferred','passage_count':len(phrases),
+        phrase['interpretation_status']='rules_preserved_model_candidates_quarantined'
+    out['semantic_backend']={**scorer.identity,'status':'review_only','passage_count':len(phrases),
         'focus_entailment_min':.55,'context_entailment_min':.80,
-        'context_contradiction_max':.10,'source_words_modified':False}
-    out['limitations']=['Contextual NLI is not calibrated on singing, metaphor, humour or irony.',
-        'Every meaning/emotion remains a hypothesis; no unknown lyric text is generated.',
-        'Neighbouring context is bounded; whole-song motifs and emotional progression retain state.']
+        'context_contradiction_max':.10,'source_words_modified':False,
+        'production_direction_modified':False,
+        'reason':'Actual-model fixtures exposed unsupported fear/travel and missed contextual metaphor.'}
     return out
 
 

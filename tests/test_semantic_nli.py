@@ -27,13 +27,14 @@ class Scorer:
         return result
 
 
-def test_contextual_hypothesis_can_support_meaning_without_literal_lexicon_hit():
+def test_uncalibrated_contextual_hypothesis_is_quarantined_without_literal_evidence():
     source=story()
     assert not source['phrases'][0]['concepts']
     result=enrich(source,Scorer())
-    assert [c['name'] for c in result['phrases'][0]['concepts']]==['connection']
-    assert result['phrases'][0]['concepts'][0]['evidence']==[source['phrases'][0]['text']]
-    assert direct(result)['intents'][0]['event_type']=='semantic_connection'
+    assert not result['phrases'][0]['concepts']
+    assert result['phrases'][0]['semantic_candidates'][0]['name']=='connection'
+    assert not direct(result)['intents']
+    assert result['semantic_backend']['production_direction_modified'] is False
 
 
 def test_neighbour_alone_cannot_trigger_current_passage_effect():
@@ -53,7 +54,7 @@ def test_source_text_and_timing_preserved_and_input_not_mutated():
 
 def test_possible_irony_abstains_on_literal_imagery():
     result=enrich(story(),Scorer(enabled=('connection','irony')))
-    assert 'possible_irony_unresolved' in result['phrases'][0]['uncertainty']
+    assert any(c['name']=='irony' for c in result['phrases'][0]['semantic_candidates'])
     assert not direct(result)['intents']
 
 
@@ -110,3 +111,14 @@ def test_pitch_normalization_has_linear_scan_budget_and_preserves_known_events(m
     assert calls==[(3,5)]
     assert sorted((n.timestamp_ms,n.duration_ms,n.midi_note) for n in notes)==[(0,130,60),(100,230,64),(300,80,60)]
     assert [r['midi_note'] for r in raw]==[60,60,64,64,60]
+
+
+def test_actual_observed_spurious_model_hypotheses_cannot_change_production_direction():
+    source=story('Snow is falling and frost covers the windows.')
+    original=direct(source)
+    result=enrich(source,Scorer(enabled=('winter','fear','travel','negative_emotion')))
+    assert {'fear','travel'} <= {c['name'] for c in result['phrases'][0]['semantic_candidates']}
+    assert direct(result)==original
+    assert result['phrases'][0]['emotion']==source['phrases'][0]['emotion']
+    assert result['motifs']==source['motifs']
+    assert all(not e['accepted'] for e in result['phrases'][0]['semantic_evidence'].values())

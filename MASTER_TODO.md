@@ -1,3 +1,26 @@
+## 2026-10-18 — Fail closed on actual model errors; preserve provider evidence
+
+Goal: close unsupported-semantic and transcription unit/confidence gaps before release.
+Changed core/audio_intelligence.py, core/semantic_nli.py and their tests.
+Preserved original instrumental timing, recovered rule concepts, emotion, motifs,
+source text and source clocks. New provider parsing honors explicit millisecond
+keys (including zero), treats unscored/zero/nonfinite confidence as unknown,
+keeps untimed provider phrases as phrases, and attempts the real ASR fallback.
+
+Actual model run 39162615351 failed the contextual metaphor expectation and
+also proposed unsupported fear/travel for ordinary snow and reconciliation.
+Therefore local NLI is now review-only: candidates/probabilities remain visible
+but cannot modify production concepts, emotion, motifs or direction. Experimental
+context videos from run 39161979412 are rejected semantic proofs, despite passing
+technical export gates. Do not claim their extra cues are validated improvements.
+The capability gate intentionally remains unmet; thresholds were not lowered.
+
+Tests: seven provider cases plus an observed-spurious-hypothesis regression added;
+focused CI pending at this commit. External Moises service access and schema are
+not live-verified. All eight conservative native full-song jobs in 39160681079
+completed successfully; visual, ASR/phone ground truth, richer scenic choreography,
+full-band and hardware acceptance remain open. No release merge.
+
 ## 2026-10-18 — Actual language fixture result and contextual follow-up
 
 The first actual-model six-example fixture run recognized literal winter and
