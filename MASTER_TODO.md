@@ -1,3 +1,23 @@
+## 2026-10-18 — Final recovery: fixed-camera gate and physical motion repair
+
+Current acceptance ledger: `HELIX_MASTER_COMPLETION_ROADMAP.md`. All historical
+entries remain preserved below; no completion or owner approval is inferred.
+Goal: repair PR175's false fixed-camera freeze failure, keyboard idle-target
+oscillation, and changing-length snare elbow. Changed modules: keyboard motion
+planner, musical performance adapter, original drummer compositor/preflight,
+lazy preview imports, fixed-camera decoded-pixel gate, workflow and regression
+tests. Preserve authored drummer pixels and exact drum contacts, guitar/bass,
+source music/time, purple neutral singer, foot-only hi-hat, all export/platform
+paths and release hold. New keyboard planner has no five-frame debounce;
+physical contacts remain separate from note lights, with confidence rejection
+and bounded velocity/acceleration. Drummer right arm uses fixed 30/55 links;
+non-contact reach adjustments are recorded. Tests: 15 local deterministic
+regressions pass; prior genuine MP4 has 142/143 moving sampled transitions.
+Real-source render and visual acceptance still pending. Risks: contact coverage
+can remain low, alternate hand split can change musical representation, full
+native/platform suite not run. Mallets remain sparse/unverified; no feature or
+release completion claimed. Other gaps recorded in the acceptance ledger.
+
 ## 2026-10-17 — Authentic showcase recovery, pilot in progress
 
 Goal: deliver a visible native full-band MP4 before expanding the collection.
@@ -1290,3 +1310,4 @@ Final October10 publication handoff: `docs/REVIEW_MOVIE_DOWNLOADS.md` links the4
 - Connected Google Drive folder contains `Copy of Audio in. Lights out. Welcome to Helix` (Drive ID `11hFomlsAf6u1Nc1jXrkoFbQZiMrv_6JC`, 6,206,675 bytes). Downloaded source MP3 SHA256 `539b7ab219cf5a1bddeae098a8df58f193ceb02d46bacf7b0f3189ea3f4ebe92`.
 - This **differs** from native recovery's prior source SHA256 `8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec`. Do not silently substitute for previously rendered source or claim native video parity.
 - Created real Drive-copy audio excerpt 40–76s, stereo 48 kHz 24-bit PCM WAV, duration exactly 36s, SHA256 `0b2a8167f325885af0c87d3c0eb1b6870578564a6b30006e4ae5e124c1acdaaf`; retained as separate working artifact, not merged into production. Native MP4 render still pending.
+

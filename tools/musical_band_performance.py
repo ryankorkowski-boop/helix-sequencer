@@ -53,6 +53,10 @@ class MusicalBandPerformance(RefinedPerformance):
         and hand targets; source and preview must never use different lanes.
         Hard reach/speed constraints remain in force for any active lane.
         """
+        # Unknown confidence is retained as uncertainty, never upgraded to truth.
+        self.keyboard_rejected_events=[dict(event=e.to_dict(),reason='low_confidence')
+            for e in ev if e.confidence is not None and e.confidence<.55]
+        ev=[e for e in ev if e.confidence is None or e.confidence>=.55]
         self.keyboard_events=ev
         held,velocity,attack,phase=event_curves(ev,self.n,6,release=0)
         # Keys and hands share the exact held-note lane, without the inherited
@@ -60,44 +64,15 @@ class MusicalBandPerformance(RefinedPerformance):
         for key,value in [('notes',held),('note_levels',velocity),('attack',attack),
                           ('phase',phase),('energy',velocity.max(axis=1))]:
             self.curves['piano_'+key]=value
-        for side in ('left','right'):
-            rig=next(r for r in self.scene.rigs if r['role']=='piano' and r['side']==side)
-            targets=[];pitches=[]
-            last_pitch=None
-            last_change_frame=-100
-            for i,notes in enumerate(held):
-                keys=sorted(set(key_pitch(int(x)) for x in notes if x>=0))
-                spread=bool(keys and keys[-1]-keys[0]>=3)
-                hand=rig['hand'].copy();pitch=None
-                if keys and (spread or side==('left' if keys[0]<66 else 'right')):
-                    selected=keys[0] if side=='left' else keys[-1]
-                    # A mixed-song estimate can change note identity every 50ms.
-                    # Keys still display their source timing; hands only attempt
-                    # plausible, sustained notes instead of chasing every bin.
-                    if selected==last_pitch:
-                        pitch=selected
-                    elif i-last_change_frame>=5 and (
-                        last_pitch is None or abs(selected-last_pitch)<=12):
-                        pitch=selected
-                        last_pitch=selected
-                        last_change_frame=i
-                    else:
-                        pitch=None
-                    if pitch is not None:
-                        gain=max((float(v) for n,v in zip(notes,velocity[i])
-                                  if n>=0 and key_pitch(int(n))==pitch),default=0.)
-                        hand=self.key_centers[pitch]+(0,.110-.020*gain,.065)
-                targets.append(hand);pitches.append(pitch)
-            anticipated=transition_targets(targets,seconds=.10,preserve_changes=True)
-            self.key_hand_targets[side]=constrained_keyboard_wrist_lane(
-                anticipated,rig['hand'],rig['shoulder'],
-                rig.get('link_lengths',(.80,.78)),side=side,max_step=.045)
-            # A source key can light while the arm is traveling. Never claim
-            # mitten contact on an unreachable or too-fast jump.
-            self.key_assignments[side]=[
-                pitch if pitch is not None and
-                np.linalg.norm(self.key_hand_targets[side][i]-targets[i])<=.12
-                else None for i,pitch in enumerate(pitches)]
+        from models.keyboard_motion_plan import plan_keyboard_hands
+        rigs={r['side']:r for r in self.scene.rigs if r['role']=='piano'}
+        # Preserve original MIDI identity: out-of-register notes may illuminate
+        # the legacy folded display, but cannot be claimed as physical contacts.
+        self.key_hand_targets,self.key_assignments,self.keyboard_motion_report=plan_keyboard_hands(
+            held,velocity,self.key_centers,rigs)
+        self.keyboard_motion_report['detected_events']=len(ev)+len(self.keyboard_rejected_events)
+        self.keyboard_motion_report['accepted_events']=len(ev)
+        self.keyboard_motion_report['rejected_events']=self.keyboard_rejected_events
 
     def pose(self,i):
         levels=super().pose(i)
@@ -129,3 +104,4 @@ class MusicalBandPerformance(RefinedPerformance):
             if hasattr(self.scene,'update_singer_mouth'):
                 self.scene.update_singer_mouth(role,shape,self.voice_energy[i,k])
         return levels
+

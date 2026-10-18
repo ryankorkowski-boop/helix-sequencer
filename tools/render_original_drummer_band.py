@@ -89,11 +89,20 @@ def preflight(root: Path, eid: str) -> dict:
 
     # Do not market an idle xylophonist as a solo. The only defensible
     # hits are source-screened events actually sent to a moving mallet.
-    if len(performance.mallet_schedule)<3:
-        raise ValueError("Not enough demonstrated mallet contacts for a featured clip")
+    # A full-band review may legitimately contain sparse mallets. It is not
+    # a mallet feature and must not claim instrument identity from hit count.
     for hit in performance.mallet_schedule:
         if not 0<=hit['time']<performance.n/20 or hit['pitch'] not in scene.bars:
             raise ValueError("Mallet schedule not playable by this model")
+    # Validate the actual full source timeline, including anticipation/recovery.
+    for frame in range(performance.n):
+        for side in ('left','right'):
+            drummer._pose(side,frame/20)
+            joint=drummer.last_joints[side]
+            upper,lower=drummer.lengths[side]
+            if not (np.isclose(np.linalg.norm(joint['elbow']-joint['shoulder']),upper)
+                    and np.isclose(np.linalg.norm(joint['wrist']-joint['elbow']),lower)):
+                raise ValueError('Drummer links changed length during transit')
     moving={}
     key_events=len(performance.keyboard_events)
     if key_events < 10 or int(np.count_nonzero(performance.curves['piano_energy'] > .01)) < 10:
@@ -123,6 +132,8 @@ def preflight(root: Path, eid: str) -> dict:
         'original_drum_hits_from_source': len(hits),
         'original_playable_arm_hits': len(drummer.hits),
         'original_rejected_unplayable_hits': len(drummer.motion_rejections),
+        'drum_transit_reach_adjustments':len(drummer.motion_adjustments),
+        'drum_motion_rejections':drummer.motion_rejections,
         'screen_right_snare_elbow_pose_verified': True,
         'screen_right_snare_original_tip_preserved': True,
         'hi_hat_source_hits': len(hi_hat_events),
@@ -131,7 +142,10 @@ def preflight(root: Path, eid: str) -> dict:
         'second_singer_accent': '#8653D9',
         'second_singer_gender_ambiguous': True,
         'keyboard_note_events': key_events,
+        'keyboard_motion_report': performance.keyboard_motion_report,
         'mallet_contacts_scheduled': len(performance.mallet_schedule),
+        'mallet_feature_qualified': False,
+        'mallet_instrument_identity_verified': False,
         'mallet_source_times': [round(hit['time'],2) for hit in performance.mallet_schedule],
         'keyboard_moving_frames': moving,
         'keyboard_wrist_step_limit': .045,
@@ -172,3 +186,4 @@ def main() -> None:
 
 if __name__=='__main__':
     main()
+

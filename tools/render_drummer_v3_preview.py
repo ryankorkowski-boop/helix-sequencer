@@ -5,10 +5,7 @@ import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-import imageio.v2 as imageio
-import imageio_ffmpeg
 import numpy as np
-import soundfile as sf
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 from animation.cymbal_lighting import cymbal_level, is_cymbal, DEFAULT_FRAME_MS
 
@@ -284,6 +281,8 @@ def draw_frame(
 
 
 def _audio_duration_ms(audio: Path) -> int:
+    import soundfile as sf
+    import imageio_ffmpeg
     try:
         info = sf.info(str(audio))
         if info.frames > 0 and info.samplerate > 0:
@@ -301,6 +300,8 @@ def _audio_duration_ms(audio: Path) -> int:
 
 
 def main() -> int:
+    import imageio.v2 as imageio
+    import imageio_ffmpeg
     parser = argparse.ArgumentParser()
     parser.add_argument("xsq", type=Path)
     parser.add_argument("--audio", type=Path, required=True)
@@ -371,3 +372,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

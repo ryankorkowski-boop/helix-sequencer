@@ -37,6 +37,7 @@ class ArticulatedDrummer:
         self.scale=np.array(self.source.size)-1
         self.zones={z['id']:z for z in self.spec['zones']};self.hits=sorted(hits,key=lambda e:e['time'])
         self.last_joints={};self.motion_rejections=[];self.hand_reassignments=[]
+        self.motion_adjustments={}
         # Keep the photographed torso/scarf/head and independently lit kit.
         # Remove static ready arms: the dynamic arms below own those pixels.
         idle=self.masks[idle_art_key()].copy()
@@ -55,7 +56,8 @@ class ArticulatedDrummer:
         self.shaft_spec=shaft
         self.roots={'left':np.array((.425,.445))*self.scale,'right':np.array((.603,.452))*self.scale}
         self.rest={'left':np.array((.362,.473))*self.scale,'right':np.array((.671,.476))*self.scale}
-        self.lengths={'left':(39.,39.),'right':(39.,39.)}
+        # One fixed skeleton throughout anticipation, contact and recovery.
+        self.lengths={'left':(39.,39.),'right':(30.,55.) if natural_arms else (39.,39.)}
         self.targets={}
         for item in self.spec['lighting_targets']:
             name='HX_SNOWMAN_DRUMMER_V3_'+item['id']
@@ -85,7 +87,8 @@ class ArticulatedDrummer:
                 tip,grip=self.targets[event['target'],side]
                 direction=(tip-grip)/np.linalg.norm(tip-grip);wrist=tip-direction*55
                 distance=np.linalg.norm(wrist-self.roots[side])
-                if not 0<distance<sum(self.lengths[side]):continue
+                upper,lower=self.lengths[side]
+                if not abs(upper-lower)+1e-5<distance<upper+lower-1e-5:continue
                 previous=last.get(side)
                 if previous and event['time']-previous['time']<.35:
                     allowed=400*max(0,event['time']-previous['time'])+6
@@ -133,31 +136,23 @@ class ArticulatedDrummer:
             # offset is zero at a strike, preserving the exact drum contact.
             angle+=(-1 if side=='left' else 1)*.055*lift
             tip=wrist+55*np.array((np.cos(angle),np.sin(angle)))
-        # Reach is validated; contacts are never silently clamped to a fake drum.
         shoulder=self.roots[side];upper,lower=self.lengths[side]
-        elbow=elbow_2d(shoulder,wrist,upper,lower,-1 if side=='left' else 1)
-        # The drummer's anatomical LEFT arm appears on audience RIGHT. Its
-        # legacy SNARE_RIGHT IK bend put the elbow above and across the chest,
-        # creating the inverted "chicken wing" reported in the approved review.
-        # An outward/downward elbow, with a shorter upper sleeve and longer
-        # forearm, preserves the authored wrist/stick tip and snare hit time.
-        if side=='right':
-            snare=TARGETS[1]
-            contacts=[e for e in (previous,following) if e is not None
-                      and e['target']==snare and abs(time-e['time'])<=.20]
-            if contacts:
-                nearest=min(abs(time-e['time']) for e in contacts)
-                weight=float(smoothstep(max(0.,1.-nearest/.20)))
-                # 30/55 reaches the same wrist at contact, without elevating
-                # the elbow across the snowman's chest. Smoothly transition
-                # back to the original idle elbow outside the contact window.
-                distance=float(np.linalg.norm(wrist-shoulder))
-                # Different upper/lower link lengths cannot reach every
-                # anticipatory transition pose. Keep the original valid IK
-                # outside the alternate geometry's annulus.
-                if abs(30.-55.)+1e-5 < distance < (30.+55.)-1e-5:
-                    snare_elbow=elbow_2d(shoulder,wrist,30.,55.,-1)
-                    elbow=elbow*(1-weight)+snare_elbow*weight
+        # Rebound can leave the reachable annulus even when both contacts
+        # are valid. Constrain only the transit wrist, never a source contact.
+        delta=wrist-shoulder;distance=float(np.linalg.norm(delta))
+        lo=abs(upper-lower)+1e-4;hi=upper+lower-1e-4
+        if not lo<=distance<=hi:
+            at_contact=previous is not None and abs(time-previous['time'])<1e-8
+            if at_contact:
+                raise ValueError('Invalid scheduled drum contact')
+            direction=delta/max(distance,1e-12)
+            if distance<1e-12:
+                direction=(ready-shoulder)/np.linalg.norm(ready-shoulder)
+            wrist=shoulder+direction*np.clip(distance,lo,hi)
+            tip=wrist+55*np.array((np.cos(angle),np.sin(angle)))
+            self.motion_adjustments[side,round(time,6)]='transit_reach_constraint'
+        bend=-1 if side=='left' or (side=='right' and self.natural_arms) else 1
+        elbow=elbow_2d(shoulder,wrist,upper,lower,bend)
         self.last_joints[side]=dict(shoulder=shoulder.copy(),elbow=elbow,wrist=wrist.copy(),tip=tip.copy(),gain=gain)
         return shoulder,elbow,wrist,tip,gain
 
@@ -234,3 +229,4 @@ class ArticulatedDrummer:
                 d.arc((wrist[0]-4,wrist[1]-3,wrist[0]+4,wrist[1]+3),20,150,fill=(233,236,225,255),width=2)
             lit=Image.alpha_composite(lit.convert('RGBA'),arm)
         return lit
+

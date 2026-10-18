@@ -35,6 +35,8 @@ jobs:
           sudo apt-get install -y --no-install-recommends ffmpeg libegl1 libgl1 libgl1-mesa-dri libgles2 libopengl0 libglu1-mesa libgomp1 fonts-dejavu-core
           python -m pip install --upgrade pip
           python -m pip install 'numpy>=1.26,<3' scipy librosa==0.10.2.post1 soundfile Pillow trimesh moderngl glcontext imageio imageio-ffmpeg numba llvmlite gdown
+      - name: Regression tests for source motion and fixed-camera validation
+        run: python -m unittest discover -s tests -p test_final_recovery_motion.py -v
       - name: Download and authenticate original Helix Audiolights and song-analysis sources
         run: |
           mkdir -p render-input
@@ -107,7 +109,8 @@ jobs:
           if len(stills)<5:raise SystemExit('Missing real 3D frame review images')
           images=[np.asarray(Image.open(p).convert('RGB').resize((160,90)),dtype=np.int16) for p in stills]
           deltas=[float(np.abs(images[i]-images[0]).mean()) for i in range(1,len(images))]
-          if max(deltas)<3:raise SystemExit('Animation has frozen or black frames')
+          from tools.fixed_camera_motion import verify_fixed_camera_video
+          motion=verify_fixed_camera_video(mp4)
           proof=json.loads((root/'videos/02_E14_Snowman_Band.render.json').read_text())
           original=json.loads((root/'videos/original_drummer_provenance.json').read_text())
           if proof.get('volumetric_drummer') or len(proof.get('visible_roles',[]))!=7 or not original.get('original_2d_art_mounted_in_3d'):
@@ -119,14 +122,14 @@ jobs:
               raise SystemExit('The original V3 drummer is missing authored drum components')
           if sum(original.get('keyboard_moving_frames',{}).values()) < 20:
               raise SystemExit('Keyboardist became frozen')
-          record={'renderer':'Helix current Review3DScene + source-timed GL SamplerView',
+          record={'renderer':'Helix ReviewSnowmanScene + original V3 source-art compositor + source-timed GL SamplerView',
                   'source':'hardKor Helix Audiolights; original seconds 40-76',
                   'original_full_song_sha256':os.environ['ORIGINAL_SONG_SHA256'],
                   'excerpt_sha256':os.environ['ORIGINAL_EXCERPT_SHA256'],
                   'mp4_sha256':hashlib.sha256(mp4.read_bytes()).hexdigest(),
                   'bytes':mp4.stat().st_size,'fps':20,'frames':720,
                   'resolution':'1280x720','full_video_audio_decode':True,
-                  'visual_deltas':deltas,'owner_approval_pending':True,
+                  'visual_deltas':deltas,'fixed_camera_motion':motion,'owner_approval_pending':True,
                   'independent_instrument_accuracy_verified':False,
                   'reused_previously_rendered_video':False,
                   'original_HX_SNOWMAN_DRUMMER_V3':True,'source_art_2d_in_3d_stage':True,'replacement_3d_kit':False}
@@ -148,3 +151,4 @@ jobs:
             render-input/diagnostics/02_E14_Snowman_Band/*.jpg
           retention-days: 30
           if-no-files-found: warn
+
