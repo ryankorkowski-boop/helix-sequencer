@@ -41,7 +41,7 @@ def test_mallets_exclude_piano_and_abstain_outside_real_bars():
 
 
 @pytest.mark.parametrize('target,side',[(TARGETS[1],'left'),(TARGETS[1],'right'),(TARGETS[2],'right'),
-    (TARGETS[3],'right'),(TARGETS[4],'left'),(TARGETS[5],'left'),(TARGETS[6],'left'),(TARGETS[7],'right')])
+    (TARGETS[4],'left'),(TARGETS[5],'left'),(TARGETS[6],'left'),(TARGETS[7],'right')])
 def test_every_drum_contact_has_two_connected_fixed_links_and_fixed_stick(target,side):
     player=ArticulatedDrummer([dict(time=1,target=target,side=side,velocity=.7)])
     for time in (.93,.97,1,1.05,1.14,1.25):

@@ -37,6 +37,7 @@ class ArticulatedDrummer:
         self.scale=np.array(self.source.size)-1
         self.zones={z['id']:z for z in self.spec['zones']};self.hits=sorted(hits,key=lambda e:e['time'])
         self.last_joints={};self.motion_rejections=[];self.hand_reassignments=[]
+        self.motion_adjustments={}
         # Keep the photographed torso/scarf/head and independently lit kit.
         # Remove static ready arms: the dynamic arms below own those pixels.
         idle=self.masks[idle_art_key()].copy()
@@ -55,7 +56,8 @@ class ArticulatedDrummer:
         self.shaft_spec=shaft
         self.roots={'left':np.array((.425,.445))*self.scale,'right':np.array((.603,.452))*self.scale}
         self.rest={'left':np.array((.362,.473))*self.scale,'right':np.array((.671,.476))*self.scale}
-        self.lengths={'left':(39.,39.),'right':(39.,39.)}
+        # One fixed skeleton throughout anticipation, contact and recovery.
+        self.lengths={'left':(39.,39.),'right':(30.,55.) if natural_arms else (39.,39.)}
         self.targets={}
         for item in self.spec['lighting_targets']:
             name='HX_SNOWMAN_DRUMMER_V3_'+item['id']
@@ -65,14 +67,22 @@ class ArticulatedDrummer:
                 self.targets[name,side]=(np.asarray(strike['contact'])*self.scale,np.asarray(strike['grip'])*self.scale)
         self.targets[TARGETS[1],'right']=(np.asarray(self.zones['SNARE_RIGHT_ARM_STICK']['strike']['contact'])*self.scale,
             np.asarray(self.zones['SNARE_RIGHT_ARM_STICK']['strike']['grip'])*self.scale)
-        # The old foot lane does not create an extra arm: hats have a supported
-        # right-hand contact on the actual hi-hat surface in this new compositor.
-        pts=np.asarray(self.zones['HI_HAT_SURFACE']['commands'][0]['points'])*self.scale
-        tip=np.array((pts[:,0].mean(),pts[:,1].min()+3))
-        self.targets[TARGETS[2],'right']=(tip,tip+(-44,-22))
+        # HI-HAT IS FOOT ONLY. Preserve the authentic HI_HAT source cues,
+        # but do not route any of them to a stick/arm target.
+        # Foot compression and hi-hat closure share the same time gate.
+        self.hi_hat_target=TARGETS[2]
+        self.foot_hits=[h for h in self.hits if h['target']==self.hi_hat_target]
+        self.foot_lanes=EventLane(self.foot_hits)
+        self.foot_contact_window=.11
+        # Preserve the authored foot pixels, inside the visible source crop.
+        self.foot_mask=build_zone_mask(self.source.size,self.zones['HI_HAT_FOOT'])
+        self.foot_art=self.source.copy()
+        self.foot_art.putalpha(refine_actuator_to_source_art(self.source,self.foot_mask))
+        self.kick_hits=[h for h in self.hits if h['target']==TARGETS[0]]
         # Resolve physically impossible same-hand travel without deleting a
         # polyphonic detector event or inventing a different drum identity.
-        requested=self.hits;self.hits=[];last={}
+        requested=[h for h in self.hits if h['target'] not in (self.hi_hat_target,TARGETS[0])]
+        self.hits=[];last={}
         for event in requested:
             preferred=event['side'];choices=[preferred]
             if event['target']==TARGETS[1]:choices.append('right' if preferred=='left' else 'left')
@@ -82,7 +92,8 @@ class ArticulatedDrummer:
                 tip,grip=self.targets[event['target'],side]
                 direction=(tip-grip)/np.linalg.norm(tip-grip);wrist=tip-direction*55
                 distance=np.linalg.norm(wrist-self.roots[side])
-                if not 0<distance<sum(self.lengths[side]):continue
+                upper,lower=self.lengths[side]
+                if not abs(upper-lower)+1e-5<distance<upper+lower-1e-5:continue
                 previous=last.get(side)
                 if previous and event['time']-previous['time']<.35:
                     allowed=400*max(0,event['time']-previous['time'])+6
@@ -130,9 +141,23 @@ class ArticulatedDrummer:
             # offset is zero at a strike, preserving the exact drum contact.
             angle+=(-1 if side=='left' else 1)*.055*lift
             tip=wrist+55*np.array((np.cos(angle),np.sin(angle)))
-        # Reach is validated; contacts are never silently clamped to a fake drum.
         shoulder=self.roots[side];upper,lower=self.lengths[side]
-        elbow=elbow_2d(shoulder,wrist,upper,lower,-1 if side=='left' else 1)
+        # Rebound can leave the reachable annulus even when both contacts
+        # are valid. Constrain only the transit wrist, never a source contact.
+        delta=wrist-shoulder;distance=float(np.linalg.norm(delta))
+        lo=abs(upper-lower)+1e-4;hi=upper+lower-1e-4
+        if not lo<=distance<=hi:
+            at_contact=previous is not None and abs(time-previous['time'])<1e-8
+            if at_contact:
+                raise ValueError('Invalid scheduled drum contact')
+            direction=delta/max(distance,1e-12)
+            if distance<1e-12:
+                direction=(ready-shoulder)/np.linalg.norm(ready-shoulder)
+            wrist=shoulder+direction*np.clip(distance,lo,hi)
+            tip=wrist+55*np.array((np.cos(angle),np.sin(angle)))
+            self.motion_adjustments[side,round(time,6)]='transit_reach_constraint'
+        bend=-1 if side=='left' or (side=='right' and self.natural_arms) else 1
+        elbow=elbow_2d(shoulder,wrist,upper,lower,bend)
         self.last_joints[side]=dict(shoulder=shoulder.copy(),elbow=elbow,wrist=wrist.copy(),tip=tip.copy(),gain=gain)
         return shoulder,elbow,wrist,tip,gain
 
@@ -158,6 +183,25 @@ class ArticulatedDrummer:
             if self.cache_lighting:
                 if len(self._kit_cache)>=24:self._kit_cache.pop(next(iter(self._kit_cache)))
                 self._kit_cache[cache_key]=lit.copy()
+        # Foot artwork and physical pedal share a continuous source-clock pose.
+        # The old overlay was at y=.855, below the authored visible crop (.755).
+        previous,following=self.foot_lanes.neighbors(time)
+        age=time-previous['time'] if previous is not None else float('inf')
+        down=float(1-smoothstep(np.clip((age-.025)/.085,0,1))) if 0<=age<.11 else 0.
+        # Lift toward the next source strike, never fabricate an extra onset.
+        heel=np.array((.638,.710))*self.scale
+        toe=np.array((.697,.735))*self.scale
+        angle=8.*(1-down)
+        foot=self.foot_art.rotate(angle,resample=Image.Resampling.BICUBIC,center=tuple(heel))
+        # Erase the stationary copy before placing the moving original pixels.
+        lit=Image.composite(Image.new('RGBA',self.source.size,(0,0,0,255)),lit,self.foot_mask)
+        pedal=Image.new('RGBA',self.source.size,(0,0,0,0));brush=ImageDraw.Draw(pedal)
+        pedal_y=float(toe[1]-4*(1-down))
+        brush.line([tuple(heel+(0,9)),(float(toe[0]+3),pedal_y+5)],fill=(148,172,187,255),width=3)
+        lit=Image.alpha_composite(lit.convert('RGBA'),pedal)
+        lit=Image.alpha_composite(lit,foot)
+        self.last_hi_hat_foot_down=bool(0<=age<self.foot_contact_window)
+        self.last_hi_hat_pedal_pose=dict(depression=down,heel=heel.tolist(),toe=[float(toe[0]),pedal_y],source_time=None if previous is None else previous['time'])
         for side in ('left','right'):
             shoulder,elbow,wrist,tip,gain=self._pose(side,time)
             brightness=self.lighting.idle_arm+(self.lighting.strike-self.lighting.idle_arm)*gain
@@ -195,3 +239,4 @@ class ArticulatedDrummer:
                 d.arc((wrist[0]-4,wrist[1]-3,wrist[0]+4,wrist[1]+3),20,150,fill=(233,236,225,255),width=2)
             lit=Image.alpha_composite(lit.convert('RGBA'),arm)
         return lit
+

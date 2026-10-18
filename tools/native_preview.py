@@ -119,7 +119,9 @@ def _native_export(xlights: str, show: Path, staged: Path,
                                 else "-b", "--show", str(show)],
                                stdout=log, stderr=log)
         try:
-            deadline = time.monotonic() + 30
+            # Cold AppImage startup under software GL/Xvfb can exceed 30s.
+            # Allow a bounded startup window without relaxing output QA.
+            deadline = time.monotonic() + 120
             while True:
                 if app.poll() is not None:
                     raise RuntimeError(f"xLights exited {app.returncode}")
@@ -141,7 +143,24 @@ def _native_export(xlights: str, show: Path, staged: Path,
             if Path(opened.get("fullseq", "")).resolve() != staged:
                 raise ValueError("xLights opened an unexpected sequence")
             video = staged.parent / "native-silent.mp4"
-            _command(endpoint, "exportVideoPreview", filename=str(video))
+            options: dict[str, str] = {"filename": str(video)}
+            for dimension in ("width", "height"):
+                raw = os.environ.get("HELIX_NATIVE_PREVIEW_" + dimension.upper())
+                if raw:
+                    pixels = int(raw)
+                    if pixels < 320 or pixels > 4096:
+                        raise ValueError("Native export " + dimension + " must be 320..4096")
+                    options[dimension] = str(pixels)
+            # Some xLights 2026.18 builds ignore exportVideoPreview width/height
+            # and capture the docked preview at its on-screen dimensions.
+            # Maximize the real GUI window before exporting, without rescaling
+            # any encoded frames after export. This requires wmctrl on Linux.
+            if shutil.which("wmctrl"):
+                subprocess.run(["wmctrl", "-r", ":ACTIVE:", "-b",
+                                "add,maximized_vert,maximized_horz"],
+                               capture_output=True, check=False, timeout=5)
+                time.sleep(2)
+            _command(endpoint, "exportVideoPreview", **options)
             if not video.is_file() or video.stat().st_size == 0:
                 raise ValueError("xLights did not create a fresh native video")
             return {"xlights_version": rest._version_from_response(version),

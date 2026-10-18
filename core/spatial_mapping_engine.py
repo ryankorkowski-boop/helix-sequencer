@@ -288,10 +288,20 @@ def _adapt_effect(category: str, point: NormalizedSpatialPoint, source: str, sty
             },
         )
     if category == "arch":
+        # High-energy trajectories use native xLights Meteors; softer passages
+        # retain Wave to avoid saturating the layout with constant trails.
+        meteor = source == "trajectory" and point.weight >= 0.72 and density >= 0.5
         return (
-            "Wave",
+            "Meteors" if meteor else "Wave",
             "motion",
             {
+                "horizontal_position": round(point.x, 4),
+                "wave_phase": round(point.x, 4),
+                "crest_height": round(point.y, 4),
+                "depth_timing_offset_ms": depth_offset_ms,
+                "motion_style": motion_style,
+                "meteor_direction_hint": "left_to_right" if point.x < 0.5 else "right_to_left",
+            } if meteor else {
                 "horizontal_position": round(point.x, 4),
                 "wave_phase": round(point.x, 4),
                 "crest_height": round(point.y, 4),

@@ -1,3 +1,61 @@
+## 2026-10-18 — Owner-requested advertisement delivered for review
+
+Produced Helix_Advertisement_96s.mp4: 96.000 seconds, 1920x1080 H264/AAC stereo,
+3840 fully decoded frames at 40fps (20fps source poses duplicated, not interpolated).
+SHA256 569e3fe90878d181f55edc82639066d764d7e5b5083d8f743ac9bca633f9544b.
+New ten-shot edit uses PR175 d420807 original-art fixed-camera seven-snowman
+render (run39115986624, artifact12132521933) plus explicitly reused Oct15
+Holly Steel Run and Kaleidoscope Engine six-layout footage. Layout source commit
+is unavailable; do not label all footage freshly rendered or all native xLights.
+Assembly uses PR174 dbeb868 tool with PCM intermediate soundtrack and final AAC.
+Full decode and zero blank-picture frames verified; every edit zero-lag source
+audio correlation >=0.999872. Final contact sheet visually inspected.
+Saved movie: libfile_cabe566db1208191b1695323da7bbc78; reproducible scripts,
+edit manifest, original-band provenance and QA package: libfile_f5abad2503fc8191abe419affe294e84.
+No synthetic musical events, no substituted music, no feature/compatibility or
+release-completion claims. Development-preview captions retained. Owner visual
+approval remains pending. Instrument solo package, true mallet-rich selection,
+native imports, platform checks and every other release blocker remain open.
+The advertisement does not satisfy those separate gates.
+
+## 2026-10-18 — Source-art foot visibility and contact accounting follow-up
+
+Goal: expose the actual authored hi-hat foot inside the original crop and avoid
+counting kick-only source tags as failed arm transitions. Original source-foot
+pixels now rotate over an always-visible pedal at their authored location,
+with a 25ms hold and 85ms recovery driven by source timestamps. Source kick
+cues have their own recorded lane; no stick is fabricated for them and physical
+kick-beater verification remains incomplete. Keyboard torso/keybed groove is
+held at authored transforms so fixed shoulders do not detach from a moving
+body. Contact target now matches the key surface/mitten offset exactly.
+Changed: drummer compositor, keyboard planner/performance, preflight, tests,
+roadmap. Preserved source art/audio, exact stick contacts, purple neutral singer,
+guitar/bass, mallets, native exports and platforms. Evidence: 17 focused tests
+pass; source-foot pressed/released frames inspected locally. First repair
+commit 95c338b is rendering in run39115813867. New full render still required;
+no artistic approval. Risks: authored foot travel is small at whole-band scale;
+physical kick animation and real musical ground truth remain open.
+
+## 2026-10-18 — Final recovery: fixed-camera gate and physical motion repair
+
+Current acceptance ledger: `HELIX_MASTER_COMPLETION_ROADMAP.md`. All historical
+entries remain preserved below; no completion or owner approval is inferred.
+Goal: repair PR175's false fixed-camera freeze failure, keyboard idle-target
+oscillation, and changing-length snare elbow. Changed modules: keyboard motion
+planner, musical performance adapter, original drummer compositor/preflight,
+lazy preview imports, fixed-camera decoded-pixel gate, workflow and regression
+tests. Preserve authored drummer pixels and exact drum contacts, guitar/bass,
+source music/time, purple neutral singer, foot-only hi-hat, all export/platform
+paths and release hold. New keyboard planner has no five-frame debounce;
+physical contacts remain separate from note lights, with confidence rejection
+and bounded velocity/acceleration. Drummer right arm uses fixed 30/55 links;
+non-contact reach adjustments are recorded. Tests: 15 local deterministic
+regressions pass; prior genuine MP4 has 142/143 moving sampled transitions.
+Real-source render and visual acceptance still pending. Risks: contact coverage
+can remain low, alternate hand split can change musical representation, full
+native/platform suite not run. Mallets remain sparse/unverified; no feature or
+release completion claimed. Other gaps recorded in the acceptance ledger.
+
 ## 2026-10-17 — Authentic showcase recovery, pilot in progress
 
 Goal: deliver a visible native full-band MP4 before expanding the collection.
@@ -1290,3 +1348,4 @@ Final October10 publication handoff: `docs/REVIEW_MOVIE_DOWNLOADS.md` links the4
 - Connected Google Drive folder contains `Copy of Audio in. Lights out. Welcome to Helix` (Drive ID `11hFomlsAf6u1Nc1jXrkoFbQZiMrv_6JC`, 6,206,675 bytes). Downloaded source MP3 SHA256 `539b7ab219cf5a1bddeae098a8df58f193ceb02d46bacf7b0f3189ea3f4ebe92`.
 - This **differs** from native recovery's prior source SHA256 `8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec`. Do not silently substitute for previously rendered source or claim native video parity.
 - Created real Drive-copy audio excerpt 40–76s, stereo 48 kHz 24-bit PCM WAV, duration exactly 36s, SHA256 `0b2a8167f325885af0c87d3c0eb1b6870578564a6b30006e4ae5e124c1acdaaf`; retained as separate working artifact, not merged into production. Native MP4 render still pending.
+

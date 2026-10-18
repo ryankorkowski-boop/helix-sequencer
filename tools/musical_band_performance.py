@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import numpy as np
 from music.note_events import NoteEvent
-from models.band_motion_refinement import transition_targets,elbow_3d,signed_gestures
+from models.band_motion_refinement import transition_targets,elbow_3d,signed_gestures,constrained_keyboard_wrist_lane
 from models.musical_band_response import ringing_candidates,cast_source_voice
 from models.band_instrument_logic import event_curves
 from models.band_performance_scene import line_matrix,matrix
@@ -39,28 +39,7 @@ class MusicalBandPerformance(RefinedPerformance):
         self.key_hand_targets={};self.key_assignments={}
         from music.magic_keyboard import magic_keyboard_events
         ev=magic_keyboard_events(self.events['piano'], () if separate_pitched else self.mallet_schedule, duration=self.n/20)
-        self.keyboard_events=ev
-        held,velocity,attack,phase=event_curves(ev,self.n,6,release=0)
-        # Keys and hands share the exact held-note lane, without the inherited
-        # visual release tail retaining a depressed key after its hand leaves.
-        for key,value in [('notes',held),('note_levels',velocity),('attack',attack),
-                          ('phase',phase),('energy',velocity.max(axis=1))]:
-            self.curves['piano_'+key]=value
-        for side in ('left','right'):
-            rig=next(r for r in scene.rigs if r['role']=='piano' and r['side']==side)
-            targets=[];pitches=[]
-            for i,notes in enumerate(held):
-                keys=sorted(set(key_pitch(int(x)) for x in notes if x>=0))
-                spread=bool(keys and keys[-1]-keys[0]>=3)
-                hand=rig['hand'].copy();pitch=None
-                if keys and (spread or side==('left' if keys[0]<66 else 'right')):
-                    pitch=keys[0] if side=='left' else keys[-1]
-                    # The mitten bottom contacts the actual depressed key top.
-                    gain=max(float(v) for n,v in zip(notes,velocity[i]) if n>=0 and key_pitch(int(n))==pitch)
-                    hand=self.key_centers[pitch]+(0,.110-.020*gain,.065)
-                targets.append(hand);pitches.append(pitch)
-            self.key_hand_targets[side]=transition_targets(targets,seconds=.10,preserve_changes=True)
-            self.key_assignments[side]=pitches
+        self._install_keyboard_events(ev)
         casting=casting or dict(lead='male',source='stable lead fallback; no verified voice classification')
         self.casting=casting
         self.curves['mouth_lanes']=cast_source_voice(self.curves['mouth_lanes'].max(axis=1),
@@ -69,8 +48,37 @@ class MusicalBandPerformance(RefinedPerformance):
         # Frame energy controls articulation, without a slow release past silence.
         self.voice_energy=np.column_stack([self.curves['vocal_energy']*(self.voice_lanes[:,k]!=0) for k in (0,1)])
 
+    def _install_keyboard_events(self,ev):
+        """Install selected evidence-based keyboard notes in BOTH key lights
+        and hand targets; source and preview must never use different lanes.
+        Hard reach/speed constraints remain in force for any active lane.
+        """
+        # Unknown confidence is retained as uncertainty, never upgraded to truth.
+        self.keyboard_rejected_events=[dict(event=e.to_dict(),reason='low_confidence')
+            for e in ev if e.confidence is not None and e.confidence<.55]
+        ev=[e for e in ev if e.confidence is None or e.confidence>=.55]
+        self.keyboard_events=ev
+        held,velocity,attack,phase=event_curves(ev,self.n,6,release=0)
+        # Keys and hands share the exact held-note lane, without the inherited
+        # visual release tail retaining a depressed key after its hand leaves.
+        for key,value in [('notes',held),('note_levels',velocity),('attack',attack),
+                          ('phase',phase),('energy',velocity.max(axis=1))]:
+            self.curves['piano_'+key]=value
+        from models.keyboard_motion_plan import plan_keyboard_hands
+        rigs={r['side']:r for r in self.scene.rigs if r['role']=='piano'}
+        # Preserve original MIDI identity: out-of-register notes may illuminate
+        # the legacy folded display, but cannot be claimed as physical contacts.
+        self.key_hand_targets,self.key_assignments,self.keyboard_motion_report=plan_keyboard_hands(
+            held,velocity,self.key_centers,rigs)
+        self.keyboard_motion_report['detected_events']=len(ev)+len(self.keyboard_rejected_events)
+        self.keyboard_motion_report['accepted_events']=len(ev)
+        self.keyboard_motion_report['rejected_events']=self.keyboard_rejected_events
+
     def pose(self,i):
         levels=super().pose(i)
+        # Keyboard and torso must stay attached to the fixed shoulder rig.
+        for index,role,rest in self.scene.groove:
+            if role=='piano':self.scene.instances[index]['matrix']=rest.copy()
         for rig in self.scene.rigs:
             kind,side=rig['role'],rig['side']
             if kind=='bass' and side=='pluck':
@@ -82,9 +90,6 @@ class MusicalBandPerformance(RefinedPerformance):
                 hand=rig['hand']+(gain*.10,gain*.35,0)
             else:continue
             shoulder=rig['shoulder']
-            if kind=='piano':
-                shoulder=shoulder+(.075*self.curves['piano_energy'][i]*np.sin(i/20*3.7),
-                    .048*self.curves['piano_energy'][i]*np.exp(-self.curves['piano_phase'][i]*4),0)
             lengths=rig.get('link_lengths',(.52,.50) if kind in ('lead','harmony') else (.80,.78))
             elbow=elbow_3d(shoulder,hand,*lengths,(-.8 if side in ('left','pluck') else .8,-.2,.8))
             a,b,c=rig['ids'];self.scene.instances[a]['matrix']=line_matrix(shoulder,elbow,.046)
@@ -102,3 +107,4 @@ class MusicalBandPerformance(RefinedPerformance):
             if hasattr(self.scene,'update_singer_mouth'):
                 self.scene.update_singer_mouth(role,shape,self.voice_energy[i,k])
         return levels
+

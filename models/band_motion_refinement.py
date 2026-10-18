@@ -96,3 +96,50 @@ def mallet_events(events, low=60, high=84):
         if event.source!='other_stem_screened_mallet_estimate':continue
         (accepted if low<=event.pitch<=high else omitted).append(event)
     return accepted,omitted
+
+
+def constrained_keyboard_wrist_lane(targets, rest, shoulder, link_lengths,
+                                   *, side, max_step=.13):
+    """Make source-selected keyboard gestures possible for a humanlike snowman.
+
+    A lit piano key is not proof a mitten can get there. Preserve note-light
+    timing, but limit each wrist to its own half of the keyboard, two-link
+    reach, and max 13 cm in design units per 50 ms source frame. Extreme/rapid
+    notes may have no physical mitten contact; callers must report those
+    omissions rather than inventing a strike.
+    """
+    raw=np.asarray(targets,dtype=float)
+    rest=np.asarray(rest,dtype=float)
+    shoulder=np.asarray(shoulder,dtype=float)
+    if raw.ndim!=2 or raw.shape[1]!=3 or raw.shape[0]==0:
+        raise ValueError('Keyboard wrist lane must be Nx3')
+    if side not in ('left','right') or not np.isfinite(raw).all():
+        raise ValueError('Invalid keyboard lane side or position')
+    if max_step<=0:raise ValueError('max_step must be positive')
+    upper,lower=map(float,link_lengths)
+    max_reach=upper+lower-.10
+    min_reach=abs(upper-lower)+.10
+    if not min_reach<max_reach:raise ValueError('Invalid keyboard arm links')
+    result=np.empty_like(raw)
+    previous=rest.copy()
+    center_x=shoulder[0]+(.36 if side=='left' else -.36)
+    for index,desired in enumerate(raw):
+        target=desired.copy()
+        # No hand swaps/crossings during fast runs.
+        target[0]=min(target[0],center_x) if side=='left' else max(target[0],center_x)
+        displacement=target-shoulder
+        distance=np.linalg.norm(displacement)
+        if distance>max_reach:
+            target=shoulder+displacement*max_reach/distance
+        elif distance<min_reach:
+            direction=(previous-shoulder)
+            norm=np.linalg.norm(direction)
+            if norm<1e-8:direction=np.array([0.,-.4,.9]);norm=np.linalg.norm(direction)
+            target=shoulder+direction*min_reach/norm
+        delta=target-previous
+        d=np.linalg.norm(delta)
+        if d>max_step:target=previous+delta*(max_step/d)
+        result[index]=target
+        previous=target
+    return result
+

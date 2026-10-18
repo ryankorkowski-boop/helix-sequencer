@@ -15,7 +15,11 @@ class ReviewBandPerformance(MusicalBandPerformance):
         super().__init__(row,scene,analysis_root,separate_pitched=True)
         folder=Path(analysis_root)/row['id'];roles=json.loads((folder/'pitched_roles.json').read_text())
         if roles['source_sha256']!=row['sha256']:raise ValueError('pitch source mismatch')
-        self.keyboard_events=[NoteEvent(**e) for e in roles['keyboard']]
+        # Earlier 3D reviews only stored screened keyboard notes in a report;
+        # the actual piano arm/key lanes still used the empty piano stem.
+        # Feed this retained source-bound lane through the same speed-limited
+        # key/mitten animator as every other Helix keyboard event.
+        self._install_keyboard_events([NoteEvent(**e) for e in roles['keyboard']])
         reachable={}
         for rig in scene.rigs:
             if rig['role']=='xylophone':
