@@ -87,6 +87,13 @@ def preflight(root: Path, eid: str) -> dict:
     if any(o['name'].startswith(('harmony_bow','harmony_eyelash')) for o in scene.instances):
         raise ValueError("Second singer should retain gender-neutral design")
 
+    # Do not market an idle xylophonist as a solo. The only defensible
+    # hits are source-screened events actually sent to a moving mallet.
+    if len(performance.mallet_schedule)<3:
+        raise ValueError("Not enough demonstrated mallet contacts for a featured clip")
+    for hit in performance.mallet_schedule:
+        if not 0<=hit['time']<performance.n/20 or hit['pitch'] not in scene.bars:
+            raise ValueError("Mallet schedule not playable by this model")
     moving={}
     key_events=len(performance.keyboard_events)
     if key_events < 10 or int(np.count_nonzero(performance.curves['piano_energy'] > .01)) < 10:
@@ -124,6 +131,8 @@ def preflight(root: Path, eid: str) -> dict:
         'second_singer_accent': '#8653D9',
         'second_singer_gender_ambiguous': True,
         'keyboard_note_events': key_events,
+        'mallet_contacts_scheduled': len(performance.mallet_schedule),
+        'mallet_source_times': [round(hit['time'],2) for hit in performance.mallet_schedule],
         'keyboard_moving_frames': moving,
         'keyboard_wrist_step_limit': .045,
         'camera_mode': 'fixed_audience_front_all_frames',
