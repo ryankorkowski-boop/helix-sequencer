@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       archive_file_id:
-        description: Public Drive file ID of the original Helix_3D_Vocal_Review ZIP (includes analyzed audio)
+        description: Public Drive file ID of the source-only Helix E14 ZIP (audio, drum XSQ, and retained analysis)
         required: true
         type: string
       archive_sha256:
@@ -58,7 +58,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
           python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg gdown
-      - name: Fetch previously analyzed real hardKor source package
+      - name: Fetch authentic hardKor E14 source + retained analysis (no fabricated events)
         run: |
           mkdir -p "$RUNNER_TEMP/real-source"
           python -m gdown --id "$ARCHIVE_ID" -O "$RUNNER_TEMP/original.zip"
@@ -68,19 +68,35 @@ jobs:
           from pathlib import Path
           temp=Path(os.environ['RUNNER_TEMP'])
           with zipfile.ZipFile(temp/'original.zip') as z:
-              if any(Path(x.filename).is_absolute() or '..' in Path(x.filename).parts for x in z.infolist()):
-                  raise SystemExit('Invalid source ZIP paths')
+              for info in z.infolist():
+                  parts=Path(info.filename)
+                  if parts.is_absolute() or '..' in parts.parts or info.file_size > 2*1024**3:
+                      raise SystemExit('Source archive contains an unsafe member')
               z.extractall(temp/'real-source')
-          manifests=list((temp/'real-source').rglob('05_Source_Excerpt_Manifests/selected_excerpts.json'))
-          if len(manifests)!=1:raise SystemExit('Missing original analyzed audio manifest')
+          manifests=list((temp/'real-source').rglob('sources/selected_excerpts.json'))
+          if len(manifests)!=1:
+              raise SystemExit('Exactly one sources/selected_excerpts.json required')
           root=manifests[0].parent.parent
           rows=json.loads(manifests[0].read_text())
           if not any(x.get('excerpt_id')=='E14' for x in rows):
-              raise SystemExit('Original excerpt E14 absent; no substitute song permitted')
-          audio=root/'07_Layouts_and_Sequences/E14/audio.wav'
-          if not audio.is_file() or hashlib.sha256(audio.read_bytes()).hexdigest()!=os.environ['AUDIO_SHA256']:
-              raise SystemExit('Original audio missing or SHA256 mismatch')
-          with open(os.environ['GITHUB_ENV'],'a') as out:out.write('SOURCE_ROOT='+str(root)+'\n')
+              raise SystemExit('E14 absent from original source manifest')
+          audio=root/'sources/E14/audio.wav'
+          expected=os.environ['AUDIO_SHA256']
+          if not audio.is_file() or hashlib.sha256(audio.read_bytes()).hexdigest()!=expected:
+              raise SystemExit('Original E14 WAV absent or digest mismatch')
+          proof=json.loads((root/'analysis/E14/verification.json').read_text())
+          if proof.get('source_sha256')!=expected:
+              raise SystemExit('Retained instrument analysis does not belong to original WAV')
+          vocals=json.loads((root/'analysis/E14/vocals.json').read_text())
+          if vocals.get('audio_sha256')!=expected:
+              raise SystemExit('Retained vocal analysis does not belong to original WAV')
+          for relative in ('sources/E14/drummer.xsq','analysis/E14/performance_curves.npz',
+                           'analysis/E14/pitched_roles.json','analysis/E14/voice_roles.npz'):
+              if not (root/relative).is_file():
+                  raise SystemExit('Original analysis package incomplete: '+relative)
+          with open(os.environ['GITHUB_ENV'],'a') as out:
+              out.write('SOURCE_ROOT='+str(root)+'\n')
+          print('Verified E14 original audio and retained source analysis:',expected)
           PY
       - name: Install checksum pinned native xLights
         run: |
@@ -93,8 +109,7 @@ jobs:
       - name: Regenerate actual seven-musician editable sequence from retained source musical analysis
         run: |
           mkdir -p review
-          python -m tools.recover_showcase_source_cache "$SOURCE_ROOT" "$GITHUB_WORKSPACE/review/recovered" E14
-          python -m tools.native_source_pose_band "$GITHUB_WORKSPACE/review/recovered" "$GITHUB_WORKSPACE/review/show" --id E14 --frame-ms 50
+          python -m tools.native_source_pose_band "$SOURCE_ROOT" "$GITHUB_WORKSPACE/review/show" --id E14 --frame-ms 50
           python -m tools.verify_showcase_audio_identity review/show/media/audio.wav "$AUDIO_SHA256" --report review/source-identity.json
           python - <<'PY'
           import json,os
