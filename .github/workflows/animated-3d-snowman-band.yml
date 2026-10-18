@@ -2,7 +2,7 @@ name: Helix REAL animated 3D seven-snowman band
 on:
   push:
     branches: [codex/fresh-real-band-mp4-20261017]
-    paths: [.github/workflows/animated-3d-snowman-band.yml]
+    paths: [.github/workflows/animated-3d-snowman-band.yml, models/review_3d_scene.py, models/band_motion_refinement.py, tools/musical_band_performance.py, tools/render_corrected_3d_band.py]
   pull_request:
     paths: [.github/workflows/animated-3d-snowman-band.yml]
   workflow_dispatch:
@@ -100,15 +100,12 @@ jobs:
           (Path('render-input')/'3d_preflight.json').write_text(json.dumps(proof,indent=2)+'\n')
           print(json.dumps(proof,indent=2))
           PY
-      - name: Run newest Helix solid-geometry 3D band renderer with original song
+      - name: Enforce complete front-facing drum kit and safe keyboard arm motion
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          from models.review_3d_scene import Review3DScene
-          from tools.render_approval_revision import band
-          result=band(Path('render-input').resolve(),'E14',720,scene_factory=Review3DScene)
-          print('REAL_ANIMATED_3D_MP4',result,flush=True)
-          PY
+          python -m tools.render_corrected_3d_band --root render-input --id E14 --check-only
+      - name: Run authentic corrected Helix seven-snowman GL animation with original song
+        run: |
+          python -m tools.render_corrected_3d_band --root render-input --id E14 --frames 720
       - name: Verify full 36-second video/audio decode, moving 3D frames and kit provenance
         run: |
           python - <<'PY'
@@ -163,6 +160,7 @@ jobs:
             render-input/videos/02_E14_Snowman_Band.mp4
             render-input/videos/02_E14_Snowman_Band.render.json
             render-input/3d_preflight.json
+            render-input/videos/corrected_band_preflight.json
             render-input/3d_animated_verification.json
             render-input/diagnostics/02_E14_Snowman_Band/*.jpg
           retention-days: 30
