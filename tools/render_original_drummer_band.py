@@ -95,7 +95,7 @@ def preflight(root: Path, eid: str) -> dict:
         p=np.asarray(performance.key_hand_targets[side])
         steps=np.linalg.norm(np.diff(p, axis=0),axis=1)
         moving[side]=int(np.count_nonzero(steps > .01))
-        if len(steps) and float(np.max(steps)) > .130001:
+        if len(steps) and float(np.max(steps)) > .045001:
             raise ValueError("Keyboard wrist windmill-speed movement is back")
     if sum(moving.values()) < 20:
         raise ValueError("Keyboardist animation is frozen")
@@ -125,6 +125,8 @@ def preflight(root: Path, eid: str) -> dict:
         'second_singer_gender_ambiguous': True,
         'keyboard_note_events': key_events,
         'keyboard_moving_frames': moving,
+        'keyboard_wrist_step_limit': .045,
+        'camera_mode': 'fixed_audience_front_all_frames',
         'performers': list(scene.visible_roles),
         'review_approval': 'pending',
     }
@@ -146,11 +148,12 @@ def main() -> None:
     if a.check_only:return
     if not 1<=a.frames<=720:
         raise ValueError("Only authentic E14 36-second excerpt is supported")
-    # Restore a dedicated view of the original drummer at seconds 29-33.
-    # This only changes the review camera, never event timing or model geometry.
+    # No showcase camera theatrics. One stationary audience-front camera
+    # for every rendered frame, with all seven performers in context.
     from tools import render_approval_revision as stage
     original_camera=stage.camera
-    stage.camera=lambda eid,drummer3d=False: original_camera(eid,drummer3d=True)
+    frozen=original_camera(a.id,drummer3d=False)
+    stage.camera=lambda eid,drummer3d=False: (lambda w,h,t: frozen(w,h,0.0))
     try:
         result=stage.band(root,a.id,frames=a.frames,scene_factory=ReviewSnowmanScene)
     finally:
