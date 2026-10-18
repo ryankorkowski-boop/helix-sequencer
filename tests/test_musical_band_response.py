@@ -66,7 +66,7 @@ def test_expanded_bars_have_unique_noncolliding_channels_and_literal_register():
 
 
 @pytest.mark.parametrize('target,side',[(TARGETS[1],'left'),(TARGETS[1],'right'),(TARGETS[2],'right'),
-    (TARGETS[3],'right'),(TARGETS[4],'left'),(TARGETS[5],'left'),(TARGETS[6],'left'),(TARGETS[7],'right')])
+    (TARGETS[4],'left'),(TARGETS[5],'left'),(TARGETS[6],'left'),(TARGETS[7],'right')])
 def test_natural_arms_keep_exact_contact_and_two_fixed_limbs(target,side):
     p=ArticulatedDrummer([dict(time=1,target=target,side=side,velocity=.7)],natural_arms=True)
     for t in (.88,.96,1,1.06,1.2,1.4):

@@ -1,0 +1,201 @@
+name: Fresh native snowman band MP4 from real audio
+on:
+  push:
+    branches: [codex/fresh-real-band-mp4-20261017]
+    paths: [.github/workflows/fresh-real-band-mp4.yml, tools/native_preview.py]
+  pull_request:
+    paths: [.github/workflows/fresh-real-band-mp4.yml]
+  workflow_dispatch:
+    inputs:
+      archive_file_id:
+        description: Public Drive file ID of the source-only Helix E14 ZIP (audio, drum XSQ, and retained analysis)
+        required: true
+        type: string
+      archive_sha256:
+        description: Exact SHA256 of the original review ZIP
+        required: true
+        type: string
+      audio_sha256:
+        description: Exact SHA256 of the selected 36-second source WAV
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check true native renderer paths
+        run: |
+          python -m compileall -q tools/recover_showcase_source_cache.py tools/native_source_pose_band.py tools/native_preview.py tools/verify_showcase_audio_identity.py
+  render:
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      ARCHIVE_ID: ${{ inputs.archive_file_id || vars.HELIX_REVIEW_PACKAGE_DRIVE_ID || '1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j' }}
+      ARCHIVE_SHA256: ${{ inputs.archive_sha256 || vars.HELIX_REVIEW_PACKAGE_SHA256 || '604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10' }}
+      AUDIO_SHA256: ${{ inputs.audio_sha256 || vars.HELIX_REVIEW_AUDIO_SHA256 || '8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171' }}
+      XL_NO_GPU_COMPUTE: '1'
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate source identity and install real renderer
+        run: |
+          python - <<'PY'
+          import os,re
+          if not re.fullmatch('[A-Za-z0-9_-]{15,128}',os.environ['ARCHIVE_ID']):
+              raise SystemExit('A real public Drive ZIP file ID is required')
+          for key in ('ARCHIVE_SHA256','AUDIO_SHA256'):
+              if not re.fullmatch('[a-f0-9]{64}',os.environ[key]):
+                  raise SystemExit('Exact original SHA256 required: '+key)
+          PY
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth wmctrl ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg gdown
+      - name: Fetch authentic hardKor E14 source + retained analysis (no fabricated events)
+        run: |
+          mkdir -p "$RUNNER_TEMP/real-source"
+          python -m gdown "$ARCHIVE_ID" -O "$RUNNER_TEMP/original.zip"
+          echo "$ARCHIVE_SHA256  $RUNNER_TEMP/original.zip" | sha256sum -c -
+          python - <<'PY'
+          import os,json,zipfile,hashlib
+          from pathlib import Path
+          temp=Path(os.environ['RUNNER_TEMP'])
+          with zipfile.ZipFile(temp/'original.zip') as z:
+              for info in z.infolist():
+                  parts=Path(info.filename)
+                  if parts.is_absolute() or '..' in parts.parts or info.file_size > 2*1024**3:
+                      raise SystemExit('Source archive contains an unsafe member')
+              z.extractall(temp/'real-source')
+          manifests=list((temp/'real-source').rglob('sources/selected_excerpts.json'))
+          if len(manifests)!=1:
+              raise SystemExit('Exactly one sources/selected_excerpts.json required')
+          root=manifests[0].parent.parent
+          rows=json.loads(manifests[0].read_text())
+          if not any(x.get('excerpt_id')=='E14' for x in rows):
+              raise SystemExit('E14 absent from original source manifest')
+          audio=root/'sources/E14/audio.wav'
+          expected=os.environ['AUDIO_SHA256']
+          if not audio.is_file() or hashlib.sha256(audio.read_bytes()).hexdigest()!=expected:
+              raise SystemExit('Original E14 WAV absent or digest mismatch')
+          proof=json.loads((root/'analysis/E14/verification.json').read_text())
+          if proof.get('source_sha256')!=expected:
+              raise SystemExit('Retained instrument analysis does not belong to original WAV')
+          vocals=json.loads((root/'analysis/E14/vocals.json').read_text())
+          if vocals.get('audio_sha256')!=expected:
+              raise SystemExit('Retained vocal analysis does not belong to original WAV')
+          for relative in ('sources/E14/drummer.xsq','analysis/E14/performance_curves.npz',
+                           'analysis/E14/pitched_roles.json','analysis/E14/voice_roles.npz'):
+              if not (root/relative).is_file():
+                  raise SystemExit('Original analysis package incomplete: '+relative)
+          with open(os.environ['GITHUB_ENV'],'a') as out:
+              out.write('SOURCE_ROOT='+str(root)+'\n')
+          print('Verified E14 original audio and retained source analysis:',expected)
+          PY
+      - name: Install checksum pinned native xLights
+        run: |
+          mkdir -p "$RUNNER_TEMP/xlights"
+          cd "$RUNNER_TEMP/xlights"
+          curl -fLsS --retry 3 -o xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xLights.AppImage' | sha256sum -c -
+          chmod +x xLights.AppImage
+          ./xLights.AppImage --appimage-extract >/dev/null
+      - name: Regenerate actual seven-musician editable sequence from retained source musical analysis
+        run: |
+          mkdir -p review
+          python -m tools.native_source_pose_band "$SOURCE_ROOT" "$GITHUB_WORKSPACE/review/show" --id E14 --frame-ms 50
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          path=Path('review/show/xlights_rgbeffects.xml')
+          tree=ET.parse(path)
+          views=tree.findall('./Viewpoints/*')
+          if not views: raise SystemExit('Missing native xLights camera')
+          for view in views:
+              view.set('zoom','9')
+          for model in tree.findall('./models/model'):
+              # Review-only affine scale: genuine native custom-model nodes,
+              # colors and per-source channel values remain unchanged.
+              factor=7.0
+              model.set('WorldPosX',str(float(model.get('WorldPosX','0'))*factor))
+              y=float(model.get('WorldPosY','0'))
+              model.set('WorldPosY',str((y-18)*factor+18))
+              for axis in 'XYZ':
+                  model.set('Scale'+axis,str(float(model.get('Scale'+axis,'1'))*factor))
+              model.set('PixelSize','8')
+          tree.write(path,encoding='utf-8',xml_declaration=True)
+          print('Native preview uses 7x stage review framing; source instruments, original notes, and playback channels unchanged')
+          PY
+          python - <<'PY'
+          import hashlib,os
+          from pathlib import Path
+          audio=Path('review/show/media/audio.wav')
+          if hashlib.sha256(audio.read_bytes()).hexdigest()!=os.environ['AUDIO_SHA256']:
+              raise SystemExit('Recovered audio SHA256 mismatch')
+          PY
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path('review/show')
+          proof=json.loads((p/'pose_provenance.json').read_text())
+          if proof.get('audio_sha256')!=os.environ['AUDIO_SHA256'] or proof.get('source_score')!='ReviewBandPerformance.pose':
+              raise SystemExit('No verified source performance')
+          (p/'run_manifest.json').write_text(json.dumps({'schema':'helix.run_manifest.v1','warnings':[],'status':'pending','visual_review_status':'not_reviewed'},indent=2))
+          PY
+      - name: Render actual xLights native FSEQ and original-audio MP4
+        run: |
+          xvfb-run -a -s "-screen 0 2560x1440x24" python -m tools.native_preview "$GITHUB_WORKSPACE/review/show" --xsq "$GITHUB_WORKSPACE/review/show/Performance.xsq" --audio "$GITHUB_WORKSPACE/review/show/media/audio.wav" --xlights "$RUNNER_TEMP/xlights/squashfs-root/AppRun"
+      - name: Verify seven native models, fresh media, and decode
+        run: |
+          python - <<'PY'
+          import json,xml.etree.ElementTree as ET,hashlib,os
+          from pathlib import Path
+          p=Path('review/show')
+          report=json.loads((p/'run_manifest.json').read_text())['native_preview']
+          roles={'HX_SNOW_'+r for r in ('DRUMMER','BASS','GUITAR','PIANO','XYLOPHONE','LEAD','HARMONY')}
+          names={m.get('name') for m in ET.parse(p/'xlights_rgbeffects.xml').findall('./models/model')}
+          mp4=Path(report.get('mp4') or '/nonexistent')
+          if names!=roles or report['status']!='success' or report['audio_stream_verified'] is not True or not mp4.is_file() or not list(p.rglob('*.fseq')):
+              raise SystemExit('Real seven-performer native output gate FAILED; no diagnostic substitutes')
+          from subprocess import run, PIPE
+          info=report.get('ffprobe',{})
+          streams=[s for s in info.get('streams',[]) if s.get('codec_type')=='video']
+          if len(streams)!=1 or streams[0].get('width')!=1920 or streams[0].get('height')!=1080:
+              raise SystemExit(f"xLights native MP4 not 1920x1080; actual dimensions: {[(s.get('width'),s.get('height')) for s in streams]}; native export options requested 1920x1080; GUI pane capture rejected")
+          samples=run(['ffmpeg','-v','error','-i',str(mp4),'-vf','fps=1,scale=48:27',
+                       '-f','rawvideo','-pix_fmt','gray','-'],stdout=PIPE,stderr=PIPE,check=True).stdout
+          stride=48*27
+          counts=[sum(x>20 for x in samples[i:i+stride]) for i in range(0,len(samples),stride)]
+          if len(counts)!=36 or min(counts)<2:
+              raise SystemExit(f'Native MP4 has blank/invisible sampled frames: {counts}')
+          print('Native video: 1920x1080, 36 visible sampled seconds')
+          (Path('review')/'PROVENANCE.json').write_text(json.dumps({'audio_sha256':os.environ['AUDIO_SHA256'],'mp4_sha256':hashlib.sha256(mp4.read_bytes()).hexdigest(),'source':'original hardKor analyzed audio','native_xlights':True,'visual_review_status':'not_reviewed','performers':sorted(names)},indent=2))
+          PY
+          ffmpeg -v error -xerror -i "$(find review/show -name preview.mp4 -print -quit)" -map 0:v:0 -map 0:a:0 -f null -
+      - name: Upload MP4 and source provenance (never a placeholder)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-fresh-original-audio-seven-snowmen
+          path: |
+            review/**/preview.mp4
+            review/**/Performance.fseq
+            review/show/media/audio.wav
+            review/**/native_headless.log
+            review/**/native_gui.log
+            review/**/native_channels.json
+            review/show/Performance.xsq
+            review/show/xlights_rgbeffects.xml
+            review/show/pose_provenance.json
+            review/show/run_manifest.json
+            review/source-identity.json
+            review/PROVENANCE.json
+          if-no-files-found: warn
+          retention-days: 14

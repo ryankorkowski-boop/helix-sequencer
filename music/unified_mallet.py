@@ -41,7 +41,17 @@ def unified_mallet_schedule(events, *, duration, low=48, high=96, fps=20, reacha
                 best = max(pairs,key=lambda pair: sum(x[1].velocity for x in pair))
                 assigned = sorted(best, key=lambda x:x[0])
             elif options:
-                assigned = [max(options,key=lambda x:x[1].velocity)]
+                # A single note reachable by both hands used to choose the
+                # first (left) option on every velocity tie. Use the same
+                # register/alternation preference as the unrestricted path,
+                # while retaining reachability and strongest-note priority.
+                def preference(option):
+                    pitch,event,side=option;middle=(low+high)/2
+                    preferred=('left' if pitch<middle-6 else 'right' if pitch>middle+6
+                               else 'left' if previous_side=='right' else 'right')
+                    return event.velocity,side==preferred
+                assigned = [max(options,key=preference)]
+                previous_side = assigned[0][2]
             else:
                 assigned = []
             chosen = [(p,e) for p,e,_ in assigned]
