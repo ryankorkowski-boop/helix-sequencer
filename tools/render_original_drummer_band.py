@@ -50,6 +50,25 @@ def preflight(root: Path, eid: str) -> dict:
         raise ValueError("Original source art was silently substituted")
     if not all(side in drummer.lanes and side in drummer.roots for side in ('left','right')):
         raise ValueError("Original drumstick animation incomplete")
+    hi_hat=TARGETS[2]
+    hi_hat_events=[h for h in hits if h['target']==hi_hat]
+    if not hi_hat_events or len(drummer.foot_hits)!=len(hi_hat_events):
+        raise ValueError("Hi-hat source cues not all assigned to foot pedal")
+    if any(h['target']==hi_hat for h in drummer.hits):
+        raise ValueError("Hi-hat cue is incorrectly animated as a stick strike")
+    for cue in hi_hat_events[:min(8,len(hi_hat_events))]:
+        drummer.frame(cue['time'],active=(hi_hat,))
+        if not drummer.last_hi_hat_foot_down:
+            raise ValueError("Hi-hat light and foot depression are not simultaneous")
+    drummer.frame(-1,active=())
+    if drummer.last_hi_hat_foot_down:
+        raise ValueError("Hi-hat pedal depressed without a source hit")
+    singer_scarf=next(o for o in scene.instances if o['name']=='harmony_scarf')
+    singer_color=np.asarray(singer_scarf['color'],dtype=float)
+    if not (singer_color[2] > singer_color[0] and singer_color[0] > singer_color[1]):
+        raise ValueError("Second singer must be purple, not pink")
+    if any(o['name'].startswith(('harmony_bow','harmony_eyelash')) for o in scene.instances):
+        raise ValueError("Second singer should retain gender-neutral design")
 
     moving={}
     key_events=len(performance.keyboard_events)
@@ -80,6 +99,11 @@ def preflight(root: Path, eid: str) -> dict:
         'original_drum_hits_from_source': len(hits),
         'original_playable_arm_hits': len(drummer.hits),
         'original_rejected_unplayable_hits': len(drummer.motion_rejections),
+        'hi_hat_source_hits': len(hi_hat_events),
+        'hi_hat_stick_strikes': 0,
+        'hi_hat_foot_only': True,
+        'second_singer_accent': '#8653D9',
+        'second_singer_gender_ambiguous': True,
         'keyboard_note_events': key_events,
         'keyboard_moving_frames': moving,
         'performers': list(scene.visible_roles),
