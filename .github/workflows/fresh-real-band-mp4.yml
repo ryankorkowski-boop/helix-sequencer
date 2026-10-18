@@ -186,6 +186,8 @@ jobs:
           name: helix-fresh-original-audio-seven-snowmen
           path: |
             review/**/preview.mp4
+            review/**/Performance.fseq
+            review/show/media/audio.wav
             review/**/native_headless.log
             review/**/native_gui.log
             review/**/native_channels.json
