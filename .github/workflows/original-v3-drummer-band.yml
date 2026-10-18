@@ -109,6 +109,8 @@ jobs:
           if len(stills)<5:raise SystemExit('Missing real 3D frame review images')
           images=[np.asarray(Image.open(p).convert('RGB').resize((160,90)),dtype=np.int16) for p in stills]
           deltas=[float(np.abs(images[i]-images[0]).mean()) for i in range(1,len(images))]
+          # Deltas are diagnostics only: fixed-camera articulation can be local.
+          # The stage-specific decoded-video motion gate below is authoritative.
           from tools.fixed_camera_motion import verify_fixed_camera_video
           motion=verify_fixed_camera_video(mp4)
           proof=json.loads((root/'videos/02_E14_Snowman_Band.render.json').read_text())
