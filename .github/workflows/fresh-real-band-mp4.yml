@@ -168,7 +168,7 @@ jobs:
           info=report.get('ffprobe',{})
           streams=[s for s in info.get('streams',[]) if s.get('codec_type')=='video']
           if len(streams)!=1 or streams[0].get('width')!=1920 or streams[0].get('height')!=1080:
-              raise SystemExit('xLights native MP4 not 1920x1080; GUI pane capture rejected')
+              raise SystemExit(f"xLights native MP4 not 1920x1080; actual dimensions: {[(s.get('width'),s.get('height')) for s in streams]}; native export options requested 1920x1080; GUI pane capture rejected")
           samples=run(['ffmpeg','-v','error','-i',str(mp4),'-vf','fps=1,scale=48:27',
                        '-f','rawvideo','-pix_fmt','gray','-'],stdout=PIPE,stderr=PIPE,check=True).stdout
           stride=48*27
