@@ -119,7 +119,9 @@ def _native_export(xlights: str, show: Path, staged: Path,
                                 else "-b", "--show", str(show)],
                                stdout=log, stderr=log)
         try:
-            deadline = time.monotonic() + 30
+            # Cold AppImage startup under software GL/Xvfb can exceed 30s.
+            # Allow a bounded startup window without relaxing output QA.
+            deadline = time.monotonic() + 120
             while True:
                 if app.poll() is not None:
                     raise RuntimeError(f"xLights exited {app.returncode}")
