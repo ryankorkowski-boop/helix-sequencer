@@ -33,7 +33,7 @@ CONCEPTS = {
     'resolution': {'reconcile', 'forgive', 'peace', 'reunited', 'home'},
 }
 NEGATION = {"not", "no", "never", "without", "isn't", "don't", "can't", "cannot"}
-MOTION = {'winter':'cascade', 'warmth':'pulse', 'sky':'shimmer', 'travel':'chase',
+MOTION = {'emotional_transition':'texture', 'winter':'cascade', 'warmth':'pulse', 'sky':'shimmer', 'travel':'chase',
     'connection':'bloom', 'separation':'texture', 'fear':'texture', 'hope':'bloom',
     'celebration':'sweep', 'conflict':'pulse', 'resolution':'bloom'}
 

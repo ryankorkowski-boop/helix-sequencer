@@ -168,3 +168,16 @@ ORT_DISABLE_TELEMETRY=1 control. New native evidence remains pending. Automatic
 approval review rejected the earlier telemetry-enabled local continuation;
 the unavailable local execution server prevents additional local validation.
 Every S01-S10 and R01-R28 acceptance state retains its existing limits.
+
+
+### Contextual model proof and sparse-coverage rejection
+
+Bells of Mathmas native fallback passed (155.96s, .999183 soundtrack correlation,
+identical native samples). Wires in the Garland native comparison passed export
+checks (214.96s, .999579 correlation) but only one imagery intent/two scenic
+effects; S03/S05 storytelling quality remains unaccepted. S07 comparisons are
+partially produced, not fully reviewed. A pinned optional local NLI model now
+requires focus/context entailment and contradiction rejection, with subjective
+confidence, no generated lyrics and clean missing-model fallback. Dedicated
+source-bound Wires/Let It Glow proofs and new parity/scaling tests are pending.
+Existing native source timing and all release/owner gates remain held.

@@ -1,3 +1,42 @@
+## 2026-10-18 — Sparse semantic coverage fails artistic gate; contextual model proof
+
+Native run 39160681079 passed 118 tests with one optional native-manifest skip.
+Fresh actual native comparisons now include Bells of Mathmas (155.96s,
+source audio correlation .999183, zero lyric/semantic cues, identical native
+samples) and Wires in the Garland (214.96s, .999579 correlation, 87 accepted
+words, one imagery intent/two scenic effects). The Wires semantic coverage is
+too sparse for the requested storytelling quality; do not mark that gate complete.
+Phoneme Test Hook (34.88s, .999031 correlation) abstains on unsupported imagery.
+Other source-song jobs continue on their original immutable commit.
+
+Goal/new behavior: add optional local contextual entailment using a pinned
+safetensors model, focus-plus-neighbour evidence, contradiction/irony abstention,
+continuous affect and whole-song motif development, without generating lyrics.
+Reuse recovered intent/compile/render paths and prior source-bound analysis.
+The dedicated context proof re-renders Wires and Let It Glow from verified prior
+artifacts. No model inference/artistic result is claimed before that proof runs.
+
+Changed: core/semantic_nli.py, semantic_story/director vocabulary, audio/engine
+bridges, optional dependency list, shared benchmark reuse support, contextual
+workflow/tests/docs and master ledgers. Preserved: source words/times, original
+musical layers, independent voice evidence, native compiler restrictions,
+instrumental/missing-model fallback and release hold. No remote inference API.
+
+A performance repair moves the invariant pitch-matrix maximum outside the frame
+loop; note algorithm and exact normalization denominator remain unchanged.
+A known-event/scaling fixture verifies pitches/onsets/durations and a single
+whole-matrix normalization scan. Additional tests check contextual evidence,
+neighbour-only rejection, malformed scores, irony, no transcript mutation and
+missing-model fallback. Remote CI must verify these new tests.
+
+Risks/limits: NLI probabilities are uncalibrated on lyrics/irony/metaphor; model
+hypotheses need review. Local execution remains unavailable. Direct YouTube
+playback, independent ASR/phone labels, rich particle/shader direction, full-band
+acting, native LMS/device validation and owner approval remain open.
+The semantic-context-stage commit marker uses dedicated contextual proof while
+the original eight-song baseline run continues; this is not a release gate waiver.
+See docs/semantic_recovery/CONTEXTUAL_MODEL.md. Every earlier backlog item remains.
+
 ## 2026-10-18 — Native CI repair and optional-runtime telemetry control
 
 First native comparison run 39160403319 did not reach rendering: 111 tests passed,

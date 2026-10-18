@@ -76,6 +76,8 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--audio',type=Path,required=True)
     p.add_argument('--output',type=Path,required=True);p.add_argument('--baseline',type=Path,required=True)
     p.add_argument('--xlights',type=Path);p.add_argument('--instrumental',action='store_true')
+    p.add_argument('--reuse-analysis',type=Path,help='Reuse source-bound native baseline and analysis from a verified prior artifact')
+    p.add_argument('--song-key',default='')
     p.add_argument('--stage',choices=['all','rhythm'],default='all');args=p.parse_args()
     args.audio=args.audio.resolve();args.output=args.output.resolve();args.baseline=args.baseline.resolve()
     args.output.mkdir(parents=True,exist_ok=True)
@@ -84,11 +86,35 @@ def main():
     repo=Path(__file__).resolve().parents[1];sys.path.insert(0,str(repo))
     command=[sys.executable,str(Path(__file__).resolve()),'--audio',str(args.audio),
              '--output',str(args.output),'--baseline',str(args.baseline),'--stage','rhythm']
-    subprocess.run(command,check=True,cwd=args.baseline)
-    meta=json.loads((args.output/'rhythm.json').read_text());g=garden()
-    from core.audio_intelligence import analyze_audio_file
-    analysis=analyze_audio_file(args.audio,enable_lyrics=not args.instrumental,
-                               cache_dir=args.output/'analysis_cache',log_fn=lambda msg:print(msg,flush=True))
+    if args.reuse_analysis:
+        from types import SimpleNamespace
+        from core.semantic_nli import maybe_enrich
+        from core.semantic_story import direct
+        reuse=args.reuse_analysis.resolve()
+        meta=json.loads((reuse/'rhythm.json').read_text())
+        media=reuse/'baseline'/'source.wav'
+        if digest(media)!=meta['decoded_sha256']:
+            raise ValueError('Reused analysis audio digest mismatch')
+        args.audio=media
+        shutil.copytree(reuse/'baseline',args.output/'baseline',dirs_exist_ok=True)
+        shutil.copyfile(reuse/'rhythm.json',args.output/'rhythm.json')
+        payload=json.loads((reuse/'analysis.json').read_text())
+        if int(payload['metadata']['duration_ms'])!=round(meta['duration']*1000):
+            raise ValueError('Reused transcript duration mismatch')
+        payload['semantic_story']=maybe_enrich(payload['semantic_story'])
+        if payload['semantic_story'].get('semantic_backend',{}).get('status')!='inferred':
+            raise ValueError('Contextual model did not produce validated local inference: '+str(payload['semantic_story'].get('semantic_backend')))
+        payload['semantic_direction']=direct(payload['semantic_story'])
+        analysis=SimpleNamespace(semantic_story=payload['semantic_story'],
+            semantic_direction=payload['semantic_direction'],lyric_timeline=payload['lyric_timeline'],
+            to_dict=lambda:payload)
+    else:
+        subprocess.run(command,check=True,cwd=args.baseline)
+        meta=json.loads((args.output/'rhythm.json').read_text())
+        from core.audio_intelligence import analyze_audio_file
+        analysis=analyze_audio_file(args.audio,enable_lyrics=not args.instrumental,
+            cache_dir=args.output/'analysis_cache',log_fn=lambda msg:print(msg,flush=True))
+    g=garden()
     (args.output/'analysis.json').write_text(json.dumps(analysis.to_dict(),indent=2,allow_nan=False)+'\n')
     recovered=args.output/'recovered';shutil.copytree(args.output/'baseline',recovered,dirs_exist_ok=True)
     from core.model_parser import parse_layout
@@ -133,14 +159,14 @@ def main():
     from tools.showcase_audio_preview import NativeSongView
     from tools.build_helpers.ultimate_showcase_preview import _font
     from PIL import Image, ImageDraw
-    views=[NativeSongView(g,args.audio.stem,960,1080,halo_scale=2) for _ in range(2)]
+    views=[NativeSongView(g,args.song_key or args.audio.stem,960,1080,halo_scale=2) for _ in range(2)]
     for view,label in zip(views,('PRODUCTION BASELINE','RECOVERED SEMANTIC SCENERY')):
         view.base=Image.new('RGB',(960,1080),(4,7,14));d=ImageDraw.Draw(view.base)
         d.text((35,45),label,font=_font(25),fill='#e3eaf4')
-        d.text((35,88),args.audio.stem,font=_font(22),fill='#6eb8d4')
+        d.text((35,88),(args.song_key or args.audio.stem).replace('_',' '),font=_font(22),fill='#6eb8d4')
         d.text((35,1000),'ACTUAL XLIGHTS FSEQ  /  DEVELOPMENT REVIEW',font=_font(15),fill='#89a3b7')
         view.scene_base=view.base.crop(view.box)
-    movie=args.output/(args.audio.stem+'_Full_Song_Comparison.mp4')
+    movie=args.output/((args.song_key or args.audio.stem)+'_Full_Song_Comparison.mp4')
     encoder=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s','1920x1080',
         '-r','20','-i','-','-i',str(args.audio),'-map','0:v:0','-map','1:a:0','-t',str(meta['duration']),
         '-c:v','libx264','-preset','veryfast','-crf','22','-threads','2','-pix_fmt','yuv420p',
@@ -162,7 +188,8 @@ def main():
     source,output=pcm(args.audio),pcm(movie);n=min(len(source),len(output))
     corr=float(np.corrcoef(source[:n],output[:n])[0,1])
     if corr < .98:raise ValueError('Original soundtrack not aligned at timeline zero')
-    result=dict(schema='helix.semantic_benchmark.v1',source_sha256=digest(args.audio),
+    result=dict(schema='helix.semantic_benchmark.v1',source_sha256=meta['original_sha256'],
+        decoded_audio_sha256=digest(args.audio),semantic_backend=analysis.semantic_story.get('semantic_backend',{'status':'contextual_rules'}),
         baseline_commit=meta['baseline_commit'],duration=meta['duration'],
         words=len(analysis.lyric_timeline.get('words',[])),semantic_effects=report['effects'],
         semantic_intents=len(analysis.semantic_direction.get('intents',[])),

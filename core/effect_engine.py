@@ -12638,7 +12638,8 @@ def run_variant(
     if tuning.semantic_targets:
         from core import semantic_story, semantic_xsq, vocal_timeline
         semantic_timeline = vocal_timeline.build_lyric_timeline(lyric_events, evidence_aware=True)
-        semantic_payload = semantic_story.interpret(semantic_timeline, acoustic_sections=parts)
+        from core.semantic_nli import maybe_enrich
+        semantic_payload = maybe_enrich(semantic_story.interpret(semantic_timeline, acoustic_sections=parts))
         semantic_direction = semantic_story.direct(semantic_payload)
         semantic_export = semantic_xsq.append_direction(xsq.root, semantic_direction,
             list(tuning.semantic_targets), parsed_layout=parsed_layout, duration_ms=song_length_ms)

@@ -26,8 +26,9 @@ jobs:
           python-version: '3.12'
       - run: sudo apt-get update -qq && sudo apt-get install -y ffmpeg
       - run: python -m pip install pytest numpy==1.26.4 scipy==1.13.1 librosa==0.10.2.post1 numba==0.61.2 llvmlite==0.44.0 soundfile Pillow cmudict trimesh moderngl imageio imageio-ffmpeg zstandard
-      - run: python -m pytest -q tests/test_semantic_recovery.py tests/test_lyric_interpreter.py tests/test_vocal_emotion.py tests/test_vocal_pipeline_integration.py tests/test_sequence_plan.py tests/test_vocal_controller_3d_review.py tests/test_band_sync.py tests/test_magic_keyboard_export.py tests/test_keyboard_rung_scheduler.py tests/test_readable_band_instruments.py tests/test_legacy_lms_export.py tests/test_native_preview.py tests/test_drummer_v3_xsq_integration.py tests/test_source_instrument_light_curves.py tests/test_string_instrument_realism.py
+      - run: python -m pytest -q tests/test_semantic_recovery.py tests/test_semantic_nli.py tests/test_lyric_interpreter.py tests/test_vocal_emotion.py tests/test_vocal_pipeline_integration.py tests/test_sequence_plan.py tests/test_vocal_controller_3d_review.py tests/test_band_sync.py tests/test_magic_keyboard_export.py tests/test_keyboard_rung_scheduler.py tests/test_readable_band_instruments.py tests/test_legacy_lms_export.py tests/test_native_preview.py tests/test_drummer_v3_xsq_integration.py tests/test_source_instrument_light_curves.py tests/test_string_instrument_realism.py
   render:
+    if: "!contains(github.event.head_commit.message, '[semantic-context-stage]')"
     needs: test
     runs-on: ubuntu-24.04
     timeout-minutes: 90

@@ -1288,6 +1288,8 @@ def _extract_note_candidates(
     raw_candidates: list[dict[str, object]] = []
     note_events: list[NoteEvent] = []
     active: dict[int, dict[str, float]] = {}
+    # Invariant across frames; preserve the exact normalization denominator.
+    max_mag = float(np.max(pitch_mag)) if pitch_mag.size else 0.0
     for frame_idx in range(stft_mag.shape[1]):
         mags = pitch_mag[:, frame_idx]
         if mags.size == 0:
@@ -1295,7 +1297,6 @@ def _extract_note_candidates(
         best_idx = int(np.argmax(mags))
         best_hz = float(pitch_hz[best_idx, frame_idx])
         best_mag = float(mags[best_idx])
-        max_mag = float(np.max(pitch_mag)) if pitch_mag.size else 0.0
         confidence = _clamp01(best_mag / max(1e-9, max_mag))
         if best_hz <= 0.0:
             continue
@@ -1818,7 +1819,8 @@ def analyze_audio_file(
         },
     )
     from core.semantic_story import interpret, direct, fuse
-    result.semantic_story = interpret(lyric_timeline, acoustic_sections=sections)
+    from core.semantic_nli import maybe_enrich
+    result.semantic_story = maybe_enrich(interpret(lyric_timeline, acoustic_sections=sections))
     result.semantic_direction = direct(result.semantic_story)
     result.synchronized_events = fuse(result, result.semantic_story)
     return result
