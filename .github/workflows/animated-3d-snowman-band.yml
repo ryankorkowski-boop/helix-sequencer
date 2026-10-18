@@ -1,0 +1,169 @@
+name: Helix REAL animated 3D seven-snowman band
+on:
+  push:
+    branches: [codex/fresh-real-band-mp4-20261017]
+    paths: [.github/workflows/animated-3d-snowman-band.yml]
+  pull_request:
+    paths: [.github/workflows/animated-3d-snowman-band.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-timed-3d-band:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      ORIGINAL_PACKAGE_ID: '1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j'
+      ORIGINAL_PACKAGE_SHA256: '604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10'
+      ORIGINAL_EXCERPT_SHA256: '8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171'
+      ORIGINAL_SONG_SHA256: '8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      NUMBA_NUM_THREADS: '2'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      EGL_PLATFORM: 'surfaceless'
+      MESA_GL_VERSION_OVERRIDE: '3.3'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install offscreen 3D renderer and original-audio dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends ffmpeg libegl1 libgl1 libgl1-mesa-dri libgles2 libopengl0 libglu1-mesa libgomp1 fonts-dejavu-core
+          python -m pip install --upgrade pip
+          python -m pip install 'numpy>=1.26,<3' scipy librosa==0.10.2.post1 soundfile Pillow trimesh moderngl glcontext imageio imageio-ffmpeg numba llvmlite gdown
+      - name: Download and authenticate original Helix Audiolights and song-analysis sources
+        run: |
+          mkdir -p render-input
+          python -m gdown "$ORIGINAL_PACKAGE_ID" -O "$RUNNER_TEMP/authentic-E14.zip"
+          echo "$ORIGINAL_PACKAGE_SHA256  $RUNNER_TEMP/authentic-E14.zip" | sha256sum --check
+          python - <<'PY'
+          import os,hashlib,json,zipfile
+          from pathlib import Path
+          archive=Path(os.environ['RUNNER_TEMP'])/'authentic-E14.zip'
+          root=Path('render-input').resolve()
+          with zipfile.ZipFile(archive) as z:
+              names=z.infolist()
+              if len(names)>500 or sum(i.file_size for i in names)>1_000_000_000:
+                  raise SystemExit('Unexpected source archive size')
+              for info in names:
+                  name=Path(info.filename)
+                  if name.is_absolute() or '..' in name.parts:
+                      raise SystemExit('Unsafe ZIP member')
+              z.extractall(root)
+          selected=root/'sources/selected_excerpts.json'
+          if not selected.is_file():raise SystemExit('No original excerpt selection records')
+          rows=json.loads(selected.read_text())
+          row=next((r for r in rows if r.get('excerpt_id')=='E14'),None)
+          if not row or row.get('filename')!='Helix Audiolights.mp3':
+              raise SystemExit('Original song identity mismatch')
+          if row.get('sha256')!=os.environ['ORIGINAL_SONG_SHA256']:
+              raise SystemExit('Full source song hash mismatch')
+          wav=root/'sources/E14/audio.wav'
+          if not wav.is_file() or hashlib.sha256(wav.read_bytes()).hexdigest()!=os.environ['ORIGINAL_EXCERPT_SHA256']:
+              raise SystemExit('Not the original 36-second WAV')
+          for p in ('sources/E14/drummer.xsq','analysis/E14/verification.json',
+                    'analysis/E14/note_events.json','analysis/E14/performance_curves.npz',
+                    'analysis/E14/pitched_roles.json','analysis/E14/voice_roles.npz'):
+              if not (root/p).is_file():raise SystemExit('Missing genuine performance source: '+p)
+          proof=json.loads((root/'analysis/E14/verification.json').read_text())
+          if proof.get('source_sha256')!=os.environ['ORIGINAL_EXCERPT_SHA256']:
+              raise SystemExit('Stem analysis is not matched to original source')
+          print('Original hardKor excerpt and performance score VERIFIED')
+          PY
+      - name: Inspect physical 3D drummer and independent seven-member performance
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from models.review_3d_scene import Review3DScene
+          from tools.render_approval_revision import setup
+          scene=Review3DScene()
+          expected={'KICK','SNARE','HI_HAT','TOM_HIGH','TOM_MID','TOM_FLOOR','CYMBAL_LEFT','CYMBAL_RIGHT'}
+          if set(scene.drum_centers)!=expected:
+              raise SystemExit('Incomplete visible physical drum kit')
+          for part in ('hihat_pedal','hihat_foot','kick_beater','drummer_rigs'):
+              if not hasattr(scene,part):raise SystemExit('Physical drummer rig missing: '+part)
+          row,audio,stage,p=setup(Path('render-input'), 'E14',scene_factory=Review3DScene)
+          expected_roles={'drummer','bass','guitar','piano','xylophone','lead','harmony'}
+          if set(scene.visible_roles)!=expected_roles or p.n!=720 or len(p.voice_lanes)!=720:
+              raise SystemExit('Seven source-timed musicians not ready')
+          proof={'song':row['filename'],'frames':p.n,'roles':sorted(expected_roles),
+                 'visible_drum_components':sorted(expected),
+                 'drummer_rig_sides':sorted(scene.drummer_rigs),'hihat_foot':True,
+                 'kick_beater':True,'source_timed_drum_hits':len(stage.drum_hits),
+                 'source_keyboard_notes':len(p.keyboard_events),
+                 'source_mallet_strikes':len(p.mallet_schedule),
+                 'no_synthesized_missing_tom_hits':True}
+          (Path('render-input')/'3d_preflight.json').write_text(json.dumps(proof,indent=2)+'\n')
+          print(json.dumps(proof,indent=2))
+          PY
+      - name: Run newest Helix solid-geometry 3D band renderer with original song
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from models.review_3d_scene import Review3DScene
+          from tools.render_approval_revision import band
+          result=band(Path('render-input').resolve(),'E14',720,scene_factory=Review3DScene)
+          print('REAL_ANIMATED_3D_MP4',result,flush=True)
+          PY
+      - name: Verify full 36-second video/audio decode, moving 3D frames and kit provenance
+        run: |
+          python - <<'PY'
+          import json,hashlib,subprocess,os
+          import numpy as np
+          from PIL import Image
+          from pathlib import Path
+          root=Path('render-input')
+          mp4=root/'videos/02_E14_Snowman_Band.mp4'
+          if not mp4.is_file() or mp4.stat().st_size<500_000:
+              raise SystemExit('New animation video was not produced')
+          probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams',
+               '-show_format','-of','json',str(mp4)]))
+          streams=probe['streams']; video=next(x for x in streams if x['codec_type']=='video')
+          audio=next(x for x in streams if x['codec_type']=='audio')
+          if (video['width'],video['height'],video.get('nb_frames'))!=(1280,720,'720'):
+              raise SystemExit('Unexpected animation size or frame count')
+          if audio['codec_name']!='aac' or video['codec_name']!='h264':
+              raise SystemExit('Missing original music or H264 picture')
+          if abs(float(probe['format']['duration'])-36)>.15:
+              raise SystemExit('Incorrect audio/video duration')
+          subprocess.run(['ffmpeg','-v','error','-xerror','-i',str(mp4),'-map','0:v:0',
+              '-map','0:a:0','-f','null','-'],check=True,timeout=300)
+          stills=sorted((root/'diagnostics/02_E14_Snowman_Band').glob('frame_*.jpg'))
+          if len(stills)<5:raise SystemExit('Missing real 3D frame review images')
+          images=[np.asarray(Image.open(p).convert('RGB').resize((160,90)),dtype=np.int16) for p in stills]
+          deltas=[float(np.abs(images[i]-images[0]).mean()) for i in range(1,len(images))]
+          if max(deltas)<3:raise SystemExit('Animation has frozen or black frames')
+          proof=json.loads((root/'videos/02_E14_Snowman_Band.render.json').read_text())
+          if not proof.get('volumetric_drummer') or len(proof.get('visible_roles',[]))!=7:
+              raise SystemExit('Not real seven-performer, volumetric drum animation')
+          record={'renderer':'Helix current Review3DScene + source-timed GL SamplerView',
+                  'source':'hardKor Helix Audiolights; original seconds 40-76',
+                  'original_full_song_sha256':os.environ['ORIGINAL_SONG_SHA256'],
+                  'excerpt_sha256':os.environ['ORIGINAL_EXCERPT_SHA256'],
+                  'mp4_sha256':hashlib.sha256(mp4.read_bytes()).hexdigest(),
+                  'bytes':mp4.stat().st_size,'fps':20,'frames':720,
+                  'resolution':'1280x720','full_video_audio_decode':True,
+                  'visual_deltas':deltas,'owner_approval_pending':True,
+                  'independent_instrument_accuracy_verified':False,
+                  'reused_previously_rendered_video':False,
+                  'physical_drummer_kit_geometry':True}
+          (root/'3d_animated_verification.json').write_text(json.dumps(record,indent=2)+'\n')
+          print(json.dumps(record,indent=2))
+          PY
+      - name: Deliver newly animated band and review evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Original-Song-Animated-3D-Snowman-Band
+          path: |
+            render-input/videos/02_E14_Snowman_Band.mp4
+            render-input/videos/02_E14_Snowman_Band.render.json
+            render-input/3d_preflight.json
+            render-input/3d_animated_verification.json
+            render-input/diagnostics/02_E14_Snowman_Band/*.jpg
+          retention-days: 30
+          if-no-files-found: warn
