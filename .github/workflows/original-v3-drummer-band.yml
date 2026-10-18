@@ -4,7 +4,7 @@ on:
     branches: [codex/fresh-real-band-mp4-20261017]
     paths: [.github/workflows/original-v3-drummer-band.yml, models/review_3d_scene.py, models/band_motion_refinement.py, tools/musical_band_performance.py, tools/render_corrected_3d_band.py]
   pull_request:
-    paths: [.github/workflows/original-v3-drummer-band.yml, tools/render_original_drummer_band.py, tools/review_band_performance.py]
+    paths: [.github/workflows/original-v3-drummer-band.yml, tools/render_original_drummer_band.py, tools/review_band_performance.py, models/refined_band_scene.py, animation/articulated_source_drummer.py]
   workflow_dispatch:
 permissions:
   contents: read
