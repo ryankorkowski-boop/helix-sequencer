@@ -102,7 +102,15 @@ def main() -> None:
     if a.check_only:return
     if not 1<=a.frames<=720:
         raise ValueError("Only authentic E14 36-second excerpt is supported")
-    result=band(root,a.id,frames=a.frames,scene_factory=ReviewSnowmanScene)
+    # Restore a dedicated view of the original drummer at seconds 29-33.
+    # This only changes the review camera, never event timing or model geometry.
+    from tools import render_approval_revision as stage
+    original_camera=stage.camera
+    stage.camera=lambda eid,drummer3d=False: original_camera(eid,drummer3d=True)
+    try:
+        result=stage.band(root,a.id,frames=a.frames,scene_factory=ReviewSnowmanScene)
+    finally:
+        stage.camera=original_camera
     print('ORIGINAL_DRUMMER_FULL_BAND_MP4',result,flush=True)
 
 
