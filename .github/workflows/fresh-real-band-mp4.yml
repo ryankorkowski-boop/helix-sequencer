@@ -31,13 +31,13 @@ jobs:
           python -m compileall -q tools/recover_showcase_source_cache.py tools/native_source_pose_band.py tools/native_preview.py tools/verify_showcase_audio_identity.py
   render:
     needs: preflight
-    if: ${{ (github.event_name == 'workflow_dispatch') || ((github.event_name == 'push' || github.event_name == 'pull_request') && vars.HELIX_REVIEW_PACKAGE_DRIVE_ID != '' && vars.HELIX_REVIEW_PACKAGE_SHA256 != '' && vars.HELIX_REVIEW_AUDIO_SHA256 != '') }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
-      ARCHIVE_ID: ${{ inputs.archive_file_id || vars.HELIX_REVIEW_PACKAGE_DRIVE_ID }}
-      ARCHIVE_SHA256: ${{ inputs.archive_sha256 || vars.HELIX_REVIEW_PACKAGE_SHA256 }}
-      AUDIO_SHA256: ${{ inputs.audio_sha256 || vars.HELIX_REVIEW_AUDIO_SHA256 }}
+      ARCHIVE_ID: ${{ inputs.archive_file_id || vars.HELIX_REVIEW_PACKAGE_DRIVE_ID || '1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j' }}
+      ARCHIVE_SHA256: ${{ inputs.archive_sha256 || vars.HELIX_REVIEW_PACKAGE_SHA256 || '604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10' }}
+      AUDIO_SHA256: ${{ inputs.audio_sha256 || vars.HELIX_REVIEW_AUDIO_SHA256 || '8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171' }}
       XL_NO_GPU_COMPUTE: '1'
       OMP_NUM_THREADS: '2'
     steps:
