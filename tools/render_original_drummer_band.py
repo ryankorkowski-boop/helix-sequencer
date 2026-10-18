@@ -41,7 +41,8 @@ def preflight(root: Path, eid: str) -> dict:
     if len(TARGETS) != 8:
         raise ValueError("Original source artwork missing drum component contracts")
 
-    hits = physical_hits(row['drummer_xsq'])
+    drummer_sequence = root / 'sources' / eid / 'drummer.xsq'
+    hits = physical_hits(drummer_sequence)
     drummer = ArticulatedDrummer(hits, natural_arms=True, cache_lighting=True)
     if len(drummer.hits) == 0:
         raise ValueError("The original drummer received no authentic source hits")
@@ -74,7 +75,7 @@ def preflight(root: Path, eid: str) -> dict:
         'replacement_3d_drum_geometry': False,
         'original_assets_sha256': {key: hashlib.sha256(p.read_bytes()).hexdigest() for key,p in files.items()},
         'source_audio_sha256': hashlib.sha256(audio.read_bytes()).hexdigest(),
-        'source_drummer_xsq_sha256': hashlib.sha256(Path(row['drummer_xsq']).read_bytes()).hexdigest(),
+        'source_drummer_xsq_sha256': hashlib.sha256(drummer_sequence.read_bytes()).hexdigest(),
         'original_components': list(TARGETS),
         'original_drum_hits_from_source': len(hits),
         'original_playable_arm_hits': len(drummer.hits),
