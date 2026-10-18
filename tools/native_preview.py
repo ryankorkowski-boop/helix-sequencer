@@ -149,6 +149,15 @@ def _native_export(xlights: str, show: Path, staged: Path,
                     if pixels < 320 or pixels > 4096:
                         raise ValueError("Native export " + dimension + " must be 320..4096")
                     options[dimension] = str(pixels)
+            # Some xLights 2026.18 builds ignore exportVideoPreview width/height
+            # and capture the docked preview at its on-screen dimensions.
+            # Maximize the real GUI window before exporting, without rescaling
+            # any encoded frames after export. This requires wmctrl on Linux.
+            if shutil.which("wmctrl"):
+                subprocess.run(["wmctrl", "-r", ":ACTIVE:", "-b",
+                                "add,maximized_vert,maximized_horz"],
+                               capture_output=True, check=False, timeout=5)
+                time.sleep(2)
             _command(endpoint, "exportVideoPreview", **options)
             if not video.is_file() or video.stat().st_size == 0:
                 raise ValueError("xLights did not create a fresh native video")
