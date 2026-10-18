@@ -38,6 +38,8 @@ jobs:
       ARCHIVE_SHA256: ${{ inputs.archive_sha256 || vars.HELIX_REVIEW_PACKAGE_SHA256 || '604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10' }}
       AUDIO_SHA256: ${{ inputs.audio_sha256 || vars.HELIX_REVIEW_AUDIO_SHA256 || '8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171' }}
       XL_NO_GPU_COMPUTE: '1'
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
       OMP_NUM_THREADS: '2'
     steps:
       - uses: actions/checkout@v4
