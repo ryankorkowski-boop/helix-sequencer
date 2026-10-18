@@ -12,14 +12,16 @@ def stage_motion(frames):
     # Normalized fixed-front stage region. Excludes both timestamp/title bands.
     stage=frames[:,int(h*.40):int(h*.82),int(w*.17):int(w*.83)]
     bright=(stage.max(axis=3)>30).mean(axis=(1,2))
-    if np.any(bright<.01):raise ValueError('Blank stage frame')
+    if np.any(bright<.01):
+        bad=np.flatnonzero(bright<.01)
+        raise ValueError(f'Blank stage frame: {len(bad)} sampled frames, first indices {bad[:12].tolist()}, minimum stage visibility {float(bright.min()):.5f}')
     delta=np.abs(np.diff(stage,axis=0)).max(axis=3)
     changed=(delta>12).mean(axis=(1,2))
     # Local articulated movement need not change the whole image's mean by 3.
     # Codec noise or a changing source-time label is not evidence of motion.
     moving=int(np.count_nonzero(changed>.002))
     if moving<max(2,int(len(changed)*.10)):
-        raise ValueError('Frozen stage pixels')
+        raise ValueError(f'Frozen stage pixels: {moving}/{len(changed)} moving transitions, max changed fraction {float(changed.max()):.6f}, threshold {max(2,int(len(changed)*.10))}')
     return {'sampled_frames':len(frames),'moving_transitions':moving,
             'max_stage_changed_fraction':float(changed.max()),
             'min_visible_stage_fraction':float(bright.min()),
