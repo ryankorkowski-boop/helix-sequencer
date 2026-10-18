@@ -4,6 +4,7 @@ on:
     branches: [codex/historical-semantic-recovery-20261018]
     paths:
       - .github/workflows/semantic-context-proof.yml
+      - tools/benchmark_semantic_recovery.py
       - core/semantic_nli.py
       - tests/test_semantic_nli.py
       - requirements-contextual.txt
@@ -83,4 +84,4 @@ jobs:
             context-review/**/*.xsq
             context-review/**/*.fseq
             context-review/**/*.log
-          retention-days: 7
+          retention-days: 90

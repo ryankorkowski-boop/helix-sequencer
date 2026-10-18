@@ -1,3 +1,13 @@
+## 2026-10-18 — Final focused regressions and native review-only proof wiring
+
+135 focused tests passed with one optional native-manifest skip in run39165828231.
+Goal: verify candidate-only local inference preserves production output.
+Updated context workflow to trigger on the benchmark script it executes; updated
+language workflow to trigger on model changes; future proof/fixture retention90days.
+Existing eight-song bundles retain their original7day expiry. Corrected benchmark
+test status. Preserved all source/model thresholds and musical output. Known
+capability failure remains open; native quarantine proof pending. No release merge.
+
 ## 2026-10-18 — Persist final native evidence and model rejection
 
 Goal: make review concrete without presenting technical export success as semantic

@@ -3,6 +3,7 @@ on:
   push:
     branches: [codex/historical-semantic-recovery-20261018]
     paths:
+      - core/semantic_nli.py
       - tools/validate_semantic_entailment.py
       - .github/workflows/semantic-language-fixtures.yml
 permissions:
@@ -25,5 +26,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
+          retention-days: 90
           name: semantic-language-fixtures
           path: semantic_language_fixtures.json

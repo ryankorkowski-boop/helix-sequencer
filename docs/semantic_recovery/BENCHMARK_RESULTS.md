@@ -68,7 +68,10 @@ At commit 7f2062074798bd59cadbf82430874864dbc67061, run 39161979246 passed
 127 focused tests with one optional native-manifest skip. The earlier separate
 instrument batch passed 39 tests with three absent real-fixture skips; these
 counts overlap and must not be added as unique tests.
-Final provider-confidence/quarantine regressions: pending run 39165828231.
+Final provider-confidence/quarantine regressions: **135 passed, one optional
+native-manifest skip**, run [39165828231](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39165828231),
+commit 9a462494c0c5f7319d6e757cdf42049ab8a965cf. One audioop deprecation warning.
+These are focused regressions, not an entire-repository clean CI claim.
 
 Open: independently labeled word/phone accuracy, source-separated harmony
 identity, nontrivial metaphor/irony/narrative calibration, richer spatial
