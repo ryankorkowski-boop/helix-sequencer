@@ -57,6 +57,9 @@ class RefinedBandScene(ReadableBandScene):
     def snowman(self,role,p,accent,female=False):
         neutral=self.neutral_performers and role in ('lead','harmony','xylophone')
         first=len(self.instances)
+        # The second singer is intentionally gender-ambiguous and PURPLE,
+        # not the inherited pink female-coded performer.
+        if role=='harmony' and neutral:accent='#8653D9'
         center=super().snowman(role,p,accent,False if neutral else female)
         if neutral:
             from models.band_performance_scene import matrix,line_matrix
