@@ -2,7 +2,7 @@ name: Fresh native snowman band MP4 from real audio
 on:
   push:
     branches: [codex/fresh-real-band-mp4-20261017]
-    paths: [.github/workflows/fresh-real-band-mp4.yml]
+    paths: [.github/workflows/fresh-real-band-mp4.yml, tools/native_preview.py]
   pull_request:
     paths: [.github/workflows/fresh-real-band-mp4.yml]
   workflow_dispatch:
@@ -151,7 +151,7 @@ jobs:
           PY
       - name: Render actual xLights native FSEQ and original-audio MP4
         run: |
-          xvfb-run -a python -m tools.native_preview "$GITHUB_WORKSPACE/review/show" --xsq "$GITHUB_WORKSPACE/review/show/Performance.xsq" --audio "$GITHUB_WORKSPACE/review/show/media/audio.wav" --xlights "$RUNNER_TEMP/xlights/squashfs-root/AppRun"
+          xvfb-run -a -s "-screen 0 2560x1440x24" python -m tools.native_preview "$GITHUB_WORKSPACE/review/show" --xsq "$GITHUB_WORKSPACE/review/show/Performance.xsq" --audio "$GITHUB_WORKSPACE/review/show/media/audio.wav" --xlights "$RUNNER_TEMP/xlights/squashfs-root/AppRun"
       - name: Verify seven native models, fresh media, and decode
         run: |
           python - <<'PY'
@@ -164,6 +164,18 @@ jobs:
           mp4=Path(report.get('mp4') or '/nonexistent')
           if names!=roles or report['status']!='success' or report['audio_stream_verified'] is not True or not mp4.is_file() or not list(p.rglob('*.fseq')):
               raise SystemExit('Real seven-performer native output gate FAILED; no diagnostic substitutes')
+          from subprocess import run, PIPE
+          info=report.get('ffprobe',{})
+          streams=[s for s in info.get('streams',[]) if s.get('codec_type')=='video']
+          if len(streams)!=1 or streams[0].get('width')!=1920 or streams[0].get('height')!=1080:
+              raise SystemExit('xLights native MP4 not 1920x1080; GUI pane capture rejected')
+          samples=run(['ffmpeg','-v','error','-i',str(mp4),'-vf','fps=1,scale=48:27',
+                       '-f','rawvideo','-pix_fmt','gray','-'],stdout=PIPE,stderr=PIPE,check=True).stdout
+          stride=48*27
+          counts=[sum(x>20 for x in samples[i:i+stride]) for i in range(0,len(samples),stride)]
+          if len(counts)!=36 or min(counts)<2:
+              raise SystemExit(f'Native MP4 has blank/invisible sampled frames: {counts}')
+          print('Native video: 1920x1080, 36 visible sampled seconds')
           (Path('review')/'PROVENANCE.json').write_text(json.dumps({'audio_sha256':os.environ['AUDIO_SHA256'],'mp4_sha256':hashlib.sha256(mp4.read_bytes()).hexdigest(),'source':'original hardKor analyzed audio','native_xlights':True,'visual_review_status':'not_reviewed','performers':sorted(names)},indent=2))
           PY
           ffmpeg -v error -xerror -i "$(find review/show -name preview.mp4 -print -quit)" -map 0:v:0 -map 0:a:0 -f null -
