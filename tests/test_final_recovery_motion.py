@@ -12,7 +12,7 @@ class KeyboardRecovery(unittest.TestCase):
         for i,notes in enumerate(sequence):
             held[i,:len(notes)]=notes;levels[i,:len(notes)]=.8
         centers={p:np.array(((p-66)*.025,1.3,.65)) for p in range(48,85)}
-        rigs={s:dict(shoulder=np.array((x,1.65,.05)),hand=np.array((x,1.395,.715)),link_lengths=(.8,.78)) for s,x in [('left',-.36),('right',.36)]}
+        rigs={s:dict(shoulder=np.array((x,1.65,.05)),hand=np.array((x,1.410,.715)),link_lengths=(.8,.78)) for s,x in [('left',-.36),('right',.36)]}
         lanes,contacts,report=plan_keyboard_hands(held,levels,centers,rigs)
         for side,lane in lanes.items():
             self.assertLessEqual(np.linalg.norm(np.diff(lane,axis=0),axis=1).max(),.045001)
@@ -66,6 +66,18 @@ class DrummerRecovery(unittest.TestCase):
         self.assertEqual(len(d.foot_hits),3);self.assertFalse(d.hits)
         for e in hits:
             d.frame(e['time']);self.assertTrue(d.last_hi_hat_foot_down)
+
+    def test_pedal_inside_authored_crop_and_recovers(self):
+        d=ArticulatedDrummer([dict(time=1,target=TARGETS[2],side='right',velocity=1)],natural_arms=True)
+        depression=[]
+        for t in (1,1.04,1.08,1.12):
+            d.frame(t);pose=d.last_hi_hat_pedal_pose;depression.append(pose['depression'])
+            self.assertLess(pose['toe'][1],380)
+        self.assertEqual(depression[0],1);self.assertEqual(depression[-1],0)
+        self.assertTrue(all(a>=b for a,b in zip(depression,depression[1:])))
+    def test_kicks_are_not_rejected_arm_targets(self):
+        d=ArticulatedDrummer([dict(time=0,target=TARGETS[0],side='left',velocity=1)],natural_arms=True)
+        self.assertEqual(len(d.kick_hits),1);self.assertFalse(d.motion_rejections);self.assertFalse(d.hits)
 
 class FixedCameraGate(unittest.TestCase):
     def frames(self):

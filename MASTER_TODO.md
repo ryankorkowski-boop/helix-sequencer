@@ -1,3 +1,21 @@
+## 2026-10-18 — Source-art foot visibility and contact accounting follow-up
+
+Goal: expose the actual authored hi-hat foot inside the original crop and avoid
+counting kick-only source tags as failed arm transitions. Original source-foot
+pixels now rotate over an always-visible pedal at their authored location,
+with a 25ms hold and 85ms recovery driven by source timestamps. Source kick
+cues have their own recorded lane; no stick is fabricated for them and physical
+kick-beater verification remains incomplete. Keyboard torso/keybed groove is
+held at authored transforms so fixed shoulders do not detach from a moving
+body. Contact target now matches the key surface/mitten offset exactly.
+Changed: drummer compositor, keyboard planner/performance, preflight, tests,
+roadmap. Preserved source art/audio, exact stick contacts, purple neutral singer,
+guitar/bass, mallets, native exports and platforms. Evidence: 17 focused tests
+pass; source-foot pressed/released frames inspected locally. First repair
+commit 95c338b is rendering in run39115813867. New full render still required;
+no artistic approval. Risks: authored foot travel is small at whole-band scale;
+physical kick animation and real musical ground truth remain open.
+
 ## 2026-10-18 — Final recovery: fixed-camera gate and physical motion repair
 
 Current acceptance ledger: `HELIX_MASTER_COMPLETION_ROADMAP.md`. All historical

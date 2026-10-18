@@ -26,8 +26,8 @@ def plan_keyboard_hands(held, levels, centers, rigs, *, max_step=.045,
         previous=np.asarray(rig['hand'],float).copy();velocity=np.zeros(3)
         upper,lower=rig.get('link_lengths',(.80,.78))
         own=lambda x: x<=center_x if side=='left' else x>=center_x
-        candidates={p:c+np.array((0,.095,.065)) for p,c in centers.items()
-                    if own(c[0]) and abs(upper-lower)+.1<np.linalg.norm(c+np.array((0,.095,.065))-shoulder)<upper+lower-.1}
+        candidates={p:c+np.array((0,.110,.065)) for p,c in centers.items()
+                    if own(c[0]) and abs(upper-lower)+.1<np.linalg.norm(c+np.array((0,.110,.065))-shoulder)<upper+lower-.1}
         lane=[];assigned=[];last_pitch=None;unplayed=0;active_frames=0
         target=previous.copy()
         for i,notes in enumerate(held):

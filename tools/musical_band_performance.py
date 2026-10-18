@@ -76,6 +76,9 @@ class MusicalBandPerformance(RefinedPerformance):
 
     def pose(self,i):
         levels=super().pose(i)
+        # Keyboard and torso must stay attached to the fixed shoulder rig.
+        for index,role,rest in self.scene.groove:
+            if role=='piano':self.scene.instances[index]['matrix']=rest.copy()
         for rig in self.scene.rigs:
             kind,side=rig['role'],rig['side']
             if kind=='bass' and side=='pluck':

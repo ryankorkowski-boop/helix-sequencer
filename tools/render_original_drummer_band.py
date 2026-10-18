@@ -136,6 +136,8 @@ def preflight(root: Path, eid: str) -> dict:
         'drum_motion_rejections':drummer.motion_rejections,
         'screen_right_snare_elbow_pose_verified': True,
         'screen_right_snare_original_tip_preserved': True,
+        'kick_surface_events': len(drummer.kick_hits),
+        'kick_physical_beater_verified': False,
         'hi_hat_source_hits': len(hi_hat_events),
         'hi_hat_stick_strikes': 0,
         'hi_hat_foot_only': True,

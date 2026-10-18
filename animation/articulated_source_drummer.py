@@ -74,9 +74,14 @@ class ArticulatedDrummer:
         self.foot_hits=[h for h in self.hits if h['target']==self.hi_hat_target]
         self.foot_lanes=EventLane(self.foot_hits)
         self.foot_contact_window=.11
+        # Preserve the authored foot pixels, inside the visible source crop.
+        self.foot_mask=build_zone_mask(self.source.size,self.zones['HI_HAT_FOOT'])
+        self.foot_art=self.source.copy()
+        self.foot_art.putalpha(refine_actuator_to_source_art(self.source,self.foot_mask))
+        self.kick_hits=[h for h in self.hits if h['target']==TARGETS[0]]
         # Resolve physically impossible same-hand travel without deleting a
         # polyphonic detector event or inventing a different drum identity.
-        requested=[h for h in self.hits if h['target']!=self.hi_hat_target]
+        requested=[h for h in self.hits if h['target'] not in (self.hi_hat_target,TARGETS[0])]
         self.hits=[];last={}
         for event in requested:
             preferred=event['side'];choices=[preferred]
@@ -178,20 +183,25 @@ class ArticulatedDrummer:
             if self.cache_lighting:
                 if len(self._kit_cache)>=24:self._kit_cache.pop(next(iter(self._kit_cache)))
                 self._kit_cache[cache_key]=lit.copy()
-        # Hi-hat pedal moves only when the SOURCE-TAGGED hi-hat is struck.
-        # No drumstick event is synthesized from the foot's note lane.
-        hi_hat_down=any(0<=time-h['time']<self.foot_contact_window for h in self.foot_hits)
-        if hi_hat_down:
-            # Small source-art compatible shoe/pedal motion at the base of
-            # the audience-right hi-hat stand, inside the original kit image.
-            pedal=Image.new('RGBA',self.source.size,(0,0,0,0))
-            brush=ImageDraw.Draw(pedal)
-            x=int(self.scale[0]*.705)
-            y=int(self.scale[1]*.855)
-            brush.line([(x-14,y+3),(x+13,y-3)],fill=(148,172,187,255),width=5)
-            brush.ellipse((x-18,y-11,x+5,y+1),fill=(206,222,229,255),outline=(84,100,114,255),width=2)
-            lit=Image.alpha_composite(lit.convert('RGBA'),pedal)
-        self.last_hi_hat_foot_down=hi_hat_down
+        # Foot artwork and physical pedal share a continuous source-clock pose.
+        # The old overlay was at y=.855, below the authored visible crop (.755).
+        previous,following=self.foot_lanes.neighbors(time)
+        age=time-previous['time'] if previous is not None else float('inf')
+        down=float(1-smoothstep(np.clip((age-.025)/.085,0,1))) if 0<=age<.11 else 0.
+        # Lift toward the next source strike, never fabricate an extra onset.
+        heel=np.array((.638,.710))*self.scale
+        toe=np.array((.697,.735))*self.scale
+        angle=8.*(1-down)
+        foot=self.foot_art.rotate(angle,resample=Image.Resampling.BICUBIC,center=tuple(heel))
+        # Erase the stationary copy before placing the moving original pixels.
+        lit=Image.composite(Image.new('RGBA',self.source.size,(0,0,0,255)),lit,self.foot_mask)
+        pedal=Image.new('RGBA',self.source.size,(0,0,0,0));brush=ImageDraw.Draw(pedal)
+        pedal_y=float(toe[1]-4*(1-down))
+        brush.line([tuple(heel+(0,9)),(float(toe[0]+3),pedal_y+5)],fill=(148,172,187,255),width=3)
+        lit=Image.alpha_composite(lit.convert('RGBA'),pedal)
+        lit=Image.alpha_composite(lit,foot)
+        self.last_hi_hat_foot_down=bool(0<=age<self.foot_contact_window)
+        self.last_hi_hat_pedal_pose=dict(depression=down,heel=heel.tolist(),toe=[float(toe[0]),pedal_y],source_time=None if previous is None else previous['time'])
         for side in ('left','right'):
             shoulder,elbow,wrist,tip,gain=self._pose(side,time)
             brightness=self.lighting.idle_arm+(self.lighting.strike-self.lighting.idle_arm)*gain
