@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import numpy as np
 from music.note_events import NoteEvent
-from models.band_motion_refinement import transition_targets,elbow_3d,signed_gestures
+from models.band_motion_refinement import transition_targets,elbow_3d,signed_gestures,constrained_keyboard_wrist_lane
 from models.musical_band_response import ringing_candidates,cast_source_voice
 from models.band_instrument_logic import event_curves
 from models.band_performance_scene import line_matrix,matrix
@@ -59,8 +59,16 @@ class MusicalBandPerformance(RefinedPerformance):
                     gain=max(float(v) for n,v in zip(notes,velocity[i]) if n>=0 and key_pitch(int(n))==pitch)
                     hand=self.key_centers[pitch]+(0,.110-.020*gain,.065)
                 targets.append(hand);pitches.append(pitch)
-            self.key_hand_targets[side]=transition_targets(targets,seconds=.10,preserve_changes=True)
-            self.key_assignments[side]=pitches
+            anticipated=transition_targets(targets,seconds=.10,preserve_changes=True)
+            self.key_hand_targets[side]=constrained_keyboard_wrist_lane(
+                anticipated,rig['hand'],rig['shoulder'],
+                rig.get('link_lengths',(.80,.78)),side=side,max_step=.13)
+            # A source key can light while the arm is traveling. Never claim
+            # mitten contact on an unreachable or too-fast jump.
+            self.key_assignments[side]=[
+                pitch if pitch is not None and
+                np.linalg.norm(self.key_hand_targets[side][i]-targets[i])<=.12
+                else None for i,pitch in enumerate(pitches)]
         casting=casting or dict(lead='male',source='stable lead fallback; no verified voice classification')
         self.casting=casting
         self.curves['mouth_lanes']=cast_source_voice(self.curves['mouth_lanes'].max(axis=1),
