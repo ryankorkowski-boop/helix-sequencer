@@ -1,3 +1,19 @@
+## 2026-10-18 — Actual language fixture result and contextual follow-up
+
+The first actual-model six-example fixture run recognized literal winter and
+reconciliation, rejected negated winter/loneliness and figurative physical fire,
+but abstained on a standalone relationship metaphor (entailment .635, below the
+.80 contextual threshold). Do not hide that recall limit or lower thresholds.
+
+The fixture tool now exercises the actual focus-plus-neighbour enrichment path.
+It retains the isolated metaphor as a required safe abstention and separately
+tests the same wording with preceding loneliness and following belonging/
+companionship context. Both source and expected interpretations are retained.
+This tests context-dependent interpretation instead of rewarding an unsupported
+isolated cue. No model weights, probabilities, gate thresholds or lyric words
+are changed. Seven-example model fixture results are pending. The prior model
+pass/failure and all other quality/release limitations remain recorded.
+
 ## 2026-10-18 — Language fixture report serialization guard
 
 Ensure the actual-model fixture report is strict JSON, without literal trailing
