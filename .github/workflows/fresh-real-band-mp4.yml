@@ -3,6 +3,8 @@ on:
   push:
     branches: [codex/fresh-real-band-mp4-20261017]
     paths: [.github/workflows/fresh-real-band-mp4.yml]
+  pull_request:
+    paths: [.github/workflows/fresh-real-band-mp4.yml]
   workflow_dispatch:
     inputs:
       archive_file_id:
@@ -29,7 +31,7 @@ jobs:
           python -m compileall -q tools/recover_showcase_source_cache.py tools/native_source_pose_band.py tools/native_preview.py tools/verify_showcase_audio_identity.py
   render:
     needs: preflight
-    if: ${{ (github.event_name == 'workflow_dispatch') || (github.event_name == 'push' && vars.HELIX_REVIEW_PACKAGE_DRIVE_ID != '' && vars.HELIX_REVIEW_PACKAGE_SHA256 != '' && vars.HELIX_REVIEW_AUDIO_SHA256 != '') }}
+    if: ${{ (github.event_name == 'workflow_dispatch') || ((github.event_name == 'push' || github.event_name == 'pull_request') && vars.HELIX_REVIEW_PACKAGE_DRIVE_ID != '' && vars.HELIX_REVIEW_PACKAGE_SHA256 != '' && vars.HELIX_REVIEW_AUDIO_SHA256 != '') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
