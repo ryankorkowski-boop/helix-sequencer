@@ -61,7 +61,7 @@ class MusicalBandPerformance(RefinedPerformance):
                           ('phase',phase),('energy',velocity.max(axis=1))]:
             self.curves['piano_'+key]=value
         for side in ('left','right'):
-            rig=next(r for r in scene.rigs if r['role']=='piano' and r['side']==side)
+            rig=next(r for r in self.scene.rigs if r['role']=='piano' and r['side']==side)
             targets=[];pitches=[]
             for i,notes in enumerate(held):
                 keys=sorted(set(key_pitch(int(x)) for x in notes if x>=0))
