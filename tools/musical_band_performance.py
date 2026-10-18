@@ -39,6 +39,20 @@ class MusicalBandPerformance(RefinedPerformance):
         self.key_hand_targets={};self.key_assignments={}
         from music.magic_keyboard import magic_keyboard_events
         ev=magic_keyboard_events(self.events['piano'], () if separate_pitched else self.mallet_schedule, duration=self.n/20)
+        self._install_keyboard_events(ev)
+        casting=casting or dict(lead='male',source='stable lead fallback; no verified voice classification')
+        self.casting=casting
+        self.curves['mouth_lanes']=cast_source_voice(self.curves['mouth_lanes'].max(axis=1),
+            self.curves['vocal_energy'],casting['lead'],casting.get('overrides',()))
+        self.voice_lanes=self.curves['mouth_lanes'].copy()
+        # Frame energy controls articulation, without a slow release past silence.
+        self.voice_energy=np.column_stack([self.curves['vocal_energy']*(self.voice_lanes[:,k]!=0) for k in (0,1)])
+
+    def _install_keyboard_events(self,ev):
+        """Install selected evidence-based keyboard notes in BOTH key lights
+        and hand targets; source and preview must never use different lanes.
+        Hard reach/speed constraints remain in force for any active lane.
+        """
         self.keyboard_events=ev
         held,velocity,attack,phase=event_curves(ev,self.n,6,release=0)
         # Keys and hands share the exact held-note lane, without the inherited
@@ -69,13 +83,6 @@ class MusicalBandPerformance(RefinedPerformance):
                 pitch if pitch is not None and
                 np.linalg.norm(self.key_hand_targets[side][i]-targets[i])<=.12
                 else None for i,pitch in enumerate(pitches)]
-        casting=casting or dict(lead='male',source='stable lead fallback; no verified voice classification')
-        self.casting=casting
-        self.curves['mouth_lanes']=cast_source_voice(self.curves['mouth_lanes'].max(axis=1),
-            self.curves['vocal_energy'],casting['lead'],casting.get('overrides',()))
-        self.voice_lanes=self.curves['mouth_lanes'].copy()
-        # Frame energy controls articulation, without a slow release past silence.
-        self.voice_energy=np.column_stack([self.curves['vocal_energy']*(self.voice_lanes[:,k]!=0) for k in (0,1)])
 
     def pose(self,i):
         levels=super().pose(i)
