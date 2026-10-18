@@ -109,6 +109,20 @@ jobs:
         run: |
           mkdir -p review
           python -m tools.native_source_pose_band "$SOURCE_ROOT" "$GITHUB_WORKSPACE/review/show" --id E14 --frame-ms 50
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          path=Path('review/show/xlights_rgbeffects.xml')
+          tree=ET.parse(path)
+          views=tree.findall('./Viewpoints/*')
+          if not views: raise SystemExit('Missing native xLights camera')
+          for view in views:
+              view.set('zoom','9')
+          for model in tree.findall('./models/model'):
+              model.set('PixelSize','8')
+          tree.write(path,encoding='utf-8',xml_declaration=True)
+          print('Applied native camera zoom 9 and larger visible native pixels; untouched audio, notes, channels')
+          PY
           python -m tools.verify_showcase_audio_identity review/show/media/audio.wav "$AUDIO_SHA256" --report review/source-identity.json
           python - <<'PY'
           import json,os
