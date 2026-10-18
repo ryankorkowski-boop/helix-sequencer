@@ -376,8 +376,8 @@ def face_expression_for(
     elif performer == "drummer":
         scaled = min(0.4, scaled)
     brightness = _clamp((0.16 + intensity * 0.78) * amplitude + (0.12 if performer == "lead_singer" else 0.0))
-    mouth_scale = _clamp(0.7 + intensity * 0.62 * amplitude, 0.42, 1.4)
-    motion_amplitude = _clamp(intensity * amplitude)
+    mouth_scale = _clamp(0.7 + intensity * confidence * 0.62 * amplitude, 0.42, 1.18)
+    motion_amplitude = _clamp(intensity * confidence * amplitude, 0.0, 0.65)
     return {
         "emotion_type": emotion_type,
         "emotion_intensity": round(intensity, 3),

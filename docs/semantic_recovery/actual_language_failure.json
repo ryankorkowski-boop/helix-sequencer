@@ -1,0 +1,377 @@
+{
+  "schema": "helix.semantic_language_fixtures.v2",
+  "model": {
+    "model": "cross-encoder/nli-deberta-v3-small",
+    "revision": "fa2804872c3b4bd748f38c0185cc85775361e735",
+    "engine": "local_pytorch_nli",
+    "probability_calibration": "not_calibrated_for_song_lyrics",
+    "remote_inference": false
+  },
+  "cases": [
+    {
+      "name": "literal_winter",
+      "focus": "Snow is falling and frost covers the windows.",
+      "concept": "winter",
+      "expected": true,
+      "accepted": true,
+      "passed": false,
+      "unsupported_candidates": [
+        "fear",
+        "travel"
+      ],
+      "production_safety_passed": true,
+      "evidence": {
+        "focus": {
+          "contradiction": 0.0004508449346758425,
+          "entailment": 0.9778310060501099,
+          "neutral": 0.02171814627945423
+        },
+        "context": {
+          "contradiction": 0.0004508449346758425,
+          "entailment": 0.9778310060501099,
+          "neutral": 0.02171814627945423
+        },
+        "accepted": false,
+        "proposed": true,
+        "blocked_reason": "uncalibrated_model_requires_independent_review",
+        "hypothesis": "This passage describes snow, ice, frost, or wintry weather."
+      },
+      "concepts": [
+        {
+          "name": "winter",
+          "confidence": 0.7300000000000001,
+          "evidence": [
+            "frost",
+            "snow"
+          ]
+        }
+      ],
+      "review_candidates": [
+        {
+          "name": "winter",
+          "confidence": 0.782264804840088,
+          "evidence": [
+            "Snow is falling and frost covers the windows."
+          ],
+          "evidence_kind": "unreviewed_contextual_hypothesis"
+        },
+        {
+          "name": "travel",
+          "confidence": 0.7443390369415284,
+          "evidence": [
+            "Snow is falling and frost covers the windows."
+          ],
+          "evidence_kind": "unreviewed_contextual_hypothesis"
+        },
+        {
+          "name": "fear",
+          "confidence": 0.7675456523895264,
+          "evidence": [
+            "Snow is falling and frost covers the windows."
+          ],
+          "evidence_kind": "unreviewed_contextual_hypothesis"
+        }
+      ]
+    },
+    {
+      "name": "negated_winter",
+      "focus": "There is no snow or ice. The weather is warm and sunny.",
+      "concept": "winter",
+      "expected": false,
+      "accepted": false,
+      "passed": true,
+      "unsupported_candidates": [],
+      "production_safety_passed": true,
+      "evidence": {
+        "focus": {
+          "contradiction": 0.9961869120597839,
+          "entailment": 0.0009166124509647489,
+          "neutral": 0.0028963787481188774
+        },
+        "context": {
+          "contradiction": 0.9961869120597839,
+          "entailment": 0.0009166124509647489,
+          "neutral": 0.0028963787481188774
+        },
+        "accepted": false,
+        "proposed": false,
+        "blocked_reason": "uncalibrated_model_requires_independent_review",
+        "hypothesis": "This passage describes snow, ice, frost, or wintry weather."
+      },
+      "concepts": [
+        {
+          "name": "warmth",
+          "confidence": 0.68,
+          "evidence": [
+            "warm"
+          ]
+        }
+      ],
+      "review_candidates": []
+    },
+    {
+      "name": "reconciliation",
+      "focus": "After years apart, we forgave each other and reunited.",
+      "concept": "resolution",
+      "expected": true,
+      "accepted": true,
+      "passed": false,
+      "unsupported_candidates": [
+        "fear",
+        "travel"
+      ],
+      "production_safety_passed": true,
+      "evidence": {
+        "focus": {
+          "contradiction": 0.00015274166071321815,
+          "entailment": 0.9741378426551819,
+          "neutral": 0.02570939064025879
+        },
+        "context": {
+          "contradiction": 0.00015274166071321815,
+          "entailment": 0.9741378426551819,
+          "neutral": 0.02570939064025879
+        },
+        "accepted": false,
+        "proposed": true,
+        "blocked_reason": "uncalibrated_model_requires_independent_review",
+        "hypothesis": "This passage expresses reconciliation, forgiveness, relief, or coming together after difficulty."
+      },
+      "concepts": [
+        {
+          "name": "connection",
+          "confidence": 0.68,
+          "evidence": [
+            "reunited"
+          ]
+        },
+        {
+          "name": "separation",
+          "confidence": 0.68,
+          "evidence": [
+            "apart"
+          ]
+        },
+        {
+          "name": "resolution",
+          "confidence": 0.68,
+          "evidence": [
+            "reunited"
+          ]
+        }
+      ],
+      "review_candidates": [
+        {
+          "name": "travel",
+          "confidence": 0.7802752971649171,
+          "evidence": [
+            "After years apart, we forgave each other and reunited."
+          ],
+          "evidence_kind": "unreviewed_contextual_hypothesis"
+        },
+        {
+          "name": "fear",
+          "confidence": 0.7344143867492676,
+          "evidence": [
+            "After years apart, we forgave each other and reunited."
+          ],
+          "evidence_kind": "unreviewed_contextual_hypothesis"
+        },
+        {
+          "name": "resolution",
+          "confidence": 0.7793102741241456,
+          "evidence": [
+            "After years apart, we forgave each other and reunited."
+          ],
+          "evidence_kind": "unreviewed_contextual_hypothesis"
+        }
+      ]
+    },
+    {
+      "name": "not_lonely",
+      "focus": "I am not lonely or isolated; my friends are beside me.",
+      "concept": "separation",
+      "expected": false,
+      "accepted": false,
+      "passed": false,
+      "unsupported_candidates": [
+        "fear"
+      ],
+      "production_safety_passed": true,
+      "evidence": {
+        "focus": {
+          "contradiction": 0.9945895671844482,
+          "entailment": 0.001187220448628068,
+          "neutral": 0.004223312251269817
+        },
+        "context": {
+          "contradiction": 0.9945895671844482,
+          "entailment": 0.001187220448628068,
+          "neutral": 0.004223312251269817
+        },
+        "accepted": false,
+        "proposed": false,
+        "blocked_reason": "uncalibrated_model_requires_independent_review",
+        "hypothesis": "This passage expresses loneliness, isolation, loss, or separation."
+      },
+      "concepts": [],
+      "review_candidates": [
+        {
+          "name": "connection",
+          "confidence": 0.6748775482177735,
+          "evidence": [
+            "I am not lonely or isolated; my friends are beside me."
+          ],
+          "evidence_kind": "unreviewed_contextual_hypothesis"
+        },
+        {
+          "name": "fear",
+          "confidence": 0.6440045833587646,
+          "evidence": [
+            "I am not lonely or isolated; my friends are beside me."
+          ],
+          "evidence_kind": "unreviewed_contextual_hypothesis"
+        }
+      ]
+    },
+    {
+      "name": "figurative_fire",
+      "focus": "The guitarist was on fire tonight: his solo was brilliant. No flames or physical heat were present.",
+      "concept": "warmth",
+      "expected": false,
+      "accepted": false,
+      "passed": true,
+      "unsupported_candidates": [],
+      "production_safety_passed": true,
+      "evidence": {
+        "focus": {
+          "contradiction": 0.9990161657333374,
+          "entailment": 0.0002732368011493236,
+          "neutral": 0.0007106397533789277
+        },
+        "context": {
+          "contradiction": 0.9990161657333374,
+          "entailment": 0.0002732368011493236,
+          "neutral": 0.0007106397533789277
+        },
+        "accepted": false,
+        "proposed": false,
+        "blocked_reason": "uncalibrated_model_requires_independent_review",
+        "hypothesis": "This passage describes physical warmth, flames, or a warm shelter."
+      },
+      "concepts": [
+        {
+          "name": "warmth",
+          "confidence": 0.68,
+          "evidence": [
+            "fire"
+          ]
+        }
+      ],
+      "review_candidates": []
+    },
+    {
+      "name": "ambiguous_metaphor_abstains",
+      "focus": "With you beside me, the missing pieces of my life finally fit together.",
+      "concept": "connection",
+      "expected": false,
+      "accepted": false,
+      "passed": true,
+      "unsupported_candidates": [],
+      "production_safety_passed": true,
+      "evidence": {
+        "focus": {
+          "contradiction": 0.004590658470988274,
+          "entailment": 0.6351948380470276,
+          "neutral": 0.3602144718170166
+        },
+        "context": {
+          "contradiction": 0.004590658470988274,
+          "entailment": 0.6351948380470276,
+          "neutral": 0.3602144718170166
+        },
+        "accepted": false,
+        "proposed": false,
+        "blocked_reason": "uncalibrated_model_requires_independent_review",
+        "hypothesis": "This passage expresses love, closeness, belonging, or companionship."
+      },
+      "concepts": [
+        {
+          "name": "connection",
+          "confidence": 0.68,
+          "evidence": [
+            "together"
+          ]
+        }
+      ],
+      "review_candidates": [
+        {
+          "name": "travel",
+          "confidence": 0.6874240398406983,
+          "evidence": [
+            "With you beside me, the missing pieces of my life finally fit together."
+          ],
+          "evidence_kind": "unreviewed_contextual_hypothesis"
+        },
+        {
+          "name": "resolution",
+          "confidence": 0.7166484832763672,
+          "evidence": [
+            "With you beside me, the missing pieces of my life finally fit together."
+          ],
+          "evidence_kind": "unreviewed_contextual_hypothesis"
+        },
+        {
+          "name": "negative_emotion",
+          "confidence": 0.6832102298736573,
+          "evidence": [
+            "With you beside me, the missing pieces of my life finally fit together."
+          ],
+          "evidence_kind": "unreviewed_contextual_hypothesis"
+        }
+      ]
+    },
+    {
+      "name": "metaphorical_connection_in_context",
+      "focus": "With you beside me, the missing pieces of my life finally fit together.",
+      "before": "I used to feel lonely and wished for companionship.",
+      "after": "Now I know that I belong with you and we are together.",
+      "concept": "connection",
+      "expected": true,
+      "accepted": false,
+      "passed": false,
+      "unsupported_candidates": [],
+      "production_safety_passed": true,
+      "evidence": {
+        "focus": {
+          "contradiction": 0.004590658470988274,
+          "entailment": 0.6351948380470276,
+          "neutral": 0.3602144718170166
+        },
+        "context": {
+          "contradiction": 0.03170457482337952,
+          "entailment": 0.6438158750534058,
+          "neutral": 0.3244796097278595
+        },
+        "accepted": false,
+        "proposed": false,
+        "blocked_reason": "uncalibrated_model_requires_independent_review",
+        "hypothesis": "This passage expresses love, closeness, belonging, or companionship."
+      },
+      "concepts": [
+        {
+          "name": "connection",
+          "confidence": 0.68,
+          "evidence": [
+            "together"
+          ]
+        }
+      ],
+      "review_candidates": []
+    }
+  ],
+  "passed": false,
+  "deployment_safe": true,
+  "deployment_policy": "NLI candidates are quarantined; rule direction preserved.",
+  "limitation": "Seven authored English examples, not independent song/metaphor/irony calibration."
+}

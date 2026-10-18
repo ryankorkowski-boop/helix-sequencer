@@ -1,3 +1,235 @@
+## 2026-10-18 — Completed bounded recovery delivery; release gates remain failed
+
+Final code regression evidence:135passed/1optional-manifestskip, run39165828231;
+same code passed again at1d5354b in run39165998678.
+All eight conservative source-hash-bound full-song native MP4/XSQ/FSEQ comparisons
+completed. The two final review-only native proofs passed in run39166061779
+at e81471f: model candidates changed no production direction (Wires1intent/2effects,
+Let0). Stricter actual-model capability3/7; production candidate isolation7/7.
+These authored fixtures are not a lyric accuracy estimate.
+
+Goal: preserve test/render/semantic failure evidence and make direct previews
+available. Updated benchmark report, actual language failure and native proof
+JSON. Preserved all thresholds, source clocks and original music layers.
+The local runtime recovered; eight movie digests and artifact digests verified.
+24sample frames inspected plus full-resolution Wires frame: real scenic output,
+sparse composition, small semantic difference, no performers. Full artistic
+acceptance remains pending. All eight MP4s and native/provenance evidence ZIP
+were saved as direct deliverables. Original Actions artifacts still expireOct25.
+
+Still blocked/unmet: independent word/phone annotation, reliable general language
+semantics, fuller scene composition, verified harmony identity, full-band semantic
+acting, nativeLMS/device acceptance and direct YouTube viewing. No release merge.
+No claim that the original overall success condition has been satisfied.
+
+## 2026-10-18 — Final focused regressions and native review-only proof wiring
+
+135 focused tests passed with one optional native-manifest skip in run39165828231.
+Goal: verify candidate-only local inference preserves production output.
+Updated context workflow to trigger on the benchmark script it executes; updated
+language workflow to trigger on model changes; future proof/fixture retention90days.
+Existing eight-song bundles retain their original7day expiry. Corrected benchmark
+test status. Preserved all source/model thresholds and musical output. Known
+capability failure remains open; native quarantine proof pending. No release merge.
+
+## 2026-10-18 — Persist final native evidence and model rejection
+
+Goal: make review concrete without presenting technical export success as semantic
+completion. Added BENCHMARK_RESULTS.md, machine-readable per-song reports and the
+actual language-model failure report. Updated recovery/context docs and master
+roadmap. Benchmark reuse now requires review-only model status and exact original
+semantic direction; fixture reporting checks known spurious concepts separately
+from production safety. Preserved source audio, musical timing and original tests.
+Native results: eight full-song jobs passed; final focused and quarantine-native
+runs pending. Risks: sparse rule coverage, failed contextual calibration, unlabeled
+singing timing, pending visual/full-band/device gates, seven-day media retention,
+and blocked direct YouTube review. No release merge or completion claim.
+
+## 2026-10-18 — Fail closed on actual model errors; preserve provider evidence
+
+Goal: close unsupported-semantic and transcription unit/confidence gaps before release.
+Changed core/audio_intelligence.py, core/semantic_nli.py and their tests.
+Preserved original instrumental timing, recovered rule concepts, emotion, motifs,
+source text and source clocks. New provider parsing honors explicit millisecond
+keys (including zero), treats unscored/zero/nonfinite confidence as unknown,
+keeps untimed provider phrases as phrases, and attempts the real ASR fallback.
+
+Actual model run 39162615351 failed the contextual metaphor expectation and
+also proposed unsupported fear/travel for ordinary snow and reconciliation.
+Therefore local NLI is now review-only: candidates/probabilities remain visible
+but cannot modify production concepts, emotion, motifs or direction. Experimental
+context videos from run 39161979412 are rejected semantic proofs, despite passing
+technical export gates. Do not claim their extra cues are validated improvements.
+The capability gate intentionally remains unmet; thresholds were not lowered.
+
+Tests: seven provider cases plus an observed-spurious-hypothesis regression added;
+focused CI pending at this commit. External Moises service access and schema are
+not live-verified. All eight conservative native full-song jobs in 39160681079
+completed successfully; visual, ASR/phone ground truth, richer scenic choreography,
+full-band and hardware acceptance remain open. No release merge.
+
+## 2026-10-18 — Actual language fixture result and contextual follow-up
+
+The first actual-model six-example fixture run recognized literal winter and
+reconciliation, rejected negated winter/loneliness and figurative physical fire,
+but abstained on a standalone relationship metaphor (entailment .635, below the
+.80 contextual threshold). Do not hide that recall limit or lower thresholds.
+
+The fixture tool now exercises the actual focus-plus-neighbour enrichment path.
+It retains the isolated metaphor as a required safe abstention and separately
+tests the same wording with preceding loneliness and following belonging/
+companionship context. Both source and expected interpretations are retained.
+This tests context-dependent interpretation instead of rewarding an unsupported
+isolated cue. No model weights, probabilities, gate thresholds or lyric words
+are changed. Seven-example model fixture results are pending. The prior model
+pass/failure and all other quality/release limitations remain recorded.
+
+## 2026-10-18 — Language fixture report serialization guard
+
+Ensure the actual-model fixture report is strict JSON, without literal trailing
+escape text or NaN values. Model inference, expected labels and gate thresholds
+are unchanged. Language fixture execution remains pending; native proofs and
+all existing release/artist gates retain their prior states.
+
+## 2026-10-18 — Contextual model executed and native two-song proof passed
+
+Commit 7f2062074798bd59cadbf82430874864dbc67061 passed 127 focused tests,
+one optional native-manifest skip. Dedicated context run 39161979412 completed
+both full-song native jobs using the actual pinned local NLI model (not a test
+double, not a rule fallback): Wires in the Garland increased from one to six
+imagery/affect intents (2 to 10 scenic effects); Let It Glow increased from zero
+to two intents (4 scenic effects). Source words/times and non-scenic native
+samples remain unchanged. Wires soundtrack correlation .999558; Let It Glow
+.998846; both full video decodes pass. Movies/artifacts retain SHA256 reports.
+
+This is evidence of functioning contextual inference and export, not proof of
+semantic/artistic accuracy. Additional actual-model authored language fixtures
+now test literal imagery, negation, reconciliation, loneliness rejection,
+figurative fire rejection and metaphorical connection. Results pending. These
+six examples are not a calibration set or a substitute for independent lyric
+annotations. Original eight-song batch still has long-song jobs running.
+No full-band, native LMS/device, YouTube viewing or release gate is completed
+by these scenic comparisons. Earlier backlog remains intact.
+
+## 2026-10-18 — Sparse semantic coverage fails artistic gate; contextual model proof
+
+Native run 39160681079 passed 118 tests with one optional native-manifest skip.
+Fresh actual native comparisons now include Bells of Mathmas (155.96s,
+source audio correlation .999183, zero lyric/semantic cues, identical native
+samples) and Wires in the Garland (214.96s, .999579 correlation, 87 accepted
+words, one imagery intent/two scenic effects). The Wires semantic coverage is
+too sparse for the requested storytelling quality; do not mark that gate complete.
+Phoneme Test Hook (34.88s, .999031 correlation) abstains on unsupported imagery.
+Other source-song jobs continue on their original immutable commit.
+
+Goal/new behavior: add optional local contextual entailment using a pinned
+safetensors model, focus-plus-neighbour evidence, contradiction/irony abstention,
+continuous affect and whole-song motif development, without generating lyrics.
+Reuse recovered intent/compile/render paths and prior source-bound analysis.
+The dedicated context proof re-renders Wires and Let It Glow from verified prior
+artifacts. No model inference/artistic result is claimed before that proof runs.
+
+Changed: core/semantic_nli.py, semantic_story/director vocabulary, audio/engine
+bridges, optional dependency list, shared benchmark reuse support, contextual
+workflow/tests/docs and master ledgers. Preserved: source words/times, original
+musical layers, independent voice evidence, native compiler restrictions,
+instrumental/missing-model fallback and release hold. No remote inference API.
+
+A performance repair moves the invariant pitch-matrix maximum outside the frame
+loop; note algorithm and exact normalization denominator remain unchanged.
+A known-event/scaling fixture verifies pitches/onsets/durations and a single
+whole-matrix normalization scan. Additional tests check contextual evidence,
+neighbour-only rejection, malformed scores, irony, no transcript mutation and
+missing-model fallback. Remote CI must verify these new tests.
+
+Risks/limits: NLI probabilities are uncalibrated on lyrics/irony/metaphor; model
+hypotheses need review. Local execution remains unavailable. Direct YouTube
+playback, independent ASR/phone labels, rich particle/shader direction, full-band
+acting, native LMS/device validation and owner approval remain open.
+The semantic-context-stage commit marker uses dedicated contextual proof while
+the original eight-song baseline run continues; this is not a release gate waiver.
+See docs/semantic_recovery/CONTEXTUAL_MODEL.md. Every earlier backlog item remains.
+
+## 2026-10-18 — Native CI repair and optional-runtime telemetry control
+
+First native comparison run 39160403319 did not reach rendering: 111 tests passed,
+one pre-existing float32 exact-equality assertion failed under NumPy 1.26, and
+three FFmpeg checks skipped because the test job lacked FFmpeg. Repair uses
+numerical tolerance for expected .8/.25 float amplitudes while retaining exact
+source onset/phase/rest assertions, and installs FFmpeg in the test job.
+
+Automatic approval review rejected local audio-analysis continuation because an
+optional dependency contacted a Microsoft telemetry endpoint; transmitted data
+was not established or authorized. The official ONNX Runtime privacy document
+specifies ORT_DISABLE_TELEMETRY=1 before initialization to prevent its uploader,
+events and persistent identifier. The analysis module sets that documented
+control before optional recognition imports, and the entire review workflow sets
+it before launching Python. A regression checks the control before recognizer
+construction. No network isolation or approval protection is disabled.
+
+The local execution server subsequently became unavailable. Unaffected remote
+code review/CI work continues through the connected repository. No further local
+audio-analysis retry is claimed. Native comparison acceptance remains pending.
+
+Also preserve independent beat/note/lyric/emotion/semantic timing tracks in the
+restored canonical adapter; add absent-recognizer and semantic-overlap regressions.
+Original instrument algorithms/times and release hold remain unchanged.
+Public privacy source: https://raw.githubusercontent.com/microsoft/onnxruntime/main/docs/Privacy.md
+Risks/limitations: CI must validate the safer path; no measured ASR/phone accuracy,
+native full-band proof or device acceptance is inferred. Previous backlog intact.
+
+## 2026-10-18 — Historical recovery and evidence-aware semantic development (release held)
+
+Goal: recover historical musical/lyric code before adding context-aware direction.
+Branch `codex/historical-semantic-recovery-20261018`; immutable production baseline
+`9522b19b660ebef537e195397e7e8ca6c64354bf`. All prior backlog/acceptance rows remain
+open unless their own evidence says otherwise. See `docs/semantic_recovery/RECOVERY.md`.
+
+Completed evidence: all 224 advertised branches and 125 PR heads fetched; 2,432
+reachable commits and 2,924 unique source blobs scanned; 158 locally available
+dangling commit heads preserved by refs. Nine named modules have one unique
+historical implementation, helper CLI six. Provenance for 56 relevant modules
+and a 1,352-row historical content-match inventory are retained in this branch.
+
+Changed: recovered pronunciation helper (old showcase tool reuses it), strict
+lyric evidence adapter, audio intelligence/timeline, contextual semantic story,
+existing intent graph/layer-expander bridge, scoped native XSQ compiler,
+engine/CLI/plan integration, timing adapter, restrained vocal expressions,
+benchmark workflow/source manifests, regression tests and this roadmap.
+Preserved: original engine algorithms, musical timestamps, original XML layers,
+all archived variants, independent voice evidence/duplicate rejection, model
+mouth inventories, default non-semantic exports, source recordings, release hold.
+New behavior: explicit unknown speech, no fabricated peak-generated lyrics in
+the evidence-aware production path, source-bound timed corrections, estimated
+versus supplied phoneme provenance, scoped negation/mixed mood/recurring imagery,
+continuous confidence-weighted emotion and separate semantic scenery lanes.
+
+Validation so far: 114 focused tests pass, one optional native-export fixture
+skip; separate instrument regression batch 39 pass and three absent real-source
+fixture skips. These runs precede the final commit and are repeated when needed.
+Real Phoneme Test Hook analysis ran: 38 accepted source-timed words, eight phrases;
+no supported semantic imagery intents (appropriate abstention, not a failure).
+The optional CPU recognizer's PyAV compatibility failure was reproduced and fixed
+with an exact optional dependency pin. Native rendering cannot connect to a
+display in this local sandbox; dedicated Actions full-song checks are prepared.
+No MP4 has yet passed this task's native/full-decode/audio/parity gate.
+
+Limitations/deferred: arbitrary metaphor/irony/general narrative comprehension,
+independently labeled ASR WER and word/phone timing, automatic harmony source
+identification/separation, ten-viseme model-wide parity, full band semantic
+acting, particle/shader storytelling, AC semantic composition, native LMS import,
+Windows/Android/physical controller QA, direct public-video playback and owner
+artistic approval. Direct YouTube viewing hit a human-verification block; public
+metadata/descriptions support generalized targets only, not a popularity ranking
+or a claim Helix surpasses vendors. Every missing acceptance gate remains open.
+Regression risks: optional ASR cost/model availability; changed lyric fallback;
+semantic heuristic false positives; explicit scenic layering/composition;
+unknown instrument ground truth; mismatched legacy/review mouth inventories.
+
+Next: finish source-bound native comparison workflow, inspect real frames/audio,
+fix any failure, record artifact hashes/results, publish development PR. Keep all
+release merges and distribution on hold until explicit owner approval.
+
 ## 2026-10-18 — Owner-requested advertisement delivered for review
 
 Produced Helix_Advertisement_96s.mp4: 96.000 seconds, 1920x1080 H264/AAC stereo,

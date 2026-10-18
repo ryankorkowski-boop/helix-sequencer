@@ -237,6 +237,9 @@ class SequencePlanBuilder:
         metadata = dict(style_metadata or {})
         metadata["planner"] = "sequence_plan_builder"
         metadata["analysis_schema"] = getattr(analysis, "metadata", {}).get("analysis_schema", "")
+        metadata["semantic_story"] = getattr(analysis, "semantic_story", {})
+        metadata["semantic_direction"] = getattr(analysis, "semantic_direction", {})
+        metadata["synchronized_events"] = getattr(analysis, "synchronized_events", {})
         return SequencePlan(
             source_audio=source_audio,
             fps=self.fps,

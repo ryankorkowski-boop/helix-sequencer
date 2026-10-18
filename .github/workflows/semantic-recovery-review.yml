@@ -1,0 +1,101 @@
+name: Historical semantic recovery - real full-song native comparisons
+on:
+  push:
+    branches: [codex/historical-semantic-recovery-20261018]
+    paths:
+      - .github/workflows/semantic-recovery-review.yml
+      - tools/benchmark_semantic_recovery.py
+      - config/semantic_benchmark_sources.json
+      - core/lyric_evidence.py
+      - core/lyric_pronunciation.py
+      - core/semantic_story.py
+      - core/semantic_xsq.py
+      - core/audio_intelligence.py
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  ORT_DISABLE_TELEMETRY: '1'
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update -qq && sudo apt-get install -y ffmpeg
+      - run: python -m pip install pytest numpy==1.26.4 scipy==1.13.1 librosa==0.10.2.post1 numba==0.61.2 llvmlite==0.44.0 soundfile Pillow cmudict trimesh moderngl imageio imageio-ffmpeg zstandard
+      - run: python -m pytest -q tests/test_semantic_recovery.py tests/test_semantic_nli.py tests/test_lyric_interpreter.py tests/test_vocal_emotion.py tests/test_vocal_pipeline_integration.py tests/test_sequence_plan.py tests/test_vocal_controller_3d_review.py tests/test_band_sync.py tests/test_magic_keyboard_export.py tests/test_keyboard_rung_scheduler.py tests/test_readable_band_instruments.py tests/test_legacy_lms_export.py tests/test_native_preview.py tests/test_drummer_v3_xsq_integration.py tests/test_source_instrument_light_curves.py tests/test_string_instrument_realism.py
+  render:
+    if: "!contains(github.event.head_commit.message, '[semantic-context-stage]')"
+    needs: test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        song: [Bells_of_Mathmas, Phoneme_Test_Hook, Wires_in_the_Garland, Let_It_Glow, Glass_Under_Skin, Ghost_In_The_Grid, Festivus_Remastered, North_Pole_Overdrive]
+    env:
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      HELIX_WHISPER_MODEL: small.en
+      HELIX_WHISPER_CACHE: /tmp/helix-whisper
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: current
+      - uses: actions/checkout@v4
+        with:
+          ref: 9522b19b660ebef537e195397e7e8ca6c64354bf
+          path: baseline
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install native renderer and bounded CPU analysis dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install numpy==1.26.4 scipy==1.13.1 librosa==0.10.2.post1 numba==0.61.2 llvmlite==0.44.0 soundfile Pillow trimesh moderngl imageio imageio-ffmpeg zstandard gdown -r current/requirements-semantic.txt
+          mkdir xlights
+          curl -fLsS --retry 3 -o xlights/xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xlights/xLights.AppImage' | sha256sum -c -
+          chmod +x xlights/xLights.AppImage
+          cd xlights && ./xLights.AppImage --appimage-extract >/dev/null
+      - name: Download exact owner-authorized source recording
+        env:
+          SONG: ${{ matrix.song }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,subprocess
+          from pathlib import Path
+          row=next(x for x in json.loads(Path('current/config/semantic_benchmark_sources.json').read_text()) if x['key']==os.environ['SONG'])
+          audio=Path(row['key']+'.mp3')
+          subprocess.run(['python','-m','gdown',row['drive_id'],'-O',str(audio)],check=True)
+          if hashlib.sha256(audio.read_bytes()).hexdigest()!=row['sha256']:raise SystemExit('Source digest mismatch')
+          with open(os.environ['GITHUB_ENV'],'a') as out:out.write('INSTRUMENTAL='+('--instrumental' if row['instrumental'] else '')+'\n')
+          PY
+      - name: Actual Helix baseline, contextual direction, native xLights and full-song MP4
+        env:
+          SONG: ${{ matrix.song }}
+        run: |
+          xvfb-run -a -s '-screen 0 1920x1080x24' python -u current/tools/benchmark_semantic_recovery.py --audio "$SONG.mp3" --output "review/$SONG" --baseline baseline --xlights "$PWD/xlights/squashfs-root/AppRun" $INSTRUMENTAL
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: semantic-full-song-${{ matrix.song }}
+          path: |
+            review/**/benchmark.json
+            review/**/rhythm.json
+            review/**/semantic_export.json
+            review/**/analysis.json
+            review/**/*.mp4
+            review/**/*.xsq
+            review/**/*.fseq
+            review/**/xlights_rgbeffects.xml
+            review/**/xlights_networks.xml
+            review/**/source.wav
+            review/**/assets/**
+            review/**/*.log
+          retention-days: 7

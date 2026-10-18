@@ -170,6 +170,8 @@ class RuntimeTuning:
     use_moises: bool = False
     moises_api_key: str | None = None
     sync_lyrics_heads: bool = False
+    semantic_targets: tuple[str, ...] = ()
+    lyric_corrections: Path | None = None
     template_guidance: bool = True
     layout_file: Path | None = None
     spatial_awareness: float = 0.0
@@ -10622,13 +10624,17 @@ def run_variant(
             "sentiment_score": 0,
         },
     }
-    if tuning.sync_lyrics_heads or bool(matrix_intelligence_payload.get("matrix_available", False)):
+    if tuning.sync_lyrics_heads or tuning.semantic_targets or bool(matrix_intelligence_payload.get("matrix_available", False)):
         lyric_events = ai.extract_lyrics_events(
             audio_path=audio_path,
             use_moises=bool(tuning.use_moises),
             api_key=tuning.moises_api_key,
             log_fn=log,
-        )
+        ) if tuning.lyric_corrections is None else []
+        if tuning.lyric_corrections is not None:
+            from core.lyric_evidence import load_corrections
+            from types import SimpleNamespace
+            lyric_events = [SimpleNamespace(**event) for event in load_corrections(tuning.lyric_corrections, audio_path)]
         if lyric_events:
             log(f"Lyric events detected: {len(lyric_events)}")
             lyric_interpreter_payload = lyric_interpreter.interpret_lyric_events(
@@ -10714,6 +10720,7 @@ def run_variant(
             band_sync_payload=band_sync_payload,
             multiband=multiband,
             enable_lyrics=bool(tuning.sync_lyrics_heads),
+            evidence_aware_lyrics=True,
             background_vocal_events=stem_analysis.background_vocal_events or [],
             drum_event_streams=stem_analysis.drum_event_streams or {},
         )
@@ -12628,6 +12635,19 @@ def run_variant(
             f"effects_added={master_report['effects_added']}, "
             f"rows_touched={master_report['rows_touched']}"
         )
+    if tuning.semantic_targets:
+        from core import semantic_story, semantic_xsq, vocal_timeline
+        semantic_timeline = vocal_timeline.build_lyric_timeline(lyric_events, evidence_aware=True)
+        from core.semantic_nli import maybe_enrich
+        semantic_payload = maybe_enrich(semantic_story.interpret(semantic_timeline, acoustic_sections=parts))
+        semantic_direction = semantic_story.direct(semantic_payload)
+        semantic_export = semantic_xsq.append_direction(xsq.root, semantic_direction,
+            list(tuning.semantic_targets), parsed_layout=parsed_layout, duration_ms=song_length_ms)
+        semantic_path = out_path.with_suffix('.semantic.json')
+        semantic_path.write_text(json.dumps(dict(story=semantic_payload, direction=semantic_direction,
+            export=semantic_export, quality_scope='separate semantic overlay; musical quality report describes original lanes'),
+            indent=2, allow_nan=False)+'\n', encoding='utf-8')
+        log(f"Semantic scenery: {semantic_export['effects']} source-timed effects; instrument layers preserved")
     try:
         base.indent_xml(xsq.root)
     except Exception:
@@ -12706,6 +12726,8 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--use-moises", action="store_true", help="Use Moises stem separation when possible")
     parser.add_argument("--moises-api-key", dest="moises_api_key", help="Moises API key")
     parser.add_argument("--sync-lyrics-heads", action="store_true", help="Sync lyric timing to head/face props")
+    parser.add_argument("--semantic-target", action="append", default=[], help="Explicit scenic RGB model for lyrical storytelling; repeat for spatial motion")
+    parser.add_argument("--lyric-corrections", type=Path, help="Source-hash-bound timed correction JSON")
     parser.add_argument("--template-guidance", dest="template_guidance", action="store_true", help="Analyze the selected template to guide effect-family choices")
     parser.add_argument("--no-template-guidance", dest="template_guidance", action="store_false", help="Disable template-guided effect analysis")
     parser.add_argument("--spatial-awareness", type=float, dest="spatial_awareness", help="0.0-1.0 spatial chase intensity")
@@ -12901,6 +12923,8 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         use_moises=bool(args.use_moises),
         moises_api_key=(moises_key if moises_key else None),
         sync_lyrics_heads=bool(args.sync_lyrics_heads),
+        semantic_targets=tuple(args.semantic_target),
+        lyric_corrections=args.lyric_corrections,
         template_guidance=bool(args.template_guidance),
         layout_file=layout_file,
         spatial_awareness=base.clamp(float(args.spatial_awareness if args.spatial_awareness is not None else 0.0), 0.0, 1.0),

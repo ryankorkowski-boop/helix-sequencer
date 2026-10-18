@@ -1,0 +1,4 @@
+# Optional local semantic entailment; no remote inference calls.
+transformers==4.57.1
+sentencepiece==0.2.1
+protobuf==5.29.5

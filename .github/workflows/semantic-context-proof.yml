@@ -1,0 +1,87 @@
+name: Contextual semantic model - source-bound native proof
+on:
+  push:
+    branches: [codex/historical-semantic-recovery-20261018]
+    paths:
+      - .github/workflows/semantic-context-proof.yml
+      - tools/benchmark_semantic_recovery.py
+      - core/semantic_nli.py
+      - tests/test_semantic_nli.py
+      - requirements-contextual.txt
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+env:
+  ORT_DISABLE_TELEMETRY: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  HELIX_SEMANTIC_NLI: '1'
+  OMP_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '2'
+jobs:
+  context-proof:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        song: [Wires_in_the_Garland, Let_It_Glow]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: current
+      - uses: actions/checkout@v4
+        with:
+          ref: 9522b19b660ebef537e195397e7e8ca6c64354bf
+          path: baseline
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: semantic-full-song-${{ matrix.song }}
+          run-id: 39160681079
+          github-token: ${{ github.token }}
+          path: reused
+      - name: Install local inference and native rendering dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install pytest numpy==1.26.4 scipy==1.13.1 librosa==0.10.2.post1 numba==0.61.2 llvmlite==0.44.0 soundfile Pillow trimesh moderngl imageio imageio-ffmpeg zstandard -r current/requirements-contextual.txt
+          mkdir xlights
+          curl -fLsS --retry 3 -o xlights/xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xlights/xLights.AppImage' | sha256sum -c -
+          chmod +x xlights/xLights.AppImage
+          cd xlights && ./xLights.AppImage --appimage-extract >/dev/null
+      - name: Validate inference evidence and normalization parity
+        working-directory: current
+        run: python -m pytest -q tests/test_semantic_nli.py tests/test_semantic_recovery.py
+      - name: Resolve exact prior source-bound analysis
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          candidates=list(Path('reused').rglob('analysis.json'))
+          if len(candidates)!=1:raise SystemExit('Exactly one prior analysis required')
+          with open(os.environ['GITHUB_ENV'],'a') as out:
+              out.write('CONTEXT_SOURCE_ROOT='+str(candidates[0].parent.resolve())+'\n')
+          PY
+      - name: Real contextual inference and native full-song comparison
+        env:
+          SONG: ${{ matrix.song }}
+        run: |
+          xvfb-run -a -s '-screen 0 1920x1080x24' python -u current/tools/benchmark_semantic_recovery.py --audio "$CONTEXT_SOURCE_ROOT/baseline/source.wav" --output "context-review/$SONG" --baseline baseline --xlights "$PWD/xlights/squashfs-root/AppRun" --reuse-analysis "$CONTEXT_SOURCE_ROOT" --song-key "$SONG"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: contextual-full-song-${{ matrix.song }}
+          path: |
+            context-review/**/benchmark.json
+            context-review/**/analysis.json
+            context-review/**/semantic_export.json
+            context-review/**/*.mp4
+            context-review/**/*.xsq
+            context-review/**/*.fseq
+            context-review/**/*.log
+          retention-days: 90
