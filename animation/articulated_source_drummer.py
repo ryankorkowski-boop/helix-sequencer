@@ -136,6 +136,23 @@ class ArticulatedDrummer:
         # Reach is validated; contacts are never silently clamped to a fake drum.
         shoulder=self.roots[side];upper,lower=self.lengths[side]
         elbow=elbow_2d(shoulder,wrist,upper,lower,-1 if side=='left' else 1)
+        # The drummer's anatomical LEFT arm appears on audience RIGHT. Its
+        # legacy SNARE_RIGHT IK bend put the elbow above and across the chest,
+        # creating the inverted "chicken wing" reported in the approved review.
+        # An outward/downward elbow, with a shorter upper sleeve and longer
+        # forearm, preserves the authored wrist/stick tip and snare hit time.
+        if side=='right':
+            snare=TARGETS[1]
+            contacts=[e for e in (previous,following) if e is not None
+                      and e['target']==snare and abs(time-e['time'])<=.20]
+            if contacts:
+                nearest=min(abs(time-e['time']) for e in contacts)
+                weight=float(smoothstep(max(0.,1.-nearest/.20)))
+                # 30/55 reaches the same wrist at contact, without elevating
+                # the elbow across the snowman's chest. Smoothly transition
+                # back to the original idle elbow outside the contact window.
+                snare_elbow=elbow_2d(shoulder,wrist,30.,55.,-1)
+                elbow=elbow*(1-weight)+snare_elbow*weight
         self.last_joints[side]=dict(shoulder=shoulder.copy(),elbow=elbow,wrist=wrist.copy(),tip=tip.copy(),gain=gain)
         return shoulder,elbow,wrist,tip,gain
 
