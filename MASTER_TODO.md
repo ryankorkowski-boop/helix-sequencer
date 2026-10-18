@@ -1,3 +1,27 @@
+## 2026-10-18 — Completed bounded recovery delivery; release gates remain failed
+
+Final code regression evidence:135passed/1optional-manifestskip, run39165828231;
+same code passed again at1d5354b in run39165998678.
+All eight conservative source-hash-bound full-song native MP4/XSQ/FSEQ comparisons
+completed. The two final review-only native proofs passed in run39166061779
+at e81471f: model candidates changed no production direction (Wires1intent/2effects,
+Let0). Stricter actual-model capability3/7; production candidate isolation7/7.
+These authored fixtures are not a lyric accuracy estimate.
+
+Goal: preserve test/render/semantic failure evidence and make direct previews
+available. Updated benchmark report, actual language failure and native proof
+JSON. Preserved all thresholds, source clocks and original music layers.
+The local runtime recovered; eight movie digests and artifact digests verified.
+24sample frames inspected plus full-resolution Wires frame: real scenic output,
+sparse composition, small semantic difference, no performers. Full artistic
+acceptance remains pending. All eight MP4s and native/provenance evidence ZIP
+were saved as direct deliverables. Original Actions artifacts still expireOct25.
+
+Still blocked/unmet: independent word/phone annotation, reliable general language
+semantics, fuller scene composition, verified harmony identity, full-band semantic
+acting, nativeLMS/device acceptance and direct YouTube viewing. No release merge.
+No claim that the original overall success condition has been satisfied.
+
 ## 2026-10-18 — Final focused regressions and native review-only proof wiring
 
 135 focused tests passed with one optional native-manifest skip in run39165828231.

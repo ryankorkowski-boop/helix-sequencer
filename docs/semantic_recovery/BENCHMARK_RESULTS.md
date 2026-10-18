@@ -42,11 +42,18 @@ coverage. Zero accepted words in a recording does not prove it has no vocals.
 ASR WER, phone boundary accuracy, singer identity and genre/mood labels are not
 independently measured. Visual review is pending for every movie.
 
-The linked bundles contain full-song MP4, XSQ, FSEQ, layout, source-bound analysis
-and QA evidence. Current Actions retention expires October 25, 2026. Reports,
-source hashes and movie hashes are preserved in this repository; direct MP4
-attachment/durable media storage could not be completed after the local execution
-service failed. Do not represent these expiring bundles as permanent storage.
+The linked Actions bundles contain full-song MP4, XSQ, FSEQ, layout, source-bound
+analysis and QA evidence and expire October 25, 2026. After local execution
+recovered, all eight archives passed their artifact digests and all eight MP4s
+passed their recorded movie hashes. Each full-song MP4 and a combined native
+sequence/provenance evidence ZIP were separately saved as direct deliverables.
+Reports, source hashes and movie hashes are also preserved in this repository.
+
+Sampled visual inspection covered three frames per recording (24 total), including
+the Wires semantic cue at 74.9 seconds, plus its full-resolution frame. Real native
+scenic pixels are visible, but composition is sparse and the difference is small.
+No performers are depicted. This is insufficient artistic/storytelling evidence;
+full-song visual and listening review remain open.
 
 ## Actual contextual model: rejected for production direction
 
@@ -59,8 +66,17 @@ emotion and motif preservation. The optional model cannot create visual cues.
 
 Two earlier [experimental full-song contextual renders](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39161979412)
 passed technical gates but are rejected semantic proofs. More effects are not
-evidence of better understanding. Fresh quarantine-path native proofs and final
-focused tests are recorded below when complete.
+evidence of better understanding. Fresh quarantine-path native proofs both passed in
+[run 39166061779](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39166061779),
+commit e81471f4117cd9c988c91b5b4673c08ceb219dd8. The model evaluated 12 Wires
+and eight Let It Glow passages but changed no production direction. Wires retained
+one imagery intent/two effects; Let retained zero. Original layers, non-scenic
+native samples, soundtrack correlation and complete decode gates passed.
+These prove candidate isolation, not improved semantic recall.
+
+The stricter actual-model run39166061721 passed only three of seven authored
+capability cases, while all seven production-safety comparisons passed. It remains
+a failed capability gate and must not be presented as calibrated lyric accuracy.
 
 ## Tests and remaining gates
 

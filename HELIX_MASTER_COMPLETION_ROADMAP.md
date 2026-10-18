@@ -1,3 +1,17 @@
+## 2026-10-18 final bounded delivery evidence
+
+PR177 remains draft; release **NOT READY**. 135focused tests passed with one
+optional native-manifest skip. Eight conservative full-song native comparisons
+passed technical gates. Both candidate-only native model proofs passed in
+run39166061779 with unchanged production direction. Actual language capability
+failed (3/7 authored checks); candidate isolation passed7/7. Do not conflate these.
+
+All eight MP4s and sequence/provenance evidence were saved as direct deliverables
+after runtime recovery.24sample frames show sparse real scenery, not full-band
+acting or artistic completion. All remaining semantic, independently annotated
+timing, full-band, LMS/device, listening/visual and YouTube gates remain open.
+See docs/semantic_recovery/BENCHMARK_RESULTS.md for reproducible evidence.
+
 ## 2026-10-18 measured semantic recovery status
 
 Release remains **NOT READY; draft PR177 only**. Complete advertised history and
