@@ -151,8 +151,13 @@ class ArticulatedDrummer:
                 # 30/55 reaches the same wrist at contact, without elevating
                 # the elbow across the snowman's chest. Smoothly transition
                 # back to the original idle elbow outside the contact window.
-                snare_elbow=elbow_2d(shoulder,wrist,30.,55.,-1)
-                elbow=elbow*(1-weight)+snare_elbow*weight
+                distance=float(np.linalg.norm(wrist-shoulder))
+                # Different upper/lower link lengths cannot reach every
+                # anticipatory transition pose. Keep the original valid IK
+                # outside the alternate geometry's annulus.
+                if abs(30.-55.)+1e-5 < distance < (30.+55.)-1e-5:
+                    snare_elbow=elbow_2d(shoulder,wrist,30.,55.,-1)
+                    elbow=elbow*(1-weight)+snare_elbow*weight
         self.last_joints[side]=dict(shoulder=shoulder.copy(),elbow=elbow,wrist=wrist.copy(),tip=tip.copy(),gain=gain)
         return shoulder,elbow,wrist,tip,gain
 
