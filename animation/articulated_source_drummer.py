@@ -65,14 +65,17 @@ class ArticulatedDrummer:
                 self.targets[name,side]=(np.asarray(strike['contact'])*self.scale,np.asarray(strike['grip'])*self.scale)
         self.targets[TARGETS[1],'right']=(np.asarray(self.zones['SNARE_RIGHT_ARM_STICK']['strike']['contact'])*self.scale,
             np.asarray(self.zones['SNARE_RIGHT_ARM_STICK']['strike']['grip'])*self.scale)
-        # The old foot lane does not create an extra arm: hats have a supported
-        # right-hand contact on the actual hi-hat surface in this new compositor.
-        pts=np.asarray(self.zones['HI_HAT_SURFACE']['commands'][0]['points'])*self.scale
-        tip=np.array((pts[:,0].mean(),pts[:,1].min()+3))
-        self.targets[TARGETS[2],'right']=(tip,tip+(-44,-22))
+        # HI-HAT IS FOOT ONLY. Preserve the authentic HI_HAT source cues,
+        # but do not route any of them to a stick/arm target.
+        # Foot compression and hi-hat closure share the same time gate.
+        self.hi_hat_target=TARGETS[2]
+        self.foot_hits=[h for h in self.hits if h['target']==self.hi_hat_target]
+        self.foot_lanes=EventLane(self.foot_hits)
+        self.foot_contact_window=.11
         # Resolve physically impossible same-hand travel without deleting a
         # polyphonic detector event or inventing a different drum identity.
-        requested=self.hits;self.hits=[];last={}
+        requested=[h for h in self.hits if h['target']!=self.hi_hat_target]
+        self.hits=[];last={}
         for event in requested:
             preferred=event['side'];choices=[preferred]
             if event['target']==TARGETS[1]:choices.append('right' if preferred=='left' else 'left')
@@ -158,6 +161,20 @@ class ArticulatedDrummer:
             if self.cache_lighting:
                 if len(self._kit_cache)>=24:self._kit_cache.pop(next(iter(self._kit_cache)))
                 self._kit_cache[cache_key]=lit.copy()
+        # Hi-hat pedal moves only when the SOURCE-TAGGED hi-hat is struck.
+        # No drumstick event is synthesized from the foot's note lane.
+        hi_hat_down=any(0<=time-h['time']<self.foot_contact_window for h in self.foot_hits)
+        if hi_hat_down:
+            # Small source-art compatible shoe/pedal motion at the base of
+            # the audience-right hi-hat stand, inside the original kit image.
+            pedal=Image.new('RGBA',self.source.size,(0,0,0,0))
+            brush=ImageDraw.Draw(pedal)
+            x=int(self.scale[0]*.705)
+            y=int(self.scale[1]*.855)
+            brush.line([(x-14,y+3),(x+13,y-3)],fill=(148,172,187,255),width=5)
+            brush.ellipse((x-18,y-11,x+5,y+1),fill=(206,222,229,255),outline=(84,100,114,255),width=2)
+            lit=Image.alpha_composite(lit.convert('RGBA'),pedal)
+        self.last_hi_hat_foot_down=hi_hat_down
         for side in ('left','right'):
             shoulder,elbow,wrist,tip,gain=self._pose(side,time)
             brightness=self.lighting.idle_arm+(self.lighting.strike-self.lighting.idle_arm)*gain
