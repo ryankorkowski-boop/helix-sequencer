@@ -34,20 +34,28 @@ def preflight(root: Path, eid: str) -> dict:
     if len(scene.drummer_parts) != len(ORDER):
         raise ValueError('Incomplete visible drum component mesh')
     max_keyboard_steps = {}
+    moving_keyboard_frames = {}
     contact_omissions = {}
+    source_note_frames=int(np.count_nonzero(performance.curves['piano_energy']>.01))
+    if source_note_frames<10 or len(performance.keyboard_events)<10:
+        raise ValueError('Retained source keyboard notes did not drive performance')
     for side in ('left', 'right'):
         poses=np.asarray(performance.key_hand_targets[side])
         distances=np.linalg.norm(np.diff(poses,axis=0),axis=1)
         max_keyboard_steps[side]=float(np.max(distances)) if len(distances) else 0.0
+        moving_keyboard_frames[side]=int(np.count_nonzero(distances>.01))
         if max_keyboard_steps[side]>0.130001:
             raise ValueError('Keyboard windmill-speed hand gesture')
         contacts=performance.key_assignments[side]
-        requested=sum(x is not None for x in performance.keyboard_events) if False else int(np.count_nonzero(performance.curves['piano_energy']>0))
-        contact_omissions[side]=sum(x is None for x in contacts)
+        contact_omissions[side]=sum(
+            pitch is None for i,pitch in enumerate(contacts)
+            if performance.curves['piano_energy'][i]>.01)
         for i in (0, min(len(poses)-1, 100), len(poses)-1):
             rig=next(r for r in scene.rigs if r['role']=='piano' and r['side']==side)
             if np.linalg.norm(poses[i]-rig['shoulder'])>=sum(rig.get('link_lengths',(.80,.78)))-.04:
                 raise ValueError('Keyboard wrist exceeds mechanical reach')
+    if sum(moving_keyboard_frames.values())<20:
+        raise ValueError('Keyboardist remains frozen despite real keyboard events')
     # Exercise all eight drum targets without inventing any playback events.
     for target in ORDER:
         source_side='left' if scene.drum_centers[target][0]<0 else 'right'
@@ -58,6 +66,8 @@ def preflight(root: Path, eid: str) -> dict:
     return {'source_audio_sha256':hashlib.sha256(audio.read_bytes()).hexdigest(),
             'song':row['filename'],'drum_order_audience_left_to_right':ORDER,
             'kit_components':len(ORDER),'keyboard_max_step_per_50ms':max_keyboard_steps,
+            'keyboard_moving_frames':moving_keyboard_frames,
+            'source_keyboard_note_frames':source_note_frames,
             'keyboard_contact_omissions_reported':contact_omissions,
             'source_timed':True,'all_snowmen':True,
             'artistic_approval':'pending'}
