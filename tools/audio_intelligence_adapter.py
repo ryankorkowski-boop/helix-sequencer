@@ -32,20 +32,21 @@ def _safe_import(module_name: str) -> Any | None:
 
 
 def _candidate_functions(module: Any) -> list[Callable[..., Any]]:
-    names = ("analyze_audio", "analyze", "build_timeline", "detect_events", "detect_lyrics")
+    names = ("analyze_audio_file", "analyze_audio", "analyze", "build_timeline", "detect_events", "detect_lyrics")
     return [getattr(module, name) for name in names if callable(getattr(module, name, None))]
 
 
 def _call_analyzer(func: Callable[..., Any], wav_path: str | Path) -> Any | None:
     try:
-        return func(str(wav_path))
+        result = func(Path(wav_path)) if func.__name__ == 'analyze_audio_file' else func(str(wav_path))
+        return result.to_dict() if hasattr(result, 'to_dict') else result
     except Exception:
         return None
 
 
 def _iter_events(payload: Any) -> Iterable[Mapping[str, Any]]:
     if isinstance(payload, Mapping):
-        for key in ("segments", "events", "timeline", "lyrics"):
+        for key in ("segments", "events", "timeline", "lyrics", "beat_events", "onset_events", "note_events", "emotion_events"):
             value = payload.get(key)
             if isinstance(value, list):
                 yield from (item for item in value if isinstance(item, Mapping))
@@ -54,8 +55,12 @@ def _iter_events(payload: Any) -> Iterable[Mapping[str, Any]]:
 
 
 def _event_to_segment(event: Mapping[str, Any]) -> AudioSegment:
-    start = float(event.get("start", event.get("time", 0.0)))
-    duration = float(event.get("duration", 0.5))
+    if any(key in event for key in ('time_ms','start_ms','timestamp_ms')):
+        start = float(event.get('time_ms',event.get('start_ms',event.get('timestamp_ms',0))))/1000
+        duration = float(event.get('duration_ms',max(0,float(event.get('end_ms',start*1000+500))-start*1000)))/1000
+    else:
+        start = float(event.get("start", event.get("time", 0.0)))
+        duration = float(event.get("duration", 0.5))
     label = str(event.get("label", event.get("type", ""))).lower()
 
     if "drop" in label:

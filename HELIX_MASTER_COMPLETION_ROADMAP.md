@@ -136,3 +136,23 @@ approval remains pending. Instrument solo package, true mallet-rich selection,
 native imports, platform checks and every other release blocker remain open.
 The advertisement does not satisfy those separate gates.
 
+
+## 2026-10-18 — Semantic recovery acceptance extension
+
+Existing R01–R28 and every preserved legacy backlog item remain unchanged.
+
+| ID | State | Acceptance / evidence |
+| --- | --- | --- |
+| S01 History recovery | content audit complete | 2,432 commits / 2,924 source blobs; 56-module provenance and source inventory; historical performance not independently measured |
+| S02 Evidence-aware speech | implemented, real-source review pending | Exact source words, unknown spans, corrected helper CLI; 38 accepted Phoneme Test Hook words; WER/phone labels still absent |
+| S03 Contextual story | implemented, limited rules | Negation, metaphor abstention, mixed emotion, motifs; arbitrary language/irony remains pending |
+| S04 Musical fusion | implemented, integration review pending | Existing notes/drums/beat clocks retained; unified stream and plan sidecars; explicit meter assumptions |
+| S05 Semantic XSQ scenery | implemented, native render pending | Explicit RGB roots, original layer preservation; native parity and full-song Actions required |
+| S06 Singer evidence | partial | Strict production avoids inferred backing windows and synthetic lyric text; independent voice router retained; model-wide viseme/audio alignment remains pending |
+| S07 Full-song comparisons | pending | Eight exact source recordings configured; no task-native MP4 accepted yet |
+| S08 Public show study | partial / playback blocked | Metadata and creator descriptions only; no timestamped imitation; direct playback and blind scoring pending |
+| S09 Export/platform gates | pending | Focused XSQ/LMS/MP4 regressions do not establish all native/device compatibility |
+| S10 Development PR / owner approval | pending | Publish verified changes; do not merge release branch |
+
+Detailed goal/files/preserved/new behavior/tests/limits/risks are recorded in the
+2026-10-18 historical recovery entry at the top of MASTER_TODO.md.

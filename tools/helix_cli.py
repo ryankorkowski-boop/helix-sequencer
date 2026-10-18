@@ -26,6 +26,9 @@ def build_parser() -> argparse.ArgumentParser:
     health.add_argument("layout_file")
     analyze = sub.add_parser("analyze-audio")
     analyze.add_argument("audio_file")
+    analyze.add_argument("--no-lyrics", action="store_true", help="Skip recognition for instrumental music")
+    analyze.add_argument("--lyric-corrections", type=Path, help="Audio-hash-bound timed correction JSON")
+    analyze.add_argument("--output", type=Path, help="Write complete analysis, semantic direction and synchronized events")
     plan = sub.add_parser("plan-song")
     plan.add_argument("audio_file")
     placement = sub.add_parser("placement-plan")
@@ -79,7 +82,12 @@ def main(argv: list[str] | None = None) -> int:
         print(report.to_dict())
         return 0
     if args.command == "analyze-audio":
-        result = audio_intelligence.analyze_audio_file(Path(args.audio_file), enable_lyrics=False)
+        result = audio_intelligence.analyze_audio_file(Path(args.audio_file), enable_lyrics=not args.no_lyrics,
+                                                     lyric_corrections=args.lyric_corrections)
+        if args.output:
+            import json
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(json.dumps(result.to_dict(), indent=2, allow_nan=False)+'\n')
         print(result.to_dict()["metadata"])
         return 0
     if args.command == "plan-song":

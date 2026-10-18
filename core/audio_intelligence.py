@@ -43,6 +43,10 @@ class LyricEvent:
     end_ms: int
     text: str
     confidence: float = 0.75
+    source: str = "supplied_timed_lyrics"
+    timing_level: str = "word"
+    intelligible: bool = True
+    reason: str = ""
 
 
 @dataclass
@@ -188,6 +192,9 @@ class AudioAnalysisResult:
     confidence_scores: dict[str, float] = field(default_factory=dict)
     debug_summaries: dict[str, object] = field(default_factory=dict)
     raw_candidates: dict[str, object] = field(default_factory=dict)
+    semantic_story: dict[str, object] = field(default_factory=dict)
+    semantic_direction: dict[str, object] = field(default_factory=dict)
+    synchronized_events: dict[str, object] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -213,6 +220,9 @@ class AudioAnalysisResult:
             "confidence_scores": dict(self.confidence_scores),
             "debug_summaries": dict(self.debug_summaries),
             "raw_candidates": dict(self.raw_candidates),
+            "semantic_story": dict(self.semantic_story),
+            "semantic_direction": dict(self.semantic_direction),
+            "synchronized_events": dict(self.synchronized_events),
         }
 
 
@@ -897,9 +907,8 @@ def build_stem_analysis(
 def _try_whisper_lyrics(audio_path: Path, log_fn: Callable[[str], None] | None = None) -> list[LyricEvent]:
     try:
         import whisper  # type: ignore
-    except Exception:
-        _log(log_fn, "Lyrics: Whisper package unavailable.")
-        return []
+    except ImportError:
+        return _try_faster_whisper_lyrics(audio_path, log_fn)
 
     ffmpeg_exe = _ensure_ffmpeg_environment()
     if ffmpeg_exe is None:
@@ -914,31 +923,31 @@ def _try_whisper_lyrics(audio_path: Path, log_fn: Callable[[str], None] | None =
         _log(log_fn, f"Lyrics: Whisper transcription failed: {exc}")
         return []
 
-    events: list[LyricEvent] = []
-    segments = result.get("segments", []) if isinstance(result, dict) else []
-    for seg in segments:
-        words = seg.get("words", []) if isinstance(seg, dict) else []
-        if words:
-            for word in words:
-                text = str(word.get("word", "")).strip()
-                if not text:
-                    continue
-                st = int(round(float(word.get("start", 0.0) or 0.0) * 1000.0))
-                en = int(round(float(word.get("end", 0.0) or 0.0) * 1000.0))
-                if en <= st:
-                    en = st + 80
-                confidence = float(word.get("probability", word.get("confidence", 0.78)) or 0.78)
-                events.append(LyricEvent(start_ms=st, end_ms=en, text=text, confidence=max(0.0, min(1.0, confidence))))
-        else:
-            text = str(seg.get("text", "")).strip()
-            if not text:
-                continue
-            st = int(round(float(seg.get("start", 0.0) or 0.0) * 1000.0))
-            en = int(round(float(seg.get("end", 0.0) or 0.0) * 1000.0))
-            if en <= st:
-                en = st + 150
-            events.append(LyricEvent(start_ms=st, end_ms=en, text=text, confidence=0.62))
-    return events
+    from core.lyric_evidence import whisper_events
+    return [LyricEvent(**event) for event in whisper_events(result)]
+
+
+def _try_faster_whisper_lyrics(audio_path: Path, log_fn=None) -> list[LyricEvent]:
+    """Optional CPU backend; uses the same evidence gate as recovered Whisper."""
+    try:
+        from faster_whisper import WhisperModel
+    except ImportError:
+        _log(log_fn, 'Lyrics: no speech recognizer installed; instrumental sequencing continues.')
+        return []
+    try:
+        model = WhisperModel(os.environ.get('HELIX_WHISPER_MODEL', 'small.en'), device='cpu',
+                             compute_type='int8', cpu_threads=3,
+                             download_root=os.environ.get('HELIX_WHISPER_CACHE'))
+        segments, _ = model.transcribe(str(audio_path), word_timestamps=True, vad_filter=True,
+                                      condition_on_previous_text=False, temperature=0)
+        from core.lyric_evidence import whisper_events
+        payload = {'segments':[dict(start=s.start,end=s.end,text=s.text,no_speech_prob=s.no_speech_prob,
+            avg_logprob=s.avg_logprob,compression_ratio=s.compression_ratio,
+            words=[dict(start=w.start,end=w.end,word=w.word,probability=w.probability) for w in s.words or []]) for s in segments]}
+        return [LyricEvent(**event) for event in whisper_events(payload)]
+    except Exception as exc:
+        _log(log_fn, f'Lyrics: optional CPU recognizer unavailable: {exc}')
+        return []
 
 
 def _try_moises_lyrics(
@@ -1020,9 +1029,9 @@ def extract_lyric_timeline(
     word-to-phoneme fallback for xLights-style Faces export.
     """
     events = extract_lyrics_events(audio_path, use_moises, api_key, log_fn)
-    timeline = vt.build_lyric_timeline(events, vocal_peaks_ms or [])
+    timeline = vt.build_lyric_timeline(events, evidence_aware=True)
     if not events and vocal_peaks_ms:
-        _log(log_fn, "Lyrics: no transcript found; using vocal-energy mouth fallback.")
+        _log(log_fn, "Lyrics: no reliable transcript; no words or aligned phonemes inferred from energy.")
     return timeline
 
 
@@ -1563,6 +1572,7 @@ def analyze_audio_file(
     layout_path: Path | None = None,
     provided_parts: list[object] | None = None,
     enable_lyrics: bool = True,
+    lyric_corrections: Path | None = None,
     log_fn: Callable[[str], None] | None = None,
 ) -> AudioAnalysisResult:
     settings = config or load_audio_analysis_config()
@@ -1629,11 +1639,20 @@ def analyze_audio_file(
     audio_reactive_summary = audio_trigger_routes.build_audio_reactive_summary(audio_reactive_actions)
 
     stem = build_stem_analysis(audio_path, use_moises, api_key, cache_root, config=settings, log_fn=log_fn)
-    lyric_timeline = (
-        extract_lyric_timeline(audio_path, use_moises, api_key, stem.vocal_peaks_ms, log_fn=log_fn)
+    if lyric_corrections is not None and not enable_lyrics:
+        raise ValueError('Lyric corrections conflict with disabled lyrics')
+    if lyric_corrections is not None:
+        from core.lyric_evidence import load_corrections
+        lyric_timeline = vt.build_lyric_timeline(load_corrections(lyric_corrections, audio_path), evidence_aware=True)
+    else:
+        # Local HPSS/filter residuals are not isolated human vocals. Feeding
+        # them to ASR discarded intelligible words in the real phoneme source.
+        lyric_input = (stem.stems.get('vocals') or audio_path) if stem.source in ('demucs', 'moises') else audio_path
+        lyric_timeline = (
+        extract_lyric_timeline(lyric_input, use_moises, api_key, stem.vocal_peaks_ms, log_fn=log_fn)
         if enable_lyrics
-        else vt.build_lyric_timeline([], stem.vocal_peaks_ms)
-    )
+        else vt.build_lyric_timeline([], evidence_aware=True)
+        )
     note_events, raw_pitch = _extract_note_candidates(harm, sr, source_stem="mix_harmonic", config=settings)
     if stem.stems.get("bass") and stem.stems["bass"].exists():
         bass_y, bass_sr = librosa.load(str(stem.stems["bass"]), sr=None, mono=True)
@@ -1708,7 +1727,7 @@ def analyze_audio_file(
     }
     if layout_path:
         metadata["layout_coordinate_count"] = len(parse_layout_coordinates(layout_path, []))
-    return AudioAnalysisResult(
+    result = AudioAnalysisResult(
         metadata=metadata,
         tempo_map=tempo_map,
         beat_events=beat_events,
@@ -1795,6 +1814,11 @@ def analyze_audio_file(
             "pitch_candidates": raw_pitch[:512],
         },
     )
+    from core.semantic_story import interpret, direct, fuse
+    result.semantic_story = interpret(lyric_timeline, acoustic_sections=sections)
+    result.semantic_direction = direct(result.semantic_story)
+    result.synchronized_events = fuse(result, result.semantic_story)
+    return result
 
 
 def export_audio_analysis_result(result: AudioAnalysisResult, output_dir: Path) -> dict[str, str]:

@@ -1,0 +1,942 @@
+[
+  {
+    "module": "archive/legacy_versions/sequencer_launcher.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "79da9265e1b49aa4e9dc2b95943713237af6d6ca",
+    "introduction_candidates": [
+      "9a9097c39027f90b6fb86f76e3f439bd85346d03 2026-04-14T11:54:25-05:00 chore(repo): establish modular baseline"
+    ],
+    "imports": [
+      "PIL",
+      "__future__",
+      "collections",
+      "dataclasses",
+      "json",
+      "os",
+      "pathlib",
+      "queue",
+      "subprocess",
+      "sys",
+      "threading",
+      "time",
+      "tkinter",
+      "v1",
+      "variant_engine",
+      "webbrowser",
+      "xlights_feature_bridge",
+      "xlights_model_parser"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/acoustic_manifold.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "637db90d6c96b5c1b98d7ab25be536ccd6377964",
+    "introduction_candidates": [
+      "9e076ba556b33747afaeec81a80d5a4f4dcf0f73 2026-08-31T21:40:14-05:00 audio: add deterministic music acoustic manifold primitives"
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "math"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/adaptive_emotional_storytelling_engine.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "a6db1bdf244006eaf810f54e37cc03e07702b3b0",
+    "introduction_candidates": [
+      "9780a5533141811766ab49463dbb309f761a5bd9 2026-05-10T13:22:41-05:00 Add adaptive emotional storytelling engine"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/audio_intelligence.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "6daa9f4f41fb9cabeb46d96076e35837f7f8c87c",
+    "introduction_candidates": [
+      "9a9097c39027f90b6fb86f76e3f439bd85346d03 2026-04-14T11:54:25-05:00 chore(repo): establish modular baseline"
+    ],
+    "imports": [
+      "__future__",
+      "audio",
+      "bisect",
+      "core",
+      "csv",
+      "dataclasses",
+      "imageio_ffmpeg",
+      "json",
+      "music",
+      "os",
+      "pathlib",
+      "shutil",
+      "subprocess",
+      "tempfile",
+      "time",
+      "typing",
+      "whisper",
+      "xml"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/autonomous_masterpiece_evaluator.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "c4972de2e8c7f2c2cddf2b514648c9c8aa82e60f",
+    "introduction_candidates": [
+      "278111ac65c3381dbacacf3d6aab389a8d8e13f8 2026-05-10T13:56:03-05:00 Add autonomous masterpiece evaluator"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/autonomous_render_validation_engine.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "89ae37870902ea50ca68b71bc8d6aa6be26ec1d9",
+    "introduction_candidates": [
+      "13f98ee3b6e793d55fcde0ac29a1e218fcfaf908 2026-05-10T15:26:34-05:00 Add autonomous render validation engine"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/band_intent_adapter.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "86fd2cba03dfc16eaeb22c28a10daf4b33bb389b",
+    "introduction_candidates": [
+      "a0af59375c16615b9d463e931f314159fa0272d0 2026-05-09T22:09:58-05:00 Add canonical band intent adapter"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "models"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/birdsong_cognitive.py",
+    "production_status": "historical only / review before restoration",
+    "production_blob": "",
+    "introduction_candidates": [
+      "bc25fb89879384280a45a17cdd084d9f1c74abe3 2026-05-15T16:49:46-05:00 Add cognitive Birdsong v2 orchestration layer"
+    ],
+    "imports": [],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/birdsong_quality_score.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "296ba1bafc6cfff073e1de6fcbcdacf76c73bef5",
+    "introduction_candidates": [
+      "a6ce5ef6b4920a7e9224850fb15d296bf7cffc6b 2026-05-20T00:38:26-05:00 Add Birdsong intent manifest scoring"
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/choreography_intent.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "eb5ab67996b4c7e37ddeedafd0ebcbcb757e1e2f",
+    "introduction_candidates": [
+      "4aca0bde278ea32bb2c3fb2d5b9f9bcab62becc5 2026-05-09T20:28:02-05:00 Add canonical choreography intent model"
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "enum",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/chronoflow.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "02eb5a511284365ae368be1c9122f4b6bcf9d8d7",
+    "introduction_candidates": [
+      "b751f54b717d15719cedc467005e5fb8bb610e88 2026-04-22T20:27:41-05:00 feat(core): add quality orchestration stack and shortlist gates",
+      "c26c3682909d1cb8ff20467c1d6958f4cb03576f 2026-04-19T23:57:47-05:00 feat(chronoflow): activate matrix intelligence exports"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "json",
+      "math",
+      "pathlib",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/effect_engine.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "41d2d9d0626cefd3f59d4df87b5d9ce5446fa071",
+    "introduction_candidates": [
+      "9a9097c39027f90b6fb86f76e3f439bd85346d03 2026-04-14T11:54:25-05:00 chore(repo): establish modular baseline"
+    ],
+    "imports": [
+      "__future__",
+      "argparse",
+      "bisect",
+      "collections",
+      "core",
+      "dataclasses",
+      "effects",
+      "hashlib",
+      "json",
+      "math",
+      "os",
+      "pathlib",
+      "random",
+      "re",
+      "shutil",
+      "tools",
+      "xlights",
+      "xml"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/effect_layering_engine.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "3f9c077da79bc0760a468930738dea6bba706a2b",
+    "introduction_candidates": [
+      "cdf0468b31441919b343e43da12e04df2deab3a9 2026-04-24T10:02:57-05:00 feat(weaver): add spatial band intelligence stack",
+      "18474b68c13ffb2fdc34c9989a2f5aafb5b0d013 2026-04-24T10:02:57-05:00 feat(weaver): add spatial band intelligence stack"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/effects_orchestrator_bridge.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "ff800358cd34114bfd52c4ec5f597d6598c2198f",
+    "introduction_candidates": [
+      "8b4a806df3bd8dff97571556ada51643ee53c232 2026-05-13T07:31:58-05:00 Make effects orchestrator operational in canonical runs",
+      "86f6c54f19d5b2282dc6027e8d94c19d29753524 2026-05-13T06:54:35-05:00 feat(orchestration): add canonical effects orchestrator bridge"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "helix_intent",
+      "json",
+      "pathlib",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/engine_style_catalog.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "6ddce0cbe0f990fad68516dfa291abf3b7b820b4",
+    "introduction_candidates": [
+      "d77f3db3b19dd59c04143a44dcb39ce15420d90e 2026-04-14T15:55:55-05:00 perf(engine): lazy-load style catalog"
+    ],
+    "imports": [
+      "__future__"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/floor_piano_intent_adapter.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "7c967d9459b1fdc7d7e19034a79b5e157306ae29",
+    "introduction_candidates": [
+      "19b8457bf37a07419facd9b8e6e269e42be1edc1 2026-05-09T22:00:21-05:00 Add canonical floor piano intent adapter"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/helix_flow_baseline_compare.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "0a68667f3026811d7ece20dffad44b0d4150134e",
+    "introduction_candidates": [
+      "c5a93a77f0df7a4eab7ab83a7d5fd6b9947eb012 2026-05-20T01:20:06-05:00 Add Helix Flow baseline comparison"
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/helix_flow_iteration.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "58bb14640965695cb9d73d4ea4ed9de4a0bd1a95",
+    "introduction_candidates": [
+      "023f66aa6e116d2918d0f8c1c9c7cdacf6848e47 2026-05-20T01:23:02-05:00 Add Helix Flow iteration advisor"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/helixville4_band_animation_map.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "0327b5041aa9d66573fc8f7aa971fe803f8ec838",
+    "introduction_candidates": [
+      "b7d6eb11b8f6a3cb83cceb483426d5d485e556fb 2026-05-08T23:02:07-05:00 Add Helixville4 full band animation target map"
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/intent_layer_expander.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "f10ad3ed6be1d186fc78391ad4fac1114738e83a",
+    "introduction_candidates": [
+      "fdd75fd998683462651a5bce9dde616540898fdf 2026-05-09T21:54:42-05:00 Add intent-aware sequential layer expansion engine"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/live_audience_energy_engine.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "e8edb251d143ff0dfc00d8c4f3aaf7ad9df0f181",
+    "introduction_candidates": [
+      "afd7015bba83fba4e9a648a8330c3882cb2a886c 2026-05-10T13:53:58-05:00 Add live audience energy adaptation engine"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/lyric_interpreter.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "436245917b4d6cd41c5688dd236344235509e187",
+    "introduction_candidates": [
+      "558db5acd3be0efa1c89c257e744aecc42fd5c48 2026-05-01T03:02:31-05:00 feat(config): add configurable lyric trigger lexicon"
+    ],
+    "imports": [
+      "__future__",
+      "collections",
+      "json",
+      "os",
+      "pathlib",
+      "re",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/lyric_phoneme_mapper.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "eceb4dc5286fd75e160383b0042a496494428bd0",
+    "introduction_candidates": [
+      "a6c570424624c841179570f0eb529e20bad7fd04 2026-05-10T22:06:06-05:00 Add deterministic lyric phoneme mapper (v1)"
+    ],
+    "imports": [
+      "__future__",
+      "models",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/matrix_intelligence.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "6b7e9d1ef1428fd3454619acdee57603dd23ae30",
+    "introduction_candidates": [
+      "b751f54b717d15719cedc467005e5fb8bb610e88 2026-04-22T20:27:41-05:00 feat(core): add quality orchestration stack and shortlist gates",
+      "c26c3682909d1cb8ff20467c1d6958f4cb03576f 2026-04-19T23:57:47-05:00 feat(chronoflow): activate matrix intelligence exports",
+      "8be3bf2ec368f5c8308c1d4d409c172ce08a67fb 2026-04-15T20:02:06-05:00 feat(matrix): add matrix-first shader planning intelligence"
+    ],
+    "imports": [
+      "__future__",
+      "json",
+      "numpy",
+      "pathlib",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/multi_pass_orchestration_director.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "0048b229e65483f3f6ab6052667261f29e092132",
+    "introduction_candidates": [
+      "b8335ebda7608e1c16fd973fda1dcbf0e257abc3 2026-05-10T14:00:31-05:00 Add multi-pass orchestration director"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/plan/sequence_plan.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "b1aa9a3492762b445580c3b61a68b0498b3e8b5e",
+    "introduction_candidates": [
+      "5cb8e964510c85bb9ecdcf01defef9eef9dcbe55 2026-09-20T04:02:38-05:00 feat: add renderer-neutral SequencePlan and adapters"
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "helix_layout",
+      "json",
+      "pathlib",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/prime_intent_adapters.py",
+    "production_status": "historical only / review before restoration",
+    "production_blob": "",
+    "introduction_candidates": [
+      "156339d17f2a810dfcdcc6ee971ac48cee6052f5 2026-06-04T11:21:27-05:00 Add Prime multi-source intent adapters"
+    ],
+    "imports": [],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/scene_engine.py",
+    "production_status": "historical only / review before restoration",
+    "production_blob": "",
+    "introduction_candidates": [
+      "16124fda536709fc24c2ff041a2aeff3f374c1cb 2026-05-18T15:49:53-05:00 feat(scene-engine): add cinematic scene planning (#64)",
+      "e63d0dbf32ca5a9b691fb2027ce72f48d616c417 2026-05-14T09:22:32-05:00 feat(scene-engine): add cinematic scene planning"
+    ],
+    "imports": [],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/self_improving_scoring.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "fd8c408997d599672b67ea181e85bb891da67cae",
+    "introduction_candidates": [
+      "ff33a0a89b9811ebeaf8876f6c2906a4209235f5 2026-04-29T23:41:01-05:00 Merge safe core slice: self improving scoring",
+      "3e7df8f768fbeaceacce743e44c07c8796c7979e 2026-04-23T22:09:02-05:00 feat(scoring): add helix learning memory"
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "json",
+      "pathlib",
+      "statistics",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/sequence_context.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "bcbeda1a8c3529a9efb25d4085fecc4b773ba5da",
+    "introduction_candidates": [
+      "cdf0468b31441919b343e43da12e04df2deab3a9 2026-04-24T10:02:57-05:00 feat(weaver): add spatial band intelligence stack",
+      "18474b68c13ffb2fdc34c9989a2f5aafb5b0d013 2026-04-24T10:02:57-05:00 feat(weaver): add spatial band intelligence stack"
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/sequence_memory_engine.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "d3c7f39e286a275bbfc1d52dafaf92fb4c0e690a",
+    "introduction_candidates": [
+      "a01f13ef3c87471ca7e2e95f6a5881cf98eea0d0 2026-05-10T13:21:58-05:00 Add sequence memory and motif persistence engine"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/snowman_band.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "187a6a078ac56998a0c23d5ffe80e975bb3dd205",
+    "introduction_candidates": [
+      "b751f54b717d15719cedc467005e5fb8bb610e88 2026-04-22T20:27:41-05:00 feat(core): add quality orchestration stack and shortlist gates",
+      "4539b91c44dfe1f3f3c7132d0ffc797a3106903d 2026-04-20T01:48:22-05:00 feat(snowman): export band choreography plan"
+    ],
+    "imports": [
+      "__future__",
+      "animation",
+      "audio",
+      "core",
+      "effects",
+      "json",
+      "mapping",
+      "pathlib",
+      "re",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/snowman_band_beat_grid.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "3e91e952efbd9d6c9f21b618be03d584b3eccd41",
+    "introduction_candidates": [
+      "13c8f1876d285a6aeb6a9e17c9141116eb079bf3 2026-06-05T11:51:34-05:00 Add beat grid wrapper for snowman band plan"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/style_engine_v2_adapter.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "b97f069e6d3ad2ed357d0613e674893a30363540",
+    "introduction_candidates": [
+      "2e8b7bdb298893345e118d4062ce4e16fc9bb5e1 2026-05-09T20:42:33-05:00 Add StyleDecision to ChoreographyIntent adapter scaffold"
+    ],
+    "imports": [
+      "__future__",
+      "collections",
+      "core",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/style_governed_orchestration_personalities.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "aa0058edbfbf2d63719c1420d813f7e6938bcf2a",
+    "introduction_candidates": [
+      "e4f930ef2888737077775e459a8d3c571c74756b 2026-05-10T15:22:38-05:00 Add style governed orchestration personalities"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/vocal_emotion.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "e34826e0636bbbb856f2ddde771ec3d84437352f",
+    "introduction_candidates": [
+      "5127bb53f080f1a6a7bf0241d92eca06cbcca036 2026-05-01T03:04:43-05:00 feat(weaver): add PR14 spatial and vocal dependency modules",
+      "18474b68c13ffb2fdc34c9989a2f5aafb5b0d013 2026-04-24T10:02:57-05:00 feat(weaver): add spatial band intelligence stack"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "dataclasses",
+      "re",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "core/vocal_timeline.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "b96c1e307178f492fbc24802256c68e8fb9d25d6",
+    "introduction_candidates": [
+      "5127bb53f080f1a6a7bf0241d92eca06cbcca036 2026-05-01T03:04:43-05:00 feat(weaver): add PR14 spatial and vocal dependency modules",
+      "18474b68c13ffb2fdc34c9989a2f5aafb5b0d013 2026-04-24T10:02:57-05:00 feat(weaver): add spatial band intelligence stack"
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "re",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "helix_intent/intent_generator.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "f1c01e6ed66d9ed84e6b12254699b0fccff5a1ad",
+    "introduction_candidates": [
+      "a515c98540c83a9ae7df224111ca79a6c0fbd09e 2026-04-24T02:47:19-05:00 feat(intelligence): add professional sequencing foundation",
+      "4531e6365adc0eae512e305e9c1cd939ed8ce354 2026-04-24T02:47:19-05:00 feat(intelligence): add professional sequencing foundation"
+    ],
+    "imports": [
+      "__future__",
+      "helix_intent"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "helix_intent/visual_intent.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "bb25c07a13f83f7c5ead3c933a1ac8f6e3520037",
+    "introduction_candidates": [
+      "a515c98540c83a9ae7df224111ca79a6c0fbd09e 2026-04-24T02:47:19-05:00 feat(intelligence): add professional sequencing foundation",
+      "4531e6365adc0eae512e305e9c1cd939ed8ce354 2026-04-24T02:47:19-05:00 feat(intelligence): add professional sequencing foundation"
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "helix_style/palette_engine.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "c894d3eaf3659c9fec675395c6da521b67dcaf51",
+    "introduction_candidates": [
+      "a515c98540c83a9ae7df224111ca79a6c0fbd09e 2026-04-24T02:47:19-05:00 feat(intelligence): add professional sequencing foundation",
+      "4531e6365adc0eae512e305e9c1cd939ed8ce354 2026-04-24T02:47:19-05:00 feat(intelligence): add professional sequencing foundation"
+    ],
+    "imports": [
+      "__future__"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "learning/feature_extractor.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "36c9632f618d8b4cdd1fa37f7d02872dafd71e74",
+    "introduction_candidates": [
+      "cdf0468b31441919b343e43da12e04df2deab3a9 2026-04-24T10:02:57-05:00 feat(weaver): add spatial band intelligence stack",
+      "18474b68c13ffb2fdc34c9989a2f5aafb5b0d013 2026-04-24T10:02:57-05:00 feat(weaver): add spatial band intelligence stack"
+    ],
+    "imports": [
+      "__future__",
+      "collections",
+      "core",
+      "dataclasses",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "learning/feedback_loop.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "df6a7e65faa3e4e9b2659056580c1444e6748e51",
+    "introduction_candidates": [
+      "cdf0468b31441919b343e43da12e04df2deab3a9 2026-04-24T10:02:57-05:00 feat(weaver): add spatial band intelligence stack",
+      "18474b68c13ffb2fdc34c9989a2f5aafb5b0d013 2026-04-24T10:02:57-05:00 feat(weaver): add spatial band intelligence stack"
+    ],
+    "imports": [
+      "__future__",
+      "core",
+      "learning",
+      "pathlib",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "models/helixia_double_helix.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "a0ccd2f070838f9b237abd9bc9c02cae0f8bb809",
+    "introduction_candidates": [
+      "cdc56b9f583ab19b71bf845bfd9bd09eada1a51d 2026-05-06T23:18:44-05:00 Add Helixia giant double helix geometry model"
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "math",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "music/vocal_roles.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "ea6a200d252f3a8d41914c5d6b63c7dbb386f5a0",
+    "introduction_candidates": [
+      "10603885cee981098089caa125b857e306565e43 2026-10-15T20:49:52-05:00 feat(review): add evidence-aware voices and native AC16 3D snow bands"
+    ],
+    "imports": [
+      "__future__",
+      "dataclasses",
+      "hashlib",
+      "librosa",
+      "models",
+      "music",
+      "numpy"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "tools/align_snowman_lyrics.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "d8f87728b3f0fa6d3a2c7b785740cd8a5bff35d5",
+    "introduction_candidates": [
+      "419124cefec3de37dc6b0d7f4d67eae0fd90a0cc 2026-10-09T21:54:13Z feat(band): add source-bound six-member snowman performances"
+    ],
+    "imports": [
+      "__future__",
+      "argparse",
+      "cmudict",
+      "core",
+      "json",
+      "pathlib",
+      "re",
+      "stable_whisper",
+      "time",
+      "tools",
+      "torch",
+      "types"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "tools/audio_intelligence_adapter.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "e9027d75f389d2f71e8cc03f81fab6022d0a63c6",
+    "introduction_candidates": [
+      "55e6ab0a60234b5e0b5d476d9a8899bb641a50cc 2026-05-05T15:46:47-05:00 Upgrade adapter to output separate timing tracks"
+    ],
+    "imports": [
+      "__future__",
+      "importlib",
+      "pathlib",
+      "tools",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "tools/build_helpers/helixia_double_helix_integration.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "0529d00ef59899a533e3b1b442964106fb6803d9",
+    "introduction_candidates": [
+      "610176da38ae5b4a03bd69aca4efb963a1036908 2026-05-06T23:25:38-05:00 Add Helixia double helix manifest integration helper"
+    ],
+    "imports": [
+      "__future__",
+      "json",
+      "models",
+      "pathlib",
+      "tools",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "tools/emit_sequence_plan.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "55351614929354330f97126874ce56fb1ab25ac0",
+    "introduction_candidates": [
+      "726e7a5b8e0b13ca69a1077c9016cad750d1cecb 2026-09-20T04:03:00-05:00 feat: add shadow-mode SequencePlan emitter"
+    ],
+    "imports": [
+      "__future__",
+      "argparse",
+      "core",
+      "json",
+      "pathlib"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "tools/export_band_performance_manifest.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "a999911192c41c8b4c31e533761af05ae2f77c7d",
+    "introduction_candidates": [
+      "e9ec4bdc762093525ba70052a94b15fdaaab18f5 2026-05-10T21:11:14-05:00 Add band performance manifest exporter",
+      "ab829bd20f27164f06635c86f84e4a17ab3e2d5d 2026-05-10T15:33:03-05:00 Add deterministic band performance manifest exporter"
+    ],
+    "imports": [
+      "__future__",
+      "argparse",
+      "core",
+      "json",
+      "models",
+      "pathlib",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "tools/helix_cli.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "1cd1884088a5977291d2a4aa83705c188f2293d7",
+    "introduction_candidates": [
+      "a515c98540c83a9ae7df224111ca79a6c0fbd09e 2026-04-24T02:47:19-05:00 feat(intelligence): add professional sequencing foundation",
+      "4531e6365adc0eae512e305e9c1cd939ed8ce354 2026-04-24T02:47:19-05:00 feat(intelligence): add professional sequencing foundation"
+    ],
+    "imports": [
+      "__future__",
+      "argparse",
+      "core",
+      "helix_intent",
+      "helix_knowledge",
+      "helix_layout",
+      "helix_music",
+      "helix_preview",
+      "pathlib"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "tools/native_preview.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "a871dee48ba1e2cb021d44ebc120af5da34b99dd",
+    "introduction_candidates": [
+      "fff4c89060a710af008821c1d0a8cd3e587dd651 2026-10-16T19:45:22-05:00 feat(showcase): recover native pilots and export source-timed RGB poses",
+      "069b6545b849e92103ae58e0c02c6cb22fdcb972 2026-10-16T07:18:52-05:00 feat(preview): mux original audio onto native xLights previews"
+    ],
+    "imports": [
+      "__future__",
+      "argparse",
+      "hashlib",
+      "json",
+      "math",
+      "os",
+      "pathlib",
+      "shutil",
+      "socket",
+      "subprocess",
+      "tempfile",
+      "time",
+      "tools",
+      "typing",
+      "xml"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "tools/pr14_stem_intelligence_adapter.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "0f6ffe3c5eed4444dcb0b3d99d1b0a5dd36f4513",
+    "introduction_candidates": [
+      "45b0a21fb35b53ddb8c7b298736af3fe2f40e1c5 2026-05-05T16:01:49-05:00 Reconnect PR14-era stem intelligence as separated StemEvent streams"
+    ],
+    "imports": [
+      "__future__",
+      "importlib",
+      "pathlib",
+      "tools",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "tools/render_final_band.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "8c0d150bfa6fb2b922a83ff5f920589801766967",
+    "introduction_candidates": [
+      "ae9ab309a1100bc14375e75ab667daedee15a9d9 2026-10-14T12:39:39-05:00 feat(beta): finish unified bands and native note routing with source-bound kick recovery"
+    ],
+    "imports": [
+      "PIL",
+      "__future__",
+      "animation",
+      "argparse",
+      "core",
+      "models",
+      "numpy",
+      "pathlib",
+      "soundfile",
+      "tools"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "tools/resume_sampler_review.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "989da68eb5510cfc6eb65626f733038faef949f4",
+    "introduction_candidates": [
+      "2b295284ae2c0d33fc40e8c3d54a9dbea0677fcc 2026-10-13T23:49:23-05:00 feat(beta): integrate verified GUIs, native note routing and release licensing",
+      "7f2600b330692f2ce6612cb18e8f00bdb9e34001 2026-10-12T16:45:44-05:00 build(review): recover exact sampler previews on isolated Actions runtime"
+    ],
+    "imports": [
+      "PIL",
+      "__future__",
+      "hashlib",
+      "numpy",
+      "pathlib",
+      "tools"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "tools/run_issue_2_audio_variant_tests.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "b32dd455430333983c5178c94999b4ee89390d84",
+    "introduction_candidates": [
+      "a32af113435eacb3a6169806e46ffb309bf40e56 2026-05-21T18:30:03-05:00 Add Issue 2 audio variant test runner"
+    ],
+    "imports": [
+      "__future__",
+      "argparse",
+      "json",
+      "pathlib",
+      "shutil",
+      "tools",
+      "typing"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  },
+  {
+    "module": "tools/showcase_vocal_alignment.py",
+    "production_status": "present at preserved production head",
+    "production_blob": "f1d19aeaacef6c465b0a3524112ea079148b4f2d",
+    "introduction_candidates": [
+      "2e2e1b7cd4801c78730236497d0a970f114da230 2026-10-15T15:30:45-05:00 feat(showcase): produce source-bound multi-video review pipeline"
+    ],
+    "imports": [
+      "__future__",
+      "argparse",
+      "numpy",
+      "pathlib",
+      "tools",
+      "torch"
+    ],
+    "historical_performance": "Not independently benchmarked; code presence does not establish performance."
+  }
+]

@@ -1,3 +1,55 @@
+## 2026-10-18 — Historical recovery and evidence-aware semantic development (release held)
+
+Goal: recover historical musical/lyric code before adding context-aware direction.
+Branch `codex/historical-semantic-recovery-20261018`; immutable production baseline
+`9522b19b660ebef537e195397e7e8ca6c64354bf`. All prior backlog/acceptance rows remain
+open unless their own evidence says otherwise. See `docs/semantic_recovery/RECOVERY.md`.
+
+Completed evidence: all 224 advertised branches and 125 PR heads fetched; 2,432
+reachable commits and 2,924 unique source blobs scanned; 158 locally available
+dangling commit heads preserved by refs. Nine named modules have one unique
+historical implementation, helper CLI six. Provenance for 56 relevant modules
+and a 1,352-row historical content-match inventory are retained in this branch.
+
+Changed: recovered pronunciation helper (old showcase tool reuses it), strict
+lyric evidence adapter, audio intelligence/timeline, contextual semantic story,
+existing intent graph/layer-expander bridge, scoped native XSQ compiler,
+engine/CLI/plan integration, timing adapter, restrained vocal expressions,
+benchmark workflow/source manifests, regression tests and this roadmap.
+Preserved: original engine algorithms, musical timestamps, original XML layers,
+all archived variants, independent voice evidence/duplicate rejection, model
+mouth inventories, default non-semantic exports, source recordings, release hold.
+New behavior: explicit unknown speech, no fabricated peak-generated lyrics in
+the evidence-aware production path, source-bound timed corrections, estimated
+versus supplied phoneme provenance, scoped negation/mixed mood/recurring imagery,
+continuous confidence-weighted emotion and separate semantic scenery lanes.
+
+Validation so far: 114 focused tests pass, one optional native-export fixture
+skip; separate instrument regression batch 39 pass and three absent real-source
+fixture skips. These runs precede the final commit and are repeated when needed.
+Real Phoneme Test Hook analysis ran: 38 accepted source-timed words, eight phrases;
+no supported semantic imagery intents (appropriate abstention, not a failure).
+The optional CPU recognizer's PyAV compatibility failure was reproduced and fixed
+with an exact optional dependency pin. Native rendering cannot connect to a
+display in this local sandbox; dedicated Actions full-song checks are prepared.
+No MP4 has yet passed this task's native/full-decode/audio/parity gate.
+
+Limitations/deferred: arbitrary metaphor/irony/general narrative comprehension,
+independently labeled ASR WER and word/phone timing, automatic harmony source
+identification/separation, ten-viseme model-wide parity, full band semantic
+acting, particle/shader storytelling, AC semantic composition, native LMS import,
+Windows/Android/physical controller QA, direct public-video playback and owner
+artistic approval. Direct YouTube viewing hit a human-verification block; public
+metadata/descriptions support generalized targets only, not a popularity ranking
+or a claim Helix surpasses vendors. Every missing acceptance gate remains open.
+Regression risks: optional ASR cost/model availability; changed lyric fallback;
+semantic heuristic false positives; explicit scenic layering/composition;
+unknown instrument ground truth; mismatched legacy/review mouth inventories.
+
+Next: finish source-bound native comparison workflow, inspect real frames/audio,
+fix any failure, record artifact hashes/results, publish development PR. Keep all
+release merges and distribution on hold until explicit owner approval.
+
 ## 2026-10-18 — Owner-requested advertisement delivered for review
 
 Produced Helix_Advertisement_96s.mp4: 96.000 seconds, 1920x1080 H264/AAC stereo,

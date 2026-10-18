@@ -18,6 +18,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--layout", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--fps", type=int, default=40)
+    parser.add_argument("--no-lyrics", action="store_true", help="Instrumental-only analysis")
+    parser.add_argument("--lyric-corrections", type=Path)
     return parser
 
 
@@ -27,7 +29,8 @@ def main(argv: list[str] | None = None) -> int:
     analysis = analyze_audio_file(
         args.audio,
         layout_path=args.layout,
-        enable_lyrics=False,
+        enable_lyrics=not args.no_lyrics,
+        lyric_corrections=args.lyric_corrections,
     )
     parsed_layout = parse_layout(args.layout)
 

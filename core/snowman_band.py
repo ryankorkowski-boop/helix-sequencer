@@ -923,13 +923,15 @@ def build_snowman_band_plan(
     band_sync_payload: Mapping[str, Any] | None = None,
     multiband: Any = None,
     enable_lyrics: bool = True,
+    evidence_aware_lyrics: bool = False,
     background_vocal_events: list[Any] | None = None,
     drum_event_streams: dict[str, list[Any]] | None = None,
 ) -> dict[str, Any]:
     layout_names = sorted(getattr(parsed_layout, "models", {}).keys()) if parsed_layout is not None else []
     face_routing = preferred_face_routing(layout_names)
     performers = _build_performer_catalog(face_routing)
-    lyric_timeline = vt.build_lyric_timeline(lyric_events, vocal_peaks)
+    lyric_timeline = vt.build_lyric_timeline(lyric_events if enable_lyrics else [], vocal_peaks,
+                                          evidence_aware=evidence_aware_lyrics)
     song_parts = vt.build_song_parts(parts, vocal_peaks_ms=vocal_peaks, bass_peaks_ms=bass_peaks, drum_hits_ms=list(kicks) + list(snares) + list(hats))
     part_hits = vt.detect_part_hits(
         song_parts,
@@ -947,11 +949,22 @@ def build_snowman_band_plan(
         classifier_events=background_vocal_events,
     )
     singer_cues, tunnel_overlays = _build_singer_cues(
-        lyric_events,
+        [] if evidence_aware_lyrics else lyric_events,
         face_routing=face_routing,
         parts=parts,
         enable_lyrics=enable_lyrics,
     )
+    if evidence_aware_lyrics and enable_lyrics:
+        target = str(face_routing.get('preferred_lead', '') or '')
+        singer_cues = [dict(performer='lead_singer', target=target,
+            start_ms=phone.start_ms, end_ms=phone.end_ms, kind='viseme',
+            section=_part_label(parts, phone.start_ms), lyric_text=phone.word_text,
+            fragment=phone.word_text, viseme=phone.phoneme,
+            pixel_frame=phone.mouth_shape, ac_frame=phone.phoneme.lower(),
+            matrix_frame='viseme_'+phone.phoneme.lower(),
+            confidence=phone.confidence, source=phone.source,
+            alignment_estimated='estimated_within_word' in phone.source)
+            for phone in lyric_timeline.phoneme_events]
     bass_cues, guitar_cues, string_realism_debug = _build_string_realism_cues(
         parts,
         bass_peaks,
@@ -972,7 +985,7 @@ def build_snowman_band_plan(
         drum_cues, kit_components = _build_drum_cues(parts, kicks, snares, hats, releases)
         drum_intelligence_debug = {"fallback_mode": "legacy_marks", "counts": {}, "motion_events": [], "effect_cues": [], "mapping": []}
     keyboard_cues = _build_keyboard_note_cues(note_events, parts)
-    background_vocals = _build_background_vocals(vocal_peaks, parts)
+    background_vocals = [] if evidence_aware_lyrics else _build_background_vocals(vocal_peaks, parts)
     vocal_emotion_payload = vocal_emotion.build_vocal_emotion_timeline(
         lyric_timeline=lyric_timeline,
         song_parts=song_parts,
@@ -984,6 +997,10 @@ def build_snowman_band_plan(
         lead_face_activations,
         vocal_emotion_payload,
     )
+    if evidence_aware_lyrics:
+        # Choir classifiers / unexplained peaks do not establish independent
+        # singer timing. Independent inputs use music.vocal_roles instead.
+        background_windows = []
     background_face_activations = _build_background_face_activations(
         lyric_timeline,
         song_parts,

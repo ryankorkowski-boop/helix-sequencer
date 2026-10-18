@@ -1,0 +1,50 @@
+[
+  {
+    "key": "Bells_of_Mathmas",
+    "drive_id": "1Zjyz9b-V0SdJ-p9K2FN6ryUR2H88DELG",
+    "sha256": "beb2a064595a64d4924847ccd68ca0f2897d5de3ae5064e6e2023a68b7b8ce8a",
+    "instrumental": true
+  },
+  {
+    "key": "Wires_in_the_Garland",
+    "drive_id": "1Fa-XvcKDddA9mJC02p9RGDqlRqZT_RLH",
+    "sha256": "7db189a38b62ccefdc7dec2675e8a4547f7cc206cb6bc55be09aa8aab4760eaf",
+    "instrumental": false
+  },
+  {
+    "key": "Phoneme_Test_Hook",
+    "drive_id": "1gKAW9-S6TJNuKudC_TCEv2uabx36Aszj",
+    "sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+    "instrumental": false
+  },
+  {
+    "key": "North_Pole_Overdrive",
+    "drive_id": "1KyuJp3K9oP8k1YjCp7ot_4FJRg31sS2K",
+    "sha256": "d4a22b3b8982ea0e71aebc2ee0c7235cae2e77965b73764274cfbd89f64e54e5",
+    "instrumental": false
+  },
+  {
+    "key": "Let_It_Glow",
+    "drive_id": "1xygmcQ9M6c3xeZO6XSnycW2eeQCqnMYi",
+    "sha256": "d0fdcf1fc60c68a2b0834795a3d182326b1094561035f1d60ea789ab3d863dc5",
+    "instrumental": false
+  },
+  {
+    "key": "Glass_Under_Skin",
+    "drive_id": "1PjQ4REDQw3XxrsGuMdnD6uq436qpU17h",
+    "sha256": "1918810704b9c103d9273745d761a49f365fe9d6a626aaf997c682871bdefd53",
+    "instrumental": false
+  },
+  {
+    "key": "Ghost_In_The_Grid",
+    "drive_id": "1YtuMHP_qXuDvHDqYeDQ-uLRN3qVwdcTN",
+    "sha256": "201418cf9e011af8c1c8a8d517df7769d89383dee9b6a0c106c246c1d86ce2d2",
+    "instrumental": false
+  },
+  {
+    "key": "Festivus_Remastered",
+    "drive_id": "1zKc_dUCqoGiu7knHLnn9rhLbH-1XgG-h",
+    "sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+    "instrumental": false
+  }
+]

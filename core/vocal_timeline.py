@@ -25,6 +25,9 @@ MOUTH_BY_PHONEME: dict[str, str] = {
     "B": "mouth_MBP",
     "P": "mouth_MBP",
     "MBP": "mouth_MBP",
+    "FV": "mouth_FV",
+    "L": "mouth_L",
+    "REST": "mouth_rest",
 }
 
 MOUTH_PRIORITY = ("MBP", "AH", "EH", "IH", "OH", "UW")
@@ -57,6 +60,8 @@ class LyricWord:
     end_time: float
     confidence: float = 0.75
     phonemes: list[PhonemeEvent] = field(default_factory=list)
+    source: str = "legacy_timed_lyrics"
+    timing_level: str = "estimated_word"
 
     @property
     def start_ms(self) -> int:
@@ -222,7 +227,11 @@ def build_phoneme_events_for_word(word: LyricWord) -> list[PhonemeEvent]:
     return events
 
 
-def build_lyric_timeline(lyric_events: Iterable[Any], vocal_peaks_ms: Iterable[int] | None = None) -> LyricTimeline:
+def build_lyric_timeline(lyric_events: Iterable[Any], vocal_peaks_ms: Iterable[int] | None = None,
+                         *, evidence_aware: bool = False) -> LyricTimeline:
+    if evidence_aware:
+        from core.lyric_evidence import build_timeline
+        return build_timeline(lyric_events)
     words: list[LyricWord] = []
     lines: list[LyricLine] = []
     phoneme_events: list[PhonemeEvent] = []
