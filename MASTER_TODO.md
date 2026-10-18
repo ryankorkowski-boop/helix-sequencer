@@ -1,3 +1,23 @@
+## 2026-10-18 — Contextual model executed and native two-song proof passed
+
+Commit 7f2062074798bd59cadbf82430874864dbc67061 passed 127 focused tests,
+one optional native-manifest skip. Dedicated context run 39161979412 completed
+both full-song native jobs using the actual pinned local NLI model (not a test
+double, not a rule fallback): Wires in the Garland increased from one to six
+imagery/affect intents (2 to 10 scenic effects); Let It Glow increased from zero
+to two intents (4 scenic effects). Source words/times and non-scenic native
+samples remain unchanged. Wires soundtrack correlation .999558; Let It Glow
+.998846; both full video decodes pass. Movies/artifacts retain SHA256 reports.
+
+This is evidence of functioning contextual inference and export, not proof of
+semantic/artistic accuracy. Additional actual-model authored language fixtures
+now test literal imagery, negation, reconciliation, loneliness rejection,
+figurative fire rejection and metaphorical connection. Results pending. These
+six examples are not a calibration set or a substitute for independent lyric
+annotations. Original eight-song batch still has long-song jobs running.
+No full-band, native LMS/device, YouTube viewing or release gate is completed
+by these scenic comparisons. Earlier backlog remains intact.
+
 ## 2026-10-18 — Sparse semantic coverage fails artistic gate; contextual model proof
 
 Native run 39160681079 passed 118 tests with one optional native-manifest skip.

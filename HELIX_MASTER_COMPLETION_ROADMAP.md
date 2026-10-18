@@ -181,3 +181,14 @@ requires focus/context entailment and contradiction rejection, with subjective
 confidence, no generated lyrics and clean missing-model fallback. Dedicated
 source-bound Wires/Let It Glow proofs and new parity/scaling tests are pending.
 Existing native source timing and all release/owner gates remain held.
+
+
+### Contextual native proof executed
+
+S03/S05: actual local NLI inference successfully produced native Wires (6 intents,
+10 scenic effects) and Let It Glow (2 intents, 4 effects) full-song comparisons,
+with exact original words/times and identical non-scenic native samples. Both
+decode and original-audio gates passed. This improves the sparse rule baseline
+but does not grant semantic/artistic acceptance. S07 eight-song batch remains
+partly running. 127 tests pass, one optional native-manifest skip. Six actual
+language-model fixtures are added for independent execution; results pending.
