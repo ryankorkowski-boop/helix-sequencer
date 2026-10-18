@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 from core.lyric_evidence import build_timeline
-from core.semantic_story import interpret
+from core.semantic_story import interpret,direct
 from core.semantic_nli import LocalEntailment,enrich
 
 CASES=[
@@ -22,14 +22,21 @@ def main():
         lines=([case['before']] if case.get('before') else [])+[case['focus']]+([case['after']] if case.get('after') else [])
         timeline=build_timeline([dict(text=text,start_ms=i*3000,end_ms=i*3000+2400,
             confidence=.95,timing_level='phrase') for i,text in enumerate(lines)])
-        story=enrich(interpret(timeline),model)
+        original=interpret(timeline)
+        story=enrich(original,model)
         focus=next(p for p in story['phrases'] if p['text']==case['focus'])
-        accepted=any(c['name']==case['concept'] for c in focus['concepts'])
-        result.append({**case,'accepted':accepted,'passed':accepted==case['expected'],
+        accepted=focus['semantic_evidence'][case['concept']]['proposed']
+        forbidden={'literal_winter':{'fear','travel'},'reconciliation':{'fear','travel'},'not_lonely':{'fear'}}.get(case['name'],set())
+        unsupported=sorted(forbidden & {c['name'] for c in focus['semantic_candidates']})
+        result.append({**case,'accepted':accepted,'passed':accepted==case['expected'] and not unsupported,
+                       'unsupported_candidates':unsupported,
+                       'production_safety_passed':direct(story)==direct(original),
                        'evidence':focus['semantic_evidence'][case['concept']],
-                       'concepts':focus['concepts']})
+                       'concepts':focus['concepts'],'review_candidates':focus['semantic_candidates']})
     payload=dict(schema='helix.semantic_language_fixtures.v2',model=model.identity,
                  cases=result,passed=all(r['passed'] for r in result),
+                 deployment_safe=all(r['production_safety_passed'] for r in result),
+                 deployment_policy='NLI candidates are quarantined; rule direction preserved.',
                  limitation='Seven authored English examples, not independent song/metaphor/irony calibration.')
     Path('semantic_language_fixtures.json').write_text(json.dumps(payload,indent=2,allow_nan=False))
     print(json.dumps(payload),flush=True)

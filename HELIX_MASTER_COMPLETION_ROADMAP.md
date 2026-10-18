@@ -1,3 +1,18 @@
+## 2026-10-18 measured semantic recovery status
+
+Release remains **NOT READY; draft PR177 only**. Complete advertised history and
+source-content provenance are in docs/semantic_recovery. Eight conservative
+native full-song comparison jobs passed technical parity, audio and decode
+gates; imagery coverage remains inadequate (seven zero-intent songs). All visual
+reviews and independent ASR/phone accuracy gates remain open.
+
+Actual language fixtures exposed unsupported fear/travel and a missed contextual
+metaphor. Local NLI is quarantined as review metadata and cannot alter production
+direction. Earlier contextual effect videos are rejected semantic proofs.
+See BENCHMARK_RESULTS.md and CONTEXTUAL_MODEL.md for exact commits, runs, artifacts,
+limits and acceptance defects. Source/model identity or confident probabilities
+are not independent semantic validation. No release merge.
+
 # Helix master completion roadmap
 
 Updated 2026-10-18. Owner directive supersedes earlier completion claims when

@@ -95,14 +95,18 @@ prop traversal. Particle imagery, shaders, richer per-concept spatial compositio
 and full band semantic acting remain future work. It never labels an On effect
 as a meteor, fire shader, snow particle or measured singer gesture.
 
-The planned native benchmark covers exact owner Drive recordings: instrumental
+The completed conservative native benchmark covers exact owner Drive recordings: instrumental
 Bells of Mathmas, Phoneme Test Hook, Wires in the Garland, Let It Glow, Glass
 Under Skin, Ghost In The Grid, Festivus and North Pole Overdrive. Genre/emotion
 categories are hypotheses until listening and annotation confirm them. The
 fixture tests verify clock/contract correctness, **not ASR WER or acoustic phone
 accuracy**. Independent labels for those measurements remain required.
 
-Native renders must finish, all movies must fully decode, zero-lag original
+All eight conservative native renders finished; all movies fully decoded,
+original soundtrack zero-lag correlation exceeded .9988, original XML layers and
+non-scenic samples matched, and the instrumental samples matched exactly.
+See [BENCHMARK_RESULTS.md](BENCHMARK_RESULTS.md). This establishes these technical
+gates only. The original requirements were: zero-lag original
 audio correlation must exceed .98, pre-existing XML layers must compare exactly,
 non-scenic native samples must match, and instrumental native samples must be
 identical. Full-band, native LMS import, Windows, Android, physical controllers,
@@ -123,3 +127,10 @@ the existing instrumental sequence. Invalid correction sources/targets fail.
 process, compiles current semantic overlays, renders both with xLights 2026.18,
 compares native samples and exports synchronized full-song comparison MP4s.
 The dedicated development workflow automates the same steps without release writes.
+
+## Actual contextual model failed acceptance
+
+The optional local NLI provider is review-only after actual fixtures exposed
+unsupported concepts and missed a contextual metaphor. It cannot change production
+concepts, emotion, motifs or direction. See [CONTEXTUAL_MODEL.md](CONTEXTUAL_MODEL.md).
+The two earlier experimental context videos are rejected semantic proofs.

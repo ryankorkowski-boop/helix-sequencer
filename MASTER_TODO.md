@@ -1,3 +1,16 @@
+## 2026-10-18 — Persist final native evidence and model rejection
+
+Goal: make review concrete without presenting technical export success as semantic
+completion. Added BENCHMARK_RESULTS.md, machine-readable per-song reports and the
+actual language-model failure report. Updated recovery/context docs and master
+roadmap. Benchmark reuse now requires review-only model status and exact original
+semantic direction; fixture reporting checks known spurious concepts separately
+from production safety. Preserved source audio, musical timing and original tests.
+Native results: eight full-song jobs passed; final focused and quarantine-native
+runs pending. Risks: sparse rule coverage, failed contextual calibration, unlabeled
+singing timing, pending visual/full-band/device gates, seven-day media retention,
+and blocked direct YouTube review. No release merge or completion claim.
+
 ## 2026-10-18 — Fail closed on actual model errors; preserve provider evidence
 
 Goal: close unsupported-semantic and transcription unit/confidence gaps before release.

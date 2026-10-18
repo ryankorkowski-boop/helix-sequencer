@@ -101,10 +101,13 @@ def main():
         payload=json.loads((reuse/'analysis.json').read_text())
         if int(payload['metadata']['duration_ms'])!=round(meta['duration']*1000):
             raise ValueError('Reused transcript duration mismatch')
+        original_direction=direct(payload['semantic_story'])
         payload['semantic_story']=maybe_enrich(payload['semantic_story'])
-        if payload['semantic_story'].get('semantic_backend',{}).get('status')!='inferred':
-            raise ValueError('Contextual model did not produce validated local inference: '+str(payload['semantic_story'].get('semantic_backend')))
+        if payload['semantic_story'].get('semantic_backend',{}).get('status')!='review_only':
+            raise ValueError('Contextual model review was unavailable: '+str(payload['semantic_story'].get('semantic_backend')))
         payload['semantic_direction']=direct(payload['semantic_story'])
+        if payload['semantic_direction']!=original_direction:
+            raise ValueError('Unreviewed model changed production semantic direction')
         analysis=SimpleNamespace(semantic_story=payload['semantic_story'],
             semantic_direction=payload['semantic_direction'],lyric_timeline=payload['lyric_timeline'],
             to_dict=lambda:payload)

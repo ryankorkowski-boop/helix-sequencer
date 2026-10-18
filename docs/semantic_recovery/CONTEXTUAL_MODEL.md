@@ -1,51 +1,42 @@
-# Contextual interpretation expansion — development only
+# Contextual model: review-only after failed actual-language gates
 
-The first Wires in the Garland native comparison passed timing/export checks but
-contained only one rule-derived imagery intent. That fails the requested visual
-storytelling coverage. A first technical MP4 is not artistic completion.
+The pinned local cross-encoder/nli-deberta-v3-small at revision
+fa2804872c3b4bd748f38c0185cc85775361e735 supplies review candidates only.
+It cannot change production concepts, emotion, motifs or visual direction.
 
-An optional local NLI provider now evaluates complete lyric passages and their
-neighbouring context using the pinned cross-encoder/nli-deberta-v3-small model,
-revision fa2804872c3b4bd748f38c0185cc85775361e735. It does not generate lyrics.
-A concept requires independent support in the focus passage and in context;
-neighbour-only imagery is rejected. Contradiction/neutral scores, emotion
-disagreement and possible irony lower confidence or cause abstention.
+Actual run [39162615351](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39162615351)
+missed a contextual relationship metaphor (focus .635; context .644, below .80)
+and proposed unsupported fear/travel for ordinary snow and reconciliation text.
+Six of seven narrowly checked target cases passed, but that score hid false
+positive concepts. This is an unsuitable production semantic model at present.
+The fixture tool now checks specified unsupported concepts as well as the target
+and separately asserts that review candidates leave production direction exact.
+The capability gate must remain failed until the underlying problem is solved.
 
-The existing intent graph, motion vocabulary, palettes, native compiler, musical
-events and whole-song motif state remain active. Contextual inference can
-identify non-literal relationship/hope/conflict themes without an isolated word
-match. Every interpretation remains a model hypothesis. Model probabilities
-are not calibrated on lyrics, metaphor, humour or sarcasm; no accuracy claim.
+Experimental [context videos](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39161979412)
+passed native export/timing checks but are **rejected semantic proofs**.
+Their extra effects are not verified artistic improvements. New review-only
+comparisons must equal conservative source direction; probabilities are retained
+for diagnosis, without interpreting their magnitude as calibrated lyric accuracy.
 
-A high-confidence contextual emotion can drive a restrained emotional-transition
-cue when literal imagery is unsupported. This expands emotion/palette direction
-without inventing a physical story object. Repeated motifs and changing valence
-still retain their source clocks and development state.
+HELIX_SEMANTIC_NLI=1 enables this review metadata. It requires
+requirements-contextual.txt plus CPU PyTorch. Missing dependencies preserve rules.
+Pinned safetensors, trust_remote_code=False, local inference and disabled runtime
+telemetry remain in force. No lyric text is sent to a hosted inference API.
+No model weights are redistributed.
 
-Set HELIX_SEMANTIC_NLI=1 and install requirements-contextual.txt plus CPU PyTorch.
-Absent dependencies/model files fail back to the recovered rule path. Downloads
-use pinned safetensors and trust_remote_code=False. Inference is local; no lyric
-text is sent to a hosted inference API. ONNX/Hugging Face telemetry is disabled
-before initialization. The optional model is Apache-2.0 according to its model
-card and is not redistributed in Helix binaries.
+The production rule path still supports scoped negation, selected idiom
+abstention, confidence-weighted emotion, repeated motifs and changing context.
+It does not provide arbitrary metaphor, irony or human-level narrative inference.
+The existing intent graph, instrument clocks, palette and native compiler remain.
 
-The context-proof workflow reuses the already source-verified musical baseline,
-original decoded audio and transcript from run 39160681079. It re-renders actual
-native FSEQ and comparisons, comparing channel values outside explicit scenery.
-It does not repeat source separation or invent a new instrument performance.
+The spectrogram optimization separately hoists an unchanged global maximum out
+of the pitch frame loop. Known note clocks and pitches plus a linear scan-budget
+regression test cover this exact transformation.
 
-A separate performance repair hoists the invariant full-spectrogram pitch
-maximum out of the frame loop. The denominator is exactly unchanged; the fixture
-checks known note onsets, durations, pitches and one whole-matrix normalization
-scan. Existing older native comparison outputs retain their original commit
-provenance. The '[semantic-context-stage]' commit marker runs the revised tests
-and dedicated contextual proof instead of restarting the full eight-song baseline
-matrix. This is a scoped development validation choice, not a release waiver.
-
-Primary model/config sources:
+Sources:
 - https://huggingface.co/cross-encoder/nli-deberta-v3-small
 - https://huggingface.co/cross-encoder/nli-deberta-v3-small/resolve/main/config.json
 
-Pending: actual-model inference results, semantic coverage/artistic review,
-independent word/phone annotations, full-band acting, model-wide visemes, native
-LMS/device gates and direct YouTube viewing. No release approval is inferred.
+Independent singing annotations, broader semantic calibration, full-band acting,
+richer spatial effects, native LMS/device acceptance and visual review remain open.
