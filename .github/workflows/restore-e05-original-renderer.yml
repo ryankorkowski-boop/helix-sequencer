@@ -1,0 +1,74 @@
+name: Restore original E05 snowman renderer
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: "Actions run ID containing the original Helix_Showcase_Review_Final source package"
+        required: true
+        type: string
+      source_artifact:
+        description: "Artifact name containing selected_excerpts.json, analysis, 07_Layouts_and_Sequences"
+        required: true
+        default: Helix_Showcase_Review_Final
+        type: string
+permissions:
+  actions: read
+  contents: read
+jobs:
+  render-e05:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      LIBGL_ALWAYS_SOFTWARE: "1"
+      PYOPENGL_PLATFORM: egl
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 172fb0804b1b5c2b8eb12923555e70a446c8dace
+      - name: Install video and OpenGL dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libegl1 libgl1 libgles2 libosmesa6 mesa-utils xvfb
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
+          python -m pip install numpy pillow moderngl glcontext
+      - name: Download original source-bound analysis package
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+          SOURCE_ARTIFACT: ${{ inputs.source_artifact }}
+        run: |
+          mkdir -p Helix_Showcase_Review_Final
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$SOURCE_ARTIFACT" --dir Helix_Showcase_Review_Final
+          test -f Helix_Showcase_Review_Final/05_Source_Excerpt_Manifests/selected_excerpts.json
+          test -f Helix_Showcase_Review_Final/07_Layouts_and_Sequences/E05/audio.wav
+          test -f Helix_Showcase_Review_Final/07_Layouts_and_Sequences/E05/drummer.xsq
+          test -d Helix_Showcase_Review_Final/analysis/E05
+      - name: Render original E05 Snow with the approved renderer
+        run: |
+          xvfb-run -a python -m tools.showcase_review_bands --root Helix_Showcase_Review_Final --category standalone --ids E05 --seconds 36 --workers 1
+      - name: Validate real movie and exact reference geometry
+        run: |
+          python - <<'PY'
+          import glob, json, subprocess, pathlib
+          movies=glob.glob('Helix_Showcase_Review_Final/01_Standalone_Bands/*E05*Snow.mp4')
+          assert len(movies)==1, movies
+          movie=pathlib.Path(movies[0])
+          probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',str(movie)]))
+          streams=probe['streams']
+          video=next(s for s in streams if s['codec_type']=='video')
+          assert (video['width'],video['height'])==(1280,720)
+          assert video['r_frame_rate']=='20/1'
+          assert any(s['codec_type']=='audio' for s in streams)
+          assert abs(float(probe['format']['duration'])-36)<0.5
+          subprocess.run(['ffmpeg','-v','error','-i',str(movie),'-f','null','-'],check=True)
+          print('Verified E05 native original-renderer movie:',movie)
+          PY
+      - name: Upload E05 MP4 and rendering proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: E05-Holly-Steel-Run-original-renderer
+          path: |
+            Helix_Showcase_Review_Final/01_Standalone_Bands/*E05*Snow.mp4
+            Helix_Showcase_Review_Final/01_Standalone_Bands/*E05*Snow.render.json
+          if-no-files-found: error
