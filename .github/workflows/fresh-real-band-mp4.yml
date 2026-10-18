@@ -57,7 +57,7 @@ jobs:
                   raise SystemExit('Exact original SHA256 required: '+key)
           PY
           sudo apt-get update -qq
-          sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          sudo apt-get install -y xvfb xauth wmctrl ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
           python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg gdown
       - name: Fetch authentic hardKor E14 source + retained analysis (no fabricated events)
         run: |
