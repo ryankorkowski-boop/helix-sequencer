@@ -114,3 +114,25 @@ silently cancelled by creating this ledger.
 - `MASTER_TODO.md:1277` — - [ ] Package all verified MP4s, native source shows, source hashes, contact sheets, QA reports and reproducible commands in a delivery index.
 - `MASTER_TODO.md:1278` — - [ ] Perform human musical/visual review and controller review before any production merge or public release.
 - `MASTER_TODO.md:1279` — - [ ] Do not mark scratch-only production outputs as GitHub-persisted until independently uploaded and hash checked.
+
+
+## 2026-10-18 — Owner-requested advertisement delivered for review
+
+Produced Helix_Advertisement_96s.mp4: 96.000 seconds, 1920x1080 H264/AAC stereo,
+3840 fully decoded frames at 40fps (20fps source poses duplicated, not interpolated).
+SHA256 569e3fe90878d181f55edc82639066d764d7e5b5083d8f743ac9bca633f9544b.
+New ten-shot edit uses PR175 d420807 original-art fixed-camera seven-snowman
+render (run39115986624, artifact12132521933) plus explicitly reused Oct15
+Holly Steel Run and Kaleidoscope Engine six-layout footage. Layout source commit
+is unavailable; do not label all footage freshly rendered or all native xLights.
+Assembly uses PR174 dbeb868 tool with PCM intermediate soundtrack and final AAC.
+Full decode and zero blank-picture frames verified; every edit zero-lag source
+audio correlation >=0.999872. Final contact sheet visually inspected.
+Saved movie: libfile_cabe566db1208191b1695323da7bbc78; reproducible scripts,
+edit manifest, original-band provenance and QA package: libfile_f5abad2503fc8191abe419affe294e84.
+No synthetic musical events, no substituted music, no feature/compatibility or
+release-completion claims. Development-preview captions retained. Owner visual
+approval remains pending. Instrument solo package, true mallet-rich selection,
+native imports, platform checks and every other release blocker remain open.
+The advertisement does not satisfy those separate gates.
+
