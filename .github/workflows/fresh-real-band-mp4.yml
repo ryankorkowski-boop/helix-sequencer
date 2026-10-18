@@ -31,7 +31,6 @@ jobs:
           python -m compileall -q tools/recover_showcase_source_cache.py tools/native_source_pose_band.py tools/native_preview.py tools/verify_showcase_audio_identity.py
   render:
     needs: preflight
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
