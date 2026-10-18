@@ -119,9 +119,17 @@ jobs:
           for view in views:
               view.set('zoom','9')
           for model in tree.findall('./models/model'):
+              # Review-only affine scale: genuine native custom-model nodes,
+              # colors and per-source channel values remain unchanged.
+              factor=7.0
+              model.set('WorldPosX',str(float(model.get('WorldPosX','0'))*factor))
+              y=float(model.get('WorldPosY','0'))
+              model.set('WorldPosY',str((y-18)*factor+18))
+              for axis in 'XYZ':
+                  model.set('Scale'+axis,str(float(model.get('Scale'+axis,'1'))*factor))
               model.set('PixelSize','8')
           tree.write(path,encoding='utf-8',xml_declaration=True)
-          print('Applied native camera zoom 9 and larger visible native pixels; untouched audio, notes, channels')
+          print('Native preview uses 7x stage review framing; source instruments, original notes, and playback channels unchanged')
           PY
           python -m tools.verify_showcase_audio_identity review/show/media/audio.wav "$AUDIO_SHA256" --report review/source-identity.json
           python - <<'PY'
