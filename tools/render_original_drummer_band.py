@@ -63,6 +63,23 @@ def preflight(root: Path, eid: str) -> dict:
     drummer.frame(-1,active=())
     if drummer.last_hi_hat_foot_down:
         raise ValueError("Hi-hat pedal depressed without a source hit")
+    # Exact original-snare contact remains the source of truth. Inspect
+    # anatomical-left/screen-right elbow at the hit rather than judging from
+    # a general animation/video-success flag.
+    right_snare=ArticulatedDrummer(
+        [dict(time=0.,target=TARGETS[1],side='right',velocity=1.)],
+        natural_arms=True,cache_lighting=True)
+    if len(right_snare.hits)!=1:
+        raise ValueError("Right-side original snare hit became unplayable")
+    right_snare.frame(0,active=(TARGETS[1],))
+    joints=right_snare.last_joints['right']
+    if joints['elbow'][1]<=joints['shoulder'][1]+8.:
+        raise ValueError("Screen-right snare elbow is still raised above chest")
+    if joints['elbow'][0]<joints['shoulder'][0]:
+        raise ValueError("Screen-right snare elbow still crosses inward")
+    authored_tip,_=right_snare.targets[TARGETS[1],'right']
+    if np.linalg.norm(joints['tip']-authored_tip)>1e-4:
+        raise ValueError("Snare elbow change displaced authored stick contact")
     singer_scarf=next(o for o in scene.instances if o['name']=='harmony_scarf')
     singer_color=np.asarray(singer_scarf['color'],dtype=float)
     if not (singer_color[2] > singer_color[0] and singer_color[0] > singer_color[1]):
@@ -99,6 +116,8 @@ def preflight(root: Path, eid: str) -> dict:
         'original_drum_hits_from_source': len(hits),
         'original_playable_arm_hits': len(drummer.hits),
         'original_rejected_unplayable_hits': len(drummer.motion_rejections),
+        'screen_right_snare_elbow_pose_verified': True,
+        'screen_right_snare_original_tip_preserved': True,
         'hi_hat_source_hits': len(hi_hat_events),
         'hi_hat_stick_strikes': 0,
         'hi_hat_foot_only': True,
