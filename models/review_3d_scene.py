@@ -11,11 +11,26 @@ class Review3DScene(ReviewSnowmanScene):
     def __init__(self,layout='prismatic_orrery'):
         super().__init__(layout)
         self.snowman('drummer',np.array((0,.35,-3.6)),'#86C6E7')
+        # Audience-view staging: screen left -> right must be
+        # LEFT CYMBAL, FLOOR TOM, MID TOM, KICK, SNARE, HIGH TOM,
+        # HI-HAT, RIGHT CYMBAL. Front cameras look along -Z, so
+        # increasingly positive world X is increasingly screen-right.
+        # The legacy arrangement had the hi-hat and floor tom reversed.
         self.drum_centers={
-            'KICK':np.array((0,.82,-2.30)),'SNARE':np.array((-.52,1.59,-2.35)),
-            'HI_HAT':np.array((-1.10,2.01,-2.70)),'TOM_HIGH':np.array((.50,2.04,-3.02)),
-            'TOM_MID':np.array((-.48,1.96,-3.02)),'TOM_FLOOR':np.array((.98,1.34,-2.50)),
-            'CYMBAL_LEFT':np.array((-1.25,2.52,-3.13)),'CYMBAL_RIGHT':np.array((1.30,2.57,-3.13))}
+            'CYMBAL_LEFT':np.array((-2.34,2.53,-3.08)),
+            'TOM_FLOOR':np.array((-1.64,1.36,-2.36)),
+            'TOM_MID':np.array((-.91,1.96,-2.80)),
+            'KICK':np.array((0,.82,-2.25)),
+            'SNARE':np.array((.72,1.53,-2.31)),
+            'TOM_HIGH':np.array((1.24,2.07,-2.80)),
+            'HI_HAT':np.array((1.76,2.03,-2.65)),
+            'CYMBAL_RIGHT':np.array((2.38,2.55,-3.08))}
+        # The original 3.45-wide riser clipped both ends of the kit.
+        # Resize only this review-stage riser; preserve all note routing.
+        riser=next(o for o in self.instances if o['name']=='drum_riser')
+        riser['matrix'][0,0]=5.8
+        riser['matrix'][2,2]=2.9
+        riser['matrix'][2,3]=-2.42
         self.drummer_parts={};self.drummer_rigs={}
         for j,(name,center) in enumerate(self.drum_centers.items()):
             first=len(self.instances);metal='CYMBAL' in name or name=='HI_HAT';radius=.40 if metal else .30
@@ -36,17 +51,22 @@ class Review3DScene(ReviewSnowmanScene):
             self.rod('drummer_'+side+'_STICK',hand,hand+(0,-.36,.30),.018,'#DDBB83')
             self.drummer_rigs[side]=dict(shoulder=shoulder,ids=tuple(range(start,start+4)),idle=hand)
         self.hihat_pedal=len(self.instances)
-        self.rod('drummer_HIHAT_FOOT_PEDAL',(-1.05,.09,-3.03),(-1.05,.16,-2.68),.075,'#8095A3')
+        self.rod('drummer_HIHAT_FOOT_PEDAL',(1.75,.09,-3.03),(1.75,.16,-2.68),.075,'#8095A3')
         self.hihat_foot=len(self.instances)
-        self.sphere('drummer_HIHAT_FOOT',(-1.05,.22,-2.82),(.20,.095,.30),'#D5E5EF')
+        self.sphere('drummer_HIHAT_FOOT',(1.75,.22,-2.82),(.20,.095,.30),'#D5E5EF')
         self.kick_beater=len(self.instances)
         self.rod('drummer_KICK_BEATER',(0,.10,-1.94),(0,.45,-1.94),.025,'#C5B592',5)
         self.drum_hits=[];self.drum_contact_proof=[]
+        self.drum_geometry_contract='audience_left_to_right_v1'
 
     def configure_drummer(self,hits):
         self.drum_hits=[]
         for h in hits:
             target=h['target'].removeprefix('HX_SNOWMAN_DRUMMER_V3_')
+            # Both snare-hand cue channels strike the same physical snare.
+            if target in ('SNARE_LEFT','SNARE_RIGHT'):
+                h=dict(h,side='left' if target.endswith('LEFT') else 'right')
+                target='SNARE'
             if target not in self.drum_centers:continue
             self.drum_hits.append(dict(h,target=target,source_time=h['time'],time=round(h['time']*20)/20))
 
@@ -70,8 +90,8 @@ class Review3DScene(ReviewSnowmanScene):
             self.instances[d]['matrix']=line_matrix(hand,tip,.018)
         foot_hit=any(h['target']=='HI_HAT' and 0<=time-h['time']<.10 for h in self.drum_hits)
         pedal_lift=0.0 if foot_hit else .10
-        self.instances[self.hihat_pedal]['matrix']=line_matrix((-1.05,.09,-3.03),(-1.05,.16+pedal_lift,-2.68),.075)
-        self.instances[self.hihat_foot]['matrix']=matrix((-1.05,.22+pedal_lift,-2.82),(.20,.095,.30))
+        self.instances[self.hihat_pedal]['matrix']=line_matrix((1.75,.09,-3.03),(1.75,.16+pedal_lift,-2.68),.075)
+        self.instances[self.hihat_foot]['matrix']=matrix((1.75,.22+pedal_lift,-2.82),(.20,.095,.30))
         kicks=[h for h in self.drum_hits if h['target']=='KICK' and 0<=time-h['time']<.1]
         tip=self.drum_centers['KICK'] if kicks else np.array((0,.45,-1.94))
         self.instances[self.kick_beater]['matrix']=line_matrix((0,.10,-1.94),tip,.025)
