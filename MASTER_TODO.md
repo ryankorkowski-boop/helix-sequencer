@@ -1,3 +1,31 @@
+## 2026-10-18 — Native CI repair and optional-runtime telemetry control
+
+First native comparison run 39160403319 did not reach rendering: 111 tests passed,
+one pre-existing float32 exact-equality assertion failed under NumPy 1.26, and
+three FFmpeg checks skipped because the test job lacked FFmpeg. Repair uses
+numerical tolerance for expected .8/.25 float amplitudes while retaining exact
+source onset/phase/rest assertions, and installs FFmpeg in the test job.
+
+Automatic approval review rejected local audio-analysis continuation because an
+optional dependency contacted a Microsoft telemetry endpoint; transmitted data
+was not established or authorized. The official ONNX Runtime privacy document
+specifies ORT_DISABLE_TELEMETRY=1 before initialization to prevent its uploader,
+events and persistent identifier. The analysis module sets that documented
+control before optional recognition imports, and the entire review workflow sets
+it before launching Python. A regression checks the control before recognizer
+construction. No network isolation or approval protection is disabled.
+
+The local execution server subsequently became unavailable. Unaffected remote
+code review/CI work continues through the connected repository. No further local
+audio-analysis retry is claimed. Native comparison acceptance remains pending.
+
+Also preserve independent beat/note/lyric/emotion/semantic timing tracks in the
+restored canonical adapter; add absent-recognizer and semantic-overlap regressions.
+Original instrument algorithms/times and release hold remain unchanged.
+Public privacy source: https://raw.githubusercontent.com/microsoft/onnxruntime/main/docs/Privacy.md
+Risks/limitations: CI must validate the safer path; no measured ASR/phone accuracy,
+native full-band proof or device acceptance is inferred. Previous backlog intact.
+
 ## 2026-10-18 — Historical recovery and evidence-aware semantic development (release held)
 
 Goal: recover historical musical/lyric code before adding context-aware direction.

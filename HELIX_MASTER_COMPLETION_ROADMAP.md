@@ -156,3 +156,15 @@ Existing R01–R28 and every preserved legacy backlog item remain unchanged.
 
 Detailed goal/files/preserved/new behavior/tests/limits/risks are recorded in the
 2026-10-18 historical recovery entry at the top of MASTER_TODO.md.
+
+
+### Semantic recovery CI/privacy follow-up
+
+Run 39160403319: 111 passed, one pre-existing float32 exact-equality assertion
+failed; render matrix skipped. Fixes preserve phase/onset/rest checks, use
+appropriate amplitude tolerance, install FFmpeg, keep canonical timing lanes
+separate, and disable ONNX telemetry before initialization with the documented
+ORT_DISABLE_TELEMETRY=1 control. New native evidence remains pending. Automatic
+approval review rejected the earlier telemetry-enabled local continuation;
+the unavailable local execution server prevents additional local validation.
+Every S01-S10 and R01-R28 acceptance state retains its existing limits.

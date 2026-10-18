@@ -59,8 +59,8 @@ def _event_to_segment(event: Mapping[str, Any]) -> AudioSegment:
         start = float(event.get('time_ms',event.get('start_ms',event.get('timestamp_ms',0))))/1000
         duration = float(event.get('duration_ms',max(0,float(event.get('end_ms',start*1000+500))-start*1000)))/1000
     else:
-        start = float(event.get("start", event.get("time", 0.0)))
-        duration = float(event.get("duration", 0.5))
+        start = float(event.get("start", event.get("start_time", event.get("time", 0.0))))
+        duration = float(event.get("duration", max(0, float(event.get("end_time",start+.5))-start)))
     label = str(event.get("label", event.get("type", ""))).lower()
 
     if "drop" in label:
@@ -100,6 +100,16 @@ def analyze_to_timing_tracks(wav_path: str | Path) -> TimingTrackSet:
             continue
         for func in _candidate_functions(module):
             payload = _call_analyzer(func, wav_path)
+            if func.__name__ == 'analyze_audio_file' and isinstance(payload, Mapping):
+                canonical = {key:payload.get(key,[]) for key in ('beat_events','onset_events','note_events','emotion_events')}
+                canonical['lyric_words']=(payload.get('lyric_timeline',{}) or {}).get('words',[])
+                canonical['semantic_phrases']=(payload.get('semantic_story',{}) or {}).get('phrases',[])
+                for kind,events in canonical.items():
+                    if not events:
+                        continue
+                    segments=tuple(_event_to_segment({**event,'label':event.get('label',kind)}) for event in events)
+                    tracks.append(TimingTrack(name=kind,kind=kind,segments=segments,source=module_name))
+                continue
             events = list(_iter_events(payload))
             if not events:
                 continue

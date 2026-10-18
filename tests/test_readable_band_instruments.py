@@ -27,8 +27,9 @@ def test_repeated_notes_hold_velocity_rest_and_retrigger_at_source_onset():
     events=compile_note_events(notes,vel,attack,'test')
     assert len(events)==4
     n,v,a,p=event_curves(events,14,6,.10)
-    assert a[0]==.8 and a[3]==.8 and p[0]==0 and p[3]==0
-    assert v[1,0]==.8 and v[1,1]==.25
+    np.testing.assert_allclose(a[[0,3]], [.8,.8], rtol=1e-6)
+    assert p[0]==0 and p[3]==0
+    np.testing.assert_allclose(v[1,:2], [.8,.25], rtol=1e-6)
     assert not a[1:3].any() and not v[9:].any() and np.all(n[9:]==-1)
 
 

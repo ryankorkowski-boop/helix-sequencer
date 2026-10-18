@@ -184,3 +184,50 @@ def test_low_confidence_delivery_restrains_singer_expression():
     high=face_expression_for('lead_singer',dict(intensity=1,confidence=.9),.5)
     assert low['motion_amplitude']<high['motion_amplitude']<=.65
     assert high['mouth_intensity_scale']<=1.18
+
+
+def test_optional_recognizer_disables_runtime_telemetry_before_loading(monkeypatch):
+    import os, sys
+    from core.audio_intelligence import _try_faster_whisper_lyrics
+    class Recognizer:
+        def __init__(self, *args, **kwargs):
+            assert os.environ.get('ORT_DISABLE_TELEMETRY') == '1'
+        def transcribe(self, *args, **kwargs):
+            return iter([]), None
+    monkeypatch.setitem(sys.modules, 'faster_whisper', NS(WhisperModel=Recognizer))
+    assert _try_faster_whisper_lyrics(__import__('pathlib').Path('source.wav')) == []
+
+
+def test_missing_recognition_has_clean_fallback(monkeypatch):
+    import sys
+    from core.audio_intelligence import _try_whisper_lyrics
+    monkeypatch.setitem(sys.modules,'whisper',None)
+    monkeypatch.setitem(sys.modules,'faster_whisper',None)
+    assert _try_whisper_lyrics(__import__('pathlib').Path('source.wav')) == []
+
+
+def test_real_analyzer_adapter_preserves_separate_tracks_and_units(monkeypatch):
+    from tools import audio_intelligence_adapter as adapter
+    def analyze_audio_file(path):
+        return NS(to_dict=lambda:dict(beat_events=[dict(time_ms=1500,confidence=.9)],
+            note_events=[dict(timestamp_ms=1523,duration_ms=81)],
+            lyric_timeline={'words':[dict(start_time=1.6,end_time=1.9,text='snow')]},
+            semantic_story={'phrases':[dict(start_ms=1600,end_ms=2000,text='snow falls')]}))
+    monkeypatch.setattr(adapter,'CORE_ANALYZER_MODULES',('core.audio_intelligence',))
+    monkeypatch.setattr(adapter,'_safe_import',lambda _:NS(analyze_audio_file=analyze_audio_file))
+    monkeypatch.setattr(adapter,'wav_to_audio_segments',lambda _:[])
+    tracks={t.name:t for t in adapter.analyze_to_timing_tracks('source.wav').tracks}
+    assert {'beat_events','note_events','lyric_words','semantic_phrases'} <= set(tracks)
+    assert tracks['note_events'].segments[0].start == 1.523
+    assert tracks['note_events'].segments[0].duration == .081
+    assert tracks['lyric_words'].segments[0].vocal_presence == 1
+
+
+def test_semantic_overlap_rejected_without_shifting_source_phrase():
+    root=sequence()
+    timeline=build_timeline([phrase('snow falls',0,1500),phrase('snow returns',500,2000)])
+    result=append_direction(root,direct(interpret(timeline)),['SKY'],
+        parsed_layout=NS(models={'SKY':ScenicModel()}),duration_ms=2000)
+    assert len(result['schedule']) == 1
+    assert result['schedule'][0]['start_ms'] == 0
+    assert result['rejected'][0]['reason'] == 'overlapping_semantic_phrase'

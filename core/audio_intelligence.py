@@ -3,6 +3,9 @@ from __future__ import annotations
 import csv
 import json
 import os
+# ONNX Runtime may initialize its uploader during import. Disable the uploader,
+# events and persistent identifier before any optional recognizer imports it.
+os.environ["ORT_DISABLE_TELEMETRY"] = "1"
 import shutil
 import tempfile
 import time
