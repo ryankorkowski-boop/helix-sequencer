@@ -122,3 +122,7 @@ powershell -File .\scripts\run_smoke.ps1
 - Use copied, permissioned input files only.
 - Keep run manifests and generated outputs in a dedicated output folder.
 - See [BETA_POLICY.md](docs/BETA_POLICY.md) and [BETA_TESTER_FEEDBACK.md](docs/BETA_TESTER_FEEDBACK.md) for policy and evidence collection.
+
+## License
+
+Helix Sequencer is licensed under [PolyForm Noncommercial 1.0.0](LICENSE). Personal, homeowner, hobby, and other qualifying noncommercial uses are permitted under that license. Commercial use requires a separate written commercial license from the copyright holder; commercial vendor licensing is intended to be annual. Third-party components retain their own licenses. See [NOTICE](NOTICE) and [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
