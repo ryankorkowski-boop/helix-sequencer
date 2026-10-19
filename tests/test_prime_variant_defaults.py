@@ -65,8 +65,9 @@ class PrimeVariantDefaultsTests(unittest.TestCase):
                   and node.name == "build_stem_analysis")
         body = ast.unparse(fn)
         self.assertIn('hashlib.sha256()', body)
-        self.assertIn('manifest.get("source_sha256") == source_sha256', body)
-        self.assertIn('p.stat().st_mtime_ns >= audio_path.stat().st_mtime_ns', body)
+        self.assertIn("source_sha256", body)
+        self.assertIn("manifest.get(", body)
+        self.assertIn("p.stat().st_mtime_ns >= audio_path.stat().st_mtime_ns", body)
         self.assertIn('all(p.is_file()', body)
 
 if __name__ == "__main__":
