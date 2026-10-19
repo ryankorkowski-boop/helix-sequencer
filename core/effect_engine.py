@@ -10196,6 +10196,11 @@ def build_all_models_all_effects_sequence(
         base.indent_xml(xsq.root)
     except Exception:
         pass
+    if active_layout_file and active_layout_file.exists():
+        row_check = base.validate_xsq_layout_rows(xsq, active_layout_file)
+        if not row_check["passed"]:
+            raise RuntimeError("XSQ is missing editable model rows: " + ", ".join(row_check["missing_rows"]))
+        log(f"Editable model rows validated: {row_check['actual_mapped_rows']}/{row_check['expected_rows']}")
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
     return out_path
 
@@ -12659,6 +12664,11 @@ def run_variant(
         base.indent_xml(xsq.root)
     except Exception:
         pass
+    if active_layout_file and active_layout_file.exists():
+        row_check = base.validate_xsq_layout_rows(xsq, active_layout_file)
+        if not row_check["passed"]:
+            raise RuntimeError("XSQ is missing editable model rows: " + ", ".join(row_check["missing_rows"]))
+        log(f"Editable model rows validated: {row_check['actual_mapped_rows']}/{row_check['expected_rows']}")
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
 
     if GENERATE_SHOWCASE:
