@@ -38,6 +38,19 @@ review remain pending; visual cast consolidation and PR #180 pending.
 Bells of Mathmas historical full-song comparison recovered but
 unacceptably dark; does not satisfy R17/R19 or owner approval.
 
+## Default final-stage keyboard casting slice — 2026-10-18
+
+R06/R07/R08 **IMPLEMENTED — UNVERIFIED** on draft PR #181:
+`FinalBandScene` now renders the piano character in place of the
+mallet performer by default; `legacy_mallet_player=True` preserves
+old six-person mallet staging. `FinalBandPerformance` uses unified
+source events to drive both literal piano keys and hands, with the
+short-arm candidate (.52/.50; motion .030/.010). Existing guitar,
+drummer, bass, vocal, legacy xylophone and controller sequences are
+not intentionally modified. `Review3DScene`'s seven-model native
+pipeline remains separate and must be migrated before current audio
+MP4/approval claims. Complete tests/native/owner review pending.
+
 ## Current recovery and integration evidence
 
 - Inspected PR175 head `13a833e9b71dbacefb340654a44f5707b162888e`.
