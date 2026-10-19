@@ -334,3 +334,9 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - [x] Invalidate stale local manifest before regeneration; verify all four WAVs; atomically publish replacement manifest (`0b549c0`).
 - [x] Add ordering regression test to required Prime test file (`fb3e05c`).
 - [ ] Execute tests and inject a failed partial local stem regeneration to verify subsequent run does not trust stale WAVs. No passing CI or real-audio benchmark yet.
+
+
+### Native workflow queue management
+- [x] Add branch-scoped concurrency with `cancel-in-progress: true` to `.github/workflows/fresh-real-band-mp4.yml` (`9ef69c7`), avoiding simultaneous superseded xLights builds.
+- [ ] Verify new workflow execution and review build log plus genuine native MP4 output. Queue control is not a render success.
+- [ ] Latest checked workflow batch for `c445d8c`: 13 queued, one pending, one Windows build in progress. Do not claim CI success from pending jobs.
