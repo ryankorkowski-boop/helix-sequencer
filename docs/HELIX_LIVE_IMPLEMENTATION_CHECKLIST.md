@@ -280,3 +280,10 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - [ ] Execute focused tests in GitHub Actions; no workflow dispatch action is exposed through the connected GitHub interface in this session.
 - [ ] Native render run 39336982567 was still in the `Install checksum pinned native xLights` step at last check. Do not report completion without successful job, downloadable artifact and independent MP4 verification.
 - [ ] Existing `tools/native_source_pose_band.py` uses `ReviewBandPerformance` with E14 retained analysis and drummer.xsq; generic Starred audio requires an actual source-analysis adapter. Do not relabel E14 render as Starred output.
+
+
+### Starred source verification automation update
+- [x] Corrected Drive retrieval to `python -m gdown --id "$SELECTED_DRIVE_ID"` (commit `b0aee10`), rather than passing an opaque ID as an inferred URL.
+- [x] Configured `.github/workflows/verify-starred-audio.yml` push trigger on recovery branch changes to selector, catalog, tests, or workflow (commit `b645913`). This should start a verification job on matching pushes; its execution and success are not yet confirmed.
+- [ ] Inspect the new push-triggered Starred source verification run and `source_provenance.json`; investigate Drive permission or quota failures rather than substituting media.
+- [ ] Native xLights build run 39336982567 remains in install/build step at last observation; retrieve logs if failed or timed out and fix actual cause.
