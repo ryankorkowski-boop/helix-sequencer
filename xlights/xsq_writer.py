@@ -145,6 +145,8 @@ MEGA_WHITE_HIT_MS = (70, 140)
 # --- Pitch proxy (fast) ---
 HOP_MS = 512
 USE_FAST_PITCH = True
+# Feature extraction rate. Duration still comes from the file's native sample rate.
+ANALYSIS_TARGET_SR = 22050
 
 # Safety cap
 MAX_EFFECTS_TOTAL = None
@@ -709,13 +711,49 @@ def norm01(x: np.ndarray) -> np.ndarray:
         return np.zeros_like(x)
     return np.clip((x - lo) / (hi - lo), 0.0, 1.0)
 
+def analysis_hop_length(native_sr: int, analysis_sr: int, native_hop: int = HOP_MS) -> int:
+    """Keep the old frame period when features are decoded below the file rate."""
+    native = max(1, int(native_sr))
+    analysis = max(1, int(analysis_sr))
+    return max(1, int(round(int(native_hop) * analysis / native)))
+
+
+def fast_pitch_hz(pitches: np.ndarray, magnitudes: np.ndarray) -> np.ndarray:
+    """Vectorized equivalent of the per-frame piptrack argmax loop."""
+    pitch_arr = np.asarray(pitches, dtype=float)
+    mag_arr = np.asarray(magnitudes, dtype=float)
+    if pitch_arr.ndim != 2 or mag_arr.shape != pitch_arr.shape or pitch_arr.shape[1] == 0:
+        return np.full((0,), np.nan, dtype=float)
+    idx = np.argmax(mag_arr, axis=0)
+    gathered = pitch_arr[idx, np.arange(pitch_arr.shape[1])]
+    return np.where(gathered > 0.0, gathered, np.nan)
+
+
+def _native_audio_info(audio_path: Path) -> tuple[int | None, float | None]:
+    try:
+        import soundfile as sf
+
+        info = sf.info(str(audio_path))
+        sr = int(info.samplerate) if info.samplerate else None
+        dur = (float(info.frames) / float(info.samplerate)) if sr and info.frames else None
+        return sr, dur
+    except Exception:
+        return None, None
+
+
+def load_analysis_audio(audio_path: Path) -> tuple[np.ndarray, int, float, int]:
+    """Load mono audio at ANALYSIS_TARGET_SR. Duration stays on the native clock."""
+    native_sr, native_dur = _native_audio_info(audio_path)
+    y, sr = librosa.load(str(audio_path), sr=ANALYSIS_TARGET_SR, mono=True)
+    dur = float(native_dur) if native_dur and native_dur > 0 else float(len(y) / float(sr))
+    hop = analysis_hop_length(native_sr or 44100, int(sr), HOP_MS)
+    return y, int(sr), dur, hop
+
+
 def analyze(audio_path: Path) -> Audio:
     log(f"Loading audio: {audio_path.name}")
-    y, sr = librosa.load(str(audio_path), sr=None, mono=True)
-    dur = float(len(y) / sr)
-    log(f"SR={sr} duration={dur:.2f}s")
-
-    hop = HOP_MS
+    y, sr, dur, hop = load_analysis_audio(audio_path)
+    log(f"SR={sr} duration={dur:.2f}s hop={hop}")
     S = np.abs(librosa.stft(y, n_fft=2048, hop_length=hop))**2
     mel = librosa.feature.melspectrogram(S=S, sr=sr, n_mels=128, fmin=20, fmax=11025)
     mel_db = librosa.power_to_db(mel, ref=np.max)
@@ -761,12 +799,7 @@ def analyze(audio_path: Path) -> Audio:
             fmin=librosa.note_to_hz("C2"),
             fmax=librosa.note_to_hz("C7")
         )
-        pitch_hz = np.full((pitches.shape[1],), np.nan, dtype=float)
-        for t in range(pitches.shape[1]):
-            col = pmags[:, t]
-            i = int(np.argmax(col))
-            p = float(pitches[i, t])
-            pitch_hz[t] = p if p > 0 else np.nan
+        pitch_hz = fast_pitch_hz(pitches, pmags)
     else:
         pitch_hz = np.full((len(times_s),), np.nan, dtype=float)
 

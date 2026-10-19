@@ -54,7 +54,8 @@ List available profiles:
 python main.py --list-profiles
 ```
 
-Run the active master profile:
+Run the active master profile. This writes one signature sequence. Add `--variants 3 --auto-shortlist` only when you want the engine to score alternates and keep the winner. Demucs stem separation stays off unless you pass `--use-demucs`.
+
 ```bash
 python main.py --profile master -- \
   --audio song.mp3 \

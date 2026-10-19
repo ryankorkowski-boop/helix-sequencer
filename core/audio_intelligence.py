@@ -810,6 +810,72 @@ def _summarize_stem_file(
     }
 
 
+_STEM_NAMES = ("vocals", "drums", "bass", "other")
+_STEM_CACHE_VERSION = 1
+_STEM_CACHE_META = "helix_stem_cache.json"
+
+
+def _stem_cache_meta_path(stem_dir: Path) -> Path:
+    return stem_dir / _STEM_CACHE_META
+
+
+def _write_stem_cache_meta(audio_path: Path, stem_dir: Path, stems: dict[str, Path], source: str) -> None:
+    stat = audio_path.stat()
+    payload = {
+        "version": _STEM_CACHE_VERSION,
+        "audio_name": audio_path.name,
+        "audio_size": int(stat.st_size),
+        "audio_mtime_ns": int(stat.st_mtime_ns),
+        "source": source,
+        "stems": {name: str(Path(stems[name])) for name in _STEM_NAMES},
+    }
+    _stem_cache_meta_path(stem_dir).write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+
+def _load_cached_stems(audio_path: Path, stem_dir: Path) -> dict[str, Path] | None:
+    """Return stem WAVs when they were produced for this exact audio file."""
+    meta_path = _stem_cache_meta_path(stem_dir)
+    if not audio_path.exists() or not meta_path.exists():
+        return None
+    try:
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        stat = audio_path.stat()
+    except (OSError, json.JSONDecodeError, TypeError, ValueError):
+        return None
+    if int(meta.get("version", 0) or 0) != _STEM_CACHE_VERSION:
+        return None
+    if meta.get("audio_name") != audio_path.name:
+        return None
+    if int(meta.get("audio_size", -1) or -1) != int(stat.st_size):
+        return None
+    if int(meta.get("audio_mtime_ns", -1) or -1) != int(stat.st_mtime_ns):
+        return None
+    raw_stems = meta.get("stems")
+    if not isinstance(raw_stems, dict):
+        return None
+    stems: dict[str, Path] = {}
+    for name in _STEM_NAMES:
+        raw = raw_stems.get(name)
+        if not isinstance(raw, str) or not raw:
+            return None
+        path = Path(raw)
+        if not path.exists() or path.stat().st_size <= 0:
+            return None
+        stems[name] = path
+    return stems
+
+
+def _remember_stem_cache(audio_path: Path, stem_dir: Path, stems: dict[str, Path] | None, source: str) -> None:
+    if source == "cache" or not stems:
+        return
+    if any(name not in stems or not Path(stems[name]).exists() or Path(stems[name]).stat().st_size <= 0 for name in _STEM_NAMES):
+        return
+    try:
+        _write_stem_cache_meta(audio_path, stem_dir, stems, source)
+    except OSError as exc:
+        _log(None, f"Stem cache write skipped: {exc}")
+
+
 def build_stem_analysis(
     audio_path: Path,
     use_moises: bool,
@@ -817,6 +883,7 @@ def build_stem_analysis(
     cache_dir: Path,
     config: AudioAnalysisConfig | None = None,
     log_fn: Callable[[str], None] | None = None,
+    use_demucs: bool = False,
 ) -> StemAnalysis:
     """Build stems and per-stem timing cues used by the sequencer engine."""
     settings = config or load_audio_analysis_config()
@@ -839,25 +906,33 @@ def build_stem_analysis(
     stem_dir = cache_dir / audio_path.stem
     stem_dir.mkdir(parents=True, exist_ok=True)
 
+    cached = _load_cached_stems(audio_path, stem_dir)
     stems: dict[str, Path] | None = None
     source = "local"
-    if use_moises:
-        stems = _try_moises_stem_separation(audio_path, stem_dir, api_key or "", log_fn)
-        if stems:
-            source = "moises"
-    if not stems:
-        stems = _try_demucs_stem_separation(audio_path, stem_dir, log_fn)
-        if stems:
-            source = "demucs"
-    if not stems:
-        try:
-            stems = _local_stem_separation(audio_path, stem_dir, log_fn)
-            source = "local"
-        except Exception as exc:
-            _log(log_fn, f"Stem split fallback failed, using direct audio analysis only: {exc}")
-            stems = {}
-            source = "direct"
+    if cached is not None:
+        stems = cached
+        source = "cache"
+        _log(log_fn, "Stem split: using cached stems.")
+    else:
+        if use_moises:
+            stems = _try_moises_stem_separation(audio_path, stem_dir, api_key or "", log_fn)
+            if stems:
+                source = "moises"
+        if not stems and use_demucs:
+            stems = _try_demucs_stem_separation(audio_path, stem_dir, log_fn)
+            if stems:
+                source = "demucs"
+        if not stems:
+            try:
+                stems = _local_stem_separation(audio_path, stem_dir, log_fn)
+                source = "local"
+            except Exception as exc:
+                _log(log_fn, f"Stem split fallback failed, using direct audio analysis only: {exc}")
+                stems = {}
+                source = "direct"
+        _remember_stem_cache(audio_path, stem_dir, stems, source)
 
+    stems = stems or {}
     drum_src = stems.get("drums") or audio_path
     bass_src = stems.get("bass") or audio_path
     vocal_src = stems.get("vocals") or audio_path

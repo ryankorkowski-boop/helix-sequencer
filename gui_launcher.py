@@ -51,7 +51,7 @@ class HelixGui(tk.Tk):
         self.birdsong_profile_var = tk.StringVar(value="canopy")
         self.birdsong_intensity_var = tk.DoubleVar(value=1.2)
         self.birdsong_min_conf_var = tk.DoubleVar(value=0.45)
-        self.variants_var = tk.IntVar(value=4)
+        self.variants_var = tk.IntVar(value=1)
 
         self._build_ui()
         self._apply_layout_preset()

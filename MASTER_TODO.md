@@ -77,6 +77,48 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-10-19 — Default sequencing path no longer repeats the same song
+**Agent:** Grok
+**Branch:** `feature/sequencer-speed-defaults`
+
+**Goal:** Cut default sequencing time without a new show design. A normal run was decoding the song and generating three sequences, then keeping the first.
+
+**Changed:**
+- `core/effect_engine.py` — `--variants` defaults to 1. `--auto-shortlist` still opts into alternates. `--vendor-bar` still forces at least 3. Audio `analyze()` runs once per file and is reused by every variant. `--use-demucs` is off unless requested.
+- `core/audio_intelligence.py` — stem WAVs in `RenderCache/stems/<song>/` are reused when the cache sidecar matches the audio file size and mtime. Demucs is no longer attempted just because the binary is on PATH.
+- `xlights/xsq_writer.py` — feature extraction loads at 22050 Hz. Duration still uses the file's native sample rate. Hop length is scaled so the frame period matches the old 512-sample hop. Pitch picking is a vectorized argmax, same index rule as the old loop.
+- `gui_launcher.py` — variant spinner defaults to 1. Vendor bar, when checked, still raises that to at least 3 inside the engine.
+- `.github/workflows/unit-tests.yml` — `tests/test_core_sandbox.py` and `tests/test_sequencer_speed_defaults.py` are a required gate. The full suite stays non-blocking.
+
+**Preserved:**
+- The signature variant is still the canonical file when shortlist is off. Passing `--variants 3` still builds the same alternate labels.
+- Moises separation is unchanged and still opt-in via `--use-moises`.
+- Vendor-bar runs still shortlist and still generate at least 3 variants.
+- Orchestrator default was not changed.
+
+**New behavior:**
+- CLI and GUI default to one variant.
+- Stem separation hits the cache on the second variant and on the next run of the same file.
+- Demucs runs only with `--use-demucs`.
+- Beats and onsets are computed at 22050 Hz with a time-matched hop, so sequences can differ slightly from native-rate builds. They are not byte-identical.
+
+**Tests / evidence:**
+- `tests/test_sequencer_speed_defaults.py` covers the variant default, signature-only candidate list, shared-audio reuse, Demucs opt-in, stem cache hit/miss, hop scaling, and vectorized pitch.
+
+**Limitations:**
+- Harmonic analysis and placement still run once per variant. Vendor-bar GUI runs still do three placements.
+- No rendered XSQ/MP4 comparison was produced in this change.
+
+**Deferred:**
+- Do not split `core/effect_engine.py` for speed.
+- Prime still stacks showcase-signature and piano-lights. That changes the look and stays deferred.
+- Orchestrator still runs before the engine unless `--no-effects-orchestrator` is passed.
+
+**Regression risks:**
+- Shows rendered after this change can shift by a few milliseconds versus native-rate analysis.
+- Machines that silently depended on automatic Demucs will now get the local HPSS split until they pass `--use-demucs`.
+- A stale `helix_stem_cache.json` is ignored when the audio size or mtime changes.
+
 ### 2026-10-02 — Beta tester feedback checklist documented
 **Agent:** GitHub Copilot
 **Branch:** `feature/restructure-core`

@@ -168,6 +168,7 @@ class RuntimeTuning:
     keyboard_mix: float = 1.0
     model_overrides: dict[str, str | list[str]] | None = None
     use_moises: bool = False
+    use_demucs: bool = False
     moises_api_key: str | None = None
     sync_lyrics_heads: bool = False
     template_guidance: bool = True
@@ -203,7 +204,7 @@ class RuntimeTuning:
     video_file: Path | None = None
     blend_rules_file: Path | None = None
     polish_enabled: bool = True
-    variant_count: int = 3
+    variant_count: int = 1
     auto_shortlist: bool = False
     learn_from_my_xsqs: bool = False
     vendor_bar: bool = False
@@ -10176,6 +10177,14 @@ def build_all_models_all_effects_sequence(
     return out_path
 
 
+def resolve_shared_audio(audio_path: Path, audio: base.Audio | None = None) -> base.Audio:
+    """Decode a song once and reuse that analysis for every variant."""
+    if audio is not None:
+        log(f"Reusing shared audio analysis: {audio_path.name} ({audio.dur_s:.2f}s)")
+        return audio
+    return base.analyze(audio_path)
+
+
 def run_variant(
     style: VariantStyle,
     template_xsq: Path,
@@ -10183,6 +10192,7 @@ def run_variant(
     out_path: Path,
     profile: base.UserProfile,
     tuning: RuntimeTuning | None = None,
+    audio: base.Audio | None = None,
 ) -> dict[str, object]:
     tuning = tuning or RuntimeTuning()
     style = apply_runtime_style(style, tuning)
@@ -10380,7 +10390,7 @@ def run_variant(
         )
 
     log("[2/8] Analyzing audio and polyphony")
-    audio = base.analyze(audio_path)
+    audio = resolve_shared_audio(audio_path, audio)
     song_length_ms = max(1000, int(audio.dur_s * 1000.0))
     harmonic = analyze_harmonic(audio)
     sections = base.detect_sections(audio)
@@ -10437,6 +10447,7 @@ def run_variant(
         api_key=(tuning.moises_api_key or ""),
         cache_dir=Path("RenderCache") / "stems",
         log_fn=log,
+        use_demucs=bool(tuning.use_demucs),
     )
     if stem_analysis.bass_peaks_ms:
         bass_peaks = base.compress_times_ms(stem_analysis.bass_peaks_ms, base.scaled_gap(75))
@@ -12683,6 +12694,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--power-metadata-file", dest="power_metadata_file", help="Optional JSON file with circuit and prop power metadata")
     parser.add_argument("--fail-on-power-risk", dest="fail_on_power_risk", action="store_true", help="Fail report validation when enabled power metadata reports risk")
     parser.add_argument("--use-moises", action="store_true", help="Use Moises stem separation when possible")
+    parser.add_argument("--use-demucs", action="store_true", help="Use local Demucs stem separation when demucs is installed. Off by default.")
     parser.add_argument("--moises-api-key", dest="moises_api_key", help="Moises API key")
     parser.add_argument("--sync-lyrics-heads", action="store_true", help="Sync lyric timing to head/face props")
     parser.add_argument("--template-guidance", dest="template_guidance", action="store_true", help="Analyze the selected template to guide effect-family choices")
@@ -12734,7 +12746,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--blend-rules-file", dest="blend_rules_file", help="Optional JSON overrides for matrix blend planning")
     parser.add_argument("--polish", dest="polish_enabled", action="store_true", help="Run the post-generation polish pass")
     parser.add_argument("--no-polish", dest="polish_enabled", action="store_false", help="Skip the post-generation polish pass")
-    parser.add_argument("--variants", type=int, dest="variant_count", default=3, help="Number of runtime variants to generate and score")
+    parser.add_argument("--variants", type=int, dest="variant_count", default=1, help="Number of runtime variants to generate and score. Default 1 keeps the signature sequence; pass 3 with --auto-shortlist to compare alternates.")
     parser.add_argument("--auto-shortlist", dest="auto_shortlist", action="store_true", help="Promote the best-scoring runtime variant to the canonical output")
     parser.add_argument("--vendor-bar", dest="vendor_bar", action="store_true", help="Enforce paid-vendor level quality thresholds during shortlist and reporting")
     parser.add_argument("--vendor-min-quality", type=float, dest="vendor_min_quality_score", help="Minimum quality score required for vendor-bar pass")
@@ -12878,6 +12890,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         keyboard_mix=float(args.keyboard_mix if args.keyboard_mix is not None else 1.0),
         model_overrides=overrides_payload,
         use_moises=bool(args.use_moises),
+        use_demucs=bool(args.use_demucs),
         moises_api_key=(moises_key if moises_key else None),
         sync_lyrics_heads=bool(args.sync_lyrics_heads),
         template_guidance=bool(args.template_guidance),
@@ -12914,7 +12927,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         blend_rules_file=blend_rules_file,
         polish_enabled=bool(args.polish_enabled),
         variant_count=sequence_scoring.plan_variations(
-            int(args.variant_count if args.variant_count is not None else 3)
+            int(args.variant_count if args.variant_count is not None else 1)
         ).capped_count,
         auto_shortlist=bool(args.auto_shortlist),
         learn_from_my_xsqs=bool(args.learn_from_my_xsqs),
@@ -13022,21 +13035,23 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     log(f"Processing {len(audios)} audio file(s) with {style.version}...")
     runtime_candidates = build_runtime_candidates(style, tuning, tuning.variant_count)
 
-    for i, audio in enumerate(audios, 1):
-        out = variant_output_name(audio, output_dir, style.version)
-        log(f"\n[{i}/{len(audios)}] {audio.name} -> {out.name}")
+    for i, audio_path in enumerate(audios, 1):
+        out = variant_output_name(audio_path, output_dir, style.version)
+        log(f"\n[{i}/{len(audios)}] {audio_path.name} -> {out.name}")
         try:
+            shared_audio = resolve_shared_audio(audio_path)
             candidate_results: list[dict[str, object]] = []
             for idx, candidate in enumerate(runtime_candidates, 1):
-                candidate_out = out if idx == 1 else variant_output_name(audio, output_dir, candidate.style.version)
+                candidate_out = out if idx == 1 else variant_output_name(audio_path, output_dir, candidate.style.version)
                 log(f"  Variant {idx}/{len(runtime_candidates)}: {candidate.label} -> {candidate_out.name}")
                 result = run_variant(
                     candidate.style,
                     template,
-                    audio,
+                    audio_path,
                     candidate_out,
                     profile,
                     tuning=replace(candidate.tuning),
+                    audio=shared_audio,
                 )
                 result["label"] = candidate.label
                 result["description"] = candidate.description
@@ -13120,7 +13135,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                     selected_payload["learning_memory"] = learning_result
                     write_report(selected_report_path, selected_payload)
         except Exception as exc:
-            log(f"FAILED: {audio.name}: {repr(exc)}")
+            log(f"FAILED: {audio_path.name}: {repr(exc)}")
 
     log("\nDone.")
 

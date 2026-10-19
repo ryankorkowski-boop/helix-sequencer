@@ -86,6 +86,9 @@ jobs:
       - name: List sequencing profiles
         run: python main.py --list-profiles
 
+      - name: Run core sandbox regression gate
+        run: python -m pytest tests/test_core_sandbox.py tests/test_sequencer_speed_defaults.py -q
+
       - name: Run full regression audit
         continue-on-error: true
         run: python -m pytest -q --cov=core --cov=ai --cov=xlights --cov=tools --cov-report=term-missing
