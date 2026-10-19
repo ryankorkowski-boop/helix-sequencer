@@ -6,6 +6,7 @@ import threading
 from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
+from core.layout_preferences import load_layout, save_layout
 
 
 ROOT = Path(__file__).resolve().parent
@@ -36,7 +37,7 @@ class HelixGui(tk.Tk):
         self.layout_preset_var = tk.StringVar(value="Custom")
         self.template_var = tk.StringVar(value=str(ROOT / "template.xsq"))
         self.audio_var = tk.StringVar(value="")
-        self.layout_var = tk.StringVar(value="")
+        self.layout_var = tk.StringVar(value=load_layout())
         self.output_var = tk.StringVar(value=str(ROOT / "outputs"))
 
         self.vendor_bar_var = tk.BooleanVar(value=True)
@@ -54,6 +55,15 @@ class HelixGui(tk.Tk):
 
         self._build_ui()
         self._apply_layout_preset()
+        self.layout_var.trace_add("write", self._on_layout_changed)
+
+    def _on_layout_changed(self, *_args) -> None:
+        path = self.layout_var.get().strip()
+        if path and Path(path).is_file():
+            try:
+                save_layout(path)
+            except (OSError, ValueError):
+                pass
 
     def _build_ui(self) -> None:
         pad = {"padx": 8, "pady": 6}
