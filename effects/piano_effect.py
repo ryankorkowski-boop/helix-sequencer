@@ -12,6 +12,34 @@ from render.piano_renderer import PianoRenderConfig, render_frame
 
 PianoEffectConfig = PianoRenderConfig
 
+# Explicit source roles are routed to a single keyboard performer.  Unknown
+# sources remain eligible for legacy MIDI/Helix note-event compatibility.
+KEYBOARD_SOURCE_ROLES = frozenset({
+    "keyboard", "keys", "piano", "electric_piano", "organ",
+    "synth", "synthesizer", "bell", "bells", "glockenspiel",
+    "celesta", "vibraphone", "marimba", "xylophone", "mallet", "mallets",
+})
+OTHER_PERFORMER_ROLES = frozenset({
+    "guitar", "electric_guitar", "acoustic_guitar", "bass",
+    "bass_guitar", "drums", "drum", "percussion", "vocals", "vocal",
+})
+
+
+def route_universal_keyboard_notes(events: Iterable[NoteEvent]) -> list[NoteEvent]:
+    """Combine pitched keyboard/mallet events without stealing other performers.
+
+    Source labels are evidence, not pitch-based guesses. Preserve unknown labels
+    for compatibility with MIDI imports and existing Helix note streams.
+    """
+    selected = []
+    for event in events:
+        role = str(event.source or "unknown").strip().lower().replace("-", "_").replace(" ", "_")
+        if role in OTHER_PERFORMER_ROLES:
+            continue
+        selected.append(event)
+    return sorted(selected, key=lambda event: (event.start, event.pitch, event.end))
+
+
 
 def load_note_events(
     *,
@@ -82,7 +110,9 @@ def build_piano_effect_plan(
     bucket_count: int = 16,
     target_models: Iterable[Any] = (),
 ) -> dict[str, Any]:
-    filtered = filter_note_range(events, config.note_range_start, config.note_range_end)
+    filtered = filter_note_range(
+        route_universal_keyboard_notes(events), config.note_range_start, config.note_range_end
+    )
     if frame_times is None:
         starts = [event.start for event in filtered]
         frame_times = sorted(set(starts[:240]))
