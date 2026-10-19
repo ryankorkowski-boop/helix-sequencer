@@ -1,6 +1,6 @@
 --- a/src-ui-wx/xLightsMain.cpp
 +++ b/src-ui-wx/xLightsMain.cpp
-@@
+@@ -3857,2 +3857,12 @@
 -    int width = housePreview->getWidth();
 -    int height = housePreview->getHeight();
 +    // The wx preview size cache may not have consumed the SetSize event yet.
