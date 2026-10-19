@@ -24,7 +24,7 @@ OTHER_PERFORMER_TOKENS = frozenset({
 })
 
 
-def _other_performer_source(source: str) -> bool:
+def is_other_performer_source(source: str) -> bool:
     """Exclude assigned instrument lanes BEFORE considering pitch confidence."""
     return bool(OTHER_PERFORMER_TOKENS.intersection(
         re.split(r"[^a-z0-9]+", source.lower())
@@ -45,7 +45,7 @@ def magic_keyboard_events(events, mallet_hits=(), *, duration: float) -> list[No
         source = str(event.source or "").strip().lower().replace("-", "_").replace(" ", "_")
         # Guard even high-confidence composite labels like
         # "electric_guitar_harmonic" and "bass_pitched_onset".
-        if _other_performer_source(source):
+        if is_other_performer_source(source):
             continue
         if source not in TRUSTED_PITCHED_SOURCES | DIRECT_KEYBOARD_SOURCES:
             if event.confidence is None or not math.isfinite(event.confidence) or event.confidence < .75:
