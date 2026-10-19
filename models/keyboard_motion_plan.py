@@ -3,8 +3,8 @@ from __future__ import annotations
 import numpy as np
 
 
-def plan_keyboard_hands(held, levels, centers, rigs, *, max_step=.045,
-                        max_acceleration=.018, contact_tolerance=.025):
+def plan_keyboard_hands(held, levels, centers, rigs, *, max_step=.030,
+                        max_acceleration=.010, contact_tolerance=.025):
     """Two mittens, at most two contacts, no debounce or invented notes.
 
     Each hand owns its half of the keybed. During gaps it hovers over the
