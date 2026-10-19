@@ -37,8 +37,12 @@ def select(catalog: dict, *, rotation: int = 0, requested_id: str | None = None,
         raise ValueError("No eligible Starred audio")
     if requested_id:
         return rows[0]
+    # Do not automatically repeat an already-used source; require an explicit
+    # new rotation cycle or an owner-selected ID before reusing it.
     unused = [r for r in rows if r["id"] not in (used_ids or set())]
-    pool = unused or rows
+    if not unused:
+        raise ValueError("All Starred source IDs already used; reset the rotation ledger explicitly")
+    pool = unused
     return pool[rotation % len(pool)]
 
 
