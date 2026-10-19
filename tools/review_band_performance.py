@@ -19,7 +19,12 @@ class ReviewBandPerformance(MusicalBandPerformance):
         # the actual piano arm/key lanes still used the empty piano stem.
         # Feed this retained source-bound lane through the same speed-limited
         # key/mitten animator as every other Helix keyboard event.
-        self._install_keyboard_events([NoteEvent(**e) for e in roles['keyboard']])
+        # Both screened pitched lanes belong to the single piano source clock.
+        # The legacy xylophonist may still animate from its original schedule,
+        # but default native outputs only instantiate the visible keyboardist.
+        self._install_keyboard_events(
+            [NoteEvent(**e) for lane in ('keyboard', 'mallets') for e in roles[lane]]
+        )
         reachable={}
         for rig in scene.rigs:
             if rig['role']=='xylophone':
