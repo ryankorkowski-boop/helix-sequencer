@@ -62,8 +62,23 @@ jobs:
       - name: Fetch authentic hardKor E14 source + retained analysis (no fabricated events)
         run: |
           mkdir -p "$RUNNER_TEMP/real-source"
-          python -m gdown "$ARCHIVE_ID" -O "$RUNNER_TEMP/original.zip"
-          echo "$ARCHIVE_SHA256  $RUNNER_TEMP/original.zip" | sha256sum -c -
+          # Transient Drive download throttling must not silently block a render.
+          # Never substitute another audio file: the exact SHA256 is mandatory.
+          source_ok=0
+          for attempt in 1 2 3; do
+            rm -f "$RUNNER_TEMP/original.zip"
+            if python -m gdown --fuzzy "https://drive.google.com/file/d/$ARCHIVE_ID/view" -O "$RUNNER_TEMP/original.zip" && \
+               echo "$ARCHIVE_SHA256  $RUNNER_TEMP/original.zip" | sha256sum -c -; then
+              source_ok=1
+              break
+            fi
+            echo "::warning::Original source archive download/identity check failed (attempt $attempt/3)"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 15)); fi
+          done
+          if [ "$source_ok" -ne 1 ]; then
+            echo "::error::Exact original archive is inaccessible or SHA256 mismatched. Check Drive sharing/quota; refusing substitute media."
+            exit 1
+          fi
           python - <<'PY'
           import os,json,zipfile,hashlib
           from pathlib import Path
