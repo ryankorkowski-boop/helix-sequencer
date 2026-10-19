@@ -156,7 +156,7 @@ def _native_export(xlights: str, show: Path, staged: Path,
             # Maximize the real GUI window before exporting, without rescaling
             # any encoded frames after export. This requires wmctrl on Linux.
             if shutil.which("wmctrl"):
-                subprocess.run(["wmctrl", "-r", ":ACTIVE:", "-b",
+                subprocess.run(["wmctrl", "-r", "xLights", "-b",
                                 "add,maximized_vert,maximized_horz"],
                                capture_output=True, check=False, timeout=5)
                 time.sleep(2)
