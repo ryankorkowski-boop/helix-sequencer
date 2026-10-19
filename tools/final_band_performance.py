@@ -16,6 +16,12 @@ class FinalBandPerformance(MusicalBandPerformance):
         eligible = [e for lane, values in self.events.items()
                     if lane not in ("bass", "guitar", "drums", "vocals") for e in values]
         self.keyboard_events = magic_keyboard_events(eligible, self.mallet_schedule, duration=self.n/20)
+        if not scene.legacy_mallet_player:
+            # The pianist's actual hands and illuminated keys must follow
+            # this unified source-timed stream (not the old piano-only lane).
+            # A retained mallet pose rig is compatibility data, not a second
+            # visible performer or a second musical clock.
+            self._install_keyboard_events(self.keyboard_events)
         reachable = {}
         for rig in scene.rigs:
             if rig['role'] == 'xylophone':

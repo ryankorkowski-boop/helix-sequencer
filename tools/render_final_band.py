@@ -13,6 +13,7 @@ from tools.render_dual_band_showcases import TwinStageView
 from tools.render_refined_helix_band import encoder,physical_hits,DynamicDry,FONT,SMALL
 from animation.articulated_source_drummer import ArticulatedDrummer
 from core.output_provenance import brand_frame,stamp_mp4
+from core.visible_pitched_contact_audit import visible_pitched_contacts
 
 
 class SharedDrummerFrame(DynamicDry):
@@ -41,7 +42,7 @@ def main():
     player=ArticulatedDrummer(physical_hits(a.drummer),natural_arms=True)
     view.dry=view.second_dry=SharedDrummerFrame(player)
     tmp=a.output.with_name(a.output.stem+'.rendering.mp4');writer=encoder(tmp,a.width,a.height,20,a.audio,a.start,seconds)
-    contacts=0;max_error=0;frames=math.ceil(seconds*20);snapshot_times=(0,2,2.45,30.5,40,55,74,120,150,179)
+    contacts=0;key_contacts=0;max_error=0;frames=math.ceil(seconds*20);snapshot_times=(0,2,2.45,30.5,40,55,74,120,150,179)
     try:
         for i in range(frames):
             idx=min(performers[0].n-1,round((a.start+i/20)*20))
@@ -52,14 +53,13 @@ def main():
             d=ImageDraw.Draw(image);d.rectangle((0,0,a.width,44),fill='#07101C')
             d.text((18,11),'HELIX BETA v1.0 | TWO BANDS | ORIGINAL SIX-SONG SAMPLER',font=FONT,fill='#DDF5FF')
             d.rectangle((0,a.height-36,a.width,a.height),fill='#07101C')
-            d.text((18,a.height-27),'Snow stage + rock stage | One pitched/mallet player each | Source estimates pending listening review',font=SMALL,fill='#C2D2DF')
+            d.text((18,a.height-27),'Snow stage + rock stage | One keyboardist per band | Source estimates pending listening review',font=SMALL,fill='#C2D2DF')
             writer.stdin.write(brand_frame(image).tobytes())
             for perf in performers:
-                for hit in perf.mallet_schedule:
-                    if abs(hit['time']-idx/20)<1e-7:
-                        tip=perf.mallet_targets[hit['side']][1]
-                        error=float(np.linalg.norm(tip-(perf.scene.bars[hit['pitch']]+(0,.0275+.057,0))))
-                        max_error=max(max_error,error);contacts+=1
+                visual=visible_pitched_contacts(perf,idx)
+                key_contacts+=visual['key_contact_frames']
+                contacts+=visual['mallet_contacts']
+                max_error=max(max_error,visual['maximum_mallet_contact_error'])
             if any(abs(i/20-t)<.0001 for t in snapshot_times):
                 image.save(a.output.with_name(a.output.stem+f'_{i:04d}.png'))
             if i%200==0: print('final bands',i,frames,flush=True)
@@ -74,8 +74,10 @@ def main():
     proof=dict(source_audio_sha256=digest,source_start=a.start,seconds=seconds,frames=frames,
         resolution=[a.width,a.height],fps=20,full_decode_passed=True,
         visible_performers_per_band=6,wireframe_performers=False,unified_pitched_performer=True,
-        keyboard_events=len(performers[0].keyboard_events),mallet_contacts=contacts,
+        keyboard_events=len(performers[0].keyboard_events),visible_pitched_role='piano',
+        modeled_keyboard_contact_frames=key_contacts,mallet_contacts=contacts,
         maximum_contact_error=max_error,mallet_motion_omissions=performers[0].mallet_motion_omissions,
+        invisible_legacy_mallet_contacts_excluded=True,
         independent_voices_listening_verified=performers[0].independent_voices_verified,
         musical_accuracy_independently_verified=False,physical_channel_equivalence=False,
         source_drummer=performers[0].drum_proof,sha256=hashlib.sha256(a.output.read_bytes()).hexdigest(),

@@ -2,7 +2,33 @@
 from __future__ import annotations
 
 import math
+import re
 from music.note_events import NoteEvent
+
+
+# A pitch estimate is not evidence that its player was a keyboardist.
+# Retain the already-screened legacy feeds while recognizing explicit
+# keyboard/mallet track roles. Unclassified notes still need a confidence gate.
+DIRECT_KEYBOARD_SOURCES = frozenset({
+    "keyboard", "keys", "piano", "electric_piano", "organ", "synth",
+    "synthesizer", "bell", "bells", "celesta", "glockenspiel",
+    "xylophone", "marimba", "vibraphone", "mallet", "mallets",
+})
+TRUSTED_PITCHED_SOURCES = frozenset({
+    "piano_stem_harmonic_estimate", "other_stem_screened_mallet_estimate",
+    "helix_harmonic_polyphony",
+})
+OTHER_PERFORMER_TOKENS = frozenset({
+    "guitar", "bass", "drum", "drums", "percussion", "vocal", "vocals",
+    "voice", "singing", "kick", "snare", "hihat", "hat", "tom", "cymbal",
+})
+
+
+def is_other_performer_source(source: str) -> bool:
+    """Exclude assigned instrument lanes BEFORE considering pitch confidence."""
+    return bool(OTHER_PERFORMER_TOKENS.intersection(
+        re.split(r"[^a-z0-9]+", source.lower())
+    ))
 
 
 def magic_keyboard_events(events, mallet_hits=(), *, duration: float) -> list[NoteEvent]:
@@ -16,12 +42,17 @@ def magic_keyboard_events(events, mallet_hits=(), *, duration: float) -> list[No
         raise ValueError("duration must be finite and positive")
     selected = []
     for event in events:
-        if event.source not in ("piano_stem_harmonic_estimate", "other_stem_screened_mallet_estimate", "helix_harmonic_polyphony"):
+        source = str(event.source or "").strip().lower().replace("-", "_").replace(" ", "_")
+        # Guard even high-confidence composite labels like
+        # "electric_guitar_harmonic" and "bass_pitched_onset".
+        if is_other_performer_source(source):
+            continue
+        if source not in TRUSTED_PITCHED_SOURCES | DIRECT_KEYBOARD_SOURCES:
             if event.confidence is None or not math.isfinite(event.confidence) or event.confidence < .75:
                 continue
-            if not any(term in event.source.lower() for term in ("pitched", "harmonic", "synth", "horn", "bell")):
+            if not any(term in source for term in ("pitched", "harmonic", "synth", "horn", "bell")):
                 continue
-            if any(term in event.source.lower() for term in ("drum", "percussion", "noise", "vocal")):
+            if "noise" in source:
                 continue
         selected.append(event)
     selected.extend(NoteEvent(h["source_time"] if "source_time" in h else h["time"],

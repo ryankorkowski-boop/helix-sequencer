@@ -1,4 +1,4 @@
-name: Fresh native snowman band MP4 from real audio
+name: Fresh native universal-keyboard snowman band MP4 from real audio
 on:
   push:
     branches: [codex/fresh-real-band-mp4-20261017]
@@ -107,31 +107,25 @@ jobs:
           echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xLights.AppImage' | sha256sum -c -
           chmod +x xLights.AppImage
           ./xLights.AppImage --appimage-extract >/dev/null
-      - name: Regenerate actual seven-musician editable sequence from retained source musical analysis
+      - name: Regenerate actual six-musician editable sequence from retained source musical analysis
         run: |
           mkdir -p review
           python -m tools.native_source_pose_band "$SOURCE_ROOT" "$GITHUB_WORKSPACE/review/show" --id E14 --frame-ms 50
+          # Keep the exporter-authored 3D coordinates, sizes and viewpoints.
+          # Historical preview code magnified every custom model 7x and moved
+          # them far outside the native camera; that can make otherwise valid
+          # source channel data appear black. Never patch the native layout
+          # after the source-pose exporter has already bound its geometry.
           python - <<'PY'
           import xml.etree.ElementTree as ET
           from pathlib import Path
           path=Path('review/show/xlights_rgbeffects.xml')
-          tree=ET.parse(path)
-          views=tree.findall('./Viewpoints/*')
-          if not views: raise SystemExit('Missing native xLights camera')
-          for view in views:
-              view.set('zoom','9')
-          for model in tree.findall('./models/model'):
-              # Review-only affine scale: genuine native custom-model nodes,
-              # colors and per-source channel values remain unchanged.
-              factor=7.0
-              model.set('WorldPosX',str(float(model.get('WorldPosX','0'))*factor))
-              y=float(model.get('WorldPosY','0'))
-              model.set('WorldPosY',str((y-18)*factor+18))
-              for axis in 'XYZ':
-                  model.set('Scale'+axis,str(float(model.get('Scale'+axis,'1'))*factor))
-              model.set('PixelSize','8')
-          tree.write(path,encoding='utf-8',xml_declaration=True)
-          print('Native preview uses 7x stage review framing; source instruments, original notes, and playback channels unchanged')
+          root=ET.parse(path).getroot()
+          roles={'HX_SNOW_'+name for name in ('DRUMMER','BASS','GUITAR','PIANO','LEAD','HARMONY')}
+          actual={m.get('name') for m in root.findall('./models/model')}
+          if actual!=roles or not root.findall('./Viewpoints/*'):
+              raise SystemExit('Native source layout missing six characters or camera')
+          print('Preserving generated six-character geometry and camera without 7x enlargement')
           PY
           python - <<'PY'
           import hashlib,os
@@ -147,6 +141,9 @@ jobs:
           proof=json.loads((p/'pose_provenance.json').read_text())
           if proof.get('audio_sha256')!=os.environ['AUDIO_SHA256'] or proof.get('source_score')!='ReviewBandPerformance.pose':
               raise SystemExit('No verified source performance')
+          expected={'drummer','bass','guitar','piano','lead','harmony'}
+          if set(proof.get('visible_performer_roles',[]))!=expected or proof.get('legacy_xylophone_enabled') is not False:
+              raise SystemExit('Native band must have one universal keyboardist and no separate xylophonist')
           (p/'run_manifest.json').write_text(json.dumps({'schema':'helix.run_manifest.v1','warnings':[],'status':'pending','visual_review_status':'not_reviewed'},indent=2))
           PY
       - name: Render actual xLights native FSEQ and original-audio MP4
@@ -159,11 +156,11 @@ jobs:
           from pathlib import Path
           p=Path('review/show')
           report=json.loads((p/'run_manifest.json').read_text())['native_preview']
-          roles={'HX_SNOW_'+r for r in ('DRUMMER','BASS','GUITAR','PIANO','XYLOPHONE','LEAD','HARMONY')}
+          roles={'HX_SNOW_'+r for r in ('DRUMMER','BASS','GUITAR','PIANO','LEAD','HARMONY')}
           names={m.get('name') for m in ET.parse(p/'xlights_rgbeffects.xml').findall('./models/model')}
           mp4=Path(report.get('mp4') or '/nonexistent')
           if names!=roles or report['status']!='success' or report['audio_stream_verified'] is not True or not mp4.is_file() or not list(p.rglob('*.fseq')):
-              raise SystemExit('Real seven-performer native output gate FAILED; no diagnostic substitutes')
+              raise SystemExit('Real six-performer universal-keyboard native output gate FAILED; no diagnostic substitutes')
           from subprocess import run, PIPE
           info=report.get('ffprobe',{})
           streams=[s for s in info.get('streams',[]) if s.get('codec_type')=='video']
@@ -175,18 +172,22 @@ jobs:
           counts=[sum(x>20 for x in samples[i:i+stride]) for i in range(0,len(samples),stride)]
           if len(counts)!=36 or min(counts)<2:
               raise SystemExit(f'Native MP4 has blank/invisible sampled frames: {counts}')
-          print('Native video: 1920x1080, 36 visible sampled seconds')
+          print('Native universal keyboard video: 1920x1080, 36 visible sampled seconds')
           (Path('review')/'PROVENANCE.json').write_text(json.dumps({'audio_sha256':os.environ['AUDIO_SHA256'],'mp4_sha256':hashlib.sha256(mp4.read_bytes()).hexdigest(),'source':'original hardKor analyzed audio','native_xlights':True,'visual_review_status':'not_reviewed','performers':sorted(names)},indent=2))
           PY
           ffmpeg -v error -xerror -i "$(find review/show -name preview.mp4 -print -quit)" -map 0:v:0 -map 0:a:0 -f null -
+      - name: Reject nearly black or frozen native showcases
+        run: |
+          python -m tools.verify_showcase_luma "$(find review/show -name preview.mp4 -print -quit)" --report review/SHOWCASE_READABILITY.json
       - name: Upload MP4 and source provenance (never a placeholder)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: helix-fresh-original-audio-seven-snowmen
+          name: helix-fresh-original-audio-six-snowmen-keyboard
           path: |
             review/**/preview.mp4
             review/**/Performance.fseq
+            review/SHOWCASE_READABILITY.json
             review/show/media/audio.wav
             review/**/native_headless.log
             review/**/native_gui.log

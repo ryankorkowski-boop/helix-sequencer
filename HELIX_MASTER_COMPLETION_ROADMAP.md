@@ -9,6 +9,70 @@ historical implementation/evidence ledger; its unchecked entries below remain
 open. Historical checkmarks are not proof of current release acceptance.
 Owner for implementation rows: Codex; artistic approval and device access: owner.
 
+## Current P0 integration slice — 2026-10-18
+
+- **R07/R08 source ownership — IMPLEMENTED — UNVERIFIED** on
+  `codex/keyboard-source-guardrails-20261018`: production
+  `music/magic_keyboard.py` blocks guitar/bass/drum/vocal-tagged pitched
+  evidence, routes explicit keyboard/mallet roles, and retains absolute
+  note times and duplicate suppression. Five new tests; CI pending.
+- The legacy mallet player remains in `FinalBandScene` and the official
+  seven-model xLights workflow. That architectural migration and
+  PR #180 motion acceptance are **not** complete.
+- Owners: development agent; review: project owner. Dependencies: PR
+  #179 source provenance, #180 geometry, native preview source-bound test.
+  Acceptance: no schedule theft in source-to-render tests; one visible
+  keyboardist in newly generated band; source-bound quality-gated MP4.
+  Blocker: native render/artistic comparison and unverified actual source
+  recognition; no release approval inferred.
+
+## Production effect-plan ownership update — 2026-10-18
+
+R07/R08 **IMPLEMENTED — UNVERIFIED**: draft PR #181 now routes
+direct labels in `music.magic_keyboard` and conservatively filters
+`effects.piano_effect`. Guitar/bass/drum/voice ownership remains
+separate from piano/mallet keys; no released export changed.
+Eight focused cases added in `tests/test_keyboard_source_ownership.py`
+and `tests/test_universal_keyboard_routing.py`. CI and native
+review remain pending; visual cast consolidation and PR #180 pending.
+Bells of Mathmas historical full-song comparison recovered but
+unacceptably dark; does not satisfy R17/R19 or owner approval.
+
+## Default final-stage keyboard casting slice — 2026-10-18
+
+R06/R07/R08 **IMPLEMENTED — UNVERIFIED** on draft PR #181:
+`FinalBandScene` now renders the piano character in place of the
+mallet performer by default; `legacy_mallet_player=True` preserves
+old six-person mallet staging. `FinalBandPerformance` uses unified
+source events to drive both literal piano keys and hands, with the
+short-arm candidate (.52/.50; motion .030/.010). Existing guitar,
+drummer, bass, vocal, legacy xylophone and controller sequences are
+not intentionally modified. `Review3DScene`'s seven-model native
+pipeline remains separate and must be migrated before current audio
+MP4/approval claims. Complete tests/native/owner review pending.
+
+## Real native xLights universal-keyboard migration — 2026-10-18
+
+R07/R08/R17 **IMPLEMENTED — UNVERIFIED**: PR #181 now joins source-hash
+checked keyboard and screened mallet `pitched_roles` into the piano
+`ReviewBandPerformance` hand/key lane and makes the RGB source-pose
+xLights exporter a six-member cast by default. Explicit
+`--legacy-xylophone` restores the earlier seven models. New native
+workflow asserts six exact models and complete original-audio 1080p
+decode. Added cast tests; native 36-second six-role render and
+musical/artistic acceptance **not yet verified**, so no native deliverable
+is being claimed. No release merge/advertisement publication.
+
+## Current drummer regression mismatch and remedy — 2026-10-18
+
+Prior PR #180 full audit run 39192406726: 1,806 pass,
+2 fail, 6 skipped. Both failures were tests accidentally
+treating foot-only HI_HAT as a drumstick target. Fixed the test
+setup on codex/keyboard-source-guardrails-20261018 while preserving explicit foot-pedal assertions.
+Production drummer remains unchanged. Mark IMPLEMENTED —
+UNVERIFIED until both 3.11 and 3.12 full CI pass. Native
+showcase acceptance still BLOCKED separately.
+
 ## Current recovery and integration evidence
 
 - Inspected PR175 head `13a833e9b71dbacefb340654a44f5707b162888e`.

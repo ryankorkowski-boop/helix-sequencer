@@ -7,26 +7,43 @@ from models.band_performance_scene import matrix, rgb
 
 
 class FinalBandScene(DistinctBandScene):
-    def __init__(self, stage="ember_amphitheatre", *, rock=False):
+    def __init__(self, stage="ember_amphitheatre", *, rock=False, legacy_mallet_player=False):
         super().__init__(stage, wire=False)
         self.rock = rock
-        # Keep inherited indices/hidden keyboard coordinates for compatibility
-        # with the approved performance driver. Only the mallet player is drawn.
+        self.legacy_mallet_player = bool(legacy_mallet_player)
+        if not self.legacy_mallet_player:
+            # Match the independently authored short-arm candidate from PR #180
+            # on this newly visible production character, without changing
+            # the optional historical mallet or other performers' proportions.
+            for rig in self.rigs:
+                if rig["role"] == "piano":
+                    rig["link_lengths"] = (.52, .50)
+        # Preserve both historical models/addresses internally. Render only
+        # one pitched performer in the default cast: the genuine piano rig.
+        # Legacy shows may explicitly request the old mallet character.
+        active = "xylophone" if self.legacy_mallet_player else "piano"
+        inactive = "piano" if self.legacy_mallet_player else "xylophone"
+        hidden_prefixes = (inactive + "_",)
+        if inactive == "piano":
+            hidden_prefixes += ("keyboard_",)
         for item in self.instances:
-            if item.get("performer_role") == "piano" or item["name"].startswith(("piano_", "keyboard_")):
+            if item.get("performer_role") == inactive or item["name"].startswith(hidden_prefixes):
                 item["kind"] = "hidden"
-        self.custom = [o for o in self.custom if not o["name"].startswith(("piano_", "keyboard_"))]
-        offset = np.array((13.1, 0., 0.))
-        for item in self.instances:
-            if item.get("performer_role") == "xylophone" or item["name"].startswith("xylophone_"):
-                item["matrix"][:3, 3] += offset
-        for pitch in self.bars:
-            self.bars[pitch] += offset
-        for rig in self.rigs:
-            if rig["role"] == "xylophone":
-                for key in ("shoulder", "elbow", "hand"):
-                    rig[key] += offset
-        self.visible_roles = ("drummer", "bass", "guitar", "xylophone", "lead", "harmony")
+        self.custom = [o for o in self.custom if not o["name"].startswith(hidden_prefixes)]
+        if self.legacy_mallet_player:
+            # The former six-person arrangement is still opt-in and keeps
+            # its existing artistic position and note/bar geometry.
+            offset = np.array((13.1, 0., 0.))
+            for item in self.instances:
+                if item.get("performer_role") == "xylophone" or item["name"].startswith("xylophone_"):
+                    item["matrix"][:3, 3] += offset
+            for pitch in self.bars:
+                self.bars[pitch] += offset
+            for rig in self.rigs:
+                if rig["role"] == "xylophone":
+                    for key in ("shoulder", "elbow", "hand"):
+                        rig[key] += offset
+        self.visible_roles = ("drummer", "bass", "guitar", active, "lead", "harmony")
         # Purple belongs to the second singer independently of stage palette.
         for item in self.instances:
             if item.get("performer_role") == "harmony" and "scarf" in item["name"]:
@@ -41,7 +58,9 @@ class FinalBandScene(DistinctBandScene):
             band_members=list(self.visible_roles), unified_pitched_performer=True,
             style="solid rock band" if rock else "sculpted snow band",
             wireframe_performers=False, preserved_guitar_rig=True,
-            continuous_motion_output="video or pixel matrix")
+            continuous_motion_output="video or pixel matrix",
+            legacy_mallet_player=self.legacy_mallet_player,
+            pitched_character=active)
 
     def _attach_solid_faces(self):
         """Wire masks protrude intentionally; solid faces need attached mouths."""
@@ -60,7 +79,8 @@ class FinalBandScene(DistinctBandScene):
 
     def _rock_costumes(self):
         jackets = {"bass": "#354554", "guitar": "#6D3435", "lead": "#283745",
-                   "harmony": "#57416F", "xylophone": "#3B554F"}
+                   "harmony": "#57416F",
+                   ("xylophone" if self.legacy_mallet_player else "piano"): "#3B554F"}
         for role, jacket in jackets.items():
             head = next(o for o in self.instances if o["name"] == role + "_head")
             origin = head["matrix"][:3, 3] - (0, 2.28, 0)

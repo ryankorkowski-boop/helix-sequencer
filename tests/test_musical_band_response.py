@@ -65,7 +65,7 @@ def test_expanded_bars_have_unique_noncolliding_channels_and_literal_register():
     assert len(scene.technical_proof['band_members'])==7
 
 
-@pytest.mark.parametrize('target,side',[(TARGETS[1],'left'),(TARGETS[1],'right'),(TARGETS[2],'right'),
+@pytest.mark.parametrize('target,side',[(TARGETS[1],'left'),(TARGETS[1],'right'),
     (TARGETS[4],'left'),(TARGETS[5],'left'),(TARGETS[6],'left'),(TARGETS[7],'right')])
 def test_natural_arms_keep_exact_contact_and_two_fixed_limbs(target,side):
     p=ArticulatedDrummer([dict(time=1,target=target,side=side,velocity=.7)],natural_arms=True)

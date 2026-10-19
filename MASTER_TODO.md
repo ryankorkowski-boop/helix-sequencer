@@ -1,3 +1,129 @@
+## 2026-10-18 — Correct stale hi-hat drum-stick regression assertions
+
+Observed CI: PR #180 run 39192406726 (Python 3.11 full audit)
+finished 1,806 passed, 2 failed, 6 skipped; failures are both old
+tests expecting a physical drumstick contact for HI_HAT, while current
+`ArticulatedDrummer` (foot-only hi-hat contract) intentionally never
+adds the hi-hat to the stick-target table.
+Updated `tests/test_band_motion_refinement.py` and
+`tests/test_musical_band_response.py` to test only real stick-operated
+kit targets in fixed-length IK cases. Added specific pedal regression:
+hi-hat is in foot_hits, absent in stick hits/targets, makes pedal move,
+maintains finite toe. No production drummer changes; existing dedicated
+kick/pedal coverage stays intact. A 1,806-pass old run does not prove
+this new version passes: CI rerun required. Status IMPLEMENTED —
+UNVERIFIED. Native full-song failure is independently caused by missing
+non-diagnostic showcase and remains BLOCKED; acceptance gate preserved.
+
+## 2026-10-18 — Native xLights six-cast universal-keyboard migration
+
+Goal: do not stop at artistic `FinalBandScene`; make the actual
+`tools/native_source_pose_band.py` xLights RGB native performance omit the
+separate pitched-percussion character by default. Development PR #181.
+Changes: `tools/review_band_performance.py` combines authenticated,
+source-hash-checked `pitched_roles.json` keyboard + mallet notes in the
+piano hand/key source lanes without invented notes.
+`tools/native_source_pose_band.py` selects the six default roles
+(drummer,bass,guitar,piano,lead,harmony) while preserving the original seven
+native models with `--legacy-xylophone`. No global
+`models/native_review_band.add_band` or independent AC16 model definitions
+deleted or renamed. Piano is centered in the single-pitched band. Updated
+`.github/workflows/fresh-real-band-mp4.yml` asserts exactly the six
+native model names, source-bond hashes, visible cast roster, complete
+1080p video/audio decode and genuine xLights preview; it never accepts a
+diagnostic placeholder. Added source-native cast regression tests
+in `tests/test_native_source_pose_band.py`.
+Risks: legacy photo/geometry logic is still evaluated internally even when
+model omitted; source-bound mallet confidence remains estimator-derived;
+new six-model native source output and musical/arm/frame approval are
+**UNVERIFIED** until workflow succeeds and owner visually approves; other
+native show builders may retain their earlier cast.
+State: IMPLEMENTED — UNVERIFIED. Depend on source hash, pipeline tests,
+native renderer, independent musical review and release hold. All existing
+standalone CTB16PC/AC16 controllers, guitarist/drummer/vocal logic,
+original audio and published artifacts intentionally preserved.
+
+## 2026-10-18 — Visible default keyboardist replaces separate mallet model
+
+Goal: deliver an actual default pianist in the modern six-performer 3D
+FinalBandScene instead of the previously hidden piano/visible xylophonist.
+Branch: `codex/keyboard-source-guardrails-20261018`, draft PR #181.
+Files: `models/final_band_scene.py`,
+`tools/final_band_performance.py`,
+`tools/musical_band_performance.py`, `tests/test_final_band.py`.
+New default: piano character and literal keyboard are visible; xylophonist
+is hidden. Set `legacy_mallet_player=True` to restore the prior opt-in
+six-character xylophone arrangement with original positional transforms.
+No scene model indices or original guitar geometry were deleted, and
+musical events still use screened source timing; no manufactured physical
+key strikes. In the default cast unified piano and screened mallet cues
+now feed the **same** `_install_keyboard_events` lane for both source-key
+illumination and independent left/right mitten targets. Short piano
+upper/forearm lengths (.52/.50) and per-frame displacement/acceleration
+(.030/.010) use PR #180's candidate values *only* for this new scene.
+Old mallet cast and unrelated performers retain their earlier motion.
+Added default/legacy scene tests; no full suite or source-bound movie
+has yet proved visual behavior, arm contact quality or native xLights
+equivalence. The distinct `Review3DScene` and native seven-model
+`tools/native_source_pose_band.py` path are **not yet migrated**; the
+Bells of Mathmas stored video is still too dark for acceptance.
+Status: IMPLEMENTED — UNVERIFIED. Before approval: frame-level IK,
+musical source mapping and native MP4 on the real source must pass,
+then migrate/compatibility-gate the separate native seven-model cast.
+No release merge, public distribution or license publication.
+
+## 2026-10-18 — Integration update: PR179 effect router ported to modern band
+
+Goal: prevent player-role cross-contamination at both source-driven musician
+performance and downstream effect-plan generation. Draft PR #181, branch
+`codex/keyboard-source-guardrails-20261018`; latest implementation:
+`music/magic_keyboard.py`, `effects/piano_effect.py`,
+`tests/test_keyboard_source_ownership.py`,
+`tests/test_universal_keyboard_routing.py`.
+Preserved: original absolute onset/duration/velocity/pitch/source,
+legacy unclassified MIDI and Helix notes, simultaneous chords, old
+seven-member xLights preview, all drummer/guitar/bass/vocal schedules,
+and existing exports and release hold. New behavior: direct, screened
+keyboard/mallet musical sources feed the universal keys; explicit
+guitar/bass/percussion/vocal tags are rejected before high-confidence
+pitch filtering in the active performance and effect-plan paths. The
+PR #179 prototype is ported selectively, not merged against the old
+default branch. Tests: eight new focused source and effect-plan
+regressions committed; execution, broader-suite, native MP4, frame
+contact and musical ground-truth validation still outstanding.
+Limitations: unsupported/unlabelled classifier identities are not
+proven, final/native band cast still features a legacy xylophonist,
+arm PR #180 is separate, native Bells of Mathmas audio video has
+unacceptable visual darkness and is not approval-ready.
+Status: IMPLEMENTED — UNVERIFIED. Completion requires source-bound
+tests plus visually acceptable authentic xLights native exports.
+
+## 2026-10-18 — Universal keyboard source-ownership guardrail (draft, unverified)
+
+Goal: integrate the first production-level universal-keyboard ownership fix on the
+modern band branch (not blindly merge PR #179 from the legacy default branch).
+Branch: `codex/keyboard-source-guardrails-20261018`. Files changed:
+`music/magic_keyboard.py`, `tests/test_keyboard_source_ownership.py`,
+`MASTER_TODO.md`, and the acceptance ledger.
+
+Preserved: source start/end, MIDI pitch, velocity and selected provenance;
+simultaneous chords, exact-event de-duplication, already-screened piano and
+mallet estimates, keyboard/mallet direct track labels, guitar/bass/drum/vocal
+driver schedules, older seven-member native cast, original audio and
+release hold. New behavior: the active `magic_keyboard_events` path rejects
+notes explicitly tagged guitar, bass, drums/percussion or voice before any
+generic pitch/harmonic confidence filter; accepts directly labeled keyboard,
+organ, piano, synth, bells and mallets into one keyboard note lane.
+Tests: five new isolated routing cases added; CI and native video not yet
+verified. Limitations: source classification is not instrument separation;
+unclassified high-confidence horn/harmonic historical routes remain possible,
+scene construction still contains the legacy mallet rig, PR #180 candidate arm
+motion remains separate, and no freshly rendered approval MP4 exists.
+Acceptance: run CI, verify producer-to-scene ownership, complete optional
+legacy cast migration, native xLights MP4 and source-timed contact accounting.
+Status: IMPLEMENTED — UNVERIFIED. Regression risk: existing downstream code
+may have relied on mislabeled composite performer pitches reaching the keys.
+
 ## 2026-10-18 — Owner-requested advertisement delivered for review
 
 Produced Helix_Advertisement_96s.mp4: 96.000 seconds, 1920x1080 H264/AAC stereo,
