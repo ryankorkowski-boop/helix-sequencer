@@ -755,6 +755,11 @@ class ParsedLayout:
         from core.singing_face_discovery import singing_face_summary
         return singing_face_summary(self.path)
 
+    def singing_vocal_targets(self) -> list:
+        """Return existing singing-face phoneme targets for sequence generation."""
+        from core.singing_face_routing import route_singing_faces
+        return route_singing_faces(self.detected_singing_faces())
+
     def model_for(self, name: str) -> Model | None:
         target = normalize_name(name)
         if target in self.aliases:
