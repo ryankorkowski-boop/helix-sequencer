@@ -1,8 +1,8 @@
 name: Fresh native universal-keyboard snowman band MP4 from real audio
 on:
   push:
-    branches: [codex/fresh-real-band-mp4-20261017]
-    paths: [.github/workflows/fresh-real-band-mp4.yml, tools/native_preview.py]
+    branches: [codex/fresh-real-band-mp4-20261017, codex/eight-hour-recovery-20261019]
+    paths: [.github/workflows/fresh-real-band-mp4.yml, tools/native_preview.py, tools/native_source_pose_band.py, tests/test_native_preview_resolution.py]
   pull_request:
     paths: [.github/workflows/fresh-real-band-mp4.yml]
   workflow_dispatch:
