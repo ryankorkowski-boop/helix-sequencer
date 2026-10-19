@@ -1,7 +1,7 @@
-"""Community-informed Helix layout archetypes and inventory matching.
+"""Public showcase archetypes for prospective Helix users.
 
 These are design presets, NOT a statistically sampled Facebook dataset.
-No existing user layout or controller mapping is changed by this module.
+These presets are only for public preview videos. Normal Helix sequencing must\nuse the user's imported xLights layout, never a representative preset.
 """
 from __future__ import annotations
 from dataclasses import dataclass
@@ -52,7 +52,7 @@ def normalize_model_type(name: str) -> str:
 def rank_layouts(user_inventory: Mapping[str, int], *, kind: str = "rgb") -> list[dict]:
     """Rank by weighted model overlap, penalizing excess and missing props.
 
-    This is an import-assistance heuristic, not an automatic xLights mapping.
+    This is a showcase-discovery heuristic only, not an input to\n    normal sequence generation or native xLights model mapping.
     """
     inventory = Counter()
     for name, count in user_inventory.items():
