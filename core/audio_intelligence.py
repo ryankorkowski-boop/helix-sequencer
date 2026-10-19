@@ -841,6 +841,31 @@ def build_stem_analysis(
 
     stems: dict[str, Path] | None = None
     source = "local"
+    # Only reuse stems accompanied by a source fingerprint. Filename or mtime
+    # alone is insufficient: different recordings may share the same basename.
+    import hashlib
+    source_digest = hashlib.sha256()
+    with audio_path.open("rb") as source_file:
+        for chunk in iter(lambda: source_file.read(1024 * 1024), b""):
+            source_digest.update(chunk)
+    source_sha256 = source_digest.hexdigest()
+    local_paths = {
+        role: stem_dir / f"{audio_path.stem}.{role}.wav"
+        for role in ("vocals", "drums", "bass", "other")
+    }
+    local_manifest = stem_dir / "helix-local-stems.json"
+    if not use_moises and os.environ.get("HELIX_USE_DEMUCS", "").strip().lower() not in {"1", "true", "yes"}:
+        try:
+            manifest = json.loads(local_manifest.read_text(encoding="utf-8"))
+            if (manifest.get("source_sha256") == source_sha256
+                    and manifest.get("format") == "helix-local-hpss-v1"
+                    and all(p.is_file() and p.stat().st_size > 44
+                            and p.stat().st_mtime_ns >= audio_path.stat().st_mtime_ns
+                            for p in local_paths.values())):
+                stems = local_paths
+                _log(log_fn, "Stem split: reusing source-verified local WAV stems.")
+        except (OSError, ValueError, TypeError):
+            pass
     if use_moises:
         stems = _try_moises_stem_separation(audio_path, stem_dir, api_key or "", log_fn)
         if stems:
@@ -855,6 +880,7 @@ def build_stem_analysis(
         try:
             stems = _local_stem_separation(audio_path, stem_dir, log_fn)
             source = "local"
+            local_manifest.write_text(json.dumps({"format": "helix-local-hpss-v1", "source_sha256": source_sha256}), encoding="utf-8")
         except Exception as exc:
             _log(log_fn, f"Stem split fallback failed, using direct audio analysis only: {exc}")
             stems = {}
