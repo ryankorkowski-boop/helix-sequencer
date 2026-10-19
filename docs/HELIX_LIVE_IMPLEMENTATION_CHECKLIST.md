@@ -322,3 +322,9 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - [x] Added regression source-guard test in required Prime optimization test file (`7e8a176`).
 - [ ] Run required CI tests and real-audio cache-hit/miss scenarios (same song, changed content with same filename, missing stem, older stem, explicit Demucs).
 - [ ] Measure cold and warm run time and compare XSQ hashes against baseline. No verified benchmark yet.
+
+
+### Optimization regression test follow-up
+- [x] Corrected fragile AST-unparse assertions in stem-cache regression test (`77c8990`, `f862a6b`); Python AST can normalize quote styles and add parentheses.
+- [ ] GitHub combined commit status query for `f862a6b` returned no status contexts, not a passing CI result. Required tests and XSQ parity benchmark remain unverified.
+- [ ] Native render run `39336982567` last observed with preflight success and render in progress at xLights installation; no completed MP4 artifact confirmed.
