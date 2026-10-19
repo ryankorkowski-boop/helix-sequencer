@@ -6,6 +6,7 @@ import threading
 from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
+from core.layout_preferences import load_layout, save_layout
 
 
 ROOT = Path(__file__).resolve().parent
@@ -33,10 +34,10 @@ class HelixGui(tk.Tk):
         }
 
         self.profile_var = tk.StringVar(value="master")
-        self.layout_preset_var = tk.StringVar(value="GP's House")
+        self.layout_preset_var = tk.StringVar(value="Custom")
         self.template_var = tk.StringVar(value=str(ROOT / "template.xsq"))
         self.audio_var = tk.StringVar(value="")
-        self.layout_var = tk.StringVar(value=str(self.layout_presets["GP's House"]))
+        self.layout_var = tk.StringVar(value=load_layout())
         self.output_var = tk.StringVar(value=str(ROOT / "outputs"))
 
         self.vendor_bar_var = tk.BooleanVar(value=True)
@@ -54,6 +55,15 @@ class HelixGui(tk.Tk):
 
         self._build_ui()
         self._apply_layout_preset()
+        self.layout_var.trace_add("write", self._on_layout_changed)
+
+    def _on_layout_changed(self, *_args) -> None:
+        path = self.layout_var.get().strip()
+        if path and Path(path).is_file():
+            try:
+                save_layout(path)
+            except (OSError, ValueError):
+                pass
 
     def _build_ui(self) -> None:
         pad = {"padx": 8, "pady": 6}
@@ -109,7 +119,7 @@ class HelixGui(tk.Tk):
         ttk.Combobox(controls, textvariable=self.profile_var, values=["master"], width=12, state="readonly").grid(
             row=0, column=1, sticky="w", **pad
         )
-        ttk.Label(controls, text="Variants").grid(row=0, column=2, sticky="w", **pad)
+        ttk.Label(controls, text="Quality candidates").grid(row=0, column=2, sticky="w", **pad)
         ttk.Spinbox(controls, from_=1, to=8, textvariable=self.variants_var, width=6).grid(row=0, column=3, sticky="w", **pad)
 
         ttk.Checkbutton(controls, text="Vendor Bar", variable=self.vendor_bar_var).grid(row=1, column=0, sticky="w", **pad)
@@ -231,7 +241,7 @@ class HelixGui(tk.Tk):
         if not self.audio_var.get().strip():
             messagebox.showwarning("Missing Audio", "Choose an audio file before running.")
             return
-        if not Path(self.layout_var.get().strip()).exists():
+        if not self.layout_var.get().strip() or not Path(self.layout_var.get().strip()).is_file():
             messagebox.showwarning("Missing Layout", "Layout file does not exist.")
             return
         if not Path(self.template_var.get().strip()).exists():
