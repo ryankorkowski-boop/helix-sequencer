@@ -1,0 +1,15 @@
+--- a/src-ui-wx/xLightsMain.cpp
++++ b/src-ui-wx/xLightsMain.cpp
+@@
+-    int width = housePreview->getWidth();
+-    int height = housePreview->getHeight();
++    // The wx preview size cache may not have consumed the SetSize event yet.
++    // Use the explicitly requested export dimensions for the encoder and
++    // capture buffer, not stale on-screen dimensions (e.g. 248x602).
++    // VideoExporter applies contentScaleFactor to these logical dimensions.
++    int width = resizedForExport
++                    ? (int)(desiredWidth / contentScaleFactor)
++                    : housePreview->getWidth();
++    int height = resizedForExport
++                     ? (int)(desiredHeight / contentScaleFactor)
++                     : housePreview->getHeight();
