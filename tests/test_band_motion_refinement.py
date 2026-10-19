@@ -40,7 +40,7 @@ def test_mallets_exclude_piano_and_abstain_outside_real_bars():
     assert [e.pitch for e in accepted]==[72] and [e.pitch for e in omitted]==[91]
 
 
-@pytest.mark.parametrize('target,side',[(TARGETS[1],'left'),(TARGETS[1],'right'),(TARGETS[2],'right'),
+@pytest.mark.parametrize('target,side',[(TARGETS[1],'left'),(TARGETS[1],'right'),
     (TARGETS[4],'left'),(TARGETS[5],'left'),(TARGETS[6],'left'),(TARGETS[7],'right')])
 def test_every_drum_contact_has_two_connected_fixed_links_and_fixed_stick(target,side):
     player=ArticulatedDrummer([dict(time=1,target=target,side=side,velocity=.7)])
@@ -188,3 +188,17 @@ def test_existing_band_renderer_can_select_refined_production_path(monkeypatch):
     assert render({'id':'test','duration':20},'band',4,2,640,360,True)=='movie'
     assert calls[0][1:4]==(2,4,'stage')
     with pytest.raises(ValueError):render({'id':'test'},'faces',performance_refinement=True)
+
+
+
+def test_hihat_foot_only_contract_preserves_pedal_without_fake_stick_contact():
+    event=dict(time=1,target=TARGETS[2],side='right',velocity=.7)
+    player=ArticulatedDrummer([event],natural_arms=True)
+    assert len(player.foot_hits)==1
+    assert not player.hits
+    assert (TARGETS[2],'right') not in player.targets
+    player.frame(1,[TARGETS[2]])
+    assert player.last_hi_hat_foot_down
+    pose=player.last_hi_hat_pedal_pose
+    assert pose['depression']>0
+    assert np.isfinite(np.asarray(pose['toe'])).all()
