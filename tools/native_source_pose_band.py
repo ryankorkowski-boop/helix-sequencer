@@ -48,11 +48,25 @@ def vertices(item):
 def cells(points):return [tuple(v) for v in np.rint(np.asarray(points)*16).astype(int)]
 
 
-def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50):
+def select_cast(models, *, legacy_xylophone=False):
+    """Do not emit a second pitched character unless legacy is explicit."""
+    expected={'drummer','bass','guitar','piano','lead','harmony'}
+    if legacy_xylophone:
+        expected.add('xylophone')
+    selected=[m for m in models
+              if legacy_xylophone or m.details.get('review_role')!='xylophone']
+    roles=[m.details.get('review_role') for m in selected]
+    if set(roles)!=expected or len(roles)!=len(expected):
+        raise ValueError('Invalid universal keyboard/native legacy cast roles')
+    return selected
+
+
+def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_xylophone=False):
     if frame_ms not in (25,50):raise ValueError('Native interval must be 25 or 50 ms')
     if output.exists():raise FileExistsError('Use a fresh directory')
     row,audio,scene,p=setup(source_root,eid,scene_factory=Review3DScene)
     g=Garden(title='Helix source-timed native RGB pose band',slug='Native_Source_Poses');add_band(g)
+    g.models=select_cast(g.models,legacy_xylophone=legacy_xylophone)
     p.row={'drummer_xsq':str(source_root/'sources'/eid/'drummer.xsq')}
     cues={m.name:band_curves(m,p,body_level=.85) for m in g.models}
     rigs=[dict(role=r['role'],side=r['side'],ids=tuple(r['ids'])+tuple(r.get('mallet_ids',()))) for r in scene.rigs]
@@ -112,9 +126,11 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50):
         mnew=new.custom(m.name,points,m.zone,m.design,colors,subs,details={**m.details,'pose_method':'native source-timed RGB pose banks','ac16_compatible':False})
         mnew.children=copy.deepcopy(m.children)
         mnew.attrs.update(PixelSize='4',Antialias='0',BlackTransparency='100',HelixOutputMode='pixel')
-    if len(new.models)!=7 or len({m.name for m in new.models})!=7 or sum(m.channels for m in new.models)>250000:
-        raise ValueError('Invalid seven-model or bounded RGB channel contract')
-    positions=dict(DRUMMER=(0,26,65),BASS=(-24,9,80),GUITAR=(24,9,80),PIANO=(25,28,65),XYLOPHONE=(-25,28,65),LEAD=(-8,9,80),HARMONY=(8,9,80))
+    expected_cast=7 if legacy_xylophone else 6
+    if (len(new.models)!=expected_cast or len({m.name for m in new.models})!=expected_cast
+            or sum(m.channels for m in new.models)>250000):
+        raise ValueError('Invalid universal keyboard/native legacy cast or bounded RGB channels')
+    positions=dict(DRUMMER=(0,26,65),BASS=(-24,9,80),GUITAR=(24,9,80),PIANO=(25,28,65) if legacy_xylophone else (0,28,65),XYLOPHONE=(-25,28,65),LEAD=(-8,9,80),HARMONY=(8,9,80))
     for old,m in zip(g.models,new.models):
         delta=np.array(positions[m.details['review_role'].upper()])-np.array([float(old.attrs['WorldPos'+a]) for a in 'XYZ'])
         m.points+=delta
@@ -181,9 +197,10 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50):
     np.savez_compressed(output/'expected_cues.npz',**{name+'::'+part:np.rint(v*20)*5 for name,parts in cues.items() for part,v in parts.items() if new.models[[m.name for m in new.models].index(name)].submodels.get(part)})
     result=dict(excerpt=eid,source_record=row,audio_sha256=digest(audio),source_score='ReviewBandPerformance.pose',geometry_source='Review3DScene',source_frames=720,frame_ms=frame_ms,native_frames=36000//frame_ms,source_pose_frame_ms=50,
                 source_musical_cues_retimed=False,ac16_models_modified=False,channels=sum(m.channels for m in new.models),effects=sequence.identifier-1,rigs=proof,instrument_visibility_audit=instrument_audit,
+                visible_performer_roles=[m.details['review_role'] for m in new.models],legacy_xylophone_enabled=legacy_xylophone,
                 limitations=['RGB pose-bank geometry requires its own pixel mapping; not a 16-channel AC model','Source musical estimators retain their uncertainty','Finite source-pose medoids approximate geometric motion; source event clock is preserved'])
     (output/'pose_provenance.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2),flush=True)
     return result
 
 if __name__=='__main__':
-    a=argparse.ArgumentParser(description=__doc__);a.add_argument('source_root',type=Path);a.add_argument('output',type=Path);a.add_argument('--id',default='E14');a.add_argument('--poses',type=int,default=32);a.add_argument('--frame-ms',type=int,choices=[25,50],default=50);v=a.parse_args();prepare(v.source_root.resolve(),v.output.resolve(),v.id,v.poses,v.frame_ms)
+    a=argparse.ArgumentParser(description=__doc__);a.add_argument('source_root',type=Path);a.add_argument('output',type=Path);a.add_argument('--id',default='E14');a.add_argument('--poses',type=int,default=32);a.add_argument('--frame-ms',type=int,choices=[25,50],default=50);a.add_argument('--legacy-xylophone',action='store_true',help='Keep the historical seventh mallet performer');v=a.parse_args();prepare(v.source_root.resolve(),v.output.resolve(),v.id,v.poses,v.frame_ms,legacy_xylophone=v.legacy_xylophone)
