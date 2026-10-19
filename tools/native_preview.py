@@ -169,7 +169,7 @@ def _native_export(xlights: str, show: Path, staged: Path,
             # Never upscale or claim that window size proves native resolution.
             with (staged.parent / "native_window_geometry.txt").open("w") as evidence:
                 evidence.write("requested_options=" + repr(options) + "\\n")
-                for utility, args in (("wmctrl", ["-lG"]), ("xrandr", ["--current"])):
+                for utility, args in (("wmctrl", ["-lG"]), ("xrandr", ["--current"]), ("xwininfo", ["-root", "-tree"])):
                     binary = shutil.which(utility)
                     if not binary:
                         evidence.write(utility + ": unavailable\\n")
