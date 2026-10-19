@@ -135,8 +135,25 @@ jobs:
           git clone --depth 1 --branch 2026.18 --recurse-submodules \
             https://github.com/xLightsSequencer/xLights.git "$RUNNER_TEMP/xlights-src"
           cd "$RUNNER_TEMP/xlights-src"
-          git apply --check "$GITHUB_WORKSPACE/patches/xlights-2026.18-native-preview-resolution.patch"
-          git apply "$GITHUB_WORKSPACE/patches/xlights-2026.18-native-preview-resolution.patch"
+          # Patch the exact pinned source token; fail closed if upstream changed.
+          # git apply rejected the context-free hunk despite matching source lines.
+          python - <<'PY'
+          from pathlib import Path
+          p = Path("src-ui-wx/xLightsMain.cpp")
+          raw = p.read_text()
+          old = "    int width = housePreview->getWidth();\\n    int height = housePreview->getHeight();"
+          new = """    // Explicit export dimensions prevent stale on-screen preview geometry.
+              int width = resizedForExport
+                              ? (int)(desiredWidth / contentScaleFactor)
+                              : housePreview->getWidth();
+              int height = resizedForExport
+                               ? (int)(desiredHeight / contentScaleFactor)
+                               : housePreview->getHeight();""".replace("              int", "    int").replace("                              ?", "                    ?").replace("                              :", "                    :").replace("                               ?", "                     ?").replace("                               :", "                     :")
+          if raw.count(old) != 1:
+              raise SystemExit(f"Expected exactly one xLights export-size site, found {raw.count(old)}")
+          p.write_text(raw.replace(old, new, 1))
+          assert new in p.read_text()
+          PY
           make -j 2
           test -x bin/xLights
           echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
