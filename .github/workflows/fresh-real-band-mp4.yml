@@ -141,7 +141,7 @@ jobs:
           from pathlib import Path
           p = Path("src-ui-wx/xLightsMain.cpp")
           raw = p.read_text()
-          old = "    int width = housePreview->getWidth();\\n    int height = housePreview->getHeight();"
+          old = "    int width = housePreview->getWidth();\n    int height = housePreview->getHeight();"
           new = """    // Explicit export dimensions prevent stale on-screen preview geometry.
               int width = resizedForExport
                               ? (int)(desiredWidth / contentScaleFactor)
