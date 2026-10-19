@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from tools.native_source_pose_band import select_states,vertices,select_cast
+from tools.native_source_pose_band import select_states,vertices,select_cast,configure_native_keyboard_motion
 from models.band_performance_scene import line_matrix
 
 
@@ -61,3 +61,41 @@ def test_invalid_native_cast_fails_closed_before_any_export():
         select_cast(models[:-1])
     with pytest.raises(ValueError,match='cast'):
         select_cast(models,legacy_xylophone=True)
+
+
+def test_native_pianist_uses_short_fixed_links_without_retiming_source_notes():
+    from types import SimpleNamespace
+    from music.note_events import NoteEvent
+    events=[NoteEvent(.173,.420,64,.8,source='piano')]
+    left=dict(role='piano',side='left',link_lengths=(.80,.78))
+    right=dict(role='piano',side='right',link_lengths=(.80,.78))
+    scene=SimpleNamespace(rigs=[left,right])
+    class Performer:
+        keyboard_events=events
+        count=0
+        def _install_keyboard_events(self,ev):
+            assert ev is self.keyboard_events
+            self.count+=1
+            self.keyboard_motion_report=dict(left={'contact_frames':7},
+                                              right={'contact_frames':6})
+    performer=Performer()
+    proof=configure_native_keyboard_motion(scene,performer)
+    assert performer.count==1
+    assert left['link_lengths']==right['link_lengths']==(.52,.50)
+    assert scene.legacy_mallet_player is False
+    assert proof['maximum_step']==.030 and proof['maximum_acceleration']==.010
+    assert (events[0].start,events[0].end,events[0].pitch)==(.173,.420,64)
+    assert proof['keyboard_contact_report']['left']['contact_frames']==7
+
+
+def test_native_legacy_cast_keeps_original_arm_length_and_source_clock():
+    from types import SimpleNamespace
+    original=dict(role='piano',side='left',link_lengths=(.80,.78))
+    scene=SimpleNamespace(rigs=[original])
+    class Performer:
+        def _install_keyboard_events(self,ev):
+            raise AssertionError('Legacy performance must not be modified')
+    proof=configure_native_keyboard_motion(scene,Performer(),legacy_xylophone=True)
+    assert proof['short_piano_arms'] is False
+    assert original['link_lengths']==(.80,.78)
+    assert not hasattr(scene,'legacy_mallet_player')
