@@ -257,3 +257,12 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - [ ] Detect duplicate copies by content SHA256/duration, not title alone; folder includes `Copy of ...` and original-named files, plus numbered versions of Christmas in the Ether. Do not discard distinct versions based only on name.
 - [ ] Choose high-activity segments for short clips, full songs for full-song comparisons, and rotate distinct starred songs across showcase outputs. Native render acceptance still mandatory.
 - [ ] Current renderer job 118349611400, run 39336982567 was in progress during this update; inspect current result before claiming delivery.
+
+
+### Starred catalog implementation checkpoint
+- [x] `showcase/starred_music_catalog.json` contains 30 verified audio Drive IDs from owner-curated Starred folder (commit `d203656`).
+- [x] `tools/select_starred_music.py` implements deterministic rotation, used-ID avoidance, and explicit requested-ID selection (commit `8122244`).
+- [x] `tests/test_select_starred_music.py` adds six focused tests (commit `74759dd`); tests are committed but their execution is not yet confirmed.
+- [x] Native showcase workflow preflight now executes the focused tests and catalog selection (commit `ce38982`).
+- [ ] Actual native render remains on pinned E14 archive, **not** yet driven by Starred selection. Implement authenticated download, exact audio SHA256, compatible musical analysis, and a source-agnostic band sequence before replacing pinned E14. Do not claim automatic Starred rendering is complete.
+- [ ] Confirm workflow run and actual tests at new head, and continue renderer build resolution. Maintain strict 1920x1080 and complete-band acceptance.
