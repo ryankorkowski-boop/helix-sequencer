@@ -135,3 +135,9 @@ Evidence must identify run IDs and artifact names; never mark a failed workflow 
 - [ ] **P0** Native final band acceptance: run 39261085110 **failure**. Prior proof produced 12 working diagnostic performer tracks but full-song showcase/complete-band/non-diagnostic MP4 acceptance was false; do not bypass.
 - [ ] **P0** Fresh real-audio universal-keyboard MP4: run 39261085166 **failure**. Inspect renderer logs, output artifacts, and native gate; correct actual failure.
 - [ ] **P0** Deliver the finished full-song six-panel comparison with audio, validated native xLights rendering and independently editable XSQ tracks; owner review required.
+
+### 2026-10-19 native preview root cause / regression protection
+- [x] Identified xLights 2026.18 REST `exportVideoPreview` ignoring requested 1920x1080 and returning a 248x442 docked House Preview in run 39261085166.
+- [x] Commit `5f2f56b`: inspect actual *native-silent.mp4* video stream dimensions before audio mux or success status. Report requested/actual dimensions and reject mismatch; do not silently upscale GUI frames.
+- [ ] **ROOT CAUSE STILL OPEN**: obtain a genuine 1920x1080 native House Preview export from xLights (reconfigure docked preview/window layout or use a supported native export API). Verify by ffprobe before muxing, then rerun real-audio six-snowman workflow.
+- [ ] Add focused automated tests for native resolution mismatch and correct-size success paths; rerun CI. Do not call the MP4 fixed until genuine 1920x1080 native output passes.
