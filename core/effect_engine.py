@@ -9388,6 +9388,20 @@ def pick_runtime_effect(
         tuning=tuning,
     )
     history_effects = (workspace_history.family_effects.get(family_key, []) if workspace_history else []) or []
+    # Workspace-learned effects must pass the same model compatibility gate as
+    # explicitly requested effects. A family's historical choice may belong to
+    # a different physical model type or a submodel with fewer capabilities.
+    history_effects = [
+        name for name in history_effects
+        if requested_effect_supported_for_target(
+            requested=name,
+            layer=layer,
+            family=family_key,
+            model=parsed_model,
+            tuning=tuning,
+            catalog=catalog,
+        )
+    ]
     normalized_requested = xfb.normalize_effect_name(requested, catalog) or requested
     choice_pool: list[str] = []
     if prefer_requested and requested_effect_supported_for_target(
