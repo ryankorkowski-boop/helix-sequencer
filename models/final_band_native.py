@@ -70,7 +70,7 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
         parts = SurfaceParts(position)
         for i, item in enumerate(scene.instances):
             name = item['name']
-            if not (item.get('performer_role') == role or name.startswith(role+'_')): continue
+            if not (item.get('performer_role') == role or name.startswith(role+'_') or (role == 'piano' and name.startswith('keyboard_'))): continue
             if item['kind'] == 'hidden' or i in arm_ids or item.get('mouth_role'): continue
             if any(word in name for word in ('_lips','_tongue','_upper_teeth')): continue
             part = 'BODY'
