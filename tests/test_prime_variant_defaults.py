@@ -58,5 +58,16 @@ class PrimeVariantDefaultsTests(unittest.TestCase):
                 guards.append(ast.unparse(current.test))
         self.assertTrue(any("HELIX_USE_DEMUCS" in guard for guard in guards))
 
+    def test_local_stem_cache_requires_source_identity(self):
+        source = (ENGINE.parent / "audio_intelligence.py").read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        fn = next(node for node in tree.body if isinstance(node, ast.FunctionDef)
+                  and node.name == "build_stem_analysis")
+        body = ast.unparse(fn)
+        self.assertIn('hashlib.sha256()', body)
+        self.assertIn('manifest.get("source_sha256") == source_sha256', body)
+        self.assertIn('p.stat().st_mtime_ns >= audio_path.stat().st_mtime_ns', body)
+        self.assertIn('all(p.is_file()', body)
+
 if __name__ == "__main__":
     unittest.main()
