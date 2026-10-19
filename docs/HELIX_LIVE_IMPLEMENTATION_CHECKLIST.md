@@ -299,3 +299,12 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - [x] Fixed `.github/workflows/fresh-real-band-mp4.yml` push trigger to include active recovery branch `codex/eight-hour-recovery-20261019` (commit `7e70c55`). Previously only `codex/fresh-real-band-mp4-20261017` was eligible, so recovery branch renderer fixes could not trigger its push CI.
 - [ ] Confirm GitHub accepted and ran the updated native workflow on the recovery branch; do not infer run creation or success from YAML changes alone.
 - [ ] Confirm restored E14 ZIP remains reachable and checksum-valid. E14 native render remains distinct from Starred-audio production.
+
+
+### Prime sequencing speed optimization
+- [x] Default `--variants` to 1 in `core/effect_engine.py` (commit `2b2e880`), preserving current first-candidate selection and Prime placers.
+- [x] Added AST regression checks for one-variant and opt-in shortlist defaults (`tests/test_prime_variant_defaults.py`, commit `a615b95`); configured required CI command with `tests/test_core_sandbox.py` (commit `73b4cfb`).
+- [x] Wired per-song analysis caching into `run_variant()` calls, partitioned by Moises configuration, with source validation and defensive copying for multiband mutations (commits `e7fdced`, `5c8fee7`).
+- [ ] Execute tests and an end-to-end identical-input comparison: previous 3-variant default versus new 1-variant default; record wall time and canonical XSQ SHA256. No parity or speedup claim until verified.
+- [ ] Review cache mutation safety for other shared analysis results before enabling broad cache reuse on release; compare optional `--variants 3 --auto-shortlist` against uncached output.
+- [ ] Separately investigate stem WAV freshness and Demucs opt-in; do not alter Prime placement/effects during speed-only validation.
