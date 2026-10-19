@@ -308,3 +308,10 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - [ ] Execute tests and an end-to-end identical-input comparison: previous 3-variant default versus new 1-variant default; record wall time and canonical XSQ SHA256. No parity or speedup claim until verified.
 - [ ] Review cache mutation safety for other shared analysis results before enabling broad cache reuse on release; compare optional `--variants 3 --auto-shortlist` against uncached output.
 - [ ] Separately investigate stem WAV freshness and Demucs opt-in; do not alter Prime placement/effects during speed-only validation.
+
+
+### Expensive stem separation default
+- [x] Demucs no longer runs merely because its executable is installed; opt in with `HELIX_USE_DEMUCS=1` (commit `eb2ed4a`). Local HPSS fallback remains unchanged.
+- [x] Added AST guard for explicit Demucs opt-in in `tests/test_prime_variant_defaults.py` (commit `1bfd6dc`), included in required CI gate.
+- [ ] Execute CI and verify normal sequencing plus explicit Demucs opt-in with real audio. No runtime speed measurements or output-parity proof yet.
+- [ ] Implement safe on-disk stem freshness validation separately (source identity, timestamps, and expected stems) before claiming stem cache hits.
