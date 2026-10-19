@@ -21,6 +21,13 @@ on:
         type: string
 permissions:
   contents: read
+
+# Prevent multiple 60-minute native builds from accumulating on the same branch.
+# A newer source/workflow revision supersedes an older in-flight preview.
+concurrency:
+  group: helix-native-preview-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   preflight:
     runs-on: ubuntu-24.04
