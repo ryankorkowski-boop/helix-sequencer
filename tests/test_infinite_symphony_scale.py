@@ -19,12 +19,12 @@ def test_full_layout_footprint_and_all_88_disjoint_physical_rungs():
     assert len(band) == 12
     for prefix in ('HX_BETA_STAGE_A', 'HX_BETA_STAGE_B'):
         members = [m for m in band if m.details['stage'] == prefix]
-        assert {m.details['final_band_role'] for m in members} == {'drummer','bass','guitar','lead','harmony','xylophone'}
-        mallet = next(m for m in members if m.details['final_band_role'] == 'xylophone')
-        assert all(mallet.submodels[f'NOTE_MIDI_{p}'] for p in range(48,97))
-        assert all(mallet.submodels.get(f'ARM_LEFT_NOTE_{p}') or mallet.submodels.get(f'ARM_RIGHT_NOTE_{p}') for p in range(48,97))
-        notes=set().union(*(set(v) for k,v in mallet.submodels.items() if k.startswith('NOTE_MIDI_')))
-        assert not notes & set(mallet.submodels['BODY'])
+        assert {m.details['final_band_role'] for m in members} == {'drummer','bass','guitar','lead','harmony','piano'}
+        keyboard = next(m for m in members if m.details['final_band_role'] == 'piano')
+        assert all(keyboard.submodels[f'NOTE_MIDI_{p}'] for p in range(48,85))
+        assert keyboard.submodels.get('ARM_LEFT_IDLE') and keyboard.submodels.get('ARM_RIGHT_IDLE')
+        notes=set().union(*(set(v) for k,v in keyboard.submodels.items() if k.startswith('NOTE_MIDI_')))
+        assert notes and not notes & set(keyboard.submodels['BODY'])
         for singer in [m for m in members if m.details['final_band_role'] in ('lead','harmony')]:
             mouths = set().union(*(set(v) for k,v in singer.submodels.items() if k.startswith('MOUTH_')))
             assert not mouths & set(singer.submodels['BODY'])
