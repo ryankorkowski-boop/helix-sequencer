@@ -150,7 +150,7 @@ When reporting bugs:
 
 ## Licensing
 
-By contributing to this project, you agree that your contributions will be licensed under its [MIT License](./LICENSE).
+By contributing to this project, you agree that your contributions will be licensed under the [PolyForm Noncommercial License 1.0.0](./LICENSE).
 
 ---
 
