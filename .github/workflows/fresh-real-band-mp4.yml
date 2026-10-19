@@ -131,7 +131,8 @@ jobs:
             libswscale-dev libsdl2-dev libzstd-dev libcurl4-openssl-dev \
             liblua5.3-dev libwebp-dev libsecret-1-dev libegl-dev \
             libfreetype-dev libharfbuzz-dev libfontconfig-dev \
-            libavahi-compat-libdnssd-dev libminizip-dev libxlsxwriter-dev
+            libavahi-compat-libdnssd-dev libminizip-dev libxlsxwriter-dev \
+            cbp2make glslc glslang-dev
           git clone --depth 1 --branch 2026.18 --recurse-submodules \
             https://github.com/xLightsSequencer/xLights.git "$RUNNER_TEMP/xlights-src"
           cd "$RUNNER_TEMP/xlights-src"
