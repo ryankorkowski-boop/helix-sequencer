@@ -1,3 +1,32 @@
+## 2026-10-18 — Visible default keyboardist replaces separate mallet model
+
+Goal: deliver an actual default pianist in the modern six-performer 3D
+FinalBandScene instead of the previously hidden piano/visible xylophonist.
+Branch: `codex/keyboard-source-guardrails-20261018`, draft PR #181.
+Files: `models/final_band_scene.py`,
+`tools/final_band_performance.py`,
+`tools/musical_band_performance.py`, `tests/test_final_band.py`.
+New default: piano character and literal keyboard are visible; xylophonist
+is hidden. Set `legacy_mallet_player=True` to restore the prior opt-in
+six-character xylophone arrangement with original positional transforms.
+No scene model indices or original guitar geometry were deleted, and
+musical events still use screened source timing; no manufactured physical
+key strikes. In the default cast unified piano and screened mallet cues
+now feed the **same** `_install_keyboard_events` lane for both source-key
+illumination and independent left/right mitten targets. Short piano
+upper/forearm lengths (.52/.50) and per-frame displacement/acceleration
+(.030/.010) use PR #180's candidate values *only* for this new scene.
+Old mallet cast and unrelated performers retain their earlier motion.
+Added default/legacy scene tests; no full suite or source-bound movie
+has yet proved visual behavior, arm contact quality or native xLights
+equivalence. The distinct `Review3DScene` and native seven-model
+`tools/native_source_pose_band.py` path are **not yet migrated**; the
+Bells of Mathmas stored video is still too dark for acceptance.
+Status: IMPLEMENTED — UNVERIFIED. Before approval: frame-level IK,
+musical source mapping and native MP4 on the real source must pass,
+then migrate/compatibility-gate the separate native seven-model cast.
+No release merge, public distribution or license publication.
+
 ## 2026-10-18 — Integration update: PR179 effect router ported to modern band
 
 Goal: prevent player-role cross-contamination at both source-driven musician
