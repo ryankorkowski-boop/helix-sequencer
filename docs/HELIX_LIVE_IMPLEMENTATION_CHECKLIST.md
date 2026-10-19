@@ -315,3 +315,10 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - [x] Added AST guard for explicit Demucs opt-in in `tests/test_prime_variant_defaults.py` (commit `1bfd6dc`), included in required CI gate.
 - [ ] Execute CI and verify normal sequencing plus explicit Demucs opt-in with real audio. No runtime speed measurements or output-parity proof yet.
 - [ ] Implement safe on-disk stem freshness validation separately (source identity, timestamps, and expected stems) before claiming stem cache hits.
+
+
+### Local stem WAV cache
+- [x] Added SHA256 source-identity manifest for local HPSS stems and freshness/completeness checks before reuse (`cb9b663`). This only reuses local stems when Moises/Demucs are not requested; cache misses recompute.
+- [x] Added regression source-guard test in required Prime optimization test file (`7e8a176`).
+- [ ] Run required CI tests and real-audio cache-hit/miss scenarios (same song, changed content with same filename, missing stem, older stem, explicit Demucs).
+- [ ] Measure cold and warm run time and compare XSQ hashes against baseline. No verified benchmark yet.
