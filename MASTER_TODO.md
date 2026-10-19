@@ -1,3 +1,24 @@
+## 2026-10-18 — Short-arm geometry regression coverage (draft, unverified)
+
+Goal: prevent the original overlong/flailing pianist limbs and measure whether PR
+#180's shorter fixed two-link arms can reach actual authored keyboard keys.
+Branch: `codex/keyboard-arm-proportions-20261018`; draft PR #180.
+Changes: `tests/test_keyboard_arm_proportions.py`, master roadmap and
+acceptance ledger. Existing PR #180 logic in `models/keyboard_motion_plan.py`
+and `models/refined_band_scene.py` remains intact (upper/forearm .52/.50,
+frame limit .030, acceleration limit .010).
+Preserved: guitarist and drummer poses, source keyboard note lighting, exact
+audio clock, missing-contact diagnostics, seven-member review cast, original
+music and release hold. New proof: tests assert rig shoulder/wrist/link
+geometry, actual keybed reach, velocity and acceleration ceilings, sustained
+note contacts, silence, finite IK, and rejection of out-of-range strikes.
+Tests: added, not yet run in CI on this PR; xLights native film and human
+arm plausibility review not yet performed. Risk: near-boundary reachable keys
+and busy chords may reduce physical contact coverage; never invent strikes.
+Acceptance: focused tests and whole suite must pass, frame-by-frame original
+audio preview must show no unnatural elbow inversion or flailing, owner review.
+Status: IMPLEMENTED — UNVERIFIED (tests and candidate parameters only).
+
 ## 2026-10-18 — Owner-requested advertisement delivered for review
 
 Produced Helix_Advertisement_96s.mp4: 96.000 seconds, 1920x1080 H264/AAC stereo,
