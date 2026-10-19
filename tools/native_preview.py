@@ -143,7 +143,7 @@ def _resize_native_canvas(staged: Path, actual: tuple[int, int],
     matches = []
     for line in tree.splitlines():
         entry = re.match(r"^(\s+)(0x[0-9a-fA-F]+)\s.*?\s(\d+)x(\d+)[+-]", line)
-        if entry and entry[2] != owners[0] and (int(entry[3]), int(entry[4])) == actual:
+        if entry and entry[2].lower() != owners[0].lower() and (int(entry[3]), int(entry[4])) == actual:
             matches.append((len(entry[1]), entry[2]))
     # X11 can include a same-sized container and its child; use the deepest
     # unique match. Ambiguous sibling canvases must never be guessed.
