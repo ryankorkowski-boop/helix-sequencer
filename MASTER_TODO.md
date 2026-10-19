@@ -1,3 +1,20 @@
+## 2026-10-18 — Correct stale hi-hat drum-stick regression assertions
+
+Observed CI: PR #180 run 39192406726 (Python 3.11 full audit)
+finished 1,806 passed, 2 failed, 6 skipped; failures are both old
+tests expecting a physical drumstick contact for HI_HAT, while current
+`ArticulatedDrummer` (foot-only hi-hat contract) intentionally never
+adds the hi-hat to the stick-target table.
+Updated `tests/test_band_motion_refinement.py` and
+`tests/test_musical_band_response.py` to test only real stick-operated
+kit targets in fixed-length IK cases. Added specific pedal regression:
+hi-hat is in foot_hits, absent in stick hits/targets, makes pedal move,
+maintains finite toe. No production drummer changes; existing dedicated
+kick/pedal coverage stays intact. A 1,806-pass old run does not prove
+this new version passes: CI rerun required. Status IMPLEMENTED —
+UNVERIFIED. Native full-song failure is independently caused by missing
+non-diagnostic showcase and remains BLOCKED; acceptance gate preserved.
+
 ## 2026-10-18 — Native xLights six-cast universal-keyboard migration
 
 Goal: do not stop at artistic `FinalBandScene`; make the actual
