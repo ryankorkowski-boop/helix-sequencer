@@ -68,7 +68,7 @@ jobs:
           source_ok=0
           for attempt in 1 2 3; do
             rm -f "$RUNNER_TEMP/original.zip"
-            if python -m gdown --id "$ARCHIVE_ID" -O "$RUNNER_TEMP/original.zip" && \
+            if python -m gdown "$ARCHIVE_ID" -O "$RUNNER_TEMP/original.zip" && \
                echo "$ARCHIVE_SHA256  $RUNNER_TEMP/original.zip" | sha256sum -c -; then
               source_ok=1
               break
