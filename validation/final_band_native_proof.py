@@ -47,19 +47,17 @@ def verify_output(garden,frames,step):
         role=model.details.get('final_band_role')
         if not role:continue
         rgb=frames[:,model.start-1:model.start-1+model.channels].reshape(48,-1,3)
-        if role=='xylophone':
+        if role=='piano':
             ids=np.array(model.submodels['NOTE_MIDI_60'])-1
             assert rgb[4:8,ids].max()>0
             assert not rgb[:4,ids].any() and not rgb[8:,ids].any()
-            arm=np.array(model.submodels['ARM_LEFT_NOTE_60'])-1
-            assert rgb[4,arm].max()>0
         if role=='drummer':
             ids=np.array(model.submodels['HX_SNOWMAN_DRUMMER_V3_KICK'])-1
             assert rgb[4,ids].max()>rgb[0,ids].max()
         checks.append(dict(model=model.name,role=role,active_frames=int(np.any(rgb,axis=(1,2)).sum())))
     assert len(checks)==12 and all(c['active_frames']>0 for c in checks)
     return dict(native_performers_verified=12,two_stages_verified=True,
-        note_and_contact_output_verified=True,source='authored fixture; not original-song transcription',checks=checks)
+        note_output_verified=True,source='authored fixture; not original-song transcription',checks=checks)
 
 
 def probe(out,executable,render):
