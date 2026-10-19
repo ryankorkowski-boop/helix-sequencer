@@ -181,6 +181,14 @@ def _native_export(xlights: str, show: Path, staged: Path,
                         evidence.write(result.stdout[-12000:] + result.stderr[-2000:] + "\\n")
                     except (OSError, subprocess.SubprocessError) as exc:
                         evidence.write(utility + ": " + str(exc) + "\\n")
+            # Emit the window-tree evidence into Actions logs as well as the
+            # artifact. The export may fail acceptance before anyone downloads
+            # its diagnostics, and the GUI preview size is the current blocker.
+            geometry_report = staged.parent / "native_window_geometry.txt"
+            if geometry_report.is_file():
+                print("HELIX_NATIVE_X11_GEOMETRY_BEGIN", flush=True)
+                print(geometry_report.read_text()[-16000:], flush=True)
+                print("HELIX_NATIVE_X11_GEOMETRY_END", flush=True)
             _command(endpoint, "exportVideoPreview", **options)
             if not video.is_file() or video.stat().st_size == 0:
                 raise ValueError("xLights did not create a fresh native video")
