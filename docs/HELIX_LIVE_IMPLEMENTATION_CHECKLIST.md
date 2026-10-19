@@ -273,3 +273,10 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - [ ] Execute workflow dispatch on branch and inspect verification artifact. Workflow has not been run yet; unauthenticated Drive access could be blocked.
 - [ ] Build analysis adapter to generate genuine drum/keyboard/guitar/bass/vocal cues for arbitrary Starred audio, then produce editable XSQ and authentic native xLights MP4. E14 source-pose pipeline requires retained E14 analysis and cannot safely be fed a different song without this adapter.
 - [ ] Keep restored E14 ZIP until its existing native workflow is verified or replaced by proven Starred-native workflow.
+
+
+### Latest continuation
+- [x] Starred selector now fails closed when all IDs have been used instead of silently recycling the catalog (commit `cbb6f1a`); added exhaustion regression test (commit `8b00c74`).
+- [ ] Execute focused tests in GitHub Actions; no workflow dispatch action is exposed through the connected GitHub interface in this session.
+- [ ] Native render run 39336982567 was still in the `Install checksum pinned native xLights` step at last check. Do not report completion without successful job, downloadable artifact and independent MP4 verification.
+- [ ] Existing `tools/native_source_pose_band.py` uses `ReviewBandPerformance` with E14 retained analysis and drummer.xsq; generic Starred audio requires an actual source-analysis adapter. Do not relabel E14 render as Starred output.
