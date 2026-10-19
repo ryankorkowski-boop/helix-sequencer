@@ -44,6 +44,9 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
 
+      - name: Gate core sandbox and Prime default regression
+        run: python -m pytest tests/test_core_sandbox.py tests/test_prime_variant_defaults.py -q
+
       - name: Run flake8 baseline audit
         continue-on-error: true
         run: flake8 core ai xlights tools tests main.py gui_launcher.py --count --statistics
