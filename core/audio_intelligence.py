@@ -878,9 +878,22 @@ def build_stem_analysis(
             source = "demucs"
     if not stems:
         try:
+            # Invalidate the old manifest before writing any replacement WAV.
+            # A partial/failed separation must never leave a trusted cache.
+            local_manifest.unlink(missing_ok=True)
             stems = _local_stem_separation(audio_path, stem_dir, log_fn)
+            if not all(p.is_file() and p.stat().st_size > 44 for p in local_paths.values()):
+                raise RuntimeError("Local stem separation did not produce four complete WAVs")
             source = "local"
-            local_manifest.write_text(json.dumps({"format": "helix-local-hpss-v1", "source_sha256": source_sha256}), encoding="utf-8")
+            manifest_temp = local_manifest.with_suffix(".json.tmp")
+            try:
+                manifest_temp.write_text(
+                    json.dumps({"format": "helix-local-hpss-v1", "source_sha256": source_sha256}),
+                    encoding="utf-8",
+                )
+                manifest_temp.replace(local_manifest)
+            finally:
+                manifest_temp.unlink(missing_ok=True)
         except Exception as exc:
             _log(log_fn, f"Stem split fallback failed, using direct audio analysis only: {exc}")
             stems = {}
