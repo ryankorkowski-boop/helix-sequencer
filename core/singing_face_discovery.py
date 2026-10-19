@@ -59,9 +59,16 @@ def detect_singing_faces(layout_path: str | Path, *, include_external: bool = Tr
     root = ET.parse(path).getroot()
     found = _scan_root(root, str(path))
     if include_external:
+        # Adjacent xModels are only considered when the layout names their model.
+        # Otherwise an unrelated asset in the show folder would become a false singer.
+        layout_models = {
+            (element.get("name") or element.get("Name") or "").casefold()
+            for element in root.iter() if _tag(element) in {"model", "custommodel"}
+        }
         for candidate in sorted(path.parent.glob("*.xmodel")):
             try:
-                found.extend(_scan_root(ET.parse(candidate).getroot(), str(candidate)))
+                external = _scan_root(ET.parse(candidate).getroot(), str(candidate))
+                found.extend(face for face in external if face.model.casefold() in layout_models)
             except (ET.ParseError, OSError):
                 continue
     return found
