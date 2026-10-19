@@ -66,21 +66,26 @@ def add_final_band_events(sequence, performance, drummer_source):
                                     '#F67A73' if k==0 else '#A882D3',65 if value else 22)
                 for side in ('LEFT','RIGHT'):
                     sequence.effect(model,'ARM_'+side+'_IDLE',0,sequence.duration,'#BEA182',35)
-            else:
-                for p in performance.scene.bars:
-                    values=np.rint(performance._bar_levels[:,p-min(performance.scene.bars)]*100).astype(np.int16)
+            elif role == 'piano':
+                # Route only pitches with actual physical key submodels.
+                # The visible keyboard has its own note geometry; do not
+                # fabricate mallet poses or silently address hidden props.
+                bars = performance.scene.bars
+                first = min(bars)
+                for pitch in bars:
+                    part = f'NOTE_MIDI_{pitch}'
+                    if part not in model.submodels or not model.submodels[part]:
+                        continue
+                    values = np.rint(performance._bar_levels[:, pitch-first]*100).astype(np.int16)
                     for a,b,value in _runs(values):
-                        if value: sequence.effect(model,f'NOTE_MIDI_{p}',a*50,b*50,'#D4B98A',value)
-                for side in ('left','right'):
-                    poses=np.zeros(n,np.int16)
-                    for hit in performance.mallet_schedule:
-                        if hit['side']!=side: continue
-                        i=round(hit['time']*20)
-                        if i<n: poses[i]=hit['pitch']
-                    for a,b,p in _runs(poses):
-                        part=f'ARM_{side.upper()}_NOTE_{p}' if p else f'ARM_{side.upper()}_IDLE'
-                        if part not in model.submodels: raise ValueError(f'Unreachable native mallet pose: {part}')
-                        sequence.effect(model,part,a*50,b*50,'#D4B98A',85 if p else 35)
+                        if value:
+                            sequence.effect(model,part,a*50,b*50,'#D4B98A',value)
+                for side in ('LEFT','RIGHT'):
+                    part = f'ARM_{side}_IDLE'
+                    if model.submodels.get(part):
+                        sequence.effect(model,part,0,sequence.duration,'#BEA182',35)
+            else:
+                raise ValueError(f'Unsupported final-band role: {role}')
         stats[role]=sequence.identifier-before
     if len(report['stages'])!=2 or any(len(s)!=6 for s in report['stages'].values()):
         raise ValueError('Expected two complete six-performer native bands')
