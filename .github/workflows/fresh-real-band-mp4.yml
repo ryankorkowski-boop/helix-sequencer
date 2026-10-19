@@ -29,6 +29,7 @@ jobs:
       - name: Check true native renderer paths
         run: |
           python -m compileall -q tools/recover_showcase_source_cache.py tools/native_source_pose_band.py tools/native_preview.py tools/verify_showcase_audio_identity.py
+          python -m unittest discover -s tests -p test_native_preview_resolution.py -v
   render:
     needs: preflight
     runs-on: ubuntu-24.04
@@ -58,7 +59,7 @@ jobs:
           PY
           sudo apt-get update -qq
           sudo apt-get install -y xvfb xauth openbox x11-utils x11-xserver-utils wmctrl ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
-          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg gdown
+          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg gdown==6.4.2
       - name: Fetch authentic hardKor E14 source + retained analysis (no fabricated events)
         run: |
           mkdir -p "$RUNNER_TEMP/real-source"
@@ -67,7 +68,7 @@ jobs:
           source_ok=0
           for attempt in 1 2 3; do
             rm -f "$RUNNER_TEMP/original.zip"
-            if python -m gdown --fuzzy "https://drive.google.com/file/d/$ARCHIVE_ID/view" -O "$RUNNER_TEMP/original.zip" && \
+            if python -m gdown "$ARCHIVE_ID" -O "$RUNNER_TEMP/original.zip" && \
                echo "$ARCHIVE_SHA256  $RUNNER_TEMP/original.zip" | sha256sum -c -; then
               source_ok=1
               break
@@ -216,3 +217,4 @@ jobs:
             review/PROVENANCE.json
           if-no-files-found: warn
           retention-days: 14
+

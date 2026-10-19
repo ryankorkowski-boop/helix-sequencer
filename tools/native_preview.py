@@ -108,6 +108,15 @@ def _command(endpoint: str, cmd: str, **params: str) -> dict[str, Any]:
     return response
 
 
+def _export_size() -> tuple[int, int]:
+    """Always request the same native dimensions enforced by acceptance."""
+    size = tuple(int(os.environ.get("HELIX_NATIVE_PREVIEW_" + key, default))
+                 for key, default in (("WIDTH", "1920"), ("HEIGHT", "1080")))
+    if any(pixels < 320 or pixels > 4096 or pixels % 2 for pixels in size):
+        raise ValueError("Native export dimensions must be even pixels in 320..4096")
+    return size
+
+
 def _native_export(xlights: str, show: Path, staged: Path,
                    port: int) -> dict[str, Any]:
     # Own a fresh process. Never close/switch an existing user's sequence.
@@ -143,14 +152,9 @@ def _native_export(xlights: str, show: Path, staged: Path,
             if Path(opened.get("fullseq", "")).resolve() != staged:
                 raise ValueError("xLights opened an unexpected sequence")
             video = staged.parent / "native-silent.mp4"
-            options: dict[str, str] = {"filename": str(video)}
-            for dimension in ("width", "height"):
-                raw = os.environ.get("HELIX_NATIVE_PREVIEW_" + dimension.upper())
-                if raw:
-                    pixels = int(raw)
-                    if pixels < 320 or pixels > 4096:
-                        raise ValueError("Native export " + dimension + " must be 320..4096")
-                    options[dimension] = str(pixels)
+            width, height = _export_size()
+            options: dict[str, str] = {"filename": str(video),
+                                       "width": str(width), "height": str(height)}
             # Some xLights 2026.18 builds ignore exportVideoPreview width/height
             # and capture the docked preview at its on-screen dimensions.
             # Maximize the real GUI window before exporting, without rescaling
@@ -168,19 +172,19 @@ def _native_export(xlights: str, show: Path, staged: Path,
             # Preserve actual X11 geometry for diagnosing docked-preview exports.
             # Never upscale or claim that window size proves native resolution.
             with (staged.parent / "native_window_geometry.txt").open("w") as evidence:
-                evidence.write("requested_options=" + repr(options) + "\\n")
+                evidence.write("requested_options=" + repr(options) + "\n")
                 for utility, args in (("wmctrl", ["-lG"]), ("xrandr", ["--current"]), ("xwininfo", ["-root", "-tree"])):
                     binary = shutil.which(utility)
                     if not binary:
-                        evidence.write(utility + ": unavailable\\n")
+                        evidence.write(utility + ": unavailable\n")
                         continue
                     try:
                         result = subprocess.run([binary, *args], capture_output=True,
                                                 text=True, timeout=10, check=False)
-                        evidence.write(utility + " exit=" + str(result.returncode) + "\\n")
-                        evidence.write(result.stdout[-12000:] + result.stderr[-2000:] + "\\n")
+                        evidence.write(utility + " exit=" + str(result.returncode) + "\n")
+                        evidence.write(result.stdout[-12000:] + result.stderr[-2000:] + "\n")
                     except (OSError, subprocess.SubprocessError) as exc:
-                        evidence.write(utility + ": " + str(exc) + "\\n")
+                        evidence.write(utility + ": " + str(exc) + "\n")
             # Emit the window-tree evidence into Actions logs as well as the
             # artifact. The export may fail acceptance before anyone downloads
             # its diagnostics, and the GUI preview size is the current blocker.
@@ -305,8 +309,7 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
         report["native_fseq_sha256"] = _sha256(fseq)
         report.update(_native_export(native_bin, run_dir, staged, port))
         # Reject xLights docked-preview exports before muxing or reporting success.
-        expected_width = int(os.environ.get("HELIX_NATIVE_PREVIEW_WIDTH", "1920"))
-        expected_height = int(os.environ.get("HELIX_NATIVE_PREVIEW_HEIGHT", "1080"))
+        expected_width, expected_height = _export_size()
         native_stream = _stream(probe_media(Path(report["native_video"]), ffprobe), "video")
         actual_size = (int(native_stream["width"]), int(native_stream["height"]))
         expected_size = (expected_width, expected_height)
@@ -350,3 +353,4 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
