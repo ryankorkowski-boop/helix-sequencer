@@ -234,3 +234,18 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - Local tests: **10 native-resolution/X11 orchestration unittests PASS**, **3 persistence recovery unittests PASS**, **5 exact-source selector checks PASS** (full-module import not claimed), compileall/diff-check PASS. Source bytes and existing strict acceptance preserved.
 - Files changed in this checkpoint: tools/native_preview.py, tests/test_native_preview_resolution.py, .github/workflows/fresh-real-band-mp4.yml, core/effect_engine.py, tests/test_learned_effect_model_compatibility.py, core/layout_preferences.py, tests/test_layout_preferences_recovery.py, both ledgers.
 - Next: inspect the new native run and full regression matrix from this commit; fix the actual next native failure; preserve the source identity and no-upscale gate.
+
+
+## 2026-10-19 continuation — starred music priority and native build
+- [x] Source patch now applies in the upstream xLights 2026.18 build; previous compile run 39335660330 reached Makefile but failed because `cbp2make` was absent.
+- [x] Commit `7753408efcead0e84c61c6a872d55f9159ba2abb` adds `cbp2make`, `glslc`, and `glslang-dev` build dependencies.
+- [~] Native 1920x1080 render run [39336982567](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39336982567): preflight passed; renderer compilation in progress at last observation. Do not claim MP4 success until decoded resolution, frames, music identity, and six-performer acceptance pass.
+- [ ] Final native-proof run [39336982557](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39336982557) failed because `full_song_showcase_complete`, complete-band verification, and a non-diagnostic MP4 are missing. Artifact 12226723921 retains diagnostics. Keep these gates strict.
+- [ ] **NEW OWNER REQUIREMENT — STARRED MUSIC PRIORITY:** Before generating preview MP4s, full-song showcases, or advertisement clips, query the owner's Helix Music Mix Drive catalog for files marked starred by the owner; prioritize eligible starred originals. For excerpts select verified high-activity portions; avoid repeats where other starred originals are eligible. Retain exact file IDs and SHA256 provenance. For a specifically requested song (e.g., Bells of Mathmas), honor the explicit selection over general starred priority. Never substitute audio if inaccessible.
+- [ ] **Starred metadata integration blocked on verified Drive access:** A connected Drive search with `starred = true and trashed = false` returned no items at this checkpoint. This is not evidence that no songs are starred. Confirm Drive API permissions/metadata access or obtain a starred catalog through an authorized workflow before asserting a prioritized list. Do not guess favorites.
+
+### NEXT AGENT START HERE — latest operational checkpoint
+1. Inspect run 39336982567 render job 118349611400. If failed, retrieve full logs and fix the precise xLights compile error; if successful, verify the authentic 1920x1080 MP4 and native XSQ/FSEQ.
+2. Reconcile final-proof acceptance with a genuine full-band, full-song non-diagnostic MP4, not relaxed assertions.
+3. Implement starred-song metadata selection in the showcase audio catalog once Drive metadata can be verified, with explicit song requests taking precedence.
+4. Complete all older HX01–HX17 tasks, update their evidence and statuses, and commit a new checkpoint before exhaustion.
