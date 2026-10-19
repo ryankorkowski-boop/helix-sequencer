@@ -11,6 +11,13 @@ class FinalBandScene(DistinctBandScene):
         super().__init__(stage, wire=False)
         self.rock = rock
         self.legacy_mallet_player = bool(legacy_mallet_player)
+        if not self.legacy_mallet_player:
+            # Match the independently authored short-arm candidate from PR #180
+            # on this newly visible production character, without changing
+            # the optional historical mallet or other performers' proportions.
+            for rig in self.rigs:
+                if rig["role"] == "piano":
+                    rig["link_lengths"] = (.52, .50)
         # Preserve both historical models/addresses internally. Render only
         # one pitched performer in the default cast: the genuine piano rig.
         # Legacy shows may explicitly request the old mallet character.
