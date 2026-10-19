@@ -26,6 +26,18 @@ Owner for implementation rows: Codex; artistic approval and device access: owner
   Blocker: native render/artistic comparison and unverified actual source
   recognition; no release approval inferred.
 
+## Production effect-plan ownership update — 2026-10-18
+
+R07/R08 **IMPLEMENTED — UNVERIFIED**: draft PR #181 now routes
+direct labels in `music.magic_keyboard` and conservatively filters
+`effects.piano_effect`. Guitar/bass/drum/voice ownership remains
+separate from piano/mallet keys; no released export changed.
+Eight focused cases added in `tests/test_keyboard_source_ownership.py`
+and `tests/test_universal_keyboard_routing.py`. CI and native
+review remain pending; visual cast consolidation and PR #180 pending.
+Bells of Mathmas historical full-song comparison recovered but
+unacceptably dark; does not satisfy R17/R19 or owner approval.
+
 ## Current recovery and integration evidence
 
 - Inspected PR175 head `13a833e9b71dbacefb340654a44f5707b162888e`.
