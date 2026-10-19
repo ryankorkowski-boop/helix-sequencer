@@ -141,3 +141,9 @@ Evidence must identify run IDs and artifact names; never mark a failed workflow 
 - [x] Commit `5f2f56b`: inspect actual *native-silent.mp4* video stream dimensions before audio mux or success status. Report requested/actual dimensions and reject mismatch; do not silently upscale GUI frames.
 - [ ] **ROOT CAUSE STILL OPEN**: obtain a genuine 1920x1080 native House Preview export from xLights (reconfigure docked preview/window layout or use a supported native export API). Verify by ffprobe before muxing, then rerun real-audio six-snowman workflow.
 - [ ] Add focused automated tests for native resolution mismatch and correct-size success paths; rerun CI. Do not call the MP4 fixed until genuine 1920x1080 native output passes.
+
+### 2026-10-19 xLights resolution rerun
+- [x] Run 39275234883 confirms 248x442 native export persists after targeting xLights window; guard correctly rejects before mux (`status=fallback`).
+- [x] Initial native-preview stream tests committed as `4acc102`.
+- [ ] **P0** Find supported xLights 2026.18 REST export resolution parameters or configure the native House Preview resolution via xLights itself. Do not assume GUI 2026.16 resolution selector is honored by REST automation.
+- [ ] **P0** End-to-end verified 1920x1080 native MP4 with original audio; still blocked. No approval artifact exists.
