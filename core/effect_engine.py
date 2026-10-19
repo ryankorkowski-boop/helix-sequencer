@@ -12746,6 +12746,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--xlights-features-json", dest="xlights_features_json", help="Optional xLights feature catalog JSON path")
     parser.add_argument("--strict-xlights-effects", dest="strict_xlights_effects", action="store_true", help="Allow only effect names known to xLights catalog")
     parser.add_argument("--allow-unknown-effects", dest="strict_xlights_effects", action="store_false", help="Allow non-catalog effect names")
+    parser.add_argument("--music-style", choices=("edm", "rock", "pop", "orchestral", "ambient", "experimental"), help="Apply a musical style profile to native xLights effect choices")
     parser.add_argument("--base-effect", dest="base_effect", help="Preferred effect name for base layer")
     parser.add_argument("--motion-effect", dest="motion_effect", help="Preferred effect name for motion layer")
     parser.add_argument("--accent-effect", dest="accent_effect", help="Preferred effect name for accent layer")
@@ -12984,6 +12985,17 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         power_metadata_file=power_metadata_file,
         fail_on_power_risk=bool(args.fail_on_power_risk),
     )
+    if args.music_style and not tuning.hardkor_enabled:
+        from core.style_engine import get_style_profile, style_effect_contract
+        contract = style_effect_contract(get_style_profile(args.music_style))
+        # Explicit effect overrides take precedence over the style preset.
+        if args.base_effect is None:
+            tuning.base_effect = contract["base_effect"]
+        if args.motion_effect is None:
+            tuning.motion_effect = contract["motion_effect"]
+        if args.accent_effect is None:
+            tuning.accent_effect = contract["accent_effect"]
+        log(f"Music style: {contract['style']} -> {tuning.base_effect}/{tuning.motion_effect}/{tuning.accent_effect}")
     if tuning.vendor_bar:
         # Vendor-bar mode forces the higher-quality generation path.
         tuning.auto_shortlist = True
