@@ -156,10 +156,15 @@ def _native_export(xlights: str, show: Path, staged: Path,
             # Maximize the real GUI window before exporting, without rescaling
             # any encoded frames after export. This requires wmctrl on Linux.
             if shutil.which("wmctrl"):
-                subprocess.run(["wmctrl", "-r", "xLights", "-b",
-                                "add,maximized_vert,maximized_horz"],
-                               capture_output=True, check=True, timeout=5)
-                time.sleep(2)
+                # A headless X11 session may expose no matching titled window.
+                # Window maximization is best effort, never a prerequisite for
+                # the native REST export or the strict ffprobe resolution gate.
+                maximize = subprocess.run(
+                    ["wmctrl", "-r", "xLights", "-b",
+                     "add,maximized_vert,maximized_horz"],
+                    capture_output=True, text=True, check=False, timeout=5)
+                if maximize.returncode == 0:
+                    time.sleep(2)
             # Preserve actual X11 geometry for diagnosing docked-preview exports.
             # Never upscale or claim that window size proves native resolution.
             with (staged.parent / "native_window_geometry.txt").open("w") as evidence:
