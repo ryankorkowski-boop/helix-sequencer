@@ -249,3 +249,11 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 2. Reconcile final-proof acceptance with a genuine full-band, full-song non-diagnostic MP4, not relaxed assertions.
 3. Implement starred-song metadata selection in the showcase audio catalog once Drive metadata can be verified, with explicit song requests taking precedence.
 4. Complete all older HX01–HX17 tasks, update their evidence and statuses, and commit a new checkpoint before exhaustion.
+
+
+### Starred source folder — verified 2026-10-19
+- [x] Located owner-curated Drive folder **Starred**: https://drive.google.com/drive/folders/1TM4Yo763FnHIOkmy8V72xzLCGy5IHLxg (ID `1TM4Yo763FnHIOkmy8V72xzLCGy5IHLxg`). Connector listing returned **30 audio/mpeg files**. This folder, rather than Drive's starred metadata flag, is the priority music source for native MP4s and advertisements.
+- [ ] Integrate folder-first catalog discovery in production showcase workflow; select source by Drive file ID, verify SHA256 and duration, retain source provenance. Explicit owner-selected tracks supersede folder priority.
+- [ ] Detect duplicate copies by content SHA256/duration, not title alone; folder includes `Copy of ...` and original-named files, plus numbered versions of Christmas in the Ether. Do not discard distinct versions based only on name.
+- [ ] Choose high-activity segments for short clips, full songs for full-song comparisons, and rotate distinct starred songs across showcase outputs. Native render acceptance still mandatory.
+- [ ] Current renderer job 118349611400, run 39336982567 was in progress during this update; inspect current result before claiming delivery.
