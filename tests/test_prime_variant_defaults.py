@@ -71,5 +71,18 @@ class PrimeVariantDefaultsTests(unittest.TestCase):
         self.assertIn("audio_path.stat()", body)
         self.assertIn('all(p.is_file()', body)
 
+    def test_stem_manifest_is_invalidated_before_regeneration(self):
+        source = (ENGINE.parent / "audio_intelligence.py").read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        fn = next(node for node in tree.body if isinstance(node, ast.FunctionDef)
+                  and node.name == "build_stem_analysis")
+        body = ast.unparse(fn)
+        invalidate = body.index("local_manifest.unlink(missing_ok=True)")
+        regenerate = body.index("_local_stem_separation(audio_path, stem_dir, log_fn)")
+        publish = body.index("manifest_temp.replace(local_manifest)")
+        self.assertLess(invalidate, regenerate)
+        self.assertLess(regenerate, publish)
+        self.assertIn("did not produce four complete WAVs", body)
+
 if __name__ == "__main__":
     unittest.main()
