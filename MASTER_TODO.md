@@ -1,3 +1,29 @@
+## 2026-10-18 — Universal keyboard source-ownership guardrail (draft, unverified)
+
+Goal: integrate the first production-level universal-keyboard ownership fix on the
+modern band branch (not blindly merge PR #179 from the legacy default branch).
+Branch: `codex/keyboard-source-guardrails-20261018`. Files changed:
+`music/magic_keyboard.py`, `tests/test_keyboard_source_ownership.py`,
+`MASTER_TODO.md`, and the acceptance ledger.
+
+Preserved: source start/end, MIDI pitch, velocity and selected provenance;
+simultaneous chords, exact-event de-duplication, already-screened piano and
+mallet estimates, keyboard/mallet direct track labels, guitar/bass/drum/vocal
+driver schedules, older seven-member native cast, original audio and
+release hold. New behavior: the active `magic_keyboard_events` path rejects
+notes explicitly tagged guitar, bass, drums/percussion or voice before any
+generic pitch/harmonic confidence filter; accepts directly labeled keyboard,
+organ, piano, synth, bells and mallets into one keyboard note lane.
+Tests: five new isolated routing cases added; CI and native video not yet
+verified. Limitations: source classification is not instrument separation;
+unclassified high-confidence horn/harmonic historical routes remain possible,
+scene construction still contains the legacy mallet rig, PR #180 candidate arm
+motion remains separate, and no freshly rendered approval MP4 exists.
+Acceptance: run CI, verify producer-to-scene ownership, complete optional
+legacy cast migration, native xLights MP4 and source-timed contact accounting.
+Status: IMPLEMENTED — UNVERIFIED. Regression risk: existing downstream code
+may have relied on mislabeled composite performer pitches reaching the keys.
+
 ## 2026-10-18 — Owner-requested advertisement delivered for review
 
 Produced Helix_Advertisement_96s.mp4: 96.000 seconds, 1920x1080 H264/AAC stereo,
