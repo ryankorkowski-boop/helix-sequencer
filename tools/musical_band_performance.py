@@ -68,8 +68,10 @@ class MusicalBandPerformance(RefinedPerformance):
         rigs={r['side']:r for r in self.scene.rigs if r['role']=='piano'}
         # Preserve original MIDI identity: out-of-register notes may illuminate
         # the legacy folded display, but cannot be claimed as physical contacts.
+        slower = (getattr(self.scene, 'legacy_mallet_player', True) is False)
+        motion_limits = dict(max_step=.030, max_acceleration=.010) if slower else {}
         self.key_hand_targets,self.key_assignments,self.keyboard_motion_report=plan_keyboard_hands(
-            held,velocity,self.key_centers,rigs)
+            held,velocity,self.key_centers,rigs, **motion_limits)
         self.keyboard_motion_report['detected_events']=len(ev)+len(self.keyboard_rejected_events)
         self.keyboard_motion_report['accepted_events']=len(ev)
         self.keyboard_motion_report['rejected_events']=self.keyboard_rejected_events
