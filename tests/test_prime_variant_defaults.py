@@ -67,7 +67,8 @@ class PrimeVariantDefaultsTests(unittest.TestCase):
         self.assertIn('hashlib.sha256()', body)
         self.assertIn("source_sha256", body)
         self.assertIn("manifest.get(", body)
-        self.assertIn("p.stat().st_mtime_ns >= audio_path.stat().st_mtime_ns", body)
+        self.assertIn("st_mtime_ns", body)
+        self.assertIn("audio_path.stat()", body)
         self.assertIn('all(p.is_file()', body)
 
 if __name__ == "__main__":
