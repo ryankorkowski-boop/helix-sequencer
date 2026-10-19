@@ -191,6 +191,7 @@ jobs:
             review/show/media/audio.wav
             review/**/native_headless.log
             review/**/native_gui.log
+            review/**/native_window_geometry.txt
             review/**/native_channels.json
             review/show/Performance.xsq
             review/show/xlights_rgbeffects.xml
