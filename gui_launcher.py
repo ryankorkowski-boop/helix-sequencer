@@ -4,6 +4,7 @@ import subprocess
 import sys
 import threading
 from pathlib import Path
+import webbrowser
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
@@ -140,6 +141,12 @@ class HelixGui(tk.Tk):
         ttk.Spinbox(birdsong, from_=0.0, to=1.0, increment=0.05, textvariable=self.birdsong_min_conf_var, width=8).grid(
             row=0, column=7, sticky="w", **pad
         )
+
+        legal = ttk.LabelFrame(frame, text="Legal / Licensing")
+        legal.pack(fill=tk.X, **pad)
+        ttk.Label(legal, text="Helix Sequencer: PolyForm Noncommercial 1.0.0 | Free for qualifying noncommercial use; commercial use requires a separate license.", wraplength=900).pack(anchor="w", padx=8, pady=4)
+        ttk.Button(legal, text="View License", command=lambda: webbrowser.open("https://polyformproject.org/licenses/noncommercial/1.0.0/")).pack(side=tk.LEFT, padx=8, pady=4)
+        ttk.Button(legal, text="Third-Party Licenses", command=lambda: webbrowser.open((ROOT / "THIRD_PARTY_LICENSES.md").as_uri())).pack(side=tk.LEFT, padx=8, pady=4)
 
         actions = ttk.Frame(frame)
         actions.pack(fill=tk.X, **pad)
