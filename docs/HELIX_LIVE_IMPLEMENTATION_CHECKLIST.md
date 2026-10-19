@@ -328,3 +328,9 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - [x] Corrected fragile AST-unparse assertions in stem-cache regression test (`77c8990`, `f862a6b`); Python AST can normalize quote styles and add parentheses.
 - [ ] GitHub combined commit status query for `f862a6b` returned no status contexts, not a passing CI result. Required tests and XSQ parity benchmark remain unverified.
 - [ ] Native render run `39336982567` last observed with preflight success and render in progress at xLights installation; no completed MP4 artifact confirmed.
+
+
+### Stem cache corruption recovery
+- [x] Invalidate stale local manifest before regeneration; verify all four WAVs; atomically publish replacement manifest (`0b549c0`).
+- [x] Add ordering regression test to required Prime test file (`fb3e05c`).
+- [ ] Execute tests and inject a failed partial local stem regeneration to verify subsequent run does not trust stale WAVs. No passing CI or real-audio benchmark yet.
