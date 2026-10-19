@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import math
@@ -13084,11 +13085,33 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     log(f"Processing {len(audios)} audio file(s) with {style.version}...")
     runtime_candidates = build_runtime_candidates(style, tuning, tuning.variant_count)
 
+    # Per-song in-memory DSP cache. Source/configuration checks guard against
+    # accidentally reusing another song's features across candidate variants.
+    class _SongAnalysisCache:
+        def __init__(self, source: Path, configuration: tuple[bool, str]):
+            self.source = source.resolve()
+            self.configuration = configuration
+            self.values: dict[str, object] = {}
+
+        def validate_source(self, source: Path) -> None:
+            if source.resolve() != self.source:
+                raise ValueError("Audio analysis cache source mismatch")
+
+        def validate_configuration(self, configuration: tuple[bool, str]) -> None:
+            if configuration != self.configuration:
+                raise ValueError("Audio analysis cache configuration mismatch")
+
+        def get(self, key: str, factory, *, copy_result: bool = False):
+            if key not in self.values:
+                self.values[key] = factory()
+            return copy.deepcopy(self.values[key]) if copy_result else self.values[key]
+
     song_failures: list[tuple[Path, Exception]] = []
     for i, audio in enumerate(audios, 1):
         out = variant_output_name(audio, output_dir, style.version)
         log(f"\n[{i}/{len(audios)}] {audio.name} -> {out.name}")
         try:
+            song_cache = _SongAnalysisCache(audio, (bool(tuning.use_moises), tuning.moises_api_key or ""))
             candidate_results: list[dict[str, object]] = []
             for idx, candidate in enumerate(runtime_candidates, 1):
                 candidate_out = out if idx == 1 else variant_output_name(audio, output_dir, candidate.style.version)
@@ -13100,6 +13123,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                     candidate_out,
                     profile,
                     tuning=replace(candidate.tuning),
+                    analysis_cache=song_cache,
                 )
                 result["label"] = candidate.label
                 result["description"] = candidate.description
