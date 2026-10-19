@@ -144,3 +144,11 @@ Do not mark complete from unit tests alone.
 6. Render full-song MP4 with real audio.
 7. Compare rendered component flashes to actual audible drum events and the prior known-good render.
 8. Iterate only on measured false positives/false negatives.
+
+### 2026-10-19 — Eight-hour recovery started
+Goal: recover and finish recent incomplete integrations on development branch `codex/eight-hour-recovery-20261019`.
+Changed: added `docs/HELIX_LIVE_IMPLEMENTATION_CHECKLIST.md` as the current detailed recovery checklist and exact handoff; this historical ledger remains preserved.
+Evidence: default `feature/restructure-core` at 59f3240 and PR175/178–187 metadata inspected; native/GUI workflow failures recorded. No code validation or render claimed yet.
+Preserved: production branch, known-good artifacts, third-party license notices, approval gates.
+Limitations/deferred: native rendering, packaged GUI runtime and all acceptance checks remain pending; see live checklist for exact steps and dependencies.
+Regression risk: none from this documentation-only checkpoint.
