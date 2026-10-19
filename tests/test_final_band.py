@@ -8,18 +8,34 @@ from music.magic_keyboard import magic_keyboard_events
 from music.unified_mallet import unified_mallet_schedule
 
 
-def test_final_scenes_have_one_right_hand_side_mallet_player_and_solid_rock_members():
+def test_final_scenes_show_one_keyboardist_instead_of_legacy_mallet_character():
     for rock in (False, True):
         scene = FinalBandScene(rock=rock)
         assert len(scene.visible_roles) == 6
-        assert not any(o['kind'] not in ('hidden',) and o.get('performer_role') == 'piano' for o in scene.instances)
+        assert 'piano' in scene.visible_roles and 'xylophone' not in scene.visible_roles
+        assert any(o['kind'] != 'hidden' and o.get('performer_role') == 'piano'
+                   for o in scene.instances)
+        assert not any(o['kind'] != 'hidden' and o.get('performer_role') == 'xylophone'
+                       for o in scene.instances)
+        assert scene.technical_proof['pitched_character'] == 'piano'
         assert not any(o['kind'] == 'wire_sphere' for o in scene.instances)
-        assert all(p[0] > 5 for p in scene.bars.values())
         assert all(np.isfinite(o['matrix']).all() for o in scene.instances)
         if rock:
-            for role in ('bass', 'guitar', 'lead', 'harmony', 'xylophone'):
+            for role in ('bass', 'guitar', 'lead', 'harmony', 'piano'):
                 assert next(o for o in scene.instances if o['name'] == role+'_torso')['kind'] == 'box'
                 assert any(o['name'] == role+'_rock_boot' for o in scene.instances)
+
+
+def test_legacy_six_member_mallet_cast_remains_opt_in():
+    scene = FinalBandScene(legacy_mallet_player=True, rock=True)
+    assert 'xylophone' in scene.visible_roles and 'piano' not in scene.visible_roles
+    assert scene.technical_proof['legacy_mallet_player']
+    assert not any(o['kind'] != 'hidden' and o.get('performer_role') == 'piano'
+                   for o in scene.instances)
+    assert any(o['kind'] != 'hidden' and o.get('performer_role') == 'xylophone'
+               for o in scene.instances)
+    assert all(p[0] > 5 for p in scene.bars.values())
+    assert next(o for o in scene.instances if o['name'] == 'xylophone_torso')['kind'] == 'box'
 
 
 def test_final_costumes_preserve_approved_guitar_contacts_and_closed_instruments():
