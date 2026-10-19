@@ -160,6 +160,22 @@ def _native_export(xlights: str, show: Path, staged: Path,
                                 "add,maximized_vert,maximized_horz"],
                                capture_output=True, check=True, timeout=5)
                 time.sleep(2)
+            # Preserve actual X11 geometry for diagnosing docked-preview exports.
+            # Never upscale or claim that window size proves native resolution.
+            with (staged.parent / "native_window_geometry.txt").open("w") as evidence:
+                evidence.write("requested_options=" + repr(options) + "\\n")
+                for utility, args in (("wmctrl", ["-lG"]), ("xrandr", ["--current"])):
+                    binary = shutil.which(utility)
+                    if not binary:
+                        evidence.write(utility + ": unavailable\\n")
+                        continue
+                    try:
+                        result = subprocess.run([binary, *args], capture_output=True,
+                                                text=True, timeout=10, check=False)
+                        evidence.write(utility + " exit=" + str(result.returncode) + "\\n")
+                        evidence.write(result.stdout[-12000:] + result.stderr[-2000:] + "\\n")
+                    except (OSError, subprocess.SubprocessError) as exc:
+                        evidence.write(utility + ": " + str(exc) + "\\n")
             _command(endpoint, "exportVideoPreview", **options)
             if not video.is_file() or video.stat().st_size == 0:
                 raise ValueError("xLights did not create a fresh native video")
