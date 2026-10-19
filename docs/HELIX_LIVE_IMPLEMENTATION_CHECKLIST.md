@@ -266,3 +266,10 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - [x] Native showcase workflow preflight now executes the focused tests and catalog selection (commit `ce38982`).
 - [ ] Actual native render remains on pinned E14 archive, **not** yet driven by Starred selection. Implement authenticated download, exact audio SHA256, compatible musical analysis, and a source-agnostic band sequence before replacing pinned E14. Do not claim automatic Starred rendering is complete.
 - [ ] Confirm workflow run and actual tests at new head, and continue renderer build resolution. Maintain strict 1920x1080 and complete-band acceptance.
+
+
+### Starred audio source retrieval milestone
+- [x] Added `.github/workflows/verify-starred-audio.yml` (commit `cac24a6`) for explicit source ID or deterministic rotation, actual Drive download, ffprobe duration/codec check, full ffmpeg decode, SHA256 provenance, and fail-closed behavior. It does not upload or redistribute audio.
+- [ ] Execute workflow dispatch on branch and inspect verification artifact. Workflow has not been run yet; unauthenticated Drive access could be blocked.
+- [ ] Build analysis adapter to generate genuine drum/keyboard/guitar/bass/vocal cues for arbitrary Starred audio, then produce editable XSQ and authentic native xLights MP4. E14 source-pose pipeline requires retained E14 analysis and cannot safely be fed a different song without this adapter.
+- [ ] Keep restored E14 ZIP until its existing native workflow is verified or replaced by proven Starred-native workflow.
