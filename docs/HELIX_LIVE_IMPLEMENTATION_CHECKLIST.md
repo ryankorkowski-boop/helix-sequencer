@@ -163,3 +163,54 @@ Evidence must identify run IDs and artifact names; never mark a failed workflow 
 - [ ] `tools/run_full_helix_pipeline.py` uses a fixed five-prop demonstration layout; `tools/emit_sequence_plan.py` marks output shadow-only. Neither alone establishes production XSQ integration.
 - [ ] Confirm Meteors and Shader are actually selected and emitted; both exist in `xlights/effect_catalog.json` but have no literal reference in the main effect engine.
 - [ ] Run two-style same-audio/layout XSQ comparison, mixed AC/RGB model rules, manual overrides and native import validation before declaring full integration.
+
+## 2026-10-19 execution reconciliation — current authoritative status
+This section supersedes stale task statuses above; the historical content is preserved. User authorization permits development commits and private review artifacts, but no release merge, public distribution, or license changes. MASTER_TODO.md is maintained as the historical change ledger; this file is the authoritative task and recovery checklist.
+
+Latest inspected head: `3e8f21041d1c9fbaf3d8fa54d9799f13a6aff682`, PR #188. All fourteen current head workflow runs have finished; twelve succeeded and two failed. They are not stuck queued.
+- Native MP4 run **39312455343**: preflight passed, render job **118265640683** failed during source retrieval. Root cause is **gdown 6.4.2 rejects --fuzzy**, not evidence of a Drive quota/sharing failure. All three attempts failed at CLI argument parsing.
+- Native band proof **39312455512**, job **118265575323**: native diagnostic checks passed, showcase acceptance failed correctly: full-song false, complete-band false, no non-diagnostic MP4. Artifact **12216707771** contains diagnostic evidence only.
+- Windows **39312455783**, Android **39312455452**, desktop GUI evidence **39312455836**, core CI **39312455302**, keyboard **39312455561**, drum benchmark **39312455693**, beta **39312455325**, birdsong **39312456120**, recovery guards **39312455632**, compliance **39312455530**, V3 review **39312455470**, animated band **39312455337** succeeded. These do not establish artistic approval or physical device/controller validation.
+- Upstream xLights 2026.18 tag resolves to **839c0f590dc454bb7adb8a16c4dd92a70b46156e**. Source `src-ui-wx/automation/xLightsAutomations.cpp` reads width/height. `src-ui-wx/xLightsMain.cpp::ExportVideoPreview` changes canvas size and immediately reads cached getWidth/getHeight, suggesting a pending-size-event issue; this is a hypothesis until native validation. AppImage digest remains the release's published **62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b**.
+- Environment: direct GitHub/pip network unavailable; source fetched using GitHub connector into a **sparse local workspace**. Do not treat its local root commit as the repository's upstream history. No pytest or xLights installed locally. Native execution must use Actions; standard-library unit tests and ffmpeg are available.
+
+Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #188. Statuses are conservative: successful compilation is not production completion.
+
+| ID / category | Priority / status | Dependencies | Exact affected files and existing evidence | Remaining implementation / acceptance / next action |
+|---|---|---|---|---|
+| RC01 Critical release blockers | P0 IN PROGRESS | NR01, NR02, SH01, QA01 | `tools/native_preview.py`, `.github/workflows/fresh-real-band-mp4.yml`; head 3e8f210; runs 39312455343/39312455512 failed | Fix source command, produce actual HD artifact, then evaluate all release gates; no release-ready claim |
+| NR01 Native xLights rendering: source | P0 IN PROGRESS | exact archive identity | `.github/workflows/fresh-real-band-mp4.yml`; job 118265640683 logs reject --fuzzy | Use supported download CLI, retain archive/audio SHA256 and analysis binding; rerun real workflow. Completion requires exact source recovered |
+| NR02 Native xLights rendering: dimensions | P0 IN PROGRESS | NR01 | `tools/native_preview.py`, `tests/test_native_preview_resolution.py`; prior run 39311062728 returned 248x442 | Configure native canvas and verify actual 1920x1080 before mux; test mismatch rejection and success through preview_run; no upscale |
+| AU01 Audio analysis and musical intelligence | P0 NOT STARTED | source audio | `audio/drum_classification.py`, `tools/native_source_pose_band.py`; drum CI 39312455693 passed | Audit production instrument/phrase/lyric paths with real audio; ground-truth timing, false-trigger and fallback evidence still required |
+| EF01 Effect and style engines | P0 NOT STARTED | layout classification | `core/effect_engine.py`, `core/style_engine.py`, `xlights/effect_catalog.json`; commits 280cf765/245db2e require inspection | Trace policy to production placement, recover missing policy files, exercise Meteors/Shader and same-audio distinct styles; native import/render evidence |
+| LM01 Model detection and layout mapping | P0 NOT STARTED | source layout | `xlights/layout_sync.py`, `core/layout_preferences.py`, `core/show_folder.py` | Mixed AC/RGB, groups/submodels, saved reload and missing-file recovery; inspect current code before changes |
+| BP01 Band performer animation | P0 BLOCKED | NR02, AU01 | `tools/native_source_pose_band.py`; keyboard 39312455561, V3 39312455470, animated 39312455337 passed | Full six-performer snowman band review, universal keyboard natural reach, independent drums/bass/guitar and restrained singers; complete real sequence required |
+| EX01 XSQ/FSEQ/LMS export | P0 IN PROGRESS | NR01, LM01 | `xlights/xsq_writer.py`, `tools/quality/native.py`; proof 39312455512 includes 22 XSQ/11 FSEQ/2 LMS diagnostics | Actual independently editable production tracks and supported dual export; LOR import/hardware and full-song render unverified |
+| WI01 Windows GUI and packaging | P1 TESTED | LM01 | `.github/workflows/windows-portable.yml`; build+packaged smoke 39312455783 success | Inspect artifact and clean-install/audio/layout/export behavior; owner machine verification may be necessary |
+| AN01 Android GUI and packaging | P1 TESTED | LM01 | `.github/workflows/android-offline.yml`; run 39312455452 success | Inspect each matrix job; emulator/device startup, storage, saved settings and long-run stability remain required |
+| LI01 Licensing and distribution | P1 NOT STARTED | owner-approved terms | `LICENSE`, `NOTICE`, GUI/packaging; compliance 39312455530 success | Audit first-party consistency and commercial interface without altering terms; preserve third-party notices; ambiguities require owner review |
+| SH01 Showcase and advertisement production | P0 BLOCKED | NR01, NR02, AU01, BP01 | `.github/workflows/fresh-real-band-mp4.yml`, source Drive 1Zjyz9b-V0SdJ-p9K2FN6ryUR2H88DELG | Exact Bells of Mathmas full-song source, band+five distinct native layouts and synchronized comparison; then features/ads/teasers. E14 36s recovery is a distinct prerequisite, not full-song delivery |
+| QA01 Automated tests and regression protection | P0 IN PROGRESS | implementation changes | `tests/test_native_preview.py`, `tests/test_native_preview_resolution.py`, current CI runs above | Add real orchestration resolution and CLI contract regressions; run focused tests locally when dependencies permit and Actions suites; retain existing failing acceptance |
+| PF01 Performance optimization | P2 NOT STARTED | working pipeline | `tools/native_preview.py`, audio/sequence modules selected after profiling | Record real timing/memory before optimizing; no measured benchmark yet |
+| DO01 Documentation and release readiness | P0 IN PROGRESS | all gates | `docs/HELIX_LIVE_IMPLEMENTATION_CHECKLIST.md`, `MASTER_TODO.md` | Keep evidence and exact next steps current; owner video review and final integration approval remain open |
+
+## AGENT HANDOFF — RESUME HERE
+**Last verified commit:** 3e8f21041d1c9fbaf3d8fa54d9799f13a6aff682 (CI inventory verified; native MP4 failed).
+**Current branch:** codex/eight-hour-recovery-20261019.
+**Open PR:** https://github.com/ryankorkowski-boop/helix-sequencer/pull/188 (draft).
+**Last completed task:** Current-head workflow triage and upstream resolution source inspection.
+**Task currently in progress:** NR01 supported gdown command, then NR02 native canvas sizing and strict resolution regression.
+**Latest workflow IDs and results:** 39312455343 failure (--fuzzy unsupported); 39312455512 failure (missing showcase); twelve successes listed above.
+**Outstanding blockers:** No accepted native HD MP4; full Bells source not acquired; packaged device validation absent; no local xLights/pytest/network package install.
+**Files modified:** This checklist and MASTER_TODO.md for the initial reconciliation; subsequent entries must list code changes.
+**Tests executed:** Initial existing resolution unittest import blocked by sparse checkout lacking tools.quality.scoring; dependency files recovered next. pytest not installed. No passing-test claim from these attempts.
+**Artifacts generated:** None in this continuation.
+**Artifacts still missing:** Accepted native original-audio HD MP4, full-song six-panel comparison, production XSQ/FSEQ/LMS review bundle, functional packaging evidence.
+**Next five implementation actions:**
+1. Replace gdown --fuzzy with supported ID/URL invocation and validate against upstream CLI contract; retain identity checks.
+2. Commit focused source repair with regression coverage and both ledgers; rerun the real native workflow.
+3. Inspect Openbox/window-tree evidence and actual ffprobe dimensions; fix native canvas size, never upscale.
+4. Verify original-audio mux, frames/decode/editable tracks and review complete band output.
+5. Continue independent style/policy/layout/export/packaging gates while native job runs.
+**Exact commands or tool actions needed to resume:** GitHub get_pr_info repository_full_name=ryankorkowski-boop/helix-sequencer pr_number=188; fetch current checklist at head; fetch_workflow_run_jobs run_id=39312455343; fetch_workflow_job_logs job_id=118265640683. Full checkout: git fetch origin codex/eight-hour-recovery-20261019; git switch codex/eight-hour-recovery-20261019; python -m pytest tests/test_native_preview.py tests/test_native_preview_resolution.py -q. Sparse connector workspace is /workspace/scratch/d25d780c599d/helix-work; fetch missing imports before local tests.
+**Owner approvals required:** Final release integration, public release/music/advertisement distribution and any licensing decisions. Routine development is already authorized.
