@@ -155,3 +155,11 @@ Evidence must identify run IDs and artifact names; never mark a failed workflow 
 - [ ] Rerun native MP4 on d23bdf4 or newer, inspect native_window_geometry.txt, ffprobe actual native-silent.mp4, and determine whether the 248x442 docked-preview issue persists.
 - [ ] Fix genuine native 1920x1080 export, mux verified original audio and deliver reviewable MP4; do not accept upscale or placeholder.
 - [ ] Resolve final-band acceptance gate failure from run 39288171378 independently of the preview-export blocker.
+
+
+## Production style integration audit — 2026-10-19
+- [x] Verified `core/effect_engine.py` already maps explicit `--music-style` through `core.style_engine.style_effect_contract` into base/motion/accent settings. Explicit effect flags override style defaults; hardkor mode remains a separate AC-first route. Preserve this working behavior.
+- [ ] Model-aware policy remains unverified: expected `core/model_effect_policy.py` and `core/helix_effect_adapter.py` are absent at those paths; main engine has no references to them. Recover source policy and validate at `attempt_place_effect`, after existing duration, overlap, layer and prop-rule checks.
+- [ ] `tools/run_full_helix_pipeline.py` uses a fixed five-prop demonstration layout; `tools/emit_sequence_plan.py` marks output shadow-only. Neither alone establishes production XSQ integration.
+- [ ] Confirm Meteors and Shader are actually selected and emitted; both exist in `xlights/effect_catalog.json` but have no literal reference in the main effect engine.
+- [ ] Run two-style same-audio/layout XSQ comparison, mixed AC/RGB model rules, manual overrides and native import validation before declaring full integration.
