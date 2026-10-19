@@ -57,6 +57,19 @@ class NativePreviewResolutionTests(unittest.TestCase):
         self.assertEqual(run.call_args_list[2].args[0],
                          ["xdotool", "windowsize", "--sync", "0x4100", "1920", "1080"])
 
+    def test_resize_matches_uppercase_x11_window_ids(self):
+        staged = Path("/unique-run/Performance.xsq")
+        responses = [
+            "0xABCD 0 456 host xLights - /unique-run/Performance.xsq\n",
+            '  0xabcd "xLights": ()  2560x1421+0+19\n'
+            '     0xABCE (has no name): ()  248x602+2+171\n',
+            "", "  Width: 1920\n  Height: 1080\n"]
+        with patch.object(preview.shutil, "which", return_value="/bin/tool"), \
+                patch.object(preview, "_run", side_effect=responses), \
+                patch.object(preview.time, "sleep"):
+            report = preview._resize_native_canvas(staged, (248, 602), (1920, 1080))
+        self.assertEqual(report["window"], "0xABCE")
+
     def test_resize_refuses_ambiguous_sibling_canvases(self):
         with patch.object(preview.shutil, "which", return_value="/bin/tool"), \
                 patch.object(preview, "_run", side_effect=[
