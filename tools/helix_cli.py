@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 
 from core import audio_intelligence
@@ -17,6 +18,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Helix professional sequencing helper.")
     sub = parser.add_subparsers(dest="command")
     sub.add_parser("knowledge")
+    faces = sub.add_parser("detect-singing-faces")
+    faces.add_argument("layout_file")
     health = sub.add_parser("layout-health")
     health.add_argument("layout_file")
     analyze = sub.add_parser("analyze-audio")
@@ -35,6 +38,11 @@ def main(argv: list[str] | None = None) -> int:
     args, unknown = parser.parse_known_args(argv)
     if args.command == "knowledge":
         return knowledge_cli_main(unknown)
+    if args.command == "detect-singing-faces":
+        from core import model_parser
+        layout = model_parser.parse_layout(Path(args.layout_file))
+        print(json.dumps(layout.singing_face_summary(), indent=2))
+        return 0
     if args.command == "layout-health":
         report = build_layout_health_report(Path(args.layout_file))
         print(report.to_dict())
