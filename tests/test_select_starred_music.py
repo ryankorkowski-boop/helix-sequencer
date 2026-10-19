@@ -21,6 +21,10 @@ class StarredSelectionTests(unittest.TestCase):
         first = select(self.catalog)
         self.assertNotEqual(first["id"], select(self.catalog, used_ids={first["id"]})["id"])
 
+    def test_exhausted_rotation_fails_closed(self):
+        with self.assertRaises(ValueError):
+            select(self.catalog, used_ids={f["id"] for f in self.catalog["files"]})
+
     def test_explicit_source_overrides_rotation(self):
         first = select(self.catalog)
         self.assertEqual(select(self.catalog, requested_id=first["id"], rotation=9), first)
