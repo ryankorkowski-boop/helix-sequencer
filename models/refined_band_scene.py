@@ -42,7 +42,8 @@ class RefinedBandScene(ReadableBandScene):
         # hand target. Existing preview arms stretched with every note.
         lengths={('bass','pluck'):(.80,.78),('bass','finger'):(.93,.91),
                  ('guitar','strum'):(.76,.74),('guitar','finger'):(.83,.81),
-                 ('xylophone','left'):(.75,.73),('xylophone','right'):(.75,.73)}
+                 ('xylophone','left'):(.75,.73),('xylophone','right'):(.75,.73),
+                 ('piano','left'):(.52,.50),('piano','right'):(.52,.50)}
         for rig in self.rigs:
             if (rig['role'],rig['side']) in lengths:
                 rig['link_lengths']=lengths[rig['role'],rig['side']]
