@@ -845,7 +845,9 @@ def build_stem_analysis(
         stems = _try_moises_stem_separation(audio_path, stem_dir, api_key or "", log_fn)
         if stems:
             source = "moises"
-    if not stems:
+    # Demucs is expensive and must be explicitly opted into. Its presence on
+    # PATH alone must not silently turn a normal sequence into a long ML job.
+    if not stems and os.environ.get("HELIX_USE_DEMUCS", "").strip().lower() in {"1", "true", "yes"}:
         stems = _try_demucs_stem_separation(audio_path, stem_dir, log_fn)
         if stems:
             source = "demucs"
