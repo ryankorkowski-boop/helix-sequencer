@@ -293,3 +293,9 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - [x] Native xLights compilation in `.github/workflows/fresh-real-band-mp4.yml` now has a 35-minute timeout, `pipefail`, tee'd `xlights-native-build.log`, and build-log artifact inclusion (commit `9115b2d`). This is a diagnostic/reliability change, **not** a claim of a successful renderer build.
 - [ ] New workflow run must exercise the updated build script; the older run 39336982567 still reported `Install checksum pinned native xLights` in progress and cannot validate this change.
 - [ ] Review preserved compiler output, fix any real errors, render fresh 1920x1080 MP4, verify FSEQ/XSQ/audio and visibility, and deliver actual artifact.
+
+
+### Native workflow trigger repair
+- [x] Fixed `.github/workflows/fresh-real-band-mp4.yml` push trigger to include active recovery branch `codex/eight-hour-recovery-20261019` (commit `7e70c55`). Previously only `codex/fresh-real-band-mp4-20261017` was eligible, so recovery branch renderer fixes could not trigger its push CI.
+- [ ] Confirm GitHub accepted and ran the updated native workflow on the recovery branch; do not infer run creation or success from YAML changes alone.
+- [ ] Confirm restored E14 ZIP remains reachable and checksum-valid. E14 native render remains distinct from Starred-audio production.
