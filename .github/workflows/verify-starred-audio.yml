@@ -1,0 +1,86 @@
+name: Verify owner Starred audio sources
+on:
+  workflow_dispatch:
+    inputs:
+      rotation:
+        description: Zero-based Starred song rotation
+        required: false
+        default: '0'
+        type: string
+      requested_id:
+        description: Optional exact Drive file ID from Starred catalog
+        required: false
+        default: ''
+        type: string
+permissions:
+  contents: read
+jobs:
+  verify-audio:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate catalog selector
+        run: python -m unittest discover -s tests -p test_select_starred_music.py -v
+      - name: Install source retrieval and audio probes
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install 'gdown==6.4.2'
+      - name: Select and download owner-curated source
+        env:
+          ROTATION: ${{ inputs.rotation }}
+          REQUESTED_ID: ${{ inputs.requested_id }}
+        run: |
+          mkdir -p review
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          from tools.select_starred_music import select,DEFAULT_CATALOG
+          selected=select(json.loads(DEFAULT_CATALOG.read_text()),
+                          rotation=int(os.getenv('ROTATION') or '0'),
+                          requested_id=os.getenv('REQUESTED_ID') or None)
+          Path('review/selected_source.json').write_text(json.dumps(selected,indent=2))
+          with open(os.environ['GITHUB_ENV'],'a') as env:
+              env.write('SELECTED_DRIVE_ID='+selected['id']+'\n')
+          print('Selected:',selected['title'],selected['id'])
+          PY
+          # Drive permissions or quota may prevent unauthenticated downloads.
+          # Fail closed; never substitute an unrelated song.
+          python -m gdown "$SELECTED_DRIVE_ID" -O review/source.mp3
+      - name: Verify decoded original audio and provenance
+        run: |
+          python - <<'PY'
+          import hashlib,json,subprocess
+          from pathlib import Path
+          p=Path('review/source.mp3')
+          if not p.is_file() or p.stat().st_size<1024:
+              raise SystemExit('Missing or implausibly small original audio')
+          info=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries',
+              'format=duration:stream=codec_type,codec_name','-of','json',str(p)]))
+          duration=float(info['format']['duration'])
+          if not 10 <= duration <= 3600 or not any(s['codec_type']=='audio' for s in info.get('streams',[])):
+              raise SystemExit('Invalid source audio duration or codec')
+          subprocess.run(['ffmpeg','-v','error','-xerror','-i',str(p),'-f','null','-'],
+                         check=True,stdout=subprocess.DEVNULL)
+          source=json.loads(Path('review/selected_source.json').read_text())
+          report={'drive_file_id':source['id'],'title':source['title'],
+                  'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),
+                  'duration_seconds':duration,'probe':info,'status':'verified_audio_only',
+                  'native_sequence_status':'not_rendered'}
+          Path('review/source_provenance.json').write_text(json.dumps(report,indent=2))
+          print(json.dumps({k:report[k] for k in ('title','sha256','duration_seconds','status')},indent=2))
+          PY
+      - name: Upload provenance only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-starred-audio-source-verification
+          path: |
+            review/selected_source.json
+            review/source_provenance.json
+          if-no-files-found: warn
+          retention-days: 14
