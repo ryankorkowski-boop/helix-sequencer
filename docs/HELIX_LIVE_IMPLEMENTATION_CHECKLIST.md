@@ -126,3 +126,12 @@ This section supersedes older status assertions where newer CI evidence conflict
 4. Produce native editable XSQ, six-panel real-audio MP4, evidence bundle and owner review.
 5. Reconcile all HX01–HX17 statuses and keep this file updated after each verified milestone.
 Evidence must identify run IDs and artifact names; never mark a failed workflow as passed because a different workflow succeeded.
+
+### 2026-10-19 follow-up CI at `1bb1360`
+- [x] Windows Portable GUI packaged smoke: run 39261085109 **success**, after clean-first-run preference assertion correction `1bb1360`.
+- [x] Authentic desktop GUI screenshot capture workflow: run 39261086080 **success**, after script import-path fix `b317f68`. Review uploaded screenshot before claiming design approval.
+- [x] Android offline beta workflow: run 39261085178 **success**. Both matrix variants must still be inspected individually before broad device-compatibility claims.
+- [x] Helix CI 39261085172, keyboard integration 39261085220, Beta CI 39261085150, Birdsong CI 39261085195, drum benchmark 39261085121, recovery guards 39261085223, compliance 39261085139, V3 drummer review 39261085417, animated seven-snowman workflow 39261085124: **success**.
+- [ ] **P0** Native final band acceptance: run 39261085110 **failure**. Prior proof produced 12 working diagnostic performer tracks but full-song showcase/complete-band/non-diagnostic MP4 acceptance was false; do not bypass.
+- [ ] **P0** Fresh real-audio universal-keyboard MP4: run 39261085166 **failure**. Inspect renderer logs, output artifacts, and native gate; correct actual failure.
+- [ ] **P0** Deliver the finished full-song six-panel comparison with audio, validated native xLights rendering and independently editable XSQ tracks; owner review required.
