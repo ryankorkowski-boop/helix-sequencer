@@ -1,4 +1,4 @@
-name: Fresh native snowman band MP4 from real audio
+name: Fresh native universal-keyboard snowman band MP4 from real audio
 on:
   push:
     branches: [codex/fresh-real-band-mp4-20261017]
@@ -147,6 +147,9 @@ jobs:
           proof=json.loads((p/'pose_provenance.json').read_text())
           if proof.get('audio_sha256')!=os.environ['AUDIO_SHA256'] or proof.get('source_score')!='ReviewBandPerformance.pose':
               raise SystemExit('No verified source performance')
+          expected={'drummer','bass','guitar','piano','lead','harmony'}
+          if set(proof.get('visible_performer_roles',[]))!=expected or proof.get('legacy_xylophone_enabled') is not False:
+              raise SystemExit('Native band must have one universal keyboardist and no separate xylophonist')
           (p/'run_manifest.json').write_text(json.dumps({'schema':'helix.run_manifest.v1','warnings':[],'status':'pending','visual_review_status':'not_reviewed'},indent=2))
           PY
       - name: Render actual xLights native FSEQ and original-audio MP4
@@ -159,11 +162,11 @@ jobs:
           from pathlib import Path
           p=Path('review/show')
           report=json.loads((p/'run_manifest.json').read_text())['native_preview']
-          roles={'HX_SNOW_'+r for r in ('DRUMMER','BASS','GUITAR','PIANO','XYLOPHONE','LEAD','HARMONY')}
+          roles={'HX_SNOW_'+r for r in ('DRUMMER','BASS','GUITAR','PIANO','LEAD','HARMONY')}
           names={m.get('name') for m in ET.parse(p/'xlights_rgbeffects.xml').findall('./models/model')}
           mp4=Path(report.get('mp4') or '/nonexistent')
           if names!=roles or report['status']!='success' or report['audio_stream_verified'] is not True or not mp4.is_file() or not list(p.rglob('*.fseq')):
-              raise SystemExit('Real seven-performer native output gate FAILED; no diagnostic substitutes')
+              raise SystemExit('Real six-performer universal-keyboard native output gate FAILED; no diagnostic substitutes')
           from subprocess import run, PIPE
           info=report.get('ffprobe',{})
           streams=[s for s in info.get('streams',[]) if s.get('codec_type')=='video']
@@ -175,7 +178,7 @@ jobs:
           counts=[sum(x>20 for x in samples[i:i+stride]) for i in range(0,len(samples),stride)]
           if len(counts)!=36 or min(counts)<2:
               raise SystemExit(f'Native MP4 has blank/invisible sampled frames: {counts}')
-          print('Native video: 1920x1080, 36 visible sampled seconds')
+          print('Native universal keyboard video: 1920x1080, 36 visible sampled seconds')
           (Path('review')/'PROVENANCE.json').write_text(json.dumps({'audio_sha256':os.environ['AUDIO_SHA256'],'mp4_sha256':hashlib.sha256(mp4.read_bytes()).hexdigest(),'source':'original hardKor analyzed audio','native_xlights':True,'visual_review_status':'not_reviewed','performers':sorted(names)},indent=2))
           PY
           ffmpeg -v error -xerror -i "$(find review/show -name preview.mp4 -print -quit)" -map 0:v:0 -map 0:a:0 -f null -
@@ -183,7 +186,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: helix-fresh-original-audio-seven-snowmen
+          name: helix-fresh-original-audio-six-snowmen-keyboard
           path: |
             review/**/preview.mp4
             review/**/Performance.fseq
