@@ -287,3 +287,9 @@ Every task below inherits branch `codex/eight-hour-recovery-20261019` and PR #18
 - [x] Configured `.github/workflows/verify-starred-audio.yml` push trigger on recovery branch changes to selector, catalog, tests, or workflow (commit `b645913`). This should start a verification job on matching pushes; its execution and success are not yet confirmed.
 - [ ] Inspect the new push-triggered Starred source verification run and `source_provenance.json`; investigate Drive permission or quota failures rather than substituting media.
 - [ ] Native xLights build run 39336982567 remains in install/build step at last observation; retrieve logs if failed or timed out and fix actual cause.
+
+
+### Native xLights build diagnostics checkpoint
+- [x] Native xLights compilation in `.github/workflows/fresh-real-band-mp4.yml` now has a 35-minute timeout, `pipefail`, tee'd `xlights-native-build.log`, and build-log artifact inclusion (commit `9115b2d`). This is a diagnostic/reliability change, **not** a claim of a successful renderer build.
+- [ ] New workflow run must exercise the updated build script; the older run 39336982567 still reported `Install checksum pinned native xLights` in progress and cannot validate this change.
+- [ ] Review preserved compiler output, fix any real errors, render fresh 1920x1080 MP4, verify FSEQ/XSQ/audio and visibility, and deliver actual artifact.
