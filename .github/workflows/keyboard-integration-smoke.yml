@@ -33,7 +33,7 @@ jobs:
         run: python -m pip install -r requirements-dev.txt
       - name: Compile keyboard and native workflow paths
         run: |
-          python -m compileall -q music/magic_keyboard.py effects/piano_effect.py models/final_band_scene.py tools/native_source_pose_band.py tools/review_band_performance.py core/visible_pitched_contact_audit.py
+          python -m compileall -q music/magic_keyboard.py effects/piano_effect.py models/final_band_scene.py tools/native_source_pose_band.py tools/review_band_performance.py core/visible_pitched_contact_audit.py tools/verify_showcase_luma.py
       - name: Run keyboard, native cast and contact regressions
         run: |
           python -m pytest -q \
@@ -44,4 +44,5 @@ jobs:
             tests/test_piano_effect.py \
             tests/test_native_source_pose_band.py \
             tests/test_final_band.py \
+            tests/test_showcase_luma_gate.py \
             tests/test_final_recovery_motion.py

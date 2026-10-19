@@ -182,6 +182,9 @@ jobs:
           (Path('review')/'PROVENANCE.json').write_text(json.dumps({'audio_sha256':os.environ['AUDIO_SHA256'],'mp4_sha256':hashlib.sha256(mp4.read_bytes()).hexdigest(),'source':'original hardKor analyzed audio','native_xlights':True,'visual_review_status':'not_reviewed','performers':sorted(names)},indent=2))
           PY
           ffmpeg -v error -xerror -i "$(find review/show -name preview.mp4 -print -quit)" -map 0:v:0 -map 0:a:0 -f null -
+      - name: Reject nearly black or frozen native showcases
+        run: |
+          python -m tools.verify_showcase_luma "$(find review/show -name preview.mp4 -print -quit)" --report review/SHOWCASE_READABILITY.json
       - name: Upload MP4 and source provenance (never a placeholder)
         if: always()
         uses: actions/upload-artifact@v4
@@ -190,6 +193,7 @@ jobs:
           path: |
             review/**/preview.mp4
             review/**/Performance.fseq
+            review/SHOWCASE_READABILITY.json
             review/show/media/audio.wav
             review/**/native_headless.log
             review/**/native_gui.log
