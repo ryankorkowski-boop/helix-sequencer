@@ -51,6 +51,18 @@ not intentionally modified. `Review3DScene`'s seven-model native
 pipeline remains separate and must be migrated before current audio
 MP4/approval claims. Complete tests/native/owner review pending.
 
+## Real native xLights universal-keyboard migration — 2026-10-18
+
+R07/R08/R17 **IMPLEMENTED — UNVERIFIED**: PR #181 now joins source-hash
+checked keyboard and screened mallet `pitched_roles` into the piano
+`ReviewBandPerformance` hand/key lane and makes the RGB source-pose
+xLights exporter a six-member cast by default. Explicit
+`--legacy-xylophone` restores the earlier seven models. New native
+workflow asserts six exact models and complete original-audio 1080p
+decode. Added cast tests; native 36-second six-role render and
+musical/artistic acceptance **not yet verified**, so no native deliverable
+is being claimed. No release merge/advertisement publication.
+
 ## Current recovery and integration evidence
 
 - Inspected PR175 head `13a833e9b71dbacefb340654a44f5707b162888e`.
