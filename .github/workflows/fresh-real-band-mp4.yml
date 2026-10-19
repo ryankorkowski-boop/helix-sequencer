@@ -148,7 +148,7 @@ jobs:
           PY
       - name: Render actual xLights native FSEQ and original-audio MP4
         run: |
-          xvfb-run -a -s "-screen 0 2560x1440x24" sh -c 'openbox >/tmp/helix-openbox.log 2>&1 & sleep 2; exec python -m tools.native_preview "$GITHUB_WORKSPACE/review/show" --xsq "$GITHUB_WORKSPACE/review/show/Performance.xsq" --audio "$GITHUB_WORKSPACE/review/show/media/audio.wav" --xlights "$RUNNER_TEMP/xlights/squashfs-root/AppRun"\'
+          xvfb-run -a -s "-screen 0 2560x1440x24" sh -c 'openbox >/tmp/helix-openbox.log 2>&1 & sleep 2; exec python -m tools.native_preview "$GITHUB_WORKSPACE/review/show" --xsq "$GITHUB_WORKSPACE/review/show/Performance.xsq" --audio "$GITHUB_WORKSPACE/review/show/media/audio.wav" --xlights "$RUNNER_TEMP/xlights/squashfs-root/AppRun"'
       - name: Verify seven native models, fresh media, and decode
         run: |
           python - <<'PY'
