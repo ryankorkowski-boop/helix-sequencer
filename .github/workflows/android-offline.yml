@@ -1,0 +1,156 @@
+name: Helix Android offline beta
+on:
+  push:
+    branches: ['feature/android-offline-app-*', 'codex/gui-branding-and-guidance-20261013', 'codex/beta-final-integration-20261014', 'codex/beta-final-completion-20261014', 'codex/beta-final-hardening-*', 'codex/72h-completion-*']
+    paths: ['android/**', 'config/support_links.json', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'tools/package_beta_installers.py', 'tools/collect_beta_installers.py', 'tests/test_beta_installer_bundle.py', '.github/workflows/beta-installer-bundle.yml', '.github/workflows/windows-portable.yml', 'core/**', 'audio/**', 'music/**', 'models/**', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml', '.github/workflows/beta-completion-native.yml']
+  pull_request:
+    paths: ['android/**', 'config/support_links.json', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'core/**', 'audio/**', 'music/**', 'models/**', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml', '.github/workflows/beta-completion-native.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: helix-android-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build-and-offline-smoke:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - api: 30
+            target: default
+          - api: 36
+            target: google_apis
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/*.mp3
+            !/*.wav
+            !/*.zip
+            !/*.mp4
+            /android/
+            /core/
+            /audio/
+            /animation/
+            /effects/
+            /music/
+            /mapping/
+            /models/
+            /xlights/
+            /tools/
+            /export/
+            /config/
+            /configs/
+            /profiles/
+            /presets/
+            /schemas/
+            /knowledge/
+            /helix_knowledge/
+            /helix_intent/
+            /helix_layout/
+            /helix_mapping/
+            /helix_music/
+            /helix_preview/
+            /helix_render/
+            /helix_sequencer/
+            /helix_spatial/
+            /helix_style/
+            /helix_composers/
+            /helix/
+            /ai/
+            /data/
+            /learning/
+            /legacy_ac/
+            /render/
+            /showcase/
+            /standards/
+            /LICENSES/
+            /fixtures/band_geometry/*.json
+            /tests/test_android_mp4.py
+            /tests/test_android_recovery.py
+            /tests/test_gui_support_links.py
+            /archive/legacy_versions/sequencer_launcher.py
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python -m pip install --upgrade pip setuptools wheel
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools'
+      - run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - name: Prepare real MP3 and RGB layout test assets without changing sources
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          mkdir -p android/app/src/androidTest/assets
+          git show HEAD:'Helix Audiolights.mp3' > "$RUNNER_TEMP/helix-source.mp3"
+          ffmpeg -v error -ss 15 -i "$RUNNER_TEMP/helix-source.mp3" -t 8 -c:a libmp3lame android/app/src/androidTest/assets/real-song.mp3
+          cp "$RUNNER_TEMP/helix-source.mp3" android/app/src/androidTest/assets/full-song.mp3
+          git show HEAD:helixville4/xlights_rgbeffects.xml > android/app/src/androidTest/assets/stability-rgb.xml
+      - name: Host parser and output recovery regressions
+        run: |
+          python -m pip install numpy scipy soundfile pytest Pillow PyYAML
+          PYTHONPATH=. python -m pytest -q tests/test_android_mp4.py tests/test_android_recovery.py tests/test_gui_support_links.py
+      - name: Build APK and test APK
+        working-directory: android
+        run: gradle --no-daemon :app:assembleDebug :app:assembleDebugAndroidTest :app:assembleRelease :app:bundleRelease
+      - name: Enable KVM access
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Start synthetic desktop transport fixture
+        run: |
+          PYTHONPATH=. python -m tools.run_remote_transport_smoke_server --jobs "$RUNNER_TEMP/helix-remote-test" > "$RUNNER_TEMP/helix-remote-test.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/helix-remote-test.pid"
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          target: ${{ matrix.target }}
+          arch: x86_64
+          disable-animations: true
+          working-directory: android
+          script: python ../tools/run_android_device_smoke.py
+      - name: Stop transport fixture
+        if: always()
+        run: |
+          if test -f "$RUNNER_TEMP/helix-remote-test.pid"; then kill "$(cat "$RUNNER_TEMP/helix-remote-test.pid")" || true; fi
+      - name: Independently decode native video and soundtrack
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m pip install numpy scipy soundfile Pillow
+          PYTHONPATH=. python tools/verify_android_device_proof.py android/app/build/device-proof --output android/app/build/device-proof/decoded
+      - name: Record artifact integrity and beta signing identity
+        if: always()
+        run: |
+          mkdir -p android/app/build/device-proof
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs android/app/build/outputs/apk/debug/app-debug.apk > android/app/build/device-proof/signing-certificate.txt
+          find android/app/build/outputs -type f \( -name '*.apk' -o -name '*.aab' \) -exec sha256sum {} + > android/app/build/device-proof/SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Helix-Android-stability-api-${{ matrix.api }}
+          path: |
+            android/app/build/outputs/apk/debug/*.apk
+            android/app/build/outputs/apk/release/*.apk
+            android/app/build/outputs/bundle/release/*.aab
+            android/app/build/outputs/androidTest-results/**
+            android/app/build/reports/androidTests/**
+            android/app/build/device-proof/**/*.json
+            android/app/build/device-proof/**/*.txt
+            android/app/build/device-proof/**/*.log
+            android/app/build/device-proof/**/*.png
+

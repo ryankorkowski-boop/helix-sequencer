@@ -1,0 +1,1787 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Prismwake Pontoon",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 42
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 42,
+  "rgb_pixels": 6704,
+  "channel_count": 20112,
+  "spiral_trees": 0,
+  "double_helices": 4,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_PONTOON_HULL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HULL",
+      "design": "PONTOON HULL",
+      "kind": "pixel",
+      "nodes": 240,
+      "start_channel": 1,
+      "end_channel": 720,
+      "bounds_ft": [
+        [
+          -59.0,
+          0.0,
+          -90.0
+        ],
+        [
+          -45.0,
+          6.0,
+          92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36813561520157867
+    },
+    {
+      "name": "HX_002_PONTOON_HULL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HULL",
+      "design": "PONTOON HULL",
+      "kind": "pixel",
+      "nodes": 240,
+      "start_channel": 721,
+      "end_channel": 1440,
+      "bounds_ft": [
+        [
+          -45.0,
+          0.0,
+          -90.0
+        ],
+        [
+          -31.0,
+          6.0,
+          92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36813561520157867
+    },
+    {
+      "name": "HX_003_HULL_SECTION",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HULL",
+      "design": "HULL SECTION",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1441,
+      "end_channel": 1650,
+      "bounds_ft": [
+        [
+          -58.0,
+          -6.0,
+          -85.0
+        ],
+        [
+          -32.0,
+          8.0,
+          -85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3257219133962234
+    },
+    {
+      "name": "HX_004_HULL_SECTION",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HULL",
+      "design": "HULL SECTION",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1651,
+      "end_channel": 1860,
+      "bounds_ft": [
+        [
+          -58.0,
+          -6.0,
+          70.0
+        ],
+        [
+          -32.0,
+          8.0,
+          70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3257219133962234
+    },
+    {
+      "name": "HX_005_PONTOON_HULL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HULL",
+      "design": "PONTOON HULL",
+      "kind": "pixel",
+      "nodes": 240,
+      "start_channel": 1861,
+      "end_channel": 2580,
+      "bounds_ft": [
+        [
+          31.0,
+          0.0,
+          -90.0
+        ],
+        [
+          45.0,
+          6.0,
+          92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36813561520157867
+    },
+    {
+      "name": "HX_006_PONTOON_HULL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HULL",
+      "design": "PONTOON HULL",
+      "kind": "pixel",
+      "nodes": 240,
+      "start_channel": 2581,
+      "end_channel": 3300,
+      "bounds_ft": [
+        [
+          45.0,
+          0.0,
+          -90.0
+        ],
+        [
+          59.0,
+          6.0,
+          92.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36813561520157867
+    },
+    {
+      "name": "HX_007_HULL_SECTION",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HULL",
+      "design": "HULL SECTION",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 3301,
+      "end_channel": 3510,
+      "bounds_ft": [
+        [
+          32.0,
+          -6.0,
+          -85.0
+        ],
+        [
+          58.0,
+          8.0,
+          -85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3257219133962234
+    },
+    {
+      "name": "HX_008_HULL_SECTION",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HULL",
+      "design": "HULL SECTION",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 3511,
+      "end_channel": 3720,
+      "bounds_ft": [
+        [
+          32.0,
+          -6.0,
+          70.0
+        ],
+        [
+          58.0,
+          8.0,
+          70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3257219133962234
+    },
+    {
+      "name": "HX_009_RAIL_CONTOUR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL CONTOUR",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 3721,
+      "end_channel": 4320,
+      "bounds_ft": [
+        [
+          -58.0,
+          12.0,
+          -87.5
+        ],
+        [
+          58.0,
+          12.0,
+          87.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_010_RAIL_CONTOUR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL CONTOUR",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 4321,
+      "end_channel": 4920,
+      "bounds_ft": [
+        [
+          -58.0,
+          20.0,
+          -87.5
+        ],
+        [
+          58.0,
+          20.0,
+          87.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_011_RAIL_CONTOUR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL CONTOUR",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 4921,
+      "end_channel": 5520,
+      "bounds_ft": [
+        [
+          -58.0,
+          33.0,
+          -87.5
+        ],
+        [
+          58.0,
+          33.0,
+          87.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_012_RAIL_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL POST",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 5521,
+      "end_channel": 5610,
+      "bounds_ft": [
+        [
+          -58.0,
+          12.0,
+          -85.0
+        ],
+        [
+          -58.0,
+          34.0,
+          -85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2413793103448274
+    },
+    {
+      "name": "HX_013_RAIL_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL POST",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 5611,
+      "end_channel": 5700,
+      "bounds_ft": [
+        [
+          -58.0,
+          12.0,
+          -45.0
+        ],
+        [
+          -58.0,
+          34.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2413793103448274
+    },
+    {
+      "name": "HX_014_RAIL_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL POST",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 5701,
+      "end_channel": 5790,
+      "bounds_ft": [
+        [
+          -58.0,
+          12.0,
+          0.0
+        ],
+        [
+          -58.0,
+          34.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2413793103448274
+    },
+    {
+      "name": "HX_015_RAIL_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL POST",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 5791,
+      "end_channel": 5880,
+      "bounds_ft": [
+        [
+          -58.0,
+          12.0,
+          45.0
+        ],
+        [
+          -58.0,
+          34.0,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2413793103448274
+    },
+    {
+      "name": "HX_016_RAIL_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL POST",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 5881,
+      "end_channel": 5970,
+      "bounds_ft": [
+        [
+          -58.0,
+          12.0,
+          85.0
+        ],
+        [
+          -58.0,
+          34.0,
+          85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2413793103448274
+    },
+    {
+      "name": "HX_017_SIDE_PIXEL_MESH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SIDES",
+      "design": "SIDE PIXEL MESH",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 5971,
+      "end_channel": 7506,
+      "bounds_ft": [
+        [
+          -60.0,
+          16.0,
+          -95.0
+        ],
+        [
+          -56.0,
+          30.0,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37957369904897675
+    },
+    {
+      "name": "HX_018_RAIL_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL POST",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 7507,
+      "end_channel": 7596,
+      "bounds_ft": [
+        [
+          58.0,
+          12.0,
+          -85.0
+        ],
+        [
+          58.0,
+          34.0,
+          -85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2413793103448274
+    },
+    {
+      "name": "HX_019_RAIL_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL POST",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 7597,
+      "end_channel": 7686,
+      "bounds_ft": [
+        [
+          58.0,
+          12.0,
+          -45.0
+        ],
+        [
+          58.0,
+          34.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2413793103448274
+    },
+    {
+      "name": "HX_020_RAIL_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL POST",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 7687,
+      "end_channel": 7776,
+      "bounds_ft": [
+        [
+          58.0,
+          12.0,
+          0.0
+        ],
+        [
+          58.0,
+          34.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2413793103448274
+    },
+    {
+      "name": "HX_021_RAIL_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL POST",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 7777,
+      "end_channel": 7866,
+      "bounds_ft": [
+        [
+          58.0,
+          12.0,
+          45.0
+        ],
+        [
+          58.0,
+          34.0,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2413793103448274
+    },
+    {
+      "name": "HX_022_RAIL_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RAILS",
+      "design": "RAIL POST",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 7867,
+      "end_channel": 7956,
+      "bounds_ft": [
+        [
+          58.0,
+          12.0,
+          85.0
+        ],
+        [
+          58.0,
+          34.0,
+          85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2413793103448274
+    },
+    {
+      "name": "HX_023_SIDE_PIXEL_MESH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SIDES",
+      "design": "SIDE PIXEL MESH",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 7957,
+      "end_channel": 9492,
+      "bounds_ft": [
+        [
+          56.0,
+          16.0,
+          -95.0
+        ],
+        [
+          60.0,
+          30.0,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37957369904897675
+    },
+    {
+      "name": "HX_036_SPEAKER_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "SPEAKER RING",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 9493,
+      "end_channel": 9732,
+      "bounds_ft": [
+        [
+          -35.0,
+          30.0,
+          -67.0
+        ],
+        [
+          -19.0,
+          46.0,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.267329839069324
+    },
+    {
+      "name": "HX_037_SPEAKER_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "SPEAKER RING",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 9733,
+      "end_channel": 9972,
+      "bounds_ft": [
+        [
+          -38.0,
+          27.0,
+          -67.0
+        ],
+        [
+          -16.0,
+          49.0,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.313708498984762
+    },
+    {
+      "name": "HX_038_SPEAKER_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "SPEAKER RING",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 9973,
+      "end_channel": 10212,
+      "bounds_ft": [
+        [
+          -8.0,
+          30.0,
+          -67.0
+        ],
+        [
+          8.0,
+          46.0,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26732983906932445
+    },
+    {
+      "name": "HX_039_SPEAKER_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "SPEAKER RING",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 10213,
+      "end_channel": 10452,
+      "bounds_ft": [
+        [
+          -11.0,
+          27.0,
+          -67.0
+        ],
+        [
+          11.0,
+          49.0,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.313708498984762
+    },
+    {
+      "name": "HX_040_SPEAKER_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "SPEAKER RING",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 10453,
+      "end_channel": 10692,
+      "bounds_ft": [
+        [
+          19.0,
+          30.0,
+          -67.0
+        ],
+        [
+          35.0,
+          46.0,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.267329839069324
+    },
+    {
+      "name": "HX_041_SPEAKER_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "SPEAKER RING",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 10693,
+      "end_channel": 10932,
+      "bounds_ft": [
+        [
+          16.0,
+          27.0,
+          -67.0
+        ],
+        [
+          38.0,
+          49.0,
+          -67.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.313708498984762
+    },
+    {
+      "name": "HX_042_SHORT_SPIRAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "SHORT SPIRAL",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 10933,
+      "end_channel": 12117,
+      "bounds_ft": [
+        [
+          -58.0,
+          32.0,
+          -78.0
+        ],
+        [
+          -52.0,
+          60.0,
+          -72.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1905451496927484,
+      "double_helix": true
+    },
+    {
+      "name": "HX_043_SHORT_SPIRAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "SHORT SPIRAL",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 12118,
+      "end_channel": 13302,
+      "bounds_ft": [
+        [
+          -58.0,
+          32.0,
+          62.0
+        ],
+        [
+          -52.0,
+          60.0,
+          68.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1905451496927484,
+      "double_helix": true
+    },
+    {
+      "name": "HX_044_SHORT_SPIRAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "SHORT SPIRAL",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 13303,
+      "end_channel": 14487,
+      "bounds_ft": [
+        [
+          52.0,
+          32.0,
+          -78.0
+        ],
+        [
+          58.0,
+          60.0,
+          -72.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1905451496927484,
+      "double_helix": true
+    },
+    {
+      "name": "HX_045_SHORT_SPIRAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "SHORT SPIRAL",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 14488,
+      "end_channel": 15672,
+      "bounds_ft": [
+        [
+          52.0,
+          32.0,
+          62.0
+        ],
+        [
+          58.0,
+          60.0,
+          68.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1905451496927484,
+      "double_helix": true
+    },
+    {
+      "name": "HX_046_BOARDING_STEP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEPS",
+      "design": "BOARDING STEP",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 15673,
+      "end_channel": 15882,
+      "bounds_ft": [
+        [
+          -20.0,
+          12.0,
+          89.0
+        ],
+        [
+          20.0,
+          12.0,
+          89.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2463768115942031
+    },
+    {
+      "name": "HX_047_BOARDING_STEP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEPS",
+      "design": "BOARDING STEP",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 15883,
+      "end_channel": 16092,
+      "bounds_ft": [
+        [
+          -20.0,
+          9.0,
+          97.0
+        ],
+        [
+          20.0,
+          9.0,
+          97.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2463768115942031
+    },
+    {
+      "name": "HX_048_BOARDING_STEP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEPS",
+      "design": "BOARDING STEP",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 16093,
+      "end_channel": 16302,
+      "bounds_ft": [
+        [
+          -20.0,
+          6.0,
+          105.0
+        ],
+        [
+          20.0,
+          6.0,
+          105.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2463768115942031
+    },
+    {
+      "name": "HX_049_BOARDING_STEP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEPS",
+      "design": "BOARDING STEP",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 16303,
+      "end_channel": 16512,
+      "bounds_ft": [
+        [
+          -20.0,
+          3.0,
+          113.0
+        ],
+        [
+          20.0,
+          3.0,
+          113.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2463768115942031
+    },
+    {
+      "name": "HX_050_CANOPY_PRISM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PRISM",
+      "design": "CANOPY PRISM",
+      "kind": "pixel",
+      "nodes": 240,
+      "start_channel": 16513,
+      "end_channel": 17232,
+      "bounds_ft": [
+        [
+          -32.0,
+          36.0,
+          -60.0
+        ],
+        [
+          32.0,
+          95.0,
+          -60.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34817706346710275
+    },
+    {
+      "name": "HX_051_CANOPY_PRISM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PRISM",
+      "design": "CANOPY PRISM",
+      "kind": "pixel",
+      "nodes": 240,
+      "start_channel": 17233,
+      "end_channel": 17952,
+      "bounds_ft": [
+        [
+          -42.0,
+          36.0,
+          -30.0
+        ],
+        [
+          42.0,
+          104.5,
+          -30.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.336442657225409
+    },
+    {
+      "name": "HX_052_CANOPY_PRISM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PRISM",
+      "design": "CANOPY PRISM",
+      "kind": "pixel",
+      "nodes": 240,
+      "start_channel": 17953,
+      "end_channel": 18672,
+      "bounds_ft": [
+        [
+          -52.0,
+          36.0,
+          0.0
+        ],
+        [
+          51.5,
+          115.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34623633818534927
+    },
+    {
+      "name": "HX_053_CANOPY_PRISM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PRISM",
+      "design": "CANOPY PRISM",
+      "kind": "pixel",
+      "nodes": 240,
+      "start_channel": 18673,
+      "end_channel": 19392,
+      "bounds_ft": [
+        [
+          -42.0,
+          36.0,
+          30.0
+        ],
+        [
+          42.0,
+          104.5,
+          30.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.336442657225409
+    },
+    {
+      "name": "HX_054_CANOPY_PRISM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PRISM",
+      "design": "CANOPY PRISM",
+      "kind": "pixel",
+      "nodes": 240,
+      "start_channel": 19393,
+      "end_channel": 20112,
+      "bounds_ft": [
+        [
+          -32.0,
+          36.0,
+          60.0
+        ],
+        [
+          32.0,
+          95.0,
+          60.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34817706346710275
+    }
+  ],
+  "file_prefix": "Prismwake_Pontoon",
+  "description": "Offset canopy triangles align into a suspended diamond from the bow while the twin hulls keep a clear boat silhouette.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_PONTOON_HULL",
+      "HX_002_PONTOON_HULL",
+      "HX_003_HULL_SECTION",
+      "HX_004_HULL_SECTION",
+      "HX_005_PONTOON_HULL",
+      "HX_006_PONTOON_HULL",
+      "HX_007_HULL_SECTION",
+      "HX_008_HULL_SECTION",
+      "HX_009_RAIL_CONTOUR",
+      "HX_010_RAIL_CONTOUR",
+      "HX_011_RAIL_CONTOUR",
+      "HX_012_RAIL_POST",
+      "HX_013_RAIL_POST",
+      "HX_014_RAIL_POST",
+      "HX_015_RAIL_POST",
+      "HX_016_RAIL_POST",
+      "HX_017_SIDE_PIXEL_MESH",
+      "HX_018_RAIL_POST",
+      "HX_019_RAIL_POST",
+      "HX_020_RAIL_POST",
+      "HX_021_RAIL_POST",
+      "HX_022_RAIL_POST",
+      "HX_023_SIDE_PIXEL_MESH",
+      "HX_036_SPEAKER_RING",
+      "HX_037_SPEAKER_RING",
+      "HX_038_SPEAKER_RING",
+      "HX_039_SPEAKER_RING",
+      "HX_040_SPEAKER_RING",
+      "HX_041_SPEAKER_RING",
+      "HX_042_SHORT_SPIRAL",
+      "HX_043_SHORT_SPIRAL",
+      "HX_044_SHORT_SPIRAL",
+      "HX_045_SHORT_SPIRAL",
+      "HX_046_BOARDING_STEP",
+      "HX_047_BOARDING_STEP",
+      "HX_048_BOARDING_STEP",
+      "HX_049_BOARDING_STEP",
+      "HX_050_CANOPY_PRISM",
+      "HX_051_CANOPY_PRISM",
+      "HX_052_CANOPY_PRISM",
+      "HX_053_CANOPY_PRISM",
+      "HX_054_CANOPY_PRISM"
+    ],
+    "HX_DNA_ALL": [
+      "HX_042_SHORT_SPIRAL",
+      "HX_043_SHORT_SPIRAL",
+      "HX_044_SHORT_SPIRAL",
+      "HX_045_SHORT_SPIRAL"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_042_SHORT_SPIRAL/RUNGS",
+      "HX_043_SHORT_SPIRAL/RUNGS",
+      "HX_044_SHORT_SPIRAL/RUNGS",
+      "HX_045_SHORT_SPIRAL/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_042_SHORT_SPIRAL/STRAND_A",
+      "HX_043_SHORT_SPIRAL/STRAND_A",
+      "HX_044_SHORT_SPIRAL/STRAND_A",
+      "HX_045_SHORT_SPIRAL/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_042_SHORT_SPIRAL/STRAND_B",
+      "HX_043_SHORT_SPIRAL/STRAND_B",
+      "HX_044_SHORT_SPIRAL/STRAND_B",
+      "HX_045_SHORT_SPIRAL/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_PONTOON_HULL",
+      "HX_002_PONTOON_HULL",
+      "HX_003_HULL_SECTION",
+      "HX_004_HULL_SECTION",
+      "HX_005_PONTOON_HULL",
+      "HX_006_PONTOON_HULL",
+      "HX_007_HULL_SECTION",
+      "HX_008_HULL_SECTION",
+      "HX_009_RAIL_CONTOUR",
+      "HX_010_RAIL_CONTOUR",
+      "HX_011_RAIL_CONTOUR",
+      "HX_012_RAIL_POST",
+      "HX_013_RAIL_POST",
+      "HX_014_RAIL_POST",
+      "HX_015_RAIL_POST",
+      "HX_016_RAIL_POST",
+      "HX_017_SIDE_PIXEL_MESH",
+      "HX_018_RAIL_POST",
+      "HX_019_RAIL_POST",
+      "HX_020_RAIL_POST",
+      "HX_021_RAIL_POST",
+      "HX_022_RAIL_POST",
+      "HX_023_SIDE_PIXEL_MESH",
+      "HX_036_SPEAKER_RING",
+      "HX_037_SPEAKER_RING",
+      "HX_038_SPEAKER_RING",
+      "HX_039_SPEAKER_RING",
+      "HX_040_SPEAKER_RING",
+      "HX_041_SPEAKER_RING",
+      "HX_042_SHORT_SPIRAL",
+      "HX_043_SHORT_SPIRAL",
+      "HX_044_SHORT_SPIRAL",
+      "HX_045_SHORT_SPIRAL",
+      "HX_046_BOARDING_STEP",
+      "HX_047_BOARDING_STEP",
+      "HX_048_BOARDING_STEP",
+      "HX_049_BOARDING_STEP",
+      "HX_050_CANOPY_PRISM",
+      "HX_051_CANOPY_PRISM",
+      "HX_052_CANOPY_PRISM",
+      "HX_053_CANOPY_PRISM",
+      "HX_054_CANOPY_PRISM"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_PONTOON_HULL",
+      "HX_002_PONTOON_HULL",
+      "HX_003_HULL_SECTION",
+      "HX_004_HULL_SECTION",
+      "HX_005_PONTOON_HULL",
+      "HX_006_PONTOON_HULL",
+      "HX_007_HULL_SECTION",
+      "HX_008_HULL_SECTION",
+      "HX_009_RAIL_CONTOUR",
+      "HX_010_RAIL_CONTOUR",
+      "HX_011_RAIL_CONTOUR",
+      "HX_012_RAIL_POST",
+      "HX_013_RAIL_POST",
+      "HX_014_RAIL_POST",
+      "HX_015_RAIL_POST",
+      "HX_016_RAIL_POST",
+      "HX_017_SIDE_PIXEL_MESH",
+      "HX_018_RAIL_POST",
+      "HX_019_RAIL_POST",
+      "HX_020_RAIL_POST",
+      "HX_021_RAIL_POST",
+      "HX_022_RAIL_POST",
+      "HX_023_SIDE_PIXEL_MESH",
+      "HX_036_SPEAKER_RING",
+      "HX_037_SPEAKER_RING",
+      "HX_038_SPEAKER_RING",
+      "HX_039_SPEAKER_RING",
+      "HX_040_SPEAKER_RING",
+      "HX_041_SPEAKER_RING",
+      "HX_042_SHORT_SPIRAL",
+      "HX_043_SHORT_SPIRAL",
+      "HX_044_SHORT_SPIRAL",
+      "HX_045_SHORT_SPIRAL",
+      "HX_046_BOARDING_STEP",
+      "HX_047_BOARDING_STEP",
+      "HX_048_BOARDING_STEP",
+      "HX_049_BOARDING_STEP",
+      "HX_050_CANOPY_PRISM",
+      "HX_051_CANOPY_PRISM",
+      "HX_052_CANOPY_PRISM",
+      "HX_053_CANOPY_PRISM",
+      "HX_054_CANOPY_PRISM"
+    ],
+    "HX_ZONE_ACCENTS": [
+      "HX_042_SHORT_SPIRAL",
+      "HX_043_SHORT_SPIRAL",
+      "HX_044_SHORT_SPIRAL",
+      "HX_045_SHORT_SPIRAL"
+    ],
+    "HX_ZONE_AUDIO": [
+      "HX_036_SPEAKER_RING",
+      "HX_037_SPEAKER_RING",
+      "HX_038_SPEAKER_RING",
+      "HX_039_SPEAKER_RING",
+      "HX_040_SPEAKER_RING",
+      "HX_041_SPEAKER_RING"
+    ],
+    "HX_ZONE_HULL": [
+      "HX_001_PONTOON_HULL",
+      "HX_002_PONTOON_HULL",
+      "HX_003_HULL_SECTION",
+      "HX_004_HULL_SECTION",
+      "HX_005_PONTOON_HULL",
+      "HX_006_PONTOON_HULL",
+      "HX_007_HULL_SECTION",
+      "HX_008_HULL_SECTION"
+    ],
+    "HX_ZONE_PRISM": [
+      "HX_050_CANOPY_PRISM",
+      "HX_051_CANOPY_PRISM",
+      "HX_052_CANOPY_PRISM",
+      "HX_053_CANOPY_PRISM",
+      "HX_054_CANOPY_PRISM"
+    ],
+    "HX_ZONE_RAILS": [
+      "HX_009_RAIL_CONTOUR",
+      "HX_010_RAIL_CONTOUR",
+      "HX_011_RAIL_CONTOUR",
+      "HX_012_RAIL_POST",
+      "HX_013_RAIL_POST",
+      "HX_014_RAIL_POST",
+      "HX_015_RAIL_POST",
+      "HX_016_RAIL_POST",
+      "HX_018_RAIL_POST",
+      "HX_019_RAIL_POST",
+      "HX_020_RAIL_POST",
+      "HX_021_RAIL_POST",
+      "HX_022_RAIL_POST"
+    ],
+    "HX_ZONE_SIDES": [
+      "HX_017_SIDE_PIXEL_MESH",
+      "HX_023_SIDE_PIXEL_MESH"
+    ],
+    "HX_ZONE_STEPS": [
+      "HX_046_BOARDING_STEP",
+      "HX_047_BOARDING_STEP",
+      "HX_048_BOARDING_STEP",
+      "HX_049_BOARDING_STEP"
+    ]
+  },
+  "group_count": 14,
+  "concept_id": "42",
+  "source_art": "images/41_42.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "42",
+    "name": "Prismwake Pontoon",
+    "standout": "Offset canopy triangles align into a suspended diamond from the bow while the twin hulls keep a clear boat silhouette.",
+    "scene": "A docked double-pontoon party boat, recognizable twin hulls and rectangular rail deck in cyan/gold trim. Above the deck, FIVE separately supported angled triangular pixel canopy ribs at different longitudinal depths align into an apparent hovering faceted diamond when viewed from the bow. Violet/cyan contour edges, tiny warm speaker rings aft, dark lean posts tied visibly to deck; no actual unsupported crystal, calm unlit water scenery. Small oblique inset reveals the sequence of angled triangular canopy ribs.",
+    "board": 10,
+    "side": "right",
+    "image": "images/41_42.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Offset canopy triangles align into a suspended diamond from the bow while the twin hulls keep a clear boat silhouette.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

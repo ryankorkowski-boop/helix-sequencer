@@ -1,0 +1,44 @@
+{
+  "audio_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+  "user_review": "User hears consecutive missed notes around 32–34 s and identifies a high tom or timpani sound. This supersedes diagnostic second-model snare/hat guesses.",
+  "timing_source": "Independent original-source 1 ms mono RMS with four-frame smoothing; positive attack-rise peaks inspected against waveform and spectrogram. Not copied from network timestamps.",
+  "family_status": "Passage-level user listening label plus individual source attack inspection; animation and individual labels await preview approval.",
+  "anchors": [
+    {
+      "timestamp": 32.5285,
+      "tolerance_ms": 40,
+      "physical_target": "TOM_HIGH"
+    },
+    {
+      "timestamp": 32.8425,
+      "tolerance_ms": 40,
+      "physical_target": "TOM_HIGH"
+    },
+    {
+      "timestamp": 33.0005,
+      "tolerance_ms": 40,
+      "physical_target": "TOM_HIGH"
+    },
+    {
+      "timestamp": 33.3135,
+      "tolerance_ms": 40,
+      "physical_target": "TOM_HIGH"
+    },
+    {
+      "timestamp": 33.4705,
+      "tolerance_ms": 40,
+      "physical_target": "TOM_HIGH"
+    },
+    {
+      "timestamp": 33.6235,
+      "tolerance_ms": 40,
+      "physical_target": "TOM_HIGH"
+    },
+    {
+      "timestamp": 33.7845,
+      "tolerance_ms": 40,
+      "physical_target": "TOM_HIGH"
+    }
+  ]
+}
+

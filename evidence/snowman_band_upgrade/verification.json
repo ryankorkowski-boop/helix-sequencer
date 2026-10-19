@@ -1,0 +1,531 @@
+{
+  "schema": "helix.band_visual_upgrade.v1",
+  "movies": [
+    {
+      "id": "00",
+      "title": "Wire Tree",
+      "variant": "band",
+      "render_revision": 2,
+      "file": "/workspace/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/00_band_Refined_3D.mp4",
+      "bytes": 13693916,
+      "sha256": "b147f293d48142c31570789a67a409ae30acef0352632c08d6ed2572f66f2ada",
+      "source_sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+      "duration_seconds": 256.6,
+      "frames": 5132,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 2052160,
+        "movie_samples": 2052267,
+        "zero_offset_correlation": 0.9996841023056735,
+        "full_song_duration_matches": true
+      },
+      "source_native_drummer": {
+        "fseq_sha256": "bff60de28187b0b6051bad1aa7051406adbc6ab80de76e69a5fc854c8dd409c8",
+        "xsq_sha256": "92b3755ecbb8b8b9f55c3a65d5e7c8d7df6fb9382b9deb21f84004bc6c347ca0",
+        "drummer_levels_sha256": "3c20e0ad30902c2bc8ef23fb4c6c626b6055ae11533c524dbf0ee2d75be30fd5",
+        "drummer_strike_holds_sha256": "dc22877629f40834d6a187cc9c11ea7bfce7e008e8afa3831a9fdb300706bd0d",
+        "source_hand_schedule_sha256": "1c4c69094e490a2da16b90f3a2e3995f8aac0e473fce2c2f8110d7787d1bf383",
+        "schedule": {
+          "unique_strike_holds": 652,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "native_xlights_playback": false,
+      "new_3d_drummer_interpretation": true,
+      "geometry_primitives": 287,
+      "source_lyrics_sha256": "c3fa90a834a62071df3f347a126e1f7a0707d532390d6411ca898d8eb53c2466",
+      "analysis_sha256": "85f4d73c4fb95765a6e4b947a96a1b7eb38de6f4f805b95e742d2efbde76191a",
+      "original_render_path": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/00_band_Refined_3D.mp4",
+      "remote_render_run_id": 38049403181,
+      "remote_artifact_id": 11669012124
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "variant": "band",
+      "render_revision": 2,
+      "file": "/workspace/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/01_band_Refined_3D.mp4",
+      "bytes": 6487223,
+      "sha256": "f0b2591858ba4c3263e40cb7d3f40430dc5ab1b7a3bfb4426dae2831f258fd58",
+      "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+      "duration_seconds": 120.3,
+      "frames": 2406,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 961920,
+        "movie_samples": 962048,
+        "zero_offset_correlation": 0.9997247040245455,
+        "full_song_duration_matches": true
+      },
+      "source_native_drummer": {
+        "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+        "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+        "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+        "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+        "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+        "schedule": {
+          "unique_strike_holds": 559,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "native_xlights_playback": false,
+      "new_3d_drummer_interpretation": true,
+      "geometry_primitives": 287,
+      "source_lyrics_sha256": "2b98acf89bcb74c0a0f9906169c26862f24fc65c4e0171e44580f6a0384af0bf",
+      "analysis_sha256": "ba3a295875dc8e0af9bd11ac1f6052767019a4e8bed4bd3c456c24ee504fa8db",
+      "original_render_path": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/01_band_Refined_3D.mp4",
+      "remote_render_run_id": 38049403181,
+      "remote_artifact_id": 11669012124
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "variant": "faces",
+      "render_revision": 2,
+      "file": "/workspace/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/01_faces_Refined_3D.mp4",
+      "bytes": 9039781,
+      "sha256": "d9a5363bf59cd5bf6e1bb84f46c80bf11b443177d0427873abbbedea5ca5cedd",
+      "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+      "duration_seconds": 120.3,
+      "frames": 2406,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 961920,
+        "movie_samples": 962048,
+        "zero_offset_correlation": 0.9997247040245455,
+        "full_song_duration_matches": true
+      },
+      "source_native_drummer": {
+        "fseq_sha256": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+        "xsq_sha256": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+        "drummer_levels_sha256": "c40ecdc8b9c9f3c2252fd064f613187afa0c150fa138c0a5a971ca420b813b49",
+        "drummer_strike_holds_sha256": "21207c3c67560548c18d1004e07ab53e7f7fb87e930e9efad1d02cf2a1c16e42",
+        "source_hand_schedule_sha256": "7582593a46eea61b0b27e3507fed7ceb0eee9bfc6c4adfa6b5b08eb123d66cdd",
+        "schedule": {
+          "unique_strike_holds": 559,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "native_xlights_playback": false,
+      "new_3d_drummer_interpretation": true,
+      "geometry_primitives": 90,
+      "source_lyrics_sha256": "2b98acf89bcb74c0a0f9906169c26862f24fc65c4e0171e44580f6a0384af0bf",
+      "analysis_sha256": "ba3a295875dc8e0af9bd11ac1f6052767019a4e8bed4bd3c456c24ee504fa8db",
+      "original_render_path": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/01_faces_Refined_3D.mp4",
+      "remote_render_run_id": 38049403181,
+      "remote_artifact_id": 11669012124
+    },
+    {
+      "id": "02",
+      "title": "49 (Remastered)",
+      "variant": "band",
+      "render_revision": 2,
+      "file": "/workspace/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/02_band_Refined_3D.mp4",
+      "bytes": 12262529,
+      "sha256": "d9bead8049730e326abc325d4d4661bdff839aef178db547c711f5ae13995695",
+      "source_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e",
+      "duration_seconds": 231.65,
+      "frames": 4633,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 1852800,
+        "movie_samples": 1852928,
+        "zero_offset_correlation": 0.999466120807974,
+        "full_song_duration_matches": true
+      },
+      "source_native_drummer": {
+        "fseq_sha256": "a41192cac247366f9ccadbb9c9411bd7d36e6d60fcf53ab6e5e42d72af3debfc",
+        "xsq_sha256": "4e56a6db2faeb6be8872485ecf6dc1ecde0b0e021f9fb1484efc4ffbb528ac77",
+        "drummer_levels_sha256": "e13e7899e952749ecf3f8227ee3cb21f46b29cac8e844b5956ab5eb70114e8cc",
+        "drummer_strike_holds_sha256": "9ac28d601562de20a0f99af57433c278755c9cee5ee5799c09460683fff3f847",
+        "source_hand_schedule_sha256": "eccc4a9c277bcad9cacf98248f2f0b5e20a95d8053b7df87b601aad8463478b3",
+        "schedule": {
+          "unique_strike_holds": 948,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "native_xlights_playback": false,
+      "new_3d_drummer_interpretation": true,
+      "geometry_primitives": 287,
+      "source_lyrics_sha256": "637161fbd1d6e8c5ff9378e0dbb4b712f31fd30f24f7e8b0161ac8ef1a4be0db",
+      "analysis_sha256": "5787c522c8f25308aef426ce0572fe4619f1c5d25b403eba0248982a3894a3dc",
+      "original_render_path": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/02_band_Refined_3D.mp4",
+      "remote_render_run_id": 38049403181,
+      "remote_artifact_id": 11669012124
+    },
+    {
+      "id": "02",
+      "title": "49 (Remastered)",
+      "variant": "faces",
+      "render_revision": 2,
+      "file": "/workspace/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/02_faces_Refined_3D.mp4",
+      "bytes": 14963467,
+      "sha256": "4ca0bb138017e5710c7d0e5e492f4fd75ac0b1dac86e978144341d8eff1725e3",
+      "source_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e",
+      "duration_seconds": 231.65,
+      "frames": 4633,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 1852800,
+        "movie_samples": 1852928,
+        "zero_offset_correlation": 0.999466120807974,
+        "full_song_duration_matches": true
+      },
+      "source_native_drummer": {
+        "fseq_sha256": "a41192cac247366f9ccadbb9c9411bd7d36e6d60fcf53ab6e5e42d72af3debfc",
+        "xsq_sha256": "4e56a6db2faeb6be8872485ecf6dc1ecde0b0e021f9fb1484efc4ffbb528ac77",
+        "drummer_levels_sha256": "e13e7899e952749ecf3f8227ee3cb21f46b29cac8e844b5956ab5eb70114e8cc",
+        "drummer_strike_holds_sha256": "9ac28d601562de20a0f99af57433c278755c9cee5ee5799c09460683fff3f847",
+        "source_hand_schedule_sha256": "eccc4a9c277bcad9cacf98248f2f0b5e20a95d8053b7df87b601aad8463478b3",
+        "schedule": {
+          "unique_strike_holds": 948,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "native_xlights_playback": false,
+      "new_3d_drummer_interpretation": true,
+      "geometry_primitives": 90,
+      "source_lyrics_sha256": "637161fbd1d6e8c5ff9378e0dbb4b712f31fd30f24f7e8b0161ac8ef1a4be0db",
+      "analysis_sha256": "5787c522c8f25308aef426ce0572fe4619f1c5d25b403eba0248982a3894a3dc",
+      "original_render_path": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/02_faces_Refined_3D.mp4",
+      "remote_render_run_id": 38049403181,
+      "remote_artifact_id": 11669012124
+    },
+    {
+      "id": "03",
+      "title": "Candy Cane Chaos",
+      "variant": "band",
+      "render_revision": 2,
+      "file": "/workspace/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/03_band_Refined_3D.mp4",
+      "bytes": 11816135,
+      "sha256": "5c2b559f4cc7326661ae92d8bfde5903440886b0b1d6d03e79850caad80a7991",
+      "source_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25",
+      "duration_seconds": 216.4,
+      "frames": 4328,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 1730560,
+        "movie_samples": 1730560,
+        "zero_offset_correlation": 0.9994271265240094,
+        "full_song_duration_matches": true
+      },
+      "source_native_drummer": {
+        "fseq_sha256": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+        "xsq_sha256": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+        "drummer_levels_sha256": "76376662825d760a04c471d930a0332b7b1347cb9b78001afd645f7fbddf20de",
+        "drummer_strike_holds_sha256": "b9ab208b36b228f2c852c8ddeb25f0dad4e8f3e4cafe5a91f59287818753d788",
+        "source_hand_schedule_sha256": "0563c463280cdadfec66835d18e70480b266bb8f32da3ba4bb6e003743cf8268",
+        "schedule": {
+          "unique_strike_holds": 986,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "native_xlights_playback": false,
+      "new_3d_drummer_interpretation": true,
+      "geometry_primitives": 287,
+      "source_lyrics_sha256": "d84ecb5addaed8859711830a5cfb2b7a47efe3eac71a36c7e9bc7f68b6fb20a9",
+      "analysis_sha256": "4960475771f394e5866ef5ae6c1e68398139d4824c334d68e2f79a4b42be2b40",
+      "original_render_path": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/03_band_Refined_3D.mp4",
+      "remote_render_run_id": 38049403181,
+      "remote_artifact_id": 11668503626
+    },
+    {
+      "id": "03",
+      "title": "Candy Cane Chaos",
+      "variant": "faces",
+      "render_revision": 2,
+      "file": "/workspace/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/03_faces_Refined_3D.mp4",
+      "bytes": 15923846,
+      "sha256": "4645f1189a6ed8b6071604937af8008bdd7c665c1928f1b06d99e3f484788377",
+      "source_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25",
+      "duration_seconds": 216.4,
+      "frames": 4328,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 1730560,
+        "movie_samples": 1730560,
+        "zero_offset_correlation": 0.9994271265240094,
+        "full_song_duration_matches": true
+      },
+      "source_native_drummer": {
+        "fseq_sha256": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+        "xsq_sha256": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+        "drummer_levels_sha256": "76376662825d760a04c471d930a0332b7b1347cb9b78001afd645f7fbddf20de",
+        "drummer_strike_holds_sha256": "b9ab208b36b228f2c852c8ddeb25f0dad4e8f3e4cafe5a91f59287818753d788",
+        "source_hand_schedule_sha256": "0563c463280cdadfec66835d18e70480b266bb8f32da3ba4bb6e003743cf8268",
+        "schedule": {
+          "unique_strike_holds": 986,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "native_xlights_playback": false,
+      "new_3d_drummer_interpretation": true,
+      "geometry_primitives": 90,
+      "source_lyrics_sha256": "d84ecb5addaed8859711830a5cfb2b7a47efe3eac71a36c7e9bc7f68b6fb20a9",
+      "analysis_sha256": "4960475771f394e5866ef5ae6c1e68398139d4824c334d68e2f79a4b42be2b40",
+      "original_render_path": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/03_faces_Refined_3D.mp4",
+      "remote_render_run_id": 38049403181,
+      "remote_artifact_id": 11668503626
+    },
+    {
+      "id": "04",
+      "title": "Phoneme Test Hook",
+      "variant": "band",
+      "render_revision": 2,
+      "file": "/workspace/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/04_band_Refined_3D.mp4",
+      "bytes": 1993089,
+      "sha256": "75cc23bf357842836d66efc6fe49dcc173c7b9921f7a944f7e6a3b4ee4047a53",
+      "source_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+      "duration_seconds": 34.95,
+      "frames": 699,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 279040,
+        "movie_samples": 279040,
+        "zero_offset_correlation": 0.9992798203555672,
+        "full_song_duration_matches": true
+      },
+      "source_native_drummer": {
+        "fseq_sha256": "6352cb412921fbeed5e7da3eee0d45775de6101093f363c266107f20dc3377ed",
+        "xsq_sha256": "64271778cdeda1774035e9d5644fe2a385ed06f4f0e5112850d43c97d1710038",
+        "drummer_levels_sha256": "8e65c0063664b3235df4660063f860fdd2846984055d20a82f878553e485cc1c",
+        "drummer_strike_holds_sha256": "8bf0abdca8d2f05f95ff4fed4fbfe331a506b3dc80902f4be0c0510374a520b1",
+        "source_hand_schedule_sha256": "49fd2371b42d6141e913bb171c3ecb30a0ff3ea0671dd38549be68f5dc2f7152",
+        "schedule": {
+          "unique_strike_holds": 142,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "native_xlights_playback": false,
+      "new_3d_drummer_interpretation": true,
+      "geometry_primitives": 287,
+      "source_lyrics_sha256": "132a7adaecc2223e7b17c9e1d7bf526335e318c3759e253634f1abd45bb27935",
+      "analysis_sha256": "dce5190559310eaf7725ab5a124b0224618ddd4020668dce2a2069078c2671a8",
+      "original_render_path": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/04_band_Refined_3D.mp4",
+      "remote_render_run_id": 38049403181,
+      "remote_artifact_id": 11668503626
+    },
+    {
+      "id": "04",
+      "title": "Phoneme Test Hook",
+      "variant": "faces",
+      "render_revision": 2,
+      "file": "/workspace/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/04_faces_Refined_3D.mp4",
+      "bytes": 2852445,
+      "sha256": "328c38ae9df6b91e7c98600608b54022edb9ed818d757454ab5be1fce509604f",
+      "source_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+      "duration_seconds": 34.95,
+      "frames": 699,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 279040,
+        "movie_samples": 279040,
+        "zero_offset_correlation": 0.9992798203555672,
+        "full_song_duration_matches": true
+      },
+      "source_native_drummer": {
+        "fseq_sha256": "6352cb412921fbeed5e7da3eee0d45775de6101093f363c266107f20dc3377ed",
+        "xsq_sha256": "64271778cdeda1774035e9d5644fe2a385ed06f4f0e5112850d43c97d1710038",
+        "drummer_levels_sha256": "8e65c0063664b3235df4660063f860fdd2846984055d20a82f878553e485cc1c",
+        "drummer_strike_holds_sha256": "8bf0abdca8d2f05f95ff4fed4fbfe331a506b3dc80902f4be0c0510374a520b1",
+        "source_hand_schedule_sha256": "49fd2371b42d6141e913bb171c3ecb30a0ff3ea0671dd38549be68f5dc2f7152",
+        "schedule": {
+          "unique_strike_holds": 142,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "native_xlights_playback": false,
+      "new_3d_drummer_interpretation": true,
+      "geometry_primitives": 90,
+      "source_lyrics_sha256": "132a7adaecc2223e7b17c9e1d7bf526335e318c3759e253634f1abd45bb27935",
+      "analysis_sha256": "dce5190559310eaf7725ab5a124b0224618ddd4020668dce2a2069078c2671a8",
+      "original_render_path": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/04_faces_Refined_3D.mp4",
+      "remote_render_run_id": 38049403181,
+      "remote_artifact_id": 11668503626
+    },
+    {
+      "id": "05",
+      "title": "Festivus (Remastered)",
+      "variant": "band",
+      "render_revision": 2,
+      "file": "/workspace/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/05_band_Refined_3D.mp4",
+      "bytes": 6021184,
+      "sha256": "6f1e9bbd22f4611b3b04ef6401542f6cf079da087b8abe202b3433ca8c72bdc8",
+      "source_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+      "duration_seconds": 111.55,
+      "frames": 2231,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 891840,
+        "movie_samples": 891904,
+        "zero_offset_correlation": 0.9992757645236479,
+        "full_song_duration_matches": true
+      },
+      "source_native_drummer": {
+        "fseq_sha256": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+        "xsq_sha256": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+        "drummer_levels_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "drummer_strike_holds_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "source_hand_schedule_sha256": "3fa0c56bf9b2e27ef4d103f767b98fa3af97c78d981ea42efb80621bb53c04d2",
+        "schedule": {
+          "unique_strike_holds": 290,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "native_xlights_playback": false,
+      "new_3d_drummer_interpretation": true,
+      "geometry_primitives": 287,
+      "source_lyrics_sha256": "0c838815e41938905e281cf28223e5ef3cec5e7b04ad98e589f3e5001859f272",
+      "analysis_sha256": "376b5b0eab8d61840796af0a94bcf71a34943bf9e2106bf2cf826ed08ee81514",
+      "original_render_path": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/05_band_Refined_3D.mp4",
+      "remote_render_run_id": 38049403181,
+      "remote_artifact_id": 11668503626
+    },
+    {
+      "id": "05",
+      "title": "Festivus (Remastered)",
+      "variant": "faces",
+      "render_revision": 2,
+      "file": "/workspace/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/05_faces_Refined_3D.mp4",
+      "bytes": 7683729,
+      "sha256": "b4395184ed660df0eef23df31ce23da11dbde45e3e1d38591148bc63ae2eff13",
+      "source_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+      "duration_seconds": 111.55,
+      "frames": 2231,
+      "width": 1920,
+      "height": 1080,
+      "full_decode_passed": true,
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 891840,
+        "movie_samples": 891904,
+        "zero_offset_correlation": 0.9992757645236479,
+        "full_song_duration_matches": true
+      },
+      "source_native_drummer": {
+        "fseq_sha256": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+        "xsq_sha256": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+        "drummer_levels_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "drummer_strike_holds_sha256": "689b4e2dc148f2ea3514254df3ab69b870a8141990e69a2d38c280e17c20a7d7",
+        "source_hand_schedule_sha256": "3fa0c56bf9b2e27ef4d103f767b98fa3af97c78d981ea42efb80621bb53c04d2",
+        "schedule": {
+          "unique_strike_holds": 290,
+          "idle_colors_used_as_strikes": false,
+          "cymbal_decay_moves_arms": false
+        }
+      },
+      "native_xlights_playback": false,
+      "new_3d_drummer_interpretation": true,
+      "geometry_primitives": 90,
+      "source_lyrics_sha256": "0c838815e41938905e281cf28223e5ef3cec5e7b04ad98e589f3e5001859f272",
+      "analysis_sha256": "376b5b0eab8d61840796af0a94bcf71a34943bf9e2106bf2cf826ed08ee81514",
+      "original_render_path": "/home/runner/work/helix-sequencer/helix-sequencer/outputs/Snowman_Band_Upgrade/movies/05_faces_Refined_3D.mp4",
+      "remote_render_run_id": 38049403181,
+      "remote_artifact_id": 11668503626
+    }
+  ],
+  "movie_count": 11,
+  "paired_source_checks": [
+    {
+      "id": "01",
+      "drummer_and_hand_hashes_identical": true,
+      "lyrics_hash_identical": true
+    },
+    {
+      "id": "02",
+      "drummer_and_hand_hashes_identical": true,
+      "lyrics_hash_identical": true
+    },
+    {
+      "id": "03",
+      "drummer_and_hand_hashes_identical": true,
+      "lyrics_hash_identical": true
+    },
+    {
+      "id": "04",
+      "drummer_and_hand_hashes_identical": true,
+      "lyrics_hash_identical": true
+    },
+    {
+      "id": "05",
+      "drummer_and_hand_hashes_identical": true,
+      "lyrics_hash_identical": true
+    }
+  ],
+  "all_21_preserved_inputs_match": true,
+  "preserved_inputs": {
+    "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+    "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+    "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+    "fixtures/band_geometry/layers/drummer_hit_both_crash.png": "48bb646212c3266ccdaddc9c1a2fc701d20d3b60eef7dea3fdf4c8089083faf9",
+    "fixtures/band_geometry/layers/drummer_hit_floor_tom.png": "822a9bb9099d5a0911be54a7fd04c6a5ab1cbfa8049f0ec49a3b62a2c09efb77",
+    "fixtures/band_geometry/layers/drummer_hit_high_tom.png": "40a02e782f807cc5155c7ac666146ee8115eabb8477c163d2f112ba83c7bf29e",
+    "fixtures/band_geometry/layers/drummer_hit_mid_tom.png": "059a8d7563775bfced8ad4d644e4abac5d9e6962300511d04dd9acb7250fb962",
+    "fixtures/band_geometry/layers/drummer_downbeat_impact.png": "a23af34c2feb6daf79641765060c087e99044d9eb293154f0c0584ab6818d1f7",
+    "fixtures/band_geometry/layers/drummer_hit_hi_hat.png": "4b66bcbcf34b905d152310414ad86f7e0d20441e799be9436c7e47df709120df",
+    "fixtures/band_geometry/layers/drummer_hit_kick.png": "bca071002f886162c45720b7be08f5d9e790aae928af77a5a746ae00683e2d74",
+    "fixtures/band_geometry/layers/drummer_hit_right_crash.png": "6fb45e96ca03b6e10336ef74f1a11bf8532d967346c0acdfb2d99913cd2a9cd2",
+    "fixtures/band_geometry/layers/drummer_hit_snare.png": "db8281949a250cbd07e4835d8a35514ff07cc1404770b8cd0aaeeb9122a01996",
+    "fixtures/band_geometry/layers/drummer_hit_left_crash.png": "0f345577502715668dbb19911104f3820a836882037e83585932ef8aac85de6f",
+    "fixtures/band_geometry/layers/drummer_hit_right_tom.png": "65b16e32ce352113be3d201f423a6481050b25be8d7ca75b022943a08da9373b",
+    "fixtures/band_geometry/layers/drummer_hit_left_tom.png": "63b1f5b74b95d5f808640aaea46ee15eb9aac3f031c92cb98f2bdd5a0aae7495",
+    "fixtures/band_geometry/layers/drummer_hit_snare_right.png": "3a022b24b9075d319ca89b1ff8aaf8e2783ec71cf521c4821ebb10690c0ad7c7",
+    "evidence/showcase_audio/source/5-Bell-Circuit-Carol-1-.mp3": "546d214fafc467c8581175bae47e78531eae01fb7abcd99a1a37358670885885",
+    "evidence/showcase_audio/source/3-Frostbitten-Fingerboard-1-.mp3": "657e5c5dbb9b6372d5c9086b547d236b47815c32306e53a753735f5f5775e504",
+    "evidence/showcase_audio/source/4-Holly-Steel-Run-1-.mp3": "47e61a145578fa7d153b2ecb7de02bf10c61646bf246421365f24439df697dc1",
+    "evidence/showcase_audio/source/2-Tinsel-Sawtooth-1-.mp3": "e9add1d351989d4a359cdda837fc5139a8e358ca067d31a839cafa6b35c954fc",
+    "evidence/showcase_audio/source/1-Wire-Tree.mp3": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5"
+  },
+  "minimum_soundtrack_correlation": 0.9992757645236479,
+  "total_video_frames": 33726,
+  "native_xlights_playback": false,
+  "preferred_approved_drummer_image_recovered": false,
+  "all_six_songs_use_lead_only_due_to_voice_uncertainty": true,
+  "focused_geometry_and_strike_schedule_tests": "9 passed",
+  "implementation_sha256": {
+    "models/band_performance_scene.py": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+    "models/drummer_review_schedule.py": "8b935aa66d43bb4b196ccfd6923e0df3b0d8f85d81031e4e9a0afc1e0d801fa8",
+    "tools/analyze_band_upgrade.py": "994fc0d3377e40702e1880192c4b89f959c627984554a750cc57c44eab478bc0",
+    "tools/render_band_upgrade.py": "5a2e09e4fadbf3aa6ed3f016a29ced39885907d8a69efb1b0f093dd0149e3871"
+  }
+}

@@ -58,11 +58,14 @@ def _request_json(method: str, url: str, payload: dict[str, Any] | None = None, 
     request = urllib.request.Request(url=url, data=body, headers=headers, method=method)
     with urllib.request.urlopen(request, timeout=timeout) as response:
         raw = response.read().decode("utf-8")
+        http_status = response.status
     if not raw.strip():
         return {}
     value = json.loads(raw)
     if not isinstance(value, dict):
         raise ValueError(f"Expected JSON object from {url}")
+    # Native REST uses the HTTP status; some versions also include `res`.
+    value.setdefault("res", http_status)
     return value
 
 

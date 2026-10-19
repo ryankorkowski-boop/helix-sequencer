@@ -29,7 +29,10 @@ class HelixiaPropsTests(unittest.TestCase):
 
         self.assertIn(f"{prop.name}_BODY", model_names)
         self.assertIn(f"{prop.name}_INSTRUMENT", model_names)
-        self.assertTrue({f"{prop.name}_ARMS", f"{prop.name}_HEAD", f"{prop.name}_TORSO"}.issubset(submodel_names))
+        required = {f"{prop.name}_HEAD", f"{prop.name}_TORSO"}
+        if prop.name != "HX_SNOWMAN_DRUMMER":
+            required.add(f"{prop.name}_ARMS")
+        self.assertTrue(required.issubset(submodel_names))
         self.assertEqual(group_map[prop.name], {f"{prop.name}_BODY", f"{prop.name}_INSTRUMENT"})
         self.assertIn(prop.name, group_map["HX_SNOWMAN_BAND"])
         self.assertIn("HX_SNOWMAN_BAND", group_map["HELIXIA_STAGE"])
@@ -45,10 +48,12 @@ class HelixiaPropsTests(unittest.TestCase):
             {
                 "HX_SNOWMAN_DRUMMER_KICK",
                 "HX_SNOWMAN_DRUMMER_SNARE",
-                "HX_SNOWMAN_DRUMMER_TOM",
-                "HX_SNOWMAN_DRUMMER_CYMBALS",
+                "HX_SNOWMAN_DRUMMER_TOM_HIGH",
+                "HX_SNOWMAN_DRUMMER_TOM_MID",
+                "HX_SNOWMAN_DRUMMER_TOM_FLOOR",
+                "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT",
+                "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",
                 "HX_SNOWMAN_DRUMMER_HI_HAT",
-                "HX_SNOWMAN_DRUMMER_STICKS",
             }.issubset(submodel_names)
         )
 
@@ -73,7 +78,7 @@ class HelixiaPropsTests(unittest.TestCase):
         expected = {
             "HX_SNOWMAN_BASSIST": {"BASS_BODY", "BASS_NECK", "BASS_STRINGS", "PLUCK_ZONE"},
             "HX_SNOWMAN_GUITARIST": {"GUITAR_BODY", "GUITAR_NECK", "GUITAR_STRINGS", "STRUM_ZONE"},
-            "HX_SNOWMAN_DRUMMER": {"KICK", "SNARE", "TOM", "CYMBALS", "HI_HAT", "STICKS"},
+            "HX_SNOWMAN_DRUMMER": {"KICK", "SNARE", "TOM_HIGH", "TOM_MID", "TOM_FLOOR", "CYMBAL_LEFT", "CYMBAL_RIGHT", "HI_HAT"},
             "HX_SNOWMAN_SINGER": {"MICROPHONE", "MIC_STAND"},
             "HX_SNOWMAN_SINGER_FEMALE": {"MICROPHONE", "MIC_STAND"},
         }

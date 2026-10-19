@@ -1,6 +1,1249 @@
+## 2026-10-18 — Correct stale hi-hat drum-stick regression assertions
+
+Observed CI: PR #180 run 39192406726 (Python 3.11 full audit)
+finished 1,806 passed, 2 failed, 6 skipped; failures are both old
+tests expecting a physical drumstick contact for HI_HAT, while current
+`ArticulatedDrummer` (foot-only hi-hat contract) intentionally never
+adds the hi-hat to the stick-target table.
+Updated `tests/test_band_motion_refinement.py` and
+`tests/test_musical_band_response.py` to test only real stick-operated
+kit targets in fixed-length IK cases. Added specific pedal regression:
+hi-hat is in foot_hits, absent in stick hits/targets, makes pedal move,
+maintains finite toe. No production drummer changes; existing dedicated
+kick/pedal coverage stays intact. A 1,806-pass old run does not prove
+this new version passes: CI rerun required. Status IMPLEMENTED —
+UNVERIFIED. Native full-song failure is independently caused by missing
+non-diagnostic showcase and remains BLOCKED; acceptance gate preserved.
+
+## 2026-10-18 — Native xLights six-cast universal-keyboard migration
+
+Goal: do not stop at artistic `FinalBandScene`; make the actual
+`tools/native_source_pose_band.py` xLights RGB native performance omit the
+separate pitched-percussion character by default. Development PR #181.
+Changes: `tools/review_band_performance.py` combines authenticated,
+source-hash-checked `pitched_roles.json` keyboard + mallet notes in the
+piano hand/key source lanes without invented notes.
+`tools/native_source_pose_band.py` selects the six default roles
+(drummer,bass,guitar,piano,lead,harmony) while preserving the original seven
+native models with `--legacy-xylophone`. No global
+`models/native_review_band.add_band` or independent AC16 model definitions
+deleted or renamed. Piano is centered in the single-pitched band. Updated
+`.github/workflows/fresh-real-band-mp4.yml` asserts exactly the six
+native model names, source-bond hashes, visible cast roster, complete
+1080p video/audio decode and genuine xLights preview; it never accepts a
+diagnostic placeholder. Added source-native cast regression tests
+in `tests/test_native_source_pose_band.py`.
+Risks: legacy photo/geometry logic is still evaluated internally even when
+model omitted; source-bound mallet confidence remains estimator-derived;
+new six-model native source output and musical/arm/frame approval are
+**UNVERIFIED** until workflow succeeds and owner visually approves; other
+native show builders may retain their earlier cast.
+State: IMPLEMENTED — UNVERIFIED. Depend on source hash, pipeline tests,
+native renderer, independent musical review and release hold. All existing
+standalone CTB16PC/AC16 controllers, guitarist/drummer/vocal logic,
+original audio and published artifacts intentionally preserved.
+
+## 2026-10-18 — Visible default keyboardist replaces separate mallet model
+
+Goal: deliver an actual default pianist in the modern six-performer 3D
+FinalBandScene instead of the previously hidden piano/visible xylophonist.
+Branch: `codex/keyboard-source-guardrails-20261018`, draft PR #181.
+Files: `models/final_band_scene.py`,
+`tools/final_band_performance.py`,
+`tools/musical_band_performance.py`, `tests/test_final_band.py`.
+New default: piano character and literal keyboard are visible; xylophonist
+is hidden. Set `legacy_mallet_player=True` to restore the prior opt-in
+six-character xylophone arrangement with original positional transforms.
+No scene model indices or original guitar geometry were deleted, and
+musical events still use screened source timing; no manufactured physical
+key strikes. In the default cast unified piano and screened mallet cues
+now feed the **same** `_install_keyboard_events` lane for both source-key
+illumination and independent left/right mitten targets. Short piano
+upper/forearm lengths (.52/.50) and per-frame displacement/acceleration
+(.030/.010) use PR #180's candidate values *only* for this new scene.
+Old mallet cast and unrelated performers retain their earlier motion.
+Added default/legacy scene tests; no full suite or source-bound movie
+has yet proved visual behavior, arm contact quality or native xLights
+equivalence. The distinct `Review3DScene` and native seven-model
+`tools/native_source_pose_band.py` path are **not yet migrated**; the
+Bells of Mathmas stored video is still too dark for acceptance.
+Status: IMPLEMENTED — UNVERIFIED. Before approval: frame-level IK,
+musical source mapping and native MP4 on the real source must pass,
+then migrate/compatibility-gate the separate native seven-model cast.
+No release merge, public distribution or license publication.
+
+## 2026-10-18 — Integration update: PR179 effect router ported to modern band
+
+Goal: prevent player-role cross-contamination at both source-driven musician
+performance and downstream effect-plan generation. Draft PR #181, branch
+`codex/keyboard-source-guardrails-20261018`; latest implementation:
+`music/magic_keyboard.py`, `effects/piano_effect.py`,
+`tests/test_keyboard_source_ownership.py`,
+`tests/test_universal_keyboard_routing.py`.
+Preserved: original absolute onset/duration/velocity/pitch/source,
+legacy unclassified MIDI and Helix notes, simultaneous chords, old
+seven-member xLights preview, all drummer/guitar/bass/vocal schedules,
+and existing exports and release hold. New behavior: direct, screened
+keyboard/mallet musical sources feed the universal keys; explicit
+guitar/bass/percussion/vocal tags are rejected before high-confidence
+pitch filtering in the active performance and effect-plan paths. The
+PR #179 prototype is ported selectively, not merged against the old
+default branch. Tests: eight new focused source and effect-plan
+regressions committed; execution, broader-suite, native MP4, frame
+contact and musical ground-truth validation still outstanding.
+Limitations: unsupported/unlabelled classifier identities are not
+proven, final/native band cast still features a legacy xylophonist,
+arm PR #180 is separate, native Bells of Mathmas audio video has
+unacceptable visual darkness and is not approval-ready.
+Status: IMPLEMENTED — UNVERIFIED. Completion requires source-bound
+tests plus visually acceptable authentic xLights native exports.
+
+## 2026-10-18 — Universal keyboard source-ownership guardrail (draft, unverified)
+
+Goal: integrate the first production-level universal-keyboard ownership fix on the
+modern band branch (not blindly merge PR #179 from the legacy default branch).
+Branch: `codex/keyboard-source-guardrails-20261018`. Files changed:
+`music/magic_keyboard.py`, `tests/test_keyboard_source_ownership.py`,
+`MASTER_TODO.md`, and the acceptance ledger.
+
+Preserved: source start/end, MIDI pitch, velocity and selected provenance;
+simultaneous chords, exact-event de-duplication, already-screened piano and
+mallet estimates, keyboard/mallet direct track labels, guitar/bass/drum/vocal
+driver schedules, older seven-member native cast, original audio and
+release hold. New behavior: the active `magic_keyboard_events` path rejects
+notes explicitly tagged guitar, bass, drums/percussion or voice before any
+generic pitch/harmonic confidence filter; accepts directly labeled keyboard,
+organ, piano, synth, bells and mallets into one keyboard note lane.
+Tests: five new isolated routing cases added; CI and native video not yet
+verified. Limitations: source classification is not instrument separation;
+unclassified high-confidence horn/harmonic historical routes remain possible,
+scene construction still contains the legacy mallet rig, PR #180 candidate arm
+motion remains separate, and no freshly rendered approval MP4 exists.
+Acceptance: run CI, verify producer-to-scene ownership, complete optional
+legacy cast migration, native xLights MP4 and source-timed contact accounting.
+Status: IMPLEMENTED — UNVERIFIED. Regression risk: existing downstream code
+may have relied on mislabeled composite performer pitches reaching the keys.
+
+## 2026-10-18 — Owner-requested advertisement delivered for review
+
+Produced Helix_Advertisement_96s.mp4: 96.000 seconds, 1920x1080 H264/AAC stereo,
+3840 fully decoded frames at 40fps (20fps source poses duplicated, not interpolated).
+SHA256 569e3fe90878d181f55edc82639066d764d7e5b5083d8f743ac9bca633f9544b.
+New ten-shot edit uses PR175 d420807 original-art fixed-camera seven-snowman
+render (run39115986624, artifact12132521933) plus explicitly reused Oct15
+Holly Steel Run and Kaleidoscope Engine six-layout footage. Layout source commit
+is unavailable; do not label all footage freshly rendered or all native xLights.
+Assembly uses PR174 dbeb868 tool with PCM intermediate soundtrack and final AAC.
+Full decode and zero blank-picture frames verified; every edit zero-lag source
+audio correlation >=0.999872. Final contact sheet visually inspected.
+Saved movie: libfile_cabe566db1208191b1695323da7bbc78; reproducible scripts,
+edit manifest, original-band provenance and QA package: libfile_f5abad2503fc8191abe419affe294e84.
+No synthetic musical events, no substituted music, no feature/compatibility or
+release-completion claims. Development-preview captions retained. Owner visual
+approval remains pending. Instrument solo package, true mallet-rich selection,
+native imports, platform checks and every other release blocker remain open.
+The advertisement does not satisfy those separate gates.
+
+## 2026-10-18 — Source-art foot visibility and contact accounting follow-up
+
+Goal: expose the actual authored hi-hat foot inside the original crop and avoid
+counting kick-only source tags as failed arm transitions. Original source-foot
+pixels now rotate over an always-visible pedal at their authored location,
+with a 25ms hold and 85ms recovery driven by source timestamps. Source kick
+cues have their own recorded lane; no stick is fabricated for them and physical
+kick-beater verification remains incomplete. Keyboard torso/keybed groove is
+held at authored transforms so fixed shoulders do not detach from a moving
+body. Contact target now matches the key surface/mitten offset exactly.
+Changed: drummer compositor, keyboard planner/performance, preflight, tests,
+roadmap. Preserved source art/audio, exact stick contacts, purple neutral singer,
+guitar/bass, mallets, native exports and platforms. Evidence: 17 focused tests
+pass; source-foot pressed/released frames inspected locally. First repair
+commit 95c338b is rendering in run39115813867. New full render still required;
+no artistic approval. Risks: authored foot travel is small at whole-band scale;
+physical kick animation and real musical ground truth remain open.
+
+## 2026-10-18 — Final recovery: fixed-camera gate and physical motion repair
+
+Current acceptance ledger: `HELIX_MASTER_COMPLETION_ROADMAP.md`. All historical
+entries remain preserved below; no completion or owner approval is inferred.
+Goal: repair PR175's false fixed-camera freeze failure, keyboard idle-target
+oscillation, and changing-length snare elbow. Changed modules: keyboard motion
+planner, musical performance adapter, original drummer compositor/preflight,
+lazy preview imports, fixed-camera decoded-pixel gate, workflow and regression
+tests. Preserve authored drummer pixels and exact drum contacts, guitar/bass,
+source music/time, purple neutral singer, foot-only hi-hat, all export/platform
+paths and release hold. New keyboard planner has no five-frame debounce;
+physical contacts remain separate from note lights, with confidence rejection
+and bounded velocity/acceleration. Drummer right arm uses fixed 30/55 links;
+non-contact reach adjustments are recorded. Tests: 15 local deterministic
+regressions pass; prior genuine MP4 has 142/143 moving sampled transitions.
+Real-source render and visual acceptance still pending. Risks: contact coverage
+can remain low, alternate hand split can change musical representation, full
+native/platform suite not run. Mallets remain sparse/unverified; no feature or
+release completion claimed. Other gaps recorded in the acceptance ledger.
+
+## 2026-10-17 — Authentic showcase recovery, pilot in progress
+
+Goal: deliver a visible native full-band MP4 before expanding the collection.
+Branch: codex/showcase-pilot-recovery-20261017; base f8fafec4c3ad4e1495306613cc29dd0fd00e7d44.
+Recovered PR153 source shows and 321300883-byte review archive, native xLights 2026.18 installation, Drive Helix Audiolights source, and PR168/169/170 quality/native modules.
+Findings: 7 performers, 90975 channels, 720 frames at 50 ms; body source levels 15–20%, two-pixel preview points. Existing dimness remains an open visual finding. Composer171 remains opt-in and absent from pilot.
+Preserve musical cue times, canonical drummer, all original music, AC16 allocations and release hold. Native preview readability changes must be distinguished from changes to sequenced light levels. No final video or quality acceptance claimed yet.
+Verified pilot saved: review/Helix_Audiolights_Native_Band_Pilot.mp4, SHA256 81188054751a75fe5576a3a7f3a82902f3b7da1c376de2120cda9cd34a26f4e2. Four deliverables saved successfully: MP4, contact sheet, quality JSON, 17.3MB portable source/evidence ZIP. All 720 frames decode; zero black frames; original-audio zero-lag correlation .993948. 65,502,000 native channel samples checked, maximum expected error 1; only static body channels differ from recovered baseline. 46 canonical drummer regressions passed (13.70 s).
+Next opt-in experiment: tools/native_source_pose_band.py exports actual ReviewBandPerformance.pose arm geometry into native RGB pose banks. This addresses the discovered two-state native-arm bottleneck, preserving source clock and AC16 defaults. Finite medoid states approximate source geometry; native proof and tests are required before acceptance.
+
+Opt-in RGB pose-bank implementation now generates native XSQ from actual source arm matrices (ReviewBandPerformance.pose / Review3DScene), with deterministic actual-frame medoids and per-cell unions to avoid shared-node blanking. AC16 files and default exports remain untouched. First 24-state native trial: 122,094 RGB channels, 15,997 effects, official FSEQ/1080p House Preview produced. Source drummer left/right and kick-beater states are exact in this excerpt (13/18/2 unique states); other rigs report measured source geometry approximation error. Native sample parity and final visual gate remain pending for the moving version. Eight pose tests pass. The optional 25ms native rasterization preserves the 50ms source pose clock; it adds no inferred in-between motion.
+
+
+Native moving-band follow-up: two 25ms FSEQ renders passed all-sample expected-cue comparison: E14 211,368,960 samples; E03 189,306,720 samples; maximum integer error 1 in both. Exactly seven unique models; 146,784 / 131,463 RGB channels. Source poses still advance at 50ms; native output is 40fps. Bounded private inspector cap 256MiB (product default unchanged). One experimental dense export exposed an accidental duplicate-model loop; it was rejected before rendering/delivery, corrected, and guarded by unique-seven-model/channel bounds. Failed artifacts are excluded. Musical source roles remain honest: E03 guitar and both singers have no changing channel data; E14 harmony remains quiet.
+Build recovery: GitHub independently reports successful Windows Portable GUI, Android offline beta and verified installer bundle runs 38697129450 / 38697129307 / 38697129438, all at d3a3d377e64b0d95b54e553e89dce34dc0f93194. This does not test physical Windows/Samsung/controllers or integrate this development work into EXE/APK.
+
+
+Moving native MP4 milestone: Helix_Audiolights_Native_Motion_1080p40.mp4 and Kaleidoscope_Engine_Native_Motion_1080p40.mp4 are 36.000s, 1920x1080, H.264/AAC, exactly 1,440 fully decoded frames each, no wholly dark frames. Fresh original-audio correlations .993948 and .998226. Contact sheets inspected; richer source arms are visible. Pilot source limitations remain explicit; no independent harmony identity claimed.
+Recovered the full earlier 91-recording ranking (82 distinct decoded PCM hashes) and 22 selected excerpts from saved technical packages. Seven more source caches cloned with audio/analysis hash checks. Current Drive originals for E03/E05/E07/E10/E13/E16/E18/E19 all downloaded and SHA256/byte-count matched against prior analysis; new lossless 36s excerpts and manifests generated. E14 had already passed the same source hash check.
+Expansion is running under /workspace/scratch/1971fd9f91ad/produce_more_bands.py and produce_features.py. Current source branch is draft PR172 at fff4c89060a710af008821c1d0a8cd3e587dd651; local equivalent-tree commit 9d1b40a. Git HTTPS push lacked credentials; authenticated GitHub Git-data publication succeeded with exact tree SHA c2d2fd24fcaf2c32dba74f77bff3a5cfe2e404ae. New cache expansion work is not yet committed.
+
+
+Production gate correction: standalone native piano exposed PR169's sparse-reader assumption that the header held the expanded universe width. Official xLights FSEQFile::writeHeader sums sparse lengths into the stored channel count; the reader now strictly checks that packed count and separately bounds expanded destinations. Corrected the synthetic sparse fixture, added a native-layout-offset case and an expanded-allocation guard; 45 quality/native tests pass, one optional native-manifest skip. The product default 128MiB guard is preserved.
+E13 native headless process returned success with an incomplete FSEQ (zero finalized compressed blocks); the full decoded-video gate caught darkness from 11.7s onward. Its FSEQ/video were rejected, retained outside the review set, and a fresh native render is underway. Production now verifies complete FSEQ dimensions/blocks and nonzero body frames before GUI export. No false success or user delivery for this candidate.
+
+
+Embedded-stage milestone: E14_Neon_Stage contains 135 models and a foreground seven-performer RGB stage in the actual generated display. Fresh xLights native 40fps FSEQ: 249,128 channels, 1,440 frames. All 211,368,960 embedded band channel samples match the standalone motion source exactly (maximum error 0), proving unrelated scenery does not overwrite the musicians. Native 1080p film fully decodes with zero wholly dark frames after corrected camera framing. Four additional source-matched scenery/stage combinations are queued by produce_embedded.py.
+Additional verified/durably saved MP4s: E05 Holly Steel Run, E07 Fractal Crown, E10 Fractal Neck Sprint; native drummer E14, piano E03, guitarist E05, bassist E07 close-ups. All seven movies plus their reports saved successfully.
+Remaining production scripts: produce_more_bands.py (E13 repaired; E16 passed; E18/E19 pending), produce_features.py (repairing interrupted E13 singer mux, then E07 mallet close-up), produce_embedded.py (four remaining stages), produce_comparisons.py (two isolated native preview queues gated behind completed band/embedded jobs; six comparisons using authentic archived channels). Failed/interrupted files are excluded and media now promotes only from verified fresh temporary outputs.
+
+Expansion checkpoint: all nine real-song native band MP4s and all six native musician close-ups now pass complete decode/zero-dark-frame gates. Seven additional full-band native FSEQs passed every expected channel-frame sample (maximum error 1/255); quiet unsupported roles remain quiet. The first six-native-layout comparison and two embedded-stage films passed. Native embedded band spans preserve standalone samples exactly. Original Drive metadata inventory contains 90 audio entries (94 entries including folders/document); the older analysis covers 91 recordings / 82 distinct decoded PCM hashes. Nine used original files have freshly verified full-byte hashes; the remaining historical analysis is identified as retained evidence, not a fresh full-library download.
+The 15-second editorial advertisement passed, with exact PCM edit assembly replacing rejected AAC concatenation that introduced soundtrack offsets. Longer ad cuts and remaining native layout queues continue. Fourteen earlier and 32 further review-file saves succeeded (some earlier artifacts received duplicate creates due a hyphenated xattr spelling; no original music was deleted/changed). Native source scripts, cut decisions and artifact SHA256s will be packaged together. Focused implementation 35 passed; new recovery failure guards 7 passed. Release hold continues.
+Next executable: python3 /workspace/scratch/1971fd9f91ad/produce_ads.py (resumes verified outputs); active produce_embedded.py and produce_comparisons.py finish remaining queue. Native renderer wrappers own isolated displays/ports; do not start a competing GUI on 98/49913 or 99/49914 while those queues run.
+
+Current scratch root: /workspace/scratch/1971fd9f91ad. Recovered original shows: recovered/sources/shows; full source/analysis package: recovered-full/Helix_3D_Vocal_Review.
+Historical first-pilot command retained in docs/NATIVE_SHOWCASE_RECOVERY.md; use the expansion command above for current work.
+Tests: 83 passed, one native-manifest environment skip (4.13 s). Lossless excerpt tests assert exact original stereo samples for 30, 36 and 42 seconds, fractional start timestamps, missing/corrupt input and retained previous output on invalid requests. Independent activity ranker chooses exactly 40–76 s, score 0.7624476171; current Drive source SHA256 matches recovered source. Native export reached actual 1920x1080 at 20 fps. Body illumination .85 is opt-in, with all musical cues preserved; tighter native camera and 4px points under evaluation. No final artistic acceptance claimed. No merge, release, EXE/APK replacement or public advertisement authorized.
+
+## 2026-10-16 — Vocal, controller, and native 3D review batch complete; approval pending
+
+Goal: implement the latest request on `codex/3d-vocal-controller-review-20261016`, based on the preserved PR #152 tree. Release merge and EXE/APK publication remain held for explicit video approval.
+
+- [x] Audit current review output and native/physical band paths: seven-member GL cast, six-member native cast, lead-only source clock, physical seven-bank plan still proposed.
+- [x] Add evidence-aware lead/duet/background routing, duplicate-source rejection, independent phrase clocks, explicit phoneme cues, and uncertainty reporting.
+- [x] Export each of seven snowmen and their instruments as standalone native 3D xmodels, including <=16-channel AC variants with distinct phoneme channels and separate RGB variants.
+- [x] Resolve output mode per configured model/controller; support mixed AC/pixel shows and abstain on ambiguous metadata. Preserve legacy CTB16PC wiring and channel semantics.
+- [x] Build six native 3D studies with keyboard/MIDI rung submodels, spiral groves, forced perspective, moire, historical prop coverage, source-driven spatial separation and native sequences.
+- [x] Run native xLights import/render checks, regression and channel parity checks; render fresh real-audio band/layout MP4s and inspect decoded frames.
+- [x] Package models, layouts, sequences, video index, wiring map, validation and an execution roadmap; commit and open draft PR #153. Five MP4s and both CRC-checked archives are complete; see `evidence/3d_vocal_review_20261016/delivery_receipt.json` for hashes, paths and release gates.
+
+Modules: new evidence/router, controller-capability and seven-member native export modules plus opt-in review tools. Existing legacy six-member exports, default builds, desktop/Android, xLights/LOR/CTB16PC behavior and historical artwork remain preserved. Risks: mixed vocals do not establish singer identity; RGB channels are not AC circuits; stationary light poses are not articulated meshes; native render evidence is required before claiming xLights compatibility. Hardware remains untested. Evidence: local implementation a65ba99 / 04067e7, remote checkpoint 10603885cee981098089caa125b857e306565e43. Focused regression: 16 passed / 7.85 s. Native xLights 2026.18 AC show rendered successfully; full parity gate and all-world native runs continue. AC cast counts: drummer 10, bass 9, guitar 11, piano 15, xylophone 15, lead 14, harmony 14. Each occupies a separate reserved 16-channel bank. Visual audit found the native base included a rectangular image grid. The opt-in review now adds `Review3DScene`: a volumetric snow drummer and actual 3D kit with fixed-length source-timed contact poses; the original canonical artwork and physical channel map remain preserved in historical modules. A shared helper also incorrectly discarded TARGETS[0] (the kick), now fixed and covered by a source-event test. Native shows and videos are rebuilt after these fixes. Ten viseme circuits per singer are distinct; source mixed-bus animation remains broad acoustic estimates. Further fixes protect truncated voice tracks from holding the last mouth open. Physical channel counts are not RGB pixel channel counts. User-facing review artifacts: `/workspace/scratch/5da3b631db5c/Helix_3D_Vocal_Review/` (five MP4s, 31 xmodels, 18 native shows, reports), `Helix_Execution_Roadmap.md`, `VIDEO_INDEX.md` and curated downloadable ZIPs. Release work remains unchecked below. Separate instrument exports and native Faces probes pass for all ten visemes in both AC and RGB. Added full-precision AC MIDI helix: six standalone <=16-circuit rung banks preserve all 88 absolute pitches, with a separate two-circuit strand model; these need seven additional controller banks rather than folding octaves. Native source parity and fresh video gates are rerun after the volumetric drummer/kick fixes. Final native proof: 18 newly rendered real-audio shows, 2,163,366,720 channel samples compared; maximum integer error 1/255, no samples beyond tolerance 2. Four native Faces probes validate 10 exclusive visemes per singer, including standalone xmodel XML reloaded into native shows. Fresh verified MP4 batch: two volumetric snowman bands, two six-world native comparisons, one AC16-band/88-rung demonstration. All five fully decoded (720 frames, 36 s, H.264/AAC stereo), with source audio correspondence and contact/mouth-clock checks passing. Full regression at b51ef4f: 1,590 passed, 5 missing-2.wav fixture skips, 198.43 s. Remote identical implementation tree: 0fb97032b582e90af88d840afd48e641be9fead0; draft PR #153 is stacked on #152. A final metadata correction treats AC helix banks as one assembly and prevents nonexistent submodel group targets. The two AC helix shows were reloaded from standalone xmodel files and rerendered: every channel-frame byte remained identical. All 18 layout group targets, relative assets, 3D cameras and transforms pass the final layout audit. Follow-up focused suite: 43 passed / 8.33 s; legacy Aurora delivered files remain byte-identical. 31 standalone xmodels include seven member + five instrument files in both modes, plus seven AC helix components. Pixel files deliberately use RGB channel values and are not described as <=16 DMX channels. Automatic output routing is configuration-based; physical hardware discovery and devices remain untested. Legacy Style Engine effect-row XML is not a complete native layout and requires a migration gate; no native-3D claim is made for that archived/intermediate path. Regression risks and deferred work are recorded in the delivery roadmap.
+
+## 2026-10-16 — Four preview musical recovery (in progress)
+
+Goal: latest user request is two band movies and two six-layout comparisons.
+All visible musicians are snowmen, with independent keyboard and xylophone.
+This supersedes the unified six-member artistic choice for the new review only.
+Preserve historical scenes, guitar/bass/drum rigs, CTB16PC/LOR, GUI/Android and
+all release gates. Final/default merge and approved EXE/APK release stay held.
+
+Changed modules: music/review_score.py, models/review_snowman_scene.py,
+tools/musical_band_performance.py, tools/review_band_performance.py,
+tools/prepare_approval_revision.py, tools/review_channel_export.py,
+tools/render_approval_revision.py and tools/verify_approval_revision.py.
+New behavior: compact coal mouths, direct source-clock vocal activity, exclusive
+pitched-role assignments, measured-onset correction and bounded spatial groups.
+The legacy driver's optional separate_pitched flag defaults false.
+
+- [x] Inspect PR151/150 and current open issues using GitHub; no newer PR found.
+- [x] Read official SuperStar, xLights, Vixen and MADRIX documentation. Prefer
+  authored movement/timing/layer discipline over more global amplitude effects.
+- [x] New vocal/role/cast/spatial regressions plus preserved final-band, guitar,
+  keyboard, drummer-cache and physical-output contracts: 38 passed in18.66s.
+- [x] Full repository regression before the melodic-prop fallback: 1,575passed,
+  five missing-2.wav skips,36warnings,228.39s. Four first-pass MP4s fully decoded
+  with zero measured soundtrack offset; minimum correlation0.997958.
+- [x] Visual QA found guitar-only scenic routing starved a synth-only excerpt.
+  Let melodic props use actual keys when supported guitar is absent; no physical
+  guitarist motion is invented. Re-render the affected pair and verify again.
+- [x] Final-source full regression: 1,576passed/five missing-2.wav skips,
+  zero failures/errors,194.385s (authoritative JUnit). Five final score tests pass.
+- [x] Four current MP4s fully decoded: 720frames/36s each, H.264/AAC stereo,
+  no black frames, minimum soundtrack correlation0.997958 and zero measured lag.
+  Numerical key-contact changes and mallet contacts meet their surface targets.
+- [x] Verify every channel sample of ten new source-scored FSEQ shows and exact
+  current-score parity. These are Helix-generated channels; native xLights
+  import/render is not claimed for the new review score. Exclude unrelated
+  generated demonstration XSQs from exports and delivery.
+- [x] Package exactly four final MP4s, ten source-score FSEQ/layouts, source
+  excerpts, analysis and validation in Helix_Four_Revised_Previews.zip; CRC and
+  entry counts verified. Separate product report compares official SuperStar,
+  xLights, Vixen and MADRIX workflows and lists grounded repository priorities.
+  Machine receipt and priorities: evidence/four_preview_review_20261016/.
+- [x] Save all four actual movies, the ZIP, report, guide, contact sheet and
+  validation/index/provenance files; all12ordered saves succeeded.
+- [ ] User reviews the four previews and supplies corrections/explicit approval.
+- [ ] Obtain user video approval before final release integration.
+
+Limits/risks: source separation and vowel/pitch estimates are not annotated
+musical ground truth. Secondary singer remains quiet without independent source
+support. Native controller/vendor-LOR/device testing is not claimed. New review
+renderers must state whether channel output was rendered by native xLights.
+
+## 2026-10-15 — Drive-based 40-video review collection delivered for review
+
+Goal: produce 12 standalone, eight embedded-band, ten six-layout and ten vocal
+review MP4s, each 30–42 seconds. Branch `codex/showcase-review-20261015` starts at
+PR150 `63d158f`; no final release merge, approved public EXE/APK release or approval inferred.
+Changed modules: `tools/showcase_excerpt_rank.py` and this ledger; subsequent
+production/validation modules and final receipts will be recorded here.
+Preserve all source audio/Drive organization, existing engine modes, physical
+CTB16PC/LOR contracts, native layouts, GUI/Android and unfinished branches.
+
+- [x] Read AGENTS/roadmap and PR146–150 metadata, issue143/144, recent commits,
+  latest successful native/Windows/Android/full-CI runs at exact PR150 head.
+- [x] Download all 91 Drive audio entries (three nested folders), verify byte
+  counts against inventory; read user-authored permission covering video use.
+- [x] Implement repeatable 36s window ranking over every recording using onset
+  density, spectral-band activity/diversity, chroma motion, contrast and stereo
+  width; record byte/decoded PCM hashes and chroma fingerprint comparisons.
+- [x] Analyze selected clips with source-bound instrument/vocal estimates.
+- [x] First fresh-source render exposed a real integration defect: the drummer
+  review decoder required EffectDB references although the current injector
+  emits inline settings. Accept both representations in
+  `models/drummer_review_schedule.py`; equivalent native/inline schedule
+  regression in `tests/test_drummer_review_schedule.py`. Preserve all cue timing,
+  velocity, hand assignment and rejection behavior; malformed refs fail clearly.
+- [x] Analyze 22 initial 36s selections using actual htdemucs_6s stems, existing
+  harmonic-note/playable-string/unified-mallet modules and pinned ADTOF weights.
+  Unknown tom identity abstains; one mixed vocal bus does not fabricate singers.
+- [x] Native xLights2026.18 first six-layout set renders all 720 frames per show;
+  every RGB prop activates and controls remain dark. New production tools:
+  `showcase_source_analysis`, `showcase_vocal_alignment`, `showcase_review_bands`,
+  `showcase_review_native`, `showcase_review_layouts`. Exact receipts live beside
+  generated outputs until the final summary is committed.
+- [x] Add explicit camera angles to `NativeSongView`, preserving the old defaults.
+  New foreground stages use the appropriate front perspective; remove duplicate
+  base captions in the new compositor before native lights are drawn. Add
+  source/activity, hallucinated-lyric and camera/channel preservation regressions.
+- [x] Vocal eligibility refinement: replace the initially instrumental-heavy
+  Ghost window with its next-ranked passage; replace the wordless Audio In
+  Lights Out test hook with the high-activity Wire Tree lyric passage. Preserve
+  initial choices/reasons in the selection manifest; rebind all changed stems.
+- [x] Audit found stale MIT-only generated-output credit after the prior
+  PolyForm transition. Update `core/output_provenance.py` to the current project
+  policy while retaining historical/third-party rights and separate music rights.
+  Add opt-in terminal Helix notice refresh, preserving every media byte/offset;
+  focused regression verifies idempotence and policy. No third-party licenses,
+  historical source grants, controller channels or audiovisual timing changed.
+- [x] Closeup review found wire-mask offsets left solid singer mouths/noses
+  detached from their heads. Re-anchor only final solid faces to head-relative
+  coordinates in `models/final_band_scene.py`; preserve voice shapes/timing,
+  guitar geometry, old wire scenes and physical channel contracts. Restore the
+  established visible-lip material level in solo views. New face attachment
+  regression and native export/camera/provenance checks pass17tests. Regenerate
+  all affected movies and eight native band-bearing layouts before delivery.
+- [x] Full local pre-face-correction regression: 1,567 passed / five missing
+  `2.wav` skips / 36 warnings in254.03s; JUnit retained with production evidence.
+  Final exact-source regression and all movie checks remain required below.
+- [x] Publish isolated review implementation as draft PR151 at
+  `2e2e1b7cd4801c78730236497d0a970f114da230`; remote source tree exactly matches
+  local implementation tree8a9afcf. Source-only review; no default/release merge.
+- [x] Package/validator safeguards: require distinct40movies in exact category
+  counts; bind resumed vocal recognition to source hashes; stream native FSEQ
+  snapshots, reject changed inputs, validate current-generation batches only,
+  preserve media prefix when refreshing notices, and exclude pilot/intermediate
+  images/movies from downloads. Two final embedded views use front-on projection.
+- [x] Restarted renders exposed a shared temporary-filename collision during
+  FFmpeg faststart. Give every band encoder a unique temporary path and move final
+  production into `Helix_Showcase_Review_Final`, reusing only hash-checked audio,
+  analyses and native inputs. Earlier review/pilot outputs are not deliveries.
+  All final movies must complete and independently decode in that isolated root.
+- [x] Profiled review rendering: median pose55.47ms, drummer248.24ms, complete
+  drawing434.64ms under concurrent load. Add an opt-in24-entry static-kit lighting
+  cache in `animation/articulated_source_drummer.py`; arms still recompute at every
+  exact source time. Existing callers/defaults remain uncached. Pixel-equivalence,
+  lighting-change and bounded-memory regressions in `test_drummer_lighting_cache`.
+  Enable only with `HELIX_CACHE_STATIC_KIT=1` after these regressions pass.
+- [x] Render/fully decode all40new distinct MP4s in the isolated final root: 12
+  standalone, eight embedded, ten comparisons, ten vocal. Each36s/720frames/20fps;
+  H.264/AACstereo. Bands720p, layouts1080p. Original-audio window correlation
+  minimum0.996534; zero-offset lag, no unexpected black frames. Inspect all four
+  contact sheets and verify200decoded screenshots. Numerical2,823mallet contacts
+  have zero target error; recorded motion omissions remain available for review.
+- [x] Package four movie ZIPs and two technical ZIPs; verify CRCs and SHA256s.
+  Include60actual xLights2026.18 native shows, 22virtual band exports, original
+  excerpts, fingerprints/rankings, rejected/accepted lyric evidence and reports.
+  Seven of ten vocal movies have reference-corroborated captions; other captions
+  abstain. `Helix_Showcase_Video_Downloads.md` links every actual MP4 and ZIP.
+- [x] Isolated implementation source172fb0804b1b5c2b8eb12923555e70a446c8dace,
+  exact tree07e678915f144558cac67d8e0f2e69aca342f841, draft PR151. Full CI
+  38806290207: Python3.11 and3.12 each1,571passed/five missing-2.wav skips;
+  216.14s/343.55s. Local pre-cache full suite1,568passed; cache focused6passed.
+  Static-kit cache benchmark1.22284x for the drummer layer with identical pixels;
+  production stays uncached. Decoder, face geometry and cache changes are ready
+  for code review. Final receipt: `evidence/showcase_review_20261015/delivery_receipt.json`.
+- [ ] Receive user MP4 corrections/explicit acceptance. Unknown toms, mixed-bus
+  singer identity, approximate phonemes/stock geometry and recorded impossible
+  hand travel remain limitations. No hardware testing claimed. No final-release
+  merge or approved EXE/APK distribution until explicit user video approval.
+
+Selection metrics are spectral proxies, not confirmed instruments. Similar
+fingerprints are review candidates; identical names/sizes alone never deduplicate.
+No claimed physical hardware testing. Risks: source-separation leakage, uncertain
+tom/voice identity, finite 20fps motion sampling, software GL runtime and native
+renderer availability. Earlier sampler-specific work remains open and is not
+silently replaced by this different-source collection.
+
+## 2026-10-15 — User-supplied six-song sampler ingestion
+
+- [x] Received `Helix_Six_Song_Technical_180s.mp4`, video duration 180.021333 s; AAC audio decoded to 44.1 kHz stereo PCM (180.224014 s including codec padding).
+- [x] Source MP4 SHA256: `93b205681c4b8c7d0dc41bbcd39af1ade9719cd3db63fde721eb33ea4020e01e`; extracted WAV SHA256: `efdfe69328b8458ff9b405d091af9d5cb9202e3f53846f1ac0de07814f28739d`.
+- [x] Added `tools/prepare_sampler_audio.py` and focused extraction regressions; equivalent local test implementation passed 2/2 checks. Do not count this as a complete repository test run.
+- [ ] Establish whether this is identical to the October 13 original six-song source; filename, MP4 size and decoded WAV hash differ from earlier original-sampler evidence. AAC padding must be handled explicitly for exact duration alignment.
+- [ ] Generate source-bound musical analysis and native drummer XSQ for this exact uploaded audio. `tools/render_final_band.py` requires both, not just a WAV; no verified fresh band MP4 exists yet.
+- [ ] Render and fully decode two six-member bands, six layouts and comparison movies; independently inspect kick, mallet and keyboard passages. Do not ship an unverified or fabricated video.
+- [ ] Physical CTB16PC, Samsung/ARM64, final signing, song distribution and release gates remain open.
+
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## 2026-10-15 — Installer review delivery and physical review repairs verified
+
+Verified software/build source: d3a3d377e64b0d95b54e553e89dce34dc0f93194,
+PR150. This receipt supersedes pending software statuses in the two implementation
+entries immediately below. The receipt commit changes documentation/evidence only;
+all application and workflow bytes remain identical to the verified source.
+
+- [x] Address review4279789859/4279789864: all cymbal retriggers have a release
+  gap; accepted quiet contacts/nonzero tails survive percent quantization.
+- [x] Fifty focused export/packaging tests plus eight related controller-contract
+  checks pass locally, including actual addressed LMS export/reimport.
+- [x] Full CI38697129434: Python3.11 and3.12 each1,560 passed / 5 missing-2.wav skips.
+  Actual durations310.85s/231.67s; five/thirty-six warnings, respectively.
+- [x] Native38697129459: all4,800 kit intensities, maximum error0.45/255; explicit
+  retrigger-gap/quiet-hit assertions; six layouts and prior band/key/kick gates.
+  Downloaded native artifact11954881953source/hash/CRC independently checked.
+- [x] Windows38697129450passes packaged GUI/engine/native checks; embedded
+  source/run/executable/guide provenance and nested ZIP hashes/CRC verified.
+- [x] Android38697129307API30/API36pass instrumentation, fresh install/reinstall,
+  recovery/playback and independent full 237.466708s / 3,562-frame decode; both0ms
+  audio offset, correlation>=0.99571445. All968API30 embedded engine hashes
+  independently checked locally; both APK archives/engines checked in CI assembly.
+- [x] Combined installer38697129438passed all four exact-source push-run gates
+  and delivered actual Windows portable ZIP, API30 debug APK, guides/notices,
+  validation report, checksums and explicit release status. Final package and all
+  nested CRCs/checksums independently verified after download.
+
+Delivery: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129438/artifacts/11954249825
+Inner Helix_Beta_v1.0_Installers.zip:334173665bytes, SHA256
+1d93a9cc02d32dcf60f80ba69a279ccb5b8fc10c01a8a4be1991be66578e1eef.
+Outer Actions artifact:287440630bytes, SHA256
+77c6256f056e8755a1eea2819b19c9163510be2a2f41be6a3db79f0bdad127d0.
+Machine receipt:evidence/72h_completion/installer_delivery_receipt.json.
+Usage:docs/BETA_INSTALLER_BUNDLE.md; earlier audit/roadmap retain historical receipts.
+
+Goal/changed files for this receipt: record actual final delivery in this ledger,
+installer guide, audit, hardening roadmap and machine receipt. Preserve all tested
+code/workflows, earlier evidence and application behavior. No new test run is
+needed for this documentation-only receipt. Software review delivery is complete;
+final release readiness remains false. Independent musical/duet/tom review,
+missing original audio/rights, clean physical Windows11/Samsung/ARM64/controllers/
+vendor LOR, production signing/upgrade/16KB/store work, relicensing authority,
+reviewed default integration and authorized full-song showcase acceptance remain
+open. No source songs or test movies are in the installer delivery. No existing
+release asset was replaced and no PR/default branch was merged.
+
+## 2026-10-15 — Address outstanding PR150 physical-output review
+
+Goal: repair two actual review defects (discussion4279789859/4279789864).
+Changed core/ctb16pc_sequence.py, focused export regressions, native CTB16PC proof,
+export documentation and this ledger. Enforce the minimum real/grid20ms spacing
+for tailed and ordinary contacts alike; truncate an old cymbal tail to preserve
+one dark tick before a retrigger. Quantize accepted positive contacts and nonzero
+tail values to at least1percent; measured zero tail samples/rests remain dark.
+Preserve all other cue timing/addressing, source files, ordinary intensity values,
+mouth exclusivity, twelve-string mode, detectors and user layouts. Add unsorted
+tail/plain combinations, sub-grid spacing and tiny velocity regressions plus actual
+LMS roundtrip and unchanged4,800-value native assertions for both defects.
+
+Focused export/packaging tests pass50checks in0.24s, including real LMS reimport.
+Compilation and whitespace checks pass. Final same-source platform/native/bundle
+verification is pending. The passing81b1f3b native/Windows builds precede these repairs and cannot
+serve as their final evidence. Regression risks: intentional tail truncation at
+retrigger, rejecting previously ambiguous sub20ms contacts and minimum1percent
+quiet output. Independent transcription/listening/hardware/signing gates remain
+open. No external review comments were posted or acceptance inferred.
+
+## 2026-10-15 — Combined same-source installer review delivery (in progress)
+
+Goal: finish issue143's missing repeatable combined installer package without
+inventing final musical/hardware/signing acceptance. Changed modules:
+tools/package_beta_installers.py, tools/collect_beta_installers.py, focused
+packaging tests, Windows/Android build triggers, dedicated installer workflow and
+docs/BETA_INSTALLER_BUNDLE.md. New Windows builds embed source/run/executable and
+guide hashes after their real packaged smoke. Assembly requires successful
+same-SHA push runs for Windows, both Android APIs, native xLights and the full
+Python regression workflow; verifies GitHub archive digests, inner checksums,
+Windows source receipt, all Android engine bytes, complete decode receipts and
+the final ZIP inventory. Includes original guides and explicit release gates;
+ships the tested API30 debug APK and unchanged Windows ZIP, records API36 proof.
+
+Preserved: all application sequencing/detection/rendering/UI code, original audio,
+native layouts, prior verified builds, signing policy, historical license notices,
+default branch and all other PRs. No music/test movies/unsigned store packages in
+the delivery; no release assets replaced and no reviewed integration assumed.
+Focused rejection/integrity tests pass (20 checks on Python3.12), including real
+temporary Git source stamping, changed bytes, mixed SHAs, invalid decode receipts,
+failed CI attempts and prior-delivery preservation. Actual new-build assembly
+is pending. Python compilation, workflow YAML and whitespace checks pass.
+Regression risks: artifact path/schema drift, source/hash mismatch, CI queue time,
+Windows provenance integration and large archive disk requirements. Earlier c56a097
+software receipts remain valid for that source; new package evidence must name
+its own exact SHA. Final musical/rights/hardware/signing/release gates stay open.
+
+## 2026-10-15 06:18 UTC — 72-hour implementation verified; release gates remain
+
+Software source: c56a0975bf11f66927091694e7851631dec6c7fa, PR #150. This final
+receipt supersedes the pending software statuses in the implementation entries
+below. It does not close the broader musical, rights, hardware or release gates.
+The subsequent receipt commit changes documentation/evidence only; application
+builds and runtime verification remain pinned to this exact software revision.
+
+- [x] Integrate PR149 physical contracts into the latest hardening source.
+- [x] Export classified CTB16PC cues to addressed XSQ/legacy LMS, preserving
+  rapid kicks, independent snare hands, measured cymbal tails and chorus mouths.
+- [x] Repair doubled/clipped native dimmer output from generated LOR layouts.
+- [x] Support 1–600-second Android local/remote previews, retaining the 30-second
+  default, source-duration cap, full sequencing and export recovery.
+- [x] Replace the misleading three-second full-song device test with complete
+  source rendering; stream host decoding while retaining six sampled frames.
+- [x] Full local suite: 1,525 passed, 5 missing-2.wav skips, 36 warnings, 186.60s.
+- [x] GitHub 3.11/3.12 full suites: 1,525 passed/5 skipped each (run38689830938).
+- [x] Native xLights2026.18 proof (38689830974): 4,800 kit intensity checks,
+  maximum error0.4/255; six layouts, two six-member bands, sixteen source-bound
+  opening kicks including eight rapid hits. Native ZIP hash/CRC/source verified.
+- [x] Windows38689830954: real build, packaged GUI/engine/native preview; both
+  ZIP layers/checksum verified. Portable ZIP189958671bytes, SHA256
+  ad30b71d3857f5f12fe034b7fadfb7791bcdb0508908bd0cac3c8e6edeb615ec.
+- [x] Android38689830986 API30/API36: MP3/WAV, xLights/LOR, recovery, playback,
+  reinstall and full-song output pass. Both full movies decode3,562frames over
+  237.466708seconds with0ms audio offset and correlation>=0.99571445.
+  API30 APK144078121bytes, SHA256
+  da80349e76b940e3c1f633c1083a4e56ff7ce6d1d436201ff5b398b906225c7f;
+  embedded engine declares c56a097 and all966file hashes match.
+
+Goal/files/new behavior/preserved behavior and regression risks are recorded in
+the implementation entries below; docs/REPO_AUDIT_20261015.md and the machine
+receipt evidence/72h_completion/validation_receipt.json contain final receipts.
+No tests were ignored/weakened and no missing hardware/music evidence was invented.
+Independent listening/duet/tom labels, complete LightsOutTheme, track rights,
+physical Samsung/ARM64/controllers/vendor LOR, production signing/16KB/store
+requirements, final release ZIPs and reviewed integration remain open. Physical
+front-projection contracts and synthetic native diagnostics are not fabrication
+or original-song recognition proofs. Default/other development branches remain
+preserved. This implementation is ready for code review, not a stable-release claim.
+
+## 2026-10-15 — 72-hour audit and physical-output completion (in progress)
+
+Verified physical/runtime checkpoint182c7c5: local1515passed/5missing-2.wav skips/
+36warnings in187.75s; native38688893171passed unchanged gates, including4,800kit
+intensities(maxerror0.4/255),6layouts,2six-member bands and16source-bound opening
+kicks(8rapid). Downloaded artifact11951446369matches declared source, ZIP CRC and
+SHA256194e61e65bbf8972a496a1fe378be0ecfdf10998820bac695379b4812c5b02dd.
+Windows38688893139passes actual packaged GUI/engine/native preview. These receipts
+precede the additional long-Android-preview change below; rebuild after it.
+
+Additional concrete gap: Android's full-song instrumentation case sequenced the
+237-second song but rendered only3seconds; bridge/local/remote UI rejected previews
+over120seconds. Align those request limits with desktop600seconds and make the
+device case render the entire actual source. Host verification now decodes every
+frame incrementally, retaining six samples rather than a multi-gigabyte raw video
+buffer, and checks complete source duration/frame count/audio alignment. New host
+tests cover121/240/600second forwarding, invalid lengths and complete streaming
+decode with bounded retained memory. Preserve30second defaults, preview cropping,
+codec/sync algorithms, source audio, recovery and all sequencing behavior. Changed
+Android UI/bridge/instrumentation, desktop remote validator, proof verifier/tests.
+Risk: longer renders expose memory/encoder/runtime limits; API30/API36 full-song
+evidence is mandatory before closing this gate. Focused/platform receipts pending.
+
+Native follow-up: Actions38688520597 passed the giant/twelve-string probes,
+then failed the new unchanged4,800-value kit assertion. Downloaded FSEQ shows
+18percent body intensity became92/255instead of46/255;55/68percent cymbal tail
+steps clipped255. The generated LOR grid used legacy ModelBrightness=100,
+which adds100percent gain. Set only generated LMS-workspace grids to neutral0;
+preserve user layouts, source addresses, all cue times and exported LMS values.
+Changed tools/lor_lms_import.py plus existing import/kit regressions. The native
+assertion and tolerance stay unchanged. Focused/remote rerun receipts pending;
+this is a runtime repair prompted by actual playback, not a relaxed gate.
+
+Goal: complete executable gaps found in the October12 05:33–October15 05:33 UTC
+repository window. Candidate branch: codex/72h-completion-20261015, based on
+hardening183057f. Default feature/restructure-core has no commits in this window;
+PR146/147/148 and physical PR149 remain unmerged. Prior final native/platform
+receipts on7a1ffa and hardening CI on15e2155 remain prior-source evidence.
+
+Changed: integrate the15physical-contract files from PR149 at92b3a47, then add
+core/ctb16pc_sequence.py and tools/export_ctb16pc_sequence.py to connect classified
+hits, measured cymbal tails and explicit chorus/voice cues to actual XSQ/legacy
+LMS output. Require a supplied LMS containing exactly the selected controller's
+sixteen addresses; explicit Unit ID, fresh output directory, source hash and cue
+hash prevent silent mapping/replacement. Reject unknown hits, missing snare
+hands, invalid inputs and conflicting mouth poses. Preserve all original inputs,
+historical twelve-circuit outputs, current six-performer final scene, musical
+detectors, GUI/Android, guitar motion and historical MIT/third-party notices.
+Fix invalid00Unit ID and nonfinite/undersampled shimmer frequency handling.
+
+Native CI now follows hardening/completion branches and all relevant engine,
+export and test changes; it previously skipped audio-only hardening. Evidence:
+full localPython3.12 suite1515passed/5missing-2.wav skips/36warnings in209.69s;
+49focused checks passed in1.43s. No tests were excluded or weakened. New regressions
+cover real LMS reimport, exact per-centisecond intensities, eight rapid flashes,
+left/right snare, silent vocal suppression, mouth exclusivity and actual XSQ
+settings references. SourceLMS remains byte-identical. Regression risks:10ms
+quantization, changed physical pose mapping and native dimmer interpretation.
+
+Limitations/deferred: this kit exporter is opt-in and consumes observed cues;
+it does not add a voice separator, independent listening labels, controller
+hardware proof, native vendor LOR import or surveyed3D fabrication. Front2D/3D
+parity is a shared construction contract, not a rendered/hardware claim. Real
+full-song movies require original source/analysis and track-specific distribution
+evidence. Missing LightsOutTheme, Samsung hardware, production signing, tom/duet
+listening and final release approvals remain open; no gate is silently removed.
+
+### 2026-10-14 — full-source native validation found cross-key arm illumination
+Run38614788465 rendered the complete actual sampler and failed unchanged key-state checks at frame651/MIDI55 while only MIDI67 was requested. Finite surface sampling merged passing arm vertices and unrelated bar vertices. Give NOTE_MIDI nodes exclusive ownership, trim those nodes from all other submodels, and preserve channel allocation/bar identities. Add serialized geometry overlap assertions; rerun focused/full/native/platform gates. The GL movie renderer and six-layout engine outputs are unaffected, but final native-band application binaries need a new exact-source build. Prior f38 receipts stay identified as earlier-source evidence, not the final release.
+
+### 2026-10-14 — Native duplicate drummer names and test-media artifact boundary
+- Native xLights run 38611486666 reached actual FSEQ output and failed the unchanged drummer contact assertion. Both copied drums serialized as HX_SNOWMAN_DRUMMER_V3 because imported attrs overrode their new names; kick nodes were zero on both stages. Remove only that copied identity attribute, preserving original grid/submodels, and verify all serialized model names against allocation.
+- Windows and Android still execute real-audio import/sequence/mux/decode checks, but their public artifacts now allow only binary distributions and scalar/log/structure/image evidence. Test WAV/MP3/MP4/decoded samples have no demonstrated redistribution clearance. Remote-review Pages uses generated benchmark audio and remains explicitly synthetic; it is not a requested real-song showcase.
+- Prior source d73b9745 Windows packaged application passed. Final binaries and native output must be rebuilt/verified after this fix; no physical-device or licensed full-song delivery is claimed.
+
+
+## 2026-10-14 — fix actual rapid-kick visual coalescing and missed melodic lanes
+
+Goal: close defects found by real output validation rather than accepting the
+first render. Changed the kick-only path of tools/integrate_drummer_v3_into_xsq.py:
+repeated observed kicks keep separate holds/release gaps; overlapping shared-arm
+non-kick poses retain their existing maximum-union behavior. Source detection
+held492kicks but visual coalescing hid eight fast opening attacks in one union.
+The earlier1838→1865 placement estimate above is superseded by measured1839 before
+this repair; final actual counts and native onset verification are recorded below.
+Never claim sixteen visible opening kicks from logical event counts alone.
+
+The residual note analyser now screens the non-bass/non-drum sum of other/guitar/
+piano stems because separator labels misfile melodic sources. Harmonic dominance
+and vocal exclusion stay mandatory. The30–31.5s passage now has7supported note
+events;53–60s has17,38–42s59 and73.5–76s34. These are measured estimates, not verified
+instrument labels. Guitar notes/routes/contact math remain unchanged.
+The final band driver precomputes exactly the same bar decays and reuses identical
+drummer pixels on two stages; this is a rendering optimization, not changed music.
+Add original source-bound light-only kick native regression and21focused passing
+checks. Full new suite and revised media/native validation remain required.
+
+Native CI also exposed missing soundfile in the minimal mask-loader environment.
+All native dependencies now pass a clean isolated-venv build of the giant and
+two-band fixture before remote rerun. Android concurrency cancels stale builds
+only on the same ref. Preserve original files, old review movies and all other
+branches. Previous full1481pass receipt remains valid for the earlier snapshot;
+the new kick semantics need a fresh regression receipt.
+
+Measured after the kick export repair:1997 visual placements; tagged XSQ review
+has16 distinct opening kick rises including8 rapid rises at1.90,2.00,2.10,2.25,
+2.35,2.45,2.55,2.65s. Native playback of these actual source-bound cue intervals
+is now a separate mandatory regression. The isolated nine-dependency native
+environment builds the1153-model giant and two-stage fixture successfully.
+
+## 2026-10-14 — provision final native layout runtime and keep platform source aligned
+
+Goal: fix concrete remote validation startup failures without changing runtime
+algorithms or weakening checks. Changed only four workflow definitions and this
+ledger: the new solid-band geometry needs SciPy and canonical drummer-mask
+loading needs imageio/imageio-ffmpeg. Layout run38608542592 stopped on missing
+SciPy; native run38608542759 stopped on missing imageio before xLights executed.
+Add those declared dependencies and make the candidate Windows/Android builds
+follow native-workflow changes so all final artifacts use the same revision.
+Preserve every application source/data/GUI byte from ae9ab309.
+Evidence: final local full suite1481passed/5missing-2.wav skips/36warnings in358.57s;
+53 focused runtime and4 native geometry/export checks pass. Real two-stage movie
+has3603frames/180.15s, zero measured mallet-contact error, complete decode and0ms
+audio/video start delta; source correlation audit passes all10windows.
+Remaining gates and regression risks are in the completion matrix; native and
+platform CI rerun receipts must be checked, not inferred from local tests.
+
+## 2026-10-14 — final six-performer band and release reconciliation (in progress)
+
+Additional implementation: finite solid-surface native bands with49 addressable
+bars/reachable contact poses, themed18-house variations, 9.102x layout; shared
+GUI/CLI/Android automatic native pitched-prop routing and opt-out; recording-bound
+rapid-kick recovery; screened harmonic residual note analysis; final two-stage
+renderer; native validation of bands and six real-source sampler light sequences.
+Original sampler WAV was recovered with exact expected0fc2ab5d hash; it is kept
+out of source/public releases. Unmodified model found7 opening kicks; measured
+recording-calibrated low-band profiles recover9 missing attacks, including the8
+rapid attacks105–110ms apart. No fabricated count/beat events; listening remains
+open. Direct source output grows from1838 to1865 visual placements.
+
+Evidence: baseline1470passed/5skipped in308.44s;15 scene/rung tests,6 giant-layout
+checks,8 new musical regressions, native band XSQ fixture and53 focused final
+runtime checks pass. Original GUI/LOR/Android recovery tests remain unchanged.
+Official PolyForm text fetched again and byte-matches LICENSE (4563bytes).
+Local xLights2026.18 binary hash matches the previous native runtime, but Xvfb
+cannot establish sockets in this environment; the same-source Actions workflow
+performs native validation instead. Full new candidate suite/media/platform
+verification remains pending. No stable release or default merge is authorized
+by incomplete gates. Read docs/BETA_FINAL_COMPLETION_20261014.md for the full matrix.
+
+Goal: finish issue143/144 on codex/beta-final-completion-20261014 from verified
+cb6cff6. Reconciled PR134/137/138/139/140/141/142/145/146 and 42 integration
+commits in the requested window; previous verified Windows/API30/API36/native
+receipts are retained as prior-source evidence. Default and unfinished branches
+are preserved. Changed: models/final_band_scene.py, music/unified_mallet.py,
+tools/final_band_performance.py and finite-input repairs in music/magic_keyboard.py.
+New: six visible performers, one right-side pitched/mallet performer, solid rock
+costumes, purple secondary singer, all eligible canonical pitched lanes share
+one note schedule, explicit two-hand chord limitations and source-bound separate
+voice inputs. Historical seven-member and wire stages remain available.
+Preserved: guitar event/route/rig/contact math, original assets, drummer detection,
+desktop/Android workflows and physical target contracts. No fabricated voices or
+kick hits. Tests and actual native/media evidence are pending below; no complete
+release claim. Risks: scene visibility, broad pitched routing, finite-frame contact
+quantization. External gates: original mixed-voice separation, rights clearance,
+full LightsOutTheme source, physical Samsung/controller/LOR software validation.
+
+## 2026-10-14 — complete CI media dependencies; runtime release stays pinned
+
+Goal: make strict3.11/3.12CI run the same1475collected tests as the validated local environment. Change only requirements-dev.txt, unit-tests.yml and this ledger: add zstandard and install systemFFmpeg. Preserve every runtime code/data/GUI byte from a8eb35b5e84772d3fc910d4c07435916b5c3af91; no new platform binary rebuild is needed for these test-only dependencies. The common Windows/Android release source remains a8eb35b.
+
+Evidence: local full suite1470passed/5skipped(2.wav absent)/36warnings in218.06s, plus68focused repair regressions. Strict remote CI exposed9environment failures: eight shellFFmpeg lookups and one missingzstandard import; no runtime algorithm failure was observed. Earlier source2b's allowed broad collection failures are superseded by this strict, fully provisioned gate. New CI receipts must be checked before claiming remote success. Latest Windows build38516812904passes; Android38516813012and pinned native run38517353322supply release-source verification. Risks: apt/PyPI availability, missing fixed2.wav sandbox input, and previously masked tests; no tests are ignored or marked xfail to achieve a pass. Full-song licensing and final performer/choreography gates remain as documented.
+
+
+## 2026-10-14 — stop hiding full regression collection failures
+
+Goal: correct a discovered CI gate while preserving the verified application source2b295284 and exact installer binaries. Changed requirements-dev.txt and unit-tests.yml on an isolated test-dependency branch; add the preview runtime moderngl5.13 and remove continue-on-error only from full regression. Keep existing lint baseline behavior and all engine/band algorithms, platform builds, original media and integration source intact.
+
+Evidence: source2b's broad3.11/3.12audit stops at3missing-moderngl collection errors even though the workflow is reported success. Local environment initially also lacked optionalTorch; installing CPUtorch resolves that dependency without altering source. A broad local audit is now running with all required imports.185focused checks and actual Windows/Android/native output validation remain genuine passes; they do not imply whole-repository success. Final counts/failures are retained in evidence/beta_final/full_suite_audit.txt. Full-song/band/music-rights/physical-device gates remain open. Risk: making the broad audit strict may expose historical tests that were previously masked; retain and report them rather than deleting tests or weakening musical logic.
+
+Further audit: local full suite1451passed/13failed/5skipped. The CMU dependency failure passes on rerun. Corrected a real typed-drum planner KeyError by retaining a singleton logical target when optional composite metadata is absent; no onset/classification change. Stem-map validation now derives exact V3 targets from actual layout identities while retaining the default legacy map. Strict legacy-flat vocal XSQ validation accepts the original fixture and rejects missing type/index, duplicate indices and non-finite/negative/zero effect timing. Tests now assert the approved eight-component/three-tom kit, actual V3 namespaces, integrated contact poses and abstention from drum_bus inference. Obsolete ffprobe mocks now exercise actual FFmpeg full audio/video decoding, including failed-decode preservation.42affected tests pass; focused Android/LOR/drum/note regressions and a final full-suite rerun are in progress. Changed modules additionally include core/snowman_band.py, core/helixville4_band_stem_map.py, tools/validate_xsq_structure.py and corresponding regression fixtures/tests. Existing detector scores, GUI, source media, layouts and guitar motion are untouched. A fresh same-source platform build is required for these runtime repairs; prior2b installers remain a separately identified review revision.
+
+
+## 2026-10-14 — final beta source integration and concrete release gates (in progress)
+
+Goal: execute issue143/144 and the final delivery task from Infinite Symphony081b8f7 on an isolated feature branch. Inspected default, PR138–145, latest branches and workflow runs before editing. Selected105 compatible GUI/Android/Windows files from verified guidance a678b715; preserved the newest band rig, indexed EventLane, contact transitions, original audio/layouts and other branches. Only the inspected AC learned-effect fence is added to the master engine; the earlier direct failure guard remains.
+
+Changed: GUI/Android/export/Windows integration, official PolyForm license and customer guidance/assets, platform package notices, build triggers, versionCode6/1.0-beta, desktop librosa pinned to the same verified0.10.2.post1 family as Android; local band analysis-proof lookup; native88-rung XSQ writer and pitched-note eligibility router; twelve-string physical contact/idle interval compiler; giant layout spacing and explicit bounding-area methodology; focused regression modules. Earlier seven-performer proposal and wire-band previews remain historical; this request requires a single magic-key/mallet performer and a solid second band, not yet represented by those historical files.
+
+New: native per-rung note layers preserve existing XSQ content and original layout bytes, screened mallet notes can activate keyboard, confident pitched synth/horn sources are eligible while percussion/vocal leakage is excluded, rapid kicks retain independent onset intervals, snare/cymbal contact switches suppress the corresponding idle arm, body/kit dim interval is explicit. The native physical output writer and full media delivery gates remain in progress. The corrected18-house layout builds at9.082x measured fullXZbounding area with1081models/919839channels/27native families; all88rungs are nonempty, disjoint and pitch ordered.
+
+Evidence: first integrated suite162passed/1failed because host initially installed unsupported librosa1.0; after installing project's Android0.10.2.post1, numerical parity and3new note-export checks pass. Seven additional rung/physical-contact/scale checks pass. Final integrated suite170passes and additional spatial/palette/AC/native-export suite15passes; compileall and git diff --check pass. Receipts are evidence/beta_final/integrated_tests.txt and additional_tests.txt. Native/media checks continue independently. Official license downloaded verbatim from https://polyformproject.org/licenses/noncommercial/1.0.0.txt (4563bytes); earlier MIT grant preserved under LICENSES/HISTORICAL_MIT.txt, third-party notices retained.
+
+Limitations/deferred: track-by-track account/date redistribution clearance is absent; no music may be publicly bundled until verified. Full LightsOutTheme identity/source remains unresolved. Actual mixed-voice separation, single-performer final scene, full six-layout/band/ultimate movies, native imports, fresh same-SHA installers and release ZIPs require their own evidence; no completion is claimed from source/tests.12-circuit toms illuminate surfaces only; their articulated sticks need additional channels/pixels. Physical controller addresses, actual Samsung operation, signing continuity and Play16KB dependencies remain unverified. Regression risks: crossed source stacks, broader keyboard note routing, imported GUI postprocessing and large layouts; preserve original guitar/motion/score and inspect real output.
+
+
+## 2026-10-13 — readable wire-band mouths and solid string players (rendered and verified)
+
+Goal: respond to the review that wire singers' mouths, guitar and bass blend
+into the contours. Isolated branch: codex/band-readable-mouths-solid-strings-20261013.
+Changed: models/expressive_band_face.py, models/distinct_band_stages.py,
+tools/musical_band_performance.py, tools/render_dual_band_showcases.py and focused
+stage tests. New: large coral lip rings, dark apertures, pink articulated tongues,
+ivory upper teeth and a wire-face backing; guitar/bass players and instrument
+bodies stay solid. The old custom prefix filter dropped electric_guitar_body;
+the corrected filter keeps its original closed mesh. Rendering uses a new output
+folder and filenames. Camera callbacks remain compatible with ongoing work.
+Preserve: original core/GUI/audio/layouts, singer voice lanes and silence closures,
+guitar/bass rig indices, notes, string/fret contact geometry and arm motion;
+previous deliveries and ongoing neighborhood checkout remain untouched.
+Evidence:52 focused regressions pass, plus7 stage checks after the contracting
+face-mask correction. All28,128 sampled string/key/mallet matrices over96 actual
+source frames match; curves, voice lanes and mallet schedules match exactly.
+The32.2s/644-frame closer Wire Tree movie fully decodes; source soundtrack
+correlation=.998487416; decoded frames inspected. The78.2s/1,564-frame two-stage
+sampler also fully decodes; correlation=.998725353; decoded frames inspected.
+Both movies are1920×1080/20fps H264/AAC, with zero measured mallet-contact error.
+The original two-stage WAV is byte-identical. Source publication to the dedicated
+feature branch is authorized and succeeds with an exact tested-tree match; no
+main merge or public audio/movie publication. Receipts: evidence/readable_wire_band; source/reproduction:
+docs/READABLE_WIRE_BAND_20261013.md. Limits: preview geometry remains video/pixel output; no
+physical channel export or new voice-separation claim. Risks: face occlusion,
+lip bloom and dense full-layout readability require encoded frame inspection.
+
+## 2026-10-13 — completion audit, spiral/wave garden and final logic passes
+
+Goal: finish today’s outstanding requests and distinguish implementation from
+external release/hardware gates. Changed: models/flourish_showcase.py,
+tools/render_flourish_showcase.py, tools/mark_helix_video.py,
+core/output_provenance.py and original H asset; indexed EventLane in
+models/band_motion_refinement.py, source drummer and refined performance;
+five-line failure accumulation/raise in core/effect_engine.py; focused tests.
+Final technical-gallery display optimization uses four-face hexagonal LED glyphs
+instead of20-face spheres, preserving every existing review node, color, lighting slot and
+world position. Band geometry/animation is unaffected; full encoded super-layout
+inspection verifies the display change.
+Additional keyboard fix: opt-in transition anchors preserve every change/contact frame; key levels and hands share held notes without release tails. Guitar default transition behavior is unchanged.
+New: 80 ordered flow models in six groups around the108-model/27-family garden;
+source-driven spiral/wave runs; shared XSQ/FSEQ levels and decoded-FSEQ preview;
+neutral singers/xylo and faint H/internal credit in all nine current movies.
+First four samplers updated in place. Direct engine song failures retain their
+original cause and can no longer be mistaken for a successful command.
+Preserved: source audio/layouts/art, detector and sequencing scores, MIT terms,
+all approved guitar events/curves and1,876 sampled matrices. Six of seven prior
+protected files retain exact bytes; engine guard is the documented exception.
+Evidence:65 final band/flourish regressions,96 GUI/Android-host/export checks
+on isolated GUI branch; indexed neighbors match5,000 scan queries and are249.5×
+faster in that microbenchmark (not whole-render speed). Keyboard177 supported
+change contacts match actual key meshes within1e-7 scene units;471 more guitar frames remain identical; five songs have66/58/52/31/82 mallet candidates.
+Final delivery: all9 movies /14,476frames /723.8seconds fully decode, correlation >=.99844149; all3ZIP CRCs and entry hashes pass. Final movie/bundle verification is recorded in evidence/final_20261013/ and
+report docs/HELIX_COMPLETION_AND_MARKET_20261013.md before delivery.
+Limitations: native xLights import of the new musical garden, physical controller
+playback and seven-member wired-pose export remain unverified. Existing66-channel
+plan excludes keyboard/xylo. Mixed-voice separation and instrument ground truth
+remain uncertain; no synthesized beat filler or false accuracy certification.
+New branded Windows/Android source is implemented and host-tested separately;
+publishing was blocked by automatic approval review (unverified remote/disclosure),
+so a fresh installer/native UI build is not claimed. The older Android stability
+API30/36 build38391577471 and prior installer/sampler deliveries remain verified.
+Saved delivery:14/14 operations succeed with local identity metadata applied; first4MP4s/bundle/report replace their existing versions, and the5new MP4s/2bundles/full report are created. See evidence/final_20261013/saved_delivery.json.
+No main merge or public music-rights clearance. MIT commercial permissions remain;
+annual terms cover only separately licensed products/services. Risks: added model
+geometry/stream size, broad ringing cues and packaging assets; tests and real
+media address software behavior, not live stadium or fabrication readiness.
+
+
+## 2026-10-13 — distinct dual-stage shows, neutral performers and super layout (rendered and verified)
+
+Goal: after completing the original four samplers, make three different audio
+tracks with two contrasting stages each, plus one full-screen combined garden.
+Latest steering: both singers and xylophone player should look gender-neutral.
+Changed: models/distinct_band_stages.py, tools/render_dual_band_showcases.py;
+optional neutral beanies/faces in models/refined_band_scene.py; first/second voice
+lane aliases in models/musical_band_response.py. Preserved: original scene
+defaults, all previously delivered movies, source audio and approved guitar
+rig/events/contact math, core engine and desktop/Android development.
+New: six individually authored backgrounds/floors, sculpted and 3D wire-contour
+bands, two independently posed stage rigs sharing a source soundtrack, neutral
+faces/clothing with color identities, geometry from all six prior stage layouts
+and actual native-family node gallery in the combined super garden. Do not infer
+avatar identity from vocal pitch. No fabricated duets; explicit voice cues remain.
+Final evidence: all four1920×1080/20fps films fully decode; soundtrack correlation >=.99845; zero mallet contact error; encoded contact sheets inspected. See evidence/distinct_band_showcases/final_watermarked_audit.json. Limitations: wire contours are visual prop studies,
+not surveyed fabrication or a physical-channel export. Source note identities
+and exact voice separation retain previous uncertainty. Risks: added geometry
+may obscure performers or consume more render time; pilot and encoded-frame
+inspection are required before delivery. First batch remains preserved.
+
+## 2026-10-13 — musical band response and four sampler stages (rendered and verified)
+
+Goal: keep both keyboard and xylophone, preserve approved guitar performance,
+broaden bell/marimba response, tighten bass/keys/singers, improve drummer sleeves
+and grips, and deliver four real-audio samplers with dry-test intros and Wire Tree
+final chorus endings. Branch `codex/band-musical-response-20261013` starts at
+`5c78ffa`; other desktop/Android branches and unfinished local work are untouched.
+Changed: opt-in natural arms in animation/articulated_source_drummer.py;
+configurable literal mallet register in models/refined_band_scene.py; slot lookup
+in tools/refined_band_performance.py; models/musical_band_response.py and
+tools/musical_band_performance.py. Preserved: original 25-bar defaults, source
+art/audio/layouts, drum detection and surfaces, all guitar events/routes/motion,
+master engine and historical renders. New: 49 actual bars (MIDI48–96), separately
+screened ringing attacks, anticipatory key travel, shorter bass release,
+source/explicit interval singer casting instead of arbitrary phrase alternation,
+acoustic mouth closures, thicker shaded drum arms and visible grips.
+Additional changed files: tools/render_musical_band_samplers.py,
+tools/audit_musical_band_movies.py, tests/test_musical_band_response.py,
+docs/MUSICAL_BAND_RESPONSE_20261013.md, evidence/musical_band_response/.
+Evidence: 57 focused regressions pass; guitar events/curves and 1,876 sampled
+guitar pose frames match the approved version; seven protected source files are
+byte-identical. Four 78.2s H264/AAC movies (6,256 frames total) are fully decoded,
+soundtracks correlate above .995, all sampled mallet contact errors are zero,
+and encoded contact sheets were visually inspected. ZIP CRC verifies.
+First batch was completed before starting the subsequently requested dual-stage
+and super-layout batch. Saved delivery is recorded alongside evidence.
+Limitations: pitched percussion identity/score and automated singer character
+assignment require listening review; physical channel props do not reproduce
+continuous animated meshes. Regression risks: broadened mallet cues may include
+other ringing instruments; optional preview geometry does not change core output.
+The previous completed delivery and physical-runtime gaps remain as documented.
+
+## 2026-10-12 — repeatable review packaging and final delivery
+
+Goal: preserve verified review downloads while safely rebuilding an existing bundle. Changed tools/complete_refined_band_delivery.py: exclude previous manifest/verification files from self-referential hash inventory and validate a temporary ZIP before replacing the existing archive. Original videos/XSQs/art/audio remain unchanged. Evidence:two consecutive real-package rebuilds pass CRC and all200entry hashes with no duplicate manifest. No pipeline or musical changes. Publicly released first-build artifacts remain valid.
+
+## 2026-10-12 — resume complete band refinement on requested codex branch (review build verified)
+
+Goal: continue the user's full four-performer execution task on `codex/band-performance-refinement-20261012`; never merge the primary branch. Starting head f0aca518 equals the shoulder reference, while primary is 137 commits behind this history. Inspected newer 0d855b2/99bcd7b/37ffbed/5ece855 band work and successful review run 38274055952 rather than blindly merging it.
+
+Changed modules: selectively carry inspected band instrument routing, connected source-art drummer, motion/scene/performance/render/export/audit modules and focused regressions from the newer branch. Original models/band_performance_scene.py, models/band_sampler_logic.py, layouts, generated approved drummer assets, audio and historical composers remain preserved. Further fixes, commands and evidence are tracked in docs/BAND_EXECUTION_CHECKLIST.md.
+
+New behavior: forthcoming fixed-length 3D joints, literal mallet timing and production renderer opt-in integration. Reuse existing separated-source detections, retain uncertainty and all original schedules. Tests/renders/evidence:114unique relevant checks pass;40protected inputs retain starting blobs. Fresh10MP4s/7,747decoded frames,6,981actual xLights2026.18matrixframes,10independent sparse dry anchors within14.5ms and eight exact montage-audio cut offsets verify. Head-region minimum mean light improves2.97×in decoded A/B. Local source-bound screenshots inspected; downloadable files and public workflow verification are tracked in docs/BAND_EXECUTION_CHECKLIST.md. Earlier review results remain historical.
+
+Delivery:code d9d0cc1 and verification1092f381 are on the requested branch. Tenlocal deliverables saved; independent rebuild/publication38299471379succeeded. All9public downloads returnHTTP200and match exact SHA256/size. Release:codex-band-refinement-20261012-v2; links/evidence in docs/BAND_EXECUTION_DOWNLOADS.md and evidence/band_execution/publication_verification.json. Main/Beta/Birdsong/RemoteReview/FlowReviewCI pass; the unchanged FlowQuality export invocation fails to import core after49passed tests and is documented separately.
+
+Limitations/deferred/risks: no independently labelled score or raw six-stem WAVs recovered yet; cannot claim measured detection accuracy. Existing review XSQs are virtual-matrix Video effects, not physical performer native parity. Must inspect decoded films, check source/audio and geometry, preserve matrices on repeated/random frame calls, and deliver verified phone downloads. No approval to merge primary.
+
+
+## 2026-10-10 — natural drummer shoulders and dry-test hit coverage (published)
+
+Goal: apply the drummer-technique feedback by anchoring arms outward/lower on the torso, deliver a fresh dry-test MP4, and audit every scored hit and independently measured source attack for a visible response.
+
+Changed modules: authored pose spec, shared source-art arm transforms/body contours, generated layers/xmodel/pose sheet, focused dry-test preview/encoded-hit auditor and regression tests, plus `docs/DRUMMER_SHOULDER_REVISION.md` with direct downloads and reproducible commands. Preserve the original source PNG, eight instrument surfaces and three-tom kit, accepted dry-test target/hand/hold schedule, original recordings and previous published movies. New shoulders explicitly supersede the earlier exact-geometry preservation for future renders, following user authorization. Source-art arm segments are reposed with fixed wrists/stick contacts; small torso shoulder contours connect the revised roots below the scarf. Unresolved tom identity is retained as a separately labelled source-hit response rather than silently discarded or assigned an invented physical tom. Independent original-audio novelty is screened separately from cached family detections.
+
+Evidence/checklist: [x] recover exact dry XSQ/report from artifact11527580859; [x] inspect all strike poses before/after; [x] source/target preservation audit; [x]38 focused geometry/hit coverage/independent-lighting/stage tests; [x] full38.32-second60fps MP4 with original audio; [x] every scored cue and measured source attack checked in decoded frames; [x] public immutable download verified. All2299 frames decode;312/312 scored cues visibly respond; all289 accepted physical poses are active at the scored frame;185/185 independent source-novelty candidates have a response within28.74ms of the novelty timestamp. Twenty cached hits with unresolved physical position plus three additional source-only candidates use23 labelled torso pulses. Original-audio zero-lag correlation0.9973257645. The6,061,359-byte public movie download matches SHA256816adc99bbcba755e975f182e55c22ba51a916e9085d43e99b7b896b20801a3c. Published media commit ea7a5e17447914feba9acf1fec652bcee6df22c9; exact URL/reproduction/limits: `docs/DRUMMER_SHOULDER_REVISION.md`; cue-by-cue encoded evidence and preservation proof: `evidence/drummer_shoulder_revision/`. Fifteen encoded representative frames and the10.017s mid-tom frame were inspected visually.
+
+Limitations/deferred/risks: detected hits and acoustic novelty are not exhaustive hand-labelled ground truth. RMS alone overcounts resonant oscillations, so use spectral novelty corroboration; never turn every waveform peak into a drum stroke. Unresolved family position remains explicit; no arbitrary physical tom assignment. Native asset projection is updated consistently, but new native playback/controller proof and regeneration of older band movies are deferred. Regression risks: disconnected shoulders, wrist/contact drift, arm/surface clipping, invisible overlapping hits and source/audio mismatch. Final encoded evidence is required before completion.
+
+## 2026-10-10 — intricate 42-second band samplers (published)
+
+Goal: improve missed wordless vowels, give both singers usable independent performance lanes, route piano and xylophone-like mallet cues to keys, make bass hand height monotonic with absolute pitch, retain the exact dry-test drummer and create intricate musical stages containing the band, explicitly including Who Knew and Festivus.
+
+Changed modules: focused acoustic/performance analysis, intricate geometry/cue renderer, meaningful logic/geometry regression tests, `tools/package_intricate_band_samplers.py` portable `tools/stage_intricate_sampler_media.py` sampler packaging/publication and evidence/docs. Preserve all earlier native shows, source recordings, canonical drummer artwork/xmodel/pose masks and original strike schedules. Prior refined 3D rendering remains archived and available. All19 canonical dry-test source/pose/compositor files are byte-identical to source3cbd736. New singer casting is authored because identity separation is unreliable; no gender classification claim. Mallet identification and musical pitches remain estimates.
+
+Evidence/checklist: [x] inspect current source, six-stem RMS and original dry artifact11527580859; [x] five source-bound acoustic/lyric/stem analyses and clip choices, screened embedded reference and fresh Festivus recognition; [x] 17 geometry/performance/idle/reference tests; [x] full 42s pilot/audio and decoded-frame review, floor and keyboard/guitar occlusion fixes; [x] full 33×42s render/audio/ZIP verification; [x] immutable downloads. Render workflow38073179681 succeeded on all six jobs;33 HD42-second MP4s,27,720 frames, minimum original-excerpt audio correlation0.9991422905. Every received MP4 hash/codec/duration and encoded midpoint frame is checked; all33 images inspected. The1,375,629,654-byte ZIP passes CRC and all extracted hashes (SHA256 bf32f48fff1d0874fef2adbdc130a8f716651ac50c4c96c089b909f34df29564). All33 public Git movie blobs match sizes/SHA1; two full public example downloads match SHA256. Single-file release publication38074949218 succeeded; the public ZIP returns HTTP200 with the exact byte size and matching GitHub SHA256 digest. All28 published transport parts match local hashes/sizes. Final release: https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/intricate-band-samplers-2026-10-10. Publication evidence: `evidence/intricate_band_samplers/publication.json`; all33 direct links: `docs/INTRICATE_BAND_DOWNLOADS.md`. Exact dry-test preview uses canonical source-art extraction and the preserved pose specification; do not silently substitute the previous mirrored-wrong 3D interpretation. New stages are actual geometric performance visualizations, not concept-art slides. Native xLights export/playback is outside this preview request and must not be implied.
+
+Limitations/deferred/risks: mixed-vocal attribution and wordless-vowel identity can be uncertain; keep inferred vocables distinct from verified lyric text. Source separation leaks instruments and does not guarantee all six stems are musically present. Song selection will show measured strengths and weaknesses. Physical installation/controller wiring and native conversion of new stages deferred. The final keyboard review found both hands converging on one mallet note; single notes now choose one hand, spread chords use both, and a key/idle regression covers this. The earlier renderer run is superseded before delivery. Check silence/idle motion, bass monotonicity, keyboard mallet routing, intact drummer poses, finite geometry, visual clearance, exact duration and source-audio alignment before publication.
+
+
+## 2026-10-10 — earlier preview archive after visual review (published)
+
+Goal: user rejected the visual fidelity of the 62 silent contour previews and requests movies from before that batch; retain the favorite 90-second six-layout music comparison. This review supersedes the prior artistic-acceptance implication, while preserving all native files and historical technical verification. No new native/art fidelity acceptance is claimed.
+
+Changed files/modules: `tools/package_review_movie_archives.py`, focused release publication workflow/config, archive provenance/evidence/docs and this ledger. New behavior: recover original CI movie bytes, fully decode and hash-deduplicate, organize the favorite reel/song clips separately from earlier helix layouts and historical drummer revisions, exclude all62 silent previews and later band/art movies from this separate archive. Preserve all existing files and core rendering/sequencing logic.
+
+Evidence/checklist: [x] recover92 available recent CI artifacts including nested archives; [x] locate the90-second favorite; [x] full decoding and ZIP CRC/extracted SHA checks; [x] durable single-ZIP publication and verified links. The ZIP contains46 unique movies (405,628,496 bytes); all fully decode. Release asset digest and a complete public download match SHA256 `52b50b007b67771501f3bc25595ef1ef6906e4586a647c8ba81874297035c7b8`. Publication workflow38048023409 succeeded. Evidence: `evidence/review_movie_archives/`; release: https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/review-movies-2026-10-10. Original CI upload timestamps provide provenance. The favorite comparison family is included by explicit user reference even though its upload postdates the silent batch. Limitations: the older42-movie Android ZIP was documented in an absent workspace and no published copy was found; do not claim recovery of those exact bytes. Deferred: closer artwork-faithful native layouts require a revised visual implementation and review; user has requested the archive at this step. Risks: historical variants may be confusing, so folders, hashes and the inventory distinguish them; publication transport parts are reassembled into one user-download ZIP.
+
+## 2026-10-10 — snowman band visual and instrument upgrade (preview delivery published)
+
+Goal: respond to review that the drummer looked old and other members/instruments looked poor, while retaining the useful lyric/mouth work. Inspect source revisions and member art, improve full band, investigate independent singer routing, render fresh MP4s and include them in the current72-hour archive. The optional exact drummer reference is requested while independent work continues.
+
+Changed modules: `models/band_performance_scene.py`, `tools/analyze_band_upgrade.py`, `tools/render_band_upgrade.py`, `tools/package_band_visual_upgrade.py`, `models/drummer_review_schedule.py`, focused headless preview workflow and geometry/strike-window tests, optional preview/dev dependency declarations and evidence/docs. Preserve prior native shows and movies, existing audio/stem hashes, accepted lyric timings and V3 transcription/strike schedules, source art files and canonical xmodel ranges. The sparse native point projection is not treated as the visual-quality target. Existing artwork definitions in `models/helixville4_band_assets.py`, instrument specifications, `render/keyboard_geometry.py` and polished V3 source-arm/three-tom contract guide the replacement visualization. Searches of current tree, main, finish-band-members, several band/drummer branches and issue83 did not find separate member concept PNGs; no recovered/newer approved image is claimed.
+
+New behavior/evidence checklist: [x] inspect current/revision/source/specs; [x] identify correct keyboard geometry and richer string/gesture behavior; [x] all six source-bound instrument/vocal-routing analyses; [x] refined meshes and independent arm/hand/viseme motion; [x] decoded pilot visual inspection and hollow-face mouth contrast correction; [x] all11 full movies/audio/frame checks; [x] native-scope documentation; [x] final immutable publication. Render workflow38049403181 succeeded on both jobs;33,726 frames at1920×1080/20fps; minimum original-audio correlation0.9992757645. All five song pairs have identical tagged strike/light/hand arrays; all21 preserved inputs retain hashes. Nine geometry/key/tuning/GLB/strike-window tests pass. The first 3D drafts incorrectly read persistent idle colors as strikes; all are archived and final revision2 uses only original XSQ strike holds for arm motion, separating longer cymbal lighting decay. A focused two-job preview workflow uses SHA-pinned existing FSEQ/XSQ/audio/lyric/curve inputs; no inference or native source is rerun. All six mixed vocal tracks fail conservative second-profile confidence, so only the lead mouth is routed; no gender/identity classification or overlap separation is claimed. Completed dim-mouth drafts and the interrupted correction preview remain in a named superseded folder, excluded from current delivery and included separately in the historical recent archive.
+
+Limitations/deferred/risks: exact user-preferred drummer revision pending optional reference; musical pitches are inferred from separated stems, not a verified score; singing voice clustering needs conservative confidence handling and cannot guarantee separation of overlapping voices. Refined 3D performance visualization must not be described as verified native xLights playback without actual native export/render checks. Native production shows remain preserved. Risks include instrument misassignment, visual intersection and external model/runtime availability; source binding, geometry checks and decoded sample inspection will address them.
+
+## 2026-10-10 — six-concept artwork comparisons and available recent-MP4 ZIP (published)
+
+Goal: two six-layout comparison sets using 30-second excerpts from each distinct song in the repo, then one ZIP containing all unique recent MP4s. The user explicitly chose new concepts63–82 as concept-art videos. Sets use63–68 and77–82, spanning the opening sculptures and final recursive/stage/pontoon designs. All20 images remain in the concept catalog.
+
+Changed files/modules: focused artwork-comparison, recursive CI recovery and archive packaging tools, source-bound manifests, generated outputs, documentation/evidence and this ledger. New behavior: six-up static original concept-art videos with identified songs and exact30-second clips, two combined reels; hash-deduplicated recent MP4 collection with a path/time inventory and historical versions distinguished. Preserved: original artwork bytes, all native XML/XMODEL/XSQ/FSEQ files, prior movies, source audio, core sequencer/drummer/audio inference.
+
+Evidence/checklist: [x] user comparison preference; [x] inventory local paths and song hashes; [x] render/verify audio excerpts and video duration/decoding; [x] all available recent videos/hash/timestamp inventory; [x] archive CRC and exact extracted bytes; [x] final publication/download checks. Current archive has179 unique MP4 payloads:178 fully decodable movies and one preserved unfinished historical file in a clearly marked folder. Recovery includes104 CI archives, with a final collection snapshot at2026-10-10T12:02:13Z. Native sequencing and physical lighting are not claimed for artwork comparisons. All22 clips and both330-second reels pass full decoding/frame/audio checks; all11 excerpts are included. All distinct MP3 songs are included, byte-identical duplicates are not repeated; dry-drum diagnostic WAV/stem intermediates are not songs.
+
+Limitations/deferred/risks: still concept art paired with music, not reactive/native lighting or real moving sculptures. Filesystem timestamps are combined with checked-in evidence/remote artifact dates where available because restored files may have new metadata. Some earlier documented movies may require recovery from remote CI artifacts. Packaging risks are archive size, duplicate copies and unavailable historical binaries; inventory/proofs make completeness reviewable.
+
+## 2026-10-09 — twenty mesmerizing geometry concepts 63–82 (artwork complete)
+
+Goal: generate 20 new intricate, mesmerizing light-layout concepts following the existing 1–62 catalog. The user requests concepts; this round develops visual studies and proposed choreography.
+
+Changed files/modules: only `showcase/concepts/2026_10_09_mesmerizing/` catalog, ten paired hero plates, mobile review gallery, README and verification, plus this ledger. New behavior: original linked-circle, saddle-surface, aperiodic, knotted, cellular, recursive, orbital and marine-canopy ideas with distinctive palettes, artistic intent, sequencing proposals and construction questions. Preserved: all prior concepts, approved native shows, source recordings, finished drummer/band geometry, sequencing and inference tools. Feature branch: `feature/mesmerizing-concepts-63-82`.
+
+Evidence/checklist: [x] inspect catalog/rules; [x] 20 distinct contiguous briefs; [x] ten generated/visually inspected plates; [x] image/catalog/gallery/link/hash checks; [x] complete review package. All ten original PNG copies retain their bytes. ZIP CRC passes. No production code changes or test claims.
+
+Limitations/deferred/risks: mathematical forms are artistic inspirations rather than exact topology/mesh proofs; lighting motion is described rather than rendered. Physical fabrication, support loads, audience sightlines, native xLights coordinates, sequence exports and MP4s are deferred. Existing approval through62 does not assert approval of63–82. Regressions are confined to this new art/docs folder; existing assets will be checked unchanged. Handoff through this ledger and the new README.
+
+## 2026-10-09 — six-member snowman band and helix singing faces (technical delivery complete)
+
+Goal: deliver the finished canonical drummer with upright bass, guitar, male/female singers and keyboardist in an animated 3D native layout; a prior-upload run plus all five new lyric songs, and five drummer/helix-face alternatives. Wire Tree is the prior-upload working choice after the optional preference question remained unanswered. The user authorized generation; no new design-approval pause applies.
+
+Changed modules: original 3D geometry/face-contract modules; focused external stem/instrument analysis, lyric recognition/alignment, native export/FSEQ preview, connectivity/native Faces probes, compatible face-metadata upgrade and packaging tools; focused tests, reproduction/download documentation, `evidence/snowman_ensemble/` and this ledger. All existing production/core/default detector/composer/show/concept behavior is preserved. Canonical drummer/source artwork, all 40 source submodel ranges and the 96×72 dense node grid remain unchanged; 21 pinned drummer/earlier-audio source files retain their hashes. The accepted planar drummer is positioned/scaled within the new 3D stage without replacing its art or logic. New source-colored idle helpers exclude its gray image backdrop.
+
+New behavior: six-member snowman band with volumetric original members, stationary replacement arms/mouths, strings/frets/keys and raised drummer; alternative original 3D helix rails around tree/bulb/pumpkin/snowman singing props. Each of six recordings is source-hash verified and separated once using external Demucs six-stem extraction. ADTOF supplies fresh polyphonic drum families to the unchanged V3 scheduler/physical mapper/snare hands/shared-actuator union/cymbal shimmer. Other instruments use separated-stem onsets and dominant-pitch proxies. Whisper words and CMU/sung-syllable pronunciations drive the existing seven-mouth contract; word-timed triggers reuse the existing lyric lexicon. Ba-style nonwords avoid abbreviation pronunciations; the explicit phoneme exercise keeps all recognized practice syllables and their original confidence. Embedded lyrics in three MP3s are retained/forced-aligned separately. Native `Helix_Seven_Mouths` NodeRange definitions and a phrases/words/phonemes three-layer track support reusable native Faces editing (10 standard viseme names alias 7 physical shapes).
+
+Evidence: all 11 independent native shows/XSQs/FSEQs/XMODEL collections and full-song 1280×720 20fps H.264/yuv420p/AAC MP4s are complete. Pinned xLights 2026.18 renders 33,726 × 50 ms frames; all 105 scene models receive native lighting. Every scheduled mouth node/frame and exclusive source-bound active/rest arm hold verifies. Native Faces consumes the three-layer track and emits the exact nodes for all 10 aliases on all nine face-capable source models. Face metadata upgrades rerender every show without changing a single native frame. All five song pairs have identical 20,736 drummer channels on every frame. All 11 movies fully decode; original-vs-encoded zero-offset soundtrack correlation minimum 0.9992747792. Decoded samples from all 11 MP4s are visually reviewed. A relocated Phoneme Hook band show in a path with spaces rerenders every frame identically. Both complete delivery ZIPs pass CRC. 48 focused geometry/transcription/shimmer/pose/phoneme tests pass; one inherited demo-manifest test is excluded because unchanged non-drummer runtime states are empty. No whole-repository/remote-CI/physical-controller or laptop-audio-device pass is claimed.
+
+Delivery: `outputs/Snowman_Ensemble_Delivery/` contains 11 individual movies, native ZIP (~55 MiB, all original relative media included), all-MP4 ZIP (~65 MiB), contact sheet/offline gallery/proof. Isolated artifact commit `550a7c70fd0218f1fceee56cd37a7a17cdeb6c86` on `artifacts/snowman-band-2026-10-09` hosts immutable downloads. Source implementation commits 419124c/8186487 are on `feature/snowman-band-lyric-performances`. Download index: `docs/SNOWMAN_ENSEMBLE_DOWNLOAD_LINKS.md`; public release index: https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/snowman-band-lyrics-2026-10-09. All 17 remote blob hashes/sizes match; three full raw downloads (including the native ZIP) match SHA256. The public release returns HTTP 200 and contains all 11 MP4 links and both ZIP links. Remote link/hash checks and completed release publication are recorded in `evidence/snowman_ensemble/publication.json`.
+
+Limitations/deferred/risks: model-inferred drum identities/lyrics/timing need listening review; source separation leaks, instrumental dominant pitches are proxies rather than verified polyphonic scores; tom identities abstain without recording calibration. Phones are allocated inside detected words, not independently acoustically aligned. Male/female singers and four faces share the recognized vocal line rather than separated voice identities. One embedded-reference segment in 49 failed alignment; the performance uses detected words and does not claim complete reference alignment. No exact vendor geometry or measured popularity ranking. Geometry is a planning layout; poses switch stationary lights rather than moving physical hardware. Cloud movies project actual native values on matching exported XYZ and are not GUI recordings. Static orbit HTML is geometry review, not animated browser playback. Earlier partial/pronunciation previews remain in named superseded folders and are excluded from delivery. External inference model code/weights remain externally installed and are not bundled; licensing/default promotion remain as documented in the drummer reassessment. Regression risks are confined to this new focused path, word inference, native metadata, large preview downloads and external dependency availability; source hashes/native pose/payload checks guard the preserved behavior.
+
+Checklist: [x] inspect source/previous band research and originals; [x] six-member/helix-face geometry; [x] all six source-bound analyses; [x] 11 native shows and full-audio movies; [x] exact mouth/arm/Faces/paired-drummer checks; [x] full decoding/audio comparisons/visual samples; [x] portable show rerender; [x] 48 focused tests/source preservation; [x] both ZIPs; [x] immutable artifact publication; [ ] user musical/artistic review (delivery remains available without this review).
+
+## 2026-10-09 — all concepts 1–62 approved, native exports and downloadable MP4s complete
+
+Goal: answer the latest-layout status request, recover links for the original 22 concepts (including both original pontoons), and convert every newly approved design. The user explicitly clarified approval of **all through #62**, superseding the selection gates in the advanced and stop-motion artwork entries below.
+
+Changed files/modules: `models/approved_concepts.py` catalog dispatch; focused `models/advanced_concepts.py` and `models/stop_motion_concepts.py` geometry; `tools/build_approved_concepts.py` native held-pose sequences, camera choice and FSEQ pose checks; expanded `tests/test_approved_concepts.py`; 40 new compact source show folders under `showcase/approved_concepts/`; current delivery documentation; `evidence/approved_concepts_62/verification.json` and this ledger. Generated release files live in `outputs/Concepts_62_Delivery/`.
+
+New behavior: IDs23–42 have finite native Custom structures guided by their approved briefs; IDs43–62 implement discrete 600ms replacement poses/holds, staged assembly or domino state changes. Each layout has embedded geometry/submodels/groups, a dedicated Animation XSQ, rendered FSEQ, reusable XMODEL exports and a direct MP4. Native pose pixels are checked dark outside their scheduled holds. All62 previews are silent24-second H.264/yuv420p movies from actual native xLights FSEQ data; movies are not art slideshows or GUI recordings. Stage31/32/55 use the unchanged canonical drummer grid and original40 submodel ranges;55 adds static stick replacements and a snare demonstration without claiming music transcription.
+
+Preserved behavior: every original1–22 XML/XSQ is byte-identical to its earlier checked-in show. All three source artwork catalogs/boards, original favorite files, recordings and canonical drummer node order/ranges are preserved. No production shows, source music, controllers, detectors or broader sequencing engine changed. Historical approval-pending artwork manifests remain historical records; current approval and native implementation are recorded here.
+
+Evidence: pinned xLights2026.18 AppImage SHA256 `62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b`;62 successful native renders,29,760×50ms frames, all2,714 models receiving native lighting across347,170 configured RGB pixels. All62 MP4s fully decode, with480 frames/20fps/24s/no audio.127 focused geometry, binding, range-preservation, catalog and pose tests pass. Native held-pose schedules match their FSEQ data, inactive pose pixels stay dark. Six relocated independent shows (1,21,42,43,55,62) rerender every frame identically in paths with spaces. All62 sampled frames and representative four-pose video strips visually inspected. Both delivery ZIPs pass CRC checks.
+
+Limitations/deferred work: artwork-guided planning contours are not scanned or surveyed fabrication meshes; sparse point previews cannot prove lenticular occlusion, rigging or marine construction. Preview camera projections are not xLights GUI recordings. Drummer cues are demonstrations, not song transcription. Whole-repository tests and a physical laptop/controller pass were not run. The older remembered missing whale is not recovered; the two newly approved whale designs27/51 are explicitly original current concepts. Regression risks are confined to new catalog dispatch, geometry/pose schedules and preview projections; original XML/XSQ byte checks and native timing tests guard the preserved batch.
+
+Checklist: [x] locate all concept branches and original22 evidence; [x] capture explicit approval through62; [x] convert40 new shows; [x] regenerate22 original movies; [x] native render/MP4/native-pose/preservation checks; [x] portable folder checks; [x] ZIP packaging; [x] durable release index and all62 individual download links.
+
+Publication: source/export commit `62385ab7d3172b0d3faa7b944f89986de96a6f9c` on `feature/approved-concepts-62-previews`; isolated binary delivery commit `54502695afd811b2c0b5bcaf7e3f57fb3525d389` on `artifacts/concepts-62-2026-10-09`. The published release https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/concept-layouts-62-2026-10-09 links the immutable artifact files: all62 MP4s, both ZIPs and review/proof files. All69 remote file sizes and Git blob hashes match the local deliverables. `docs/CONCEPTS_62_MP4_LINKS.md` is the checked-in link index. The xLights ZIP, both original pontoon movies and62 were downloaded again with HTTP200 and identical SHA256; the MP4 ZIP returns HTTP200. See `evidence/approved_concepts_62/publication.json`.
+
 > Canonical project roadmap and cross-agent handoff layer.
+
+## 2026-10-09 — twenty stop-motion concept layouts (artwork ready; approval pending)
+
+Goal: create a concept round centered on stop-motion animation theory, continuing the visual-first approval workflow. IDs43–62 are20 new concepts with discrete-pose/replacement-shape motion ideas and short standout summaries. Branch `feature/stop-motion-concepts` starts from advanced artwork `15d5b39cb27759d4980bfa46bd9f897c0fe5d2d9`; that prior round remains awaiting selection.
+
+Changed files/modules: only `showcase/concepts/2026_10_09_stop_motion/` paired generated artwork, concept/principle/scene catalog, static mobile gallery, README, validation record and this ledger. New behavior:20 hero layout scenes on10 numbered paired plates, each with a four-cell illustrative motion strip. Covers pose progression, anticipation/settling, compression, replacement bloom, timing/holds, dragon wing keyframes, squash/stretch, origami replacement, whale staging, manta overlap, jointed puppets, miniature giant scale, drummer prepare/contact/recovery, cutout silhouettes, incremental construction, domino cause/effect, pontoon wave/sail replacement, zoetrope-inspired loops, smear frames and a looping miniature moon theatre. Intended method is switching discrete stationary light poses/sections, not assuming moving hardware. No native model coordinates, XML/XMODEL/XSQ/FSEQ/MP4, detector changes or actual timed animation created for this round.
+
+Preserved: all original concept art, prior native layouts and lighting/music sequences, five source recordings, favorites and canonical drummer geometry/logic. Evidence:20 unique contiguous IDs43–62; all 10 PNGs decode with recorded dimensions/bytes/SHA256; all20 gallery cards and image links resolve; no native artifact suffixes in the new concept folder. All 110 pinned source/reference files and all22 prior native layout/XSQ/FSEQ/MP4 sets retain their recorded hashes, as do all 10 advanced-round image boards. Generated original PNGs stay in `/workspace/generated_images/`; repository image copies preserve their bytes. All plates inspected as artwork; no native import, timing or musical proof claimed. No code/sequence tests or CI needed for this art/docs-only change.
+
+Checklist: [x] inspect rules/ledger and stop-motion scope; [x]20 concept/principle/standout briefs; [x]10 paired hero/storyboard plates; [x] visually inspect images; [x] PNG/link/count/preservation checks; [x] mobile gallery and short summaries; [ ] explicit user selection; [ ] native pose geometry and held-frame cadence after authorization; [ ] actual motion/readability/loop/native verification after implementation.
+
+Limitations/deferred/risks: storyboards express intended keyframes, not a complete timed animation; some generated pose increments are subtle or idealized. Cadence, held exposures, contact/rest transitions, overlapping-frame visibility and clear frame registration must be designed after selection. Separate physical pose frames, submodels or display surfaces may be needed; mechanical motion is not promised. Zoetrope60 is an inspired static pose chase, not a validated rotating/strobing device. Drummer55 is illustrative stage/pose artwork, not a replacement source model or source-bound song performance; musical/drummer acceptance remains separate. No earlier approval is inferred, and no prior roadmap item is silently superseded. Await selected IDs before native builds.
+
+## 2026-10-09 — twenty advanced perspective concepts (artwork ready; approval pending)
+
+Goal: extrapolate lessons from the 22 native concept builds into 20 new visual ideas, with forced perspective, finite layered structures, readable silhouettes and short standout summaries. User explicitly requests image approval before any actual xmodel generation. IDs23–42 distinguish this round from the already-built22. Branch `feature/advanced-perspective-concepts` starts from `9fe5a9dc36dc950b1b1e6ecbd8efd6e9a01db300`.
+
+Changed files/modules: only `showcase/concepts/2026_10_09_advanced/` artwork, catalog/scene briefs, static mobile gallery, README, validation record and this ledger. New behavior:20 original concept scenes on10 paired numbered plates; individual CSS panel views without altering image bytes; direct full-image access and one short explanation per idea. Covers anamorphic alignment, exaggerated receding scale, apparent impossible stairs/topology, nested cubes, new whale/manta/serpent/phoenix, inverted-tree/event-horizon stages, eclipse/crystal forms, directional fin-panel idea, volumetric atlas, skewed nave, geode, raised chessboard and prism-canopy pontoon. No model coordinates, native XML/XMODEL/XSQ/FSEQ/MP4 or pipeline changes created for this round.
+
+Preserved: all prior native layouts, source models/artwork, source recordings, favorite baselines and corrected native lighting sequences. Evidence:20 unique contiguous IDs,10 fully decoded generated PNGs with recorded dimensions/SHA256, all20 gallery cards and image links resolve, and no native artifact suffixes in the new concept directory. All 110 pinned original/source files and all22 prior native layout/XSQ/FSEQ/MP4 sets match existing verification hashes. All10 source generated PNGs remain in their original generation location; repository copies are unchanged. No native import or optical proof, tests for sequencing, or music/drummer acceptance is claimed.
+
+Checklist: [x] inspect prior rules/ledger and derive geometry/visibility lessons; [x]20 distinct concept briefs; [x]10 paired visual plates; [x] visually inspect all plates; [x] PNG/link/count/preservation checks; [x] static mobile gallery and short summaries; [ ] explicit user selection; [ ] native geometry/viewpoint calibration for selected concepts; [ ] native/physical implementation and sequence verification after authorization.
+
+Limitations/deferred/risks: images illustrate intended illusions and may idealize alignment or topology. Forced perspective requires a selected audience zone/camera; lenticular visibility requires physical occlusion/baffles and native preview support remains unproven. No actual hologram, infinite geometry or unsupported levitation is promised. New whale27 is original concept art and does not recover the older missing whale. Stage figures suggest positions, not replacement canonical drummer geometry or new musical acceptance. Supports, emitter spacing, practical dimensions and angle behavior remain future design work. Earlier native outputs and roadmap items remain intact. Do not infer approval from opening the gallery; await the user's selected IDs before building.
+
+## 2026-10-09 — selected concept batch becomes native (22 shows verified)
+
+Goal: implement the user's roughly 20 approved visual concepts, including both band stages and both pontoons, with direct Android MP4s. Working interpretation: all 22 saved concepts from 2026-10-08, as stated to the user after their scope clarification. This explicit request supersedes the earlier artwork-only selection gate for this batch. A remembered whale is absent from the saved catalog/workspace/relevant branches; do not invent or claim a match to an unseen approved whale.
+
+Changed modules: `models/approved_concepts.py`, `tools/build_approved_concepts.py`, `tests/test_approved_concepts.py`, `showcase/approved_concepts/`, `docs/APPROVED_CONCEPT_NATIVE_SHOWS.md`, `evidence/approved_concepts/verification.json`, generated independent show folders and this ledger on `feature/approved-concepts-native`. New behavior: deterministic finite custom-grid structures guided by each paired artwork/brief, all-model reusable native exports, zone groups, contiguous absolute channels, eight editable sectors, portable asset copies, 24-second silent native On lighting studies and actual-FSEQ MP4 projections. Both stages place the unchanged canonical 96×72 drummer grid and all 40 source submodels on a central riser; a separate body helper and decorative target/actuator demonstration do not claim music transcription. Preserved: original art, favorites, production shows, source media, older flavor sequences and drummer source node order/target ranges/detection logic.
+
+Checklist/evidence: [x] read rules/ledger and identify saved artwork; [x] scope clarification; [x] all 22 geometry generators; [x] 45 focused native-grid/channel/reference/portability/drummer tests; [x] first two native renders (Arena/Pontoon) and decoded visual inspection; [x] full 22 native renders; [x] all 22 MP4 decode and visual checks; [x] durable native layouts, proof and direct-link inventory; [ ] remembered whale source located.
+
+Evidence: pinned xLights 2026.18 (AppImage SHA256 `62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b`) rendered all 22 matching XSQs, 10,560 × 50ms frames total. All 963 models / 165,826 RGB pixels have resolved bindings and every model receives native lighting. All 22 H.264/yuv420p movies are 480 frames at20fps /24s, fully decoded and sampled visually. All 22 compact source shows were copied into a different directory with spaces and rerendered: every decoded native frame matches its original exactly. Forty-five focused tests pass, including exact Custom XYZ roundtrip and source drummer range preservation. 110 source/reference files checked, including all85 pinned favorite files, original concept boards, canonical drummer art/model and five recordings. The sole native log warning is the virtual display's absent XFree86-VidModeExtension; it did not prevent rendering. No complete repository suite or laptop GUI/audio-device pass is claimed.
+
+Delivery: absolute root `/workspace/helix-laptop-prep/outputs/Approved_Concepts_XLights/` has all native shows, reusable model exports, complete source references, original FSEQs, movies, samples, mobile gallery, `HANDOFF.md` inventory and full `VERIFICATION.json`. Individual phone movies are copied byte-identically to `/workspace/helix-laptop-prep/outputs/Approved_Concept_MP4s/`. Permanent standalone source shows live under `showcase/approved_concepts/` with all embedded model data and required runtime assets; reproduction creates additional review/model export files. No ZIP is required. Original artwork-only records remain unchanged historical evidence; implementation status is recorded here and in each new manifest.
+
+Limitations/deferred/risks: finite design interpretation, not exact photographic reconstruction, surveyed architecture/car mesh, rigging or wiring plan. Scenic people/stonework/bodywork/water and optical beams are not emitted pixel props. All samples are silent lighting studies, not full-song sequences. Drummer musical/artistic acceptance remains separate. Cloud native checks do not establish laptop playback or physical installation. No controllers are configured. Approximate geometry, projected viewpoints, large-channel practical deployment and source missing for the whale are the relevant remaining risks. Earlier unrelated concept-selection/drummer roadmap items remain recorded rather than silently deleted.
+
+## 2026-10-09 — approved-visual/stage drummer request (scope clarification pending)
+
+Goal: build the user's approved visuals as native shows, regenerate MP4 comparisons and assess drummer placement in stage layouts. The six comparison layouts already have native XML and complete corrected XSQs; the 22 concept artworks remain unbuilt. User selection of visual set and stage destinations is requested asynchronously; no new artwork concept or final stage placement is assumed.
+
+Changed files/modules: `tools/probe_native_drummer.py`, `evidence/stage_drummer/native_connectivity.json`, independent probe outputs and this ledger on `feature/approved-stage-prep`. New behavior: import a prepared copy of the unchanged canonical 96×72 custom-model grid with all 40 visual/logical submodels and verify eight named target node sets against real xLights FSEQ values. The four-second animation is explicitly a wiring test, not musical choreography. Preserved: source drummer assets, three toms/eight public targets, original detector/timing logic, saved shows, recordings, native cue exports and all concept artworks. Prepared native import adds supported model/submodel wrapper attributes and brightness; source geometry/node ranges remain unchanged.
+
+Checklist/evidence: [x] read rules/ledger and inspect native shows/drummer contract; [x] ask which visual set and which stages; [x] eight-target native connectivity render (80 × 50ms frames, 6,912 pixels / 20,736 channels, all eight exact canonical node sets); [ ] chosen native stage/visual builds; [ ] song-bound drummer performance; [ ] regenerated MP4s and six-layout comparisons. Existing Helix Audiolights/Dry Drum Test transcriptions cannot be reused on the five different showcase songs; new performance needs source-bound analysis.
+
+Native evidence: pinned xLights 2026.18 renders all eight component probes; sampled lit nodes match source submodel ranges exactly and all expected RGB values are 255, with no extra nodes. All 40 model submodels import; source xmodel SHA256 remains `d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1`. The first attempt encountered an expired virtual-display session; a new display provided the successful native render. Actual probe is under `outputs/Canonical_Drummer_Native_Probe_Retry/`; concise proof is checked in. This proves native target connectivity, not a musical drummer performance.
+
+Limitations/deferred/risks: scope and stage placement are pending user input. Connectivity proof does not establish musical correctness, full source-art fidelity, body keepalive, scene placement or drummer acceptance. The latest mapper's unknown-tom abstention remains authoritative despite a stale generic-tom sentence in the older component contract. No physical controllers or unsupported native effects; do not turn the connectivity chase into a claimed song performance. Native model wrapping, overlapping actuator cells and per-song transcription are the relevant integration risks.
+
+## 2026-10-09 — Android MP4 previews (complete; layout packaging accepted)
+
+Goal: downloadable phone-compatible previews from working portable show files. User says to consider the rest a pass while back on Android: layout/package acceptance is passed, laptop launch is deferred rather than newly verified, and drummer acceptance stays separate. Branch `feature/android-native-previews` starts from portable delivery `f826cb3`.
+
+Changed files/modules: `tools/render_portable_xlights_previews.py`, focused tests, `docs/ANDROID_XLIGHTS_PREVIEWS.md`, `evidence/android_previews/verification.json` and this ledger. New behavior: source-hash-checked movies from the exact verified FSEQs, H.264/yuv420p video at 960×540/20fps with original-source AAC audio, silent original studies, common-time comparison clips, phone gallery and movie-only ZIPs. Preserved: all production shows, original media, XSQ timing/palettes/model bindings, native effects, geometry, saved favorites, 22 concept artworks and drummer work. Aurora remains its actual 24-second study.
+
+Evidence: 30 full-song movies plus seven silent studies and five 24-second six-layout comparisons. All 42 movies completely decoded; duration, expected streams, native frame count and streaming-friendly MP4 index placement validated. All 30 soundtrack comparisons match originals (minimum correlation 0.998808440); all five comparison excerpts match at their recorded source offset (minimum 0.997875795). Decoded samples from all seven layouts visually inspected; three Fire & Ice/Wire Tree samples match native projections at 37.52–42.53 dB PSNR. All 37 native XSQ/FSEQ/layout/media input sets rechecked unchanged after rendering. Eleven focused preview/package tests pass. All seven download ZIPs pass CRC and inventory; all 42 packaged movie bytes match verified sources and all 42 gallery links resolve inside the full ZIP.
+
+Validation correction: the first comparison pass rejected an off-frame Frostbitten seek with 479 frames starting at +50ms. Align excerpt starts to native 50ms frames and reset video timestamps. Final clips all have exactly 480 frames; full-song movies are unchanged. This is separate from the previously corrected unsupported Ramp export.
+
+Deliverables: `outputs/Helix_Android_Previews/` contains movies, decoded samples, `PREVIEWS.json` and `index.html`. Adjacent `Helix_All_MP4_Previews.zip` is 339,126,653 bytes and contains all 42 movies; five song-specific ZIPs each contain six full movies plus their comparison, and the study ZIP contains all seven original studies. Full ZIP SHA256: `b470653206f4d55e8a834f4f101547da8d4781963f4dfd96e6e68e570b3d9150`. Checked-in concise proof and reproduction documentation are linked above.
+
+Checklist: [x] record acceptance/deferred laptop launch; [x] verified native inputs; [x] 37 full movies/studies; [x] full decoding/audio/duration/codec checks; [x] all-layout decoded inspection; [x] five exact-frame comparisons; [x] CRC/hash/byte/link/inventory checks; [x] focused tests; [x] feature-branch handoff.
+
+Limitations/deferred/risks: movies project real native xLights lighting onto matching geometry and are not GUI screen recordings. Stock review paths remain illustrative; custom nodes match exports. Phone resolution is intentional. Laptop audio-device playback and physical installation remain unverified; user deferred the laptop task. No new concepts, physical controller output or drummer acceptance. No complete repository suite or new CI pass claimed. Risks include local ffmpeg/Python availability, source-hash mismatch on resume and phone download size; smaller ZIPs are provided. Earlier layout/package approval gates are superseded by this user's pass, with drummer acceptance unchanged.
+
+## 2026-10-08 — seven portable xLights shows (verified; laptop launch pending)
+
+Goal: consolidate matching complete sequences and copied original media into independent show folders, then open Fire & Ice / Wire Tree in the user's laptop xLights. Branch `feature/portable-xlights-shows` starts from concept handoff `b56f2cf`. This executor is cloud Linux without laptop desktop access, so laptop GUI launch and audio-device playback remain pending.
+
+Changed modules: portable show preparation, local render-then-open launcher, native verification, focused regressions, reproduction documentation, checked-in verification evidence and this ledger. Preserved: all permanent favorite/model/layout/asset/source-audio bytes, corrected native effect mapping, cue timing and palettes, concept art and drummer logic. Prepared copies contain matching model bindings, portable media references and no configured output networks. Native rendering exits xLights, so the launcher opens the desktop separately after verifying the full FSEQ duration.
+
+Evidence: 30 complete corrected Prime music exports across six flavors, plus seven preserved 24-second studies including Aurora. SHA-pinned xLights 2026.18 rendered all 37 XSQs into native FSEQs: 72,384 full-song frames plus 3,360 study frames. Every RGB model received lighting, controls remained dark and durations matched. All 37 sequences, media, assets and model/submodel references passed validation after extraction of the final ZIP into a different directory with spaces. The archive contains exactly 37 XSQs, 37 FSEQs and 30 copied MP3s, passes CRC validation and matches prepared source bytes. All 57 focused tests pass: eight new packaging/launch/native regressions plus 49 existing layout/export checks. All 85 favorite baseline files and five source recordings remain unchanged.
+
+Cloud GUI evidence: xLights opened the complete Fire & Ice / Wire Tree XSQ with its full soundtrack waveform and matching window title. Cloud virtual-display evidence does not establish laptop launch or audio-device playback. Detailed native proof, screenshots, inventory and handoff live in `outputs/Helix_Portable_Shows/`; archive hash is in `outputs/Helix_Portable_Shows.archive.json`. Checked-in proof is `evidence/portable_xlights/verification.json`; reproduction is `docs/PORTABLE_XLIGHTS_SHOWS.md`.
+
+Validation correction: the first verifier falsely rejected Aurora because xLights omitted unused trailing control channels. The corrected verifier accepts only that omitted control tail as implicit zero, still rejects missing RGB channels and passed the subsequent audit of all 37 native renders without changing show inputs. GUI startup also creates `Backup/OnStart` sequence copies; packaging excludes backup/cache directories while preserving them locally, with a regression checking the exact archive sequence count.
+
+Checklist: [x] corrected complete exports; [x] seven self-contained show copies with media; [x] native rendering, coverage, duration and control audit; [x] final ZIP relocation and source/favorite preservation checks; [x] local render-then-open launcher and cloud GUI proof; [x] focused regressions; [ ] laptop GUI launch and audio-device playback; [ ] user musical/artistic acceptance.
+
+Remaining limitations: Aurora retains its actual short study; no full-song Aurora export is fabricated. Laptop executable discovery, installed-version compatibility, first-run prompts and Python availability require local verification. No complete repository test-suite pass is claimed. Musical/artistic and physical installation acceptance remain open; drummer acceptance is separate. The 22 newer concepts remain artwork awaiting selection. No physical controller output was enabled. Do not mark laptop launch complete from cloud evidence.
+
+## 2026-10-08 — three saved favorites and twenty-two image-only concepts (review ready)
+
+Goal: retain user-selected Fire & Ice, Enchanted Grove and the original first Helix Aurora showcase for the ultimate goal bundle; create additional artwork for selection before building new native layouts. User scope expanded from12 concepts to22: six spatial/true3D, six abstract/layered, and two each extreme traditional, arena stage, 1964 Impala, Gothic church and pontoon designs. Describe actual 3D-to-xLights feasibility using existing native evidence.
+Changed files/modules: `showcase/favorites/` selection/hash manifest and notes; `showcase/concepts/2026_10_08/` eleven paired plates, three unchanged favorite reference PNGs,22 briefs, generation prompts, offline gallery, feasibility notes and delivery verification; this ledger. Existing85 favorite-native files, all other layout/XSQ/assets, five-song batch, audio logic and approved drummer are preserved byte-for-byte.
+New behavior: durable favorites pinned to baseline15a7e5450d2798eacc57b821267d6a526428884a; an unchanged three-show archive; individually numbered concept views and a browser-local shortlist. No new xLights XML/XSQ/FSEQ/XMODEL/OBJ, actual model coordinates, channel allocations, audio sequences or native renders. Procedural XYZ export is already demonstrated; arbitrary-mesh-to-wired-layout conversion is not claimed.
+Checklist: [x] inspect rules/ledger and prior favorites; [x] pin all three existing favorite shows; [x] generate spatial01–06 and abstract07–12 plates; [x] generate themed13–22 plates; [x] document evidence-based 3D feasibility and a future small-module assessment; [x] offline Chromium filters/modal/shortlist/mobile checks; [x] final archives/link/image/favorite-byte checks; [x] save/push feature branch; [ ] user chooses concepts before implementation.
+Evidence:85 favorite files hash-pinned;22 concepts on11 unmodified generated plates conserve generation credits; native Aurora108-model/27-family import and480-frame RGB proof referenced rather than rerun. Offline Chromium checks all22 cards, seven category filters6/6/2/2/2/2/2, three favorite references, image decoding, both panel sides, modal Escape, shortlist persistence/copy and390px mobile layout; no JavaScript errors. Local gallery screenshots inspected. ZIP CRC/all packaged bytes and11 original-image copies verified; all85 favorite archived files match originals. Concept ZIP contains no native-layout files. Artwork/notes commit8b5679e pushed to `feature/layout-concept-rounds`; CI intentionally skipped for this art/docs-only request. Packages live in `outputs/layout_concepts/`; source art/gallery permanent in `showcase/concepts/2026_10_08/`.
+Limits/deferred/risks: art is not validated geometry or structural engineering. Terrain, source dimensions, supports, spacing, controllers, electrical/marine implementation and practical optical effects remain design work. Novel car/building/boat mesh sampling and native validation are deferred until selection. Existing stock review geometry is illustrative and existing DMX/servo limitations are documented in the feasibility brief. Do not infer user approval from a shortlist or rendered art. Other four flavors and the earlier drummer's outstanding acceptance are retained. MASTER_TODO remains the next-agent handoff authority.
+
+## 2026-10-08 — five uploaded songs across the new showcase layouts (active)
+
+Goal: run the user's Wire Tree, Tinsel Sawtooth, Frostbitten Fingerboard, Holly Steel Run and Bell Circuit Carol uploads through active Helix Prime on the six new layouts; default scope is all30 combinations, optional pairing preference asked asynchronously. Source uploads verified as readable48kHz stereo MP3s, durations256.56/126.96/48.144/98.76/72.84s. Preserve source media bytes, native layouts/palettes/assets, original Aurora and all drummer work. No invented drum identities, new detector tuning or synthetic music timelines.
+Modules/new behavior: `core/audio_run_cache.py`, optional cache integration in `core/effect_engine.py`, focused `tools/run_showcase_audio_batch.py`, native adapter, cached native-value compositor, soundtrack/package/review helpers, tests, source-hash evidence, docs and dedicated native-pilot workflow. One verified song/config cache reuses audio/harmonic/stems/multiband across six layouts (five hits per stage/song); mutable layout profiles copied. No serialized analysis cache. Source recordings preserved byte-for-byte in evidence for reproduction. Do not promote the fixed30-second orchestration seed or reuse the24-second showcase demonstration as musical choreography.
+Findings/fixes: Prime placements extended beyond24s but its inherited sequence head remained24s/Animation; native adapter now writes full Media duration and native EffectDB/palette/submodel references. Numeric-name discovery omitted negative-side motifs; explicit routes recover most, while only otherwise unrouted paired candy/snowflake/crown RGB motifs share existing sibling choreography with their own authored palette. No new audio onset, retiming, instrument assignment or overwrite of independently placed motifs. Generated mixed groups exclude controls; native Pictures/Text have actual content sources. Unchanged model/channel/geometry nodes are tested. Exact native pixel dots retained; half-resolution soft halo reduces movie processing cost.
+Evidence in progress:30 full-song native XSQs generated with353,944 initial Prime effects before scoped RGB mirroring. All five sources have four cached analysis stages with five reuse hits each. Initial native pilot spans963×50ms rather than480frames; full Wire Tree spans5131frames.107 final focused/native-layout/engine/export compatibility tests pass locally (39.06s), including source/config cache isolation, original-vs-wrong soundtrack, portable ZIPs, late native attacks, paired RGB routes and pixel-identical cached projection outside the footer. Broader compatibility suite:45 passed, one existing legacy vocal-fixture failure (`tests/test_xsq_validation_tool.py::test_valid_fixture_passes`, unchanged validator requires Element rows while fixture has legacy effect rows). Do not describe the full repository as green. Updated focused checks/native30-run proof pending. Active processing/handoff in `outputs/showcase_audio/HANDOFF.md`; documentation `docs/SHOWCASE_AUDIO_BATCH.md`.
+Checklist: [x] inspect pipeline/layouts and verify five uploads; [x] clean music templates and pilot native playback; [x] all requested full-song sequences; [x] all native renders and actual-audio previews; [x] native/frame/duration/audio and focused regression checks; [x] review gallery/packages and push; [ ] user musical/artistic review.
+Progress follow-up: pushed implementation3b40d6949ceb0703e767fd47c1a264a783100b41. Dedicated native/audio workflow37814126665 SUCCESS, uploaded pilot artifact11566916216 downloaded: everyXSQ/FSEQ/MP4/layout/source hash matches;963native frames, all93RGB models active, controls dark, source-audio correlation.9993269794. GeneralCI37814126649 andBetaCI37814126842 SUCCESS (general regression audit is non-gating; do not imply every legacy test passes). Unrelated inherited demo/birdsong artifact workflows canceled to conserve resources. First four local Wire Tree previews verify full5131frame duration/allRGB coverage; original-vs-AAC correlation.999849. Remaining full previews in progress. Spawned CPU workers replace thread-only composition. Further grid-aligned empty-margin cropping is byte-identical to the prior compositor for all six layouts × both halo modes, with faster frame production; strongest native frame selects common-time comparison excerpts without changing song lighting. Complete review bundle includes all30 movies/native shows plus offline relative-link gallery; source-bound five importZIPs remain separate. All six Wire Tree previews and its six-layout comparison/importZIP now ready. One Frostbitten/Neon CI movie/FSEQ is reused locally only after exactXSQ/layout/source hash equivalence, with provenance recorded, avoiding a repeated render.
+Native alias audit supersedes the first20 previews and earlier green native CI: Frostbitten/Masquerade crown5 had12 Ramp cues but zero native frames. Pinned2026.18 EffectManager contains noRamp effect; native six-second same-target probe measured Ramp0/20lit frames vs nativeOn19/20, identical existingOn control and SingleStrand values. Across30 exports,111,433 Ramp cues (30% of367,246 placements after RGB mirroring) were silently unrenderable. Adapter now converts them to nativeOn attack/decay100→0 when an explicit envelope is absent; existing start/end settings preserved. Single Strand canonicalized toSingleStrand (pinned probe confirms its tooltip alias already renders identically). Unknown families now fail closed against the native catalog at export and before render. No audio analysis/event onset/layout-node change. Source cue count unchanged. All30 native renders/videos must be regenerated; old20 movies/FSEQs/proofs preserved under `outputs/showcase_audio/superseded_before_native_alias_fix/`, manifest `native_before_alias_fix_manifest.json`. Probe `test_runs/showcase_audio/native_alias_probe/proof.json`. First Wire comparison shared in chat is superseded, not accepted. Dedicated CI now includes `tools/audit_showcase_audio_native_aliases.py` rather than treating all-model coverage as sufficient.108 relevant tests pass (70.15s); reproducible pinned native alias tool passes. Sorted native RGB indices are cached before per-frame compositing; frame values remain covered by all-six-layout reference tests. Alias implementationa3b39ba1e28cda203e45991f328c8a6b84d5bb25 pushed. Environment reset stopped the active batch after two corrected Wire Tree movies; workspace checkpoints remain intact. Resume uses detached processes and shorter full songs first, preserving source/gallery order and existing verified files. Corrected nativeCI37818565266/generalCI37818565193/BetaCI37818565229 SUCCESS; artifact11569095042 downloaded, allXSQ/FSEQ/MP4/layout/source hashes verified and exact localXSQ/layout match. Native963frames/all93RGB models/controlisolation and source correlation.9993269794 verify, plus the native alias probe. CorrectedFrostbitten/Masquerade crown5 now34lit native frames/peak255 vs0. Before/after JSON proves every one of367,246 cue intervals/targets/palettes unchanged, and allnonRamp settings unchanged. These reports enter the complete review bundle. All correctedFrost/Bell/Holly six-layout runs now ready; remainingTinsel/Wire in progress.
+Final technical evidence: all30 corrected full-song 1280×720 20fps MP4s, nativeXSQs/FSEQs and72,384×50ms native frames verify; everyRGBmodel receives real native lighting, controls remain dark, all native names valid and frames animate. Source originals preserved;30 soundtrack comparisons cover all five originals, minimum correlation.9988084398. Five24s1920×720 20fps common-time comparison reels have minimum source correlation.9989922173. Five importZIPs and673MiB fullreviewZIP verify CRC; all 100 gallery links resolve inside fullreviewZIP, including30 nativeXSQs/FSEQs and all full movies. Five contact sheets are decoded from actual full MP4s and inspected;15 reviewreel frames decoded for finalinspection. Original Aurora/permanent six layouts/drummer files untouched.108 focused tests pass; corrected native+general+BetaCI success documented above, with all963local/remote corrected pilot frames byte-identical. Checked-in evidence under `evidence/showcase_audio/`; outputs/gallery `outputs/showcase_audio/index.html`, full bundle `Helix_Five_Songs_Six_Layouts_Full_Review.zip`. The early incomplete Wire comparison is overwritten by the corrected final clip; superseded30%missing-cue evidence remains archived. User musical/artistic approval remains open; no musical-correctness or physical-drummers-repaired claim.
+Limits/deferred/risks: technical delivery complete; user review pending. Existing general-song inference remains unreviewed; no musical-correctness claim from scores or CI. Native control fixtures stay isolated from RGB sequencing. Each track requires one source-verified analysis reused across layouts; do not perform30 costly independent analyses. Preserve native DNA submodel layer schema, disjoint channel addressing and portable media paths. See earlier layout and drummer acceptance limits below.
+
+## 2026-10-08 — six additional showcase flavors (built; artistic review pending)
+
+Goal: respond to the user's request for a half dozen different layouts, preserving Aurora as the seventh/original option. Six distinct compositions: Neon Circuit, Enchanted Grove, Celestial Orrery, Fire & Ice, Crystal Lagoon and Midnight Masquerade. Each retains all27 native families, many real spiral trees and volumetric DNA with full addressable rungs.
+Modules: new focused flavor composition and collection build/gallery helpers, shared metadata-aware exporter/preview/audit/package, flavor contract tests, native collection artifact workflow and documentation. Existing Aurora behavior and permanent show must remain byte-identical; no user layout, drummer logic/assets or controller configuration changes.
+New behavior: independent spatial arrangements, silhouettes, hero shapes, palettes and native-prop placements; six separate import shows, images, interactive viewers, native-lighting videos and ZIPs, plus a comparison gallery/contact sheet. Reuse the verified stock catalog and native serialization rather than cloning the pipeline.
+Checklist: [x] six artistic compositions; [x] native/channel/geometry and Aurora preservation tests; [x] comparison images/gallery and six packages; [x] native xLights import/render and RGB audit for every flavor; [x] six decoded lighting videos/browser review; [x] CI/push/delivery; [ ] user artistic review.
+Evidence:64 relevant new/existing layout tests pass (two pre-existing deprecation warnings). All six pinned2026.18 native renders contain480×50ms frames and correct palette values for every RGB node:198,395 pixels total. Native totals: Neon104 models/36 spirals/13 DNA; Grove100/36/12; Orrery105/40/13; Fire109/40/16; Lagoon104/40/12; Masquerade106/36/12.228 spirals and78 DNA overall. Aurora export remains byte-identical. Contact sheet inspected; six full native-value videos and the collection tour are generated. Offline compact archive has working links and recomputed checksums, excluding videos/caches/backups; individual ZIPs carry movies. Permanent imports/reviewers/proof in `showcase/flavors/`; reproduction/limits in `docs/SHOWCASE_FLAVORS.md`.
+Final evidence: all six1600×90020fps480-frame24s native-value MP4s and1/5/12/20s decoded frames inspected;36s1280×720 20fps720-frame tour and3/9/15/21/27/33s frames inspected. All six WebGL viewers have correct selectable model/pixel counts, DNA/spiral filters, selection and camera controls, no JS errors; longest title fits/wraps on390px mobile. Local individual package checksums and210 compact-collection hashes/links verify. Implementation536dcca52e5f686643f396bd9e9758efacfc4cd0 pushed on `feature/showcase-six-flavors`. Native workflow37794173215 SUCCESS:64 tests, six pinned renders/audits/videos, eight artifacts. Downloaded compact artifact11557618824 and review11557958280; all210 remote hashes and gallery links verify, XML/XSQ/manifest/inventory identical, all480 decoded native frames byte-identical for every flavor; uploaded36s tour decoded and inspected. Remote compact ZIP SHA256:f7fed219f594ef86ba80a058a0d1c4d6e1fa4baf964982ca7b5b3a39c1fadd36. Durable collection: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557618824 ; review: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557958280 . Final handoff/reports: `outputs/showcase_flavors/HANDOFF.json`, `test_runs/showcase_flavors/ci_final/remote_verification.json`, `docs/SHOWCASE_FLAVORS.md` and checked-in evidence JSON. Artist/user review remains the only open layout gate.
+Limits/deferred/risks: source metadata/filenames/palettes propagate to XML/XSQ, preview, package and audit. Affine moves update native screen locations/PointData as well as review geometry. Native headless import/render is checked; no new six-layout native GUI audit or screen recording claimed. Stock paths remain illustrative, custom nodes exact, videos use native values in a geometry compositor without audio. Installation engineering and drummer musical acceptance remain deferred/open as recorded below. Existing layouts, original Aurora and drummer files have no changes.
+Image delivery follow-up: user requested one image of each layout. Regenerated six labelled1920×1080 night PNGs with the existing geometry renderer under `outputs/showcase_flavors/images/`, with `image_manifest.json`, and packaged `Helix_Six_Layout_Images.zip`. All six PNGs verify and are byte-identical to the permanent reviewed layout images; ZIP CRC and six-file inventory pass. No renderer, layout, palette, musical logic or visual-contract change; user artistic review remains pending. Native control fixtures and stock-coordinate limits above still apply. Checklist: [x] six full-size images; [x] fidelity/file checks; [x] image-only download package.
+
+## 2026-10-08 — ultimate native-model showcase (built; artistic review pending)
+
+Goal: build the user's artistic ultimate showcase with every creatable native xLights model family, many genuine spiral trees and double-helix sculptures. This new layout task supersedes active drummer work for this session; drummer preview approval and false-hi-hat review remain open above/below, not marked complete.
+Modules: focused `models/ultimate_showcase.py`, export/preview helpers, build/native-audit CLIs, eight new layout tests, `docs/ULTIMATE_SHOWCASE.md`, permanent `showcase/Helix_Aurora/` import show and `.github/workflows/helix-ultimate-showcase-preview.yml`. Archive the old builder and workflow: their overlapping channels, invalid singular model names, Z-up spirals and obsolete placeholder drummer are intentionally superseded only for this separate showcase.
+Preserved: root/allmodels/Helixia layouts, existing layout builders/contracts, all approved drummer assets and audio logic; no show/controller/hardware configuration overwritten. The new show uses xLights' X-right/Y-up/Z-depth convention, absolute disjoint channel allocations and portable assets. The old append-to-root behavior is archived because it cannot produce a valid independent show.
+New behavior: Helix Aurora:108 models,48 groups,27 native families,36 genuine native spiral trees,12 volumetric DNA forms,32,277 RGB pixels and96,929 disjoint channels. Cyan/magenta/gold DNA cathedral and rungs, graduated mint/violet forest, orbital halo, gates, infinity promenade, customized native gallery and original kinetic assets. Includes saved native overview camera, portable relative paths, 12 DNA model exports, offline orbit/filter/selection/pinch viewer and24s XSQ/MP4 lighting study. Native DMX/control types remain separate from RGB effects. Bundle hashes include final proof and exclude xLights backups/caches.
+Native findings: actual2026.18 rendering exposed alphabetic channel reallocation from No Controller and silent black DNA from incorrectly nested submodel effect layers; both corrected. Corrected engine-unit radii/heights, reverse cane field, negative icicle direction, a boundary star node and oversized advanced-head mesh. The final480-frame decoded native timeline is identical after the non-RGB camera/fixture changes, so the delivered native-lighting MP4 remains current.
+Evidence:43 new/existing layout checks pass (two pre-existing deprecation warnings), xLights GUI recognizes108 models/all27 families and preserves108 start channels; no controllers configured. Native FSEQ480×50ms, all97 RGB models/32,277 pixels have correct palette values at20s. Full1600×90020fps24s MP4 and decoded1/5/12/20s frames inspected; browser32277 points, all 108 selectable models,12 DNA/36 spiral filtering, selection and mobile pinch pass without JS errors. Native proof, attributes, screenshot, hashes and ZIP live under `outputs/ultimate_showcase/`. Five stale placeholder-drummer tests reproduce unchanged on baseline3cbd736; do not revive generic sticks/models to pass them.
+Checklist: [x] inspect native factory/serialization and legacy layout; [x] geometry/export; [x] images/video and portable bundle; [x] native GUI/headless load/render and decoded frames; [x] focused/existing layout and browser checks; [x] feature-branch commit/push, native artifact CI and downloaded ZIP verification; [ ] user artistic approval.
+Remote continuity: build committed/pushed as2c63f73495e0889690520b9e4f76a0865c311361 on `feature/ultimate-helix-showcase`. First native artifact run37731056719 passed43 tests but the minimal Ubuntu runner lacked `libEGL.so.1`; explicitly install EGL/Mesa/OpenGL runtime dependencies before rerunning. No layout/lighting change. Cancelled only the unrelated Flow/Remote/Birdsong artifact runs on this newly created branch to conserve runner work; standard Beta/Helix CI remains active.
+Final remote evidence: runtime fixea1692c5bf3fb5ac649e1085f3234ed244f7e984; native showcase run37731290603 SUCCESS (43 tests, pinned2026.18 headless render,24s MP4 and all32,277 RGB pixels). Standard Beta CI37731056603 and Helix CI37731056726 also SUCCESS on the layout implementation. Downloaded artifact11530225902 using the GitHub connector after the CLI redirect returned403;35 file hashes verified, XML/XSQ/manifest/inventory identical to local, all480 decoded native frames byte-identical, uploaded1600×90020fps480-frame MP4 and decoded20s image inspected. CI ZIP SHA256:5837cc843f870390884fdaf5b73fab605d41af1797c3f6b4eae70df1ee88ccf4. Durable download: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37731290603/artifacts/11530225902 . Local full bundle additionally contains the108-model GUI attribute/screenshot proof and documentation. Final handoff/proof JSON in `outputs/ultimate_showcase/Helix_Aurora/`; generated CI download in `test_runs/ultimate_showcase/ci_final/`.
+Limits/deferred/risks: stock coverage follows pinned xLights factory6ceddc6b; use xLights2026.18+. Custom grid positions are exact, stock review paths illustrative. MP4 uses native channel values in a geometry compositor, not a native screen recording; control/servo/DMX rendering is reviewed in xLights. Snowflakes are actual native Custom props. This large, scalable design is not controller wiring, power/structure design or a surveyed site. Existing user layouts/drummer remain preserved; drummer musical and hi-hat approval remain open. Current work/handoff and reproduction: `docs/ULTIMATE_SHOWCASE.md` and this master entry.
+
+## 2026-10-08 — user-heard high-tom roll lost at the identity gate
+
+Goal: address the user's missed consecutive notes near the end of Dry Drum Test using original-source evidence, preserving the reviewed fill and approved physical drummer. Continuing the existing task; double kick/flailing arms remain deferred questions.
+Finding: generic-tom candidates were discarded by the unknown-tom identity gate. The user specifically identifies the missed 32–34 s sound as a high tom/timpani; this supersedes initial diagnostic snare/hat guesses from ADT_STR. Its context-dependent, contradictory predictions are retained as rejected evidence only. The actual source has a roughly500Hz ringing articulation outside the isolated classifier's60–400Hz pitch search, plus brighter and quieter attacks from the same reviewed passage; simply extending pitch range cannot fix the missing class calibration or stem body loss.
+Changed modules: optional `audio/drum_source_calibration.py`, transcription import/integration CLI, exact-source exemplar/rejected-probe evidence, independent waveform timing anchors/tests, repeat-tom pose hold mapping, diagnostic audit, dry-audio workflow and documentation. Onset detection, attack timing, HPSS, scheduler and pixel compositor remain untouched.
+Preserved: immutable raw model transcript; every original family/timestamp/confidence/velocity; all accepted non-tom decisions; the four reviewed9–11s tom identities; all1,022 Helix musical events; eight targets/three toms, dim body, intact target-specific strikes, alternating snare, transparent kick/snare shell, cymbal shimmer and32%pedal. No synthesized onsets, fabricated bus, tom rotation or new hi-hat hits. The only existing cue-duration change is a brief rest between rapid same-target tom strikes.
+New behavior: compare original attack/body log-frequency spectra with user-labelled source exemplars in the audited32.3–34s scope. Distinct matches resolve HIGH; ambiguous high/mid identities still abstain. Preserve original rejection and all class scores/margins in the audit; tom-class confidence is spectral similarity, not a correctness probability. Ten existing attacks at32.36–33.77s now reach TOM_HIGH. Cap rapid same-tom pose holds to leave50ms rest, preventing a roll becoming one continuously lit contact pose; isolated holds and other instruments stay unchanged.
+Evidence:140 relevant tests pass locally (87.70s), plus final six calibration/hold regressions. Seven held-out waveform rise anchors cover the user-heard high-tom passage. All275 dry non-tom audit rows, all1,022 Helix musical audit/analysis rows and all16 approved physical asset bytes are identical. Dry sequence now contains289 placements, including10 restored HIGH strikes; counts describe the change rather than an acceptance quota. Full38.32s original-audio MP4 and6s ending clip generated; eight full decoded frames include earlier toms, HIGH strike/rest/restrike and later roll strokes. Soundtrack correlations .9959113596 full/.9922441795 ending. Before/after JSON/CSV/source plots and a side-by-side ending video live in `test_runs/drummer_dry_ending/`; reproduction is in `docs/DRUMMER_ENDING_TOM_RECOVERY.md`.
+Checklist: [x] source/activation/rejection audit; [x] investigate and reject second-model family errors using user listening; [x] scoped source calibration and hold/rest fix; [x] source anchor/abstention/preservation tests; [x] before/after report, XSQ/full actual-audio MP4 and decoded strikes/rests; [x]140-test relevant suite; [ ] push/CI and downloaded artifact verification (final remote status in local HANDOFF/FINAL_VERIFICATION); [ ] user preview approval.
+Limits/risks: user labels the passage sound and earlier descending order, not every individual event. Lower-pitched change near33.93s and other unreviewed toms remain unresolved rather than inventing destinations. Recording-specific timbre calibration is not a global arbitrary-song solution. Native xLights playback and earlier false-hi-hat behavior remain open. Unseen articulations may require further source-labelled calibration; ambiguous identities abstain. Same-tom gaps below100ms retain old cues because the native50ms frame cadence cannot show full50ms strikes plus50ms rests.
+
+## 2026-10-08 — user-reviewed descending tom fill in Dry Drum Test
+
+Goal: place the audible high → mid → floor tom passage identified by the user at roughly 9–11 s, using the approved mirrored physical targets (viewer right high, viewer left mid, lower viewer left floor). Double kick layout and Steve-style arm motion were explicitly questions; defer implementation of both.
+Changed modules: `audio/drum_review.py`, transcription import, integration CLI, source annotations/anchor tests, dry-audio workflow and documentation/checklist. No detector thresholds, fabricated onset grid, or rotating unknown tom destinations.
+Preserved: original inferred transcript as audit evidence; all non-tom events, timestamps, confidence and velocity; the complete Helix song performance; eight targets/three toms, cymbal shimmer, dim body, full strike overlays, alternating snare, transparent kick/snare shell and 32% pedal.
+Evidence: existing generic tom candidates at 9.69/10.01/10.32/10.47 s were all rejected as unresolved identity. Independent original-waveform attack rises are 9.6995/10.0115/10.3235/10.4815 s. The original/drum-bus body survives while LarsNet removes most high/mid body energy. Source dominant modes are about 181.6/177.2/146.5 Hz; high/mid modes are too close for confident global pitch calibration, so do not weaken classifier separation gates to force coverage. Use the user's reviewed order for the first three; the repeat at 10.47 s has the same measured floor resonance (~148 Hz).
+New behavior: explicit source-hash-bound labels resolve only their uniquely matching existing generic tom events, preserve original rejection/evidence in the audit, and leave all other unknown toms unassigned. Primary three timing/family anchors come from user listening plus independent source inspection, not from a detector-generated expected fixture.
+Evidence: 134 relevant tests passed, including 12 review/real-audio regressions; all 275 non-tom audit rows identical and the complete 1,022-event Helix audit/analysis unchanged. Updated dry XSQ/38.32 s MP4 contains 279 placements with high 9.69/mid 10.01/floor 10.32/floor 10.47 s; this count describes the reviewed changes, not a numerical acceptance criterion. Eight decoded frames inspected, including all three toms and the floor repeat; source soundtrack correlation .9959113596. All 16 approved physical assets remain byte-identical. Local proof: `test_runs/drummer_dry_toms/`.
+Checklist: [x] inspect source/stems and exact missing stage; [x] implement review overlay and fail-closed checks; [x] real-audio anchor/physical target tests; [x] new XSQ/full MP4 and decoded tom frames; [x] c58364b / CI #223 (134 tests), uploaded exact source/report/frame proof verified; [ ] user preview approval.
+Limitations/risks: this is a reviewed correction for this exact recording, not automatic high/mid classification for arbitrary songs. Fourth floor label is signal-supported inference rather than a separate user timestamp annotation. Hi-hat false-hit issue remains open; broader reviewed anchors and native xLights playback remain pending.
+
+## 2026-10-07 — uploaded Dry Drum Test requested for false hi-hat audit
+
+User confirms excess/false hi-hat hits and supplies a 38.32 s stereo 48 kHz PCM16 WAV. User is unsure whether/where real hi-hats are present; do not invent negative hat labels or use inferred output as expected truth.
+Goal: run the actual current Demucs/LarsNet/ADTOF drummer workflow on the uploaded recording, export source-bound report/XSQ/MP4 and independent signal evidence. Continue requested cymbal shimmer.
+Changed modules/data: original uploaded WAV, cached model inference and unlabelled signal measurements in `evidence/drummer/`; `.github/workflows/drummer-ground-truth.yml` uploaded-audio stage; `docs/DRUMMER_DRY_TEST_AND_CYMBALS.md`, recovery checklist and local audit artifacts. Source SHA256: `4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913`.
+Preserved: no global detector thresholds changed, all 1,022 Helix events identical, existing geometry/lighting/alternating snare hands, unknown tom abstention. The new recording has no measured three-tom kit calibration; its 34 generic tom guesses cannot be assigned to physical toms without evidence.
+Evidence: original dry audio 147 hat candidates; separated drum input 138. Stem-backed raw counts kick 67/snare 53/tom 34/hat 138/cymbal 17. Independent isolated-band inspection shows significant body leakage in the nominal hi-hat stem (e.g. strong 2.04 s/3.29 s peaks have 94%/96% power below 1 kHz). These are evidence about separation/native dynamics, not human-approved false-hit labels. Weak high-frequency hits can still be real hats. Complete 275-placement XSQ/MP4 and CSV exported; eight decoded source frames inspected and soundtrack correlation .9959113596 verified. 120 relevant tests passed.
+Checklist: [x] verify exact uploaded source; [x] original-mix and separated transcription; [x] isolated attack-energy and source-band plots; [x] source-bound XSQ/MP4; [x] inspect local proof; [x] CI #222 (122 tests) and downloaded exact source/report/decoded proof verified at c0e8bae; [ ] resolve false-hi-hat behavior using additional evidence/human review.
+Limitations: model and separator output remain untrusted for class correctness. User's false-hit judgment remains authoritative; this run reproduces it for inspection and must not be declared a musical fix because tests pass. All unknown toms abstain; no previous-song pitch calibration is reused.
+
+## 2026-10-07 — requested cymbal shimmer and decay
+
+Goal: add a bright cymbal attack, subtle metallic shimmer and roughly1.8s visual decay to both MP4 and native XSQ.
+Changed modules: `animation/cymbal_lighting.py`, preview compositor/renderer, native cymbal-surface effect export, `tests/test_cymbal_lighting.py`, workflow, documentation/checklist. No detector or mapper changes.
+Preserved: all 1,022 detected/scheduled hits, timestamps, families, velocities, physical assignments, short arm/stick strikes, alternating snare hands, clear idle background, full snare shell through kick, eight targets/three toms, independent surfaces and 32% hi-hat pedal.
+New behavior: only left/right cymbal surfaces ring out; a new hit restarts its own cymbal. Native On fade and two warm-gold shimmer colours use stock xLights parameters verified against source. Arms retain the existing320ms cue, and hi-hat behavior is unchanged.
+Final pixel audit caught the initial shimmer overlay subtracting the cymbal contact part of each stick (232 left/104 right overlapping pixels). Preserve separate full actuator masks and composite complete strikes over the faded surface; add regressions requiring contact pixels to match the approved pose even during soft shimmer. Update workflow review times to include both cymbal strikes as well as hat/snare/idle frames. All 57 affected visual/export tests pass after correction, including six cymbal regressions; all 16 approved generated assets remain byte-identical. The successful initial #221 run is superseded by this correction, not treated as completed proof.
+Evidence/checklist: [x] inspect current flash/source effect settings; [x] implement and test (six lighting regressions; final CI 122 tests passed); [x] exact identical event audit/analysis; [x] real-song 25 s MP4/XSQ plus eight decoded attack/decay frames, soundtrack correlation .9962146413; [x] c0e8bae / CI #222 and delivered full-song proof decoded, soundtrack correlation .9919693452; [ ] user approval.
+Limitations/risks: decay is an authored lighting effect, not a newly measured audio sustain; native playback remains unverified, though effect fields are source-confirmed. Rapid repeated hits restart the same surface rather than adding musical events. Preview matches sequence-frame shimmer phase; native frame quantization may differ by one frame.
+
+## 2026-10-07 — user finds #219 music pretty decent; requested visual polish
+
+Goal: preserve the reviewed ADTOF performance and fix disappearing strike sections, persistent raised sticks, alternating snare hands, and the complete snare outline visible through the kick.
+Preserved: audio transcription, all timing/family/velocity decisions, eight logical targets, three evidence-based toms, independent surfaces, dim body, kick without a stick and hi-hat surface with 32% pedal.
+Changed modules: pose spec, source-art compositor, native/layer builders and generated assets including clean idle background, mapper hand metadata, XSQ visual placement, preview/pose review, visual regression tests and CI. Details: `docs/DRUMMER_VISUAL_POLISH.md`.
+New behavior: remove raised actuators from idle artwork; full strike overlays in front of instrument surfaces; alternating left/right snare actuation on the same SNARE component; restore hidden magenta snare shell outline (explicit visual geometry, not inferred percussion); kick contains only red rim/blue snowflake.
+Evidence/checklist: [x] inspect and implement; [x] exact event audit/analysis comparison; [x] complete native projection and both decoded snare hands; [x] isolated XSQ and original-song 25s MP4 (audio correlation .9962146413); [x]116 relevant tests plus61 final visual checks; [x] full237.44s MP4 and decoded snare/kick overlap (source correlation .9919693452); [x] pushed cd16a03 and CI#220 success (116 tests); uploaded report/native assets identical, decoded uploaded frames inspected; [ ] user preview approval. Evidence: `test_runs/drummer_visual_polish/`.
+User's possible excessive hi-hat activity is recorded for inspection, not permission to suppress uncertain notes without evidence. No detector retuning in this visual pass.
+Limitations/risks: artwork-derived snare shell completion is an authored visual approximation; shared native grid cells can carry arm overlays; native xLights import remains unverified; human review remains final gate. Prior claims that idle raised sticks are intentionally preserved or native surface clipping is desirable are superseded by this explicit request.
+
+## 2026-10-07 — recovery preview #218 rejected; reassess transcription methods
+
+User says the 73bb80b / #218 preview is still far from passable. Historical agreement is insufficient and the recovery candidate is rejected musically. Approved physical artwork remains authoritative.
+Goal: assess other automatic sequencers and drum transcription systems; test independent methods on the identical song and deliver a more convincing actual-audio performance.
+Current work: new source-hash-verified polyphonic transcription import and external-model exporter; comparing pretrained ADTOF and ADT_STR on the identical original mix and Demucs drums. LarsNet instrument stems provide independent signal and dynamics evidence. Original ADT_STR mix probe hallucinated weak auxiliary/tom events; stem input improved the probe, but the first51.2s still had unreliable identities and long decoding stalls, so that full run was stopped. Existing heuristic remains a rejected comparator, not an accepted default.
+Preserved: all eight targets, three evidence-based tom identities, body keepalive, independent lighting, complete strike poses, 32% pedal and no kick/hat sticks.
+Changed: `audio/drum_transcription.py`; external stem-preparation/ADTOF exporters; source-verified XSQ input and truthful detector metadata; comparison/audit/click tools; cached model evidence; import/physical contract tests and CI candidate selection; reassessment docs/checklist. Original heuristic is retained only as rejected comparator for this pass.
+New behavior: independent 100fps family activations from separated drums, simultaneous typed placements, measured isolated per-family dynamics, source-calibrated stable tom resonance with abstention; no fake groove/grid notes.
+Evidence: ADTOF on complete mix and drum stem, individual-stem ablation, ADT_STR mix/stem probes and first51.2s (not adopted); waveform/activation/family-stem views. Candidate1022 hits (kick349/snare227/hat416/cymbal18/tom12); 35 unresolved toms abstain. All9 earlier provisional anchors match ; 110 tests passed plus21 focused checks; original song soundtrack correlation .99621464; 25s and full237.44s video and isolated XSQ generated. Counts/model agreement are not musical acceptance.
+Limitations: external evaluation model licenses and dependencies are recorded, not bundled. CI renders a source-bound inferred performance rather than independently rerunning ML. Legacy callers without `--drum-events` retain the rejected heuristic; general backend promotion awaits acceptance. Human listening/labels, native xLights import and tom calibration remain pending. Risks: separator-induced loss of quiet hats/cymbals, false low-velocity notes, heuristic calibrated tom resonance, estimated dynamics.
+Detailed reproduction and tradeoffs: `docs/DRUMMER_TRANSCRIPTION_REASSESSMENT.md`; artifacts: `test_runs/drummer_transcription/`.
+Evidence and limitations: #218 passed 100 tests but user rejected its musical performance. No auditory perception tool is available; model agreement and signal inspection will not be called human listening or acceptance.
+Deferred/final gate: explicit user approval of the next real-audio preview. Running checklist: `docs/DRUMMER_RECOVERY_CHECKLIST.md`.
+
+## 2026-10-07 — recover accepted drummer behavior; musical acceptance remains open
+
+The user rejected #217. This supersedes all prior #216/#217 musical-acceptance claims. Approved physical artwork remains authoritative.
+
+Goal: reconstruct historical/current timelines from the identical song, diagnose stages, port useful b27 behavior into the modern drummer, and provide human-reviewable artifacts.
+Changed: active audio detector and compatibility config entry; archived rejected #217; integration audit; isolated XSQ export; historical replay/ablation/comparison/plot/click/frame inspection tools; sparse provisional and archived-timeline fixtures/tests; drummer CI workflow; audio docs/checklist/handoff and this ledger.
+Preserved: original source artwork and generated asset bytes, exact eight targets, body keepalive, strike overlap, three toms, no kick/hat sticks, 32% pedal, non-emitting bus, no tom cycling, scheduler merge/clutter/attenuation, simultaneous typed-input mapping, and unrelated integration effects.
+New: historical native-rate HPSS/transient grid/features/principal-family behavior, traceable rejection and target decisions, measured tom resonance above background, literal cutoff rejection, supported entrance, full-song/media-correct drummer-only XSQ, archival behavior protection, independent provisional anchors, and full-song real-audio MP4/diagnostic evidence.
+Evidence: true historical run 35485877322 found; all 1335 raw events reproduced, 1315 scheduled, all 400 archived timeline rows verified. Rejected #217 reproduced at 405 events with 825 rejected candidates. Recovered candidate: 1182 physical hits (kick188/snare36/hat202/cymbal749/tom7), 1182 one-to-one historical family/time matches versus185 for rejected logic. 100 relevant local tests passed; deterministic 68-event eight-target fixture, byte-identical assets, signal plots, full/25s MP4s, exact decoded-hit frames and soundtrack correlation .99621464 are recorded in `test_runs/drummer_recovery/`.
+Limitations: signal-inspected sparse labels await human listening; native xLights playback unverified; mono cymbal side and relative tom pitch remain conventions/heuristics. Original archived 48MB video located but not decoded here due transfer limit. Risks: historical mixed-family classification and sustained-metal/hat distinction remain uncertain. Counts, source agreement and CI are not musical acceptance. No unrelated beta roadmap work performed.
+Deferred/final gate: user must approve real-song MP4 and sparse auditory labels. If rejected, continue from timestamp-specific audit evidence. Remote CI status and commit are discoverable on `fix/drummer-target-strikes`; the final handoff names the actual outcome.
+Running checklist: `docs/DRUMMER_RECOVERY_CHECKLIST.md`; detailed evidence/reproduction: `docs/DRUMMER_FINAL_FIX_HANDOFF.md`.
+
+## 2026-10-06 run #216 musical-acceptance claim — superseded by 2026-10-07 rejection
+
+- [~] Earlier #216 acceptance report is superseded by the newest explicit user rejection of #217 musical logic.
+- [~] The earlier detector freeze is superseded; historical musical behavior is being recovered. Approved visuals remain preserved.
+- [x] Identify the arm/stick glitch: preview strike art was clipped against foreign instrument surface masks.
+- [x] Allow full-resolution preview strike poses to pass in front of neighboring kit artwork while leaving native xLights node isolation unchanged.
+- [x] Add a preview-only 42% body keepalive so the central snowman remains dimly readable at idle and during hits.
+- [x] Add regressions for body persistence and unclipped preview strike pixels.
+- [ ] Regenerate the real-audio proof, inspect CI/artifacts, and obtain user visual approval.
+
+## 2026-10-06 music sync / drummer logic corrective pass — implementation
+
+- [x] Preserve the user-approved independent target-lighting artwork and strike geometry.
+- [x] Normalize drummer analysis to 44.1 kHz / 441-sample hop / 2048-sample FFT so 48 kHz input cannot silently expand the spectral window to 4096 samples.
+- [x] Refine accepted HPSS onset frames to the waveform attack and record the correction in every event audit row.
+- [x] Reject decay/cutoff release edges with a local attack-contrast gate instead of manufacturing extra hits.
+- [x] Tighten cymbal-vs-hi-hat decay evidence and restore three tom body classes without weakening the exact eight-target contract.
+- [x] Render musical proof at 60 fps using nearest-frame interval sampling (maximum placement quantization ~8.3 ms).
+- [x] Add deterministic 44.1/48 kHz identity, cutoff, attack-timing, and preview-frame regression coverage.
+- [ ] GitHub CI + regenerated real-song artifact inspection pending this commit.
+
+## 2026-10-06 corrective pass — completed engineering pass, acceptance open
+
+Baseline/rollback: `87c4b51bab45fb80b630288ef82f29c3da5e0014`; branch `fix/drummer-target-strikes`.
+The attached corrective handoff supersedes historical claims that cycling toms or green CI imply musical/visual acceptance.
+
+- [x] Verify remote baseline, preserve it, and inspect source artwork/tests (38 selected baseline tests passed).
+- [x] Six target-specific source-art shaft poses with explicit distal-tip/contact coordinates.
+- [x] Repose floor-tom arm to reach the visible upper edge rather than crossing the mid tom.
+- [x] Tighten instrument search windows to remove neighboring green artwork; restore complete red kick rim.
+- [x] Keep idle artwork at 30%; use 32% supplemental hi-hat pedal intensity, no hat arm/stick.
+- [x] Split native neutral-arm/gold-stick nodes using source colors; keep eight musical components.
+- [x] Extract production HPSS classifier to `audio/drummer_v3.py`; detection/export consume it.
+- [x] Archive older classifiers; unknown tom classes and drum_bus do not emit, including animation callers.
+- [x] Log every accepted event with spectral evidence and physical assignment; provide 10–30s timeline/CSV.
+- [x] Inspect nine isolated states and one decoded MP4 frame per state (18s slow video, 2s/state).
+- [x] Full focused drummer/geometry/audio/legacy-analysis suite: 76 passed, no xfails, 2 preexisting warnings.
+- [x] Regenerate 14 xmodel/layer/sheet files and verify byte-identical hashes.
+- [x] Render and inspect 25s proof (source 9.5–34.5s), 24 fps, 600 frames, aligned AAC audio.
+- [x] Update workflow with pose artifacts, event audit, broader regressions, and strict generated-asset checks.
+- [ ] Auditory annotation and musical approval: detector thresholds intentionally unchanged pending evidence.
+- [ ] Native xLights import/playback validation and user visual approval.
+
+Goal: physical contact and traceable musical evidence, not arbitrary hit coverage.
+Changed modules: pose spec; shared source-art mask/pose compositor; xmodel/layer builders;
+preview and pose-review tools; audio detector/archives; XSQ integration and audit tool;
+mapper/animation; regression tests; generated geometry/layers; ground-truth workflow; this ledger.
+Preserved: exact eight public targets, original background, source instrument colors, intro quality
+gate, simultaneous body+metal hits, non-emitting drum_bus, untouched rollback baseline.
+New: target-specific transformed source shafts and floor arm; narrower correct instrument windows;
+neutral/wood native submodels (median source palettes); obsolete generated generic-arm layers removed on re-injection;
+one active production classifier; unclassified toms no longer cycle.
+
+Evidence: 455 scheduled song events: kick 54, snare 142, hat 154, tom 23, cymbal 82.
+Zero events before 10s; first 10.990s. In 10–71s: 122 events, 46 with confidence <0.45,
+18 simultaneous onsets. Full-song maximum rolling 1s counts: snare 5, cymbal 3, kick 3,
+hat 4, tom 2. Confidence measures percussive support, NOT calibrated instrument-class probability.
+Encoded proof audio correlation to decoded source at 9.5s: 0.9967868; selected decoded frames
+at 9.75, 11.00, 18.82, 20.82, 21.82, 27.84, 28.63, 29.79, 29.96s inspected.
+
+Limitations: no auditory hit-by-hit labels; sparse 11–18s region and 142 snares still require listening.
+Source-derived static strike poses are not articulated motion; simultaneous poses sharing a hand can
+show more than one stick. Native 96x72 nodes/median palettes approximate the full-resolution preview;
+xLights playback, continuous native idle lighting, and exact native palette appearance are unverified.
+The source screenshot contains numbers and resting sticks, which remain dimly visible by design.
+Regression risks: callers of `audio.drum_detection` now use conservative V3 detection; older config
+fields other than onset_delta are compatibility-only. Unknown toms now drop rather than cycling.
+Deferred: beta roadmap, unrelated engine work, stem separation, and classifier retuning remain open.
+See `docs/DRUMMER_TARGET_STRIKES_HANDOFF.md` for reproduction and next steps; this ledger is authoritative.
 
 ## Current mission
 Build Helix into a reliable AI-assisted xLights auto-sequencer while preserving deterministic sequencing, verified artifacts, and cumulative behavior.
@@ -29,7 +1272,38 @@ The current repo priority is the beta-readiness sequence defined in `ROADMAP_BET
 8. Add Windows packaging smoke coverage.
 9. Only then begin engine facade/extraction work.
 
-## Drummer / band current state
+## Current V3 drummer contract — independent component lighting
+
+This supersedes the nine-component/four-tom V3 claims retained below as history.
+
+- Eight hit targets: KICK, SNARE, HI_HAT, TOM_HIGH, TOM_MID, TOM_FLOOR, CYMBAL_LEFT, CYMBAL_RIGHT.
+- HIGH is image-right, MID image-left, FLOOR lower-left. The extra lower-right drum is unused.
+- Snare/toms/cymbals use target-specific transformed source-art strike poses; kick has no arm/stick; hi-hat includes a secondary foot/pedal and no arm/stick. This supersedes the generic raised-arm behavior retained in historical entries.
+- Review rendering uses a 30% dim baseline and 1.45 active gain on full-resolution source artwork. Native effects use 68–100% brightness, with pedal effects scaled to 32% of that. Simultaneous poses/bloom take a pixelwise maximum; shared arms do not compound brightness.
+- Source remains \`fixtures/band_geometry/source/drummerbg.png\`; no substitute drummer.
+
+### Running implementation checklist
+- [x] Replace misregistered primitive lighting with source-normalized physical surfaces/actuators.
+- [x] Export integrated eight public hit targets plus \`_SURFACE\` geometry submodels.
+- [x] Render the shared full-resolution source-art spec and reject missing/empty/out-of-range xmodel targets. This supersedes enlarging native 96x72 masks, which produced blocky artwork.
+- [x] Remove global brightness changes and painted yellow blobs.
+- [x] Use max-union simultaneous hits and exclude other instrument surfaces from actuator contributions.
+- [x] Derive PNG review layers from the same exported nodes.
+- [x] Share one deterministic event oracle between WAV and XSQ; 68 events over 20 seconds.
+- [x] Fix the former starter-model/manifest expected failure and archive that legacy contract.
+- [x] GitHub Actions verification of the reconstructed branch.
+- [x] Replace spotty 96×72-upscaled preview masks with full-resolution masks from the same authored geometry.
+- [x] Restore the approved `b27e8d77...` detector decision order and thresholds; real-song raw counts now match the oracle exactly.
+- [x] Fix production mapping to the actual `HX_SNOWMAN_DRUMMER_V3_*` target names and xLights brightness to 60–100%.
+- [~] Historical HIGH→MID→FLOOR fallback is superseded: the current contract rejects unknown tom identities; no cycling is permitted.
+- [x] Render a 160-second proof using `Helix Audiolights.mp3`; all eight V3 targets occur inside the rendered window.
+- [ ] User visual approval of the corrected real-song candidate.
+- [ ] Native xLights import/playback confirmation.
+
+See \`docs/DRUMMER_INDEPENDENT_LIGHTING_HANDOFF.md\` for reproduction and limitations.
+
+## Historical drummer / band state — superseded for V3
+
 - [x] Canonical nine-component drummer contract documented.
 - [x] Runtime drummer state model changed to nine integrated hit components.
 - [x] Structure catalog changed to nine drummer sequencing components.
@@ -44,7 +1318,7 @@ The current repo priority is the beta-readiness sequence defined in `ROADMAP_BET
 - [ ] Render full-song MP4 with audio.
 - [ ] Human visual review of rendered drummer timing.
 
-## Canonical drummer components
+## Historical nine-component contract — superseded for V3
 1. `HX_SNOWMAN_DRUMMER_KICK` = KICK + KICK_RIM
 2. `HX_SNOWMAN_DRUMMER_SNARE` = SNARE + SNARE_RIM + SNARE_CONTACT_STICK
 3. `HX_SNOWMAN_DRUMMER_TOM_1` = TOM_1 + TOM_1_CONTACT_STICK
@@ -76,6 +1350,31 @@ A prior drummer render was explicitly identified by the user as having the **cor
 Do not mark complete from unit tests alone.
 
 ## Change Ledger
+
+### 2026-10-06 — Correct rejected drummer proof: full-component lighting + oracle logic restoration
+**Trigger:** user rejected the prior candidate because components were spottily lit and the musical logic appeared regressed.
+**Visual fix:** review rendering now rasterizes the same authored component geometry at full source-image resolution instead of enlarging the 96×72 xmodel grid. Idle is dimmed to 15%; active artwork receives a strong source-preserving emissive lift. xLights effect brightness is emitted on the correct 60–100 percent scale.
+**Logic fix:** restored the exact approved `b27e8d77a63027ed32bcf6851dcff3925472c155` classifier decision order and thresholds. On `Helix Audiolights.mp3`, the raw detector counts now exactly match the historical oracle: kick 194, snare 37, tom 9, hi-hat 208, cymbal 840, drum_bus 47.
+**Mapping fix:** production events now target the actual `HX_SNOWMAN_DRUMMER_V3_*` submodels. When a multi-hit tom passage's spectral subclasses collapse to fewer than HIGH/MID/FLOOR, the mapper preserves the historical distribution behavior by cycling real detected tom hits HIGH→MID→FLOOR; the final real-song mapping yields 3 hits on each tom.
+**Proof:** GitHub Actions run `37432351105` passed focused tests, the deterministic 68-event geometry regression, exact real-song oracle-count gating, all-eight-target-in-window gating, and a 160-second real-song H.264/AAC preview.
+**Still open:** user visual approval and native xLights import/playback.
+
+### 2026-10-06 — Reconstruct independent V3 component lighting
+**Goal:** restore the tested independent-lighting design from the saved candidate artifacts and handoff after the original local patch could not be recovered.
+**Changed:** V3 pose geometry, xmodel exporter/static asset, node-driven PNG layer builder, canonical preview renderer, shared fixture oracle/WAV/XSQ exporters, focused tests, ground-truth workflow, runtime hi-hat description, geometry manifest, and this ledger.
+**Preserved:** canonical source image, eight public XSQ target names, HIGH-right/MID-left/FLOOR-left orientation, deterministic sequencing contract, extra-drum exclusion, and production drum detector.
+**New:** source-aligned surfaces/actuators, integrated hit nodes, dense xmodel grid, portable background path, fixed 28% idle brightness, xmodel-node-driven max-union rendering, hi-hat foot/no-arm behavior, and exact WAV/XSQ oracle agreement.
+**Evidence:** GitHub Actions run `37416429803` passed canonical regeneration, exact 68-event WAV/XSQ agreement, 37 focused tests with 3 existing deprecation warnings, and a 20-second H.264/AAC render at 24 fps. All eight isolated decoded states were inspected after encoding; the kick/snare shared-cell regression was corrected by exclusive instrument-surface ownership. User approval and native xLights import remain open.
+**Limitations/deferred:** static reference arms illuminate but are not re-posed; xLights native import and real-song detector quality remain separate gates.
+**Regression risks:** public hit targets now include actuator nodes; geometry-only checks must use \`_SURFACE\` submodels.
+
+### 2026-10-06 — Resolve legacy starter expected failure
+**Goal:** make the archived starter xmodel/manifest contract internally valid without confusing it with the active V3 runtime.
+**Changed:** starter HEAD and DRUMKIT_ALL unions, geometry manifest active/archived split, strict xmodel and manifest tests.
+**Preserved:** all existing starter node ranges and all five active performer identities other than replacing the obsolete starter drummer identity with V3.
+**New:** starter contract is archived and fully testable; active manifest resolves the V3 runtime.
+**Evidence pending:** focused CI on the publication branch.
+
 
 ### 2026-10-02 — Beta tester feedback checklist documented
 **Agent:** GitHub Copilot
@@ -145,6 +1444,38 @@ Do not mark complete from unit tests alone.
 7. Compare rendered component flashes to actual audible drum events and the prior known-good render.
 8. Iterate only on measured false positives/false negatives.
 
+
+## Publication status
+- [x] User explicitly authorized publication.
+- [x] GitHub write access restored.
+- [x] Publish and validate \`fix/drummer-independent-illumination\`; implementation run `37432351105` passed all automated gates.
+- [ ] User visual approval and native xLights import/playback remain final acceptance gates.
+
+Final October10 publication handoff: `docs/REVIEW_MOVIE_DOWNLOADS.md` links the46-movie earlier ZIP,179-payload recent ZIP,11 final band MP4s and their ZIP, both six-up artwork reels and the20-concept artwork ZIP. Performance/binary revision `209b6f7416afb35fa366aef272c8b3bd33406e25`; pinned release transport/index revision `9746dfe853431c5c67c5f23d2b5086f9e0508bd4` on `feature/review-media-delivery-2026-10-10`. Release workflow38050908245 succeeded. All32 new movie/transport blobs match, all11 direct MP4 links returnHTTP200, all3 release ZIP sizes/digests match and returnHTTP200; full public earlier/band ZIP downloads match local hashes. Evidence: `evidence/review_movie_archives/publication_final_release.json`, `publication_final_media_blobs.json`, `evidence/snowman_band_upgrade/public_individual_links.json`. Native physical/desktop playback and artistic acceptance are not claimed for the new3D review rig; exact preferred drummer art, confident duet separation and missing historical Android bytes remain documented limitations. Read this ledger before continuing.
+
+
+### 2026-10-16 continuation checkpoint — outstanding production gates
+- [ ] Resume and verify remaining embedded-stage native films; require complete FSEQ and decoded video, original audio matching, and channel parity.
+- [ ] Complete six-layout comparison queue and ensure every pane is sourced from authentic archived native channels.
+- [ ] Finish longer advertisement cuts; verify PCM edit timing and reject AAC-concatenation offsets.
+- [ ] Package all verified MP4s, native source shows, source hashes, contact sheets, QA reports and reproducible commands in a delivery index.
+- [ ] Perform human musical/visual review and controller review before any production merge or public release.
+- [ ] Do not mark scratch-only production outputs as GitHub-persisted until independently uploaded and hash checked.
+
+## 2026-10-17 — Artifact recovery evidence follow-up
+
+- Recovered GitHub Actions artifact 12086060785 from successful run 38992026128 (Helix-Final-Completion-Native-Proof); 468 archive entries, including 11 FSEQ, 22 XSQ, 298 xmodel, and one 3-second physical-channel diagnostic MP4. Archive SHA256: `2ef6d96cb42366a0508f25ccd601dfe0df28d304e4ace55bd7a14535adb87ea8`.
+- This archive is **not** the 19 previously reported musical showcase MP4s. `Final_Band_Output_Diagnostic/verification.json` identifies an authored fixture rather than original-song transcription; `CTB16PC_Drummer_Chorus_Diagnostic/native_verification.json` states physical hardware and LOR import are unverified. Do not promote these as showcase deliveries.
+- Added `tools/audit_showcase_artifacts.py` and focused regression tests to fail closed on missing files, SHA mismatch, unsafe paths, duplicate entries and empty inventories. Test execution pending full checkout.
+- The original `/workspace/scratch/1971fd9f91ad` render workspace remains unavailable in this execution environment. Authentic source-audio/native-render continuation remains blocked until actual media/render environment is recovered. No new musical MP4 claimed, no production merge/release/publishing.
+
+## 2026-10-17 — Original-audio source retrieval
+
+- Connected Google Drive folder contains `Copy of Audio in. Lights out. Welcome to Helix` (Drive ID `11hFomlsAf6u1Nc1jXrkoFbQZiMrv_6JC`, 6,206,675 bytes). Downloaded source MP3 SHA256 `539b7ab219cf5a1bddeae098a8df58f193ceb02d46bacf7b0f3189ea3f4ebe92`.
+- This **differs** from native recovery's prior source SHA256 `8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec`. Do not silently substitute for previously rendered source or claim native video parity.
+- Created real Drive-copy audio excerpt 40–76s, stereo 48 kHz 24-bit PCM WAV, duration exactly 36s, SHA256 `0b2a8167f325885af0c87d3c0eb1b6870578564a6b30006e4ae5e124c1acdaaf`; retained as separate working artifact, not merged into production. Native MP4 render still pending.
+
+
 ### 2026-10-19 — Eight-hour recovery started
 Goal: recover and finish recent incomplete integrations on development branch `codex/eight-hour-recovery-20261019`.
 Changed: added `docs/HELIX_LIVE_IMPLEMENTATION_CHECKLIST.md` as the current detailed recovery checklist and exact handoff; this historical ledger remains preserved.
@@ -152,3 +1483,10 @@ Evidence: default `feature/restructure-core` at 59f3240 and PR175/178–187 meta
 Preserved: production branch, known-good artifacts, third-party license notices, approval gates.
 Limitations/deferred: native rendering, packaged GUI runtime and all acceptance checks remain pending; see live checklist for exact steps and dependencies.
 Regression risk: none from this documentation-only checkpoint.
+
+### 2026-10-19 — Recovery lineage integration checkpoint
+Goal: recover actual modern implementation missing from repository default. PR181 has 460 commits after shared 1f66f5d; default has only subsequent license merge. Development-only merge recovers modern native source, tests, Android/Windows packaging and preserved evidence.
+Changed: focused PR183–187 commits cherry-picked; source-event validator recovered; modern native development lineage merged. License/NOTICE/README owner-approved text kept; modern GUI playback controls and selected-layout persistence combined; both historical ledger sides preserved.
+Evidence: four supplied policy artifacts recovered to scratch; original 14 tests pass (pytest, 0.02s); package-import adaptation plus style tests 19 passed in 1.17s. Native run 39197885669 logs confirm 248x442 export; CI 39197885661 has two BODY KeyErrors; desktop capture has ModuleNotFoundError gui_launcher.
+Preserved: no release merge, no public distribution, existing provenance/hardware/approval gates.
+Limitations: integrated branch not yet regression-tested; native viewport and packaged runtime pending. Risk: broad pre-existing lineage recovery can expose conflicts; focused agents test independent subsystems, full regression required.

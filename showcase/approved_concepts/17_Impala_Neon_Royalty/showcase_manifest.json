@@ -1,0 +1,3181 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Impala Neon Royalty",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 79
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 79,
+  "rgb_pixels": 4944,
+  "channel_count": 14832,
+  "spiral_trees": 0,
+  "double_helices": 2,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_BODY_CONTOUR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BODY",
+      "design": "BODY CONTOUR",
+      "kind": "pixel",
+      "nodes": 380,
+      "start_channel": 1,
+      "end_channel": 1140,
+      "bounds_ft": [
+        [
+          -140.0,
+          15.0,
+          -32.0
+        ],
+        [
+          145.0,
+          65.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3447285282406519
+    },
+    {
+      "name": "HX_002_BELT_TRIM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TRIM",
+      "design": "BELT TRIM",
+      "kind": "pixel",
+      "nodes": 260,
+      "start_channel": 1141,
+      "end_channel": 1920,
+      "bounds_ft": [
+        [
+          -138.0,
+          30.0,
+          -32.0
+        ],
+        [
+          140.0,
+          40.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3140634312072749
+    },
+    {
+      "name": "HX_003_WINDOW_TRIM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CABIN",
+      "design": "WINDOW TRIM",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1921,
+      "end_channel": 2370,
+      "bounds_ft": [
+        [
+          -65.0,
+          42.0,
+          -32.0
+        ],
+        [
+          49.5,
+          61.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31031914886589557
+    },
+    {
+      "name": "HX_004_WHEEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 2371,
+      "end_channel": 2640,
+      "bounds_ft": [
+        [
+          -102.0,
+          0.0,
+          -32.0
+        ],
+        [
+          -68.0,
+          34.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29845801601111477
+    },
+    {
+      "name": "HX_005_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2641,
+      "end_channel": 2676,
+      "bounds_ft": [
+        [
+          -85.0,
+          17.0,
+          -32.0
+        ],
+        [
+          -71.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_006_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2677,
+      "end_channel": 2712,
+      "bounds_ft": [
+        [
+          -85.0,
+          17.0,
+          -32.0
+        ],
+        [
+          -73.0,
+          24.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948003
+    },
+    {
+      "name": "HX_007_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2713,
+      "end_channel": 2748,
+      "bounds_ft": [
+        [
+          -85.0,
+          17.0,
+          -32.0
+        ],
+        [
+          -78.0,
+          29.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.305685823394808
+    },
+    {
+      "name": "HX_008_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2749,
+      "end_channel": 2784,
+      "bounds_ft": [
+        [
+          -85.0,
+          17.0,
+          -32.0
+        ],
+        [
+          -85.0,
+          31.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_009_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2785,
+      "end_channel": 2820,
+      "bounds_ft": [
+        [
+          -92.0,
+          17.0,
+          -32.0
+        ],
+        [
+          -85.0,
+          29.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.305685823394808
+    },
+    {
+      "name": "HX_010_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2821,
+      "end_channel": 2856,
+      "bounds_ft": [
+        [
+          -97.0,
+          17.0,
+          -32.0
+        ],
+        [
+          -85.0,
+          24.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948003
+    },
+    {
+      "name": "HX_011_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2857,
+      "end_channel": 2892,
+      "bounds_ft": [
+        [
+          -99.0,
+          17.0,
+          -32.0
+        ],
+        [
+          -85.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_012_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2893,
+      "end_channel": 2928,
+      "bounds_ft": [
+        [
+          -97.0,
+          10.0,
+          -32.0
+        ],
+        [
+          -85.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948017
+    },
+    {
+      "name": "HX_013_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2929,
+      "end_channel": 2964,
+      "bounds_ft": [
+        [
+          -92.0,
+          5.0,
+          -32.0
+        ],
+        [
+          -85.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948068
+    },
+    {
+      "name": "HX_014_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2965,
+      "end_channel": 3000,
+      "bounds_ft": [
+        [
+          -85.0,
+          3.0,
+          -32.0
+        ],
+        [
+          -85.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_015_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3001,
+      "end_channel": 3036,
+      "bounds_ft": [
+        [
+          -85.0,
+          5.0,
+          -32.0
+        ],
+        [
+          -78.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.305685823394808
+    },
+    {
+      "name": "HX_016_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3037,
+      "end_channel": 3072,
+      "bounds_ft": [
+        [
+          -85.0,
+          10.0,
+          -32.0
+        ],
+        [
+          -73.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948003
+    },
+    {
+      "name": "HX_017_WHEEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 3073,
+      "end_channel": 3342,
+      "bounds_ft": [
+        [
+          73.0,
+          0.0,
+          -32.0
+        ],
+        [
+          107.0,
+          34.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29845801601111477
+    },
+    {
+      "name": "HX_018_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3343,
+      "end_channel": 3378,
+      "bounds_ft": [
+        [
+          90.0,
+          17.0,
+          -32.0
+        ],
+        [
+          104.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_019_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3379,
+      "end_channel": 3414,
+      "bounds_ft": [
+        [
+          90.0,
+          17.0,
+          -32.0
+        ],
+        [
+          102.0,
+          24.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948003
+    },
+    {
+      "name": "HX_020_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3415,
+      "end_channel": 3450,
+      "bounds_ft": [
+        [
+          90.0,
+          17.0,
+          -32.0
+        ],
+        [
+          97.0,
+          29.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.305685823394808
+    },
+    {
+      "name": "HX_021_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3451,
+      "end_channel": 3486,
+      "bounds_ft": [
+        [
+          90.0,
+          17.0,
+          -32.0
+        ],
+        [
+          90.0,
+          31.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_022_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3487,
+      "end_channel": 3522,
+      "bounds_ft": [
+        [
+          83.0,
+          17.0,
+          -32.0
+        ],
+        [
+          90.0,
+          29.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.305685823394808
+    },
+    {
+      "name": "HX_023_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3523,
+      "end_channel": 3558,
+      "bounds_ft": [
+        [
+          78.0,
+          17.0,
+          -32.0
+        ],
+        [
+          90.0,
+          24.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948003
+    },
+    {
+      "name": "HX_024_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3559,
+      "end_channel": 3594,
+      "bounds_ft": [
+        [
+          76.0,
+          17.0,
+          -32.0
+        ],
+        [
+          90.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_025_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3595,
+      "end_channel": 3630,
+      "bounds_ft": [
+        [
+          78.0,
+          10.0,
+          -32.0
+        ],
+        [
+          90.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948017
+    },
+    {
+      "name": "HX_026_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3631,
+      "end_channel": 3666,
+      "bounds_ft": [
+        [
+          83.0,
+          5.0,
+          -32.0
+        ],
+        [
+          90.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948068
+    },
+    {
+      "name": "HX_027_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3667,
+      "end_channel": 3702,
+      "bounds_ft": [
+        [
+          90.0,
+          3.0,
+          -32.0
+        ],
+        [
+          90.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_028_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3703,
+      "end_channel": 3738,
+      "bounds_ft": [
+        [
+          90.0,
+          5.0,
+          -32.0
+        ],
+        [
+          97.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.305685823394808
+    },
+    {
+      "name": "HX_029_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3739,
+      "end_channel": 3774,
+      "bounds_ft": [
+        [
+          90.0,
+          10.0,
+          -32.0
+        ],
+        [
+          102.0,
+          17.0,
+          -32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948003
+    },
+    {
+      "name": "HX_030_BODY_CONTOUR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BODY",
+      "design": "BODY CONTOUR",
+      "kind": "pixel",
+      "nodes": 380,
+      "start_channel": 3775,
+      "end_channel": 4914,
+      "bounds_ft": [
+        [
+          -140.0,
+          15.0,
+          32.0
+        ],
+        [
+          145.0,
+          65.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3447285282406519
+    },
+    {
+      "name": "HX_031_BELT_TRIM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TRIM",
+      "design": "BELT TRIM",
+      "kind": "pixel",
+      "nodes": 260,
+      "start_channel": 4915,
+      "end_channel": 5694,
+      "bounds_ft": [
+        [
+          -138.0,
+          30.0,
+          32.0
+        ],
+        [
+          140.0,
+          40.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3140634312072749
+    },
+    {
+      "name": "HX_032_WINDOW_TRIM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CABIN",
+      "design": "WINDOW TRIM",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 5695,
+      "end_channel": 6144,
+      "bounds_ft": [
+        [
+          -65.0,
+          42.0,
+          32.0
+        ],
+        [
+          49.5,
+          61.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31031914886589557
+    },
+    {
+      "name": "HX_033_WHEEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 6145,
+      "end_channel": 6414,
+      "bounds_ft": [
+        [
+          -102.0,
+          0.0,
+          32.0
+        ],
+        [
+          -68.0,
+          34.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29845801601111477
+    },
+    {
+      "name": "HX_034_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6415,
+      "end_channel": 6450,
+      "bounds_ft": [
+        [
+          -85.0,
+          17.0,
+          32.0
+        ],
+        [
+          -71.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_035_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6451,
+      "end_channel": 6486,
+      "bounds_ft": [
+        [
+          -85.0,
+          17.0,
+          32.0
+        ],
+        [
+          -73.0,
+          24.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948003
+    },
+    {
+      "name": "HX_036_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6487,
+      "end_channel": 6522,
+      "bounds_ft": [
+        [
+          -85.0,
+          17.0,
+          32.0
+        ],
+        [
+          -78.0,
+          29.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.305685823394808
+    },
+    {
+      "name": "HX_037_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6523,
+      "end_channel": 6558,
+      "bounds_ft": [
+        [
+          -85.0,
+          17.0,
+          32.0
+        ],
+        [
+          -85.0,
+          31.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_038_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6559,
+      "end_channel": 6594,
+      "bounds_ft": [
+        [
+          -92.0,
+          17.0,
+          32.0
+        ],
+        [
+          -85.0,
+          29.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.305685823394808
+    },
+    {
+      "name": "HX_039_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6595,
+      "end_channel": 6630,
+      "bounds_ft": [
+        [
+          -97.0,
+          17.0,
+          32.0
+        ],
+        [
+          -85.0,
+          24.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948003
+    },
+    {
+      "name": "HX_040_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6631,
+      "end_channel": 6666,
+      "bounds_ft": [
+        [
+          -99.0,
+          17.0,
+          32.0
+        ],
+        [
+          -85.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_041_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6667,
+      "end_channel": 6702,
+      "bounds_ft": [
+        [
+          -97.0,
+          10.0,
+          32.0
+        ],
+        [
+          -85.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948017
+    },
+    {
+      "name": "HX_042_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6703,
+      "end_channel": 6738,
+      "bounds_ft": [
+        [
+          -92.0,
+          5.0,
+          32.0
+        ],
+        [
+          -85.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948068
+    },
+    {
+      "name": "HX_043_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6739,
+      "end_channel": 6774,
+      "bounds_ft": [
+        [
+          -85.0,
+          3.0,
+          32.0
+        ],
+        [
+          -85.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_044_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6775,
+      "end_channel": 6810,
+      "bounds_ft": [
+        [
+          -85.0,
+          5.0,
+          32.0
+        ],
+        [
+          -78.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.305685823394808
+    },
+    {
+      "name": "HX_045_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6811,
+      "end_channel": 6846,
+      "bounds_ft": [
+        [
+          -85.0,
+          10.0,
+          32.0
+        ],
+        [
+          -73.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948003
+    },
+    {
+      "name": "HX_046_WHEEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 6847,
+      "end_channel": 7116,
+      "bounds_ft": [
+        [
+          73.0,
+          0.0,
+          32.0
+        ],
+        [
+          107.0,
+          34.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29845801601111477
+    },
+    {
+      "name": "HX_047_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7117,
+      "end_channel": 7152,
+      "bounds_ft": [
+        [
+          90.0,
+          17.0,
+          32.0
+        ],
+        [
+          104.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_048_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7153,
+      "end_channel": 7188,
+      "bounds_ft": [
+        [
+          90.0,
+          17.0,
+          32.0
+        ],
+        [
+          102.0,
+          24.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948003
+    },
+    {
+      "name": "HX_049_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7189,
+      "end_channel": 7224,
+      "bounds_ft": [
+        [
+          90.0,
+          17.0,
+          32.0
+        ],
+        [
+          97.0,
+          29.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.305685823394808
+    },
+    {
+      "name": "HX_050_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7225,
+      "end_channel": 7260,
+      "bounds_ft": [
+        [
+          90.0,
+          17.0,
+          32.0
+        ],
+        [
+          90.0,
+          31.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_051_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7261,
+      "end_channel": 7296,
+      "bounds_ft": [
+        [
+          83.0,
+          17.0,
+          32.0
+        ],
+        [
+          90.0,
+          29.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.305685823394808
+    },
+    {
+      "name": "HX_052_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7297,
+      "end_channel": 7332,
+      "bounds_ft": [
+        [
+          78.0,
+          17.0,
+          32.0
+        ],
+        [
+          90.0,
+          24.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948003
+    },
+    {
+      "name": "HX_053_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7333,
+      "end_channel": 7368,
+      "bounds_ft": [
+        [
+          76.0,
+          17.0,
+          32.0
+        ],
+        [
+          90.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_054_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7369,
+      "end_channel": 7404,
+      "bounds_ft": [
+        [
+          78.0,
+          10.0,
+          32.0
+        ],
+        [
+          90.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948017
+    },
+    {
+      "name": "HX_055_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7405,
+      "end_channel": 7440,
+      "bounds_ft": [
+        [
+          83.0,
+          5.0,
+          32.0
+        ],
+        [
+          90.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948068
+    },
+    {
+      "name": "HX_056_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7441,
+      "end_channel": 7476,
+      "bounds_ft": [
+        [
+          90.0,
+          3.0,
+          32.0
+        ],
+        [
+          90.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663
+    },
+    {
+      "name": "HX_057_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7477,
+      "end_channel": 7512,
+      "bounds_ft": [
+        [
+          90.0,
+          5.0,
+          32.0
+        ],
+        [
+          97.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.305685823394808
+    },
+    {
+      "name": "HX_058_WHEEL_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WHEELS",
+      "design": "WHEEL SPOKE",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7513,
+      "end_channel": 7548,
+      "bounds_ft": [
+        [
+          90.0,
+          10.0,
+          32.0
+        ],
+        [
+          102.0,
+          17.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3056858233948003
+    },
+    {
+      "name": "HX_059_BUMPER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BODY",
+      "design": "BUMPER",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 7549,
+      "end_channel": 7848,
+      "bounds_ft": [
+        [
+          -140.0,
+          18.0,
+          -32.0
+        ],
+        [
+          -140.0,
+          18.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2474747474747474
+    },
+    {
+      "name": "HX_060_LAMPS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LAMPS",
+      "design": "LAMPS",
+      "kind": "pixel",
+      "nodes": 36,
+      "start_channel": 7849,
+      "end_channel": 7956,
+      "bounds_ft": [
+        [
+          -140.0,
+          26.0,
+          -26.0
+        ],
+        [
+          -140.0,
+          34.0,
+          -18.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749443851816346
+    },
+    {
+      "name": "HX_061_LAMPS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LAMPS",
+      "design": "LAMPS",
+      "kind": "pixel",
+      "nodes": 36,
+      "start_channel": 7957,
+      "end_channel": 8064,
+      "bounds_ft": [
+        [
+          -140.0,
+          26.0,
+          -15.0
+        ],
+        [
+          -140.0,
+          34.0,
+          -7.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749443851816348
+    },
+    {
+      "name": "HX_062_LAMPS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LAMPS",
+      "design": "LAMPS",
+      "kind": "pixel",
+      "nodes": 36,
+      "start_channel": 8065,
+      "end_channel": 8172,
+      "bounds_ft": [
+        [
+          -140.0,
+          26.0,
+          7.0
+        ],
+        [
+          -140.0,
+          34.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749443851816348
+    },
+    {
+      "name": "HX_063_LAMPS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LAMPS",
+      "design": "LAMPS",
+      "kind": "pixel",
+      "nodes": 36,
+      "start_channel": 8173,
+      "end_channel": 8280,
+      "bounds_ft": [
+        [
+          -140.0,
+          26.0,
+          18.0
+        ],
+        [
+          -140.0,
+          34.0,
+          26.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749443851816346
+    },
+    {
+      "name": "HX_064_BUMPER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BODY",
+      "design": "BUMPER",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8281,
+      "end_channel": 8580,
+      "bounds_ft": [
+        [
+          140.0,
+          18.0,
+          -32.0
+        ],
+        [
+          140.0,
+          18.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2474747474747474
+    },
+    {
+      "name": "HX_065_LAMPS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LAMPS",
+      "design": "LAMPS",
+      "kind": "pixel",
+      "nodes": 36,
+      "start_channel": 8581,
+      "end_channel": 8688,
+      "bounds_ft": [
+        [
+          140.0,
+          26.0,
+          -26.0
+        ],
+        [
+          140.0,
+          34.0,
+          -18.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749443851816346
+    },
+    {
+      "name": "HX_066_LAMPS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LAMPS",
+      "design": "LAMPS",
+      "kind": "pixel",
+      "nodes": 36,
+      "start_channel": 8689,
+      "end_channel": 8796,
+      "bounds_ft": [
+        [
+          140.0,
+          26.0,
+          -15.0
+        ],
+        [
+          140.0,
+          34.0,
+          -7.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749443851816348
+    },
+    {
+      "name": "HX_067_LAMPS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LAMPS",
+      "design": "LAMPS",
+      "kind": "pixel",
+      "nodes": 36,
+      "start_channel": 8797,
+      "end_channel": 8904,
+      "bounds_ft": [
+        [
+          140.0,
+          26.0,
+          7.0
+        ],
+        [
+          140.0,
+          34.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749443851816348
+    },
+    {
+      "name": "HX_068_LAMPS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "LAMPS",
+      "design": "LAMPS",
+      "kind": "pixel",
+      "nodes": 36,
+      "start_channel": 8905,
+      "end_channel": 9012,
+      "bounds_ft": [
+        [
+          140.0,
+          26.0,
+          18.0
+        ],
+        [
+          140.0,
+          34.0,
+          26.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2749443851816346
+    },
+    {
+      "name": "HX_069_UNDERGLOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "UNDERBODY",
+      "design": "UNDERGLOW",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 9013,
+      "end_channel": 9612,
+      "bounds_ft": [
+        [
+          -140.0,
+          6.0,
+          -32.0
+        ],
+        [
+          140.0,
+          6.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_070_OPEN_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "OPEN TRUNK",
+      "kind": "pixel",
+      "nodes": 170,
+      "start_channel": 9613,
+      "end_channel": 10122,
+      "bounds_ft": [
+        [
+          80.0,
+          42.0,
+          -32.0
+        ],
+        [
+          120.0,
+          84.0,
+          32.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31380175712594155
+    },
+    {
+      "name": "HX_071_TRUNK_SPEAKER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "TRUNK SPEAKER",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 10123,
+      "end_channel": 10302,
+      "bounds_ft": [
+        [
+          119.0,
+          57.0,
+          -28.0
+        ],
+        [
+          119.0,
+          73.0,
+          -12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3119183717626858
+    },
+    {
+      "name": "HX_072_TRUNK_SPEAKER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "TRUNK SPEAKER",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 10303,
+      "end_channel": 10482,
+      "bounds_ft": [
+        [
+          119.0,
+          57.0,
+          -8.0
+        ],
+        [
+          119.0,
+          73.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3119183717626852
+    },
+    {
+      "name": "HX_073_TRUNK_SPEAKER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "TRUNK SPEAKER",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 10483,
+      "end_channel": 10662,
+      "bounds_ft": [
+        [
+          119.0,
+          57.0,
+          12.0
+        ],
+        [
+          119.0,
+          73.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3119183717626858
+    },
+    {
+      "name": "HX_074_AUDIO_TOWER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "AUDIO TOWER",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 10663,
+      "end_channel": 11847,
+      "bounds_ft": [
+        [
+          -165.0,
+          0.0,
+          -70.0
+        ],
+        [
+          -155.0,
+          90.0,
+          -60.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3787671151536182,
+      "double_helix": true
+    },
+    {
+      "name": "HX_075_AUDIO_TOWER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "AUDIO TOWER",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 11848,
+      "end_channel": 13032,
+      "bounds_ft": [
+        [
+          155.0,
+          0.0,
+          -70.0
+        ],
+        [
+          165.0,
+          90.0,
+          -60.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3787671151536182,
+      "double_helix": true
+    },
+    {
+      "name": "HX_076_SPEAKER_WALL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "SPEAKER WALL",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 13033,
+      "end_channel": 13482,
+      "bounds_ft": [
+        [
+          -118.0,
+          47.0,
+          -70.0
+        ],
+        [
+          -82.0,
+          83.0,
+          -70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3157506660082398
+    },
+    {
+      "name": "HX_077_SPEAKER_WALL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "SPEAKER WALL",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 13483,
+      "end_channel": 13932,
+      "bounds_ft": [
+        [
+          -53.0,
+          47.0,
+          -70.0
+        ],
+        [
+          -17.0,
+          83.0,
+          -70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3157506660082349
+    },
+    {
+      "name": "HX_078_SPEAKER_WALL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "SPEAKER WALL",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 13933,
+      "end_channel": 14382,
+      "bounds_ft": [
+        [
+          17.0,
+          47.0,
+          -70.0
+        ],
+        [
+          53.0,
+          83.0,
+          -70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3157506660082349
+    },
+    {
+      "name": "HX_079_SPEAKER_WALL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AUDIO",
+      "design": "SPEAKER WALL",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 14383,
+      "end_channel": 14832,
+      "bounds_ft": [
+        [
+          82.0,
+          47.0,
+          -70.0
+        ],
+        [
+          118.0,
+          83.0,
+          -70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3157506660082398
+    }
+  ],
+  "file_prefix": "Impala_Neon_Royalty",
+  "description": "A heavily customized 1964 Chevrolet Impala coupe wears magenta/cyan pixel trim, illuminated spokes and underglow beside an extravagant trunk audio installation.",
+  "palette": [
+    "#FF61E7",
+    "#69EEFF",
+    "#DAB9FF"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_BODY_CONTOUR",
+      "HX_002_BELT_TRIM",
+      "HX_003_WINDOW_TRIM",
+      "HX_004_WHEEL",
+      "HX_005_WHEEL_SPOKE",
+      "HX_006_WHEEL_SPOKE",
+      "HX_007_WHEEL_SPOKE",
+      "HX_008_WHEEL_SPOKE",
+      "HX_009_WHEEL_SPOKE",
+      "HX_010_WHEEL_SPOKE",
+      "HX_011_WHEEL_SPOKE",
+      "HX_012_WHEEL_SPOKE",
+      "HX_013_WHEEL_SPOKE",
+      "HX_014_WHEEL_SPOKE",
+      "HX_015_WHEEL_SPOKE",
+      "HX_016_WHEEL_SPOKE",
+      "HX_017_WHEEL",
+      "HX_018_WHEEL_SPOKE",
+      "HX_019_WHEEL_SPOKE",
+      "HX_020_WHEEL_SPOKE",
+      "HX_021_WHEEL_SPOKE",
+      "HX_022_WHEEL_SPOKE",
+      "HX_023_WHEEL_SPOKE",
+      "HX_024_WHEEL_SPOKE",
+      "HX_025_WHEEL_SPOKE",
+      "HX_026_WHEEL_SPOKE",
+      "HX_027_WHEEL_SPOKE",
+      "HX_028_WHEEL_SPOKE",
+      "HX_029_WHEEL_SPOKE",
+      "HX_030_BODY_CONTOUR",
+      "HX_031_BELT_TRIM",
+      "HX_032_WINDOW_TRIM",
+      "HX_033_WHEEL",
+      "HX_034_WHEEL_SPOKE",
+      "HX_035_WHEEL_SPOKE",
+      "HX_036_WHEEL_SPOKE",
+      "HX_037_WHEEL_SPOKE",
+      "HX_038_WHEEL_SPOKE",
+      "HX_039_WHEEL_SPOKE",
+      "HX_040_WHEEL_SPOKE",
+      "HX_041_WHEEL_SPOKE",
+      "HX_042_WHEEL_SPOKE",
+      "HX_043_WHEEL_SPOKE",
+      "HX_044_WHEEL_SPOKE",
+      "HX_045_WHEEL_SPOKE",
+      "HX_046_WHEEL",
+      "HX_047_WHEEL_SPOKE",
+      "HX_048_WHEEL_SPOKE",
+      "HX_049_WHEEL_SPOKE",
+      "HX_050_WHEEL_SPOKE",
+      "HX_051_WHEEL_SPOKE",
+      "HX_052_WHEEL_SPOKE",
+      "HX_053_WHEEL_SPOKE",
+      "HX_054_WHEEL_SPOKE",
+      "HX_055_WHEEL_SPOKE",
+      "HX_056_WHEEL_SPOKE",
+      "HX_057_WHEEL_SPOKE",
+      "HX_058_WHEEL_SPOKE",
+      "HX_059_BUMPER",
+      "HX_060_LAMPS",
+      "HX_061_LAMPS",
+      "HX_062_LAMPS",
+      "HX_063_LAMPS",
+      "HX_064_BUMPER",
+      "HX_065_LAMPS",
+      "HX_066_LAMPS",
+      "HX_067_LAMPS",
+      "HX_068_LAMPS",
+      "HX_069_UNDERGLOW",
+      "HX_070_OPEN_TRUNK",
+      "HX_071_TRUNK_SPEAKER",
+      "HX_072_TRUNK_SPEAKER",
+      "HX_073_TRUNK_SPEAKER",
+      "HX_074_AUDIO_TOWER",
+      "HX_075_AUDIO_TOWER",
+      "HX_076_SPEAKER_WALL",
+      "HX_077_SPEAKER_WALL",
+      "HX_078_SPEAKER_WALL",
+      "HX_079_SPEAKER_WALL"
+    ],
+    "HX_DNA_ALL": [
+      "HX_074_AUDIO_TOWER",
+      "HX_075_AUDIO_TOWER"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_074_AUDIO_TOWER/RUNGS",
+      "HX_075_AUDIO_TOWER/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_074_AUDIO_TOWER/STRAND_A",
+      "HX_075_AUDIO_TOWER/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_074_AUDIO_TOWER/STRAND_B",
+      "HX_075_AUDIO_TOWER/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_BODY_CONTOUR",
+      "HX_002_BELT_TRIM",
+      "HX_003_WINDOW_TRIM",
+      "HX_004_WHEEL",
+      "HX_005_WHEEL_SPOKE",
+      "HX_006_WHEEL_SPOKE",
+      "HX_007_WHEEL_SPOKE",
+      "HX_008_WHEEL_SPOKE",
+      "HX_009_WHEEL_SPOKE",
+      "HX_010_WHEEL_SPOKE",
+      "HX_011_WHEEL_SPOKE",
+      "HX_012_WHEEL_SPOKE",
+      "HX_013_WHEEL_SPOKE",
+      "HX_014_WHEEL_SPOKE",
+      "HX_015_WHEEL_SPOKE",
+      "HX_016_WHEEL_SPOKE",
+      "HX_017_WHEEL",
+      "HX_018_WHEEL_SPOKE",
+      "HX_019_WHEEL_SPOKE",
+      "HX_020_WHEEL_SPOKE",
+      "HX_021_WHEEL_SPOKE",
+      "HX_022_WHEEL_SPOKE",
+      "HX_023_WHEEL_SPOKE",
+      "HX_024_WHEEL_SPOKE",
+      "HX_025_WHEEL_SPOKE",
+      "HX_026_WHEEL_SPOKE",
+      "HX_027_WHEEL_SPOKE",
+      "HX_028_WHEEL_SPOKE",
+      "HX_029_WHEEL_SPOKE",
+      "HX_030_BODY_CONTOUR",
+      "HX_031_BELT_TRIM",
+      "HX_032_WINDOW_TRIM",
+      "HX_033_WHEEL",
+      "HX_034_WHEEL_SPOKE",
+      "HX_035_WHEEL_SPOKE",
+      "HX_036_WHEEL_SPOKE",
+      "HX_037_WHEEL_SPOKE",
+      "HX_038_WHEEL_SPOKE",
+      "HX_039_WHEEL_SPOKE",
+      "HX_040_WHEEL_SPOKE",
+      "HX_041_WHEEL_SPOKE",
+      "HX_042_WHEEL_SPOKE",
+      "HX_043_WHEEL_SPOKE",
+      "HX_044_WHEEL_SPOKE",
+      "HX_045_WHEEL_SPOKE",
+      "HX_046_WHEEL",
+      "HX_047_WHEEL_SPOKE",
+      "HX_048_WHEEL_SPOKE",
+      "HX_049_WHEEL_SPOKE",
+      "HX_050_WHEEL_SPOKE",
+      "HX_051_WHEEL_SPOKE",
+      "HX_052_WHEEL_SPOKE",
+      "HX_053_WHEEL_SPOKE",
+      "HX_054_WHEEL_SPOKE",
+      "HX_055_WHEEL_SPOKE",
+      "HX_056_WHEEL_SPOKE",
+      "HX_057_WHEEL_SPOKE",
+      "HX_058_WHEEL_SPOKE",
+      "HX_059_BUMPER",
+      "HX_060_LAMPS",
+      "HX_061_LAMPS",
+      "HX_062_LAMPS",
+      "HX_063_LAMPS",
+      "HX_064_BUMPER",
+      "HX_065_LAMPS",
+      "HX_066_LAMPS",
+      "HX_067_LAMPS",
+      "HX_068_LAMPS",
+      "HX_069_UNDERGLOW",
+      "HX_070_OPEN_TRUNK",
+      "HX_071_TRUNK_SPEAKER",
+      "HX_072_TRUNK_SPEAKER",
+      "HX_073_TRUNK_SPEAKER",
+      "HX_074_AUDIO_TOWER",
+      "HX_075_AUDIO_TOWER",
+      "HX_076_SPEAKER_WALL",
+      "HX_077_SPEAKER_WALL",
+      "HX_078_SPEAKER_WALL",
+      "HX_079_SPEAKER_WALL"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_BODY_CONTOUR",
+      "HX_002_BELT_TRIM",
+      "HX_003_WINDOW_TRIM",
+      "HX_004_WHEEL",
+      "HX_005_WHEEL_SPOKE",
+      "HX_006_WHEEL_SPOKE",
+      "HX_007_WHEEL_SPOKE",
+      "HX_008_WHEEL_SPOKE",
+      "HX_009_WHEEL_SPOKE",
+      "HX_010_WHEEL_SPOKE",
+      "HX_011_WHEEL_SPOKE",
+      "HX_012_WHEEL_SPOKE",
+      "HX_013_WHEEL_SPOKE",
+      "HX_014_WHEEL_SPOKE",
+      "HX_015_WHEEL_SPOKE",
+      "HX_016_WHEEL_SPOKE",
+      "HX_017_WHEEL",
+      "HX_018_WHEEL_SPOKE",
+      "HX_019_WHEEL_SPOKE",
+      "HX_020_WHEEL_SPOKE",
+      "HX_021_WHEEL_SPOKE",
+      "HX_022_WHEEL_SPOKE",
+      "HX_023_WHEEL_SPOKE",
+      "HX_024_WHEEL_SPOKE",
+      "HX_025_WHEEL_SPOKE",
+      "HX_026_WHEEL_SPOKE",
+      "HX_027_WHEEL_SPOKE",
+      "HX_028_WHEEL_SPOKE",
+      "HX_029_WHEEL_SPOKE",
+      "HX_030_BODY_CONTOUR",
+      "HX_031_BELT_TRIM",
+      "HX_032_WINDOW_TRIM",
+      "HX_033_WHEEL",
+      "HX_034_WHEEL_SPOKE",
+      "HX_035_WHEEL_SPOKE",
+      "HX_036_WHEEL_SPOKE",
+      "HX_037_WHEEL_SPOKE",
+      "HX_038_WHEEL_SPOKE",
+      "HX_039_WHEEL_SPOKE",
+      "HX_040_WHEEL_SPOKE",
+      "HX_041_WHEEL_SPOKE",
+      "HX_042_WHEEL_SPOKE",
+      "HX_043_WHEEL_SPOKE",
+      "HX_044_WHEEL_SPOKE",
+      "HX_045_WHEEL_SPOKE",
+      "HX_046_WHEEL",
+      "HX_047_WHEEL_SPOKE",
+      "HX_048_WHEEL_SPOKE",
+      "HX_049_WHEEL_SPOKE",
+      "HX_050_WHEEL_SPOKE",
+      "HX_051_WHEEL_SPOKE",
+      "HX_052_WHEEL_SPOKE",
+      "HX_053_WHEEL_SPOKE",
+      "HX_054_WHEEL_SPOKE",
+      "HX_055_WHEEL_SPOKE",
+      "HX_056_WHEEL_SPOKE",
+      "HX_057_WHEEL_SPOKE",
+      "HX_058_WHEEL_SPOKE",
+      "HX_059_BUMPER",
+      "HX_060_LAMPS",
+      "HX_061_LAMPS",
+      "HX_062_LAMPS",
+      "HX_063_LAMPS",
+      "HX_064_BUMPER",
+      "HX_065_LAMPS",
+      "HX_066_LAMPS",
+      "HX_067_LAMPS",
+      "HX_068_LAMPS",
+      "HX_069_UNDERGLOW",
+      "HX_070_OPEN_TRUNK",
+      "HX_071_TRUNK_SPEAKER",
+      "HX_072_TRUNK_SPEAKER",
+      "HX_073_TRUNK_SPEAKER",
+      "HX_074_AUDIO_TOWER",
+      "HX_075_AUDIO_TOWER",
+      "HX_076_SPEAKER_WALL",
+      "HX_077_SPEAKER_WALL",
+      "HX_078_SPEAKER_WALL",
+      "HX_079_SPEAKER_WALL"
+    ],
+    "HX_ZONE_AUDIO": [
+      "HX_070_OPEN_TRUNK",
+      "HX_071_TRUNK_SPEAKER",
+      "HX_072_TRUNK_SPEAKER",
+      "HX_073_TRUNK_SPEAKER",
+      "HX_074_AUDIO_TOWER",
+      "HX_075_AUDIO_TOWER",
+      "HX_076_SPEAKER_WALL",
+      "HX_077_SPEAKER_WALL",
+      "HX_078_SPEAKER_WALL",
+      "HX_079_SPEAKER_WALL"
+    ],
+    "HX_ZONE_BODY": [
+      "HX_001_BODY_CONTOUR",
+      "HX_030_BODY_CONTOUR",
+      "HX_059_BUMPER",
+      "HX_064_BUMPER"
+    ],
+    "HX_ZONE_CABIN": [
+      "HX_003_WINDOW_TRIM",
+      "HX_032_WINDOW_TRIM"
+    ],
+    "HX_ZONE_LAMPS": [
+      "HX_060_LAMPS",
+      "HX_061_LAMPS",
+      "HX_062_LAMPS",
+      "HX_063_LAMPS",
+      "HX_065_LAMPS",
+      "HX_066_LAMPS",
+      "HX_067_LAMPS",
+      "HX_068_LAMPS"
+    ],
+    "HX_ZONE_TRIM": [
+      "HX_002_BELT_TRIM",
+      "HX_031_BELT_TRIM"
+    ],
+    "HX_ZONE_UNDERBODY": [
+      "HX_069_UNDERGLOW"
+    ],
+    "HX_ZONE_WHEELS": [
+      "HX_004_WHEEL",
+      "HX_005_WHEEL_SPOKE",
+      "HX_006_WHEEL_SPOKE",
+      "HX_007_WHEEL_SPOKE",
+      "HX_008_WHEEL_SPOKE",
+      "HX_009_WHEEL_SPOKE",
+      "HX_010_WHEEL_SPOKE",
+      "HX_011_WHEEL_SPOKE",
+      "HX_012_WHEEL_SPOKE",
+      "HX_013_WHEEL_SPOKE",
+      "HX_014_WHEEL_SPOKE",
+      "HX_015_WHEEL_SPOKE",
+      "HX_016_WHEEL_SPOKE",
+      "HX_017_WHEEL",
+      "HX_018_WHEEL_SPOKE",
+      "HX_019_WHEEL_SPOKE",
+      "HX_020_WHEEL_SPOKE",
+      "HX_021_WHEEL_SPOKE",
+      "HX_022_WHEEL_SPOKE",
+      "HX_023_WHEEL_SPOKE",
+      "HX_024_WHEEL_SPOKE",
+      "HX_025_WHEEL_SPOKE",
+      "HX_026_WHEEL_SPOKE",
+      "HX_027_WHEEL_SPOKE",
+      "HX_028_WHEEL_SPOKE",
+      "HX_029_WHEEL_SPOKE",
+      "HX_033_WHEEL",
+      "HX_034_WHEEL_SPOKE",
+      "HX_035_WHEEL_SPOKE",
+      "HX_036_WHEEL_SPOKE",
+      "HX_037_WHEEL_SPOKE",
+      "HX_038_WHEEL_SPOKE",
+      "HX_039_WHEEL_SPOKE",
+      "HX_040_WHEEL_SPOKE",
+      "HX_041_WHEEL_SPOKE",
+      "HX_042_WHEEL_SPOKE",
+      "HX_043_WHEEL_SPOKE",
+      "HX_044_WHEEL_SPOKE",
+      "HX_045_WHEEL_SPOKE",
+      "HX_046_WHEEL",
+      "HX_047_WHEEL_SPOKE",
+      "HX_048_WHEEL_SPOKE",
+      "HX_049_WHEEL_SPOKE",
+      "HX_050_WHEEL_SPOKE",
+      "HX_051_WHEEL_SPOKE",
+      "HX_052_WHEEL_SPOKE",
+      "HX_053_WHEEL_SPOKE",
+      "HX_054_WHEEL_SPOKE",
+      "HX_055_WHEEL_SPOKE",
+      "HX_056_WHEEL_SPOKE",
+      "HX_057_WHEEL_SPOKE",
+      "HX_058_WHEEL_SPOKE"
+    ]
+  },
+  "group_count": 14,
+  "concept_id": "17",
+  "source_art": "images/17_18_Impala_Show_Cars.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "17",
+    "name": "Impala Neon Royalty",
+    "round": "vehicle",
+    "board": 9,
+    "side": "left",
+    "description": "A heavily customized 1964 Chevrolet Impala coupe wears magenta/cyan pixel trim, illuminated spokes and underglow beside an extravagant trunk audio installation.",
+    "spatial": "Contour-following hood, grille, cabin, sides, wheels and trunk zones around a low-slung car.",
+    "choreography": "Side-to-side contour chases answer separate trunk/speaker-ring pulses.",
+    "constraint": "An accurate car mesh/reference is needed; static wheel lights are concept-only and moving wheel wiring is unresolved.",
+    "image": "images/17_18_Impala_Show_Cars.png",
+    "panel_ratio": 1.2383939774153074,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "An accurate car mesh/reference is needed; static wheel lights are concept-only and moving wheel wiring is unresolved.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

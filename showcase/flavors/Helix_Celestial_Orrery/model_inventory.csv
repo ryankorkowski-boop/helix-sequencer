@@ -1,0 +1,106 @@
+model,native_type,zone,nodes,start_channel,end_channel,design
+HX_CO_NATIVE_Tree_360,Tree 360,NATIVE_TREE_GALLERY,576,1,1728,"Celestial Orrery — Tree 360 tree; 12 strands, 0 twists; graduated canopy"
+HX_CO_NATIVE_Tree_180,Tree 180,NATIVE_TREE_GALLERY,576,1729,3456,"Celestial Orrery — Tree 180 tree; 12 strands, 0 twists; graduated canopy"
+HX_CO_NATIVE_Tree_Flat,Tree Flat,NATIVE_TREE_GALLERY,576,3457,5184,"Celestial Orrery — Tree Flat tree; 12 strands, 0 twists; graduated canopy"
+HX_CO_NATIVE_Tree_Ribbon,Tree Ribbon,NATIVE_TREE_GALLERY,576,5185,6912,"Celestial Orrery — Tree Ribbon tree; 12 strands, 0 twists; graduated canopy"
+HX_CO_ORRERY_MOON_-1,Sphere,NATIVE_PAVILIONS,480,6913,8352,Celestial Orrery — Pixel moon above a lyric pavilion; full-depth meridians
+HX_CO_AURORA_HORIZONTAL,Horiz Matrix,NATIVE_PAVILIONS,800,8353,10752,Celestial Orrery — A wide lyric cinema
+HX_CO_JEWEL_WINDOW_-1,Window Frame,NATIVE_PAVILIONS,192,10753,11328,Celestial Orrery — Oversized jewel-box frame around the art canvas
+HX_CO_ORBIT_TRIPTYCH_-1,Circle,NATIVE_PAVILIONS,288,11329,12192,Celestial Orrery — Nested astronomical orbit rings
+HX_CO_MOON_WREATH_-1,Wreath,NATIVE_PAVILIONS,96,12193,12480,"Celestial Orrery — Halo wreath with an open, readable center"
+HX_CO_SOLAR_SPINNER_-1,Spinner,NATIVE_PAVILIONS,216,12481,13128,Celestial Orrery — Twelve-arm hollow solar rosette; independent radial chase lanes
+HX_CO_ORRERY_MOON_1,Sphere,NATIVE_PAVILIONS,480,13129,14568,Celestial Orrery — Pixel moon above a lyric pavilion; full-depth meridians
+HX_CO_AURORA_VERTICAL,Vert Matrix,NATIVE_PAVILIONS,640,14569,16488,Celestial Orrery — Portrait generative-art canvas
+HX_CO_JEWEL_WINDOW_1,Window Frame,NATIVE_PAVILIONS,192,16489,17064,Celestial Orrery — Oversized jewel-box frame around the art canvas
+HX_CO_ORBIT_TRIPTYCH_1,Circle,NATIVE_PAVILIONS,288,17065,17928,Celestial Orrery — Nested astronomical orbit rings
+HX_CO_MOON_WREATH_1,Wreath,NATIVE_PAVILIONS,96,17929,18216,"Celestial Orrery — Halo wreath with an open, readable center"
+HX_CO_SOLAR_SPINNER_1,Spinner,NATIVE_PAVILIONS,216,18217,18864,Celestial Orrery — Twelve-arm hollow solar rosette; independent radial chase lanes
+HX_CO_RIBBON_ARCH_01,Arches,RIBBON_PROMENADE,80,18865,19104,Celestial Orrery — A scalloped aurora entrance arch
+HX_CO_RIBBON_ARCH_02,Arches,RIBBON_PROMENADE,80,19105,19344,Celestial Orrery — A scalloped aurora entrance arch
+HX_CO_RIBBON_ARCH_03,Arches,RIBBON_PROMENADE,80,19345,19584,Celestial Orrery — A scalloped aurora entrance arch
+HX_CO_RIBBON_ARCH_04,Arches,RIBBON_PROMENADE,80,19585,19824,Celestial Orrery — A scalloped aurora entrance arch
+HX_CO_RIBBON_ARCH_05,Arches,RIBBON_PROMENADE,80,19825,20064,Celestial Orrery — A scalloped aurora entrance arch
+HX_CO_RIBBON_ARCH_06,Arches,RIBBON_PROMENADE,80,20065,20304,Celestial Orrery — A scalloped aurora entrance arch
+HX_CO_RIBBON_ARCH_07,Arches,RIBBON_PROMENADE,80,20305,20544,Celestial Orrery — A scalloped aurora entrance arch
+HX_CO_RIBBON_ARCH_08,Arches,RIBBON_PROMENADE,80,20545,20784,Celestial Orrery — A scalloped aurora entrance arch
+HX_CO_CANDY_GARDEN_-1,Candy Canes,RIBBON_PROMENADE,240,20785,21504,Celestial Orrery — Five slim hooked candy reeds; mirrored portal accents
+HX_CO_CANDY_GARDEN_1,Candy Canes,RIBBON_PROMENADE,240,21505,22224,Celestial Orrery — Five slim hooked candy reeds; mirrored portal accents
+HX_CO_VOXEL_LANTERN_-1,Cube,CRYSTAL_GARDEN,512,22225,23760,Celestial Orrery — Deep crystal voxel lantern; three-dimensional chase volume
+HX_CO_VOXEL_LANTERN_1,Cube,CRYSTAL_GARDEN,512,23761,25296,Celestial Orrery — Deep crystal voxel lantern; three-dimensional chase volume
+HX_CO_FIBONACCI_ICICLES_-1,Icicles,NATIVE_PAVILIONS,136,25297,25704,Celestial Orrery — Fibonacci-length ice fringe under the lyric pavilion
+HX_CO_FIBONACCI_ICICLES_1,Icicles,NATIVE_PAVILIONS,136,25705,26112,Celestial Orrery — Fibonacci-length ice fringe under the lyric pavilion
+HX_CO_INFINITY_RIBBON,Poly Line,SIGNATURE_PATH,420,26113,27372,Celestial Orrery signature illuminated contour
+HX_CO_FIREFLY_CONSTELLATION,MultiPoint,SKY_MOTIFS,64,27373,27564,"Celestial Orrery — Seeded, independently positioned native MultiPoint fireflies"
+HX_CO_HORIZON_RAIL_-1,Single Line,RIBBON_PROMENADE,180,27565,28104,Celestial Orrery — Continuous low horizon rail for clean opposing chases
+HX_CO_HORIZON_RAIL_1,Single Line,RIBBON_PROMENADE,180,28105,28644,Celestial Orrery — Continuous low horizon rail for clean opposing chases
+HX_CO_FRACTAL_SNOWFLAKE_-1_0,Custom,SKY_MOTIFS,210,28645,29274,Celestial Orrery — Sixfold crystalline snowflake with branching tips
+HX_CO_FRACTAL_SNOWFLAKE_-1_1,Custom,SKY_MOTIFS,210,29275,29904,Celestial Orrery — Sixfold crystalline snowflake with branching tips
+HX_CO_FRACTAL_SNOWFLAKE_-1_2,Custom,SKY_MOTIFS,210,29905,30534,Celestial Orrery — Sixfold crystalline snowflake with branching tips
+HX_CO_FRACTAL_SNOWFLAKE_1_0,Custom,SKY_MOTIFS,210,30535,31164,Celestial Orrery — Sixfold crystalline snowflake with branching tips
+HX_CO_FRACTAL_SNOWFLAKE_1_1,Custom,SKY_MOTIFS,210,31165,31794,Celestial Orrery — Sixfold crystalline snowflake with branching tips
+HX_CO_FRACTAL_SNOWFLAKE_1_2,Custom,SKY_MOTIFS,210,31795,32424,Celestial Orrery — Sixfold crystalline snowflake with branching tips
+HX_CO_HELIX_CREST_IMAGE,Image,WELCOME_CREST,1,32425,32425,Celestial Orrery — Original Celestial Orrery luminous crest; portable image asset
+HX_CO_WELCOME_LABEL,Label,WELCOME_CREST,1,32426,32426,Celestial Orrery — Native scene label: HELIX AURORA
+HX_CO_TECH_Channel_Block,Channel Block,TECHNOLOGY_ALCOVES,16,32427,32442,Celestial Orrery — An amber legacy AC marquee
+HX_CO_TECH_DmxGeneral,DmxGeneral,TECHNOLOGY_ALCOVES,8,32443,32450,Celestial Orrery — Eight-channel fountain/utility controller
+HX_CO_TECH_DmxMovingHead,DmxMovingHead,TECHNOLOGY_ALCOVES,16,32451,32466,Celestial Orrery — Classic cyan spotlight turret
+HX_CO_TECH_DmxMovingHeadAdv,DmxMovingHeadAdv,TECHNOLOGY_ALCOVES,16,32467,32482,Celestial Orrery — Full 3D magenta spotlight turret
+HX_CO_TECH_DmxFloodlight,DmxFloodlight,TECHNOLOGY_ALCOVES,3,32483,32485,Celestial Orrery — RGB garden uplighter
+HX_CO_TECH_DmxFloodArea,DmxFloodArea,TECHNOLOGY_ALCOVES,3,32486,32488,Celestial Orrery — Broad aurora lawn wash
+HX_CO_TECH_DmxSkull,DmxSkull,TECHNOLOGY_ALCOVES,26,32489,32514,Celestial Orrery — Articulated Halloween guest in the technology alcove
+HX_CO_TECH_DmxServo,DmxServo,TECHNOLOGY_ALCOVES,2,32515,32516,Celestial Orrery — 2D kinetic pinwheel ornament
+HX_CO_TECH_DmxServo3d,DmxServo3d,TECHNOLOGY_ALCOVES,6,32517,32522,Celestial Orrery — Three-axis kinetic DNA wind sculpture
+HX_CO_OBSERVATORY_WEST,Custom,DNA_CATHEDRAL,1440,32523,36842,"Two-strand DNA sculpture: 4 turns, full illuminated ladder rungs"
+HX_CO_OBSERVATORY_EAST,Custom,DNA_CATHEDRAL,1440,36843,41162,"Two-strand DNA sculpture: 4 turns, full illuminated ladder rungs"
+HX_CO_ORBITAL_HALO_0,Custom,DNA_CATHEDRAL,1180,41163,44702,Twisted orbital DNA halo
+HX_CO_ORBITAL_HALO_1,Custom,DNA_CATHEDRAL,1240,44703,48422,Twisted orbital DNA halo
+HX_CO_ORBITAL_HALO_2,Custom,DNA_CATHEDRAL,1300,48423,52322,Twisted orbital DNA halo
+HX_CO_PLANET_MARKER_0,Custom,DNA_CATHEDRAL,510,52323,53852,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_CO_PLANET_MARKER_1,Custom,DNA_CATHEDRAL,510,53853,55382,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_CO_PLANET_MARKER_2,Custom,DNA_CATHEDRAL,510,55383,56912,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_CO_PLANET_MARKER_3,Custom,DNA_CATHEDRAL,510,56913,58442,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_CO_PLANET_MARKER_4,Custom,DNA_CATHEDRAL,510,58443,59972,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_CO_PLANET_MARKER_5,Custom,DNA_CATHEDRAL,510,59973,61502,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_CO_PLANET_MARKER_6,Custom,DNA_CATHEDRAL,510,61503,63032,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_CO_PLANET_MARKER_7,Custom,DNA_CATHEDRAL,510,63033,64562,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_CO_SPIRAL_00,Tree 360,SPIRAL_GROVES,224,64563,65234,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_CO_SPIRAL_01,Tree 360,SPIRAL_GROVES,384,65235,66386,"Spiral tree; 3 strands, 2.7 twists; graduated canopy"
+HX_CO_SPIRAL_02,Tree 360,SPIRAL_GROVES,288,66387,67250,"Spiral tree; 2 strands, 2.9 twists; graduated canopy"
+HX_CO_SPIRAL_03,Tree 360,SPIRAL_GROVES,336,67251,68258,"Spiral tree; 3 strands, 3.1 twists; graduated canopy"
+HX_CO_SPIRAL_04,Tree 360,SPIRAL_GROVES,256,68259,69026,"Spiral tree; 2 strands, 3.3 twists; graduated canopy"
+HX_CO_SPIRAL_05,Tree 360,SPIRAL_GROVES,432,69027,70322,"Spiral tree; 3 strands, 3.5 twists; graduated canopy"
+HX_CO_SPIRAL_06,Tree 360,SPIRAL_GROVES,224,70323,70994,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_CO_SPIRAL_07,Tree 360,SPIRAL_GROVES,384,70995,72146,"Spiral tree; 3 strands, 2.7 twists; graduated canopy"
+HX_CO_SPIRAL_08,Tree 360,SPIRAL_GROVES,288,72147,73010,"Spiral tree; 2 strands, 2.9 twists; graduated canopy"
+HX_CO_SPIRAL_09,Tree 360,SPIRAL_GROVES,336,73011,74018,"Spiral tree; 3 strands, 3.1 twists; graduated canopy"
+HX_CO_SPIRAL_10,Tree 360,SPIRAL_GROVES,256,74019,74786,"Spiral tree; 2 strands, 3.3 twists; graduated canopy"
+HX_CO_SPIRAL_11,Tree 360,SPIRAL_GROVES,432,74787,76082,"Spiral tree; 3 strands, 3.5 twists; graduated canopy"
+HX_CO_SPIRAL_12,Tree 360,SPIRAL_GROVES,224,76083,76754,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_CO_SPIRAL_13,Tree 360,SPIRAL_GROVES,384,76755,77906,"Spiral tree; 3 strands, 2.7 twists; graduated canopy"
+HX_CO_SPIRAL_14,Tree 360,SPIRAL_GROVES,288,77907,78770,"Spiral tree; 2 strands, 2.9 twists; graduated canopy"
+HX_CO_SPIRAL_15,Tree 360,SPIRAL_GROVES,336,78771,79778,"Spiral tree; 3 strands, 3.1 twists; graduated canopy"
+HX_CO_SPIRAL_16,Tree 360,SPIRAL_GROVES,256,79779,80546,"Spiral tree; 2 strands, 3.3 twists; graduated canopy"
+HX_CO_SPIRAL_17,Tree 360,SPIRAL_GROVES,432,80547,81842,"Spiral tree; 3 strands, 3.5 twists; graduated canopy"
+HX_CO_SPIRAL_18,Tree 360,SPIRAL_GROVES,224,81843,82514,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_CO_SPIRAL_19,Tree 360,SPIRAL_GROVES,384,82515,83666,"Spiral tree; 3 strands, 2.7 twists; graduated canopy"
+HX_CO_SPIRAL_20,Tree 360,SPIRAL_GROVES,288,83667,84530,"Spiral tree; 2 strands, 2.9 twists; graduated canopy"
+HX_CO_SPIRAL_21,Tree 360,SPIRAL_GROVES,336,84531,85538,"Spiral tree; 3 strands, 3.1 twists; graduated canopy"
+HX_CO_SPIRAL_22,Tree 360,SPIRAL_GROVES,256,85539,86306,"Spiral tree; 2 strands, 3.3 twists; graduated canopy"
+HX_CO_SPIRAL_23,Tree 360,SPIRAL_GROVES,432,86307,87602,"Spiral tree; 3 strands, 3.5 twists; graduated canopy"
+HX_CO_SPIRAL_24,Tree 360,SPIRAL_GROVES,224,87603,88274,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_CO_SPIRAL_25,Tree 360,SPIRAL_GROVES,384,88275,89426,"Spiral tree; 3 strands, 2.7 twists; graduated canopy"
+HX_CO_SPIRAL_26,Tree 360,SPIRAL_GROVES,288,89427,90290,"Spiral tree; 2 strands, 2.9 twists; graduated canopy"
+HX_CO_SPIRAL_27,Tree 360,SPIRAL_GROVES,336,90291,91298,"Spiral tree; 3 strands, 3.1 twists; graduated canopy"
+HX_CO_SPIRAL_28,Tree 360,SPIRAL_GROVES,256,91299,92066,"Spiral tree; 2 strands, 3.3 twists; graduated canopy"
+HX_CO_SPIRAL_29,Tree 360,SPIRAL_GROVES,432,92067,93362,"Spiral tree; 3 strands, 3.5 twists; graduated canopy"
+HX_CO_SPIRAL_30,Tree 360,SPIRAL_GROVES,224,93363,94034,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_CO_SPIRAL_31,Tree 360,SPIRAL_GROVES,384,94035,95186,"Spiral tree; 3 strands, 2.7 twists; graduated canopy"
+HX_CO_SPIRAL_32,Tree 360,SPIRAL_GROVES,288,95187,96050,"Spiral tree; 2 strands, 2.9 twists; graduated canopy"
+HX_CO_SPIRAL_33,Tree 360,SPIRAL_GROVES,336,96051,97058,"Spiral tree; 3 strands, 3.1 twists; graduated canopy"
+HX_CO_SPIRAL_34,Tree 360,SPIRAL_GROVES,256,97059,97826,"Spiral tree; 2 strands, 3.3 twists; graduated canopy"
+HX_CO_SPIRAL_35,Tree 360,SPIRAL_GROVES,432,97827,99122,"Spiral tree; 3 strands, 3.5 twists; graduated canopy"
+HX_CO_SPIRAL_36,Tree 360,SPIRAL_GROVES,224,99123,99794,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_CO_SPIRAL_37,Tree 360,SPIRAL_GROVES,384,99795,100946,"Spiral tree; 3 strands, 2.7 twists; graduated canopy"
+HX_CO_SPIRAL_38,Tree 360,SPIRAL_GROVES,288,100947,101810,"Spiral tree; 2 strands, 2.9 twists; graduated canopy"
+HX_CO_SPIRAL_39,Tree 360,SPIRAL_GROVES,336,101811,102818,"Spiral tree; 3 strands, 3.1 twists; graduated canopy"
+HX_CO_POLARIS,Star,SKY_CROWNS,168,102819,103322,7-point jewel crown; warm gold contrasts the cool spiral forest

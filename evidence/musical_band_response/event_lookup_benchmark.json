@@ -1,0 +1,9 @@
+{
+  "events": 5000,
+  "queries": 5000,
+  "scan_seconds": 0.5218992119989707,
+  "index_seconds": 0.002091594999001245,
+  "speedup": 249.52211697206303,
+  "exact_neighbor_parity": true,
+  "scope": "microbenchmark, not whole-render speedup"
+}

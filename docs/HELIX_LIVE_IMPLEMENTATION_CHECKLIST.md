@@ -63,7 +63,7 @@ Every row inherits branch `codex/eight-hour-recovery-20261019` and draft integra
 HX03→HX04/HX05; HX06→HX07/HX08/HX09/HX14; HX09→HX10; HX03–HX15→HX16; HX17 validates all. Independent modules may be worked in separate worktrees; only integration owner edits this checklist.
 
 ## 7. Test and validation evidence
-No tests run in this session yet. Retrieved prior runs: keyboard focused 39197885634 success; Helix CI 39197885661 failure; native MP4 39197885669 failure; GUI evidence 39224466573 failure; editable-row Unit Tests 39225057032 success. These are historical workflow statuses, not validation of the recovery branch.
+Recovery test evidence: original 14 supplied policy tests PASS (0.02s), package-import adaptation and style contract/CLI tests 19 PASS (1.17s). Retrieved prior runs: keyboard focused 39197885634 success; Helix CI 39197885661 failure; native MP4 39197885669 failure; GUI evidence 39224466573 failure; editable-row Unit Tests 39225057032 success. These are historical workflow statuses, not validation of the recovery branch.
 
 ## 8. Native XSQ and MP4 artifact inventory
 No new outputs yet. Do not present existing diagnostics as new deliverables. Query source-bound native run 39197885669 for failure logs/artifacts.
@@ -72,7 +72,7 @@ No new outputs yet. Do not present existing diagnostics as new deliverables. Que
 Prior Windows Portable GUI 39197885629 and Android offline beta 39197885676 report success at 8b26245. Packaged runtime, persistence, and actual screenshots are unverified.
 
 ## 10. Known regressions
-Native band render fails; full Helix CI fails; final band/native output verification 39197885642 fails; desktop evidence fails. Exact causes pending job-log inspection. No checks weakened.
+Native band render fails; full Helix CI fails; final band/native output verification 39197885642 fails; desktop evidence fails. Logs inspected: native export is 248x442 rather than required 1920x1080; CI has BODY KeyErrors in final native export and infinite symphony scale tests; screenshot script cannot import gui_launcher. No checks weakened.
 
 ## 11. Work completed during this session
 - Fresh filtered clone, all remote branch refs fetched, default branch and divergent main established.
@@ -88,3 +88,6 @@ All incomplete rows above remain active until verified or explicitly blocked/sup
 - Start commands: `git status --short`; `git log -8 --oneline`; `python -m pytest --version`; `rg -n 'def |insert|add_effect' core/effect_engine.py`; `command -v xLights`.
 - No audio/new artifacts in workspace yet. ffmpeg available; xLights not on PATH. Windows/Android runtime absent.
 - Do not merge any release branch or publish music/ads. Keep MASTER_TODO.md updated in the same change sets.
+
+## Recovery milestone 1
+Source PR183–187 changes recovered onto modern default, then native PR181 development lineage merged (460 missing commits). Original 14 policy tests independently pass. Parallel worktrees own GUI/show folder, parser/editable rows, native band regressions, public layout generator/license audit. Integration commit SHA: consult commit containing this milestone. No native render or packaged runtime acceptance yet.

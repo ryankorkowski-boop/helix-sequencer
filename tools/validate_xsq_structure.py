@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+import math
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -71,6 +72,8 @@ def validate_xsq(path: Path) -> None:
             except ValueError as exc:
                 raise ValidationError("Non-numeric timing values detected") from exc
 
+            if not math.isfinite(start_f) or not math.isfinite(duration_f):
+                raise ValidationError("Non-finite timing values")
             if start_f < 0:
                 raise ValidationError("Negative start time detected")
             if duration_f <= 0:
@@ -88,7 +91,23 @@ def validate_xsq(path: Path) -> None:
         for element in container.findall("Element")
     ]
     if not effect_elements:
-        raise ValidationError("No Element entries found in effects container")
+        legacy = [effect for container in effect_containers if container.tag == "effects"
+                  for effect in container.findall("effect")]
+        if not legacy:
+            raise ValidationError("No Element entries found in effects container")
+        effect_indexes = set()
+        previous = -1.0
+        for effect in legacy:
+            index = effect.get("index")
+            try:
+                start, duration = float(effect.get("start", "nan")), float(effect.get("duration", "nan"))
+            except ValueError as exc:
+                raise ValidationError("Non-numeric legacy effect timing") from exc
+            if index is None or index in effect_indexes or not effect.get("type"):
+                raise ValidationError("Invalid legacy effect index/type")
+            if not math.isfinite(start) or not math.isfinite(duration) or start < previous or start < 0 or duration <= 0:
+                raise ValidationError("Invalid legacy effect timing")
+            effect_indexes.add(index); previous = start
 
 
 if __name__ == "__main__":

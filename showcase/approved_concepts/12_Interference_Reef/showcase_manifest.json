@@ -1,0 +1,922 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Interference Reef",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 18
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 18,
+  "rgb_pixels": 5731,
+  "channel_count": 17193,
+  "spiral_trees": 10,
+  "double_helices": 1,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_WAVE_MESH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WAVES",
+      "design": "WAVE MESH",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 1,
+      "end_channel": 1536,
+      "bounds_ft": [
+        [
+          -140.5,
+          8.0,
+          -89.0
+        ],
+        [
+          140.5,
+          83.0,
+          -21.0
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34188836724811794
+    },
+    {
+      "name": "HX_002_WAVE_MESH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WAVES",
+      "design": "WAVE MESH",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 1537,
+      "end_channel": 3072,
+      "bounds_ft": [
+        [
+          -140.0,
+          8.0,
+          -22.0
+        ],
+        [
+          140.0,
+          83.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33320231907002557
+    },
+    {
+      "name": "HX_003_WAVE_MESH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WAVES",
+      "design": "WAVE MESH",
+      "kind": "pixel",
+      "nodes": 512,
+      "start_channel": 3073,
+      "end_channel": 4608,
+      "bounds_ft": [
+        [
+          -140.5,
+          8.0,
+          6.5
+        ],
+        [
+          140.5,
+          83.0,
+          75.5
+        ]
+      ],
+      "submodels": [
+        "ROW_00",
+        "ROW_01",
+        "ROW_02",
+        "ROW_03",
+        "ROW_04",
+        "ROW_05",
+        "ROW_06",
+        "ROW_07",
+        "ROW_08",
+        "ROW_09",
+        "ROW_10",
+        "ROW_11",
+        "ROW_12",
+        "ROW_13",
+        "ROW_14",
+        "ROW_15",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.343215959705918
+    },
+    {
+      "name": "HX_004_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 4609,
+      "end_channel": 5568,
+      "bounds_ft": [
+        [
+          -157.75,
+          0.0,
+          57.25
+        ],
+        [
+          -142.25,
+          22.0,
+          72.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20923017113884837,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_005_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 5569,
+      "end_channel": 6528,
+      "bounds_ft": [
+        [
+          -125.75,
+          0.0,
+          57.25
+        ],
+        [
+          -110.25,
+          32.0,
+          72.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20016964867959242,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_006_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 6529,
+      "end_channel": 7488,
+      "bounds_ft": [
+        [
+          -93.5,
+          0.0,
+          57.5
+        ],
+        [
+          -78.5,
+          42.0,
+          72.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.398528994679384,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_007_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 7489,
+      "end_channel": 8448,
+      "bounds_ft": [
+        [
+          -61.75,
+          0.0,
+          57.25
+        ],
+        [
+          -46.25,
+          22.0,
+          72.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20923017113885645,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_008_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 8449,
+      "end_channel": 9408,
+      "bounds_ft": [
+        [
+          -29.75,
+          0.0,
+          57.25
+        ],
+        [
+          -14.25,
+          32.0,
+          72.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.2001696486795924,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_009_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 9409,
+      "end_channel": 10368,
+      "bounds_ft": [
+        [
+          2.5,
+          0.0,
+          57.5
+        ],
+        [
+          17.5,
+          42.0,
+          72.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.398528994679384,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_010_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 10369,
+      "end_channel": 11328,
+      "bounds_ft": [
+        [
+          34.25,
+          0.0,
+          57.25
+        ],
+        [
+          49.75,
+          22.0,
+          72.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20923017113885645,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_011_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 11329,
+      "end_channel": 12288,
+      "bounds_ft": [
+        [
+          66.25,
+          0.0,
+          57.25
+        ],
+        [
+          81.75,
+          32.0,
+          72.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20016964867959242,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_012_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 12289,
+      "end_channel": 13248,
+      "bounds_ft": [
+        [
+          98.5,
+          0.0,
+          57.5
+        ],
+        [
+          113.5,
+          42.0,
+          72.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.398528994679384,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_013_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 13249,
+      "end_channel": 14208,
+      "bounds_ft": [
+        [
+          130.25,
+          0.0,
+          57.25
+        ],
+        [
+          145.75,
+          22.0,
+          72.75
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20923017113884837,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_014_REEF_RIDGE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RIDGE",
+      "design": "REEF RIDGE",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 14209,
+      "end_channel": 15393,
+      "bounds_ft": [
+        [
+          -150.0,
+          54.0,
+          -97.0
+        ],
+        [
+          145.0,
+          91.0,
+          -73.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3975174315616469,
+      "double_helix": true
+    },
+    {
+      "name": "HX_015_CORAL_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORAL",
+      "design": "CORAL RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 15394,
+      "end_channel": 15843,
+      "bounds_ft": [
+        [
+          -126.0,
+          2.0,
+          75.0
+        ],
+        [
+          -94.0,
+          34.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32016412061938776
+    },
+    {
+      "name": "HX_016_CORAL_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORAL",
+      "design": "CORAL RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 15844,
+      "end_channel": 16293,
+      "bounds_ft": [
+        [
+          -51.0,
+          2.0,
+          75.0
+        ],
+        [
+          -19.0,
+          34.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32016412061938637
+    },
+    {
+      "name": "HX_017_CORAL_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORAL",
+      "design": "CORAL RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 16294,
+      "end_channel": 16743,
+      "bounds_ft": [
+        [
+          24.0,
+          2.0,
+          75.0
+        ],
+        [
+          56.0,
+          34.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32016412061938637
+    },
+    {
+      "name": "HX_018_CORAL_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORAL",
+      "design": "CORAL RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 16744,
+      "end_channel": 17193,
+      "bounds_ft": [
+        [
+          99.0,
+          2.0,
+          75.0
+        ],
+        [
+          131.0,
+          34.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32016412061938776
+    }
+  ],
+  "file_prefix": "Interference_Reef",
+  "description": "Offset translucent LED wave meshes, coral-like spiral clusters and crossed DNA ribbons create refractive-looking ripples.",
+  "palette": [
+    "#64DDFF",
+    "#FF9C85",
+    "#9BFCEC"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_WAVE_MESH",
+      "HX_002_WAVE_MESH",
+      "HX_003_WAVE_MESH",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_REEF_RIDGE",
+      "HX_015_CORAL_RING",
+      "HX_016_CORAL_RING",
+      "HX_017_CORAL_RING",
+      "HX_018_CORAL_RING"
+    ],
+    "HX_DNA_ALL": [
+      "HX_014_REEF_RIDGE"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_014_REEF_RIDGE/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_014_REEF_RIDGE/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_014_REEF_RIDGE/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_WAVE_MESH",
+      "HX_002_WAVE_MESH",
+      "HX_003_WAVE_MESH",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_REEF_RIDGE",
+      "HX_015_CORAL_RING",
+      "HX_016_CORAL_RING",
+      "HX_017_CORAL_RING",
+      "HX_018_CORAL_RING"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_004_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_004_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_WAVE_MESH",
+      "HX_002_WAVE_MESH",
+      "HX_003_WAVE_MESH",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_REEF_RIDGE",
+      "HX_015_CORAL_RING",
+      "HX_016_CORAL_RING",
+      "HX_017_CORAL_RING",
+      "HX_018_CORAL_RING"
+    ],
+    "HX_ZONE_CORAL": [
+      "HX_015_CORAL_RING",
+      "HX_016_CORAL_RING",
+      "HX_017_CORAL_RING",
+      "HX_018_CORAL_RING"
+    ],
+    "HX_ZONE_GROVE": [
+      "HX_004_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE"
+    ],
+    "HX_ZONE_RIDGE": [
+      "HX_014_REEF_RIDGE"
+    ],
+    "HX_ZONE_WAVES": [
+      "HX_001_WAVE_MESH",
+      "HX_002_WAVE_MESH",
+      "HX_003_WAVE_MESH"
+    ]
+  },
+  "group_count": 14,
+  "concept_id": "12",
+  "source_art": "images/11_12_Mandelbrot_Reef.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "12",
+    "name": "Interference Reef",
+    "round": "abstract",
+    "board": 6,
+    "side": "right",
+    "description": "Offset translucent LED wave meshes, coral-like spiral clusters and crossed DNA ribbons create refractive-looking ripples.",
+    "spatial": "Three wave planes overlap foreground coral spirals and a rear helix ridge.",
+    "choreography": "Counterpropagating waves on separate layers create apparent interference and depth breathing.",
+    "constraint": "Refraction is a lighting/overlap illusion; mesh density, sightlines and flicker need review.",
+    "image": "images/11_12_Mandelbrot_Reef.png",
+    "panel_ratio": 1.0,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Refraction is a lighting/overlap illusion; mesh density, sightlines and flicker need review.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}
