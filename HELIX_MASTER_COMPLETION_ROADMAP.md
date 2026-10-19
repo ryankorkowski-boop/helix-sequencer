@@ -63,6 +63,16 @@ decode. Added cast tests; native 36-second six-role render and
 musical/artistic acceptance **not yet verified**, so no native deliverable
 is being claimed. No release merge/advertisement publication.
 
+## Current drummer regression mismatch and remedy — 2026-10-18
+
+Prior PR #180 full audit run 39192406726: 1,806 pass,
+2 fail, 6 skipped. Both failures were tests accidentally
+treating foot-only HI_HAT as a drumstick target. Fixed the test
+setup on codex/keyboard-source-guardrails-20261018 while preserving explicit foot-pedal assertions.
+Production drummer remains unchanged. Mark IMPLEMENTED —
+UNVERIFIED until both 3.11 and 3.12 full CI pass. Native
+showcase acceptance still BLOCKED separately.
+
 ## Current recovery and integration evidence
 
 - Inspected PR175 head `13a833e9b71dbacefb340654a44f5707b162888e`.
