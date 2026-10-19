@@ -147,3 +147,11 @@ Evidence must identify run IDs and artifact names; never mark a failed workflow 
 - [x] Initial native-preview stream tests committed as `4acc102`.
 - [ ] **P0** Find supported xLights 2026.18 REST export resolution parameters or configure the native House Preview resolution via xLights itself. Do not assume GUI 2026.16 resolution selector is honored by REST automation.
 - [ ] **P0** End-to-end verified 1920x1080 native MP4 with original audio; still blocked. No approval artifact exists.
+
+### 2026-10-19 native renderer failure follow-up
+- [x] Run 39288171559: source identity, xLights installation, editable XSQ regeneration and native FSEQ creation succeeded; MP4 step failed before export because wmctrl could not match a titled xLights window.
+- [x] Commit d23bdf4: make wmctrl maximization best-effort; preserve strict native-resolution and audio gates.
+- [x] Commit 2b634f5: capture X11 geometry evidence; commit 8cbd61c uploads it with the workflow artifact.
+- [ ] Rerun native MP4 on d23bdf4 or newer, inspect native_window_geometry.txt, ffprobe actual native-silent.mp4, and determine whether the 248x442 docked-preview issue persists.
+- [ ] Fix genuine native 1920x1080 export, mux verified original audio and deliver reviewable MP4; do not accept upscale or placeholder.
+- [ ] Resolve final-band acceptance gate failure from run 39288171378 independently of the preview-export blocker.
