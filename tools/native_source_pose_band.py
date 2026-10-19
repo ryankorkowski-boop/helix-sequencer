@@ -61,6 +61,18 @@ def select_cast(models, *, legacy_xylophone=False):
     return selected
 
 
+def native_motion_rigs(scene, *, legacy_xylophone=False):
+    """Only export motion for visible musicians; preserve the opt-in legacy rig."""
+    rigs=[dict(role=r['role'],side=r['side'],
+               ids=tuple(r['ids'])+tuple(r.get('mallet_ids',())))
+          for r in scene.rigs if legacy_xylophone or r['role']!='xylophone']
+    rigs += [dict(role='drummer',side=side,ids=tuple(r['ids']))
+             for side,r in scene.drummer_rigs.items()]
+    rigs.append(dict(role='drummer',side='kick_beater',ids=(scene.kick_beater,)))
+    rigs.append(dict(role='drummer',side='hihat_foot',ids=(scene.hihat_foot,scene.hihat_pedal)))
+    return rigs
+
+
 def configure_native_keyboard_motion(scene, performer, *, legacy_xylophone=False):
     """Use the same reachable, damped pianist arms in native and 3D review.
 
@@ -94,10 +106,7 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
     g.models=select_cast(g.models,legacy_xylophone=legacy_xylophone)
     p.row={'drummer_xsq':str(source_root/'sources'/eid/'drummer.xsq')}
     cues={m.name:band_curves(m,p,body_level=.85) for m in g.models}
-    rigs=[dict(role=r['role'],side=r['side'],ids=tuple(r['ids'])+tuple(r.get('mallet_ids',()))) for r in scene.rigs]
-    rigs += [dict(role='drummer',side=side,ids=tuple(r['ids'])) for side,r in scene.drummer_rigs.items()]
-    rigs.append(dict(role='drummer',side='kick_beater',ids=(scene.kick_beater,)))
-    rigs.append(dict(role='drummer',side='hihat_foot',ids=(scene.hihat_foot,scene.hihat_pedal)))
+    rigs=native_motion_rigs(scene,legacy_xylophone=legacy_xylophone)
     trajectories=[[] for r in rigs]
     for i in range(p.n):
         p.pose(i)

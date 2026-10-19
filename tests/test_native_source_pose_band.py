@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from tools.native_source_pose_band import select_states,vertices,select_cast,configure_native_keyboard_motion
+from tools.native_source_pose_band import select_states,vertices,select_cast,configure_native_keyboard_motion,native_motion_rigs
 from models.band_performance_scene import line_matrix
 
 
@@ -99,3 +99,19 @@ def test_native_legacy_cast_keeps_original_arm_length_and_source_clock():
     assert proof['short_piano_arms'] is False
     assert original['link_lengths']==(.80,.78)
     assert not hasattr(scene,'legacy_mallet_player')
+
+
+def test_native_source_pose_samples_only_visible_character_motion():
+    from types import SimpleNamespace
+    scene=SimpleNamespace(
+        rigs=[dict(role='piano',side='left',ids=(1,2,3)),
+              dict(role='piano',side='right',ids=(4,5,6)),
+              dict(role='xylophone',side='left',ids=(7,8,9),mallet_ids=(10,11))],
+        drummer_rigs={'left':dict(ids=(12,13)), 'right':dict(ids=(14,15))},
+        kick_beater=16,hihat_foot=17,hihat_pedal=18,
+    )
+    roles=[r['role'] for r in native_motion_rigs(scene)]
+    assert roles.count('piano')==2 and roles.count('drummer')==4
+    assert 'xylophone' not in roles
+    legacy=[r['role'] for r in native_motion_rigs(scene,legacy_xylophone=True)]
+    assert legacy.count('xylophone')==1
