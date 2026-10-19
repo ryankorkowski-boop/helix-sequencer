@@ -745,6 +745,16 @@ class ParsedLayout:
     groups: dict[str, ModelGroup]
     aliases: dict[str, str]
 
+    def detected_singing_faces(self) -> list:
+        """Discover native face definitions associated with this layout."""
+        from core.singing_face_discovery import detect_singing_faces
+        return detect_singing_faces(self.path)
+
+    def singing_face_summary(self) -> dict:
+        """Return a GUI/CLI-friendly inventory of singing-capable models."""
+        from core.singing_face_discovery import singing_face_summary
+        return singing_face_summary(self.path)
+
     def model_for(self, name: str) -> Model | None:
         target = normalize_name(name)
         if target in self.aliases:
