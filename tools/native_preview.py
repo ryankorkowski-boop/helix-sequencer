@@ -275,6 +275,21 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
             json.dumps(channel_report, indent=2, sort_keys=True) + "\n")
         report["native_fseq_sha256"] = _sha256(fseq)
         report.update(_native_export(native_bin, run_dir, staged, port))
+        # Reject xLights docked-preview exports before muxing or reporting success.
+        expected_width = int(os.environ.get("HELIX_NATIVE_PREVIEW_WIDTH", "1920"))
+        expected_height = int(os.environ.get("HELIX_NATIVE_PREVIEW_HEIGHT", "1080"))
+        native_stream = _stream(probe_media(Path(report["native_video"]), ffprobe), "video")
+        actual_size = (int(native_stream["width"]), int(native_stream["height"]))
+        expected_size = (expected_width, expected_height)
+        report["requested_resolution"] = list(expected_size)
+        report["native_export_resolution"] = list(actual_size)
+        if actual_size != expected_size:
+            raise ValueError(
+                f"xLights native export resolution {actual_size[0]}x{actual_size[1]} "
+                f"does not match required {expected_width}x{expected_height}; "
+                "the docked House Preview may have been exported. "
+                "Configure genuine full-size native export; do not upscale GUI capture."
+            )
         output = stage / "preview.mp4"
         report["ffprobe"] = mux_original_audio(
             Path(report["native_video"]), audio, output, duration=duration,
