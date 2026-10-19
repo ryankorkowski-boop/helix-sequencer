@@ -17,9 +17,17 @@ def test_detect_faces_without_name_guessing(tmp_path):
 
 def test_adjacent_xmodel_and_empty_definitions(tmp_path):
     layout = tmp_path / "xlights_rgbeffects.xml"
-    layout.write_text('<xrgb><models><model name="No Face"><faceInfo Name="Empty"/></model></models></xrgb>')
+    layout.write_text('<xrgb><models><model name="No Face"><faceInfo Name="Empty"/></model><model name="Pixel Singer"/></models></xrgb>')
     (tmp_path / "singer.xmodel").write_text(
         '<custommodel name="Pixel Singer"><faceInfo Name="Default" Type="NodeRange" Mouth-O="1,2"/></custommodel>'
     )
     assert [face.model for face in detect_singing_faces(layout)] == ["Pixel Singer"]
     assert detect_singing_faces(layout, include_external=False) == []
+
+def test_unrelated_xmodel_is_not_detected(tmp_path):
+    layout = tmp_path / "xlights_rgbeffects.xml"
+    layout.write_text('<xrgb><models><model name="House"/></models></xrgb>')
+    (tmp_path / "other.xmodel").write_text(
+        '<custommodel name="Other Singer"><faceInfo Name="Face" Mouth-AI="1"/></custommodel>'
+    )
+    assert detect_singing_faces(layout) == []
