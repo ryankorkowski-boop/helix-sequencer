@@ -37,5 +37,26 @@ class PrimeVariantDefaultsTests(unittest.TestCase):
         self.assertIs(ast.literal_eval(defaults[0]), False)
 
 
+    def test_demucs_is_explicit_opt_in(self):
+        source = (ENGINE.parent / "audio_intelligence.py").read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        fn = next(node for node in tree.body if isinstance(node, ast.FunctionDef)
+                  and node.name == "build_stem_analysis")
+        calls = [node for node in ast.walk(fn) if isinstance(node, ast.Call)
+                 and isinstance(node.func, ast.Name)
+                 and node.func.id == "_try_demucs_stem_separation"]
+        self.assertEqual(len(calls), 1)
+        parents = {}
+        for node in ast.walk(fn):
+            for child in ast.iter_child_nodes(node):
+                parents[child] = node
+        current = calls[0]
+        guards = []
+        while current in parents:
+            current = parents[current]
+            if isinstance(current, ast.If):
+                guards.append(ast.unparse(current.test))
+        self.assertTrue(any("HELIX_USE_DEMUCS" in guard for guard in guards))
+
 if __name__ == "__main__":
     unittest.main()
