@@ -25,3 +25,12 @@ Record current branch and HEAD SHA; PRs; workflow IDs/URLs/status; completed ver
 
 ## Resume instruction
 Read docs/MASTER_ROADMAP.md, docs/AGENT_HANDOFF.md, docs/WORKFLOW_RECOVERY.md and existing MASTER_TODO.md. Check current remote state and PR #188 first. Resume highest priority actionable task. Never repeat completed verified work or publish/merge without owner approval.
+
+## Live PR #188 inspection — 2026-10-19
+- Actual head: codex/eight-hour-recovery-20261019; base feature/restructure-core.
+- Source checklist: docs/HELIX_LIVE_IMPLEMENTATION_CHECKLIST.md on that head, not default branch. It already includes a much more detailed HX01–HX17 inventory. Future work should treat that checklist as the active integration authority and avoid parallel duplicate implementations.
+- Recorded verified CI: Helix CI run 39239071725 success, focused keyboard 39239071744 success, beta CI 39239071781 success; these are historical PR #188 run records, not tests run on this checkpoint branch.
+- Recorded failures: native final band proof 39239071737 failed; six-snowman real-audio MP4 39239071802 failed after preflight. Next inspect logs and diagnostic artifacts for both before new dispatches.
+- Older focused keyboard run 39196065360 directly inspected: completed success. It does not validate the current integrated head.
+- The initial checkpoint files were pushed on this separate branch, but no rendering workflow was dispatched and no Actions queue root cause established.
+- Exact next action: inspect PR #188 latest checklist tail, failed runs 39239071737 and 39239071802, and latest job statuses. Then update the active PR #188 checklist or integrate a coordinated checkpoint rather than maintaining competing roadmaps indefinitely.
