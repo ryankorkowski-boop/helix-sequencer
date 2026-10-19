@@ -1,0 +1,26 @@
+name: Desktop GUI evidence capture
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'gui_launcher.py'
+      - 'tools/capture_desktop_gui.py'
+      - '.github/workflows/desktop-gui-evidence.yml'
+jobs:
+  capture:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Capture actual running Tkinter GUI
+        shell: pwsh
+        run: python tools/capture_desktop_gui.py --output desktop-gui-evidence.png
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: helix-desktop-gui-evidence
+          path: desktop-gui-evidence.png
+          if-no-files-found: warn
