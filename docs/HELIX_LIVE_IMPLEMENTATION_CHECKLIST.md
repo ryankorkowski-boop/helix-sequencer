@@ -91,3 +91,38 @@ All incomplete rows above remain active until verified or explicitly blocked/sup
 
 ## Recovery milestone 1
 Source PR183–187 changes recovered onto modern default, then native PR181 development lineage merged (460 missing commits). Original 14 policy tests independently pass. Parallel worktrees own GUI/show folder, parser/editable rows, native band regressions, public layout generator/license audit. Integration commit SHA: consult commit containing this milestone. No native render or packaged runtime acceptance yet.
+
+
+## 2026-10-19 continuation — live verified gate inventory (PR #188)
+This section supersedes older status assertions where newer CI evidence conflicts. Keep original historical ledger intact. Development branch remains unmerged.
+
+### Completed and independently evidenced
+- [x] HX15 partial: native band missing-BODY crash guarded at commit `469e54e`.
+- [x] HX15 partial: visible consolidated piano native geometry, individual `NOTE_MIDI_*` submodels, event routing and corresponding test/proof expectations updated at `74300ee`, `b415c74`, `7f7dd0e`, `3e4dd4f`, `f6831d1`, `72dc2bd`. **Do not mark native render acceptance complete**.
+- [x] Helix CI: run 39239071725 success at `72dc2bd`.
+- [x] Keyboard focused regression: run 39239071744 success.
+- [x] Showcase recovery guards: run 39239071726 success.
+- [x] Helix Beta CI: run 39239071781 success.
+- [x] Birdsong CI: run 39239071752 success.
+- [x] Drum benchmark: run 39239071754 success.
+- [x] Compliance/license bundle: run 39239071826 success.
+- [x] Original V3 drummer real-audio review workflow: run 39239071799 success (does not certify requested final comparison).
+- [x] Real animated seven-snowman workflow: run 39239071876 success (separate from six-performer keyboard deliverable).
+
+### Blocking failures — exact follow-up
+- [ ] **P0 native final band proof**: run 39239071737 failed. Inspect `native-proof-acceptance.json` artifact and complete native-output acceptance, not just unit tests. Ensure keyboard source event timing and independently editable model/submodel tracks.
+- [ ] **P0 six-snowman real-audio MP4**: run 39239071802 preflight passed, render failed. Inspect uploaded `helix-fresh-original-audio-six-snowmen-keyboard` diagnostics, repair failing real-output gate and rerender; deliver verified MP4 only.
+- [ ] **P0 Windows packaged GUI**: run 39239071739 failed because `windows_portable_entry.py --helix-gui-smoke` asserts layout selection even in a clean first-run profile. Fix first-run vs persisted-layout expectations without fabricating a layout; verify EXE packaged smoke.
+- [ ] **P1 Android API 30 default flavor**: run 39239071777 failed at Chaquopy `cffi==1.15.1` unavailable; API 36 google_apis flavor passed. Inspect flavor-specific requirements, remove incompatible pin only with compatible tested replacement; rerun both.
+- [ ] **P1 desktop GUI evidence**: run 39239071771 failed `ModuleNotFoundError: gui_launcher`; repair module path/workflow invocation, then capture actual GUI screenshots.
+- [ ] **P0 HX16 final deliverable**: authenticated Bells of Mathmas source, real native xLights XSQ and MP4 for band + five distinct layouts, audio sync, editability, six-panel comparison, owner review still outstanding.
+- [ ] **P0 HX17 release gate**: rerun all failed workflows at new head, inspect artifacts and full test matrices; no merge/public release without owner approval.
+- [ ] **P1 HX03–HX14**: revisit each historical checklist acceptance criterion with direct code/test evidence. CI success alone does not mark individual features complete.
+
+### Working protocol
+1. Triage the P0 native-proof acceptance artifact and real-audio render log; fix the concrete failure and commit.
+2. Resolve Windows first-run smoke and desktop evidence import; verify both packaged workflows.
+3. Resolve Android API 30 dependency; verify both matrix variants.
+4. Produce native editable XSQ, six-panel real-audio MP4, evidence bundle and owner review.
+5. Reconcile all HX01–HX17 statuses and keep this file updated after each verified milestone.
+Evidence must identify run IDs and artifact names; never mark a failed workflow as passed because a different workflow succeeded.
