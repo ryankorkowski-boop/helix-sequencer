@@ -13111,11 +13111,13 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         out = variant_output_name(audio, output_dir, style.version)
         log(f"\n[{i}/{len(audios)}] {audio.name} -> {out.name}")
         try:
-            song_cache = _SongAnalysisCache(audio, (bool(tuning.use_moises), tuning.moises_api_key or ""))
+            song_caches: dict[tuple[bool, str], _SongAnalysisCache] = {}
             candidate_results: list[dict[str, object]] = []
             for idx, candidate in enumerate(runtime_candidates, 1):
                 candidate_out = out if idx == 1 else variant_output_name(audio, output_dir, candidate.style.version)
                 log(f"  Variant {idx}/{len(runtime_candidates)}: {candidate.label} -> {candidate_out.name}")
+                configuration = (bool(candidate.tuning.use_moises), candidate.tuning.moises_api_key or "")
+                song_cache = song_caches.setdefault(configuration, _SongAnalysisCache(audio, configuration))
                 result = run_variant(
                     candidate.style,
                     template,
