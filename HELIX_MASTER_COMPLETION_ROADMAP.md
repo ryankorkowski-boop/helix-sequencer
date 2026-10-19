@@ -9,6 +9,15 @@ historical implementation/evidence ledger; its unchecked entries below remain
 open. Historical checkmarks are not proof of current release acceptance.
 Owner for implementation rows: Codex; artistic approval and device access: owner.
 
+## Keyboard motion validation slice — 2026-10-18
+
+R06 **IMPLEMENTED — UNVERIFIED**: PR #180 now includes dedicated authored
+keybed/short-link/velocity/acceleration/real-key-contact regression checks,
+plus independent silence and unreachable-note assertions. Arm geometry is a
+candidate, not artistically approved. Required dependencies: focus suite,
+native MP4, verified source notes and owner visual review. Existing seven
+cast and approved guitarist/drummer untouched. No release merge.
+
 ## Current recovery and integration evidence
 
 - Inspected PR175 head `13a833e9b71dbacefb340654a44f5707b162888e`.
