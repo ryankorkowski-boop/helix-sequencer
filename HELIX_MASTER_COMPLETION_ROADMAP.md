@@ -9,6 +9,23 @@ historical implementation/evidence ledger; its unchecked entries below remain
 open. Historical checkmarks are not proof of current release acceptance.
 Owner for implementation rows: Codex; artistic approval and device access: owner.
 
+## Current P0 integration slice — 2026-10-18
+
+- **R07/R08 source ownership — IMPLEMENTED — UNVERIFIED** on
+  `codex/keyboard-source-guardrails-20261018`: production
+  `music/magic_keyboard.py` blocks guitar/bass/drum/vocal-tagged pitched
+  evidence, routes explicit keyboard/mallet roles, and retains absolute
+  note times and duplicate suppression. Five new tests; CI pending.
+- The legacy mallet player remains in `FinalBandScene` and the official
+  seven-model xLights workflow. That architectural migration and
+  PR #180 motion acceptance are **not** complete.
+- Owners: development agent; review: project owner. Dependencies: PR
+  #179 source provenance, #180 geometry, native preview source-bound test.
+  Acceptance: no schedule theft in source-to-render tests; one visible
+  keyboardist in newly generated band; source-bound quality-gated MP4.
+  Blocker: native render/artistic comparison and unverified actual source
+  recognition; no release approval inferred.
+
 ## Current recovery and integration evidence
 
 - Inspected PR175 head `13a833e9b71dbacefb340654a44f5707b162888e`.
