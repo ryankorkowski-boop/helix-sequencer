@@ -16,6 +16,10 @@ def capture(output: Path) -> None:
         raise RuntimeError("This evidence capture requires a Windows desktop session")
     from ctypes import wintypes
     from PIL import ImageGrab
+    # Direct script invocation puts tools/ rather than the repository root on sys.path.
+    root = str(Path(__file__).resolve().parents[1])
+    if root not in sys.path:
+        sys.path.insert(0, root)
     from gui_launcher import HelixGui
 
     app = HelixGui()
