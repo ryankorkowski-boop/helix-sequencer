@@ -12785,7 +12785,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--blend-rules-file", dest="blend_rules_file", help="Optional JSON overrides for matrix blend planning")
     parser.add_argument("--polish", dest="polish_enabled", action="store_true", help="Run the post-generation polish pass")
     parser.add_argument("--no-polish", dest="polish_enabled", action="store_false", help="Skip the post-generation polish pass")
-    parser.add_argument("--variants", type=int, dest="variant_count", default=3, help="Number of runtime variants to generate and score")
+    parser.add_argument("--variants", type=int, dest="variant_count", default=1, help="Number of runtime variants to generate and score (default: 1; use --variants 3 --auto-shortlist to compare)")
     parser.add_argument("--auto-shortlist", dest="auto_shortlist", action="store_true", help="Promote the best-scoring runtime variant to the canonical output")
     parser.add_argument("--vendor-bar", dest="vendor_bar", action="store_true", help="Enforce paid-vendor level quality thresholds during shortlist and reporting")
     parser.add_argument("--vendor-min-quality", type=float, dest="vendor_min_quality_score", help="Minimum quality score required for vendor-bar pass")
