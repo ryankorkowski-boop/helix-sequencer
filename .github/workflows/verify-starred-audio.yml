@@ -7,6 +7,12 @@ on:
       - tools/select_starred_music.py
       - tests/test_select_starred_music.py
       - showcase/starred_music_catalog.json
+  pull_request:
+    paths:
+      - .github/workflows/verify-starred-audio.yml
+      - tools/select_starred_music.py
+      - tests/test_select_starred_music.py
+      - showcase/starred_music_catalog.json
   workflow_dispatch:
     inputs:
       rotation:
