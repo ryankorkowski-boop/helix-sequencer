@@ -1,3 +1,29 @@
+## 2026-10-18 — Integration update: PR179 effect router ported to modern band
+
+Goal: prevent player-role cross-contamination at both source-driven musician
+performance and downstream effect-plan generation. Draft PR #181, branch
+`codex/keyboard-source-guardrails-20261018`; latest implementation:
+`music/magic_keyboard.py`, `effects/piano_effect.py`,
+`tests/test_keyboard_source_ownership.py`,
+`tests/test_universal_keyboard_routing.py`.
+Preserved: original absolute onset/duration/velocity/pitch/source,
+legacy unclassified MIDI and Helix notes, simultaneous chords, old
+seven-member xLights preview, all drummer/guitar/bass/vocal schedules,
+and existing exports and release hold. New behavior: direct, screened
+keyboard/mallet musical sources feed the universal keys; explicit
+guitar/bass/percussion/vocal tags are rejected before high-confidence
+pitch filtering in the active performance and effect-plan paths. The
+PR #179 prototype is ported selectively, not merged against the old
+default branch. Tests: eight new focused source and effect-plan
+regressions committed; execution, broader-suite, native MP4, frame
+contact and musical ground-truth validation still outstanding.
+Limitations: unsupported/unlabelled classifier identities are not
+proven, final/native band cast still features a legacy xylophonist,
+arm PR #180 is separate, native Bells of Mathmas audio video has
+unacceptable visual darkness and is not approval-ready.
+Status: IMPLEMENTED — UNVERIFIED. Completion requires source-bound
+tests plus visually acceptable authentic xLights native exports.
+
 ## 2026-10-18 — Universal keyboard source-ownership guardrail (draft, unverified)
 
 Goal: integrate the first production-level universal-keyboard ownership fix on the
