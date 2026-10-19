@@ -157,7 +157,10 @@ jobs:
           p.write_text(raw.replace(old, new, 1))
           assert new in p.read_text()
           PY
-          make -j 2
+          # Capture actionable compiler errors even when GitHub's live job logs
+          # are unavailable, and cap a stalled compile before job timeout.
+          set -o pipefail
+          timeout --signal=TERM --kill-after=30s 35m make -j 2 2>&1 | tee "$GITHUB_WORKSPACE/xlights-native-build.log"
           test -x bin/xLights
           echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
       - name: Regenerate actual six-musician editable sequence from retained source musical analysis
@@ -238,6 +241,7 @@ jobs:
         with:
           name: helix-fresh-original-audio-six-snowmen-keyboard
           path: |
+            xlights-native-build.log
             review/**/preview.mp4
             review/**/Performance.fseq
             review/SHOWCASE_READABILITY.json
