@@ -1,3 +1,31 @@
+## 2026-10-18 — Native xLights six-cast universal-keyboard migration
+
+Goal: do not stop at artistic `FinalBandScene`; make the actual
+`tools/native_source_pose_band.py` xLights RGB native performance omit the
+separate pitched-percussion character by default. Development PR #181.
+Changes: `tools/review_band_performance.py` combines authenticated,
+source-hash-checked `pitched_roles.json` keyboard + mallet notes in the
+piano hand/key source lanes without invented notes.
+`tools/native_source_pose_band.py` selects the six default roles
+(drummer,bass,guitar,piano,lead,harmony) while preserving the original seven
+native models with `--legacy-xylophone`. No global
+`models/native_review_band.add_band` or independent AC16 model definitions
+deleted or renamed. Piano is centered in the single-pitched band. Updated
+`.github/workflows/fresh-real-band-mp4.yml` asserts exactly the six
+native model names, source-bond hashes, visible cast roster, complete
+1080p video/audio decode and genuine xLights preview; it never accepts a
+diagnostic placeholder. Added source-native cast regression tests
+in `tests/test_native_source_pose_band.py`.
+Risks: legacy photo/geometry logic is still evaluated internally even when
+model omitted; source-bound mallet confidence remains estimator-derived;
+new six-model native source output and musical/arm/frame approval are
+**UNVERIFIED** until workflow succeeds and owner visually approves; other
+native show builders may retain their earlier cast.
+State: IMPLEMENTED — UNVERIFIED. Depend on source hash, pipeline tests,
+native renderer, independent musical review and release hold. All existing
+standalone CTB16PC/AC16 controllers, guitarist/drummer/vocal logic,
+original audio and published artifacts intentionally preserved.
+
 ## 2026-10-18 — Visible default keyboardist replaces separate mallet model
 
 Goal: deliver an actual default pianist in the modern six-performer 3D
