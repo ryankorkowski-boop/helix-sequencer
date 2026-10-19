@@ -9285,7 +9285,8 @@ def allowed_requested_effects_for_target(
     tuning: RuntimeTuning,
 ) -> set[str]:
     ac_allowed = {"on", "ramp", "strobe", "twinkle", "shimmer"}
-    if tuning.ac_lights_only:
+    if tuning.ac_lights_only or (model is not None and
+                                (model.is_single_color() or not model.is_rgb_capable())):
         return ac_allowed
 
     semantic = base.normalize_name(model.type) if model is not None else ""
@@ -9362,6 +9363,10 @@ def pick_runtime_effect(
     workspace_history: WorkspaceHistoryProfile | None,
     fallback: str,
 ) -> str:
+    # Mixed layouts need per-target AC safety even when global AC-only is off.
+    ac_target = tuning.ac_lights_only or (parsed_model is not None and
+                                        (parsed_model.is_single_color() or
+                                         not parsed_model.is_rgb_capable()))
     selected = requested
     prefer_requested = (requested or "").strip().lower() not in {"", "on", "ramp"}
     if requested.strip().lower() in {"on", "ramp"}:
@@ -9416,7 +9421,7 @@ def pick_runtime_effect(
     # Existing --ac-lights-only must also fence workspace-learned effects:
     # the normal candidate list was AC-safe, but memory suggestions weren't.
     ac_effect_names = {"on", "ramp", "strobe", "twinkle", "shimmer"}
-    if tuning.ac_lights_only:
+    if ac_target:
         history_effects = [
             name for name in history_effects
             if name.strip().lower() in ac_effect_names
@@ -9424,19 +9429,19 @@ def pick_runtime_effect(
     choice_pool.extend(history_effects)
     choice_pool.extend(candidates)
     choice_pool.append(selected)
-    if tuning.ac_lights_only:
+    if ac_target:
         choice_pool = [
             name for name in choice_pool
             if name.strip().lower() in ac_effect_names
         ]
-    selected = choose_first(choice_pool, "On" if tuning.ac_lights_only else selected)
+    selected = choose_first(choice_pool, "On" if ac_target else selected)
     selected = xfb.normalize_effect_name(selected, catalog) or fallback
-    if tuning.ac_lights_only and selected.strip().lower() not in ac_effect_names:
+    if ac_target and selected.strip().lower() not in ac_effect_names:
         return "On"
     if tuning.strict_xlights_effects:
         valid = {name.lower() for name in xfb.catalog_effect_names(catalog)}
         if valid and selected.lower() not in valid:
-            return "On" if tuning.ac_lights_only else fallback
+            return "On" if ac_target else fallback
     return selected
 
 

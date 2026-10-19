@@ -58,7 +58,7 @@ jobs:
                   raise SystemExit('Exact original SHA256 required: '+key)
           PY
           sudo apt-get update -qq
-          sudo apt-get install -y xvfb xauth openbox x11-utils x11-xserver-utils wmctrl ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          sudo apt-get install -y xvfb xauth openbox x11-utils x11-xserver-utils wmctrl xdotool ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
           python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg gdown==6.4.2
       - name: Fetch authentic hardKor E14 source + retained analysis (no fabricated events)
         run: |
@@ -165,7 +165,7 @@ jobs:
       - name: Render actual xLights native FSEQ and original-audio MP4
         run: |
           xvfb-run -a -s "-screen 0 2560x1440x24" sh -c 'openbox >/tmp/helix-openbox.log 2>&1 & sleep 2; exec python -m tools.native_preview "$GITHUB_WORKSPACE/review/show" --xsq "$GITHUB_WORKSPACE/review/show/Performance.xsq" --audio "$GITHUB_WORKSPACE/review/show/media/audio.wav" --xlights "$RUNNER_TEMP/xlights/squashfs-root/AppRun"'
-      - name: Verify seven native models, fresh media, and decode
+      - name: Verify six native performers, fresh media, and decode
         run: |
           python - <<'PY'
           import json,xml.etree.ElementTree as ET,hashlib,os
@@ -208,6 +208,7 @@ jobs:
             review/**/native_headless.log
             review/**/native_gui.log
             review/**/native_window_geometry.txt
+            review/**/native_canvas_resize.json
             review/**/native_channels.json
             review/show/Performance.xsq
             review/show/xlights_rgbeffects.xml

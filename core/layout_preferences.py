@@ -20,6 +20,8 @@ def settings_path() -> Path:
 def load_layout() -> str:
     try:
         data = json.loads(settings_path().read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            return ""
         value = data.get("layout_file", "")
         return value if isinstance(value, str) and Path(value).is_file() else ""
     except (OSError, ValueError, TypeError):
@@ -43,3 +45,4 @@ def save_layout(path: str) -> None:
     temp = target.with_suffix(".tmp")
     temp.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
     temp.replace(target)
+

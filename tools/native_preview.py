@@ -11,6 +11,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import shutil
 import socket
 import subprocess
@@ -117,6 +118,54 @@ def _export_size() -> tuple[int, int]:
     return size
 
 
+def _resize_native_canvas(staged: Path, actual: tuple[int, int],
+                          desired: tuple[int, int]) -> dict[str, Any]:
+    """Resize only a uniquely identified canvas in our fresh sequence window.
+
+    wxGTK's getWidth/getHeight are cached by its size event. Maximizing the
+    top-level frame does not resize a docked House Preview. Prime that real
+    X11 child and let its resize event run before requesting another export.
+    Never infer HD success from X11 geometry; ffprobe remains authoritative.
+    """
+    for utility in ("wmctrl", "xwininfo", "xdotool"):
+        if not shutil.which(utility):
+            raise RuntimeError("Native canvas resize needs " + utility)
+    clients = _run(["wmctrl", "-lp"], 5)
+    owners = []
+    for line in clients.splitlines():
+        fields = line.split(None, 4)
+        if len(fields) == 5 and str(staged) in fields[4]:
+            if re.fullmatch(r"0x[0-9a-fA-F]+", fields[0]):
+                owners.append(fields[0])
+    if len(owners) != 1:
+        raise ValueError("Cannot uniquely identify this native sequence's X11 window")
+    tree = _run(["xwininfo", "-id", owners[0], "-tree"], 5)
+    matches = []
+    for line in tree.splitlines():
+        entry = re.match(r"^(\s+)(0x[0-9a-fA-F]+)\s.*?\s(\d+)x(\d+)[+-]", line)
+        if entry and entry[2] != owners[0] and (int(entry[3]), int(entry[4])) == actual:
+            matches.append((len(entry[1]), entry[2]))
+    # X11 can include a same-sized container and its child; use the deepest
+    # unique match. Ambiguous sibling canvases must never be guessed.
+    if not matches:
+        raise ValueError("No native X11 canvas matches the exported dimensions")
+    deepest = max(depth for depth, _ in matches)
+    candidates = [window for depth, window in matches if depth == deepest]
+    if len(candidates) != 1:
+        raise ValueError("Ambiguous native X11 canvases; refusing to resize")
+    window = candidates[0]
+    _run(["xdotool", "windowsize", "--sync", window,
+          str(desired[0]), str(desired[1])], 5)
+    time.sleep(1)  # Allow wxGTK to consume the actual ConfigureNotify event.
+    geometry = _run(["xwininfo", "-id", window], 5)
+    width = re.search(r"\bWidth:\s*(\d+)", geometry)
+    height = re.search(r"\bHeight:\s*(\d+)", geometry)
+    if not width or not height or (int(width[1]), int(height[1])) != desired:
+        raise ValueError("Native canvas did not retain the requested X11 size")
+    return {"window": window, "original_resolution": list(actual),
+            "requested_resolution": list(desired), "geometry": geometry}
+
+
 def _native_export(xlights: str, show: Path, staged: Path,
                    port: int) -> dict[str, Any]:
     # Own a fresh process. Never close/switch an existing user's sequence.
@@ -196,8 +245,24 @@ def _native_export(xlights: str, show: Path, staged: Path,
             _command(endpoint, "exportVideoPreview", **options)
             if not video.is_file() or video.stat().st_size == 0:
                 raise ValueError("xLights did not create a fresh native video")
+            native_stream = _stream(probe_media(video, "ffprobe"), "video")
+            actual = (int(native_stream["width"]), int(native_stream["height"]))
+            attempts = [{"video": str(video), "resolution": list(actual)}]
+            if actual != (width, height) and os.environ.get("DISPLAY"):
+                resize = _resize_native_canvas(staged, actual, (width, height))
+                (staged.parent / "native_canvas_resize.json").write_text(
+                    json.dumps(resize, indent=2) + "\n")
+                print("HELIX_NATIVE_CANVAS_RESIZE " + json.dumps(resize), flush=True)
+                # Keep the rejected first export as diagnostic evidence, and
+                # ask xLights for an entirely new video from the real canvas.
+                video = staged.parent / "native-resized.mp4"
+                _command(endpoint, "exportVideoPreview", **{**options, "filename": str(video)})
+                native_stream = _stream(probe_media(video, "ffprobe"), "video")
+                attempts.append({"video": str(video), "resolution": [
+                    int(native_stream["width"]), int(native_stream["height"])]})
             return {"xlights_version": rest._version_from_response(version),
-                    "open_response": opened, "native_video": str(video)}
+                    "open_response": opened, "native_video": str(video),
+                    "native_export_attempts": attempts}
         finally:
             if app.poll() is None:
                 app.terminate()
