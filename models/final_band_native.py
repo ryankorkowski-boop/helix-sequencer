@@ -66,7 +66,7 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
     garden.models.append(drummer)
     arm_ids = {i for r in scene.rigs for i in tuple(r['ids'])+tuple(r.get('mallet_ids',()))}
     instrument = {'bass': 'upright_bass', 'guitar': 'electric_guitar'}
-    for role in ('bass', 'guitar', 'lead', 'harmony', 'xylophone'):
+    for role in ('bass', 'guitar', 'lead', 'harmony', 'piano'):
         parts = SurfaceParts(position)
         for i, item in enumerate(scene.instances):
             name = item['name']
@@ -75,7 +75,7 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
             if any(word in name for word in ('_lips','_tongue','_upper_teeth')): continue
             part = 'BODY'
             if '_live_string_' in name: part = 'STRING_'+name.split('_live_string_')[1].split('_')[0]
-            if name.startswith('xylophone_bar_') and name.removeprefix('xylophone_bar_').isdigit():
+            if name.startswith('piano_key_') and name.removeprefix('piano_key_').isdigit():
                 part = 'NOTE_MIDI_'+name.rsplit('_',1)[1]
             parts.primitive(part, item)
         for item in scene.custom:
