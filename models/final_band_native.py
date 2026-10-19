@@ -134,7 +134,7 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
         # a dim BODY must not keep a released key or mouth illuminated.
         dynamic = set().union(*(set(v) for k,v in model.submodels.items()
                                if k.startswith(('MOUTH_','NOTE_MIDI_','STRING_','ARM_'))))
-        model.submodels['BODY'] = sorted(set(model.submodels['BODY'])-dynamic)
+        model.submodels['BODY'] = sorted(set(model.submodels.get('BODY', ())) - dynamic)
     x,y,z = position
     for side in (-1,1):
         garden.poly(prefix+f'_STAGE_PORTAL_{side}',
