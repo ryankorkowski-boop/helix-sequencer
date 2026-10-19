@@ -158,7 +158,7 @@ def _native_export(xlights: str, show: Path, staged: Path,
             if shutil.which("wmctrl"):
                 subprocess.run(["wmctrl", "-r", "xLights", "-b",
                                 "add,maximized_vert,maximized_horz"],
-                               capture_output=True, check=False, timeout=5)
+                               capture_output=True, check=True, timeout=5)
                 time.sleep(2)
             _command(endpoint, "exportVideoPreview", **options)
             if not video.is_file() or video.stat().st_size == 0:
