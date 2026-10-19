@@ -70,12 +70,12 @@ XLIGHTS_LICENSE_NOTICE = (
 )
 
 HELIX_COMMERCIAL_NOTICE = (
-    "\nHelix Sequence Weaver Publisher Policy (notice only; not legal advice)\n"
+    "\nHelix Sequencer — PolyForm Noncommercial 1.0.0 (notice only; see LICENSE)\n"
     "- This policy applies to Helix Sequence Weaver-authored templates, presets, scripts, and branded assets included with this tool.\n"
     "- This policy does not change rights granted by third-party licenses (including xLights GPL-3.0 and Lua MIT).\n"
     "- Personal/homeowner use is free.\n"
     "- Nonprofit/community use is free when no sequence sales occur.\n"
-    "- For commercial sequence sales based on Helix Sequence Weaver-generated starter output, a one-time author support fee is strongly suggested before first sale.\n"
+    "- For commercial sequence sales based on Helix Sequence Weaver-generated starter output, a separate commercial license is required before commercial use; vendor licensing is offered on annual terms.\n"
     "- Recommended minimum one-time support fee: $150 USD.\n"
     "- Attribution is required when redistributing Helix Sequence Weaver-authored template material or branded assets in commercial deliverables.\n"
     "- Recommended attribution text: 'Base sequence generated with Helix Sequence Weaver.'\n"
@@ -1221,7 +1221,7 @@ class Launcher(tk.Tk):
         header = tk.Frame(win, bg="#173042", padx=14, pady=12)
         header.pack(fill="x")
         tk.Label(header, text="License Information", font=("Segoe UI Semibold", 18), bg="#173042", fg="#edf9ff").pack(anchor="w")
-        tk.Label(header, text="xLights GPL-3.0, Lua MIT, and Helix Sequence Weaver policy notices", bg="#173042", fg="#9ed7f0").pack(anchor="w")
+        tk.Label(header, text="Helix PolyForm Noncommercial 1.0.0; xLights GPL-3.0 and Lua MIT third-party notices", bg="#173042", fg="#9ed7f0").pack(anchor="w")
 
         body = ScrolledText(
             win,
@@ -1235,7 +1235,7 @@ class Launcher(tk.Tk):
             wrap="word",
         )
         body.pack(fill="both", expand=True, padx=12, pady=12)
-        body.insert("1.0", XLIGHTS_LICENSE_NOTICE + HELIX_COMMERCIAL_NOTICE)
+        body.insert("1.0", "Helix project license: https://polyformproject.org/licenses/noncommercial/1.0.0/\\n" + XLIGHTS_LICENSE_NOTICE + HELIX_COMMERCIAL_NOTICE)
         body.configure(state="disabled")
 
         links = ttk.Frame(win)
