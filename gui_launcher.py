@@ -301,7 +301,7 @@ class HelixGui(tk.Tk):
         legal = ttk.LabelFrame(frame, text="Legal / Licensing")
         legal.pack(fill=tk.X, **pad)
         ttk.Label(legal, text="Helix Sequencer: PolyForm Noncommercial 1.0.0 | Free for qualifying noncommercial use; commercial use requires a separate license.", wraplength=900).pack(anchor="w", padx=8, pady=4)
-        ttk.Button(legal, text="View License", command=lambda: webbrowser.open("https://polyformproject.org/licenses/noncommercial/1.0.0/")).pack(side=tk.LEFT, padx=8, pady=4)
+        ttk.Button(legal, text="View License", command=lambda: webbrowser.open("https://polyformproject.org/licenses/noncommercial/1.0.0")).pack(side=tk.LEFT, padx=8, pady=4)
         ttk.Button(legal, text="Third-Party Licenses", command=lambda: webbrowser.open((ROOT / "THIRD_PARTY_LICENSES.md").as_uri())).pack(side=tk.LEFT, padx=8, pady=4)
 
         actions = ttk.Frame(frame)

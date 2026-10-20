@@ -1,5 +1,7 @@
 # Helix Sequencer
 
+Current release validation and continuation instructions: [Final roadmap handoff](docs/FINAL_ROADMAP_HANDOFF.md). The canonical change ledger is [MASTER_TODO.md](MASTER_TODO.md).
+
 > **Sequencing, simplified.** Audio in. Lights out. Helix.
 
 A Python-based automated sequencing engine for [xLights](https://xlights.org/), transforming audio into synchronized light show sequences.

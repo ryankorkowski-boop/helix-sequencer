@@ -6,7 +6,8 @@ This document outlines the supported platforms, versions, dependencies, and beta
 
 | OS | Status | Notes |
 |---|---|---|
-| **Windows 10/11** | Supported for beta | Primary beta target and expected tester platform. |
+| **Windows 10/11** | Supported for beta | Portable build and bundled startup smoke run in CI; complete owner-machine audio/layout/export review remains open. |
+| **Android API 30 and 36** | Automated emulator validation | Offline APK workflow covers both matrix targets; physical-device acceptance is separate. |
 | **macOS 12+** | Best effort | Community-supported unless a maintainer records validation evidence. |
 | **Linux / Ubuntu 20.04+ / WSL** | Best effort | Useful for CI and developer smoke checks; xLights import should still be validated separately. |
 
@@ -14,14 +15,15 @@ This document outlines the supported platforms, versions, dependencies, and beta
 
 | Version | Status | Evidence |
 |---|---|---|
-| **3.11** | Supported for beta | Included in `.github/workflows/helix-ci.yml`. |
-| **3.12** | Supported for beta | Included in `.github/workflows/helix-ci.yml`. |
+| **3.11** | Supported for beta | Included in `.github/workflows/unit-tests.yml`. |
+| **3.12** | Supported for beta | Included in `.github/workflows/unit-tests.yml`. |
 | **3.10 and earlier** | Unsupported for beta | Not part of the declared CI matrix for the beta gate. |
 
 ## xLights Versions
 
 | Version | Status | Notes |
 |---|---|---|
+| **2026.18** | Current native validation target | Pinned native build includes House Preview size and fresh-profile saved-camera fixes; native musical showcase acceptance remains tracked in FINAL_ROADMAP_HANDOFF.md. |
 | **2023.x** | Targeted | README lists this as supported, but beta claims still need artifact/import evidence. |
 | **2024.x** | Targeted | README lists this as supported, but beta claims still need artifact/import evidence. |
 | **Other versions** | Not promised | Treat as manual validation only until evidence is recorded. |
@@ -88,7 +90,8 @@ Repo-safe fixtures live under `tests/fixtures/beta_demo/`. They are intentionall
 - **Visual quality:** Structural tests do not prove that a sequence looks good.
 - **Unicode paths:** Some xLights asset paths with non-ASCII characters may require manual intervention.
 - **Network shares:** SMB paths may work but are not a beta guarantee.
-- **Large sequences:** Long shows may require more memory and separate performance validation.
+- **Large sequences:** Native channel evidence is inspected blockwise; individual blocks remain capped at 128 MiB and total inspection work at 16 GiB/1M frames. Full-song rendering and analysis still require separate runtime validation.
+- **Dual export:** Desktop Both supports verified mapped AC On-only XSQ + legacy LMS. RGB-to-LOR, modern `.loredit` and Android Both are not implemented; see DUAL_EXPORT.md.
 - **Concurrent runs:** Multiple simultaneous sequencer instances should use separate output directories.
 
 ## Getting Help

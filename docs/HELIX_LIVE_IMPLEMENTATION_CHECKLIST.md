@@ -1,7 +1,9 @@
 # Helix live implementation checklist
 
+**Current detailed release status:** [FINAL_ROADMAP_HANDOFF.md](FINAL_ROADMAP_HANDOFF.md). This document preserves the historical recovery record; its earlier task tables are superseded by that current handoff. [MASTER_TODO.md](../MASTER_TODO.md) remains the canonical cross-agent change ledger.
+
 ## 1. Executive status summary
-Recovery started 2026-10-19 09:01:49 UTC (04:01 Chicago). Fixed lookback: 2026-10-19 01:01:35–09:01:35 UTC. Default branch is **feature/restructure-core**, initial head `59f32408469e68651b853994a40f97e4745bf9b4`; `main` is a divergent older line, not the implementation baseline. Development: `codex/eight-hour-recovery-20261019`. No release merge, publication, music distribution, or production artifact replacement authorized. This checklist is the current recovery authority; MASTER_TODO.md retains the historical ledger.
+Recovery started 2026-10-19 09:01:49 UTC (04:01 Chicago). Fixed lookback: 2026-10-19 01:01:35–09:01:35 UTC. Default branch is **feature/restructure-core**, initial head `59f32408469e68651b853994a40f97e4745bf9b4`; `main` is a divergent older line, not the implementation baseline. Development: `codex/eight-hour-recovery-20261019`. No release merge, publication, music distribution, or production artifact replacement authorized. This was the initial recovery checklist; current release status is maintained in FINAL_ROADMAP_HANDOFF.md and changes remain in MASTER_TODO.md.
 
 ## 2. Eight-hour activity timeline
 - 01:50 UTC: PR178 source-event integrity validator.
