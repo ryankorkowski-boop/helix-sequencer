@@ -167,7 +167,7 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
     if (len(new.models)!=expected_cast or len({m.name for m in new.models})!=expected_cast
             or sum(m.channels for m in new.models)>250000):
         raise ValueError('Invalid universal keyboard/native legacy cast or bounded RGB channels')
-    positions=dict(DRUMMER=(0,26,65),BASS=(-24,9,80),GUITAR=(24,9,80),PIANO=(25,28,65) if legacy_xylophone else (0,28,65),XYLOPHONE=(-25,28,65),LEAD=(-8,9,80),HARMONY=(8,9,80))
+    positions=dict(DRUMMER=(0,26,65),BASS=(-24,9,80),GUITAR=(24,9,80),PIANO=(25,28,65) if legacy_xylophone else (-30,28,65),XYLOPHONE=(-25,28,65),LEAD=(-8,9,80),HARMONY=(8,9,80))
     for old,m in zip(g.models,new.models):
         delta=np.array(positions[m.details['review_role'].upper()])-np.array([float(old.attrs['WorldPos'+a]) for a in 'XYZ'])
         m.points+=delta
