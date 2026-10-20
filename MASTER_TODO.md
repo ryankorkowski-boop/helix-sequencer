@@ -1,3 +1,48 @@
+## 2026-10-20 — Native renderer cold-build timeout and reusable build recovery (NAT04)
+
+Goal: recover current-source native MP4 production after actual run39485172852
+at07402a431e69526e009e9cdda8512944adee14f3 failed, without changing musical
+events or accepting an older movie as current-source output.
+Evidence: render job118843847855 explicitly reported no matching Actions cache,
+then was terminated with exit124 at20:30:52UTC during its48-minute make limit.
+The earlier source-b9 successful producer remains valid historical evidence;
+its cache save did not produce a cache hit for this later run. The exact cause
+of cache unavailability is not established (do not assert eviction or scope).
+
+Changed: tools/native_renderer_bundle.py packs/restores the pinned upstream
+839c0f build with exact patch/platform identity, archive and binary SHA256,
+required patched source and wxWidgets, bounded safe extraction and validation
+before replacing useful cached objects. tools/find_native_renderer_bundle.cjs
+selects a live exact-name artifact from this repository's native workflow and
+the current/recovery branch. Native workflow publishes completed renderer
+bundles before musical export, independently of branch-scoped/disposable
+Actions caches; a later failed musical acceptance does not invalidate a good
+renderer build. Fresh runners still install wxWidgets and run ldd. Cold make
+has75minutes within a100-minute render job. Matching consumer gets120minutes
+and220polls (109.5minutes), while absent producers still fail after5polls.
+Tests added: test_native_renderer_bundle.py, native_renderer_bundle_lookup.test.cjs,
+and a real extended-poll behavioral case in native_producer_polling.test.cjs.
+
+Preserved: exact xLights source/patch, original E14 audio/archive digests, new
+musical sequence generation at the requested Helix commit, six snowmen,
+keyboard timing/geometry, independent voice-source requirements, FSEQ/XSQ,
+full decode, audio, brightness/motion gates, and release/publication hold.
+Local validation on Python3.12:67pytest cases +18subtests pass (bundle,
+native startup, strict native-artifact and stage/vocal suites);19Node cases
+pass (bundle provenance and producer polling); both changed workflow YAML
+files parse. Archive tests use explicit fixture binaries, not actual xLights.
+
+Limitations/deferred: genuine large-bundle pack/restore, runtime dependencies,
+long cold build and fresh exact-source native movie require Actions evidence.
+No native completion or artist approval is inferred from unit tests. E14's
+missing independently resolved backing lane remains VOC01. Full-song,
+six-layout, physical Windows/Android/CTB16PC, broader production/export/layout
+and final packaging approval remain open. Regression risks: artifact retention,
+build archive size, hosted-runner duration variability and runtime ABI; strict
+identity/ldd checks fail visibly rather than substituting an unpatched renderer.
+Status: IMPLEMENTED — LOCAL TESTS PASS; LIVE NATIVE VALIDATION PENDING.
+Canonical handoff remains this ledger and docs/FINAL_ROADMAP_HANDOFF.md.
+
 ## 2026-10-18 — Correct stale hi-hat drum-stick regression assertions
 
 Observed CI: PR #180 run 39192406726 (Python 3.11 full audit)

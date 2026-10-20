@@ -58,7 +58,9 @@ jobs:
   accepted-native-band:
     needs: native-proof
     runs-on: ubuntu-24.04
-    timeout-minutes: 65
+    # The producer permits a 75-minute cold compile in its 100-minute job.
+    # Keep exact-source acceptance alive through that budget plus preflight.
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
