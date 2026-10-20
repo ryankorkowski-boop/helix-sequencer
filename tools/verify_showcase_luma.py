@@ -16,6 +16,9 @@ WIDTH, HEIGHT, FPS = 160, 90, 2
 MIN_MEDIAN_LUMA = 12.0
 MIN_BRIGHT_FRACTION = 0.012
 MIN_MEDIAN_MOTION = 0.65
+# Minimum median visible-stage bounding box dimensions as fractions of the frame.
+MIN_VISIBLE_WIDTH = 0.40
+MIN_VISIBLE_HEIGHT = 0.35
 
 
 def evaluate_showcase_frames(frames: np.ndarray) -> dict:
@@ -30,7 +33,21 @@ def evaluate_showcase_frames(frames: np.ndarray) -> dict:
     median_bright=float(np.median((stage>65).mean(axis=(1,2))))
     deltas=np.abs(np.diff(stage.astype(np.int16),axis=0))
     median_motion=float(np.median(deltas.mean(axis=(1,2))))
+    # A bright, moving miniature in a sea of black previously passed the luma
+    # gate. Measure actual foreground extent instead of global brightness alone.
+    extents=[]
+    for frame in samples:
+        yy,xx=np.nonzero(frame[8:82,10:150]>65)
+        if len(xx)<10:
+            extents.append((0.0,0.0))
+        else:
+            extents.append(((int(xx.max())-int(xx.min())+1)/WIDTH,
+                            (int(yy.max())-int(yy.min())+1)/HEIGHT))
+    visible_width=float(np.median([w for w,h in extents]))
+    visible_height=float(np.median([h for w,h in extents]))
     checks=dict(
+        visible_stage_width=visible_width>=MIN_VISIBLE_WIDTH,
+        visible_stage_height=visible_height>=MIN_VISIBLE_HEIGHT,
         median_stage_luminance=median_luma>=MIN_MEDIAN_LUMA,
         bright_stage_area=median_bright>=MIN_BRIGHT_FRACTION,
         visible_stage_motion=median_motion>=MIN_MEDIAN_MOTION,
@@ -39,10 +56,14 @@ def evaluate_showcase_frames(frames: np.ndarray) -> dict:
         schema="helix.showcase_readability.v1",frames=len(samples),sample_fps=FPS,
         thresholds=dict(median_luma=MIN_MEDIAN_LUMA,
                         median_bright_fraction=MIN_BRIGHT_FRACTION,
-                        median_motion=MIN_MEDIAN_MOTION),
+                        median_motion=MIN_MEDIAN_MOTION,
+                        min_visible_width=MIN_VISIBLE_WIDTH,
+                        min_visible_height=MIN_VISIBLE_HEIGHT),
         measurements=dict(median_luma=round(median_luma,3),
                           median_bright_fraction=round(median_bright,5),
-                          median_motion=round(median_motion,3)),
+                          median_motion=round(median_motion,3),
+                          visible_width=round(visible_width,3),
+                          visible_height=round(visible_height,3)),
         checks=checks,passed=all(checks.values()),
         note="Quantitative visibility gate only; no artistic, musical or source classification approval",
     )
