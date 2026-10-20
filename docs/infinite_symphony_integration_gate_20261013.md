@@ -14,7 +14,7 @@ Integration base: codex/band-sampler-timed-corrections-20261013 at 94ddc56d1fc69
 - Verify two animated stages, 88 note-to-rung mappings and distinct musical group responses.
 - Verify full LightsOutTheme source exists and is legally redistributable before packaging.
 - Verify actual Windows and Android launch/render tests, not merely build success.
-- Audit MIT license and music account-specific rights before distribution.
+- Audit the current PolyForm Noncommercial license bundle, preserved prior/third-party notices and music account-specific rights before distribution.
 - Publish only artifact links and codec/duration metrics obtained from actual files.
 
 Status: integration preparation only; none of the release gates above has been marked passed.

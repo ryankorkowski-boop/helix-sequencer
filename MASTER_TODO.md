@@ -1,3 +1,29 @@
+## 2026-10-20 — Correct stale current-license statements in release documentation (LIC02)
+
+Goal: finish the first-party current-license text audit without changing prior
+grants or third-party notices. Inspected current LICENSE, NOTICE, shared GUI
+LEGAL text and matching Android assets; current builds already identify
+PolyForm Noncommercial1.0.0. Repository text search found an outdated assertion
+that the repository was currently MIT-licensed in
+docs/HELIX_COMPLETION_AND_MARKET_20261013.md and an obsolete MIT-only audit
+instruction in docs/infinite_symphony_integration_gate_20261013.md.
+
+Changed: those two documentation passages now point to current LICENSE,
+COMMERCIAL_LICENSING.md and NOTICE. The old market report explicitly dates this
+licensing update while preserving its historical implementation observations.
+Preserved: LICENSE/NOTICE, historical MIT grants, required third-party/Lua
+notices, GUI/runtime/music rights text, owner licensing policy, all source
+behavior and release/publication hold. No new legal policy or pricing.
+Validation: changed relative links resolve; current first-party licensing
+passages match the repository's existing source-of-truth documents; whitespace
+check passes. Runtime tests are unnecessary for this documentation-only fix.
+Limitations/deferred: this is a source text consistency audit, not a legal
+opinion or complete byte-level installer/license audit. Prior physical runtime,
+music, native preview and remaining release gates remain open. No claim that
+historical MIT notices should be removed. Regression risk: none to runtime;
+do not mistake the dated market report for current implementation evidence.
+Status: COMPLETE for the two stale documentation passages only.
+
 ## 2026-10-18 — Correct stale hi-hat drum-stick regression assertions
 
 Observed CI: PR #180 run 39192406726 (Python 3.11 full audit)
