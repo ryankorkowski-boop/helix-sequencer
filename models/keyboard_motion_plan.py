@@ -4,13 +4,16 @@ import numpy as np
 
 
 def plan_keyboard_hands(held, levels, centers, rigs, *, max_step=.045,
-                        max_acceleration=.018, contact_tolerance=.025):
+                        max_acceleration=.018, contact_tolerance=.025,
+                        anticipation_frames=0):
     """Two mittens, at most two contacts, no debounce or invented notes.
 
     Each hand owns its half of the keybed. During gaps it hovers over the
     last key instead of repeatedly retreating to the torso. Note changes
     are selected by distance/continuity and approached with bounded inertia.
     Unreachable and excess chord notes remain illuminated but unplayed.
+    Optional anticipation positions idle hands for an upcoming source note;
+    it never changes held notes, lights or the frames that can claim contact.
     Coordinates use the model's design units, one sample per 50 ms.
     """
     held=np.asarray(held);levels=np.asarray(levels,float)
@@ -18,6 +21,12 @@ def plan_keyboard_hands(held, levels, centers, rigs, *, max_step=.045,
         raise ValueError('Invalid note grid')
     if min(max_step,max_acceleration,contact_tolerance)<=0:
         raise ValueError('Motion bounds must be positive')
+    if (isinstance(anticipation_frames, bool)
+            or not isinstance(anticipation_frames, (int, np.integer))
+            or not 0 <= anticipation_frames <= 120):
+        raise ValueError('Anticipation must be an integer in 0..120 frames')
+    active_by_frame=[{int(p) for p,v in zip(notes,energy) if p>=0 and v>0}
+                     for notes,energy in zip(held,levels)]
     centers={int(k):np.asarray(v,float) for k,v in centers.items()}
     center_x=(rigs['left']['shoulder'][0]+rigs['right']['shoulder'][0])/2
     lanes={};contacts={};diagnostics={}
@@ -28,10 +37,21 @@ def plan_keyboard_hands(held, levels, centers, rigs, *, max_step=.045,
         own=lambda x: x<=center_x if side=='left' else x>=center_x
         candidates={p:c+np.array((0,.110,.065)) for p,c in centers.items()
                     if own(c[0]) and abs(upper-lower)+.1<np.linalg.norm(c+np.array((0,.110,.065))-shoulder)<upper+lower-.1}
+        # Index the next reachable source frame once, rather than rescanning
+        # all notes for every rendered frame. This lookup is motion only.
+        future=[None]*len(held)
+        if anticipation_frames:
+            upcoming=None
+            for i in range(len(held)-1,-1,-1):
+                future[i]=upcoming
+                reachable=active_by_frame[i] & candidates.keys()
+                if reachable:
+                    upcoming=(i,reachable)
         lane=[];assigned=[];last_pitch=None;unplayed=0;active_frames=0
+        anticipated=0
         target=previous.copy()
         for i,notes in enumerate(held):
-            active={int(p) for p,v in zip(notes,levels[i]) if p>=0 and v>0}
+            active=active_by_frame[i]
             available=active & candidates.keys()
             pitch=None
             if available:
@@ -40,6 +60,14 @@ def plan_keyboard_hands(held, levels, centers, rigs, *, max_step=.045,
                 pitch=min(available,key=lambda p:(0 if p==last_pitch else 1,
                           np.linalg.norm(candidates[p]-previous),p))
                 target=candidates[pitch].copy();last_pitch=pitch
+            elif (anticipation_frames and future[i] is not None
+                  and future[i][0]-i <= anticipation_frames):
+                # Rest a mitten at the next key before its attack. Only the
+                # actual source-active branch above may assign a contact.
+                next_pitch=min(future[i][1], key=lambda p:(
+                    np.linalg.norm(candidates[p]-previous),p))
+                target=candidates[next_pitch].copy()
+                anticipated+=1
             elif last_pitch is not None:
                 target=candidates[last_pitch]+(0,.025,0)
             delta=target-previous;distance=float(np.linalg.norm(delta))
@@ -55,7 +83,9 @@ def plan_keyboard_hands(held, levels, centers, rigs, *, max_step=.045,
         lanes[side]=np.asarray(lane);contacts[side]=assigned
         diagnostics[side]={'source_active_frames':active_frames,
                            'frames_without_contact':unplayed,
-                           'contact_frames':sum(p is not None for p in assigned)}
+                           'contact_frames':sum(p is not None for p in assigned),
+                           'anticipated_idle_frames':anticipated}
+    diagnostics['anticipation_frames']=int(anticipation_frames)
     diagnostics['max_contacts_per_frame']=2
     diagnostics['contact_tolerance']=contact_tolerance
     diagnostics['musical_ground_truth_verified']=False

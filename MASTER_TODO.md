@@ -1550,3 +1550,31 @@ Preserved: active healthy renderer work, old successful ff019a9 reference, six s
 New behavior: final acceptance cannot count body/rest-only performers; exact head checkout/manifest/provenance binding is enforced; old permissive consumer success is explicitly insufficient for this milestone.
 Limitations/deferred: current-HEAD native producer/consumer must run after the healthy earlier-source build completes. Retained harmony remains silent, source keyboard contact gaps remain, no real-audio before/after profiling or physical Windows/Android/CTB16PC validation claimed. Six-layout/full-song and ads are unfinished.
 Regression risks: stricter acceptance will expose the existing silent backing lane as an actual failure. Follow exact handoff commands and resolve source evidence rather than repeatedly rerunning unchanged failures.
+
+### 2026-10-20 — Keyboard rest anticipation candidate
+Goal: address short source notes that end before a reactive speed-limited mitten arrives.
+Branch: work/keyboard-contact-recovery-20261020, based on769d6d17db034de83ebf3799518449b2cc12cea5.
+Changed: keyboard_motion_plan.py optional bounded lookahead during rests, musical_band_performance.py opt-in only for short-arm universal keyboard, focused behavioral/production-method tests and workflow, both ledgers.
+Preserved: original MIDI/light timing, confidence/ownership, two hands, reach/own-half constraints, .030 step/.010 acceleration for universal rig, legacy default motion, guitar/drum/bass/vocal behavior, healthy native run39467730818.
+New: an idle hand may preposition at a verified upcoming reachable source key without claiming a contact before the note is active. Index upcoming reachable frames once per hand; report anticipated idle frames.
+Evidence: source analysis showed reactive planner waits until attack, while real retained contact audit had306/474 left and122/144 right active frames without contact. Candidate tests pending CI; no real-song improvement is claimed.
+Limitations/deferred: anticipation cannot solve unreachable/chord contacts or very dense transitions; fresh source audit and native review required. Native renderer still building; local execution unavailable.
+Regression risks: prepositioning changes resting wrist trajectories only in the opted-in universal rig. Fixed kinematic limits stay active, but real-song geometric review remains necessary before acceptance.
+
+### 2026-10-20 — Validate keyboard anticipation on real retained source
+Goal: verify actual source-contact improvement rather than assuming synthetic test success fixes E14.
+Changed: tools/audit_keyboard_anticipation.py, focused workflow real-source-contact job, final handoff and this ledger.
+Preserved: exact original archive/WAV hashes; actual native-source preparation implementation; all musical source cues and unchanged xLights build.
+New: measured baseline with anticipation disabled versus candidate, identical non-pose musical cue arrays/digests and source-active frames required; total contacts must increase and neither hand may regress. Report explicitly excludes native video/ground truth/hardware acceptance.
+Evidence: initial focused candidate run39471158993 passed; real-source audit pending new run. No measured improvement claimed yet.
+Limitations/deferred: source preparation cannot establish native pose-bank/MP4 appearance; original renderer build remains active.
+Regression risks: real source may reveal reach/contact regression or a preparation dependency; failed report must be inspected before integration.
+
+### 2026-10-20 — Integrate measured keyboard contact improvement
+Goal: ship the tested rest-anticipation improvement without retiming music or cancelling native compilation.
+Changed: integrate candidate8420ec0 source/method/tests/audit workflow, raw measured evidence JSON, final handoff and this ledger; integration commit intentionally skips CI.
+Evidence: run39471482781 real-source-contact job118796672260 passed. Actual original E14 source preparation baseline24.174s/candidate24.266s; contact frames190->260, left168->207, right22->53. All76 non-pose musical cue lanes exactly match with digest6c94a6a186ea3aca78719a0ec7ba11eb4ea220a4a90911f239a3cc2fe557c8e2; source-active474/144 frames and367 events unchanged. Report artifact12286444058 (ZIP digest37b5bddf8397ae0a98fcbd17e46bc6e012735c2f351bca8774e9dedb24030b71). Focused predecessor run39471158993 passed24 unittest+44 pytest; focused rerun also passed.
+Preserved: audio SHA, musical cues/confidence/note identity, short arms and speed/acceleration/reach/own-half constraints, legacy default, other performers, healthy native run39467730818 and release hold.
+New behavior: universal keyboardist positions idle hands toward upcoming actual reachable source notes before attacks; contacts are claimed only during real active intervals. Measured improvement is source-kinematic, not native video.
+Limitations/deferred: left267/right91 source-active frames still lack contact (travel, constraints/chords); no perfect-playability claim. Fresh native pose-bank movie/owner review, backing vocals and remaining roadmap still open.
+Regression risks: real source test proves cue parity and improved source contacts for E14 only; inspect native pose medoid playback for the integrated revision.

@@ -4,6 +4,33 @@ Updated 2026-10-20 (startup recovery milestone). Status is evidence-based.
 Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] blocked; [-] intentionally retired.
 
 
+
+
+
+## Verified source-contact milestone — 2026-10-20
+- Tested candidate source commit: `8420ec04696b14efdd4d89d645c8f18cecf9c295`. [Run39471482781](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39471482781) passed focused tests and the actual real-source comparison. [Report artifact12286444058](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39471482781/artifacts/12286444058); ZIP SHA25637b5bddf8397ae0a98fcbd17e46bc6e012735c2f351bca8774e9dedb24030b71.
+- KEY02 [x] implementation + source-kinematic validation: source-contact frames **190 ->260** (+70,36.84%). Left168->207, right22->53. Source-active frames remain474/144; all367 accepted events retained. Remaining source-active frames without contact: left267, right91. This is improvement, not perfect physical coverage.
+- Musical clock parity: all76 non-pose musical cue lanes are byte-identical before/after; digest `6c94a6a186ea3aca78719a0ec7ba11eb4ea220a4a90911f239a3cc2fe557c8e2` matches both. Original WAV SHA remains8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171.
+- Preparation wall times baseline24.174s/candidate24.266s. This is a contact audit timing observation, not a complete audio-to-sequence performance profile or speedup claim.
+- Initial focused run39471158993:24 unittest +44 pytest cases passed. Candidate rerun39471482781 focused job passed as well; Python/workflow validation passed. Isolated production installation method is executed with its actual event compiler and planner, not a replacement algorithm.
+- Committed raw measured report: `evidence/keyboard_contact_recovery_20261020/source_contact_audit.json`.
+- Tested keyboard source implementation is integrated on recovery with [skip ci] to preserve healthy native run39467730818. The actual xLights movie from this newer source commit is still pending; source contacts do not prove medoid native playback or artistic acceptance.
+- KEY01 native visibility/appearance/contact acceptance remains [~]. VOC01 backing-source evidence remains unresolved. Original native run still installing/building; after it completes, follow exact-source dispatch instructions below for the newer recovery HEAD.
+
+## Real-source keyboard audit (earlier checkpoint)
+- Candidate source-motion tests passed in [39471158993](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39471158993) at55f9fb1. Confirm exact counts from job logs.
+- Added tools/audit_keyboard_anticipation.py and a dependent real-source-contact job in the focused workflow. It recovers the exact SHA-verified original archive/audio, runs actual native source-pose preparation twice, disables only anticipation for baseline, compares non-pose musical cue arrays and source activity, and requires increased contacts without regression in either hand.
+- This is source preparation/kinematic evidence only. Native video, medoid playback, musical ground truth and hardware acceptance remain explicitly false.
+- Original native run39467730818 is still healthy/in progress; do not cancel it for this independent audit.
+
+## Keyboard contact recovery candidate — 2026-10-20 continuation
+- Recovery HEAD inspected: 769d6d17db034de83ebf3799518449b2cc12cea5. Native run39467730818 remains in renderer install/build as of17:58UTC; it is not cancelled.
+- Candidate branch: work/keyboard-contact-recovery-20261020. KEY02 [~]: add opt-in, 12-frame (600ms) motion lookahead during rests for the short-arm universal keyboardist. Hand speed .030 and acceleration .010 limits, own-half/reach filters and source note-light timing stay unchanged. Only source-active notes can claim contacts.
+- Default legacy planner remains reactive (anticipation_frames=0). Guitar/bass/drum/vocal routes and arm lengths are untouched. Future reachable frames are indexed once per hand.
+- Files: models/keyboard_motion_plan.py, tools/musical_band_performance.py, tests/test_keyboard_anticipation.py, focused test workflow, both ledgers.
+- Tests pending candidate CI: compare single-frame short-note contact with and without anticipation for both hands; verify speed/acceleration/link reach/no early or invented contacts; reject invalid windows/unreachable notes; execute the isolated actual production installation method with the real event compiler/planner and verify unchanged note arrays.
+- This is a source-motion improvement candidate, not evidence of improved E14 footage. Actual source contact audit and native video review remain required. Do not integrate until focused tests pass; do not restart the healthy native build to test this.
+
 ## Current execution checkpoint — tested acceptance integrated without interrupting native build
 - Recovery branch now contains the startup/process/REST fix, cached wxWidgets runtime restoration, headless loader diagnostics, and stricter musical-activity/exact-source acceptance. This commit intentionally uses `[skip ci]` to leave the healthy renderer installation/build in run39467730818 intact.
 - Tested acceptance source: `1c471c41564fef5df047387513ace640b289dfa4` on `work/native-acceptance-evidence-20261020`; [focused run 39468604731](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39468604731), job118786433373: **24 unittest cases passed (0.039s), 32 pytest cases passed (1.63s), Python compile and workflow YAML parsing passed**.
