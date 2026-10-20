@@ -168,6 +168,9 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
             or sum(m.channels for m in new.models)>250000):
         raise ValueError('Invalid universal keyboard/native legacy cast or bounded RGB channels')
     positions=dict(DRUMMER=(0,26,65),BASS=(-24,9,80),GUITAR=(24,9,80),PIANO=(25,28,65) if legacy_xylophone else (-30,28,65),XYLOPHONE=(-25,28,65),LEAD=(-8,9,80),HARMONY=(8,9,80))
+    # Reject the original overlapping drummer/piano staging that hid the keyboard.
+    if np.linalg.norm(np.asarray(positions['PIANO'],dtype=float)-np.asarray(positions['DRUMMER'],dtype=float)) < 18:
+        raise ValueError('Native keyboard stage overlaps the drummer; keyboard would be occluded')
     for old,m in zip(g.models,new.models):
         delta=np.array(positions[m.details['review_role'].upper()])-np.array([float(old.attrs['WorldPos'+a]) for a in 'XYZ'])
         m.points+=delta
