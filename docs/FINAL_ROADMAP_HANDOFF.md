@@ -7,6 +7,14 @@ Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] bloc
 
 
 
+
+## Vocal preparation slot correction candidate
+- Branch work/vocal-lane-placement-20261020; base1be1e0654085f6389a39d0f315063f0f57a85a10. Native run39467730818 remains active.
+- VOC03 [~]: tools/prepare_vocal_roles.py previously packed ordered voices from column0, promoting background-only/second-only input into the lead slot. Consumers assume fixed lead=0/backing=1.
+- Candidate assigns each declared role to its fixed slot, records model_lane explicitly, and rejects independent tracks colliding in the one backing slot instead of silently merging or relabeling them.
+- Tests exercise public prepare() and exported actual NPZ/JSON with supplied acoustic-clock fixtures, source hash preservation, independent shapes, collisions and instrumental silence. They do not claim real-source separation accuracy.
+- E14 source evidence inspection is running separately in39472148043; no assertion that this generic bug explains that source's silence yet.
+
 ## Verified source-contact milestone — 2026-10-20
 - Tested candidate source commit: `8420ec04696b14efdd4d89d645c8f18cecf9c295`. [Run39471482781](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39471482781) passed focused tests and the actual real-source comparison. [Report artifact12286444058](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39471482781/artifacts/12286444058); ZIP SHA25637b5bddf8397ae0a98fcbd17e46bc6e012735c2f351bca8774e9dedb24030b71.
 - KEY02 [x] implementation + source-kinematic validation: source-contact frames **190 ->260** (+70,36.84%). Left168->207, right22->53. Source-active frames remain474/144; all367 accepted events retained. Remaining source-active frames without contact: left267, right91. This is improvement, not perfect physical coverage.

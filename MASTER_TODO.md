@@ -1578,3 +1578,13 @@ Preserved: audio SHA, musical cues/confidence/note identity, short arms and spee
 New behavior: universal keyboardist positions idle hands toward upcoming actual reachable source notes before attacks; contacts are claimed only during real active intervals. Measured improvement is source-kinematic, not native video.
 Limitations/deferred: left267/right91 source-active frames still lack contact (travel, constraints/chords); no perfect-playability claim. Fresh native pose-bank movie/owner review, backing vocals and remaining roadmap still open.
 Regression risks: real source test proves cue parity and improved source contacts for E14 only; inspect native pose medoid playback for the integrated revision.
+
+### 2026-10-20 — Correct role-to-mouth slot placement
+Goal: prevent lone backing/second source parts being exported to the lead face.
+Branch: work/vocal-lane-placement-20261020; base1be1e0.
+Changed: tools/prepare_vocal_roles.py, public-prepare NPZ/JSON regression tests, focused workflow, both ledgers.
+Preserved: source audio/clocks, acoustic classification, independent track identity, refusal to merge excess mouths, instrumental guard, native build.
+New: fixed lead0/backing1 role slots and model_lane metadata; second/background collisions fail explicitly rather than relabel independent parts.
+Evidence: direct source inspection confirms previous enumerate(ordered) packed any lone lane into0; candidate tests pending. E14 retained-source metadata is being independently inspected; no claim this fixes its missing harmony.
+Limitations/deferred: existing retained NPZ files are not retroactively regenerated; source backing existence/separation and native acceptance remain open.
+Regression risks: input configurations containing two non-lead tracks now correctly require additional face models; callers must preserve declared role semantics.

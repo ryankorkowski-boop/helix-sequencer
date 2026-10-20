@@ -29,11 +29,21 @@ def prepare(config_path,output):
     if len(lanes)>2:raise ValueError('More than two independent vocal tracks require separate backing-face models; no silent mouth merging')
     energy=np.zeros((round(duration*20),2),'f4');shapes=np.zeros_like(energy,dtype='i1')
     ordered=sorted(lanes,key=lambda lane:{'lead':0,'second':1,'background':2}[lane['role']])
-    for i,lane in enumerate(ordered):energy[:,i]=lane['energy'];shapes[:,i]=lane['shapes']
+    claimed={}
+    for lane in ordered:
+        # Performer consumers use fixed columns: lead=0, second/backing=1.
+        # A lone background part must never be promoted to the lead mouth.
+        slot=0 if lane['role']=='lead' else 1
+        if slot in claimed:
+            raise ValueError('Independent vocal tracks need separate face models; '
+                             f"{claimed[slot]} and {lane['name']} both target lane {slot}")
+        claimed[slot]=lane['name']
+        energy[:,slot]=lane['energy'];shapes[:,slot]=lane['shapes']
     if config.get('known_instrumental'):
         energy[:]=0;shapes[:]=0;modes[:]='silence';report['instrumental_source_guard']=True
     report.update(source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),stem_file_sha256=hashes,
-        model_lanes=[dict(name=l['name'],role=l['role']) for l in ordered],
+        model_lanes=[dict(name=l['name'],role=l['role'],
+                          model_lane=0 if l['role']=='lead' else 1) for l in ordered],
         preview_classifications={str(k):int(np.sum(modes==k)) for k in np.unique(modes)})
     output=Path(output);output.mkdir(exist_ok=True,parents=True)
     np.savez_compressed(output/'voice_roles.npz',energy=energy,shapes=shapes,modes=modes)
