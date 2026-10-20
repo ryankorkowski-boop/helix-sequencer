@@ -1626,3 +1626,5 @@ Evidence: inspected actual converter and canonical AC exporter; previous substri
 Limitations/deferred: legacy LOR application/controller import and full dual-default integration remain open; this does not establish native preview or independent vocals. Healthy native39473385296 and consumer39473385254 are left running.
 Regression risks: externally edited XSQ settings beyond the exact audited flat-On contract now fail instead of being silently approximated at intensity100. This is intentional; regenerate through the AC-only exporter.
 Status: IMPLEMENTED — TEST PENDING. Run lms-export-regression.yml, then integrate tested source without interrupting native rendering.
+
+Latest base runtime evidence: b9f1ca0 full CI39473385303, Python3.11 job118802998726 completed1956 passed,6 skipped,16 subtests in300.71s. This result predates EXP02 and cannot validate its new parser.
