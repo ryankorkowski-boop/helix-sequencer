@@ -10,7 +10,32 @@ Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] bloc
 
 
 
-## Current execution checkpoint — source-verified keyboard, vocal slots, private native profile
+
+## Live run checkpoint — 2026-10-20 18:25 UTC
+- Runtime source revision: `b9f1ca0237c1819c4d99d69fb8bba3c4f333554f`. The documentation-only commit containing this update does not alter runtime code; it intentionally skips CI to preserve this source run.
+- Effective native producer: [39473385296](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39473385296). Preflight118803027735 passed; render118804074546 started18:19UTC and remains in Install checksum pinned native xLights after source retrieval/cache lookup. Actual cache-hit/miss for this run is not yet available from completed logs; do not infer success from the step name. No accepted MP4 yet.
+- Superseded duplicate push39473336387 cancelled during preflight; no healthy native render was cancelled. One effective producer remains.
+- Exact-source consumer: [39473385254](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39473385254). Diagnostic native-proof118802997831 passed. accepted-native-band118804387655 waits for successful exact-b9f1ca0 producer; fixture success is not musical acceptance.
+- Prior genuine compile39467730818 saved698,927,819-byte source/build cache at18:10UTC; current upstream patch file is identical (Git blob d6e0739c3d31e7e44bcdff25c9bd223bbad3bef8). Current restoration behavior is still under observation. Do not launch duplicate full builds or cancel the healthy run speculatively.
+- Source/vocal candidate tests39473005943 passed27 unittest+51 pytest; real-source proof and declared-vocal-slot tests are preserved below.
+- Release decision: **INCOMPLETE — CONTINUE IMPLEMENTATION**. Missing independent E14 backing evidence remains a separate actual blocker even if native recovery succeeds.
+
+| ID | Status | Requirement / files | Branch / relevant source | Tests / Actions | Artifacts | Blocker | Next action |
+|---|---|---|---|---|---|---|---|
+| NAT03 | [~] | Private owned Linux profile disables optional tip; tools/native_preview.py, tests/test_native_preview_resolution.py, fresh-real-band-mp4.yml | recovery branch, b9f1ca0 (tested83fc26b) | 27 startup tests pass; fresh native39473385296 active | No accepted new MP4 | Live installation/render pending | Inspect runtime ldd, profile/window/health JSON, native dimensions/audio/luma/motion |
+| KEY02 | [x] | Bounded rest anticipation in actual universal keyboard motion; keyboard_motion_plan.py, musical_band_performance.py | recovery, integrated1be1e0/tested8420ec0 | Real source39471482781:190->260 contacts,76 cue arrays unchanged; 44 keyboard/artifact tests +24 startup pass |12286444058 and committed source_contact_audit.json | None for source implementation; native appearance separate KEY01 | Review fresh source-b9 native pose-bank footage |
+| VOC03 | [x] | Fixed lead0/backing1 slots, collision refusal; prepare_vocal_roles.py, test_prepare_vocal_roles.py | recovery, b9f1ca0/tested95b7f5 |51 focused pytest pass including7 public-preparation cases | Tested NPZ/JSON fixtures; source audio preserved | None for slot implementation; no E14 backing created | Apply only to actual declared source parts |
+| VOC01 | [!] | Independent E14 backing activity; retained voice_roles.json/npz | Original archive bound to audio8905fcaf... |39472148043: mixed-only input,0 independent tracks, energy/shapes[630,0] |12288276045; committed source_contact_and_voice_audit.json | Retained source contains no independent backing lane | Recover/generate evidenced independent vocal analysis; never fake a second mouth |
+| BAND02 / PROV01 | [~] | Actual musical XSQ lanes and same-SHA artifact provenance; verify_native_band_artifact.py, beta-completion-native.yml | recovery, b9f1ca0 |32 original acceptance tests plus later focused suites pass; consumer39473385254 awaits producer | Acceptance report pending | Native success first; harmony expected to fail truthfully | Inspect exact consumer error and report, not merely producer start |
+
+### Next agent's immediate commands
+- Inspect current branch HEAD and both ledgers. Current runtime evidence is tied explicitly to b9f1ca0; do not claim a later documentation SHA was natively rendered.
+- `gh run view 39473385296 --repo ryankorkowski-boop/helix-sequencer`; when finished, `gh run view 39473385296 --repo ryankorkowski-boop/helix-sequencer --log-failed` if needed.
+- `gh run view 39473385254 --repo ryankorkowski-boop/helix-sequencer`.
+- If producer succeeds, fetch only its actual named artifact, check native_startup_profile.json, native_startup_health.json, original audio, media hashes and strict quality report. Preserve the genuine MP4 and editable files. If consumer rejects silent harmony, retain source blocker rather than rerunning unchanged input.
+- If producer fails, use its actual completed diagnostics and error before changing code. The private setting is source-confirmed; its live execution remains unverified until this run completes.
+
+## Previous implementation checkpoint — source-verified keyboard, vocal slots, private native profile
 - Recovery parent inspected: `1be1e0654085f6389a39d0f315063f0f57a85a10`. This integration contains tested candidate `83fc26b03feb89ba5be8c0b88e4286dc179bd108` plus source-evidence/audit metadata and ledger updates.
 - [Focused run39473005943](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39473005943), job118801660716: **27 unittest passed in0.051s;51 pytest passed in2.02s; compilation and workflow YAML parsing passed**.
 - NAT03 [~]: pinned Linux2026.18 renderer now gets a unique private XDG config/state profile with `main.MinTipLevel="Off"`, output disabled, migration complete. Source code proves non-forced startup tips obey this setting. User profiles/environment and existing xLights processes are untouched; owned-process/REST/window diagnostics remain mandatory.

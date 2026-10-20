@@ -1607,3 +1607,12 @@ New: private Linux profile avoids optional tip creation before export; future pr
 Limitations/deferred: current integration requires actual native producer acceptance. Missing independent E14 backing remains a real blocker and the stricter consumer must report it, even if native MP4 recovery succeeds. Source-motion proof is not native visual acceptance; broader release roadmap remains unfinished.
 Regression risks: private settings schema pinned to2026.18 Linux; preserve logs and fail closed on drift. Generic role-slot fix cannot invent independent voices or retroactively replace retained NPZ data.
 Next: inspect this integration's one effective native run after focused preflight, then exact-SHA consumer. Record original audio/native media provenance, metrics and remaining blockers before any readiness claim.
+
+### 2026-10-20 — Persist current exact-source producer and consumer checkpoint
+Goal: leave a concrete continuation while the healthy source-b9 native installation/build runs.
+Changed: FINAL_ROADMAP_HANDOFF.md and this canonical ledger only; CI skipped to avoid cancelling/restarting the producer.
+Evidence: native39473385296 preflight passed; render118804074546 remains in installation/build. Consumer39473385254 diagnostic proof passed and accepted-native-band awaits exact-b9 producer. Duplicate push39473336387 was cancelled in preflight only. No new accepted MP4.
+Preserved: tested runtime sourceb9f1ca0, all private-profile/keyboard/vocal/source-identity checks and release hold.
+New: exact run/job IDs, current source references, explicit cache uncertainty, per-task next actions and source-backed vocal blocker recorded.
+Limitations/deferred: current native result and actual private-profile process health pending. Retained E14 has zero independent backing sources. Native success, owner review, remaining roadmap and physical validation are not claimed.
+Regression risk: none from documentation; this later documentation commit is explicitly not represented as a natively rendered source SHA.
