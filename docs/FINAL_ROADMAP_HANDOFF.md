@@ -5,6 +5,13 @@ Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] bloc
 
 
 
+
+## Real-source keyboard audit queued
+- Candidate source-motion tests passed in [39471158993](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39471158993) at55f9fb1. Confirm exact counts from job logs.
+- Added tools/audit_keyboard_anticipation.py and a dependent real-source-contact job in the focused workflow. It recovers the exact SHA-verified original archive/audio, runs actual native source-pose preparation twice, disables only anticipation for baseline, compares non-pose musical cue arrays and source activity, and requires increased contacts without regression in either hand.
+- This is source preparation/kinematic evidence only. Native video, medoid playback, musical ground truth and hardware acceptance remain explicitly false.
+- Original native run39467730818 is still healthy/in progress; do not cancel it for this independent audit.
+
 ## Keyboard contact recovery candidate — 2026-10-20 continuation
 - Recovery HEAD inspected: 769d6d17db034de83ebf3799518449b2cc12cea5. Native run39467730818 remains in renderer install/build as of17:58UTC; it is not cancelled.
 - Candidate branch: work/keyboard-contact-recovery-20261020. KEY02 [~]: add opt-in, 12-frame (600ms) motion lookahead during rests for the short-arm universal keyboardist. Hand speed .030 and acceleration .010 limits, own-half/reach filters and source note-light timing stay unchanged. Only source-active notes can claim contacts.

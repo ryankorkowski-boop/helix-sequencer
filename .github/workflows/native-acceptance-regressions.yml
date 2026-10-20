@@ -26,3 +26,54 @@ jobs:
                   value = yaml.safe_load(source)
               assert isinstance(value['jobs'], dict)
           PY
+
+  real-source-contact:
+    needs: focused
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      ARCHIVE_ID: 1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j
+      ARCHIVE_SHA256: 604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10
+      AUDIO_SHA256: 8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install source preparation dependencies
+        run: python -m pip install numpy scipy trimesh Pillow moderngl imageio imageio-ffmpeg soundfile librosa==0.10.2.post1 gdown==6.4.2
+      - name: Recover exact authorized real audio and retained source analysis
+        run: |
+          python -m gdown "$ARCHIVE_ID" -O "$RUNNER_TEMP/keyboard-source.zip"
+          echo "$ARCHIVE_SHA256  $RUNNER_TEMP/keyboard-source.zip" | sha256sum -c -
+          python - <<'PY'
+          import os, json, hashlib, zipfile
+          from pathlib import Path
+          target = Path(os.environ['RUNNER_TEMP']) / 'keyboard-source'
+          with zipfile.ZipFile(Path(os.environ['RUNNER_TEMP']) / 'keyboard-source.zip') as source:
+              for item in source.infolist():
+                  path = Path(item.filename)
+                  if path.is_absolute() or '..' in path.parts or item.file_size > 2*1024**3:
+                      raise SystemExit('Unsafe original source member')
+              source.extractall(target)
+          manifests = list(target.rglob('sources/selected_excerpts.json'))
+          if len(manifests) != 1:
+              raise SystemExit('Expected one original source manifest')
+          root = manifests[0].parent.parent
+          audio = root / 'sources/E14/audio.wav'
+          if hashlib.sha256(audio.read_bytes()).hexdigest() != os.environ['AUDIO_SHA256']:
+              raise SystemExit('Original E14 audio identity mismatch')
+          with open(os.environ['GITHUB_ENV'], 'a') as out:
+              out.write('SOURCE_ROOT=' + str(root) + '\n')
+          PY
+      - name: Measure actual source contact change and preserve musical clocks
+        run: python -m tools.audit_keyboard_anticipation "$SOURCE_ROOT" keyboard-contact-review
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Helix-Keyboard-Source-Contact-Audit
+          path: keyboard-contact-review/keyboard-source-contact-audit.json
+          if-no-files-found: warn
+          retention-days: 30

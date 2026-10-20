@@ -1560,3 +1560,12 @@ New: an idle hand may preposition at a verified upcoming reachable source key wi
 Evidence: source analysis showed reactive planner waits until attack, while real retained contact audit had306/474 left and122/144 right active frames without contact. Candidate tests pending CI; no real-song improvement is claimed.
 Limitations/deferred: anticipation cannot solve unreachable/chord contacts or very dense transitions; fresh source audit and native review required. Native renderer still building; local execution unavailable.
 Regression risks: prepositioning changes resting wrist trajectories only in the opted-in universal rig. Fixed kinematic limits stay active, but real-song geometric review remains necessary before acceptance.
+
+### 2026-10-20 — Validate keyboard anticipation on real retained source
+Goal: verify actual source-contact improvement rather than assuming synthetic test success fixes E14.
+Changed: tools/audit_keyboard_anticipation.py, focused workflow real-source-contact job, final handoff and this ledger.
+Preserved: exact original archive/WAV hashes; actual native-source preparation implementation; all musical source cues and unchanged xLights build.
+New: measured baseline with anticipation disabled versus candidate, identical non-pose musical cue arrays/digests and source-active frames required; total contacts must increase and neither hand may regress. Report explicitly excludes native video/ground truth/hardware acceptance.
+Evidence: initial focused candidate run39471158993 passed; real-source audit pending new run. No measured improvement claimed yet.
+Limitations/deferred: source preparation cannot establish native pose-bank/MP4 appearance; original renderer build remains active.
+Regression risks: real source may reveal reach/contact regression or a preparation dependency; failed report must be inspected before integration.
