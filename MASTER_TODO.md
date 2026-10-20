@@ -1550,3 +1550,13 @@ Preserved: active healthy renderer work, old successful ff019a9 reference, six s
 New behavior: final acceptance cannot count body/rest-only performers; exact head checkout/manifest/provenance binding is enforced; old permissive consumer success is explicitly insufficient for this milestone.
 Limitations/deferred: current-HEAD native producer/consumer must run after the healthy earlier-source build completes. Retained harmony remains silent, source keyboard contact gaps remain, no real-audio before/after profiling or physical Windows/Android/CTB16PC validation claimed. Six-layout/full-song and ads are unfinished.
 Regression risks: stricter acceptance will expose the existing silent backing lane as an actual failure. Follow exact handoff commands and resolve source evidence rather than repeatedly rerunning unchanged failures.
+
+### 2026-10-20 — Keyboard rest anticipation candidate
+Goal: address short source notes that end before a reactive speed-limited mitten arrives.
+Branch: work/keyboard-contact-recovery-20261020, based on769d6d17db034de83ebf3799518449b2cc12cea5.
+Changed: keyboard_motion_plan.py optional bounded lookahead during rests, musical_band_performance.py opt-in only for short-arm universal keyboard, focused behavioral/production-method tests and workflow, both ledgers.
+Preserved: original MIDI/light timing, confidence/ownership, two hands, reach/own-half constraints, .030 step/.010 acceleration for universal rig, legacy default motion, guitar/drum/bass/vocal behavior, healthy native run39467730818.
+New: an idle hand may preposition at a verified upcoming reachable source key without claiming a contact before the note is active. Index upcoming reachable frames once per hand; report anticipated idle frames.
+Evidence: source analysis showed reactive planner waits until attack, while real retained contact audit had306/474 left and122/144 right active frames without contact. Candidate tests pending CI; no real-song improvement is claimed.
+Limitations/deferred: anticipation cannot solve unreachable/chord contacts or very dense transitions; fresh source audit and native review required. Native renderer still building; local execution unavailable.
+Regression risks: prepositioning changes resting wrist trajectories only in the opted-in universal rig. Fixed kinematic limits stay active, but real-song geometric review remains necessary before acceptance.

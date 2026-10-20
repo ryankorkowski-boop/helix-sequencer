@@ -4,6 +4,15 @@ Updated 2026-10-20 (startup recovery milestone). Status is evidence-based.
 Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] blocked; [-] intentionally retired.
 
 
+
+## Keyboard contact recovery candidate — 2026-10-20 continuation
+- Recovery HEAD inspected: 769d6d17db034de83ebf3799518449b2cc12cea5. Native run39467730818 remains in renderer install/build as of17:58UTC; it is not cancelled.
+- Candidate branch: work/keyboard-contact-recovery-20261020. KEY02 [~]: add opt-in, 12-frame (600ms) motion lookahead during rests for the short-arm universal keyboardist. Hand speed .030 and acceleration .010 limits, own-half/reach filters and source note-light timing stay unchanged. Only source-active notes can claim contacts.
+- Default legacy planner remains reactive (anticipation_frames=0). Guitar/bass/drum/vocal routes and arm lengths are untouched. Future reachable frames are indexed once per hand.
+- Files: models/keyboard_motion_plan.py, tools/musical_band_performance.py, tests/test_keyboard_anticipation.py, focused test workflow, both ledgers.
+- Tests pending candidate CI: compare single-frame short-note contact with and without anticipation for both hands; verify speed/acceleration/link reach/no early or invented contacts; reject invalid windows/unreachable notes; execute the isolated actual production installation method with the real event compiler/planner and verify unchanged note arrays.
+- This is a source-motion improvement candidate, not evidence of improved E14 footage. Actual source contact audit and native video review remain required. Do not integrate until focused tests pass; do not restart the healthy native build to test this.
+
 ## Current execution checkpoint — tested acceptance integrated without interrupting native build
 - Recovery branch now contains the startup/process/REST fix, cached wxWidgets runtime restoration, headless loader diagnostics, and stricter musical-activity/exact-source acceptance. This commit intentionally uses `[skip ci]` to leave the healthy renderer installation/build in run39467730818 intact.
 - Tested acceptance source: `1c471c41564fef5df047387513ace640b289dfa4` on `work/native-acceptance-evidence-20261020`; [focused run 39468604731](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39468604731), job118786433373: **24 unittest cases passed (0.039s), 32 pytest cases passed (1.63s), Python compile and workflow YAML parsing passed**.
