@@ -457,7 +457,8 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
                 check=False)
         if result.returncode:
             raise RuntimeError(
-                f"Native headless render exited {result.returncode}")
+                f"Native headless render exited {result.returncode}: "
+                + (stage / "native_headless.log").read_text(errors="replace")[-4000:])
         fseq = staged.with_suffix(".fseq")
         channel_report = inspect_fseq(fseq)
         if abs(channel_report["duration_ms"] - duration * 1000) > 100:

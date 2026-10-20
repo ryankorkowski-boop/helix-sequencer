@@ -176,6 +176,13 @@ jobs:
           fi
           cd "$RUNNER_TEMP/xlights-src"
           test "$(git rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
+          # make installs wxWidgets under /usr, outside the cached source tree.
+          # A cache hit on a fresh runner must restore that installation too;
+          # an executable xLights file alone does not prove a usable runtime.
+          if [ -f wxWidgets-xlights_2026.17c/lib/libwx_gtk3u-3.3.so.4.0.0 ]; then
+            sudo make -C wxWidgets-xlights_2026.17c install
+            sudo ldconfig
+          fi
           if [ "${{ steps.native-cache.outputs.cache-hit }}" = true ] && [ -x bin/xLights ]; then
             echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
             exit 0
@@ -192,6 +199,15 @@ jobs:
           timeout --signal=TERM --kill-after=30s 48m make -j 4 2>&1 | tee "$GITHUB_WORKSPACE/xlights-native-build.log"
           test -x bin/xLights
           echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
+      - name: Validate restored native runtime dependencies
+        run: |
+          ldd "$HELIX_PATCHED_XLIGHTS" | tee native-runtime-libraries.log
+          python - <<'PY'
+          from pathlib import Path
+          report = Path('native-runtime-libraries.log').read_text()
+          if 'not found' in report:
+              raise SystemExit('Native renderer has unresolved shared libraries; see native-runtime-libraries.log')
+          PY
       - name: Preserve completed native build before export acceptance
         if: steps.native-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
@@ -277,6 +293,7 @@ jobs:
           name: helix-fresh-original-audio-six-snowmen-keyboard
           path: |
             xlights-native-build.log
+            native-runtime-libraries.log
             review/**/preview.mp4
             review/**/Performance.fseq
             review/SHOWCASE_READABILITY.json

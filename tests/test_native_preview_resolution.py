@@ -239,6 +239,31 @@ class NativePreviewResolutionTests(unittest.TestCase):
                                  ["getShowFolder", "openSequence"])
                 self.assertTrue((show / "native_startup_health.json").is_file())
 
+
+    def test_headless_loader_failure_preserves_actual_diagnostic(self):
+        with tempfile.TemporaryDirectory() as directory:
+            run = Path(directory)
+            (run / "run_manifest.json").write_text('{"warnings": []}')
+            xsq, audio = run / "Performance.xsq", run / "audio.wav"
+            xsq.write_text('<xsequence><head><sequenceDuration>1</sequenceDuration></head></xsequence>')
+            audio.write_bytes(b"unit source")
+            (run / "xlights_rgbeffects.xml").write_text("<xrgb/>")
+
+            def fail(command, **kwargs):
+                kwargs["stderr"].write("xLights: error while loading shared libraries: missing.so\n")
+                kwargs["stderr"].flush()
+                return SimpleNamespace(returncode=127)
+
+            with patch.object(preview.shutil, "which", return_value="/bin/xLights"), \
+                    patch.object(preview.subprocess, "run", side_effect=fail), \
+                    patch.object(preview, "_native_export") as export:
+                report = preview.preview_run(run, xsq=xsq, audio=audio)
+            self.assertEqual(report["status"], "fallback")
+            self.assertIsNone(report["mp4"])
+            self.assertIn("exited 127", report["warnings"][0])
+            self.assertIn("missing.so", report["warnings"][0])
+            export.assert_not_called()
+
     def _run_preview(self, directory, size):
         """Exercise production orchestration; fixture bytes are never media evidence."""
         run = Path(directory)

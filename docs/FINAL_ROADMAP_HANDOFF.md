@@ -3,6 +3,24 @@
 Updated 2026-10-20 (startup recovery milestone). Status is evidence-based.
 Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] blocked; [-] intentionally retired.
 
+
+## Recovery result at 7f2f568 and cached-runtime follow-up
+- Commit: `7f2f5686df0a888b6433e1a30c89f109d1b1c78b`; [native run 39466709677](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39466709677), PR checkout `90b4333`.
+- Preflight job 118779879306 **passed**: 23 native-preview tests in 0.026s, 7 source-selection tests, compileall. Includes seven new safe-dismissal/process/REST regression cases. This verifies tests, not real GUI survival.
+- Native render job 118780967104 **failed before GUI startup**: `Native headless render exited 127`. [Diagnostic artifact 12285522374](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39466709677/artifacts/12285522374); no accepted MP4.
+- New finding from pinned upstream Makefile and reference build logs: wxWidgets shared libraries are built inside cached `wxWidgets-xlights_2026.17c/lib` but installed into `/usr/lib` during a fresh build. Restoring only xlights-src skips that installation on a new runner. The exact failed loader message was hidden inside native_headless.log.
+- Follow-up change restores the cached wxWidgets installation (`sudo make -C wxWidgets-xlights_2026.17c install`, then ldconfig) before cache-hit early return; runs ldd and rejects unresolved libraries before sequence/render; uploads native-runtime-libraries.log. It preserves the cached compiled renderer and does not trigger a speculative full recompile.
+- Headless failures now include the actual last 4000 log characters in the run manifest/Actions output; one added regression tests exit127 with the missing-library diagnostic. Follow-up preflight execution pending.
+- Next: inspect follow-up native preflight (24 expected tests), runtime ldd report, actual headless FSEQ, then post-dismissal health and native MP4. Do not rerun 7f2f568 as proof of follow-up changes.
+
+### Additional source audit (not full implementation acceptance)
+- Production `core/effect_engine.py` defaults CLI variants to 1 (line 12789) and uses internal `_SongAnalysisCache` near line 13102. `core/audio_run_cache.py::AudioRunCache` is a separate hash-verified implementation not used by that entrypoint; evaluate consolidation only with real-audio baseline/parity evidence.
+- `core/sequence_builder.py` already makes orchestration opt-in; `core/effects_orchestration_bridge.py` is a compatibility re-export, not a second engine. `effects_orchestrator_bridge.build_seed_graph` still seeds five fixed sections and defaults to 30s rather than deriving structure from audio. Do not silently enable this demo-like schedule as musical ground truth.
+- Matrix intelligence CLI describes shader planning in reports. A report recommendation is not proof a native Shader effect with packaged resources was exported. Trace actual exported effects/resources before completion claims.
+- Desktop license GUI, root LICENSE/NOTICE/README/COMMERCIAL_LICENSING.md and Android InfoActivity Legal content are PolyForm/separate commercial terms; existing MIT mentions describe third-party or earlier grants and must remain. Android InfoActivity exposes Instructions + Legal; full license asset also exists. Full distribution surface audit remains open.
+- Desktop layout_preferences saves to user config and reloads only an existing file; Android MainActivity restores URI selections from SharedPreferences and persists granted URI access. Source presence does not establish device behavior.
+- Actual native artifact verifier currently accepts any effects per model, so body/rest-only harmony could pass transport. Next acceptance fix must require non-rest mouth and actual NOTE_MIDI/STRING/drum effect lanes, while preserving the distinction from independently proven vocal sources.
+
 ## A. Current repository state
 - Branch: `codex/eight-hour-recovery-20261019`; inspected parent HEAD: `746b63f110f9dbbd5a8f2c68826317944a388e27`. The commit containing this checkpoint is the startup-recovery child of that SHA; use `git rev-parse HEAD` after fetching.
 - Integration [PR #188](https://github.com/ryankorkowski-boop/helix-sequencer/pull/188): open, draft, base `feature/restructure-core`. No merge/publication authorized.

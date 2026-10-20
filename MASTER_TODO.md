@@ -1519,3 +1519,13 @@ Evidence: actual HEAD/PR/tree and failed job 118721373351 inspected. After dialo
 Limitations/deferred: live native recovery and same-SHA acceptance require new Actions results; no new MP4 claimed. Failed source audit also reveals backing singer entirely at rest (720/720 frames) and keyboard source-contact gaps; these are explicit next tasks, not solved by startup repair. Device/controller checks, profiling, six-layout/full-song production remain open.
 Regression risks: cooperative dialog dismissal could still fail on other startup states; fails closed with PID/window mapping and health diagnostics. Post-dismissal REST health may expose upstream lifecycle defects sooner. Keep last-known-good ff019a9 reference artifact 12264050159.
 Next: inspect recovery child preflight then native render and same-SHA consumer; update final handoff with actual run URLs, metrics and artifact provenance before claiming completion.
+
+
+### 2026-10-20 — Restore cached renderer wxWidgets runtime and reveal loader errors
+Goal: fix a newly exposed pre-GUI headless exit127 without restarting unchanged expensive compilation.
+Changed: fresh-real-band-mp4.yml restores wxWidgets install/ldconfig before cache-hit early return, validates ldd and uploads its report; native_preview.py includes headless stderr/stdout tail; test_native_preview_resolution.py covers actual diagnostic retention; final handoff and this ledger updated.
+Preserved: 7f2f568 cooperative startup recovery, exact cached renderer/source/patch hashes, strict native acceptance, no default merge/publication. No speculative fallback video.
+Evidence: 7f2f568 native preflight 118779879306 passes 23 tests +7 source-selection tests; render 118780967104 in run39466709677 stops at headless exit127 before GUI. Pinned upstream Makefile and good build logs show wxWidgets install into /usr/lib outside the source-cache path; cache-hit branch previously skipped install. Exact missing-library name still awaits surfaced loader/ldd output.
+New behavior: reconstitute pinned cached build's existing runtime installation, validate loader dependencies before render, and report the actual bounded headless log on failure.
+Limitations/deferred: new test and runtime recovery require Actions; real GUI process health/native movie still unverified on recovery code. Source audit confirms silent backing lane; role-activity gate must not count idle mouths as singing. Real-audio profile, full-song/six-layout and physical testing remain open.
+Regression risks: cached wxWidgets install can expose missing cached install inputs; ldd fails closed with actionable report. If cache is incomplete, inspect exact install/loader log before forcing rebuild.
