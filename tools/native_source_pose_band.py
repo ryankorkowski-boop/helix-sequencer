@@ -108,6 +108,15 @@ def native_cast_positions(*, legacy_xylophone=False):
                 XYLOPHONE=(-25,28,65),LEAD=(-8,9,80),HARMONY=(8,9,80))
 
 
+def native_source_timing(source_frames, frame_ms):
+    """Keep the actual 20 Hz source clock for excerpts and complete songs."""
+    if source_frames < 1 or int(source_frames) != source_frames or frame_ms not in (25,50):
+        raise ValueError('Positive source frame count and 25/50 ms native interval required')
+    return dict(duration_seconds=source_frames/20, source_frames=int(source_frames),
+                frame_ms=frame_ms, native_frames=int(source_frames)*50//frame_ms,
+                source_pose_frame_ms=50)
+
+
 def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_xylophone=False):
     if frame_ms not in (25,50):raise ValueError('Native interval must be 25 or 50 ms')
     if output.exists():raise FileExistsError('Use a fresh directory')
@@ -221,7 +230,8 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
     for camera in tree.findall('./Viewpoints/*'):
         for key,value in dict(angleX='8',angleY='0',distance='-65',pany='-18',panz='-75').items():camera.set(key,value)
     ET.indent(tree);tree.write(output/'xlights_rgbeffects.xml',encoding='utf-8',xml_declaration=True)
-    sequence=NativeSequence(new,36,'media/audio.wav',row['filename'])
+    timing=native_source_timing(p.n,frame_ms)
+    sequence=NativeSequence(new,timing['duration_seconds'],'media/audio.wav',row['filename'])
     sequence.root.find('head/sequenceTiming').text=f'{frame_ms} ms'
     for m in new.models:
         for part,curve in cues[m.name].items():
@@ -244,7 +254,7 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
         print('REVIEW WARNING: no routed source-note activity for: '
               +', '.join(sorted(silent_roles)),flush=True)
     np.savez_compressed(output/'expected_cues.npz',**{name+'::'+part:np.rint(v*20)*5 for name,parts in cues.items() for part,v in parts.items() if new.models[[m.name for m in new.models].index(name)].submodels.get(part)})
-    result=dict(excerpt=eid,source_record=row,audio_sha256=digest(audio),source_score='ReviewBandPerformance.pose',geometry_source='Review3DScene',source_frames=720,frame_ms=frame_ms,native_frames=36000//frame_ms,source_pose_frame_ms=50,
+    result=dict(excerpt=eid,source_record=row,audio_sha256=digest(audio),source_score='ReviewBandPerformance.pose',geometry_source='Review3DScene',**timing,
                 source_musical_cues_retimed=False,ac16_models_modified=False,channels=sum(m.channels for m in new.models),effects=sequence.identifier-1,rigs=proof,instrument_visibility_audit=instrument_audit,
                 visible_performer_roles=[m.details['review_role'] for m in new.models],legacy_xylophone_enabled=legacy_xylophone,
                 keyboard_motion_proof=keyboard_motion_proof,

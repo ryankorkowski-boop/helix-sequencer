@@ -33,6 +33,8 @@ The aim is to illustrate what musicians are playing or singing. Actual timing, d
 
 For an eligible single-color AC layout, choose **Both** in the desktop export selector. The normal sequence build asks for your verified LOR Unit/Circuit mapping CSV and writes matching XSQ and legacy LMS files together. See [dual export instructions](DUAL_EXPORT.md) for the CSV columns, supported effects and current desktop/Android limits.
 
+Current default native previews use six musicians: drummer, bassist, guitarist, universal keyboardist, lead and harmony singer. The universal keyboardist receives the supported piano/synth/bell/mallet lanes; the separate xylophonist remains an optional historical model. Inventory counts below also cover that seven-model collection.
+
 ## Pixels versus traditional AC strands
 
 **Pixel mode:** Independently addressable model nodes permit more detailed poses and musical responses. Match the exported model and channel layout to your real pixel controller and wiring.

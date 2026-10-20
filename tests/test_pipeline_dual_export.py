@@ -112,3 +112,26 @@ def test_racing_external_target_is_preserved_and_own_outputs_rolled_back(tmp_pat
         dual_export.export_lms_siblings([source], mapping)
     assert not source.with_suffix('.lms').exists()
     assert sidecar.read_text() == 'another process owns this file'
+
+
+def test_controller_map_change_after_preflight_is_rejected(tmp_path):
+    layout, mapping, source = fixtures(tmp_path)
+    digest = dual_export.validate_mapping(layout, mapping)
+    mapping.write_text(mapping.read_text().replace('Red,red,1,5,1','Red,red,2,5,1'))
+    with pytest.raises(ValueError, match='changed since preflight'):
+        dual_export.export_lms_siblings([source], mapping, expected_mapping_sha256=digest)
+    assert not source.with_suffix('.lms').exists()
+
+
+def test_each_conversion_uses_frozen_mapping_even_if_original_changes(tmp_path, monkeypatch):
+    _, mapping, source = fixtures(tmp_path)
+    second = tmp_path / 'second.xsq';second.write_bytes(source.read_bytes())
+    original = dual_export.export_legacy_lms
+    def change_after_first(*args):
+        result = original(*args)
+        mapping.write_text(mapping.read_text().replace('Red,red,1,5,1','Red,red,2,5,1'))
+        return result
+    monkeypatch.setattr(dual_export, 'export_legacy_lms', change_after_first)
+    dual_export.export_lms_siblings([source, second], mapping)
+    for path in (source, second):
+        assert ET.parse(path.with_suffix('.lms')).find('./channels/channel').get('unit') == '1'

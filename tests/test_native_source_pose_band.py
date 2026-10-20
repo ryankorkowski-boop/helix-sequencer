@@ -147,3 +147,13 @@ def test_consolidated_piano_and_drummer_actual_geometry_do_not_occlude():
     assert legacy['DRUMMER'] == (0,26,65)
     assert legacy['PIANO'] == (25,28,65)
     assert legacy['XYLOPHONE'] == (-25,28,65)
+
+
+@pytest.mark.parametrize('source_frames,frame_ms,seconds,native_frames', [
+    (720,50,36,720),(720,25,36,1440),(3120,50,156,3120),(3120,25,156,6240)])
+def test_full_song_native_clock_is_derived_from_actual_source_frames(source_frames,frame_ms,seconds,native_frames):
+    from tools.native_source_pose_band import native_source_timing
+    timing=native_source_timing(source_frames,frame_ms)
+    assert timing['duration_seconds']==seconds
+    assert timing['native_frames']==native_frames
+    assert timing['native_frames']*frame_ms == source_frames*timing['source_pose_frame_ms']

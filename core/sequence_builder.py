@@ -858,6 +858,7 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
     raw_engine_args = list(engine_args or [])
     from core.dual_export import DUAL_MAP_FLAG, validate_mapping, export_lms_siblings
     dual_mapping = None
+    dual_mapping_sha256 = None
     if DUAL_MAP_FLAG in raw_engine_args:
         index = raw_engine_args.index(DUAL_MAP_FLAG)
         if index + 1 >= len(raw_engine_args):
@@ -938,7 +939,7 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         try:
             inventory_layout(Path(layout_flag))
             if dual_mapping is not None:
-                validate_mapping(Path(layout_flag), dual_mapping)
+                dual_mapping_sha256 = validate_mapping(Path(layout_flag), dual_mapping)
         except (OSError,ValueError) as exc:
             raise SystemExit(f"AC-only preflight failed: {exc}") from exc
         if NO_EFFECTS_ORCHESTRATOR_FLAG not in raw_engine_args:
@@ -956,7 +957,10 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         print("Use --help for usage information.", file=sys.stderr)
         raise SystemExit(1)
 
-    command = ["main.py", "--profile", resolved_profile_id, "--", *(engine_args or [])]
+    command_args = list(engine_args or [])
+    if dual_mapping is not None:
+        command_args.extend([DUAL_MAP_FLAG, str(dual_mapping), AC_ONLY_FLAG])
+    command = ["main.py", "--profile", resolved_profile_id, "--", *command_args]
     try:
         ctx = RunManager(config).start(command=command, require_existing=False)
     except (OSError, IOError, ValueError) as e:
@@ -1025,7 +1029,8 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                 )
             dual_outputs = []
             if dual_mapping is not None:
-                dual_outputs = export_lms_siblings(generated, dual_mapping)
+                dual_outputs = export_lms_siblings(
+                    generated, dual_mapping, expected_mapping_sha256=dual_mapping_sha256)
                 for output in dual_outputs:
                     ctx.record_artifact('lor_sequence' if output.suffix == '.lms' else 'lor_lms_validation', output)
                 print(f"dual_export: retained {len(generated)} XSQ and generated mapped LMS siblings", flush=True)

@@ -154,6 +154,23 @@ class NativePreviewResolutionTests(unittest.TestCase):
             command.assert_not_called()
             self.assertTrue((Path(directory) / "native_startup_windows.json").is_file())
 
+    def test_full_song_export_budget_scales_and_remains_bounded(self):
+        with tempfile.TemporaryDirectory() as directory:
+            staged = Path(directory) / 'song.xsq'
+            for seconds, expected in ((1, 60), (156, 936), (2000, 3600)):
+                staged.write_text(f'<xsequence><head><sequenceDuration>{seconds}</sequenceDuration></head></xsequence>')
+                self.assertEqual(preview._export_timeout(staged), expected)
+            for seconds in ('0', '-1', 'nan', 'inf'):
+                staged.write_text(f'<xsequence><head><sequenceDuration>{seconds}</sequenceDuration></head></xsequence>')
+                with self.assertRaises(ValueError):
+                    preview._export_timeout(staged)
+
+    def test_export_timeout_is_http_control_not_an_xlights_command_parameter(self):
+        with patch.object(preview.rest, '_request_json', return_value={'res': 200}) as request:
+            preview._command('http://127.0.0.1:49914', 'exportVideoPreview', timeout=936, filename='native.mp4')
+            self.assertEqual(request.call_args.kwargs['timeout'], 936)
+            self.assertEqual(request.call_args.args[2], {'cmd': 'exportVideoPreview', 'filename': 'native.mp4'})
+
     def _run_preview(self, directory, size):
         """Exercise production orchestration; fixture bytes are never media evidence."""
         run = Path(directory)

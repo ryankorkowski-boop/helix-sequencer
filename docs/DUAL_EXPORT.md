@@ -14,7 +14,7 @@ The CSV columns are:
 model,color,controller_unit,controller_circuit,xlights_start_channel
 ```
 
-Use the exact eligible single-color model names, colors (`red`, `green`, `white`) and numeric xLights start channels from the selected layout. Enter the actual controller Unit ID and circuit from your wiring. Unit IDs accept decimal or `0x` hexadecimal values from 1 to 255; circuits are 1 through 16. Every eligible AC model must appear exactly once. The build checks names, colors, start channels and duplicate controller addresses before analysis. It does not infer controller wiring.
+Use the exact eligible single-color model names, colors (`red`, `green`, `white`) and numeric xLights start channels from the selected layout. Enter the actual controller Unit ID and circuit from your wiring. Unit IDs accept decimal or `0x` hexadecimal values from 1 to 255; circuits are 1 through 16. Every eligible AC model must appear exactly once. The build checks names, colors, start channels and duplicate controller addresses before analysis. It pins the validated CSV digest and converts from one frozen snapshot; changes to the original mapping during analysis fail before publication. It does not infer controller wiring.
 
 The LMS converter preserves the On event intervals at legacy centisecond resolution. It exports constant full-intensity AC effects, not RGB pixels, fades or modern `.loredit` files. Normal XSQ output remains available for pixel and mixed layouts. This integration does not establish that a particular LOR application or physical controller has accepted the file; those checks remain release gates.
 
