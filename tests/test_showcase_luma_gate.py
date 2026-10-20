@@ -29,9 +29,13 @@ def test_bright_dynamic_real_geometry_analogue_meets_numeric_gate():
         x=15+(i*5)%90
         frames[i,22:52,x:x+40]=190
     qc=evaluate_showcase_frames(frames)
-    assert qc["passed"] is True
+    # This bright moving patch is only 40x30 pixels; the new occupancy gate
+    # must reject it even though the legacy luma and motion checks pass.
+    assert qc["passed"] is False
+    assert qc["checks"]["median_stage_luminance"]
+    assert qc["checks"]["visible_stage_motion"]
+    assert not qc["checks"]["visible_stage_width"]
     assert qc["frames"]==24 and qc["sample_fps"]==2
-    assert all(qc["checks"].values())
 
 
 @pytest.mark.parametrize("bad", [
