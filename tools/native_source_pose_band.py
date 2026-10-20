@@ -212,6 +212,20 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
     for camera in tree.findall('./Viewpoints/*'):
         for key,value in dict(angleX='8',angleY='0',distance='-65',pany='-18',panz='-75').items():camera.set(key,value)
     ET.indent(tree);tree.write(output/'xlights_rgbeffects.xml',encoding='utf-8',xml_declaration=True)
+    # Acceptance evidence: a defined singer role is not proof of audible backing
+    # vocals. Persist actual source-timed mouth curves for manual review.
+    vocal_audit={}
+    for model in new.models:
+        role=model.details['review_role']
+        if role not in ('lead','harmony'):continue
+        mouth={name:int(np.count_nonzero(np.asarray(curve)>.001))
+               for name,curve in cues[model.name].items()
+               if name.startswith('MOUTH_') and model.submodels.get(name)}
+        vocal_audit[role]=dict(addressable_mouth_parts=len(mouth),
+                               active_mouth_parts=sum(count>0 for count in mouth.values()),
+                               source_frames_per_part=mouth)
+    if vocal_audit.get('harmony',{}).get('active_mouth_parts',0)==0:
+        print('REVIEW WARNING: harmony singer has no active source-timed mouth parts',flush=True)
     sequence=NativeSequence(new,36,'media/audio.wav',row['filename'])
     sequence.root.find('head/sequenceTiming').text=f'{frame_ms} ms'
     for m in new.models:
@@ -236,7 +250,7 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
               +', '.join(sorted(silent_roles)),flush=True)
     np.savez_compressed(output/'expected_cues.npz',**{name+'::'+part:np.rint(v*20)*5 for name,parts in cues.items() for part,v in parts.items() if new.models[[m.name for m in new.models].index(name)].submodels.get(part)})
     result=dict(excerpt=eid,source_record=row,audio_sha256=digest(audio),source_score='ReviewBandPerformance.pose',geometry_source='Review3DScene',source_frames=720,frame_ms=frame_ms,native_frames=36000//frame_ms,source_pose_frame_ms=50,
-                source_musical_cues_retimed=False,ac16_models_modified=False,channels=sum(m.channels for m in new.models),effects=sequence.identifier-1,rigs=proof,instrument_visibility_audit=instrument_audit,
+                source_musical_cues_retimed=False,ac16_models_modified=False,channels=sum(m.channels for m in new.models),effects=sequence.identifier-1,rigs=proof,instrument_visibility_audit=instrument_audit,vocal_visibility_audit=vocal_audit,
                 visible_performer_roles=[m.details['review_role'] for m in new.models],legacy_xylophone_enabled=legacy_xylophone,
                 keyboard_motion_proof=keyboard_motion_proof,
                 limitations=['RGB pose-bank geometry requires its own pixel mapping; not a 16-channel AC model','Source musical estimators retain their uncertainty','Finite source-pose medoids approximate geometric motion; source event clock is preserved'])
