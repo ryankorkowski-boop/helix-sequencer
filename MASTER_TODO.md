@@ -1636,3 +1636,12 @@ EXP02 status: COMPLETE for exact-settings conversion and tested file-level expor
 Development integration incorporates tested source unchanged. Merge commit intentionally uses [skip ci] to avoid restarting native39473385296. Runtime native evidence remains tied to b9f1ca0, not this new integration SHA; the LMS parser changes do not modify native rendering.
 Dedicated lms-export-regression.yml did not produce a standalone run on this tool-created branch; full existing CI executed all ten new cases instead. No focused-workflow success is claimed.
 Native at18:49UTC:39473385296 still in installation/build, original exact-source consumer39473385254 awaits it. No new accepted MP4. Backing remains blocked by the actual retained mixed-only E14 source. Release INCOMPLETE.
+
+### 2026-10-20 — Real-source CLI profiling candidate (OPT01)
+Goal: replace inferred performance claims with actual wall/RSS/function profiles and canonical musical-output parity.
+Changed: tools/profile_real_sequence.py, .github/workflows/real-sequence-profile.yml, this ledger on work/real-sequence-profile-20261020.
+New: SHA-bound original36s E14 WAV, repository template/layout; actual main.py CLI in four separate processes ordered former/current/current/former. Reconstruct former defaults with optional sidecar and3 variants on current code; compare current default1 variant without sidecar. Same current DSP cache implementation, histories/learning disabled, no saved settings; capture /usr/bin/time RSS/wall plus cProfile function data, emitted editable XSQs and nonempty musical signatures. Require exact source preservation and all four canonical signatures equal.
+Preserved: production sequencing modules/defaults, original audio, native producer39473385296 at b9f1ca0, release hold and physical-validation limits.
+Evidence: candidate pending its real-source workflow; no local runtime available. Existing export fix at34c1d37 remains tested in1966-case Python3.11/3.12 suites.
+Limitations/deferred: one excerpt is not a full-song/catalog/device benchmark; cProfile adds overhead, JIT/OS caches may affect order. This reconstructs former options on current code, not a historical executable benchmark. Native/artist/hardware correctness is separate.
+Risks: actual CLI may expose previously unmeasured failures; archive availability and90-minute job limit remain dependencies. Do not claim speedup, parity or OPT01 completion before actual measured result.
