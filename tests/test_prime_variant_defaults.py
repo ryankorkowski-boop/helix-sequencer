@@ -69,7 +69,16 @@ class PrimeVariantDefaultsTests(unittest.TestCase):
         self.assertIn("manifest.get(", body)
         self.assertIn("st_mtime_ns", body)
         self.assertIn("audio_path.stat()", body)
-        self.assertIn('all(p.is_file()', body)
+        self.assertTrue(any(
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id == 'all'
+            and any(isinstance(inner, ast.Call)
+                    and isinstance(inner.func, ast.Attribute)
+                    and inner.func.attr == 'is_file'
+                    for inner in ast.walk(node))
+            for node in ast.walk(fn)
+        ))
 
     def test_stem_manifest_is_invalidated_before_regeneration(self):
         source = (ENGINE.parent / "audio_intelligence.py").read_text(encoding="utf-8")
