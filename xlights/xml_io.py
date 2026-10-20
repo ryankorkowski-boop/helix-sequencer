@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import re
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -134,6 +135,21 @@ def add_effect(layer: ET.Element, start_ms: int, end_ms: int, name: str, tpl: "E
 
     layer.append(effect)
     return effect
+
+
+def set_sequence_duration(root: ET.Element, duration_seconds: float) -> None:
+    """Bind a generated sequence's header to its decoded soundtrack clock."""
+    seconds = float(duration_seconds)
+    if not math.isfinite(seconds) or seconds <= 0:
+        raise ValueError("Generated sequence requires a finite positive audio duration")
+    milliseconds = max(1, round(seconds * 1000))
+    head = root.find("head")
+    if head is None:
+        head = ET.SubElement(root, "head")
+    duration = head.find("sequenceDuration")
+    if duration is None:
+        duration = ET.SubElement(head, "sequenceDuration")
+    duration.text = f"{milliseconds / 1000:.3f}"
 
 
 def replace_audio_references(root: ET.Element, new_audio: Path) -> int:

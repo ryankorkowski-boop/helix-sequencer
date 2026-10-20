@@ -143,6 +143,25 @@ def test_inline_fade_settings_are_exported_as_start_end_intensity(tmp_path: Path
     assert exported.get("endIntensity") == "80"
 
 
+@pytest.mark.parametrize("start,end", [(2000, 2500), (500, 1500), (-10, 50), (200, 200)])
+def test_export_rejects_stale_header_or_invalid_interval_without_truncating(tmp_path, start, end):
+    original = tmp_path / "source.lms"
+    source(original)
+    imported = prepare_lms_workspace(original, tmp_path / "work")
+    tree = ET.parse(imported["template"])
+    # Imported templates start at one second; late cues must not be shifted
+    # into their final centisecond or silently dropped by the LMS exporter.
+    row = tree.find("./ElementEffects/Element[@type='model']/EffectLayer")
+    ET.SubElement(row, "Effect", {"name": "On", "startTime": str(start),
+                                 "endTime": str(end), "ref": "0", "palette": "0"})
+    xsq, destination = tmp_path / "bad.xsq", tmp_path / "keep.lms"
+    tree.write(xsq)
+    destination.write_bytes(b"preserve previous output")
+    with pytest.raises(ValueError, match="declared sequence duration"):
+        export_lms_from_xsq(xsq, original, destination, Path(imported["manifest"]))
+    assert destination.read_bytes() == b"preserve previous output"
+
+
 def test_sequence_builder_direct_lor_path_without_xlights(monkeypatch, tmp_path: Path):
     import types
     from core import sequence_builder as sequence

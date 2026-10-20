@@ -73,6 +73,7 @@ def export_lms_from_xsq(
     if duration <= 0:
         raise ValueError("Generated sequence has invalid duration")
     duration_cs = max(1, int(round(duration * 100)))
+    duration_ms = max(1, round(duration * 1000))
     models = {
         e["model"]: e for e in manifest["channels"]
     }
@@ -102,6 +103,11 @@ def export_lms_from_xsq(
                 raise ValueError(f"Not LOR-safe effect {label!r}")
             t0 = int(float(effect.get("startTime", "0")))
             t1 = int(float(effect.get("endTime", "0")))
+            if t0 < 0 or t1 <= t0 or t0 >= duration_ms or t1 > duration_ms:
+                raise ValueError(
+                    f"XSQ effect interval {t0}..{t1} ms is outside the declared "
+                    f"sequence duration {duration_ms} ms; regenerate with the soundtrack duration"
+                )
             a = max(0, min(duration_cs - 1, t0 // 10))
             b = min(duration_cs, (t1 + 9) // 10)
             if b <= a:

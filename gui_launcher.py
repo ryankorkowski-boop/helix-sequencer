@@ -24,6 +24,7 @@ def _python_command(mode: str, script: Path) -> list[str]:
 
 
 TOOL_MODES = {
+    "tools.dual_format_export": "--helix-dual-format-export",
     "tools.legacy_lms_export": "--helix-legacy-lms-export",
     "tools.validate_native_xlights": "--helix-native-render",
     "tools.fseq_pixel_preview": "--helix-fseq-preview",
@@ -66,7 +67,7 @@ class HelixGui(tk.Tk):
         self.layout_var = tk.StringVar(value=load_layout())
         self.output_var = tk.StringVar(value=str(ROOT / "outputs"))
 
-        self.vendor_bar_var = tk.BooleanVar(value=True)
+        self.vendor_bar_var = tk.BooleanVar(value=False)
         self.matrix_var = tk.BooleanVar(value=True)
         self.polish_var = tk.BooleanVar(value=True)
         self.shortlist_var = tk.BooleanVar(value=True)
@@ -84,7 +85,7 @@ class HelixGui(tk.Tk):
         self.birdsong_profile_var = tk.StringVar(value="canopy")
         self.birdsong_intensity_var = tk.DoubleVar(value=1.2)
         self.birdsong_min_conf_var = tk.DoubleVar(value=0.45)
-        self.variants_var = tk.IntVar(value=4)
+        self.variants_var = tk.IntVar(value=1)
 
         self._events: queue.Queue[tuple[str, object]] = queue.Queue()
         self.palette_mode_var = tk.StringVar(value="Default colors")
@@ -211,7 +212,8 @@ class HelixGui(tk.Tk):
         self.lor_source_browse.grid(row=6, column=3, sticky="w", **pad)
         ttk.Label(
             top,
-            text="LOR mode reads channels and Unit/Circuit mapping from your existing LMS. "
+            text="LMS and Both use channels and Unit/Circuit mapping from your existing LMS. "
+                 "Both keeps the matching editable XSQ alongside the LMS. "
                  "Modern .loredit is not yet supported; import/upgrade the exported LMS in LOR.",
             wraplength=840,
         ).grid(row=7, column=0, columnspan=4, sticky="w", **pad)
@@ -226,7 +228,7 @@ class HelixGui(tk.Tk):
         ttk.Label(controls, text="Quality candidates").grid(row=0, column=2, sticky="w", **pad)
         ttk.Spinbox(controls, from_=1, to=8, textvariable=self.variants_var, width=6).grid(row=0, column=3, sticky="w", **pad)
 
-        ttk.Checkbutton(controls, text="Vendor Bar", variable=self.vendor_bar_var).grid(row=1, column=0, sticky="w", **pad)
+        ttk.Checkbutton(controls, text="Vendor Bar · 3+ candidates", variable=self.vendor_bar_var).grid(row=1, column=0, sticky="w", **pad)
         self.matrix_button=ttk.Checkbutton(controls,text="Matrix Intelligence",variable=self.matrix_var)
         self.matrix_button.grid(row=1,column=1,sticky="w",**pad)
         ttk.Checkbutton(controls, text="Polish", variable=self.polish_var).grid(row=1, column=2, sticky="w", **pad)
@@ -333,15 +335,7 @@ class HelixGui(tk.Tk):
     def _sync_export_format(self) -> None:
         """Map supported choices onto the existing sequencer modes."""
         selected = self.export_format_var.get()
-        if selected == "Both":
-            messagebox.showwarning(
-                "Both formats not available yet",
-                "Automatic XSQ + LMS generation is not connected. "
-                "Choose XSQ or LMS for now; no second file will be promised."
-            )
-            self.export_format_var.set("XSQ")
-            return
-        self.sequence_mode_var.set("Light-O-Rama" if selected == "LMS" else "xLights")
+        self.sequence_mode_var.set("Light-O-Rama" if selected in {"LMS", "Both"} else "xLights")
 
     def _update_mode_ui(self) -> None:
         lor = self.sequence_mode_var.get() == "Light-O-Rama"
@@ -410,9 +404,6 @@ class HelixGui(tk.Tk):
 
     def _export_existing_xsq_both(self) -> None:
         """Convert an already generated AC-only XSQ with explicit hardware mapping."""
-        if getattr(sys, "frozen", False):
-            messagebox.showerror("Not packaged", "Dual export is not included in this portable build yet.")
-            return
         source = filedialog.askopenfilename(
             title="Choose completed Helix AC-only XSQ",
             filetypes=[("xLights XSQ", "*.xsq")],
@@ -438,7 +429,7 @@ class HelixGui(tk.Tk):
         ):
             return
         self._launch_optional_export([
-            sys.executable, "-m", "tools.dual_format_export",
+            *_module_command("tools.dual_format_export"),
             source, destination, "--format", "both", "--channel-map", mapping,
         ])
 
@@ -578,10 +569,7 @@ class HelixGui(tk.Tk):
         if self._busy:
             return
         selected = self.export_format_var.get()
-        if selected == "Both":
-            messagebox.showerror("Export unavailable", "Both outputs are not yet supported by this GUI.")
-            return
-        expected_mode = "Light-O-Rama" if selected == "LMS" else "xLights"
+        expected_mode = "Light-O-Rama" if selected in {"LMS", "Both"} else "xLights"
         if self.sequence_mode_var.get() != expected_mode:
             self.sequence_mode_var.set(expected_mode)
         lor_mode = self.sequence_mode_var.get() == "Light-O-Rama"
@@ -646,7 +634,7 @@ class HelixGui(tk.Tk):
             ])
             self._log(
                 "Light-O-Rama mode: using Unit/Circuit mapping from the supplied LMS; "
-                "writing a new LMS and simulated channel-layout MP4."
+                "writing matching editable XSQ and LMS sequences."
             )
         elif self.lor_compatible_var.get():
             cmd.extend([

@@ -1,3 +1,62 @@
+## 2026-10-20 — Fix soundtrack-duration truncation and finish mapped desktop dual output (EXP03/OPT02)
+
+Goal: complete the GUI's existing Both export choice and align its normal
+generation defaults with the single-candidate CLI/Android path. During actual
+CLI verification, found a more serious production bug: the imported LMS
+template's one-second sequenceDuration survived a38.32-second run. The engine
+authored583 musical effects, but LMS export silently compressed/truncated
+late intervals into the stale one-second header, producing only18 intervals.
+
+Changed: xlights/xml_io.py adds finite-positive millisecond soundtrack duration
+binding; core/effect_engine.py and the three retained xsq_writer.py analysis
+entrypoints update generated headers from already-decoded audio. No extra
+decode, note retiming or source-template mutation. lor_lms_export_from_source.py
+rejects invalid/out-of-header intervals before replacing output, instead of
+silently moving late effects into the last centisecond. gui_launcher.py maps
+Both onto the existing source-LMS path, which preserves matching editable
+XSQ and LMS using imported controller addresses. Its source-layout requirement
+and AC gates remain. Normal desktop defaults now1candidate, Vendor Bar opt-in;
+the Vendor Bar label explicitly states its3+candidate floor. Its explicit
+quality policy and the1–8candidate control are retained.
+
+Evidence: actual CLI run on unchanged retained dry_drum_test.wav SHA256
+4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913
+with the existing explicit three-channel test LMS. Before/after all serialized
+ColorPalettes/EffectDB/ElementEffects/DisplayElements trees are byte-identical:
+968e358e4ad960d304d024d0edd6b6c21ff8999e38864fca13ca9b78e4ba1e55.
+After:XSQ38.320seconds,LMS3832centiseconds on all3channels,864 nonoverlapping
+valid output intervals, exact original Unit/Circuit/savedIndex values and
+packaged soundtrack SHA preserved. Generated XSQ has4editable model/group
+rows and583model effects; one selected variant. Committed measured summary:
+evidence/desktop_dual_export_20261020/smoke.json. Raw local test output is not
+published and its fixture addresses are NOT owner hardware wiring.
+
+Manual existing-AC dual export is also connected to the portable worker via
+--helix-dual-format-export in gui_launcher.py/windows_portable_entry.py. The
+existing strict flat-On converter and explicit CSV confirmation remain; only
+the missing packaged dispatch is repaired. No new exporter implementation.
+
+Tests:89focused Python cases+6subtests pass, covering GUI selection/worker
+routing in source/frozen modes, required mapping, duration/header behavior,
+legacy LMS refusal, entrypoint/layout recovery and branding/quality controls.
+Initial unrestricted local suite could not collect3modules because this local
+runtime lacks torch; broader run excluding only those3modules is pending.
+Complete Python3.11/3.12 CI and new Windows package validation still required.
+
+Preserved: original audio, source LMS/template, existing musical effects,
+physical controller identity, AC/RGB separation, explicit multi-candidate/
+Vendor Bar choices, XSQ-only RGB mode and release/publication hold. The healthy
+NAT04 native producer39511779105 ataa00b873 remains untouched on its own branch.
+Limitations/deferred: Both supports the imported LOR AC channel layout only;
+arbitrary RGB-to-LMS and modern LOREDIT are unavailable. No native import,
+physical Windows/Android/CTB16PC, musical ground truth, fresh MP4 or owner
+visual approval claimed. Fewer default candidates can select a different
+sequence than the old desktop4-candidate/Vendor Bar default; explicit old
+quality choices remain available. Existing externally inconsistent XSQs now
+fail instead of being silently truncated. Shorter new songs replace stale
+longer template duration as well; manual tails must fit the new song.
+Status: IMPLEMENTED — FOCUSED TESTS AND REAL CLI EXPORT PASS; BROADER CI PENDING.
+
 ## 2026-10-18 — Correct stale hi-hat drum-stick regression assertions
 
 Observed CI: PR #180 run 39192406726 (Python 3.11 full audit)
