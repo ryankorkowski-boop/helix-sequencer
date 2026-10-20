@@ -2,7 +2,7 @@ name: Fresh native universal-keyboard snowman band MP4 from real audio
 on:
   push:
     branches: [codex/fresh-real-band-mp4-20261017, codex/eight-hour-recovery-20261019]
-    paths: [.github/workflows/fresh-real-band-mp4.yml, tools/native_preview.py, tools/native_source_pose_band.py, tests/test_native_preview_resolution.py]
+    paths: [.github/workflows/fresh-real-band-mp4.yml, tools/native_preview.py, tools/native_source_pose_band.py, tools/verify_native_band_artifact.py, tests/test_native_preview_resolution.py, tests/test_native_band_artifact.py]
   pull_request:
     paths: [.github/workflows/fresh-real-band-mp4.yml]
   workflow_dispatch:
@@ -53,10 +53,18 @@ jobs:
               }
             }
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install focused artifact-verification test runtime
+        run: python -m pip install numpy scipy zstandard pytest
       - name: Check true native renderer paths
         run: |
           python -m compileall -q tools/recover_showcase_source_cache.py tools/native_source_pose_band.py tools/native_preview.py tools/verify_showcase_audio_identity.py
           python -m unittest discover -s tests -p test_native_preview_resolution.py -v
+          python -m pytest tests/test_native_band_artifact.py tests/test_native_band_stage_and_vocals.py -q
           python -m compileall -q tools/patch_xlights_native_export.py
           python -m unittest discover -s tests -p test_select_starred_music.py -v
           python -m tools.select_starred_music --rotation 0
@@ -65,6 +73,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
+      HELIX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
       ARCHIVE_ID: ${{ inputs.archive_file_id || vars.HELIX_REVIEW_PACKAGE_DRIVE_ID || '1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j' }}
       ARCHIVE_SHA256: ${{ inputs.archive_sha256 || vars.HELIX_REVIEW_PACKAGE_SHA256 || '604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10' }}
       AUDIO_SHA256: ${{ inputs.audio_sha256 || vars.HELIX_REVIEW_AUDIO_SHA256 || '8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171' }}
@@ -74,13 +83,18 @@ jobs:
       OMP_NUM_THREADS: '2'
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Validate source identity and install real renderer
         run: |
           python - <<'PY'
-          import os,re
+          import os,re,subprocess
+          actual = subprocess.check_output(['git','rev-parse','HEAD'], text=True).strip()
+          if actual != os.environ['HELIX_SOURCE_COMMIT']:
+              raise SystemExit('Checkout is not the requested native source commit')
           if not re.fullmatch('[A-Za-z0-9_-]{15,128}',os.environ['ARCHIVE_ID']):
               raise SystemExit('A real public Drive ZIP file ID is required')
           for key in ('ARCHIVE_SHA256','AUDIO_SHA256'):
@@ -251,7 +265,7 @@ jobs:
           expected={'drummer','bass','guitar','piano','lead','harmony'}
           if set(proof.get('visible_performer_roles',[]))!=expected or proof.get('legacy_xylophone_enabled') is not False:
               raise SystemExit('Native band must have one universal keyboardist and no separate xylophonist')
-          (p/'run_manifest.json').write_text(json.dumps({'schema':'helix.run_manifest.v1','warnings':[],'status':'pending','visual_review_status':'not_reviewed'},indent=2))
+          (p/'run_manifest.json').write_text(json.dumps({'schema':'helix.run_manifest.v1','source_commit':os.environ['HELIX_SOURCE_COMMIT'],'warnings':[],'status':'pending','visual_review_status':'not_reviewed'},indent=2))
           PY
       - name: Render actual xLights native FSEQ and original-audio MP4
         run: |
@@ -280,7 +294,7 @@ jobs:
           if len(counts)!=36 or min(counts)<2:
               raise SystemExit(f'Native MP4 has blank/invisible sampled frames: {counts}')
           print('Native universal keyboard video: 1920x1080, 36 visible sampled seconds')
-          (Path('review')/'PROVENANCE.json').write_text(json.dumps({'audio_sha256':os.environ['AUDIO_SHA256'],'mp4_sha256':hashlib.sha256(mp4.read_bytes()).hexdigest(),'source':'original hardKor analyzed audio','native_xlights':True,'visual_review_status':'not_reviewed','performers':sorted(names)},indent=2))
+          (Path('review')/'PROVENANCE.json').write_text(json.dumps({'source_commit':os.environ['HELIX_SOURCE_COMMIT'],'audio_sha256':os.environ['AUDIO_SHA256'],'mp4_sha256':hashlib.sha256(mp4.read_bytes()).hexdigest(),'source':'original hardKor analyzed audio','native_xlights':True,'visual_review_status':'not_reviewed','performers':sorted(names)},indent=2))
           PY
           ffmpeg -v error -xerror -i "$(find review/show -name preview.mp4 -print -quit)" -map 0:v:0 -map 0:a:0 -f null -
       - name: Reject nearly black or frozen native showcases

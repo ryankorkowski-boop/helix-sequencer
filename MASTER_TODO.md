@@ -1529,3 +1529,14 @@ Evidence: 7f2f568 native preflight 118779879306 passes 23 tests +7 source-select
 New behavior: reconstitute pinned cached build's existing runtime installation, validate loader dependencies before render, and report the actual bounded headless log on failure.
 Limitations/deferred: new test and runtime recovery require Actions; real GUI process health/native movie still unverified on recovery code. Source audit confirms silent backing lane; role-activity gate must not count idle mouths as singing. Real-audio profile, full-song/six-layout and physical testing remain open.
 Regression risks: cached wxWidgets install can expose missing cached install inputs; ldd fails closed with actionable report. If cache is incomplete, inspect exact install/loader log before forcing rebuild.
+
+
+### 2026-10-20 — Stage strict performer activity and exact-source acceptance without interrupting rendering
+Goal: prevent body/rest-only performers and mismatched source commits from passing final native band acceptance.
+Branch: work/native-acceptance-evidence-20261020, based on 0a2fcebd63314db906c3f112560c24bcc42f307f; recovery native run39467730818 is left intact.
+Changed: verify_native_band_artifact.py, test_native_band_artifact.py, native_source_pose_band.py, producer/consumer workflows, focused candidate workflow, final handoff and this ledger.
+Preserved: source note/vocal timing, snowman cast, audio identity, existing HD/brightness/motion/channel/hash validation, no merge to default or publication.
+New: actual musical submodel effects per performer with valid positive intervals, explicit source commit in manifest/provenance and exact head checkout, expected-SHA consumer argument, rest excluded from active vocal part counts. Independent voice source accuracy remains false/unverified.
+Tests/evidence: candidate focused CI pending. Parent0a2fceb preflight passes24 native tests plus7 source-selection tests; full native installation/render remains in progress. Original supplied policy/adapter files read in current Library versions2/1: standalone candidates, not proof of production integration.
+Limitations/deferred: candidate not integrated until focused tests pass and healthy native run completes; actual backing lane remains silent and may correctly fail the new final-band gate. No new MP4 or full release acceptance claimed.
+Regression risks: stricter gate can expose genuine incomplete performances that earlier BODY-only checks missed; exact-SHA CLI intentionally rejects earlier artifacts lacking provenance.

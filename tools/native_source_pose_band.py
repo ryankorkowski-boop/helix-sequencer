@@ -222,7 +222,8 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
                for name,curve in cues[model.name].items()
                if name.startswith('MOUTH_') and model.submodels.get(name)}
         vocal_audit[role]=dict(addressable_mouth_parts=len(mouth),
-                               active_mouth_parts=sum(count>0 for count in mouth.values()),
+                               active_mouth_parts=sum(count>0 for name,count in mouth.items()
+                                                      if name.upper()!='MOUTH_REST'),
                                source_frames_per_part=mouth)
     if vocal_audit.get('harmony',{}).get('active_mouth_parts',0)==0:
         print('REVIEW WARNING: harmony singer has no active source-timed mouth parts',flush=True)
