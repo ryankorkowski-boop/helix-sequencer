@@ -115,3 +115,12 @@ def test_native_source_pose_samples_only_visible_character_motion():
     assert 'xylophone' not in roles
     legacy=[r['role'] for r in native_motion_rigs(scene,legacy_xylophone=True)]
     assert legacy.count('xylophone')==1
+
+
+def test_native_house_preview_nodes_remain_visible_at_hd_resolution():
+    """Guard against tiny, jagged xLights RGB nodes returning to the showcase."""
+    from pathlib import Path
+    source=(Path(__file__).resolve().parents[1]/'tools'/'native_source_pose_band.py').read_text()
+    assert "PixelSize='12'" in source
+    assert "Antialias='1'" in source
+    assert "BlackTransparency='100'" in source
