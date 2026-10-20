@@ -220,6 +220,8 @@ def _dismiss_startup_dialogs(pid: int, evidence_dir: Path) -> None:
                                    text=True, timeout=5, check=False)
                 subprocess.run(["xdotool", "key", "--window", window, "Escape"],
                                capture_output=True, text=True, timeout=5, check=False)
+                subprocess.run(["xdotool", "windowclose", window],
+                               capture_output=True, text=True, timeout=5, check=False)
             time.sleep(.5)
     finally:
         report.write_text(json.dumps(evidence, indent=2) + "\n")
