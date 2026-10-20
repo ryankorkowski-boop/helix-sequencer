@@ -34,6 +34,13 @@ test("missing, expired and differently named bundles fall back to cold build", a
   assert.deepEqual(h.requested, []);
 });
 
+test("recovery reuses the reviewed renderer-build branch after integration", async () => {
+  const h = harness([artifact], {42: {...run, head_branch: "codex/native-build-reuse-20261020"}});
+  h.options.branch = "codex/eight-hour-recovery-20261019";
+  await findNativeRendererBundle(h.options);
+  assert.deepEqual(h.outputs, {run_id: "42"});
+});
+
 for (const wrong of [
   {head_repository: {full_name: "fork/repo"}}, {head_branch: "unrelated"},
   {path: ".github/workflows/other.yml"}, {event: "pull_request_target"},

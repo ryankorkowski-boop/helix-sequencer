@@ -15,10 +15,10 @@ The successful b9f1ca0 movie below remains earlier-source evidence only.
   scope; require same upstream839c0f, exact native patch SHA, platform,
   patched source, executable/wx runtime and archive/binary SHA256. Restore
   validates in staging before replacing cached objects. Repository/workflow/
-  branch provenance and live exact artifact name are mandatory.
+  current/recovery/renderer-build branch provenance and live exact artifact name are mandatory.
 - [x] Aligned bounded deadlines:75-minute cold compile,100-minute producer,
   109.5-minute polling and120-minute consumer. Missing producer remains5polls.
-- [x] Local Python3.12:67tests +18subtests; Node19tests; changed YAML parses.
+- [x] Local Python3.12:67tests +18subtests; Node20tests; changed YAML parses.
 - [~] Live cold build, actual large-bundle publication/restore, dependency
   checks and exact-source native MP4. Inspect the candidate PR's producer;
   do not cancel a healthy build or queue unchanged duplicates.

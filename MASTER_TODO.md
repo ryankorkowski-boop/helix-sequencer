@@ -14,7 +14,7 @@ Changed: tools/native_renderer_bundle.py packs/restores the pinned upstream
 required patched source and wxWidgets, bounded safe extraction and validation
 before replacing useful cached objects. tools/find_native_renderer_bundle.cjs
 selects a live exact-name artifact from this repository's native workflow and
-the current/recovery branch. Native workflow publishes completed renderer
+the current/recovery/renderer-build branch. Native workflow publishes completed renderer
 bundles before musical export, independently of branch-scoped/disposable
 Actions caches; a later failed musical acceptance does not invalidate a good
 renderer build. Fresh runners still install wxWidgets and run ldd. Cold make
@@ -28,7 +28,7 @@ musical sequence generation at the requested Helix commit, six snowmen,
 keyboard timing/geometry, independent voice-source requirements, FSEQ/XSQ,
 full decode, audio, brightness/motion gates, and release/publication hold.
 Local validation on Python3.12:67pytest cases +18subtests pass (bundle,
-native startup, strict native-artifact and stage/vocal suites);19Node cases
+native startup, strict native-artifact and stage/vocal suites);20Node cases
 pass (bundle provenance and producer polling); both changed workflow YAML
 files parse. Archive tests use explicit fixture binaries, not actual xLights.
 

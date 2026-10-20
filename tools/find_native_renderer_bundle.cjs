@@ -14,7 +14,7 @@ async function findNativeRendererBundle({github, core, owner, repo, branch, name
     });
     if (run.head_repository?.full_name !== owner + "/" + repo ||
         run.path !== ".github/workflows/fresh-real-band-mp4.yml" ||
-        ![branch, "codex/eight-hour-recovery-20261019"].includes(run.head_branch) ||
+        ![branch, "codex/eight-hour-recovery-20261019", "codex/native-build-reuse-20261020"].includes(run.head_branch) ||
         !["push", "pull_request", "workflow_dispatch"].includes(run.event)) continue;
     core.setOutput("run_id", String(run.id));
     core.info("Reusing pinned renderer build from " + run.html_url +
