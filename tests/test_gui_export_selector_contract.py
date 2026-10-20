@@ -19,11 +19,20 @@ def test_gui_exposes_all_three_export_choices():
     assert ["XSQ", "LMS", "Both"] in lists
 
 
-def test_gui_rejects_unimplemented_dual_export():
-    source = GUI.read_text(encoding="utf-8")
-    assert 'if selected == "Both":' in source
-    assert '"Automatic XSQ + LMS generation is not connected. "' in source
-    assert 'self.sequence_mode_var.set("Light-O-Rama" if selected == "LMS" else "xLights")' in source
+def test_gui_selects_mapped_ac_mode_for_both():
+    import gui_launcher as gui
+    from types import SimpleNamespace
+    class Var:
+        def __init__(self, value): self.value = value
+        def get(self): return self.value
+        def set(self, value): self.value = value
+    app = SimpleNamespace(export_format_var=Var("Both"), ac_on_only_var=Var(False),
+                          lor_compatible_var=Var(True), sequence_mode_var=Var("Light-O-Rama"))
+    gui.HelixGui._sync_export_format(app)
+    assert app.export_format_var.get() == "Both"
+    assert app.ac_on_only_var.get() is True
+    assert app.lor_compatible_var.get() is False
+    assert app.sequence_mode_var.get() == "xLights"
 
 
 def test_gui_has_explicit_ac_dual_export_action():

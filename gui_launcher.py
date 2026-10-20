@@ -334,13 +334,8 @@ class HelixGui(tk.Tk):
         """Map supported choices onto the existing sequencer modes."""
         selected = self.export_format_var.get()
         if selected == "Both":
-            messagebox.showwarning(
-                "Both formats not available yet",
-                "Automatic XSQ + LMS generation is not connected. "
-                "Choose XSQ or LMS for now; no second file will be promised."
-            )
-            self.export_format_var.set("XSQ")
-            return
+            self.ac_on_only_var.set(True)
+            self.lor_compatible_var.set(False)
         self.sequence_mode_var.set("Light-O-Rama" if selected == "LMS" else "xLights")
 
     def _update_mode_ui(self) -> None:
@@ -411,7 +406,7 @@ class HelixGui(tk.Tk):
     def _export_existing_xsq_both(self) -> None:
         """Convert an already generated AC-only XSQ with explicit hardware mapping."""
         if getattr(sys, "frozen", False):
-            messagebox.showerror("Not packaged", "Dual export is not included in this portable build yet.")
+            messagebox.showerror("Not packaged", "Use Both in Run Sequence Build for mapped AC dual export. Standalone conversion is not packaged.")
             return
         source = filedialog.askopenfilename(
             title="Choose completed Helix AC-only XSQ",
@@ -578,9 +573,16 @@ class HelixGui(tk.Tk):
         if self._busy:
             return
         selected = self.export_format_var.get()
+        dual_mapping = None
         if selected == "Both":
-            messagebox.showerror("Export unavailable", "Both outputs are not yet supported by this GUI.")
-            return
+            dual_mapping = filedialog.askopenfilename(
+                title="Choose verified AC model / LOR Unit-Circuit mapping CSV",
+                filetypes=[("CSV files", "*.csv")],
+            )
+            if not dual_mapping:
+                return
+            self.ac_on_only_var.set(True)
+            self.lor_compatible_var.set(False)
         expected_mode = "Light-O-Rama" if selected == "LMS" else "xLights"
         if self.sequence_mode_var.get() != expected_mode:
             self.sequence_mode_var.set(expected_mode)
@@ -632,6 +634,9 @@ class HelixGui(tk.Tk):
             "--no-prompt",
         ]
 
+        if dual_mapping is not None:
+            cmd.extend(["--helix-dual-channel-map", dual_mapping])
+            self._log("Both formats: AC On-only XSQ plus legacy LMS using the selected controller mapping.")
         if not lor_mode and self.model_routing_var.get().strip():
             routing=Path(self.model_routing_var.get().strip())
             if not routing.is_file():

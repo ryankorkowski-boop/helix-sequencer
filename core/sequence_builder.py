@@ -856,7 +856,17 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         raise SystemExit(1)
 
     raw_engine_args = list(engine_args or [])
-    ac_only = AC_ONLY_FLAG in raw_engine_args
+    from core.dual_export import DUAL_MAP_FLAG, validate_mapping, export_lms_siblings
+    dual_mapping = None
+    if DUAL_MAP_FLAG in raw_engine_args:
+        index = raw_engine_args.index(DUAL_MAP_FLAG)
+        if index + 1 >= len(raw_engine_args):
+            raise SystemExit("Dual export requires a verified controller mapping CSV")
+        dual_mapping = Path(raw_engine_args[index + 1]).resolve()
+        del raw_engine_args[index:index + 2]
+        if DUAL_MAP_FLAG in raw_engine_args:
+            raise SystemExit("Provide one dual-export mapping CSV")
+    ac_only = AC_ONLY_FLAG in raw_engine_args or dual_mapping is not None
     spatial_accent = SPATIAL_ACCENT_FLAG in raw_engine_args
     strict_showcase = SHOWCASE_GATE_FLAG in raw_engine_args
     pitched_props = NO_PITCHED_PROPS_FLAG not in raw_engine_args
@@ -927,6 +937,8 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
             raise SystemExit("AC-only mode requires a physical single-color layout")
         try:
             inventory_layout(Path(layout_flag))
+            if dual_mapping is not None:
+                validate_mapping(Path(layout_flag), dual_mapping)
         except (OSError,ValueError) as exc:
             raise SystemExit(f"AC-only preflight failed: {exc}") from exc
         if NO_EFFECTS_ORCHESTRATOR_FLAG not in raw_engine_args:
@@ -1011,8 +1023,15 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                 _package_generated_xlights_show(
                     engine_args, artifact_roots, artifact_snapshot, ctx
                 )
+            dual_outputs = []
+            if dual_mapping is not None:
+                dual_outputs = export_lms_siblings(generated, dual_mapping)
+                for output in dual_outputs:
+                    ctx.record_artifact('lor_sequence' if output.suffix == '.lms' else 'lor_lms_validation', output)
+                print(f"dual_export: retained {len(generated)} XSQ and generated mapped LMS siblings", flush=True)
             for folder in {p.parent for p in generated}:
                 outputs = [p for p in generated if p.parent == folder]
+                outputs += [p for p in dual_outputs if p.parent == folder and p.suffix == '.lms']
                 if lor_source is not None:
                     outputs += [p.with_suffix('.lms') for p in list(outputs) if p.with_suffix('.lms').is_file()]
                 for p in list(outputs):
@@ -1079,6 +1098,7 @@ def build_parser() -> argparse.ArgumentParser:
         description="Helix Sequencer: Automated audio-to-light sequencing for xLights.",
         epilog=(
             "Engine arguments (after --): Passed directly to the effect engine.\n"
+            "  --helix-dual-channel-map CSV: Generate AC On-only XSQ + mapped legacy LMS.\n"
             "  --effects-orchestrator: Generate an optional orchestration sidecar.\n"
             "  --no-effects-orchestrator: Skip orchestration pass (default).\n"
             "  --promote-orchestrated-template: Use orchestrator output as input template.\n"

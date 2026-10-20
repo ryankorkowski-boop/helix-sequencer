@@ -29,6 +29,10 @@ Helix helps you turn a song into a lighting sequence you can inspect and refine 
 
 The aim is to illustrate what musicians are playing or singing. Actual timing, detection quality, model appearance, and xLights playback must be checked against a rendered native sequence; an animation or simulated MP4 alone is not proof.
 
+## Save both XSQ and LMS
+
+For an eligible single-color AC layout, choose **Both** in the desktop export selector. The normal sequence build asks for your verified LOR Unit/Circuit mapping CSV and writes matching XSQ and legacy LMS files together. See [dual export instructions](DUAL_EXPORT.md) for the CSV columns, supported effects and current desktop/Android limits.
+
 ## Pixels versus traditional AC strands
 
 **Pixel mode:** Independently addressable model nodes permit more detailed poses and musical responses. Match the exported model and channel layout to your real pixel controller and wiring.
