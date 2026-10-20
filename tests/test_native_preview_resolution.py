@@ -122,7 +122,10 @@ class NativePreviewResolutionTests(unittest.TestCase):
         with patch.dict(os.environ, {}, clear=True), \
                 patch.object(preview.shutil, "which", return_value="/bin/true"), \
                 patch.object(preview.subprocess, "run", side_effect=render), \
-                patch.object(preview, "inspect_fseq", return_value={"duration_ms": 1000}), \
+                patch.object(preview, "inspect_fseq", return_value={
+                    "duration_ms": 1000, "channels": 16, "frames": 20,
+                    "nonzero_samples": 40, "nonzero_frames": 10,
+                    "peak_lit_channels": 4, "mean_lit_fraction": 0.125}), \
                 patch.object(preview, "_native_export", side_effect=export), \
                 patch.object(preview, "probe_media", return_value={"streams": [
                     {"codec_type": "video", "width": size[0], "height": size[1]}]}), \
