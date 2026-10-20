@@ -34,14 +34,29 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends ffmpeg libegl1 libgl1 libgl1-mesa-dri libgles2 libopengl0 libglu1-mesa libgomp1 fonts-dejavu-core
           python -m pip install --upgrade pip
-          python -m pip install 'numpy>=1.26,<3' scipy librosa==0.10.2.post1 soundfile Pillow trimesh moderngl glcontext imageio imageio-ffmpeg numba llvmlite gdown
+          python -m pip install 'numpy>=1.26,<3' scipy librosa==0.10.2.post1 soundfile Pillow trimesh moderngl glcontext imageio imageio-ffmpeg numba llvmlite gdown==6.4.2
       - name: Regression tests for source motion and fixed-camera validation
         run: python -m unittest discover -s tests -p test_final_recovery_motion.py -v
       - name: Download and authenticate original Helix Audiolights and song-analysis sources
         run: |
           mkdir -p render-input
-          python -m gdown "$ORIGINAL_PACKAGE_ID" -O "$RUNNER_TEMP/authentic-E14.zip"
-          echo "$ORIGINAL_PACKAGE_SHA256  $RUNNER_TEMP/authentic-E14.zip" | sha256sum --check
+          # Same original source on every attempt; a successful download is
+          # insufficient without the pinned archive digest.
+          source_ok=0
+          for attempt in 1 2 3; do
+            rm -f "$RUNNER_TEMP/authentic-E14.zip"
+            if python -m gdown "$ORIGINAL_PACKAGE_ID" -O "$RUNNER_TEMP/authentic-E14.zip" && \
+               echo "$ORIGINAL_PACKAGE_SHA256  $RUNNER_TEMP/authentic-E14.zip" | sha256sum --check; then
+              source_ok=1
+              break
+            fi
+            echo "::warning::Original V3 source download/identity check failed (attempt $attempt/3)"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 15)); fi
+          done
+          if [ "$source_ok" -ne 1 ]; then
+            echo "::error::Exact original V3 source unavailable or digest mismatched; check Drive quota/sharing. No substitute accepted."
+            exit 1
+          fi
           python - <<'PY'
           import os,hashlib,json,zipfile
           from pathlib import Path

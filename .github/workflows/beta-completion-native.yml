@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: helix-native-${{ github.ref }}
   cancel-in-progress: true
@@ -36,15 +37,12 @@ jobs:
           ./xLights.AppImage --appimage-extract >/dev/null
       - name: Verify giant, pitched keys, both physical drummer modes, chorus and two pixel bands
         run: xvfb-run -a python validation/beta_native_proof.py --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun" --output native-proof
-      - name: Enforce full-band musical showcase acceptance
+      - name: Preserve diagnostic fixture inventory (not musical acceptance)
         if: always()
         run: |
-          if [ ! -d native-proof ]; then
-            echo "Native proof directory missing; full-band showcase cannot be accepted."
-            exit 1
-          fi
+          test -d native-proof
           zip -qr native-proof-acceptance.zip native-proof
-          python tools/verify_native_proof_archive.py native-proof-acceptance.zip --require-showcase --report native-proof-acceptance.json
+          python tools/verify_native_proof_archive.py native-proof-acceptance.zip --report native-proof-acceptance.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -53,4 +51,68 @@ jobs:
             native-proof/
             native-proof-acceptance.json
           if-no-files-found: error
+          retention-days: 30
+
+  accepted-native-band:
+    needs: native-proof
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Await successful native producer at this exact commit
+        id: producer
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner, repo = context.repo.repo;
+            const sha = context.payload.pull_request?.head.sha || context.sha;
+            const branch = context.payload.pull_request?.head.ref || context.ref.replace('refs/heads/', '');
+            // This consumer must never pick a previous commit, unrelated movie,
+            // failed producer, expired artifact or fork's workflow output.
+            for (let attempt = 0; attempt < 110; attempt++) {
+              const response = await github.rest.actions.listWorkflowRuns({owner, repo,
+                workflow_id: 'fresh-real-band-mp4.yml', branch, head_sha: sha, per_page: 100});
+              const runs = response.data.workflow_runs.filter(r => r.head_sha === sha &&
+                r.head_repository?.full_name === `${owner}/${repo}`);
+              const successful = runs.filter(r => r.conclusion === 'success');
+              for (const run of successful) {
+                const listing = await github.rest.actions.listWorkflowRunArtifacts({owner, repo, run_id: run.id});
+                const artifacts = listing.data.artifacts.filter(a => !a.expired &&
+                  a.name === 'helix-fresh-original-audio-six-snowmen-keyboard');
+                if (artifacts.length !== 1) throw new Error('Successful native run must have exactly one source-bound artifact');
+                core.setOutput('run_id', String(run.id));
+                core.setOutput('sha', sha);
+                core.info(`Accepting only native producer ${run.html_url} at ${sha}`);
+                return;
+              }
+              if (attempt >= 4 && runs.length && runs.every(r => r.status === 'completed')) {
+                throw new Error(`No successful native producer at ${sha}: ${runs.map(r => `${r.id}:${r.conclusion}`).join(', ')}`);
+              }
+              core.info(`Waiting for genuine native producer at ${sha} (${attempt + 1}/110)`);
+              await new Promise(resolve => setTimeout(resolve, 30000));
+            }
+            throw new Error('Native producer missing or did not succeed within 55 minutes');
+      - name: Download only the matched native artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: helix-fresh-original-audio-six-snowmen-keyboard
+          path: accepted-native
+          github-token: ${{ github.token }}
+          run-id: ${{ steps.producer.outputs.run_id }}
+      - name: Independently verify source bytes, editable tracks, FSEQ, decoded video and soundtrack
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install numpy scipy zstandard
+          python -m tools.verify_native_band_artifact accepted-native --report native-band-acceptance.json
+      - name: Preserve acceptance report and exact producer identity
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Accepted-Native-Band
+          path: native-band-acceptance.json
+          if-no-files-found: warn
           retention-days: 30

@@ -21,22 +21,43 @@ on:
         type: string
 permissions:
   contents: read
+  actions: write
 
 # Prevent multiple 60-minute native builds from accumulating on the same branch.
 # A newer source/workflow revision supersedes an older in-flight preview.
 concurrency:
-  group: helix-native-preview-${{ github.workflow }}-${{ github.ref }}
+  group: helix-native-preview-${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
   preflight:
     runs-on: ubuntu-24.04
     steps:
+      - name: Cancel superseded native runs from previous concurrency groups
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = context.payload.pull_request?.head.ref || context.ref.replace('refs/heads/', '');
+            const { data } = await github.rest.actions.listWorkflowRuns({
+              ...context.repo, workflow_id: 'fresh-real-band-mp4.yml', branch, per_page: 100});
+            for (const run of data.workflow_runs) {
+              if (run.id !== context.runId && run.run_number < context.runNumber &&
+                  run.status !== 'completed' && run.head_branch === branch) {
+                core.info(`Cancelling superseded native run ${run.id}`);
+                try {
+                  await github.rest.actions.cancelWorkflowRun({...context.repo, run_id: run.id});
+                } catch (error) {
+                  // A run can finish or cancel between listing and this call.
+                  core.warning(`Could not cancel ${run.id}: ${error.message}`);
+                }
+              }
+            }
       - uses: actions/checkout@v4
       - name: Check true native renderer paths
         run: |
           python -m compileall -q tools/recover_showcase_source_cache.py tools/native_source_pose_band.py tools/native_preview.py tools/verify_showcase_audio_identity.py
           python -m unittest discover -s tests -p test_native_preview_resolution.py -v
+          python -m compileall -q tools/patch_xlights_native_export.py
           python -m unittest discover -s tests -p test_select_starred_music.py -v
           python -m tools.select_starred_music --rotation 0
   render:
@@ -124,6 +145,13 @@ jobs:
               out.write('SOURCE_ROOT='+str(root)+'\n')
           print('Verified E14 original audio and retained source analysis:',expected)
           PY
+      - name: Restore compiled pinned native renderer
+        id: native-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+          restore-keys: xlights-native-ubuntu24-2026.18-
       - name: Install checksum pinned native xLights
         run: |
           mkdir -p "$RUNNER_TEMP/xlights"
@@ -142,28 +170,20 @@ jobs:
             libfreetype-dev libharfbuzz-dev libfontconfig-dev \
             libavahi-compat-libdnssd-dev libminizip-dev libxlsxwriter-dev \
             cbp2make glslc glslang-dev
-          git clone --depth 1 --branch 2026.18 --recurse-submodules \
-            https://github.com/xLightsSequencer/xLights.git "$RUNNER_TEMP/xlights-src"
+          if [ ! -d "$RUNNER_TEMP/xlights-src/.git" ]; then
+            git clone --depth 1 --branch 2026.18 --recurse-submodules \
+              https://github.com/xLightsSequencer/xLights.git "$RUNNER_TEMP/xlights-src"
+          fi
           cd "$RUNNER_TEMP/xlights-src"
-          # Patch the exact pinned source token; fail closed if upstream changed.
-          # git apply rejected the context-free hunk despite matching source lines.
-          python - <<'PY'
-          from pathlib import Path
-          p = Path("src-ui-wx/xLightsMain.cpp")
-          raw = p.read_text()
-          old = "    int width = housePreview->getWidth();\n    int height = housePreview->getHeight();"
-          new = """    // Explicit export dimensions prevent stale on-screen preview geometry.
-              int width = resizedForExport
-                              ? (int)(desiredWidth / contentScaleFactor)
-                              : housePreview->getWidth();
-              int height = resizedForExport
-                               ? (int)(desiredHeight / contentScaleFactor)
-                               : housePreview->getHeight();""".replace("              int", "    int").replace("                              ?", "                    ?").replace("                              :", "                    :").replace("                               ?", "                     ?").replace("                               :", "                     :")
-          if raw.count(old) != 1:
-              raise SystemExit(f"Expected exactly one xLights export-size site, found {raw.count(old)}")
-          p.write_text(raw.replace(old, new, 1))
-          assert new in p.read_text()
-          PY
+          test "$(git rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
+          if [ "${{ steps.native-cache.outputs.cache-hit }}" = true ] && [ -x bin/xLights ]; then
+            echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          # Reuse previous object files, but restore only our two pinned source
+          # sites before applying this revision's verified native patch.
+          git checkout -- src-ui-wx/xLightsMain.cpp src-ui-wx/app-shell/TabSequence.cpp
+          python "$GITHUB_WORKSPACE/tools/patch_xlights_native_export.py" "$RUNNER_TEMP/xlights-src"
           # Capture actionable compiler errors even when GitHub's live job logs
           # are unavailable, and cap a stalled compile before job timeout.
           set -o pipefail
@@ -172,6 +192,12 @@ jobs:
           timeout --signal=TERM --kill-after=30s 48m make -j 4 2>&1 | tee "$GITHUB_WORKSPACE/xlights-native-build.log"
           test -x bin/xLights
           echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
+      - name: Preserve completed native build before export acceptance
+        if: steps.native-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
       - name: Regenerate actual six-musician editable sequence from retained source musical analysis
         run: |
           mkdir -p review

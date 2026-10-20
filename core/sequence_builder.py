@@ -12,6 +12,7 @@ from core.prime_beat_grid import prime_beat_grid_args
 from core.run_config import RunConfig
 from core.run_manager import RunContext, RunManager
 
+EFFECTS_ORCHESTRATOR_FLAG = "--effects-orchestrator"
 NO_EFFECTS_ORCHESTRATOR_FLAG = "--no-effects-orchestrator"
 LOR_SOURCE_FLAG = "--helix-lor-source-lms"
 PREVIEW_MP4_FLAG = "--helix-preview-mp4"
@@ -28,6 +29,7 @@ BEAT_GRID_FLAGS = {
 }
 BEAT_GRID_VALUE_FLAGS = BEAT_GRID_FLAGS - {"--no-snap"}
 ORCHESTRATOR_ONLY_FLAGS = {
+    EFFECTS_ORCHESTRATOR_FLAG,
     NO_EFFECTS_ORCHESTRATOR_FLAG,
     PROMOTE_ORCHESTRATOR_TEMPLATE_FLAG,
     NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG,
@@ -61,7 +63,11 @@ def available_versions() -> list[str]:
 
 def _orchestration_enabled(engine_args: list[str] | None) -> bool:
     args = engine_args or []
-    return NO_EFFECTS_ORCHESTRATOR_FLAG not in args
+    # Sidecar-only orchestration does not affect the sequence the user opens.
+    # Avoid a redundant analysis/XSQ pass unless requested or promoted.
+    return (NO_EFFECTS_ORCHESTRATOR_FLAG not in args
+            and (EFFECTS_ORCHESTRATOR_FLAG in args
+                 or PROMOTE_ORCHESTRATOR_TEMPLATE_FLAG in args))
 
 
 def _orchestrator_template_promotion_enabled(engine_args: list[str] | None) -> bool:
@@ -1073,7 +1079,8 @@ def build_parser() -> argparse.ArgumentParser:
         description="Helix Sequencer: Automated audio-to-light sequencing for xLights.",
         epilog=(
             "Engine arguments (after --): Passed directly to the effect engine.\n"
-            "  --no-effects-orchestrator: Skip orchestration pass.\n"
+            "  --effects-orchestrator: Generate an optional orchestration sidecar.\n"
+            "  --no-effects-orchestrator: Skip orchestration pass (default).\n"
             "  --promote-orchestrated-template: Use orchestrator output as input template.\n"
             "  --no-orchestrator-template-promotion: Force sidecar-only behavior.\n"
             "  --snap-grid 16: Snap timing to sixteenth-note grid.\n"
