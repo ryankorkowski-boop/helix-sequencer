@@ -1,5 +1,110 @@
 # Final roadmap and release handoff
 
+Updated 2026-10-20 (startup recovery milestone). Status is evidence-based.
+Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] blocked; [-] intentionally retired.
+
+## A. Current repository state
+- Branch: `codex/eight-hour-recovery-20261019`; inspected parent HEAD: `746b63f110f9dbbd5a8f2c68826317944a388e27`. The commit containing this checkpoint is the startup-recovery child of that SHA; use `git rev-parse HEAD` after fetching.
+- Integration [PR #188](https://github.com/ryankorkowski-boop/helix-sequencer/pull/188): open, draft, base `feature/restructure-core`. No merge/publication authorized.
+- Working tree: changes are committed atomically through GitHub Git Data API; no local checkout/runtime available in this session. Do not interpret this as a checked local clean tree.
+- At inspected HEAD, core CI 39449667720, beta CI 39449667902, Windows 39449667881, Android 39449667728, license bundle 39449667741 passed.
+- Last successful native producer: [39414958884](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39414958884), head lineage `ff019a902d721504e599701b7433f6a3091b8f92`; PR checkout was synthetic merge `175a50b`. Preserve both provenance values.
+- Regression: `746b63f` adds unconditional `xdotool windowclose` after cooperative dismissal. Failed run's X11 tree contains only Openbox afterward; export receives connection refusal. Correlation strongly implicates destructive closure; no direct exit trace yet.
+
+## B. Completed and verified
+- [x] REC01: fetched actual HEAD, PR metadata, root AGENTS.md (only AGENTS.md found in recursive tree), canonical MASTER_TODO.md, failed job 118721373351 and successful reference job 118602350198.
+- [x] REF01: successful native reference confirmed from Actions logs: median luma 24.072 (>=12), bright fraction 0.13098 (>=0.012), motion 0.921 (>=0.65), original-audio verification and native decode steps passed.
+- Reference artifact: [12264050159](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39414958884/artifacts/12264050159). Historical evidence only; not acceptance of current changes.
+- No new native movie or new test pass is claimed at this checkpoint.
+
+## C. In progress
+All rows use branch `codex/eight-hour-recovery-20261019`. Commit/evidence identifies inspected parent or this recovery change, not a presumed passing build.
+
+| Task ID | Status | Description | Files | Commit | Tests | Actions | Artifacts | Blocker | Next action |
+|---|---|---|---|---|---|---|---|---|---|
+| NAT01 | [~] | Restore safe startup dismissal and process/REST survival | tools/native_preview.py; tests/test_native_preview_resolution.py | Recovery child of 746b63f | 7 added cases plus exact 2-command assertion; execution pending CI | Native push workflow preflight gates render | native_startup_health.json uploaded even on failure | No local runtime | Inspect preflight then native producer on recovery SHA |
+| NAT02 | [~] | Genuine 1920x1080 original-audio native movie and strict visual gates | .github/workflows/fresh-real-band-mp4.yml | Recovery child | Existing HD/audio/luma/motion gates unchanged | Last failure 39449667724 | Failed diagnostics 12281386545; no MP4 in failed run | Fresh render required | Inspect successful producer logs and decoded frames |
+| BAND01 | [~] | Exact-head artifact verification | tools/verify_native_band_artifact.py; beta-completion-native.yml | Present at 746b63f | Existing verifier tests; fresh consumer required | Last failure 39449667840 | None accepted for recovery SHA | Producer dependency | Check accepted-native-band at same source SHA |
+| KEY01 | [ ] | Visible complete keyboard, pitched key activity, natural contact | tools/native_source_pose_band.py; source choreography | 746b63f baseline | CI 39449667850 passed; visual acceptance absent | Native producer pending | Retained source data, not approval | Failed-run audit: left contact 168/474 active frames, right 22/144 | Inspect source contact mapping and fresh decoded native frames |
+| VOC01 | [ ] | Independently active backing singer with restrained lyric mouth | vocal/role analysis and native_source_pose_band.py | 746b63f baseline | No vocal ground truth claimed | Failed producer source audit available | Harmony mouth_rest=720/720, active non-rest parts=0 | Actual backing role inactive in retained analysis | Inspect role extraction before changing activity; never fabricate harmony |
+| PERF01 | [ ] | Drummer/guitar/bass synchronization and independent snowman performance | source band geometry/choreography | 746b63f baseline | Drum CI 39449667963 passes; musical review still open | Fresh native pending | Historical reference only | Needs actual media review | Review instrument passages including fast kick and solos |
+| AUD01 | [ ] | Recover/integrate developed unused intelligence and effects | audio/; core/; music/; effect policies | Prior ledger retained | Prior 79-test subset historical | Core CI passes at parent | None new | Current entrypoint coverage audit incomplete | Trace real sequencing entrypoint to existing analysis, styles, Meteors/Shader assets |
+| OPT01 | [ ] | Representative real-audio time and memory profile | core/sequence_builder.py; audio caches | Parent already defaults 1 variant; unused sidecar opt-in implemented earlier | No new baseline/after measurements | None new | None | Local runtime absent | Profile same real source, record wall/RSS and musical output parity |
+| EXP01 | [ ] | Independently editable XSQ/FSEQ plus supported dual LMS and AC safety | xlights/; lor exports; model mapping | Parent baseline | File-level checks pending fresh exports | Parent CI historical | Reference XSQ/FSEQ retained | Native import/CTB16PC hardware not established | Validate generated files/timing; document physical limits |
+| LAY01 | [ ] | Layout selection persists across desktop/Android runs | layout_preferences.py; GUI/config | Prior settings recovery tested historically | Fresh persistence/runtime evidence needed | Desktop capture 39449667991 passed at parent | No new runtime package | Real-device checks absent | Inspect saved selection and missing-layout behavior |
+| WIN01 | [~] | Portable EXE runtime and licensing | packaging/Windows GUI | 746b63f | CI build passed; physical Windows untested | 39449667881 success | Query current run artifacts before use | No Windows device | Review package/startup/export/offline evidence |
+| AND01 | [~] | APK runtime, storage, playback, persistence | Android GUI/package | 746b63f | CI build passed; physical Android untested | 39449667728 success | Query current run artifacts before use | No Android device/emulator this session | Collect available CI checks and owner-device feedback |
+| LIC01 | [~] | PolyForm Noncommercial and separate paid commercial licensing consistency | LICENSE; NOTICE; GUIs; package metadata | 746b63f | License bundle passed; surface audit incomplete | 39449667741 success | Query artifact before use | Full current distribution audit pending | Audit first-party MIT mentions; retain required third-party notices |
+| SHOW01 | [ ] | Six-performer native preview | native workflow | Recovery SHA pending | Strict native checks required | NAT02 dependency | No new MP4 | Native render pending | Complete NAT02 then inspect six performers |
+| SHOW02 | [ ] | Six synchronized distinct layouts | showcase pipeline | None newly verified | No acceptance | None new | None | Native core first | Generate same-passage native panels after band acceptance |
+| SHOW03 | [ ] | Full-song native demonstration | source/showcase pipeline | None newly verified | 36s reference is not full-song | None new | None | Source analysis/native runtime | Use authorized original full-length source and preserve duration |
+| SHOW04 | [ ] | Advertisement, teasers, highlights | promotional pipeline | Historical assets preserved | No fresh approval | None new | None | Core band acceptance first | Produce only after SHOW01; no publication |
+| HAND01 | [~] | Continuous handoff and canonical ledger | docs/FINAL_ROADMAP_HANDOFF.md; MASTER_TODO.md | This recovery change | Evidence updated with every milestone | Runs to be recorded after push | GitHub tracked files | None | Append actual SHA, tests, runs and artifacts |
+
+## D. Blocked
+- Local execution: exec_command returned exactly `No usable execution environment is available. Wait for an environment to become available before using this tool.` No local tests, rendering, profiling, install or physical checks claimed. GitHub source edits and Actions remain available.
+- Native failed job 118721373351 at 746b63f: `Native audio preview unavailable; retain XSQ for xLights: <urlopen error [Errno 111] Connection refused>`. FSEQ was active (720/720 frames, 33,617,814 nonzero samples); the failure occurred after GUI startup handling, before video export.
+- Backing voice audit in the same job: harmony had only rest frames (720), all 9 non-rest phoneme tracks zero. Do not mark two-vocal acceptance from performer presence alone.
+- Keyboard contact audit: 306/474 left-active and 122/144 right-active frames lacked source-key contact. Source estimators explicitly do not establish musical ground truth.
+
+## E. Remaining roadmap (priority order)
+1. Require passing focused preflight, live owned process + REST health, accepted native MP4 on recovery commit.
+2. Require exact-SHA consumer acceptance, source hashes/audio synchronization/independent editable rows and genuine FSEQ.
+3. Fix and visually verify keyboard presence/contact and independently evidenced backing vocals; preserve six performers and snowman art.
+4. Audit real production musical/effect entrypoints, profile actual audio, validate exports and layout persistence.
+5. Review Windows/Android/license runtime evidence and identify remaining physical validation.
+6. Produce synchronized distinct six-layout and full-song native assets; then advertisement cuts.
+7. Owner visual/hardware review and explicit release approval.
+
+## F. GitHub Actions status
+| Run | Source SHA | Outcome | Evidence |
+|---|---|---|---|
+| [39414958884](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39414958884) | ff019a9 (PR checkout 175a50b) | success | Native reference artifact 12264050159 and strict readability pass |
+| [39414958924](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39414958924) | Historical ff019a9 lineage; inspect checkout before reuse | Reported successful reference; consumer details not independently re-read yet | Historical only |
+| [39449667724](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39449667724) | 746b63f | failure | [12281386545](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39449667724/artifacts/12281386545), diagnostic/source archive, not a successful MP4 |
+| [39449667840](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39449667840) | 746b63f | failure | Producer unavailable |
+| 39449667720 / 39449667902 | 746b63f | success | Core / beta CI; runtime acceptance separate |
+| 39449667881 / 39449667728 | 746b63f | success | Windows / Android builds; physical checks separate |
+| Recovery child | Inspect branch HEAD | Pending push and focused preflight | Never rerun failed old SHA as proof of the fix |
+
+## G. Validation evidence and limits
+- Exact source diff: 746b63f adds only two windowclose lines to tools/native_preview.py. Recovery removes those lines and adds post-dismissal process/REST checks with persisted JSON.
+- Regression suite adds: safe Escape-only fallback, healthy process+endpoint, dead process before request, connection refusal, rejected REST, death during request, production export refuses to proceed after process death. Existing dismissal test now asserts exactly two cooperative commands.
+- Required preflight command: `python -m unittest discover -s tests -p test_native_preview_resolution.py -v`. Not executed locally; CI must pass before render.
+- Historical metrics above are verified from logs, not a fresh quality claim. Frame review, backing-source accuracy, physical controller/device performance and full-song assets remain open.
+- Source audio identity remains SHA256 `8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171`; archive identity and renderer pin remain unchanged.
+
+## H. Next Agent Starts Here
+1. `git fetch origin codex/eight-hour-recovery-20261019 && git switch codex/eight-hour-recovery-20261019 && git pull --ff-only`; inspect `git rev-parse HEAD` and `git status --short`.
+2. Read root AGENTS.md, MASTER_TODO.md, then this current checkpoint; older text below is retained history.
+3. Run `python -m unittest discover -s tests -p test_native_preview_resolution.py -v`; broader installed-runtime suite: `python -m pytest tests/test_native_preview.py tests/test_native_preview_resolution.py tests/test_native_band_artifact.py -q`.
+4. Inspect latest branch fresh-real-band-mp4.yml run. Do not queue duplicates or cancel healthy work. Preflight is a dependency of render.
+5. Inspect native_startup_windows.json + native_startup_health.json + native_gui.log, ffprobe, readability and native artifact provenance. Require alive process and responding REST after dialog handling.
+6. Inspect beta-completion-native.yml accepted-native-band consumer for exact producer SHA. Record run URLs/artifact IDs and results in this file and MASTER_TODO.md.
+7. Continue KEY01/VOC01 while rendering; start with source audit counts above. Preserve estimator uncertainty and never invent backing-vocal events.
+8. Keep release hold until all actual acceptance requirements are evidenced.
+
+## I. Last Known Good
+| Subsystem | Last evidence | Limits |
+|---|---|---|
+| Native startup / native MP4 / visibility | ff019a9 producer 39414958884 | PR checkout 175a50b; earlier footage only |
+| Core and beta CI | 746b63f runs 39449667720 / 39449667902 | CI cannot establish artistic quality |
+| Windows and Android packaging | 746b63f runs 39449667881 / 39449667728 | No physical-device validation claimed |
+| License bundle | 746b63f run 39449667741 | All GUI/distribution surfaces still require audit |
+| Keyboard focused regression / drum benchmark | 746b63f runs 39449667850 / 39449667963 | Contact/real-song ground truth remains open |
+| Backing vocal acceptance / six-panel full-song showcase | No completed current evidence | Must continue implementation |
+
+## J. Final release decision
+**INCOMPLETE — CONTINUE IMPLEMENTATION**
+
+No release/default merge, publication, public music distribution, physical-device success or fresh MP4 acceptance is implied by this milestone.
+
+---
+
+# Retained earlier handoff (historical; current checkpoint above takes precedence)
+
+# Final roadmap and release handoff
+
 Updated 2026-10-20. Branch: `codex/eight-hour-recovery-20261019`; inspected HEAD: `3077fb3fffbc9b0a16b22ad1850b1d1abc30eb63`; integration PR: #188.
 Read `MASTER_TODO.md` and `docs/HELIX_LIVE_IMPLEMENTATION_CHECKLIST.md` for preserved history. This file records the current release gates. No default/release merge or publication authorized.
 

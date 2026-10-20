@@ -284,6 +284,7 @@ jobs:
             review/**/native_headless.log
             review/**/native_gui.log
             review/**/native_startup_windows.json
+            review/**/native_startup_health.json
             review/**/native_window_geometry.txt
             review/**/native_canvas_resize.json
             review/**/native_channels.json

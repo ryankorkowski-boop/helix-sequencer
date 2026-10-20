@@ -213,6 +213,9 @@ def _dismiss_startup_dialogs(pid: int, evidence_dir: Path) -> None:
             if not shutil.which("xdotool"):
                 raise RuntimeError("Viewable startup dialog requires xdotool dismissal")
             for window in visible:
+                # Never use xdotool windowclose: it destroys the X11 window
+                # directly and can terminate its owning client. Restore the
+                # known-good cooperative WM_DELETE_WINDOW/Escape behavior.
                 # Close the exact owned dialog through WM_DELETE_WINDOW when
                 # available, then target Escape to it. No global keystrokes.
                 if shutil.which("wmctrl"):
@@ -220,12 +223,38 @@ def _dismiss_startup_dialogs(pid: int, evidence_dir: Path) -> None:
                                    text=True, timeout=5, check=False)
                 subprocess.run(["xdotool", "key", "--window", window, "Escape"],
                                capture_output=True, text=True, timeout=5, check=False)
-                subprocess.run(["xdotool", "windowclose", window],
-                               capture_output=True, text=True, timeout=5, check=False)
             time.sleep(.5)
     finally:
         report.write_text(json.dumps(evidence, indent=2) + "\n")
         print("HELIX_NATIVE_STARTUP_WINDOWS " + json.dumps(evidence), flush=True)
+
+
+
+def _assert_native_ready(app: subprocess.Popen, endpoint: str,
+                         evidence_dir: Path) -> None:
+    """Require the owned process and REST server to survive dialog dismissal."""
+    evidence: dict[str, Any] = {"pid": app.pid, "endpoint": endpoint,
+                                "process_returncode": app.poll(),
+                                "rest_responding": False}
+    try:
+        if evidence["process_returncode"] is not None:
+            raise RuntimeError(
+                f"xLights exited {evidence['process_returncode']} after startup dialog dismissal")
+        response = rest._request_json("GET", f"{endpoint}/getVersion", timeout=5)
+        if not rest._response_ok(response):
+            raise ValueError(f"xLights version request rejected: {response}")
+        evidence["rest_responding"] = True
+        evidence["process_returncode"] = app.poll()
+        if evidence["process_returncode"] is not None:
+            raise RuntimeError(
+                f"xLights exited {evidence['process_returncode']} during post-dialog health check")
+    except (OSError, ValueError, RuntimeError) as exc:
+        evidence["error"] = str(exc)
+        raise RuntimeError(f"xLights post-dialog health check failed: {exc}") from exc
+    finally:
+        (evidence_dir / "native_startup_health.json").write_text(
+            json.dumps(evidence, indent=2) + "\n")
+        print("HELIX_NATIVE_STARTUP_HEALTH " + json.dumps(evidence), flush=True)
 
 
 def _native_export(xlights: str, show: Path, staged: Path,
@@ -263,6 +292,7 @@ def _native_export(xlights: str, show: Path, staged: Path,
             if Path(opened.get("fullseq", "")).resolve() != staged:
                 raise ValueError("xLights opened an unexpected sequence")
             _dismiss_startup_dialogs(app.pid, staged.parent)
+            _assert_native_ready(app, endpoint, staged.parent)
             video = staged.parent / "native-silent.mp4"
             width, height = _export_size()
             options: dict[str, str] = {"filename": str(video),

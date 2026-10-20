@@ -5,7 +5,7 @@ import os
 import tempfile
 from pathlib import Path
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from tools import native_preview as preview
 from tools.native_preview import _stream
@@ -124,6 +124,7 @@ class NativePreviewResolutionTests(unittest.TestCase):
                              ["wmctrl", "-ic", "0x123"])
             self.assertEqual(command.call_args_list[1].args[0],
                              ["xdotool", "key", "--window", "0x123", "Escape"])
+            self.assertEqual(command.call_count, 2)  # No destructive fallback.
 
     def test_persistent_viewable_tip_fails_and_keeps_diagnostics(self):
         with tempfile.TemporaryDirectory() as directory, \
@@ -153,6 +154,90 @@ class NativePreviewResolutionTests(unittest.TestCase):
                 preview._dismiss_startup_dialogs(123, Path(directory))
             command.assert_not_called()
             self.assertTrue((Path(directory) / "native_startup_windows.json").is_file())
+
+
+    def test_owned_tip_without_wmctrl_only_receives_targeted_escape(self):
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.shutil, "which",
+                             side_effect=lambda tool: None if tool == "wmctrl" else "/bin/tool"), \
+                self._dialog_probe(["IsViewable", "IsUnMapped"]), \
+                patch.object(preview.time, "sleep"), \
+                patch.object(preview.subprocess, "run") as command:
+            preview._dismiss_startup_dialogs(123, Path(directory))
+            command.assert_called_once_with(
+                ["xdotool", "key", "--window", "0x123", "Escape"],
+                capture_output=True, text=True, timeout=5, check=False)
+
+    def test_post_dialog_health_requires_live_process_and_rest(self):
+        app = SimpleNamespace(pid=123, poll=Mock(return_value=None))
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.rest, "_request_json", return_value={"res": 200}) as request, \
+                patch.object(preview.rest, "_response_ok", return_value=True):
+            preview._assert_native_ready(app, "http://127.0.0.1:49914", Path(directory))
+            report = json.loads((Path(directory) / "native_startup_health.json").read_text())
+            self.assertTrue(report["rest_responding"])
+            self.assertIsNone(report["process_returncode"])
+            request.assert_called_once_with(
+                "GET", "http://127.0.0.1:49914/getVersion", timeout=5)
+            self.assertEqual(app.poll.call_count, 2)
+
+    def test_post_dialog_death_fails_before_rest(self):
+        app = SimpleNamespace(pid=123, poll=Mock(return_value=1))
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.rest, "_request_json") as request:
+            with self.assertRaisesRegex(RuntimeError, "exited 1 after startup dialog"):
+                preview._assert_native_ready(app, "http://127.0.0.1:49914", Path(directory))
+            request.assert_not_called()
+            report = json.loads((Path(directory) / "native_startup_health.json").read_text())
+            self.assertEqual(report["process_returncode"], 1)
+            self.assertFalse(report["rest_responding"])
+
+    def test_post_dialog_connection_refusal_keeps_diagnostics(self):
+        app = SimpleNamespace(pid=123, poll=Mock(return_value=None))
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.rest, "_request_json", side_effect=OSError("Connection refused")):
+            with self.assertRaisesRegex(RuntimeError, "post-dialog health check.*Connection refused"):
+                preview._assert_native_ready(app, "http://127.0.0.1:49914", Path(directory))
+            report = json.loads((Path(directory) / "native_startup_health.json").read_text())
+            self.assertFalse(report["rest_responding"])
+            self.assertIn("Connection refused", report["error"])
+
+    def test_post_dialog_rejected_rest_response_fails(self):
+        app = SimpleNamespace(pid=123, poll=Mock(return_value=None))
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.rest, "_request_json", return_value={"res": 503}), \
+                patch.object(preview.rest, "_response_ok", return_value=False):
+            with self.assertRaisesRegex(RuntimeError, "version request rejected"):
+                preview._assert_native_ready(app, "http://127.0.0.1:49914", Path(directory))
+
+    def test_process_death_during_health_request_is_rejected(self):
+        app = SimpleNamespace(pid=123, poll=Mock(side_effect=[None, 7]))
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.rest, "_request_json", return_value={"res": 200}), \
+                patch.object(preview.rest, "_response_ok", return_value=True):
+            with self.assertRaisesRegex(RuntimeError, "exited 7 during post-dialog"):
+                preview._assert_native_ready(app, "http://127.0.0.1:49914", Path(directory))
+            report = json.loads((Path(directory) / "native_startup_health.json").read_text())
+            self.assertEqual(report["process_returncode"], 7)
+
+    def test_production_export_stops_if_dialog_dismissal_kills_process(self):
+        app = SimpleNamespace(pid=123, returncode=1,
+                              poll=Mock(side_effect=[None, 1, 1]))
+        with tempfile.TemporaryDirectory() as directory:
+            show = Path(directory).resolve()
+            staged = show / "Performance.xsq"
+            with patch.object(preview.subprocess, "Popen", return_value=app), \
+                    patch.object(preview.rest, "_request_json", return_value={"res": 200}), \
+                    patch.object(preview.rest, "_response_ok", return_value=True), \
+                    patch.object(preview, "_command", side_effect=[
+                        {"folder": str(show)}, {"fullseq": str(staged)}]) as command, \
+                    patch.object(preview, "_dismiss_startup_dialogs") as dismiss:
+                with self.assertRaisesRegex(RuntimeError, "after startup dialog dismissal"):
+                    preview._native_export("/bin/xLights", show, staged, 0)
+                dismiss.assert_called_once_with(123, show)
+                self.assertEqual([call.args[1] for call in command.call_args_list],
+                                 ["getShowFolder", "openSequence"])
+                self.assertTrue((show / "native_startup_health.json").is_file())
 
     def _run_preview(self, directory, size):
         """Exercise production orchestration; fixture bytes are never media evidence."""
