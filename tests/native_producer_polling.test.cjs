@@ -33,7 +33,7 @@ function harness(sequence, artifacts = [{name: artifactName, expired: false}]) {
   };
 }
 
-test("missing producer fails after five polls, without a 55-minute wait", async () => {
+test("missing producer fails after five polls, independent of the cold-build budget", async () => {
   const h = harness([[]]);
   await assert.rejects(awaitNativeProducer(h.options), /No native producer was scheduled/);
   assert.deepEqual(h.state(), {polls: 5, waits: 4, artifactReads: 0, outputs: {}});
@@ -79,6 +79,14 @@ test("a running producer has a bounded overall deadline", async () => {
   await assert.rejects(awaitNativeProducer({...h.options, maxAttempts: 8}), /polling deadline/);
   assert.equal(h.state().polls, 8);
   assert.equal(h.state().waits, 7);
+});
+
+test("default deadline permits actual cold builds longer than the former 55-minute wait", async () => {
+  const running = {...good, status: "in_progress", conclusion: null};
+  const h = harness([...Array.from({length: 120}, () => [running]), [good]]);
+  await awaitNativeProducer(h.options);
+  assert.equal(h.state().polls, 121);
+  assert.deepEqual(h.state().outputs, {run_id: "10", sha: "wanted"});
 });
 
 test("provider failure is surfaced rather than mistaken for absent media", async () => {

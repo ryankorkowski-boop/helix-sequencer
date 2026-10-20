@@ -3,7 +3,7 @@
 // Keep exact-source acceptance strict; distinguish a missing producer from a slow one.
 async function awaitNativeProducer({
   github, core, owner, repo, sha, branch,
-  maxAttempts = 110, missingGraceAttempts = 5,
+  maxAttempts = 220, missingGraceAttempts = 5,
   pause = ms => new Promise(resolve => setTimeout(resolve, ms)),
 }) {
   for (let attempt = 0; attempt < maxAttempts; attempt++) {

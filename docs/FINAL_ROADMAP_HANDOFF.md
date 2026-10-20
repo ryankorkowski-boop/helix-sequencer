@@ -3,6 +3,36 @@
 Updated 2026-10-20 (startup recovery milestone). Status is evidence-based.
 Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] blocked; [-] intentionally retired.
 
+## Latest implementation — NAT04 renderer reuse and cold-build recovery
+
+Current recovery parent:07402a431e69526e009e9cdda8512944adee14f3.
+Latest native producer39485172852 FAILED at render118843847855: actual cache
+miss, make killed after48minutes (exit124), no new MP4. Its strict consumer
+39485172837 also failed because no successful exact-source producer existed.
+The successful b9f1ca0 movie below remains earlier-source evidence only.
+
+- [x] Local implementation: validated renderer bundles independent of cache
+  scope; require same upstream839c0f, exact native patch SHA, platform,
+  patched source, executable/wx runtime and archive/binary SHA256. Restore
+  validates in staging before replacing cached objects. Repository/workflow/
+  current/recovery/renderer-build branch provenance and live exact artifact name are mandatory.
+- [x] Aligned bounded deadlines:75-minute cold compile,100-minute producer,
+  109.5-minute polling and120-minute consumer. Missing producer remains5polls.
+- [x] Local Python3.12:67tests +18subtests; Node20tests; changed YAML parses.
+- [~] Live cold build, actual large-bundle publication/restore, dependency
+  checks and exact-source native MP4. Inspect the candidate PR's producer;
+  do not cancel a healthy build or queue unchanged duplicates.
+- [!] VOC01 remains: retained E14 source has one mixed vocal bus and zero
+  independent backing activity. No manufactured harmony or weakened gate.
+- [ ] Owner review, remaining production integration/exports/layout persistence,
+  full-song/six-layout/promotional assets and physical platform/controller checks.
+
+New files:tools/native_renderer_bundle.py,tools/find_native_renderer_bundle.cjs;
+tests:test_native_renderer_bundle.py,native_renderer_bundle_lookup.test.cjs.
+Once the producer runs, record its actual source SHA, build artifact and media
+artifact separately. A reusable renderer is not proof of musical acceptance.
+MASTER_TODO.md records the complete goal, evidence and limitations.
+
 
 
 
