@@ -371,6 +371,18 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
             raise ValueError("Native FSEQ duration differs from sequence")
         (stage / "native_channels.json").write_text(
             json.dumps(channel_report, indent=2, sort_keys=True) + "\n")
+        # Surface native output activity before launching the expensive GUI
+        # video export. A successful XSQ build does not prove lit FSEQ bytes.
+        print("HELIX_NATIVE_FSEQ_ACTIVITY " + json.dumps({
+            key: channel_report[key] for key in (
+                "channels", "frames", "nonzero_samples", "nonzero_frames",
+                "peak_lit_channels", "mean_lit_fraction")
+        }, sort_keys=True), flush=True)
+        if channel_report["nonzero_samples"] == 0:
+            raise ValueError(
+                "Native xLights rendered zero lit channel samples; "
+                "inspect XSQ effect-to-model start-channel mapping before "
+                "attempting GUI preview or MP4 export")
         report["native_fseq_sha256"] = _sha256(fseq)
         report.update(_native_export(native_bin, run_dir, staged, port))
         # Reject xLights docked-preview exports before muxing or reporting success.
