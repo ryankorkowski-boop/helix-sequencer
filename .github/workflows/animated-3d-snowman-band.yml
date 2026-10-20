@@ -37,7 +37,19 @@ jobs:
       - name: Download and authenticate original Helix Audiolights and song-analysis sources
         run: |
           mkdir -p render-input
-          python -m gdown "$ORIGINAL_PACKAGE_ID" -O "$RUNNER_TEMP/authentic-E14.zip"
+          # Google Drive occasionally refuses anonymous download links. Retry only
+          # transient failures; never bypass the pinned SHA-256 identity check.
+          for attempt in 1 2 3; do
+            rm -f "$RUNNER_TEMP/authentic-E14.zip"
+            if python -m gdown "$ORIGINAL_PACKAGE_ID" -O "$RUNNER_TEMP/authentic-E14.zip"; then
+              break
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              echo "::error::Original E14 source is inaccessible from Google Drive after 3 attempts. Check link-sharing permissions or supply an authenticated source; do not substitute audio."
+              exit 1
+            fi
+            sleep $((attempt * 10))
+          done
           echo "$ORIGINAL_PACKAGE_SHA256  $RUNNER_TEMP/authentic-E14.zip" | sha256sum --check
           python - <<'PY'
           import os,hashlib,json,zipfile
