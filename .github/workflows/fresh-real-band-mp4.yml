@@ -167,7 +167,9 @@ jobs:
           # Capture actionable compiler errors even when GitHub's live job logs
           # are unavailable, and cap a stalled compile before job timeout.
           set -o pipefail
-          timeout --signal=TERM --kill-after=30s 35m make -j 2 2>&1 | tee "$GITHUB_WORKSPACE/xlights-native-build.log"
+          # Allow the pinned native build to finish within the job's 60-minute limit.
+          # The previous 35-minute cap terminated compilation before rendering began.
+          timeout --signal=TERM --kill-after=30s 48m make -j 4 2>&1 | tee "$GITHUB_WORKSPACE/xlights-native-build.log"
           test -x bin/xLights
           echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
       - name: Regenerate actual six-musician editable sequence from retained source musical analysis
