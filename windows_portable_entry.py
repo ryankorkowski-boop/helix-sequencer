@@ -8,6 +8,7 @@ def main() -> int:
     # The console-subsystem helper lets the GUI capture native stdout and
     # tracebacks. The windowed Helix.exe remains the only user-facing launcher.
     tool_modes = {
+        "--helix-dual-format-export": "tools.dual_format_export",
         "--helix-remote-server": "tools.desktop_remote",
         "--helix-remote-worker": "tools.desktop_remote_worker",
         "--helix-legacy-lms-export": "tools.legacy_lms_export",

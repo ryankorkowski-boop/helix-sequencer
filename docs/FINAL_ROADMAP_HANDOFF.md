@@ -3,6 +3,31 @@
 Updated 2026-10-20 (startup recovery milestone). Status is evidence-based.
 Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] blocked; [-] intentionally retired.
 
+## Desktop generation candidate — EXP03/OPT02
+
+- [x] Fixed actual38.32-second audio exporting with stale1-second XSQ/LMS
+  duration. All4active/retained writer entrypoints bind the generated header
+  to decoded audio. Out-of-header LMS intervals now fail before output writes.
+- [x] Real CLI comparison:1.000->38.320second XSQ;18->864 valid nonoverlapping
+  LMS intervals; all583musical model effects and all palette/effect/display
+  trees unchanged; source and packaged audio hashes and imported3channel
+  addresses preserved. Summary:evidence/desktop_dual_export_20261020/smoke.json.
+- [x] GUI Both now uses existing source-LMS dual output, including portable
+  command routing. Missing source layout still prevents starting the worker.
+- [x] Existing AC XSQ+LMS conversion also routes through the portable worker;
+  the strict flat-On converter and explicit approved CSV mapping remain.
+- [x] Desktop normal defaults1candidate; explicit Vendor Bar retains3+floor.
+- [x] Focused Python89cases+6subtests. Broad local run excludes3torch-dependent
+  modules unavailable in this runtime; full CI/packaged Windows remains pending.
+- [~] Independently running NAT04 renderer-reuse PR193 ataa00b873:
+  producer39511779105 preflight passed27startup+8bundle+32artifact/stage cases,
+ 20Node cases and7selection cases. Cold build is active; no new MP4 claimed.
+- [!] Backing-source evidence, owner appearance/musical review, full-song/
+  six-layout native assets, general RGB dual export and physical platforms/
+  controller checks remain open. No default/release merge or publication.
+
+Canonical goal, behavior, tests, risks and limitations:MASTER_TODO.md EXP03/OPT02.
+
 
 
 

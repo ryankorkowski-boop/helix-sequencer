@@ -56,3 +56,15 @@ def test_remote_worker_dispatch_preserves_private_job_path():
         with patch.object(sys,"argv",["HelixCLI.exe","--helix-remote-worker","C:/private/job"]):
             assert windows_portable_entry.main()==0
     assert captured==[["HelixCLI.exe","C:/private/job"]]
+
+
+def test_dual_format_dispatch_preserves_source_and_approved_map():
+    captured = []
+    fake = types.ModuleType("tools.dual_format_export")
+    fake.main = lambda: captured.append(sys.argv[:]) or 0
+    arguments = ["C:/show/input.xsq", "C:/new-output", "--format", "both",
+                 "--channel-map", "C:/show/approved.csv"]
+    with patch.dict(sys.modules, {"tools.dual_format_export": fake}):
+        with patch.object(sys, "argv", ["HelixCLI.exe", "--helix-dual-format-export", *arguments]):
+            assert windows_portable_entry.main() == 0
+    assert captured == [["HelixCLI.exe", *arguments]]

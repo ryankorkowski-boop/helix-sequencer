@@ -1149,6 +1149,7 @@ def _legacy_sequence_one_song(template_xsq: Path, audio_path: Path, out_path: Pa
             cooldowns.block(cd_key, st, cd_ms)
 
     a = analyze(audio_path)
+    _xml_io.set_sequence_duration(xsq.root, a.dur_s)
 
     # --- Timing tracks from XSQ (snap grid) ---
     beats_tt = read_timing_track_marks_ms(xsq.root, TT_BEATS)
@@ -1511,6 +1512,7 @@ def _v8_2_sequence_one_song(template_xsq: Path, audio_path: Path, out_path: Path
 
     log("[2/6] Analyzing audio")
     a = analyze(audio_path)
+    _xml_io.set_sequence_duration(xsq.root, a.dur_s)
 
     log("[3/6] Reading timing tracks")
     beats_tt = read_timing_track_marks_ms(xsq.root, TT_BEATS)
@@ -1857,6 +1859,7 @@ def sequence_one_song(template_xsq: Path, audio_path: Path, out_path: Path, prof
 
     log("[2/7] Analyzing audio")
     a = analyze(audio_path)
+    _xml_io.set_sequence_duration(xsq.root, a.dur_s)
     sections = detect_sections(a)
     if sections:
         section_text = ", ".join(f"{sec.label}:{sec.start_ms/1000:.1f}-{sec.end_ms/1000:.1f}s" for sec in sections)
