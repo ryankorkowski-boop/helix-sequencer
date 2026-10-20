@@ -64,9 +64,10 @@ jobs:
           # Drive permissions or quota may prevent unauthenticated downloads.
           # Fail closed; never substitute an unrelated song.
           python - <<'PY'
-          import os
+          import json
+          from pathlib import Path
           import gdown
-          file_id = selected["id"].strip()
+          file_id = json.loads(Path("review/selected_source.json").read_text())["id"].strip()
           if not file_id or not all(c.isalnum() or c in "_-" for c in file_id):
               raise SystemExit("Invalid selected Drive file ID")
           # Use gdown's explicit id API; URL auto-parsing produced an empty id.
