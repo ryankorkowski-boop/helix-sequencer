@@ -200,20 +200,32 @@ def _native_export(xlights: str, show: Path, staged: Path,
                               promptIssues="false")
             if Path(opened.get("fullseq", "")).resolve() != staged:
                 raise ValueError("xLights opened an unexpected sequence")
-            # Close the xLights first-run tip window before native export.
-            if shutil.which("wmctrl"):
-                for _ in range(3):
-                    windows = subprocess.run(["wmctrl", "-l"], capture_output=True,
-                                             text=True, check=False, timeout=5)
-                    if "Tip of the day" not in windows.stdout:
+            # wxWidgets startup dialogs can remain mapped in the X11 tree
+            # after disappearing from wmctrl's EWMH-managed window list.
+            # Verify the actual X11 tree before native video export.
+            if shutil.which("xwininfo") and shutil.which("xdotool"):
+                for _ in range(4):
+                    tree = subprocess.run(["xwininfo", "-root", "-tree"],
+                                          capture_output=True, text=True,
+                                          check=False, timeout=5).stdout
+                    if '"Tip of the day"' not in tree:
                         break
-                    subprocess.run(["wmctrl", "-c", "Tip of the day"],
-                                   capture_output=True, text=True, check=False, timeout=5)
+                    windows = subprocess.run(
+                        ["xdotool", "search", "--name", "Tip of the day"],
+                        capture_output=True, text=True, check=False, timeout=5)
+                    for window_id in windows.stdout.split():
+                        subprocess.run(["xdotool", "windowactivate", window_id],
+                                       capture_output=True, text=True,
+                                       check=False, timeout=5)
+                        subprocess.run(["xdotool", "key", "Escape"],
+                                       capture_output=True, text=True,
+                                       check=False, timeout=5)
                     time.sleep(.5)
-                windows = subprocess.run(["wmctrl", "-l"], capture_output=True,
-                                         text=True, check=False, timeout=5)
-                if "Tip of the day" in windows.stdout:
-                    raise RuntimeError("xLights startup dialog remains open")
+                tree = subprocess.run(["xwininfo", "-root", "-tree"],
+                                      capture_output=True, text=True,
+                                      check=False, timeout=5).stdout
+                if '"Tip of the day"' in tree:
+                    raise RuntimeError("xLights startup modal persists in X11 tree")
             video = staged.parent / "native-silent.mp4"
             width, height = _export_size()
             options: dict[str, str] = {"filename": str(video),
