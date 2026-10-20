@@ -21,6 +21,8 @@ jobs:
       OPENBLAS_NUM_THREADS: '2'
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -59,6 +61,8 @@ jobs:
     timeout-minutes: 65
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -107,7 +111,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg
           python -m pip install numpy scipy zstandard
-          python -m tools.verify_native_band_artifact accepted-native --report native-band-acceptance.json
+          python -m tools.verify_native_band_artifact accepted-native --expected-commit '${{ steps.producer.outputs.sha }}' --report native-band-acceptance.json
       - name: Preserve acceptance report and exact producer identity
         if: always()
         uses: actions/upload-artifact@v4

@@ -6,6 +6,7 @@ checks transported bytes and decoded media; artistic approval remains separate.
 from __future__ import annotations
 import argparse
 import json
+import re
 from pathlib import Path
 import subprocess
 import xml.etree.ElementTree as ET
@@ -27,8 +28,16 @@ def unique(root: Path, name: str) -> Path:
     return matches[0]
 
 
-def verify_inputs(root: Path) -> dict:
-    manifest = json.loads(unique(root, 'run_manifest.json').read_text())['native_preview']
+def verify_inputs(root: Path, *, expected_commit: str | None = None) -> dict:
+    run_manifest = json.loads(unique(root, 'run_manifest.json').read_text())
+    manifest = run_manifest['native_preview']
+    if expected_commit is not None:
+        if not re.fullmatch(r'[0-9a-f]{40}', expected_commit):
+            raise ValueError('Expected source commit must be a full lowercase SHA')
+        provenance = json.loads(unique(root, 'PROVENANCE.json').read_text())
+        if (run_manifest.get('source_commit') != expected_commit
+                or provenance.get('source_commit') != expected_commit):
+            raise ValueError('Artifact source commit does not match the selected producer commit')
     if (manifest.get('status') != 'success'
             or manifest.get('backend') != 'xlights_house_preview'
             or manifest.get('audio_stream_verified') is not True):
@@ -58,6 +67,7 @@ def verify_inputs(root: Path) -> dict:
     if {e.get('name') for e in model_rows} != expected or len(model_rows) != 6:
         raise ValueError('Six independent editable XSQ model rows required')
     counts = {}
+    musical_counts = {}
     for row in model_rows:
         parts = {s.get('name') for s in models[row.get('name')].findall('subModel')}
         layers = row.findall('SubModelEffectLayer')
@@ -66,14 +76,37 @@ def verify_inputs(root: Path) -> dict:
         counts[row.get('name')] = sum(len(layer.findall('Effect')) for layer in layers)
         if not counts[row.get('name')]:
             raise ValueError('Performer has no editable effects')
+        # Lit bodies, idle pose banks and closed mouths cannot establish that
+        # a performer played. Inspect the transported editable musical lanes.
+        role = row.get('name').removeprefix('HX_SNOW_').lower()
+        def musical_part(name):
+            if role == 'drummer':
+                return name in {'SNARE_LEFT', 'SNARE_RIGHT', 'KICK', 'TOM_HIGH',
+                                'TOM_MID', 'TOM_FLOOR', 'HI_HAT',
+                                'CYMBAL_LEFT', 'CYMBAL_RIGHT'}
+            if role == 'piano':
+                return name.startswith('NOTE_MIDI_')
+            if role in ('guitar', 'bass'):
+                return name.startswith('STRING_')
+            return name.startswith('MOUTH_') and name.upper() != 'MOUTH_REST'
+        musical_counts[row.get('name')] = sum(
+            1 for layer in layers if musical_part(layer.get('name', ''))
+            for effect in layer.findall('Effect')
+            if 0 <= int(effect.get('startTime', '-1'))
+            < int(effect.get('endTime', '-1')) <= 36000)
+        if not musical_counts[row.get('name')]:
+            raise ValueError(
+                f"No non-rest musical effects for {row.get('name')}; "
+                "body illumination and idle/rest poses do not establish playing or singing")
     duration = float(seq.findtext('head/sequenceDuration', '0'))
     if duration != 36 or manifest.get('duration_seconds') != duration:
         raise ValueError('Expected exact original 36-second excerpt')
-    return {'paths': paths, 'duration': duration, 'effects_per_model': counts}
+    return {'paths': paths, 'duration': duration, 'effects_per_model': counts,
+            'musical_effects_per_model': musical_counts}
 
 
-def verify(root: Path) -> dict:
-    checked = verify_inputs(root)
+def verify(root: Path, *, expected_commit: str | None = None) -> dict:
+    checked = verify_inputs(root, expected_commit=expected_commit)
     paths = checked['paths']
     channels = inspect_fseq(paths['native_fseq'])
     if (channels['nonzero_frames'] != channels['frames']
@@ -113,8 +146,11 @@ def verify(root: Path) -> dict:
     if not readability['passed']:
         raise ValueError('Native video is black, unreadable or frozen: ' + json.dumps(readability))
     return {'schema': 'helix.native_band_acceptance.v1', 'passed': True,
+            'source_commit': expected_commit,
             'mp4_sha256': _sha256(paths['mp4']), 'source_audio_sha256': AUDIO_SHA256,
             'duration_seconds': checked['duration'], 'effects_per_model': checked['effects_per_model'],
+            'musical_effects_per_model': checked['musical_effects_per_model'],
+            'independent_vocal_sources_verified': False,
             'fseq': channels, 'soundtrack_windows': windows, 'readability': readability,
             'owner_visual_approval': False, 'hardware_tested': False,
             'full_song_showcase_complete': False}
@@ -124,9 +160,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('artifact', type=Path)
     parser.add_argument('--report', type=Path, required=True)
+    parser.add_argument('--expected-commit', required=True,
+                        help='Exact source SHA selected by the workflow, never an earlier artifact')
     args = parser.parse_args()
     try:
-        result = verify(args.artifact)
+        result = verify(args.artifact, expected_commit=args.expected_commit)
     except (OSError, ValueError, KeyError, TypeError, ET.ParseError, subprocess.SubprocessError) as exc:
         result = {'passed': False, 'error': str(exc)}
     args.report.write_text(json.dumps(result, indent=2) + '\n')

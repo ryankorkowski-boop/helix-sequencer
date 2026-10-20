@@ -4,6 +4,32 @@ Updated 2026-10-20 (startup recovery milestone). Status is evidence-based.
 Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] blocked; [-] intentionally retired.
 
 
+## Current execution checkpoint — tested acceptance integrated without interrupting native build
+- Recovery branch now contains the startup/process/REST fix, cached wxWidgets runtime restoration, headless loader diagnostics, and stricter musical-activity/exact-source acceptance. This commit intentionally uses `[skip ci]` to leave the healthy renderer installation/build in run39467730818 intact.
+- Tested acceptance source: `1c471c41564fef5df047387513ace640b289dfa4` on `work/native-acceptance-evidence-20261020`; [focused run 39468604731](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39468604731), job118786433373: **24 unittest cases passed (0.039s), 32 pytest cases passed (1.63s), Python compile and workflow YAML parsing passed**.
+- Current integration changes the candidate checkpoint documentation only; the runtime/verification code is the tested candidate code. Full current-HEAD native output and release acceptance remain **unverified**.
+- Active native run: [39467730818](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39467730818), source branch head `0a2fcebd63314db906c3f112560c24bcc42f307f`, actual PR checkout `0c6f89a`; preflight24+7 passed. Render job118783981953 was still in “Install checksum pinned native xLights” at 17:44 UTC. Do not cancel healthy compilation. No new accepted MP4 exists yet.
+- The run above uses the older permissive artifact verifier. Even if its consumer turns green, that is **not** proof of the stricter current verifier, independent backing vocals, or current integration SHA.
+- BAND02 implementation is tested: transported XSQ must contain actual timed musical effects for each of six performers; BODY, idle pose banks and MOUTH_rest cannot substitute. The source visibility audit also excludes rest from active mouth counts.
+- PROV01 implementation is tested: checkout exact source head, assert actual git HEAD, write source_commit in manifest + PROVENANCE, require consumer --expected-commit. Missing/earlier/mismatched identity fails.
+- VOC01 remains unresolved: retained E14 harmony lane is entirely at rest. A current final-band check is expected to refuse acceptance until actual source-backed activity is present. Do not fabricate second vocals or claim inferred identity as verified separation.
+- KEY01 remains unresolved: source contact counts show gaps; no untested choreography alteration was introduced.
+- Source audit findings and hardware/device limits are retained below. New native media, six-layout/full-song assets, measured real-audio profiling and physical runtime validation are unfinished.
+
+### Exact continuation after the healthy native run completes
+1. Fetch the recovery branch and record actual `git rev-parse HEAD`; read AGENTS.md and MASTER_TODO.md. The commit containing this checkpoint is the integrated acceptance milestone; its parent is `0a2fcebd63314db906c3f112560c24bcc42f307f`.
+2. Inspect run39467730818, native-runtime-libraries.log, native_headless.log and native_startup_health.json. First establish loaded binary, then genuine active FSEQ, then live GUI/REST after dismissal, then genuine HD MP4. Record exact failure if any.
+3. Do not silently use that earlier-source run as current proof. After it finishes, dispatch a fresh producer at the current recovery branch; with authenticated gh:
+   `gh workflow run fresh-real-band-mp4.yml --repo ryankorkowski-boop/helix-sequencer --ref codex/eight-hour-recovery-20261019 -f archive_file_id=1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j -f archive_sha256=604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10 -f audio_sha256=8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171`
+4. Run its matching consumer:
+   `gh workflow run beta-completion-native.yml --repo ryankorkowski-boop/helix-sequencer --ref codex/eight-hour-recovery-20261019`.
+   The consumer selects only the exact same SHA and independently checks bytes/audio/video/model activity. Missing harmony must produce an explicit failure, not rest-mouth acceptance.
+5. Original audio/source hashes, native size/luma/motion thresholds and default-branch/release hold stay unchanged. For backing activity, inspect voice_roles.json/npz with the original source; independently isolated tracks or evidenced source analysis is required before claiming independent voices.
+6. Continue the remaining roadmap below. Update both ledgers with actual run IDs, source SHAs, artifacts and limitations at each milestone.
+
+**Decision remains INCOMPLETE — CONTINUE IMPLEMENTATION.** No fresh native MP4, final-band completion or physical-device approval is claimed.
+
+## Earlier implementation checkpoints (historical; current checkpoint above takes precedence)
 ## Recovery result at 7f2f568 and cached-runtime follow-up
 - Commit: `7f2f5686df0a888b6433e1a30c89f109d1b1c78b`; [native run 39466709677](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39466709677), PR checkout `90b4333`.
 - Preflight job 118779879306 **passed**: 23 native-preview tests in 0.026s, 7 source-selection tests, compileall. Includes seven new safe-dismissal/process/REST regression cases. This verifies tests, not real GUI survival.
@@ -20,6 +46,21 @@ Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] bloc
 - Desktop license GUI, root LICENSE/NOTICE/README/COMMERCIAL_LICENSING.md and Android InfoActivity Legal content are PolyForm/separate commercial terms; existing MIT mentions describe third-party or earlier grants and must remain. Android InfoActivity exposes Instructions + Legal; full license asset also exists. Full distribution surface audit remains open.
 - Desktop layout_preferences saves to user config and reloads only an existing file; Android MainActivity restores URI selections from SharedPreferences and persists granted URI access. Source presence does not establish device behavior.
 - Actual native artifact verifier currently accepts any effects per model, so body/rest-only harmony could pass transport. Next acceptance fix must require non-rest mouth and actual NOTE_MIDI/STRING/drum effect lanes, while preserving the distinction from independently proven vocal sources.
+
+
+## Acceptance candidate checkpoint (subsequently tested and integrated)
+- Candidate branch: `work/native-acceptance-evidence-20261020`, based on `0a2fcebd63314db906c3f112560c24bcc42f307f`. Recovery branch's active [native run 39467730818](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39467730818) remains intact.
+- Recovery preflight at 0a2fceb: job118783515172 passed **24 native-preview tests in 0.031s plus 7 source-selection tests**. Native job118783981953 still installing renderer; do not cancel healthy work.
+- BAND02 [~]: verifier now checks actual transported XSQ lanes for non-rest mouth, NOTE_MIDI, STRING and physical drum-hit effects with positive bounded intervals; BODY/rest-only models cannot establish playing. Reports per-model musical counts and leaves independent-vocal-source verification explicitly false.
+- PROV01 [~]: producer/consumer checkout the exact requested PR head SHA; producer asserts git HEAD, writes source_commit to run_manifest.json and PROVENANCE.json; consumer CLI requires --expected-commit and rejects missing/mismatched provenance.
+- VOC02 [~]: source visibility audit excludes MOUTH_REST from active_mouth_parts, so 720 resting frames no longer suppress the absent-harmony warning. No vocal events or source audio are fabricated or changed.
+- Candidate files: tools/verify_native_band_artifact.py; tests/test_native_band_artifact.py; tools/native_source_pose_band.py; fresh-real-band-mp4.yml; beta-completion-native.yml; native-acceptance-regressions.yml; both ledgers.
+- Tests: focused candidate workflow passed at 1c471c4 (24 unittest +32 pytest); integrated at current checkpoint. Cases cover silent performer per role, rest-only harmony, zero/reversed/out-of-range intervals, missing/mismatched/invalid commit provenance, and existing source hashes/media transport.
+- Integration updated: tested code is now on recovery with [skip ci] to preserve its healthy active build. After that run completes, dispatch fresh exact-SHA producer and consumer using the current checkpoint instructions above. Do not mark final-band complete if it correctly rejects silent harmony.
+- Existing native producer may be compiling on cache miss; completed cache-restore step was near-instant. Do not assert cache hit without logs.
+- Source-policy audit: read the current supplied model_effect_policy.py (Library version2) and helix_effect_adapter.py (version1). Both explicitly say standalone integration candidates, with native catalog validation required; direct Shader insertion lacks a packaged shader-resource guarantee. Keep their candidate status and avoid creating a duplicate production selector.
+
+
 
 ## A. Current repository state
 - Branch: `codex/eight-hour-recovery-20261019`; inspected parent HEAD: `746b63f110f9dbbd5a8f2c68826317944a388e27`. The commit containing this checkpoint is the startup-recovery child of that SHA; use `git rev-parse HEAD` after fetching.

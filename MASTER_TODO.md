@@ -1529,3 +1529,24 @@ Evidence: 7f2f568 native preflight 118779879306 passes 23 tests +7 source-select
 New behavior: reconstitute pinned cached build's existing runtime installation, validate loader dependencies before render, and report the actual bounded headless log on failure.
 Limitations/deferred: new test and runtime recovery require Actions; real GUI process health/native movie still unverified on recovery code. Source audit confirms silent backing lane; role-activity gate must not count idle mouths as singing. Real-audio profile, full-song/six-layout and physical testing remain open.
 Regression risks: cached wxWidgets install can expose missing cached install inputs; ldd fails closed with actionable report. If cache is incomplete, inspect exact install/loader log before forcing rebuild.
+
+
+### 2026-10-20 — Stage strict performer activity and exact-source acceptance without interrupting rendering
+Goal: prevent body/rest-only performers and mismatched source commits from passing final native band acceptance.
+Branch: work/native-acceptance-evidence-20261020, based on 0a2fcebd63314db906c3f112560c24bcc42f307f; recovery native run39467730818 is left intact.
+Changed: verify_native_band_artifact.py, test_native_band_artifact.py, native_source_pose_band.py, producer/consumer workflows, focused candidate workflow, final handoff and this ledger.
+Preserved: source note/vocal timing, snowman cast, audio identity, existing HD/brightness/motion/channel/hash validation, no merge to default or publication.
+New: actual musical submodel effects per performer with valid positive intervals, explicit source commit in manifest/provenance and exact head checkout, expected-SHA consumer argument, rest excluded from active vocal part counts. Independent voice source accuracy remains false/unverified.
+Tests/evidence: candidate focused CI pending. Parent0a2fceb preflight passes24 native tests plus7 source-selection tests; full native installation/render remains in progress. Original supplied policy/adapter files read in current Library versions2/1: standalone candidates, not proof of production integration.
+Limitations/deferred: candidate not integrated until focused tests pass and healthy native run completes; actual backing lane remains silent and may correctly fail the new final-band gate. No new MP4 or full release acceptance claimed.
+Regression risks: stricter gate can expose genuine incomplete performances that earlier BODY-only checks missed; exact-SHA CLI intentionally rejects earlier artifacts lacking provenance.
+
+
+### 2026-10-20 — Tested acceptance integrated; preserve healthy native compilation
+Goal: persist tested stricter final-band checks without cancelling the active native build.
+Changed: integrate exact candidate1c471c4 code onto recovery; update docs/FINAL_ROADMAP_HANDOFF.md and this ledger with current proof, pending run and exact continuation commands. Commit uses [skip ci] intentionally, so no redundant native run or old-job cancellation is induced.
+Evidence: focused run39468604731 job118786433373 passed24 unittest cases (0.039s),32 pytest cases (1.63s), compile and workflow YAML checks. Recovery run39467730818 preflight passed24+7; job118783981953 remained in renderer install/build at17:44UTC, so no new native movie or real GUI health result is claimed.
+Preserved: active healthy renderer work, old successful ff019a9 reference, six snowmen, original audio/source timing, existing native QA gates and release hold.
+New behavior: final acceptance cannot count body/rest-only performers; exact head checkout/manifest/provenance binding is enforced; old permissive consumer success is explicitly insufficient for this milestone.
+Limitations/deferred: current-HEAD native producer/consumer must run after the healthy earlier-source build completes. Retained harmony remains silent, source keyboard contact gaps remain, no real-audio before/after profiling or physical Windows/Android/CTB16PC validation claimed. Six-layout/full-song and ads are unfinished.
+Regression risks: stricter acceptance will expose the existing silent backing lane as an actual failure. Follow exact handoff commands and resolve source evidence rather than repeatedly rerunning unchanged failures.
