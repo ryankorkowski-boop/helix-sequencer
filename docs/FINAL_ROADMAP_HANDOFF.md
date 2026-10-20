@@ -7,6 +7,46 @@ Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] bloc
 
 
 
+
+
+
+## Current execution checkpoint — source-verified keyboard, vocal slots, private native profile
+- Recovery parent inspected: `1be1e0654085f6389a39d0f315063f0f57a85a10`. This integration contains tested candidate `83fc26b03feb89ba5be8c0b88e4286dc179bd108` plus source-evidence/audit metadata and ledger updates.
+- [Focused run39473005943](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39473005943), job118801660716: **27 unittest passed in0.051s;51 pytest passed in2.02s; compilation and workflow YAML parsing passed**.
+- NAT03 [~]: pinned Linux2026.18 renderer now gets a unique private XDG config/state profile with `main.MinTipLevel="Off"`, output disabled, migration complete. Source code proves non-forced startup tips obey this setting. User profiles/environment and existing xLights processes are untouched; owned-process/REST/window diagnostics remain mandatory.
+- NAT01/NAT02 [~]: genuine native recovery still requires fresh run acceptance. Prior [39467730818](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39467730818) at0a2fceb **failed** after successful full compile, ldd, cached-build preservation and active FSEQ: `xLights startup dialog remains viewable after dismissal`. It was a real cache miss, not a frozen queue; compile completed17:40–18:10UTC. Diagnostics [12286908211](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39467730818/artifacts/12286908211). No MP4 from that run.
+- Fresh integration commit will start one producer/consumer at its exact source SHA. Cache patch hash remains unchanged. Inspect actual cache hit and restored wxWidgets installation; do not assume successful restoration from an executable's presence.
+- KEY02 [x] source-motion implementation verified:190->260 contacts,76 cue lanes byte-identical,367 notes retained, audio SHA unchanged. KEY01 native appearance/pose-bank review remains [~].
+- VOC03 [x] fixed declared-role placement and verified public prepare()/NPZ/JSON: lead0, backing/second1, explicit model_lane, collision refusal, instrumental silence and source preservation. Existing retained analysis is not silently regenerated.
+- VOC01 [!] independent E14 backing source missing: [source evidence run39472148043](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39472148043) at4845afa confirms exactly one `demucs_mixed_vocals` input, `mixed_bus_only=true`, `voice_identity_resolved=false`, `independent_tracks=0`,630 lead-active frames and0 backing-active frames in both energy and shapes. Source SHA matches original. [Artifact12288276045](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39472148043/artifacts/12288276045), ZIP SHA2560a5490a1bb1f8a5e997b27e5685fa42f538ef52d72d7d912c234e622b28c3925.
+- Exact measured combined report: `evidence/keyboard_contact_recovery_20261020/source_contact_and_voice_audit.json`. This explains E14 silence upstream; it is not a dropped nonzero backing lane. The generic slot fix does not create independent E14 vocals.
+- Final-band verifier must reject E14's absent non-rest harmony rather than falsely passing body/rest illumination. A successful producer MP4 can establish native recovery while overall band/release acceptance remains incomplete.
+
+### Immediate next steps
+1. Inspect the new recovery source SHA and its fresh-real-band-mp4.yml run (push/PR may initially create two entries; shared concurrency must leave one effective producer).
+2. Require native startup_profile showing private settings, startup_windows not blocked, startup_health with alive process/responding REST, actual FSEQ, native1920x1080 MP4 and original-audio/brightness/motion checks.
+3. Inspect beta-completion-native.yml matched exact-SHA producer. If it rejects HX_SNOW_HARMONY for no non-rest effects, retain that precise source-evidence blocker; do not repeatedly restart unchanged jobs.
+4. Record actual run IDs/artifacts in this file and MASTER_TODO.md. Continue source-backed vocal extraction, real native review, production intelligence/profile/export/layout/packaging and showcases from the remaining roadmap below.
+5. Keep all source hashes/strict quality gates and no default merge/release/publication hold.
+
+**Decision: INCOMPLETE — CONTINUE IMPLEMENTATION.** No fresh MP4 or independent backing/source accuracy has yet been accepted.
+
+## Earlier checkpoint — native startup-profile recovery
+- Native run39467730818 completed with failure at0a2fceb. Compile and ldd passed; genuine FSEQ rendered. The tip remained IsViewable across5 attempts; error: `xLights startup dialog remains viewable after dismissal`. [Diagnostics12286908211](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39467730818/artifacts/12286908211). No accepted MP4.
+- Logs confirm cache miss, then completed pinned native build and successful cache save. No speculative cancellation or duplicate compile occurred.
+- Pinned upstream839c0f inspected: XLightsConfigAdapter.cpp reads Linux XDG_CONFIG_HOME/xLights/settings.json. TipOfTheDayDialog::DoTipOfDay(false) returns without showing when main.MinTipLevel="Off"; sequencer/tabSequencer.cpp startup event uses false. --quiet only suppresses command-line notices.
+- NAT03 [~]: fresh Linux renderer gets a unique private XDG config/state profile seeded with MinTipLevel=Off, OutputActive=false and migration marker. User config and existing xLights processes are untouched. Existing PID/window diagnostics + post-dismissal process/REST gate remain enabled.
+- New tests check private JSON schema, no user/environment mutation, distinct profiles and non-Linux preservation; candidate focused tests pending. Native workflow uploads native_startup_profile.json.
+- Vocal slot correction at95b7f508 passed focused run39472449599. E14 source evidence in39472148043 confirms one demucs_mixed_vocals input, mixed_bus_only=true, independent_tracks=0, measured energy/shapes active frames[630,0], and original source SHA match. Slot fix cannot create independent E14 backing.
+- Next: pass profile tests, integrate tested source/vocal changes and source evidence, then trigger exactly one fresh native producer on recovery SHA. Cache patch hash is unchanged; inspect runtime restore and real MP4 output before completion.
+
+## Vocal preparation slot correction candidate (earlier checkpoint)
+- Branch work/vocal-lane-placement-20261020; base1be1e0654085f6389a39d0f315063f0f57a85a10. Native run39467730818 remains active.
+- VOC03 [~]: tools/prepare_vocal_roles.py previously packed ordered voices from column0, promoting background-only/second-only input into the lead slot. Consumers assume fixed lead=0/backing=1.
+- Candidate assigns each declared role to its fixed slot, records model_lane explicitly, and rejects independent tracks colliding in the one backing slot instead of silently merging or relabeling them.
+- Tests exercise public prepare() and exported actual NPZ/JSON with supplied acoustic-clock fixtures, source hash preservation, independent shapes, collisions and instrumental silence. They do not claim real-source separation accuracy.
+- E14 source evidence inspection is running separately in39472148043; no assertion that this generic bug explains that source's silence yet.
+
 ## Verified source-contact milestone — 2026-10-20
 - Tested candidate source commit: `8420ec04696b14efdd4d89d645c8f18cecf9c295`. [Run39471482781](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39471482781) passed focused tests and the actual real-source comparison. [Report artifact12286444058](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39471482781/artifacts/12286444058); ZIP SHA25637b5bddf8397ae0a98fcbd17e46bc6e012735c2f351bca8774e9dedb24030b71.
 - KEY02 [x] implementation + source-kinematic validation: source-contact frames **190 ->260** (+70,36.84%). Left168->207, right22->53. Source-active frames remain474/144; all367 accepted events retained. Remaining source-active frames without contact: left267, right91. This is improvement, not perfect physical coverage.

@@ -70,6 +70,21 @@ def audit(source_root, output):
                    and all(candidate[side]['contact_frames'] >= baseline[side]['contact_frames']
                            for side in ('left', 'right')))
     source_matches = reports['baseline']['audio_sha256'] == reports['candidate']['audio_sha256']
+    voice_path = source_root / 'analysis/E14/voice_roles.json'
+    voice_report = json.loads(voice_path.read_text()) if voice_path.is_file() else {}
+    voice_activity = {}
+    with np.load(source_root / 'analysis/E14/voice_roles.npz') as voices:
+        for name in ('energy', 'shapes'):
+            values = voices[name]
+            voice_activity[name] = dict(
+                shape=list(values.shape),
+                active_frames_per_lane=[int(np.count_nonzero(values[:, i]))
+                                        for i in range(values.shape[1])])
+    vocal_evidence = dict(
+        routing_report=voice_report,
+        measured_lanes=voice_activity,
+        report_matches_original_audio=(
+            voice_report.get('source_sha256') == reports['candidate']['audio_sha256']))
     result = dict(schema='helix.keyboard_source_contact_audit.v1',
                   passed=bool(parity and source_matches and preserved_activity and improvement),
                   musical_cues_unchanged=bool(parity),
@@ -77,6 +92,7 @@ def audit(source_root, output):
                   baseline_cue_sha256=cue_digest(before),
                   candidate_cue_sha256=cue_digest(after),
                   source_identity_preserved=source_matches,
+                  vocal_source_evidence=vocal_evidence,
                   source_active_frames_preserved=preserved_activity,
                   total_contacts_before=contacts_before, total_contacts_after=contacts_after,
                   source_contact_improved=improvement, runs=reports,

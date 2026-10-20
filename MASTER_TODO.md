@@ -1578,3 +1578,32 @@ Preserved: audio SHA, musical cues/confidence/note identity, short arms and spee
 New behavior: universal keyboardist positions idle hands toward upcoming actual reachable source notes before attacks; contacts are claimed only during real active intervals. Measured improvement is source-kinematic, not native video.
 Limitations/deferred: left267/right91 source-active frames still lack contact (travel, constraints/chords); no perfect-playability claim. Fresh native pose-bank movie/owner review, backing vocals and remaining roadmap still open.
 Regression risks: real source test proves cue parity and improved source contacts for E14 only; inspect native pose medoid playback for the integrated revision.
+
+### 2026-10-20 — Correct role-to-mouth slot placement
+Goal: prevent lone backing/second source parts being exported to the lead face.
+Branch: work/vocal-lane-placement-20261020; base1be1e0.
+Changed: tools/prepare_vocal_roles.py, public-prepare NPZ/JSON regression tests, focused workflow, both ledgers.
+Preserved: source audio/clocks, acoustic classification, independent track identity, refusal to merge excess mouths, instrumental guard, native build.
+New: fixed lead0/backing1 role slots and model_lane metadata; second/background collisions fail explicitly rather than relabel independent parts.
+Evidence: direct source inspection confirms previous enumerate(ordered) packed any lone lane into0; candidate tests pending. E14 retained-source metadata is being independently inspected; no claim this fixes its missing harmony.
+Limitations/deferred: existing retained NPZ files are not retroactively regenerated; source backing existence/separation and native acceptance remain open.
+Regression risks: input configurations containing two non-lead tracks now correctly require additional face models; callers must preserve declared role semantics.
+
+### 2026-10-20 — Suppress optional startup tips in owned private Linux profile
+Goal: resolve nondeterministic cooperative dismissal failure without any destructive window operation.
+Changed: native_preview.py unique private XDG config/state for owned GUI process, native-preview profile regression tests, native artifact profile report upload, both ledgers.
+Preserved: user settings and environment, existing xLights windows, original audio/render/camera/channel paths, strict native QA, post-dialog process/REST checks, non-Linux behavior.
+Evidence: run39467730818 compiled successfully on cache miss and passed ldd, then actual FSEQ succeeded but owned tip remained IsViewable for5 attempts. Pinned source839c0f confirms JSON path, main.MinTipLevel="Off", and non-forced startup DoTipOfDay(false). --quiet only controls notice dialogs.
+New: configure the optional feature off before launching a fresh private renderer; no upstream binary/source patch or new cache hash. Three new profile regressions pending focused CI.
+Limitations/deferred: real native MP4 still absent; focused tests alone cannot establish live process/profile handling. E14 source report independently proves no backing lane (mixed only,0 independent tracks,[630,0] active counts). Vocal slot fix tests pass but cannot resolve missing source evidence.
+Regression risks: private profile uses pinned Linux2026.18 settings schema; if xLights changes it, retained mapping/health diagnostics must fail closed. Headless renderer remains unchanged.
+
+### 2026-10-20 — Integrate tested private renderer profile and declared vocal slots
+Goal: restore actual native export after confirmed persistent tip, while preserving measured keyboard improvements and truthful voice evidence.
+Changed: integrate candidate83fc26b code/tests/workflows, tested source-audit vocal metadata helper, raw source_contact_and_voice_audit.json, final handoff and this ledger.
+Evidence: focused run39473005943 job118801660716 passed27 unittest+51 pytest, compile and YAML checks. Prior native39467730818 compiled/cached/ldd/FSEQ passed but tip remained viewable and blocked export; no movie. Pinned source confirms private JSON MinTipLevel=Off is respected on non-forced startup. Source run39472148043 proves one mixed lead bus,0 independent sources,[630,0] lane activity, original hash match (artifact12288276045).
+Preserved: source clocks/audio, short-arm keyboard and its verified190->260 contacts/76 unchanged lanes, safe ownership/process checks, upstream renderer patch/cache identity, release hold.
+New: private Linux profile avoids optional tip creation before export; future prepared vocals retain fixed lead/backing slots and reject collisions; mixed-only retained source is transparently documented.
+Limitations/deferred: current integration requires actual native producer acceptance. Missing independent E14 backing remains a real blocker and the stricter consumer must report it, even if native MP4 recovery succeeds. Source-motion proof is not native visual acceptance; broader release roadmap remains unfinished.
+Regression risks: private settings schema pinned to2026.18 Linux; preserve logs and fail closed on drift. Generic role-slot fix cannot invent independent voices or retroactively replace retained NPZ data.
+Next: inspect this integration's one effective native run after focused preflight, then exact-SHA consumer. Record original audio/native media provenance, metrics and remaining blockers before any readiness claim.

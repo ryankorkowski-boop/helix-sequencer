@@ -264,6 +264,47 @@ class NativePreviewResolutionTests(unittest.TestCase):
             self.assertIn("missing.so", report["warnings"][0])
             export.assert_not_called()
 
+
+    def test_private_linux_profile_disables_tips_without_changing_user_settings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            user = root / "user-config" / "xLights"
+            user.mkdir(parents=True)
+            original = '{"main": {"MinTipLevel": "Expert"}}'
+            (user / "settings.json").write_text(original)
+            with patch.object(preview.sys, "platform", "linux"), \
+                    patch.dict(os.environ, {"XDG_CONFIG_HOME": str(user.parent),
+                                             "HELIX_PROFILE_TEST": "preserved"}):
+                environment = preview._native_gui_environment(root)
+                self.assertEqual(os.environ["XDG_CONFIG_HOME"], str(user.parent))
+            self.assertEqual((user / "settings.json").read_text(), original)
+            private = Path(environment["XDG_CONFIG_HOME"])
+            self.assertNotEqual(private, user.parent)
+            self.assertEqual(private.parent, root)
+            settings = json.loads((private / "xLights" / "settings.json").read_text())
+            self.assertEqual(settings["main"]["MinTipLevel"], "Off")
+            self.assertIs(settings["main"]["OutputActive"], False)
+            self.assertIs(settings["_meta"]["migrated"], True)
+            self.assertEqual(environment["HELIX_PROFILE_TEST"], "preserved")
+            self.assertEqual(Path(environment["XDG_STATE_HOME"]), private / "state")
+            self.assertTrue((root / "native_startup_profile.json").is_file())
+
+    def test_each_linux_renderer_gets_a_distinct_private_profile(self):
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.sys, "platform", "linux"):
+            first = preview._native_gui_environment(Path(directory))
+            second = preview._native_gui_environment(Path(directory))
+            self.assertNotEqual(first["XDG_CONFIG_HOME"], second["XDG_CONFIG_HOME"])
+
+    def test_other_platform_environment_is_preserved(self):
+        for platform in ("win32", "darwin"):
+            with self.subTest(platform=platform), tempfile.TemporaryDirectory() as directory, \
+                    patch.object(preview.sys, "platform", platform), \
+                    patch.dict(os.environ, {"HELIX_PROFILE_TEST": "original"}, clear=True):
+                environment = preview._native_gui_environment(Path(directory))
+                self.assertEqual(environment, {"HELIX_PROFILE_TEST": "original"})
+                self.assertEqual(list(Path(directory).iterdir()), [])
+
     def _run_preview(self, directory, size):
         """Exercise production orchestration; fixture bytes are never media evidence."""
         run = Path(directory)
