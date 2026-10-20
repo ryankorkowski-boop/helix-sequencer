@@ -92,6 +92,68 @@ class NativePreviewResolutionTests(unittest.TestCase):
                 preview._resize_native_canvas(Path("/unique-run/Performance.xsq"),
                                               (248, 602), (1920, 1080))
 
+    def _dialog_probe(self, states, *, owner=123, tools_available=True):
+        tree = '    0x123 "Tip of the day": () 400x200+0+0\n'
+        probes = []
+        for state in states:
+            probes.extend([tree, '  Map State: ' + state + '\n'])
+            if state == "IsViewable":
+                probes.append(f'_NET_WM_PID(CARDINAL) = {owner}\n'
+                              '_NET_WM_STATE(ATOM) = _NET_WM_STATE_MODAL\n')
+        return patch.object(preview, "_run", side_effect=probes)
+
+    def test_retained_unmapped_tip_does_not_block_or_receive_input(self):
+        for state in ("IsUnMapped", "IsUnviewable"):
+            with self.subTest(state=state), tempfile.TemporaryDirectory() as directory, \
+                    patch.object(preview.shutil, "which", return_value="/bin/tool"), \
+                    self._dialog_probe([state]), \
+                    patch.object(preview.subprocess, "run") as command:
+                preview._dismiss_startup_dialogs(123, Path(directory))
+                command.assert_not_called()
+                report = json.loads((Path(directory) / "native_startup_windows.json").read_text())
+                self.assertEqual(report[0]["map_state"], state)
+
+    def test_viewable_owned_tip_is_dismissed_and_rechecked(self):
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.shutil, "which", return_value="/bin/tool"), \
+                self._dialog_probe(["IsViewable", "IsUnMapped"]), \
+                patch.object(preview.time, "sleep"), \
+                patch.object(preview.subprocess, "run") as command:
+            preview._dismiss_startup_dialogs(123, Path(directory))
+            self.assertEqual(command.call_args_list[0].args[0],
+                             ["wmctrl", "-ic", "0x123"])
+            self.assertEqual(command.call_args_list[1].args[0],
+                             ["xdotool", "key", "--window", "0x123", "Escape"])
+
+    def test_persistent_viewable_tip_fails_and_keeps_diagnostics(self):
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.shutil, "which", return_value="/bin/tool"), \
+                self._dialog_probe(["IsViewable"] * 5), \
+                patch.object(preview.time, "sleep"), \
+                patch.object(preview.subprocess, "run"):
+            with self.assertRaisesRegex(RuntimeError, "remains viewable"):
+                preview._dismiss_startup_dialogs(123, Path(directory))
+            report = json.loads((Path(directory) / "native_startup_windows.json").read_text())
+            self.assertEqual(len(report), 5)
+
+    def test_foreign_process_dialog_is_never_dismissed(self):
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.shutil, "which", return_value="/bin/tool"), \
+                self._dialog_probe(["IsViewable"], owner=999), \
+                patch.object(preview.subprocess, "run") as command:
+            preview._dismiss_startup_dialogs(123, Path(directory))
+            command.assert_not_called()
+
+    def test_unknown_window_state_fails_closed_and_keeps_evidence(self):
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.shutil, "which", return_value="/bin/tool"), \
+                self._dialog_probe(["unknown"]), \
+                patch.object(preview.subprocess, "run") as command:
+            with self.assertRaisesRegex(RuntimeError, "determine"):
+                preview._dismiss_startup_dialogs(123, Path(directory))
+            command.assert_not_called()
+            self.assertTrue((Path(directory) / "native_startup_windows.json").is_file())
+
     def _run_preview(self, directory, size):
         """Exercise production orchestration; fixture bytes are never media evidence."""
         run = Path(directory)

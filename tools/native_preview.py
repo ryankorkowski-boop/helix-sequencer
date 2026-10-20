@@ -166,6 +166,66 @@ def _resize_native_canvas(staged: Path, actual: tuple[int, int],
             "requested_resolution": list(desired), "geometry": geometry}
 
 
+def _dismiss_startup_dialogs(pid: int, evidence_dir: Path) -> None:
+    """Dismiss viewable startup tips; retained unmapped X11 windows are harmless.
+
+    Never equate a title in the X11 tree with visibility. Keep every probe,
+    including failures, before export so CI can diagnose real modal blockers.
+    Only send input to a tip owned by the fresh native process.
+    """
+    if not shutil.which("xwininfo"):
+        return
+    evidence: list[dict[str, Any]] = []
+    report = evidence_dir / "native_startup_windows.json"
+    try:
+        for attempt in range(5):
+            tree = _run(["xwininfo", "-root", "-tree"], 5)
+            windows = re.findall(
+                r'^\s*(0x[0-9a-fA-F]+)\s+"Tip of the day"', tree, re.MULTILINE)
+            visible = []
+            for window in windows:
+                geometry = _run(["xwininfo", "-id", window], 5)
+                state = re.search(r"Map State:\s*(\w+)", geometry)
+                entry: dict[str, Any] = {"attempt": attempt, "window": window,
+                                         "geometry": geometry,
+                                         "map_state": state[1] if state else "unknown"}
+                evidence.append(entry)
+                if state and state[1] in ("IsUnMapped", "IsUnviewable"):
+                    continue
+                if not state or state[1] != "IsViewable":
+                    raise RuntimeError("Cannot determine startup dialog visibility")
+                if not shutil.which("xprop"):
+                    raise RuntimeError("Viewable startup dialog requires xprop ownership check")
+                properties = _run(["xprop", "-id", window, "_NET_WM_PID",
+                                   "_NET_WM_STATE", "WM_TRANSIENT_FOR"], 5)
+                entry["properties"] = properties
+                owner = re.search(r"_NET_WM_PID\(CARDINAL\)\s*=\s*(\d+)", properties)
+                if not owner:
+                    raise RuntimeError("Cannot establish viewable startup dialog owner")
+                if int(owner[1]) != pid:
+                    entry["foreign_process_ignored"] = True
+                    continue
+                visible.append(window)
+            if not visible:
+                return
+            if attempt == 4:
+                raise RuntimeError("xLights startup dialog remains viewable after dismissal")
+            if not shutil.which("xdotool"):
+                raise RuntimeError("Viewable startup dialog requires xdotool dismissal")
+            for window in visible:
+                # Close the exact owned dialog through WM_DELETE_WINDOW when
+                # available, then target Escape to it. No global keystrokes.
+                if shutil.which("wmctrl"):
+                    subprocess.run(["wmctrl", "-ic", window], capture_output=True,
+                                   text=True, timeout=5, check=False)
+                subprocess.run(["xdotool", "key", "--window", window, "Escape"],
+                               capture_output=True, text=True, timeout=5, check=False)
+            time.sleep(.5)
+    finally:
+        report.write_text(json.dumps(evidence, indent=2) + "\n")
+        print("HELIX_NATIVE_STARTUP_WINDOWS " + json.dumps(evidence), flush=True)
+
+
 def _native_export(xlights: str, show: Path, staged: Path,
                    port: int) -> dict[str, Any]:
     # Own a fresh process. Never close/switch an existing user's sequence.
@@ -200,32 +260,7 @@ def _native_export(xlights: str, show: Path, staged: Path,
                               promptIssues="false")
             if Path(opened.get("fullseq", "")).resolve() != staged:
                 raise ValueError("xLights opened an unexpected sequence")
-            # wxWidgets startup dialogs can remain mapped in the X11 tree
-            # after disappearing from wmctrl's EWMH-managed window list.
-            # Verify the actual X11 tree before native video export.
-            if shutil.which("xwininfo") and shutil.which("xdotool"):
-                for _ in range(4):
-                    tree = subprocess.run(["xwininfo", "-root", "-tree"],
-                                          capture_output=True, text=True,
-                                          check=False, timeout=5).stdout
-                    if '"Tip of the day"' not in tree:
-                        break
-                    windows = subprocess.run(
-                        ["xdotool", "search", "--name", "Tip of the day"],
-                        capture_output=True, text=True, check=False, timeout=5)
-                    for window_id in windows.stdout.split():
-                        subprocess.run(["xdotool", "windowactivate", window_id],
-                                       capture_output=True, text=True,
-                                       check=False, timeout=5)
-                        subprocess.run(["xdotool", "key", "Escape"],
-                                       capture_output=True, text=True,
-                                       check=False, timeout=5)
-                    time.sleep(.5)
-                tree = subprocess.run(["xwininfo", "-root", "-tree"],
-                                      capture_output=True, text=True,
-                                      check=False, timeout=5).stdout
-                if '"Tip of the day"' in tree:
-                    raise RuntimeError("xLights startup modal persists in X11 tree")
+            _dismiss_startup_dialogs(app.pid, staged.parent)
             video = staged.parent / "native-silent.mp4"
             width, height = _export_size()
             options: dict[str, str] = {"filename": str(video),
