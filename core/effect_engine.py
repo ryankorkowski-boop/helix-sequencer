@@ -186,6 +186,7 @@ class RuntimeTuning:
     base_effect: str = "On"
     motion_effect: str = "Ramp"
     accent_effect: str = "On"
+    preferred_effect_layers: tuple[str, ...] = ()
     max_layers_per_prop: int = 3
     min_effect_ms: int = 50
     debug_validation: bool = True
@@ -204,7 +205,7 @@ class RuntimeTuning:
     video_file: Path | None = None
     blend_rules_file: Path | None = None
     polish_enabled: bool = True
-    variant_count: int = 3
+    variant_count: int = 1
     auto_shortlist: bool = False
     learn_from_my_xsqs: bool = False
     vendor_bar: bool = False
@@ -9419,6 +9420,15 @@ def pick_runtime_effect(
         catalog=catalog,
     ):
         choice_pool.append(normalized_requested)
+    # Explicit layer choices/style contracts must be considered before the
+    # generic geometry defaults, while preserving explicit event effects.
+    configured_default = {"base": "On", "motion": "Ramp", "accent": "On"}.get(layer, "On")
+    if (not prefer_requested
+            and (layer in tuning.preferred_effect_layers or selected != configured_default)
+            and requested_effect_supported_for_target(
+                requested=selected, layer=layer, family=family_key,
+                model=parsed_model, tuning=tuning, catalog=catalog)):
+        choice_pool.insert(0, selected)
     # Existing --ac-lights-only must also fence workspace-learned effects:
     # the normal candidate list was AC-safe, but memory suggestions weren't.
     ac_effect_names = {"on", "ramp", "strobe", "twinkle", "shimmer"}
@@ -10934,6 +10944,15 @@ def run_variant(
                 workspace_history=workspace_history,
                 fallback=eff if eff else "On",
             )
+            from core.helix_effect_adapter import automatic_template_choice
+            decision = automatic_template_choice(
+                model=parsed_model, requested=eff, explicit_tpl=tpl,
+                layer=layer_key, family=family_key, label=label, stem=stem_key,
+                tuning=tuning, history=workspace_history,
+                supported_effects=set(xfb.catalog_effect_names(xlights_catalog)),
+                template_library=template_library, asset_roots=(template_xsq.parent,))
+            if decision is not None:
+                runtime_effect = decision.choice.effect
             fallback_tpl = xsq.ramp_tpl if runtime_effect.strip().lower() == "ramp" else xsq.on_tpl
             template_to_use = resolve_effect_template(
                 effect_name=runtime_effect,
@@ -12947,6 +12966,8 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         base_effect=str(args.base_effect or "On"),
         motion_effect=str(args.motion_effect or "Ramp"),
         accent_effect=str(args.accent_effect or "On"),
+        preferred_effect_layers=tuple(layer for layer in ("base", "motion", "accent")
+            if getattr(args, layer + "_effect") is not None or args.music_style),
         max_layers_per_prop=max(1, int(args.max_layers_per_prop if args.max_layers_per_prop is not None else 3)),
         min_effect_ms=max(50, int(args.min_effect_ms if args.min_effect_ms is not None else 50)),
         debug_validation=bool(args.debug_validation),
@@ -12966,7 +12987,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         blend_rules_file=blend_rules_file,
         polish_enabled=bool(args.polish_enabled),
         variant_count=sequence_scoring.plan_variations(
-            int(args.variant_count if args.variant_count is not None else 3)
+            int(args.variant_count if args.variant_count is not None else 1)
         ).capped_count,
         auto_shortlist=bool(args.auto_shortlist),
         learn_from_my_xsqs=bool(args.learn_from_my_xsqs),

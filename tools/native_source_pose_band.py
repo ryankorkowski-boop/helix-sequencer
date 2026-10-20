@@ -96,6 +96,18 @@ def configure_native_keyboard_motion(scene, performer, *, legacy_xylophone=False
                 keyboard_contact_report=performer.keyboard_motion_report)
 
 
+def native_cast_positions(*, legacy_xylophone=False):
+    """Separate the two back-row performers in the consolidated six-piece cast.
+
+    Removing the legacy mallet player must not move piano onto the drummer.
+    Source pose geometry/timing and the opt-in seven-piece stage stay intact.
+    """
+    return dict(DRUMMER=(0 if legacy_xylophone else -16,26,65),
+                BASS=(-24,9,80),GUITAR=(24,9,80),
+                PIANO=(25 if legacy_xylophone else 16,28,65),
+                XYLOPHONE=(-25,28,65),LEAD=(-8,9,80),HARMONY=(8,9,80))
+
+
 def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_xylophone=False):
     if frame_ms not in (25,50):raise ValueError('Native interval must be 25 or 50 ms')
     if output.exists():raise FileExistsError('Use a fresh directory')
@@ -167,7 +179,7 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
     if (len(new.models)!=expected_cast or len({m.name for m in new.models})!=expected_cast
             or sum(m.channels for m in new.models)>250000):
         raise ValueError('Invalid universal keyboard/native legacy cast or bounded RGB channels')
-    positions=dict(DRUMMER=(0,26,65),BASS=(-24,9,80),GUITAR=(24,9,80),PIANO=(25,28,65) if legacy_xylophone else (0,28,65),XYLOPHONE=(-25,28,65),LEAD=(-8,9,80),HARMONY=(8,9,80))
+    positions=native_cast_positions(legacy_xylophone=legacy_xylophone)
     for old,m in zip(g.models,new.models):
         delta=np.array(positions[m.details['review_role'].upper()])-np.array([float(old.attrs['WorldPos'+a]) for a in 'XYZ'])
         m.points+=delta

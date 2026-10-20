@@ -124,3 +124,26 @@ def test_native_house_preview_nodes_remain_visible_at_hd_resolution():
     assert "PixelSize='12'" in source
     assert "Antialias='1'" in source
     assert "BlackTransparency='100'" in source
+
+
+def test_consolidated_piano_and_drummer_actual_geometry_do_not_occlude():
+    from models.native_review_band import add_band
+    from models.ultimate_showcase import Garden
+    from tools.native_source_pose_band import native_cast_positions
+    g = Garden(title='Native cast geometry regression', slug='cast_geometry')
+    add_band(g)
+    positions = native_cast_positions()
+    bounds = {}
+    for m in select_cast(g.models):
+        center = np.array([float(m.attrs['WorldPos'+a]) for a in 'XYZ'])
+        moved = np.asarray(m.points) + np.array(positions[m.details['review_role'].upper()]) - center
+        bounds[m.details['review_role']] = (moved.min(0), moved.max(0))
+    # Both are at the same depth; their full authored geometry needs distinct
+    # horizontal screen space, rather than just distinct model names/channels.
+    drum, piano = bounds['drummer'], bounds['piano']
+    assert drum[1][0] + 2 < piano[0][0]
+    assert set(bounds) == {'drummer', 'bass', 'guitar', 'piano', 'lead', 'harmony'}
+    legacy = native_cast_positions(legacy_xylophone=True)
+    assert legacy['DRUMMER'] == (0,26,65)
+    assert legacy['PIANO'] == (25,28,65)
+    assert legacy['XYLOPHONE'] == (-25,28,65)
