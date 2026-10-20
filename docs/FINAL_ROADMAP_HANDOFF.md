@@ -8,7 +8,17 @@ Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] bloc
 
 
 
-## Vocal preparation slot correction candidate
+
+## Native startup-profile recovery (continuation)
+- Native run39467730818 completed with failure at0a2fceb. Compile and ldd passed; genuine FSEQ rendered. The tip remained IsViewable across5 attempts; error: `xLights startup dialog remains viewable after dismissal`. [Diagnostics12286908211](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39467730818/artifacts/12286908211). No accepted MP4.
+- Logs confirm cache miss, then completed pinned native build and successful cache save. No speculative cancellation or duplicate compile occurred.
+- Pinned upstream839c0f inspected: XLightsConfigAdapter.cpp reads Linux XDG_CONFIG_HOME/xLights/settings.json. TipOfTheDayDialog::DoTipOfDay(false) returns without showing when main.MinTipLevel="Off"; sequencer/tabSequencer.cpp startup event uses false. --quiet only suppresses command-line notices.
+- NAT03 [~]: fresh Linux renderer gets a unique private XDG config/state profile seeded with MinTipLevel=Off, OutputActive=false and migration marker. User config and existing xLights processes are untouched. Existing PID/window diagnostics + post-dismissal process/REST gate remain enabled.
+- New tests check private JSON schema, no user/environment mutation, distinct profiles and non-Linux preservation; candidate focused tests pending. Native workflow uploads native_startup_profile.json.
+- Vocal slot correction at95b7f508 passed focused run39472449599. E14 source evidence in39472148043 confirms one demucs_mixed_vocals input, mixed_bus_only=true, independent_tracks=0, measured energy/shapes active frames[630,0], and original source SHA match. Slot fix cannot create independent E14 backing.
+- Next: pass profile tests, integrate tested source/vocal changes and source evidence, then trigger exactly one fresh native producer on recovery SHA. Cache patch hash is unchanged; inspect runtime restore and real MP4 output before completion.
+
+## Vocal preparation slot correction candidate (earlier checkpoint)
 - Branch work/vocal-lane-placement-20261020; base1be1e0654085f6389a39d0f315063f0f57a85a10. Native run39467730818 remains active.
 - VOC03 [~]: tools/prepare_vocal_roles.py previously packed ordered voices from column0, promoting background-only/second-only input into the lead slot. Consumers assume fixed lead=0/backing=1.
 - Candidate assigns each declared role to its fixed slot, records model_lane explicitly, and rejects independent tracks colliding in the one backing slot instead of silently merging or relabeling them.

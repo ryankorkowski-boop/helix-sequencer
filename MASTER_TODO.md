@@ -1588,3 +1588,12 @@ New: fixed lead0/backing1 role slots and model_lane metadata; second/background 
 Evidence: direct source inspection confirms previous enumerate(ordered) packed any lone lane into0; candidate tests pending. E14 retained-source metadata is being independently inspected; no claim this fixes its missing harmony.
 Limitations/deferred: existing retained NPZ files are not retroactively regenerated; source backing existence/separation and native acceptance remain open.
 Regression risks: input configurations containing two non-lead tracks now correctly require additional face models; callers must preserve declared role semantics.
+
+### 2026-10-20 — Suppress optional startup tips in owned private Linux profile
+Goal: resolve nondeterministic cooperative dismissal failure without any destructive window operation.
+Changed: native_preview.py unique private XDG config/state for owned GUI process, native-preview profile regression tests, native artifact profile report upload, both ledgers.
+Preserved: user settings and environment, existing xLights windows, original audio/render/camera/channel paths, strict native QA, post-dialog process/REST checks, non-Linux behavior.
+Evidence: run39467730818 compiled successfully on cache miss and passed ldd, then actual FSEQ succeeded but owned tip remained IsViewable for5 attempts. Pinned source839c0f confirms JSON path, main.MinTipLevel="Off", and non-forced startup DoTipOfDay(false). --quiet only controls notice dialogs.
+New: configure the optional feature off before launching a fresh private renderer; no upstream binary/source patch or new cache hash. Three new profile regressions pending focused CI.
+Limitations/deferred: real native MP4 still absent; focused tests alone cannot establish live process/profile handling. E14 source report independently proves no backing lane (mixed only,0 independent tracks,[630,0] active counts). Vocal slot fix tests pass but cannot resolve missing source evidence.
+Regression risks: private profile uses pinned Linux2026.18 settings schema; if xLights changes it, retained mapping/health diagnostics must fail closed. Headless renderer remains unchanged.

@@ -15,6 +15,7 @@ import re
 import shutil
 import socket
 import subprocess
+import sys
 import tempfile
 import time
 import xml.etree.ElementTree as ET
@@ -257,6 +258,34 @@ def _assert_native_ready(app: subprocess.Popen, endpoint: str,
         print("HELIX_NATIVE_STARTUP_HEALTH " + json.dumps(evidence), flush=True)
 
 
+
+def _native_gui_environment(evidence_dir: Path) -> dict[str, str]:
+    """Use a private Linux xLights profile with optional startup tips disabled.
+
+    The pinned 2026.18 adapter reads XDG_CONFIG_HOME/xLights/settings.json;
+    its non-forced startup TipOfDayReady path respects main.MinTipLevel=Off.
+    Never edit the user's settings or import their legacy wxConfig profile.
+    """
+    environment = os.environ.copy()
+    if not sys.platform.startswith("linux"):
+        return environment
+    profile = Path(tempfile.mkdtemp(prefix="xlights-profile-", dir=evidence_dir))
+    settings = profile / "xLights" / "settings.json"
+    settings.parent.mkdir()
+    value = {"main": {"MinTipLevel": "Off", "OutputActive": False},
+             "tod": {}, "bookmarks": {}, "_meta": {"migrated": True}}
+    settings.write_text(json.dumps(value, indent=2) + "\n")
+    environment["XDG_CONFIG_HOME"] = str(profile)
+    environment["XDG_STATE_HOME"] = str(profile / "state")
+    report = {"settings_file": str(settings),
+              "startup_tips_disabled": True, "private_profile": True,
+              "source_reference": "xLights 2026.18 XLightsConfigAdapter/TipOfTheDayDialog"}
+    (evidence_dir / "native_startup_profile.json").write_text(
+        json.dumps(report, indent=2) + "\n")
+    print("HELIX_NATIVE_STARTUP_PROFILE " + json.dumps(report), flush=True)
+    return environment
+
+
 def _native_export(xlights: str, show: Path, staged: Path,
                    port: int) -> dict[str, Any]:
     # Own a fresh process. Never close/switch an existing user's sequence.
@@ -266,7 +295,8 @@ def _native_export(xlights: str, show: Path, staged: Path,
     with (staged.parent / "native_gui.log").open("w") as log:
         app = subprocess.Popen([xlights, "--quiet", "-a" if port == 49913
                                 else "-b", "--show", str(show)],
-                               stdout=log, stderr=log)
+                               stdout=log, stderr=log,
+                               env=_native_gui_environment(staged.parent))
         try:
             # Cold AppImage startup under software GL/Xvfb can exceed 30s.
             # Allow a bounded startup window without relaxing output QA.
