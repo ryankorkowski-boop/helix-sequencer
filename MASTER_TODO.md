@@ -1616,3 +1616,13 @@ Preserved: tested runtime sourceb9f1ca0, all private-profile/keyboard/vocal/sour
 New: exact run/job IDs, current source references, explicit cache uncertainty, per-task next actions and source-backed vocal blocker recorded.
 Limitations/deferred: current native result and actual private-profile process health pending. Retained E14 has zero independent backing sources. Native success, owner review, remaining roadmap and physical validation are not claimed.
 Regression risk: none from documentation; this later documentation commit is explicitly not represented as a natively rendered source SHA.
+
+### 2026-10-20 — Exact flat-On LMS conversion contract (EXP02)
+Goal: prevent non-flat or disabled XSQ intensity/palette settings from becoming full-on LOR output.
+Changed: tools/legacy_lms_export.py, tests/test_legacy_lms_export.py, .github/workflows/lms-export-regression.yml, this ledger.
+New: parse complete comma-separated key/value fields; reject duplicate keys, malformed tokens, unsupported modifiers, nonexact 100 intensities and noncanonical/disabled palettes before creating LMS or its report. Plain audited fields may be reordered and whitespace-normalized.
+Preserved: canonical ac_on_export output, supplied unit/circuit mapping, source bytes, timing rounding/merging, LMS structure and physical-import flags.
+Evidence: inspected actual converter and canonical AC exporter; previous substring tests accepted Start=1000, End=100.5 and disabled palettes. Ten public export regression cases added. CI pending on work/lms-exact-settings-20261020; no local execution environment available.
+Limitations/deferred: legacy LOR application/controller import and full dual-default integration remain open; this does not establish native preview or independent vocals. Healthy native39473385296 and consumer39473385254 are left running.
+Regression risks: externally edited XSQ settings beyond the exact audited flat-On contract now fail instead of being silently approximated at intensity100. This is intentional; regenerate through the AC-only exporter.
+Status: IMPLEMENTED — TEST PENDING. Run lms-export-regression.yml, then integrate tested source without interrupting native rendering.

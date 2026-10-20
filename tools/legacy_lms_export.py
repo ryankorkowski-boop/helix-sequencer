@@ -77,6 +77,18 @@ def read_lor_map(path: Path) -> dict[str, dict]:
     return models
 
 
+def _exact_settings(text: str, expected: dict[str, str]) -> bool:
+    """Accept only the audited flat-On contract, with no hidden modifiers."""
+    parsed = {}
+    for item in text.split(","):
+        key, separator, value = item.strip().partition("=")
+        key, value = key.strip(), value.strip()
+        if not separator or not key or key in parsed:
+            return False
+        parsed[key] = value
+    return parsed == expected
+
+
 def _centiseconds(ms: int, *, ceil: bool = False) -> int:
     return (ms + 9) // 10 if ceil else ms // 10
 
@@ -94,7 +106,10 @@ def export_legacy_lms(ac_xsq: Path, mapping_csv: Path, destination: Path) -> dic
         raise ValueError("Sequence duration must be positive")
     duration_cs = _centiseconds(duration_ms, ceil=True)
     palette = src.findall("./ColorPalettes/ColorPalette")
-    if len(palette) != 1 or "#FFFFFF" not in (palette[0].text or "").upper():
+    if len(palette) != 1 or not _exact_settings(
+        (palette[0].text or "").upper(),
+        {"C_BUTTON_PALETTE1": "#FFFFFF", "C_CHECKBOX_PALETTE1": "1"},
+    ):
         raise ValueError("Refusing LMS export: source is not an AC-only white-intensity XSQ")
     settings = [e.text or "" for e in src.findall("./EffectDB/Effect")]
     if not settings:
@@ -118,8 +133,10 @@ def export_legacy_lms(ac_xsq: Path, mapping_csv: Path, destination: Path) -> dic
             if ref < 0 or ref >= len(settings):
                 raise ValueError("Invalid XSQ On settings index")
             config = settings[ref]
-            if ("E_TEXTCTRL_Eff_On_Start=100" not in config or
-                    "E_TEXTCTRL_Eff_On_End=100" not in config):
+            if not _exact_settings(config, {
+                "E_TEXTCTRL_Eff_On_Start": "100",
+                "E_TEXTCTRL_Eff_On_End": "100",
+            }):
                 raise ValueError("Non-constant intensity or fade effect cannot be exported to full-on LMS")
             start = max(0, int(e.get("startTime", "0")))
             end = min(duration_ms, int(e.get("endTime", "0")))
