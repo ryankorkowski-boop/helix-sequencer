@@ -200,6 +200,20 @@ def _native_export(xlights: str, show: Path, staged: Path,
                               promptIssues="false")
             if Path(opened.get("fullseq", "")).resolve() != staged:
                 raise ValueError("xLights opened an unexpected sequence")
+            # Close the xLights first-run tip window before native export.
+            if shutil.which("wmctrl"):
+                for _ in range(3):
+                    windows = subprocess.run(["wmctrl", "-l"], capture_output=True,
+                                             text=True, check=False, timeout=5)
+                    if "Tip of the day" not in windows.stdout:
+                        break
+                    subprocess.run(["wmctrl", "-c", "Tip of the day"],
+                                   capture_output=True, text=True, check=False, timeout=5)
+                    time.sleep(.5)
+                windows = subprocess.run(["wmctrl", "-l"], capture_output=True,
+                                         text=True, check=False, timeout=5)
+                if "Tip of the day" in windows.stdout:
+                    raise RuntimeError("xLights startup dialog remains open")
             video = staged.parent / "native-silent.mp4"
             width, height = _export_size()
             options: dict[str, str] = {"filename": str(video),
