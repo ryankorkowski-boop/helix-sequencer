@@ -1569,3 +1569,11 @@ New: measured baseline with anticipation disabled versus candidate, identical no
 Evidence: initial focused candidate run39471158993 passed; real-source audit pending new run. No measured improvement claimed yet.
 Limitations/deferred: source preparation cannot establish native pose-bank/MP4 appearance; original renderer build remains active.
 Regression risks: real source may reveal reach/contact regression or a preparation dependency; failed report must be inspected before integration.
+
+### 2026-10-20 — Inspect actual vocal-role evidence while native compilation continues
+Goal: distinguish missing backing source from dropped performer routing using original retained analysis.
+Changed: audit_keyboard_anticipation.py reports voice_roles.json metadata, measured per-lane energy/shape counts and source hash agreement; both ledgers.
+Preserved: all source events/audio, production vocal routing, keyboard implementation, active native compilation.
+Evidence: prior source contact run39471482781 passes; new vocal evidence report pending.
+Limitations/deferred: source inspection cannot establish singer identity or separation accuracy; no artificial backing lane introduced.
+Regression risks: audit metadata only; production animation unaffected.

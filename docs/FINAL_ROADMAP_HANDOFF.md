@@ -6,7 +6,14 @@ Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] bloc
 
 
 
-## Real-source keyboard audit queued
+
+## Vocal source evidence inspection — continuation
+- Recovery keyboard integration:1be1e0654085f6389a39d0f315063f0f57a85a10; real-source keyboard result already passes190->260 contacts with76 unchanged cue lanes.
+- On the existing work/keyboard-contact-recovery-20261020 test branch, extend the source audit report with the actual source-bound voice_roles.json routing report and per-lane energy/non-rest shape counts from voice_roles.npz.
+- This is read-only source inspection. No vocal activity, mix, routing or notes are fabricated or changed. Determine whether silence originates upstream in retained analysis before changing performers.
+- Candidate source audit pending; original native run39467730818 remains untouched.
+
+## Real-source keyboard audit queued (historical)
 - Candidate source-motion tests passed in [39471158993](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39471158993) at55f9fb1. Confirm exact counts from job logs.
 - Added tools/audit_keyboard_anticipation.py and a dependent real-source-contact job in the focused workflow. It recovers the exact SHA-verified original archive/audio, runs actual native source-pose preparation twice, disables only anticipation for baseline, compares non-pose musical cue arrays and source activity, and requires increased contacts without regression in either hand.
 - This is source preparation/kinematic evidence only. Native video, medoid playback, musical ground truth and hardware acceptance remain explicitly false.
