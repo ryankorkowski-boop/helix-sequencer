@@ -1636,3 +1636,12 @@ EXP02 status: COMPLETE for exact-settings conversion and tested file-level expor
 Development integration incorporates tested source unchanged. Merge commit intentionally uses [skip ci] to avoid restarting native39473385296. Runtime native evidence remains tied to b9f1ca0, not this new integration SHA; the LMS parser changes do not modify native rendering.
 Dedicated lms-export-regression.yml did not produce a standalone run on this tool-created branch; full existing CI executed all ten new cases instead. No focused-workflow success is claimed.
 Native at18:49UTC:39473385296 still in installation/build, original exact-source consumer39473385254 awaits it. No new accepted MP4. Backing remains blocked by the actual retained mixed-only E14 source. Release INCOMPLETE.
+
+### 2026-10-20 — Missing native-producer wait recovery (CI02)
+Goal: fail promptly when broad consumer triggers have not scheduled a matching producer, preserving healthy queued/running native work.
+Changed: tools/await_native_producer.cjs; tests/native_producer_polling.test.cjs; beta-completion-native.yml; native-producer-polling-tests.yml; this ledger.
+New: same exact-SHA/repository/artifact matching in an extracted tested polling helper. After5 polls(4 thirty-second pauses), no producer fails with event/path/branch diagnostics; completed failed producers retain original5-poll grace. A queued/in-progress source producer retains110 polls. No missing output is accepted and no jobs are cancelled.
+Preserved: producer workflow/native source code, original source hashes, strict media/XSQ/FSEQ consumer checks, and active original producer39473385296/consumer39473385254.
+Evidence: static trigger inspection shows producer pull_request paths only fresh workflow while consumer also triggers for unrelated tools/tests changes; PR189/190 consumers therefore have no same-SHA producer. Ten Node behavioral cases cover missing/slow/failed/source mismatch/foreign repo/expired/duplicate/unrelated artifacts, provider errors and full deadline. CI pending.
+Limitations/deferred: this fails missing-producer checks honestly; it does not create a native render or redesign event coverage. No native, vocalist, release or hardware acceptance.
+Regression risk: a genuinely unscheduled producer must be deliberately triggered; no55-minute silent wait. A rare Actions visibility delay exceeding2minutes fails with an actionable message; rerun after the exact producer appears.

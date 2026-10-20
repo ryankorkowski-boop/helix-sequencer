@@ -1,0 +1,19 @@
+name: Native producer polling contract
+on:
+  pull_request:
+    paths: [tools/await_native_producer.cjs, tests/native_producer_polling.test.cjs, .github/workflows/beta-completion-native.yml, .github/workflows/native-producer-polling-tests.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  polling:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test tests/native_producer_polling.test.cjs
