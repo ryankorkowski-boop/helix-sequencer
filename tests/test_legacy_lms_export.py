@@ -95,3 +95,59 @@ def test_lms_rejects_unmapped_model_even_with_valid_map(tmp_path: Path):
     source.write_text(source.read_text().replace('name="Tree White"', 'name="Unknown"', 1))
     with pytest.raises(ValueError, match="Missing approved LOR"):
         export_legacy_lms(source, mapping, tmp_path / "song.lms")
+
+
+@pytest.mark.parametrize("config", [
+    "E_TEXTCTRL_Eff_On_Start=1000,E_TEXTCTRL_Eff_On_End=100",
+    "E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=100.5",
+    "E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=100,E_TEXTCTRL_Eff_On_Start=0",
+    "E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=100,B_SLIDER_Brightness=50",
+    "E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=100,malformed",
+])
+def test_lms_rejects_unaudited_intensity_before_writing(tmp_path, config):
+    source, mapping = fixture(tmp_path)
+    tree = ET.parse(source)
+    tree.find("./EffectDB/Effect").text = config
+    tree.write(source)
+    original = source.read_bytes()
+    destination = tmp_path / "song.lms"
+    with pytest.raises(ValueError, match="Non-constant intensity"):
+        export_legacy_lms(source, mapping, destination)
+    assert source.read_bytes() == original
+    assert not destination.exists()
+    assert not destination.with_suffix(".lms_validation.json").exists()
+
+
+@pytest.mark.parametrize("palette", [
+    "C_BUTTON_Palette1=#FFFFFF00,C_CHECKBOX_Palette1=1",
+    "C_BUTTON_Palette1=#FFFFFF,C_CHECKBOX_Palette1=0",
+    "C_BUTTON_Palette1=#FFFFFF,C_CHECKBOX_Palette1=1,C_CHECKBOX_Palette1=0",
+    "C_BUTTON_Palette1=#FFFFFF,C_CHECKBOX_Palette1=1,C_BUTTON_Palette2=#FF0000,C_CHECKBOX_Palette2=1",
+])
+def test_lms_rejects_unaudited_palette_before_writing(tmp_path, palette):
+    source, mapping = fixture(tmp_path)
+    tree = ET.parse(source)
+    tree.find("./ColorPalettes/ColorPalette").text = palette
+    tree.write(source)
+    destination = tmp_path / "song.lms"
+    with pytest.raises(ValueError, match="white-intensity"):
+        export_legacy_lms(source, mapping, destination)
+    assert not destination.exists()
+    assert not destination.with_suffix(".lms_validation.json").exists()
+
+
+def test_lms_accepts_reordered_plain_on_settings(tmp_path):
+    source, mapping = fixture(tmp_path)
+    tree = ET.parse(source)
+    tree.find("./EffectDB/Effect").text = (
+        " E_TEXTCTRL_Eff_On_End = 100 , E_TEXTCTRL_Eff_On_Start = 100 "
+    )
+    tree.find("./ColorPalettes/ColorPalette").text = (
+        " C_CHECKBOX_Palette1 = 1 , C_BUTTON_Palette1 = #ffffff "
+    )
+    tree.write(source)
+    destination = tmp_path / "song.lms"
+    report = export_legacy_lms(source, mapping, destination)
+    assert report["on_effects"] == 2
+    assert all(effect.get("intensity") == "100"
+               for effect in ET.parse(destination).findall("./channels/channel/effect"))

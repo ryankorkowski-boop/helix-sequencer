@@ -1616,3 +1616,23 @@ Preserved: tested runtime sourceb9f1ca0, all private-profile/keyboard/vocal/sour
 New: exact run/job IDs, current source references, explicit cache uncertainty, per-task next actions and source-backed vocal blocker recorded.
 Limitations/deferred: current native result and actual private-profile process health pending. Retained E14 has zero independent backing sources. Native success, owner review, remaining roadmap and physical validation are not claimed.
 Regression risk: none from documentation; this later documentation commit is explicitly not represented as a natively rendered source SHA.
+
+### 2026-10-20 — Exact flat-On LMS conversion contract (EXP02)
+Goal: prevent non-flat or disabled XSQ intensity/palette settings from becoming full-on LOR output.
+Changed: tools/legacy_lms_export.py, tests/test_legacy_lms_export.py, .github/workflows/lms-export-regression.yml, this ledger.
+New: parse complete comma-separated key/value fields; reject duplicate keys, malformed tokens, unsupported modifiers, nonexact 100 intensities and noncanonical/disabled palettes before creating LMS or its report. Plain audited fields may be reordered and whitespace-normalized.
+Preserved: canonical ac_on_export output, supplied unit/circuit mapping, source bytes, timing rounding/merging, LMS structure and physical-import flags.
+Evidence: inspected actual converter and canonical AC exporter; previous substring tests accepted Start=1000, End=100.5 and disabled palettes. Ten public export regression cases added. CI pending on work/lms-exact-settings-20261020; no local execution environment available.
+Limitations/deferred: legacy LOR application/controller import and full dual-default integration remain open; this does not establish native preview or independent vocals. Healthy native39473385296 and consumer39473385254 are left running.
+Regression risks: externally edited XSQ settings beyond the exact audited flat-On contract now fail instead of being silently approximated at intensity100. This is intentional; regenerate through the AC-only exporter.
+Status: IMPLEMENTED — TEST PENDING. Run lms-export-regression.yml, then integrate tested source without interrupting native rendering.
+
+Latest base runtime evidence: b9f1ca0 full CI39473385303, Python3.11 job118802998726 completed1956 passed,6 skipped,16 subtests in300.71s. This result predates EXP02 and cannot validate its new parser.
+
+### EXP02 validation and development integration
+Tested source:90b15d09d05072a5b954489bd6eb779ba0201538, PR189.
+Full regression run39476903541 passed on both Python3.11(job118815100028:1966 passed,6 skipped,16 subtests in308.10s) and3.12(job118815100293:1966 passed,6 skipped,16 subtests in297.33s). Both lint jobs also passed. Beta39476903476, Birdsong39476903636, Windows packaging39476903483 and license39476903374 succeeded.
+EXP02 status: COMPLETE for exact-settings conversion and tested file-level export behavior. LOR application/hardware acceptance, complete dual-default integration and the larger EXP01 roadmap remain open.
+Development integration incorporates tested source unchanged. Merge commit intentionally uses [skip ci] to avoid restarting native39473385296. Runtime native evidence remains tied to b9f1ca0, not this new integration SHA; the LMS parser changes do not modify native rendering.
+Dedicated lms-export-regression.yml did not produce a standalone run on this tool-created branch; full existing CI executed all ten new cases instead. No focused-workflow success is claimed.
+Native at18:49UTC:39473385296 still in installation/build, original exact-source consumer39473385254 awaits it. No new accepted MP4. Backing remains blocked by the actual retained mixed-only E14 source. Release INCOMPLETE.

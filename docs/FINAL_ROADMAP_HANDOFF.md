@@ -11,6 +11,15 @@ Statuses: [ ] not started; [~] in progress; [x] completed and verified; [!] bloc
 
 
 
+## EXP02 completed — audited legacy LMS conversion, 2026-10-20
+- Tested source `90b15d09d05072a5b954489bd6eb779ba0201538`, [PR189](https://github.com/ryankorkowski-boop/helix-sequencer/pull/189), now incorporated into development.
+- Fixed substring acceptance of Start=1000/End=100.5, disabled or modified palettes and hidden brightness modifiers. Only the canonical flat-On/white-palette fields are converted to intensity100. Reordering/whitespace are accepted; duplicates and malformed/unsupported settings fail before output.
+- [Full CI39476903541](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39476903541): **1966 passed,6 skipped,16 subtests** on each Python3.11/3.12; both lint jobs passed. All ten new export cases ran in these full suites.
+- Beta39476903476, Birdsong39476903636, Windows packaging39476903483 and license39476903374 passed. Dedicated new focused workflow has no separate run; do not claim one.
+- Source files: tools/legacy_lms_export.py; tests/test_legacy_lms_export.py. Canonical master ledger records limitations and compatibility risk for externally modified XSQs.
+- Integration intentionally skips CI to preserve original native producer39473385296 at b9f1ca0. Its install/build remains active at18:49UTC. Exact consumer39473385254 remains pending. Do not queue a duplicate or relabel that footage as this later source SHA.
+- EXP01 dual-default/native import/physical CTB16PC validation remains open. Native acceptance, keyboard visual review, independent backing, real-audio profiling, full-song/six-layout assets and physical Windows/Android checks remain open. **Release INCOMPLETE.**
+
 ## Live run checkpoint — 2026-10-20 18:25 UTC
 - Runtime source revision: `b9f1ca0237c1819c4d99d69fb8bba3c4f333554f`. The documentation-only commit containing this update does not alter runtime code; it intentionally skips CI to preserve this source run.
 - Effective native producer: [39473385296](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39473385296). Preflight118803027735 passed; render118804074546 started18:19UTC and remains in Install checksum pinned native xLights after source retrieval/cache lookup. Actual cache-hit/miss for this run is not yet available from completed logs; do not infer success from the step name. No accepted MP4 yet.
