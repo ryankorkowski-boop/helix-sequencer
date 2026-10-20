@@ -159,7 +159,10 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
             cues[m.name][part]=curve
         mnew=new.custom(m.name,points,m.zone,m.design,colors,subs,details={**m.details,'pose_method':'native source-timed RGB pose banks','ac16_compatible':False})
         mnew.children=copy.deepcopy(m.children)
-        mnew.attrs.update(PixelSize='4',Antialias='0',BlackTransparency='100',HelixOutputMode='pixel')
+        # Small four-pixel, unantialiased RGB nodes occupied too little of the
+        # 1920x1080 House Preview even when native FSEQ channels were active.
+        # Increase actual xLights model-node footprint, not encoded video gain.
+        mnew.attrs.update(PixelSize='12',Antialias='1',BlackTransparency='100',HelixOutputMode='pixel')
     expected_cast=7 if legacy_xylophone else 6
     if (len(new.models)!=expected_cast or len({m.name for m in new.models})!=expected_cast
             or sum(m.channels for m in new.models)>250000):
