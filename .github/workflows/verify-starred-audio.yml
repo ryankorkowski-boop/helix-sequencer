@@ -63,7 +63,7 @@ jobs:
           PY
           # Drive permissions or quota may prevent unauthenticated downloads.
           # Fail closed; never substitute an unrelated song.
-          python -m gdown "$SELECTED_DRIVE_ID" -O review/source.mp3
+          python -m gdown "https://drive.google.com/uc?id=${SELECTED_DRIVE_ID}" -O review/source.mp3
       - name: Verify decoded original audio and provenance
         run: |
           python - <<'PY'
