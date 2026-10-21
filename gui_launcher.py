@@ -34,10 +34,10 @@ class HelixGui(tk.Tk):
         }
 
         self.profile_var = tk.StringVar(value="master")
-        self.layout_preset_var = tk.StringVar(value="GP's House")
+        self.layout_preset_var = tk.StringVar(value="allmodels")
         self.template_var = tk.StringVar(value=str(ROOT / "template.xsq"))
         self.audio_var = tk.StringVar(value="")
-        self.layout_var = tk.StringVar(value=str(self.layout_presets["GP's House"]))
+        self.layout_var = tk.StringVar(value=str(self.layout_presets["allmodels"]))
         self.output_var = tk.StringVar(value=str(ROOT / "outputs"))
 
         self.vendor_bar_var = tk.BooleanVar(value=True)
@@ -52,6 +52,9 @@ class HelixGui(tk.Tk):
         self.birdsong_intensity_var = tk.DoubleVar(value=1.2)
         self.birdsong_min_conf_var = tk.DoubleVar(value=0.45)
         self.variants_var = tk.IntVar(value=4)
+        self.quick_clip_var = tk.BooleanVar(value=False)
+        self.style_var = tk.StringVar(value="ClassicChristmas")
+        self.stage_var = tk.StringVar(value="Canonical Snowman Band")
 
         self._build_ui()
         self._apply_layout_preset()
@@ -118,6 +121,19 @@ class HelixGui(tk.Tk):
         ttk.Checkbutton(controls, text="Polish", variable=self.polish_var).grid(row=1, column=2, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Auto Shortlist", variable=self.shortlist_var).grid(row=1, column=3, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Learn From My XSQs", variable=self.learn_xsq_var).grid(row=1, column=4, sticky="w", **pad)
+
+        showcase = ttk.LabelFrame(frame, text="Showcase Options")
+        showcase.pack(fill=tk.X, **pad)
+        ttk.Checkbutton(showcase, text="Quick Clip (10 seconds)", variable=self.quick_clip_var).grid(row=0, column=0, sticky="w", **pad)
+        ttk.Label(showcase, text="Style").grid(row=0, column=1, sticky="w", **pad)
+        ttk.Combobox(showcase, textvariable=self.style_var, state="readonly", width=22,
+                     values=["ClassicChristmas", "BeatDrive", "CinematicSweep", "PartyMode", "SpatialHelix"]).grid(row=0, column=2, sticky="w", **pad)
+        ttk.Label(showcase, text="Band stage").grid(row=1, column=0, sticky="w", **pad)
+        ttk.Combobox(showcase, textvariable=self.stage_var, state="readonly", width=30,
+                     values=["Canonical Snowman Band", "Pixel Snowman Stage", "Rock Concert Stage",
+                             "LOR AC Stage", "Singing Faces Stage", "Dual Stage Spectacular", "None"]).grid(row=1, column=1, columnspan=2, sticky="w", **pad)
+        ttk.Label(showcase, text="Preview, style and stage choices require engine integration.",
+                  foreground="#9a5800").grid(row=2, column=0, columnspan=4, sticky="w", **pad)
 
         birdsong = ttk.LabelFrame(frame, text="Birdsong Engine")
         birdsong.pack(fill=tk.X, **pad)
@@ -205,6 +221,9 @@ class HelixGui(tk.Tk):
         messagebox.showinfo("Helixville Ready", "Helixville layout has been generated and selected.")
 
     def _run_sequence(self) -> None:
+        if self.quick_clip_var.get() or self.style_var.get() != "ClassicChristmas" or self.stage_var.get() != "Canonical Snowman Band":
+            messagebox.showwarning("Showcase options pending", "Selected Quick Clip, style, or stage is not yet connected to the sequencer. No misleading preview will be produced.")
+            return
         if not self.audio_var.get().strip():
             messagebox.showwarning("Missing Audio", "Choose an audio file before running.")
             return
