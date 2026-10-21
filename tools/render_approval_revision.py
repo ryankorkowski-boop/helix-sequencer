@@ -21,7 +21,8 @@ def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def setup(root,eid,*,scene_factory=None):
     row=next(x for x in json.loads((root/'sources/selected_excerpts.json').read_text()) if x['excerpt_id']==eid)
     audio=root/'sources'/eid/'audio.wav';scene=(scene_factory or ReviewSnowmanScene)(LAYOUTS.get(eid,'woven_aurora'))
-    source=dict(id=eid,title=row['filename'],path=str(audio),sha256=sha(audio),duration=36,
+    import soundfile as sf
+    source=dict(id=eid,title=row['filename'],path=str(audio),sha256=sha(audio),duration=sf.info(audio).duration,
                 drummer_xsq=str(root/'sources'/eid/'drummer.xsq'))
     performance=ReviewBandPerformance(source,scene,root/'analysis')
     return row,audio,scene,performance

@@ -134,10 +134,57 @@ def read_frames(path: Path) -> tuple[bytes, int, int, int]:
     return data, channels, frames, step
 
 
-def inspect_fseq(path: Path) -> dict[str, Any]:
-    data, channels, frames, step = read_frames(path)
-    lit = [sum(value > 0 for value in data[i:i + channels])
-           for i in range(0, len(data), channels)]
+def streaming_activity(path: Path) -> tuple[list[int], int, int, int]:
+    """Audit full-song output without allocating its expanded channel timeline.
+
+    Keep the diagnostic reader's 128 MiB allocation fence. This explicit route
+    bounds each compressed block to that same fence, each frame to 2 MiB and
+    cumulative decoded work to 4 GiB. Sparse dark gaps need no allocation.
+    """
+    import numpy as np
+    from tools.fseq_pixel_preview import FseqReader
+    reader = FseqReader(path)
+    info = reader.info
+    channels = max(a + n for a, n in info.ranges) if info.ranges else info.channels
+    if (max(channels, info.channels) > 2 * 1024 * 1024
+            or channels * info.frames > 4 * 1024 ** 3):
+        raise ValueError('Oversized streaming FSEQ dimensions')
+    lit = []
+    with path.open('rb') as handle:
+        handle.seek(info.data_offset)
+        if info.compression == 0:
+            for _ in range(info.frames):
+                data = handle.read(info.channels)
+                if len(data) != info.channels:
+                    raise ValueError('Truncated streaming FSEQ frame')
+                lit.append(int(np.count_nonzero(np.frombuffer(data, np.uint8))))
+        else:
+            if not info.blocks or info.blocks[0][0] != 0:
+                raise ValueError('Invalid streaming FSEQ block index')
+            for i, (first, size) in enumerate(info.blocks):
+                end = info.blocks[i + 1][0] if i + 1 < len(info.blocks) else info.frames
+                expected = (end - first) * info.channels
+                if (first != len(lit) or end <= first or end > info.frames
+                        or expected > MAX_BYTES or size > MAX_BYTES):
+                    raise ValueError('Invalid or oversized streaming FSEQ block')
+                payload = handle.read(size)
+                if len(payload) != size:
+                    raise ValueError('Truncated streaming FSEQ block')
+                data = _decode(payload, info.compression, expected)
+                grid = np.frombuffer(data, np.uint8).reshape(-1, info.channels)
+                lit.extend(np.count_nonzero(grid, axis=1).tolist())
+    if len(lit) != info.frames:
+        raise ValueError('Streaming FSEQ frame count mismatch')
+    return lit, channels, info.frames, info.step_ms
+
+
+def inspect_fseq(path: Path, *, streaming: bool = False) -> dict[str, Any]:
+    if streaming:
+        lit, channels, frames, step = streaming_activity(path)
+    else:
+        data, channels, frames, step = read_frames(path)
+        lit = [sum(value > 0 for value in data[i:i + channels])
+               for i in range(0, len(data), channels)]
     dark = []
     start: int | None = None
     for index, value in enumerate([*lit, 1]):
@@ -149,7 +196,7 @@ def inspect_fseq(path: Path) -> dict[str, Any]:
     return {
         "schema": "helix.fseq_channel_evidence.v1",
         "basis": "decoded_rendered_channel_bytes",
-        "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "sha256": _file_digest(path),
         "channels": channels, "frames": frames, "frame_ms": step,
         "duration_ms": frames * step,
         "nonzero_samples": sum(lit),
@@ -159,6 +206,14 @@ def inspect_fseq(path: Path) -> dict[str, Any]:
         "dark_windows": dark,
         "visual_review": "pending", "controller_validation": "not_tested",
     }
+
+
+def _file_digest(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open('rb') as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b''):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 def main(argv: Sequence[str] | None = None) -> int:

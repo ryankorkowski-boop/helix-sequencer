@@ -101,10 +101,11 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
         raise
 
 
-def _command(endpoint: str, cmd: str, **params: str) -> dict[str, Any]:
+def _command(endpoint: str, cmd: str, *, timeout: float = 60,
+             **params: str) -> dict[str, Any]:
     response = rest._request_json(
         "POST", f"{endpoint}/xlDoAutomation", {"cmd": cmd, **params},
-        timeout=60)
+        timeout=timeout)
     if not rest._response_ok(response):
         raise RuntimeError(f"xLights {cmd} rejected: {response}")
     return response
@@ -272,7 +273,8 @@ def _native_gui_environment(evidence_dir: Path) -> dict[str, str]:
     profile = Path(tempfile.mkdtemp(prefix="xlights-profile-", dir=evidence_dir))
     settings = profile / "xLights" / "settings.json"
     settings.parent.mkdir()
-    value = {"main": {"MinTipLevel": "Off", "OutputActive": False},
+    value = {"main": {"MinTipLevel": "Off", "OutputActive": False,
+                      "xLightsUserEmail": "noone@nowhere.xlights.org"},
              "tod": {}, "bookmarks": {}, "_meta": {"migrated": True}}
     settings.write_text(json.dumps(value, indent=2) + "\n")
     environment["XDG_CONFIG_HOME"] = str(profile)
@@ -287,7 +289,7 @@ def _native_gui_environment(evidence_dir: Path) -> dict[str, str]:
 
 
 def _native_export(xlights: str, show: Path, staged: Path,
-                   port: int) -> dict[str, Any]:
+                   port: int, *, prepare_preview=None) -> dict[str, Any]:
     # Own a fresh process. Never close/switch an existing user's sequence.
     with socket.socket() as reservation:
         reservation.bind(("127.0.0.1", port))
@@ -365,7 +367,11 @@ def _native_export(xlights: str, show: Path, staged: Path,
                 print("HELIX_NATIVE_X11_GEOMETRY_BEGIN", flush=True)
                 print(geometry_report.read_text()[-16000:], flush=True)
                 print("HELIX_NATIVE_X11_GEOMETRY_END", flush=True)
-            _command(endpoint, "exportVideoPreview", **options)
+            if prepare_preview is not None:
+                prepared=prepare_preview(app.pid, staged, width, height)
+                (staged.parent/'native_prepared_canvas.json').write_text(json.dumps(prepared,indent=2)+'\n')
+            export_timeout=max(60, float(ET.parse(staged).findtext('head/sequenceDuration', '0'))*6)
+            _command(endpoint, "exportVideoPreview", timeout=export_timeout, **options)
             if not video.is_file() or video.stat().st_size == 0:
                 raise ValueError("xLights did not create a fresh native video")
             native_stream = _stream(probe_media(video, "ffprobe"), "video")
@@ -379,7 +385,8 @@ def _native_export(xlights: str, show: Path, staged: Path,
                 # Keep the rejected first export as diagnostic evidence, and
                 # ask xLights for an entirely new video from the real canvas.
                 video = staged.parent / "native-resized.mp4"
-                _command(endpoint, "exportVideoPreview", **{**options, "filename": str(video)})
+                _command(endpoint, "exportVideoPreview", timeout=export_timeout,
+                         **{**options, "filename": str(video)})
                 native_stream = _stream(probe_media(video, "ffprobe"), "video")
                 attempts.append({"video": str(video), "resolution": [
                     int(native_stream["width"]), int(native_stream["height"])]})
@@ -490,7 +497,7 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
                 f"Native headless render exited {result.returncode}: "
                 + (stage / "native_headless.log").read_text(errors="replace")[-4000:])
         fseq = staged.with_suffix(".fseq")
-        channel_report = inspect_fseq(fseq)
+        channel_report = inspect_fseq(fseq, streaming=True)
         if abs(channel_report["duration_ms"] - duration * 1000) > 100:
             raise ValueError("Native FSEQ duration differs from sequence")
         (stage / "native_channels.json").write_text(

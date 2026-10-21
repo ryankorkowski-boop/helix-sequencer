@@ -1,0 +1,420 @@
+{
+  "source_sha256": "c69e0a4632a6c67f7ae59d2e1c630ce6de5969ca954d403f094176a1376c6524",
+  "duration_seconds": 256.0,
+  "frames": 5120,
+  "stems": {
+    "bass": {
+      "sha256": "951580163e5402327647653c51e6d730933370a68ff15c8b5409930d8e94e6a6"
+    },
+    "guitar": {
+      "sha256": "763f71c190dc184f59cfe683985ecf6cf9b89ff3192d251b8f252cfa8acb8522"
+    },
+    "piano": {
+      "sha256": "183a99ea06947f2687fc9d1e221ba0a5c9d858844241f01ecaf457efe24eda81"
+    },
+    "other": {
+      "sha256": "dc87483cbdd380ef003a2df3c427b129d06627589da8c907e0b6e191a7ba707b"
+    },
+    "vocals": {
+      "sha256": "21c19308feee42403608e9bd7e88d901320999806efd13a0ca92b8e62df11a15"
+    },
+    "drums": {
+      "sha256": "588c6e7113d919a9565d59d4acd7766d1b5f869835dbb69c84029cff655b5744"
+    }
+  },
+  "mallet_attacks": [
+    {
+      "start_ms": 16000,
+      "midi": 78,
+      "concentration": 0.1143,
+      "decay_ratio": 1.075,
+      "vocal_similarity": 0.381
+    },
+    {
+      "start_ms": 45450,
+      "midi": 83,
+      "concentration": 0.9733,
+      "decay_ratio": 1.423,
+      "vocal_similarity": 0.257
+    },
+    {
+      "start_ms": 45800,
+      "midi": 81,
+      "concentration": 0.3312,
+      "decay_ratio": 3.558,
+      "vocal_similarity": 0.668
+    },
+    {
+      "start_ms": 46100,
+      "midi": 83,
+      "concentration": 0.4359,
+      "decay_ratio": 2.024,
+      "vocal_similarity": 0.436
+    },
+    {
+      "start_ms": 46750,
+      "midi": 83,
+      "concentration": 0.9498,
+      "decay_ratio": 2.436,
+      "vocal_similarity": 0.763
+    },
+    {
+      "start_ms": 47100,
+      "midi": 81,
+      "concentration": 0.1554,
+      "decay_ratio": 2.207,
+      "vocal_similarity": 0.414
+    },
+    {
+      "start_ms": 82550,
+      "midi": 69,
+      "concentration": 0.7435,
+      "decay_ratio": 4.076,
+      "vocal_similarity": 0.487
+    },
+    {
+      "start_ms": 88850,
+      "midi": 75,
+      "concentration": 0.1998,
+      "decay_ratio": 7.255,
+      "vocal_similarity": 0.103
+    },
+    {
+      "start_ms": 89200,
+      "midi": 72,
+      "concentration": 0.3729,
+      "decay_ratio": 3.961,
+      "vocal_similarity": 0.044
+    },
+    {
+      "start_ms": 95800,
+      "midi": 73,
+      "concentration": 0.995,
+      "decay_ratio": 2.494,
+      "vocal_similarity": 0.42
+    },
+    {
+      "start_ms": 101950,
+      "midi": 84,
+      "concentration": 0.796,
+      "decay_ratio": 29.505,
+      "vocal_similarity": 0.34
+    },
+    {
+      "start_ms": 104800,
+      "midi": 84,
+      "concentration": 0.8294,
+      "decay_ratio": 1044.052,
+      "vocal_similarity": 0.13
+    },
+    {
+      "start_ms": 106000,
+      "midi": 72,
+      "concentration": 0.26,
+      "decay_ratio": 1.667,
+      "vocal_similarity": 0.236
+    },
+    {
+      "start_ms": 108900,
+      "midi": 68,
+      "concentration": 0.1894,
+      "decay_ratio": 1.165,
+      "vocal_similarity": 0.112
+    },
+    {
+      "start_ms": 109650,
+      "midi": 79,
+      "concentration": 0.1747,
+      "decay_ratio": 1.139,
+      "vocal_similarity": 0.259
+    },
+    {
+      "start_ms": 110050,
+      "midi": 79,
+      "concentration": 0.18,
+      "decay_ratio": 3.094,
+      "vocal_similarity": 0.152
+    },
+    {
+      "start_ms": 160050,
+      "midi": 81,
+      "concentration": 0.2955,
+      "decay_ratio": 1.331,
+      "vocal_similarity": 0.137
+    },
+    {
+      "start_ms": 160350,
+      "midi": 79,
+      "concentration": 0.1728,
+      "decay_ratio": 1.46,
+      "vocal_similarity": 0.5
+    },
+    {
+      "start_ms": 160750,
+      "midi": 81,
+      "concentration": 0.2197,
+      "decay_ratio": 1.21,
+      "vocal_similarity": 0.303
+    },
+    {
+      "start_ms": 161150,
+      "midi": 81,
+      "concentration": 0.177,
+      "decay_ratio": 1.414,
+      "vocal_similarity": 0.265
+    },
+    {
+      "start_ms": 161700,
+      "midi": 81,
+      "concentration": 0.2026,
+      "decay_ratio": 1.925,
+      "vocal_similarity": 0.252
+    },
+    {
+      "start_ms": 162150,
+      "midi": 84,
+      "concentration": 0.2461,
+      "decay_ratio": 1.534,
+      "vocal_similarity": 0.271
+    },
+    {
+      "start_ms": 163750,
+      "midi": 86,
+      "concentration": 0.2258,
+      "decay_ratio": 2.417,
+      "vocal_similarity": 0.172
+    },
+    {
+      "start_ms": 164300,
+      "midi": 76,
+      "concentration": 0.1288,
+      "decay_ratio": 1.88,
+      "vocal_similarity": 0.137
+    },
+    {
+      "start_ms": 164750,
+      "midi": 72,
+      "concentration": 0.1527,
+      "decay_ratio": 2.002,
+      "vocal_similarity": 0.395
+    },
+    {
+      "start_ms": 166350,
+      "midi": 93,
+      "concentration": 0.2186,
+      "decay_ratio": 1.275,
+      "vocal_similarity": 0.335
+    },
+    {
+      "start_ms": 170450,
+      "midi": 70,
+      "concentration": 0.1207,
+      "decay_ratio": 1.103,
+      "vocal_similarity": 0.189
+    },
+    {
+      "start_ms": 172150,
+      "midi": 81,
+      "concentration": 0.1838,
+      "decay_ratio": 1.101,
+      "vocal_similarity": 0.539
+    },
+    {
+      "start_ms": 172550,
+      "midi": 77,
+      "concentration": 0.2592,
+      "decay_ratio": 1.397,
+      "vocal_similarity": 0.299
+    },
+    {
+      "start_ms": 176750,
+      "midi": 89,
+      "concentration": 0.5529,
+      "decay_ratio": 10.327,
+      "vocal_similarity": 0.259
+    },
+    {
+      "start_ms": 177350,
+      "midi": 72,
+      "concentration": 0.87,
+      "decay_ratio": 4.483,
+      "vocal_similarity": 0.152
+    },
+    {
+      "start_ms": 205650,
+      "midi": 80,
+      "concentration": 0.8643,
+      "decay_ratio": 87.882,
+      "vocal_similarity": 0.64
+    },
+    {
+      "start_ms": 208700,
+      "midi": 76,
+      "concentration": 0.784,
+      "decay_ratio": 1.056,
+      "vocal_similarity": 0.341
+    },
+    {
+      "start_ms": 209100,
+      "midi": 76,
+      "concentration": 0.8912,
+      "decay_ratio": 1.35,
+      "vocal_similarity": 0.249
+    },
+    {
+      "start_ms": 209500,
+      "midi": 76,
+      "concentration": 0.8336,
+      "decay_ratio": 1.313,
+      "vocal_similarity": 0.253
+    },
+    {
+      "start_ms": 209900,
+      "midi": 77,
+      "concentration": 0.7309,
+      "decay_ratio": 1.503,
+      "vocal_similarity": 0.305
+    },
+    {
+      "start_ms": 210250,
+      "midi": 77,
+      "concentration": 0.8332,
+      "decay_ratio": 1.238,
+      "vocal_similarity": 0.252
+    },
+    {
+      "start_ms": 210650,
+      "midi": 79,
+      "concentration": 0.6013,
+      "decay_ratio": 1.202,
+      "vocal_similarity": 0.199
+    },
+    {
+      "start_ms": 211050,
+      "midi": 79,
+      "concentration": 0.6967,
+      "decay_ratio": 1.291,
+      "vocal_similarity": 0.09
+    },
+    {
+      "start_ms": 211350,
+      "midi": 70,
+      "concentration": 0.1126,
+      "decay_ratio": 2.8,
+      "vocal_similarity": 0.401
+    },
+    {
+      "start_ms": 215200,
+      "midi": 68,
+      "concentration": 0.7057,
+      "decay_ratio": 4.972,
+      "vocal_similarity": 0.55
+    },
+    {
+      "start_ms": 217600,
+      "midi": 70,
+      "concentration": 0.1752,
+      "decay_ratio": 44.128,
+      "vocal_similarity": 0.682
+    },
+    {
+      "start_ms": 222600,
+      "midi": 70,
+      "concentration": 0.1023,
+      "decay_ratio": 26.71,
+      "vocal_similarity": 0.223
+    },
+    {
+      "start_ms": 223150,
+      "midi": 89,
+      "concentration": 0.1762,
+      "decay_ratio": 2.349,
+      "vocal_similarity": 0.333
+    },
+    {
+      "start_ms": 223450,
+      "midi": 70,
+      "concentration": 0.2708,
+      "decay_ratio": 16.956,
+      "vocal_similarity": 0.579
+    }
+  ],
+  "notes": {
+    "bass": {
+      "active_stem_frames": 4064,
+      "measured_attacks": 916,
+      "supported_note_frames": 3762,
+      "raw_rms_peak": 0.308598130941391,
+      "events": 1064
+    },
+    "guitar": {
+      "active_stem_frames": 818,
+      "measured_attacks": 216,
+      "supported_note_frames": 785,
+      "raw_rms_peak": 0.14902162551879883,
+      "events": 628
+    },
+    "piano": {
+      "active_stem_frames": 30,
+      "measured_attacks": 6,
+      "supported_note_frames": 22,
+      "raw_rms_peak": 0.04710409790277481,
+      "events": 9
+    },
+    "other": {
+      "active_stem_frames": 1027,
+      "measured_attacks": 219,
+      "supported_note_frames": 987,
+      "raw_rms_peak": 0.14051134884357452,
+      "events": 769
+    }
+  },
+  "vocals": {
+    "schema": "helix.voice_roles.v1",
+    "input_tracks": {
+      "mixed_vocals": {
+        "evidence": "mixed",
+        "requested_role": null,
+        "sha256": "ab705ac1f286ea14b7b935f263c42c48ee8d36b99cf0fc9eb299c83830b8a9d2",
+        "duplicate_of": null,
+        "voiced_fraction": 0.6546875,
+        "prominence": 0.07069183886051178,
+        "resolved_role": "lead"
+      }
+    },
+    "voice_identity_resolved": false,
+    "mixed_bus_only": true,
+    "independent_tracks": 0,
+    "classifications": {
+      "silence": 1768,
+      "solo": 3352
+    },
+    "timing_hop_seconds": 0.01,
+    "release_padding_seconds": 0,
+    "phoneme_method": "verified cues where supplied; broad AH/EE/OH acoustic estimates elsewhere",
+    "limitation": "Mixed bus singing is supported; singer count, duet identity and backing parts remain unresolved without independent sources.",
+    "source_sha256": "c69e0a4632a6c67f7ae59d2e1c630ce6de5969ca954d403f094176a1376c6524",
+    "stem_file_sha256": {
+      "mixed_vocals": "21c19308feee42403608e9bd7e88d901320999806efd13a0ca92b8e62df11a15"
+    },
+    "model_lanes": [
+      {
+        "name": "mixed_vocals",
+        "role": "lead",
+        "model_lane": 0
+      }
+    ],
+    "preview_classifications": {
+      "silence": 1768,
+      "solo": 3352
+    }
+  },
+  "independent_backing_verified": false,
+  "musical_accuracy_independently_verified": false,
+  "separation": {
+    "model": "htdemucs_6s",
+    "device": "cpu",
+    "shifts": 0,
+    "source_sha256": "c69e0a4632a6c67f7ae59d2e1c630ce6de5969ca954d403f094176a1376c6524"
+  }
+}
