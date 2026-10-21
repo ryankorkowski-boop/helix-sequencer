@@ -139,8 +139,8 @@ def export_legacy_lms(ac_xsq: Path, mapping_csv: Path, destination: Path) -> dic
             }):
                 raise ValueError("Non-constant intensity or fade effect cannot be exported to full-on LMS")
             try:
-                start = int(e["startTime"])
-                end = int(e["endTime"])
+                start = int(e.attrib["startTime"])
+                end = int(e.attrib["endTime"])
             except (KeyError, ValueError) as exc:
                 raise ValueError("Missing or invalid XSQ On interval timestamp") from exc
             if not 0 <= start < end <= duration_ms:
