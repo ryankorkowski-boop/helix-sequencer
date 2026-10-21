@@ -138,10 +138,13 @@ def export_legacy_lms(ac_xsq: Path, mapping_csv: Path, destination: Path) -> dic
                 "E_TEXTCTRL_Eff_On_End": "100",
             }):
                 raise ValueError("Non-constant intensity or fade effect cannot be exported to full-on LMS")
-            start = max(0, int(e.get("startTime", "0")))
-            end = min(duration_ms, int(e.get("endTime", "0")))
-            if end <= start:
-                raise ValueError("Invalid or empty On interval")
+            try:
+                start = int(e["startTime"])
+                end = int(e["endTime"])
+            except (KeyError, ValueError) as exc:
+                raise ValueError("Missing or invalid XSQ On interval timestamp") from exc
+            if not 0 <= start < end <= duration_ms:
+                raise ValueError("Invalid or out-of-bounds On interval")
             start_cs = _centiseconds(start)
             end_cs = min(duration_cs, _centiseconds(end, ceil=True))
             if end_cs <= start_cs:
