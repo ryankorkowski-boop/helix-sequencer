@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import copy
 import json
+import math
+from decimal import Decimal, InvalidOperation, ROUND_CEILING
 from pathlib import Path
 import xml.etree.ElementTree as ET
 from tools.lor_lms_import import _source_channels
@@ -18,17 +20,23 @@ def _settings(root):
 
 
 def _start_end(settings: str) -> tuple[int, int]:
-    def find(key, default):
-        for part in settings.split(","):
-            if part.startswith(key + "="):
-                try:
-                    return max(0, min(100, int(round(float(part.split("=", 1)[1])))))
-                except ValueError:
-                    return default
-        return default
+    allowed = {'E_TEXTCTRL_Eff_On_Start', 'E_TEXTCTRL_Eff_On_End'}
+    parsed = {}
+    for part in settings.split(',') if settings.strip() else []:
+        key, separator, raw = part.strip().partition('=')
+        key, raw = key.strip(), raw.strip()
+        if not separator or key not in allowed or key in parsed:
+            raise ValueError('Unsupported or duplicate LOR intensity settings')
+        try:
+            value = float(raw)
+        except ValueError as exc:
+            raise ValueError('Invalid LOR intensity value') from exc
+        if not math.isfinite(value) or not 0 <= value <= 100:
+            raise ValueError('LOR intensity must be finite and between 0 and 100')
+        parsed[key] = int(round(value))
     return (
-        find("E_TEXTCTRL_Eff_On_Start", 100),
-        find("E_TEXTCTRL_Eff_On_End", 100),
+        parsed.get("E_TEXTCTRL_Eff_On_Start", 100),
+        parsed.get("E_TEXTCTRL_Eff_On_End", 100),
     )
 
 
@@ -69,10 +77,14 @@ def export_lms_from_xsq(
         raise ValueError("LMS source has changed since the channel layout was prepared")
     source_root, _channels = _source_channels(source_lms)
     xsq_root = ET.parse(xsq).getroot()
-    duration = float(xsq_root.findtext("./head/sequenceDuration") or "0")
-    if duration <= 0:
+    try:
+        duration = Decimal(xsq_root.findtext("./head/sequenceDuration") or "0")
+    except InvalidOperation as exc:
+        raise ValueError('Generated sequence has invalid duration') from exc
+    if not duration.is_finite() or duration <= 0:
         raise ValueError("Generated sequence has invalid duration")
-    duration_cs = max(1, int(round(duration * 100)))
+    duration_ms = duration * 1000
+    duration_cs = int((duration * 100).to_integral_value(rounding=ROUND_CEILING))
     models = {
         e["model"]: e for e in manifest["channels"]
     }
@@ -100,12 +112,14 @@ def export_lms_from_xsq(
             label = effect.get("name", "")
             if label not in {"On", "Off", "Shimmer", "Twinkle"}:
                 raise ValueError(f"Not LOR-safe effect {label!r}")
-            t0 = int(float(effect.get("startTime", "0")))
-            t1 = int(float(effect.get("endTime", "0")))
-            a = max(0, min(duration_cs - 1, t0 // 10))
-            b = min(duration_cs, (t1 + 9) // 10)
-            if b <= a:
-                continue
+            try:
+                t0 = int(effect.attrib['startTime'])
+                t1 = int(effect.attrib['endTime'])
+            except (KeyError, ValueError) as exc:
+                raise ValueError('Missing or invalid XSQ interval timestamp') from exc
+            if not 0 <= t0 < t1 <= duration_ms:
+                raise ValueError('Invalid or out-of-bounds XSQ interval')
+            a, b = t0 // 10, (t1 + 9) // 10
             explicit_settings = effect.get("settings")
             if explicit_settings is not None:
                 # Helix's XSQ writer stores effect settings directly on
@@ -117,6 +131,9 @@ def export_lms_from_xsq(
                 if not ref.isdecimal() or int(ref) >= len(settings):
                     raise ValueError("XSQ effect references unknown intensity settings")
                 effect_settings = settings[int(ref)]
+            # Validate before writing, even if this layer is fully hidden by
+            # a later overlapping effect. Never clamp bad intensity to full-on.
+            _start_end(effect_settings)
             for target_name in targets:
                 target = models[target_name]["savedIndex"]
                 events.setdefault(target, []).append((a, b, label, effect_settings))

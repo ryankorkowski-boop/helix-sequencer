@@ -23,9 +23,12 @@ jobs:
             target: google_apis
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    env:
+      HELIX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /*
@@ -82,6 +85,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+      - name: Verify exact Android build source
+        run: python -c "import os, subprocess; actual = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(); assert actual == os.environ['HELIX_SOURCE_COMMIT'], 'Wrong Android build source ' + actual"
       - run: python -m pip install --upgrade pip setuptools wheel
       - uses: gradle/actions/setup-gradle@v4
         with:

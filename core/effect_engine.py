@@ -10425,6 +10425,8 @@ def run_variant(
 
     log("[2/8] Analyzing audio and polyphony")
     audio = analysis_cache.get("audio", lambda: base.analyze(audio_path)) if analysis_cache else base.analyze(audio_path)
+    from xlights.xml_io import set_media_duration
+    set_media_duration(xsq.root, float(audio.dur_s))
     song_length_ms = max(1000, int(audio.dur_s * 1000.0))
     harmonic = analysis_cache.get("harmonic", lambda: analyze_harmonic(audio)) if analysis_cache else analyze_harmonic(audio)
     sections = base.detect_sections(audio)
@@ -12635,6 +12637,9 @@ def run_variant(
     write_sequence_notes(notes_path(out_path), payload)
 
     log("[6/8] Writing sequence")
+    from xlights.xml_io import bound_media_effects
+    boundary_report = bound_media_effects(xsq.root, set_media_duration(xsq.root, float(audio.dur_s)))
+    log(f"Audio export boundaries: {boundary_report}")
     base.normalize_display_views(xsq.root, force=True)
     if active_layout_file and active_layout_file.exists():
         final_sync = base.sync_xsq_to_layout(xsq, active_layout_file)

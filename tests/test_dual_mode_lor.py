@@ -211,3 +211,79 @@ def test_sequence_builder_direct_lor_path_without_xlights(monkeypatch, tmp_path:
     ]
     assert any(kind == "lor_sequence" for kind, *_rest in snapshots if isinstance(kind, str))
     assert original.read_text().find("original.wav") >= 0
+
+
+def _mapped_export_fixture(tmp_path):
+    original = tmp_path / 'source.lms'
+    source(original)
+    imported = prepare_lms_workspace(original, tmp_path / 'workspace')
+    tree = ET.parse(imported['template'])
+    tree.find('./head/sequenceDuration').text = '2.005'
+    layer = tree.find('./ElementEffects/Element/EffectLayer')
+    effect = ET.SubElement(layer, 'Effect', name='On', startTime='105', endTime='2005',
+                           ref='0', palette='0')
+    xsq = tmp_path / 'song.xsq'
+    return original, imported, tree, effect, xsq, tmp_path / 'song.lms'
+
+
+@pytest.mark.parametrize('attribute,value', [
+    ('startTime', '-1'), ('endTime', '2006'), ('startTime', '5.5'),
+    ('startTime', 'nan'), ('endTime', ''), ('startTime', None),
+    ('endTime', None), ('endTime', '105'), ('startTime', '2006'),
+])
+def test_source_wired_export_rejects_bad_intervals_before_writing(tmp_path, attribute, value):
+    original, imported, tree, effect, xsq, output = _mapped_export_fixture(tmp_path)
+    if value is None:
+        effect.attrib.pop(attribute)
+    else:
+        effect.set(attribute, value)
+    tree.write(xsq)
+    retained = original.read_bytes()
+    with pytest.raises(ValueError, match='interval|timestamp'):
+        export_lms_from_xsq(xsq, original, output, Path(imported['manifest']))
+    assert original.read_bytes() == retained
+    assert not output.exists()
+    assert not output.with_suffix('.lms_validation.json').exists()
+
+
+@pytest.mark.parametrize('config', [
+    'E_TEXTCTRL_Eff_On_Start=-1', 'E_TEXTCTRL_Eff_On_End=101',
+    'E_TEXTCTRL_Eff_On_Start=nan', 'E_TEXTCTRL_Eff_On_End=inf',
+    'E_TEXTCTRL_Eff_On_Start=broken',
+    'E_TEXTCTRL_Eff_On_Start=50,E_TEXTCTRL_Eff_On_Start=100',
+    'E_TEXTCTRL_Eff_On_Start=100,B_SLIDER_Brightness=25', 'malformed',
+])
+def test_source_wired_export_rejects_unrepresentable_intensity(tmp_path, config):
+    original, imported, tree, effect, xsq, output = _mapped_export_fixture(tmp_path)
+    effect.set('settings', config)
+    # Invalid effects cannot disappear from validation under a later layer.
+    ET.SubElement(tree.find('./ElementEffects/Element/EffectLayer'), 'Effect',
+                  name='On', startTime='105', endTime='2005', ref='0', palette='0')
+    tree.write(xsq)
+    with pytest.raises(ValueError, match='intensity'):
+        export_lms_from_xsq(xsq, original, output, Path(imported['manifest']))
+    assert not output.exists()
+    assert not output.with_suffix('.lms_validation.json').exists()
+
+
+@pytest.mark.parametrize('duration', ['NaN', 'Infinity', '-Infinity', 'broken', '0', '-1'])
+def test_source_wired_export_rejects_nonfinite_duration(tmp_path, duration):
+    original, imported, tree, effect, xsq, output = _mapped_export_fixture(tmp_path)
+    tree.find('./head/sequenceDuration').text = duration
+    tree.write(xsq)
+    with pytest.raises(ValueError, match='duration'):
+        export_lms_from_xsq(xsq, original, output, Path(imported['manifest']))
+    assert not output.exists()
+
+
+def test_source_wired_export_keeps_last_subcentisecond_and_inline_fade(tmp_path):
+    original, imported, tree, effect, xsq, output = _mapped_export_fixture(tmp_path)
+    effect.set('startTime', '2000')
+    effect.set('settings', ' E_TEXTCTRL_Eff_On_End=80 , E_TEXTCTRL_Eff_On_Start=20 ')
+    tree.write(xsq)
+    export_lms_from_xsq(xsq, original, output, Path(imported['manifest']))
+    root = ET.parse(output).getroot()
+    assert root.find('./tracks/track').get('totalCentiseconds') == '201'
+    event = root.find('./channels/channel/effect')
+    assert (event.get('startCentisecond'), event.get('endCentisecond')) == ('200', '201')
+    assert (event.get('startIntensity'), event.get('endIntensity')) == ('20', '80')

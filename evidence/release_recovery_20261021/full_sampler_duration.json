@@ -1,0 +1,21 @@
+{
+  "schema": "helix.full_sampler_duration_regression.v1",
+  "baseline_template_duration": "132.039",
+  "decoded_audio_duration": 260.2,
+  "new_xsq_head_duration": "260.200",
+  "latest_effect_end_ms": 260290,
+  "effect_count": 72539,
+  "xsq_sha256": "f4d999fbfe8005106f66c5ee5a27e064421dc1f07142e319eb74d6647239d949",
+  "audio_sha256": "f76e41469c5e844442da18d1716de8fbec8c4ab2bfee84128a0a6f9515924c9f",
+  "source_audio_bytes_unchanged": true,
+  "native_fseq_render_verified": false,
+  "native_mp4_verified": false,
+  "known_limitations": [
+    "Original Greg256 layout; not a six-to-nine-layout showcase",
+    "Fallback local source analysis; musical ownership and independent backing vocals unverified"
+  ],
+  "source_file_sha256": {
+    "core/effect_engine.py": "e78ab74782bda77d2a9a153f5b25be2c3035e289844bb84ada86fc456651cb12",
+    "xlights/xml_io.py": "82875f91c2696bc985847005ca29ae7a90c41d6e80ba57cdfa3bdaef838649fc"
+  }
+}
