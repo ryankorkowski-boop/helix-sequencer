@@ -1,3 +1,13 @@
+## 2026-10-21 native instrument/material recovery (implementation candidate)
+
+- Goal: correct the current-source native review rejected during actual frame inspection; no final visual acceptance inferred.
+- Source baseline: recovery `ef8a345677bb29461f8c4fbeb5a16093cc12a9f0`, PR188. Current producer39548845276 succeeded and artifact12321993842 (ZIP SHA256493dccbf5882c7d9f242d6893661c9f5a8223a49829589c65bd17f0d3693a21f) contains authentic36s1920x1080 native MP4/audio. Frame at10s inspected: physical keyboard case/stands absent and BODY color flattened. Do not promote this as visually approved.
+- Root causes: `models/native_review_band.py::_role_parts` excluded `keyboard_*` structure; `tools/native_source_pose_band.py` assigned the first BODY node's color to its entire submodel. The latter removed purple accents and instrument material distinction.
+- Changed: include authored keyboard case/stands; split static BODY/BASE_DIM RGB lanes by authored per-node colors; add explicitly nonmusical dim key/kit idle lanes which are zero during genuine source cues. Original musical arrays, node addresses, timestamps, source audio, short-arm constraints, legacy opt-in and AC16 circuit allocation are preserved. Native preflight now runs material/structure regressions before render.
+- Tests:49 native source-pose/staging/artifact cases pass locally on Python3.12;35 existing LMS/layout-preference cases plus6 subtests pass. Broader test execution and fresh native job pending. Full decode, source music matching, physical devices and owner approval remain separate.
+- Regression risks: more static submodels/effects; changed native color/detail readability requires fresh renderer/frame review. No harmony source invented; current strict consumer must retain its silent-harmony rejection. No merge/publication.
+- Next: commit source/tests/workflow and both ledgers, record exact fresh native run, inspect exported material lanes/FSEQ and full decoded frames; retain independent backing/source and six-layout/full-song gates as open.
+
 # Final roadmap and release handoff
 
 Updated 2026-10-20 (startup recovery milestone). Status is evidence-based.

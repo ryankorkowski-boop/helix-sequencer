@@ -96,6 +96,46 @@ def configure_native_keyboard_motion(scene, performer, *, legacy_xylophone=False
                 keyboard_contact_report=performer.keyboard_motion_report)
 
 
+def retain_native_materials(model, cues):
+    """Keep authored static colors and dim instruments without inventing notes.
+
+    One On effect has one palette: using BODY's first node color for its whole
+    surface erased hats, purple accents and instrument materials. Static RGB
+    lanes keep those colors separate. Idle instrument lanes are explicitly
+    nonmusical and go dark during their real source cue; the original note/hit
+    arrays, node addresses and event times are never changed.
+    """
+    role = model.details['review_role']
+    idle = {}
+    for part, curve in list(cues.items()):
+        if (role == 'piano' and part.startswith('NOTE_MIDI_')):
+            idle['KEY_IDLE_' + part.removeprefix('NOTE_MIDI_')] = (part, .16)
+        elif role == 'drummer' and part not in {'BASE_DIM'} and not part.startswith('SOURCE_POSE'):
+            idle['KIT_IDLE_' + part] = (part, .18)
+    for name, (part, level) in idle.items():
+        if model.submodels.get(part):
+            model.submodels[name] = list(model.submodels[part])
+            cues[name] = np.where(np.asarray(cues[part]) > 0, 0, level)
+
+    report = {}
+    for part in list(cues):
+        if part not in {'BODY', 'BASE_DIM'} and not part.startswith(('KEY_IDLE_', 'KIT_IDLE_')):
+            continue
+        groups = {}
+        for node in model.submodels.get(part, []):
+            color = model.colors[node - 1].upper()
+            groups.setdefault(color, []).append(node)
+        if not groups:
+            continue
+        curve = cues.pop(part)
+        for color, nodes in sorted(groups.items()):
+            name = part + '_RGB_' + color.removeprefix('#')
+            model.submodels[name] = nodes
+            cues[name] = curve.copy()
+        report[part] = {color: len(nodes) for color, nodes in sorted(groups.items())}
+    return report
+
+
 def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_xylophone=False):
     if frame_ms not in (25,50):raise ValueError('Native interval must be 25 or 50 ms')
     if output.exists():raise FileExistsError('Use a fresh directory')
@@ -205,6 +245,8 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
                                     active_parts=sum(v>0 for v in active.values()),
                                     lit_source_frames=sum(active.values()),
                                     source_frames_per_part=active)
+    material_audit={model.name:retain_native_materials(model,cues[model.name])
+                    for model in new.models}
     allocate(new);output.mkdir(parents=True);(output/'media').mkdir();shutil.copy2(audio,output/'media/audio.wav')
     write_layout(new,output,include_demo=False,export_all_custom=True)
     import xml.etree.ElementTree as ET
@@ -253,7 +295,7 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
     result=dict(excerpt=eid,source_record=row,audio_sha256=digest(audio),source_score='ReviewBandPerformance.pose',geometry_source='Review3DScene',source_frames=720,frame_ms=frame_ms,native_frames=36000//frame_ms,source_pose_frame_ms=50,
                 source_musical_cues_retimed=False,ac16_models_modified=False,channels=sum(m.channels for m in new.models),effects=sequence.identifier-1,rigs=proof,instrument_visibility_audit=instrument_audit,vocal_visibility_audit=vocal_audit,
                 visible_performer_roles=[m.details['review_role'] for m in new.models],legacy_xylophone_enabled=legacy_xylophone,
-                keyboard_motion_proof=keyboard_motion_proof,
+                keyboard_motion_proof=keyboard_motion_proof,static_material_audit=material_audit,
                 limitations=['RGB pose-bank geometry requires its own pixel mapping; not a 16-channel AC model','Source musical estimators retain their uncertainty','Finite source-pose medoids approximate geometric motion; source event clock is preserved'])
     (output/'pose_provenance.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2),flush=True)
     return result

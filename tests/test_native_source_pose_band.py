@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 from tools.native_source_pose_band import select_states,vertices,select_cast,configure_native_keyboard_motion,native_motion_rigs
 from models.band_performance_scene import line_matrix
+from tools.native_source_pose_band import retain_native_materials
 
 
 def test_states_are_actual_source_frames_and_preserve_frame_clock():
@@ -124,3 +125,60 @@ def test_native_house_preview_nodes_remain_visible_at_hd_resolution():
     assert "PixelSize='12'" in source
     assert "Antialias='1'" in source
     assert "BlackTransparency='100'" in source
+
+
+def test_native_static_materials_preserve_colors_coverage_and_musical_clock():
+    from types import SimpleNamespace
+    model = SimpleNamespace(details={'review_role': 'piano'},
+        colors=['#FFFFFF', '#632D98', '#282A43', '#E7E7D6'],
+        submodels={'BODY': [1, 2, 3], 'NOTE_MIDI_60': [4]})
+    note = np.array([0, .8, .8, 0], dtype='f4')
+    body = np.full(4, .85, dtype='f4')
+    cues = {'BODY': body.copy(), 'NOTE_MIDI_60': note.copy()}
+    addresses = {name: list(nodes) for name, nodes in model.submodels.items()}
+    report = retain_native_materials(model, cues)
+    assert report['BODY'] == {'#282A43': 1, '#632D98': 1, '#FFFFFF': 1}
+    for color in report['BODY']:
+        part = 'BODY_RGB_' + color[1:]
+        np.testing.assert_array_equal(cues[part], body)
+        assert {model.colors[n - 1] for n in model.submodels[part]} == {color}
+    assert sorted(n for part, nodes in model.submodels.items()
+                  if part.startswith('BODY_RGB_') for n in nodes) == [1, 2, 3]
+    np.testing.assert_array_equal(cues['NOTE_MIDI_60'], note)
+    np.testing.assert_array_equal(cues['KEY_IDLE_60_RGB_E7E7D6'], [.16, 0, 0, .16])
+    for name, nodes in addresses.items():
+        assert model.submodels[name] == nodes
+    assert 'BODY' not in cues  # no first-node-color overlay can erase materials
+
+
+def test_native_kit_idle_is_separate_from_real_hit_lanes():
+    from types import SimpleNamespace
+    model = SimpleNamespace(details={'review_role': 'drummer'},
+        colors=['#86C6E7', '#BDA665', '#357DA9'],
+        submodels={'BASE_DIM': [1], 'CYMBAL_LEFT': [2], 'KICK': [3]})
+    cues = {'BASE_DIM': np.full(4, .85),
+            'CYMBAL_LEFT': np.array([0, 1., .5, 0]),
+            'KICK': np.zeros(4)}
+    hits = cues['CYMBAL_LEFT'].copy()
+    retain_native_materials(model, cues)
+    np.testing.assert_array_equal(cues['CYMBAL_LEFT'], hits)
+    np.testing.assert_array_equal(cues['KICK'], np.zeros(4))
+    np.testing.assert_array_equal(cues['KIT_IDLE_CYMBAL_LEFT_RGB_BDA665'], [.18, 0, 0, .18])
+    assert all('RGB' not in name for name in ('CYMBAL_LEFT', 'KICK'))
+
+
+def test_native_piano_includes_authored_keyboard_case_and_both_stands():
+    from models.native_review_band import _role_parts
+    from models.review_3d_scene import Review3DScene
+    from models.final_band_native import SurfaceParts
+    scene = Review3DScene()
+    actual = _role_parts(scene, 'piano', (0, 0, 75), 5)
+    expected = SurfaceParts((0, 0, 75), scale=5)
+    structure = [item for item in scene.instances
+                 if item['name'] in {'keyboard_case', 'keyboard_stand_left', 'keyboard_stand_right'}]
+    assert len(structure) == 3
+    for item in structure:
+        expected.primitive('BODY', item)
+    body = {tuple(actual.points[node - 1]) for node in actual.parts['BODY']}
+    assert set(map(tuple, expected.points)) <= body
+    assert any(name.startswith('NOTE_MIDI_') for name in actual.parts)

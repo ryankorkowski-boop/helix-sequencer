@@ -41,7 +41,8 @@ def _role_parts(scene, role, position, scale, *, instrument_only=False):
     instrument={'bass':'upright_bass','guitar':'electric_guitar'}
     for i,item in enumerate(scene.instances):
         name=item['name']
-        if not (item.get('performer_role')==role or name.startswith(role+'_')):continue
+        if not (item.get('performer_role')==role or name.startswith(role+'_')
+                or (role=='piano' and name.startswith('keyboard_'))):continue
         if instrument_only and item.get('performer_role')==role:continue
         if item['kind']=='hidden' or i in arm_ids or item.get('mouth_role'):continue
         part='BODY'
