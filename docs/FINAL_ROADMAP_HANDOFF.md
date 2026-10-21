@@ -1,3 +1,22 @@
+## Final verified checkpoint — 2026-10-21, Android/build review files delivered
+
+Latest verified runtime source remains `546fcd454c4dd37ba357d05c9928f3e45e696d26`; subsequent recovery commits only update evidence/documentation. PR197 is integrated into recovery and closed as merged there. PR188 stays open against the default branch. **No default/release merge or release publication. Release is INCOMPLETE.**
+
+- AND-SOURCE01 [x] for build/emulator/artifact scope: run39608785388 SUCCESS, API30 artifact12350661773 (ZIPSHA6139b23e3a6f1261134a44fe9fe8bf87a551a7d584a8383faa32e63f48d86f54), API36 artifact12350666406 (ZIPSHA5affc942e991f69ea9c946dbef3c356966bdf21769a0c324d49678b73771fdf7). Both embedded source546fcd4,1043 file hashes, signing receipt and4 decoded preview modes independently verified. Full-song preview237.47s, decoded audio correlation~.9957; tested real-RGB and legacy LOR/xLights modes. Actual installable API36 debug APK SHA7913cd4af74cd40cd1bd19fbfefff60b8de92fa2d5143d869d563b687b77e7b6. Physical Samsung/ARM64, upgrades from an earlier beta certificate and production signing remain open.
+- WIN-SOURCE01 remains verified at546fcd4: run39608785241 / artifact12349097869. Actual Windows package source/EXE/guide hashes and FSEQ/LOR/xLights smoke passed. It is a complete portable folder, not a single standalone file.
+- CI-FINAL01:2034 tests pass/6 skip/16 subtests on each Python3.11/3.12 at546fcd4 (39608785140), both lint jobs pass; local same counts. Full260.2s sampler production output at546fcd4 has72539 bounded lighting/timing intervals and preserves original audio. Native full-sampler render remains open.
+- Native36s band review remains sourcecc736b1, run39605876463/artifact12347664834; do not relabel it as546fcd4. Actual source-keyed cache hit/restoration is confirmed in native job119243150656 (13:15:52 cache hit,13:16:02 restored), followed by wxWidgets runtime/dependency and native render success. Artistic/musical approval and keyboard-top camera readability remain open. Silent E14 harmony is still an honest negative gate.
+- New proof files: android_api30_verified.json, android_api36_verified.json, windows_verified.json, final_runtime_validation.json, full_sampler_duration.json, native_media_audit.json and local_full_tests.log in evidence/release_recovery_20261021/.
+- Review downloads prepared: actual native MP4; actual signed debug APK; verified Windows portable ZIP; editable sources ZIP (native36s XSQ/FSEQ/layout/audio; full-sampler XSQ/layout/audio; standalone pixel/AC16 xModels and position/inventory audits); standalone full-sampler XSQ; manifest and SHA256 list. This is not an accepted final release-candidate bundle.
+
+### Resume without repeating prior failures
+1. Fetch recovery HEAD, read this checkpoint and MASTER_TODO. No critical current-source build job remains pending. Code is committed; no implementation is left only in a scratch checkout.
+2. Resolve defensible independent vocal sources and core-source ownership. Current sampler's59 harmony/group-classifier windows are inferred, not independently resolved backing evidence; do not use them to bypass the strict full-band negative case.
+3. Verify keyboard/drummer/guitar/bass musical contacts and owner visual/artistic approval on genuine new native media. Do not fake harmony, add placeholder actors or reuse cc footage as a new source.
+4. Complete universal compatible dual export/native LOR import and owner controller mappings without guessed Unit IDs. Physical Windows, Samsung/ARM64 and CTB16PC plus single-file Windows packaging remain separate gates.
+5. Build/render six-to-nine distinct authentic native layouts using the recovered high-energy sampler. The older FSEQ illustrative compositor is not a genuine native House Preview pipeline. Preserve Greg256 and separate experimental RGB. Then assemble synchronized panels and any ads only from verified native sources.
+6. Finish final packaging/legal surfaces and request owner release approval only after those required gates have concrete review evidence. No release is authorized now.
+
 ## Current integration checkpoint — 2026-10-21 13:42 UTC
 
 **Release INCOMPLETE.** Latest verified runtime source: `546fcd454c4dd37ba357d05c9928f3e45e696d26` (PR197 candidate, now integrated into recovery by this documentation/evidence-only fast-forward). This checkpoint deliberately skips duplicate CI; it does not relabel any earlier build/media SHA. No default/release branch merge or publication.
