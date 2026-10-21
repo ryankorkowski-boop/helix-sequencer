@@ -1,3 +1,7 @@
+## 2026-10-21 eight fresh native movies completed
+
+The current Starred folder supplied16distinct audio files. A new256s sampler now drives eight full-duration genuine1920x1080 native xLights movies: AC band, pixel band, and six layouts increasing5/9/16/103/147/212models. Full decodes, source audio correlation>.995 and source-bound FSEQ receipts pass. See MASTER_TODO.md and evidence/starred_progressive_20261021/final_native_review.json. Comparison/private archive packaging follows this checkpoint. The full release remains INCOMPLETE: independently supported backing, musical/artistic owner approval, universal vendor imports, single-file Windows and physical Windows/Samsung/CTB16PC checks remain. GitHub push was blocked by automatic approval review; source commits remain local. No publication or default/release merge.
+
 ## 2026-10-21 fresh Starred bundle checkpoint
 
 Current work is recorded in MASTER_TODO.md under “Starred sampler and progressive native bundle implementation.” Sixteen current folder entries now produce a256s source-provenance sampler. Eight full-duration native shows are generated and rendered; MP4 production and review are underway. Keep independent backing, platform/device and release gates open. No default/release merge or publication.

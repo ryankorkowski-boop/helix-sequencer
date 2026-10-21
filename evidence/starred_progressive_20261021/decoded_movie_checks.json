@@ -1,0 +1,74 @@
+[
+  {
+    "file": "01_AC_Band.mp4",
+    "width": 1920,
+    "height": 1080,
+    "duration_seconds": 256.0,
+    "audio_correlation": 0.9980597919174756,
+    "full_decode": true,
+    "sha256": "364ae7bda47fdc026f45e65c3fda26ed19eb7820484eeb9d15ca765894d9b9df"
+  },
+  {
+    "file": "02_Pixel_Band.mp4",
+    "width": 1920,
+    "height": 1080,
+    "duration_seconds": 256.0,
+    "audio_correlation": 0.9980597919174756,
+    "full_decode": true,
+    "sha256": "73f8c6b57789700f2423d5e6e721343b89539e02742368043bf4ac79fe0c228e"
+  },
+  {
+    "file": "03_Layout_01.mp4",
+    "width": 1920,
+    "height": 1080,
+    "duration_seconds": 256.0,
+    "audio_correlation": 0.9980597919174756,
+    "full_decode": true,
+    "sha256": "acf7cd5d0273c09ebe32bf6e2e5ea8c879477da286ee0ff80a3af3a4a8088aea"
+  },
+  {
+    "file": "04_Layout_02.mp4",
+    "width": 1920,
+    "height": 1080,
+    "duration_seconds": 256.0,
+    "audio_correlation": 0.9980597919174756,
+    "full_decode": true,
+    "sha256": "ef6a677c2223ed524a6ff7a4bfaa8b86730c73ec94f7305d06ce8dcd2696ef06"
+  },
+  {
+    "file": "05_Layout_03.mp4",
+    "sha256": "3b171842e14fb4794489c703dd5df1a617966480acc65314e392d48a9d8592c7",
+    "width": 1920,
+    "height": 1080,
+    "duration_seconds": 256,
+    "audio_correlation": 0.9980621053610986,
+    "full_decode": true
+  },
+  {
+    "file": "06_Layout_04.mp4",
+    "width": 1920,
+    "height": 1080,
+    "duration_seconds": 256.0,
+    "audio_correlation": 0.9980597919174756,
+    "full_decode": true,
+    "sha256": "2429636815d79b19fc868a4a9a46f9e6f62d65b70bf9b429e2c0fa75aa386e87"
+  },
+  {
+    "file": "07_Layout_05.mp4",
+    "sha256": "f979408fdab678836ce9dfff741ae7dda3a8f03bbcaf0609bb80ab6acff950ff",
+    "width": 1920,
+    "height": 1080,
+    "duration_seconds": 256,
+    "audio_correlation": 0.9980621053610986,
+    "full_decode": true
+  },
+  {
+    "file": "08_Layout_06.mp4",
+    "sha256": "03646538a9cf6a73c089edca6844577d5de425c1e9153da3610c41fe1176d57e",
+    "width": 1920,
+    "height": 1080,
+    "duration_seconds": 256,
+    "audio_correlation": 0.9980621053610986,
+    "full_decode": true
+  }
+]

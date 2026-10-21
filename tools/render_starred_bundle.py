@@ -40,10 +40,20 @@ def render(root, binary, *, float_preview=False, prefix=None):
         # Keep growing movies outside synchronized source trees. Publish only
         # a closed, decoded complete MP4 and retain its small native receipts.
         stage = Path(tempfile.mkdtemp(prefix='helix-native-'+show.name+'-'))
-        staged = stage/xsq.name
+        private_show=stage/'show'
+        private_show.mkdir()
+        for filename in ('xlights_rgbeffects.xml','xlights_networks.xml'):
+            shutil.copy2(show/filename,private_show/filename)
+        for directory in ('assets','models','media'):
+            if (show/directory).is_dir():
+                shutil.copytree(show/directory,private_show/directory)
+        # xLights searches show-directory autosaves by sequence basename.
+        # A source-derived unique name avoids restoring a stale Performance
+        # autosave from a separate review session into this fresh export.
+        staged = private_show/(show.name+'_'+identity['xsq_sha256'][:12]+'.xsq')
         shutil.copy2(xsq, staged)
-        shutil.copy2(fseq, stage/fseq.name)
-        report = native._native_export(str(binary), show, staged, 49914,
+        shutil.copy2(fseq, staged.with_suffix('.fseq'))
+        report = native._native_export(str(binary), private_show, staged, 49914,
             prepare_preview=prepare_canvas if float_preview else None)
         video = Path(report['native_video'])
         stream = native._stream(native.probe_media(video, 'ffprobe'), 'video')
@@ -66,7 +76,7 @@ def render(root, binary, *, float_preview=False, prefix=None):
             native_channels=channels, source_audio_offset_seconds=0)
         evidence=show/'native-export-evidence'
         evidence.mkdir(exist_ok=True)
-        for item in stage.iterdir():
+        for item in private_show.iterdir():
             if item.suffix in {'.json','.log','.txt'}:
                 shutil.copy2(item,evidence/item.name)
         (show/'native_movie_proof.json').write_text(json.dumps(report, indent=2)+'\n')
