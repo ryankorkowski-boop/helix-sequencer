@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-10-21 — Initial Windows showcase GUI controls committed
+**Goal:** Expose Quick Clip, style and band-stage choices without silently producing incorrect output.
+**Changed:** `gui_launcher.py`, `MASTER_TODO.md`.
+**Preserved:** Existing sequence command, canonical band engine, imported layout behavior and beta roadmap.
+**New behavior:** Optional Quick Clip toggle defaults off; five style selections and seven stage selections appear; initial showcase layout defaults to existing allmodels. Unsupported combinations are blocked with a clear warning rather than silently ignored.
+**Tests/evidence:** GitHub commit d02b273; source-level change only. No GUI launch, Android build or real audio render tested.
+**Limitations/deferred:** Connect Quick Clip trimming and style/stage engines, verify real layout assets, persist user selection, implement Android GUI and release APK fix.
+**Regression risks:** allmodels layout existence/quality not independently verified; GUI frame height; existing default style may not match engine's actual implicit behavior.
+
+
 ### 2026-10-21 — Android release and GUI acceptance intake
 **Agent:** ChatGPT/GitHub
 **Branch:** `feature/gui-quickclip-layout-library-20261021`
