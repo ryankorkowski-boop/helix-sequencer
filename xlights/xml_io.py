@@ -170,15 +170,15 @@ def replace_audio_references(root: ET.Element, new_audio: Path) -> int:
     return changed
 
 
-def set_media_duration(root: ET.Element, duration_seconds: float) -> int:
+def set_sequence_duration(root: ET.Element, duration_seconds: float) -> int:
     """Bind the media sequence length to decoded audio, never the old template.
 
     xLights uses this head value for FSEQ/preview length even when editable
-    effects continue beyond it. Round up to a millisecond to retain the tail.
+    effects continue beyond it. Retain the existing writer contract of nearest-millisecond precision.
     """
     if not math.isfinite(duration_seconds) or duration_seconds <= 0:
-        raise ValueError('Media duration must be finite and positive')
-    duration_ms = max(1, math.ceil(duration_seconds * 1000 - 1e-7))
+        raise ValueError('Media duration requires finite positive seconds')
+    duration_ms = max(1, round(duration_seconds * 1000))
     namespace = root.tag.rpartition('}')[0] + '}' if '}' in root.tag else ''
     head = root.find(namespace + 'head')
     if head is None:

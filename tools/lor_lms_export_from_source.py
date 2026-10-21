@@ -118,7 +118,7 @@ def export_lms_from_xsq(
             except (KeyError, ValueError) as exc:
                 raise ValueError('Missing or invalid XSQ interval timestamp') from exc
             if not 0 <= t0 < t1 <= duration_ms:
-                raise ValueError('Invalid or out-of-bounds XSQ interval')
+                raise ValueError('Invalid or out-of-bounds XSQ interval outside declared sequence duration')
             a, b = t0 // 10, (t1 + 9) // 10
             explicit_settings = effect.get("settings")
             if explicit_settings is not None:

@@ -1,3 +1,13 @@
+## 2026-10-21 recovered GUI dual-export and license documentation
+
+- Recovered verified existing PR194 (`a3ce1b2`) rather than leaving its developed GUI work disconnected: desktop Both now selects the source-LMS backend, keeps editable XSQ+LMS, requires real source mapping, and portable workers dispatch the existing strict AC/CSV converter. Normal desktop defaults now match the measured CLI single-candidate default; explicit1–8 choices remain and Vendor Bar is opt-in with its3+ requirement visible. Candidate source/export tests preserve these behavior changes.
+- Unified duration ownership with PR194's existing `xlights.xml_io.set_sequence_duration` interface across production engine plus three retained writer paths. Preserve its nearest-millisecond rounding; retain namespace support, Media sequence identity and the new final audio-bound cue-tail fence. No second active duration helper remains.
+- Recovered PR194 duration/GUI/worker and preserved-output tests unchanged; extended source-wired LMS validator still rejects malformed/nonfinite/unsupported fields.90 combined focused cases pass. Recovered PR194's real38.32s dual-export evidence under evidence/desktop_dual_export_20261020/ remains source-specific historical evidence, not owner hardware validation.
+- Recovered both current-license documentation corrections from PR195 (`da4cf8c`) while retaining historical MIT/third-party notices. No new licensing policy, prices or donation URLs introduced.
+- Fresh real260.2s sampler run now has72539 total lighting/timing effects, every interval bounded to0..260200ms, original audio hash unchanged. New native FSEQ/MP4 for this full sampler is still open; it is not the36s native band movie. Final source musical ownership/backup evidence remains unverified.
+- Candidate runtime parent `a127102`, PR197 targets recovery only. Full3.11/3.12 CI and exact-head Windows/Android packaging remain required at this combined source. Prior nativecc736b1 stays a separately identified genuine review artifact; no recycled footage is relabeled.
+- Keep PR193 renderer-bundle recovery separate pending live bundle publication/restore evidence; current cc736b1 cache restoration/render succeeded, so no cold-build fix is blindly merged. Remaining source intelligence, backing separation, six-to-nine native layout comparisons, hardware/owner and final release gates stay open.
+
 ## 2026-10-21 runtime/export/build source correction candidate
 
 - Scope: `core/effect_engine.py`, `xlights/xml_io.py`, source-wired LMS exporter, focused regressions, Windows/Android workflow source pins; no default/release merge or music publication.
