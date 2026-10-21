@@ -71,3 +71,20 @@ def test_known_instrumental_guard_still_silences_both_slots(tmp_path, monkeypatc
         assert not np.any(data['shapes'])
         assert set(data['modes']) == {'silence'}
     assert report['instrumental_source_guard'] is True
+
+
+def test_duplicate_vocal_track_names_rejected_before_export(tmp_path):
+    source = tmp_path / 'source.wav'
+    sf.write(source, np.zeros(16000, dtype='float32'), 16000)
+    stem = tmp_path / 'stem.wav'
+    sf.write(stem, np.zeros(16000, dtype='float32'), 16000)
+    config = tmp_path / 'config.json'
+    config.write_text(json.dumps({
+        'source_audio': source.name, 'duration': 1.,
+        'tracks': [
+            {'name': 'backing', 'path': stem.name, 'evidence': 'isolated'},
+            {'name': 'backing', 'path': stem.name, 'evidence': 'isolated'},
+        ]}))
+    with pytest.raises(ValueError, match='Duplicate vocal track name'):
+        preparation.prepare(config, tmp_path / 'analysis')
+    assert not (tmp_path / 'analysis' / 'voice_roles.npz').exists()
