@@ -77,6 +77,18 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-10-21 — Android release and GUI acceptance intake
+**Agent:** ChatGPT/GitHub
+**Branch:** `feature/gui-quickclip-layout-library-20261021`
+**Goal:** Capture screenshot-confirmed release APK installation failure and obscured preview, plus Quick Clip, styles, layouts, and stage library requirements.
+**Changed:** `docs/GUI_QUICKCLIP_LAYOUT_STAGE_ACCEPTANCE_20261021.md` and `MASTER_TODO.md`.
+**Preserved:** Existing runtime, canonical band/drummer behavior, user layouts, and beta roadmap; no runtime files modified.
+**New behavior:** None; testable implementation contract added.
+**Tests/evidence:** User screenshots; GitHub documentation commits only. No device installation, native rendering or unit test run.
+**Limitations/deferred:** Fix signed APK and overlay; implement 10s Quick Clip, engine style binding, six validated sample layouts, stage inventory, cross-platform parity.
+**Regression risks:** Personal layout overwrite, canonical band drift, audio/XSQ timing mismatch, incompatible APK signing.
+
+
 ### 2026-10-02 — Beta tester feedback checklist documented
 **Agent:** GitHub Copilot
 **Branch:** `feature/restructure-core`
