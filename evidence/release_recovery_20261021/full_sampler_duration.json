@@ -15,10 +15,11 @@
     "Fallback local source analysis; musical ownership and independent backing vocals unverified"
   ],
   "source_file_sha256": {
-    "core/effect_engine.py": "e78ab74782bda77d2a9a153f5b25be2c3035e289844bb84ada86fc456651cb12",
-    "xlights/xml_io.py": "82875f91c2696bc985847005ca29ae7a90c41d6e80ba57cdfa3bdaef838649fc"
+    "core/effect_engine.py": "7d4211ee1a1b26ddbd9fbd74eb76df49dea958ee1c1896b83fa3417c8f8553e8",
+    "xlights/xml_io.py": "6bedc8ff46121415577e829179acd62e8ec88352c3d1ed1e8006137492bdf82c"
   },
   "all_effect_intervals_bounded": true,
   "boundary_finalizer_execution": true,
-  "canonical_helper_reconciliation": "Recovered PR194 set_sequence_duration interface and nearest-ms rounding; additional audio-bound tail finalizer retained"
+  "canonical_helper_reconciliation": "Recovered PR194 set_sequence_duration interface and nearest-ms rounding; additional audio-bound tail finalizer retained",
+  "source_commit": "546fcd454c4dd37ba357d05c9928f3e45e696d26"
 }
