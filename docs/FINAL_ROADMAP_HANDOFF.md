@@ -1,3 +1,7 @@
+## 2026-10-21 fresh Starred bundle checkpoint
+
+Current work is recorded in MASTER_TODO.md under “Starred sampler and progressive native bundle implementation.” Sixteen current folder entries now produce a256s source-provenance sampler. Eight full-duration native shows are generated and rendered; MP4 production and review are underway. Keep independent backing, platform/device and release gates open. No default/release merge or publication.
+
 ## Final verified checkpoint — 2026-10-21, Android/build review files delivered
 
 Latest verified runtime source remains `546fcd454c4dd37ba357d05c9928f3e45e696d26`; subsequent recovery commits only update evidence/documentation. PR197 is integrated into recovery and closed as merged there. PR188 stays open against the default branch. **No default/release merge or release publication. Release is INCOMPLETE.**

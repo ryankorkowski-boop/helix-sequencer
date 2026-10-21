@@ -269,7 +269,11 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
                                source_frames_per_part=mouth)
     if vocal_audit.get('harmony',{}).get('active_mouth_parts',0)==0:
         print('REVIEW WARNING: harmony singer has no active source-timed mouth parts',flush=True)
-    sequence=NativeSequence(new,36,'media/audio.wav',row['filename'])
+    import soundfile as sf
+    duration=sf.info(audio).duration
+    if p.n != int(np.ceil(duration*20)):
+        raise ValueError('Source musical frame count differs from decoded audio duration')
+    sequence=NativeSequence(new,duration,'media/audio.wav',row['filename'])
     sequence.root.find('head/sequenceTiming').text=f'{frame_ms} ms'
     for m in new.models:
         for part,curve in cues[m.name].items():
@@ -282,7 +286,13 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
             cuts=np.r_[0,np.flatnonzero(np.diff(values))+1,p.n]
             for a,b in zip(cuts[:-1],cuts[1:]):
                 if values[a]:sequence.effect(m,part,int(a)*50,int(b)*50,color,int(values[a]))
-    sequence.write(output/'Performance.xsq')
+    # Publish only a complete parseable sequence; full-song exports are much
+    # larger than the historical 36-second review and may be observed by a
+    # renderer while the show folder is being synchronized.
+    complete=output/'Performance.complete.xsq'
+    sequence.write(complete)
+    ET.parse(complete)
+    complete.replace(output/'Performance.xsq')
     # Preserve the distinction between independently addressable props and
     # genuinely active notes. Silent musical roles are a review warning, not
     # invented animation or an automatic release pass.
@@ -292,7 +302,7 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
         print('REVIEW WARNING: no routed source-note activity for: '
               +', '.join(sorted(silent_roles)),flush=True)
     np.savez_compressed(output/'expected_cues.npz',**{name+'::'+part:np.rint(v*20)*5 for name,parts in cues.items() for part,v in parts.items() if new.models[[m.name for m in new.models].index(name)].submodels.get(part)})
-    result=dict(excerpt=eid,source_record=row,audio_sha256=digest(audio),source_score='ReviewBandPerformance.pose',geometry_source='Review3DScene',source_frames=720,frame_ms=frame_ms,native_frames=36000//frame_ms,source_pose_frame_ms=50,
+    result=dict(excerpt=eid,source_record=row,audio_sha256=digest(audio),source_score='ReviewBandPerformance.pose',geometry_source='Review3DScene',source_frames=p.n,frame_ms=frame_ms,native_frames=int(np.ceil(duration*1000/frame_ms)),source_pose_frame_ms=50,
                 source_musical_cues_retimed=False,ac16_models_modified=False,channels=sum(m.channels for m in new.models),effects=sequence.identifier-1,rigs=proof,instrument_visibility_audit=instrument_audit,vocal_visibility_audit=vocal_audit,
                 visible_performer_roles=[m.details['review_role'] for m in new.models],legacy_xylophone_enabled=legacy_xylophone,
                 keyboard_motion_proof=keyboard_motion_proof,static_material_audit=material_audit,

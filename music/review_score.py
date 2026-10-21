@@ -22,7 +22,7 @@ def vocal_clock(y, enabled=True):
     return dict(energy=energy,shapes=shapes,rms=rms,periodicity=periodic,floor=np.array(floor))
 
 
-def pitched_roles(piano,residual,candidates,mallet_energy,attacks):
+def pitched_roles(piano,residual,candidates,mallet_energy,attacks, *, duration=36):
     """Piano/sustains stay on keys; screened ringing attacks own mallets."""
     used=set();mallets=[]
     for c in candidates:
@@ -33,7 +33,8 @@ def pitched_roles(piano,residual,candidates,mallet_energy,attacks):
         if matches:
             j,e=min(matches,key=lambda x:abs(x[1].start-t));used.add(j);pitch=e.pitch;velocity=e.velocity
         else:pitch=c['midi'];velocity=float(mallet_energy[i])
-        mallets.append(NoteEvent(t,min(36,t+.12),pitch,min(1,velocity),source='other_stem_screened_mallet_estimate'))
+        if t >= duration:continue
+        mallets.append(NoteEvent(t,min(duration,t+.12),pitch,min(1,velocity),source='other_stem_screened_mallet_estimate'))
     keys=list(piano)+[e for j,e in enumerate(residual) if j not in used];refined=[];corrections=[]
     for e in keys:
         nearby=np.asarray(attacks)[np.abs(np.asarray(attacks)-e.start)<=.075];start=e.start

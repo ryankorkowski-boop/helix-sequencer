@@ -1,0 +1,62 @@
+{
+  "duration_ms": 256000,
+  "native_effects": 26356,
+  "effect_families": {
+    "On": 9272,
+    "Spirals": 824,
+    "Bars": 1465,
+    "Tree": 189,
+    "Pinwheel": 451,
+    "Fan": 241,
+    "Wave": 7950,
+    "Butterfly": 111,
+    "Color Wash": 21,
+    "SingleStrand": 2134,
+    "Spirograph": 300,
+    "Plasma": 613,
+    "Circles": 180,
+    "Lines": 381,
+    "Twinkle": 256,
+    "Strobe": 111,
+    "Shimmer": 237,
+    "Pictures": 230,
+    "Ripple": 340,
+    "Fire": 617,
+    "Text": 91,
+    "Snowflakes": 342
+  },
+  "skipped": {
+    "control_or_unresolved_targets": 200
+  },
+  "mixed_groups_restricted_to_pixels": [
+    "HX_WHOLE_SHOW"
+  ],
+  "source_events_retimed": false,
+  "mirrored_rgb_motifs": [
+    {
+      "source": "HX_CO_CANDY_GARDEN_1",
+      "target": "HX_CO_CANDY_GARDEN_-1",
+      "effects": 150
+    },
+    {
+      "source": "HX_CO_FRACTAL_SNOWFLAKE_1_0",
+      "target": "HX_CO_FRACTAL_SNOWFLAKE_-1_0",
+      "effects": 143
+    },
+    {
+      "source": "HX_CO_FRACTAL_SNOWFLAKE_1_1",
+      "target": "HX_CO_FRACTAL_SNOWFLAKE_-1_1",
+      "effects": 161
+    },
+    {
+      "source": "HX_CO_FRACTAL_SNOWFLAKE_1_2",
+      "target": "HX_CO_FRACTAL_SNOWFLAKE_-1_2",
+      "effects": 141
+    }
+  ],
+  "native_effect_aliases": {
+    "Ramp \u2192 On": 7334,
+    "Single Strand \u2192 SingleStrand": 2134
+  },
+  "all_effects_in_native_catalog": true
+}
