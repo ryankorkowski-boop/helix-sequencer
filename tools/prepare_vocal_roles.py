@@ -19,6 +19,10 @@ def prepare(config_path,output):
     if abs(sf.info(source).duration-duration)>.025:raise ValueError('Source excerpt duration mismatch')
     tracks=[];hashes={}
     for row in config['tracks']:
+        # Duplicate identifiers overwrite provenance hashes and make the
+        # exported model-lane report ambiguous even for distinct stems.
+        if row['name'] in hashes:
+            raise ValueError(f"Duplicate vocal track name: {row['name']}")
         p=path(row['path']);y,sr=sf.read(p,dtype='float32',always_2d=True)
         if abs(len(y)/sr-duration)>.025:raise ValueError('Stems must use the same excerpt-local zero and duration')
         tracks.append(VoiceTrack(row['name'],y,sr,row.get('evidence','mixed'),row.get('role'),tuple(row.get('phonemes',()))))
