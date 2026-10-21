@@ -151,3 +151,28 @@ def test_lms_accepts_reordered_plain_on_settings(tmp_path):
     assert report["on_effects"] == 2
     assert all(effect.get("intensity") == "100"
                for effect in ET.parse(destination).findall("./channels/channel/effect"))
+
+
+@pytest.mark.parametrize("attribute,value", [
+    ("startTime", "-1"),
+    ("endTime", "2001"),
+    ("startTime", "abc"),
+    ("endTime", ""),
+    ("startTime", None),
+    ("endTime", None),
+    ("startTime", "601"),
+])
+def test_lms_rejects_invalid_source_intervals_without_partial_output(tmp_path, attribute, value):
+    source, mapping = fixture(tmp_path)
+    tree = ET.parse(source)
+    effect = tree.find("./ElementEffects/Element/EffectLayer/Effect")
+    if value is None:
+        effect.attrib.pop(attribute)
+    else:
+        effect.set(attribute, value)
+    tree.write(source)
+    destination = tmp_path / "song.lms"
+    with pytest.raises(ValueError, match="interval|timestamp"):
+        export_legacy_lms(source, mapping, destination)
+    assert not destination.exists()
+    assert not destination.with_suffix(".lms_validation.json").exists()
