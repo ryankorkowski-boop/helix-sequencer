@@ -32,3 +32,8 @@ Support notes
 Licensing
 ---------
 Helix is free for noncommercial personal and hobby use. Commercial use requires a separate paid written license. PolyForm Noncommercial 1.0.0 applies to Helix-owned material. See LICENSE and COMMERCIAL_LICENSING.md. Contact: facebook.com/helixsequencer.
+
+
+Music permissions
+-----------------
+Music by hardKor — Helix Music Mix is offered separately from the Helix Sequencer software license. The music README permits free use of qualifying recordings in personal and commercial light shows, videos, and monetized social posts. No music attribution or donation is required. Standalone music resale/reupload is not permitted. See MUSIC_PERMISSIONS.md and the collection README: https://docs.google.com/document/d/1C14uZIGKoY8pVD3nKmBRl7nXkFvTntcA9tQCmE9tEa4/edit
