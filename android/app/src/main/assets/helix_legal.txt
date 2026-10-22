@@ -10,4 +10,7 @@ Attribution: exports identify their generator as “Made with Helix”. Retain a
 
 Music: only tracks explicitly marked rights-cleared may be included in redistribution packages. The application does not certify that songs are exclusively owned or cleared. Suno permissions depend on the creation account, subscription period and applicable terms; separate accounts are not interchangeable. Your uploaded music retains its own rights. The software license grants no music rights.
 
+
+Helix Music Mix by hardKor: qualifying recordings are offered free for personal, community and commercial light shows, monetized videos and promotional projects. Trimming, looping and synchronization are permitted; standalone resale or reupload as a music release and false authorship claims are not. Attribution is appreciated but optional: Music by hardKor — Helix Music Mix. Donations are optional. This music permission is separate from the PolyForm Noncommercial software license. See MUSIC_PERMISSIONS.md and https://docs.google.com/document/d/1C14uZIGKoY8pVD3nKmBRl7nXkFvTntcA9tQCmE9tEa4/edit. Only rights controlled by the music licensor are granted; verify individual track provenance before redistribution.
+
 Provenance identifies the generator and integrity, without DRM or hidden tracking. Check final imports, wiring and controller mapping before playback. Warranty and liability are governed by the included licenses.
