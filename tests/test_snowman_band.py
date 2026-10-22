@@ -362,5 +362,32 @@ class SnowmanBandTests(unittest.TestCase):
         self.assertEqual(payload["debug"]["keyboard_cues"], 2)
 
 
+    def test_background_vocal_routes_to_dedicated_harmony_face(self) -> None:
+        from unittest.mock import patch
+
+        phoneme = SimpleNamespace(
+            phoneme="OH", mouth_shape="mouth_O", mouth_submodel="mouth_O",
+            word_text="ooh", confidence=0.9, start_time=0.2, end_time=0.45,
+        )
+        timeline = SimpleNamespace(phoneme_events=[phoneme])
+        windows = [{
+            "performer": "group", "role": "group_chant",
+            "start_time": 0.2, "end_time": 0.45,
+            "confidence": 0.9, "part_name": "chorus",
+        }]
+        with patch.object(snowman_band, "_mouth_event_for_window", return_value=phoneme):
+            cues = snowman_band._build_background_face_activations(
+                timeline, [], windows, config=vocal_timeline.VocalRoutingConfig(),
+                note_events=[], bass_peaks=[],
+            )
+        singing = [cue for cue in cues if cue.get("kind") == "minimalist_background_face"]
+        self.assertEqual(len(singing), 1)
+        self.assertEqual(singing[0]["performer"], "female_singer")
+        self.assertEqual(singing[0]["phoneme"], "OH")
+        self.assertEqual(singing[0]["mouth_submodel"], "mouth_O")
+        self.assertEqual(singing[0]["xlights"]["face_definition"], "helixville4_harmony_singer_full")
+        self.assertGreater(singing[0]["end_ms"], singing[0]["start_ms"])
+
+
 if __name__ == "__main__":
     unittest.main()
