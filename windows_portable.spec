@@ -25,6 +25,7 @@ for relative in (
     "NOTICE",
     "LICENSE",
     "COMMERCIAL_LICENSING.md",
+    "MUSIC_PERMISSIONS.md",
     "WELCOME_TO_HELIX.md",
     "INSTALL_AND_TROUBLESHOOT.md",
 ):
