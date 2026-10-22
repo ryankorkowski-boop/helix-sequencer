@@ -603,7 +603,10 @@ def _build_background_face_activations(
 ) -> list[dict[str, Any]]:
     cues: list[dict[str, Any]] = []
     for window in background_windows:
-        performers = ["guitarist", "bassist"] if str(window.get("performer", "guitarist")) == "group" else [str(window.get("performer", "guitarist"))]
+        performers = ["female_singer"] if str(window.get("performer", "guitarist")) == "group" else [str(window.get("performer", "guitarist"))]
+        # Background vocal windows are vocal evidence: route their animation to
+        # the dedicated harmony singer, not the guitarist/bassist face proxies.
+        performers = ["female_singer" if p in {"guitarist", "bassist", "harmony_singer", "backup_singer"} else p for p in performers]
         event = _mouth_event_for_window(window, lyric_timeline)
         start_ms = int(round(float(window.get("start_time", event.start_time)) * 1000.0))
         end_ms = int(round(float(window.get("end_time", event.end_time)) * 1000.0))
