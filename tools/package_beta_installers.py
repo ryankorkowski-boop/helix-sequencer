@@ -23,7 +23,7 @@ ARTIFACT_NAMES = {'windows': 'Helix-Windows-Portable',
                   'android30': 'Helix-Android-stability-api-30',
                   'android36': 'Helix-Android-stability-api-36'}
 GUIDES = ('WELCOME_TO_HELIX.md', 'INSTALL_AND_TROUBLESHOOT.md', 'LICENSE',
-          'NOTICE', 'THIRD_PARTY_LICENSES.md', 'COMMERCIAL_LICENSING.md')
+          'NOTICE', 'THIRD_PARTY_LICENSES.md', 'COMMERCIAL_LICENSING.md', 'MUSIC_PERMISSIONS.md')
 OPEN_GATES = [
     'Independent listening, uncertain tom labels and source-separated duet acceptance',
     'Complete original LightsOutTheme and track-specific redistribution permissions',
