@@ -134,6 +134,14 @@ public class OfflineEngineTest {
             instrumentation.runOnMainSync(()->{android.widget.VideoView view=findVideo(player.getWindow().getDecorView());playing[0]=view!=null&&view.isPlaying()&&view.getCurrentPosition()>0;});
         }
         assertTrue("Corrected MP4 must actually play in Android VideoView",playing[0]);
+        instrumentation.runOnMainSync(()->{
+            android.widget.VideoView view=findVideo(player.getWindow().getDecorView());
+            android.widget.Button close=findButton(player.getWindow().getDecorView(),"Close");
+            assertNotNull("Preview has in-layout controls",close);
+            android.graphics.Rect movieBounds=new android.graphics.Rect(),controlBounds=new android.graphics.Rect();
+            assertTrue(view.getGlobalVisibleRect(movieBounds));assertTrue(close.getGlobalVisibleRect(controlBounds));
+            assertTrue("Playback controls must remain below the video",movieBounds.bottom<=controlBounds.top);
+        });
         android.graphics.Bitmap frame=instrumentation.getUiAutomation().takeScreenshot();assertNotNull(frame);
         ByteArrayOutputStream movieFrame=new ByteArrayOutputStream();frame.compress(android.graphics.Bitmap.CompressFormat.PNG,100,movieFrame);frame.recycle();
         publishProof(context,"screen-playback.png",movieFrame.toByteArray(),"image/png");

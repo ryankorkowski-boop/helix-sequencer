@@ -71,6 +71,10 @@ jobs:
             /legacy_ac/
             /render/
             /showcase/
+            /allmodels/
+            /helixville2/
+            /helixville3/
+            /helixville4/
             /standards/
             /LICENSES/
             /fixtures/band_geometry/*.json

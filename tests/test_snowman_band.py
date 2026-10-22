@@ -179,8 +179,8 @@ class SnowmanBandTests(unittest.TestCase):
         )
         self.assertTrue(payload["cues"]["lead_face_activations"])
         bg_performers = {cue["performer"] for cue in payload["cues"]["background_face_activations"]}
-        self.assertIn("guitarist", bg_performers)
-        self.assertIn("bassist", bg_performers)
+        self.assertEqual(bg_performers, {"female_singer"})
+        self.assertIn("female_singer", payload["timing_intelligence"]["face_definitions"])
         self.assertTrue(any(cue.get("performer") == "drummer" and cue.get("kind") == "cheer_face" for cue in payload["cues"]["part_hit_reactions"]))
         self.assertLessEqual(max(cue["intensity"] for cue in payload["cues"]["background_face_activations"]), 0.46)
         self.assertTrue(payload["debug_timeline"]["vocal_routing_log"])
@@ -190,10 +190,13 @@ class SnowmanBandTests(unittest.TestCase):
         self.assertTrue(all(instruction["target_model"] for instruction in sequence_instructions))
         self.assertTrue(any(instruction["effect"] == "Faces" for instruction in sequence_instructions))
         self.assertTrue(any(instruction["timing_track"] == "phoneme" for instruction in sequence_instructions))
+        backing = [item for item in sequence_instructions if item["performer"] == "female_singer"]
+        self.assertTrue(backing)
+        self.assertEqual({item["target_model"] for item in backing}, {"NBH_RIGHT_SINGING_FACE_01_PANEL"})
 
     def test_classifier_background_events_drive_background_faces(self) -> None:
         payload = snowman_band.build_snowman_band_plan(
-            parsed_layout=SimpleNamespace(models={"NBH_RIGHT_HELIXMASCOT_CUSTOM": object()}),
+            parsed_layout=SimpleNamespace(models={"NBH_RIGHT_HELIXMASCOT_CUSTOM": object(), "HX_SNOW_HARMONY": object()}),
             parts=[
                 SimpleNamespace(label="VERSE", start_ms=0, end_ms=1000, energy=0.3),
                 SimpleNamespace(label="CHORUS", start_ms=1000, end_ms=3000, energy=0.9),
@@ -238,6 +241,9 @@ class SnowmanBandTests(unittest.TestCase):
         ]
         self.assertTrue(background_instructions)
         self.assertTrue(all(instruction["target_model"] for instruction in background_instructions))
+        singing = [item for item in background_instructions if item["performer"] == "female_singer"]
+        self.assertTrue(singing)
+        self.assertEqual({item["target_model"] for item in singing}, {"HX_SNOW_HARMONY"})
         self.assertTrue(any(instruction["timing_track"] == "background_phoneme" for instruction in background_instructions))
 
     def test_sequence_effect_instructions_drive_timing_track(self) -> None:

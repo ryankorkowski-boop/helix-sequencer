@@ -14,8 +14,9 @@ import java.util.concurrent.*;
 
 /** Optional desktop control screen; the offline engine remains independent. */
 public class RemoteActivity extends Activity {
-    private LinearLayout body;private EditText address,key,variants,duration;private Spinner mode,palette;
-    private CheckBox preview,polish,matrix,birdsong,spatial,ac;
+    private LinearLayout body;private EditText address,key,variants,duration;private Spinner mode,palette,sampleLayout;
+    private UiOptions options;
+    private CheckBox preview,polish,matrix,birdsong,spatial,ac,quickClip;
     private TextView status,log;private Button build,cancel,watch,save,movie;
     private final Map<String,Uri> inputs=new HashMap<>();private final Map<String,Button> selectors=new HashMap<>();
     private final ExecutorService network=Executors.newSingleThreadExecutor();private final Handler handler=new Handler(Looper.getMainLooper());
@@ -29,7 +30,7 @@ public class RemoteActivity extends Activity {
     private Spinner spinner(String... values){Spinner s=new Spinner(this);s.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,values));body.addView(s);return s;}
     private void select(String role,String label){selectors.put(role,button(label,()->{picking=role;startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT).setType(role.equals("audio")?"audio/*":"*/*").addCategory(Intent.CATEGORY_OPENABLE).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION),100);}));}
     @Override public void onCreate(Bundle saved){
-        super.onCreate(saved);ScrollView scroll=new ScrollView(this);body=new LinearLayout(this);body.setOrientation(1);body.setPadding(dp(20),dp(24),dp(20),dp(28));scroll.addView(body);setContentView(scroll);
+        super.onCreate(saved);options=new UiOptions(this);ScrollView scroll=new ScrollView(this);body=new LinearLayout(this);body.setOrientation(1);body.setPadding(dp(20),dp(24),dp(20),dp(28));scroll.addView(body);setContentView(scroll);
         body.setOnApplyWindowInsetsListener((v,i)->{v.setPadding(dp(20),dp(24)+i.getSystemWindowInsetTop(),dp(20),dp(28)+i.getSystemWindowInsetBottom());return i;});
         text("HELIX · Desktop remote",27);text("Audio in. Lights out.",17);text("Start Phone Remote in desktop Helix, then pair here. Use a reachable local network, USB tether or VPN. HTTPS is required for a public address.",14);
         SupportLinks.add(this,body);
@@ -37,7 +38,9 @@ public class RemoteActivity extends Activity {
         key=field("Pairing key from desktop Helix",getPreferences(0).getString("key",""),false);key.setInputType(129);
         button("Connect to desktop",this::connect);text("Sequence mode",14);mode=spinner("xLights · XSQ","Light-O-Rama · LMS");
         select("audio","Choose song");select("layout","Choose xLights layout (or desktop bundled layout)");select("template","Choose XSQ template (or desktop bundled template)");select("lor","Choose existing LOR .lms channel layout");select("networks","Optional xLights controller XML");select("routing","Optional model routing JSON");
-        palette=spinner("Layout/template colors (recommended)","Neon · optional RGB palette");
+        text("Sample display / stage scenery (an imported layout takes priority)",14);sampleLayout=spinner(options.layoutTitles());sampleLayout.setSelection(6);
+        palette=spinner(options.paletteTitles());
+        quickClip=check("Quick clip · sequence only the first 10 seconds",false);
         preview=check("Generate desktop MP4 preview with audio",true);
         text("Default colors follow your compatible layout/template. Neon is an optional RGB palette override.",13);
         LinearLayout normal=body,expert=new LinearLayout(this);expert.setOrientation(1);
@@ -73,7 +76,8 @@ public class RemoteActivity extends Activity {
         try{
             RemoteClient candidate=selectedClient();if(!inputs.containsKey("audio"))throw new IOException("Choose a song first");boolean lor=mode.getSelectedItemPosition()==1;if(lor&&!inputs.containsKey("lor"))throw new IOException("Choose your LOR LMS first");
             int count=Integer.parseInt(variants.getText().toString()),seconds=Integer.parseInt(duration.getText().toString());if(count<1||count>8||seconds<1||seconds>600)throw new IOException("Use1–8 variants and1–600 seconds");
-            JSONObject request=new JSONObject();request.put("mode",lor?"lor":"xlights");request.put("variants",count);request.put("preview_seconds",seconds);request.put("preview",preview.isChecked());request.put("palette",palette.getSelectedItemPosition()==1?"neon":"default");request.put("polish",polish.isChecked());request.put("matrix",matrix.isChecked());request.put("birdsong",birdsong.isChecked());request.put("spatial",spatial.isChecked());request.put("ac_compatible",ac.isChecked());
+            JSONObject request=new JSONObject();request.put("mode",lor?"lor":"xlights");request.put("variants",count);request.put("preview_seconds",seconds);request.put("preview",preview.isChecked());request.put("palette",options.palette(palette.getSelectedItemPosition()));request.put("polish",polish.isChecked());request.put("matrix",matrix.isChecked());request.put("birdsong",birdsong.isChecked());request.put("spatial",spatial.isChecked());request.put("ac_compatible",ac.isChecked());
+            request.put("quick_clip",quickClip.isChecked());request.put("sample_layout",options.layout(sampleLayout.getSelectedItemPosition()));
             Map<String,Uri> selected=new HashMap<>(inputs);remember();busy=true;build.setEnabled(false);status.setText("Preparing desktop job…");watch.setEnabled(false);movie.setEnabled(false);save.setEnabled(false);updateMode();
             network.submit(()->{
                 String created="";

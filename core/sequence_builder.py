@@ -119,6 +119,11 @@ def _set_or_replace_arg(args: list[str], flag: str, value: str) -> list[str]:
     idx = 0
     while idx < len(args):
         item = args[idx]
+        if item.startswith(flag + "="):
+            out.extend([flag, value])
+            replaced = True
+            idx += 1
+            continue
         if item == flag:
             out.extend([flag, value])
             replaced = True
@@ -875,6 +880,20 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         if not 1.0 <= preview_seconds <= 600.0:
             raise SystemExit("Preview length must be 1 to 600 seconds")
         del raw_engine_args[idx:idx + 2]
+    if "--helix-quick-clip" in raw_engine_args:
+        from core.quick_clip import prepare_quick_clip
+        raw_engine_args = [arg for arg in raw_engine_args if arg != "--helix-quick-clip"]
+        def quick_arg(flag: str) -> str:
+            for index, value in enumerate(raw_engine_args):
+                if value.startswith(flag + "="):
+                    return value.split("=", 1)[1]
+                if value == flag and index + 1 < len(raw_engine_args):
+                    return raw_engine_args[index + 1]
+            raise SystemExit(f"Quick clip requires {flag}")
+        clip = prepare_quick_clip(Path(quick_arg("--audio")), Path(quick_arg("--output-dir")))
+        raw_engine_args = _set_or_replace_arg(raw_engine_args, "--audio", str(clip))
+        preview_seconds = min(preview_seconds, 10.0)
+        print(f"Quick clip: sequencing the first ten seconds only: {clip}", flush=True)
     lor_source: Path | None = None
     workspace: Path | None = None
     if LOR_SOURCE_FLAG in raw_engine_args:

@@ -4,6 +4,7 @@ from pathlib import Path
 from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy_metadata
 
 root = Path(SPECPATH).resolve()
+import json
 datas = []
 datas.append((str(root / 'helix_h_logo.png'), '.'))
 
@@ -30,6 +31,10 @@ for relative in (
     "INSTALL_AND_TROUBLESHOOT.md",
 ):
     add_file(relative)
+
+options = json.loads((root / "config/gui_options.json").read_text(encoding="utf-8"))
+for item in options["layouts"] + options["stages"]:
+    add_file(item["path"])
 
 # Engine/runtime JSON, layout assets, preview/drummer geometry, and legal notices.
 # Only static resources are distributed; never include private audio or test outputs.

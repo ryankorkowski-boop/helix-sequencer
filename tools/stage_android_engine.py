@@ -18,11 +18,13 @@ def stage(output: Path) -> dict:
     output.mkdir(parents=True, exist_ok=True)
     names = subprocess.check_output(['git', 'ls-files', '-z'], cwd=ROOT).decode().split('\0')
     selected = []
+    options = json.loads((ROOT / 'config/gui_options.json').read_text(encoding='utf-8'))
+    sample_paths = {item['path'] for item in options['layouts'] + options['stages']}
     for name in names:
         p = Path(name)
         if not name or not (ROOT / p).is_file():
             continue
-        if (p.parts[0] in PACKAGES or p.parts[0].startswith('helix_')) and p.suffix.lower() in DATA_EXTENSIONS:
+        if name in sample_paths or (p.parts[0] in PACKAGES or p.parts[0].startswith('helix_')) and p.suffix.lower() in DATA_EXTENSIONS:
             selected.append(name)
         elif name in {'template.xsq', 'xlights_rgbeffects.xml', 'LICENSE', 'NOTICE', 'COMMERCIAL_LICENSING.md', 'helix_h_logo.png'} or name.startswith('LICENSES/'):
             selected.append(name)
@@ -31,6 +33,7 @@ def stage(output: Path) -> dict:
     manifest = {'schema': 'helix.android.engine.v1', 'commit': subprocess.check_output(
         ['git', 'rev-parse', 'HEAD'], cwd=ROOT).decode().strip(), 'files': {}}
     (output / "support-links.json").write_bytes((ROOT / "config/support_links.json").read_bytes())
+    (output / "gui-options.json").write_bytes((ROOT / "config/gui_options.json").read_bytes())
     archive = output / 'helix-engine.zip'
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as z:
         for name in sorted(selected):

@@ -1,10 +1,10 @@
 name: Fresh native universal-keyboard snowman band MP4 from real audio
 on:
   push:
-    branches: [codex/fresh-real-band-mp4-20261017, codex/eight-hour-recovery-20261019]
+    branches: [codex/fresh-real-band-mp4-20261017]
     paths: [.github/workflows/fresh-real-band-mp4.yml, tools/native_preview.py, tools/native_source_pose_band.py, models/native_review_band.py, tools/verify_native_band_artifact.py, tests/test_native_source_pose_band.py, tests/test_native_preview_resolution.py, tests/test_native_band_artifact.py]
   pull_request:
-    paths: [.github/workflows/fresh-real-band-mp4.yml]
+    paths: ['models/**','core/**','audio/**','music/**','tools/**','validation/**','tests/**','requirements*.txt','.github/workflows/beta-completion-native.yml','.github/workflows/fresh-real-band-mp4.yml']
   workflow_dispatch:
     inputs:
       archive_file_id:
@@ -65,6 +65,7 @@ jobs:
           python -m compileall -q tools/recover_showcase_source_cache.py tools/native_source_pose_band.py tools/native_preview.py tools/verify_showcase_audio_identity.py
           python -m unittest discover -s tests -p test_native_preview_resolution.py -v
           python -m pytest tests/test_native_band_artifact.py tests/test_native_band_stage_and_vocals.py tests/test_native_source_pose_band.py -q
+          python -m pytest tests/test_native_vocal_source.py -q
           python -m compileall -q tools/patch_xlights_native_export.py
           python -m unittest discover -s tests -p test_select_starred_music.py -v
           python -m tools.select_starred_music --rotation 0
@@ -159,6 +160,9 @@ jobs:
               out.write('SOURCE_ROOT='+str(root)+'\n')
           print('Verified E14 original audio and retained source analysis:',expected)
           PY
+      - name: Qualify both original vocal lanes before compiling or rendering
+        run: |
+          python -m tools.verify_native_vocal_source "$SOURCE_ROOT/sources/E14/audio.wav" "$SOURCE_ROOT/analysis/E14" --report review/SOURCE_VOCAL_PREFLIGHT.json
       - name: Restore compiled pinned native renderer
         id: native-cache
         uses: actions/cache/restore@v4
@@ -325,6 +329,7 @@ jobs:
             review/show/pose_provenance.json
             review/show/run_manifest.json
             review/source-identity.json
+            review/SOURCE_VOCAL_PREFLIGHT.json
             review/PROVENANCE.json
           if-no-files-found: warn
           retention-days: 14

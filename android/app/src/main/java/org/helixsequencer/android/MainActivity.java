@@ -24,9 +24,10 @@ public class MainActivity extends Activity {
     private final String[] steps={"Music","Layout","Style","Advanced","Generate","Results"};
     private final LinearLayout[] pages=new LinearLayout[6];
     private LinearLayout body,expert;
-    private Spinner mode,palette;
+    private Spinner mode,palette,sampleLayout;
+    private UiOptions options;
     private EditText variants,duration;
-    private CheckBox polish,matrix,birdsong,spatial,ac,preview;
+    private CheckBox polish,matrix,birdsong,spatial,ac,preview,quickClip;
     private TextView status,log,stepTitle,results;
     private ProgressBar progress;
     private Button run,cancel,save,watch,movie,sequence,report,share,next,back;
@@ -63,7 +64,7 @@ public class MainActivity extends Activity {
     }
     private void panel(int i){body=pages[i];text(steps[i],26,Color.WHITE);}
     @Override public void onCreate(Bundle state){
-        super.onCreate(state);ScrollView scroll=new ScrollView(this);LinearLayout root=new LinearLayout(this);root.setOrientation(1);
+        super.onCreate(state);options=new UiOptions(this);ScrollView scroll=new ScrollView(this);LinearLayout root=new LinearLayout(this);root.setOrientation(1);
         root.setPadding(dp(18),dp(16),dp(18),dp(24));scroll.addView(root);setContentView(scroll);body=root;
         root.setOnApplyWindowInsetsListener((v,insets)->{
             v.setPadding(dp(18),dp(16)+insets.getSystemWindowInsetTop(),dp(18),dp(24)+insets.getSystemWindowInsetBottom());return insets;
@@ -79,7 +80,7 @@ public class MainActivity extends Activity {
         Button instructions=new Button(this);instructions.setText("Instructions");instructions.setAllCaps(false);tabs.addView(instructions);
         instructions.setOnClickListener(v->startActivity(new Intent(this,InfoActivity.class)));
         panel(0);text("Choose the song you want your lights to perform.",17,Color.WHITE);select("audio","Choose music · MP3 or WAV");
-        text("Your music stays on this phone during local sequencing. The full song is sequenced even when the preview is shorter.",14,Color.LTGRAY);
+        text("Your music stays on this phone. Full song is the default; Quick clip sequences only the first ten seconds.",14,Color.LTGRAY);
         settings.add(button("Clear selected files",()->{
             inputs.clear();android.content.SharedPreferences.Editor e=getPreferences(0).edit();for(String key:selectors.keySet())e.remove("uri_"+key);e.apply();recreate();
         }));
@@ -88,12 +89,15 @@ public class MainActivity extends Activity {
         panel(1);text("Choose the program you use for your lighting show.",17,Color.WHITE);
         mode=spinner(new String[]{"xLights · export XSQ","Light-O-Rama · export LMS"});
         select("layout","Import xLights layout · RGB effects XML");select("lor","Import LOR channels · existing LMS");
-        text("xLights: use your layout, or leave it empty for the original bundled 256-channel display. Optional XSQ/controller files are in Advanced.",14,Color.LTGRAY);
+        text("Sample layouts · six display choices and separate stage scenery",16,Color.WHITE);
+        sampleLayout=spinner(options.layoutTitles());sampleLayout.setSelection(6);
+        text("Your imported layout takes priority. With no import, the selected sample is used. Stage scenery contains the stage props; it does not replace the band design.",14,Color.LTGRAY);
         text("LOR: choose a legacy LMS with real Unit/Circuit addresses. Native .loredit and LCC import are unavailable.",14,Color.LTGRAY);
 
         panel(2);text("Helix follows the music automatically. Default colors come from your compatible template and layout.",17,Color.WHITE);
-        palette=spinner(new String[]{"Layout/template colors (recommended)","Neon · optional RGB palette"});
-        text("Neon changes RGB effect palettes to vivid colors. It does not improve detection or turn AC channels into RGB lights.",14,Color.LTGRAY);
+        palette=spinner(options.paletteTitles());
+        text("Choose template, Christmas, warm, cool, neon, varied or workspace colors. RGB color overrides are disabled for AC/LOR.",14,Color.LTGRAY);
+        quickClip=check("Quick clip · sequence only the first 10 seconds",false);
         preview=check("Also make a preview with the soundtrack",true);
         text("A preview failure never takes away your sequence. Phone previews illustrate model-level effects; verify final playback in your lighting software.",14,Color.LTGRAY);
 
@@ -146,6 +150,7 @@ public class MainActivity extends Activity {
     private void restorePreferences(){
         android.content.SharedPreferences p=getPreferences(0);mode.setSelection(p.getInt("mode",0));palette.setSelection(p.getInt("palette",0));
         variants.setText(p.getString("variants","1"));duration.setText(p.getString("duration","30"));preview.setChecked(p.getBoolean("preview",true));
+        quickClip.setChecked(p.getBoolean("quick_clip",false));sampleLayout.setSelection(p.getInt("sample_layout",6));
         spatial.setChecked(p.getBoolean("spatial",true));ac.setChecked(p.getBoolean("ac",false));polish.setChecked(p.getBoolean("polish",true));
         matrix.setChecked(p.getBoolean("matrix",true));birdsong.setChecked(p.getBoolean("birdsong",true));
         for(String key:selectors.keySet()){String value=p.getString("uri_"+key,"");if(!value.isEmpty()){Uri uri=Uri.parse(value);inputs.put(key,uri);selectors.get(key).setText(key+" · "+name(uri));}}
@@ -155,13 +160,14 @@ public class MainActivity extends Activity {
         getPreferences(0).edit().putInt("mode",mode.getSelectedItemPosition()).putInt("palette",palette.getSelectedItemPosition())
             .putString("variants",variants.getText().toString()).putString("duration",duration.getText().toString())
             .putBoolean("preview",preview.isChecked()).putBoolean("spatial",spatial.isChecked()).putBoolean("ac",ac.isChecked())
+            .putBoolean("quick_clip",quickClip.isChecked()).putInt("sample_layout",sampleLayout.getSelectedItemPosition())
             .putBoolean("polish",polish.isChecked()).putBoolean("matrix",matrix.isChecked()).putBoolean("birdsong",birdsong.isChecked()).putInt("page",page).apply();
     }
     private void updateMode(){
         boolean lor=mode.getSelectedItemPosition()==1,rgb=!lor&&!ac.isChecked();for(View v:settings)v.setEnabled(!busy);
         for(String key:new String[]{"layout","template","routing","networks"})selectors.get(key).setVisibility(lor?View.GONE:View.VISIBLE);
         selectors.get("lor").setVisibility(lor?View.VISIBLE:View.GONE);
-        for(View v:new View[]{palette,matrix,birdsong,spatial})v.setEnabled(rgb&&!busy);ac.setEnabled(!lor&&!busy);
+        for(View v:new View[]{palette,matrix,birdsong,spatial})v.setEnabled(rgb&&!busy);ac.setEnabled(!lor&&!busy);sampleLayout.setEnabled(!lor&&!busy);
     }
     private String name(Uri uri){
         try(android.database.Cursor c=getContentResolver().query(uri,new String[]{OpenableColumns.DISPLAY_NAME},null,null,null)){if(c!=null&&c.moveToFirst())return c.getString(0);}
@@ -176,7 +182,8 @@ public class MainActivity extends Activity {
             int n=Integer.parseInt(variants.getText().toString()),sec=Integer.parseInt(duration.getText().toString());
             if(n<1||n>8||sec<1||sec>600)throw new IllegalArgumentException("Use 1–8 variants and a 1–600 second preview.");
             JSONObject r=new JSONObject();r.put("mode",mode.getSelectedItemPosition()==1?"lor":"xlights");r.put("variants",n);r.put("preview_seconds",sec);
-            r.put("preview",preview.isChecked());r.put("polish",polish.isChecked());r.put("palette",palette.getSelectedItemPosition()==1?"neon":"default");
+            r.put("preview",preview.isChecked());r.put("polish",polish.isChecked());r.put("palette",options.palette(palette.getSelectedItemPosition()));
+            r.put("quick_clip",quickClip.isChecked());r.put("sample_layout",options.layout(sampleLayout.getSelectedItemPosition()));
             r.put("matrix",matrix.isChecked());r.put("birdsong",birdsong.isChecked());r.put("spatial",spatial.isChecked());r.put("ac_compatible",ac.isChecked());
             JSONObject uris=new JSONObject();for(Map.Entry<String,Uri> e:inputs.entrySet())uris.put(e.getKey(),e.getValue().toString());r.put("inputs",uris);
             currentJob=new File(getFilesDir(),"jobs/"+UUID.randomUUID());getPreferences(0).edit().putString("job",currentJob.getAbsolutePath()).apply();

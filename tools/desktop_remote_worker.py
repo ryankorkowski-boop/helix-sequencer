@@ -7,6 +7,7 @@ import subprocess
 import sys
 import zipfile
 from tools.desktop_remote import ROOT, settings
+from core.gui_options import resolve_layout
 
 
 def build_args(request, job):
@@ -15,11 +16,12 @@ def build_args(request, job):
           '--audio',str(inputs/'audio.wav'),'--output-dir',str(output),'--variants',str(request['variants']),
           '--no-prompt','--no-save-settings','--no-workspace-history','--no-learning-memory','--auto-shortlist']
     args.append('--polish' if request.get('polish',True) else '--no-polish')
+    if request.get('quick_clip',False):args+=['--helix-quick-clip']
     lor=request.get('mode')=='lor';ac=lor or request.get('ac_compatible',False)
     if lor:args+=['--helix-lor-source-lms',str(inputs/'source.lms')]
     if ac:args+=['--ac-lights-only','--no-pixel-reactive','--no-matrix-intelligence','--no-effects-orchestrator','--no-birdsong','--no-birdsong-auto']
     else:
-        if request.get('palette')=='neon':args+=['--palette-mode','neon']
+        if request.get('palette','default')!='default':args+=['--palette-mode',request['palette']]
         args+=['--matrix-intelligence' if request.get('matrix',True) else '--no-matrix-intelligence', '--birdsong' if request.get('birdsong',True) else '--no-birdsong']
         if request.get('birdsong',True):args+=['--birdsong-auto','--birdsong-profile','canopy','--birdsong-intensity','1.2','--birdsong-min-confidence','.45']
         if request.get('spatial',False):args+=['--helix-spatial-accent']
@@ -31,7 +33,9 @@ def build_args(request, job):
 def run(job):
     request=settings(json.loads((job/'request.json').read_text()));inputs=job/'input';output=job/'outputs';output.mkdir(exist_ok=True)
     for name in ('template.xsq','xlights_rgbeffects.xml'):
-        if not (inputs/name).is_file():shutil.copy2(ROOT/name,inputs/name)
+        if not (inputs/name).is_file():
+            source = resolve_layout(ROOT, request['sample_layout']) if name == 'xlights_rgbeffects.xml' and request.get('sample_layout','custom') != 'custom' else ROOT/name
+            shutil.copy2(source,inputs/name)
     import imageio_ffmpeg
     subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(),'-v','error','-nostdin','-y','-i',str(inputs/'original-audio'),'-vn','-c:a','pcm_s16le',str(inputs/'audio.wav')],check=True)
     # The canonical packager finds controller XML beside the supplied layout.

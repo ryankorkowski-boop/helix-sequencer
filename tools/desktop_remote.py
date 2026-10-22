@@ -13,6 +13,7 @@ import sys
 import threading
 import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from core.gui_options import PALETTE_KEYS, layout_options
 
 ROOT = Path(sys.executable).resolve().parent if getattr(sys, 'frozen', False) else Path(__file__).resolve().parents[1]
 ROLES = {'audio':'original-audio', 'layout':'xlights_rgbeffects.xml', 'template':'template.xsq',
@@ -22,16 +23,18 @@ MAX_UPLOAD = 512*1024*1024
 
 def settings(value):
     if not isinstance(value, dict): raise ValueError('Settings must be an object')
-    allowed={'mode','variants','preview_seconds','preview','polish','palette','matrix','birdsong','spatial','ac_compatible'}
+    allowed={'mode','variants','preview_seconds','preview','polish','palette','matrix','birdsong','spatial','ac_compatible','quick_clip','sample_layout'}
     if set(value)-allowed: raise ValueError('Unknown settings')
     result=dict(value)
     if result.get('mode','xlights') not in ('xlights','lor'): raise ValueError('Invalid mode')
-    if result.get('palette','default') not in ('default','neon'): raise ValueError('Invalid palette')
+    if result.get('palette','default') not in PALETTE_KEYS: raise ValueError('Invalid palette')
+    if result.get('sample_layout', 'custom') not in {'custom', *(item['key'] for item in layout_options())}:
+        raise ValueError('Invalid sample layout')
     for key,default,high in [('variants',1,8),('preview_seconds',30,600)]:
         n=result.get(key,default)
         if type(n) is not int or not 1<=n<=high: raise ValueError('Invalid '+key)
         result[key]=n
-    for key in allowed-{'mode','variants','preview_seconds','palette'}:
+    for key in allowed-{'mode','variants','preview_seconds','palette','sample_layout'}:
         if key in result and type(result[key]) is not bool: raise ValueError('Invalid '+key)
     return result
 

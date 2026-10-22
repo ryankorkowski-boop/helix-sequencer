@@ -37,6 +37,7 @@ class LogStream(io.TextIOBase):
 
 
 def build_args(request, job, engine):
+    from core.gui_options import palette_key, resolve_layout
     mode = request.get('mode', 'xlights')
     if mode not in {'xlights', 'lor'}:
         raise ValueError('Choose xLights or Light-O-Rama')
@@ -50,6 +51,10 @@ def build_args(request, job, engine):
             '--no-save-settings', '--no-effects-orchestrator', '--no-workspace-history',
             '--no-learning-memory', '--auto-shortlist']
     args.append('--polish' if request.get('polish', True) else '--no-polish')
+    if request.get('quick_clip', False):
+        args.append('--helix-quick-clip')
+    if mode == 'xlights' and not (job/'input/xlights_rgbeffects.xml').is_file() and request.get('sample_layout', 'custom') != 'custom':
+        args[args.index('--layout-file') + 1] = str(resolve_layout(engine, request['sample_layout']))
     if mode == 'lor':
         source = job/'input/source.lms'
         if not source.is_file():
@@ -62,8 +67,9 @@ def build_args(request, job, engine):
         else:
             if not request.get('pitched_props',True):
                 args += ['--helix-no-pitched-props']
-            if request.get('palette', 'default') == 'neon':
-                args += ['--palette-mode', 'neon']
+            selected_palette = palette_key(request.get('palette', 'default'))
+            if selected_palette != 'default':
+                args += ['--palette-mode', selected_palette]
             args += ['--matrix-intelligence' if request.get('matrix', True) else '--no-matrix-intelligence']
             args += ['--birdsong' if request.get('birdsong', True) else '--no-birdsong']
             if request.get('birdsong', True):
@@ -190,6 +196,8 @@ def run(engine_path, job_path, request_json, callback):
     engine, job = Path(engine_path), Path(job_path)
     request = json.loads(request_json)
     seconds = int(request.get('preview_seconds', 30))
+    if request.get('quick_clip', False):
+        seconds = 10
     if not 1 <= seconds <= 600:
         raise ValueError('Android preview length must be 1–600 seconds')
     if str(engine) not in sys.path:
@@ -215,7 +223,11 @@ def run(engine_path, job_path, request_json, callback):
             for name in ('template.xsq', 'xlights_rgbeffects.xml'):
                 dest = job/'input'/name
                 if not dest.exists():
-                    shutil.copy2(engine/name, dest)
+                    if name == 'xlights_rgbeffects.xml' and request.get('sample_layout', 'custom') != 'custom':
+                        from core.gui_options import resolve_layout
+                        shutil.copy2(resolve_layout(engine, request['sample_layout']), dest)
+                    else:
+                        shutil.copy2(engine/name, dest)
                 manifest['input_hashes'][name] = file_hash(dest)
         os.chdir(job)
         with contextlib.redirect_stdout(stream), contextlib.redirect_stderr(stream):

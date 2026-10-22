@@ -11,6 +11,7 @@ import webbrowser
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 from core.layout_preferences import load_layout, save_layout
+from core.gui_options import OPTIONS, PALETTES, layout_options, palette_key, resolve_layout
 from helix_ui_text import TAGLINE, INSTRUCTIONS, LEGAL
 
 
@@ -59,12 +60,21 @@ class HelixGui(tk.Tk):
             "helixville": _best_layout_file(ROOT / "helixville"),
             "Custom": Path(""),
         }
+        for item in layout_options():
+            try:
+                self.layout_presets[item["title"]] = resolve_layout(ROOT, item["key"])
+            except FileNotFoundError:
+                pass
 
         self.profile_var = tk.StringVar(value="master")
         self.layout_preset_var = tk.StringVar(value="Custom")
         self.template_var = tk.StringVar(value=str(ROOT / "template.xsq"))
         self.audio_var = tk.StringVar(value="")
         self.layout_var = tk.StringVar(value=load_layout())
+        if not self.layout_var.get():
+            default = next(item for item in OPTIONS["layouts"] if item["key"] == OPTIONS["default_layout"])
+            if default["title"] in self.layout_presets:
+                self.layout_preset_var.set(default["title"])
         self.output_var = tk.StringVar(value=str(ROOT / "outputs"))
 
         self.vendor_bar_var = tk.BooleanVar(value=False)
@@ -79,6 +89,7 @@ class HelixGui(tk.Tk):
         self.model_routing_var = tk.StringVar(value="")
         self.generate_mp4_var = tk.BooleanVar(value=True)
         self.preview_seconds_var = tk.IntVar(value=30)
+        self.quick_clip_var = tk.BooleanVar(value=False)
 
         self.birdsong_var = tk.BooleanVar(value=True)
         self.birdsong_auto_var = tk.BooleanVar(value=True)
@@ -279,7 +290,7 @@ class HelixGui(tk.Tk):
         render_tools.pack(fill=tk.X, **pad)
         ttk.Label(render_tools, text="Colors").grid(row=0, column=0, **pad)
         self.palette_combo = ttk.Combobox(render_tools, textvariable=self.palette_mode_var,
-            values=["Default colors", "Musical neon palettes"], state="readonly", width=23)
+            values=list(PALETTES), state="readonly", width=28)
         self.palette_combo.grid(row=0, column=1, **pad)
         self.spatial_button = ttk.Checkbutton(render_tools, text="RGB chorus chase", variable=self.spatial_accent_var)
         self.spatial_button.grid(row=0, column=2, **pad)
@@ -289,6 +300,10 @@ class HelixGui(tk.Tk):
         self.ac_on_button.grid(row=0, column=4, **pad)
         self.pitched_props_button = ttk.Checkbutton(render_tools, text="Note-aware helix and mallet props", variable=self.pitched_props_var)
         self.pitched_props_button.grid(row=2, column=0, columnspan=3, sticky="w", **pad)
+        ttk.Checkbutton(render_tools, text="Quick clip · sequence only the first 10 seconds",
+                        variable=self.quick_clip_var).grid(row=3, column=0, columnspan=3, sticky="w", **pad)
+        ttk.Label(render_tools, text="Stage scenery presets select a stage layout; performer design is unchanged.").grid(
+            row=4, column=0, columnspan=5, sticky="w", **pad)
         self.native_buttons = []
         for column,(label,callback) in enumerate([("Render in xLights",self._native_render_fseq),
             ("Preview rendered FSEQ",self._fseq_preview),("Export existing AC XSQ to LMS",self._export_legacy_lms)]):
@@ -620,6 +635,8 @@ class HelixGui(tk.Tk):
             "--no-prompt",
         ]
 
+        if getattr(self, "quick_clip_var", None) is not None and self.quick_clip_var.get():
+            cmd.append("--helix-quick-clip")
         if not lor_mode and self.model_routing_var.get().strip():
             routing=Path(self.model_routing_var.get().strip())
             if not routing.is_file():
@@ -647,8 +664,10 @@ class HelixGui(tk.Tk):
         if not lor_mode and not self.lor_compatible_var.get():
             if not self.pitched_props_var.get():
                 cmd.append("--helix-no-pitched-props")
-            if not self.ac_on_only_var.get() and self.palette_mode_var.get() == "Musical neon palettes":
-                cmd.extend(["--palette-mode", "neon"])
+            if not self.ac_on_only_var.get():
+                selected_palette = palette_key(self.palette_mode_var.get())
+                if selected_palette != "default":
+                    cmd.extend(["--palette-mode", selected_palette])
             if not self.ac_on_only_var.get() and self.spatial_accent_var.get():
                 cmd.append("--helix-spatial-accent")
             if not self.ac_on_only_var.get() and self.showcase_gate_var.get():

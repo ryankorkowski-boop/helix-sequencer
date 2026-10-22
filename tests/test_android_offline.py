@@ -42,6 +42,10 @@ def test_engine_bundle_preserves_source_and_excludes_media(tmp_path):
     from tools.stage_android_engine import stage
     manifest=stage(tmp_path)
     with zipfile.ZipFile(tmp_path/'helix-engine.zip') as z:
+        from core.gui_options import layout_options
+        assert (tmp_path/'gui-options.json').read_bytes() == (ROOT/'config/gui_options.json').read_bytes()
+        for choice in layout_options():
+            assert z.read(choice['path']) == (ROOT/choice['path']).read_bytes()
         assert z.read('core/effect_engine.py')==(ROOT/'core/effect_engine.py').read_bytes()
         assert z.read('core/sequence_builder.py')==(ROOT/'core/sequence_builder.py').read_bytes()
         assert 'helix_intent/placement_pipeline.py' in z.namelist()

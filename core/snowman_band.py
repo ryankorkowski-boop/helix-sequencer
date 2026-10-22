@@ -162,12 +162,16 @@ def _viseme_for_fragment(fragment: str) -> str:
 
 def preferred_face_routing(layout_names: list[str]) -> dict[str, Any]:
     normalized = [(name, normalize_name(name)) for name in layout_names]
+    harmony_faces = [name for name, norm in normalized if any(token in norm for token in
+                     ("harmony", "backup singer", "backing singer", "female singer", "singer female"))]
+    native_leads = [name for name, norm in normalized if norm in {"hx snow lead", "hx snowman singer"}]
     mascot_custom = [name for name, norm in normalized if "helixmascot" in norm and "custom" in norm]
     mascot_image = [name for name, norm in normalized if "helixmascot" in norm and "image" in norm]
     support_faces = [
         name
         for name, norm in normalized
         if any(token in norm for token in ("singing face", "talking head", "face panel", "singer"))
+        and name not in harmony_faces
     ]
     lyric_surfaces = [
         name
@@ -176,7 +180,9 @@ def preferred_face_routing(layout_names: list[str]) -> dict[str, Any]:
     ]
 
     preferred_lead = ""
-    if mascot_custom:
+    if native_leads:
+        preferred_lead = native_leads[0]
+    elif mascot_custom:
         preferred_lead = mascot_custom[0]
     elif support_faces:
         preferred_lead = support_faces[0]
@@ -195,6 +201,7 @@ def preferred_face_routing(layout_names: list[str]) -> dict[str, Any]:
     surfaces = _unique(lyric_surfaces or mascot_custom or mascot_image or support_faces)
     return {
         "preferred_lead": preferred_lead,
+        "preferred_harmony": next(iter(harmony_faces), next((name for name in support_faces if name != preferred_lead), "")),
         "lead_cycle": lead_cycle,
         "support_faces": _unique(support_faces),
         "lyric_surfaces": surfaces,
@@ -215,6 +222,13 @@ def _build_performer_catalog(face_routing: Mapping[str, Any]) -> dict[str, Any]:
                 "matrix": ["viseme_closed", "mouth_A", "mouth_E", "mouth_I", "mouth_O", "mouth_U", "mouth_MBP", "lyric_word"],
             },
             "face_definition": {"style": "full", "intensity": 1.0, "xlights_mode": "custom_submodels"},
+        },
+        "female_singer": {
+            "display_name": "Harmony Snowman",
+            "role": "female_singer",
+            "preferred_targets": [face_routing["preferred_harmony"]] if face_routing.get("preferred_harmony") else [],
+            "modes": {"pixel": ["mouth_A", "mouth_E", "mouth_I", "mouth_O", "mouth_U", "mouth_MBP"]},
+            "face_definition": {"style": "full", "intensity": 0.46, "xlights_mode": "custom_submodels"},
         },
         "bassist": {
             "display_name": "Standup Bass Snowman",
@@ -541,7 +555,7 @@ def _song_part_multiplier(part_name: str, performer: str) -> float:
         if part == "outro":
             return 0.58
         return 0.78
-    if performer in {"guitarist", "bassist"}:
+    if performer in {"guitarist", "bassist", "female_singer"}:
         if part in {"chorus", "post_chorus"}:
             return 1.0
         if part in {"bridge"}:
@@ -856,6 +870,9 @@ def _face_target_for_instruction(cue: Mapping[str, Any], face_routing: Mapping[s
     if performer == "lead_singer":
         # Do not rotate the lead across faces on every 100 ms phoneme.
         return str(face_routing.get("preferred_lead", "") or (lead_cycle[0] if lead_cycle else ""))
+    if performer in {"female_singer", "harmony_singer", "backup_singer"}:
+        # Never rotate backing phonemes onto the lead, matrix or instrumentalists.
+        return str(face_routing.get("preferred_harmony", "") or "")
     if performer in {"guitarist", "bassist"} and support_faces:
         offset = 0 if performer == "guitarist" else 1
         return str(support_faces[((start_ms // 100) + offset) % len(support_faces)])
@@ -1082,7 +1099,7 @@ def build_snowman_band_plan(
         },
         "song_part_behavior": {
             "verse": "lead singer active; background faces stay quiet unless harmony confidence passes threshold",
-            "chorus": "lead full intensity; guitarist and bassist background faces may activate at subordinate intensity",
+            "chorus": "lead full intensity; dedicated harmony singer may activate at subordinate intensity when supported",
             "bridge": "motion reduced unless vocals dominate; faces become more expressive for lyric-heavy spans",
             "breakdown_drop": "drummer and environment can lead; singer reduces unless a vocal hit exists",
             "outro": "mouth and performer intensity fade softer",
