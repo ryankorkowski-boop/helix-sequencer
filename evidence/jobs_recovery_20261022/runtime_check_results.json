@@ -1,0 +1,30 @@
+{
+  "runtime_source_commit": "42103ed9ac9811b3cdd21c8a4011508584de979d",
+  "full_tests": {
+    "python_3_11": {
+      "passed": 2067,
+      "skipped": 6,
+      "subtests_passed": 16,
+      "run_id": 39864543252,
+      "job_id": 120123892816,
+      "duration_seconds": 215.45
+    },
+    "python_3_12": {
+      "passed": 2067,
+      "skipped": 6,
+      "subtests_passed": 16,
+      "run_id": 39864543252,
+      "job_id": 120123893301,
+      "duration_seconds": 372.02
+    }
+  },
+  "lint_3_11": "success",
+  "lint_3_12": "success",
+  "windows_runtime_source_commit": "41ce64cad33180e2d9d5ba83a679e9fe7def8e56",
+  "windows_portable_run_id": 39865440149,
+  "windows_portable_result": "success",
+  "native_source_run_id": 39864543309,
+  "native_source_result": "blocked: independently resolved backing vocal tracks absent",
+  "release_complete": false,
+  "release_published": false
+}

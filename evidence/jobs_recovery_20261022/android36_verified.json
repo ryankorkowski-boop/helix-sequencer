@@ -1,0 +1,66 @@
+{
+  "apk_sha256": "e5ccd1ea64fe70f488e5c6d0bb3710cfd28c5f808c4dfca1c423435eb4e0f495",
+  "engine_commit": "42103ed9ac9811b3cdd21c8a4011508584de979d",
+  "engine_files_verified": 1052,
+  "decoded": [
+    {
+      "mode": "xlights",
+      "frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "3.000000",
+      "source_duration_seconds": 8.0,
+      "full_song_preview_verified": false,
+      "max_mean_pixel_error": 2.2071976273148146,
+      "minimum_expected_lit_pixels_visible": 0.9827615062761507,
+      "audio_correlation": 0.9999563842574754,
+      "audio_offset_ms": 0.0
+    },
+    {
+      "mode": "lor",
+      "frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "3.000000",
+      "source_duration_seconds": 8.0,
+      "full_song_preview_verified": false,
+      "max_mean_pixel_error": 2.1894835069444443,
+      "minimum_expected_lit_pixels_visible": 0.9634881247784474,
+      "audio_correlation": 0.9999563842574754,
+      "audio_offset_ms": 0.0
+    },
+    {
+      "mode": "real-rgb",
+      "frames": 120,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "8.000000",
+      "source_duration_seconds": 8.0,
+      "full_song_preview_verified": false,
+      "max_mean_pixel_error": 2.1484765625,
+      "minimum_expected_lit_pixels_visible": 0.9737937790840069,
+      "audio_correlation": 0.9977437981465205,
+      "audio_offset_ms": 0.0
+    },
+    {
+      "mode": "full-song",
+      "frames": 3562,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "237.466708",
+      "source_duration_seconds": 237.43997916666666,
+      "full_song_preview_verified": true,
+      "max_mean_pixel_error": 2.2302025462962964,
+      "minimum_expected_lit_pixels_visible": 0.9650953580424613,
+      "audio_correlation": 0.9957144538319959,
+      "audio_offset_ms": 0.0
+    }
+  ],
+  "signing_certificate": "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: e86c5f87d98d53a2f7cedc600524a53bfeecb4fdd64f59fdd2fb7f24b2381328\nSigner #1 certificate SHA-1 digest: f6f633d05ad4f7142d1cf5b76b4ae4ac586c8332\nSigner #1 certificate MD5 digest: 212a17e7050da37ba4dad5a064c83b57\n",
+  "signing_status": "debug beta; production upgrade not verified",
+  "run_id": 39864543319,
+  "artifact_id": 12463624002,
+  "api": 36,
+  "artifact_sha256": "863ac3446842c035a627351d9aecbc352555a794f1ded6c48c2cb8392147aafa",
+  "physical_owner_device_verified": false
+}

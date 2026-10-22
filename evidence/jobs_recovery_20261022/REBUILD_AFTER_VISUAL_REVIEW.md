@@ -1,0 +1,5 @@
+## 2026-10-22 — Rebuild deliverables after visual HUD finding
+
+Actual API36 screenshots show the Layout/Style pages correctly exposing the extravagant default and Quick clip, but the video itself contains the shared renderer's diagnostic panels. Keep source42103ed APK as a held audit file, not the fixed-preview download. Pixel-proven clean preview change is committed9f177427a168b14dd00a358c76c54a9d6d116715 in development PR203, based on Windows persistence41ce64c.67 focused preview/Android/color/provenance/recovery cases pass; new exact-source emulator/Windows screenshots are required.
+
+Update the single-download workflow's pinned runtime to9f177427 in both defaults, retaining checksum/provenance/hash/startup/worker gates. Combine this with the bounded parent-only wait correction so the older interactive wait is superseded. This packaging branch changes no runtime source; receipt must distinguish its own commit from9f177427. No release/default merge or approval claim. Original music, layout, hardware and canonical-band/backing-source gates remain preserved.

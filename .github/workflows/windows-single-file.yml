@@ -7,7 +7,7 @@ on:
       runtime_sha:
         description: Exact already-tested portable Windows runtime commit
         required: true
-        default: '41ce64cad33180e2d9d5ba83a679e9fe7def8e56'
+        default: '9f177427a168b14dd00a358c76c54a9d6d116715'
 permissions:
   contents: read
   actions: read
@@ -19,7 +19,7 @@ jobs:
     runs-on: windows-2022
     timeout-minutes: 45
     env:
-      RUNTIME_SHA: ${{ inputs.runtime_sha || '41ce64cad33180e2d9d5ba83a679e9fe7def8e56' }}
+      RUNTIME_SHA: ${{ inputs.runtime_sha || '9f177427a168b14dd00a358c76c54a9d6d116715' }}
       PACKAGING_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - uses: actions/checkout@v4
@@ -92,7 +92,11 @@ jobs:
           $ErrorActionPreference='Stop'
           $env:HELIX_SETTINGS_PATH=Join-Path $env:RUNNER_TEMP 'helix-single-file-settings.json'
           $app=[IO.Path]::GetFullPath((Join-Path $env:LOCALAPPDATA "HelixSequencer\beta-runtime\$env:RUNTIME_SHA"))
-          $wrapper=Start-Process artifacts/Helix-Sequencer-Beta.exe -PassThru -Wait
+          # Start-Process -Wait follows descendants, including the interactive
+          # GUI. Wait only for the unpacking launcher before inspecting its GUI.
+          $wrapper=Start-Process artifacts/Helix-Sequencer-Beta.exe -PassThru
+          if (-not $wrapper.WaitForExit(120000)) {Stop-Process -Id $wrapper.Id -Force; throw 'Launcher did not finish unpacking'}
+          $wrapper.Refresh()
           if ($wrapper.ExitCode -ne 0) {throw 'Single-file launcher failed'}
           $gui=$null
           for ($n=0;$n -lt 60;$n++) {
