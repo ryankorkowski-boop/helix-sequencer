@@ -1,3 +1,33 @@
+## 2026-10-22 — Rebuild deliverables after visual HUD finding
+
+Actual API36 screenshots show the Layout/Style pages correctly exposing the extravagant default and Quick clip, but the video itself contains the shared renderer's diagnostic panels. Keep source42103ed APK as a held audit file, not the fixed-preview download. Pixel-proven clean preview change is committed9f177427a168b14dd00a358c76c54a9d6d116715 in development PR203, based on Windows persistence41ce64c.67 focused preview/Android/color/provenance/recovery cases pass; new exact-source emulator/Windows screenshots are required.
+
+Update the single-download workflow's pinned runtime to9f177427 in both defaults, retaining checksum/provenance/hash/startup/worker gates. Combine this with the bounded parent-only wait correction so the older interactive wait is superseded. This packaging branch changes no runtime source; receipt must distinguish its own commit from9f177427. No release/default merge or approval claim. Original music, layout, hardware and canonical-band/backing-source gates remain preserved.
+
+---
+
+## 2026-10-22 — Single-file GUI verification wait and Android verification
+
+The first single-download job39865998362 compiled the launcher, then its test used Start-Process -Wait, which waits for descendants including the interactive GUI. Replace that harness wait with a bounded Process.WaitForExit on the unpacking parent, then retain actual visible-GUI/default/worker/hash checks and close only the tracked GUI. NSIS payload/application source is unchanged; this is a validation lifecycle fix, not a weakened check. Official PowerShell and .NET behavior verified against Microsoft Start-Process/Process.WaitForExit documentation. The newer packaging-source run supersedes that test; it must actually finish before EXE delivery.
+
+Android42103ed API36 job120123869594, run39864543319 passed. Artifact12463624002 ZIPSHA256863ac3446842c035a627351d9aecbc352555a794f1ded6c48c2cb8392147aafa independently downloaded/CRC-checked. Actual installable debug APK SHA256e5ccd1ea64fe70f488e5c6d0bb3710cfd28c5f808c4dfca1c423435eb4e0f495,115848588 bytes. All1052 embedded engine file hashes and exact42103ed provenance verified, valid signing receipt, instrumentation success, four decoded modes including full-song audio/image proof; new in-layout video controls pass the actual bounds assertion. android36_verified.json records details. API30, physical Samsung/ARM64, existing-beta certificate upgrade and production signing remain separate; no owner-device success or release approval claimed.
+
+Recovery42103ed full CI39864543252 passes both Python3.11/3.12 (2067 each,6 inherited skips,16 subtests) and both lint jobs. Corrected Windows41ce64c portable39865440149 passes actual frozen GUI/worker/FSEQ/LOR/xLights startup and exports. runtime_check_results.json retains exact identities; don't relabel different source snapshots. All original musical, native, hardware, visual and release gates remain open where not evidenced. MASTER_TODO and handoff are updated with this change.
+
+---
+
+## 2026-10-22 — Single-download Windows packaging candidate
+
+Goal: finish the requested standalone Windows download while retaining the verified Helix GUI/CLI runtime and all dependencies. New isolated branch codex/windows-single-download-20261022 targets the Windows persistence candidate, not the default/release branch. packaging/windows_single_file/launcher.nsi expands the exact portable payload to a persistent per-user, source-versioned cache and launches the real Helix.exe. It preserves outputs after closing and needs neither installed Python nor administrator rights. Runtime functionality is not rewritten.
+
+.github/workflows/windows-single-file.yml waits for a successful exact-source Windows portable build41ce64cad33180e2d9d5ba83a679e9fe7def8e56, refuses older/failed substitutes, verifies portable checksums/provenance and every embedded manifest hash, builds an NSIS single EXE, launches its actual extracted GUI, checks the persisted source-local default layout, runs the original frozen GUI/worker smoke without weakening it, and verifies every extracted runtime hash. Artifact is uploaded only after success. Receipt distinguishes runtime source from packaging source; no publication/default merge. README documents persistent runtime/output placement and source identities.
+
+Current evidence: YAML parses locally; NSIS syntax and real Windows execution require this new workflow. Do not claim a standalone executable until actual build/runtime checks pass. No Python/GUI/engine source changes in this packaging branch. Developer/doc work is preserved in MASTER_TODO and this handoff. The prior engine snapshot42103ed completed2067 tests/6 inherited skips/16 subtests in527.08s;95 current focused cases pass. These results are not native musical/artistic or physical-device acceptance.
+
+Preserved: original audio/layouts/Greg256, native vocal-source negative gate and no-phony-face behavior, APK42103ed and ongoing platform checks, real source-LMS wiring, existing portable distribution and all licensing. Open: source-backed independent harmony, canonical band/mouth acceptance, authentic progressive showcases/native imports, signing/owner devices and final release approval. Risks: first launch expands the runtime, per-version caches use disk, wrappers remain beta review builds, and actual Windows build may reveal compiler/runtime differences. Verify before delivery.
+
+---
+
 ## 2026-10-22 — Windows first-run layout persistence correction
 
 Observed actual42103ed Windows run39864543209: frozen GUI initializes and finds the new catalog, but --helix-gui-smoke rejects app.layout_var!=load_layout(). The first-run extravagant sample was applied before the write trace was registered, so the effective selection was not persisted. Fix gui_launcher.py by explicitly saving the effective initial selection after registering the same existing persistence callback. Existing imported layouts retain precedence. windows_portable_entry.py keeps its exact assertion and updates its explanatory comment; no weakened smoke or output checks.
