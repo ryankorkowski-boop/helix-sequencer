@@ -633,14 +633,14 @@ def _build_background_face_activations(
                     "part_name": part,
                     "phoneme": event.phoneme,
                     "mouth_shape": event.mouth_shape,
-                    "mouth_submodel": f"bg_{event.mouth_submodel}",
+                    "mouth_submodel": event.mouth_submodel if performer == "female_singer" else f"bg_{event.mouth_submodel}",
                     "lyric_text": event.word_text,
                     "confidence": round(float(window.get("confidence", event.confidence) or event.confidence), 3),
                     "intensity": round(max(0.08, intensity), 3),
                     "source_reason": str(window.get("source_reason", "background_vocal_window")),
                     "classifier_role": str(window.get("classifier_role", "")),
                     "instrument_conflict_scale": round(conflict_scale, 3),
-                    "xlights": {"effect": "Faces", "face_definition": f"{performer}_minimalist_background", "timing_track": "background_phoneme"},
+                    "xlights": {"effect": "Faces", "face_definition": "helixville4_harmony_singer_full" if performer == "female_singer" else f"{performer}_minimalist_background", "timing_track": "background_phoneme"},
                 }
             )
         if window.get("role") == "group_chant":
