@@ -13,3 +13,7 @@ Previously granted MIT rights for earlier releases remain subject to their origi
 ## Distribution and user interfaces
 
 Desktop and Android distributions should display this policy in their License/About interface and include the full `LICENSE`, `COMMERCIAL_LICENSING.md`, `NOTICE`, and applicable third-party license notices. These notices do not replace the license terms. Commercial licensing does not imply a fixed published price: obtain a written agreement before commercial use.
+
+## Separate free music permissions
+
+The **hardKor — Helix Music Mix** recordings have a separate free-use permission for qualifying personal, community, and commercial creative projects, including monetized videos and commercial light displays. This does **not** permit commercial use of Helix Sequencer software. See [MUSIC_PERMISSIONS.md](MUSIC_PERMISSIONS.md) and the [music collection README](https://docs.google.com/document/d/1C14uZIGKoY8pVD3nKmBRl7nXkFvTntcA9tQCmE9tEa4/edit). Donations for music are optional and are not software-license payments.
