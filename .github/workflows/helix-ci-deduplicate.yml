@@ -1,0 +1,40 @@
+name: Clear superseded Helix CI copies
+on:
+  push:
+    branches: ['helix-ci-cleanup-20261022']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: write
+jobs:
+  cleanup:
+    runs-on: windows-2022
+    timeout-minutes: 5
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('fs');
+            if (context.repo.owner!=='ryankorkowski-boop' || context.repo.repo!=='helix-sequencer') throw new Error('Wrong repository');
+            const old=new Set(['42103ed9ac9811b3cdd21c8a4011508584de979d','41ce64cad33180e2d9d5ba83a679e9fe7def8e56','9f177427a168b14dd00a358c76c54a9d6d116715','cd996d0581858481f078351fb6cb67674338fe47','ed9d3215887102cfbc389cd54f7a7cd42cd18a0d']);
+            const current='49ed242138cdafcc86beda7592fe043706c5e4c1';
+            const {data}=await github.rest.actions.listWorkflowRuns({...context.repo,workflow_id:'unit-tests.yml',per_page:100});
+            const kept=data.workflow_runs.some(r=>r.head_sha===current && r.event==='pull_request' && (r.status!=='completed'||r.conclusion==='success'));
+            if (!kept) throw new Error('Newest complete regression run is absent; nothing cancelled');
+            const results=[];
+            for (const run of data.workflow_runs) {
+              if (run.status==='completed') continue;
+              const superseded=old.has(run.head_sha);
+              const duplicate=run.head_sha===current && run.event==='push';
+              if (!superseded && !duplicate) continue;
+              const row={id:run.id,sha:run.head_sha,event:run.event,reason:superseded?'superseded by current complete regression':'duplicate push; exact-source PR regression retained'};
+              try {await github.rest.actions.cancelWorkflowRun({...context.repo,run_id:run.id});row.cancellation_requested=true;}
+              catch(error){row.cancellation_requested=false;row.error=error.message;}
+              results.push(row);core.info(JSON.stringify(row));
+            }
+            fs.writeFileSync('cleanup-results.json',JSON.stringify({current_regression_sha:current,kept_current_pr_checks:true,scope:'unit-tests.yml only; listed owned snapshots only',results},null,2));
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-CI-deduplication
+          path: cleanup-results.json
+          retention-days: 14
