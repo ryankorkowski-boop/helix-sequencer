@@ -543,6 +543,7 @@ class HouseRenderer:
         duration_ms: int,
         overlays: dict[str, str],
         frame_colors: np.ndarray | None = None,
+        diagnostic_overlay: bool = False,
     ) -> Image.Image:
         base = self._base_canvas.copy()
         glow_layer = Image.new("RGBA", base.size, (0, 0, 0, 0))
@@ -573,6 +574,9 @@ class HouseRenderer:
         glow_layer = glow_layer.filter(ImageFilter.GaussianBlur(radius=7))
         base.alpha_composite(glow_layer)
         base.alpha_composite(solid_layer)
+
+        if not diagnostic_overlay:
+            return base
 
         hud = ImageDraw.Draw(base)
         hud.rounded_rectangle((28, 20, 420, 148), radius=20, fill=(8, 12, 20, 206), outline=(200, 220, 255, 70), width=1)
@@ -615,6 +619,7 @@ def render_sequence_to_mp4(
     height: int,
     max_seconds: float | None = None,
     use_palette_colors: bool = True,
+    diagnostic_overlay: bool = False,
 ) -> Path:
     sequence = parse_sequence(sequence_path)
     leaf_names, intensity = build_leaf_intensity_matrix(layout, sequence, fps)
@@ -659,6 +664,7 @@ def render_sequence_to_mp4(
                 duration_ms=sequence.duration_ms,
                 overlays=overlays,
                 frame_colors=palette_colors[:, frame_idx, :] if palette_colors is not None else None,
+                diagnostic_overlay=diagnostic_overlay,
             )
             from core.output_provenance import brand_frame
             writer.append_data(np.asarray(brand_frame(frame).convert("RGB"), dtype=np.uint8))
@@ -717,6 +723,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--fps", type=int, default=15, help="Output frame rate")
     parser.add_argument("--width", type=int, default=1280, help="Video width")
     parser.add_argument("--height", type=int, default=720, help="Video height")
+    parser.add_argument("--diagnostic-overlay", action="store_true", help="Show debug timing/model panels over the preview")
     return parser.parse_args()
 
 
@@ -741,6 +748,7 @@ def main() -> int:
             fps=args.fps,
             width=args.width,
             height=args.height,
+            diagnostic_overlay=args.diagnostic_overlay,
         )
         print(f"Created {out_path}", flush=True)
     return 0
