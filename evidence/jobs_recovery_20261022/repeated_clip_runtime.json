@@ -1,0 +1,18 @@
+{
+  "source_commit": "42103ed9ac9811b3cdd21c8a4011508584de979d",
+  "source_title": "Phoneme Test Hook.mp3",
+  "runs": [
+    {
+      "sequence": "Phoneme Test Hook-quick-10s,v27.3.xsq",
+      "duration": "10.000",
+      "lighting_sha256": "729d359fa184173904818c93de2ca5cbc9dec475bbe362471ba3b73711d9392b"
+    },
+    {
+      "sequence": "Phoneme Test Hook-quick-10s,v27.3.xsq",
+      "duration": "10.000",
+      "lighting_sha256": "729d359fa184173904818c93de2ca5cbc9dec475bbe362471ba3b73711d9392b"
+    }
+  ],
+  "identical_lighting_trees": true,
+  "native_visual_acceptance": false
+}

@@ -113,6 +113,7 @@ class HelixGui(tk.Tk):
         self.ac_on_only_var.trace_add("write", lambda *_a: self._update_mode_ui())
         self.after(100, self._drain_events)
         self.layout_var.trace_add("write", self._on_layout_changed)
+        self._on_layout_changed()
 
     def _on_layout_changed(self, *_args) -> None:
         path = self.layout_var.get().strip()

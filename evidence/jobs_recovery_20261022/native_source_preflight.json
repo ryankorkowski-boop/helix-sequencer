@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "error": "Full-band source lacks independently resolved lead and backing vocal tracks; supply source-bound vocal analysis instead of repeating the silent-harmony render"
+}
