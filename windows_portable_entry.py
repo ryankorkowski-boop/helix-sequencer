@@ -33,8 +33,8 @@ def main() -> int:
         app = HelixGui()
         try:
             assert app.template_var.get(), "Template not selected"
-            # A clean installation legitimately has no saved layout. Verify
-            # the first-run state without inventing a user selection.
+            # Persist the selected first-run sample as well as later user
+            # choices; an existing imported layout must still be restored.
             from core.layout_preferences import load_layout
             assert app.layout_var.get() == load_layout(), "Saved layout not restored"
             app.sequence_mode_var.set("Light-O-Rama")
