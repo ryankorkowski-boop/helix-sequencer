@@ -10817,10 +10817,12 @@ def run_variant(
         effect_name: str,
         template_to_use: base.EffectTemplate,
         stem_priority: int,
+        minimum_duration_ms: int | None = None,
     ) -> bool:
         nonlocal total
+        minimum = max(50, int(tuning.min_effect_ms)) if minimum_duration_ms is None else max(1, minimum_duration_ms)
         duration = end_ms - start_ms
-        if duration < max(50, int(tuning.min_effect_ms)):
+        if duration < minimum:
             reject_effect(nm, start_ms, end_ms, effect_name, layer_key, "duration below minimum threshold")
             return False
         if end_ms <= 0 or start_ms >= song_length_ms:
@@ -10828,7 +10830,7 @@ def run_variant(
             return False
         st_i = max(0, start_ms)
         en_i = min(song_length_ms, end_ms)
-        if en_i - st_i < max(50, int(tuning.min_effect_ms)):
+        if en_i - st_i < minimum:
             reject_effect(nm, st_i, en_i, effect_name, layer_key, "trimmed duration below minimum threshold")
             return False
         if layering_mode == "smart_layer":
@@ -11931,18 +11933,26 @@ def run_variant(
         ((snowman_band_payload.get("xlights_translation", {}) or {}).get("sequence_effect_instructions", []) or [])
     )
     if snowman_sequence_instructions:
+        from core.native_face_instructions import face_template
+        from core.singing_face_discovery import detect_singing_faces
+        native_faces = detect_singing_faces(active_layout_file) if active_layout_file else []
         placed_snowman_faces = 0
+        unmapped_snowman_faces = 0
         for instruction in snowman_sequence_instructions:
             target = str(instruction.get("target_model", "") or "")
             if target not in layers:
                 continue
             st = max(0, int(instruction.get("start_ms", 0) or 0))
-            en = max(st + max(1, int(tuning.min_effect_ms)), int(instruction.get("end_ms", st) or st))
+            en = int(instruction.get("end_ms", st) or st)
             label = str(instruction.get("label", "snowman_face_timing") or "snowman_face_timing")
-            effect_name = str(instruction.get("effect", "Faces") or "Faces")
-            before_total = total
-            add_model(target, st, en, label, eff=effect_name, stem="vocals")
-            if total > before_total:
+            template = face_template(instruction, native_faces, xsq.on_tpl.palette)
+            if template is None or tuning.ac_lights_only or hardkor_mode:
+                unmapped_snowman_faces += 1
+                reject_effect(target, st, en, "Faces", "accent", "native mouth definition unavailable or output mode incompatible")
+                continue
+            if attempt_place_effect(nm=target, layer_key="accent", start_ms=st, end_ms=en,
+                                    effect_name="Faces", template_to_use=template,
+                                    stem_priority=priorities.get("vocals", priorities["other"]), minimum_duration_ms=1):
                 placed_snowman_faces += 1
                 snowman_sequence_face_track.append(
                     (
@@ -11953,6 +11963,8 @@ def run_variant(
                 )
         if placed_snowman_faces:
             log(f"Snowman sequence face effects placed: {placed_snowman_faces}")
+        if unmapped_snowman_faces:
+            log(f"Snowman face cues unresolved: {unmapped_snowman_faces}; no substitute body effects emitted")
 
     spatial_track: list[tuple[str, int, int]] = []
     if not hardkor_mode and not structured_mode:

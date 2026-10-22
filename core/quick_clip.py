@@ -14,8 +14,10 @@ def prepare_quick_clip(source: Path, output: Path) -> Path:
     directory = output.resolve() / "quick-clip-input"
     directory.mkdir(parents=True, exist_ok=True)
     # Each run owns its input, even when several jobs use the same song.
-    with tempfile.NamedTemporaryFile(prefix="Helix-quick-10s-", suffix=".wav", dir=directory, delete=False) as temporary:
-        clip = Path(temporary.name)
+    run_directory = Path(tempfile.mkdtemp(prefix="run-", dir=directory))
+    # The engine seeds visual choices from the basename. Keep it stable while
+    # isolating concurrent runs in separate directories.
+    clip = run_directory / (source.stem + "-quick-10s.wav")
     try:
         try:
             with sf.SoundFile(source) as audio:

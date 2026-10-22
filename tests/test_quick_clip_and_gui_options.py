@@ -32,6 +32,9 @@ def test_quick_clip_preserves_samples_and_original_song(tmp_path, seconds):
     np.testing.assert_array_equal(actual, samples[:rate * 10])
     assert hashlib.sha256(source.read_bytes()).hexdigest() == original
     assert clip.with_suffix(".json").is_file()
+    repeated = prepare_quick_clip(source, tmp_path / "outputs")
+    assert repeated.stem == clip.stem and repeated.parent != clip.parent
+    assert repeated.read_bytes() == clip.read_bytes()
 
 
 def test_all_sample_choices_resolve_to_existing_native_layouts():
