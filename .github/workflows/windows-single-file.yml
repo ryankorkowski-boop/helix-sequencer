@@ -1,0 +1,122 @@
+name: Windows single-download beta
+on:
+  pull_request:
+    paths: ['packaging/windows_single_file/**', '.github/workflows/windows-single-file.yml']
+  workflow_dispatch:
+    inputs:
+      runtime_sha:
+        description: Exact already-tested portable Windows runtime commit
+        required: true
+        default: '41ce64cad33180e2d9d5ba83a679e9fe7def8e56'
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: helix-single-download-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  bundle-and-test:
+    runs-on: windows-2022
+    timeout-minutes: 45
+    env:
+      RUNTIME_SHA: ${{ inputs.runtime_sha || '41ce64cad33180e2d9d5ba83a679e9fe7def8e56' }}
+      PACKAGING_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Locate successful exact-source portable build
+        id: portable
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sha = process.env.RUNTIME_SHA;
+            if (!/^[0-9a-f]{40}$/.test(sha)) throw new Error('Exact runtime SHA required');
+            for (let n=0; n<120; n++) {
+              const {data} = await github.rest.actions.listWorkflowRuns({
+                ...context.repo, workflow_id:'windows-portable.yml', head_sha:sha, per_page:100});
+              const runs=data.workflow_runs.filter(r=>r.head_sha===sha);
+              const good=runs.find(r=>r.status==='completed' && r.conclusion==='success');
+              if (good) {
+                const {data:artifacts}=await github.rest.actions.listWorkflowRunArtifacts({
+                  ...context.repo,run_id:good.id,per_page:100});
+                const artifact=artifacts.artifacts.find(a=>a.name==='Helix-Windows-Portable' && !a.expired);
+                if (!artifact) throw new Error('Verified portable artifact missing');
+                core.setOutput('run_id',String(good.id));
+                core.setOutput('artifact_digest',artifact.digest);
+                return;
+              }
+              if (runs.length && runs.every(r=>r.status==='completed'))
+                throw new Error('The exact-source portable build failed; refusing an older substitute');
+              if (n%4===0) core.info('Waiting for exact-source portable Windows validation');
+              await new Promise(resolve=>setTimeout(resolve,15000));
+            }
+            throw new Error('No successful exact-source portable build within 30 minutes');
+      - uses: actions/download-artifact@v4
+        with:
+          name: Helix-Windows-Portable
+          path: upstream
+          run-id: ${{ steps.portable.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - name: Verify payload identity and extract
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $zip=Get-Item upstream/Helix-Windows-Portable.zip
+          $expected=(Get-Content upstream/Helix-Windows-Portable.sha256).Split(' ',[StringSplitOptions]::RemoveEmptyEntries)[0]
+          if ((Get-FileHash $zip -Algorithm SHA256).Hash.ToLower() -ne $expected) {throw 'Portable ZIP checksum mismatch'}
+          Expand-Archive $zip runtime
+          $app=(Resolve-Path runtime/Helix).Path
+          $proof=Get-Content "$app/BUILD_PROVENANCE.json" -Raw | ConvertFrom-Json
+          if ($proof.commit -ne $env:RUNTIME_SHA -or $proof.github_run_id.ToString() -ne '${{ steps.portable.outputs.run_id }}' -or $proof.github_repository -ne '${{ github.repository }}') {throw 'Wrong portable runtime identity'}
+          foreach ($property in $proof.files.PSObject.Properties) {
+            $path=Join-Path $app $property.Name
+            if ((Get-FileHash $path -Algorithm SHA256).Hash.ToLower() -ne $property.Value) {throw "Payload hash mismatch: $($property.Name)"}
+          }
+          Copy-Item "$app/BUILD_PROVENANCE.json" upstream-provenance.json
+          New-Item -ItemType Directory -Force artifacts | Out-Null
+      - name: Build single-file launcher
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $compiler='C:\Program Files (x86)\NSIS\makensis.exe'
+          if (-not (Test-Path $compiler)) {choco install nsis --version=3.11 -y --no-progress; if ($LASTEXITCODE -ne 0) {throw 'NSIS install failed'}}
+          & $compiler /V3 "/DSOURCE_SHA=$env:RUNTIME_SHA" "/DPAYLOAD_DIR=$((Resolve-Path runtime/Helix).Path)" "/DOUTPUT_FILE=$PWD/artifacts/Helix-Sequencer-Beta.exe" "/DICON_FILE=$PWD/app_icon.ico" packaging/windows_single_file/launcher.nsi
+          if ($LASTEXITCODE -ne 0) {throw 'Single-file build failed'}
+      - name: Run actual extracted GUI and verify its worker
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $env:HELIX_SETTINGS_PATH=Join-Path $env:RUNNER_TEMP 'helix-single-file-settings.json'
+          $app=[IO.Path]::GetFullPath((Join-Path $env:LOCALAPPDATA "HelixSequencer\beta-runtime\$env:RUNTIME_SHA"))
+          $wrapper=Start-Process artifacts/Helix-Sequencer-Beta.exe -PassThru -Wait
+          if ($wrapper.ExitCode -ne 0) {throw 'Single-file launcher failed'}
+          $gui=$null
+          for ($n=0;$n -lt 60;$n++) {
+            $gui=Get-Process Helix -ErrorAction SilentlyContinue | Where-Object {$_.Path -eq "$app\Helix.exe" -and $_.MainWindowHandle -ne 0} | Select-Object -First 1
+            if ($gui) {break}; Start-Sleep -Milliseconds 500
+          }
+          if (-not $gui) {throw 'Actual extracted GUI did not open'}
+          try {
+            $settings=Get-Content $env:HELIX_SETTINGS_PATH -Raw | ConvertFrom-Json
+            if (-not $settings.layout_file.StartsWith($app,[StringComparison]::OrdinalIgnoreCase)) {throw 'Extracted GUI did not persist its own first-run layout'}
+          } finally {$gui.CloseMainWindow() | Out-Null; $gui.WaitForExit(10000) | Out-Null}
+          $smoke=& "$app/HelixCLI.exe" --helix-gui-smoke 2>&1 | Out-String
+          if ($LASTEXITCODE -ne 0 -or $smoke -notmatch 'Helix GUI initialization OK') {throw "Extracted GUI/worker smoke failed: $smoke"}
+          $smoke | Set-Content artifacts/GUI_SMOKE.txt
+          $proof=Get-Content upstream-provenance.json -Raw | ConvertFrom-Json
+          foreach ($property in $proof.files.PSObject.Properties) {
+            if ((Get-FileHash (Join-Path $app $property.Name) -Algorithm SHA256).Hash.ToLower() -ne $property.Value) {throw "Extracted payload mismatch: $($property.Name)"}
+          }
+          @{runtime_source_commit=$env:RUNTIME_SHA;packaging_source_commit=$env:PACKAGING_SHA;runtime_build_run='${{ steps.portable.outputs.run_id }}';actual_extracted_gui_opened=$true;packaged_gui_worker_smoke=$true;all_manifest_hashes_match=$true;exe_sha256=(Get-FileHash artifacts/Helix-Sequencer-Beta.exe -Algorithm SHA256).Hash.ToLower()} | ConvertTo-Json | Set-Content artifacts/SINGLE_FILE_VALIDATION.json
+          Copy-Item packaging/windows_single_file/README.md artifacts/README.md
+          Get-FileHash artifacts/Helix-Sequencer-Beta.exe -Algorithm SHA256 | ForEach-Object {"$($_.Hash.ToLower())  Helix-Sequencer-Beta.exe"} | Set-Content artifacts/SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: Helix-Windows-Single-Download
+          path: artifacts/*
+          retention-days: 14
