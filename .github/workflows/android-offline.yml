@@ -2,9 +2,9 @@ name: Helix Android offline beta
 on:
   push:
     branches: ['feature/android-offline-app-*', 'codex/gui-branding-and-guidance-20261013', 'codex/beta-final-integration-20261014', 'codex/beta-final-completion-20261014', 'codex/beta-final-hardening-*', 'codex/72h-completion-*']
-    paths: ['android/**', 'config/support_links.json', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'tools/package_beta_installers.py', 'tools/collect_beta_installers.py', 'tests/test_beta_installer_bundle.py', '.github/workflows/beta-installer-bundle.yml', '.github/workflows/windows-portable.yml', 'core/**', 'audio/**', 'music/**', 'models/**', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml', '.github/workflows/beta-completion-native.yml']
+    paths: ['tools/preview_renderer.py', 'config/gui_options.json', 'tools/verify_android_device_proof.py', 'tests/test_preview_clean_canvas.py', 'android/**', 'config/support_links.json', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'tools/package_beta_installers.py', 'tools/collect_beta_installers.py', 'tests/test_beta_installer_bundle.py', '.github/workflows/beta-installer-bundle.yml', '.github/workflows/windows-portable.yml', 'core/**', 'audio/**', 'music/**', 'models/**', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml', '.github/workflows/beta-completion-native.yml']
   pull_request:
-    paths: ['android/**', 'config/support_links.json', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'core/**', 'audio/**', 'music/**', 'models/**', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml', '.github/workflows/beta-completion-native.yml']
+    paths: ['tools/preview_renderer.py', 'config/gui_options.json', 'tools/verify_android_device_proof.py', 'tests/test_preview_clean_canvas.py', 'android/**', 'config/support_links.json', 'tools/stage_android_engine.py', 'tools/build_android_python_wheels.py', 'core/**', 'audio/**', 'music/**', 'models/**', 'tests/test_android_offline.py', 'tools/desktop_remote*.py', 'tools/run_remote_transport_smoke_server.py', '.github/workflows/android-offline.yml', '.github/workflows/beta-completion-native.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -111,7 +111,7 @@ jobs:
       - name: Host parser and output recovery regressions
         run: |
           python -m pip install numpy scipy soundfile pytest Pillow PyYAML
-          PYTHONPATH=. python -m pytest -q tests/test_android_mp4.py tests/test_android_recovery.py tests/test_gui_support_links.py
+          PYTHONPATH=. python -m pytest -q tests/test_android_mp4.py tests/test_android_recovery.py tests/test_gui_support_links.py tests/test_preview_clean_canvas.py
       - name: Build APK and test APK
         working-directory: android
         run: gradle --no-daemon :app:assembleDebug :app:assembleDebugAndroidTest :app:assembleRelease :app:bundleRelease
