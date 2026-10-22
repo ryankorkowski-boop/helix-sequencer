@@ -1,3 +1,11 @@
+## 2026-10-22 — Android shared-renderer build dependency correction
+
+The clean-preview source9f177427 changed tools/preview_renderer.py, but the Android workflow paths did not include that shared runtime dependency. Add that renderer, the shared GUI catalog, decoded-proof verifier and clean-canvas regression file to push/PR filters; include the two real pixel regressions in host preflight. This is a build-dependency correction, with no engine/player/runtime changes beyond the inherited9f177427 clean preview and41ce64c persistence fix.
+
+Isolated branch codex/android-preview-build-trigger-20261022 targets the clean-preview development branch so current Windows9f177427 packaging remains healthy. Android must build this exact new source and pass API30/36 plus actual screenshot review before a replacement APK is delivered. Do not offer the held42103ed APK as having clean pixels. Source fingerprints remain explicit across platform snapshots. YAML parses locally; prior67 focused clean-preview/platform tests pass and actual emulator validation remains required. Existing native/source/audio/layer/hardware/approval gates are unchanged; no default/release merge or publication.
+
+---
+
 ## 2026-10-22 — Actual Android frame review reveals burned-in HUD masking
 
 API36 passed its player-bound checks, and its downloaded APK/source/decoded media were independently verified, but actual screen-playback.png visual review exposed two large diagnostic panels burned into the preview movie itself. Moving the Android MediaController alone does not fix these source pixels. Hold APK42103ed from final delivery; its valid code/emulator proof does not establish an unobscured preview. No prior screenshot or APK is relabeled as fixed.
