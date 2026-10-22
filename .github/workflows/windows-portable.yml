@@ -104,7 +104,7 @@ jobs:
           Copy-Item "$root/_internal/THIRD_PARTY_LICENSES.md" "$root/THIRD_PARTY_LICENSES.md" -Force
           Copy-Item "$root/_internal/NOTICE" "$root/NOTICE" -Force
           Copy-Item "$root/_internal/LICENSE" "$root/LICENSE" -Force
-          foreach ($notice in @("COMMERCIAL_LICENSING.md", "WELCOME_TO_HELIX.md", "INSTALL_AND_TROUBLESHOOT.md")) {
+          foreach ($notice in @("COMMERCIAL_LICENSING.md", "MUSIC_PERMISSIONS.md", "WELCOME_TO_HELIX.md", "INSTALL_AND_TROUBLESHOOT.md")) {
             Copy-Item "$root/_internal/$notice" "$root/$notice" -Force
           }
           foreach ($preset in @("allmodels", "helixville")) {
