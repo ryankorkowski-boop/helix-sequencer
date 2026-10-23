@@ -1,5 +1,8 @@
 name: Phoneme Test Hook native MP4 verification
 on:
+  push:
+    branches: [codex/eight-hour-recovery-20261019]
+    paths: [.github/workflows/phoneme-test-hook-native.yml]
   workflow_dispatch:
     inputs:
       audio_url:
@@ -27,6 +30,12 @@ jobs:
       XSQ_PATH: ${{ inputs.xsq_path }}
     steps:
       - uses: actions/checkout@v4
+      - name: Require real render input URLs before attempting preview
+        run: |
+          if [ -z "$AUDIO_URL" ] || [ -z "$SHOW_URL" ] || [ -z "$XSQ_PATH" ]; then
+            echo '::error::Native preview requires original audio URL, matching prepared xLights show ZIP URL and XSQ path. GitHub run is blocked; no placeholder output is permitted.'
+            exit 1
+          fi
       - name: Install renderer and verification dependencies
         run: |
           sudo apt-get update -qq
