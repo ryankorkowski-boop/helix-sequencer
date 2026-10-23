@@ -68,3 +68,24 @@ marked complete. Update this file and MASTER_TODO.md with every next safe change
 - Generated shows record source commit, dirty-worktree flag and relevant
   module hashes. An uncommitted local run must not be described as the clean
   committed source. Workflow checkout will render the committed revision.
+
+## Native export root cause confirmed and next repair
+
+The unmodified AppImage did render an actual MP4 but **failed acceptance**:
+248x602, black image at8s, even after real X11 canvas resize to1280x720. Exact
+pinned `xLightsMain.cpp` reads cached getWidth/getHeight immediately after
+SetSize; its saved3D camera is initialized before mode selection. Both defects
+are already repaired by `tools/patch_xlights_native_export.py`. Do not repeat
+unpatched exports or substitute an upscaled/black movie.
+
+The Phoneme workflow now restores/builds the **existing source-patched pinned
+renderer**, reinstalls cached wxWidgets libraries, checks ldd, saves the build
+before export and uses HELIX_PATCHED_XLIGHTS. Automatic production uses the PR
+trigger so it can read the existing PR-scope native build cache. Native runtime
+and compiler logs are included even if downstream acceptance fails.
+
+Additional verification:98 native-preview/cast/artifact/patch/sequence-builder
+checks passed,1 native-only integration skipped,10 subtests passed (4.23s).
+Checkpoint3776d2a95bfce693239caccaa81d895daa35c382 is pushed. Its original
+unpatched renderer workflow is superseded by this next targeted fix. Current
+jobs and build/install results remain unverified until completed.

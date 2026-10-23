@@ -1843,3 +1843,13 @@ mix/classifier cues, not independently verified vocal lanes. Full-source DSP
 benchmark confirms identical outputs and0.542879s→0.449600s warmed median
 (1.20747x throughput,17.18% elapsed reduction) for initial analysis only.
 Source dirty-state and module hashes are retained in generated manifests.
+
+Native follow-up: actual xLights AppImage export remained248x602 and black,
+even after X11 canvas resize. This reproduces known cached-size/saved-camera
+bugs at the pinned source sites. Phoneme workflow now uses the existing patched
+source build/cache installer from fresh-real-band-mp4, preserves cached wxWidgets
+runtime installation and pre-export cache save, includes compiler/runtime logs,
+and automatically runs on PR changes to use PR-scope native cache. No upscaled
+or black MP4 delivered. Additional98 native/sequence/cast/patch checks passed,
+1 native integration skipped,10 subtests. First safe checkpoint3776d2a pushed;
+follow-up native build remains IN PROGRESS. No acceptance check weakened.

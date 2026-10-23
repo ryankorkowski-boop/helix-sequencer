@@ -1,7 +1,6 @@
 name: Phoneme Test Hook native MP4 verification
 on:
-  push:
-    branches: [codex/eight-hour-recovery-20261019]
+  pull_request:
     paths: [.github/workflows/phoneme-test-hook-native.yml, 'fixtures/audio/**', tools/phoneme_source.py, tools/prepare_phoneme_show.py, tools/finalize_phoneme_review.py, tools/native_preview.py, 'core/**', 'xlights/**', 'models/**']
   workflow_dispatch:
     inputs:
@@ -12,7 +11,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: phoneme-native-${{ github.ref }}
+  group: phoneme-native-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 jobs:
   render:
@@ -42,20 +41,78 @@ jobs:
         run: python -m pytest tests/test_phoneme_source.py tests/test_audio_analysis_reuse.py tests/test_native_face_instructions.py -q
       - name: Prepare complete show from current Helix source
         run: python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show
-      - name: Install checksum-pinned xLights renderer
+      - name: Restore compiled pinned native renderer
+        id: native-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+          restore-keys: xlights-native-ubuntu24-2026.18-
+      - name: Install checksum pinned native xLights
         run: |
-          mkdir -p "$RUNNER_TEMP/phoneme-xlights"
-          cd "$RUNNER_TEMP/phoneme-xlights"
+          mkdir -p "$RUNNER_TEMP/xlights"
+          cd "$RUNNER_TEMP/xlights"
           curl -fLsS --retry 3 -o xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
           echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xLights.AppImage' | sha256sum -c -
           chmod +x xLights.AppImage
           ./xLights.AppImage --appimage-extract >/dev/null
-          ldd squashfs-root/usr/bin/xLights | tee "$GITHUB_WORKSPACE/phoneme-work/native-runtime.log"
-          if grep -q 'not found' "$GITHUB_WORKSPACE/phoneme-work/native-runtime.log"; then exit 1; fi
-          echo "PHONEME_XLIGHTS=$RUNNER_TEMP/phoneme-xlights/squashfs-root/AppRun" >> "$GITHUB_ENV"
+          # Compile the source-level native export fix; never claim that the
+          # unmodified release AppImage honors requested export dimensions.
+          sudo apt-get install -y build-essential cmake ninja-build pkg-config \
+            libgtk-3-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+            freeglut3-dev libavcodec-dev libavformat-dev libavfilter-dev \
+            libswscale-dev libsdl2-dev libzstd-dev libcurl4-openssl-dev \
+            liblua5.3-dev libwebp-dev libsecret-1-dev libegl-dev \
+            libfreetype-dev libharfbuzz-dev libfontconfig-dev \
+            libavahi-compat-libdnssd-dev libminizip-dev libxlsxwriter-dev \
+            cbp2make glslc glslang-dev
+          if [ ! -d "$RUNNER_TEMP/xlights-src/.git" ]; then
+            git clone --depth 1 --branch 2026.18 --recurse-submodules \
+              https://github.com/xLightsSequencer/xLights.git "$RUNNER_TEMP/xlights-src"
+          fi
+          cd "$RUNNER_TEMP/xlights-src"
+          test "$(git rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
+          # make installs wxWidgets under /usr, outside the cached source tree.
+          # A cache hit on a fresh runner must restore that installation too;
+          # an executable xLights file alone does not prove a usable runtime.
+          if [ -f wxWidgets-xlights_2026.17c/lib/libwx_gtk3u-3.3.so.4.0.0 ]; then
+            sudo make -C wxWidgets-xlights_2026.17c install
+            sudo ldconfig
+          fi
+          if [ "${{ steps.native-cache.outputs.cache-hit }}" = true ] && [ -x bin/xLights ]; then
+            echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          # Reuse previous object files, but restore only our two pinned source
+          # sites before applying this revision's verified native patch.
+          git checkout -- src-ui-wx/xLightsMain.cpp src-ui-wx/app-shell/TabSequence.cpp
+          python "$GITHUB_WORKSPACE/tools/patch_xlights_native_export.py" "$RUNNER_TEMP/xlights-src"
+          # Capture actionable compiler errors even when GitHub's live job logs
+          # are unavailable, and cap a stalled compile before job timeout.
+          set -o pipefail
+          # Allow the pinned native build to finish within the job's 60-minute limit.
+          # The previous 35-minute cap terminated compilation before rendering began.
+          timeout --signal=TERM --kill-after=30s 48m make -j 4 2>&1 | tee "$GITHUB_WORKSPACE/xlights-native-build.log"
+          test -x bin/xLights
+          echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
+      - name: Validate restored native runtime dependencies
+        run: |
+          ldd "$HELIX_PATCHED_XLIGHTS" | tee native-runtime-libraries.log
+          python - <<'PY'
+          from pathlib import Path
+          report = Path('native-runtime-libraries.log').read_text()
+          if 'not found' in report:
+              raise SystemExit('Native renderer has unresolved shared libraries; see native-runtime-libraries.log')
+          PY
+      - name: Preserve completed native build before export acceptance
+        if: steps.native-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
       - name: Native xLights FSEQ and original-soundtrack MP4
         run: |
-          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >phoneme-work/openbox.log 2>&1 & exec python -m tools.native_preview phoneme-work/show --xsq phoneme-work/show/Phoneme_Test_Hook_Helix.xsq --audio phoneme-work/show/media/Phoneme_Test_Hook.mp3 --xlights "$PHONEME_XLIGHTS"'
+          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >phoneme-work/openbox.log 2>&1 & exec python -m tools.native_preview phoneme-work/show --xsq phoneme-work/show/Phoneme_Test_Hook_Helix.xsq --audio phoneme-work/show/media/Phoneme_Test_Hook.mp3 --xlights "$HELIX_PATCHED_XLIGHTS"'
       - name: Fully decode and collect actual native movie from render receipt
         if: always()
         run: |
@@ -70,5 +127,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: phoneme-test-hook-native-review-${{ github.sha }}
-          path: phoneme-work/
+          path: |
+            phoneme-work/
+            xlights-native-build.log
+            native-runtime-libraries.log
           if-no-files-found: error
