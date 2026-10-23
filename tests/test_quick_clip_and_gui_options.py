@@ -34,7 +34,13 @@ def test_quick_clip_preserves_samples_and_original_song(tmp_path, seconds):
     assert clip.with_suffix(".json").is_file()
     repeated = prepare_quick_clip(source, tmp_path / "outputs")
     assert repeated.stem == clip.stem and repeated.parent != clip.parent
-    assert repeated.read_bytes() == clip.read_bytes()
+    # libsndfile embeds a wall-clock timestamp in the WAV PEAK metadata chunk.
+    # Two lossless clips can have identical audio but different file bytes when
+    # written across a one-second boundary. Compare the audio payload instead.
+    repeated_samples, repeated_rate = sf.read(repeated, dtype="float32", always_2d=True)
+    assert repeated_rate == actual_rate
+    np.testing.assert_array_equal(repeated_samples, actual)
+    assert sf.info(repeated).subtype == sf.info(clip).subtype
 
 
 def test_all_sample_choices_resolve_to_existing_native_layouts():
