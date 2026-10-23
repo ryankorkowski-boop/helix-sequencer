@@ -92,3 +92,49 @@ Run Xvfb/openbox and renderer in the same execution namespace.
 - COMPLETE —current application-source7c1a248 Windows portable ZIP has valid Helix.exe/HelixCLI.exe and passed packaged GUI/engine/nativeFSEQ.
 - Package count/CRC validation rejected an additional interrupted comparison staging file. Final atomic archive filter excludes .comparison/.tone/.graded temporary media and verifies stable source bytes plus ZIP CRC before publication. Actual final inventory must be exactly18 MP4s.
 - Remaining: owner visual approval; unresolved tom localization/native source-art drummer contact/visibility review; AC-band hardware equivalence; geometric helix rotation; established release signing key and actual historical-key device update test; final release gates. No beta publication orPR188 merge.
+
+## Delivery COMPLETE — owner review files saved
+
+Application implementation:7c1a248c4f2907ea9b5168d12065f7574f1fd9e2.
+Final artifact code:a04f2a24b128d462dc248b52eeb893315cd084ec. PR188 remains draft/unmerged; no release tag/public beta created.
+
+All eight files below were saved successfully for the owner, with persistent file identity applied. Final local delivery folder: `/workspace/scratch/b503538b9f0a/final-delivery/`. The bundle's18 MP4s, actual movie hashes against the report, all JSON, everySHA256SUMS entry and ZIP CRC were verified before saving. Standalone featured downloads match the identical bytes inside the ZIP. Download links are in the delivery conversation; private storage identifiers are intentionally omitted from the public repository.
+
+| File | Bytes | SHA256 |
+|---|---:|---|
+| Helix_Final_Beta_Approval_Bundle.zip | 228510164 | `8a224575c41c426170fb984bc68119c7c784135cbd3f3dc450aabcc58edcbb95` |
+| Helix_Final_Snowman_Band_Closeup.mp4 | 4275414 | `66d52d36d8ae01c439dada83aec6815597e5224865be12ff5308f49d042e32c4` |
+| Helix_Canonical_Solid_3D_Visualization.mp4 | 13867887 | `2545ce7765590b05cfa2737464e422a81b87ce8a4053ad3ad1f52f73dfab93fd` |
+| Helix_6_Layout_Comparison.mp4 | 28864556 | `6f67d3a3ce5d6d90b2bf2d7a8d738a8f2cbad3e5bf48fb32dac3fc8a970feaf7` |
+| Helix_12_Layout_Comparison.mp4 | 29778085 | `53c1e8bea2b701531be681c20eee2f575ac27091718ab0ee7561783e0f37dfd8` |
+| Helix_Band_Integration_Comparison.mp4 | 16554129 | `6495719f008a40040c32e3d74d5bc5282a81a40a89c267a121994fca869ec07e` |
+| Helix_Windows_Portable_7c1a248_Verified.zip | 191443651 | `f93220475e093f638465feeb74a278ded1599538cff04cb6786657ef702179d0` |
+| Helix_Android_Debug_7c1a248_API36_Verified.apk | 144405881 | `d4b7b0f226a1693533615f5e7d01bfa26a129bae07e7aac0202d6aca8bc34b0e` |
+
+### Current acceptance states
+
+- COMPLETE —18 movies,12 individual native layouts, synchronized6/12/3-panel comparisons, native close-up/verification and separate solid OpenGL companion. Original full soundtrack, full decode, every final luma/motion/extent gate passed. Native video20fps/34.900s; original audio34.88s.
+- COMPLETE —vocal compatibility proof:476 lead/494 backup event clocks/settings/fingerprints preserved exactly. Prior owner vocal-animation approval retained; no new visual approval presumed.
+- COMPLETE —native256-channel spinner/face circuit proof and six active/varying performer channels; entire native edit-ready shows/models supplied.
+- COMPLETE —2107 full Python3.12 tests,6 skips,24 subtests;39 focused media regressions,1 fixture skip. Final archive tests/actual CRC/checksum/count validation passed.
+- COMPLETE —Windows7c1a248 packaged GUI/CLI/nativeFSEQ checks; delivered portable ZIP validated, including real PE executables.
+- COMPLETE —Android7c1a248 API30 andAPI36 emulator offline/media/fresh install/launch/same-key reinstall/data-preservation checks. Delivered exact tested API36 SIGNED DEBUG APK, not unsigned release.
+- BLOCKED —established production signing key and actual upgrade over the owner's installed historical-key APK. Current unsigned release cannot install. Fresh debug success does not establish old-install upgrade compatibility.
+- BLOCKED —owner final canonical visual approval. Native output remains sampled surfaces/two-pose light banks; original drummer art is planar. OpenGL solid companion is explicitly separate.
+- BLOCKED —unlocalized tom events/contact and native drummer visibility review, native/AC-band hardware equivalence, geometric helix rotation and remaining strict release acceptance gates. Independent source identity/lexical phones remain estimates, without revoking prior observed vocal approval.
+
+### Exact next actions
+
+1. Owner reviews `Helix_Canonical_Solid_3D_Visualization.mp4`, native close-up, then the6/12-layout comparisons. Record VISUAL approval separately from existing VOCAL behavior approval.
+2. Preserve the original audio/cache and exact476/494 vocal cues while fixing any rejected geometry or musician behavior; do not restoreReview3DScene.
+3. Resolve unlocalized drum/contact/native visibility and canonicalAC equivalence with source-grounded evidence; preserve failed gates rather than fabricate events. Implement real spatial helix animation before claiming rotation.
+4. Supply the established signing identity through the existing private release-signing variables and test an actual data-preserving upgrade on the owner's device. Never distribute unsigned release as installable.
+5. Inspect the latest source-specific CI/strict acceptance receipts; repeat only tests/renders affected by a new change. NoPR188 merge/public beta until explicit owner approval and all release gates pass. Post-beta roadmap remains deferred.
+
+Reproduction commands remain above; final stages are:
+```
+python -m tools.build_approval_collection /absolute/prepared-show /absolute/fresh-layouts
+python -m tools.render_approval_collection /absolute/fresh-layouts /absolute/output --xlights /absolute/patched/xLights --source-commit SOURCE_SHA
+python -m tools.render_canonical_solid_candidate /absolute/prepared-show /absolute/solid/Helix_Canonical_Solid_3D_Visualization.mp4
+python -m tools.finish_approval_presentation /absolute/output/Helix_Final_Beta_Approval_Bundle --audio fixtures/audio/Phoneme_Test_Hook.mp3 --solid /absolute/solid/Helix_Canonical_Solid_3D_Visualization.mp4 --commit SOURCE_SHA
+```
