@@ -107,7 +107,10 @@ class HelixGui(tk.Tk):
         self._busy = False
         self._building_layout = False
         self._build_ui()
-        self._apply_layout_preset()
+        # A saved custom layout takes precedence over the showcase default.
+        # Applying the preset unconditionally overwrote it on every startup.
+        if not self.layout_var.get():
+            self._apply_layout_preset()
         self._update_mode_ui()
         self.lor_compatible_var.trace_add("write", lambda *_a: self._update_mode_ui())
         self.ac_on_only_var.trace_add("write", lambda *_a: self._update_mode_ui())
