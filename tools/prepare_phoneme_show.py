@@ -1,0 +1,113 @@
+"""Build an editable native show with the retained six-snowman geometry.
+
+This exercises the current production sequencer. It is a diagnostic candidate,
+not a declaration that the artwork, instrument motion or vocal identities have
+passed owner acceptance. No external prepared show ZIP is required.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import time
+import xml.etree.ElementTree as ET
+
+from tools.phoneme_source import digest, EXPECTED_SHA256
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def prepare(audio: Path, output: Path) -> Path:
+    import soundfile as sf
+    from models.native_review_band import add_band, allocate
+    from models.ultimate_showcase import Garden
+    from tools.native_source_pose_band import select_cast
+    from tools.build_snowman_ensemble import NativeSequence
+    from tools.build_helpers.ultimate_showcase import write_layout
+
+    audio, output = audio.resolve(), output.resolve()
+    if digest(audio) != EXPECTED_SHA256:
+        raise ValueError('Original Phoneme Test Hook hash mismatch')
+    if output.exists():
+        raise FileExistsError('Use a fresh show directory: ' + str(output))
+    duration = sf.info(audio).duration
+    garden = Garden(title='Helix Phoneme Test Hook diagnostic candidate', slug='Phoneme_Test_Hook')
+    add_band(garden)
+    garden.models = select_cast(garden.models)
+    allocate(garden)
+    for model in garden.models:
+        model.attrs.update(PixelSize='12', Antialias='1', BlackTransparency='100')
+    write_layout(garden, output, include_demo=False)
+    layout = output / 'xlights_rgbeffects.xml'
+    tree = ET.parse(layout)
+    for camera in tree.findall('./Viewpoints/*'):
+        for key, value in dict(angleX='8', angleY='0', distance='-65', pany='-18', panz='-75').items():
+            camera.set(key, value)
+    tree.write(layout, encoding='utf-8', xml_declaration=True)
+    media = output / 'media'
+    media.mkdir()
+    retained = media / 'Phoneme_Test_Hook.mp3'
+    shutil.copyfile(audio, retained)
+    seed = output / 'input.xsq'
+    NativeSequence(garden, duration, 'media/Phoneme_Test_Hook.mp3', 'Phoneme Test Hook').write(seed)
+    commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+    manifest = dict(schema='helix.run_manifest.v1', status='in_progress', warnings=[],
+                    source_commit=commit, audio_sha256=EXPECTED_SHA256,
+                    source_duration_seconds=duration, visual_review_status='not_reviewed',
+                    geometry_source='models.native_review_band.add_band / Review3DScene',
+                    owner_approved_geometry=False, independent_backing_verified=False)
+    manifest['source_worktree_dirty'] = bool(subprocess.check_output(
+        ['git', 'status', '--porcelain'], cwd=ROOT, text=True).strip())
+    manifest['source_module_sha256'] = {name: digest(ROOT / name) for name in (
+        'core/effect_engine.py', 'core/snowman_band.py', 'core/native_face_instructions.py',
+        'xlights/xsq_writer.py', 'models/native_review_band.py', 'models/review_3d_scene.py',
+        'tools/prepare_phoneme_show.py', 'tools/native_preview.py')}
+    (output / 'run_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
+    command = [sys.executable, str(ROOT / 'main.py'), '--profile', 'master', '--',
+               '--template', str(seed), '--audio', str(retained), '--layout-file', str(layout),
+               '--output-dir', str(output / 'sequence'), '--single', '--variants', '1',
+               '--no-prompt', '--no-save-settings', '--no-workspace-history', '--no-learning-memory',
+               '--palette-mode', 'warm', '--sync-lyrics-heads']
+    (output / 'sequencer_command.json').write_text(json.dumps(command, indent=2) + '\n')
+    started = time.monotonic()
+    with (output / 'sequencer.log').open('w') as log:
+        result = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=False)
+    manifest['sequencer_seconds'] = time.monotonic() - started
+    manifest['sequencer_exit_code'] = result.returncode
+    manifest['status'] = 'sequence_failed' if result.returncode else 'sequence_generated'
+    (output / 'run_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
+    if result.returncode:
+        raise RuntimeError('Sequencer failed; inspect ' + str(output / 'sequencer.log'))
+    sequences = [p for p in (output / 'sequence').glob('*.xsq') if '.uncolored.' not in p.name]
+    if len(sequences) != 1:
+        raise ValueError('Expected exactly one production sequence, found ' + str(len(sequences)))
+    final = output / 'Phoneme_Test_Hook_Helix.xsq'
+    shutil.copyfile(sequences[0], final)
+    # Relative media must be valid when the complete show is unpacked elsewhere.
+    tree = ET.parse(final)
+    tree.find('head/mediaFile').text = 'media/Phoneme_Test_Hook.mp3'
+    tree.write(final, encoding='utf-8', xml_declaration=True)
+    if abs(float(tree.findtext('head/sequenceDuration')) - duration) > .001:
+        raise ValueError('Generated sequence does not cover original full recording')
+    report = dict(audio_sha256=EXPECTED_SHA256, source_duration_seconds=duration,
+                  independent_backing_verified=False, exact_phoneme_boundaries_verified=False,
+                  source_kind='mixed stereo owner upload', models={},
+                  limitation='Production mixed-bus cues are estimates. Separate non-rest faces do not prove independent vocal parts. Obtain isolated backing/lead sources or validated source separation before release acceptance.')
+    for role in ('LEAD', 'HARMONY'):
+        name = 'HX_SNOW_' + role
+        elements = tree.findall(f'./ElementEffects/Element[@name="{name}"]')
+        effects = [e for el in elements for e in el.iter('Effect')]
+        report['models'][name] = dict(effect_count=len(effects), faces_effect_count=sum(e.get('name') == 'Faces' for e in effects))
+    (output / 'vocal_lane_diagnostic.json').write_text(json.dumps(report, indent=2) + '\n')
+    return final
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--audio', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    args = parser.parse_args()
+    print(prepare(args.audio, args.output))

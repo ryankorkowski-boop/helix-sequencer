@@ -1,0 +1,25 @@
+{
+  "audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "duration_seconds": 34.879979166666665,
+  "baseline_ref": "8c61452713bd06273e94e8607a828c8341ada9f3",
+  "timings_seconds": {
+    "baseline": [
+      0.5297059219999483,
+      0.5750113550000151,
+      0.5428791580000052
+    ],
+    "candidate": [
+      0.4428972529999555,
+      0.45270775699998467,
+      0.4496003329999212
+    ]
+  },
+  "medians_seconds": {
+    "baseline": 0.5428791580000052,
+    "candidate": 0.4496003329999212
+  },
+  "speedup": 1.207470542509808,
+  "exact_feature_and_event_equivalence": true,
+  "source_unchanged": true,
+  "scope": "xsq_writer.analyze only; full production CLI includes harmonic/stem/routing work"
+}

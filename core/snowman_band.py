@@ -190,7 +190,9 @@ def preferred_face_routing(layout_names: list[str]) -> dict[str, Any]:
         preferred_lead = mascot_image[0]
 
     lead_cycle: list[str] = []
-    if mascot_custom:
+    if native_leads:
+        lead_cycle.extend(native_leads)
+    elif mascot_custom:
         lead_cycle.extend([mascot_custom[0], mascot_custom[0]])
     elif mascot_image:
         lead_cycle.append(mascot_image[0])
@@ -777,6 +779,10 @@ def _build_timing_intelligence(
                 "performer": performer,
                 "vocal_role": role,
                 "face_definition": xlights.get("face_definition") or f"{performer}_reaction",
+                # These labels describe generated performer styles, not names
+                # read from imported xLights faceInfo. Do not treat them as an
+                # explicit owner selection at native export.
+                "face_definition_origin": "generated_style_hint",
                 "timing_track": xlights.get("timing_track") or ("part_hit_reaction" if "hit" in role else "face_timing"),
                 "start_ms": int(cue.get("start_ms", 0) or 0),
                 "end_ms": int(cue.get("end_ms", 0) or 0),
@@ -913,6 +919,7 @@ def _build_sequence_face_instructions(
                 "performer": performer,
                 "vocal_role": vocal_role,
                 "face_definition": instruction.get("face_definition", ""),
+                "face_definition_origin": instruction.get("face_definition_origin", "explicit"),
                 "mouth_shape": mouth_shape,
                 "mouth_submodel": instruction.get("mouth_submodel", ""),
                 "phoneme": instruction.get("phoneme", ""),

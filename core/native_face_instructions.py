@@ -12,6 +12,14 @@ def face_template(cue: dict, faces: list[SingingFace], palette: str | None) -> E
         mouth = "REST"
     candidates = [face for face in faces if face.model == target]
     requested = cue.get("face_definition")
+    if cue.get("face_definition_origin") == "generated_style_hint":
+        # Planner style labels are not imported faceInfo names. Bind only an
+        # unambiguous real definition on this same singer. Explicit selections
+        # (including absent names) retain the strict b418efe behavior below.
+        definitions = {face.name for face in candidates}
+        if len(definitions) != 1:
+            return None
+        requested = next(iter(definitions))
     # An explicitly selected definition must never silently animate a different face.
     if requested is not None:
         candidates = [face for face in candidates if face.name == requested]

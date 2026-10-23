@@ -1799,3 +1799,47 @@ Evidence: focused compiler/routing/engine failure/provenance/discovery checks pa
 Limitations/risk: strict missing-mapping behavior can reduce previously decorative body flashes; it does not repair an incomplete face layout or isolate backing from mixed audio. Native frame-level import/artistic verification of this production route remains open. New runtime modules must be included in the rebuilt APK/Windows package. Follow current job status in evidence/jobs_recovery_20261022; do not distribute a prior build as containing this fix. MASTER_TODO and the current handoff retain all other release blockers.
 
 Validation update: the full initial GUI/routing worktree snapshot completed 2,055 passed, 6 inherited skips and 16 subtests in574.98s. It began before the later-added native-source/face-export cases; do not label it a full final-source run. The later51-case focused group and actual second production run cover those changed paths; fresh full/current-source CI remains required. full_gui_snapshot.log and face_export_runtime.json retain the evidence.
+
+## 2026-10-23 — Original Phoneme source recovery, reproducible native production and DSP reuse
+
+Goal: remove the missing-URL/prepared-ZIP dead end and run the complete exact
+owner recording from the current recovery branch. Changed:
+`fixtures/audio`, `tools/phoneme_source.py`, `tools/prepare_phoneme_show.py`,
+`tools/finalize_phoneme_review.py`, Phoneme native workflow, `xsq_writer.analyze`,
+`core/native_face_instructions.py`, `core/snowman_band.py`, focused tests,
+benchmark and `docs/FINAL_RELEASE_EXECUTION_HANDOFF.md`.
+
+Preserved: original MP3 bytes/hash; 48kHz source decoding, onset/beat/pitch/RMS
+values; one default variant and opt-in orchestration; imported model geometry
+and face mappings; strict explicit face selection from b418efe; existing
+instrument algorithms, AC/controller mapping, legal policy and owner release hold.
+New: fixture-backed verified ingestion before expensive install, optional
+redacted authenticated HTTPS override, native show generated from latest source
+without external show ZIP; actual renderer receipt used to collect output;
+generated performer style hints bind only an unambiguous actual faceInfo on
+the same singer. Native lead-cycle omission repaired. No inferred vocal lane
+is relabeled as independently verified. DSP uses one STFT instead of three
+for initial analysis and vectorized pitch selection with exact feature parity.
+
+Evidence: 38 focused source/DSP/native-face/snowman/discovery/routing tests
+passed locally (Python3.12, 5.09s). Original full production run: 34.88s,
+1861 effects, 73.49s wall time; corrected opt-in lyric-sync run pending. Actual
+pinned native xLights FSEQ produced 74643 channels/697 frames/nonzero samples;
+first native 248x442 GUI export rejected by HD gate. Local openbox theme
+configuration is being repaired before retry. No accepted MP4 claimed.
+
+Limitations/deferred: canonical appearance, independent backing-vocal evidence,
+whole-band musical accuracy, full native MP4, Python3.11/3.12 CI, new Windows/
+Android build/install and owner approval remain open. No post-beta features,
+legacy ZIP replacement, merging or public release. Risks: generated face hints
+are now executable only when target has exactly one actual definition; ambiguous
+layouts abstain. DSP equivalence is tested numerically; performance results
+are recorded by the reproducible full-owner-audio benchmark. Follow the new
+execution handoff for exact next commands and source-specific evidence.
+
+Follow-up evidence: corrected whole-recording source run completed in44.30s,
+1893 effects;22 lead and11 harmony native Faces effects. These are estimated
+mix/classifier cues, not independently verified vocal lanes. Full-source DSP
+benchmark confirms identical outputs and0.542879s→0.449600s warmed median
+(1.20747x throughput,17.18% elapsed reduction) for initial analysis only.
+Source dirty-state and module hashes are retained in generated manifests.

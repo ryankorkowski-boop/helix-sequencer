@@ -720,12 +720,18 @@ def analyze(audio_path: Path) -> Audio:
     log(f"SR={sr} duration={dur:.2f}s")
 
     hop = HOP_MS
-    S = np.abs(librosa.stft(y, n_fft=2048, hop_length=hop))**2
+    magnitude = np.abs(librosa.stft(y, n_fft=2048, hop_length=hop))
+    S = magnitude**2
     mel = librosa.feature.melspectrogram(S=S, sr=sr, n_mels=128, fmin=20, fmax=11025)
     mel_db = librosa.power_to_db(mel, ref=np.max)
     times_s = librosa.frames_to_time(np.arange(mel.shape[1]), sr=sr, hop_length=hop)
 
-    onset_env = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop)
+    # onset_strength(y=...) and spectral_centroid(y=...) each decoded this
+    # same frame grid through a fresh STFT. Preserve onset_strength's default
+    # mel bank (different from the display's fmin=20 bank) and dB reference.
+    onset_mel = librosa.feature.melspectrogram(S=S, sr=sr)
+    onset_env = librosa.onset.onset_strength(
+        S=librosa.power_to_db(onset_mel), sr=sr, hop_length=hop)
     onset_frames = librosa.onset.onset_detect(
         onset_envelope=onset_env, sr=sr, hop_length=hop,
         backtrack=False, units="frames",
@@ -746,7 +752,7 @@ def analyze(audio_path: Path) -> Audio:
         except Exception:
             pass
 
-    centroid = librosa.feature.spectral_centroid(y=y, sr=sr, hop_length=hop)[0]
+    centroid = librosa.feature.spectral_centroid(S=magnitude, sr=sr, hop_length=hop)[0]
     rms = librosa.feature.rms(y=y, hop_length=hop)[0]
     rms01 = norm01(rms)
 
@@ -766,11 +772,9 @@ def analyze(audio_path: Path) -> Audio:
             fmax=librosa.note_to_hz("C7")
         )
         pitch_hz = np.full((pitches.shape[1],), np.nan, dtype=float)
-        for t in range(pitches.shape[1]):
-            col = pmags[:, t]
-            i = int(np.argmax(col))
-            p = float(pitches[i, t])
-            pitch_hz[t] = p if p > 0 else np.nan
+        columns = np.arange(pitches.shape[1])
+        selected = pitches[np.argmax(pmags, axis=0), columns]
+        pitch_hz[:] = np.where(selected > 0, selected, np.nan)
     else:
         pitch_hz = np.full((len(times_s),), np.nan, dtype=float)
 

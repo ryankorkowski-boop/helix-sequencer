@@ -2,86 +2,73 @@ name: Phoneme Test Hook native MP4 verification
 on:
   push:
     branches: [codex/eight-hour-recovery-20261019]
-    paths: [.github/workflows/phoneme-test-hook-native.yml]
+    paths: [.github/workflows/phoneme-test-hook-native.yml, 'fixtures/audio/**', tools/phoneme_source.py, tools/prepare_phoneme_show.py, tools/finalize_phoneme_review.py, tools/native_preview.py, 'core/**', 'xlights/**', 'models/**']
   workflow_dispatch:
     inputs:
       audio_url:
-        description: HTTPS direct download of the original Phoneme Test Hook MP3
-        required: true
-        type: string
-      show_zip_url:
-        description: HTTPS direct download of the matching prepared xLights show ZIP (including XSQ and layout)
-        required: true
-        type: string
-      xsq_path:
-        description: Relative path to the actual sequence XSQ inside the show ZIP
-        required: true
+        description: Optional HTTPS override; default is the retained hash-verified owner recording
+        required: false
         type: string
 permissions:
   contents: read
+concurrency:
+  group: phoneme-native-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   render:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
-      EXPECTED_AUDIO_SHA256: 19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938
-      AUDIO_URL: ${{ inputs.audio_url }}
-      SHOW_URL: ${{ inputs.show_zip_url }}
-      XSQ_PATH: ${{ inputs.xsq_path }}
+      HELIX_PHONEME_AUDIO_URL: ${{ inputs.audio_url }}
+      HELIX_PHONEME_AUDIO_TOKEN: ${{ secrets.HELIX_PHONEME_AUDIO_TOKEN }}
+      HELIX_NATIVE_PREVIEW_WIDTH: '1280'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '720'
+      XL_NO_GPU_COMPUTE: '1'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
     steps:
       - uses: actions/checkout@v4
-      - name: Require real render input URLs before attempting preview
-        run: |
-          if [ -z "$AUDIO_URL" ] || [ -z "$SHOW_URL" ] || [ -z "$XSQ_PATH" ]; then
-            echo '::error::Native preview requires original audio URL, matching prepared xLights show ZIP URL and XSQ path. GitHub run is blocked; no placeholder output is permitted.'
-            exit 1
-          fi
-      - name: Install renderer and verification dependencies
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Resolve and verify original source before dependency installation
+        run: python -m tools.phoneme_source phoneme-work/input
+      - name: Install DSP and native GUI dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y ffmpeg xvfb xauth openbox xlights
-          python -m pip install numpy zstandard pytest
-      - name: Retrieve exact source and matching prepared show
+          sudo apt-get install -y ffmpeg xvfb xauth openbox x11-utils x11-xserver-utils wmctrl xdotool libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest
+      - name: Validate source ingestion, DSP equivalence and strict native faces
+        run: python -m pytest tests/test_phoneme_source.py tests/test_audio_analysis_reuse.py tests/test_native_face_instructions.py -q
+      - name: Prepare complete show from current Helix source
+        run: python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show
+      - name: Install checksum-pinned xLights renderer
         run: |
-          python - <<'PY'
-          import hashlib, os, pathlib, urllib.parse, urllib.request, zipfile
-          for key in ("AUDIO_URL", "SHOW_URL"):
-              url = urllib.parse.urlparse(os.environ[key])
-              if url.scheme != "https" or not url.hostname:
-                  raise SystemExit(key + " must be a real HTTPS download URL")
-          root = pathlib.Path("phoneme-show")
-          root.mkdir()
-          for key, dest in (("AUDIO_URL", pathlib.Path("phoneme.mp3")), ("SHOW_URL", pathlib.Path("show.zip"))):
-              with urllib.request.urlopen(os.environ[key], timeout=120) as source, dest.open("wb") as target:
-                  import shutil
-                  shutil.copyfileobj(source, target)
-          digest = hashlib.sha256(pathlib.Path("phoneme.mp3").read_bytes()).hexdigest()
-          if digest != os.environ["EXPECTED_AUDIO_SHA256"]:
-              raise SystemExit("Original Phoneme Test Hook audio SHA256 mismatch")
-          with zipfile.ZipFile("show.zip") as z:
-              for member in z.infolist():
-                  destination = (root / member.filename).resolve()
-                  if not destination.is_relative_to(root.resolve()):
-                      raise SystemExit("Unsafe ZIP path")
-              z.extractall(root)
-          xsq = pathlib.Path(os.environ["XSQ_PATH"])
-          if xsq.is_absolute() or ".." in xsq.parts or not (root / xsq).is_file():
-              raise SystemExit("Matching prepared XSQ not found")
-          print("Verified original audio and prepared show:", digest)
-          PY
-      - name: Native xLights MP4 export
+          mkdir -p "$RUNNER_TEMP/phoneme-xlights"
+          cd "$RUNNER_TEMP/phoneme-xlights"
+          curl -fLsS --retry 3 -o xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xLights.AppImage' | sha256sum -c -
+          chmod +x xLights.AppImage
+          ./xLights.AppImage --appimage-extract >/dev/null
+          ldd squashfs-root/usr/bin/xLights | tee "$GITHUB_WORKSPACE/phoneme-work/native-runtime.log"
+          if grep -q 'not found' "$GITHUB_WORKSPACE/phoneme-work/native-runtime.log"; then exit 1; fi
+          echo "PHONEME_XLIGHTS=$RUNNER_TEMP/phoneme-xlights/squashfs-root/AppRun" >> "$GITHUB_ENV"
+      - name: Native xLights FSEQ and original-soundtrack MP4
         run: |
-          xvfb-run -a python -m tools.native_preview phoneme-show --xsq "phoneme-show/$XSQ_PATH" --audio phoneme.mp3
-      - name: Require genuine native video and full decode
-        run: |
-          test -s phoneme-show/preview.mp4
-          ffmpeg -v error -xerror -i phoneme-show/preview.mp4 -f null -
-          ffprobe -v error -show_entries format=duration -of default=nw=1 phoneme-show/preview.mp4
-      - uses: actions/upload-artifact@v4
+          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >phoneme-work/openbox.log 2>&1 & exec python -m tools.native_preview phoneme-work/show --xsq phoneme-work/show/Phoneme_Test_Hook_Helix.xsq --audio phoneme-work/show/media/Phoneme_Test_Hook.mp3 --xlights "$PHONEME_XLIGHTS"'
+      - name: Fully decode and collect actual native movie from render receipt
         if: always()
+        run: |
+          if [ -f phoneme-work/show/run_manifest.json ]; then
+            python -m tools.finalize_phoneme_review phoneme-work/show
+          else
+            echo '::error::Show preparation failed; see source_ingestion.json and sequencer.log in diagnostics artifact'
+            exit 1
+          fi
+      - name: Preserve editable sequence, native media and actionable diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: phoneme-test-hook-native-review-${{ github.sha }}
-          path: |
-            phoneme-show/preview.mp4
-            phoneme-show/**/native_preview*.json
-          if-no-files-found: warn
+          path: phoneme-work/
+          if-no-files-found: error

@@ -40,3 +40,17 @@ def test_explicit_face_definition_never_falls_back_to_another_mouth():
     assert "FaceDefinition=Lead face," in template.settings
     cue["face_definition"] = "Nonexistent face"
     assert face_template(cue, [lead, harmony], None) is None
+
+
+def test_generated_style_hint_binds_only_one_real_definition_on_same_singer():
+    face = SingingFace('HX_SNOW_HARMONY', 'Helix independent phonemes', 'NodeRange', {'Mouth-AI': '1-3'}, 'layout')
+    cue = {'target_model': face.model, 'mouth_shape': 'mouth_A',
+           'face_definition': 'helixville4_harmony_singer_full',
+           'face_definition_origin': 'generated_style_hint'}
+    template = face_template(cue, [face], None)
+    assert template is not None
+    assert 'FaceDefinition=Helix independent phonemes,' in template.settings
+    assert face_template({**cue, 'target_model': 'HX_SNOW_LEAD'}, [face], None) is None
+    alternative = SingingFace(face.model, 'Other face', face.type, face.mappings, face.source)
+    assert face_template(cue, [face, alternative], None) is None
+    assert face_template({**cue, 'face_definition_origin': 'explicit'}, [face], None) is None
