@@ -6,8 +6,13 @@ from pathlib import Path
 def test_visual_receipt_is_valid_json_and_blocks_legacy_cast():
     source = Path(__file__).resolve().parents[1] / "tools" / "prepare_phoneme_show.py"
     text = source.read_text()
-    assert "canonical_solid_3d_band': False" in text
-    assert "owner_vocal_animation_review': 'passed_in_prior_video'" in text
+    from models.canonical_native_band import visual_identity
+    identity = visual_identity()
+    assert identity['canonical_solid_3d_band'] is False
+    assert identity['canonical_surface_geometry'] is True
+    assert identity['owner_vocal_animation_review'] == 'passed_in_prior_video'
+    assert identity['owner_canonical_visual_review'] == 'pending_new_render'
+    assert 'from models.native_review_band import add_band' not in text
     assert "json.dumps(manifest['visual_identity'], indent=2)" in text
 
 

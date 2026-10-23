@@ -1,3 +1,24 @@
+## 2026-10-23 — Shared-analysis twelve-layout native production checkpoint
+
+Goal: deliver genuine full-song native review media and preserve failed artistic gates.
+Changed: canonical native geometry/export, source musician cue adapter,12-layout
+generator, collection builder/renderer/verification/packager, focused regressions
+and final bundle handoff. Preserved exact audio/vocal cache, original source
+drummer, six performer identities, historical layouts/AC exports and release hold.
+New: retained production string/key/arm clocks bind to native parts; static idle
+complements are nonmusical; out-of-range notes are counted; parent rows retained;
+88-rung helix, physically separate AC16/64/256 circuits, distinct native optical/
+perspective/house/large-garden layouts. Two-pose arms are not continuous meshes.
+Evidence:36 focused tests pass,1 native receipt skip. Prior diagnostic native
+1280x720/20fps movies decoded but failed unchanged readability/motion thresholds;
+final collection rendering and full pytest are IN PROGRESS. No success inferred.
+Limitations/deferred: planar source-art drummer, source-separation identity and
+contact correctness unverified, no actual geometric helix rotation, Windows/
+Android latest candidate not yet validated. No beta merge/publication. Regression
+risks: source detector confidence, stage framing, native channel allocation and
+readability must be inspected on actual rendered output. See
+docs/FINAL_BETA_APPROVAL_BUNDLE_HANDOFF.md for exact commands and checkpoints.
+
 ## 2026-10-18 — Correct stale hi-hat drum-stick regression assertions
 
 Observed CI: PR #180 run 39192406726 (Python 3.11 full audit)
@@ -2033,3 +2054,24 @@ instrument/singer behavior. Never substitute schematic or old footage.
 Package only that matching final show and verified movie, diagnostics and checksums.
 
 Release remains BLOCKED. No merge, release tag or public beta was performed.
+## 2026-10-23 — Canonical solid-scene native approval bundle integration
+
+Goal: repair the active Phoneme show builder's Review3DScene/FinalBandScene mismatch.
+Files: models/canonical_native_band.py, models/final_band_native.py,
+tools/prepare_phoneme_show.py, tests/test_canonical_native_band.py,
+tests/test_phoneme_visual_acceptance.py and docs/FINAL_BETA_APPROVAL_BUNDLE_HANDOFF.md.
+Preserved: exact original audio, retained source-separated vocal clocks/export,
+stable six model identities, original drummer source grid/component/shoulder art,
+historical standalone/AC models, optional legacy xylophonist, release hold.
+New behavior: active builder exports solid-scene surface samples with native
+faceInfo aliases and restrained .42-scale mouth apertures, no seventh performer.
+Native limitations remain explicit: original drummer is planar source artwork;
+stationary addressable pixels are not continuously moving solid meshes. Owner
+vocal animation approval is preserved separately from pending new visual review.
+Evidence: current HEAD verified29f0fcae; original audio hash verified; first source
+run failed duplicate REST editable-row gate and adapter fixed aliases before retry.
+Focused tests/native render/frame inspection remain IN PROGRESS, not complete.
+Deferred: post-beta improvements; Windows/Android work follows primary MP4.
+Risks: native camera framing, source-kit alias routing and body/mouth readability
+require actual rendered inspection. Full12-layout bundle not yet generated.
+

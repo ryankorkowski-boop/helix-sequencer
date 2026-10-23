@@ -42,7 +42,7 @@ class SurfaceParts:
         self.add(part, points, color)
 
 
-def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_amphitheatre'):
+def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_amphitheatre', include_stage=True, mouth_scale=1.0):
     scene = FinalBandScene(stage, rock=rock)
     # Import all original canonical submodels; only this copy's world placement
     # changes. The existing physical kit and channel identities stay intact.
@@ -91,8 +91,18 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
             for i in tuple(rig['ids'])+tuple(rig.get('mallet_ids',())):
                 parts.primitive('ARM_'+side+'_IDLE', scene.instances[i])
             if role != 'xylophone':
-                for i in rig['ids']:
-                    parts.primitive('ARM_'+side+'_ACTIVE', scene.instances[i])
+                # Two genuine addressable light poses on the same authored
+                # shoulder and fixed link lengths; do not duplicate IDLE.
+                shoulder = rig['shoulder']
+                hand = rig['hand'] + np.array((0, -.12 if role == 'piano' else -.18, .06))
+                lengths = rig.get('link_lengths', (.8, .78))
+                elbow = elbow_3d(shoulder, hand, *lengths,
+                    (-.8 if side in ('LEFT','PLUCK','STRUM') else .8, -.2, .8))
+                for a,b in ((shoulder,elbow),(elbow,hand)):
+                    parts.primitive('ARM_'+side+'_ACTIVE',dict(kind='cylinder',
+                        matrix=line_matrix(a,b,.045),color=np.array((.72,.57,.40))))
+                parts.primitive('ARM_'+side+'_ACTIVE',dict(kind='sphere',
+                    matrix=matrix(hand,(.10,.075,.08)),color=np.array((.82,.90,.94))))
                 continue
             for pitch, center in scene.bars.items():
                 tip = center+(0,.0275+.057,0); hand = tip+(0,.2598076211,-.15)
@@ -108,6 +118,7 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
         if role in ('lead','harmony'):
             center = scene.expressive_mouths[role]['center']
             for shape, (width,height) in MOUTH_SIZES.items():
+                width, height = width * mouth_scale, height * mouth_scale
                 # Opaque aperture is a video feature; native open mouths expose
                 # filled lips/tongue and keep their nodes separate from BODY.
                 for component, offset, scale, color in (
@@ -135,13 +146,17 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
         dynamic = set().union(*(set(v) for k,v in model.submodels.items()
                                if k.startswith(('MOUTH_','NOTE_MIDI_','STRING_','ARM_'))))
         model.submodels['BODY'] = sorted(set(model.submodels.get('BODY', ())) - dynamic)
+        for name,nodes in list(model.submodels.items()):
+            if name.startswith('ARM_') and name.endswith('_IDLE'):
+                model.submodels[name] = sorted(set(nodes)-set(model.submodels.get(name.removesuffix('_IDLE')+'_ACTIVE',())))
     x,y,z = position
-    for side in (-1,1):
+    for side in (-1,1) if include_stage else ():
         garden.poly(prefix+f'_STAGE_PORTAL_{side}',
             [(x+side*48,y,z-25),(x+side*48,y+35,z-25),(x,y+43,z-25)],
             180,prefix,'stage portal', '#C09862' if not rock else '#9077BB')
-    garden.poly(prefix+'_STAGE_APRON',[(x-48,y,z+25),(x+48,y,z+25)],
-        150,prefix,'clear front-stage sightline','#C09862' if not rock else '#9077BB')
+    if include_stage:
+        garden.poly(prefix+'_STAGE_APRON',[(x-48,y,z+25),(x+48,y,z+25)],
+            150,prefix,'clear front-stage sightline','#C09862' if not rock else '#9077BB')
     return dict(prefix=prefix, position=list(position), stage=stage,
         style='solid rock' if rock else 'solid snow', performers=6,
         unified_pitched_performer=True, continuous_mesh_motion=False,

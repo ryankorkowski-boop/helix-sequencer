@@ -22,9 +22,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def prepare(audio: Path, output: Path) -> Path:
     import soundfile as sf
-    from models.native_review_band import add_band, allocate
+    from models.canonical_native_band import add_band, visual_identity
     from models.ultimate_showcase import Garden
-    from tools.native_source_pose_band import select_cast, stage_native_cast
+    from tools.native_source_pose_band import stage_native_cast
     from tools.build_snowman_ensemble import NativeSequence
     from tools.build_helpers.ultimate_showcase import write_layout
 
@@ -36,11 +36,8 @@ def prepare(audio: Path, output: Path) -> Path:
     duration = sf.info(audio).duration
     garden = Garden(title='Helix Phoneme Test Hook diagnostic candidate', slug='Phoneme_Test_Hook')
     add_band(garden)
-    garden.models = select_cast(garden.models)
     stage_native_cast(garden.models)
-    allocate(garden)
     for model in garden.models:
-        model.attrs.update(PixelSize='12', Antialias='1', BlackTransparency='100')
         if model.details['review_role'] in {'lead', 'harmony'}:
             model.attrs['HelixPhonemeOwnership'] = 'exclusive'
     from tools.phoneme_vocal_export import static_materials
@@ -62,26 +59,19 @@ def prepare(audio: Path, output: Path) -> Path:
     manifest = dict(schema='helix.run_manifest.v1', status='in_progress', warnings=[],
                     source_commit=commit, audio_sha256=EXPECTED_SHA256,
                     source_duration_seconds=duration, visual_review_status='not_reviewed',
-                    geometry_source='models.native_review_band.add_band / Review3DScene',
+                    geometry_source='models.final_band_scene.FinalBandScene / canonical_native_band',
                     owner_approved_geometry=False, independent_backing_verified=False)
     # The retained native-review cast is not the owner's approved solid 3D
     # snowman scene. Record this explicitly so a passing native video or
     # successful harmony mouth test cannot be mistaken for visual approval.
-    manifest['visual_identity'] = {
-        'renderer': 'native_review_band',
-        'canonical_solid_3d_band': False,
-        'owner_vocal_animation_review': 'passed_in_prior_video',
-        'owner_canonical_visual_review': 'rejected_in_prior_video',
-        'required_geometry_source': 'models.final_band_scene.FinalBandScene',
-        'next_action': 'Integrate approved solid scene into native show without altering vocal cues',
-    }
+    manifest['visual_identity'] = visual_identity()
     (output / 'VISUAL_ACCEPTANCE.json').write_text(
         json.dumps(manifest['visual_identity'], indent=2) + '\n')
     manifest['source_worktree_dirty'] = bool(subprocess.check_output(
         ['git', 'status', '--porcelain'], cwd=ROOT, text=True).strip())
     manifest['source_module_sha256'] = {name: digest(ROOT / name) for name in (
         'core/effect_engine.py', 'core/snowman_band.py', 'core/native_face_instructions.py',
-        'xlights/xsq_writer.py', 'models/native_review_band.py', 'models/review_3d_scene.py',
+        'xlights/xsq_writer.py', 'models/canonical_native_band.py', 'models/final_band_scene.py', 'models/final_band_native.py',
         'tools/prepare_phoneme_show.py', 'tools/native_preview.py', 'tools/phoneme_vocal_export.py',
         'tools/native_source_pose_band.py', 'xlights/xml_io.py',
         'fixtures/audio/phoneme_vocal_separation/diagnostic.json',
@@ -110,6 +100,14 @@ def prepare(audio: Path, output: Path) -> Path:
     # Relative media must be valid when the complete show is unpacked elsewhere.
     tree = ET.parse(final)
     tree.find('head/mediaFile').text = 'media/Phoneme_Test_Hook.mp3'
+    from tools.canonical_band_cues import export_instruments
+    plans = list((output / 'sequence').glob('*.snowman_band.json'))
+    if len(plans) != 1:
+        raise ValueError('Expected one retained production band plan')
+    instrument_report = export_instruments(tree.getroot(), garden, json.loads(plans[0].read_text()))
+    from tools.canonical_band_cues import refresh_models
+    refresh_models(garden, layout)
+    (output / 'instrument_export.json').write_text(json.dumps(instrument_report, indent=2) + '\n')
     from tools.phoneme_vocal_export import export as export_vocal_estimates
     separated = export_vocal_estimates(tree.getroot(), layout, garden)
     (output / 'source_separated_vocal_export.json').write_text(json.dumps(separated, indent=2) + '\n')
