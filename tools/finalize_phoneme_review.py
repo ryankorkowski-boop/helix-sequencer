@@ -49,6 +49,17 @@ def finalize(show: Path) -> dict:
         shutil.copyfile(video, target)
         report.update(native_video_verified=True, video=target.name,
                       audio_sha256=EXPECTED_SHA256, native_report=native)
+        visual_path = show / 'VISUAL_ACCEPTANCE.json'
+        if visual_path.is_file():
+            visual = json.loads(visual_path.read_text())
+            report['visual_identity'] = visual
+            if not visual.get('canonical_solid_3d_band', False):
+                report['blockers'].append(
+                    'Native review cast is not the owner-approved solid 3D snowman band; '
+                    'retain working singer cues and restore canonical FinalBandScene geometry')
+        else:
+            report['blockers'].append(
+                'Missing canonical visual identity evidence; native video alone is not visual acceptance')
         vocal = json.loads((show / 'vocal_lane_diagnostic.json').read_text())
         if not vocal.get('independent_backing_verified'):
             report['blockers'].append('Independent backing vocals not established from mixed stereo source')
