@@ -77,7 +77,7 @@ def ac_circuits(g, factor):
         q.attrs['CustomModelCompressed']=';'.join(','.join([str(c)]+e.split(',')[1:]) for e,c in zip(entries,assigned))
         q.kind='ac';q.details.update(circuit_count=factor,point_circuits=assigned.tolist(),physical_wiring_verified=False)
         q.attrs['StringType']=('Single Color Red','Single Color Green','Single Color White')[i%3]
-        q.attrs['PixelSize']='10'
+        q.attrs['PixelSize']='12'
         q.submodels={f'CIRCUIT_{n:02}':[n] for n in range(1,factor+1)}
         g.models[i]=q
 

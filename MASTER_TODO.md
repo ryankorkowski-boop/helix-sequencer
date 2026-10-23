@@ -1,3 +1,53 @@
+## 2026-10-23 — Complete native movie inventory and separate solid visualization
+
+Goal: deliver the full playable inventory while preserving native/GL provenance
+and remaining approval failures. All12 genuine native xLights movies and three
+synchronized comparisons now exist; native band close-up and instrument/vocal
+feature bring the native-derived inventory to17 MP4s. Six-panel3840x1440,
+twelve-panel3840x2160 and integration3840x720 use one original soundtrack.
+A separate FinalBandScene solid OpenGL companion has been generated from the
+same retained source cues/vocal clocks and is explicitly NOT native xLights.
+It uses original canonical drummer art, fixed-link musician/key plans and
+restrained mouths. Unlocalized toms are omitted; cymbal side/hand routing are
+visual staging assumptions, not source ground truth. Actual frames inspected.
+New presentation finisher applies an explicit endpoint-preserving gamma2.2
+curve to native footage, then fully decodes/rechecks the final files; before
+grade failures are retained. AC preview pixels12 instead of10 improve readable
+bulb visualization without changing16/64/256 hardware channels, timing or audio.
+Evidence:2106 full-suite passes,6 skips,24 subtests at implementation2ba32e8;
+36 focused passes,1 receipt-dependent skip; final4 collection/visual tests pass.
+Final post-grade verification and persistent artifact saving remain IN PROGRESS.
+No complete-release claim: AC256 still lacks dedicated spinner/face circuit
+props; native contact/drum localization, geometric helix rotation, physical
+hardware, platform gates and owner visual approval remain open. All previous
+failures/roadmap requirements remain in the ledger; no public beta or merge.
+Changed additionally: final-approval-collection.yml, render_canonical_solid_candidate.py,
+finish_approval_presentation.py, native AC preview sizing and final handoff.
+
+## 2026-10-23 — Native band passes unchanged QA; full local suite passes
+
+Implementation checkpoint2ba32e83872819a528dc830fa0e8cb1a0c56ba05 is pushed
+to the requested recovery branch; PR188 remains draft/unmerged. Full local
+Python3.12 pytest:2106 passed,6 existing skips,24 subtests,259.47s. Focused
+checks:36 passed,1 receipt-dependent skip. CPU torch installed after initial
+collection correctly failed for missing dependency; no tests weakened.
+Fresh canonical native stage movie at1280x720/20fps/full34.88s passed unchanged
+luma, motion, foreground extent and full-decode/audio checks: median luma14.648,
+motion1.014, visible width.812/height.811, soundtrack correlation.996824804.
+Actual frame inspected: all six surface-sampled snowmen, purple backup, source
+drummer artwork, literal strings/keys and genuine native stage portals. This
+is a native surface/two-pose candidate, NOT exact continuous solid mesh output
+or owner-approved artwork. AC/house movies still fail global luma gates despite
+source-only highlights and nonmusical idle complements; failures remain explicit.
+All12 collection rendering/comparison packaging IN PROGRESS at delivery-bright/.
+New final-approval-collection.yml reuses the proven pinned renderer workflow and
+adds12-layout build/render/package artifacts; no merge/public beta step exists.
+Historical outputs remain unchanged. Current Windows/Android builds queued at
+2ba32e8; compliance and desktop GUI evidence checks already reported success.
+Remaining: inspect complete native collection, fix outstanding brightness/art
+gates, save actual bundle/comparisons, inspect latest platform receipts and
+obtain owner visual approval. See final bundle handoff.
+
 ## 2026-10-23 — Shared-analysis twelve-layout native production checkpoint
 
 Goal: deliver genuine full-song native review media and preserve failed artistic gates.

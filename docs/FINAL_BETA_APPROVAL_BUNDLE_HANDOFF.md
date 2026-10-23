@@ -48,3 +48,21 @@ python -m tools.build_approval_collection /absolute/prepared-show /absolute/fres
 python -m tools.render_approval_collection /absolute/fresh-layouts /absolute/output --xlights /absolute/patched/xLights
 ```
 Run Xvfb/openbox and renderer in the same execution namespace.
+
+## Verified band checkpoint
+
+- COMPLETE — pushed implementation2ba32e83872819a528dc830fa0e8cb1a0c56ba05.
+- COMPLETE — full local Python3.12:2106 passed,6 skips,24 subtests in259.47s. Initial missing-torch collection error repaired by installing CPU dependency, no test exclusions.
+- COMPLETE — canonical native band movie7 passed unchanged readability/motion gate: luma14.648, motion1.014, extent.812×.811. Soundtrack correlation.996824804, complete34.88s H264/AAC720p20fps decode. Actual frame inspected; six members and purple harmony visible. Native samples/two-pose limits remain.
+- IN PROGRESS — bright native collection under approval-layouts-bright/, output delivery-bright/, log render-bright.log. Earlier obsolete collection was interrupted and must not be delivered as current.
+- BLOCKED — simpler layouts still fail unchanged global luma gate. Do not call bundle complete.
+- IN PROGRESS — source-specific Windows40007465634 and Android40007465179 queued; compliance40007465091 and GUI evidence40007465082 success at2ba32e8.
+- New workflow final-approval-collection.yml saves complete zipped candidate plus explicit technical/owner gates without publishing beta.
+
+## Full movie inventory and solid companion
+
+- COMPLETE —12 native individual movies,6-panel3840x1440,12-panel3840x2160,3-panel band integration3840x720, native close-up and verification feature:17 native-derived MP4s. Original full soundtrack correlation and complete decode measured.
+- COMPLETE — separate1280x72020fps FinalBandScene solid OpenGL visualization, clearly captioned non-native. Same retained vocal clocks/production plan; original planar drummer, unresolved toms omitted and cymbal/hand staging unverified.
+- IN PROGRESS — explicit gamma2.2 presentation curve and final-file revalidation; prior failures retained. Source AC preview bulbs12px, actual channel budgets unchanged.
+- BLOCKED —AC256 lacks dedicated spinner/singing-face circuit props; native drum localization/contact, exact solid native equivalence, geometric helix rotation, current platform/hardware validation and owner visual approval remain.
+- Do not label the bundle release-complete even if final file acceptance passes. It contains a real full inventory plus an explicit incompleteness report.
