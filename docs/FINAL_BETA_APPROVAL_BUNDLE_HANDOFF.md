@@ -74,3 +74,14 @@ Run Xvfb/openbox and renderer in the same execution namespace.
 - Corrected source body idle ownership so kit events can flash independently. Unresolved toms, source cymbal side and snare hands remain honest uncertainty.
 - COMPLETE —Windows40009240809 at4cdd069 passed packaged engine/GUI/native-FSEQ checks; current final code still requires source-specific CI. Android pending.
 - Final delivery after rendering: run finish_approval_presentation, inspect18 final MP4s, verify ZIP checksums, save ZIP + featured videos persistently, then append download identifiers/results here.
+
+## Final media validation COMPLETE
+
+- COMPLETE —18 MP4s all fully decoded; every final readability/motion/foreground gate passes. All videos34.900s/20fps with the complete original34.88s soundtrack, minimum correlation0.996824804. Native individuals720p; comparison outputs3840x1440,3840x2160,3840x720.
+- COMPLETE —source vocals preserved exactly versus prior successful29f0fca artifact:476 lead and494 harmony Faces events including clocks/settings/source fingerprints.
+- COMPLETE —native channel proof verifies256 AC channels, spinner/two mouth banks, and all six varying band models.
+- COMPLETE —2107 full tests,6 skips,24 subtests;39 final focused checks,1 receipt skip.
+- COMPLETE —Windows7c1a248 build40010798813, packaged GUI/engine/nativeFSEQ passed. API30 Android passed; API36 pending. Release key/installed historical-key upgrade remains unverified.
+- Final bundle: /workspace/scratch/b503538b9f0a/delivery-bright/Helix_Final_Beta_Approval_Bundle.zip. Featured videos in03_Band_Features; comparisons in02_Comparison_Videos. Final Native_Channel_Activity_Proof, Vocal_Compatibility_Proof, Instrument_Verification and complete test logs are included.
+- Native geometric limits, unresolved tom localization, cymbal/snare staging assumptions, AC-band hardware equivalence, helix rotation, actual device/signing and owner visual approval remain explicit release blockers.
+- No beta release orPR188 merge performed.

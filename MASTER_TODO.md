@@ -1,3 +1,35 @@
+## 2026-10-23 — Verified eighteen-movie review inventory
+
+COMPLETE —18 actual final MP4s:12 native xLights individual layouts,6- and
+12-layout comparisons,3-way band integration, native close-up/verification
+feature and separately labeled solid OpenGL visualization. All final H264/AAC
+streams fully decode at1280x720 minimum,20fps,34.900s video with the full
+34.88s original soundtrack; minimum zero-lag soundtrack correlation.996824804.
+All18 pass unchanged luma/motion/foreground-extent gates. AC256 spinner/faces
+are present in actual native channels:256 total, both source-bound mouth
+banks active. All six band members have actual nonzero varying native FSEQ
+channels.476 lead and494 harmony Faces events/settings/source fingerprints
+are IDENTICAL to the retained prior successful29f0fca native result.
+Final full local suite:2107 passed,6 expected skips,24 subtests,263.03s. Final
+focused suite after atomic comparison/export repair:39 passed,1 receipt skip.
+Gamma2.2 native presentation,2.6 for sparseAC256, preserves black/highlight
+endpoints, geometry, source clocks/audio; comparisons rebuilt from final graded
+panels. Partial/corrupt comparison export was rejected before delivery; unique
+atomic paths, actual stream probes, resumable hash-bound grade receipts and
+optional-label source enumeration now protect the finishing pass. No test
+threshold weakened. Native and OpenGL renderer identities remain explicit.
+Windows7c1a248 run40010798813 passed packaged GUI/engine/nativeFSEQ checks.
+Android7c1a248 API30 passed real emulator offline/install/launch tests; API36
+still active at last inspection. No established release keystore is provided
+in the workflow; unsigned release is not installable, historical-key upgrades
+remain unverified. Save only the actually tested signed debug APK for review.
+Remaining BLOCKED: owner visual approval, unresolved tom localization/native
+contact/hardware review, native continuous-mesh equivalence/AC-band hardware
+proof, geometric helix rotation and final signing/device/release gates. Native
+surface samples are not exact solid meshes; the separate solid companion is
+clearly labeled. No merge ofPR188 or public beta/tag. Final artifact verification
+and durable saving are IN PROGRESS, with paths/checksums recorded in the handoff.
+
 ## 2026-10-23 — Last source-routing and AC coverage repairs
 
 Goal: repair the last known approval-media implementation defects before

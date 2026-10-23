@@ -59,3 +59,37 @@ def test_real_drum_classes_do_not_collapse_to_one_tom_or_hihat_sticks():
     assert any(e.get('sourceStartMs')=='103' and e.get('sourceComponent').endswith('KICK_SURFACE') for e in actual)
     assert any(e.get('sourceStartMs')=='301' and e.get('sourceComponent').endswith('HI_HAT_FOOT') for e in actual)
     assert not any('HI_HAT' in e.get('sourceComponent','') and 'STICK' in e.get('sourceComponent','') for e in actual)
+
+
+def test_comparison_optional_labels_keep_all_streams_and_one_soundtrack(tmp_path, monkeypatch):
+    import tools.render_approval_collection as collection
+    captured=[]
+    def produce(args):
+        captured.extend(args)
+        from pathlib import Path
+        Path(args[-1]).write_bytes(b'completed comparison')
+    monkeypatch.setattr(collection,'command',produce)
+    monkeypatch.setattr(collection,'probe_media',lambda *args:{'streams':[]})
+    target=tmp_path/'comparison.mp4'
+    collection.comparison([tmp_path/'a.mp4',tmp_path/'b.mp4'],[],target,tmp_path/'source.mp3',2,1)
+    graph=captured[captured.index('-filter_complex')+1]
+    assert '[0:v]setpts=PTS-STARTPTS' in graph
+    assert '[1:v]setpts=PTS-STARTPTS' in graph
+    assert '2:a:0' in captured
+    assert target.read_bytes()==b'completed comparison'
+    assert not list(tmp_path.glob('.comparison-*'))
+
+
+def test_failed_comparison_preserves_existing_movie_and_removes_partial(tmp_path, monkeypatch):
+    import tools.render_approval_collection as collection
+    import pytest
+    def fail(args):
+        from pathlib import Path
+        Path(args[-1]).write_bytes(b'partial')
+        raise RuntimeError('encoder rejected input')
+    monkeypatch.setattr(collection,'command',fail)
+    target=tmp_path/'comparison.mp4';target.write_bytes(b'previous verified movie')
+    with pytest.raises(RuntimeError,match='encoder rejected'):
+        collection.comparison([tmp_path/'a.mp4',tmp_path/'b.mp4'],[],target,tmp_path/'source.mp3',2,1)
+    assert target.read_bytes()==b'previous verified movie'
+    assert not list(tmp_path.glob('.comparison-*'))

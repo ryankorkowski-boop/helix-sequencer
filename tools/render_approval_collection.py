@@ -6,6 +6,7 @@ import math
 from pathlib import Path
 import shutil
 import subprocess
+import uuid
 import xml.etree.ElementTree as ET
 import numpy as np
 from tools.native_preview import preview_run, probe_media
@@ -55,14 +56,20 @@ def comparison(paths,labels,target,audio,cols,rows):
     for path in paths:args+=['-i',str(path)]
     args+=['-i',str(audio)]
     filters=[]
-    for i,title in enumerate(labels):
+    for i,path in enumerate(paths):
         filters.append(f'[{i}:v]setpts=PTS-STARTPTS,scale={width}:{height}:force_original_aspect_ratio=decrease,pad={width}:{height}:(ow-iw)/2:(oh-ih)/2:black[p{i}]')
     positions='|'.join(f'{(i%cols)*width}_{(i//cols)*height}' for i in range(len(paths)))
     filters.append(''.join(f'[p{i}]' for i in range(len(paths)))+f'xstack=inputs={len(paths)}:layout={positions}:fill=black[v]')
+    temporary=target.with_name('.comparison-'+uuid.uuid4().hex+'.mp4')
     args+=['-filter_complex',';'.join(filters),'-map','[v]','-map',f'{len(paths)}:a:0',
            '-t','34.88','-c:v','libx264','-preset','fast','-crf','20','-threads','4',
-           '-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',str(target)]
-    command(args)
+           '-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',str(temporary)]
+    try:
+        command(args)
+        probe_media(temporary,'ffprobe')
+        temporary.replace(target)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def render(layouts,output,xlights, *, source_commit=None):

@@ -1,7 +1,7 @@
 name: Final native twelve-layout approval collection
 on:
   pull_request:
-    paths: [.github/workflows/final-approval-collection.yml, tools/build_approval_collection.py, tools/render_approval_collection.py, tools/canonical_band_cues.py, models/approval_layouts.py, models/canonical_native_band.py, models/final_band_native.py]
+    paths: [.github/workflows/final-approval-collection.yml, tools/build_approval_collection.py, tools/render_approval_collection.py, tools/canonical_band_cues.py, tools/finish_approval_presentation.py, tools/render_canonical_solid_candidate.py, models/approval_layouts.py, models/canonical_native_band.py, models/final_band_native.py]
   workflow_dispatch:
     inputs:
       audio_url:

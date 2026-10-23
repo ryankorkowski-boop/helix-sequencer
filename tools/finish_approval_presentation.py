@@ -8,7 +8,8 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
-from tools.render_approval_collection import verify
+import uuid
+from tools.render_approval_collection import verify, comparison
 from tools.phoneme_source import digest
 
 CURVE="lutrgb=r='255*pow(val/255,0.4545454545)':g='255*pow(val/255,0.4545454545)':b='255*pow(val/255,0.4545454545)'"
@@ -18,21 +19,64 @@ def finish(folder,audio,solid,commit):
     folder,audio,solid=map(Path,(folder,audio,solid))
     evidence=folder/'05_Verification'
     report_path=evidence/'MP4_Verification_Report.json'
-    before=json.loads(report_path.read_text())
-    (evidence/'Before_Presentation_Grading.json').write_text(json.dumps(before,indent=2)+'\n')
+    before_path=evidence/'Before_Presentation_Grading.json'
+    before=json.loads(before_path.read_text() if before_path.exists() else report_path.read_text())
+    before_path.write_text(json.dumps(before,indent=2)+'\n')
+    prior=json.loads(report_path.read_text())
+    previous={r['file']:r for r in prior.get('videos',[])}
+    progress_path=evidence/'Presentation_Progress.json'
+    progress=json.loads(progress_path.read_text()) if progress_path.exists() else {}
+    previous.update(progress)
+    comparison_names={'Helix_6_Layout_Comparison.mp4','Helix_12_Layout_Comparison.mp4','Helix_Band_Integration_Comparison.mp4'}
     reports=[]
     for row in before['videos']:
+        if row['file'] in comparison_names:continue
         matches=list(folder.rglob(row['file']))
         if len(matches)!=1:raise ValueError('Ambiguous final movie '+row['file'])
-        path=matches[0];temporary=path.with_name(path.stem+'.graded.mp4')
+        path=matches[0]
+        gamma=2.6 if row['file']=='03_LOR_128_256_AC.mp4' else 2.2
+        exponent=1/gamma
+        # Resume only after fully validating the completed final bytes. Never
+        # apply the tone curve twice after an interrupted comparison export.
+        if digest(path)!=row['sha256']:
+            known=previous.get(path.name,{})
+            if known.get('sha256')!=digest(path) or 'presentation_gamma' not in known:
+                raise ValueError('Changed movie lacks matching presentation provenance: '+path.name)
+            previous_gamma=float(known.get('presentation_gamma',2.2))
+            if previous_gamma==gamma:
+                current=verify(path,audio,native=row['native_xlights'])
+                current.update(presentation_gamma=gamma,native_render_before_grading_sha256=row['sha256'],resumed_verified_output=True)
+                reports.append(current)
+                progress[path.name]=current
+                progress_path.write_text(json.dumps(progress,indent=2)+'\n')
+                print('RESUMED_VERIFIED',path.name,flush=True)
+                continue
+            exponent=previous_gamma/gamma
+        temporary=path.with_name('.tone-'+uuid.uuid4().hex+'.mp4')
         print('PRESENTATION',path.name,flush=True)
-        subprocess.run(['ffmpeg','-v','error','-y','-i',str(path),'-vf',CURVE,
+        curve='lutrgb='+':'.join(f"{c}='255*pow(val/255,{exponent})'" for c in ('r','g','b'))
+        subprocess.run(['ffmpeg','-v','error','-y','-i',str(path),'-vf',curve,
             '-c:v','libx264','-preset','fast','-crf','18','-threads','4','-pix_fmt','yuv420p',
             '-c:a','copy','-movflags','+faststart',str(temporary)],check=True)
+        before_validation=digest(temporary)
         current=verify(temporary,audio,native=row['native_xlights'])
+        if digest(temporary)!=before_validation:
+            raise RuntimeError('Temporary movie changed during validation; original preserved')
         temporary.replace(path);current['file']=path.name
-        current['presentation_gamma']=2.2
+        current['presentation_gamma']=gamma
         current['native_render_before_grading_sha256']=row['sha256']
+        reports.append(current)
+        progress[path.name]=current
+        progress_path.write_text(json.dumps(progress,indent=2)+'\n')
+    movies={int(p.name[:2]):p for p in (folder/'01_Individual_Layouts').glob('*.mp4')}
+    for name,indexes,cols,rows in [('Helix_6_Layout_Comparison.mp4',[1,3,4,6,9,12],3,2),
+            ('Helix_12_Layout_Comparison.mp4',list(range(1,13)),3,4),
+            ('Helix_Band_Integration_Comparison.mp4',[7,8,12],3,1)]:
+        target=folder/'02_Comparison_Videos'/name
+        print('FINAL_COMPARISON',name,flush=True)
+        comparison([movies[i] for i in indexes],[],target,audio,cols,rows)
+        current=verify(target,audio,native=False)
+        current['graded_native_panels']=[dict(file=movies[i].name,sha256=digest(movies[i])) for i in indexes]
         reports.append(current)
     target=folder/'03_Band_Features'/solid.name
     shutil.copyfile(solid,target)
@@ -42,7 +86,7 @@ def finish(folder,audio,solid,commit):
                    measurements=r['readability']) for r in reports if not r['readability']['passed']]
     after=dict(before,videos=reports,mp4_count=len(reports),technical_failures=failures)
     after['complete']=False
-    after['presentation']=dict(gamma=2.2,formula='output=255*(input/255)^(1/2.2)',
+    after['presentation']=dict(gamma=2.2,gamma_overrides={'03_LOR_128_256_AC.mp4':2.6},formula='output=255*(input/255)^(1/gamma)',
         geometry_changed=False,audio_changed=False,event_clocks_changed=False,
         source_black_stays_black=True,highlight_endpoint_preserved=True,
         native_individuals=12,comparison_panels_synchronized=True,
@@ -62,7 +106,7 @@ def finish(folder,audio,solid,commit):
     module_path.write_text(json.dumps({name:digest(root/name) for name in modules},indent=2)+'\n')
     readme=folder/'00_START_HERE/README.md'
     with readme.open('a') as f:
-        f.write('\n\n## Final presentation pass\n\nNative-derived MP4s receive the same explicit gamma2.2 display tone curve, preserving black/highlight endpoints, event clocks, geometry, frame counts and the original soundtrack. '
+        f.write('\n\n## Final presentation pass\n\nNative-derived MP4s receive an explicit gamma2.2 display tone curve (gamma2.6 for the sparseAC256 view), preserving black/highlight endpoints, event clocks, geometry, frame counts and the original soundtrack. Comparisons are rebuilt from these final graded panels. '
             'The actual final files were decoded and measured again. All pre-grade failures remain inBefore_Presentation_Grading.json; final failures remain inMP4_Verification_Report.json.\n\n'
             'Helix_Canonical_Solid_3D_Visualization.mp4 is a separate, clearly labeled OpenGL companion usingFinalBandScene and the same retained vocal clocks/source cues. It is not a native xLights export. '
             'It retains the canonical planar drummer artwork. Unlocalized toms are omitted and cymbal side is a disclosed staging assumption.\n\n'
@@ -70,6 +114,9 @@ def finish(folder,audio,solid,commit):
     (folder/'00_START_HERE/VIDEO_INDEX.md').write_text('# Video index\n\n'+''.join(
         f"- {r['file']} — {r['video_duration']:.3f}s, {r['dimensions'][0]}×{r['dimensions'][1]}, full decode passed, readability={r['readability']['passed']}\n" for r in reports))
     for p in sorted(folder.rglob('*'),reverse=True):
+        if p.is_file() and (p.name.endswith('.graded.mp4') or p.name.startswith('.tone-')):
+            p.unlink()
+            continue
         if p.is_dir() and not any(p.iterdir()):p.rmdir()
     sums=evidence/'SHA256SUMS'
     with sums.open('w') as f:
