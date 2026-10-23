@@ -1,0 +1,78 @@
+name: Phoneme Test Hook native MP4 verification
+on:
+  workflow_dispatch:
+    inputs:
+      audio_url:
+        description: HTTPS direct download of the original Phoneme Test Hook MP3
+        required: true
+        type: string
+      show_zip_url:
+        description: HTTPS direct download of the matching prepared xLights show ZIP (including XSQ and layout)
+        required: true
+        type: string
+      xsq_path:
+        description: Relative path to the actual sequence XSQ inside the show ZIP
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      EXPECTED_AUDIO_SHA256: 19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938
+      AUDIO_URL: ${{ inputs.audio_url }}
+      SHOW_URL: ${{ inputs.show_zip_url }}
+      XSQ_PATH: ${{ inputs.xsq_path }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install renderer and verification dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg xvfb xauth openbox xlights
+          python -m pip install numpy zstandard pytest
+      - name: Retrieve exact source and matching prepared show
+        run: |
+          python - <<'PY'
+          import hashlib, os, pathlib, urllib.parse, urllib.request, zipfile
+          for key in ("AUDIO_URL", "SHOW_URL"):
+              url = urllib.parse.urlparse(os.environ[key])
+              if url.scheme != "https" or not url.hostname:
+                  raise SystemExit(key + " must be a real HTTPS download URL")
+          root = pathlib.Path("phoneme-show")
+          root.mkdir()
+          for key, dest in (("AUDIO_URL", pathlib.Path("phoneme.mp3")), ("SHOW_URL", pathlib.Path("show.zip"))):
+              with urllib.request.urlopen(os.environ[key], timeout=120) as source, dest.open("wb") as target:
+                  import shutil
+                  shutil.copyfileobj(source, target)
+          digest = hashlib.sha256(pathlib.Path("phoneme.mp3").read_bytes()).hexdigest()
+          if digest != os.environ["EXPECTED_AUDIO_SHA256"]:
+              raise SystemExit("Original Phoneme Test Hook audio SHA256 mismatch")
+          with zipfile.ZipFile("show.zip") as z:
+              for member in z.infolist():
+                  destination = (root / member.filename).resolve()
+                  if not destination.is_relative_to(root.resolve()):
+                      raise SystemExit("Unsafe ZIP path")
+              z.extractall(root)
+          xsq = pathlib.Path(os.environ["XSQ_PATH"])
+          if xsq.is_absolute() or ".." in xsq.parts or not (root / xsq).is_file():
+              raise SystemExit("Matching prepared XSQ not found")
+          print("Verified original audio and prepared show:", digest)
+          PY
+      - name: Native xLights MP4 export
+        run: |
+          xvfb-run -a python -m tools.native_preview phoneme-show --xsq "phoneme-show/$XSQ_PATH" --audio phoneme.mp3
+      - name: Require genuine native video and full decode
+        run: |
+          test -s phoneme-show/preview.mp4
+          ffmpeg -v error -xerror -i phoneme-show/preview.mp4 -f null -
+          ffprobe -v error -show_entries format=duration -of default=nw=1 phoneme-show/preview.mp4
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phoneme-test-hook-native-review-${{ github.sha }}
+          path: |
+            phoneme-show/preview.mp4
+            phoneme-show/**/native_preview*.json
+          if-no-files-found: warn
