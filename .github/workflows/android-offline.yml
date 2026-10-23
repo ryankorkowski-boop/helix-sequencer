@@ -134,14 +134,7 @@ jobs:
           script: |
             mkdir -p app/build/device-proof
             adb logcat -c || true
-            if python ../tools/run_android_device_smoke.py; then
-              result=0
-            else
-              result=$?
-            fi
-            adb logcat -d -v threadtime > app/build/device-proof/emulator-logcat.txt || true
-            adb shell dumpsys activity processes > app/build/device-proof/emulator-processes.txt || true
-            exit "$result"
+            python ../tools/run_android_device_smoke.py || (adb logcat -d -v threadtime > app/build/device-proof/emulator-logcat.txt; adb shell dumpsys activity processes > app/build/device-proof/emulator-processes.txt; false)
       - name: Stop transport fixture
         if: always()
         run: |
