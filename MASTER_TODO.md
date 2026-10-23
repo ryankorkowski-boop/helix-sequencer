@@ -1928,3 +1928,108 @@ staging source verification and fresh committed-source render IN PROGRESS.
 Limitations: owner canonical/artistic approval, independent backing ground truth,
 instrument ownership/physical continuity and new platform/hardware acceptance
 remain open. No old/white/black/clipped movie promoted or public beta published.
+
+
+## Execution interruption checkpoint — 2026-10-23
+
+Current verified implementation: `5f60522b2d1a52e4c4a7efa918d4b255d50f39b8`
+on `codex/eight-hour-recovery-20261019`, PR188 remains open/draft.
+This checkpoint changes documentation only; all source-matched results below
+refer to that implementation commit, not a later documentation SHA.
+
+The execution environment became unavailable before final artifact saving.
+Connected GitHub remains accessible. Do not claim the interrupted local
+visibility patch, its tests, a downloadable local movie, or beta approval
+completed. Do not discard any surviving local work.
+
+| Status | Work and evidence | Exact next action |
+| --- | --- | --- |
+| COMPLETE | Original MP3 recovered, SHA256 `19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938`, 34.879979s, retained at fixtures/audio/Phoneme_Test_Hook.mp3. Automatic source ingestion no longer requires external URLs/show ZIP. | Preserve exact bytes and source verification. |
+| COMPLETE | Shared STFT/vectorized pitch analysis, exact feature parity. Full-source warmed analyze() median .542879s -> .449600s (17.18% less elapsed time). | Keep benchmark receipt; this does not measure entire engine. |
+| COMPLETE | Strict singer binding, native rest alias, exclusive mouth ownership, native EffectDB/ColorPalettes serialization and imported template reference handling committed. | Preserve b418efe explicit-definition guard. |
+| COMPLETE | Full source-matched GitHub Helix CI39933547402 passed Python3.11 and3.12. Each full audit:2099 passed,6 existing skips,24 subtests. Python3.11 349.05s;3.12 217.63s. Beta CI39933547428 also succeeded. | No new source change is covered by these results. |
+| COMPLETE | Windows39933547551 completed successful packaged GUI/engine/native FSEQ checks. Portable artifact12492078971,190494413 bytes, ZIP SHA256 `1522b45e037015e59f75cb195cc1202698c8c87fb62269673ae1c8ac31bfc340`. | Owner clean-device/saved-layout workflow review still required. |
+| COMPLETE | Android39933538032 completed both API30 and36 emulator jobs, offline/native media checks, exact-APK fresh install/launch and same-key reinstall. Artifact IDs12493601569(API30),12492989347(API36). | Distribute verified signed debug APK, never unsigned release. Physical Samsung and old-installed-key update remain unverified. |
+| COMPLETE | Compliance/license workflow39933547661 succeeded; no MIT relicensing was introduced. | Preserve homeowner/noncommercial and commercial vendor policy. |
+| COMPLETE | Real local patched xLights2026.18 exported1280x720/20fps movie from full source, all audio/video decoded, original soundtrack34.88s zero-lag correlation .996824804. Final completed pre-idle render luma20.201/motion1.484 passed original thresholds; all six staged colored performers visible. | This is local execution evidence only. File could not be made available before environment loss; owner appearance/musical approval remains blocked. |
+| IN PROGRESS | Primary Phoneme native workflow39933547485 remains in progress, last observed installing DSP/native dependencies, no artifact yet. | Inspect completed result/logs; verify actual MP4/XSQ/layout/source hashes, then supply artifact. Do not call it passed while active. |
+| BLOCKED | Independent backing identity/lexical phonemes not verified. Real two-stage UVR estimates retained with source/model/clock hashes; lead25.06s and residual backing21.55s estimated voiced time. Export339 lead and334 backing non-rest estimated cues. Separation may leak lead/reverb/instruments. | Audition isolated estimates against source; obtain independently defensible backing evidence before changing acceptance status. |
+| BLOCKED | Native producer39933547417 rejects retained E14 audio with no independently resolved backing lane. Final-band39933547374 native-proof job passed, accepted-native-band failed awaiting successful same-commit producer. | Qualify appropriate source-bound evidence, then rerun producer/consumer. Do not manufacture vocals, relabel old media or weaken strict gates. |
+| IN PROGRESS | Last local patch adds dim nonmusical idle visibility only on keyboard/drum kit rest intervals; excludes drummer arm/contact/beater/pedal nodes. It is NOT committed or fully verified. | Restore execution, inspect git diff/tests and complete fresh prepare/render before committing. Preserve unchanged source events. |
+| BLOCKED | Native movie owner approval, canonical visual identity/animation continuity, distinct instrument ownership and physical Windows/Samsung/controller checks remain open. | Deliver fresh matched movie for owner review after verification. |
+| BLOCKED | APK unsigned release is not installable without established owner signing key. Cross-build old-beta certificate compatibility is not proven. | Use original key and test data-preserving update; do not uninstall user data to hide mismatch. |
+| BLOCKED | Standalone APK extraction and final MP4/XSQ review-bundle saving interrupted with unavailable execution environment. | Recover environment or use completed GitHub artifacts. No public beta/tag/PR merge before owner approval and all release gates. |
+
+### Source-specific URLs
+
+- Full CI: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39933547402
+- Beta CI: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39933547428
+- Windows: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39933547551
+- Windows download: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39933547551/artifacts/12492078971
+- Android: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39933538032
+- Android API30 download: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39933538032/artifacts/12493601569
+- Android API36 download: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39933538032/artifacts/12492989347
+- Compliance: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39933547661
+- Phoneme production (active, unverified): https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39933547485
+- Strict older producer failure: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39933547417
+- Strict final band failure: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39933547374
+
+Android API36 debug APK SHA256 from successful install receipt:
+`5791a07ff50df74a0e6b9ef0989e656014e18326d90151c790f0c90d54aedbae`.
+Certificate SHA256:
+`cbc9b3e79b206bb003cc807d0b21bfdac0e8bba564de653654de4393f2f2a8bb`.
+Unsigned release SHA256:
+`21ccadb83ccda1098c8b4d59f39fc9d23fb5beafb494fcf42c3b2a7e26f638d1`
+is explicitly NOT verified installable.
+
+### Recoverable local paths and exact reproduction
+
+Workspace was `/workspace/scratch/0f96d341b9a8`, checkout `helix/`.
+Exact original is also `audio/Phoneme Test Hook.mp3`.
+Last completed movie was
+`Phoneme_Test_Hook_Review/Phoneme_Test_Hook_Helix_Native.mp4`;
+its actual native export was `native-preview-1goooeev/preview.mp4`.
+Important: after this completed render, an idle-visibility experiment modified
+the existing show's XSQ/layout in place. The old movie must NOT be presented as
+matching that modified XSQ. Prepare a new clean show; retain old movie only as
+diagnostic evidence.
+
+Uncommitted work was in tools/native_source_pose_band.py,
+tools/phoneme_vocal_export.py, tools/prepare_phoneme_show.py,
+tests/test_phoneme_vocal_export.py and local checklist files. Idle changes
+extract native_drummer_arm_cells(), create exact-node idle aliases after
+production sequencing, subtract existing source-effect windows, and add30%
+On only in rest complements, tagged nonmusical_instrument_visibility.
+The provenance patch distinguishes tracked-tree cleanliness from untracked
+incidental output. Inspect logs idle-visibility-tests.log and idle-final-tests.log.
+Full committed-source test log was full-committed-source.log; its final local
+result was not read before interruption. Completed GitHub audits above are
+authoritative.
+
+Fresh preparation, from repository:
+`python -m tools.prepare_phoneme_show --audio ../audio/Phoneme\ Test\ Hook.mp3 --output ../Phoneme_Test_Hook_Final`
+
+Validated retained executable:
+`/workspace/scratch/0f96d341b9a8/compact-runtime/native-runtime/bin/xLights`.
+Compact transfer run39930592387/artifact12491875007 records original and stripped
+binary hashes; ZIP SHA2562523f06db9a556d7a3d624aaea22fb614ded07452ef63acd22efd251f9920ccf.
+Use its wx libraries, extracted native-deps and only native-compat libraries
+with system GTK/GLib. Full AppImage library mixing caused ColorPanel SIGABRT(-6);
+unpatched AppImage exported black undersized video. Those paths are rejected.
+
+Working local environment:
+PATH native-deps/usr/bin followed by system PATH;
+LD_LIBRARY_PATH compact-runtime/native-runtime/lib:
+native-deps/usr/lib/x86_64-linux-gnu:native-compat;
+XDG_DATA_DIRS native-deps/usr/share:/usr/local/share:/usr/share.
+Paths are absolute under the workspace above.
+Start owned Xvfb with2560x1440x24, TCP display, -ac -nolisten local; start openbox.
+Use DISPLAY=127.0.0.1:<unused display>, HELIX_NATIVE_PREVIEW_WIDTH=1280,
+HELIX_NATIVE_PREVIEW_HEIGHT=720, XL_NO_GPU_COMPUTE=1.
+Run `python -m tools.native_preview <fresh-show> --xsq <fresh-show>/Phoneme_Test_Hook_Helix.xsq --audio <fresh-show>/media/Phoneme_Test_Hook.mp3 --xlights <validated-executable>`;
+then `python -m tools.finalize_phoneme_review <fresh-show>`.
+Inspect sample frames, full decode/source soundtrack/hash reports and all
+instrument/singer behavior. Never substitute schematic or old footage.
+Package only that matching final show and verified movie, diagnostics and checksums.
+
+Release remains BLOCKED. No merge, release tag or public beta was performed.
