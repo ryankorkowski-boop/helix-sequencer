@@ -89,3 +89,19 @@ checks passed,1 native-only integration skipped,10 subtests passed (4.23s).
 Checkpoint3776d2a95bfce693239caccaa81d895daa35c382 is pushed. Its original
 unpatched renderer workflow is superseded by this next targeted fix. Current
 jobs and build/install results remain unverified until completed.
+
+
+## 2026-10-23 — Verified retained native renderer recovery branch
+
+IN PROGRESS: recover the actual compiled patched xLights bundle from successful
+producer39511779105 (aa00b873, codex/native-build-reuse-20261020), artifact12308760631.
+The patch is byte-identical to the current source; artifact label uses GitHub
+hashFiles' hash-of-hash18596d7e while renderer.json uses direct SHA256db2802bb.
+Recover only tools/native_renderer_bundle.py and its tests from that historical
+implementation; do not merge the old branch.8 bundle cases and8 subtests pass.
+New isolated branch codex/phoneme-renderer-recovery-20261023 uses the same current
+Helix sequencing source286307e plus this workflow/helper. It verifies successful
+producer/repository/source identity, pinned upstream/patch/archive/binary hashes,
+restores wxWidgets and checks runtime libraries before regenerating the complete
+Phoneme recording. No old movie reused. Native output/visual/independent-vocal
+acceptance remains pending. No primary render is interrupted; no public release.

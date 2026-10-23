@@ -1853,3 +1853,19 @@ and automatically runs on PR changes to use PR-scope native cache. No upscaled
 or black MP4 delivered. Additional98 native/sequence/cast/patch checks passed,
 1 native integration skipped,10 subtests. First safe checkpoint3776d2a pushed;
 follow-up native build remains IN PROGRESS. No acceptance check weakened.
+
+
+## 2026-10-23 — Verified retained native renderer recovery branch
+
+IN PROGRESS: recover the actual compiled patched xLights bundle from successful
+producer39511779105 (aa00b873, codex/native-build-reuse-20261020), artifact12308760631.
+The patch is byte-identical to the current source; artifact label uses GitHub
+hashFiles' hash-of-hash18596d7e while renderer.json uses direct SHA256db2802bb.
+Recover only tools/native_renderer_bundle.py and its tests from that historical
+implementation; do not merge the old branch.8 bundle cases and8 subtests pass.
+New isolated branch codex/phoneme-renderer-recovery-20261023 uses the same current
+Helix sequencing source286307e plus this workflow/helper. It verifies successful
+producer/repository/source identity, pinned upstream/patch/archive/binary hashes,
+restores wxWidgets and checks runtime libraries before regenerating the complete
+Phoneme recording. No old movie reused. Native output/visual/independent-vocal
+acceptance remains pending. No primary render is interrupted; no public release.
