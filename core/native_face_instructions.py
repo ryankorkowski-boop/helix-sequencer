@@ -12,7 +12,9 @@ def face_template(cue: dict, faces: list[SingingFace], palette: str | None) -> E
         mouth = "REST"
     candidates = [face for face in faces if face.model == target]
     requested = cue.get("face_definition")
-    # An explicitly selected definition must never silently animate a different face.\n    if requested is not None:\n        candidates = [face for face in candidates if face.name == requested]
+    # An explicitly selected definition must never silently animate a different face.
+    if requested is not None:
+        candidates = [face for face in candidates if face.name == requested]
     for face in candidates:
         mapped = route_singing_faces([face])[0:1]
         if not mapped or mouth not in mapped[0].phoneme_keys or any(char in face.name for char in (",", "=", "\n", "\r")):
