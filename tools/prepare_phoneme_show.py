@@ -64,6 +64,19 @@ def prepare(audio: Path, output: Path) -> Path:
                     source_duration_seconds=duration, visual_review_status='not_reviewed',
                     geometry_source='models.native_review_band.add_band / Review3DScene',
                     owner_approved_geometry=False, independent_backing_verified=False)
+    # The retained native-review cast is not the owner's approved solid 3D
+    # snowman scene. Record this explicitly so a passing native video or
+    # successful harmony mouth test cannot be mistaken for visual approval.
+    manifest['visual_identity'] = {
+        'renderer': 'native_review_band',
+        'canonical_solid_3d_band': False,
+        'owner_vocal_animation_review': 'passed_in_prior_video',
+        'owner_canonical_visual_review': 'rejected_in_prior_video',
+        'required_geometry_source': 'models.final_band_scene.FinalBandScene',
+        'next_action': 'Integrate approved solid scene into native show without altering vocal cues',
+    }
+    (output / 'VISUAL_ACCEPTANCE.json').write_text(
+        json.dumps(manifest['visual_identity'], indent=2) + '\\n')
     manifest['source_worktree_dirty'] = bool(subprocess.check_output(
         ['git', 'status', '--porcelain'], cwd=ROOT, text=True).strip())
     manifest['source_module_sha256'] = {name: digest(ROOT / name) for name in (
