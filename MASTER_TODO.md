@@ -1853,3 +1853,78 @@ and automatically runs on PR changes to use PR-scope native cache. No upscaled
 or black MP4 delivered. Additional98 native/sequence/cast/patch checks passed,
 1 native integration skipped,10 subtests. First safe checkpoint3776d2a pushed;
 follow-up native build remains IN PROGRESS. No acceptance check weakened.
+
+## 2026-10-23 — Bind Android install evidence to actual tested APK
+
+Goal: repair misleading/malformed installation evidence for the reported APK
+failure. Changes: dedicated tools/android_apk_compatibility.py, Android workflow,
+tools/run_android_device_smoke.py and tests. Preserve package ID, signingconfig,
+old user app/data, actual engine and original emulator instrumentation. New:
+valid JSON, unsigned release filename detection, independent certificate versus
+installation fields, exact-APK-hash-bound fresh-install/activity-launch/live-PID
+and same-key-reinstall receipt. No certificate-only installation claim. Tests:
+23 focused reporting/offline/recovery cases pass; Python3.10 grammar and workflow
+YAML pass. Limitations: emulator rerun pending, original installed-beta private
+key unavailable, physical Samsung upgrade remains BLOCKED. Baseline API30/API36
+run39924409507 passed; this does not prove new source builds or old-key upgrades.
+Risk: missing/mismatched launch/hash receipt now correctly reports unverified.
+No signing keys generated, committed, replaced or bypassed; no beta publication.
+
+## 2026-10-23 — Phoneme ownership and evidence-bound separated vocal estimates
+
+Goal: stop generic Wave/On/Strobe effects lighting native mouths alongside Faces.
+Changes: opt-in core/native_face_instructions ownership helper and engine placement
+guard; current-show builder opts in, preserves authored material colors/idlebody;
+source-separated estimate exporter and reproduction tool; measured exact-source
+clock fixture and hash report; native rest choice corrected; luma/freeze and
+zero-lag original-soundtrack verification before final movie promotion. Preserve
+unflagged imported layouts, explicit face selection, exact source clocks and audio,
+existing instrument algorithms/AC addresses, and owner release hold.
+
+Evidence: actual two-stage UVR inference completed on original34.88s recording;
+model/output hashes recorded. Separate estimated voiced activity25.06s/21.55s,
+not gain/short-delay copies. Current local export has339/334 non-rest estimate
+segments and137/160 real-source rest segments. Independent identities and exact
+lexical phonemes remain unverified; no false ground truth or copied lead lane.
+18 export/native-mouth/luma tests pass. Full suite at prior checkpoint2081passed,
+6skipped,16subtests; full rerun after this core change remains IN PROGRESS.
+
+Limitations/deferred: source leakage/singer identity and owner canonical design,
+source-responsive per-instrument/physical motion approval, fresh complete native
+MP4 and latest platform/hardware gates remain open. No post-beta architecture
+features or release publication. Source-separated clocks are review estimates;
+source/clock hash or native mapping mismatch fails closed. Follow execution handoff.
+
+Follow-up verified evidence:2093 full Python3.12 tests passed,6 existing skips,
+24subtests in344.15s after ownership/source changes. Fresh34.88s show preparation
+completed in55.00s with1572 production effects plus source-separated estimate
+mouth/rest and authored body-color layers. Compact verified native runtime
+transfer39930592387/artifact12491875007 succeeded and all local hashes verified.
+Initial compact GUI crashed in ColorPanel with mixed AppImage GTK dependencies;
+system GTK/GLib + exact wx runtime retry active. Headless FSEQ succeeds. Primary
+workflow can restore validated retained build after a missing cache, instead of
+always cold-compiling; strict source/patch/binary identity and release gates stay.
+No approved MP4, independent voice ground truth or new platform pass inferred.
+
+## 2026-10-23 — Repair native effect serialization and recover complete native staging
+
+Goal: repair actual white-only/default mouth output, not hide it behind metadata.
+Shared xlights.xml_io materializes inline settings/palettes into proper native
+EffectDB/ColorPalettes refs and unique IDs at active engine/final-show writes;
+resolves imported native refs before reusing templates. Preserve all timings,
+targets, imported numeric indices/table order/duplicates, legacy inline settings,
+existing neon assignment and implicit defaults. Missing palette attributes stay
+eligible for the neon post-pass. Added native serialization/import regressions.
+Recover existing six-cast staging from native_source_pose_band to the Phoneme
+builder so keyboard/drummer are separated and fit the authored camera; original
+node geometry, channel addresses and old source-pose staging remain unchanged.
+
+Evidence: actual native720p full-recording export, full decode, zero-lag source
+correlation0.9968248. White-only cause reproduced from empty native tables, then
+colored hats/scarves/materials observed after repair. Unchanged luma/motion gate
+passes (luma19.286,motion1.55).24 focused tests and63 combined native/cast cases
+pass; serializer checkpoint full suite2097passed,6skipped,24subtests. Final import/
+staging source verification and fresh committed-source render IN PROGRESS.
+Limitations: owner canonical/artistic approval, independent backing ground truth,
+instrument ownership/physical continuity and new platform/hardware acceptance
+remain open. No old/white/black/clipped movie promoted or public beta published.

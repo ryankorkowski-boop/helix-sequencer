@@ -26,6 +26,25 @@ def finalize(show: Path) -> dict:
             raise ValueError('Native MP4 checksum differs from render receipt')
         subprocess.run(['ffmpeg', '-v', 'error', '-xerror', '-i', str(video),
                         '-map', '0:v:0', '-map', '0:a:0', '-f', 'null', '-'], check=True)
+        from tools.verify_showcase_luma import verify_mp4
+        readability = verify_mp4(video)
+        (show / 'SHOWCASE_READABILITY.json').write_text(json.dumps(readability, indent=2) + '\n')
+        report['readability'] = readability
+        if not readability['passed']:
+            raise ValueError('Native movie is unreadable or frozen; retain diagnostic media without promoting it for owner approval')
+        import numpy as np
+        def pcm(path):
+            return np.frombuffer(subprocess.check_output([
+                'ffmpeg', '-v', 'error', '-i', str(path), '-map', '0:a:0',
+                '-ac', '1', '-ar', '16000', '-f', 'f32le', '-']), dtype='<f4')
+        original, decoded = pcm(source), pcm(video)
+        length = min(len(original), len(decoded))
+        correlation = float(np.corrcoef(original[:length], decoded[:length])[0, 1])
+        report['soundtrack'] = dict(zero_lag_correlation=correlation,
+                                     decoded_seconds=len(decoded)/16000,
+                                     original_seconds=len(original)/16000)
+        if not np.isfinite(correlation) or correlation < .97 or len(decoded) < len(original) - 1600:
+            raise ValueError('Native soundtrack does not match the full original at timeline zero')
         target = show / 'Phoneme_Test_Hook_Helix_Native.mp4'
         shutil.copyfile(video, target)
         report.update(native_video_verified=True, video=target.name,

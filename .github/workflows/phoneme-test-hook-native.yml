@@ -10,6 +10,7 @@ on:
         type: string
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: phoneme-native-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
@@ -18,6 +19,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
+      HELIX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
       HELIX_PHONEME_AUDIO_URL: ${{ inputs.audio_url }}
       HELIX_PHONEME_AUDIO_TOKEN: ${{ secrets.HELIX_PHONEME_AUDIO_TOKEN }}
       HELIX_NATIVE_PREVIEW_WIDTH: '1280'
@@ -27,11 +29,15 @@ jobs:
       OPENBLAS_NUM_THREADS: '2'
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Resolve and verify original source before dependency installation
-        run: python -m tools.phoneme_source phoneme-work/input
+        run: |
+          test "$(git rev-parse HEAD)" = "$HELIX_SOURCE_COMMIT"
+          python -m tools.phoneme_source phoneme-work/input
       - name: Install DSP and native GUI dependencies
         run: |
           sudo apt-get update -qq
@@ -48,6 +54,19 @@ jobs:
           path: ${{ runner.temp }}/xlights-src
           key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
           restore-keys: xlights-native-ubuntu24-2026.18-
+      - name: Restore proven renderer bundle after a cache miss
+        id: retained-native
+        if: steps.native-cache.outputs.cache-hit != 'true'
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: helix-native-build-ubuntu24-x64-2026.18-18596d7ef1ae45292cc2b2f14a66241371b5561ac6556bf6aedef74d19c1a6a9
+          run-id: 39511779105
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/native-renderer-bundle
+      - name: Verify retained upstream, source patch and executable before use
+        if: steps.retained-native.outcome == 'success'
+        run: python -m tools.native_renderer_bundle restore --patch tools/patch_xlights_native_export.py --root "$RUNNER_TEMP/xlights-src" --bundle "$RUNNER_TEMP/native-renderer-bundle"
       - name: Install checksum pinned native xLights
         run: |
           mkdir -p "$RUNNER_TEMP/xlights"
@@ -79,7 +98,7 @@ jobs:
             sudo make -C wxWidgets-xlights_2026.17c install
             sudo ldconfig
           fi
-          if [ "${{ steps.native-cache.outputs.cache-hit }}" = true ] && [ -x bin/xLights ]; then
+          if { [ "${{ steps.native-cache.outputs.cache-hit }}" = true ] || [ "${{ steps.retained-native.outcome }}" = success ]; } && [ -x bin/xLights ]; then
             echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
             exit 0
           fi

@@ -89,3 +89,121 @@ checks passed,1 native-only integration skipped,10 subtests passed (4.23s).
 Checkpoint3776d2a95bfce693239caccaa81d895daa35c382 is pushed. Its original
 unpatched renderer workflow is superseded by this next targeted fix. Current
 jobs and build/install results remain unverified until completed.
+
+## Android evidence repair (local follow-up)
+
+Starting-SHA Android run39924409507 **completed successfully on API30 and36**.
+This includes instrumentation, offline sequencing/MP4 decode and same-key/same-
+version reinstall. It does not verify the user's installed historical key.
+The release variant is intentionally unsigned without the established owner
+keystore; existing debug APKs may use a different historical CI certificate.
+Do not promise an in-place update or erase user data to work around that.
+
+Found two actual reporting defects: the inline report wrote a literal `\\n`
+after JSON, and it equated certificate validity with installation. New
+`tools/android_apk_compatibility.py` writes valid JSON, recognizes the real
+`app-release-unsigned.apk` filename and requires an exact APK SHA256 plus fresh
+install/launch device evidence before marking installability verified.
+`run_android_device_smoke.py` now checks activity launch/live PID and binds its
+install/reinstall receipt to the actual APK hash. Workflow invokes that module.
+Original signing configuration/package ID and data-preserving update rules
+are unchanged.23 Android reporting/offline/recovery tests passed locally;
+Python3.10 grammar checked. New emulator execution remains IN PROGRESS.
+
+Full local Python3.12 suite initially lacked torch during collection. Installed
+CPU torch dependency, then restarted the unweakened full suite; result pending.
+Patched native render run:
+https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39927505584
+at286307e091c0a9eab4485b9ff2b4785612c4b3ce. Source/preflight/production
+steps passed and native build cache restore completed; installation/build was
+still active at inspection. Do not claim successful native MP4 until completed
+artifact verification.
+
+## Source-separated vocal and mouth ownership repair
+
+IN PROGRESS: direct XSQ inspection found native mouth submodel rows also received
+Wave/On cues and whole singers received Strobe, which can light multiple mouths
+at once despite valid Faces cues. Canonical show builder now opts into exclusive
+phoneme ownership; generic placement rejects the whole face, mouth submodels and
+containing groups. Actual imported face definitions and unflagged user layouts
+remain unchanged. Native `rest` is emitted with xLights' correct lowercase alias.
+
+Ran two real local separation models on the exact original: UVR-MDX-NET-Inst_HQ_3
+then UVR_MDXNET_KARA_2 on the vocal estimate. Model and output hashes,100Hz clocks
+and reproducible tool are retained under fixtures/audio/phoneme_vocal_separation.
+Estimated lead/backing are not gain/delay copies; voiced estimates25.06s/21.55s.
+These are source-separated estimates, not verified identities/lexical phonemes;
+independent backing acceptance remains BLOCKED pending review/leakage validation.
+
+`tools/phoneme_vocal_export.py` maps measured AH/EE/OH estimates through actual
+native face definitions, inserts source-timed rest intervals, removes decorative
+mouth overlays and uses authored BODY/BASE_DIM node colors for static nonmusical
+illumination. Local export:339 non-rest lead cues+137 rests;334 non-rest backing
+cues+160 rests; two distinct source fingerprints. No copied lane or manufactured
+phoneme boundaries. Fresh complete prepare command rerun remains required after
+mapping correction (EE->E etc).18 mouth/export/luma regressions pass.
+
+Full local Python3.12 suite at the prior checkpoint passed2081 tests,6 existing
+skips,16 subtests in349.37s. It is rerunning after the mouth ownership change.
+Latest primary286307e Windows and Beta CI passed; full PR CI39927505413 passed;
+Android still active at inspection. Separate retained-render sourceb1272664/run
+39928972347 is active. Compact runtime transfer18b46b09 is an independent branch,
+verifies the original archive/binary, strips only debug symbols and records both
+hashes so the runtime can be transferred below the connector's512MiB limit.
+No old movie is reused; no successful new native MP4 claimed yet.
+
+## Verified latest local checks and renderer transfer
+
+Full unweakened local Python3.12 suite after the mouth/source changes:
+**2093 passed,6 existing skipped,24 subtests passed in344.15s**.18 focused
+mouth/export/luma checks also pass. Fresh prepare-v4 completed successfully:
+55.00s production engine,1572 production effects before measured vocal/material
+export; both source-bound estimate lanes and authored static body illumination
+are serialized in the full34.88s XSQ. No generic Wave/On mouth rows retained.
+
+Compact renderer transfer run39930592387 **completed successfully**;
+artifact12491875007 is34.2MB, ZIP SHA2562523f06db9a556d7a3d624aaea22fb614ded07452ef63acd22efd251f9920ccf.
+Downloaded and verified every original/derived binary/library hash locally.
+Initial local GUI launch crashed(-6) in ColorPanel while mixing AppImage GTK
+libraries with the compiled runtime; headless FSEQ succeeded. Retry now uses
+system GTK/GLib, exact retained wx runtime and only six missing compatibility
+libraries plus pinned AppImage share resources. No success claimed before retry.
+
+Primary Phoneme workflow now falls back from a missing branch cache to the
+validated retained renderer archive; archive/patch/binary mismatch fails closed.
+An unavailable/expired artifact can still use the pinned-source compiler path.
+The reproduction recipe, metadata/clock hashes and estimate limitations remain
+part of this checkpoint. Native readiness, owner appearance/voice review and
+new platform build/install results remain open.
+
+## Native movie produced; white-only serialization cause repaired
+
+Local native xLights2026.18 now exports actual1280x720/20fps/full-recording video
+with the original34.88s soundtrack. Source audio correlation0.9968248 at zero lag;
+full decode and unchanged brightness/motion thresholds pass. This is actual
+House Preview export from matching FSEQ/XSQ, not a substitute renderer.
+
+Visual inspection found the initial movie's white silhouettes even though
+material metadata had authored colors. Root cause: inline `settings` and literal
+`palette` strings were written without native EffectDB/ColorPalettes indices;
+xLights consequently used defaults, including for native mouth definitions.
+New shared xlights.xml_io serializer materializes actual tables/IDs without
+retiming/changing targets; active engine writes and final Phoneme export invoke
+it. Numeric native template references resolve on import. Original numeric table
+order and duplicate entries are preserved. Missing palette attributes remain
+available to the existing neon post-pass; implicit native white default is
+preserved.24 focused serialization/palette/mouth tests pass; later combined
+63 cast/artifact/serialization cases pass. Full prior serializer checkpoint:
+2097 passed,6 skips,24 subtests; final import/staging checks still required.
+
+The corrected native movie now shows authored hats/scarves/body colors and mouth
+settings. Quantitative readability: median luma19.286, bright fraction0.12572,
+motion1.55, width0.662,height0.444. Source staging still clipped the keyboard:
+recovered existing native_source_pose_band six-cast positions into a reusable
+helper, with unchanged node geometry/channel addresses and old pose-export
+staging preserved. New prepared show uses those established non-overlapping
+positions. Fresh render after final source commit remains IN PROGRESS.
+
+Do not deliver earlier white-only, black, clipped or unpatched diagnostic movies
+as final approval. New tests check native color/setting references and imported
+template retention. No musical/source/owner acceptance gate has been relaxed.

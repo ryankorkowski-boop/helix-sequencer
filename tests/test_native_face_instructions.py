@@ -54,3 +54,23 @@ def test_generated_style_hint_binds_only_one_real_definition_on_same_singer():
     alternative = SingingFace(face.model, 'Other face', face.type, face.mappings, face.source)
     assert face_template(cue, [face, alternative], None) is None
     assert face_template({**cue, 'face_definition_origin': 'explicit'}, [face], None) is None
+
+
+def test_native_rest_alias_is_the_actual_xlights_choice():
+    face = SingingFace('Lead', 'Source face', 'NodeRange', {'Mouth-rest': '1'}, 'layout')
+    template = face_template({'target_model': 'Lead', 'mouth_shape': 'mouth_closed'}, [face], None)
+    assert template is not None and 'Faces_Phoneme=rest,' in template.settings
+
+
+def test_opted_in_mouths_and_containing_groups_exclude_decorative_effects():
+    from types import SimpleNamespace as S
+    from core.native_face_instructions import exclusive_face_targets
+    layout = S(models={
+        'Lead': S(raw_attrs={'HelixPhonemeOwnership': 'exclusive'}),
+        'Lead/MOUTH_AI': S(parent_name='Lead', is_submodel=True),
+        'Lead/BODY': S(parent_name='Lead', is_submodel=True),
+        'Other': S(raw_attrs={}),
+    }, groups={'All': S(models=['Lead', 'Other']), 'Nested': S(models=['All']),
+               'Body only': S(models=['Lead/BODY'])})
+    assert exclusive_face_targets(layout) == {'Lead', 'Lead/MOUTH_AI', 'All', 'Nested'}
+    assert exclusive_face_targets(None) == set()

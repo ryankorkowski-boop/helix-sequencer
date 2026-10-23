@@ -1,5 +1,6 @@
 """Run Android instrumentation and retain device proofs even on failure."""
 from __future__ import annotations
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -24,12 +25,21 @@ def main():
         apk=ROOT/'android/app/build/outputs/apk/debug/app-debug.apk'
         subprocess.run(['adb','uninstall','org.helixsequencer.android'],capture_output=True)
         subprocess.run(['adb','install',str(apk)],check=True)
+        launched=subprocess.check_output(['adb','shell','am','start','-W','-n',
+            'org.helixsequencer.android/.MainActivity'],text=True)
+        if 'Status: ok' not in launched or 'Error:' in launched:
+            raise RuntimeError('Installed beta did not launch: '+launched)
+        pid=subprocess.check_output(['adb','shell','pidof','org.helixsequencer.android'],text=True).strip()
+        if not pid:raise RuntimeError('Installed beta has no live application process')
         subprocess.run(['adb','shell','run-as','org.helixsequencer.android','mkdir','-p','files'],check=True)
         subprocess.run(['adb','shell',"run-as org.helixsequencer.android sh -c 'echo preserved > files/upgrade-marker'"],check=True)
         subprocess.run(['adb','install','-r',str(apk)],check=True)
         marker=subprocess.check_output(['adb','shell','run-as','org.helixsequencer.android','cat','files/upgrade-marker']).decode().strip()
         assert marker=='preserved'
-        (dest/'install-upgrade.json').write_text(json.dumps({'fresh_install':True,'same_key_same_version_reinstall':True,'private_data_preserved':True,'old_beta_certificate_upgrade':'not tested'},indent=2))
+        (dest/'install-upgrade.json').write_text(json.dumps({'fresh_install':True,'launch_verified':True,
+            'apk_sha256':hashlib.sha256(apk.read_bytes()).hexdigest(),'launch_output':launched,
+            'same_key_same_version_reinstall':True,'private_data_preserved':True,
+            'old_beta_certificate_upgrade':'not tested'},indent=2)+'\n')
     return result.returncode or (1 if proof_errors else 0)
 
 if __name__=='__main__':raise SystemExit(main())

@@ -61,6 +61,20 @@ def select_cast(models, *, legacy_xylophone=False):
     return selected
 
 
+def stage_native_cast(models, *, reference_models=None, legacy_xylophone=False):
+    """Reuse the established native staging without changing node geometry."""
+    positions=dict(DRUMMER=(0,26,65),BASS=(-24,9,80),GUITAR=(24,9,80),PIANO=(25,28,65) if legacy_xylophone else (-30,28,65),XYLOPHONE=(-25,28,65),LEAD=(-8,9,80),HARMONY=(8,9,80))
+    if np.linalg.norm(np.asarray(positions['PIANO'],dtype=float)-np.asarray(positions['DRUMMER'],dtype=float)) < 18:
+        raise ValueError('Native keyboard stage overlaps the drummer; keyboard would be occluded')
+    references={m.details['review_role']:m for m in (reference_models or models)}
+    for model in models:
+        old=references[model.details['review_role']]
+        delta=np.array(positions[model.details['review_role'].upper()])-np.array([float(old.attrs['WorldPos'+a]) for a in 'XYZ'])
+        model.points+=delta
+        for j,axis in enumerate('XYZ'):
+            model.attrs['WorldPos'+axis]=str(float(model.attrs['WorldPos'+axis])+delta[j])
+
+
 def native_motion_rigs(scene, *, legacy_xylophone=False):
     """Only export motion for visible musicians; preserve the opt-in legacy rig."""
     rigs=[dict(role=r['role'],side=r['side'],
@@ -207,14 +221,7 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
     if (len(new.models)!=expected_cast or len({m.name for m in new.models})!=expected_cast
             or sum(m.channels for m in new.models)>250000):
         raise ValueError('Invalid universal keyboard/native legacy cast or bounded RGB channels')
-    positions=dict(DRUMMER=(0,26,65),BASS=(-24,9,80),GUITAR=(24,9,80),PIANO=(25,28,65) if legacy_xylophone else (-30,28,65),XYLOPHONE=(-25,28,65),LEAD=(-8,9,80),HARMONY=(8,9,80))
-    # Reject the original overlapping drummer/piano staging that hid the keyboard.
-    if np.linalg.norm(np.asarray(positions['PIANO'],dtype=float)-np.asarray(positions['DRUMMER'],dtype=float)) < 18:
-        raise ValueError('Native keyboard stage overlaps the drummer; keyboard would be occluded')
-    for old,m in zip(g.models,new.models):
-        delta=np.array(positions[m.details['review_role'].upper()])-np.array([float(old.attrs['WorldPos'+a]) for a in 'XYZ'])
-        m.points+=delta
-        for j,axis in enumerate('XYZ'):m.attrs['WorldPos'+axis]=str(float(m.attrs['WorldPos'+axis])+delta[j])
+    stage_native_cast(new.models, reference_models=g.models, legacy_xylophone=legacy_xylophone)
     # Native pixel keys and strings must have actual, disjoint addressable nodes.
     # AC16 pitch-class aliases are a separate deliberately reduced-resolution export.
     for model in new.models:

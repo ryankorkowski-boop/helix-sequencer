@@ -24,7 +24,7 @@ def prepare(audio: Path, output: Path) -> Path:
     import soundfile as sf
     from models.native_review_band import add_band, allocate
     from models.ultimate_showcase import Garden
-    from tools.native_source_pose_band import select_cast
+    from tools.native_source_pose_band import select_cast, stage_native_cast
     from tools.build_snowman_ensemble import NativeSequence
     from tools.build_helpers.ultimate_showcase import write_layout
 
@@ -37,9 +37,14 @@ def prepare(audio: Path, output: Path) -> Path:
     garden = Garden(title='Helix Phoneme Test Hook diagnostic candidate', slug='Phoneme_Test_Hook')
     add_band(garden)
     garden.models = select_cast(garden.models)
+    stage_native_cast(garden.models)
     allocate(garden)
     for model in garden.models:
         model.attrs.update(PixelSize='12', Antialias='1', BlackTransparency='100')
+        if model.details['review_role'] in {'lead', 'harmony'}:
+            model.attrs['HelixPhonemeOwnership'] = 'exclusive'
+    from tools.phoneme_vocal_export import static_materials
+    static_materials(garden)
     write_layout(garden, output, include_demo=False)
     layout = output / 'xlights_rgbeffects.xml'
     tree = ET.parse(layout)
@@ -64,7 +69,10 @@ def prepare(audio: Path, output: Path) -> Path:
     manifest['source_module_sha256'] = {name: digest(ROOT / name) for name in (
         'core/effect_engine.py', 'core/snowman_band.py', 'core/native_face_instructions.py',
         'xlights/xsq_writer.py', 'models/native_review_band.py', 'models/review_3d_scene.py',
-        'tools/prepare_phoneme_show.py', 'tools/native_preview.py')}
+        'tools/prepare_phoneme_show.py', 'tools/native_preview.py', 'tools/phoneme_vocal_export.py',
+        'tools/native_source_pose_band.py', 'xlights/xml_io.py',
+        'fixtures/audio/phoneme_vocal_separation/diagnostic.json',
+        'fixtures/audio/phoneme_vocal_separation/acoustic_vocal_clocks.npz')}
     (output / 'run_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     command = [sys.executable, str(ROOT / 'main.py'), '--profile', 'master', '--',
                '--template', str(seed), '--audio', str(retained), '--layout-file', str(layout),
@@ -89,6 +97,12 @@ def prepare(audio: Path, output: Path) -> Path:
     # Relative media must be valid when the complete show is unpacked elsewhere.
     tree = ET.parse(final)
     tree.find('head/mediaFile').text = 'media/Phoneme_Test_Hook.mp3'
+    from tools.phoneme_vocal_export import export as export_vocal_estimates
+    separated = export_vocal_estimates(tree.getroot(), layout, garden)
+    (output / 'source_separated_vocal_export.json').write_text(json.dumps(separated, indent=2) + '\n')
+    from xlights.xml_io import materialize_native_effect_tables
+    native_tables = materialize_native_effect_tables(tree.getroot())
+    (output / 'native_effect_tables.json').write_text(json.dumps(native_tables, indent=2) + '\n')
     tree.write(final, encoding='utf-8', xml_declaration=True)
     if abs(float(tree.findtext('head/sequenceDuration')) - duration) > .001:
         raise ValueError('Generated sequence does not cover original full recording')
@@ -100,7 +114,10 @@ def prepare(audio: Path, output: Path) -> Path:
         name = 'HX_SNOW_' + role
         elements = tree.findall(f'./ElementEffects/Element[@name="{name}"]')
         effects = [e for el in elements for e in el.iter('Effect')]
-        report['models'][name] = dict(effect_count=len(effects), faces_effect_count=sum(e.get('name') == 'Faces' for e in effects))
+        report['models'][name] = dict(effect_count=len(effects), faces_effect_count=sum(e.get('name') == 'Faces' for e in effects),
+                                     **{k:v for k,v in separated['models'][name].items() if k != 'faces_effect_count'})
+    report['source_separation'] = separated['source']
+    report['limitation'] = 'Two-stage source separation produces distinct lead/residual-backing estimates with measured clocks; leakage and voice identity require review. Acoustic vowel colors are not verified lexical phonemes. No independent backing ground truth or artistic approval is claimed.'
     (output / 'vocal_lane_diagnostic.json').write_text(json.dumps(report, indent=2) + '\n')
     return final
 

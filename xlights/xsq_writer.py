@@ -529,10 +529,8 @@ def build_effect_template_library(root: ET.Element) -> dict[str, EffectTemplate]
         key = effect_name_key(name)
         if key in templates:
             continue
-        templates[key] = EffectTemplate(
-            settings=_effect_settings(eff),
-            palette=_effect_palette(eff),
-        )
+        settings, palette = _xml_io.effect_template_values(root, eff)
+        templates[key] = EffectTemplate(settings=settings, palette=palette)
     return templates
 
 def load_xsq(path: Path) -> XsqIndex:

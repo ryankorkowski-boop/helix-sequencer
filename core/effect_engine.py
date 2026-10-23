@@ -10212,6 +10212,8 @@ def build_all_models_all_effects_sequence(
         if not row_check["passed"]:
             raise RuntimeError("XSQ is missing editable model rows: " + ", ".join(row_check["missing_rows"]))
         log(f"Editable model rows validated: {row_check['actual_mapped_rows']}/{row_check['expected_rows']}")
+    from xlights.xml_io import materialize_native_effect_tables
+    materialize_native_effect_tables(xsq.root)
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
     return out_path
 
@@ -10787,6 +10789,9 @@ def run_variant(
             "debug": {"event_count": 0},
         }
 
+    from core.native_face_instructions import exclusive_face_targets
+    phoneme_owned_targets = exclusive_face_targets(parsed_layout)
+
     def reject_effect(
         nm: str,
         st_i: int,
@@ -10818,8 +10823,13 @@ def run_variant(
         template_to_use: base.EffectTemplate,
         stem_priority: int,
         minimum_duration_ms: int | None = None,
+        native_phoneme: bool = False,
     ) -> bool:
         nonlocal total
+        if nm in phoneme_owned_targets and not native_phoneme:
+            reject_effect(nm, start_ms, end_ms, effect_name, layer_key,
+                          "native mouth channels are owned exclusively by validated phoneme cues")
+            return False
         minimum = max(50, int(tuning.min_effect_ms)) if minimum_duration_ms is None else max(1, minimum_duration_ms)
         duration = end_ms - start_ms
         if duration < minimum:
@@ -11952,7 +11962,8 @@ def run_variant(
                 continue
             if attempt_place_effect(nm=target, layer_key="accent", start_ms=st, end_ms=en,
                                     effect_name="Faces", template_to_use=template,
-                                    stem_priority=priorities.get("vocals", priorities["other"]), minimum_duration_ms=1):
+                                    stem_priority=priorities.get("vocals", priorities["other"]), minimum_duration_ms=1,
+                                    native_phoneme=True):
                 placed_snowman_faces += 1
                 snowman_sequence_face_track.append(
                     (
@@ -12679,6 +12690,8 @@ def run_variant(
         if not row_check["passed"]:
             raise RuntimeError("XSQ is missing editable model rows: " + ", ".join(row_check["missing_rows"]))
         log(f"Editable model rows validated: {row_check['actual_mapped_rows']}/{row_check['expected_rows']}")
+    from xlights.xml_io import materialize_native_effect_tables
+    materialize_native_effect_tables(xsq.root)
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
 
     if GENERATE_SHOWCASE:
