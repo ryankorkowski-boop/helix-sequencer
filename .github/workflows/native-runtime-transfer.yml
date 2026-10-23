@@ -1,0 +1,69 @@
+name: Recover compact pinned native runtime
+on:
+  push:
+    branches: [repair/native-runtime-transfer-20261023]
+    paths: [.github/workflows/native-runtime-transfer.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  transfer:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ryankorkowski-boop/helix-sequencer
+          name: helix-native-build-ubuntu24-x64-2026.18-18596d7ef1ae45292cc2b2f14a66241371b5561ac6556bf6aedef74d19c1a6a9
+          run-id: 39511779105
+          github-token: ${{ github.token }}
+          path: retained
+      - name: Validate and extract only native executable and wx runtime
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,pathlib,tarfile,subprocess,os,re
+          root=pathlib.Path('retained')
+          meta=json.loads((root/'renderer.json').read_text())
+          def sha(path): return hashlib.file_digest(path.open('rb'),'sha256').hexdigest()
+          assert meta['upstream_commit']=='839c0f590dc454bb7adb8a16c4dd92a70b46156e'
+          assert meta['patch_sha256']=='db2802bb57aede41410a59d4c008e7e386a18b77e2430d59e30cef5e5cdca019'
+          assert sha(root/'renderer.tar.gz')==meta['archive_sha256']
+          target=pathlib.Path('runtime');(target/'bin').mkdir(parents=True);(target/'lib').mkdir()
+          records={}
+          with tarfile.open(root/'renderer.tar.gz') as archive:
+              for member in archive:
+                  path=pathlib.PurePosixPath(member.name)
+                  if path.is_absolute() or '..' in path.parts: raise ValueError('Unsafe retained archive')
+                  binary=member.name=='xlights-src/bin/xLights'
+                  wx=member.name.startswith('xlights-src/wxWidgets-xlights_2026.17c/lib/') and '.so.' in path.name
+                  if member.isfile() and (binary or wx):
+                      destination=target/('bin' if binary else 'lib')/path.name
+                      with archive.extractfile(member) as source,destination.open('wb') as dest:
+                          import shutil
+                          shutil.copyfileobj(source,dest)
+                      before=sha(destination)
+                      if binary: assert before==meta['binary_sha256']
+                      os.chmod(destination,0o755)
+                      subprocess.run(['strip','--strip-debug',str(destination)],check=True)
+                      records[str(destination.relative_to(target))]={'original_sha256':before,'runtime_sha256':sha(destination)}
+                      if wx:
+                          stem=path.name.split('.so.')[0]+'.so'
+                          for alias in (stem,stem+'.'+path.name.split('.so.')[1].split('.')[0]):
+                              link=target/'lib'/alias
+                              if not link.exists():link.symlink_to(path.name)
+          assert (target/'bin/xLights').is_file()
+          assert any((target/'lib').iterdir())
+          receipt={'retained_build':meta,'source_run':39511779105,'source_commit':'aa00b873e484f9930b71afbe9504c27dcb7f4249','transformation':'remove debug symbols only; no code patch or movie reuse','files':records}
+          (target/'runtime-provenance.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          with tarfile.open('native-runtime.tar.gz','w:gz',compresslevel=6) as archive:archive.add(target,arcname='native-runtime')
+          pathlib.Path('native-runtime.sha256').write_text(sha(pathlib.Path('native-runtime.tar.gz'))+'  native-runtime.tar.gz\n')
+          print('Compact native runtime bytes:',pathlib.Path('native-runtime.tar.gz').stat().st_size)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-verified-compact-native-runtime
+          path: |
+            native-runtime.tar.gz
+            native-runtime.sha256
+            runtime/runtime-provenance.json
+          retention-days: 7

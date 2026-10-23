@@ -1853,3 +1853,14 @@ and automatically runs on PR changes to use PR-scope native cache. No upscaled
 or black MP4 delivered. Additional98 native/sequence/cast/patch checks passed,
 1 native integration skipped,10 subtests. First safe checkpoint3776d2a pushed;
 follow-up native build remains IN PROGRESS. No acceptance check weakened.
+
+
+## 2026-10-23 — Compact transfer of verified pinned native runtime
+
+IN PROGRESS: independent repair/native-runtime-transfer-20261023 workflow
+recovers only binary/wx shared runtime from exact successful run39511779105.
+Checks upstream/patch/archive/binary SHA256, discards compile objects, removes
+debug symbols only and records each original/derived hash. This addresses the
+connector's512MiB artifact limit without changing renderer code or interrupting
+existing native renders. No movie reused, no beta publication or acceptance
+claim. Executable/library runtime validation remains required after transfer.
