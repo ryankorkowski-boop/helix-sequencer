@@ -36,7 +36,12 @@ def main() -> int:
             # A clean installation legitimately has no saved layout. Verify
             # the first-run state without inventing a user selection.
             from core.layout_preferences import load_layout
-            assert app.layout_var.get() == load_layout(), "Saved layout not restored"
+            saved_layout = load_layout()
+            if saved_layout:
+                assert app.layout_var.get() == saved_layout, "Saved layout not restored"
+            else:
+                # First-run installs intentionally select a bundled showcase preset.
+                assert app.layout_var.get(), "No first-run layout selected"
             app.sequence_mode_var.set("Light-O-Rama")
             app.update_idletasks()
             assert str(app.template_entry.cget("state")) == "disabled"
