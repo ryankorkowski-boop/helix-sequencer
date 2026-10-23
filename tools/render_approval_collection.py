@@ -7,6 +7,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import uuid
+import zipfile
 import xml.etree.ElementTree as ET
 import numpy as np
 from tools.native_preview import preview_run, probe_media
@@ -21,6 +22,27 @@ def command(args):
 def pcm(path):
     return np.frombuffer(subprocess.check_output(['ffmpeg','-v','error','-i',str(path),'-map','0:a:0',
         '-ac','1','-ar','16000','-f','f32le','-']),dtype='<f4')
+
+
+def review_archive(folder):
+    """Publish a CRC-checked archive without interrupted encoder staging files."""
+    folder=Path(folder)
+    target=folder.parent/'Helix_Final_Beta_Approval_Bundle.zip'
+    temporary=target.with_name('.approval-'+uuid.uuid4().hex+'.zip')
+    try:
+        with zipfile.ZipFile(temporary,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
+            for path in sorted(folder.rglob('*')):
+                if not path.is_file() or path.name.startswith(('.comparison-','.tone-')) or path.name.endswith('.graded.mp4'):
+                    continue
+                before=digest(path)
+                z.write(path,str(Path(folder.name)/path.relative_to(folder)))
+                if digest(path)!=before:raise RuntimeError('Artifact changed during packaging: '+path.name)
+        with zipfile.ZipFile(temporary) as z:
+            if z.testzip() is not None:raise ValueError('Approval ZIP integrity failed')
+        temporary.replace(target)
+        return str(target.resolve())
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def verify(path,audio, *, native):
@@ -162,7 +184,7 @@ def render(layouts,output,xlights, *, source_commit=None):
     with (bundle/'05_Verification/SHA256SUMS').open('w') as sums:
         for p in sorted(bundle.rglob('*')):
             if p.is_file() and p.name!='SHA256SUMS':sums.write(digest(p)+'  '+str(p.relative_to(bundle))+'\n')
-    archive=shutil.make_archive(str(output/'Helix_Final_Beta_Approval_Bundle'),'zip',output,bundle.name)
+    archive=review_archive(bundle)
     print(json.dumps(dict(archive=archive,**status),indent=2),flush=True)
     return status
 

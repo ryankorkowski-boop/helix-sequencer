@@ -1,3 +1,21 @@
+## 2026-10-23 — Final platform receipts and archive publication guard
+
+COMPLETE —Android7c1a248 run40010798866 passed API30 AND API36 actual emulator
+offline/native-media/install/launch/same-key reinstall checks. Delivered API36
+debug APK SHA256 d4b7b0f226a1693533615f5e7d01bfa26a129bae07e7aac0202d6aca8bc34b0e;
+exact APK is cryptographically bound to install/launch proof. Production release
+is unsigned without established key; historical installed-key upgrade remains
+BLOCKED, never inferred from fresh debug installation. Windows7c1a248 portable
+archive verified with real Helix.exe/HelixCLI.exe PE headers and packaged smoke
+receipts. All18 final media checks pass. Archive CRC/count check caught an extra
+interrupted comparison staging file; central atomic ZIP writer now excludes
+known encoder staging names, checks every source file remains stable, verifies
+ZIP CRC, then replaces the published ZIP. No invalid transient is delivered.
+This final change affects artifact packaging only; application source remains
+7c1a248, media/artifact finishing checkpoint follows763de6f.39 focused checks
+passed after earlier atomic comparison fix; final ZIP itself is validated on
+the actual18 movies and complete JSON/checksum evidence. No beta/PR188 merge.
+
 ## 2026-10-23 — Verified eighteen-movie review inventory
 
 COMPLETE —18 actual final MP4s:12 native xLights individual layouts,6- and

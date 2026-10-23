@@ -85,3 +85,10 @@ Run Xvfb/openbox and renderer in the same execution namespace.
 - Final bundle: /workspace/scratch/b503538b9f0a/delivery-bright/Helix_Final_Beta_Approval_Bundle.zip. Featured videos in03_Band_Features; comparisons in02_Comparison_Videos. Final Native_Channel_Activity_Proof, Vocal_Compatibility_Proof, Instrument_Verification and complete test logs are included.
 - Native geometric limits, unresolved tom localization, cymbal/snare staging assumptions, AC-band hardware equivalence, helix rotation, actual device/signing and owner visual approval remain explicit release blockers.
 - No beta release orPR188 merge performed.
+
+## Platform proof and package guard
+
+- COMPLETE —Android40010798866 API30/API36 success; exact delivered API36 debug APK SHA256 d4b7b0f226a1693533615f5e7d01bfa26a129bae07e7aac0202d6aca8bc34b0e matches fresh install/launch/reinstall/data-preservation receipt. Historical installed-key upgrade NOT verified; unsigned release NOT installable.
+- COMPLETE —current application-source7c1a248 Windows portable ZIP has valid Helix.exe/HelixCLI.exe and passed packaged GUI/engine/nativeFSEQ.
+- Package count/CRC validation rejected an additional interrupted comparison staging file. Final atomic archive filter excludes .comparison/.tone/.graded temporary media and verifies stable source bytes plus ZIP CRC before publication. Actual final inventory must be exactly18 MP4s.
+- Remaining: owner visual approval; unresolved tom localization/native source-art drummer contact/visibility review; AC-band hardware equivalence; geometric helix rotation; established release signing key and actual historical-key device update test; final release gates. No beta publication orPR188 merge.

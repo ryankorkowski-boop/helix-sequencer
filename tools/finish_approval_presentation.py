@@ -9,7 +9,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import uuid
-from tools.render_approval_collection import verify, comparison
+from tools.render_approval_collection import verify, comparison, review_archive
 from tools.phoneme_source import digest
 
 CURVE="lutrgb=r='255*pow(val/255,0.4545454545)':g='255*pow(val/255,0.4545454545)':b='255*pow(val/255,0.4545454545)'"
@@ -122,7 +122,7 @@ def finish(folder,audio,solid,commit):
     with sums.open('w') as f:
         for p in sorted(folder.rglob('*')):
             if p.is_file() and p!=sums:f.write(digest(p)+'  '+str(p.relative_to(folder))+'\n')
-    archive=shutil.make_archive(str(folder.parent/'Helix_Final_Beta_Approval_Bundle'),'zip',folder.parent,folder.name)
+    archive=review_archive(folder)
     print(json.dumps(dict(archive=archive,mp4_count=len(reports),failures=failures),indent=2),flush=True)
     return after
 
