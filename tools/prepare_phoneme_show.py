@@ -76,7 +76,7 @@ def prepare(audio: Path, output: Path) -> Path:
         'next_action': 'Integrate approved solid scene into native show without altering vocal cues',
     }
     (output / 'VISUAL_ACCEPTANCE.json').write_text(
-        json.dumps(manifest['visual_identity'], indent=2) + '\\n')
+        json.dumps(manifest['visual_identity'], indent=2) + '\n')
     manifest['source_worktree_dirty'] = bool(subprocess.check_output(
         ['git', 'status', '--porcelain'], cwd=ROOT, text=True).strip())
     manifest['source_module_sha256'] = {name: digest(ROOT / name) for name in (
