@@ -152,6 +152,44 @@ jobs:
           sudo apt-get install -y ffmpeg
           python -m pip install numpy scipy soundfile Pillow
           PYTHONPATH=. python tools/verify_android_device_proof.py android/app/build/device-proof --output android/app/build/device-proof/decoded
+      - name: Verify APK installation compatibility and launch
+        if: always()
+        run: |
+          mkdir -p android/app/build/device-proof
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+          root = Path("android/app/build")
+          apk_dir = root / "outputs/apk"
+          proof = root / "device-proof"
+          apksigner = Path(os.environ["ANDROID_HOME"]) / "build-tools/36.0.0/apksigner"
+          records = []
+          for kind in ("debug", "release"):
+              apk = apk_dir / kind / ("app-" + kind + ".apk")
+              if not apk.exists():
+                  records.append({"variant": kind, "exists": False, "installable": False})
+                  continue
+              result = subprocess.run([str(apksigner), "verify", "--print-certs", str(apk)], text=True, capture_output=True)
+              records.append({"variant": kind, "exists": True, "signature_verified": result.returncode == 0,
+                              "certificate_details": result.stdout.strip(), "error": result.stderr.strip(),
+                              "installable": result.returncode == 0})
+          by_variant = {item["variant"]: item for item in records}
+          debug = by_variant.get("debug", {})
+          release = by_variant.get("release", {})
+          def cert_sha(item):
+              for line in item.get("certificate_details", "").splitlines():
+                  if "certificate SHA-256 digest:" in line:
+                      return line.split(":", 1)[1].strip()
+              return None
+          debug_sha, release_sha = cert_sha(debug), cert_sha(release)
+          report = {"package_id": "org.helixsequencer.android", "variants": records,
+                    "debug_to_release_update_compatible": bool(debug_sha and release_sha and debug_sha == release_sha),
+                    "warning": "Different certificates cannot update an installed debug APK; an unsigned release APK cannot install."}
+          (proof / "apk-install-compatibility.json").write_text(json.dumps(report, indent=2) + "\\n")
+          print(json.dumps(report, indent=2))
+          PY
       - name: Record artifact integrity and beta signing identity
         if: always()
         run: |
