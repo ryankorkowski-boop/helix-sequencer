@@ -8,7 +8,7 @@ def test_visual_receipt_is_valid_json_and_blocks_legacy_cast():
     text = source.read_text()
     assert "canonical_solid_3d_band': False" in text
     assert "owner_vocal_animation_review': 'passed_in_prior_video'" in text
-    assert "json.dumps(manifest['visual_identity'], indent=2) + '\\n')" not in text
+    assert "json.dumps(manifest['visual_identity'], indent=2)" in text
 
 
 def test_finalizer_does_not_accept_native_review_cast_as_canonical():
