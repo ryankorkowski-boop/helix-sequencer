@@ -131,7 +131,14 @@ jobs:
           arch: x86_64
           disable-animations: true
           working-directory: android
-          script: python ../tools/run_android_device_smoke.py
+          script: |
+            mkdir -p app/build/device-proof
+            adb logcat -c || true
+            python ../tools/run_android_device_smoke.py
+            result=$?
+            adb logcat -d -v threadtime > app/build/device-proof/emulator-logcat.txt || true
+            adb shell dumpsys activity processes > app/build/device-proof/emulator-processes.txt || true
+            exit "$result"
       - name: Stop transport fixture
         if: always()
         run: |
