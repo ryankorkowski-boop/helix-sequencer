@@ -1,3 +1,28 @@
+## 2026-10-23 — Last source-routing and AC coverage repairs
+
+Goal: repair the last known approval-media implementation defects before
+persistent delivery. New actual native-frame inspection found generic drum
+placement collapsing component events to a tom row. export_drums now binds the
+retained production classifier clocks directly to original KICK/SNARE surfaces,
+hi-hat foot only and source cymbal poses. No new musical event is generated;
+unlocalized toms remain explicitly unresolved, cymbal side/snare hand remain
+visual staging assumptions. Source body/kit idle illumination cannot override
+those event surfaces. Both canonical preparation and collection use this path.
+AC256 now has its megatree, eight-ray spinner and two independently source-timed
+singing faces with outline/eyes/seven mouth circuits in16-address banks; the
+total256-address controller budget is unchanged. AC preview bulb sizing improved
+readability; original audio and all lead/backup clock estimates remain unchanged.
+Changed: canonical_band_cues, canonical_native_band, prepare_phoneme_show,
+approval_layouts, collection builder, final presentation finisher/workflow and
+regressions.37 focused tests pass,1 receipt-dependent skip. Full suite and four
+affected native rerenders are IN PROGRESS; previous2106-pass result retained,
+not inferred for this new checkpoint. Prior missing-spinner/face limitation is
+SUPERSEDED by this explicit fix, pending native rendered inspection. Prior
+brightness failure forAC256 is still recorded until actual final pixels pass.
+Current4cdd069 Windows run40009240809 completed successfully; Android still
+queued at last inspection. No public beta/merge. Final receipts, checksums and
+remaining acceptance work must be appended to the permanent bundle handoff.
+
 ## 2026-10-23 — Complete native movie inventory and separate solid visualization
 
 Goal: deliver the full playable inventory while preserving native/GL provenance

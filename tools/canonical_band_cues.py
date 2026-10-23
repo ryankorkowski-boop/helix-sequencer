@@ -16,6 +16,66 @@ def refresh_models(garden, layout):
     tree.write(layout,encoding='utf-8',xml_declaration=True)
 
 
+def export_drums(root, garden, plan):
+    """Route known detected components; never turn every drum into a tom.
+
+    Tom localization remains unresolved in this retained coarse plan. Cymbal
+    side and snare hand are disclosed staging assignments, not acoustic facts.
+    """
+    model=next(m for m in garden.models if m.details.get('review_role')=='drummer')
+    duration=round(float(root.findtext('head/sequenceDuration'))*1000)
+    elements=root.find('ElementEffects');displays=root.find('DisplayElements')
+    for container in (elements,displays):
+        for child in list(container):
+            if child.get('name')==model.name or child.get('name','').startswith(model.name+'/'):
+                container.remove(child)
+    ET.SubElement(displays,'Element',type='model',name=model.name,visible='1',collapsed='1')
+    ET.SubElement(ET.SubElement(elements,'Element',type='model',name=model.name),'EffectLayer')
+    layers={};windows={};counts={};unresolved=[]
+    def emit(part,a,b,color,level,end_level=None,source=None):
+        if not model.submodels.get(part) or b<=a:return
+        if part not in layers:
+            el=ET.SubElement(elements,'Element',type='model',name=model.name+'/'+part)
+            layers[part]=ET.SubElement(el,'EffectLayer')
+        bright=round(max(.01,min(1,level))*100)
+        effect=add_effect(layers[part],a,min(b,duration),'On',EffectTemplate(
+            settings=f'E_TEXTCTRL_Eff_On_Start={bright},E_TEXTCTRL_Eff_On_End={bright if end_level is None else round(end_level*100)}',
+            palette=f'C_BUTTON_Palette1={color},C_CHECKBOX_Palette1=1'))
+        effect.set('sourceMethod','retained_production_drum_plan' if source else 'nonmusical_kit_visibility')
+        if source:
+            effect.set('sourceComponent',part);effect.set('sourceStartMs',str(a))
+        windows.setdefault(part,[]).append((a,b))
+    prefix='HX_SNOWMAN_DRUMMER_V3_'
+    for i,cue in enumerate(plan.get('cues',{}).get('drummer',[])):
+        component={'kick':'KICK','snare':'SNARE','hihat':'HI_HAT','cymbal':'CYMBAL_RIGHT'}.get(cue['kind'])
+        if component is None:
+            unresolved.append(dict(start_ms=cue['start_ms'],kind=cue['kind'],reason='No localized tom identity in retained source plan'))
+            continue
+        a,b=int(cue['start_ms']),min(duration,int(cue['end_ms']))
+        level=max(.1,min(1,float(cue.get('velocity',.8))))
+        parts=[prefix+component+'_SURFACE']
+        if component=='HI_HAT':parts.append(prefix+'HI_HAT_FOOT')
+        elif component not in ('KICK',):
+            pose=('SNARE_RIGHT' if i%2 else 'SNARE') if component=='SNARE' else component
+            parts += [prefix+pose+'_ARM_STICK_WOOD',prefix+pose+'_ARM_STICK_NEUTRAL']
+        for part in parts:
+            emit(part,a,b,'#E8C883' if 'CYMBAL' in component or component=='HI_HAT' else '#BFEAFF',level,max(.03,level*.15),source=cue)
+        counts[component]=counts.get(component,0)+1
+    # Each kit surface remains visible through genuine event complements.
+    for component in ('KICK','SNARE','HI_HAT','TOM_HIGH','TOM_MID','TOM_FLOOR','CYMBAL_LEFT','CYMBAL_RIGHT'):
+        part=prefix+component+'_SURFACE';cursor=0
+        original=list(windows.get(part,[]))
+        for a,b in sorted(original):
+            if a>cursor:emit(part,cursor,a,'#A8BECB',.25)
+            cursor=max(cursor,b)
+        if cursor<duration:emit(part,cursor,duration,'#A8BECB',.25)
+    return dict(source='retained production band plan',component_events=counts,
+        unresolved_events=unresolved,hi_hat_is_foot_only=True,
+        cymbal_side='right-side staging assignment; source side unverified',
+        snare_hand='alternating visualization assignment; source hand unverified',
+        event_timing_preserved=True,independent_component_ground_truth_verified=False)
+
+
 def export_instruments(root, garden, plan):
     duration = round(float(root.findtext('head/sequenceDuration')) * 1000)
     elements = root.find('ElementEffects')

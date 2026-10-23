@@ -66,3 +66,11 @@ Run Xvfb/openbox and renderer in the same execution namespace.
 - IN PROGRESS — explicit gamma2.2 presentation curve and final-file revalidation; prior failures retained. Source AC preview bulbs12px, actual channel budgets unchanged.
 - BLOCKED —AC256 lacks dedicated spinner/singing-face circuit props; native drum localization/contact, exact solid native equivalence, geometric helix rotation, current platform/hardware validation and owner visual approval remain.
 - Do not label the bundle release-complete even if final file acceptance passes. It contains a real full inventory plus an explicit incompleteness report.
+
+## Final source repair checkpoint
+
+- COMPLETE —37 focused checks pass,1 receipt-dependent native skip. Full suite rerunning.
+- IN PROGRESS — native rerenders03/07/08/12 with explicit drum component clocks and completedAC256 spinner/two singing faces. Earlier missing-face/spinner item is superseded by this implementation; final rendered evidence pending.
+- Corrected source body idle ownership so kit events can flash independently. Unresolved toms, source cymbal side and snare hands remain honest uncertainty.
+- COMPLETE —Windows40009240809 at4cdd069 passed packaged engine/GUI/native-FSEQ checks; current final code still requires source-specific CI. Android pending.
+- Final delivery after rendering: run finish_approval_presentation, inspect18 final MP4s, verify ZIP checksums, save ZIP + featured videos persistently, then append download identifiers/results here.

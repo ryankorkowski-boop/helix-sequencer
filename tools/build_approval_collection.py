@@ -10,7 +10,7 @@ from tools.build_snowman_ensemble import NativeSequence
 from tools.build_helpers.ultimate_showcase import write_layout
 from tools.phoneme_source import EXPECTED_SHA256, digest
 from tools.phoneme_vocal_export import static_materials, export, FIXTURE
-from tools.canonical_band_cues import export_instruments, refresh_models
+from tools.canonical_band_cues import export_instruments, export_drums, refresh_models
 from models.band_sampler_logic import SHAPE_NAMES
 from xlights.xml_io import materialize_native_effect_tables
 
@@ -48,7 +48,7 @@ def build(source, output):
                     for a,b in zip(cuts[:-1],cuts[1:]):
                         part='MOUTH_'+SHAPE_NAMES[int(values[a])]
                         if m.submodels.get(part):sequence.effect(m,part,int(a)*10,min(34880,int(b)*10),g.palette[2],85)
-                for part in ('OUTLINE','BASE','BODY'):
+                for part in ('OUTLINE','BASE','BODY','EYES'):
                     if m.submodels.get(part):sequence.effect(m,part,0,34880,g.palette[0],45)
                 continue
             is_helix=m.name=='HX_CENTER_KEYBOARD_HELIX'
@@ -94,24 +94,11 @@ def build(source, output):
         write_layout(g,folder,include_demo=False,export_all_custom=True)
         if band:
             from types import SimpleNamespace
-            export_instruments(sequence.root,SimpleNamespace(models=band),plan)
+            instrument_report=export_instruments(sequence.root,SimpleNamespace(models=band),plan)
+            instrument_report['drummer']=export_drums(sequence.root,SimpleNamespace(models=band),plan)
+            (folder/'instrument_export.json').write_text(json.dumps(instrument_report,indent=2)+'\n')
             vocals=export(sequence.root,folder/'xlights_rgbeffects.xml',SimpleNamespace(models=band))
             (folder/'vocal_lane_diagnostic.json').write_text(json.dumps(vocals,indent=2)+'\n')
-            # Retain the original source drummer effects and their exact clocks.
-            original=ET.parse(source/'Phoneme_Test_Hook_Helix.xsq').getroot()
-            # Reuse source tables after normalizing the source to inline values.
-            db=[e.text or '' for e in original.findall('EffectDB/Effect')]
-            palettes=[e.text or '' for e in original.findall('ColorPalettes/ColorPalette')]
-            for el in original.findall('ElementEffects/Element'):
-                if not el.get('name','').startswith('HX_SNOW_DRUMMER'):continue
-                copied=ET.fromstring(ET.tostring(el))
-                for effect in copied.iter('Effect'):
-                    if effect.get('ref','').isdigit():effect.set('settings',db[int(effect.attrib.pop('ref'))])
-                    if effect.get('palette','').isdigit():effect.set('palette',palettes[int(effect.get('palette'))])
-                target=sequence.root.find('ElementEffects')
-                existing=target.find("Element[@name='%s']"%el.get('name'))
-                if existing is not None:target.remove(existing)
-                target.append(copied)
         materialize_native_effect_tables(sequence.root)
         refresh_models(g,folder/'xlights_rgbeffects.xml')
         path=folder/(name+'.xsq');sequence.write(path)

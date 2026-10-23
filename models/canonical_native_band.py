@@ -34,7 +34,7 @@ def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0)):
             pixels = np.asarray(Image.open(ROOT/'fixtures/band_geometry/source/drummer_idle.png').convert('RGB').resize((96,72),Image.Resampling.BOX)).reshape(-1,3)
             model.colors = ['#'+''.join(f'{int(c):02X}' for c in pixel) for pixel in pixels]
             # Use the retained masked idle ranges; source margins/axes are excluded.
-            model.submodels['BASE_DIM'] = sorted(set().union(*(set(v) for k,v in model.submodels.items() if k.startswith('IDLE_'))))
+            model.submodels['BASE_DIM'] = list(model.submodels['BODY_KEEPALIVE'])
             for target in ('KICK', 'SNARE_LEFT', 'SNARE_RIGHT', 'TOM_HIGH', 'TOM_MID',
                            'TOM_FLOOR', 'HI_HAT', 'CYMBAL_LEFT', 'CYMBAL_RIGHT'):
                 key = 'HX_SNOWMAN_DRUMMER_V3_' + target

@@ -47,8 +47,7 @@ def finish(folder,audio,solid,commit):
         source_black_stays_black=True,highlight_endpoint_preserved=True,
         native_individuals=12,comparison_panels_synchronized=True,
         solid_companion='Separate OpenGL visualization; never labeled native xLights')
-    after['target_coverage_limitations']=['AC256 candidate still lacks dedicated spinner and singing-face circuit props',
-        'Native source-art drummer localization/contact audit remains open',
+    after['target_coverage_limitations']=['Native source-art drummer localization/contact audit remains open',
         'Native pixel models are surface samples, not continuously animated solid meshes',
         'Physical AC/pixel controller tests and current Windows/Android release gates remain open',
         'Helix geometric rotation is not implemented; independent strands and88 source-pitch rungs are real']
@@ -67,7 +66,7 @@ def finish(folder,audio,solid,commit):
             'The actual final files were decoded and measured again. All pre-grade failures remain inBefore_Presentation_Grading.json; final failures remain inMP4_Verification_Report.json.\n\n'
             'Helix_Canonical_Solid_3D_Visualization.mp4 is a separate, clearly labeled OpenGL companion usingFinalBandScene and the same retained vocal clocks/source cues. It is not a native xLights export. '
             'It retains the canonical planar drummer artwork. Unlocalized toms are omitted and cymbal side is a disclosed staging assumption.\n\n'
-            'Coverage remains incomplete: theAC256 candidate lacks dedicated spinner and singing-face circuit props; native drum localization/contact, continuous mesh equivalence, geometric helix rotation and platform release verification remain open.\n')
+            'TheAC256 layout includes a mega tree, radial spinner and two independently source-timedAC singing faces within its256-address budget. Drum localization/contact, continuous mesh equivalence, geometric helix rotation and platform release verification remain open.\n')
     (folder/'00_START_HERE/VIDEO_INDEX.md').write_text('# Video index\n\n'+''.join(
         f"- {r['file']} — {r['video_duration']:.3f}s, {r['dimensions'][0]}×{r['dimensions'][1]}, full decode passed, readability={r['readability']['passed']}\n" for r in reports))
     for p in sorted(folder.rglob('*'),reverse=True):

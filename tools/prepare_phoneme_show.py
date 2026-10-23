@@ -100,11 +100,12 @@ def prepare(audio: Path, output: Path) -> Path:
     # Relative media must be valid when the complete show is unpacked elsewhere.
     tree = ET.parse(final)
     tree.find('head/mediaFile').text = 'media/Phoneme_Test_Hook.mp3'
-    from tools.canonical_band_cues import export_instruments
+    from tools.canonical_band_cues import export_instruments, export_drums
     plans = list((output / 'sequence').glob('*.snowman_band.json'))
     if len(plans) != 1:
         raise ValueError('Expected one retained production band plan')
     instrument_report = export_instruments(tree.getroot(), garden, json.loads(plans[0].read_text()))
+    instrument_report['drummer'] = export_drums(tree.getroot(),garden,json.loads(plans[0].read_text()))
     from tools.canonical_band_cues import refresh_models
     refresh_models(garden, layout)
     (output / 'instrument_export.json').write_text(json.dumps(instrument_report, indent=2) + '\n')

@@ -82,6 +82,34 @@ def ac_circuits(g, factor):
         g.models[i]=q
 
 
+def ac_face(x, lane):
+    """Separately wired outline, eyes and seven mouth circuits;16-channel bank.
+
+    Many physical bulbs share each circuit. Unused controller addresses stay
+    reserved; they are not invented pixel channels or extra performers.
+    """
+    from models.ultimate_showcase import _path
+    g=Garden();points=[];circuits=[];subs={}
+    def part(name,values,circuit):
+        values=np.asarray(values)+(x,0,6)
+        points.extend(values);circuits.extend([circuit]*len(values));subs[name]=[circuit]
+    part('OUTLINE',_path([(0,22,0),(-5,14,0),(-3,14,0),(-7,5,0),(-4,5,0),(-9,0,0),(9,0,0),(4,5,0),(7,5,0),(3,14,0),(5,14,0)],180,closed=True),1)
+    t=np.linspace(0,math.tau,40,endpoint=False)
+    part('EYES',np.vstack([np.c_[s*2+.6*np.cos(t),10+.9*np.sin(t),np.full(40,.12)] for s in (-1,1)]),2)
+    shapes={'REST':(2,.12),'MBP':(2,.18),'AH':(2.3,1.6),'EE':(2.5,.6),'OH':(1.3,1.5),'FV':(2,.45),'L':(1.8,1.2)}
+    for circuit,(shape,(w,h)) in enumerate(shapes.items(),3):
+        part('MOUTH_'+shape,np.c_[w*np.cos(t),6+h*np.sin(t),np.full(40,.2+circuit*.10)],circuit)
+    model=g.custom('AC_SINGING_FACE_'+lane,points,'FACES','16-channel AC singing tree face',
+                   ['#FFF6D8']*len(points),{})
+    entries=model.attrs['CustomModelCompressed'].split(';')
+    model.attrs.update(CustomModelCompressed=';'.join(','.join([str(c)]+e.split(',')[1:]) for e,c in zip(entries,circuits)),
+                       StringType='Single Color White',PixelSize='14')
+    model.kind='ac';model.submodels=subs
+    model.details.update(circuit_count=16,point_circuits=circuits,generic_singer=lane,
+                         physical_wiring_verified=False,reserved_unused_controller_circuits=7)
+    return model
+
+
 def build_layout(number):
     if not 1<=number<=12:raise ValueError('Layout number outside1..12')
     g=Garden(title=NAMES[number-1].replace('_',' '),slug=NAMES[number-1],
@@ -101,6 +129,14 @@ def build_layout(number):
                 new=g.models.pop();
                 replacement=Garden();replacement.models=[new];ac_circuits(replacement,16)
                 g.models[10]=replacement.models[0]
+                # A real radial spinner and two source-timed singing faces,
+                # each assigned one16-channel bank within the same256 budget.
+                spinner=Garden();a=np.repeat(np.arange(8)*math.tau/8,24);r=np.tile(np.linspace(.5,8,24),8)
+                points=np.c_[46+r*np.cos(a),18+r*np.sin(a),np.full(len(a),-8)]
+                spinner.custom('AC_RADIAL_SPINNER',points,'SPINNER','Eight-ray spinner',['#FFF1CF']*len(points),{})
+                ac_circuits(spinner,16);g.models[11]=spinner.models[0]
+                g.models[12]=ac_face(-15,'estimated_lead');g.models[13]=ac_face(15,'estimated_backing')
+                for model in g.models:model.attrs['PixelSize']='14'
             return allocate(g)
         if number in (5,6,8):faces(g)
         if number in (6,8):

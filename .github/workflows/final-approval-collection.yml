@@ -137,6 +137,10 @@ jobs:
       - name: Render synchronized native collection, verify files and package diagnostic candidate
         run: |
           xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >collection-openbox.log 2>&1 & exec python -m tools.render_approval_collection approval-layouts approval-delivery --xlights "$HELIX_PATCHED_XLIGHTS" --source-commit "$HELIX_SOURCE_COMMIT"'
+      - name: Render separately labeled canonical solid visualization
+        run: python -m tools.render_canonical_solid_candidate phoneme-work/show solid-visualization/Helix_Canonical_Solid_3D_Visualization.mp4
+      - name: Finish explicit display tone curve and verify every final file
+        run: python -m tools.finish_approval_presentation approval-delivery/Helix_Final_Beta_Approval_Bundle --audio phoneme-work/show/media/Phoneme_Test_Hook.mp3 --solid solid-visualization/Helix_Canonical_Solid_3D_Visualization.mp4 --commit "$HELIX_SOURCE_COMMIT"
       - name: Fully decode and collect actual native movie from render receipt
         if: always()
         run: |
