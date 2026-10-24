@@ -18,3 +18,12 @@ then estimates lead and residual backing. Only broad acoustic AH/EE/OH colors
 and source-timed rests are exported. Distinct outputs are not verified singer
 identities; reverb/lead/instrument leakage remains possible. The gate requiring
 independently verified backing is not closed by this analysis.
+
+The latest cache uses per-source Silero VAD screening in addition to periodic
+energy. Reproduce with `python -m tools.offline_vocal_candidates AUDIO OUTPUT
+--models LOCAL_PINNED_WEIGHTS`. All weights must be present with the hashes
+listed in that module. Linux seccomp denies networking during inference and
+ONNX telemetry is disabled before sessions are created. The output binds the
+candidate WAVs and detector probabilities to SHA256 receipts. Screening uses
+the same rule throughout the recording; there is no ending-specific mute.
+Speech VAD can miss singing, so the cache remains an estimate requiring review.

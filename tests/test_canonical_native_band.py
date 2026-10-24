@@ -36,14 +36,14 @@ def test_source_drummer_ranges_preserved_and_native_limitation(garden):
     assert visual_identity()['canonical_surface_geometry'] is True
 
 
-def test_real_vocal_cache_maps_to_solid_singers_without_retiming(garden, tmp_path):
+def test_presence_screened_vocal_cache_maps_to_distinct_singers(garden, tmp_path):
     write_layout(garden, tmp_path, include_demo=False)
     root=ET.Element('xsequence')
     ET.SubElement(ET.SubElement(root,'head'),'sequenceDuration').text='34.88'
     ET.SubElement(root,'DisplayElements'); ET.SubElement(root,'ElementEffects')
     result=export(root,tmp_path/'xlights_rgbeffects.xml',garden)
-    for role, expected in [('LEAD',476), ('HARMONY',494)]:
-        # These counts bind the new geometry to the retained reviewed clocks.
+    for role, expected in [('LEAD',264), ('HARMONY',86)]:
+        # Golden counts bind this cache revision to its screened source clocks.
         assert result['models']['HX_SNOW_'+role]['faces_effect_count'] == expected
         singer=next(m for m in garden.models if m.name=='HX_SNOW_'+role)
         assert set(k.removeprefix('MOUTH_') for k in singer.submodels if k.startswith('MOUTH_')) == {

@@ -1,3 +1,64 @@
+## 2026-10-24 — PR188 native visibility and ending-mouth repair verified
+
+Goal: repair the failed native pilot and deliver fresh review media while keeping
+unresolved release gates explicit. Changed: models/canonical_native_band.py;
+music/vocal_presence.py; tools/offline_vocal_candidates.py;
+tools/phoneme_vocal_export.py; tools/finalize_phoneme_review.py;
+tools/render_approval_collection.py; the vocal cache/receipt and README under
+fixtures/audio; tests/test_offline_vocal_transform.py,
+tests/test_vocal_presence_screen.py, tests/test_approval_label_atomic.py,
+tests/test_canonical_native_band.py, tests/test_vocal_clock_conflict_audit.py;
+this ledger and docs/FINAL_BETA_APPROVAL_BUNDLE_HANDOFF.md.
+
+Preserved: original full34.88s audio SHA256
+19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938,
+all73923 channel addresses and node coordinates, six performers, original V3
+drummer ranges, instrument-plan timing and every quality threshold. Vocal
+activity masks intentionally changed after per-source presence screening.
+New behavior: native preview point size6 and authored material illumination90%;
+specific failed-quality names/measurements replace the misleading frozen error.
+Offline MDX candidates use pinned local weights; seccomp denies networking
+before ONNX import and telemetry is disabled before inference sessions. Silero
+VAD screens each candidate across the complete recording with the same rule;
+no ending-specific mute, copied singer lane or arbitrary timing shift. Results
+remain estimates and independent_backing_verified stays false.
+
+Evidence: fresh native pilot full decode and finalization PASS. Median luma14.383
+(required12), median motion.702(required.65), all five image checks pass.
+Actual decoded FSEQ open-mouth frames after32.82s changed lead29 ->0 and
+backing35 ->0. Earlier backing activity is preserved:80 native open frames,
+compared with323 lead frames. Five fresh native camera exports have identical
+decoded channel SHA25649c18c72a3c551877a5aa5c5b34e9e638776326ea1205c02dca0b9eb6801efa1.
+Eight fresh full-song H264/AAC review movies pass full decode, source and EOF
+soundtrack alignment,698 increasing20fps timestamps. The solid companion is
+explicitly OpenGL, with the original planar source drummer; never called native.
+
+Regression coverage:2142 passed,6 skipped,24 subtests passed in isolated batches
+with JUnit receipts (all2148 current collected parent tests covered). Separate
+focused suites41 and9 passed; those overlap the full run and are not added.
+Initial monolithic attempts ended without a summary and are not counted as
+completed tests. An incomplete captioned MP4 was caught during packaging:
+caption exports now bound decoder/filter/encoder threads, probe a temporary
+output before atomically replacing a review movie, and preserve the prior
+target on failure. The interrupted-output regression fails the old behavior.
+
+Runtime recovery: verified producer39511779105 was compacted without rebuilding
+by utility run40098615878 on codex/pr188-native-runtime-20261024. Source patch,
+upstream and archive/binary identity were checked before packaging; the actual
+local stripped binary hash is recorded with media. No old native-proof rerun
+was requested. The prior r2 ZIP readback now matches its expected SHA256 and CRC;
+standalone prior featured-file readback is not newly claimed.
+
+Limitations: speech VAD can miss singing; individual singer identity, exact
+lexical phones and full musical truth remain unverified. The strict E14 producer
+source gate is retained. Exact owner-approved solid/native fidelity remains
+unpassed; no pilot_acceptance.json was fabricated. Historical Android key,
+real baseline update/data-preservation proof and compatible APK remain absent.
+Deferred: final12 collection, merge and public beta until their gates pass.
+Risks: larger native preview points can obscure fine detail; detail cameras
+and source candidate WAVs are supplied for review. This is a repaired review
+bundle, not an all-release-gates-complete claim. Follow this ledger for handoff.
+
 ## Recovery verification commands and workflow results — 2026-10-24
 
 Documentation-only follow-up: exact commands for the already recorded checks.

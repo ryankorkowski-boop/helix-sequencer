@@ -98,7 +98,7 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE):
             layer = ET.SubElement(element, 'EffectLayer', name='Helix authored material; nonmusical illumination')
             color = '#' + part.removeprefix('STATIC_RGB_')
             effect = add_effect(layer, 0, duration_ms, 'On', EffectTemplate(
-                settings='E_TEXTCTRL_Eff_On_Start=70,E_TEXTCTRL_Eff_On_End=70',
+                settings='E_TEXTCTRL_Eff_On_Start=90,E_TEXTCTRL_Eff_On_End=90',
                 palette='C_BUTTON_Palette1='+color+',C_CHECKBOX_Palette1=1'))
             effect.set('sourceRole', 'static_authored_material')
     return result

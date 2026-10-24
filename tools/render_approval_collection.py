@@ -68,16 +68,22 @@ def verify(path,audio, *, native):
 
 def label(source,target,title):
     # Only captions are composited; every display pixel comes from native export.
-    command(['ffmpeg','-v','error','-y','-i',str(source),'-vf',
-        "drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='"+title+"':x=20:y=18:fontsize=23:fontcolor=white:box=1:boxcolor=black@0.65:boxborderw=8",
-        '-c:v','libx264','-preset','fast','-crf','19','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(target)])
+    temporary=target.with_name('.label-'+uuid.uuid4().hex+'.mp4')
+    try:
+        command(['ffmpeg','-nostdin','-v','error','-y','-threads','2','-filter_threads','2','-i',str(source),'-vf',
+            "drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='"+title+"':x=20:y=18:fontsize=23:fontcolor=white:box=1:boxcolor=black@0.65:boxborderw=8",
+            '-c:v','libx264','-preset','fast','-crf','19','-threads','2','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(temporary)])
+        probe_media(temporary,'ffprobe')
+        temporary.replace(target)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def comparison(paths,labels,target,audio,cols,rows, *, duration=34.88):
     if not math.isfinite(duration) or duration<=0:raise ValueError('Positive source comparison duration required')
     width,height=(1280,540) if len(paths)==12 else (1280,720)
     args=['ffmpeg','-v','error','-y','-filter_complex_threads','2']
-    for path in paths:args+=['-i',str(path)]
+    for path in paths:args+=['-threads','1','-i',str(path)]
     args+=['-i',str(audio)]
     filters=[]
     for i,path in enumerate(paths):

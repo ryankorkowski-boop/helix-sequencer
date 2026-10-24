@@ -31,7 +31,10 @@ def finalize(show: Path) -> dict:
         (show / 'SHOWCASE_READABILITY.json').write_text(json.dumps(readability, indent=2) + '\n')
         report['readability'] = readability
         if not readability['passed']:
-            raise ValueError('Native movie is unreadable or frozen; retain diagnostic media without promoting it for owner approval')
+            failed = ', '.join(name for name, passed in readability['checks'].items() if not passed)
+            raise ValueError('Native image quality failed: ' + failed + '; measurements=' +
+                             json.dumps(readability['measurements'], sort_keys=True) +
+                             '; retain diagnostic media without promoting it for owner approval')
         import numpy as np
         def pcm(path):
             return np.frombuffer(subprocess.check_output([

@@ -22,7 +22,7 @@ def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0)):
         role = model.details['final_band_role']
         model.details.update(review_role=role, geometry_source='models.final_band_scene.FinalBandScene',
                              owner_approved_native_visuals=False)
-        model.attrs.update(PixelSize='3', Antialias='1', BlackTransparency='100',
+        model.attrs.update(PixelSize='6', Antialias='1', BlackTransparency='100',
                            HelixOutputMode='pixel')
         if role == 'drummer':
             # xLights draws CustomBkgImage in the exported House Preview,
