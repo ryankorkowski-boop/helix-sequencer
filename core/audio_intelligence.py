@@ -841,18 +841,59 @@ def build_stem_analysis(
 
     stems: dict[str, Path] | None = None
     source = "local"
+    # Only reuse stems accompanied by a source fingerprint. Filename or mtime
+    # alone is insufficient: different recordings may share the same basename.
+    import hashlib
+    source_digest = hashlib.sha256()
+    with audio_path.open("rb") as source_file:
+        for chunk in iter(lambda: source_file.read(1024 * 1024), b""):
+            source_digest.update(chunk)
+    source_sha256 = source_digest.hexdigest()
+    local_paths = {
+        role: stem_dir / f"{audio_path.stem}.{role}.wav"
+        for role in ("vocals", "drums", "bass", "other")
+    }
+    local_manifest = stem_dir / "helix-local-stems.json"
+    if not use_moises and os.environ.get("HELIX_USE_DEMUCS", "").strip().lower() not in {"1", "true", "yes"}:
+        try:
+            manifest = json.loads(local_manifest.read_text(encoding="utf-8"))
+            if (manifest.get("source_sha256") == source_sha256
+                    and manifest.get("format") == "helix-local-hpss-v1"
+                    and all(p.is_file() and p.stat().st_size > 44
+                            and p.stat().st_mtime_ns >= audio_path.stat().st_mtime_ns
+                            for p in local_paths.values())):
+                stems = local_paths
+                _log(log_fn, "Stem split: reusing source-verified local WAV stems.")
+        except (OSError, ValueError, TypeError):
+            pass
     if use_moises:
         stems = _try_moises_stem_separation(audio_path, stem_dir, api_key or "", log_fn)
         if stems:
             source = "moises"
-    if not stems:
+    # Demucs is expensive and must be explicitly opted into. Its presence on
+    # PATH alone must not silently turn a normal sequence into a long ML job.
+    if not stems and os.environ.get("HELIX_USE_DEMUCS", "").strip().lower() in {"1", "true", "yes"}:
         stems = _try_demucs_stem_separation(audio_path, stem_dir, log_fn)
         if stems:
             source = "demucs"
     if not stems:
         try:
+            # Invalidate the old manifest before writing any replacement WAV.
+            # A partial/failed separation must never leave a trusted cache.
+            local_manifest.unlink(missing_ok=True)
             stems = _local_stem_separation(audio_path, stem_dir, log_fn)
+            if not all(p.is_file() and p.stat().st_size > 44 for p in local_paths.values()):
+                raise RuntimeError("Local stem separation did not produce four complete WAVs")
             source = "local"
+            manifest_temp = local_manifest.with_suffix(".json.tmp")
+            try:
+                manifest_temp.write_text(
+                    json.dumps({"format": "helix-local-hpss-v1", "source_sha256": source_sha256}),
+                    encoding="utf-8",
+                )
+                manifest_temp.replace(local_manifest)
+            finally:
+                manifest_temp.unlink(missing_ok=True)
         except Exception as exc:
             _log(log_fn, f"Stem split fallback failed, using direct audio analysis only: {exc}")
             stems = {}

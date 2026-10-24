@@ -1,0 +1,1340 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xsequence BaseChannel="1" ChanCtrlBasic="0" ChanCtrlColor="0" FixedPointTiming="1" ModelBlending="true">
+  <head>
+    <version>2026.18</version>
+    <author>Helix</author>
+    <song>Clockwork Firefly Woods lighting study</song>
+    <comment>24-second silent artwork-guided concept lighting study. Stage drummer cues are an instrument demonstration, not song transcription.</comment>
+    <sequenceTiming>50 ms</sequenceTiming>
+    <sequenceType>Animation</sequenceType>
+    <sequenceDuration>24.000</sequenceDuration>
+    <mediaFile />
+  </head>
+  <nextid>993</nextid>
+  <ColorPalettes>
+    <ColorPalette>C_BUTTON_Palette1=#B599FF,C_CHECKBOX_Palette1=1</ColorPalette>
+    <ColorPalette>C_BUTTON_Palette1=#FFD98A,C_CHECKBOX_Palette1=1</ColorPalette>
+  </ColorPalettes>
+  <EffectDB>
+    <Effect>E_TEXTCTRL_Eff_On_Start=50,E_TEXTCTRL_Eff_On_End=50</Effect>
+    <Effect>E_TEXTCTRL_Eff_On_Start=90,E_TEXTCTRL_Eff_On_End=90</Effect>
+  </EffectDB>
+  <DisplayElements>
+    <Element type="model" name="HX_001_SPIRAL_TREE" visible="1" collapsed="1" />
+    <Element type="model" name="HX_002_SPIRAL_TREE" visible="1" collapsed="1" />
+    <Element type="model" name="HX_003_SPIRAL_TREE" visible="1" collapsed="1" />
+    <Element type="model" name="HX_004_SPIRAL_TREE" visible="1" collapsed="1" />
+    <Element type="model" name="HX_005_FIREFLY_BODY" visible="1" collapsed="1" />
+    <Element type="model" name="HX_006_FIREFLY_WING" visible="1" collapsed="1" />
+    <Element type="model" name="HX_007_FIREFLY_WING" visible="1" collapsed="1" />
+    <Element type="model" name="HX_008_FIREFLY_BODY" visible="1" collapsed="1" />
+    <Element type="model" name="HX_009_FIREFLY_WING" visible="1" collapsed="1" />
+    <Element type="model" name="HX_010_FIREFLY_WING" visible="1" collapsed="1" />
+    <Element type="model" name="HX_011_FIREFLY_BODY" visible="1" collapsed="1" />
+    <Element type="model" name="HX_012_FIREFLY_WING" visible="1" collapsed="1" />
+    <Element type="model" name="HX_013_FIREFLY_WING" visible="1" collapsed="1" />
+    <Element type="model" name="HX_014_FIREFLY_BODY" visible="1" collapsed="1" />
+    <Element type="model" name="HX_015_FIREFLY_WING" visible="1" collapsed="1" />
+    <Element type="model" name="HX_016_FIREFLY_WING" visible="1" collapsed="1" />
+  </DisplayElements>
+  <ElementEffects>
+    <Element type="model" name="HX_001_SPIRAL_TREE">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="1" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="2" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="3" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="4" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="5" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="6" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="7" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="8" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_002_SPIRAL_TREE">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="9" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="10" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="11" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="12" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="13" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="14" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="15" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="16" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_003_SPIRAL_TREE">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="17" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="18" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="19" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="20" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="21" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="22" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="23" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="24" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_004_SPIRAL_TREE">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="25" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="26" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="27" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="28" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="29" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="30" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="31" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="24000" id="32" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_005_FIREFLY_BODY">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="33" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="34" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="35" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="36" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="37" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="38" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="39" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="40" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="41" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="42" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="43" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="44" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="45" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="46" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="47" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="48" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="49" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="50" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="51" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="52" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="53" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="54" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="55" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="56" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="57" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="58" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="59" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="60" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="61" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="62" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="63" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="64" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="65" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="66" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="67" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="68" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="69" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="70" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="71" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="72" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="73" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="74" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="75" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="76" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="77" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="78" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="79" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="80" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="81" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="82" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="83" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="84" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="85" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="86" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="87" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="88" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="89" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="90" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="91" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="92" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="93" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="94" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="95" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="96" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="97" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="98" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="99" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="100" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="101" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="102" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="103" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="104" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="105" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="106" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="107" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="108" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="109" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="110" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="111" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="112" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="113" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="114" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="115" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="116" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="117" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="118" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="119" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="120" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="121" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="122" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="123" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="124" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="125" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="126" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="127" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="128" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="129" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="130" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="131" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="132" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="133" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="134" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="135" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="136" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="137" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="138" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="139" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="140" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="141" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="142" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="143" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="144" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_006_FIREFLY_WING">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="145" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="146" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="147" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="148" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="149" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="150" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="151" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="152" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="153" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="154" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="155" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="156" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="157" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="158" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="159" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="160" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="161" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="162" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="163" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="164" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="165" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="166" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="167" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="168" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="169" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="170" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="171" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="172" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="173" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="174" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="175" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="176" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="177" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="178" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="179" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="180" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="181" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="182" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="183" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="184" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="185" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="186" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="187" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="188" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="189" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="190" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="191" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="192" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="193" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="194" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="195" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="196" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="197" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="198" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="199" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="200" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="201" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="202" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="203" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="204" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="205" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="206" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="207" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="208" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="209" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="210" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="211" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="212" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="213" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="214" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="215" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="216" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="217" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="218" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="219" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="220" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="221" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="222" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="223" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="224" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="225" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="226" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="227" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="228" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="229" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="230" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="231" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="232" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="233" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="234" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="235" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="236" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="237" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="238" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="239" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="240" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="241" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="242" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="243" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="244" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="245" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="246" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="247" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="248" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="249" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="250" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="251" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="252" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="253" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="254" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="255" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="256" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_007_FIREFLY_WING">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="257" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="258" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="259" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="260" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="261" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="262" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="263" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="264" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="265" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="266" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="267" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="268" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="269" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="270" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="271" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="272" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="273" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="274" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="275" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="276" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="277" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="278" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="279" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="280" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="281" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="282" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="283" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="284" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="285" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="286" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="287" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="288" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="289" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="290" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="291" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="292" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="293" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="294" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="295" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="296" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="297" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="298" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="299" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="300" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="301" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="302" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="303" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="304" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="305" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="306" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="307" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="308" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="309" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="310" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="311" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="312" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="313" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="314" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="315" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="316" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="317" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="318" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="319" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="320" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="321" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="322" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="323" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="324" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="325" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="326" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="327" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="328" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="329" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="330" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="331" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="332" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="333" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="334" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="335" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="336" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="337" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="338" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="339" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="340" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="341" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="342" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="343" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="344" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="345" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="346" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="347" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="348" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="349" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="350" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="351" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="352" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="353" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="354" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="0" endTime="600" id="355" />
+        <Effect name="On" ref="1" palette="1" startTime="600" endTime="1200" id="356" />
+        <Effect name="On" ref="1" palette="1" startTime="3600" endTime="4200" id="357" />
+        <Effect name="On" ref="1" palette="1" startTime="4200" endTime="4800" id="358" />
+        <Effect name="On" ref="1" palette="1" startTime="7200" endTime="7800" id="359" />
+        <Effect name="On" ref="1" palette="1" startTime="7800" endTime="8400" id="360" />
+        <Effect name="On" ref="1" palette="1" startTime="10800" endTime="11400" id="361" />
+        <Effect name="On" ref="1" palette="1" startTime="11400" endTime="12000" id="362" />
+        <Effect name="On" ref="1" palette="1" startTime="14400" endTime="15000" id="363" />
+        <Effect name="On" ref="1" palette="1" startTime="15000" endTime="15600" id="364" />
+        <Effect name="On" ref="1" palette="1" startTime="18000" endTime="18600" id="365" />
+        <Effect name="On" ref="1" palette="1" startTime="18600" endTime="19200" id="366" />
+        <Effect name="On" ref="1" palette="1" startTime="21600" endTime="22200" id="367" />
+        <Effect name="On" ref="1" palette="1" startTime="22200" endTime="22800" id="368" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_008_FIREFLY_BODY">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="369" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="370" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="371" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="372" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="373" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="374" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="375" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="376" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="377" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="378" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="379" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="380" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="381" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="382" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="383" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="384" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="385" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="386" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="387" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="388" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="389" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="390" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="391" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="392" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="393" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="394" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="395" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="396" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="397" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="398" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="399" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="400" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="401" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="402" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="403" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="404" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="405" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="406" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="407" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="408" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="409" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="410" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="411" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="412" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="413" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="414" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="415" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="416" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="417" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="418" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="419" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="420" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="421" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="422" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="423" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="424" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_009_FIREFLY_WING">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="425" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="426" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="427" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="428" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="429" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="430" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="431" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="432" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="433" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="434" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="435" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="436" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="437" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="438" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="439" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="440" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="441" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="442" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="443" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="444" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="445" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="446" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="447" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="448" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="449" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="450" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="451" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="452" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="453" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="454" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="455" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="456" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="457" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="458" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="459" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="460" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="461" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="462" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="463" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="464" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="465" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="466" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="467" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="468" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="469" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="470" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="471" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="472" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="473" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="474" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="475" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="476" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="477" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="478" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="479" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="480" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_010_FIREFLY_WING">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="481" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="482" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="483" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="484" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="485" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="486" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="487" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="488" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="489" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="490" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="491" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="492" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="493" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="494" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="495" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="496" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="497" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="498" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="499" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="500" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="501" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="502" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="503" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="504" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="505" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="506" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="507" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="508" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="509" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="510" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="511" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="512" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="513" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="514" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="515" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="516" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="517" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="518" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="519" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="520" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="521" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="522" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="523" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="524" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="525" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="526" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="527" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="528" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="529" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1200" endTime="1800" id="530" />
+        <Effect name="On" ref="1" palette="1" startTime="4800" endTime="5400" id="531" />
+        <Effect name="On" ref="1" palette="1" startTime="8400" endTime="9000" id="532" />
+        <Effect name="On" ref="1" palette="1" startTime="12000" endTime="12600" id="533" />
+        <Effect name="On" ref="1" palette="1" startTime="15600" endTime="16200" id="534" />
+        <Effect name="On" ref="1" palette="1" startTime="19200" endTime="19800" id="535" />
+        <Effect name="On" ref="1" palette="1" startTime="22800" endTime="23400" id="536" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_011_FIREFLY_BODY">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="537" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="538" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="539" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="540" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="541" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="542" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="543" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="544" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="545" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="546" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="547" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="548" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="549" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="550" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="551" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="552" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="553" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="554" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="555" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="556" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="557" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="558" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="559" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="560" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="561" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="562" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="563" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="564" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="565" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="566" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="567" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="568" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="569" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="570" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="571" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="572" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="573" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="574" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="575" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="576" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="577" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="578" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="579" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="580" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="581" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="582" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="583" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="584" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="585" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="586" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="587" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="588" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="589" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="590" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="591" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="592" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_012_FIREFLY_WING">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="593" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="594" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="595" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="596" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="597" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="598" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="599" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="600" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="601" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="602" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="603" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="604" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="605" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="606" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="607" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="608" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="609" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="610" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="611" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="612" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="613" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="614" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="615" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="616" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="617" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="618" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="619" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="620" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="621" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="622" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="623" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="624" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="625" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="626" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="627" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="628" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="629" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="630" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="631" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="632" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="633" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="634" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="635" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="636" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="637" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="638" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="639" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="640" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="641" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="642" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="643" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="644" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="645" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="646" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="647" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="648" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_013_FIREFLY_WING">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="649" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="650" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="651" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="652" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="653" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="654" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="655" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="656" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="657" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="658" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="659" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="660" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="661" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="662" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="663" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="664" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="665" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="666" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="667" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="668" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="669" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="670" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="671" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="672" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="673" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="674" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="675" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="676" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="677" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="678" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="679" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="680" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="681" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="682" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="683" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="684" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="685" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="686" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="687" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="688" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="689" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="690" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="691" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="692" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="693" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="694" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="695" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="696" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="697" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="1800" endTime="2400" id="698" />
+        <Effect name="On" ref="1" palette="1" startTime="5400" endTime="6000" id="699" />
+        <Effect name="On" ref="1" palette="1" startTime="9000" endTime="9600" id="700" />
+        <Effect name="On" ref="1" palette="1" startTime="12600" endTime="13200" id="701" />
+        <Effect name="On" ref="1" palette="1" startTime="16200" endTime="16800" id="702" />
+        <Effect name="On" ref="1" palette="1" startTime="19800" endTime="20400" id="703" />
+        <Effect name="On" ref="1" palette="1" startTime="23400" endTime="24000" id="704" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_014_FIREFLY_BODY">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="705" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="706" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="707" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="708" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="709" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="710" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="711" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="712" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="713" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="714" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="715" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="716" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="717" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="718" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="719" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="720" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="721" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="722" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="723" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="724" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="725" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="726" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="727" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="728" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="729" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="730" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="731" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="732" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="733" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="734" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="735" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="736" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="737" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="738" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="739" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="740" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="741" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="742" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="743" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="744" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="745" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="746" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="747" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="748" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="749" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="750" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="751" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="752" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="753" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="754" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="755" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="756" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="757" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="758" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="759" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="760" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="761" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="762" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="763" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="764" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="765" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="766" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="767" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="768" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="769" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="770" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="771" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="772" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="773" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="774" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="775" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="776" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="777" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="778" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="779" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="780" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="781" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="782" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="783" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="784" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="785" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="786" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="787" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="788" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="789" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="790" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="791" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="792" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="793" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="794" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="795" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="796" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="797" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="798" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="799" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="800" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_015_FIREFLY_WING">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="801" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="802" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="803" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="804" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="805" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="806" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="807" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="808" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="809" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="810" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="811" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="812" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="813" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="814" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="815" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="816" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="817" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="818" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="819" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="820" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="821" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="822" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="823" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="824" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="825" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="826" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="827" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="828" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="829" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="830" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="831" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="832" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="833" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="834" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="835" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="836" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="837" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="838" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="839" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="840" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="841" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="842" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="843" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="844" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="845" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="846" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="847" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="848" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="849" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="850" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="851" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="852" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="853" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="854" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="855" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="856" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="857" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="858" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="859" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="860" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="861" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="862" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="863" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="864" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="865" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="866" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="867" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="868" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="869" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="870" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="871" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="872" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="873" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="874" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="875" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="876" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="877" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="878" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="879" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="880" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="881" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="882" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="883" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="884" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="885" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="886" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="887" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="888" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="889" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="890" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="891" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="892" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="893" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="894" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="895" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="896" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_016_FIREFLY_WING">
+      <EffectLayer />
+      <SubModelEffectLayer name="SECTOR_00" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="897" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="898" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="899" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="900" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="901" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="902" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="903" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="904" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="905" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="906" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="907" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="908" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_01" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="909" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="910" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="911" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="912" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="913" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="914" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="915" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="916" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="917" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="918" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="919" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="920" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_02" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="921" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="922" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="923" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="924" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="925" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="926" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="927" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="928" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="929" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="930" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="931" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="932" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_03" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="933" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="934" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="935" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="936" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="937" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="938" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="939" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="940" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="941" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="942" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="943" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="944" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_04" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="945" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="946" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="947" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="948" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="949" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="950" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="951" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="952" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="953" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="954" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="955" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="956" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_05" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="957" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="958" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="959" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="960" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="961" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="962" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="963" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="964" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="965" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="966" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="967" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="968" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_06" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="969" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="970" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="971" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="972" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="973" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="974" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="975" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="976" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="977" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="978" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="979" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="980" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="SECTOR_07" layer="0">
+        <Effect name="On" ref="1" palette="1" startTime="2400" endTime="3000" id="981" />
+        <Effect name="On" ref="1" palette="1" startTime="3000" endTime="3600" id="982" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="6600" id="983" />
+        <Effect name="On" ref="1" palette="1" startTime="6600" endTime="7200" id="984" />
+        <Effect name="On" ref="1" palette="1" startTime="9600" endTime="10200" id="985" />
+        <Effect name="On" ref="1" palette="1" startTime="10200" endTime="10800" id="986" />
+        <Effect name="On" ref="1" palette="1" startTime="13200" endTime="13800" id="987" />
+        <Effect name="On" ref="1" palette="1" startTime="13800" endTime="14400" id="988" />
+        <Effect name="On" ref="1" palette="1" startTime="16800" endTime="17400" id="989" />
+        <Effect name="On" ref="1" palette="1" startTime="17400" endTime="18000" id="990" />
+        <Effect name="On" ref="1" palette="1" startTime="20400" endTime="21000" id="991" />
+        <Effect name="On" ref="1" palette="1" startTime="21000" endTime="21600" id="992" />
+      </SubModelEffectLayer>
+    </Element>
+  </ElementEffects>
+  <DataLayers />
+  <lastView>0</lastView>
+</xsequence>

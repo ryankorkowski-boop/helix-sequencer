@@ -53,7 +53,7 @@ DRUMMER = PerformerRuntimeSpec(
         _state(DRUMMER_V3_MODEL, "ready_idle", "Standing ready behind the kit.", ("KICK",), 0.25),
         _state(DRUMMER_V3_MODEL, "kick_hit", "Kick drum impact; no stick channel.", ("KICK",), 0.85),
         _state(DRUMMER_V3_MODEL, "snare_hit", "Snare plus contacting stick contained in the snare component.", ("SNARE",), 0.9),
-        _state(DRUMMER_V3_MODEL, "hi_hat_pulse", "Hi-hat plus contacting stick contained in the hi-hat component.", ("HI_HAT",), 0.65),
+        _state(DRUMMER_V3_MODEL, "hi_hat_pulse", "Hi-hat pedal/foot action; no arm or stick is part of the hi-hat component.", ("HI_HAT",), 0.65),
         _state(DRUMMER_V3_MODEL, "high_tom_hit", "High tom plus its contacting stick.", ("TOM_HIGH",), 0.8),
         _state(DRUMMER_V3_MODEL, "mid_tom_hit", "Mid tom plus its contacting stick.", ("TOM_MID",), 0.8),
         _state(DRUMMER_V3_MODEL, "floor_tom_hit", "Floor tom plus its contacting stick.", ("TOM_FLOOR",), 0.8),

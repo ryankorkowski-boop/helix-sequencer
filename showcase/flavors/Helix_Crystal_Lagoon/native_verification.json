@@ -1,0 +1,670 @@
+{
+  "schema": "helix.ultimate_showcase.native_verification.v1",
+  "native_version": "2026.18",
+  "native_render_success": true,
+  "native_frames": 480,
+  "native_frame_ms": 50,
+  "checked_rgb_models": 93,
+  "checked_rgb_pixels": 31848,
+  "all_pixels_lit_correctly": true,
+  "native_gui_models_checked": 0,
+  "native_gui_channels_match": null,
+  "native_gui_families_checked": null,
+  "layout_sha256": "f30dd2dcf360c3fdad09168d089029495daf549207193dab1d713cbedc7f4bbf",
+  "xsq_sha256": "c8cbc54a65d7e26c975e764f20b1da6dd295819569f30a0869de29546a49a2ea",
+  "fseq_sha256": "4a71c8059e3b9b6fbb808c5d253ffe1c1452a0f7c2dc26ecfed7f0ae393e505d",
+  "source_geometry_note": "Custom nodes are exact exported grids. Stock-native preview paths follow authored geometry. Native headless import/render was checked; GUI attributes were checked only when supplied.",
+  "models": [
+    {
+      "model": "HX_CL_NATIVE_Tree_360",
+      "pixels": 576,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_NATIVE_Tree_180",
+      "pixels": 576,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_NATIVE_Tree_Flat",
+      "pixels": 576,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_NATIVE_Tree_Ribbon",
+      "pixels": 576,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_ORRERY_MOON_-1",
+      "pixels": 480,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_AURORA_HORIZONTAL",
+      "pixels": 800,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_JEWEL_WINDOW_-1",
+      "pixels": 192,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_ORBIT_TRIPTYCH_-1",
+      "pixels": 288,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_MOON_WREATH_-1",
+      "pixels": 96,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SOLAR_SPINNER_-1",
+      "pixels": 216,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_ORRERY_MOON_1",
+      "pixels": 480,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_AURORA_VERTICAL",
+      "pixels": 640,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_JEWEL_WINDOW_1",
+      "pixels": 192,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_ORBIT_TRIPTYCH_1",
+      "pixels": 288,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_MOON_WREATH_1",
+      "pixels": 96,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SOLAR_SPINNER_1",
+      "pixels": 216,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_RIBBON_ARCH_01",
+      "pixels": 80,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_RIBBON_ARCH_02",
+      "pixels": 80,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_RIBBON_ARCH_03",
+      "pixels": 80,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_RIBBON_ARCH_04",
+      "pixels": 80,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_RIBBON_ARCH_05",
+      "pixels": 80,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_RIBBON_ARCH_06",
+      "pixels": 80,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_RIBBON_ARCH_07",
+      "pixels": 80,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_RIBBON_ARCH_08",
+      "pixels": 80,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_CANDY_GARDEN_-1",
+      "pixels": 240,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_CANDY_GARDEN_1",
+      "pixels": 240,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_VOXEL_LANTERN_-1",
+      "pixels": 512,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_VOXEL_LANTERN_1",
+      "pixels": 512,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_FIBONACCI_ICICLES_-1",
+      "pixels": 136,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_FIBONACCI_ICICLES_1",
+      "pixels": 136,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_INFINITY_RIBBON",
+      "pixels": 420,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_FIREFLY_CONSTELLATION",
+      "pixels": 64,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_HORIZON_RAIL_-1",
+      "pixels": 180,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_HORIZON_RAIL_1",
+      "pixels": 180,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_FRACTAL_SNOWFLAKE_-1_0",
+      "pixels": 210,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_FRACTAL_SNOWFLAKE_-1_1",
+      "pixels": 210,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_FRACTAL_SNOWFLAKE_-1_2",
+      "pixels": 210,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_FRACTAL_SNOWFLAKE_1_0",
+      "pixels": 210,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_FRACTAL_SNOWFLAKE_1_1",
+      "pixels": 210,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_FRACTAL_SNOWFLAKE_1_2",
+      "pixels": 210,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_00",
+      "pixels": 224,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_01",
+      "pixels": 384,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_02",
+      "pixels": 288,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_03",
+      "pixels": 336,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_04",
+      "pixels": 256,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_05",
+      "pixels": 432,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_06",
+      "pixels": 224,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_07",
+      "pixels": 384,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_08",
+      "pixels": 288,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_09",
+      "pixels": 336,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_10",
+      "pixels": 256,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_11",
+      "pixels": 432,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_12",
+      "pixels": 224,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_13",
+      "pixels": 384,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_14",
+      "pixels": 288,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_15",
+      "pixels": 336,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_16",
+      "pixels": 256,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_17",
+      "pixels": 432,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_18",
+      "pixels": 224,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_19",
+      "pixels": 384,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_20",
+      "pixels": 288,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_21",
+      "pixels": 336,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_22",
+      "pixels": 256,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_23",
+      "pixels": 432,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_24",
+      "pixels": 224,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_25",
+      "pixels": 384,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_26",
+      "pixels": 288,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_27",
+      "pixels": 336,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_28",
+      "pixels": 256,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_29",
+      "pixels": 432,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_30",
+      "pixels": 224,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_31",
+      "pixels": 384,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_32",
+      "pixels": 288,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_33",
+      "pixels": 336,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_34",
+      "pixels": 256,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_35",
+      "pixels": 432,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_36",
+      "pixels": 224,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_37",
+      "pixels": 384,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_38",
+      "pixels": 288,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_SPIRAL_39",
+      "pixels": 336,
+      "dark_pixels": 0,
+      "max_palette_error": 0.9000000000000057,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_REEF_BRIDGE_WEST",
+      "pixels": 720,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_REEF_BRIDGE_EAST",
+      "pixels": 720,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_TIDAL_HALO",
+      "pixels": 1360,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_LIGHTHOUSE",
+      "pixels": 1240,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_PEARL_REED_0",
+      "pixels": 510,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_PEARL_REED_1",
+      "pixels": 510,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_PEARL_REED_2",
+      "pixels": 510,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_PEARL_REED_3",
+      "pixels": 510,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_PEARL_REED_4",
+      "pixels": 510,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_PEARL_REED_5",
+      "pixels": 510,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_PEARL_REED_6",
+      "pixels": 510,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_PEARL_REED_7",
+      "pixels": 510,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    },
+    {
+      "model": "HX_CL_LIGHTHOUSE_CROWN",
+      "pixels": 168,
+      "dark_pixels": 0,
+      "max_palette_error": 1.5,
+      "matches": true
+    }
+  ]
+}

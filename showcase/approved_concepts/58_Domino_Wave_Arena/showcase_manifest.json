@@ -1,0 +1,3017 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Domino Wave Arena",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 72
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 72,
+  "rgb_pixels": 5280,
+  "channel_count": 15840,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 1,
+      "end_channel": 480,
+      "bounds_ft": [
+        [
+          110.0,
+          0.0,
+          0.0
+        ],
+        [
+          130.0,
+          50.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25,
+      "domino_index": 0,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_002_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 481,
+      "end_channel": 570,
+      "bounds_ft": [
+        [
+          117.0,
+          11.0,
+          0.0
+        ],
+        [
+          123.0,
+          17.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3261874873538056,
+      "domino_index": 0,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_003_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 571,
+      "end_channel": 660,
+      "bounds_ft": [
+        [
+          117.0,
+          32.0,
+          0.0
+        ],
+        [
+          123.0,
+          38.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3261874873538056,
+      "domino_index": 0,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_004_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 661,
+      "end_channel": 1140,
+      "bounds_ft": [
+        [
+          110.0,
+          0.0,
+          0.0
+        ],
+        [
+          156.0,
+          50.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34242884157666664,
+      "domino_index": 0,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_005_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 1141,
+      "end_channel": 1230,
+      "bounds_ft": [
+        [
+          124.25,
+          11.0,
+          0.0
+        ],
+        [
+          130.25,
+          17.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15212354798017674,
+      "domino_index": 0,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_006_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 1231,
+      "end_channel": 1320,
+      "bounds_ft": [
+        [
+          135.0,
+          32.0,
+          0.0
+        ],
+        [
+          141.0,
+          38.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2919649946983329,
+      "domino_index": 0,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_007_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 1321,
+      "end_channel": 1800,
+      "bounds_ft": [
+        [
+          105.0,
+          0.0,
+          -19.5
+        ],
+        [
+          125.0,
+          50.0,
+          -19.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3617029318094017,
+      "domino_index": 1,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_008_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 1801,
+      "end_channel": 1890,
+      "bounds_ft": [
+        [
+          112.0,
+          11.0,
+          -19.5
+        ],
+        [
+          118.0,
+          17.0,
+          -19.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3872386553162887,
+      "domino_index": 1,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_009_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 1891,
+      "end_channel": 1980,
+      "bounds_ft": [
+        [
+          112.0,
+          32.0,
+          -19.5
+        ],
+        [
+          118.0,
+          38.0,
+          -19.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38723865531629087,
+      "domino_index": 1,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_010_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 1981,
+      "end_channel": 2460,
+      "bounds_ft": [
+        [
+          105.0,
+          0.0,
+          -19.5
+        ],
+        [
+          151.0,
+          50.0,
+          -19.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.41222816987201844,
+      "domino_index": 1,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_011_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 2461,
+      "end_channel": 2550,
+      "bounds_ft": [
+        [
+          119.5,
+          11.0,
+          -19.5
+        ],
+        [
+          125.5,
+          17.0,
+          -19.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3843199174353087,
+      "domino_index": 1,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_012_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 2551,
+      "end_channel": 2640,
+      "bounds_ft": [
+        [
+          130.25,
+          32.0,
+          -19.75
+        ],
+        [
+          136.25,
+          38.0,
+          -19.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16721310473533207,
+      "domino_index": 1,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_013_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 2641,
+      "end_channel": 3120,
+      "bounds_ft": [
+        [
+          91.0,
+          0.0,
+          -38.0
+        ],
+        [
+          111.0,
+          50.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29837403933628676,
+      "domino_index": 2,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_014_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 3121,
+      "end_channel": 3210,
+      "bounds_ft": [
+        [
+          98.0,
+          11.0,
+          -38.0
+        ],
+        [
+          104.0,
+          17.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3414271777688081,
+      "domino_index": 2,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_015_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 3211,
+      "end_channel": 3300,
+      "bounds_ft": [
+        [
+          98.0,
+          32.0,
+          -38.0
+        ],
+        [
+          104.0,
+          38.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3414271777688081,
+      "domino_index": 2,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_016_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 3301,
+      "end_channel": 3780,
+      "bounds_ft": [
+        [
+          91.0,
+          0.0,
+          -38.0
+        ],
+        [
+          137.0,
+          50.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36049424823227877,
+      "domino_index": 2,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_017_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 3781,
+      "end_channel": 3870,
+      "bounds_ft": [
+        [
+          105.25,
+          11.0,
+          -37.75
+        ],
+        [
+          111.25,
+          17.0,
+          -37.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19192850172640713,
+      "domino_index": 2,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_018_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 3871,
+      "end_channel": 3960,
+      "bounds_ft": [
+        [
+          116.0,
+          32.0,
+          -38.0
+        ],
+        [
+          122.0,
+          38.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3616333366771546,
+      "domino_index": 2,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_019_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 3961,
+      "end_channel": 4440,
+      "bounds_ft": [
+        [
+          68.5,
+          0.0,
+          -53.0
+        ],
+        [
+          88.5,
+          50.0,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.28097858304239587,
+      "domino_index": 3,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_020_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 4441,
+      "end_channel": 4530,
+      "bounds_ft": [
+        [
+          75.5,
+          11.0,
+          -53.0
+        ],
+        [
+          81.5,
+          17.0,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2998709508163926,
+      "domino_index": 3,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_021_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 4531,
+      "end_channel": 4620,
+      "bounds_ft": [
+        [
+          75.5,
+          32.0,
+          -53.0
+        ],
+        [
+          81.5,
+          38.0,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2998709508163954,
+      "domino_index": 3,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_022_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 4621,
+      "end_channel": 5100,
+      "bounds_ft": [
+        [
+          68.5,
+          0.0,
+          -53.0
+        ],
+        [
+          114.5,
+          50.0,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34453003423771433,
+      "domino_index": 3,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_023_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 5101,
+      "end_channel": 5190,
+      "bounds_ft": [
+        [
+          82.75,
+          11.0,
+          -53.0
+        ],
+        [
+          88.75,
+          17.0,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20055214266583363,
+      "domino_index": 3,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_024_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 5191,
+      "end_channel": 5280,
+      "bounds_ft": [
+        [
+          93.5,
+          32.0,
+          -53.0
+        ],
+        [
+          99.5,
+          38.0,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3400609593284034,
+      "domino_index": 3,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_025_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 5281,
+      "end_channel": 5760,
+      "bounds_ft": [
+        [
+          40.0,
+          0.0,
+          -63.5
+        ],
+        [
+          60.0,
+          50.0,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3397337716367272,
+      "domino_index": 4,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_026_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 5761,
+      "end_channel": 5850,
+      "bounds_ft": [
+        [
+          47.0,
+          11.0,
+          -63.5
+        ],
+        [
+          53.0,
+          17.0,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3689915303797139,
+      "domino_index": 4,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_027_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 5851,
+      "end_channel": 5940,
+      "bounds_ft": [
+        [
+          47.0,
+          32.0,
+          -63.5
+        ],
+        [
+          53.0,
+          38.0,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3689915303797162,
+      "domino_index": 4,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_028_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 5941,
+      "end_channel": 6420,
+      "bounds_ft": [
+        [
+          40.0,
+          0.0,
+          -63.5
+        ],
+        [
+          85.5,
+          50.0,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37579262221386484,
+      "domino_index": 4,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_029_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 6421,
+      "end_channel": 6510,
+      "bounds_ft": [
+        [
+          54.0,
+          11.0,
+          -63.5
+        ],
+        [
+          60.0,
+          17.0,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33489961306599075,
+      "domino_index": 4,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_030_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 6511,
+      "end_channel": 6600,
+      "bounds_ft": [
+        [
+          65.0,
+          32.0,
+          -63.5
+        ],
+        [
+          71.0,
+          38.0,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3324710701606157,
+      "domino_index": 4,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_031_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 6601,
+      "end_channel": 7080,
+      "bounds_ft": [
+        [
+          7.0,
+          0.0,
+          -69.5
+        ],
+        [
+          27.0,
+          50.0,
+          -69.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33720272041983584,
+      "domino_index": 5,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_032_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 7081,
+      "end_channel": 7170,
+      "bounds_ft": [
+        [
+          14.0,
+          11.0,
+          -69.5
+        ],
+        [
+          20.0,
+          17.0,
+          -69.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35583797620694807,
+      "domino_index": 5,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_033_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 7171,
+      "end_channel": 7260,
+      "bounds_ft": [
+        [
+          14.0,
+          32.0,
+          -69.5
+        ],
+        [
+          20.0,
+          38.0,
+          -69.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35583797620694696,
+      "domino_index": 5,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_034_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 7261,
+      "end_channel": 7740,
+      "bounds_ft": [
+        [
+          7.0,
+          0.0,
+          -69.5
+        ],
+        [
+          53.0,
+          50.0,
+          -69.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39598727246182425,
+      "domino_index": 5,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_035_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 7741,
+      "end_channel": 7830,
+      "bounds_ft": [
+        [
+          21.25,
+          11.0,
+          -69.25
+        ],
+        [
+          27.25,
+          17.0,
+          -69.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1766721879931859,
+      "domino_index": 5,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_036_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 7831,
+      "end_channel": 7920,
+      "bounds_ft": [
+        [
+          32.0,
+          32.0,
+          -69.5
+        ],
+        [
+          38.0,
+          38.0,
+          -69.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3858100420556448,
+      "domino_index": 5,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_037_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 7921,
+      "end_channel": 8400,
+      "bounds_ft": [
+        [
+          -27.0,
+          0.0,
+          -69.5
+        ],
+        [
+          -7.0,
+          50.0,
+          -69.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33720272041983335,
+      "domino_index": 6,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_038_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 8401,
+      "end_channel": 8490,
+      "bounds_ft": [
+        [
+          -20.0,
+          11.0,
+          -69.5
+        ],
+        [
+          -14.0,
+          17.0,
+          -69.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35583797620695234,
+      "domino_index": 6,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_039_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 8491,
+      "end_channel": 8580,
+      "bounds_ft": [
+        [
+          -20.0,
+          32.0,
+          -69.5
+        ],
+        [
+          -14.0,
+          38.0,
+          -69.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35583797620695234,
+      "domino_index": 6,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_040_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 8581,
+      "end_channel": 9060,
+      "bounds_ft": [
+        [
+          -27.0,
+          0.0,
+          -69.5
+        ],
+        [
+          18.5,
+          50.0,
+          -69.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.387128425655845,
+      "domino_index": 6,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_041_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 9061,
+      "end_channel": 9150,
+      "bounds_ft": [
+        [
+          -13.0,
+          11.0,
+          -69.5
+        ],
+        [
+          -7.0,
+          17.0,
+          -69.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38799897069824674,
+      "domino_index": 6,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_042_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 9151,
+      "end_channel": 9240,
+      "bounds_ft": [
+        [
+          -2.0,
+          32.0,
+          -69.5
+        ],
+        [
+          4.0,
+          38.0,
+          -69.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3946761115870169,
+      "domino_index": 6,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_043_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 9241,
+      "end_channel": 9720,
+      "bounds_ft": [
+        [
+          -60.0,
+          0.0,
+          -63.5
+        ],
+        [
+          -40.0,
+          50.0,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3397337716367371,
+      "domino_index": 7,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_044_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 9721,
+      "end_channel": 9810,
+      "bounds_ft": [
+        [
+          -53.0,
+          11.0,
+          -63.5
+        ],
+        [
+          -47.0,
+          17.0,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3689915303797259,
+      "domino_index": 7,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_045_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 9811,
+      "end_channel": 9900,
+      "bounds_ft": [
+        [
+          -53.0,
+          32.0,
+          -63.5
+        ],
+        [
+          -47.0,
+          38.0,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36899153037972815,
+      "domino_index": 7,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_046_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 9901,
+      "end_channel": 10380,
+      "bounds_ft": [
+        [
+          -60.0,
+          0.0,
+          -63.5
+        ],
+        [
+          -14.0,
+          50.0,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38212321454781667,
+      "domino_index": 7,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_047_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 10381,
+      "end_channel": 10470,
+      "bounds_ft": [
+        [
+          -45.5,
+          11.0,
+          -63.5
+        ],
+        [
+          -39.5,
+          17.0,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35306309854072904,
+      "domino_index": 7,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_048_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 10471,
+      "end_channel": 10560,
+      "bounds_ft": [
+        [
+          -34.75,
+          32.0,
+          -63.75
+        ],
+        [
+          -28.75,
+          38.0,
+          -63.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17491564527433023,
+      "domino_index": 7,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_049_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 10561,
+      "end_channel": 11040,
+      "bounds_ft": [
+        [
+          -88.5,
+          0.0,
+          -53.0
+        ],
+        [
+          -68.5,
+          50.0,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2809785830423917,
+      "domino_index": 8,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_050_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 11041,
+      "end_channel": 11130,
+      "bounds_ft": [
+        [
+          -81.5,
+          11.0,
+          -53.0
+        ],
+        [
+          -75.5,
+          17.0,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2998709508163852,
+      "domino_index": 8,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_051_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 11131,
+      "end_channel": 11220,
+      "bounds_ft": [
+        [
+          -81.5,
+          32.0,
+          -53.0
+        ],
+        [
+          -75.5,
+          38.0,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.299870950816388,
+      "domino_index": 8,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_052_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 11221,
+      "end_channel": 11700,
+      "bounds_ft": [
+        [
+          -88.5,
+          0.0,
+          -53.0
+        ],
+        [
+          -43.0,
+          50.0,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34078290816813156,
+      "domino_index": 8,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_053_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 11701,
+      "end_channel": 11790,
+      "bounds_ft": [
+        [
+          -74.5,
+          11.0,
+          -53.0
+        ],
+        [
+          -68.5,
+          17.0,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33538316729337303,
+      "domino_index": 8,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_054_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 11791,
+      "end_channel": 11880,
+      "bounds_ft": [
+        [
+          -63.5,
+          32.0,
+          -53.0
+        ],
+        [
+          -57.5,
+          38.0,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34265200243931937,
+      "domino_index": 8,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_055_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 11881,
+      "end_channel": 12360,
+      "bounds_ft": [
+        [
+          -111.0,
+          0.0,
+          -38.0
+        ],
+        [
+          -91.0,
+          50.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2983740393362817,
+      "domino_index": 9,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_056_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 12361,
+      "end_channel": 12450,
+      "bounds_ft": [
+        [
+          -104.0,
+          11.0,
+          -38.0
+        ],
+        [
+          -98.0,
+          17.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34142717776879405,
+      "domino_index": 9,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_057_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 12451,
+      "end_channel": 12540,
+      "bounds_ft": [
+        [
+          -104.0,
+          32.0,
+          -38.0
+        ],
+        [
+          -98.0,
+          38.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34142717776879294,
+      "domino_index": 9,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_058_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 12541,
+      "end_channel": 13020,
+      "bounds_ft": [
+        [
+          -111.0,
+          0.0,
+          -38.0
+        ],
+        [
+          -65.0,
+          50.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38062579703043076,
+      "domino_index": 9,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_059_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 13021,
+      "end_channel": 13110,
+      "bounds_ft": [
+        [
+          -96.75,
+          11.0,
+          -37.75
+        ],
+        [
+          -90.75,
+          17.0,
+          -37.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18113097132874217,
+      "domino_index": 9,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_060_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 13111,
+      "end_channel": 13200,
+      "bounds_ft": [
+        [
+          -86.0,
+          32.0,
+          -38.0
+        ],
+        [
+          -80.0,
+          38.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34093882920380114,
+      "domino_index": 9,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_061_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 13201,
+      "end_channel": 13680,
+      "bounds_ft": [
+        [
+          -125.0,
+          0.0,
+          -19.5
+        ],
+        [
+          -105.0,
+          50.0,
+          -19.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3617029318094017,
+      "domino_index": 10,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_062_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 13681,
+      "end_channel": 13770,
+      "bounds_ft": [
+        [
+          -118.0,
+          11.0,
+          -19.5
+        ],
+        [
+          -112.0,
+          17.0,
+          -19.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3872386553162887,
+      "domino_index": 10,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_063_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 13771,
+      "end_channel": 13860,
+      "bounds_ft": [
+        [
+          -118.0,
+          32.0,
+          -19.5
+        ],
+        [
+          -112.0,
+          38.0,
+          -19.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38723865531629087,
+      "domino_index": 10,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_064_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 13861,
+      "end_channel": 14340,
+      "bounds_ft": [
+        [
+          -125.0,
+          0.0,
+          -19.5
+        ],
+        [
+          -79.5,
+          50.0,
+          -19.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4060012689016483,
+      "domino_index": 10,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_065_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 14341,
+      "end_channel": 14430,
+      "bounds_ft": [
+        [
+          -111.0,
+          11.0,
+          -19.5
+        ],
+        [
+          -105.0,
+          17.0,
+          -19.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36171716268757104,
+      "domino_index": 10,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_066_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 14431,
+      "end_channel": 14520,
+      "bounds_ft": [
+        [
+          -100.0,
+          32.0,
+          -19.5
+        ],
+        [
+          -94.0,
+          38.0,
+          -19.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36434857515580155,
+      "domino_index": 10,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_067_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 14521,
+      "end_channel": 15000,
+      "bounds_ft": [
+        [
+          -130.0,
+          0.0,
+          0.0
+        ],
+        [
+          -110.0,
+          50.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25,
+      "domino_index": 11,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_068_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 15001,
+      "end_channel": 15090,
+      "bounds_ft": [
+        [
+          -123.0,
+          11.0,
+          0.0
+        ],
+        [
+          -117.0,
+          17.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3261874873538056,
+      "domino_index": 11,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_069_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 15091,
+      "end_channel": 15180,
+      "bounds_ft": [
+        [
+          -123.0,
+          32.0,
+          0.0
+        ],
+        [
+          -117.0,
+          38.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3261874873538056,
+      "domino_index": 11,
+      "domino_lean": false
+    },
+    {
+      "name": "HX_070_DOMINO_POSE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO POSE",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 15181,
+      "end_channel": 15660,
+      "bounds_ft": [
+        [
+          -130.0,
+          0.0,
+          0.0
+        ],
+        [
+          -84.0,
+          50.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34242884157666664,
+      "domino_index": 11,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_071_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 15661,
+      "end_channel": 15750,
+      "bounds_ft": [
+        [
+          -115.75,
+          11.0,
+          0.0
+        ],
+        [
+          -109.75,
+          17.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15212354798017674,
+      "domino_index": 11,
+      "domino_lean": true
+    },
+    {
+      "name": "HX_072_DOMINO_DOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOMINO",
+      "design": "DOMINO DOT",
+      "kind": "pixel",
+      "nodes": 30,
+      "start_channel": 15751,
+      "end_channel": 15840,
+      "bounds_ft": [
+        [
+          -105.0,
+          32.0,
+          0.0
+        ],
+        [
+          -99.0,
+          38.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2919649946983329,
+      "domino_index": 11,
+      "domino_lean": true
+    }
+  ],
+  "file_prefix": "Domino_Wave_Arena",
+  "description": "A staggered chain of leaning poses makes one visual event appear to trigger the next.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_DOMINO_POSE",
+      "HX_002_DOMINO_DOT",
+      "HX_003_DOMINO_DOT",
+      "HX_004_DOMINO_POSE",
+      "HX_005_DOMINO_DOT",
+      "HX_006_DOMINO_DOT",
+      "HX_007_DOMINO_POSE",
+      "HX_008_DOMINO_DOT",
+      "HX_009_DOMINO_DOT",
+      "HX_010_DOMINO_POSE",
+      "HX_011_DOMINO_DOT",
+      "HX_012_DOMINO_DOT",
+      "HX_013_DOMINO_POSE",
+      "HX_014_DOMINO_DOT",
+      "HX_015_DOMINO_DOT",
+      "HX_016_DOMINO_POSE",
+      "HX_017_DOMINO_DOT",
+      "HX_018_DOMINO_DOT",
+      "HX_019_DOMINO_POSE",
+      "HX_020_DOMINO_DOT",
+      "HX_021_DOMINO_DOT",
+      "HX_022_DOMINO_POSE",
+      "HX_023_DOMINO_DOT",
+      "HX_024_DOMINO_DOT",
+      "HX_025_DOMINO_POSE",
+      "HX_026_DOMINO_DOT",
+      "HX_027_DOMINO_DOT",
+      "HX_028_DOMINO_POSE",
+      "HX_029_DOMINO_DOT",
+      "HX_030_DOMINO_DOT",
+      "HX_031_DOMINO_POSE",
+      "HX_032_DOMINO_DOT",
+      "HX_033_DOMINO_DOT",
+      "HX_034_DOMINO_POSE",
+      "HX_035_DOMINO_DOT",
+      "HX_036_DOMINO_DOT",
+      "HX_037_DOMINO_POSE",
+      "HX_038_DOMINO_DOT",
+      "HX_039_DOMINO_DOT",
+      "HX_040_DOMINO_POSE",
+      "HX_041_DOMINO_DOT",
+      "HX_042_DOMINO_DOT",
+      "HX_043_DOMINO_POSE",
+      "HX_044_DOMINO_DOT",
+      "HX_045_DOMINO_DOT",
+      "HX_046_DOMINO_POSE",
+      "HX_047_DOMINO_DOT",
+      "HX_048_DOMINO_DOT",
+      "HX_049_DOMINO_POSE",
+      "HX_050_DOMINO_DOT",
+      "HX_051_DOMINO_DOT",
+      "HX_052_DOMINO_POSE",
+      "HX_053_DOMINO_DOT",
+      "HX_054_DOMINO_DOT",
+      "HX_055_DOMINO_POSE",
+      "HX_056_DOMINO_DOT",
+      "HX_057_DOMINO_DOT",
+      "HX_058_DOMINO_POSE",
+      "HX_059_DOMINO_DOT",
+      "HX_060_DOMINO_DOT",
+      "HX_061_DOMINO_POSE",
+      "HX_062_DOMINO_DOT",
+      "HX_063_DOMINO_DOT",
+      "HX_064_DOMINO_POSE",
+      "HX_065_DOMINO_DOT",
+      "HX_066_DOMINO_DOT",
+      "HX_067_DOMINO_POSE",
+      "HX_068_DOMINO_DOT",
+      "HX_069_DOMINO_DOT",
+      "HX_070_DOMINO_POSE",
+      "HX_071_DOMINO_DOT",
+      "HX_072_DOMINO_DOT"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_DOMINO_POSE",
+      "HX_002_DOMINO_DOT",
+      "HX_003_DOMINO_DOT",
+      "HX_004_DOMINO_POSE",
+      "HX_005_DOMINO_DOT",
+      "HX_006_DOMINO_DOT",
+      "HX_007_DOMINO_POSE",
+      "HX_008_DOMINO_DOT",
+      "HX_009_DOMINO_DOT",
+      "HX_010_DOMINO_POSE",
+      "HX_011_DOMINO_DOT",
+      "HX_012_DOMINO_DOT",
+      "HX_013_DOMINO_POSE",
+      "HX_014_DOMINO_DOT",
+      "HX_015_DOMINO_DOT",
+      "HX_016_DOMINO_POSE",
+      "HX_017_DOMINO_DOT",
+      "HX_018_DOMINO_DOT",
+      "HX_019_DOMINO_POSE",
+      "HX_020_DOMINO_DOT",
+      "HX_021_DOMINO_DOT",
+      "HX_022_DOMINO_POSE",
+      "HX_023_DOMINO_DOT",
+      "HX_024_DOMINO_DOT",
+      "HX_025_DOMINO_POSE",
+      "HX_026_DOMINO_DOT",
+      "HX_027_DOMINO_DOT",
+      "HX_028_DOMINO_POSE",
+      "HX_029_DOMINO_DOT",
+      "HX_030_DOMINO_DOT",
+      "HX_031_DOMINO_POSE",
+      "HX_032_DOMINO_DOT",
+      "HX_033_DOMINO_DOT",
+      "HX_034_DOMINO_POSE",
+      "HX_035_DOMINO_DOT",
+      "HX_036_DOMINO_DOT",
+      "HX_037_DOMINO_POSE",
+      "HX_038_DOMINO_DOT",
+      "HX_039_DOMINO_DOT",
+      "HX_040_DOMINO_POSE",
+      "HX_041_DOMINO_DOT",
+      "HX_042_DOMINO_DOT",
+      "HX_043_DOMINO_POSE",
+      "HX_044_DOMINO_DOT",
+      "HX_045_DOMINO_DOT",
+      "HX_046_DOMINO_POSE",
+      "HX_047_DOMINO_DOT",
+      "HX_048_DOMINO_DOT",
+      "HX_049_DOMINO_POSE",
+      "HX_050_DOMINO_DOT",
+      "HX_051_DOMINO_DOT",
+      "HX_052_DOMINO_POSE",
+      "HX_053_DOMINO_DOT",
+      "HX_054_DOMINO_DOT",
+      "HX_055_DOMINO_POSE",
+      "HX_056_DOMINO_DOT",
+      "HX_057_DOMINO_DOT",
+      "HX_058_DOMINO_POSE",
+      "HX_059_DOMINO_DOT",
+      "HX_060_DOMINO_DOT",
+      "HX_061_DOMINO_POSE",
+      "HX_062_DOMINO_DOT",
+      "HX_063_DOMINO_DOT",
+      "HX_064_DOMINO_POSE",
+      "HX_065_DOMINO_DOT",
+      "HX_066_DOMINO_DOT",
+      "HX_067_DOMINO_POSE",
+      "HX_068_DOMINO_DOT",
+      "HX_069_DOMINO_DOT",
+      "HX_070_DOMINO_POSE",
+      "HX_071_DOMINO_DOT",
+      "HX_072_DOMINO_DOT"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_DOMINO_POSE",
+      "HX_002_DOMINO_DOT",
+      "HX_003_DOMINO_DOT",
+      "HX_004_DOMINO_POSE",
+      "HX_005_DOMINO_DOT",
+      "HX_006_DOMINO_DOT",
+      "HX_007_DOMINO_POSE",
+      "HX_008_DOMINO_DOT",
+      "HX_009_DOMINO_DOT",
+      "HX_010_DOMINO_POSE",
+      "HX_011_DOMINO_DOT",
+      "HX_012_DOMINO_DOT",
+      "HX_013_DOMINO_POSE",
+      "HX_014_DOMINO_DOT",
+      "HX_015_DOMINO_DOT",
+      "HX_016_DOMINO_POSE",
+      "HX_017_DOMINO_DOT",
+      "HX_018_DOMINO_DOT",
+      "HX_019_DOMINO_POSE",
+      "HX_020_DOMINO_DOT",
+      "HX_021_DOMINO_DOT",
+      "HX_022_DOMINO_POSE",
+      "HX_023_DOMINO_DOT",
+      "HX_024_DOMINO_DOT",
+      "HX_025_DOMINO_POSE",
+      "HX_026_DOMINO_DOT",
+      "HX_027_DOMINO_DOT",
+      "HX_028_DOMINO_POSE",
+      "HX_029_DOMINO_DOT",
+      "HX_030_DOMINO_DOT",
+      "HX_031_DOMINO_POSE",
+      "HX_032_DOMINO_DOT",
+      "HX_033_DOMINO_DOT",
+      "HX_034_DOMINO_POSE",
+      "HX_035_DOMINO_DOT",
+      "HX_036_DOMINO_DOT",
+      "HX_037_DOMINO_POSE",
+      "HX_038_DOMINO_DOT",
+      "HX_039_DOMINO_DOT",
+      "HX_040_DOMINO_POSE",
+      "HX_041_DOMINO_DOT",
+      "HX_042_DOMINO_DOT",
+      "HX_043_DOMINO_POSE",
+      "HX_044_DOMINO_DOT",
+      "HX_045_DOMINO_DOT",
+      "HX_046_DOMINO_POSE",
+      "HX_047_DOMINO_DOT",
+      "HX_048_DOMINO_DOT",
+      "HX_049_DOMINO_POSE",
+      "HX_050_DOMINO_DOT",
+      "HX_051_DOMINO_DOT",
+      "HX_052_DOMINO_POSE",
+      "HX_053_DOMINO_DOT",
+      "HX_054_DOMINO_DOT",
+      "HX_055_DOMINO_POSE",
+      "HX_056_DOMINO_DOT",
+      "HX_057_DOMINO_DOT",
+      "HX_058_DOMINO_POSE",
+      "HX_059_DOMINO_DOT",
+      "HX_060_DOMINO_DOT",
+      "HX_061_DOMINO_POSE",
+      "HX_062_DOMINO_DOT",
+      "HX_063_DOMINO_DOT",
+      "HX_064_DOMINO_POSE",
+      "HX_065_DOMINO_DOT",
+      "HX_066_DOMINO_DOT",
+      "HX_067_DOMINO_POSE",
+      "HX_068_DOMINO_DOT",
+      "HX_069_DOMINO_DOT",
+      "HX_070_DOMINO_POSE",
+      "HX_071_DOMINO_DOT",
+      "HX_072_DOMINO_DOT"
+    ],
+    "HX_ZONE_DOMINO": [
+      "HX_001_DOMINO_POSE",
+      "HX_002_DOMINO_DOT",
+      "HX_003_DOMINO_DOT",
+      "HX_004_DOMINO_POSE",
+      "HX_005_DOMINO_DOT",
+      "HX_006_DOMINO_DOT",
+      "HX_007_DOMINO_POSE",
+      "HX_008_DOMINO_DOT",
+      "HX_009_DOMINO_DOT",
+      "HX_010_DOMINO_POSE",
+      "HX_011_DOMINO_DOT",
+      "HX_012_DOMINO_DOT",
+      "HX_013_DOMINO_POSE",
+      "HX_014_DOMINO_DOT",
+      "HX_015_DOMINO_DOT",
+      "HX_016_DOMINO_POSE",
+      "HX_017_DOMINO_DOT",
+      "HX_018_DOMINO_DOT",
+      "HX_019_DOMINO_POSE",
+      "HX_020_DOMINO_DOT",
+      "HX_021_DOMINO_DOT",
+      "HX_022_DOMINO_POSE",
+      "HX_023_DOMINO_DOT",
+      "HX_024_DOMINO_DOT",
+      "HX_025_DOMINO_POSE",
+      "HX_026_DOMINO_DOT",
+      "HX_027_DOMINO_DOT",
+      "HX_028_DOMINO_POSE",
+      "HX_029_DOMINO_DOT",
+      "HX_030_DOMINO_DOT",
+      "HX_031_DOMINO_POSE",
+      "HX_032_DOMINO_DOT",
+      "HX_033_DOMINO_DOT",
+      "HX_034_DOMINO_POSE",
+      "HX_035_DOMINO_DOT",
+      "HX_036_DOMINO_DOT",
+      "HX_037_DOMINO_POSE",
+      "HX_038_DOMINO_DOT",
+      "HX_039_DOMINO_DOT",
+      "HX_040_DOMINO_POSE",
+      "HX_041_DOMINO_DOT",
+      "HX_042_DOMINO_DOT",
+      "HX_043_DOMINO_POSE",
+      "HX_044_DOMINO_DOT",
+      "HX_045_DOMINO_DOT",
+      "HX_046_DOMINO_POSE",
+      "HX_047_DOMINO_DOT",
+      "HX_048_DOMINO_DOT",
+      "HX_049_DOMINO_POSE",
+      "HX_050_DOMINO_DOT",
+      "HX_051_DOMINO_DOT",
+      "HX_052_DOMINO_POSE",
+      "HX_053_DOMINO_DOT",
+      "HX_054_DOMINO_DOT",
+      "HX_055_DOMINO_POSE",
+      "HX_056_DOMINO_DOT",
+      "HX_057_DOMINO_DOT",
+      "HX_058_DOMINO_POSE",
+      "HX_059_DOMINO_DOT",
+      "HX_060_DOMINO_DOT",
+      "HX_061_DOMINO_POSE",
+      "HX_062_DOMINO_DOT",
+      "HX_063_DOMINO_DOT",
+      "HX_064_DOMINO_POSE",
+      "HX_065_DOMINO_DOT",
+      "HX_066_DOMINO_DOT",
+      "HX_067_DOMINO_POSE",
+      "HX_068_DOMINO_DOT",
+      "HX_069_DOMINO_DOT",
+      "HX_070_DOMINO_POSE",
+      "HX_071_DOMINO_DOT",
+      "HX_072_DOMINO_DOT"
+    ]
+  },
+  "group_count": 4,
+  "concept_id": "58",
+  "source_art": "images/57_58.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "58",
+    "name": "Domino Wave Arena",
+    "principle": "Cause and effect",
+    "standout": "A staggered chain of leaning poses makes one visual event appear to trigger the next.",
+    "scene": "An arena-like semicircle of oversized cyan, pink and warm-white DOMINO outline props around an open central stage, each bay contains finite supported upright and leaning alternate contour frames. Hero one bright leaning domino next to upright bright neighbors; inactive alternatives dim. Four bottom storyboard cells show upright row, first leaning, two neighbors responding, wave progressing around curve. No actually falling props, no strobe effect.",
+    "board": 8,
+    "side": "right",
+    "image": "images/57_58.png",
+    "status": "awaiting approval",
+    "source_catalog": "showcase/concepts/2026_10_09_stop_motion/concepts.json",
+    "description": "A staggered chain of leaning poses makes one visual event appear to trigger the next.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "stop_motion"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

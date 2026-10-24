@@ -1,0 +1,451 @@
+{
+  "release_url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/concept-layouts-62-2026-10-09",
+  "source_export_commit": "62385ab7d3172b0d3faa7b944f89986de96a6f9c",
+  "artifact_commit": "54502695afd811b2c0b5bcaf7e3f57fb3525d389",
+  "remote_files_verified": 69,
+  "mp4_files": 62,
+  "remote_sizes_and_git_blob_hashes_match": true,
+  "download_checks": [
+    {
+      "file": "Concepts_01-62_XLights.zip",
+      "http": 200,
+      "sha256_matches": true,
+      "bytes": 16988611
+    },
+    {
+      "file": "21_Pontoon_Aurora.mp4",
+      "http": 200,
+      "sha256_matches": true,
+      "bytes": 1746392
+    },
+    {
+      "file": "22_Riverboat_Carnival.mp4",
+      "http": 200,
+      "sha256_matches": true,
+      "bytes": 1925137
+    },
+    {
+      "file": "62_Moonrise_Loop_Theatre.mp4",
+      "http": 200,
+      "sha256_matches": true,
+      "bytes": 157438
+    }
+  ],
+  "mp4_zip_head_http": 200,
+  "downloads": [
+    {
+      "name": "01_Emberfrost_Canyon.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/01_Emberfrost_Canyon.mp4",
+      "bytes": 2011390,
+      "git_blob_sha": "ee35c8fb8fc9be96855f33fea1b66418730a9eb0"
+    },
+    {
+      "name": "02_Canopy_Cathedral.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/02_Canopy_Cathedral.mp4",
+      "bytes": 2119071,
+      "git_blob_sha": "d1831ab4783720faaaed2d0d2c3bf73d0fee224a"
+    },
+    {
+      "name": "03_Aurora_Switchback.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/03_Aurora_Switchback.mp4",
+      "bytes": 1546396,
+      "git_blob_sha": "ce2185e1181307fb18e0c4c8f9848c8c61bd06c3"
+    },
+    {
+      "name": "04_Tidal_Observatory.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/04_Tidal_Observatory.mp4",
+      "bytes": 1911920,
+      "git_blob_sha": "bad4668e06b9ac629795cec7a40dce08ff727c14"
+    },
+    {
+      "name": "05_Bioluminescent_Mangrove.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/05_Bioluminescent_Mangrove.mp4",
+      "bytes": 1412210,
+      "git_blob_sha": "adc0b04964e6529490f420c67e15e09dc5fba348"
+    },
+    {
+      "name": "06_Solstice_Spiral.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/06_Solstice_Spiral.mp4",
+      "bytes": 2284120,
+      "git_blob_sha": "0fbb87555506d8c6b11725657821ca8720e43c0c"
+    },
+    {
+      "name": "07_Moire_Mirage.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/07_Moire_Mirage.mp4",
+      "bytes": 1674193,
+      "git_blob_sha": "69a3c9852426102238f0a9f47c125994049dbdbb"
+    },
+    {
+      "name": "08_Mycelium_Dream.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/08_Mycelium_Dream.mp4",
+      "bytes": 1729170,
+      "git_blob_sha": "b2d39f558bbbb8a547b141337405ea9029f5d1f3"
+    },
+    {
+      "name": "09_Gravity_Garden.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/09_Gravity_Garden.mp4",
+      "bytes": 1403546,
+      "git_blob_sha": "582344ab833ae630e393aafecc4dcee27234677f"
+    },
+    {
+      "name": "10_Prismatic_Vortex.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/10_Prismatic_Vortex.mp4",
+      "bytes": 1728886,
+      "git_blob_sha": "e5e427d5c8adfe2a9144baba9e0b5d9cf076f116"
+    },
+    {
+      "name": "11_Mandelbrot_Meadow.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/11_Mandelbrot_Meadow.mp4",
+      "bytes": 1614012,
+      "git_blob_sha": "bd25e924a656aa1b9d569caa6a34fb3e410580cc"
+    },
+    {
+      "name": "12_Interference_Reef.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/12_Interference_Reef.mp4",
+      "bytes": 1837990,
+      "git_blob_sha": "47bb19695cb9c27d31490ba548554d5e393807d5"
+    },
+    {
+      "name": "13_Christmas_Overdrive.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/13_Christmas_Overdrive.mp4",
+      "bytes": 1718325,
+      "git_blob_sha": "db9b935322b54f5d9babe690b82d52f30182bfa8"
+    },
+    {
+      "name": "14_Peppermint_Boulevard.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/14_Peppermint_Boulevard.mp4",
+      "bytes": 2216463,
+      "git_blob_sha": "c81bae744ed9aabab3b46269686e6568ec68eb84"
+    },
+    {
+      "name": "15_Helix_Arena.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/15_Helix_Arena.mp4",
+      "bytes": 1739150,
+      "git_blob_sha": "be2a9fc1d29306637726d6b59e72d839c6e7a6ff"
+    },
+    {
+      "name": "16_Thunder_Vault_Stage.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/16_Thunder_Vault_Stage.mp4",
+      "bytes": 2293838,
+      "git_blob_sha": "2346b533178d9dbd917b5c641f5e49294ee463ab"
+    },
+    {
+      "name": "17_Impala_Neon_Royalty.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/17_Impala_Neon_Royalty.mp4",
+      "bytes": 1713604,
+      "git_blob_sha": "2655df818fa3cea54238f5cb35a208e4527cb6cd"
+    },
+    {
+      "name": "18_Impala_Golden_Frequency.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/18_Impala_Golden_Frequency.mp4",
+      "bytes": 2015663,
+      "git_blob_sha": "30d11e7abc88dfb9e59d1a5481d4b50dfb32af27"
+    },
+    {
+      "name": "19_Gothic_Ember_Cathedral.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/19_Gothic_Ember_Cathedral.mp4",
+      "bytes": 1461510,
+      "git_blob_sha": "eff05028dd854c958e19b7bd7c122a45418fba1d"
+    },
+    {
+      "name": "20_Moonlit_Gothic_Cloister.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/20_Moonlit_Gothic_Cloister.mp4",
+      "bytes": 1828262,
+      "git_blob_sha": "1c3dd15633c5e4f100b6833aa92952a50e14a6a3"
+    },
+    {
+      "name": "21_Pontoon_Aurora.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/21_Pontoon_Aurora.mp4",
+      "bytes": 1746392,
+      "git_blob_sha": "8caf8776059be16e3583bed41bb3ad3cd0a535f9"
+    },
+    {
+      "name": "22_Riverboat_Carnival.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/22_Riverboat_Carnival.mp4",
+      "bytes": 1925137,
+      "git_blob_sha": "b046ba52f462d2e00994baea19dcdc2561e63b78"
+    },
+    {
+      "name": "23_Parallax_Helix_Gate.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/23_Parallax_Helix_Gate.mp4",
+      "bytes": 350648,
+      "git_blob_sha": "ff48b499cc79832e1de34e4fde72c3ca824dcde6"
+    },
+    {
+      "name": "24_Infinite_Avenue.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/24_Infinite_Avenue.mp4",
+      "bytes": 677645,
+      "git_blob_sha": "e4bf272b032ce472b376115cf9884e602290fd6f"
+    },
+    {
+      "name": "25_Impossible_Stair_Garden.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/25_Impossible_Stair_Garden.mp4",
+      "bytes": 877801,
+      "git_blob_sha": "f219071797cb26cb0a53b2c2921d3dcd7eb380b8"
+    },
+    {
+      "name": "26_Tesseract_Conservatory.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/26_Tesseract_Conservatory.mp4",
+      "bytes": 760115,
+      "git_blob_sha": "3d461ed3bf1c920c9b3ccb89e96c0b57feda9aef"
+    },
+    {
+      "name": "27_Whale_of_a_Thousand_Stars.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/27_Whale_of_a_Thousand_Stars.mp4",
+      "bytes": 853533,
+      "git_blob_sha": "7a261d3dab35b0fe531f658c9b75a0b327866ccb"
+    },
+    {
+      "name": "28_Cosmic_Manta_Crossing.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/28_Cosmic_Manta_Crossing.mp4",
+      "bytes": 700662,
+      "git_blob_sha": "4ea6ce20367d9aed8207ca384c772f8a311efb09"
+    },
+    {
+      "name": "29_Mobius_Tidewalk.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/29_Mobius_Tidewalk.mp4",
+      "bytes": 974550,
+      "git_blob_sha": "47e9f11693924cd2bf7531838c6c6688a9bf8d26"
+    },
+    {
+      "name": "30_Klein_Bottle_Lantern.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/30_Klein_Bottle_Lantern.mp4",
+      "bytes": 849392,
+      "git_blob_sha": "2f251fe91e9ec91534597b936f4e3ae87d2ad718"
+    },
+    {
+      "name": "31_Gravity_Inversion_Stage.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/31_Gravity_Inversion_Stage.mp4",
+      "bytes": 862731,
+      "git_blob_sha": "3c00869308417be7c1b032d78ee2b69f7296935a"
+    },
+    {
+      "name": "32_Event_Horizon_Arena.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/32_Event_Horizon_Arena.mp4",
+      "bytes": 849822,
+      "git_blob_sha": "a634e372354eef12b1f87069853c447f8ad2edc1"
+    },
+    {
+      "name": "33_Clockwork_Eclipse.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/33_Clockwork_Eclipse.mp4",
+      "bytes": 991409,
+      "git_blob_sha": "78fea6339e45b67bc0fbca1758aaeca5a26751cb"
+    },
+    {
+      "name": "34_Crystal_Fold_Pavilion.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/34_Crystal_Fold_Pavilion.mp4",
+      "bytes": 882287,
+      "git_blob_sha": "936d28caf70a28047fdde773d299c210e7580cbb"
+    },
+    {
+      "name": "35_Lenticular_Light_Forest.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/35_Lenticular_Light_Forest.mp4",
+      "bytes": 1970482,
+      "git_blob_sha": "32e30854a2b22586b06e3367ca80d72b66d1046b"
+    },
+    {
+      "name": "36_Hologram_Atlas.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/36_Hologram_Atlas.mp4",
+      "bytes": 935132,
+      "git_blob_sha": "7504756adfbbf3f25af58363e33db06cba7c88d2"
+    },
+    {
+      "name": "37_Ouroboros_Skycoil.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/37_Ouroboros_Skycoil.mp4",
+      "bytes": 478191,
+      "git_blob_sha": "85eb71405b68b9547d311d99df135a26dd936c0c"
+    },
+    {
+      "name": "38_Phoenix_Ascending.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/38_Phoenix_Ascending.mp4",
+      "bytes": 1320028,
+      "git_blob_sha": "ce92644d4a5e006fc967afc6a3dcf9300117f8ce"
+    },
+    {
+      "name": "39_Cathedral_of_Echoes.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/39_Cathedral_of_Echoes.mp4",
+      "bytes": 646213,
+      "git_blob_sha": "d112641d009e2684e1fdf344cda63457c6ffc9d3"
+    },
+    {
+      "name": "40_Fractal_Geode_Cavern.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/40_Fractal_Geode_Cavern.mp4",
+      "bytes": 1436660,
+      "git_blob_sha": "844d9aa950a4c258b64a3f2cd85cd94953cf4818"
+    },
+    {
+      "name": "41_Quantum_Chessboard.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/41_Quantum_Chessboard.mp4",
+      "bytes": 981483,
+      "git_blob_sha": "2dcc8b63b8018e770f29e75b972aee979ac0e8b6"
+    },
+    {
+      "name": "42_Prismwake_Pontoon.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/42_Prismwake_Pontoon.mp4",
+      "bytes": 872909,
+      "git_blob_sha": "873714c550b33f32a46b8e271cfbb82484286ed7"
+    },
+    {
+      "name": "43_Persistence_Parade.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/43_Persistence_Parade.mp4",
+      "bytes": 167518,
+      "git_blob_sha": "c546fbe049b5e5887a1622e0f7337ff200c650c5"
+    },
+    {
+      "name": "44_Jumping_Jack_Meadow.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/44_Jumping_Jack_Meadow.mp4",
+      "bytes": 198037,
+      "git_blob_sha": "d1ca93ae020af38e08a116aa37ba42169212dc5b"
+    },
+    {
+      "name": "45_Helix_Caterpillar.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/45_Helix_Caterpillar.mp4",
+      "bytes": 618464,
+      "git_blob_sha": "ae5c7d4a4572bf96f1a930d01522999c83e9ae98"
+    },
+    {
+      "name": "46_Clay_Bloom_Courtyard.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/46_Clay_Bloom_Courtyard.mp4",
+      "bytes": 512945,
+      "git_blob_sha": "306f5d7b8562a87849d0ae647dbb36f2e5082bc3"
+    },
+    {
+      "name": "47_Clockwork_Firefly_Woods.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/47_Clockwork_Firefly_Woods.mp4",
+      "bytes": 117742,
+      "git_blob_sha": "1944dbbafcf08dda02b2738981134156a1a6a40e"
+    },
+    {
+      "name": "48_Dragon_Wing_Studio.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/48_Dragon_Wing_Studio.mp4",
+      "bytes": 413256,
+      "git_blob_sha": "164883429b2873b7f480396315e3ac104c8eac00"
+    },
+    {
+      "name": "49_Rubber_Moon_Playground.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/49_Rubber_Moon_Playground.mp4",
+      "bytes": 147923,
+      "git_blob_sha": "2bec257bb235af8a6e771c6cdfbdbe4cddb1e7d6"
+    },
+    {
+      "name": "50_Origami_Metamorphosis.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/50_Origami_Metamorphosis.mp4",
+      "bytes": 224724,
+      "git_blob_sha": "d0c8a2024e3767172af9f0b2e437722068f8fdd8"
+    },
+    {
+      "name": "51_Whale_Breach_Flipbook.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/51_Whale_Breach_Flipbook.mp4",
+      "bytes": 409681,
+      "git_blob_sha": "662c87d97e918b6b1c52e8c765c0be2144c148ff"
+    },
+    {
+      "name": "52_Manta_Glide_Corridor.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/52_Manta_Glide_Corridor.mp4",
+      "bytes": 631686,
+      "git_blob_sha": "e2dae68a85ed0414968b14bc325c27a28892322b"
+    },
+    {
+      "name": "53_Marionettes_of_Light.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/53_Marionettes_of_Light.mp4",
+      "bytes": 198036,
+      "git_blob_sha": "5e97ed87b7925d7c80023592bcf50483f8a2cc04"
+    },
+    {
+      "name": "54_Tiny_Giant_Town.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/54_Tiny_Giant_Town.mp4",
+      "bytes": 262682,
+      "git_blob_sha": "f81b79ac22bb73595f1383ce799835a374d435e8"
+    },
+    {
+      "name": "55_Drummers_Animation_Stage.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/55_Drummers_Animation_Stage.mp4",
+      "bytes": 119604,
+      "git_blob_sha": "e7d0918949903796384e486c1a889e0666851e8b"
+    },
+    {
+      "name": "56_Shadow_Puppet_Cinema.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/56_Shadow_Puppet_Cinema.mp4",
+      "bytes": 184306,
+      "git_blob_sha": "a4c91065d207e9c7fd28343ac12af7e265cf16d6"
+    },
+    {
+      "name": "57_Brick_by_Brick_Cathedral.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/57_Brick_by_Brick_Cathedral.mp4",
+      "bytes": 252233,
+      "git_blob_sha": "f4bc90e66b4b3173cb77eb1104cad3c28fc66c12"
+    },
+    {
+      "name": "58_Domino_Wave_Arena.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/58_Domino_Wave_Arena.mp4",
+      "bytes": 199113,
+      "git_blob_sha": "0329189c94d6fa84b8b5b4577896d8d01481b855"
+    },
+    {
+      "name": "59_Paper_Tide_Pontoon.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/59_Paper_Tide_Pontoon.mp4",
+      "bytes": 426296,
+      "git_blob_sha": "c6621f87eaee8b90e2c95ecc5c67791c3fb2caf4"
+    },
+    {
+      "name": "60_Zoetrope_Spiral_Carousel.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/60_Zoetrope_Spiral_Carousel.mp4",
+      "bytes": 199425,
+      "git_blob_sha": "4157dc03f7a4b36bec1bb8bf38d43dc27db9141f"
+    },
+    {
+      "name": "61_Comet_Smear_Tunnel.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/61_Comet_Smear_Tunnel.mp4",
+      "bytes": 156872,
+      "git_blob_sha": "527126d8737430e959bf420a14586cbd9ee97020"
+    },
+    {
+      "name": "62_Moonrise_Loop_Theatre.mp4",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/62_Moonrise_Loop_Theatre.mp4",
+      "bytes": 157438,
+      "git_blob_sha": "14ac8a3f83d718e95c13863f02251f943f68cc63"
+    },
+    {
+      "name": "Concepts_01-62_Contact_Sheet.jpg",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/Concepts_01-62_Contact_Sheet.jpg",
+      "bytes": 438744,
+      "git_blob_sha": "2e14fe8e3b08ce5a981a42eb5486cfd2727be621"
+    },
+    {
+      "name": "Concepts_01-62_MP4s.zip",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/Concepts_01-62_MP4s.zip",
+      "bytes": 63809996,
+      "git_blob_sha": "5c51b09f14dbafb0fb377d677f229432d525bba1"
+    },
+    {
+      "name": "Concepts_01-62_XLights.zip",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/Concepts_01-62_XLights.zip",
+      "bytes": 16988611,
+      "git_blob_sha": "1960cd1ce84cfcf780d5430c249dcb5a62127452"
+    },
+    {
+      "name": "README.md",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/README.md",
+      "bytes": 5448,
+      "git_blob_sha": "523cef59cf8d652eac44c83baa8ac2f9f780d18d"
+    },
+    {
+      "name": "README.txt",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/README.txt",
+      "bytes": 1040,
+      "git_blob_sha": "48a258fd55a39a406c952abb576b3e6965c0a5dd"
+    },
+    {
+      "name": "Stop_Motion_Pose_Samples.jpg",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/Stop_Motion_Pose_Samples.jpg",
+      "bytes": 271837,
+      "git_blob_sha": "955714d749c717f1cde186141768782288666d3c"
+    },
+    {
+      "name": "VERIFICATION.json",
+      "url": "https://raw.githubusercontent.com/ryankorkowski-boop/helix-sequencer/54502695afd811b2c0b5bcaf7e3f57fb3525d389/VERIFICATION.json",
+      "bytes": 266600,
+      "git_blob_sha": "b3f8b709a9946a9ca6f467b2d2c43689e60d7851"
+    }
+  ]
+}

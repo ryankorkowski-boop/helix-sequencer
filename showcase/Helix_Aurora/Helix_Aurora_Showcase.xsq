@@ -1,0 +1,1306 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xsequence BaseChannel="1" ChanCtrlBasic="0" ChanCtrlColor="0" FixedPointTiming="1" ModelBlending="true">
+  <head>
+    <version>2026.18</version>
+    <author>Helix</author>
+    <song>Helix Aurora lighting study</song>
+    <comment>24-second layout lighting demonstration; no musical/detector claims</comment>
+    <sequenceTiming>50 ms</sequenceTiming>
+    <sequenceType>Animation</sequenceType>
+    <sequenceDuration>24.000</sequenceDuration>
+    <mediaFile />
+  </head>
+  <nextid>727</nextid>
+  <ColorPalettes>
+    <ColorPalette>C_BUTTON_Palette1=#64F5FF,C_CHECKBOX_Palette1=1</ColorPalette>
+    <ColorPalette>C_BUTTON_Palette1=#FF70CE,C_CHECKBOX_Palette1=1</ColorPalette>
+    <ColorPalette>C_BUTTON_Palette1=#FFD98A,C_CHECKBOX_Palette1=1</ColorPalette>
+    <ColorPalette>C_BUTTON_Palette1=#82FFCD,C_CHECKBOX_Palette1=1</ColorPalette>
+    <ColorPalette>C_BUTTON_Palette1=#A09AFF,C_CHECKBOX_Palette1=1</ColorPalette>
+  </ColorPalettes>
+  <EffectDB>
+    <Effect>E_TEXTCTRL_Eff_On_Start=0,E_TEXTCTRL_Eff_On_End=75</Effect>
+    <Effect>E_TEXTCTRL_Eff_On_Start=75,E_TEXTCTRL_Eff_On_End=35</Effect>
+    <Effect>E_TEXTCTRL_Eff_On_Start=35,E_TEXTCTRL_Eff_On_End=85</Effect>
+    <Effect>E_TEXTCTRL_Eff_On_Start=85,E_TEXTCTRL_Eff_On_End=50</Effect>
+    <Effect>E_TEXTCTRL_Eff_On_Start=50,E_TEXTCTRL_Eff_On_End=100</Effect>
+    <Effect>E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=25</Effect>
+  </EffectDB>
+  <DisplayElements>
+    <Element type="model" name="HX_DNA_CATHEDRAL" visible="1" collapsed="1" />
+    <Element type="model" name="HX_DNA_TOWER_WEST" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_W_1_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_CANOPY_CROWN_-1_0" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_W_1_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_CANOPY_CROWN_-1_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_W_1_3" visible="1" collapsed="1" />
+    <Element type="model" name="HX_CANOPY_CROWN_-1_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_W_1_4" visible="1" collapsed="1" />
+    <Element type="model" name="HX_CANOPY_CROWN_-1_3" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_W_2_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_W_2_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_W_2_3" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_W_2_4" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_W_3_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_W_3_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_W_3_3" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_W_3_4" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_MINI_-1_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_MINI_-1_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_MINI_-1_3" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_MINI_-1_4" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_MINI_-1_5" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_MINI_-1_6" visible="1" collapsed="1" />
+    <Element type="model" name="HX_DNA_PATH_-1_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_DNA_PATH_-1_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_DNA_PATH_-1_3" visible="1" collapsed="1" />
+    <Element type="model" name="HX_DNA_GATE_-1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_DNA_TOWER_EAST" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_E_1_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_CANOPY_CROWN_1_0" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_E_1_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_CANOPY_CROWN_1_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_E_1_3" visible="1" collapsed="1" />
+    <Element type="model" name="HX_CANOPY_CROWN_1_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_E_1_4" visible="1" collapsed="1" />
+    <Element type="model" name="HX_CANOPY_CROWN_1_3" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_E_2_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_E_2_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_E_2_3" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_E_2_4" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_E_3_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_E_3_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_E_3_3" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_E_3_4" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_MINI_1_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_MINI_1_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_MINI_1_3" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_MINI_1_4" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_MINI_1_5" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SPIRAL_MINI_1_6" visible="1" collapsed="1" />
+    <Element type="model" name="HX_DNA_PATH_1_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_DNA_PATH_1_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_DNA_PATH_1_3" visible="1" collapsed="1" />
+    <Element type="model" name="HX_DNA_GATE_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_DNA_ORBIT" visible="1" collapsed="1" />
+    <Element type="model" name="HX_NORTH_STAR" visible="1" collapsed="1" />
+    <Element type="model" name="HX_NATIVE_Tree_360" visible="1" collapsed="1" />
+    <Element type="model" name="HX_NATIVE_Tree_180" visible="1" collapsed="1" />
+    <Element type="model" name="HX_NATIVE_Tree_Flat" visible="1" collapsed="1" />
+    <Element type="model" name="HX_NATIVE_Tree_Ribbon" visible="1" collapsed="1" />
+    <Element type="model" name="HX_ORRERY_MOON_-1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_AURORA_HORIZONTAL" visible="1" collapsed="1" />
+    <Element type="model" name="HX_JEWEL_WINDOW_-1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_ORBIT_TRIPTYCH_-1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_MOON_WREATH_-1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SOLAR_SPINNER_-1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_ORRERY_MOON_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_AURORA_VERTICAL" visible="1" collapsed="1" />
+    <Element type="model" name="HX_JEWEL_WINDOW_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_ORBIT_TRIPTYCH_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_MOON_WREATH_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_SOLAR_SPINNER_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_RIBBON_ARCH_01" visible="1" collapsed="1" />
+    <Element type="model" name="HX_RIBBON_ARCH_02" visible="1" collapsed="1" />
+    <Element type="model" name="HX_RIBBON_ARCH_03" visible="1" collapsed="1" />
+    <Element type="model" name="HX_RIBBON_ARCH_04" visible="1" collapsed="1" />
+    <Element type="model" name="HX_RIBBON_ARCH_05" visible="1" collapsed="1" />
+    <Element type="model" name="HX_RIBBON_ARCH_06" visible="1" collapsed="1" />
+    <Element type="model" name="HX_RIBBON_ARCH_07" visible="1" collapsed="1" />
+    <Element type="model" name="HX_RIBBON_ARCH_08" visible="1" collapsed="1" />
+    <Element type="model" name="HX_CANDY_GARDEN_-1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_CANDY_GARDEN_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_VOXEL_LANTERN_-1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_VOXEL_LANTERN_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_FIBONACCI_ICICLES_-1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_FIBONACCI_ICICLES_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_INFINITY_RIBBON" visible="1" collapsed="1" />
+    <Element type="model" name="HX_FIREFLY_CONSTELLATION" visible="1" collapsed="1" />
+    <Element type="model" name="HX_HORIZON_RAIL_-1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_HORIZON_RAIL_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_FRACTAL_SNOWFLAKE_-1_0" visible="1" collapsed="1" />
+    <Element type="model" name="HX_FRACTAL_SNOWFLAKE_-1_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_FRACTAL_SNOWFLAKE_-1_2" visible="1" collapsed="1" />
+    <Element type="model" name="HX_FRACTAL_SNOWFLAKE_1_0" visible="1" collapsed="1" />
+    <Element type="model" name="HX_FRACTAL_SNOWFLAKE_1_1" visible="1" collapsed="1" />
+    <Element type="model" name="HX_FRACTAL_SNOWFLAKE_1_2" visible="1" collapsed="1" />
+  </DisplayElements>
+  <ElementEffects>
+    <Element type="model" name="HX_DNA_CATHEDRAL">
+      <EffectLayer />
+      <SubModelEffectLayer name="STRAND_A" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="6000" id="1" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="2" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="3" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="4" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="5" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="6" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="STRAND_B" layer="0">
+        <Effect name="On" ref="0" palette="1" startTime="0" endTime="6000" id="7" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="8" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="9" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="10" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="11" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="12" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="RUNGS" layer="0">
+        <Effect name="On" ref="0" palette="2" startTime="0" endTime="6000" id="13" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="14" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="15" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="16" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="17" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="18" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_DNA_TOWER_WEST">
+      <EffectLayer />
+      <SubModelEffectLayer name="STRAND_A" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="6000" id="19" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="20" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="21" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="22" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="23" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="24" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="STRAND_B" layer="0">
+        <Effect name="On" ref="0" palette="1" startTime="0" endTime="6000" id="25" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="26" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="27" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="28" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="29" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="30" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="RUNGS" layer="0">
+        <Effect name="On" ref="0" palette="2" startTime="0" endTime="6000" id="31" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="32" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="33" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="34" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="35" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="36" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_W_1_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="1700" endTime="6000" id="37" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="38" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="39" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="40" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="41" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="42" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_CANOPY_CROWN_-1_0">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="1950" endTime="6000" id="43" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="44" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="45" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="46" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="47" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="48" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_W_1_2">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="2200" endTime="6000" id="49" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="50" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="51" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="52" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="53" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="54" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_CANOPY_CROWN_-1_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="2450" endTime="6000" id="55" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="56" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="57" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="58" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="59" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="60" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_W_1_3">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="2700" endTime="6000" id="61" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="62" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="63" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="64" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="65" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="66" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_CANOPY_CROWN_-1_2">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="1200" endTime="6000" id="67" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="68" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="69" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="70" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="71" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="72" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_W_1_4">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="1450" endTime="6000" id="73" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="74" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="75" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="76" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="77" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="78" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_CANOPY_CROWN_-1_3">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="1700" endTime="6000" id="79" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="80" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="81" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="82" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="83" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="84" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_W_2_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="4" startTime="1950" endTime="6000" id="85" />
+        <Effect name="On" ref="1" palette="4" startTime="6000" endTime="9000" id="86" />
+        <Effect name="On" ref="2" palette="4" startTime="9000" endTime="12000" id="87" />
+        <Effect name="On" ref="3" palette="4" startTime="12000" endTime="16000" id="88" />
+        <Effect name="On" ref="4" palette="4" startTime="16000" endTime="21000" id="89" />
+        <Effect name="On" ref="5" palette="4" startTime="21000" endTime="24000" id="90" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_W_2_2">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="4" startTime="2200" endTime="6000" id="91" />
+        <Effect name="On" ref="1" palette="4" startTime="6000" endTime="9000" id="92" />
+        <Effect name="On" ref="2" palette="4" startTime="9000" endTime="12000" id="93" />
+        <Effect name="On" ref="3" palette="4" startTime="12000" endTime="16000" id="94" />
+        <Effect name="On" ref="4" palette="4" startTime="16000" endTime="21000" id="95" />
+        <Effect name="On" ref="5" palette="4" startTime="21000" endTime="24000" id="96" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_W_2_3">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="4" startTime="2450" endTime="6000" id="97" />
+        <Effect name="On" ref="1" palette="4" startTime="6000" endTime="9000" id="98" />
+        <Effect name="On" ref="2" palette="4" startTime="9000" endTime="12000" id="99" />
+        <Effect name="On" ref="3" palette="4" startTime="12000" endTime="16000" id="100" />
+        <Effect name="On" ref="4" palette="4" startTime="16000" endTime="21000" id="101" />
+        <Effect name="On" ref="5" palette="4" startTime="21000" endTime="24000" id="102" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_W_2_4">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="4" startTime="2700" endTime="6000" id="103" />
+        <Effect name="On" ref="1" palette="4" startTime="6000" endTime="9000" id="104" />
+        <Effect name="On" ref="2" palette="4" startTime="9000" endTime="12000" id="105" />
+        <Effect name="On" ref="3" palette="4" startTime="12000" endTime="16000" id="106" />
+        <Effect name="On" ref="4" palette="4" startTime="16000" endTime="21000" id="107" />
+        <Effect name="On" ref="5" palette="4" startTime="21000" endTime="24000" id="108" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_W_3_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1200" endTime="6000" id="109" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="110" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="111" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="112" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="113" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="114" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_W_3_2">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1450" endTime="6000" id="115" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="116" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="117" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="118" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="119" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="120" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_W_3_3">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1700" endTime="6000" id="121" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="122" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="123" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="124" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="125" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="126" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_W_3_4">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1950" endTime="6000" id="127" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="128" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="129" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="130" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="131" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="132" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_MINI_-1_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="2200" endTime="6000" id="133" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="134" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="135" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="136" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="137" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="138" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_MINI_-1_2">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="2450" endTime="6000" id="139" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="140" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="141" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="142" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="143" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="144" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_MINI_-1_3">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="2700" endTime="6000" id="145" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="146" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="147" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="148" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="149" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="150" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_MINI_-1_4">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="1200" endTime="6000" id="151" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="152" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="153" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="154" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="155" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="156" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_MINI_-1_5">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="1450" endTime="6000" id="157" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="158" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="159" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="160" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="161" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="162" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_MINI_-1_6">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="1700" endTime="6000" id="163" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="164" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="165" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="166" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="167" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="168" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_DNA_PATH_-1_1">
+      <EffectLayer />
+      <SubModelEffectLayer name="STRAND_A" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="1950" endTime="6000" id="169" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="170" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="171" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="172" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="173" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="174" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="STRAND_B" layer="0">
+        <Effect name="On" ref="0" palette="1" startTime="1950" endTime="6000" id="175" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="176" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="177" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="178" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="179" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="180" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="RUNGS" layer="0">
+        <Effect name="On" ref="0" palette="2" startTime="1950" endTime="6000" id="181" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="182" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="183" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="184" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="185" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="186" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_DNA_PATH_-1_2">
+      <EffectLayer />
+      <SubModelEffectLayer name="STRAND_A" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="2200" endTime="6000" id="187" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="188" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="189" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="190" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="191" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="192" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="STRAND_B" layer="0">
+        <Effect name="On" ref="0" palette="1" startTime="2200" endTime="6000" id="193" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="194" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="195" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="196" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="197" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="198" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="RUNGS" layer="0">
+        <Effect name="On" ref="0" palette="2" startTime="2200" endTime="6000" id="199" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="200" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="201" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="202" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="203" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="204" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_DNA_PATH_-1_3">
+      <EffectLayer />
+      <SubModelEffectLayer name="STRAND_A" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="2450" endTime="6000" id="205" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="206" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="207" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="208" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="209" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="210" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="STRAND_B" layer="0">
+        <Effect name="On" ref="0" palette="1" startTime="2450" endTime="6000" id="211" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="212" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="213" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="214" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="215" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="216" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="RUNGS" layer="0">
+        <Effect name="On" ref="0" palette="2" startTime="2450" endTime="6000" id="217" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="218" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="219" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="220" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="221" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="222" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_DNA_GATE_-1">
+      <EffectLayer />
+      <SubModelEffectLayer name="STRAND_A" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="2700" endTime="6000" id="223" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="224" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="225" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="226" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="227" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="228" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="STRAND_B" layer="0">
+        <Effect name="On" ref="0" palette="1" startTime="2700" endTime="6000" id="229" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="230" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="231" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="232" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="233" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="234" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="RUNGS" layer="0">
+        <Effect name="On" ref="0" palette="2" startTime="2700" endTime="6000" id="235" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="236" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="237" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="238" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="239" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="240" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_DNA_TOWER_EAST">
+      <EffectLayer />
+      <SubModelEffectLayer name="STRAND_A" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="6000" id="241" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="242" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="243" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="244" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="245" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="246" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="STRAND_B" layer="0">
+        <Effect name="On" ref="0" palette="1" startTime="0" endTime="6000" id="247" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="248" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="249" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="250" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="251" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="252" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="RUNGS" layer="0">
+        <Effect name="On" ref="0" palette="2" startTime="0" endTime="6000" id="253" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="254" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="255" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="256" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="257" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="258" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_E_1_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="1450" endTime="6000" id="259" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="260" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="261" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="262" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="263" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="264" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_CANOPY_CROWN_1_0">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="1700" endTime="6000" id="265" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="266" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="267" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="268" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="269" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="270" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_E_1_2">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="1950" endTime="6000" id="271" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="272" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="273" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="274" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="275" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="276" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_CANOPY_CROWN_1_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="2200" endTime="6000" id="277" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="278" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="279" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="280" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="281" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="282" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_E_1_3">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="2450" endTime="6000" id="283" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="284" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="285" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="286" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="287" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="288" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_CANOPY_CROWN_1_2">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="2700" endTime="6000" id="289" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="290" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="291" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="292" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="293" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="294" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_E_1_4">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="1200" endTime="6000" id="295" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="296" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="297" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="298" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="299" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="300" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_CANOPY_CROWN_1_3">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="1450" endTime="6000" id="301" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="302" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="303" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="304" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="305" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="306" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_E_2_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="4" startTime="1700" endTime="6000" id="307" />
+        <Effect name="On" ref="1" palette="4" startTime="6000" endTime="9000" id="308" />
+        <Effect name="On" ref="2" palette="4" startTime="9000" endTime="12000" id="309" />
+        <Effect name="On" ref="3" palette="4" startTime="12000" endTime="16000" id="310" />
+        <Effect name="On" ref="4" palette="4" startTime="16000" endTime="21000" id="311" />
+        <Effect name="On" ref="5" palette="4" startTime="21000" endTime="24000" id="312" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_E_2_2">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="4" startTime="1950" endTime="6000" id="313" />
+        <Effect name="On" ref="1" palette="4" startTime="6000" endTime="9000" id="314" />
+        <Effect name="On" ref="2" palette="4" startTime="9000" endTime="12000" id="315" />
+        <Effect name="On" ref="3" palette="4" startTime="12000" endTime="16000" id="316" />
+        <Effect name="On" ref="4" palette="4" startTime="16000" endTime="21000" id="317" />
+        <Effect name="On" ref="5" palette="4" startTime="21000" endTime="24000" id="318" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_E_2_3">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="4" startTime="2200" endTime="6000" id="319" />
+        <Effect name="On" ref="1" palette="4" startTime="6000" endTime="9000" id="320" />
+        <Effect name="On" ref="2" palette="4" startTime="9000" endTime="12000" id="321" />
+        <Effect name="On" ref="3" palette="4" startTime="12000" endTime="16000" id="322" />
+        <Effect name="On" ref="4" palette="4" startTime="16000" endTime="21000" id="323" />
+        <Effect name="On" ref="5" palette="4" startTime="21000" endTime="24000" id="324" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_E_2_4">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="4" startTime="2450" endTime="6000" id="325" />
+        <Effect name="On" ref="1" palette="4" startTime="6000" endTime="9000" id="326" />
+        <Effect name="On" ref="2" palette="4" startTime="9000" endTime="12000" id="327" />
+        <Effect name="On" ref="3" palette="4" startTime="12000" endTime="16000" id="328" />
+        <Effect name="On" ref="4" palette="4" startTime="16000" endTime="21000" id="329" />
+        <Effect name="On" ref="5" palette="4" startTime="21000" endTime="24000" id="330" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_E_3_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="2700" endTime="6000" id="331" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="332" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="333" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="334" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="335" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="336" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_E_3_2">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1200" endTime="6000" id="337" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="338" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="339" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="340" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="341" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="342" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_E_3_3">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1450" endTime="6000" id="343" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="344" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="345" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="346" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="347" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="348" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_E_3_4">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1700" endTime="6000" id="349" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="350" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="351" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="352" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="353" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="354" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_MINI_1_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="1950" endTime="6000" id="355" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="356" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="357" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="358" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="359" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="360" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_MINI_1_2">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="2200" endTime="6000" id="361" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="362" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="363" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="364" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="365" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="366" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_MINI_1_3">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="2450" endTime="6000" id="367" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="368" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="369" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="370" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="371" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="372" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_MINI_1_4">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="2700" endTime="6000" id="373" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="374" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="375" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="376" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="377" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="378" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_MINI_1_5">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="1200" endTime="6000" id="379" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="380" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="381" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="382" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="383" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="384" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SPIRAL_MINI_1_6">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="1450" endTime="6000" id="385" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="386" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="387" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="388" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="389" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="390" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_DNA_PATH_1_1">
+      <EffectLayer />
+      <SubModelEffectLayer name="STRAND_A" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="1700" endTime="6000" id="391" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="392" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="393" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="394" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="395" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="396" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="STRAND_B" layer="0">
+        <Effect name="On" ref="0" palette="1" startTime="1700" endTime="6000" id="397" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="398" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="399" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="400" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="401" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="402" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="RUNGS" layer="0">
+        <Effect name="On" ref="0" palette="2" startTime="1700" endTime="6000" id="403" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="404" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="405" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="406" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="407" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="408" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_DNA_PATH_1_2">
+      <EffectLayer />
+      <SubModelEffectLayer name="STRAND_A" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="1950" endTime="6000" id="409" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="410" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="411" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="412" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="413" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="414" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="STRAND_B" layer="0">
+        <Effect name="On" ref="0" palette="1" startTime="1950" endTime="6000" id="415" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="416" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="417" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="418" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="419" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="420" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="RUNGS" layer="0">
+        <Effect name="On" ref="0" palette="2" startTime="1950" endTime="6000" id="421" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="422" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="423" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="424" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="425" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="426" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_DNA_PATH_1_3">
+      <EffectLayer />
+      <SubModelEffectLayer name="STRAND_A" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="2200" endTime="6000" id="427" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="428" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="429" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="430" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="431" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="432" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="STRAND_B" layer="0">
+        <Effect name="On" ref="0" palette="1" startTime="2200" endTime="6000" id="433" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="434" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="435" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="436" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="437" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="438" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="RUNGS" layer="0">
+        <Effect name="On" ref="0" palette="2" startTime="2200" endTime="6000" id="439" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="440" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="441" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="442" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="443" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="444" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_DNA_GATE_1">
+      <EffectLayer />
+      <SubModelEffectLayer name="STRAND_A" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="2450" endTime="6000" id="445" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="446" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="447" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="448" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="449" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="450" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="STRAND_B" layer="0">
+        <Effect name="On" ref="0" palette="1" startTime="2450" endTime="6000" id="451" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="452" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="453" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="454" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="455" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="456" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="RUNGS" layer="0">
+        <Effect name="On" ref="0" palette="2" startTime="2450" endTime="6000" id="457" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="458" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="459" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="460" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="461" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="462" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_DNA_ORBIT">
+      <EffectLayer />
+      <SubModelEffectLayer name="STRAND_A" layer="0">
+        <Effect name="On" ref="0" palette="0" startTime="0" endTime="6000" id="463" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="464" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="465" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="466" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="467" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="468" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="STRAND_B" layer="0">
+        <Effect name="On" ref="0" palette="1" startTime="0" endTime="6000" id="469" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="470" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="471" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="472" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="473" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="474" />
+      </SubModelEffectLayer>
+      <SubModelEffectLayer name="RUNGS" layer="0">
+        <Effect name="On" ref="0" palette="2" startTime="0" endTime="6000" id="475" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="476" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="477" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="478" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="479" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="480" />
+      </SubModelEffectLayer>
+    </Element>
+    <Element type="model" name="HX_NORTH_STAR">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="1200" endTime="6000" id="481" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="482" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="483" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="484" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="485" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="486" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_NATIVE_Tree_360">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="3" startTime="1450" endTime="6000" id="487" />
+        <Effect name="On" ref="1" palette="3" startTime="6000" endTime="9000" id="488" />
+        <Effect name="On" ref="2" palette="3" startTime="9000" endTime="12000" id="489" />
+        <Effect name="On" ref="3" palette="3" startTime="12000" endTime="16000" id="490" />
+        <Effect name="On" ref="4" palette="3" startTime="16000" endTime="21000" id="491" />
+        <Effect name="On" ref="5" palette="3" startTime="21000" endTime="24000" id="492" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_NATIVE_Tree_180">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="4" startTime="1700" endTime="6000" id="493" />
+        <Effect name="On" ref="1" palette="4" startTime="6000" endTime="9000" id="494" />
+        <Effect name="On" ref="2" palette="4" startTime="9000" endTime="12000" id="495" />
+        <Effect name="On" ref="3" palette="4" startTime="12000" endTime="16000" id="496" />
+        <Effect name="On" ref="4" palette="4" startTime="16000" endTime="21000" id="497" />
+        <Effect name="On" ref="5" palette="4" startTime="21000" endTime="24000" id="498" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_NATIVE_Tree_Flat">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1950" endTime="6000" id="499" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="500" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="501" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="502" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="503" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="504" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_NATIVE_Tree_Ribbon">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="1" startTime="2200" endTime="6000" id="505" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="506" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="507" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="508" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="509" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="510" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_ORRERY_MOON_-1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="2450" endTime="6000" id="511" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="512" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="513" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="514" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="515" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="516" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_AURORA_HORIZONTAL">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="4" startTime="2700" endTime="6000" id="517" />
+        <Effect name="On" ref="1" palette="4" startTime="6000" endTime="9000" id="518" />
+        <Effect name="On" ref="2" palette="4" startTime="9000" endTime="12000" id="519" />
+        <Effect name="On" ref="3" palette="4" startTime="12000" endTime="16000" id="520" />
+        <Effect name="On" ref="4" palette="4" startTime="16000" endTime="21000" id="521" />
+        <Effect name="On" ref="5" palette="4" startTime="21000" endTime="24000" id="522" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_JEWEL_WINDOW_-1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="1200" endTime="6000" id="523" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="524" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="525" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="526" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="527" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="528" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_ORBIT_TRIPTYCH_-1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="1" startTime="1450" endTime="6000" id="529" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="530" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="531" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="532" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="533" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="534" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_MOON_WREATH_-1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="1700" endTime="6000" id="535" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="536" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="537" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="538" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="539" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="540" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SOLAR_SPINNER_-1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="1950" endTime="6000" id="541" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="542" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="543" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="544" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="545" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="546" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_ORRERY_MOON_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="2200" endTime="6000" id="547" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="548" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="549" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="550" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="551" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="552" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_AURORA_VERTICAL">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="4" startTime="2450" endTime="6000" id="553" />
+        <Effect name="On" ref="1" palette="4" startTime="6000" endTime="9000" id="554" />
+        <Effect name="On" ref="2" palette="4" startTime="9000" endTime="12000" id="555" />
+        <Effect name="On" ref="3" palette="4" startTime="12000" endTime="16000" id="556" />
+        <Effect name="On" ref="4" palette="4" startTime="16000" endTime="21000" id="557" />
+        <Effect name="On" ref="5" palette="4" startTime="21000" endTime="24000" id="558" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_JEWEL_WINDOW_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="2700" endTime="6000" id="559" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="560" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="561" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="562" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="563" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="564" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_ORBIT_TRIPTYCH_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="1" startTime="1200" endTime="6000" id="565" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="566" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="567" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="568" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="569" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="570" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_MOON_WREATH_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="1450" endTime="6000" id="571" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="572" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="573" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="574" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="575" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="576" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_SOLAR_SPINNER_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="1700" endTime="6000" id="577" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="578" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="579" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="580" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="581" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="582" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_RIBBON_ARCH_01">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="1" startTime="1950" endTime="6000" id="583" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="584" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="585" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="586" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="587" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="588" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_RIBBON_ARCH_02">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="1" startTime="2200" endTime="6000" id="589" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="590" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="591" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="592" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="593" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="594" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_RIBBON_ARCH_03">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="1" startTime="2450" endTime="6000" id="595" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="596" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="597" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="598" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="599" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="600" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_RIBBON_ARCH_04">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="1" startTime="2700" endTime="6000" id="601" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="602" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="603" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="604" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="605" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="606" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_RIBBON_ARCH_05">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="1" startTime="1200" endTime="6000" id="607" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="608" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="609" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="610" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="611" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="612" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_RIBBON_ARCH_06">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="1" startTime="1450" endTime="6000" id="613" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="614" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="615" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="616" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="617" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="618" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_RIBBON_ARCH_07">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="1" startTime="1700" endTime="6000" id="619" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="620" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="621" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="622" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="623" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="624" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_RIBBON_ARCH_08">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="1" startTime="1950" endTime="6000" id="625" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="626" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="627" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="628" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="629" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="630" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_CANDY_GARDEN_-1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="2200" endTime="6000" id="631" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="632" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="633" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="634" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="635" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="636" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_CANDY_GARDEN_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="2450" endTime="6000" id="637" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="638" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="639" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="640" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="641" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="642" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_VOXEL_LANTERN_-1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="4" startTime="2700" endTime="6000" id="643" />
+        <Effect name="On" ref="1" palette="4" startTime="6000" endTime="9000" id="644" />
+        <Effect name="On" ref="2" palette="4" startTime="9000" endTime="12000" id="645" />
+        <Effect name="On" ref="3" palette="4" startTime="12000" endTime="16000" id="646" />
+        <Effect name="On" ref="4" palette="4" startTime="16000" endTime="21000" id="647" />
+        <Effect name="On" ref="5" palette="4" startTime="21000" endTime="24000" id="648" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_VOXEL_LANTERN_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1200" endTime="6000" id="649" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="650" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="651" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="652" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="653" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="654" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_FIBONACCI_ICICLES_-1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1450" endTime="6000" id="655" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="656" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="657" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="658" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="659" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="660" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_FIBONACCI_ICICLES_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1700" endTime="6000" id="661" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="662" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="663" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="664" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="665" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="666" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_INFINITY_RIBBON">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="1" startTime="1950" endTime="6000" id="667" />
+        <Effect name="On" ref="1" palette="1" startTime="6000" endTime="9000" id="668" />
+        <Effect name="On" ref="2" palette="1" startTime="9000" endTime="12000" id="669" />
+        <Effect name="On" ref="3" palette="1" startTime="12000" endTime="16000" id="670" />
+        <Effect name="On" ref="4" palette="1" startTime="16000" endTime="21000" id="671" />
+        <Effect name="On" ref="5" palette="1" startTime="21000" endTime="24000" id="672" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_FIREFLY_CONSTELLATION">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="2" startTime="2200" endTime="6000" id="673" />
+        <Effect name="On" ref="1" palette="2" startTime="6000" endTime="9000" id="674" />
+        <Effect name="On" ref="2" palette="2" startTime="9000" endTime="12000" id="675" />
+        <Effect name="On" ref="3" palette="2" startTime="12000" endTime="16000" id="676" />
+        <Effect name="On" ref="4" palette="2" startTime="16000" endTime="21000" id="677" />
+        <Effect name="On" ref="5" palette="2" startTime="21000" endTime="24000" id="678" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_HORIZON_RAIL_-1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="2450" endTime="6000" id="679" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="680" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="681" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="682" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="683" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="684" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_HORIZON_RAIL_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="2700" endTime="6000" id="685" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="686" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="687" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="688" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="689" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="690" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_FRACTAL_SNOWFLAKE_-1_0">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1200" endTime="6000" id="691" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="692" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="693" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="694" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="695" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="696" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_FRACTAL_SNOWFLAKE_-1_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1450" endTime="6000" id="697" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="698" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="699" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="700" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="701" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="702" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_FRACTAL_SNOWFLAKE_-1_2">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1700" endTime="6000" id="703" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="704" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="705" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="706" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="707" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="708" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_FRACTAL_SNOWFLAKE_1_0">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="1950" endTime="6000" id="709" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="710" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="711" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="712" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="713" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="714" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_FRACTAL_SNOWFLAKE_1_1">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="2200" endTime="6000" id="715" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="716" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="717" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="718" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="719" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="720" />
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="HX_FRACTAL_SNOWFLAKE_1_2">
+      <EffectLayer>
+        <Effect name="On" ref="0" palette="0" startTime="2450" endTime="6000" id="721" />
+        <Effect name="On" ref="1" palette="0" startTime="6000" endTime="9000" id="722" />
+        <Effect name="On" ref="2" palette="0" startTime="9000" endTime="12000" id="723" />
+        <Effect name="On" ref="3" palette="0" startTime="12000" endTime="16000" id="724" />
+        <Effect name="On" ref="4" palette="0" startTime="16000" endTime="21000" id="725" />
+        <Effect name="On" ref="5" palette="0" startTime="21000" endTime="24000" id="726" />
+      </EffectLayer>
+    </Element>
+  </ElementEffects>
+  <DataLayers />
+  <lastView>0</lastView>
+</xsequence>

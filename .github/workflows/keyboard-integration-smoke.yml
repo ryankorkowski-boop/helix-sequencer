@@ -1,0 +1,48 @@
+name: Keyboard integration focused regression gate
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'music/magic_keyboard.py'
+      - 'effects/piano_effect.py'
+      - 'models/final_band_scene.py'
+      - 'tools/final_band_performance.py'
+      - 'tools/native_source_pose_band.py'
+      - 'tools/review_band_performance.py'
+      - 'tests/test_keyboard_source_ownership.py'
+      - 'tests/test_universal_keyboard_routing.py'
+      - 'tests/test_native_source_pose_band.py'
+      - '.github/workflows/keyboard-integration-smoke.yml'
+  push:
+    branches: ['codex/keyboard-source-guardrails-20261018']
+    paths: ['.github/workflows/keyboard-integration-smoke.yml']
+permissions:
+  contents: read
+jobs:
+  focused-keyboard-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - name: Install declared test dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Compile keyboard and native workflow paths
+        run: |
+          python -m compileall -q music/magic_keyboard.py effects/piano_effect.py models/final_band_scene.py tools/native_source_pose_band.py tools/review_band_performance.py core/visible_pitched_contact_audit.py tools/verify_showcase_luma.py
+      - name: Run keyboard, native cast and contact regressions
+        run: |
+          python -m pytest -q \
+            tests/test_keyboard_source_ownership.py \
+            tests/test_universal_keyboard_routing.py \
+            tests/test_visible_pitched_contact_audit.py \
+            tests/test_magic_keyboard_export.py \
+            tests/test_piano_effect.py \
+            tests/test_native_source_pose_band.py \
+            tests/test_final_band.py \
+            tests/test_showcase_luma_gate.py \
+            tests/test_final_recovery_motion.py

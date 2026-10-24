@@ -1,0 +1,37 @@
+[
+  {
+    "path": "models/band_performance_scene.py",
+    "sha256": "ceca3e00f824ef78641395dbf06383bbabf539f74a302386b3060485dc167b1b",
+    "unchanged": true
+  },
+  {
+    "path": "models/band_sampler_logic.py",
+    "sha256": "02ecdc60909d064943f0d34a71af4181599d25bb1c2f20541a2735a4dbf60bd0",
+    "unchanged": true
+  },
+  {
+    "path": "models/readable_band_scene.py",
+    "sha256": "ef5ebaa6d7d664a7114b851f833e8772134401f8261d14bf94780018a3d9fe37",
+    "unchanged": true
+  },
+  {
+    "path": "audio/drum_classification.py",
+    "sha256": "1ae178a5570f37e6da297d633243b0b62b25d92e77d58e8d2e2375b7084a8801",
+    "unchanged": true
+  },
+  {
+    "path": "core/effect_engine.py",
+    "sha256": "2b0e5665df87411ed589d57ac3096b5b08b0cad9baf824b9a3260e4849fd839c",
+    "unchanged": true
+  },
+  {
+    "path": "fixtures/band_geometry/source/drummerbg.png",
+    "sha256": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+    "unchanged": true
+  },
+  {
+    "path": "fixtures/band_geometry/drummer_v3_pose_spec.json",
+    "sha256": "2964ec17bec74bcf947d68e43fee5bc2afea9ed83327a6b77fa19f6e0346b8a1",
+    "unchanged": true
+  }
+]

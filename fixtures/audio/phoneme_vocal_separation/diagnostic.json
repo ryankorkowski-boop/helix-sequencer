@@ -1,0 +1,56 @@
+{
+  "schema": "helix.phoneme-vocal-separation-diagnostic.v1",
+  "audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "pipeline": [
+    "UVR-MDX-NET-Inst_HQ_3.onnx: vocal/accompaniment estimate",
+    "UVR_MDXNET_KARA_2.onnx on estimated vocals: lead/residual-backing estimate"
+  ],
+  "models": {
+    "UVR-MDX-NET-Inst_HQ_3.onnx": "317554b07fe1ea5279a77f2b1520a41ea4b93432560c4ffd08792c30fddf9adc",
+    "UVR_MDXNET_KARA_2.onnx": "bf32e15105a09c0f7dddd2b67346146334d6f3ecb399ed7638eba2ab07cbf5f4"
+  },
+  "tracks": {
+    "estimated_lead": {
+      "file": "Phoneme Test Hook_(Vocals)_UVR-MDX-NET-Inst_HQ_3_(Vocals)_UVR_MDXNET_KARA_2.wav",
+      "sha256": "cd4767e47a164ca403abce8169d9c03f0c11b96c15a43a1622b0cd80422d5237",
+      "seconds": 34.88,
+      "voiced_seconds_estimate": 25.06,
+      "rms": 0.06430292874574661,
+      "shape_counts": {
+        "REST": 982,
+        "AH": 959,
+        "EE": 294,
+        "OH": 1253
+      }
+    },
+    "estimated_backing": {
+      "file": "Phoneme Test Hook_(Vocals)_UVR-MDX-NET-Inst_HQ_3_(Instrumental)_UVR_MDXNET_KARA_2.wav",
+      "sha256": "c623c435f498574732d644d2880dc2ff4504c8a756b0067fa5c9859822433c79",
+      "seconds": 34.88,
+      "voiced_seconds_estimate": 21.55,
+      "rms": 0.03731841593980789,
+      "shape_counts": {
+        "REST": 1333,
+        "AH": 662,
+        "EE": 98,
+        "OH": 1395
+      }
+    }
+  },
+  "gain_or_short_delay_duplicate": false,
+  "independent_backing_verified": false,
+  "exact_phoneme_boundaries_verified": false,
+  "engine_events_modified": false,
+  "limitation": "Distinct model outputs are source-separated estimates, not ground-truth individual singers. Residual may contain reverb, lead leakage or instruments. Broad acoustic vowel colors only; no invented phonemes or copied lead timing.",
+  "clock_sha256": "680b29b62d4015ebdac041ab2360c1bec1f8f7fc21959518187addb456191807",
+  "clock_hop_seconds": 0.01,
+  "analysis_estimates_not_ground_truth": true,
+  "software": {
+    "audio_separator": "0.47.1",
+    "torch": "2.14.1+cpu",
+    "onnxruntime": "1.31.0",
+    "librosa": "0.10.2.post1",
+    "numpy": "2.3.5"
+  },
+  "analysis_recipe": "python -m tools.separate_phoneme_vocals OUTPUT --models MODEL_CACHE"
+}

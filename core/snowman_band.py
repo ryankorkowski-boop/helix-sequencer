@@ -79,6 +79,40 @@ def _extract_note_midis(note_events: list[Any], target_ms: int) -> list[float]:
     return out
 
 
+def _build_keyboard_note_cues(note_events: list[Any], parts: list[Any]) -> list[dict[str, Any]]:
+    """Expose all pitched notes to the keyboard without guessing instrument identity.
+
+    The input note events can represent piano, bells, mallets, synths or other
+    pitched sources. Preserve overlapping notes and pitch order for renderers.
+    """
+    cues: list[dict[str, Any]] = []
+    for event in note_events:
+        start_ms = _event_start_ms(event)
+        end_ms = _event_end_ms(event, fallback_ms=120)
+        for note in list(getattr(event, "notes", []) or []):
+            if not isinstance(note, (tuple, list)) or not note:
+                continue
+            try:
+                pitch = float(note[0])
+            except (TypeError, ValueError):
+                continue
+            if not 0 <= pitch <= 127:
+                continue
+            cues.append({
+                "performer": "keyboardist",
+                "kind": "pitched_note",
+                "start_ms": start_ms,
+                "end_ms": end_ms,
+                "pitch_midi": pitch,
+                "key_index_88": min(87, max(0, int(round(pitch)) - 21)),
+                "section": _part_label(parts, start_ms),
+                "source": "note_events",
+                "pitch_source": "helix_harmonic_polyphony",
+                "velocity": float(note[1]) if len(note)>1 else 1.0,
+            })
+    return sorted(cues, key=lambda cue: (cue["start_ms"], cue["pitch_midi"]))
+
+
 def _string_index_for_pitch(pitch_midi: float) -> int:
     clamped = min(67.0, max(36.0, float(pitch_midi)))
     return int(min(4, max(1, round(((clamped - 36.0) / 31.0) * 3.0) + 1)))
@@ -128,12 +162,16 @@ def _viseme_for_fragment(fragment: str) -> str:
 
 def preferred_face_routing(layout_names: list[str]) -> dict[str, Any]:
     normalized = [(name, normalize_name(name)) for name in layout_names]
+    harmony_faces = [name for name, norm in normalized if any(token in norm for token in
+                     ("harmony", "backup singer", "backing singer", "female singer", "singer female"))]
+    native_leads = [name for name, norm in normalized if norm in {"hx snow lead", "hx snowman singer"}]
     mascot_custom = [name for name, norm in normalized if "helixmascot" in norm and "custom" in norm]
     mascot_image = [name for name, norm in normalized if "helixmascot" in norm and "image" in norm]
     support_faces = [
         name
         for name, norm in normalized
         if any(token in norm for token in ("singing face", "talking head", "face panel", "singer"))
+        and name not in harmony_faces
     ]
     lyric_surfaces = [
         name
@@ -142,7 +180,9 @@ def preferred_face_routing(layout_names: list[str]) -> dict[str, Any]:
     ]
 
     preferred_lead = ""
-    if mascot_custom:
+    if native_leads:
+        preferred_lead = native_leads[0]
+    elif mascot_custom:
         preferred_lead = mascot_custom[0]
     elif support_faces:
         preferred_lead = support_faces[0]
@@ -150,7 +190,9 @@ def preferred_face_routing(layout_names: list[str]) -> dict[str, Any]:
         preferred_lead = mascot_image[0]
 
     lead_cycle: list[str] = []
-    if mascot_custom:
+    if native_leads:
+        lead_cycle.extend(native_leads)
+    elif mascot_custom:
         lead_cycle.extend([mascot_custom[0], mascot_custom[0]])
     elif mascot_image:
         lead_cycle.append(mascot_image[0])
@@ -161,6 +203,7 @@ def preferred_face_routing(layout_names: list[str]) -> dict[str, Any]:
     surfaces = _unique(lyric_surfaces or mascot_custom or mascot_image or support_faces)
     return {
         "preferred_lead": preferred_lead,
+        "preferred_harmony": next(iter(harmony_faces), next((name for name in support_faces if name != preferred_lead), "")),
         "lead_cycle": lead_cycle,
         "support_faces": _unique(support_faces),
         "lyric_surfaces": surfaces,
@@ -181,6 +224,13 @@ def _build_performer_catalog(face_routing: Mapping[str, Any]) -> dict[str, Any]:
                 "matrix": ["viseme_closed", "mouth_A", "mouth_E", "mouth_I", "mouth_O", "mouth_U", "mouth_MBP", "lyric_word"],
             },
             "face_definition": {"style": "full", "intensity": 1.0, "xlights_mode": "custom_submodels"},
+        },
+        "female_singer": {
+            "display_name": "Harmony Snowman",
+            "role": "female_singer",
+            "preferred_targets": [face_routing["preferred_harmony"]] if face_routing.get("preferred_harmony") else [],
+            "modes": {"pixel": ["mouth_A", "mouth_E", "mouth_I", "mouth_O", "mouth_U", "mouth_MBP"]},
+            "face_definition": {"style": "full", "intensity": 0.46, "xlights_mode": "custom_submodels"},
         },
         "bassist": {
             "display_name": "Standup Bass Snowman",
@@ -241,7 +291,9 @@ def _build_singer_cues(
         if not fragments:
             continue
         step_ms = max(55, int((end_ms - start_ms) / max(1, len(fragments))))
-        target_name = lead_cycle[index % len(lead_cycle)] if lead_cycle else preferred_lead
+        # Keep the lead on one face: rotating every lyric line falsely turns
+        # a duet into alternating soloists. Harmony faces are routed separately.
+        target_name = preferred_lead or (lead_cycle[0] if lead_cycle else "")
         section = _part_label(parts, start_ms)
         for fragment_index, fragment in enumerate(fragments):
             frag_start = start_ms + fragment_index * step_ms
@@ -442,7 +494,7 @@ def _build_intelligent_drum_cues(
             "kind": drum_type,
             "section": _part_label(parts, start_ms),
             "submodel": item["submodel"],
-            "composite_submodels": item["composite_submodels"],
+            "composite_submodels": list(item.get("composite_submodels", [item["submodel"]])),
             "velocity": item["velocity"],
             "confidence": item["confidence"],
             "frequency_band_info": item["frequency_band_info"],
@@ -505,7 +557,7 @@ def _song_part_multiplier(part_name: str, performer: str) -> float:
         if part == "outro":
             return 0.58
         return 0.78
-    if performer in {"guitarist", "bassist"}:
+    if performer in {"guitarist", "bassist", "female_singer"}:
         if part in {"chorus", "post_chorus"}:
             return 1.0
         if part in {"bridge"}:
@@ -567,7 +619,10 @@ def _build_background_face_activations(
 ) -> list[dict[str, Any]]:
     cues: list[dict[str, Any]] = []
     for window in background_windows:
-        performers = ["guitarist", "bassist"] if str(window.get("performer", "guitarist")) == "group" else [str(window.get("performer", "guitarist"))]
+        performers = ["female_singer"] if str(window.get("performer", "guitarist")) == "group" else [str(window.get("performer", "guitarist"))]
+        # Background vocal windows are vocal evidence: route their animation to
+        # the dedicated harmony singer, not the guitarist/bassist face proxies.
+        performers = ["female_singer" if p in {"guitarist", "bassist", "harmony_singer", "backup_singer"} else p for p in performers]
         event = _mouth_event_for_window(window, lyric_timeline)
         start_ms = int(round(float(window.get("start_time", event.start_time)) * 1000.0))
         end_ms = int(round(float(window.get("end_time", event.end_time)) * 1000.0))
@@ -594,14 +649,14 @@ def _build_background_face_activations(
                     "part_name": part,
                     "phoneme": event.phoneme,
                     "mouth_shape": event.mouth_shape,
-                    "mouth_submodel": f"bg_{event.mouth_submodel}",
+                    "mouth_submodel": event.mouth_submodel if performer == "female_singer" else f"bg_{event.mouth_submodel}",
                     "lyric_text": event.word_text,
                     "confidence": round(float(window.get("confidence", event.confidence) or event.confidence), 3),
                     "intensity": round(max(0.08, intensity), 3),
                     "source_reason": str(window.get("source_reason", "background_vocal_window")),
                     "classifier_role": str(window.get("classifier_role", "")),
                     "instrument_conflict_scale": round(conflict_scale, 3),
-                    "xlights": {"effect": "Faces", "face_definition": f"{performer}_minimalist_background", "timing_track": "background_phoneme"},
+                    "xlights": {"effect": "Faces", "face_definition": "helixville4_harmony_singer_full" if performer == "female_singer" else f"{performer}_minimalist_background", "timing_track": "background_phoneme"},
                 }
             )
         if window.get("role") == "group_chant":
@@ -724,6 +779,10 @@ def _build_timing_intelligence(
                 "performer": performer,
                 "vocal_role": role,
                 "face_definition": xlights.get("face_definition") or f"{performer}_reaction",
+                # These labels describe generated performer styles, not names
+                # read from imported xLights faceInfo. Do not treat them as an
+                # explicit owner selection at native export.
+                "face_definition_origin": "generated_style_hint",
                 "timing_track": xlights.get("timing_track") or ("part_hit_reaction" if "hit" in role else "face_timing"),
                 "start_ms": int(cue.get("start_ms", 0) or 0),
                 "end_ms": int(cue.get("end_ms", 0) or 0),
@@ -815,9 +874,11 @@ def _face_target_for_instruction(cue: Mapping[str, Any], face_routing: Mapping[s
     support_faces = list(face_routing.get("support_faces", []) or [])
     lyric_surfaces = list(face_routing.get("lyric_surfaces", []) or [])
     if performer == "lead_singer":
-        if lead_cycle:
-            return str(lead_cycle[(start_ms // 100) % len(lead_cycle)])
-        return str(face_routing.get("preferred_lead", "") or "")
+        # Do not rotate the lead across faces on every 100 ms phoneme.
+        return str(face_routing.get("preferred_lead", "") or (lead_cycle[0] if lead_cycle else ""))
+    if performer in {"female_singer", "harmony_singer", "backup_singer"}:
+        # Never rotate backing phonemes onto the lead, matrix or instrumentalists.
+        return str(face_routing.get("preferred_harmony", "") or "")
     if performer in {"guitarist", "bassist"} and support_faces:
         offset = 0 if performer == "guitarist" else 1
         return str(support_faces[((start_ms // 100) + offset) % len(support_faces)])
@@ -858,6 +919,7 @@ def _build_sequence_face_instructions(
                 "performer": performer,
                 "vocal_role": vocal_role,
                 "face_definition": instruction.get("face_definition", ""),
+                "face_definition_origin": instruction.get("face_definition_origin", "explicit"),
                 "mouth_shape": mouth_shape,
                 "mouth_submodel": instruction.get("mouth_submodel", ""),
                 "phoneme": instruction.get("phoneme", ""),
@@ -936,6 +998,7 @@ def build_snowman_band_plan(
     else:
         drum_cues, kit_components = _build_drum_cues(parts, kicks, snares, hats, releases)
         drum_intelligence_debug = {"fallback_mode": "legacy_marks", "counts": {}, "motion_events": [], "effect_cues": [], "mapping": []}
+    keyboard_cues = _build_keyboard_note_cues(note_events, parts)
     background_vocals = _build_background_vocals(vocal_peaks, parts)
     vocal_emotion_payload = vocal_emotion.build_vocal_emotion_timeline(
         lyric_timeline=lyric_timeline,
@@ -966,7 +1029,7 @@ def build_snowman_band_plan(
         vocal_emotion_payload,
     )
     face_activations = lead_face_activations + background_face_activations + part_hit_reactions
-    total_cues = len(singer_cues) + len(bass_cues) + len(guitar_cues) + len(drum_cues) + len(background_vocals) + len(face_activations)
+    total_cues = len(keyboard_cues) + len(singer_cues) + len(bass_cues) + len(guitar_cues) + len(drum_cues) + len(background_vocals) + len(face_activations)
     chronoflow_debug = dict((chronoflow_payload or {}).get("debug", {}) or {})
     band_sync_frames = list((band_sync_payload or {}).get("state_frames", []) or [])
     tempo_bpm = float(getattr(multiband, "tempo_bpm", 0.0) or 0.0)
@@ -1043,7 +1106,7 @@ def build_snowman_band_plan(
         },
         "song_part_behavior": {
             "verse": "lead singer active; background faces stay quiet unless harmony confidence passes threshold",
-            "chorus": "lead full intensity; guitarist and bassist background faces may activate at subordinate intensity",
+            "chorus": "lead full intensity; dedicated harmony singer may activate at subordinate intensity when supported",
             "bridge": "motion reduced unless vocals dominate; faces become more expressive for lyric-heavy spans",
             "breakdown_drop": "drummer and environment can lead; singer reduces unless a vocal hit exists",
             "outro": "mouth and performer intensity fade softer",
@@ -1077,6 +1140,7 @@ def build_snowman_band_plan(
             "part_hit_reactions": part_hit_reactions,
             "bassist": bass_cues,
             "guitarist": guitar_cues,
+            "keyboardist": keyboard_cues,
             "drummer": drum_cues,
         },
         "global_timeline": global_timeline,
@@ -1106,6 +1170,7 @@ def build_snowman_band_plan(
             "bass_cues": len(bass_cues),
             "guitar_cues": len(guitar_cues),
             "drum_cues": len(drum_cues),
+            "keyboard_cues": len(keyboard_cues),
             "drum_intelligence_mode": drum_intelligence_debug.get("fallback_mode", "legacy_marks"),
             "guitar_realism_mode": string_realism_debug["guitar"].get("fallback_mode", ""),
             "bass_realism_mode": string_realism_debug["bass"].get("fallback_mode", ""),

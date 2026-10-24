@@ -1,0 +1,2095 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Tesseract Conservatory",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 52
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 52,
+  "rgb_pixels": 2980,
+  "channel_count": 8940,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 1,
+      "end_channel": 195,
+      "bounds_ft": [
+        [
+          -75.0,
+          5.0,
+          -75.0
+        ],
+        [
+          -75.0,
+          5.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_002_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 196,
+      "end_channel": 390,
+      "bounds_ft": [
+        [
+          -75.0,
+          5.0,
+          -75.0
+        ],
+        [
+          -75.0,
+          155.0,
+          -75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_003_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 391,
+      "end_channel": 585,
+      "bounds_ft": [
+        [
+          -75.0,
+          5.0,
+          -75.0
+        ],
+        [
+          75.0,
+          5.0,
+          -75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_004_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 586,
+      "end_channel": 780,
+      "bounds_ft": [
+        [
+          -75.0,
+          5.0,
+          75.0
+        ],
+        [
+          -75.0,
+          155.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_005_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 781,
+      "end_channel": 975,
+      "bounds_ft": [
+        [
+          -75.0,
+          5.0,
+          75.0
+        ],
+        [
+          75.0,
+          5.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_006_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 976,
+      "end_channel": 1170,
+      "bounds_ft": [
+        [
+          -75.0,
+          155.0,
+          -75.0
+        ],
+        [
+          -75.0,
+          155.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_007_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 1171,
+      "end_channel": 1365,
+      "bounds_ft": [
+        [
+          -75.0,
+          155.0,
+          -75.0
+        ],
+        [
+          75.0,
+          155.0,
+          -75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_008_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 1366,
+      "end_channel": 1560,
+      "bounds_ft": [
+        [
+          -75.0,
+          155.0,
+          75.0
+        ],
+        [
+          75.0,
+          155.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_009_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 1561,
+      "end_channel": 1755,
+      "bounds_ft": [
+        [
+          75.0,
+          5.0,
+          -75.0
+        ],
+        [
+          75.0,
+          5.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_010_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 1756,
+      "end_channel": 1950,
+      "bounds_ft": [
+        [
+          75.0,
+          5.0,
+          -75.0
+        ],
+        [
+          75.0,
+          155.0,
+          -75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_011_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 1951,
+      "end_channel": 2145,
+      "bounds_ft": [
+        [
+          75.0,
+          5.0,
+          75.0
+        ],
+        [
+          75.0,
+          155.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_012_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 2146,
+      "end_channel": 2340,
+      "bounds_ft": [
+        [
+          75.0,
+          155.0,
+          -75.0
+        ],
+        [
+          75.0,
+          155.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_013_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 2341,
+      "end_channel": 2535,
+      "bounds_ft": [
+        [
+          -55.5,
+          36.0,
+          -28.0
+        ],
+        [
+          -28.0,
+          36.0,
+          55.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3252743056181654
+    },
+    {
+      "name": "HX_014_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 2536,
+      "end_channel": 2730,
+      "bounds_ft": [
+        [
+          -55.5,
+          36.0,
+          -28.0
+        ],
+        [
+          -55.5,
+          124.0,
+          -28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35789925375555853
+    },
+    {
+      "name": "HX_015_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 2731,
+      "end_channel": 2925,
+      "bounds_ft": [
+        [
+          -55.5,
+          36.0,
+          -55.5
+        ],
+        [
+          28.0,
+          36.0,
+          -28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32527430561817233
+    },
+    {
+      "name": "HX_016_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 2926,
+      "end_channel": 3120,
+      "bounds_ft": [
+        [
+          -28.0,
+          36.0,
+          55.5
+        ],
+        [
+          -28.0,
+          124.0,
+          55.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35789925375555737
+    },
+    {
+      "name": "HX_017_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 3121,
+      "end_channel": 3315,
+      "bounds_ft": [
+        [
+          -28.0,
+          36.0,
+          28.0
+        ],
+        [
+          55.5,
+          36.0,
+          55.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32527430561817
+    },
+    {
+      "name": "HX_018_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 3316,
+      "end_channel": 3510,
+      "bounds_ft": [
+        [
+          -55.5,
+          124.0,
+          -28.0
+        ],
+        [
+          -28.0,
+          124.0,
+          55.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3252743056181654
+    },
+    {
+      "name": "HX_019_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 3511,
+      "end_channel": 3705,
+      "bounds_ft": [
+        [
+          -55.5,
+          124.0,
+          -55.5
+        ],
+        [
+          28.0,
+          124.0,
+          -28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32527430561817233
+    },
+    {
+      "name": "HX_020_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 3706,
+      "end_channel": 3900,
+      "bounds_ft": [
+        [
+          -28.0,
+          124.0,
+          28.0
+        ],
+        [
+          55.5,
+          124.0,
+          55.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32527430561817
+    },
+    {
+      "name": "HX_021_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 3901,
+      "end_channel": 4095,
+      "bounds_ft": [
+        [
+          28.0,
+          36.0,
+          -55.5
+        ],
+        [
+          55.5,
+          36.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32527430561817
+    },
+    {
+      "name": "HX_022_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 4096,
+      "end_channel": 4290,
+      "bounds_ft": [
+        [
+          28.0,
+          36.0,
+          -55.5
+        ],
+        [
+          28.0,
+          124.0,
+          -55.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35789925375555737
+    },
+    {
+      "name": "HX_023_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 4291,
+      "end_channel": 4485,
+      "bounds_ft": [
+        [
+          55.5,
+          36.0,
+          28.0
+        ],
+        [
+          55.5,
+          124.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35789925375555853
+    },
+    {
+      "name": "HX_024_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 4486,
+      "end_channel": 4680,
+      "bounds_ft": [
+        [
+          28.0,
+          124.0,
+          -55.5
+        ],
+        [
+          55.5,
+          124.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32527430561817
+    },
+    {
+      "name": "HX_025_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 4681,
+      "end_channel": 4875,
+      "bounds_ft": [
+        [
+          -28.0,
+          60.0,
+          -4.5
+        ],
+        [
+          -4.5,
+          60.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32911996911645774
+    },
+    {
+      "name": "HX_026_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 4876,
+      "end_channel": 5070,
+      "bounds_ft": [
+        [
+          -28.0,
+          60.0,
+          -4.5
+        ],
+        [
+          -28.0,
+          100.0,
+          -4.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2688310950087566
+    },
+    {
+      "name": "HX_027_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 5071,
+      "end_channel": 5265,
+      "bounds_ft": [
+        [
+          -28.0,
+          60.0,
+          -28.0
+        ],
+        [
+          4.5,
+          60.0,
+          -4.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32911996911645774
+    },
+    {
+      "name": "HX_028_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 5266,
+      "end_channel": 5460,
+      "bounds_ft": [
+        [
+          -4.5,
+          60.0,
+          28.0
+        ],
+        [
+          -4.5,
+          100.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26883109500875635
+    },
+    {
+      "name": "HX_029_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 5461,
+      "end_channel": 5655,
+      "bounds_ft": [
+        [
+          -4.5,
+          60.0,
+          4.5
+        ],
+        [
+          28.0,
+          60.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32911996911645774
+    },
+    {
+      "name": "HX_030_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 5656,
+      "end_channel": 5850,
+      "bounds_ft": [
+        [
+          -28.0,
+          100.0,
+          -4.5
+        ],
+        [
+          -4.5,
+          100.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32911996911645774
+    },
+    {
+      "name": "HX_031_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 5851,
+      "end_channel": 6045,
+      "bounds_ft": [
+        [
+          -28.0,
+          100.0,
+          -28.0
+        ],
+        [
+          4.5,
+          100.0,
+          -4.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32911996911645774
+    },
+    {
+      "name": "HX_032_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 6046,
+      "end_channel": 6240,
+      "bounds_ft": [
+        [
+          -4.5,
+          100.0,
+          4.5
+        ],
+        [
+          28.0,
+          100.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32911996911645774
+    },
+    {
+      "name": "HX_033_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 6241,
+      "end_channel": 6435,
+      "bounds_ft": [
+        [
+          4.5,
+          60.0,
+          -28.0
+        ],
+        [
+          28.0,
+          60.0,
+          4.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32911996911645774
+    },
+    {
+      "name": "HX_034_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 6436,
+      "end_channel": 6630,
+      "bounds_ft": [
+        [
+          4.5,
+          60.0,
+          -28.0
+        ],
+        [
+          4.5,
+          100.0,
+          -28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26883109500875635
+    },
+    {
+      "name": "HX_035_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 6631,
+      "end_channel": 6825,
+      "bounds_ft": [
+        [
+          28.0,
+          60.0,
+          4.5
+        ],
+        [
+          28.0,
+          100.0,
+          4.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2688310950087566
+    },
+    {
+      "name": "HX_036_CUBE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CUBES",
+      "design": "CUBE",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 6826,
+      "end_channel": 7020,
+      "bounds_ft": [
+        [
+          4.5,
+          100.0,
+          -28.0
+        ],
+        [
+          28.0,
+          100.0,
+          4.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32911996911645774
+    },
+    {
+      "name": "HX_037_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 7021,
+      "end_channel": 7140,
+      "bounds_ft": [
+        [
+          -75.0,
+          5.0,
+          -75.0
+        ],
+        [
+          -55.5,
+          36.0,
+          -28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3068836004740355
+    },
+    {
+      "name": "HX_038_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 7141,
+      "end_channel": 7260,
+      "bounds_ft": [
+        [
+          -75.0,
+          5.0,
+          55.5
+        ],
+        [
+          -28.0,
+          36.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3068836004740348
+    },
+    {
+      "name": "HX_039_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 7261,
+      "end_channel": 7380,
+      "bounds_ft": [
+        [
+          -75.0,
+          124.0,
+          -75.0
+        ],
+        [
+          -55.5,
+          155.0,
+          -28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3068836004740412
+    },
+    {
+      "name": "HX_040_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 7381,
+      "end_channel": 7500,
+      "bounds_ft": [
+        [
+          -75.0,
+          124.0,
+          55.5
+        ],
+        [
+          -28.0,
+          155.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3068836004740404
+    },
+    {
+      "name": "HX_041_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 7501,
+      "end_channel": 7620,
+      "bounds_ft": [
+        [
+          28.0,
+          5.0,
+          -75.0
+        ],
+        [
+          75.0,
+          36.0,
+          -55.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3068836004740348
+    },
+    {
+      "name": "HX_042_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 7621,
+      "end_channel": 7740,
+      "bounds_ft": [
+        [
+          55.5,
+          5.0,
+          28.0
+        ],
+        [
+          75.0,
+          36.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3068836004740355
+    },
+    {
+      "name": "HX_043_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 7741,
+      "end_channel": 7860,
+      "bounds_ft": [
+        [
+          28.0,
+          124.0,
+          -75.0
+        ],
+        [
+          75.0,
+          155.0,
+          -55.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3068836004740404
+    },
+    {
+      "name": "HX_044_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 7861,
+      "end_channel": 7980,
+      "bounds_ft": [
+        [
+          55.5,
+          124.0,
+          28.0
+        ],
+        [
+          75.0,
+          155.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3068836004740412
+    },
+    {
+      "name": "HX_045_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 7981,
+      "end_channel": 8100,
+      "bounds_ft": [
+        [
+          -55.5,
+          36.0,
+          -28.0
+        ],
+        [
+          -28.0,
+          60.0,
+          -4.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3577305183277954
+    },
+    {
+      "name": "HX_046_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 8101,
+      "end_channel": 8220,
+      "bounds_ft": [
+        [
+          -28.0,
+          36.0,
+          28.0
+        ],
+        [
+          -4.5,
+          60.0,
+          55.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3577305183277954
+    },
+    {
+      "name": "HX_047_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 8221,
+      "end_channel": 8340,
+      "bounds_ft": [
+        [
+          -55.5,
+          100.0,
+          -28.0
+        ],
+        [
+          -28.0,
+          124.0,
+          -4.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3577305183277954
+    },
+    {
+      "name": "HX_048_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 8341,
+      "end_channel": 8460,
+      "bounds_ft": [
+        [
+          -28.0,
+          100.0,
+          28.0
+        ],
+        [
+          -4.5,
+          124.0,
+          55.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3577305183277954
+    },
+    {
+      "name": "HX_049_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 8461,
+      "end_channel": 8580,
+      "bounds_ft": [
+        [
+          4.5,
+          36.0,
+          -55.5
+        ],
+        [
+          28.0,
+          60.0,
+          -28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3577305183277954
+    },
+    {
+      "name": "HX_050_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 8581,
+      "end_channel": 8700,
+      "bounds_ft": [
+        [
+          28.0,
+          36.0,
+          4.5
+        ],
+        [
+          55.5,
+          60.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3577305183277954
+    },
+    {
+      "name": "HX_051_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 8701,
+      "end_channel": 8820,
+      "bounds_ft": [
+        [
+          4.5,
+          100.0,
+          -55.5
+        ],
+        [
+          28.0,
+          124.0,
+          -28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3577305183277954
+    },
+    {
+      "name": "HX_052_DIMENSION_CONNECTOR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CONNECTORS",
+      "design": "DIMENSION CONNECTOR",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 8821,
+      "end_channel": 8940,
+      "bounds_ft": [
+        [
+          28.0,
+          100.0,
+          4.5
+        ],
+        [
+          55.5,
+          124.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3577305183277954
+    }
+  ],
+  "file_prefix": "Tesseract_Conservatory",
+  "description": "Nested cubes and diagonal connectors create the impression of a fourth-dimensional form inside a walk-around garden.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_CUBE",
+      "HX_002_CUBE",
+      "HX_003_CUBE",
+      "HX_004_CUBE",
+      "HX_005_CUBE",
+      "HX_006_CUBE",
+      "HX_007_CUBE",
+      "HX_008_CUBE",
+      "HX_009_CUBE",
+      "HX_010_CUBE",
+      "HX_011_CUBE",
+      "HX_012_CUBE",
+      "HX_013_CUBE",
+      "HX_014_CUBE",
+      "HX_015_CUBE",
+      "HX_016_CUBE",
+      "HX_017_CUBE",
+      "HX_018_CUBE",
+      "HX_019_CUBE",
+      "HX_020_CUBE",
+      "HX_021_CUBE",
+      "HX_022_CUBE",
+      "HX_023_CUBE",
+      "HX_024_CUBE",
+      "HX_025_CUBE",
+      "HX_026_CUBE",
+      "HX_027_CUBE",
+      "HX_028_CUBE",
+      "HX_029_CUBE",
+      "HX_030_CUBE",
+      "HX_031_CUBE",
+      "HX_032_CUBE",
+      "HX_033_CUBE",
+      "HX_034_CUBE",
+      "HX_035_CUBE",
+      "HX_036_CUBE",
+      "HX_037_DIMENSION_CONNECTOR",
+      "HX_038_DIMENSION_CONNECTOR",
+      "HX_039_DIMENSION_CONNECTOR",
+      "HX_040_DIMENSION_CONNECTOR",
+      "HX_041_DIMENSION_CONNECTOR",
+      "HX_042_DIMENSION_CONNECTOR",
+      "HX_043_DIMENSION_CONNECTOR",
+      "HX_044_DIMENSION_CONNECTOR",
+      "HX_045_DIMENSION_CONNECTOR",
+      "HX_046_DIMENSION_CONNECTOR",
+      "HX_047_DIMENSION_CONNECTOR",
+      "HX_048_DIMENSION_CONNECTOR",
+      "HX_049_DIMENSION_CONNECTOR",
+      "HX_050_DIMENSION_CONNECTOR",
+      "HX_051_DIMENSION_CONNECTOR",
+      "HX_052_DIMENSION_CONNECTOR"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_CUBE",
+      "HX_002_CUBE",
+      "HX_003_CUBE",
+      "HX_004_CUBE",
+      "HX_005_CUBE",
+      "HX_006_CUBE",
+      "HX_007_CUBE",
+      "HX_008_CUBE",
+      "HX_009_CUBE",
+      "HX_010_CUBE",
+      "HX_011_CUBE",
+      "HX_012_CUBE",
+      "HX_013_CUBE",
+      "HX_014_CUBE",
+      "HX_015_CUBE",
+      "HX_016_CUBE",
+      "HX_017_CUBE",
+      "HX_018_CUBE",
+      "HX_019_CUBE",
+      "HX_020_CUBE",
+      "HX_021_CUBE",
+      "HX_022_CUBE",
+      "HX_023_CUBE",
+      "HX_024_CUBE",
+      "HX_025_CUBE",
+      "HX_026_CUBE",
+      "HX_027_CUBE",
+      "HX_028_CUBE",
+      "HX_029_CUBE",
+      "HX_030_CUBE",
+      "HX_031_CUBE",
+      "HX_032_CUBE",
+      "HX_033_CUBE",
+      "HX_034_CUBE",
+      "HX_035_CUBE",
+      "HX_036_CUBE",
+      "HX_037_DIMENSION_CONNECTOR",
+      "HX_038_DIMENSION_CONNECTOR",
+      "HX_039_DIMENSION_CONNECTOR",
+      "HX_040_DIMENSION_CONNECTOR",
+      "HX_041_DIMENSION_CONNECTOR",
+      "HX_042_DIMENSION_CONNECTOR",
+      "HX_043_DIMENSION_CONNECTOR",
+      "HX_044_DIMENSION_CONNECTOR",
+      "HX_045_DIMENSION_CONNECTOR",
+      "HX_046_DIMENSION_CONNECTOR",
+      "HX_047_DIMENSION_CONNECTOR",
+      "HX_048_DIMENSION_CONNECTOR",
+      "HX_049_DIMENSION_CONNECTOR",
+      "HX_050_DIMENSION_CONNECTOR",
+      "HX_051_DIMENSION_CONNECTOR",
+      "HX_052_DIMENSION_CONNECTOR"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_CUBE",
+      "HX_002_CUBE",
+      "HX_003_CUBE",
+      "HX_004_CUBE",
+      "HX_005_CUBE",
+      "HX_006_CUBE",
+      "HX_007_CUBE",
+      "HX_008_CUBE",
+      "HX_009_CUBE",
+      "HX_010_CUBE",
+      "HX_011_CUBE",
+      "HX_012_CUBE",
+      "HX_013_CUBE",
+      "HX_014_CUBE",
+      "HX_015_CUBE",
+      "HX_016_CUBE",
+      "HX_017_CUBE",
+      "HX_018_CUBE",
+      "HX_019_CUBE",
+      "HX_020_CUBE",
+      "HX_021_CUBE",
+      "HX_022_CUBE",
+      "HX_023_CUBE",
+      "HX_024_CUBE",
+      "HX_025_CUBE",
+      "HX_026_CUBE",
+      "HX_027_CUBE",
+      "HX_028_CUBE",
+      "HX_029_CUBE",
+      "HX_030_CUBE",
+      "HX_031_CUBE",
+      "HX_032_CUBE",
+      "HX_033_CUBE",
+      "HX_034_CUBE",
+      "HX_035_CUBE",
+      "HX_036_CUBE",
+      "HX_037_DIMENSION_CONNECTOR",
+      "HX_038_DIMENSION_CONNECTOR",
+      "HX_039_DIMENSION_CONNECTOR",
+      "HX_040_DIMENSION_CONNECTOR",
+      "HX_041_DIMENSION_CONNECTOR",
+      "HX_042_DIMENSION_CONNECTOR",
+      "HX_043_DIMENSION_CONNECTOR",
+      "HX_044_DIMENSION_CONNECTOR",
+      "HX_045_DIMENSION_CONNECTOR",
+      "HX_046_DIMENSION_CONNECTOR",
+      "HX_047_DIMENSION_CONNECTOR",
+      "HX_048_DIMENSION_CONNECTOR",
+      "HX_049_DIMENSION_CONNECTOR",
+      "HX_050_DIMENSION_CONNECTOR",
+      "HX_051_DIMENSION_CONNECTOR",
+      "HX_052_DIMENSION_CONNECTOR"
+    ],
+    "HX_ZONE_CONNECTORS": [
+      "HX_037_DIMENSION_CONNECTOR",
+      "HX_038_DIMENSION_CONNECTOR",
+      "HX_039_DIMENSION_CONNECTOR",
+      "HX_040_DIMENSION_CONNECTOR",
+      "HX_041_DIMENSION_CONNECTOR",
+      "HX_042_DIMENSION_CONNECTOR",
+      "HX_043_DIMENSION_CONNECTOR",
+      "HX_044_DIMENSION_CONNECTOR",
+      "HX_045_DIMENSION_CONNECTOR",
+      "HX_046_DIMENSION_CONNECTOR",
+      "HX_047_DIMENSION_CONNECTOR",
+      "HX_048_DIMENSION_CONNECTOR",
+      "HX_049_DIMENSION_CONNECTOR",
+      "HX_050_DIMENSION_CONNECTOR",
+      "HX_051_DIMENSION_CONNECTOR",
+      "HX_052_DIMENSION_CONNECTOR"
+    ],
+    "HX_ZONE_CUBES": [
+      "HX_001_CUBE",
+      "HX_002_CUBE",
+      "HX_003_CUBE",
+      "HX_004_CUBE",
+      "HX_005_CUBE",
+      "HX_006_CUBE",
+      "HX_007_CUBE",
+      "HX_008_CUBE",
+      "HX_009_CUBE",
+      "HX_010_CUBE",
+      "HX_011_CUBE",
+      "HX_012_CUBE",
+      "HX_013_CUBE",
+      "HX_014_CUBE",
+      "HX_015_CUBE",
+      "HX_016_CUBE",
+      "HX_017_CUBE",
+      "HX_018_CUBE",
+      "HX_019_CUBE",
+      "HX_020_CUBE",
+      "HX_021_CUBE",
+      "HX_022_CUBE",
+      "HX_023_CUBE",
+      "HX_024_CUBE",
+      "HX_025_CUBE",
+      "HX_026_CUBE",
+      "HX_027_CUBE",
+      "HX_028_CUBE",
+      "HX_029_CUBE",
+      "HX_030_CUBE",
+      "HX_031_CUBE",
+      "HX_032_CUBE",
+      "HX_033_CUBE",
+      "HX_034_CUBE",
+      "HX_035_CUBE",
+      "HX_036_CUBE"
+    ]
+  },
+  "group_count": 5,
+  "concept_id": "26",
+  "source_art": "images/25_26.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "26",
+    "name": "Tesseract Conservatory",
+    "standout": "Nested cubes and diagonal connectors create the impression of a fourth-dimensional form inside a walk-around garden.",
+    "scene": "An elegant huge cyan outer wireframe cube enclosing nested rotated smaller magenta and gold cubes, with deliberate diagonal luminous connectors forming a tesseract-like 3D projection. Finite actual rod-like pixel frames, discreet corner footings, spacious dark garden and low spiral ground motifs. Central black negative space, no solid holographic cube.",
+    "board": 2,
+    "side": "right",
+    "image": "images/25_26.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Nested cubes and diagonal connectors create the impression of a fourth-dimensional form inside a walk-around garden.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

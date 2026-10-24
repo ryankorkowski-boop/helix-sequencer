@@ -1,0 +1,24 @@
+name: Audited legacy LMS export regression
+on:
+  push:
+    branches: [work/lms-exact-settings-20261020]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  export-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pytest
+      - run: python -m compileall -q tools/legacy_lms_export.py
+      - run: python -m pytest tests/test_legacy_lms_export.py tests/test_dual_format_export.py tests/test_show_export_request.py -q --junitxml=lms-export-results.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: audited-lms-export-results
+          path: lms-export-results.xml
