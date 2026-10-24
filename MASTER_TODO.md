@@ -1,5 +1,7 @@
 ## 2026-10-23 — Owner-rejected review recovery: all six affected gates reopened
 
+Final portability follow-up: tools/build_helpers/ultimate_showcase.py now retains exact referenced drummer editor artwork. test_recovery_string_geometry adds byte/hash checks. Generated matching shows repaired; XML/XSQ/video bytes unchanged. All13 fresh diagnostic movies now fully decode/source-align; original and sampler outputs are explicitly separate. Source implementation58532473d40da91ff086826cd2d46747436ea409 is on the requested development branch, PR188 draft/unmerged. Archive/saving IN PROGRESS; no accepted visual/vocal/Android-update claim.
+
 Current recovery checkpoint: source changes implemented and real native pilot
 renders inspected; this is NOT a repaired approval bundle. Full bounded local
 suite passed2126 tests,6 inherited/receipt skips,24 subtests in248.78s; final

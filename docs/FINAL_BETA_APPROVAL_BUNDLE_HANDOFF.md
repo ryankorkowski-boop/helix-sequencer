@@ -30,7 +30,7 @@ reported bad timing. PR188 is draft/open; no merge or public beta is authorized.
   abstain. Native sampler9/10/11 exports succeeded;11 startup returned transient
   malformed HTTP and succeeded after bounded valid-JSON retry. First256s export
   hit fixed60s RPC timeout; exporter now derives a bounded timeout from duration.
-  Final sampler presentation/comparison verification and saving are IN PROGRESS.
+  Final sampler presentation/comparison verification COMPLETE: all13 final movies decode, original-recording correlation>=.996824804; sampler individual correlation.997331227. Saving and final archive verification remain IN PROGRESS.
 - COMPLETE — full local suite checkpoint2126 passed,6 existing/receipt skips,
  24 subtests,248.78s. Final narrow regression suites additionally cover streaming
   FSEQ, native long-export transport, report changes and full sampler duration.
@@ -71,6 +71,8 @@ Current local roots: `final-band-pilot`, `detail-pilots`, `recovery-layouts`,
 `Helix_Recovery_Diagnostics_20261023_r1`. Exact native receipts bind XSQ/layout/
 audio/FSEQ/MP4 hashes; final media verification, artifact hashes and saving
 results must be appended after successful packaging. Keep release held.
+
+Final portability check found the planar drummer editor/reference image paths absent from generated shows. The writer now includes exact retained drummer_idle/drummerbg PNGs when referenced; generated assets were repaired without changing XSQ/layout/video bytes. Focused portability/source geometry tests passed. This does not establish approved drummer identity or create solid geometry.
 
 Reproduce source-only sampler pilots after authenticated recovery:
 ```

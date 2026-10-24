@@ -4,6 +4,7 @@ from __future__ import annotations
 from collections import defaultdict
 import csv
 import json
+import shutil
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -93,6 +94,15 @@ def write_layout(g: Garden, output: Path, *, include_demo: bool = True, export_a
     from models.ultimate_showcase import family
     custom_dir=output/"models";custom_dir.mkdir(exist_ok=True)
     for m in g.models:
+        if m.details.get('canonical_drummer') or m.details.get('review_role')=='drummer':
+            # Retain editor/reference artwork with portable relative models.
+            # The live pixels are native nodes; these images are NOT a solid
+            # 3D renderer substitute or proof of approved character identity.
+            for name in ('drummer_idle.png','drummerbg.png'):
+                relative='assets/'+name
+                if relative in (m.attrs.get('CustomBkgImage'),m.attrs.get('HelixVisualSource')):
+                    source=Path(__file__).resolve().parents[2]/'fixtures/band_geometry/source'/name
+                    shutil.copyfile(source,output/relative)
         models.append(model_xml(m))
         if m.display == 'Custom' and (export_all_custom or m.details.get('review_role')):
             _write_xml(model_xml(m,"custommodel"),custom_dir/(m.name+".xmodel"))

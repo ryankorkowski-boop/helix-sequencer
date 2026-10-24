@@ -43,3 +43,15 @@ def test_native_strings_are_thin_ordered_paths_and_body_does_not_light_them():
             points=model.points[np.array(nodes)-1]
             _,singular,_=np.linalg.svd(points-points.mean(0),full_matrices=False)
             assert singular[1]/singular[0]<.025
+
+
+def test_portable_band_retains_exact_referenced_editor_source_art(tmp_path):
+    from pathlib import Path
+    from tools.build_helpers.ultimate_showcase import write_layout
+    from tools.phoneme_source import digest
+    garden=build_layout(7);write_layout(garden,tmp_path,include_demo=False)
+    drummer=next(m for m in garden.models if m.details.get('review_role')=='drummer')
+    root=Path(__file__).resolve().parents[1]
+    for key in ('CustomBkgImage','HelixVisualSource'):
+        relative=drummer.attrs[key]
+        assert digest(tmp_path/relative)==digest(root/'fixtures/band_geometry/source'/Path(relative).name)
