@@ -1,3 +1,7 @@
+## 2026-10-24 — Compact native runtime recovery for PR188
+
+Goal: reuse the verified pinned build without recompilation. Changed: .github/workflows/pr188-native-runtime.yml and MASTER_TODO.md. Preserved: pinned upstream, source patch and full build SHA verification; no sequence, sound or acceptance gates changed. New behavior: package the existing stripped binary beside matching checksum-pinned AppImage resources and wx runtime. Evidence: workflow validates origin before restoring; per-file hashes are retained. Limitations: this utility branch is runtime preparation, not PR188 acceptance. Deferred: vocal, native-quality, reference and Android upgrade gates. Risk: runtime dependencies must still be validated on the destination. See canonical ledger below.
+
 ## Recovery verification commands and workflow results — 2026-10-24
 
 Documentation-only follow-up: exact commands for the already recorded checks.
