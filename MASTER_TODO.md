@@ -1,3 +1,55 @@
+## Recovery verification commands and workflow results — 2026-10-24
+
+Documentation-only follow-up: exact commands for the already recorded checks.
+Files changed: this ledger and final handoff. No implementation, test threshold,
+musical clock, artifact byte or acceptance status changed. No extra tests run
+for this documentation update; post-save byte comparison remains unconfirmed
+because the execution environment is unavailable.
+
+Run from repository root. Separate suites overlap; do not add counts as unique tests.
+
+```bash
+OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 python -m pytest tests/test_review_archive_staging_guard.py tests/test_recovery_string_geometry.py tests/test_canonical_native_band.py tests/test_sampler_comparison_duration.py tests/test_approval_collection.py tests/test_source_spatial_direction.py -q
+# 18 passed
+
+OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 python -m pytest tests/test_approved_concepts.py tests/test_android_recovery.py tests/test_recovery_pilot_gate.py tests/test_vocal_clock_conflict_audit.py tests/test_sampler_recovery_provenance.py tests/test_review_musical_recovery.py -q
+# 147 passed
+
+python -m pytest tests/test_recovery_tail_audio_alignment.py tests/test_sampler_recovery_provenance.py tests/test_recovery_pilot_gate.py -q
+# 4 passed; the ending-only test fails the old verifier
+
+OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 python -m pytest tests/test_approval_collection.py tests/test_sampler_comparison_duration.py tests/test_sampler_recovery_provenance.py -q
+# 7 passed
+
+python -m tools.native_preview /absolute/matching-show --xsq /absolute/matching-show/SEQUENCE.xsq --audio /absolute/matching-show/media/AUDIO.mp3 --xlights /absolute/pinned2026.18/usr/bin/xLights
+python -m tools.verify_recovery_media VIDEO.mp4 AUDIO.mp3 --expected-sha256 AUTHENTIC_AUDIO_SHA256 --output media-verification.json
+ffmpeg -v error -xerror -i VIDEO.mp4 -map 0:v:0 -map 0:a:0 -f null -
+ffprobe -v error -select_streams v:0 -show_frames -show_entries frame=best_effort_timestamp_time -of json VIDEO.mp4
+```
+
+Native calls run inside one owned Xvfb/openbox namespace;1280x720 target and
+50ms source frames. Use the pinned executable SHA256
+ea7cde8ae6ea4385dec1e835fa270c48a3c289769323891f1fb2e072db674930
+beside the matching AppImage resources (archiveSHA256
+62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b).
+The complete native receipts and media/provenance reports are inside r2.
+The full prior suite used bounded OMP/OPENBLAS/MKL/NUMBA threads and
+`python -m pytest -q`:2126 passed,6 skips,24 subtests; it is a historical
+checkpoint, not a claim that the whole suite was rerun after every later change.
+
+| Workflow | Result and scope |
+|---|---|
+| https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40051497233 | FAIL: original full-band source lacks resolved independent singer evidence. |
+| https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40051497268 | Native render succeeded; raw-native readability/finalization FAIL. |
+| https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40051497274 | FAIL: unresolved timing/reference pilot receipt correctly prevents full12 scale-up; raw finalization also failed. |
+| https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40051497239 | API30/API36 fresh-only Android smoke PASS; historical baseline update NOT TESTED. |
+| https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/39511779105 | Retained pinned native build source; stripped-runtime hash/provenance verified before local renders. |
+
+These workflow results are from their recorded source revisions, not an
+all-current-workflows-green assertion. Latest implementation sourceb519d226;
+delivery status commit55b6a5d8. Technical failures, unavailable signing key,
+unconfirmed final byte readback and the separate owner-approval gate remain open.
+
 ## 2026-10-24 — Diagnostic delivery saved; technical acceptance still FAIL/BLOCKED
 
 COMPLETE — Eight selected owner files saved successfully with durable identities
