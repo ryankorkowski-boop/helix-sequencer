@@ -1,3 +1,112 @@
+## 2026-10-24 — Diagnostic delivery saved; technical acceptance still FAIL/BLOCKED
+
+COMPLETE — Eight selected owner files saved successfully with durable identities
+and local metadata: r2 bundle, native band pilot, native face closeup, authenticated
+sampler technical comparison, four-camera verification, separate solid diagnostic,
+status report and archive report. Save results explicitly succeeded for every item.
+Published file existence/metadata was subsequently read/materialized successfully.
+
+Bundle: Helix_Recovery_Diagnostics_20261024_r2.zip
+Bytes: 401660108
+SHA256: 8d56230c288a83a030e17650d4755c42cf36885cb6c525a4f2c66889e0d36ace
+
+COMPLETE — Before saving, all13 r2 H264/AAC movies fully decoded; codec, dimensions,
+frame counts and increasing20fps timestamps checked. All interior and actual
+ending audio windows measured zero source lag; minimum whole-track decoded
+correlation0.9968248041636503. All ZIP entries match SHA256SUMS; ZIP CRC passed.
+Individual movies1280x720; technical comparison3840x720; four-camera
+faces/guitar/bass/drum-key verification2560x1440. No30fps claim.
+The Forced Perspective corridor is depth-framed; original decoded channel frames
+are unchanged. The drummer gray reference rectangle is removed without changing
+decoded channel bytes. Native body/kit remain coarse pixels and pose banks.
+
+BLOCKED / UNCONFIRMED — The execution environment became unavailable during the
+post-save download-byte comparison. All8 materialization requests returned files,
+but the comparison process result could not be retrieved. DO NOT assert that
+published bytes were independently hash-compared with tested files. Save success,
+pre-upload hashes and server existence are established; final post-save comparison
+is not. The earlier smaller recovery checkpoint readback had succeeded; it does
+not prove the final r2 readback. Resume that exact gate when execution is available.
+The expensive r2 media are saved; do not unnecessarily rerender them to recover
+an unavailable scratch workspace. Some raw sampler-analysis intermediates were
+not saved independently; retain the delivered XSQ/event-provenance timing rather
+than silently replacing it with a different analysis or montage.
+
+Latest CODE checkpoint:b519d2265071251210543fb3c17b135f542f20e7.
+Other recovery code:58532473d40da91ff086826cd2d46747436ea409,
+9d821b1162215a5abb21d29bd3fb561b245d1b0d,
+ac713e5d453ac8ba480e8d9a6943756c8d76f6f5,
+138f28b2b8899ef996d6f31ecdcf51d0ded91c98.
+Full prior local checkpoint2126 passed,6 skips,24 subtests. Later separate
+focused suites:18 passed;147 passed;4 passed;7 passed. Ending-only100ms drift
+regression fails the old verifier and passes the repaired EOF-aware check.
+Current CI is NOT all green. Singer-source qualification, final pilot gate and
+raw-native readability failures remain in runs40051497233,40051497274 and
+40051497268. Android fresh-only API30/API36 run40051497239 passed; those receipts
+are not a historical baseline-update result.
+
+FAIL — Vocal timing. Both retained acoustic-estimate lanes admit unsupported
+episodes32.82–33.03s and33.10–34.41s. Cached source activity precedes Faces/native
+rendering; zero measured soundtrack lag does not fix it. Periodic residual energy
+is not verified singing. No blanket final mute, copied vocal lane or arbitrary
+delay was applied. Independent second-singer activation stays preserved.
+FAIL — Advanced-layout acceptance: geometry/targeted native pilots improved;
+final twelve-layout collection and Ultimate visual acceptance remain unpassed.
+FAIL — Musical direction: semantic source roles/pitch/depth gestures implemented;
+isolated source truth, excess overlap and full-layout behavior remain unresolved.
+BLOCKED — Android update. Historical recovered code6/1.0-beta signer:
+b814ef47f37a86461008bdfbfbd812127b870d92586807078422c657cd09760b.
+Actual downloaded/tested CI code7 signer:
+ef0f9e93e18fc365f0a31fc251e0c44d8db3c999d5fab5b4e7b31e3cbbf1f05f.
+Code7 APK SHA25615c3be0cfa04fb59576720a2ef19ff8744faa1247754fb5f7a32a0fcb2a0dd6d.
+Monotonic code now passes; signer preflight fails. Original private key/authorized
+lineage is unavailable. Owner-phone baseline matching, PM failure logs, genuine
+update/data preservation and post-update smoke are NOT TESTED. Expected
+INSTALL_FAILED_UPDATE_INCOMPATIBLE is conditional analysis, not an observed PM
+log. No incompatible debug/unsigned APK was published as a working update.
+FAIL — Canonical band: original V3 reference family recovered; exact approved
+six-member composition/native fidelity unverified. Solid companion is OpenGL
+with planar drummer artwork; native sampled pixels/discrete poses are not exact
+continuous solid geometry or approved source-art motion.
+FAIL — Lights-band acceptance: strings/contrast/reference overlay repaired and
+detail cameras provided; mouth timing and drummer fidelity remain open.
+
+Audio identity is explicit for every file in Soundtrack_Provenance_Report.json:
+9 movies use complete34.88s Phoneme_Test_Hook.mp3,
+SHA25619e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938.
+4 use authentic prior256s Helix_Starred_All_Songs.mp3,
+SHA256ffeaba9b9f8fc253a0356505c2b4147b7576b772db42a1c8ea63094b42545acf.
+It is4:16, despite the colloquial3-minute description; not the distinct260.2s
+or180s montages. Retained16 source-clip IDs/ranges/hashes are included. Prior
+Oct21 compact8-way comparison matches at zero lag/correlation0.9727751881223241.
+
+NOT STARTED — Final12 repaired native layout movies, six/twelve/band-integration
+approval comparisons and compatible signed Android update. They remain gated by
+a passing full-song pilot; no failed diagnostic is relabeled as repaired.
+PR188 is confirmed open/draft/unmerged. No public beta or release tag created.
+Its stale prior vocal-approval description was rewritten to reflect owner rejection.
+
+Exact next actions:
+1. Recover the saved r2 bundle/featured files when execution is available; verify
+   the ZIP SHA above, CRC and every SHA256SUMS entry. Compare standalone featured
+   downloads with the identical inside-ZIP bytes; record actual results.
+2. Use safe authenticated offline vocal stems/presence evidence, or obtain
+   explicit authorization for the previously blocked analysis. Optional stem
+   reconstruction was rejected by automatic approval review for Microsoft
+   telemetry with an unestablished/unauthorized payload; it was not retried.
+3. Fix full-recording vocal presence and verify rests/transitions/independent
+   singers; inspect ending and instrument/face crops with the original soundtrack.
+   Do not stretch sampler clocks, invent lexical phones or mute the final passage.
+4. Restore/verify native V3 fidelity and exact six-member approved composition,
+   rerender/pass the full-song pilot, then produce the actual twelve-layout
+   collection using the authenticated soundtrack appropriate to each output.
+5. Recover the legitimate historical signing key through private CI secrets,
+   confirm actual installed baseline identity, then test a real seeded baseline
+   update/data preservation, cold launch, offline processing, quick clip, layout
+   selection and export. Never uninstall/clear owner data or substitute a new key.
+6. Keep public beta unpublished and PR188 unmerged until technical gates pass
+   and the owner explicitly approves the repaired visuals/musical behavior.
+
 ## 2026-10-24 — Forced Perspective near-plane/framing repair
 
 Goal: fit the depth corridor entrance in actual native frames. Changed
