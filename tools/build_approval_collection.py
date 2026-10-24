@@ -84,9 +84,13 @@ def build(source, output):
         camera_models=band if number==7 else g.models
         points=np.concatenate([m.points for m in camera_models]);low,high=points.min(0),points.max(0);center=(low+high)/2
         span=high-low;distance=max(span[0]*(.80 if number==7 else .95),span[1]*(1.70 if number==7 else 2.0),55)
+        if number==11:
+            # Stand outside the near depth plane; a width/height-only camera
+            # can crop the corridor entrance while its far structures fit.
+            distance=span[2]/2+max(span[0]*.95,span[1]*1.85,55)
         tree_xml=ET.parse(folder/'xlights_rgbeffects.xml')
         for camera in tree_xml.findall('Viewpoints/*'):
-            for key,value in dict(angleX=8 if number not in (10,11,12) else 18,angleY=0 if number not in (10,11) else 12,
+            for key,value in dict(angleX=0 if number==11 else 8 if number not in (10,12) else 18,angleY=12 if number==10 else 0,
                     distance=-distance,panx=-center[0],pany=-center[1],panz=-center[2]).items():camera.set(key,str(value))
         tree_xml.write(folder/'xlights_rgbeffects.xml',encoding='utf-8',xml_declaration=True)
         item=dict(number=number,name=name,folder=str(folder.resolve()),xsq=path.name,

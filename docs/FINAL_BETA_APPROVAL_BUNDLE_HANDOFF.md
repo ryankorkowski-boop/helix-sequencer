@@ -1,3 +1,24 @@
+## 2026-10-24 — Forced Perspective near-plane/framing repair
+
+Goal: fit the depth corridor entrance in actual native frames. Changed
+ tools/build_approval_collection.py and tools/build_sampler_technical_pilot.py,
+this ledger and final handoff. Prior width/height-only camera distance120 with
+18/12-degree orbit cropped near structures. Layout11 camera now adds half the
+119-unit depth span to the XY fit margin, distance170.5, with centered frontal
+view. No source event, cue, node, geometry, grouping or other layout camera changed.
+Evidence:7 focused collection/sampler checks passed in14.38s. Fresh full original
+and256s sampler native exports succeeded;8s/24s original and sampler frames are
+inspected. Original decoded FSEQ frames remain exactly identical before/after
+camera repair. This is camera-aware perspective, not geometric rotation.
+Vocal/instrument verification now includes four synchronized native cameras:
+faces, guitar, bass and drums/keyboard;2560x1440,20fps, full34.88s original,
+zero measured source lag including final2s. All six performers have a detail view.
+Limitations:660 of698 decoded forced-original frames differ; that is file motion
+evidence, NOT musical-intelligence acceptance. Original source estimates and
+phantom mouths remain FAIL. Final12 approval collection remains gated. Final
+forced comparison re-encode/verification and durable bundle saving IN PROGRESS.
+No approval or controller/device equivalence is inferred. No merge/public beta.
+
 ## 2026-10-24 — Ending-only soundtrack drift regression
 
 Goal: detect a late audio offset even when a256s comparison's global correlation

@@ -48,10 +48,12 @@ def build(audio,analysis,provenance,output):
         import numpy as np
         import xml.etree.ElementTree as ET
         points=np.concatenate([m.points for m in g.models]);center=(points.min(0)+points.max(0))/2;span=np.ptp(points,axis=0)
+        distance=(span[2]/2+max(span[0]*.95,span[1]*1.85,55) if number==11
+                  else max(span[0]*.95,span[1]*2,55))
         camera=ET.parse(folder/'xlights_rgbeffects.xml')
         for view in camera.findall('./Viewpoints/*'):
-            for key,value in dict(angleX=8 if number==9 else 18,angleY=0 if number==9 else 12,
-                distance=-max(span[0]*.95,span[1]*2,55),panx=-center[0],pany=-center[1],panz=-center[2]).items():view.set(key,str(value))
+            for key,value in dict(angleX=0 if number==11 else 8 if number==9 else 18,angleY=12 if number==10 else 0,
+                distance=-distance,panx=-center[0],pany=-center[1],panz=-center[2]).items():view.set(key,str(value))
         camera.write(folder/'xlights_rgbeffects.xml',encoding='utf-8',xml_declaration=True)
         report=dict(schema='helix.authenticated-sampler-technical-pilot.v1',number=number,name=name,
             source_audio_sha256=MP3_SHA256,source_analysis_sha256=digest(plans[0]),
