@@ -28,12 +28,39 @@ def build(audio,analysis,provenance,output):
     plans=list(analysis.glob('*.snowman_band.json'))
     if len(plans)!=1:raise ValueError('Require one shared sampler production analysis')
     plan=json.loads(plans[0].read_text());manifest=[]
+    # Optional verified vocal activity. Never silently use instrumental bleed
+    # or short-hook vocal caches on the authenticated long sampler.
+    vocal_manifest_path=analysis/'verified_sampler_vocals.json'
+    vocal_events=[]
+    if vocal_manifest_path.exists():
+        evidence=json.loads(vocal_manifest_path.read_text())
+        if evidence.get('source_audio_sha256')!=MP3_SHA256 or evidence.get('duration_seconds')!=256:
+            raise ValueError('Vocal evidence does not match authenticated sampler')
+        if evidence.get('verification_status')!='independently_verified':
+            raise ValueError('Vocal evidence has not passed independent verification')
+        for event in evidence.get('events',[]):
+            start,end=event['start_ms'],event['end_ms']
+            if not (0<=start<end<=256000) or event.get('role') not in ('lead','backing'):
+                raise ValueError('Invalid verified vocal event')
+            vocal_events.append(event)
+
     for number in (9,10,11):
         name=NAMES[number-1];folder=output/f'{number:02}_{name}'
         if folder.exists():raise FileExistsError(folder)
         g=build_layout(number);sequence=NativeSequence(g,256,'media/Helix_Starred_All_Songs.mp3',g.title)
         reports=[]
         for model in g.models:
+            # Singer cues require independent source-verified activity evidence.
+            # The renderer can only use existing canonical singer submodels.
+            if vocal_events and 'SINGER' in model.name.upper():
+                role='backing' if 'FEMALE' in model.name.upper() or 'BACKUP' in model.name.upper() else 'lead'
+                for event in vocal_events:
+                    if event['role']!=role: continue
+                    part=event.get('submodel')
+                    if not isinstance(part,str) or part not in model.submodels:
+                        raise ValueError('Verified singer cue lacks canonical mouth submodel')
+                    sequence.effect(model,part,event['start_ms'],event['end_ms'],g.palette[2],85,15,
+                        provenance={'sourceRole':role,'sourceMethod':'independently_verified_sampler_vocals'})
             if model.name=='HX_CENTER_KEYBOARD_HELIX':
                 for cue in plan['cues'].get('keyboardist',[]):
                     pitch=cue.get('pitch_midi');part=f'KEY_MIDI_{round(pitch):03d}'
@@ -59,7 +86,9 @@ def build(audio,analysis,provenance,output):
             source_audio_sha256=MP3_SHA256,source_analysis_sha256=digest(plans[0]),
             source_provenance_sha256=digest(provenance),source_duration_seconds=256,
             waveform='authenticated retained Starred sampler; same prior timeline; no alternate montage',
-            vocals='No independently isolated sampler singers; vocal-driven spatial roles abstain',
+            vocals=('Independently verified sampler vocal cues' if vocal_events else
+                    'No independently isolated sampler singers; vocal-driven spatial roles abstain'),
+            verified_vocal_events=len(vocal_events),
             source_estimates_not_ground_truth=True,public_beta_ready=False,owner_approval=False,
             folder=str(folder.resolve()),xsq=name+'.xsq')
         (folder/'run_manifest.json').write_text(json.dumps(report,indent=2)+'\n')
