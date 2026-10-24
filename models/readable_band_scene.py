@@ -27,13 +27,32 @@ class ReadableBandScene(IntricateBandScene):
         for kind,count,first in [('bass',4,13),('guitar',6,17)]:
             for j in range(count):
                 original=next(o for o in self.instances if o['name']==f'{kind}_string_{j}')
-                original['color']=rgb('#131B24');original['slot']=-1
+                # Recover authored endpoint XY instead of widening the guitar
+                # strings. Inherited stage transforms and the widened neck
+                # require a new front plane; raw old Z would bury the strings.
+                # The still-visible original rods also made a duplicate set.
+                transform=original['matrix']
+                a=transform[:3,3]-.5*transform[:3,2]
+                b=transform[:3,3]+.5*transform[:3,2]
                 if kind=='bass':
-                    x=-4+.58+(j-1.5)*.057
-                    a=np.array((x,.42,.415));b=np.array((x,3.18,.415));radius=.015
+                    # Use the central half of the actual .34-wide bridge.
+                    # Four thin strings remain independently readable and fit
+                    # inside the .25-wide fingerboard at both attachments.
+                    bridge=next(o for o in self.instances if o['name']=='bass_bridge')['matrix']
+                    spacing=abs(float(bridge[0,0]))*.5/3
+                    a[0]=b[0]=bridge[0,3]+(j-1.5)*spacing
+                    a[2]=b[2]=max(a[2],b[2],bridge[2,3]+abs(bridge[2,2])*.5)+.006
                 else:
-                    off=np.array((-(j-2.5)*.025,(j-2.5)*.025,0))
-                    a=np.array((3.60,.83,.59))+off;b=np.array((5.22,2.32,.59))+off;radius=.010
+                    neck=next(o for o in self.instances if o['name']=='guitar_neck')['matrix']
+                    # .095 is the authored readable-neck radius installed
+                    # below. Keep the maximum historical .040 safety margin.
+                    plane=max(a[2],b[2],neck[2,3]+.095+.050)
+                    a[2]=b[2]=plane
+                    for item in self.instances:
+                        if item['name'] in ('bridge','pickup'):
+                            item['matrix'][2,3]=plane-abs(item['matrix'][2,2])*.5
+                original['kind']='hidden'
+                radius=.0045 if kind=='bass' else .0032
                 segments=[]
                 for k in range(16):
                     lo=a+(b-a)*k/16;hi=a+(b-a)*(k+1)/16
@@ -48,7 +67,7 @@ class ReadableBandScene(IntricateBandScene):
         # Nut-to-bridge semitone spacing, shared by visible frets and fingertips.
         existing_frets=[o for o in self.instances if o['name']=='guitar_fret']
         for fret in range(1,25):
-            center=self.guitar_contact(2,fret);center[2]=.535
+            center=self.guitar_contact(2,fret);center[2]-=.008
             a=center+(-.10,.10,0);b=center+(.10,-.10,0)
             if fret<=len(existing_frets):existing_frets[fret-1]['matrix']=line_matrix(a,b,.008)
             else:self.rod('guitar_fret',a,b,.008,'#A9BED0')
@@ -69,8 +88,8 @@ class ReadableBandScene(IntricateBandScene):
     def vibrate(self,kind,string,level,source_time):
         s=self.strings[kind][string];u=np.linspace(0,1,17)
         # Slow visible wave depicts the resonance envelope, not acoustic Hz.
-        displacement=.040*level*np.sin(np.pi*u)*np.sin(u*4*np.pi-source_time*18-string)
+        displacement=.006*level*np.sin(np.pi*u)*np.sin(u*4*np.pi-source_time*18-string)
         pts=s['a'][None,:]+u[:,None]*(s['b']-s['a'])[None,:]
         pts[:,2]+=displacement
         for idx,a,b in zip(s['ids'],pts[:-1],pts[1:]):
-            self.instances[idx]['matrix']=line_matrix(a,b,s['radius']*(1+.35*level))
+            self.instances[idx]['matrix']=line_matrix(a,b,s['radius'])

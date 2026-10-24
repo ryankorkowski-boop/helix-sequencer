@@ -22,7 +22,7 @@ def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0)):
         role = model.details['final_band_role']
         model.details.update(review_role=role, geometry_source='models.final_band_scene.FinalBandScene',
                              owner_approved_native_visuals=False)
-        model.attrs.update(PixelSize='6', Antialias='1', BlackTransparency='100',
+        model.attrs.update(PixelSize='3', Antialias='1', BlackTransparency='100',
                            HelixOutputMode='pixel')
         if role == 'drummer':
             # Preserve every source range and add semantic aliases, never
@@ -66,8 +66,8 @@ def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0)):
 def visual_identity():
     return dict(renderer='xlights_house_preview', geometry_source='models.final_band_scene.FinalBandScene',
                 canonical_solid_3d_band=False, canonical_surface_geometry=True,
-                owner_vocal_animation_review='passed_in_prior_video',
-                owner_canonical_visual_review='pending_new_render',
+                owner_vocal_animation_review='rejected_timing_reopened_20261023',
+                owner_canonical_visual_review='rejected_identity_reopened_20261023',
                 limitations=['Native surface samples and stationary light poses are not continuous solid meshes',
                              'Canonical source drummer is planar artwork, as in the solid scene compositor'],
                 performer_count=6, optional_xylophonist=False)

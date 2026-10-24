@@ -117,7 +117,11 @@ def export_instruments(root, garden, plan):
             e.set('sourceStartMs',str(a)); e.set('sourceEndMs',str(b))
             windows.setdefault(part,[]).append((a,b))
             return True
-        counts=dict(source_events=0, mapped_events=0, unmapped_pitch_events=0)
+        counts=dict(source_events=0, mapped_events=0, unmapped_pitch_events=0, unmapped_events=[])
+        def unmapped(source,reason):
+            counts['unmapped_pitch_events']+=1
+            counts['unmapped_events'].append(dict(start_ms=source['start_ms'],end_ms=source['end_ms'],
+                pitch_midi=source.get('pitch_midi'),string_index=source.get('string_index'),reason=reason))
         key={'bass':'bassist','guitar':'guitarist','piano':'keyboardist'}[role]
         for source in plan.get('cues',{}).get(key,[]):
             counts['source_events']+=1
@@ -125,7 +129,7 @@ def export_instruments(root, garden, plan):
             if role=='piano':
                 pitch=float(source['pitch_midi'])
                 if pitch != round(pitch):
-                    counts['unmapped_pitch_events']+=1; continue
+                    unmapped(source,'Non-integer source MIDI pitch; no rounding/transposition'); continue
                 parts=['NOTE_MIDI_'+str(round(pitch))]
             elif role=='bass':
                 parts=['STRING_'+str(int(source.get('string_index',1))-1)]
@@ -139,12 +143,12 @@ def export_instruments(root, garden, plan):
                 tuning=(40,45,50,55,59,64)
                 possible=[i for i,p in enumerate(tuning) if 0 <= pitch-p <= 24]
                 if not possible:
-                    counts['unmapped_pitch_events']+=1; continue
+                    unmapped(source,'Pitch outside physical guitar string/fret range'); continue
                 parts=['STRING_'+str(possible[-1])]
             mapped=any([cue(p,source,'#FFF1AD' if role!='piano' else '#81EDFF',level) for p in parts])
             counts['mapped_events']+=int(mapped)
             if not mapped:
-                counts['unmapped_pitch_events']+=1
+                unmapped(source,'Authored instrument has no matching native note/string submodel')
             if mapped:
                 side = ('LEFT' if source.get('pitch_midi',60)<66 else 'RIGHT') if role=='piano' else ('STRUM' if role=='guitar' else 'PLUCK')
                 cue('ARM_'+side+'_ACTIVE',source,'#C5D6DD',.9)

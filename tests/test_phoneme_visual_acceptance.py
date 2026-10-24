@@ -1,4 +1,4 @@
-"""Keep the approved vocal render separate from canonical 3D visual approval."""
+"""An owner rejection reopens timing and identity despite historical receipts."""
 import json
 from pathlib import Path
 
@@ -10,8 +10,8 @@ def test_visual_receipt_is_valid_json_and_blocks_legacy_cast():
     identity = visual_identity()
     assert identity['canonical_solid_3d_band'] is False
     assert identity['canonical_surface_geometry'] is True
-    assert identity['owner_vocal_animation_review'] == 'passed_in_prior_video'
-    assert identity['owner_canonical_visual_review'] == 'pending_new_render'
+    assert identity['owner_vocal_animation_review'] == 'rejected_timing_reopened_20261023'
+    assert identity['owner_canonical_visual_review'] == 'rejected_identity_reopened_20261023'
     assert 'from models.native_review_band import add_band' not in text
     assert "json.dumps(manifest['visual_identity'], indent=2)" in text
 

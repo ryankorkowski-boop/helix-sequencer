@@ -1,3 +1,86 @@
+## 2026-10-23 — Owner-rejected review recovery: all six affected gates reopened
+
+Current recovery checkpoint: source changes implemented and real native pilot
+renders inspected; this is NOT a repaired approval bundle. Full bounded local
+suite passed2126 tests,6 inherited/receipt skips,24 subtests in248.78s; final
+focused checks cover subsequent report/long-export changes. Earlier full run
+failed one stale assertion that still required prior vocal approval; it was
+corrected to require the owner's explicit new rejection, not to relax quality.
+Original clearance/independence/geometry thresholds remain unchanged.
+
+Additional modules: recovery_technical_layouts, source_spatial_direction,
+build_sampler_technical_pilot, rebuild_band_pilot, audit_vocal_clock,
+verify_recovery_media, android_upgrade_preflight, native_stream and associated
+tests. NativeSequence supports explicit native effect names; original callers
+still default to On. The builder now maps semantic zones to source roles,
+uses pitch-directed position and explicit authored propagation, emits native
+Bars on sampled surfaces, and writes full event provenance. Advanced layouts
+add real layered lattices/rings, side helices/depth ribs, nested corridor boxes
+and large-installation surfaces. All12 layouts generated; only targeted pilots
+are rendered while canonical/timing acceptance is open. AC16/64/256 counts hold.
+
+Native faces retain authored dimensions and receive foreground contrast; native
+strings are paths rather than sampled cylinder loops. Inherited transforms
+required explicit neck clearance and bridge/pickup alignment. Exact out-of-range
+key/string events are reported, never silently transposed. Source clocks remain
+unchanged because presence estimation is still defective. Ending conflicts at
+32.82–33.03s and33.10–34.41s remain FAIL, not muted. Independent lanes are retained.
+
+Recovered ACTUAL prior comparison soundtrack: Helix_Starred_All_Songs.mp3,
+256.000s,SHA256ffeaba9b9f8fc253a0356505c2b4147b7576b772db42a1c8ea63094b42545acf.
+Retained original WAVc69e0a4632a6c67f7ae59d2e1c630ce6de5969ca954d403f094176a1376c6524
+matches prior package manifest:16×16s clips from helixhelps@gmail.com/Starred.
+Prior compact8-way soundtrack has zero-lag decoded correlation.972775 to MP3;
+lossy compact encoding is disclosed. Earlier260.2s and180s samplers are separate,
+not substituted. Fresh256s analysis reused once for three technical sampler
+pilots; absent isolated sampler vocals abstain. Comparison duration is explicit,
+never accidentally clipped to34.88s. Large FSEQ uses bounded-memory full-byte
+inspection; old read_frames allocation guards are unchanged. Synchronous native
+video export now has a bounded duration-derived timeout after real256s exports
+hit the60s command limit. Transient malformed startup HTTP is retried only until
+valid version JSON, preserving health/media checks.
+
+Final targeted sampler9/10/11 native exports all succeeded. Original-recording
+movies decoded/aligned with zero-lag correlation.996824804; sampler final-file
+verification/comparison/archive saving is in progress. Final focused43 tests
+pass; broader affected55 pass,1 receipt skip,10 subtests. Long-export/startup2
+tests pass. Exact omitted note/string events are now listed in reports. Pilot
+scale-up CI requires matching XSQ/layout/audio/movie hashes, actual approved
+reference identity/frame evidence and full-recording vocal-presence acceptance;
+no receipt was invented. New source changes remain independent of unknown
+canonical art and the missing historical private signing key.
+
+Android source versionCode7, package/name unchanged. Exact Oct21 baseline and
+rejected APK both have code6 but DIFFERENT legitimate debug certificates.
+Preflight fails closed, never reports an install/data-preservation pass; the
+fresh smoke script refuses non-emulator resets. Actual key/phone upgrade remains
+BLOCKED. No signing key is committed/generated as a substitute.
+
+Optional source-separation reconstruction was automatically rejected when it
+contacted a Microsoft telemetry endpoint with an unestablished payload. It was
+not retried/bypassed; offline retained evidence work continued. Exact approved
+band/drummer reference, reliable vocal-presence evidence and original private
+signing key remain inaccessible blockers. No beta, PR188 merge or release tag.
+
+Starting HEAD d3749d365431fa852cb8793205c20b71de55fa7b, PR188 open/draft.
+Owner rejection SUPERSEDES prior vocal-animation approval and visual acceptance
+claims below; retain historical test/file results only as historical evidence.
+Goal: repair actual strings, native facial contrast, musical spatial direction,
+vocal false positives and historical Android upgrade before any new acceptance.
+Changed so far: readable_band_scene, final_band_native, canonical_native_band,
+focused string regressions and FINAL_BETA_APPROVAL_BUNDLE_HANDOFF.
+Preserved: six identities, purple harmony, source clocks/audio, existing export
+APIs and release hold. New strings reuse authored bridge/nut endpoints, hide
+duplicate originals, reduce displacement/radius and export literal native paths.
+Native mouths retain authored size; snow behind aperture is masked for contrast.
+Evidence IN PROGRESS: exact original audio hash verified, actual rejected frame
+inspected, retained native renderer restored and baseline720p native render ran.
+BLOCKED: no proven owner-approved 3D reference identified yet; historical APK
+private signing key unavailable; sampler provenance/alignment needs resolution.
+Risks: singing/non-singing separation, native raster readability, canonical asset
+identity and instrument classification. No false closure from event counts,
+brightness, fresh APK installs or passing tests. Post-beta scope stays deferred.
+
 ## 2026-10-23 — Owner delivery COMPLETE; beta remains held
 
 All eight user-facing files saved successfully:approval ZIP with18

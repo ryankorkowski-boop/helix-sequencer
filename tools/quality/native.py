@@ -135,6 +135,16 @@ def read_frames(path: Path) -> tuple[bytes, int, int, int]:
 
 
 def inspect_fseq(path: Path) -> dict[str, Any]:
+    # A long pixel show can exceed the allocation limit even though every
+    # compressed block and individual frame is small. Stream those V2 shows;
+    # never relax read_frames' decompression/allocation safeguards.
+    with path.open('rb') as source:
+        header=source.read(20)
+    if len(header)==20 and header[:4]==b'PSEQ' and header[7]==2:
+        width,count=struct.unpack_from('<II',header,10)
+        if width*count>MAX_BYTES:
+            from tools.quality.native_stream import inspect_stream
+            return inspect_stream(path)
     data, channels, frames, step = read_frames(path)
     lit = [sum(value > 0 for value in data[i:i + channels])
            for i in range(0, len(data), channels)]

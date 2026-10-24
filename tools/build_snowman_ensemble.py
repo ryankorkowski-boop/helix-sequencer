@@ -41,7 +41,7 @@ class NativeSequence:
             self.elements[model.name]=ET.SubElement(self.root.find('ElementEffects'),'Element',{'type':'model','name':model.name})
             ET.SubElement(self.elements[model.name],'EffectLayer')
 
-    def effect(self,model,part,start,end,color,b0=70,b1=None,provenance=None,layer=0,settings=None,palette=None):
+    def effect(self,model,part,start,end,color,b0=70,b1=None,provenance=None,layer=0,settings=None,palette=None,effect_name='On'):
         if part not in model.submodels:raise ValueError(f'Unknown native target {model.name}/{part}')
         start=max(0,round(start/50)*50);end=min(self.duration,round(end/50)*50)
         if end<=start:return
@@ -54,7 +54,7 @@ class NativeSequence:
             self.palettes[palette]=len(self.palettes);ET.SubElement(self.root.find('ColorPalettes'),'ColorPalette').text=palette
         key=(model.name,part,layer)
         if key not in self.layers:self.layers[key]=ET.SubElement(self.elements[model.name],'SubModelEffectLayer',{'name':part,'layer':str(layer)})
-        ET.SubElement(self.layers[key],'Effect',{'name':'On','ref':str(self.settings[setting]),'palette':str(self.palettes[palette]),
+        ET.SubElement(self.layers[key],'Effect',{'name':effect_name,'ref':str(self.settings[setting]),'palette':str(self.palettes[palette]),
                                                'startTime':str(start),'endTime':str(end),'id':str(self.identifier),**(provenance or {})})
         self.identifier+=1
 

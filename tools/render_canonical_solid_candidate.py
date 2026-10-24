@@ -99,7 +99,7 @@ def render(source, output):
             view.dry.time=t
             image=view.frame(levels,lighting,strikes,int(i%2),t,t)
             draw=ImageDraw.Draw(image);draw.rectangle((0,0,1280,43),fill='#07111E')
-            draw.text((16,12),'CANONICAL SOLID 3D VISUALIZATION | OpenGL | separate from native xLights',font=font,fill='white')
+            draw.text((16,12),'SOLID 3D RECOVERY DIAGNOSTIC | OpenGL | approved band identity unverified',font=font,fill='white')
             writer.stdin.write(image.tobytes())
             if i in (160,360,560):image.save(output.with_name(output.stem+f'_{i:04}.png'))
             if i%100==0:print('SOLID_FRAME',i,n,flush=True)
@@ -110,7 +110,7 @@ def render(source, output):
         geometry='FinalBandScene',source_audio_sha256=EXPECTED_SHA256,source_plan_sha256=digest(plan_path),
         vocal_clocks='same retained two-stage source estimates as native collection',
         keyboard_motion=motion,unlocalized_tom_events_omitted=unresolved,
-        cymbal_location='right-side staging assumption; source side unverified',owner_visual_approval='pending'),indent=2)+'\n')
+        cymbal_location='right-side staging assumption; source side unverified',owner_visual_approval='rejected; approved reference still missing'),indent=2)+'\n')
 
 
 if __name__=='__main__':

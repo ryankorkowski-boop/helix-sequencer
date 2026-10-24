@@ -162,6 +162,9 @@ def build_layout(number):
         base=build_ultimate_garden()
         g.models=[m for m in base.models if m.kind=='pixel' and m.display not in ('Image','Label')]
         for i,x in enumerate((-100,0,100)):house(g,x,z=10,scale=.7,prefix='HOUSE_'+str(i))
+    if number>=9:
+        from models.recovery_technical_layouts import enrich
+        enrich(g,number)
     if number in (7,8,12):
         from models.canonical_native_band import add_band
         from tools.native_source_pose_band import stage_native_cast

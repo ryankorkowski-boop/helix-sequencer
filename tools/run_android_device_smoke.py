@@ -9,6 +9,11 @@ import sys
 ROOT=Path(__file__).resolve().parents[1]
 
 def main():
+    # This fresh-install smoke resets app data. It is restricted to disposable
+    # emulators; never let this path uninstall the owner's historical beta.
+    emulator=subprocess.check_output(['adb','shell','getprop','ro.kernel.qemu'],text=True).strip()
+    if emulator!='1':
+        raise RuntimeError('Fresh-install smoke requires a disposable emulator; historical phone updates must use install -r and preserve data')
     dest=ROOT/'android/app/build/device-proof';dest.mkdir(parents=True,exist_ok=True)
     result=subprocess.run(['gradle','--no-daemon',':app:connectedDebugAndroidTest'],cwd=ROOT/'android')
     proof_errors=[]

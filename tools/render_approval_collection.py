@@ -72,7 +72,8 @@ def label(source,target,title):
         '-c:v','libx264','-preset','fast','-crf','19','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(target)])
 
 
-def comparison(paths,labels,target,audio,cols,rows):
+def comparison(paths,labels,target,audio,cols,rows, *, duration=34.88):
+    if not math.isfinite(duration) or duration<=0:raise ValueError('Positive source comparison duration required')
     width,height=(1280,540) if len(paths)==12 else (1280,720)
     args=['ffmpeg','-v','error','-y','-filter_complex_threads','2']
     for path in paths:args+=['-i',str(path)]
@@ -84,7 +85,7 @@ def comparison(paths,labels,target,audio,cols,rows):
     filters.append(''.join(f'[p{i}]' for i in range(len(paths)))+f'xstack=inputs={len(paths)}:layout={positions}:fill=black[v]')
     temporary=target.with_name('.comparison-'+uuid.uuid4().hex+'.mp4')
     args+=['-filter_complex',';'.join(filters),'-map','[v]','-map',f'{len(paths)}:a:0',
-           '-t','34.88','-c:v','libx264','-preset','fast','-crf','20','-threads','4',
+           '-t',str(duration),'-c:v','libx264','-preset','fast','-crf','20','-threads','4',
            '-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',str(temporary)]
     try:
         command(args)

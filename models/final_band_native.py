@@ -74,10 +74,17 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
             if item['kind'] == 'hidden' or i in arm_ids or item.get('mouth_role'): continue
             if any(word in name for word in ('_lips','_tongue','_upper_teeth')): continue
             part = 'BODY'
-            if '_live_string_' in name: part = 'STRING_'+name.split('_live_string_')[1].split('_')[0]
+            # A string is one thin path, not the vertices/triangle centers of
+            # sixteen cylinders. Surface sampling those cylinders made loops
+            # and thick ribbons at native preview pixel sizes.
+            if '_live_string_' in name: continue
             if name.startswith('piano_key_') and name.removeprefix('piano_key_').isdigit():
                 part = 'NOTE_MIDI_'+name.rsplit('_',1)[1]
             parts.primitive(part, item)
+        if role in ('bass','guitar'):
+            for string,geometry in enumerate(scene.strings[role]):
+                parts.add('STRING_'+str(string),
+                    np.linspace(geometry['a'],geometry['b'],80), '#C4CBD0')
         for item in scene.custom:
             if role in instrument and item['name'].startswith(instrument[role]):
                 mesh = item['mesh']; points = np.vstack((mesh.vertices, mesh.triangles_center))
@@ -117,15 +124,25 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
                 parts.primitive(part,dict(kind='sphere',matrix=matrix(tip,(.057,.057,.057)),color=np.array((.82,.69,.47))))
         if role in ('lead','harmony'):
             center = scene.expressive_mouths[role]['center']
+            # Leave a small dark aperture in the foreground head samples.
+            # Otherwise white snow behind the mouth overwhelms its outline.
+            # This changes composition/contrast, not the authored mouth size.
+            native_center=center*parts.scale+parts.origin
+            width=max(v[0] for v in MOUTH_SIZES.values())*mouth_scale*parts.scale*1.18
+            height=max(v[1] for v in MOUTH_SIZES.values())*mouth_scale*parts.scale*1.25
+            body=[]
+            for node in parts.parts.get('BODY',[]):
+                q=np.asarray(parts.points[node-1])-native_center
+                if not ((q[0]/width)**2+(q[1]/height)**2<1 and q[2]>-.8):body.append(node)
+            parts.parts['BODY']=body
             for shape, (width,height) in MOUTH_SIZES.items():
                 width, height = width * mouth_scale, height * mouth_scale
-                # Opaque aperture is a video feature; native open mouths expose
-                # filled lips/tongue and keep their nodes separate from BODY.
-                for component, offset, scale, color in (
-                    ('LIPS',(0,0,.033),(width*1.12,height+.016,.08),(.97,.42,.39)),
-                    ('TONGUE',(0,-height*.4,.06),(width*.60,height*.30,.025),(.96,.53,.71))):
-                    if shape in ('REST','MBP') and component == 'TONGUE': continue
-                    parts.primitive('MOUTH_'+shape,dict(kind='sphere',matrix=matrix(center+offset,scale),color=np.array(color)))
+                theta=np.linspace(0,2*np.pi,64,endpoint=False)
+                outline=center+np.c_[width*1.12*np.cos(theta),(height+.006)*np.sin(theta),np.full(64,.060)]
+                parts.add('MOUTH_'+shape,outline,'#FF947A')
+                if shape not in ('REST','MBP'):
+                    tongue=center+np.c_[np.linspace(-width*.45,width*.45,15),np.full(15,-height*.45),np.full(15,.065)]
+                    parts.add('MOUTH_'+shape,tongue,'#F486B6')
         model = garden.custom(prefix+'_'+role.upper(), np.asarray(parts.points), prefix,
             'solid rock performer' if rock else 'solid snow performer', parts.colors,
             {k:sorted(set(v)) for k,v in parts.parts.items()},

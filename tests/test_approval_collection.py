@@ -33,6 +33,9 @@ def test_native_musician_adapter_preserves_source_clock_and_reports_omissions():
                        dict(start_ms=701,end_ms=817,pitch_midi=110)]}}
     report=export_instruments(sequence.root,garden,plan)
     assert report['models']['HX_SNOW_PIANO']['unmapped_pitch_events']==1
+    assert report['models']['HX_SNOW_PIANO']['unmapped_events']==[dict(
+        start_ms=701,end_ms=817,pitch_midi=110,string_index=None,
+        reason='Authored instrument has no matching native note/string submodel')]
     element=sequence.root.find("ElementEffects/Element[@name='HX_SNOW_PIANO/NOTE_MIDI_60']")
     effect=element.find('EffectLayer/Effect')
     assert (effect.get('startTime'),effect.get('endTime'))==('503','617')

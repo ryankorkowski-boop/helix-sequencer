@@ -1,4 +1,124 @@
-# Final beta approval bundle — execution checkpoint
+# Owner-rejected recovery — current authoritative status, 2026-10-23
+
+The owner rejected the delivered bundle. Historical COMPLETE entries below
+describe file production, not acceptance. Prior vocal approval is superseded by
+reported bad timing. PR188 is draft/open; no merge or public beta is authorized.
+
+## Latest executable checkpoint
+
+- COMPLETE — original audio verified; new native full-song band/string pilot,
+  separate native face/guitar/drum-key camera views and original-recording
+  technical9/10/11 pilots rendered at1280×720/20fps. Actual frames inspected.
+  New face composition is readable in native camera closeup, but timing still
+  fails and drummer/reference identity remains unapproved. New solid OpenGL
+  diagnostic is separately labeled; it still uses planar original drummer art.
+- COMPLETE — all12 editable layouts rebuilt with exact AC16/64/256 budgets,
+  semantic source roles, source-pitch spatial propagation, native matrix Bars,
+  layered optical lattices, cathedral side helices/ribs and nested depth boxes.
+  Final Ultimate source has131 models/205194 channels; its visual gate is NOT passed.
+- COMPLETE — actual prior sampler recovered, superseding the initial unresolved
+  sampler search below: `Helix_Starred_All_Songs.mp3`,256.000s,SHA256
+  `ffeaba9b9f8fc253a0356505c2b4147b7576b772db42a1c8ea63094b42545acf`.
+  Retained PCM WAV SHA256`c69e0a4632a6c67f7ae59d2e1c630ce6de5969ca954d403f094176a1376c6524`.
+  Prior retained native source package supplies16 source clips with Drive IDs,
+  source hashes and exact sample ranges. All16 IDs were found in the authenticated
+  Starred folder. Prior compact8-way source audio aligns at zero lag, correlation
+  .972775188 to MP3 (.972882605 to retained WAV); compact lossy encoding is
+  disclosed. The256s source is distinct from the260.2s and180s montages.
+- COMPLETE — three native technical sampler pilots using ONE
+  fresh256s analysis, not the Phoneme cache. Missing isolated sampler vocal roles
+  abstain. Native sampler9/10/11 exports succeeded;11 startup returned transient
+  malformed HTTP and succeeded after bounded valid-JSON retry. First256s export
+  hit fixed60s RPC timeout; exporter now derives a bounded timeout from duration.
+  Final sampler presentation/comparison verification and saving are IN PROGRESS.
+- COMPLETE — full local suite checkpoint2126 passed,6 existing/receipt skips,
+ 24 subtests,248.78s. Final narrow regression suites additionally cover streaming
+  FSEQ, native long-export transport, report changes and full sampler duration.
+  Earlier full test failure was the stale `passed_in_prior_video` assertion,
+  superseded by latest owner rejection. No quality threshold was lowered.
+  Final focused verification43 passed; broader affected native/media suite55
+  passed,1 receipt skip,10 subtests. New malformed-startup/long-export tests2
+  passed. Additional source report changes enumerate exact unmapped pitches.
+- BLOCKED/FAIL — the retained cache still admits phantom source activity around
+ 32.82–33.03s and33.10–34.41s. Positive periodic energy is not proof of singing.
+  Full-song source-separation leakage classification remains unresolved. No
+  blanket final mute, copied lane or arbitrary delay was applied. Cache/source
+  hashes and all active intervals are retained in audit evidence.
+- BLOCKED — optional stem reconstruction was rejected by automatic approval
+  review for contact with an external Microsoft telemetry endpoint whose payload
+  was not established/authorized. No retry or indirect bypass was attempted.
+  Continue only with authenticated offline stems/evidence or separately
+  established safe authorization; do not silently rerun that path.
+- BLOCKED — approved canonical6-member/drummer reference is not established by
+  repository class names, historical README claims or recent rejected renders.
+  Need an actual approved frame/movie/asset revision before restoring identity.
+- BLOCKED — recovered historical Android baseline code6 signer
+  `b814ef47f37a86461008bdfbfbd812127b870d92586807078422c657cd09760b`
+  differs from rejected code6 signer
+  `7b1a77af3d5c23cdb2b32fcdccd52d77fec3804f4862ce434a4d80d642c1aa73`.
+  Candidate source code is7, but original private key/signing lineage and actual
+  installed-phone PM logs are unavailable. No compatible APK or real update/data
+  preservation is claimed. Certificate alone cannot recover the private key.
+- NOT STARTED — final12 individual repaired movies and6/12/band integration
+  approval comparisons, because the full-song canonical/timing pilot gate fails.
+  Diagnostic pilots are not relabeled as an approved/repaired collection.
+  final-approval-collection CI now checks hash-bound pilot timing/reference
+  evidence before scale-up. A successful download or native file alone cannot
+  unlock it; no acceptance receipt was invented for this recovery.
+
+Current local roots: `final-band-pilot`, `detail-pilots`, `recovery-layouts`,
+`sampler-technical-pilots`, `solid-diagnostic` and
+`Helix_Recovery_Diagnostics_20261023_r1`. Exact native receipts bind XSQ/layout/
+audio/FSEQ/MP4 hashes; final media verification, artifact hashes and saving
+results must be appended after successful packaging. Keep release held.
+
+Reproduce source-only sampler pilots after authenticated recovery:
+```
+python -m tools.build_sampler_technical_pilot AUDIO_MP3 ANALYSIS_DIR SAMPLER_MANIFEST OUTPUT
+```
+`AUDIO_MP3` must have the exact256s MP3 hash above. `ANALYSIS_DIR` must retain
+that MP3 and one production snowman-band plan. Never reuse the Phoneme clocks
+for a different soundtrack. Use native_preview inside one Xvfb/openbox process
+namespace, then verify_recovery_media with explicit original source hash.
+
+Baseline HEAD: `d3749d365431fa852cb8793205c20b71de55fa7b`. Clone completed;
+tracked worktree initially clean (one interrupted checkout PNG temporary file
+was untracked and is left untouched). AGENTS/master ledger/release handoffs,
+open issues199/196/192 and actual rejected bundle/frame were inspected.
+
+| Status | Owner defect | Current evidence / next action |
+|---|---|---|
+| IN PROGRESS | Phantom singer openings | Retained10ms cache admits every positive periodic-energy estimate; source leakage is not excluded. Preserve independent lanes; classify nonvocal evidence over full original before changing clocks. |
+| IN PROGRESS | Advanced geometry | Inspect native spatial layouts and actual effects; distinct geometry alone did not pass owner review. |
+| IN PROGRESS | Beat-only choreography | Builder assigns guitar/bass/keys by model index modulo3 and repeats On envelopes. Replace with semantic zones and source-derived spatial direction. |
+| BLOCKED | Android baseline update | Recovered Oct21 Helix-Android-Beta.apk has signer b814ef47f37a86461008bdfbfbd812127b870d92586807078422c657cd09760b; rejected7c1a248 APK has signer7b1a77af3d5c23cdb2b32fcdccd52d77fec3804f4862ce434a4d80d642c1aa73. Different keys cannot update without legitimate lineage/original private key. No actual phone package-manager log available. |
+| BLOCKED | Approved canonical band | FinalBandScene naming and source README do not prove owner approval. Retained footage/screenshots/history examined; exact approved six-cast reference still unidentified. |
+| IN PROGRESS | Lights-band readability | Rejected frame inspected. The guitar string spacing was widened, duplicate originals remained visible and native strings were exported as cylinder samples. Inherited transforms require explicit clearance in front of the widened neck. New implementation restores guitar endpoint XY, raises the bridge/pickup to the string plane, preserves bass bridge spacing, emits thin native paths and removes duplicate rods; native mouth background contrast repaired without enlarging proportions. Rerender/inspect required. |
+
+Exact original fixture SHA256 verified:
+`19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938`,34.88s.
+Recovered prior rejected bundle SHA256 matches documented8a224575c41c426170fb984bc68119c7c784135cbd3f3dc450aabcc58edcbb95.
+Google Drive authenticated profile is helixhelps@gmail.com. Root/music/starred
+and compact comparison folder were enumerated after indexed search returned no
+results. Starred sampler was recovered from retained files; filename
+Helix_Music_Mix_Starred_High_Energy_Sampler.mp3,260.2s,SHA256
+f76e41469c5e844442da18d1716de8fbec8c4ab2bfee84128a0a6f9515924c9f.
+Tracklist retains15 nominal18s source clips with Drive source provenance.
+Drive Oct21 compact8-way comparison is256s and initial decoded-audio correlation
+does NOT establish a match to that sampler. Earlier Oct12 sampler is a separate
+180.14931972789117s recovered WAV (historical hash0fc2ab5dfee87d4af3e2ab326f76c7ee9cb3a5a893644487d2e7350a48cefafb).
+Do not mix these identities or silently substitute one for another.
+
+Native runtime artifact12491875007 restored; binary SHA256ea7cde8ae6ea4385dec1e835fa270c48a3c289769323891f1fb2e072db674930.
+Actual baseline show prepared from current engine; native2026.18 export succeeded
+at1280x720. Xvfb/openbox/render must run in the SAME execution network namespace.
+No repaired movie has passed acceptance yet. Full collection must wait for pilot.
+
+Reproduce in this workspace: baseline-show contains production plan/XSQ;
+native-run.py starts local Xvfb/openbox and executes the supplied Python command.
+No source/generic substitutes for inaccessible canonical references are approved.
+
+# Historical final beta approval bundle — execution checkpoint
 
 Branch: `codex/eight-hour-recovery-20261019`; starting HEAD
 `29f0fcae19cff99b555692d817d9662d9e9504e5`; draft PR #188.

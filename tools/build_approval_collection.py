@@ -37,7 +37,8 @@ def build(source, output):
         sequence=NativeSequence(g,34.88,'media/Phoneme_Test_Hook.mp3',g.title)
         sequence.duration=34880
         sequence.root.find('head/sequenceDuration').text='34.880'
-        for j,m in enumerate(g.models):
+        spatial_reports=[]
+        for m in g.models:
             if m.details.get('review_role'):continue
             if m.details.get('generic_singer'):
                 with np.load(FIXTURE/'acoustic_vocal_clocks.npz',allow_pickle=False) as clocks:
@@ -63,32 +64,9 @@ def build(source, output):
                     if part in m.submodels:sequence.effect(m,part,cue['start_ms'],cue['end_ms'],g.palette[2],100,25,
                         provenance={'sourceRole':'keyboardist','sourcePitchMIDI':str(pitch)})
                 continue
-            if m.kind=='ac':parts=list(m.submodels)
-            else:
-                parts=[p for p in m.submodels if p.startswith(('SECTOR_','RAY_','STRAND_','ROW_'))]
-                if not parts:
-                    parts=['ALL'];m.submodels['ALL']=list(range(1,len(m.points)+1))
-            role=('guitarist','bassist','keyboardist')[j%3]
-            cues=plan['cues'][role]
-            active_windows={part:[] for part in parts}
-            for k,cue in enumerate(cues):
-                if role=='guitarist' and cue['kind']=='chord_change':continue
-                part=parts[(round(cue.get('pitch_midi',k))+j)%len(parts)]
-                color=g.palette[(j+k//8)%3]
-                if m.kind=='ac':
-                    color={'Single Color Red':'#FF4040','Single Color Green':'#40FF60','Single Color White':'#FFFFFF'}[m.attrs['StringType']]
-                sequence.effect(m,part,cue['start_ms'],cue['end_ms'],color,100,45,
-                    provenance={'sourceRole':role,'sourceMethod':'retained_production_plan'})
-                active_windows[part].append((int(cue['start_ms']),int(cue['end_ms'])))
-            # Static visibility is restricted to real source-event complements;
-            # it is never counted as a note, onset, or instrumental activity.
-            for part,windows in active_windows.items():
-                color=m.colors[0] if m.kind!='ac' else {'Single Color Red':'#FF4040','Single Color Green':'#40FF60','Single Color White':'#FFFFFF'}[m.attrs['StringType']]
-                cursor=0
-                for a,b in sorted(windows):
-                    if a>cursor:sequence.effect(m,part,cursor,a,color,30,30,provenance={'sourceRole':'nonmusical_idle_visibility'})
-                    cursor=max(cursor,b)
-                if cursor<34880:sequence.effect(m,part,cursor,34880,color,30,30,provenance={'sourceRole':'nonmusical_idle_visibility'})
+            from tools.source_spatial_direction import export_model
+            with np.load(FIXTURE/'acoustic_vocal_clocks.npz',allow_pickle=False) as clocks:
+                spatial_reports.append(export_model(sequence,m,plan,clocks,g.palette))
         # The general prop loop may have created ALL lanes after the layout was
         # serialized; write actual final submodel definitions before compiling.
         write_layout(g,folder,include_demo=False,export_all_custom=True)
@@ -117,6 +95,7 @@ def build(source, output):
                   canonical_members=len(band),native_render_status='not_started',
                   native_limits=['Stationary native geometry; no geometric helix rotation claimed',
                                  'AC16/64/256 use exact circuit budgets; physical wiring not tested'])
+        (folder/'Spatial_Event_Provenance.json').write_text(json.dumps(spatial_reports,indent=2)+'\n')
         (folder/'run_manifest.json').write_text(json.dumps(dict(schema='helix.run_manifest.v1',warnings=[],**item),indent=2)+'\n')
         manifest.append(item)
         print('BUILT',number,name,item['channels'],flush=True)

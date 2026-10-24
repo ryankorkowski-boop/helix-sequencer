@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import http.client
 import json
 import math
 import os
@@ -101,10 +102,10 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
         raise
 
 
-def _command(endpoint: str, cmd: str, **params: str) -> dict[str, Any]:
+def _command(endpoint: str, cmd: str, *, timeout: float = 60, **params: str) -> dict[str, Any]:
     response = rest._request_json(
         "POST", f"{endpoint}/xlDoAutomation", {"cmd": cmd, **params},
-        timeout=60)
+        timeout=timeout)
     if not rest._response_ok(response):
         raise RuntimeError(f"xLights {cmd} rejected: {response}")
     return response
@@ -310,7 +311,7 @@ def _native_export(xlights: str, show: Path, staged: Path,
                     if not rest._response_ok(version):
                         raise ValueError("xLights version request rejected")
                     break
-                except (OSError, ValueError):
+                except (OSError, ValueError, http.client.HTTPException):
                     if time.monotonic() >= deadline:
                         raise RuntimeError("xLights REST startup timed out")
                     time.sleep(.1)
@@ -365,7 +366,12 @@ def _native_export(xlights: str, show: Path, staged: Path,
                 print("HELIX_NATIVE_X11_GEOMETRY_BEGIN", flush=True)
                 print(geometry_report.read_text()[-16000:], flush=True)
                 print("HELIX_NATIVE_X11_GEOMETRY_END", flush=True)
-            _command(endpoint, "exportVideoPreview", **options)
+            # Native export is synchronous. A full sampler can legitimately
+            # take longer than the60s control-command timeout; use a bounded
+            # duration-derived export budget, preserving every media QA gate.
+            sequence_seconds=float(ET.parse(staged).findtext('head/sequenceDuration'))
+            export_timeout=max(60,min(1800,sequence_seconds*4))
+            _command(endpoint, "exportVideoPreview", timeout=export_timeout, **options)
             if not video.is_file() or video.stat().st_size == 0:
                 raise ValueError("xLights did not create a fresh native video")
             native_stream = _stream(probe_media(video, "ffprobe"), "video")
@@ -379,7 +385,7 @@ def _native_export(xlights: str, show: Path, staged: Path,
                 # Keep the rejected first export as diagnostic evidence, and
                 # ask xLights for an entirely new video from the real canvas.
                 video = staged.parent / "native-resized.mp4"
-                _command(endpoint, "exportVideoPreview", **{**options, "filename": str(video)})
+                _command(endpoint, "exportVideoPreview", timeout=export_timeout, **{**options, "filename": str(video)})
                 native_stream = _stream(probe_media(video, "ffprobe"), "video")
                 attempts.append({"video": str(video), "resolution": [
                     int(native_stream["width"]), int(native_stream["height"])]})
