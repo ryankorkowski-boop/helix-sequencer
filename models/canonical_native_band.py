@@ -25,6 +25,10 @@ def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0)):
         model.attrs.update(PixelSize='3', Antialias='1', BlackTransparency='100',
                            HelixOutputMode='pixel')
         if role == 'drummer':
+            # xLights draws CustomBkgImage in the exported House Preview,
+            # including the source editor's gray rectangle. Keep the exact
+            # authored reference portable without compositing it over pixels.
+            model.attrs['HelixReferenceImage'] = model.attrs.pop('CustomBkgImage')
             # Preserve every source range and add semantic aliases, never
             # replace source contact/shoulder/pedal pixels with a new drummer.
             model.submodels['BASE_DIM'] = list(model.submodels['BODY_KEEPALIVE'])

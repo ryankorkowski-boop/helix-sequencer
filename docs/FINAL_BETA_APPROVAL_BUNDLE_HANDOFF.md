@@ -1,3 +1,49 @@
+# 2026-10-24 authoritative recovery checkpoint
+
+## 2026-10-24 — Native reference overlay and staging-copy repair; workspace recovery
+
+Goal: remove the source editor rectangle from native performer renders without
+changing source pixels, musical clocks, asset bytes or the six-member cast.
+Changed: models/canonical_native_band.py, tools/build_helpers/ultimate_showcase.py,
+tools/render_approval_collection.py, tests/test_recovery_string_geometry.py,
+tests/test_review_archive_staging_guard.py, this ledger and final handoff.
+Native cause: pinned xLights CustomModel::DisplayModelOnWindow draws
+CustomBkgImage in House Preview. Retaining the reference path exposed its gray
+source rectangle in real MP4 frames. Canonical export moves that path to Helix
+reference metadata; writer still copies exact reference PNGs. Historical source
+xModel/standalone approved-concept behavior is preserved. Node coordinates,
+submodel membership, colors, voices, timing, export/synchronization stay unchanged.
+Archive guard excludes interrupted staging paths; legitimate files stay identical.
+Evidence:18 focused geometry/canonical/collection/archive/spatial checks passed
+in52.38s;147 additional affected legacy/Android/pilot/vocal/sampler checks passed
+in33.26s. Regenerated band-v2 native export success and15s frames inspected show
+rectangle removed. Original Phoneme34.88s hash remains19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938.
+Authenticated prior256s sampler hash remainsffeaba9b9f8fc253a0356505c2b4147b7576b772db42a1c8ea63094b42545acf.
+Workspace maintenance removed the previous13 local movies before durable saving.
+They are NOT delivered. Source58532473/9d821b11 survives remotely. Recovered
+current native artifact12543339014/run40051497268; restored both exact audios,
+source clip manifest and cached original plan. New sampler production analysis
+completed once; comparison/frame and matching-show regeneration IN PROGRESS.
+Durable recovery checkpoint6590955 bytes,SHA256
+c35800963d10a4c9aa756525e9e47977159f7ece3d7f8ad08c6f302bbc90febe
+was saved and byte-readback verified. It is diagnostic, not approval evidence.
+Native renderer initially crashed without adjacent resources; patched executable
+now runs beside checksum-verified2026.18 AppImage resources, binary unchanged.
+Limitations: phantom mouths32.82–33.03/33.10–34.41s remain FAIL, independent
+voice presence/source truth unresolved; no blanket ending mute or copied lane.
+Original V3 reference family was recovered; its source-art motion is planar and
+native pose banks are not a continuous solid3D recreation. Exact approved
+six-member composition/fidelity still not verified. Android historical baseline
+and rejected APK differ in signer and share code6; source code7 alone is not an
+update. Original private key/actual phone PM logs/update/data preservation absent.
+Deferred: final12 repaired approval movies/comparisons remain gated by the failed
+pilot. No beta release or PR188 merge. Risks: reducing the image overlay reveals
+coarse native body/kit pixels; this is disclosed, not declared approved. Follow
+this ledger for exact later save hashes, tests and next actions.
+
+
+Historical records below are superseded for delivery availability and acceptance.
+
 # Owner-rejected recovery — current authoritative status, 2026-10-23
 
 The owner rejected the delivered bundle. Historical COMPLETE entries below

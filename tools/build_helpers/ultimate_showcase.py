@@ -100,7 +100,7 @@ def write_layout(g: Garden, output: Path, *, include_demo: bool = True, export_a
             # 3D renderer substitute or proof of approved character identity.
             for name in ('drummer_idle.png','drummerbg.png'):
                 relative='assets/'+name
-                if relative in (m.attrs.get('CustomBkgImage'),m.attrs.get('HelixVisualSource')):
+                if relative in (m.attrs.get('CustomBkgImage'),m.attrs.get('HelixVisualSource'),m.attrs.get('HelixReferenceImage')):
                     source=Path(__file__).resolve().parents[2]/'fixtures/band_geometry/source'/name
                     shutil.copyfile(source,output/relative)
         models.append(model_xml(m))

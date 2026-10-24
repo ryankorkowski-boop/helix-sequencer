@@ -52,6 +52,7 @@ def test_portable_band_retains_exact_referenced_editor_source_art(tmp_path):
     garden=build_layout(7);write_layout(garden,tmp_path,include_demo=False)
     drummer=next(m for m in garden.models if m.details.get('review_role')=='drummer')
     root=Path(__file__).resolve().parents[1]
-    for key in ('CustomBkgImage','HelixVisualSource'):
+    assert 'CustomBkgImage' not in drummer.attrs
+    for key in ('HelixReferenceImage','HelixVisualSource'):
         relative=drummer.attrs[key]
         assert digest(tmp_path/relative)==digest(root/'fixtures/band_geometry/source'/Path(relative).name)

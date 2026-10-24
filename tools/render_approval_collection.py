@@ -32,7 +32,8 @@ def review_archive(folder):
     try:
         with zipfile.ZipFile(temporary,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
             for path in sorted(folder.rglob('*')):
-                if not path.is_file() or path.name.startswith(('.comparison-','.tone-')) or path.name.endswith('.graded.mp4'):
+                if (not path.is_file() or any(part.startswith('.') for part in path.relative_to(folder).parts)
+                        or path.name.endswith('.graded.mp4')):
                     continue
                 before=digest(path)
                 z.write(path,str(Path(folder.name)/path.relative_to(folder)))
