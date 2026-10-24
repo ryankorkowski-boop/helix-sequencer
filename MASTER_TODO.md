@@ -1,3 +1,30 @@
+## 2026-10-24 — Ending-only soundtrack drift regression
+
+Goal: detect a late audio offset even when a256s comparison's global correlation
+still exceeds.97. Changed tools/verify_recovery_media.py and
+ tests/test_recovery_tail_audio_alignment.py; this ledger and final handoff.
+Preserved: source hashes, codec/resolution/full-decode requirements, interior
+alignment windows and50ms tolerance; no movie/audio/cue retiming occurs.
+New behavior: actual last2s window; EOF search buffer is zero-extended so valid
+correlation does not hide positive lags near the file boundary. This is search
+math, not source padding. New deterministic100ms ending-delay case fails the
+old verifier and passes after repair.4 tail/sampler/pilot checks pass.
+Evidence: all13 r2 H264/AAC diagnostic files pass full decode, monotonic20fps
+frame timestamps and zero measured lag in interior and ending windows.
+Limitation: matched soundtrack/PTS does not verify whether a mouth should open.
+Original clock false positives remain32.82–33.03/33.10–34.41s. No masking applied.
+Source uncertainty and native/reference fidelity stay FAIL. The current actual
+code7 CI debug APK15c3be0cfa04fb59576720a2ef19ff8744faa1247754fb5f7a32a0fcb2a0dd6d
+was downloaded and independently inspected: signer ef0f9e93e18fc365f0a31fc251e0c44d8db3c999d5fab5b4e7b31e3cbbf1f05f,
+not historicalb814ef47f37a86461008bdfbfbd812127b870d92586807078422c657cd09760b.
+Monotonicity is now correct; only established signer preflight fails. Owner-phone
+baseline match/update/data preservation remain untested. CI fresh reinstall
+receipts are kept as fresh-only evidence, never upgrade proof.
+Deferred: full12 repaired approval collection is gated by failed full-song pilot;
+private signing-key recovery and safe vocal-presence evidence remain necessary.
+Risk: silent windows cannot establish an offset; all delivered source windows
+contain usable audio. No threshold reduced; no merge/public beta performed.
+
 ## 2026-10-24 — Native reference overlay and staging-copy repair; workspace recovery
 
 Goal: remove the source editor rectangle from native performer renders without

@@ -30,10 +30,19 @@ def verify(video,audio,expected_sha256):
     if abs(float(v['duration'])-duration)>.1 or abs(float(a['duration'])-duration)>.1:
         raise ValueError('Complete soundtrack duration failed')
     alignments=[]
-    for fraction in (.1,.5,.85):
-        start=int(duration*fraction*16000);window=min(32000,n-start)
+    # A long sampler can pass global correlation while only its ending drifts.
+    # Include the actual tail as well as interior windows.
+    starts=[int(duration*f*16000) for f in (.1,.5,.85)]
+    starts.append(max(0,n-32800))
+    for start in starts:
+        window=min(32000,n-start)
         margin=2400;lo=max(0,start-margin);hi=min(n,start+window+margin)
-        values=correlate(encoded[lo:hi],original[start:start+window],method='fft',mode='valid')
+        # Near EOF, valid-mode correlation would otherwise forbid positive
+        # lags larger than the remaining tail. Zero-extend the search buffer;
+        # this never pads or changes the actual source/movie soundtrack.
+        padding=max(0,start+window+margin-hi)
+        search=np.pad(encoded[lo:hi],(0,padding)) if padding else encoded[lo:hi]
+        values=correlate(search,original[start:start+window],method='fft',mode='valid')
         lag=(int(values.argmax())+lo-start)/16000
         alignments.append(dict(source_start_seconds=start/16000,decoded_lag_seconds=lag))
     if max(abs(x['decoded_lag_seconds']) for x in alignments)>.05:raise ValueError('Soundtrack alignment exceeds one native50ms frame')
