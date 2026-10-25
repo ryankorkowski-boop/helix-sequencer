@@ -152,6 +152,75 @@ def test_short_audio_and_existing_output_are_not_silently_accepted(
     assert output.read_bytes() == b"preserve existing output"
 
 
+def test_interrupted_mux_never_exposes_partial_destination(tmp_path, media_tools):
+    ffmpeg, ffprobe = media_tools
+    video, audio = tmp_path / 'native.mp4', tmp_path / 'original.wav'
+    output = tmp_path / 'muxed.mp4'
+    _synthetic_video(video, ffmpeg)
+    _tone(audio, 880)
+    run = preview._run
+
+    def interrupt(command, timeout):
+        if '-movflags' in command:
+            assert not output.exists()
+            Path(command[-1]).write_bytes(b'incomplete container')
+            assert not output.exists()
+            raise RuntimeError('interrupted encoder')
+        return run(command, timeout)
+
+    with patch.object(preview, '_run', side_effect=interrupt):
+        with pytest.raises(RuntimeError, match='interrupted encoder'):
+            preview.mux_original_audio(video, audio, output, duration=1,
+                                       ffmpeg=ffmpeg, ffprobe=ffprobe)
+    assert not output.exists()
+    assert not list(tmp_path.glob('.native-mux-*'))
+    assert video.is_file() and audio.is_file()
+
+
+def test_mux_rechecks_closed_container_after_decode(tmp_path, media_tools):
+    ffmpeg, ffprobe = media_tools
+    video, audio = tmp_path / 'native.mp4', tmp_path / 'original.wav'
+    output = tmp_path / 'muxed.mp4'
+    _synthetic_video(video, ffmpeg)
+    _tone(audio, 880)
+    run = preview._run
+
+    def corrupt_after_decode(command, timeout):
+        result = run(command, timeout)
+        if command[0] == ffmpeg and command[-2:] == ['null', '-']:
+            Path(command[command.index('-i') + 1]).write_bytes(b'broken after decode')
+        return result
+
+    with patch.object(preview, '_run', side_effect=corrupt_after_decode):
+        with pytest.raises(RuntimeError, match='ffprobe failed'):
+            preview.mux_original_audio(video, audio, output, duration=1,
+                                       ffmpeg=ffmpeg, ffprobe=ffprobe)
+    assert not output.exists()
+    assert not list(tmp_path.glob('.native-mux-*'))
+
+
+def test_mux_does_not_replace_destination_created_during_export(tmp_path, media_tools):
+    ffmpeg, ffprobe = media_tools
+    video, audio = tmp_path / 'native.mp4', tmp_path / 'original.wav'
+    output = tmp_path / 'muxed.mp4'
+    _synthetic_video(video, ffmpeg)
+    _tone(audio, 880)
+    run = preview._run
+
+    def destination_appears(command, timeout):
+        result = run(command, timeout)
+        if '-movflags' in command:
+            output.write_bytes(b'another writer owns this destination')
+        return result
+
+    with patch.object(preview, '_run', side_effect=destination_appears):
+        with pytest.raises(FileExistsError):
+            preview.mux_original_audio(video, audio, output, duration=1,
+                                       ffmpeg=ffmpeg, ffprobe=ffprobe)
+    assert output.read_bytes() == b'another writer owns this destination'
+    assert not list(tmp_path.glob('.native-mux-*'))
+
+
 def test_native_benchmark_artifact_streams_and_timeline(media_tools):
     raw = os.environ.get("HELIX_NATIVE_PREVIEW_MANIFEST")
     if not raw:

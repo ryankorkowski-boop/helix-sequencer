@@ -1,3 +1,51 @@
+## 2026-10-25 — Native mux integrity, presentation and completed Android proof
+
+Goal: prevent incomplete MP4 containers from escaping a successful encoder
+receipt, and finish the owner's alternate-sampler preview/app follow-up.
+Changed: tools/native_preview.py; tools/render_approval_collection.py;
+tests/test_native_preview.py; this ledger; ANDROID_BAND_SAMPLER handoff.
+
+Preserved: exact native video packets, source audio, source-event clocks,
+model/channel addresses, default no-grade behavior, existing acceptance thresholds,
+old Phoneme command defaults and the six retained source-family performers.
+No merge or public release. Actual final canonical likeness remains unapproved.
+
+Repair: mux into a private staging directory, decode both streams, reprobe closed
+bytes, compare size/hash, fsync, then publish with an atomic no-clobber hard link.
+A failure removes only this operation's output; another writer's destination is
+preserved. Reuse requires a matching MP4 checksum plus matching XSQ/layout hashes.
+New regressions cover interrupted writes, post-decode corruption and concurrent
+destination creation; original packet/audio identity test remains.
+Explicit optional display gamma is captioned/recorded, with all pre-grade native
+readability failures retained. Geometry/events/time/audio do not change during
+grading. Generated native display-size refinements are separately recorded as
+layout inputs, preserve performer XML and channels, and require fresh renders.
+
+Evidence:34 focused host regressions passed,1 opt-in native-benchmark test skipped
+because this run uses96s real sampler rather than its4s benchmark. All12 first
+native exports were generated. Six parallel-pass mux containers were found
+incomplete despite earlier receipts; original raw native video/FSEQs were intact.
+Sequential atomic remuxes passed size/hash/probe/decode checks. Atomic publication
+now prevents exposing partial destinations. The first gamma pass passed band7 and
+optical10 visibility/motion; ten other layouts remain under native display-size
+repair, with their original failed reports retained. No thresholds were lowered.
+
+Android source733151977669afe69c866112e1dd74d701371b0d: push workflow40172786832
+PASSED bothAPI30 andAPI36. Instructions scroll/recreation and saved switch tests
+passed; band-off, quick-clip, realRGB,237s full-song andLOR outputs independently
+decoded. Review package co-installed/launched and preserved the baseline private
+marker on disposable emulators. Historical in-place update and owner-phone
+installation are not claimed. API36 ReviewAPK SHA256
+38b256bfd85008c2cb85a7f9eb2b4cb2bd9667ab36d9226e1d4fcd44f2eb8d1f.
+HelixCI40172790224, Windows40172790281 and Phoneme40172790299 PASSED at7331519.
+
+Next: finish ten native readability rerenders, inspect all12 and temporal samples,
+finish synchronized6/12/integration comparisons, verify final bytes/audio/frame
+clocks, save downloadable APK/MP4/collection/Windows artifacts, and append exact
+links/results to the handoff. Risks: sparse source activity can still fail the
+unchanged global visibility gate; pixel sampling/planar drummer/source-role
+identity limitations remain. Keep those failures explicit; never claim approval.
+
 ## 2026-10-25 — Owner follow-up: Instructions, band switch and a new sampler
 
 Goal: repair the glitchy Android Instructions page, expose a persistent band

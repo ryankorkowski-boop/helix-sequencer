@@ -80,12 +80,15 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
         raise ValueError("Original audio is shorter than the sequence")
     if abs(float(source.get("start_time", 0))) > .03:
         raise ValueError("Original audio does not start at timeline zero")
+    staging = Path(tempfile.mkdtemp(prefix=".native-mux-", dir=output.parent))
+    temporary = staging / output.name
+    published = False
     try:
-        _run([ffmpeg, "-v", "error", "-nostdin", "-n", "-i", str(video),
+        _run([ffmpeg, "-v", "error", "-nostdin", "-threads", "2", "-filter_threads", "2", "-n", "-i", str(video),
               "-i", str(audio), "-map", "0:v:0", "-map", "1:a:0",
               "-c:v", "copy", "-c:a", "aac", "-t", str(duration),
-              "-movflags", "+faststart", str(output)], max(60, duration * 2))
-        probe = probe_media(output, ffprobe)
+              "-movflags", "+faststart", str(temporary)], max(60, duration * 2))
+        probe = probe_media(temporary, ffprobe)
         for kind in ("video", "audio"):
             stream = _stream(probe, kind)
             if abs(_duration(stream) - duration) > .1:
@@ -93,13 +96,30 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
             if abs(float(stream.get("start_time", 0))) > .03:
                 raise ValueError(f"Muxed {kind} start-time mismatch")
         # Decode both streams too: a stream header alone is insufficient.
-        _run([ffmpeg, "-v", "error", "-nostdin", "-i", str(output),
+        _run([ffmpeg, "-v", "error", "-nostdin", "-threads", "2", "-i", str(temporary),
               "-map", "0:v:0", "-map", "0:a:0", "-f", "null", "-"],
              max(60, duration * 2))
+        checksum = _sha256(temporary)
+        closed_probe = probe_media(temporary, ffprobe)
+        if int(closed_probe['format']['size']) != temporary.stat().st_size or checksum != _sha256(temporary):
+            raise ValueError('Native mux bytes changed after validation')
+        with temporary.open('rb') as stream:
+            os.fsync(stream.fileno())
+        # Publish complete bytes atomically without replacing a destination
+        # another exporter may have created while we were validating.
+        os.link(temporary, output)
+        published = True
+        probe = probe_media(output, ffprobe)
+        if int(probe['format']['size']) != output.stat().st_size or checksum != _sha256(output):
+            raise ValueError('Published native mux does not match validated bytes')
         return probe
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
-        output.unlink(missing_ok=True)
+        if published:
+            output.unlink(missing_ok=True)
         raise
+    finally:
+        temporary.unlink(missing_ok=True)
+        staging.rmdir()
 
 
 def _command(endpoint: str, cmd: str, *, timeout: float = 60, **params: str) -> dict[str, Any]:

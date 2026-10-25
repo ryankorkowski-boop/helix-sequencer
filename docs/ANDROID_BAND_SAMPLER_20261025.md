@@ -5,7 +5,7 @@ Starting HEAD:6c78bdc1644c25f841c8a14fc709a69ad2c19c03.
 Read MASTER_TODO.md first. Implementation commit is the checkpoint containing
 this file; subsequent completion receipts must distinguish code and docs changes.
 
-## Implemented / device verification pending
+## Implemented / device verification passed
 
 - Replace the manual TabHost/raw-pixel help UI with a single density/inset-aware
   reader and two buttons. Keep scroll positions and selected page across tab
@@ -60,3 +60,26 @@ Next: finish actual native generation/inspection and API30/API36 Android tests,
 repair any failures, then preserve the final APK/videos/receipts and update this
 handoff with exact links and limitations. Never substitute output creation for
 visual acceptance or co-installation for an in-place historical update.
+
+## Completed platform and mux proof checkpoint
+
+Implementation source:733151977669afe69c866112e1dd74d701371b0d. Android run
+https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40172786832
+passedAPI30/API36. UI assertions and review co-install/launch passed; band-off
+and237s full-song media independently decoded. This is emulator evidence only.
+API36artifact12591660910; API30artifact12591780671. ReviewAPK SHA256
+38b256bfd85008c2cb85a7f9eb2b4cb2bd9667ab36d9226e1d4fcd44f2eb8d1f.
+
+HelixCI40172790224, Windows40172790281, Phoneme40172790299 passed at7331519.
+Native exports:12 generated. Six incomplete parallel-pass mux containers were
+repaired sequentially from intact native video andFSEQ; final size/hash/probe
+checks passed. The new mux code validates private staged bytes and publishes
+atomically without overwriting another writer's destination.34 focused host
+regressions passed;1 opt-in4s benchmark test skipped.
+
+Initial graded native band7 and optical10 passed unchanged visibility/motion
+checks. Ten other layouts are undergoing fresh native bulb-display-size
+refinement, preserving performers, channel addresses and source events. Exact
+input changes and before/after failure reports are retained. Finish collation
+with --presentation-gamma2.2; inspect all12 and preserve failures if any remain.
+Final downloads and final verification still pending at this checkpoint.

@@ -67,12 +67,15 @@ def verify(path,audio, *, native):
         readability=readability)
 
 
-def label(source,target,title):
-    # Only captions are composited; every display pixel comes from native export.
+def label(source,target,title, *, gamma=None):
+    # Native pixels receive only an explicitly recorded tone curve and caption.
     temporary=target.with_name('.label-'+uuid.uuid4().hex+'.mp4')
+    if gamma is not None and (not math.isfinite(gamma) or not 1 <= gamma <= 3):
+        raise ValueError('Presentation gamma must be finite in1..3')
+    tone=('lutrgb='+':'.join(f"{c}='255*pow(val/255,{1/gamma})'" for c in ('r','g','b'))+',') if gamma is not None else ''
     try:
         command(['ffmpeg','-nostdin','-v','error','-y','-threads','2','-filter_threads','2','-i',str(source),'-vf',
-            "drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='"+title+"':x=20:y=18:fontsize=23:fontcolor=white:box=1:boxcolor=black@0.65:boxborderw=8",
+            tone+"drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='"+title+"':x=20:y=18:fontsize=23:fontcolor=white:box=1:boxcolor=black@0.65:boxborderw=8",
             '-c:v','libx264','-preset','fast','-crf','19','-threads','2','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(temporary)])
         probe_media(temporary,'ffprobe')
         temporary.replace(target)
@@ -104,14 +107,14 @@ def comparison(paths,labels,target,audio,cols,rows, *, duration=34.88):
 
 
 def render(layouts,output,xlights, *, source_commit=None, audio_name='Phoneme_Test_Hook.mp3',
-           expected_sha256=EXPECTED_SHA256, bundle_name='Helix_Final_Beta_Approval_Bundle'):
+           expected_sha256=EXPECTED_SHA256, bundle_name='Helix_Final_Beta_Approval_Bundle', presentation_gamma=None):
     layouts,output=Path(layouts),Path(output)
     bundle=output/bundle_name
     for folder in ('00_START_HERE','01_Individual_Layouts','02_Comparison_Videos','03_Band_Features',
                    '04_XLights_Sequences/Matching_XSQ_Files','04_XLights_Sequences/Layouts',
                    '04_XLights_Sequences/Models','05_Verification'):(bundle/folder).mkdir(parents=True,exist_ok=True)
     manifest=json.loads((layouts/'Layout_Manifest.json').read_text())
-    reports=[];failures=[];movies={}
+    reports=[];failures=[];movies={};raw_reports=[]
     audio=layouts/('01_'+manifest[0]['name'])/'media'/audio_name
     if digest(audio)!=expected_sha256 or any(i['source_audio_sha256']!=expected_sha256 for i in manifest):
         raise ValueError('Collection source checksum mismatch')
@@ -124,13 +127,20 @@ def render(layouts,output,xlights, *, source_commit=None, audio_name='Phoneme_Te
             native=current.get('native_preview',{})
             # Reuse only an exact matching successful native receipt.
             if not (native.get('status')=='success' and Path(native.get('mp4','')).is_file()
+                    and native.get('mp4_sha256')==digest(Path(native['mp4']))
                     and native.get('xsq_sha256')==digest(folder/item['xsq'])
                     and native.get('layout_sha256')==digest(folder/'xlights_rgbeffects.xml')):
                 native=preview_run(folder,xsq=folder/item['xsq'],audio=folder/'media'/audio_name,xlights=xlights)
             if native['status']!='success':raise ValueError('; '.join(native['warnings']))
             target=bundle/'01_Individual_Layouts'/f"{item['number']:02}_{item['name']}.mp4"
-            label(Path(native['mp4']),target,f"{item['number']:02} - {item['name'].replace('_',' ')} | native xLights")
+            raw_readability=verify_mp4(Path(native['mp4']))
+            raw_reports.append(dict(number=item['number'],mp4_sha256=digest(Path(native['mp4'])),readability=raw_readability))
+            gamma=(2.6 if item['number']==3 else presentation_gamma) if presentation_gamma is not None else None
+            label(Path(native['mp4']),target,f"{item['number']:02} - {item['name'].replace('_',' ')} | native xLights"+
+                  (f' | display gamma{gamma}' if gamma is not None else ''),gamma=gamma)
             report=verify(target,audio,native=True)
+            report.update(presentation_gamma=gamma,native_before_presentation_sha256=digest(Path(native['mp4'])),
+                          geometry_or_event_timing_changed=False)
             reports.append(report);movies[item['number']]=target
             item.update(native_render_status='complete',mp4=target.name,readability_passed=report['readability']['passed'])
             if not report['readability']['passed']:failures.append(dict(layout=item['number'],reason='Readability/motion acceptance failed',measurements=report['readability']))
@@ -171,6 +181,7 @@ def render(layouts,output,xlights, *, source_commit=None, audio_name='Phoneme_Te
                      'Hardware installation, Windows/Android current candidate and licensing gates remain open',
                      'Helix strands have independent native lighting; geometric rotation is not implemented'])
     (bundle/'05_Verification/MP4_Verification_Report.json').write_text(json.dumps(dict(**status,videos=reports),indent=2)+'\n')
+    (bundle/'05_Verification/Before_Presentation_Grading.json').write_text(json.dumps(raw_reports,indent=2)+'\n')
     (bundle/'05_Verification/Source_Commit.txt').write_text((source_commit or 'uncommitted candidate; see module hashes')+'\n')
     start=bundle/'00_START_HERE'
     (start/'README.md').write_text('# Helix native video review candidate — INCOMPLETE\n\n'
@@ -185,6 +196,11 @@ def render(layouts,output,xlights, *, source_commit=None, audio_name='Phoneme_Te
         '- [ ] Owner confirmation of retained backup singer behavior\n- [ ] All readability/motion failures repaired\n'
         '- [ ] Continuous contact/motion artistic review\n- [ ] Platform and final release gates\n\nNo public beta or PR merge has been performed.\n')
     (start/'VIDEO_INDEX.md').write_text('# Video index\n\n'+''.join(f"- {r['file']} — {r['video_duration']:.3f}s, {r['dimensions'][0]}×{r['dimensions'][1]}, decode passed\n" for r in reports))
+    if presentation_gamma is not None:
+        with (start/'README.md').open('a') as stream:
+            stream.write(f'\nNative footage has an explicit display gamma{presentation_gamma} tone curve (gamma2.6 for sparseAC256), preserving black/highlight endpoints. '
+                'No geometry, source events, frame times or soundtrack changed. Raw native readability failures remain in Before_Presentation_Grading.json; '
+                'this display presentation does not pass unresolved source/visual release gates.\n')
     models=bundle/'04_XLights_Sequences/Models'
     for path in (layouts/'07_Snowman_Band_Stage/models').glob('*.xmodel'):shutil.copyfile(path,models/path.name)
     # Include source module hashes so an uncommitted render cannot masquerade as
@@ -208,5 +224,6 @@ if __name__=='__main__':
     p.add_argument('--audio-name',default='Phoneme_Test_Hook.mp3')
     p.add_argument('--expected-sha256',default=EXPECTED_SHA256)
     p.add_argument('--bundle-name',default='Helix_Final_Beta_Approval_Bundle')
+    p.add_argument('--presentation-gamma',type=float)
     a=p.parse_args();render(a.layouts,a.output,a.xlights,source_commit=a.source_commit,
-        audio_name=a.audio_name,expected_sha256=a.expected_sha256,bundle_name=a.bundle_name)
+        audio_name=a.audio_name,expected_sha256=a.expected_sha256,bundle_name=a.bundle_name,presentation_gamma=a.presentation_gamma)
