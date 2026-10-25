@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+from contextlib import ExitStack
 import json
 import os
 import shutil
@@ -356,11 +357,8 @@ def _clip_audio(y: np.ndarray) -> np.ndarray:
     return np.clip(np.asarray(y, dtype=np.float32), -1.0, 1.0)
 
 
-def _local_stem_separation(audio_path: Path, out_dir: Path, log_fn: Callable[[str], None] | None) -> dict[str, Path]:
-    """Fallback local stem splitting using harmonic/percussive + frequency masking."""
-    _log(log_fn, "Stem split: using local fallback separation.")
-    y, sr = librosa.load(str(audio_path), sr=None, mono=True)
-    y = np.asarray(y, dtype=np.float32)
+def _fallback_stem_samples(y: np.ndarray, sr: int) -> dict[str, np.ndarray]:
+    """The retained HPSS/frequency-mask algorithm, on one aligned audio window."""
     harm, perc = librosa.effects.hpss(y)
 
     n_fft = 2048
@@ -379,16 +377,49 @@ def _local_stem_separation(audio_path: Path, out_dir: Path, log_fn: Callable[[st
     drums = perc
     other = y - (0.62 * vocals + 0.68 * drums + 0.70 * bass)
 
-    stems = {
-        "vocals": out_dir / f"{audio_path.stem}.vocals.wav",
-        "drums": out_dir / f"{audio_path.stem}.drums.wav",
-        "bass": out_dir / f"{audio_path.stem}.bass.wav",
-        "other": out_dir / f"{audio_path.stem}.other.wav",
-    }
-    _write_audio(stems["vocals"], _clip_audio(vocals), sr)
-    _write_audio(stems["drums"], _clip_audio(drums), sr)
-    _write_audio(stems["bass"], _clip_audio(bass), sr)
-    _write_audio(stems["other"], _clip_audio(other), sr)
+    return dict(vocals=vocals, drums=drums, bass=bass, other=other)
+
+
+def _local_stem_separation(audio_path: Path, out_dir: Path, log_fn: Callable[[str], None] | None) -> dict[str, Path]:
+    """Fallback HPSS with bounded full-song memory and unchanged sample clocks."""
+    _log(log_fn, "Stem split: using local fallback separation.")
+    stems = {role: out_dir / f"{audio_path.stem}.{role}.wav"
+             for role in ("vocals", "drums", "bass", "other")}
+    sf = _soundfile_module()
+    try:
+        info = sf.info(str(audio_path)) if sf is not None else None
+    except (RuntimeError, OSError):
+        info = None  # Preserve librosa's existing decoder fallback for other formats.
+    if info is None or info.duration <= 30:
+        y, sr = librosa.load(str(audio_path), sr=None, mono=True)
+        samples = _fallback_stem_samples(np.asarray(y, dtype=np.float32), sr)
+        for role, values in samples.items():
+            _write_audio(stems[role], _clip_audio(values), sr)
+        return stems
+
+    # Keep all window starts on the original 512-sample STFT grid. 64 frames
+    # of source context exceed the 31-frame HPSS median radius plus both
+    # analysis/synthesis windows and the second harmonic STFT. Only the central
+    # samples are written, once: no crossfade, shifted event, lost tail or pad.
+    hop, context = 512, 64 * 512
+    core = max(hop, int(info.samplerate * 8) // hop * hop)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    _log(log_fn, "Stem split: bounded HPSS windows; original sample rate and timing retained.")
+    with ExitStack() as stack:
+        source = stack.enter_context(sf.SoundFile(str(audio_path)))
+        writers = {role: stack.enter_context(sf.SoundFile(str(path), mode="w",
+                   samplerate=info.samplerate, channels=1, subtype="PCM_16"))
+                   for role, path in stems.items()}
+        for start in range(0, info.frames, core):
+            stop = min(start + core, info.frames)
+            left, right = max(0, start - context), min(info.frames, stop + context)
+            source.seek(left)
+            y = source.read(right - left, dtype="float32", always_2d=True).mean(axis=1)
+            samples = _fallback_stem_samples(y, info.samplerate)
+            for role, values in samples.items():
+                writers[role].write(_clip_audio(values[start-left:stop-left]))
+            # Release one window before allocating the next HPSS spectrum.
+            del y, samples, values
     return stems
 
 
