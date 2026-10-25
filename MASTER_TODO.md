@@ -1,3 +1,45 @@
+## 2026-10-25 — Offline separation generalized; native vocal diagnostics generated
+
+Goal: remove the hardcoded source restriction from the existing offline UVR
+separator and make both singer clocks inspectable without promoting estimates
+to independently verified singer identities.
+Changed: tools/offline_vocal_candidates.py, tools/vocal_diagnostic.py,
+tools/prepare_phoneme_show.py, fixtures/audio/README.md,
+tests/test_vocal_diagnostic.py, docs/RELEASE_RECOVERY_20261025.md and this ledger.
+Preserved: six-member source cast, V3 drummer assets, all instrumental cues,
+existing Phoneme cache, source audio bytes, strict source qualification, pilot
+acceptance and video thresholds. No new seventh performer or xylophonist.
+New behavior: explicit source checksum supports E14/other owner recordings;
+finite mono inputs are adapted to the stereo model with the same duration;
+accompaniment and per-frame speech VAD estimates are retained. Source/clock-bound
+CSV/JSON/PNG timelines show independent activity, broad phoneme estimates and
+available speech probabilities. Missing confidence stays blank. Native review
+videos can append this chart after full source/decode/tail-alignment checks.
+Prepared Phoneme shows now include these inspectable diagnostics automatically.
+
+Actual evidence: both hash-pinned MDX models and Silero VAD ran locally on the
+original Phoneme source and the original E14 WAV (archive hash verified).
+E14: estimated lead20.12s, backing3.30s; Phoneme:16.09s and3.87s. Neither is a
+verified singer identity; independent_backing_verified remains false.
+Fresh native xLights2026.18 pilot:34.88s,1280x720,698 frames, H264/AAC;
+readability luma14.383/motion0.702 passes unchanged thresholds. Its appended
+vocal diagnostic is1280x920; both fully decode and match source/ending alignment.
+Native source-stage output remains the retained sampled-surface/planar-drummer
+candidate; representative frames were inspected and exact approved likeness
+is still unresolved. Do not describe this output as canonical visual approval.
+Focused tests:15 passed; separate source/canonical/Android/vocal/spatial batch:
+189 passed. Those are focused runs, not a newly completed full-suite claim.
+
+Limitations/deferred: E14 singer identity, exact approved3D visual reference,
+final12 scale-up, advanced-layout artistic acceptance, flagship, original Android
+private signing key and actual phone update remain open. The existing pilot gate
+correctly rejects scaling without its evidence; no acceptance file was invented.
+Actual downloaded current API30 debug signer differs from the historical code6
+signer, and the release APK is unsigned. Preserve the old phone app and its data.
+Risk: speech VAD can miss singing or admit bleed. New diagnostics expose this
+uncertainty rather than certifying inferred vocals. No merge/public release.
+Follow docs/RELEASE_RECOVERY_20261025.md for exact commands and resumption.
+
 ## 2026-10-24 — PR188 native visibility and ending-mouth repair verified
 
 Goal: repair the failed native pilot and deliver fresh review media while keeping

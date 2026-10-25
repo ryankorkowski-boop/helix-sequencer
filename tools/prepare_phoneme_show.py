@@ -73,6 +73,7 @@ def prepare(audio: Path, output: Path) -> Path:
         'core/effect_engine.py', 'core/snowman_band.py', 'core/native_face_instructions.py',
         'xlights/xsq_writer.py', 'models/canonical_native_band.py', 'models/final_band_scene.py', 'models/final_band_native.py',
         'tools/prepare_phoneme_show.py', 'tools/native_preview.py', 'tools/phoneme_vocal_export.py',
+        'tools/vocal_diagnostic.py',
         'tools/native_source_pose_band.py', 'xlights/xml_io.py',
         'fixtures/audio/phoneme_vocal_separation/diagnostic.json',
         'fixtures/audio/phoneme_vocal_separation/acoustic_vocal_clocks.npz')}
@@ -131,6 +132,9 @@ def prepare(audio: Path, output: Path) -> Path:
     report['source_separation'] = separated['source']
     report['limitation'] = 'Two-stage source separation produces distinct lead/residual-backing estimates with measured clocks; leakage and voice identity require review. Acoustic vowel colors are not verified lexical phonemes. No independent backing ground truth or artistic approval is claimed.'
     (output / 'vocal_lane_diagnostic.json').write_text(json.dumps(report, indent=2) + '\n')
+    from tools.vocal_diagnostic import export as export_timeline
+    from tools.phoneme_vocal_export import FIXTURE
+    export_timeline(audio, FIXTURE, output/'vocal_diagnostic')
     return final
 
 

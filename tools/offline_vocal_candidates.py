@@ -11,6 +11,7 @@ import errno
 import hashlib
 import json
 from pathlib import Path
+import re
 import socket
 import sys
 
@@ -125,8 +126,24 @@ def vad(wave, path, ort):
     return np.asarray(values, 'f4')
 
 
-def run(audio, output, models):
-    if digest(audio) != EXPECTED_SHA256:
+def load_stereo(audio):
+    """Keep the source clock while adapting mono input to the stereo MDX model."""
+    wave, sr = sf.read(audio, dtype='float32', always_2d=True)
+    if wave.shape[1] not in (1, 2) or not len(wave) or not np.isfinite(wave).all():
+        raise ValueError('Source must contain finite mono or stereo audio')
+    if sr != 44100:
+        from math import gcd
+        common = gcd(sr, 44100)
+        wave = resample_poly(wave, 44100//common, sr//common, axis=0)
+    if wave.shape[1] == 1:
+        wave = np.repeat(wave, 2, axis=1)
+    return wave.T
+
+
+def run(audio, output, models, *, expected_sha256=EXPECTED_SHA256):
+    if not re.fullmatch('[0-9a-f]{64}', expected_sha256):
+        raise ValueError('An explicit lowercase source SHA256 is required')
+    if digest(audio) != expected_sha256:
         raise ValueError('Original owner source hash mismatch')
     for name, (sha, *_parameters) in MODELS.items():
         if digest(models / name) != sha:
@@ -134,12 +151,7 @@ def run(audio, output, models):
     if digest(models / 'silero_vad.onnx') != VAD_SHA256:
         raise ValueError('VAD model checksum mismatch')
     output.mkdir(parents=True, exist_ok=False)
-    wave, sr = sf.read(audio, dtype='float32', always_2d=True)
-    if sr != 44100:
-        from math import gcd
-        common = gcd(sr, 44100)
-        wave = resample_poly(wave, 44100//common, sr//common, axis=0)
-    wave = wave.T
+    wave = load_stereo(audio)
     deny_network()
     import onnxruntime as ort
     ort.disable_telemetry_events()
@@ -153,6 +165,10 @@ def run(audio, output, models):
     lead = vocals - backing * gain
     probabilities = {}
     tracks = {}
+    accompaniment_path = output/'estimated_accompaniment.wav'
+    sf.write(accompaniment_path, (instrumental * MODELS['UVR-MDX-NET-Inst_HQ_3.onnx'][3]).T,
+             44100, subtype='FLOAT')
+    tracks['estimated_accompaniment'] = {'sha256': digest(accompaniment_path), 'file': accompaniment_path.name}
     for name, candidate in [('mixed_source', wave), ('estimated_vocals', vocals),
                             ('estimated_lead', lead), ('estimated_backing', backing)]:
         probabilities[name] = vad(candidate, models/'silero_vad.onnx', ort)
@@ -161,24 +177,25 @@ def run(audio, output, models):
             sf.write(path, candidate.T, 44100, subtype='FLOAT')
             tracks[name] = {'sha256': digest(path), 'file': path.name}
     np.savez_compressed(output/'presence_probabilities.npz', **probabilities)
-    report = dict(source_audio_sha256=EXPECTED_SHA256, networking='denied by Linux seccomp during inference',
+    report = dict(source_audio_sha256=expected_sha256, source_duration_seconds=wave.shape[-1]/44100,
+                  networking='denied by Linux seccomp during inference',
                   telemetry='disabled before session creation', models=MODELS, vad_sha256=VAD_SHA256,
                   tracks=tracks, vad_hop_seconds=.032,
                   presence_probabilities_sha256=digest(output/'presence_probabilities.npz'),
                   independent_backing_verified=False,
                   limitation='Model-derived candidates and speech VAD probabilities are not verified singer identity or singing ground truth.')
     (output/'candidate_receipt.json').write_text(json.dumps(report, indent=2)+'\n')
-    screen_candidates(output, output)
+    screen_candidates(output, output, expected_sha256=expected_sha256)
     return report
 
 
-def screen_candidates(candidates, output):
+def screen_candidates(candidates, output, *, expected_sha256=EXPECTED_SHA256):
     """Bind screened clocks to exact source, candidate bytes and probability bytes."""
     from music.review_score import vocal_clock
     from music.vocal_presence import screen_clock
     from music.vocal_roles import _duplicate
     receipt = json.loads((candidates/'candidate_receipt.json').read_text())
-    if receipt['source_audio_sha256'] != EXPECTED_SHA256:
+    if receipt['source_audio_sha256'] != expected_sha256:
         raise ValueError('Candidate source identity mismatch')
     probabilities = candidates/'presence_probabilities.npz'
     if receipt['presence_probabilities_sha256'] != digest(probabilities):
@@ -196,18 +213,21 @@ def screen_candidates(candidates, output):
             waves.append(mono)
             clock = screen_clock(vocal_clock(mono), evidence[lane])
             arrays.update({lane+'_'+key: value for key, value in clock.items()})
+            indices = np.minimum((np.arange(len(clock['energy']))*.01/.032).astype(int), len(evidence[lane])-1)
+            arrays[lane+'_presence_probability'] = evidence[lane][indices].copy()
             tracks[lane] = dict(file=path.name, sha256=digest(path), seconds=len(wave)/sr,
                 voiced_seconds_estimate=float(np.count_nonzero(clock['energy'])/100), presence_screened=True)
     output.mkdir(parents=True, exist_ok=True)
     archive = output/'acoustic_vocal_clocks.npz'
     np.savez_compressed(archive, **arrays)
     report = dict(receipt, schema='helix.phoneme-vocal-separation-diagnostic.v2',
-        audio_sha256=EXPECTED_SHA256, clock_sha256=digest(archive), clock_hop_seconds=.01,
+        audio_sha256=expected_sha256, clock_sha256=digest(archive), clock_hop_seconds=.01,
         analysis_estimates_not_ground_truth=True, exact_phoneme_boundaries_verified=False,
         gain_or_short_delay_duplicate=_duplicate(*waves), engine_events_modified=False)
     report['tracks'] = tracks
     report['presence_screening'] = dict(model='Silero VAD', threshold=.15,
         probability_hop_seconds=.032, context_frames=2, minimum_acoustic_frames=5,
+        confidence_meaning='Speech VAD output; not calibrated singing or singer-identity confidence',
         ending_specific_rule=False, independent_backing_verified=False)
     report['limitation'] = ('Per-source MDX candidates screened by speech VAD reduce instrumental/reverb openings. '
         'Singing may be missed; individual singer identity and lexical phonemes remain unverified. '
@@ -221,5 +241,7 @@ if __name__ == '__main__':
     p.add_argument('audio', type=Path)
     p.add_argument('output', type=Path)
     p.add_argument('--models', type=Path, required=True)
+    p.add_argument('--expected-sha256', default=EXPECTED_SHA256,
+                   help='Exact owner source checksum; defaults to the retained Phoneme Test Hook')
     a = p.parse_args()
-    print(json.dumps(run(a.audio, a.output, a.models), indent=2))
+    print(json.dumps(run(a.audio, a.output, a.models, expected_sha256=a.expected_sha256), indent=2))

@@ -27,3 +27,18 @@ ONNX telemetry is disabled before sessions are created. The output binds the
 candidate WAVs and detector probabilities to SHA256 receipts. Screening uses
 the same rule throughout the recording; there is no ending-specific mute.
 Speech VAD can miss singing, so the cache remains an estimate requiring review.
+
+Other owner sources use the same offline pipeline with an explicit checksum:
+`python -m tools.offline_vocal_candidates AUDIO OUTPUT --models LOCAL_PINNED_WEIGHTS
+--expected-sha256 EXACT_SOURCE_SHA256`. Mono inputs are upmixed without inventing
+independent singers. The pipeline also preserves the accompaniment candidate.
+No Moises account or paid dependency is needed for this local path.
+
+Export inspectable 10ms activity/phoneme estimates and speech-presence probabilities:
+`python -m tools.vocal_diagnostic AUDIO CANDIDATE_FOLDER DIAGNOSTIC_FOLDER`.
+The CSV and chart are bound to the exact source and clock checksums. Missing
+probabilities remain blank; speech VAD is not singer-identity confidence.
+For a matching native movie, add `--native-video NATIVE_MP4` to append the
+timeline beneath the native footage. Full decode, original audio identity,
+duration and interior/ending alignment are checked before atomic publication.
+These diagnostics do not replace the strict independent-singer acceptance gate.
