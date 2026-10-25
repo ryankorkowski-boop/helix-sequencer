@@ -51,3 +51,18 @@ def test_presence_screened_vocal_cache_maps_to_distinct_singers(garden, tmp_path
         assert singer.details['mouth_scale_relative_to_solid_scene'] <= .5
         dynamic=set().union(*(set(v) for k,v in singer.submodels.items() if k.startswith(('MOUTH_','NOTE_MIDI_','STRING_','ARM_'))))
         assert dynamic.isdisjoint(singer.submodels['BODY'])
+
+
+def test_dense_native_surface_uses_source_mesh_bounds_and_repeatable_material_light():
+    import numpy as np
+    from models.final_band_native import SurfaceParts
+    from models.band_performance_scene import matrix
+    item=dict(kind='sphere',matrix=matrix((1.,2.,3.),(.5,.6,.4)),color=np.array((1.,.8,.6)))
+    a,b=(SurfaceParts((0,0,0),surface_spacing=.08) for _ in range(2))
+    for parts in (a,b):parts.primitive('BODY',item)
+    np.testing.assert_array_equal(a.points,b.points)
+    assert a.colors==b.colors
+    assert len(a.points)>1000
+    np.testing.assert_allclose(np.ptp(a.points,axis=0),(5,6,4),atol=1/16)
+    assert len(set(a.colors))>20
+    assert all(len(color)==7 and color.startswith('#') for color in a.colors)

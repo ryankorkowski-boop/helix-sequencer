@@ -19,6 +19,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import urllib.error
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any, Sequence
@@ -307,6 +308,28 @@ def _native_gui_environment(evidence_dir: Path) -> dict[str, str]:
     return environment
 
 
+def _wait_show_folder(app: subprocess.Popen, endpoint: str, show: Path,
+                      *, timeout: float = 120) -> dict[str, Any]:
+    """Version can respond before a large native show's GUI accepts commands."""
+    deadline=time.monotonic()+timeout
+    while True:
+        if app.poll() is not None:
+            raise RuntimeError(f'xLights exited {app.returncode} before its show was ready')
+        try:
+            folder=_command(endpoint,'getShowFolder',timeout=min(10,max(.1,deadline-time.monotonic())))
+        except urllib.error.HTTPError as exc:
+            # Retry only this idempotent readiness read and only a temporary
+            # busy response. Never replay open/render/export mutations here.
+            if exc.code!=503:raise
+            if time.monotonic()>=deadline:
+                raise RuntimeError('xLights show readiness timed out (HTTP503)') from exc
+            time.sleep(.25)
+            continue
+        if Path(folder.get('folder','')).resolve()!=show:
+            raise ValueError('xLights opened an unexpected show folder')
+        return folder
+
+
 def _native_export(xlights: str, show: Path, staged: Path,
                    port: int) -> dict[str, Any]:
     # Own a fresh process. Never close/switch an existing user's sequence.
@@ -335,9 +358,7 @@ def _native_export(xlights: str, show: Path, staged: Path,
                     if time.monotonic() >= deadline:
                         raise RuntimeError("xLights REST startup timed out")
                     time.sleep(.1)
-            folder = _command(endpoint, "getShowFolder")
-            if Path(folder.get("folder", "")).resolve() != show:
-                raise ValueError("xLights opened an unexpected show folder")
+            _wait_show_folder(app, endpoint, show)
             opened = _command(endpoint, "openSequence", seq=str(staged),
                               promptIssues="false")
             if Path(opened.get("fullseq", "")).resolve() != staged:

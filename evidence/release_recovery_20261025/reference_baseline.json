@@ -1,0 +1,47 @@
+{
+  "schema": "helix.release-reference-baseline.v1",
+  "starting_head": "bf48c250d7df9ccef555242cd5e5ff889dd7249b",
+  "references": [
+    {
+      "file": "02_E14_Snowman_Band.mp4",
+      "library_file_id": "libfile_9907c1bc9dd88191b4883bea57e3af65",
+      "sha256": "4ef416c52748c27691f35616bc8ad9c257011ae6fae52946c675c4a27f7c9d2c",
+      "bytes": 15548871,
+      "role": "owner-cited reference candidate; not individually approved final"
+    },
+    {
+      "file": "Helix_Sampler_C_6_Layouts.mp4",
+      "library_file_id": "libfile_44beedcafcec8191a70577c19c69c630",
+      "sha256": "07828b80dfab236d2ae17dd2dc39687f2043084e14c26cbebd25ebcfa75c88ca",
+      "bytes": 25078558,
+      "role": "owner-cited reference candidate; not individually approved final"
+    }
+  ],
+  "source_assets_sha256": {
+    "models/final_band_scene.py": "db993e72608807ec3265e4ccb81c78e43a2a0499a6acceb78d7143491aaf18d5",
+    "models/refined_band_scene.py": "2cde9447e2c3e5608a790a1dd36b23a173cced4e07c781729ba1d00e6d96517e",
+    "models/readable_band_scene.py": "465b517163f9692964207b2d5fe1f27bb8df8d85434e7563923c3f34039f06e2",
+    "models/band_performance_scene.py": "e49002f9f0a3911c2e059998962d522693d7e6e914664a0406a84fc863dd666d",
+    "fixtures/band_geometry/source/drummer_idle.png": "7299061b867c324ee46f037aef15fe64a04f946992021235e69ec137e9f4137e",
+    "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+    "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "70c11eafe25243f2ec10e8207ed89c1456acf2692d9e1de7db5a4801f0cd8c79",
+    "fixtures/band_geometry/drummer_v3_pose_spec.json": "2964ec17bec74bcf947d68e43fee5bc2afea9ed83327a6b77fa19f6e0346b8a1"
+  },
+  "default_cast": [
+    "drummer",
+    "bass",
+    "guitar",
+    "piano",
+    "lead",
+    "harmony"
+  ],
+  "optional_xylophonist": false,
+  "canonical_final_owner_approval": false,
+  "notes": [
+    "Reference E14 is seven-member solid snowmen with illustrated V3 drummer in a 3D stage.",
+    "Current six-member source retains sculpted string/keyboard/singer family; optional mallet performer is hidden.",
+    "Native sampling density/material lighting changes do not edit the source meshes, drummer image or authored pose spec.",
+    "Native output remains finite addressable light poses, not continuous articulated mesh motion.",
+    "Owner confirms fresh APK installation works; old-debug signing migration is superseded and outside release critical path."
+  ]
+}

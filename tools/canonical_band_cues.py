@@ -19,8 +19,8 @@ def refresh_models(garden, layout):
 def export_drums(root, garden, plan):
     """Route known detected components; never turn every drum into a tom.
 
-    Tom localization remains unresolved in this retained coarse plan. Cymbal
-    side and snare hand are disclosed staging assignments, not acoustic facts.
+    Use retained tom-class evidence when present; abstain when it is absent.
+    Cymbal side and snare hand remain staging assignments, not acoustic facts.
     """
     model=next(m for m in garden.models if m.details.get('review_role')=='drummer')
     duration=round(float(root.findtext('head/sequenceDuration'))*1000)
@@ -46,8 +46,23 @@ def export_drums(root, garden, plan):
             effect.set('sourceComponent',part);effect.set('sourceStartMs',str(a))
         windows.setdefault(part,[]).append((a,b))
     prefix='HX_SNOWMAN_DRUMMER_V3_'
-    for i,cue in enumerate(plan.get('cues',{}).get('drummer',[])):
+    snare_index = 0
+    for cue in plan.get('cues',{}).get('drummer',[]):
         component={'kick':'KICK','snare':'SNARE','hihat':'HI_HAT','cymbal':'CYMBAL_RIGHT'}.get(cue['kind'])
+        if cue['kind']=='tom':
+            # The production plan retains the detector's physical tom class.
+            # Do not discard it merely because the top-level kind is "tom",
+            # and use the same class/alias contract as the production mapper.
+            from audio.drum_classification import DrumEvent
+            from mapping.drum_mapper import tom_class_for_event
+            event=DrumEvent(timestamp=cue['start_ms']/1000,
+                velocity=cue.get('velocity',.8),confidence=cue.get('confidence',0),
+                frequency_band_info=cue.get('frequency_band_info',{}),
+                cluster_id=cue.get('cluster_id'),drum_type='tom',source=cue.get('source','retained_plan'))
+            try:
+                component='TOM_'+{'high':'HIGH','mid':'MID','floor':'FLOOR'}[tom_class_for_event(event)]
+            except ValueError:
+                pass
         if component is None:
             unresolved.append(dict(start_ms=cue['start_ms'],kind=cue['kind'],reason='No localized tom identity in retained source plan'))
             continue
@@ -56,8 +71,9 @@ def export_drums(root, garden, plan):
         parts=[prefix+component+'_SURFACE']
         if component=='HI_HAT':parts.append(prefix+'HI_HAT_FOOT')
         elif component not in ('KICK',):
-            pose=('SNARE_RIGHT' if i%2 else 'SNARE') if component=='SNARE' else component
+            pose=('SNARE_RIGHT' if snare_index%2 else 'SNARE') if component=='SNARE' else component
             parts += [prefix+pose+'_ARM_STICK_WOOD',prefix+pose+'_ARM_STICK_NEUTRAL']
+        if component=='SNARE':snare_index+=1
         for part in parts:
             emit(part,a,b,'#E8C883' if 'CYMBAL' in component or component=='HI_HAT' else '#BFEAFF',level,max(.03,level*.15),source=cue)
         counts[component]=counts.get(component,0)+1

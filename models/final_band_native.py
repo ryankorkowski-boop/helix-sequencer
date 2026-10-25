@@ -15,34 +15,54 @@ from models.expressive_band_face import MOUTH_SIZES
 
 
 class SurfaceParts:
-    def __init__(self, origin, scale=5):
+    def __init__(self, origin, scale=5, surface_spacing=None):
         self.origin = np.asarray(origin); self.scale = scale
+        self.surface_spacing = surface_spacing
         self.points, self.colors, self.parts, self.lookup = [], [], {}, {}
 
     def add(self, part, points, color):
         ids = []
-        for point in np.asarray(points)*self.scale+self.origin:
+        colors = [color]*len(points) if isinstance(color,str) else color
+        if len(colors)!=len(points):raise ValueError('One material color per surface sample required')
+        for point,material in zip(np.asarray(points)*self.scale+self.origin,colors):
             cell = tuple(np.rint(point*16)/16)
             if cell not in self.lookup:
                 self.lookup[cell] = len(self.points)+1
-                self.points.append(cell); self.colors.append(color)
+                self.points.append(cell); self.colors.append(material)
             ids.append(self.lookup[cell])
         self.parts.setdefault(part, []).extend(ids)
 
     def primitive(self, part, item):
         kind = item['kind']
         if kind == 'hidden': return
-        mesh = {'sphere': lambda: trimesh.creation.icosphere(subdivisions=1),
+        mesh = {'sphere': lambda: trimesh.creation.icosphere(subdivisions=2 if self.surface_spacing else 1),
                 'box': trimesh.creation.box,
-                'cylinder': lambda: trimesh.creation.cylinder(radius=1, height=1, sections=10)}[kind]()
+                'cylinder': lambda: trimesh.creation.cylinder(radius=1, height=1, sections=20 if self.surface_spacing else 10)}[kind]()
+        if self.surface_spacing:
+            mesh.apply_transform(item['matrix'])
+            self.surface(part,mesh,item['color'])
+            return
         # Surface vertices plus triangle centers fill recognizable solid forms.
         points = np.vstack((mesh.vertices, mesh.triangles_center))
         points = (np.c_[points, np.ones(len(points))]@item['matrix'].T)[:, :3]
         color = '#'+''.join(f'{int(np.clip(c,0,1)*255):02X}' for c in item['color'])
         self.add(part, points, color)
 
+    def surface(self,part,mesh,color):
+        vertices,faces=trimesh.remesh.subdivide_to_size(mesh.vertices,mesh.faces,
+            max_edge=self.surface_spacing,max_iter=8)
+        surface=trimesh.Trimesh(vertices=vertices,faces=faces,process=False)
+        # Reuse the solid preview's authored light position/diffuse term.
+        # These are material samples on the same mesh, not musical cues.
+        light=np.array((-3.,7.,8.))-vertices
+        light/=np.maximum(np.linalg.norm(light,axis=1,keepdims=True),1e-12)
+        diffuse=np.maximum(0,np.sum(surface.vertex_normals*light,axis=1))
+        rgb=np.clip(np.asarray(color)*(.17+.82*diffuse[:,None]),0,1)
+        colors=['#'+''.join(f'{int(c*255):02X}' for c in value) for value in rgb]
+        self.add(part,vertices,colors)
 
-def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_amphitheatre', include_stage=True, mouth_scale=1.0):
+
+def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_amphitheatre', include_stage=True, mouth_scale=1.0, surface_spacing=None):
     scene = FinalBandScene(stage, rock=rock)
     # Import all original canonical submodels; only this copy's world placement
     # changes. The existing physical kit and channel identities stay intact.
@@ -67,7 +87,7 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
     arm_ids = {i for r in scene.rigs for i in tuple(r['ids'])+tuple(r.get('mallet_ids',()))}
     instrument = {'bass': 'upright_bass', 'guitar': 'electric_guitar'}
     for role in ('bass', 'guitar', 'lead', 'harmony', 'piano'):
-        parts = SurfaceParts(position)
+        parts = SurfaceParts(position,surface_spacing=surface_spacing)
         for i, item in enumerate(scene.instances):
             name = item['name']
             if not (item.get('performer_role') == role or name.startswith(role+'_') or (role == 'piano' and name.startswith('keyboard_'))): continue
@@ -87,6 +107,9 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
                     np.linspace(geometry['a'],geometry['b'],80), '#C4CBD0')
         for item in scene.custom:
             if role in instrument and item['name'].startswith(instrument[role]):
+                if surface_spacing:
+                    parts.surface('BODY',item['mesh'],item['color'])
+                    continue
                 mesh = item['mesh']; points = np.vstack((mesh.vertices, mesh.triangles_center))
                 # All original closed surfaces are retained; deterministic
                 # bounded sampling avoids a million-node instrument prop.
@@ -147,6 +170,7 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
             'solid rock performer' if rock else 'solid snow performer', parts.colors,
             {k:sorted(set(v)) for k,v in parts.parts.items()},
             details=dict(final_band_role=role, stage=prefix, solid_surface_samples=True,
+                surface_spacing_source_units=surface_spacing,
                 pose_method='stationary addressable light poses',
                 continuous_mesh_motion=False, wireframe_performer=False))
         # Surface sampling can quantize a passing arm and a different bar to

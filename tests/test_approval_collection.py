@@ -96,3 +96,44 @@ def test_failed_comparison_preserves_existing_movie_and_removes_partial(tmp_path
         collection.comparison([tmp_path/'a.mp4',tmp_path/'b.mp4'],[],target,tmp_path/'source.mp3',2,1)
     assert target.read_bytes()==b'previous verified movie'
     assert not list(tmp_path.glob('.comparison-*'))
+
+
+def test_native_toms_retain_detected_physical_class_and_source_timestamps():
+    garden=build_layout(7);sequence=NativeSequence(garden,2,'','detected toms')
+    cues=[dict(start_ms=103+i*300,end_ms=207+i*300,kind='tom',velocity=.8,
+               frequency_band_info={'tom_class':kind,'tom_class_confidence':.8})
+          for i,kind in enumerate(('high','mid','floor'))]
+    cues.append(dict(start_ms=1500,end_ms=1600,kind='tom',velocity=.8))
+    report=export_drums(sequence.root,garden,{'cues':{'drummer':cues}})
+    assert report['component_events']=={'TOM_HIGH':1,'TOM_MID':1,'TOM_FLOOR':1}
+    assert len(report['unresolved_events'])==1
+    actual=[e for e in sequence.root.iter('Effect')
+            if e.get('sourceMethod')=='retained_production_drum_plan']
+    for cue,part in zip(cues,('TOM_HIGH','TOM_MID','TOM_FLOOR')):
+        assert any(e.get('sourceComponent')=='HX_SNOWMAN_DRUMMER_V3_'+part+'_SURFACE'
+                   and e.get('startTime')==str(cue['start_ms'])
+                   and e.get('endTime')==str(cue['end_ms']) for e in actual)
+    assert not any(e.get('sourceStartMs')=='1500' for e in actual)
+
+
+def test_snare_hand_alternation_counts_snares_independently_of_other_hits():
+    garden=build_layout(7);sequence=NativeSequence(garden,2,'','snare independence')
+    cues=[dict(start_ms=a,end_ms=a+100,kind=kind,velocity=.8)
+          for a,kind in [(100,'snare'),(300,'kick'),(500,'snare'),(700,'hihat'),(900,'snare')]]
+    export_drums(sequence.root,garden,{'cues':{'drummer':cues}})
+    actual=[e for e in sequence.root.iter('Effect')
+            if e.get('sourceMethod')=='retained_production_drum_plan'
+            and e.get('sourceComponent','').endswith('ARM_STICK_WOOD')]
+    assert sorted((e.get('sourceStartMs'),e.get('sourceComponent')) for e in actual)==[
+        ('100','HX_SNOWMAN_DRUMMER_V3_SNARE_ARM_STICK_WOOD'),
+        ('500','HX_SNOWMAN_DRUMMER_V3_SNARE_RIGHT_ARM_STICK_WOOD'),
+        ('900','HX_SNOWMAN_DRUMMER_V3_SNARE_ARM_STICK_WOOD')]
+
+
+def test_pilot_layout_selection_rejects_ambiguous_or_out_of_range_requests(tmp_path):
+    import pytest
+    from tools.build_approval_collection import build
+    for numbers in ([],[7,7],[0],[13],[True],['7']):
+        with pytest.raises(ValueError,match='unique layout numbers'):
+            build(tmp_path/'no-source',tmp_path/'no-output',numbers=numbers)
+    assert not (tmp_path/'no-output').exists()

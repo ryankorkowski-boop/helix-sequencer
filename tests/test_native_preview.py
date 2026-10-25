@@ -261,3 +261,35 @@ def test_native_benchmark_artifact_streams_and_timeline(media_tools):
                         round((onset + .11) * 16000)]
         assert max(abs(v) for v in signal) > 2000
     assert max(abs(v) for v in values[32000:36000]) < 100
+
+
+def test_large_show_readiness_retries_only_temporary_busy_reads(tmp_path,monkeypatch):
+    import urllib.error
+    from types import SimpleNamespace
+    from tools import native_preview as preview
+    calls=[]
+    def request(endpoint,cmd,**kwargs):
+        calls.append(cmd)
+        if len(calls)==1:raise urllib.error.HTTPError(endpoint,503,'busy',{},None)
+        return {'folder':str(tmp_path)}
+    monkeypatch.setattr(preview,'_command',request)
+    monkeypatch.setattr(preview.time,'sleep',lambda value:None)
+    result=preview._wait_show_folder(SimpleNamespace(poll=lambda:None), 'http://127.0.0.1:49914',tmp_path)
+    assert result['folder']==str(tmp_path)
+    assert calls==['getShowFolder','getShowFolder']
+
+
+def test_show_readiness_does_not_retry_wrong_show_or_permanent_http_errors(tmp_path,monkeypatch):
+    import urllib.error
+    from types import SimpleNamespace
+    from tools import native_preview as preview
+    import pytest
+    app=SimpleNamespace(poll=lambda:None)
+    monkeypatch.setattr(preview,'_command',lambda *args,**kwargs:{'folder':str(tmp_path/'other')})
+    with pytest.raises(ValueError,match='unexpected show'):
+        preview._wait_show_folder(app,'http://127.0.0.1:49914',tmp_path)
+    def refuse(*args,**kwargs):raise urllib.error.HTTPError(args[0],403,'refused',{},None)
+    monkeypatch.setattr(preview,'_command',refuse)
+    with pytest.raises(urllib.error.HTTPError) as error:
+        preview._wait_show_folder(app,'http://127.0.0.1:49914',tmp_path)
+    assert error.value.code==403

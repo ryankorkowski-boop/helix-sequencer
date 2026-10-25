@@ -64,6 +64,7 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
     commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     manifest = dict(schema='helix.run_manifest.v1', status='in_progress', warnings=[],
                     source_commit=commit, audio_sha256=expected_sha256,
+                    sequence_file=audio.stem+'_Helix.xsq',
                     source_duration_seconds=duration, visual_review_status='not_reviewed',
                     geometry_source='models.final_band_scene.FinalBandScene / canonical_native_band',
                     owner_approved_geometry=False, independent_backing_verified=False)

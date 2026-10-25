@@ -13,7 +13,7 @@ VISEMES = {'AI': 'AH', 'E': 'EE', 'FV': 'FV', 'L': 'L', 'MBP': 'MBP',
 
 def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0)):
     before = len(garden.models)
-    add_final_native_band(garden, prefix, position, include_stage=False, mouth_scale=.42)
+    add_final_native_band(garden, prefix, position, include_stage=False, mouth_scale=.42, surface_spacing=.08)
     models = garden.models[before:]
     if len(models) != 6 or {m.details['final_band_role'] for m in models} != set(ROLES):
         raise ValueError('Canonical native export requires exactly six performers')

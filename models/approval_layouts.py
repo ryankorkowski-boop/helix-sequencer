@@ -181,7 +181,9 @@ def build_layout(number):
             for m in added:_move(m,(0,0,75),(0,0,55 if number==8 else -105),.6 if number==8 else 1)
     for m in g.models:
         if not m.details.get('review_role'):
-            m.attrs['PixelSize']='8' if number!=12 else '5'
+            # The large overview projects many nodes to less than one pixel.
+            # Keep its real geometry/events, but make the preview bulbs legible.
+            m.attrs['PixelSize']='8' if number!=12 else '10'
         if not m.submodels:m.submodels['ALL']=list(range(1,len(m.points)+1))
     return allocate(g)
 

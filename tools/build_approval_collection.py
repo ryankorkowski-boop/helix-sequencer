@@ -15,7 +15,10 @@ from models.band_sampler_logic import SHAPE_NAMES
 from xlights.xml_io import materialize_native_effect_tables
 
 
-def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256=EXPECTED_SHA256, vocal_fixture=FIXTURE):
+def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256=EXPECTED_SHA256, vocal_fixture=FIXTURE, numbers=None):
+    numbers=tuple(range(1,len(NAMES)+1)) if numbers is None else tuple(numbers)
+    if not numbers or len(set(numbers))!=len(numbers) or any(type(n) is not int or not 1<=n<=len(NAMES) for n in numbers):
+        raise ValueError('Choose unique layout numbers in1..12')
     source,output=Path(source),Path(output)
     audio=source/'media'/audio_name
     if digest(audio)!=expected_sha256:raise ValueError('Original soundtrack mismatch')
@@ -32,7 +35,8 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
     if len(plans)!=1:raise ValueError('Expected one cached production analysis')
     plan=json.loads(plans[0].read_text())
     manifest=[]
-    for number,name in enumerate(NAMES,1):
+    for number in numbers:
+        name=NAMES[number-1]
         folder=output/f'{number:02}_{name}'
         if folder.exists():raise FileExistsError(folder)
         g=build_layout(number)
@@ -122,5 +126,6 @@ if __name__=='__main__':
     p.add_argument('--audio-name',default='Phoneme_Test_Hook.mp3')
     p.add_argument('--expected-sha256',default=EXPECTED_SHA256)
     p.add_argument('--vocal-fixture',type=Path,default=FIXTURE)
+    p.add_argument('--layouts',type=int,nargs='+',help='Build only these layouts; default all12. Use7 12 for the two pilot shows.')
     a=p.parse_args();build(a.source,a.output,audio_name=a.audio_name,
-        expected_sha256=a.expected_sha256,vocal_fixture=a.vocal_fixture)
+        expected_sha256=a.expected_sha256,vocal_fixture=a.vocal_fixture,numbers=a.layouts)
