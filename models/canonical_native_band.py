@@ -1,7 +1,8 @@
 """Native surface export of FinalBandScene, with the preserved source drummer.
 
 The drummer is the original planar source-art node model used by FinalBandScene's
-compositor. Other characters are sampled solid surfaces. Neither is described as
+compositor. Other characters sample the retained solid meshes and material light
+at bounded spacing; the legacy sparse exporter remains available. Neither is described as
 continuous mesh animation or as owner-approved native visual output.
 """
 from models.final_band_native import add_final_native_band

@@ -1,3 +1,13 @@
+## 2026-10-25 — Preserve quiet real strikes above idle visibility
+
+Goal: fix an actual native display inversion: a quiet detected note could start dimmer than its nonmusical idle string/key.
+Changed: tools/canonical_band_cues.py, its regression in tests/test_approval_collection.py, canonical_native_band.py documentation and this ledger.
+Preserved: every detected event, source velocity ordering, start/end timestamp, model, node/channel address, vocal clock and detector threshold. No new activity or accepted flags.
+New behavior: genuine instrument attacks map source strength into22–100% display brightness above the22% idle floor; kit strikes map above25% idle. Source velocities still order peak brightness and existing decay is retained. Idle notes/arms are explicitly marked nonmusical_instrument_visibility and do not carry fabricated source-start attributes. Source cues and silence are unchanged.
+Evidence:31 focused display/source/native-stream/drum tests pass. The new assertion reads serialized XSQ settings attributes (its initial text-content assumption was corrected; production XSQ representation was preserved). Fresh band/ultimate rerenders are running on the same LetItGlow36s analysis. Earlier175 broad source tests and18 readiness/gate checks passed as recorded above; do not add overlapping runs as unique tests.
+Limitations/deferred: this is illumination response, not an instrument-classification accuracy claim. Independent acoustic vocal identity and exact final canonical visual acceptance remain open. Final full comparison collection remains subject to those source/reference gates. Android update migration remains superseded by confirmed fresh installation. App UI unchanged; collect new exact-source platform build receipts.
+Risks: real low-velocity strikes intentionally become more visible; all visibility thresholds remain unchanged. Preserve failed earlier pilot measurements and exact final source/render hashes. No merge/publication. Handoff: docs/BETA_COMPLETION_20261025_HANDOFF.md.
+
 ## 2026-10-25 — Ultimate source routing and actual native singer-byte verification
 
 Goal: repair the measured sparse ultimate pilot without inventing activity or relaxing visibility gates.

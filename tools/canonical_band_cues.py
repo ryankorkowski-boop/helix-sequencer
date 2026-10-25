@@ -37,7 +37,9 @@ def export_drums(root, garden, plan):
         if part not in layers:
             el=ET.SubElement(elements,'Element',type='model',name=model.name+'/'+part)
             layers[part]=ET.SubElement(el,'EffectLayer')
-        bright=round(max(.01,min(1,level))*100)
+        # An actual strike must rise above the25% nonmusical kit visibility.
+        display_level=.25+.75*level if source is not None else level
+        bright=round(max(.01,min(1,display_level))*100)
         effect=add_effect(layers[part],a,min(b,duration),'On',EffectTemplate(
             settings=f'E_TEXTCTRL_Eff_On_Start={bright},E_TEXTCTRL_Eff_On_End={bright if end_level is None else round(end_level*100)}',
             palette=f'C_BUTTON_Palette1={color},C_CHECKBOX_Palette1=1'))
@@ -116,7 +118,7 @@ def export_instruments(root, garden, plan):
         parent=ET.SubElement(elements,'Element',type='model',name=model.name)
         ET.SubElement(parent,'EffectLayer')
         layers, windows = {}, {}
-        def cue(part, source, color, strength=1):
+        def cue(part, source, color, strength=1, *, musical=True):
             if not model.submodels.get(part):
                 return False
             a, b = int(source['start_ms']), min(duration, int(source['end_ms']))
@@ -125,12 +127,14 @@ def export_instruments(root, garden, plan):
             if part not in layers:
                 el=ET.SubElement(elements,'Element',name=model.name+'/'+part,type='model')
                 layers[part]=ET.SubElement(el,'EffectLayer')
-            bright=round(max(.05,min(1,float(strength)))*100)
+            level=max(.05,min(1,float(strength)))
+            bright=round((.22+.78*level if musical else level)*100)
             e=add_effect(layers[part],a,b,'On',EffectTemplate(
                 settings=f'E_TEXTCTRL_Eff_On_Start={bright},E_TEXTCTRL_Eff_On_End={max(3,round(bright*.28))}',
                 palette=f'C_BUTTON_Palette1={color},C_CHECKBOX_Palette1=1'))
-            e.set('sourceMethod','retained_production_band_plan')
-            e.set('sourceStartMs',str(a)); e.set('sourceEndMs',str(b))
+            e.set('sourceMethod','retained_production_band_plan' if musical else 'nonmusical_instrument_visibility')
+            if musical:
+                e.set('sourceStartMs',str(a)); e.set('sourceEndMs',str(b))
             windows.setdefault(part,[]).append((a,b))
             return True
         counts=dict(source_events=0, mapped_events=0, unmapped_pitch_events=0, unmapped_events=[])
@@ -175,18 +179,18 @@ def export_instruments(root, garden, plan):
             active=part.removesuffix('_IDLE')+'_ACTIVE'
             cursor=0
             for a,b in sorted(windows.get(active,[])):
-                if a>cursor:cue(part,dict(start_ms=cursor,end_ms=a),'#BFA485',.65)
+                if a>cursor:cue(part,dict(start_ms=cursor,end_ms=a),'#BFA485',.65,musical=False)
                 cursor=max(cursor,b)
-            if cursor<duration:cue(part,dict(start_ms=cursor,end_ms=duration),'#BFA485',.65)
+            if cursor<duration:cue(part,dict(start_ms=cursor,end_ms=duration),'#BFA485',.65,musical=False)
         for part,nodes in list(model.submodels.items()):
             if not nodes or not part.startswith(('NOTE_MIDI_','STRING_')):continue
             alias='INSTRUMENT_IDLE_'+part
             model.submodels[alias]=list(nodes)
             cursor=0
             for a,b in sorted(windows.get(part,[])):
-                if a>cursor:cue(alias,dict(start_ms=cursor,end_ms=a),'#A8C1CE',.22)
+                if a>cursor:cue(alias,dict(start_ms=cursor,end_ms=a),'#A8C1CE',.22,musical=False)
                 cursor=max(cursor,b)
-            if cursor<duration:cue(alias,dict(start_ms=cursor,end_ms=duration),'#A8C1CE',.22)
+            if cursor<duration:cue(alias,dict(start_ms=cursor,end_ms=duration),'#A8C1CE',.22,musical=False)
         report['models'][model.name]=counts
     report['limitations']=['Pitch outside the authored48–84 keyboard range is omitted, never octave-folded',
                           'Native two-pose arm banks use fixed shoulders; continuous contact motion unverified',

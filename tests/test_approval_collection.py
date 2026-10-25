@@ -137,3 +137,17 @@ def test_pilot_layout_selection_rejects_ambiguous_or_out_of_range_requests(tmp_p
         with pytest.raises(ValueError,match='unique layout numbers'):
             build(tmp_path/'no-source',tmp_path/'no-output',numbers=numbers)
     assert not (tmp_path/'no-output').exists()
+
+
+def test_quiet_real_note_starts_brighter_than_nonmusical_idle_visibility():
+    garden=build_layout(7);sequence=NativeSequence(garden,1,'','quiet key')
+    export_instruments(sequence.root,garden,{'cues':{'keyboardist':[
+        dict(start_ms=203,end_ms=407,pitch_midi=60,velocity=.06)]}})
+    note=sequence.root.find("ElementEffects/Element[@name='HX_SNOW_PIANO/NOTE_MIDI_60']/EffectLayer/Effect")
+    idle=sequence.root.find("ElementEffects/Element[@name='HX_SNOW_PIANO/INSTRUMENT_IDLE_NOTE_MIDI_60']/EffectLayer/Effect")
+    def start(effect):
+        return int(next(token.split('=')[1] for token in effect.get('settings','').split(',') if token.startswith('E_TEXTCTRL_Eff_On_Start=')))
+    assert start(note)>start(idle)
+    assert idle.get('sourceMethod')=='nonmusical_instrument_visibility'
+    assert idle.get('sourceStartMs') is None
+    assert (note.get('startTime'),note.get('endTime'))==('203','407')
