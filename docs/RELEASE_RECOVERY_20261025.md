@@ -1,3 +1,68 @@
+## Final delivery and workflow receipt — 2026-10-25
+
+**Code/render source:** b0f82813125254a91bbbb6f132f63e9eccfeb7ec.
+This final follow-up changes only this handoff and MASTER_TODO.md; determine the
+documentation receipt HEAD with `git rev-parse HEAD`. All executable source is
+unchanged from b0f8281, the commit that generated and verified the delivered files.
+
+**Fresh downloads**
+- [Native full-band review MP4](https://chatgpt.com/library?file_id=libfile_f8fe1523ff70819186c279c4a034e66e&account_id=personal)
+- [Native singer closeup and diagnostic timeline MP4](https://chatgpt.com/library?file_id=libfile_c7bc2cbbfb9081918dd245279f99376f&account_id=personal)
+- [Four-video ZIP: native shows, source candidates and verification](https://chatgpt.com/library?file_id=libfile_993b995f93408191a14023fc7843ca91&account_id=personal)
+- [Tested API36 fresh-install debug APK](https://chatgpt.com/library?file_id=libfile_7525e6668d5c8191a7db6aaa4dadee50&account_id=personal)
+- [Download/status index](https://chatgpt.com/library?file_id=libfile_015e798373a481919556e10fcb29ed92&account_id=personal)
+- [Windows Portable](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40168919520/artifacts/12590071546)
+- [Android API36 full receipts](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40168919594/artifacts/12589618830)
+- [Android API30 full receipts](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40168919594/artifacts/12589094752)
+
+| Code-source workflow | Final result |
+|---|---|
+| https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40168919569 | PASS; Python3.11 and3.12 each2148 passed,6 skipped,24 subtests passed |
+| https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40168919520 | Windows Portable PASS; current worker receipts inspected |
+| https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40168919585 | Phoneme native verification PASS |
+| https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40168919594 | API30/API36 PASS: fresh installation, launch, real-source quick clips and full-song output |
+| https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40168919516 | FAIL: Full-band source lacks independently resolved lead and backing vocal tracks |
+| https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40168919542 | native-proof PASS; accepted-native-band FAIL downstream of producer |
+| https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40168919611 | FAIL: Pilot acceptance evidence missing: vocal timing and approved-reference identity gates remain open; do not scale to the full collection |
+
+New docs-only receipt workflows, if automatically triggered, are not substituted
+for the completed code-source results above. No unchanged failed job was manually
+rerun. The published ZIP records Android still running at packaging time; this
+receipt and linked index record its final success.
+
+ZIP:134927478bytes,SHA25696f9bdaa8625fa5366f1446f7ae5997b038a83120c70a010b0cef1ffe00e82f7;
+203 entries passed hashes and CRC. Both native camera exports have decoded-channel
+SHA25649c18c72a3c551877a5aa5c5b34e9e638776326ea1205c02dca0b9eb6801efa1.
+Native FSEQ697frames at50ms; video698frames at20fps. Both have increasing timestamps,
+full decode, source correlation.996824804 and unchanged interior/EOF synchronization.
+Lead323/backing80 non-rest frames; after32.82s both0, excluding shared closed-rest nodes.
+These are light-activity measurements, not independent singer-identity verification.
+
+API36 debug APK:144433366bytes,SHA256b75c4da20d316624a3ff7a1760493e99d1264cde41fb3f40c5ce36c56826b2b6.
+Signer3217ea9b9a064922b86d92eab9882dc24ae27ea6f9b74b3e5c3eecb7996ade86
+differs from historical code6. Thus **fresh installation only; old-beta update
+compatibility remains blocked**. Full237.44s emulator source preview3562frames,
+H264/AAC,0ms measured lag, soundtrack correlation.9957144538. No physical-phone
+update/data-preservation proof, original key or signing lineage was established.
+Keep the old app and verify exports before planning any reinstall. Unsigned release
+APKs are excluded from the standalone download and cannot install.
+
+Owner approval remains pending. Exact approved canonical3D likeness/original drummer,
+independent singer evidence, musical/spatial artistic acceptance, final12/comparisons,
+flagship and historical Android update remain open. Current footage retains a
+source-surface band and planar drummer; it is not canonical visual restoration.
+Personal-context and repository reference checks did not identify a specific approved
+six-member visual source. No merge, release or public distribution was performed.
+
+**Next executable review step (after materializing this checkpoint):**
+`python -m tools.vocal_diagnostic CHECKPOINT/03_Vocal_Diagnostics/E14_Candidates/Source_E14.wav CHECKPOINT/03_Vocal_Diagnostics/E14_Candidates E14_REVIEW`.
+Audition its matching source/candidates and establish independently defensible vocal
+and visual-reference evidence. Do not promote candidate metadata flags or repeat
+the unchanged producer expecting it to establish missing source truth.
+Then follow the reproducible commands and remaining-gate sequence below.
+
+---
+
 # Helix release recovery — 2026-10-25
 
 Repository: https://github.com/ryankorkowski-boop/helix-sequencer

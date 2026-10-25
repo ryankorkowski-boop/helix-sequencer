@@ -1,3 +1,46 @@
+## 2026-10-25 — Final recovery delivery receipt (documentation only)
+
+Executable/media source HEAD: b0f82813125254a91bbbb6f132f63e9eccfeb7ec.
+Goal: preserve the completed recovery outputs and exact final workflow evidence.
+Changed: this ledger and docs/RELEASE_RECOVERY_20261025.md only.
+Preserved: every code byte, source recording, performer, cue, test and threshold.
+New behavior: none; this is the final resumable handoff receipt.
+
+Complete: new source-bound offline separation on Phoneme and E14; 10ms vocal
+diagnostics; four freshly rendered native/diagnostic MP4s and matching native
+shows/models/XSQs/FSEQs; archive CRC and203 entry hashes verified.
+Code-source CI40168919569: Python3.11 and3.12 each2148 passed,6 skipped,
+24 subtests passed. Windows40168919520 PASS; Phoneme40168919585 PASS;
+Android40168919594 API30/API36 fresh-install/emulator/real-source/full-song PASS.
+These results are at b0f8281; a later documentation-only receipt is not a new
+implementation validation claim. No tests rerun for this documentation change.
+
+Downloads:
+- https://chatgpt.com/library?file_id=libfile_f8fe1523ff70819186c279c4a034e66e&account_id=personal
+- https://chatgpt.com/library?file_id=libfile_c7bc2cbbfb9081918dd245279f99376f&account_id=personal
+- https://chatgpt.com/library?file_id=libfile_993b995f93408191a14023fc7843ca91&account_id=personal
+- https://chatgpt.com/library?file_id=libfile_7525e6668d5c8191a7db6aaa4dadee50&account_id=personal
+- https://chatgpt.com/library?file_id=libfile_015e798373a481919556e10fcb29ed92&account_id=personal
+Windows artifact12590071546 in run40168919520. Android API36 artifact12589618830
+and API30 artifact12589094752 in run40168919594. Exact links and commands in handoff.
+
+Archive134927478bytes,SHA25696f9bdaa8625fa5366f1446f7ae5997b038a83120c70a010b0cef1ffe00e82f7.
+Fresh API36 debug APK144433366bytes,SHA256b75c4da20d316624a3ff7a1760493e99d1264cde41fb3f40c5ce36c56826b2b6;
+verified signer3217ea9b9a064922b86d92eab9882dc24ae27ea6f9b74b3e5c3eecb7996ade86.
+Historical signer differs; this is not an in-place old-beta update. No owner-phone
+installation or data-preservation proof is claimed. No original key found.
+
+FAIL/BLOCKED: source-qualified producer40168919516, downstream final-band40168919542,
+twelve-layout collection40168919611. Independent singer identity and exact approved
+3D reference remain unsupported. The original source-surface/planar-drummer family
+is not claimed to restore canonical approved likeness. Final12/comparisons/flagship,
+musical/artistic acceptance and compatible historical Android update remain open.
+No acceptance receipt fabricated, failed test suppressed, merge or public release.
+Next: read the handoff; audition source-bound E14 candidates and establish independent
+evidence/reference before verify_recovery_pilot_gate or scaling. Routine unchanged
+producer reruns cannot establish missing evidence. Regression risk: none from this
+documentation-only change; all prior implementation limitations remain explicit.
+
 ## 2026-10-25 — Offline separation generalized; native vocal diagnostics generated
 
 Goal: remove the hardcoded source restriction from the existing offline UVR
