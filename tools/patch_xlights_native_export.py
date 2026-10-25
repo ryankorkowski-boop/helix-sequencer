@@ -8,7 +8,17 @@ import argparse
 from pathlib import Path
 
 SIZE_OLD = '    int width = housePreview->getWidth();\n    int height = housePreview->getHeight();'
-SIZE_NEW = '''    // Helix: use requested native dimensions before wxGTK's pending size event.
+SIZE_NEW = '''    // Helix: commit the viewport cache before frame zero. SetSize on wxGTK
+    // queues the size event, while the export loop can render its first frames
+    // before the next progress-dialog yield. Encoder dimensions alone do not
+    // update xlGLCanvas::mWindowWidth/mWindowHeight used by ModelPreview.
+    if (resizedForExport) {
+        wxSize exportViewport((int)(desiredWidth / contentScaleFactor), (int)(desiredHeight / contentScaleFactor));
+        wxSizeEvent exportSizeEvent(exportViewport, housePreview->GetId());
+        exportSizeEvent.SetEventObject(housePreview);
+        housePreview->GetEventHandler()->ProcessEvent(exportSizeEvent);
+    }
+    // Helix: use requested native dimensions before wxGTK's pending size event.
     int width = resizedForExport ? (int)(desiredWidth / contentScaleFactor) : housePreview->getWidth();
     int height = resizedForExport ? (int)(desiredHeight / contentScaleFactor) : housePreview->getHeight();'''
 CAMERA_OLD = '''    modelPreview->Set3D(is_3d);

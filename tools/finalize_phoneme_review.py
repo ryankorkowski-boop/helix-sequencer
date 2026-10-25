@@ -27,7 +27,7 @@ def finalize(show: Path) -> dict:
         subprocess.run(['ffmpeg', '-v', 'error', '-xerror', '-i', str(video),
                         '-map', '0:v:0', '-map', '0:a:0', '-f', 'null', '-'], check=True)
         from tools.verify_showcase_luma import verify_mp4
-        readability = verify_mp4(video)
+        readability = verify_mp4(video,static_cast=True)
         (show / 'SHOWCASE_READABILITY.json').write_text(json.dumps(readability, indent=2) + '\n')
         report['readability'] = readability
         if not readability['passed']:

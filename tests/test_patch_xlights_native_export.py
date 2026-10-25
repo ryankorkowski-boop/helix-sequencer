@@ -37,3 +37,9 @@ def test_second_application_refused_without_corrupting_patched_source(tmp_path):
     with pytest.raises(ValueError, match='Pinned'):
         patcher.apply(tmp_path)
     assert [p.read_bytes() for p in paths] == before
+
+
+def test_export_size_event_is_dispatched_before_cached_dimensions_are_used():
+    assert patcher.SIZE_NEW.index('ProcessEvent(exportSizeEvent)') < patcher.SIZE_NEW.index('int width =')
+    assert 'exportSizeEvent.SetEventObject(housePreview)' in patcher.SIZE_NEW
+    assert 'desiredWidth / contentScaleFactor' in patcher.SIZE_NEW

@@ -65,7 +65,9 @@ jobs:
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/native-renderer-bundle
       - name: Verify retained upstream, source patch and executable before use
+        id: retained-native-verify
         if: steps.retained-native.outcome == 'success'
+        continue-on-error: true # A prior-patch bundle is not usable; rebuild below.
         run: python -m tools.native_renderer_bundle restore --patch tools/patch_xlights_native_export.py --root "$RUNNER_TEMP/xlights-src" --bundle "$RUNNER_TEMP/native-renderer-bundle"
       - name: Install checksum pinned native xLights
         run: |
@@ -98,7 +100,9 @@ jobs:
             sudo make -C wxWidgets-xlights_2026.17c install
             sudo ldconfig
           fi
-          if { [ "${{ steps.native-cache.outputs.cache-hit }}" = true ] || [ "${{ steps.retained-native.outcome }}" = success ]; } && [ -x bin/xLights ]; then
+          # A restore-key cache may contain the previous source patch. Never
+          # infer current renderer compatibility from an executable alone.
+          if python -c "from pathlib import Path; import sys; sys.path.insert(0, '$GITHUB_WORKSPACE'); from tools.native_renderer_bundle import validate_tree; validate_tree(Path.cwd())"; then
             echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
             exit 0
           fi
@@ -129,6 +133,26 @@ jobs:
         with:
           path: ${{ runner.temp }}/xlights-src
           key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+      - name: Preserve the exact compiled renderer for local source renders
+        run: |
+          mkdir -p phoneme-work/runtime
+          cp "$HELIX_PATCHED_XLIGHTS" phoneme-work/runtime/xLights
+          strip --strip-unneeded phoneme-work/runtime/xLights
+          cp tools/patch_xlights_native_export.py phoneme-work/runtime/
+          python - <<'PYCODE'
+          import hashlib, json, os
+          from pathlib import Path
+          def sha(path):
+              with Path(path).open('rb') as stream:
+                  return hashlib.file_digest(stream, 'sha256').hexdigest()
+          receipt = dict(upstream_commit='839c0f590dc454bb7adb8a16c4dd92a70b46156e',
+              source_commit=os.environ['HELIX_SOURCE_COMMIT'],
+              patch_sha256=sha('tools/patch_xlights_native_export.py'),
+              original_binary_sha256=sha(os.environ['HELIX_PATCHED_XLIGHTS']),
+              stripped_binary_sha256=sha('phoneme-work/runtime/xLights'),
+              libraries='native-runtime-libraries.log; retain pinned2026.18 resources and compatible wxWidgets')
+          Path('phoneme-work/runtime/renderer.json').write_text(json.dumps(receipt, indent=2)+'\n')
+          PYCODE
       - name: Native xLights FSEQ and original-soundtrack MP4
         run: |
           xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >phoneme-work/openbox.log 2>&1 & exec python -m tools.native_preview phoneme-work/show --xsq phoneme-work/show/Phoneme_Test_Hook_Helix.xsq --audio phoneme-work/show/media/Phoneme_Test_Hook.mp3 --xlights "$HELIX_PATCHED_XLIGHTS"'

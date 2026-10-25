@@ -46,7 +46,7 @@ def review_archive(folder):
         temporary.unlink(missing_ok=True)
 
 
-def verify(path,audio, *, native):
+def verify(path,audio, *, native, static_cast=False):
     probe=probe_media(path,'ffprobe')
     v=next(s for s in probe['streams'] if s['codec_type']=='video')
     a=next(s for s in probe['streams'] if s['codec_type']=='audio')
@@ -58,7 +58,7 @@ def verify(path,audio, *, native):
     if abs(float(v['duration'])-duration)>.1 or abs(float(a['duration'])-duration)>.1:raise ValueError('Full-song duration failed')
     if v['codec_name']!='h264' or a['codec_name']!='aac' or int(v['width'])<1280 or int(v['height'])<720:
         raise ValueError('Required codec/resolution failed')
-    readability=verify_mp4(path)
+    readability=verify_mp4(path,static_cast=static_cast)
     return dict(file=path.name,sha256=digest(path),bytes=path.stat().st_size,native_xlights=native,
         dimensions=[v['width'],v['height']],fps=v['avg_frame_rate'],frames=v.get('nb_frames'),
         video_duration=float(v['duration']),audio_duration=float(a['duration']),
@@ -133,12 +133,12 @@ def render(layouts,output,xlights, *, source_commit=None, audio_name='Phoneme_Te
                 native=preview_run(folder,xsq=folder/item['xsq'],audio=folder/'media'/audio_name,xlights=xlights)
             if native['status']!='success':raise ValueError('; '.join(native['warnings']))
             target=bundle/'01_Individual_Layouts'/f"{item['number']:02}_{item['name']}.mp4"
-            raw_readability=verify_mp4(Path(native['mp4']))
+            raw_readability=verify_mp4(Path(native['mp4']),static_cast=item['number']==7)
             raw_reports.append(dict(number=item['number'],mp4_sha256=digest(Path(native['mp4'])),readability=raw_readability))
             gamma=(2.6 if item['number']==3 else presentation_gamma) if presentation_gamma is not None else None
             label(Path(native['mp4']),target,f"{item['number']:02} - {item['name'].replace('_',' ')} | native xLights"+
                   (f' | display gamma{gamma}' if gamma is not None else ''),gamma=gamma)
-            report=verify(target,audio,native=True)
+            report=verify(target,audio,native=True,static_cast=item['number']==7)
             report.update(presentation_gamma=gamma,native_before_presentation_sha256=digest(Path(native['mp4'])),
                           geometry_or_event_timing_changed=False)
             reports.append(report);movies[item['number']]=target

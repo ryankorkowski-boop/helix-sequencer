@@ -21,7 +21,7 @@ MIN_VISIBLE_WIDTH = 0.40
 MIN_VISIBLE_HEIGHT = 0.35
 
 
-def evaluate_showcase_frames(frames: np.ndarray) -> dict:
+def evaluate_showcase_frames(frames: np.ndarray, *, static_cast: bool = False) -> dict:
     samples=np.asarray(frames)
     if samples.ndim!=3 or samples.shape[1:]!=(HEIGHT,WIDTH) or len(samples)<10:
         raise ValueError("Need at least ten decoded 160x90 grayscale frames")
@@ -52,6 +52,12 @@ def evaluate_showcase_frames(frames: np.ndarray) -> dict:
         bright_stage_area=median_bright>=MIN_BRIGHT_FRACTION,
         visible_stage_motion=median_motion>=MIN_MEDIAN_MOTION,
     )
+    if static_cast:
+        # Authored always-visible bodies make an opening crop a renderer
+        # failure, even when later frames let the median pass. Do not apply
+        # this to musical layouts that may legitimately begin in darkness.
+        checks['opening_static_cast_framing']=all(w>=MIN_VISIBLE_WIDTH and h>=MIN_VISIBLE_HEIGHT
+            for w,h in extents[:min(4,len(extents))])
     return dict(
         schema="helix.showcase_readability.v1",frames=len(samples),sample_fps=FPS,
         thresholds=dict(median_luma=MIN_MEDIAN_LUMA,
@@ -69,7 +75,7 @@ def evaluate_showcase_frames(frames: np.ndarray) -> dict:
     )
 
 
-def verify_mp4(movie: Path) -> dict:
+def verify_mp4(movie: Path, *, static_cast: bool = False) -> dict:
     if not movie.is_file():
         raise FileNotFoundError(movie)
     payload=subprocess.run(
@@ -82,7 +88,7 @@ def verify_mp4(movie: Path) -> dict:
     if len(payload)%area:
         raise ValueError("Truncated grayscale stream")
     frames=np.frombuffer(payload,dtype=np.uint8).reshape(-1,HEIGHT,WIDTH)
-    return evaluate_showcase_frames(frames)
+    return evaluate_showcase_frames(frames,static_cast=static_cast)
 
 
 def main() -> None:

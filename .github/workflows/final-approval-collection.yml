@@ -65,7 +65,9 @@ jobs:
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/native-renderer-bundle
       - name: Verify retained upstream, source patch and executable before use
+        id: retained-native-verify
         if: steps.retained-native.outcome == 'success'
+        continue-on-error: true # A prior-patch bundle is not usable; rebuild below.
         run: python -m tools.native_renderer_bundle restore --patch tools/patch_xlights_native_export.py --root "$RUNNER_TEMP/xlights-src" --bundle "$RUNNER_TEMP/native-renderer-bundle"
       - name: Install checksum pinned native xLights
         run: |
@@ -98,7 +100,9 @@ jobs:
             sudo make -C wxWidgets-xlights_2026.17c install
             sudo ldconfig
           fi
-          if { [ "${{ steps.native-cache.outputs.cache-hit }}" = true ] || [ "${{ steps.retained-native.outcome }}" = success ]; } && [ -x bin/xLights ]; then
+          # A restore-key cache may contain the previous source patch. Never
+          # infer current renderer compatibility from an executable alone.
+          if python -c "from pathlib import Path; import sys; sys.path.insert(0, '$GITHUB_WORKSPACE'); from tools.native_renderer_bundle import validate_tree; validate_tree(Path.cwd())"; then
             echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
             exit 0
           fi
