@@ -77,6 +77,143 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-10-16 — Phase 1 native verification follow-up (PR #169)
+**Goal:** Replace the pending-CI status with actual evidence, repair the failed
+artifact workflow, and expose native format problems hidden by structural tests.
+
+**Changed:** `tools/quality/{inputs,scoring,native}.py`, quality fixtures and
+tests, new native FSEQ tests, `.github/workflows/{helix-ci,
+helix-birdsong-quality-artifact,quality-native-check}.yml`, quality docs and this
+ledger. **Preserved:** all engine profiles, existing demo exporters, drummer
+timing/oracle, learning behavior, and user input files. No renderer replacement.
+
+**Findings:** Remote beta smoke passed on Python 3.11 and 3.12 at `7374d20`.
+The older artifact job failed on `ModuleNotFoundError: core` because it invoked
+tools by filename; commands now use `python -m tools...`. The broad CI audit
+allows failures and is not evidence that the full suite or lint is clean.
+The initial native fixture rendered black, and its missing FixedPointTiming
+flag caused millisecond timestamps to be interpreted as seconds. Native
+metadata, geometry and a zero-intensity On effect now replace the incomplete
+fixture. Structural scores themselves remain the same.
+
+**New behavior:** Scoring converts legacy native second-based times, with an
+explicit warning-producing opt-in for unflagged legacy Helix millisecond
+metadata. Inline settings/palettes not native to xLights warn. A bounded FSEQ
+inspector reads actual compressed/sparse channel bytes and rejects invalid,
+wrong-size or black benchmark output. A pinned official-native CI workflow
+checks ramps, accents and rests and uploads its evidence.
+
+**Evidence:** Official xLights 2026.18 Linux AppImage SHA256
+`62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b`
+matches the official release digest. Native headless render exits 0. Corrected
+fixture: 4 channels, 80 frames, 50 ms; 78 nonzero samples, 49 nonzero frames,
+mean actual lit fraction .24375 versus structural estimate .4375. Native
+samples include a decaying red ramp, blue accent at 1000 ms, red group accent
+at 2500 ms, and darkness at 2000 and 3000 ms. Exact current fixture rendered
+locally and passed those native byte assertions. Scoped flake8 and strict mypy
+pass (five modules); 35 quality/native tests, 50 targeted tests, and all 195
+selected beta smoke tests pass locally. The artifact exporter and diagnostic
+renderer module commands both execute with PYTHONPATH unset. Follow-up remote
+native CI passed at `7b2aabb2d8815091e9aaf7db0d6952e8bb9e4300`:
+[native job](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38896155114/job/116956997381),
+[native artifact](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38896155114/artifacts/12043453689).
+Runner output matches local channel metrics and all ramp/accent/rest assertions.
+The beta smoke matrix passed on Python 3.11 and 3.12 in run `38896147529`;
+the repaired quality-artifact exporter/diagnostic-render job passed in run
+`38896147378`. Broad audits still tolerate the pre-existing failures; do not
+read their green workflow status as a clean full-suite or lint result.
+The first native runner attempt stopped on missing `libEGL.so.1` before any
+render. The workflow now explicitly installs `libegl1` and prints the captured
+render log while retaining the actual failing exit code. This is a strict gate,
+not a continue-on-error audit. The failed attempt is not counted as validation.
+
+**Limitations:** This is a synthetic 4-second metric fixture, not a real-song
+band showcase. No native MP4/audio, human visual review or physical-controller
+approval is claimed. The structural scorer remains labeled an estimate.
+ZSTD FSEQ inspection needs libzstd; diagnostics are capped at 128 MiB. Native
+CI uses the pinned 2026.18 build and does not prove older versions compatible.
+
+**Deferred/risk:** Phase 2 and release integration await review. Existing full
+suite/lint/type baseline failures are retained as documented below. Native
+color routing and quantized ramp endpoints differ from continuous structural
+estimates; do not tune thresholds by pretending those are identical.
+
+### 2026-10-16 — Phase 1 saved-XSQ metrics harness (verification pending)
+**Agent:** Codex
+**Branch:** `codex/quality-metrics-20261016`
+
+**Goal:** Establish deterministic, original diagnostics for generated XSQ before
+any opt-in composer, layering, hardware-profile, or learning changes.
+
+**Changed:** `tools/quality/{__init__,inputs,scoring,__main__}.py`,
+`tests/test_quality_metrics.py`, `tests/fixtures/quality/`,
+`docs/QUALITY_METRICS.md`, `.github/workflows/helix-ci.yml`, this ledger.
+
+**Preserved:** Every sequencing profile, existing intent scorer, musical/drummer
+timing, the oracle `b27e8d77a63027ed32bcf6851dcff3925472c155`, and input files.
+No engine refactor, legacy-directory edits, automatic learning or new renderer.
+
+**New behavior:** Pure saved-XSQ scorer plus explicit post-run CLI, overall and
+section metrics, warning thresholds, atomic manifest `quality` update. Saved
+effect/palette tables, inline settings, nested groups, and On ramps are handled.
+Occupancy and focal intensity are explicitly estimates, not rendered values.
+Golden clean-room benchmark and beta-CI CLI/artifact coverage added.
+
+**Evidence:** Initial baseline: `python -m pytest -q
+tests/test_birdsong_quality_score.py tests/test_beta_demo_fixture.py
+tests/test_run_manager.py tests/test_birdsong_xsq_export.py` — 29 passed.
+Final local checks:
+- `python -m flake8 tools/quality tests/test_quality_metrics.py` — passed.
+- `python -m mypy --strict --explicit-package-bases --follow-imports=silent
+  tools/quality` — passed (four modules).
+- `python -m pytest -q tests/test_quality_metrics.py` — 25 passed.
+- Targeted harness + RunManager + existing Birdsong exporter/scorer + beta
+  fixture set — 54 passed.
+- Exact `Run beta smoke tests` command extracted from the updated workflow
+  and executed locally — **185 passed** (Python 3.12). This is not a remote
+  CI run or proof of the Python 3.11 matrix leg.
+- `python -m tools.quality score test_runs/quality_benchmark` — report matches
+  the golden file; manifest quality saved. Artifact paths:
+  `test_runs/quality_benchmark/{benchmark.xsq,layout.xml,audio_features.json,
+  quality_report.json,run_manifest.json}` (local generated diagnostics).
+- `python -m compileall -q tools/quality tests/test_quality_metrics.py`,
+  `python main.py --list-profiles`, `git diff --check` — passed.
+- Full suite collection is blocked by the existing `assign_hand` import in
+  `tests/test_drum_mapping.py`. With only that module excluded, this branch:
+  **19 failed, 935 passed, 5 skipped, 1 xfailed**. Untouched base `1f66f5d`
+  in a separate worktree: **19 failed, 910 passed, 5 skipped, 1 xfailed**.
+  The exact same 19 test ids fail; the added 25 tests pass. No blanket claim
+  of a clean repository test gate is made. Base failures include drummer
+  classification/geometry, band exports/catalogs, preview mux and XSQ validation.
+- Broader existing-area flake8 reports 6,667 violations; mypy reports 232 errors
+  in 30 existing files. This phase does not mass-format or rewrite that code.
+- Repository `template.xsq` paired with root `xlights_rgbeffects.xml` is rejected
+  for unknown target `mt1`; that fixture pair is not a valid scoring benchmark.
+
+**Limitations:** Native xLights is not installed in this execution environment;
+no native import/render, real-audio MP4, visual or controller approval is claimed.
+Features in the golden test are synthetic, not real-song detections. Occupancy
+cannot evaluate pixel effects, curves, blending, shared channels or submodel
+subsets. Explicit channel counts are required for channel weighting; otherwise
+equal model weights are reported. Scoring must run after RunManager finishes.
+
+**Deferred work:** Native verification and human review remain unchecked under
+the existing verification gate. Phases 2–9 await phase-by-phase user review.
+This entry does not supersede any earlier roadmap work or mark it complete.
+The nine-phase task explicitly requires stopping for review after Phase 1.
+**Publication update (2026-10-16):** After the initial automatic approval block,
+the user explicitly approved branch publication and opening a draft PR.
+Published `codex/quality-metrics-20261016` and opened draft
+[PR #169](https://github.com/ryankorkowski-boop/helix-sequencer/pull/169)
+against `feature/restructure-core`. Published implementation commit:
+`4277c8345bd7164fd92c18cc614eafda9e24fe47`. Its tree exactly matches the
+tested local implementation (`c3af6bbc5d3e2a4eaff17fd362273d1b8f4cfe9c`).
+Native verification and Phase 1 review remain pending; no merge or tag occurred.
+
+**Regression risks:** Unsupported xLights settings may require parser expansion;
+initial thresholds can flag intentional AC restraint/repetition. No aesthetic
+conclusion or sequencing optimization is inferred from synthetic metrics.
+
 ### 2026-10-02 — Beta tester feedback checklist documented
 **Agent:** GitHub Copilot
 **Branch:** `feature/restructure-core`

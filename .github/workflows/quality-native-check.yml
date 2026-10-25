@@ -1,0 +1,94 @@
+name: Native xLights Quality Benchmark
+
+on:
+  pull_request:
+    paths:
+      - 'tools/quality/**'
+      - 'tests/fixtures/quality/**'
+      - '.github/workflows/quality-native-check.yml'
+  push:
+    branches: ['codex/quality-metrics-20261016']
+    paths:
+      - 'tools/quality/**'
+      - 'tests/fixtures/quality/**'
+      - '.github/workflows/quality-native-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-channel-benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install virtual display dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb libegl1 libopengl0 libglu1-mesa libgtk-3-0t64
+      - name: Fetch pinned official xLights 2026.18
+        working-directory: ${{ runner.temp }}
+        run: |
+          mkdir -p xlights-native
+          cd xlights-native
+          curl --fail --location --retry 2 --output xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          sha256sum --check <<'SHA'
+          62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xLights.AppImage
+          SHA
+          chmod u+x xLights.AppImage
+          ./xLights.AppImage --appimage-extract > extract.log
+      - name: Prepare clean-room benchmark show
+        run: |
+          python - <<'PY'
+          import shutil
+          from pathlib import Path
+          run = Path('test_runs/quality_native')
+          run.mkdir(parents=True, exist_ok=True)
+          source = Path('tests/fixtures/quality')
+          shutil.copyfile(source / 'benchmark.xsq', run / 'benchmark.xsq')
+          shutil.copyfile(source / 'layout.xml', run / 'xlights_rgbeffects.xml')
+          PY
+      - name: Render with native xLights
+        run: |
+          native_exit=0
+          xvfb-run -a "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun" \
+            --headless --quiet --show "$PWD/test_runs/quality_native" \
+            --outputdir "$PWD/test_runs/quality_native" \
+            "$PWD/test_runs/quality_native/benchmark.xsq" \
+            > test_runs/quality_native/native_render.log 2>&1 || native_exit=$?
+          cat test_runs/quality_native/native_render.log
+          exit "$native_exit"
+      - name: Inspect native channel data and verify effect windows
+        run: |
+          python -m tools.quality.native test_runs/quality_native/benchmark.fseq \
+            --expected-channels 4 --expected-duration-ms 4000 \
+            --require-nonzero --output test_runs/quality_native/native_report.json
+          python - <<'PY'
+          from pathlib import Path
+          from tools.quality.native import read_frames
+          data, channels, frames, step = read_frames(
+              Path('test_runs/quality_native/benchmark.fseq'))
+          assert (channels, frames, step) == (4, 80, 50)
+          def frame(ms):
+              i = ms // step * channels
+              return list(data[i:i + channels])
+          assert frame(0) == [255, 0, 0, 0]
+          assert 0 < frame(500)[0] < frame(0)[0]
+          assert frame(1000) == [255, 0, 0, 255]
+          assert frame(2000) == [0, 0, 0, 0]
+          assert frame(2500) == [204, 204, 0, 0]
+          assert frame(3000) == [0, 0, 0, 0]
+          PY
+      - name: Upload native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-native-xlights-2026.18
+          path: test_runs/quality_native/
+          if-no-files-found: warn
