@@ -65,7 +65,7 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
                 for part in ('OUTLINE','BASE','BODY','EYES'):
                     if m.submodels.get(part):sequence.effect(m,part,0,duration_ms,g.palette[0],45)
                 continue
-            is_helix=m.name=='HX_CENTER_KEYBOARD_HELIX'
+            is_helix=bool(m.details.get('keyboard_pitch_rungs'))
             if is_helix:
                 for role,part,color in [('guitarist','STRAND_A',g.palette[0]),('bassist','STRAND_B',g.palette[1])]:
                     sequence.effect(m,part,0,duration_ms,color,18)

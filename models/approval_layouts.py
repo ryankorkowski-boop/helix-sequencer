@@ -57,12 +57,17 @@ def helix(g):
     # Reuse the native DNA generator, with one literal rung per MIDI note.
     g.dna('HX_CENTER_KEYBOARD_HELIX',0,-10,65,10,8.8,880,'DNA')
     m=g.models[-1]
+    pitch_rungs(m)
+
+
+def pitch_rungs(m):
     heights=sorted({round(m.points[n-1,1],6) for n in m.submodels['RUNGS']})
     if len(heights)!=88:
         raise ValueError('Expected88 literal helix rungs')
     for pitch,y in zip(range(21,109),heights):
         m.submodels[f'KEY_MIDI_{pitch:03d}']=[n for n in m.submodels['RUNGS'] if abs(m.points[n-1,1]-y)<1e-5]
     m.details['rung_animation']='Independent source guitar/bass strand envelopes; no geometric rotation claimed'
+    m.details['keyboard_pitch_rungs']=True
 
 
 def ac_circuits(g, factor):
@@ -161,6 +166,11 @@ def build_layout(number):
     elif number==12:
         base=build_ultimate_garden()
         g.models=[m for m in base.models if m.kind=='pixel' and m.display not in ('Image','Label')]
+        # The existing45-rung hero could not represent the requested keyboard
+        # pitch ladder. Reuse its generator/placement with88 literal rungs.
+        hero=g.models[0]
+        g.dna(hero.name,0,-35,94,16,8.8,880,hero.zone)
+        replacement=g.models.pop();pitch_rungs(replacement);g.models[0]=replacement
         for i,x in enumerate((-100,0,100)):house(g,x,z=10,scale=.7,prefix='HOUSE_'+str(i))
     if number>=9:
         from models.recovery_technical_layouts import enrich

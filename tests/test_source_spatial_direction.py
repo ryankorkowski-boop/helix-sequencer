@@ -52,3 +52,19 @@ def test_missing_sampler_voice_evidence_abstains_instead_of_using_other_audio():
     from tools.source_spatial_direction import voice_events
     assert voice_events({},'estimated_backing')==[]
     assert voice_events({},'estimated_lead')==[]
+
+
+def test_native_ultimate_families_do_not_all_fall_back_to_bass():
+    from tools.source_spatial_direction import parts_for
+    g=build_layout(12);models={m.name:m for m in g.models}
+    assert role_for(models['HX_SPIRAL_W_1_1'])=='guitarist'
+    assert role_for(models['HX_DNA_TOWER_WEST'])=='keyboardist'
+    assert role_for(models['HX_AURORA_HORIZONTAL'])=='keyboardist'
+    assert role_for(models['HX_SOLAR_SPINNER_-1'])=='drummer'
+    assert role_for(models['HX_NORTH_STAR'])=='lead'
+    matrix=models['HX_AURORA_HORIZONTAL'];parts=parts_for(matrix)
+    assert len(parts)>1 and all(p.startswith('ROW_') for p in parts)
+    assert sorted(n for p in parts for n in matrix.submodels[p])==list(range(1,len(matrix.points)+1))
+    hero=models['HX_DNA_CATHEDRAL']
+    assert hero.details['keyboard_pitch_rungs']
+    assert all(hero.submodels[f'KEY_MIDI_{p:03}'] for p in range(21,109))

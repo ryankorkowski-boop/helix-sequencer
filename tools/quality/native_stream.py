@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy as np
 
 
-def inspect_stream(path):
+def inspect_stream(path, *, selectors=None):
     path=Path(path);lit=[]
     with path.open('rb') as stream:
         header=stream.read(32)
@@ -34,6 +34,17 @@ def inspect_stream(path):
             raise ValueError('Invalid sparse FSEQ ranges')
         channels=max(a+n for a,n in ranges) if ranges else packed
         if channels>1_000_000:raise ValueError('Expanded sparse channel budget exceeded')
+        selected={};selected_values={}
+        if selectors is not None:
+            destinations=np.concatenate([np.arange(a,a+n) for a,n in ranges]) if ranges else np.arange(packed)
+            for name,values in selectors.items():
+                ids=np.asarray(values)
+                if ids.ndim!=1 or (ids.size and (not np.issubdtype(ids.dtype,np.integer) or ids.min()<0 or ids.max()>=channels)):
+                    raise ValueError('Selected channels must be valid zero-based integer addresses')
+                ids=ids.astype(int);positions=np.searchsorted(destinations,ids)
+                safe=np.minimum(positions,packed-1)
+                selected[name]=positions[(positions<packed)&(destinations[safe]==ids)]
+                selected_values[name]=[]
         stream.seek(offset)
         entries=[struct.unpack_from('<II',table,i*8) for i in range(blocks)]
         entries=[(a,b) for a,b in entries if b]
@@ -54,7 +65,10 @@ def inspect_stream(path):
             for frame in range(first,final):
                 value=reader.read(packed)
                 if len(value)!=packed:raise ValueError('Truncated decoded FSEQ frame')
-                lit.append(int(np.count_nonzero(np.frombuffer(value,dtype=np.uint8))))
+                decoded=np.frombuffer(value,dtype=np.uint8)
+                lit.append(int(np.count_nonzero(decoded)))
+                for name,positions in selected.items():
+                    selected_values[name].append(int(decoded[positions].max()) if len(positions) else 0)
             if compression==1:
                 if reader.read(1):raise ValueError('Oversized decoded FSEQ block')
                 reader.close()
@@ -63,8 +77,10 @@ def inspect_stream(path):
         if not value and start is None:start=i
         elif value and start is not None:dark.append(dict(start_ms=start*step,end_ms=i*step));start=None
     with path.open('rb') as stream:sha=hashlib.file_digest(stream,'sha256').hexdigest()
-    return dict(schema='helix.fseq_channel_evidence.v1',basis='decoded_rendered_channel_bytes',sha256=sha,
+    result=dict(schema='helix.fseq_channel_evidence.v1',basis='decoded_rendered_channel_bytes',sha256=sha,
         channels=channels,frames=frames,frame_ms=step,duration_ms=frames*step,
         nonzero_samples=sum(lit),nonzero_frames=sum(n>0 for n in lit),peak_lit_channels=max(lit),
         mean_lit_fraction=round(sum(lit)/(frames*channels),6),dark_windows=dark,
         visual_review='pending',controller_validation='not_tested')
+    if selectors is not None:result['selected_channel_max']=selected_values
+    return result

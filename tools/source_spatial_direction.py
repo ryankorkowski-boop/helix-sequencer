@@ -10,18 +10,28 @@ import numpy as np
 def role_for(model):
     explicit=model.details.get('musical_role')
     if explicit:return explicit
-    name=model.name.upper();zone=model.zone.upper()
-    if 'WINDOW' in name or zone=='SPIRALS':return 'harmony'
-    if 'ROOF' in name or 'RIDGE' in name or zone in ('TREES','GROVE'):return 'guitarist'
-    if 'MATRIX' in name or zone in ('MATRICES','HELIX','DNA','OPTICAL'):return 'keyboardist'
+    name=model.name.upper();zone=model.zone.upper();native=getattr(model,'display','').upper()
+    if 'WINDOW' in name or native=='WINDOW FRAME' or zone=='SPIRALS':return 'harmony'
+    if 'ROOF' in name or 'RIDGE' in name or zone in ('TREES','GROVE') or native.startswith('TREE '):return 'guitarist'
+    if ('MATRIX' in name or 'MATRIX' in native or native=='CUBE' or zone.startswith('DNA')
+            or zone in ('MATRICES','HELIX','OPTICAL')):return 'keyboardist'
     if 'EAVE' in name or zone in ('DEPTH','CATHEDRAL'):return 'bassist'
-    if 'CANE' in name:return 'keyboardist'
-    if zone in ('ARCHES','SPINNER','SPINNERS','ACCENTS'):return 'drummer'
+    if 'CANE' in name or native=='CANDY CANES':return 'keyboardist'
+    if zone in ('ARCHES','SPINNER','SPINNERS','ACCENTS') or native in ('ARCHES','SPINNER'):return 'drummer'
+    if zone=='SKY_JEWELS' or native in ('STAR','SPHERE'):return 'lead'
     return 'bassist'
 
 
 def parts_for(model):
     if model.kind=='ac':return list(model.submodels)
+    # Native matrix models have real row geometry even when their names do
+    # not contain MATRIX. Build rows from physical Y, never insertion order.
+    if 'MATRIX' in getattr(model,'display','').upper() and not any(p.startswith('ROW_') for p in model.submodels):
+        y=model.points[:,1];height=float(np.ptp(y))
+        if height>0:
+            bins=np.minimum(15,np.floor((y-y.min())/height*16).astype(int))
+            for row in np.unique(bins):
+                model.submodels[f'ROW_{row:02}']=(np.flatnonzero(bins==row)+1).tolist()
     # Prefer physically coherent rows/strands over generic array sectors.
     for prefix in ('ROW_','STRAND_','RAY_','SECTOR_'):
         parts=[p for p in model.submodels if p.startswith(prefix)]
