@@ -27,7 +27,7 @@ def pcm(path):
 def review_archive(folder):
     """Publish a CRC-checked archive without interrupted encoder staging files."""
     folder=Path(folder)
-    target=folder.parent/'Helix_Final_Beta_Approval_Bundle.zip'
+    target=folder.parent/(folder.name+'.zip')
     temporary=target.with_name('.approval-'+uuid.uuid4().hex+'.zip')
     try:
         with zipfile.ZipFile(temporary,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
@@ -54,7 +54,8 @@ def verify(path,audio, *, native):
     source,decoded=pcm(audio),pcm(path);n=min(len(source),len(decoded))
     correlation=float(np.corrcoef(source[:n],decoded[:n])[0,1])
     if not np.isfinite(correlation) or correlation<.97:raise ValueError('Source soundtrack correlation failed')
-    if abs(float(v['duration'])-34.88)>.1 or abs(float(a['duration'])-34.88)>.1:raise ValueError('Full-song duration failed')
+    duration=len(source)/16000
+    if abs(float(v['duration'])-duration)>.1 or abs(float(a['duration'])-duration)>.1:raise ValueError('Full-song duration failed')
     if v['codec_name']!='h264' or a['codec_name']!='aac' or int(v['width'])<1280 or int(v['height'])<720:
         raise ValueError('Required codec/resolution failed')
     readability=verify_mp4(path)
@@ -102,15 +103,19 @@ def comparison(paths,labels,target,audio,cols,rows, *, duration=34.88):
         temporary.unlink(missing_ok=True)
 
 
-def render(layouts,output,xlights, *, source_commit=None):
+def render(layouts,output,xlights, *, source_commit=None, audio_name='Phoneme_Test_Hook.mp3',
+           expected_sha256=EXPECTED_SHA256, bundle_name='Helix_Final_Beta_Approval_Bundle'):
     layouts,output=Path(layouts),Path(output)
-    bundle=output/'Helix_Final_Beta_Approval_Bundle'
+    bundle=output/bundle_name
     for folder in ('00_START_HERE','01_Individual_Layouts','02_Comparison_Videos','03_Band_Features',
                    '04_XLights_Sequences/Matching_XSQ_Files','04_XLights_Sequences/Layouts',
                    '04_XLights_Sequences/Models','05_Verification'):(bundle/folder).mkdir(parents=True,exist_ok=True)
     manifest=json.loads((layouts/'Layout_Manifest.json').read_text())
     reports=[];failures=[];movies={}
-    audio=layouts/('01_'+manifest[0]['name'])/'media/Phoneme_Test_Hook.mp3'
+    audio=layouts/('01_'+manifest[0]['name'])/'media'/audio_name
+    if digest(audio)!=expected_sha256 or any(i['source_audio_sha256']!=expected_sha256 for i in manifest):
+        raise ValueError('Collection source checksum mismatch')
+    duration=len(pcm(audio))/16000
     for item in manifest:
         folder=layouts/f"{item['number']:02}_{item['name']}"
         print('RENDERING',item['number'],item['name'],flush=True)
@@ -121,7 +126,7 @@ def render(layouts,output,xlights, *, source_commit=None):
             if not (native.get('status')=='success' and Path(native.get('mp4','')).is_file()
                     and native.get('xsq_sha256')==digest(folder/item['xsq'])
                     and native.get('layout_sha256')==digest(folder/'xlights_rgbeffects.xml')):
-                native=preview_run(folder,xsq=folder/item['xsq'],audio=folder/'media/Phoneme_Test_Hook.mp3',xlights=xlights)
+                native=preview_run(folder,xsq=folder/item['xsq'],audio=folder/'media'/audio_name,xlights=xlights)
             if native['status']!='success':raise ValueError('; '.join(native['warnings']))
             target=bundle/'01_Individual_Layouts'/f"{item['number']:02}_{item['name']}.mp4"
             label(Path(native['mp4']),target,f"{item['number']:02} - {item['name'].replace('_',' ')} | native xLights")
@@ -146,7 +151,7 @@ def render(layouts,output,xlights, *, source_commit=None):
         for name,indexes,cols,rows in groups:
             print('COMPARISON',name,flush=True)
             target=bundle/'02_Comparison_Videos'/name
-            comparison([movies[i] for i in indexes],[manifest[i-1]['name'] for i in indexes],target,audio,cols,rows)
+            comparison([movies[i] for i in indexes],[manifest[i-1]['name'] for i in indexes],target,audio,cols,rows,duration=duration)
             reports.append(verify(target,audio,native=False))
         closeup=bundle/'03_Band_Features/Helix_Final_Snowman_Band_Closeup.mp4'
         shutil.copyfile(movies[7],closeup);reports.append(verify(closeup,audio,native=True))
@@ -158,7 +163,7 @@ def render(layouts,output,xlights, *, source_commit=None):
         shutil.copyfile(vocal,bundle/'05_Verification/Vocal_Verification_Report.json')
     # Keep acceptance honest even if every file decodes successfully.
     status=dict(schema='helix.final_approval_bundle.v1',complete=False,public_beta_ready=False,
-        mp4_count=len(reports),native_individuals=len(movies),source_audio_sha256=EXPECTED_SHA256,
+        mp4_count=len(reports),native_individuals=len(movies),source_audio_sha256=expected_sha256,
         technical_failures=failures,owner_visual_approval='pending',
         limitations=['Native surfaces and two-pose light banks are not continuous solid meshes',
                      'Preserved canonical drummer uses planar original artwork',
@@ -169,7 +174,7 @@ def render(layouts,output,xlights, *, source_commit=None):
     (bundle/'05_Verification/Source_Commit.txt').write_text((source_commit or 'uncommitted candidate; see module hashes')+'\n')
     start=bundle/'00_START_HERE'
     (start/'README.md').write_text('# Helix native video review candidate — INCOMPLETE\n\n'
-        'Audio in. Lights out.\n\nAll display footage is freshly rendered by native xLights2026.18 from the retained original Phoneme Test Hook recording. '
+        'Audio in. Lights out.\n\nAll display footage is freshly rendered by native xLights2026.18 from the checksum-verified owner sampler recording '+audio.name+'. '
         'Comparison videos synchronize the same musical time and use one soundtrack. Source video is20fps, not30fps.\n\n'
         '**This is an incomplete review candidate, not an approved beta or a claim that the final solid3D visuals have passed.** '
         'Pixel surface sampling and two-pose light banks differ from continuous solid-mesh animation. The original drummer artwork is planar. '
@@ -200,4 +205,8 @@ def render(layouts,output,xlights, *, source_commit=None):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('layouts',type=Path);p.add_argument('output',type=Path)
     p.add_argument('--xlights',required=True);p.add_argument('--source-commit')
-    a=p.parse_args();render(a.layouts,a.output,a.xlights,source_commit=a.source_commit)
+    p.add_argument('--audio-name',default='Phoneme_Test_Hook.mp3')
+    p.add_argument('--expected-sha256',default=EXPECTED_SHA256)
+    p.add_argument('--bundle-name',default='Helix_Final_Beta_Approval_Bundle')
+    a=p.parse_args();render(a.layouts,a.output,a.xlights,source_commit=a.source_commit,
+        audio_name=a.audio_name,expected_sha256=a.expected_sha256,bundle_name=a.bundle_name)

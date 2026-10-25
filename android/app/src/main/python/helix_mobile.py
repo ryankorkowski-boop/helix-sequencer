@@ -211,6 +211,7 @@ def run(engine_path, job_path, request_json, callback):
               'preview': {'status': 'pending' if request.get('preview', True) else 'skipped'}}
     manifest = {'schema': 'helix.android.run.v2', 'processing': 'on-device',
         'mode': request.get('mode', 'xlights'), 'stages': stages,
+        'band_enabled': bool(request.get('band_enabled', True)),
         'sequences': [], 'lms': [], 'previews': [],
         'limitations': ['No neural stem separation/Whisper', 'Simulated preview, not native xLights playback',
                         'Serial joblib and Python Numba kernels; large songs may run slowly'],
@@ -229,6 +230,12 @@ def run(engine_path, job_path, request_json, callback):
                     else:
                         shutil.copy2(engine/name, dest)
                 manifest['input_hashes'][name] = file_hash(dest)
+            from core.band_visibility import apply as apply_band_visibility
+            manifest['band_visibility'] = apply_band_visibility(
+                job/'input/xlights_rgbeffects.xml', job/'input/template.xsq',
+                enabled=request.get('band_enabled', True))
+            manifest['effective_input_hashes'] = {
+                name: file_hash(job/'input'/name) for name in ('template.xsq', 'xlights_rgbeffects.xml')}
         os.chdir(job)
         with contextlib.redirect_stdout(stream), contextlib.redirect_stderr(stream):
             from core import sequence_builder

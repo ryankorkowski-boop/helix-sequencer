@@ -41,7 +41,7 @@ def decode_video_samples(movie, indices, *, width=640, height=360):
 
 def verify(artifact: Path, output: Path):
     output.mkdir(parents=True,exist_ok=True);reports=[]
-    for mode in ('xlights','lor','real-rgb','full-song'):
+    for mode in ('xlights','lor','real-rgb','full-song','band-off'):
         bundle=next(artifact.rglob(mode+'-show.zip'));folder=output/mode;folder.mkdir(exist_ok=True)
         with zipfile.ZipFile(bundle) as z:
             assert z.testzip() is None

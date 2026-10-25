@@ -41,10 +41,10 @@ def _clear(element):
     return count
 
 
-def export(root, layout: Path, garden, *, fixture: Path = FIXTURE):
+def export(root, layout: Path, garden, *, fixture: Path = FIXTURE, expected_sha256=EXPECTED_SHA256):
     report = json.loads((fixture / 'diagnostic.json').read_text())
     clocks = fixture / 'acoustic_vocal_clocks.npz'
-    if report.get('audio_sha256') != EXPECTED_SHA256 or digest(clocks) != report.get('clock_sha256'):
+    if report.get('audio_sha256') != expected_sha256 or digest(clocks) != report.get('clock_sha256'):
         raise ValueError('Separated vocal cache does not match original source/receipt')
     duration_ms = round(float(root.findtext('head/sequenceDuration')) * 1000)
     duration = duration_ms / 1000

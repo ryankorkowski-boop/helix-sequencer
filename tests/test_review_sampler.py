@@ -1,0 +1,44 @@
+import hashlib
+import json
+from pathlib import Path
+from math import gcd
+import numpy as np
+from scipy.signal import resample_poly
+import soundfile as sf
+import pytest
+from tools.build_review_sampler import build
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_actual_audio_excerpts_reconstruct_from_recorded_source_ranges(tmp_path):
+    rows = []
+    for index, source in enumerate([ROOT/'fixtures/audio/Phoneme_Test_Hook.mp3', ROOT/'Tinsel Sawtooth (1).mp3']):
+        audio, sr = sf.read(source, dtype='float32', always_2d=True)
+        path = tmp_path/f'source{index}.wav'
+        sf.write(path, audio[:sr*8], sr, subtype='FLOAT')
+        rows.append(dict(local_path=str(path), sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+                         title=source.name, drive_id='test-source-'+str(index)))
+    config = tmp_path/'sources.json'; config.write_text(json.dumps(rows))
+    report = build(config, tmp_path/'sampler', seconds=2)
+    actual, sr = sf.read(tmp_path/'sampler'/report['audio'], dtype='float32', always_2d=True)
+    assert sr == 44100 and len(actual) == 44100*4
+    assert report['duration_seconds'] == 4
+    for index, row in enumerate(report['clips']):
+        source, rate = sf.read(row['local_path'], dtype='float32', always_2d=True)
+        cut = source[row['source_start_sample']:row['source_end_sample']]
+        common = gcd(rate, sr)
+        expected = resample_poly(cut, sr//common, rate//common, axis=0)
+        start = index*2*sr
+        # Edit fades are confined to the documented20ms edges.
+        np.testing.assert_allclose(actual[start+882:start+2*sr-882], expected[882:-882], atol=1/32768)
+        assert hashlib.sha256(Path(row['local_path']).read_bytes()).hexdigest() == row['sha256']
+
+
+def test_sampler_rejects_source_substitution(tmp_path):
+    source = ROOT/'fixtures/audio/Phoneme_Test_Hook.mp3'
+    config = tmp_path/'sources.json'
+    config.write_text(json.dumps([dict(local_path=str(source), sha256='0'*64, title='owner source')]))
+    with pytest.raises(ValueError, match='checksum'):
+        build(config, tmp_path/'sampler')
+    assert not list((tmp_path/'sampler').glob('*.wav'))

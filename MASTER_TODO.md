@@ -1,3 +1,48 @@
+## 2026-10-25 — Owner follow-up: Instructions, band switch and a new sampler
+
+Goal: repair the glitchy Android Instructions page, expose a persistent band
+switch, and produce fresh native band/layout-comparison previews using different
+audio. Changed: Android InfoActivity/MainActivity/resources/guidance and Gradle;
+core/band_visibility.py; helix_mobile; device/UI/co-install smoke tests and Android
+workflow; generic source parameters in prepare_phoneme_show, phoneme_vocal_export,
+build_approval_collection and render_approval_collection; build_review_sampler;
+related tests; shared helix_ui_text; this ledger and the follow-up handoff.
+
+Preserved: owner app/data (no phone uninstall); original channels/addresses and
+non-band props; enabled-by-default behavior; LOR addressed channels; original
+Phoneme source/caches and default commands; exact six-member native cast and
+source drummer; all strict release qualification/readability gates. Native source
+role/vocal identity limitations remain. No merge or public release.
+
+New behavior: inset-aware single scrolling Instructions/Legal reader retains each
+page's position and selection across recreation. Band performers switch is saved
+and removes named/explicitly tagged performers plus dangling group/template rows
+from private xLights input copies. Enabled leaves files byte-identical. It does
+not invent performers on layouts without a band; LOR switch is disabled.
+A separately labeled org.helixsequencer.android.review APK can co-install beside
+the installed Helix beta, avoiding its unavailable historical signing key. It
+has separate private jobs/settings; no automatic data transfer is claimed.
+VersionCode8/versionName1.1-beta; review variant adds the review suffix/label.
+
+New audio: six actual Starred catalog recordings,16 activity-selected seconds
+each,96s total. SamplerSHA25696f22339369a4f8894816bd3a621d9a5b49a95d8c95260ecb182539962acd75b.
+Original downloads were hashed; exact sample cuts and20ms edit fades are recorded.
+Both pinned MDX models and Silero ran on this new source:35.03s lead/4.67s backing
+activity estimates. Neither is independently verified singer identity. No Phoneme
+clock is stretched/reused. Generic renderer parameters bind source/fixture hashes
+and actual duration; legacy defaults remain. The owner's new request explicitly
+authorizes fresh preview comparisons now; these are labeled preview candidates,
+not promoted through unresolved final release acceptance or pilot gates.
+
+Evidence so far:41 focused source/render/Android host tests passed;18 additional
+branding/guidance/historical-signing/source tests passed (overlap exists; do not add
+as unique). Actual device UI/engine/band-off/co-install tests are configured and
+pending, as are fresh native outputs. Follow docs/ANDROID_BAND_SAMPLER_20261025.md
+for the running handoff and actual completion receipts. No premature video/APK
+existence or acceptance claim. Risks: custom imported band names need explicit
+recognized role metadata; singing VAD and broad phonemes remain estimates. Deferred:
+exact canonical visual approval, original-key in-place update and public beta.
+
 ## 2026-10-25 — Final recovery delivery receipt (documentation only)
 
 Executable/media source HEAD: b0f82813125254a91bbbb6f132f63e9eccfeb7ec.

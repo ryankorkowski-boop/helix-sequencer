@@ -78,6 +78,21 @@ public class OfflineEngineTest {
         MediaRuntime.decodeWav(new File(ri,"source.mp3").toString(),new File(ri,"audio.wav").toString());
         JSONObject realRequest=new JSONObject();realRequest.put("mode","xlights");realRequest.put("preview",true);realRequest.put("preview_seconds",8);
         JSONObject realResult=new JSONObject(Python.getInstance().getModule("helix_mobile").callAttr("run",engine.toString(),real.toString(),realRequest.toString(),new Callbacks()).toString());
+        File withoutBand=new File(context.getFilesDir(),"smoke-band-off");File bi=new File(withoutBand,"input");bi.mkdirs();
+        Files.copy(new File(ri,"audio.wav").toPath(),new File(bi,"audio.wav").toPath(),StandardCopyOption.REPLACE_EXISTING);
+        try(InputStream in=test.getAssets().open("stability-rgb.xml");OutputStream out=new FileOutputStream(new File(bi,"xlights_rgbeffects.xml"))){EngineService.copy(in,out);}
+        JSONObject bandRequest=new JSONObject(realRequest.toString());bandRequest.put("band_enabled",false);bandRequest.put("preview_seconds",3);
+        JSONObject bandResult=new JSONObject(Python.getInstance().getModule("helix_mobile").callAttr("run",engine.toString(),withoutBand.toString(),bandRequest.toString(),new Callbacks()).toString());
+        JSONObject bandManifest=new JSONObject(new String(Files.readAllBytes(new File(withoutBand,"outputs/android-run.json").toPath()),"UTF-8"));
+        assertFalse(bandManifest.getBoolean("band_enabled"));
+        assertTrue(bandManifest.getJSONObject("band_visibility").getJSONArray("removed_models").length()>0);
+        javax.xml.parsers.DocumentBuilderFactory factory=javax.xml.parsers.DocumentBuilderFactory.newInstance();
+        org.w3c.dom.NodeList remaining=factory.newDocumentBuilder().parse(new File(bi,"xlights_rgbeffects.xml")).getElementsByTagName("model");
+        for(int i=0;i<remaining.getLength();i++){
+            String name=((org.w3c.dom.Element)remaining.item(i)).getAttribute("name");
+            assertFalse(name.startsWith("HX_SNOWMAN_DRUMMER_"));assertFalse(name.startsWith("HX_SNOWMAN_SINGER_"));
+        }
+        publishProof(context,"band-off-show.zip",Files.readAllBytes(new File(bandResult.getString("bundle")).toPath()),"application/zip");
         assertEquals("success",realResult.getJSONObject("stages").getJSONObject("preview").getString("status"));
         publishProof(context,"real-rgb-show.zip",Files.readAllBytes(new File(realResult.getString("bundle")).toPath()),"application/zip");
         // A fresh actual engine run with an intentionally failing encoder must export.

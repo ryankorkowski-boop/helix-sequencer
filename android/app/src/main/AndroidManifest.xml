@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROCESSING" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <application android:usesCleartextTraffic="true" android:label="Helix" android:icon="@drawable/helix_h_logo" android:theme="@style/HelixTheme" android:allowBackup="false" android:supportsRtl="true">
+    <application android:usesCleartextTraffic="true" android:label="${helixAppLabel}" android:icon="@drawable/helix_h_logo" android:theme="@style/HelixTheme" android:allowBackup="false" android:supportsRtl="true">
         <activity android:name=".InfoActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>

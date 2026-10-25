@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
     private Spinner mode,palette,sampleLayout;
     private UiOptions options;
     private EditText variants,duration;
-    private CheckBox polish,matrix,birdsong,spatial,ac,preview,quickClip;
+    private CheckBox polish,matrix,birdsong,spatial,ac,preview,quickClip,includeBand;
     private TextView status,log,stepTitle,results;
     private ProgressBar progress;
     private Button run,cancel,save,watch,movie,sequence,report,share,next,back;
@@ -91,6 +91,8 @@ public class MainActivity extends Activity {
         select("layout","Import xLights layout · RGB effects XML");select("lor","Import LOR channels · existing LMS");
         text("Sample layouts · six display choices and separate stage scenery",16,Color.WHITE);
         sampleLayout=spinner(options.layoutTitles());sampleLayout.setSelection(6);
+        includeBand=check("Band performers",true);includeBand.setId(R.id.include_band);
+        text("Include the band when it is present in your xLights layout. Turn it off for a lights-only show.",14,Color.LTGRAY);
         text("Your imported layout takes priority. With no import, the selected sample is used. Stage scenery contains the stage props; it does not replace the band design.",14,Color.LTGRAY);
         text("LOR: choose a legacy LMS with real Unit/Circuit addresses. Native .loredit and LCC import are unavailable.",14,Color.LTGRAY);
 
@@ -151,6 +153,7 @@ public class MainActivity extends Activity {
         android.content.SharedPreferences p=getPreferences(0);mode.setSelection(p.getInt("mode",0));palette.setSelection(p.getInt("palette",0));
         variants.setText(p.getString("variants","1"));duration.setText(p.getString("duration","30"));preview.setChecked(p.getBoolean("preview",true));
         quickClip.setChecked(p.getBoolean("quick_clip",false));sampleLayout.setSelection(p.getInt("sample_layout",6));
+        includeBand.setChecked(p.getBoolean("band_enabled",true));
         spatial.setChecked(p.getBoolean("spatial",true));ac.setChecked(p.getBoolean("ac",false));polish.setChecked(p.getBoolean("polish",true));
         matrix.setChecked(p.getBoolean("matrix",true));birdsong.setChecked(p.getBoolean("birdsong",true));
         for(String key:selectors.keySet()){String value=p.getString("uri_"+key,"");if(!value.isEmpty()){Uri uri=Uri.parse(value);inputs.put(key,uri);selectors.get(key).setText(key+" · "+name(uri));}}
@@ -161,6 +164,7 @@ public class MainActivity extends Activity {
             .putString("variants",variants.getText().toString()).putString("duration",duration.getText().toString())
             .putBoolean("preview",preview.isChecked()).putBoolean("spatial",spatial.isChecked()).putBoolean("ac",ac.isChecked())
             .putBoolean("quick_clip",quickClip.isChecked()).putInt("sample_layout",sampleLayout.getSelectedItemPosition())
+            .putBoolean("band_enabled",includeBand.isChecked())
             .putBoolean("polish",polish.isChecked()).putBoolean("matrix",matrix.isChecked()).putBoolean("birdsong",birdsong.isChecked()).putInt("page",page).apply();
     }
     private void updateMode(){
@@ -168,6 +172,7 @@ public class MainActivity extends Activity {
         for(String key:new String[]{"layout","template","routing","networks"})selectors.get(key).setVisibility(lor?View.GONE:View.VISIBLE);
         selectors.get("lor").setVisibility(lor?View.VISIBLE:View.GONE);
         for(View v:new View[]{palette,matrix,birdsong,spatial})v.setEnabled(rgb&&!busy);ac.setEnabled(!lor&&!busy);sampleLayout.setEnabled(!lor&&!busy);
+        includeBand.setEnabled(!lor&&!busy);
     }
     private String name(Uri uri){
         try(android.database.Cursor c=getContentResolver().query(uri,new String[]{OpenableColumns.DISPLAY_NAME},null,null,null)){if(c!=null&&c.moveToFirst())return c.getString(0);}
@@ -184,6 +189,7 @@ public class MainActivity extends Activity {
             JSONObject r=new JSONObject();r.put("mode",mode.getSelectedItemPosition()==1?"lor":"xlights");r.put("variants",n);r.put("preview_seconds",sec);
             r.put("preview",preview.isChecked());r.put("polish",polish.isChecked());r.put("palette",options.palette(palette.getSelectedItemPosition()));
             r.put("quick_clip",quickClip.isChecked());r.put("sample_layout",options.layout(sampleLayout.getSelectedItemPosition()));
+            r.put("band_enabled",includeBand.isChecked());
             r.put("matrix",matrix.isChecked());r.put("birdsong",birdsong.isChecked());r.put("spatial",spatial.isChecked());r.put("ac_compatible",ac.isChecked());
             JSONObject uris=new JSONObject();for(Map.Entry<String,Uri> e:inputs.entrySet())uris.put(e.getKey(),e.getValue().toString());r.put("inputs",uris);
             currentJob=new File(getFilesDir(),"jobs/"+UUID.randomUUID());getPreferences(0).edit().putString("job",currentJob.getAbsolutePath()).apply();

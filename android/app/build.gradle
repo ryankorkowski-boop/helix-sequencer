@@ -13,12 +13,22 @@ android {
         applicationId 'org.helixsequencer.android'
         minSdk 26
         targetSdk 36
-        versionCode 7
-        versionName '1.0-beta'
+        versionCode 8
+        versionName '1.1-beta'
         ndk { abiFilters 'arm64-v8a', 'x86_64' }
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        manifestPlaceholders = [helixAppLabel: 'Helix']
     }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    buildTypes {
+        review {
+            initWith debug
+            applicationIdSuffix '.review'
+            versionNameSuffix '-review'
+            matchingFallbacks = ['debug']
+            manifestPlaceholders = [helixAppLabel: 'Helix Review']
+        }
+    }
     sourceSets { main { assets.srcDir layout.buildDirectory.dir('generated/helixAssets') } }
     if (releaseSigning.every { it }) {
         signingConfigs {

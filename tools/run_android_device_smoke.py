@@ -19,6 +19,7 @@ def main():
     proof_errors=[]
     names=['xlights-show.zip','lor-show.zip','real-rgb-show.zip','failed-preview-show.zip','full-song-show.zip','launcher.png','remote-transport.json','screen-playback.png','cancellation.json']
     names += ['screen-'+page+'.png' for page in ('music','layout','style','advanced','generate','results')]
+    names += ['screen-instructions.png', 'instructions-band-ui.json', 'band-off-show.zip']
     for name in names:
         cmd=['adb','pull',f'/sdcard/Download/HelixAndroidSmoke/{name}',str(dest/name)]
         proof=subprocess.run(cmd,capture_output=True)
