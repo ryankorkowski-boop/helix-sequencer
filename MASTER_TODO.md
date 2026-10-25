@@ -1,3 +1,13 @@
+## 2026-10-25 — Compile and preserve the pinned renderer independently of DSP
+
+Goal: unblock verification of the discovered cold-export viewport defect without waiting for a repeated full analysis.
+Changed: .github/workflows/native-renderer-build.yml and this ledger.
+Preserved: exact pinned upstream839c0f, current all-or-nothing source patch, dependency validation, source/build hash receipts, existing show workflows and every acceptance gate. No musical, model, Android or Windows code changes.
+New behavior: a narrow renderer-only PR/manual workflow restores compatible build objects, rejects previous-patch source, compiles current source, validates shared libraries, and preserves the stripped binary plus source/patch/original/stripped hashes independently of sequence preparation or video acceptance. Existing full render jobs continue.
+Evidence: workflow parsed and required step/hash/source checks inspected; compilation and actual first-frame repair still require real runtime proof. Windows97b8add portable ZIP downloaded, SHA25689baf7024f95009a6fe7f35f7b3224fedad9fdb188b495a9b9925a695df54c64, CRC1895 entries passed, packaged nativeFSEQ/LOR/xLights returncodes0; launch/engine/GUI smoke steps completed in40231398780. No old-source executable is relabeled.
+Limitations: no compiled-current-renderer claim yet; strict canonical/acoustic pilot gates remain open. Android old-debug upgrade migration is superseded. Final collection remains held pending real pilot verification; no merge/publication.
+Risks: compilation cache is an optimization only; exact patch validation is authoritative. Build timeout remains bounded48m with full diagnostics. Next collect helix-native-renderer artifact and rerender retained36s LetItGlow show, then inspect opening, events and soundtrack.
+
 ## 2026-10-25 — Opening-frame native viewport defect found by real frame inspection
 
 Goal: repair cold native export geometry before timeline zero and prevent median-only visibility checks from accepting a cropped opening.
