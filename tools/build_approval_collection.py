@@ -2,6 +2,7 @@
 import argparse
 import json
 import shutil
+import subprocess
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import numpy as np
@@ -35,6 +36,12 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
     plans=list((source/'sequence').glob('*.snowman_band.json'))
     if len(plans)!=1:raise ValueError('Expected one cached production analysis')
     plan=json.loads(plans[0].read_text())
+    repo=Path(__file__).resolve().parents[1]
+    export_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+    export_hashes={name:digest(repo/name) for name in ('models/final_band_scene.py',
+        'models/final_band_native.py','models/canonical_native_band.py','models/approval_layouts.py',
+        'tools/build_approval_collection.py','tools/canonical_band_cues.py',
+        'tools/source_spatial_direction.py','tools/phoneme_vocal_export.py')}
     manifest=[]
     for number in numbers:
         name=NAMES[number-1]
@@ -116,6 +123,7 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
         item=dict(number=number,name=name,folder=str(folder.resolve()),xsq=path.name,
                   source_audio_sha256=expected_sha256,source_analysis_sha256=digest(plans[0]),
                   source_commit=source_manifest['source_commit'],source_duration_seconds=duration,audio_name=audio_name,
+                  export_source_commit=export_commit,export_source_module_sha256=export_hashes,
                   model_count=len(g.models),channels=sum(m.channels for m in g.models),
                   canonical_members=len(band),native_render_status='not_started',
                   native_limits=['Stationary native geometry; no geometric helix rotation claimed',

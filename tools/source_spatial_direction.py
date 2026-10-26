@@ -5,6 +5,7 @@ No random source activity or whole-display beat/volume broadcast is introduced.
 """
 from __future__ import annotations
 import numpy as np
+import re
 
 
 def role_for(model):
@@ -53,10 +54,10 @@ def voice_events(cache,lane):
 
 def section_strategy(label,role):
     """Choose spatial composition from the retained song-part annotation."""
-    label=str(label).lower()
+    label=re.sub(r'[-_\s]','',str(label).lower())
     if any(word in label for word in ('breakdown','bridge','intro','outro')):
         return dict(name='sparse',steps=1,step_ms=0,direction=1)
-    if any(word in label for word in ('build','rise','prechorus','pre-chorus')):
+    if any(word in label for word in ('build','rise','prechorus')):
         return dict(name='ascending',steps=4,step_ms=35,direction=1)
     if any(word in label for word in ('drop','chorus','refrain')):
         return dict(name='wide_response',steps=5 if role in ('guitarist','keyboardist') else 3,step_ms=30,direction=-1)

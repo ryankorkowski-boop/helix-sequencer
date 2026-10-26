@@ -1,0 +1,47 @@
+{
+  "file": "preview.mp4",
+  "sha256": "a318165fc22651c6483e19b750edc295c1b35ea73f9b4158bc55ed611261c921",
+  "bytes": 14213588,
+  "native_xlights": true,
+  "dimensions": [
+    1920,
+    1080
+  ],
+  "fps": "20/1",
+  "frames": "720",
+  "video_duration": 36.0,
+  "audio_duration": 36.0,
+  "full_decode": true,
+  "original_soundtrack_correlation": 0.9961129996125552,
+  "audio_start_time": 0.0,
+  "video_start_time": 0.0,
+  "readability": {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 72,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 19.67,
+      "median_bright_fraction": 0.1166,
+      "median_motion": 1.168,
+      "visible_width": 0.75,
+      "visible_height": 0.744
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true,
+      "opening_static_cast_framing": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+  }
+}

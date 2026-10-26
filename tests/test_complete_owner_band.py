@@ -49,6 +49,8 @@ def test_native_seven_members_keep_notes_clocks_and_alternating_mallets():
 
 
 def test_sections_and_drum_components_change_composition_without_inventing_events():
+    from tools.source_spatial_direction import section_strategy
+    assert section_strategy('PRE_CHORUS','keyboardist')['name']=='ascending'
     g=build_layout(10)
     m=next(m for m in g.models if m.name=='MOIRE_LINE_LATTICE_0')
     role=m.details['musical_role']

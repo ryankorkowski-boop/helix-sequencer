@@ -1,0 +1,4997 @@
+{
+  "schema": "helix.drum_transcription.v1",
+  "audio": "../Let_It_Glow_36s.wav",
+  "audio_sha256": "bf5796a8d7eeb86f30adefcd8478f5e42f1c7b714162e72d9ddf92c4e71e1fb4",
+  "analysis_audio_sha256": "d38017a1c7081df634de36a8bc74e08351d5907a9e08243916c884e0a99f76fa",
+  "review_status": "model_inferred_pending_human_listening",
+  "provenance": {
+    "engine": "adtof_frame_rnn_polyphonic",
+    "code_url": "https://github.com/xavriley/ADTOF-pytorch",
+    "code_revision": "85c192e78f716ea0b111cc8a5ee4a8f6a3a4f8a9",
+    "weights_sha256": "1bc986e596ec47ba0b44916f87cd4a39f0b2bec23596df3fb5d0e87749217320",
+    "weights_license": "CC-BY-NC-SA-4.0 (original ADTOF)",
+    "analysis_audio": "../LetItGlow-vocals/estimated_accompaniment.wav",
+    "family_thresholds": [
+      0.22,
+      0.24,
+      0.32,
+      0.22,
+      0.3
+    ],
+    "activation_fps": 100,
+    "velocity_method": "per_family_95th_percentile_attack_rms_sqrt",
+    "tom_identity": "not_provided_by_five_family_model",
+    "tom_reference_hz": null,
+    "family_stems": null
+  },
+  "events": [
+    {
+      "timestamp": 0.02,
+      "drum_family": "cymbal",
+      "tom_class": null,
+      "confidence": 0.5442390441894531,
+      "velocity": 0.8218,
+      "source_onset_index": 14,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2,
+        "class_index": 4,
+        "source_midi_family": 49,
+        "attack_rms": 0.16830337047576904,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 0.02,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.3409208059310913,
+      "velocity": 0.8212,
+      "source_onset_index": 13,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.16830337047576904,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 0.02,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.5431519746780396,
+      "velocity": 0.8019,
+      "source_onset_index": 10,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.16830337047576904,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 0.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.4421769678592682,
+      "velocity": 0.8281,
+      "source_onset_index": 148,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 29,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1711295247077942,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 0.29,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.5771410465240479,
+      "velocity": 0.8086,
+      "source_onset_index": 145,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 29,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.1711295247077942,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 0.29,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8433170318603516,
+      "velocity": 0.8147,
+      "source_onset_index": 146,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 29,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.1711295247077942,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 1.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6674365997314453,
+      "velocity": 0.8377,
+      "source_onset_index": 578,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 115,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.17512761056423187,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 1.15,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.876022458076477,
+      "velocity": 0.818,
+      "source_onset_index": 575,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 115,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.17512761056423187,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 1.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6069756150245667,
+      "velocity": 0.5751,
+      "source_onset_index": 793,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 158,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.08255061507225037,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 2.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5981921553611755,
+      "velocity": 0.8787,
+      "source_onset_index": 1008,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 201,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1926671415567398,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 2.01,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.40833282470703125,
+      "velocity": 0.858,
+      "source_onset_index": 1005,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 201,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.1926671415567398,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 2.01,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8608163595199585,
+      "velocity": 0.8644,
+      "source_onset_index": 1006,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 201,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.1926671415567398,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 2.29,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.318440705537796,
+      "velocity": 0.6832,
+      "source_onset_index": 1145,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 229,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.12215859442949295,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 2.43,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6964614987373352,
+      "velocity": 0.6577,
+      "source_onset_index": 1218,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 243,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.10794037580490112,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 2.43,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.7437811493873596,
+      "velocity": 0.647,
+      "source_onset_index": 1216,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 243,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.10794037580490112,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 2.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.3108106553554535,
+      "velocity": 0.5862,
+      "source_onset_index": 1363,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 272,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.08575701713562012,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 2.86,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.434244841337204,
+      "velocity": 0.8647,
+      "source_onset_index": 1431,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 286,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.19281010329723358,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 2.87,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6566765904426575,
+      "velocity": 0.9371,
+      "source_onset_index": 1438,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 287,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.21914401650428772,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 2.87,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.2905612885951996,
+      "velocity": 0.915,
+      "source_onset_index": 1435,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 287,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.21914401650428772,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 3.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.36718395352363586,
+      "velocity": 0.7434,
+      "source_onset_index": 1578,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 315,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.13790775835514069,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 3.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6536667346954346,
+      "velocity": 0.6173,
+      "source_onset_index": 1648,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 329,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.09508797526359558,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 3.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5968668460845947,
+      "velocity": 0.3921,
+      "source_onset_index": 1793,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 358,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.03836124390363693,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 3.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.41605639457702637,
+      "velocity": 0.8303,
+      "source_onset_index": 1863,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 372,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1720471829175949,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 3.72,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.6058585047721863,
+      "velocity": 0.8108,
+      "source_onset_index": 1860,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 372,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.1720471829175949,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 3.72,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8017101883888245,
+      "velocity": 0.8169,
+      "source_onset_index": 1861,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 372,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.1720471829175949,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 4.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5497335195541382,
+      "velocity": 0.3966,
+      "source_onset_index": 2008,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 401,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.03926154226064682,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 4.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6491290926933289,
+      "velocity": 0.7445,
+      "source_onset_index": 2078,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 415,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.13833585381507874,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 4.15,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.7752925753593445,
+      "velocity": 0.7325,
+      "source_onset_index": 2076,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 415,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.13833585381507874,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 4.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5541129112243652,
+      "velocity": 0.6555,
+      "source_onset_index": 2223,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 444,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.10723961889743805,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 4.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7744005918502808,
+      "velocity": 0.9184,
+      "source_onset_index": 2293,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 458,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.2104831039905548,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 4.58,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8467716574668884,
+      "velocity": 0.8968,
+      "source_onset_index": 2290,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 458,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.2104831039905548,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 4.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6638402342796326,
+      "velocity": 0.7009,
+      "source_onset_index": 2433,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 486,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.12258391827344894,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 5.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6029680371284485,
+      "velocity": 0.6397,
+      "source_onset_index": 2508,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 501,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.10211637616157532,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 5.01,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.3129442632198334,
+      "velocity": 0.6293,
+      "source_onset_index": 2506,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 501,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.10211637616157532,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 5.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6088845729827881,
+      "velocity": 0.8927,
+      "source_onset_index": 2723,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 544,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.19887740910053253,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 5.44,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.46539339423179626,
+      "velocity": 0.8717,
+      "source_onset_index": 2720,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 544,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.19887740910053253,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 5.44,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.86966872215271,
+      "velocity": 0.8782,
+      "source_onset_index": 2721,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 544,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.19887740910053253,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 5.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.4499424397945404,
+      "velocity": 0.2929,
+      "source_onset_index": 2863,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 572,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.021410681307315826,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 5.87,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5491684675216675,
+      "velocity": 0.5427,
+      "source_onset_index": 2938,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 587,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.07349346578121185,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 6.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5831440091133118,
+      "velocity": 0.4885,
+      "source_onset_index": 3078,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 615,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.05956306681036949,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 6.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5690402388572693,
+      "velocity": 0.893,
+      "source_onset_index": 3148,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 629,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.19902801513671875,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 6.29,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.7186247706413269,
+      "velocity": 0.872,
+      "source_onset_index": 3145,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 629,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.19902801513671875,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 6.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6408196091651917,
+      "velocity": 0.7037,
+      "source_onset_index": 3293,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 658,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.12357012182474136,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 6.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6622494459152222,
+      "velocity": 0.8455,
+      "source_onset_index": 3363,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 672,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.17840996384620667,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 6.72,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8417550325393677,
+      "velocity": 0.8256,
+      "source_onset_index": 3360,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 672,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.17840996384620667,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 6.72,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.6461102962493896,
+      "velocity": 0.8318,
+      "source_onset_index": 3361,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 672,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.17840996384620667,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 7.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.40756258368492126,
+      "velocity": 0.5502,
+      "source_onset_index": 3508,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 701,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.07555102556943893,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 7.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6277143359184265,
+      "velocity": 0.8538,
+      "source_onset_index": 3578,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 715,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1819268763065338,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 7.15,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.7697365283966064,
+      "velocity": 0.8337,
+      "source_onset_index": 3575,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 715,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.1819268763065338,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 7.15,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8494650721549988,
+      "velocity": 0.84,
+      "source_onset_index": 3576,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 715,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.1819268763065338,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 7.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6178331971168518,
+      "velocity": 0.6284,
+      "source_onset_index": 3723,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 744,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.0985453724861145,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 7.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7391843199729919,
+      "velocity": 0.9551,
+      "source_onset_index": 3793,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 758,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.22763127088546753,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 7.58,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8740962147712708,
+      "velocity": 0.9326,
+      "source_onset_index": 3790,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 758,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.22763127088546753,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 7.58,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.507288932800293,
+      "velocity": 0.9396,
+      "source_onset_index": 3791,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 758,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.22763127088546753,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 7.86,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.7020260691642761,
+      "velocity": 0.8313,
+      "source_onset_index": 3930,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 786,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.18084926903247833,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 7.87,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6799102425575256,
+      "velocity": 0.9038,
+      "source_onset_index": 3938,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 787,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.2038535177707672,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 8.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7229014039039612,
+      "velocity": 0.9286,
+      "source_onset_index": 4008,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 801,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.21519391238689423,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 8.01,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8499945998191833,
+      "velocity": 0.9068,
+      "source_onset_index": 4005,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 801,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.21519391238689423,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 8.01,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.4445904791355133,
+      "velocity": 0.9136,
+      "source_onset_index": 4006,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 801,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.21519391238689423,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 8.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5843197107315063,
+      "velocity": 0.7833,
+      "source_onset_index": 4148,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 829,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.153123676776886,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 8.43,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.596219003200531,
+      "velocity": 0.6814,
+      "source_onset_index": 4218,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 843,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.11586374789476395,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 8.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5863811373710632,
+      "velocity": 0.6662,
+      "source_onset_index": 4363,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 872,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.110775426030159,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 8.86,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.561907947063446,
+      "velocity": 0.8358,
+      "source_onset_index": 4430,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 886,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.18284045159816742,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 8.87,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6697140336036682,
+      "velocity": 0.8905,
+      "source_onset_index": 4438,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 887,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.19790999591350555,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 8.87,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8295300602912903,
+      "velocity": 0.8761,
+      "source_onset_index": 4436,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 887,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.19790999591350555,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 9.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6492217183113098,
+      "velocity": 0.6084,
+      "source_onset_index": 4578,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 915,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.09238427132368088,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 9.15,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.5935472846031189,
+      "velocity": 0.5941,
+      "source_onset_index": 4575,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 915,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.09238427132368088,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 9.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6627447605133057,
+      "velocity": 0.686,
+      "source_onset_index": 4648,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 929,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.11745288223028183,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 9.29,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.6400527358055115,
+      "velocity": 0.6749,
+      "source_onset_index": 4646,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 929,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.11745288223028183,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 9.57,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6239025592803955,
+      "velocity": 0.692,
+      "source_onset_index": 4788,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 957,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.11950037628412247,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 9.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7100918292999268,
+      "velocity": 0.8748,
+      "source_onset_index": 4863,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 972,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.19097088277339935,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 9.72,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.5234636664390564,
+      "velocity": 0.8542,
+      "source_onset_index": 4860,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 972,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.19097088277339935,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 10.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.4287063181400299,
+      "velocity": 0.6486,
+      "source_onset_index": 5008,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1001,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.10498693585395813,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 10.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6559344530105591,
+      "velocity": 0.6352,
+      "source_onset_index": 5078,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1015,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.10069873929023743,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 10.43,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.49597737193107605,
+      "velocity": 0.6206,
+      "source_onset_index": 5218,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1043,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.09611177444458008,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 10.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7194464802742004,
+      "velocity": 0.8748,
+      "source_onset_index": 5293,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1058,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1909700483083725,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 10.58,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.7461758852005005,
+      "velocity": 0.8542,
+      "source_onset_index": 5290,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1058,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.1909700483083725,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 10.58,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.897852897644043,
+      "velocity": 0.8606,
+      "source_onset_index": 5291,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1058,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.1909700483083725,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 10.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.703264057636261,
+      "velocity": 0.4432,
+      "source_onset_index": 5433,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1086,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.049022238701581955,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 11.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6703106760978699,
+      "velocity": 0.7008,
+      "source_onset_index": 5508,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1101,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.12255235761404037,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 11.01,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.3169233202934265,
+      "velocity": 0.6894,
+      "source_onset_index": 5506,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1101,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.12255235761404037,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 11.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7039579153060913,
+      "velocity": 0.6355,
+      "source_onset_index": 5648,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1129,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1007857620716095,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 11.43,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.6620833277702332,
+      "velocity": 0.8308,
+      "source_onset_index": 5716,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1143,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.1779875010251999,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 11.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6685183048248291,
+      "velocity": 0.9222,
+      "source_onset_index": 5723,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1144,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.2122325301170349,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 11.44,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.560949981212616,
+      "velocity": 0.9005,
+      "source_onset_index": 5720,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1144,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.2122325301170349,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 11.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7719978094100952,
+      "velocity": 0.8811,
+      "source_onset_index": 5863,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1172,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.19373196363449097,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 11.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6597063541412354,
+      "velocity": 0.7879,
+      "source_onset_index": 5933,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1186,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.15492939949035645,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 12.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.751639723777771,
+      "velocity": 0.8745,
+      "source_onset_index": 6148,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1229,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.19086365401744843,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 12.29,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.6921768188476562,
+      "velocity": 0.854,
+      "source_onset_index": 6145,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1229,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.19086365401744843,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 12.29,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8758797645568848,
+      "velocity": 0.8604,
+      "source_onset_index": 6146,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1229,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.19086365401744843,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 12.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.585108757019043,
+      "velocity": 0.2503,
+      "source_onset_index": 6293,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1258,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.015641098842024803,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 12.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5067747831344604,
+      "velocity": 0.4533,
+      "source_onset_index": 6363,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1272,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.051282089203596115,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 12.72,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.47147491574287415,
+      "velocity": 0.446,
+      "source_onset_index": 6361,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1272,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.051282089203596115,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 13.0,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.6726893782615662,
+      "velocity": 0.8017,
+      "source_onset_index": 6500,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1300,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.16821368038654327,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 13.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.665678858757019,
+      "velocity": 0.926,
+      "source_onset_index": 6508,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1301,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.21399281919002533,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 13.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7514722347259521,
+      "velocity": 0.925,
+      "source_onset_index": 6578,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1315,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.213509202003479,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 13.15,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.7942707538604736,
+      "velocity": 0.9032,
+      "source_onset_index": 6575,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1315,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.213509202003479,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 13.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7162952423095703,
+      "velocity": 0.5857,
+      "source_onset_index": 6648,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1329,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.08561625331640244,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 13.43,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.4571252763271332,
+      "velocity": 0.8,
+      "source_onset_index": 6716,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1343,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.16501757502555847,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 13.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.662541925907135,
+      "velocity": 0.9047,
+      "source_onset_index": 6723,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1344,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.204270139336586,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 13.44,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.7472869157791138,
+      "velocity": 0.8834,
+      "source_onset_index": 6720,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1344,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.204270139336586,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 13.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6884297132492065,
+      "velocity": 0.5763,
+      "source_onset_index": 6793,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1358,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.0828704684972763,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 13.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.767429530620575,
+      "velocity": 0.9149,
+      "source_onset_index": 6863,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1372,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.20888805389404297,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 13.72,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8098382949829102,
+      "velocity": 0.8934,
+      "source_onset_index": 6860,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1372,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.20888805389404297,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 13.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6158664226531982,
+      "velocity": 0.5809,
+      "source_onset_index": 6933,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1386,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.08419977873563766,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 14.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6006337404251099,
+      "velocity": 0.8743,
+      "source_onset_index": 7008,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1401,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.19074518978595734,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 14.01,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8365150690078735,
+      "velocity": 0.8537,
+      "source_onset_index": 7005,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1401,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.19074518978595734,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 14.01,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8887068629264832,
+      "velocity": 0.8601,
+      "source_onset_index": 7006,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1401,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.19074518978595734,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 14.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6469773054122925,
+      "velocity": 0.6232,
+      "source_onset_index": 7148,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1429,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.0969095453619957,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 14.43,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6460785865783691,
+      "velocity": 0.8809,
+      "source_onset_index": 7218,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1443,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.19363783299922943,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 14.43,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8035272359848022,
+      "velocity": 0.8601,
+      "source_onset_index": 7215,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1443,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.19363783299922943,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 14.43,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.4806345999240875,
+      "velocity": 0.8666,
+      "source_onset_index": 7216,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1443,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.19363783299922943,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 14.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.8132309913635254,
+      "velocity": 0.9376,
+      "source_onset_index": 7363,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1472,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.21940405666828156,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 14.72,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.776712954044342,
+      "velocity": 0.9156,
+      "source_onset_index": 7360,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1472,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.21940405666828156,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 14.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7613171339035034,
+      "velocity": 0.9678,
+      "source_onset_index": 7433,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1486,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.23372705280780792,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 14.86,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8309425115585327,
+      "velocity": 0.945,
+      "source_onset_index": 7430,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1486,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.23372705280780792,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 15.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.717167854309082,
+      "velocity": 0.8071,
+      "source_onset_index": 7578,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1515,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.16256843507289886,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 15.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6391260623931885,
+      "velocity": 0.7455,
+      "source_onset_index": 7648,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1529,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.13867998123168945,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 15.57,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6431998014450073,
+      "velocity": 0.2472,
+      "source_onset_index": 7788,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1557,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.015244666486978531,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 15.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7837268114089966,
+      "velocity": 0.8813,
+      "source_onset_index": 7863,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1572,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1938169300556183,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 15.72,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.863093912601471,
+      "velocity": 0.867,
+      "source_onset_index": 7861,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1572,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.1938169300556183,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 16.0,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.45097899436950684,
+      "velocity": 0.2096,
+      "source_onset_index": 8003,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1600,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.01096330489963293,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 16.14,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6349974870681763,
+      "velocity": 0.4401,
+      "source_onset_index": 8073,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1614,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.04833166301250458,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 16.43,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5678503513336182,
+      "velocity": 0.198,
+      "source_onset_index": 8218,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1643,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.009788194671273232,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 16.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7256432175636292,
+      "velocity": 1.0,
+      "source_onset_index": 8293,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1658,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.25732773542404175,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 16.58,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.880075991153717,
+      "velocity": 0.9916,
+      "source_onset_index": 8290,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1658,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.25732773542404175,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 16.81,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.38966578245162964,
+      "velocity": 0.6104,
+      "source_onset_index": 8408,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1681,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.09299609065055847,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 17.0,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.645134687423706,
+      "velocity": 0.6103,
+      "source_onset_index": 8503,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1700,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.09295865148305893,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 17.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5547097325325012,
+      "velocity": 0.5185,
+      "source_onset_index": 8648,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1729,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.06709612905979156,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 17.43,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.8051233887672424,
+      "velocity": 0.8629,
+      "source_onset_index": 8718,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1743,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.18580739200115204,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 17.43,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8172398805618286,
+      "velocity": 0.8489,
+      "source_onset_index": 8716,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1743,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.18580739200115204,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 17.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6333091855049133,
+      "velocity": 0.3681,
+      "source_onset_index": 8863,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1772,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.03380727022886276,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 17.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6122424602508545,
+      "velocity": 0.3689,
+      "source_onset_index": 8933,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1786,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.03396015241742134,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 18.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5271435976028442,
+      "velocity": 0.2263,
+      "source_onset_index": 9078,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1815,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.012780161574482918,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 18.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7955052852630615,
+      "velocity": 0.9814,
+      "source_onset_index": 9148,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1829,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.24038465321063995,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 18.29,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8905821442604065,
+      "velocity": 0.9584,
+      "source_onset_index": 9145,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1829,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.24038465321063995,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 18.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.520563542842865,
+      "velocity": 0.5684,
+      "source_onset_index": 9293,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1858,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.0806388184428215,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 18.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6414699554443359,
+      "velocity": 0.6768,
+      "source_onset_index": 9363,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1872,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1142968088388443,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 18.72,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.4156964421272278,
+      "velocity": 0.6658,
+      "source_onset_index": 9361,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1872,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.1142968088388443,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 19.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.47033730149269104,
+      "velocity": 0.5581,
+      "source_onset_index": 9508,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1901,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.07773065567016602,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 19.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7737444639205933,
+      "velocity": 0.8822,
+      "source_onset_index": 9578,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1915,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.19420868158340454,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 19.15,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8878859281539917,
+      "velocity": 0.8679,
+      "source_onset_index": 9576,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1915,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.19420868158340454,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 19.43,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.596619725227356,
+      "velocity": 0.6493,
+      "source_onset_index": 9718,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1943,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.10521101206541061,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 19.57,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5262340307235718,
+      "velocity": 0.4683,
+      "source_onset_index": 9788,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1957,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.054726097732782364,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 19.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.4909118711948395,
+      "velocity": 0.2521,
+      "source_onset_index": 9933,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 1986,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.015865303575992584,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 20.0,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.748271107673645,
+      "velocity": 0.8577,
+      "source_onset_index": 10000,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2000,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.19252866506576538,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 20.0,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.43879422545433044,
+      "velocity": 0.8641,
+      "source_onset_index": 10001,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2000,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.19252866506576538,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 20.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.4517654776573181,
+      "velocity": 0.96,
+      "source_onset_index": 10008,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2001,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.23000700771808624,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 20.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.3850681185722351,
+      "velocity": 0.4365,
+      "source_onset_index": 10223,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2044,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.04755937680602074,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 21.72,
+      "drum_family": "cymbal",
+      "tom_class": null,
+      "confidence": 0.8496852517127991,
+      "velocity": 1.0,
+      "source_onset_index": 10864,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2172,
+        "class_index": 4,
+        "source_midi_family": 49,
+        "attack_rms": 0.25343507528305054,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 21.72,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.874854326248169,
+      "velocity": 0.984,
+      "source_onset_index": 10860,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2172,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.25343507528305054,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 21.72,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.3780878782272339,
+      "velocity": 0.9914,
+      "source_onset_index": 10861,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2172,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.25343507528305054,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 22.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5261076092720032,
+      "velocity": 0.8591,
+      "source_onset_index": 11078,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2215,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.184168741106987,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 22.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.32658764719963074,
+      "velocity": 0.9138,
+      "source_onset_index": 11223,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2244,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.20840668678283691,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 22.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.4005078077316284,
+      "velocity": 0.9197,
+      "source_onset_index": 11293,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2258,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.2110886126756668,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 22.58,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.41806504130363464,
+      "velocity": 0.8981,
+      "source_onset_index": 11290,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2258,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.2110886126756668,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 22.58,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8855464458465576,
+      "velocity": 0.9048,
+      "source_onset_index": 11291,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2258,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.2110886126756668,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 22.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5338873863220215,
+      "velocity": 0.8654,
+      "source_onset_index": 11433,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2286,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.18688756227493286,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 23.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7509972453117371,
+      "velocity": 0.7307,
+      "source_onset_index": 11508,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2301,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.13325847685337067,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 23.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6270201802253723,
+      "velocity": 0.2463,
+      "source_onset_index": 11648,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2329,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.015133149921894073,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 23.43,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.685719907283783,
+      "velocity": 0.9985,
+      "source_onset_index": 11718,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2343,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.24881404638290405,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 23.43,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.7286950945854187,
+      "velocity": 0.975,
+      "source_onset_index": 11715,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2343,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.24881404638290405,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 23.43,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.4084519147872925,
+      "velocity": 0.9823,
+      "source_onset_index": 11716,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2343,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.24881404638290405,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 23.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5782875418663025,
+      "velocity": 0.8568,
+      "source_onset_index": 11863,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2372,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1831945925951004,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 23.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5949060916900635,
+      "velocity": 0.8363,
+      "source_onset_index": 11933,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2386,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.17453277111053467,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 23.86,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.3563666343688965,
+      "velocity": 0.8227,
+      "source_onset_index": 11931,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2386,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.17453277111053467,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 24.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5870236158370972,
+      "velocity": 0.8491,
+      "source_onset_index": 12078,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2415,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.17992949485778809,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 24.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6262484788894653,
+      "velocity": 0.9521,
+      "source_onset_index": 12148,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2429,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.22621174156665802,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 24.29,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.6843624114990234,
+      "velocity": 0.9297,
+      "source_onset_index": 12145,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2429,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.22621174156665802,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 24.29,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8745939135551453,
+      "velocity": 0.9367,
+      "source_onset_index": 12146,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2429,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.22621174156665802,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 24.57,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6907811164855957,
+      "velocity": 0.2522,
+      "source_onset_index": 12288,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2457,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.015875140205025673,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 24.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6330205798149109,
+      "velocity": 0.4165,
+      "source_onset_index": 12363,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2472,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.04328498616814613,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 25.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.590042233467102,
+      "velocity": 0.221,
+      "source_onset_index": 12508,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2501,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.012191811576485634,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 25.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7674939632415771,
+      "velocity": 1.0,
+      "source_onset_index": 12578,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2515,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.25768351554870605,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 25.15,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8647578954696655,
+      "velocity": 0.9922,
+      "source_onset_index": 12575,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2515,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.25768351554870605,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 25.15,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.5138101577758789,
+      "velocity": 0.9997,
+      "source_onset_index": 12576,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2515,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.25768351554870605,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 25.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5444964170455933,
+      "velocity": 0.8632,
+      "source_onset_index": 12723,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2544,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.18595795333385468,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 25.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.4857480227947235,
+      "velocity": 0.796,
+      "source_onset_index": 12793,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2558,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.15811225771903992,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 25.58,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.4220418334007263,
+      "velocity": 0.7831,
+      "source_onset_index": 12791,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2558,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.15811225771903992,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 25.87,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.503990888595581,
+      "velocity": 0.9615,
+      "source_onset_index": 12938,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2587,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.23071400821208954,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 26.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5951027274131775,
+      "velocity": 0.9207,
+      "source_onset_index": 13008,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2601,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.21155011653900146,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 26.01,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.300965815782547,
+      "velocity": 0.899,
+      "source_onset_index": 13005,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2601,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.21155011653900146,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 26.01,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.85551518201828,
+      "velocity": 0.9058,
+      "source_onset_index": 13006,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2601,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.21155011653900146,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 26.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.4461649954319,
+      "velocity": 0.8719,
+      "source_onset_index": 13078,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2615,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.18973734974861145,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 26.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6562952995300293,
+      "velocity": 0.8496,
+      "source_onset_index": 13148,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2629,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.18013101816177368,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 26.43,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6812522411346436,
+      "velocity": 0.8128,
+      "source_onset_index": 13218,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2643,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1648862212896347,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 26.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6608247756958008,
+      "velocity": 0.2315,
+      "source_onset_index": 13363,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2672,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.013372913934290409,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 26.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7232393026351929,
+      "velocity": 0.9814,
+      "source_onset_index": 13433,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2686,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.24038521945476532,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 26.86,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.6975146532058716,
+      "velocity": 0.9584,
+      "source_onset_index": 13430,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2686,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.24038521945476532,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 26.86,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.5064594149589539,
+      "velocity": 0.9655,
+      "source_onset_index": 13431,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2686,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.24038521945476532,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 27.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7421866655349731,
+      "velocity": 0.8701,
+      "source_onset_index": 13578,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2715,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1889563798904419,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 27.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5718674659729004,
+      "velocity": 0.7429,
+      "source_onset_index": 13648,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2729,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.13774219155311584,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 27.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5088351368904114,
+      "velocity": 0.7863,
+      "source_onset_index": 13723,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2744,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.15427576005458832,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 27.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5510801076889038,
+      "velocity": 0.7897,
+      "source_onset_index": 13793,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2758,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.155649334192276,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 27.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6862661242485046,
+      "velocity": 0.9017,
+      "source_onset_index": 13863,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2772,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.20292532444000244,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 27.72,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.6102809906005859,
+      "velocity": 0.8805,
+      "source_onset_index": 13860,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2772,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.20292532444000244,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 27.72,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8797232508659363,
+      "velocity": 0.8871,
+      "source_onset_index": 13861,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2772,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.20292532444000244,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 28.01,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.537947416305542,
+      "velocity": 0.754,
+      "source_onset_index": 14006,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2801,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.1465757042169571,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 28.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6217368841171265,
+      "velocity": 0.7233,
+      "source_onset_index": 14078,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2815,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.13055381178855896,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 28.15,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.26273128390312195,
+      "velocity": 0.7063,
+      "source_onset_index": 14075,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2815,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.13055381178855896,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 28.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.4971572458744049,
+      "velocity": 0.7715,
+      "source_onset_index": 14223,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2844,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.14854508638381958,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 28.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6978675723075867,
+      "velocity": 1.0,
+      "source_onset_index": 14293,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2858,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.2690398693084717,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 28.58,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.9176321029663086,
+      "velocity": 1.0,
+      "source_onset_index": 14290,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2858,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.2690398693084717,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 28.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5156898498535156,
+      "velocity": 0.8232,
+      "source_onset_index": 14433,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2886,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1691315621137619,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 29.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7503439784049988,
+      "velocity": 0.8109,
+      "source_onset_index": 14508,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2901,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.16408245265483856,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 29.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.3521406650543213,
+      "velocity": 0.9064,
+      "source_onset_index": 14578,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2915,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.20502957701683044,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 29.3,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5084295868873596,
+      "velocity": 0.9522,
+      "source_onset_index": 14653,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2930,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.22629207372665405,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 29.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5940064787864685,
+      "velocity": 0.9444,
+      "source_onset_index": 14723,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2944,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.2226008176803589,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 29.44,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.4325944185256958,
+      "velocity": 0.9222,
+      "source_onset_index": 14720,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2944,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.2226008176803589,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 29.44,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8664717674255371,
+      "velocity": 0.9291,
+      "source_onset_index": 14721,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2944,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.2226008176803589,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 29.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.4431263208389282,
+      "velocity": 0.8372,
+      "source_onset_index": 14863,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2972,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.17493607103824615,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 29.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7873020172119141,
+      "velocity": 0.775,
+      "source_onset_index": 14933,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 2986,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.14990516006946564,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 30.14,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.45721057057380676,
+      "velocity": 0.1539,
+      "source_onset_index": 15073,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3014,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.005914497654885054,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 30.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.8392585515975952,
+      "velocity": 1.0,
+      "source_onset_index": 15148,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3029,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.254555344581604,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 30.29,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.7780894041061401,
+      "velocity": 0.9862,
+      "source_onset_index": 15145,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3029,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.254555344581604,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 30.29,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.7728853821754456,
+      "velocity": 0.9936,
+      "source_onset_index": 15146,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3029,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.254555344581604,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 30.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.590793788433075,
+      "velocity": 0.8322,
+      "source_onset_index": 15293,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3058,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.17285437881946564,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 30.58,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.3656560778617859,
+      "velocity": 0.8188,
+      "source_onset_index": 15291,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3058,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.17285437881946564,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 30.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6405782103538513,
+      "velocity": 0.8053,
+      "source_onset_index": 15363,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3072,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.16183270514011383,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 30.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.33913958072662354,
+      "velocity": 0.8323,
+      "source_onset_index": 15433,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3086,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.17289453744888306,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 31.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.47320401668548584,
+      "velocity": 0.8384,
+      "source_onset_index": 15508,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3101,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1754351705312729,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 31.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6415649652481079,
+      "velocity": 0.9382,
+      "source_onset_index": 15578,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3115,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.2196609526872635,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 31.15,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.7250435948371887,
+      "velocity": 0.9161,
+      "source_onset_index": 15575,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3115,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.2196609526872635,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 31.15,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8984506130218506,
+      "velocity": 0.923,
+      "source_onset_index": 15576,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3115,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.2196609526872635,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 31.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6510974764823914,
+      "velocity": 0.2293,
+      "source_onset_index": 15723,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3144,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.013127017766237259,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 31.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6399623155593872,
+      "velocity": 0.3902,
+      "source_onset_index": 15793,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3158,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.03799910843372345,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 31.87,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6593088507652283,
+      "velocity": 0.2224,
+      "source_onset_index": 15938,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3187,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.012343847192823887,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 32.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7917019724845886,
+      "velocity": 1.0,
+      "source_onset_index": 16008,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3201,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.2609158158302307,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 32.01,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8781227469444275,
+      "velocity": 0.9984,
+      "source_onset_index": 16005,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3201,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.2609158158302307,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 32.01,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.5224196314811707,
+      "velocity": 1.0,
+      "source_onset_index": 16006,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3201,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.2609158158302307,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 32.3,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6185721755027771,
+      "velocity": 0.8536,
+      "source_onset_index": 16153,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3230,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.18184129893779755,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 32.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5733434557914734,
+      "velocity": 0.7528,
+      "source_onset_index": 16223,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3244,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.14143943786621094,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 32.73,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.723092257976532,
+      "velocity": 0.7723,
+      "source_onset_index": 16368,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3273,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.1488559991121292,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 32.73,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.30766454339027405,
+      "velocity": 0.7541,
+      "source_onset_index": 16365,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3273,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.1488559991121292,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 32.87,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6476024389266968,
+      "velocity": 0.9183,
+      "source_onset_index": 16438,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3287,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.2104581892490387,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 32.87,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.7118629217147827,
+      "velocity": 0.8967,
+      "source_onset_index": 16435,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3287,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.2104581892490387,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 32.87,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8555260896682739,
+      "velocity": 0.9034,
+      "source_onset_index": 16436,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3287,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.2104581892490387,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 33.16,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5705304741859436,
+      "velocity": 0.7623,
+      "source_onset_index": 16583,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3316,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.14502158761024475,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 33.3,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.5540571212768555,
+      "velocity": 0.7438,
+      "source_onset_index": 16653,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3330,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.13805651664733887,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 33.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6601250767707825,
+      "velocity": 0.7983,
+      "source_onset_index": 16793,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3358,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.15905725955963135,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 33.58,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.4013455808162689,
+      "velocity": 0.7796,
+      "source_onset_index": 16790,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3358,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.15905725955963135,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 33.58,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.38361939787864685,
+      "velocity": 0.7854,
+      "source_onset_index": 16791,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3358,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.15905725955963135,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 33.72,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.76897794008255,
+      "velocity": 1.0,
+      "source_onset_index": 16863,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3372,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.2657122015953064,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 33.72,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.9008091688156128,
+      "velocity": 1.0,
+      "source_onset_index": 16860,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3372,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.2657122015953064,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 33.72,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8329209685325623,
+      "velocity": 1.0,
+      "source_onset_index": 16861,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3372,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.2657122015953064,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 33.87,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.3745346963405609,
+      "velocity": 0.8067,
+      "source_onset_index": 16938,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3387,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.16242067515850067,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.01,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.5330763459205627,
+      "velocity": 0.7225,
+      "source_onset_index": 17006,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3401,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.13458579778671265,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.08,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.7183229327201843,
+      "velocity": 0.8339,
+      "source_onset_index": 17041,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3408,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.17930755019187927,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.15,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.8120188117027283,
+      "velocity": 0.9987,
+      "source_onset_index": 17078,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3415,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.2489115595817566,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.15,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.9102999567985535,
+      "velocity": 0.9752,
+      "source_onset_index": 17075,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3415,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.2489115595817566,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.15,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.7989253997802734,
+      "velocity": 0.9825,
+      "source_onset_index": 17076,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3415,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.2489115595817566,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.39376282691955566,
+      "velocity": 0.8297,
+      "source_onset_index": 17148,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3429,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.17177855968475342,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.29,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.27430257201194763,
+      "velocity": 0.8101,
+      "source_onset_index": 17145,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3429,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.17177855968475342,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.29,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.4875926375389099,
+      "velocity": 0.8162,
+      "source_onset_index": 17146,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3429,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.17177855968475342,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.36,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.649610161781311,
+      "velocity": 0.7996,
+      "source_onset_index": 17181,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3436,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.16484373807907104,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.3689928650856018,
+      "velocity": 0.7168,
+      "source_onset_index": 17223,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3444,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.12823359668254852,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.44,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.6036102175712585,
+      "velocity": 0.7052,
+      "source_onset_index": 17221,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3444,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.12823359668254852,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.5,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.6081439256668091,
+      "velocity": 0.8418,
+      "source_onset_index": 17251,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3450,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.1827169805765152,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.58,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.662326455116272,
+      "velocity": 0.8866,
+      "source_onset_index": 17293,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3458,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.19618619978427887,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.58,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8262825608253479,
+      "velocity": 0.8658,
+      "source_onset_index": 17290,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3458,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.19618619978427887,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.58,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8936482071876526,
+      "velocity": 0.8723,
+      "source_onset_index": 17291,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3458,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.19618619978427887,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.79,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.5374605059623718,
+      "velocity": 0.8691,
+      "source_onset_index": 17396,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3479,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.1947813481092453,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.86,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.4500766694545746,
+      "velocity": 0.7763,
+      "source_onset_index": 17433,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3486,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.15039338171482086,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.86,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.5338181257247925,
+      "velocity": 0.7637,
+      "source_onset_index": 17431,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3486,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.15039338171482086,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.87,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.2791875898838043,
+      "velocity": 0.7597,
+      "source_onset_index": 17435,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3487,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.1510559320449829,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 34.93,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.6932995915412903,
+      "velocity": 0.9199,
+      "source_onset_index": 17466,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3493,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.21819590032100677,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 35.01,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6579984426498413,
+      "velocity": 1.0,
+      "source_onset_index": 17508,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3501,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.25215569138526917,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 35.01,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8811233639717102,
+      "velocity": 0.9815,
+      "source_onset_index": 17505,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3501,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.25215569138526917,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 35.01,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.8125243782997131,
+      "velocity": 0.9889,
+      "source_onset_index": 17506,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3501,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.25215569138526917,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 35.15,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.36468687653541565,
+      "velocity": 0.8099,
+      "source_onset_index": 17576,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3515,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.16911742091178894,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 35.29,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.3350240886211395,
+      "velocity": 0.7451,
+      "source_onset_index": 17648,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3529,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.13856784999370575,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 35.3,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.5137907862663269,
+      "velocity": 0.7399,
+      "source_onset_index": 17650,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3530,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.14327110350131989,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 35.44,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.6557058095932007,
+      "velocity": 1.0,
+      "source_onset_index": 17723,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3544,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.26498085260391235,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 35.44,
+      "drum_family": "kick",
+      "tom_class": null,
+      "confidence": 0.8331803679466248,
+      "velocity": 1.0,
+      "source_onset_index": 17720,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3544,
+        "class_index": 0,
+        "source_midi_family": 35,
+        "attack_rms": 0.26498085260391235,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 35.44,
+      "drum_family": "snare",
+      "tom_class": null,
+      "confidence": 0.5777556300163269,
+      "velocity": 1.0,
+      "source_onset_index": 17721,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3544,
+        "class_index": 1,
+        "source_midi_family": 38,
+        "attack_rms": 0.26498085260391235,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    },
+    {
+      "timestamp": 35.87,
+      "drum_family": "hihat",
+      "tom_class": null,
+      "confidence": 0.7384880781173706,
+      "velocity": 0.8748,
+      "source_onset_index": 17938,
+      "rejection_reason": null,
+      "evidence": {
+        "activation_frame": 3587,
+        "class_index": 3,
+        "source_midi_family": 42,
+        "attack_rms": 0.19097046554088593,
+        "timing_source": "100fps_learned_family_activation_peak",
+        "timing_refinement_ms": 0,
+        "input": "../LetItGlow-vocals/estimated_accompaniment.wav"
+      }
+    }
+  ]
+}

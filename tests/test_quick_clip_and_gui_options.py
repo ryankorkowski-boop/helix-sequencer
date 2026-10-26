@@ -44,7 +44,8 @@ def test_quick_clip_preserves_samples_and_original_song(tmp_path, seconds):
 
 
 def test_all_sample_choices_resolve_to_existing_native_layouts():
-    assert len(OPTIONS["layouts"]) == 6
+    assert {choice['key'] for choice in OPTIONS['layouts']} == {
+        'greg256','helixville2','allmodels','helixville3','aurora','helixville4','greg256_spirals'}
     assert len(OPTIONS["stages"]) == 3
     for item in layout_options():
         layout = resolve_layout(ROOT, item["key"])

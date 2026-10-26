@@ -21,7 +21,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
-            vocal_fixture=None, title='Phoneme Test Hook', include_xylophonist=False, full_keyboard=False) -> Path:
+            vocal_fixture=None, title='Phoneme Test Hook', include_xylophonist=False, full_keyboard=False,
+            drum_events=None) -> Path:
     import soundfile as sf
     from models.canonical_native_band import add_band, visual_identity
     from models.ultimate_showcase import Garden
@@ -112,8 +113,15 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
     plans = list((output / 'sequence').glob('*.snowman_band.json'))
     if len(plans) != 1:
         raise ValueError('Expected one retained production band plan')
-    instrument_report = export_instruments(tree.getroot(), garden, json.loads(plans[0].read_text()))
-    instrument_report['drummer'] = export_drums(tree.getroot(),garden,json.loads(plans[0].read_text()))
+    plan=json.loads(plans[0].read_text())
+    if drum_events is not None:
+        from tools.source_drum_plan import bind
+        plans[0].with_suffix('.original-production.json').write_text(json.dumps(plan,indent=2)+'\n')
+        plan,drum_receipt=bind(plan,drum_events,retained)
+        plans[0].write_text(json.dumps(plan,indent=2)+'\n')
+        (output/'source_percussion.json').write_text(json.dumps(drum_receipt,indent=2)+'\n')
+    instrument_report = export_instruments(tree.getroot(), garden, plan)
+    instrument_report['drummer'] = export_drums(tree.getroot(),garden,plan)
     from tools.canonical_band_cues import refresh_models
     refresh_models(garden, layout)
     (output / 'instrument_export.json').write_text(json.dumps(instrument_report, indent=2) + '\n')
@@ -154,7 +162,8 @@ if __name__ == '__main__':
     parser.add_argument('--title', default='Phoneme Test Hook')
     parser.add_argument('--include-xylophonist',action='store_true')
     parser.add_argument('--full-keyboard',action='store_true')
+    parser.add_argument('--drum-events',type=Path,help='Original-source-hash-bound polyphonic percussion transcription')
     args = parser.parse_args()
     print(prepare(args.audio, args.output, expected_sha256=args.expected_sha256,
                   vocal_fixture=args.vocal_fixture, title=args.title,
-                  include_xylophonist=args.include_xylophonist,full_keyboard=args.full_keyboard))
+                  include_xylophonist=args.include_xylophonist,full_keyboard=args.full_keyboard,drum_events=args.drum_events))

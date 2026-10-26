@@ -1,0 +1,272 @@
+[
+  {
+    "tree": 1,
+    "color": "Red",
+    "name": "Line Tree Red 1",
+    "start_channel": "37",
+    "circuits": 1,
+    "bulbs": 50,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 1,
+    "color": "Green",
+    "name": "Line Tree Green 1",
+    "start_channel": "33",
+    "circuits": 1,
+    "bulbs": 50,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 1,
+    "color": "White",
+    "name": "Line Tree White 1",
+    "start_channel": "41",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 2,
+    "color": "Red",
+    "name": "Line Tree Red 2",
+    "start_channel": "38",
+    "circuits": 1,
+    "bulbs": 50,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 2,
+    "color": "Green",
+    "name": "Line Tree Green 2",
+    "start_channel": "34",
+    "circuits": 1,
+    "bulbs": 50,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 2,
+    "color": "White",
+    "name": "Line Tree White 2",
+    "start_channel": "42",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 3,
+    "color": "Red",
+    "name": "Line Tree Red 3",
+    "start_channel": "39",
+    "circuits": 1,
+    "bulbs": 1,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 3,
+    "color": "Green",
+    "name": "Line Tree Green 3",
+    "start_channel": "35",
+    "circuits": 1,
+    "bulbs": 50,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 3,
+    "color": "White",
+    "name": "Line Tree White 3",
+    "start_channel": "43",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 4,
+    "color": "Red",
+    "name": "Line Tree Red 4",
+    "start_channel": "45",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 4,
+    "color": "Green",
+    "name": "Line Tree Green 4",
+    "start_channel": "44",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 4,
+    "color": "White",
+    "name": "Line Tree White 4",
+    "start_channel": "36",
+    "circuits": 1,
+    "bulbs": 1,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 5,
+    "color": "Red",
+    "name": "Line Tree Red 5",
+    "start_channel": "53",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 5,
+    "color": "Green",
+    "name": "Line Tree Green 5",
+    "start_channel": "49",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 5,
+    "color": "White",
+    "name": "Line Tree White 5",
+    "start_channel": "55",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 6,
+    "color": "Red",
+    "name": "Line Tree Red 6",
+    "start_channel": "54",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 6,
+    "color": "Green",
+    "name": "Line Tree Green 6",
+    "start_channel": "50",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 6,
+    "color": "White",
+    "name": "Line Tree White 6",
+    "start_channel": "57",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 7,
+    "color": "Red",
+    "name": "Line Tree Red 7",
+    "start_channel": "56",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 7,
+    "color": "Green",
+    "name": "Line Tree Green 7",
+    "start_channel": "51",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 7,
+    "color": "White",
+    "name": "Line Tree White 7",
+    "start_channel": "59",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 8,
+    "color": "Red",
+    "name": "Line Tree Red 8",
+    "start_channel": "58",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 8,
+    "color": "Green",
+    "name": "Line Tree Green 8",
+    "start_channel": "52",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 8,
+    "color": "White",
+    "name": "Line Tree White 8",
+    "start_channel": "60",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 9,
+    "color": "Red",
+    "name": "Line Tree Red 9",
+    "start_channel": "62",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 9,
+    "color": "Green",
+    "name": "Line Tree Green 9",
+    "start_channel": "63",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  },
+  {
+    "tree": 9,
+    "color": "White",
+    "name": "Line Tree White 9",
+    "start_channel": "61",
+    "circuits": 1,
+    "bulbs": 25,
+    "turns": 4,
+    "all_bulbs_share_circuit": true
+  }
+]
