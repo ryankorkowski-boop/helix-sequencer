@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 
 from tools import native_renderer_bundle as bundles
-from tools.patch_xlights_native_export import CAMERA_NEW, SIZE_NEW
+from tools.patch_xlights_native_export import PATCHES
 
 
 class NativeRendererBundleTests(unittest.TestCase):
@@ -22,11 +22,10 @@ class NativeRendererBundleTests(unittest.TestCase):
         self.patch = self.base / "patch.py"
         self.patch.write_text("exact pinned patch\n")
         files = {
-            "src-ui-wx/xLightsMain.cpp": SIZE_NEW,
-            "src-ui-wx/app-shell/TabSequence.cpp": CAMERA_NEW,
             "bin/xLights": "fake compiled payload for archive tests\n",
             "wxWidgets-xlights_2026.17c/lib/libwx_gtk3u-3.3.so.4.0.0": "wx test payload",
         }
+        files.update({path: "\n".join(after for _, after in sites) for path, sites in PATCHES.items()})
         for relative, content in files.items():
             target = self.source / relative
             target.parent.mkdir(parents=True, exist_ok=True)

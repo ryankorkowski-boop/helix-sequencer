@@ -10,7 +10,7 @@ import subprocess
 import tarfile
 import tempfile
 
-from tools.patch_xlights_native_export import CAMERA_NEW, SIZE_NEW
+from tools.patch_xlights_native_export import PATCHES
 
 UPSTREAM_COMMIT = "839c0f590dc454bb7adb8a16c4dd92a70b46156e"
 PLATFORM = "ubuntu24-x64"
@@ -32,12 +32,11 @@ def validate_tree(root: Path) -> None:
     ).strip()
     if actual != UPSTREAM_COMMIT:
         raise ValueError("Renderer is not the pinned upstream commit")
-    for relative, expected in (
-        ("src-ui-wx/xLightsMain.cpp", SIZE_NEW),
-        ("src-ui-wx/app-shell/TabSequence.cpp", CAMERA_NEW),
-    ):
-        if (root / relative).read_text().count(expected) != 1:
-            raise ValueError(f"Renderer patch absent or ambiguous: {relative}")
+    for relative, replacements in PATCHES.items():
+        content = (root / relative).read_text()
+        for _, expected in replacements:
+            if content.count(expected) != 1:
+                raise ValueError(f"Renderer patch absent or ambiguous: {relative}")
     if not (root / "bin/xLights").is_file() or not os.access(root / "bin/xLights", os.X_OK):
         raise ValueError("Compiled native renderer is absent or not executable")
     if not (root / "wxWidgets-xlights_2026.17c/lib/libwx_gtk3u-3.3.so.4.0.0").is_file():

@@ -60,13 +60,13 @@ jobs:
         \ validate_tree(Path.cwd())\"; then\n  echo \"HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights\"\
         \ >> \"$GITHUB_ENV\"\n  exit 0\nfi\n# Reuse previous object files, but restore only our two pinned source\n\
         # sites before applying this revision's verified native patch.\ngit checkout -- src-ui-wx/xLightsMain.cpp\
-        \ src-ui-wx/app-shell/TabSequence.cpp\npython \"$GITHUB_WORKSPACE/tools/patch_xlights_native_export.py\"\
-        \ \"$RUNNER_TEMP/xlights-src\"\n# Capture actionable compiler errors even when GitHub's live job logs\n\
-        # are unavailable, and cap a stalled compile before job timeout.\nset -o pipefail\n# Allow the pinned native\
-        \ build to finish within the job's 60-minute limit.\n# The previous 35-minute cap terminated compilation\
-        \ before rendering began.\ntimeout --signal=TERM --kill-after=30s 48m make -j 4 2>&1 | tee \"$GITHUB_WORKSPACE/xlights-native-build.log\"\
-        \ntest -x bin/xLights\necho \"HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights\" >> \"$GITHUB_ENV\"\
-        \n"
+        \ src-ui-wx/app-shell/TabSequence.cpp src-ui-wx/graphics/opengl/xlGLCanvas.cpp src-ui-wx/graphics/opengl/xlGLCanvas.h\n\
+        python \"$GITHUB_WORKSPACE/tools/patch_xlights_native_export.py\" \"$RUNNER_TEMP/xlights-src\"\n# Capture\
+        \ actionable compiler errors even when GitHub's live job logs\n# are unavailable, and cap a stalled compile\
+        \ before job timeout.\nset -o pipefail\n# Allow the pinned native build to finish within the job's 60-minute\
+        \ limit.\n# The previous 35-minute cap terminated compilation before rendering began.\ntimeout --signal=TERM\
+        \ --kill-after=30s 48m make -j 4 2>&1 | tee \"$GITHUB_WORKSPACE/xlights-native-build.log\"\ntest -x bin/xLights\n\
+        echo \"HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights\" >> \"$GITHUB_ENV\"\n"
     - name: Validate restored native runtime dependencies
       run: "ldd \"$HELIX_PATCHED_XLIGHTS\" | tee native-runtime-libraries.log\npython - <<'PY'\nfrom pathlib import\
         \ Path\nreport = Path('native-runtime-libraries.log').read_text()\nif 'not found' in report:\n    raise\

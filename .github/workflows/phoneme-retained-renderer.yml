@@ -96,13 +96,13 @@ jobs:
             sudo make -C wxWidgets-xlights_2026.17c install
             sudo ldconfig
           fi
-          if [ -x bin/xLights ]; then
+          if python -c "from pathlib import Path; import sys; sys.path.insert(0, '$GITHUB_WORKSPACE'); from tools.native_renderer_bundle import validate_tree; validate_tree(Path.cwd())"; then
             echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
             exit 0
           fi
           # Reuse previous object files, but restore only our two pinned source
           # sites before applying this revision's verified native patch.
-          git checkout -- src-ui-wx/xLightsMain.cpp src-ui-wx/app-shell/TabSequence.cpp
+          git checkout -- src-ui-wx/xLightsMain.cpp src-ui-wx/app-shell/TabSequence.cpp src-ui-wx/graphics/opengl/xlGLCanvas.cpp src-ui-wx/graphics/opengl/xlGLCanvas.h
           python "$GITHUB_WORKSPACE/tools/patch_xlights_native_export.py" "$RUNNER_TEMP/xlights-src"
           # Capture actionable compiler errors even when GitHub's live job logs
           # are unavailable, and cap a stalled compile before job timeout.

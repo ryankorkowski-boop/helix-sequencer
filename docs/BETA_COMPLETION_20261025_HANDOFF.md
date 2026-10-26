@@ -1,3 +1,11 @@
+## 26 October continuation — actual framebuffer repair, native proof pending
+
+Read MASTER_TODO.md first. Starting HEAD1a2baa7bbeaa73b42ff6216a6f54bed943fcbe3b. The latest failed render40232985984/12614704405 was downloaded/CRC checked and its actual opening frames inspected. Cache-size initialization does not allocate the GL drawable: upstream captureNextFrame was a no-op. The current source patch adds a verified native offscreen color/depth framebuffer before drawing every original source frame; no trimming/substitute frames/threshold changes. Compile and fresh native acceptance remain mandatory before claiming it works.
+
+Same-source platform evidence now recovered: Android40232986188 passed both API30/API36; each4 instrumented tests and237.44s full-song decode with zero audio lag. Instructions scroll/recreation and Band persistence receipts pass. Artifacts12613879537/12614536985 contain separate independently signed debug APKs; use the exact hash-bound tested APK, do not infer cross-build signer compatibility. Windows40232985910 artifact12613328306 downloaded. Preserve these successful builds; source/renderer changes still need their own evidence.
+
+The exact compiled-renderer artifact and fresh LetItGlow render are the next actions. Keep every failed movie diagnostic-only, all canonical/acoustic release gates open and PR188 draft/unmerged. No public release.
+
 # Beta completion — running checkpoint, 25 October2026
 
 Read MASTER_TODO.md first. This file is a running execution receipt, not beta approval. Do not merge PR188 or publish. Branch: codex/eight-hour-recovery-20261019; inspect current HEAD before resuming.
