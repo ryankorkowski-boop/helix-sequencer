@@ -51,6 +51,20 @@ def voice_events(cache,lane):
             for a,b in zip(cuts[:-1],cuts[1:]) if active[a]]
 
 
+def section_strategy(label,role):
+    """Choose spatial composition from the retained song-part annotation."""
+    label=str(label).lower()
+    if any(word in label for word in ('breakdown','bridge','intro','outro')):
+        return dict(name='sparse',steps=1,step_ms=0,direction=1)
+    if any(word in label for word in ('build','rise','prechorus','pre-chorus')):
+        return dict(name='ascending',steps=4,step_ms=35,direction=1)
+    if any(word in label for word in ('drop','chorus','refrain')):
+        return dict(name='wide_response',steps=5 if role in ('guitarist','keyboardist') else 3,step_ms=30,direction=-1)
+    if 'solo' in label:
+        return dict(name='solo_trace',steps=4,step_ms=65,direction=1)
+    return dict(name='note_trace',steps=3 if role in ('keyboardist','guitarist') else 2,step_ms=50,direction=1)
+
+
 def schedule(model,plan,cache,duration):
     role=role_for(model);parts=parts_for(model)
     source=(voice_events(cache,'estimated_backing') if role=='harmony' else
@@ -62,6 +76,8 @@ def schedule(model,plan,cache,duration):
     result=[]
     for index,cue in enumerate(source):
         if cue.get('kind')=='chord_change':continue
+        component=model.details.get('percussion_component')
+        if role=='drummer' and component and cue.get('kind')!=component:continue
         a,b=int(cue['start_ms']),int(cue['end_ms'])
         if b<=a:continue
         pitch=cue.get('pitch_midi')
@@ -73,18 +89,20 @@ def schedule(model,plan,cache,duration):
             # Same phrase enters neighboring props at physical X positions;
             # no random event index is used to fake independence.
             position=np.clip((center[0]+100)/200,0,1)
-        origin=int(round((position+phase)%1*(len(parts)-1)))
+        shifted=position+phase
+        origin=int(round((shifted if 0<=shifted<=1 else shifted%1)*(len(parts)-1)))
         level=float(np.clip(cue.get('velocity',cue.get('expression',{}).get('brightness',.7)),.05,1))
-        steps=min(len(parts),3 if role in ('keyboardist','guitarist') else 2)
+        strategy=section_strategy(cue.get('section',''),role)
+        steps=min(len(parts),strategy['steps'])
         for step in range(steps):
-            part=parts[(origin+direction*step)%len(parts)]
-            delay=depth_ms+step*50
+            part=parts[(origin+direction*strategy['direction']*step)%len(parts)]
+            delay=depth_ms+step*strategy['step_ms']
             start=max(0,a+delay);end=min(duration,b+delay)
             if end<=start:continue
             result.append(dict(part=part,start_ms=start,end_ms=end,level=level*(.72**step),
                 source_start_ms=a,source_end_ms=b,source_event=index,role=role,
                 source_kind=cue.get('kind','pitched_note'),pitch_midi=pitch,
-                propagation_delay_ms=delay))
+                propagation_delay_ms=delay,section=cue.get('section',''),strategy=strategy['name']))
     return result
 
 
@@ -102,6 +120,7 @@ def export_model(sequence,model,plan,cache,palette):
         provenance={k:str(v) for k,v in dict(sourceRole=event['role'],sourceMethod='semantic_source_spatial_direction',
             sourceStartMs=event['source_start_ms'],sourceEndMs=event['source_end_ms'],
             sourceEventIndex=event['source_event'],sourcePitchMIDI=event['pitch_midi'],
+            sourceSection=event['section'],spatialStrategy=event['strategy'],
             authoredPropagationMs=event['propagation_delay_ms']).items() if v is not None}
         # Quiet retained attacks must be visible in a small native overview.
         # This changes display illumination only; zero/rest windows and every

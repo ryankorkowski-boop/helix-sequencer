@@ -15,7 +15,8 @@ from models.band_sampler_logic import SHAPE_NAMES
 from xlights.xml_io import materialize_native_effect_tables
 
 
-def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256=EXPECTED_SHA256, vocal_fixture=FIXTURE, numbers=None):
+def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256=EXPECTED_SHA256, vocal_fixture=FIXTURE, numbers=None,
+          include_xylophonist=False, full_keyboard=False):
     numbers=tuple(range(1,len(NAMES)+1)) if numbers is None else tuple(numbers)
     if not numbers or len(set(numbers))!=len(numbers) or any(type(n) is not int or not 1<=n<=len(NAMES) for n in numbers):
         raise ValueError('Choose unique layout numbers in1..12')
@@ -39,7 +40,7 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
         name=NAMES[number-1]
         folder=output/f'{number:02}_{name}'
         if folder.exists():raise FileExistsError(folder)
-        g=build_layout(number)
+        g=build_layout(number,include_xylophonist=include_xylophonist,full_keyboard=full_keyboard)
         band=[m for m in g.models if m.details.get('review_role')]
         if band:
             # Static material export operates only on canonical performers.
@@ -133,5 +134,8 @@ if __name__=='__main__':
     p.add_argument('--expected-sha256',default=EXPECTED_SHA256)
     p.add_argument('--vocal-fixture',type=Path,default=FIXTURE)
     p.add_argument('--layouts',type=int,nargs='+',help='Build only these layouts; default all12. Use7 12 for the two pilot shows.')
+    p.add_argument('--include-xylophonist',action='store_true')
+    p.add_argument('--full-keyboard',action='store_true')
     a=p.parse_args();build(a.source,a.output,audio_name=a.audio_name,
-        expected_sha256=a.expected_sha256,vocal_fixture=a.vocal_fixture,numbers=a.layouts)
+        expected_sha256=a.expected_sha256,vocal_fixture=a.vocal_fixture,numbers=a.layouts,
+        include_xylophonist=a.include_xylophonist,full_keyboard=a.full_keyboard)

@@ -101,7 +101,7 @@ def export_instruments(root, garden, plan):
                   transposed_notes=0, models={})
     for model in garden.models:
         role = model.details.get('review_role')
-        if role not in ('bass', 'guitar', 'piano'):
+        if role not in ('bass', 'guitar', 'piano', 'xylophone'):
             continue
         # Dedicated surface lanes own performance; remove generic BODY/notes
         # placement so source strings and keys cannot be hidden by broad effects.
@@ -142,11 +142,18 @@ def export_instruments(root, garden, plan):
             counts['unmapped_pitch_events']+=1
             counts['unmapped_events'].append(dict(start_ms=source['start_ms'],end_ms=source['end_ms'],
                 pitch_midi=source.get('pitch_midi'),string_index=source.get('string_index'),reason=reason))
-        key={'bass':'bassist','guitar':'guitarist','piano':'keyboardist'}[role]
+        key={'bass':'bassist','guitar':'guitarist','piano':'keyboardist','xylophone':'xylophonist'}[role]
+        if role=='xylophone' and key not in plan.get('cues',{}):
+            # Owner requests both pitched performers. Shared note evidence is
+            # explicit choreography, never a claim of an isolated mallet stem.
+            key='keyboardist'
+        counts['source_lane']=key
+        counts['arm_contact_omissions']=[]
+        last_mallet_side='RIGHT'
         for source in plan.get('cues',{}).get(key,[]):
             counts['source_events']+=1
             level=source.get('velocity',source.get('expression',{}).get('brightness',.8))
-            if role=='piano':
+            if role in ('piano','xylophone'):
                 pitch=float(source['pitch_midi'])
                 if pitch != round(pitch):
                     unmapped(source,'Non-integer source MIDI pitch; no rounding/transposition'); continue
@@ -170,8 +177,21 @@ def export_instruments(root, garden, plan):
             if not mapped:
                 unmapped(source,'Authored instrument has no matching native note/string submodel')
             if mapped:
-                side = ('LEFT' if source.get('pitch_midi',60)<66 else 'RIGHT') if role=='piano' else ('STRUM' if role=='guitar' else 'PLUCK')
-                cue('ARM_'+side+'_ACTIVE',source,'#C5D6DD',.9)
+                if role=='xylophone':
+                    pitch=round(source['pitch_midi'])
+                    preferred='LEFT' if last_mallet_side=='RIGHT' else 'RIGHT'
+                    candidates=[s for s in (preferred,last_mallet_side) if model.submodels.get(f'ARM_{s}_NOTE_{pitch}')]
+                    if candidates:
+                        side=candidates[0];last_mallet_side=side
+                        cue(f'ARM_{side}_NOTE_{pitch}',source,'#C5D6DD',.9)
+                        # Idle complements use the same real source windows.
+                        windows.setdefault('ARM_'+side+'_ACTIVE',[]).append((int(source['start_ms']),min(duration,int(source['end_ms']))))
+                    else:
+                        counts['arm_contact_omissions'].append(dict(start_ms=source['start_ms'],pitch_midi=pitch,
+                            reason='No reachable authored mallet contact pose'))
+                else:
+                    side = ('LEFT' if source.get('pitch_midi',60)<66 else 'RIGHT') if role=='piano' else ('STRUM' if role=='guitar' else 'PLUCK')
+                    cue('ARM_'+side+'_ACTIVE',source,'#C5D6DD',.9)
         # Rest complements keep source-timed contact and idle poses exclusive.
         for part in model.submodels:
             if not part.endswith('_IDLE') or not part.startswith('ARM_'):
@@ -192,7 +212,7 @@ def export_instruments(root, garden, plan):
                 cursor=max(cursor,b)
             if cursor<duration:cue(alias,dict(start_ms=cursor,end_ms=duration),'#A8C1CE',.22,musical=False)
         report['models'][model.name]=counts
-    report['limitations']=['Pitch outside the authored48–84 keyboard range is omitted, never octave-folded',
+    report['limitations']=['Pitch outside each authored instrument range is reported and omitted, never octave-folded',
                           'Native two-pose arm banks use fixed shoulders; continuous contact motion unverified',
                           'Mixed-bus production instrument labels are estimates, not isolated-stem ground truth']
     return report

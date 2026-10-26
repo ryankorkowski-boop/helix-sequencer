@@ -7,10 +7,13 @@ from models.band_performance_scene import matrix, rgb
 
 
 class FinalBandScene(DistinctBandScene):
-    def __init__(self, stage="ember_amphitheatre", *, rock=False, legacy_mallet_player=False):
+    def __init__(self, stage="ember_amphitheatre", *, rock=False, legacy_mallet_player=False,
+                 include_xylophonist=False, full_keyboard=False):
         super().__init__(stage, wire=False)
         self.rock = rock
         self.legacy_mallet_player = bool(legacy_mallet_player)
+        if legacy_mallet_player and include_xylophonist:
+            raise ValueError('Choose the legacy replacement or the complete seven-member cast')
         if not self.legacy_mallet_player:
             # Match the independently authored short-arm candidate from PR #180
             # on this newly visible production character, without changing
@@ -26,10 +29,11 @@ class FinalBandScene(DistinctBandScene):
         hidden_prefixes = (inactive + "_",)
         if inactive == "piano":
             hidden_prefixes += ("keyboard_",)
-        for item in self.instances:
-            if item.get("performer_role") == inactive or item["name"].startswith(hidden_prefixes):
-                item["kind"] = "hidden"
-        self.custom = [o for o in self.custom if not o["name"].startswith(hidden_prefixes)]
+        if not include_xylophonist:
+            for item in self.instances:
+                if item.get("performer_role") == inactive or item["name"].startswith(hidden_prefixes):
+                    item["kind"] = "hidden"
+            self.custom = [o for o in self.custom if not o["name"].startswith(hidden_prefixes)]
         if self.legacy_mallet_player:
             # The former six-person arrangement is still opt-in and keeps
             # its existing artistic position and note/bar geometry.
@@ -44,6 +48,10 @@ class FinalBandScene(DistinctBandScene):
                     for key in ("shoulder", "elbow", "hand"):
                         rig[key] += offset
         self.visible_roles = ("drummer", "bass", "guitar", active, "lead", "harmony")
+        if include_xylophonist:
+            self.visible_roles = ("drummer", "bass", "guitar", "piano", "xylophone", "lead", "harmony")
+        if full_keyboard:
+            self._full_keyboard()
         # Purple belongs to the second singer independently of stage palette.
         for item in self.instances:
             if item.get("performer_role") == "harmony" and "scarf" in item["name"]:
@@ -55,12 +63,37 @@ class FinalBandScene(DistinctBandScene):
         # inherited motion cannot restore a snowman body on the next frame.
         self.groove = [(i, role, self.instances[i]["matrix"].copy()) for i, role, _ in self.groove]
         self.technical_proof.update(
-            band_members=list(self.visible_roles), unified_pitched_performer=True,
+            band_members=list(self.visible_roles), unified_pitched_performer=not include_xylophonist,
             style="solid rock band" if rock else "sculpted snow band",
             wireframe_performers=False, preserved_guitar_rig=True,
             continuous_motion_output="video or pixel matrix",
             legacy_mallet_player=self.legacy_mallet_player,
             pitched_character=active)
+
+    def _full_keyboard(self):
+        """Retain the piano case/rig and give every literal MIDI21–108 its own key.
+
+        Dedicated review slots avoid the existing stage and mallet slot ranges.
+        Existing default scenes keep their authored37-key geometry unchanged.
+        """
+        from render.keyboard_geometry import generate_keyboard_geometry
+        keys = [o for o in self.instances if o['name'].startswith('piano_key_')]
+        low = next(o for o in keys if o['name'] == 'piano_key_48')
+        old = generate_keyboard_geometry(48, 84).key_for_pitch(48)
+        origin = low['matrix'][:3, 3] - ((old.x+old.width/2-.5)*2.65, 1.30, .46)
+        for item in keys:
+            item['kind'] = 'hidden'
+        for key in generate_keyboard_geometry(21, 108).keys:
+            name = 'piano_key_'+str(key.pitch)
+            item = next((o for o in keys if o['name'] == name), None)
+            position = origin + ((key.x+key.width/2-.5)*2.65,
+                                 1.30+key.is_black*.047, .79 if key.is_black else .46)
+            scale = (key.width*2.65*.92, .07, .43 if key.is_black else .72)
+            if item is None:
+                self.box(name, position, scale, '#152235' if key.is_black else '#E7E7D6', 192+key.pitch-21)
+                self.instances[-1]['performer_role'] = 'piano'
+            else:
+                item.update(kind='box', matrix=matrix(position, scale), slot=192+key.pitch-21)
 
     def _attach_solid_faces(self):
         """Wire masks protrude intentionally; solid faces need attached mouths."""

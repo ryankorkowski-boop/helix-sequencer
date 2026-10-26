@@ -62,8 +62,9 @@ class SurfaceParts:
         self.add(part,vertices,colors)
 
 
-def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_amphitheatre', include_stage=True, mouth_scale=1.0, surface_spacing=None):
-    scene = FinalBandScene(stage, rock=rock)
+def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_amphitheatre', include_stage=True, mouth_scale=1.0, surface_spacing=None,
+                          include_xylophonist=False, full_keyboard=False):
+    scene = FinalBandScene(stage, rock=rock, include_xylophonist=include_xylophonist, full_keyboard=full_keyboard)
     # Import all original canonical submodels; only this copy's world placement
     # changes. The existing physical kit and channel identities stay intact.
     from models.snowman_ensemble import build_ensemble
@@ -86,7 +87,7 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
     garden.models.append(drummer)
     arm_ids = {i for r in scene.rigs for i in tuple(r['ids'])+tuple(r.get('mallet_ids',()))}
     instrument = {'bass': 'upright_bass', 'guitar': 'electric_guitar'}
-    for role in ('bass', 'guitar', 'lead', 'harmony', 'piano'):
+    for role in ('bass', 'guitar', 'lead', 'harmony', 'piano') + (('xylophone',) if include_xylophonist else ()):
         parts = SurfaceParts(position,surface_spacing=surface_spacing)
         for i, item in enumerate(scene.instances):
             name = item['name']
@@ -99,6 +100,8 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
             # and thick ribbons at native preview pixel sizes.
             if '_live_string_' in name: continue
             if name.startswith('piano_key_') and name.removeprefix('piano_key_').isdigit():
+                part = 'NOTE_MIDI_'+name.rsplit('_',1)[1]
+            if name.startswith('xylophone_bar_') and name.removeprefix('xylophone_bar_').isdigit():
                 part = 'NOTE_MIDI_'+name.rsplit('_',1)[1]
             parts.primitive(part, item)
         if role in ('bass','guitar'):
@@ -199,6 +202,6 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
         garden.poly(prefix+'_STAGE_APRON',[(x-48,y,z+25),(x+48,y,z+25)],
             150,prefix,'clear front-stage sightline','#C09862' if not rock else '#9077BB')
     return dict(prefix=prefix, position=list(position), stage=stage,
-        style='solid rock' if rock else 'solid snow', performers=6,
-        unified_pitched_performer=True, continuous_mesh_motion=False,
+        style='solid rock' if rock else 'solid snow', performers=7 if include_xylophonist else 6,
+        unified_pitched_performer=not include_xylophonist, continuous_mesh_motion=False,
         output='native addressable RGB pixel poses; no AC controller addresses inferred')

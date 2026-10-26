@@ -17,7 +17,14 @@ def static_materials(garden):
     """Use only authored body nodes/colors, with no musical activity implied."""
     for model in garden.models:
         groups = {}
-        for node in model.submodels.get('BASE_DIM' if model.details['review_role'] == 'drummer' else 'BODY', []):
+        nodes=set(model.submodels.get('BASE_DIM' if model.details['review_role'] == 'drummer' else 'BODY', []))
+        if model.details['review_role'] in ('lead','harmony'):
+            # Retain authored wooden arms; generic sequencer accents previously
+            # replaced them with flashing red/white detached-looking limbs.
+            for part,values in model.submodels.items():
+                if part.startswith('ARM_') and part.endswith('_IDLE'):
+                    nodes.update(values)
+        for node in sorted(nodes):
             groups.setdefault(model.colors[node-1], []).append(node)
         for color, nodes in groups.items():
             model.submodels['STATIC_RGB_' + color.removeprefix('#')] = nodes
@@ -63,7 +70,7 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE, expected_sha2
                 raise ValueError('Invalid source-separated vocal clock')
             for element in root.find('ElementEffects'):
                 name = element.get('name', '')
-                if name == target or name.startswith(target + '/MOUTH_'):
+                if name == target or name.startswith(target + '/'):
                     result['removed_decorative_mouth_effects'] += _clear(element)
             layer = ET.SubElement(_element(root, target), 'EffectLayer', name='Helix source-separated vocal estimate')
             active = (energy > 0) & (shapes != SHAPE_NAMES.index('REST'))

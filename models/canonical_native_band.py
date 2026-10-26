@@ -12,12 +12,14 @@ VISEMES = {'AI': 'AH', 'E': 'EE', 'FV': 'FV', 'L': 'L', 'MBP': 'MBP',
            'O': 'OH', 'U': 'OH', 'WQ': 'OH', 'etc': 'EE', 'rest': 'REST'}
 
 
-def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0)):
+def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0), *, include_xylophonist=False, full_keyboard=False):
     before = len(garden.models)
-    add_final_native_band(garden, prefix, position, include_stage=False, mouth_scale=.42, surface_spacing=.08)
+    add_final_native_band(garden, prefix, position, include_stage=False, mouth_scale=.42, surface_spacing=.08,
+                          include_xylophonist=include_xylophonist, full_keyboard=full_keyboard)
     models = garden.models[before:]
-    if len(models) != 6 or {m.details['final_band_role'] for m in models} != set(ROLES):
-        raise ValueError('Canonical native export requires exactly six performers')
+    expected = set(ROLES) | ({'xylophone'} if include_xylophonist else set())
+    if len(models) != len(expected) or {m.details['final_band_role'] for m in models} != expected:
+        raise ValueError('Canonical native export has an incomplete cast')
     for model in models:
         model.attrs.pop('StartChannel', None)
         role = model.details['final_band_role']
@@ -68,11 +70,11 @@ def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0)):
     return models
 
 
-def visual_identity():
+def visual_identity(*, include_xylophonist=False):
     return dict(renderer='xlights_house_preview', geometry_source='models.final_band_scene.FinalBandScene',
                 canonical_solid_3d_band=False, canonical_surface_geometry=True,
                 owner_vocal_animation_review='rejected_timing_reopened_20261023',
                 owner_canonical_visual_review='rejected_identity_reopened_20261023',
                 limitations=['Native surface samples and stationary light poses are not continuous solid meshes',
                              'Canonical source drummer is planar artwork, as in the solid scene compositor'],
-                performer_count=6, optional_xylophonist=False)
+                performer_count=7 if include_xylophonist else 6, optional_xylophonist=include_xylophonist)

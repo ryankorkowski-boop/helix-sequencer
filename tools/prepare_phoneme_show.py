@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
-            vocal_fixture=None, title='Phoneme Test Hook') -> Path:
+            vocal_fixture=None, title='Phoneme Test Hook', include_xylophonist=False, full_keyboard=False) -> Path:
     import soundfile as sf
     from models.canonical_native_band import add_band, visual_identity
     from models.ultimate_showcase import Garden
@@ -41,8 +41,8 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
         raise FileExistsError('Use a fresh show directory: ' + str(output))
     duration = sf.info(audio).duration
     garden = Garden(title='Helix '+title+' diagnostic candidate', slug=audio.stem)
-    add_band(garden)
-    stage_native_cast(garden.models)
+    add_band(garden,include_xylophonist=include_xylophonist,full_keyboard=full_keyboard)
+    stage_native_cast(garden.models,legacy_xylophone=include_xylophonist)
     for model in garden.models:
         if model.details['review_role'] in {'lead', 'harmony'}:
             model.attrs['HelixPhonemeOwnership'] = 'exclusive'
@@ -71,7 +71,7 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
     # The retained native-review cast is not the owner's approved solid 3D
     # snowman scene. Record this explicitly so a passing native video or
     # successful harmony mouth test cannot be mistaken for visual approval.
-    manifest['visual_identity'] = visual_identity()
+    manifest['visual_identity'] = visual_identity(include_xylophonist=include_xylophonist)
     (output / 'VISUAL_ACCEPTANCE.json').write_text(
         json.dumps(manifest['visual_identity'], indent=2) + '\n')
     manifest['source_worktree_dirty'] = bool(subprocess.check_output(
@@ -152,6 +152,9 @@ if __name__ == '__main__':
     parser.add_argument('--expected-sha256', default=EXPECTED_SHA256)
     parser.add_argument('--vocal-fixture', type=Path)
     parser.add_argument('--title', default='Phoneme Test Hook')
+    parser.add_argument('--include-xylophonist',action='store_true')
+    parser.add_argument('--full-keyboard',action='store_true')
     args = parser.parse_args()
     print(prepare(args.audio, args.output, expected_sha256=args.expected_sha256,
-                  vocal_fixture=args.vocal_fixture, title=args.title))
+                  vocal_fixture=args.vocal_fixture, title=args.title,
+                  include_xylophonist=args.include_xylophonist,full_keyboard=args.full_keyboard))
