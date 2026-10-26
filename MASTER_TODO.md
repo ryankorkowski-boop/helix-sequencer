@@ -1,3 +1,12 @@
+## 2026-10-26 — Correct pinned wx extension loader and retain canvas ABI
+
+Goal: repair actual compilation failure in40287515482 while preserving the offscreen rendering fix.
+Changed: pinned renderer patch and its tests; this ledger and existing handoff.
+Preserved: all source frames, audio, camera, music and acceptance gates; no movie promoted or beta released.
+Finding: compiled log explicitly rejects wxGLCanvas::GetProcAddress; the pinned wx header defines the static loader on wxGLContextBase. Changed to wxGLContext::GetProcAddress. The cached make regenerated only three changed CPP objects; adding base-class fields could invalidate cached derived-object layouts. Export capture state is now an external per-canvas map erased after every readback, so the canvas ABI/size remain unchanged. New nonvirtual helpers do not alter its vtable. This avoids relying on an incomplete header dependency rebuild.
+Tests/evidence:22 focused patch/bundle/luma tests and8 subtests pass; git diff --check passes. Actual next native compile/render is still mandatory.63933db build failure and artifact12635176871 retained as diagnostics only. Platform1a2baa7 receipts remain preserved. The original LetItGlow source hash matches; a fresh metadata-stripped36s decode has SHA256f3562aaedd1b8594baa8ef0991374881d0fb2ac49dcaed67cf0525ceee370cd6, distinct from the earlier retained excerpt bytes; do not borrow the old excerpt receipt. New exact-source UVR/Silero candidates completed with pinned model hashes, still estimates rather than independent singer truth.
+Limitations: no compiled/rendered framebuffer pass yet; final six-layout and acoustic/reference acceptance remain open. Next collect the corrective renderer workflow, verify binary/patch identity and rerender from framezero. Risk: GL resource/state lifetime must be proven by actual repeated source-frame exports. No threshold changes, trimming or fabricated acceptance.
+
 ## 2026-10-26 — Repair actual OpenGL export target before frame zero
 
 Goal: eliminate the reproduced opening crop without trimming, inserted frames or changed thresholds.

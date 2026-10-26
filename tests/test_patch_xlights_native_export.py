@@ -61,8 +61,15 @@ def test_late_capture_source_drift_leaves_every_file_unchanged(tmp_path):
 def test_framebuffer_is_bound_before_clear_and_restored_after_readback():
     assert 'GL_FRAMEBUFFER_COMPLETE' in patcher.PREPARE_NEW
     assert 'GL_DEPTH_COMPONENT24' in patcher.PREPARE_NEW
-    assert 'glBindFramebuffer(GL_FRAMEBUFFER, m_exportFramebuffer)' in patcher.PREPARE_NEW
+    assert 'glBindFramebuffer(GL_FRAMEBUFFER, exportTarget.framebuffer)' in patcher.PREPARE_NEW
     assert 'mWindowWidth = ' in patcher.PREPARE_NEW
     assert 'releaseExportFramebuffer();' in patcher.RELEASE_NEW
-    assert 'GL_DRAW_FRAMEBUFFER, m_exportPreviousDraw' in patcher.RELEASE_NEW
-    assert 'GL_READ_FRAMEBUFFER, m_exportPreviousRead' in patcher.RELEASE_NEW
+    assert 'GL_DRAW_FRAMEBUFFER, exportTarget.previousDraw' in patcher.RELEASE_NEW
+    assert 'GL_READ_FRAMEBUFFER, exportTarget.previousRead' in patcher.RELEASE_NEW
+
+
+def test_framebuffer_patch_preserves_canvas_abi_and_uses_context_extension_loader():
+    assert 'wxGLContext::GetProcAddress<' in patcher.PREPARE_NEW
+    assert 'GLuint' not in patcher.FIELDS_NEW
+    assert 'HelixExportTarget' in patcher.STATE_DECL_NEW
+    assert 'helixExportTargets.erase(capture)' in patcher.RELEASE_NEW

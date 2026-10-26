@@ -1,3 +1,7 @@
+## Corrective compile follow-up
+
+Build40287515482 failed because the extension loader is wxGLContext::GetProcAddress, not wxGLCanvas. Corrected to the actual pinned API. Export state moved outside the canvas class to retain ABI with cached dependent objects. Failed artifact12635176871 is compiler diagnostics only. Fresh compile/native proof remains required. New LetItGlow36s decodef3562aaedd1b8594baa8ef0991374881d0fb2ac49dcaed67cf0525ceee370cd6 uses verified originald0fdcf1f; pinned source-separated candidates completed. It must have its own receipt rather than reusing oldf7fb metadata.
+
 ## 26 October continuation — actual framebuffer repair, native proof pending
 
 Read MASTER_TODO.md first. Starting HEAD1a2baa7bbeaa73b42ff6216a6f54bed943fcbe3b. The latest failed render40232985984/12614704405 was downloaded/CRC checked and its actual opening frames inspected. Cache-size initialization does not allocate the GL drawable: upstream captureNextFrame was a no-op. The current source patch adds a verified native offscreen color/depth framebuffer before drawing every original source frame; no trimming/substitute frames/threshold changes. Compile and fresh native acceptance remain mandatory before claiming it works.

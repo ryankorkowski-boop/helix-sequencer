@@ -40,54 +40,51 @@ CAMERA_NEW = CAMERA_OLD + '''    // Helix: LoadEffectsFile restored cameras befo
 CAPTURE_OLD = '        void captureNextFrame(int w, int h) {}'
 CAPTURE_NEW = '        void captureNextFrame(int w, int h);'
 FIELDS_OLD = '        size_t m_exportReadbackBufferSize = 0;'
-FIELDS_NEW = FIELDS_OLD + """
-        int m_exportWidth = 0;
-        int m_exportHeight = 0;
-        GLuint m_exportFramebuffer = 0;
-        GLuint m_exportColor = 0;
-        GLuint m_exportDepth = 0;
-        GLint m_exportPreviousDraw = 0;
-        GLint m_exportPreviousRead = 0;
-        void releaseExportFramebuffer();"""
+FIELDS_NEW = FIELDS_OLD + "\n        void releaseExportFramebuffer();"
 PREPARE_OLD = '    float r = bg.red;'
 PREPARE_NEW = """    // Helix: a wx size event changes the projection cache, not the GL
     // drawable allocation. Bind the requested real render target before clear.
-    if (m_exportWidth > 0 && m_exportHeight > 0) {
+    auto capture = helixExportTargets.find(this);
+    if (capture != helixExportTargets.end()) {
+        auto& exportTarget = capture->second;
         if (!hasOpenGL3FramebufferObjects() || !IsCoreProfile()) {
             throw std::runtime_error("Helix native export requires OpenGL framebuffer support");
         }
-        auto checkFramebuffer = wxGLCanvas::GetProcAddress<PFNGLCHECKFRAMEBUFFERSTATUSPROC>("glCheckFramebufferStatus");
+        auto checkFramebuffer = wxGLContext::GetProcAddress<PFNGLCHECKFRAMEBUFFERSTATUSPROC>("glCheckFramebufferStatus");
         if (checkFramebuffer == nullptr) {
             throw std::runtime_error("Helix native export cannot verify its framebuffer");
         }
-        glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &m_exportPreviousDraw);
-        glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &m_exportPreviousRead);
+        glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &exportTarget.previousDraw);
+        glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &exportTarget.previousRead);
         GLint previousRenderbuffer = 0;
         glGetIntegerv(GL_RENDERBUFFER_BINDING, &previousRenderbuffer);
-        glGenFramebuffers(1, &m_exportFramebuffer);
-        glBindFramebuffer(GL_FRAMEBUFFER, m_exportFramebuffer);
-        glGenRenderbuffers(1, &m_exportColor);
-        glBindRenderbuffer(GL_RENDERBUFFER, m_exportColor);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, m_exportWidth, m_exportHeight);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_exportColor);
-        glGenRenderbuffers(1, &m_exportDepth);
-        glBindRenderbuffer(GL_RENDERBUFFER, m_exportDepth);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, m_exportWidth, m_exportHeight);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_exportDepth);
+        glGenFramebuffers(1, &exportTarget.framebuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, exportTarget.framebuffer);
+        glGenRenderbuffers(1, &exportTarget.color);
+        glBindRenderbuffer(GL_RENDERBUFFER, exportTarget.color);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, exportTarget.width, exportTarget.height);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, exportTarget.color);
+        glGenRenderbuffers(1, &exportTarget.depth);
+        glBindRenderbuffer(GL_RENDERBUFFER, exportTarget.depth);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, exportTarget.width, exportTarget.height);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, exportTarget.depth);
         glBindRenderbuffer(GL_RENDERBUFFER, previousRenderbuffer);
         if (checkFramebuffer(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
             releaseExportFramebuffer();
             throw std::runtime_error("Helix native export framebuffer is incomplete");
         }
         // A pending GUI resize must not change this source frame's projection.
-        mWindowWidth = (size_t)(m_exportWidth / GetContentScaleFactor());
-        mWindowHeight = (size_t)(m_exportHeight / GetContentScaleFactor());
+        mWindowWidth = (size_t)(exportTarget.width / GetContentScaleFactor());
+        mWindowHeight = (size_t)(exportTarget.height / GetContentScaleFactor());
     }
 
     float r = bg.red;"""
 READBACK_OLD = '    // OpenGL has no zero-copy native surface; always fill the CPU RGB buffer.'
 READBACK_NEW = """    // Helix: reject a skipped draw or a read from the window's small buffer.
-    if (m_exportFramebuffer == 0 || frame.width != m_exportWidth || frame.height != m_exportHeight) {
+    auto capture = helixExportTargets.find(this);
+    if (capture == helixExportTargets.end()) return false;
+    auto& exportTarget = capture->second;
+    if (exportTarget.framebuffer == 0 || frame.width != exportTarget.width || frame.height != exportTarget.height) {
         releaseExportFramebuffer();
         return false;
     }
@@ -98,23 +95,27 @@ RELEASE_NEW = """    releaseExportFramebuffer();
 }
 
 void xlGLCanvas::captureNextFrame(int w, int h) {
-    if (w <= 0 || h <= 0 || m_exportFramebuffer != 0) {
+    auto& exportTarget = helixExportTargets[this];
+    if (w <= 0 || h <= 0 || exportTarget.framebuffer != 0) {
         throw std::runtime_error("Helix native export has invalid capture state");
     }
-    m_exportWidth = w;
-    m_exportHeight = h;
+    exportTarget.width = w;
+    exportTarget.height = h;
 }
 
 void xlGLCanvas::releaseExportFramebuffer() {
-    if (m_exportFramebuffer != 0) {
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_exportPreviousDraw);
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, m_exportPreviousRead);
-        glDeleteFramebuffers(1, &m_exportFramebuffer);
-        glDeleteRenderbuffers(1, &m_exportColor);
-        glDeleteRenderbuffers(1, &m_exportDepth);
-        m_exportFramebuffer = m_exportColor = m_exportDepth = 0;
+    auto capture = helixExportTargets.find(this);
+    if (capture == helixExportTargets.end()) return;
+    auto& exportTarget = capture->second;
+    if (exportTarget.framebuffer != 0) {
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, exportTarget.previousDraw);
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, exportTarget.previousRead);
+        glDeleteFramebuffers(1, &exportTarget.framebuffer);
+        glDeleteRenderbuffers(1, &exportTarget.color);
+        glDeleteRenderbuffers(1, &exportTarget.depth);
+        exportTarget.framebuffer = exportTarget.color = exportTarget.depth = 0;
     }
-    m_exportWidth = m_exportHeight = 0;
+    helixExportTargets.erase(capture);
 }
 
 bool xlGLCanvas::bindVertexArrayID"""
@@ -124,11 +125,24 @@ BOUNDS_OLD = '    if ((size_t)bufferSize < reqSize) {\n        return false;\n  
 BOUNDS_NEW = '    if ((size_t)bufferSize < reqSize) {\n        releaseExportFramebuffer();\n        return false;\n    }'
 INCLUDE_OLD = '#include <wx/log.h>'
 INCLUDE_NEW = INCLUDE_OLD + '\n#include <stdexcept>'
+STATE_DECL_OLD = 'void xlGLCanvas::DisplayWarning(const wxString& msg)'
+STATE_DECL_NEW = """// Helix export state lives outside the canvas: preserve its ABI for cached
+// derived classes. Entries exist only between captureNextFrame and readback.
+namespace {
+struct HelixExportTarget {
+    int width = 0, height = 0;
+    GLuint framebuffer = 0, color = 0, depth = 0;
+    GLint previousDraw = 0, previousRead = 0;
+};
+std::map<xlGLCanvas*, HelixExportTarget> helixExportTargets;
+}
+
+void xlGLCanvas::DisplayWarning(const wxString& msg)"""
 PATCHES = {
     'src-ui-wx/xLightsMain.cpp': [(SIZE_OLD, SIZE_NEW)],
     'src-ui-wx/app-shell/TabSequence.cpp': [(CAMERA_OLD, CAMERA_NEW)],
     'src-ui-wx/graphics/opengl/xlGLCanvas.h': [(CAPTURE_OLD, CAPTURE_NEW), (FIELDS_OLD, FIELDS_NEW)],
-    'src-ui-wx/graphics/opengl/xlGLCanvas.cpp': [(INCLUDE_OLD, INCLUDE_NEW), (PREPARE_OLD, PREPARE_NEW),
+    'src-ui-wx/graphics/opengl/xlGLCanvas.cpp': [(INCLUDE_OLD, INCLUDE_NEW), (STATE_DECL_OLD, STATE_DECL_NEW), (PREPARE_OLD, PREPARE_NEW),
         (READBACK_OLD, READBACK_NEW), (NULL_OLD, NULL_NEW),
         (BOUNDS_OLD, BOUNDS_NEW), (RELEASE_OLD, RELEASE_NEW)],
 }
