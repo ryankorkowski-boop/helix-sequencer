@@ -1,3 +1,11 @@
+## Final verified recovery receipt —83d737e
+
+The final implementation is83d737e5b71f28baca5de46c42b27f327f08d040, tree723f8975cb75ada4432885c68425c9083600f109. Full collected suite passes in32isolated batches:2185tests+24subtests passed,6existing skips,0failures/errors. Exact file coverage and combined rawJUnit are in evidence/final_owner_recovery_20261026. No monolithic pass is claimed. New33GUI/staging tests and11focused final source tests pass and overlap full coverage.
+
+Native1080p pilot also passes full decode, raw opening/visibility/motion, no prolonged black/freeze, four interior/tail audio windows with0lag and .996113overall correlation. Decoded lead/backing open455/87frames,442distinct,0on guarded estimated rests. This remains an internal diagnostic because the requested fully modeled canonical drummer and independently established lexical vocal truth have not been resolved. All15final approval MP4s remain uncertified/undelivered; final approval ZIP is absent. Do not relabel the preserved checkpoint as that deliverable.
+
+PR188 and issue199 are updated and held open/draft. No merge/release/owner approval. Latest-source platform runs must be inspected before any source83d737e Android/Windows completion claim. Refer to the master ledger for exact commands and hashes.
+
 ## 26 October owner fifteen-video assignment — current recovery
 
 Read MASTER_TODO.md first. The requested HELIX_FINAL_BETA_APPROVAL_MP4S.zip DOES NOT EXIST. Zero videos have been certified against all owner requirements; do not rename the internal diagnostic as01_FULL_3D_SNOWMAN_BAND.mp4 or fabricate the other14. PR188 remains draft/unmerged and beta publication is held.
