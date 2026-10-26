@@ -73,3 +73,10 @@ def test_framebuffer_patch_preserves_canvas_abi_and_uses_context_extension_loade
     assert 'GLuint' not in patcher.FIELDS_NEW
     assert 'HelixExportTarget' in patcher.STATE_DECL_NEW
     assert 'helixExportTargets.erase(capture)' in patcher.RELEASE_NEW
+
+
+def test_fallback_adapter_is_rebuilt_and_missing_cpu_frames_abort_export():
+    assert 'src-ui-wx/graphics/vulkan/xlVulkanCanvas.cpp' in patcher.PATCHES
+    assert 'xlGLCanvas::captureNextFrame(w, h)' in patcher.FALLBACK_NEW
+    assert 'capture was not armed' in patcher.READBACK_NEW
+    assert 'return false' not in patcher.READBACK_NEW

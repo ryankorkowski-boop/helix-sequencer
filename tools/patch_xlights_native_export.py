@@ -82,11 +82,13 @@ PREPARE_NEW = """    // Helix: a wx size event changes the projection cache, not
 READBACK_OLD = '    // OpenGL has no zero-copy native surface; always fill the CPU RGB buffer.'
 READBACK_NEW = """    // Helix: reject a skipped draw or a read from the window's small buffer.
     auto capture = helixExportTargets.find(this);
-    if (capture == helixExportTargets.end()) return false;
+    if (capture == helixExportTargets.end()) {
+        throw std::runtime_error("Helix native export capture was not armed");
+    }
     auto& exportTarget = capture->second;
     if (exportTarget.framebuffer == 0 || frame.width != exportTarget.width || frame.height != exportTarget.height) {
         releaseExportFramebuffer();
-        return false;
+        throw std::runtime_error("Helix native export did not draw its requested framebuffer");
     }
     // OpenGL has no zero-copy native surface; always fill the CPU RGB buffer."""
 RELEASE_OLD = '    return true;\n}\n\nbool xlGLCanvas::bindVertexArrayID'
@@ -138,9 +140,24 @@ std::map<xlGLCanvas*, HelixExportTarget> helixExportTargets;
 }
 
 void xlGLCanvas::DisplayWarning(const wxString& msg)"""
+FALLBACK_OLD = """    } else {
+        xlGLCanvas::captureNextFrame(w, h);
+    }
+}
+
+bool xlVulkanCanvas::getFrameForExport"""
+FALLBACK_NEW = """    } else {
+        // Helix: rebuild this adapter against the out-of-line GL capture API.
+        // An object cached with the former inline no-op silently drops it.
+        xlGLCanvas::captureNextFrame(w, h);
+    }
+}
+
+bool xlVulkanCanvas::getFrameForExport"""
 PATCHES = {
     'src-ui-wx/xLightsMain.cpp': [(SIZE_OLD, SIZE_NEW)],
     'src-ui-wx/app-shell/TabSequence.cpp': [(CAMERA_OLD, CAMERA_NEW)],
+    'src-ui-wx/graphics/vulkan/xlVulkanCanvas.cpp': [(FALLBACK_OLD, FALLBACK_NEW)],
     'src-ui-wx/graphics/opengl/xlGLCanvas.h': [(CAPTURE_OLD, CAPTURE_NEW), (FIELDS_OLD, FIELDS_NEW)],
     'src-ui-wx/graphics/opengl/xlGLCanvas.cpp': [(INCLUDE_OLD, INCLUDE_NEW), (STATE_DECL_OLD, STATE_DECL_NEW), (PREPARE_OLD, PREPARE_NEW),
         (READBACK_OLD, READBACK_NEW), (NULL_OLD, NULL_NEW),

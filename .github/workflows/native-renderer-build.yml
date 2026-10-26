@@ -60,7 +60,7 @@ jobs:
         \ validate_tree(Path.cwd())\"; then\n  echo \"HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights\"\
         \ >> \"$GITHUB_ENV\"\n  exit 0\nfi\n# Reuse previous object files, but restore only our two pinned source\n\
         # sites before applying this revision's verified native patch.\ngit checkout -- src-ui-wx/xLightsMain.cpp\
-        \ src-ui-wx/app-shell/TabSequence.cpp src-ui-wx/graphics/opengl/xlGLCanvas.cpp src-ui-wx/graphics/opengl/xlGLCanvas.h\n\
+        \ src-ui-wx/app-shell/TabSequence.cpp src-ui-wx/graphics/opengl/xlGLCanvas.cpp src-ui-wx/graphics/opengl/xlGLCanvas.h src-ui-wx/graphics/vulkan/xlVulkanCanvas.cpp\n\
         python \"$GITHUB_WORKSPACE/tools/patch_xlights_native_export.py\" \"$RUNNER_TEMP/xlights-src\"\n# Capture\
         \ actionable compiler errors even when GitHub's live job logs\n# are unavailable, and cap a stalled compile\
         \ before job timeout.\nset -o pipefail\n# Allow the pinned native build to finish within the job's 60-minute\

@@ -1,3 +1,14 @@
+## 2026-10-26 — Rebuild the cached Vulkan fallback capture adapter
+
+Goal: fix actual all-green source render rather than accepting successful encoding.
+Changed: pinned source patch, bootstrap reset paths, corresponding source transformation tests and this ledger/handoff.
+Preserved: every source frame/clock/model/event and strict visual gates. Failed green media remain diagnostic-only.
+Finding:43503ae binary compiled, but actual full Phoneme FBO proof decodes green with luma2/motion0 and fails every visual check. Disassembly of xlVulkanCanvas::captureNextFrame shows no call to xlGLCanvas::captureNextFrame: its cached object inlined the old header's no-op. This is a different issue from the original small window buffer and demonstrates why compiled source tests alone are insufficient.
+Repair: include the pinned Vulkan adapter capture site in the all-or-nothing patch and reset/validation paths, forcing recompilation of that dependent object. Canvas ABI stays unchanged. GL readback now throws if capture was not armed or the requested framebuffer was not drawn; returning false means native-surface success in VideoWriter and can silently encode uninitialized green YUV. No CPU fallback/stand-in frame is fabricated.
+Evidence: prior43503ae build40288251393 artifact12634704662 preserved/verified, but its movie explicitly FAILS. Framebuffer proof show retains exact original XSQ/audio; camera geometry was not changed. New focused tests and native rebuild/rerender follow. Dense-parser repair4f05eb6 is committed and its fresh36s LetItGlow production sequence completed with original instrument timestamps and separately estimated singer clocks. Source plan reports445 notes outside the authored48–84 native keyboard range; do not call that coverage complete.
+Limitations: no native image pass is claimed until the corrected adapter's actual pixels pass; full collection and canonical/acoustic musical acceptance remain open. The ultimate local display launch collided with an existing display lock; retry uses a unique owned display. No final bundle, owner approval, merge or publication inferred.
+Risks: cached inline callers must rebuild when the capture contract changes. Bundle source validation now includes the adapter; raw video verification remains mandatory. Next executable action: collect the new narrow renderer artifact and cold-render the exact retained sequence before any scale-up.
+
 ## 2026-10-26 — Reuse immutable parent pixels during dense-layout parsing
 
 Goal: unblock real production sequencing stalled while loading the6476-name dense source band.
