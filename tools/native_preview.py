@@ -114,10 +114,33 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
         if int(probe['format']['size']) != output.stat().st_size or checksum != _sha256(output):
             raise ValueError('Published native mux does not match validated bytes')
         return probe
-    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
+    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as mux_error:
         if published:
             output.unlink(missing_ok=True)
-        raise
+        # The native xLights encoder already includes its original soundtrack.
+        # If an optional remux fails, reuse those bytes only after independent
+        # full decode, source correlation and interior/actual-tail lag checks.
+        # A different/missing soundtrack must retain the original hard failure.
+        try:
+            from tools.verify_recovery_media import verify as verify_native_audio
+            proof = verify_native_audio(video, audio, _sha256(audio))
+        except (OSError, ValueError, RuntimeError, subprocess.SubprocessError,
+                KeyError, StopIteration):
+            raise mux_error
+        if output.exists():
+            raise mux_error
+        os.link(video, output)
+        try:
+            if _sha256(output) != proof['sha256']:
+                raise ValueError('Native encoder copy changed after source verification')
+            probe = probe_media(output, ffprobe)
+        except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
+            output.unlink(missing_ok=True)
+            raise
+        probe['helix_native_soundtrack_reuse'] = dict(
+            optional_remux_error=str(mux_error), independent_source_verification=proof,
+            original_native_video_and_audio_packets_preserved=True)
+        return probe
     finally:
         temporary.unlink(missing_ok=True)
         staging.rmdir()

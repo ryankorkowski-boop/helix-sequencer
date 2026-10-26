@@ -101,11 +101,17 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
             # Stand outside the near depth plane; a width/height-only camera
             # can crop the corridor entrance while its far structures fit.
             distance=span[2]/2+max(span[0]*.95,span[1]*1.85,55)
+        # Native small-layout proof needs readable bulbs and stage occupancy;
+        # source nodes, channel values and event clocks remain unchanged.
+        if number in (1,5,6,8):distance*=.92 if number==1 else .82
         tree_xml=ET.parse(folder/'xlights_rgbeffects.xml')
         for camera in tree_xml.findall('Viewpoints/*'):
             for key,value in dict(angleX=0 if number==11 else 8 if number not in (10,12) else 18,angleY=12 if number==10 else 0,
                     distance=-distance,panx=-center[0],pany=-center[1],panz=-center[2]).items():camera.set(key,str(value))
         tree_xml.write(folder/'xlights_rgbeffects.xml',encoding='utf-8',xml_declaration=True)
+        if number in (1,5,8):
+            from tools.native_residential_context import add_context
+            add_context(folder)
         item=dict(number=number,name=name,folder=str(folder.resolve()),xsq=path.name,
                   source_audio_sha256=expected_sha256,source_analysis_sha256=digest(plans[0]),
                   source_commit=source_manifest['source_commit'],source_duration_seconds=duration,audio_name=audio_name,

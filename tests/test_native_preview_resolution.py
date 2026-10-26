@@ -222,7 +222,9 @@ class NativePreviewResolutionTests(unittest.TestCase):
 
     def test_production_export_stops_if_dialog_dismissal_kills_process(self):
         app = SimpleNamespace(pid=123, returncode=1,
-                              poll=Mock(side_effect=[None, 1, 1]))
+                              poll=Mock(return_value=None))
+        def die_when_dismissed(*_args):
+            app.poll.return_value = 1
         with tempfile.TemporaryDirectory() as directory:
             show = Path(directory).resolve()
             staged = show / "Performance.xsq"
@@ -231,7 +233,7 @@ class NativePreviewResolutionTests(unittest.TestCase):
                     patch.object(preview.rest, "_response_ok", return_value=True), \
                     patch.object(preview, "_command", side_effect=[
                         {"folder": str(show)}, {"fullseq": str(staged)}]) as command, \
-                    patch.object(preview, "_dismiss_startup_dialogs") as dismiss:
+                    patch.object(preview, "_dismiss_startup_dialogs", side_effect=die_when_dismissed) as dismiss:
                 with self.assertRaisesRegex(RuntimeError, "after startup dialog dismissal"):
                     preview._native_export("/bin/xLights", show, staged, 0)
                 dismiss.assert_called_once_with(123, show)

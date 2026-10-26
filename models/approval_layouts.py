@@ -119,6 +119,7 @@ def build_layout(number):
     if not 1<=number<=12:raise ValueError('Layout number outside1..12')
     g=Garden(title=NAMES[number-1].replace('_',' '),slug=NAMES[number-1],
              palette=('#E73838','#35D56B','#FFF1CF') if number in (1,2,3,5) else ('#56D9FF','#BA83F4','#FFD18A'))
+    if number==5:g.palette=('#FFF1CF','#35D56B','#E73838')
     if number<=6 or number==8:
         house(g,z=-12)
         for x in (-24,-8,8,24):arch(g,x,16)
@@ -127,6 +128,10 @@ def build_layout(number):
         if number<=3:
             assert len(g.models)==16
             ac_circuits(g,{1:1,2:4,3:16}[number])
+            if number==1:
+                for model in g.models:
+                    model.attrs['PixelSize']='24'
+                    model.details['source_display_floor']=.5
             if number==3:
                 # Preserve the exact256-circuit budget; restage existing
                 # separate circuits into mega-tree/spinner/face silhouettes.
@@ -191,9 +196,10 @@ def build_layout(number):
             for m in added:_move(m,(0,0,75),(0,0,55 if number==8 else -105),.6 if number==8 else 1)
     for m in g.models:
         if not m.details.get('review_role'):
+            if number in (5,6,8):m.details['source_display_floor']=.5
             # The large overview projects many nodes to less than one pixel.
             # Keep its real geometry/events, but make the preview bulbs legible.
-            m.attrs['PixelSize']='8' if number!=12 else '10'
+            m.attrs['PixelSize']='24' if number in (5,6,8) else '8' if number!=12 else '14'
         if not m.submodels:m.submodels['ALL']=list(range(1,len(m.points)+1))
     return allocate(g)
 

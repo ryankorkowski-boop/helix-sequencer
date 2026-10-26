@@ -103,8 +103,14 @@ def export_model(sequence,model,plan,cache,palette):
             sourceStartMs=event['source_start_ms'],sourceEndMs=event['source_end_ms'],
             sourceEventIndex=event['source_event'],sourcePitchMIDI=event['pitch_midi'],
             authoredPropagationMs=event['propagation_delay_ms']).items() if v is not None}
+        # Quiet retained attacks must be visible in a small native overview.
+        # This changes display illumination only; zero/rest windows and every
+        # source event, velocity order, pitch and clock remain unchanged.
+        floor=float(model.details.get('source_display_floor',0))
+        attack=floor+(1-floor)*event['level']
+        provenance['displayAttackFloor']=str(floor)
         sequence.effect(model,event['part'],event['start_ms'],event['end_ms'],color,
-            round(event['level']*100),round(event['level']*12),provenance=provenance)
+            round(attack*100),round(attack*.12*100),provenance=provenance)
     # Group real note windows into sustained phrases for native matrix motion;
     # the effect ends at the final supported source event, with no release tail.
     if matrix and model.kind=='pixel' and events:
