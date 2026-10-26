@@ -1,3 +1,7 @@
+## Dense layout preparation follow-up
+
+A real production run stalled before audio analysis because each of6470 material/pose submodels rebuilt its parent's identical virtual pixel map. core/model_parser.py now reuses one immutable map per parent within a parse; no persistent mutable cache.8 parser/spatial/submodel tests pass with exact old-helper model-field equivalence. Actual dense layout parse0.569314s. Renderer43503ae run40288251393 now succeeds and its artifact12634704662 was downloaded/CRC/hash checked before the parser change is pushed. Stripped binaryda3e0f7246236df4e82087979884d64d008aaad77d662990184bfab91581d639.23 focused parser/layout/audio-reuse checks pass; they overlap the initial8. Actual spatial-scene build0.517427s. Fresh current-source production analysis/native videos remain mandatory.
+
 ## Corrective compile follow-up
 
 Build40287515482 failed because the extension loader is wxGLContext::GetProcAddress, not wxGLCanvas. Corrected to the actual pinned API. Export state moved outside the canvas class to retain ABI with cached dependent objects. Failed artifact12635176871 is compiler diagnostics only. Fresh compile/native proof remains required. New LetItGlow36s decodef3562aaedd1b8594baa8ef0991374881d0fb2ac49dcaed67cf0525ceee370cd6 uses verified originald0fdcf1f; pinned source-separated candidates completed. It must have its own receipt rather than reusing oldf7fb metadata.

@@ -1,3 +1,13 @@
+## 2026-10-26 — Reuse immutable parent pixels during dense-layout parsing
+
+Goal: unblock real production sequencing stalled while loading the6476-name dense source band.
+Changed: core/model_parser.py; tests/test_layout_parent_pixel_reuse.py; this ledger and existing handoff.
+Preserved: every parent/submodel coordinate, ordering, fallback role, alias, timing/detector and exported native asset. The public two-argument helpers retain their old behavior. No persistent cache is added to mutable models.
+Finding: actual faulthandler samples from a fresh parse repeatedly stop in _submodel_geometry -> parent.virtual_pixel_map, allocating the identical parent grid for each of6470 material/pose submodels before audio analysis. The original production process remains stalled there after several minutes. Each parse now constructs a parent pixel list once, shares it read-only among that parent's submodels, then releases it before the next parent.
+Evidence:23 parser/spatial/submodel/editable-layout/audio-reuse checks pass; the initial8 focused parser checks also pass and overlap. Regression compares every resulting model field against the preceding uncached helper and confirms later parent edits remain visible. Exact dense source layout parses6472 model entries in0.569314s; actual spatial scene builds in0.517427s. Broader source tests and fresh actual Helix analysis follow. This is a loading fix, not a new musical-analysis result.
+Renderer43503ae run40288251393 succeeded and artifact12634704662 was downloaded/CRC/hash checked. Stripped binaryda3e0f7246236df4e82087979884d64d008aaad77d662990184bfab91581d639, patch7b51eea0ac069311b1dbf6b578f880d28fc478aed565c5df30e0ea4077fa4eb6. Native opening proof remains pending; the completed build is preserved before this source push. Independent singer/canonical approval, six-layout output and final delivery remain open. Existing width/height interpretation of imported custom models is deliberately preserved here, not silently redesigned.
+Risks: parent map must remain unmodified during submodel extraction; the regression compares old/new geometry and checks edits across calls. No acceptance threshold, source hash or source event changed. Next run the real source show preparation after preserving the renderer; then collect final source-matched tests/artifacts.
+
 ## 2026-10-26 — Correct pinned wx extension loader and retain canvas ABI
 
 Goal: repair actual compilation failure in40287515482 while preserving the offscreen rendering fix.

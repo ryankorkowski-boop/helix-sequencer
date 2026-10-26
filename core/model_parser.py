@@ -954,7 +954,7 @@ def _parse_submodel_indexes(raw: str) -> list[int]:
     return sorted(index for index in indexes if index >= 0)
 
 
-def _submodel_geometry(parent: Model, sub_el: ET.Element) -> tuple[list[tuple[float, float, float]], str | None]:
+def _submodel_geometry(parent: Model, sub_el: ET.Element, *, parent_pixels: list[PixelPoint] | None = None) -> tuple[list[tuple[float, float, float]], str | None]:
     attrs = dict(sub_el.attrib)
     indexes: list[int] = []
     for key, value in attrs.items():
@@ -962,7 +962,8 @@ def _submodel_geometry(parent: Model, sub_el: ET.Element) -> tuple[list[tuple[fl
             indexes.extend(_parse_submodel_indexes(value))
     if not indexes and attrs.get("subBuffer"):
         indexes.extend(_parse_submodel_indexes(attrs.get("subBuffer", "")))
-    parent_pixels = parent.virtual_pixel_map()
+    if parent_pixels is None:
+        parent_pixels = parent.virtual_pixel_map()
     if indexes and parent_pixels:
         seen: set[int] = set()
         subset = [parent_pixels[idx] for idx in indexes if 0 <= idx < len(parent_pixels) and idx not in seen and not seen.add(idx)]
@@ -975,13 +976,13 @@ def _submodel_geometry(parent: Model, sub_el: ET.Element) -> tuple[list[tuple[fl
     return (parent.geometry_points[:] if parent.geometry_points else [(parent.center())], role)
 
 
-def _build_submodel(parent: Model, sub_el: ET.Element) -> Model | None:
+def _build_submodel(parent: Model, sub_el: ET.Element, *, parent_pixels: list[PixelPoint] | None = None) -> Model | None:
     attrs = dict(sub_el.attrib)
     short_name = (attrs.get("name") or "").strip()
     if not short_name:
         return None
     full_name = f"{parent.name}/{short_name}"
-    geometry_points, role = _submodel_geometry(parent, sub_el)
+    geometry_points, role = _submodel_geometry(parent, sub_el, parent_pixels=parent_pixels)
     origin = geometry_points[0] if geometry_points else (parent.center())
     delta = geometry_points[-1] if geometry_points else origin
     aliases = [child.attrib.get("name", "").strip() for child in sub_el.findall("./aliases/alias") if child.attrib.get("name", "").strip()]
@@ -1056,8 +1057,13 @@ def _parse_layout_uncached(layout_path: Path) -> ParsedLayout:
         for alias in model.aliases:
             aliases[normalize_name(alias)] = model.name
         submodels: list[str] = []
-        for sub_el in model_el.findall("./subModel"):
-            submodel = _build_submodel(model, sub_el)
+        sub_elements = model_el.findall("./subModel")
+        # Dense material/pose exports can have thousands of submodels. Their
+        # immutable parent map is identical during this one parse; construct it
+        # once, then release it at the next parent instead of caching mutations.
+        parent_pixels = model.virtual_pixel_map() if sub_elements else None
+        for sub_el in sub_elements:
+            submodel = _build_submodel(model, sub_el, parent_pixels=parent_pixels)
             if submodel is None or not submodel.name:
                 continue
             models[submodel.name] = submodel
