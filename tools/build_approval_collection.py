@@ -105,18 +105,22 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
         camera_models=band if number==7 else g.models
         points=np.concatenate([m.points for m in camera_models]);low,high=points.min(0),points.max(0);center=(low+high)/2
         span=high-low;distance=max(span[0]*(.80 if number==7 else .95),span[1]*(1.70 if number==7 else 2.0),55)
+        if number==8:
+            # Foreground band depth must be included: a house-sized camera
+            # crops the lower four performers through perspective magnification.
+            distance=span[2]/2+max(span[0]*.78,span[1]*1.6,55)
         if number==11:
             # Stand outside the near depth plane; a width/height-only camera
             # can crop the corridor entrance while its far structures fit.
             distance=span[2]/2+max(span[0]*.95,span[1]*1.85,55)
         # Native small-layout proof needs readable bulbs and stage occupancy;
         # source nodes, channel values and event clocks remain unchanged.
-        if number in (1,5,6,8):distance*=.92 if number==1 else .82
+        if number in (1,5,6):distance*=.92 if number==1 else .82
         if number in (9,10):distance*=.82
         if number==11:distance*=.86
         tree_xml=ET.parse(folder/'xlights_rgbeffects.xml')
         for camera in tree_xml.findall('Viewpoints/*'):
-            for key,value in dict(angleX=0 if number==11 else 8 if number not in (10,12) else 18,angleY=12 if number==10 else 0,
+            for key,value in dict(angleX=0 if number in (8,11) else 8 if number not in (10,12) else 18,angleY=12 if number==10 else 0,
                     distance=-distance,panx=-center[0],pany=-center[1],panz=-center[2]).items():camera.set(key,str(value))
         tree_xml.write(folder/'xlights_rgbeffects.xml',encoding='utf-8',xml_declaration=True)
         if number in (1,5,8):
