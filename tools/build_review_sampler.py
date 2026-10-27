@@ -52,7 +52,14 @@ def build(config, output, seconds=16):
             duplicates.append(dict(title=row['title'],sha256=row['sha256'],duplicate_of=seen[identity]))
             continue
         seen[identity]=row['title']
-        start = activity_start(wave, sr, seconds)
+        if 'start_seconds' in row:
+            start=float(row['start_seconds'])
+            if not np.isfinite(start) or start<0 or start+seconds>len(wave)/sr:
+                raise ValueError('Configured excerpt is outside the source recording')
+            selection='Explicit source-clock interval; selection evidence retained in source configuration'
+        else:
+            start = activity_start(wave, sr, seconds)
+            selection='Maximum activity window'
         first, count = round(start*sr), round(seconds*sr)
         cut = wave[first:first+count]
         common = gcd(sr, 44100)
@@ -64,6 +71,7 @@ def build(config, output, seconds=16):
         cut[-fade:] *= np.linspace(1, 0, fade)[:, None]
         clips.append(dict(**row, source_sample_rate=sr, source_start_sample=first,
             source_end_sample=first+count, source_start_seconds=start, duration_seconds=seconds,
+            selection_method=selection,
             sampler_start_seconds=sum(len(p) for p in pieces)/44100, edge_fade_seconds=.02))
         pieces.append(cut)
     audio = output/'Helix_Starred_New_Review.wav'

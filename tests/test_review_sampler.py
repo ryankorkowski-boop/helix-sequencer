@@ -73,3 +73,20 @@ def test_hot_decoded_audio_is_attenuated_without_pcm_clipping(tmp_path):
     assert report['output_gain']<1 and report['peak_before_encoding']>1
     assert np.max(np.abs(result))<.981
     assert path.read_bytes()==before
+
+
+def test_source_screened_interval_keeps_its_original_clock(tmp_path):
+    source=ROOT/'fixtures/audio/Phoneme_Test_Hook.mp3'
+    config=tmp_path/'screened.json'
+    config.write_text(json.dumps([dict(local_path=str(source),sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
+        title='actual source',start_seconds=1.25)]))
+    report=build(config,tmp_path/'sampler',seconds=2)
+    row=report['clips'][0]
+    assert row['source_start_seconds']==1.25
+    wave,sr=sf.read(source,dtype='float32',always_2d=True)
+    assert row['source_start_sample']==round(sr*1.25)
+    assert row['source_end_sample']==round(sr*3.25)
+    config.write_text(json.dumps([dict(local_path=str(source),sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
+        title='actual source',start_seconds=-1)]))
+    with pytest.raises(ValueError,match='outside'):
+        build(config,tmp_path/'invalid',seconds=2)
