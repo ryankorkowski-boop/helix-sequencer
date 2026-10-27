@@ -18,11 +18,25 @@ def enrich(g,number):
                 m=g.poly('CATHEDRAL_RIB_'+str(side)+'_'+str(z),
                     [(side*45,0,z),(side*45,36,z),(side*27,54,z),(0,65,z)],180,
                     'CATHEDRAL','Depth-separated nave rib',g.palette[1])
-                m.details.update(musical_role='harmony',propagation_delay_ms=int((25-z)*3))
+                m.details.update(musical_role='drummer',percussion_component='kick' if side<0 else 'snare',
+                                 propagation_delay_ms=int((25-z)*3))
         for y in (8,24,40):
             m=structures(g).ring('CATHEDRAL_ORBIT',(0,y,-10),17,17,'DNA',plane='xz',count=220)
             m.details.update(musical_role='keyboardist',spatial_phase=y/64)
     if number==10:
+        # The original five optical planes all followed keys, and all five
+        # rings followed the sparse backing voice. Give the existing shapes
+        # distinct instrumental ownership without adding notes or geometry.
+        planes=[m for m in g.models if 'MOIRE_LAYER' in m.name]
+        for m,role,component in zip(planes,('keyboardist','drummer','bassist','drummer','guitarist'),
+                                     (None,'kick',None,'snare',None)):
+            m.details['musical_role']=role
+            if component:m.details['percussion_component']=component
+        rings=[m for m in g.models if 'SPIRAL_WAVE' in m.name]
+        for m,role,component in zip(rings,('bassist','guitarist','keyboardist','drummer','drummer'),
+                                    (None,None,None,'hihat','cymbal')):
+            m.details['musical_role']=role
+            if component:m.details['percussion_component']=component
         # Slightly different line frequencies and angles produce a visible
         # geometric beat pattern when the camera projects the stacked planes.
         for layer,(spacing,angle,z) in enumerate(((5.2,-3,-1),(5.6,3,2),(6.0,-1,5))):
@@ -56,8 +70,10 @@ def enrich(g,number):
                 'DEPTH','Nested camera-facing depth portal',g.palette[depth%3])
             for sector,nodes in enumerate(np.array_split(np.arange(1,len(m.points)+1),8)):
                 m.submodels[f'SECTOR_{sector:02}']=nodes.tolist()
-            m.details.update(musical_role='bassist',propagation_delay_ms=depth*50,
+            role=('drummer','keyboardist','drummer','bassist','guitarist','drummer','keyboardist','bassist')[depth]
+            m.details.update(musical_role=role,propagation_delay_ms=depth*50,
                 spatial_direction=1,spatial_phase=depth/16,depth_index=depth)
+            if role=='drummer':m.details['percussion_component']={0:'kick',2:'snare',5:'hihat'}[depth]
         for side in (-1,1):
             for level in (0,20,40):
                 m=g.poly('PERSPECTIVE_RAIL_'+str(side)+'_'+str(level),

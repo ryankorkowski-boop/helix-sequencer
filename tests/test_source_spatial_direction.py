@@ -95,3 +95,14 @@ def test_section_colors_never_recolor_a_fixed_ac_circuit():
     assert len({e['color'] for e in report['events']})==1
     expected={'Single Color Red':'#FF4040','Single Color Green':'#40FF60','Single Color White':'#FFFFFF'}
     assert {e['color'] for e in report['events']}=={expected[m.attrs['StringType']]}
+
+
+def test_technical_worlds_have_separate_actual_percussion_owners():
+    for number in (9,10,11):
+        g=build_layout(number)
+        components={m.details.get('percussion_component') for m in g.models if role_for(m)=='drummer'}
+        assert {'kick','snare'}<=components
+        assert all(m.details.get('source_display_floor')==.5 for m in g.models)
+    g=build_layout(10)
+    original_planes=[m for m in g.models if 'MOIRE_LAYER' in m.name]
+    assert len({role_for(m) for m in original_planes})==4

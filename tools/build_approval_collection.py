@@ -112,6 +112,8 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
         # Native small-layout proof needs readable bulbs and stage occupancy;
         # source nodes, channel values and event clocks remain unchanged.
         if number in (1,5,6,8):distance*=.92 if number==1 else .82
+        if number in (9,10):distance*=.82
+        if number==11:distance*=.86
         tree_xml=ET.parse(folder/'xlights_rgbeffects.xml')
         for camera in tree_xml.findall('Viewpoints/*'):
             for key,value in dict(angleX=0 if number==11 else 8 if number not in (10,12) else 18,angleY=12 if number==10 else 0,
