@@ -7,7 +7,13 @@
     "run": 40432522727,
     "job": 121953382697
   },
-  "full_python_312": "in_progress",
+  "full_python_312": {
+    "passed": 2189,
+    "skipped": 6,
+    "subtests_passed": 24,
+    "run": 40432522727,
+    "job": 121953382892
+  },
   "focused_local_passed": 15,
   "regression_run": 40432513709,
   "recovery_guards": 40432522585,

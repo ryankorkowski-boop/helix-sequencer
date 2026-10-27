@@ -1,3 +1,7 @@
+### Subsequent exact-source verification — both Python versions passed
+
+Goal/change: finalize only the verification receipt in this ledger, the beta handoff and evidence/final_recovery_20261027/recovery_status.json. Implementation51d69819b44e5f32625873bbddfb7327bd66498d full regression run40432522727 now PASSES Python3.11/job121953382697 and Python3.12/job121953382892: EACH2189tests+24subtests passed,6existing skips. Full logs were retrieved; earlier in-progress statements below are historical checkpoints. Native producer40432522775 and final-band40432522680 still FAIL on the source-vocal qualification dependency. Canonical identity and independent vocal truth remain unresolved. All code, original assets, source event clocks and strict acceptance thresholds are preserved. No further behavior change, native MP4, approval ZIP, merge or public release. Source/subjective and physical acceptance risks are unchanged. Persistent exact source inputs and executable continuation are in the following checkpoint.
+
 ## 26 October client-date final continuation — fresh source work preserved (27 October UTC)
 
 Implementation commit:51d69819b44e5f32625873bbddfb7327bd66498d; source tree52dac5d79a732cc703dfa60ea6eae43340c3f10b. Local initial commit981bf5d0982495dcd85529dba82b82760b016cc5 has exactly the same tree; GitHub authenticated API publication created51d69819 and local HEAD is now aligned. No force push, merge or release. Previous15-video request is superseded by the CURRENT SIX-MP4 assignment; no approval file count is completed.
