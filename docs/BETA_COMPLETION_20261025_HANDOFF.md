@@ -1,3 +1,7 @@
+### Exact delivery source checkpoint
+
+CodeHEAD4809d5764cf21226e526c7424e66ee2197eedff8, branch codex/eight-hour-recovery-20261019; this metadata-only successor preserves the same implementation. Saved exact raw nativeFSEQ/MP4parts: libfile_73fde54d75a081919628e809d70de259 and libfile_e2b9f56e24a48191a1cb9fd7879cdcd1. Source delta/runtime/verification commands: libfile_19c7818f9f408191a9fb6ad2dddea1a6. Read evidence/beta_mp4_review_20261027/{delivery_status.json,internal_checkpoint_inventory.json,checkpoint_media_restore.json}. Native jobs40442311736/collection40442311738/Phoneme40442311827 and fullCI40442311704 were triggered at this codeSHA; do not call them passed from trigger status. All actual6final-file media checks already pass and files are saved. Acoustic/canonical beta acceptance stays false.
+
 ## Latest continuation — actual six-MP4 review delivery,27OctoberUTC
 
 Recovery branch: `codex/eight-hour-recovery-20261019`. Render/export baseline: `a72559517610347afb911a081ab5ca1746da22bb`. The commit adding this entry contains final delivery tooling, exact file hashes, all six media checks and persistent video links. Resolve its delivery HEAD from branch history; do not substitute a historical workflow outcome. Read MASTER_TODO.md first, then [the concrete delivery receipt](BETA_MP4_REVIEW_20261027_DELIVERY.md). The requested MP4-only ZIP now EXISTS and is saved; prior no-MP4 statements below are historical.

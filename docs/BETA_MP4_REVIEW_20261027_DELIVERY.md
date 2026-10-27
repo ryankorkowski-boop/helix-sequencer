@@ -35,3 +35,7 @@ Failed jobs with complete preserved logs: producer40437835355/job121971765433(so
 5. After the actual asset/vocal gates are repaired, run the native producer/final-band/pilot/collection workflows at the new source SHA; retain checks and render fresh. Continue Android instructions/toggle/selection/sequencing/export/settings device acceptance.
 
 No PR188merge, owner acceptance or public beta release has occurred.
+
+## Durable source continuation receipt
+
+Delivery code commit: `4809d5764cf21226e526c7424e66ee2197eedff8`. Exact local/remote tree match was verified before publication. Internal native parts: libfile_73fde54d75a081919628e809d70de259 and libfile_e2b9f56e24a48191a1cb9fd7879cdcd1. Source delta: libfile_19c7818f9f408191a9fb6ad2dddea1a6. All3saves and local identity metadata succeeded. Hashes/inventories and media restoration map are committed in the evidence directory. No original code is duplicated in those checkpoints.
