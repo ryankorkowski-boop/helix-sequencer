@@ -66,6 +66,14 @@ def section_strategy(label,role):
     return dict(name='note_trace',steps=3 if role in ('keyboardist','guitarist') else 2,step_ms=50,direction=1)
 
 
+def section_color(role, section, palette):
+    """Keep role contrast while changing the palette at supported song sections."""
+    base={'guitarist':0,'bassist':1,'keyboardist':2,'drummer':2,'lead':0,'harmony':1}[role]
+    strategy=section_strategy(section,role)['name']
+    offset={'ascending':1,'wide_response':2,'solo_trace':1}.get(strategy,0)
+    return palette[(base+offset)%len(palette)]
+
+
 def schedule(model,plan,cache,duration):
     role=role_for(model);parts=parts_for(model)
     source=(voice_events(cache,'estimated_backing') if role=='harmony' else
@@ -110,14 +118,15 @@ def schedule(model,plan,cache,duration):
 def export_model(sequence,model,plan,cache,palette):
     events=schedule(model,plan,cache,sequence.duration)
     role=role_for(model)
-    color=palette[{'guitarist':0,'bassist':1,'keyboardist':2,'drummer':2,'lead':0,'harmony':1}[role]]
-    if model.kind=='ac':
-        color={'Single Color Red':'#FF4040','Single Color Green':'#40FF60','Single Color White':'#FFFFFF'}[model.attrs['StringType']]
+    fixed_color=({'Single Color Red':'#FF4040','Single Color Green':'#40FF60','Single Color White':'#FFFFFF'}[model.attrs['StringType']]
+                 if model.kind=='ac' else None)
     native_effect='On'
     # Native Bars is applied only to a real 2-D sampled surface. The black
     # second palette creates traveling negative space rather than a full wash.
     matrix=any(p.startswith('ROW_') for p in model.submodels)
     for event in events:
+        color=fixed_color or section_color(role,event['section'],palette)
+        event['color']=color
         provenance={k:str(v) for k,v in dict(sourceRole=event['role'],sourceMethod='semantic_source_spatial_direction',
             sourceStartMs=event['source_start_ms'],sourceEndMs=event['source_end_ms'],
             sourceEventIndex=event['source_event'],sourcePitchMIDI=event['pitch_midi'],
@@ -134,18 +143,27 @@ def export_model(sequence,model,plan,cache,palette):
     # Group real note windows into sustained phrases for native matrix motion;
     # the effect ends at the final supported source event, with no release tail.
     if matrix and model.kind=='pixel' and events:
-        windows=sorted({(e['source_start_ms'],e['source_end_ms']) for e in events})
+        windows=sorted({(e['source_start_ms'],e['source_end_ms'],e['section']) for e in events})
         phrases=[]
-        for a,b in windows:
-            if phrases and a<=phrases[-1][1]+150:phrases[-1][1]=max(phrases[-1][1],b)
-            else:phrases.append([a,b])
+        for a,b,section in windows:
+            if phrases and section==phrases[-1][2] and a<=phrases[-1][1]+150:
+                phrases[-1][1]=max(phrases[-1][1],b)
+            else:phrases.append([a,b,section])
         model.submodels['SPATIAL_SURFACE']=sorted({n for p in parts_for(model) for n in model.submodels[p]})
-        for a,b in phrases:
+        for a,b,section in phrases:
             if b-a<400:continue
+            strategy=section_strategy(section,role)
+            # Sparse sections retain their note windows, without a broad
+            # sustained surface that would hide a break in the arrangement.
+            if strategy['name']=='sparse':continue
+            color=section_color(role,section,palette)
+            cycles=2.0 if strategy['name']=='ascending' else .5 if strategy['name']=='solo_trace' else 1.0
+            direction=model.details.get('spatial_direction',1)*strategy['direction']
             sequence.effect(model,'SPATIAL_SURFACE',a,b,color,provenance={
-                'sourceRole':role,'sourceMethod':'source_phrase_native_Bars','sourceStartMs':str(a),'sourceEndMs':str(b)},
-                settings='E_SLIDER_Bars_BarCount=2,E_TEXTCTRL_Bars_Cycles=1.0,E_CHOICE_Bars_Direction='+
-                    ('Left' if model.details.get('spatial_direction',1)>0 else 'Right')+',E_CHECKBOX_Bars_Gradient=1',
+                'sourceRole':role,'sourceMethod':'source_phrase_native_Bars','sourceStartMs':str(a),'sourceEndMs':str(b),
+                'sourceSection':str(section),'spatialStrategy':strategy['name']},
+                settings=f'E_SLIDER_Bars_BarCount=2,E_TEXTCTRL_Bars_Cycles={cycles},E_CHOICE_Bars_Direction='+
+                    ('Left' if direction>0 else 'Right')+',E_CHECKBOX_Bars_Gradient=1',
                 palette=f'C_BUTTON_Palette1={color},C_CHECKBOX_Palette1=1,C_BUTTON_Palette2=#000000,C_CHECKBOX_Palette2=1',
                 effect_name='Bars')
             native_effect='On + Bars'

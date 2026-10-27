@@ -68,3 +68,30 @@ def test_native_ultimate_families_do_not_all_fall_back_to_bass():
     hero=models['HX_DNA_CATHEDRAL']
     assert hero.details['keyboard_pitch_rungs']
     assert all(hero.submodels[f'KEY_MIDI_{p:03}'] for p in range(21,109))
+
+
+def test_section_changes_split_surface_phrases_and_change_pixel_interpretation():
+    g=build_layout(10);m=next(m for m in g.models if m.name=='MOIRE_LINE_LATTICE_0')
+    sequence=NativeSequence(g,3,'','section transition')
+    cues=[dict(start_ms=a,end_ms=b,pitch_midi=60,velocity=.8,section=section)
+          for a,b,section in [(0,600,'verse'),(600,1200,'pre_chorus'),
+                              (1200,1800,'chorus'),(1800,2400,'breakdown')]]
+    report=export_model(sequence,m,dict(cues={'keyboardist':cues}),{},g.palette)
+    assert len({e['color'] for e in report['events']})==3
+    effects=sequence.root.findall('./ElementEffects//Effect')
+    bars=[e for e in effects if e.get('name')=='Bars']
+    assert {(e.get('sourceStartMs'),e.get('sourceEndMs'),e.get('sourceSection')) for e in bars}=={
+        ('0','600','verse'),('600','1200','pre_chorus'),('1200','1800','chorus')}
+    assert {e['source_start_ms'] for e in report['events']}=={0,600,1200,1800}
+    assert not any(e.get('sourceSection')=='breakdown' for e in bars)
+
+
+def test_section_colors_never_recolor_a_fixed_ac_circuit():
+    g=build_layout(1);m=next(m for m in g.models if m.kind=='ac')
+    role=role_for(m);sequence=NativeSequence(g,2,'','fixed color')
+    cues=[dict(start_ms=a,end_ms=a+400,pitch_midi=60,velocity=.8,section=section)
+          for a,section in [(0,'verse'),(500,'pre_chorus'),(1000,'chorus')]]
+    report=export_model(sequence,m,dict(cues={role:cues}),{},g.palette)
+    assert len({e['color'] for e in report['events']})==1
+    expected={'Single Color Red':'#FF4040','Single Color Green':'#40FF60','Single Color White':'#FFFFFF'}
+    assert {e['color'] for e in report['events']}=={expected[m.attrs['StringType']]}

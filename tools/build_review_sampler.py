@@ -1,5 +1,6 @@
 """Build a reproducible owner-source sampler from high-energy/flux excerpts."""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 from math import gcd
@@ -36,7 +37,9 @@ def build(config, output, seconds=16):
         raise ValueError('Positive whole-second excerpt length required')
     rows = json.loads(Path(config).read_text())
     output = Path(output); output.mkdir(parents=True, exist_ok=False)
-    pieces, clips = [], []
+    if not isinstance(rows,list) or not rows:
+        raise ValueError('At least one source recording is required')
+    pieces, clips, duplicates, seen = [], [], [], {}
     for row in rows:
         path = Path(row['local_path'])
         if digest(path) != row['sha256']:
@@ -44,6 +47,11 @@ def build(config, output, seconds=16):
         wave, sr = sf.read(path, dtype='float32', always_2d=True)
         if wave.shape[1] not in (1, 2) or not np.isfinite(wave).all():
             raise ValueError('Finite mono/stereo source required')
+        identity=(sr,wave.shape,hashlib.sha256(np.asarray(wave,'<f4').tobytes()).hexdigest())
+        if identity in seen:
+            duplicates.append(dict(title=row['title'],sha256=row['sha256'],duplicate_of=seen[identity]))
+            continue
+        seen[identity]=row['title']
         start = activity_start(wave, sr, seconds)
         first, count = round(start*sr), round(seconds*sr)
         cut = wave[first:first+count]
@@ -59,12 +67,19 @@ def build(config, output, seconds=16):
             sampler_start_seconds=sum(len(p) for p in pieces)/44100, edge_fade_seconds=.02))
         pieces.append(cut)
     audio = output/'Helix_Starred_New_Review.wav'
-    sf.write(audio, np.concatenate(pieces), 44100, subtype='PCM_16')
+    combined=np.concatenate(pieces)
+    peak=float(np.max(np.abs(combined)))
+    # MP3 decoding and resampling can overshoot full scale. Attenuate only
+    # when needed; PCM16 conversion must never silently clip a source excerpt.
+    gain=min(1.,.98/max(peak,1e-12))
+    sf.write(audio, combined*gain, 44100, subtype='PCM_16')
     report = dict(schema='helix.owner-review-sampler.v1', audio=audio.name,
         audio_sha256=digest(audio), duration_seconds=sf.info(audio).duration,
         source_selection='Owner Starred catalog; distinct Drive IDs; SHA256 verified before decoding',
         excerpt_selection=f'Maximum {seconds}-second mean of normalized RMS (70%) and positive spectral flux (30%); half-second candidate grid',
-        original_source_files_modified=False, gain_normalization=False, clips=clips)
+        original_source_files_modified=False, gain_normalization=False,
+        peak_before_encoding=peak,output_gain=gain,attenuation_only=True,
+        duplicates_omitted=duplicates,clips=clips)
     (output/'Sampler_Provenance.json').write_text(json.dumps(report, indent=2)+'\n')
     return report
 
