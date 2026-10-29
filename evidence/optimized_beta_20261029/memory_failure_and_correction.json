@@ -1,0 +1,10 @@
+{
+  "memory_limit_bytes": "8589934592",
+  "observed_memory_events": "low 0\nhigh 0\nmax 62288\noom 4\noom_kill 2\noom_group_kill 0\n",
+  "observed_failures": [
+    "multi-branch montage SIGKILL",
+    "concurrent perspective xLights exit-9"
+  ],
+  "correction": "bounded sequential montage segments; native retry alone",
+  "no_before_after_speedup_claim": true
+}

@@ -1,3 +1,39 @@
+## 29 October — five optimized layout reviews delivered; beta held
+
+The current owner request is nine videos. Five fresh layout MP4s (04, 05, 06,
+07, 09) and an exactly-five-MP4 ZIP are delivered. The nine-video beta package
+remains incomplete. See [the delivery receipt](docs/BETA_OPTIMIZED_LAYOUT_REVIEW_20261029_DELIVERY.md)
+and `evidence/optimized_beta_20261029/delivery_status.json` for links, hashes,
+source 76c0176, renderer identity and durable native checkpoints.
+
+This receipt records evidence and executed reproduction helpers only; production
+code remains the tested source 76c0176. Its commit uses [skip ci] to avoid
+restarting unchanged expensive render/build jobs. Existing failed gates remain
+failed, and no CI success is claimed for the receipt commit. All five movies fully
+decode at 1080p/20 fps and pass unchanged presentation brightness, framing,
+motion, blank/frozen interval and soundtrack checks. Four alignment windows
+measure zero lag. Representative final frames were inspected; no full playback
+claim. Raw native dimness failures are retained separately from declared display
+correction. Original addresses, colors, assets, note clocks, keyboard mapping,
+lineups, exporters and thresholds remain intact. Post-beta work stays deferred.
+
+Measured: unsupported matrix effects across source rests fall from 24,827 ms
+summed across props to zero on this plan. Five-movie presentation takes 430.66 s
+cold and 2.53 s for verified reuse. Bounded montage completes after the original
+OOM failure; encoder child peak RSS is 559,084 KiB. No DSP/native/full-pipeline
+speedup is claimed. Focused tests: 48 pass, one existing skip. Exact-source CI
+40836343857 passes Python 3.11 and 3.12: each 2,199 tests plus 24 subtests pass,
+six existing skips. Windows 40836353435 passes. Android 40836353439 remains in
+progress at recording; refresh before claiming device acceptance.
+
+Videos 01/02/03/08 remain blocked by the unresolved approved fully modeled
+3D drummer reference and independent acoustic/lexical vocal evidence. V3 is
+planar. Producer 40836353360 fails vocal qualification; final-band 40836353456
+fails its dependency. Collection 40836353448 lacks supported pilot evidence;
+Phoneme 40836353485 retains motion 0.425 below 0.65. No gate was weakened and no
+acceptance fabricated. Physical Samsung/controller acceptance and owner review
+remain open. PR #188 is unmerged; no beta release or owner approval occurred.
+
 Native recovery follow-up: Moire produced a complete native movie but mounted
 filesystem cleanup raised ENOTEMPTY after mux validation, masking success as
 fallback. tools/native_preview.py now records cleanup warnings separately while

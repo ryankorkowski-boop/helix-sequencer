@@ -1,0 +1,88 @@
+{
+  "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+  "rows": [
+    {
+      "layout": 6,
+      "model": "HX_037_HOUSE_MATRIX",
+      "before_unsupported_ms": 3860,
+      "after_unsupported_ms": 0,
+      "before_bars_ms": 45882,
+      "after_bars_ms": 14280
+    },
+    {
+      "layout": 6,
+      "model": "HX_038_HOUSE_MATRIX",
+      "before_unsupported_ms": 3860,
+      "after_unsupported_ms": 0,
+      "before_bars_ms": 45882,
+      "after_bars_ms": 14280
+    },
+    {
+      "layout": 10,
+      "model": "HX_001_MOIRE_LAYER",
+      "before_unsupported_ms": 3860,
+      "after_unsupported_ms": 0,
+      "before_bars_ms": 45882,
+      "after_bars_ms": 14280
+    },
+    {
+      "layout": 10,
+      "model": "HX_002_MOIRE_LAYER",
+      "before_unsupported_ms": 1914,
+      "after_unsupported_ms": 0,
+      "before_bars_ms": 24652,
+      "after_bars_ms": 14987
+    },
+    {
+      "layout": 10,
+      "model": "HX_003_MOIRE_LAYER",
+      "before_unsupported_ms": 1074,
+      "after_unsupported_ms": 0,
+      "before_bars_ms": 13163,
+      "after_bars_ms": 7619
+    },
+    {
+      "layout": 10,
+      "model": "HX_004_MOIRE_LAYER",
+      "before_unsupported_ms": 638,
+      "after_unsupported_ms": 0,
+      "before_bars_ms": 2889,
+      "after_bars_ms": 414
+    },
+    {
+      "layout": 10,
+      "model": "HX_005_MOIRE_LAYER",
+      "before_unsupported_ms": 4687,
+      "after_unsupported_ms": 0,
+      "before_bars_ms": 46126,
+      "after_bars_ms": 4638
+    },
+    {
+      "layout": 10,
+      "model": "MOIRE_LINE_LATTICE_0",
+      "before_unsupported_ms": 3860,
+      "after_unsupported_ms": 0,
+      "before_bars_ms": 45882,
+      "after_bars_ms": 14280
+    },
+    {
+      "layout": 10,
+      "model": "MOIRE_LINE_LATTICE_1",
+      "before_unsupported_ms": 1074,
+      "after_unsupported_ms": 0,
+      "before_bars_ms": 13163,
+      "after_bars_ms": 7619
+    },
+    {
+      "layout": 10,
+      "model": "MOIRE_LINE_LATTICE_2",
+      "before_unsupported_ms": 0,
+      "after_unsupported_ms": 0,
+      "before_bars_ms": 0,
+      "after_bars_ms": 0
+    }
+  ],
+  "aggregate_prop_ms_before": 24827,
+  "aggregate_prop_ms_after": 0,
+  "claim": "Source-plan surface coverage only; not acoustic ground truth or complete visual acceptance"
+}

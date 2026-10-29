@@ -1,3 +1,12 @@
+## 29 October continuation
+
+Read MASTER_TODO.md and docs/BETA_OPTIMIZED_LAYOUT_REVIEW_20261029_DELIVERY.md
+first. Five fresh layout MP4s and their MP4-only ZIP are delivered; the request
+is nine. Direct links, checks and both durable native checkpoints are recorded.
+Do not repeat analysis/rendering or promote planar V3/unverified vocal candidates.
+Implementation 76c0176 passes Python 3.11/3.12 full CI and Windows; refresh Android.
+No merge, release or owner approval. The four missing band videos remain blocked.
+
 ### Exact delivery source checkpoint
 
 CodeHEAD4809d5764cf21226e526c7424e66ee2197eedff8, branch codex/eight-hour-recovery-20261019; this metadata-only successor preserves the same implementation. Saved exact raw nativeFSEQ/MP4parts: libfile_73fde54d75a081919628e809d70de259 and libfile_e2b9f56e24a48191a1cb9fd7879cdcd1. Source delta/runtime/verification commands: libfile_19c7818f9f408191a9fb6ad2dddea1a6. Read evidence/beta_mp4_review_20261027/{delivery_status.json,internal_checkpoint_inventory.json,checkpoint_media_restore.json}. Native jobs40442311736/collection40442311738/Phoneme40442311827 and fullCI40442311704 were triggered at this codeSHA; do not call them passed from trigger status. All actual6final-file media checks already pass and files are saved. Acoustic/canonical beta acceptance stays false.
