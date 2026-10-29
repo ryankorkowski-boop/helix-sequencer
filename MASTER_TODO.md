@@ -1,3 +1,14 @@
+## 29 October — residential comparison presentation follow-up
+
+Added a two-source residential comparison to tools/assemble_beta_review.py so
+the original256AC and separate experimentalRGB copy can share one original
+audio clock without duplicating panels. Preserve the source video aspect ratio,
+same hash/decode cache contract and all unchanged quality gates. This is review
+presentation only; no source event/channel/asset change. Native production and
+actual media verification remain in progress. Nine requested approval videos
+remain blocked by canonical fully modeled drummer and independent vocal truth.
+No merge/release. See evidence/optimized_beta_20261029 for completed receipts.
+
 ## 29 October 2026 — source-rest fidelity and incremental review assembly
 
 Goal: continue the owner's nine-video optimization assignment from verified

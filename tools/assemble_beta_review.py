@@ -103,7 +103,7 @@ def assemble(config, output, *, force=False):
         args+=['-i',item['audio']]
         if item['kind']=='single':
             if len(sources)!=1:raise ValueError('One native source expected')
-            args+=['-map','0:v:0','-map','1:a:0','-vf',visual(sources[0])+','+caption(item['title'])]
+            args+=['-map','0:v:0','-map','1:a:0','-vf',visual(sources[0],*item.get('dimensions',(1280,720)))+','+caption(item['title'])]
         elif item['kind']=='vocal_duo':
             if len(sources)!=1:raise ValueError('Both vocal views require the same native frame clock')
             left=dict(sources[0],crop=item['face_crops'][0])
@@ -121,13 +121,22 @@ def assemble(config, output, *, force=False):
                      'pad=1920:1080:0:70:black,'+caption(item['title'],30,22)+
                      ','+caption('Identical original audio and source time in all six panels',22,1030)+'[out]')
             args+=['-filter_complex',';'.join(f),'-map','[out]','-map','6:a:0']
+        elif item['kind']=='residential_pair':
+            if len(sources)!=2:raise ValueError('Exactly two synchronized residential sources required')
+            f=[]
+            for i,spec in enumerate(sources):
+                f.append(f'[{i}:v]setpts=PTS-STARTPTS,'+visual(spec,960,540)+
+                         ',pad=960:660:0:60:black,'+caption(spec['title'],26,15)+f'[p{i}]')
+            f.append('[p0][p1]hstack,pad=1920:1080:0:180:black,'+
+                     caption(item['title'],30,30)+'[out]')
+            args+=['-filter_complex',';'.join(f),'-map','[out]','-map','2:a:0']
         elif item['kind']=='montage':
             f=[];segments=item['segments'];position=0
             for i,seg in enumerate(segments):
                 if abs(seg['start']-position)>0.001 or seg['end']<=seg['start']:raise ValueError('Cuts must preserve source timeline')
                 position=seg['end'];s=seg['source']
                 f.append(f'[{s}:v]trim=start={seg["start"]}:end={seg["end"]},setpts=PTS-STARTPTS,'+
-                         visual(sources[s])+','+caption(sources[s]['title'])+f'[s{i}]')
+                         visual(sources[s],*item.get('dimensions',(1280,720)))+','+caption(sources[s]['title'])+f'[s{i}]')
             if abs(position-duration)>0.001:raise ValueError('Cuts must cover original soundtrack')
             f.append(''.join(f'[s{i}]' for i in range(len(segments)))+f'concat=n={len(segments)}:v=1:a=0[out]')
             args+=['-filter_complex',';'.join(f),'-map','[out]','-map',f'{len(sources)}:a:0']

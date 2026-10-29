@@ -37,6 +37,12 @@ def test_native_presentation_reuses_only_matching_decoded_bytes(tmp_path):
     assert not assemble(config,output)[0]['cache_hit']
     item['title']='Changed title'
     assert not assemble(config,output)[0]['cache_hit']
+    item['kind']='residential_pair'
+    item['sources']=[dict(item['sources'][0],title='Traditional AC'),dict(item['sources'][0],title='RGB')]
+    assert assemble(config,output)[0]['decode_verified']
+    with pytest.raises(ValueError,match='Exactly two'):
+        item['sources'].pop()
+        assemble(config,output)
     moved.write_bytes(b'different source')
     with pytest.raises(ValueError,match='Native video hash'):assemble(config,output)
 
