@@ -152,6 +152,25 @@ def test_short_audio_and_existing_output_are_not_silently_accepted(
     assert output.read_bytes() == b"preserve existing output"
 
 
+def test_cleanup_failure_does_not_mask_verified_mux(tmp_path, media_tools):
+    ffmpeg,ffprobe=media_tools
+    video,audio=tmp_path/'native.mp4',tmp_path/'original.wav'
+    output=tmp_path/'muxed.mp4'
+    _synthetic_video(video,ffmpeg);_tone(audio,880)
+    original=Path.rmdir
+    def mounted_cleanup(path):
+        if path.name.startswith('.native-mux-'):
+            raise OSError(39,'Directory not empty',str(path))
+        return original(path)
+    with patch.object(Path,'rmdir',mounted_cleanup):
+        result=preview.mux_original_audio(video,audio,output,duration=1,
+            ffmpeg=ffmpeg,ffprobe=ffprobe)
+    assert output.is_file()
+    assert {s['codec_type'] for s in result['streams']}=={'video','audio'}
+    assert result['helix_native_mux_cleanup_warning']['media_validation_unchanged']
+    assert (tmp_path/'native_mux_cleanup_warning.json').is_file()
+
+
 def test_interrupted_mux_never_exposes_partial_destination(tmp_path, media_tools):
     ffmpeg, ffprobe = media_tools
     video, audio = tmp_path / 'native.mp4', tmp_path / 'original.wav'

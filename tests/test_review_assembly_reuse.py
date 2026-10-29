@@ -43,6 +43,14 @@ def test_native_presentation_reuses_only_matching_decoded_bytes(tmp_path):
     with pytest.raises(ValueError,match='Exactly two'):
         item['sources'].pop()
         assemble(config,output)
+    item['kind']='montage';item['sources'][0]['title']='Source view'
+    item['segments']=[dict(start=0,end=.3,source=0),dict(start=.3,end=.6,source=0)]
+    assert assemble(config,output)[0]['decode_verified']
+    clips=list((tmp_path/'montage-cache').glob('*.mp4'));assert len(clips)==2
+    clip_times={p.name:p.stat().st_mtime_ns for p in clips}
+    (output/'review.mp4').unlink()
+    assert not assemble(config,output)[0]['cache_hit']
+    assert {p.name:p.stat().st_mtime_ns for p in clips}==clip_times
     moved.write_bytes(b'different source')
     with pytest.raises(ValueError,match='Native video hash'):assemble(config,output)
 

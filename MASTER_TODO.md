@@ -1,3 +1,27 @@
+Native recovery follow-up: Moire produced a complete native movie but mounted
+filesystem cleanup raised ENOTEMPTY after mux validation, masking success as
+fallback. tools/native_preview.py now records cleanup warnings separately while
+retaining every decode/hash/duration/audio check and preserving original errors.
+tests/test_native_preview.py exercises the actual mux with a cleanup-only fault.
+The separate perspective process exited-9 during concurrent heavy assembly;
+it is being retried alone. No failed receipt is promoted merely from file presence.
+
+## 29 October — bounded montage recovery
+
+Actual120s1080p comparison assembly was killed(SIGKILL) while a single FFmpeg
+graph buffered multiple disjoint portions of the same HD sources. Preserved
+native movies/FSEQ; no source analysis/render restart. tools/assemble_beta_review.py
+now seeks/encodes one bounded segment at a time, retains hash/code/encoder-bound
+fully decoded segment checkpoints, bounds each native input decoder to one
+thread, and joins their video streams with the
+unchanged original soundtrack. Tests exercise accurate ordered cuts, decode and
+segment reuse after final-output removal. Quality gates are unchanged. Native
+readability failures remain distinct from presentation checks. Source events,
+models, original256 wiring and exporters remain preserved; no roadmap work.
+Final media verification and full exact-sourceCI remain required; no nine-video
+acceptance claim, owner approval, merge or release. Regression risk: segment
+boundary timestamp/codec continuity, checked by full decode and source alignment.
+
 ## 29 October — residential comparison presentation follow-up
 
 Added a two-source residential comparison to tools/assemble_beta_review.py so

@@ -39,17 +39,49 @@ def visual(spec, width=1280, height=720):
             f"lutrgb=r='{curve}':g='{curve}':b='{curve}',format=yuv420p")
 
 
-def encode(args, output, duration):
+def encode(args, output, duration, *, copy_video=False):
     temporary=output.with_name(output.stem+'.encoding.mp4')
+    video_options=(['-c:v','copy'] if copy_video else
+        ['-c:v','libx264','-threads','4','-preset','fast','-crf','21','-pix_fmt','yuv420p','-r','20'])
     cmd=['ffmpeg','-v','error','-nostdin','-y','-filter_threads','2','-filter_complex_threads','2',*args,
-         '-t',str(duration),'-c:v','libx264','-threads','4','-preset','fast','-crf','21','-pix_fmt','yuv420p',
-         '-r','20','-c:a','aac','-b:a','192k','-movflags','+faststart',str(temporary)]
+         '-t',str(duration),*video_options,'-c:a','aac','-b:a','192k','-movflags','+faststart',str(temporary)]
     try:
         subprocess.run(cmd,check=True)
         temporary.replace(output)
     finally:
         temporary.unlink(missing_ok=True)
     return cmd
+
+
+def encode_montage(item, output, duration, encoder):
+    """Encode bounded source intervals; never buffer several full HD timelines."""
+    segments=item['segments'];position=0;commands=[];clips=[]
+    cache=output.parent.parent/'montage-cache';cache.mkdir(exist_ok=True)
+    for seg in segments:
+        if abs(seg['start']-position)>.001 or seg['end']<=seg['start']:
+            raise ValueError('Cuts must preserve source timeline')
+        position=seg['end']
+        source=item['sources'][seg['source']]
+        recipe=dict(item,sources=[source],segments=[seg])
+        key=assembly_key(recipe,encoder);clip=cache/(key+'.mp4');receipt=cache/(key+'.json')
+        prior={}
+        try:prior=json.loads(receipt.read_text())
+        except (OSError,ValueError):pass
+        if not (clip.is_file() and prior.get('decode_verified') is True and prior.get('sha256')==digest(clip)):
+            args=['-ss',str(seg['start']),'-threads','1','-i',source['video'],'-map','0:v:0','-an','-vf',
+                  visual(source,*item.get('dimensions',(1280,720)))+','+caption(source['title'])]
+            cmd=encode(args,clip,seg['end']-seg['start'])
+            subprocess.run(['ffmpeg','-v','error','-xerror','-nostdin','-i',str(clip),
+                            '-map','0:v:0','-f','null','-'],check=True)
+            prior=dict(sha256=digest(clip),decode_verified=True,command=cmd)
+            temporary=receipt.with_suffix('.tmp');temporary.write_text(json.dumps(prior)+'\n');temporary.replace(receipt)
+        commands.append(prior['command']);clips.append(clip)
+    if abs(position-duration)>.001:raise ValueError('Cuts must cover original soundtrack')
+    listing=cache/(assembly_key(item,encoder)+'.ffconcat')
+    listing.write_text('ffconcat version 1.0\n'+''.join("file '"+p.name+"'\n" for p in clips))
+    commands.append(encode(['-f','concat','-safe','1','-i',str(listing),'-i',item['audio'],
+                            '-map','0:v:0','-map','1:a:0'],output,duration,copy_video=True))
+    return commands
 
 
 def check_inputs(item):
@@ -99,7 +131,7 @@ def assemble(config, output, *, force=False):
             continue
         print('ENCODING '+target.name,flush=True)
         args=[]
-        for spec in sources:args+=['-i',spec['video']]
+        for spec in sources:args+=['-threads','1','-i',spec['video']]
         args+=['-i',item['audio']]
         if item['kind']=='single':
             if len(sources)!=1:raise ValueError('One native source expected')
@@ -131,17 +163,10 @@ def assemble(config, output, *, force=False):
                      caption(item['title'],30,30)+'[out]')
             args+=['-filter_complex',';'.join(f),'-map','[out]','-map','2:a:0']
         elif item['kind']=='montage':
-            f=[];segments=item['segments'];position=0
-            for i,seg in enumerate(segments):
-                if abs(seg['start']-position)>0.001 or seg['end']<=seg['start']:raise ValueError('Cuts must preserve source timeline')
-                position=seg['end'];s=seg['source']
-                f.append(f'[{s}:v]trim=start={seg["start"]}:end={seg["end"]},setpts=PTS-STARTPTS,'+
-                         visual(sources[s],*item.get('dimensions',(1280,720)))+','+caption(sources[s]['title'])+f'[s{i}]')
-            if abs(position-duration)>0.001:raise ValueError('Cuts must cover original soundtrack')
-            f.append(''.join(f'[s{i}]' for i in range(len(segments)))+f'concat=n={len(segments)}:v=1:a=0[out]')
-            args+=['-filter_complex',';'.join(f),'-map','[out]','-map',f'{len(sources)}:a:0']
+            pass # Bounded per-segment encoding below avoids queued HD frames.
         else:raise ValueError('Unsupported presentation')
-        cmd=encode(args,target,duration)
+        cmd=(encode_montage(item,target,duration,encoder) if item['kind']=='montage'
+             else encode(args,target,duration))
         # A completed encoder is not proof that the resulting file decodes.
         subprocess.run(['ffmpeg','-v','error','-xerror','-nostdin','-i',str(target),
                         '-map','0:v:0','-map','0:a:0','-f','null','-'],check=True)

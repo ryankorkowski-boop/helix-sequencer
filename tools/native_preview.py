@@ -84,6 +84,7 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
     staging = Path(tempfile.mkdtemp(prefix=".native-mux-", dir=output.parent))
     temporary = staging / output.name
     published = False
+    probe = None
     try:
         _run([ffmpeg, "-v", "error", "-nostdin", "-threads", "2", "-filter_threads", "2", "-n", "-i", str(video),
               "-i", str(audio), "-map", "0:v:0", "-map", "1:a:0",
@@ -142,8 +143,21 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
             original_native_video_and_audio_packets_preserved=True)
         return probe
     finally:
-        temporary.unlink(missing_ok=True)
-        staging.rmdir()
+        try:
+            temporary.unlink(missing_ok=True)
+            staging.rmdir()
+        except OSError as cleanup_error:
+            # Some mounted filesystems retain a hidden unlink entry briefly.
+            # Cleanup must not mask a verified publication or the original
+            # media error. Preserve the directory and report it separately.
+            warning=dict(directory=str(staging),error=str(cleanup_error),
+                         output=str(output),media_validation_unchanged=True)
+            if probe is not None:probe['helix_native_mux_cleanup_warning']=warning
+            try:
+                (output.parent/'native_mux_cleanup_warning.json').write_text(
+                    json.dumps(warning,indent=2)+'\n')
+            except OSError:
+                pass
 
 
 def _command(endpoint: str, cmd: str, *, timeout: float = 60, **params: str) -> dict[str, Any]:
