@@ -1,0 +1,27 @@
+{
+  "source_commit": "76c0176d3c2c3776d5f9e9abd5e98c004f379021",
+  "run": 40836353439,
+  "api36": {
+    "job": 123322090564,
+    "conclusion": "success",
+    "artifact": 12881019369
+  },
+  "api30": {
+    "job": 123322091008,
+    "conclusion": "failure",
+    "artifact": 12881107581,
+    "artifact_sha256": "4410a274cec3b3ab5c864c20d7af78bc63a036f2350d7879f5cf3397d3671f70",
+    "failure": "Android low-memory killer terminated foreground Helix and instrumentation during offline audio/export smoke",
+    "evidence": [
+      "10-29 07:48:33.060   156   156 I lowmemorykiller: Kill 'org.helixsequencer.android.test' (2475), uid 10131, oom_adj 900 to free 2024kB; reason: low watermark is breached and swap is low (72980kB < 152144kB)",
+      "10-29 07:49:07.993   156   156 I lowmemorykiller: Kill 'org.helixsequencer.android' (2437), uid 10130, oom_adj 0 to free 752236kB; reason: min watermark is breached even after kill"
+    ],
+    "ui_tests": [
+      "bandSwitchSurvivesActivityRecreation: passed",
+      "instructionsSwitchAndRotationKeepTheRightPageAndScroll: passed"
+    ],
+    "remaining": "Offline/full-song memory stability is not accepted; no retry without a targeted memory correction"
+  },
+  "signing_migration_reopened": false,
+  "mp4_review_files_affected": false
+}

@@ -4,7 +4,8 @@ Read MASTER_TODO.md and docs/BETA_OPTIMIZED_LAYOUT_REVIEW_20261029_DELIVERY.md
 first. Five fresh layout MP4s and their MP4-only ZIP are delivered; the request
 is nine. Direct links, checks and both durable native checkpoints are recorded.
 Do not repeat analysis/rendering or promote planar V3/unverified vocal candidates.
-Implementation 76c0176 passes Python 3.11/3.12 full CI and Windows; refresh Android.
+Implementation 76c0176 passes Python 3.11/3.12 full CI and Windows. Android API 36
+passes; API 30 has a confirmed foreground low-memory kill in offline audio/export.
 No merge, release or owner approval. The four missing band videos remain blocked.
 
 ### Exact delivery source checkpoint

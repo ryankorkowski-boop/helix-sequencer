@@ -1,3 +1,15 @@
+## 29 October Android result update
+
+Goal: record the completed platform result without changing app/test behavior.
+API 36 passes at source 76c0176. API 30 fails: Android's low-memory killer ends
+foreground Helix (752,236 KiB RSS) during offline audio/export. Instructions
+scroll/recreation and persisted Band recreation tests passed beforehand.
+Evidence: `android_final_status.json` and the failed instrumentation XML in the
+current evidence directory. Layout MP4 files and their passing checks are
+unchanged. Historical overwrite/signing migration remains outside scope.
+The full-song memory issue remains open; no unchanged failing rerun, acceptance,
+merge or release is claimed. This evidence-only commit skips redundant CI.
+
 ## 29 October — five optimized layout reviews delivered; beta held
 
 The current owner request is nine videos. Five fresh layout MP4s (04, 05, 06,
@@ -23,8 +35,8 @@ cold and 2.53 s for verified reuse. Bounded montage completes after the original
 OOM failure; encoder child peak RSS is 559,084 KiB. No DSP/native/full-pipeline
 speedup is claimed. Focused tests: 48 pass, one existing skip. Exact-source CI
 40836343857 passes Python 3.11 and 3.12: each 2,199 tests plus 24 subtests pass,
-six existing skips. Windows 40836353435 passes. Android 40836353439 remains in
-progress at recording; refresh before claiming device acceptance.
+six existing skips. Windows 40836353435 passes. Android 40836353439 has API 36 passing and API 30 failing from low memory;
+see the newer platform evidence above. Physical device acceptance stays open.
 
 Videos 01/02/03/08 remain blocked by the unresolved approved fully modeled
 3D drummer reference and independent acoustic/lexical vocal evidence. V3 is

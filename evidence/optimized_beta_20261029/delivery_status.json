@@ -138,12 +138,15 @@
   "windows_ci_run": 40836353435,
   "windows_ci": "success",
   "android_ci_run": 40836353439,
-  "android_ci": "in_progress_at_recording",
+  "android_ci": "failure",
   "strict_native_failures": [
     40836353360,
     40836353456,
     40836353448,
     40836353485
   ],
-  "canonical_approved_3d_drummer_verified": false
+  "canonical_approved_3d_drummer_verified": false,
+  "android_api36": "success",
+  "android_api30": "failed_low_memory",
+  "android_failure_evidence": "android_final_status.json"
 }
