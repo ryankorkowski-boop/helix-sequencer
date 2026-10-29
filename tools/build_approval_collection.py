@@ -30,6 +30,11 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
     vocal_receipt=json.loads((vocal_fixture/'diagnostic.json').read_text())
     if vocal_receipt.get('audio_sha256')!=expected_sha256 or digest(vocal_fixture/'acoustic_vocal_clocks.npz')!=vocal_receipt.get('clock_sha256'):
         raise ValueError('Vocal cache does not belong to the collection source')
+    # Source arrays are read-only inputs shared by all props/layouts. Loading
+    # the same compressed clocks inside each prop loop repeats decompression.
+    with np.load(vocal_fixture/'acoustic_vocal_clocks.npz',allow_pickle=False) as clocks:
+        vocal_clocks={key:clocks[key] for key in clocks.files}
+    for values in vocal_clocks.values():values.flags.writeable=False
     source_manifest=json.loads((source/'run_manifest.json').read_text())
     if source_manifest.get('audio_sha256')!=expected_sha256:
         raise ValueError('Production analysis source identity mismatch')
@@ -40,6 +45,7 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
     export_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
     export_hashes={name:digest(repo/name) for name in ('models/final_band_scene.py',
         'models/final_band_native.py','models/canonical_native_band.py','models/approval_layouts.py',
+        'models/recovery_technical_layouts.py',
         'tools/build_approval_collection.py','tools/canonical_band_cues.py',
         'tools/source_spatial_direction.py','tools/phoneme_vocal_export.py')}
     manifest=[]
@@ -62,14 +68,13 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
         for m in g.models:
             if m.details.get('review_role'):continue
             if m.details.get('generic_singer'):
-                with np.load(vocal_fixture/'acoustic_vocal_clocks.npz',allow_pickle=False) as clocks:
-                    source_lane=m.details['generic_singer']
-                    shapes=clocks[source_lane+'_shapes'];energy=clocks[source_lane+'_energy']
-                    values=np.where(energy>0,shapes,0)
-                    cuts=np.r_[0,np.flatnonzero(np.diff(values))+1,len(values)]
-                    for a,b in zip(cuts[:-1],cuts[1:]):
-                        part='MOUTH_'+SHAPE_NAMES[int(values[a])]
-                        if m.submodels.get(part):sequence.effect(m,part,int(a)*10,min(duration_ms,int(b)*10),g.palette[2],85)
+                source_lane=m.details['generic_singer']
+                shapes=vocal_clocks[source_lane+'_shapes'];energy=vocal_clocks[source_lane+'_energy']
+                values=np.where(energy>0,shapes,0)
+                cuts=np.r_[0,np.flatnonzero(np.diff(values))+1,len(values)]
+                for a,b in zip(cuts[:-1],cuts[1:]):
+                    part='MOUTH_'+SHAPE_NAMES[int(values[a])]
+                    if m.submodels.get(part):sequence.effect(m,part,int(a)*10,min(duration_ms,int(b)*10),g.palette[2],85)
                 for part in ('OUTLINE','BASE','BODY','EYES'):
                     if m.submodels.get(part):sequence.effect(m,part,0,duration_ms,g.palette[0],45)
                 continue
@@ -86,8 +91,7 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
                         provenance={'sourceRole':'keyboardist','sourcePitchMIDI':str(pitch)})
                 continue
             from tools.source_spatial_direction import export_model
-            with np.load(vocal_fixture/'acoustic_vocal_clocks.npz',allow_pickle=False) as clocks:
-                spatial_reports.append(export_model(sequence,m,plan,clocks,g.palette))
+            spatial_reports.append(export_model(sequence,m,plan,vocal_clocks,g.palette))
         # The general prop loop may have created ALL lanes after the layout was
         # serialized; write actual final submodel definitions before compiling.
         write_layout(g,folder,include_demo=False,export_all_custom=True)

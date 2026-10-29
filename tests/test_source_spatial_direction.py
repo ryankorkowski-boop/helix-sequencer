@@ -106,3 +106,22 @@ def test_technical_worlds_have_separate_actual_percussion_owners():
     g=build_layout(10)
     original_planes=[m for m in g.models if 'MOIRE_LAYER' in m.name]
     assert len({role_for(m) for m in original_planes})==4
+
+
+def test_native_surface_never_bridges_short_source_rests():
+    g=build_layout(10);m=next(m for m in g.models if m.name=='MOIRE_LINE_LATTICE_0')
+    sequence=NativeSequence(g,2,'','source rest')
+    cues=[dict(start_ms=a,end_ms=b,pitch_midi=60,velocity=.8,section='verse',
+               confidence=.73,source='retained_notes') for a,b in [(0,500),(600,1100)]]
+    report=export_model(sequence,m,dict(cues={'keyboardist':cues}),{},g.palette)
+    bars=[e for e in sequence.root.findall('./ElementEffects//Effect') if e.get('name')=='Bars']
+    assert {(e.get('sourceStartMs'),e.get('sourceEndMs')) for e in bars}=={('0','500'),('600','1100')}
+    assert all(e['source_confidence']==.73 for e in report['events'])
+    assert all(e['source_method']=='retained_notes' for e in report['events'])
+
+
+def test_sustained_note_cannot_hide_a_new_section_surface():
+    from tools.source_spatial_direction import supported_phrases
+    events=[dict(source_start_ms=0,source_end_ms=1200,section='verse'),
+            dict(source_start_ms=600,source_end_ms=1800,section='chorus')]
+    assert supported_phrases(events)==[[0,600,'verse'],[600,1800,'chorus']]

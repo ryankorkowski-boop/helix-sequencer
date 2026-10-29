@@ -1,3 +1,30 @@
+## 29 October 2026 — source-rest fidelity and incremental review assembly
+
+Goal: continue the owner's nine-video optimization assignment from verified
+93085e1 checkpoints without repeating separation or claiming final acceptance.
+Changed modules: tools/source_spatial_direction.py, tools/build_approval_collection.py,
+tools/assemble_beta_review.py and focused regression tests. Native matrix Bars
+now union only continuously sounding source intervals, clip at section changes,
+and retain detector/confidence provenance; the old150ms gap bridge could light
+unsupported rests. Collection building loads hash-verified read-only vocal
+clocks once per invocation rather than once per prop. Presentation reuse binds
+input hashes, settings, assembler code, FFmpeg identity and fully decoded output
+hashes; corruption or changed inputs invalidates it. ZIP writes are atomic and
+the requested inventory count is explicit (historical default six retained).
+
+Preserved: source notes/timestamps/pitches, original256 addresses and fixed
+colors, AC spiral copy, six-member default/seventh opt-in, assets, native
+renderer and every acceptance threshold. No owner approval/merge/release.
+Focused tests and actual native rerenders are being executed; no finished
+nine-video package or measured speedup is claimed by this implementation entry.
+Canonical fully modeled drummer identity and independently verified singer/
+lexical phoneme evidence remain unresolved. The retained V3 is planar art.
+Risks: fewer sustained surface effects where real note intervals contain rests;
+pixel readability and musical contrast must be checked on decoded native pixels.
+Post-beta roadmap and physical device/controller acceptance remain deferred/open.
+Exact measurements, media receipts and next action will be recorded adjacent
+to evidence/optimized_beta_20261029; do not substitute historicalCI for this source.
+
 ### Exact delivery code and durable continuation
 
 Delivery implementation4809d5764cf21226e526c7424e66ee2197eedff8(tree81606e4697b1b717ad1aafde3983e4ac712f10d4) is published on codex/eight-hour-recovery-20261019 and local tree matches. Final6MP4ZIP/direct files are saved with identities/xattrs applied. This follow-up changes only ledger/handoff/evidence identities, not code, media or gates. New sourceCI40442311704 and native producer40442311736 are triggered; outcomes must be refreshed. Passing full3.11/3.12 regression above is precisely renderbaselinea725, not an invented4809result.

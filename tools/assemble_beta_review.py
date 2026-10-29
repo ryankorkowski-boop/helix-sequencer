@@ -4,9 +4,11 @@ Inputs are immutable native movies plus separately hashed original soundtracks.
 Only framing, a declared display curve, labels, and synchronized cuts are applied.
 """
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import subprocess
+import time
 import zipfile
 import soundfile as sf
 from tools.phoneme_source import digest
@@ -61,12 +63,40 @@ def check_inputs(item):
     return duration
 
 
-def assemble(config, output):
+def assembly_key(item, encoder_identity):
+    """Bind presentation reuse to bytes and code, independently of audio DSP.
+
+    Paths may change when restoring a checkpoint. They are locators, not input
+    identity; check_inputs still hashes the bytes at every invocation.
+    """
+    recipe=dict(item)
+    recipe.pop('audio',None)
+    recipe['sources']=[{k:v for k,v in s.items() if k!='video'} for s in item['sources']]
+    payload=dict(recipe=recipe,assembler_sha256=digest(Path(__file__)),encoder=encoder_identity)
+    return hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+
+
+def assemble(config, output, *, force=False):
     output.mkdir(parents=True,exist_ok=True)
+    names=[item['filename'] for item in config['movies']]
+    if len(set(names))!=len(names):raise ValueError('Distinct movie basenames required')
+    cache=output.parent/'assembly-cache';cache.mkdir(exist_ok=True)
+    encoder=subprocess.check_output(['ffmpeg','-version'],text=True)
     reports=[]
     for item in config['movies']:
+        started=time.perf_counter()
         duration=check_inputs(item);target=output/item['filename'];sources=item['sources']
         if target.name!=item['filename'] or target.suffix!='.mp4':raise ValueError('Plain MP4 basenames required')
+        key=assembly_key(item,encoder);sidecar=cache/(target.name+'.json')
+        previous={}
+        try:previous=json.loads(sidecar.read_text())
+        except (OSError,ValueError):pass
+        if (not force and target.is_file() and previous.get('assembly_key')==key
+                and previous.get('decode_verified') is True and previous.get('sha256')==digest(target)):
+            report=dict(previous,source=item,cache_hit=True,elapsed_seconds=time.perf_counter()-started)
+            reports.append(report)
+            print('REUSING '+target.name,flush=True)
+            continue
         print('ENCODING '+target.name,flush=True)
         args=[]
         for spec in sources:args+=['-i',spec['video']]
@@ -103,34 +133,52 @@ def assemble(config, output):
             args+=['-filter_complex',';'.join(f),'-map','[out]','-map',f'{len(sources)}:a:0']
         else:raise ValueError('Unsupported presentation')
         cmd=encode(args,target,duration)
-        reports.append(dict(filename=target.name,bytes=target.stat().st_size,sha256=digest(target),
-                            source=item,ffmpeg_command=cmd,visual_acceptance=False))
-        (output.parent/'assembly_receipt.json').write_text(json.dumps(dict(
+        # A completed encoder is not proof that the resulting file decodes.
+        subprocess.run(['ffmpeg','-v','error','-xerror','-nostdin','-i',str(target),
+                        '-map','0:v:0','-map','0:a:0','-f','null','-'],check=True)
+        report=dict(filename=target.name,bytes=target.stat().st_size,sha256=digest(target),
+                    source=item,ffmpeg_command=cmd,visual_acceptance=False,assembly_key=key,
+                    decode_verified=True,cache_hit=False,elapsed_seconds=time.perf_counter()-started)
+        temporary=sidecar.with_suffix('.tmp')
+        temporary.write_text(json.dumps(report,indent=2)+'\n');temporary.replace(sidecar)
+        reports.append(report)
+    receipt=output.parent/'assembly_receipt.json';temporary=receipt.with_suffix('.tmp')
+    temporary.write_text(json.dumps(dict(
             schema='helix.native-review-assembly.v1',source_commit=config['source_commit'],movies=reports,
             beta_acceptance=False,limitations=config['limitations']),indent=2)+'\n')
+    temporary.replace(receipt)
     return reports
 
 
-def package(folder, target, expected_names):
-    if len(expected_names)!=6 or len(set(expected_names))!=6:raise ValueError('Exactly six distinct movies required')
-    with zipfile.ZipFile(target,'w',compression=zipfile.ZIP_STORED) as z:
-        for name in expected_names:
-            p=folder/name
-            if p.name!=name or p.suffix!='.mp4':raise ValueError('MP4-only archive required')
-            z.write(p,arcname=name)
-    with zipfile.ZipFile(target) as z:
-        if z.namelist()!=expected_names or z.testzip() is not None:raise ValueError('Archive inventory or CRC failed')
-        import hashlib
-        for name in expected_names:
-            with z.open(name) as stream:
-                h=hashlib.sha256()
-                for chunk in iter(lambda:stream.read(1024*1024),b''):h.update(chunk)
-            if h.hexdigest()!=digest(folder/name):raise ValueError('Archived movie hash mismatch')
+def package(folder, target, expected_names, *, expected_count=6):
+    if type(expected_count) is not int or expected_count<1:raise ValueError('Positive movie count required')
+    if len(expected_names)!=expected_count or len(set(expected_names))!=expected_count:
+        raise ValueError(f'Exactly {expected_count} distinct movies required')
+    for name in expected_names:
+        p=folder/name
+        if p.name!=name or p.suffix!='.mp4':raise ValueError('MP4-only archive required')
+        if not p.is_file():raise FileNotFoundError(p)
+    temporary=target.with_name(target.name+'.packaging')
+    try:
+        with zipfile.ZipFile(temporary,'w',compression=zipfile.ZIP_STORED) as z:
+            for name in expected_names:z.write(folder/name,arcname=name)
+        with zipfile.ZipFile(temporary) as z:
+            if z.namelist()!=expected_names or z.testzip() is not None:raise ValueError('Archive inventory or CRC failed')
+            for name in expected_names:
+                with z.open(name) as stream:
+                    h=hashlib.sha256()
+                    for chunk in iter(lambda:stream.read(1024*1024),b''):h.update(chunk)
+                if h.hexdigest()!=digest(folder/name):raise ValueError('Archived movie hash mismatch')
+        temporary.replace(target)
+    finally:
+        temporary.unlink(missing_ok=True)
     return dict(filename=target.name,sha256=digest(target),bytes=target.stat().st_size,entries=expected_names,crc_and_hashes_verified=True)
 
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('config',type=Path);p.add_argument('output',type=Path)
-    p.add_argument('--package',type=Path);a=p.parse_args();c=json.loads(a.config.read_text())
-    assemble(c,a.output)
-    if a.package:print(json.dumps(package(a.output,a.package,[m['filename'] for m in c['movies']]),indent=2))
+    p.add_argument('--package',type=Path);p.add_argument('--force',action='store_true')
+    a=p.parse_args();c=json.loads(a.config.read_text())
+    assemble(c,a.output,force=a.force)
+    if a.package:print(json.dumps(package(a.output,a.package,[m['filename'] for m in c['movies']],
+        expected_count=c.get('expected_movie_count',6)),indent=2))

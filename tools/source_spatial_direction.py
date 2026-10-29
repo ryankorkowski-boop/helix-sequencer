@@ -74,6 +74,25 @@ def section_color(role, section, palette):
     return palette[(base+offset)%len(palette)]
 
 
+def supported_phrases(events):
+    """Union sounding intervals, never turn a short musical rest into a note.
+
+    Sort by time before section: overlapping notes from different sections must
+    not extend a previous section's native surface effect across the change.
+    """
+    windows=sorted({(e['source_start_ms'],e['source_end_ms'],e['section']) for e in events})
+    phrases=[]
+    for a,b,section in windows:
+        if b<=a:continue
+        if phrases and section==phrases[-1][2] and a<=phrases[-1][1]:
+            phrases[-1][1]=max(phrases[-1][1],b)
+        else:
+            if phrases and section!=phrases[-1][2]:
+                phrases[-1][1]=min(phrases[-1][1],a)
+            phrases.append([a,b,section])
+    return [p for p in phrases if p[1]>p[0]]
+
+
 def schedule(model,plan,cache,duration):
     role=role_for(model);parts=parts_for(model)
     source=(voice_events(cache,'estimated_backing') if role=='harmony' else
@@ -111,6 +130,7 @@ def schedule(model,plan,cache,duration):
             result.append(dict(part=part,start_ms=start,end_ms=end,level=level*(.72**step),
                 source_start_ms=a,source_end_ms=b,source_event=index,role=role,
                 source_kind=cue.get('kind','pitched_note'),pitch_midi=pitch,
+                source_confidence=cue.get('confidence'),source_method=cue.get('source',cue.get('source_reason')),
                 propagation_delay_ms=delay,section=cue.get('section',''),strategy=strategy['name']))
     return result
 
@@ -130,6 +150,7 @@ def export_model(sequence,model,plan,cache,palette):
         provenance={k:str(v) for k,v in dict(sourceRole=event['role'],sourceMethod='semantic_source_spatial_direction',
             sourceStartMs=event['source_start_ms'],sourceEndMs=event['source_end_ms'],
             sourceEventIndex=event['source_event'],sourcePitchMIDI=event['pitch_midi'],
+            sourceConfidence=event['source_confidence'],sourceAnalysisMethod=event['source_method'],
             sourceSection=event['section'],spatialStrategy=event['strategy'],
             authoredPropagationMs=event['propagation_delay_ms']).items() if v is not None}
         # Quiet retained attacks must be visible in a small native overview.
@@ -143,12 +164,7 @@ def export_model(sequence,model,plan,cache,palette):
     # Group real note windows into sustained phrases for native matrix motion;
     # the effect ends at the final supported source event, with no release tail.
     if matrix and model.kind=='pixel' and events:
-        windows=sorted({(e['source_start_ms'],e['source_end_ms'],e['section']) for e in events})
-        phrases=[]
-        for a,b,section in windows:
-            if phrases and section==phrases[-1][2] and a<=phrases[-1][1]+150:
-                phrases[-1][1]=max(phrases[-1][1],b)
-            else:phrases.append([a,b,section])
+        phrases=supported_phrases(events)
         model.submodels['SPATIAL_SURFACE']=sorted({n for p in parts_for(model) for n in model.submodels[p]})
         for a,b,section in phrases:
             if b-a<400:continue
