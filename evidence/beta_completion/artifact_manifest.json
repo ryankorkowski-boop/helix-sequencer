@@ -1,0 +1,166 @@
+{
+  "schema": "helix.beta-artifacts.v1",
+  "updated_at": "2026-10-30T01:28:35.129715+00:00",
+  "requested_count": 9,
+  "verified_count": 5,
+  "artifacts": [
+    {
+      "filename": "04_Residential_AC_RGB_Comparison.mp4",
+      "status": "VERIFIED",
+      "source_commit": "76c0176d3c2c3776d5f9e9abd5e98c004f379021",
+      "local_path": "/workspace/scratch/1ed7281f6b64/verified-layout-mp4s/04_Residential_AC_RGB_Comparison.mp4",
+      "bytes": 60909096,
+      "sha256": "5aceca545c801b293ac7e4f8340915d81d074091a326c825877e43fbd4134a90",
+      "library_file_id": "libfile_3a1bf5ca007c81919fe63a0fd9500284",
+      "durable_url": "https://chatgpt.com/library?file_id=libfile_3a1bf5ca007c81919fe63a0fd9500284&account_id=personal",
+      "verification": {
+        "previous_full_decode": true,
+        "current_bytes_hash_verified": true,
+        "native_provenance": "evidence/optimized_beta_20261029",
+        "owner_approved": false,
+        "full_playback_watched": false
+      }
+    },
+    {
+      "filename": "05_Six_Layout_Synchronized_Comparison.mp4",
+      "status": "VERIFIED",
+      "source_commit": "76c0176d3c2c3776d5f9e9abd5e98c004f379021",
+      "local_path": "/workspace/scratch/1ed7281f6b64/verified-layout-mp4s/05_Six_Layout_Synchronized_Comparison.mp4",
+      "bytes": 70735570,
+      "sha256": "98be00316b2d364c35d8e46cc225c9baa0f4c96e849814e60146867d15606e53",
+      "library_file_id": "libfile_ee16c166488c8191bcc4e2235c384e67",
+      "durable_url": "https://chatgpt.com/library?file_id=libfile_ee16c166488c8191bcc4e2235c384e67&account_id=personal",
+      "verification": {
+        "previous_full_decode": true,
+        "current_bytes_hash_verified": true,
+        "native_provenance": "evidence/optimized_beta_20261029",
+        "owner_approved": false,
+        "full_playback_watched": false
+      }
+    },
+    {
+      "filename": "06_Advanced_Technical_Showcase.mp4",
+      "status": "VERIFIED",
+      "source_commit": "76c0176d3c2c3776d5f9e9abd5e98c004f379021",
+      "local_path": "/workspace/scratch/1ed7281f6b64/verified-layout-mp4s/06_Advanced_Technical_Showcase.mp4",
+      "bytes": 27370895,
+      "sha256": "a0f834b929d8e3fe3a44b26a1f7f267af47d788f6c44b44c27a3a16af57bde00",
+      "library_file_id": "libfile_78f3c8c5c63c8191a04cef9080eb3fda",
+      "durable_url": "https://chatgpt.com/library?file_id=libfile_78f3c8c5c63c8191a04cef9080eb3fda&account_id=personal",
+      "verification": {
+        "previous_full_decode": true,
+        "current_bytes_hash_verified": true,
+        "native_provenance": "evidence/optimized_beta_20261029",
+        "owner_approved": false,
+        "full_playback_watched": false
+      }
+    },
+    {
+      "filename": "07_Double_Helix_and_Musical_Direction.mp4",
+      "status": "VERIFIED",
+      "source_commit": "76c0176d3c2c3776d5f9e9abd5e98c004f379021",
+      "local_path": "/workspace/scratch/1ed7281f6b64/verified-layout-mp4s/07_Double_Helix_and_Musical_Direction.mp4",
+      "bytes": 56281292,
+      "sha256": "88c1a206fc2a8c6d0b1b8a7e85e0c23c5b89cc42316c83845d6b28c826619745",
+      "library_file_id": "libfile_a47c3b032e688191bec7eb35f8d6c585",
+      "durable_url": "https://chatgpt.com/library?file_id=libfile_a47c3b032e688191bec7eb35f8d6c585&account_id=personal",
+      "verification": {
+        "previous_full_decode": true,
+        "current_bytes_hash_verified": true,
+        "native_provenance": "evidence/optimized_beta_20261029",
+        "owner_approved": false,
+        "full_playback_watched": false
+      }
+    },
+    {
+      "filename": "09_Starred_Music_Sampler.mp4",
+      "status": "VERIFIED",
+      "source_commit": "76c0176d3c2c3776d5f9e9abd5e98c004f379021",
+      "local_path": "/workspace/scratch/1ed7281f6b64/verified-layout-mp4s/09_Starred_Music_Sampler.mp4",
+      "bytes": 59735054,
+      "sha256": "f238f06e5fedcb0e4a18dfde60992979344b8ff559561331360a33ca033d924f",
+      "library_file_id": "libfile_c8a2dea840a881918e403b0e242d4e8d",
+      "durable_url": "https://chatgpt.com/library?file_id=libfile_c8a2dea840a881918e403b0e242d4e8d&account_id=personal",
+      "verification": {
+        "previous_full_decode": true,
+        "current_bytes_hash_verified": true,
+        "native_provenance": "evidence/optimized_beta_20261029",
+        "owner_approved": false,
+        "full_playback_watched": false
+      }
+    },
+    {
+      "filename": "01_Canonical_Snowman_Band.mp4",
+      "status": "BLOCKED",
+      "source_commit": null,
+      "sha256": null,
+      "verification": null,
+      "blockers": [
+        "CAN-01",
+        "VOC-01"
+      ],
+      "owner_approved": false
+    },
+    {
+      "filename": "02_Lead_and_Harmony_Vocals.mp4",
+      "status": "BLOCKED",
+      "source_commit": null,
+      "sha256": null,
+      "verification": null,
+      "blockers": [
+        "CAN-01",
+        "VOC-01"
+      ],
+      "owner_approved": false
+    },
+    {
+      "filename": "03_Drummer_and_Instruments.mp4",
+      "status": "BLOCKED",
+      "source_commit": null,
+      "sha256": null,
+      "verification": null,
+      "blockers": [
+        "CAN-01",
+        "VOC-01"
+      ],
+      "owner_approved": false
+    },
+    {
+      "filename": "08_Full_Helix_Showcase.mp4",
+      "status": "BLOCKED",
+      "source_commit": null,
+      "sha256": null,
+      "verification": null,
+      "blockers": [
+        "CAN-01",
+        "VOC-01"
+      ],
+      "owner_approved": false
+    }
+  ],
+  "checkpoints": [
+    {
+      "filename": "HELIX_INTERNAL_OPTIMIZED_NATIVE_20261029_PART2.zip",
+      "path": "/workspace/scratch/1ed7281f6b64/recovered/HELIX_INTERNAL_OPTIMIZED_NATIVE_20261029_PART2.zip",
+      "bytes": 383475507,
+      "sha256": "815921854dbe6de6e7aa0e36d531e07546dd1bc64f69a3668a356c9800d2ba45",
+      "crc_verified": true
+    },
+    {
+      "filename": "HELIX_INTERNAL_OPTIMIZED_NATIVE_20261029_PART1.zip",
+      "path": "/workspace/scratch/1ed7281f6b64/recovered/HELIX_INTERNAL_OPTIMIZED_NATIVE_20261029_PART1.zip",
+      "bytes": 319292814,
+      "sha256": "b7968227aa926b3ca546ad50989ace33608086546a3580daa7919e10702ee9b6",
+      "crc_verified": true
+    },
+    {
+      "filename": "HELIX_OPTIMIZED_LAYOUT_REVIEW_MP4S.zip",
+      "path": "/workspace/scratch/1ed7281f6b64/recovered/HELIX_OPTIMIZED_LAYOUT_REVIEW_MP4S.zip",
+      "bytes": 275032669,
+      "sha256": "8f12c88b1cdb3703ddb5d75993bbb32a1de9a8345d9a410850a66ac42416b6e8",
+      "crc_verified": true
+    }
+  ],
+  "final_zip": null,
+  "owner_approval": false
+}

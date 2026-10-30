@@ -1,0 +1,223 @@
+{
+  "schema": "helix.beta-completion.v1",
+  "updated_at": "2026-10-30T01:28:35.129715+00:00",
+  "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
+  "branch": "codex/eight-hour-recovery-20261019",
+  "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
+  "last_verified_implementation_sha": "76c0176d3c2c3776d5f9e9abd5e98c004f379021",
+  "current_task": "MEM-01",
+  "tasks": [
+    {
+      "id": "REC-01",
+      "priority": "P0",
+      "description": "Recover remote source, workflow state and nine-file inventory",
+      "status": "VERIFIED",
+      "files": [
+        "MASTER_TODO.md",
+        "docs/BETA_OPTIMIZED_LAYOUT_REVIEW_20261029_DELIVERY.md"
+      ],
+      "last_attempted_action": "Cloned recovery branch; read current delivery/handoff and queried Actions",
+      "actual_result": "Remote HEAD matches; PR188 draft/unmerged; five videos retained",
+      "evidence": [
+        "evidence/optimized_beta_20261029/delivery_status.json"
+      ],
+      "next_action": "Preserve existing outputs",
+      "dependencies_or_blockers": [],
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    },
+    {
+      "id": "MEM-01",
+      "priority": "P0",
+      "description": "Repair Android API30 full-song low-memory termination",
+      "status": "IN PROGRESS",
+      "files": [
+        "core/audio_intelligence.py",
+        "android/app/src/main/python/helix_mobile.py",
+        "tools/preview_renderer.py"
+      ],
+      "last_attempted_action": "Recovered Android failure receipt and production code",
+      "actual_result": "752236KiB foreground RSS before low-memory kill; Instructions/Band tests passed",
+      "evidence": [
+        "evidence/optimized_beta_20261029/android_final_status.json"
+      ],
+      "next_action": "Profile same full-song workload and identify peak allocation",
+      "dependencies_or_blockers": [],
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    },
+    {
+      "id": "MUS-01",
+      "priority": "P0",
+      "description": "Preserve and verify section choreography and source rests",
+      "status": "VERIFIED",
+      "files": [
+        "tools/source_spatial_direction.py"
+      ],
+      "last_attempted_action": "Recovered source-bound native plans and verified presentation ZIP hash",
+      "actual_result": "Prior section/source-rest implementation and five media outputs preserved",
+      "evidence": [
+        "evidence/optimized_beta_20261029/source_rest_metrics.json"
+      ],
+      "next_action": "Do not reanalyze unchanged audio",
+      "dependencies_or_blockers": [],
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    },
+    {
+      "id": "VOC-01",
+      "priority": "P0",
+      "description": "Establish independently qualified lead/harmony and lexical timing",
+      "status": "BLOCKED",
+      "files": [
+        "tools/phoneme_vocal_export.py"
+      ],
+      "last_attempted_action": "Recovered prior separation/evidence status",
+      "actual_result": "UVR/KARA candidates not independently qualified; lexical boundaries absent",
+      "evidence": [
+        "evidence/optimized_beta_20261029/vocal_dependency_status.json"
+      ],
+      "next_action": "Inspect retained source provenance; retain failed gate until genuine evidence",
+      "dependencies_or_blockers": [
+        "Independent acoustic ownership and lexical alignment"
+      ],
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    },
+    {
+      "id": "CAN-01",
+      "priority": "P0",
+      "description": "Identify approved fully modeled 3D drummer/band",
+      "status": "BLOCKED",
+      "files": [
+        "models/final_band_scene.py",
+        "models/canonical_native_band.py"
+      ],
+      "last_attempted_action": "Recovered previous asset search results and source inventory",
+      "actual_result": "V3 planar; Review3DScene unapproved; no canonical 3D identity established",
+      "evidence": [
+        "docs/BETA_COMPLETION_20261025_HANDOFF.md"
+      ],
+      "next_action": "Check available approved references/history without substituting models",
+      "dependencies_or_blockers": [
+        "Approved asset or identifying reference"
+      ],
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    },
+    {
+      "id": "VID-01",
+      "priority": "P0",
+      "description": "Deliver exact nine MP4-only collection",
+      "status": "BLOCKED",
+      "files": [
+        "tools/assemble_beta_review.py",
+        "evidence/beta_completion/artifact_manifest.json"
+      ],
+      "last_attempted_action": "Recovered two native ZIPs and five-media ZIP; verified SHA256",
+      "actual_result": "Five of nine available; 01/02/03/08 missing",
+      "evidence": [
+        "evidence/optimized_beta_20261029/delivery_status.json"
+      ],
+      "next_action": "Reuse five verified movies and render missing only when sources qualify",
+      "dependencies_or_blockers": [
+        "CAN-01",
+        "VOC-01"
+      ],
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    },
+    {
+      "id": "WIN-01",
+      "priority": "P1",
+      "description": "Verify exact final-source Windows portable smoke",
+      "status": "TODO",
+      "files": [
+        ".github/workflows/windows-portable.yml"
+      ],
+      "last_attempted_action": "Queried latest workflows",
+      "actual_result": "Windows source76c0176 run40836353435 passes",
+      "evidence": [
+        "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40836353435"
+      ],
+      "next_action": "Check latest source after code change",
+      "dependencies_or_blockers": [],
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    },
+    {
+      "id": "AND-01",
+      "priority": "P0",
+      "description": "Verify final-source Android API30/API36",
+      "status": "TODO",
+      "files": [
+        ".github/workflows/android-offline.yml"
+      ],
+      "last_attempted_action": "Queried latest jobs",
+      "actual_result": "API36 passes; API30 memory failure remains",
+      "evidence": [
+        "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40836353439"
+      ],
+      "next_action": "Run after targeted memory fix",
+      "dependencies_or_blockers": [
+        "MEM-01"
+      ],
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    },
+    {
+      "id": "REG-01",
+      "priority": "P0",
+      "description": "Run exact-source focused and full relevant regression",
+      "status": "TODO",
+      "files": [
+        "tests/"
+      ],
+      "last_attempted_action": "Recovered exact historical suite results",
+      "actual_result": "Source76c0176 passes2199+24subtests/6skips each3.11/3.12; not new-code evidence",
+      "evidence": [
+        "evidence/optimized_beta_20261029/full_ci_results.json"
+      ],
+      "next_action": "Run focused tests then complete relevant CI after implementation",
+      "dependencies_or_blockers": [],
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    },
+    {
+      "id": "REL-01",
+      "priority": "P0",
+      "description": "Owner acceptance before merge/publication",
+      "status": "BLOCKED",
+      "files": [
+        "MASTER_TODO.md"
+      ],
+      "last_attempted_action": "Read current owner directive",
+      "actual_result": "No approval; no merge/publication",
+      "evidence": [
+        "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188"
+      ],
+      "next_action": "Deliver qualifying collection then await explicit approval",
+      "dependencies_or_blockers": [
+        "VID-01",
+        "AND-01",
+        "WIN-01",
+        "REG-01",
+        "Owner explicit approval"
+      ],
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    }
+  ],
+  "delivered_mp4_count": 5,
+  "required_mp4_count": 9,
+  "missing_videos": [
+    "01_Canonical_Snowman_Band.mp4",
+    "02_Lead_and_Harmony_Vocals.mp4",
+    "03_Drummer_and_Instruments.mp4",
+    "08_Full_Helix_Showcase.mp4"
+  ],
+  "owner_approval": false,
+  "beta_release": false,
+  "active_runs": [],
+  "next_three_actions": [
+    "Profile full237.44s Android analysis with same source",
+    "Implement/test smallest bounded-allocation correction",
+    "Push checkpoint and collect exact-source Android/fullCI"
+  ],
+  "resume_commands": [
+    "git fetch origin codex/eight-hour-recovery-20261019",
+    "git checkout codex/eight-hour-recovery-20261019",
+    "cat docs/BETA_COMPLETION_LIVE_HANDOFF.md",
+    "python -m pytest tests/test_android_offline.py tests/test_android_recovery.py -q"
+  ]
+}

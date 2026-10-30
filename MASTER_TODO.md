@@ -1,3 +1,31 @@
+## 29 October client-date — live beta completion checkpoint
+
+Recovered HEAD `45f17d69fac91d7683984cc22c54bb701eb2226e`. Current owner request: exactly nine MP4s; five verified layout videos preserved, four band videos blocked. Live status: `evidence/beta_completion/latest_status.json`; artifact inventory: `evidence/beta_completion/artifact_manifest.json`; recovery: `docs/BETA_COMPLETION_LIVE_HANDOFF.md`. Historical ledger below is retained unchanged. No merge, release or acceptance.
+
+- [x] **REC-01 P0 — VERIFIED**: Recover remote source, workflow state and nine-file inventory.
+  Files: MASTER_TODO.md, docs/BETA_OPTIMIZED_LAYOUT_REVIEW_20261029_DELIVERY.md. Last: Cloned recovery branch; read current delivery/handoff and queried Actions. Result: Remote HEAD matches; PR188 draft/unmerged; five videos retained. Evidence: evidence/optimized_beta_20261029/delivery_status.json. Next: Preserve existing outputs. Dependencies: none. SHA: `45f17d69fac91d7683984cc22c54bb701eb2226e`.
+- [ ] **MEM-01 P0 — IN PROGRESS**: Repair Android API30 full-song low-memory termination.
+  Files: core/audio_intelligence.py, android/app/src/main/python/helix_mobile.py, tools/preview_renderer.py. Last: Recovered Android failure receipt and production code. Result: 752236KiB foreground RSS before low-memory kill; Instructions/Band tests passed. Evidence: evidence/optimized_beta_20261029/android_final_status.json. Next: Profile same full-song workload and identify peak allocation. Dependencies: none. SHA: `45f17d69fac91d7683984cc22c54bb701eb2226e`.
+- [x] **MUS-01 P0 — VERIFIED**: Preserve and verify section choreography and source rests.
+  Files: tools/source_spatial_direction.py. Last: Recovered source-bound native plans and verified presentation ZIP hash. Result: Prior section/source-rest implementation and five media outputs preserved. Evidence: evidence/optimized_beta_20261029/source_rest_metrics.json. Next: Do not reanalyze unchanged audio. Dependencies: none. SHA: `45f17d69fac91d7683984cc22c54bb701eb2226e`.
+- [ ] **VOC-01 P0 — BLOCKED**: Establish independently qualified lead/harmony and lexical timing.
+  Files: tools/phoneme_vocal_export.py. Last: Recovered prior separation/evidence status. Result: UVR/KARA candidates not independently qualified; lexical boundaries absent. Evidence: evidence/optimized_beta_20261029/vocal_dependency_status.json. Next: Inspect retained source provenance; retain failed gate until genuine evidence. Dependencies: Independent acoustic ownership and lexical alignment. SHA: `45f17d69fac91d7683984cc22c54bb701eb2226e`.
+- [ ] **CAN-01 P0 — BLOCKED**: Identify approved fully modeled 3D drummer/band.
+  Files: models/final_band_scene.py, models/canonical_native_band.py. Last: Recovered previous asset search results and source inventory. Result: V3 planar; Review3DScene unapproved; no canonical 3D identity established. Evidence: docs/BETA_COMPLETION_20261025_HANDOFF.md. Next: Check available approved references/history without substituting models. Dependencies: Approved asset or identifying reference. SHA: `45f17d69fac91d7683984cc22c54bb701eb2226e`.
+- [ ] **VID-01 P0 — BLOCKED**: Deliver exact nine MP4-only collection.
+  Files: tools/assemble_beta_review.py, evidence/beta_completion/artifact_manifest.json. Last: Recovered two native ZIPs and five-media ZIP; verified SHA256. Result: Five of nine available; 01/02/03/08 missing. Evidence: evidence/optimized_beta_20261029/delivery_status.json. Next: Reuse five verified movies and render missing only when sources qualify. Dependencies: CAN-01, VOC-01. SHA: `45f17d69fac91d7683984cc22c54bb701eb2226e`.
+- [ ] **WIN-01 P1 — TODO**: Verify exact final-source Windows portable smoke.
+  Files: .github/workflows/windows-portable.yml. Last: Queried latest workflows. Result: Windows source76c0176 run40836353435 passes. Evidence: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40836353435. Next: Check latest source after code change. Dependencies: none. SHA: `45f17d69fac91d7683984cc22c54bb701eb2226e`.
+- [ ] **AND-01 P0 — TODO**: Verify final-source Android API30/API36.
+  Files: .github/workflows/android-offline.yml. Last: Queried latest jobs. Result: API36 passes; API30 memory failure remains. Evidence: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40836353439. Next: Run after targeted memory fix. Dependencies: MEM-01. SHA: `45f17d69fac91d7683984cc22c54bb701eb2226e`.
+- [ ] **REG-01 P0 — TODO**: Run exact-source focused and full relevant regression.
+  Files: tests/. Last: Recovered exact historical suite results. Result: Source76c0176 passes2199+24subtests/6skips each3.11/3.12; not new-code evidence. Evidence: evidence/optimized_beta_20261029/full_ci_results.json. Next: Run focused tests then complete relevant CI after implementation. Dependencies: none. SHA: `45f17d69fac91d7683984cc22c54bb701eb2226e`.
+- [ ] **REL-01 P0 — BLOCKED**: Owner acceptance before merge/publication.
+  Files: MASTER_TODO.md. Last: Read current owner directive. Result: No approval; no merge/publication. Evidence: https://github.com/ryankorkowski-boop/helix-sequencer/pull/188. Next: Deliver qualifying collection then await explicit approval. Dependencies: VID-01, AND-01, WIN-01, REG-01, Owner explicit approval. SHA: `45f17d69fac91d7683984cc22c54bb701eb2226e`.
+
+Preserved: all original audio/note clocks, original256 circuits/colors, assets, six default/seventh opt-in, native thresholds, bounded montage and post-beta deferral. New behavior: persistent live recovery/status/inventory initialized. Tests: none changed; recovered historical results are explicitly source-bound. Risks: memory root cause still under investigation; canonical/vocal sources remain unqualified.
+
+---
 ## 29 October Android result update
 
 Goal: record the completed platform result without changing app/test behavior.
