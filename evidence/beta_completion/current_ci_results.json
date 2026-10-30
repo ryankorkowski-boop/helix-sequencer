@@ -28,7 +28,19 @@
     "run": 40989578333,
     "api30": "success",
     "api36": "success",
-    "receipt": "evidence/beta_completion/android_final_status.json"
+    "receipt": "evidence/beta_completion/android_final_status.json",
+    "pr_repeat": {
+      "run": 40989590969,
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+      "api30": {
+        "job": 123848630286,
+        "conclusion": "success"
+      },
+      "api36": {
+        "job": 123848630566,
+        "conclusion": "success"
+      }
+    }
   },
   "owner_approval": false,
   "beta_acceptance": false

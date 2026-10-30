@@ -280,48 +280,6 @@
   "beta_release": false,
   "active_runs": [
     {
-      "id": 40989578137,
-      "name": "fullCI push",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989578137",
-      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
-    },
-    {
-      "id": 40989590900,
-      "name": "fullCI PR",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989590900",
-      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
-    },
-    {
-      "id": 40989578333,
-      "name": "Android push",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989578333",
-      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
-    },
-    {
-      "id": 40989590969,
-      "name": "Android PR",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989590969",
-      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
-    },
-    {
-      "id": 40989591050,
-      "name": "Windows",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989591050",
-      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
-    },
-    {
-      "id": 40989590899,
-      "name": "native producer",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989590899",
-      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
-    },
-    {
-      "id": 40989591017,
-      "name": "final band",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989591017",
-      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
-    },
-    {
       "id": 40989590973,
       "name": "Phoneme",
       "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989590973",
@@ -431,7 +389,19 @@
       "run": 40989578333,
       "api30": "success",
       "api36": "success",
-      "receipt": "evidence/beta_completion/android_final_status.json"
+      "receipt": "evidence/beta_completion/android_final_status.json",
+      "pr_repeat": {
+        "run": 40989590969,
+        "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+        "api30": {
+          "job": 123848630286,
+          "conclusion": "success"
+        },
+        "api36": {
+          "job": 123848630566,
+          "conclusion": "success"
+        }
+      }
     },
     "owner_approval": false,
     "beta_acceptance": false
@@ -558,10 +528,26 @@
     "simulated_preview_not_native_xlights": true,
     "original_signing_migration_out_of_scope": true,
     "beta_acceptance": false,
-    "owner_approval": false
+    "owner_approval": false,
+    "independent_pr_repeat": {
+      "run": 40989590969,
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+      "api30": {
+        "job": 123848630286,
+        "conclusion": "success"
+      },
+      "api36": {
+        "job": 123848630566,
+        "conclusion": "success"
+      }
+    }
   },
   "memory_acceptance_scope": "Current full-song smoke in API30/API36 CI emulators; physical Samsung/controller acceptance remains open",
   "updated_client_date": "2026-10-29",
   "updated_client_timezone": "America/Chicago",
-  "latest_completed_platform_artifact_utc": "2026-10-30T02:23:00Z"
+  "latest_completed_platform_artifact_utc": "2026-10-30T02:23:00Z",
+  "completed_android_runs": [
+    40989578333,
+    40989590969
+  ]
 }

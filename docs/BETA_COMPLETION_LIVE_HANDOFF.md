@@ -21,7 +21,7 @@ COMPLETED AND VERIFIED:
 - [x]Persistent source/audio/stem engineering checkpoint saved, identity applied; no source music or large binaries committed.
 
 IN PROGRESS:
-- [ ]Duplicate same-source PR Android40989590969 may still be active. Authoritative paired push40989578333 already passes BOTHAPIlevels. A later genuine regression must be inspected, not ignored.
+- [x]Same-source PR Android40989590969 ALSO PASSES API30/job123848630286 andAPI36/job123848630566. Both paired push/PR runs independently pass; all current Android checks are complete. This does not claim identical APK bits/signatures across separate builds.
 - [ ]Phoneme40989590973 andcollection40989590883 remain diagnostic jobs; at last check they were restoring the pinned renderer. Producer40989590899 andfinal-band40989591017fail source qualification, while native-proof passes. Do not convert diagnostic output into approval media.
 
 BLOCKED:
@@ -94,3 +94,5 @@ BETA RELEASE STATUS: HELD; PR188draft/unmerged; public beta unpublished; nine-vi
 CURRENT dd73 NATIVE RESULTS:40989591017/native-proof job123848499636 PASSES.40989590899producer/job123849956098FAILS independent lead/backing source qualification;40989591017accepted-native-band/job123850574106FAILS exact-source producer dependency. Actual current errors retained in current_native_results.json. Phoneme40989590973 andcollection40989590883still active, not passed. Gates held unchanged; no qualified new band MP4.
 
 FINAL CURRENT SOFTWARE RESULT (supersedes earlier pending API statements):dd73e367 fullCI40989578137 andWindows40989591050 PASS. Android40989578333 API30/job123848585104 ANDAPI36/job123848585374 PASS4instrumented tests each,0failures/errors. Both real full-song previews are3562frames,H264/AAC,237.466708s from237.439979s original audio,correlation0.9957144538319959,0msaudiooffset. Host independently decodes and checks expected visible pixels, Instructions/recreation,persistedBand,localxLights/LOR/audio/export,recovery andVideoViewplayback. API30 prior low-memory kill is resolved in these CI emulators; physical Samsung/controller acceptance remains independent. This Android preview is declared simulated and is NOT an additional native approval video. Artifact IDs/digests/source/expiry are preserved inandroid_final_status.json andartifact_manifest.json. No new band MP4, owner acceptance, merge or release;9-file approval collection remains5verified/4missing.
+
+FINAL REPEAT CONFIRMATION:40989590969 passes BOTHAPI30 andAPI36 at the same exactdd73implementation, in addition to40989578333. All current softwareCI is complete and passes. Only source-qualified band/native diagnostics and owner/physical acceptance remain open; no further unchanged software rerun is needed.

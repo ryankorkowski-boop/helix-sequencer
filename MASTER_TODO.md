@@ -1,3 +1,8 @@
+## 29 October — paired Android rerun also passes; software work checkpoint complete
+
+- [x] AND-01 / MEM-01 confirmed AGAIN atdd73e367:PR40989590969passesAPI30/job123848630286 andAPI36/job123848630566, supplementing paired push40989578333. FullPython3.11/3.12,Windows andboth APIlevels all pass current-source validation. Evidence:android_final_status.json/current_ci_results.json. No same-bits or physical-device claim.
+- [ ] Remaining highest priorities are CAN-01/VOC-01 source qualification, four missing native band movies andowner acceptance. Detailed current blockers/inputs/hashes/exact resumption are persisted in the live handoff. Source and all5verified existing MP4bytes unchanged; no merge or beta publication.
+
 ## 29 October — original API30 memory blocker resolved; all current software CI passes
 
 - [x] AND-01 / MEM-01 P0 VERIFIED atdd73e36777d0a02c6d403245d03421d093bda0fd:Android40989578333passes BOTHAPI30/job123848585104 andAPI36/job123848585374,4instrumented tests each. Actual237.466708sH264/AAC full-song export,3562frames,originalaudio correlation0.9957144538 and0mslag; host decode/readability/Instructions/recreation/Band/playback/recovery checks pass. Prior API30 foreground low-memory termination is resolved in these CI emulators. Evidence:android_final_status.json; artifact IDs/digests/current source preserved. PhysicalSamsung/controller acceptance remains separate. No APK update/signing-migration work was reopened.
