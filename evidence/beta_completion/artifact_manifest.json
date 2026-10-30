@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-10-30T01:28:35.129715+00:00",
+  "updated_at": "2026-10-30T02:07:53.459618+00:00",
   "requested_count": 9,
   "verified_count": 5,
   "artifacts": [
@@ -179,5 +179,6 @@
   "final_zip": null,
   "owner_approval": false,
   "verified_media_unchanged": true,
-  "new_band_videos": 0
+  "new_band_videos": 0,
+  "engineering_source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
 }

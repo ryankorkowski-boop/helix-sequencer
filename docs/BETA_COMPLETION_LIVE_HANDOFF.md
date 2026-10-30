@@ -1,102 +1,94 @@
 HELIX SEQUENCER — LIVE RECOVERY HANDOFF
 
-Last updated: 2026-10-30T01:28:35.129715+00:00 (29 October client date)
+Last updated: 2026-10-30T02:07:53.459618+00:00; user-facing date29October2026 (America/Chicago).
 Repository: https://github.com/ryankorkowski-boop/helix-sequencer
 Current branch: codex/eight-hour-recovery-20261019
-Current HEAD: 45f17d69fac91d7683984cc22c54bb701eb2226e (recovered source; checkpoint commit follows)
-Last verified implementation SHA: 76c0176d3c2c3776d5f9e9abd5e98c004f379021
-Last successful CI runs: 40836343857 (Python3.11/3.12),40836353435 (Windows); Android40836353439 API36 passes/API30 fails
+Current HEAD: dd73e36777d0a02c6d403245d03421d093bda0fd; this file's next metadata-only successor may be newer.
+Last verified implementation SHA: dd73e36777d0a02c6d403245d03421d093bda0fd (58focused tests and full source-bound export parity; finalCI/device checks pending).
+Last successful CI runs: source d52d234 fullCI40988081845 (Python3.11/3.12:2206tests+24subtests/6skips each), Windows40988090460. Source18a9762 fullCI40986962386 passes2203+24subtests/6skips each andWindows40986968903. These are explicitly previous implementation evidence.
 
-CURRENT OBJECTIVE: finish existing beta and exactly nine verified MP4s; no merge/publication.
-CURRENT TASK: MEM-01 profile full-song harmony classifier after reproduced post-drum low-memory kill.
-Before expensive operation: source ../full-song.wav (237.44s48kHz stereo decoded original repository Helix Audiolights.mp3); command ../venv/bin/python ../profile_memory.py; outputs ../memory-profile/{stems,before.json,after.json}; resume by reusing stems, never repeating unchanged separation.
-LAST COMPLETED TASK: REC-01 restore exact source, native checkpoints and five-media ZIP.
+CURRENT OBJECTIVE: finish existing beta and deliver exactly nine verified MP4s, without merge/publication.
+CURRENT TASK: AND-01 / REG-01 / WIN-01 collect final-source results at dd73e367.
+LAST COMPLETED TASK: MEM-03 global tuning workspace and DEP-01 numerical-runtime stabilization, locally verified and pushed.
 
 COMPLETED AND VERIFIED:
-- [x] REC-01 remote HEAD verified via git and PR; draft/unmerged.
-- [x] Five source76c0176 layout MP4s recovered, ZIP SHA2568f12c88b1cdb3703ddb5d75993bbb32a1de9a8345d9a410850a66ac42416b6e8 matches.
-- [x] Native checkpoints restored under WORK; exact identities/hashes in artifact_manifest.json.
-- [x] No unchanged separation/analysis/render repeated.
+- [x] REC-01 recovered remote45f17d69, PR188draft/unmerged, Issue199, complete existing inventory and native checkpoints. Current instruction is9videos; historical6/15/18counts are superseded.
+- [x] MEM-03 / MEM-02 bounded long-file HPSS, pitch, centroid/width/flatness/contrast/flux, mel-bank FFTs and automatic CQT tuning. Whole-song tuning median/histogram and contrast dB floor are preserved; short paths remain compatible.
+- [x] DEP-01 pinned desktop NumPy2.2.6/Numba0.61.2/llvmlite0.44.0 after a reproduced longfloat64 crash underNumba0.68.1. Android ABI pins/serial compatibility are unchanged. Official compatibility source is recorded in numerical_runtime_failure.json.
+- [x]58focused tests pass,4warnings,80.16s on the pinned runtime, including exact float32/float64 tuning/chroma bins, frame/pitch/descriptor/flux/mel equality, HPSS boundaries, silence, tail, real drums, Android export/recovery and current Chronoflow/Helixualizer. Receipt: focused_memory_final.xml; exact file hashes: latest_status.json.
+- [x]Same237.44s48kHz whole-song production sequencing/export: baseline1850908672bytes/142.832s -> tuned1024978944bytes/143.096s,44.6229%lowerpeak. BOTH43913effects, exact musical signaturefed5565412b36f5f48967eaf4e68572cd4b846b399d8f523161b094d31e2864c. production_tuned_comparison.json records scope/inputs. No material overall speedup claimed. Both paths reuse the same verified stems and exclude MP4. Linux Android-kernel bridge is not device proof. Baseline45f17d69 DSP modules were reconstructed on the same runner; raw GitHEAD fields are supplemented by explicit module identity/hash receipts.
+- [x]Five prior layoutMP4s (04/05/06/07/09) and MP4-only ZIP recovered and SHA256 matched to passing full-decode/audio/QC receipts. No native rerender/reanalysis needed. Representative existing comparison frames inspected; full continuous playback not watched.
+- [x]Persistent source/audio/stem engineering checkpoint saved, identity applied; no source music or large binaries committed.
 
 IN PROGRESS:
-- [ ] MEM-01 reproduce/profile 237.44s source analysis/export and identify memory peak.
+- [ ]Final-source dd73e367 fullCI push40989578137 / PR40989590900.
+- [ ]Android API30/API36 push40989578333 / PR40989590969; do not call queued/running passed. Previous18a/d52Android work was superseded by later necessary source pushes, not accepted.
+- [ ]Windows portable40989591050.
+- [ ]Current strict native producer40989590899 / finalband40989591017 / Phoneme40989590973 / collection40989590883. Known qualification blockers remain below.
 
 BLOCKED:
-- CAN-01 approved fully modeled3D drummer identity not established. V3 is planar, Review3DScene unapproved.
-- VOC-01 independent singer acoustic ownership and lexical phonemes unqualified.
-- VID-01 missing01_Canonical_Snowman_Band.mp4,02_Lead_and_Harmony_Vocals.mp4,03_Drummer_and_Instruments.mp4,08_Full_Helix_Showcase.mp4.
-- AndroidAPI30 foreground process killed at752236KiB; physical Samsung/controller acceptance open.
+- [ ]CAN-01: exact approved fully modeled3D drummer/band identity is not established. Retained V3 is planar source art. Review3DScene is unapproved. Need actual approved asset or identifying reference/commit; do not relabel a substitute.
+- [ ]VOC-01: UVR/MDX/KARA/Silero candidate lanes do not establish independent singer ownership or lexical phoneme timing. Original E14 remains unqualified. Need genuine source-bound acoustic/lexical evidence; no transcript or singer identity may be fabricated.
+- [ ]VID-01:4missing files:01_Canonical_Snowman_Band.mp4,02_Lead_and_Harmony_Vocals.mp4,03_Drummer_and_Instruments.mp4,08_Full_Helix_Showcase.mp4. Do not create HELIX_FINAL_BETA_APPROVAL_MP4S.zip until all9qualify.
+- [ ]Physical Samsung/controller acceptance and explicit owner artistic approval remain open.
 
 FAILED ATTEMPTS:
-- Prior full-song fallback HPSS chunking reduced Linux memory but latestAPI30 still fails. Do not merely rerun unchanged failing test, increase emulator RAM, skip test, reduce song or weaken gate.
-- Do not repeat broad asset/separation search already documented, fabricate pilot acceptance or relabel planar source art as3D.
+- Original AndroidAPI30 run40836353439 killed foreground Helix at752236KiB RSS during offline processing. Instructions/Band recreation had passed. Earlier bounded stem separation alone did not fix all full-song spectra.
+- Per-block spectral_contrast changed63rest samples by up to0.233dB. Rejected; corrected pinned peak/valley reduction applies one whole-song dB floor. Strict exact-array test now passes. Do not restore local dB floors.
+- Classifier-only improvement (1.60GB->414MB) and mel-only improvement (1.35GB->306MB) did not by themselves remove the overall peak. Actual remaining stack was Chronoflow automatic CQT tuning -> full-song piptrack. production_trace.json records it. Corrected whole-source result is44.62%lowerpeak.
+- Original and candidate longfloat64 piptrack segfaulted underNumba0.68.1/LLVM0.50 withbothNumPy2.3.5 and2.5.4. Matching newer NumPy alone did not fix it. Supported NumPy2.2.6/Numba0.61.2/LLVM0.44 passes the unchanged assertions. Dependency pins preserve this evidence; do not remove the regression or merely skip the test.
+- Previous native source18a producer40986968812 failed independent vocal qualification; finalband40986968930 failed producer dependency; collection40986968962 lacked pilot evidence; Phoneme40986968843 motion0.425<0.65. Failure excerpts retained. These are not new-source results and no gate was reduced.
+- Initial synthetic3sfixture had out-of-range test strikes; fixed fixture, reran all tests. No production behavior was changed for that fixture error.
 
 ARTIFACTS ALREADY AVAILABLE:
-- See evidence/beta_completion/artifact_manifest.json for exact paths, SHA256 and durable links.
-- Five-movie ZIP: https://chatgpt.com/library?file_id=libfile_3082a9295984819189352b8b63ddb5ec&account_id=personal
-- Original native checkpoints: libfile_047ff812c6888191baa9a2d6cbc95dfa and libfile_e3a0d03004888191a477e14bf2188285.
+- Authoritative9-file inventory, exact file hashes, source identities and links: evidence/beta_completion/artifact_manifest.json.
+- Five-MP4 ZIP: https://chatgpt.com/library?file_id=libfile_3082a9295984819189352b8b63ddb5ec&account_id=personal ;275032669bytes;SHA2568f12c88b1cdb3703ddb5d75993bbb32a1de9a8345d9a410850a66ac42416b6e8.
+- 04AC/RGB:libfile_3a1bf5ca007c81919fe63a0fd9500284;05six-layout:libfile_ee16c166488c8191bcc4e2235c384e67;06technical:libfile_78f3c8c5c63c8191a04cef9080eb3fda;07helix:libfile_a47c3b032e688191bec7eb35f8d6c585;09sampler:libfile_c8a2dea840a881918e403b0e242d4e8d.
+- Native checkpoints:libfile_047ff812c6888191baa9a2d6cbc95dfa (319292814bytes,SHA256b7968227aa926b3ca546ad50989ace33608086546a3580daa7919e10702ee9b6);libfile_e3a0d03004888191a477e14bf2188285 (383475507bytes,SHA256815921854dbe6de6e7aa0e36d531e07546dd1bc64f69a3668a356c9800d2ba45).
+- New audio/stem/performance checkpoint:libfile_fcf68c0edd7481918e7892adbd8def38 ;120781146bytes;SHA2566b25b139e307db1b09930a561163b98a34f1ed0a1d2e08a6985db2259f4e0580. Contains22entries,0MP4s, source full-song.wav,4stems and prior exact export receipts. Restore its relative paths into WORK. Latest tuned/trace receipts live in Git; do not resave duplicate music. This engineering ZIP is NOT an owner approval bundle.
+- Local root:/workspace/scratch/1ed7281f6b64; checkout:helix-sequencer; verified movies:verified-layout-mp4s; native resources:WORK; profiling inputs:full-song.wav,memory-profile/stems; outputs:offline-memory/tuned. These local paths may disappear; durable counterparts above remain.
 
 FILES MODIFIED:
-- MASTER_TODO.md: prepended active uniquely identified task ledger; historical evidence retained.
-- docs/BETA_COMPLETION_LIVE_HANDOFF.md: this recovery file.
-- evidence/beta_completion/latest_status.json: machine-readable task state.
-- evidence/beta_completion/artifact_manifest.json: exact nine-file inventory and recovered hashes.
+- core/bounded_audio.py:bounded DSP workspace with unchanged global statistics.
+- core/audio_intelligence.py:bounded harmony analysis/HPSS, avoid duplicate stem spectrum.
+- core/effect_engine.py:bounded harmonic and multiband workspace/global tuning.
+- core/chronoflow.py:source-equivalent whole-song tuning without full pitch workspace.
+- core/helixualizer.py:bounded long float64mel FFTs.
+- audio/drummer_v3.py:bounded HPSS/descriptors; typed events, unknown-tom abstention and thresholds retained.
+- xlights/xsq_writer.py:bounded long pitch/centroid work and timely spectral cleanup.
+- requirements.txt,requirements-windows-portable.txt:verified desktop numerical pins.
+- tests/test_bounded_audio.py:strict source/parity and long-tuning regressions.
+- tools/profile_android_full_song_memory.py:reproducible baseline/current performance and peak-stack tracing; refuses overwriting outputs.
+- MASTER_TODO.md, live handoff and evidence/beta_completion:continuous source-bound progress, receipts and exact9-file inventory.
 
 TEST RESULTS:
-- No new implementation tests yet; prior source76c0176 CI2199tests+24subtests passed/6skips each Python3.11/3.12.
-- Windows40836353435 passes; Android40836353439 API36 passes/API30 fails.
+- Current code dd73e367:58focused pass/4warnings/80.16s; exact module/dependency hashes retained. FullCI/platform results must be collected from exact runs above.
+- Previous d52 fullCI2206+24subtests/6skips eachPython3.11/3.12 andWindowssuccess; previous18a2203+24/6each. Do not substitute these for a changed implementation.
+- Pinned graph longfloat32/float64 isolated2pass/18.87s before whole58-test run; counts overlap, do not sum.
 
 RENDER RESULTS:
-- No new native render; five verified existing media preserved byte-for-byte.
-- Full continuous playback not watched; prior automated checks/still inspection only.
+- No newly qualified band media. All5existing native-layout MP4 bytes unchanged; H264/AAC1920x1080/20fps, source-bound original soundtrack, prior full decode/readability/blank/frozen/sync checks pass. Display gamma correction is declared and raw dimness failures remain separate.
+- All native source shows/FSEQ/audio clocks preserved. No canonical/vocal ground-truth or full playback claim.
 
 NEXT THREE ACTIONS:
-1. Profile Android equivalent full237.44s source using serial numerical bridge and capture stage/peak allocations.
-2. Implement smallest effective memory correction; test output parity and same-workload before/after.
-3. Commit/push source plus live files; collect exact-source Android/API30/API36 and CI results.
+1. Collect exact dd73e367 fullCI, Windows and both Android API results (including full-song preview/export). IfAPI30fails, inspect actual process/buffers; do not increase RAM, shorten the song, skip the test or weaken gates.
+2. Resolve CAN-01 with a genuinely identifying approved model/reference; preserve original assets until identity is established.
+3. Resolve independent vocal/lexical/percussion qualifications, render missing01/02/03/08, verify every actual MP4, then create exactly9MP4-only finalZIP and deliver immediately.
 
 EXACT RESUME COMMANDS:
 ```bash
 git fetch origin codex/eight-hour-recovery-20261019
 git checkout codex/eight-hour-recovery-20261019
+cat MASTER_TODO.md
 cat docs/BETA_COMPLETION_LIVE_HANDOFF.md
 cat evidence/beta_completion/latest_status.json
-python -m pytest tests/test_android_offline.py tests/test_android_recovery.py -q
+python -m pip install -r requirements-dev.txt
+python -m pytest -q tests/test_bounded_audio.py tests/test_audio_analysis_reuse.py tests/test_bounded_fallback_stems.py tests/test_audio.py tests/test_drummer_v3_real_audio.py tests/test_drummer_v3_analysis.py tests/test_android_offline.py tests/test_android_recovery.py tests/test_helixualizer.py tests/test_chronoflow.py
+# Restore the saved internal checkpoint into a fresh WORK directory only if needed.
+# Existing measurements already pass; do not rerun unchanged analysis without a reason.
+python -m tools.profile_android_full_song_memory WORK tuned
 ```
+For Actions reads use the authenticated GitHub connector with exact run IDs above. Shell git reads work; shell push lacks a credential. Publication succeeded via create_tree/create_commit/expected-head update_ref, with tree identity checked; no force push. Metadata-only evidence successors use [skip ci] and retain the tested implementation SHA explicitly.
 
-OWNER APPROVAL STATUS: not approved.
-BETA RELEASE STATUS: held; PR188 draft/unmerged; public beta unpublished.
-
-CURRENT MEMORY IMPLEMENTATION CANDIDATE:
-- Profiled237.44s48kHz source. Harmony classifier1.60GB->414MB (74.11% reduction), same12windows/every field;31.429->30.053s. Linux Android bridge only, not device acceptance.
-- Focused tests running: ../venv/bin/python -m pytest -q tests/test_bounded_audio.py tests/test_bounded_fallback_stems.py tests/test_audio.py tests/test_drummer_v3_real_audio.py tests/test_android_offline.py tests/test_android_recovery.py --junitxml=evidence/beta_completion/focused_memory.xml; output ../focused-memory.log.
-- Next full production comparison: ../venv/bin/python ../profile_offline_pipeline.py baseline then candidate; same original full-song.wav and generated hash-bound stems reused. Expected outputs ../offline-memory/{baseline,candidate}; inspect metrics.json and musical_signature without asserting Android acceptance.
-
-FOCUSED MEMORY RESULT:40passed,3deprecation warnings,62.34s. evidence/beta_completion/focused_memory.xml. The initial failed synthetic fixture was corrected; whole focused set rerun. Full production baseline still running at stem summary. Production profiler is now tracked as tools/profile_android_full_song_memory.py; use python -m tools.profile_android_full_song_memory WORK baseline|candidate with WORK/full-song.wav and WORK/memory-profile/stems retained. New Android/CI run URLs follow source publication.
-
-PUBLISHED SOURCE:18a97623524ac8c5b37689c95553716163bd04b0 (remote tree matches tested local commitc89a58d). Initial live metadata remote bae67b655fd1bc625ae67c267d80ac029c5cf9e4. Shell Git push lacks credential; authenticated GitHub API atomic tree/commit/expected-head update succeeded; no force, merge or release.
-ACTIVE EXACT-SOURCE RUNS:Android40986962515(push)/40986968908(PR); fullCI40986962386(push)/40986968934(PR); Windows40986968903; strict producer40986968812; finalband40986968930; Phoneme40986968843; collection40986968962. Queued/running is NOT passed. Full production baseline complete142.832s/1850908672bytes peakRSS/43913effects. Candidate is running serially with identical source/stems/config; outputs ../offline-memory/candidate. Do not repeat separation.
-
-NEXT MEASURED MEMORY TARGETS (local work may proceed while18a9762CI runs):baseline full production stage peaks include initial analysis1.80GB and multiband1.53GB, so classifier savings alone are not a whole-pipeline guarantee. Bound per-frame pitch/descriptor and flux workspace without changing full-source frames/thresholds. Do not push again while current native/device work is unpreserved. Compare full237.44sXSQ signature to retained baselinefed5565412b36f5f48967eaf4e68572cd4b846b399d8f523161b094d31e2864c and43913effects.
-
-FULL PRODUCTION RESULT:baseline142.832s/1850908672bytes vs18a9762candidate145.274s/1805361152bytes; same43913effects/exact musical signature. This excludes fresh separation and MP4 on BOTH paths. Main initial-pitch/multiband peak persists. Local MEM-02 now bounds these frame-local allocations; focused_memory_final.xml/log is running. Next command: ../venv/bin/python ../profile_offline_pipeline.py bounded (or tracked python -m tools.profile_android_full_song_memory WORK bounded). Output ../offline-memory/bounded. Source18a9762deviceCI remains active; no speculative pass.
-
-FAILED LOCAL ATTEMPT:per-block spectral_contrast changed63rest-band samples up to0.233dB because power_to_db uses a global floor. Boundary parity test failed and rejected it. Corrected pinned band reductions apply global dB only after all peak/valley curves; descriptor/flux/pitch tests2passed exactly. Full51-test suite rerunning. ../offline-memory/bounded started with the rejected contrast reducer; preserve as diagnostic, do NOT count it. Once complete run ../profile_offline_pipeline.py bounded2 against stable corrected source, and compare to baseline. No source separation repeated.
-
-ADDITIONAL MEASURED PEAK:Helixualizer3float64melbanks alone1346871296->305745920bytes (77.30% less),1.894->1.866s; every bank summary and dominance sample exactly equal. Evidence mel_memory_profile.json. New core/bounded_audio.py mel helper retains small mel grid; core/helixualizer.py keeps original short-file API. Shared long harmonic piptrack keeps required dense matrices but bounds temporaries. Source frozen now for final same-workload comparison; run ../profile_offline_pipeline.py final, output ../offline-memory/final. Final focused set includes bounded/audio/reuse/fallback/drums/android and helixualizer. Do not edit code during this profile.
-
-FINAL FOCUSED RESULT:54passed,3deprecation warnings,62.48s; no failures. Every final memory module has focused parity coverage. Earlier18a9762fullCI40986962386now succeedsPython3.11/3.12 and Windows40986968903succeeds; these do NOT certify newer local MEM-02 changes. Android40986962515still active. Native18a producer40986968812fails original mixed vocal qualification; finalband40986968930fails producer dependency; collection40986968962fails missing pilot evidence; Phoneme40986968843fails motion0.425<0.65. Failure excerpts persisted; gates unchanged.
-
-COMBINED SOURCE PUBLICATION CHECKPOINT:MEM-02 source frozen;54focused tests pass. tools/profile_android_full_song_memory.py now profiles initial analyze and Helixualizer/mel separately, retains all six source-module hashes and refuses overwriting an existing output directory. Pending profile output ../offline-memory/final. Previous18a9762CI passing counts2203+24subtests/6skips each3.11/3.12, Windowspass; these certify only18a code. Source publication below is required to start current platform/fullCI, while existing native failures are already preserved.
-
-FROZEN FINAL PRODUCTION RESULT:d52d23439fd60940809c49674af8dc01e223e9aa code file hashes match tested output;142.720s/1805180928bytes peakRSS vsbaseline142.832s/1850908672bytes; same43913effects/exact musical signature. Per-stage harmonic546MB, multiband1.07GB and mel747MB include retained caller data; global setup still1.805GB. Do NOT claim whole-pipeline OOM fixed from the isolated74–77% improvements. A diagnostic trace run now captures call stacks at actual remaining peaks: python -m tools.profile_android_full_song_memory WORK trace. No production code is changed by this diagnostic. Current d52Android/fullCI must finish;18aAndroid was cancelled by superseding source push, not passed.
-
-ACTUAL REMAINING MAXIMUM IDENTIFIED:production_trace.json contains full stack Chronoflow_compute_chroma->chroma_cqt->automatic estimate_tuning->whole-song piptrack. Local MEM-03 bounds only tuning workspace and preserves the global36-bin histogram/scalar. Frozen source, float32/float64 exact chroma tests running. Next profile: python -m tools.profile_android_full_song_memory WORK tuned. Existing internal checkpoint120781146bytes/SHA6b25b139e307db1b09930a561163b98a34f1ed0a1d2e08a6985db2259f4e0580 saved successfully as libfile_fcf68c0edd7481918e7892adbd8def38, identity applied; contains unchanged whole-song/stems and prior export receipts,0MP4s. Reuse it; do not repeat separation or save another duplicate audio checkpoint.
-
-LOCAL TEST FAILURE PRESERVED:combined new tuning parity suite exited139/segfault in the UNMODIFIED librosa.estimate_tuning reference at tests/test_bounded_audio.py:127 -> Numba gufunc_parabolic_interpolation. It is NOT a passing test and no code acceptance is inferred. Reproducing the two tuning tests in a fresh process with tuning_isolated.xml; actual Android serial-kernel full production tuned profile remains running. Keep existing54-test evidence separate; diagnose reference crash rather than weakening equality/gates.
-
-ACTUAL WHOLE PRODUCTION MEMORY RESULT:MEM-03tuned143.096s/1024978944bytes vsbaseline142.832s/1850908672bytes,44.62%lowerpeak, same43913effects/exact musical signature. Evidence production_tuned.json and production_tuned_comparison.json; source-module hashes verified. No speedup or Android acceptance claimed; MP4 excluded equally, stems reused equally. New reference test segfault reproduced only with local Numpy2.3.5/Numba0.68.1; actual passingCI usesNumpy2.5.4/SciPy1.18.1 with sameNumba0.68.1. Aligning LOCAL validation environment to those exact observedCIversions, retaining strict assertions and source unchanged; not suppressing tests or changing production dependencies.
-
-RUNTIME CORRECTION VALIDATED:The new unmodified-reference float64 test also segfaulted under observedCI NumPy2.5.4 withNumba0.68.1. SupportedNumPy2.2.6/Numba0.61.2/llvmlite0.44 passes both longfloat32/float64 exact tuning/chroma tests (2pass,18.87s). Locked these THREE desktop dependencies in both root/Windows requirements. Android ABI pins and serial kernels unchanged. Full focused set running again; do not reuse stale54-testXML as proof for new source. No production dependency bypass, test skip, or threshold change.
-
-FINAL LOCAL VERIFICATION:58passed,4warnings,80.16s on the pinned supported desktop NumPy/Numba/LLVM graph; no skips/failures or changed assertions. Source + dependency hashes in latest_status.json. MEM-03 whole-song44.62%lowerpeak and exact43913effects signature are verified; device stability remains unaccepted until new exact-sourceAPI30/36 runs finish. Next publish this source; no further code mutation is planned absent a real failure.
+OWNER APPROVAL STATUS: NOT APPROVED.
+BETA RELEASE STATUS: HELD; PR188draft/unmerged; public beta unpublished; nine-video collection incomplete (5verified,4missing).

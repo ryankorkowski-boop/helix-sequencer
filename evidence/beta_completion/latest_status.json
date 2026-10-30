@@ -1,10 +1,10 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-10-30T02:04:27.634521+00:00",
+  "updated_at": "2026-10-30T02:07:53.459618+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
-  "last_verified_implementation_sha": "d52d23439fd60940809c49674af8dc01e223e9aa (54focused tests and exact musical export signature only; final platformCI pending)",
+  "last_verified_implementation_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd",
   "current_task": "AND-01",
   "tasks": [
     {
@@ -36,13 +36,13 @@
         "tools/preview_renderer.py"
       ],
       "last_attempted_action": "Recovered Android failure receipt and production code",
-      "actual_result": "Classifier full-song peakRSS1.60GB->414MB on Linux Android bridge; exact12window fields retained; device check pending",
+      "actual_result": "Code tested; full237.44s sequencing/export peak44.62%lower with exact43913effects signature; finalAPI30 proof pending",
       "evidence": [
         "evidence/optimized_beta_20261029/android_final_status.json"
       ],
       "next_action": "Publish targeted code; collect AndroidAPI30/36; finish same-workload full production baseline/candidate",
       "dependencies_or_blockers": [],
-      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e",
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
       "supporting_tests": "40focused pass; exact-source deviceCI pending"
     },
     {
@@ -126,29 +126,29 @@
       "id": "WIN-01",
       "priority": "P1",
       "description": "Verify exact final-source Windows portable smoke",
-      "status": "TODO",
+      "status": "IN PROGRESS",
       "files": [
         ".github/workflows/windows-portable.yml"
       ],
       "last_attempted_action": "Queried latest workflows",
-      "actual_result": "Windows source76c0176 run40836353435 passes",
+      "actual_result": "Final-source runs queued/running; previous d52 fullCI2206+24subtests/6skips each3.11/3.12 andWindowspass do not certify this source",
       "evidence": [
         "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40836353435"
       ],
       "next_action": "Check latest source after code change",
       "dependencies_or_blockers": [],
-      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     },
     {
       "id": "AND-01",
       "priority": "P0",
       "description": "Verify final-source Android API30/API36",
-      "status": "TODO",
+      "status": "IN PROGRESS",
       "files": [
         ".github/workflows/android-offline.yml"
       ],
       "last_attempted_action": "Queried latest jobs",
-      "actual_result": "API36 passes; API30 memory failure remains",
+      "actual_result": "Final-source runs queued/running; previous d52 fullCI2206+24subtests/6skips each3.11/3.12 andWindowspass do not certify this source",
       "evidence": [
         "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40836353439"
       ],
@@ -156,24 +156,24 @@
       "dependencies_or_blockers": [
         "MEM-01"
       ],
-      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     },
     {
       "id": "REG-01",
       "priority": "P0",
       "description": "Run exact-source focused and full relevant regression",
-      "status": "TODO",
+      "status": "IN PROGRESS",
       "files": [
         "tests/"
       ],
       "last_attempted_action": "Recovered exact historical suite results",
-      "actual_result": "Source76c0176 passes2199+24subtests/6skips each3.11/3.12; not new-code evidence",
+      "actual_result": "Final-source runs queued/running; previous d52 fullCI2206+24subtests/6skips each3.11/3.12 andWindowspass do not certify this source",
       "evidence": [
         "evidence/optimized_beta_20261029/full_ci_results.json"
       ],
       "next_action": "Run focused tests then complete relevant CI after implementation",
       "dependencies_or_blockers": [],
-      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     },
     {
       "id": "REL-01",
@@ -202,7 +202,7 @@
       "id": "MEM-02",
       "priority": "P0",
       "description": "Bound the remaining measured pitch, descriptor, flux and float64 mel workspace",
-      "status": "IN PROGRESS",
+      "status": "VERIFIED",
       "files": [
         "core/bounded_audio.py",
         "core/effect_engine.py",
@@ -217,11 +217,11 @@
         "evidence/beta_completion/mel_memory_profile.json",
         "evidence/beta_completion/focused_memory_final.xml"
       ],
-      "next_action": "Finish final profile; compare43913effects/signature, publish and collect exact-sourceCI",
+      "next_action": "Collect final-source platform/fullCI; implementation verification does not imply device acceptance",
       "dependencies_or_blockers": [
         "Final source device results pending"
       ],
-      "source_commit": "18a97623524ac8c5b37689c95553716163bd04b0 plus recorded working tree hashes"
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     },
     {
       "id": "MEM-03",
@@ -240,11 +240,11 @@
         "evidence/beta_completion/production_tuned_comparison.json",
         "evidence/beta_completion/focused_memory_final.xml"
       ],
-      "next_action": "Collect exact-source AndroidAPI30/API36 and completeCI",
+      "next_action": "Collect final-source platform/fullCI; implementation verification does not imply device acceptance",
       "dependencies_or_blockers": [
         "Device/CI acceptance pending"
       ],
-      "source_commit": "File hashes recorded; implementation commit follows"
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     },
     {
       "id": "DEP-01",
@@ -261,11 +261,11 @@
         "evidence/beta_completion/numerical_runtime_failure.json",
         "evidence/beta_completion/tuning_isolated.xml"
       ],
-      "next_action": "Rebuild final-source desktop and completeCI",
+      "next_action": "Collect final-source platform/fullCI; implementation verification does not imply device acceptance",
       "dependencies_or_blockers": [
         "Final package validation pending"
       ],
-      "source_commit": "Implementation commit follows"
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     }
   ],
   "delivered_mp4_count": 5,
@@ -280,41 +280,71 @@
   "beta_release": false,
   "active_runs": [
     {
-      "id": 40986962515,
+      "id": 40989578137,
+      "name": "fullCI push",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989578137",
+      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+    },
+    {
+      "id": 40989590900,
+      "name": "fullCI PR",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989590900",
+      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+    },
+    {
+      "id": 40989578333,
       "name": "Android push",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40986962515"
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989578333",
+      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     },
     {
-      "id": 40986968908,
+      "id": 40989590969,
       "name": "Android PR",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40986968908"
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989590969",
+      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     },
     {
-      "id": 40986962386,
-      "name": "Helix CI push",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40986962386"
-    },
-    {
-      "id": 40986968934,
-      "name": "Helix CI PR",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40986968934"
-    },
-    {
-      "id": 40986968903,
+      "id": 40989591050,
       "name": "Windows",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40986968903"
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989591050",
+      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+    },
+    {
+      "id": 40989590899,
+      "name": "native producer",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989590899",
+      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+    },
+    {
+      "id": 40989591017,
+      "name": "final band",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989591017",
+      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+    },
+    {
+      "id": 40989590973,
+      "name": "Phoneme",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989590973",
+      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+    },
+    {
+      "id": 40989590883,
+      "name": "collection",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989590883",
+      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     }
   ],
   "next_three_actions": [
-    "Publish frozen tested tuning/runtime source and collect exact-source fullCI/API30/API36/Windows",
-    "IfAPI30stillfails inspect final source process/buffers without weakening full-song test",
-    "Qualify actual approved3D band and independently owned vocal/lexical sources before missing4renders"
+    "Collect exact dd73e367 fullCI, AndroidAPI30/API36 and Windows outcomes",
+    "If finalAPI30 fails inspect its actual low-memory/decoder/export buffers; preserve current passing source/file hashes",
+    "Resolve approved3D drummer identity and independently supported vocal/lexical sources, then render missing01/02/03/08"
   ],
   "resume_commands": [
     "git fetch origin codex/eight-hour-recovery-20261019",
     "git checkout codex/eight-hour-recovery-20261019",
     "cat docs/BETA_COMPLETION_LIVE_HANDOFF.md",
-    "python -m pytest tests/test_android_offline.py tests/test_android_recovery.py -q"
+    "python -m pytest -q tests/test_bounded_audio.py tests/test_audio_analysis_reuse.py tests/test_bounded_fallback_stems.py tests/test_audio.py tests/test_drummer_v3_real_audio.py tests/test_drummer_v3_analysis.py tests/test_android_offline.py tests/test_android_recovery.py tests/test_helixualizer.py tests/test_chronoflow.py",
+    "python -m tools.profile_android_full_song_memory WORK tuned"
   ],
   "profile_evidence": "evidence/beta_completion/harmony_memory_profile.json",
   "focused_tests": {
@@ -330,7 +360,7 @@
       "audio/drummer_v3.py": "cf2eae24ffa8bb5d21bd2657fb5b7cbcfb863ee6eb52b2b0837249c22116f165"
     }
   },
-  "current_implementation_sha": "d52d23439fd60940809c49674af8dc01e223e9aa",
+  "current_implementation_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd",
   "focused_final_tests": {
     "passed": 58,
     "failed": 0,
@@ -367,7 +397,7 @@
     "android": "in_progress"
   },
   "final_production_profile": "evidence/beta_completion/production_tuned.json",
-  "final_android_validation": "PENDING new source publication",
+  "final_android_validation": "IN PROGRESS or queued; exact-source runs below",
   "overall_peak_memory_reduction_percent": 44.62293253548493,
   "memory_stability_accepted": false,
   "final_production_comparison": "evidence/beta_completion/production_tuned_comparison.json"

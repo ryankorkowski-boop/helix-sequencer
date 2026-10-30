@@ -1,3 +1,14 @@
+## 29 October — active final-source validation and recovery receipt
+
+Current implementation:dd73e36777d0a02c6d403245d03421d093bda0fd.58focused tests pass; whole237.44s sequencing/export uses44.62%less peak memory with exact43913effects/musical signature. Elapsed142.832->143.096s; stems reused equally andMP4excluded, no speedup/device acceptance claimed. Current fullCI40989578137/40989590900,Android40989578333/40989590969,Windows40989591050 and strict native40989590899/40989591017/40989590973/40989590883 are queued/running. No historical success is substituted.
+
+- [x] REC-01 / MEM-02 / MEM-03 / DEP-01 VERIFIED implementation and preserved artifacts. Exact details/hashes/tests/results/failures/continuation:docs/BETA_COMPLETION_LIVE_HANDOFF.md and evidence/beta_completion/latest_status.json.
+- [ ] MEM-01 / AND-01 / REG-01 / WIN-01 IN PROGRESS final-source platform/regression acceptance. Next:collect exactdd73run outcomes and any failed device buffers; dependencies:actual completed results.
+- [ ] CAN-01 / VOC-01 / VID-01 BLOCKED:5of9verifiedMP4s remain available;01/02/03/08missing because approved fully modeled3Didentity and independent acoustic/lexical qualification remain unresolved. Next:genuine qualifying sources,then actual native renders/verification. Source assets, original256circuits/fixedcolors, source clocks/pitches, default6/seventhoptional, audio and thresholds are preserved.
+- [ ] REL-01 BLOCKED owner acceptance, merge and release. No approval, merge or public release occurred. All deferred roadmap remains deferred.
+
+This is an evidence-only checkpoint; it changes no production module or media and skips redundantCI. Canonical status and every failed qualification gate remain open. The machine task list contains each task priority,files,last action,result,evidence,next action,dependencies andsourceSHA. The exact9-file manifest and durable native/audio checkpoints are preserved separately from the five-MP4-only review ZIP.
+
 ## 29 October — final measured memory implementation verified locally
 
 - [x] MEM-03 / DEP-01 P0 VERIFIED local implementation:58focused tests passed,4warnings,80.16s onNumPy2.2.6/Numba0.61.2/llvmlite0.44. Exact source file/dependency hashes in latest_status.json; numerical-runtime failure/correction documented. Whole237.44s original production comparison retains43913effects and exact musical signature, peak1850908672->1024978944bytes (44.62%lower),142.832->143.096s. This measures sequencing/export with equal verified-stem reuse and noMP4; no material speedup or device acceptance claim.
