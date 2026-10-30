@@ -94,3 +94,5 @@ OWNER APPROVAL STATUS: NOT APPROVED.
 BETA RELEASE STATUS: HELD; PR188draft/unmerged; public beta unpublished; nine-video collection incomplete (5verified,4missing).
 
 CURRENT EXACT-SOURCE CI RESULT:dd73e367 fullCI40989578137 succeedsPython3.12/job123848458525 (2208passed+24subtests,6skips,36warnings,281.26s) ANDPython3.11/job123848459002 (2208passed+24subtests,6skips,5warnings,274.67s). Windows40989591050/job123848499586 succeeds. REG-01/WIN-01 verified. Android40989578333 API30/job123848585104 andAPI36/job123848585374 remain in progress; device stability not yet accepted. current_ci_results.json records the exact results.
+
+CURRENT dd73 NATIVE RESULTS:40989591017/native-proof job123848499636 PASSES.40989590899producer/job123849956098FAILS independent lead/backing source qualification;40989591017accepted-native-band/job123850574106FAILS exact-source producer dependency. Actual current errors retained in current_native_results.json. Phoneme40989590973 andcollection40989590883still active, not passed. Gates held unchanged; no qualified new band MP4.

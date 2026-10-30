@@ -1,3 +1,8 @@
+## 29 October — current native export proof passes; vocal acceptance held
+
+- [x] NATIVE-PROOF-01 VERIFIED atdd73e367:40989591017/job123848499636passes native export proof. Evidence:current_native_results.json. This is not final-band acceptance.
+- [ ] VOC-01 / VID-01 BLOCKED onCURRENT producer40989590899/job123849956098 independent lead/backing qualification; final-band40989591017/job123850574106fails that dependency. Phoneme/collectionstill active. No gate weakened or failed-source media promoted. Existing5layouts unchanged;4bandfiles still missing. Next:genuine source qualification and approved model identity before final native acceptance.
+
 ## 29 October — final-source full regressions and Windows pass
 
 - [x] REG-01 / WIN-01 P0 VERIFIED atdd73e36777d0a02c6d403245d03421d093bda0fd:fullCI40989578137 passesPython3.11 and3.12,EACH2208tests+24subtests/6existing skips. Windows40989591050passes. Evidence:evidence/beta_completion/current_ci_results.json. No count from a historical implementation is substituted.
