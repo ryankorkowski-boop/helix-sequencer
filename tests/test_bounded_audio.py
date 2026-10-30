@@ -82,3 +82,40 @@ def test_bounded_classifier_preserves_global_tuning_confidences_and_event_clocks
     expected = [asdict(e) for e in ai._classify_background_vocals(path)]
     assert actual == expected
     assert actual
+
+
+def test_frame_reductions_preserve_pitch_descriptors_and_flux_at_block_boundaries():
+    # Include zeros/rests and a final partial block in the actual frequency grid.
+    power = np.asfortranarray(np.abs(np.random.default_rng(153).normal(size=(1025, 1301))).astype('float32'))
+    power[:, 508:517] = 0
+    magnitude = np.sqrt(np.maximum(0, np.asarray(power, dtype=float)))
+    expected = (librosa.feature.spectral_centroid(S=magnitude, sr=48000)[0],
+                librosa.feature.spectral_bandwidth(S=magnitude, sr=48000)[0],
+                librosa.feature.spectral_contrast(S=magnitude, sr=48000),
+                librosa.feature.spectral_flatness(S=magnitude)[0])
+    for actual, reference in zip(bounded.spectral_descriptors(power, sr=48000, power=True), expected):
+        np.testing.assert_array_equal(actual, reference)
+    difference = np.diff(np.asarray(power, dtype=float), axis=1)
+    flux = np.pad(np.sum(np.clip(difference, 0, None), axis=0), (1, 0))
+    np.testing.assert_array_equal(bounded.positive_flux(power), flux)
+    pitches, weights = librosa.piptrack(S=np.sqrt(power), sr=48000, hop_length=512, fmin=65, fmax=2200)
+    selected = pitches[np.argmax(weights, axis=0), np.arange(power.shape[1])]
+    selected = np.where(selected > 0, selected, np.nan)
+    np.testing.assert_array_equal(bounded.dominant_pitch(power, sr=48000, hop=512, fmin=65, fmax=2200), selected)
+    for actual, expected in zip(bounded.pitch_matrices(np.sqrt(power), sr=48000,
+                               hop_length=512, fmin=65, fmax=2200), (pitches, weights)):
+        np.testing.assert_array_equal(actual, expected)
+
+
+def test_drum_descriptors_do_not_require_the_unused_chroma_contrast_bands():
+    magnitude = np.ones((1025, 17), dtype='float32')
+    actual = bounded.spectral_descriptors(magnitude, sr=8000, include_contrast=False)
+    np.testing.assert_array_equal(actual[0], librosa.feature.spectral_centroid(S=magnitude, sr=8000)[0])
+    assert actual[2].shape == (0, 17)
+
+
+def test_float64_mel_workspace_preserves_original_global_grid_and_tail():
+    y = np.asarray(source(48000, seconds=3.137), dtype=float)
+    settings = dict(sr=48000, n_fft=4096, hop_length=512, n_mels=32, fmin=20, fmax=12000)
+    expected = librosa.feature.melspectrogram(y=y, power=2., **settings)
+    np.testing.assert_array_equal(bounded.mel_spectrogram(y, **settings), expected)

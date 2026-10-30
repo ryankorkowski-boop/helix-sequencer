@@ -730,6 +730,18 @@ def analyze(audio_path: Path) -> Audio:
     onset_mel = librosa.feature.melspectrogram(S=S, sr=sr)
     onset_env = librosa.onset.onset_strength(
         S=librosa.power_to_db(onset_mel), sr=sr, hop_length=hop)
+    if dur > 30:
+        from core.bounded_audio import dominant_pitch
+        # Each centroid/pitch frame is independent. Reduce it while its bounded
+        # workspace is live, then free the full spectra before beat planning.
+        centroid = np.empty(magnitude.shape[1], dtype=float)
+        for start in range(0, len(centroid), 512):
+            centroid[start:start+512] = librosa.feature.spectral_centroid(
+                S=magnitude[:, start:start+512], sr=sr, hop_length=hop)[0]
+        pitch_hz = (dominant_pitch(S, sr=sr, hop=hop,
+                    fmin=librosa.note_to_hz("C2"), fmax=librosa.note_to_hz("C7"))
+                    if USE_FAST_PITCH else np.full(len(times_s), np.nan))
+        del magnitude, S, onset_mel
     onset_frames = librosa.onset.onset_detect(
         onset_envelope=onset_env, sr=sr, hop_length=hop,
         backtrack=False, units="frames",
@@ -750,7 +762,8 @@ def analyze(audio_path: Path) -> Audio:
         except Exception:
             pass
 
-    centroid = librosa.feature.spectral_centroid(S=magnitude, sr=sr, hop_length=hop)[0]
+    if dur <= 30:
+        centroid = librosa.feature.spectral_centroid(S=magnitude, sr=sr, hop_length=hop)[0]
     rms = librosa.feature.rms(y=y, hop_length=hop)[0]
     rms01 = norm01(rms)
 
@@ -762,7 +775,9 @@ def analyze(audio_path: Path) -> Audio:
     bass01 = norm01(bass_db)
     vocal01 = norm01(vocal_db)
 
-    if USE_FAST_PITCH:
+    if dur > 30:
+        pass  # Already reduced before releasing the full spectra above.
+    elif USE_FAST_PITCH:
         mags = np.sqrt(S)
         pitches, pmags = librosa.piptrack(
             S=mags, sr=sr, hop_length=hop,

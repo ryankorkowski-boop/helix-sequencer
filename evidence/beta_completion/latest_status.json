@@ -1,11 +1,11 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-10-30T01:36:30.369722+00:00",
+  "updated_at": "2026-10-30T01:48:53.726809+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
   "last_verified_implementation_sha": "76c0176d3c2c3776d5f9e9abd5e98c004f379021",
-  "current_task": "MEM-01",
+  "current_task": "MEM-02",
   "tasks": [
     {
       "id": "REC-01",
@@ -197,6 +197,31 @@
         "Owner explicit approval"
       ],
       "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    },
+    {
+      "id": "MEM-02",
+      "priority": "P0",
+      "description": "Bound the remaining measured pitch, descriptor, flux and float64 mel workspace",
+      "status": "IN PROGRESS",
+      "files": [
+        "core/bounded_audio.py",
+        "core/effect_engine.py",
+        "core/helixualizer.py",
+        "xlights/xsq_writer.py",
+        "audio/drummer_v3.py",
+        "tests/test_bounded_audio.py"
+      ],
+      "last_attempted_action": "Frozen-source final full237.44s production profile and54test focused suite running",
+      "actual_result": "Global contrast floor error rejected and repaired; per-frame reducers exact; mel1.35GB->306MB with exact bank curves",
+      "evidence": [
+        "evidence/beta_completion/mel_memory_profile.json",
+        "evidence/beta_completion/focused_memory_final.xml"
+      ],
+      "next_action": "Finish final profile; compare43913effects/signature, publish and collect exact-sourceCI",
+      "dependencies_or_blockers": [
+        "Final source device results pending"
+      ],
+      "source_commit": "18a97623524ac8c5b37689c95553716163bd04b0 plus recorded working tree hashes"
     }
   ],
   "delivered_mp4_count": 5,
@@ -209,11 +234,37 @@
   ],
   "owner_approval": false,
   "beta_release": false,
-  "active_runs": [],
+  "active_runs": [
+    {
+      "id": 40986962515,
+      "name": "Android push",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40986962515"
+    },
+    {
+      "id": 40986968908,
+      "name": "Android PR",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40986968908"
+    },
+    {
+      "id": 40986962386,
+      "name": "Helix CI push",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40986962386"
+    },
+    {
+      "id": 40986968934,
+      "name": "Helix CI PR",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40986968934"
+    },
+    {
+      "id": 40986968903,
+      "name": "Windows",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40986968903"
+    }
+  ],
   "next_three_actions": [
-    "Profile full237.44s Android analysis with same source",
-    "Implement/test smallest bounded-allocation correction",
-    "Push checkpoint and collect exact-source Android/fullCI"
+    "Finish before/after full production memory and XSQ parity comparison",
+    "Collect current exact-source API30/API36 tests; bound any remaining measured spectral peak",
+    "Keep five media outputs and gates; missing01/02/03/08 require approved model and independent vocal evidence"
   ],
   "resume_commands": [
     "git fetch origin codex/eight-hour-recovery-20261019",
@@ -234,5 +285,33 @@
       "core/effect_engine.py": "3d38ffc3a44c447fd83e982ab3a45224ef048034b5f2347300f2eeca7b7a7dd9",
       "audio/drummer_v3.py": "cf2eae24ffa8bb5d21bd2657fb5b7cbcfb863ee6eb52b2b0837249c22116f165"
     }
-  }
+  },
+  "current_implementation_sha": "18a97623524ac8c5b37689c95553716163bd04b0",
+  "focused_final_tests": {
+    "passed": 54,
+    "failed": 0,
+    "warnings": 3,
+    "seconds": 62.48,
+    "receipt": "evidence/beta_completion/focused_memory_final.xml",
+    "tested_module_sha256": {
+      "core/bounded_audio.py": "fbbaf3596a78610b6e84f30a70c939bc8594faa1e968115506c9708d43f9f5b0",
+      "core/audio_intelligence.py": "5deb6de0c5bce8b8c6d2aab96a96cf451fb42c6b1c625914d897df8731140c80",
+      "core/effect_engine.py": "c8959d8b1d06e14931224333f59184fbf3e29f46df53cbd603deb23828153302",
+      "core/helixualizer.py": "61f21a6fa0e687a8a9624e39fba5ea76f579f956cde35c694cd4ccea7bed0544",
+      "audio/drummer_v3.py": "3a614bcfe56f839a02c0136941d17bfb2257929807253cf6ee72a310a254e839",
+      "xlights/xsq_writer.py": "42e325cf54ddbc8c842b1050c0b80d5fb58b1c1762ebcb277dccc65010fd8cc9"
+    }
+  },
+  "previous_implementation_ci": {
+    "source_sha": "18a97623524ac8c5b37689c95553716163bd04b0",
+    "run": 40986962386,
+    "python311": "success",
+    "python312": "success",
+    "windows_run": 40986968903,
+    "windows": "success",
+    "android_run": 40986962515,
+    "android": "in_progress"
+  },
+  "final_production_profile": "IN PROGRESS; WORK/offline-memory/final/metrics.json",
+  "final_android_validation": "PENDING new source publication"
 }

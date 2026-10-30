@@ -10,7 +10,7 @@ from pathlib import Path
 import librosa
 import numpy as np
 from audio.drum_classification import DrumEvent, DrumClassifierThresholds, classify_drum_hit
-from core.bounded_audio import hpss
+from core.bounded_audio import hpss, spectral_descriptors
 
 ANALYSIS_HOP_LENGTH = 512
 ANALYSIS_N_FFT = 2048
@@ -94,9 +94,7 @@ def analyze_drummer_samples(y, sr, *, onset_delta=None, config=None):
     rms = librosa.feature.rms(y=perc, hop_length=hop)[0]
     h_rms = librosa.feature.rms(y=harmonic, hop_length=hop)[0]
     rms01, onset01 = _norm01(rms), _norm01(onset_env)
-    centroids = librosa.feature.spectral_centroid(S=stft, sr=sr)[0]
-    spreads = librosa.feature.spectral_bandwidth(S=stft, sr=sr)[0]
-    flatness = librosa.feature.spectral_flatness(S=stft)[0]
+    centroids, spreads, _, flatness = spectral_descriptors(stft, sr=sr, include_contrast=False)
     raw, audit = [], diagnostics["onset_audit"]
     cluster, previous_ms = -1, None
     for onset_index, frame in enumerate(sorted(set(int(f) for f in frames if int(f) < stft.shape[1]))):

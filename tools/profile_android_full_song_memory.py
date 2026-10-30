@@ -6,8 +6,8 @@ os.environ['OMP_NUM_THREADS']='1'
 import sys,subprocess,json,time,threading,resource,hashlib,shutil,traceback
 from pathlib import Path
 repo=Path(__file__).resolve().parents[1]
-if len(sys.argv) != 3 or sys.argv[2] not in ('baseline','candidate'):
-    raise SystemExit('Usage: python -m tools.profile_android_full_song_memory WORK baseline|candidate')
+if len(sys.argv) != 3 or sys.argv[2] not in ('baseline','candidate','bounded','final'):
+    raise SystemExit('Usage: python -m tools.profile_android_full_song_memory WORK baseline|candidate|bounded|final')
 base=Path(sys.argv[1]).resolve()
 mode=sys.argv[2]
 output=base/'offline-memory'/mode
@@ -16,10 +16,10 @@ output.mkdir(parents=True)
 sys.path[:0]=[str(repo),str(repo/'android/app/src/main/python')]
 if mode=='baseline':
     old=base/'baseline-modules'
-    for package in ('core','audio'):
+    for package in ('core','audio','xlights'):
         (old/package).mkdir(parents=True,exist_ok=True)
         (old/package/'__init__.py').write_text('__path__.append('+repr(str(repo/package))+')\n')
-    for path in ('core/audio_intelligence.py','core/effect_engine.py','audio/drummer_v3.py'):
+    for path in ('core/audio_intelligence.py','core/effect_engine.py','audio/drummer_v3.py','xlights/xsq_writer.py','core/helixualizer.py'):
         (old/path).write_bytes(subprocess.check_output(['git','show','45f17d69fac91d7683984cc22c54bb701eb2226e:'+path],cwd=repo))
     sys.path.insert(0,str(old))
 import helix_numba
@@ -45,7 +45,7 @@ def wrap(module,name):
             timings.append(dict(function=name,elapsed_seconds=time.monotonic()-started))
             stage=old
     setattr(module,name,measured)
-for m,n in [(engine,'analyze_harmonic'),(ai,'build_stem_analysis'),(ai,'_classify_background_vocals'),(ai,'_summarize_stem_file'),(drummer_v3,'analyze_drummer_samples'),(engine,'derive_multiband_analysis')]:wrap(m,n)
+for m,n in [(engine.base,'analyze'),(engine.helixualizer_engine,'build_helixualizer_plan'),(engine.helixualizer_engine,'_melbank_payload'),(engine,'analyze_harmonic'),(ai,'build_stem_analysis'),(ai,'_classify_background_vocals'),(ai,'_summarize_stem_file'),(drummer_v3,'analyze_drummer_samples'),(engine,'derive_multiband_analysis')]:wrap(m,n)
 job=output/'job';inp=job/'input';inp.mkdir(parents=True)
 source=base/'full-song.wav';shutil.copy2(source,inp/'audio.wav')
 stems=job/'RenderCache/stems/audio';stems.mkdir(parents=True)
@@ -64,7 +64,7 @@ except BaseException:
     log.write(traceback.format_exc());raise
 finally:
     active=False;thread.join();log.close()
-    report=dict(mode=mode,elapsed_seconds=time.monotonic()-started,peak_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,stage_peaks=peaks,stages=timings,result=result,audio_sha256=helix_mobile.file_hash(source),source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),preview=False)
+    report=dict(mode=mode,elapsed_seconds=time.monotonic()-started,peak_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,stage_peaks=peaks,stages=timings,result=result,audio_sha256=helix_mobile.file_hash(source),source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),preview=False,working_tree_dirty=bool(subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=repo,text=True).strip()),tested_module_sha256={str(p):helix_mobile.file_hash(repo/p) for p in ('core/bounded_audio.py','core/audio_intelligence.py','core/effect_engine.py','audio/drummer_v3.py','xlights/xsq_writer.py','core/helixualizer.py')})
     if result and result.get('sequence'):report['musical_signature'],report['model_effect_count']=musical_signature(result['sequence'])
     (output/'metrics.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps({k:v for k,v in report.items() if k not in ('stage_peaks','stages','result')},indent=2),flush=True)

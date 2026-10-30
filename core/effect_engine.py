@@ -1658,7 +1658,11 @@ def analyze_harmonic(audio: base.Audio) -> HarmonicData:
     )
     # Supplement CQT with piptrack so polyphonic note picking can use true pitch bins too.
     stft_mag = np.abs(librosa.stft(y_harm, n_fft=2048, hop_length=hop))
-    pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=audio.sr, hop_length=hop, fmin=65.0, fmax=2800.0)
+    if audio.dur_s > 30:
+        from core.bounded_audio import pitch_matrices
+        pitch_hz, pitch_mag = pitch_matrices(stft_mag, sr=audio.sr, hop_length=hop, fmin=65.0, fmax=2800.0)
+    else:
+        pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=audio.sr, hop_length=hop, fmin=65.0, fmax=2800.0)
     times_s = librosa.frames_to_time(np.arange(cqt_mag.shape[1]), sr=audio.sr, hop_length=hop)
     return HarmonicData(
         times_s=np.asarray(times_s),
@@ -1943,7 +1947,6 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
     spectrum = np.abs(librosa.stft(audio.y, n_fft=n_fft, hop_length=hop)) ** 2
     if spectrum.size == 0:
         return MultiBandAnalysis([], [], [], [], [], [], [], {})
-    magnitude = np.sqrt(np.maximum(0.0, np.asarray(spectrum, dtype=float)))
     frame_count = int(spectrum.shape[1])
     freqs = librosa.fft_frequencies(sr=audio.sr, n_fft=n_fft)
     frame_times = librosa.frames_to_time(np.arange(frame_count), sr=audio.sr, hop_length=hop)
@@ -1965,9 +1968,8 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
     mid_marks = _series_peak_marks(frame_times, mid_env, threshold=0.38, wait=7, gap_ms=95)
     high_marks = _series_peak_marks(frame_times, high_env, threshold=0.34, wait=6, gap_ms=80)
 
-    diff = np.diff(np.asarray(spectrum, dtype=float), axis=1)
-    flux = np.sum(np.clip(diff, 0.0, None), axis=0)
-    flux = np.pad(flux, (1, 0), mode="constant")
+    from core.bounded_audio import positive_flux, spectral_descriptors
+    flux = positive_flux(spectrum)
     flux01 = base.norm01(np.nan_to_num(np.asarray(flux, dtype=float), nan=0.0, posinf=0.0, neginf=0.0))
     flux_marks = _series_peak_marks(frame_times, flux, threshold=0.40, wait=8, gap_ms=90)
 
@@ -1998,11 +2000,13 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
             marks = [base.ms(float(frame_times[i])) for i in range(len(frame_times)) if int(dominant_idx[i]) == idx and dominant_strength[i] >= 0.28]
             dominance_marks[name] = base.compress_times_ms(marks, base.scaled_gap(180))
 
-    centroid = _align_curve(librosa.feature.spectral_centroid(S=magnitude, sr=audio.sr)[0], frame_count)
-    bandwidth = _align_curve(librosa.feature.spectral_bandwidth(S=magnitude, sr=audio.sr)[0], frame_count)
-    contrast = np.asarray(librosa.feature.spectral_contrast(S=magnitude, sr=audio.sr), dtype=float)
+    centroid, bandwidth, contrast, flatness = spectral_descriptors(spectrum, sr=audio.sr, power=True)
+    centroid = _align_curve(centroid, frame_count)
+    bandwidth = _align_curve(bandwidth, frame_count)
+    contrast = np.asarray(contrast, dtype=float)
     contrast_curve = _align_curve(np.asarray(contrast.mean(axis=0), dtype=float), frame_count)
-    flatness = _align_curve(librosa.feature.spectral_flatness(S=magnitude)[0], frame_count)
+    flatness = _align_curve(flatness, frame_count)
+    del spectrum
 
     mfcc_motion = np.zeros(frame_count, dtype=float)
     chroma_stability = np.zeros(frame_count, dtype=float)
