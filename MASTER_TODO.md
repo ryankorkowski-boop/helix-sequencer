@@ -1,3 +1,8 @@
+## 29 October — final-source full regressions and Windows pass
+
+- [x] REG-01 / WIN-01 P0 VERIFIED atdd73e36777d0a02c6d403245d03421d093bda0fd:fullCI40989578137 passesPython3.11 and3.12,EACH2208tests+24subtests/6existing skips. Windows40989591050passes. Evidence:evidence/beta_completion/current_ci_results.json. No count from a historical implementation is substituted.
+- [ ] AND-01 / MEM-01 IN PROGRESS:current API30/API36 full-song device/export tests40989578333still running; do not accept from queued/running status. All five MP4hashes and canonical/vocal blockers remain unchanged; four missing videos, no owner acceptance, merge or release. Next:collect actual final-source device results; native/owner gates remain independent.
+
 ## 29 October — active final-source validation and recovery receipt
 
 Current implementation:dd73e36777d0a02c6d403245d03421d093bda0fd.58focused tests pass; whole237.44s sequencing/export uses44.62%less peak memory with exact43913effects/musical signature. Elapsed142.832->143.096s; stems reused equally andMP4excluded, no speedup/device acceptance claimed. Current fullCI40989578137/40989590900,Android40989578333/40989590969,Windows40989591050 and strict native40989590899/40989591017/40989590973/40989590883 are queued/running. No historical success is substituted.

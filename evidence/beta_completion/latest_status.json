@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-10-30T02:07:53.459618+00:00",
+  "updated_at": "2026-10-30T02:13:52.185207+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
@@ -126,16 +126,16 @@
       "id": "WIN-01",
       "priority": "P1",
       "description": "Verify exact final-source Windows portable smoke",
-      "status": "IN PROGRESS",
+      "status": "VERIFIED",
       "files": [
         ".github/workflows/windows-portable.yml"
       ],
       "last_attempted_action": "Queried latest workflows",
-      "actual_result": "Final-source runs queued/running; previous d52 fullCI2206+24subtests/6skips each3.11/3.12 andWindowspass do not certify this source",
+      "actual_result": "dd73 fullPython3.11/3.12 each2208+24subtests/6skips pass; Windows40989591050 passes",
       "evidence": [
-        "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40836353435"
+        "evidence/beta_completion/current_ci_results.json"
       ],
-      "next_action": "Check latest source after code change",
+      "next_action": "Await Android and remaining native/owner gates",
       "dependencies_or_blockers": [],
       "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     },
@@ -162,16 +162,16 @@
       "id": "REG-01",
       "priority": "P0",
       "description": "Run exact-source focused and full relevant regression",
-      "status": "IN PROGRESS",
+      "status": "VERIFIED",
       "files": [
         "tests/"
       ],
       "last_attempted_action": "Recovered exact historical suite results",
-      "actual_result": "Final-source runs queued/running; previous d52 fullCI2206+24subtests/6skips each3.11/3.12 andWindowspass do not certify this source",
+      "actual_result": "dd73 fullPython3.11/3.12 each2208+24subtests/6skips pass; Windows40989591050 passes",
       "evidence": [
-        "evidence/optimized_beta_20261029/full_ci_results.json"
+        "evidence/beta_completion/current_ci_results.json"
       ],
-      "next_action": "Run focused tests then complete relevant CI after implementation",
+      "next_action": "Await Android and remaining native/owner gates",
       "dependencies_or_blockers": [],
       "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     },
@@ -400,5 +400,44 @@
   "final_android_validation": "IN PROGRESS or queued; exact-source runs below",
   "overall_peak_memory_reduction_percent": 44.62293253548493,
   "memory_stability_accepted": false,
-  "final_production_comparison": "evidence/beta_completion/production_tuned_comparison.json"
+  "final_production_comparison": "evidence/beta_completion/production_tuned_comparison.json",
+  "final_source_ci": {
+    "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+    "full_ci_run": 40989578137,
+    "python312": {
+      "job": 123848458525,
+      "passed": 2208,
+      "subtests_passed": 24,
+      "skipped": 6,
+      "warnings": 36,
+      "seconds": 281.26,
+      "conclusion": "success"
+    },
+    "python311": {
+      "job": 123848459002,
+      "passed": 2208,
+      "subtests_passed": 24,
+      "skipped": 6,
+      "warnings": 5,
+      "seconds": 274.67,
+      "conclusion": "success"
+    },
+    "windows": {
+      "run": 40989591050,
+      "job": 123848499586,
+      "conclusion": "success"
+    },
+    "android": {
+      "run": 40989578333,
+      "api30_job": 123848585104,
+      "api36_job": 123848585374,
+      "conclusion": "in_progress"
+    },
+    "owner_approval": false,
+    "beta_acceptance": false
+  },
+  "last_successful_ci_runs": {
+    "full_ci": 40989578137,
+    "windows": 40989591050
+  }
 }
