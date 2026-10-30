@@ -8,7 +8,8 @@ Last verified implementation SHA: 76c0176d3c2c3776d5f9e9abd5e98c004f379021
 Last successful CI runs: 40836343857 (Python3.11/3.12),40836353435 (Windows); Android40836353439 API36 passes/API30 fails
 
 CURRENT OBJECTIVE: finish existing beta and exactly nine verified MP4s; no merge/publication.
-CURRENT TASK: MEM-01 profile Android full-song peak memory.
+CURRENT TASK: MEM-01 profile full-song harmony classifier after reproduced post-drum low-memory kill.
+Before expensive operation: source ../full-song.wav (237.44s48kHz stereo decoded original repository Helix Audiolights.mp3); command ../venv/bin/python ../profile_memory.py; outputs ../memory-profile/{stems,before.json,after.json}; resume by reusing stems, never repeating unchanged separation.
 LAST COMPLETED TASK: REC-01 restore exact source, native checkpoints and five-media ZIP.
 
 COMPLETED AND VERIFIED:
@@ -65,3 +66,10 @@ python -m pytest tests/test_android_offline.py tests/test_android_recovery.py -q
 
 OWNER APPROVAL STATUS: not approved.
 BETA RELEASE STATUS: held; PR188 draft/unmerged; public beta unpublished.
+
+CURRENT MEMORY IMPLEMENTATION CANDIDATE:
+- Profiled237.44s48kHz source. Harmony classifier1.60GB->414MB (74.11% reduction), same12windows/every field;31.429->30.053s. Linux Android bridge only, not device acceptance.
+- Focused tests running: ../venv/bin/python -m pytest -q tests/test_bounded_audio.py tests/test_bounded_fallback_stems.py tests/test_audio.py tests/test_drummer_v3_real_audio.py tests/test_android_offline.py tests/test_android_recovery.py --junitxml=evidence/beta_completion/focused_memory.xml; output ../focused-memory.log.
+- Next full production comparison: ../venv/bin/python ../profile_offline_pipeline.py baseline then candidate; same original full-song.wav and generated hash-bound stems reused. Expected outputs ../offline-memory/{baseline,candidate}; inspect metrics.json and musical_signature without asserting Android acceptance.
+
+FOCUSED MEMORY RESULT:40passed,3deprecation warnings,62.34s. evidence/beta_completion/focused_memory.xml. The initial failed synthetic fixture was corrected; whole focused set rerun. Full production baseline still running at stem summary. Production profiler is now tracked as tools/profile_android_full_song_memory.py; use python -m tools.profile_android_full_song_memory WORK baseline|candidate with WORK/full-song.wav and WORK/memory-profile/stems retained. New Android/CI run URLs follow source publication.

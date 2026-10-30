@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-10-30T01:28:35.129715+00:00",
+  "updated_at": "2026-10-30T01:36:30.369722+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
@@ -36,13 +36,14 @@
         "tools/preview_renderer.py"
       ],
       "last_attempted_action": "Recovered Android failure receipt and production code",
-      "actual_result": "752236KiB foreground RSS before low-memory kill; Instructions/Band tests passed",
+      "actual_result": "Classifier full-song peakRSS1.60GB->414MB on Linux Android bridge; exact12window fields retained; device check pending",
       "evidence": [
         "evidence/optimized_beta_20261029/android_final_status.json"
       ],
-      "next_action": "Profile same full-song workload and identify peak allocation",
+      "next_action": "Publish targeted code; collect AndroidAPI30/36; finish same-workload full production baseline/candidate",
       "dependencies_or_blockers": [],
-      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e",
+      "supporting_tests": "40focused pass; exact-source deviceCI pending"
     },
     {
       "id": "MUS-01",
@@ -219,5 +220,19 @@
     "git checkout codex/eight-hour-recovery-20261019",
     "cat docs/BETA_COMPLETION_LIVE_HANDOFF.md",
     "python -m pytest tests/test_android_offline.py tests/test_android_recovery.py -q"
-  ]
+  ],
+  "profile_evidence": "evidence/beta_completion/harmony_memory_profile.json",
+  "focused_tests": {
+    "passed": 40,
+    "failed": 0,
+    "warnings": 3,
+    "seconds": 62.34,
+    "receipt": "evidence/beta_completion/focused_memory.xml",
+    "tested_module_hashes": {
+      "core/bounded_audio.py": "c006e3475ba5d309b9e63ca6762e41e1fb30d7a96ff31948df571418fdccb46f",
+      "core/audio_intelligence.py": "5deb6de0c5bce8b8c6d2aab96a96cf451fb42c6b1c625914d897df8731140c80",
+      "core/effect_engine.py": "3d38ffc3a44c447fd83e982ab3a45224ef048034b5f2347300f2eeca7b7a7dd9",
+      "audio/drummer_v3.py": "cf2eae24ffa8bb5d21bd2657fb5b7cbcfb863ee6eb52b2b0837249c22116f165"
+    }
+  }
 }

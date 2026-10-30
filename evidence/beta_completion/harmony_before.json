@@ -1,0 +1,128 @@
+{
+  "mode": "before",
+  "elapsed_seconds": 31.428681252999922,
+  "peak_rss_bytes": 1599905792,
+  "stage_peaks": {
+    "setup": 133685248,
+    "harmony-classifier": 1213259776,
+    "harmony-classifier:hpss": 1600159744
+  },
+  "calls": [
+    {
+      "function": "hpss",
+      "samples": 11397119,
+      "seconds": 29.337099054999953
+    }
+  ],
+  "source_sha256": "dd988078a13ae2c7be5ebe645ba62adab45f9cb47ae7140134007e408539a632",
+  "result": [
+    {
+      "start_ms": 565,
+      "end_ms": 2517,
+      "confidence": 0.569,
+      "role": "harmony",
+      "source_reason": "vocal_stem_harmony_classifier",
+      "energy": 0.087,
+      "performer_hint": "guitarist,bassist"
+    },
+    {
+      "start_ms": 2837,
+      "end_ms": 4480,
+      "confidence": 0.57,
+      "role": "harmony",
+      "source_reason": "vocal_stem_harmony_classifier",
+      "energy": 0.09,
+      "performer_hint": "guitarist,bassist"
+    },
+    {
+      "start_ms": 4779,
+      "end_ms": 5099,
+      "confidence": 0.57,
+      "role": "harmony",
+      "source_reason": "vocal_stem_harmony_classifier",
+      "energy": 0.083,
+      "performer_hint": "guitarist,bassist"
+    },
+    {
+      "start_ms": 6091,
+      "end_ms": 6517,
+      "confidence": 0.567,
+      "role": "harmony",
+      "source_reason": "vocal_stem_harmony_classifier",
+      "energy": 0.097,
+      "performer_hint": "guitarist,bassist"
+    },
+    {
+      "start_ms": 7424,
+      "end_ms": 7680,
+      "confidence": 0.57,
+      "role": "harmony",
+      "source_reason": "vocal_stem_harmony_classifier",
+      "energy": 0.096,
+      "performer_hint": "guitarist,bassist"
+    },
+    {
+      "start_ms": 8064,
+      "end_ms": 10432,
+      "confidence": 0.571,
+      "role": "harmony",
+      "source_reason": "vocal_stem_harmony_classifier",
+      "energy": 0.097,
+      "performer_hint": "guitarist,bassist"
+    },
+    {
+      "start_ms": 10624,
+      "end_ms": 20885,
+      "confidence": 0.629,
+      "role": "harmony",
+      "source_reason": "vocal_stem_harmony_classifier",
+      "energy": 0.222,
+      "performer_hint": "guitarist,bassist"
+    },
+    {
+      "start_ms": 21291,
+      "end_ms": 53440,
+      "confidence": 0.672,
+      "role": "harmony",
+      "source_reason": "vocal_stem_harmony_classifier",
+      "energy": 0.315,
+      "performer_hint": "guitarist,bassist"
+    },
+    {
+      "start_ms": 54005,
+      "end_ms": 78432,
+      "confidence": 0.705,
+      "role": "harmony",
+      "source_reason": "vocal_stem_harmony_classifier",
+      "energy": 0.404,
+      "performer_hint": "guitarist,bassist"
+    },
+    {
+      "start_ms": 78805,
+      "end_ms": 154272,
+      "confidence": 0.668,
+      "role": "harmony",
+      "source_reason": "vocal_stem_harmony_classifier",
+      "energy": 0.315,
+      "performer_hint": "guitarist,bassist"
+    },
+    {
+      "start_ms": 154496,
+      "end_ms": 186059,
+      "confidence": 0.666,
+      "role": "harmony",
+      "source_reason": "vocal_stem_harmony_classifier",
+      "energy": 0.335,
+      "performer_hint": "guitarist,bassist"
+    },
+    {
+      "start_ms": 187051,
+      "end_ms": 230827,
+      "confidence": 0.684,
+      "role": "harmony",
+      "source_reason": "vocal_stem_harmony_classifier",
+      "energy": 0.348,
+      "performer_hint": "guitarist,bassist"
+    }
+  ]
+}

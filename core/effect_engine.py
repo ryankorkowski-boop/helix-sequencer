@@ -1642,7 +1642,9 @@ def pools_by_category(pools: list[SequentialPool], categories: tuple[str, ...]) 
 
 
 def analyze_harmonic(audio: base.Audio) -> HarmonicData:
-    y_harm, _ = librosa.effects.hpss(audio.y)
+    from core.bounded_audio import hpss
+    y_harm, percussive = hpss(audio.y, audio.sr)
+    del percussive
     hop = base.HOP_MS
     cqt_mag = np.abs(
         librosa.cqt(

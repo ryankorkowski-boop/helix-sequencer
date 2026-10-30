@@ -1,3 +1,12 @@
+## 29 October — targeted memory parity tests pass; device verification next
+
+- [x] MEM-TEST-01 P0 VERIFIED:40focused tests pass in62.34s (3deprecation warnings), including long48kHz/22.05kHzHPSS sample parity, centeredSTFT/tail, global tuning and vocal event equivalence, real drum, offline export and recovery. Evidence: evidence/beta_completion/focused_memory.xml. New test fixture initially included out-of-range synthetic strikes for a3sclip; corrected fixture and reran all40, no production gate change.
+- [ ] MEM-01 P0 IN PROGRESS: implementation is tested; full production comparison is running and AndroidAPI30/36 acceptance is pending. Files/behavior/profiles/risks preserved in adjacent entry. tools/profile_android_full_song_memory.py stores exact same-source reproduction using cached stems. Next: publish this coherent source for current device/fullCI, collect results; no untested device success claimed.
+
+## 29 October — bounded full-song vocal workspace candidate
+
+- [ ] MEM-01 P0 IN PROGRESS. Goal: repairAPI30 low-memory kill after typed drums. Files: core/bounded_audio.py,core/audio_intelligence.py,core/effect_engine.py,audio/drummer_v3.py,tests/test_bounded_audio.py. Profile: full237.44s48kHz recording, Android numerical bridge on Linux, classifier1599905792->414220288bytes peakRSS (74.11% less),31.429->30.053s; same12windows and every returned field. Evidence: evidence/beta_completion/harmony_memory_profile.json. Original file/clock/source confidence/thresholds, tuning across whole song, six/seventh cast, assets/AC/exporters preserved. New: aligned finite-contextHPSS and bounded pitch/chroma reductions; no per-block retuning. Next: focused parity tests and same-input whole production before/after then exact-source deviceCI. Risks: boundary/global tuning parity and device allocator differ; Android acceptance remains open. No native media invalidated, new approval video, owner acceptance, merge or publication.
+
 ## 29 October client-date — live beta completion checkpoint
 
 Recovered HEAD `45f17d69fac91d7683984cc22c54bb701eb2226e`. Current owner request: exactly nine MP4s; five verified layout videos preserved, four band videos blocked. Live status: `evidence/beta_completion/latest_status.json`; artifact inventory: `evidence/beta_completion/artifact_manifest.json`; recovery: `docs/BETA_COMPLETION_LIVE_HANDOFF.md`. Historical ledger below is retained unchanged. No merge, release or acceptance.

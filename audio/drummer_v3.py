@@ -10,6 +10,7 @@ from pathlib import Path
 import librosa
 import numpy as np
 from audio.drum_classification import DrumEvent, DrumClassifierThresholds, classify_drum_hit
+from core.bounded_audio import hpss
 
 ANALYSIS_HOP_LENGTH = 512
 ANALYSIS_N_FFT = 2048
@@ -80,7 +81,7 @@ def analyze_drummer_samples(y, sr, *, onset_delta=None, config=None):
                        context_n_fft=None, onset_audit=[], typed_event_count=0)
     if not len(y):
         return [], diagnostics
-    harmonic, perc = librosa.effects.hpss(y)
+    harmonic, perc = hpss(y, sr)
     onset_env = librosa.onset.onset_strength(y=perc, sr=sr, hop_length=hop)
     frames = librosa.onset.onset_detect(onset_envelope=onset_env, sr=sr,
                                       hop_length=hop, backtrack=False,

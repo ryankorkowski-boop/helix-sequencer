@@ -21,6 +21,7 @@ from core import band_sync
 from core import model_parser as xmp
 from core import spatial_scene
 from core import vocal_emotion
+from core import bounded_audio
 from core import vocal_timeline as vt
 from audio import drum_detection as drum_intel
 from audio import instrument_detection
@@ -740,23 +741,27 @@ def _classify_background_vocals(path: Path, log_fn: Callable[[str], None] | None
         if y.size < max(2048, int(sr * 0.2)):
             return []
         hop = 512
-        harm, _ = librosa.effects.hpss(y)
+        harm, percussive = bounded_audio.hpss(y, sr)
+        del y, percussive
         rms = librosa.feature.rms(y=harm, hop_length=hop)[0]
         if not rms.size or float(np.max(rms)) <= 0.0:
             return []
         rms01 = np.asarray(rms, dtype=float) / max(float(np.max(rms)), 1e-9)
-        stft_mag = np.abs(librosa.stft(harm, n_fft=2048, hop_length=hop))
-        pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=sr, hop_length=hop, fmin=110.0, fmax=2200.0)
-        if pitch_mag.size:
-            frame_thresholds = np.quantile(pitch_mag, 0.92, axis=0)
-            pitch_counts = np.sum(pitch_mag > np.maximum(frame_thresholds, 1e-8), axis=0)
-            multi_pitch01 = np.clip((pitch_counts - 1.0) / 3.0, 0.0, 1.0)
+        if len(harm) <= 30 * sr:
+            stft_mag = np.abs(librosa.stft(harm, n_fft=2048, hop_length=hop))
+            pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=sr, hop_length=hop, fmin=110.0, fmax=2200.0)
+            if pitch_mag.size:
+                frame_thresholds = np.quantile(pitch_mag, 0.92, axis=0)
+                pitch_counts = np.sum(pitch_mag > np.maximum(frame_thresholds, 1e-8), axis=0)
+                multi_pitch01 = np.clip((pitch_counts - 1.0) / 3.0, 0.0, 1.0)
+            else:
+                multi_pitch01 = np.zeros_like(rms01)
+            chroma = librosa.feature.chroma_stft(S=stft_mag, sr=sr, hop_length=hop)
+            chroma_sum = np.sum(chroma, axis=0) + 1e-9
+            chroma_prob = chroma / chroma_sum
+            chroma_entropy = -np.sum(chroma_prob * np.log2(chroma_prob + 1e-9), axis=0) / np.log2(12.0)
         else:
-            multi_pitch01 = np.zeros_like(rms01)
-        chroma = librosa.feature.chroma_stft(S=stft_mag, sr=sr, hop_length=hop)
-        chroma_sum = np.sum(chroma, axis=0) + 1e-9
-        chroma_prob = chroma / chroma_sum
-        chroma_entropy = -np.sum(chroma_prob * np.log2(chroma_prob + 1e-9), axis=0) / np.log2(12.0)
+            multi_pitch01, chroma_entropy = _bounded_background_features(harm, sr, hop)
         size = min(len(rms01), len(multi_pitch01), len(chroma_entropy))
         if size <= 0:
             return []
@@ -773,6 +778,43 @@ def _classify_background_vocals(path: Path, log_fn: Callable[[str], None] | None
     except Exception as exc:
         _log(log_fn, f"Background vocal classifier skipped: {exc}")
         return []
+
+
+def _bounded_background_features(harm, sr, hop=512):
+    """Reduce pitch/chroma per block, retaining whole-recording tuning.
+
+    Chroma's automatic tuning uses the median magnitude of all nonzero pitch
+    candidates. Keep those sparse candidates across blocks, then apply the same
+    global tuning in a second bounded STFT pass. Per-block tuning would change
+    the classifier and is deliberately avoided.
+    """
+    size = 1 + len(harm) // hop
+    multi_pitch01 = np.zeros(size)
+    tuning_pitches, tuning_magnitudes = [], []
+    for start, magnitude in bounded_audio.magnitude_blocks(harm, hop=hop):
+        _, pitch_mag = librosa.piptrack(S=magnitude, sr=sr, hop_length=hop, fmin=110.0, fmax=2200.0)
+        thresholds = np.quantile(pitch_mag, 0.92, axis=0)
+        counts = np.sum(pitch_mag > np.maximum(thresholds, 1e-8), axis=0)
+        multi_pitch01[start:start+len(counts)] = np.clip((counts - 1.0) / 3.0, 0.0, 1.0)
+        del pitch_mag
+        pitches, magnitudes = librosa.piptrack(S=magnitude, sr=sr)
+        mask = pitches > 0
+        tuning_pitches.append(pitches[mask])
+        tuning_magnitudes.append(magnitudes[mask])
+        del pitches, magnitudes, magnitude
+    pitches = np.concatenate(tuning_pitches)
+    magnitudes = np.concatenate(tuning_magnitudes)
+    threshold = np.median(magnitudes) if magnitudes.size else 0.0
+    tuning = librosa.pitch_tuning(pitches[magnitudes >= threshold], bins_per_octave=12)
+    del tuning_pitches, tuning_magnitudes, pitches, magnitudes
+    chroma_entropy = np.empty(size)
+    for start, magnitude in bounded_audio.magnitude_blocks(harm, hop=hop):
+        chroma = librosa.feature.chroma_stft(S=magnitude, sr=sr, hop_length=hop, tuning=tuning)
+        probability = chroma / (np.sum(chroma, axis=0) + 1e-9)
+        entropy = -np.sum(probability * np.log2(probability + 1e-9), axis=0) / np.log2(12.0)
+        chroma_entropy[start:start+len(entropy)] = entropy
+        del magnitude, chroma, probability, entropy
+    return multi_pitch01, chroma_entropy
 
 
 def _summarize_stem_file(
@@ -807,8 +849,8 @@ def _summarize_stem_file(
     ) if onset_env.size else np.asarray([], dtype=int)
     limit = max(1, int(max_events_per_second * max(1.0, len(y) / max(1.0, float(sr))) * 0.2))
     times_s = librosa.frames_to_time(np.arange(len(rms)), sr=sr, hop_length=hop)
-    total = max(1e-9, float(np.sum(np.abs(librosa.stft(y, n_fft=2048, hop_length=hop)))))
     spec = np.abs(librosa.stft(y, n_fft=2048, hop_length=hop))
+    total = max(1e-9, float(np.sum(spec)))
     freqs = librosa.fft_frequencies(sr=sr, n_fft=2048)
     low = float(np.sum(spec[(freqs >= 20) & (freqs < 250)])) / total
     mid = float(np.sum(spec[(freqs >= 250) & (freqs < 2500)])) / total
@@ -1340,7 +1382,8 @@ def _extract_note_candidates(
     source_stem: str,
     config: AudioAnalysisConfig,
 ) -> tuple[list[NoteEvent], list[dict[str, object]]]:
-    harm, _ = librosa.effects.hpss(y)
+    harm, percussive = bounded_audio.hpss(y, sr)
+    del percussive
     hop = 512
     stft_mag = np.abs(librosa.stft(harm, n_fft=2048, hop_length=hop))
     pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=sr, hop_length=hop, fmin=40.0, fmax=2400.0)
@@ -1681,7 +1724,7 @@ def analyze_audio_file(
     mfcc = librosa.feature.mfcc(y=y, sr=sr, hop_length=hop, n_mfcc=13)
     mfcc_delta = librosa.feature.delta(mfcc) if mfcc.size else np.asarray([], dtype=float)
     chroma = librosa.feature.chroma_stft(y=y, sr=sr, hop_length=hop)
-    harm, perc = librosa.effects.hpss(y)
+    harm, perc = bounded_audio.hpss(y, sr)
     perc_onset = librosa.onset.onset_strength(y=perc, sr=sr, hop_length=hop)
     harmonic_change = np.abs(np.diff(np.mean(chroma, axis=0))) if chroma.size else np.asarray([], dtype=float)
     brightness01 = centroid / max(1e-9, float(np.max(centroid) if centroid.size else 1.0))
