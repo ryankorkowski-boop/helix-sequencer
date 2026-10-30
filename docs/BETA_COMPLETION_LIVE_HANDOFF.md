@@ -1,15 +1,15 @@
 HELIX SEQUENCER — LIVE RECOVERY HANDOFF
 
-Last updated: 2026-10-30T02:07:53.459618+00:00; user-facing date29October2026 (America/Chicago).
+Last updated:29October2026 (America/Chicago client date); latest device artifact verified at2026-10-30T02:23:00Z.
 Repository: https://github.com/ryankorkowski-boop/helix-sequencer
 Current branch: codex/eight-hour-recovery-20261019
 Current HEAD: dd73e36777d0a02c6d403245d03421d093bda0fd; this file's next metadata-only successor may be newer.
-Last verified implementation SHA: dd73e36777d0a02c6d403245d03421d093bda0fd (58focused tests and full source-bound export parity; finalCI/device checks pending).
-Last successful CI runs: CURRENT dd73e367 fullCI40989578137 (Python3.11/3.12 EACH2208tests+24subtests/6skips), Windows40989591050 succeeds. Prior source d52d234 fullCI40988081845 (Python3.11/3.12:2206tests+24subtests/6skips each), Windows40988090460. Source18a9762 fullCI40986962386 passes2203+24subtests/6skips each andWindows40986968903. These are explicitly previous implementation evidence.
+Last verified implementation SHA: dd73e36777d0a02c6d403245d03421d093bda0fd (58focused tests, full source-bound export parity, fullPython3.11/3.12CI, Windows andAndroidAPI30/API36 all verified).
+Last successful CI runs: CURRENT dd73e367 fullCI40989578137 (Python3.11/3.12 EACH2208tests+24subtests/6skips), Windows40989591050 AND Android40989578333 API30/API36 succeed. Prior source d52d234 fullCI40988081845 (Python3.11/3.12:2206tests+24subtests/6skips each), Windows40988090460. Source18a9762 fullCI40986962386 passes2203+24subtests/6skips each andWindows40986968903. These are explicitly previous implementation evidence.
 
 CURRENT OBJECTIVE: finish existing beta and deliver exactly nine verified MP4s, without merge/publication.
-CURRENT TASK: AND-01 / REG-01 / WIN-01 collect final-source results at dd73e367.
-LAST COMPLETED TASK: MEM-03 global tuning workspace and DEP-01 numerical-runtime stabilization, locally verified and pushed.
+CURRENT TASK: CAN-01 / VOC-01 blocked on genuine approved model identity and independent acoustic/lexical evidence. Software validation is complete in CI.
+LAST COMPLETED TASK: AND-01 / MEM-01 exact-source API30/API36 full-song memory/export/playback acceptance in CI; full regressions and Windows also pass.
 
 COMPLETED AND VERIFIED:
 - [x] REC-01 recovered remote45f17d69, PR188draft/unmerged, Issue199, complete existing inventory and native checkpoints. Current instruction is9videos; historical6/15/18counts are superseded.
@@ -21,10 +21,8 @@ COMPLETED AND VERIFIED:
 - [x]Persistent source/audio/stem engineering checkpoint saved, identity applied; no source music or large binaries committed.
 
 IN PROGRESS:
-- [ ]Final-source dd73e367 fullCI push40989578137 / PR40989590900.
-- [ ]Android API30/API36 push40989578333 / PR40989590969; do not call queued/running passed. Previous18a/d52Android work was superseded by later necessary source pushes, not accepted.
-- [ ]Windows portable40989591050.
-- [ ]Current strict native producer40989590899 / finalband40989591017 / Phoneme40989590973 / collection40989590883. Known qualification blockers remain below.
+- [ ]Duplicate same-source PR Android40989590969 may still be active. Authoritative paired push40989578333 already passes BOTHAPIlevels. A later genuine regression must be inspected, not ignored.
+- [ ]Phoneme40989590973 andcollection40989590883 remain diagnostic jobs; at last check they were restoring the pinned renderer. Producer40989590899 andfinal-band40989591017fail source qualification, while native-proof passes. Do not convert diagnostic output into approval media.
 
 BLOCKED:
 - [ ]CAN-01: exact approved fully modeled3D drummer/band identity is not established. Retained V3 is planar source art. Review3DScene is unapproved. Need actual approved asset or identifying reference/commit; do not relabel a substitute.
@@ -62,7 +60,7 @@ FILES MODIFIED:
 - MASTER_TODO.md, live handoff and evidence/beta_completion:continuous source-bound progress, receipts and exact9-file inventory.
 
 TEST RESULTS:
-- Current code dd73e367:58focused pass/4warnings/80.16s; exact module/dependency hashes retained. FullCI/platform results must be collected from exact runs above.
+- Current code dd73e367:58focused pass/4warnings/80.16s; exact module/dependency hashes retained. FullCI2208+24subtests/6skips each3.11/3.12, Windowssuccess andAndroidAPI30/API36success are now evidenced in current_ci_results.json andandroid_final_status.json.
 - Previous d52 fullCI2206+24subtests/6skips eachPython3.11/3.12 andWindowssuccess; previous18a2203+24/6each. Do not substitute these for a changed implementation.
 - Pinned graph longfloat32/float64 isolated2pass/18.87s before whole58-test run; counts overlap, do not sum.
 
@@ -71,9 +69,9 @@ RENDER RESULTS:
 - All native source shows/FSEQ/audio clocks preserved. No canonical/vocal ground-truth or full playback claim.
 
 NEXT THREE ACTIONS:
-1. Collect exact dd73e367 fullCI, Windows and both Android API results (including full-song preview/export). IfAPI30fails, inspect actual process/buffers; do not increase RAM, shorten the song, skip the test or weaken gates.
-2. Resolve CAN-01 with a genuinely identifying approved model/reference; preserve original assets until identity is established.
-3. Resolve independent vocal/lexical/percussion qualifications, render missing01/02/03/08, verify every actual MP4, then create exactly9MP4-only finalZIP and deliver immediately.
+1. Identify the genuine approved fully modeled3D drummer/band asset or an identifying approved reference/commit. Retain current original assets and failed identity gate.
+2. Establish independent acoustic singer ownership and supported lexical phoneme boundaries from genuine recording evidence. Retain failed mixed-source qualification; do not repeat unchanged separation or fabricate transcripts/identities.
+3. With qualifying sources, render missing01/02/03/08 using fixed front camera and source-bound native pipeline; verify every actual file; create exactly9MP4-only HELIX_FINAL_BETA_APPROVAL_MP4S.zip and deliver for owner acceptance. Preserve the5already verified files.
 
 EXACT RESUME COMMANDS:
 ```bash
@@ -93,6 +91,6 @@ For Actions reads use the authenticated GitHub connector with exact run IDs abov
 OWNER APPROVAL STATUS: NOT APPROVED.
 BETA RELEASE STATUS: HELD; PR188draft/unmerged; public beta unpublished; nine-video collection incomplete (5verified,4missing).
 
-CURRENT EXACT-SOURCE CI RESULT:dd73e367 fullCI40989578137 succeedsPython3.12/job123848458525 (2208passed+24subtests,6skips,36warnings,281.26s) ANDPython3.11/job123848459002 (2208passed+24subtests,6skips,5warnings,274.67s). Windows40989591050/job123848499586 succeeds. REG-01/WIN-01 verified. Android40989578333 API30/job123848585104 andAPI36/job123848585374 remain in progress; device stability not yet accepted. current_ci_results.json records the exact results.
-
 CURRENT dd73 NATIVE RESULTS:40989591017/native-proof job123848499636 PASSES.40989590899producer/job123849956098FAILS independent lead/backing source qualification;40989591017accepted-native-band/job123850574106FAILS exact-source producer dependency. Actual current errors retained in current_native_results.json. Phoneme40989590973 andcollection40989590883still active, not passed. Gates held unchanged; no qualified new band MP4.
+
+FINAL CURRENT SOFTWARE RESULT (supersedes earlier pending API statements):dd73e367 fullCI40989578137 andWindows40989591050 PASS. Android40989578333 API30/job123848585104 ANDAPI36/job123848585374 PASS4instrumented tests each,0failures/errors. Both real full-song previews are3562frames,H264/AAC,237.466708s from237.439979s original audio,correlation0.9957144538319959,0msaudiooffset. Host independently decodes and checks expected visible pixels, Instructions/recreation,persistedBand,localxLights/LOR/audio/export,recovery andVideoViewplayback. API30 prior low-memory kill is resolved in these CI emulators; physical Samsung/controller acceptance remains independent. This Android preview is declared simulated and is NOT an additional native approval video. Artifact IDs/digests/source/expiry are preserved inandroid_final_status.json andartifact_manifest.json. No new band MP4, owner acceptance, merge or release;9-file approval collection remains5verified/4missing.

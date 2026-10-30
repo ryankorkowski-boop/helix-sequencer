@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-10-30T02:07:53.459618+00:00",
+  "updated_at": "2026-10-30T02:26:31.966289+00:00",
   "requested_count": 9,
   "verified_count": 5,
   "artifacts": [
@@ -180,5 +180,47 @@
   "owner_approval": false,
   "verified_media_unchanged": true,
   "new_band_videos": 0,
-  "engineering_source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+  "engineering_source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+  "platform_builds": [
+    {
+      "platform": "AndroidAPI30",
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+      "run": 40989578333,
+      "status": "VERIFIED_CI",
+      "artifact": {
+        "id": 12949431885,
+        "name": "Helix-Android-stability-api-30",
+        "bytes": 400724439,
+        "archive_digest": "sha256:0fcdbbd98fb96b8f5a9b449682e663d981219edec748838b5df36751bcba99ff",
+        "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+        "expires_at": "2027-01-28T02:04:53Z"
+      }
+    },
+    {
+      "platform": "AndroidAPI36",
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+      "run": 40989578333,
+      "status": "VERIFIED_CI",
+      "artifact": {
+        "id": 12949321938,
+        "name": "Helix-Android-stability-api-36",
+        "bytes": 401024618,
+        "archive_digest": "sha256:5e4cc81f95ea25652510c016db21a25427d52da86b5d3e7d109364140cade63b",
+        "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+        "expires_at": "2027-01-28T02:04:53Z"
+      }
+    },
+    {
+      "platform": "Windowsportable",
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+      "run": 40989591050,
+      "status": "VERIFIED_CI",
+      "artifact": {
+        "id": 12948473101,
+        "bytes": 179530559,
+        "archive_digest": "sha256:5ba25e2e094e6d393d79ed3f7e8f8ef90e2e3ee203a6d3004fa9954fe888ab4a",
+        "expires_at": "2026-11-29T02:09:16Z"
+      }
+    }
+  ]
 }

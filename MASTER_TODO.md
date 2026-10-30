@@ -1,3 +1,9 @@
+## 29 October — original API30 memory blocker resolved; all current software CI passes
+
+- [x] AND-01 / MEM-01 P0 VERIFIED atdd73e36777d0a02c6d403245d03421d093bda0fd:Android40989578333passes BOTHAPI30/job123848585104 andAPI36/job123848585374,4instrumented tests each. Actual237.466708sH264/AAC full-song export,3562frames,originalaudio correlation0.9957144538 and0mslag; host decode/readability/Instructions/recreation/Band/playback/recovery checks pass. Prior API30 foreground low-memory termination is resolved in these CI emulators. Evidence:android_final_status.json; artifact IDs/digests/current source preserved. PhysicalSamsung/controller acceptance remains separate. No APK update/signing-migration work was reopened.
+- [x] REG-01 / WIN-01:current source fullPython3.11/3.12 EACH2208tests+24subtests/6skips andWindowsportable pass.58focused tests pass; full237.44s sequencing/export peak44.62%lower with exact43913effects/musical signature; no meaningful speedup claimed.
+- [ ] CAN-01 / VOC-01 / VID-01 / REL-01 remain BLOCKED:5verified layout MP4s preserved;01/02/03/08missing. Genuine approved fully modeled3Didentity, independent acoustic/lexical evidence, qualifying native pilots andowner approval are unresolved. Do not substitute assets, reduce gates, invent files, mergePR188 or publish. Nextthree actions and exact resumption:docs/BETA_COMPLETION_LIVE_HANDOFF.md.
+
 ## 29 October — current native export proof passes; vocal acceptance held
 
 - [x] NATIVE-PROOF-01 VERIFIED atdd73e367:40989591017/job123848499636passes native export proof. Evidence:current_native_results.json. This is not final-band acceptance.

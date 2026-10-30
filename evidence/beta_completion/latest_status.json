@@ -1,11 +1,11 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-10-30T02:13:52.185207+00:00",
+  "updated_at": "2026-10-30T02:26:31.966289+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
   "last_verified_implementation_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd",
-  "current_task": "AND-01",
+  "current_task": "CAN-01 / VOC-01",
   "tasks": [
     {
       "id": "REC-01",
@@ -29,18 +29,18 @@
       "id": "MEM-01",
       "priority": "P0",
       "description": "Repair Android API30 full-song low-memory termination",
-      "status": "IN PROGRESS",
+      "status": "VERIFIED",
       "files": [
         "core/audio_intelligence.py",
         "android/app/src/main/python/helix_mobile.py",
         "tools/preview_renderer.py"
       ],
       "last_attempted_action": "Recovered Android failure receipt and production code",
-      "actual_result": "Code tested; full237.44s sequencing/export peak44.62%lower with exact43913effects signature; finalAPI30 proof pending",
+      "actual_result": "dd73 API30 AND API36 pass4instrumented tests each; actual237.466708sH264/AAC,3562frames,originalaudio0.995714correlation/0mslag; prior foreground low-memory kill no longer reproduced",
       "evidence": [
-        "evidence/optimized_beta_20261029/android_final_status.json"
+        "evidence/beta_completion/android_final_status.json"
       ],
-      "next_action": "Publish targeted code; collect AndroidAPI30/36; finish same-workload full production baseline/candidate",
+      "next_action": "Retain physical device acceptance separately; no unchanged test rerun needed",
       "dependencies_or_blockers": [],
       "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
       "supporting_tests": "40focused pass; exact-source deviceCI pending"
@@ -143,16 +143,16 @@
       "id": "AND-01",
       "priority": "P0",
       "description": "Verify final-source Android API30/API36",
-      "status": "IN PROGRESS",
+      "status": "VERIFIED",
       "files": [
         ".github/workflows/android-offline.yml"
       ],
       "last_attempted_action": "Queried latest jobs",
-      "actual_result": "Final-source runs queued/running; previous d52 fullCI2206+24subtests/6skips each3.11/3.12 andWindowspass do not certify this source",
+      "actual_result": "dd73 API30 AND API36 pass4instrumented tests each; actual237.466708sH264/AAC,3562frames,originalaudio0.995714correlation/0mslag; prior foreground low-memory kill no longer reproduced",
       "evidence": [
-        "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40836353439"
+        "evidence/beta_completion/android_final_status.json"
       ],
-      "next_action": "Run after targeted memory fix",
+      "next_action": "Retain physical device acceptance separately; no unchanged test rerun needed",
       "dependencies_or_blockers": [
         "MEM-01"
       ],
@@ -335,9 +335,9 @@
     }
   ],
   "next_three_actions": [
-    "Collect exact dd73e367 fullCI, AndroidAPI30/API36 and Windows outcomes",
-    "If finalAPI30 fails inspect its actual low-memory/decoder/export buffers; preserve current passing source/file hashes",
-    "Resolve approved3D drummer identity and independently supported vocal/lexical sources, then render missing01/02/03/08"
+    "Identify genuine approved fully modeled3D drummer/band asset or matching approved reference",
+    "Establish independent source-owned vocal and lexical phoneme evidence without repeating unchanged separation",
+    "Render missing01/02/03/08 only after qualification, verify all9, create exactMP4-only finalZIP, deliver for owner acceptance"
   ],
   "resume_commands": [
     "git fetch origin codex/eight-hour-recovery-20261019",
@@ -397,9 +397,9 @@
     "android": "in_progress"
   },
   "final_production_profile": "evidence/beta_completion/production_tuned.json",
-  "final_android_validation": "IN PROGRESS or queued; exact-source runs below",
+  "final_android_validation": "VERIFIED in API30 and API36 CI emulators",
   "overall_peak_memory_reduction_percent": 44.62293253548493,
-  "memory_stability_accepted": false,
+  "memory_stability_accepted": true,
   "final_production_comparison": "evidence/beta_completion/production_tuned_comparison.json",
   "final_source_ci": {
     "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
@@ -429,16 +429,17 @@
     },
     "android": {
       "run": 40989578333,
-      "api30_job": 123848585104,
-      "api36_job": 123848585374,
-      "conclusion": "in_progress"
+      "api30": "success",
+      "api36": "success",
+      "receipt": "evidence/beta_completion/android_final_status.json"
     },
     "owner_approval": false,
     "beta_acceptance": false
   },
   "last_successful_ci_runs": {
     "full_ci": 40989578137,
-    "windows": 40989591050
+    "windows": 40989591050,
+    "android": 40989578333
   },
   "native_results": {
     "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
@@ -482,5 +483,85 @@
     },
     "gate_thresholds_unchanged": true,
     "beta_acceptance": false
-  }
+  },
+  "android_final": {
+    "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+    "run": 40989578333,
+    "api30": {
+      "api": 30,
+      "job": 123848585104,
+      "conclusion": "success",
+      "instrumented_tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "test_timestamps": [
+        "2026-10-30T02:13:35.0339400Z Starting 4 tests on emulator-5554 - 11",
+        "2026-10-30T02:22:32.3343385Z Finished 4 tests on emulator-5554 - 11"
+      ],
+      "full_song": {
+        "mode": "full-song",
+        "frames": 3562,
+        "video_codec": "h264",
+        "audio_codec": "aac",
+        "duration": "237.466708",
+        "source_duration_seconds": 237.43997916666666,
+        "full_song_preview_verified": true,
+        "max_mean_pixel_error": 1.728548900462963,
+        "minimum_expected_lit_pixels_visible": 0.9649313087490962,
+        "audio_correlation": 0.9957144538319959,
+        "audio_offset_ms": 0
+      },
+      "artifact": {
+        "id": 12949431885,
+        "name": "Helix-Android-stability-api-30",
+        "bytes": 400724439,
+        "archive_digest": "sha256:0fcdbbd98fb96b8f5a9b449682e663d981219edec748838b5df36751bcba99ff",
+        "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+        "expires_at": "2027-01-28T02:04:53Z"
+      }
+    },
+    "api36": {
+      "api": 36,
+      "job": 123848585374,
+      "conclusion": "success",
+      "instrumented_tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "test_timestamps": [
+        "2026-10-30T02:14:04.9868466Z Starting 4 tests on emulator-5554 - 16",
+        "2026-10-30T02:19:39.9919394Z Finished 4 tests on emulator-5554 - 16"
+      ],
+      "full_song": {
+        "mode": "full-song",
+        "frames": 3562,
+        "video_codec": "h264",
+        "audio_codec": "aac",
+        "duration": "237.466708",
+        "source_duration_seconds": 237.43997916666666,
+        "full_song_preview_verified": true,
+        "max_mean_pixel_error": 2.2302025462962964,
+        "minimum_expected_lit_pixels_visible": 0.9649313087490962,
+        "audio_correlation": 0.9957144538319959,
+        "audio_offset_ms": 0
+      },
+      "artifact": {
+        "id": 12949321938,
+        "name": "Helix-Android-stability-api-36",
+        "bytes": 401024618,
+        "archive_digest": "sha256:5e4cc81f95ea25652510c016db21a25427d52da86b5d3e7d109364140cade63b",
+        "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+        "expires_at": "2027-01-28T02:04:53Z"
+      }
+    },
+    "reproduced_api30_memory_blocker_resolved_in_ci_emulator": true,
+    "physical_samsung_verified": false,
+    "simulated_preview_not_native_xlights": true,
+    "original_signing_migration_out_of_scope": true,
+    "beta_acceptance": false,
+    "owner_approval": false
+  },
+  "memory_acceptance_scope": "Current full-song smoke in API30/API36 CI emulators; physical Samsung/controller acceptance remains open",
+  "updated_client_date": "2026-10-29",
+  "updated_client_timezone": "America/Chicago",
+  "latest_completed_platform_artifact_utc": "2026-10-30T02:23:00Z"
 }
