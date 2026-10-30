@@ -159,8 +159,25 @@
       "bytes": 275032669,
       "sha256": "8f12c88b1cdb3703ddb5d75993bbb32a1de9a8345d9a410850a66ac42416b6e8",
       "crc_verified": true
+    },
+    {
+      "filename": "HELIX_INTERNAL_ANDROID_MEMORY_CHECKPOINT_20261029.zip",
+      "bytes": 120781146,
+      "sha256": "6b25b139e307db1b09930a561163b98a34f1ed0a1d2e08a6985db2259f4e0580",
+      "entries": 22,
+      "contains_mp4": false,
+      "library_file_id": "libfile_fcf68c0edd7481918e7892adbd8def38",
+      "file_id": "file_00000000aebc81f59812b151fbf734a4",
+      "durable_url": "https://chatgpt.com/library?file_id=libfile_fcf68c0edd7481918e7892adbd8def38&account_id=personal",
+      "save_status": "succeeded",
+      "local_metadata_applied": true,
+      "status": "VERIFIED",
+      "approval_status": "engineering_checkpoint_only",
+      "source_commit": "d52d23439fd60940809c49674af8dc01e223e9aa"
     }
   ],
   "final_zip": null,
-  "owner_approval": false
+  "owner_approval": false,
+  "verified_media_unchanged": true,
+  "new_band_videos": 0
 }

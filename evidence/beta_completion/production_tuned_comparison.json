@@ -1,0 +1,16 @@
+{
+  "baseline": {
+    "seconds": 142.8320898249999,
+    "peak_rss_bytes": 1850908672
+  },
+  "tuned": {
+    "seconds": 143.096223173,
+    "peak_rss_bytes": 1024978944
+  },
+  "peak_rss_reduction_percent": 44.62293253548493,
+  "same_input_sha256": "dd988078a13ae2c7be5ebe645ba62adab45f9cb47ae7140134007e408539a632",
+  "same_musical_signature": "fed5565412b36f5f48967eaf4e68572cd4b846b399d8f523161b094d31e2864c",
+  "effects": 43913,
+  "module_hashes_verified": true,
+  "scope": "Full237.44s production sequencing/export using Linux Android numerical bridge; source-matched stems reused equally; no MP4 stage. No material overall speedup claimed. Not Android device proof."
+}

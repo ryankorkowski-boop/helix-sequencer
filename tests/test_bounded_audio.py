@@ -119,3 +119,14 @@ def test_float64_mel_workspace_preserves_original_global_grid_and_tail():
     settings = dict(sr=48000, n_fft=4096, hop_length=512, n_mels=32, fmin=20, fmax=12000)
     expected = librosa.feature.melspectrogram(y=y, power=2., **settings)
     np.testing.assert_array_equal(bounded.mel_spectrogram(y, **settings), expected)
+
+
+@pytest.mark.parametrize('dtype', ['float32', 'float64'])
+def test_long_chroma_uses_original_whole_song_tuning_and_bins(dtype):
+    y = np.asarray(source(22050), dtype=dtype)
+    expected_tuning = librosa.estimate_tuning(y=y, sr=22050, bins_per_octave=36)
+    tuning = bounded.estimate_tuning(y, sr=22050, bins_per_octave=36)
+    assert tuning == expected_tuning
+    expected = librosa.feature.chroma_cqt(y=y, sr=22050, hop_length=512)
+    actual = librosa.feature.chroma_cqt(y=y, sr=22050, hop_length=512, tuning=tuning)
+    np.testing.assert_array_equal(actual, expected)

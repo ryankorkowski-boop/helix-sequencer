@@ -2019,7 +2019,11 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
     except Exception:
         mfcc_motion = np.zeros(frame_count, dtype=float)
     try:
-        chroma = np.asarray(librosa.feature.chroma_cqt(y=audio.y, sr=audio.sr, hop_length=hop), dtype=float)
+        options = {}
+        if len(audio.y) > 30 * audio.sr:
+            from core.bounded_audio import estimate_tuning
+            options['tuning'] = estimate_tuning(audio.y, sr=audio.sr, bins_per_octave=36)
+        chroma = np.asarray(librosa.feature.chroma_cqt(y=audio.y, sr=audio.sr, hop_length=hop, **options), dtype=float)
         if chroma.size:
             denom = np.sum(chroma, axis=0) + 1e-9
             chroma_stability = _align_curve(np.max(chroma, axis=0) / denom, frame_count)

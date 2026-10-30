@@ -6,8 +6,8 @@ os.environ['OMP_NUM_THREADS']='1'
 import sys,subprocess,json,time,threading,resource,hashlib,shutil,traceback
 from pathlib import Path
 repo=Path(__file__).resolve().parents[1]
-if len(sys.argv) != 3 or sys.argv[2] not in ('baseline','candidate','bounded','final'):
-    raise SystemExit('Usage: python -m tools.profile_android_full_song_memory WORK baseline|candidate|bounded|final')
+if len(sys.argv) != 3 or sys.argv[2] not in ('baseline','candidate','bounded','final','trace','tuned'):
+    raise SystemExit('Usage: python -m tools.profile_android_full_song_memory WORK baseline|candidate|bounded|final|trace|tuned')
 base=Path(sys.argv[1]).resolve()
 mode=sys.argv[2]
 output=base/'offline-memory'/mode
@@ -19,7 +19,7 @@ if mode=='baseline':
     for package in ('core','audio','xlights'):
         (old/package).mkdir(parents=True,exist_ok=True)
         (old/package/'__init__.py').write_text('__path__.append('+repr(str(repo/package))+')\n')
-    for path in ('core/audio_intelligence.py','core/effect_engine.py','audio/drummer_v3.py','xlights/xsq_writer.py','core/helixualizer.py'):
+    for path in ('core/audio_intelligence.py','core/effect_engine.py','audio/drummer_v3.py','xlights/xsq_writer.py','core/helixualizer.py','core/chronoflow.py'):
         (old/path).write_bytes(subprocess.check_output(['git','show','45f17d69fac91d7683984cc22c54bb701eb2226e:'+path],cwd=repo))
     sys.path.insert(0,str(old))
 import helix_numba
@@ -28,12 +28,16 @@ import helix_mobile
 from core import effect_engine as engine,audio_intelligence as ai
 from audio import drummer_v3
 from tools.profile_real_sequence import musical_signature
-active=True;stage='setup';peaks={};timings=[]
+active=True;stage='setup';peaks={};timings=[];peak_stacks={};main_thread=threading.get_ident()
 def rss():
     return int(next(line.split()[1] for line in Path('/proc/self/status').read_text().splitlines() if line.startswith('VmRSS:')))*1024
 def sample():
     while active:
-        peaks[stage]=max(peaks.get(stage,0),rss())
+        current=rss()
+        if current > peaks.get(stage,0):
+            peaks[stage]=current
+            if current > 700*1024*1024:
+                peak_stacks[stage]=traceback.format_stack(sys._current_frames()[main_thread])
         time.sleep(.02)
 def wrap(module,name):
     fn=getattr(module,name)
@@ -64,7 +68,7 @@ except BaseException:
     log.write(traceback.format_exc());raise
 finally:
     active=False;thread.join();log.close()
-    report=dict(mode=mode,elapsed_seconds=time.monotonic()-started,peak_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,stage_peaks=peaks,stages=timings,result=result,audio_sha256=helix_mobile.file_hash(source),source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),preview=False,working_tree_dirty=bool(subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=repo,text=True).strip()),tested_module_sha256={str(p):helix_mobile.file_hash(repo/p) for p in ('core/bounded_audio.py','core/audio_intelligence.py','core/effect_engine.py','audio/drummer_v3.py','xlights/xsq_writer.py','core/helixualizer.py')})
+    report=dict(mode=mode,elapsed_seconds=time.monotonic()-started,peak_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,stage_peaks=peaks,peak_stacks=peak_stacks,stages=timings,result=result,audio_sha256=helix_mobile.file_hash(source),source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),preview=False,working_tree_dirty=bool(subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=repo,text=True).strip()),tested_module_sha256={str(p):helix_mobile.file_hash(repo/p) for p in ('core/bounded_audio.py','core/audio_intelligence.py','core/effect_engine.py','audio/drummer_v3.py','xlights/xsq_writer.py','core/helixualizer.py','core/chronoflow.py')})
     if result and result.get('sequence'):report['musical_signature'],report['model_effect_count']=musical_signature(result['sequence'])
     (output/'metrics.json').write_text(json.dumps(report,indent=2)+'\n')
-    print(json.dumps({k:v for k,v in report.items() if k not in ('stage_peaks','stages','result')},indent=2),flush=True)
+    print(json.dumps({k:v for k,v in report.items() if k not in ('stage_peaks','peak_stacks','stages','result')},indent=2),flush=True)

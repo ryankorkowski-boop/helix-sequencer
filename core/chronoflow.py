@@ -261,7 +261,12 @@ def _compute_chroma(audio: Any, target_len: int) -> tuple[Any, Any]:
     if target_len <= 0:
         return np.zeros((12, 0), dtype=float), np.zeros((12,), dtype=float)
     try:
-        chroma = np.asarray(librosa.feature.chroma_cqt(y=np.asarray(audio.y, dtype=float), sr=int(audio.sr), hop_length=512), dtype=float)
+        samples = np.asarray(audio.y, dtype=float)
+        options = {}
+        if len(samples) > 30 * int(audio.sr):
+            from core.bounded_audio import estimate_tuning
+            options['tuning'] = estimate_tuning(samples, sr=int(audio.sr), bins_per_octave=36)
+        chroma = np.asarray(librosa.feature.chroma_cqt(y=samples, sr=int(audio.sr), hop_length=512, **options), dtype=float)
     except Exception:
         chroma = np.zeros((12, target_len), dtype=float)
     if chroma.ndim != 2 or chroma.shape[0] != 12:

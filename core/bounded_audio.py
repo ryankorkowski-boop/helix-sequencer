@@ -133,3 +133,17 @@ def pitch_matrices(magnitude, *, sr, hop_length, fmin, fmax):
         pitches[:, start:stop], weights[:, start:stop] = p, w
         del p, w
     return pitches, weights
+
+
+def estimate_tuning(y, *, sr, bins_per_octave):
+    """Original whole-song tuning histogram from bounded default pitch frames."""
+    pitches, weights = [], []
+    for _, magnitude in magnitude_blocks(y):
+        p, w = librosa.piptrack(S=magnitude, sr=sr)
+        mask = p > 0
+        pitches.append(p[mask])
+        weights.append(w[mask])
+        del p, w, magnitude
+    p, w = np.concatenate(pitches), np.concatenate(weights)
+    threshold = np.median(w) if w.size else 0.0
+    return librosa.pitch_tuning(p[w >= threshold], bins_per_octave=bins_per_octave)
