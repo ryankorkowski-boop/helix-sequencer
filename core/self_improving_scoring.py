@@ -312,13 +312,23 @@ def plan_variations(requested_count: int, labels: list[str] | None = None, max_v
 def rank_sequence_payloads(
     entries: list[dict[str, Any]],
     weights: dict[str, float] | None = None,
+    *,
+    require_storytelling: bool = False,
+    minimum_storytelling: float = 0.55,
 ) -> list[dict[str, Any]]:
     ranked: list[dict[str, Any]] = []
     for idx, entry in enumerate(entries):
         payload = entry.get("payload") if isinstance(entry.get("payload"), dict) else entry
-        score = score_sequence(payload, weights)
+        if require_storytelling:
+            score, accepted, evidence = score_sequence_with_storytelling_gate(
+                payload, weights, minimum_storytelling=minimum_storytelling
+            )
+        else:
+            score = score_sequence(payload, weights)
         ranked.append(
             {
+                **({"storytelling_accepted": accepted, "storytelling_metrics": evidence}
+                   if require_storytelling else {}),
                 "rank": 0,
                 "label": str(entry.get("label", payload.get("output", f"candidate_{idx + 1}"))),
                 "output": str(entry.get("output_path", payload.get("output", ""))),
@@ -327,7 +337,10 @@ def rank_sequence_payloads(
                 "metrics": score.metrics,
             }
         )
-    ranked.sort(key=lambda item: float(item["total_score"]), reverse=True)
+    if require_storytelling:
+        ranked.sort(key=lambda item: (bool(item["storytelling_accepted"]), float(item["total_score"])), reverse=True)
+    else:
+        ranked.sort(key=lambda item: float(item["total_score"]), reverse=True)
     for idx, item in enumerate(ranked, 1):
         item["rank"] = idx
         item["total_score"] = round(float(item["total_score"]), 4)
