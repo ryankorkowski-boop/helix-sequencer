@@ -10,11 +10,13 @@ on:
       - feature/restructure-core
       - fix/drummer-independent-illumination
       - fix/drummer-target-strikes
+      - codex/eight-hour-recovery-20261019
     paths:
       - '.github/workflows/drummer-ground-truth.yml'
       - 'evidence/drummer/**'
       - 'audio/**'
       - 'core/drummer_v3_analysis.py'
+      - 'core/drummer_oracle_comparison.py'
       - 'animation/drummer_motion.py'
       - 'animation/cymbal_lighting.py'
       - 'mapping/drum_mapper.py'
@@ -133,6 +135,7 @@ jobs:
         env: {PYTHONPATH: .}
         run: |
           python -m pytest -q \
+            tests/test_drummer_oracle_comparison.py \
             tests/test_drummer_layers.py \
             tests/test_drummer_xmodel_asset.py \
             tests/test_drummer_v3_pose_sheet.py \
