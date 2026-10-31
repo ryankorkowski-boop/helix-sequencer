@@ -6,6 +6,7 @@ evidence. Missing evidence is not treated as proof of musical quality.
 from __future__ import annotations
 
 from typing import Any
+from math import isfinite
 
 METRIC_NAMES = (
     "section_differentiation",
@@ -29,7 +30,7 @@ def evaluate_storytelling(evidence: dict[str, Any]) -> dict[str, float | None]:
         except (ValueError, TypeError):
             result[name] = None
             continue
-        result[name] = value if 0.0 <= value <= 1.0 else None
+        result[name] = value if isfinite(value) and 0.0 <= value <= 1.0 else None
     return result
 
 
@@ -40,7 +41,7 @@ def storytelling_gate(
     require_complete: bool = True,
 ) -> tuple[bool, dict[str, float | None]]:
     """Reject low-quality or unverified candidates without changing legacy scoring."""
-    if not 0.0 <= minimum <= 1.0:
+    if not isfinite(minimum) or not 0.0 <= minimum <= 1.0:
         raise ValueError("minimum must be between zero and one")
     scores = evaluate_storytelling(evidence)
     if require_complete and any(value is None for value in scores.values()):
