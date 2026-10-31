@@ -1425,7 +1425,7 @@ def _extract_note_candidates(
         best_hz = float(pitch_hz[best_idx, frame_idx])
         best_mag = float(mags[best_idx])
         confidence = _clamp01(best_mag / max(1e-9, max_mag))
-        if best_hz <= 0.0:
+        if not np.isfinite(best_hz) or best_hz <= 0.0 or not np.isfinite(best_mag):
             continue
         midi = int(round(float(librosa.hz_to_midi(best_hz))))
         time_ms = int(round(float(frame_times_s[frame_idx]) * 1000.0))
