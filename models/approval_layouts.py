@@ -206,7 +206,7 @@ def build_layout(number, *, include_xylophonist=False, full_keyboard=False):
             if number in (5,6,8,9,10,11):m.details['source_display_floor']=.5
             # The large overview projects many nodes to less than one pixel.
             # Keep its real geometry/events, but make the preview bulbs legible.
-            m.attrs['PixelSize']='24' if number in (5,6,8) else '14' if number in (9,10,11,12) else '8'
+            m.attrs['PixelSize']='24' if number in (5,6,8) else '56' if number==4 else '14' if number in (9,10,11,12) else '8'
         if not m.submodels:m.submodels['ALL']=list(range(1,len(m.points)+1))
     return allocate(g)
 

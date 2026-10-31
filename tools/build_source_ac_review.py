@@ -62,7 +62,9 @@ def geometry(source, *, include_rgb=False):
             original_start_channel=old.start_channel,original_string_type=old.string_type,
             original_model_name=old.name,source_geometry='Helix existing virtual geometry; original XML unchanged')
         if role=='drummer':m.details['percussion_component']=('kick','snare','hihat','cymbal')[(old.start_channel-1)%4]
-        m.attrs.update(StringType=kind,PixelSize='10')
+        # Keep sparse single-circuit bulbs legible in a 640x360 review panel.
+        # PixelSize changes native preview rasterization only, never wiring.
+        m.attrs.update(StringType=kind,PixelSize='20')
     if include_rgb:
         from models.approval_layouts import build_layout
         rgb=build_layout(4);start=257

@@ -38,7 +38,8 @@ def drum_hits(cues):
             from mapping.drum_mapper import tom_class_for_event
             event = DrumEvent(timestamp=cue['start_ms']/1000,
                 velocity=cue.get('velocity', .8), confidence=cue.get('confidence', 0),
-                frequency_band_info=cue.get('frequency_band_info', {}), drum_type='tom')
+                frequency_band_info=cue.get('frequency_band_info', {}),
+                cluster_id=cue.get('cluster_id'), drum_type='tom')
             try:
                 target = {'high': TARGETS[3], 'mid': TARGETS[4], 'floor': TARGETS[5]}[tom_class_for_event(event)]
             except ValueError:

@@ -808,12 +808,27 @@ def _bounded_background_features(harm, sr, hop=512):
     tuning = librosa.pitch_tuning(pitches[magnitudes >= threshold], bins_per_octave=12)
     del tuning_pitches, tuning_magnitudes, pitches, magnitudes
     chroma_entropy = np.empty(size)
-    for start, magnitude in bounded_audio.magnitude_blocks(harm, hop=hop):
-        chroma = librosa.feature.chroma_stft(S=magnitude, sr=sr, hop_length=hop, tuning=tuning)
+    # Narrow SGEMM inputs can select a different float32 accumulation kernel
+    # from the original whole-recording chroma transform (observed entropy
+    # drift 1.995e-7). Keep a bounded wide input and align the final window to
+    # the original 64-column grid. Overlap supplies real preceding frames;
+    # no zeros, new events, local tuning or relaxed comparisons are introduced.
+    # At most 2111 frequency frames are retained by the final transform.
+    chroma_frames = 2048
+    previous_magnitude = None
+    for start, magnitude in bounded_audio.magnitude_blocks(harm, hop=hop, block_frames=chroma_frames):
+        count = magnitude.shape[1]
+        offset = 0
+        window = magnitude
+        if previous_magnitude is not None and count < chroma_frames:
+            offset = chroma_frames + size % 64 - count
+            window = np.concatenate((previous_magnitude[:, -offset:], magnitude), axis=1)
+        chroma = librosa.feature.chroma_stft(S=window, sr=sr, hop_length=hop, tuning=tuning)
         probability = chroma / (np.sum(chroma, axis=0) + 1e-9)
         entropy = -np.sum(probability * np.log2(probability + 1e-9), axis=0) / np.log2(12.0)
-        chroma_entropy[start:start+len(entropy)] = entropy
-        del magnitude, chroma, probability, entropy
+        chroma_entropy[start:start+count] = entropy[offset:offset+count]
+        previous_magnitude = magnitude
+        del window, chroma, probability, entropy
     return multi_pitch01, chroma_entropy
 
 

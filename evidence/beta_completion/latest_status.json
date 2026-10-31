@@ -1,11 +1,11 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-10-30T02:26:31.966289+00:00",
+  "updated_at": "2026-10-31T03:13:53.829503+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
   "last_verified_implementation_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd",
-  "current_task": "CAN-01 / VOC-01",
+  "current_task": "Nine-MP4 review delivered; independent acoustic/lexical and release acceptance remain held",
   "tasks": [
     {
       "id": "REC-01",
@@ -71,11 +71,11 @@
         "tools/phoneme_vocal_export.py"
       ],
       "last_attempted_action": "Recovered prior separation/evidence status",
-      "actual_result": "UVR/KARA candidates not independently qualified; lexical boundaries absent",
+      "actual_result": "Separate retained source clocks animate independently:99lead/108harmony frames,177distinct in120s. Acoustic singer ownership and lexical phonemes remain unverified.",
       "evidence": [
         "evidence/optimized_beta_20261029/vocal_dependency_status.json"
       ],
-      "next_action": "Inspect retained source provenance; retain failed gate until genuine evidence",
+      "next_action": "Obtain genuine recording-bound acoustic/lexical qualification; preserve failed gates",
       "dependencies_or_blockers": [
         "Independent acoustic ownership and lexical alignment"
       ],
@@ -85,17 +85,17 @@
       "id": "CAN-01",
       "priority": "P0",
       "description": "Identify approved fully modeled 3D drummer/band",
-      "status": "BLOCKED",
+      "status": "PARTIAL",
       "files": [
         "models/final_band_scene.py",
         "models/canonical_native_band.py"
       ],
       "last_attempted_action": "Recovered previous asset search results and source inventory",
-      "actual_result": "V3 planar; Review3DScene unapproved; no canonical 3D identity established",
+      "actual_result": "Owner-passed original V3 reference identified; six-member source-family review rendered. Retained V3 is planar art; no substitute approved or native solid equivalence claimed.",
       "evidence": [
-        "docs/BETA_COMPLETION_20261025_HANDOFF.md"
+        "evidence/beta_completion/current_owner_review_20261030.json"
       ],
-      "next_action": "Check available approved references/history without substituting models",
+      "next_action": "Owner reviews delivered cast; qualify remaining native/solid requirement separately",
       "dependencies_or_blockers": [
         "Approved asset or identifying reference"
       ],
@@ -105,17 +105,18 @@
       "id": "VID-01",
       "priority": "P0",
       "description": "Deliver exact nine MP4-only collection",
-      "status": "BLOCKED",
+      "status": "VERIFIED_REVIEW_DELIVERY",
       "files": [
         "tools/assemble_beta_review.py",
         "evidence/beta_completion/artifact_manifest.json"
       ],
       "last_attempted_action": "Recovered two native ZIPs and five-media ZIP; verified SHA256",
-      "actual_result": "Five of nine available; 01/02/03/08 missing",
+      "actual_result": "Exactly9real-audioMP4s saved in one CRC/hash-verified ZIP; all media and panel technical checks pass. This is not release qualification.",
       "evidence": [
-        "evidence/optimized_beta_20261029/delivery_status.json"
+        "evidence/beta_completion/owner_review_zip_20261030.json",
+        "evidence/beta_completion/owner_review_media_verification_20261030.json"
       ],
-      "next_action": "Reuse five verified movies and render missing only when sources qualify",
+      "next_action": "Await owner review and retain separate release gates",
       "dependencies_or_blockers": [
         "CAN-01",
         "VOC-01"
@@ -184,11 +185,11 @@
         "MASTER_TODO.md"
       ],
       "last_attempted_action": "Read current owner directive",
-      "actual_result": "No approval; no merge/publication",
+      "actual_result": "PR188 remains open/unmerged; beta unpublished. Owner has not approved the new collection.",
       "evidence": [
         "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188"
       ],
-      "next_action": "Deliver qualifying collection then await explicit approval",
+      "next_action": "Complete independent vocal/native/platform acceptance and obtain explicit approval",
       "dependencies_or_blockers": [
         "VID-01",
         "AND-01",
@@ -268,16 +269,11 @@
       "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     }
   ],
-  "delivered_mp4_count": 5,
+  "delivered_mp4_count": 9,
   "required_mp4_count": 9,
-  "missing_videos": [
-    "01_Canonical_Snowman_Band.mp4",
-    "02_Lead_and_Harmony_Vocals.mp4",
-    "03_Drummer_and_Instruments.mp4",
-    "08_Full_Helix_Showcase.mp4"
-  ],
+  "missing_videos": [],
   "owner_approval": false,
-  "beta_release": false,
+  "beta_release": "HELD",
   "active_runs": [
     {
       "id": 40989590973,
@@ -293,16 +289,18 @@
     }
   ],
   "next_three_actions": [
-    "Identify genuine approved fully modeled3D drummer/band asset or matching approved reference",
-    "Establish independent source-owned vocal and lexical phoneme evidence without repeating unchanged separation",
-    "Render missing01/02/03/08 only after qualification, verify all9, create exactMP4-only finalZIP, deliver for owner acceptance"
+    "Independent acoustic singer ownership and supported lexical/ten-phoneme timing",
+    "Native continuous solid-mesh equivalence; retained V3 is original planar artwork",
+    "Final source CI and physical Samsung/controller acceptance"
   ],
   "resume_commands": [
     "git fetch origin codex/eight-hour-recovery-20261019",
     "git checkout codex/eight-hour-recovery-20261019",
+    "cat MASTER_TODO.md",
     "cat docs/BETA_COMPLETION_LIVE_HANDOFF.md",
-    "python -m pytest -q tests/test_bounded_audio.py tests/test_audio_analysis_reuse.py tests/test_bounded_fallback_stems.py tests/test_audio.py tests/test_drummer_v3_real_audio.py tests/test_drummer_v3_analysis.py tests/test_android_offline.py tests/test_android_recovery.py tests/test_helixualizer.py tests/test_chronoflow.py",
-    "python -m tools.profile_android_full_song_memory WORK tuned"
+    "python -m pip install -r requirements-dev.txt",
+    "python -m pytest -q tests/test_owner_band_review.py tests/test_review_assembly_reuse.py tests/test_source_ac_review.py tests/test_approval_collection.py tests/test_bounded_audio.py",
+    "Restore source checkpoints and locators using the current Library helpers only if required; see live handoff."
   ],
   "profile_evidence": "evidence/beta_completion/harmony_memory_profile.json",
   "focused_tests": {
@@ -318,30 +316,20 @@
       "audio/drummer_v3.py": "cf2eae24ffa8bb5d21bd2657fb5b7cbcfb863ee6eb52b2b0837249c22116f165"
     }
   },
-  "current_implementation_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+  "current_implementation_sha": null,
   "focused_final_tests": {
-    "passed": 58,
-    "failed": 0,
-    "warnings": 4,
-    "seconds": 80.16,
-    "receipt": "evidence/beta_completion/focused_memory_final.xml",
-    "runtime": {
-      "numpy": "2.2.6",
-      "numba": "0.61.2",
-      "llvmlite": "0.44.0",
-      "scipy": "1.18.1",
-      "librosa": "0.10.2.post1"
-    },
-    "module_sha256": {
+    "passed": 158,
+    "seconds": 137.31,
+    "junit": "evidence/beta_completion/owner_review_pinned_regression_20261030.xml",
+    "source_module_sha256": {
+      "tools/render_owner_band_review.py": "31cbab9302604982f966b3e5fc7e495c1380f1d46dfd79d16b1d7f6068ca0a5d",
+      "tools/assemble_beta_review.py": "10dc1aa5a0d5bf8a1ebb6b011298e1c1d4b5a96106c1fe9225b804e8ac932d73",
+      "tools/build_source_ac_review.py": "f02567d09c337cfa907d71cc098182990aa9e5fda81a8b1bb5765d5671b7aab7",
+      "models/approval_layouts.py": "612d4c262b5018a008ac577bf054f82172397cb82ba127b5813c6abdd308025f",
+      "core/audio_intelligence.py": "a9e7a9ad0aca3072209db4553c28350279bdc6a36976327542290b8865a78254",
       "core/bounded_audio.py": "18037a8c1ee065fe91d029dd9dd973ee7acdc8c6e23a9ddaa31ae3dc7e27c7e1",
-      "core/audio_intelligence.py": "5deb6de0c5bce8b8c6d2aab96a96cf451fb42c6b1c625914d897df8731140c80",
-      "core/effect_engine.py": "6c609d3a6ff0184aec3461a9b2bf6992c03d0751f41138aa89279e4d676d2534",
-      "core/helixualizer.py": "61f21a6fa0e687a8a9624e39fba5ea76f579f956cde35c694cd4ccea7bed0544",
-      "core/chronoflow.py": "91e59443d8d4f26049f47061ba20432f4d5ae614324d346e2a926264f8710155",
-      "audio/drummer_v3.py": "3a614bcfe56f839a02c0136941d17bfb2257929807253cf6ee72a310a254e839",
-      "xlights/xsq_writer.py": "42e325cf54ddbc8c842b1050c0b80d5fb58b1c1762ebcb277dccc65010fd8cc9",
-      "requirements.txt": "b3e466d7cdc1ef995cbd43eedbea65da8ee7a4a5088fdf347b3548e9b04516f9",
-      "requirements-windows-portable.txt": "75d36de5c820f2bc6c34b4f555daa4f7070c19002ae6c6009205d072ae6aaf63"
+      "tests/test_owner_band_review.py": "b182eb427416d689afc51f3bad936cca89627433348437db4684157776c15d46",
+      "tests/test_bounded_audio.py": "9c39459c8cdb739eb47c2778a2e05f0a8b979acfb2597847e77170ad1432550f"
     }
   },
   "previous_implementation_ci": {
@@ -360,51 +348,15 @@
   "memory_stability_accepted": true,
   "final_production_comparison": "evidence/beta_completion/production_tuned_comparison.json",
   "final_source_ci": {
-    "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
-    "full_ci_run": 40989578137,
-    "python312": {
-      "job": 123848458525,
-      "passed": 2208,
-      "subtests_passed": 24,
-      "skipped": 6,
-      "warnings": 36,
-      "seconds": 281.26,
-      "conclusion": "success"
-    },
-    "python311": {
-      "job": 123848459002,
-      "passed": 2208,
-      "subtests_passed": 24,
-      "skipped": 6,
-      "warnings": 5,
-      "seconds": 274.67,
-      "conclusion": "success"
-    },
-    "windows": {
-      "run": 40989591050,
-      "job": 123848499586,
-      "conclusion": "success"
-    },
-    "android": {
-      "run": 40989578333,
-      "api30": "success",
-      "api36": "success",
-      "receipt": "evidence/beta_completion/android_final_status.json",
-      "pr_repeat": {
-        "run": 40989590969,
-        "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
-        "api30": {
-          "job": 123848630286,
-          "conclusion": "success"
-        },
-        "api36": {
-          "job": 123848630566,
-          "conclusion": "success"
-        }
-      }
-    },
-    "owner_approval": false,
-    "beta_acceptance": false
+    "status": "pending_final_source",
+    "previous_source": "92d3c0586043baae4f1154aa8918264102f733ed",
+    "previous_full_ci_run": 41161111521,
+    "previous_python311": "success",
+    "previous_python312": "failure: retained entropy parity difference1.995e-7; bounded alignment repair passes original tolerance locally",
+    "previous_android_run": 41161111415,
+    "previous_android": "success",
+    "previous_windows_run": 41161111463,
+    "previous_windows": "success"
   },
   "last_successful_ci_runs": {
     "full_ci": 40989578137,
@@ -543,11 +495,44 @@
     }
   },
   "memory_acceptance_scope": "Current full-song smoke in API30/API36 CI emulators; physical Samsung/controller acceptance remains open",
-  "updated_client_date": "2026-10-29",
+  "updated_client_date": "2026-10-30",
   "updated_client_timezone": "America/Chicago",
   "latest_completed_platform_artifact_utc": "2026-10-30T02:23:00Z",
   "completed_android_runs": [
     40989578333,
     40989590969
-  ]
+  ],
+  "review_complete": true,
+  "final_zip": {
+    "filename": "HELIX_FINAL_BETA_APPROVAL_MP4S.zip",
+    "sha256": "8c6c8453f2d0736d87b7b583da5153ca17f8237657d7042db90118fca6687159",
+    "bytes": 427604937,
+    "entries": [
+      "01_Canonical_Snowman_Band.mp4",
+      "02_Lead_and_Harmony_Vocals.mp4",
+      "03_Drummer_and_Instruments.mp4",
+      "04_Residential_AC_RGB_Comparison.mp4",
+      "05_Nine_Layout_Synchronized_Comparison.mp4",
+      "06_Advanced_Technical_Showcase.mp4",
+      "07_Double_Helix_and_Musical_Direction.mp4",
+      "08_Full_Helix_Showcase.mp4",
+      "09_Starred_Music_Sampler.mp4"
+    ],
+    "crc_and_hashes_verified": true,
+    "library_file_id": "libfile_513a651bf1bc819192ffe6cae9105de0",
+    "file_id": "file_0000000075d081fdb62fc074cd11dcf9",
+    "durable_url": "https://chatgpt.com/library?file_id=libfile_513a651bf1bc819192ffe6cae9105de0&account_id=personal",
+    "save_status": "succeeded",
+    "local_metadata_applied": true
+  },
+  "current_source_module_sha256": {
+    "tools/render_owner_band_review.py": "31cbab9302604982f966b3e5fc7e495c1380f1d46dfd79d16b1d7f6068ca0a5d",
+    "tools/assemble_beta_review.py": "10dc1aa5a0d5bf8a1ebb6b011298e1c1d4b5a96106c1fe9225b804e8ac932d73",
+    "tools/build_source_ac_review.py": "f02567d09c337cfa907d71cc098182990aa9e5fda81a8b1bb5765d5671b7aab7",
+    "models/approval_layouts.py": "612d4c262b5018a008ac577bf054f82172397cb82ba127b5813c6abdd308025f",
+    "core/audio_intelligence.py": "a9e7a9ad0aca3072209db4553c28350279bdc6a36976327542290b8865a78254",
+    "core/bounded_audio.py": "18037a8c1ee065fe91d029dd9dd973ee7acdc8c6e23a9ddaa31ae3dc7e27c7e1",
+    "tests/test_owner_band_review.py": "b182eb427416d689afc51f3bad936cca89627433348437db4684157776c15d46",
+    "tests/test_bounded_audio.py": "9c39459c8cdb739eb47c2778a2e05f0a8b979acfb2597847e77170ad1432550f"
+  }
 }

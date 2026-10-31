@@ -1,0 +1,744 @@
+{
+  "videos": [
+    {
+      "file": "01_Canonical_Snowman_Band.mp4",
+      "sha256": "9072fe1e06ced2404ea5c8c260d56f142ef68ac3ea51c3e21c671bb1a550168b",
+      "bytes": 29415657,
+      "source_audio": "Helix_Starred_New_Review.wav",
+      "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "source_duration_seconds": 120.0,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "20/1",
+      "actual_frame_count": "2400",
+      "video_duration_seconds": 120.0,
+      "audio_duration_seconds": 120.0,
+      "stream_start_seconds": [
+        0.0,
+        0.0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.9992698920533605,
+      "window_alignment": [
+        {
+          "source_start_seconds": 12.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 60.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 102.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 117.95,
+          "decoded_lag_seconds": 0.0
+        }
+      ],
+      "musical_or_visual_acceptance": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 240,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 29.711,
+          "median_bright_fraction": 0.11202,
+          "median_motion": 1.431,
+          "visible_width": 0.825,
+          "visible_height": 0.656
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true,
+          "opening_static_cast_framing": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "file": "02_Lead_and_Harmony_Vocals.mp4",
+      "sha256": "a3e7c20e1cb214d559f90606d9d3b7a8090ee78c709002dd53e76dc1fe40a816",
+      "bytes": 2815588,
+      "source_audio": "vocal-review-30s.wav",
+      "source_audio_sha256": "47a0b5897bbcc11e892a8da81af4af5ea0adba6806d8119dc101d596a57ac3ba",
+      "source_duration_seconds": 30.0,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "20/1",
+      "actual_frame_count": "600",
+      "video_duration_seconds": 30.0,
+      "audio_duration_seconds": 30.0,
+      "stream_start_seconds": [
+        0.0,
+        0.0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.9993690830072413,
+      "window_alignment": [
+        {
+          "source_start_seconds": 3.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 15.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 25.5,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 27.95,
+          "decoded_lag_seconds": 0.0
+        }
+      ],
+      "musical_or_visual_acceptance": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 60,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 62.88,
+          "median_bright_fraction": 0.28374,
+          "median_motion": 1.1,
+          "visible_width": 0.875,
+          "visible_height": 0.8
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "file": "03_Drummer_and_Instruments.mp4",
+      "sha256": "b4ebbe060e8378c914f1b933f241b1a627dab27e5ac176e6bb0965bbd6567ef6",
+      "bytes": 23828026,
+      "source_audio": "Helix_Starred_New_Review.wav",
+      "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "source_duration_seconds": 120.0,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "20/1",
+      "actual_frame_count": "2400",
+      "video_duration_seconds": 120.0,
+      "audio_duration_seconds": 120.0,
+      "stream_start_seconds": [
+        0.0,
+        0.0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.9992698920533605,
+      "window_alignment": [
+        {
+          "source_start_seconds": 12.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 60.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 102.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 117.95,
+          "decoded_lag_seconds": 0.0
+        }
+      ],
+      "musical_or_visual_acceptance": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 240,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 33.496,
+          "median_bright_fraction": 0.14218,
+          "median_motion": 1.396,
+          "visible_width": 0.875,
+          "visible_height": 0.822
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "file": "04_Residential_AC_RGB_Comparison.mp4",
+      "sha256": "5aceca545c801b293ac7e4f8340915d81d074091a326c825877e43fbd4134a90",
+      "bytes": 60909096,
+      "source_audio": "Helix_Starred_New_Review.wav",
+      "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "source_duration_seconds": 120.0,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "20/1",
+      "actual_frame_count": "2400",
+      "video_duration_seconds": 120.0,
+      "audio_duration_seconds": 120.0,
+      "stream_start_seconds": [
+        0.0,
+        0.0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.9992698920533605,
+      "window_alignment": [
+        {
+          "source_start_seconds": 12.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 60.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 102.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 117.95,
+          "decoded_lag_seconds": 0.0
+        }
+      ],
+      "musical_or_visual_acceptance": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 240,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 12.87,
+          "median_bright_fraction": 0.05835,
+          "median_motion": 7.132,
+          "visible_width": 0.713,
+          "visible_height": 0.722
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "file": "05_Nine_Layout_Synchronized_Comparison.mp4",
+      "sha256": "cdaba8ad6dce94f467682b24b3dc6b2759d97336a7f0380e12e0c6fb7277c4d8",
+      "bytes": 89487503,
+      "source_audio": "Helix_Starred_New_Review.wav",
+      "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "source_duration_seconds": 120.0,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "20/1",
+      "actual_frame_count": "2400",
+      "video_duration_seconds": 120.0,
+      "audio_duration_seconds": 120.0,
+      "stream_start_seconds": [
+        0.0,
+        0.0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.9992698920533605,
+      "window_alignment": [
+        {
+          "source_start_seconds": 12.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 60.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 102.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 117.95,
+          "decoded_lag_seconds": 0.0
+        }
+      ],
+      "musical_or_visual_acceptance": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 240,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 24.688,
+          "median_bright_fraction": 0.14445,
+          "median_motion": 11.256,
+          "visible_width": 0.875,
+          "visible_height": 0.822
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      },
+      "blank_freeze_scan": {
+        "file": "05_Nine_Layout_Synchronized_Comparison.mp4",
+        "sample_fps": 4,
+        "maximum_blank_seconds": 0.0,
+        "maximum_frozen_seconds": 0.0,
+        "all_nine_caption_bands_excluded": true
+      }
+    },
+    {
+      "file": "06_Advanced_Technical_Showcase.mp4",
+      "sha256": "a0f834b929d8e3fe3a44b26a1f7f267af47d788f6c44b44c27a3a16af57bde00",
+      "bytes": 27370895,
+      "source_audio": "review-technical-60s.wav",
+      "source_audio_sha256": "852696ab332502296389ec326a1e782c4ab30706ced811921eec26c8efa6e522",
+      "source_duration_seconds": 60.0,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "20/1",
+      "actual_frame_count": "1200",
+      "video_duration_seconds": 60.0,
+      "audio_duration_seconds": 60.0,
+      "stream_start_seconds": [
+        0.0,
+        0.0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.999259351744763,
+      "window_alignment": [
+        {
+          "source_start_seconds": 6.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 30.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 51.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 57.95,
+          "decoded_lag_seconds": 0.0
+        }
+      ],
+      "musical_or_visual_acceptance": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 120,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 14.88,
+          "median_bright_fraction": 0.07934,
+          "median_motion": 12.97,
+          "visible_width": 0.625,
+          "visible_height": 0.656
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "file": "07_Double_Helix_and_Musical_Direction.mp4",
+      "sha256": "88c1a206fc2a8c6d0b1b8a7e85e0c23c5b89cc42316c83845d6b28c826619745",
+      "bytes": 56281292,
+      "source_audio": "Helix_Starred_New_Review.wav",
+      "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "source_duration_seconds": 120.0,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "20/1",
+      "actual_frame_count": "2400",
+      "video_duration_seconds": 120.0,
+      "audio_duration_seconds": 120.0,
+      "stream_start_seconds": [
+        0.0,
+        0.0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.9992698920533605,
+      "window_alignment": [
+        {
+          "source_start_seconds": 12.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 60.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 102.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 117.95,
+          "decoded_lag_seconds": 0.0
+        }
+      ],
+      "musical_or_visual_acceptance": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 240,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 19.28,
+          "median_bright_fraction": 0.111,
+          "median_motion": 10.502,
+          "visible_width": 0.588,
+          "visible_height": 0.744
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "file": "08_Full_Helix_Showcase.mp4",
+      "sha256": "1880620241ec03b5dcb1128c1df0287f37f7ba820122535356c990b46c88bf01",
+      "bytes": 77760528,
+      "source_audio": "Helix_Starred_New_Review.wav",
+      "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "source_duration_seconds": 120.0,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "20/1",
+      "actual_frame_count": "2400",
+      "video_duration_seconds": 120.0,
+      "audio_duration_seconds": 120.0,
+      "stream_start_seconds": [
+        0.0,
+        0.0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.9992698920533605,
+      "window_alignment": [
+        {
+          "source_start_seconds": 12.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 60.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 102.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 117.95,
+          "decoded_lag_seconds": 0.0
+        }
+      ],
+      "musical_or_visual_acceptance": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 240,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 23.372,
+          "median_bright_fraction": 0.10468,
+          "median_motion": 7.207,
+          "visible_width": 0.875,
+          "visible_height": 0.822
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "file": "09_Starred_Music_Sampler.mp4",
+      "sha256": "f238f06e5fedcb0e4a18dfde60992979344b8ff559561331360a33ca033d924f",
+      "bytes": 59735054,
+      "source_audio": "Helix_Starred_New_Review.wav",
+      "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "source_duration_seconds": 120.0,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "20/1",
+      "actual_frame_count": "2400",
+      "video_duration_seconds": 120.0,
+      "audio_duration_seconds": 120.0,
+      "stream_start_seconds": [
+        0.0,
+        0.0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.9992698920533605,
+      "window_alignment": [
+        {
+          "source_start_seconds": 12.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 60.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 102.0,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 117.95,
+          "decoded_lag_seconds": 0.0
+        }
+      ],
+      "musical_or_visual_acceptance": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 240,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 19.85,
+          "median_bright_fraction": 0.10994,
+          "median_motion": 14.664,
+          "visible_width": 0.706,
+          "visible_height": 0.722
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    }
+  ],
+  "blank_freeze_scans": [
+    {
+      "file": "01_Canonical_Snowman_Band.mp4",
+      "sample_fps": 4,
+      "maximum_blank_seconds": 0.0,
+      "maximum_frozen_seconds": 0.0,
+      "minimum_scene_luma": 27.98934125085441,
+      "caption_band_excluded": true
+    },
+    {
+      "file": "02_Lead_and_Harmony_Vocals.mp4",
+      "sample_fps": 4,
+      "maximum_blank_seconds": 0.0,
+      "maximum_frozen_seconds": 0.25,
+      "minimum_scene_luma": 65.22276572112098,
+      "caption_band_excluded": true
+    },
+    {
+      "file": "03_Drummer_and_Instruments.mp4",
+      "sample_fps": 4,
+      "maximum_blank_seconds": 0.0,
+      "maximum_frozen_seconds": 0.0,
+      "minimum_scene_luma": 32.44179340396445,
+      "caption_band_excluded": true
+    },
+    {
+      "file": "04_Residential_AC_RGB_Comparison.mp4",
+      "sample_fps": 4,
+      "maximum_blank_seconds": 0.0,
+      "maximum_frozen_seconds": 0.25,
+      "minimum_scene_luma": 0.9999786397812713,
+      "caption_band_excluded": true
+    },
+    {
+      "file": "06_Advanced_Technical_Showcase.mp4",
+      "sample_fps": 4,
+      "maximum_blank_seconds": 0.0,
+      "maximum_frozen_seconds": 0.0,
+      "minimum_scene_luma": 1.0,
+      "caption_band_excluded": true
+    },
+    {
+      "file": "07_Double_Helix_and_Musical_Direction.mp4",
+      "sample_fps": 4,
+      "maximum_blank_seconds": 0.0,
+      "maximum_frozen_seconds": 0.0,
+      "minimum_scene_luma": 7.455933868762816,
+      "caption_band_excluded": true
+    },
+    {
+      "file": "08_Full_Helix_Showcase.mp4",
+      "sample_fps": 4,
+      "maximum_blank_seconds": 0.0,
+      "maximum_frozen_seconds": 0.0,
+      "minimum_scene_luma": 14.694057587149693,
+      "caption_band_excluded": true
+    },
+    {
+      "file": "09_Starred_Music_Sampler.mp4",
+      "sample_fps": 4,
+      "maximum_blank_seconds": 0.0,
+      "maximum_frozen_seconds": 0.0,
+      "minimum_scene_luma": 1.0,
+      "caption_band_excluded": true
+    },
+    {
+      "file": "05_Nine_Layout_Synchronized_Comparison.mp4",
+      "sample_fps": 4,
+      "maximum_blank_seconds": 0.0,
+      "maximum_frozen_seconds": 0.0,
+      "all_nine_caption_bands_excluded": true
+    }
+  ],
+  "owner_approval": false,
+  "release_qualified": false
+}

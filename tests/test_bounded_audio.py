@@ -84,6 +84,28 @@ def test_bounded_classifier_preserves_global_tuning_confidences_and_event_clocks
     assert actual
 
 
+@pytest.mark.parametrize('tail', [1, 61, 509])
+def test_bounded_chroma_preserves_reference_across_long_partial_blocks(tail, monkeypatch):
+    sr = 22050
+    # More than two complete chroma blocks, including narrow/unaligned tails.
+    frames = 4096 + tail
+    harmonic = source(sr, seconds=((frames-1)*512+137)/sr)
+    expected_pitch, expected_entropy = unbounded_background_features(harmonic, sr, 512)
+    original = librosa.feature.chroma_stft
+    widths = []
+
+    def measured(*args, **kwargs):
+        widths.append(kwargs['S'].shape[1])
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(librosa.feature, 'chroma_stft', measured)
+    actual_pitch, actual_entropy = ai._bounded_background_features(harmonic, sr)
+    assert len(widths) >= 3
+    assert max(widths)*1025*4 < 16*1024**2
+    np.testing.assert_array_equal(actual_pitch, expected_pitch)
+    np.testing.assert_allclose(actual_entropy, expected_entropy, atol=1e-7, rtol=0)
+
+
 def test_frame_reductions_preserve_pitch_descriptors_and_flux_at_block_boundaries():
     # Include zeros/rests and a final partial block in the actual frequency grid.
     power = np.asfortranarray(np.abs(np.random.default_rng(153).normal(size=(1025, 1301))).astype('float32'))

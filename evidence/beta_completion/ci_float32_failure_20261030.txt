@@ -1,0 +1,48 @@
+2026-10-31T02:55:09.6280306Z =================================== FAILURES ===================================
+2026-10-31T02:55:09.6281195Z _ test_bounded_classifier_preserves_global_tuning_confidences_and_event_clocks _
+2026-10-31T02:55:09.6281827Z
+2026-10-31T02:55:09.6282309Z tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-0/test_bounded_classifier_preser0')
+2026-10-31T02:55:09.6283362Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7faf189445f0>
+2026-10-31T02:55:09.6284030Z
+2026-10-31T02:55:09.6284642Z     def test_bounded_classifier_preserves_global_tuning_confidences_and_event_clocks(tmp_path, monkeypatch):
+2026-10-31T02:55:09.6285586Z         sr = 22050
+2026-10-31T02:55:09.6286189Z         y = source(sr)
+2026-10-31T02:55:09.6286635Z         path = tmp_path/'vocal.wav'
+2026-10-31T02:55:09.6287400Z         sf.write(path, y, sr, subtype='FLOAT')
+2026-10-31T02:55:09.6287979Z         harmonic, _ = librosa.effects.hpss(y)
+2026-10-31T02:55:09.6289242Z         expected_pitch, expected_entropy = unbounded_background_features(harmonic, sr, 512)
+2026-10-31T02:55:09.6290263Z         actual_pitch, actual_entropy = ai._bounded_background_features(harmonic, sr)
+2026-10-31T02:55:09.6291147Z         np.testing.assert_array_equal(actual_pitch, expected_pitch)
+2026-10-31T02:55:09.6292067Z >       np.testing.assert_allclose(actual_entropy, expected_entropy, atol=1e-7, rtol=0)
+2026-10-31T02:55:09.6292773Z E       AssertionError:
+2026-10-31T02:55:09.6293214Z E       Not equal to tolerance rtol=0, atol=1e-07
+2026-10-31T02:55:09.6293688Z E
+2026-10-31T02:55:09.6294134Z E       Mismatched elements: 10 / 1341 (0.746%)
+2026-10-31T02:55:09.6294691Z E       Max absolute difference among violations: 1.99515542e-07
+2026-10-31T02:55:09.6295346Z E       Max relative difference among violations: 2.29287066e-07
+2026-10-31T02:55:09.6296064Z E        ACTUAL: array([0.976039, 0.925148, 0.873599, ..., 0.871469, 0.871445, 0.950002],
+2026-10-31T02:55:09.6296686Z E             shape=(1341,))
+2026-10-31T02:55:09.6297563Z E        DESIRED: array([0.976039, 0.925148, 0.873599, ..., 0.871469, 0.871445, 0.950002],
+2026-10-31T02:55:09.6298205Z E             shape=(1341,))
+2026-10-31T02:55:09.6298446Z
+2026-10-31T02:55:09.6298644Z tests/test_bounded_audio.py:78: AssertionError
+2026-10-31T02:55:09.6299252Z =============================== warnings summary ===============================
+2026-10-31T02:55:09.6300250Z tests/test_audio.py::AudioIntelligenceTests::test_analyze_audio_file_builds_sections_hits_and_spatial_frames
+2026-10-31T02:55:09.6301982Z   /opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/audioread/rawread.py:16: DeprecationWarning: 'aifc' is deprecated and slated for removal in Python 3.13
+2026-10-31T02:55:09.6303199Z     import aifc
+2026-10-31T02:55:09.6303408Z
+2026-10-31T02:55:09.6303957Z tests/test_audio.py::AudioIntelligenceTests::test_analyze_audio_file_builds_sections_hits_and_spatial_frames
+2026-10-31T02:55:09.6305546Z   /opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/audioread/rawread.py:17: DeprecationWarning: 'audioop' is deprecated and slated for removal in Python 3.13
+2026-10-31T02:55:09.6306730Z     import audioop
+2026-10-31T02:55:09.6307318Z
+2026-10-31T02:55:09.6307860Z tests/test_audio.py::AudioIntelligenceTests::test_analyze_audio_file_builds_sections_hits_and_spatial_frames
+2026-10-31T02:55:09.6309437Z   /opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/audioread/rawread.py:19: DeprecationWarning: 'sunau' is deprecated and slated for removal in Python 3.13
+2026-10-31T02:55:09.6310613Z     import sunau
+2026-10-31T02:55:09.6310795Z
+2026-10-31T02:55:09.6311335Z tests/test_build_helixia_layout_cli.py::BuildHelixiaLayoutCliTests::test_cli_can_enable_spec_driven_band_layout
+2026-10-31T02:55:09.6312827Z tests/test_build_helixia_layout_cli.py::BuildHelixiaLayoutCliTests::test_cli_can_enable_spec_driven_band_layout
+2026-10-31T02:55:09.6314152Z tests/test_helixia_xlights_band_specs.py::HelixiaXlightsBandSpecsTests::test_opt_in_band_model_specs_are_stem_map_compatible
+2026-10-31T02:55:09.6315544Z tests/test_helixia_xlights_band_specs.py::HelixiaXlightsBandSpecsTests::test_opt_in_band_model_specs_are_stem_map_compatible
+2026-10-31T02:55:09.6317226Z tests/test_helixia_xlights_band_specs.py::HelixiaXlightsBandSpecsTests::test_opt_in_band_model_specs_generate_real_band_models_and_submodels
+2026-10-31T02:55:09.6318769Z tests/test_helixia_xlights_band_specs.py::HelixiaXlightsBandSpecsTests::test_opt_in_band_model_specs_generate_real_band_models_and_submodels
+2026-10-31T02:55:09.6320849Z   /home/runner/work/helix-sequencer/helix-sequencer/tools/build_helpers/helixia.py:35: DeprecationWarning: Testing an element's truth value will always return True in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.

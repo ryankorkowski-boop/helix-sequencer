@@ -29,6 +29,16 @@ def test_front_camera_stays_fixed_for_whole_sampler():
     assert eye[0]==0
 
 
+def test_detected_tom_identity_survives_and_unknown_toms_are_reported():
+    cues=[dict(start_ms=123+i*200,end_ms=200+i*200,kind='tom',velocity=.8,confidence=.9,
+               frequency_band_info={'tom_class':kind,'tom_class_confidence':.9})
+          for i,kind in enumerate(('high','mid','floor',None))]
+    hits,unresolved=drum_hits(cues)
+    assert [h['target'].rsplit('_V3_',1)[1] for h in hits]==['TOM_HIGH','TOM_MID','TOM_FLOOR']
+    assert [h['time'] for h in hits]==[.123,.323,.523]
+    assert unresolved==[{'start_ms':723,'kind':'tom'}]
+
+
 def test_nine_grid_rejects_repeated_footage_before_encoding(tmp_path):
     item={'sources':[{'video_sha256':'same'} for _ in range(9)]}
     with pytest.raises(ValueError,match='Nine distinct'):
