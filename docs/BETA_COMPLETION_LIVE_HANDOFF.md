@@ -1,3 +1,7 @@
+## 31 October — audio-note conversion hardening
+
+Commits 63047f9 and 3049ef1 guard nonfinite or invalid stem MIDI and velocity, and add required math import in core/snowman_band.py. Commit 64cebba adds two regression tests. No full checkout was possible here because container GitHub DNS resolution failed; tests are not executed, and no real-audio MP4 was rendered. The main run_variant still uses mixed harmonic note events; stem-specific pitch extraction and integration are unfinished. Do not enable strict ownership globally or claim final approval. PR #188 remains unmerged.
+
 ## 31 October — audio note schema adapter implemented
 
 Commits 8b32271 (core/snowman_band.py) and 4915b7c (tests/test_audio_stem_ownership.py). The band cue builder now accepts both effect-engine polyphonic notes (start_ms/end_ms/notes) and audio_intelligence.NoteEvent (timestamp_ms/duration_ms/midi_note/velocity), while strict provenance gating rejects unidentified and guitar-owned audio notes. Three direct adapter regression tests added. Existing default harmonic behavior retained. Important remaining limitation: run_variant still passes its harmonic note_events list; this adapter does NOT mean labeled stem notes are now produced or merged into the live band plan. Do not claim independent instruments or verified output until producer wiring, tests and real audio A/B. Tests not executed and no MP4 rendered here. PR #188 unmerged; no release.
