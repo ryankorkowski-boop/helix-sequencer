@@ -60,7 +60,14 @@ def _event_notes(event: Any) -> list[tuple[float, float]]:
     midi = getattr(event, "midi_note", None)
     if midi is None:
         return []
-    return [(float(midi), float(getattr(event, "velocity", 1.0)))]
+    try:
+        pitch = float(midi)
+        velocity = float(getattr(event, "velocity", 1.0))
+    except (TypeError, ValueError):
+        return []
+    if not math.isfinite(pitch) or not math.isfinite(velocity):
+        return []
+    return [(pitch, max(0.0, min(1.0, velocity)))]
 
 
 def _event_text(event: Any) -> str:
