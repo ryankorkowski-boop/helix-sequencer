@@ -1416,17 +1416,18 @@ def _extract_note_candidates(
     continuity_ms = max(90, config.smoothing_window_ms)
     # The global pitch normalization factor is invariant across frames.
     # Computing it inside the loop repeatedly scans the full pitch matrix.
-    max_mag = float(np.max(pitch_mag)) if pitch_mag.size else 0.0
+    finite_magnitudes = np.where(np.isfinite(pitch_mag), pitch_mag, 0.0)
+    max_mag = float(np.max(finite_magnitudes)) if finite_magnitudes.size else 0.0
     for frame_idx in range(stft_mag.shape[1]):
         mags = pitch_mag[:, frame_idx]
         if mags.size == 0:
             continue
-        best_idx = int(np.argmax(mags))
+        best_idx = int(np.argmax(finite_magnitudes[:, frame_idx]))
         best_hz = float(pitch_hz[best_idx, frame_idx])
         best_mag = float(mags[best_idx])
-        confidence = _clamp01(best_mag / max(1e-9, max_mag))
-        if not np.isfinite(best_hz) or best_hz <= 0.0 or not np.isfinite(best_mag):
+        if not np.isfinite(best_hz) or best_hz <= 0.0 or not np.isfinite(best_mag) or best_mag <= 0.0:
             continue
+        confidence = _clamp01(best_mag / max(1e-9, max_mag))
         midi = int(round(float(librosa.hz_to_midi(best_hz))))
         time_ms = int(round(float(frame_times_s[frame_idx]) * 1000.0))
         raw_candidates.append(
