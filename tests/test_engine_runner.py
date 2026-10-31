@@ -7,6 +7,7 @@ from types import SimpleNamespace
 
 import pytest
 
+import core
 from core import engine_runner
 
 
@@ -22,8 +23,9 @@ assert not any(name in sys.modules for name in (
 
 def test_typed_job_forwards_lossless_args_and_captures_metrics(monkeypatch, tmp_path):
     calls = []
-    monkeypatch.setitem(sys.modules, "core.effect_engine_beat_grid", SimpleNamespace(
-        main_for=lambda version, args: calls.append((version, args))))
+    fake = SimpleNamespace(main_for=lambda version, args: calls.append((version, args)))
+    monkeypatch.setitem(sys.modules, "core.effect_engine_beat_grid", fake)
+    monkeypatch.setattr(core, "effect_engine_beat_grid", fake, raising=False)
     args = ("--snap-grid", "1/16", "--audio=a song.mp3", "--density", "0.7")
     metrics_path = tmp_path / "stages.json"
     result = engine_runner.run_sequence_job(engine_runner.SequenceJobConfig(
@@ -38,6 +40,7 @@ def test_facade_keeps_original_errors(monkeypatch, tmp_path, error):
     def fail(*args):
         raise error
     monkeypatch.setitem(sys.modules, "core.effect_engine_beat_grid", SimpleNamespace(main_for=fail))
+    monkeypatch.setattr(core, "effect_engine_beat_grid", sys.modules["core.effect_engine_beat_grid"], raising=False)
     path = tmp_path / "failed.json"
     with pytest.raises(type(error)) as caught:
         engine_runner.run_sequence_job(engine_runner.SequenceJobConfig(metrics_output=path))

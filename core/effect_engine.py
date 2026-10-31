@@ -22,20 +22,20 @@ from core.stage_metrics import phase, timed_stage
 
 from core import audit as sequence_audit
 from core import audio_trigger_routes
-from core import audio_intelligence as ai
+ai = LazyModule("core.audio_intelligence")
 from core import chronoflow as chronoflow_engine
 from core import helixualizer as helixualizer_engine
-from core import hardkor_engine
-from core import matrix_intelligence as matrix_planner
-from core import birdsong_engine
-from core import lyric_interpreter
+hardkor_engine = LazyModule("core.hardkor_engine")
+matrix_planner = LazyModule("core.matrix_intelligence")
+birdsong_engine = LazyModule("core.birdsong_engine")
+lyric_interpreter = LazyModule("core.lyric_interpreter")
 from core import model_parser as xmp
 from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
 from core import band_sync as band_sync_engine
-from core import youtube_show_scorer
+youtube_show_scorer = LazyModule("core.youtube_show_scorer")
 from effects import piano_effect as piano_effect_engine
 from core import spatial_scene as spatial
 from tools.build_helpers import (
@@ -10110,7 +10110,7 @@ def run_variant(
     from xlights.xml_io import set_sequence_duration
     set_sequence_duration(xsq.root, float(audio.dur_s))
     song_length_ms = max(1000, int(audio.dur_s * 1000.0))
-    harmonic = analysis_cache.get("harmonic", lambda: analyze_harmonic(audio)) if analysis_cache else analyze_harmonic(audio)
+    harmonic = analysis_cache.get("harmonic", lambda: analyze_harmonic(audio, audio_path=audio_path)) if analysis_cache else analyze_harmonic(audio, audio_path=audio_path)
     sections = base.detect_sections(audio)
     parts = infer_song_parts(sections)
     if parts:

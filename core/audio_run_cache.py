@@ -32,7 +32,9 @@ class AudioRunCache:
         return deepcopy(value) if copy_result else value
 
     def validate_source(self, path: Path) -> None:
-        if hashlib.sha256(path.read_bytes()).hexdigest() != self.source_sha256:
+        with path.open("rb") as source:
+            source_sha256 = hashlib.file_digest(source, "sha256").hexdigest()
+        if source_sha256 != self.source_sha256:
             raise ValueError('Audio cache belongs to a different source recording')
 
     def validate_configuration(self, configuration: tuple) -> None:

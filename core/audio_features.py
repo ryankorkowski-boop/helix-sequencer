@@ -7,12 +7,110 @@ callers. No import of the effect engine or layout-specific placement is needed.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import hashlib
+from importlib.metadata import PackageNotFoundError, version
+import os
+from pathlib import Path
 from core.lazy_imports import LazyModule
 from core.stage_metrics import timed_stage
 from xlights import xsq_writer as base
 
 librosa = LazyModule("librosa")
 np = LazyModule("numpy")
+
+
+def _cache_parameters(kind: str, **parameters) -> dict:
+    """Bind feature identity to DSP parameters, actual code and library versions."""
+    implementation = hashlib.sha256()
+    for path in (Path(__file__), Path(base.__file__), Path(__file__).with_name("bounded_audio.py")):
+        implementation.update(path.read_bytes())
+    libraries = {}
+    for name in ("numpy", "librosa", "scipy", "numba", "aubio"):
+        try:
+            libraries[name] = version(name)
+        except PackageNotFoundError:
+            libraries[name] = None
+    return {"kind": kind, "implementation_sha256": implementation.hexdigest(),
+            "libraries": libraries, "hop": base.HOP_MS,
+            "fast_pitch": base.USE_FAST_PITCH, **parameters}
+
+
+def _validate_arrays(arrays, dimensions):
+    if arrays.keys() != dimensions.keys():
+        raise ValueError("Incomplete audio feature cache")
+    for name, ndim in dimensions.items():
+        value = arrays[name]
+        if value.ndim != ndim or value.dtype.kind not in "fiu":
+            raise ValueError(f"Invalid audio feature cache array: {name}")
+
+
+@timed_stage("audio.load_features")
+def analyze_audio(audio_path: Path) -> base.Audio:
+    """Original feature pipeline; optional content-addressed reuse across runs.
+
+    HELIX_AUDIO_CACHE_DIR opts in. Raw signal and reduced features retain exact
+    dtypes, shapes, NaN pitch sentinels and sample clocks; no pickle is loaded.
+    """
+    cache_dir = os.environ.get("HELIX_AUDIO_CACHE_DIR")
+    if not cache_dir:
+        return _compute_audio(audio_path)
+    from core.audio_analysis_cache import audio_cache_key, cached_arrays
+
+    dimensions = {name: 1 for name in (
+        "y", "onset_ms", "beat_ms", "times_s", "centroid", "rms01", "bass01", "vocal01", "pitch_hz")}
+    dimensions.update(sr=0, dur_s=0)
+
+    def compute():
+        audio = _compute_audio(audio_path)
+        return {name: np.asarray(getattr(audio, name)) for name in dimensions}
+
+    def validate(arrays):
+        _validate_arrays(arrays, dimensions)
+        if arrays["sr"] <= 0 or not np.isfinite(arrays["dur_s"]) or arrays["dur_s"] < 0:
+            raise ValueError("Invalid cached audio rate/duration")
+        count = len(arrays["times_s"])
+        if any(len(arrays[name]) != count for name in (
+                "centroid", "rms01", "bass01", "vocal01", "pitch_hz")):
+            raise ValueError("Cached feature clocks disagree")
+
+    key = audio_cache_key(audio_path, _cache_parameters("master_audio_v1"))
+    arrays = cached_arrays(cache_dir, key, compute, validate=validate)
+    values = dict(arrays)
+    values.update(sr=int(arrays["sr"]), dur_s=float(arrays["dur_s"]),
+                  onset_ms=arrays["onset_ms"].tolist(), beat_ms=arrays["beat_ms"].tolist())
+    return base.Audio(**values)
+
+
+@timed_stage("audio.harmonic")
+def analyze_harmonic(audio: base.Audio, *, audio_path: Path | None = None) -> HarmonicData:
+    cache_dir = os.environ.get("HELIX_AUDIO_CACHE_DIR")
+    if not cache_dir or audio_path is None:
+        return _compute_harmonic(audio)
+    from core.audio_analysis_cache import audio_cache_key, cached_arrays
+
+    dimensions = {"times_s": 1, "cqt_mag": 2, "pitch_hz": 2, "pitch_mag": 2, "base_midi": 0}
+
+    def compute():
+        harmonic = _compute_harmonic(audio)
+        return {name: np.asarray(getattr(harmonic, name)) for name in dimensions}
+
+    def validate(arrays):
+        _validate_arrays(arrays, dimensions)
+        count = len(arrays["times_s"])
+        if (arrays["cqt_mag"].shape != (60, count)
+                or arrays["pitch_hz"].shape != arrays["pitch_mag"].shape
+                or arrays["pitch_hz"].shape[1] != count):
+            raise ValueError("Cached harmonic clocks disagree")
+
+    # The file identifies the recording; the actual samples additionally guard
+    # API callers that edit the in-memory audio before requesting harmonics.
+    sample_sha = hashlib.sha256(memoryview(np.ascontiguousarray(audio.y)).cast("B")).hexdigest()
+    key = audio_cache_key(audio_path, _cache_parameters(
+        "master_harmonic_v1", sr=audio.sr, duration=audio.dur_s,
+        sample_dtype=audio.y.dtype.str, sample_shape=audio.y.shape, sample_sha256=sample_sha))
+    arrays = cached_arrays(cache_dir, key, compute, validate=validate)
+    values = dict(arrays, base_midi=int(arrays["base_midi"]))
+    return HarmonicData(**values)
 
 @dataclass
 class HarmonicData:
@@ -49,8 +147,7 @@ class MultiBandAnalysis:
     section_profiles: dict[str, dict[str, float | str]] = field(default_factory=dict)
 
 
-@timed_stage("audio.load_features")
-def analyze_audio(audio_path: Path) -> base.Audio:
+def _compute_audio(audio_path: Path) -> base.Audio:
     base.log(f"Loading audio: {audio_path.name}")
     y, sr = librosa.load(str(audio_path), sr=None, mono=True)
     dur = float(len(y) / sr)
@@ -140,8 +237,7 @@ def analyze_audio(audio_path: Path) -> base.Audio:
                  pitch_hz=np.asarray(pitch_hz))
 
 
-@timed_stage("audio.harmonic")
-def analyze_harmonic(audio: base.Audio) -> HarmonicData:
+def _compute_harmonic(audio: base.Audio) -> HarmonicData:
     from core.bounded_audio import hpss
     y_harm, percussive = hpss(audio.y, audio.sr)
     del percussive

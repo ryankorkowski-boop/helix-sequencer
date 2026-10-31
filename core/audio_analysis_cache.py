@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import tempfile
 from typing import Callable
+from zipfile import BadZipFile
 
 import numpy as np
 
@@ -32,6 +33,8 @@ def cached_arrays(
     cache_dir: str | Path,
     key: str,
     compute: Callable[[], dict[str, np.ndarray]],
+    *,
+    validate: Callable[[dict[str, np.ndarray]], None] | None = None,
 ) -> dict[str, np.ndarray]:
     """Load an NPZ hit or compute and atomically publish a cache miss.
 
@@ -46,12 +49,17 @@ def cached_arrays(
     if target.is_file():
         try:
             with np.load(target, allow_pickle=False) as archive:
-                return {name: archive[name] for name in archive.files}
-        except (OSError, ValueError, EOFError):
+                arrays = {name: archive[name] for name in archive.files}
+            if validate is not None:
+                validate(arrays)
+            return arrays
+        except (OSError, ValueError, EOFError, KeyError, BadZipFile):
             pass
     arrays = {name: np.asarray(value) for name, value in compute().items()}
     if any(array.dtype.hasobject for array in arrays.values()):
         raise TypeError("object arrays cannot be cached")
+    if validate is not None:
+        validate(arrays)
     directory.mkdir(parents=True, exist_ok=True)
     fd, temp_name = tempfile.mkstemp(prefix=".helix-analysis-", suffix=".npz", dir=directory)
     try:
