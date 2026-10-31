@@ -160,9 +160,3 @@ class BandPerformanceTimelineCompiler:
 
         return performer.states[0].name
 
-    @staticmethod
-    def _state_by_name(performer: PerformerRuntimeSpec, state_name: str):
-        for state in performer.states:
-            if state.name == state_name:
-                return state
-        raise KeyError(f"{performer.performer_id} does not define state {state_name!r}")
