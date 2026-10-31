@@ -1416,13 +1416,23 @@ def _extract_note_candidates(
     continuity_ms = max(90, config.smoothing_window_ms)
     # The global pitch normalization factor is invariant across frames.
     # Computing it inside the loop repeatedly scans the full pitch matrix.
-    finite_magnitudes = np.where(np.isfinite(pitch_mag), pitch_mag, 0.0)
-    max_mag = float(np.max(finite_magnitudes)) if finite_magnitudes.size else 0.0
+    # Use a bounded per-frame peak array instead of a second full-size
+    # pitch matrix, which is costly for long recordings and Android devices.
+    finite_peaks = np.zeros(stft_mag.shape[1], dtype=np.float32)
+    peak_indices = np.zeros(stft_mag.shape[1], dtype=np.intp)
+    for frame_idx in range(stft_mag.shape[1]):
+        mags = pitch_mag[:, frame_idx]
+        if not mags.size:
+            continue
+        finite_column = np.where(np.isfinite(mags), mags, 0.0)
+        peak_indices[frame_idx] = int(np.argmax(finite_column))
+        finite_peaks[frame_idx] = max(0.0, float(finite_column[peak_indices[frame_idx]]))
+    max_mag = float(np.max(finite_peaks)) if finite_peaks.size else 0.0
     for frame_idx in range(stft_mag.shape[1]):
         mags = pitch_mag[:, frame_idx]
         if mags.size == 0:
             continue
-        best_idx = int(np.argmax(finite_magnitudes[:, frame_idx]))
+        best_idx = int(peak_indices[frame_idx])
         best_hz = float(pitch_hz[best_idx, frame_idx])
         best_mag = float(mags[best_idx])
         if not np.isfinite(best_hz) or best_hz <= 0.0 or not np.isfinite(best_mag) or best_mag <= 0.0:
