@@ -6,6 +6,8 @@ from pathlib import Path
 from statistics import mean
 from typing import Any
 
+from core.musical_quality_gate import storytelling_gate
+
 
 LEARNING_MEMORY_SCHEMA_VERSION = 1
 HELIX_WATERMARK_POLICY_VERSION = "dream-sequence-weaver-signature-v1"
@@ -253,6 +255,25 @@ class SequenceScore:
             "metrics": {key: round(value, 4) for key, value in self.metrics.items()},
             "weights": {key: round(value, 4) for key, value in self.weights.items()},
         }
+
+
+def score_sequence_with_storytelling_gate(
+    payload: dict[str, Any],
+    weights: dict[str, float] | None = None,
+    *,
+    minimum_storytelling: float = 0.55,
+) -> tuple[SequenceScore, bool, dict[str, float | None]]:
+    """Score existing metrics and independently enforce measured storytelling evidence.
+
+    Callers must explicitly opt in. The legacy score and its weights are unchanged.
+    """
+    score = score_sequence(payload, weights)
+    evidence = payload.get("musical_storytelling_evidence")
+    accepted, metrics = storytelling_gate(
+        evidence if isinstance(evidence, dict) else {},
+        minimum=minimum_storytelling,
+    )
+    return score, accepted, metrics
 
 
 def score_sequence(payload: dict[str, Any], weights: dict[str, float] | None = None) -> SequenceScore:
