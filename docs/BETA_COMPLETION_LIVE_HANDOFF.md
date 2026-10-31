@@ -1,3 +1,7 @@
+## 31 October — musical quality gate and complete optimization roadmap
+
+Commits: 7b46f1b (core/musical_quality_gate.py), ce7f170 (five tests), 39798dc (docs/INTEGRATION_OPTIMIZATION_ROADMAP_20261031.md). New quality gate requires explicit bounded observations for section differentiation, phrase fidelity, instrument ownership, meaningful silence and motif recurrence; rejects missing/low evidence in strict mode. Opt-in only; no production ranking change and no verified media claim. Tests authored, not executed. Roadmap covers DATA/OWN/ARR/VOC/CAN/QUAL/REG/ENG/PERF/CI/APP/UTIL work packages, exit evidence and resume commands. No merge or release.
+
 ## 31 October — source-ownership integration checkpoint
 
 Implementation commits: 2be732a (source-ownership foundation), 01e2581 (foundation tests), 60a2397 (opt-in keyboard integration), 8915b1f (integration tests). Files: core/source_ownership.py, core/snowman_band.py, tests/test_source_ownership.py, tests/test_keyboard_source_routing.py.
