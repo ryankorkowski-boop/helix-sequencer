@@ -21,6 +21,7 @@ from core.lazy_imports import LazyModule
 
 from core import audit as sequence_audit
 from core import audio_trigger_routes
+from core import event_provenance
 from core import audio_intelligence as ai
 from core import chronoflow as chronoflow_engine
 from core import helixualizer as helixualizer_engine
@@ -12611,6 +12612,7 @@ def run_variant(
         "chronoflow": chronoflow_payload,
         "band_sync": band_sync_payload,
         "snowman_band": snowman_band_payload,
+        "event_provenance": event_provenance.summarize_note_provenance(note_events),
         "piano_effect": piano_effect_payload,
         "hardkor": {
             "enabled": bool(hardkor_result.enabled),
