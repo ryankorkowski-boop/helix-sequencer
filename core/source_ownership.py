@@ -51,8 +51,8 @@ def resolve_owner(
     Estimates may be used only when they independently meet the confidence gate.
     This deliberately does not infer an instrument from pitch alone.
     """
-    if not 0.0 <= threshold <= 1.0:
-        raise ValueError("threshold must be between 0 and 1")
+    if not isfinite(threshold) or not 0.0 <= threshold <= 1.0:
+        raise ValueError("threshold must be finite and between 0 and 1")
     if detected is not None and detected.origin == "detected" and detected.permitted(threshold):
         return detected
     if estimated is not None and estimated.origin == "estimated" and estimated.permitted(threshold):
