@@ -22,6 +22,7 @@ from core import model_parser as xmp
 from core import spatial_scene
 from core import vocal_emotion
 from core import bounded_audio
+from core.audio_analysis_cache import audio_cache_key, cached_arrays
 from core import vocal_timeline as vt
 from audio import drum_detection as drum_intel
 from audio import instrument_detection
@@ -1707,7 +1708,17 @@ def analyze_audio_file(
     y = np.asarray(y, dtype=np.float32).reshape(-1)
     duration_s = float(len(y) / max(1, sr))
     hop = 512
-    onset_env = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop)
+    def _compute_onset() -> dict[str, np.ndarray]:
+        return {"onset_env": np.asarray(librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop))}
+
+    try:
+        onset_key = audio_cache_key(audio_path, {
+            "feature": "onset_strength", "sr": int(sr), "hop": hop,
+            "mono": True, "librosa": str(librosa.__version__),
+        })
+        onset_env = cached_arrays(cache_root / "features", onset_key, _compute_onset)["onset_env"]
+    except (OSError, ValueError, TypeError, KeyError, EOFError):
+        onset_env = _compute_onset()["onset_env"]
     frame_times_s = librosa.frames_to_time(np.arange(len(onset_env)), sr=sr, hop_length=hop)
     duration_ms = int(round(duration_s * 1000.0))
     onset_limit = _event_cap(settings.max_candidate_events_per_second, duration_s)
