@@ -1,0 +1,24 @@
+{
+  "original_drive_file": "1xygmcQ9M6c3xeZO6XSnycW2eeQCqnMYi",
+  "source_sha256": "d0fdcf1fc60c68a2b0834795a3d182326b1094561035f1d60ea789ab3d863dc5",
+  "excerpt_sha256": "bf5796a8d7eeb86f30adefcd8478f5e42f1c7b714162e72d9ddf92c4e71e1fb4",
+  "start_seconds": 76,
+  "end_seconds": 112,
+  "before_percussion_counts": {
+    "kick": 2,
+    "snare": 3,
+    "hihat": 85,
+    "cymbal": 135,
+    "tom": 1
+  },
+  "source_bound_adtof_counts": {
+    "kick": 57,
+    "snare": 60,
+    "hihat": 157,
+    "cymbal": 2,
+    "tom": 0
+  },
+  "vocal_clock_sha256": "8a99130c248e0b976ae095d8cf2872d6aaffc4295f8a2732d179a312eec195f6",
+  "final_approval_complete": false,
+  "owner_approval": false
+}

@@ -1,0 +1,213 @@
+{
+  "mode": "tuned",
+  "elapsed_seconds": 143.096223173,
+  "peak_rss_bytes": 1024978944,
+  "stage_peaks": {
+    "setup": 1013252096,
+    "analyze": 1023782912,
+    "analyze_harmonic": 547590144,
+    "build_stem_analysis": 989159424,
+    "_classify_background_vocals": 687267840,
+    "_summarize_stem_file": 743268352,
+    "derive_multiband_analysis": 662073344,
+    "build_helixualizer_plan": 983674880,
+    "_melbank_payload": 747741184
+  },
+  "peak_stacks": {
+    "analyze": [
+      "  File \"<frozen runpy>\", line 198, in _run_module_as_main\n",
+      "  File \"<frozen runpy>\", line 88, in _run_code\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 66, in <module>\n    result=json.loads(helix_mobile.run(str(repo),str(job),json.dumps(dict(mode='xlights',preview=False,variants=1)),Callback()))\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/android/app/src/main/python/helix_mobile.py\", line 246, in run\n    sequence_builder.run_profile('master', args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/sequence_builder.py\", line 992, in run_profile\n    _effect_engine().main_for(profile.version, effective_engine_args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine_beat_grid.py\", line 174, in main_for\n    effect_engine.main_for(version, cleaned_args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 13161, in main_for\n    result = run_variant(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 10439, in run_variant\n    audio = analysis_cache.get(\"audio\", lambda: base.analyze(audio_path)) if analysis_cache else base.analyze(audio_path)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 13146, in get\n    self.values[key] = factory()\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 10439, in <lambda>\n    audio = analysis_cache.get(\"audio\", lambda: base.analyze(audio_path)) if analysis_cache else base.analyze(audio_path)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 47, in measured\n    try:return fn(*a,**kw)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/xlights/xsq_writer.py\", line 754, in analyze\n    _, beat_frames = librosa.beat.beat_track(onset_envelope=onset_env, sr=sr, hop_length=hop, units=\"frames\")\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/beat.py\", line 230, in beat_track\n    bpm = _tempo(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/feature/rhythm.py\", line 415, in tempo\n    tg = tempogram(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/feature/rhythm.py\", line 175, in tempogram\n    autocorrelate(odf_frame * ac_window, axis=-2), norm=norm, axis=-2\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/core/audio.py\", line 932, in autocorrelate\n    autocorr = fft.irfft(powspec, n=n_pad, axis=axis)\n",
+      "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/fft/_pocketfft.py\", line 525, in irfft\n    output = _raw_fft(a, n, axis, True, False, norm, out=out)\n",
+      "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/fft/_pocketfft.py\", line 101, in _raw_fft\n    return ufunc(a, fct, axes=[(axis,), (), (axis,)], out=out)\n"
+    ],
+    "build_stem_analysis": [
+      "  File \"<frozen runpy>\", line 198, in _run_module_as_main\n",
+      "  File \"<frozen runpy>\", line 88, in _run_code\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 66, in <module>\n    result=json.loads(helix_mobile.run(str(repo),str(job),json.dumps(dict(mode='xlights',preview=False,variants=1)),Callback()))\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/android/app/src/main/python/helix_mobile.py\", line 246, in run\n    sequence_builder.run_profile('master', args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/sequence_builder.py\", line 992, in run_profile\n    _effect_engine().main_for(profile.version, effective_engine_args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine_beat_grid.py\", line 174, in main_for\n    effect_engine.main_for(version, cleaned_args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 13161, in main_for\n    result = run_variant(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 10500, in run_variant\n    stem_analysis = analysis_cache.get(\"stems\", analyze_stems) if analysis_cache else analyze_stems()\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 13146, in get\n    self.values[key] = factory()\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 10493, in analyze_stems\n    return ai.build_stem_analysis(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 47, in measured\n    try:return fn(*a,**kw)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/audio_intelligence.py\", line 978, in build_stem_analysis\n    kicks, snares, hats = _analyze_drum_events(drum_src)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/audio_intelligence.py\", line 640, in _analyze_drum_events\n    cent = librosa.feature.spectral_centroid(y=y, sr=sr)[0]\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/feature/spectral.py\", line 186, in spectral_centroid\n    freq * util.normalize(S, norm=1, axis=-2), axis=-2, keepdims=True\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/util/utils.py\", line 1021, in normalize\n    Snorm[:] = S / length\n"
+    ],
+    "_summarize_stem_file": [
+      "  File \"<frozen runpy>\", line 198, in _run_module_as_main\n",
+      "  File \"<frozen runpy>\", line 88, in _run_code\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 66, in <module>\n    result=json.loads(helix_mobile.run(str(repo),str(job),json.dumps(dict(mode='xlights',preview=False,variants=1)),Callback()))\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/android/app/src/main/python/helix_mobile.py\", line 246, in run\n    sequence_builder.run_profile('master', args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/sequence_builder.py\", line 992, in run_profile\n    _effect_engine().main_for(profile.version, effective_engine_args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine_beat_grid.py\", line 174, in main_for\n    effect_engine.main_for(version, cleaned_args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 13161, in main_for\n    result = run_variant(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 10500, in run_variant\n    stem_analysis = analysis_cache.get(\"stems\", analyze_stems) if analysis_cache else analyze_stems()\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 13146, in get\n    self.values[key] = factory()\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 10493, in analyze_stems\n    return ai.build_stem_analysis(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 47, in measured\n    try:return fn(*a,**kw)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/audio_intelligence.py\", line 984, in build_stem_analysis\n    name: _summarize_stem_file(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 47, in measured\n    try:return fn(*a,**kw)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/audio_intelligence.py\", line 840, in _summarize_stem_file\n    onset_env = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/onset.py\", line 351, in onset_strength\n    odf_all = onset_strength_multi(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/onset.py\", line 581, in onset_strength_multi\n    S = np.abs(feature(y=y, sr=sr, n_fft=n_fft, hop_length=hop_length, **kwargs))\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/feature/spectral.py\", line 2130, in melspectrogram\n    S, n_fft = _spectrogram(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/core/spectrum.py\", line 2944, in _spectrogram\n    np.abs(\n"
+    ],
+    "build_helixualizer_plan": [
+      "  File \"<frozen runpy>\", line 198, in _run_module_as_main\n",
+      "  File \"<frozen runpy>\", line 88, in _run_code\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 66, in <module>\n    result=json.loads(helix_mobile.run(str(repo),str(job),json.dumps(dict(mode='xlights',preview=False,variants=1)),Callback()))\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/android/app/src/main/python/helix_mobile.py\", line 246, in run\n    sequence_builder.run_profile('master', args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/sequence_builder.py\", line 992, in run_profile\n    _effect_engine().main_for(profile.version, effective_engine_args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine_beat_grid.py\", line 174, in main_for\n    effect_engine.main_for(version, cleaned_args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 13161, in main_for\n    result = run_variant(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 10694, in run_variant\n    chronoflow_payload = chronoflow_engine.build_chronoflow_plan(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/chronoflow.py\", line 814, in build_chronoflow_plan\n    helixualizer_payload = helixualizer_engine.build_helixualizer_plan(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 47, in measured\n    try:return fn(*a,**kw)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/helixualizer.py\", line 343, in build_helixualizer_plan\n    stereo = _load_stereo(audio_path, audio, frame_count)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/helixualizer.py\", line 148, in _load_stereo\n    right = np.asarray(librosa.feature.rms(y=arr[1], hop_length=hop)[0], dtype=float)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/feature/spectral.py\", line 883, in rms\n    power = np.mean(util.abs2(x, dtype=dtype), axis=-2, keepdims=True)\n",
+      "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/_core/fromnumeric.py\", line 3860, in mean\n    return _methods._mean(a, axis=axis, dtype=dtype,\n",
+      "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/_core/_methods.py\", line 134, in _mean\n    ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)\n"
+    ],
+    "_melbank_payload": [
+      "  File \"<frozen runpy>\", line 198, in _run_module_as_main\n",
+      "  File \"<frozen runpy>\", line 88, in _run_code\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 66, in <module>\n    result=json.loads(helix_mobile.run(str(repo),str(job),json.dumps(dict(mode='xlights',preview=False,variants=1)),Callback()))\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/android/app/src/main/python/helix_mobile.py\", line 246, in run\n    sequence_builder.run_profile('master', args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/sequence_builder.py\", line 992, in run_profile\n    _effect_engine().main_for(profile.version, effective_engine_args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine_beat_grid.py\", line 174, in main_for\n    effect_engine.main_for(version, cleaned_args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 13161, in main_for\n    result = run_variant(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 10694, in run_variant\n    chronoflow_payload = chronoflow_engine.build_chronoflow_plan(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/chronoflow.py\", line 814, in build_chronoflow_plan\n    helixualizer_payload = helixualizer_engine.build_helixualizer_plan(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 47, in measured\n    try:return fn(*a,**kw)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/helixualizer.py\", line 351, in build_helixualizer_plan\n    melbanks = _melbank_payload(mono, sr, frame_count)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 47, in measured\n    try:return fn(*a,**kw)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/helixualizer.py\", line 189, in _melbank_payload\n    mel_spectrogram(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/bounded_audio.py\", line 119, in mel_spectrogram\n    for _, magnitude in magnitude_blocks(y, hop=hop_length, n_fft=n_fft):\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/bounded_audio.py\", line 40, in magnitude_blocks\n    spectrum = librosa.stft(y[left:right], n_fft=n_fft, hop_length=hop)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/core/spectrum.py\", line 387, in stft\n    stft_matrix[..., bl_s + off_start : bl_t + off_start] = fft.rfft(\n",
+      "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/fft/_pocketfft.py\", line 417, in rfft\n    output = _raw_fft(a, n, axis, True, True, norm, out=out)\n",
+      "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/fft/_pocketfft.py\", line 101, in _raw_fft\n    return ufunc(a, fct, axes=[(axis,), (), (axis,)], out=out)\n"
+    ],
+    "setup": [
+      "  File \"<frozen runpy>\", line 198, in _run_module_as_main\n",
+      "  File \"<frozen runpy>\", line 88, in _run_code\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/tools/profile_android_full_song_memory.py\", line 66, in <module>\n    result=json.loads(helix_mobile.run(str(repo),str(job),json.dumps(dict(mode='xlights',preview=False,variants=1)),Callback()))\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/android/app/src/main/python/helix_mobile.py\", line 246, in run\n    sequence_builder.run_profile('master', args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/sequence_builder.py\", line 992, in run_profile\n    _effect_engine().main_for(profile.version, effective_engine_args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine_beat_grid.py\", line 174, in main_for\n    effect_engine.main_for(version, cleaned_args)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 13161, in main_for\n    result = run_variant(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/effect_engine.py\", line 10694, in run_variant\n    chronoflow_payload = chronoflow_engine.build_chronoflow_plan(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/chronoflow.py\", line 836, in build_chronoflow_plan\n    chroma, chroma_mean = _compute_chroma(audio, frame_count)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/helix-sequencer/core/chronoflow.py\", line 269, in _compute_chroma\n    chroma = np.asarray(librosa.feature.chroma_cqt(y=samples, sr=int(audio.sr), hop_length=512, **options), dtype=float)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/feature/spectral.py\", line 1386, in chroma_cqt\n    cqt_func[cqt_mode](\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/core/constantq.py\", line 171, in cqt\n    return vqt(\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/core/constantq.py\", line 1017, in vqt\n    __cqt_response(my_y, n_fft, my_hop, fft_basis, pad_mode, dtype=dtype)\n",
+      "  File \"/workspace/scratch/1ed7281f6b64/venv/lib/python3.12/site-packages/librosa/core/constantq.py\", line 1141, in __cqt_response\n    output_flat[i] = fft_basis.dot(Dr[i])\n",
+      "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/scipy/sparse/_base.py\", line 603, in dot\n    return self @ other\n",
+      "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/scipy/sparse/_base.py\", line 923, in __matmul__\n    return self._matmul_dispatch(other)\n",
+      "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/scipy/sparse/_base.py\", line 815, in _matmul_dispatch\n    return self._matmul_multivector(other)\n",
+      "  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/scipy/sparse/_compressed.py\", line 408, in _matmul_multivector\n    fn(M, N, n_vecs, self.indptr, self.indices, self.data,\n"
+    ]
+  },
+  "stages": [
+    {
+      "function": "analyze",
+      "elapsed_seconds": 7.714788399999634
+    },
+    {
+      "function": "analyze_harmonic",
+      "elapsed_seconds": 29.952021315000366
+    },
+    {
+      "function": "_classify_background_vocals",
+      "elapsed_seconds": 31.122630797000056
+    },
+    {
+      "function": "_summarize_stem_file",
+      "elapsed_seconds": 0.8060697149999214
+    },
+    {
+      "function": "_summarize_stem_file",
+      "elapsed_seconds": 0.8109540799996466
+    },
+    {
+      "function": "_summarize_stem_file",
+      "elapsed_seconds": 0.8017663800001174
+    },
+    {
+      "function": "_summarize_stem_file",
+      "elapsed_seconds": 0.8422490879997895
+    },
+    {
+      "function": "build_stem_analysis",
+      "elapsed_seconds": 63.729218988999946
+    },
+    {
+      "function": "derive_multiband_analysis",
+      "elapsed_seconds": 4.0818633549997685
+    },
+    {
+      "function": "_melbank_payload",
+      "elapsed_seconds": 1.8877393129996562
+    },
+    {
+      "function": "build_helixualizer_plan",
+      "elapsed_seconds": 2.670531863999713
+    }
+  ],
+  "result": {
+    "bundle": "/workspace/scratch/1ed7281f6b64/offline-memory/tuned/job/Helix-show.zip",
+    "preview": "",
+    "sequence": "/workspace/scratch/1ed7281f6b64/offline-memory/tuned/job/outputs/audio,v27.3.xsq",
+    "report": "/workspace/scratch/1ed7281f6b64/offline-memory/tuned/job/outputs/Android-run-report.txt",
+    "manifest": "/workspace/scratch/1ed7281f6b64/offline-memory/tuned/job/outputs/android-run.json",
+    "sequence_count": 1,
+    "mode": "xlights",
+    "stages": {
+      "sequencing": {
+        "status": "success"
+      },
+      "packaging": {
+        "status": "success"
+      },
+      "preview": {
+        "status": "skipped"
+      }
+    }
+  },
+  "audio_sha256": "dd988078a13ae2c7be5ebe645ba62adab45f9cb47ae7140134007e408539a632",
+  "source_commit": "d52d23439fd60940809c49674af8dc01e223e9aa",
+  "preview": false,
+  "working_tree_dirty": true,
+  "tested_module_sha256": {
+    "core/bounded_audio.py": "18037a8c1ee065fe91d029dd9dd973ee7acdc8c6e23a9ddaa31ae3dc7e27c7e1",
+    "core/audio_intelligence.py": "5deb6de0c5bce8b8c6d2aab96a96cf451fb42c6b1c625914d897df8731140c80",
+    "core/effect_engine.py": "6c609d3a6ff0184aec3461a9b2bf6992c03d0751f41138aa89279e4d676d2534",
+    "audio/drummer_v3.py": "3a614bcfe56f839a02c0136941d17bfb2257929807253cf6ee72a310a254e839",
+    "xlights/xsq_writer.py": "42e325cf54ddbc8c842b1050c0b80d5fb58b1c1762ebcb277dccc65010fd8cc9",
+    "core/helixualizer.py": "61f21a6fa0e687a8a9624e39fba5ea76f579f956cde35c694cd4ccea7bed0544",
+    "core/chronoflow.py": "91e59443d8d4f26049f47061ba20432f4d5ae614324d346e2a926264f8710155"
+  },
+  "musical_signature": "fed5565412b36f5f48967eaf4e68572cd4b846b399d8f523161b094d31e2864c",
+  "model_effect_count": 43913
+}

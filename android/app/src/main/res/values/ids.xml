@@ -1,0 +1,7 @@
+<resources>
+    <item name="help_instructions" type="id" />
+    <item name="help_legal" type="id" />
+    <item name="help_scroll" type="id" />
+    <item name="help_content" type="id" />
+    <item name="include_band" type="id" />
+</resources>

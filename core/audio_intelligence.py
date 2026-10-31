@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+from contextlib import ExitStack
 import json
 import os
 import shutil
@@ -20,6 +21,8 @@ from core import band_sync
 from core import model_parser as xmp
 from core import spatial_scene
 from core import vocal_emotion
+from core import bounded_audio
+from core.audio_analysis_cache import audio_cache_key, cached_arrays
 from core import vocal_timeline as vt
 from audio import drum_detection as drum_intel
 from audio import instrument_detection
@@ -118,6 +121,11 @@ class NoteEvent:
     velocity: float
     confidence: float
     source_stem: str
+
+    def ownership(self):
+        """Conservative identity derived from labeled source stem and confidence."""
+        from core.source_ownership import ownership_from_stem
+        return ownership_from_stem(self.source_stem, self.confidence)
 
     def to_dict(self) -> dict[str, object]:
         return asdict(self)
@@ -356,11 +364,8 @@ def _clip_audio(y: np.ndarray) -> np.ndarray:
     return np.clip(np.asarray(y, dtype=np.float32), -1.0, 1.0)
 
 
-def _local_stem_separation(audio_path: Path, out_dir: Path, log_fn: Callable[[str], None] | None) -> dict[str, Path]:
-    """Fallback local stem splitting using harmonic/percussive + frequency masking."""
-    _log(log_fn, "Stem split: using local fallback separation.")
-    y, sr = librosa.load(str(audio_path), sr=None, mono=True)
-    y = np.asarray(y, dtype=np.float32)
+def _fallback_stem_samples(y: np.ndarray, sr: int) -> dict[str, np.ndarray]:
+    """The retained HPSS/frequency-mask algorithm, on one aligned audio window."""
     harm, perc = librosa.effects.hpss(y)
 
     n_fft = 2048
@@ -379,16 +384,49 @@ def _local_stem_separation(audio_path: Path, out_dir: Path, log_fn: Callable[[st
     drums = perc
     other = y - (0.62 * vocals + 0.68 * drums + 0.70 * bass)
 
-    stems = {
-        "vocals": out_dir / f"{audio_path.stem}.vocals.wav",
-        "drums": out_dir / f"{audio_path.stem}.drums.wav",
-        "bass": out_dir / f"{audio_path.stem}.bass.wav",
-        "other": out_dir / f"{audio_path.stem}.other.wav",
-    }
-    _write_audio(stems["vocals"], _clip_audio(vocals), sr)
-    _write_audio(stems["drums"], _clip_audio(drums), sr)
-    _write_audio(stems["bass"], _clip_audio(bass), sr)
-    _write_audio(stems["other"], _clip_audio(other), sr)
+    return dict(vocals=vocals, drums=drums, bass=bass, other=other)
+
+
+def _local_stem_separation(audio_path: Path, out_dir: Path, log_fn: Callable[[str], None] | None) -> dict[str, Path]:
+    """Fallback HPSS with bounded full-song memory and unchanged sample clocks."""
+    _log(log_fn, "Stem split: using local fallback separation.")
+    stems = {role: out_dir / f"{audio_path.stem}.{role}.wav"
+             for role in ("vocals", "drums", "bass", "other")}
+    sf = _soundfile_module()
+    try:
+        info = sf.info(str(audio_path)) if sf is not None else None
+    except (RuntimeError, OSError):
+        info = None  # Preserve librosa's existing decoder fallback for other formats.
+    if info is None or info.duration <= 30:
+        y, sr = librosa.load(str(audio_path), sr=None, mono=True)
+        samples = _fallback_stem_samples(np.asarray(y, dtype=np.float32), sr)
+        for role, values in samples.items():
+            _write_audio(stems[role], _clip_audio(values), sr)
+        return stems
+
+    # Keep all window starts on the original 512-sample STFT grid. 64 frames
+    # of source context exceed the 31-frame HPSS median radius plus both
+    # analysis/synthesis windows and the second harmonic STFT. Only the central
+    # samples are written, once: no crossfade, shifted event, lost tail or pad.
+    hop, context = 512, 64 * 512
+    core = max(hop, int(info.samplerate * 8) // hop * hop)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    _log(log_fn, "Stem split: bounded HPSS windows; original sample rate and timing retained.")
+    with ExitStack() as stack:
+        source = stack.enter_context(sf.SoundFile(str(audio_path)))
+        writers = {role: stack.enter_context(sf.SoundFile(str(path), mode="w",
+                   samplerate=info.samplerate, channels=1, subtype="PCM_16"))
+                   for role, path in stems.items()}
+        for start in range(0, info.frames, core):
+            stop = min(start + core, info.frames)
+            left, right = max(0, start - context), min(info.frames, stop + context)
+            source.seek(left)
+            y = source.read(right - left, dtype="float32", always_2d=True).mean(axis=1)
+            samples = _fallback_stem_samples(y, info.samplerate)
+            for role, values in samples.items():
+                writers[role].write(_clip_audio(values[start-left:stop-left]))
+            # Release one window before allocating the next HPSS spectrum.
+            del y, samples, values
     return stems
 
 
@@ -709,23 +747,27 @@ def _classify_background_vocals(path: Path, log_fn: Callable[[str], None] | None
         if y.size < max(2048, int(sr * 0.2)):
             return []
         hop = 512
-        harm, _ = librosa.effects.hpss(y)
+        harm, percussive = bounded_audio.hpss(y, sr)
+        del y, percussive
         rms = librosa.feature.rms(y=harm, hop_length=hop)[0]
         if not rms.size or float(np.max(rms)) <= 0.0:
             return []
         rms01 = np.asarray(rms, dtype=float) / max(float(np.max(rms)), 1e-9)
-        stft_mag = np.abs(librosa.stft(harm, n_fft=2048, hop_length=hop))
-        pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=sr, hop_length=hop, fmin=110.0, fmax=2200.0)
-        if pitch_mag.size:
-            frame_thresholds = np.quantile(pitch_mag, 0.92, axis=0)
-            pitch_counts = np.sum(pitch_mag > np.maximum(frame_thresholds, 1e-8), axis=0)
-            multi_pitch01 = np.clip((pitch_counts - 1.0) / 3.0, 0.0, 1.0)
+        if len(harm) <= 30 * sr:
+            stft_mag = np.abs(librosa.stft(harm, n_fft=2048, hop_length=hop))
+            pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=sr, hop_length=hop, fmin=110.0, fmax=2200.0)
+            if pitch_mag.size:
+                frame_thresholds = np.quantile(pitch_mag, 0.92, axis=0)
+                pitch_counts = np.sum(pitch_mag > np.maximum(frame_thresholds, 1e-8), axis=0)
+                multi_pitch01 = np.clip((pitch_counts - 1.0) / 3.0, 0.0, 1.0)
+            else:
+                multi_pitch01 = np.zeros_like(rms01)
+            chroma = librosa.feature.chroma_stft(S=stft_mag, sr=sr, hop_length=hop)
+            chroma_sum = np.sum(chroma, axis=0) + 1e-9
+            chroma_prob = chroma / chroma_sum
+            chroma_entropy = -np.sum(chroma_prob * np.log2(chroma_prob + 1e-9), axis=0) / np.log2(12.0)
         else:
-            multi_pitch01 = np.zeros_like(rms01)
-        chroma = librosa.feature.chroma_stft(S=stft_mag, sr=sr, hop_length=hop)
-        chroma_sum = np.sum(chroma, axis=0) + 1e-9
-        chroma_prob = chroma / chroma_sum
-        chroma_entropy = -np.sum(chroma_prob * np.log2(chroma_prob + 1e-9), axis=0) / np.log2(12.0)
+            multi_pitch01, chroma_entropy = _bounded_background_features(harm, sr, hop)
         size = min(len(rms01), len(multi_pitch01), len(chroma_entropy))
         if size <= 0:
             return []
@@ -742,6 +784,58 @@ def _classify_background_vocals(path: Path, log_fn: Callable[[str], None] | None
     except Exception as exc:
         _log(log_fn, f"Background vocal classifier skipped: {exc}")
         return []
+
+
+def _bounded_background_features(harm, sr, hop=512):
+    """Reduce pitch/chroma per block, retaining whole-recording tuning.
+
+    Chroma's automatic tuning uses the median magnitude of all nonzero pitch
+    candidates. Keep those sparse candidates across blocks, then apply the same
+    global tuning in a second bounded STFT pass. Per-block tuning would change
+    the classifier and is deliberately avoided.
+    """
+    size = 1 + len(harm) // hop
+    multi_pitch01 = np.zeros(size)
+    tuning_pitches, tuning_magnitudes = [], []
+    for start, magnitude in bounded_audio.magnitude_blocks(harm, hop=hop):
+        _, pitch_mag = librosa.piptrack(S=magnitude, sr=sr, hop_length=hop, fmin=110.0, fmax=2200.0)
+        thresholds = np.quantile(pitch_mag, 0.92, axis=0)
+        counts = np.sum(pitch_mag > np.maximum(thresholds, 1e-8), axis=0)
+        multi_pitch01[start:start+len(counts)] = np.clip((counts - 1.0) / 3.0, 0.0, 1.0)
+        del pitch_mag
+        pitches, magnitudes = librosa.piptrack(S=magnitude, sr=sr)
+        mask = pitches > 0
+        tuning_pitches.append(pitches[mask])
+        tuning_magnitudes.append(magnitudes[mask])
+        del pitches, magnitudes, magnitude
+    pitches = np.concatenate(tuning_pitches)
+    magnitudes = np.concatenate(tuning_magnitudes)
+    threshold = np.median(magnitudes) if magnitudes.size else 0.0
+    tuning = librosa.pitch_tuning(pitches[magnitudes >= threshold], bins_per_octave=12)
+    del tuning_pitches, tuning_magnitudes, pitches, magnitudes
+    chroma_entropy = np.empty(size)
+    # Narrow SGEMM inputs can select a different float32 accumulation kernel
+    # from the original whole-recording chroma transform (observed entropy
+    # drift 1.995e-7). Keep a bounded wide input and align the final window to
+    # the original 64-column grid. Overlap supplies real preceding frames;
+    # no zeros, new events, local tuning or relaxed comparisons are introduced.
+    # At most 2111 frequency frames are retained by the final transform.
+    chroma_frames = 2048
+    previous_magnitude = None
+    for start, magnitude in bounded_audio.magnitude_blocks(harm, hop=hop, block_frames=chroma_frames):
+        count = magnitude.shape[1]
+        offset = 0
+        window = magnitude
+        if previous_magnitude is not None and count < chroma_frames:
+            offset = chroma_frames + size % 64 - count
+            window = np.concatenate((previous_magnitude[:, -offset:], magnitude), axis=1)
+        chroma = librosa.feature.chroma_stft(S=window, sr=sr, hop_length=hop, tuning=tuning)
+        probability = chroma / (np.sum(chroma, axis=0) + 1e-9)
+        entropy = -np.sum(probability * np.log2(probability + 1e-9), axis=0) / np.log2(12.0)
+        chroma_entropy[start:start+count] = entropy[offset:offset+count]
+        previous_magnitude = magnitude
+        del window, chroma, probability, entropy
+    return multi_pitch01, chroma_entropy
 
 
 def _summarize_stem_file(
@@ -776,8 +870,8 @@ def _summarize_stem_file(
     ) if onset_env.size else np.asarray([], dtype=int)
     limit = max(1, int(max_events_per_second * max(1.0, len(y) / max(1.0, float(sr))) * 0.2))
     times_s = librosa.frames_to_time(np.arange(len(rms)), sr=sr, hop_length=hop)
-    total = max(1e-9, float(np.sum(np.abs(librosa.stft(y, n_fft=2048, hop_length=hop)))))
     spec = np.abs(librosa.stft(y, n_fft=2048, hop_length=hop))
+    total = max(1e-9, float(np.sum(spec)))
     freqs = librosa.fft_frequencies(sr=sr, n_fft=2048)
     low = float(np.sum(spec[(freqs >= 20) & (freqs < 250)])) / total
     mid = float(np.sum(spec[(freqs >= 250) & (freqs < 2500)])) / total
@@ -841,18 +935,59 @@ def build_stem_analysis(
 
     stems: dict[str, Path] | None = None
     source = "local"
+    # Only reuse stems accompanied by a source fingerprint. Filename or mtime
+    # alone is insufficient: different recordings may share the same basename.
+    import hashlib
+    source_digest = hashlib.sha256()
+    with audio_path.open("rb") as source_file:
+        for chunk in iter(lambda: source_file.read(1024 * 1024), b""):
+            source_digest.update(chunk)
+    source_sha256 = source_digest.hexdigest()
+    local_paths = {
+        role: stem_dir / f"{audio_path.stem}.{role}.wav"
+        for role in ("vocals", "drums", "bass", "other")
+    }
+    local_manifest = stem_dir / "helix-local-stems.json"
+    if not use_moises and os.environ.get("HELIX_USE_DEMUCS", "").strip().lower() not in {"1", "true", "yes"}:
+        try:
+            manifest = json.loads(local_manifest.read_text(encoding="utf-8"))
+            if (manifest.get("source_sha256") == source_sha256
+                    and manifest.get("format") == "helix-local-hpss-v1"
+                    and all(p.is_file() and p.stat().st_size > 44
+                            and p.stat().st_mtime_ns >= audio_path.stat().st_mtime_ns
+                            for p in local_paths.values())):
+                stems = local_paths
+                _log(log_fn, "Stem split: reusing source-verified local WAV stems.")
+        except (OSError, ValueError, TypeError):
+            pass
     if use_moises:
         stems = _try_moises_stem_separation(audio_path, stem_dir, api_key or "", log_fn)
         if stems:
             source = "moises"
-    if not stems:
+    # Demucs is expensive and must be explicitly opted into. Its presence on
+    # PATH alone must not silently turn a normal sequence into a long ML job.
+    if not stems and os.environ.get("HELIX_USE_DEMUCS", "").strip().lower() in {"1", "true", "yes"}:
         stems = _try_demucs_stem_separation(audio_path, stem_dir, log_fn)
         if stems:
             source = "demucs"
     if not stems:
         try:
+            # Invalidate the old manifest before writing any replacement WAV.
+            # A partial/failed separation must never leave a trusted cache.
+            local_manifest.unlink(missing_ok=True)
             stems = _local_stem_separation(audio_path, stem_dir, log_fn)
+            if not all(p.is_file() and p.stat().st_size > 44 for p in local_paths.values()):
+                raise RuntimeError("Local stem separation did not produce four complete WAVs")
             source = "local"
+            manifest_temp = local_manifest.with_suffix(".json.tmp")
+            try:
+                manifest_temp.write_text(
+                    json.dumps({"format": "helix-local-hpss-v1", "source_sha256": source_sha256}),
+                    encoding="utf-8",
+                )
+                manifest_temp.replace(local_manifest)
+            finally:
+                manifest_temp.unlink(missing_ok=True)
         except Exception as exc:
             _log(log_fn, f"Stem split fallback failed, using direct audio analysis only: {exc}")
             stems = {}
@@ -1268,7 +1403,8 @@ def _extract_note_candidates(
     source_stem: str,
     config: AudioAnalysisConfig,
 ) -> tuple[list[NoteEvent], list[dict[str, object]]]:
-    harm, _ = librosa.effects.hpss(y)
+    harm, percussive = bounded_audio.hpss(y, sr)
+    del percussive
     hop = 512
     stft_mag = np.abs(librosa.stft(harm, n_fft=2048, hop_length=hop))
     pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=sr, hop_length=hop, fmin=40.0, fmax=2400.0)
@@ -1276,17 +1412,32 @@ def _extract_note_candidates(
     raw_candidates: list[dict[str, object]] = []
     note_events: list[NoteEvent] = []
     active: dict[int, dict[str, float]] = {}
+    # Compute the gap threshold once rather than for every active note frame.
+    continuity_ms = max(90, config.smoothing_window_ms)
+    # The global pitch normalization factor is invariant across frames.
+    # Computing it inside the loop repeatedly scans the full pitch matrix.
+    # Use a bounded per-frame peak array instead of a second full-size
+    # pitch matrix, which is costly for long recordings and Android devices.
+    finite_peaks = np.zeros(stft_mag.shape[1], dtype=np.float32)
+    peak_indices = np.zeros(stft_mag.shape[1], dtype=np.intp)
+    for frame_idx in range(stft_mag.shape[1]):
+        mags = pitch_mag[:, frame_idx]
+        if not mags.size:
+            continue
+        finite_column = np.where(np.isfinite(mags), mags, 0.0)
+        peak_indices[frame_idx] = int(np.argmax(finite_column))
+        finite_peaks[frame_idx] = max(0.0, float(finite_column[peak_indices[frame_idx]]))
+    max_mag = float(np.max(finite_peaks)) if finite_peaks.size else 0.0
     for frame_idx in range(stft_mag.shape[1]):
         mags = pitch_mag[:, frame_idx]
         if mags.size == 0:
             continue
-        best_idx = int(np.argmax(mags))
+        best_idx = int(peak_indices[frame_idx])
         best_hz = float(pitch_hz[best_idx, frame_idx])
         best_mag = float(mags[best_idx])
-        max_mag = float(np.max(pitch_mag)) if pitch_mag.size else 0.0
-        confidence = _clamp01(best_mag / max(1e-9, max_mag))
-        if best_hz <= 0.0:
+        if not np.isfinite(best_hz) or best_hz <= 0.0 or not np.isfinite(best_mag) or best_mag <= 0.0:
             continue
+        confidence = _clamp01(best_mag / max(1e-9, max_mag))
         midi = int(round(float(librosa.hz_to_midi(best_hz))))
         time_ms = int(round(float(frame_times_s[frame_idx]) * 1000.0))
         raw_candidates.append(
@@ -1304,7 +1455,7 @@ def _extract_note_candidates(
         if current is None:
             active[midi] = {"start_ms": time_ms, "last_ms": time_ms, "velocity": confidence, "pitch_hz": best_hz, "confidence": confidence}
             continue
-        if time_ms - int(current["last_ms"]) <= max(90, config.smoothing_window_ms):
+        if time_ms - int(current["last_ms"]) <= continuity_ms:
             current["last_ms"] = time_ms
             current["velocity"] = max(float(current["velocity"]), confidence)
             current["confidence"] = max(float(current["confidence"]), confidence)
@@ -1577,7 +1728,17 @@ def analyze_audio_file(
     y = np.asarray(y, dtype=np.float32).reshape(-1)
     duration_s = float(len(y) / max(1, sr))
     hop = 512
-    onset_env = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop)
+    def _compute_onset() -> dict[str, np.ndarray]:
+        return {"onset_env": np.asarray(librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop))}
+
+    try:
+        onset_key = audio_cache_key(audio_path, {
+            "feature": "onset_strength", "sr": int(sr), "hop": hop,
+            "mono": True, "librosa": str(librosa.__version__),
+        })
+        onset_env = cached_arrays(cache_root / "features", onset_key, _compute_onset)["onset_env"]
+    except (OSError, ValueError, TypeError, KeyError, EOFError):
+        onset_env = _compute_onset()["onset_env"]
     frame_times_s = librosa.frames_to_time(np.arange(len(onset_env)), sr=sr, hop_length=hop)
     duration_ms = int(round(duration_s * 1000.0))
     onset_limit = _event_cap(settings.max_candidate_events_per_second, duration_s)
@@ -1609,7 +1770,7 @@ def analyze_audio_file(
     mfcc = librosa.feature.mfcc(y=y, sr=sr, hop_length=hop, n_mfcc=13)
     mfcc_delta = librosa.feature.delta(mfcc) if mfcc.size else np.asarray([], dtype=float)
     chroma = librosa.feature.chroma_stft(y=y, sr=sr, hop_length=hop)
-    harm, perc = librosa.effects.hpss(y)
+    harm, perc = bounded_audio.hpss(y, sr)
     perc_onset = librosa.onset.onset_strength(y=perc, sr=sr, hop_length=hop)
     harmonic_change = np.abs(np.diff(np.mean(chroma, axis=0))) if chroma.size else np.asarray([], dtype=float)
     brightness01 = centroid / max(1e-9, float(np.max(centroid) if centroid.size else 1.0))

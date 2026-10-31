@@ -1,0 +1,130 @@
+{
+  "36": {
+    "source_commit": "60ca8be0c11d177f930ce82d2c519538732fcdd8",
+    "artifact_id": 12636037914,
+    "artifact_sha256": "d22dae4c33b4e06dc7f236581a3ffd5155e150c9f853fc90625e169e5ba33c59",
+    "tests": {
+      "name": "org.helixsequencer.android.InfoAndBandUiTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "347.835",
+      "timestamp": "2026-10-26T08:16:04",
+      "hostname": "localhost"
+    },
+    "testcases": [
+      {
+        "name": "bandSwitchSurvivesActivityRecreation",
+        "classname": "org.helixsequencer.android.InfoAndBandUiTest",
+        "time": "1.7"
+      },
+      {
+        "name": "instructionsSwitchAndRotationKeepTheRightPageAndScroll",
+        "classname": "org.helixsequencer.android.InfoAndBandUiTest",
+        "time": "0.818"
+      },
+      {
+        "name": "runsBothModesLocallyAndEncodesRealAudio",
+        "classname": "org.helixsequencer.android.OfflineEngineTest",
+        "time": "338.897"
+      },
+      {
+        "name": "pairsUploadsControlsAndDownloadsAcrossEmulatorNetwork",
+        "classname": "org.helixsequencer.android.RemoteClientTest",
+        "time": "5.225"
+      }
+    ],
+    "install": {
+      "fresh_install": true,
+      "launch_verified": true,
+      "apk_sha256": "36dcfc5be103b0c3a25f54abdb7db533667a76fd26cdc1391c409e07561bd550",
+      "launch_output": "Starting: Intent { cmp=org.helixsequencer.android/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: org.helixsequencer.android/.MainActivity\nTotalTime: 1011\nWaitTime: 1019\nComplete\n",
+      "same_key_same_version_reinstall": true,
+      "private_data_preserved": true,
+      "old_beta_certificate_upgrade": "not tested"
+    },
+    "ui": {
+      "instructions_scroll_and_recreation": true,
+      "band_switch_persisted": true
+    },
+    "full_song": {
+      "mode": "full-song",
+      "frames": 3562,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "237.466708",
+      "source_duration_seconds": 237.43997916666666,
+      "full_song_preview_verified": true,
+      "max_mean_pixel_error": 2.2302025462962964,
+      "minimum_expected_lit_pixels_visible": 0.9649313087490962,
+      "audio_correlation": 0.9957144538319959,
+      "audio_offset_ms": 0.0
+    },
+    "apk_bytes": 144446564
+  },
+  "30": {
+    "source_commit": "60ca8be0c11d177f930ce82d2c519538732fcdd8",
+    "artifact_id": 12635687664,
+    "artifact_sha256": "9063234796da6df73adb3bf12baa37d9399919d135e200d16f4cd1fb4ee565c9",
+    "tests": {
+      "name": "org.helixsequencer.android.InfoAndBandUiTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "495.658",
+      "timestamp": "2026-10-26T08:17:05",
+      "hostname": "localhost"
+    },
+    "testcases": [
+      {
+        "name": "bandSwitchSurvivesActivityRecreation",
+        "classname": "org.helixsequencer.android.InfoAndBandUiTest",
+        "time": "0.654"
+      },
+      {
+        "name": "instructionsSwitchAndRotationKeepTheRightPageAndScroll",
+        "classname": "org.helixsequencer.android.InfoAndBandUiTest",
+        "time": "0.706"
+      },
+      {
+        "name": "runsBothModesLocallyAndEncodesRealAudio",
+        "classname": "org.helixsequencer.android.OfflineEngineTest",
+        "time": "492.796"
+      },
+      {
+        "name": "pairsUploadsControlsAndDownloadsAcrossEmulatorNetwork",
+        "classname": "org.helixsequencer.android.RemoteClientTest",
+        "time": "0.203"
+      }
+    ],
+    "install": {
+      "fresh_install": true,
+      "launch_verified": true,
+      "apk_sha256": "90bc1bcfc6e4df714fa2252041d8a40751630b57ed45c0747b205a3505874753",
+      "launch_output": "Starting: Intent { cmp=org.helixsequencer.android/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: org.helixsequencer.android/.MainActivity\nTotalTime: 448\nWaitTime: 455\nComplete\n",
+      "same_key_same_version_reinstall": true,
+      "private_data_preserved": true,
+      "old_beta_certificate_upgrade": "not tested"
+    },
+    "ui": {
+      "instructions_scroll_and_recreation": true,
+      "band_switch_persisted": true
+    },
+    "full_song": {
+      "mode": "full-song",
+      "frames": 3562,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "237.466708",
+      "source_duration_seconds": 237.43997916666666,
+      "full_song_preview_verified": true,
+      "max_mean_pixel_error": 1.728548900462963,
+      "minimum_expected_lit_pixels_visible": 0.9649313087490962,
+      "audio_correlation": 0.9957144538319959,
+      "audio_offset_ms": 0.0
+    },
+    "apk_bytes": 116023472
+  }
+}

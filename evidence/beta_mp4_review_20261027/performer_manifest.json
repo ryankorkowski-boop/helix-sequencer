@@ -1,0 +1,149 @@
+{
+  "performers": [
+    {
+      "name": "HX_SNOW_DRUMMER",
+      "role": "drummer",
+      "source_module": "models.canonical_native_band / models.final_band_native / models.final_band_scene",
+      "source_model_sha256": "8b7528aac70a6d45bf5760931902906c4440649c98e39ab3802f4987341334d6",
+      "source_layout": "/workspace/scratch/ec314907d82d/resume-band-show/xlights_rgbeffects.xml",
+      "source_layout_sha256": "4ecc89255968da0dbd9b8533839082b8b2fa10233b057a781c93dffc73ca0559",
+      "start_channel": 1,
+      "depth": 1,
+      "placement": {
+        "WorldPosX": "0.0",
+        "WorldPosY": "26.0",
+        "WorldPosZ": "65.0",
+        "ScaleX": "0.47368421052631576",
+        "ScaleY": "0.4112676056338028",
+        "ScaleZ": "2.0"
+      },
+      "animation_controller": "tools.canonical_band_cues.export_drums",
+      "owner_approved": false,
+      "actual_native_fseq_sha256": "97f959f5f5aab60064464dabc49ca0c12aed4e277fa357a518c748ac45155662",
+      "actual_native_movie_sha256": "3b0e77e3e01f9b290fa7eb2c8940541afcf54c94ac30db98d8ff0b89ba5d22b4"
+    },
+    {
+      "name": "HX_SNOW_BASS",
+      "role": "bass",
+      "source_module": "models.canonical_native_band / models.final_band_native / models.final_band_scene",
+      "source_model_sha256": "6df9f4b2ea763eadb00da5e7749923e07a800a260e6392317958e336a614f994",
+      "source_layout": "/workspace/scratch/ec314907d82d/resume-band-show/xlights_rgbeffects.xml",
+      "source_layout_sha256": "4ecc89255968da0dbd9b8533839082b8b2fa10233b057a781c93dffc73ca0559",
+      "start_channel": 20737,
+      "depth": 114,
+      "placement": {
+        "WorldPosX": "-24.0",
+        "WorldPosY": "9.0",
+        "WorldPosZ": "80.0",
+        "ScaleX": "0.0625",
+        "ScaleY": "0.0625",
+        "ScaleZ": "0.0625"
+      },
+      "animation_controller": "tools.canonical_band_cues.export_instruments",
+      "owner_approved": false,
+      "actual_native_fseq_sha256": "97f959f5f5aab60064464dabc49ca0c12aed4e277fa357a518c748ac45155662",
+      "actual_native_movie_sha256": "3b0e77e3e01f9b290fa7eb2c8940541afcf54c94ac30db98d8ff0b89ba5d22b4"
+    },
+    {
+      "name": "HX_SNOW_GUITAR",
+      "role": "guitar",
+      "source_module": "models.canonical_native_band / models.final_band_native / models.final_band_scene",
+      "source_model_sha256": "cd74ba959ba0a9a684f4b0e2d7ed3696fda64f30dd9e59f34042f59c2d81af27",
+      "source_layout": "/workspace/scratch/ec314907d82d/resume-band-show/xlights_rgbeffects.xml",
+      "source_layout_sha256": "4ecc89255968da0dbd9b8533839082b8b2fa10233b057a781c93dffc73ca0559",
+      "start_channel": 73573,
+      "depth": 118,
+      "placement": {
+        "WorldPosX": "24.0",
+        "WorldPosY": "9.0",
+        "WorldPosZ": "80.0",
+        "ScaleX": "0.0625",
+        "ScaleY": "0.0625",
+        "ScaleZ": "0.0625"
+      },
+      "animation_controller": "tools.canonical_band_cues.export_instruments",
+      "owner_approved": false,
+      "actual_native_fseq_sha256": "97f959f5f5aab60064464dabc49ca0c12aed4e277fa357a518c748ac45155662",
+      "actual_native_movie_sha256": "3b0e77e3e01f9b290fa7eb2c8940541afcf54c94ac30db98d8ff0b89ba5d22b4"
+    },
+    {
+      "name": "HX_SNOW_LEAD",
+      "role": "lead",
+      "source_module": "models.canonical_native_band / models.final_band_native / models.final_band_scene",
+      "source_model_sha256": "7d3dfd090c4743bcf806b3cf395d6565b167b5774cd124cab29c1f0e1b935559",
+      "source_layout": "/workspace/scratch/ec314907d82d/resume-band-show/xlights_rgbeffects.xml",
+      "source_layout_sha256": "4ecc89255968da0dbd9b8533839082b8b2fa10233b057a781c93dffc73ca0559",
+      "start_channel": 124822,
+      "depth": 102,
+      "placement": {
+        "WorldPosX": "-8.0",
+        "WorldPosY": "9.0",
+        "WorldPosZ": "80.0",
+        "ScaleX": "0.0625",
+        "ScaleY": "0.0625",
+        "ScaleZ": "0.0625"
+      },
+      "animation_controller": "tools.phoneme_vocal_export.export",
+      "owner_approved": false,
+      "actual_native_fseq_sha256": "97f959f5f5aab60064464dabc49ca0c12aed4e277fa357a518c748ac45155662",
+      "actual_native_movie_sha256": "3b0e77e3e01f9b290fa7eb2c8940541afcf54c94ac30db98d8ff0b89ba5d22b4"
+    },
+    {
+      "name": "HX_SNOW_HARMONY",
+      "role": "harmony",
+      "source_module": "models.canonical_native_band / models.final_band_native / models.final_band_scene",
+      "source_model_sha256": "dbd7667c87d57d930b7a20b61408729ad42446499f05ecf6c016e9dd4ae7cf21",
+      "source_layout": "/workspace/scratch/ec314907d82d/resume-band-show/xlights_rgbeffects.xml",
+      "source_layout_sha256": "4ecc89255968da0dbd9b8533839082b8b2fa10233b057a781c93dffc73ca0559",
+      "start_channel": 158755,
+      "depth": 102,
+      "placement": {
+        "WorldPosX": "8.0",
+        "WorldPosY": "9.0",
+        "WorldPosZ": "80.0",
+        "ScaleX": "0.0625",
+        "ScaleY": "0.0625",
+        "ScaleZ": "0.0625"
+      },
+      "animation_controller": "tools.phoneme_vocal_export.export",
+      "owner_approved": false,
+      "actual_native_fseq_sha256": "97f959f5f5aab60064464dabc49ca0c12aed4e277fa357a518c748ac45155662",
+      "actual_native_movie_sha256": "3b0e77e3e01f9b290fa7eb2c8940541afcf54c94ac30db98d8ff0b89ba5d22b4"
+    },
+    {
+      "name": "HX_SNOW_PIANO",
+      "role": "piano",
+      "source_module": "models.canonical_native_band / models.final_band_native / models.final_band_scene",
+      "source_model_sha256": "57f38fa42d8923942ea7da659e93bd1ecd971b1dc33b646bb8c04b95dcc19867",
+      "source_layout": "/workspace/scratch/ec314907d82d/resume-band-show/xlights_rgbeffects.xml",
+      "source_layout_sha256": "4ecc89255968da0dbd9b8533839082b8b2fa10233b057a781c93dffc73ca0559",
+      "start_channel": 192688,
+      "depth": 124,
+      "placement": {
+        "WorldPosX": "-30.0",
+        "WorldPosY": "28.0",
+        "WorldPosZ": "65.0",
+        "ScaleX": "0.0625",
+        "ScaleY": "0.0625",
+        "ScaleZ": "0.0625"
+      },
+      "animation_controller": "tools.canonical_band_cues.export_instruments",
+      "owner_approved": false,
+      "actual_native_fseq_sha256": "97f959f5f5aab60064464dabc49ca0c12aed4e277fa357a518c748ac45155662",
+      "actual_native_movie_sha256": "3b0e77e3e01f9b290fa7eb2c8940541afcf54c94ac30db98d8ff0b89ba5d22b4"
+    }
+  ],
+  "canonical_approved_3d_verified": false,
+  "source_modules": {
+    "models/final_band_scene.py": "cd7120596f8058b324c3363f115154120ada7dbb8568ea1e3d68af15a99ae96c",
+    "models/final_band_native.py": "bea203ec76167fc6285c2b885cc65aab0246a79966cc84a91dc80171595ca376",
+    "models/canonical_native_band.py": "a8e6347e478b00fae7fa2b3fbea69a3c871d043796abc8583d649ba7c00076f7",
+    "tools/canonical_band_cues.py": "1d97c8f45d8580df53a68a73f3a170f3372db4a90f79bb34beb2829ca178b631",
+    "tools/phoneme_vocal_export.py": "cdc7c35d5c6b20c999655dd5dfcf80390a895cd04d417bc8f24db6a26d71be82"
+  },
+  "source_images": {
+    "fixtures/band_geometry/source/drummer_idle.png": "7299061b867c324ee46f037aef15fe64a04f946992021235e69ec137e9f4137e",
+    "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa"
+  },
+  "visual_inspection": "Beginning/middle/end and vocal/percussion state stills inspected; actual playback not watched"
+}

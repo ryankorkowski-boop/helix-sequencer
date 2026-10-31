@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import math
@@ -20,6 +21,7 @@ from core.lazy_imports import LazyModule
 
 from core import audit as sequence_audit
 from core import audio_trigger_routes
+from core import event_provenance
 from core import audio_intelligence as ai
 from core import chronoflow as chronoflow_engine
 from core import helixualizer as helixualizer_engine
@@ -33,6 +35,7 @@ from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
 from core import band_sync as band_sync_engine
+from core import band_planning
 from core import youtube_show_scorer
 from effects import piano_effect as piano_effect_engine
 from core import spatial_scene as spatial
@@ -88,6 +91,7 @@ class NoteEvent:
     notes: list[tuple[int, float]]
     part: str
     section: str
+    source_owner: dict[str, object] | None = None
 
 
 @dataclass
@@ -166,6 +170,8 @@ class RuntimeTuning:
     cane_focus: float = 1.0
     flash_guard: float = 0.80
     keyboard_mix: float = 1.0
+    require_keyboard_source_ownership: bool = False
+    keyboard_ownership_threshold: float = 0.7
     model_overrides: dict[str, str | list[str]] | None = None
     use_moises: bool = False
     moises_api_key: str | None = None
@@ -1641,7 +1647,9 @@ def pools_by_category(pools: list[SequentialPool], categories: tuple[str, ...]) 
 
 
 def analyze_harmonic(audio: base.Audio) -> HarmonicData:
-    y_harm, _ = librosa.effects.hpss(audio.y)
+    from core.bounded_audio import hpss
+    y_harm, percussive = hpss(audio.y, audio.sr)
+    del percussive
     hop = base.HOP_MS
     cqt_mag = np.abs(
         librosa.cqt(
@@ -1655,7 +1663,11 @@ def analyze_harmonic(audio: base.Audio) -> HarmonicData:
     )
     # Supplement CQT with piptrack so polyphonic note picking can use true pitch bins too.
     stft_mag = np.abs(librosa.stft(y_harm, n_fft=2048, hop_length=hop))
-    pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=audio.sr, hop_length=hop, fmin=65.0, fmax=2800.0)
+    if audio.dur_s > 30:
+        from core.bounded_audio import pitch_matrices
+        pitch_hz, pitch_mag = pitch_matrices(stft_mag, sr=audio.sr, hop_length=hop, fmin=65.0, fmax=2800.0)
+    else:
+        pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=audio.sr, hop_length=hop, fmin=65.0, fmax=2800.0)
     times_s = librosa.frames_to_time(np.arange(cqt_mag.shape[1]), sr=audio.sr, hop_length=hop)
     return HarmonicData(
         times_s=np.asarray(times_s),
@@ -1940,7 +1952,6 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
     spectrum = np.abs(librosa.stft(audio.y, n_fft=n_fft, hop_length=hop)) ** 2
     if spectrum.size == 0:
         return MultiBandAnalysis([], [], [], [], [], [], [], {})
-    magnitude = np.sqrt(np.maximum(0.0, np.asarray(spectrum, dtype=float)))
     frame_count = int(spectrum.shape[1])
     freqs = librosa.fft_frequencies(sr=audio.sr, n_fft=n_fft)
     frame_times = librosa.frames_to_time(np.arange(frame_count), sr=audio.sr, hop_length=hop)
@@ -1962,9 +1973,8 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
     mid_marks = _series_peak_marks(frame_times, mid_env, threshold=0.38, wait=7, gap_ms=95)
     high_marks = _series_peak_marks(frame_times, high_env, threshold=0.34, wait=6, gap_ms=80)
 
-    diff = np.diff(np.asarray(spectrum, dtype=float), axis=1)
-    flux = np.sum(np.clip(diff, 0.0, None), axis=0)
-    flux = np.pad(flux, (1, 0), mode="constant")
+    from core.bounded_audio import positive_flux, spectral_descriptors
+    flux = positive_flux(spectrum)
     flux01 = base.norm01(np.nan_to_num(np.asarray(flux, dtype=float), nan=0.0, posinf=0.0, neginf=0.0))
     flux_marks = _series_peak_marks(frame_times, flux, threshold=0.40, wait=8, gap_ms=90)
 
@@ -1995,11 +2005,13 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
             marks = [base.ms(float(frame_times[i])) for i in range(len(frame_times)) if int(dominant_idx[i]) == idx and dominant_strength[i] >= 0.28]
             dominance_marks[name] = base.compress_times_ms(marks, base.scaled_gap(180))
 
-    centroid = _align_curve(librosa.feature.spectral_centroid(S=magnitude, sr=audio.sr)[0], frame_count)
-    bandwidth = _align_curve(librosa.feature.spectral_bandwidth(S=magnitude, sr=audio.sr)[0], frame_count)
-    contrast = np.asarray(librosa.feature.spectral_contrast(S=magnitude, sr=audio.sr), dtype=float)
+    centroid, bandwidth, contrast, flatness = spectral_descriptors(spectrum, sr=audio.sr, power=True)
+    centroid = _align_curve(centroid, frame_count)
+    bandwidth = _align_curve(bandwidth, frame_count)
+    contrast = np.asarray(contrast, dtype=float)
     contrast_curve = _align_curve(np.asarray(contrast.mean(axis=0), dtype=float), frame_count)
-    flatness = _align_curve(librosa.feature.spectral_flatness(S=magnitude)[0], frame_count)
+    flatness = _align_curve(flatness, frame_count)
+    del spectrum
 
     mfcc_motion = np.zeros(frame_count, dtype=float)
     chroma_stability = np.zeros(frame_count, dtype=float)
@@ -2012,7 +2024,11 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
     except Exception:
         mfcc_motion = np.zeros(frame_count, dtype=float)
     try:
-        chroma = np.asarray(librosa.feature.chroma_cqt(y=audio.y, sr=audio.sr, hop_length=hop), dtype=float)
+        options = {}
+        if len(audio.y) > 30 * audio.sr:
+            from core.bounded_audio import estimate_tuning
+            options['tuning'] = estimate_tuning(audio.y, sr=audio.sr, bins_per_octave=36)
+        chroma = np.asarray(librosa.feature.chroma_cqt(y=audio.y, sr=audio.sr, hop_length=hop, **options), dtype=float)
         if chroma.size:
             denom = np.sum(chroma, axis=0) + 1e-9
             chroma_stability = _align_curve(np.max(chroma, axis=0) / denom, frame_count)
@@ -9285,7 +9301,8 @@ def allowed_requested_effects_for_target(
     tuning: RuntimeTuning,
 ) -> set[str]:
     ac_allowed = {"on", "ramp", "strobe", "twinkle", "shimmer"}
-    if tuning.ac_lights_only:
+    if tuning.ac_lights_only or (model is not None and
+                                (model.is_single_color() or not model.is_rgb_capable())):
         return ac_allowed
 
     semantic = base.normalize_name(model.type) if model is not None else ""
@@ -9362,6 +9379,10 @@ def pick_runtime_effect(
     workspace_history: WorkspaceHistoryProfile | None,
     fallback: str,
 ) -> str:
+    # Mixed layouts need per-target AC safety even when global AC-only is off.
+    ac_target = tuning.ac_lights_only or (parsed_model is not None and
+                                        (parsed_model.is_single_color() or
+                                         not parsed_model.is_rgb_capable()))
     selected = requested
     prefer_requested = (requested or "").strip().lower() not in {"", "on", "ramp"}
     if requested.strip().lower() in {"on", "ramp"}:
@@ -9388,6 +9409,20 @@ def pick_runtime_effect(
         tuning=tuning,
     )
     history_effects = (workspace_history.family_effects.get(family_key, []) if workspace_history else []) or []
+    # Workspace-learned effects must pass the same model compatibility gate as
+    # explicitly requested effects. A family's historical choice may belong to
+    # a different physical model type or a submodel with fewer capabilities.
+    history_effects = [
+        name for name in history_effects
+        if requested_effect_supported_for_target(
+            requested=name,
+            layer=layer,
+            family=family_key,
+            model=parsed_model,
+            tuning=tuning,
+            catalog=catalog,
+        )
+    ]
     normalized_requested = xfb.normalize_effect_name(requested, catalog) or requested
     choice_pool: list[str] = []
     if prefer_requested and requested_effect_supported_for_target(
@@ -9399,15 +9434,30 @@ def pick_runtime_effect(
         catalog=catalog,
     ):
         choice_pool.append(normalized_requested)
+    # Existing --ac-lights-only must also fence workspace-learned effects:
+    # the normal candidate list was AC-safe, but memory suggestions weren't.
+    ac_effect_names = {"on", "ramp", "strobe", "twinkle", "shimmer"}
+    if ac_target:
+        history_effects = [
+            name for name in history_effects
+            if name.strip().lower() in ac_effect_names
+        ]
     choice_pool.extend(history_effects)
     choice_pool.extend(candidates)
     choice_pool.append(selected)
-    selected = choose_first(choice_pool, selected)
+    if ac_target:
+        choice_pool = [
+            name for name in choice_pool
+            if name.strip().lower() in ac_effect_names
+        ]
+    selected = choose_first(choice_pool, "On" if ac_target else selected)
     selected = xfb.normalize_effect_name(selected, catalog) or fallback
+    if ac_target and selected.strip().lower() not in ac_effect_names:
+        return "On"
     if tuning.strict_xlights_effects:
         valid = {name.lower() for name in xfb.catalog_effect_names(catalog)}
         if valid and selected.lower() not in valid:
-            return fallback
+            return "On" if ac_target else fallback
     return selected
 
 
@@ -10172,6 +10222,13 @@ def build_all_models_all_effects_sequence(
         base.indent_xml(xsq.root)
     except Exception:
         pass
+    if active_layout_file and active_layout_file.exists():
+        row_check = base.validate_xsq_layout_rows(xsq, active_layout_file)
+        if not row_check["passed"]:
+            raise RuntimeError("XSQ is missing editable model rows: " + ", ".join(row_check["missing_rows"]))
+        log(f"Editable model rows validated: {row_check['actual_mapped_rows']}/{row_check['expected_rows']}")
+    from xlights.xml_io import materialize_native_effect_tables
+    materialize_native_effect_tables(xsq.root)
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
     return out_path
 
@@ -10183,8 +10240,12 @@ def run_variant(
     out_path: Path,
     profile: base.UserProfile,
     tuning: RuntimeTuning | None = None,
+    analysis_cache=None,
 ) -> dict[str, object]:
     tuning = tuning or RuntimeTuning()
+    if analysis_cache is not None:
+        analysis_cache.validate_source(audio_path)
+        analysis_cache.validate_configuration((bool(tuning.use_moises), tuning.moises_api_key or ""))
     style = apply_runtime_style(style, tuning)
     rng = random.Random(base.SEED + base.stable_name_seed(style.version + audio_path.stem.lower()))
     auto_layer_name = f"AUTO_DreamSequenceWeaver_{style.version.replace('.', '_')}"
@@ -10380,9 +10441,11 @@ def run_variant(
         )
 
     log("[2/8] Analyzing audio and polyphony")
-    audio = base.analyze(audio_path)
+    audio = analysis_cache.get("audio", lambda: base.analyze(audio_path)) if analysis_cache else base.analyze(audio_path)
+    from xlights.xml_io import set_sequence_duration
+    set_sequence_duration(xsq.root, float(audio.dur_s))
     song_length_ms = max(1000, int(audio.dur_s * 1000.0))
-    harmonic = analyze_harmonic(audio)
+    harmonic = analysis_cache.get("harmonic", lambda: analyze_harmonic(audio)) if analysis_cache else analyze_harmonic(audio)
     sections = base.detect_sections(audio)
     parts = infer_song_parts(sections)
     if parts:
@@ -10431,13 +10494,15 @@ def run_variant(
         [base.ms(t) for t in base.peak_times(audio.times_s, audio.bass01, 0.16, 8)],
         base.scaled_gap(80),
     )
-    stem_analysis = ai.build_stem_analysis(
-        audio_path=audio_path,
-        use_moises=bool(tuning.use_moises),
-        api_key=(tuning.moises_api_key or ""),
-        cache_dir=Path("RenderCache") / "stems",
-        log_fn=log,
-    )
+    def analyze_stems():
+        return ai.build_stem_analysis(
+            audio_path=audio_path,
+            use_moises=bool(tuning.use_moises),
+            api_key=(tuning.moises_api_key or ""),
+            cache_dir=Path("RenderCache") / "stems",
+            log_fn=log,
+        )
+    stem_analysis = analysis_cache.get("stems", analyze_stems) if analysis_cache else analyze_stems()
     if stem_analysis.bass_peaks_ms:
         bass_peaks = base.compress_times_ms(stem_analysis.bass_peaks_ms, base.scaled_gap(75))
     if stem_analysis.vocal_peaks_ms:
@@ -10449,7 +10514,7 @@ def run_variant(
     if stem_analysis.drum_hats_ms:
         hats = base.compress_times_ms(stem_analysis.drum_hats_ms, base.scaled_gap(22))
     energy_peaks, build_lifts, releases = derive_dynamic_marks(audio)
-    multiband = derive_multiband_analysis(audio)
+    multiband = analysis_cache.get("multiband", lambda: derive_multiband_analysis(audio), copy_result=True) if analysis_cache else derive_multiband_analysis(audio)
     multiband.section_profiles = derive_section_mir_profiles(
         parts=parts,
         audio=audio,
@@ -10660,54 +10725,30 @@ def run_variant(
             "layout_mapping": {},
             "debug": {"event_count": 0, "trajectory_count": 0, "lyric_count": len(lyric_events)},
         }
-    try:
-        band_sync_payload = band_sync_engine.build_band_sync_plan(
-            parts=parts,
-            beat_ms=beat_ms,
-            onset_ms=onset_ms,
-            vocal_peaks=vocal_peaks,
-            bass_peaks=bass_peaks,
-            note_events=note_events,
-            background_vocal_events=stem_analysis.background_vocal_events or [],
-            drum_event_streams=stem_analysis.drum_event_streams or {},
-            song_length_ms=song_length_ms,
-        )
-    except Exception as exc:
-        log(f"[WARN] Band synchronization skipped: {exc!r}")
-        band_sync_payload = {"schema": "helix.band_sync.v1", "timeline": [], "state_frames": [], "debug": {}}
-    try:
-        snowman_band_payload = snowman_band_engine.build_snowman_band_plan(
-            parsed_layout=parsed_layout,
-            parts=parts,
-            lyric_events=lyric_events,
-            note_events=note_events,
-            beat_ms=beat_ms,
-            kicks=kicks,
-            snares=snares,
-            hats=hats,
-            bass_peaks=bass_peaks,
-            vocal_peaks=vocal_peaks,
-            build_lifts=build_lifts,
-            releases=releases,
-            chronoflow_payload=chronoflow_payload,
-            band_sync_payload=band_sync_payload,
-            multiband=multiband,
-            enable_lyrics=bool(tuning.sync_lyrics_heads),
-            background_vocal_events=stem_analysis.background_vocal_events or [],
-            drum_event_streams=stem_analysis.drum_event_streams or {},
-        )
-    except Exception as exc:
-        log(f"[WARN] Snowman band planning skipped: {exc!r}")
-        snowman_band_payload = {
-            "enabled": False,
-            "face_routing": {},
-            "performers": {},
-            "kit": {"components": []},
-            "layout_mapping": {},
-            "visualizer_overlay": {"lyrics_enabled": False, "soundtunnel_lyrics": []},
-            "cues": {},
-            "debug": {"total_cue_count": 0, "lyric_cues": 0},
-        }
+    band_sync_payload, snowman_band_payload = band_planning.build_band_plans(
+        parsed_layout=parsed_layout,
+        parts=parts,
+        lyric_events=lyric_events,
+        note_events=note_events,
+        beat_ms=beat_ms,
+        onset_ms=onset_ms,
+        kicks=kicks,
+        snares=snares,
+        hats=hats,
+        bass_peaks=bass_peaks,
+        vocal_peaks=vocal_peaks,
+        build_lifts=build_lifts,
+        releases=releases,
+        song_length_ms=song_length_ms,
+        chronoflow_payload=chronoflow_payload,
+        multiband=multiband,
+        enable_lyrics=bool(tuning.sync_lyrics_heads),
+        background_vocal_events=stem_analysis.background_vocal_events or [],
+        drum_event_streams=stem_analysis.drum_event_streams or {},
+        require_keyboard_source_ownership=tuning.require_keyboard_source_ownership,
+        keyboard_ownership_threshold=tuning.keyboard_ownership_threshold,
+        log_fn=log,
+    )
     chronoflow_track = chronoflow_engine.build_timing_track(chronoflow_payload, limit=1400)
     snowman_band_track = snowman_band_engine.build_timing_track(snowman_band_payload, limit=1800)
     try:
@@ -10739,6 +10780,9 @@ def run_variant(
             "debug": {"event_count": 0},
         }
 
+    from core.native_face_instructions import exclusive_face_targets
+    phoneme_owned_targets = exclusive_face_targets(parsed_layout)
+
     def reject_effect(
         nm: str,
         st_i: int,
@@ -10769,10 +10813,17 @@ def run_variant(
         effect_name: str,
         template_to_use: base.EffectTemplate,
         stem_priority: int,
+        minimum_duration_ms: int | None = None,
+        native_phoneme: bool = False,
     ) -> bool:
         nonlocal total
+        if nm in phoneme_owned_targets and not native_phoneme:
+            reject_effect(nm, start_ms, end_ms, effect_name, layer_key,
+                          "native mouth channels are owned exclusively by validated phoneme cues")
+            return False
+        minimum = max(50, int(tuning.min_effect_ms)) if minimum_duration_ms is None else max(1, minimum_duration_ms)
         duration = end_ms - start_ms
-        if duration < max(50, int(tuning.min_effect_ms)):
+        if duration < minimum:
             reject_effect(nm, start_ms, end_ms, effect_name, layer_key, "duration below minimum threshold")
             return False
         if end_ms <= 0 or start_ms >= song_length_ms:
@@ -10780,7 +10831,7 @@ def run_variant(
             return False
         st_i = max(0, start_ms)
         en_i = min(song_length_ms, end_ms)
-        if en_i - st_i < max(50, int(tuning.min_effect_ms)):
+        if en_i - st_i < minimum:
             reject_effect(nm, st_i, en_i, effect_name, layer_key, "trimmed duration below minimum threshold")
             return False
         if layering_mode == "smart_layer":
@@ -11883,18 +11934,27 @@ def run_variant(
         ((snowman_band_payload.get("xlights_translation", {}) or {}).get("sequence_effect_instructions", []) or [])
     )
     if snowman_sequence_instructions:
+        from core.native_face_instructions import face_template
+        from core.singing_face_discovery import detect_singing_faces
+        native_faces = detect_singing_faces(active_layout_file) if active_layout_file else []
         placed_snowman_faces = 0
+        unmapped_snowman_faces = 0
         for instruction in snowman_sequence_instructions:
             target = str(instruction.get("target_model", "") or "")
             if target not in layers:
                 continue
             st = max(0, int(instruction.get("start_ms", 0) or 0))
-            en = max(st + max(1, int(tuning.min_effect_ms)), int(instruction.get("end_ms", st) or st))
+            en = int(instruction.get("end_ms", st) or st)
             label = str(instruction.get("label", "snowman_face_timing") or "snowman_face_timing")
-            effect_name = str(instruction.get("effect", "Faces") or "Faces")
-            before_total = total
-            add_model(target, st, en, label, eff=effect_name, stem="vocals")
-            if total > before_total:
+            template = face_template(instruction, native_faces, xsq.on_tpl.palette)
+            if template is None or tuning.ac_lights_only or hardkor_mode:
+                unmapped_snowman_faces += 1
+                reject_effect(target, st, en, "Faces", "accent", "native mouth definition unavailable or output mode incompatible")
+                continue
+            if attempt_place_effect(nm=target, layer_key="accent", start_ms=st, end_ms=en,
+                                    effect_name="Faces", template_to_use=template,
+                                    stem_priority=priorities.get("vocals", priorities["other"]), minimum_duration_ms=1,
+                                    native_phoneme=True):
                 placed_snowman_faces += 1
                 snowman_sequence_face_track.append(
                     (
@@ -11905,6 +11965,8 @@ def run_variant(
                 )
         if placed_snowman_faces:
             log(f"Snowman sequence face effects placed: {placed_snowman_faces}")
+        if unmapped_snowman_faces:
+            log(f"Snowman face cues unresolved: {unmapped_snowman_faces}; no substitute body effects emitted")
 
     spatial_track: list[tuple[str, int, int]] = []
     if not hardkor_mode and not structured_mode:
@@ -12525,6 +12587,7 @@ def run_variant(
         "chronoflow": chronoflow_payload,
         "band_sync": band_sync_payload,
         "snowman_band": snowman_band_payload,
+        "event_provenance": event_provenance.summarize_note_provenance(note_events),
         "piano_effect": piano_effect_payload,
         "hardkor": {
             "enabled": bool(hardkor_result.enabled),
@@ -12589,6 +12652,9 @@ def run_variant(
     write_sequence_notes(notes_path(out_path), payload)
 
     log("[6/8] Writing sequence")
+    from xlights.xml_io import bound_media_effects
+    boundary_report = bound_media_effects(xsq.root, set_sequence_duration(xsq.root, float(audio.dur_s)))
+    log(f"Audio export boundaries: {boundary_report}")
     base.normalize_display_views(xsq.root, force=True)
     if active_layout_file and active_layout_file.exists():
         final_sync = base.sync_xsq_to_layout(xsq, active_layout_file)
@@ -12611,6 +12677,13 @@ def run_variant(
         base.indent_xml(xsq.root)
     except Exception:
         pass
+    if active_layout_file and active_layout_file.exists():
+        row_check = base.validate_xsq_layout_rows(xsq, active_layout_file)
+        if not row_check["passed"]:
+            raise RuntimeError("XSQ is missing editable model rows: " + ", ".join(row_check["missing_rows"]))
+        log(f"Editable model rows validated: {row_check['actual_mapped_rows']}/{row_check['expected_rows']}")
+    from xlights.xml_io import materialize_native_effect_tables
+    materialize_native_effect_tables(xsq.root)
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
 
     if GENERATE_SHOWCASE:
@@ -12698,6 +12771,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--xlights-features-json", dest="xlights_features_json", help="Optional xLights feature catalog JSON path")
     parser.add_argument("--strict-xlights-effects", dest="strict_xlights_effects", action="store_true", help="Allow only effect names known to xLights catalog")
     parser.add_argument("--allow-unknown-effects", dest="strict_xlights_effects", action="store_false", help="Allow non-catalog effect names")
+    parser.add_argument("--music-style", choices=("edm", "rock", "pop", "orchestral", "ambient", "experimental"), help="Apply a musical style profile to native xLights effect choices")
     parser.add_argument("--base-effect", dest="base_effect", help="Preferred effect name for base layer")
     parser.add_argument("--motion-effect", dest="motion_effect", help="Preferred effect name for motion layer")
     parser.add_argument("--accent-effect", dest="accent_effect", help="Preferred effect name for accent layer")
@@ -12734,7 +12808,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--blend-rules-file", dest="blend_rules_file", help="Optional JSON overrides for matrix blend planning")
     parser.add_argument("--polish", dest="polish_enabled", action="store_true", help="Run the post-generation polish pass")
     parser.add_argument("--no-polish", dest="polish_enabled", action="store_false", help="Skip the post-generation polish pass")
-    parser.add_argument("--variants", type=int, dest="variant_count", default=3, help="Number of runtime variants to generate and score")
+    parser.add_argument("--variants", type=int, dest="variant_count", default=1, help="Number of runtime variants to generate and score (default: 1; use --variants 3 --auto-shortlist to compare)")
     parser.add_argument("--auto-shortlist", dest="auto_shortlist", action="store_true", help="Promote the best-scoring runtime variant to the canonical output")
     parser.add_argument("--vendor-bar", dest="vendor_bar", action="store_true", help="Enforce paid-vendor level quality thresholds during shortlist and reporting")
     parser.add_argument("--vendor-min-quality", type=float, dest="vendor_min_quality_score", help="Minimum quality score required for vendor-bar pass")
@@ -12936,6 +13010,17 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         power_metadata_file=power_metadata_file,
         fail_on_power_risk=bool(args.fail_on_power_risk),
     )
+    if args.music_style and not tuning.hardkor_enabled:
+        from core.style_engine import get_style_profile, style_effect_contract
+        contract = style_effect_contract(get_style_profile(args.music_style))
+        # Explicit effect overrides take precedence over the style preset.
+        if args.base_effect is None:
+            tuning.base_effect = contract["base_effect"]
+        if args.motion_effect is None:
+            tuning.motion_effect = contract["motion_effect"]
+        if args.accent_effect is None:
+            tuning.accent_effect = contract["accent_effect"]
+        log(f"Music style: {contract['style']} -> {tuning.base_effect}/{tuning.motion_effect}/{tuning.accent_effect}")
     if tuning.vendor_bar:
         # Vendor-bar mode forces the higher-quality generation path.
         tuning.auto_shortlist = True
@@ -13022,14 +13107,39 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     log(f"Processing {len(audios)} audio file(s) with {style.version}...")
     runtime_candidates = build_runtime_candidates(style, tuning, tuning.variant_count)
 
+    # Per-song in-memory DSP cache. Source/configuration checks guard against
+    # accidentally reusing another song's features across candidate variants.
+    class _SongAnalysisCache:
+        def __init__(self, source: Path, configuration: tuple[bool, str]):
+            self.source = source.resolve()
+            self.configuration = configuration
+            self.values: dict[str, object] = {}
+
+        def validate_source(self, source: Path) -> None:
+            if source.resolve() != self.source:
+                raise ValueError("Audio analysis cache source mismatch")
+
+        def validate_configuration(self, configuration: tuple[bool, str]) -> None:
+            if configuration != self.configuration:
+                raise ValueError("Audio analysis cache configuration mismatch")
+
+        def get(self, key: str, factory, *, copy_result: bool = False):
+            if key not in self.values:
+                self.values[key] = factory()
+            return copy.deepcopy(self.values[key]) if copy_result else self.values[key]
+
+    song_failures: list[tuple[Path, Exception]] = []
     for i, audio in enumerate(audios, 1):
         out = variant_output_name(audio, output_dir, style.version)
         log(f"\n[{i}/{len(audios)}] {audio.name} -> {out.name}")
         try:
+            song_caches: dict[tuple[bool, str], _SongAnalysisCache] = {}
             candidate_results: list[dict[str, object]] = []
             for idx, candidate in enumerate(runtime_candidates, 1):
                 candidate_out = out if idx == 1 else variant_output_name(audio, output_dir, candidate.style.version)
                 log(f"  Variant {idx}/{len(runtime_candidates)}: {candidate.label} -> {candidate_out.name}")
+                configuration = (bool(candidate.tuning.use_moises), candidate.tuning.moises_api_key or "")
+                song_cache = song_caches.setdefault(configuration, _SongAnalysisCache(audio, configuration))
                 result = run_variant(
                     candidate.style,
                     template,
@@ -13037,6 +13147,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                     candidate_out,
                     profile,
                     tuning=replace(candidate.tuning),
+                    analysis_cache=song_cache,
                 )
                 result["label"] = candidate.label
                 result["description"] = candidate.description
@@ -13120,8 +13231,12 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                     selected_payload["learning_memory"] = learning_result
                     write_report(selected_report_path, selected_payload)
         except Exception as exc:
+            song_failures.append((audio, exc))
             log(f"FAILED: {audio.name}: {repr(exc)}")
 
+    if song_failures:
+        names = ', '.join(audio.name for audio, _ in song_failures)
+        raise RuntimeError(f'Helix failed for {len(song_failures)} song(s): {names}') from song_failures[0][1]
     log("\nDone.")
 
 

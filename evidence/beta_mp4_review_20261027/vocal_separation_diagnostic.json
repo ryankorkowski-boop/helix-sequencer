@@ -1,0 +1,59 @@
+{
+  "source_audio_sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+  "source_duration_seconds": 30.0,
+  "networking": "denied by Linux seccomp during inference",
+  "telemetry": "disabled before session creation",
+  "models": {
+    "UVR-MDX-NET-Inst_HQ_3.onnx": [
+      "317554b07fe1ea5279a77f2b1520a41ea4b93432560c4ffd08792c30fddf9adc",
+      6144,
+      3072,
+      1.022
+    ],
+    "UVR_MDXNET_KARA_2.onnx": [
+      "bf32e15105a09c0f7dddd2b67346146334d6f3ecb399ed7638eba2ab07cbf5f4",
+      5120,
+      2048,
+      1.065
+    ]
+  },
+  "vad_sha256": "1a153a22f4509e292a94e67d6f9b85e8deb25b4988682b7e174c65279d8788e3",
+  "tracks": {
+    "estimated_lead": {
+      "file": "estimated_lead.wav",
+      "sha256": "889c68c40b1170479e04cbf3ca8d55716630540667e68b518ac418e4019d5cde",
+      "seconds": 30.0,
+      "voiced_seconds_estimate": 8.75,
+      "presence_screened": true
+    },
+    "estimated_backing": {
+      "file": "estimated_backing.wav",
+      "sha256": "00d52aaa679c8042e78b883635e2b7fedd25b183981580b4ba4a6d66033c4f06",
+      "seconds": 30.0,
+      "voiced_seconds_estimate": 8.5,
+      "presence_screened": true
+    }
+  },
+  "vad_hop_seconds": 0.032,
+  "presence_probabilities_sha256": "198b1e08ada5166555040368c805ec83c2d04636303b2b7359ccfa5b050247c7",
+  "independent_backing_verified": false,
+  "limitation": "Per-source MDX candidates screened by speech VAD reduce instrumental/reverb openings. Singing may be missed; individual singer identity and lexical phonemes remain unverified. No source audio or instrumental event timing changed.",
+  "schema": "helix.phoneme-vocal-separation-diagnostic.v2",
+  "audio_sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+  "clock_sha256": "3316118907153facf7294aada19d1ff4bf96cd30cf1e1d0d77019ceb5510c2b0",
+  "clock_hop_seconds": 0.01,
+  "analysis_estimates_not_ground_truth": true,
+  "exact_phoneme_boundaries_verified": false,
+  "gain_or_short_delay_duplicate": false,
+  "engine_events_modified": false,
+  "presence_screening": {
+    "model": "Silero VAD",
+    "threshold": 0.15,
+    "probability_hop_seconds": 0.032,
+    "context_frames": 2,
+    "minimum_acoustic_frames": 5,
+    "confidence_meaning": "Speech VAD output; not calibrated singing or singer-identity confidence",
+    "ending_specific_rule": false,
+    "independent_backing_verified": false
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "passed": 65,
+  "seconds": 53.52,
+  "guitar_pose_parity_frames": 1876,
+  "gui_host_suite_passed": 96,
+  "native_gui_new_build_verified": false,
+  "complete_repository_test_suite_claimed": false,
+  "keyboard_anticipation_anchors_preserved": true,
+  "additional_guitar_pose_parity_frames": 471,
+  "keyboard_change_contacts": 177,
+  "maximum_key_contact_error": 9.179115290081086e-08,
+  "technical_led_display_glyph_geometry_check": true
+}

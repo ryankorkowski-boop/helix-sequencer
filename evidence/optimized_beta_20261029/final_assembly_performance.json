@@ -1,0 +1,33 @@
+{
+  "elapsed_seconds": 430.66170270399994,
+  "peak_child_rss_kib": 559084,
+  "movies": [
+    {
+      "filename": "04_Residential_AC_RGB_Comparison.mp4",
+      "cache_hit": false,
+      "elapsed_seconds": 61.578272907000155
+    },
+    {
+      "filename": "05_Six_Layout_Synchronized_Comparison.mp4",
+      "cache_hit": false,
+      "elapsed_seconds": 172.04578333000018
+    },
+    {
+      "filename": "06_Advanced_Technical_Showcase.mp4",
+      "cache_hit": false,
+      "elapsed_seconds": 37.55195490999995
+    },
+    {
+      "filename": "07_Double_Helix_and_Musical_Direction.mp4",
+      "cache_hit": false,
+      "elapsed_seconds": 80.11866602700002
+    },
+    {
+      "filename": "09_Starred_Music_Sampler.mp4",
+      "cache_hit": false,
+      "elapsed_seconds": 79.31227623399991
+    }
+  ],
+  "baseline_completed": false,
+  "speedup_claimed": false
+}

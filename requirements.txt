@@ -1,9 +1,11 @@
-numpy>=1.26
+# Beta DSP runtime: verified long float64 pitch/chroma; newer Numba 0.68.1
+# segfaulted in the retained librosa parabolic-interpolation reference.
+numpy==2.2.6
 scipy>=1.11
-librosa>=0.10.2
+librosa==0.10.2.post1
 soundfile>=0.12.1
-numba>=0.59
-llvmlite>=0.42
+numba==0.61.2
+llvmlite==0.44.0
 imageio>=2.34
 imageio-ffmpeg>=0.5
 Pillow>=10.2

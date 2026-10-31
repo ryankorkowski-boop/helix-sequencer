@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import argparse
 import math
+import hashlib
+import re
 import subprocess
 import sys
 import tempfile
@@ -146,6 +148,7 @@ class SequenceData:
     duration_ms: int
     model_effects: dict[str, list[EffectRecord]]
     timing_tracks: dict[str, TimingTrack]
+    palettes: list[tuple[tuple[int, int, int], ...]] = field(default_factory=list)
 
 
 def parse_models(layout_xml: Path) -> LayoutData:
@@ -168,9 +171,9 @@ def parse_models(layout_xml: Path) -> LayoutData:
             x1, y1 = node.projected_xy
             x2, y2 = node.projected_xy
             points = ((x1, y1), (x2, y2))
-        color = hex_to_rgb(parsed_model.raw_attrs.get("CustomColor"), (230, 235, 245))
+        color = hex_to_rgb(parsed_model.raw_attrs.get("StringType"), (230, 235, 245))
         color = hex_to_rgb(parsed_model.raw_attrs.get("TagColour"), color)
-        color = hex_to_rgb(parsed_model.raw_attrs.get("StringType"), color)
+        color = hex_to_rgb(parsed_model.raw_attrs.get("CustomColor"), color)
         leaf_models[name] = ModelGeom(
             name=name,
             x1=x1,
@@ -259,26 +262,79 @@ def parse_sequence(path: Path) -> SequenceData:
             if layer_records:
                 model_effects[name] = layer_records
 
-    return SequenceData(duration_ms=duration_ms, model_effects=model_effects, timing_tracks=timing_tracks)
+    # The XML's effect.palette values are zero-based indices into ColorPalettes.
+    # Parse only enabled slots, retaining the original palette order.
+    palettes: list[tuple[tuple[int, int, int], ...]] = []
+    for palette_node in root.findall("./ColorPalettes/ColorPalette"):
+        settings = palette_node.text or ""
+        enabled = set(re.findall(r"C_CHECKBOX_Palette(\d+)=1", settings))
+        entries = re.findall(r"C_BUTTON_Palette(\d+)=(#[0-9a-fA-F]{6})", settings)
+        colors = tuple(
+            tuple(int(hex_color[pos:pos + 2], 16) for pos in (1, 3, 5))
+            for index, hex_color in entries
+            if index in enabled
+        )
+        palettes.append(colors)
+    return SequenceData(duration_ms=duration_ms, model_effects=model_effects,
+                        timing_tracks=timing_tracks, palettes=palettes)
 
 
 def ramp_intensity(effect: EffectRecord, frame_times_ms: np.ndarray) -> np.ndarray:
+    """Approximate legacy On intensity and ramps from native xLights settings.
+
+    The source timeline is never modified. An On without explicit settings
+    means full intensity; Ramp with no settings uses the original preview's
+    25%-to-100% fallback.
+    """
     start = effect.start_ms
     end = max(start + 1, effect.end_ms)
     span = max(1.0, float(end - start))
     progress = np.clip((frame_times_ms - start) / span, 0.0, 1.0)
-    start_level = 0.25
-    end_level = 1.0
+    name = effect.name.strip().lower()
+    default_start = 25 if name == "ramp" else 100
+    start_level = default_start
+    end_level = 100
     settings = effect.settings or ""
-    if "End=0" in settings and "Start=100" in settings:
-        start_level = 1.0
-        end_level = 0.0
-    elif "End=100" in settings and "Start=0" in settings:
-        start_level = 0.0
-        end_level = 1.0
-    values = start_level + (end_level - start_level) * progress
+    # Native xLights inline settings: E_TEXTCTRL_Eff_On_Start/End
+    for key, assign in (
+        ("E_TEXTCTRL_Eff_On_Start", "start"),
+        ("E_TEXTCTRL_Eff_On_End", "end"),
+    ):
+        match = re.search(r"(?:^|,)" + re.escape(key) + r"=(-?\d+(?:\.\d+)?)", settings)
+        if match:
+            level = max(0, min(100, round(float(match.group(1)))))
+            if assign == "start":
+                start_level = level
+            else:
+                end_level = level
+    if name == "off":
+        start_level = end_level = 0
+    values = (start_level + (end_level - start_level) * progress) / 100.0
     mask = (frame_times_ms >= start) & (frame_times_ms < end)
     return np.where(mask, values, 0.0)
+
+
+def _ac_pulse_curve(
+    effect: EffectRecord, frame_times_ms: np.ndarray, model_name: str
+) -> np.ndarray:
+    """Preview-only, deterministic AC shimmer and twinkle behavior."""
+    baseline = ramp_intensity(effect, frame_times_ms)
+    if effect.name.strip().lower() == "shimmer":
+        # Approximate synchronized rapid AC cycling. 12 fps sampling is
+        # necessarily less detailed than a real AC controller switching.
+        elapsed = np.maximum(0, frame_times_ms - effect.start_ms)
+        return baseline * ((elapsed % 140.0) < 80.0)
+    if effect.name.strip().lower() == "twinkle":
+        # Stagger pseudo-random phases between independent single-color props.
+        seed = int.from_bytes(
+            hashlib.sha256(model_name.encode("utf-8")).digest()[:4], "big"
+        )
+        bucket = np.floor(
+            np.maximum(0, frame_times_ms - effect.start_ms) / 105.0
+        ).astype(np.int64)
+        flicker = ((bucket * 1103515245 + seed + 12345) % 101) < 61
+        return baseline * flicker
+    return baseline
 
 
 def build_leaf_intensity_matrix(
@@ -305,16 +361,74 @@ def build_leaf_intensity_matrix(
             end_frame = min(frame_count, int(math.ceil(effect.end_ms * fps / 1000.0)))
             if end_frame <= start_frame:
                 end_frame = min(frame_count, start_frame + 1)
-            if eff_name == "ramp":
-                curve = ramp_intensity(effect, frame_times_ms[start_frame:end_frame])
-            else:
-                curve = np.ones((end_frame - start_frame,), dtype=np.float32)
             for idx in indexes:
+                leaf = leaf_names[idx]
+                if eff_name in {"ramp", "on", "off", "shimmer", "twinkle"}:
+                    curve = _ac_pulse_curve(
+                        effect, frame_times_ms[start_frame:end_frame], leaf
+                    )
+                else:
+                    curve = np.ones((end_frame - start_frame,), dtype=np.float32)
                 intensities[idx, start_frame:end_frame] = np.maximum(
                     intensities[idx, start_frame:end_frame], curve
                 )
 
     return leaf_names, intensities
+
+
+def build_leaf_color_matrix(
+    layout: LayoutData,
+    sequence: SequenceData,
+    fps: int,
+    leaf_names: list[str],
+    frame_count: int,
+) -> np.ndarray | None:
+    """Approximate per-model palette colors, not native xLights pixel effects.
+
+    Explicit effect palette refs take priority. Multiple overlapping effects
+    choose the strongest currently active effect rather than merging RGB
+    channels into unintended white. Uncolored effects use layout colors.
+    """
+    if not sequence.palettes:
+        return None
+    colors = np.zeros((len(leaf_names), frame_count, 3), dtype=np.uint8)
+    strengths = np.zeros((len(leaf_names), frame_count), dtype=np.float32)
+    leaf_index = {name: idx for idx, name in enumerate(leaf_names)}
+    frame_times_ms = np.arange(frame_count, dtype=np.float32) * (1000.0 / fps)
+    for target, effects in sequence.model_effects.items():
+        indexes = [leaf_index[n] for n in layout.resolve_leaves(target) if n in leaf_index]
+        if not indexes:
+            continue
+        for effect in effects:
+            try:
+                palette_index = int(effect.palette) if effect.palette is not None else -1
+            except ValueError:
+                continue
+            if palette_index < 0 or palette_index >= len(sequence.palettes):
+                continue
+            choices = sequence.palettes[palette_index]
+            if not choices:
+                continue
+            seed = f"{target}|{effect.name}|{effect.start_ms}"
+            choice = int.from_bytes(hashlib.sha256(seed.encode("utf-8")).digest()[:4], "big")
+            color = choices[choice % len(choices)]
+            start = max(0, int(math.floor(effect.start_ms * fps / 1000.0)))
+            end = min(frame_count, int(math.ceil(effect.end_ms * fps / 1000.0)))
+            if end <= start:
+                continue
+            curve = (
+                ramp_intensity(effect, frame_times_ms[start:end])
+                if effect.name.strip().lower() == "ramp"
+                else np.ones(end - start, dtype=np.float32)
+            )
+            for idx in indexes:
+                weights = strengths[idx, start:end]
+                replace = curve > weights
+                if not np.any(replace):
+                    continue
+                weights[replace] = curve[replace]
+                colors[idx, start:end][replace] = color
+    return colors
 
 
 def choose_track(sequence: SequenceData, prefix: str) -> TimingTrack | None:
@@ -428,6 +542,7 @@ class HouseRenderer:
         t_ms: int,
         duration_ms: int,
         overlays: dict[str, str],
+        frame_colors: np.ndarray | None = None,
     ) -> Image.Image:
         base = self._base_canvas.copy()
         glow_layer = Image.new("RGBA", base.size, (0, 0, 0, 0))
@@ -443,9 +558,14 @@ class HouseRenderer:
             model_name = leaf_names[idx]
             geom = self.layout.leaf_models[model_name]
             boost = int(round(3 * float(value)))
+            # Prefer actual XSQ palette colors over fixed layout color when
+            # an explicit valid palette index is present on the active effect.
+            chosen_color = geom.color
+            if frame_colors is not None and np.any(frame_colors[idx]):
+                chosen_color = tuple(int(channel) for channel in frame_colors[idx])
             bright = tuple(
                 max(0, min(255, int(round(channel * (0.4 + 0.7 * float(value)) + 70 * float(value)))))
-                for channel in geom.color
+                for channel in chosen_color
             )
             self.draw_model(glow_draw, model_name, bright, glow=True, width_boost=boost + 2)
             self.draw_model(solid_draw, model_name, bright, glow=False, width_boost=boost)
@@ -493,9 +613,15 @@ def render_sequence_to_mp4(
     fps: int,
     width: int,
     height: int,
+    max_seconds: float | None = None,
+    use_palette_colors: bool = True,
 ) -> Path:
     sequence = parse_sequence(sequence_path)
     leaf_names, intensity = build_leaf_intensity_matrix(layout, sequence, fps)
+    palette_colors = (
+        build_leaf_color_matrix(layout, sequence, fps, leaf_names, intensity.shape[1])
+        if use_palette_colors else None
+    )
     part_track = choose_track(sequence, "song parts")
     piano_track = choose_track(sequence, "piano")
     sweep_track = choose_track(sequence, "sweeps")
@@ -505,6 +631,8 @@ def render_sequence_to_mp4(
     out_path = sequence_path.with_suffix(".mp4")
     temp_path = out_path.with_suffix(".silent.mp4")
     frame_count = intensity.shape[1]
+    if max_seconds is not None and max_seconds > 0:
+        frame_count = min(frame_count, max(1, int(round(max_seconds * fps))))
     writer = imageio.get_writer(
         temp_path,
         fps=fps,
@@ -530,8 +658,10 @@ def render_sequence_to_mp4(
                 t_ms=t_ms,
                 duration_ms=sequence.duration_ms,
                 overlays=overlays,
+                frame_colors=palette_colors[:, frame_idx, :] if palette_colors is not None else None,
             )
-            writer.append_data(np.asarray(frame.convert("RGB"), dtype=np.uint8))
+            from core.output_provenance import brand_frame
+            writer.append_data(np.asarray(brand_frame(frame).convert("RGB"), dtype=np.uint8))
     finally:
         writer.close()
 
@@ -563,6 +693,8 @@ def render_sequence_to_mp4(
     else:
         temp_path.replace(out_path)
 
+    from core.output_provenance import stamp_mp4
+    stamp_mp4(out_path)
     return out_path
 
 

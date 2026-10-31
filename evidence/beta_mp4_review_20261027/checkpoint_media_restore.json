@@ -1,0 +1,50 @@
+{
+  "previous_source_checkpoint": "libfile_a4f25fecbed881919a61725b9f227f74",
+  "new_vocal_source": "review-vocal-qualified-sampler/Helix_Starred_New_Review.wav",
+  "media": {
+    "resume-band-show/media/Helix_Starred_New_Review.wav": {
+      "sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+      "from_original_source": "/workspace/scratch/ec314907d82d/review-vocal-qualified-sampler/Helix_Starred_New_Review.wav"
+    },
+    "resume-features/02_Vocal_Closeup/media/Helix_Starred_New_Review.wav": {
+      "sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+      "from_original_source": "/workspace/scratch/ec314907d82d/review-vocal-qualified-sampler/Helix_Starred_New_Review.wav"
+    },
+    "resume-features/03_Drummer_Articulation/media/Tinsel_Tornado_Articulation_30s.wav": {
+      "sha256": "8a227a8f1392847bd508c80e7f53769649e896b1c7a9e665b90dc9924ebd5925",
+      "from_original_source": "/workspace/scratch/ec314907d82d/resume-features/03_Drummer_Articulation/media/Tinsel_Tornado_Articulation_30s.wav"
+    },
+    "resume-features/03_Drummer_Articulation/media/Helix_Starred_New_Review.wav": {
+      "sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+      "from_original_source": "/workspace/scratch/ec314907d82d/resume-features/03_Drummer_Articulation/media/Tinsel_Tornado_Articulation_30s.wav"
+    },
+    "resume-native-layouts/01_Traditional_256_AC/media/Helix_Starred_New_Review.wav": {
+      "sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "from_original_source": "/workspace/scratch/ec314907d82d/new-sampler-final/Helix_Starred_New_Review.wav"
+    },
+    "resume-native-layouts/02_Experimental_256_AC_RGB/media/Helix_Starred_New_Review.wav": {
+      "sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "from_original_source": "/workspace/scratch/ec314907d82d/new-sampler-final/Helix_Starred_New_Review.wav"
+    },
+    "resume-native-layouts/06_Modern_Pixel_House/media/Helix_Starred_New_Review.wav": {
+      "sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "from_original_source": "/workspace/scratch/ec314907d82d/new-sampler-final/Helix_Starred_New_Review.wav"
+    },
+    "resume-directed-layouts/09_Double_Helix_Cathedral/media/Helix_Starred_New_Review.wav": {
+      "sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "from_original_source": "/workspace/scratch/ec314907d82d/review-technical-60s.wav"
+    },
+    "resume-directed-layouts/11_Forced_Perspective/media/Helix_Starred_New_Review.wav": {
+      "sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "from_original_source": "/workspace/scratch/ec314907d82d/review-technical-60s.wav"
+    },
+    "resume-directed-layouts/10_Moire_Optical_Illusion/media/Helix_Starred_New_Review.wav": {
+      "sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "from_original_source": "/workspace/scratch/ec314907d82d/review-technical-60s.wav"
+    },
+    "resume-vocal-layouts/08_Band_and_House/media/Helix_Starred_New_Review.wav": {
+      "sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+      "from_original_source": "/workspace/scratch/ec314907d82d/review-vocal-qualified-sampler/Helix_Starred_New_Review.wav"
+    }
+  }
+}

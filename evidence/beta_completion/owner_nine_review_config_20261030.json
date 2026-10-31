@@ -1,0 +1,94 @@
+{
+  "source_commit": "92d3c0586043baae4f1154aa8918264102f733ed plus measured native preview bulb correction",
+  "limitations": [
+    "Native xLights recordings share one source clock; brightness curves are declared in each panel specification.",
+    "Independent acoustic singer identity and lexical phonemes remain unqualified; no release or merge acceptance."
+  ],
+  "movies": [
+    {
+      "filename": "05_Nine_Layout_Synchronized_Comparison.mp4",
+      "kind": "nine_comparison",
+      "title": "Helix - Nine Lighting Layouts",
+      "duration": 120,
+      "audio": "/workspace/scratch/f17380732d07/WORK/optimized-production/media/Helix_Starred_New_Review.wav",
+      "audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "sources": [
+        {
+          "video": "/workspace/scratch/f17380732d07/WORK/brighter-original-ac/native-preview-wyypkjyd/preview.mp4",
+          "video_sha256": "0c0f4568eecd8d0dc149ac6b819dab40d6bb6d6922ef2d45571944133748cf11",
+          "title": "Traditional 256 AC",
+          "gamma": 3,
+          "gain": 2,
+          "crop": [
+            1472,
+            828,
+            224,
+            126
+          ]
+        },
+        {
+          "video": "/workspace/scratch/f17380732d07/WORK/optimized-final-layouts/02_Experimental_256_AC_RGB/native-preview-5_1y_11a/preview.mp4",
+          "video_sha256": "16f5b1d08849ab560f1cfa601817d1a849e07988cea86a958a362355b7a86cd0",
+          "title": "256 AC and RGB",
+          "gamma": 3,
+          "gain": 2,
+          "crop": [
+            1472,
+            828,
+            224,
+            126
+          ]
+        },
+        {
+          "video": "/workspace/scratch/f17380732d07/WORK/optimized-final-layouts/06_Modern_Pixel_House/native-preview-cavufaqe/preview.mp4",
+          "video_sha256": "dc6cd8ac2c32e5af303dc5ac3164743e5b8cd81c68aa8e79bdf935ec4a8c62dc",
+          "title": "Residential RGB",
+          "gamma": 2.2,
+          "gain": 1.65
+        },
+        {
+          "video": "/workspace/scratch/f17380732d07/WORK/additional-layouts/04_Starter_RGB_Pixels/native-preview-vep_fr_6/preview.mp4",
+          "video_sha256": "b8e1511d727d658e06a9254635974f705a2edfccc780340d34e89d0907922ed9",
+          "gamma": 2.2,
+          "gain": 1.65,
+          "title": "Starter RGB Pixels"
+        },
+        {
+          "video": "/workspace/scratch/f17380732d07/WORK/additional-layouts/05_Traditional_Christmas/native-preview-08j48iah/preview.mp4",
+          "video_sha256": "3a01aca57e36b613b15bd4e9f2f3b16f52be206aab8b7e53d0715375b8daecc3",
+          "gamma": 2.2,
+          "gain": 1.65,
+          "title": "Traditional Trees and Singing Faces"
+        },
+        {
+          "video": "/workspace/scratch/f17380732d07/WORK/optimized-final-layouts/09_Double_Helix_Cathedral/native-preview-upqz2k91/preview.mp4",
+          "video_sha256": "aa7b8d98f466044bb589c6310c234a09638ebed174934e6bbede3ab9a4c33bf0",
+          "title": "Literal Pitch Double Helix",
+          "gamma": 2.4,
+          "gain": 1.65
+        },
+        {
+          "video": "/workspace/scratch/f17380732d07/WORK/optimized-final-layouts/10_Moire_Optical_Illusion/native-preview-8etahl_7/preview.mp4",
+          "video_sha256": "f91188278117d0fa03199ffdaabab22514f133d90e03a12a9a1eae191ee54d35",
+          "title": "Moire and Optical Geometry",
+          "gamma": 2.2,
+          "gain": 1.65
+        },
+        {
+          "video": "/workspace/scratch/f17380732d07/WORK/optimized-final-layouts/11_Forced_Perspective/native-preview-b8onnruo/preview.mp4",
+          "video_sha256": "1ab8182a4d8b5ad83b5a91060e6e517d13aa6d88d45e950103994ffce0eb1a0e",
+          "title": "Forced Perspective",
+          "gamma": 2.2,
+          "gain": 1.65
+        },
+        {
+          "video": "/workspace/scratch/f17380732d07/WORK/additional-layouts/12_Ultimate_Helix_Showcase/native-preview-v6hiygzn/preview.mp4",
+          "video_sha256": "a14b018322e031a46684b31798a86a330500bbbb3dfe004a78f5492bcf182a38",
+          "gamma": 2.2,
+          "gain": 1.65,
+          "title": "Ultimate Helix and Snowman Band"
+        }
+      ]
+    }
+  ]
+}

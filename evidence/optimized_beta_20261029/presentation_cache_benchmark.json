@@ -1,0 +1,10 @@
+{
+  "source_movie_sha256": "dc6cd8ac2c32e5af303dc5ac3164743e5b8cd81c68aa8e79bdf935ec4a8c62dc",
+  "audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+  "cold_seconds": 62.94915422200006,
+  "hot_seconds": 0.14762507299997196,
+  "verified_output_sha256": "51cd1c66a1ebed0c4027fb8a4ae7f5a595b0414be936dd19b7d7b5b95f8790f2",
+  "stage": "presentation assembly only",
+  "input_seconds": 120,
+  "analysis_or_native_render_speedup_claimed": false
+}

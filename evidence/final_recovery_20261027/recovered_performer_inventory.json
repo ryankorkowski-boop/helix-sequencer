@@ -1,0 +1,126 @@
+{
+  "schema": "helix.recovered-performer-inventory.v1",
+  "not_owner_approved": true,
+  "layout_sha256": "7f31a16383887473aa0a0e72f42401481954c2bca8aad085bce6b89239a23568",
+  "assets": [
+    {
+      "asset_id": "HX_SNOW_DRUMMER",
+      "source_path": "/workspace/scratch/ec314907d82d/recovered/checkpoint/native_show/models/HX_SNOW_DRUMMER.xmodel",
+      "sha256": "8e70ab7a66245d193d8185b5f37d382ff81aa4b2dac2c30f8008ce264016b2cb",
+      "stage_placement": {
+        "StartChannel": "1",
+        "WorldPosX": "0.0",
+        "WorldPosY": "26.0",
+        "WorldPosZ": "65.0",
+        "ScaleX": "0.23684210526315788",
+        "ScaleY": "0.2056338028169014",
+        "ScaleZ": "1.0"
+      },
+      "controller": "tools.canonical_band_cues / tools.phoneme_vocal_export",
+      "approved_3d_identity_verified": false,
+      "planar_source_art": true
+    },
+    {
+      "asset_id": "HX_SNOW_BASS",
+      "source_path": "/workspace/scratch/ec314907d82d/recovered/checkpoint/native_show/models/HX_SNOW_BASS.xmodel",
+      "sha256": "e5af411856880809479a9660c3467bba2f12dc343b3c249909bf9b60a69afb9c",
+      "stage_placement": {
+        "StartChannel": "20737",
+        "WorldPosX": "-24.0",
+        "WorldPosY": "9.0",
+        "WorldPosZ": "80.0",
+        "ScaleX": "0.0625",
+        "ScaleY": "0.0625",
+        "ScaleZ": "0.0625"
+      },
+      "controller": "tools.canonical_band_cues / tools.phoneme_vocal_export",
+      "approved_3d_identity_verified": false,
+      "planar_source_art": false
+    },
+    {
+      "asset_id": "HX_SNOW_GUITAR",
+      "source_path": "/workspace/scratch/ec314907d82d/recovered/checkpoint/native_show/models/HX_SNOW_GUITAR.xmodel",
+      "sha256": "fc084e17f55b8ef39fb83fda58da08f16301050f1e8d15d7ef28c9c26fa0763f",
+      "stage_placement": {
+        "StartChannel": "73573",
+        "WorldPosX": "24.0",
+        "WorldPosY": "9.0",
+        "WorldPosZ": "80.0",
+        "ScaleX": "0.0625",
+        "ScaleY": "0.0625",
+        "ScaleZ": "0.0625"
+      },
+      "controller": "tools.canonical_band_cues / tools.phoneme_vocal_export",
+      "approved_3d_identity_verified": false,
+      "planar_source_art": false
+    },
+    {
+      "asset_id": "HX_SNOW_LEAD",
+      "source_path": "/workspace/scratch/ec314907d82d/recovered/checkpoint/native_show/models/HX_SNOW_LEAD.xmodel",
+      "sha256": "583548847c51570b458a32b326fc14c1d147899a81eb666f6f2cd71f5f25682a",
+      "stage_placement": {
+        "StartChannel": "124822",
+        "WorldPosX": "-8.0",
+        "WorldPosY": "9.0",
+        "WorldPosZ": "80.0",
+        "ScaleX": "0.0625",
+        "ScaleY": "0.0625",
+        "ScaleZ": "0.0625"
+      },
+      "controller": "tools.canonical_band_cues / tools.phoneme_vocal_export",
+      "approved_3d_identity_verified": false,
+      "planar_source_art": false
+    },
+    {
+      "asset_id": "HX_SNOW_HARMONY",
+      "source_path": "/workspace/scratch/ec314907d82d/recovered/checkpoint/native_show/models/HX_SNOW_HARMONY.xmodel",
+      "sha256": "8370deba6a1d5dd869f119d1560760e10453281e14b23be75cf95b56db9c9f45",
+      "stage_placement": {
+        "StartChannel": "158755",
+        "WorldPosX": "8.0",
+        "WorldPosY": "9.0",
+        "WorldPosZ": "80.0",
+        "ScaleX": "0.0625",
+        "ScaleY": "0.0625",
+        "ScaleZ": "0.0625"
+      },
+      "controller": "tools.canonical_band_cues / tools.phoneme_vocal_export",
+      "approved_3d_identity_verified": false,
+      "planar_source_art": false
+    },
+    {
+      "asset_id": "HX_SNOW_PIANO",
+      "source_path": "/workspace/scratch/ec314907d82d/recovered/checkpoint/native_show/models/HX_SNOW_PIANO.xmodel",
+      "sha256": "adabd595290335560da8e2ae18f9bc61b147c34b88e7743cb3f3bdfd607665d7",
+      "stage_placement": {
+        "StartChannel": "192688",
+        "WorldPosX": "25.0",
+        "WorldPosY": "28.0",
+        "WorldPosZ": "65.0",
+        "ScaleX": "0.0625",
+        "ScaleY": "0.0625",
+        "ScaleZ": "0.0625"
+      },
+      "controller": "tools.canonical_band_cues / tools.phoneme_vocal_export",
+      "approved_3d_identity_verified": false,
+      "planar_source_art": false
+    },
+    {
+      "asset_id": "HX_SNOW_XYLOPHONE",
+      "source_path": "/workspace/scratch/ec314907d82d/recovered/checkpoint/native_show/models/HX_SNOW_XYLOPHONE.xmodel",
+      "sha256": "2974416feef285b897b9c3b13e271d9a2bcbf0adf8b45d59a0503d5222c5fadb",
+      "stage_placement": {
+        "StartChannel": "287284",
+        "WorldPosX": "-25.0",
+        "WorldPosY": "28.0",
+        "WorldPosZ": "65.0",
+        "ScaleX": "0.0625",
+        "ScaleY": "0.0625",
+        "ScaleZ": "0.0625"
+      },
+      "controller": "tools.canonical_band_cues / tools.phoneme_vocal_export",
+      "approved_3d_identity_verified": false,
+      "planar_source_art": false
+    }
+  ]
+}

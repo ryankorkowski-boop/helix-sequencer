@@ -1,0 +1,923 @@
+[
+  {
+    "layout": "Traditional 256 AC",
+    "trace_sha256": "cd77b181758377d9ad481b0b1737740032d528cc18b97e4061a78e71a79e7ad9",
+    "models": 256,
+    "unique_source_events_by_role": {
+      "bassist": 116,
+      "guitarist": 452,
+      "drummer": 826,
+      "keyboardist": 2162
+    },
+    "sections": [
+      "BRIDGE",
+      "CHORUS",
+      "PRECHORUS",
+      "PRE_CHORUS",
+      "VERSE"
+    ],
+    "colors_by_role": {
+      "bassist": [
+        "#40FF60",
+        "#FF4040",
+        "#FFFFFF"
+      ],
+      "guitarist": [
+        "#40FF60",
+        "#FF4040",
+        "#FFFFFF"
+      ],
+      "drummer": [
+        "#FFFFFF"
+      ],
+      "keyboardist": [
+        "#40FF60",
+        "#FF4040",
+        "#FFFFFF"
+      ]
+    },
+    "onset_independence": [
+      {
+        "roles": [
+          "bassist",
+          "guitarist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "drummer"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          495
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "drummer"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          495
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "drummer",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          495,
+          452
+        ]
+      }
+    ],
+    "estimated_instrument_labels": true
+  },
+  {
+    "layout": "256 AC + RGB",
+    "trace_sha256": "f321944fe155a42f15728b3a48a254bb23b157737e0f3ca6151cc3be000c5ad2",
+    "models": 272,
+    "unique_source_events_by_role": {
+      "bassist": 116,
+      "guitarist": 452,
+      "drummer": 826,
+      "keyboardist": 2162,
+      "harmony": 14
+    },
+    "sections": [
+      "",
+      "BRIDGE",
+      "CHORUS",
+      "PRECHORUS",
+      "PRE_CHORUS",
+      "VERSE"
+    ],
+    "colors_by_role": {
+      "bassist": [
+        "#40FF60",
+        "#64F5FF",
+        "#FF4040",
+        "#FF70CE",
+        "#FFD98A",
+        "#FFFFFF"
+      ],
+      "guitarist": [
+        "#40FF60",
+        "#64F5FF",
+        "#FF4040",
+        "#FF70CE",
+        "#FFD98A",
+        "#FFFFFF"
+      ],
+      "drummer": [
+        "#64F5FF",
+        "#FF70CE",
+        "#FFD98A",
+        "#FFFFFF"
+      ],
+      "keyboardist": [
+        "#40FF60",
+        "#64F5FF",
+        "#FF4040",
+        "#FF70CE",
+        "#FFD98A",
+        "#FFFFFF"
+      ],
+      "harmony": [
+        "#FF70CE"
+      ]
+    },
+    "onset_independence": [
+      {
+        "roles": [
+          "bassist",
+          "guitarist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "drummer"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          495
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "harmony"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          14
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "drummer"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          495
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "harmony"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 1,
+        "distinct_onset_counts": [
+          452,
+          14
+        ]
+      },
+      {
+        "roles": [
+          "drummer",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          495,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "drummer",
+          "harmony"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 1,
+        "distinct_onset_counts": [
+          495,
+          14
+        ]
+      },
+      {
+        "roles": [
+          "keyboardist",
+          "harmony"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          14
+        ]
+      }
+    ],
+    "estimated_instrument_labels": true
+  },
+  {
+    "layout": "Residential RGB",
+    "trace_sha256": "2717b03b583247c37928b4337a3d1e64d131c4baaecd6759a22bcf63793edaaa",
+    "models": 40,
+    "unique_source_events_by_role": {
+      "bassist": 116,
+      "guitarist": 452,
+      "harmony": 14,
+      "drummer": 826,
+      "keyboardist": 2162
+    },
+    "sections": [
+      "",
+      "BRIDGE",
+      "CHORUS",
+      "PRECHORUS",
+      "PRE_CHORUS",
+      "VERSE"
+    ],
+    "colors_by_role": {
+      "bassist": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "guitarist": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "harmony": [
+        "#BA83F4"
+      ],
+      "drummer": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "keyboardist": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ]
+    },
+    "onset_independence": [
+      {
+        "roles": [
+          "bassist",
+          "guitarist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "harmony"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          14
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "drummer"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          495
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "harmony"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 1,
+        "distinct_onset_counts": [
+          452,
+          14
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "drummer"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          495
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "harmony",
+          "drummer"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 1,
+        "distinct_onset_counts": [
+          14,
+          495
+        ]
+      },
+      {
+        "roles": [
+          "harmony",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          14,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "drummer",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          495,
+          452
+        ]
+      }
+    ],
+    "estimated_instrument_labels": true
+  },
+  {
+    "layout": "Pitch-mapped double helix",
+    "trace_sha256": "b37dbfcfd53aee5a7a842868f08c48d739e3631eda08b5149fa81812103378dc",
+    "models": 18,
+    "unique_source_events_by_role": {
+      "bassist": 116,
+      "guitarist": 452,
+      "drummer": 385,
+      "keyboardist": 2162
+    },
+    "sections": [
+      "BRIDGE",
+      "CHORUS",
+      "PRECHORUS",
+      "PRE_CHORUS",
+      "VERSE"
+    ],
+    "colors_by_role": {
+      "bassist": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "guitarist": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "drummer": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "keyboardist": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ]
+    },
+    "onset_independence": [
+      {
+        "roles": [
+          "bassist",
+          "guitarist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "drummer"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          300
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "drummer"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          300
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "drummer",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          300,
+          452
+        ]
+      }
+    ],
+    "estimated_instrument_labels": true
+  },
+  {
+    "layout": "Forced perspective",
+    "trace_sha256": "e9b45ef2d1fe6174cd27afba51a2f6ae74f372768521032c07ee5b60ec86ceb1",
+    "models": 32,
+    "unique_source_events_by_role": {
+      "bassist": 116,
+      "guitarist": 452,
+      "drummer": 686,
+      "keyboardist": 2162
+    },
+    "sections": [
+      "BRIDGE",
+      "CHORUS",
+      "PRECHORUS",
+      "PRE_CHORUS",
+      "VERSE"
+    ],
+    "colors_by_role": {
+      "bassist": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "guitarist": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "drummer": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "keyboardist": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ]
+    },
+    "onset_independence": [
+      {
+        "roles": [
+          "bassist",
+          "guitarist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "drummer"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          457
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "drummer"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          457
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "drummer",
+          "keyboardist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          457,
+          452
+        ]
+      }
+    ],
+    "estimated_instrument_labels": true
+  },
+  {
+    "layout": "Moire and geometry",
+    "trace_sha256": "9800e8c5516c286988f2308011bd910a448ccbb9f4ec7ee76a5dbed7d1b54d97",
+    "models": 27,
+    "unique_source_events_by_role": {
+      "keyboardist": 2162,
+      "drummer": 826,
+      "bassist": 116,
+      "guitarist": 452,
+      "harmony": 14,
+      "lead": 19
+    },
+    "sections": [
+      "",
+      "BRIDGE",
+      "CHORUS",
+      "PRECHORUS",
+      "PRE_CHORUS",
+      "VERSE"
+    ],
+    "colors_by_role": {
+      "keyboardist": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "drummer": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "bassist": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "guitarist": [
+        "#56D9FF",
+        "#BA83F4",
+        "#FFD18A"
+      ],
+      "harmony": [
+        "#BA83F4"
+      ],
+      "lead": [
+        "#56D9FF"
+      ]
+    },
+    "onset_independence": [
+      {
+        "roles": [
+          "keyboardist",
+          "drummer"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          495
+        ]
+      },
+      {
+        "roles": [
+          "keyboardist",
+          "bassist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          116
+        ]
+      },
+      {
+        "roles": [
+          "keyboardist",
+          "guitarist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "keyboardist",
+          "harmony"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          14
+        ]
+      },
+      {
+        "roles": [
+          "keyboardist",
+          "lead"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          19
+        ]
+      },
+      {
+        "roles": [
+          "drummer",
+          "bassist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          495,
+          116
+        ]
+      },
+      {
+        "roles": [
+          "drummer",
+          "guitarist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          495,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "drummer",
+          "harmony"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 1,
+        "distinct_onset_counts": [
+          495,
+          14
+        ]
+      },
+      {
+        "roles": [
+          "drummer",
+          "lead"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 3,
+        "distinct_onset_counts": [
+          495,
+          19
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "guitarist"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          452
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "harmony"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          14
+        ]
+      },
+      {
+        "roles": [
+          "bassist",
+          "lead"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          116,
+          19
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "harmony"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 1,
+        "distinct_onset_counts": [
+          452,
+          14
+        ]
+      },
+      {
+        "roles": [
+          "guitarist",
+          "lead"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          452,
+          19
+        ]
+      },
+      {
+        "roles": [
+          "harmony",
+          "lead"
+        ],
+        "identical_onset_lists": false,
+        "exact_onset_overlap_count": 0,
+        "distinct_onset_counts": [
+          14,
+          19
+        ]
+      }
+    ],
+    "estimated_instrument_labels": true
+  }
+]

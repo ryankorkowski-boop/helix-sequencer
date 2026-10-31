@@ -1,0 +1,1015 @@
+{
+  "id": "02",
+  "title": "49 (Remastered)",
+  "source_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e",
+  "frames": 4633,
+  "previous_analysis_sha256": "5787c522c8f25308aef426ce0572fe4619f1c5d25b403eba0248982a3894a3dc",
+  "source_vocals_sha256": "637161fbd1d6e8c5ff9378e0dbb4b712f31fd30f24f7e8b0161ac8ef1a4be0db",
+  "stems": {
+    "bass": {
+      "sha256": "f4f63b7447ce2fffef48f881c3386418d1a17719249c9029668bc64feda3128f",
+      "rms": 0.13066
+    },
+    "guitar": {
+      "sha256": "24ba9923aa8397f97097642ba0ea33a8f3bd8651bc0b9288aa72c99291b2fa4b",
+      "rms": 0.03213
+    },
+    "piano": {
+      "sha256": "ddbc42cd868da138ebfa6cf69dc8d6022905fb06ab63cc1287ff05f548838c4b",
+      "rms": 0.00912
+    },
+    "other": {
+      "sha256": "78a9f518db086b47d8a778eb0c5e91f697fee5a984e3ea8b6a6e77eb9561bc6d",
+      "rms": 0.02562
+    },
+    "vocals": {
+      "sha256": "4242ca4025308a83b7c777d354522a41feb9cbfb179bda5c66631f683cd7897e",
+      "rms": 0.06174
+    },
+    "drums": {
+      "sha256": "398b0a3e9a55a70284fb2a20b2cfa6e57308e4e18399d6e49fa87d8f1fe9758a",
+      "rms": 0.11272
+    }
+  },
+  "vowels": {
+    "sustained_vowel_token_fixes": [
+      {
+        "start_ms": 11600,
+        "end_ms": 12350,
+        "shape": "AH",
+        "word": " a",
+        "original_confidence": 0.11672515422105789
+      },
+      {
+        "start_ms": 59650,
+        "end_ms": 61200,
+        "shape": "AH",
+        "word": " a",
+        "original_confidence": 0.3187001347541809
+      },
+      {
+        "start_ms": 59650,
+        "end_ms": 61200,
+        "shape": "AH",
+        "word": " a",
+        "original_confidence": 0.3187001347541809
+      },
+      {
+        "start_ms": 97650,
+        "end_ms": 97850,
+        "shape": "OH",
+        "word": " oh",
+        "original_confidence": 0.00696518225595355
+      },
+      {
+        "start_ms": 204850,
+        "end_ms": 205150,
+        "shape": "AH",
+        "word": " a",
+        "original_confidence": 0.7816285490989685
+      },
+      {
+        "start_ms": 208300,
+        "end_ms": 209450,
+        "shape": "OH",
+        "word": " Oh",
+        "original_confidence": 0.0058969249948859215
+      }
+    ],
+    "acoustic_gap_visemes": [
+      {
+        "start_ms": 2400,
+        "end_ms": 10300,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.0841,
+        "periodicity": 0.9162,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 10400,
+        "end_ms": 10750,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 3.1715,
+        "periodicity": 0.8313,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 38500,
+        "end_ms": 42550,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.5625,
+        "periodicity": 0.86,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 42650,
+        "end_ms": 43350,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 4.2807,
+        "periodicity": 0.7951,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 48400,
+        "end_ms": 48750,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 1.7891,
+        "periodicity": 0.6449,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 49000,
+        "end_ms": 49300,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.6966,
+        "periodicity": 0.7882,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 49500,
+        "end_ms": 49700,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 1.8844,
+        "periodicity": 0.9643,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 49850,
+        "end_ms": 50650,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 1.7243,
+        "periodicity": 0.9627,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 50800,
+        "end_ms": 51700,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 1.8694,
+        "periodicity": 0.8791,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 51950,
+        "end_ms": 53450,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.5493,
+        "periodicity": 0.9832,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 65000,
+        "end_ms": 66400,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 1.9675,
+        "periodicity": 0.9242,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 72450,
+        "end_ms": 74300,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.2727,
+        "periodicity": 0.8796,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 79700,
+        "end_ms": 80050,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.1777,
+        "periodicity": 0.7802,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 80200,
+        "end_ms": 80850,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.0064,
+        "periodicity": 0.8194,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 90300,
+        "end_ms": 90450,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 3.1184,
+        "periodicity": 0.6071,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 94200,
+        "end_ms": 97000,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 1.7946,
+        "periodicity": 0.9692,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 99000,
+        "end_ms": 99250,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 4.7101,
+        "periodicity": 0.6108,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 99450,
+        "end_ms": 99650,
+        "shape": "AH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 4.7301,
+        "periodicity": 0.6786,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 99800,
+        "end_ms": 100100,
+        "shape": "AH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 3.9737,
+        "periodicity": 0.7096,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 105650,
+        "end_ms": 106000,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 3.8563,
+        "periodicity": 0.6902,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 106650,
+        "end_ms": 106850,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 3.8507,
+        "periodicity": 0.837,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 124500,
+        "end_ms": 124900,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 3.4021,
+        "periodicity": 0.8447,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 127150,
+        "end_ms": 127300,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.6507,
+        "periodicity": 0.8414,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 134250,
+        "end_ms": 134400,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.0365,
+        "periodicity": 0.6623,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 134500,
+        "end_ms": 134850,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 1.757,
+        "periodicity": 0.6646,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 146900,
+        "end_ms": 148250,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 3.084,
+        "periodicity": 0.7021,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 154450,
+        "end_ms": 155250,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 1.4172,
+        "periodicity": 0.7383,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 165100,
+        "end_ms": 165450,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 1.9642,
+        "periodicity": 0.9327,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 165650,
+        "end_ms": 167050,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.6743,
+        "periodicity": 0.9578,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 167300,
+        "end_ms": 171900,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.1753,
+        "periodicity": 0.9462,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 188500,
+        "end_ms": 188700,
+        "shape": "AH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.5969,
+        "periodicity": 0.8924,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 197050,
+        "end_ms": 197750,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 3.563,
+        "periodicity": 0.9369,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 203650,
+        "end_ms": 204000,
+        "shape": "EE",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 2.4918,
+        "periodicity": 0.8444,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 207550,
+        "end_ms": 208300,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 3.568,
+        "periodicity": 0.8624,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 209450,
+        "end_ms": 210000,
+        "shape": "OH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 3.5372,
+        "periodicity": 0.8832,
+        "lexical_word_inferred": false
+      },
+      {
+        "start_ms": 215900,
+        "end_ms": 216100,
+        "shape": "AH",
+        "method": "periodic vocal gap / recording-calibrated spectral vowel color",
+        "spectral_distance": 4.9265,
+        "periodicity": 0.7836,
+        "lexical_word_inferred": false
+      }
+    ],
+    "templates": [
+      "OH",
+      "AH",
+      "EE"
+    ],
+    "phone_boundaries_acoustically_aligned": false,
+    "lexical_text_preserved": true
+  },
+  "mallet_attacks": [
+    {
+      "start_ms": 47900,
+      "midi": 80,
+      "concentration": 0.3081,
+      "decay_ratio": 4.778,
+      "vocal_similarity": 0.632
+    },
+    {
+      "start_ms": 48350,
+      "midi": 77,
+      "concentration": 0.1542,
+      "decay_ratio": 1.563,
+      "vocal_similarity": 0.424
+    },
+    {
+      "start_ms": 62750,
+      "midi": 77,
+      "concentration": 0.8996,
+      "decay_ratio": 2.507,
+      "vocal_similarity": 0.1
+    },
+    {
+      "start_ms": 63150,
+      "midi": 77,
+      "concentration": 0.894,
+      "decay_ratio": 1.781,
+      "vocal_similarity": 0.02
+    },
+    {
+      "start_ms": 63800,
+      "midi": 70,
+      "concentration": 0.1091,
+      "decay_ratio": 1.062,
+      "vocal_similarity": 0.123
+    },
+    {
+      "start_ms": 65000,
+      "midi": 77,
+      "concentration": 0.1232,
+      "decay_ratio": 1.342,
+      "vocal_similarity": 0.126
+    },
+    {
+      "start_ms": 66000,
+      "midi": 77,
+      "concentration": 0.9304,
+      "decay_ratio": 3.166,
+      "vocal_similarity": 0.12
+    },
+    {
+      "start_ms": 66400,
+      "midi": 77,
+      "concentration": 0.9389,
+      "decay_ratio": 1.442,
+      "vocal_similarity": 0.12
+    },
+    {
+      "start_ms": 66600,
+      "midi": 77,
+      "concentration": 0.9207,
+      "decay_ratio": 2.456,
+      "vocal_similarity": 0.159
+    },
+    {
+      "start_ms": 67250,
+      "midi": 77,
+      "concentration": 0.9001,
+      "decay_ratio": 1.577,
+      "vocal_similarity": 0.253
+    },
+    {
+      "start_ms": 67650,
+      "midi": 77,
+      "concentration": 0.8723,
+      "decay_ratio": 2.431,
+      "vocal_similarity": 0.349
+    },
+    {
+      "start_ms": 68250,
+      "midi": 77,
+      "concentration": 0.5026,
+      "decay_ratio": 1.203,
+      "vocal_similarity": 0.176
+    },
+    {
+      "start_ms": 103500,
+      "midi": 72,
+      "concentration": 0.451,
+      "decay_ratio": 1.595,
+      "vocal_similarity": 0.715
+    },
+    {
+      "start_ms": 103900,
+      "midi": 75,
+      "concentration": 0.3669,
+      "decay_ratio": 1.169,
+      "vocal_similarity": 0.583
+    },
+    {
+      "start_ms": 104300,
+      "midi": 75,
+      "concentration": 0.4181,
+      "decay_ratio": 1.305,
+      "vocal_similarity": 0.602
+    },
+    {
+      "start_ms": 105100,
+      "midi": 72,
+      "concentration": 0.2275,
+      "decay_ratio": 1.424,
+      "vocal_similarity": 0.551
+    },
+    {
+      "start_ms": 105350,
+      "midi": 72,
+      "concentration": 0.2926,
+      "decay_ratio": 2.215,
+      "vocal_similarity": 0.52
+    },
+    {
+      "start_ms": 128700,
+      "midi": 77,
+      "concentration": 0.9834,
+      "decay_ratio": 7.164,
+      "vocal_similarity": 0.237
+    },
+    {
+      "start_ms": 129100,
+      "midi": 77,
+      "concentration": 0.9777,
+      "decay_ratio": 10.804,
+      "vocal_similarity": 0.28
+    },
+    {
+      "start_ms": 131950,
+      "midi": 72,
+      "concentration": 0.4224,
+      "decay_ratio": 1.985,
+      "vocal_similarity": 0.521
+    },
+    {
+      "start_ms": 134750,
+      "midi": 72,
+      "concentration": 0.2982,
+      "decay_ratio": 1.051,
+      "vocal_similarity": 0.271
+    },
+    {
+      "start_ms": 135000,
+      "midi": 72,
+      "concentration": 0.1974,
+      "decay_ratio": 1.13,
+      "vocal_similarity": 0.305
+    },
+    {
+      "start_ms": 135400,
+      "midi": 72,
+      "concentration": 0.4739,
+      "decay_ratio": 1.111,
+      "vocal_similarity": 0.301
+    },
+    {
+      "start_ms": 135800,
+      "midi": 72,
+      "concentration": 0.6586,
+      "decay_ratio": 1.076,
+      "vocal_similarity": 0.301
+    },
+    {
+      "start_ms": 136200,
+      "midi": 72,
+      "concentration": 0.5993,
+      "decay_ratio": 1.099,
+      "vocal_similarity": 0.27
+    },
+    {
+      "start_ms": 136400,
+      "midi": 72,
+      "concentration": 0.5688,
+      "decay_ratio": 1.07,
+      "vocal_similarity": 0.267
+    },
+    {
+      "start_ms": 136600,
+      "midi": 72,
+      "concentration": 0.5461,
+      "decay_ratio": 1.222,
+      "vocal_similarity": 0.218
+    },
+    {
+      "start_ms": 136800,
+      "midi": 72,
+      "concentration": 0.606,
+      "decay_ratio": 5.809,
+      "vocal_similarity": 0.144
+    },
+    {
+      "start_ms": 162850,
+      "midi": 70,
+      "concentration": 0.605,
+      "decay_ratio": 2.377,
+      "vocal_similarity": 0.227
+    },
+    {
+      "start_ms": 171900,
+      "midi": 73,
+      "concentration": 0.5435,
+      "decay_ratio": 1.154,
+      "vocal_similarity": 0.217
+    },
+    {
+      "start_ms": 173500,
+      "midi": 89,
+      "concentration": 0.3627,
+      "decay_ratio": 1.064,
+      "vocal_similarity": 0.42
+    },
+    {
+      "start_ms": 173750,
+      "midi": 89,
+      "concentration": 0.3776,
+      "decay_ratio": 1.36,
+      "vocal_similarity": 0.34
+    },
+    {
+      "start_ms": 174350,
+      "midi": 89,
+      "concentration": 0.5905,
+      "decay_ratio": 1.255,
+      "vocal_similarity": 0.358
+    },
+    {
+      "start_ms": 176400,
+      "midi": 70,
+      "concentration": 0.4652,
+      "decay_ratio": 1.824,
+      "vocal_similarity": 0.295
+    },
+    {
+      "start_ms": 177300,
+      "midi": 84,
+      "concentration": 0.4089,
+      "decay_ratio": 1.171,
+      "vocal_similarity": 0.36
+    },
+    {
+      "start_ms": 177600,
+      "midi": 84,
+      "concentration": 0.5125,
+      "decay_ratio": 1.489,
+      "vocal_similarity": 0.52
+    },
+    {
+      "start_ms": 178400,
+      "midi": 87,
+      "concentration": 0.7216,
+      "decay_ratio": 1.983,
+      "vocal_similarity": 0.465
+    },
+    {
+      "start_ms": 180100,
+      "midi": 89,
+      "concentration": 0.3735,
+      "decay_ratio": 1.869,
+      "vocal_similarity": 0.294
+    },
+    {
+      "start_ms": 182750,
+      "midi": 82,
+      "concentration": 0.2398,
+      "decay_ratio": 1.112,
+      "vocal_similarity": 0.451
+    },
+    {
+      "start_ms": 183350,
+      "midi": 70,
+      "concentration": 0.2776,
+      "decay_ratio": 1.153,
+      "vocal_similarity": 0.4
+    },
+    {
+      "start_ms": 183600,
+      "midi": 72,
+      "concentration": 0.5763,
+      "decay_ratio": 1.198,
+      "vocal_similarity": 0.439
+    },
+    {
+      "start_ms": 184950,
+      "midi": 74,
+      "concentration": 0.1688,
+      "decay_ratio": 3.111,
+      "vocal_similarity": 0.555
+    },
+    {
+      "start_ms": 185150,
+      "midi": 69,
+      "concentration": 0.3354,
+      "decay_ratio": 3.294,
+      "vocal_similarity": 0.447
+    },
+    {
+      "start_ms": 189150,
+      "midi": 89,
+      "concentration": 0.3856,
+      "decay_ratio": 3.376,
+      "vocal_similarity": 0.342
+    },
+    {
+      "start_ms": 201850,
+      "midi": 73,
+      "concentration": 0.274,
+      "decay_ratio": 1.393,
+      "vocal_similarity": 0.3
+    },
+    {
+      "start_ms": 203550,
+      "midi": 70,
+      "concentration": 0.2756,
+      "decay_ratio": 1.154,
+      "vocal_similarity": 0.449
+    },
+    {
+      "start_ms": 204000,
+      "midi": 73,
+      "concentration": 0.8874,
+      "decay_ratio": 202.502,
+      "vocal_similarity": 0.106
+    },
+    {
+      "start_ms": 214450,
+      "midi": 70,
+      "concentration": 0.8984,
+      "decay_ratio": 2.061,
+      "vocal_similarity": 0.042
+    },
+    {
+      "start_ms": 215300,
+      "midi": 72,
+      "concentration": 0.7272,
+      "decay_ratio": 1.78,
+      "vocal_similarity": 0.122
+    },
+    {
+      "start_ms": 215700,
+      "midi": 72,
+      "concentration": 0.5988,
+      "decay_ratio": 1.841,
+      "vocal_similarity": 0.173
+    },
+    {
+      "start_ms": 216250,
+      "midi": 87,
+      "concentration": 0.4573,
+      "decay_ratio": 1.251,
+      "vocal_similarity": 0.255
+    },
+    {
+      "start_ms": 216950,
+      "midi": 72,
+      "concentration": 0.5111,
+      "decay_ratio": 1.28,
+      "vocal_similarity": 0.165
+    }
+  ],
+  "lyric_refinement": {
+    "method": "retain recognized vocables; adopt screened embedded-reference alignments where available",
+    "accepted_reference_segments": [
+      {
+        "start_ms": 53460,
+        "end_ms": 59620,
+        "text": "Snowflakes melting start to glow",
+        "median_word_confidence": 0.9847368597984314,
+        "independent_recognized_token_agreement": 3
+      },
+      {
+        "start_ms": 61200,
+        "end_ms": 65020,
+        "text": "A reindeer laughs but no one's there",
+        "median_word_confidence": 0.9707528253396351,
+        "independent_recognized_token_agreement": 7
+      },
+      {
+        "start_ms": 67860,
+        "end_ms": 72460,
+        "text": "I hear whispers in the frosty air",
+        "median_word_confidence": 0.9599294066429138,
+        "independent_recognized_token_agreement": 7
+      },
+      {
+        "start_ms": 74320,
+        "end_ms": 75780,
+        "text": "Christmas in the ether",
+        "median_word_confidence": 0.9346458315849304,
+        "independent_recognized_token_agreement": 4
+      },
+      {
+        "start_ms": 77800,
+        "end_ms": 79720,
+        "text": "Echoes in my head",
+        "median_word_confidence": 0.9906701743602753,
+        "independent_recognized_token_agreement": 3
+      },
+      {
+        "start_ms": 81140,
+        "end_ms": 82260,
+        "text": "Christmas in the ether",
+        "median_word_confidence": 0.860787570476532,
+        "independent_recognized_token_agreement": 4
+      },
+      {
+        "start_ms": 84180,
+        "end_ms": 86640,
+        "text": "Colors turn to red",
+        "median_word_confidence": 0.8116702437400818,
+        "independent_recognized_token_agreement": 4
+      },
+      {
+        "start_ms": 87620,
+        "end_ms": 89000,
+        "text": "Christmas in the ether",
+        "median_word_confidence": 0.9964169263839722,
+        "independent_recognized_token_agreement": 3
+      },
+      {
+        "start_ms": 90680,
+        "end_ms": 94200,
+        "text": "Did it snow or was it said",
+        "median_word_confidence": 0.7886720895767212,
+        "independent_recognized_token_agreement": 1
+      },
+      {
+        "start_ms": 129500,
+        "end_ms": 133940,
+        "text": "Or is it just the bass I feel",
+        "median_word_confidence": 0.7698037624359131,
+        "independent_recognized_token_agreement": 6
+      },
+      {
+        "start_ms": 137880,
+        "end_ms": 141000,
+        "text": "Holograms of candy canes",
+        "median_word_confidence": 0.982603594660759,
+        "independent_recognized_token_agreement": 4
+      },
+      {
+        "start_ms": 144300,
+        "end_ms": 146920,
+        "text": "Pixel stars in endless chains",
+        "median_word_confidence": 0.5128316283226013,
+        "independent_recognized_token_agreement": 2
+      },
+      {
+        "start_ms": 149300,
+        "end_ms": 150460,
+        "text": "Christmas in the ether",
+        "median_word_confidence": 0.7134652137756348,
+        "independent_recognized_token_agreement": 4
+      },
+      {
+        "start_ms": 152600,
+        "end_ms": 154440,
+        "text": "Echoes in my head",
+        "median_word_confidence": 0.9655482769012451,
+        "independent_recognized_token_agreement": 3
+      },
+      {
+        "start_ms": 155400,
+        "end_ms": 156840,
+        "text": "Christmas in the ether",
+        "median_word_confidence": 0.6864006668329239,
+        "independent_recognized_token_agreement": 3
+      },
+      {
+        "start_ms": 158560,
+        "end_ms": 161100,
+        "text": "Colors turn to red",
+        "median_word_confidence": 0.7722972631454468,
+        "independent_recognized_token_agreement": 4
+      },
+      {
+        "start_ms": 162040,
+        "end_ms": 163340,
+        "text": "Christmas in the ether",
+        "median_word_confidence": 0.9768428802490234,
+        "independent_recognized_token_agreement": 3
+      },
+      {
+        "start_ms": 184500,
+        "end_ms": 188520,
+        "text": "I\u2019m falling up the chimney now",
+        "median_word_confidence": 0.5302904776763171,
+        "independent_recognized_token_agreement": 4
+      },
+      {
+        "start_ms": 189200,
+        "end_ms": 196920,
+        "text": "The sky is dripping I don\u2019t know how",
+        "median_word_confidence": 0.7706345915794373,
+        "independent_recognized_token_agreement": 5
+      },
+      {
+        "start_ms": 197960,
+        "end_ms": 202760,
+        "text": "Sleigh bells crash like cymbals loud",
+        "median_word_confidence": 0.8201460887988408,
+        "independent_recognized_token_agreement": 4
+      },
+      {
+        "start_ms": 204020,
+        "end_ms": 207560,
+        "text": "The moon\u2019s a disco ball in clouds",
+        "median_word_confidence": 0.603044543415308,
+        "independent_recognized_token_agreement": 5
+      }
+    ],
+    "rejected_reference_segments": [
+      {
+        "start_ms": 5740,
+        "end_ms": 52340,
+        "text": "Lights are bending time is slow",
+        "median_word_confidence": 1.1947167877224274e-05,
+        "independent_recognized_token_agreement": 0
+      },
+      {
+        "start_ms": 97620,
+        "end_ms": 100340,
+        "text": "Pine trees breathing in the haze",
+        "median_word_confidence": 2.194101989516639e-05,
+        "independent_recognized_token_agreement": 0
+      },
+      {
+        "start_ms": 101860,
+        "end_ms": 101860,
+        "text": "Northern lights begin to blaze",
+        "median_word_confidence": 0,
+        "independent_recognized_token_agreement": 0
+      },
+      {
+        "start_ms": 101860,
+        "end_ms": 127080,
+        "text": "The ground is shaking is it real",
+        "median_word_confidence": 0.013114243745803833,
+        "independent_recognized_token_agreement": 6
+      },
+      {
+        "start_ms": 165160,
+        "end_ms": 184500,
+        "text": "Did it snow or was it said",
+        "median_word_confidence": 0.6765456795692444,
+        "independent_recognized_token_agreement": 1
+      }
+    ],
+    "embedded_alignment_sha256": "39b6396cdac19de9d432b3c69872c663d3750163861142cb5dca37968a65300f",
+    "corroborated_recognized_fallback_lines": [
+      {
+        "start_ms": 59660,
+        "end_ms": 65820,
+        "text": "a reindeer laughs but no one's there",
+        "lyric_source": "corroborated recognized fallback for failed reference"
+      },
+      {
+        "start_ms": 67780,
+        "end_ms": 72760,
+        "text": "i hear whispers in the frosty air",
+        "lyric_source": "corroborated recognized fallback for failed reference"
+      },
+      {
+        "start_ms": 84060,
+        "end_ms": 88960,
+        "text": "colors turn to red Christmas in the ether",
+        "lyric_source": "corroborated recognized fallback for failed reference"
+      },
+      {
+        "start_ms": 111220,
+        "end_ms": 124500,
+        "text": "the ground is shaking.",
+        "lyric_source": "corroborated recognized fallback for failed reference"
+      },
+      {
+        "start_ms": 125660,
+        "end_ms": 127160,
+        "text": "Is it real?",
+        "lyric_source": "corroborated recognized fallback for failed reference"
+      }
+    ]
+  },
+  "singer_casting": "authored alternating phrases / shared refrains and backing vocables; no gender or identity inference",
+  "singer_active_frames": [
+    1652,
+    1859
+  ],
+  "best_42s_start_seconds": 56.0,
+  "window_coverage": {
+    "bass": 0.39285714285714285,
+    "guitar": 0.03214285714285714,
+    "piano": 0.15476190476190477,
+    "vocal": 0.830952380952381,
+    "lexical_vocals": 0.6678571428571428
+  },
+  "window_score": 0.7760714285714287
+}

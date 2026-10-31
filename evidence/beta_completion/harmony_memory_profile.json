@@ -1,0 +1,29 @@
+{
+  "before": {
+    "mode": "before",
+    "elapsed_seconds": 31.428681252999922,
+    "peak_rss_bytes": 1599905792,
+    "stage_peaks": {
+      "setup": 133685248,
+      "harmony-classifier": 1213259776,
+      "harmony-classifier:hpss": 1600159744
+    },
+    "source_sha256": "dd988078a13ae2c7be5ebe645ba62adab45f9cb47ae7140134007e408539a632"
+  },
+  "after": {
+    "mode": "after",
+    "elapsed_seconds": 30.052861297999925,
+    "peak_rss_bytes": 414220288,
+    "stage_peaks": {
+      "setup": 135000064,
+      "harmony-classifier": 414289920,
+      "harmony-classifier:hpss": 332468224
+    },
+    "source_sha256": "dd988078a13ae2c7be5ebe645ba62adab45f9cb47ae7140134007e408539a632"
+  },
+  "same12_harmony_windows_and_all_fields": true,
+  "event_signature": "6925878300d62fdf6e38f6857b189c71fb9b70c02fb0da7d5ec8541a17ba3380",
+  "peak_rss_reduction_percent": 74.10970757958228,
+  "scope": "Harmony classifier only, desktop Linux using Android numerical bridge; not Android device or full-pipeline proof",
+  "baseline_source_sha": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+}

@@ -1,0 +1,43 @@
+name: Deliver verified all-song samplers
+on:
+  push:
+    branches: [feature/android-offline-app-20261013]
+    paths: [.github/workflows/deliver-all-song-samplers.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Retrieve completed native source artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run download 38367553613 --repo "$GITHUB_REPOSITORY" --name Helix-All-Songs-Advanced-Samplers --dir retrieved
+      - name: Preserve show package separately from movies
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile
+          root=Path('retrieved')
+          assert len(list(root.rglob('*.mp4')))==5
+          with zipfile.ZipFile('Helix-All-Song-Sampler-Shows.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for p in sorted(root.rglob('*')):
+                  if p.is_file() and p.suffix!='.mp4':z.write(p,p.relative_to(root))
+          assert Path('Helix-All-Song-Sampler-Shows.zip').stat().st_size<500*1024*1024
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-All-Song-Movies
+          compression-level: 0
+          path: |
+            retrieved/**/*.mp4
+            retrieved/manifest.json
+            retrieved/verification.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-All-Song-Shows
+          compression-level: 0
+          path: Helix-All-Song-Sampler-Shows.zip

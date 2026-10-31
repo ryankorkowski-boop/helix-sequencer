@@ -529,10 +529,8 @@ def build_effect_template_library(root: ET.Element) -> dict[str, EffectTemplate]
         key = effect_name_key(name)
         if key in templates:
             continue
-        templates[key] = EffectTemplate(
-            settings=_effect_settings(eff),
-            palette=_effect_palette(eff),
-        )
+        settings, palette = _xml_io.effect_template_values(root, eff)
+        templates[key] = EffectTemplate(settings=settings, palette=palette)
     return templates
 
 def load_xsq(path: Path) -> XsqIndex:
@@ -589,6 +587,10 @@ def _collect_effect_elements(root: ET.Element) -> dict[str, ET.Element]:
 
 def sync_xsq_to_layout(xsq: XsqIndex, layout_path: Path | None) -> dict[str, int]:
     return _layout_sync.sync_xsq_to_layout(xsq, layout_path)
+
+
+def validate_xsq_layout_rows(xsq: XsqIndex, layout_path: Path) -> dict[str, object]:
+    return _layout_sync.validate_xsq_layout_rows(xsq, layout_path)
 
 def ensure_layer(el: ET.Element, layer_name: str) -> ET.Element:
     return _xml_io.ensure_layer(el, layer_name)
@@ -716,12 +718,30 @@ def analyze(audio_path: Path) -> Audio:
     log(f"SR={sr} duration={dur:.2f}s")
 
     hop = HOP_MS
-    S = np.abs(librosa.stft(y, n_fft=2048, hop_length=hop))**2
+    magnitude = np.abs(librosa.stft(y, n_fft=2048, hop_length=hop))
+    S = magnitude**2
     mel = librosa.feature.melspectrogram(S=S, sr=sr, n_mels=128, fmin=20, fmax=11025)
     mel_db = librosa.power_to_db(mel, ref=np.max)
     times_s = librosa.frames_to_time(np.arange(mel.shape[1]), sr=sr, hop_length=hop)
 
-    onset_env = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop)
+    # onset_strength(y=...) and spectral_centroid(y=...) each decoded this
+    # same frame grid through a fresh STFT. Preserve onset_strength's default
+    # mel bank (different from the display's fmin=20 bank) and dB reference.
+    onset_mel = librosa.feature.melspectrogram(S=S, sr=sr)
+    onset_env = librosa.onset.onset_strength(
+        S=librosa.power_to_db(onset_mel), sr=sr, hop_length=hop)
+    if dur > 30:
+        from core.bounded_audio import dominant_pitch
+        # Each centroid/pitch frame is independent. Reduce it while its bounded
+        # workspace is live, then free the full spectra before beat planning.
+        centroid = np.empty(magnitude.shape[1], dtype=float)
+        for start in range(0, len(centroid), 512):
+            centroid[start:start+512] = librosa.feature.spectral_centroid(
+                S=magnitude[:, start:start+512], sr=sr, hop_length=hop)[0]
+        pitch_hz = (dominant_pitch(S, sr=sr, hop=hop,
+                    fmin=librosa.note_to_hz("C2"), fmax=librosa.note_to_hz("C7"))
+                    if USE_FAST_PITCH else np.full(len(times_s), np.nan))
+        del magnitude, S, onset_mel
     onset_frames = librosa.onset.onset_detect(
         onset_envelope=onset_env, sr=sr, hop_length=hop,
         backtrack=False, units="frames",
@@ -742,7 +762,8 @@ def analyze(audio_path: Path) -> Audio:
         except Exception:
             pass
 
-    centroid = librosa.feature.spectral_centroid(y=y, sr=sr, hop_length=hop)[0]
+    if dur <= 30:
+        centroid = librosa.feature.spectral_centroid(S=magnitude, sr=sr, hop_length=hop)[0]
     rms = librosa.feature.rms(y=y, hop_length=hop)[0]
     rms01 = norm01(rms)
 
@@ -754,7 +775,9 @@ def analyze(audio_path: Path) -> Audio:
     bass01 = norm01(bass_db)
     vocal01 = norm01(vocal_db)
 
-    if USE_FAST_PITCH:
+    if dur > 30:
+        pass  # Already reduced before releasing the full spectra above.
+    elif USE_FAST_PITCH:
         mags = np.sqrt(S)
         pitches, pmags = librosa.piptrack(
             S=mags, sr=sr, hop_length=hop,
@@ -762,11 +785,9 @@ def analyze(audio_path: Path) -> Audio:
             fmax=librosa.note_to_hz("C7")
         )
         pitch_hz = np.full((pitches.shape[1],), np.nan, dtype=float)
-        for t in range(pitches.shape[1]):
-            col = pmags[:, t]
-            i = int(np.argmax(col))
-            p = float(pitches[i, t])
-            pitch_hz[t] = p if p > 0 else np.nan
+        columns = np.arange(pitches.shape[1])
+        selected = pitches[np.argmax(pmags, axis=0), columns]
+        pitch_hz[:] = np.where(selected > 0, selected, np.nan)
     else:
         pitch_hz = np.full((len(times_s),), np.nan, dtype=float)
 
@@ -1145,6 +1166,7 @@ def _legacy_sequence_one_song(template_xsq: Path, audio_path: Path, out_path: Pa
             cooldowns.block(cd_key, st, cd_ms)
 
     a = analyze(audio_path)
+    _xml_io.set_sequence_duration(xsq.root, a.dur_s)
 
     # --- Timing tracks from XSQ (snap grid) ---
     beats_tt = read_timing_track_marks_ms(xsq.root, TT_BEATS)
@@ -1507,6 +1529,7 @@ def _v8_2_sequence_one_song(template_xsq: Path, audio_path: Path, out_path: Path
 
     log("[2/6] Analyzing audio")
     a = analyze(audio_path)
+    _xml_io.set_sequence_duration(xsq.root, a.dur_s)
 
     log("[3/6] Reading timing tracks")
     beats_tt = read_timing_track_marks_ms(xsq.root, TT_BEATS)
@@ -1853,6 +1876,7 @@ def sequence_one_song(template_xsq: Path, audio_path: Path, out_path: Path, prof
 
     log("[2/7] Analyzing audio")
     a = analyze(audio_path)
+    _xml_io.set_sequence_duration(xsq.root, a.dur_s)
     sections = detect_sections(a)
     if sections:
         section_text = ", ".join(f"{sec.label}:{sec.start_ms/1000:.1f}-{sec.end_ms/1000:.1f}s" for sec in sections)

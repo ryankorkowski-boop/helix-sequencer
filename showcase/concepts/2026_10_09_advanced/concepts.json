@@ -1,0 +1,317 @@
+{
+  "created_at": "2026-10-09",
+  "status": "visual concepts only; awaiting explicit selection",
+  "baseline": "9fe5a9dc36dc950b1b1e6ecbd8efd6e9a01db300",
+  "new_native_layouts_created": 0,
+  "sequence_or_native_preview_created": false,
+  "lessons": [
+    "Separate depth layers, preserve readable silhouettes and use finite frames.",
+    "Forced perspective depends on a specific camera/audience zone; artwork is not native validation.",
+    "Use negative space and independently sequencable ribs rather than treating scenic surfaces as lights.",
+    "Retain grounded performer placement and keep drummer acceptance separate."
+  ],
+  "concepts": [
+    {
+      "id": "23",
+      "name": "Parallax Helix Gate",
+      "standout": "Separated arcs align into one monumental double helix from a marked viewing spot, then unravel as you move sideways.",
+      "scene": "A gigantic cyan and violet double-helix gateway made of DISCONNECTED sculptural arc segments set at multiple distinct depths, perfectly aligned into a coherent double helix in the primary frontal view. A tiny lower inset shows the same physical arrangement from the side, revealing spaced grounded arc frames and the illusion breaking apart. A clear narrow viewing plaza and small gold ground marker. Sparse supports, no levitating light.",
+      "board": 1,
+      "side": "left",
+      "image": "images/23_24.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "24",
+      "name": "Infinite Avenue",
+      "standout": "Progressively smaller, closer arches make a compact installation appear to stretch much farther into the distance.",
+      "scene": "A finite avenue of EIGHT illuminated gold and ice-blue rectangular arch frames that progressively shrink in actual physical size and tighten their spacing toward the rear, producing an exaggerated infinite depth illusion. A clean central black path and thin violet ground rails; tapered frame heights unmistakable; dark rear terminus rather than an actual infinite scene.",
+      "board": 1,
+      "side": "right",
+      "image": "images/23_24.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "25",
+      "name": "Impossible Stair Garden",
+      "standout": "Offset terraces visually connect into an Escher-like staircase loop from one angle.",
+      "scene": "A violet, mint and warm-white sculptural garden of four groups of illuminated staircase edges at different depths, their ends optically meeting from a carefully chosen hero viewpoint to form an impossible ascending rectangular stair loop. Real grounded tier frames, subtle interruptions visible at side edges, small spiral accents below. Not a literal impossible gravity-defying building.",
+      "board": 2,
+      "side": "left",
+      "image": "images/25_26.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "26",
+      "name": "Tesseract Conservatory",
+      "standout": "Nested cubes and diagonal connectors create the impression of a fourth-dimensional form inside a walk-around garden.",
+      "scene": "An elegant huge cyan outer wireframe cube enclosing nested rotated smaller magenta and gold cubes, with deliberate diagonal luminous connectors forming a tesseract-like 3D projection. Finite actual rod-like pixel frames, discreet corner footings, spacious dark garden and low spiral ground motifs. Central black negative space, no solid holographic cube.",
+      "board": 2,
+      "side": "right",
+      "image": "images/25_26.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "27",
+      "name": "Whale of a Thousand Stars",
+      "standout": "Sparse ribs and fins line up into a breaching whale, giving a large recognizable sculpture without a solid surface.",
+      "scene": "NEW ORIGINAL whale design: a monumental breaching humpback whale silhouette over a dry-stage field of cyan wave contours. Its body is formed from luminous widely spaced cross-section rib hoops, pearl-blue dotted contours, a pale-gold eye, extended cyan fins and violet flukes, physically separated into layered frames. Transparent open body so the night sky shows through; inconspicuous supporting poles rooted in scenic dark platforms. Dramatic coherent whale silhouette, not a painted solid animal.",
+      "board": 3,
+      "side": "left",
+      "image": "images/27_28.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "28",
+      "name": "Cosmic Manta Crossing",
+      "standout": "Broad wing planes and a narrow helix spine make depth ripples read as a ray gliding overhead.",
+      "scene": "A gigantic celestial manta ray made entirely of restrained cyan and coral LED contour meshes, long swept wing planes split into three distinct depths, long mint double-helix tail, hovering-looking above a low dark pathway but supported by discrete grounded columns. Readable unmistakable manta silhouette, transparent layered light wings, small point-star clusters below.",
+      "board": 3,
+      "side": "right",
+      "image": "images/27_28.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "29",
+      "name": "Möbius Tidewalk",
+      "standout": "A continuous half-twist ribbon creates an inside/outside illusion that changes as viewers walk around it.",
+      "scene": "A broad continuous ONE-HALF-TWIST Mobius ribbon sculpture with three parallel mint/cyan LED edge rails and gold illuminated cross-rungs. Its loop rises from low grounded dark supports to a high central twist above a dry-stage wave garden, large open center, visible back side of the ribbon, physically finite. It is an illuminated sculpture, not a public walkable bridge.",
+      "board": 4,
+      "side": "left",
+      "image": "images/29_30.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "30",
+      "name": "Klein Bottle Lantern",
+      "standout": "Depth-separated funnels suggest an impossible self-intersecting bottle while keeping the light frames physically apart.",
+      "scene": "A colossal warm-amber and violet Klein-bottle-like lantern sculpture, open wireframe circular ribs forming a bulbous lower bowl and a curving narrow neck that appears to pass through its own side from the hero camera. Actual intersecting-looking sections offset in depth, dark discrete structural bases, tiny oblique inset reveals clearance between apparent intersections. Static luminous ribs, no solid glass or physically impossible object.",
+      "board": 4,
+      "side": "right",
+      "image": "images/29_30.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "31",
+      "name": "Gravity Inversion Stage",
+      "standout": "A grounded band sits beneath an inverted spiral forest, creating a strong visual tension between the performers and ceiling.",
+      "scene": "A live-band concert stage in mint, violet and silver: ordinary grounded performance deck with a central clearly visible snowman-style LED drummer silhouette on its own riser, shadowed guitar positions on both sides. Above it, an upside-down forest of illuminated spiral conical frames hangs from a clearly supported rectangular truss ceiling, tips point downward with ample clearance. Finite staggered heights and dark ceiling truss, strong negative space around performers, no floating musicians.",
+      "board": 5,
+      "side": "left",
+      "image": "images/31_32.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "32",
+      "name": "Event Horizon Arena",
+      "standout": "Offset rings funnel attention toward a dark center, framing the band with a visual gravity well.",
+      "scene": "A dramatic black-center concert arena. Five physically separate large tilted concentric-looking pixel ring trusses in deep cyan, violet and white, offset in depth and size to align into an apparent event-horizon tunnel above/behind the stage. Central opaque DARK disk/backdrop has no fake light beams. Grounded band deck, clear small snowman-style LED drummer center front, ring footings/truss support, low spectator-ring lights. A dramatic readable black void.",
+      "board": 5,
+      "side": "right",
+      "image": "images/31_32.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "33",
+      "name": "Clockwork Eclipse",
+      "standout": "Off-center orbital frames align into an eclipse at the hero viewpoint, then reveal their separate planes from the side.",
+      "scene": "An astronomical light installation of pearl white, amber and indigo OFF-CENTER orbital hoops with thin radial clockwork spokes, mounted on a few elegant dark columns. At a chosen hero viewpoint the hoops align around one large black central circular void to form a luminous eclipse corona. Small layered orbit rings and grounded observation circle; tiny oblique inset shows staggered hoop depths, no actual moving machinery.",
+      "board": 6,
+      "side": "left",
+      "image": "images/33_34.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "34",
+      "name": "Crystal Fold Pavilion",
+      "standout": "Angular planes overlap into a hovering crystal impression while leaving open corridors between the frames.",
+      "scene": "A walk-around crystalline pavilion made from SEVEN large faceted folded triangular LED lattice planes in ice blue, lilac and warm white, each on discreet grounded posts. Depth-separated origami wing planes align into a giant diamond/crystal silhouette from the entrance viewpoint. Open black gaps and a clear path through the lower center, sparse pixel ribs rather than opaque glass walls; legible folds and triangulation.",
+      "board": 6,
+      "side": "right",
+      "image": "images/33_34.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "35",
+      "name": "Lenticular Light Forest",
+      "standout": "Angled, baffled fins suggest two different compositions depending on where the audience stands.",
+      "scene": "A physical garden of many vertical ANGLED two-faced fin panels in finite rows, with real dark backing/baffles between luminous faces. Main LEFT-side vantage reveals cyan tree-like contours across the fins; a small lower inset at the alternate RIGHT-side vantage reveals a magenta helix motif assembled from the other faces. Clearly separate angular view zones and dark panel edges; no magical unshielded pixels changing visibility. Minimal gold viewing paths.",
+      "board": 7,
+      "side": "left",
+      "image": "images/35_36.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "36",
+      "name": "Hologram Atlas",
+      "standout": "Stacked sparse meshes create a volumetric globe impression with visible depth slices.",
+      "scene": "A huge atlas-like glowing globe in cyan and silver built from SIX physically separated transparent sparse pixel mesh panels, curved latitude arcs distributed across depths, gold meridian contours and violet points of continents. Sculptural finite layered light globe illusion, panels and side supports subtly visible, grounded dark semicircular base. No true hologram, no solid projection surface, generous black gaps.",
+      "board": 7,
+      "side": "right",
+      "image": "images/35_36.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "37",
+      "name": "Ouroboros Skycoil",
+      "standout": "A segmented serpent ring closes visually around a large empty center, turning depth gaps into part of the illusion.",
+      "scene": "An elegant enormous coiled sky-serpent made of emerald/cyan and gold double-helix rib contours, forming a nearly closed circular loop on discreet dark supports. Recognizable angular illuminated serpent head and separate tail align to appear to meet in the hero view, but their frames occupy different depths. Huge dark open circular center, a few tiny spiral plants below, no solid dragon skin and no flying animal.",
+      "board": 8,
+      "side": "left",
+      "image": "images/37_38.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "38",
+      "name": "Phoenix Ascending",
+      "standout": "Staggered feather fans form an unmistakable bird whose wings can light outward in successive layers.",
+      "scene": "A monumental ascending phoenix light sculpture, wide symmetrical wings built from layered finite slender feather fan frames at staggered depths, amber-to-coral-to-warm-white feather outlines, a narrow bright helix body and long violet feather tails descending toward grounded supports. Clear bird head, distinct negative gaps between feather ribs, static dark support framework, no solid bird or magical flames.",
+      "board": 8,
+      "side": "right",
+      "image": "images/37_38.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "39",
+      "name": "Cathedral of Echoes",
+      "standout": "Skewed, shrinking pointed arches exaggerate depth and appear to straighten from a chosen entrance view.",
+      "scene": "A dramatic non-building light cathedral corridor: EIGHT finite pointed Gothic arch frames in cyan, silver and violet, progressively smaller and physically skewed at alternating angles but aligned from one entrance viewpoint into an apparently perfectly straight soaring nave. Discrete dark columns, low paired gold pathway outlines, no stone church facade, abundant black negative space; distant tiny helix accent marks the finite rear.",
+      "board": 9,
+      "side": "left",
+      "image": "images/39_40.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "40",
+      "name": "Fractal Geode Cavern",
+      "standout": "Nested angular shells use repeated scales to make a shallow opening feel like a deep crystalline chamber.",
+      "scene": "A glowing geode cavern sculpture constructed from FIVE nested jagged polygonal wireframe shells on visible low dark bases, amber crystal rims outside graduating to mint and ice-blue smaller inner rims, repeated finite triangular crystal ribs. Dramatic receding black opening, physically narrowing interior and offset depths create an exaggerated deep-cavern illusion. No massive solid rock surface; all primary visual material is buildable open light frames.",
+      "board": 9,
+      "side": "right",
+      "image": "images/39_40.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "41",
+      "name": "Quantum Chessboard",
+      "standout": "Raised, disconnected grid tiles align into one checkerboard, with helix pieces emphasizing the changing depth.",
+      "scene": "A surreal but physically grounded cyan/violet/gold pixel chess garden. SIXTEEN disconnected outlined checkerboard tiles at different heights and depths align into one coherent tilted board from a chosen hero viewpoint. Four sculptural helix chess-piece-like towers of distinct heights sit on supported tiles. Some physical gaps visible at edges, dark actual pedestal supports. No magical levitation or changing physics, strong large-scale board silhouette.",
+      "board": 10,
+      "side": "left",
+      "image": "images/41_42.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    },
+    {
+      "id": "42",
+      "name": "Prismwake Pontoon",
+      "standout": "Offset canopy triangles align into a suspended diamond from the bow while the twin hulls keep a clear boat silhouette.",
+      "scene": "A docked double-pontoon party boat, recognizable twin hulls and rectangular rail deck in cyan/gold trim. Above the deck, FIVE separately supported angled triangular pixel canopy ribs at different longitudinal depths align into an apparent hovering faceted diamond when viewed from the bow. Violet/cyan contour edges, tiny warm speaker rings aft, dark lean posts tied visibly to deck; no actual unsupported crystal, calm unlit water scenery. Small oblique inset reveals the sequence of angled triangular canopy ribs.",
+      "board": 10,
+      "side": "right",
+      "image": "images/41_42.png",
+      "status": "awaiting approval",
+      "scope": "Concept art; no xmodel/XML/XSQ/MP4 build."
+    }
+  ],
+  "boards": [
+    {
+      "board": 1,
+      "image": "images/23_24.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2492128,
+      "sha256": "add07e69816350e693bed470f26e68b19523881b2cade19cf0f8e2cd16ae5ab8"
+    },
+    {
+      "board": 2,
+      "image": "images/25_26.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2881704,
+      "sha256": "2e40acb673576f6c795eef2b766b00ced64e6c896b34dc3c218da6b214a41c3d"
+    },
+    {
+      "board": 3,
+      "image": "images/27_28.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2583940,
+      "sha256": "ff998a989fa40e78a151eccbab5399d48b5f955eb68d4987ed8058662e51a172"
+    },
+    {
+      "board": 4,
+      "image": "images/29_30.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2650280,
+      "sha256": "5571481be64b86ddacd2937cc0ed15e17478a55fb3351083d0acca20ce639340"
+    },
+    {
+      "board": 5,
+      "image": "images/31_32.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2515593,
+      "sha256": "082cbeb70c46414a7f198d3fb0135911e6b1a3944f1fe0f1aa1eea55256004d0"
+    },
+    {
+      "board": 6,
+      "image": "images/33_34.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2747705,
+      "sha256": "d539d7f0ed088651cfe733e100f4b12cb93f0ffdcda43dcd5332bb4a7a72d0d4"
+    },
+    {
+      "board": 7,
+      "image": "images/35_36.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2665980,
+      "sha256": "695ce153988780e2a2aaa3b8b1ad50d3124d29665fcb7856bd5ac5934c297ef7"
+    },
+    {
+      "board": 8,
+      "image": "images/37_38.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2668450,
+      "sha256": "f678e9f06d5b7a29d2b4bce57042b92277b033a463c5abf706035f203d031498"
+    },
+    {
+      "board": 9,
+      "image": "images/39_40.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2688792,
+      "sha256": "f8579586bd03b24d1073f921b7c75d7c618563cac48b8c5e5d719facf94c8fb4"
+    },
+    {
+      "board": 10,
+      "image": "images/41_42.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2790174,
+      "sha256": "ec08288a5fceed4bec1ee83736b9f01a7f44bc736731dc591f00989e930ff9e5"
+    }
+  ]
+}

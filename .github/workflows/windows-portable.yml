@@ -1,0 +1,173 @@
+name: Windows Portable GUI
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/windows-gui-portable-20261010
+      - codex/gui-complete-integration-20261012
+      - feature/android-offline-app-20261013
+      - codex/gui-branding-and-guidance-20261013
+      - codex/beta-final-integration-20261014
+      - codex/beta-final-completion-20261014
+      - 'codex/beta-final-hardening-*'
+      - 'codex/72h-completion-*'
+    tags:
+      - 'v*'
+    paths:
+      - models/**
+      - music/**
+      - audio/**
+      - core/**
+      - core/sequence_builder.py
+      - tools/**
+      - config/support_links.json
+      - gui_launcher.py
+      - windows_portable_entry.py
+      - windows_portable.spec
+      - WINDOWS_PORTABLE_README.txt
+      - tests/test_windows_portable_entry.py
+      - tests/test_gui_integration.py
+      - .github/workflows/windows-portable.yml
+      - .github/workflows/android-offline.yml
+      - .github/workflows/beta-installer-bundle.yml
+      - tests/test_beta_installer_bundle.py
+      - .github/workflows/beta-completion-native.yml
+      - requirements.txt
+      - requirements-windows-portable.txt
+  pull_request:
+    paths:
+      - models/**
+      - music/**
+      - audio/**
+      - core/**
+      - core/sequence_builder.py
+      - tools/**
+      - config/support_links.json
+      - gui_launcher.py
+      - windows_portable_entry.py
+      - windows_portable.spec
+      - WINDOWS_PORTABLE_README.txt
+      - tests/test_windows_portable_entry.py
+      - tests/test_gui_integration.py
+      - .github/workflows/windows-portable.yml
+      - .github/workflows/android-offline.yml
+      - .github/workflows/beta-installer-bundle.yml
+      - tests/test_beta_installer_bundle.py
+      - .github/workflows/beta-completion-native.yml
+      - requirements.txt
+      - requirements-windows-portable.txt
+
+concurrency:
+  group: windows-portable-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write   # Only used to publish a GitHub Release when a version tag is pushed.
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 90
+    env:
+      HELIX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install build and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-windows-portable.txt
+          python -m pip install pytest
+      - name: Check portable entrypoint and Python source
+        run: |
+          python -c "import os, subprocess; actual = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(); assert actual == os.environ['HELIX_SOURCE_COMMIT'], 'Wrong Windows build source: ' + actual"
+          python -m compileall -q gui_launcher.py windows_portable_entry.py core tools xlights
+          python -m pytest -q tests/test_windows_portable_entry.py tests/test_gui_integration.py tests/test_desktop_remote.py tests/test_gui_support_links.py tests/test_dual_mode_lor.py tests/test_xsq_palette_repair.py tests/test_fseq_pixel_preview.py tests/test_legacy_lms_export.py tests/test_gui_branding.py tests/test_output_provenance.py tests/test_engine_failure_contract_direct.py
+      - name: Build portable GUI and worker
+        run: python -m PyInstaller --noconfirm --clean windows_portable.spec
+      - name: Assemble customer distribution
+        shell: pwsh
+        run: |
+          $root = "dist/Helix"
+          foreach ($file in @("Helix.exe", "HelixCLI.exe", "_internal/template.xsq", "_internal/xlights_rgbeffects.xml")) {
+            if (-not (Test-Path "$root/$file")) { throw "Missing packaged file: $file" }
+          }
+          Copy-Item "$root/_internal/template.xsq" "$root/template.xsq" -Force
+          Copy-Item "$root/_internal/helix_h_logo.png" "$root/helix_h_logo.png" -Force
+          Copy-Item "$root/_internal/xlights_rgbeffects.xml" "$root/xlights_rgbeffects.xml" -Force
+          Copy-Item "$root/_internal/WINDOWS_PORTABLE_README.txt" "$root/README.txt" -Force
+          Copy-Item "$root/_internal/THIRD_PARTY_LICENSES.md" "$root/THIRD_PARTY_LICENSES.md" -Force
+          Copy-Item "$root/_internal/NOTICE" "$root/NOTICE" -Force
+          Copy-Item "$root/_internal/LICENSE" "$root/LICENSE" -Force
+          foreach ($notice in @("COMMERCIAL_LICENSING.md", "MUSIC_PERMISSIONS.md", "WELCOME_TO_HELIX.md", "INSTALL_AND_TROUBLESHOOT.md")) {
+            Copy-Item "$root/_internal/$notice" "$root/$notice" -Force
+          }
+          foreach ($preset in @("allmodels", "helixville")) {
+            $source = "$root/_internal/$preset"
+            if (Test-Path $source) { Copy-Item $source "$root/$preset" -Recurse -Force }
+          }
+          New-Item -ItemType Directory -Force -Path "$root/outputs" | Out-Null
+          New-Item -ItemType Directory -Force -Path "$root/helixville" | Out-Null
+      - name: Exercise packaged engine and GUI on Windows
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $result = & "dist/Helix/HelixCLI.exe" --helix-cli --list-profiles 2>&1 | Out-String
+          if ($LASTEXITCODE -ne 0 -or $result -notmatch "master") {
+            throw "Packaged engine profile smoke failed: $result"
+          }
+          $gui = & "dist/Helix/HelixCLI.exe" --helix-gui-smoke 2>&1 | Out-String
+          if ($LASTEXITCODE -ne 0 -or $gui -notmatch "Helix GUI initialization OK") {
+            throw "Packaged GUI smoke failed: $gui"
+          }
+      - name: Exercise packaged native FSEQ rendering
+        run: python tools/portable_worker_smoke.py --worker dist/Helix/HelixCLI.exe --output portable_smoke
+      - name: Preserve packaged worker diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Windows-Worker-Diagnostics
+          path: |
+            portable_smoke/**/*.json
+            portable_smoke/**/*.log
+            portable_smoke/**/*.xsq
+            portable_smoke/**/*.lms
+            portable_smoke/**/*.xml
+          if-no-files-found: ignore
+      - name: Create portable ZIP and checksum
+        shell: pwsh
+        run: |
+          Copy-Item "portable_smoke/verification.json" "dist/Helix/VALIDATION.json" -Force
+          python -m tools.package_beta_installers stamp-windows --directory dist/Helix
+          if ($LASTEXITCODE -ne 0) { throw "Windows source provenance failed" }
+          Compress-Archive -Path "dist/Helix" -DestinationPath "Helix-Windows-Portable.zip" -CompressionLevel Optimal -Force
+          $hash = (Get-FileHash "Helix-Windows-Portable.zip" -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  Helix-Windows-Portable.zip" | Set-Content -Encoding ascii "Helix-Windows-Portable.sha256"
+      - name: Upload downloadable ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Windows-Portable
+          path: |
+            Helix-Windows-Portable.zip
+            Helix-Windows-Portable.sha256
+            portable_smoke/verification.json
+            portable_smoke/*.log
+            dist/Helix/README.txt
+          retention-days: 30
+          if-no-files-found: error
+      - name: Publish Windows ZIP to GitHub Releases for tagged builds
+        if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/codex/gui-complete-integration-20261012'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = "$env:GITHUB_REF_NAME"
+          if ($env:GITHUB_REF_TYPE -ne "tag") { $tag = "helix-gui-complete-20261012" }
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -ne 0) { gh release create $tag --target "$env:GITHUB_SHA" --title "Helix integrated Windows GUI review" --notes "xLights and legacy LOR modes, musical palettes, native FSEQ tools, responsive workers. Separate unmerged review branch." --prerelease }
+          gh release upload $tag "Helix-Windows-Portable.zip" "Helix-Windows-Portable.sha256" --clobber

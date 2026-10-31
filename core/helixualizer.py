@@ -179,10 +179,14 @@ def _melbank_payload(signal_y: Any, sr: int, target_len: int) -> dict[str, Any]:
     dominance_curves: dict[str, Any] = {}
     hop = 512
     n_fft = 4096
+    if len(y) > 30 * sr:
+        from core.bounded_audio import mel_spectrogram
+    else:
+        mel_spectrogram = librosa.feature.melspectrogram
     for name, fmin, fmax, bins in _DEFAULT_MELBANKS:
         try:
             mel = np.asarray(
-                librosa.feature.melspectrogram(
+                mel_spectrogram(
                     y=y,
                     sr=sr,
                     n_fft=n_fft,
@@ -190,7 +194,6 @@ def _melbank_payload(signal_y: Any, sr: int, target_len: int) -> dict[str, Any]:
                     n_mels=bins,
                     fmin=fmin,
                     fmax=min(float(sr) * 0.5, fmax),
-                    power=2.0,
                 ),
                 dtype=float,
             )

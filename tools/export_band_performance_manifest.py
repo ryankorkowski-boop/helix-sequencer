@@ -16,7 +16,7 @@ from core.choreography_intent import (
     MotionVocabulary,
 )
 from core.intent_layer_expander import IntentLayerExpander
-from models.helixville4_performer_runtime import build_performer_runtime_catalog
+from models.helixville4_performer_runtime import build_performer_runtime_catalog, HELIXVILLE4_PERFORMERS
 
 
 DEMO_INTENTS = (
@@ -62,7 +62,10 @@ ARTIFACT_FILENAMES = {
 def build_demo_manifest() -> dict:
     expanded = IntentLayerExpander().expand_many(DEMO_INTENTS)
     adapted = BandIntentAdapter().adapt_many(expanded)
-    timeline = BandPerformanceTimelineCompiler().compile_many(adapted)
+    available={p.performer_id for p in HELIXVILLE4_PERFORMERS if p.states}
+    deferred=[dict(performer=p.performer_id,model=p.model_name,reason='no approved runtime states')
+              for p in HELIXVILLE4_PERFORMERS if not p.states]
+    timeline = BandPerformanceTimelineCompiler().compile_many(e for e in adapted if e.performer in available)
     export_manifest = BandXLightsExportCompiler().build_manifest(timeline)
     vocal_face_manifest = BandVocalFaceExportCompiler().build_manifest(build_demo_vocal_face_timings())
 
@@ -73,6 +76,8 @@ def build_demo_manifest() -> dict:
         "expanded_event_count": len(expanded),
         "adapted_event_count": len(adapted),
         "timeline_event_count": len(timeline),
+        "deferred_runtime_performers": deferred,
+        "runtime_export_complete": not deferred,
         "xlights_export": export_manifest,
         "vocal_face_export": vocal_face_manifest,
     }
@@ -97,7 +102,8 @@ def export_demo_manifest(output_dir: str | Path) -> Path:
     summary_path = out_dir / ARTIFACT_FILENAMES["summary"]
     summary_path.write_text(
         "Helixville4 deterministic performer pipeline export generated.\n"
-        "Includes all five runtime performers, compiled timeline events,\n"
+        "Catalog includes five performers; only approved nonempty runtime states are compiled.\n"
+        "Unavailable runtime performers are explicitly deferred in the combined manifest.\n"
         "xLights-oriented submodel effect instructions, and vocal face instructions.\n"
         "Standalone JSON artifacts are written for runtime catalog, submodel effects,\n"
         "and vocal face effects for downstream import/testing.\n",

@@ -1,0 +1,34 @@
+{
+  "symptom": "SIGSEGV139 in unmodified librosa estimate_tuning float64 parabolic interpolation; candidate bounded float64 piptrack also affected",
+  "failed_runtimes": [
+    {
+      "numba": "0.68.1",
+      "llvmlite": "0.50.0",
+      "numpy": "2.3.5",
+      "scipy": "1.17.0"
+    },
+    {
+      "numba": "0.68.1",
+      "llvmlite": "0.50.0",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1"
+    }
+  ],
+  "passing_ci_does_not_cover_this_new_long_float64_case": true,
+  "next": "Full focused rerun, pinned-source fullCI/Windows/Android",
+  "primary_compatibility_reference": "https://numba.readthedocs.io/en/0.61.2/release/0.61.2-notes.html",
+  "production_dependency_changes_yet": true,
+  "test_assertions_unchanged": true,
+  "supported_runtime": {
+    "numba": "0.61.2",
+    "llvmlite": "0.44.0",
+    "numpy": "2.2.6",
+    "scipy": "1.18.1",
+    "librosa": "0.10.2.post1"
+  },
+  "long_float32_float64_reference_and_candidate_tests": "2passed,7deselected,18.87s,strict tuning/chroma array equality",
+  "files": [
+    "requirements.txt",
+    "requirements-windows-portable.txt"
+  ]
+}

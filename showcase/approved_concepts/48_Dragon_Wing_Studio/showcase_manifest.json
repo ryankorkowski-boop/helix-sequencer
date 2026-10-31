@@ -1,0 +1,2473 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Dragon Wing Studio",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 50
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 50,
+  "rgb_pixels": 5295,
+  "channel_count": 15885,
+  "spiral_trees": 0,
+  "double_helices": 1,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_DRAGON_TORSO",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BODY",
+      "design": "DRAGON TORSO",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 1,
+      "end_channel": 1185,
+      "bounds_ft": [
+        [
+          -9.0,
+          15.0,
+          -9.0
+        ],
+        [
+          9.0,
+          83.0,
+          9.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37507715807094905,
+      "double_helix": true
+    },
+    {
+      "name": "HX_002_DRAGON_HEAD",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HEAD",
+      "design": "DRAGON HEAD",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 1186,
+      "end_channel": 1485,
+      "bounds_ft": [
+        [
+          0.0,
+          83.0,
+          0.0
+        ],
+        [
+          27.5,
+          108.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3427370578295958
+    },
+    {
+      "name": "HX_003_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 1486,
+      "end_channel": 1785,
+      "bounds_ft": [
+        [
+          -94.5,
+          62.0,
+          0.0
+        ],
+        [
+          -8.0,
+          132.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3060486388953684,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_004_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 1786,
+      "end_channel": 2085,
+      "bounds_ft": [
+        [
+          -84.0,
+          62.0,
+          0.0
+        ],
+        [
+          -8.0,
+          124.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34582922791413834,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_005_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 2086,
+      "end_channel": 2385,
+      "bounds_ft": [
+        [
+          -73.0,
+          62.0,
+          0.0
+        ],
+        [
+          -8.0,
+          116.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3342549936785104,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_006_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 2386,
+      "end_channel": 2685,
+      "bounds_ft": [
+        [
+          -62.0,
+          62.0,
+          0.0
+        ],
+        [
+          -8.0,
+          108.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34248789233129734,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_007_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 2686,
+      "end_channel": 2985,
+      "bounds_ft": [
+        [
+          -51.0,
+          61.5,
+          0.0
+        ],
+        [
+          -8.0,
+          101.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3406381544371574,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_008_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 2986,
+      "end_channel": 3285,
+      "bounds_ft": [
+        [
+          -40.0,
+          58.5,
+          0.0
+        ],
+        [
+          -8.0,
+          93.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33333628168025553,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_009_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 3286,
+      "end_channel": 3585,
+      "bounds_ft": [
+        [
+          8.0,
+          62.0,
+          0.0
+        ],
+        [
+          94.5,
+          132.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3060486388953684,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_010_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 3586,
+      "end_channel": 3885,
+      "bounds_ft": [
+        [
+          8.0,
+          62.0,
+          0.0
+        ],
+        [
+          84.0,
+          124.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34582922791413834,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_011_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 3886,
+      "end_channel": 4185,
+      "bounds_ft": [
+        [
+          8.0,
+          62.0,
+          0.0
+        ],
+        [
+          73.0,
+          116.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3342549936785104,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_012_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 4186,
+      "end_channel": 4485,
+      "bounds_ft": [
+        [
+          8.0,
+          62.0,
+          0.0
+        ],
+        [
+          62.0,
+          108.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34248789233129734,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_013_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 4486,
+      "end_channel": 4785,
+      "bounds_ft": [
+        [
+          8.0,
+          61.5,
+          0.0
+        ],
+        [
+          51.0,
+          101.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3406381544371574,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_014_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 4786,
+      "end_channel": 5085,
+      "bounds_ft": [
+        [
+          8.0,
+          58.5,
+          0.0
+        ],
+        [
+          40.0,
+          93.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33333628168025553,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_015_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 5086,
+      "end_channel": 5385,
+      "bounds_ft": [
+        [
+          -95.0,
+          47.0,
+          0.0
+        ],
+        [
+          -8.0,
+          65.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36923951525350074,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_016_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 5386,
+      "end_channel": 5685,
+      "bounds_ft": [
+        [
+          -84.0,
+          47.0,
+          0.0
+        ],
+        [
+          -8.0,
+          65.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3852321342774947,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_017_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 5686,
+      "end_channel": 5985,
+      "bounds_ft": [
+        [
+          -73.0,
+          47.0,
+          0.0
+        ],
+        [
+          -8.0,
+          65.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.363223180248478,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_018_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 5986,
+      "end_channel": 6285,
+      "bounds_ft": [
+        [
+          -62.0,
+          47.0,
+          0.0
+        ],
+        [
+          -8.0,
+          65.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.387284522047484,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_019_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 6286,
+      "end_channel": 6585,
+      "bounds_ft": [
+        [
+          -51.0,
+          47.0,
+          0.0
+        ],
+        [
+          -8.0,
+          65.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39488542545685285,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_020_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 6586,
+      "end_channel": 6885,
+      "bounds_ft": [
+        [
+          -39.75,
+          47.0,
+          0.0
+        ],
+        [
+          -8.0,
+          65.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19026102266648143,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_021_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 6886,
+      "end_channel": 7185,
+      "bounds_ft": [
+        [
+          8.0,
+          47.0,
+          0.0
+        ],
+        [
+          95.0,
+          65.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36923951525350074,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_022_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 7186,
+      "end_channel": 7485,
+      "bounds_ft": [
+        [
+          8.0,
+          47.0,
+          0.0
+        ],
+        [
+          84.0,
+          65.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3852321342774947,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_023_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 7486,
+      "end_channel": 7785,
+      "bounds_ft": [
+        [
+          8.0,
+          47.0,
+          0.0
+        ],
+        [
+          73.0,
+          65.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.363223180248478,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_024_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 7786,
+      "end_channel": 8085,
+      "bounds_ft": [
+        [
+          8.0,
+          47.0,
+          0.0
+        ],
+        [
+          62.0,
+          65.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.387284522047484,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_025_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8086,
+      "end_channel": 8385,
+      "bounds_ft": [
+        [
+          8.0,
+          47.0,
+          0.0
+        ],
+        [
+          51.0,
+          65.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39488542545685285,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_026_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8386,
+      "end_channel": 8685,
+      "bounds_ft": [
+        [
+          8.0,
+          47.0,
+          0.0
+        ],
+        [
+          39.75,
+          65.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19026102266648143,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_027_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8686,
+      "end_channel": 8985,
+      "bounds_ft": [
+        [
+          -95.0,
+          6.5,
+          0.0
+        ],
+        [
+          -8.0,
+          62.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37483819302553106,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_028_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8986,
+      "end_channel": 9285,
+      "bounds_ft": [
+        [
+          -84.0,
+          13.5,
+          0.0
+        ],
+        [
+          -8.0,
+          62.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3971776332070854,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_029_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 9286,
+      "end_channel": 9585,
+      "bounds_ft": [
+        [
+          -73.0,
+          20.0,
+          0.0
+        ],
+        [
+          -8.0,
+          62.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.362931822541748,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_030_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 9586,
+      "end_channel": 9885,
+      "bounds_ft": [
+        [
+          -61.75,
+          27.0,
+          0.0
+        ],
+        [
+          -8.0,
+          62.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19267025327897958,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_031_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 9886,
+      "end_channel": 10185,
+      "bounds_ft": [
+        [
+          -51.0,
+          33.5,
+          0.0
+        ],
+        [
+          -8.0,
+          62.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3929222031913887,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_032_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 10186,
+      "end_channel": 10485,
+      "bounds_ft": [
+        [
+          -40.0,
+          37.25,
+          0.0
+        ],
+        [
+          -8.0,
+          62.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18409342504322507,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_033_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 10486,
+      "end_channel": 10785,
+      "bounds_ft": [
+        [
+          8.0,
+          6.5,
+          0.0
+        ],
+        [
+          95.0,
+          62.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37483819302553106,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_034_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 10786,
+      "end_channel": 11085,
+      "bounds_ft": [
+        [
+          8.0,
+          13.5,
+          0.0
+        ],
+        [
+          84.0,
+          62.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3971776332070854,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_035_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 11086,
+      "end_channel": 11385,
+      "bounds_ft": [
+        [
+          8.0,
+          20.0,
+          0.0
+        ],
+        [
+          73.0,
+          62.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.362931822541748,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_036_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 11386,
+      "end_channel": 11685,
+      "bounds_ft": [
+        [
+          8.0,
+          27.0,
+          0.0
+        ],
+        [
+          61.75,
+          62.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19267025327897958,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_037_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 11686,
+      "end_channel": 11985,
+      "bounds_ft": [
+        [
+          8.0,
+          33.5,
+          0.0
+        ],
+        [
+          51.0,
+          62.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3929222031913887,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_038_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 11986,
+      "end_channel": 12285,
+      "bounds_ft": [
+        [
+          8.0,
+          37.25,
+          0.0
+        ],
+        [
+          40.0,
+          62.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18409342504322507,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_039_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 12286,
+      "end_channel": 12585,
+      "bounds_ft": [
+        [
+          -95.0,
+          47.0,
+          0.0
+        ],
+        [
+          -8.0,
+          65.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37629610296770866,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_040_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 12586,
+      "end_channel": 12885,
+      "bounds_ft": [
+        [
+          -84.0,
+          47.0,
+          0.0
+        ],
+        [
+          -8.0,
+          65.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32399798393748186,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_041_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 12886,
+      "end_channel": 13185,
+      "bounds_ft": [
+        [
+          -73.0,
+          47.0,
+          0.0
+        ],
+        [
+          -8.0,
+          65.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3752782079855012,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_042_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 13186,
+      "end_channel": 13485,
+      "bounds_ft": [
+        [
+          -62.0,
+          47.0,
+          0.0
+        ],
+        [
+          -8.0,
+          65.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37857655328871936,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_043_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 13486,
+      "end_channel": 13785,
+      "bounds_ft": [
+        [
+          -51.0,
+          47.0,
+          0.0
+        ],
+        [
+          -8.0,
+          65.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3577968618895739,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_044_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 13786,
+      "end_channel": 14085,
+      "bounds_ft": [
+        [
+          -40.0,
+          47.0,
+          0.0
+        ],
+        [
+          -8.0,
+          65.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18942784655460962,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_045_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 14086,
+      "end_channel": 14385,
+      "bounds_ft": [
+        [
+          8.0,
+          47.0,
+          0.0
+        ],
+        [
+          95.0,
+          65.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37629610296770866,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_046_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 14386,
+      "end_channel": 14685,
+      "bounds_ft": [
+        [
+          8.0,
+          47.0,
+          0.0
+        ],
+        [
+          84.0,
+          65.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32399798393748186,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_047_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 14686,
+      "end_channel": 14985,
+      "bounds_ft": [
+        [
+          8.0,
+          47.0,
+          0.0
+        ],
+        [
+          73.0,
+          65.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3752782079855012,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_048_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 14986,
+      "end_channel": 15285,
+      "bounds_ft": [
+        [
+          8.0,
+          47.0,
+          0.0
+        ],
+        [
+          62.0,
+          65.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37857655328871936,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_049_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 15286,
+      "end_channel": 15585,
+      "bounds_ft": [
+        [
+          8.0,
+          47.0,
+          0.0
+        ],
+        [
+          51.0,
+          65.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3577968618895739,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_050_DRAGON_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "DRAGON WING",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 15586,
+      "end_channel": 15885,
+      "bounds_ft": [
+        [
+          8.0,
+          47.0,
+          0.0
+        ],
+        [
+          40.0,
+          65.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.18942784655460962,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "file_prefix": "Dragon_Wing_Studio",
+  "description": "Strong wing keyframes let the dragon read clearly even at a deliberately stepped cadence.",
+  "palette": [
+    "#69EFFF",
+    "#FFAB99",
+    "#E5F6FF"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_DRAGON_TORSO",
+      "HX_002_DRAGON_HEAD",
+      "HX_003_DRAGON_WING",
+      "HX_004_DRAGON_WING",
+      "HX_005_DRAGON_WING",
+      "HX_006_DRAGON_WING",
+      "HX_007_DRAGON_WING",
+      "HX_008_DRAGON_WING",
+      "HX_009_DRAGON_WING",
+      "HX_010_DRAGON_WING",
+      "HX_011_DRAGON_WING",
+      "HX_012_DRAGON_WING",
+      "HX_013_DRAGON_WING",
+      "HX_014_DRAGON_WING",
+      "HX_015_DRAGON_WING",
+      "HX_016_DRAGON_WING",
+      "HX_017_DRAGON_WING",
+      "HX_018_DRAGON_WING",
+      "HX_019_DRAGON_WING",
+      "HX_020_DRAGON_WING",
+      "HX_021_DRAGON_WING",
+      "HX_022_DRAGON_WING",
+      "HX_023_DRAGON_WING",
+      "HX_024_DRAGON_WING",
+      "HX_025_DRAGON_WING",
+      "HX_026_DRAGON_WING",
+      "HX_027_DRAGON_WING",
+      "HX_028_DRAGON_WING",
+      "HX_029_DRAGON_WING",
+      "HX_030_DRAGON_WING",
+      "HX_031_DRAGON_WING",
+      "HX_032_DRAGON_WING",
+      "HX_033_DRAGON_WING",
+      "HX_034_DRAGON_WING",
+      "HX_035_DRAGON_WING",
+      "HX_036_DRAGON_WING",
+      "HX_037_DRAGON_WING",
+      "HX_038_DRAGON_WING",
+      "HX_039_DRAGON_WING",
+      "HX_040_DRAGON_WING",
+      "HX_041_DRAGON_WING",
+      "HX_042_DRAGON_WING",
+      "HX_043_DRAGON_WING",
+      "HX_044_DRAGON_WING",
+      "HX_045_DRAGON_WING",
+      "HX_046_DRAGON_WING",
+      "HX_047_DRAGON_WING",
+      "HX_048_DRAGON_WING",
+      "HX_049_DRAGON_WING",
+      "HX_050_DRAGON_WING"
+    ],
+    "HX_DNA_ALL": [
+      "HX_001_DRAGON_TORSO"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_001_DRAGON_TORSO/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_001_DRAGON_TORSO/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_001_DRAGON_TORSO/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_DRAGON_TORSO",
+      "HX_002_DRAGON_HEAD",
+      "HX_003_DRAGON_WING",
+      "HX_004_DRAGON_WING",
+      "HX_005_DRAGON_WING",
+      "HX_006_DRAGON_WING",
+      "HX_007_DRAGON_WING",
+      "HX_008_DRAGON_WING",
+      "HX_009_DRAGON_WING",
+      "HX_010_DRAGON_WING",
+      "HX_011_DRAGON_WING",
+      "HX_012_DRAGON_WING",
+      "HX_013_DRAGON_WING",
+      "HX_014_DRAGON_WING",
+      "HX_015_DRAGON_WING",
+      "HX_016_DRAGON_WING",
+      "HX_017_DRAGON_WING",
+      "HX_018_DRAGON_WING",
+      "HX_019_DRAGON_WING",
+      "HX_020_DRAGON_WING",
+      "HX_021_DRAGON_WING",
+      "HX_022_DRAGON_WING",
+      "HX_023_DRAGON_WING",
+      "HX_024_DRAGON_WING",
+      "HX_025_DRAGON_WING",
+      "HX_026_DRAGON_WING",
+      "HX_027_DRAGON_WING",
+      "HX_028_DRAGON_WING",
+      "HX_029_DRAGON_WING",
+      "HX_030_DRAGON_WING",
+      "HX_031_DRAGON_WING",
+      "HX_032_DRAGON_WING",
+      "HX_033_DRAGON_WING",
+      "HX_034_DRAGON_WING",
+      "HX_035_DRAGON_WING",
+      "HX_036_DRAGON_WING",
+      "HX_037_DRAGON_WING",
+      "HX_038_DRAGON_WING",
+      "HX_039_DRAGON_WING",
+      "HX_040_DRAGON_WING",
+      "HX_041_DRAGON_WING",
+      "HX_042_DRAGON_WING",
+      "HX_043_DRAGON_WING",
+      "HX_044_DRAGON_WING",
+      "HX_045_DRAGON_WING",
+      "HX_046_DRAGON_WING",
+      "HX_047_DRAGON_WING",
+      "HX_048_DRAGON_WING",
+      "HX_049_DRAGON_WING",
+      "HX_050_DRAGON_WING"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_DRAGON_TORSO",
+      "HX_002_DRAGON_HEAD",
+      "HX_003_DRAGON_WING",
+      "HX_004_DRAGON_WING",
+      "HX_005_DRAGON_WING",
+      "HX_006_DRAGON_WING",
+      "HX_007_DRAGON_WING",
+      "HX_008_DRAGON_WING",
+      "HX_009_DRAGON_WING",
+      "HX_010_DRAGON_WING",
+      "HX_011_DRAGON_WING",
+      "HX_012_DRAGON_WING",
+      "HX_013_DRAGON_WING",
+      "HX_014_DRAGON_WING",
+      "HX_015_DRAGON_WING",
+      "HX_016_DRAGON_WING",
+      "HX_017_DRAGON_WING",
+      "HX_018_DRAGON_WING",
+      "HX_019_DRAGON_WING",
+      "HX_020_DRAGON_WING",
+      "HX_021_DRAGON_WING",
+      "HX_022_DRAGON_WING",
+      "HX_023_DRAGON_WING",
+      "HX_024_DRAGON_WING",
+      "HX_025_DRAGON_WING",
+      "HX_026_DRAGON_WING",
+      "HX_027_DRAGON_WING",
+      "HX_028_DRAGON_WING",
+      "HX_029_DRAGON_WING",
+      "HX_030_DRAGON_WING",
+      "HX_031_DRAGON_WING",
+      "HX_032_DRAGON_WING",
+      "HX_033_DRAGON_WING",
+      "HX_034_DRAGON_WING",
+      "HX_035_DRAGON_WING",
+      "HX_036_DRAGON_WING",
+      "HX_037_DRAGON_WING",
+      "HX_038_DRAGON_WING",
+      "HX_039_DRAGON_WING",
+      "HX_040_DRAGON_WING",
+      "HX_041_DRAGON_WING",
+      "HX_042_DRAGON_WING",
+      "HX_043_DRAGON_WING",
+      "HX_044_DRAGON_WING",
+      "HX_045_DRAGON_WING",
+      "HX_046_DRAGON_WING",
+      "HX_047_DRAGON_WING",
+      "HX_048_DRAGON_WING",
+      "HX_049_DRAGON_WING",
+      "HX_050_DRAGON_WING"
+    ],
+    "HX_ZONE_BODY": [
+      "HX_001_DRAGON_TORSO"
+    ],
+    "HX_ZONE_HEAD": [
+      "HX_002_DRAGON_HEAD"
+    ],
+    "HX_ZONE_POSE_BODY_00": [
+      "HX_003_DRAGON_WING",
+      "HX_004_DRAGON_WING",
+      "HX_005_DRAGON_WING",
+      "HX_006_DRAGON_WING",
+      "HX_007_DRAGON_WING",
+      "HX_008_DRAGON_WING",
+      "HX_009_DRAGON_WING",
+      "HX_010_DRAGON_WING",
+      "HX_011_DRAGON_WING",
+      "HX_012_DRAGON_WING",
+      "HX_013_DRAGON_WING",
+      "HX_014_DRAGON_WING"
+    ],
+    "HX_ZONE_POSE_BODY_01": [
+      "HX_015_DRAGON_WING",
+      "HX_016_DRAGON_WING",
+      "HX_017_DRAGON_WING",
+      "HX_018_DRAGON_WING",
+      "HX_019_DRAGON_WING",
+      "HX_020_DRAGON_WING",
+      "HX_021_DRAGON_WING",
+      "HX_022_DRAGON_WING",
+      "HX_023_DRAGON_WING",
+      "HX_024_DRAGON_WING",
+      "HX_025_DRAGON_WING",
+      "HX_026_DRAGON_WING"
+    ],
+    "HX_ZONE_POSE_BODY_02": [
+      "HX_027_DRAGON_WING",
+      "HX_028_DRAGON_WING",
+      "HX_029_DRAGON_WING",
+      "HX_030_DRAGON_WING",
+      "HX_031_DRAGON_WING",
+      "HX_032_DRAGON_WING",
+      "HX_033_DRAGON_WING",
+      "HX_034_DRAGON_WING",
+      "HX_035_DRAGON_WING",
+      "HX_036_DRAGON_WING",
+      "HX_037_DRAGON_WING",
+      "HX_038_DRAGON_WING"
+    ],
+    "HX_ZONE_POSE_BODY_03": [
+      "HX_039_DRAGON_WING",
+      "HX_040_DRAGON_WING",
+      "HX_041_DRAGON_WING",
+      "HX_042_DRAGON_WING",
+      "HX_043_DRAGON_WING",
+      "HX_044_DRAGON_WING",
+      "HX_045_DRAGON_WING",
+      "HX_046_DRAGON_WING",
+      "HX_047_DRAGON_WING",
+      "HX_048_DRAGON_WING",
+      "HX_049_DRAGON_WING",
+      "HX_050_DRAGON_WING"
+    ]
+  },
+  "group_count": 13,
+  "concept_id": "48",
+  "source_art": "images/47_48.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "48",
+    "name": "Dragon Wing Studio",
+    "principle": "Pose-to-pose animation",
+    "standout": "Strong wing keyframes let the dragon read clearly even at a deliberately stepped cadence.",
+    "scene": "A monumental friendly original teal-and-amber dragon LED skeleton on a dry dark stage, small crisp head, helix torso and two broad symmetric open-rib wings. Three physically separate overlapping wing-outline pose layers on supported frames. Hero shows fully lifted wings. Bottom four storyboard cells show wings raised, level, folded down, lifted again. Clear single dragon body, dim inactive wing outlines, no derivative franchise creature.",
+    "board": 3,
+    "side": "right",
+    "image": "images/47_48.png",
+    "status": "awaiting approval",
+    "source_catalog": "showcase/concepts/2026_10_09_stop_motion/concepts.json",
+    "description": "Strong wing keyframes let the dragon read clearly even at a deliberately stepped cadence.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "stop_motion"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

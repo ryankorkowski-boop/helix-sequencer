@@ -1,0 +1,2 @@
+2026-10-30T01:42:04.4495098Z     raise ValueError('Native image quality failed: ' + failed + '; measurements=' +
+2026-10-30T01:42:04.4496154Z ValueError: Native image quality failed: visible_stage_motion; measurements={"median_bright_fraction": 0.08007, "median_luma": 13.466, "median_motion": 0.425, "visible_height": 0.644, "visible_width": 0.681}; retain diagnostic media without promoting it for owner approval

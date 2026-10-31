@@ -1,0 +1,72 @@
+{
+  "mode": "baseline",
+  "elapsed_seconds": 142.8320898249999,
+  "peak_rss_bytes": 1850908672,
+  "stage_peaks": {
+    "setup": 1802260480,
+    "analyze_harmonic": 1599606784,
+    "build_stem_analysis": 1848549376,
+    "_classify_background_vocals": 1848549376,
+    "_summarize_stem_file": 726999040,
+    "derive_multiband_analysis": 1532420096
+  },
+  "stages": [
+    {
+      "function": "analyze_harmonic",
+      "elapsed_seconds": 28.040506498000013
+    },
+    {
+      "function": "_classify_background_vocals",
+      "elapsed_seconds": 29.928600223999865
+    },
+    {
+      "function": "_summarize_stem_file",
+      "elapsed_seconds": 1.0704423250001582
+    },
+    {
+      "function": "_summarize_stem_file",
+      "elapsed_seconds": 1.0517117839999628
+    },
+    {
+      "function": "_summarize_stem_file",
+      "elapsed_seconds": 0.9712140159999763
+    },
+    {
+      "function": "_summarize_stem_file",
+      "elapsed_seconds": 1.099514112000179
+    },
+    {
+      "function": "build_stem_analysis",
+      "elapsed_seconds": 64.91692184199997
+    },
+    {
+      "function": "derive_multiband_analysis",
+      "elapsed_seconds": 4.76561355900003
+    }
+  ],
+  "result": {
+    "bundle": "/workspace/scratch/1ed7281f6b64/offline-memory/baseline/job/Helix-show.zip",
+    "preview": "",
+    "sequence": "/workspace/scratch/1ed7281f6b64/offline-memory/baseline/job/outputs/audio,v27.3.xsq",
+    "report": "/workspace/scratch/1ed7281f6b64/offline-memory/baseline/job/outputs/Android-run-report.txt",
+    "manifest": "/workspace/scratch/1ed7281f6b64/offline-memory/baseline/job/outputs/android-run.json",
+    "sequence_count": 1,
+    "mode": "xlights",
+    "stages": {
+      "sequencing": {
+        "status": "success"
+      },
+      "packaging": {
+        "status": "success"
+      },
+      "preview": {
+        "status": "skipped"
+      }
+    }
+  },
+  "audio_sha256": "dd988078a13ae2c7be5ebe645ba62adab45f9cb47ae7140134007e408539a632",
+  "source_commit": "c89a58dde3c6581083ecbd239b7673f11d7dd316",
+  "preview": false,
+  "musical_signature": "fed5565412b36f5f48967eaf4e68572cd4b846b399d8f523161b094d31e2864c",
+  "model_effect_count": 43913
+}

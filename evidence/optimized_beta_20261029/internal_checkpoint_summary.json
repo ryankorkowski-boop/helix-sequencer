@@ -1,0 +1,18 @@
+{
+  "parts": [
+    {
+      "path": "/workspace/scratch/c4612c1e89d7/internal-checkpoints/HELIX_INTERNAL_OPTIMIZED_NATIVE_20261029_PART1.zip",
+      "bytes": 319292814,
+      "sha256": "b7968227aa926b3ca546ad50989ace33608086546a3580daa7919e10702ee9b6",
+      "library_file_id": "libfile_047ff812c6888191baa9a2d6cbc95dfa"
+    },
+    {
+      "path": "/workspace/scratch/c4612c1e89d7/internal-checkpoints/HELIX_INTERNAL_OPTIMIZED_NATIVE_20261029_PART2.zip",
+      "bytes": 383475507,
+      "sha256": "815921854dbe6de6e7aa0e36d531e07546dd1bc64f69a3668a356c9800d2ba45",
+      "library_file_id": "libfile_e3a0d03004888191a477e14bf2188285"
+    }
+  ],
+  "inventory_entry_count": 765,
+  "validation": "Every archive CRC checked; per-file inventory retained in working checkpoint metadata; native/input hashes in restored manifests"
+}
