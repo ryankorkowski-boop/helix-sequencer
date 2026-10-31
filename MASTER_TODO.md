@@ -1,3 +1,8 @@
+## 31 October — owner review: video 02 rejected (vocal synchronization)
+
+- [ ] **BLOCKER VOC-SYNC-02:** Owner explicitly marked `02_Lead_and_Harmony_Vocals.mp4` **FAIL** because voices are out of sync. Alongside failed `01_Canonical_Snowman_Band.mp4`, investigate the shared singer animation / vocal-clock pipeline before rendering replacements. Do not infer which singer is worse without inspection; independently verify lead and purple harmony, syllable onset/offset, silence, segment origins and temporal drift against the original audio.
+- [ ] Replace and reverify both 01 and 02 after a demonstrated fix. Owner approval required. Videos 03–09 not yet judged.
+
 ## 31 October — owner review: video 01 rejected (vocal synchronization)
 
 - [ ] **BLOCKER VOC-SYNC-01:** Owner reviewed `01_Canonical_Snowman_Band.mp4` from the nine-MP4 ZIP and explicitly marked **FAIL**: vocals are very out of sync. Do not treat the October 30 technical audio-mux/sync checks as proof of visual lip synchronization or mark this movie approved.
