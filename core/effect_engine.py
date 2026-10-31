@@ -18,23 +18,24 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 from core.lazy_imports import LazyModule
+from core.stage_metrics import phase, timed_stage
 
 from core import audit as sequence_audit
 from core import audio_trigger_routes
-from core import audio_intelligence as ai
+ai = LazyModule("core.audio_intelligence")
 from core import chronoflow as chronoflow_engine
 from core import helixualizer as helixualizer_engine
-from core import hardkor_engine
-from core import matrix_intelligence as matrix_planner
-from core import birdsong_engine
-from core import lyric_interpreter
+hardkor_engine = LazyModule("core.hardkor_engine")
+matrix_planner = LazyModule("core.matrix_intelligence")
+birdsong_engine = LazyModule("core.birdsong_engine")
+lyric_interpreter = LazyModule("core.lyric_interpreter")
 from core import model_parser as xmp
 from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
 from core import band_sync as band_sync_engine
-from core import youtube_show_scorer
+youtube_show_scorer = LazyModule("core.youtube_show_scorer")
 from effects import piano_effect as piano_effect_engine
 from core import spatial_scene as spatial
 from tools.build_helpers import (
@@ -52,6 +53,13 @@ from tools.build_helpers import (
 )
 from tools import utilities as xfb
 from xlights import xsq_writer as base
+from core.audio_features import (
+    HarmonicData, MultiBandAnalysis, analyze_harmonic, derive_dynamic_marks,
+    _series_peak_marks, _quiet_windows_from_rms, _align_curve,
+    _marks_density_per_minute, estimate_tempo_bpm, classify_mir_genre,
+    classify_mir_mood, derive_multiband_analysis,
+)
+from core.drum_pipeline import classify_percussion_onsets, apply_stem_percussion
 
 librosa = LazyModule("librosa")
 np = LazyModule("numpy")
@@ -73,13 +81,6 @@ class SequentialPool:
     models: list[str]
 
 
-@dataclass
-class HarmonicData:
-    times_s: np.ndarray
-    cqt_mag: np.ndarray
-    base_midi: int
-    pitch_hz: np.ndarray
-    pitch_mag: np.ndarray
 
 
 @dataclass
@@ -91,30 +92,6 @@ class NoteEvent:
     section: str
 
 
-@dataclass
-class MultiBandAnalysis:
-    sub_bass_marks: list[int]
-    bass_marks: list[int]
-    mid_marks: list[int]
-    high_marks: list[int]
-    spectral_flux_marks: list[int]
-    loud_marks: list[int]
-    quiet_windows: list[tuple[int, int]]
-    dominance_marks: dict[str, list[int]]
-    frame_times_s: np.ndarray | None = None
-    spectral_centroid01: np.ndarray | None = None
-    spectral_bandwidth01: np.ndarray | None = None
-    spectral_contrast01: np.ndarray | None = None
-    spectral_flatness01: np.ndarray | None = None
-    spectral_flux01: np.ndarray | None = None
-    mfcc_motion01: np.ndarray | None = None
-    chroma_stability01: np.ndarray | None = None
-    tonnetz_motion01: np.ndarray | None = None
-    tempo_bpm: float = 0.0
-    genre_hint: str = "unknown"
-    mood_hint: str = "neutral"
-    descriptor_summary: dict[str, float] = field(default_factory=dict)
-    section_profiles: dict[str, dict[str, float | str]] = field(default_factory=dict)
 
 
 @dataclass
@@ -1641,36 +1618,6 @@ def pools_by_category(pools: list[SequentialPool], categories: tuple[str, ...]) 
     return selected if selected else pools
 
 
-def analyze_harmonic(audio: base.Audio) -> HarmonicData:
-    from core.bounded_audio import hpss
-    y_harm, percussive = hpss(audio.y, audio.sr)
-    del percussive
-    hop = base.HOP_MS
-    cqt_mag = np.abs(
-        librosa.cqt(
-            y_harm,
-            sr=audio.sr,
-            hop_length=hop,
-            fmin=librosa.note_to_hz("C2"),
-            n_bins=60,
-            bins_per_octave=12,
-        )
-    )
-    # Supplement CQT with piptrack so polyphonic note picking can use true pitch bins too.
-    stft_mag = np.abs(librosa.stft(y_harm, n_fft=2048, hop_length=hop))
-    if audio.dur_s > 30:
-        from core.bounded_audio import pitch_matrices
-        pitch_hz, pitch_mag = pitch_matrices(stft_mag, sr=audio.sr, hop_length=hop, fmin=65.0, fmax=2800.0)
-    else:
-        pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=audio.sr, hop_length=hop, fmin=65.0, fmax=2800.0)
-    times_s = librosa.frames_to_time(np.arange(cqt_mag.shape[1]), sr=audio.sr, hop_length=hop)
-    return HarmonicData(
-        times_s=np.asarray(times_s),
-        cqt_mag=np.asarray(cqt_mag),
-        base_midi=36,
-        pitch_hz=np.asarray(pitch_hz),
-        pitch_mag=np.asarray(pitch_mag),
-    )
 
 
 def infer_song_parts(sections: list[base.Section]) -> list[SongPart]:
@@ -1790,302 +1737,22 @@ def transition_spans_from_parts(parts: list[SongPart], song_length_ms: int) -> l
     return spans
 
 
-def derive_dynamic_marks(audio: base.Audio) -> tuple[list[int], list[int], list[int]]:
-    if audio.times_s.size == 0:
-        return ([], [], [])
-    energy_peaks = base.compress_times_ms(
-        [base.ms(t) for t in base.peak_times(audio.times_s, audio.rms01, 0.09, 12)],
-        base.scaled_gap(120),
-    )
-    rise_curve = np.clip(np.gradient(np.asarray(audio.rms01, dtype=float)), 0.0, None)
-    fall_curve = np.clip(-np.gradient(np.asarray(audio.rms01, dtype=float)), 0.0, None)
-    build_lifts = base.compress_times_ms(
-        [base.ms(t) for t in base.peak_times(audio.times_s, rise_curve, 0.025, 10)],
-        base.scaled_gap(110),
-    )
-    releases = base.compress_times_ms(
-        [base.ms(t) for t in base.peak_times(audio.times_s, fall_curve, 0.025, 10)],
-        base.scaled_gap(110),
-    )
-    return (energy_peaks, build_lifts, releases)
 
 
-def _series_peak_marks(
-    times_s: np.ndarray,
-    series: np.ndarray,
-    *,
-    threshold: float,
-    wait: int,
-    gap_ms: int,
-) -> list[int]:
-    if times_s.size == 0 or series.size == 0:
-        return []
-    usable = min(len(times_s), len(series))
-    if usable <= 0:
-        return []
-    ts = np.asarray(times_s[:usable], dtype=float)
-    vals = np.asarray(series[:usable], dtype=float)
-    if not np.isfinite(vals).any():
-        return []
-    norm = base.norm01(np.nan_to_num(vals, nan=0.0, posinf=0.0, neginf=0.0))
-    marks = [base.ms(t) for t in base.peak_times(ts, norm, threshold, max(1, int(wait)))]
-    return base.compress_times_ms(marks, max(10, int(gap_ms)))
 
 
-def _quiet_windows_from_rms(
-    times_s: np.ndarray,
-    rms01: np.ndarray,
-    *,
-    threshold: float,
-    min_window_ms: int,
-) -> list[tuple[int, int]]:
-    if times_s.size == 0 or rms01.size == 0:
-        return []
-    usable = min(len(times_s), len(rms01))
-    if usable <= 1:
-        return []
-    ts = np.asarray(times_s[:usable], dtype=float)
-    vals = np.asarray(rms01[:usable], dtype=float)
-    windows: list[tuple[int, int]] = []
-    start_idx: int | None = None
-    for idx, value in enumerate(vals):
-        if value <= threshold:
-            if start_idx is None:
-                start_idx = idx
-        elif start_idx is not None:
-            st = base.ms(ts[start_idx])
-            en = base.ms(ts[max(start_idx + 1, idx)])
-            if (en - st) >= min_window_ms:
-                windows.append((st, en))
-            start_idx = None
-    if start_idx is not None:
-        st = base.ms(ts[start_idx])
-        en = base.ms(ts[-1])
-        if (en - st) >= min_window_ms:
-            windows.append((st, en))
-    return windows
 
 
-def _align_curve(values: np.ndarray, target_len: int) -> np.ndarray:
-    if target_len <= 0:
-        return np.asarray([], dtype=float)
-    arr = np.asarray(values, dtype=float)
-    if arr.size == 0:
-        return np.zeros(target_len, dtype=float)
-    if arr.size == target_len:
-        return arr
-    src = np.linspace(0.0, 1.0, num=arr.size, endpoint=True)
-    dst = np.linspace(0.0, 1.0, num=target_len, endpoint=True)
-    return np.interp(dst, src, arr)
 
 
-def _marks_density_per_minute(marks: list[int], duration_s: float) -> float:
-    if duration_s <= 0.0:
-        return 0.0
-    return float(len(marks)) / max(1e-6, duration_s / 60.0)
 
 
-def estimate_tempo_bpm(beat_ms: list[int]) -> float:
-    if len(beat_ms) < 2:
-        return 0.0
-    deltas = np.diff(np.asarray(beat_ms, dtype=float))
-    if deltas.size == 0:
-        return 0.0
-    median_delta = float(np.median(deltas))
-    if median_delta <= 1.0:
-        return 0.0
-    return float(base.clamp(60000.0 / median_delta, 45.0, 220.0))
 
 
-def classify_mir_genre(summary: dict[str, float], *, tempo_bpm: float, rms_mean: float) -> str:
-    bass_density = float(summary.get("bass_density", 0.0))
-    sub_density = float(summary.get("sub_bass_density", 0.0))
-    high_density = float(summary.get("high_density", 0.0))
-    flux_density = float(summary.get("flux_density", 0.0))
-    contrast_mean = float(summary.get("contrast_mean", 0.0))
-    flatness_mean = float(summary.get("flatness_mean", 0.0))
-    mfcc_motion_mean = float(summary.get("mfcc_motion_mean", 0.0))
-    chroma_stability_mean = float(summary.get("chroma_stability_mean", 0.0))
-    tonnetz_motion_mean = float(summary.get("tonnetz_motion_mean", 0.0))
-    if tempo_bpm >= 124.0 and bass_density >= 48.0 and flux_density >= 60.0:
-        return "edm"
-    if flatness_mean >= 0.50 and contrast_mean >= 0.55 and tempo_bpm >= 92.0:
-        return "rock"
-    if sub_density >= 52.0 and high_density <= 34.0 and tempo_bpm < 108.0:
-        return "hip_hop"
-    if chroma_stability_mean >= 0.62 and mfcc_motion_mean <= 0.32 and flux_density <= 38.0:
-        return "ambient"
-    if tonnetz_motion_mean <= 0.22 and tempo_bpm < 92.0 and rms_mean <= 0.38:
-        return "classical"
-    return "pop"
 
 
-def classify_mir_mood(summary: dict[str, float], *, rms_mean: float) -> str:
-    centroid_mean = float(summary.get("centroid_mean", 0.0))
-    flux_density = float(summary.get("flux_density", 0.0))
-    chroma_stability_mean = float(summary.get("chroma_stability_mean", 0.0))
-    tonnetz_motion_mean = float(summary.get("tonnetz_motion_mean", 0.0))
-    arousal = base.clamp((0.50 * rms_mean) + (0.30 * min(1.0, flux_density / 95.0)) + (0.20 * centroid_mean), 0.0, 1.0)
-    valence = base.clamp((0.55 * chroma_stability_mean) + (0.30 * (1.0 - tonnetz_motion_mean)) + (0.15 * centroid_mean), 0.0, 1.0)
-    if arousal >= 0.74 and valence >= 0.52:
-        return "uplifting"
-    if arousal >= 0.74:
-        return "intense"
-    if arousal <= 0.34 and valence <= 0.44:
-        return "brooding"
-    if arousal <= 0.34:
-        return "calm"
-    return "balanced"
 
 
-def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
-    if audio.y.size == 0 or audio.sr <= 0:
-        return MultiBandAnalysis([], [], [], [], [], [], [], {})
-
-    hop = max(1, int(base.HOP_MS))
-    n_fft = 2048
-    spectrum = np.abs(librosa.stft(audio.y, n_fft=n_fft, hop_length=hop)) ** 2
-    if spectrum.size == 0:
-        return MultiBandAnalysis([], [], [], [], [], [], [], {})
-    frame_count = int(spectrum.shape[1])
-    freqs = librosa.fft_frequencies(sr=audio.sr, n_fft=n_fft)
-    frame_times = librosa.frames_to_time(np.arange(frame_count), sr=audio.sr, hop_length=hop)
-
-    def band_env(low_hz: float, high_hz: float) -> np.ndarray:
-        bins = np.where((freqs >= low_hz) & (freqs < high_hz))[0]
-        if len(bins) == 0:
-            return np.zeros(frame_count, dtype=float)
-        raw = np.asarray(spectrum[bins, :].mean(axis=0), dtype=float)
-        return base.norm01(raw)
-
-    sub_env = band_env(20.0, 60.0)
-    bass_env = band_env(60.0, 150.0)
-    mid_env = band_env(150.0, 2000.0)
-    high_env = band_env(2000.0, 12000.0)
-
-    sub_marks = _series_peak_marks(frame_times, sub_env, threshold=0.46, wait=9, gap_ms=120)
-    bass_marks = _series_peak_marks(frame_times, bass_env, threshold=0.42, wait=8, gap_ms=105)
-    mid_marks = _series_peak_marks(frame_times, mid_env, threshold=0.38, wait=7, gap_ms=95)
-    high_marks = _series_peak_marks(frame_times, high_env, threshold=0.34, wait=6, gap_ms=80)
-
-    from core.bounded_audio import positive_flux, spectral_descriptors
-    flux = positive_flux(spectrum)
-    flux01 = base.norm01(np.nan_to_num(np.asarray(flux, dtype=float), nan=0.0, posinf=0.0, neginf=0.0))
-    flux_marks = _series_peak_marks(frame_times, flux, threshold=0.40, wait=8, gap_ms=90)
-
-    rms = np.asarray(audio.rms01, dtype=float)
-    if rms.size >= 5:
-        kernel = np.asarray([1.0, 2.0, 3.0, 2.0, 1.0], dtype=float)
-        rms_smoothed = np.convolve(rms, kernel / np.sum(kernel), mode="same")
-    else:
-        rms_smoothed = rms
-    loud_marks = _series_peak_marks(audio.times_s, rms_smoothed, threshold=0.72, wait=8, gap_ms=170)
-    quiet_threshold = min(0.24, max(0.08, float(np.nanpercentile(rms if rms.size else np.asarray([0.1]), 22))))
-    quiet_windows = _quiet_windows_from_rms(audio.times_s, rms, threshold=quiet_threshold, min_window_ms=360)
-
-    stacks = np.vstack(
-        [
-            np.asarray(sub_env, dtype=float),
-            np.asarray(bass_env, dtype=float),
-            np.asarray(mid_env, dtype=float),
-            np.asarray(high_env, dtype=float),
-        ]
-    )
-    band_names = ("sub_bass", "bass", "mid", "high")
-    dominance_marks: dict[str, list[int]] = {name: [] for name in band_names}
-    if stacks.size:
-        dominant_idx = np.argmax(stacks, axis=0)
-        dominant_strength = np.max(stacks, axis=0)
-        for idx, name in enumerate(band_names):
-            marks = [base.ms(float(frame_times[i])) for i in range(len(frame_times)) if int(dominant_idx[i]) == idx and dominant_strength[i] >= 0.28]
-            dominance_marks[name] = base.compress_times_ms(marks, base.scaled_gap(180))
-
-    centroid, bandwidth, contrast, flatness = spectral_descriptors(spectrum, sr=audio.sr, power=True)
-    centroid = _align_curve(centroid, frame_count)
-    bandwidth = _align_curve(bandwidth, frame_count)
-    contrast = np.asarray(contrast, dtype=float)
-    contrast_curve = _align_curve(np.asarray(contrast.mean(axis=0), dtype=float), frame_count)
-    flatness = _align_curve(flatness, frame_count)
-    del spectrum
-
-    mfcc_motion = np.zeros(frame_count, dtype=float)
-    chroma_stability = np.zeros(frame_count, dtype=float)
-    tonnetz_motion = np.zeros(frame_count, dtype=float)
-    try:
-        mfcc = np.asarray(librosa.feature.mfcc(y=audio.y, sr=audio.sr, hop_length=hop, n_mfcc=20), dtype=float)
-        if mfcc.size:
-            mfcc_delta = np.asarray(librosa.feature.delta(mfcc), dtype=float)
-            mfcc_motion = _align_curve(np.mean(np.abs(mfcc_delta), axis=0), frame_count)
-    except Exception:
-        mfcc_motion = np.zeros(frame_count, dtype=float)
-    try:
-        options = {}
-        if len(audio.y) > 30 * audio.sr:
-            from core.bounded_audio import estimate_tuning
-            options['tuning'] = estimate_tuning(audio.y, sr=audio.sr, bins_per_octave=36)
-        chroma = np.asarray(librosa.feature.chroma_cqt(y=audio.y, sr=audio.sr, hop_length=hop, **options), dtype=float)
-        if chroma.size:
-            denom = np.sum(chroma, axis=0) + 1e-9
-            chroma_stability = _align_curve(np.max(chroma, axis=0) / denom, frame_count)
-            tonnetz = np.asarray(librosa.feature.tonnetz(chroma=chroma, sr=audio.sr), dtype=float)
-            if tonnetz.size:
-                tonnetz_delta = np.asarray(librosa.feature.delta(tonnetz), dtype=float)
-                tonnetz_motion = _align_curve(np.mean(np.abs(tonnetz_delta), axis=0), frame_count)
-    except Exception:
-        chroma_stability = np.zeros(frame_count, dtype=float)
-        tonnetz_motion = np.zeros(frame_count, dtype=float)
-
-    centroid01 = base.norm01(np.nan_to_num(centroid, nan=0.0, posinf=0.0, neginf=0.0))
-    bandwidth01 = base.norm01(np.nan_to_num(bandwidth, nan=0.0, posinf=0.0, neginf=0.0))
-    contrast01 = base.norm01(np.nan_to_num(contrast_curve, nan=0.0, posinf=0.0, neginf=0.0))
-    flatness01 = base.norm01(np.nan_to_num(flatness, nan=0.0, posinf=0.0, neginf=0.0))
-    mfcc_motion01 = base.norm01(np.nan_to_num(mfcc_motion, nan=0.0, posinf=0.0, neginf=0.0))
-    chroma_stability01 = base.norm01(np.nan_to_num(chroma_stability, nan=0.0, posinf=0.0, neginf=0.0))
-    tonnetz_motion01 = base.norm01(np.nan_to_num(tonnetz_motion, nan=0.0, posinf=0.0, neginf=0.0))
-
-    tempo_bpm = estimate_tempo_bpm(audio.beat_ms)
-    duration_s = float(max(1e-6, audio.dur_s))
-    descriptor_summary = {
-        "centroid_mean": float(np.mean(centroid01)) if centroid01.size else 0.0,
-        "bandwidth_mean": float(np.mean(bandwidth01)) if bandwidth01.size else 0.0,
-        "contrast_mean": float(np.mean(contrast01)) if contrast01.size else 0.0,
-        "flatness_mean": float(np.mean(flatness01)) if flatness01.size else 0.0,
-        "mfcc_motion_mean": float(np.mean(mfcc_motion01)) if mfcc_motion01.size else 0.0,
-        "chroma_stability_mean": float(np.mean(chroma_stability01)) if chroma_stability01.size else 0.0,
-        "tonnetz_motion_mean": float(np.mean(tonnetz_motion01)) if tonnetz_motion01.size else 0.0,
-        "flux_density": _marks_density_per_minute(flux_marks, duration_s),
-        "sub_bass_density": _marks_density_per_minute(sub_marks, duration_s),
-        "bass_density": _marks_density_per_minute(bass_marks, duration_s),
-        "mid_density": _marks_density_per_minute(mid_marks, duration_s),
-        "high_density": _marks_density_per_minute(high_marks, duration_s),
-    }
-    rms_mean = float(np.mean(np.asarray(audio.rms01, dtype=float))) if np.asarray(audio.rms01).size else 0.0
-    genre_hint = classify_mir_genre(descriptor_summary, tempo_bpm=tempo_bpm, rms_mean=rms_mean)
-    mood_hint = classify_mir_mood(descriptor_summary, rms_mean=rms_mean)
-
-    return MultiBandAnalysis(
-        sub_bass_marks=sub_marks,
-        bass_marks=bass_marks,
-        mid_marks=mid_marks,
-        high_marks=high_marks,
-        spectral_flux_marks=flux_marks,
-        loud_marks=loud_marks,
-        quiet_windows=quiet_windows,
-        dominance_marks=dominance_marks,
-        frame_times_s=np.asarray(frame_times, dtype=float),
-        spectral_centroid01=np.asarray(centroid01, dtype=float),
-        spectral_bandwidth01=np.asarray(bandwidth01, dtype=float),
-        spectral_contrast01=np.asarray(contrast01, dtype=float),
-        spectral_flatness01=np.asarray(flatness01, dtype=float),
-        spectral_flux01=np.asarray(flux01, dtype=float),
-        mfcc_motion01=np.asarray(mfcc_motion01, dtype=float),
-        chroma_stability01=np.asarray(chroma_stability01, dtype=float),
-        tonnetz_motion01=np.asarray(tonnetz_motion01, dtype=float),
-        tempo_bpm=tempo_bpm,
-        genre_hint=genre_hint,
-        mood_hint=mood_hint,
-        descriptor_summary=descriptor_summary,
-    )
 
 
 def curve_value_at_time(frame_times_s: np.ndarray | None, curve01: np.ndarray | None, t_ms: int) -> float:
@@ -10228,6 +9895,7 @@ def build_all_models_all_effects_sequence(
     return out_path
 
 
+@timed_stage("engine.variant")
 def run_variant(
     style: VariantStyle,
     template_xsq: Path,
@@ -10249,6 +9917,7 @@ def run_variant(
     if active_layout_file is not None and (tuning.layout_file is None or tuning.layout_file.resolve() != active_layout_file):
         tuning.layout_file = active_layout_file
 
+    phase("layout.load")
     log(f"[1/8] Loading template for {style.version}")
     xsq = base.load_xsq(template_xsq)
     normalized_views = base.normalize_display_views(xsq.root, force=True)
@@ -10435,17 +10104,19 @@ def run_variant(
             f"routes={len(neighbor_graph.routes)}, adjacency={len(neighbor_graph.adjacency)}"
         )
 
+    phase("audio.analysis")
     log("[2/8] Analyzing audio and polyphony")
     audio = analysis_cache.get("audio", lambda: base.analyze(audio_path)) if analysis_cache else base.analyze(audio_path)
     from xlights.xml_io import set_sequence_duration
     set_sequence_duration(xsq.root, float(audio.dur_s))
     song_length_ms = max(1000, int(audio.dur_s * 1000.0))
-    harmonic = analysis_cache.get("harmonic", lambda: analyze_harmonic(audio)) if analysis_cache else analyze_harmonic(audio)
+    harmonic = analysis_cache.get("harmonic", lambda: analyze_harmonic(audio, audio_path=audio_path)) if analysis_cache else analyze_harmonic(audio, audio_path=audio_path)
     sections = base.detect_sections(audio)
     parts = infer_song_parts(sections)
     if parts:
         log("Song parts: " + ", ".join(f"{part.label}:{part.start_ms/1000:.1f}-{part.end_ms/1000:.1f}s" for part in parts))
 
+    phase("timing_and_planning")
     log("[3/8] Reading timing tracks")
     beats_tt = sanitize_template_marks(base.read_timing_track_marks_ms(xsq.root, base.TT_BEATS), song_length_ms)
     bars_tt = sanitize_template_marks(base.read_timing_track_marks_ms(xsq.root, base.TT_BARS), song_length_ms)
@@ -10464,22 +10135,8 @@ def run_variant(
     note_onset_ms = notes_tt if timing_marks_usable(notes_tt, song_length_ms, 9) else onset_ms
     event_times_ms = choose_event_times(style, beat_ms, onset_ms, note_onset_ms, bar_ms)
 
-    hats: list[int] = []
-    snares: list[int] = []
-    kicks: list[int] = []
-    for t_ms in onset_ms:
-        centroid = base.nearest(audio.times_s, audio.centroid, t_ms / 1000.0)
-        if not np.isfinite(centroid):
-            continue
-        if centroid >= 4500:
-            hats.append(t_ms)
-        elif centroid >= 2200:
-            snares.append(t_ms)
-        else:
-            kicks.append(t_ms)
-    hats = base.compress_times_ms(hats, base.scaled_gap(24))
-    snares = base.compress_times_ms(snares, base.scaled_gap(36))
-    kicks = base.compress_times_ms(kicks, base.scaled_gap(46))
+    percussion_marks = classify_percussion_onsets(audio, onset_ms)
+    kicks, snares, hats = percussion_marks.kicks, percussion_marks.snares, percussion_marks.hats
 
     vocal_peaks = base.compress_times_ms(
         [base.ms(t) for t in base.peak_times(audio.times_s, audio.vocal01, 0.15, 10)],
@@ -10502,12 +10159,8 @@ def run_variant(
         bass_peaks = base.compress_times_ms(stem_analysis.bass_peaks_ms, base.scaled_gap(75))
     if stem_analysis.vocal_peaks_ms:
         vocal_peaks = base.compress_times_ms(stem_analysis.vocal_peaks_ms, base.scaled_gap(95))
-    if stem_analysis.drum_kicks_ms:
-        kicks = base.compress_times_ms(stem_analysis.drum_kicks_ms, base.scaled_gap(44))
-    if stem_analysis.drum_snares_ms:
-        snares = base.compress_times_ms(stem_analysis.drum_snares_ms, base.scaled_gap(32))
-    if stem_analysis.drum_hats_ms:
-        hats = base.compress_times_ms(stem_analysis.drum_hats_ms, base.scaled_gap(22))
+    percussion_marks = apply_stem_percussion(percussion_marks, stem_analysis)
+    kicks, snares, hats = percussion_marks.kicks, percussion_marks.snares, percussion_marks.hats
     energy_peaks, build_lifts, releases = derive_dynamic_marks(audio)
     multiband = analysis_cache.get("multiband", lambda: derive_multiband_analysis(audio), copy_result=True) if analysis_cache else derive_multiband_analysis(audio)
     multiband.section_profiles = derive_section_mir_profiles(
@@ -11125,6 +10778,7 @@ def run_variant(
         dynamic_random = min(dynamic_random, 0.12 if focused_mode else 0.18)
         global_flash_prob = min(global_flash_prob, 0.16 if focused_mode else 0.24)
 
+    phase("effects.placement")
     log("[4/8] Placing effects")
     if ramp_ok and not hardkor_mode:
         for part in parts:
@@ -12271,6 +11925,7 @@ def run_variant(
         quiet_windows=list(multiband.quiet_windows) + blackout_windows,
     )
 
+    phase("reports.write")
     log("[5/8] Writing timing tracks and report")
     if tuning.auto_timing_tracks:
         write_auto_timing_tracks(
@@ -12669,6 +12324,7 @@ def run_variant(
     write_report(report_path(out_path), payload)
     write_sequence_notes(notes_path(out_path), payload)
 
+    phase("xsq.write")
     log("[6/8] Writing sequence")
     from xlights.xml_io import bound_media_effects
     boundary_report = bound_media_effects(xsq.root, set_sequence_duration(xsq.root, float(audio.dur_s)))
@@ -12707,6 +12363,7 @@ def run_variant(
     if GENERATE_SHOWCASE:
         showcase_path = out_path.with_name(f"{out_path.stem}.showcase.xsq")
         try:
+            phase("showcase.write")
             log("[7/8] Building final all-models/all-effects output")
             build_all_models_all_effects_sequence(
                 style=style,
@@ -12720,6 +12377,7 @@ def run_variant(
         except Exception as exc:
             log(f"Final all-models generation skipped: {exc!r}")
 
+    phase(None)
     log(f"[8/8] Saved: {out_path.name} | effects added: {total}")
     log(f"Placement report: {stats.summary()}")
     log(

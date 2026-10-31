@@ -1034,5 +1034,19 @@
     "core/bounded_audio.py": "18037a8c1ee065fe91d029dd9dd973ee7acdc8c6e23a9ddaa31ae3dc7e27c7e1",
     "tests/test_owner_band_review.py": "b182eb427416d689afc51f3bad936cca89627433348437db4684157776c15d46",
     "tests/test_bounded_audio.py": "9c39459c8cdb739eb47c2778a2e05f0a8b979acfb2597847e77170ad1432550f"
-  }
+  },
+  "core_optimization_evidence": [
+    {
+      "path": "docs/core_optimization_20261031/baseline_cold.json",
+      "sha256": "0635e55eab1690c9c42cb90fe92db3d0ac87178525c690947a31c88d8c103bac"
+    },
+    {
+      "path": "docs/core_optimization_20261031/baseline_warm.json",
+      "sha256": "ee8c883ea489d217f2f4aee31698593acd88e9aed67c5c48ff5113714977d2d1"
+    },
+    {
+      "path": "docs/core_optimization_20261031/extraction_ast_parity.json",
+      "sha256": "281df21f4fa0b531447f0a64bcce3cc239dc8c028c8b8813c188adf13b0305ee"
+    }
+  ]
 }

@@ -1,5 +1,6 @@
 """Sequence new review excerpts through Helix and actual native xLights."""
 from __future__ import annotations
+from core.engine_runner import run_variant
 import argparse,copy,json,os,shutil,subprocess,time
 from contextlib import redirect_stdout
 from pathlib import Path
@@ -96,7 +97,7 @@ def main():
                 chase_style='radial_out',model_overrides=model_routes(g),max_layers_per_prop=3)
             if not reuse_engine:
                 with (folder/'engine.log').open('w') as log,redirect_stdout(log):
-                    engine.run_variant(engine.VARIANTS['v27.3'],template,media,raw,engine.base.UserProfile(),tuning=tuning,analysis_cache=cache)
+                    run_variant(engine.VARIANTS['v27.3'],template,media,raw,engine.base.UserProfile(),tuning=tuning,analysis_cache=cache)
             export=native_music_xsq(raw,native,g,media,36)
             bandproof=add_bands(g,root,row,folder,native) if bands else None
             with (folder/'native.log').open('w') as log:

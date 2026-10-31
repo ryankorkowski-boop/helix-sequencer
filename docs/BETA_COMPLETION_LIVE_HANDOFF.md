@@ -1,3 +1,16 @@
+# 31 October — active core optimization branch
+
+Owner's current build request is being implemented on `codex/core-facade-optimization-20261031`, starting at recovery321cf85. Keep MASTER_TODO.md authoritative; historical release/media gates below remain open. Commits:14c9a2c(instrumentation),fc51c9e(typed facade),c7452c2(audio/percussion extraction). Full237.44s real-audio/master/256-channel layout baseline:218.3794s cold /168.5173s warmed; peakRSS1,386,229,760 /1,244,893,184bytes; both42,305effects with identical musical signature57c402d5b7857077f57fcd0d435a92a8a3f28e32c88e3c2e756bade5decff50c. Exact stage receipts are under docs/core_optimization_20261031.
+
+Current work: validate cache-off final-source parity, then opt-in cross-process features (HELIX_AUDIO_CACHE_DIR), full regressions and canonical68-event/eight-target drummer oracle.94focused extraction tests and21cache/facade/metrics tests pass; all2250tests now collect after making offline Torch imports lazy. Final-source timing/suite/remote publication remain pending. No source algorithms, master intelligence flags, AC mapping, band assets or acceptance thresholds changed. Existing matrix intelligence remains at its established default to preserve exact master behavior; no unmeasured Numba kernel or broad placement rewrite.
+
+Resume commands (fresh output directories required):
+```bash
+python -m tools.measure_engine_stages --audio "Helix Audiolights.mp3" --output tests/outputs/core_optimization/resumed-no-cache --runs 1
+HELIX_AUDIO_CACHE_DIR=RenderCache/audio_features python -m tools.measure_engine_stages --audio "Helix Audiolights.mp3" --output tests/outputs/core_optimization/resumed-cache --runs 2
+PYTHONPATH=. python -m pytest tests -q --junitxml=tests/outputs/core_optimization/full-tests.xml
+```
+
 # Helix live completion handoff — 30 October 2026
 
 Current objective: owner reviews the delivered nine-video ZIP; finish remaining qualification without merging or publishing.

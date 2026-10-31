@@ -38,6 +38,15 @@ class AudioAnalysisCacheTests(unittest.TestCase):
             result = cached_arrays(tmp, key, lambda: {"onsets": np.array([1, 2])})
             self.assertEqual(result["onsets"].tolist(), [1, 2])
 
+    def test_truncated_zip_entry_recomputed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            key = "e" * 64
+            cached_arrays(tmp, key, lambda: {"a": np.ones(8)})
+            path = Path(tmp, key + ".npz")
+            path.write_bytes(path.read_bytes()[:-20])
+            result = cached_arrays(tmp, key, lambda: {"a": np.zeros(8)})
+            np.testing.assert_array_equal(result["a"], np.zeros(8))
+
     def test_cache_persists_exact_array_dtype_and_shape(self):
         with tempfile.TemporaryDirectory() as tmp:
             key = "d" * 64

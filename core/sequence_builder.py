@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Iterable
 
 from core import engine_profiles
+from core.stage_metrics import profile_run, timed_stage
 from core.effects_orchestration_bridge import EffectsOrchestrationRunReport, run_effects_orchestration
 from core.prime_beat_grid import prime_beat_grid_args
 from core.run_config import RunConfig
@@ -48,9 +49,9 @@ _ARTIFACT_KIND_BY_SUFFIX = {
 
 
 def _effect_engine():
-    from core import effect_engine_beat_grid
+    from core import engine_runner
 
-    return effect_engine_beat_grid
+    return engine_runner
 
 
 def available_profiles() -> list[engine_profiles.EngineProfile]:
@@ -657,6 +658,7 @@ def _publish_native_lor_lms(
         )
 
 
+@timed_stage("preview.render")
 def _render_new_previews(
     roots: Iterable[Path],
     before: dict[Path, tuple[int, int]],
@@ -852,6 +854,7 @@ def _audit_new_showcase_sequences(
         )
 
 
+@profile_run
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     """Run a sequencing profile with integrated run tracking."""
     try:
