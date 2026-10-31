@@ -1412,6 +1412,8 @@ def _extract_note_candidates(
     raw_candidates: list[dict[str, object]] = []
     note_events: list[NoteEvent] = []
     active: dict[int, dict[str, float]] = {}
+    # Compute the gap threshold once rather than for every active note frame.
+    continuity_ms = max(90, config.smoothing_window_ms)
     # The global pitch normalization factor is invariant across frames.
     # Computing it inside the loop repeatedly scans the full pitch matrix.
     max_mag = float(np.max(pitch_mag)) if pitch_mag.size else 0.0
@@ -1442,7 +1444,7 @@ def _extract_note_candidates(
         if current is None:
             active[midi] = {"start_ms": time_ms, "last_ms": time_ms, "velocity": confidence, "pitch_hz": best_hz, "confidence": confidence}
             continue
-        if time_ms - int(current["last_ms"]) <= max(90, config.smoothing_window_ms):
+        if time_ms - int(current["last_ms"]) <= continuity_ms:
             current["last_ms"] = time_ms
             current["velocity"] = max(float(current["velocity"]), confidence)
             current["confidence"] = max(float(current["confidence"]), confidence)
