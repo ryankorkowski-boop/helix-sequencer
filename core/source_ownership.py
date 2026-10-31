@@ -6,6 +6,7 @@ opt-in until end-to-end production parity and source-quality tests are complete.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from math import isfinite
 from typing import Literal
 
 Performer = Literal["bassist", "guitarist", "keyboardist", "lead_singer", "harmony_singer"]
@@ -20,13 +21,17 @@ class SourceOwnership:
     source_id: str = ""
 
     def __post_init__(self) -> None:
-        if not 0.0 <= self.confidence <= 1.0:
+        if not isfinite(self.confidence) or not 0.0 <= self.confidence <= 1.0:
             raise ValueError("confidence must be between 0 and 1")
+        if self.origin not in ("detected", "estimated", "fallback"):
+            raise ValueError("invalid provenance origin")
+        if self.performer not in (None, "bassist", "guitarist", "keyboardist", "lead_singer", "harmony_singer"):
+            raise ValueError("invalid performer")
         if self.origin == "fallback" and self.performer is not None:
             raise ValueError("fallback cannot assert performer identity")
 
     def permitted(self, threshold: float = 0.7) -> bool:
-        if not 0.0 <= threshold <= 1.0:
+        if not isfinite(threshold) or not 0.0 <= threshold <= 1.0:
             raise ValueError("threshold must be between 0 and 1")
         return (
             self.performer is not None
@@ -77,4 +82,10 @@ def ownership_from_stem(source_stem: str, confidence: float) -> SourceOwnership:
     performer = mapping.get(normalized)
     if performer is None:
         return SourceOwnership(None, 0.0, "fallback", source_id=normalized)
-    return SourceOwnership(performer, max(0.0, min(1.0, float(confidence))), "estimated", source_id=normalized)
+    try:
+        bounded_confidence = float(confidence)
+    except (TypeError, ValueError):
+        bounded_confidence = 0.0
+    if not isfinite(bounded_confidence):
+        bounded_confidence = 0.0
+    return SourceOwnership(performer, max(0.0, min(1.0, bounded_confidence)), "estimated", source_id=normalized)
