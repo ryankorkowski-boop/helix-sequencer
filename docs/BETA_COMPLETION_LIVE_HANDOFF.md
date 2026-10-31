@@ -1,3 +1,6 @@
+CURRENT OWNER REVIEW RECOVERY —30October2026
+Starting HEAD54f2b118. Owner passed Library01_Original_V3_Drummer_Band.mp4 (SHAec0c30bb95fc51d18488bda90980188d99b3d6e4e952500eddf41db4409e00ef); current cast request SIX supersedes older seven-member request. New focused renderer tools/render_owner_band_review.py preserves original colorful V3 artwork; solid source-family musicians; fixed front;88 literal keys; bounded hands; separate unchanged source clocks; no mallet player. Native grid assembler now supports nine unique recording hashes with sequential compact-panel cache.27focused +49source regression tests pass (separate selections); full120s1080p band rendering. Three additional native shows built4/5/12; native runtime dependencies recovered. Existing5MP4s restored. Do not claim independent acoustic singer identity/lexical accuracy, native OpenGL provenance, owner acceptance, merge or release. Current evidence:evidence/beta_completion/current_owner_review_20261030.json. Final receipts pending.
+
 HELIX SEQUENCER — LIVE RECOVERY HANDOFF
 
 Last updated:29October2026 (America/Chicago client date); latest device artifact verified at2026-10-30T02:23:00Z.

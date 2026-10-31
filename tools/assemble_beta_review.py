@@ -108,6 +108,36 @@ def assembly_key(item, encoder_identity):
     return hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 
 
+def encode_nine_comparison(item, output, duration, encoder):
+    """Reduce each native source before opening nine decoders at once."""
+    sources=item['sources']
+    if len(sources)!=9 or len({s['video_sha256'] for s in sources})!=9:
+        raise ValueError('Nine distinct native layout recordings required')
+    cache=output.parent.parent/'nine-panel-cache';cache.mkdir(exist_ok=True)
+    panels=[];commands=[]
+    for spec in sources:
+        recipe=dict(item,sources=[spec],kind='nine_panel',dimensions=[640,360])
+        key=assembly_key(recipe,encoder);panel=cache/(key+'.mp4');receipt=cache/(key+'.json')
+        prior={}
+        try:prior=json.loads(receipt.read_text())
+        except (OSError,ValueError):pass
+        if not (panel.is_file() and prior.get('decode_verified') is True and prior.get('sha256')==digest(panel)):
+            cmd=encode(['-threads','1','-i',spec['video'],'-map','0:v:0','-an','-vf',
+                visual(spec,640,360)+','+caption(spec['title'],19,9)],panel,duration)
+            subprocess.run(['ffmpeg','-v','error','-xerror','-threads','1','-i',str(panel),
+                '-map','0:v:0','-f','null','-'],check=True)
+            prior=dict(sha256=digest(panel),decode_verified=True,command=cmd)
+            temporary=receipt.with_suffix('.tmp');temporary.write_text(json.dumps(prior)+'\n');temporary.replace(receipt)
+        commands.append(prior['command']);panels.append(panel)
+    args=[]
+    for panel in panels:args+=['-threads','1','-i',str(panel)]
+    args+=['-i',item['audio']]
+    layout='|'.join(f'{i%3*640}_{i//3*360}' for i in range(9))
+    graph=''.join(f'[{i}:v]' for i in range(9))+f'xstack=inputs=9:layout={layout}:fill=black[out]'
+    commands.append(encode([*args,'-filter_complex',graph,'-map','[out]','-map','9:a:0'],output,duration))
+    return commands
+
+
 def assemble(config, output, *, force=False):
     output.mkdir(parents=True,exist_ok=True)
     names=[item['filename'] for item in config['movies']]
@@ -140,7 +170,9 @@ def assemble(config, output, *, force=False):
             if len(sources)!=1:raise ValueError('Both vocal views require the same native frame clock')
             left=dict(sources[0],crop=item['face_crops'][0])
             right=dict(sources[0],crop=item['face_crops'][1])
-            f='[0:v]split=2[a][b];[a]'+visual(left,640,640)+'[lead];[b]'+visual(right,640,640)+              '[harmony];[lead][harmony]hstack,pad=1280:720:0:72:black,'+caption(item['title'],24,12)+','+              caption('Lead',23,44).replace('x=(w-tw)/2','x=290')+','+              caption('Harmony',23,44).replace('x=(w-tw)/2','x=910')+'[out]'
+            width,height=item.get('dimensions',(1280,720));side=width//2;top=height-side
+            if width%2 or side%2 or top<64:raise ValueError('Vocal views require even square panels and caption space')
+            f='[0:v]split=2[a][b];[a]'+visual(left,side,side)+'[lead];[b]'+visual(right,side,side)+              f'[harmony];[lead][harmony]hstack,pad={width}:{height}:0:{top}:black,'+caption(item['title'],round(width/53),12)+','+              caption('Lead',round(width/56),round(top*.58)).replace('x=(w-tw)/2',f'x={side//2}-tw/2')+','+              caption('Harmony',round(width/56),round(top*.58)).replace('x=(w-tw)/2',f'x={side*3//2}-tw/2')+'[out]'
             args+=['-filter_complex',f,'-map','[out]','-map','1:a:0']
         elif item['kind']=='comparison':
             if len(sources)!=6:raise ValueError('Exactly six synchronized sources required')
@@ -162,11 +194,12 @@ def assemble(config, output, *, force=False):
             f.append('[p0][p1]hstack,pad=1920:1080:0:180:black,'+
                      caption(item['title'],30,30)+'[out]')
             args+=['-filter_complex',';'.join(f),'-map','[out]','-map','2:a:0']
-        elif item['kind']=='montage':
+        elif item['kind'] in ('montage','nine_comparison'):
             pass # Bounded per-segment encoding below avoids queued HD frames.
         else:raise ValueError('Unsupported presentation')
-        cmd=(encode_montage(item,target,duration,encoder) if item['kind']=='montage'
-             else encode(args,target,duration))
+        if item['kind']=='montage':cmd=encode_montage(item,target,duration,encoder)
+        elif item['kind']=='nine_comparison':cmd=encode_nine_comparison(item,target,duration,encoder)
+        else:cmd=encode(args,target,duration)
         # A completed encoder is not proof that the resulting file decodes.
         subprocess.run(['ffmpeg','-v','error','-xerror','-nostdin','-i',str(target),
                         '-map','0:v:0','-map','0:a:0','-f','null','-'],check=True)

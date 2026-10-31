@@ -1,0 +1,27 @@
+{
+  "source_start": "54f2b118ba319e663bfcf940c726b940296a050c",
+  "state": "RENDERING",
+  "owner_reference": "libfile_77110f489b048191b613ea0505cf01d3",
+  "owner_reference_sha256": "ec0c30bb95fc51d18488bda90980188d99b3d6e4e952500eddf41db4409e00ef",
+  "cast": [
+    "drummer",
+    "bass",
+    "guitar",
+    "piano",
+    "lead",
+    "harmony"
+  ],
+  "tested": {
+    "targeted_unique_tests": 94,
+    "seconds": 55.89,
+    "junit": "evidence/beta_completion/owner_review_regression_20261030.xml"
+  },
+  "new_band_video": "120s1080p20fps encoded; full decode/correlation0.9992698921/four zero-lag windows/readability pass",
+  "nine_layouts": "six restored native shows plus new Starter RGB native success; Traditional export stalled and Ultimate pending",
+  "release_acceptance": false,
+  "remaining": [
+    "vocal acoustic identity and lexical timing qualification",
+    "actual nine-file media QA",
+    "owner acceptance before merge/release"
+  ]
+}

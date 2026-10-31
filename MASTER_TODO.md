@@ -1,3 +1,11 @@
+## 30 October — current owner six-member approval recovery
+
+- [x] Recovered exact HEAD54f2b118 and five prior verified layout MP4s, all six native source shows, original120s four-song sampler and pinned native runtime. Owner passed Library01_Original_V3_Drummer_Band.mp4 on30October; inspected actual frame and source drummer. That reference has seven performers; latest instruction requires six and excludes mallet/xylophone. This supersedes the older seven-member review directive for this delivery only. Optional historical APIs remain preserved.
+- [ ] Implement/render six-member source-art/solid band review with original colorful V3 drummer, fixed front camera, separate singer clocks, bounded keyboard motion and unchanged source pitches. Build three additional native layouts and nine-panel synchronized comparison.
+- [ ] Decode/inspect all nine MP4s, verify original soundtracks/timing/brightness/framing/blank/frozen intervals, then package one MP4-only ZIP. Source singer identity and lexical phonemes remain estimates; do not claim those release gates passed. No fabricated pilot acceptance, merge, beta publication, altered AC wiring/colors, or replacement drummer.
+
+Goal: complete the requested review collection. Files: focused review renderer/comparison assembler, tests, this ledger/live handoff/status/inventory. Preserved: original source assets/audio/clocks, six default/seventh opt-in, native exporters and thresholds. New: explicit owner-approved reference binding and nine-layout review path. Tests/results:94 targeted tests pass in55.89s;120s1080p band full decode/correlation.999270/four0lag windows/readability pass. First added native layout passes; remaining two native exports are in progress. Source and native/audio checkpoints recovered. Risks: source estimates may miss sung phrases; actual render and audio QA required. Post-beta work remains deferred.
+
 ## 29 October — paired Android rerun also passes; software work checkpoint complete
 
 - [x] AND-01 / MEM-01 confirmed AGAIN atdd73e367:PR40989590969passesAPI30/job123848630286 andAPI36/job123848630566, supplementing paired push40989578333. FullPython3.11/3.12,Windows andboth APIlevels all pass current-source validation. Evidence:android_final_status.json/current_ci_results.json. No same-bits or physical-device claim.
