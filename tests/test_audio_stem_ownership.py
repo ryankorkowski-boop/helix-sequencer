@@ -67,3 +67,29 @@ def test_invalid_source_identity_fails_closed():
         SourceOwnership("xylophonist", .9, "detected")
     with pytest.raises(ValueError):
         SourceOwnership("keyboardist", .9, "unverified")
+
+
+def test_real_audio_note_event_produces_strict_keyboard_cue():
+    from core.snowman_band import _build_keyboard_note_cues
+    cues = _build_keyboard_note_cues(
+        [_audio_note("piano", .93)], [], require_source_ownership=True,
+    )
+    assert len(cues) == 1
+    assert cues[0]["start_ms"] == 100
+    assert cues[0]["end_ms"] == 300
+    assert cues[0]["pitch_midi"] == 69
+    assert cues[0]["velocity"] == .8
+
+
+def test_real_audio_guitar_note_not_sent_to_keyboard():
+    from core.snowman_band import _build_keyboard_note_cues
+    assert _build_keyboard_note_cues(
+        [_audio_note("guitar", .98)], [], require_source_ownership=True,
+    ) == []
+
+
+def test_real_audio_unknown_stem_not_sent_to_keyboard():
+    from core.snowman_band import _build_keyboard_note_cues
+    assert _build_keyboard_note_cues(
+        [_audio_note("mix", .99)], [], require_source_ownership=True,
+    ) == []
