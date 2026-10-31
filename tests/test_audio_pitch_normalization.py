@@ -47,14 +47,24 @@ def test_nonfinite_pitch_magnitudes_are_masked_before_argmax():
     assignments = [
         node for node in ast.walk(fn)
         if isinstance(node, ast.Assign)
-        and any(isinstance(t, ast.Name) and t.id == "finite_magnitudes" for t in node.targets)
+        and any(isinstance(t, ast.Name) and t.id == "finite_column" for t in node.targets)
     ]
     assert len(assignments) == 1
-    assert "isfinite(pitch_mag)" in ast.unparse(assignments[0])
+    assert "isfinite(mags)" in ast.unparse(assignments[0])
     argmax_calls = [
         node for node in ast.walk(fn)
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
         and node.func.attr == "argmax"
     ]
     assert len(argmax_calls) == 1
-    assert "finite_magnitudes" in ast.unparse(argmax_calls[0])
+    assert "finite_column" in ast.unparse(argmax_calls[0])
+
+
+def test_pitch_sanitization_uses_frame_bounded_buffers():
+    source = Path(__file__).resolve().parents[1] / "core" / "audio_intelligence.py"
+    module = ast.parse(source.read_text(encoding="utf-8"))
+    fn = next(node for node in module.body if isinstance(node, ast.FunctionDef) and node.name == "_extract_note_candidates")
+    body = ast.unparse(fn)
+    assert "finite_peaks = np.zeros(stft_mag.shape[1]" in body
+    assert "peak_indices = np.zeros(stft_mag.shape[1]" in body
+    assert "np.where(np.isfinite(pitch_mag)" not in body
