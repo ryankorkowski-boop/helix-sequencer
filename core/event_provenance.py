@@ -40,7 +40,10 @@ def summarize_note_provenance(events: list[Any], *, limit: int = 512) -> dict[st
             origin = str(getattr(owner, "origin", "fallback"))
         else:
             performer, confidence, source_id, origin = None, None, "", "fallback"
-        if performer is None or performer == "unknown":
+        # A label alone is not proof of ownership. Invalid confidence or
+        # fallback provenance must remain unresolved in diagnostics.
+        if (performer is None or performer == "unknown"
+                or confidence is None or origin == "fallback"):
             unknown += 1
         if len(sample) < limit:
             sample.append({
