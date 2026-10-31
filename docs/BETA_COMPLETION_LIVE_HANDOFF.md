@@ -1,3 +1,7 @@
+## 31 October — bounded pitch peak sanitization and GitHub checks
+
+At commit b7752f2, GitHub showed Desktop GUI evidence capture completed success, Windows Portable GUI in progress, and Helix CI, keyboard regression, original drummer, native band/MP4 and Android jobs queued. No conclusions from pending jobs. Commit 4cad88e replaces a full-size finite pitch magnitude copy with frame-bounded peak and index arrays in _extract_note_candidates; commit 202b478 updates AST regression accordingly. Output and memory improvement remain unbenchmarked; no executed pytest in this session. New commits require fresh CI verification. Do not merge PR #188 or release.
+
 ## 31 October — finite pitch peak selection
 
 1d54746 updates core/audio_intelligence.py::_extract_note_candidates to replace nonfinite pitch magnitudes with zeros for argmax and global normalization; reject invalid/zero peak magnitude before MIDI conversion. 6b8684f adds AST regression. Changes are committed but tests, profiling and real-audio parity remain unexecuted. The stem-specific producer is still not connected to run_variant. No new approval MP4, merge or release.
