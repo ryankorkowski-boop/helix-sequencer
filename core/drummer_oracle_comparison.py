@@ -116,6 +116,8 @@ def main() -> int:
     parser.add_argument("--report", type=Path)
     args = parser.parse_args()
     report = compare_oracle_files(args.oracle, args.candidate, tolerance_ms=args.tolerance_ms)
+    if report["oracle_events"] == 0 or report["candidate_events"] == 0:
+        raise SystemExit("FAIL: drummer oracle comparison requires nonempty real event streams")
     rendered = json.dumps(report, indent=2, sort_keys=True)
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)
