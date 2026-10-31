@@ -1,3 +1,7 @@
+## 31 October — audio candidate hardening
+
+a0dd2b2 hoists constant note continuity window from per-frame pitch loop. a0def2f rejects nonfinite best_hz and best_mag before hz_to_midi conversion. e4a6030 adds AST regression for finite pitch check. No pytest or end-to-end render run in this session; do not claim performance or acoustic parity verified. Outstanding: real instrument stem producer wiring, independent harmony and canonical band verification, nine owner-approval MP4s. No merge/release.
+
 ## 31 October — pitch candidate extractor performance correction
 
 Commit 510c5bb moves the global np.max(pitch_mag) computation outside the per-frame loop in core/audio_intelligence.py::_extract_note_candidates. Previously each frame scanned the entire pitch magnitude matrix, multiplying work by frame count; new code calculates same global normalization value once. Commit 651b87b adds AST regression asserting max_mag is assigned outside frame loop. This is a code-level optimization; no benchmark, pytest, native render or audio parity verification executed in this session. Next: run focused pytest, benchmark 30–45s real sampler and compare note event hashes. Do not merge PR #188 or publish.
