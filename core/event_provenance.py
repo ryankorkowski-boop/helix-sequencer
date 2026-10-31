@@ -43,7 +43,8 @@ def summarize_note_provenance(events: list[Any], *, limit: int = 512) -> dict[st
         # A label alone is not proof of ownership. Invalid confidence or
         # fallback provenance must remain unresolved in diagnostics.
         if (performer is None or performer == "unknown"
-                or confidence is None or origin == "fallback"):
+                or confidence is None or confidence <= 0.0
+                or origin not in ("detected", "estimated")):
             unknown += 1
         if len(sample) < limit:
             sample.append({
