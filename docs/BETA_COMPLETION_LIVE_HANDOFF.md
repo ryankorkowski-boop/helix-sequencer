@@ -1,3 +1,7 @@
+## 31 October — pitch candidate extractor performance correction
+
+Commit 510c5bb moves the global np.max(pitch_mag) computation outside the per-frame loop in core/audio_intelligence.py::_extract_note_candidates. Previously each frame scanned the entire pitch magnitude matrix, multiplying work by frame count; new code calculates same global normalization value once. Commit 651b87b adds AST regression asserting max_mag is assigned outside frame loop. This is a code-level optimization; no benchmark, pytest, native render or audio parity verification executed in this session. Next: run focused pytest, benchmark 30–45s real sampler and compare note event hashes. Do not merge PR #188 or publish.
+
 ## 31 October — audio-note conversion hardening
 
 Commits 63047f9 and 3049ef1 guard nonfinite or invalid stem MIDI and velocity, and add required math import in core/snowman_band.py. Commit 64cebba adds two regression tests. No full checkout was possible here because container GitHub DNS resolution failed; tests are not executed, and no real-audio MP4 was rendered. The main run_variant still uses mixed harmonic note events; stem-specific pitch extraction and integration are unfinished. Do not enable strict ownership globally or claim final approval. PR #188 remains unmerged.
