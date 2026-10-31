@@ -150,9 +150,9 @@ def _build_keyboard_note_cues(
     """
     cues: list[dict[str, Any]] = []
     for event in note_events:
+        candidate = _event_owner(event)
         ownership = None
         if require_source_ownership:
-            candidate = _event_owner(event)
             ownership = resolve_owner(
                 candidate if candidate is not None and candidate.origin == "detected" else None,
                 candidate if candidate is not None and candidate.origin == "estimated" else None,
@@ -171,7 +171,7 @@ def _build_keyboard_note_cues(
                 continue
             if not 0 <= pitch <= 127:
                 continue
-            cues.append({
+            cue = {
                 "performer": "keyboardist",
                 "kind": "pitched_note",
                 "start_ms": start_ms,
@@ -182,7 +182,19 @@ def _build_keyboard_note_cues(
                 "source": "note_events",
                 "pitch_source": "helix_harmonic_polyphony",
                 "velocity": float(note[1]) if len(note)>1 else 1.0,
-            })
+            }
+            source_stem = str(getattr(event, "source_stem", "") or "")
+            if source_stem:
+                cue["source_stem"] = source_stem
+                cue["pitch_source"] = "helix_audio_intelligence"
+            if candidate is not None:
+                cue["source_owner"] = {
+                    "performer": candidate.performer,
+                    "confidence": candidate.confidence,
+                    "origin": candidate.origin,
+                    "source_id": candidate.source_id,
+                }
+            cues.append(cue)
     return sorted(cues, key=lambda cue: (cue["start_ms"], cue["pitch_midi"]))
 
 

@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-10-31T03:13:53.829503+00:00",
+  "updated_at": "2026-10-31T16:25:50.971401+00:00",
   "requested_count": 9,
   "verified_count": 9,
   "artifacts": [
@@ -1022,7 +1022,7 @@
       "owner_approved": false
     }
   ],
-  "review_complete": true,
+  "review_complete": false,
   "release_qualified": false,
   "final_implementation_commit": "c009595976a2b660bc4094b7302b9b284588c3c4",
   "final_source_module_sha256": {
@@ -1034,5 +1034,22 @@
     "core/bounded_audio.py": "18037a8c1ee065fe91d029dd9dd973ee7acdc8c6e23a9ddaa31ae3dc7e27c7e1",
     "tests/test_owner_band_review.py": "b182eb427416d689afc51f3bad936cca89627433348437db4684157776c15d46",
     "tests/test_bounded_audio.py": "9c39459c8cdb739eb47c2778a2e05f0a8b979acfb2597847e77170ad1432550f"
+  },
+  "owner_review_status": "All visuals rejected; test audio acceptable; no new owner acceptance",
+  "quality_first_engineering_evidence": {
+    "checkpoint": "evidence/beta_completion/quality_first_20261031/checkpoint.json",
+    "fingerprint_memory": "evidence/beta_completion/quality_first_20261031/fingerprint_memory.json",
+    "new_mp4_count": 0,
+    "native_or_release_qualified": false,
+    "real_audio_comparison": "evidence/beta_completion/quality_first_20261031/production_comparison.json",
+    "focused_receipt": "evidence/beta_completion/quality_first_20261031/focused-final.xml",
+    "broader_dsp_receipt": "evidence/beta_completion/quality_first_20261031/dsp-clean.xml",
+    "scope": "Engineering regression and short actual XSQ export, not native render or approval media",
+    "production_source_sha256": {
+      "core/effect_engine.py": "dc903813b353a713cf2f8fd30e0766a74a80d833cbeb89a08378c2e128b06ce8",
+      "core/band_planning.py": "0e0d6fc1453856c395f240a38fd936aa70acf9314065fc0c1ec1fd837ac18391",
+      "core/snowman_band.py": "155de34ec28e178752278ec5810c33bb10ec00a81dc9aa72eac716b8e06ad25c",
+      "core/audio_run_cache.py": "c9106ad4492e36bb91fce912096b9ff5e1631c6d563def51154c01d4429d2c50"
+    }
   }
 }

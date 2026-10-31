@@ -79,6 +79,20 @@ def test_real_audio_note_event_produces_strict_keyboard_cue():
     assert cues[0]["end_ms"] == 300
     assert cues[0]["pitch_midi"] == 69
     assert cues[0]["velocity"] == .8
+    assert cues[0]["source_stem"] == "piano"
+    assert cues[0]["pitch_source"] == "helix_audio_intelligence"
+    assert cues[0]["source_owner"] == {
+        "performer": "keyboardist", "confidence": .93,
+        "origin": "estimated", "source_id": "piano",
+    }
+
+
+def test_mixed_audio_cues_keep_unknown_provenance_in_legacy_mode():
+    from core.snowman_band import _build_keyboard_note_cues
+    cue = _build_keyboard_note_cues([_audio_note("mix_harmonic")], [])[0]
+    assert cue["source_stem"] == "mix_harmonic"
+    assert cue["source_owner"]["performer"] is None
+    assert cue["source_owner"]["origin"] == "fallback"
 
 
 def test_real_audio_guitar_note_not_sent_to_keyboard():

@@ -1,0 +1,135 @@
+{
+  "baseline_source_sha": "5aac37af254c4bc08df992551a5f06d918506f6f",
+  "status": "IMPLEMENTED_FOCUSED_VALIDATED_BROADER_DSP_BLOCKED",
+  "source_sha256": {
+    "core/effect_engine.py": "dc903813b353a713cf2f8fd30e0766a74a80d833cbeb89a08378c2e128b06ce8",
+    "core/band_planning.py": "0e0d6fc1453856c395f240a38fd936aa70acf9314065fc0c1ec1fd837ac18391",
+    "core/snowman_band.py": "155de34ec28e178752278ec5810c33bb10ec00a81dc9aa72eac716b8e06ad25c",
+    "core/audio_run_cache.py": "c9106ad4492e36bb91fce912096b9ff5e1631c6d563def51154c01d4429d2c50",
+    "tests/test_band_planning_integration.py": "e1f8a28d2915e63bb4c14df8992cff534f0f864fb733354525dd689d5907c7e5",
+    "tests/test_audio_run_cache.py": "ab71e835aa60652591d0e2cfc1d4123c72f7afc0692627f43cbcd36698be7828",
+    "tests/test_audio_pitch_normalization.py": "c22582b76a150500defe7111f914ef71da47ce1e3d506394963bd1ca946c20e8",
+    "tests/test_audio_stem_ownership.py": "3f36233dd6905732e2d6b90c47dbc132bfc423ebd0997b11de985358f87c9a3c"
+  },
+  "implemented": [
+    "Restore shared section/focus/motif planning by routing ownership controls to the correct consumer",
+    "Preserve stem label and estimated/unknown ownership in keyboard cues",
+    "Stream exact content fingerprint checks with bounded reads",
+    "Replace stale loop-count pitch test with numeric coverage"
+  ],
+  "focused_tests": {
+    "passed": 137,
+    "failed": 0,
+    "receipt": "evidence/beta_completion/quality_first_20261031/focused-final.xml"
+  },
+  "real_audio_export": {
+    "duration_seconds": 15,
+    "effects_reported": 299,
+    "sync_frames": 3,
+    "drummer_cues": 71,
+    "sequence_sha256": "73b74575e9c9c656eb1ec0c2a20a9662d767260e9e8766ee36185271d256e871",
+    "scope": "Minimal two-model RGB fixture; existing diagnostic soundtrack; not native xLights or owner acceptance"
+  },
+  "runtime_recovery": {
+    "initial_dsp_run": "Three failures and a segfault in the unchanged librosa/Numba reference; production comparison also crashed with default cache",
+    "isolated_cache_result": "Fresh NUMBA_CACHE_DIR: both dtype isolation cases pass, entire DSP suite completes (15 pass/3 precision failures), and real-audio comparison completes",
+    "production_dependency_change": false,
+    "root_cause_proven": false
+  },
+  "deferred": [
+    "Per-stem instrument note producer wiring: no independently qualified keyboard stems available",
+    "Storytelling gate ranking: requires measured output evidence",
+    "Native XSQ debug metadata and full b27 drummer oracle/native render",
+    "Vocal lip synchronization, original 256-channel and required RGB approval media, device/platform CI and owner acceptance"
+  ],
+  "merge_or_release": false,
+  "broader_dsp_tests": {
+    "passed": 15,
+    "failed": 3,
+    "receipt": "evidence/beta_completion/quality_first_20261031/dsp-clean.xml",
+    "failures": [
+      "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
+      "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
+      "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]"
+    ],
+    "maximum_error": 1.9951554230956958e-07,
+    "unchanged_tolerance": 1e-07,
+    "introduced_by_this_change": false,
+    "reason": "Production _bounded_background_features and its reference tests are byte-identical to starting 5aac37a; failures reproduced in current runtime before and after isolated-cache recovery"
+  },
+  "real_audio_comparison": {
+    "baseline_source_sha": "5aac37af254c4bc08df992551a5f06d918506f6f",
+    "input_origin": "Soundtrack decoded from existing 15-second diagnostic libfile_626471dc82648191b8e706cd1c7366ac; not an approval render",
+    "input_pcm_sha256": "0a1fb73d9755682396bf458d306cff06d48e5d76aea3045cc58201607cab4338",
+    "duration_seconds": 15,
+    "sample_rate": 44100,
+    "layout": "tests/fixtures/beta_demo/minimal_layout.xml",
+    "profile": "master/v27.3; history, polish, matrix intelligence and template guidance disabled equally",
+    "baseline_sync_frames": 0,
+    "candidate_sync_frames": 3,
+    "candidate_phrase_motifs": 3,
+    "baseline_effects_reported": 299,
+    "candidate_effects_reported": 299,
+    "xsq_effect_signature_before": [
+      "b5caa01361db6ff961e616a26c0a3c9f500821b43eebf3dcef13aa82afac37ea",
+      1591
+    ],
+    "xsq_effect_signature_after": [
+      "b5caa01361db6ff961e616a26c0a3c9f500821b43eebf3dcef13aa82afac37ea",
+      1591
+    ],
+    "drummer_cues": 71,
+    "drummer_cues_exactly_preserved": true,
+    "drummer_cue_sha256": "0ef0feff3378af21383fae64d3fd9d3ea058067d4512520bd008ad897c2f7213",
+    "source_ownership_unknown_count": 59,
+    "source_note_events": 59,
+    "repeated_candidate_xsq_byte_identical": true,
+    "roles_unchanged": {
+      "drummer": true,
+      "bassist": false,
+      "guitarist": false,
+      "keyboardist": true,
+      "lead_singer": true
+    },
+    "cache_reuse": {
+      "audio": 2,
+      "harmonic": 2,
+      "stems": 2,
+      "multiband": 2
+    },
+    "limitations": [
+      "Short existing soundtrack excerpt and minimal two-model RGB fixture only",
+      "No full-song acoustic or lexical proof, native xLights renderer or FSEQ, MP4, device acceptance, or owner approval",
+      "Drummer parity is against starting source 5aac37a, not independently recovered b27 oracle"
+    ]
+  },
+  "fingerprint_memory": {
+    "baseline": {
+      "peak_traced_python_bytes": 67113402,
+      "elapsed_seconds": 0.2603450439999051
+    },
+    "bounded": {
+      "peak_traced_python_bytes": 2102614,
+      "elapsed_seconds": 0.052214377999916906
+    },
+    "source_bytes": 67108864,
+    "digest": "73ee9fd124c10cc95a3ee5401250595de417d9bcc0e36cd3d3ed3771ab782e4d",
+    "peak_reduction_percent": 96.86707283889439
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "scipy": "1.18.1",
+    "librosa": "0.10.2.post1",
+    "numba": "0.61.2",
+    "llvmlite": "0.44.0"
+  },
+  "remaining_work": [
+    "Resolve existing block-vs-whole float32 chroma parity across BLAS/runtime without relaxing assertions",
+    "Run full exact-source Python 3.11/3.12 and platform/native CI",
+    "Independently qualify source-specific stems and vocal timing before stricter defaults",
+    "Recover and compare approved b27 drummer oracle and native/owner media"
+  ],
+  "new_mp4_count": 0,
+  "native_xlights_verified": false
+}

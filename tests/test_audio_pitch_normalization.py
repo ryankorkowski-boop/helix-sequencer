@@ -1,70 +1,71 @@
-"""Regression guard: pitch normalization scans the matrix once per extraction."""
-import ast
-from pathlib import Path
+"""Numeric pitch-selection and confidence regressions, independent of loop layout."""
+from types import SimpleNamespace
+
+import numpy as np
+import pytest
+
+from core import audio_intelligence as ai
 
 
-def test_pitch_matrix_max_is_outside_frame_loop():
-    source = Path(__file__).resolve().parents[1] / "core" / "audio_intelligence.py"
-    module = ast.parse(source.read_text(encoding="utf-8"))
-    fn = next(node for node in module.body if isinstance(node, ast.FunctionDef) and node.name == "_extract_note_candidates")
-    loops = [node for node in ast.walk(fn) if isinstance(node, ast.For) and isinstance(node.target, ast.Name) and node.target.id == "frame_idx"]
-    assert len(loops) == 1
-    frame_loop = loops[0]
-    assert any(
-        isinstance(node, ast.Assign)
-        and any(isinstance(t, ast.Name) and t.id == "max_mag" for t in node.targets)
-        for node in fn.body if getattr(node, "lineno", 0) < frame_loop.lineno
-    )
-    assert not any(
-        isinstance(node, ast.Assign)
-        and any(isinstance(t, ast.Name) and t.id == "max_mag" for t in node.targets)
-        for node in ast.walk(frame_loop)
-    )
+def pitch_fixture(monkeypatch, magnitudes, frequencies=None):
+    magnitudes = np.asarray(magnitudes, dtype=np.float32)
+    if frequencies is None:
+        frequencies = np.full_like(magnitudes, 440.0)
+    monkeypatch.setattr(ai.bounded_audio, "hpss", lambda y, sr: (y, y))
+    monkeypatch.setattr(ai, "librosa", SimpleNamespace(
+        stft=lambda *args, **kwargs: np.ones_like(magnitudes),
+        piptrack=lambda **kwargs: (np.asarray(frequencies), magnitudes),
+        frames_to_time=lambda frames, **kwargs: frames / 100.0,
+        hz_to_midi=lambda hz: 69 + 12 * np.log2(hz / 440.0),
+    ))
 
 
-def test_pitch_candidates_validate_finite_hz_before_midi_conversion():
-    source = Path(__file__).resolve().parents[1] / "core" / "audio_intelligence.py"
-    module = ast.parse(source.read_text(encoding="utf-8"))
-    fn = next(node for node in module.body if isinstance(node, ast.FunctionDef) and node.name == "_extract_note_candidates")
-    midi_calls = [
-        node for node in ast.walk(fn)
-        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
-        and node.func.attr == "hz_to_midi"
-    ]
-    assert len(midi_calls) == 1
-    checks = [
-        node for node in ast.walk(fn)
-        if isinstance(node, ast.If) and node.lineno < midi_calls[0].lineno
-        and "isfinite(best_hz)" in ast.unparse(node.test)
-    ]
-    assert checks
+def test_confidence_uses_one_global_peak_and_preserves_note_timing(monkeypatch):
+    pitch_fixture(monkeypatch, [[2, 4, 3, 1, 0], [1, 1, 2, 0, 0]])
+    reductions = []
+
+    class ObservedNumpy:
+        def __getattr__(self, name):
+            return getattr(np, name)
+
+        def max(self, values):
+            reductions.append(np.shape(values))
+            return np.max(values)
+
+    monkeypatch.setattr(ai, "np", ObservedNumpy())
+    notes, raw = ai._extract_note_candidates(
+        np.zeros(512), 22050, source_stem="piano", config=ai.AudioAnalysisConfig())
+    assert reductions == [(5,)]  # one global reduction of bounded frame peaks
+    assert [item["confidence"] for item in raw] == [.5, 1., .75, .25]
+    assert len(notes) == 1
+    assert (notes[0].timestamp_ms, notes[0].duration_ms, notes[0].midi_note) == (0, 110, 69)
+    assert notes[0].velocity == notes[0].confidence == 1.
+    assert notes[0].source_stem == "piano"
 
 
-def test_nonfinite_pitch_magnitudes_are_masked_before_argmax():
-    source = Path(__file__).resolve().parents[1] / "core" / "audio_intelligence.py"
-    module = ast.parse(source.read_text(encoding="utf-8"))
-    fn = next(node for node in module.body if isinstance(node, ast.FunctionDef) and node.name == "_extract_note_candidates")
-    assignments = [
-        node for node in ast.walk(fn)
-        if isinstance(node, ast.Assign)
-        and any(isinstance(t, ast.Name) and t.id == "finite_column" for t in node.targets)
-    ]
-    assert len(assignments) == 1
-    assert "isfinite(mags)" in ast.unparse(assignments[0])
-    argmax_calls = [
-        node for node in ast.walk(fn)
-        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
-        and node.func.attr == "argmax"
-    ]
-    assert len(argmax_calls) == 1
-    assert "finite_column" in ast.unparse(argmax_calls[0])
+def test_nonfinite_magnitudes_do_not_hide_valid_frequency_bins(monkeypatch):
+    pitch_fixture(monkeypatch, [[np.nan, np.inf, 0, -1], [2, 1, 0, -2]],
+                  [[440, 440, 440, 440], [880, 880, 880, 880]])
+    notes, raw = ai._extract_note_candidates(
+        np.zeros(512), 22050, source_stem="guitar", config=ai.AudioAnalysisConfig())
+    assert [item["time_ms"] for item in raw] == [0, 10]
+    assert [item["midi_note"] for item in raw] == [81, 81]
+    assert [item["confidence"] for item in raw] == [1., .5]
+    assert len(notes) == 1 and notes[0].midi_note == 81
 
 
-def test_pitch_sanitization_uses_frame_bounded_buffers():
-    source = Path(__file__).resolve().parents[1] / "core" / "audio_intelligence.py"
-    module = ast.parse(source.read_text(encoding="utf-8"))
-    fn = next(node for node in module.body if isinstance(node, ast.FunctionDef) and node.name == "_extract_note_candidates")
-    body = ast.unparse(fn)
-    assert "finite_peaks = np.zeros(stft_mag.shape[1]" in body
-    assert "peak_indices = np.zeros(stft_mag.shape[1]" in body
-    assert "np.where(np.isfinite(pitch_mag)" not in body
+@pytest.mark.parametrize("hz", [np.nan, np.inf, -1., 0.])
+def test_invalid_frequency_cannot_produce_midi_or_note(monkeypatch, hz):
+    pitch_fixture(monkeypatch, [[1, 2]], [[hz, hz]])
+    notes, raw = ai._extract_note_candidates(
+        np.zeros(512), 22050, source_stem="other", config=ai.AudioAnalysisConfig())
+    assert notes == raw == []
+
+
+@pytest.mark.parametrize("magnitudes", [np.zeros((2, 5)), np.zeros((0, 5)),
+                                         np.zeros((2, 0)), np.full((2, 5), np.nan)])
+def test_silence_empty_and_invalid_spectra_do_not_fabricate_notes(monkeypatch, magnitudes):
+    pitch_fixture(monkeypatch, magnitudes)
+    notes, raw = ai._extract_note_candidates(
+        np.zeros(512), 22050, source_stem="piano", config=ai.AudioAnalysisConfig())
+    assert notes == raw == []

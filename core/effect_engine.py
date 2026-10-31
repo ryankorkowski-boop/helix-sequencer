@@ -35,6 +35,7 @@ from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
 from core import band_sync as band_sync_engine
+from core import band_planning
 from core import youtube_show_scorer
 from effects import piano_effect as piano_effect_engine
 from core import spatial_scene as spatial
@@ -10724,56 +10725,30 @@ def run_variant(
             "layout_mapping": {},
             "debug": {"event_count": 0, "trajectory_count": 0, "lyric_count": len(lyric_events)},
         }
-    try:
-        band_sync_payload = band_sync_engine.build_band_sync_plan(
-            parts=parts,
-            beat_ms=beat_ms,
-            onset_ms=onset_ms,
-            vocal_peaks=vocal_peaks,
-            bass_peaks=bass_peaks,
-            note_events=note_events,
-            background_vocal_events=stem_analysis.background_vocal_events or [],
-            drum_event_streams=stem_analysis.drum_event_streams or {},
-            require_keyboard_source_ownership=tuning.require_keyboard_source_ownership,
-            keyboard_ownership_threshold=tuning.keyboard_ownership_threshold,
-            song_length_ms=song_length_ms,
-        )
-    except Exception as exc:
-        log(f"[WARN] Band synchronization skipped: {exc!r}")
-        band_sync_payload = {"schema": "helix.band_sync.v1", "timeline": [], "state_frames": [], "debug": {}}
-    try:
-        snowman_band_payload = snowman_band_engine.build_snowman_band_plan(
-            parsed_layout=parsed_layout,
-            parts=parts,
-            lyric_events=lyric_events,
-            note_events=note_events,
-            beat_ms=beat_ms,
-            kicks=kicks,
-            snares=snares,
-            hats=hats,
-            bass_peaks=bass_peaks,
-            vocal_peaks=vocal_peaks,
-            build_lifts=build_lifts,
-            releases=releases,
-            chronoflow_payload=chronoflow_payload,
-            band_sync_payload=band_sync_payload,
-            multiband=multiband,
-            enable_lyrics=bool(tuning.sync_lyrics_heads),
-            background_vocal_events=stem_analysis.background_vocal_events or [],
-            drum_event_streams=stem_analysis.drum_event_streams or {},
-        )
-    except Exception as exc:
-        log(f"[WARN] Snowman band planning skipped: {exc!r}")
-        snowman_band_payload = {
-            "enabled": False,
-            "face_routing": {},
-            "performers": {},
-            "kit": {"components": []},
-            "layout_mapping": {},
-            "visualizer_overlay": {"lyrics_enabled": False, "soundtunnel_lyrics": []},
-            "cues": {},
-            "debug": {"total_cue_count": 0, "lyric_cues": 0},
-        }
+    band_sync_payload, snowman_band_payload = band_planning.build_band_plans(
+        parsed_layout=parsed_layout,
+        parts=parts,
+        lyric_events=lyric_events,
+        note_events=note_events,
+        beat_ms=beat_ms,
+        onset_ms=onset_ms,
+        kicks=kicks,
+        snares=snares,
+        hats=hats,
+        bass_peaks=bass_peaks,
+        vocal_peaks=vocal_peaks,
+        build_lifts=build_lifts,
+        releases=releases,
+        song_length_ms=song_length_ms,
+        chronoflow_payload=chronoflow_payload,
+        multiband=multiband,
+        enable_lyrics=bool(tuning.sync_lyrics_heads),
+        background_vocal_events=stem_analysis.background_vocal_events or [],
+        drum_event_streams=stem_analysis.drum_event_streams or {},
+        require_keyboard_source_ownership=tuning.require_keyboard_source_ownership,
+        keyboard_ownership_threshold=tuning.keyboard_ownership_threshold,
+        log_fn=log,
+    )
     chronoflow_track = chronoflow_engine.build_timing_track(chronoflow_payload, limit=1400)
     snowman_band_track = snowman_band_engine.build_timing_track(snowman_band_payload, limit=1800)
     try:
