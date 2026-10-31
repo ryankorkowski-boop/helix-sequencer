@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from core.stage_metrics import timed_stage
+from core.drum_pipeline import build_drum_cues
 
 import json
 import re
@@ -9,11 +10,8 @@ from typing import Any, Iterable, Mapping
 
 from core import vocal_timeline as vt
 from core import vocal_emotion
-from animation import drummer_motion
 from animation import string_motion
-from effects import drum_effects
 from audio import instrument_detection
-from mapping import drum_mapper
 
 
 def normalize_name(value: str) -> str:
@@ -464,72 +462,13 @@ def _build_drum_cues(
     return cues, kit
 
 
-@timed_stage("drums.mapping")
 def _build_intelligent_drum_cues(
-    parts: list[Any],
-    *,
-    drum_event_streams: dict[str, list[Any]] | None,
-    kicks: list[int],
-    snares: list[int],
-    hats: list[int],
-    releases: list[int],
+    parts: list[Any], *, drum_event_streams: dict[str, list[Any]] | None,
+    kicks: list[int], snares: list[int], hats: list[int], releases: list[int],
 ) -> tuple[list[dict[str, Any]], list[str], dict[str, Any]]:
-    resolved = drum_mapper.resolve_drum_streams(
-        drum_event_streams,
-        fallback_kicks=kicks,
-        fallback_snares=snares,
-        fallback_hats=hats,
-        fallback_cymbals=releases,
-    )
-    events = list(resolved["events"])
-    mapped = list(resolved["mapped_events"])
-    motions = drummer_motion.build_drummer_motion(events)
-    effect_cues = drum_effects.build_drum_effect_cues(events)
-    cues: list[dict[str, Any]] = []
-    for idx, item in enumerate(mapped):
-        start_ms = int(item["timestamp_ms"])
-        drum_type = str(item["drum_type"])
-        effect = effect_cues[idx] if idx < len(effect_cues) else {}
-        cue = {
-            "performer": "drummer",
-            "start_ms": start_ms,
-            "end_ms": int(effect.get("end_ms", start_ms + 140)),
-            "kind": drum_type,
-            "section": _part_label(parts, start_ms),
-            "submodel": item["submodel"],
-            "composite_submodels": list(item.get("composite_submodels", [item["submodel"]])),
-            "velocity": item["velocity"],
-            "confidence": item["confidence"],
-            "frequency_band_info": item["frequency_band_info"],
-            "cluster_id": item["cluster_id"],
-            "source": item["source"],
-            "visual_effect": effect,
-        }
-        if drum_type == "kick":
-            cue["frames"] = ["kick_center", "kick_mid", "kick_outer"]
-        elif drum_type == "snare":
-            cue["frames"] = ["snare_burst"]
-        elif drum_type == "hihat":
-            cue["frames"] = ["hat_flash"]
-        elif drum_type == "cymbal":
-            cue["frames"] = ["cymbal_frame_1", "cymbal_frame_2", "cymbal_frame_3", "cymbal_frame_4"]
-            cue["shimmer"] = True
-        elif drum_type == "tom":
-            cue["frames"] = ["tom_bounce"]
-        else:
-            cue["frames"] = ["drum_bus_pulse"]
-        cues.append(cue)
-    kit = sorted({str(item["drum_type"]) for item in mapped if item["drum_type"] != "drum_bus"})
-    if any(str(item["drum_type"]) == "drum_bus" for item in mapped):
-        kit.append("drum_bus")
-    debug = {
-        "fallback_mode": resolved["fallback_mode"],
-        "counts": resolved["counts"],
-        "motion_events": motions,
-        "effect_cues": effect_cues,
-        "mapping": mapped,
-    }
-    return cues, kit, debug
+    return build_drum_cues(parts, part_label=_part_label,
+                           drum_event_streams=drum_event_streams, kicks=kicks,
+                           snares=snares, hats=hats, releases=releases)
 
 
 def _build_background_vocals(vocal_peaks: list[int], parts: list[Any]) -> list[dict[str, Any]]:

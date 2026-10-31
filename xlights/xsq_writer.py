@@ -16,7 +16,6 @@ RUN:
 
 from __future__ import annotations
 
-from core.stage_metrics import timed_stage
 
 import argparse, copy, json, sys, time, shutil, re, random
 from dataclasses import dataclass, field
@@ -713,95 +712,10 @@ def norm01(x: np.ndarray) -> np.ndarray:
         return np.zeros_like(x)
     return np.clip((x - lo) / (hi - lo), 0.0, 1.0)
 
-@timed_stage("audio.load_features")
 def analyze(audio_path: Path) -> Audio:
-    log(f"Loading audio: {audio_path.name}")
-    y, sr = librosa.load(str(audio_path), sr=None, mono=True)
-    dur = float(len(y) / sr)
-    log(f"SR={sr} duration={dur:.2f}s")
-
-    hop = HOP_MS
-    magnitude = np.abs(librosa.stft(y, n_fft=2048, hop_length=hop))
-    S = magnitude**2
-    mel = librosa.feature.melspectrogram(S=S, sr=sr, n_mels=128, fmin=20, fmax=11025)
-    mel_db = librosa.power_to_db(mel, ref=np.max)
-    times_s = librosa.frames_to_time(np.arange(mel.shape[1]), sr=sr, hop_length=hop)
-
-    # onset_strength(y=...) and spectral_centroid(y=...) each decoded this
-    # same frame grid through a fresh STFT. Preserve onset_strength's default
-    # mel bank (different from the display's fmin=20 bank) and dB reference.
-    onset_mel = librosa.feature.melspectrogram(S=S, sr=sr)
-    onset_env = librosa.onset.onset_strength(
-        S=librosa.power_to_db(onset_mel), sr=sr, hop_length=hop)
-    if dur > 30:
-        from core.bounded_audio import dominant_pitch
-        # Each centroid/pitch frame is independent. Reduce it while its bounded
-        # workspace is live, then free the full spectra before beat planning.
-        centroid = np.empty(magnitude.shape[1], dtype=float)
-        for start in range(0, len(centroid), 512):
-            centroid[start:start+512] = librosa.feature.spectral_centroid(
-                S=magnitude[:, start:start+512], sr=sr, hop_length=hop)[0]
-        pitch_hz = (dominant_pitch(S, sr=sr, hop=hop,
-                    fmin=librosa.note_to_hz("C2"), fmax=librosa.note_to_hz("C7"))
-                    if USE_FAST_PITCH else np.full(len(times_s), np.nan))
-        del magnitude, S, onset_mel
-    onset_frames = librosa.onset.onset_detect(
-        onset_envelope=onset_env, sr=sr, hop_length=hop,
-        backtrack=False, units="frames",
-        pre_max=3, post_max=3, pre_avg=3, post_avg=3,
-        delta=0.08, wait=0
-    )
-    onset_times = librosa.frames_to_time(onset_frames, sr=sr, hop_length=hop)
-    onset_ms = [ms(t) for t in onset_times.tolist()]
-
-    _, beat_frames = librosa.beat.beat_track(onset_envelope=onset_env, sr=sr, hop_length=hop, units="frames")
-    beat_times = librosa.frames_to_time(beat_frames, sr=sr, hop_length=hop)
-    beat_ms = [ms(t) for t in beat_times.tolist()]
-    if _aubio_module() is not None:
-        try:
-            beat_ms_aubio = _aubio_beats(y, sr, hop)
-            if len(beat_ms_aubio) >= 4:
-                beat_ms = beat_ms_aubio
-        except Exception:
-            pass
-
-    if dur <= 30:
-        centroid = librosa.feature.spectral_centroid(S=magnitude, sr=sr, hop_length=hop)[0]
-    rms = librosa.feature.rms(y=y, hop_length=hop)[0]
-    rms01 = norm01(rms)
-
-    mel_freqs = librosa.mel_frequencies(n_mels=128, fmin=20, fmax=11025)
-    bass_bins = np.where((mel_freqs >= 20) & (mel_freqs <= 180))[0]
-    vocal_bins = np.where((mel_freqs >= 300) & (mel_freqs <= 3000))[0]
-    bass_db = mel_db[bass_bins, :].mean(axis=0) if len(bass_bins) else mel_db.mean(axis=0)
-    vocal_db = mel_db[vocal_bins, :].mean(axis=0) if len(vocal_bins) else mel_db.mean(axis=0)
-    bass01 = norm01(bass_db)
-    vocal01 = norm01(vocal_db)
-
-    if dur > 30:
-        pass  # Already reduced before releasing the full spectra above.
-    elif USE_FAST_PITCH:
-        mags = np.sqrt(S)
-        pitches, pmags = librosa.piptrack(
-            S=mags, sr=sr, hop_length=hop,
-            fmin=librosa.note_to_hz("C2"),
-            fmax=librosa.note_to_hz("C7")
-        )
-        pitch_hz = np.full((pitches.shape[1],), np.nan, dtype=float)
-        columns = np.arange(pitches.shape[1])
-        selected = pitches[np.argmax(pmags, axis=0), columns]
-        pitch_hz[:] = np.where(selected > 0, selected, np.nan)
-    else:
-        pitch_hz = np.full((len(times_s),), np.nan, dtype=float)
-
-    return Audio(sr=sr, y=y, dur_s=dur,
-                 onset_ms=onset_ms, beat_ms=beat_ms,
-                 times_s=np.asarray(times_s),
-                 centroid=np.asarray(centroid),
-                 rms01=np.asarray(rms01),
-                 bass01=np.asarray(bass01),
-                 vocal01=np.asarray(vocal01),
-                 pitch_hz=np.asarray(pitch_hz))
+    """Compatibility entry; public settings still belong to this module."""
+    from core.audio_features import analyze_audio
+    return analyze_audio(audio_path)
 
 
 def _aubio_beats(y: np.ndarray, sr: int, hop: int) -> list[int]:
