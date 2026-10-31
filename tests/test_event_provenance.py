@@ -49,3 +49,21 @@ def test_explicit_unknown_owner_is_unresolved():
     result = summarize_note_provenance([event])
     assert result["unknown_ownership_events"] == 1
     assert result["sample"][0]["performer"] == "unknown"
+
+
+def test_invalid_confidence_is_counted_as_unresolved():
+    event = SimpleNamespace(timestamp_ms=20, source_owner={
+        "performer": "keyboardist", "confidence": float("nan"),
+        "origin": "estimated", "source_id": "piano",
+    })
+    result = summarize_note_provenance([event])
+    assert result["unknown_ownership_events"] == 1
+    assert result["sample"][0]["confidence"] is None
+
+
+def test_fallback_with_label_is_not_treated_as_verified():
+    event = SimpleNamespace(timestamp_ms=30, source_owner={
+        "performer": "keyboardist", "confidence": 0.95,
+        "origin": "fallback", "source_id": "mix",
+    })
+    assert summarize_note_provenance([event])["unknown_ownership_events"] == 1
