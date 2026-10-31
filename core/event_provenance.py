@@ -40,7 +40,7 @@ def summarize_note_provenance(events: list[Any], *, limit: int = 512) -> dict[st
             origin = str(getattr(owner, "origin", "fallback"))
         else:
             performer, confidence, source_id, origin = None, None, "", "fallback"
-        if performer is None:
+        if performer is None or performer == "unknown":
             unknown += 1
         if len(sample) < limit:
             sample.append({
