@@ -7,6 +7,7 @@ from typing import Any, Iterable, Mapping
 
 from core import vocal_timeline as vt
 from core import vocal_emotion
+from core.source_ownership import SourceOwnership, resolve_owner
 from animation import drummer_motion
 from animation import string_motion
 from effects import drum_effects
@@ -79,7 +80,33 @@ def _extract_note_midis(note_events: list[Any], target_ms: int) -> list[float]:
     return out
 
 
-def _build_keyboard_note_cues(note_events: list[Any], parts: list[Any]) -> list[dict[str, Any]]:
+def _event_owner(event: Any) -> SourceOwnership | None:
+    """Read explicit provenance only; never infer instrument from pitch."""
+    owner = getattr(event, "source_owner", None)
+    if owner is None:
+        return None
+    if isinstance(owner, SourceOwnership):
+        return owner
+    if isinstance(owner, dict):
+        try:
+            return SourceOwnership(
+                performer=owner.get("performer"),
+                confidence=float(owner.get("confidence", 0.0)),
+                origin=owner.get("origin", "fallback"),
+                source_id=str(owner.get("source_id", "")),
+            )
+        except (TypeError, ValueError):
+            return None
+    return None
+
+
+def _build_keyboard_note_cues(
+    note_events: list[Any],
+    parts: list[Any],
+    *,
+    require_source_ownership: bool = False,
+    ownership_threshold: float = 0.7,
+) -> list[dict[str, Any]]:
     """Expose all pitched notes to the keyboard without guessing instrument identity.
 
     The input note events can represent piano, bells, mallets, synths or other
@@ -87,6 +114,9 @@ def _build_keyboard_note_cues(note_events: list[Any], parts: list[Any]) -> list[
     """
     cues: list[dict[str, Any]] = []
     for event in note_events:
+        ownership = resolve_owner(_event_owner(event), threshold=ownership_threshold) if require_source_ownership else None
+        if require_source_ownership and ownership.performer != "keyboardist":
+            continue
         start_ms = _event_start_ms(event)
         end_ms = _event_end_ms(event, fallback_ms=120)
         for note in list(getattr(event, "notes", []) or []):
