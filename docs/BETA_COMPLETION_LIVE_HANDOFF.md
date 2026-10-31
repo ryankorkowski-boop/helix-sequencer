@@ -1,3 +1,7 @@
+## 31 October — finite pitch peak selection
+
+1d54746 updates core/audio_intelligence.py::_extract_note_candidates to replace nonfinite pitch magnitudes with zeros for argmax and global normalization; reject invalid/zero peak magnitude before MIDI conversion. 6b8684f adds AST regression. Changes are committed but tests, profiling and real-audio parity remain unexecuted. The stem-specific producer is still not connected to run_variant. No new approval MP4, merge or release.
+
 ## 31 October — audio candidate hardening
 
 a0dd2b2 hoists constant note continuity window from per-frame pitch loop. a0def2f rejects nonfinite best_hz and best_mag before hz_to_midi conversion. e4a6030 adds AST regression for finite pitch check. No pytest or end-to-end render run in this session; do not claim performance or acoustic parity verified. Outstanding: real instrument stem producer wiring, independent harmony and canonical band verification, nine owner-approval MP4s. No merge/release.
