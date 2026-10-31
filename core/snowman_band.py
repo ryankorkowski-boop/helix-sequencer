@@ -84,6 +84,13 @@ def _event_owner(event: Any) -> SourceOwnership | None:
     """Read explicit provenance only; never infer instrument from pitch."""
     owner = getattr(event, "source_owner", None)
     if owner is None:
+        ownership_method = getattr(event, "ownership", None)
+        if callable(ownership_method):
+            try:
+                owner = ownership_method()
+            except (TypeError, ValueError):
+                return None
+    if owner is None:
         return None
     if isinstance(owner, SourceOwnership):
         return owner
