@@ -5,7 +5,6 @@ evaluated. No guessed oracle counts or synthetic acceptance evidence.
 """
 from __future__ import annotations
 
-from collections import Counter
 from typing import Any
 
 
@@ -49,18 +48,20 @@ def compare_drum_events(
     for drum_class in sorted(set(by_class_expected) | set(by_class_actual)):
         baseline = by_class_expected.get(drum_class, [])
         observed = by_class_actual.get(drum_class, [])
-        # Ordered one-to-one matching avoids reusing one candidate hit twice.
-        # Greedy earliest admissible match is deterministic.
-        used: set[int] = set()
-        hits = 0
-        for timestamp in baseline:
-            options = [(abs(other - timestamp), j) for j, other in enumerate(observed)
-                       if j not in used and abs(other - timestamp) <= tolerance_ms]
-            if options:
-                distance, j = min(options)
-                used.add(j)
+        # Ordered two-pointer matching maximizes match count within tolerance
+        # without allowing a candidate hit to satisfy two oracle hits.
+        i = j = hits = 0
+        while i < len(baseline) and j < len(observed):
+            difference = observed[j] - baseline[i]
+            if abs(difference) <= tolerance_ms:
                 hits += 1
-                drift.append(distance)
+                drift.append(abs(difference))
+                i += 1
+                j += 1
+            elif difference < -tolerance_ms:
+                j += 1
+            else:
+                i += 1
         matched += hits
         counts[drum_class] = {
             "oracle": len(baseline), "candidate": len(observed),
