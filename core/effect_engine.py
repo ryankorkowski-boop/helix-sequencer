@@ -89,6 +89,7 @@ class NoteEvent:
     notes: list[tuple[int, float]]
     part: str
     section: str
+    source_owner: dict[str, object] | None = None
 
 
 @dataclass
@@ -167,6 +168,8 @@ class RuntimeTuning:
     cane_focus: float = 1.0
     flash_guard: float = 0.80
     keyboard_mix: float = 1.0
+    require_keyboard_source_ownership: bool = False
+    keyboard_ownership_threshold: float = 0.7
     model_overrides: dict[str, str | list[str]] | None = None
     use_moises: bool = False
     moises_api_key: str | None = None
@@ -10730,6 +10733,8 @@ def run_variant(
             note_events=note_events,
             background_vocal_events=stem_analysis.background_vocal_events or [],
             drum_event_streams=stem_analysis.drum_event_streams or {},
+            require_keyboard_source_ownership=tuning.require_keyboard_source_ownership,
+            keyboard_ownership_threshold=tuning.keyboard_ownership_threshold,
             song_length_ms=song_length_ms,
         )
     except Exception as exc:
