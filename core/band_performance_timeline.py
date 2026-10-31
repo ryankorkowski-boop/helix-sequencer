@@ -97,7 +97,12 @@ class BandPerformanceTimelineCompiler:
         self.performers = {performer.performer_id: performer for performer in performers}
 
     def compile_event(self, event: BandExecutionEvent) -> BandPerformanceEvent:
-        performer = self.performers[event.performer]
+        performer = self.performers.get(event.performer)
+        if performer is None:
+            raise ValueError(
+                f"Unknown band performer {event.performer!r}; "
+                f"known performers: {sorted(self.performers)}"
+            )
         state_name = self._resolve_state(event, performer)
         state = self._state_by_name(performer, state_name)
 
