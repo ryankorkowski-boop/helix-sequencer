@@ -1,3 +1,13 @@
+## 31 October — owner rejects nine-video approval collection
+
+**Owner verdict:** "Everything else fails except for the test audio." Earlier explicit FAIL: 01 canonical band and 02 vocals, both vocal animation out of sync. Interpret remaining collection as not approved; the test-audio content alone is acceptable, not a blanket approval of movie 09's visuals. **Do not mark any MP4 approved** until clarified/explicitly accepted.
+
+- [ ] BLOCKER: Fix independently timed lead/harmony lip-sync from original audio through event/phoneme clocks to rendered frames; test beginning, middle, end and silence. Technical mux synchronization is insufficient.
+- [ ] BLOCKER: Review original canonical drummer identity, physical geometry, instrument placement and real-audio hit mapping; no replacement drummer or xylophonist.
+- [ ] BLOCKER: Verify section/phrase-aware lighting and native 256-channel AC + RGB layouts against owner quality expectations, not only decode/brightness checks.
+- [ ] Render genuinely revised real-audio previews; collect owner pass/fail before constructing another final nine-MP4 ZIP.
+- [ ] Keep PR #188 open/unmerged; twelve-panel comparison remains optional. Preserve owner-approved test audio as input, not proof of animation acceptance.
+
 ## 31 October — owner review: video 02 rejected (vocal synchronization)
 
 - [ ] **BLOCKER VOC-SYNC-02:** Owner explicitly marked `02_Lead_and_Harmony_Vocals.mp4` **FAIL** because voices are out of sync. Alongside failed `01_Canonical_Snowman_Band.mp4`, investigate the shared singer animation / vocal-clock pipeline before rendering replacements. Do not infer which singer is worse without inspection; independently verify lead and purple harmony, syllable onset/offset, silence, segment origins and temporal drift against the original audio.
