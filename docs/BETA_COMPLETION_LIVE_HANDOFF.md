@@ -1,5 +1,7 @@
 ## 31 October — active quality-first integration (resume here)
 
+Published implementation: [`cd0c852`](https://github.com/ryankorkowski-boop/helix-sequencer/commit/cd0c852b0fc522ca04850eefece70e5b9bfb94bb). All 18 changed remote files match the tested local bytes. Current implementation CI is queued/in progress, including Helix CI 41219727454, Android 41219727582 and native verification 41219733507; none is counted as passed. Subsequent handoff-only commits preserve these production module hashes.
+
 Owner request: optimize for quality, integrate useful unused logic, keep a running checklist. Baseline remote source: `5aac37af254c4bc08df992551a5f06d918506f6f`. Working source subset: `/workspace/scratch/13c20d75c6c0/helix-sequencer`; pinned Python 3.12 environment: `.venv/bin/python`. Sources are restored at the exact baseline through the GitHub connector; this is not a full Git checkout, and remote publication must preserve the full parent tree with a branch-head lease.
 
 Concrete defect found: ownership keywords are sent to `band_sync.build_band_sync_plan`, which does not accept them, so `run_variant` silently falls back to an empty synchronization plan on every call. Move the keywords to `snowman_band.build_snowman_band_plan` and add a regression that exercises the production calls, not merely the dataclass switches. Also execute recently authored tests: `tests/test_audio_pitch_normalization.py` appears to require one frame loop despite the current extractor having two; validate behavior before correcting that stale assertion.

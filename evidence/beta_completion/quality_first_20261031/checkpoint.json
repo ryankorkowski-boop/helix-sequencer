@@ -52,8 +52,8 @@
       "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
       "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]"
     ],
-    "maximum_error": 1.9951554230956958e-07,
-    "unchanged_tolerance": 1e-07,
+    "maximum_error": 1.9951554230956958e-7,
+    "unchanged_tolerance": 1e-7,
     "introduced_by_this_change": false,
     "reason": "Production _bounded_background_features and its reference tests are byte-identical to starting 5aac37a; failures reproduced in current runtime before and after isolated-cache recovery"
   },
@@ -131,5 +131,245 @@
     "Recover and compare approved b27 drummer oracle and native/owner media"
   ],
   "new_mp4_count": 0,
-  "native_xlights_verified": false
+  "native_xlights_verified": false,
+  "implementation_commit": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+  "remote_file_count_verified": 18,
+  "ci_snapshot": {
+    "observed_at_utc": "2026-10-31T16:27:32.725Z",
+    "status": "QUEUED_OR_IN_PROGRESS_NOT_ACCEPTED",
+    "runs": [
+      {
+        "id": 41219733449,
+        "name": "Helix Android offline beta",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733449"
+      },
+      {
+        "id": 41219733552,
+        "name": "Windows Portable GUI",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733552"
+      },
+      {
+        "id": 41219733530,
+        "name": "Helix Beta CI",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733530"
+      },
+      {
+        "id": 41219733513,
+        "name": "Desktop GUI evidence capture",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733513"
+      },
+      {
+        "id": 41219733492,
+        "name": "Verify owner Starred audio sources",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733492"
+      },
+      {
+        "id": 41219733507,
+        "name": "Helix final band and native output verification",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733507"
+      },
+      {
+        "id": 41219733524,
+        "name": "Keyboard integration focused regression gate",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733524"
+      },
+      {
+        "id": 41219733516,
+        "name": "Compliance and License Bundle",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733516"
+      },
+      {
+        "id": 41219733463,
+        "name": "Helix REAL animated 3D seven-snowman band",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733463"
+      },
+      {
+        "id": 41219733536,
+        "name": "Helix CI",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733536"
+      },
+      {
+        "id": 41219733438,
+        "name": "Helix Birdsong CI",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733438"
+      },
+      {
+        "id": 41219733511,
+        "name": "Final native twelve-layout approval collection",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733511"
+      },
+      {
+        "id": 41219733475,
+        "name": "Helix ORIGINAL V3 drummer real-audio snowman-band review",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733475"
+      },
+      {
+        "id": 41219733484,
+        "name": "Native producer polling contract",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733484"
+      },
+      {
+        "id": 41219733495,
+        "name": "Fresh native universal-keyboard snowman band MP4 from real audio",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733495"
+      },
+      {
+        "id": 41219733471,
+        "name": "Real source CLI performance and musical parity",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733471"
+      },
+      {
+        "id": 41219733558,
+        "name": "Showcase recovery guards",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733558"
+      },
+      {
+        "id": 41219733468,
+        "name": "Drum ground-truth benchmark",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733468"
+      },
+      {
+        "id": 41219733494,
+        "name": "Phoneme Test Hook native MP4 verification",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733494"
+      },
+      {
+        "id": 41219733523,
+        "name": "Pinned native renderer build and integrity",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733523"
+      },
+      {
+        "id": 41219727559,
+        "name": "Helix Release Regression Gates",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727559"
+      },
+      {
+        "id": 41219727581,
+        "name": "Helix Birdsong CI",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727581"
+      },
+      {
+        "id": 41219727602,
+        "name": "Helix Flow Quality Artifact",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727602"
+      },
+      {
+        "id": 41219727454,
+        "name": "Helix CI",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727454"
+      },
+      {
+        "id": 41219727579,
+        "name": "Helix Flow Review Artifacts",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727579"
+      },
+      {
+        "id": 41219727594,
+        "name": "Helix Beta CI",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727594"
+      },
+      {
+        "id": 41219727501,
+        "name": "Drummer Ground Truth Test",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727501"
+      },
+      {
+        "id": 41219727582,
+        "name": "Helix Android offline beta",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727582"
+      },
+      {
+        "id": 41219727487,
+        "name": "Helix Remote Review Preview MP4",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727487"
+      }
+    ]
+  }
 }

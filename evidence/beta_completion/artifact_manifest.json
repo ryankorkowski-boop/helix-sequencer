@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-10-31T16:25:50.971401+00:00",
+  "updated_at": "2026-10-31T16:27:32.725Z",
   "requested_count": 9,
   "verified_count": 9,
   "artifacts": [
@@ -19,7 +19,7 @@
         "bytes": 29415657,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -30,30 +30,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -62,7 +62,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -104,7 +104,7 @@
         "bytes": 2815588,
         "source_audio": "vocal-review-30s.wav",
         "source_audio_sha256": "47a0b5897bbcc11e892a8da81af4af5ea0adba6806d8119dc101d596a57ac3ba",
-        "source_duration_seconds": 30.0,
+        "source_duration_seconds": 30,
         "codecs": [
           "h264",
           "aac"
@@ -115,30 +115,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "600",
-        "video_duration_seconds": 30.0,
-        "audio_duration_seconds": 30.0,
+        "video_duration_seconds": 30,
+        "audio_duration_seconds": 30,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9993690830072413,
         "window_alignment": [
           {
-            "source_start_seconds": 3.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 3,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 15.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 15,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 25.5,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 27.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -147,7 +147,7 @@
           "frames": 60,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -188,7 +188,7 @@
         "bytes": 23828026,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -199,30 +199,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -231,7 +231,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -272,7 +272,7 @@
         "bytes": 60909096,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -283,30 +283,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -315,7 +315,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -359,7 +359,7 @@
         "bytes": 89487503,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -370,30 +370,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -402,7 +402,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -428,8 +428,8 @@
         "blank_freeze_scan": {
           "file": "05_Nine_Layout_Synchronized_Comparison.mp4",
           "sample_fps": 4,
-          "maximum_blank_seconds": 0.0,
-          "maximum_frozen_seconds": 0.0,
+          "maximum_blank_seconds": 0,
+          "maximum_frozen_seconds": 0,
           "all_nine_caption_bands_excluded": true
         }
       },
@@ -450,7 +450,7 @@
         "bytes": 27370895,
         "source_audio": "review-technical-60s.wav",
         "source_audio_sha256": "852696ab332502296389ec326a1e782c4ab30706ced811921eec26c8efa6e522",
-        "source_duration_seconds": 60.0,
+        "source_duration_seconds": 60,
         "codecs": [
           "h264",
           "aac"
@@ -461,30 +461,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "1200",
-        "video_duration_seconds": 60.0,
-        "audio_duration_seconds": 60.0,
+        "video_duration_seconds": 60,
+        "audio_duration_seconds": 60,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.999259351744763,
         "window_alignment": [
           {
-            "source_start_seconds": 6.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 6,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 30.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 30,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 51.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 51,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 57.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -493,7 +493,7 @@
           "frames": 120,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -537,7 +537,7 @@
         "bytes": 56281292,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -548,30 +548,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -580,7 +580,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -624,7 +624,7 @@
         "bytes": 77760528,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -635,30 +635,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -667,7 +667,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -708,7 +708,7 @@
         "bytes": 59735054,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -719,30 +719,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -751,7 +751,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -1050,6 +1050,8 @@
       "core/band_planning.py": "0e0d6fc1453856c395f240a38fd936aa70acf9314065fc0c1ec1fd837ac18391",
       "core/snowman_band.py": "155de34ec28e178752278ec5810c33bb10ec00a81dc9aa72eac716b8e06ad25c",
       "core/audio_run_cache.py": "c9106ad4492e36bb91fce912096b9ff5e1631c6d563def51154c01d4429d2c50"
-    }
+    },
+    "implementation_commit": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+    "remote_files_verified": 18
   }
 }
