@@ -1,3 +1,11 @@
+## 31 October — source-ownership integration checkpoint
+
+Implementation commits: 2be732a (source-ownership foundation), 01e2581 (foundation tests), 60a2397 (opt-in keyboard integration), 8915b1f (integration tests). Files: core/source_ownership.py, core/snowman_band.py, tests/test_source_ownership.py, tests/test_keyboard_source_routing.py.
+
+New: confidence-gated detected/estimated/fallback source identity, strict opt-in keyboard cue filtering; guitar-owned, weak-confidence and unknown events are excluded when strict mode is explicitly requested. Legacy keyboard routing remains default to avoid altering approved media before production parity tests. Ten tests authored; not executed in this session. No MP4s rendered, CI outcomes collected, source identity acoustically proven, or release gates closed. Existing canonical drummer, exports and audio assets not intentionally modified.
+
+Next: run focused and full Python regressions; validate keyboard routing with representative real stems; add provenance at production event construction; compare strict/legacy native outputs; verify song-section arrangement effects; keep PR #188 unmerged and beta unreleased.
+
 # Helix live completion handoff — 30 October 2026
 
 Current objective: owner reviews the delivered nine-video ZIP; finish remaining qualification without merging or publishing.
