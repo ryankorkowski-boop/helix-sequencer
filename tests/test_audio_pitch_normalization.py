@@ -38,3 +38,23 @@ def test_pitch_candidates_validate_finite_hz_before_midi_conversion():
         and "isfinite(best_hz)" in ast.unparse(node.test)
     ]
     assert checks
+
+
+def test_nonfinite_pitch_magnitudes_are_masked_before_argmax():
+    source = Path(__file__).resolve().parents[1] / "core" / "audio_intelligence.py"
+    module = ast.parse(source.read_text(encoding="utf-8"))
+    fn = next(node for node in module.body if isinstance(node, ast.FunctionDef) and node.name == "_extract_note_candidates")
+    assignments = [
+        node for node in ast.walk(fn)
+        if isinstance(node, ast.Assign)
+        and any(isinstance(t, ast.Name) and t.id == "finite_magnitudes" for t in node.targets)
+    ]
+    assert len(assignments) == 1
+    assert "isfinite(pitch_mag)" in ast.unparse(assignments[0])
+    argmax_calls = [
+        node for node in ast.walk(fn)
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+        and node.func.attr == "argmax"
+    ]
+    assert len(argmax_calls) == 1
+    assert "finite_magnitudes" in ast.unparse(argmax_calls[0])
