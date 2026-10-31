@@ -53,3 +53,28 @@ def resolve_owner(
     if estimated is not None and estimated.origin == "estimated" and estimated.permitted(threshold):
         return estimated
     return SourceOwnership(None, 0.0, "fallback")
+
+
+def ownership_from_stem(source_stem: str, confidence: float) -> SourceOwnership:
+    """Map only explicitly instrument-labeled stems, not generic pitched audio.
+
+    A stem label is evidence of routing intent, not independently verified
+    acoustic source identity; therefore its provenance is estimated.
+    """
+    normalized = str(source_stem or "").strip().lower().replace("-", "_")
+    mapping: dict[str, Performer] = {
+        "bass": "bassist",
+        "bass_guitar": "bassist",
+        "electric_bass": "bassist",
+        "guitar": "guitarist",
+        "electric_guitar": "guitarist",
+        "acoustic_guitar": "guitarist",
+        "piano": "keyboardist",
+        "keyboard": "keyboardist",
+        "keys": "keyboardist",
+        "synth": "keyboardist",
+    }
+    performer = mapping.get(normalized)
+    if performer is None:
+        return SourceOwnership(None, 0.0, "fallback", source_id=normalized)
+    return SourceOwnership(performer, max(0.0, min(1.0, float(confidence))), "estimated", source_id=normalized)
