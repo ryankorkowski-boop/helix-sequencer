@@ -982,6 +982,8 @@ def build_snowman_band_plan(
     enable_lyrics: bool = True,
     background_vocal_events: list[Any] | None = None,
     drum_event_streams: dict[str, list[Any]] | None = None,
+    require_keyboard_source_ownership: bool = False,
+    keyboard_ownership_threshold: float = 0.7,
 ) -> dict[str, Any]:
     layout_names = sorted(getattr(parsed_layout, "models", {}).keys()) if parsed_layout is not None else []
     face_routing = preferred_face_routing(layout_names)
@@ -1028,7 +1030,12 @@ def build_snowman_band_plan(
     else:
         drum_cues, kit_components = _build_drum_cues(parts, kicks, snares, hats, releases)
         drum_intelligence_debug = {"fallback_mode": "legacy_marks", "counts": {}, "motion_events": [], "effect_cues": [], "mapping": []}
-    keyboard_cues = _build_keyboard_note_cues(note_events, parts)
+    keyboard_cues = _build_keyboard_note_cues(
+        note_events,
+        parts,
+        require_source_ownership=require_keyboard_source_ownership,
+        ownership_threshold=keyboard_ownership_threshold,
+    )
     background_vocals = _build_background_vocals(vocal_peaks, parts)
     vocal_emotion_payload = vocal_emotion.build_vocal_emotion_timeline(
         lyric_timeline=lyric_timeline,
