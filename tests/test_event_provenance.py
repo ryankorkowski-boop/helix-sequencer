@@ -39,3 +39,13 @@ def test_invalid_confidence_does_not_escape_to_json():
         "origin": "estimated",
     })
     assert summarize_note_provenance([event])["sample"][0]["confidence"] is None
+
+
+def test_explicit_unknown_owner_is_unresolved():
+    event = SimpleNamespace(timestamp_ms=50, source_owner={
+        "performer": "unknown", "confidence": 0.0,
+        "origin": "fallback", "source_id": "mix_harmonic",
+    })
+    result = summarize_note_provenance([event])
+    assert result["unknown_ownership_events"] == 1
+    assert result["sample"][0]["performer"] == "unknown"
