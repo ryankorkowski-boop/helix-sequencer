@@ -122,6 +122,11 @@ class NoteEvent:
     confidence: float
     source_stem: str
 
+    def ownership(self):
+        """Conservative identity derived from labeled source stem and confidence."""
+        from core.source_ownership import ownership_from_stem
+        return ownership_from_stem(self.source_stem, self.confidence)
+
     def to_dict(self) -> dict[str, object]:
         return asdict(self)
 
