@@ -34,12 +34,33 @@ def _unique(values: Iterable[str]) -> list[str]:
 
 
 def _event_start_ms(event: Any) -> int:
-    return max(0, int(getattr(event, "start_ms", 0) or 0))
+    """Support harmonic and stem-analysis note-event time schemas."""
+    value = getattr(event, "start_ms", None)
+    if value is None:
+        value = getattr(event, "timestamp_ms", 0)
+    return max(0, int(value or 0))
 
 
 def _event_end_ms(event: Any, fallback_ms: int = 140) -> int:
     start_ms = _event_start_ms(event)
-    return max(start_ms + fallback_ms, int(getattr(event, "end_ms", start_ms + fallback_ms) or (start_ms + fallback_ms)))
+    explicit_end = getattr(event, "end_ms", None)
+    if explicit_end is not None:
+        return max(start_ms + fallback_ms, int(explicit_end))
+    duration = getattr(event, "duration_ms", None)
+    if duration is not None:
+        return max(start_ms + 1, start_ms + int(duration))
+    return start_ms + fallback_ms
+
+
+def _event_notes(event: Any) -> list[tuple[float, float]]:
+    """Read either harmonic polyphony or an analyzed single-stem note."""
+    notes = getattr(event, "notes", None)
+    if notes is not None:
+        return list(notes or [])
+    midi = getattr(event, "midi_note", None)
+    if midi is None:
+        return []
+    return [(float(midi), float(getattr(event, "velocity", 1.0)))]
 
 
 def _event_text(event: Any) -> str:
@@ -133,7 +154,7 @@ def _build_keyboard_note_cues(
             continue
         start_ms = _event_start_ms(event)
         end_ms = _event_end_ms(event, fallback_ms=120)
-        for note in list(getattr(event, "notes", []) or []):
+        for note in _event_notes(event):
             if not isinstance(note, (tuple, list)) or not note:
                 continue
             try:
