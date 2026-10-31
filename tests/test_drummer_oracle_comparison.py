@@ -52,3 +52,26 @@ def test_no_events_does_not_invent_drift():
     report = compare_drum_events([], [])
     assert report["exact_within_tolerance"]
     assert report["mean_absolute_drift_ms"] is None
+
+
+def test_file_comparator_uses_real_json_and_rejects_mismatch(tmp_path):
+    import json
+    from core.drummer_oracle_comparison import compare_oracle_files
+    oracle = tmp_path / "approved.json"
+    candidate = tmp_path / "candidate.json"
+    oracle.write_text(json.dumps({"events": [event("kick", 100)]}))
+    candidate.write_text(json.dumps([event("snare", 100)]))
+    result = compare_oracle_files(oracle, candidate)
+    assert result["false_negative"] == 1
+    assert result["false_positive"] == 1
+
+
+def test_file_comparator_rejects_missing_event_array(tmp_path):
+    import json
+    from core.drummer_oracle_comparison import compare_oracle_files
+    oracle = tmp_path / "approved.json"
+    candidate = tmp_path / "candidate.json"
+    oracle.write_text(json.dumps({"note": "not an event list"}))
+    candidate.write_text("[]")
+    with pytest.raises(ValueError):
+        compare_oracle_files(oracle, candidate)
