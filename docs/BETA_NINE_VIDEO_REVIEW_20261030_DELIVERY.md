@@ -1,5 +1,7 @@
 # Nine-video owner review — 30 October 2026
 
+Final tested implementation: `c009595976a2b660bc4094b7302b9b284588c3c4`. Subsequent receipt commits change metadata only.
+
 [Download HELIX_FINAL_BETA_APPROVAL_MP4S.zip](https://chatgpt.com/library?file_id=libfile_513a651bf1bc819192ffe6cae9105de0&account_id=personal)
 
 The MP4-only review collection is delivered: exactly9movies,427,604,937bytes,CRC and every entry hash verified. ZIPSHA256: `8c6c8453f2d0736d87b7b583da5153ca17f8237657d7042db90118fca6687159`. The ZIP contains no logs, source files or auxiliary downloads. This is a technical review delivery; PR188is unmerged and the public beta remains held.

@@ -79,7 +79,7 @@
       "dependencies_or_blockers": [
         "Independent acoustic ownership and lexical alignment"
       ],
-      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4"
     },
     {
       "id": "CAN-01",
@@ -99,7 +99,7 @@
       "dependencies_or_blockers": [
         "Approved asset or identifying reference"
       ],
-      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4"
     },
     {
       "id": "VID-01",
@@ -121,7 +121,7 @@
         "CAN-01",
         "VOC-01"
       ],
-      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4"
     },
     {
       "id": "WIN-01",
@@ -163,18 +163,18 @@
       "id": "REG-01",
       "priority": "P0",
       "description": "Run exact-source focused and full relevant regression",
-      "status": "VERIFIED",
+      "status": "LOCAL_VERIFIED_CI_PENDING",
       "files": [
         "tests/"
       ],
       "last_attempted_action": "Recovered exact historical suite results",
-      "actual_result": "dd73 fullPython3.11/3.12 each2208+24subtests/6skips pass; Windows40989591050 passes",
+      "actual_result": "158coherent targeted cases pass on pinned runtime; final source Actions not yet accepted",
       "evidence": [
-        "evidence/beta_completion/current_ci_results.json"
+        "evidence/beta_completion/owner_review_pinned_regression_20261030.xml"
       ],
-      "next_action": "Await Android and remaining native/owner gates",
+      "next_action": "Collect actual final-source CI results; preserve failed historical evidence",
       "dependencies_or_blockers": [],
-      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4"
     },
     {
       "id": "REL-01",
@@ -197,7 +197,7 @@
         "REG-01",
         "Owner explicit approval"
       ],
-      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4"
     },
     {
       "id": "MEM-02",
@@ -276,16 +276,144 @@
   "beta_release": "HELD",
   "active_runs": [
     {
-      "id": 40989590973,
-      "name": "Phoneme",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989590973",
-      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+      "id": 41163710749,
+      "name": "Helix Beta CI",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710749"
     },
     {
-      "id": 40989590883,
-      "name": "collection",
-      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40989590883",
-      "source_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+      "id": 41163710805,
+      "name": "Final native twelve-layout approval collection",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710805"
+    },
+    {
+      "id": 41163710797,
+      "name": "Fresh native universal-keyboard snowman band MP4 from real audio",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710797"
+    },
+    {
+      "id": 41163710874,
+      "name": "Showcase recovery guards",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710874"
+    },
+    {
+      "id": 41163710683,
+      "name": "Helix Birdsong CI",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710683"
+    },
+    {
+      "id": 41163710660,
+      "name": "Windows Portable GUI",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710660"
+    },
+    {
+      "id": 41163710741,
+      "name": "Drum ground-truth benchmark",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710741"
+    },
+    {
+      "id": 41163710832,
+      "name": "Verify owner Starred audio sources",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710832"
+    },
+    {
+      "id": 41163710818,
+      "name": "Real source CLI performance and musical parity",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710818"
+    },
+    {
+      "id": 41163710718,
+      "name": "Helix CI",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710718"
+    },
+    {
+      "id": 41163710831,
+      "name": "Desktop GUI evidence capture",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710831"
+    },
+    {
+      "id": 41163710870,
+      "name": "Keyboard integration focused regression gate",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710870"
+    },
+    {
+      "id": 41163710727,
+      "name": "Helix final band and native output verification",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710727"
+    },
+    {
+      "id": 41163710812,
+      "name": "Pinned native renderer build and integrity",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710812"
+    },
+    {
+      "id": 41163710725,
+      "name": "Helix ORIGINAL V3 drummer real-audio snowman-band review",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710725"
+    },
+    {
+      "id": 41163710798,
+      "name": "Compliance and License Bundle",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710798"
+    },
+    {
+      "id": 41163710668,
+      "name": "Helix Android offline beta",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710668"
+    },
+    {
+      "id": 41163710919,
+      "name": "Native producer polling contract",
+      "status": "queued",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710919"
+    },
+    {
+      "id": 41163710664,
+      "name": "Phoneme Test Hook native MP4 verification",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710664"
+    },
+    {
+      "id": 41163710717,
+      "name": "Helix REAL animated 3D seven-snowman band",
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710717"
     }
   ],
   "next_three_actions": [
@@ -316,7 +444,7 @@
       "audio/drummer_v3.py": "cf2eae24ffa8bb5d21bd2657fb5b7cbcfb863ee6eb52b2b0837249c22116f165"
     }
   },
-  "current_implementation_sha": null,
+  "current_implementation_sha": "c009595976a2b660bc4094b7302b9b284588c3c4",
   "focused_final_tests": {
     "passed": 158,
     "seconds": 137.31,
@@ -348,7 +476,7 @@
   "memory_stability_accepted": true,
   "final_production_comparison": "evidence/beta_completion/production_tuned_comparison.json",
   "final_source_ci": {
-    "status": "pending_final_source",
+    "status": "queued_or_pending; collect actual completion before acceptance",
     "previous_source": "92d3c0586043baae4f1154aa8918264102f733ed",
     "previous_full_ci_run": 41161111521,
     "previous_python311": "success",
@@ -356,7 +484,12 @@
     "previous_android_run": 41161111415,
     "previous_android": "success",
     "previous_windows_run": 41161111463,
-    "previous_windows": "success"
+    "previous_windows": "success",
+    "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4",
+    "full_ci_run": 41163710718,
+    "android_run": 41163710668,
+    "windows_run": 41163710660,
+    "native_verification_run": 41163710727
   },
   "last_successful_ci_runs": {
     "full_ci": 40989578137,
@@ -534,5 +667,6 @@
     "core/bounded_audio.py": "18037a8c1ee065fe91d029dd9dd973ee7acdc8c6e23a9ddaa31ae3dc7e27c7e1",
     "tests/test_owner_band_review.py": "b182eb427416d689afc51f3bad936cca89627433348437db4684157776c15d46",
     "tests/test_bounded_audio.py": "9c39459c8cdb739eb47c2778a2e05f0a8b979acfb2597847e77170ad1432550f"
-  }
+  },
+  "last_locally_verified_implementation_sha": "c009595976a2b660bc4094b7302b9b284588c3c4"
 }
