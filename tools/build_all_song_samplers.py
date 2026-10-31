@@ -1,5 +1,6 @@
 """New samplers covering every tracked song, using retained advanced native layouts."""
 from __future__ import annotations
+from core.engine_runner import run_variant
 import argparse
 from contextlib import redirect_stdout
 import hashlib
@@ -73,7 +74,7 @@ def sequence_and_native(folder,row,binary):
         garden=build_flavor(flavor.key);show=folder/garden.slug;show.mkdir(exist_ok=True);template=prepare_template(garden,show);media=show/audio.name;shutil.copyfile(audio,media)
         raw=show/'sampler.prime_raw.xsq';native=show/(garden.slug+'_All_Songs.xsq')
         tuning=engine.RuntimeTuning(layout_file=show/'xlights_rgbeffects.xml',template_guidance=False,workspace_history_enabled=False,learning_memory_enabled=False,matrix_intelligence=False,polish_enabled=False,variant_count=1,birdsong_enabled=False,birdsong_auto=False,audio_reactive_profile='showcase',audio_reactive_intensity=1.6,spatial_awareness=.85,chase_style='radial_out',model_overrides=model_routes(garden),max_layers_per_prop=3)
-        with (show/'engine.log').open('w') as log,redirect_stdout(log):engine.run_variant(engine.VARIANTS['v27.3'],template,media,raw,engine.base.UserProfile(),tuning=tuning,analysis_cache=cache)
+        with (show/'engine.log').open('w') as log,redirect_stdout(log):run_variant(engine.VARIANTS['v27.3'],template,media,raw,engine.base.UserProfile(),tuning=tuning,analysis_cache=cache)
         export=native_music_xsq(raw,native,garden,media,row['duration_seconds'])
         command=[str(binary),'--headless','-q','-s',str(show.resolve()),'-od',str(show.resolve()),str(native.resolve())]
         if shutil.which('xvfb-run'):command=['xvfb-run','-a',*command]

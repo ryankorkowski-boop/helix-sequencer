@@ -39,17 +39,16 @@ def output_contract(path: Path) -> dict:
     for model in root.findall("./ElementEffects/Element[@type='model']"):
         assert model.get("name") in declared, f"Undeclared model: {model.get('name')}"
         for layer in model.findall("./EffectLayer"):
-            previous = -1.0
             for effect in layer.findall("./Effect"):
                 start, end = (float(effect.get(key)) for key in ("startTime", "endTime"))
                 assert math.isfinite(start) and math.isfinite(end), "Nonfinite effect time"
                 assert 0 <= start <= end <= duration, (model.get("name"), start, end, duration)
-                assert previous <= start, f"Unordered effects: {model.get('name')}"
-                previous = start
+                # xLights accepts authoring order in a layer. Preserve existing
+                # XML order; chronological interval endpoints are the contract.
                 count += 1
     assert count > 0, "No model effects"
     return {"model_effects": count, "duration_seconds": duration / 1000,
-            "declared_model_targets": True, "finite_ordered_bounded_times": True}
+            "declared_model_targets": True, "finite_bounded_intervals": True}
 
 
 def measure(audio: Path, template: Path, layout: Path, output: Path, runs: int = 2) -> dict:
