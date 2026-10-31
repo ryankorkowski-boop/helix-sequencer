@@ -75,3 +75,16 @@ def test_file_comparator_rejects_missing_event_array(tmp_path):
     candidate.write_text("[]")
     with pytest.raises(ValueError):
         compare_oracle_files(oracle, candidate)
+
+
+def test_cli_fails_closed_on_empty_oracle(tmp_path, monkeypatch):
+    import json
+    import sys
+    from core.drummer_oracle_comparison import main
+    oracle = tmp_path / "approved.json"
+    candidate = tmp_path / "candidate.json"
+    oracle.write_text("[]")
+    candidate.write_text(json.dumps([event("kick", 100)]))
+    monkeypatch.setattr(sys, "argv", ["oracle", "--oracle", str(oracle), "--candidate", str(candidate)])
+    with pytest.raises(SystemExit, match="nonempty real event streams"):
+        main()
