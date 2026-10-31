@@ -1,3 +1,7 @@
+## 31 October — quality-first provenance checkpoint
+
+Owner priorities: preserve drummer oracle b27e8d77, do not change physical component mapping without event-count/timing/FP/FN comparison; nine-component geometry/export alignment; source/confidence debug; one shared analysis result; section-aware density; full-song real-audio native MP4 acceptance. Commits 0b0b076, 161a177 and fdab0ee add bounded event provenance reporting and four regression tests. The sequencing JSON payload now includes event_provenance (source stem, confidence, performer, timing, section, pitch count). This does NOT yet write provenance into native XSQ debug metadata, nor does it verify drummer oracle. The canonical drummer was not modified. Tests have not been executed; no new native MP4, merge or release. Next priority: run oracle and tests, verify exporter, then add XSQ provenance and unified analysis with parity gates.
+
 ## 31 October — bounded pitch peak sanitization and GitHub checks
 
 At commit b7752f2, GitHub showed Desktop GUI evidence capture completed success, Windows Portable GUI in progress, and Helix CI, keyboard regression, original drummer, native band/MP4 and Android jobs queued. No conclusions from pending jobs. Commit 4cad88e replaces a full-size finite pitch magnitude copy with frame-bounded peak and index arrays in _extract_note_candidates; commit 202b478 updates AST regression accordingly. Output and memory improvement remain unbenchmarked; no executed pytest in this session. New commits require fresh CI verification. Do not merge PR #188 or release.
