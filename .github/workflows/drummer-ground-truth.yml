@@ -17,6 +17,7 @@ on:
       - 'audio/**'
       - 'core/drummer_v3_analysis.py'
       - 'core/drummer_oracle_comparison.py'
+      - 'core/event_provenance.py'
       - 'animation/drummer_motion.py'
       - 'animation/cymbal_lighting.py'
       - 'mapping/drum_mapper.py'
@@ -136,6 +137,7 @@ jobs:
         run: |
           python -m pytest -q \
             tests/test_drummer_oracle_comparison.py \
+            tests/test_event_provenance.py \
             tests/test_drummer_layers.py \
             tests/test_drummer_xmodel_asset.py \
             tests/test_drummer_v3_pose_sheet.py \
