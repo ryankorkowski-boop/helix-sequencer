@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from core.stage_metrics import timed_stage
+
 import csv
 from contextlib import ExitStack
 import json
@@ -899,6 +901,7 @@ def _summarize_stem_file(
     }
 
 
+@timed_stage("audio.stems")
 def build_stem_analysis(
     audio_path: Path,
     use_moises: bool,

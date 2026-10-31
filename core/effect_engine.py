@@ -18,6 +18,7 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 from core.lazy_imports import LazyModule
+from core.stage_metrics import phase, timed_stage
 
 from core import audit as sequence_audit
 from core import audio_trigger_routes
@@ -1641,6 +1642,7 @@ def pools_by_category(pools: list[SequentialPool], categories: tuple[str, ...]) 
     return selected if selected else pools
 
 
+@timed_stage("audio.harmonic")
 def analyze_harmonic(audio: base.Audio) -> HarmonicData:
     from core.bounded_audio import hpss
     y_harm, percussive = hpss(audio.y, audio.sr)
@@ -1938,6 +1940,7 @@ def classify_mir_mood(summary: dict[str, float], *, rms_mean: float) -> str:
     return "balanced"
 
 
+@timed_stage("audio.multiband")
 def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
     if audio.y.size == 0 or audio.sr <= 0:
         return MultiBandAnalysis([], [], [], [], [], [], [], {})
@@ -10228,6 +10231,7 @@ def build_all_models_all_effects_sequence(
     return out_path
 
 
+@timed_stage("engine.variant")
 def run_variant(
     style: VariantStyle,
     template_xsq: Path,
@@ -10249,6 +10253,7 @@ def run_variant(
     if active_layout_file is not None and (tuning.layout_file is None or tuning.layout_file.resolve() != active_layout_file):
         tuning.layout_file = active_layout_file
 
+    phase("layout.load")
     log(f"[1/8] Loading template for {style.version}")
     xsq = base.load_xsq(template_xsq)
     normalized_views = base.normalize_display_views(xsq.root, force=True)
@@ -10435,6 +10440,7 @@ def run_variant(
             f"routes={len(neighbor_graph.routes)}, adjacency={len(neighbor_graph.adjacency)}"
         )
 
+    phase("audio.analysis")
     log("[2/8] Analyzing audio and polyphony")
     audio = analysis_cache.get("audio", lambda: base.analyze(audio_path)) if analysis_cache else base.analyze(audio_path)
     from xlights.xml_io import set_sequence_duration
@@ -10446,6 +10452,7 @@ def run_variant(
     if parts:
         log("Song parts: " + ", ".join(f"{part.label}:{part.start_ms/1000:.1f}-{part.end_ms/1000:.1f}s" for part in parts))
 
+    phase("timing_and_planning")
     log("[3/8] Reading timing tracks")
     beats_tt = sanitize_template_marks(base.read_timing_track_marks_ms(xsq.root, base.TT_BEATS), song_length_ms)
     bars_tt = sanitize_template_marks(base.read_timing_track_marks_ms(xsq.root, base.TT_BARS), song_length_ms)
@@ -11125,6 +11132,7 @@ def run_variant(
         dynamic_random = min(dynamic_random, 0.12 if focused_mode else 0.18)
         global_flash_prob = min(global_flash_prob, 0.16 if focused_mode else 0.24)
 
+    phase("effects.placement")
     log("[4/8] Placing effects")
     if ramp_ok and not hardkor_mode:
         for part in parts:
@@ -12271,6 +12279,7 @@ def run_variant(
         quiet_windows=list(multiband.quiet_windows) + blackout_windows,
     )
 
+    phase("reports.write")
     log("[5/8] Writing timing tracks and report")
     if tuning.auto_timing_tracks:
         write_auto_timing_tracks(
@@ -12669,6 +12678,7 @@ def run_variant(
     write_report(report_path(out_path), payload)
     write_sequence_notes(notes_path(out_path), payload)
 
+    phase("xsq.write")
     log("[6/8] Writing sequence")
     from xlights.xml_io import bound_media_effects
     boundary_report = bound_media_effects(xsq.root, set_sequence_duration(xsq.root, float(audio.dur_s)))
@@ -12707,6 +12717,7 @@ def run_variant(
     if GENERATE_SHOWCASE:
         showcase_path = out_path.with_name(f"{out_path.stem}.showcase.xsq")
         try:
+            phase("showcase.write")
             log("[7/8] Building final all-models/all-effects output")
             build_all_models_all_effects_sequence(
                 style=style,
@@ -12720,6 +12731,7 @@ def run_variant(
         except Exception as exc:
             log(f"Final all-models generation skipped: {exc!r}")
 
+    phase(None)
     log(f"[8/8] Saved: {out_path.name} | effects added: {total}")
     log(f"Placement report: {stats.summary()}")
     log(

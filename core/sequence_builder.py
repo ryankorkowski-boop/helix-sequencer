@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Iterable
 
 from core import engine_profiles
+from core.stage_metrics import profile_run
 from core.effects_orchestration_bridge import EffectsOrchestrationRunReport, run_effects_orchestration
 from core.prime_beat_grid import prime_beat_grid_args
 from core.run_config import RunConfig
@@ -852,6 +853,7 @@ def _audit_new_showcase_sequences(
         )
 
 
+@profile_run
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     """Run a sequencing profile with integrated run tracking."""
     try:

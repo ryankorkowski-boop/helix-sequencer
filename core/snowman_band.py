@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from core.stage_metrics import timed_stage
+
 import json
 import re
 from pathlib import Path
@@ -462,6 +464,7 @@ def _build_drum_cues(
     return cues, kit
 
 
+@timed_stage("drums.mapping")
 def _build_intelligent_drum_cues(
     parts: list[Any],
     *,
@@ -932,6 +935,7 @@ def _build_sequence_face_instructions(
     return instructions
 
 
+@timed_stage("band.plan")
 def build_snowman_band_plan(
     *,
     parsed_layout: Any,

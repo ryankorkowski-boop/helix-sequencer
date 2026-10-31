@@ -16,6 +16,8 @@ RUN:
 
 from __future__ import annotations
 
+from core.stage_metrics import timed_stage
+
 import argparse, copy, json, sys, time, shutil, re, random
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -711,6 +713,7 @@ def norm01(x: np.ndarray) -> np.ndarray:
         return np.zeros_like(x)
     return np.clip((x - lo) / (hi - lo), 0.0, 1.0)
 
+@timed_stage("audio.load_features")
 def analyze(audio_path: Path) -> Audio:
     log(f"Loading audio: {audio_path.name}")
     y, sr = librosa.load(str(audio_path), sr=None, mono=True)
