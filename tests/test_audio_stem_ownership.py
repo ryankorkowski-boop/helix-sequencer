@@ -1,0 +1,39 @@
+from core.audio_intelligence import NoteEvent
+from core.source_ownership import ownership_from_stem
+from core.snowman_band import _event_owner
+
+
+def _audio_note(stem, confidence=.95):
+    return NoteEvent(
+        timestamp_ms=100, duration_ms=200, pitch_hz=440.0,
+        midi_note=69, note_name="A4", velocity=.8,
+        confidence=confidence, source_stem=stem,
+    )
+
+
+def test_explicit_keyboard_stem_routes_to_keyboard():
+    owner = _event_owner(_audio_note("piano"))
+    assert owner is not None
+    assert owner.performer == "keyboardist"
+    assert owner.permitted()
+
+
+def test_guitar_stem_not_keyboard():
+    owner = _event_owner(_audio_note("electric_guitar"))
+    assert owner is not None
+    assert owner.performer == "guitarist"
+
+
+def test_mixed_stem_does_not_guess_keyboard():
+    owner = _event_owner(_audio_note("other"))
+    assert owner is not None
+    assert owner.performer is None
+    assert not owner.permitted()
+
+
+def test_low_confidence_piano_is_suppressed():
+    assert not _event_owner(_audio_note("piano", .2)).permitted()
+
+
+def test_original_audio_serialization_unchanged():
+    assert "source_owner" not in _audio_note("piano").to_dict()
