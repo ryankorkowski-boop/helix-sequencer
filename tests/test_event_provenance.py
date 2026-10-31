@@ -67,3 +67,17 @@ def test_fallback_with_label_is_not_treated_as_verified():
         "origin": "fallback", "source_id": "mix",
     })
     assert summarize_note_provenance([event])["unknown_ownership_events"] == 1
+
+
+def test_zero_confidence_and_unrecognized_origin_are_unresolved():
+    events = [
+        SimpleNamespace(timestamp_ms=10, source_owner={
+            "performer": "guitarist", "confidence": 0.0, "origin": "estimated",
+        }),
+        SimpleNamespace(timestamp_ms=20, source_owner={
+            "performer": "bassist", "confidence": 0.9, "origin": "unverified",
+        }),
+    ]
+    result = summarize_note_provenance(events)
+    assert result["unknown_ownership_events"] == 2
+    assert len(result["sample"]) == 2
