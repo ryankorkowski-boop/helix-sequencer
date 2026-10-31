@@ -1,4 +1,5 @@
 from dataclasses import fields
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -103,3 +104,15 @@ def test_real_dsp_cache_roundtrip_matches_uncached_writer_entry(source, monkeypa
     monkeypatch.setenv("HELIX_AUDIO_CACHE_DIR", str(source.parent / "cache"))
     assert_exact_audio(writer.analyze(source), expected)
     assert_exact_audio(writer.analyze(source), expected)
+
+
+def test_cache_identity_works_with_loader_bytecode_without_source_files(monkeypatch):
+    original = Path.read_bytes
+    def missing_source(path):
+        if path.name in {"audio_features.py", "xsq_writer.py", "bounded_audio.py"}:
+            raise FileNotFoundError("packaged source is unavailable")
+        return original(path)
+    monkeypatch.setattr(Path, "read_bytes", missing_source)
+    first = features._cache_parameters("frozen-contract")
+    assert first == features._cache_parameters("frozen-contract")
+    assert len(first["implementation_sha256"]) == 64

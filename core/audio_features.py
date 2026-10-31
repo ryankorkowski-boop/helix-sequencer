@@ -8,7 +8,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import hashlib
+from importlib.util import find_spec
 from importlib.metadata import PackageNotFoundError, version
+import marshal
 import os
 import platform
 from pathlib import Path
@@ -23,8 +25,19 @@ np = LazyModule("numpy")
 def _cache_parameters(kind: str, **parameters) -> dict:
     """Bind feature identity to DSP parameters, actual code and library versions."""
     implementation = hashlib.sha256()
-    for path in (Path(__file__), Path(base.__file__), Path(__file__).with_name("bounded_audio.py")):
-        implementation.update(path.read_bytes())
+    for module_name, path in (
+            (__name__, Path(__file__)), (base.__name__, Path(base.__file__)),
+            ("core.bounded_audio", Path(__file__).with_name("bounded_audio.py"))):
+        try:
+            code_bytes = path.read_bytes()
+        except OSError:
+            # Frozen/zip loaders retain bytecode even when no .py exists.
+            spec = find_spec(module_name)
+            code = spec.loader.get_code(module_name) if spec and hasattr(spec.loader, "get_code") else None
+            if code is None:
+                raise ValueError(f"Cannot fingerprint cached DSP module: {module_name}")
+            code_bytes = marshal.dumps(code)
+        implementation.update(module_name.encode() + b"\0" + code_bytes)
     libraries = {}
     for name in ("numpy", "librosa", "scipy", "numba", "llvmlite", "soundfile", "soxr", "audioread", "aubio"):
         try:
