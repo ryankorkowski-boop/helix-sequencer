@@ -93,3 +93,23 @@ def test_real_audio_unknown_stem_not_sent_to_keyboard():
     assert _build_keyboard_note_cues(
         [_audio_note("mix", .99)], [], require_source_ownership=True,
     ) == []
+
+
+def test_nonfinite_stem_pitch_is_ignored():
+    from types import SimpleNamespace
+    from core.snowman_band import _build_keyboard_note_cues
+    note = SimpleNamespace(
+        timestamp_ms=100, duration_ms=150, midi_note=float("nan"),
+        velocity=.8, source_owner=_audio_note("piano").ownership(),
+    )
+    assert _build_keyboard_note_cues([note], [], require_source_ownership=True) == []
+
+
+def test_nonfinite_stem_velocity_is_ignored():
+    from types import SimpleNamespace
+    from core.snowman_band import _build_keyboard_note_cues
+    note = SimpleNamespace(
+        timestamp_ms=100, duration_ms=150, midi_note=60,
+        velocity=float("inf"), source_owner=_audio_note("piano").ownership(),
+    )
+    assert _build_keyboard_note_cues([note], [], require_source_ownership=True) == []
