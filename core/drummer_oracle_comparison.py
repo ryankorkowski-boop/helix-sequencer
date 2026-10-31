@@ -5,6 +5,8 @@ evaluated. No guessed oracle counts or synthetic acceptance evidence.
 """
 from __future__ import annotations
 
+import json
+from pathlib import Path
 from typing import Any
 
 
@@ -83,3 +85,44 @@ def compare_drum_events(
         "counts_by_class": counts,
         "exact_within_tolerance": false_negative == 0 and false_positive == 0,
     }
+
+
+def compare_oracle_files(
+    oracle_path: str | Path,
+    candidate_path: str | Path,
+    *,
+    tolerance_ms: int = 30,
+) -> dict[str, Any]:
+    """Compare actual saved JSON event lists; never substitute a synthetic oracle."""
+    def read_events(path: str | Path) -> list[dict[str, Any]]:
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+        if isinstance(data, dict):
+            data = data.get("events")
+        if not isinstance(data, list) or not all(isinstance(item, dict) for item in data):
+            raise ValueError(f"{path}: expected JSON event list or object with events list")
+        return data
+    return compare_drum_events(
+        read_events(oracle_path), read_events(candidate_path),
+        tolerance_ms=tolerance_ms,
+    )
+
+
+def main() -> int:
+    import argparse
+    parser = argparse.ArgumentParser(description="Compare real drummer event JSON against the approved oracle")
+    parser.add_argument("--oracle", type=Path, required=True)
+    parser.add_argument("--candidate", type=Path, required=True)
+    parser.add_argument("--tolerance-ms", type=int, default=30)
+    parser.add_argument("--report", type=Path)
+    args = parser.parse_args()
+    report = compare_oracle_files(args.oracle, args.candidate, tolerance_ms=args.tolerance_ms)
+    rendered = json.dumps(report, indent=2, sort_keys=True)
+    if args.report:
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        args.report.write_text(rendered + "\n", encoding="utf-8")
+    print(rendered)
+    return 0 if report["exact_within_tolerance"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
