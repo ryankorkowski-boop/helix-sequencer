@@ -78,7 +78,7 @@ def test_incomplete_but_readable_npz_is_recomputed(source, monkeypatch):
 def test_harmonic_cache_binds_actual_in_memory_samples(source, monkeypatch):
     audio = audio_fixture()
     expected = features.HarmonicData(
-        times_s=np.array([0., 1.]), cqt_mag=np.ones((60, 2), dtype=np.float32),
+        times_s=np.array([0., 1., 2.]), cqt_mag=np.ones((60, 3), dtype=np.float32),
         base_midi=36, pitch_hz=np.zeros((1025, 2)), pitch_mag=np.ones((1025, 2)))
     calls = []
     def compute(value):

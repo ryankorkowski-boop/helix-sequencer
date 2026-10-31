@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 import hashlib
 from importlib.metadata import PackageNotFoundError, version
 import os
+import platform
 from pathlib import Path
 from core.lazy_imports import LazyModule
 from core.stage_metrics import timed_stage
@@ -25,13 +26,14 @@ def _cache_parameters(kind: str, **parameters) -> dict:
     for path in (Path(__file__), Path(base.__file__), Path(__file__).with_name("bounded_audio.py")):
         implementation.update(path.read_bytes())
     libraries = {}
-    for name in ("numpy", "librosa", "scipy", "numba", "aubio"):
+    for name in ("numpy", "librosa", "scipy", "numba", "llvmlite", "soundfile", "soxr", "audioread", "aubio"):
         try:
             libraries[name] = version(name)
         except PackageNotFoundError:
             libraries[name] = None
     return {"kind": kind, "implementation_sha256": implementation.hexdigest(),
-            "libraries": libraries, "hop": base.HOP_MS,
+            "libraries": libraries, "python": platform.python_version(),
+            "platform": (platform.system(), platform.machine()), "hop": base.HOP_MS,
             "fast_pitch": base.USE_FAST_PITCH, **parameters}
 
 
@@ -97,9 +99,10 @@ def analyze_harmonic(audio: base.Audio, *, audio_path: Path | None = None) -> Ha
     def validate(arrays):
         _validate_arrays(arrays, dimensions)
         count = len(arrays["times_s"])
+        # CQT resampling can retain an extra frame relative to the STFT pitch
+        # grid. Keep both original shapes; consumers already handle that seam.
         if (arrays["cqt_mag"].shape != (60, count)
-                or arrays["pitch_hz"].shape != arrays["pitch_mag"].shape
-                or arrays["pitch_hz"].shape[1] != count):
+                or arrays["pitch_hz"].shape != arrays["pitch_mag"].shape):
             raise ValueError("Cached harmonic clocks disagree")
 
     # The file identifies the recording; the actual samples additionally guard
