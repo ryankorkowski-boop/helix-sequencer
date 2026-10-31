@@ -95,6 +95,11 @@ class BandPerformanceTimelineCompiler:
 
     def __init__(self, performers: Iterable[PerformerRuntimeSpec] = HELIXVILLE4_PERFORMERS):
         self.performers = {performer.performer_id: performer for performer in performers}
+        # Resolve approved runtime states once per performer, not once per event.
+        self._states = {
+            performer_id: {state.name: state for state in performer.states}
+            for performer_id, performer in self.performers.items()
+        }
 
     def compile_event(self, event: BandExecutionEvent) -> BandPerformanceEvent:
         performer = self.performers.get(event.performer)
@@ -104,7 +109,7 @@ class BandPerformanceTimelineCompiler:
                 f"known performers: {sorted(self.performers)}"
             )
         state_name = self._resolve_state(event, performer)
-        state = self._state_by_name(performer, state_name)
+        state = self._states[performer.performer_id][state_name]
 
         return BandPerformanceEvent(
             performer=performer.performer_id,
@@ -140,7 +145,7 @@ class BandPerformanceTimelineCompiler:
                 f"{performer.performer_id} has no approved runtime states; "
                 "use the source-driven review path"
             )
-        available = {state.name for state in performer.states}
+        available = self._states[performer.performer_id]
         candidate = event.performer_state
         if candidate in available:
             return candidate
