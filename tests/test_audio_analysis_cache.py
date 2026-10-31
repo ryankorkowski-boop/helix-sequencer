@@ -38,6 +38,16 @@ class AudioAnalysisCacheTests(unittest.TestCase):
             result = cached_arrays(tmp, key, lambda: {"onsets": np.array([1, 2])})
             self.assertEqual(result["onsets"].tolist(), [1, 2])
 
+    def test_cache_persists_exact_array_dtype_and_shape(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            key = "d" * 64
+            expected = np.arange(12, dtype=np.float32).reshape(3, 4)
+            cached_arrays(tmp, key, lambda: {"chroma": expected})
+            actual = cached_arrays(tmp, key, lambda: self.fail("cache miss"))
+            np.testing.assert_array_equal(actual["chroma"], expected)
+            self.assertEqual(actual["chroma"].dtype, expected.dtype)
+            self.assertEqual(actual["chroma"].shape, expected.shape)
+
     def test_rejects_unsafe_key_and_object_array(self):
         with tempfile.TemporaryDirectory() as tmp:
             with self.assertRaises(ValueError):
