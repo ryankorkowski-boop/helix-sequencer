@@ -1412,6 +1412,9 @@ def _extract_note_candidates(
     raw_candidates: list[dict[str, object]] = []
     note_events: list[NoteEvent] = []
     active: dict[int, dict[str, float]] = {}
+    # The global pitch normalization factor is invariant across frames.
+    # Computing it inside the loop repeatedly scans the full pitch matrix.
+    max_mag = float(np.max(pitch_mag)) if pitch_mag.size else 0.0
     for frame_idx in range(stft_mag.shape[1]):
         mags = pitch_mag[:, frame_idx]
         if mags.size == 0:
@@ -1419,7 +1422,6 @@ def _extract_note_candidates(
         best_idx = int(np.argmax(mags))
         best_hz = float(pitch_hz[best_idx, frame_idx])
         best_mag = float(mags[best_idx])
-        max_mag = float(np.max(pitch_mag)) if pitch_mag.size else 0.0
         confidence = _clamp01(best_mag / max(1e-9, max_mag))
         if best_hz <= 0.0:
             continue
