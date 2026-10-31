@@ -121,7 +121,14 @@ def _build_keyboard_note_cues(
     """
     cues: list[dict[str, Any]] = []
     for event in note_events:
-        ownership = resolve_owner(_event_owner(event), threshold=ownership_threshold) if require_source_ownership else None
+        ownership = None
+        if require_source_ownership:
+            candidate = _event_owner(event)
+            ownership = resolve_owner(
+                candidate if candidate is not None and candidate.origin == "detected" else None,
+                candidate if candidate is not None and candidate.origin == "estimated" else None,
+                threshold=ownership_threshold,
+            )
         if require_source_ownership and ownership.performer != "keyboardist":
             continue
         start_ms = _event_start_ms(event)
