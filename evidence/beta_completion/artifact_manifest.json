@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-11-01T00:31:00.563976+00:00",
+  "updated_at": "2026-11-01T00:38:43.777633+00:00",
   "requested_count": 9,
   "verified_count": 9,
   "artifacts": [
@@ -1242,5 +1242,45 @@
     "published_implementation_commit": "9a800a1abad26d2daf203ad34caf9779249ae581",
     "remote_branch_head_verified": "9a800a1abad26d2daf203ad34caf9779249ae581",
     "checkpoint_roundtrip_sha256": "all5pass"
+  },
+  "drum1_owner_reference_20261101": {
+    "schema": "helix.owner-drummer-reference.v1",
+    "supplied_at_utc": "2026-11-01T00:38:43.777633+00:00",
+    "source_attachment": "Drum1.mp4",
+    "local_retained_path": "/workspace/checkpoints/drum1-reference/Drum1.mp4",
+    "sha256": "f014db45dc49688da40a4337a1185589ef09ffe81c13e234eb20d0f0f57e45b3",
+    "bytes": 4547427,
+    "duration_seconds": 38.316667,
+    "dimensions": [
+      960,
+      540
+    ],
+    "fps": 60,
+    "codecs": [
+      "h264",
+      "aac"
+    ],
+    "full_decode": true,
+    "visual_review": "Actual contact sheet at roughly3/9/15/21/27/33s inspected; original colored V3 kit and source-art arm strokes visible",
+    "historical_identity": "Exact match to archived artifact11520003337/drummer-dry-audio-test/test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.mp4",
+    "source_image": "fixtures/band_geometry/source/drummerbg.png",
+    "source_image_sha256": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+    "source_dry_audio_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+    "decoded_audio_rms": 0.17934249341487885,
+    "original_dry_audio_zero_lag_correlation": 0.99708271067799,
+    "identity_located": true,
+    "fully_volumetric_geometry_in_this_clip": false,
+    "owner_approval_of_final_comparison": false,
+    "interpretation_pending": "Asked whether exact image-basedDrum1drummer is intended within3Dscene or fully volumetricgeometry remainsmandatory; no exception assumed",
+    "comparison_soundtrack_unchanged": "b889df23d4960b393bfa5b6f84f2f72de245bdd176032bf16346d8680e960a3d owner-library36ssampler; dry-test sound is referenceonly",
+    "next_action": "Resolve owner rendering interpretation, bind exact reference without replacing library soundtrack or reusing old footage, continue independent renderer preparation",
+    "pinned_native_runtime_preparation": {
+      "appimage": "/workspace/checkpoints/xlights-runtime/xLights.AppImage",
+      "sha256": "62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b",
+      "extracted": "/workspace/checkpoints/xlights-runtime/squashfs-root",
+      "resources_present": true,
+      "runtime_ready": false,
+      "remaining": "Recovered patched binary needs compatible monolithicwxWidgets; officialAppImage has modularwx libraries. No runtime substitution or native render success claimed."
+    }
   }
 }

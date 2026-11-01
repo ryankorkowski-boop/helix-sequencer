@@ -1,3 +1,9 @@
+## 1 November — owner supplies exact Drum1 V3 reference
+
+Goal: resolve canonical drummer identity for the active12-layout real-music comparison. Owner suppliedDrum1.mp4:SHA256f014db45dc49688da40a4337a1185589ef09ffe81c13e234eb20d0f0f57e45b3,exactly matching archived11520003337DrummerDryTest. Actual38.316667s960x540/60fpsH264/AAC fully decodes;6representative frames inspected. Audio correlation to original38.32sdry WAV.99708271; RMS.17934. The clip shows the originaldrummerbg.pngV3source-art kit and animated arms. This resolves reference identity, not a fully volumetric mesh or final comparison approval. Asked owner whether exact image-basedDrum1drummer in3Dscene is intended or fully volumetricgeometry remainsmandatory; no relaxation inferred while answer is pending.
+
+Files: four continuity files and evidence/beta_completion/comparison_20261101/Drum1_Reference.json. Preserved: original canonical art/kit/motion contracts, current36sowner-library soundtrack and all gates. New: uploaded reference byte identity and executed playback/source-audio evidence. Validation: fullFFmpegdecode, actualframeinspection and archivalSHA match. Limitations/deferred: rendering interpretation, independent singers, native12layoutmapping/render/finalMP4. Risk: treating a historical reference upload as final-media approval; explicitly avoided. Next: resolve rendering interpretation while preparing pinnednative runtime. No new finalMP4,merge or release.
+
 ## 1 November — publication receipt
 
 Published compositor/evidence implementation: `9a800a1abad26d2daf203ad34caf9779249ae581`; remote recovery branch head matched. All five compressed production files round-trip to their recorded SHA256. No qualifying final MP4 exists; delivery remains blocked. PR188 unmerged and no release published.

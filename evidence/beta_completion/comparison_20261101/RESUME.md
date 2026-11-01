@@ -1,3 +1,7 @@
+## UploadedDrum1reference
+
+Reference identity is now located: seeDrum1_Reference.json. The upload is exact archivedV3drytest f014db45; full decode, actualframes and drysoundtrack correlation.99708 verified. The choice between this exact image-based drummer within3Dscene and fully volumetricgeometry is pending owner response; original no-planar requirement has not silently changed. Continue from existing36smusic checkpoint. PinnedofficialxLightsAppImage downloaded, checksum verified and resources extracted at /workspace/checkpoints/xlights-runtime/squashfs-root. Patchedbinary still needs compatible monolithicwx runtime; no new native render claimed.
+
 # Published recovery checkpoint
 
 Published compositor/evidence implementation: `9a800a1abad26d2daf203ad34caf9779249ae581`; remote recovery branch head matched. All five compressed production files round-trip to their recorded SHA256. No qualifying final MP4 exists; delivery remains blocked. PR188 unmerged and no release published.
