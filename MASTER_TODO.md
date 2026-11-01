@@ -1,3 +1,11 @@
+## 1 November — GitHub validation fixes
+
+- [x] Fixed literal backslash-n embedded in `.github/workflows/volumetric-grid-tests.yml` PR paths, which made YAML invalid.
+- [x] Fixed `tests/test_birdsong_volumetric_adapter.py` required `FeatureState.update` arguments (`centroid`, `beat_phase`) so its test fixture matches the actual API.
+- [ ] Confirm GitHub Actions push-run status. The available connector's commit workflow lookup is restricted to PR-triggered runs and the general fetch tool rejected the workflow-runs endpoint. No passing CI result is claimed.
+- [ ] Verify native xLights import/render and real audio before any video approval assertion.
+Preserved: isolated experimental feature branch, canonical drummer, stable beta, PR #188 and #199 unchanged. Evidence: commits `23155ed4`, `7de8b5cb`; neither is a successful CI receipt. Resume by checking Actions tab and running focused pytest suite.
+
 ## 1 November — executable demo integration regression
 
 - [x] Added `tests/test_volumetric_demo.py` to execute the small-grid runner and verify manifest counts, complete unique XYZ addresses, RGB channel count, cue count, and sparse preview receipt.
