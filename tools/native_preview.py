@@ -444,6 +444,10 @@ def _native_export(xlights: str, show: Path, staged: Path,
                 print("HELIX_NATIVE_X11_GEOMETRY_BEGIN", flush=True)
                 print(geometry_report.read_text()[-16000:], flush=True)
                 print("HELIX_NATIVE_X11_GEOMETRY_END", flush=True)
+            # Opening a large sequence and maximizing its preview can leave
+            # the GUI temporarily busy after the initial REST health check.
+            # Poll only an idempotent read; never replay the export mutation.
+            _wait_show_folder(app, endpoint, show)
             # Native export is synchronous. A full sampler can legitimately
             # take longer than the60s control-command timeout; use a bounded
             # duration-derived export budget, preserving every media QA gate.
