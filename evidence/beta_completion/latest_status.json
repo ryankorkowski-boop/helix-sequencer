@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-11-01T00:30:07.561141+00:00",
+  "updated_at": "2026-11-01T00:31:00.563976+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
@@ -1340,7 +1340,7 @@
       "renderer": "/workspace/checkpoints/renderer/phoneme-work/runtime/xLights"
     },
     "next_action": "Obtain approved original fully modeled3D drummer asset or known-good source commit. Bind it without substitution; qualify singer-specific clocks on b889df23 sampler, map the requested12 layouts using supported generators, render all12 natively, then compose and verify before assigning final filename. Never create a false pilot_acceptance.json.",
-    "last_updated_utc": "2026-11-01T00:30:07.561141+00:00",
+    "last_updated_utc": "2026-11-01T00:31:00.563976+00:00",
     "requested_mp4_exists": false,
     "composition_fix": {
       "module": "tools/render_approval_collection.py",
@@ -1472,6 +1472,9 @@
       "Independent lead/harmony source clocks and phoneme qualification unresolved",
       "Requested12layout selection/export and fresh native renders remain incomplete; historicalNAMES do not match this new requested list",
       "Full36s comparison playback/sync/blank/frozen/AC/singer acceptance and actual MP4 download not performed"
-    ]
+    ],
+    "published_implementation_commit": "9a800a1abad26d2daf203ad34caf9779249ae581",
+    "remote_branch_head_verified": "9a800a1abad26d2daf203ad34caf9779249ae581",
+    "checkpoint_roundtrip_sha256": "all5pass"
   }
 }

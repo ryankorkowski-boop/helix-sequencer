@@ -1,3 +1,7 @@
+## 1 November — publication receipt
+
+Published compositor/evidence implementation: `9a800a1abad26d2daf203ad34caf9779249ae581`; remote recovery branch head matched. All five compressed production files round-trip to their recorded SHA256. No qualifying final MP4 exists; delivery remains blocked. PR188 unmerged and no release published.
+
 ## 1 November — executed36s library sampler and1080p compositor repair; source blocker
 
 - [x] Actual engine run completed:5155effects,5section/shared-sync frames; source wave b889df23d4960b393bfa5b6f84f2f72de245bdd176032bf16346d8680e960a3d. No synthetic audio. Editable XSQ, full report, band plan and log retained losslessly compressed in evidence/beta_completion/comparison_20261101/production.

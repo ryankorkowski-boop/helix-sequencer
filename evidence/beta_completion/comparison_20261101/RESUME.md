@@ -1,3 +1,7 @@
+# Published recovery checkpoint
+
+Published compositor/evidence implementation: `9a800a1abad26d2daf203ad34caf9779249ae581`; remote recovery branch head matched. All five compressed production files round-trip to their recorded SHA256. No qualifying final MP4 exists; delivery remains blocked. PR188 unmerged and no release published.
+
 # 1 November real-audio comparison recovery
 
 Delivery is BLOCKED, not complete. No file named HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4 was made. Current required original fully modeled3D drummer source was not located. The canonical exporter, original restore9e9dcc3 and actual retained native pilot use planar V3 artwork. The procedural model explicitly says new interpretation. Do not use either as the requested original3D asset. Owner answered that they are not certain where the asset is. Independent acoustic singer qualification also remains open.
