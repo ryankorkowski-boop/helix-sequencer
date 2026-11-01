@@ -17,3 +17,17 @@ def test_opt_in_and_bounded_zone_cues():
     assert len(pixels) == 3 * 3 * 5
     assert all(0 <= value <= 1 for _, value in pixels)
     assert list(sample_cue_pixels(cues[0], grid, time_ms=0)) == []
+
+
+def test_sparse_zone_selection_spans_large_grid():
+    state = FeatureState()
+    frames = [state.update(0, energy=0.9, onset=0.95, low=0.8, mid=0.1,
+                           high=0.1, centroid=900.0, beat_phase=0.1, time_s=1.0)]
+    grid = VolumetricGrid(width_ft=300, depth_ft=300, height_ft=4,
+                          spacing_in=16, zone_poles=8)
+    cues = plan_volumetric_birdsong(frames, grid, enabled=True, max_zones_per_phrase=4)
+    flat = [cue.zone_y * grid.zone_count[0] + cue.zone_x for cue in cues]
+    assert len(flat) == 4
+    assert len(set(flat)) == 4
+    assert flat[0] == 0
+    assert flat[-1] > (grid.zone_count[0] * grid.zone_count[1]) // 2
