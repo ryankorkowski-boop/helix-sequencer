@@ -3457,3 +3457,16 @@ require actual rendered inspection. Full12-layout bundle not yet generated.
 
 
 Final source-focused verification after all native/profile/fixture/audio changes:81passed,1native-integration opt-in skip,18subtests in76.20s (JUnit evidence/release_recovery_20261026/final-source-tests.xml). This overlaps the earlier focused counts; no combined unique total. Source purity is retained: no duplicated vocalist lane, no pitch transposition, all source frame timestamps preserved. Matching final-source show regeneration/hash binding and downloadable package checks follow. Canonical/artistic and independent acoustic source acceptance remain owner-review gates, not test flags.
+
+
+## 1 November — owner-supplied real-audio test source
+
+- [x] Designated the user-uploaded `Helix_Music_Mix_Starred_High_Energy_Sampler.mp3` as the real-audio source for subsequent Helix/Birdsong volumetric integration and approval-render testing.
+- [x] Verified container media metadata: 260.231837 seconds, MP3, 44.1 kHz, stereo, approximately 256 kb/s; FFmpeg volume scan mean -12.8 dBFS and peak -0.8 dBFS.
+- [x] Recorded SHA-256: `f76e41469c5e844442da18d1716de8fbec8c4ab2bfee84128a0a6f9515924c9f`.
+- [ ] Library persistence is blocked by the user's Library storage limit. No existing Library files were deleted; audio is available only as the current conversation attachment until saved successfully.
+- [ ] Audio has not yet been passed through Helix's actual feature extraction/Birdsong pipeline; no audio-driven cues, native xLights sequence, or MP4 is claimed.
+- [ ] Add a private/reproducible test-fixture retrieval path after the user saves the source to Library or provides another authorized persistent location. Do not commit the music file to the public repository.
+- [x] Corrected the literal escaped-newline defect in the workflow pull-request path filter. Commit: `ecb04408e1e339619ae58dc5016e5df2af7d29b5`.
+
+Preserved: experimental branch only; beta pipeline, canonical band, original 256-channel AC layout, PR #188, and release gates unchanged. Next: run/inspect the Actions workflow, then integrate this exact real-audio source through existing feature extraction and validate native xLights output before rendering an approval MP4.
