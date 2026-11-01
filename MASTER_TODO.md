@@ -1,3 +1,16 @@
+## 1 November — volumetric Birdsong adapter follow-up
+
+Goal: bridge existing Birdsong Issue #2 phrase decisions into spatially sampled, physically addressable 3D grid zones without changing the beta pipeline.
+
+- [x] Created `core/birdsong_volumetric_adapter.py` with opt-in `plan_volumetric_birdsong`, bounded per-phrase zone cues, and lazy `sample_cue_pixels`.
+- [x] Created `tests/test_birdsong_volumetric_adapter.py` checking default-off, deterministic cues, bounded intensity, and physical zone pixel enumeration.
+- [ ] Execute focused tests; no passing CI or local pytest evidence yet.
+- [ ] Verify real musical phrase persistence (current adapter uses existing frame-level Birdsong phrase snapshots).
+- [ ] Wire opt-in adapter into end-to-end sequence generation, validate xLights 3D models and native XSQ/FSEQ.
+- [ ] Benchmark 204,304+ pixels and controller universe segmentation before claiming usable hardware output.
+
+Preserved: canonical beta engine and drummer, original 256-channel wiring, default-off Birdsong runtime, PR #188, release approval gates. Files: `core/birdsong_volumetric_adapter.py`, `tests/test_birdsong_volumetric_adapter.py`, this ledger. Evidence: code and tests committed, not executed. Limitations: spatial cue sampler is not yet an xLights effect emitter; independent zones are selected by deterministic indexing rather than physical musical path optimization. Regression risk: opt-in path only; no existing runtime hook changed. Resume with `PYTHONPATH=. pytest -q tests/test_volumetric_grid.py tests/test_birdsong_volumetric_adapter.py tests/test_birdsong_issue2_runtime.py`.
+
 ## 1 November — experimental volumetric city-block grid (in progress)
 
 Goal: begin opt-in, physically addressable 3D city-block grid support without disturbing approved beta rendering or existing Birdsong defaults.
