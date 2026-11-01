@@ -10,6 +10,8 @@ on:
       - 'core/birdsong_volumetric_adapter.py'
       - 'tests/test_volumetric_grid.py'
       - 'tests/test_birdsong_volumetric_adapter.py'\n      - 'core/volumetric_preview.py'\n      - 'tests/test_volumetric_preview.py'
+      - 'core/volumetric_address_map.py'
+      - 'tests/test_volumetric_address_map.py'
       - '.github/workflows/volumetric-grid-tests.yml'
   workflow_dispatch:
 
@@ -25,4 +27,4 @@ jobs:
       - name: Install pytest
         run: python -m pip install pytest
       - name: Run focused tests and Birdsong regression
-        run: PYTHONPATH=. python -m pytest -q tests/test_volumetric_grid.py tests/test_birdsong_volumetric_adapter.py tests/test_volumetric_preview.py tests/test_birdsong_issue2_runtime.py
+        run: PYTHONPATH=. python -m pytest -q tests/test_volumetric_grid.py tests/test_birdsong_volumetric_adapter.py tests/test_volumetric_preview.py tests/test_volumetric_address_map.py tests/test_birdsong_issue2_runtime.py
