@@ -1,3 +1,12 @@
+## 1 November — bounded preview artifacts
+
+- [x] Added `core/volumetric_preview.py`: grid dimensions/pixel/channel/zone JSON manifest and capped streaming JSONL preview of Birdsong spatial cues. No full framebuffer allocation.
+- [x] Added `tests/test_volumetric_preview.py` covering counts, non-native status, capped samples, and bounded intensity.
+- [x] Expanded focused CI workflow to include preview tests.
+- [ ] Confirm workflow actually runs and passes. No local or CI pass claimed.
+- [ ] Native xLights 3D model, XSQ/FSEQ export, physical controller mapping and real-audio MP4 remain unimplemented/unverified for this experimental branch.
+Preserved: normal beta engine, default-off Birdsong, canonical band/drummer, PR #188. Files: `core/volumetric_preview.py`, `tests/test_volumetric_preview.py`, `.github/workflows/volumetric-grid-tests.yml`, ledger. New behavior: bounded non-native preview and geometry manifest. Risks: previews are not executable lighting sequences; physical power and timing remain unqualified. Resume with feature-branch Actions workflow and targeted native export integration.
+
 ## 1 November — focused volumetric CI validation
 
 - [x] Added `.github/workflows/volumetric-grid-tests.yml` to run geometry, adapter and existing Birdsong Issue #2 regression tests on feature-branch pushes, relevant PRs, and manual dispatch.
