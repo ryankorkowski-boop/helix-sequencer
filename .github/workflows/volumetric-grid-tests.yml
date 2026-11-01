@@ -13,6 +13,7 @@ on:
       - 'core/volumetric_address_map.py'
       - 'tests/test_volumetric_address_map.py'
       - 'tools/volumetric_demo.py'
+      - 'tests/test_volumetric_demo.py'
       - '.github/workflows/volumetric-grid-tests.yml'
   workflow_dispatch:
 
@@ -28,7 +29,7 @@ jobs:
       - name: Install pytest
         run: python -m pip install pytest
       - name: Run focused tests and Birdsong regression
-        run: PYTHONPATH=. python -m pytest -q tests/test_volumetric_grid.py tests/test_birdsong_volumetric_adapter.py tests/test_volumetric_preview.py tests/test_volumetric_address_map.py tests/test_birdsong_issue2_runtime.py
+        run: PYTHONPATH=. python -m pytest -q tests/test_volumetric_grid.py tests/test_birdsong_volumetric_adapter.py tests/test_volumetric_preview.py tests/test_volumetric_address_map.py tests/test_volumetric_demo.py tests/test_birdsong_issue2_runtime.py
       - name: Generate small-grid Birdsong proof artifacts
         run: PYTHONPATH=. python -m tools.volumetric_demo --output-dir evidence/volumetric_demo
       - name: Verify demo artifact counts
