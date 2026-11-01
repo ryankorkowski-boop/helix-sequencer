@@ -2,7 +2,7 @@
 
 This section supersedes all blocked/running recovery instructions below. Do not rerun analysis or separation for unchanged inputs.
 
-Delivered file: `/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4`; 18,530,685 bytes; SHA256 `0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198`. Drive copy: https://drive.google.com/file/d/1uNEshOt-FvjRhp3nRK5O73nc8kefoDup/view?usp=drivesdk . Download-back identity and full playback verified. Final code commit and module hashes are recorded in `render-source-snapshot.json`; this was rendered from those final worktree bytes before their commit, not from unchanged `60fb74e`.
+Delivered file: `/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4`; 18,530,685 bytes; SHA256 `0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198`. Drive copy: https://drive.google.com/file/d/1uNEshOt-FvjRhp3nRK5O73nc8kefoDup/view?usp=drivesdk . Download-back identity and full playback verified. Final code commit is `d1567b74b341efff5a30a28bec272c7d5c377406`; module hashes are recorded in `render-source-snapshot.json`; this was rendered from those final worktree bytes before their commit, not from unchanged `60fb74e`.
 
 Valid current render checkpoint: `/workspace/checkpoints/comparison-hook/layouts/01` through `/12`, each with matching native XSQ, layout, FSEQ, run manifest and successful actual preview. Solid band: `comparison-hook/panels/02_Canonical_3D_Snowman_Band.mp4` and JSON. Graded panels: `comparison-hook/graded-panels/01.mp4` through `/12.mp4`. Full final file and delivery checks: `final-playback-verification.json`, `delivery-download-verification.json`. Preserve both the original candidate and final metadata-only remux; encoded video/audio stream hashes match. Never promote earlier failed36s diagnostic panels.
 
@@ -40,7 +40,7 @@ python -m tools.finish_current_comparison /workspace/checkpoints/comparison-hook
 python -m tools.verify_current_comparison /workspace/checkpoints/comparison-hook/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_REVIEW_CANDIDATE.mp4 fixtures/audio/Phoneme_Test_Hook.mp3 /workspace/checkpoints/comparison-hook/final-playback-verification.json
 ```
 
-Owned native previews resume only when hashes of actual current layout/XSQ/audio and MP4 match. Each active render process needs its own Xvfb and port; optional `--port49913` (with a space: `--port 49913`) is available for disjoint view sets. Final rename/remux must use the required filename, then repeat full decode and compare video/audio encoded stream SHA256 before replacing a delivered version. Upload actual MP4 bytes and download them back before claiming a changed delivery.
+Owned native previews resume only when hashes of actual current layout/XSQ/audio and MP4 match. Each active render process needs its own Xvfb and port; optional `--port 49913` is available for disjoint view sets. Final rename/remux must use the required filename, then repeat full decode and compare video/audio encoded stream SHA256 before replacing a delivered version. Upload actual MP4 bytes and download them back before claiming a changed delivery.
 
 Remaining: owner artistic acceptance; independent singer/word/source-instrument proof, physical qualification and full current-source CI. No merge or release. The owner explicitly authorized matching-front dimensional construction; no missing approved mesh question remains pending. The following prior phase records remain historical failure evidence.
 

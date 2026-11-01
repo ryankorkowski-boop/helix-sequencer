@@ -1,6 +1,6 @@
 {
   "phase": "DELIVERY_READY_FOR_OWNER_REVIEW",
-  "updated_at": "2026-11-01T04:59:13.608925+00:00",
+  "updated_at": "2026-11-01T05:00:47.436181+00:00",
   "owner_direction": "Actual3Ddepth with unchangedDrum1/drummerbgfrontdesign",
   "implementation": [
     "models/source_drummer_3d.py",
@@ -76,7 +76,8 @@
     "distinct_panels": 12,
     "max_blank_seconds": 0.7,
     "max_frozen_seconds": 0.6,
-    "source_snapshot": "evidence/beta_completion/comparison_20261101/render-source-snapshot.json"
+    "source_snapshot": "evidence/beta_completion/comparison_20261101/render-source-snapshot.json",
+    "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
   },
   "render_distinction": "Canonical band uses continuous Helix solid3D; other11visible views are native xLights. Native XSQ/FSEQ/render companions successfully built for all12.",
   "owner_review_limitations": [
@@ -84,5 +85,6 @@
     "3Ddrummer is closed dimensional geometry from original front reference, pending artistic owner acceptance.",
     "Presentation30fps uses20fpssolid/25fpsnative motion cadence.",
     "Full current-source CI and independent instrument ownership/physical device qualification are not closed by playback checks."
-  ]
+  ],
+  "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
 }

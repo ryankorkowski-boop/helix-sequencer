@@ -1,3 +1,5 @@
+Final render implementation: `d1567b74b341efff5a30a28bec272c7d5c377406`; all recorded rendering module hashes match the committed bytes. This receipt change adds provenance only; final MP4 bytes remain unchanged.
+
 ## 1 November — delivered fresh comparison; owner review pending
 
 Actual MP4: `/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4`.

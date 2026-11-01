@@ -1,3 +1,5 @@
+Final render implementation: `d1567b74b341efff5a30a28bec272c7d5c377406`; all recorded rendering module hashes match the committed bytes. This receipt change adds provenance only; final MP4 bytes remain unchanged.
+
 ## 1 November — fresh twelve-layout MP4 delivered for owner review
 
 Goal: finish the requested real-audio comparison after the owner clarified that the drummer must have 3D depth and retain its original 2D front design. The earlier source-asset stop and running-render checkpoints below are superseded; failed diagnostics remain failed.

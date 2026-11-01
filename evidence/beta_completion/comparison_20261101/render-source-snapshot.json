@@ -1,7 +1,7 @@
 {
   "recorded_at": "2026-11-01T04:59:13.608925+00:00",
-  "render_implementation_commit": null,
-  "commit_note": "Rendered with final worktree source; exact byte hashes below. Subsequent receipt binds these identical modules to the implementation commit. No claim that prior60fb74e contained final presentation repairs.",
+  "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406",
+  "commit_note": "Actual render executed from the final worktree over60fb74e. Every listed module byte hash was subsequently verified identical in this committed implementation. No source rerender is claimed after the commit.",
   "module_sha256": {
     "models/source_drummer_3d.py": "3b9f7b59a2850d883a4f61ab74154716006ab30acbeae8a74abe7334b2452ebb",
     "models/final_band_scene.py": "cd7120596f8058b324c3363f115154120ada7dbb8568ea1e3d68af15a99ae96c",
@@ -47,5 +47,6 @@
     }
   ],
   "tests": "76passed,1existingoptionalnative-manifestskip,10subtests; final-render-source-tests.xml",
-  "source_frame_cadence": "Solid band20fps; native pixel frames25fps; synchronized presentation30fps does not add source motion samples."
+  "source_frame_cadence": "Solid band20fps; native pixel frames25fps; synchronized presentation30fps does not add source motion samples.",
+  "committed_modules_verified_identical": true
 }
