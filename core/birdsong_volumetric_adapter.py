@@ -36,8 +36,13 @@ def plan_volumetric_birdsong(
     zx, zy = grid.zone_count
     cues = []
     for index, phrase in enumerate(plan.phrase_snapshots):
-        for offset in range(min(max_zones_per_phrase, zx * zy)):
-            flat = (index * max_zones_per_phrase + offset) % (zx * zy)
+        zone_total = zx * zy
+        cue_count = min(max_zones_per_phrase, zone_total)
+        # Spread sparse cues across the complete footprint instead of clustering
+        # every phrase in the first few adjacent zones. The phase shift makes
+        # successive phrases deterministic but spatially progressive.
+        for offset in range(cue_count):
+            flat = ((offset * zone_total) // cue_count + index) % zone_total
             cues.append(VolumetricCue(
                 phrase.phrase_id, phrase.motif, phrase.start_ms, 180,
                 phrase.intensity, flat % zx, flat // zx,
