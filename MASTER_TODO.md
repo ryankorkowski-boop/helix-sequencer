@@ -1,3 +1,12 @@
+## 1 November — runnable small-grid proof and CI artifacts
+
+- [x] Added `tools/volumetric_demo.py` runnable proof using 8×8×4-foot physical dimensions, synthetic Birdsong-compatible feature frames, generated zone cues, JSON manifest, contiguous RGB address CSV, sparse 1000ms preview, and receipt.
+- [x] Extended `.github/workflows/volumetric-grid-tests.yml` to run the proof, verify CSV row counts and cue presence, and upload a small-grid engineering artifact collection.
+- [ ] Confirm the CI run succeeds and inspect downloaded artifact contents; not yet verified.
+- [ ] Replace synthetic fixture with licensed real audio and verify Birdsong feature extraction.
+- [ ] Convert engineering artifacts into native xLights 3D model, XSQ/FSEQ and real MP4. No native deliverable claimed.
+Preserved: PR #188, beta approval gate, default-off Birdsong, canonical drummer and original 256-channel layout. Evidence: code and CI definition committed; execution result unknown. Risks: demo is not native xLights and its cue selection is preliminary. Resume: `PYTHONPATH=. python -m tools.volumetric_demo --output-dir evidence/volumetric_demo` and inspect feature branch Actions run.
+
 ## 1 November — physical RGB address mapping
 
 - [x] Implemented streamed `core/volumetric_address_map.py` CSV output: deterministic zone order, serpentine pole order, one-based contiguous RGB channel assignments, and 3D physical coordinates.
